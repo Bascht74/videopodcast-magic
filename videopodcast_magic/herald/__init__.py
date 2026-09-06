@@ -592,11 +592,12 @@ def redirect_console():
         # Header: version, time, machine -- and which copy of the script
         # this was. Several runnable copies of one version are normal
         # here and share a log file; the path is what tells them apart.
-        file.write("Video Podcast Magic %s   %s   %s %s   %s\n%s\n\n"
+        file.write("Video Podcast Magic %s   %s   %s %s %s   %s\n%s\n\n"
                     % (VERSION,
                        time.strftime("%Y-%m-%d %H:%M:%S"),
                        platform.system(), platform.release(),
-                       PROGRAM.python_note(), running_from()))
+                       platform.machine(), PROGRAM.python_note(),
+                       running_from()))
         os.dup2(file.fileno(), 1)
         os.dup2(file.fileno(), 2)
         # The aside lines go through this same handle from now on: two
@@ -605,4 +606,10 @@ def redirect_console():
         _LOG_ASIDE.append(file)
     except Exception:
         return None
+    # The architecture is the one fault the lines under it cannot
+    # explain: every import that fails after it is a consequence.
+    said = PROGRAM.beside("desktop",
+                          program=PROGRAM).architecture_trouble()
+    if said:
+        trouble_log(said)
     return file_path

@@ -157,6 +157,23 @@ gibt, schreibt das Programm ihn neu und dieselbe Zeile noch
 einmal ins Protokoll. Das ist der einzige Start nach dem ersten, der
 überhaupt etwas schreibt.
 
+**Unter macOS legt der Eintrag auch den Prozessor fest.** Ein Python
+für den Mac kann zwei Prozessorarchitekturen in einer einzigen Datei
+tragen, die dafür installierten Pakete dagegen meist nur eine davon.
+Aus dem Dock gestartet kommt so ein Python in derjenigen der beiden
+hoch, die das System aussucht — ist das die, für die die Pakete nicht
+gebaut wurden, lässt sich nichts mehr laden, was rechnet, und die
+Sprechertrennung meldet sich als nicht verfügbar, obwohl alles
+installiert ist. Der Eintrag nennt die Architektur deshalb selbst: die,
+die der Interpreter mitbringt, die installierten Pakete brauchen und
+diese Maschine ausführt.
+
+**Wo es nichts zu wählen gibt, ändert sich nichts.** Ein Intel-Mac, ein
+Python für nur eine Architektur, ein System ohne das kleine Programm,
+das eine Architektur zuteilt, Pakete, die sich auf keine gemeinsame
+einigen: In jedem dieser Fälle wird der Eintrag genau so geschrieben
+wie zuvor. Windows und Linux rührt das alles gar nicht an.
+
 ## Welches Python das Programm braucht
 
 3.10 oder neuer, darunter lehnt pip die Installation ab. Die

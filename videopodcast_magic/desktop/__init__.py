@@ -3,7 +3,9 @@
 
 A piece of the program, read in by beside(). No software is installed
 here: pip has already put a starter into a bin folder, and everything
-below lays a pointer to it. Nothing in here may stop a start.
+below lays a pointer to it. Nothing in here may stop a start. On macOS
+the pointer names the architecture as well, where the interpreter
+carries two and the installed packages fit only one of them.
 """
 # Nothing is imported at the top: plistlib, sysconfig and collections
 # cost 2.5 to 3.5 ms on every start, for code that runs once.
@@ -13,10 +15,12 @@ PROGRAM = PROGRAM
 
 T = PROGRAM.T
 VERSION = PROGRAM.VERSION
+ctypes = PROGRAM.ctypes
 keep_setting = PROGRAM.keep_setting
 installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
 log_aside = PROGRAM.log_aside
 os = PROGRAM.os
+platform = PROGRAM.platform
 settings = PROGRAM.settings
 shutil = PROGRAM.shutil
 struct = PROGRAM.struct
@@ -68,13 +72,14 @@ def lay_on_first_start():
 
 
 def make_shortcut(root=None, target=None, png=None, kept=None,
-                  write_down=None, system=None):
+                  write_down=None, system=None, run_as=None):
     """Lay the pointer down, or say why nothing was laid.
 
     *root* stands in for the home folder and every path is built under
     it, so a measurement never reaches the account it runs in. *target*
     is the starter, *png* the picture, *kept* what earlier runs wrote
-    down, *write_down(name, value)* how one thing is written down.
+    down, *write_down(name, value)* how one thing is written down, and
+    *run_as* the architecture the entry asks for.
     """
     system = system or _system()
     kept = {} if kept is None else kept
@@ -108,7 +113,9 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
         shutil.rmtree(where, ignore_errors=True)
 
     png = icon_bytes() if png is None else png
-    why = _write_it(where, target, png, root, system)
+    if run_as is None:
+        run_as = architecture_to_ask_for() if system == "darwin" else ""
+    why = _write_it(where, target, png, root, system, run_as)
     if why:
         return Laid(where, False,
                     T('No shortcut to this program was made: %s') % why)
@@ -118,12 +125,12 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
                 T('A shortcut to this program was made: %s') % where)
 
 
-def _write_it(where, target, png, root, system):
+def _write_it(where, target, png, root, system, run_as=""):
     """Write the one entry this system reads, or say what stopped it."""
     try:
         os.makedirs(os.path.dirname(where), exist_ok=True)
         if system == "darwin":
-            _bundle(where, target, png)
+            _bundle(where, target, png, run_as)
         elif system == "nt":
             _link(where, target, png, root)
         else:
@@ -361,10 +368,204 @@ def _out_of_launcher(where):
 
 
 # ---------------------------------------------------------------------------
+# Which architecture everything agrees on
+# ---------------------------------------------------------------------------
+
+# The one program that can grant an architecture. Without it there is
+# nothing to ask with, and the Dock's choice stands.
+ARCH_TOOL = "/usr/bin/arch"
+
+# What a Mach-O header calls a processor, under the names ARCH_TOOL
+# takes. A file names one of these per architecture it carries.
+CPU_NAMES = {0x01000007: "x86_64", 0x0100000C: "arm64",
+             7: "i386", 12: "arm"}
+
+# A fat header, big-endian, and how wide one entry in it is. A thin
+# file has one of the two magics below and its own byte order.
+FAT_MAGIC = {0xCAFEBABE: 20, 0xCAFEBABF: 32}
+THIN_MAGIC = (0xFEEDFACE, 0xFEEDFACF)
+
+# How many entries of a fat header are read at most: a file claiming
+# more than this is not a program, and the count comes out of the file.
+FAT_MOST = 32
+
+
+def architectures_of(path):
+    """The architectures one Mach-O file carries, as a set of names.
+
+    A fat file lists them in its header, a thin one names the single
+    one it is. Anything else -- a script, a folder, a file that is not
+    there -- carries none, and the answer is the empty set.
+    """
+    try:
+        with open(path, "rb") as f:
+            head = f.read(8 + FAT_MOST * 32)
+    except OSError:
+        return set()
+    if len(head) < 8:
+        return set()
+    fat = struct.unpack(">I", head[:4])[0]
+    if fat in FAT_MAGIC:
+        return _fat_architectures(head, FAT_MAGIC[fat])
+    for order in ("<", ">"):
+        magic, cpu = struct.unpack(order + "II", head[:8])
+        if magic in THIN_MAGIC and cpu in CPU_NAMES:
+            return set([CPU_NAMES[cpu]])
+    return set()
+
+
+def _fat_architectures(head, step):
+    """The names a fat header lists, one cputype per entry."""
+    out = set()
+    count = struct.unpack(">I", head[4:8])[0]
+    for i in range(min(count, FAT_MOST)):
+        at = 8 + i * step
+        if at + 4 > len(head):
+            break
+        cpu = struct.unpack(">I", head[at:at + 4])[0]
+        if cpu in CPU_NAMES:
+            out.add(CPU_NAMES[cpu])
+    return out
+
+
+def installed_architectures(folder=None):
+    """The architectures every compiled package installed here fits.
+
+    The cut, not the sum: one package that cannot run in an
+    architecture is enough to rule it out for the whole start. One
+    module per package is asked -- a wheel is built for one.
+    """
+    import sysconfig
+    folder = folder or sysconfig.get_path("platlib")
+    out = None
+    for where in _one_module_per_package(folder):
+        carried = architectures_of(where)
+        if carried:
+            out = carried if out is None else out & carried
+    return out or set()
+
+
+def _one_module_per_package(folder):
+    """The path of one compiled module out of each package there.
+
+    Only the top level of each package, so a folder with thousands of
+    files in it costs one listing and not a walk.
+    """
+    out = []
+    for name in sorted(_listing(folder)):
+        where = os.path.join(folder, name)
+        if name.endswith(".so"):
+            out.append(where)
+        elif not name.endswith(".dist-info") and os.path.isdir(where):
+            inside = [one for one in sorted(_listing(where))
+                      if one.endswith(".so")]
+            if inside:
+                out.append(os.path.join(where, inside[0]))
+    return out
+
+
+def _listing(folder):
+    """What lies in that folder, and [] where it cannot be read."""
+    try:
+        return os.listdir(folder)
+    except OSError:
+        return []
+
+
+def machine_architecture():
+    """What this machine is, not what this process was started as.
+
+    Under Rosetta every ordinary question answers x86_64, so the kernel
+    is asked as well: it says 1 while it is translating this process.
+    """
+    now = platform.machine()
+    return "arm64" if now == "x86_64" and _being_translated() else now
+
+
+def _being_translated():
+    """True where this process is an x86_64 one on an Apple Silicon Mac."""
+    try:
+        out = ctypes.c_int(0)
+        size = ctypes.c_size_t(ctypes.sizeof(out))
+        got = ctypes.CDLL(None).sysctlbyname(
+            b"sysctl.proc_translated", ctypes.byref(out),
+            ctypes.byref(size), None, 0)
+    except Exception:
+        return False
+    return got == 0 and out.value == 1
+
+
+def architecture_that_fits(carries, installed, machine):
+    """Which architecture the interpreter, the packages and the machine share.
+
+    "" wherever there is nothing to choose: one architecture in the
+    interpreter, none that all the packages fit, or two that all fit
+    and no reason to prefer either. The machine breaks that last tie.
+    """
+    carries, installed = set(carries), set(installed)
+    if len(carries) < 2:
+        return ""
+    fits = carries & installed
+    if machine in fits:
+        return machine
+    return sorted(fits)[0] if len(fits) == 1 else ""
+
+
+def _may_ask(system, tool):
+    """Whether an architecture can be asked for on this system at all.
+
+    Nowhere but macOS: only there does one file carry two of them, and
+    only there is there a program that grants one.
+    """
+    return system == "darwin" and os.access(tool, os.X_OK)
+
+
+def architecture_to_ask_for():
+    """The architecture a start of this program has to ask for, or "".
+
+    Empty where nothing can be asked for and where nothing needs to be;
+    the entry is then written exactly as it was written before.
+    """
+    if not _may_ask(sys.platform, ARCH_TOOL):
+        return ""
+    return architecture_that_fits(architectures_of(sys.executable),
+                                  installed_architectures(),
+                                  machine_architecture())
+
+
+def architecture_mismatch(running, installed):
+    """The sentence for a process that cannot load what is installed.
+
+    Both architectures are named and so is the way out: "not available"
+    sends somebody to reinstall packages that are already there.
+    """
+    installed = set(installed)
+    if not installed or running in installed:
+        return ""
+    return T('This program is running as %s and the packages installed '
+             'for it are %s, so none of them can be loaded. This starts '
+             'it right: %s') % (
+        running, ", ".join(sorted(installed)),
+        "arch -%s %s" % (sorted(installed)[0], COMMAND))
+
+
+def architecture_trouble():
+    """The sentence where this process cannot load what is installed, or "".
+
+    Asked of the process, not of the machine: the fault is that the two
+    are different, and platform.machine() is what the process came up as.
+    """
+    if sys.platform != "darwin":
+        return ""
+    return architecture_mismatch(platform.machine(),
+                                 installed_architectures())
+
+
+# ---------------------------------------------------------------------------
 # macOS: a bundle
 # ---------------------------------------------------------------------------
 
-def _bundle(where, target, png):
+def _bundle(where, target, png, run_as=""):
     """A .app -- a folder the Finder and the Dock read as one program.
 
     The Dock takes bundles and nothing else: a file in bin/ cannot be
@@ -402,18 +603,20 @@ def _bundle(where, target, png):
 
     stub = os.path.join(macos, COMMAND)
     with open(stub, "w", encoding="utf-8") as f:
-        f.write(_stub_text(target))
+        f.write(_stub_text(target, run_as))
     os.chmod(stub, 0o755)
 
 
-def _stub_text(target):
+def _stub_text(target, run_as=""):
     """The little runner inside the bundle.
 
     The search path is set here and not left alone: a program started
     from the Dock inherits launchd's, /usr/bin:/bin:/usr/sbin:/sbin, so
-    ffmpeg from Homebrew would not be found.
+    ffmpeg from Homebrew would not be found. *run_as* is the
+    architecture to ask for, and "" leaves the choice where it was.
     """
     folder = os.path.dirname(target)
+    quoted = target.replace('"', '\\"')
     return (
         "#!/bin/sh\n"
         "# Written by videopodcast-magic. Points at the starter pip\n"
@@ -425,8 +628,22 @@ def _stub_text(target):
         "# slow start hides.\n"
         "VPM_STARTED=$(date +%%s)\n"
         "export VPM_STARTED\n"
-        'exec "%s" "$@"\n' % (folder.replace('"', '\\"'),
-                              target.replace('"', '\\"')))
+        % folder.replace('"', '\\"')) + _ask_for_arch(quoted, run_as) + (
+        'exec "%s" "$@"\n' % quoted)
+
+
+def _ask_for_arch(quoted, run_as):
+    """The line that names an architecture, or "" where none was chosen.
+
+    It gives way rather than failing: the plain exec stands under it,
+    and a machine without the tool falls through to it untouched.
+    """
+    if not run_as:
+        return ""
+    return ("# The interpreter carries two architectures and the\n"
+            "# installed packages fit this one; the Dock would pick.\n"
+            '[ -x %s ] && exec %s -%s "%s" "$@"\n'
+            % (ARCH_TOOL, ARCH_TOOL, run_as, quoted))
 
 # The square sizes an .icns has a slot for. Anything else cannot be
 # written down as itself, which is why the shipped picture is one.

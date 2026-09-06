@@ -1,6 +1,6 @@
 # The test suite
 
-256 tests against the program in `../videopodcast_magic/`. Every one of them stands
+257 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-256 tests. The name is the one a red line carries, and beside it the
+257 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -520,6 +520,7 @@ it is green.
 | `run_shortcut_laid_once` | One shortcut is laid on the first start, and never a second time. |
 | `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
 | `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
+| `run_starter_arch_fits` | The start asks for the architecture the installed packages fit. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
 | `run_switch_changes_it` | A switch that is taken changes the result, not only the parser. |
 | `run_switch_has_effect` | A switch that is taken and does nothing is worse than no switch. |
