@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in and holds most of the
-program -- 12 000 lines. Ten pieces have moved out, and each sits
+program -- 10 551 lines. Eleven pieces have moved out, and each sits
 beside it in a folder of its own with an `__init__.py` in it: `ui/`
 holds the window and everything it shows, asks or offers (12 841
 lines); `cut/` who is on camera when, and what carries it out of here
@@ -22,14 +22,16 @@ render and markers (2 755); `speakers/` who is speaking, out of the
 sound alone (2 060); `pipeline/` the chain the recordings run through
 until the camera files are written (1 880); `preflight/` whether the
 material fits together before the first long step, and the ffmpeg run
-that shows its progress (1 508); `setup/` finding ffmpeg, offering the
+that shows its progress (1 507); `auphonic/` the sending to
+auphonic.com and the fetching back -- the key, the presets, the
+production, the waiting (1 226); `setup/` finding ffmpeg, offering the
 way to get one, installing a missing module and keeping the key
 (1 161); `speech/` what is said and when, and what is written down
 from it (1 130); `desktop/` the picture and the shortcut the first
 start lays down (657); `language/` a `.po` file per language, nothing
 but texts in it, and the reader that looks one up (313). All counted
 6.9.2026 with `wc -l`, and the figure of the day is that command, not
-this paragraph. `models/` is an eleventh folder and the odd one out:
+this paragraph. `models/` is a twelfth folder and the odd one out:
 the speaker model lives there and no code at all, so `beside()` never
 reaches for it. There is nothing to build.
 
@@ -66,6 +68,17 @@ goes through `PROGRAM.` for that reason and no other. `FFMPEG_FLOOR`
 stays on the near side of the seam as well, and that one is measured:
 `text_lang_settled_first` rewrites the floor line in the way in to put
 a run under it, and reads no other file.
+
+**Two pieces that need each other are read in the order that leaves one
+name over.** `auphonic/` and `preflight/` are the pair: `choose_preset`
+asks `check_preset` whether the chosen preset fits the run, and
+`check_preset` reads that preset out of auphonic.com to answer. Read
+`auphonic/` first and two names have to wait -- `check_preset` and
+`report_findings`; read it after `preflight/` and one does --
+`read_preset`. So it is read after, `preflight/` drops the binding line
+and its one call site says `PROGRAM.read_preset(key, uuid)`. Counted
+6.9.2026 out of the two files: 27 names cross that seam into
+`auphonic/`, 26 of them bound at its head.
 
 **The catalogues only travel because they are named.** setuptools packs
 `.py` and nothing else, so `[tool.setuptools.package-data]` in
