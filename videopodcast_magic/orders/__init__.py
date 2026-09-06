@@ -17,7 +17,6 @@ FILE_FORMAT = PROGRAM.FILE_FORMAT
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
-ONLY_MULTITRACK = PROGRAM.ONLY_MULTITRACK
 PLATFORMS = PROGRAM.PLATFORMS
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
 T = PROGRAM.T
@@ -35,6 +34,10 @@ number_text = PROGRAM.number_text
 os = PROGRAM.os
 python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
+
+# The switches that need several recordings. Everything else works on
+# any run since the two paths became one.
+ONLY_MULTITRACK = ("auphonic_resume", "assign", "multitrack")
 
 
 #--------------------------------------- Out of the window into an order

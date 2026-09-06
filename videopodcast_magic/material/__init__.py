@@ -14,10 +14,8 @@ PROGRAM = PROGRAM
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
-CEILING_DBTP = PROGRAM.CEILING_DBTP
 FILE_FORMAT = PROGRAM.FILE_FORMAT
 LIKES_PYTHON = PROGRAM.LIKES_PYTHON
-LIMIT_MAX_DB = PROGRAM.LIMIT_MAX_DB
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -87,6 +85,12 @@ class LateNumpy:
 
 
 np = LateNumpy()
+
+
+# What the loudness may come to, and how much of it the limiter may
+# take off. Nothing else in the program reads either one.
+CEILING_DBTP = -1.0       # true-peak ceiling of the result
+LIMIT_MAX_DB = 6.0        # most the limiter may take off
 
 
 #---------------------------------------- Which files belong together

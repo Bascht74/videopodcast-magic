@@ -13,8 +13,8 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 1 184 lines of it, against the 37 535 it held
-on 4.9.2026, the day the single file became a folder. **Thirty-three
+program lives any more -- 806 lines of it, against the 37 535 it held
+on 4.9.2026, the day the single file became a folder. **Thirty-four
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
 
@@ -22,67 +22,71 @@ What is in them, largest first, every folder of the program on the list
 and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **7735** -- the window and everything it shows, asks or offers
+* `ui/` **7892** -- the window and everything it shows, asks or offers
 * `cut/` **3960** -- who is on camera when, and what carries it out of
   here
-* `player/` **2885** -- the moving picture: the player, the cut band,
+* `player/` **2657** -- the moving picture: the player, the cut band,
   the log view
-* `resolve/` **2760** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2591** -- the DaVinci Resolve project, timelines, colour,
   markers
-* `material/` **2612** -- channels, chains, continuation files, what a
+* `material/` **2417** -- channels, chains, continuation files, what a
   track is made of
-* `bearings/` **2352** -- the time axis, the offsets, which camera
+* `bearings/` **2071** -- the time axis, the offsets, which camera
   belongs to which voice
-* `speakers/` **2060** -- who is speaking, out of the sound alone
 * `pipeline/` **1918** -- the chain the recordings run until the camera
   files are written
-* `preflight/` **1512** -- whether the material fits together before the
+* `speakers/` **1865** -- who is speaking, out of the sound alone
+* `preflight/` **1385** -- whether the material fits together before the
   first long step
-* `auphonic/` **1243** -- the sending to auphonic.com and the fetching
-  back
-* `hearing/` **1174** -- decoding, envelopes, bands, phase, aligning
-  audio to video
-* `setup/` **1161** -- finding ffmpeg, installing a missing module,
-  keeping the key
 * `speech/` **1182** -- what is said and when, and what is written down
   from it
-* `fittings/` **884** -- helpers that shape what the window shows and
+* `auphonic/` **1176** -- the sending to auphonic.com and the fetching
+  back
+* `setup/` **1051** -- finding ffmpeg, installing a missing module,
+  keeping the key
+* `hearing/` **1046** -- decoding, envelopes, bands, phase, aligning
+  audio to video
+* `fittings/` **789** -- helpers that shape what the window shows and
   hold none of its state
-* `metadata/` **755** -- MOV atoms, colour tags, what a recording says
+* `metadata/` **725** -- MOV atoms, colour tags, what a recording says
   about itself
-* `orders/` **748** -- the command line a run is given: written out of
+* `orders/` **703** -- the command line a run is given: written out of
   the window, and read back off the line
-* `herald/` **662** -- the progress bar, the stages, the console and log
-  redirection
-* `desktop/` **657** -- the picture and the shortcut the first start
+* `desktop/` **601** -- the picture and the shortcut the first start
   lays down
-* `upkeep/` **540** -- which release is out, the way back, and pip
+* `herald/` **598** -- the progress bar, the stages, the console and log
+  redirection
+* `upkeep/` **457** -- which release is out, the way back, and pip
   putting one in place
-* `filelist/` **485** -- the list of chosen files: the tree it is
+* `filelist/` **439** -- the list of chosen files: the tree it is
   shown in, and what adding and removing do to it
-* `prework/` **471** -- the audio, envelopes, channels and tracks
+* `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `tables/` **410** -- the tables and trees the window builds
 * `language/` **352** -- a .po file per language and the reader that
   looks one up
-* `running/` **349** -- what a run is offered before it starts, the
+* `tables/` **348** -- the tables and trees the window builds
+* `running/` **344** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
-* `timecode/` **343** -- timecode strings, frame rates, the clock a file
+* `timecode/` **317** -- timecode strings, frame rates, the clock a file
   carries
-* `menus/` **272** -- the menu bar and what follows it
-* `livery/` **265** -- the colours, the marks that say what kind a line
+* `livery/` **241** -- the colours, the marks that say what kind a line
   is, and the room a name or a table may take
-* `logbook/` **222** -- where the log of a run goes, and what goes into
+* `menus/` **237** -- the menu bar and what follows it
+* `workbench/` **232** -- what more than one piece reaches over for:
+  numbers as words, a channel count, one tool run, two recordings in
+  step, what a video file says of itself, and the four the way in used
+  itself
+* `logbook/` **191** -- where the log of a run goes, and what goes into
   it
-* `stowage/` **198** -- where things are put down between one run and
+* `stowage/` **178** -- where things are put down between one run and
   the next: the work folder, what somebody chose, and the write that is
   moved into place rather than left half done
-* `dials/` **193** -- the kinds a shot can be, the cut fields and their
+* `dials/` **174** -- the kinds a shot can be, the cut fields and their
   choices
-* `filing/` **173** -- path_key, ByFile and FileSet
-* `soundings/` **148** -- what has been measured of a file, taken once
+* `filing/` **158** -- path_key, ByFile and FileSet
+* `soundings/` **134** -- what has been measured of a file, taken once
   and kept
-* `choices/` **88** -- the values a choice box holds, and what they are
+* `choices/` **75** -- the values a choice box holds, and what they are
   called
 
 `models/` is the odd one out among the folders: the speaker model lives
@@ -153,6 +157,23 @@ goes through `PROGRAM.` for that reason and no other. `FFMPEG_FLOOR`
 stays on the near side of the seam as well, and that one is measured:
 `text_lang_settled_first` rewrites the floor line in the way in to put
 a run under it, and reads no other file.
+
+**`workbench/` has the narrowest window of any of them, and both its edges
+are measured.** It holds what more than one piece reaches over for --
+`number_text` (nineteen pieces), `video_facts` (eight), `channel_text`
+(four), `shell_quote` (three), `gcc_phat_offset` with `PHAT_BAND`,
+`finished_tracks_find` and `stop_wanted` (two each) -- and it is read
+between `language/` and `setup/`, because `setup/` is the second piece
+read and binds `number_text` at its head. Measured 6.9.2026 in a child
+process with `PYTHONDONTWRITEBYTECODE=1`, one line above and one
+position below: read before the catalogue it stops at `T = PROGRAM.T`
+with `AttributeError: 'Program' object has no attribute 'T'`, and read
+after the setting up it stops at `setup/__init__.py line 22` with
+`AttributeError: 'Program' object has no attribute 'number_text'`.
+Either way the program does not read at all, so there is no window
+either side of that one line. What it needs from below the seam --
+`AUDIO_SUFFIXES`, `RUN_STOP`, `ffprobe_json` and numpy -- it reaches
+through `PROGRAM.` where it uses it.
 
 **Two pieces that need each other are read in the order that leaves one
 name over.** `auphonic/` and `preflight/` are the pair: `choose_preset`
@@ -344,6 +365,59 @@ that fits.
 `source_no_loose_ends_test.py`, not for the machine.** `take_from` has
 placed the names long before. Whoever takes them for the binding order
 draws the next seam in the wrong place.
+
+**A probe that only calls `the_program.load()` proves nothing about
+`ui/`.** The window is read lazily out of `window()`, so a seam that
+breaks it is invisible until something asks: one such probe came back
+411 of 411 green over a cut it never touched. The probe calls `load()`
+**and** `window()`, and holds `set(dir(vpm))` after both against the
+same set taken from a copy of the tree before the cut.
+
+**A value with one reader belongs beside that reader, and four kinds of
+value do not.** Counted 6.9.2026 over the way in's top level, uses and
+not mentions: `INSTALL_TOOLS` went to `setup/`, `CEILING_DBTP` and
+`LIMIT_MAX_DB` to `material/`, `ONLY_MULTITRACK` to `orders/`. The four
+kinds that stay: a value the way in reads itself (`LIKES_PYTHON` in the
+version check, `SPEECH_CODES` in `language_of_system`, `TOOL_TROUBLE`
+in `main`); a sink the window writes on the program object
+(`ASK_SINK`, `PROGRESS_SINK` -- see the rule at the head of this
+section); `FFMPEG_FLOOR`, whose line `text_lang_settled_first` rewrites
+in the way in and nowhere else; and a value the piece itself writes
+back with `PROGRAM.name = value`. The last is `_SPEAKER_READY` and
+`_SPEAKER_WHY`, and it was measured rather than reasoned: moved into
+`speakers/` the whole suite goes on reading them correctly -- even the
+test that bends one, `voice_split_names_fault`, stays 7 of 7 green,
+because `take_from` carries the value up and the piece reads it back
+through `PROGRAM.` -- and `source_names_stay_fresh` is the one that
+falls, naming both by line: *"2 in both, wanted 0 in both:
+_SPEAKER_READY bound at speakers/__init__.py line 72, written at
+speakers/__init__.py line 347"*. A copy at the top of a piece under a
+name the program writes on itself is the stale copy that check exists
+for, whether or not anything reads it today.
+
+**A function that rebinds a shared name with `global` cannot leave this
+file either, and it is the same check again.** `set_language` writes
+`LANG`, the `Numpy` stand-in writes `np`; inside a piece `global` binds
+the piece's own name, so each would have to write `PROGRAM.LANG` or
+`PROGRAM.np` -- and `LANG` is bound at the top of `language/`, `np` at
+the top of seven pieces. Measured 6.9.2026 on two copies, one name
+moved into `workbench/` in each: *"1 in both ... LANG bound at
+language/__init__.py line 32, written at workbench/__init__.py line
+41"*, and the same for `np` from `bearings/__init__.py line 81`. What
+did go: `only_reading`, `count_process_starts`, `safe_filename` and
+`Stopped`, none of which rebinds anything.
+
+**What the way in is made of, and why its ratio is the lowest in the
+programme.** Measured 6.9.2026: 806 lines, 442 of them code -- 54.8 %,
+against 60.7 % averaged over the pieces and 82.8 % in `orders/`. Two
+things hold it down and neither is padding. 153 lines are blank, 35 %
+of the file against `orders/`'s 4.5 %, because this is a list of 27
+read-blocks with no function bodies to fill the space; and 43 comment
+lines say, one per `beside()` call, what binds what and so why that
+read stands where it does. Reaching 60 % means taking those 43 lines
+and cutting the seven seam docstrings to one line each -- 77 lines
+together, which lands at 60.6 % -- and those are the only written
+record of how the seam works.
 
 ## How speech is detected without Auphonic
 
@@ -996,7 +1070,8 @@ meaning into old names.
 
 Numbers are split. On screen they follow the language (25,000 against
 25.000, 1.2 s against 1,2 s), into files they always go English. One
-helper does all of it: `number_text(number, places=1, plus=False)`,
+helper in `workbench/` does all of it:
+`number_text(number, places=1, plus=False)`,
 where `places=None` means as many places as the number needs and
 `plus=True` puts a sign in front of a positive one. The CSV files are
 comma separated with a full stop as the decimal mark, in every
