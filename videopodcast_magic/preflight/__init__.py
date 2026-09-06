@@ -614,15 +614,16 @@ def check_audio_file(file_path):
     if str(a.get("sample_fmt", "")).startswith("flt"):
         depth = "32f"
     duration = float(d.get("format", {}).get("duration") or 0.0)
-    out = [Finding("good", name[:24], "%s Hz, %s bit, %s, %s"
-                   % (number_text(rate, 0), depth,
+    out = [Finding("good", name[:24], "%s kHz, %s bit, %s, %s"
+                   % (number_text(rate / 1000.0, None), depth,
                       channel_text(channels),
                       as_hms(duration)))]
     if rate and rate != SR:
         out.append(Finding(
             "fixed", "",
-            T('%s Hz instead of %s Hz -- converted during processing.')
-            % (number_text(rate, 0), number_text(SR, 0))))
+            T('%s kHz instead of %s kHz -- converted during processing.')
+            % (number_text(rate / 1000.0, None),
+               number_text(SR / 1000.0, None))))
     if channels > 2:
         out.append(Finding(
             "good", "",
