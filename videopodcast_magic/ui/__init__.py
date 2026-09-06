@@ -3585,7 +3585,9 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
         or was skipped -- a step left at nothing holds the bar back.
         """
         if name not in run_step_order:
-            plan.add("run:" + name, 1.0, name)
+            # No caption: the key is an internal English word, and a
+            # step with none says nothing rather than showing it.
+            plan.add("run:" + name, 1.0)
             run_step_order.append(name)
         if share < 0:
             for earlier in run_step_order[:run_step_order.index(name)]:
