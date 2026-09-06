@@ -156,6 +156,71 @@ button)` in the order intended. `"error"` means show and abort,
 `"question"` means ask and abort on no. So the order of the queries can
 be tested: `run_command_built_test.py` goes through eighteen cases.
 
+## What a cut out of the way in has to know
+
+Seven pieces were cut in one night, and each of the seven paid for the
+same handful of lessons again. They are written down here so that the
+eighth does not.
+
+**`PROGRAM.X = value` does not write through to the pieces.
+`module.X = value` does.** The way in sets `PROGRAM.__dict__ =
+globals()`, so an attribute written on `PROGRAM` is a plain write into
+the way in's own globals and never passes `OneName.__setattr__`. A test
+that bends `vpm.X` goes through the other door and does reach the
+pieces. Measured:
+
+```
+after PROGRAM.SINK = x : way in='x'  piece=None  piece read late='x'
+after module.SINK  = x : way in='x'  piece='x'   piece read late='x'
+```
+
+**So a name written that way must not travel into a piece, and must not
+get a binding line at its head.** `OUTPUT_SINK`, `ASK_SINK`,
+`PROGRESS_SINK` and `UPDATE_SINK` are written from the window that way.
+Move one and the program breaks where nobody looks -- while the suite
+stays green, because the suite bends the name through the door that
+does write through. `ASK_SINK` stood inside a cut range and was caught
+by this rule, not by a red test.
+
+**A name defined below the seam gets no binding line either.** The head
+of a piece is read while the way in is still being read, so a copy of
+something further down is an `AttributeError`. It is reached as
+`PROGRAM.<name>` where it is used.
+
+**A cycle is broken by deleting the binding line, not by forwarding.**
+A function of the same name that calls the real one is bound into the
+way in under its own name before the real one exists, and the call ends
+in `RecursionError` -- which no test catches.
+
+**The seam has to carry what tests reach for, not only what code
+reads.** `NAME_HOLD_S` is read by no code across its seam and is bound
+back all the same, because one test asks the program for it. The cheap
+way to find these: `set(dir(vpm))` before the cut and after, and it may
+lose nothing.
+
+**`__file__` in a piece means the piece's file.** `find_required_tools`
+put the piece's own folder on the search path and reported present
+tools as missing; `running_from` and `start_again` would name and
+restart the piece. Whatever needs the program's own path reads
+`PROGRAM.__file__`.
+
+**Where a piece is read costs as much as where it is cut.** The same
+range of lines needed 27 late names read at the place the code stood
+and two read further down. Both ends of every candidate are worth
+measuring before a line is moved.
+
+**Leave a `#---` rule behind.** Take out the first rule of a stretch and
+the ground section grows to the next one, and
+`source_sections_named_test.py` reports names reaching up out of the
+ground. It happened twice in that one night. A rule line also counts
+towards the comment-block ratchet: rule plus three lines is the shape
+that fits.
+
+**The written-out `X = piece.X` lines are for a reader and for
+`source_no_loose_ends_test.py`, not for the machine.** `take_from` has
+placed the names long before. Whoever takes them for the binding order
+draws the next seam in the wrong place.
+
 ## How speech is detected without Auphonic
 
 Recorders are turned up to different degrees, so the threshold sits
