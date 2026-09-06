@@ -361,10 +361,15 @@ import inspect
 # gui() alone lets a check on absence go green because what it looks
 # for moved house rather than went away -- project_write left gui() for
 # make_project_file and took the line that throws the key out with it,
-# and start and only_resolve_start_run left it for make_run_start.
+# start and only_resolve_start_run left it for make_run_start, and the
+# file list left it for make_preflight and make_file_changes. Measured
+# 6.9.2026 on a broken copy: the same planted line was red before that
+# last move and green after it, until these two were added here.
 source = (inspect.getsource(vpm.gui)
           + inspect.getsource(vpm.make_project_file)
-          + inspect.getsource(vpm.make_run_start))
+          + inspect.getsource(vpm.make_run_start)
+          + inspect.getsource(vpm.make_preflight)
+          + inspect.getsource(vpm.make_file_changes))
 check("call present", "run_argv(values, assign_file)" in source,
         "16. the window names run_argv in %s, wanted one reading "
         "run_argv(values, assign_file)"
