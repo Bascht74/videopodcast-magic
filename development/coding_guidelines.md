@@ -321,28 +321,37 @@ files side by side on one screen are worth more than long lines.
 
 ## 12. The one exception: `gui()`
 
-`gui()` is 5753 lines long -- nineteen times the rule above. Measured
-on 23 August 2026. `source_limits_hold_test.py` prints the figure of the day on
-every run, so the current number is read there and not here. This is a
-decision, not an oversight, and this is where the reasons live.
+`gui()` is 3497 lines long -- twelve times the rule above. Measured on
+6 September 2026, after nine pieces were lifted out of it in one night;
+it was 5753 on 23 August. `source_limits_hold_test.py` prints the
+figure of the day on every run, so the current number is read there and
+not here. This is a decision, not an oversight, and this is where the
+reasons live.
 
 **Why it is one function.** Qt builds an interface out of closures. A
 button needs a callback, and the callback needs the button, the field
 beside it and the value both of them mean. In C++ the shared place for
 that is a class with fields; in Python it is a function with functions
 inside it. Both write down the same thing. Only one of them counts as a
-class with 182 methods, the other as a function with 5753 lines.
-Counted with the compiler's own bookkeeping, not by eye. 182
-definitions sit directly in `gui()` and hold 76 percent of its lines.
-Between them they capture 280 of its names, and the middle one captures
-three. `state`, a single dictionary, is captured by 64 of them.
+class with 121 methods, the other as a function with 3497 lines.
+Counted with the compiler's own bookkeeping, not by eye. 121
+definitions sit directly in `gui()` and hold 65 percent of its lines;
+they were 182 and 76 percent before the cutting began. `state`, a
+single dictionary, is captured by most of them.
 
 **Why the obvious split does not work.** 91 forward references: 43 of
 the inner functions read 69 names that the text binds further down.
 `buttons_check` uses a button that comes into being 4131 lines later.
 That works only because a closure looks a name up late, at the call and
-not at the definition. Those 69 names can therefore never become
-parameters, at no price and in no order. Cutting a section out and
+not at the definition. Those names can never become parameters, at no
+price and in no order -- **but that is not the end of it, and nine cuts
+measured the third way.** A name bound below the seam is reached
+through `state`, the dictionary the file already carries for its own
+reasons: `gui()` writes `state["preview_soon"] = preview_kick_off` and
+the lifted block calls `state["preview_soon"]()`. Nine such hooks stand
+in the file now. What each one costs is one line in `gui()`, and what
+it needs is a counter-proof read off the log -- a callback missing from
+a Qt slot leaves the test green. Cutting a section out and
 handing it what it needs gives functions with forty to eighty
 parameters, or a build in two phases. Create everything, then wire it.
 Lifting the shared state into an object was weighed too: 280 captured
@@ -356,9 +365,9 @@ widget cannot be defined at module level at all. Every Qt-touching
 helper that moves out therefore costs a factory on top. And **there is
 no `nonlocal` in this file, not one**. Shared mutable state runs
 through named containers, the `state` dictionary and the `Value`
-objects, and never through rebinding a name. That is why these 5753
-lines can be read at all, and it is the condition the exception rests
-on.
+objects, and never through rebinding a name. That is why these
+thousands of lines can be read at all, and it is the condition the
+exception rests on.
 
 **What still holds.** The exception covers the interface that is there.
 It is not a licence.
@@ -366,16 +375,21 @@ It is not a licence.
 - **New code that gets by without a widget does not go into `gui()`.**
   Computation, checking, preparation: whatever touches no widget is
   written beside `gui()` and takes what it needs as an argument.
-  `make_drop_area`, `qt_cut_band`, `qt_cut_player`, `make_key_note` and
-  `make_player_widgets` already live out there. The docstring of the
-  last one states the rule: "Whatever is needed from gui() comes in as
-  an argument and keeps its name inside."
+  Fifteen of them live out there now, among them `make_key_note`,
+  `make_log_writer` and the nine lifted in one night:
+  `make_player_choice`, `make_voice_rows`, `make_prework_bar`,
+  `make_prework_tasks`, `make_preview`, `make_speaker_split`,
+  `make_band_and_player`, `assignment_tables_build` and `make_footer`.
+  The docstring of `make_player_widgets` states the rule: "Whatever is
+  needed from gui() comes in as an argument and keeps its name
+  inside."
 - **A helper inside `gui()` that captures nothing is in the wrong
   place.** Whether it captures anything has an exact answer:
   `co_freevars` of the compiled function, not a search through the text.
 - **The number goes down, never up.** `source_limits_hold_test.py` prints the largest
   function on every run, and a ratchet holds whatever comes off. Nothing
-  here freezes 5753 as acceptable.
+  here freezes any number as acceptable. It has gone 5753, 5106, 3497,
+  and the ratchet took every step.
 
 **The long version** is `docs/notes/gui_struktur.md`: the map of the
 banner sections with the seam measured at each one. It also holds what
