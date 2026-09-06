@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 """What is said and when, and what is written down from it.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name, so
-that nothing in here comes from nowhere.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# recognition reads as it did in the one file. Not one of them is a
-# name the program rebinds while it runs, so none of them has to stay
+# What this piece uses out of the program, bound once. Not one is a
+# name the program rebinds while it runs, so none has to stay
 # PROGRAM.something the way a few of the window's do.
 SPEECH_CODES = PROGRAM.SPEECH_CODES
 T = PROGRAM.T
@@ -40,49 +35,28 @@ time = PROGRAM.time
 # =====================================================================
 #  Speech recognition
 #  ------------------
-#  What is said, and when. A word with a start and an end is what
-#  every sentence rule below rests on: where a sentence ends, where a
-#  clause breaks, where a cut may fall without cutting into a word.
-#
-#  Two ways lead there and both come out in the same form: the
-#  recognition macOS brings with it, and faster-whisper for every
-#  other machine. Measured over five hours of interview: 22 seconds
-#  per hour of audio for the first, six times real time for the
-#  second on a processor.
-# =====================================================================
 
 # One recognised word is {"start": seconds, "end": seconds,
 # "word": text}. The word keeps the punctuation it was written with,
 # because that is the only place a sentence end can be read from.
 
-# Sentence ends and clause boundaries, counted over five hours of
-# German speech: 8.4 sentence ends and 17.2 clause boundaries per
-# minute. Semicolon, colon and dash did not occur once -- a clause
-# boundary is a comma in practice; the others are listed because they
-# cost nothing.
+# Counted over five hours of German speech: 8.4 sentence ends and 17.2
+# clause boundaries a minute. Semicolon, colon and dash never occurred
+# -- a clause boundary is a comma; the rest are listed and cost nothing.
 SENTENCE_MARKS = ".!?"
 CLAUSE_MARKS = ",;:–—"
 # Punctuation may stand inside a closing quote or bracket, so those
 # come off before the last character is looked at.
 CLOSING_MARKS = "\"')]}“”„’»«"
 
-# turbo and not large-v3: over the same twenty minutes large-v3 costs
-# five and a half times as long, agrees with macOS no better (95.2
-# against 95.4 %) and has the worse word times. The 3 GB buy computing
-# time, not accuracy. distil-large-v3 is out because it is English
-# only, and small saves a fifth of the time for two points.
+# turbo and not large-v3: large-v3 costs five and a half times as long,
+# agrees with macOS no better (95.2 against 95.4 %) and times words
+# worse. distil-large-v3 is English only; small costs two points.
 WHISPER_MODEL = "large-v3-turbo"
 
-# Both recognisers report a word as beginning about a tenth of a
-# second after the sound does -- measured against the audio itself, at
-# entries after at least half a second of silence, where the beginning
-# is not in doubt: macOS +0.09 to +0.14 s, Whisper +0.065 to +0.115 s.
-# Neither stretches at the other end: both stop hearing 0.04 to 0.10 s
-# before the sound dies away.
-#
-# There is no shared axis to pull the two onto, because neither of
-# them is the truth. Each gets its own correction, and only where the
-# correction buys something.
+# Both recognisers hear a word begin about a tenth of a second late --
+# macOS +0.09 to +0.14 s, Whisper +0.065 to +0.115 s -- and stop 0.04
+# to 0.10 s early. Neither is the truth, so each gets its own figure.
 
 # Whisper scatters two to five times less than macOS, so a fixed
 # correction lands: word boundaries within 0.1 s of the sound go from
@@ -90,11 +64,9 @@ WHISPER_MODEL = "large-v3-turbo"
 WHISPER_START_S = -0.090
 WHISPER_END_S = 0.060
 
-# macOS gets none, and that is a decision rather than an omission: its
-# scatter is wider than the offset, so a correction would move noise
-# and little else -- 25-33 % within 0.1 s becomes 24-39 %. What looks
-# like a stretched word end is a refused gap between two words, and no
-# offset repairs that.
+# macOS gets none by decision, not omission: its scatter is wider than
+# the offset, so a correction moves noise -- 25-33 % within 0.1 s
+# becomes 24-39 %, and a refused gap is not a stretched word end.
 MACOS_START_S = 0.0
 MACOS_END_S = 0.0
 
@@ -102,9 +74,8 @@ MACOS_END_S = 0.0
 def word_mark(text):
     """Say what a word closes: a sentence, a clause, or nothing.
 
-    The mark sits on the word, so the end of that word is the time of
-    the boundary. A trailing hyphen does not count: in German it
-    breaks a compound and ends nothing.
+    The mark sits on the word, so that word's end is the boundary's
+    time. A trailing hyphen ends nothing; in German it breaks a compound.
     """
     stripped = (text or "").strip().rstrip(CLOSING_MARKS)
     if not stripped:
@@ -126,10 +97,8 @@ def speech_word(start, end, text):
 def sentences_of(words):
     """Group words into sentences: one list of words per sentence.
 
-    A sentence ends on the word carrying the mark. What follows the
-    last mark is a sentence as well -- the recognition does not always
-    close the final one, and dropping it would lose the last minutes
-    of an episode.
+    A sentence ends on the word carrying the mark; what follows the
+    last mark is a sentence too, or the last minutes would be lost.
     """
     out, current = [], []
     for w in words:
@@ -162,10 +131,8 @@ def sentence_start_times(words):
 def corrected_words(words, start_by, end_by):
     """Move word starts and word ends by their own correction.
 
-    The two edges are wrong by different amounts and in different
-    directions, so one shift for both would put back at the end what
-    it took off at the start. Nothing moves before zero, and no word
-    ends before it begins.
+    The two edges are wrong differently, so one shift for both would
+    undo itself. Nothing moves before zero, none ends before it begins.
     """
     if not start_by and not end_by:
         return list(words)
@@ -179,37 +146,23 @@ def corrected_words(words, start_by, end_by):
 
 #------------------------------------------------------- Who said it
 
-# A word goes to whoever covers most of it. Measured over 45473 words
-# of two whole interviews against the clip-on microphones: 95 to 98 %
-# of the words touch exactly one speaker, 1 to 5 % touch two, and
-# under 0.4 % fall into a gap between two segments.
-#
-# The edges of the segments are widened where the segments are made
-# (speaker_segments_polish), not here -- widening twice would move the
-# boundaries a second time.
+# A word goes to whoever covers most of it. Measured over 45473 words:
+# 95 to 98 % touch one speaker, 1 to 5 % two, 0.4 % fall in a gap.
+# Edges widen in speaker_segments_polish; widening twice moves them.
 
-# The majority of a sentence decides only where the sentence is nearly
-# of one voice. Measured: applied to every sentence the majority gains
-# almost nothing (98.71 -> 98.78 %), because it repairs as much in the
-# clean sentences as it breaks in the mixed ones. Below a fifth it
-# gains 98.89 %; at a tenth 98.86 %, at a third 98.83 %.
+# The majority decides only where a sentence is nearly of one voice:
+# on every sentence it gains almost nothing (98.71 -> 98.78 %), below
+# a fifth 98.89 %, at a tenth 98.86 %, at a third 98.83 %.
 SENTENCE_MINORITY_SHARE = 0.2
 
 
 def words_by_speaker(words, segments, tally=None):
     """Give every word the speaker whose segments cover most of it.
 
-    A word that touches nobody goes to the nearest segment: inside a
-    gap there is no duration to weigh, and the neighbour is a fifth of
-    a second away in the median. Where two speakers cover the same
-    word equally the one who speaks more in the whole recording wins,
-    which is the order *segments* arrives in.
-
-    *segments* is [(name, [(from, to), ...])], the stretches of one
-    speaker sorted and without overlaps among themselves. *tally*, a
-    dict, is filled with how many words were clear, shared and in a
-    gap. Returns the words in time order, each with a "speaker";
-    without segments they come back without one.
+    A word touching nobody goes to the nearest segment; where two
+    cover it equally, the one speaking more wins -- the order
+    *segments*, [(name, [(from, to), ...])], arrives in. *tally* counts
+    clear, shared and gap words. No segments, no "speaker" on a word.
     """
     out = [dict(w) for w in sorted(words or (),
                                    key=lambda w: (w["start"], w["end"]))]
@@ -262,8 +215,7 @@ def sentence_speakers(words, limit=SENTENCE_MINORITY_SHARE):
     """Let a sentence agree on one speaker where it is nearly of one.
 
     A sentence more divided than *limit* keeps its single words: it is
-    usually two sentences of two people, and then the words know
-    better than the sentence.
+    usually two sentences of two people, and the words know better.
     """
     out = []
     for group in sentences_of(words):
@@ -344,9 +296,8 @@ def subtitle_cues(words, line_chars=SUBTITLE_LINE_CHARS,
     """Cut the words into subtitles: (from, to, speaker, text).
 
     A subtitle never holds two speakers, never outlives *longest* and
-    never grows past what *lines* lines can hold. Inside that it ends
-    on a full stop, so a subtitle carries a whole thought wherever the
-    thought is short enough.
+    never grows past *lines* lines. Inside that it ends on a full
+    stop, so a subtitle carries a whole thought where it fits.
     """
     room = max(1, int(line_chars) * max(1, int(lines)))
     out = []
@@ -378,10 +329,8 @@ def subtitle_cues(words, line_chars=SUBTITLE_LINE_CHARS,
 def subtitle_file_text(cues, line_chars=SUBTITLE_LINE_CHARS):
     """The subtitles as a SubRip file.
 
-    The name of the speaker stands in capitals with a colon, and only
-    where the speaker changes: that is how a subtitle names who is
-    talking, and repeating the name on every subtitle would take the
-    room the sentence needs.
+    The speaker's name stands in capitals with a colon, only where the
+    speaker changes -- on every one it would take the sentence's room.
     """
     parts, last = [], None
     for i, (a, b, who, text) in enumerate(cues or (), 1):
@@ -397,11 +346,9 @@ def subtitle_file_text(cues, line_chars=SUBTITLE_LINE_CHARS):
 def transcript_passages_json(words):
     """The passages in the shape auphonic.com writes beside a file.
 
-    One entry per passage with its speaker, its running text and one
-    row per word. The fourth column of a row is how sure the
-    recognition was; neither recogniser here reports that, so it
-    stays empty rather than being filled with a number nobody
-    measured.
+    One entry per passage, with speaker, running text and a row per
+    word. The fourth column of a row is confidence and stays empty:
+    neither recogniser here reports one.
     """
     out = []
     for passage in speech_passages(words):
@@ -433,10 +380,7 @@ def write_transcript_files(folder, base, words, segments=()):
     The three formats and their names are the ones auphonic.com
     delivers, so whatever reads a transcript need not tell the two
     origins apart. Without speaker segments the files carry no names:
-    who said it is then not known, and a guess in a transcript is
-    worse than a gap.
-
-    Returns the files written.
+    a guess is worse than a gap. Returns the files written.
     """
     tally = {}
     said = words_with_speakers(words, segments, tally)
@@ -480,10 +424,9 @@ def write_transcript_files(folder, base, words, segments=()):
 def words_for_handover(words):
     """The words as the handover file carries them: start, end, word.
 
-    An hour of speech is around twelve thousand words. Written as
-    objects with three named keys each, the list alone would be a
-    megabyte of key names, so the three values stand in a row and the
-    reader names them again.
+    An hour of speech is around twelve thousand words. As objects with
+    three named keys the list alone would be a megabyte of key names,
+    so the three values stand in a row and the reader names them again.
     """
     return [[w["start"], w["end"], w["word"]] for w in words]
 
@@ -532,8 +475,7 @@ def read_speech_json(path):
     """Read the word times written beside a transcript.
 
     The file is a list of passages; each carries the speaker, the
-    running text and one entry per word -- the word itself, its start,
-    its end and how sure the recognition was.
+    running text and one entry per word -- word, start, end, confidence.
     """
     with open(path, encoding="utf-8", errors="replace") as f:
         d = json.load(f)
@@ -554,8 +496,7 @@ def read_words(path):
     """Read word times from whichever kind of file this is.
 
     Three kinds turn up: the recogniser's tab separated lines, the
-    json auphonic.com delivers, and the handover file this program
-    writes itself.
+    json auphonic.com delivers, and this program's own handover file.
     """
     if os.path.splitext(path)[1].lower() == ".json":
         return read_speech_json(path)
@@ -564,16 +505,9 @@ def read_words(path):
 
 #------------------------------------------------ The recognition of macOS
 
-# The way into the recognition macOS brings with it is Swift, so this
-# is compiled once and kept. It takes the audio file, the file to
-# write and the wanted language, and writes one line per word:
-# start, end and the word with its punctuation.
-#
-# Two things it must not be without: -parse-as-library, or a single
-# file with @main does not build at all, and the locale is looked up
-# in supportedLocales rather than assembled from the language code --
-# de-DE, de-AT and de-CH all exist and only the system knows which
-# ones are installed.
+# Compiled once and kept: audio in, one line per word out. Without
+# -parse-as-library a single file with @main does not build, and the
+# locale must come from supportedLocales -- de-DE, de-AT, de-CH exist.
 SPEECH_SWIFT = r'''import Foundation
 import Speech
 import AVFoundation
@@ -651,10 +585,9 @@ import AVFoundation
 def swift_compiler():
     """Return the Swift compiler, or None where there is none.
 
-    /usr/bin/swiftc is only a stub: without the command line
-    developer tools behind it, calling it opens a dialogue asking for
-    them. xcode-select answers the same question without opening
-    anything, so it is asked first.
+    /usr/bin/swiftc is only a stub: without the command line developer
+    tools behind it, calling it opens a dialogue. xcode-select answers
+    the same question without opening anything, so it is asked first.
     """
     if sys.platform != "darwin" or not os.path.exists("/usr/bin/swiftc"):
         return None
@@ -670,10 +603,9 @@ def swift_compiler():
 def recogniser_names():
     """Where the built recogniser goes, and where a failed build says so.
 
-    Both names carry a hash of the source and of the compiler
-    version, so a changed program or a system update starts over and
-    an unchanged one does not. Returns (binary, note) or (None, None)
-    where there is no compiler at all.
+    Both names carry a hash of the source and the compiler version, so
+    a changed program or a system update starts over. Returns (binary,
+    note), or (None, None) where there is no compiler.
     """
     compiler = swift_compiler()
     folder = cache_folder("speech")
@@ -695,10 +627,9 @@ def recogniser_names():
 def recogniser_program(build=True):
     """Return the compiled recogniser, building it once if need be.
 
-    Building costs about a second and would otherwise cost it on
-    every run, so the result is kept -- and so is a refusal. An older
-    macOS has the compiler but not the recognition, and without the
-    note it would try again, and say so again, for ever.
+    Building costs about a second, so the result is kept -- and so is a
+    refusal: an older macOS has the compiler but not the recognition,
+    and without the note it would try again for ever.
     """
     binary, refused = recogniser_names()
     if not binary:
@@ -754,11 +685,9 @@ SPEECH_TIMING = re.compile(
 def speech_note_said(note):
     """Put what the recogniser printed into words of our own.
 
-    It writes one line about itself: the locale, how long it took to
-    get ready, how long it listened. Handed on unchanged that line
-    stood in the progress bar in its own keywords -- "LOCALE de_DE
-    SETUP 0.10 SECONDS 25.75" -- English in a German run. Anything
-    else it says is a fault and goes out as one.
+    It writes one line about itself -- locale, time to get ready, time
+    spent listening -- and that line is English in its own keywords.
+    Anything else it says is a fault and goes out as one.
     """
     found = SPEECH_TIMING.match(str(note or "").strip())
     if found:
@@ -795,9 +724,8 @@ def speech_locale(language):
 def macos_words(audio_path, language=""):
     """Let the recognition macOS brings with it write the words.
 
-    Returns the words, or None where this way does not exist -- an
-    older macOS, no developer tools, another system. An empty list
-    means it ran and heard nothing, which is a different answer.
+    None where this way does not exist: an older macOS, no developer
+    tools, another system. [] means it ran and heard nothing.
     """
     program = recogniser_program()
     if not program:
@@ -837,11 +765,9 @@ def macos_words(audio_path, language=""):
 def whisper_arithmetic():
     """Pick what faster-whisper computes in.
 
-    Measured on Apple Silicon: float32 runs 2.3 times faster than
-    int8, because that path goes through Accelerate while int8 goes
-    through a general ARM matrix multiplication. On x86 the usual
-    order holds and int8 is the faster one; that has not been
-    measured here.
+    Measured on Apple Silicon: float32 runs 2.3 times faster than int8,
+    because that path goes through Accelerate. On x86 the usual order
+    holds and int8 is faster; that has not been measured here.
     """
     if sys.platform == "darwin" and platform.machine() == "arm64":
         return "float32"
@@ -867,13 +793,10 @@ def use_certificates():
 def whisper_words(audio_path, language="", install=True):
     """Recognise with faster-whisper where macOS cannot.
 
-    large-v3-turbo: large-v3 costs five and a half times the time for
-    the same result and worse word times. The voice activity filter
-    is not optional -- without it the recognition writes
-    words into silence, twenty-one of them into a five minute pause.
-
-    Returns the words with Whisper's own correction applied, or None
-    where the package is not there.
+    The voice activity filter is not optional: without it the
+    recognition writes words into silence, twenty-one of them into a
+    five minute pause. Returns the words with Whisper's own correction
+    applied, or None where the package is not there.
     """
     import importlib
     try:
@@ -894,10 +817,9 @@ def whisper_words(audio_path, language="", install=True):
     # a Python without certificates fails.
     use_certificates()
     try:
-        # CTranslate2 knows two devices, cpu and cuda -- mps and metal
-        # are not refused, they are unknown names. "auto" therefore
-        # means the graphics unit only on a machine with an NVIDIA
-        # card, and the processor everywhere else.
+        # CTranslate2 knows cpu and cuda only -- mps and metal are
+        # unknown names, not refused ones. "auto" is the graphics unit
+        # on an NVIDIA card and the processor everywhere else.
         model = module.WhisperModel(WHISPER_MODEL, device="auto",
                                     compute_type=whisper_arithmetic())
         pieces, _info = model.transcribe(
@@ -930,10 +852,8 @@ def words_cache_key(mark, language, way):
     """The name a written-down recording lives under.
 
     What the recording holds decides, not where it lies: the run mixes
-    into a folder of its own every time, so a key on the path would
-    never meet itself. The language and the way belong in it as well:
-    the same recording in another language gives other words, and the
-    two recognisers do not write the same ones either.
+    into a new folder every time, so a key on the path never meets
+    itself. Language and way belong in it: both change the words.
     """
     if not mark:
         return ""
@@ -991,10 +911,9 @@ def words_stored(mark, language, ways):
     """Words already written down here, and the way they came from.
 
     The ways are asked in the order the recognition itself would take
-    them, so a stored answer is the one that machine would have given
-    anyway. The mark comes in rather than being made here: reading the
-    recording once per way would double what the store costs. Returns
-    (words, way), (None, "") for nothing stored.
+    them, so a stored answer is the one that machine would give anyway.
+    The mark comes in rather than being made here: reading once per way
+    would double the cost. Returns (words, way), (None, "") for none.
     """
     for way in ways:
         words = words_cache_read(mark, language, way)
@@ -1031,14 +950,10 @@ def file_content_mark(file_path):
 def recognise_speech(audio_path, language="", way=""):
     """Write down what is spoken in a file, with a time per word.
 
-    The way macOS brings with it needs nothing installed and takes 22
-    seconds for an hour of audio; faster-whisper needs 144 MB of
-    packages and a 1.5 GB model and takes about six times real time
-    on a processor. The first one that works wins, unless a way was
-    named.
-
-    Returns (words, the way it took). (None, "") means neither way
-    exists on this machine.
+    macOS needs nothing installed and takes 22 seconds an hour of
+    audio; faster-whisper needs 144 MB of packages and a 1.5 GB model
+    and about six times real time on a processor. The first that works
+    wins unless a way is named. (None, "") means neither exists here.
     """
     started = time.time()
     mark = file_content_mark(audio_path)
@@ -1070,15 +985,10 @@ def recognise_speech(audio_path, language="", way=""):
 def words_at_hand(audio_path, language=""):
     """Write the words down with what the machine already has.
 
-    The run may install faster-whisper and fetch a model of 1.5 GB,
-    because somebody started the run and is watching it. The window
-    may not: nobody asked for a download by adding files to a list.
-    So this takes the recognition macOS brings with it, and
-    faster-whisper only where the package is already installed -- and
-    it is only ever installed because a run put it there, which is the
-    same run that fetched the model.
-
-    Returns the words, [] where this machine cannot listen.
+    A run may install faster-whisper and fetch a 1.5 GB model: somebody
+    started it and is watching. The window may not -- nobody asked for
+    a download by adding files to a list. So macOS first, faster-whisper
+    only where a run already installed it. [] where nothing can listen.
     """
     started = time.time()
     mark = file_content_mark(audio_path)
@@ -1115,12 +1025,10 @@ def speech_words_work(source, language, done):
 def speech_words_kick_off(state, language="", done=None, source=""):
     """Write down what is said in the recording being separated.
 
-    Beside the separation, not behind it: the two use different
-    machinery and the recognition is over long before the separation
-    is. It inherits the separation's consent from its start, which is
-    where *source* names the recording before anything is stored under
-    it. Without *source* the recording in front is meant. On its own
-    it installs nothing and fetches nothing -- words_at_hand says why.
+    Beside the separation, not behind it: different machinery, and the
+    recognition is over long before the separation is. *source* names
+    the recording and carries the separation's consent; without it the
+    one in front is meant. Installs nothing -- words_at_hand says why.
     """
     source = source or state.get("speakers_source") or ""
     listening = state.setdefault("speakers_words_now", set())
@@ -1141,9 +1049,8 @@ def speech_words_done(state, result, wake):
     """The words came back; keep them where they still belong.
 
     Every recording keeps its own, so a second separation does not
-    throw away what was heard in the first. In front stand the words
-    of the recording that was asked about, not of the one being
-    separated: they may arrive before its separation does.
+    throw away what was heard in the first. In front stand the words of
+    the recording that was asked about, not of the one being separated.
     """
     source, words = result
     state.setdefault("speakers_words_by", {})[source] = list(words or ())
