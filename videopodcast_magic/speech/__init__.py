@@ -26,6 +26,7 @@ file_content_mark = PROGRAM.file_content_mark
 group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 json = PROGRAM.json
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 outside_work = PROGRAM.outside_work
 platform = PROGRAM.platform
@@ -1011,7 +1012,7 @@ def recognise_speech(audio_path, language="", way=""):
     words_cache_write(mark, language, took, words)
     print(T('  Speech recognition (%s): %s words in %s s')
           % (took, group_text(len(words)),
-             decimal_text("%.1f" % (time.time() - started))))
+             number_text(time.time() - started)))
     return words, took
 
 
@@ -1046,7 +1047,7 @@ def words_at_hand(audio_path, language=""):
     words_cache_write(mark, language, took, words)
     print(T('  Speech recognition (%s): %s words in %s s')
           % (took, group_text(len(words)),
-             decimal_text("%.1f" % (time.time() - started))))
+             number_text(time.time() - started)))
     return words
 
 
