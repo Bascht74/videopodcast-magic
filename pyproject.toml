@@ -104,6 +104,7 @@ packages = [
     "videopodcast_magic.speakers",
     "videopodcast_magic.speech",
     "videopodcast_magic.tables",
+    "videopodcast_magic.timecode",
     "videopodcast_magic.ui",
 ]
 
