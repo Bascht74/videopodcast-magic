@@ -563,10 +563,37 @@ reader expects. The log keeps its own direction: a line that begins
 with a path or a timecode stays as it was written, because a run's own
 words are not a sentence in any language.
 
-The choice is spoken from the next start, and the line above the field
-says so before anybody picks. The window settles its language once,
-while it is being built, and every caption in it has its words by the
-time it stands there.
+The choice is written down the moment it is made, and the line above
+the field says what happens next. As long as the language picked is the
+one the window is already speaking, that line promises the next start
+and nothing else is offered. The moment it is another language, a
+button **Restart the application** appears beside the field and the
+line changes: starting again brings the new language at once, and
+leaving the button alone costs nothing, because the choice stands
+either way.
+
+Pressing it asks first, as long as something has been added to the
+window. **Save and restart** writes the project file and opens it again
+in the new window: the files, the production, the assignment, the In
+and Out points and the later sheets all come back, and only the words
+are different. **Restart without saving** leaves the project file
+exactly as it lies; the new window comes up empty and the files have to
+be added afresh. **Cancel** does nothing at all -- the window stays as
+it is, the chosen language stays in the field, and the button waits to
+be pressed later. Where nothing has been added there is nothing to
+lose, and nothing is asked.
+
+While a run is going the button does nothing at all: the line above the
+field then says that the run is still going and that the application
+can be started again once it is finished.
+
+The same question comes before the other two ways the program starts
+again -- after a new version has been installed, and after ffmpeg has
+been fetched. Both of those replace the running program, so what the
+window is holding would go the same way.
+
+The window settles its language once, while it is being built, and
+every caption in it has its words by the time it stands there.
 
 **The window speaks the language you chose; what runs beside it mostly
 does not.** The menu bar, the tabs and the buttons carry the chosen
