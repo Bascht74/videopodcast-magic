@@ -184,7 +184,7 @@ plain_told, window_told = by_camera(plain_over), by_camera(window_over)
 
 def facts(folder, cam):
     """Running time, size, timecode and first-frame kind of a delivery."""
-    made = os.path.join(D, folder, cam + ".mov")
+    made = os.path.join(D, folder, cam + "_audio.mov")
     if not os.path.exists(made):
         return {"seconds": 0.0, "bytes": 0, "tc": "", "key": "no file"}
     d = json.loads(subprocess.run(
@@ -219,7 +219,7 @@ def delivered_frames(folder, told):
     """
     want, call, out = [], ["ffmpeg", "-v", "error", "-y"], {}
     for cam in sorted(LATE):
-        made = os.path.join(D, folder, cam + ".mov")
+        made = os.path.join(D, folder, cam + "_audio.mov")
         if cam not in told or not os.path.exists(made):
             continue
         for t in WHEN:

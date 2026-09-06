@@ -1,6 +1,6 @@
 # The test suite
 
-256 tests against the program in `../videopodcast_magic/`. Every one of them stands
+257 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-256 tests. The name is the one a red line carries, and beside it the
+257 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -515,6 +515,7 @@ it is green.
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody or guess. |
 | `run_outside_seen` | Every call to another program is in the log, and none in the output. |
+| `run_overwrite_is_said` | A run that replaces a file says so, and marks one it did not make. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |
 | `run_shortcut_laid_once` | One shortcut is laid on the first start, and never a second time. |

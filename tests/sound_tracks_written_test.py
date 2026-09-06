@@ -156,9 +156,9 @@ WANTED = (
     ("one", "CamHost_audio.mov", [MIX, CAM]),
     ("two", "CamHost_audio.mov", [MIX, "Host", "Guest", CAM]),
     ("nosingle", "CamHost_audio.mov", [MIX, CAM]),
-    ("assign", "CamHost.mov", ["Host", MIX, CAM]),
-    ("assign", "CamGuest.mov", ["Guest", MIX, CAM]),
-    ("assign", "CamWide.mov", [MIX, CAM]),
+    ("assign", "CamHost_audio.mov", ["Host", MIX, CAM]),
+    ("assign", "CamGuest_audio.mov", ["Guest", MIX, CAM]),
+    ("assign", "CamWide_audio.mov", [MIX, CAM]),
 )
 
 

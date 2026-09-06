@@ -47,7 +47,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   kein Projekt sagt, wohin es geht, steht an seiner Stelle **neben der
   jeweiligen Videodatei**, und genau dorthin geht das Ergebnis. Steht
   dort ein Ordner, erscheint daneben **zurücksetzen** und legt das
-  Ergebnis wieder neben die jeweilige Videodatei. Der Produktionsname
+  Ergebnis wieder neben die jeweilige Videodatei. Ein Original wird
+  dabei nie getroffen: jede Kameradatei, die der Lauf schreibt, trägt
+  am Ende ihres Namens `_audio`. Der Produktionsname
   wird aus dem Ordner vorgeschlagen, in dem das Material liegt, und
   lässt sich überschreiben.
 

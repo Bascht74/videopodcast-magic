@@ -43,6 +43,8 @@ Four tabs, in the order they are needed.
   says where it goes, the strip reads **next to each video file**, and
   that is where the result lands. Once a folder stands there, **reset**
   appears beside it and puts the result back next to each video file.
+  An original is never hit doing that: every camera file the run writes
+  carries `_audio` at the end of its name.
   The production name is suggested from the folder the material lies
   in, and can be typed over.
 

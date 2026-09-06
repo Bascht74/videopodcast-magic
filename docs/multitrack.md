@@ -109,13 +109,32 @@ outro is noticed while watching it. A click on a row fetches that file
 into the player.
 
 **new file name** is what will come out of that camera. It is a
-proposal until somebody types over it, and it is built from the
-production name, the camera and the speakers. Where the camera counts
-its files with a number, the speakers go in front of that number and
-the camera's own name stays in front of them, so the front still reads
-as which camera it was. Where there is no such number the camera's name
-is left whole and the speakers follow it, and where the camera is
-called after those speakers already they are not said a second time.
+proposal until somebody types over it, and it is built from the camera
+and the speakers. The production name is not part of it: the result
+usually lies beside the material, where a folder full of files all
+beginning with the same word tells nobody anything. Where the camera
+counts its files with a number, the speakers go in front of that number
+and the camera's own name stays in front of them, so the front still
+reads as which camera it was. Where there is no such number the
+camera's name is left whole and the speakers follow it, and where the
+camera is called after those speakers already they are not said a
+second time.
+
+The written file carries `_audio` at the end on top of what stands in
+the field. That ending is not decoration: without it the name can come
+out as the camera file's own name, and where the result goes next to
+each video file the run would then write over the recording it was
+made from.
+
+Where a file of that name is already there it is replaced, and the run
+says so before it writes anything. A result this production made
+earlier gets a quiet line -- running it again is the ordinary way to
+work. Anything else is named with its whole path and marked: an
+original, a proxy, an export made by hand, another production's result
+under the same name. The run keeps going, so a marked line is the
+moment to stop it if that file was wanted. A second production over the
+same material is better given an output folder of its own.
+
 **gets audio from** beside it names those same speakers. A camera
 nobody is assigned to says **the mix of all tracks** there, and the
 wide shot says **no speaker -- this is the wide shot** -- or names

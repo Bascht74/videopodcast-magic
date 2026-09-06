@@ -138,7 +138,7 @@ made = sorted(os.listdir(OUT)) if os.path.isdir(OUT) else []
 for tail in ("_speakers.csv", "_cameracut.csv", "_resolve.json"):
     check("WA%s written" % tail, os.path.exists(OUT + "/WA" + tail),
           "wanted WA%s; the %d files in out are %s" % (tail, len(made), made))
-for name in ("CamHost.mov", "CamGuest.mov"):
+for name in ("CamHost_audio.mov", "CamGuest_audio.mov"):
     check("%s written" % name, os.path.exists(OUT + "/" + name),
           "wanted %s; the %d files in out are %s" % (name, len(made), made))
 tracks = (sorted(os.listdir(OUT + "/auphonic-tracks"))

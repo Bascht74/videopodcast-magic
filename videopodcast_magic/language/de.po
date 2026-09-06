@@ -1274,6 +1274,16 @@ msgid "  %s is in the production twice -- fetched once."
 msgstr "  %s gibt es zweimal in der Produktion -- einmal geholt."
 
 msgid ""
+"  %s is already there and is written over -- this production has no record "
+"of making it."
+msgstr ""
+"  %s ist schon da und wird überschrieben -- in dieser Produktion ist nicht "
+"vermerkt, dass sie die Datei angelegt hat."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s stammt aus einem früheren Lauf dieser Produktion und wird ersetzt."
+
+msgid ""
 "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is "
 "converted, not left out"
 msgstr ""
@@ -1773,6 +1783,13 @@ msgstr "  Die Kameras liegen dicht beieinander (höchstens %s Stufen Helligkeit)
 
 msgid "  The cut has changed: %s shots instead of %s."
 msgstr "  Der Schnitt hat sich geändert: %s Einstellungen statt %s."
+
+msgid ""
+"  The record of earlier runs here cannot be read (%s), so everything already "
+"in place is reported."
+msgstr ""
+"  Der Vermerk über frühere Läufe an dieser Stelle ist nicht lesbar (%s); "
+"deshalb wird alles gemeldet, was schon da ist."
 
 msgid "  The cut stays as it was."
 msgstr "  Der Schnitt bleibt, wie er war."
