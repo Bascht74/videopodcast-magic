@@ -5555,6 +5555,181 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
     return items_fresh, take_paths, add_files, remove
 
 
+def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
+                   blocks_of, real_tc, HOP, prework_busy, out_folder,
+                   production_var, commonest_folder, project_move,
+                   project_collect, settings_extend, axis_label, player,
+                   video_kind_again, kind_answered, show_weak,
+                   tc_column_show, player_follow_up, window_enable,
+                   window_position_show):
+    """The one time axis: measured, kept, and shown.
+
+    Outside gui() because the seven are one theme -- where the files lie
+    relative to each other, read out of the material, written into the
+    project file and read back from it. What the window holds comes in
+    as an argument and keeps its name inside. The call sits below
+    kind_answered, the last name axis_present reaches for.
+    """
+
+    def axis_measure(paths):
+        """Determine how all files sit relative to each other."""
+        return axis_with_blocks(paths, real_tc, HOP, blocks_of)
+
+    def axis_file():
+        """Return the project file, even before a name is settled.
+
+        There is exactly one. It comes into being while the time axis is
+        measured, at that point still next to the material, and moves along
+        once an output folder is chosen. Two copies of the same production
+        would be a trap: the wrong one gets opened.
+        """
+        target = out_folder.get() or commonest_folder()
+        if not target or not os.path.isdir(target):
+            return None
+        name = safe_filename(production_var.get().strip() or 'Project')
+        return os.path.join(target, "%s%s.json" % (PROJECT_PREFIX, name))
+
+    def axis_store(axis):
+        """Put the measurement into the project file.
+
+        Over two hours of material it takes minutes, so it should be there next
+        time. The file size and mtime are stored with it: if those no longer
+        match, it is measured again rather than carried on wrongly.
+        """
+        project_move()
+        file_path = axis_file()
+        if not file_path:
+            return
+        d = project_collect(file_path)
+        d["format"] = FILE_FORMAT
+        d["version"] = VERSION
+        # Without a measurement the stored one stays: this is also the
+        # way the settings reach the file where every file carries a
+        # timecode and no axis was ever measured.
+        if axis:
+            d["timeline"] = timeline_entries(axis, state.get("axis_clock"))
+            d["timeline_absolute"] = bool(state.get("axis_absolute"))
+        d["files"] = [{"path": p, "kind": a} for p, a in files]
+        settings_extend(d)
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(d, f, ensure_ascii=False, indent=1)
+        except OSError as e:
+            # A measurement of several minutes is in here. If it is lost,
+            # somebody has to hear about it, or the next start silently
+            # measures again.
+            print(T('  Project file could not be written: %s') % e)
+
+    def axis_read(paths):
+        """Reuse a previously measured axis if it still fits."""
+        file_path = axis_file()
+        if not file_path or not os.path.exists(file_path):
+            return None
+        try:
+            with open(file_path, encoding="utf-8") as f:
+                d = json.load(f) or {}
+        except (OSError, ValueError):
+            return None
+        return axis_still_valid(d, paths)
+
+    def axis_work_loop(paths, label_run):
+        """Wait for the envelopes, then measure.
+
+        Broken off where the list it was started for has gone: this is
+        the longest reading of the material there is.
+        """
+        while prework_busy():
+            if state.get("axis_run") != label_run:
+                return
+            time.sleep(0.4)
+        if state.get("axis_run") != label_run:
+            return
+        try:
+            data, text = axis_measure(paths)
+        except Exception as e:
+            data, text = {}, T('time axis not measurable: %s') % str(e)[:60]
+        # Counted like the check above: putting an answer about files
+        # that have left in would carry one axis into the next.
+        if state.get("axis_run") == label_run:
+            bridge_emit(bridge.axis, data or {}, text)
+
+    def axis_kick_off(paths):
+        """Measure wherever there are two files, timecode or not.
+
+        A clock is set by hand and is set wrong; the run measures anyway.
+        """
+        every = list(paths)
+        for row, _nv, _cv in assign_lines:
+            if row[0] not in every:
+                every.append(row[0])
+        if len(every) < 2:
+            return
+        if not axis_worth_measuring(files, every, state):
+            return
+        remembered = axis_read(every)
+        if remembered:
+            axis_present(remembered, "", remember=False)
+            return
+        if state.get("axis_running"):
+            # A file added while the measurement runs: the answer on its
+            # way is about the list without it. The request is kept and
+            # asked again once that answer is in, or the new file never
+            # gets measured at all.
+            state["axis_again"] = list(paths)
+            return
+        state["axis_running"] = True
+        label_run = state.get("axis_run", 0) + 1
+        state["axis_run"] = label_run
+        plan.begin("axis", T('Measuring time axis'), 3.0)
+        axis_label.setText(T('Measuring time axis ...'))
+        axis_label.setStyleSheet("color: %s" % COLOURS["quiet"])
+        threading.Thread(target=axis_work_loop, args=(every, label_run),
+                         daemon=True).start()
+
+    def axis_present(data, text, remember=True):
+        state["axis_running"] = False
+        axis_answer_kept(state)
+        plan.done("axis")
+        axis = (data or {}).get("axis") or {}
+        state["axis"] = axis
+        state["axis_clock"] = (data or {}).get("clock") or {}
+        state["axis_absolute"] = bool((data or {}).get("absolute"))
+        state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
+        state["no_place"] = set(path_key(p)
+                                for p in ((data or {}).get("no_place") or []))
+        if axis and remember:
+            axis_store(axis)
+        show_weak()
+        # A file nothing could place is proposed for "ignore this
+        # video", or for "Intro" where it is far shorter than the rest.
+        # A proposal, so it stops at anything answered.
+        for p in kind_proposal_say(state.get("clip_kinds") or {}, data):
+            kind_answered(p)
+        # And the Kind fields are said again even where no proposal
+        # moved one: which files sit nowhere is known only now.
+        kinds_said_again(state, video_kind_again)
+        axis_label.setText(text)
+        axis_label.setStyleSheet("color: %s" % (COLOURS["good"] if axis
+                                                 else COLOURS["warning"]))
+        player.spot(int(player.spot_s() * 1000))
+        player.window_draw()
+        window_enable()
+        window_position_show()
+        tc_column_show()
+        # Only now can it be said which file contains In point and Out point:
+        # relative values count from the start of the material, and that is
+        # known only after the measurement.
+        player_follow_up()
+        # Taken out before it is asked again, or a stored axis coming
+        # back through here would ask a third time.
+        if state.get("axis_again") is not None:
+            axis_kick_off(state.pop("axis_again"))
+
+    bridge.axis.connect(axis_present)
+
+    return axis_file, axis_kick_off, axis_store
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -6513,6 +6688,9 @@ def gui():
     HOP = 5.0
     tc_cache = {}
 
+    # The measuring itself stands above in make_time_axis. What stays
+    # here is the timecode a file carries: the axis reads it, and so
+    # does the timecode column.
     def real_tc(p):
         """Return the timecode the file itself carries, or nothing."""
         a = os.path.abspath(p)
@@ -6528,24 +6706,6 @@ def gui():
             except Exception:
                 tc_cache[a] = None
         return tc_cache[a]
-
-    def axis_measure(paths):
-        """Determine how all files sit relative to each other."""
-        return axis_with_blocks(paths, real_tc, HOP, blocks_of)
-
-    def axis_file():
-        """Return the project file, even before a name is settled.
-
-        There is exactly one. It comes into being while the time axis is
-        measured, at that point still next to the material, and moves along
-        once an output folder is chosen. Two copies of the same production
-        would be a trap: the wrong one gets opened.
-        """
-        target = out_folder.get() or commonest_folder()
-        if not target or not os.path.isdir(target):
-            return None
-        name = safe_filename(production_var.get().strip() or 'Project')
-        return os.path.join(target, "%s%s.json" % (PROJECT_PREFIX, name))
 
     def project_move():
         """Move the project file after a rename or a new output folder.
@@ -6639,156 +6799,6 @@ def gui():
         except NameError:
             pass            # GUI still being built, so without them
         return d
-
-    def axis_store(axis):
-        """Put the measurement into the project file.
-
-        Over two hours of material it takes minutes, so it should be there next
-        time. The file size and mtime are stored with it: if those no longer
-        match, it is measured again rather than carried on wrongly.
-        """
-        project_move()
-        file_path = axis_file()
-        if not file_path:
-            return
-        d = project_collect(file_path)
-        d["format"] = FILE_FORMAT
-        d["version"] = VERSION
-        # Without a measurement the stored one stays: this is also the
-        # way the settings reach the file where every file carries a
-        # timecode and no axis was ever measured.
-        if axis:
-            d["timeline"] = timeline_entries(axis, state.get("axis_clock"))
-            d["timeline_absolute"] = bool(state.get("axis_absolute"))
-        d["files"] = [{"path": p, "kind": a} for p, a in files]
-        settings_extend(d)
-        try:
-            with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(d, f, ensure_ascii=False, indent=1)
-        except OSError as e:
-            # A measurement of several minutes is in here. If it is lost,
-            # somebody has to hear about it, or the next start silently
-            # measures again.
-            print(T('  Project file could not be written: %s') % e)
-
-    def axis_read(paths):
-        """Reuse a previously measured axis if it still fits."""
-        file_path = axis_file()
-        if not file_path or not os.path.exists(file_path):
-            return None
-        try:
-            with open(file_path, encoding="utf-8") as f:
-                d = json.load(f) or {}
-        except (OSError, ValueError):
-            return None
-        return axis_still_valid(d, paths)
-
-    def axis_work_loop(paths, label_run):
-        """Wait for the envelopes, then measure.
-
-        Broken off where the list it was started for has gone: this is
-        the longest reading of the material there is.
-        """
-        while prework_busy():
-            if state.get("axis_run") != label_run:
-                return
-            time.sleep(0.4)
-        if state.get("axis_run") != label_run:
-            return
-        try:
-            data, text = axis_measure(paths)
-        except Exception as e:
-            data, text = {}, T('time axis not measurable: %s') % str(e)[:60]
-        # Counted like the check above: putting an answer about files
-        # that have left in would carry one axis into the next.
-        if state.get("axis_run") == label_run:
-            bridge_emit(bridge.axis, data or {}, text)
-
-    def axis_kick_off(paths):
-        """Measure wherever there are two files, timecode or not.
-
-        A clock is set by hand and is set wrong; the run measures anyway.
-        """
-        every = list(paths)
-        for row, _nv, _cv in assign_lines:
-            if row[0] not in every:
-                every.append(row[0])
-        if len(every) < 2:
-            return
-        if not axis_worth_measuring(files, every, state):
-            return
-        remembered = axis_read(every)
-        if remembered:
-            axis_present(remembered, "", remember=False)
-            return
-        if state.get("axis_running"):
-            # A file added while the measurement runs: the answer on its
-            # way is about the list without it. The request is kept and
-            # asked again once that answer is in, or the new file never
-            # gets measured at all.
-            state["axis_again"] = list(paths)
-            return
-        state["axis_running"] = True
-        label_run = state.get("axis_run", 0) + 1
-        state["axis_run"] = label_run
-        plan.begin("axis", T('Measuring time axis'), 3.0)
-        axis_label.setText(T('Measuring time axis ...'))
-        axis_label.setStyleSheet("color: %s" % COLOURS["quiet"])
-        threading.Thread(target=axis_work_loop, args=(every, label_run),
-                         daemon=True).start()
-
-    # The prework hands its files on to the time axis, and stands above
-    # this line: the way over is the same one voice_answered takes.
-    state["axis_kick_off"] = axis_kick_off
-
-    def axis_present(data, text, remember=True):
-        state["axis_running"] = False
-        axis_answer_kept(state)
-        plan.done("axis")
-        axis = (data or {}).get("axis") or {}
-        state["axis"] = axis
-        state["axis_clock"] = (data or {}).get("clock") or {}
-        state["axis_absolute"] = bool((data or {}).get("absolute"))
-        state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
-        state["no_place"] = set(path_key(p)
-                                for p in ((data or {}).get("no_place") or []))
-        if axis and remember:
-            axis_store(axis)
-        show_weak()
-        # A file nothing could place is proposed for "ignore this
-        # video", or for "Intro" where it is far shorter than the rest.
-        # A proposal, so it stops at anything answered.
-        for p in kind_proposal_say(state.get("clip_kinds") or {}, data):
-            kind_answered(p)
-        # And the Kind fields are said again even where no proposal
-        # moved one: which files sit nowhere is known only now.
-        kinds_said_again(state, video_kind_again)
-        axis_label.setText(text)
-        axis_label.setStyleSheet("color: %s" % (COLOURS["good"] if axis
-                                                 else COLOURS["warning"]))
-        player.spot(int(player.spot_s() * 1000))
-        player.window_draw()
-        window_enable()
-        window_position_show()
-        tc_column_show()
-        # Only now can it be said which file contains In point and Out point:
-        # relative values count from the start of the material, and that is
-        # known only after the measurement.
-        player_follow_up()
-        # Taken out before it is asked again, or a stored axis coming
-        # back through here would ask a third time.
-        if state.get("axis_again") is not None:
-            axis_kick_off(state.pop("axis_again"))
-
-    bridge.axis.connect(axis_present)
-
-    # Separate the speakers, locally: what the window does when a
-    # separation is started, followed and its result written down.
-    (speaker_split_kick_off, split_stop, voices_of,
-     several_set) = make_speaker_split(
-        QtCore, state, bridge, bridge_emit, plan, files, assign_lines,
-        voice_lines, remembered, split_run, split_line, split_label,
-        split_never, axis_store)
 
     def tc_column_show():
         """Fill the timecode column, real or computed."""
@@ -6919,6 +6929,28 @@ def gui():
         """
         QtCore.QTimer.singleShot(0, items_fresh)
         QtCore.QTimer.singleShot(0, assignment_fresh)
+
+    # Below kind_answered, the last of the four names axis_present
+    # reaches for. The prework hands its files on to the time axis and
+    # is built above this line: the way over is the same one
+    # voice_answered takes, through state.
+    axis_file, axis_kick_off, axis_store = make_time_axis(
+        state, files, plan, bridge, bridge_emit, assign_lines,
+        blocks_of, real_tc, HOP, prework_busy, out_folder,
+        production_var, commonest_folder, project_move,
+        project_collect, settings_extend, axis_label, player,
+        video_kind_again, kind_answered, show_weak,
+        tc_column_show, player_follow_up, window_enable,
+        window_position_show)
+    state["axis_kick_off"] = axis_kick_off
+
+    # Separate the speakers, locally: what the window does when a
+    # separation is started, followed and its result written down.
+    (speaker_split_kick_off, split_stop, voices_of,
+     several_set) = make_speaker_split(
+        QtCore, state, bridge, bridge_emit, plan, files, assign_lines,
+        voice_lines, remembered, split_run, split_line, split_label,
+        split_never, axis_store)
 
     def assignment_remember():
         for row, nv, cv in assign_lines:
