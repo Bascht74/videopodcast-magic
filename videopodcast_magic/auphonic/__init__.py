@@ -27,10 +27,10 @@ ask_choice = PROGRAM.ask_choice
 channel_count = PROGRAM.channel_count
 channel_text = PROGRAM.channel_text
 check_preset = PROGRAM.check_preset
-group_text = PROGRAM.group_text
 json = PROGRAM.json
 kept_channels = PROGRAM.kept_channels
 load_api_key = PROGRAM.load_api_key
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 re = PROGRAM.re
 report_findings = PROGRAM.report_findings
@@ -508,7 +508,7 @@ def run_single_production(audio, preset, presetname, key, target_folder,
           progress=T('Downloading %s') % name)
     if os.path.getsize(target) < 1000:
         raise RuntimeError(T('downloaded file is only %s bytes')
-                           % group_text(os.path.getsize(target)))
+                           % number_text(os.path.getsize(target), 0))
     print(T('  Result: %s (%s) -- stays next to the video file\n')
           % (os.path.basename(target), as_data_size(os.path.getsize(target) / 1e6)))
     fetch_text_outputs(key, files, target_folder, skip=best)
@@ -897,7 +897,8 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
         upload_args += ["-F", "%s=@%s" % (track["name"], track["axis"])]
     d = _parse_json(_curl_call(
         key, upload_args,
-        progress=T('Uploading %s tracks') % group_text(len(tracks))))
+        progress=T('Uploading %s tracks')
+        % number_text(len(tracks), 0)))
     absent = [x.get("id") for x in ((d.get("data") or {}).get(
         "multi_input_files") or []) if not x.get("input_file")]
     if absent:
@@ -990,7 +991,8 @@ def ask_track_names(old, fresh, default_value=None):
               % (i, name, old[i - 1] if i <= len(old) else "--"))
     if len(old) != len(fresh):
         print(T('  There are %s tracks there and %s here -- that does not '
-                'match.') % (group_text(len(fresh)), group_text(len(old))))
+                'match.') % (number_text(len(fresh), 0),
+                             number_text(len(old), 0)))
         possible = [("upload", T('upload everything again and recompute -- '
                                  'this costs credit')),
                     ("abort", T('cancel'))]
@@ -1106,9 +1108,10 @@ def reuse_production(key, existing, request, preset, tracks,
         parts = []
         if changed:
             parts.append(T('%s brought to the preset')
-                         % group_text(len(changed)))
+                         % number_text(len(changed), 0))
         if same:
-            parts.append(T('%s were already right') % group_text(len(same)))
+            parts.append(T('%s were already right')
+                         % number_text(len(same), 0))
         print(T('  Tracks: %s') % (", ".join(parts) or T('nothing to do')))
         for line in bad:
             print(as_warn(T('  Caution: track %s -- it keeps its settings.') % line))
@@ -1118,7 +1121,7 @@ def reuse_production(key, existing, request, preset, tracks,
             raise RuntimeError(
                 T('Tracks were added while changing (now %s). That makes '
                   'the mix\n  wrong. Please delete the tracks without a '
-                  'file at auphonic.com.') % group_text(len(now)))
+                  'file at auphonic.com.') % number_text(len(now), 0))
     if upload_again:
         print(T('  The files are uploaded again -- this costs credit.'))
         upload_args = ["-X", "POST",
@@ -1127,7 +1130,7 @@ def reuse_production(key, existing, request, preset, tracks,
             upload_args += ["-F", "%s=@%s" % (track["name"], track["axis"])]
         d = _parse_json(_curl_call(key, upload_args,
                         progress=T('Uploading %s tracks')
-                        % group_text(len(tracks))))
+                        % number_text(len(tracks), 0)))
         absent = [x.get("id") for x in ((d.get("data") or {}).get(
             "multi_input_files") or []) if not x.get("input_file")]
         if absent:
