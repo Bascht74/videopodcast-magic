@@ -113,7 +113,6 @@ cut_box_title = PROGRAM.cut_box_title
 cut_has_people = PROGRAM.cut_has_people
 cut_statistics = PROGRAM.cut_statistics
 cut_title_of = PROGRAM.cut_title_of
-decimal_text = PROGRAM.decimal_text
 delete_api_key = PROGRAM.delete_api_key
 desktop_is_dark = PROGRAM.desktop_is_dark
 every_audio_block = PROGRAM.every_audio_block
@@ -175,6 +174,7 @@ names_used_twice = PROGRAM.names_used_twice
 newer_release = PROGRAM.newer_release
 no_place_message = PROGRAM.no_place_message
 not_installed_note = PROGRAM.not_installed_note
+number_text = PROGRAM.number_text
 older_releases = PROGRAM.older_releases
 open_in_file_manager = PROGRAM.open_in_file_manager
 open_key_store_app = PROGRAM.open_key_store_app
@@ -2065,6 +2065,13 @@ def wide_too_short(number):
     not be shorter than the shortest shot, and the line says so before
     the run rather than after it.
 
+    Both numbers are typed by hand and nothing caps them, so they go
+    through the number helper and not through "%g", which turns into
+    exponential notation from a million on and leaves "1,5e+06 s" in
+    the German window. One decimal place: these are seconds somebody
+    may have typed as 2.5, "5" then reads as "5.0 s" like the other
+    number in the line, and a second place typed is rounded away.
+
     Returns the line, or "" where the two agree.
     """
     holds = float(number.get("wide-length") or 0.0)
@@ -2073,7 +2080,7 @@ def wide_too_short(number):
         return ""
     return T('The wide shot holds %s s, less than the shortest shot of '
              '%s s -- so it is merged away again and never appears.\n') % (
-                 decimal_text("%g" % holds), decimal_text("%g" % least))
+                 number_text(holds, 1), number_text(least, 1))
 
 
 def run_done_text(dry):
@@ -2146,20 +2153,25 @@ def speech_table_fill(Qt, QtGui, QtWidgets, table, d):
     lines, total, silence, length = (speaker_statistics(d) if d
                                       else ([], 0.0, 0.0, 0.0))
     table.setRowCount(len(lines) + (1 if length > 0 else 0))
+    # The minutes column goes through as_minutes, the three beside it
+    # through the helpers named here. The block count reaches four
+    # digits after nine minutes of recording: a block lasts at least
+    # 0.2 s and takes 0.35 s of silence to end it.
     for i, e in enumerate(lines):
         for column, text in ((0, e["name"]),
                              (1, as_minutes(e["seconds"])),
-                             (2, "%.1f %%" % e["share"]),
-                             (3, "%d" % e["blocks"]),
-                             (4, "%.1f s" % e["mean"])):
+                             (2, "%s %%" % number_text(e["share"], 1)),
+                             (3, group_text(e["blocks"])),
+                             (4, "%s s" % number_text(e["mean"], 1))):
             p = QtWidgets.QTableWidgetItem(text)
             if column:
                 p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
             table.setItem(i, column, p)
     if length > 0:
         i = len(lines)
+        quiet_share = number_text(100.0 * silence / length, 1)
         for column, text in ((0, T('Silence')), (1, as_minutes(silence)),
-                             (2, "%.1f %%" % (100.0 * silence / length)),
+                             (2, "%s %%" % quiet_share),
                              (3, ""), (4, "")):
             p = QtWidgets.QTableWidgetItem(text)
             p.setForeground(QtGui.QBrush(QtGui.QColor(COLOURS["quiet"])))
