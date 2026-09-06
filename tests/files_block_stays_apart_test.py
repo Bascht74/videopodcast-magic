@@ -63,11 +63,17 @@ check("the search skips the marked block",
       [os.path.basename(x) for x in chains[0][0]]
       == ["REC0001.wav", "REC0003.wav"],
       str([os.path.basename(x) for x in chains[0][0]]))
-got, _hints = vpm.collect_with_continuations([one], False, [two])
+# The line above reads one recording. This one reads every recording the
+# run would process, so a marked block landing in a neighbouring row --
+# or in a row of its own -- is caught as well.
+every_row = [os.path.basename(x)
+             for r, _d in vpm.group_recording_parts([one, other],
+                                                    apart=[two])
+             for x in r]
 check("and so does the run",
-      sorted(os.path.basename(x) for x in got)
-      == ["REC0001.wav", "REC0003.wav"],
-      str(sorted(os.path.basename(x) for x in got)))
+      sorted(every_row)
+      == ["Guest0001.wav", "REC0001.wav", "REC0003.wav"],
+      "%d files back: %s" % (len(every_row), sorted(every_row)))
 
 def shown(chains):
     """The grouping as the check compares it, minus the folder name."""
