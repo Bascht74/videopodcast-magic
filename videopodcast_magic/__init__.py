@@ -47,10 +47,9 @@ PROGRAM.__dict__ = globals()   # the names themselves, never a copy of them
 class OneName(types.ModuleType):
     """The program, whose pieces answer to the same names.
 
-    A piece binds the names it uses under its own, so a name bent from
-    outside -- which is what a test does, and nothing else does --
-    would reach this copy and leave the piece's standing. Bent here, it
-    is bent in every piece of this program that carries it.
+    A piece binds what it uses under its own name, so a bend from
+    outside -- only a test bends -- would reach this copy alone. Bent
+    here, every piece that carries the name follows.
     """
 
     def __setattr__(self, name, value):
@@ -63,9 +62,8 @@ class OneName(types.ModuleType):
 def pieces_answer_together():
     """Let a name bent on this program reach the pieces holding it.
 
-    True where it took. This needs the module as an object, and a run
-    that executes the file without registering it under its own name
-    leaves none -- such a run bends nothing either, so nothing is lost.
+    True where it took. A run that never registers this file under
+    its own name has no module object, and bends nothing either.
     """
     me = sys.modules.get(__name__)
     if me is None or vars(me).get("__file__") != __file__:
@@ -77,11 +75,10 @@ def pieces_answer_together():
 def beside(name, program=None):
     """One piece of this program, out of the folder this file lies in.
 
-    Read from its path, and not imported by name. The program is
-    started three ways -- installed, as a plain file, and executed from
-    an absolute path under a name a test picks -- and an import by name
-    finds the piece in the first of them only. A piece given *program*
-    gets it before it is read, and binds out of it what it uses.
+    By path, never by name: an import by name finds the piece only in
+    an installed copy, and the program is also started as a plain file
+    and from a path under a name a test picks. *program* is handed in
+    before the piece is read, to bind out of.
     """
     import importlib.util
     where = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -100,29 +97,25 @@ def beside(name, program=None):
 def take_from(piece):
     """Bind what a piece brought of its own, under this program.
 
-    A piece is a piece of this program and not a library beside it:
-    what it brings answers here under the same name, so that nothing
-    outside has to know which file a name ended up in. What it took
-    out of the program stands here already and is left alone.
+    A piece is not a library beside the program: what it brings
+    answers here under the same name, so nothing outside has to know
+    which file it ended up in.
     """
     for name, what in list(piece.__dict__.items()):
         if not name.startswith("__") and name not in globals():
             globals()[name] = what
 
 
-# ---------------------------------------------------------------------------
-# Language
-# ---------------------------------------------------------------------------
-# Every message is written in English here. A translation lives in the
-# folder "language" beside this one, keyed by the English text; T() looks
-# it up, and a missing entry shows English rather than a gap.
-#
-# Adding a language takes three steps:
-#   1. Copy language/de.po to the new two-letter code, and name that
-#      code at the end of this file.
-#   2. Translate every msgstr. Entries left out stay English.
-#   3. Nothing else. --lang offers the new code and a system set to it
-#      picks it automatically.
+# take_from places every name long before, so the `X = piece.X` lines
+# below say nothing about the binding order: they are for a reader, and
+# for source_no_loose_ends, which wants an origin for every name read.
+
+
+#---------------------------------------------------------------- Language
+# Every message is written in English here; language/ beside this one
+# keys a translation to it, and a missing entry shows English. To add
+# one: copy language/de.po to the new two-letter code, translate every
+# msgstr, and name the code where the catalogue is filled at the end.
 
 language = beside("language")
 CATALOGUE = language.CATALOGUE
@@ -140,9 +133,9 @@ texts_of_language = language.texts_of_language
 def set_language(name):
     """Switch every message to that language, English if it is unknown.
 
-    The code is held twice: beside this file, where T() reads it, and
-    here, which is where a reader of this program and every test look
-    for it. One door sets both, so they cannot come apart.
+    The code is held twice -- beside this file, where T() reads it,
+    and here, where a reader and every test look for it. One door sets
+    both, so they cannot come apart.
     """
     global LANG
     LANG = language.set_language(name)
@@ -162,75 +155,25 @@ def kept_language():
     return kept if isinstance(kept, str) and kept in languages() else ""
 
 
-def number_text(number, places=1, plus=False):
-    """Group the thousands and set the decimal mark, as the language does.
+# Read between the language and the setting up, and both edges are
+# measured: above, no T; after setup, no number_text. Either is fatal.
+workbench = beside("workbench", program=PROGRAM)
+take_from(workbench)
 
-    Not in two passes over the finished text: one language's thousands
-    mark is another's decimal mark, and measured on German the second
-    pass reads what the first wrote, "1,234,5" one way round and
-    "1.234.5" the other. So the halves are marked apart. *places* None
-    writes as many places as the number needs, the way "%g" does, and
-    *plus* signs a positive one.
-    """
-    # French and Russian group with a space, so nothing here may look
-    # for a particular character: the cut is made at the point "%f"
-    # wrote, while both halves are still plain digits.
-    text = ("%g" % float(number) if places is None
-            else "%.*f" % (max(0, int(places)), float(number)))
-    ahead = "-" if text.startswith("-") else ("+" if plus else "")
-    # "inf" and "nan" carry no digits to group, and int() stops the run
-    # over them. A fit with no spread of its own reports its error as
-    # inf, so this is reachable, and the word is handed on whole.
-    if not text.lstrip("-")[:1].isdigit():
-        return ahead + text.lstrip("-")
-    whole, _, rest = text.lstrip("-").partition(".")
-    # Over a million "%g" writes "1e+06", and int() stops over that too.
-    if whole.isdigit():
-        whole = format(int(whole), ",d").replace(",", T(","))
-    return ahead + whole + (T(".") + rest if rest else "")
+count_process_starts = workbench.count_process_starts
+only_reading = workbench.only_reading
 
 
-def channel_text(count):
-    """Say a channel count the way a person would.
-
-    One and two have names; above that the number does the work. An
-    unreadable file has no count at all, and then a guess would be worse
-    than saying so.
-    """
-    try:
-        count = int(count)
-    except (TypeError, ValueError):
-        return T('channel count unknown')
-    return {1: "mono", 2: "stereo"}.get(
-        count, TN(count, '%s channel', '%s channels') % number_text(count, 0))
-
-
-# Set to answer yes before the question is asked: a test run, a build
-# machine, anything with nobody in front of it. It answers for both
-# places that ask, the package manager and pip -- and nothing installs
-# without it, or without somebody saying yes.
-INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
-
-
-# What this program answers for. It rose to 9.0.1 the day all six
-# builder jobs carried it and all three systems had a way of getting
-# it offered to them. soxr is no part of it: without soxr the clock
-# comes out a hundred times coarser, and coarser is not broken.
+# What this program answers for. soxr is no part of it: without soxr
+# the clock comes out a hundred times coarser, and coarser is not broken.
 FFMPEG_FLOOR = (9, 0, 1)
 
 
-# A piece of its own, in the folder "setup" beside this one. Read here
-# at the top, because what stands under it wants tools and modules
-# that may not be there yet. The floor above stays: it is what this
-# program answers for, and the piece reads it out of here.
-
+# Read at the top: what stands under it wants tools and modules that
+# may not be there yet, so it binds only what is above this line.
 setup = beside("setup", program=PROGRAM)
 take_from(setup)
 
-# What this file itself calls out of the setting up. The rest of what
-# it brings answers here too, through take_from above; these are
-# written out because they are read in this file, and a name read here
-# and bound nowhere here is a loose end.
 _require_module = setup._require_module
 certificate_file = setup.certificate_file
 ffmpeg_can_be_had = setup.ffmpeg_can_be_had
@@ -242,17 +185,15 @@ soxr_note = setup.soxr_note
 tools_repaired = setup.tools_repaired
 
 
-# Set by main() before anything else happens, read by the window. It
-# stays on this side of the seam because main() rebinds it with global
-# as the run starts, and a copy over there would go on answering with
-# what stood before that.
+# main() rebinds this with global as the run starts, so it stays on
+# this side of the seam: a copy in a piece would go on answering with
+# what stood before.
 TOOL_TROUBLE = ("", "")
 
 
-# The floor is what the interface needs: PySide6 does not build below
-# 3.10. The command line alone could go lower, but one number is easier
-# to state than two. The ceiling is what the suite runs on; between the
-# two is untested.
+# The floor is what PySide6 builds on. The command line alone could go
+# lower, but one number is easier to state than two; the ceiling is
+# what the suite runs on, and between the two is untested.
 NEEDS_PYTHON = (3, 10)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
@@ -260,22 +201,12 @@ if sys.version_info < NEEDS_PYTHON:
              "%d.%d. Recommended version: %s."
              % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
 
-def only_reading(argv):
-    """True where the command line only wants the switch list or the version.
-
-    A question about the command line, asked where the command line is
-    read. Reading it needs neither numpy nor ffmpeg.
-    """
-    return any(a in ("-h", "--help", "--version") for a in argv)
-
-
 class Numpy:
     """Stands in for numpy until the first calculation asks for it.
 
-    What this file holds must not depend on how the program was
-    started, or its parts cannot import one another. Importing it
-    fetches nothing; --version answers cheaply because it calculates
-    nothing, not because argv was read while the file was being read.
+    Importing the program fetches nothing, so --version answers
+    cheaply because it calculates nothing, not because argv was read
+    while the file was being read.
     """
 
     def __getattr__(self, name):
@@ -285,33 +216,6 @@ class Numpy:
 
 
 np = Numpy()
-
-def count_process_starts(where):
-    """Write one line per process this program starts, into a file.
-
-    Process starts are what the Windows builder charges for, so the
-    suite counts them per test and prints the count beside the verdict.
-    Off unless VPM_COUNT_STARTS names a file. Only Popen is wrapped --
-    subprocess.run builds one itself, and wrapping both counted every
-    run twice.
-    """
-    was_popen = subprocess.Popen
-
-    def note(argv):
-        first = argv if isinstance(argv, str) else (argv[0] if argv else "?")
-        try:
-            with open(where, "a", encoding="utf-8") as f:
-                f.write("%s\n" % os.path.basename(str(first)))
-        except OSError:
-            return
-
-    class Popen(was_popen):
-        def __init__(self, *a, **k):
-            note(a[0] if a else k.get("args") or [])
-            was_popen.__init__(self, *a, **k)
-
-    subprocess.Popen = Popen
-
 
 if os.environ.get("VPM_COUNT_STARTS"):
     count_process_starts(os.environ["VPM_COUNT_STARTS"])
@@ -329,142 +233,81 @@ VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
 VERSION = "3.0.0b9"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
-# The names inside the stored files. It counts up whenever a key or
-# a stored value is renamed. An older file is refused with a clear
-# message rather than read as if it still fitted.
+# It counts up whenever a stored key or value is renamed. An older
+# file is refused with a clear message rather than half-read.
 FILE_FORMAT = 3
-CEILING_DBTP = -1.0                     # true-peak ceiling of the result
-LIMIT_MAX_DB = 6.0        # most the limiter may take off
 
-# What the mixed track is called, one name for both paths. Not only a
-# label: the handover file is written with it, Resolve names its audio
-# track after it, and reading a handover back looks it up by this word.
+# Not only a label: the handover is written with it, Resolve names its
+# audio track after it, and a handover read back is looked up by it.
 MIX_TRACK_NAME = "Full-Mix"
 
-# The switches that need several recordings. Everything else works on any
-# run since the two paths became one.
-ONLY_MULTITRACK = ("auphonic_resume", "assign", "multitrack")
-
-# A piece of its own, in the folder "choices" beside this one. Read
-# where its lines stood: it takes T alone, bound at the head of this
-# file, and ten pieces below bind seventeen of its names at their
-# heads, material the first of them.
+# It takes T alone; ten pieces below bind its names at their heads.
 choices = beside("choices", program=PROGRAM)
 take_from(choices)
 
 
-# A piece of its own, in the folder "livery" beside this one. Read
-# where its lines stood: it takes only os, re and sys, all three
-# imports at the top of this file, and fourteen pieces below bind
-# fifteen of its names at their heads, metadata the first of them.
+# It takes os, re and sys only; fourteen pieces below bind its names.
 livery = beside("livery", program=PROGRAM)
 take_from(livery)
 
-# What this file itself calls out of it. The rest of what it brings
-# answers here too, through take_from above; these three are written
-# out because they are read below, and a name read here and bound
-# nowhere here is a loose end.
 as_warn = livery.as_warn
 enable_colour_output = livery.enable_colour_output
 force_utf8_output = livery.force_utf8_output
 
 
-# A piece of its own, in the folder "dials" beside this one. Read
-# where its lines stood: it reads no name out of the program, and six
-# pieces below bind twenty-six of its names at their heads.
+# It reads no name out of the program; six pieces below bind its own.
 dials = beside("dials", program=PROGRAM)
 take_from(dials)
 
-# What this file itself calls out of it. The rest of what it brings
-# answers here too, through take_from above; these three are written
-# out because they are read below, and a name read here and bound
-# nowhere here is a loose end.
 CUT_CHOICES = dials.CUT_CHOICES
 MIN_EDIT_DURATION_S = dials.MIN_EDIT_DURATION_S
 SILENCE_HOLD_S = dials.SILENCE_HOLD_S
 
 
-def shell_quote(cmd):
-    p = subprocess.run(cmd, capture_output=True)
-    if p.returncode:
-        raise RuntimeError(p.stderr.decode("utf-8", "replace")[-2000:])
-    return p
-
-
-# A piece of its own, in the folder "filing" beside this one. Read
-# where its lines stood: ten pieces below bind twenty of its names at
-# their heads, and no line above it reads one.
+# Ten pieces below bind its names; no line above this one reads any.
 filing = beside("filing", program=PROGRAM)
 take_from(filing)
 
-# What this file itself calls out of it: the two containers. path_key
-# is not among them -- it is read inside the piece and nowhere here.
 ByFile = filing.ByFile
 FileSet = filing.FileSet
 
 
-# A piece of its own, in the folder "stowage" beside this one. Read
-# where its lines stood: kept_language far above reaches back for
-# settings through PROGRAM, cache_folder is read 348 lines below, and
-# logbook, the next piece read, binds cache_folder at its head.
-
+# Read before logbook, which binds cache_folder at its head.
+# kept_language stands far above and reaches settings through PROGRAM.
 stowage = beside("stowage", program=PROGRAM)
 take_from(stowage)
 
-# What this file itself calls out of it. The rest of what it brings
-# answers here too, through take_from above; this one is written out
-# because it is read below, and a name read here and bound nowhere
-# here is a loose end.
 cache_folder = stowage.cache_folder
 
 
-# A piece of its own, in the folder "logbook" beside this one. Read
-# where its lines stood: cache_folder, the last of the four names it
-# takes, stands eight lines above, and soundings sixteen below binds
+# Read after cache_folder above and before soundings, which binds
 # outside_say at its head, as do desktop, hearing, herald and ui.
-
 logbook = beside("logbook", program=PROGRAM)
 take_from(logbook)
 
-# What this file itself calls out of it. The rest of what it brings
-# answers here too, through take_from above; these two are written out
-# because they are read below, and a name read here and bound nowhere
-# here is a loose end.
 installed_by_a_package_manager = logbook.installed_by_a_package_manager
 mark_time = logbook.mark_time
 
 
-# A piece of its own, in the folder "soundings" beside this one. Read
-# where its lines stood: outside_say, the last of the eight it takes,
-# stands right above, and timecode, six lines below, binds ffprobe_json
-# at its head -- eleven pieces bind three of these names at theirs.
-
+# Read after outside_say above and before timecode, which binds
+# ffprobe_json at its head, as do ten pieces after it.
 soundings = beside("soundings", program=PROGRAM)
 take_from(soundings)
 
-# What this file itself calls out of it. The rest of what it brings
-# answers here too, through take_from above; these two are written out
-# because they are read below, and a name read here and bound nowhere
-# here is a loose end.
 clean_probe_cache = soundings.clean_probe_cache
 ffprobe_json = soundings.ffprobe_json
 
 
 #---------------------------------------------------------- Time and timecode
-# A piece of its own, in the folder "timecode" beside this one. Read
-# above every piece below it: twelve of them bind sixteen of its names
-# at their heads, and metadata, the next one read, binds seven.
-
+# Read above every piece below: twelve bind its names at their heads.
 timecode = beside("timecode", program=PROGRAM)
 take_from(timecode)
 
 
 #----------------------------------------------------- The spoken language
 
-# The audio track tag and the recognition language are two different
-# code systems: ffmpeg wants three letters after ISO 639-2/B, both
-# recognisers the two letter code. Only the plausible ones are listed;
-# anything else is passed on as it stands and works itself out.
+# ffmpeg wants three letters after ISO 639-2/B, both recognisers the
+# two-letter code. Anything not listed is passed on as it stands.
 SPEECH_CODES = {
     "ger": "de", "deu": "de", "eng": "en", "fra": "fr", "fre": "fr",
     "spa": "es", "ita": "it", "nld": "nl", "dut": "nl", "por": "pt",
@@ -476,10 +319,8 @@ SPEECH_CODES = {
 }
 
 
-# What the interface offers. The tag is what ffmpeg wants on the audio
-# track, and the recogniser is told which language to expect.
-# Only languages with both are listed -- offering one whose recognition
-# code is unknown would promise a transcript that cannot come.
+# What the interface offers -- only languages with both codes, since
+# an unknown recognition code would promise a transcript that cannot come.
 SPOKEN_LANGUAGES = (
     ("ger", "German"), ("eng", "English"), ("fra", "French"),
     ("spa", "Spanish"), ("ita", "Italian"), ("nld", "Dutch"),
@@ -520,123 +361,21 @@ def language_of_system():
 
 
 #-------------------------------------------------------- What a file says
-# A piece of its own, in the folder "metadata" beside this one. Read
-# where its lines stood: fifteen of its names are bound at the head of
-# six pieces read below, and every one of those six finds them here.
-
+# Read above the six pieces that bind its names at their heads.
 metadata = beside("metadata", program=PROGRAM)
 take_from(metadata)
 
 
-#---------------------------------------------------------- Collecting files
-
-# What a run works out from the files it was given -- the time axis,
-# the offsets, the names, the picture levels, the colours and the
-# sliders -- stands in a piece of its own, in the folder "bearings"
-# beside this one, and is read far below, where the pieces are read.
-
-# Two functions stay here with the constant they use, for one measured
-# reason: pieces read before the bearings bind them at their heads --
-# the hearing and the material -- and a head binding reaches into this
-# file only.
-
-
-def safe_filename(name):
-    return re.sub(r"[^A-Za-z0-9_.+-]", "_", name) or "track"
-
-
-PHAT_BAND = (300.0, 3500.0)
-
-
-def gcc_phat_offset(x, y, rate, max_ms=120.0):
-    """Return by how many milliseconds y arrives later than x.
-
-    GCC-PHAT: the cross spectrum is normalised to magnitude one across the
-    speech band so only the phase counts. Against reverberation and against
-    different microphones that is far more robust than a plain cross
-    correlation, and it measures to a fraction of a sample rather than to an
-    envelope grid. Returns (milliseconds, sharpness of the peak).
-    """
-    n = 1 << int(np.ceil(np.log2(len(x) + len(y))))
-    X, Y = np.fft.rfft(x, n), np.fft.rfft(y, n)
-    R = np.conj(X) * Y
-    f = np.fft.rfftfreq(n, 1.0 / rate)
-    band = (f >= PHAT_BAND[0]) & (f <= PHAT_BAND[1])
-    W = np.zeros_like(R)
-    W[band] = R[band] / np.maximum(np.abs(R[band]), 1e-12)
-    r = np.fft.irfft(W, n)
-    size = int(max_ms / 1000.0 * rate)
-    corr_window = np.concatenate([r[-size:], r[:size + 1]])
-    k = int(np.argmax(corr_window))
-    peak = float(corr_window[k])
-    if 0 < k < len(corr_window) - 1:
-        a, b, c = corr_window[k - 1], corr_window[k], corr_window[k + 1]
-        denominator = a - 2 * b + c
-        fine = 0.5 * (a - c) / denominator if abs(denominator) > 1e-12 else 0.0
-    else:
-        fine = 0.0
-    return ((k - size + fine) / rate * 1000.0,
-            peak / (float(np.std(corr_window)) + 1e-12))
-
-
-#---------------------------------------------------------------- Video data
-
-def video_facts(path, fps_default=None, tc_default_value=None):
-    d = ffprobe_json(path)
-    v = next((s for s in d.get("streams", []) if s.get("codec_type") == "video"), None)
-    if v is None:
-        raise RuntimeError(T('no video track in %s') % os.path.basename(path))
-    a = [s for s in d.get("streams", []) if s.get("codec_type") == "audio"]
-    fps = fps_default
-    if not fps:
-        r = v.get("avg_frame_rate") or v.get("r_frame_rate") or "30/1"
-        try:
-            num, the_one = (int(x) for x in r.split("/"))
-            fps = num / the_one if the_one else 30.0
-        except Exception:
-            fps = 30.0
-    tc = tc_default_value
-    if tc is None:
-        # The tracks before the file, for the reason in file_timecode:
-        # the track is the camera's clock, the file level is ffmpeg's
-        # reading of it, and the camera wins where they disagree.
-        for source in [s.get("tags", {}) or {} for s in d.get("streams", [])] +\
-                      [d.get("format", {}).get("tags", {})]:
-            if source.get("timecode"):
-                tc = source["timecode"]
-                break
-    dur = float(d.get("format", {}).get("duration") or v.get("duration") or 0.0)
-    label_text = 0.0
-    try:
-        num, the_one = (float(x) for x in str(v.get("r_frame_rate")
-                                          or "0/0").split("/"))
-        label_text = num / the_one if the_one else 0.0
-    except Exception:
-        label_text = 0.0
-    return {"fps": fps, "tc": tc, "duration": dur, "audio": a, "video": v,
-            "width": v.get("width"), "height": v.get("height"),
-            "nominal": label_text or fps,
-            "tags": (d.get("format") or {}).get("tags") or {}}
-
-
 #---------------------------------------------------------- The herald
-# A piece of its own, in the folder "herald" beside this one. Read
-# where its lines stood, before the material: that binds the progress
-# line and the progress reading at its own head, further down.
+# Read before the material, which binds the progress line at its head.
 
-# The run says which stage it is in, and how far that stage is. The
-# interface draws one bar out of it; on the command line nothing is
-# connected and the calls cost a comparison. It stays in this file
-# because the window sets it on the program, which reaches no piece.
+# The window sets this on the program, a write that reaches no piece,
+# so it stays on this side of the seam.
 PROGRESS_SINK = None
 
 herald = beside("herald", program=PROGRAM)
 take_from(herald)
 
-# What this file itself calls out of the herald. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 redirect_console = herald.redirect_console
 running_from = herald.running_from
 watch_outside_calls = herald.watch_outside_calls
@@ -644,54 +383,37 @@ write_through = herald.write_through
 
 
 #--------------------------------------------------------- The hearing
-# A piece of its own, in the folder "hearing" beside this one. Read
-# after the herald, whose progress line it binds at its own head, and
-# before the material, which binds twelve of its names at that one.
+# Read after the herald, whose progress line it binds, and before the
+# material, which binds twelve of its names.
 
 hearing = beside("hearing", program=PROGRAM)
 take_from(hearing)
 
-# What this file itself calls out of the hearing. The rest of what it
-# brings answers here too, through take_from above; this one is
-# written out because it is read in this file, and a name read here
-# and bound nowhere here is a loose end.
 clean_envelope_cache = hearing.clean_envelope_cache
 
 
 #--------------------------------------------- Keeping itself up to date
-# A piece of its own, in the folder "upkeep" beside this one. Read
-# after the herald, whose write_through it binds, and before the
-# separation, which binds PIP_SOURCE at its own head.
+# Read after the herald, whose write_through it binds, and before the
+# separation, which binds PIP_SOURCE.
 
-# Set by the window: callable(job) that runs job(say) in a thread, its
-# lines going into the Output tab. It stays in this file because the
-# window sets it on the program, which reaches no piece.
+# Set by the window on the program, a write that reaches no piece:
+# callable(job), running job(say) in a thread into the Output tab.
 UPDATE_SINK = None
 
 upkeep = beside("upkeep", program=PROGRAM)
 take_from(upkeep)
 
-# What this file itself calls out of the upkeep. The rest of what it
-# brings answers here too, through take_from above; these two are
-# written out because they are read in this file, and a name read here
-# and bound nowhere here is a loose end.
 update_from_command_line = upkeep.update_from_command_line
 update_note = upkeep.update_note
 
 
 #---------------------------------------------------------- What is said
-# A piece of its own, in the folder "speech" beside this one. It binds
-# what it takes out of this file, and SPEECH_CODES is the last of that
-# -- so it could be read from there down; it is read here, above the
-# run that wants it.
+# SPEECH_CODES above is the last name it binds, so anywhere from there
+# down would do; here, above the run that wants it.
 
 speech = beside("speech", program=PROGRAM)
 take_from(speech)
 
-# What this file itself calls out of the recognition. The rest of what
-# it brings answers here too, through take_from above; these are
-# written out because they are read in this file, and a name read here
-# and bound nowhere here is a loose end.
 CLOSING_MARKS = speech.CLOSING_MARKS
 clause_break_times = speech.clause_break_times
 recognise_speech = speech.recognise_speech
@@ -719,22 +441,19 @@ def main():
         return 0
     ap = build_argument_parser()
     args = ap.parse_args()
-    # The language before the first sentence is made, not before the
-    # first one is printed: the complaint about ffmpeg below is written
-    # down here and shown much later. Only where one was typed, or the
-    # system's language and the one kept from an earlier run are lost.
+    # Before the first sentence is made, not before the first is
+    # printed: the ffmpeg complaint below is written here and shown
+    # much later. Only where one was typed, or the kept one is lost.
     if args.lang:
         set_language(args.lang)
-    # --update wants no files and no tools, so it is answered before
-    # either is looked for -- a broken installation is one of the
-    # reasons to reach for it. It is the only way the command line
-    # fetches anything.
+    # --update wants no files and no tools, and a broken installation
+    # is a reason to reach for it, so it is answered before either is
+    # looked for.
     if args.update_now:
         return update_from_command_line()
-    # Everything this program does goes through ffmpeg, so below the
-    # floor there is nothing to start. Behind only_reading() and
-    # --update on purpose: --update is the way out of a broken
-    # installation and must not fail on the thing it repairs.
+    # Everything goes through ffmpeg, so below the floor there is
+    # nothing to start. Behind only_reading() and --update on purpose:
+    # --update must not fail on the thing it repairs.
     global TOOL_TROUBLE
     TOOL_TROUBLE = find_required_tools()
     mark_time("the tools are found")
@@ -750,20 +469,17 @@ def main():
     rest = [a for a in rest if not a.startswith("--lang=")]
     to_the_window = not rest
     if to_the_window:
-        # Qt before the console goes into the log file. It is a hundred
-        # megabyte download on a machine that has none, and behind the
-        # redirect the terminal would stand silent for minutes and then
-        # exit without a word.
+        # Qt before the console goes into the log file: a hundred
+        # megabyte download, and behind the redirect the terminal would
+        # stand silent for minutes and exit without a word.
         _require_module("PySide6.QtWidgets", "PySide6")
-        # Nothing is said here: this path ends in a window, and the
-        # program is not started from a console. Where the log is
-        # stands in the Help menu instead.
+        # Nothing is said here: this path ends in a window. Where the
+        # log is stands in the Help menu instead.
         redirect_console()
         mark_time("the log is open")
-    # A place in the program list, laid once and never again. Below the
-    # branch on purpose: redirect_console() renames the running log to
-    # the backup, so a line written before it lands in the log of the
-    # run before, where the Help menu never looks.
+    # A place in the program list, laid once. Below the branch on
+    # purpose: redirect_console() renames the running log, so a line
+    # written above it lands in the log of the run before.
     beside("desktop", program=PROGRAM).lay_on_first_start()
     mark_time("the place in the program list is settled")
     if to_the_window:
@@ -772,22 +488,19 @@ def main():
             code = piece.gui()
             if code != piece.LANGUAGE_AGAIN:
                 return code
-            # A language was chosen in the window and the window took
-            # itself down for it. The choice is written down already;
-            # it is read back here so the next window speaks it.
+            # The window took itself down for a chosen language; the
+            # choice is read back so the next one speaks it.
             set_language(kept_language() or system_locale())
     force_utf8_output()
     enable_colour_output()
-    # Whoever typed a command line has a console, so it is said there --
-    # after the language is settled, and before the banner claims a run
-    # is starting.
+    # Whoever typed a command line has a console: said there, after the
+    # language is settled and before the banner claims a run starts.
     if TOOL_TROUBLE[0] and not tools_repaired(*TOOL_TROUBLE):
         return 1
     print("videopodcast-magic %s   %s\n%s\n"
           % (VERSION, python_note(), running_from()))
-    # Said, not asked. A run started from a script must not stop for a
-    # question, and this is not a fault -- only a coarser correction.
-    # Where nothing could be done about it, nothing is said either.
+    # Said, not asked: a run started from a script must not stop for a
+    # question, and a coarser correction is not a fault.
     if not soxr_available() and ffmpeg_can_be_had():
         print(as_warn(soxr_note()))
     update_note()
@@ -846,11 +559,9 @@ def main():
     if run_preflight(args, audio_paths, video_paths):
         return 1
     if args.multitrack and not audio_paths:
-        # Cameras only: their own audio becomes the track. How many
-        # tracks that is has to be measured, not counted -- one camera
-        # with two clip-on microphones is two of them. So the plan is
-        # built first and the decision falls behind it; a camera with
-        # one microphone drops into the ordinary path there.
+        # Cameras only: their own audio becomes the track, and how many
+        # tracks that is has to be measured -- one camera with two
+        # microphones is two. So the plan is built before the decision.
         return multitrack_or_single(args, ap, audio_paths, video_paths)
     if not audio_paths:
         # Picture only, no multitrack: the camera audio becomes the track.
@@ -871,64 +582,26 @@ def main():
     if missing:
         print(missing)
         return 1
-    # One way in, whatever --multitrack says. The switch decides how the
-    # recordings are grouped, and nothing else -- not which time axis is
-    # built, not which arithmetic places the window, not which code
-    # writes the files. One axis for one job.
+    # One way in, whatever --multitrack says: the switch decides how
+    # the recordings are grouped and nothing else -- not the time axis,
+    # not the arithmetic, not which code writes the files.
     return multitrack_or_single(args, ap, audio_paths, video_paths)
 
 
 #------------------------------------------------ Beside the window
-# Named here rather than inside the interface section: none of them
-# touches a widget, and other sections reach in for them.
-
-
-def finished_tracks_find(base):
-    """Report whether processed tracks from Auphonic are already there.
-
-    After a run the output folder holds a subfolder with the single tracks.
-    Choosing the same folder again usually means reassembling rather than
-    uploading again, so it is offered.
-    """
-    if not base or not os.path.isdir(base):
-        return None
-    for name in ("auphonic-tracks",):
-        p = os.path.join(base, name)
-        if os.path.isdir(p) and any(
-                os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES
-                for f in os.listdir(p)):
-            return p
-    return None
-
-
-class Stopped(Exception):
-    """The run was broken off from the window."""
-
-
-# What is running right now, so that breaking off can end it. A flag on
-# its own would not do: the run spends most of its minutes waiting for
-# ffmpeg, and a child nobody tells goes on writing long after the window
-# says it has stopped.
+# What is running right now, so that breaking off can end it. A flag
+# alone would not do: the run waits on ffmpeg for most of its minutes,
+# and a child nobody tells goes on writing after the window has stopped.
 RUN_STOP = {"wanted": False, "children": set(), "at": ""}
 
 
-def stop_wanted():
-    """Whether somebody has asked for the run to stop."""
-    return bool(RUN_STOP["wanted"])
-
-
 #---------------------------------------------------------- The material
-# A piece of its own, in the folder "material" beside this one. Read
-# after stop_wanted, which it binds, and before the checking, which
-# binds the camera margin, the clipping and parallel_map out of it.
+# Read before the checking, which binds the camera margin, the
+# clipping and parallel_map out of it.
 
 material = beside("material", program=PROGRAM)
 take_from(material)
 
-# What this file itself calls out of the material. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 channel_count = material.channel_count
 channel_filter = material.channel_filter
 expand_chains_to_tracks = material.expand_chains_to_tracks
@@ -945,17 +618,12 @@ widest_track = material.widest_track
 
 
 #---------------------------------------------------------- The bearings
-# A piece of its own, in the folder "bearings" beside this one. Read
-# after the material, whose names it binds, and before the checking;
-# the window's colours and the writing of the cut list it reads late.
+# Read after the material, whose names it binds, and before the
+# checking; the window's colours and the cut list it reads late.
 
 bearings = beside("bearings", program=PROGRAM)
 take_from(bearings)
 
-# What this file itself calls out of the bearings. The rest of what
-# it brings answers here too, through take_from above; these are
-# written out because they are read in this file, and a name read
-# here and bound nowhere here is a loose end.
 check_mode_fits_input = bearings.check_mode_fits_input
 guess_speaker_name = bearings.guess_speaker_name
 split_audio_and_video = bearings.split_audio_and_video
@@ -963,17 +631,12 @@ together_chains = bearings.together_chains
 
 
 #--------------------------------------------------------- The preflight
-# A piece of its own, in the folder "preflight" beside this one. Read
-# after Stopped, RUN_STOP and stop_wanted, which it binds, and before
-# the separation, which binds run_ffmpeg_with_progress out of it.
+# Read after RUN_STOP, which it binds, and before the separation,
+# which binds run_ffmpeg_with_progress out of it.
 
 preflight = beside("preflight", program=PROGRAM)
 take_from(preflight)
 
-# What this file itself calls out of the checking. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 PLATFORMS = preflight.PLATFORMS
 check_preset = preflight.check_preset
 clean_preflight_cache = preflight.clean_preflight_cache
@@ -984,59 +647,38 @@ run_preflight = preflight.run_preflight
 
 
 #---------------------------------------------------------- The processing
-# A piece of its own, in the folder "auphonic" beside this one. Read
-# after the checking, because choose_preset asks it whether the preset
-# fits; the checking reaches back for read_preset, through PROGRAM.
+# Read after the checking, because choose_preset asks it whether the
+# preset fits; the checking reaches back for read_preset, through PROGRAM.
 
 auphonic = beside("auphonic", program=PROGRAM)
 take_from(auphonic)
 
-# What this file itself calls out of the processing. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 api_key_from_anywhere = auphonic.api_key_from_anywhere
 print_presets = auphonic.print_presets
 tracks_folder = auphonic.tracks_folder
 
 
 #-------------------------------------------------------- The separation
-# A piece of its own, in the folder "speakers" beside this one. Read
-# here and not where it is first used, because the cut and the window
-# bind names out of it: this line stands before the two that read them.
+# Read before the cut and the window, which bind names out of it.
 
-# Measured once and kept: importing pyannote takes seconds, and the
-# question is asked wherever a separation might be wanted. forget_
-# speaker_split() throws it away, because after an install the answer
-# from before it is about an installation that is gone.
-
-# The two stay here because the separation rebinds them as it runs.
-# A copy in the piece would go stale under a name bent from outside,
-# so it reads and writes them through the program.
+# The two stay here, measured: the separation writes them back with
+# PROGRAM.name = value, and source_names_stay_fresh goes red over a
+# name written that way and bound at the top of a piece.
 _SPEAKER_READY = None
 _SPEAKER_WHY = ""
 
 speakers = beside("speakers", program=PROGRAM)
 take_from(speakers)
 
-# Nothing in this file calls into the separation, so nothing is
-# written out here: what the piece brings answers under this program
-# through take_from above, and that is what the cut and the window
-# bind out of it.
 
 
 #---------------------------------------------------------- The project
-# A piece of its own, in the folder "resolve" beside this one. Read
-# here and not where it is first used, because it binds what it takes
-# out of this file: Finding, which the preflight above brings in.
+# Read here, not where it is first used: it binds Finding, which the
+# preflight above brings in.
 
 resolve = beside("resolve", program=PROGRAM)
 take_from(resolve)
 
-# What this file itself calls out of the project building. The rest of
-# what it brings answers here too, through take_from above; these are
-# written out because they are read in this file, and a name read here
-# and bound nowhere here is a loose end.
 CLIP_COLOURS = resolve.CLIP_COLOURS
 CLIP_COLOURS_RGB = resolve.CLIP_COLOURS_RGB
 CLIP_COLOURS_RGB_DARK = resolve.CLIP_COLOURS_RGB_DARK
@@ -1062,17 +704,11 @@ timeline_frame_rate = resolve.timeline_frame_rate
 
 
 #-------------------------------------------------------------- The cut
-# A piece of its own, in the folder "cut" beside this one. Read here
-# and not where it is first used, because the window binds names out
-# of it: this line has to stand before the one that reads the window.
+# Read before the line that reads the window, which binds its names.
 
 cut = beside("cut", program=PROGRAM)
 take_from(cut)
 
-# What this file itself calls out of the cutting. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 MIN_SPEECH_TO_SWITCH_S = cut.MIN_SPEECH_TO_SWITCH_S
 WIDE_AFTER_S = cut.WIDE_AFTER_S
 finish_without_auphonic = cut.finish_without_auphonic
@@ -1089,44 +725,29 @@ write_metrics_csv = cut.write_metrics_csv
 
 
 #------------------------------------------------------------ The chain
-# A piece of its own, in the folder "pipeline" beside this one. Read
-# after the cut, whose names it uses, and before the window, which
-# binds unpack_kind out of it.
+# Read after the cut, whose names it uses, and before the window,
+# which binds unpack_kind out of it.
 
 pipeline = beside("pipeline", program=PROGRAM)
 take_from(pipeline)
 
-# What this file itself calls out of the chain. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 extract_audio_from_video = pipeline.extract_audio_from_video
 multitrack_or_single = pipeline.multitrack_or_single
 
 
 #------------------------------------------------------------ The orders
-# A piece of its own, in the folder "orders" beside this one. Read this
-# late because its head binds MIN_SPEECH_TO_SWITCH_S and WIDE_AFTER_S
-# out of the cut just above, PLATFORMS and python_note from higher up.
-
-# The window asks beside() for the same piece and is handed this one,
-# read already. Until 6.9.2026 only the window asked, so a run on the
-# command line read the folder not at all.
-
+# Read this late because its head binds MIN_SPEECH_TO_SWITCH_S and
+# WIDE_AFTER_S out of the cut just above. The window asks beside() for
+# the same piece and is handed this one, read already.
 orders = beside("orders", program=PROGRAM)
 take_from(orders)
 
-# What this file itself calls out of the orders. The rest of what it
-# brings answers here too, through take_from above; these are written
-# out because they are read in this file, and a name read here and
-# bound nowhere here is a loose end.
 build_argument_parser = orders.build_argument_parser
 
 
 #-------------------------------------------------------- The interface
-# A piece of its own, in the folder "ui" beside this one. It is read on
-# the way to the window and not here: a run on the command line opens
-# none and then never reads it.
+# Read on the way to the window and not here: a run on the command
+# line opens none and never reads it.
 
 
 def window():
@@ -1134,10 +755,9 @@ def window():
     global ui
     ui = beside("ui", program=PROGRAM)
     take_from(ui)
-    # A name bent on this program before the window was read. The
-    # window binds its own under the same name and would stand on that
-    # one, so the bend is carried in -- which a piece read on the way
-    # through gets from pieces_answer_together() for nothing.
+    # A name bent on this program before the window was read: the
+    # window binds its own under that name and would stand on it, so
+    # the bend is carried in.
     for name, what in list(vars(ui).items()):
         if not name.startswith("__") and globals().get(name, what) is not what:
             setattr(ui, name, globals()[name])
@@ -1147,9 +767,8 @@ def window():
 def __getattr__(name):
     """A name of the window, asked for before the window was read.
 
-    What the window brings stands here once it has been read, and
-    until then this answers by reading it. So this file hands out the
-    same names as it did when it read the window on its way through.
+    What the window brings stands here once it has been read; until
+    then this answers by reading it.
     """
     if name.startswith("__"):
         raise AttributeError(name)
@@ -1160,16 +779,12 @@ def __getattr__(name):
 pieces_answer_together()
 
 
-# ---------------------------------------------------------------------------
-# Catalogue
-# ---------------------------------------------------------------------------
-# Every message of this program in the other languages stands in a file
-# of its own beside this one. How to add a language: see the top.
+#--------------------------------------------------------------- Catalogue
+# One file per language beside this one. How to add one: see the top.
 
 CATALOGUE["de"] = texts_of_language("de")
-# German is complete; the eleven after it are partial, and every text
-# they leave out appears in English. Arabic reads from right to left,
-# and the window turns itself round for it.
+# German is complete; the eleven after it are partial, and what they
+# leave out appears in English. Arabic turns the window round.
 CATALOGUE["es"] = texts_of_language("es")
 CATALOGUE["pt"] = texts_of_language("pt")
 CATALOGUE["fr"] = texts_of_language("fr")
@@ -1182,8 +797,7 @@ CATALOGUE["ja"] = texts_of_language("ja")
 CATALOGUE["hi"] = texts_of_language("hi")
 CATALOGUE["ar"] = texts_of_language("ar")
 
-# Where the window's language comes from: what somebody chose in an
-# earlier run, and the system where nobody has chosen yet. --lang beats
+# What somebody chose in an earlier run, else the system. --lang beats
 # both, and main() applies it once the command line has been read.
 LANG = set_language(kept_language() or system_locale())
 

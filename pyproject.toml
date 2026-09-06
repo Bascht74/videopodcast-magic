@@ -97,6 +97,7 @@ packages = [
     "videopodcast_magic",
     "videopodcast_magic.auphonic",
     "videopodcast_magic.bearings",
+    "videopodcast_magic.workbench",
     "videopodcast_magic.choices",
     "videopodcast_magic.cut",
     "videopodcast_magic.desktop",
