@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 """The cut: who is on camera when, and what carries it out of here.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name, so
-that nothing in here comes from nowhere.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# cutting reads as it did in the one file. Three are missing and stay
-# below: GUI_RUNNING, which the program sets when the window comes up;
-# choices_shut and distribute_tracks_to_cameras, whose files come later.
+# What this piece uses out of the program, bound once. GUI_RUNNING,
+# choices_shut and distribute_tracks_to_cameras stay below.
 
 ByFile = PROGRAM.ByFile
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
@@ -125,10 +119,8 @@ words_from_handover = PROGRAM.words_from_handover
 words_of_recording = PROGRAM.words_of_recording
 
 
-# numpy is the one name here that the program has still to fetch:
-# it holds a stand-in until the first sum asks, and binds the real
-# module under its own name then -- which a copy taken up there
-# would never see. So this asks the program once, the same way.
+# numpy is the one name the program still has to fetch: it binds the
+# real module on the first sum, which a copy taken up there would miss.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
 
@@ -142,44 +134,37 @@ class LateNumpy:
 np = LateNumpy()
 
 # A speaker has to hold the floor this long before the camera follows.
-# Half a second of "yes" used to draw the camera over, and the minimum
-# edit duration then held it on the wrong person for seconds.
+# Half a second of "yes" would drag it onto the wrong person for seconds.
 MIN_SPEECH_TO_SWITCH_S = 1.5
 
-# A label that is not a person: its segments average shorter than this
-# and it holds less than this share of the recognised speech. A
-# threshold on total duration does not work -- the largest such heap
-# runs longer than a host does elsewhere.
+# A label that is not a person: segments shorter than this on average,
+# and less than this share of the recognised speech. Total duration
+# does not work -- the largest such heap outruns a host.
 STRAY_MEAN_S = 1.5
 STRAY_SHARE = 0.10
 
 # Restlessness: this many entries inside this window mean the
-# recognition is fraying, not that people are talking fast. On correct
-# recognition it fires next to never.
+# recognition is fraying, not that people talk fast.
 UNREST_STARTS = 7
 UNREST_WINDOW_S = 12.0
 
-# The listener only earns the picture when somebody on that camera was
-# heard within this stretch. Without the condition the picture goes to
-# someone who has said nothing for minutes.
+# The listener earns the picture only where somebody on that camera was
+# heard within this stretch, or it goes to someone silent for minutes.
 LISTENER_MEMORY_S = 20.0
 
-# Where a cut may sit: a sentence beginning first, a clause break
-# second, near before far. Beyond four seconds nothing changes any
-# more, so five is room at no cost. Both directions -- searching
-# forwards only finds half as many.
+# Where a cut may sit: sentence beginning first, clause break second,
+# near before far. Beyond four seconds nothing changes, so five is free.
+# Both directions -- forwards only finds half as many.
 BOUNDARY_NEAR_S = 2.0
 BOUNDARY_FAR_S = 5.0
 
-# The exact point comes from the sound, not from the text: the dip
-# lands in a real speech pause far more often than the word boundary
-# of the recognition does.
+# The exact point comes from the sound, not the text: the dip lands in
+# a real speech pause far more often than a word boundary does.
 DIP_NEAR_S = 0.5
 DIP_FAR_S = 1.0
 DIP_STEP_S = 0.010
-# The threshold is a share of the dynamic range of the window itself.
-# A fixed level in dB misses entirely on quiet material, where the
-# whole file spans twenty dB and the threshold lands below the noise.
+# A share of the window's own dynamic range. A fixed level in dB misses
+# on quiet material, where the whole file spans twenty dB.
 DIP_LEVEL_SHARE = 0.30
 
 def merged_spans(spans, join=0.0):
@@ -195,9 +180,8 @@ def merged_spans(spans, join=0.0):
 def span_finder(spans):
     """Return a function saying whether a time falls inside a span.
 
-    The starts are sorted once and searched by halving. The caller asks
-    this for every block of the cut against every camera, and a linear
-    scan there turned the preview into a wait.
+    The starts are sorted once and searched by halving: the caller asks
+    this for every block of the cut against every camera.
     """
     ordered = merged_spans(spans)
     starts = [a for a, _b in ordered]
@@ -210,9 +194,8 @@ def span_finder(spans):
 def stray_labels(tracks, mean_s=STRAY_MEAN_S, share=STRAY_SHARE):
     """Return the labels that are a leftover heap rather than a person.
 
-    Speaker recognition leaves small mixed heaps behind: many very short
-    segments, little total time. They mark where it did not know, and
-    giving them a camera shows the wrong person. The largest is never one.
+    Small heaps of very short segments with little total time mark where
+    the recognition did not know; the largest is never one.
     """
     total = sum(b - a for _n, segs in tracks for a, b in segs)
     if total <= 0 or len(tracks) < 2:
@@ -234,8 +217,7 @@ def unrest_spans(tracks, camera_of, starts_needed=UNREST_STARTS,
     """Return the stretches where the speaker recognition frays.
 
     Counted per camera: two people on one camera taking turns are one
-    picture, so their alternation is not restlessness. What is counted
-    is how often the picture would have to change.
+    picture, so what is counted is how often the picture would change.
     """
     need = max(2, int(starts_needed))
     starts, last = [], None
@@ -256,8 +238,7 @@ def next_speaker_camera(t, per_camera, not_this,
     """Return the camera of whoever speaks next, if they are there.
 
     "There" means somebody on that camera was audible within the last
-    *memory* seconds. A camera nobody has reacted on shows a person
-    scratching, drinking or looking at a phone.
+    *memory* seconds; otherwise it shows a person looking at a phone.
     """
     best, when = None, None
     for camera, segs in per_camera:
@@ -281,9 +262,8 @@ def boundary_near(target, sentences, clauses, near=BOUNDARY_NEAR_S,
                   far=BOUNDARY_FAR_S):
     """Return the sentence or clause boundary a cut should aim at.
 
-    Four steps: a sentence beginning close by, then a clause break close
-    by, then the same two further out. Punctuation is a signal of its
-    own -- most clause breaks carry no pause at all.
+    Four steps: a sentence beginning close by, a clause break close by,
+    then the same two further out. Most clause breaks carry no pause.
     """
     for times, radius in ((sentences, near), (clauses, near),
                           (sentences, far), (clauses, far)):
@@ -301,8 +281,7 @@ def sound_dip(levels, step, target, radius=DIP_NEAR_S,
     """Return the middle of the quietest stretch around *target*.
 
     Among the stretches under the threshold the widest wins, less half
-    its distance: width alone picks a far one, nearness alone picks a
-    narrow one. Returns None where there is nothing to measure.
+    its distance: width alone picks a far one, nearness a narrow one.
     """
     if not levels or step <= 0 or radius <= 0:
         return None
@@ -337,8 +316,7 @@ def cut_point(target, sentences=(), clauses=(), levels=(),
     """Return where a cut aimed at *target* should really sit.
 
     The text says roughly where -- a sentence beginning or a clause
-    break -- and the sound says exactly where. Without either the aim
-    comes back unchanged.
+    break -- and the sound exactly where; without either, unchanged.
     """
     aim = boundary_near(target, sentences, clauses)
     if aim is None:
@@ -353,9 +331,8 @@ def wide_shot_length(start, room, sentences=(), clauses=(), holds=5.0,
                      most=15.0):
     """Return how long an inserted wide shot stands.
 
-    At least *holds* seconds, then to the end of the sentence. Where
-    that would run past *most*, the last clause break at or below it
-    ends the shot, so no wide shot ends in the middle of a sentence.
+    At least *holds* seconds, then to the end of the sentence. Past
+    *most* the last clause break below it ends the shot instead.
     """
     room = max(0.0, room)
     if room <= 0:
@@ -377,11 +354,10 @@ _LEVELS = {}
 def sound_levels(path, step=DIP_STEP_S):
     """Return the loudness of every ten milliseconds of a recording.
 
-    ffmpeg does the work: the signal is brought down to 8000 Hz,
-    rectified and resampled to one value per step. Kept for as long as
-    the program runs, because the preview asks for the same recording on
-    every keystroke. An empty list means the file could not be read;
-    every caller then falls back to the boundary in the text.
+    ffmpeg does the work: down to 8000 Hz, rectified, resampled to one
+    value per step. Kept while the program runs, because the preview
+    asks again on every keystroke. An empty list means the file could
+    not be read, and every caller falls back to the boundary in the text.
     """
     if not path or step <= 0:
         return []
@@ -413,8 +389,7 @@ def sound_levels_for(d):
     """Return the level envelope belonging to a handover file.
 
     Only a recording as long as the programme itself can be used: the
-    stored single tracks start where the programme starts, and another
-    length would put every dip at the wrong second. Measured, not assumed.
+    stored single tracks start where it starts, or every dip is wrong.
     """
     files = (d or {}).get("audio_files") or {}
     length = float((d or {}).get("length_s") or 0.0)
@@ -441,10 +416,9 @@ def who_asks(tracks, words):
     """Rank the speakers by who does the asking -- a proposal, never more.
 
     The guest asks fewest questions per sentence and speaks longest, and
-    that order holds; the distance varies too much for a threshold, so
-    this is a ranking and no verdict. It takes one voice per track, and
-    holds the tracks against each other first to see that it has one.
-    Gives [(name, sentences, questions, speech_s)], the asker first.
+    that order holds; the distance varies too much for a threshold. It
+    takes one voice per track, and holds the tracks against each other
+    first to see that it has one. [(name, sentences, questions, speech_s)].
     """
     if not words or not tracks or len(tracks) < 2:
         return []
@@ -484,8 +458,7 @@ def roles_report(order, tracks=()):
     """The proposal in words, or why there is none.
 
     Silence has one reason worth a line: the tracks carry each other's
-    speech. Every other reason -- no words, too few sentences -- says
-    nothing a person could act on, and stays quiet.
+    speech. Every other says nothing a person could act on.
     """
     if not order:
         if not one_voice_each(tracks):
@@ -508,9 +481,8 @@ def roles_report(order, tracks=()):
 def is_stand_in_name(name):
     """Report whether this is a name the program made up itself.
 
-    Either the label the separation hands out, SPEAKER_00 upwards, or
-    the numbered stand-in the window puts in the field. That one is
-    written in whatever language the window was in, so all of them count.
+    Either the separation's SPEAKER_00 upwards or the numbered stand-in
+    the window puts in the field, in whatever language it was in.
     """
     text = (name or "").strip()
     if re.match(r"^SPEAKER_\d+$", text):
@@ -526,10 +498,8 @@ def voice_role_names(order):
     """Propose a name for each voice out of the ranking of who asks.
 
     The one who answers asks fewest questions and speaks longest, so the
-    last of the ranking is the guest and the others are named after
-    asking, in the order they ask. Guest and host, because the words
-    have to carry in any conversation format. Too few sentences and a
-    voice never reaches the ranking -- there is no second guard.
+    last of the ranking is the guest and the rest are named after asking.
+    Too few sentences and a voice never reaches the ranking.
     """
     if len(order or ()) < 2:
         return {}
@@ -562,10 +532,8 @@ def voice_window_order(tracks, words, offset, origin,
     """Who does the asking, worked out inside the time window alone.
 
     *tracks* are the voices on the shared axis, *words* the recognition
-    of their recording in its own time; *offset* moves them onto the
-    axis. The window is read through apply_time_window, the road the
-    preview takes, so the two can never disagree. And it is not an
-    extra: a voice the separation invented falls out inside it.
+    in its own time, *offset* what moves them onto it. The window goes
+    through apply_time_window, so preview and this can never disagree.
     """
     if not tracks or not words:
         return []
@@ -588,11 +556,9 @@ def voice_window_order(tracks, words, offset, origin,
 def voice_proposals(order, labels):
     """The two proposals that follow from that ranking.
 
-    A name for every voice that reached the ranking, and "do not use"
-    for every one that did not: a voice which hardly speaks inside the
-    window never gathers the sentences who_asks needs, and being left
-    out there is the whole rule. Returns ({label: proposed name},
-    [labels that hardly speak]), both empty where the ranking is.
+    A name for every voice that reached the ranking, "do not use" for
+    every one that did not -- hardly speaking inside the window is the
+    whole rule. Returns ({label: name}, [labels that hardly speak]).
     """
     if not order:
         return {}, []
@@ -603,9 +569,8 @@ def voice_proposals(order, labels):
 def voice_marks_of(state):
     """What the window remembers about its voice rows.
 
-    Made on first use and kept over a rebuild of the table: the rows
-    are thrown away and built again on every change, and a mark that
-    went with them would let the program write over an answer.
+    Made on first use and kept over a rebuild of the table: the rows go
+    and come again, and a mark going with them would overwrite an answer.
     """
     marks = state.get("voice_marks")
     if marks is None:
@@ -616,19 +581,15 @@ def voice_marks_of(state):
 def voice_row_marks(state, key, name_value, camera_value, field, box):
     """Note what a voice row was born with, and who answers in it.
 
-    The two starting values are what the proposals may write over.
-    Whether a person has answered is asked of textEdited and activated
-    and of nothing else: those fire for a person and never for the
-    program. Set once per voice, kept over a rebuild of the table.
-    *key* is recording and label together: both separated recordings
-    call their first voice SPEAKER_00.
+    Only textEdited and activated say a person answered; they never fire
+    for the program. *key* is recording and label together, because
+    every separation calls its first voice SPEAKER_00.
     """
     marks = voice_marks_of(state)
     marks["name"].setdefault(key, name_value.get())
     marks["camera"].setdefault(key, camera_value.get())
     # The field itself, so a name already on somebody else can be
-    # marked in it. Written over on every rebuild, never kept: only the
-    # rows standing now are ever asked for.
+    # marked in it. Written over on every rebuild, never kept.
     marks.setdefault("field", {})[key] = field
     field.textEdited.connect(lambda *_: marks["typed"].add(key))
     box.activated.connect(lambda *_: marks["typed"].add(key))
@@ -637,11 +598,9 @@ def voice_proposal_apply(voice_lines, named, silent, marks, source=""):
     """Fill the fields that still carry what the program put there.
 
     A field belongs to the program while it holds what the row was born
-    with or the last proposal, and stops the moment somebody answers in
-    that row -- typing the stand-in name back by hand is an answer too.
-    The camera is only touched on a voice nobody has named. Returns the
-    labels that changed. The proposals are in one recording's labels,
-    so *source* keeps out the rows of other recordings.
+    with or the last proposal, and stops the moment somebody answers --
+    typing the stand-in back by hand counts. *source* keeps out the rows
+    of other recordings; returns the labels that changed.
     """
     typed = marks.get("typed") or set()
     said = marks.setdefault("said", {})
@@ -658,8 +617,7 @@ def voice_proposal_apply(voice_lines, named, silent, marks, source=""):
             continue
         want = named.get(label) or born.get(key) or text
         # Never onto a name somebody else already carries: a proposal
-        # that makes two voices one person is worse than none. The
-        # camera below is proposed all the same.
+        # making two voices one person is worse than none.
         if want in set(nv.get().strip()
                        for k, nv, _c in voice_lines if k != key):
             want = text
@@ -699,11 +657,9 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
                         in_point, out_point, language="", heard=None):
     """One round of the proposals, on the wait the preview runs on.
 
-    A moved In point, a renamed voice and a changed camera all reach it,
-    and none costs a measurement: the recognition happens once per
-    recording, and the rest is a cheap pass over passages and words. A
-    voice set to "do not use" by hand stays out of the ranking for good;
-    one the program put there does not. Returns the labels that changed.
+    A moved In point, a renamed voice and a changed camera all reach it
+    and none costs a measurement. A voice set to "do not use" by hand
+    stays out of the ranking for good; one the program put there does not.
     """
     if not (state.get("speakers_local") and state.get("speakers_source")):
         return []
@@ -712,9 +668,8 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
         speech_words_kick_off(state, language, heard)
         return []
     marks = voice_marks_of(state)
-    # Of this recording's rows, and in this recording's labels: the
-    # passages below are one separation's, and another recording's
-    # SPEAKER_00 says nothing about them.
+    # Of this recording's rows, in this recording's labels: another
+    # recording's SPEAKER_00 says nothing about these passages.
     source = state.get("speakers_source") or ""
     by_hand = set(voice_key_parts(k)[1]
                   for k, _nv, cv in voice_lines_here(voice_lines, source)
@@ -734,26 +689,23 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
     named, silent = voice_proposals(order, [k for k, _p in tracks])
     return voice_proposal_apply(voice_lines, named, silent, marks, source)
 
-# When two microphones can still be told apart at all: the share of the
-# shorter one's speech that also falls inside the longer one. This lies
-# above what speaking at the same time produces and below what two
-# clip-on microphones in one room share.
+# When two microphones can still be told apart: the share of the shorter
+# one's speech that also falls inside the longer one. Above what talking
+# at once produces, below what two clip-ons in one room share.
 VOICE_TRACK_TOGETHER = 0.40
 
-# How far the best microphone has to be ahead of the second, counted in
-# share of the voice's own speech. This lies between the distance a
-# right match keeps and the distance a wrong one -- a separation off
-# the axis, a person without a microphone -- ever reaches.
+# How far the best microphone must be ahead of the second, as a share of
+# the voice's own speech. Between the distance a right match keeps and
+# the one a wrong match -- off the axis, no microphone -- ever reaches.
 VOICE_TRACK_MARGIN = 0.40
 
 # Under this much speech a voice says nothing about a microphone: below
 # it the distance between the microphones collapses.
 VOICE_MIN_SPEECH_S = 20.0
 
-# How far the best microphone has to stand ahead of the second once the
-# recording level has been taken out, in dB. Measured over a full
-# interview the three margins were 6.0, 6.6 and 8.4 dB, so this refuses
-# only a coin toss.
+# How far the best microphone must stand ahead of the second once the
+# recording level is out, in dB. Over a full interview the three margins
+# were 6.0, 6.6 and 8.4 dB, so this refuses only a coin toss.
 VOICE_LEVEL_MARGIN_DB = 1.0
 
 def shared_seconds(one, other):
@@ -773,9 +725,8 @@ def one_voice_each(tracks):
     """Whether these lists of passages can be one voice apiece.
 
     Where clip-on microphones hear each other, every track carries the
-    whole conversation and anything counted per track lands on whichever
-    recorder was turned up loudest. Measured as the share of the shorter
-    one's speech that also runs inside the longer one.
+    whole conversation and per-track counting lands on the loudest
+    recorder. Measured as the shorter one's share inside the longer.
     """
     rows = list(tracks or ())
     for i, (_name, one) in enumerate(rows):
@@ -789,12 +740,9 @@ def one_voice_each(tracks):
 def which_microphone(voices, tracks):
     """Match each separated voice to the microphone it was speaking into.
 
-    *voices* and *tracks* are both [(name, [(a, b), ...])] on one time
-    axis; returns [(voice, track, share, distance)] or []. A voice under
-    a track's own name is that track's own reading, named already, and
-    left in would claim its own microphone twice. Where clip-on
-    microphones hear each other every voice fits every one about
-    equally, so the microphones are held against each other first.
+    Both are [(name, [(a, b), ...])] on one axis; returns [(voice,
+    track, share, distance)] or []. A voice under a track's own name
+    would claim it twice. Clip-ons are held against each other first.
     """
     own = set(name for name, _segs in tracks or ())
     voices = [(name, segs) for name, segs in voices or ()
@@ -817,10 +765,9 @@ def which_microphone(voices, tracks):
             continue
         picked.append((name, share[0][1], share[0][0],
                        share[0][0] - share[1][0]))
-    # One microphone, one person: where two voices point at the same one,
-    # neither of them is the answer. Either the separation cut one person
-    # in two or two people are sitting on one microphone, and both mean
-    # that this cannot name them.
+    # One microphone, one person: where two voices point at the same
+    # one, neither is the answer -- one person cut in two, or two on
+    # one microphone, and both mean this cannot name them.
     twice = set(t for i, (_, t, _s, _d) in enumerate(picked)
                 for _n, u, _s2, _d2 in picked[i + 1:] if t == u)
     return [row for row in picked if row[1] not in twice]
@@ -829,11 +776,10 @@ def voices_by_level(voices, names, level, block=0.1, begin=0.0,
                     margin=VOICE_LEVEL_MARGIN_DB):
     """Name each separated voice after the microphone it spoke into.
 
-    The voice says *when*, the microphones *who*, once for the whole
-    recording. *level* is [microphone][block], *begin* where block zero
-    sits. Not the loudest microphone: measured, a speaker stood louder
-    in his neighbour's (-47.2 dB) than his own (-47.4 dB), the
-    recorders being 11 dB apart. Each microphone's mean out fixes that.
+    The voice says *when*, the microphones *who*. *level* is
+    [microphone][block], *begin* where block zero sits. Not the loudest:
+    a speaker stood louder in his neighbour's (-47.2 dB) than his own
+    (-47.4 dB), 11 dB apart. Each microphone's mean out fixes that.
     """
     rows = [(name, list(segs)) for name, segs in (voices or ()) if segs]
     names = list(names or ())
@@ -842,9 +788,8 @@ def voices_by_level(voices, names, level, block=0.1, begin=0.0,
     level = np.asarray(level, dtype=np.float64)
     if level.ndim != 2 or level.shape[0] != len(names) or not level.shape[1]:
         return []
-    # Each microphone's own noise floor is the bottom of its column. A
-    # track that is digitally silent under a voice would otherwise be
-    # minus infinity and drag that microphone's mean down with it.
+    # Each microphone's own noise floor is the bottom of its column, or
+    # a digitally silent track would drag its mean to minus infinity.
     floor = []
     for row in level:
         present = row[row > 0]
@@ -863,9 +808,8 @@ def voices_by_level(voices, names, level, block=0.1, begin=0.0,
         table.append([20.0 * math.log10(max(float(np.median(level[m][wanted])),
                                             floor[m], 1e-12))
                       for m in range(len(names))])
-    # One number per microphone taken out of that microphone's column:
-    # after this a recorder turned up louder than its neighbour shifts
-    # nothing, and only the distance to the speaker is left.
+    # One number per microphone out of its own column: after this a
+    # recorder turned up louder shifts nothing, only distance is left.
     middle = [sum(row[m] for row in table) / float(len(table))
               for m in range(len(names))]
     picked = []
@@ -876,9 +820,8 @@ def voices_by_level(voices, names, level, block=0.1, begin=0.0,
         if ahead >= margin:
             picked.append((name, order[0][1], round(order[0][0], 2),
                            round(ahead, 2)))
-    # One microphone, one person -- the same rule which_microphone keeps.
-    # Where two voices land on one microphone neither of them is the
-    # answer, and saying nothing beats naming a whole episode wrongly.
+    # One microphone, one person -- which_microphone's rule. Where two
+    # voices land on one, saying nothing beats naming an episode wrongly.
     twice = set(t for i, (_n, t, _l, _d) in enumerate(picked)
                 for _n2, u, _l2, _d2 in picked[i + 1:] if t == u)
     return [row for row in picked if row[1] not in twice]
@@ -905,12 +848,10 @@ def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
                   over=10.0, tally=None, ends=None):
     """Return {when the answer begins: who answers} for every question.
 
-    *ends* takes {answer begins: question ended} -- not one moment, and
-    the lead counts from the second. After a question the picture
-    belongs to whoever answers: only where the asker is not the main
-    speaker, somebody else starts within *gap* seconds and holds
-    *holds* of the next *over*, and not where both sit on one camera.
-    Each can turn a question away, so *tally* says how many and why.
+    *ends* takes {answer begins: question ended}; the lead counts from
+    the second. The picture goes to whoever answers, but only where the
+    asker is not the main speaker, somebody starts within *gap* and holds
+    *holds* of the next *over*, and the two are not on one camera.
     """
     out = {}
     stopped = {} if ends is None else ends
@@ -977,10 +918,9 @@ def question_report(rules):
     """What the reaction cut found and what it let go, in one or two lines.
 
     A rule that quietly does nothing looks like a rule that is broken.
-    Without a transcript no question is found; with one a question is
-    still dropped where the main speaker asked it, where asker and
-    answerer share a camera, or where nobody took over in time. The
-    numbers say which. "" where the rule is switched off.
+    A question is dropped without a transcript, where the main speaker
+    asked it, where asker and answerer share a camera, or where nobody
+    took over in time; the numbers say which. "" where it is switched off.
     """
     if (rules.get("on_question") or SHOT_OFF) == SHOT_OFF:
         return ""
@@ -1012,16 +952,14 @@ def cut_rules(**over):
     """Return the settings the cut rules read, with their defaults.
 
     One dict rather than a dozen parameters: the same seven rules are
-    read in three places, and a keyword is all it takes to override
-    one of them.
+    read in three places, and a keyword overrides one of them.
     """
     out = {"min_speech": MIN_SPEECH_TO_SWITCH_S,
            "on_monologue": SHOT_ALTERNATE,
            "on_together": SHOT_WIDE,
            "on_uncertain": SHOT_WIDE,
-           # The wide shot, as it always was. A setting that moved the
-           # cut of every project already made is not one to switch on
-           # for somebody; the answer belongs to whoever cuts.
+           # The wide shot, as it always was. A setting that moves the
+           # cut of every project already made belongs to whoever cuts.
            "on_silence": SHOT_WIDE,
            "silence_hold": SILENCE_HOLD_S,
            "on_question": SHOT_ANSWER,
@@ -1029,9 +967,8 @@ def cut_rules(**over):
            "reaction_gap": 3.0,
            "reaction_hold": 0.7,
            "reaction_over": 10.0,
-           # None means: whatever the caller passed as the length of an
-           # inserted wide shot. Two ways of saying the same number
-           # would let the preview and the run disagree.
+           # None means: whatever the caller passed as the wide shot
+           # length. Two ways of saying it would let preview and run part.
            "wide_holds": None,
            "wide_most": 15.0,
            "words": (),
@@ -1065,10 +1002,8 @@ def rules_from_cut_box(number, chosen):
     """Read the cut rules out of what the cut box in the window holds.
 
     *number* is {switch: number} over CUT_FIELDS, *chosen* {switch:
-    value} over CUT_CHOICES. The counterpart to rules_from_settings,
-    and out here beside it: a rule the window offers and the run does
-    not is a preview showing a cut nobody can make, and that has
-    happened once for a whole version.
+    value} over CUT_CHOICES. Beside rules_from_settings: a rule the
+    window offers and the run does not is a cut nobody can make.
     """
     return cut_rules(
         min_speech=number["min-speech-to-switch"],
@@ -1079,22 +1014,17 @@ def rules_from_cut_box(number, chosen):
         **{k.replace("-", "_"): chosen[k]
            for k, _c, _d, _v, _s, _l in CUT_CHOICES})
 
-# How long one camera may hold before the picture looks away for a
-# while. It decides how restless the cut feels, not whether the cut is
-# right: every setting places the wide shot on a sentence boundary. A
-# lower number interrupts a long answer about twice as often.
+# How long one camera may hold before the picture looks away. It sets
+# how restless the cut feels, not whether it is right.
 WIDE_AFTER_S = 70.0
 
 def insert_wide_shots(cut, tracks, wide_shot, after, duration, min_len,
                       at_latest, camera_of=None, rules=None):
     """Break up long shots by leaving the speaker for a while.
 
-    A shot holding longer than *after* is opened at a sentence boundary
-    nearby, the point coming from the sound; what is shown there is the
-    "Long monologue" choice. It stands at least *duration* seconds and
-    runs to the end of the sentence; without one the longest pause
-    stands in, and *at_latest* forces a cut. All four are always given,
-    so none of them carries a starting value of its own.
+    A shot holding longer than *after* opens at a sentence boundary
+    nearby, the point from the sound; what shows is the "Long monologue"
+    choice. It stands *duration* seconds at least; *at_latest* forces.
     """
     rules = rules or cut_rules()
     words = rules.get("words") or ()
@@ -1139,8 +1069,7 @@ def insert_wide_shots(cut, tracks, wide_shot, after, duration, min_len,
             if first <= aim <= last:
                 t = aim
         if t is None:
-            # No usable boundary: the longest speech pause nearby, and
-            # without one of those the clock.
+            # No usable boundary: the longest pause nearby, else the clock.
             points = [(p[0] + min(0.3, (p[1] - p[0]) / 2.0), p[1] - p[0])
                       for p in pauses if p[0] >= a and p[1] <= b]
             points = [(x, g) for x, g in points if first <= x <= last]
@@ -1185,21 +1114,17 @@ def merge_adjacent(cut):
             extra.append((a, b, who))
     return [tuple(x) for x in extra]
 
-# How long somebody may pause and still be holding the floor. Below
-# this a gap is a breath, above it the next person may come in. It is
-# what makes the opening independent of how finely a source cuts its
-# segments.
+# How long somebody may pause and still hold the floor: below this a
+# gap is a breath, above it the next person may come in.
 FLOOR_HOLD_GAP_S = 2.0
 
 def floor_handovers(tracks, main_speaker, min_len_speech,
                     gap=FLOOR_HOLD_GAP_S):
     """Return where somebody other than the main speaker holds the floor.
 
-    A single speech block is not a handover: it says only that the
-    source drew a boundary there. Somebody speaking on through their own
-    breaths is, so the blocks of one person are chained across short
-    gaps and a chain counts only where its speaker holds more of its
-    window than everybody else together. Returns [(from, to), ...].
+    A single speech block only says the source drew a boundary there.
+    The blocks of one person are chained across short gaps, and a chain
+    counts where its speaker holds most of it. [(from, to), ...].
     """
     own = {}
     for n, segs in tracks:
@@ -1234,8 +1159,7 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     Someone introduces the participants at the start and says goodbye at
     the end; both belong in the wide frame. The opening ends where the
     floor first changes hands away from the main speaker, and the same
-    rule runs backwards from the end. The rule stops at the recognition:
-    a voice the separation never hears cannot end the opening.
+    rule runs backwards. A voice the separation never hears cannot end it.
     """
     if not cut:
         return cut
@@ -1272,9 +1196,8 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
 def metrics_sentence(numbers, colours, minutes_fn):
     """Build the summary line under the preview.
 
-    How much speech time lands on the speaker's own camera, how much on the
-    wide shot, and how much goes to the wrong camera. The last number
-    matters most, so it is shown in the warning colour.
+    How much speech time lands on the speaker's own camera, how much on
+    the wide shot, how much on the wrong one -- the last in warning red.
     """
     return (T("<span style='color:%(t)s'><b>%(n)d shots</b>, median "
               '%(med).1f s, shortest %(short).1f s, longest camera '
@@ -1295,10 +1218,9 @@ def speech_heading(own_measure_measured, total_sum=""):
     """Return the heading for the speech segment table.
 
     Three answers, not two. Levels measured against each other are
-    coarser than voices taken apart, and both are coarser than a
-    finished run, which had the tracks on one axis and de-bled. Whoever
-    judges the preview needs to know which of the three they see, so
-    "run" is an answer of its own and not a kind of measuring.
+    coarser than voices taken apart, and both are coarser than a finished
+    run, which had the tracks on one axis and de-bled. Whoever judges the
+    preview needs to know which of the three they see.
     """
     if own_measure_measured == "run":
         source_text = T('Speakers, as the run measured them')
@@ -1314,9 +1236,8 @@ def speech_heading(own_measure_measured, total_sum=""):
 def warn_box(QtWidgets, parent, title, text):
     """Show a warning, and write it down before it is clicked away.
 
-    A box is gone as soon as somebody presses the button, and what it
-    said is then only in their memory. One place does both, so a new
-    warning cannot be shown without being kept.
+    A box is gone as soon as somebody presses the button. One place does
+    both, so a new warning cannot be shown without being kept.
     """
     trouble_log("%s -- %s" % (title, text))
     QtWidgets.QMessageBox.warning(parent, title, text)
@@ -1331,10 +1252,8 @@ def label_say(widget, text, colour):
 def cut_basis_line(basis, speakers, length):
     """Say what the cut on the third tab stands on, and in what colour.
 
-    Three answers, and they are not worth the same. The recordings as
-    they lie are what the window can read before anything has run. A
-    finished run has every track on one axis, and with auphonic.com the
-    neighbours have been taken out of them as well.
+    Three answers, and not worth the same: the recordings as they lie,
+    a finished run on one axis, and with auphonic.com de-bled as well.
     """
     if basis == "auphonic":
         text = T('from the processed Auphonic tracks -- %s speakers, %s')
@@ -1361,8 +1280,8 @@ def projects_beside(paths, deep=40):
 
     Looked for in the folders the material is in and one level below,
     since the project file goes into the output folder. Not deeper: a
-    search that walked the whole disk would stand in the way of adding
-    a file. Gives (path, when) pairs, newest first, each path once.
+    search over the whole disk would stand in the way of adding a file.
+    Gives (path, when) pairs, each path once.
     """
     folders = []
     for one in paths:
@@ -1372,8 +1291,7 @@ def projects_beside(paths, deep=40):
     look = list(folders)
     for folder in folders:
         # Counted by folders, not by names: a recording folder holds
-        # hundreds of files, and the output folder among them may be
-        # anywhere in that list.
+        # hundreds of files, the output folder anywhere among them.
         count = 0
         try:
             names = sorted(os.listdir(folder))
@@ -1389,10 +1307,8 @@ def projects_beside(paths, deep=40):
                 break
     found = {}
     for folder in look:
-        # One attempt for the whole folder, not one per file. A folder
-        # that cannot be read and a file that went away between the
-        # listing and the question are the same answer here: it is not
-        # a project file anybody can open, so it is not offered.
+        # One attempt for the whole folder, not one per file: a folder
+        # nobody can read holds no project file anybody can open.
         try:
             for name in os.listdir(folder):
                 if (name.startswith(PROJECT_PREFIX)
@@ -1410,22 +1326,9 @@ def when_written(when):
 def project_offer(QtWidgets, window, state, paths, ask, load):
     """Offer a project file lying with the material; never load it silently.
 
-    Asked when material comes in, and asked once per file found: adding
-    a second recording from another folder offers that folder's project,
-    while adding more from the same one does not ask again.
-
-    Nothing is taken in part. Either the project is opened whole -- names,
-    separation, assignment, types, the time window -- or it is not opened,
-    and the list of files stands as it was.
-
-    Once a project is open nothing more is offered. Material still arrives
-    through this door afterwards -- taking a block out of a recording and
-    putting it back goes the same way -- and a second offer there would
-    undo by hand what the person had just done by hand.
-
-    Returns whether a project was opened. The caller has to know: opening
-    one builds the list from the project's own files, and building it a
-    second time from the files that were dropped in would undo that.
+    Asked once per file found; the project is opened whole or not at
+    all, and once one is open nothing more is offered. Returns whether
+    one was opened -- the caller must not then rebuild the list.
     """
     if state.get("project_from"):
         return False
@@ -1465,8 +1368,7 @@ def find_project_file(file_path):
     Pointing at the folder, or at the wrong file in it, should not
     produce an error, so the neighbourhood is searched too. A project
     file is a dict containing "files" -- the name alone is not enough,
-    since plenty of files end in json. Returns (contents, path) or
-    (None, "").
+    since plenty of files end in json. Returns (contents, path).
     """
     if not file_path:
         return None, ""
@@ -1508,11 +1410,9 @@ def project_files(d):
 def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
     """Return where programme time starts on the clock.
 
-    Speaker segments count from the start of the audio recordings, not
-    the cameras. Nothing is guessed: without a known audio start the
-    earliest camera start applies, and without that either, None. An
-    origin off a clock never set is no origin, so clocks_apart names the
-    ones sharing their time with none -- but only given a *length*.
+    Speaker segments count from the audio recordings, not the cameras.
+    Nothing is guessed: without a known audio start the earliest camera
+    applies, and without that, None. A clock never set is no origin.
     """
     audio_files = [float(t) for t in audio_origin if t is not None]
     videos = [float(t) for t in camera_origin if t is not None]
@@ -1523,10 +1423,8 @@ def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
                for i, t in enumerate(videos)])[0]
         audio_files = [t for i, t in enumerate(audio_files)
                        if ("audio", i) not in apart]
-        # The cameras are the fallback, and a fallback that is gone is
-        # no help: where every one of them stands alone there is no
-        # shared time here to be had, and the earliest start is still
-        # the best answer there is.
+        # The cameras are the fallback, and where every one stands alone
+        # there is no shared time to be had; the earliest start is left.
         videos = [t for i, t in enumerate(videos)
                   if ("camera", i) not in apart] or videos
     if audio_files:
@@ -1536,10 +1434,10 @@ def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
 def cameras_frame_rate(cameras):
     """The rate the cut has to be read at, measured on a camera.
 
-    The frames of a timecode are frames, so a timecode read at the wrong
-    rate lands whole frames out and the picture runs ahead of the sound
-    on every camera whose timecode has a frame part. Cameras ending :00
-    are exact either way, which is how this can sit unseen.
+    The frames of a timecode are frames, so one read at the wrong rate
+    lands whole frames out and the picture runs ahead of the sound on
+    every camera whose timecode has a frame part. Cameras ending :00 are
+    exact either way, which is how this sits unseen.
     """
     for cam in cameras or ():
         path = cam.get("file") or ""
@@ -1553,11 +1451,9 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                     camera_origin=(), places=()):
     """Build the handover from segments and the assignment.
 
-    The deciding part of the preview -- no window, no file: parsed
-    segments and the assignment go in, the same handover the run writes
-    comes out. *cameras* are dicts of track, file, start_s and
-    wide_marked in display order; *assignment* maps speaker to camera
-    basename. Returns (handover, "") or (None, reason), never silence.
+    No window, no file: parsed segments and the assignment go in, the
+    handover the run writes comes out. *cameras* are dicts of track,
+    file, start_s and wide_marked. (handover, "") or (None, reason).
     """
     if not segment_list or not length or length <= 0:
         return None, (T('No speakers known yet -- nothing measured, '
@@ -1571,10 +1467,8 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
     out = []
     for cam in cameras:
         short = os.path.basename(cam.get("file") or "")
-        # The camera audio has its own row in the upper table, so it arrives
-        # through the assignment already. Sorted, because the list is read as
-        # a name -- the legend under the cut band, the track in Resolve -- and
-        # write_handover builds the same list, which would otherwise differ.
+        # The camera audio arrives through the assignment already, and
+        # sorted, because write_handover builds the same list by name.
         who = sorted(n for n, target in assignment.items() if target == short)
         out.append({"track": cam.get("track"), "file": cam.get("file"),
                      "speakers": who,
@@ -1592,11 +1486,9 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
 def apply_time_window(d, in_point, out_point):
     """Apply the In point and the Out point to an already written handover.
 
-    The speaker times in it count from the start of the window in force
-    at the time; start_s says where that was, so a new setting converts
-    without measuring anything again. Returns (handover, complaint) --
-    with a complaint the handover comes back untrimmed, because silently
-    ignoring the window would show a cut the run then refuses to make.
+    The speaker times count from the start of the window in force at the
+    time; start_s says where that was, so a new setting converts without
+    measuring again. With a complaint the handover comes back untrimmed.
     """
     if not (in_point or "").strip() and not (out_point or "").strip():
         return d, ""
@@ -1629,10 +1521,9 @@ def apply_time_window(d, in_point, out_point):
         return d, T('In point or Out point cannot be read here.')
     if from_s is None or until is None:
         return d, T('In point or Out point cannot be read here.')
-    # Trimmed to the material first, judged afterwards. The other way
-    # round a window past the end of the material passed as a positive
-    # length and the trimming turned it negative, handed back with an
-    # empty complaint, so nothing downstream knew anything was wrong.
+    # Trimmed to the material first, judged afterwards: the other way
+    # round, a window past the end of the material passes as a positive
+    # length and trimming turns it negative, with an empty complaint.
     asked_from, asked_until = from_s, until
     from_s, until = max(0.0, from_s), min(length, until)
     if length > 0 and (asked_from >= length or asked_until <= 0):
@@ -1645,16 +1536,12 @@ def apply_time_window(d, in_point, out_point):
         return d, T('Out point lies less than 5 seconds after In point.')
     fresh = dict(d)
     fresh["length_s"] = round(until - from_s, 3)
-    # The origin moves along. start_s means "where programme time starts
-    # on the clock" everywhere, and after trimming that is In point. Leaving
-    # the old value made the player show a wall clock time off by the
-    # length of the removed head.
+    # The origin moves along: start_s is where programme time starts on
+    # the clock, and after trimming that is In point, not the old value.
     if origin is not None:
         fresh["start_s"] = round(float(origin) + from_s, 3)
-        # And the timecode with it: the same instant said the other way.
-        # Resolve places by this field alone, so one that stands still
-        # while start_s moves puts every frame out by the length of the
-        # removed head.
+        # And the timecode with it. Resolve places by this field alone,
+        # so one standing still puts every frame out by the removed head.
         if d.get("start_tc"):
             fresh["start_tc"] = timecode_string(fresh["start_s"], fps)
     fresh["speakers"] = [
@@ -1663,17 +1550,15 @@ def apply_time_window(d, in_point, out_point):
                         for a, b in (s.get("sections") or [])
                         if b > from_s and a < until]}
         for s in (d.get("speakers") or [])]
-    # The words move with them. Left where they were, every sentence
-    # boundary would sit as far out as the removed head is long, and
-    # the cut points would follow them there.
+    # The words move with them, or every sentence boundary sits as far
+    # out as the removed head is long, and the cut points follow.
     if d.get("words"):
         fresh["words"] = [[a - from_s, b - from_s, text]
                           for a, b, text in d["words"]
                           if b > from_s and a < until]
     # And so do the cameras. A camera's offset counts against programme
-    # time, and programme time now starts at In point; left standing,
-    # picture and sound sit the removed head apart. The other form, a
-    # start_s of its own, is a wall clock time and is right already.
+    # time, and that now starts at In point; left standing, picture and
+    # sound sit the removed head apart. A start_s of its own is right.
     if d.get("cameras"):
         fresh["cameras"] = [
             dict(cam, offset=round(float(cam["offset"]) - from_s, 4))
@@ -1693,9 +1578,8 @@ def as_minutes(seconds):
 def speaker_statistics(d):
     """Return who speaks how much and how often.
 
-    Same source as the cut: the handover file or the Auphonic
-    statistics. Without these numbers a share of wide shot cannot be
-    judged -- it means something else when one person holds the floor.
+    Same source as the cut: the handover file or the Auphonic statistics.
+    Without them a share of wide shot cannot be judged.
     """
     out, total = [], 0.0
     for speaker in (d.get("speakers") or []):
@@ -1709,9 +1593,8 @@ def speaker_statistics(d):
     for e in out:
         e["share"] = 100.0 * e["seconds"] / (total or 1.0)
     out.sort(key=lambda e: -e["seconds"])
-    # Silence: whatever is left when the speech blocks of all speakers are
-    # laid on top of each other. Where two speak at once the time counts
-    # twice above, but not here.
+    # Silence: whatever is left when the speech blocks of all speakers
+    # are laid on top of each other, so two at once count once here.
     every = sorted((a, b) for speaker in (d.get("speakers") or [])
                   for a, b in (speaker.get("sections") or []))
     merged = []
@@ -1729,10 +1612,8 @@ def coupling_matrix(power, speech, faint=6.0, loud=10.0, at_least=3):
     """Return how loudly each voice arrives in the other microphones.
 
     ``c[i][j]`` is the power gain with which speaker j appears in
-    microphone i, measured where j speaks and nobody else does; the
-    diagonal is 1. Where a pair offers no such moment the entry stays 0
-    -- no bleed known, none subtracted, and nothing assumed about the
-    distance. *power* is [track][block] mean square on a common axis.
+    microphone i, measured where j speaks alone; the diagonal is 1. No
+    such moment leaves the entry 0. *power* is [track][block] on an axis.
     """
     n = len(power)
     c = np.eye(n)
@@ -1759,9 +1640,8 @@ def unmix_levels(power, c, at_most=30.0):
 
     What a microphone hears is its own speaker plus a share of every
     other: ``observed = c @ own``, solved once for all blocks. Returns
-    (own, reason). Where the coupling is too strong to invert --
-    microphones side by side -- the levels come back unchanged and the
-    reason says why: better an unseparated measurement than an invented.
+    (own, reason). Too strong a coupling to invert leaves the levels
+    unchanged: better an unseparated measurement than an invented one.
     """
     if len(power) < 2:
         return power, ""
@@ -1780,19 +1660,16 @@ def unmix_levels(power, c, at_most=30.0):
     return np.maximum(own, 0.0), ""
 
 # The shortest sound that still counts as speech: below this a block is
-# dropped before the pause search runs, so a short reaction reads as a
-# pause. The floor sits where the passages coming back stop being
-# "mhm" and start being breath.
+# dropped before the pause search, so a short reaction reads as a pause.
+# The floor is where passages stop being "mhm" and start being breath.
 SPEECH_MIN_LEN_S = 0.2
 
 def clock_on_axis(curve, clock):
     """Stretch a level curve from a recorder's own clock onto the axis.
 
-    No two recorders run at exactly the same speed, so an hour on one
-    is not an hour on the next. The run takes that out by rewriting the
-    audio; here the level curve is resampled instead, which is the same
-    correction at the resolution the levels are read with. *clock* is
-    the b of "recorder time = a + b * axis time".
+    No two recorders run at exactly the same speed, so an hour on one is
+    not an hour on the next. The run rewrites the audio; here the level
+    curve is resampled. *clock* is the b of "recorder = a + b * axis".
     """
     if not len(curve) or abs(clock - 1.0) <= 1e-7:
         return curve
@@ -1811,9 +1688,8 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     Each block is measured against the track's own noise floor, because
     recorders are set to different gains. With *separate* the bleed is
     taken out first; without it a neighbour's voice counts as that
-    neighbour speaking and the cut sits on the wide shot throughout.
-    *tracks* is [(name, path, offset[, clock])]; *grid* takes the levels
-    as read, so naming a voice after a microphone opens no track twice."""
+    neighbour speaking. *tracks* is [(name, path, offset[, clock])];
+    *grid* takes the levels as read, so no track is opened twice."""
     names, levels, shifts = [], [], []
     # Read a handful at a time, not all at once: an hour of audio is a
     # couple of hundred megabytes per track.
@@ -1846,8 +1722,7 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
             (x[:count * nb].reshape(count, nb).astype(np.float64) ** 2
              ).mean(axis=1)), clock))
 
-    # One grid for all of them: only on a shared time axis does it mean
-    # anything that one track is louder than another at this moment.
+    # One grid for all: louder than another only means something on one axis.
     begin = min(shifts) if shifts else 0
     end = max((s + len(v) for s, v in zip(shifts, levels)), default=0)
     width = max(0, end - begin)
@@ -1855,10 +1730,9 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     for i, (s, v) in enumerate(zip(shifts, levels)):
         if len(v):
             level[i][s - begin:s - begin + len(v)] = v
-    # The reference has to land inside the speaking. The 90th percentile
-    # does so only above a tenth of the blocks; below that it lands on
-    # the bleed, which is then measured against itself and the split
-    # refused with a reason that is untrue. The 99th: a hundredth.
+    # The reference has to land inside the speaking: the 90th percentile
+    # does so above a tenth of the blocks, the 99th above a hundredth.
+    # Below that it lands on the bleed and refuses the split untruly.
     speech = np.array([float(np.percentile(v[v > 0], 99))
                        if len(v) and len(v[v > 0]) else 0.0 for v in levels])
     if grid is not None:
@@ -1885,9 +1759,8 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                      % (worst[1], worst[2],
                         number_text(worst[0], 1)))
                 # Where a pair offers no moment of one voice alone, its
-                # entry stays 0 and that much bleed is left in. The
-                # separation still happens -- half a model beats none --
-                # but silence here would look like a clean measurement.
+                # entry stays 0 and that bleed is left in: half a model
+                # beats none, but silence here would look measured.
                 pairs = len(c) * (len(c) - 1)
                 if len(far) < pairs:
                     note(T('  Caution: only %s of %s pairs measurable. For '
@@ -1907,8 +1780,7 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
         if not len(present):
             out.append((name, []))
             continue
-        # Noise floor: the lowest fifth of the blocks. Above it counts as
-        # speech.
+        # Noise floor: the lowest fifth of the blocks; above it is speech.
         floor = float(np.percentile(present, 20))
         threshold = max(floor * (10.0 ** (over_db / 20.0)),
                        float(np.percentile(present, 90)) * 0.08)
@@ -1940,10 +1812,9 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     """Build the whole camera cut, in the order the rules apply.
 
     The preview and the run both come through here. Two copies of this
-    order drift apart, and then the same material yields a different
-    cut depending on which produced it. The four wide shot settings are
-    named at every call and have no starting value; *delay* keeps its
-    0.3 s, which the command line and the cut box name too.
+    order drift apart, and then the same material yields a different cut
+    depending on which produced it. The four wide shot settings are named
+    at every call and have no starting value; *delay* keeps its 0.3 s.
     """
     rules = rules or cut_rules()
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
@@ -1955,9 +1826,7 @@ def camera_cut(tracks, length, camera_of, wide_shot,
         cut = insert_wide_shots(cut, tracks, wide_shot, after, holds,
                                 min_len, at_latest, camera_of, rules)
         # And again after them, which is what merge_short_shots asks
-        # for: an inserted wide shot is as short as the wide shot
-        # length says, and where somebody asked for a longer shortest
-        # shot than that, it would arrive under the number they set.
+        # for: an inserted wide shot may be shorter than the shortest.
         cut = merge_short_shots(cut, min_len)
     return cut
 
@@ -1965,9 +1834,8 @@ def camera_short_name(track):
     """The camera's own name out of its track name.
 
     The take and the camera number tell two files apart and say nothing
-    about the camera, so they go and what is left is the name somebody
-    chose. Where nothing is left the track name stays whole -- a camera
-    named only by a number keeps that name rather than losing it.
+    about the camera, so they go. Where nothing is left the track name
+    stays whole -- a camera named only by a number keeps that name.
     """
     parts = [t for t in str(track or "").split("_") if t.strip()]
     left_over = [t for t in parts
@@ -1979,10 +1847,8 @@ def wide_shots_of(cameras, taken, marked=()):
     """Which cameras are the wide shot, in the order they stand in.
 
     One answer for the whole program: preview, run and window all ask
-    here, or the picture in the window is not the one the run makes. A
-    mark beats the derivation -- whoever marks a camera has answered the
-    question the derivation guesses at. Without a mark the cameras
-    nobody is assigned to are the wide shots. Empty means there is none.
+    here, or the window shows a cut the run does not make. A mark beats
+    the derivation; without one, the cameras nobody is assigned to.
     """
     marked = [c for c in cameras if c in set(marked or ())]
     if marked:
@@ -2005,17 +1871,15 @@ WIDE_CHOICES = ("on-monologue", "on-together", "on-uncertain")
 # transcript no question is found, and then they change nothing.
 QUESTION_SETTINGS = ("reaction-lead", "on-question")
 # And two of the wide shot's: both place themselves on a sentence
-# boundary, which only a transcript knows. Measured over 200 s of
-# monologue -- without words "after 40" gives what "after 90" gives,
-# and "at most 15" what "at most 40" gives (measurements.md).
+# boundary, which only a transcript knows. Over 200 s of monologue,
+# "after 40" gives what "after 90" does (measurements.md).
 WIDE_NEEDS_WORDS = ("wide-after", "wide-most")
 
 def wide_note_build(label_of_text, quiet):
     """The line under the wide shot settings that says why they are grey.
 
     The same pattern the start button follows: a greyed control without
-    a reason is a dead end. Named so it can be found -- a reading
-    program announces it by name rather than as "label".
+    a reason is a dead end. Named, so a reading program can announce it.
     """
     note = label_of_text("", quiet)
     note.setWordWrap(True)
@@ -2028,8 +1892,7 @@ def question_note_build(label_of_text, quiet):
     """The line under the question settings that says why they are grey.
 
     Same pattern as the wide shot's: a greyed control without a reason
-    is a dead end, and a tooltip is neither reachable by keyboard nor
-    read out reliably.
+    is a dead end, and a tooltip is neither reachable nor read out.
     """
     note = label_of_text("", quiet)
     note.setWordWrap(True)
@@ -2041,21 +1904,17 @@ def question_note_build(label_of_text, quiet):
 def wide_settings_grey(parts, tick, note, there, quiet, words_there):
     """Grey the wide shot settings where there is no wide shot.
 
-    Five settings and a value in three drop-downs are about the wide
-    shot and nothing else, and with every camera carrying a speaker
-    there is none. The reason stands under them in the window: a tooltip
-    cannot be reached with the keyboard and is not read out reliably, so
-    it cannot be the only place it is written.
+    Five settings and a value in three drop-downs are about the wide shot
+    and nothing else, and with every camera carrying a speaker there is
+    none. The reason stands under them: a tooltip is not read out.
     """
     why = T('No camera is free of speakers, so there is no wide shot: '
             'the four wide shot settings and the tick for the edges do '
             'nothing. Give a camera the Kind "Wide shot", or leave one '
             'without a speaker.')
     for api_key in WIDE_FIELDS:
-        # Two of them need the words as well, and whichever greying
-        # runs last writes the widget. So each asks both facts, and
-        # neither can prise open what the other shut -- a live control
-        # that does nothing, under a note saying why it is grey.
+        # Two of them need the words too, and the greying that runs last
+        # writes the widget. So each asks both facts.
         open_it = there and (words_there or api_key not in WIDE_NEEDS_WORDS)
         for w in parts.get(api_key, (None, None)):
             if w is not None:
@@ -2073,11 +1932,9 @@ def words_settings_grey(parts, note, there, wide_there, quiet):
     """Grey the settings that need a transcript, with the reason.
 
     Four of them: the two of the question, which without words find no
-    question at all, and two of the wide shot, which place themselves
-    on a sentence boundary and have none. The reaction cut went unseen
-    for a whole version this way -- the preview showed a cut it could
-    not make. *wide_there* keeps the wide shot's own greying: a control
-    is open only where both say so.
+    question at all, and two of the wide shot, which place themselves on
+    a sentence boundary. *wide_there* keeps the wide shot's own greying:
+    a control is open only where both say so.
     """
     why = T('No transcript yet. Without one no question is found and no '
             'sentence boundary is known, so these four settings do '
@@ -2097,9 +1954,9 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
     """The wide shots among these files, and whether anybody said so.
 
     *files* are the window's (path, kind) pairs, *kinds* the
-    {path: Value} it holds, *remembered* the fallback for a file no
-    table has built a value for yet, *placeless* the absolute paths the
-    measurement placed nowhere. Returns (file names, marked).
+    {path: Value} it holds, *remembered* the fallback for a file no table
+    has a value for, *placeless* the paths placed nowhere. Returns
+    (file names, marked).
     """
     videos = sorted([p for p, a in files if a == "video"],
                     key=lambda x: os.path.basename(x).lower())
@@ -2112,11 +1969,10 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
     def a_camera(path):
         """A camera the derivation may take: one with a place on the axis.
 
-        A file that sits on no axis cannot be the one the cut falls
-        back on. A mark comes through either way, and not only because
-        an answer stands: dropped here it would fall out of the marked
-        list too, and the caller would then say a wide shot was marked
-        while handing back a derived one.
+        A file that sits on no axis cannot be the one the cut falls back
+        on. A mark comes through either way: dropped here it would fall
+        out of the marked list too, and the caller would say a wide shot
+        was marked while handing back a derived one.
         """
         kind = kind_of(path)
         return kind in CAMERA_TYPES and (
@@ -2130,11 +1986,9 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
 def wide_bar_of(targets, wides, said, aside):
     """What a wide shot mark bars, and where what it displaces is kept.
 
-    A camera somebody marked takes no speakers. Its entry stays in every
-    list, greyed, with the reason on it: the answer to "why can I not
-    pick this" belongs where the question is asked. Only a mark bars a
-    camera, never the derivation -- a camera the derivation makes the
-    wide shot is one nobody is assigned to, so it displaces nothing.
+    A camera somebody marked takes no speakers, and its entry stays in
+    every list, greyed, with the reason on it. Only a mark bars a camera,
+    never the derivation -- a derived wide shot displaces nothing.
     """
     barred = set(wides) if said else set()
     return {"barred": barred,
@@ -2146,10 +2000,9 @@ def camera_after_a_mark(api_key, old_camera, wide, who):
     """The camera a row is preselected to, once the marks are in.
 
     Whoever was on a camera that is now the wide shot goes to "no camera
-    of its own" -- name, sound, mix and transcript all stay. Nothing is
-    thrown away: the camera is set aside and handed back the moment the
-    mark goes, and it is kept out of "remembered", which is written
-    back from the table.
+    of its own" -- name, sound, mix and transcript all stay. The camera
+    is set aside and handed back the moment the mark goes, and kept out
+    of "remembered", which is written back from the table.
     """
     aside, barred = wide["aside"], wide["barred"]
     kept = aside.get(api_key)
@@ -2161,9 +2014,8 @@ def camera_after_a_mark(api_key, old_camera, wide, who):
         wide["pushed"].setdefault(was, []).append(who)
         return None
     if kept:
-        # The mark is gone. The camera comes back where nothing else
-        # was chosen meanwhile; where something was, that is the newer
-        # answer and it wins.
+        # The mark is gone. The camera comes back where nothing else was
+        # chosen meanwhile; where something was, that is the newer answer.
         aside.pop(api_key, None)
         if old_camera in (None, MIX_ONLY):
             return kept
@@ -2172,9 +2024,8 @@ def camera_after_a_mark(api_key, old_camera, wide, who):
 def speaker_names_of(values):
     """The names a set of speaker fields really works under.
 
-    A field with nothing in it and nothing suggested either has no
-    name, and it drops out here rather than standing in a list as an
-    empty entry: the answers are read out to people, and the camera's
+    A field with nothing in it and nothing suggested has no name and
+    drops out here: the answers are read out to people, and the camera's
     file name is built out of them.
     """
     return [name for name in (v.get() for v in values or ())
@@ -2183,9 +2034,8 @@ def speaker_names_of(values):
 def camera_gets_from(short, wide, names):
     """What the camera table says this camera gets its audio from.
 
-    A wide shot takes no speakers, so the question has an answer of
-    its own here -- one that says why. Any assigned before the mark
-    are named: they are only set aside.
+    A wide shot takes no speakers, so the question has an answer of its
+    own here -- one that says why. Any assigned before the mark are named.
     """
     if short in wide["barred"]:
         if wide["pushed"].get(short):
@@ -2207,9 +2057,8 @@ def camera_name_suggestion(production, camera, values):
 def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
     """Which cameras a speaker is assigned to, by file name.
 
-    The same reading off the assignment that off_speakers makes for the
-    preview: exactly one level answers -- where separated voices stand
-    under a recording, they carry the camera and the recording does not.
+    The same reading off the assignment that off_speakers makes: voices
+    under a recording carry the camera, and the recording does not.
     """
     voiced = set(voiced or ())
     taken = set()
@@ -2228,20 +2077,15 @@ def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
 def kind_on_show(kind, short, wides, said):
     """What the Kind field shows, why, and whether it is derived.
 
-    A mark is shown as it stands, and where several are marked the ones
+    A mark is shown as it stands; where several are marked, the ones
     after the first are told which the cut uses. A camera nobody is
-    assigned to is shown as the wide shot with the reason, whoever
-    answered the field last: that is the camera the run cuts to, and a
-    field saying "Content" would disagree with the episode. Everything
-    else shows what is stored. Returns (value, reason, derived).
+    assigned to is the wide shot, with a reason. (value, reason, derived).
     """
     second = bool(wides) and len(wides) > 1 and wides[0] != short
     if kind == TYPE_WIDE:
         return kind, (T('the cut uses %s') % wides[0] if second else ""), False
-    # chosen_by_hand is deliberately not asked here, where
-    # wide_shot_barred does ask. That a file sits nowhere on the axis is
-    # a measurement, and an answer may overrule a measurement; that no
-    # speaker is assigned is the assignment itself, and the run goes by it.
+    # chosen_by_hand is not asked here, where wide_shot_barred does: a
+    # place on the axis is a measurement, an assignment is an answer.
     if kind == TYPE_CONTENT and not said and short in wides:
         if second:
             return TYPE_WIDE, T('no speaker is assigned to it, but the '
@@ -2254,9 +2098,8 @@ def without_a_wide_shot(after, edge, rules):
 
     Four numbers, one tick and one value in three of the choice fields
     all say what the wide shot does, and where there is none they have
-    nothing to say. Without this they said it to the first camera
-    instead. The window greys the same settings out; this is what makes
-    the greying true. Returns (after, edge, rules) for the cut to read.
+    nothing to say -- without this they said it to the first camera. The
+    window greys the same settings. Returns (after, edge, rules).
     """
     rules = dict(rules or {})
     for api_key in ("on_monologue", "on_together", "on_uncertain"):
@@ -2268,15 +2111,12 @@ def legend_names(cameras, wide_shot=None):
     """What each camera is called in the legend under the cut band.
 
     Returns {track: name}. Who is in the picture is what the reader does
-    not know already, so a camera is called after the people assigned to
-    it, joined with a plus and never shortened -- the legend wraps. A
-    free camera serving as the wide shot is called that. Two cameras
-    ending up alike get the camera put beside the name.
+    not know, so a camera is called after the people on it, joined with a
+    plus and never shortened. Two alike get the camera beside the name.
     """
-    # *wide_shot* takes one track name or several: two cameras nobody
-    # is assigned to are two wide shots, as are two somebody marked.
-    # The cut uses the first and the others stand under their own
-    # number -- see wide_shots_of for why one and not a majority.
+    # *wide_shot* takes one track name or several: two cameras nobody is
+    # assigned to are two wide shots, as are two somebody marked. The cut
+    # uses the first -- see wide_shots_of for why one and not a majority.
     marked = ([wide_shot] if isinstance(wide_shot, str)
               else list(wide_shot or []))
     wides = [cam.get("track") for cam in cameras
@@ -2310,9 +2150,8 @@ def legend_markup(numbers):
 
     One wrapping label, not a row of widgets: a row cannot get narrower
     than the sum of its parts, and with camera names in it the sheet
-    grew wide enough for a horizontal scroll bar on any screen. The
-    colour square rides in the text, which makes one label enough.
-    Spaces are hard except between two cameras and between two people.
+    needs a horizontal scroll bar on any screen. The colour square rides
+    in the text. Spaces are hard except between two cameras and two people.
     """
     names = (numbers or {}).get("names") or {}
     colours = (numbers or {}).get("colours") or {}
@@ -2335,10 +2174,8 @@ def wide_marks_applied(d, wide_names, speakers_on=None, marked=False):
     """Say the wide shot in a handover the way the window says it now.
 
     The preview reads the handover for what a run measured, but which
-    camera is the wide shot is an answer, not a measurement, and the
-    window may have a newer one -- with every camera counting as the
-    wide shot the episode collapses into one shot. A camera is
-    recognised by its file, never by its track name.
+    camera is the wide shot is an answer and the window may have a newer
+    one. A camera is recognised by its file, never by its track name.
     """
     if not d or not d.get("cameras") or not (wide_names or speakers_on):
         return d
@@ -2350,14 +2187,12 @@ def wide_marks_applied(d, wide_names, speakers_on=None, marked=False):
     want = set(stem_of(n) for n in wide_names or ())
     fresh = []
     for c in d.get("cameras") or ():
-        # The source where there is one -- a run's handover names the
-        # rendered file under "file" and the camera under "source".
+        # A run's handover names the render "file" and the camera "source".
         stem = stem_of(c.get("source") or c.get("file") or c.get("camera"))
         who = c.get("speakers") or []
         if speakers_on:
             # Who sits in front of this camera. An empty assignment says
-            # nothing rather than "nobody", or the file's own answer
-            # would be wiped every time the sheet is not built yet.
+            # nothing rather than "nobody", or the file's own answer goes.
             who = sorted(n for n, cam in speakers_on.items()
                          if stem_of(cam) == stem)
         here = stem in want
@@ -2373,18 +2208,16 @@ def speech_on_cameras(tracks, cut, camera_of, wide_shot, step=0.1):
 
     Once per tenth of a second of the timeline, not once per speaker:
     two people talking at once are one moment. Counted per speaker it
-    reported 181 minutes on the wide shot of a timeline 83 minutes
-    long. Returns the three counts, in steps.
+    reported 181 minutes on a timeline 83 minutes long. Three counts,
+    in steps.
     """
     end = max([b for _a, b, _w in cut] + [0.0])
     steps = int(round(end / step))
     seen, anyone = {}, bytearray(steps)
     for name, segs in tracks:
         cam = camera_of.get(name)
-        # Every speaker counts as speech, camera or none. Counting only
-        # those with one made this "speech by people who have a camera":
-        # with nobody assigned it read 0.0 % three times, which looks
-        # like a quiet result and is the loudest one there is.
+        # Every speaker counts as speech, camera or none: counting only
+        # those with one read 0.0 %, which looks quiet and is the loudest.
         mark = seen.setdefault(cam, bytearray(steps)) if cam else None
         for a, b in segs:
             for k in range(max(0, int(round(a / step))),
@@ -2434,9 +2267,8 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
                        rules=None):
     """Compute the camera cut without writing anything.
 
-    *d* is a parsed handover file. Returns the numbers worth seeing
-    while adjusting: how many shots, how long they stand, and above all
-    how much speech time lands on a camera the speaker is not in.
+    *d* is a parsed handover file. Returns how many shots, how long they
+    stand, and how much speech lands on a camera the speaker is not in.
     """
     tracks = [(s["name"], [tuple(x) for x in (s.get("sections") or [])])
               for s in (d.get("speakers") or [])]
@@ -2471,9 +2303,8 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
     cut = camera_cut(tracks, length, camera_of, wide_shot, min_len, delay,
                      after=after, holds=holds, at_latest=at_latest,
                      edge=edge, rules=rules)
-    # The same step the run takes, and out of the same function: without
-    # it the preview showed one shot over the whole programme where the
-    # run made hundreds.
+    # The same step the run takes, out of the same function: without it
+    # the preview shows one shot where the run makes hundreds.
     cut, _detail = cut_split_where_one_camera(cut, tracks, camera_of, min_len)
     if not cut:
         return None
@@ -2492,8 +2323,7 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
     in_frame, on_wide_shot, off_camera = speech_on_cameras(
         tracks, cut, camera_of, wide_shot, step)
     speech_time = (in_frame + off_camera + on_wide_shot) or 1
-    # The same colour assignment as in Resolve, so the band in the
-    # interface and the clips in the edit window look alike.
+    # The same colour assignment as in Resolve, so band and clips look alike.
     colour_cameras = [{"track": cam.get("track"),
                        "wide": cam.get("track") in set(wides)}
                     for cam in cameras]
@@ -2510,15 +2340,12 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
         "wides": sum(1 for _, _, who in cut if who == wide_shot),
         "shares": [(who, 100.0 * v / total, v, how_often.get(who, 0)) for who, v in
                     sorted(share.items(), key=lambda x: -x[1])],
-        # The one the cut uses, and all of them. Where there is none at
-        # all the first entry is empty: something had to stand in front
-        # of the silence, but nothing here is a wide shot.
+        # The one the cut uses, and all of them. With none at all the
+        # first entry is empty: something has to stand before the silence.
         "wide": wide_shot if wides else "",
         "wide_shots": list(wides),
-        # What each camera is called where somebody reads it. Worked
-        # out here and not in the window: this is the place that knows
-        # who is assigned to which camera and which one is the wide
-        # shot, and a second answer to the same question drifts.
+        # What each camera is called where somebody reads it. Here and
+        # not in the window: a second answer to the question drifts.
         "names": legend_names(cameras, wides),
         "in_frame": 100.0 * in_frame / speech_time,
         "on_wide": 100.0 * on_wide_shot / speech_time,
@@ -2534,8 +2361,7 @@ def why_no_cut(d):
     """Say why these statistics produce no camera cut.
 
     cut_statistics answers None for four different reasons, and what
-    somebody can do about it differs from one to the next, so each gets
-    its own sentence rather than one message covering all four.
+    somebody can do differs, so each gets its own sentence.
     """
     tracks = d.get("speakers") or []
     if not tracks:
@@ -2574,16 +2400,13 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
 
     Returns [(from, to, camera, speakers)]; *speakers* is who talks in
     that shot, empty during silence. Whoever speaks alone gets their
-    camera once they have held the floor long enough; several at once
-    prefer a camera showing exactly them, and the choice fields decide
-    the rest. Judged per camera: a change of speaker on one is no cut.
+    camera; several prefer one showing exactly them. Judged per camera.
     """
     rules = rules or cut_rules()
     long = [(n, list(segs)) for n, segs in tracks]
     edges = sorted({t for _, segs in long for s in segs for t in s}
                     | {0.0, length})
-    # Which camera shows whom is already in the assignment: several
-    # speakers on the same camera means it shows both.
+    # The assignment already says which camera shows whom, and how many.
     coverage = {}
     for name, camera in (camera_of or {}).items():
         if camera:
@@ -2592,9 +2415,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     def common_camera(active):
         """Return the camera showing exactly these speakers, or all of them.
 
-        Exact match first. Otherwise the smallest camera that contains them
-        all: a three-shot beats the wide shot when only two of them speak.
-        None if nothing fits.
+        Exact match first. Otherwise the smallest camera containing them
+        all: a three-shot beats the wide shot when only two speak.
         """
         wanted_name = set(active)
         for camera, who in coverage.items():
@@ -2608,8 +2430,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
         """Those of these speakers who have a camera to be shown on.
 
         A voice without one counts everywhere else -- for the speaking
-        shares and among who is heard in a shot -- but it cannot decide
-        the picture, because there is nothing to cut to.
+        shares and among who is heard -- but cannot decide the picture.
         """
         return [n for n in names if (camera_of or {}).get(n)]
 
@@ -2634,10 +2455,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     def silence_picture(gap):
         """Return what to show where nobody speaks at all.
 
-        A breath in the middle of a sentence and the end of a thought
-        are the same thing here, and only the length tells them apart.
-        Every stretch with nobody in it is one block, so *gap* is the
-        whole silence and not a piece of it.
+        A breath mid-sentence and the end of a thought are the same
+        thing here; only the length tells them apart, and *gap* is whole.
         """
         want = rules.get("on_silence") or SHOT_WIDE
         if want == SHOT_HOLD:
@@ -2713,9 +2532,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             raw[i][2] = raw[i + 1][2] if i + 1 < len(raw) else wide_shot
 
     # Lead-in: switch to the coming camera shortly before the entry. A
-    # negative value makes it a lag, as Resolve's Edit Change Delay
-    # does; the craft rule says the opposite, hence adjustable. Both
-    # edges of a shot move together, or shifting would shorten it.
+    # negative value makes it a lag, as Resolve's Edit Change Delay does;
+    # both edges of a shot move together, or shifting would shorten it.
     answers, asked_until = {}, {}
     if (rules.get("on_question") or SHOT_OFF) != SHOT_OFF and words:
         answers = reaction_cuts(
@@ -2724,8 +2542,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             float(rules.get("reaction_hold") or 0.0),
             float(rules.get("reaction_over") or 0.0),
             # Counted into the caller's own rules, so whoever built them
-            # can say afterwards what became of the questions. The dict
-            # is the caller's; a rule built here has nobody to tell.
+            # can say what became of the questions; one built here cannot.
             tally=rules.setdefault("question_tally", {}),
             ends=asked_until)
     lead = float(rules.get("reaction_lead") or 0.0)
@@ -2749,10 +2566,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
                               raw[i][0] - lead, per_camera, raw[i - 1][2])):
                 early = False
             if early:
-                # Zero is where the asker stops, not where the answer
-                # starts: the pause between them belongs to the
-                # question. The point itself comes from the sound, and
-                # the Edit Change Delay is not added a second time.
+                # Zero is where the asker stops: the pause belongs to
+                # the question, and the delay is not added twice.
                 zero = asked_until.get(raw[i][0], raw[i][0])
                 limits[i] = min(end, max(0.0, cut_point(
                     zero - lead, (), (), levels, step)))
@@ -2760,8 +2575,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             elif lead_in:
                 limits[i] = min(end, limits[i] - lead_in)
         # A reaction cut reaches back over the pause after the question,
-        # and the wide shot standing in that pause goes with it -- else
-        # the edge before it would push the reaction back where it was.
+        # and the wide shot in it goes too, or the edge would push back.
         for i in brought:
             for j in range(i - 1, 0, -1):
                 if limits[j] <= limits[i]:
@@ -2790,11 +2604,8 @@ def voices_joined(keeper, swallowed):
     """Add the swallowed shot's voices to the shot that stays.
 
     Both halves are still audible in the joined shot, so both belong to
-    its name -- and that name is read: it is the Speaker column of the
-    cut list, and with one camera for everybody it is the clip name in
-    the EDL. Named after the first half alone, the second speaker
-    disappeared from both. A row without a voices field -- the plain
-    cut list, which carries only the camera -- is left as it is.
+    its name -- and that name is read: the Speaker column of the cut list
+    and the clip name in the EDL. A row without voices is left alone.
     """
     if len(keeper) > 3 and len(swallowed) > 3:
         keeper[3] = tuple(sorted(set(keeper[3]) | set(swallowed[3])))
@@ -2808,9 +2619,8 @@ def split_shots_by_speaker(cut, tracks, min_len=MIN_EDIT_DURATION_S):
 
     For the case where one camera shows everybody: the cut is then one
     long shot, and Resolve gets a single clip that cannot be grouped,
-    coloured or zoomed per speaker. The picture does not change, only
-    the boundaries. Returns [(from, to, camera, speakers)]; pieces
-    shorter than *min_len* are merged back, so an interjection is none.
+    coloured or zoomed per speaker. The picture does not change, only the
+    boundaries. Pieces shorter than *min_len* are merged back.
     """
     if not cut:
         return []
@@ -2818,9 +2628,8 @@ def split_shots_by_speaker(cut, tracks, min_len=MIN_EDIT_DURATION_S):
     key = lambda r: (r[2], r[3])
     out = []
     for a, b, who in cut:
-        # Merged inside this shot and not across it: the camera edges
-        # were placed by the Edit Change Delay, and a piece pulled over
-        # one of them would move the picture as well as the name.
+        # Merged inside this shot, not across it: a piece pulled over a
+        # camera edge would move the picture as well as the name.
         pieces = []
         inside = [t for t in edges if a < t < b]
         for x, y in zip([a] + inside, inside + [b]):
@@ -2848,9 +2657,8 @@ def cut_split_where_one_camera(cut, tracks, camera_of, min_len):
 
     With one camera the cut is one long shot that says nothing; cutting
     again leaves the picture as it is and gives Resolve a clip per
-    speaker. Returns (cut, detail): *detail* carries the speakers per
-    shot and is always there, since the cut list and the EDL come out
-    of it. Run and preview both pass here, or the two drift apart.
+    speaker. *detail* carries the speakers per shot and is always there.
+    Run and preview both pass here, or the two drift apart.
     """
     detail = split_shots_by_speaker(cut, tracks, min_len) if cut else []
     if cut and one_camera_only(camera_of) and len(detail) > len(cut):
@@ -2872,8 +2680,7 @@ def merge_short_shots(cut, min_len, key=shot_key):
     Same rule as Resolve's Minimum Edit Duration, run again after every
     other step, which can leave short remnants. Forwards, not backwards:
     merging back gives the time to whoever has just finished, forward to
-    whoever is about to speak, and the second is nearly always right.
-    *key* says when two neighbours count as the same shot.
+    whoever is about to speak. *key* says when two are the same shot.
     """
     if min_len <= 0 or not cut:
         return list(cut)
@@ -2906,9 +2713,8 @@ def timeline_timecode(seconds, zero, fps):
     """The timecode a moment of programme time carries on the Timeline.
 
     Frame zero of the Timeline, then the frames since it -- the two steps
-    build_cut_timeline takes. The written cut list used to work it out
-    from the moment itself, and where the zero did not sit on a whole
-    frame the paper and the Timeline named frames one apart.
+    build_cut_timeline takes, or the paper and the Timeline name frames
+    one apart wherever the zero does not sit on a whole one.
     """
     return frames_to_timecode(zero + seconds_to_frames(seconds, fps), fps)
 
@@ -2945,9 +2751,7 @@ def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
 
     The log is overwritten on the next run; this file is not. Over a few
     months it shows what a single run hides: a recorder drifting, a
-    camera looking unlike the rest, crosstalk rising with a new setup.
-    Both sides are measured the same way, or the comparison would not be
-    one. Area and Metric stay English, so runs in two languages compare.
+    camera unlike the rest, crosstalk rising. Area and Metric stay English.
     """
     lines = []
 
@@ -2978,8 +2782,7 @@ def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
             line('Audio ' + track["name"], 'Offset', number(track["offset_ms"], 2),
                   number(track.get("residual_ms"), 2), "ms")
     line('Audio', 'Gain on every track', "", number(gain, 2), "dB")
-    # Empty where nothing was adjusted: a number in this column would claim
-    # a target the run never worked towards.
+    # Empty where nothing was adjusted, or the column claims a target.
     line('Audio', 'Loudness target', "", number(getattr(args, "lufs", None)),
           "LUFS")
 
@@ -3059,8 +2862,7 @@ def separation_on_axis(given, tracks, position, t0, t1):
 
     The one in front and the ones under "more", each with the offset of
     its own recording -- which recording a voice was heard in makes no
-    difference to the cut. Voices of one name are folded together, so a
-    name is one person here as it is everywhere else.
+    difference to the cut. Voices of one name are folded together.
     Returns (segments, "") or ([], why not).
     """
     out, trouble = one_separation_on_axis(given, tracks, position, t0, t1)
@@ -3077,9 +2879,8 @@ def separation_on_axis(given, tracks, position, t0, t1):
 def one_separation_on_axis(given, tracks, position, t0, t1):
     """Put one stored separation onto the axis of this run.
 
-    The segments are kept raw, in the time of the file they were
-    measured in; where that file sits on the axis is already known from
-    the alignment, so this is arithmetic and never a second measurement.
+    The segments are kept raw, in the time of the file they were measured
+    in; where it sits is known, so this is arithmetic and no measurement.
     Returns (segments, "") or ([], why not).
     """
     if not (given or {}).get("source"):
@@ -3119,11 +2920,9 @@ def microphones_apart_of_run(args, tracks):
     """How far apart the microphones of this run stand, in dB.
 
     Every recording against every other, both ways round, so it is the
-    dearest question in this corner: asked once a run, the answer kept
-    on *args*, None where there is nothing to compare. A block is not a
-    recording -- two blocks of one recorder never sound at the same
-    moment, so measured against each other they share no time at all.
-    The question goes to the joined recordings, as in the preflight.
+    dearest question in this corner: asked once a run, the answer kept on
+    *args*, None where there is nothing to compare. Two blocks of one
+    recorder share no time, so the question goes to whole recordings.
     """
     if hasattr(args, "_microphones_apart"):
         return args._microphones_apart
@@ -3140,12 +2939,10 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
                              window=()):
     """Which recording a run without a window takes apart by voice.
 
-    The same rule the window follows, on the same function. Which
-    cameras were ticked by hand is not on the command line, so all are
-    offered. With *mixable* the microphones are measured and, where
-    they hear each other too well to be told apart, added into one file
-    that becomes the source. *window* goes into that mix's name. How far
-    apart they stand is asked of the recordings, not of the blocks.
+    The same rule the window follows, on the same function. Which cameras
+    were ticked by hand is not on the command line, so all are offered.
+    With *mixable* microphones that hear each other too well are added
+    into one file, which becomes the source; *window* names it.
     """
     from_cameras = bool(getattr(args, "_camera_audio", None))
     recordings, of_track = [], {}
@@ -3189,12 +2986,10 @@ def voices_reported(segments):
 def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     """Work out who speaks when, before the audio is processed.
 
-    Four ways in, in this order: a separation handed over in the
-    assignment file, one named with --speakers-from, the recording
-    named with --speakers-local, and otherwise the one this run picks
-    itself; --no-speakers-local leaves it out. One exception: where the
-    microphones hear each other too well the run overrules the window
-    and mixes all recordings. Returns (segments, where from) or ([], "").
+    Four ways in, in order: handed over in the assignment file, named
+    with --speakers-from, named with --speakers-local, or the one this
+    run picks. Where the microphones hear each other too well, all are
+    mixed instead. Returns (segments, where from) or ([], "").
     """
     given = getattr(args, "_speakers_of", None) or {}
     where_from = T('the interface') if given else ""
@@ -3211,8 +3006,7 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             and not getattr(args, "auphonic_done", None)):
         # The window picks its source without knowing how far the
         # microphones stand apart, so it takes one recording: below
-        # MICROPHONES_APART_DB that names 37.5 % of the speech right
-        # against 97.6 % from the mix, worth three minutes to redo.
+        # MICROPHONES_APART_DB that names 37.5 % right against 97.6 %.
         apart = microphones_apart_of_run(args, tracks)
         if apart is not None and apart < MICROPHONES_APART_DB:
             source, why = separation_source_of_run(
@@ -3220,17 +3014,15 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             if source and why == "microphones mixed":
                 dropped = apart
             else:
-                # No mix came back, so there is nothing better to be
-                # had and what the window found still stands.
+                # No mix came back, so what the window found still stands.
                 source, why = "", ""
     if not given and not source and not getattr(args, "no_speakers_local",
                                                 False):
         if getattr(args, "speakers_local", None):
             source = os.path.abspath(args.speakers_local)
         elif not SPEAKER_SPLIT_OFF:
-            # Only where the recordings stay raw: measured, the tracks
-            # then name 37.5 % of the speech right against 97.6 % from
-            # the mix. After auphonic.com the bleed is out of them.
+            # Only where the recordings stay raw -- after auphonic.com
+            # the bleed is already out of them.
             source, why = separation_source_of_run(
                 args, tracks, video_paths,
                 mixable=bool(getattr(args, "without_auphonic", False))
@@ -3240,8 +3032,7 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         print(as_head(T('\nSEPARATING THE SPEAKERS')))
         if dropped is not None:
             # Somebody is about to wait three minutes longer than the
-            # window promised, and this is the only place that can say
-            # what for.
+            # window promised, and this is the only place to say why.
             print(as_warn(
                 T('  What the window took apart is dropped: it listened '
                   'to one recording, and the microphones hear each other '
@@ -3271,9 +3062,8 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
                          as_hms(how_long)))
             if not speaker_split_available():
                 print("  " + speaker_split_missing())
-        # A separation already on this machine costs nothing to read,
-        # so a dry run hands it on instead of stopping here. Only a
-        # measurement that would have to be made is left undone.
+        # A separation already on this machine costs nothing to read, so
+        # a dry run hands it on. Only a measurement is left undone.
         if getattr(args, "dry_run", False) and not stored:
             print(T('  (measuring only: nothing separated)'))
             return [], ""
@@ -3293,14 +3083,12 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         where_from = T('the separation in this run')
     if not given:
         return [], ""
-    # Which recordings were taken apart. The tracks they are made of
-    # reach the cut through their voices; every other track reaches it
-    # through its own microphone, and speakers_for_the_cut adds those.
+    # Which recordings were taken apart. Their tracks reach the cut
+    # through their voices, the rest through speakers_for_the_cut.
     args._separated = separation_sources(given)
     if getattr(args, "_speakers_mixed", False):
-        # The mix was written onto the axis over this very window, so a
-        # moment in it is already a moment of the cut. Placing a
-        # recording takes t0 off it; a start of -t0 puts it back.
+        # The mix was written onto the axis over this window, so a moment
+        # in it is a moment of the cut. Placing takes t0 off; -t0 undoes it.
         position = dict(position or {})
         position[source] = (-t0, 1.0)
     out, why_not = separation_on_axis(given, tracks, position, t0, t1)
@@ -3308,23 +3096,20 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         print(as_warn(T('  The speaker separation is not used: %s.')
                       % why_not))
         if getattr(args, "_speakers_mixed", False):
-            # Whatever went wrong, the tracks are still there and every
-            # person is still on one. Letting a mix that says nothing
-            # speak for all of them would empty the cut.
+            # Whatever went wrong, the tracks are there and everybody is
+            # on one. A mix that says nothing would empty the cut.
             args._speakers_mixed = False
             args._separated = []
         return [], ""
     if getattr(args, "_speakers_mixed", False):
         # The mix is made of every track, so every track is spoken for.
-        # Without this each one would be measured as well and everybody
-        # would stand in the cut twice.
+        # Without this everybody would stand in the cut twice.
         args._separated += [p for track in (tracks or ())
                             for p in (track.get("blocks")
                                       or [track.get("source")]) if p]
     if getattr(args, "dry_run", False):
         # A dry run stops before the cut is built, so what the voices
-        # amount to is said here or nowhere -- under the heading the
-        # real run gives the same list, not bare.
+        # amount to is said here or nowhere.
         print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
         voices_reported(out)
     return out, where_from
@@ -3338,11 +3123,10 @@ def separation_sources(given):
 def separated_already(track, separated=()):
     """Whether a separation was made of this very recording.
 
-    Then the people in it are in the cut as its voices, and measuring
-    the track as well would put them there twice. That is the only
-    thing that keeps a track out of the measurement. A track with no
-    camera of its own is measured like any other and counts for the
-    speaking shares -- it has no picture to be cut to, that is all.
+    Then the people in it are in the cut as its voices, and measuring the
+    track as well would put them there twice. That is the only thing that
+    keeps a track out of the measurement: one with no camera of its own
+    is measured like any other and counts for the speaking shares.
     """
     apart = set(path_key(p) for p in separated or () if p)
     mine = list(track.get("blocks") or []) + [
@@ -3353,20 +3137,17 @@ def speakers_for_the_cut(args, tracks):
     """Say who speaks when, and put the origin in the log.
 
     Everybody is in it, whichever way they came in: the voices a
-    separation found, and every track no separation covers, measured
-    from its own microphone. Only "do not use" keeps somebody out, and
-    that is answered before the run. Whoever is not in it after all is
-    named in the log instead of going quietly missing.
+    separation found, and every track no separation covers, measured from
+    its own microphone. Only "do not use" keeps somebody out. Whoever is
+    not in it is named in the log instead of going quietly missing.
     """
     voices, where_from = getattr(args, "_speakers", None) or ([], "")
     left = [t for t in tracks
             if not separated_already(t, getattr(args, "_separated", None))]
     mics, box = [], []
     if left or (where_from and len(tracks) > 1):
-        # One reading for both uses, and over every track: the bleed is
-        # taken out by holding the microphones against each other, so a
-        # track left out of it would hear its neighbour and count that
-        # as speech.
+        # One reading for both uses, over every track: a track left out
+        # would hear its neighbour and count that as speech.
         try:
             mics = speakers_from_tracks(
                 [(track["name"], track.get("ready") or track["axis"], 0.0)
@@ -3417,19 +3198,17 @@ def speakers_for_the_cut(args, tracks):
 def name_voices_by_microphone(voices, box):
     """Give the voices of a mixed separation the names of the microphones.
 
-    A voice out of a mix is SPEAKER_00, a name with no camera behind
-    it, so the cut would stand on the wide shot throughout -- this is
-    no proposal like the one below. *box* holds the levels
-    speakers_from_tracks read, so the tracks are opened once. Nothing
-    comes back where they cannot say, and the tracks answer instead.
+    A voice out of a mix is SPEAKER_00, a name with no camera behind it,
+    so the cut would stand on the wide shot throughout -- this is no
+    proposal like the one below. *box* holds the levels
+    speakers_from_tracks read, so the tracks are opened once.
     """
     grid = (box or [None])[0]
     rows = voices_by_level(voices, grid["names"], grid["level"],
                            grid["block"], grid["begin"]) if grid else []
     if not rows:
         # Nothing that could be hung on a camera, so the voices are let
-        # go and the tracks answer instead -- worse, but everybody is
-        # then at least somewhere, which a nameless voice is not.
+        # go and the tracks answer -- worse, but everybody is somewhere.
         return [], [T('  Which voice belongs to which microphone could '
                       'not be told, so the tracks are measured instead.')]
     called = dict((voice, track) for voice, track, _level, _ahead in rows)
@@ -3444,10 +3223,9 @@ def name_the_voices(segments, mics):
     """What the microphones say about voices that came out unnamed.
 
     Only worth saying where the two are different things: a separation
-    named the voices SPEAKER_00 upwards, and beside it there are tracks
-    a person has named. The measurement comes in rather than being made
-    here -- the one the cut is built from, not a second reading of
-    every track.
+    named the voices SPEAKER_00 upwards, and beside it there are tracks a
+    person has named. The measurement comes in rather than being made
+    here -- the one the cut is built from, not a second reading.
     """
     return microphones_report(which_microphone(segments, mics))
 
@@ -3456,10 +3234,9 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     """Finish a multitrack run without auphonic.com.
 
     The tracks are aligned and equally long, which is everything the mix
-    and the cameras need. What is missing is what only auphonic.com
-    does: the de-bleeding, the leveler, the noise removal. Who speaks
-    when comes from the separation, or is measured from the tracks --
-    and there the bleed is taken out of the *measurement*, not the audio.
+    and the cameras need. What is missing is what only auphonic.com does:
+    de-bleeding, leveler, noise removal. Who speaks when is measured from
+    the tracks -- and there the bleed comes out of the *measurement*.
     """
     step_begin("loudness")
     print(as_head(T('\nWITHOUT AUPHONIC.COM')))
@@ -3485,25 +3262,9 @@ def camera_place(files, zero, measured, fps=30.0):
     """Where a camera's picture sits, and what put it there.
 
     "Position in the file is programme time minus this." Returns the
-    place and one word for how it was found: "measured", "clock" or
-    "nowhere".
-
-    The measurement comes first. Not every camera shares a timecode,
-    and a shared one is still a frame or two out -- so a clock is where
-    a measurement starts, not what it is replaced by. Only where
-    nothing was measured does the clock answer, and the caller then
-    says so: a camera placed without a measurement is one nobody
-    checked.
-
-    *files* are asked in turn, the rendered file first: a window cuts a
-    head off it and moves its timecode with it, and that moved one is
-    the truth for whoever plays it. Not every ffmpeg carries a timecode
-    track through a render -- Windows with ffmpeg 9 does not, measured
-    28.8.2026, while macOS with the same 9 and Ubuntu with 6 do.
-
-    *fps* is the measured frame rate, and it has to be passed: the
-    frames of a timecode are frames, so reading 10:00:01:12 at 30
-    instead of at 25 puts the camera 0.08 s out.
+    place and "measured", "clock" or "nowhere"; a clock only where
+    nothing was measured. *files* are asked in turn, rendered first --
+    not every ffmpeg carries a timecode. *fps*: 30 not 25 is 0.08 s out.
     """
     if measured is not None:
         return float(measured), "measured"
@@ -3527,11 +3288,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     """Write everything Resolve needs: the handover file and instructions.
 
     The Resolve scripting interface has no multicam: the word does not
-    appear once in the bundled README (version 21), and the manual lists the
-    conversion only as a menu command. Project, import, timeline, track
-    names and markers can be driven remotely, and that is what
-    build_resolve_project does from the file written here. The last step --
-    right-click on the timeline -- stays manual.
+    appear once in the bundled README (version 21), and the manual lists
+    the conversion only as a menu command. Project, import, timeline,
+    track names and markers can be driven; the last step stays manual.
     """
     if not cameras:
         return
@@ -3555,8 +3314,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     # The fallback for the offset is 0.0 -- the start of the axis.
     takes = ByFile((v, e.get("duration") or 0.0) for v, e in videos)
     rate_of = ByFile((v, e.get("fps") or 0.0) for v, e in videos)
-    # The three that are kept under the rendered file. Put into shape
-    # here because they may come from a caller that is not the run.
+    # Kept under the rendered file, shaped here: the caller may not be a run.
     measured = ByFile(offsets or {})
     delivered = ByFile(lengths or {})
     named = ByFile(track_names or {})
@@ -3566,9 +3324,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             speaker_of.setdefault(track["camera"],
                                     []).append(track["name"])
     # And the voices told apart under one recording, which have no track
-    # of their own. Without them a camera the cut fills with a person
-    # comes over as having nobody on it: it counts as a wide shot, and
-    # its key on the timeline is the camera's name and not the person's.
+    # of their own -- else a camera filled with a person counts as wide.
     for name, where in voices_of_file(
             getattr(args, "assign", "")
             or getattr(args, "speakers_from", "") or "").items():
@@ -3585,28 +3341,22 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     for cam in cameras:
         v = os.path.abspath(cam["video"])
         if v in nowhere:
-            # Refused by the run, so it is no camera of this episode.
-            # Handed over it becomes the wide shot: "wide" below is true
-            # for whoever has no speaker, and nobody is assigned to a
-            # file that fits nowhere.
+            # Refused by the run, so no camera of this episode. Handed
+            # over it becomes the wide shot: nobody is assigned to it.
             left_out.append(cam["name"])
             continue
-        # Sorted, like build_handover's: gathered the way they arrive,
-        # the same two people come out as one name here and another
-        # there -- and both are read, one as a Resolve track and one
-        # in the legend under the cut band.
+        # Sorted, like build_handover's: gathered as they arrive, the same
+        # two people come out as one name here and another there.
         who = sorted(speaker_of.get(v) or [])
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
-        # start of the axis instead of where it was measured -- so the
-        # source is tried too, and what stays unknown gets said out loud.
+        # start of the axis -- so the source is tried and gaps are said.
         shift = measured.get(file) if file else None
         if shift is None:
             shift = measured.get(v)
-        # A 0.0 put here would be a lie nothing can read back out of the
-        # file: it looks exactly like a camera measured at the start of
-        # the axis. Nothing measured travels as nothing measured.
+        # A 0.0 here would be a lie nothing can read back: it looks like
+        # a camera measured at the start of the axis.
         where, how = camera_place((file, v), tc_start, shift,
                                    rate_of.get(v) or fps)
         if how == "clock":
@@ -3614,10 +3364,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         elif how == "nowhere":
             unmeasured.append(cam["name"])
         elif how == "measured" and tc_start is not None:
-            # Both numbers where they disagree -- a clock quietly
-            # ignored is how a camera nineteen hours out slips through.
-            # The word matters: without it a camera with no clock at
-            # all is reported as one whose clock reads zero.
+            # Both numbers where they disagree -- a clock quietly ignored
+            # is how a camera nineteen hours out slips through. The word
+            # matters: no clock at all is not a clock reading zero.
             clock, said = camera_place((file, v), tc_start, None,
                                         rate_of.get(v) or fps)
             if said == "clock" and abs(clock - where) > 1.0 / max(
@@ -3630,44 +3379,31 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             "file": file,
             "source": v,
             "camera": cam["name"],
-            # The track name is a key further along -- the clips of a
-            # camera, its audio tracks and its place on the timeline are
-            # all looked up by it, so it has to be unique. The camera's
-            # own name is: one word for every camera without a speaker
-            # would put two of them on one key, and the second would
-            # take the first one's place on the timeline while the table
-            # still listed both.
+            # The track name is a key further along, so it has to be
+            # unique: one word for every camera without a speaker puts
+            # two on one key, and the second takes the first's place.
             "track": (" + ".join(who) if who else cam["name"]),
             "speakers": who,
             "audio_tracks": (named.get(file, []) if file else []),
             # Where this camera sits: position in the file is programme
-            # time minus this. The rendered file carries the timecode of
-            # its own first frame, moved with whatever a window cut off
-            # the head, and its frames count at this camera's own rate.
+            # time minus this, at this camera's own rate.
             "offset": round(where, 4),
             # Which of the three answered: "measured", "clock" or
-            # "nowhere". Read back by anybody asking afterwards why a
-            # camera sits where it does.
+            # "nowhere". Read back by anybody asking why it sits there.
             "placed_by": how,
-            # Not the camera's place: where the shared sound sits
-            # against the delivered picture, with its sign turned round.
-            # It is what camera_place falls back on where no file in the
-            # row carries a timecode, and named so nobody reads a place.
+            # Not the camera's place but where the shared sound sits
+            # against the picture, sign turned round -- hence the name.
             "sound_against_picture": (round(shift, 4)
                                        if shift is not None else None),
-            # How long the delivered file is, not the recording: a
-            # window makes it shorter, and the cut timeline drops every
-            # shot that runs past what this says.
+            # How long the delivered file is, not the recording: the cut
+            # timeline drops every shot running past what this says.
             "duration": round((delivered.get(file) if file else None)
                               or takes.get(v, 0.0), 3),
-            # This camera's own rate, not the Timeline's. Resolve counts
-            # startFrame and endFrame in frames of the file, so the cut
-            # needs one rate per file and not one for all of them.
+            # This camera's own rate, not the Timeline's: Resolve counts
+            # startFrame and endFrame in frames of the file.
             "fps": own_frame_rate(rate_of.get(v) or fps),
-            # Two answers, and they are not the same question. "wide" is
-            # what the colour and the mix source read: nobody is
-            # assigned here. "wide_marked" is what somebody said in the
-            # Kind field, and that is what the cut goes by.
+            # Two answers to two questions: "wide" is nobody assigned,
+            # "wide_marked" is what somebody said, and the cut goes by it.
             "wide_marked": v in marked_wide,
             "wide": v in marked_wide or not who})
     if left_out:
@@ -3694,19 +3430,16 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                      if tc_start is not None else None),
         "start_s": tc_start,
         # The window this run was made with. Without it the check before
-        # the Resolve step held the In point against start_s -- but that
-        # is the zero of the axis, the earliest camera, and it is earlier
-        # than any In point the user sets. Every window that did not begin
-        # at the earliest camera was refused.
+        # the Resolve step holds the In point against start_s -- the zero
+        # of the axis, earlier than any In point somebody sets.
         "in_point": getattr(args, "in_point", None) or None,
         "out_point": getattr(args, "out_point", None) or None,
         "length_s": round(length, 3),
         # None travels as null: the Resolve side has to be able to tell
         # "not adjusted" from "adjusted to -16".
         "lufs": getattr(args, "lufs", None),
-        # How the render job decides between HDR and SDR: from the colr box of
-        # the camera files. The Resolve project wins later, but without a
-        # project this is the truth.
+        # How the render job decides between HDR and SDR: from the colr
+        # box of the camera files. A Resolve project wins later.
         "hdr": _hdr_flag[0],
         "hdr_reason": _hdr_flag[1],
         # Intro and outro are finished clips: they are not aligned, not
@@ -3720,20 +3453,16 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                       "sections": [[round(a, 3), round(b, 3)]
                                      for a, b in segs]}
                      for n, segs in (segment_list or [])],
-        # The stored single tracks: the audio of the cut timeline comes from
-        # them, regardless of the order the audio tracks sit in inside the
-        # camera files.
+        # The stored single tracks: the cut timeline's audio comes from
+        # them, whatever order the audio tracks sit in in the cameras.
         "audio_files": dict(single_files or {}),
-        # What was said and when. Three values a word rather than an
-        # object with three named keys: an hour of speech is around
-        # twelve thousand words, and the key names alone would be the
-        # larger half of the file.
+        # What was said and when: three values a word, because at twelve
+        # thousand words an hour the key names would be half the file.
         "words": words_for_handover(words or []),
     }
     js = stem + "_resolve.json"
     # Beside it, then moved into place: a run that dies while writing
-    # would otherwise replace a usable handover file with a fragment,
-    # and the next run skips a broken one without a word.
+    # would leave a fragment, and the next run skips one without a word.
     try:
         with open(js + ".new", "w", encoding="utf-8") as f:
             json.dump(handover, f, ensure_ascii=False, indent=1)
@@ -3748,8 +3477,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
 
     # -------------------------------------------------------- instructions
     #
-    # Keep it short: where the Resolve part is included, it says everything
-    # needed itself. Only what can be known without it is written here.
+    # Keep it short: the Resolve part says everything needed itself.
     stem_p = safe_filename(args.production or 'Production')
     lines = [as_head(T('FOR RESOLVE')), ""]
     if not js:
@@ -3757,8 +3485,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     else:
         lines.append("  %s" % os.path.basename(js))
         lines.append("")
-        # What actually gets built depends on the material -- the text should
-        # not promise two timelines when only one arrives.
+        # What gets built depends on the material: promise no second one.
         has_cut = bool(cut)
         several = len(cameras) > 1
         lines.append(T('  This produces the project, the import and %s:')
@@ -3802,13 +3529,10 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                            sound_source=""):
     """Write the speaker list, markers and camera cut.
 
-    Returns (camera cut, speaker segments) so the Resolve handover uses the
-    same result instead of recomputing it.
-
-    *segment_list* says who speaks when; the caller works that out and
-    says in the log where it came from. *words* and *sound_source* say
-    where the cut points come from: the text says roughly where a cut
-    belongs, the sound says exactly where.
+    Returns (camera cut, speaker segments) so the Resolve handover uses
+    the same result instead of recomputing it. *segment_list* says who
+    speaks when. *words* and *sound_source* say where the cut points
+    come from -- the text roughly, the sound exactly.
     """
     fps = max(1.0, resolve_timeline_rate(
         timeline_frame_rate(args, videos, ref_clip)))
@@ -3818,17 +3542,13 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         return [], []
     length = length or max((b for _n, segs in segment_list
                             for _a, b in segs), default=0.0)
-    # Frame zero of the Timeline, read back out of the start timecode the
-    # handover carries -- the same step timeline_origin takes. Counting
-    # from the unrounded second instead named a different frame wherever
-    # the zero did not fall on a whole one.
+    # Frame zero of the Timeline, read back out of the start timecode --
+    # the same step timeline_origin takes, and it has to be the same.
     zero = timecode_to_frames(
         timecode_string(tc_start if tc_start is not None else 0.0, fps), fps)
 
-    # Who belongs to which camera, and which one is the wide shot?
-    # Through path_key like the set of files below it: with two shapes
-    # of one path counting as two cameras, the speaker reaches the cut
-    # list under the bare file name instead of the camera's.
+    # Who belongs to which camera, and which is the wide shot? Through
+    # path_key, or two shapes of one path count as two cameras.
     output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
     camera_of = {}
     taken = set()
@@ -3838,10 +3558,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             camera_of[track["name"]] = output_name.get(path_key(v),
                                                      os.path.basename(v))
             taken.add(path_key(track["camera"]))
-    # And the voices told apart under a recording. They have no row of
-    # their own above, so without this every one of them lands on the
-    # camera of its recording -- a multitrack cut with one camera for
-    # everybody, while the window's preview showed two.
+    # And the voices told apart under a recording: without this every
+    # one lands on the camera of its recording, one for everybody.
     strangers = []
     for who, where in voices_of_file(
             getattr(args, "assign", "")
@@ -3851,9 +3569,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             strangers.append((who, os.path.basename(v)))
         camera_of[who] = output_name.get(path_key(v), os.path.basename(v))
         taken.add(path_key(where))
-    # A name whose file is no camera of this run used to reach the cut
-    # list as a camera of its own, invented from the file name, and
-    # Resolve then built a track with nothing behind it.
+    # A name whose file is no camera of this run would reach the cut list
+    # as a camera invented from the file name, with nothing behind it.
     for who, name in sorted(strangers):
         print(as_bad(T('  %s is placed on %s, which is no camera of this '
                        'run -- the cut names it all the same.')
@@ -3883,18 +3600,14 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                               as_hms(a, "."), "%.2f" % (b - a))))
     write_edl(stem + "_speakers.edl", "Speakers", lines, zero, fps)
 
-    # With one camera nothing changes hands between cameras, so the
-    # word would be wrong: what comes of it is a first cut at every
-    # change of speaker. Said before the numbers, not after them.
+    # With one camera nothing changes hands, so the word would be wrong:
+    # what comes of it is a first cut at every change of speaker.
     alone = one_camera_only(camera_of)
-    # The same case distinction the cut box in the window makes, out of
-    # the same function: two readings of one question drift apart, and
-    # this one had -- the window has known "Cut with the wide shot"
-    # since one person with two cameras became its own case, the log
-    # still called that a first cut by speaker.
+    # The same case distinction the cut box makes, out of the same
+    # function: two readings of one question drift apart, and this one
+    # had -- the log still called a two-camera case a cut by speaker.
     print(as_head(cut_log_heading(list(camera_of.items()), len(cameras))))
-    # The interface shows the whole cut as a band, so the closing line is
-    # enough here.
+    # The interface shows the whole cut as a band; a closing line is enough.
     rules = rules_from_settings(args)
     rules["words"] = list(words or ())
     rules["levels"] = sound_levels(sound_source) if sound_source else []
@@ -3908,8 +3621,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                 'edges do nothing here.'))
     elif len(wides) > 1:
         # Several are allowed. Which one the cut uses is not a thing to
-        # work out from a majority -- that would be a rule nobody asked
-        # for -- so it is said instead.
+        # work out from a majority, so it is said instead.
         print(T('  %s wide shots: the cut uses %s.')
               % (number_text(len(wides), 0), wides[0]))
     cut = camera_cut(
@@ -3919,8 +3631,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         at_latest=getattr(args, "wide_latest", 120.0), edge=edges_on,
         rules=rules, faint=PROGRAM.GUI_RUNNING)
     # What became of the questions. An omitted reaction cut that says
-    # nothing looks like a broken setting, and the answer to "it does not
-    # work" is a number here, not another turn of the same knob.
+    # nothing looks like a broken setting; the answer is a number here.
     _said = question_report(rules)
     if _said:
         print(_said)
@@ -3957,8 +3668,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                for a, b, n, speaking in detail] if alone else cut,
               zero, fps)
 
-    # The individual numbers are in the interface and in the files; what came
-    # of them is enough here.
+    # The numbers are in the interface and the files; the outcome is enough.
     print(T('  %s speakers, %s shots, shortest %s s')
           % (number_text(len(segment_list), 0), number_text(len(cut), 0),
              number_text(min((b - a) for a, b, _ in cut)
