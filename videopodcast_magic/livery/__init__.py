@@ -2,63 +2,47 @@
 """How a run shows itself: its colours, its marks and the room it takes.
 
 One palette for the window, the log pane and the terminal, the marks
-that say what kind a line is, the writer that turns them into colour
-on a console, and what room a name or a table may take.
-
-A piece of the program, read out of the folder beside it by beside().
-The program is handed in, and every name used out of it bound below.
+that name the kind of a line, the writer that turns them into colour,
+and what room a name or a table may take. The program is handed in.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses. All three are imports and
-# stand far above the seam, so each is a copy of what was there and
-# none is read late.
-
+# Bound above the seam, so each is a copy and none is read late.
 os = PROGRAM.os
 re = PROGRAM.re
 sys = PROGRAM.sys
 
-# __file__ is not among them, and it is counted rather than looked
-# for: no line below reads it, so there is nothing here that would
-# quietly answer with this folder instead of the program's own.
+# __file__ is not among them: no line below reads it, so nothing here
+# can quietly answer with this folder instead of the program's own.
 
-
-# Parallel runs keep per-thread output apart: progress feeds one shared
-# bar, text goes to a private buffer and is flushed when the file is done.
+# Parallel runs keep output apart; text is flushed when its file is done.
 THREAD_SHARE = {}    # thread id -> progress fraction of that file
 THREAD_BUFFER = {}   # thread id -> list of text chunks
 
-# How much room a file name gets on a button or in a chooser, in
-# pixels: wide enough for a recorder's usual name, narrow enough that
-# the player on the right stays in the window.
+# How much room a file name gets on a button or in a chooser: wide
+# enough for a recorder's usual name, narrow enough for the player.
 NAME_ROOM = 260
-# What the row under the assignment table may take before the player on
-# the right is pushed off the window: past this the sheet asks for more
-# than a 13 inch screen has.
+# What the row under the assignment table may take before the player
+# is pushed off: past this the sheet needs more than a 13 inch screen.
 ROW_ROOM = 380
-# How many rows of the speaker table are shown before it scrolls itself.
-# Rows, not speakers: one row per speaker plus one for Silence, and the
-# column header sits on top. Without a lid the table grew by a row per
-# speaker until the Resolve sheet answered with a scroll bar of its own.
+# How many rows of the speaker table are shown before it scrolls.
+# Rows, not speakers: one per speaker plus one for Silence, and the
+# column header on top. Without a lid the table grows past the sheet.
 SPEAKER_ROWS_SHOWN = 4
 
-# One palette for all three outputs -- GUI, log pane and terminal -- so a
-# run looks the same wherever it is watched.
+# One palette for GUI, log pane and terminal, so a run looks the same.
 COLOURS = {
     "heading":   "#1f4e79",       # section heading
     "backdrop": "#e8eff7",      # the strip behind a heading
     "good":     "#2e7d4f",       # done
-    # Dark enough to clear the 4.5 contrast floor on every surface it
-    # stands on, our own and the three desktops'. A lighter orange
-    # falls through on the foreign window colours.
+    # Dark enough for the 4.5 contrast floor on every surface, ours and
+    # the three desktops'. A lighter orange falls through on theirs.
     "warning": "#985508",       # warning, run continues
     "error":  "#b02020",       # aborted
     "value":    "#2f5d8a",       # numbers and results
-    # Dark enough for the 4.5 contrast floor on the footer, which the
-    # desktop paints lighter than our own surfaces.
+    # Dark enough for the 4.5 floor on the footer, lighter than ours.
     "quiet":   "#646e7b",       # secondary
     "text":    "#222222",
     # Surfaces -- GUI only
@@ -68,9 +52,8 @@ COLOURS = {
     "sheet":   "#ffffff",
     "stripe":  "#dce6f2",
     # A switched-off button keeps its own colour, only muted: flat grey
-    # reads as a different kind of thing, and the two buttons of a pair
-    # then look as if only one were off. The pair still clears the
-    # contrast floor, so the label stays readable.
+    # reads as a different kind of thing, and a pair then looks as if
+    # only one were off. It still clears the contrast floor.
     "off":     "#c6d6e6",       # disabled button: the fill, muted
     "off_text": "#3a5c80",      # disabled button: what stands on it
 }
@@ -81,8 +64,7 @@ COLOURS_DARK = {
     "heading":   "#7fb4e6",
     "backdrop": "#233040",
     "good":     "#5cc98a",
-    # Its own value, and it has to be: the light orange all but
-    # disappears against a dark sheet.
+    # Its own value: the light orange disappears against a dark sheet.
     "warning": "#e2a355",
     "error":  "#f07070",
     "value":    "#9dc4e8",
@@ -97,17 +79,15 @@ COLOURS_DARK = {
     "off_text": "#93a9c0",
 }
 
-# The light set kept aside. COLOURS is the one dictionary everything
-# reads, so a desktop switched to dark and back has to find the light
-# values again -- overwriting them in place would burn the way back.
+# The light set kept aside: COLOURS is the one dictionary everything
+# reads, and overwriting it in place would burn the way back.
 COLOURS_LIGHT = dict(COLOURS)
 
 
 def desktop_is_dark(QtWidgets, QtGui):
     """Report whether the desktop uses a dark colour scheme.
 
-    Falls back to the window background lightness where Qt does not
-    expose a scheme.
+    Falls back to window background lightness where Qt has no scheme.
     """
     try:
         schema = QtWidgets.QApplication.styleHints().colorScheme()
@@ -154,9 +134,8 @@ def as_bad(text):
 def split_kind(line):
     """Split a line into its kind and its plain text.
 
-    The kind is stated where the line is written rather than read out of
-    its wording, which would tie it to one language. Returns one of
-    "heading", "good", "warning", "error", "text".
+    The kind is stated where the line is written, not read out of its
+    wording, which would tie it to one language.
     """
     if line[:1] == MARK:
         return MARK_KINDS.get(line[1:2], "text"), line[2:]
@@ -171,9 +150,8 @@ def strip_marks(text):
 class ColourWriter(object):
     """Colour terminal output without altering the text itself.
 
-    Colour is chosen at the start of a line and held for the rest of it,
-    so a progress bar rewriting its line stays intact. The invisible kind
-    marker comes off here, so this is in place even without colour.
+    Colour is set at the start of a line and held to its end, so a bar
+    rewriting its line stays intact. The kind marker comes off here.
     """
 
     def __init__(self, raw, colour=True):
@@ -198,8 +176,8 @@ class ColourWriter(object):
                     if kind == "text" and self.carried:
                         kind = self.carried
                     if not part:
-                        # The marker was in front of a line break, so it
-                        # belongs to the line that follows.
+                        # The marker sat before a line break; it
+                        # belongs to the next line.
                         self.carried = kind
                         continue
                     self.carried = ""
@@ -224,8 +202,7 @@ class ColourWriter(object):
 def force_utf8_output():
     """Force stdout/stderr to UTF-8.
 
-    Windows consoles default to a legacy code page, where one umlaut in a
-    message aborts the run. Replacement characters beat a crash.
+    A Windows legacy code page aborts the run on one umlaut.
     """
     for stream in (sys.stdout, sys.stderr):
         try:
@@ -237,8 +214,7 @@ def force_utf8_output():
 def enable_colour_output():
     """Put the output filter in place and colour it where that lands.
 
-    The filter always runs, because it also takes the invisible kind
-    markers out again. Colour is added only on a terminal that shows it.
+    The filter always runs -- it also strips the invisible kind markers.
     """
     colour = not os.environ.get("NO_COLOR")
     try:
