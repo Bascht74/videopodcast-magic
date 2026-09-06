@@ -117,6 +117,7 @@ packages = [
     "videopodcast_magic.tables",
     "videopodcast_magic.timecode",
     "videopodcast_magic.ui",
+    "videopodcast_magic.upkeep",
 ]
 
 # The nine translations are data, not program, and setuptools ships
