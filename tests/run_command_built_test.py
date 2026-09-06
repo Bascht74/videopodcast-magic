@@ -360,9 +360,11 @@ import inspect
 # The window is gui() and the pieces lifted out of it, joined. Reading
 # gui() alone lets a check on absence go green because what it looks
 # for moved house rather than went away -- project_write left gui() for
-# make_project_file and took the line that throws the key out with it.
+# make_project_file and took the line that throws the key out with it,
+# and start and only_resolve_start_run left it for make_run_start.
 source = (inspect.getsource(vpm.gui)
-          + inspect.getsource(vpm.make_project_file))
+          + inspect.getsource(vpm.make_project_file)
+          + inspect.getsource(vpm.make_run_start))
 check("call present", "run_argv(values, assign_file)" in source,
         "16. the window names run_argv in %s, wanted one reading "
         "run_argv(values, assign_file)"
