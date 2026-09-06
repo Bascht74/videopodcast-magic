@@ -65,14 +65,12 @@ clocks_apart = PROGRAM.clocks_apart
 colour_per_camera = PROGRAM.colour_per_camera
 csv_line = PROGRAM.csv_line
 cut_log_heading = PROGRAM.cut_log_heading
-decimal_text = PROGRAM.decimal_text
 decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
 file_fingerprint = PROGRAM.file_fingerprint
 file_timecode = PROGRAM.file_timecode
 find_pauses = PROGRAM.find_pauses
 frames_to_timecode = PROGRAM.frames_to_timecode
-group_text = PROGRAM.group_text
 hdr_from_sources = PROGRAM.hdr_from_sources
 how_many_processors = PROGRAM.how_many_processors
 is_drop_frame = PROGRAM.is_drop_frame
@@ -500,8 +498,8 @@ def roles_report(order, tracks=()):
     out = [as_head(T('\nWHO ASKS -- a proposal, and nothing is set from it'))]
     for name, sentences, questions, held in order:
         out.append(T('  %-20s %s speaking, %s of %s sentences a question')
-                   % (name, as_hms(held), group_text(questions),
-                      group_text(sentences)))
+                   % (name, as_hms(held), number_text(questions, 0),
+                      number_text(sentences, 0)))
     out.append(T('  The order carries, the distance between them does not: '
                  'measured over four episodes it never turned round, while '
                  'the distance between first and last changed fourfold. It '
@@ -896,8 +894,8 @@ def microphones_report(rows):
     for voice, track, share, distance in rows:
         out.append(T('  %-20s sounds like %-20s %s %% of it inside that '
                      'track, %s points ahead of the next')
-                   % (voice, track, group_text(round(100 * share)),
-                      group_text(round(100 * distance))))
+                   % (voice, track, number_text(round(100 * share), 0),
+                      number_text(round(100 * distance), 0)))
     out.append(T('  It holds under one assumption: one microphone per '
                  'person, and each of them carrying only that person. '
                  'Where the tracks overlap too much to be told apart, or '
@@ -995,8 +993,8 @@ def question_report(rules):
                  'the run; without them the setting does nothing.')
     counted = rules.get("question_tally") or {}
     out = [T('  Question: %s in the transcript, %s became a reaction cut.')
-           % (group_text(counted.get("questions") or 0),
-              group_text(counted.get("used") or 0))]
+           % (number_text(counted.get("questions") or 0, 0),
+              number_text(counted.get("used") or 0, 0))]
     reasons = ((counted.get("asked_by_main"),
                 T('the main speaker asked')),
                (counted.get("same_camera"),
@@ -1346,7 +1344,7 @@ def cut_basis_line(basis, speakers, length):
         text = T('from the finished run -- %s speakers, %s')
     else:
         text = T('measured from the recordings -- %s speakers, %s')
-    return (text % (group_text(speakers), as_hms(length)),
+    return (text % (number_text(speakers, 0), as_hms(length)),
             COLOURS["good" if basis in ("run", "auphonic") else "warning"])
 
 def project_opened_note(target):
@@ -1692,7 +1690,7 @@ def as_minutes(seconds):
     translated.
     """
     s = int(round(max(0.0, seconds)))
-    return T("%s:%02d min") % (group_text(s // 60), s % 60)
+    return T("%s:%02d min") % (number_text(s // 60, 0), s % 60)
 
 def speaker_statistics(d):
     """Return who speaks how much and how often.
@@ -1834,7 +1832,8 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                 read[entry[1]] = x
         if report:
             report(T('Measuring %s (%s of %s)')
-                   % (name, group_text(i + 1), group_text(len(tracks))))
+                   % (name, number_text(i + 1, 0),
+                      number_text(len(tracks), 0)))
         x = read.pop(file_path, None)
         if x is None:
             x = decode_audio(file_path, rate=rate)
@@ -1886,7 +1885,7 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                 note(T('  Bleed measured, %s in %s only %s dB quieter '
                        '-- taken out of the speech detection')
                      % (worst[1], worst[2],
-                        decimal_text("%.1f" % worst[0])))
+                        number_text(worst[0], 1)))
                 # Where a pair offers no moment of one voice alone, its
                 # entry stays 0 and that much bleed is left in. The
                 # separation still happens -- half a model beats none --
@@ -1897,7 +1896,7 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                            'the rest no moment was found where exactly one '
                            'person speaks, so their bleed stays in -- the '
                            'speaker detection is unreliable here.')
-                         % (group_text(len(far)), group_text(pairs)))
+                         % (number_text(len(far), 0), number_text(pairs, 0)))
             else:
                 note(T('  No moment found where exactly one person speaks '
                        '-- the bleed stays in the speech detection.'))
@@ -3150,7 +3149,7 @@ def voices_reported(segments):
         print(TN(len(segs), '  %-20s %s in %s passage',
                  '  %-20s %s in %s passages')
               % (name, as_hms(sum(b - a for a, b in segs)),
-                 group_text(len(segs))))
+                 number_text(len(segs), 0)))
 
 def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     """Work out who speaks when, before the audio is processed.
@@ -3214,14 +3213,14 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
                   'so well that none of them stands out -- %s dB against '
                   'the %s dB one of them alone needs to say who is '
                   'speaking.')
-                % (decimal_text("%.1f" % dropped),
-                   decimal_text("%.1f" % MICROPHONES_APART_DB))))
+                % (number_text(dropped, 1),
+                   number_text(MICROPHONES_APART_DB, 1))))
         if why == "microphones mixed":
             args._speakers_mixed = True
             print(T('  The microphones hear each other too well to say who '
                     'is speaking, so the separation listens to all %s of '
                     'them at once, on this machine.')
-                  % group_text(len(tracks)))
+                  % number_text(len(tracks), 0))
         else:
             print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
@@ -3354,7 +3353,7 @@ def speakers_for_the_cut(args, tracks):
     if voices:
         print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
         print(TN(len(voices), '  From %s: %s voice.', '  From %s: %s voices.')
-              % (where_from, group_text(len(voices))))
+              % (where_from, number_text(len(voices), 0)))
         for line in named:
             print(line)
     if left:
@@ -3401,7 +3400,7 @@ def name_voices_by_microphone(voices, box):
     called = dict((voice, track) for voice, track, _level, _ahead in rows)
     lines = [T('  %-20s is %-20s %s dB ahead of the next microphone, '
                'the recording level taken out')
-             % (voice, track, decimal_text("%.1f" % ahead))
+             % (voice, track, number_text(ahead, 1))
              for voice, track, _l, ahead in rows]
     return ([(called.get(name, name), segs) for name, segs in voices or ()],
             lines)
@@ -3871,7 +3870,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         # work out from a majority -- that would be a rule nobody asked
         # for -- so it is said instead.
         print(T('  %s wide shots: the cut uses %s.')
-              % (group_text(len(wides)), wides[0]))
+              % (number_text(len(wides), 0), wides[0]))
     cut = camera_cut(
         segment_list, length, camera_of, wide_shot,
         args.min_edit_duration, getattr(args, "delay", 0.3),
@@ -3895,7 +3894,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     if wide_after > 0 and len(cut) > before_value and not PROGRAM.GUI_RUNNING:
         print(T('  %sx away from the speaker because a shot ran '
                 'longer than %s s')
-              % (group_text((len(cut) - before_value) // 2),
+              % (number_text((len(cut) - before_value) // 2, 0),
                  number_text(wide_after, 0)))
     was = len(cut)
     cut, detail = cut_split_where_one_camera(cut, segment_list, camera_of,
@@ -3903,7 +3902,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     if len(cut) > was:
         print(T('  One camera for everybody: cut into %s shots at the '
                 'change of speaker, so Resolve can group them.')
-              % group_text(len(cut)))
+              % number_text(len(cut), 0))
     with open(stem + "_cameracut.csv", "w", encoding="utf-8") as f:
         f.write(csv_line(("Shot", "Camera", "Speaker", "Start TC",
                           "End TC", "Duration s")))
@@ -3920,7 +3919,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     # The individual numbers are in the interface and in the files; what came
     # of them is enough here.
     print(T('  %s speakers, %s shots, shortest %s s')
-          % (group_text(len(segment_list)), group_text(len(cut)),
+          % (number_text(len(segment_list), 0), number_text(len(cut), 0),
              number_text(min((b - a) for a, b, _ in cut)
                          if cut else 0)))
     return cut, segment_list
