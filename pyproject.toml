@@ -85,6 +85,7 @@ videopodcast-magic = "videopodcast_magic:main"
 packages = ["videopodcast_magic", "videopodcast_magic.auphonic",
             "videopodcast_magic.bearings", "videopodcast_magic.cut",
             "videopodcast_magic.desktop", "videopodcast_magic.fittings",
+            "videopodcast_magic.hearing", "videopodcast_magic.herald",
             "videopodcast_magic.language", "videopodcast_magic.material",
             "videopodcast_magic.orders", "videopodcast_magic.pipeline",
             "videopodcast_magic.player", "videopodcast_magic.preflight",
