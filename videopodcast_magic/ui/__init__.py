@@ -4489,6 +4489,150 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
             plan_wipe, run_plan_build, run_step_order, total_clock)
 
 
+def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
+    """Tab 1: the list of chosen files, with its stripes and its marks.
+
+    Outside gui() because it is the widget and nothing else: the tree
+    with its five columns, what a file dropped on it does, the sentence
+    under it that the check writes into, the two colour tables refilled
+    when the desktop changes, and the maker of a single row. A dropped
+    file reaches take_paths through state, which gui() fills in further
+    down -- what goes into the list is decided there, not here.
+    """
+    items = QtWidgets.QTreeWidget()
+    items.setColumnCount(5)
+    # Column 0 carries the file name and the tree structure, column 1 the check
+    # mark, column 2 the value. The mark cannot go in column 0: indentation and
+    # the expand arrow sit in front of it there.
+    # Columns 3 and 4 are the two decisions a video file carries: what it
+    # is, and whether its sound is material. Both are about the material
+    # itself, so they stand where the material is listed.
+    items.setHeaderLabels([T('File'), "", "", T('Kind'), T('Camera audio')])
+    # Not uniform: those two hold drop-downs, and a drop-down is taller
+    # than a line of text. Uniform gives every row the first row's height
+    # and the fields come out squashed.
+    items.setUniformRowHeights(False)
+    items.header().setSectionResizeMode(0, QtWidgets.QHeaderView.Interactive)
+    items.header().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
+    items.header().setStretchLastSection(False)
+    for _c, _how in ((2, QtWidgets.QHeaderView.Stretch),
+                     (3, QtWidgets.QHeaderView.ResizeToContents),
+                     (4, QtWidgets.QHeaderView.ResizeToContents)):
+        items.header().setSectionResizeMode(_c, _how)
+    items.setColumnWidth(0, 420)
+    items.setColumnWidth(1, 26)
+    items.setAcceptDrops(True)
+    items.setDragDropMode(QtWidgets.QAbstractItemView.DropOnly)
+    speaks_as(items, T('Chosen files'))
+    sheet1_position.addWidget(items, 1)
+
+    def _list_takes(e):
+        paths = [u.toLocalFile() for u in e.mimeData().urls()
+                 if u.isLocalFile()]
+        if paths:
+            e.acceptProposedAction()
+            state["take_paths"](paths)
+
+    # Dropping onto the full list works too -- somebody who already has files
+    # and adds one is not looking for a button.
+    items.dragEnterEvent = _list_accepts
+    items.dragMoveEvent = _list_accepts
+    items.dropEvent = _list_takes
+
+    # Below the list, one sentence on what the check found. The details are
+    # marks in the first column; whoever wants more hovers over them or expands
+    # the file.
+    preflight_line = label("", COLOURS["quiet"])
+    preflight_line.setWordWrap(True)
+    preflight_line.setVisible(False)
+    sheet1_position.addWidget(preflight_line)
+
+    # The stripes of the file list: light on light, dark on dark. They should
+    # structure the rows, not outshine them.
+    SHADES = {}
+
+    def stripes_pick():
+        """Fill the stripes of the file list for this desktop.
+
+        Refilled in place, and read off ON_DARK rather than asking the
+        desktop a second time: two independent answers to the same
+        question drift apart the moment one of them is refreshed.
+        """
+        SHADES.clear()
+        SHADES.update({"group": QtGui.QColor("#2f3b49"),
+             "audio": QtGui.QColor("#28313c"),
+             "video": QtGui.QColor("#332f27"),
+             "block": QtGui.QColor("#262b31")}
+            if ON_DARK[0] else
+            {"group": QtGui.QColor("#d9e2ec"),
+             "audio": QtGui.QColor("#eef4fa"),
+             "video": QtGui.QColor("#f3f0e8"),
+             "block": QtGui.QColor("#f7f7f7")})
+
+    stripes_pick()
+
+    def line_colourise(item, kind, bold=False):
+        brush = QtGui.QBrush(SHADES[kind])
+        for column in range(items.columnCount()):
+            item.setBackground(column, brush)
+            if bold:
+                s = item.font(column)
+                s.setBold(True)
+                item.setFont(column, s)
+        return item
+
+    # What goes in the first, narrow column. A mark says more than a line of
+    # text as long as there are only three of them.
+    MARKS = {}
+
+    def marks_pick():
+        """Fill the marks of the first column with today's colours."""
+        MARKS.clear()
+        MARKS.update({"good": ("\u2713", COLOURS["good"]),
+                      "hint": ("!", COLOURS["error"]),
+                      "fixed": ("\u2713", COLOURS["good"]),
+                      "abort": ("\u2715", COLOURS["error"])})
+
+    marks_pick()
+    # What a finding is called when it appears as its own row under the file.
+    FINDING_WORD = {"hint": T('Note'), "fixed": T('fixed'),
+                   "abort": T('Caution')}
+
+    def set_mark(node, kind, text=""):
+        """Give the file its check mark."""
+        how = MARKS.get(kind)
+        if not how:
+            return
+        if kind in ("hint", "abort"):
+            trouble_log("%s -- %s" % (node.text(0) or "?", text or kind))
+        node.setText(1, how[0])
+        node.setForeground(1, QtGui.QBrush(QtGui.QColor(how[1])))
+        node.setTextAlignment(1, Qt.AlignCenter)
+        font = node.font(1)
+        font.setBold(True)
+        node.setFont(1, font)
+        if text:
+            for column in (0, 1, 2):
+                node.setToolTip(column, text)
+
+    def item(parent, text, value="", kind=None, bold=False, files_for_it=None,
+               group_kind=None):
+        p = QtWidgets.QTreeWidgetItem(parent, [text, "", value])
+        if kind:
+            line_colourise(p, kind, bold)
+            # Kept, not only painted: Remove has to tell a single block
+            # of a recording from the recording itself.
+            p.setData(0, Qt.UserRole + 3, kind)
+        if files_for_it is not None:
+            p.setData(0, Qt.UserRole, list(files_for_it))
+        if group_kind:
+            p.setData(0, Qt.UserRole + 1, group_kind)
+        return p
+
+    return (items, preflight_line, stripes_pick, marks_pick, MARKS,
+            FINDING_WORD, set_mark, item)
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -4726,135 +4870,13 @@ def gui():
                            lambda: project_open(), COLOURS)
     sheet1_position.addWidget(drop_area, 1)
 
-    items = QtWidgets.QTreeWidget()
-    items.setColumnCount(5)
-    # Column 0 carries the file name and the tree structure, column 1 the check
-    # mark, column 2 the value. The mark cannot go in column 0: indentation and
-    # the expand arrow sit in front of it there.
-    # Columns 3 and 4 are the two decisions a video file carries: what it
-    # is, and whether its sound is material. Both are about the material
-    # itself, so they stand where the material is listed.
-    items.setHeaderLabels([T('File'), "", "", T('Kind'), T('Camera audio')])
-    # Not uniform: those two hold drop-downs, and a drop-down is taller
-    # than a line of text. Uniform gives every row the first row's height
-    # and the fields come out squashed.
-    items.setUniformRowHeights(False)
-    items.header().setSectionResizeMode(0, QtWidgets.QHeaderView.Interactive)
-    items.header().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
-    items.header().setStretchLastSection(False)
-    for _c, _how in ((2, QtWidgets.QHeaderView.Stretch),
-                     (3, QtWidgets.QHeaderView.ResizeToContents),
-                     (4, QtWidgets.QHeaderView.ResizeToContents)):
-        items.header().setSectionResizeMode(_c, _how)
-    items.setColumnWidth(0, 420)
-    items.setColumnWidth(1, 26)
-    items.setAcceptDrops(True)
-    items.setDragDropMode(QtWidgets.QAbstractItemView.DropOnly)
-    speaks_as(items, T('Chosen files'))
-    sheet1_position.addWidget(items, 1)
-
-    def _list_takes(e):
-        paths = [u.toLocalFile() for u in e.mimeData().urls()
-                 if u.isLocalFile()]
-        if paths:
-            e.acceptProposedAction()
-            take_paths(paths)
-
-    # Dropping onto the full list works too -- somebody who already has files
-    # and adds one is not looking for a button.
-    items.dragEnterEvent = _list_accepts
-    items.dragMoveEvent = _list_accepts
-    items.dropEvent = _list_takes
-
-    # Below the list, one sentence on what the check found. The details are
-    # marks in the first column; whoever wants more hovers over them or expands
-    # the file.
-    preflight_line = label("", COLOURS["quiet"])
-    preflight_line.setWordWrap(True)
-    preflight_line.setVisible(False)
-    sheet1_position.addWidget(preflight_line)
-
-    # The stripes of the file list: light on light, dark on dark. They should
-    # structure the rows, not outshine them.
-    SHADES = {}
-
-    def stripes_pick():
-        """Fill the stripes of the file list for this desktop.
-
-        Refilled in place, and read off ON_DARK rather than asking the
-        desktop a second time: two independent answers to the same
-        question drift apart the moment one of them is refreshed.
-        """
-        SHADES.clear()
-        SHADES.update({"group": QtGui.QColor("#2f3b49"),
-             "audio": QtGui.QColor("#28313c"),
-             "video": QtGui.QColor("#332f27"),
-             "block": QtGui.QColor("#262b31")}
-            if ON_DARK[0] else
-            {"group": QtGui.QColor("#d9e2ec"),
-             "audio": QtGui.QColor("#eef4fa"),
-             "video": QtGui.QColor("#f3f0e8"),
-             "block": QtGui.QColor("#f7f7f7")})
-
-    stripes_pick()
-
-    def line_colourise(item, kind, bold=False):
-        brush = QtGui.QBrush(SHADES[kind])
-        for column in range(items.columnCount()):
-            item.setBackground(column, brush)
-            if bold:
-                s = item.font(column)
-                s.setBold(True)
-                item.setFont(column, s)
-        return item
-
-    # What goes in the first, narrow column. A mark says more than a line of
-    # text as long as there are only three of them.
-    MARKS = {}
-
-    def marks_pick():
-        """Fill the marks of the first column with today's colours."""
-        MARKS.clear()
-        MARKS.update({"good": ("\u2713", COLOURS["good"]),
-                      "hint": ("!", COLOURS["error"]),
-                      "fixed": ("\u2713", COLOURS["good"]),
-                      "abort": ("\u2715", COLOURS["error"])})
-
-    marks_pick()
-    # What a finding is called when it appears as its own row under the file.
-    FINDING_WORD = {"hint": T('Note'), "fixed": T('fixed'),
-                   "abort": T('Caution')}
-
-    def set_mark(node, kind, text=""):
-        """Give the file its check mark."""
-        how = MARKS.get(kind)
-        if not how:
-            return
-        if kind in ("hint", "abort"):
-            trouble_log("%s -- %s" % (node.text(0) or "?", text or kind))
-        node.setText(1, how[0])
-        node.setForeground(1, QtGui.QBrush(QtGui.QColor(how[1])))
-        node.setTextAlignment(1, Qt.AlignCenter)
-        font = node.font(1)
-        font.setBold(True)
-        node.setFont(1, font)
-        if text:
-            for column in (0, 1, 2):
-                node.setToolTip(column, text)
-
-    def item(parent, text, value="", kind=None, bold=False, files_for_it=None,
-               group_kind=None):
-        p = QtWidgets.QTreeWidgetItem(parent, [text, "", value])
-        if kind:
-            line_colourise(p, kind, bold)
-            # Kept, not only painted: Remove has to tell a single block
-            # of a recording from the recording itself.
-            p.setData(0, Qt.UserRole + 3, kind)
-        if files_for_it is not None:
-            p.setData(0, Qt.UserRole, list(files_for_it))
-        if group_kind:
-            p.setData(0, Qt.UserRole + 1, group_kind)
-        return p
+    # ------------------------------------------------------------------
+    # The file list itself, and the two colour tables it draws with.
+    # What comes back is what the rest of the window reaches for.
+    # ------------------------------------------------------------------
+    (items, preflight_line, stripes_pick, marks_pick, MARKS, FINDING_WORD,
+     set_mark, item) = make_file_list(Qt, QtGui, QtWidgets,
+                                      sheet1_position, state)
 
     # What a file with several channels becomes. The decision belongs
     # here, on the file page: the assignment tab works with the result,
@@ -5430,6 +5452,10 @@ def gui():
                          ask, project_open):
             return
         items_fresh()
+
+    # A file dropped straight onto the list lands here, and the list is
+    # built before this function exists.
+    state["take_paths"] = take_paths
 
     def add_files():
         pattern = (T('Audio and video (%s);;All files (*)')
