@@ -78,6 +78,11 @@ export LIMIT
 # does not say it: the program skips "C" on purpose and asks the system,
 # which on a German Mac answers de_DE. LANGUAGE settles the question.
 export LANG=C LC_ALL=C LANGUAGE=en
+# Colour comes out of the environment, not out of the program. argparse
+# in Python 3.14 honours FORCE_COLOR even into a pipe, so --help answers
+# with escape sequences and a test reading it finds nothing. Measured
+# 6.9.2026: with it "0 blocks", without it "65 blocks".
+unset FORCE_COLOR
 # The player tests play real files, and without this the machine beeps
 # its way through every run. It forces volume and mute and nothing else
 # -- where the playhead lands, which is what the tests measure, is
