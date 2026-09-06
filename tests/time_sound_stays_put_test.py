@@ -205,11 +205,12 @@ rc2, log2 = run(D + "/window", "--in-point", "+%d" % WIN_IN,
 KINDS = (("spk", 0), ("cam", 2))
 WANT = [(folder, cam) for folder in ("plain", "window")
         for cam in ("CamHost", "CamGuest")]
-here = [(f, c) for f, c in WANT if os.path.exists(D + "/" + f + "/" + c + ".mov")]
+here = [(f, c) for f, c in WANT
+        if os.path.exists(D + "/" + f + "/" + c + "_audio.mov")]
 tracks = {}
 call = ["ffmpeg", "-v", "error", "-y"]
 for folder, cam in here:
-    call += ["-i", D + "/" + folder + "/" + cam + ".mov"]
+    call += ["-i", D + "/" + folder + "/" + cam + "_audio.mov"]
 for i, (folder, cam) in enumerate(here):
     for kind, stream in KINDS:
         tracks[(folder, cam, kind)] = D + "/t_%s_%s_%s.wav" % (folder, cam, kind)
@@ -225,7 +226,7 @@ if here and subprocess.run(call, capture_output=True).returncode:
     for folder, cam in here:
         for kind, stream in KINDS:
             subprocess.run(["ffmpeg", "-v", "error", "-y", "-i",
-                            D + "/" + folder + "/" + cam + ".mov",
+                            D + "/" + folder + "/" + cam + "_audio.mov",
                             "-map", "0:a:%d" % stream, "-c:a", "pcm_s16le",
                             "-ar", str(RATE), "-ac", "1",
                             tracks[(folder, cam, kind)]], capture_output=True)
@@ -260,7 +261,7 @@ check("the second run says it took the window",
 print("\n2. Without a window the sound sits on its picture")
 plain_at, picture_at = {}, {}
 for cam in ("CamHost", "CamGuest"):
-    made = D + "/plain/" + cam + ".mov"
+    made = D + "/plain/" + cam + "_audio.mov"
     check("%s was written" % cam, os.path.exists(made),
           "%d bytes, -1 for not there; the folder holds %s"
           % (os.path.getsize(made) if os.path.exists(made) else -1,
@@ -295,7 +296,7 @@ print("\n3. With a window it still sits on its picture")
 # together. It is measured twice over, against the camera's own sound
 # and against the run without a window, so no constant can hide in it.
 for cam in ("CamHost", "CamGuest"):
-    made = D + "/window/" + cam + ".mov"
+    made = D + "/window/" + cam + "_audio.mov"
     check("%s was written" % cam, os.path.exists(made),
           "%d bytes, -1 for not there; the folder holds %s"
           % (os.path.getsize(made) if os.path.exists(made) else -1,

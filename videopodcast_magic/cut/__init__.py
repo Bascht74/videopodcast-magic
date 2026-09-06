@@ -3537,9 +3537,15 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         return
     fps = timeline_frame_rate(args, videos, ref_clip)
     stem = os.path.join(folder, safe_filename(args.production or 'Production'))
+    # The written file carries the ending the run hangs on; the camera
+    # is known here under its name without it, so both are keys.
+    tail = getattr(args, "suffix", "") or "_audio"
     done = {}
     for p in (results or []):
-        done[os.path.splitext(os.path.basename(p))[0]] = os.path.abspath(p)
+        made = os.path.splitext(os.path.basename(p))[0]
+        done[made] = os.path.abspath(p)
+        if made.endswith(tail):
+            done[made[:-len(tail)]] = os.path.abspath(p)
 
     resolutions, rates = set(), set()
     for _, e in videos:

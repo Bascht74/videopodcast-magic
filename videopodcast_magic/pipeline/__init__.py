@@ -649,18 +649,14 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             for e in plan:
                 who.setdefault(e["camera"], []).append(
                     e["speakers"])
-            cameras = [{"video": v, "name": "%s_%s"
-                        % (safe_filename(title or 'Production'),
-                           "+".join(names))}
+            cameras = [{"video": v, "name": "+".join(names)}
                        for v, names in who.items()]
     if not cameras and video_paths:
         # No assignment file and no names from the plan: one entry per
-        # video file, named after the file plus the suffix. Without this
-        # the run wrote camera files under the source's own name and no
-        # handover at all, which is what the whole run is for.
+        # video file, named after the file. The ending that keeps it off
+        # the source is hung on where every target name is settled.
         cameras = [{"video": os.path.abspath(path),
-                    "name": os.path.splitext(os.path.basename(path))[0]
-                            + (args.suffix or "_audio")}
+                    "name": os.path.splitext(os.path.basename(path))[0]}
                    for path in video_paths]
     plan = merge_plan_entries(plan)
     for e in plan:
@@ -692,8 +688,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                    or getattr(args, "no_single_tracks", False) else every)
         for cam in cameras:
             own = combined.get(cam["video"]) or []
-            print("    %s  ->  %s" % (os.path.basename(cam["video"]),
-                                      cam["name"] + ".mov"))
+            print("    %s  ->  %s"
+                  % (os.path.basename(cam["video"]),
+                     cam["name"] + (args.suffix or "_audio") + ".mov"))
             for idx, what in enumerate(
                     track_order_for_camera(own, every, singles), 1):
                 # The track number names the track, it does not count
@@ -1576,16 +1573,18 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         stem = output_name.get(path_key(_v)) or os.path.splitext(
             os.path.basename(_v))[0]
         outdir = os.path.abspath(args.out) if args.out else os.path.dirname(_v)
-        target = os.path.join(outdir, stem + ".mov")
+        # The ending is always hung on. Without it the name a camera is
+        # given can be the source's own stem, and next to each video file
+        # that is the source's own name.
+        tail = args.suffix or "_audio"
+        target = os.path.join(outdir, stem + tail + ".mov")
         count = 1
         while target.lower() in sources or target.lower() in taken:
             count += 1
-            tail = args.suffix or "_audio"
             # A file name: plain digits, the way every other name this
             # program writes keeps them.
-            target = os.path.join(outdir, "%s%s%s.mov"
-                                  % (stem, tail,
-                                     "" if count == 2 else "_%d" % count))
+            target = os.path.join(outdir, "%s%s_%d.mov"
+                                  % (stem, tail, count))
         taken.add(target.lower())
         output_path[_v] = (outdir, target)
     results, error = [], 0

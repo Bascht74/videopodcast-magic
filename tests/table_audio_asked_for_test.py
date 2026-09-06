@@ -625,12 +625,22 @@ print("\n3. What the new video file is called")
 f = vpm.camera_output_name
 check("speakers into the middle",
         f("Interview 1", "Hosts_01011714_C002.mov", ["Host", "Co-host"])
-        == "Interview 1_Hosts_Host+Co-host_01011714_C002",
+        == "Hosts_Host+Co-host_01011714_C002",
         f("Interview 1", "Hosts_01011714_C002.mov", ["Host", "Co-host"]))
 check("camera already named like the speaker -> not twice",
         f("Interview 2", "Guest_01011858_C009.mov", ["Guest"])
-        == "Interview 2_Guest_01011858_C009",
+        == "Guest_01011858_C009",
         f("Interview 2", "Guest_01011858_C009.mov", ["Guest"]))
+got = f("Roundtable", "Camera_C001.mov", ["Anna"])
+check("the production is not in front of the name",
+        "Roundtable" not in got, "%r still carries the production" % got)
+# Every file an earlier version wrote begins with the production, and
+# such a file put through here again would have the speaker land inside
+# the production's own name. The branch that stops that is not dead.
+old = f("Interview 1", "Interview 1_Hosts_01011714_C002.mov", ["Visitor"])
+check("a name from an earlier version keeps the production whole",
+        old == "Interview 1_Hosts_01011714_C002_Visitor",
+        "%r against %r" % (old, "Interview 1_Hosts_01011714_C002_Visitor"))
 # The typo is "Gueest", not "Guset": a swapped pair only scores 0.80 and
 # stays under the 0.85 mark, so the check would test nothing.
 check("not twice with a typo either",
@@ -638,26 +648,20 @@ check("not twice with a typo either",
         f("I", "Gueest_C009.mov", ["Guest"]))
 check("without speakers the full mix",
         f("Interview 2", "Wide_01011855_C003.mov", ["Audio-Full-Mix"])
-        == "Interview 2_Wide_Audio-Full-Mix_01011855_C003",
+        == "Wide_Audio-Full-Mix_01011855_C003",
         f("Interview 2", "Wide_01011855_C003.mov", ["Audio-Full-Mix"]))
 check("camera name without a separator -> appended at the back",
-        f("I", "C009.mov", ["Guest"]) == "I_C009_Guest",
+        f("I", "C009.mov", ["Guest"]) == "C009_Guest",
         f("I", "C009.mov", ["Guest"]))
-check("empty production becomes 'Production'",
-        f("", "Camera_C001.mov", []).startswith("Production_"),
-        f("", "Camera_C001.mov", []))
-got = f("   ", "Camera_C001.mov", [])
-check("only spaces counts as empty", got.startswith("Production_"),
-        "%r, wanted a name beginning %r" % (got, "Production_"))
 check("empty speaker names drop out",
         f("I", "Camera_C001.mov", ["", "  ", "Anna"])
-        == "I_Camera_Anna_C001",
+        == "Camera_Anna_C001",
         f("I", "Camera_C001.mov", ["", " ", "Anna"]))
 got = f("I", "/deep/in/folder/Camera_C001.mov", ["Anna"])
-check("a whole path works too", got == "I_Camera_Anna_C001",
-        "%r against %r" % (got, "I_Camera_Anna_C001"))
+check("a whole path works too", got == "Camera_Anna_C001",
+        "%r against %r" % (got, "Camera_Anna_C001"))
 check("dots in the camera name separate too",
-        f("I", "Camera.C001.mov", ["Anna"]) == "I_Camera_Anna_C001",
+        f("I", "Camera.C001.mov", ["Anna"]) == "Camera_Anna_C001",
         f("I", "Camera.C001.mov", ["Anna"]))
 got = f("I", "Camera_C001.mov")
 check("no crash without a speaker list", isinstance(got, str),
@@ -666,12 +670,11 @@ check("no crash without a speaker list", isinstance(got, str),
 print("\n4. What comes out in the same order as before")
 # Names in the shape they are delivered in, spaces and a number and all.
 REAL = [("Wide_01011855_C003.mov", ["Audio-Full-Mix"],
-         "Interview Example Town 2_Wide_Audio-Full-Mix_01011855_C003"),
+         "Wide_Audio-Full-Mix_01011855_C003"),
         ("Guest_01011858_C009.mov", ["Guest"],
-         "Interview Example Town 2_Guest_01011858_C009"),
+         "Guest_01011858_C009"),
         ("Hosts_01011855_C005.mov", ["Host", "Co-host"],
-         "Interview Example Town 2_Hosts_Host+Co-host_"
-         "01011855_C005")]
+         "Hosts_Host+Co-host_01011855_C005")]
 for cam, spk, want in REAL:
     have = f("Interview Example Town 2", cam, spk)
     check("as delivered: %s" % cam.split("_")[0], have == want, have)

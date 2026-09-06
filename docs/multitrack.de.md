@@ -113,14 +113,25 @@ Wahrheit ein Abspann ist, fällt beim Ansehen auf. Ein Klick auf eine
 Zeile holt die Datei in den Player.
 
 **neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird.
-Bis jemand darüberschreibt, ist es ein Vorschlag, gebaut aus dem
-Produktionsnamen, der Kamera und den Sprechern. Zählt die Kamera ihre
-Dateien mit einer Nummer durch, stehen die Sprecher vor dieser Nummer
-und der Name der Kamera vor ihnen -- vorn bleibt also lesbar, welche
-Kamera es war. Gibt es keine solche Nummer, bleibt der Kameraname ganz
-und die Sprecher folgen ihm; und heißt die Kamera ohnehin schon nach
-ihnen, werden sie kein zweites Mal genannt. **bekommt Audio von**
-daneben nennt dieselben Sprecher. Eine Kamera, der niemand zugeordnet
+Bis jemand darüberschreibt, ist es ein Vorschlag, gebaut aus der Kamera
+und den Sprechern. Der Produktionsname gehört nicht dazu: das Ergebnis
+liegt in aller Regel neben dem Material, und in einem Ordner, in dem
+jede Datei mit demselben Wort beginnt, sagt dieses Wort niemandem
+etwas. Zählt die Kamera ihre Dateien mit einer Nummer durch, stehen die
+Sprecher vor dieser Nummer und der Name der Kamera vor ihnen -- vorn
+bleibt also lesbar, welche Kamera es war. Gibt es keine solche Nummer,
+bleibt der Kameraname ganz und die Sprecher folgen ihm; und heißt die
+Kamera ohnehin schon nach ihnen, werden sie kein zweites Mal genannt.
+
+An die geschriebene Datei kommt darüber hinaus die Endung `_audio`. Sie
+ist kein Schmuck: ohne sie kann der Name genau der Name der Kameradatei
+selbst werden, und liegt das Ergebnis neben der jeweiligen Videodatei,
+würde der Lauf die Aufnahme überschreiben, aus der er entstanden ist.
+Eine gleichnamige Datei aus einem früheren Lauf wird ersetzt -- wer
+dasselbe Material ein zweites Mal für eine andere Produktion
+durchlaufen lässt, gibt ihr deshalb besser einen eigenen Ausgabeordner.
+
+**bekommt Audio von** daneben nennt dieselben Sprecher. Eine Kamera, der niemand zugeordnet
 ist, sagt dort **den Mix aus allen Spuren**, und der
 Weitwinkel sagt **kein Sprecher -- das ist der Weitwinkel** -- oder
 nennt den, der ihm vorher zugeordnet war und auf **ohne eigene Kamera**
