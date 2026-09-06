@@ -451,7 +451,23 @@ jobs:
           if command -v ffmpeg > /dev/null 2>&1; then
             exit 0
           fi
-          choco install ffmpeg -y --no-progress || true
+          # Three tries with a pause between them. An outage at the
+          # package server is not a broken machine, and it does not
+          # last: 6.9.2026 community.chocolatey.org answered 504
+          # (Gateway Timeout) and both Windows jobs fell twenty
+          # minutes after the same tree had been green on all six.
+          # Since then the six runs are a condition for merging, so an
+          # outage there holds up a merge as well.
+          for try in 1 2 3; do
+            choco install ffmpeg -y --no-progress || true
+            if command -v ffmpeg > /dev/null 2>&1; then
+              break
+            fi
+            if [ "$try" != 3 ]; then
+              echo "no ffmpeg after try $try -- waiting 20 s"
+              sleep 20
+            fi
+          done
           # Asked of the machine, not of choco's return code. Measured
           # 5.9.2026: community.chocolatey.org answered 504, choco said
           # "Unable to find package 'ffmpeg'" and "installed 0/0
@@ -460,7 +476,7 @@ jobs:
           # nothing. Once in fifteen runs, both Windows jobs at once,
           # which is what an outage somewhere else looks like.
           if ! command -v ffmpeg > /dev/null 2>&1; then
-            echo "FAIL: no ffmpeg after choco install, and choco"
+            echo "FAIL: no ffmpeg after three tries, and choco"
             echo "      reported success. What the package server"
             echo "      answered stands above this line."
             exit 1
