@@ -82,17 +82,30 @@ videopodcast-magic = "videopodcast_magic:main"
 # ui/__init__.py, so that check cannot see them. Take a name out and
 # the suite stays green and the wheel opens no player. Measured
 # 6.9.2026.
-packages = ["videopodcast_magic", "videopodcast_magic.auphonic",
-            "videopodcast_magic.bearings", "videopodcast_magic.cut",
-            "videopodcast_magic.desktop", "videopodcast_magic.fittings",
-            "videopodcast_magic.hearing", "videopodcast_magic.herald",
-            "videopodcast_magic.language", "videopodcast_magic.material",
-            "videopodcast_magic.menus", "videopodcast_magic.orders",
-            "videopodcast_magic.pipeline", "videopodcast_magic.player",
-            "videopodcast_magic.preflight", "videopodcast_magic.resolve",
-            "videopodcast_magic.setup", "videopodcast_magic.speakers",
-            "videopodcast_magic.speech", "videopodcast_magic.tables",
-            "videopodcast_magic.ui"]
+packages = [
+    "videopodcast_magic",
+    "videopodcast_magic.auphonic",
+    "videopodcast_magic.bearings",
+    "videopodcast_magic.cut",
+    "videopodcast_magic.desktop",
+    "videopodcast_magic.fittings",
+    "videopodcast_magic.hearing",
+    "videopodcast_magic.herald",
+    "videopodcast_magic.language",
+    "videopodcast_magic.material",
+    "videopodcast_magic.menus",
+    "videopodcast_magic.metadata",
+    "videopodcast_magic.orders",
+    "videopodcast_magic.pipeline",
+    "videopodcast_magic.player",
+    "videopodcast_magic.preflight",
+    "videopodcast_magic.resolve",
+    "videopodcast_magic.setup",
+    "videopodcast_magic.speakers",
+    "videopodcast_magic.speech",
+    "videopodcast_magic.tables",
+    "videopodcast_magic.ui",
+]
 
 # The nine translations are data, not program, and setuptools ships
 # only Python out of a package unless it is told otherwise. Without
