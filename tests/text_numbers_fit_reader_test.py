@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 """A number takes the language's form for a person, never for a machine.
 
-Three sections. The first runs German and asks a count and a measured
-distance for the thousands mark and the decimal comma; the second asks
-the same two in English, where both marks are the other way round --
-that is what shows the marks come out of the catalogue and not out of
-the program. The third is the direction that costs something when it is
-wrong: what leaves for a machine -- the filter chain handed to ffmpeg,
-the iXML block written into the delivered track, the name that track is
-written under -- keeps plain digits under German too.
+The sections in the order they come. The first runs German and asks a
+count and a measured distance for the thousands mark and the decimal
+comma; the second asks the same two in English, where both marks are
+the other way round -- that is what shows the marks come out of the
+catalogue and not out of the program. The third asks for both marks in
+one number, where a thousands mark stands beside a decimal place. The
+last is the direction that costs something when it is wrong: what
+leaves for a machine -- the filter chain handed to ffmpeg, the iXML
+block written into the delivered track, the name that track is written
+under -- keeps plain digits under German too.
 
-The channel facts are a stand-in dictionary, so what is judged is what
-the program writes, not what a recorder would have measured. No wording
-is held against anything, only the shape of the number, so the checks
-stand whether a catalogue carries the sentence or not.
+The channel facts and the picture's timecode are stand-in
+dictionaries, so what is judged is what the program writes, not what a
+recorder would have measured. No wording is held against anything, only
+the shape of the number, so the checks stand whether a catalogue
+carries the sentence or not.
 """
 import contextlib
 import io
@@ -41,6 +44,22 @@ def quietly(work):
     """Run work with its printing caught, and hand back what it returned."""
     with contextlib.redirect_stdout(io.StringIO()):
         return work()
+
+
+def printed(work):
+    """Run work and hand back what it printed, for the ones that report."""
+    caught = io.StringIO()
+    with contextlib.redirect_stdout(caught):
+        work()
+    return caught.getvalue()
+
+
+def holding(text, *pieces):
+    """The first line of text carrying one of pieces, for the FAIL line."""
+    for line in text.splitlines():
+        if any(p in line for p in pieces):
+            return line.strip()
+    return ""
 
 
 # Two channels whose delay puts them apart: 3.6 ms of spacing is
@@ -83,7 +102,35 @@ check("the same spacing carries the English decimal point",
       "1.2 m" in said and "1,2 m" not in said,
       "%r -- wanted %r in it and %r not" % (said, "1.2 m", "1,2 m"))
 
-print("\n3. German: a machine reads it, so the digits stay plain")
+print("\n3. German: one number with a thousands mark and a decimal place")
+# For years the program had one helper for each half and none for
+# both, so a number with a decimal place came out ungrouped: "2000,0
+# ms" stood in the same German line as "1.234 points". 1234.5 has
+# somewhere for each of the two marks to stand.
+BOTH = 1234.5
+vpm.set_language("de")
+written_out = vpm.number_text(BOTH, 1)
+check("a number with a decimal place carries the thousands mark as well",
+      written_out == "1.234,5",
+      "number_text(%s, 1) is %r, wanted %r"
+      % (BOTH, written_out, "1.234,5"))
+
+# And a line a person really sees. The timecode check reports how far
+# the sound sits from the picture in frames, and that branch of it runs
+# up to a minute: 59 seconds at 25 frames a second is 1475 frames. The
+# picture's facts are made up here; nothing is read off a file.
+LATE_S = 59.0
+FPS = 25.0
+AT_HOUR = 3600.0
+report = printed(lambda: vpm.report_timecode_check(
+    AT_HOUR, {"tc": "01:00:00:00", "fps": FPS}, LATE_S))
+said = holding(report, "1.475,0", "1475,0")
+check("the frames a timecode is out by carry the thousands mark too",
+      "1.475,0" in report and "1475,0" not in report,
+      "%r -- wanted %r in it and %r not, for %s s at %s frames a second"
+      % (said, "1.475,0", "1475,0", LATE_S, FPS))
+
+print("\n4. German: a machine reads it, so the digits stay plain")
 # From here on the run is German, which is the language whose thousands
 # mark is a full stop -- the one that would silently turn a rate into a
 # different number, a file name into another file, an XML field into
