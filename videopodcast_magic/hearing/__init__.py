@@ -25,11 +25,10 @@ as_warn = PROGRAM.as_warn
 bext_time_reference = PROGRAM.bext_time_reference
 cache_folder = PROGRAM.cache_folder
 clean_old_files = PROGRAM.clean_old_files
-decimal_text = PROGRAM.decimal_text
 ffprobe_json = PROGRAM.ffprobe_json
-group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 log_aside = PROGRAM.log_aside
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
@@ -536,7 +535,7 @@ def join_with_report(paths, target, keep_parts=False):
     source, join_info = join_audio_parts(paths, target, keep_parts=keep_parts)
     if join_info.get("tc"):
         print(T('  %s blocks joined via timecode, start %s')
-              % (group_text(join_info["blocks"]),
+              % (number_text(join_info["blocks"], 0),
                  timecode_string(join_info["start"] / float(SR))))
         for at_s, g in join_info.get("gaps_found", []):
             if g > 0:
@@ -560,7 +559,7 @@ def join_with_report(paths, target, keep_parts=False):
     else:
         print(T('  %s blocks joined in name order (no timecode -- gaps '
                 'would not be recognisable)')
-              % group_text(join_info["blocks"]))
+              % number_text(join_info["blocks"], 0))
     return source, join_info
 
 
@@ -739,7 +738,7 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
     if level < 0.15:
         return 0, n_audio, {"reason":
                             T('no match in the middle either (%s)')
-                            % decimal_text("%.2f" % level)}
+                            % number_text(level, 2)}
     threshold = max(0.12, 0.5 * level)
     R = int(edge_s * 1000 / HOP)
     step_coarse = int(0.5 * 1000 / HOP)
@@ -994,8 +993,8 @@ def which_way_placed(st, hint=""):
         hint = (hint + ", " if hint else "") + (
             T('placed by phase, sharpness %s against a floor of %s, '
               'drift unknown')
-            % (decimal_text("%.1f" % float(st.get("phase_sharp") or 0.0)),
-               decimal_text("%.1f" % PHASE_SHARP_ENOUGH)))
+            % (number_text(float(st.get("phase_sharp") or 0.0), 1),
+               number_text(PHASE_SHARP_ENOUGH, 1)))
     return hint
 
 
@@ -1107,8 +1106,8 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
                         'the floor). The two may not belong together.')
                       % (warn if isinstance(warn, str)
                          else T('this pair of files'),
-                         decimal_text("%.3f" % g),
-                         decimal_text("%.2f" % WEAK_MATCH))))
+                         number_text(g, 3),
+                         number_text(WEAK_MATCH, 2))))
 
     duration_v = len(env_video) * HOP / 1000.0
     W = int(window_s * 1000 / HOP)
