@@ -14,7 +14,7 @@ rates, run times, distributions, comparisons.
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
 program lives any more -- 1 355 lines of it, against the 37 535 it held
-on 4.9.2026, the day the single file became a folder. **Thirty-two
+on 4.9.2026, the day the single file became a folder. **Thirty-three
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
 
@@ -22,7 +22,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **8024** -- the window and everything it shows, asks or offers
+* `ui/` **7735** -- the window and everything it shows, asks or offers
 * `cut/` **3925** -- who is on camera when, and what carries it out of
   here
 * `player/` **2885** -- the moving picture: the player, the cut band,
@@ -31,14 +31,14 @@ figure of the day is that command, not this paragraph**:
   markers
 * `material/` **2612** -- channels, chains, continuation files, what a
   track is made of
-* `bearings/` **2341** -- the time axis, the offsets, which camera
+* `bearings/` **2352** -- the time axis, the offsets, which camera
   belongs to which voice
 * `speakers/` **2060** -- who is speaking, out of the sound alone
-* `pipeline/` **1879** -- the chain the recordings run until the camera
+* `pipeline/` **1895** -- the chain the recordings run until the camera
   files are written
 * `preflight/` **1512** -- whether the material fits together before the
   first long step
-* `auphonic/` **1229** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1243** -- the sending to auphonic.com and the fetching
   back
 * `hearing/` **1174** -- decoding, envelopes, bands, phase, aligning
   audio to video
@@ -65,6 +65,8 @@ figure of the day is that command, not this paragraph**:
 * `tables/` **410** -- the tables and trees the window builds
 * `language/` **352** -- a .po file per language and the reader that
   looks one up
+* `running/` **349** -- what a run is offered before it starts, the
+  command line it builds, and the thread it goes in
 * `timecode/` **343** -- timecode strings, frame rates, the clock a file
   carries
 * `menus/` **272** -- the menu bar and what follows it
@@ -87,10 +89,10 @@ figure of the day is that command, not this paragraph**:
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
 
-**Six pieces are asked for by another piece, not by the way in.**
-`player/`, `fittings/`, `tables/`, `menus/`, `filelist/` and `prework/`
-are read out of `ui/__init__.py`, where the blocks they hold used to
-stand, and two of them again one folder deeper: `player/` out of
+**Seven pieces are asked for by another piece, not by the way in.**
+`player/`, `fittings/`, `tables/`, `menus/`, `filelist/`, `prework/` and
+`running/` are read out of `ui/__init__.py`, where the blocks they hold
+used to stand, and two of them again one folder deeper: `player/` out of
 `fittings/` and `fittings/` out of `filelist/`. `orders/` stood among them until
 6.9.2026, when `build_argument_parser` moved into it and the way in
 began to read it too -- the window then asks `beside()` for a piece
