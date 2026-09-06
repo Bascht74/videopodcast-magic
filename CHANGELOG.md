@@ -29,6 +29,13 @@ nicht.
 
 ### Fixed
 
+- **The window now follows a desktop switched to dark right down to its
+  background.** Switching macOS to dark while the program was running
+  turned the boxes, the tables and the tab bar dark but left the
+  background behind them light, so the window read as half changed. The
+  background, the entry fields and the switched-off controls now go dark
+  with the rest, and come back to light when the desktop does.
+
 - **The speaker separation puts itself back before it gives up.** A
   window that came up while the separation could not run said so for as
   long as it stayed open, whatever was installed in the meantime. Every
@@ -57,6 +64,13 @@ nicht.
 **Deutsch**
 
 ### Behoben
+
+- **Das Fenster geht jetzt bis zum Hintergrund mit, wenn der Schreibtisch
+  auf Dunkel umschaltet.** Wurde macOS bei laufendem Programm auf Dunkel
+  gestellt, wurden Kästen, Tabellen und Reiterleiste dunkel, der
+  Hintergrund dahinter blieb aber hell -- das Fenster sah halb umgestellt
+  aus. Hintergrund, Eingabefelder und abgeschaltete Bedienelemente
+  wechseln jetzt mit, und zurück, sobald der Schreibtisch zurückwechselt.
 
 - **Die Sprechertrennung holt sich selbst zurück, bevor sie aufgibt.**
   Ein Fenster, das hochkam, während die Trennung nicht laufen konnte,

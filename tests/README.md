@@ -1,6 +1,6 @@
 # The test suite
 
-256 tests against the program in `../videopodcast_magic/`. Every one of them stands
+257 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-256 tests. The name is the one a red line carries, and beside it the
+257 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -452,6 +452,7 @@ it is green.
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
+| `window_dark_follows` | A desktop switched to dark leaves no light ground standing in the window. |
 | `window_foot_on_one_line` | The buttons in the footer stand on one line, and say why they are off. |
 | `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
