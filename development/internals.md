@@ -243,10 +243,36 @@ tools as missing; `running_from` and `start_again` would name and
 restart the piece. Whatever needs the program's own path reads
 `PROGRAM.__file__`.
 
+**And the fourth case of it went silent.** `log_path` in `logbook/`
+answers with the folder it is asked from, so a plain `__file__` writes
+the log inside the piece -- and **not one test in the suite goes red for
+it**, measured 6.9.2026 on a copy. Three of the four cases were found by
+a red run and this one only by counting the names that cross. So
+`__file__` is counted like any other name over the seam, not looked for
+after something breaks.
+
 **Where a piece is read costs as much as where it is cut.** The same
 range of lines needed 27 late names read at the place the code stood
 and two read further down. Both ends of every candidate are worth
 measuring before a line is moved.
+
+**Let the loader answer where the seam may sit.** Move the seam in a
+copy, read the copy in a child process, and take the return code and
+the last line: it answers `AttributeError: 'Program' object has no
+attribute '<name>'` and names the one thing in the way. Walking the
+candidate positions that way gives the window as two line numbers --
+6.9.2026 one piece was placed off fourteen such trials and another off
+eight. It is cheaper than reckoning, and it found three windows that a
+reckoning had got wrong.
+
+**Run that sweep with `PYTHONDONTWRITEBYTECODE=1`, or it lies.** Every
+variant of the file is the same size -- the block only moves -- and two
+trials in the same second are the same size and the same mtime, so
+Python holds the `.pyc` of the one before valid and runs it again. A
+sweep of 301 positions came back naming `beside` as missing at places
+where it was long since defined, and gave a window 42 lines off. It is
+the trap the `gegenbeweis` skill records for broken copies, in a second
+coat.
 
 **Leave a `#---` rule behind.** Take out the first rule of a stretch and
 the ground section grows to the next one, and
