@@ -13,16 +13,19 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 806 lines of it, against the 37 535 it held
+program lives any more -- 690 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-four
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
+Nothing in it belongs anywhere else any more: what is left is the
+loader, the version check, the run, the values more than one piece
+reads, and the catalogue.
 
 What is in them, largest first, every folder of the program on the list
 and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **7892** -- the window and everything it shows, asks or offers
+* `ui/` **7130** -- the window and everything it shows, asks or offers
 * `cut/` **3960** -- who is on camera when, and what carries it out of
   here
 * `player/` **2657** -- the moving picture: the player, the cut band,
@@ -33,16 +36,16 @@ figure of the day is that command, not this paragraph**:
   track is made of
 * `bearings/` **2071** -- the time axis, the offsets, which camera
   belongs to which voice
+* `speakers/` **1967** -- who is speaking, out of the sound alone
 * `pipeline/` **1918** -- the chain the recordings run until the camera
   files are written
-* `speakers/` **1865** -- who is speaking, out of the sound alone
 * `preflight/` **1385** -- whether the material fits together before the
   first long step
 * `speech/` **1182** -- what is said and when, and what is written down
   from it
 * `auphonic/` **1176** -- the sending to auphonic.com and the fetching
   back
-* `setup/` **1051** -- finding ffmpeg, installing a missing module,
+* `setup/` **1089** -- finding ffmpeg, installing a missing module,
   keeping the key
 * `hearing/` **1046** -- decoding, envelopes, bands, phase, aligning
   audio to video
@@ -52,10 +55,10 @@ figure of the day is that command, not this paragraph**:
   about itself
 * `orders/` **703** -- the command line a run is given: written out of
   the window, and read back off the line
+* `herald/` **608** -- the progress bar, the stages, the console and log
+  redirection
 * `desktop/` **601** -- the picture and the shortcut the first start
   lays down
-* `herald/` **598** -- the progress bar, the stages, the console and log
-  redirection
 * `upkeep/` **457** -- which release is out, the way back, and pip
   putting one in place
 * `filelist/` **439** -- the list of chosen files: the tree it is
@@ -148,7 +151,9 @@ search path and answers "ffmpeg, ffprobe is missing." with both of them
 lying beside the program -- measured 6.9.2026 on a copy that kept
 `__file__`, against the same copy that asks the program.
 
-**Where a piece is read decides what it can bind.** Most of them stand
+**Where a piece is read decides what it can bind.** Every read has its
+own row in [the table further down](#where-each-piece-is-read-and-why-it-must-stand-there),
+which is where the way in's own notes went. Most of them stand
 at the end of the way in, after everything they take; `setup/` is read
 at the top instead, because what stands under it wants ffmpeg or a
 module that may not be installed yet -- and so it can bind only what is
@@ -378,8 +383,9 @@ value do not.** Counted 6.9.2026 over the way in's top level, uses and
 not mentions: `INSTALL_TOOLS` went to `setup/`, `CEILING_DBTP` and
 `LIMIT_MAX_DB` to `material/`, `ONLY_MULTITRACK` to `orders/`. The four
 kinds that stay: a value the way in reads itself (`LIKES_PYTHON` in the
-version check, `SPEECH_CODES` in `language_of_system`, `TOOL_TROUBLE`
-in `main`); a sink the window writes on the program object
+version check, `TOOL_TROUBLE` in `main`) or that more than one piece
+reads (`SPEECH_CODES`, out of `speech/` and out of `ui/`); a sink the
+window writes on the program object
 (`ASK_SINK`, `PROGRESS_SINK` -- see the rule at the head of this
 section); `FFMPEG_FLOOR`, whose line `text_lang_settled_first` rewrites
 in the way in and nowhere else; and a value the piece itself writes
@@ -407,17 +413,130 @@ language/__init__.py line 32, written at workbench/__init__.py line
 did go: `only_reading`, `count_process_starts`, `safe_filename` and
 `Stopped`, none of which rebinds anything.
 
-**What the way in is made of, and why its ratio is the lowest in the
-programme.** Measured 6.9.2026: 806 lines, 442 of them code -- 54.8 %,
-against 60.7 % averaged over the pieces and 82.8 % in `orders/`. Two
-things hold it down and neither is padding. 153 lines are blank, 35 %
-of the file against `orders/`'s 4.5 %, because this is a list of 27
-read-blocks with no function bodies to fill the space; and 43 comment
-lines say, one per `beside()` call, what binds what and so why that
-read stands where it does. Reaching 60 % means taking those 43 lines
-and cutting the seven seam docstrings to one line each -- 77 lines
-together, which lands at 60.6 % -- and those are the only written
-record of how the seam works.
+**The last three names to leave, and the two that could not.**
+`language_of_system`, `spoken_language_choices` and `SPOKEN_LANGUAGES`
+went into `ui/` on 6.9.2026 -- counted with `ast` over the way in *and*
+all 34 pieces, uses and not mentions, `ui/` was their only reader. Two
+that were meant to go with them stayed, and both refusals were measured
+in a child process with `PYTHONDONTWRITEBYTECODE=1`, the probe calling
+`load()` and `window()`:
+
+* **`SPEECH_CODES` cannot go to `ui/`**, because `speech/` binds it at
+  its head and `speech/` is read twenty read-blocks earlier. The broken
+  copy stops at `speech/__init__.py line 19` with `AttributeError:
+  'Program' object has no attribute 'SPEECH_CODES'`, return code 1. It
+  now has two piece-readers, so by the rule above it stays where both
+  can reach it.
+* **`kept_language` cannot leave the way in at all**, because the way
+  in calls it itself -- in `main()`, and on the last line before the
+  `__main__` guard, which runs while the file is still being read.
+  Moved into `ui/` the copy stops on that line with `NameError: name
+  'kept_language' is not defined`; asking `PROGRAM.kept_language()`
+  instead stops on the same line with `AttributeError: 'Program' object
+  has no attribute 'kept_language'`, because `PROGRAM.x` is a plain
+  lookup in the way in's globals and `take_from(ui)` has not run. Both
+  return code 1. **A count over the pieces alone would have missed
+  this**: the way in has to be counted with them.
+
+**What the way in is made of.** Measured 6.9.2026: 690 lines, 419 of
+them code -- 60.7 %, against 62.7 % averaged over the 34 pieces and
+82.8 % in `orders/`. It was 806 lines and 54.8 % that morning. What
+came out was not code: 42 comment lines standing one note per
+`beside()` call, and the seven seam docstrings cut from 41 lines to one
+each. **Both are in this chapter now** -- the notes as the table below,
+the docstrings as the paragraphs under it -- and one comment line went
+back into the way in, at the head of the read-blocks, saying so. The
+syntax tree of both files with docstrings stripped came back identical
+before and after that trim, character for character, so nothing that
+runs was touched. 147 lines are still blank, because this is a list of
+27 read-blocks with no function bodies to fill the space, and that is
+the floor for a file of this shape.
+
+### Where each piece is read, and why it must stand there
+
+One row per `beside()` call, in the order the way in makes them. **What
+binds what is the whole of it**: a piece binds at its head the names it
+takes, so it has to stand under everything it binds and above every
+piece that binds one of its own. Move a row and the loader answers
+`AttributeError: 'Program' object has no attribute '<name>'` and names
+the one thing in the way -- which is cheaper than reckoning, and the
+way every window in this table was found.
+
+| read | what binds what | why it stands there |
+|---|---|---|
+| `language/` | binds nothing: `beside()` is called for it without `program=` | first of all, because every message under it goes through `T` |
+| `workbench/` | binds `T`; `setup/` binds its `number_text` at its head | between the language and the setting up, and both edges are measured -- above, no `T`; after setup, no `number_text`. Either is fatal |
+| `setup/` | binds only what stands above it, and reaches `as_warn` through `PROGRAM.` | at the top: what stands under it wants tools and modules that may not be installed yet |
+| `choices/` | takes `T` alone; ten pieces below bind its names at their heads | anywhere under the language and above those ten |
+| `livery/` | takes `os`, `re` and `sys` only; 15 pieces bind its names at their heads | above all 15 |
+| `dials/` | reads no name out of the program; six pieces below bind its own | above those six |
+| `filing/` | 12 pieces bind its names at their heads; no line above it reads any | above all 12 |
+| `stowage/` | `logbook/` binds its `cache_folder` at its head | before `logbook/`. `kept_language` stands far above it and reaches `settings` through `PROGRAM.` |
+| `logbook/` | binds `cache_folder` above; `herald/` and `soundings/` bind its `outside_say` at their heads | after `cache_folder`, before `soundings/` |
+| `soundings/` | binds `outside_say` above; `timecode/` binds its `ffprobe_json` at its head, as do ten pieces after it | after `outside_say`, before `timecode/` |
+| `timecode/` | 13 pieces bind its names at their heads | above all 13 |
+| `metadata/` | 8 pieces bind its names at their heads | above all 8 |
+| `herald/` | `material/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads | before both of them |
+| `hearing/` | binds the herald's progress line; `material/` binds 10 of its names | after the herald, before the material |
+| `upkeep/` | binds the herald's `write_through`, and nothing else binds that; the separation binds its `PIP_SOURCE` | after the herald, before the separation |
+| `speech/` | binds `SPEECH_CODES`, which is the last name of the way in's own that it takes | anywhere from `SPEECH_CODES` down would do; it stands above the run that wants it |
+| `material/` | the checking binds the camera margin, the clipping and `parallel_map` out of it | before the checking |
+| `bearings/` | binds the material's names; the window's colours and the cut list it reads late | after the material, before the checking |
+| `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
+| `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
+| `speakers/` | the cut binds 20 of its names and the window 39; `orders/` and three pieces the window reads bind one or two more | before all of them |
+| `resolve/` | binds `Finding`, which the preflight above brings in | here, and not where it is first used |
+| `cut/` | the window binds its names | before the line that reads the window |
+| `pipeline/` | binds the cut's names; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
+| `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
+| `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
+| `ui/` | binds 39 names out of `speakers/` and 32 out of `cut/`, both read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+
+### The seven functions the seam is made of
+
+Their docstrings say one line each in the code. What the lines said
+stands here, where the rest of the seam is explained anyway.
+
+**`OneName.__setattr__`.** A piece binds what it uses under its own
+name, so a bend from outside -- only a test bends -- would reach the
+way in's copy alone. Bent on the module, every piece that carries the
+name follows. That is the door the head of this section is about.
+
+**`pieces_answer_together`.** True where it took. A run that never
+registers this file under its own name has no module object at all, and
+so bends nothing either; it hands back False rather than dying, because
+the program is also started as a plain file.
+
+**`beside`.** By path, never by name. An import by name finds the piece
+only in an installed copy, and the program is also started as a plain
+file and from a path under a name a test picks -- `the_program.load()`
+picks `vpm`. The program is handed in before the piece is read, so the
+piece has something to bind out of at its head.
+
+**`take_from`.** A piece is not a library beside the program: what it
+brings answers here under the same name, so nothing outside has to know
+which file a name ended up in. It places every name long before the
+written-out `X = piece.X` lines, which are for a reader and for
+`source_no_loose_ends` -- see the rule further up this chapter.
+
+**`set_language`.** The code is held twice -- beside the way in, where
+`T()` reads it, and in the way in, where a reader and every test look
+for it. One door sets both, so they cannot come apart. That `global
+LANG` is also why the function cannot leave the file; the rule and the
+measurement stand above.
+
+**`Numpy`.** Reading the program fetches nothing. `--version` answers
+cheaply because it calculates nothing, not because argv was read while
+the file was being read -- a default value in a `def` line is evaluated
+as the file is read, so one reaching for numpy there would fetch it for
+every `--help`. `source_numpy_comes_last_test.py` holds that.
+The `global np` is why this one cannot leave the file either.
+
+**`__getattr__`.** A name of the window, asked for before the window
+was read. What the window brings stands in the way in once `window()`
+has run; until then this answers by reading it. It is why a probe has
+to call `window()` as well as `load()`, and why a test may ask
+`vpm.spoken_language_choices` before any window exists.
 
 ## How speech is detected without Auphonic
 
