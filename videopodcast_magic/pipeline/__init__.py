@@ -87,6 +87,7 @@ mix_tracks = PROGRAM.mix_tracks
 mix_width = PROGRAM.mix_width
 no_place_message = PROGRAM.no_place_message
 normalise_loudness = PROGRAM.normalise_loudness
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 parse_time_point = PROGRAM.parse_time_point
 parse_timecode = PROGRAM.parse_timecode
@@ -1415,7 +1416,7 @@ def check_written_file(target, items, n_camera, args, fps):
     off = abs(ms) > 1000.0 / fps
     line = (T('  Check:           %s against the camera track %s ms '
               '(match %s)%s')
-            % (items[index_number][0], decimal_text("%+.0f" % ms),
+            % (items[index_number][0], number_text(ms, 0, plus=True),
                decimal_text("%.2f" % g),
                T('   Caution: more than one frame') if off else ""))
     print(as_warn(line) if off else line)
@@ -1647,7 +1648,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print(T('  Cross-check:     %s from the Full-Mix, deviation '
                     '%s ms (%s of %s points)%s')
                   % (as_hms(a2),
-                     decimal_text("%+.0f" % (deviation * 1000.0)),
+                     number_text(deviation * 1000.0, 0, plus=True),
                      group_text(st2.get("points", 0)),
                      group_text(st2.get("candidates", 0)),
                      T('   Caution: more than one frame') if serious else ""))
