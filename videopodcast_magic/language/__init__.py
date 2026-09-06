@@ -1,24 +1,10 @@
 # -*- coding: utf-8 -*-
 """What language the program speaks, and how a message is said in it.
 
-Every message is written in English in the program. A translation lives
-beside this file, one `<code>.po` per language, and `T()` looks a
-message up by its English wording -- so a text nobody has translated
-shows up in English instead of disappearing.
-
-The program reads those files itself and puts them in `CATALOGUE`, at
-the end of its own file, and settles the language in the line after.
-Not here, and the order is the point: what the program says while it is
-still being read comes out English, because nothing has chosen yet.
-
-Why `.po` and not Python: a translation is data, and data that is
-program can bring the program down. A missing comma in a Python
-catalogue turned all 1531 German texts into nothing and stopped the
-start with a SyntaxError. The reader below reads a broken entry as one
-lost sentence instead, and every translation tool in the world can open
-the file. Nothing is compiled: `.mo` files would have to be built on
-the machine that installs, and the one way in here -- pip3 from a git
-URL -- runs no step of ours there.
+English wording is the key: `T()` looks a message up by it, so an
+untranslated text shows in English rather than disappearing. Each
+language is a `.po` beside this one -- a translation is data, and a
+Python catalogue that fails to parse takes the whole start down.
 """
 import io
 import os
@@ -31,16 +17,14 @@ SOURCE_LANG = "en"    # the language the texts in the program are written in
 CATALOGUE = {}        # language -> {English text: translation}
 LANG = SOURCE_LANG    # what is spoken now; the program settles it at its end
 
-# A count does not pick a wording the same way in every language.
-# English and German want two, Russian three, Arabic six, Japanese one.
-# The rule is not in the program: each PO file carries its own, in the
-# Plural-Forms line of its header, and these two hold what was read.
+# A count picks its wording differently per language -- two forms in
+# English, three in Russian, six in Arabic, one in Japanese. Each PO
+# header carries its rule in Plural-Forms; these hold what was read.
 PLURALS = {}          # language -> {English singular: [wording per form]}
 PLURAL_RULE = {}      # language -> (how many forms, the rule as a tree)
 
-# What a backslash means inside a PO string: the letter above, the
-# character below. Everything else stands as it is written, so a text
-# keeps its own characters.
+# What a backslash means inside a PO string: letter above, character
+# below. Everything else stands as written, so a text keeps its own.
 UNESCAPE = dict(zip('ntr"\\abfv',
                     '\n\t\r"\\\a\b\f\v'))
 QUOTED = re.compile(r'^\s*"(.*)"\s*$')
@@ -64,11 +48,10 @@ def po_string(text):
 def read_po(path):
     """One PO file, as its texts, its plural wordings and its header.
 
-    Forgiving on purpose. A line that makes no sense costs the entry it
-    stands in and nothing more: the reader drops that one and carries
-    on, so a typo in a translation loses a sentence rather than a
-    language. The empty msgid is gettext's header; it is no text, and
-    it is handed back on its own because the plural rule lives in it.
+    Forgiving on purpose: a line that makes no sense costs the entry it
+    stands in and nothing more, so a typo loses a sentence rather than
+    a language. The empty msgid is gettext's header, handed back on its
+    own because the plural rule lives in it.
     """
     texts, plurals = {}, {}
     header = ""
@@ -142,9 +125,8 @@ def texts_of_language(code):
 
     Read from beside this file rather than by name: a test loads the
     program from an absolute path, and Python leaves the folder off the
-    search path then. A file that is missing is no language and gives
-    nothing back. The plural wordings and the rule are put away rather
-    than handed back, because what comes back is assigned to CATALOGUE.
+    search path then. A missing file is no language. Plural wordings
+    and the rule are put away, because the return goes into CATALOGUE.
     """
     beside_it = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              code + ".po")
@@ -165,10 +147,8 @@ def languages():
     return sorted(set(CATALOGUE) | {SOURCE_LANG})
 
 
-# What a language calls itself. Never through T(): whoever looks for a
-# language looks for its own name, and may not read the language the
-# window is standing in at that moment. That is why the names are a
-# table here and not entries in the catalogue.
+# What a language calls itself, a table and never through T(): whoever
+# looks for a language may not read the one the window stands in.
 LANGUAGE_NAMES = dict(
     ar="العربية",
     de="Deutsch",
@@ -186,9 +166,8 @@ LANGUAGE_NAMES = dict(
 )
 
 
-# Which languages are written from right to left. A table here for the
-# same reason as the names above: it is a fact about the language and
-# not about the window, and four of these five have no catalogue yet.
+# Which languages are written from right to left -- a fact about the
+# language and not the window, and four of these five have no catalogue.
 RIGHT_TO_LEFT = ("ar", "fa", "he", "ur", "yi")
 
 
@@ -202,10 +181,8 @@ def reads_right_to_left(code):
     return code in RIGHT_TO_LEFT
 
 
-# The pair that holds a label together. U+2066 says "read what follows
-# the way it reads itself", U+2069 closes it again. Both are invisible
-# and neither has a width, in any language. Written as escapes because
-# a character nobody can see is a character somebody deletes.
+# The pair that holds a label together, U+2066 and U+2069: invisible
+# and without width. Escapes, because an unseen character gets deleted.
 ISOLATE = "\u2066"
 ISOLATE_END = "\u2069"
 
@@ -214,11 +191,9 @@ def as_written(text):
     """A label laid out by its own reading, not by the window's.
 
     In a right-to-left window a sign or a digit at the edge of a Latin
-    group falls to the paragraph and is moved to the other end: "-10 s"
-    is shown as "s 10-", which is a different number. The pair above
-    settles the reading from the inside, whatever the window does.
-
-    Nothing is added where the window reads left to right.
+    group falls to the paragraph and moves to the other end: "-10 s"
+    shows as "s 10-", a different number. The pair above settles the
+    reading from the inside. Nothing is added left to right.
     """
     if not text or not reads_right_to_left(LANG):
         return text
@@ -290,10 +265,8 @@ def set_language(name):
     return LANG
 
 
-# A header carries its language's plural rule as a C expression over one
-# name. Reading it is gettext's own job and gettext is in the standard
-# library; c2py is the very function that gives the header its meaning
-# everywhere else. Why not our own: development/decisions.md.
+# A header carries its plural rule as a C expression over one name, and
+# gettext's c2py reads it everywhere else. Why not ours: decisions.md.
 try:
     from gettext import c2py as plural_reader
 except ImportError:
@@ -334,10 +307,9 @@ def TN(number, one, many):
     """Pick the wording a count wants, in the language being spoken.
 
     The two English wordings stand here because English needs no
-    catalogue. Every other language says in its own file how many it
-    has and which one a count wants -- Russian three, Arabic six -- and
-    where it does, that answer wins. Where it does not, the English
-    rule stands: one is singular, everything else is not.
+    catalogue. Every other language says in its own file how many forms
+    it has and which one a count wants, and where it does, that answer
+    wins. Where it does not, one is singular and the rest are not.
     """
     forms = PLURALS.get(LANG, {}).get(one)
     rule = PLURAL_RULE.get(LANG)
