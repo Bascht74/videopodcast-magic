@@ -20,7 +20,7 @@ IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 T = PROGRAM.T
 TN = PROGRAM.TN
-group_text = PROGRAM.group_text
+number_text = PROGRAM.number_text
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 video_facts = PROGRAM.video_facts
@@ -331,8 +331,9 @@ def folded_summary(tree, row):
     if not seen:
         return T('no camera yet')
     return (TN(len(seen), 'on %s camera', 'on %s cameras')
-            % group_text(len(seen))
-            + ((T(', %s without') % group_text(without)) if without else ""))
+            % number_text(len(seen), 0)
+            + ((T(', %s without') % number_text(without, 0))
+               if without else ""))
 
 
 def row_picker_for(tree):

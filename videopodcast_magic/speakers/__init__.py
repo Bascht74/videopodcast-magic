@@ -31,10 +31,10 @@ decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
 file_fingerprint = PROGRAM.file_fingerprint
 file_timecode = PROGRAM.file_timecode
-group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 https_context = PROGRAM.https_context
 json = PROGRAM.json
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
 remove_quietly = PROGRAM.remove_quietly
@@ -250,7 +250,7 @@ def fetch_model(report=None, ref=""):
     for name in sorted(sums):
         if report:
             report(T('Fetching the model (about %s MB): %s')
-                   % (group_text(MODEL_MB), name),
+                   % (number_text(MODEL_MB, 0), name),
                    0.05 + 0.9 * done / len(sums))
         try:
             data = take(name)
@@ -596,7 +596,7 @@ def speaker_split_run(path, num_speakers=0, report=None,
         # of the model itself need no second question.
         if report:
             report(T('Fetching the model (about %s MB) ...')
-                   % group_text(MODEL_MB), 0.02)
+                   % number_text(MODEL_MB, 0), 0.02)
         trouble = fetch_model(report)
         if trouble:
             return [], trouble
@@ -720,7 +720,7 @@ def _speaker_split_talk(python, worker, head, wave, environment,
     print(TN(found,
              '  Speaker separation (%s): %s speaker out of %s of audio',
              '  Speaker separation (%s): %s speakers out of %s of audio')
-          % (device[-1] if device else "cpu", group_text(found),
+          % (device[-1] if device else "cpu", number_text(found, 0),
              as_hms(seconds)))
     return speaker_segments_group(d["segments"]), ""
 
@@ -1583,7 +1583,7 @@ def split_cells_write(cells, busy, running, by_source, note):
             elif done:
                 mark.setText(TN(len(found), 'Separated: %s speaker',
                                 'Separated: %s speakers')
-                             % group_text(len(found)))
+                             % number_text(len(found), 0))
                 mark.setStyleSheet("color: %s" % COLOURS["good"])
             else:
                 mark.setText("")
