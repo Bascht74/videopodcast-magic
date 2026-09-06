@@ -75,10 +75,10 @@ videopodcast-magic = "videopodcast_magic:main"
 # weight into every installation, for the many who never separate
 # speakers.
 #
-# player/, fittings/, tables/ and orders/ are the four nothing red
-# would notice if they were missing here. text_german_arrives holds
+# player/, fittings/, tables/, orders/ and menus/ are the five nothing
+# red would notice if they were missing here. text_german_arrives holds
 # this list against the beside() calls it finds, and it reads the way
-# in and no other file; all four are asked for from inside
+# in and no other file; all five are asked for from inside
 # ui/__init__.py, so that check cannot see them. Take a name out and
 # the suite stays green and the wheel opens no player. Measured
 # 6.9.2026.
@@ -87,11 +87,12 @@ packages = ["videopodcast_magic", "videopodcast_magic.auphonic",
             "videopodcast_magic.desktop", "videopodcast_magic.fittings",
             "videopodcast_magic.hearing", "videopodcast_magic.herald",
             "videopodcast_magic.language", "videopodcast_magic.material",
-            "videopodcast_magic.orders", "videopodcast_magic.pipeline",
-            "videopodcast_magic.player", "videopodcast_magic.preflight",
-            "videopodcast_magic.resolve", "videopodcast_magic.setup",
-            "videopodcast_magic.speakers", "videopodcast_magic.speech",
-            "videopodcast_magic.tables", "videopodcast_magic.ui"]
+            "videopodcast_magic.menus", "videopodcast_magic.orders",
+            "videopodcast_magic.pipeline", "videopodcast_magic.player",
+            "videopodcast_magic.preflight", "videopodcast_magic.resolve",
+            "videopodcast_magic.setup", "videopodcast_magic.speakers",
+            "videopodcast_magic.speech", "videopodcast_magic.tables",
+            "videopodcast_magic.ui"]
 
 # The nine translations are data, not program, and setuptools ships
 # only Python out of a package unless it is told otherwise. Without
