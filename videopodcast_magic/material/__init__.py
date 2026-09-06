@@ -840,7 +840,7 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                    "" if fine is None else T(' (fine: %s ms)')
                    % decimal_text("%+.1f" % fine),
                    decimal_text("%+.3f" % length),
-                   decimal_text("%.0f" % spread),
+                   number_text(spread, 0),
                    group_text(st.get("points", 0)),
                    group_text(st.get("candidates", 0)), remark,
                    T('   Caution: measurement unusable') if uncertain else ""))

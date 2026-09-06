@@ -83,6 +83,7 @@ media_seconds = PROGRAM.media_seconds
 microphones_apart_db = PROGRAM.microphones_apart_db
 mix_width = PROGRAM.mix_width
 normalise_loudness = PROGRAM.normalise_loudness
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 own_frame_rate = PROGRAM.own_frame_rate
 parallel_map = PROGRAM.parallel_map
@@ -3895,7 +3896,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         print(T('  %sx away from the speaker because a shot ran '
                 'longer than %s s')
               % (group_text((len(cut) - before_value) // 2),
-                 decimal_text("%.0f" % wide_after)))
+                 number_text(wide_after, 0)))
     was = len(cut)
     cut, detail = cut_split_where_one_camera(cut, segment_list, camera_of,
                                               args.min_edit_duration)
