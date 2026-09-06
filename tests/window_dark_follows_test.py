@@ -41,10 +41,11 @@ UI = m.window()
 DARK = [False]
 UI.desktop_is_dark = lambda *a, **k: DARK[0]
 
-# How long the window may stand still before it counts as never having
-# come up. Milliseconds between looks, and looks in a row without a
-# change; the builder is about nine times slower, so both are generous.
+# Milliseconds between looks, looks without a change that count as
+# settled, and looks without a change that count as never getting
+# there. Standstill, not elapsed time: a slow machine only takes longer.
 PAUSE = 120
+SETTLED = 3
 STILL = 150
 # How much of the picture one colour may keep across the switch. The
 # ground kept 18.1 % of it before this was mended, and 0 after.
@@ -60,7 +61,27 @@ def top():
 
 
 def picture():
+    """The window as an image, and the image is the caller's to hold.
+
+    Whoever reads points out of it keeps it in a name of its own: a
+    picture nobody holds is freed while it is still being read.
+    """
     return top().grab().toImage().convertToFormat(QtGui.QImage.Format_RGB32)
+
+
+def sign_of_life():
+    """Something the window itself changes while it is still building.
+
+    Read without grabbing: a grab every tenth of a second is the
+    dearest thing in the run, and what a wait needs is a value that
+    moves while work is being done.
+    """
+    window = top()
+    if window is None:
+        return (len(app.topLevelWidgets()), len(app.allWidgets()))
+    return (window.width(), window.height(), len(app.allWidgets()),
+            tuple(k.text() for k in window.findChildren(QtWidgets.QLabel)
+                  if k.isVisible()))
 
 
 def ground_of(image):
@@ -146,7 +167,8 @@ def measure():
           "most allowed" % (colour or "nothing", worst, read,
                             100.0 * worst / read, 100.0 * SHARE))
     switch(False)
-    ground_back = ground_of(picture())
+    again = picture()
+    ground_back = ground_of(again)
     check("and the ground comes back when the desktop does",
           ground_back == ground_light,
           "%s before, %s in dark, %s after" % (ground_light, ground_dark,
@@ -157,26 +179,26 @@ def measure():
 def step():
     """Wait for the window to stand still, then read it.
 
-    What runs out is standstill, not time: every look that finds the
-    picture changed starts the count again.
+    What runs out is standstill, not elapsed time: every look that
+    finds anything moved starts the count again, so a machine that is
+    slow only takes longer and one that is stuck is still caught.
     """
     try:
-        if top() is None:
-            sign = None
-        else:
-            sign = bytes(picture().constBits())
+        sign = sign_of_life()
         watch["looks"] += 1
-        if sign is not None and sign == watch["sign"]:
+        if sign == watch["sign"]:
             watch["idle"] += 1
         else:
             watch["sign"] = sign
             watch["idle"] = 0
-        if watch["idle"] >= 3:
+        if watch["idle"] >= SETTLED and top() is not None:
             measure()
             app.quit()
             return
-        if watch["looks"] > STILL:
-            trouble[0] = "nothing settled"
+        if watch["idle"] >= STILL:
+            trouble[0] = ("nothing moved for %d looks, and the window was %s"
+                          % (watch["idle"],
+                             "there" if top() is not None else "never there"))
             app.quit()
             return
     except Exception:
@@ -193,9 +215,10 @@ sys.argv = ["videopodcast_magic.py"]
 code = m.gui()
 check("the window comes up and stands still to be read",
       read_through[0] and not trouble[0],
-      "%s after %d looks %d ms apart, the loop came back with %r, "
-      "%.1f s in all" % (trouble[0] or "read", watch["looks"], PAUSE,
-                         code, time.time() - began))
+      "%s -- %d looks %d ms apart, %d of them without a change, the loop "
+      "came back with %r, %.1f s in all"
+      % (trouble[0] or "read", watch["looks"], PAUSE, watch["idle"], code,
+         time.time() - began))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
