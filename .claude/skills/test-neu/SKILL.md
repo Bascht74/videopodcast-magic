@@ -400,15 +400,26 @@ one day came from that one assumption, each in a different disguise:
 **The proof is a clone, and it costs one command:**
 
 ```bash
-d=$(mktemp -d) && git archive HEAD | tar -x -C "$d" && ( cd "$d" && git init -q )
+d=$(mktemp -d) && git archive HEAD | tar -x -C "$d" \
+    && ( cd "$d" && git init -q && git add -A )
 ```
 
-**The `git init` is not tidiness.** Measured 5.9.2026: a plain `tar -x`
-tree has no `.git`, `source_no_real_names` then skips with "no git here
--- this asks the repository what it ships, and a folder cannot answer
-it", the run has two skips of at most one allowed, and it comes back
-red with nothing red in it. An empty repository answers the question
-the check asks.
+**Neither the `git init` nor the `git add` is tidiness, and the second
+is the one that was missing.** A plain `tar -x` tree has no `.git`, and
+`source_no_real_names` then skips with "no git here -- this asks the
+repository what it ships, and a folder cannot answer it". The full
+suite already spends its one allowed skip on `auphonic_key_kept`, so
+this makes two, and the run comes back red with nothing red in it.
+
+**An empty repository is not enough**, and that sentence stood here
+wrongly until 6.9.2026 -- it cost two people an hour on one night. The
+check asks `git ls-files`, which reads the **index**, and `git init`
+leaves it empty. Measured on the same clone, one test, twice:
+
+```
+git init only    : git ls-files counts 0     green: 0  skipped: 1
+plus git add -A  : git ls-files counts 406   green: 1  red: 0
+```
 
 Run the test in that tree. What is green there is green on the builder;
 what needs the notes, a snapshot's neighbours or a full folder shows
@@ -553,7 +564,7 @@ counter-proofs lost.
 10. **Skipping is visible** (§7). `SKIPPED:` with the reason and the
     way back, and the count under `SKIPS_ALLOWED`?
 11. **It cleans up, and does not take the folder for the world** (§8,
-    §8b). Has the clone been run, with a `git init` in it?
+    §8b). Has the clone been run, with `git init` and `git add -A` in it?
 15b. Does any judgement spell out a number the program also holds --
     the version above all? Taken from there, and proved by moving it
     (§8c)?
