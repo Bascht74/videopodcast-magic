@@ -15,7 +15,6 @@ PROGRAM = PROGRAM
 # the blocks under the list say which and why.
 
 FFMPEG_FLOOR = PROGRAM.FFMPEG_FLOOR
-INSTALL_TOOLS = PROGRAM.INSTALL_TOOLS
 T = PROGRAM.T
 ctypes = PROGRAM.ctypes
 json = PROGRAM.json
@@ -35,6 +34,13 @@ time = PROGRAM.time
 
 # __file__ is the other: a build laid beside the program lies beside
 # the program, so the place is asked of PROGRAM.__file__, never of this.
+
+
+# Set to answer yes before the question is asked: a test run, a build
+# machine, anything with nobody in front of it. It answers for both
+# places here that ask, the package manager and pip -- and nothing
+# installs without it, or without somebody saying yes.
+INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
 
 
 def version_text(numbers):
