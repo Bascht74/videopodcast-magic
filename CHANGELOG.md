@@ -25,6 +25,47 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b7] - 2026-09-06
+
+### Added
+
+- **Three more languages: Ukrainian, Turkish and Italian.** The window
+  now speaks thirteen, each written the way that language writes it. Each
+  new one carries the same 335 texts as Spanish and French, and each says
+  a count in its own forms -- Ukrainian in three, one for a count ending
+  in 1, one for 2 to 4, one for the rest; Italian in two, with nought
+  going to the plural; Turkish in two that read alike, because a Turkish
+  noun after a numeral takes no plural ending.
+
+- **A word about what a chosen language really reaches.** Anybody
+  choosing one of the twelve now finds it said in the manual: the menu
+  bar, the tabs and the buttons carry the chosen language, and what the
+  program says while it is working stays English. A translation carries
+  about 330 of the 1400 things the program says -- the ones a person
+  reads before a run rather than during it. Nobody had written that down
+  before, and a mixed window looked like a fault.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Drei Sprachen mehr: Ukrainisch, Türkisch und Italienisch.** Das
+  Fenster spricht jetzt dreizehn, jede unter ihrem eigenen Namen. Jede
+  neue trägt dieselben 335 Texte wie Spanisch und Französisch, und jede
+  sagt einen Zähler in ihren eigenen Formen -- Ukrainisch in dreien, eine
+  für Zahlen auf 1, eine für 2 bis 4, eine für den Rest; Italienisch in
+  zweien, wobei die Null zur Mehrzahl zählt; Türkisch in zweien, die
+  gleich lauten, weil ein türkisches Substantiv nach einer Zahl keine
+  Mehrzahlendung bekommt.
+
+- **Ein Satz darüber, was eine gewählte Sprache wirklich erreicht.** Wer
+  eine der zwölf wählt, findet es jetzt im Handbuch: Menüleiste, Reiter
+  und Schalter tragen die gewählte Sprache, und was das Programm während
+  der Arbeit sagt, bleibt englisch. Eine Übersetzung trägt rund 330 der
+  1400 Dinge, die das Programm sagt -- die, die man vor einem Lauf liest,
+  nicht die während. Das stand nirgends, und ein gemischtes Fenster sah
+  deshalb wie ein Fehler aus.
+
 ## [3.0.0b6] - 2026-09-06
 
 ### Added
