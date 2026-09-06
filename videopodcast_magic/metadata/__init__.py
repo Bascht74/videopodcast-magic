@@ -21,10 +21,8 @@ TN = PROGRAM.TN
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 channel_text = PROGRAM.channel_text
-decimal_text = PROGRAM.decimal_text
 ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
-group_text = PROGRAM.group_text
 math = PROGRAM.math
 number_text = PROGRAM.number_text
 os = PROGRAM.os
@@ -63,7 +61,7 @@ def as_data_size(mb_value):
     """Format a byte count for reading: 542 MB, 1,024 MB, 28.9 GB."""
     if mb_value >= 1000:
         return "%s GB" % number_text(mb_value / 1000.0, 1)
-    return "%s MB" % group_text(math.ceil(mb_value))
+    return "%s MB" % number_text(math.ceil(mb_value), 0)
 
 
 def audio_summary(file_path):
@@ -270,13 +268,13 @@ def check_camera_metadata(source, target):
     missing = [k for k in a if k not in b]
     if not missing:
         print(T('  Camera data:     %s keys carried over (%s)')
-              % (group_text(len(a)), a.get("com.apple.quicktime.model")
+              % (number_text(len(a), 0), a.get("com.apple.quicktime.model")
                  or a.get("model")
                  or a.get("com.apple.quicktime.software") or "..."))
     else:
         print(as_warn(T('  Camera data:     Caution, %s of %s keys are '
                         'missing in the new file: %s')
-                      % (group_text(len(missing)), group_text(len(a)),
+                      % (number_text(len(missing), 0), number_text(len(a), 0),
                          ", ".join(missing[:4]))))
         print(T('                   Resolve may then not recognise the '
                 'input colour space.'))
@@ -475,7 +473,7 @@ def copy_mov_atoms(source, target, kinds=ATOMS_TO_COPY):
             continue
         if size > ATOM_LIMIT:
             print(T('  Atom %s skipped: %s bytes are too much for it.')
-                  % (kind.decode("latin1"), group_text(size)))
+                  % (kind.decode("latin1"), number_text(size, 0)))
             continue
         existing[kind] = src[i:i + size]
     if not existing:
@@ -641,10 +639,10 @@ def video_summary(file_path, info):
     label_text, measured = info.get("nominal") or info["fps"], info["fps"]
     lines = [("Video", "%s, %sx%s, %s fps%s%s"
                % (v.get("codec_name", "?"), v.get("width"), v.get("height"),
-                  decimal_text("%.3f" % label_text),
+                  number_text(label_text, 3),
                   "" if abs(measured - label_text) < 0.0005
                   else T('  (container; measured %s)')
-                  % decimal_text("%.4f" % measured),
+                  % number_text(measured, 4),
                   "" if PROGRAM.known_frame_rate(
                       PROGRAM.file_frame_rate(info))
                   else T('  --  no Resolve Timeline runs at this rate; '
@@ -662,7 +660,7 @@ def video_summary(file_path, info):
         lines.append((T('Camera audio'),
                       TN(count, '%s track, %s, %s Hz, %s',
                          '%s tracks, %s, %s Hz, %s')
-                      % (group_text(count), a.get("codec_name", "?"),
+                      % (number_text(count, 0), a.get("codec_name", "?"),
                          a.get("sample_rate", "?"), channels)))
     else:
         lines.append((T('Camera audio'), T('no audio track present')))
