@@ -152,8 +152,18 @@ check("an entry this version does not know survives a write",
       repr(kept)[:60])
 
 # ------------------------------------------ a test run stays out of the way
+# No VPM_SETTINGS, because that is the whole of what is asked here.
+# But the fall-back place is somebody's own home, and a counter-proof
+# for the next two checks takes the guard out -- so the run wrote
+# "zh" into the real settings of whoever earned the row, and the
+# window spoke Chinese at the next start. Measured 6.9.2026. HOME,
+# APPDATA and XDG_CONFIG_HOME are what settings_folder falls back
+# through; pointed at a throwaway they leave the question untouched
+# and give a broken guard nowhere real to land.
+NOWHERE = os.path.join(FOLDER, "not-a-home")
 BLIND = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
-             VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
+             VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
+             HOME=NOWHERE, APPDATA=NOWHERE, XDG_CONFIG_HOME=NOWHERE)
 BLIND.pop("VPM_SETTINGS", None)
 lines = subprocess.run(
     [sys.executable, "-c", LOAD + "print(m.settings_file())\n"
