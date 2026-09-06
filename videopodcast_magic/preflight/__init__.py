@@ -41,12 +41,10 @@ channel_text = PROGRAM.channel_text
 clean_old_files = PROGRAM.clean_old_files
 clipping_facts = PROGRAM.clipping_facts
 clocks_apart = PROGRAM.clocks_apart
-decimal_text = PROGRAM.decimal_text
 decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 group_recording_parts = PROGRAM.group_recording_parts
-group_text = PROGRAM.group_text
 json = PROGRAM.json
 log_curve_from_atom = PROGRAM.log_curve_from_atom
 math = PROGRAM.math
@@ -422,9 +420,9 @@ def check_camera_file(file_path):
     if not b:
         return [Finding("hint", name[:24], T('no video track'))], {}
     out = [Finding("good", name[:24], T('%s fps -- %s, %dx%d, %s frames in %s')
-                   % (decimal_text("%.3f" % b["nominal"]),
+                   % (number_text(b["nominal"], 3),
                       b["codec"] or "?", b["width"] or 0, b["height"] or 0,
-                      group_text(b["videos"]),
+                      number_text(b["videos"], 0),
                       as_hms(b["duration"])))]
     # From when is it worth mentioning? The difference between frame count
     # times nominal rate and the track duration is a few frames on every camera
@@ -451,8 +449,8 @@ def check_camera_file(file_path):
                'the same length.') if quicker else
              T('%s fps, not the %s in the file -- %s fewer frames in '
                'the same length.'))
-            % (decimal_text("%.4f" % b["mean"]),
-               decimal_text("%.3f" % b["nominal"]),
+            % (number_text(b["mean"], 4),
+               number_text(b["nominal"], 3),
                number_text(spare, 0)),
             (T('The frames stand a little shorter; the file is not any '
                'longer for it. Editing software leaves out about one '
@@ -478,7 +476,7 @@ def compare_cameras(data):
         out.append(Finding(
             "hint", T('Frame rates'),
             T('the video files run at different rates: %s')
-            % ", ".join(decimal_text("%.3f" % r) for r in different),
+            % ", ".join(number_text(r, 3) for r in different),
             T('The Timeline gets one fixed rate -- the highest of them, '
               'or the next rate Resolve has above it. It converts the '
               'others; with 23.976 against 24 that is where its audio '
@@ -502,7 +500,7 @@ def compare_cameras(data):
             "hint", T('Colour space'),
             T('%s of %s video files carry no curve and no colour space in '
               'the colr box%s -- probably log material.')
-            % (group_text(len(without_colour)), group_text(len(data)),
+            % (number_text(len(without_colour), 0), number_text(len(data), 0),
                T(' -- only the matrix says BT.2020')
                if matrix == {PROGRAM.MATRIX_BT2020} else ""),
             T('Used as it stands -- nothing is invented. Check in Resolve '
@@ -617,19 +615,19 @@ def check_audio_file(file_path):
         depth = "32f"
     duration = float(d.get("format", {}).get("duration") or 0.0)
     out = [Finding("good", name[:24], "%s Hz, %s bit, %s, %s"
-                   % (group_text(rate), depth,
+                   % (number_text(rate, 0), depth,
                       channel_text(channels),
                       as_hms(duration)))]
     if rate and rate != SR:
         out.append(Finding(
             "fixed", "",
             T('%s Hz instead of %s Hz -- converted during processing.')
-            % (group_text(rate), group_text(SR))))
+            % (number_text(rate, 0), number_text(SR, 0))))
     if channels > 2:
         out.append(Finding(
             "good", "",
             T('%s channels -- cut into tracks, see the rows above.')
-            % group_text(channels),
+            % number_text(channels, 0),
             T('Every pair of channels is judged on its own: one stereo '
               'track, or two microphones and therefore two tracks. Silent '
               'inputs drop out. The rows under the file say what was '
@@ -645,7 +643,7 @@ def check_audio_file(file_path):
             "hint", "",
             T('Channel %d is against the stop: %s times three samples or '
               'more in a row, the longest %s (%s ms), the first at %s.')
-            % (channel + 1, group_text(runs), group_text(longest),
+            % (channel + 1, number_text(runs, 0), number_text(longest, 0),
                number_text(milliseconds), as_hms(first)),
             T('Counted here, sample by sample, at the rate the file was '
               'recorded at: a run of three or more samples on the highest '
@@ -892,10 +890,10 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
             "good" if good else "hint", T('Bleed'),
             T("%s%s in %s's microphone only %s dB quieter")
             % ("" if good else T('Limits the de-bleed: '),
-               names[i], names[j], decimal_text("%.1f" % separation))
+               names[i], names[j], number_text(separation, 1))
             if not good else
             T("%s in %s's microphone: %s dB quieter than in their own.")
-            % (names[i], names[j], decimal_text("%.1f" % separation)),
+            % (names[i], names[j], number_text(separation, 1)),
             "" if good else
             T('It arose during the recording and cannot be changed '
               'now. The less the microphones are separated, the more '
@@ -903,7 +901,7 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
               'time: three times as far from the neighbouring '
               'microphone as from your own mouth, then the '
               'neighbouring voice sits about %s dB lower.')
-            % decimal_text("%.1f" % THREE_TO_ONE_DB),
+            % number_text(THREE_TO_ONE_DB, 1),
             os.path.abspath(audio_paths[j])))
     if not out:
         return [Finding("hint", T('Bleed'),
@@ -914,8 +912,8 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
             "hint", T('3:1 rule'),
             T('%s of %s comparisons are below %s dB -- every recording '
               'against every other, in both directions.')
-            % (group_text(bad), group_text(len(out)),
-               decimal_text("%.1f" % THREE_TO_ONE_DB)),
+            % (number_text(bad, 0), number_text(len(out), 0),
+               number_text(THREE_TO_ONE_DB, 1)),
             T('This comes from the recording, not afterwards: the '
               'microphones sit too close together or too far from the '
               'mouth.')))
@@ -1020,7 +1018,7 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
     return [TN(len(video_paths),
                'This makes %s video file, about %s. Target: %s',
                'This makes %s video files, about %s. Target: %s')
-            % (group_text(len(video_paths)), as_data_size(needed), where),
+            % (number_text(len(video_paths), 0), as_data_size(needed), where),
             T('Free space there: %s') % as_data_size(free)]
 
 
@@ -1305,12 +1303,12 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
             out.append(Finding(
                 "good", T('Loudness'),
                 T('the preset masters to %s LUFS -- that stands, nothing '
-                  'of ours adjusts.') % decimal_text("%.0f" % target)))
+                  'of ours adjusts.') % number_text(target, 0)))
     elif target is not None and abs(target - float(lufs)) > 0.05:
         out.append(Finding(
             "abort", T('Loudness'),
             T('the preset masters to %s LUFS, the calculation uses %s.')
-            % (decimal_text("%.0f" % target), decimal_text("%.0f" % lufs)),
+            % (number_text(target, 0), number_text(lufs, 0)),
             T('Both at once does not work: the returning tracks would go '
               'to one value, our own mix to the other. Either set --lufs '
               '%.0f or change the preset.')
@@ -1354,16 +1352,16 @@ def report_findings(findings, heading, anyway=False):
     abort = [b for b in findings if b.kind == "abort"]
     hints = [b for b in findings if b.kind == "hint"]
     fixed = [b for b in findings if b.kind == "fixed"]
-    parts = [T('%s checked') % group_text(len(findings))]
+    parts = [T('%s checked') % number_text(len(findings), 0)]
     if fixed:
         parts.append(TN(len(fixed), '%s fixed on its own',
-                        '%s fixed on their own') % group_text(len(fixed)))
+                        '%s fixed on their own') % number_text(len(fixed), 0))
     if hints:
         parts.append(TN(len(hints), '%s hint', '%s hints')
-                     % group_text(len(hints)))
+                     % number_text(len(hints), 0))
     if abort:
         parts.append(TN(len(abort), '%s reason to stop',
-                        '%s reasons to stop') % group_text(len(abort)))
+                        '%s reasons to stop') % number_text(len(abort), 0))
     print("    %s" % ", ".join(parts))
     if abort and not anyway:
         print(as_bad(T('\nStopped before the first long step. With --anyway '
