@@ -1,7 +1,7 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 2789,
+ "largest_function": 2477,
  "lazy_plural": 0,
  "long_blocks": 104,
  "long_docstrings": 141,
@@ -23,7 +23,7 @@
   "group_recording_parts": [2, 14631],
   "guess_production_name": [1, 14050],
   "gui.assignment_remember": [1, 28608],
-  "gui.remove": [1, 27064],
+  "make_file_changes.remove": [1, 27064],
   "make_prework_tasks.prework_kick_off": [1, 3204],
   "speakers_to_cameras": [1, 24263],
   "without_own_camera": [1, 14465]
