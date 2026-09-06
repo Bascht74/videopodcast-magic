@@ -88,6 +88,8 @@ packages = [
     "videopodcast_magic.bearings",
     "videopodcast_magic.cut",
     "videopodcast_magic.desktop",
+    "videopodcast_magic.dials",
+    "videopodcast_magic.filing",
     "videopodcast_magic.fittings",
     "videopodcast_magic.hearing",
     "videopodcast_magic.herald",
