@@ -35,9 +35,9 @@ VERSION = PROGRAM.VERSION
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 WIDE_AFTER_S = PROGRAM.WIDE_AFTER_S
 argparse = PROGRAM.argparse
-group_text = PROGRAM.group_text
 label_of = PROGRAM.label_of
 languages = PROGRAM.languages
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
@@ -224,7 +224,7 @@ def run_argv(values, assignment_file_path=""):
                 T('There are no separate audio recordings. Then the audio '
                   'of the %s cameras is used -- each becomes a track, and '
                   'Auphonic removes the bleed.')
-                % group_text(len(values.get("rows") or [])),
+                % number_text(len(values.get("rows") or []), 0),
                 T('Take the camera audio')))
         if len(lines) < 2:
             return error(
