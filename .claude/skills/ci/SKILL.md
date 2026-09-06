@@ -99,6 +99,33 @@ names tests that no longer exist, `run.sh` finds no time for any of
 them, and the queue orders nothing until this has run against a green
 run made *after* the rename. It does not heal by itself.
 
+## Deleting a branch is its own step, after a merge you have read
+
+**Never `gh pr merge` and `git push --delete` in one chain.** The merge
+can fail -- conflicting files, a check that has not come back, a base
+that moved -- and the delete then runs anyway, on a branch whose work
+has gone nowhere. GitHub closes the pull request with it.
+
+It has happened twice, on 5.9.2026 and on 6.9.2026, and the second time
+the rule was already written down as a lesson -- in a note saying it
+belonged in this document. **A lesson recorded as belonging somewhere
+is not in that place.** That is why it stands here now, in the skill
+that is read before the merge.
+
+So: merge, read the state, and only then delete.
+
+```bash
+gh pr merge <n> --merge
+gh pr view <n> --json state -q .state      # must say MERGED
+git push origin --delete <branch>
+```
+
+**Nothing is lost when it goes wrong**, and knowing that saves the
+panic: the commit is still in the local repository, and GitHub keeps
+the head of every pull request under `refs/pull/<n>/head` even after
+the branch is gone. Push it back under the same name, `gh pr reopen
+<n>`, and the pull request carries on with its history intact.
+
 ## A branch that is deleted takes two things with it
 
 **Its caches, and every pull request standing on it.**
