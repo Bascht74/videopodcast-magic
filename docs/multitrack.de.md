@@ -127,9 +127,17 @@ An die geschriebene Datei kommt darüber hinaus die Endung `_audio`. Sie
 ist kein Schmuck: ohne sie kann der Name genau der Name der Kameradatei
 selbst werden, und liegt das Ergebnis neben der jeweiligen Videodatei,
 würde der Lauf die Aufnahme überschreiben, aus der er entstanden ist.
-Eine gleichnamige Datei aus einem früheren Lauf wird ersetzt -- wer
-dasselbe Material ein zweites Mal für eine andere Produktion
-durchlaufen lässt, gibt ihr deshalb besser einen eigenen Ausgabeordner.
+
+Liegt an dieser Stelle schon eine gleichnamige Datei, wird sie ersetzt,
+und der Lauf sagt es, bevor er irgendetwas schreibt. Was diese
+Produktion früher selbst erzeugt hat, bekommt eine ruhige Zeile --
+einen Lauf zu wiederholen ist der normale Weg. Alles andere wird mit
+vollem Pfad genannt und markiert: ein Original, eine Proxydatei, ein
+von Hand erzeugter Export, das gleichnamige Ergebnis einer anderen
+Produktion. Der Lauf hält dabei nicht an; eine markierte Zeile ist also
+der Moment, ihn abzubrechen, wenn diese Datei gebraucht wird. Wer
+dasselbe Material für eine zweite Produktion durchlaufen lässt, gibt
+ihr besser einen eigenen Ausgabeordner.
 
 **bekommt Audio von** daneben nennt dieselben Sprecher. Eine Kamera, der niemand zugeordnet
 ist, sagt dort **den Mix aus allen Spuren**, und der

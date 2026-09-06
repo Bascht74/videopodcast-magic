@@ -124,9 +124,16 @@ The written file carries `_audio` at the end on top of what stands in
 the field. That ending is not decoration: without it the name can come
 out as the camera file's own name, and where the result goes next to
 each video file the run would then write over the recording it was
-made from. Where a file of that name is already there from an earlier
-run it is replaced, so a second production over the same material wants
-an output folder of its own.
+made from.
+
+Where a file of that name is already there it is replaced, and the run
+says so before it writes anything. A result this production made
+earlier gets a quiet line -- running it again is the ordinary way to
+work. Anything else is named with its whole path and marked: an
+original, a proxy, an export made by hand, another production's result
+under the same name. The run keeps going, so a marked line is the
+moment to stop it if that file was wanted. A second production over the
+same material is better given an output folder of its own.
 
 **gets audio from** beside it names those same speakers. A camera
 nobody is assigned to says **the mix of all tracks** there, and the
