@@ -58,9 +58,10 @@ beside = PROGRAM.beside
 tables = beside("tables", program=PROGRAM)
 file_span = tables.file_span
 
-# hint, label, zoom_button and hush_when_running stay in the window:
-# the fittings are read below this file, and hush_when_running is the
-# window's own. They are read as PROGRAM.<name> where they are used.
+# hint, label and zoom_button stay in the window: the fittings are read
+# below this file, so they are read as PROGRAM.<name> where they are
+# used. hush_when_running came here with the two players that were its
+# only readers, and is this piece's own name now -- no head line.
 
 
 # Two names came out of the window with the block that wanted them,
@@ -2904,9 +2905,9 @@ def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
         cut_player = NoPlayer()
     # Each player silences the other when it starts: two at once are
     # two moments at once, and neither can be judged.
-    cut_player.hush = PROGRAM.hush_when_running(view_player,
+    cut_player.hush = hush_when_running(view_player,
                                                 "_should_play")
-    view_player.hush = PROGRAM.hush_when_running(cut_player, "_playing")
+    view_player.hush = hush_when_running(cut_player, "_playing")
     forecast_outer.addWidget(cut_player, 1)
     # Zoom on the band. Over an hour of material a single shot is two
     # pixels wide, and whether a cut sits in a pause cannot be seen
@@ -2998,3 +2999,20 @@ def player_menu(menu, player):
     out = menu.addMenu(T('&Player'))
     out.menuAction().setEnabled(getattr(player, "plays", True))
     return out
+
+
+#--------------------------------- One player stops the other
+def hush_when_running(who, mark):
+    """Stop the other player, but only if it is running.
+
+    Two pictures at once are two moments at once, so one player stops the
+    other. Told to stop while still starting up, the media player stands
+    in a lock another thread holds -- one run in eight. *mark* is the
+    player's own note of whether it runs: asking Qt is what blocks.
+    """
+    def quiet():
+        hold = getattr(who, "pause", None)
+        if hold and getattr(who, mark, False):
+            hold()
+
+    return quiet
