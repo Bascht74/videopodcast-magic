@@ -10133,7 +10133,7 @@ def main():
     beside("desktop", program=PROGRAM).lay_on_first_start()
     mark_time("the place in the program list is settled")
     if to_the_window:
-        return gui()
+        return window().gui()
     force_utf8_output()
     enable_colour_output()
     # Whoever typed a command line has a console, so it is said there --
@@ -10501,25 +10501,40 @@ multitrack_or_single = pipeline.multitrack_or_single
 
 
 #-------------------------------------------------------- The interface
-# A piece of its own, in the folder "ui" beside this one. Read here and
-# not where it is first used, because it binds what it takes out of
-# this file: all of that has to stand before this line.
+# A piece of its own, in the folder "ui" beside this one. It is read on
+# the way to the window and not here: a run on the command line opens
+# none and then never reads it.
 
-ui = beside("ui", program=PROGRAM)
-take_from(ui)
+
+def window():
+    """The window, read out of the folder the first time it is wanted."""
+    global ui
+    ui = beside("ui", program=PROGRAM)
+    take_from(ui)
+    # A name bent on this program before the window was read. The
+    # window binds its own under the same name and would stand on that
+    # one, so the bend is carried in -- which a piece read on the way
+    # through gets from pieces_answer_together() for nothing.
+    for name, what in list(vars(ui).items()):
+        if not name.startswith("__") and globals().get(name, what) is not what:
+            setattr(ui, name, globals()[name])
+    return ui
+
+
+def __getattr__(name):
+    """A name of the window, asked for before the window was read.
+
+    What the window brings stands here once it has been read, and
+    until then this answers by reading it. So this file hands out the
+    same names as it did when it read the window on its way through.
+    """
+    if name.startswith("__"):
+        raise AttributeError(name)
+    piece = window()
+    return piece if name == "ui" else getattr(piece, name)
+
+
 pieces_answer_together()
-
-# What this file itself calls out of the window. The rest of what the
-# window brings answers here too, through take_from above; these are
-# written out because they are read in this file, and a name read here
-# and bound nowhere here is a loose end.
-caption_room = ui.caption_room
-cells_laid_out = ui.cells_laid_out
-choices_shut = ui.choices_shut
-gui = ui.gui
-hint = ui.hint
-label = ui.label
-speaks_as = ui.speaks_as
 
 
 # ---------------------------------------------------------------------------
