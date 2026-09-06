@@ -12,10 +12,9 @@ name. What the window still calls out of it, it binds there in turn.
 # and the line under that binds it to a name of this file's own.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the run
-# reads as it did in the window. Nothing of the window's own is here,
-# and nothing the window binds out of another piece: both stand on the
-# program only once ui/ has been read whole, later than this file is.
+# What this piece uses, bound once. Nothing of the window's own and
+# nothing the window binds out of another piece: both stand on the
+# program only once ui/ has been read, later than this file.
 
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 T = PROGRAM.T
@@ -39,9 +38,9 @@ without_own_camera = PROGRAM.without_own_camera
 
 
 #----------------------------------------------- What a finished run says
-# Called by the run loop, which stayed in the window: a test holds that
-# loop still by bending it on the program before the window is read,
-# and such a bend reaches the window but not a piece read out of it.
+# Called by the run loop, which stayed in the window. A bend put on
+# the program before the window is read reaches the window but not a
+# piece read out of it, which is how a test holds that loop still.
 
 
 def run_done_text(dry):
@@ -65,8 +64,8 @@ def run_done_text(dry):
 
 #--------------------------------------------------- Setting a run going
 # The summary, the command line and the thread. What lives in the
-# window itself -- the run loop, the break-off button, the prework's
-# key -- goes through PROGRAM: at this file's head it is not there yet.
+# window -- the run loop, the break-off button, the prework's key --
+# goes through PROGRAM: at this file's head it is not there yet.
 
 
 def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
@@ -183,20 +182,17 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         state["confirmed"] = False
         start_run.setText(T('Start'))
         buttons_check()
-        # The "Cameras only" question stood here until 25.8.2026: it
-        # fired on the rule that made every camera a track by itself, and
-        # that rule is gone. A selection with no sound in use never gets
-        # this far now -- what_missing holds the button and says why.
-        # The prework is done, and its display has no business in the file list
-        # any more.
+        # A selection with no sound in use never gets this far --
+        # what_missing holds the button and says why. The prework is
+        # done, and its display has no business in the file list.
         for file_path, (node, original) in list(prework_node.items()):
             try:
                 node.setText(2, original)
             except RuntimeError:
                 prework_node.pop(file_path, None)
-        # Collect what is in the interface once as plain values; run_argv
-        # builds the command line from them. The whole decision about what a
-        # run does sits there, and can be tested without opening a window.
+        # The interface read once as plain values; run_argv builds the
+        # command line from them, so what a run does can be tested
+        # without a window.
         def audio_done_of(row):
             try:
                 return prework_done.get(
@@ -327,9 +323,8 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         only_resolve.setText(T('Resolve running ...'))
         state["running"] = True
         result_button_check()
-        # Send the sliders from above along: the Resolve part recomputes the
-        # cut list and should do so with what is in the fields now, not with
-        # the values of the last run.
+        # The sliders go along: the Resolve part recomputes the cut list
+        # and must do it with what stands in the fields now.
         argv = [sys.argv[0], "--resolve-json", js]
         # Where no number stands, the default applies -- nothing is aborted
         # here, the button should do something.

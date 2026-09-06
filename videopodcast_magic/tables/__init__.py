@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 """The tables and the trees, and the rows and cells they are made of.
 
-A piece of the program, read out of the folder beside the way in by
-beside(). It cannot import the file it was cut out of, because that
-file is still being read while this one is; the program is handed in
-instead, and every name this piece uses out of it is bound below, by
-name. What the window still calls out of it, it binds there in turn.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# tables read as they did in the window. Not one of them is a name the
-# program binds again while it runs -- such a name is read through
-# PROGRAM. where it is used, and there is none of that sort in here.
+# Bound above the seam, so the tables read as they did in the window.
+# Not one is a name the program binds again while it runs.
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 T = PROGRAM.T
@@ -29,15 +23,11 @@ video_facts = PROGRAM.video_facts
 def from_the_front(entry):
     """Show a name from its beginning, and the whole of it on hovering.
 
-    The column is narrower than the names are: they begin with the
-    production and end with the camera, so a field showing its end
-    reads "...11855_C002.mov" and one showing its beginning reads
-    "PresentersCam_0...". The second is the one that says which row
-    this is. Measured against the demo material: the name comes to
-    about twice the width the column gives it.
-
-    A field keeps its caret where it was left, so this is done once on
-    building and never again -- typing must not jump back to the front.
+    The column is about half the width the names need, and they begin
+    with the production and end with the camera: an end reads
+    "...11855_C002.mov", a beginning "PresentersCam_0...". The second
+    says which row this is. Done once on building -- a field keeps its
+    caret, and typing must not jump back to the front.
     """
     entry.setCursorPosition(0)
     entry.setToolTip(entry.text())
@@ -47,17 +37,11 @@ def from_the_front(entry):
 def widget_width(w):
     """How wide a widget in a cell has to be to show what it holds.
 
-    resizeColumnsToContents measures the text of items, and a cell with
-    a widget in it has no item text. A column of input fields or drop
-    downs was therefore measured as empty and came out at its minimum:
-    the name column stood at 114 pixels with
-    "Guest_Take0021A_Timecode.wav" in it, and the drop down beside it
-    showed the last half of its word.
-
-    The widget's own sizeHint does not help for a line edit -- it is the
-    same whatever the text says -- so the text itself is measured. For a
-    drop down every entry is measured, not only the one showing: the
-    column must not jump about when somebody picks another one.
+    resizeColumnsToContents measures item text, and a cell holding a
+    widget has none: such a column comes out at its minimum -- 114 px
+    for a name column holding "Guest_Take0021A_Timecode.wav". A line
+    edit's sizeHint is the same whatever the text says, so the text is
+    measured; for a drop down every entry, or the column jumps.
     """
     import PySide6.QtWidgets as _qw
     want = w.sizeHint().width()
@@ -76,25 +60,17 @@ def widget_width(w):
 def fix_table_width(t, weights=None, most_rows=0):
     """Stretch the table over the full width, as tall as its content.
 
-    Every column first gets what its content needs. What is left over is
-    distributed, the name column taking the largest share and the number
-    columns growing with it. Putting all of it into the first column would
-    look lopsided, with the numbers stuck to the right edge.
-
-    *most_rows* is a lid: beyond that many rows the table scrolls
-    itself rather than growing on. Without one a table as tall as its
-    content is a table that pushes the whole sheet taller, one row at a
-    time, and the sheet answers with a scroll bar of its own -- so the
-    reader scrolls the sheet to reach a table that would have fitted.
-    Zero means no lid, which is what a table that cannot grow wants.
+    Every column first gets what its content needs; what is left over
+    is shared, the name column taking the largest part, or the numbers
+    stick to the right edge. *most_rows* is a lid: beyond that many
+    rows the table scrolls itself rather than pushing the sheet taller.
+    Zero means no lid, for a table that cannot grow.
     """
     import PySide6.QtCore as _qc
     import PySide6.QtWidgets as _qw
     t.resizeColumnsToContents()
-    # Whether the lid bites is settled before the columns are shared
-    # out: a vertical scroll bar takes room from the viewport, and
-    # columns measured against a viewport that then loses a scroll bar
-    # come out too wide by exactly that bar.
+    # Whether the lid bites is settled first: a scroll bar takes room,
+    # and columns measured without one come out too wide by that bar.
     capped = bool(most_rows) and t.rowCount() > most_rows
     t.setVerticalScrollBarPolicy(_qc.Qt.ScrollBarAsNeeded if capped
                                  else _qc.Qt.ScrollBarAlwaysOff)
@@ -175,16 +151,10 @@ def table_rows_fit(t, most=120):
     """Give a table rows as tall as their content, and no taller.
 
     The columns are measured before the rows, and that order is the
-    whole point. A table wraps the text in a cell, so while the
-    columns still stand at the width Qt hands out, a caption that does
-    not fit is laid over two or three lines and the row is measured at
-    that height. Widening the columns afterwards does not measure the
-    row again -- it keeps the height it was given. Measured on
-    24.8.2026 in the voices table: 45 px a row where the content needs
-    28, three lines for a caption that fits on one.
-
-    The rest shares the room between the tables: what fits in half of
-    it needs no scroll bar, what does not scrolls itself.
+    whole point: a table wraps text, so while the columns stand at Qt's
+    width a caption that does not fit is laid over three lines and the
+    row keeps that height -- 45 px where 28 is needed. The rest shares
+    the room: what fits in half of it needs no scroll bar.
     """
     import PySide6.QtCore as _qc
     import PySide6.QtWidgets as _qw
@@ -201,9 +171,8 @@ def table_rows_fit(t, most=120):
 def file_span(file_path, axis):
     """Return what this video file knows about its position in time.
 
-    Three numbers travel together and are always wanted together: how
-    long the file runs, what clock it was shot on, and where the
-    measurement put it on the common axis.
+    Three numbers always wanted together: how long the file runs, what
+    clock it was shot on, and where it sits on the common axis.
     """
     try:
         info = video_facts(file_path)
@@ -223,21 +192,11 @@ def file_span(file_path, axis):
 def tree_build(columns):
     """The assignment as a tree: a recording, its voices under it.
 
-    The same shape the file list on the first sheet already has, and
-    the same thing said: what hangs under a file belongs to that file.
-    A recording whose voices were told apart carries one row per voice;
-    one where nobody was told apart carries none, and then the tree is
-    a flat list with no special case anywhere.
-
-    A view over a model rather than the QTreeWidget the file list uses,
-    and for one reason: four places in the suite find the file list by
-    asking the window for its first QTreeWidget. A second one of that
-    class would answer instead, and the file list would be the one
-    nobody could find any more. What is on the screen is the same tree
-    either way.
-
-    Not uniform row heights: the rows hold input fields and choosers,
-    and a uniform tree gives every row the first row's height.
+    The same shape the file list already has: what hangs under a file
+    belongs to it, and a recording whose voices were not told apart
+    carries none. A view over a model, not a QTreeWidget: four places
+    in the suite find the file list by asking for the window's first
+    QTreeWidget. Row heights are not uniform -- the rows hold fields.
     """
     import PySide6.QtGui as _qg
     import PySide6.QtWidgets as _qw
@@ -261,13 +220,10 @@ def tree_build(columns):
 def tree_row(t, under, texts):
     """One row of the tree, at the top or under another; its cells back.
 
-    A row is the list of its cells, one per column. The first of them
-    is the row itself as far as the tree is concerned: children hang on
-    it, and what the row knows is stored on it.
-
-    As many cells as the tree has columns, whatever it was handed: a
-    row with one cell too many would give the tree a column nobody
-    asked for, and one too few would leave a hole.
+    A row is the list of its cells, one per column; the first of them
+    is the row itself as far as the tree is concerned. As many cells as
+    the tree has columns, whatever it was handed: one too many gives
+    the tree a column nobody asked for, one too few leaves a hole.
     """
     import PySide6.QtGui as _qg
     wide = t.model().columnCount()
@@ -310,13 +266,9 @@ def folded_summary(tree, row):
     """What a folded recording says in place of its voices.
 
     The cameras, because the cameras are what folding takes off the
-    screen. It said how many voices there were until 2.10.1-beta, and
-    that number stood twice in the same line: the Speakers column of
-    that very row already reads "Separated: 4 speakers".
-
-    A voice with no camera yet is counted on its own. It is the one
-    thing still to be decided, and added in with the rest it would hide
-    behind them.
+    screen -- the number of voices already stands in the Speakers
+    column of that same row. A voice with no camera yet is counted on
+    its own: it is the one thing still to be decided.
     """
     seen, without = [], 0
     parent = row[0]
@@ -339,32 +291,25 @@ def folded_summary(tree, row):
 def row_picker_for(tree):
     """A filter that makes the row a clicked field sits in the current one.
 
-    Whoever is deciding which camera "Speaker 2" belongs to has to be
-    able to hear Speaker 2 first, and a row that is picked already
-    plays. So opening the camera list, or clicking into the name field,
-    does exactly what clicking the row does -- and nothing more than
-    that: there is no second way of playing anything here, and there
-    should not be one.
-
-    A filter and not a signal, because QComboBox has none for "the list
-    is opening", and a subclass for it would be a class per tree.
+    Whoever is deciding which camera "Speaker 2" belongs to has to hear
+    Speaker 2 first, and a row that is picked already plays. So opening
+    the camera list, or clicking into the name field, does what
+    clicking the row does -- and nothing more. A filter and not a
+    signal, because QComboBox has none for "the list is opening".
     """
     from PySide6 import QtCore as _qc
 
     class Picker(_qc.QObject):
         def eventFilter(self, who, event):
             # The press and not the focus: the focus also arrives while
-            # the sheet is being built, and the player would open a file
-            # nobody asked for.
+            # the sheet is built, opening a file nobody asked for.
             if event.type() == _qc.QEvent.MouseButtonPress:
                 where = tree.indexAt(who.mapTo(tree.viewport(),
                                                who.rect().center()))
                 if where.isValid():
                     tree.setCurrentIndex(where)
                     # And straight back: making a row current moves the
-                    # focus into the tree, and a name field that loses
-                    # the focus on the click that entered it cannot be
-                    # typed in at all.
+                    # focus into the tree, out of the field just clicked.
                     who.setFocus(_qc.Qt.MouseFocusReason)
             return False
 
@@ -375,8 +320,7 @@ def row_picker_watch(picker, *widgets):
     """Watch these fields, and the line edit inside any of them.
 
     An editable combo box hands its clicks to the line edit it holds,
-    and a filter on the box alone never sees them -- the camera chooser
-    reacted and the name field beside it did not.
+    and a filter on the box alone never sees them.
     """
     for widget in widgets:
         widget.installEventFilter(picker)
@@ -389,17 +333,11 @@ def row_picker_watch(picker, *widgets):
 def tree_rows_fit(t, most=266):
     """Give the tree the height its open rows need, and no more.
 
-    The counterpart of table_rows_fit, and the reason it cannot be
-    that one: a tree has no rows to count, it has items, and how many
-    of them are on the screen depends on what somebody expanded.
-    viewportSizeHint answers exactly that -- Qt adds up the rows it
-    would draw -- and it answers before the widget is ever shown,
-    which is when this runs.
-
-    The columns are left alone, unlike in a table: this runs again
-    every time somebody opens or closes a row, and a column that
-    re-measured itself on every click would make the tree jump about
-    under the hand that is using it.
+    The counterpart of table_rows_fit, and the reason it cannot be that
+    one: a tree has items, not rows, and how many are on the screen
+    depends on what somebody expanded. viewportSizeHint answers that
+    before the widget is shown. The columns are left alone: re-measuring
+    on every click would make the tree jump.
     """
     import PySide6.QtCore as _qc
     import PySide6.QtWidgets as _qw

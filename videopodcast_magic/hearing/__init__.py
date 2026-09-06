@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 """The hearing: what a file sounds like, and where that puts it.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name.
+A piece read out of the folder beside it by beside(). It cannot import
+the file it was cut out of -- that file is still being read -- so the
+program is handed in and every name is bound below, by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# measuring reads as it did in the one file. Eight names are missing,
-# and the two blocks under the list say which and why.
+# What this piece uses out of the program. Eight names are missing, and
+# the blocks under the list say which and why.
 
 ENV_MARK = PROGRAM.ENV_MARK
 SR = PROGRAM.SR
@@ -45,20 +42,17 @@ time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
 
 
-# Six of the eight come out of the material, which is read further down
-# than this piece, so a copy taken here would find nothing: the channel
-# filter, the channel count kept, the note about the Python in use, the
-# quiet remove, the safe wav name and the widest track.
+# Six of the eight are read further down than this piece, so a copy
+# taken here would find nothing: channel filter, kept channels, the
+# Python note, the quiet remove, the safe wav name, the widest track.
 
-# OUTPUT_SINK is the seventh. The window sets it on the program object,
-# and that is a write the pieces are never told about, so a copy here
-# would answer with the value of the run before. It stays over there
-# and is read as PROGRAM.OUTPUT_SINK where a line is written.
+# OUTPUT_SINK is the seventh: the window writes it on the program
+# object without telling the pieces, so a copy here would answer with
+# the run before. Read as PROGRAM.OUTPUT_SINK where a line is written.
 
-# numpy is the eighth, and the one name here that the program has still
-# to fetch: it holds a stand-in until the first sum asks, and binds the
-# real module under its own name then -- which a copy taken up there
-# would never see. So this asks the program once, the same way.
+# numpy is the eighth: the program holds a stand-in until the first sum
+# asks and binds the real module then, which a copy taken up here would
+# never see. So this asks the program once, the same way.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
 
@@ -76,14 +70,12 @@ def audio_track_starts_at(path, stream=None):
     """When the first sample of this audio track is to be heard, in seconds.
 
     A camera track can begin after the picture, and an AAC stream
-    begins with samples the file marks as not to be played; both go
-    into this number, and both were being thrown away. Measured
-    2.9.2026 over three cameras of one shoot: 60,375 ms at one of them
-    and none at the other two -- so it is read, never assumed.
+    begins with samples marked as not to be played; both go into this
+    number. Read out of the file, never assumed -- one camera of three
+    on one shoot carried 60,375 ms of it and the other two none.
     """
-    # And what no file declares cannot be put right from here: a stream
-    # whose lead-in is nowhere written down comes back that much too
-    # late, and nothing in it says by how much.
+    # A stream whose lead-in is nowhere declared comes back that much
+    # too late, and nothing in it says by how much.
     try:
         rows = [s for s in (ffprobe_json(path).get("streams") or [])
                 if s.get("codec_type") == "audio"]
@@ -96,10 +88,9 @@ def audio_track_starts_at(path, stream=None):
 def audio_on_the_picture(x, path, rate, stream=None):
     """Put decoded samples where the file says they are to be heard.
 
-    Silence in front where the track starts after the picture, and the
-    head cut away where it starts before it. Only for a decode from the
-    front: with -ss ffmpeg counts from the presentation time itself and
-    the samples already lie right.
+    Silence in front where the track starts after the picture, the head
+    cut away where it starts before it. Only for a decode from the
+    front: with -ss ffmpeg already counts from the presentation time.
     """
     head = int(round(audio_track_starts_at(path, stream) * rate))
     if head > 0:
@@ -113,11 +104,10 @@ def decode_audio(path, rate=SR, ss=None, duration=None, stream=None,
                  dtype=None):
     """Decode one channel of a file into samples.
 
-    ffmpeg writes float32 and the default widens it to float64.
-    Whoever hands the samples on in float32 asks for float32 here and
-    saves a copy at twice the size, which over a whole episode is the
-    largest block the program holds. None is that default: numpy is
-    fetched at the end of this file and cannot stand in a signature.
+    ffmpeg writes float32 and the default widens it to float64; asking
+    for float32 saves a copy of the largest block the program holds.
+    The default is None because numpy is fetched at the end of this
+    file and cannot stand in a signature.
     """
     cmd = ["ffmpeg", "-v", "error"]
     if ss is not None:
@@ -131,9 +121,8 @@ def decode_audio(path, rate=SR, ss=None, duration=None, stream=None,
     p = subprocess.run(cmd, capture_output=True)
     x = np.frombuffer(p.stdout, dtype=np.float32).astype(
         dtype or np.float64)
-    # What comes back begins where the file says the track begins, not
-    # where ffmpeg's first sample happens to fall. With -ss it already
-    # does: there ffmpeg counts from the presentation time itself.
+    # What comes back begins where the file says the track begins. With
+    # -ss it already does: ffmpeg counts from the presentation time.
     return x if ss is not None else audio_on_the_picture(x, path, rate,
                                                          stream)
 
@@ -142,11 +131,7 @@ _ENV = {}
 
 
 def decode_audio_long(path, rate, duration, text, stream=None, report=None):
-    """Decode audio with progress reporting.
-
-    Reading a 30 GB file once takes minutes, and a blinking cursor is not
-    enough feedback for that.
-    """
+    """Decode audio with progress: a 30 GB file takes minutes."""
     return decode_audio_tracks(path, rate, duration, text, [stream],
                                report)[0]
 
@@ -154,10 +139,10 @@ def decode_audio_long(path, rate, duration, text, stream=None, report=None):
 def decode_audio_tracks(path, rate, duration, text, streams, report=None):
     """Decode several tracks of one file in one pass over the container.
 
-    Asking track by track reads a 36 GB camera file once per track, and
-    off a drive that pass is the whole of the waiting; one ffmpeg with a
-    -map per track reads it once. One process has one progress stream,
-    so the text has to name every track that pass is fetching.
+    Track by track reads a 36 GB camera file once per track, and that
+    pass is the whole of the waiting; one ffmpeg with a -map per track
+    reads it once. One process has one progress stream, so the text has
+    to name every track.
     """
     cmd = ["ffmpeg", "-v", "error", "-nostats", "-progress", "pipe:1",
            "-i", path]
@@ -196,9 +181,8 @@ def decode_audio_tracks(path, rate, duration, text, streams, report=None):
                     PROGRAM.OUTPUT_SINK("\n")
                 else:
                     sys.stdout.write("\n")
-        # Each track on the time of its own start, the same as the
-        # short way above: a big file must not be placed differently
-        # from a small one only because it came through here.
+        # Each track on the time of its own start: a big file must not
+        # be placed differently only because it came through here.
         return [audio_on_the_picture(
                     np.fromfile(raw, dtype=np.float32).astype(np.float64),
                     path, rate, stream)
@@ -224,20 +208,17 @@ _RECIPE_MARKS = {}
 def recipe_mark(name, *work):
     """A short mark of the way something is worked out.
 
-    A number counted by hand would have to be remembered, and the day
-    somebody forgets it the store hands back a measurement another
-    recipe wrote. So the source of the functions that decide the
-    numbers is read and hashed: it cannot change without changing
-    this.
+    A number counted by hand is forgotten, and then the store hands
+    back a measurement another recipe wrote. The source of the
+    deciding functions is hashed instead: it cannot change silently.
     """
     if name not in _RECIPE_MARKS:
         try:
             import inspect
             text = "".join(inspect.getsource(f) for f in work)
         except Exception:
-            # Nothing to read the source from. The version is coarse --
-            # every release throws the store away -- but it never hands
-            # back what some other recipe wrote.
+            # No source to read. The version is coarse -- every release
+            # throws the store away -- but never another recipe's.
             text = VERSION
         _RECIPE_MARKS[name] = hashlib.sha1(
             text.encode("utf-8")).hexdigest()[:12]
@@ -254,9 +235,8 @@ def envelope_recipe_mark():
 def envelope_cache_path(path, hop_ms, rate):
     """Return a cache name that changes as soon as the file changes.
 
-    Or as soon as the way the curve is worked out changes: without that
-    mark a changed recipe reads the old curves back and the run
-    compares two of them that were never measured the same way.
+    Or the recipe changes: without that mark a changed recipe reads
+    old curves back and compares two never measured the same way.
     """
     folder = envelope_cache_folder()
     if not folder:
@@ -277,10 +257,10 @@ def envelope_cache_path(path, hop_ms, rate):
 def envelope_log(path, hop_ms, rate, what):
     """Say whether a curve came out of the store or off the disc.
 
-    A curve costs minutes on a large file and nothing when it is
-    found. Which of the two happened is invisible from outside, and
-    the numbers are in the line because a curve is kept under them:
-    the same file at another hop or rate is another curve.
+    A curve costs minutes on a large file and nothing when it is found,
+    and which of the two happened is invisible from outside. The
+    numbers are in the line because the same file at another hop or
+    rate is another curve.
     """
     log_aside("%s %s  %-30s %g/%d  %s"
               % (ENV_MARK, time.strftime("%H:%M:%S"),
@@ -288,17 +268,15 @@ def envelope_log(path, hop_ms, rate, what):
 
 
 def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
-    """Return the envelope of the video audio track, computed once per file.
+    """Return the envelope of the video audio track, once per file.
 
-    The cache survives the whole run. The interface warms it while the user
-    is still typing, so by the time the run starts the curve is there.
-    Kept under path_key: the prework warms it under the absolute path
-    and the time axis asks under the name the file dialog gave, and
-    where those differ the file was read twice. It is opened by the
-    path as it came in."""
+    The cache survives the whole run; the interface warms it while the
+    user is still typing. Kept under path_key: the prework warms it
+    under the absolute path and the time axis asks under the name the
+    file dialog gave, and where those differ the file is read twice.
+    """
     api_key = (path_key(path), hop_ms, rate)
     if api_key not in _ENV:
-        # Reading an hour of 4K takes minutes; twice is unnecessary.
         cache = envelope_cache_path(path, hop_ms, rate)
         if cache and os.path.exists(cache):
             try:
@@ -326,19 +304,17 @@ def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
             x = decode_audio(path, rate=rate)
         _ENV[api_key] = envelope(x, hop_ms, rate)
         if len(_ENV[api_key]) < 10:
-            # ffmpeg delivered nothing. Caching that would mean treating the
-            # file as unalignable until it next changes, without ever saying
-            # why.
+            # ffmpeg delivered nothing. Caching that would mark the file
+            # unalignable until it next changes, without saying why.
             _ENV.pop(api_key, None)
             raise ValueError(T('no audio data from %s')
                              % os.path.basename(path))
         if cache:
-            # Beside it and then moved: two files being measured at
-            # once, or a run broken off, must not leave half a curve
-            # behind for the next start to read as a measurement.
+            # Beside it and then moved: two runs at once, or one broken
+            # off, must not leave half a curve to be read as a curve.
             try:
                 # The suffix has to be .npy: np.save appends one
-                # otherwise, and the move would then miss the file.
+                # otherwise and the move would miss the file.
                 fd, beside = tempfile.mkstemp(dir=os.path.dirname(cache),
                                               prefix=".vpm_", suffix=".npy")
                 os.close(fd)
@@ -363,14 +339,12 @@ def envelope(x, hop_ms=5.0, rate=SR):
 # edge is counted into the last band: at 4000 Hz that is a single bin.
 BAND_EDGES = (0, 50, 75, 100, 125, 150, 200, 250, 300, 400, 500, 650,
               800, 1000, 1200, 1400, 1600, 1800, 2000)
-# How long a stretch one band level is read over. 64 ms is long enough
-# to tell 50 Hz from 100 Hz; the 5 ms box the plain curve uses is not,
-# and there a hum and the voice over it land in the same value.
+# How long one band level is read over. 64 ms tells 50 Hz from 100 Hz;
+# in the plain curve's 5 ms box hum and voice land in the same value.
 BAND_WINDOW_S = 0.064
-# A band counts if its own loudness moves at least half as much as the
-# liveliest band of that recording. Measured 1.9.2026 over 38 tracks
-# from four productions: the mains hum drops out of every one of them,
-# and none of the 85 pairs that belong together got worse.
+# A band counts if its loudness moves at least half as much as the
+# liveliest band of the recording. Over 38 tracks from four productions
+# the mains hum drops out of every one and no real pair got worse.
 BAND_MOVES_ENOUGH = 0.5
 
 
@@ -378,8 +352,8 @@ def band_powers(x, hop_ms=5.0, rate=SR):
     """How much power each band holds at every step of the curve.
 
     One short spectrum every hop, its bins summed inside the band
-    edges. Worked through in blocks: a whole episode at once is a
-    matrix of some gigabytes, and the answer is the same either way.
+    edges. In blocks: a whole episode at once is a matrix of some
+    gigabytes, and the answer is the same either way.
     """
     hop = max(1, int(hop_ms * rate / 1000.0))
     win = max(16, 1 << int(round(np.log2(BAND_WINDOW_S * rate))))
@@ -406,10 +380,9 @@ def band_powers(x, hop_ms=5.0, rate=SR):
 def moving_bands(power):
     """Which bands say something about the time, and which stand still.
 
-    A band whose level never changes cannot place anything, however
-    loud it is: mains hum sits there at full strength and says the
-    same thing from the first second to the last. Asked of the
-    recording itself, so no frequency has to be set from outside.
+    A band whose level never changes places nothing, however loud --
+    mains hum says the same from the first second to the last. Asked of
+    the recording, so no frequency has to be set from outside.
     """
     if not power.size:
         return np.zeros(len(power), dtype=bool)
@@ -421,9 +394,9 @@ def moving_bands(power):
 def band_envelope(x, hop_ms=5.0, rate=SR):
     """The loudness curve without the bands that carry no movement.
 
-    What envelope() reads in one piece, read band by band with the
-    still ones left out. Where every band moves alike nothing is left
-    out, and this is the same curve through a longer window.
+    What envelope() reads in one piece, band by band with the still
+    ones left out. Where every band moves alike nothing is left out,
+    and this is the same curve through a longer window.
     """
     power = band_powers(x, hop_ms, rate)
     keep = moving_bands(power)
@@ -437,21 +410,11 @@ def band_envelope(x, hop_ms=5.0, rate=SR):
 def phase_align(a, b, rate, most_s=None):
     """Where b sits against a, by phase alone. (seconds, sharpness).
 
-    The envelope way asks where two recordings are loud together, and
-    that needs something to be loud and quiet about. Music has almost
-    nothing: a mixed, limited song holds the same loudness for minutes.
-    Measured on 23.8.2026 -- an iPhone recording of monitor speakers
-    against the finished mix of the same music -- the envelope way
-    answered 74.775 s at a quality of -0.183, and the right answer was
-    569.2 s.
-
-    This one throws the loudness away and keeps only the phase, which
-    is what a re-recording through a room survives. It found that 569.2
-    s to within twelve milliseconds, first try, with nothing to go on.
-
-    The sharpness is the peak against the noise around it. It says how
-    much the answer is worth, and it is the only thing that does: a
-    peak that is barely above its neighbours is a guess.
+    The envelope way needs something loud and quiet to work on, and a
+    mixed song holds the same loudness for minutes. This keeps only the
+    phase, which a re-recording through a room survives -- on such a
+    pair it hit 569.2 s to twelve milliseconds. The sharpness is the
+    peak against its neighbours, and the only measure of the answer.
     """
     if len(a) < rate or len(b) < rate:
         return 0.0, 0.0
@@ -459,8 +422,8 @@ def phase_align(a, b, rate, most_s=None):
     fa = np.fft.rfft(np.asarray(a, float) - np.mean(a), n)
     fb = np.fft.rfft(np.asarray(b, float) - np.mean(b), n)
     both = fb * np.conj(fa)
-    # The whitening is the whole point: every frequency counts the
-    # same, so a loud bass drum does not drown out the rest.
+    # The whitening is the point: every frequency counts the same, so a
+    # loud bass drum does not drown out the rest.
     line = np.fft.irfft(both / (np.abs(both) + 1e-12), n)
     k = int(np.argmax(line))
     if k > n // 2:
@@ -474,12 +437,10 @@ def phase_align(a, b, rate, most_s=None):
 def looks_like_music(env):
     """A guess at whether this is music, for the log and nothing else.
 
-    Speech swings in syllables, two to eight times a second. Music
-    swings with the beat and the phrase, slower. Measured on 23.8.2026
-    the two do not separate cleanly -- a finished mix landed at 26 per
-    cent of its movement in the syllable band, speech at 31 to 32 --
-    so this decides nothing. It only explains, afterwards, why the
-    plain way had so little to work with.
+    Speech swings in syllables, two to eight times a second; music
+    swings slower. The two do not separate cleanly -- a finished mix
+    landed at 26 per cent of its movement in the syllable band, speech
+    at 31 to 32 -- so this decides nothing, it only explains.
     """
     e = np.asarray(env, float)
     e = e[np.isfinite(e)]
@@ -496,19 +457,11 @@ def looks_like_music(env):
 def cross_correlate(a, b):
     """Where b sits against a, and how well it fits there.
 
-    The peak is the largest positive one, not the largest by size.
-    An envelope here is log loudness with its mean taken out, so it
-    swings either side of zero -- but two that belong together still
-    rise and fall together, and that pushes the correlation up. A
-    strong negative peak is the opposite: loud where the other is
-    quiet. That is never where they belong, however large it is.
-
-    Taking the absolute value used to hand exactly that back. Measured
-    on 23.8.2026, an iPhone recording of monitor speakers against the
-    finished mix of the same music: it answered +74.775 s at -0.183,
-    while the best real agreement was +0.131 somewhere else again.
-    Neither is a match -- but only one of the two is even a possible
-    one. The right answer, +569.2 s, needed another method entirely.
+    The peak is the largest positive one, not the largest by size. An
+    envelope is log loudness with its mean taken out, so it swings
+    either side of zero; two that belong together rise and fall
+    together. A strong negative peak is loud where the other is quiet,
+    and that is never where they belong, however large.
     """
     m = min(len(a), len(b))
     if m < 10:
@@ -526,11 +479,9 @@ def cross_correlate(a, b):
 def join_with_report(paths, target, keep_parts=False):
     """Join the blocks of one recording and say what was found.
 
-    The joining was shared; the reporting was not. The ordinary path
-    said how many blocks went together, where the gaps were and whether
-    two of them overlapped instead of following each other. The
-    multitrack path did the same work in silence, so a recording with a
-    ten-second hole in it went through without a word.
+    Both paths report through here: how many blocks went together,
+    where the gaps are, and whether two overlap instead of following
+    each other. A ten-second hole must not pass without a word.
     """
     source, join_info = join_audio_parts(paths, target, keep_parts=keep_parts)
     if join_info.get("tc"):
@@ -542,7 +493,7 @@ def join_with_report(paths, target, keep_parts=False):
                 print(T('  Gap of %s at %s -- filled with silence')
                       % (as_hms(g / float(SR)), as_hms(at_s / float(SR))))
             else:
-                # A negative gap is an overlap. Nothing is filled there;
+                # A negative gap is an overlap: nothing is filled there,
                 # the two sound at the same time.
                 print(T('  Overlap of %s at %s -- both sound there')
                       % (as_hms(-g / float(SR)), as_hms(at_s / float(SR))))
@@ -566,20 +517,11 @@ def join_with_report(paths, target, keep_parts=False):
 def join_audio_parts(paths, target, keep_parts=False):
     """Join several audio files into one.
 
-    With timecodes they are placed on a common time axis and gaps are filled
-    with silence. Without, they are laid end to end in the order they came
-    in -- the caller has already put them in it.
-
-    The result has as many channels as the widest of them. One stereo
-    recording among mono ones therefore keeps its sides, and the mono ones
-    are copied to both -- written out rather than left to ffmpeg, which
-    would take 3 dB off them on the way.
-
-    With *keep_parts* each recording is also written on its own, on the same
-    axis and the same length as the sum, so it can go into the video beside
-    the mix. Only where the recordings overlap: blocks laid end to end are
-    one recording, and a track per block would be silence with one block in
-    it. It costs no second decode -- the same pass writes both.
+    With timecodes on a common axis, gaps filled with silence; without,
+    end to end in the order they came in. As many channels as the
+    widest, mono copied to both sides here rather than by ffmpeg, which
+    would take 3 dB off. With *keep_parts* each recording is written
+    alone too, but only where they overlap.
     """
     paths = list(paths)
     if len(paths) == 1:
@@ -589,11 +531,9 @@ def join_audio_parts(paths, target, keep_parts=False):
             for p in paths]
     lengths = [sample_count(p) for p in paths]
     trs = [bext_time_reference(p) for p in paths]
-    # Every file has to carry a time, and no two may claim the same one:
-    # sorting by it would otherwise depend on the order the files came in.
-    # Two recorders started together write exactly the same number, and
-    # those recordings run at the same time -- so they are placed on the
-    # axis together rather than end to end.
+    # Two recorders started together write the same number, and a sort
+    # by it would then depend on the order the files came in. Equal
+    # times mean at the same time, not end to end.
     having_tc = all(t is not None for t in trs)
     if having_tc and len(set(trs)) != len(trs):
         order = sorted(range(len(paths)),
@@ -613,10 +553,8 @@ def join_audio_parts(paths, target, keep_parts=False):
             g = tb - (ta + na)
             if abs(g) > SR // 100:
                 gaps.append((ta + na - t0, g))
-        # Do the recordings run at the same time or one after another? The
-        # timecodes say so, and nothing else has to be guessed: overlapping
-        # means several microphones were running at once, and then each one
-        # is worth a track of its own.
+        # Overlapping means several microphones ran at once, and then
+        # each one is worth a track of its own.
         side_by_side = any(tb < ta + na for (ta, _, na), (tb, _, _)
                            in zip(entries, entries[1:]))
         alone = []
@@ -635,8 +573,8 @@ def join_audio_parts(paths, target, keep_parts=False):
             f += ["adelay=delays=%dS:all=1" % d] if d else []
             f += ["apad=whole_len=%d" % total, "atrim=end_sample=%d" % total,
                   "asetpts=N/SR/TB"]
-            # One decode, two uses: the sum, and the single track beside it.
-            # A filter output can only be read once, hence the split.
+            # One decode, two uses: the sum and the track beside it. A
+            # filter output can only be read once, hence the split.
             tail = ",asplit=2[t%d][s%d]" % (i, i) if alone else "[t%d]" % i
             chains.append("[%d:a]%s%s" % (i, ",".join(f), tail))
             markers.append("[t%d]" % i)
@@ -656,14 +594,12 @@ def join_audio_parts(paths, target, keep_parts=False):
                       "start": t0, "side_by_side": side_by_side,
                       "parts": alone}
 
-    # In the order they came in. Without a timecode that order is the
-    # only one there is: it comes from the counter, from the clock in the
-    # name, or from a hand that said these belong together in this order.
-    # Sorting by name again would throw the last of the three away.
+    # In the order they came in: without a timecode that order is the
+    # only one there is, and it may come from a hand rather than from a
+    # name. Sorting by name again would throw that away.
     row = list(zip(paths, lengths))
     if len(set(same)) == 1 and same[0] == "anull":
-        # All alike: the concat demuxer is the cheapest way and needs no
-        # filter graph at all.
+        # All alike: the concat demuxer is cheapest and needs no graph.
         lst = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False)
         for p, _ in row:
             lst.write("file '%s'\n" % os.path.abspath(p).replace("'", "'\\''"))
@@ -674,9 +610,8 @@ def join_audio_parts(paths, target, keep_parts=False):
         finally:
             os.unlink(lst.name)
         return target, {"blocks": len(paths), "tc": False, "parts": []}
-    # Different channel counts: the concat demuxer refuses those, so the
-    # blocks are brought to the same width first and strung together in the
-    # filter graph.
+    # Different channel counts: the concat demuxer refuses those, so
+    # the blocks are widened first and strung together in the graph.
     parts, chains, markers = [], [], []
     for i, (p, _n) in enumerate(row):
         parts += ["-i", p]
@@ -694,11 +629,10 @@ def join_audio_parts(paths, target, keep_parts=False):
 def audio_range_covered_by_video(audio, video, edge_s=60.0):
     """Return which part of the audio file has a counterpart in the picture.
 
-    Only the first and last *edge_s* seconds are searched. Two passes:
-    coarse with 4 s windows in half second steps, then fine with 1 s windows
-    in 50 ms steps around the edge found. The coarse window finds the edge
-    reliably but sits systematically late -- a window half inside the intro
-    only half matches. The second pass recovers that.
+    Only the first and last *edge_s* seconds are searched: coarse with
+    4 s windows in half-second steps, then fine with 1 s windows in
+    50 ms steps. The coarse pass sits systematically late, because a
+    window half inside the intro only half matches.
     """
     HOP, rate = 5.0, 4000
     env_video = video_envelope(video, HOP, rate)
@@ -707,9 +641,8 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
     if len(env_video) < 200 or len(env_audio) < 200:
         return 0, n_audio, {"reason": T('too short')}
 
-    # The anchor is the middle of the picture, not of the audio: the audio can
-    # be a multiple longer, and then its middle may lie entirely outside what
-    # the camera recorded.
+    # The anchor is the middle of the picture, not of the audio: the
+    # audio can be longer, and its middle then lie outside the picture.
     m0, m1 = int(len(env_video) * 0.25), int(len(env_video) * 0.75)
     middle = env_video[m0:m1]
     nf = 1 << int(np.ceil(np.log2(len(env_audio) + len(middle))))
@@ -748,9 +681,9 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
     def edge(front):
         """Return where the part matching the picture begins or ends.
 
-        Searched around the place it should sit after coarse alignment, not
-        around the start and end of the file. Where the audio is a multiple of
-        the picture in length, the edges lie far inside.
+        Searched around the place coarse alignment puts it, not around
+        the file's start and end: where the audio is much longer, the
+        edges lie far inside.
         """
         anchor = t0 if front else t1 - win_coarse
         coarse, run = None, 0
@@ -786,11 +719,8 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
 
 
 # What the phase way has to beat before it is believed instead of the
-# plain one. Measured on 23.8.2026: on the music that sent us looking
-# it came out at 28.7 against a nearest rival of 26.5, and the answer
-# was right to twelve milliseconds. Not measured on enough material to
-# call it a threshold -- it is a floor, and the log prints the number
-# so anybody can see how close it was.
+# plain one. A floor, not a measured threshold: the one case measured
+# came out at 28.7, and the log prints the number every time.
 PHASE_SHARP_ENOUGH = 8.0
 
 
@@ -798,10 +728,9 @@ def align_on_moving_bands(x_video, x_audio, HOP, rate, sample_points,
                           window_s, distance_s):
     """The same way again, on the bands that carry movement.
 
-    Returns what align_envelopes returns, or None where a curve came
-    out too short to compare. The numbers in it are the ordinary ones
-    -- sample points and their spread -- so the gate that judges the
-    first answer judges this one by the same rule.
+    Returns what align_envelopes returns, or None where a curve is too
+    short. The numbers are the ordinary ones, so the gate that judges
+    the first answer judges this one by the same rule.
     """
     curve_video = band_envelope(x_video, HOP, rate)
     curve_audio = band_envelope(x_audio, HOP, rate)
@@ -823,77 +752,57 @@ def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0
                                warn=os.path.basename(audio))
     if st.get("quality", 0.0) >= WEAK_MATCH:
         return a, b, st
-    # The plain way found nothing worth having. Both files are read
-    # here, once, for the second try and for the phase way under it --
-    # the phase way read them itself before, so this costs no decode.
+    # The plain way found nothing worth having. Read once here for the
+    # second try and for the phase way under it.
     x_video = decode_audio(video, rate=rate)
     second = align_on_moving_bands(x_video, x_audio, HOP, rate,
                                    sample_points, window_s, distance_s)
     if second is not None and fit_places_it(second[2]):
-        # Sample points enough, and close enough to one line. Measured
-        # over 293 pairs out of different productions not one gets that
-        # far, and all 85 that belong together do.
+        # Enough sample points, close enough to one line: of 293 foreign
+        # pairs not one gets that far, and all 85 real ones do.
         second[2]["from_bands"] = True
         return second
-    # Both curves came up empty. The phase way -- it only ever runs
-    # here, where the answer was going to be wrong anyway, and it is
-    # the one way no sample point backs up.
+    # Both curves came up empty. The phase way runs only here, where
+    # the answer was wrong anyway, and no sample point backs it up.
     st["music_like"] = looks_like_music(env_audio)
     where, sharp = phase_align(x_video, x_audio, rate)
     st["phase_s"], st["phase_sharp"] = where, sharp
     if sharp >= PHASE_SHARP_ENOUGH:
         st["from_phase"] = True
-        # No drift from this one: it answers where, not how fast. The
-        # factor stays 1.0 and the report says the drift is unknown
-        # rather than pretending it is zero.
+        # No drift from this one: it answers where, not how fast, so
+        # the factor stays 1.0 and the report calls the drift unknown.
         return where, 1.0, st
-    # Both ways came up empty. The numbers still travel back, because
-    # the log prints them, but they are marked for what they are: not
-    # an alignment, a guess. Whoever asked has to decide what to do
-    # with a file that has no place -- see cannot_be_placed.
+    # Both ways came up empty. The numbers still travel back for the
+    # log, marked for what they are: a guess, not an alignment. What to
+    # do with a file that has no place: see cannot_be_placed.
     st["unplaceable"] = True
     return a, b, st
 
 
-# How far a point may sit from the middle before it is thrown away.
-# 3 is the ordinary choice for a robust fit; the floor keeps a very
-# tight set of points from throwing away its own scatter. 20 ms is the
-# floor because it is four times HOP -- what the envelope can resolve
-# at all. It is a floor, not a measured threshold, and says so.
-# Below this the global agreement between two envelopes is not worth
-# calling a match. Not measured on real material yet -- it is the old
-# 0.05 floor, kept, and now applied to the signed value instead of the
-# size. What a good alignment looks like is measured: 0.5 to 0.9 on
-# material that belongs together, 0.13 on a camera track against a
-# finished mix of the same room.
+# Below this the agreement between two envelopes is not worth calling a
+# match. A floor, not a measured threshold; a good alignment is
+# measured at 0.5 to 0.9 on material that belongs together.
 WEAK_MATCH = 0.05
 
-# The shortest stretch of shared sound and picture that a run will work
-# with when the alignment could not place a single sample point in it.
-# Where it did place points, the length does not matter -- what was
-# measured was measured. Ten seconds because the alignment's own spacing
-# is a couple of seconds and a handful of them is the least that says
-# anything; the thirty that stood here before was a round number nobody
-# had measured, and it refused 26 seconds of picture that come out exact.
+# The shortest stretch of shared sound and picture a run works with
+# when the alignment placed no sample point in it. Ten seconds: 26 s
+# of picture comes out exact, and the spacing is a couple of seconds.
 AXIS_MIN_WINDOW_S = 10.0
 
-# What one camera has to match another by before it is laid on the axis.
-# Far above WEAK_MATCH: between two cameras there is no phase way to fall
-# back on, so the envelopes are the whole measurement, and the floor for
-# "nothing at all" is not the number for "these two heard the same room".
-#
+# What one camera has to match another by before it is laid on the
+# axis. Far above WEAK_MATCH: between two cameras there is no phase way
+# to fall back on, so the envelopes are the whole measurement.
+
 #   camera against camera, 21 s against 26 s      0.837   right
 #   camera against camera, 68 min against 68 min  0.811   right
 #   an 18-second jingle against 68 min of camera  0.210   nonsense
-#
-# Measured 30.8.2026; two recordings of different conversations came to
-# 0.21 to 0.27 the same day. A real match sits above 0.8, unrelated
-# material with structure near 0.25, and half is the middle of the gap.
+
+# A real match sits above 0.8, unrelated material with structure near
+# 0.25, and half is the middle of the gap.
 CAMERA_MATCH_ENOUGH = 0.5
-# Measured 1.9.2026, four productions, 85 pairs that belong together
-# against 293 that do not: the correlation overlaps (worst real 0.203,
-# best foreign 0.124), the fit does not (62 against 43 sample points,
-# 11.3 against 22.4 ms).
+# Over 85 pairs that belong together against 293 that do not: the
+# correlation overlaps (worst real 0.203, best foreign 0.124), the fit
+# does not (62 against 43 points, 11.3 against 22.4 ms).
 FIT_POINTS_ENOUGH = 50
 FIT_SPREAD_MS = 15.0
 
@@ -901,11 +810,11 @@ FIT_SPREAD_MS = 15.0
 def fit_places_it(st):
     """Report whether the sample points alone place this file.
 
-    The correlation above compares two loudness curves over the whole
-    runtime, and a steady tone in one of them -- mains hum -- pushes it
-    down without moving where the file belongs. The fit does move with
-    the answer: many points spread over the runtime, all on one line.
-    A file that fits nowhere gets neither.
+    The correlation compares two curves over the whole runtime, and a
+    steady tone -- mains hum -- pushes it down without moving where the
+    file belongs. The fit does move with the answer: many points spread
+    over the runtime, all on one line. A file that fits nowhere gets
+    neither.
     """
     spread = st.get("spread_ms")
     return (st.get("points", 0) >= FIT_POINTS_ENOUGH
@@ -913,22 +822,19 @@ def fit_places_it(st):
 
 
 # Against a sound recording a real match reads far lower, so this floor
-# only tells a measurement from noise. It stood as a bare 0.15 in the
-# middle of the axis measurement until 31.8.2026.
+# only tells a measurement from noise.
 SOUND_MATCH_ENOUGH = 0.15
 # Not the count of sample points: they are set 30 seconds apart, so
-# shorter material has none at all -- the 21-second camera above had
-# none and was placed exactly right.
+# shorter material has none at all and is still placed exactly right.
 
 
 def timecode_places_it(own, others):
     """Report whether a timecode can put this file among the others.
 
-    A timecode alone places nothing. It is a reading of a clock, and a
-    reading only says something next to a second one: the file has to
-    carry one and so has something else in the material. Where a
-    single file has a timecode and no other does, it is as unplaced as
-    if it had none.
+    A timecode alone places nothing: it is a reading of a clock, and a
+    reading only says something next to a second one. Where a single
+    file has one and no other does, it is as unplaced as if it had
+    none.
     """
     return own is not None and any(t is not None for t in others)
 
@@ -936,11 +842,10 @@ def timecode_places_it(own, others):
 def files_with_no_place(weak, clocks):
     """Which of the badly fitting files no clock places either.
 
-    The one reading of "it fits nowhere": the intro proposal and the
-    bar on the wide shot both ask here. Weak alone is not it -- a
+    The one reading of "it fits nowhere". Weak alone is not it -- a
     camera whose sound says nothing is still placed by its timecode --
-    and below the floor is not it either, because that is measured
-    against nothing at all and a jingle lands above it.
+    and below the floor is not it either, because a jingle lands above
+    that.
     """
     return [p for p in weak
             if not timecode_places_it(
@@ -950,26 +855,11 @@ def files_with_no_place(weak, clocks):
 def cannot_be_placed(st, own_tc, other_tcs):
     """Report whether an alignment left a file with no place at all.
 
-    Two ways lead to a place, and either one is enough. The timecode
-    is the first, and where it answers the sound is not asked at all:
-    a camera whose microphone heard nothing of the room is still
-    placed to the frame by its clock, and refusing it because of its
-    sound would throw away a file that is in fact known to the
-    millisecond. The measurement is the second way, and *st* carries
-    its verdict: "unplaceable" stands there when every way of
-    measuring came up empty.
-
-    Only where neither answers is there nothing left. Then the file is
-    refused rather than laid down somewhere, because laid down
-    somewhere it looks exactly like a file that fits.
-
-    Not by the count of sample points, though that was tried on
-    30.8.2026 and reverted the same hour: on the ordinary path a
-    measurement with no sample points is still a measurement -- the
-    offset comes from the cross correlation and only the clock drift is
-    missing, which is what "too few sample points for a drift
-    measurement" says. Reading that as "no place" refused material the
-    tests prove is placed to the sample.
+    Two ways lead to a place and either is enough: the clock, and the
+    measurement, whose verdict "unplaceable" stands in *st*. Never the
+    count of sample points -- a measurement with none is still a
+    measurement, only without a drift. Where the clock answers the
+    sound is not asked, and only where neither does is the file refused.
     """
     if not (st or {}).get("unplaceable"):
         return False
@@ -980,11 +870,10 @@ def which_way_placed(st, hint=""):
     """Add to a track's note which way put it on the axis.
 
     The plain loudness curve says nothing, being the ordinary answer;
-    the two later ways do, and both report lines use this one function
-    so they say the same thing. The phase carries its sharpness against
-    PHASE_SHARP_ENOUGH, and says the drift is unknown: it answers where
-    a track sits, not how fast it ran, and the line beside it prints
-    +0.00 ppm, which would otherwise read as a drift measured at zero.
+    the two later ways do, and both report lines use this function so
+    they say the same thing. The phase says the drift is unknown
+    because the line beside it prints +0.00 ppm, which would otherwise
+    read as a drift measured at zero.
     """
     if (st or {}).get("from_bands"):
         hint = (hint + ", " if hint else "") + T('placed on the bands '
@@ -1016,6 +905,9 @@ def timecode_seconds(info):
         return None
 
 
+# How far a point may sit from the middle before it is thrown away. 3
+# is the ordinary robust choice; the 20 ms floor is four times HOP --
+# what the envelope can resolve -- and saves a tight set from itself.
 OUTLIER_SIGMA = 3.0
 OUTLIER_FLOOR_S = 0.020
 OUTLIER_ROUNDS = 6
@@ -1024,8 +916,8 @@ OUTLIER_ROUNDS = 6
 def _spans_share(tv, duration_v):
     """How much of the runtime the surviving points still cover.
 
-    A set that has been cleaned down to one corner of the recording
-    looks tidy and says nothing about the rest of it.
+    A set cleaned down to one corner looks tidy and says nothing about
+    the rest of the recording.
     """
     if len(tv) < 2 or duration_v <= 0:
         return 0.0
@@ -1036,15 +928,10 @@ def without_outliers(tv, dt):
     """Throw away points that lie far from the others. (tv, dt, dropped).
 
     The anchor is the median, not the line: a single outlier tips the
-    line, and then the wrong points look like the odd ones out. The
-    scatter is measured as the median absolute deviation, scaled by
-    1.4826 so it means the same as a standard deviation on ordinary
-    data.
-
-    Six rounds at most, and never below three points -- two points
-    always fit a line perfectly, which would turn a broken measurement
-    into a confident one. Every point thrown away is named in the log:
-    a run that cleans up in silence cannot be checked afterwards.
+    line and then the wrong points look like the odd ones out. The
+    scatter is the median absolute deviation, scaled by 1.4826 to mean
+    a standard deviation. Never below three points -- two always fit a
+    line perfectly. Every point thrown away is named in the log.
     """
     kept_t, kept_d = np.asarray(tv, float), np.asarray(dt, float)
     dropped = []
@@ -1070,21 +957,10 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
     """The same on ready-made envelopes.
 
     Which way round: the second curve's time = a + b * the first
-    curve's time. Said without the word "reference" on purpose --
-    align_cameras calls the *first* of its two the reference, and
-    reading this line with that meaning turns the pair round.
-
-    *points_off* decides which of the two curves the sample points are
-    picked on; the first by default. For a de-bled speaker track it has to
-    be the second: only one speaker is left there, and only where they speak
-    is there anything to compare. Picking the spots on the camera track
-    would land mostly in passages where somebody else talks.
-
-    The number of sample points grows with the runtime -- about one every
-    two minutes, at least nine. More points make the slope more certain, and
-    the slope is the clock drift. The envelopes are in memory anyway, so an
-    extra point costs almost nothing. Kept separate from align_audio_to_video
-    so two cameras can be compared without reading the large files twice.
+    curve's time. Not "reference": align_cameras calls the *first* of
+    its two the reference, and that meaning turns the pair round.
+    *points_off* picks the curve the sample points come off; for a
+    de-bled speaker track the second, where one speaker is left.
     """
     if len(env_video) < 10 or len(env_audio) < 10:
         raise RuntimeError(T('too little audio to align'))
@@ -1094,14 +970,12 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         return -a / b, 1.0 / b, st
     k, g = cross_correlate(env_video, env_audio)
     coarse = k * HOP / 1000.0
-    # Signed, not by size: see cross_correlate. Said out loud even
-    # where it passes, because "found something" and "found it barely"
-    # look the same from outside. A second try on the same two files
-    # has heard it once and asks for silence.
+    # Signed, not by size: see cross_correlate. Said out loud because
+    # "found something" and "found it barely" look the same from
+    # outside; a second try on the same files asks for silence.
     if warn and g < WEAK_MATCH:
-        # warn carries the name where the caller has one. Without it
-        # a run with several recordings prints a heap of warnings
-        # nobody can put back against a file.
+        # warn carries the name where the caller has one. Without it a
+        # run with several recordings prints warnings nobody can place.
         print(as_warn(T('      WARNING: weak match for %s (%s, %s is '
                         'the floor). The two may not belong together.')
                       % (warn if isinstance(warn, str)
@@ -1111,8 +985,8 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
 
     duration_v = len(env_video) * HOP / 1000.0
     W = int(window_s * 1000 / HOP)
-    # Create twice as many candidates as needed -- the uninteresting ones drop
-    # out immediately, and too many beats too few.
+    # Twice as many candidates as needed: the uninteresting ones drop
+    # out at once, and too many beats too few.
     if sample_points is None:
         sample_points = max(9, min(80, int(duration_v / distance_s) + 1))
     candidates = max(sample_points * 2, 12)
@@ -1125,8 +999,7 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         if i0 < 0 or i0 + W > len(env_video):
             continue
         seg = env_video[i0:i0 + W]
-        # Silence or steady noise is no use for comparison: there are no edges
-        # to align on.
+        # Silence or steady noise has no edges to align on.
         if float(np.std(seg)) < 0.35 * spread_total:
             continue
         with_signal += 1
@@ -1150,9 +1023,8 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         tv = np.array([p[0] for p in points])
         dt = np.array([p[1] for p in points])
         # What the raw points say, before anything is thrown away. It
-        # stays in the report: a run that quietly cleans itself up and
-        # then calls the result good has traded a loud fault for a
-        # quiet one.
+        # stays in the report: a run that cleans itself up quietly and
+        # then calls the result good hides the fault instead.
         b0, a0 = np.polyfit(tv, dt, 1)
         raw_spread = float(np.std(dt - (a0 + b0 * tv)) * 1000)
         tv, dt, dropped = without_outliers(tv, dt)

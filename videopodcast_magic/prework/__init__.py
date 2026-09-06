@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 """The prework: audio, envelopes, channels and tracks fetched in advance.
 
-A piece of the program, read out of the folder beside the way in by
-beside(). It cannot import the file it was cut out of, because that
-file is still being read while this one is; the program is handed in
-instead, and every name this piece uses out of it is bound below, by
-name. What the window still calls out of it, it binds there in turn.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the bar
-# and the threads read as they did in the window. Nothing of the
-# window's own is here: a name of ui/ is on the program only after ui/
-# has been read whole, which is later than this file is read.
+# Bound above the seam. Nothing of the window's own is here: a name of
+# ui/ is on the program only after ui/ has been read whole.
 
 SPEAKER_SPLIT_TOGETHER_CORES = PROGRAM.SPEAKER_SPLIT_TOGETHER_CORES
 SR = PROGRAM.SR
@@ -49,8 +43,7 @@ video_facts = PROGRAM.video_facts
 
 #------------------------------------------------- What a piece of work is
 # The three small ones the two makers below share: what a fetched file
-# is counted under, what one task is counted under, and the unpacking
-# itself. They came along because nothing else reads them.
+# and what one task are counted under, and the unpacking itself.
 
 
 def prework_api_key(file_path):
@@ -72,18 +65,14 @@ def prework_fetch(file_path, target, report):
         duration = video_facts(file_path)["duration"]
     except Exception:
         duration = 0.0
-    # The depth of the source, like every other unpacking. This one
-    # matters most of the three: it runs from the window while names
-    # are still being typed, and what it leaves behind is handed to the
-    # run as audio_done and used as it lies -- so a 16 bit copy made
-    # here was what the whole run worked from, however deep the camera
-    # recorded.
+    # The depth of the source, like every other unpacking. This one runs
+    # from the window while names are still being typed, and what it
+    # leaves behind is handed to the run as audio_done and used as it lies.
     cmd = ["ffmpeg", "-v", "error", "-nostats", "-progress", "pipe:1",
            "-i", file_path, "-map", "0:a:0", "-ac", "1", "-ar", str(SR),
            "-c:a", unpack_kind(file_path), "-y", target]
-    # Errors into a file, not into a pipe: progress is read from stdout
-    # until it ends, and an unread stderr pipe would fill up and stop
-    # ffmpeg in the middle -- here in a thread that then never returns.
+    # Errors into a file, not a pipe: progress is read from stdout until
+    # it ends, and an unread stderr pipe would fill up and stop ffmpeg.
     fd, log = tempfile.mkstemp(prefix="vpm_pre_", suffix=".txt")
     os.close(fd)
     try:
@@ -106,8 +95,7 @@ def prework_fetch(file_path, target, report):
 
 
 #-------------------------------------------------------------- The bar
-# What the window thread shows: the box, the bar and the line under it.
-# The widgets are made in gui() and handed in.
+# What the window thread shows: box, bar and line, all made in gui().
 
 
 def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
@@ -118,10 +106,8 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
 
     Outside gui() because it builds no widget: the box, the bar and the
     label are made there and handed in, and everything here runs in the
-    window thread the signal arrives on. The containers are the
-    window's own objects and go on being written through. QtCore is a
-    parameter because PySide6 is imported inside gui(), and a hoisted
-    function reading the name freely would find none.
+    window thread the signal arrives on. QtCore is a parameter because
+    PySide6 is imported inside gui().
     """
     def prework_busy():
         with prework_lock:
@@ -134,12 +120,10 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
     def prework_display_text(file_path, text, share, task):
         """Runs in the window thread; Qt passes the signal through.
 
-        Several threads work at once and each reports only its own file. What
-        is displayed is therefore not the last message but the state of all
-        files together: a percentage per file, with the bar showing the
-        average. A file that left the list is not shown at all: its
-        thread cannot be broken off mid-write and goes on reporting,
-        and every such report would put it back on the bar.
+        Several threads work at once and each reports only its own file.
+        What is shown is the state of all files together: a percentage
+        per file, the bar showing the average. A file that left the list
+        is not shown -- its thread cannot be broken off and reports on.
         """
         if path_key(file_path) in prework_discarded:
             return
@@ -174,8 +158,7 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
             return
         total, lines = prework_standing(prework_shares)
         # The bar only moves forward. Adding a file lowers the average
-        # arithmetically, but a bar jumping back looks like a fault even though
-        # nothing is lost.
+        # arithmetically, but a bar jumping back looks like a fault.
         status = max(prework_run.get("bar", 0), int(round(100 * total)))
         prework_run["bar"] = status
         prework_progress_bar.setValue(status)
@@ -188,8 +171,8 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
             QtCore.QTimer.singleShot(1200, prework_box.hide)
         elif total >= 0.999 and not prework_ask_again.isActive():
             # This runs on a report, and no report follows a thread
-            # counting itself out -- so the question is asked once more
-            # rather than never. One look is on its way at a time.
+            # counting itself out, so it is asked once more rather than
+            # never. One look is on its way at a time.
             prework_ask_again.start(200)
 
     prework_ask_again = QtCore.QTimer(prework_box)
@@ -202,8 +185,7 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
 
 
 #------------------------------------------------- What the threads do
-# The other side of the bar: nothing here touches a widget, and all of
-# it runs off the window thread.
+# Nothing here touches a widget; all of it runs off the window thread.
 
 
 def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
@@ -215,9 +197,7 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
 
     The other side of the bar above: nothing here touches a widget, and
     all of it runs off the window thread. What it reports goes through
-    prework_report, which crosses back over the signal. The three
-    containers below are read nowhere else and are made here; the rest
-    belong to the window and are handed in.
+    prework_report, which crosses back over the signal.
     """
     PREWORK_THREADS = max(1, min(4, how_many_processors()))
     prework_folder = {"path": None}
@@ -251,8 +231,7 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
         except Exception as e:
             prework_report(file_path, T('no audio: %s') % str(e).strip()[:40], 1.0, "audio")
             return False
-        # Where the file left the list meanwhile, the work was wasted; clear it
-        # away right there rather than leaving it lying about.
+        # Where the file left the list meanwhile, clear the work away.
         if path_key(file_path) in prework_discarded:
             try:
                 os.unlink(target)
@@ -280,9 +259,8 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
     def prework_channels_look(file_path):
         """Measure the channels of a multichannel file.
 
-        Reading every channel of an hour of audio takes seconds. In the
-        window thread that is a frozen list; here it is a line on the
-        bar like everything else.
+        Reading every channel of an hour of audio takes seconds: in the
+        window thread that is a frozen list, here a line on the bar.
         """
         prework_report(file_path, T('Looking at the channels'), 0.0,
                        "channels")
@@ -299,15 +277,12 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
     def prework_split_make(file_path):
         """Cut a multichannel file into the tracks it will contribute.
 
-        Written as real files, because everything after this point --
-        the assignment, the player, the run -- works with files. A
-        track that stays whole is not written: the original is the
-        track.
+        Written as real files, because everything after this point works
+        with files. A track that stays whole is not written.
         """
         api_key = os.path.abspath(file_path)
         # The decision belongs to the recording, the cutting to the block:
-        # every block is cut the same way, and the pieces are regrouped
-        # afterwards.
+        # every block is cut the same way and regrouped afterwards.
         head = recording_of.get(api_key, api_key)
         try:
             facts = blocks_facts(blocks_of.get(head) or [api_key])
@@ -330,9 +305,9 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
                            % (i + 1, len(want)),
                            float(i) / len(want), "split")
             target = split_target(file_path, chs, folder)
-            # A camera often records at 44.1 kHz while everything else in
-            # the run is at 48. Two rates in one mix would not line up, so
-            # a piece cut out of a video is brought to the run's rate.
+            # A camera often records at 44.1 kHz while the run is at 48.
+            # Two rates in one mix do not line up, so a piece cut out of
+            # a video is brought to the run's rate.
             rate = (SR if os.path.splitext(file_path)[1].lower()
                     in VIDEO_SUFFIXES else None)
             try:
@@ -352,8 +327,7 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
         """Take a task out of the count and off the bar.
 
         Counted as finished, because nobody else will finish it: a share
-        stuck at zero holds the bar back for good. Reported through the
-        signal, since the bar belongs to the window thread.
+        stuck at zero holds the bar back for good.
         """
         with prework_lock:
             prework_pending[entry[0]] = prework_pending.get(entry[0], 1) - 1
@@ -365,16 +339,14 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
             while True:
                 with prework_lock:
                     if not prework_queue:
-                        # Counted down inside the same lock. Between
-                        # releasing it and a finally the count would be too
-                        # high for a moment, and a kick_off landing there
-                        # would start no thread at all.
+                        # Counted down inside the same lock: between it
+                        # and a finally the count would be too high for a
+                        # moment, and a kick_off there starts no thread.
                         prework_run["threads"] -= 1
                         return
                     entry = prework_queue.pop(0)
-                    # It is off the queue but not done; without this a
-                    # second thread would extract the same file into the
-                    # same target while the first is still writing it.
+                    # Off the queue but not done: without this a second
+                    # thread extracts into the target the first is writing.
                     prework_active.add(entry)
                 file_path, task = entry
                 try:
@@ -402,8 +374,7 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
                             file_path, 1) - 1
                         done_with = prework_pending[file_path] <= 0
                     if done_with:
-                        # Done means show nothing: a "ready" that stays
-                        # only takes up space.
+                        # Done means show nothing; "ready" only takes room.
                         prework_report(file_path, "", 1.0)
                 finally:
                     with prework_lock:
@@ -437,14 +408,9 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
                 if entry not in prework_queue and entry not in prework_active:
                     prework_queue.append(entry)
                     prework_pending[entry[0]] = prework_pending.get(entry[0], 0) + 1
-            # Several threads at once: ffmpeg is barely held up while reading
-            # and the files sit on the same disk -- four at a time saturate the
-            # machine without getting in each other's way.
-            # Measured: the different kinds of work do not slow each
-            # other down, and the one real brake on the separation is a
-            # full processor. On a small machine the prework therefore
-            # goes single file while the separation runs; from four
-            # processors up everything runs at once.
+            # Four at a time: ffmpeg is barely held up while reading and
+            # the files sit on one disk. A full processor is the one real
+            # brake, so under four the prework goes single file.
             room = (PREWORK_THREADS
                     if (how_many_processors() >= SPEAKER_SPLIT_TOGETHER_CORES
                         or not split_run["busy"]) else 1)
@@ -454,16 +420,14 @@ def make_prework_tasks(state, bridge, bridge_emit, plan, blocks_of,
             prework_run["bar"] = 0
         for p, task in fresh:
             prework_shares.setdefault(prework_share_key(p, task), 0.0)
-            # Announced before the work starts: a bar that only learns of
-            # a step when that step begins jumps backwards at every one.
+            # Announced before the work starts, or the bar jumps back.
             plan.add("pre:%s:%s" % (task, os.path.abspath(p)),
                      prework_weight(p, task), os.path.basename(p))
         prework_status_show()
         for _ in range(max(0, needed)):
             threading.Thread(target=prework_work_loop, daemon=True).start()
         # Bound in gui() below the call that built this, so it cannot be
-        # a parameter. Reached the way the assignment tree reaches
-        # preview_soon: through state.
+        # a parameter. Reached through state, as preview_soon is.
         axis = state.get("axis_kick_off")
         if axis:
             axis(list(paths))

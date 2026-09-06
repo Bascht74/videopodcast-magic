@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 """Getting the tools in place, before the first sound is touched.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name. The
+A piece read out of the folder beside it by beside(). It cannot import
+the file it was cut out of -- that file is still being read -- so the
+program is handed in and every name is bound below, by name. The
 credential store stands under the same heading: without the key there
 is nothing to send a production to.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# setting up reads as it did in the one file. Two names are missing,
-# and the two blocks under the list say which and why.
+# What this piece uses out of the program. Two names are missing, and
+# the blocks under the list say which and why.
 
 FFMPEG_FLOOR = PROGRAM.FFMPEG_FLOOR
 INSTALL_TOOLS = PROGRAM.INSTALL_TOOLS
@@ -33,14 +30,11 @@ tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
 time = PROGRAM.time
 
-# as_warn stands further down the file this was cut out of, and a copy
-# taken up here would be an AttributeError while that file is still
-# being read. It is reached through PROGRAM where it is used.
+# as_warn stands further down the file this was cut out of, so a copy
+# here would be an AttributeError. It is reached through PROGRAM.
 
-# __file__ is the other one, and it is the reason this piece has a
-# rule of its own: a build laid beside the program lies beside the
-# program, not beside this folder, so the place is asked of
-# PROGRAM.__file__ and never of the name this file carries.
+# __file__ is the other: a build laid beside the program lies beside
+# the program, so the place is asked of PROGRAM.__file__, never of this.
 
 
 def version_text(numbers):
@@ -52,11 +46,9 @@ def version_from_line(line):
     """Read a version off the first line an ffmpeg-family tool prints.
 
     Every build writes it the same way -- "ffmpeg version 9.0.1
-    Copyright ..." -- and what follows the number differs from build to
-    build, which does not matter. One out of git carries a commit where
-    the number should be, and then no numbers come back: a version that
-    cannot be read is not one above the floor. The word the build calls
-    itself comes back beside them, to be quoted rather than a number.
+    Copyright ..." -- and what follows differs. One out of git carries
+    a commit where the number should be, and then nothing comes back.
+    The word the build calls itself comes back beside it, to be quoted.
     """
     line = (line or "").strip()
     said = (line.split(" version ", 1)[-1].split(" ")[0][:40]
@@ -81,10 +73,8 @@ def tool_version(command):
 def tools_below_floor():
     """Which of the two tools is under the floor, and what it answered.
 
-    Both are asked and not only one: they are found by name, so with one
-    of them lying beside the script and the other in the search path
-    they can be different builds -- and then the message has to say
-    which of the two is the old one.
+    Both are asked: they are found by name, so one beside the script
+    and one on the search path can be different builds.
     """
     out = []
     for tool in ("ffmpeg", "ffprobe"):
@@ -112,9 +102,7 @@ def _have_soxr():
 def soxr_available():
     """Whether this ffmpeg can resample with soxr, asked once.
 
-    One caller, the filter chain, and it asks per track -- so the
-    answer is kept rather than measured again. The measurement costs
-    23 ms.
+    The filter chain asks per track and the measurement costs 23 ms.
     """
     global _SOXR
     if _SOXR is None:
@@ -125,10 +113,7 @@ def soxr_available():
 def forget_soxr():
     """Measure soxr again the next time it is asked for.
 
-    An install puts another ffmpeg in place, and the answer kept from
-    before it is then a statement about the build that is gone. Every
-    place that installs one forgets this, so that what is reported
-    afterwards is what really arrived.
+    An install puts another ffmpeg in place; the kept answer is stale.
     """
     global _SOXR
     _SOXR = None
@@ -137,25 +122,20 @@ def forget_soxr():
 def tools_folder(make=False):
     """Where a build this program fetched itself lives, or None.
 
-    Not the cache: that is the one folder everybody is told may be
-    deleted, and deleting it must not take ffmpeg with it. Not beside
-    the program either -- an installed copy sits in site-packages,
-    which pip owns and writes over. VPM_TOOLS points it somewhere
-    else; a test run has no place here at all.
+    Not the cache: everybody is told that folder may be deleted, and
+    deleting it must not take ffmpeg with it. Not site-packages either,
+    which pip writes over. VPM_TOOLS points it elsewhere.
     """
     base = os.environ.get("VPM_TOOLS") or ""
     if not base:
         if os.environ.get("VPM_SILENT"):
-            # A test run fetches nothing and keeps nothing, so it has
-            # no folder to keep it in either. The same rule the
-            # settings store is under, and for the same reason.
+            # A test run fetches nothing and keeps nothing, so it has no
+            # folder to keep it in. Same rule as the settings store.
             return None
         if sys.platform == "darwin":
             base = os.path.expanduser("~/Library/Application Support")
         elif os.name == "nt":
-            # LOCALAPPDATA and not APPDATA: a fetched ffmpeg is
-            # bigger than a roaming profile has any business
-            # carrying from machine to machine.
+            # LOCALAPPDATA, not APPDATA: a fetched ffmpeg must not roam.
             base = (os.environ.get("LOCALAPPDATA")
                     or os.path.expanduser("~"))
         else:
@@ -176,8 +156,6 @@ def certificate_file():
 
     A Python installed from python.org brings no certificates of its
     own, and every download then fails with CERTIFICATE_VERIFY_FAILED.
-    certifi is the bundle; it is already on disc wherever pip has run
-    once, and it is installed if it is not.
     """
     import importlib
     certifi = _really_there("certifi")
@@ -198,8 +176,7 @@ def certificate_file():
 def https_context():
     """An SSL context that can verify, not the default one.
 
-    The default context trusts whatever this Python was handed on
-    the way in, and this one was handed nothing.
+    A python.org build was handed no certificates at all.
     """
     import ssl
     bundle = certificate_file()
@@ -213,25 +190,22 @@ def https_context():
 def manager_folders():
     """Where a package manager on this system usually leaves a program.
 
-    Started from the Dock or the Finder rather than from a terminal, a
-    program inherits almost no search path, so an ffmpeg a manager
-    installed is out of reach although it is on the disc. Whether these
-    are really there is not asked here; the caller drops the rest.
+    Started from the Dock or the Finder, a program inherits almost no
+    search path, so an ffmpeg a manager installed is out of reach.
     """
     if sys.platform == "darwin":
         # Homebrew on Apple silicon, Homebrew on Intel, MacPorts.
         return ["/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin"]
     if sys.platform == "win32":
-        # Chocolatey, Scoop, winget -- none of the three is on the
-        # path of a program somebody double-clicked.
+        # Chocolatey, Scoop, winget -- none is on a clicked path.
         home = os.path.expanduser("~")
         data = os.environ.get("ProgramData") or "C:\\ProgramData"
         local = os.environ.get("LOCALAPPDATA") or home
         return [os.path.join(data, "chocolatey", "bin"),
                 os.path.join(home, "scoop", "shims"),
                 os.path.join(local, "Microsoft", "WindowsApps")]
-    # A build installed by hand, snap, and what pip and pipx write for
-    # one user. Homebrew on Apple silicon has no business here.
+    # By hand, snap, and what pip and pipx write for one user.
+    # Homebrew on Apple silicon has no business here.
     return ["/usr/local/bin", "/snap/bin",
             os.path.expanduser("~/.local/bin")]
 
@@ -239,35 +213,28 @@ def manager_folders():
 def find_required_tools():
     """Locate ffmpeg and ffprobe, and check they are new enough.
 
-    soxr is no part of it: a build without soxr takes the clock drift
-    out a hundred times more coarsely, and coarser is not broken --
-    rate_filter_chain says so once where it matters. Returns ("", "")
-    where all is well, else which of "missing" and "old" it is and the
-    sentence for it. Nothing is printed here: whether a console or the
-    window will show it is not yet known.
+    soxr is no part of it: without it the clock drift comes out a
+    hundred times coarser, and coarser is not broken. Returns ("", "")
+    where all is well, else "missing" or "old" and the sentence for it.
+    Nothing is printed: console or window is not yet known.
     """
-    # Beside the program and not beside this piece: the two are
-    # different folders, and what somebody laid next to the
-    # program lies in the first of them.
+    # Beside the program and not beside this piece: what somebody laid
+    # next to the program lies in the first of the two folders.
     here = os.path.dirname(os.path.abspath(PROGRAM.__file__))
-    # A build this program fetched goes in front of the search path,
-    # not behind it. Behind it, a distribution's ffmpeg 6.1.1 would
-    # keep answering and the fetched 9.0.1 would never be reached.
-    # Nothing lies in that folder that this program did not put there.
+    # A build this program fetched goes in front of the search path:
+    # behind it a distribution's ffmpeg 6.1.1 would keep answering.
     ours = tools_folder()
     was = os.environ.get("PATH", "")
     if ours and shutil.which("ffmpeg", path=ours) \
             and ours not in was.split(os.pathsep):
         os.environ["PATH"] = ours + os.pathsep + was
-    # Behind the search path and never in front of it: whoever has an
-    # ffmpeg on the path keeps that one. Only folders that are there
-    # go in, or the path grows by three at every start.
+    # Behind the search path, never in front: whoever has an ffmpeg on
+    # the path keeps it. Only folders that are there go in.
     path = os.environ.get("PATH", "")
     known = path.split(os.pathsep)
     # A test that has to act as though no ffmpeg lay anywhere sets
-    # VPM_NO_MANAGER_PATH: an empty search path is no longer empty on a
-    # machine where a manager has installed one. Nothing else reads it,
-    # and the program never sets it itself.
+    # VPM_NO_MANAGER_PATH: an empty search path is not empty on a
+    # machine where a manager installed one. The program never sets it.
     look_in = [] if os.environ.get("VPM_NO_MANAGER_PATH") \
         else manager_folders()
     more = [one for one in look_in
@@ -289,21 +256,16 @@ def find_required_tools():
     return "", ""
 
 
-
 def tools_repaired(kind, says, asked=False):
     """Say what is wrong with ffmpeg, offer the repair, report what is left.
 
     True where the tools are good afterwards. Everything is said with
-    print, so it lands wherever this run shows its output -- the console
-    where somebody typed a command line, the log where nobody is
-    sitting. *asked* says the question has already been put somewhere
-    else, so it is not put a second time.
+    print, so it lands wherever this run shows its output. *asked* says
+    the question was already put somewhere else.
     """
     print(PROGRAM.as_warn(says))
     if install_ffmpeg(update=kind != "missing", asked=asked):
-        # Asked again, not taken on trust: a package manager can report
-        # success having just laid down an ffmpeg that is still too old
-        # for this.
+        # Asked again: a manager reports success on a too-old ffmpeg.
         forget_soxr()
         kind, says = find_required_tools()
         if not kind:
@@ -320,29 +282,24 @@ def tools_repaired(kind, says, asked=False):
 # question was already asked here, in this program's own wording.
 QUIET_MANAGER = {
     # Homebrew reads NONINTERACTIVE the way its own installer does. Its
-    # update is deliberately left on: it costs minutes, but without it
-    # the install runs off a stale formula index and fails on a
-    # dependency that has since moved.
+    # update is left on: without it the install runs off a stale index.
     "brew": {"NONINTERACTIVE": "1", "HOMEBREW_NO_ENV_HINTS": "1"},
     # Without this apt opens full-screen dialogs of its own.
     "apt-get": {"DEBIAN_FRONTEND": "noninteractive"},
 }
 
 
-# Measured 4.9.2026: homebrew/core builds ffmpeg without soxr in every
-# version there is, and only this tap has libsoxr, by name. It has no
-# bottle, so the button compiles: two to three minutes, and the price
-# of the fine clock correction where nothing can be fetched instead.
+# homebrew/core builds ffmpeg without soxr in every version there is,
+# and only this tap has libsoxr. It has no bottle, so the button
+# compiles: two to three minutes for the fine clock correction.
 BREW_FFMPEG = ("homebrew-ffmpeg/ffmpeg/ffmpeg", "--with-libsoxr")
 
 
 def brew_ffmpeg_from_elsewhere():
     """True where a brew ffmpeg from another tap is standing in the way.
 
-    Measured 4.9.2026: with homebrew/core's ffmpeg installed, brew
-    refuses the tap outright and names uninstalling as the way. So it
-    is asked rather than guessed, out of the keg's own receipt -- a
-    file answers at once and brew takes seconds.
+    With homebrew/core's ffmpeg installed, brew refuses the tap
+    outright. Asked out of the keg's receipt: a file answers at once.
     """
     brew = shutil.which("brew")
     if not brew:
@@ -359,9 +316,7 @@ def brew_ffmpeg_from_elsewhere():
                       "rb") as f:
                 came = json.loads(f.read().decode("utf-8"))
         except (OSError, ValueError, UnicodeDecodeError):
-            # A keg whose receipt cannot be read is still a keg in the
-            # way, and brew will say so. Better to make room for
-            # nothing than to run a command that cannot work.
+            # An unreadable receipt is still a keg in the way.
             return True
         if (came.get("source") or {}).get("tap") != "homebrew-ffmpeg/ffmpeg":
             return True
@@ -373,25 +328,19 @@ def package_manager_command(update=False):
 
     The first manager found, each with the switch that stops it asking
     again, on Linux with sudo unless the run is root already. *update*
-    asks for the other command, for tools that are there and wrong:
-    told to install what is already there a manager answers "already
-    installed" and does nothing, and building it again is what puts a
-    missing option in.
+    asks for the other command: told to install what is already there a
+    manager does nothing, and building again is what puts an option in.
     """
     if sys.platform == "darwin":
         if shutil.which("brew"):
-            # --yes is brew's own, and NONINTERACTIVE no longer
-            # covers the confirmation. Building again is only that
-            # where the tap's own build is installed: anything else
-            # is taken out of the way, and then there is nothing left.
+            # --yes is brew's own; NONINTERACTIVE no longer covers the
+            # confirmation. Rebuild only where the tap's build is in.
             if update and not brew_ffmpeg_from_elsewhere():
                 return ("brew", "reinstall", "--yes") + BREW_FFMPEG
             return ("brew", "install", "--yes") + BREW_FFMPEG
         return ()
     if sys.platform == "win32":
-        # No manager here. What Windows gets instead is a built ffmpeg
-        # fetched by install_ffmpeg, which is the door both roads go
-        # through.
+        # No manager here; install_ffmpeg fetches a built one instead.
         return ()
     for tool, rest, lift in (
             ("apt-get", ("install", "-y", "ffmpeg"),
@@ -423,10 +372,8 @@ def manager_environment(command):
     return clean
 
 
-# What a package manager says just before it goes quiet: "==> " and
-# the command it is about to run. brew then writes that command's own
-# output into a log file and prints nothing at all until it is over --
-# read out of Homebrew 6.0.21, Formula#system.
+# What a package manager says just before it goes quiet: "==> " and the
+# command it runs. brew then writes its output into a log (Formula#system).
 BUILD_TOOLS = ("configure", "make", "gmake", "cmake", "meson", "ninja",
                "cargo", "autoreconf", "bootstrap")
 
@@ -434,9 +381,7 @@ BUILD_TOOLS = ("configure", "make", "gmake", "cmake", "meson", "ninja",
 def build_begins(line):
     """True where this line is a package manager starting to compile.
 
-    The one line worth hanging a sentence on, because the silence
-    starts under it. Fetching and pouring look much the same and are
-    over in seconds, so only the build commands count.
+    The silence starts under this line, and only build commands count.
     """
     words = line.strip().split()
     if len(words) < 2 or words[0] != "==>":
@@ -447,12 +392,10 @@ def build_begins(line):
 def sign_of_life(line, mark, every=5.0):
     """Keep the pane moving while the package manager says nothing.
 
-    Measured on the build logs of one ffmpeg: 36 and 34 seconds
-    without a single line on a fast Mac, and an older machine takes a
-    multiple of that. So the movement comes from here -- a dot every
-    few seconds -- while the sentence that says what is happening
-    hangs on the manager's own first build line. Hands back the sink
-    to give the manager, and the way to stop the dots.
+    A build log goes 36 seconds without a line on a fast Mac and a
+    multiple of that on an older one, so the movement comes from here.
+    The sentence that says what is happening hangs on the manager's own
+    first build line. Hands back the sink, and the way to stop the dots.
     """
     seen = [time.time()]
     dotted = [False]
@@ -499,17 +442,14 @@ def sign_of_life(line, mark, every=5.0):
 def run_watched(command, env=None, say=None, started=None):
     """Run a command and hand out what it says while it says it.
 
-    A package manager's own output is the only sign that anything is
-    happening, so stderr is folded into stdout and each line goes out
-    as it arrives -- newline and all, because the window's pane breaks
-    its blocks on those. *started* is handed the process, so whoever
-    asked can reach it. Returns the exit code, or None where the
-    command could not be started at all.
+    A manager's own output is the only sign anything is happening, so
+    stderr is folded into stdout and each line goes out as it arrives
+    -- newline and all, because the pane breaks its blocks on those.
+    Returns the exit code, or None where it could not be started.
     """
-    # Nothing is piped where nobody is listening, and that is not
-    # laziness: a pipe would also take sudo's password prompt, which
-    # carries no newline and would sit unseen in a buffer while the
-    # terminal waits for a password nobody has been asked for.
+    # Nothing is piped where nobody is listening: a pipe would also
+    # take sudo's password prompt, which carries no newline and would
+    # sit unseen in a buffer while the terminal waits for it.
     piped = ({"stdout": subprocess.PIPE, "stderr": subprocess.STDOUT,
               "bufsize": 1, "universal_newlines": True,
               "errors": "replace"} if say else {})
@@ -526,9 +466,7 @@ def run_watched(command, env=None, say=None, started=None):
                 say(line)
             child.stdout.close()
         except Exception as e:
-            # A pipe that breaks mid-command is worth a line: silence
-            # here reads as a command that said nothing. The handle is
-            # left to be collected -- closing it is what just failed.
+            # Silence here would read as a command that said nothing.
             say(T('  That did not work: %s') % e)
     return child.wait()
 
@@ -539,10 +477,8 @@ def install_over_package_manager(update=False, asked=False, say=None,
 
     True when ffmpeg was installed. Asked only where somebody can
     answer: a window started from the desktop has no console, and a
-    question nobody sees would hang the start for good. *asked* says
-    it was already put in the window. *say* takes every line, the
-    program's own and the manager's; without one they go to print,
-    which is where a command line shows its output.
+    question nobody sees would hang the start for good. *say* takes
+    every line; without one they go to print.
     """
     tell = (lambda text: say(text + "\n")) if say else print
     if os.environ.get("VPM_SILENT"):
@@ -551,14 +487,11 @@ def install_over_package_manager(update=False, asked=False, say=None,
         return False
     command = package_manager_command(update)
     if not command:
-        # Windows has no manager, and a Mac without brew has none
-        # either. install_ffmpeg goes on from here.
+        # No manager here; install_ffmpeg goes on from this point.
         return False
     printed = " ".join(command)
     if INSTALL_TOOLS or asked:
-        # VPM_INSTALL_TOOLS: whoever set it has answered in advance.
-        # For a test, a build machine, anything with nobody in front
-        # of it -- and it still says what it is doing.
+        # VPM_INSTALL_TOOLS: whoever set it answered in advance.
         tell(T('  Installing it: %s') % printed)
     elif not sys.stdin.isatty():
         tell(T('  On this machine: %s') % printed)
@@ -569,9 +502,8 @@ def install_over_package_manager(update=False, asked=False, say=None,
         if answer and not answer.startswith(("y", "j")):
             return False
     if command[0] == "brew" and brew_ffmpeg_from_elsewhere():
-        # Room first, or brew refuses the tap outright. Said out loud,
-        # because for a moment afterwards this machine has no ffmpeg at
-        # all and somebody reading the pane should know why.
+        # Room first, or brew refuses the tap. Said out loud: for a
+        # moment afterwards this machine has no ffmpeg at all.
         room = ("brew", "uninstall", "--ignore-dependencies", "ffmpeg")
         tell(T('  Taking the ffmpeg that is there out of the way first: '
                '%s') % " ".join(room))
@@ -605,8 +537,7 @@ def open_page(url):
 def open_ffmpeg_page():
     """Offer to open ffmpeg.org. The last way out where nothing else works.
 
-    Always False: a download in a browser is not finished when this
-    returns, so the run cannot go on as though ffmpeg were there.
+    Always False: a browser download is not done when this returns.
     """
     if INSTALL_TOOLS or not sys.stdin.isatty():
         return False
@@ -621,14 +552,12 @@ def open_ffmpeg_page():
 
 
 # Where a built ffmpeg comes from for the two systems that compile
-# none. Measured 4.9.2026 by fetching both archives and reading the
-# configure line out of the binary: win64 and linux64 are both
-# n9.0.1-11-ge47273f4d9, both carry --enable-libsoxr, 121 and 161 MB.
+# none. win64 and linux64 are both n9.0.1-11-ge47273f4d9, both carry
+# --enable-libsoxr, 121 and 161 MB.
 
 # "latest" is a moving tag on the 9.0 line, so what arrived is asked
-# afterwards rather than promised here, and no size goes into a text.
-# Every archive is named the same way: the line, the machine, the
-# licence, the line again, the kind of archive.
+# afterwards rather than promised here. Name: line, machine, licence,
+# line, kind of archive.
 FFMPEG_BUILD_PLACE = ("https://github.com/BtbN/FFmpeg-Builds/releases"
                       "/download/latest/ffmpeg-n9.0-latest-%s-gpl-9.0.%s")
 
@@ -636,11 +565,9 @@ FFMPEG_BUILD_PLACE = ("https://github.com/BtbN/FFmpeg-Builds/releases"
 def ffmpeg_build_url():
     """Where the built ffmpeg for this machine is, or "".
 
-    macOS gets none on purpose. There is no native arm64 build to
-    fetch, and this program does not run under Rosetta -- so a Mac
-    compiles its own out of the tap, which is what BREW_FFMPEG is for.
-    A 32-bit machine gets none either: there is no build for one, and
-    a name that answers nothing is worse than no name.
+    macOS gets none on purpose: there is no native arm64 build and this
+    program does not run under Rosetta, so a Mac compiles its own out
+    of the tap. A 32-bit machine gets none either: there is no build.
     """
     arch = platform.machine().lower()
     arm = arch.startswith("arm") or arch == "aarch64"
@@ -657,8 +584,7 @@ def ffmpeg_build_url():
 def ffmpeg_can_be_had():
     """True where this machine has a way of getting ffmpeg at all.
 
-    A package manager, or a built one to fetch. Where neither answers
-    there is no button to press, only a sentence saying where to look.
+    A package manager, or a built one to fetch; else no button at all.
     """
     return bool(package_manager_command() or ffmpeg_build_url())
 
@@ -666,9 +592,7 @@ def ffmpeg_can_be_had():
 def fetch_archive(url, where, say=None):
     """Fetch that address into that file. "" when it arrived.
 
-    The one place in this road that opens a connection, so a test
-    replaces this one function and then measures what the program does
-    with the answer instead of the weather.
+    The one place that opens a connection, so a test can replace it.
     """
     import urllib.request
     said = 0
@@ -682,9 +606,8 @@ def fetch_archive(url, where, say=None):
                     if not block:
                         break
                     out.write(block)
-                    # Every ten of them, not every block: the pane
-                    # breaks its blocks on newlines, and a line per
-                    # block would be a hundred and fifty of them.
+                    # Every ten of them: the pane breaks on newlines,
+                    # and a line per block would be a hundred and fifty.
                     if say and out.tell() - said >= 10 << 20:
                         said = out.tell()
                         say(T('  %s of %s MB')
@@ -735,10 +658,8 @@ def unpack_tools(archive, folder):
 def fetch_ffmpeg_build(asked=False, say=None):
     """Fetch a built ffmpeg into this program's own folder. True if it came.
 
-    Windows and Linux go this way: Windows has no package manager to
-    ask, and what a distribution's manager holds is under the floor --
-    Ubuntu 24.04 carries 6.1.1. macOS never comes here; it builds its
-    own out of the tap.
+    Windows and Linux go this way: Windows has no manager to ask, and a
+    distribution's is under the floor -- Ubuntu 24.04 carries 6.1.1.
     """
     tell = (lambda text: say(text + "\n")) if say else print
     if os.environ.get("VPM_SILENT"):
@@ -779,8 +700,7 @@ def fetch_ffmpeg_build(asked=False, say=None):
              % number_text(came, 0))
         return False
     # In front of the search path, so the fetched one answers rather
-    # than whatever the system had. find_required_tools does the same
-    # on the next start; this makes it true within this run as well.
+    # than whatever the system had. Next start: find_required_tools.
     if folder not in os.environ.get("PATH", "").split(os.pathsep):
         os.environ["PATH"] = folder + os.pathsep + os.environ.get("PATH", "")
     forget_soxr()
@@ -791,11 +711,9 @@ def fetch_ffmpeg_build(asked=False, say=None):
 def install_ffmpeg(update=False, asked=False, say=None, started=None):
     """Get an ffmpeg, whichever way this machine has. True when it came.
 
-    The one door, and the order in it is the point. The package
-    manager first, because on some systems it is already right and it
-    is the tidier answer where it is. Then the tools are asked again --
-    a manager can report success having laid down 6.1.1 -- and only
-    where that is still not enough is a built one fetched.
+    The one door, and the order in it is the point: the package manager
+    first, then the tools asked again -- a manager can report success
+    having laid down 6.1.1 -- and only then a built one fetched.
     """
     if install_over_package_manager(update=update, asked=asked,
                                    say=say, started=started):
@@ -808,9 +726,7 @@ def install_ffmpeg(update=False, asked=False, say=None, started=None):
 def how_to_get_ffmpeg(update=False):
     """The advice for the machine in hand, in one sentence.
 
-    One place, three readers -- the console, the box on the window and
-    the job behind its button -- so none of the three can say something
-    the other two do not.
+    One place for three readers, so none can say what the others do not.
     """
     command = " ".join(package_manager_command(update))
     if command:
@@ -829,9 +745,8 @@ def how_to_get_ffmpeg(update=False):
 def soxr_note():
     """What this ffmpeg does to the clock drift, in one sentence.
 
-    Said, never demanded. Without soxr the drift between two cameras
-    comes out in steps of 21 ppm instead of 0.21 -- a hundred times
-    coarser, and coarser is not broken.
+    Said, never demanded. Without soxr the drift comes out in steps of
+    21 ppm instead of 0.21, which is coarser but not broken.
     """
     if soxr_available():
         return T('This ffmpeg has soxr: the clock drift between cameras '
@@ -840,10 +755,9 @@ def soxr_note():
              'comes out in steps of 21 ppm instead of 0.21.')
 
 
-# The API key lives in the OS credential store -- macOS keychain, Windows
-# registry under HKEY_CURRENT_USER -- both owned by the logged-in user.
-# Never in a file: the script gets copied around, and a plaintext key would
-# travel with it. All three names of the place stand here, and only here.
+# The API key lives in the OS credential store -- macOS keychain,
+# Windows registry under HKEY_CURRENT_USER. Never in a file: the script
+# gets copied around. All three names of the place stand only here.
 KEY_STORE_REAL = ("videopodcast-magic", "auphonic",
                   r"Software\videopodcast-magic")
 KEY_SERVICE, KEY_ACCOUNT, REG_PATH = KEY_STORE_REAL
@@ -854,10 +768,9 @@ def key_store_off_limits():
 
     A test run marks itself with VPM_SILENT, and a test with business
     in the store points KEY_SERVICE, KEY_ACCOUNT or REG_PATH at a
-    throwaway name first. One that forgets would overwrite the key
-    this machine really uses, so the store refuses rather than every
-    test file having to remember. Reading is refused with writing: a
-    test that reads the key prints it in a failure line.
+    throwaway name first. One that forgets would overwrite the key this
+    machine really uses, so the store refuses. Reading is refused with
+    writing: a test that reads the key prints it in a failure line.
     """
     if not os.environ.get("VPM_SILENT"):
         return False
@@ -868,21 +781,17 @@ def store_api_key(key):
     """Store the API key in the OS credential store. True on success.
 
     On a Mac the key goes to "security" over its input, never as an
-    argument that would stand in the process list. "security" needs a
-    session of its own -- it prompts on /dev/tty -- and the word is sent
-    twice, because it asks once and once to confirm.
+    argument that would stand in the process list. It needs a session
+    of its own, and the word is sent twice because it asks to confirm.
     """
     forget_api_key()   # or the old one would still answer
     if key_store_off_limits():
         return False
     # Looked at first: a locked keychain leaves "security" standing for
-    # its whole limit, and twenty seconds of a frozen window say less
-    # than a sentence naming the lock.
+    # its whole limit, and a frozen window says less than the lock does.
     if key_store_locked():
         return False
-    # A pasted key carries blanks and a newline more often than not, and
-    # it goes down the pipe as a line -- so it is made one before it
-    # goes. The store takes the edges off on the way back regardless.
+    # A pasted key carries blanks and a newline, and goes as a line.
     key = key.strip()
     if sys.platform == "darwin":
         where = ["-s", KEY_SERVICE, "-a", KEY_ACCOUNT]
@@ -895,10 +804,9 @@ def store_api_key(key):
         except OSError:
             return False              # no "security" on this machine
         except subprocess.TimeoutExpired:
-            # A locked keychain leaves the question standing. There is no
-            # second way round: handing the key over as an argument would
-            # put it in the process list, where every user of the machine
-            # can read it.
+            # A locked keychain leaves the question standing. Handing
+            # the key over as an argument instead would put it in the
+            # process list, where every user of the machine reads it.
             return False
         return p.returncode == 0 and load_api_key() == key
     if os.name == "nt":
@@ -913,9 +821,8 @@ def store_api_key(key):
 
 
 # Whether the keychain is open, read out of the library every Mac
-# carries. If Apple ever withdraws SecKeychainGetStatus, the way back is
-# not the modern item query -- that answers the same whether the store is
-# shut or empty -- but to ask nothing and say why a save failed.
+# carries. If SecKeychainGetStatus goes, ask nothing: the item query
+# answers alike whether the store is shut or empty.
 SECURITY_LIBRARY = "/System/Library/Frameworks/Security.framework/Security"
 KEYCHAIN_IS_OPEN = 1          # the bit that stands for "not locked"
 
@@ -923,10 +830,8 @@ KEYCHAIN_IS_OPEN = 1          # the bit that stands for "not locked"
 def key_store_locked():
     """Say whether the macOS keychain is locked: True, False or None.
 
-    None where the question was not put: not a Mac, or the library did
-    not answer. It asks the user nothing and starts nothing -- the
-    command-line way puts a password window on the screen, which is the
-    one thing a question asked twice a second must not do.
+    None where the question was not put. It asks nothing and starts
+    nothing -- the command-line way puts a password window up.
     """
     if sys.platform != "darwin":
         return None
@@ -936,8 +841,7 @@ def key_store_locked():
         failed = library.SecKeychainGetStatus(None, ctypes.byref(bits))
     except (OSError, AttributeError):
         # Nothing said here: unknown leaves the button live, and a save
-        # that then fails says what happened once, instead of this line
-        # saying it twice a second.
+        # that then fails says what happened once, not every tick.
         return None
     return None if failed else not bits.value & KEYCHAIN_IS_OPEN
 
@@ -945,9 +849,7 @@ def key_store_locked():
 def open_key_store_app():
     """Bring up the app that unlocks the keychain. True if it started.
 
-    By its bundle name and not by a path: the app has moved between
-    system folders, so a path written down here is a guess about where
-    it will be kept next.
+    By bundle name, not by a path: the app moves between folders.
     """
     if sys.platform != "darwin":
         return False
@@ -977,9 +879,7 @@ def key_store_trouble():
 
 
 # What the key store last said: every ask is a process, and drawing the
-# settings sheet asks several times over. The key is in memory the
-# moment it is read at all, so this puts it nowhere new; storing or
-# deleting it empties this again.
+# settings sheet asks several times over. Storing or deleting empties it.
 _API_KEY = {}
 
 
@@ -990,10 +890,8 @@ def forget_api_key():
 
 def load_api_key():
     """Read the stored API key, or "" if there is none."""
-    # Keyed on the place it is kept, not just on the machine: the place
-    # is fixed in a run but not in a test, which points the store at a
-    # throwaway name and asks again. All three names are in the key --
-    # on a Mac the registry path decides nothing.
+    # Keyed on the place it is kept, not just the machine: a test
+    # points the store at a throwaway name and asks again.
     where = (sys.platform, KEY_SERVICE, KEY_ACCOUNT, REG_PATH)
     if where not in _API_KEY:
         _API_KEY[where] = _ask_key_store()
@@ -1007,9 +905,8 @@ def _ask_key_store():
     if sys.platform == "darwin":
         try:
             # A limit for the same reason the write has one: a locked
-            # keychain can leave "security" waiting, and a window that
-            # waits for good is worse than a key that is not found. The
-            # empty input keeps it off this program's own standard input.
+            # keychain can leave "security" waiting for good. The empty
+            # input keeps it off this program's standard input.
             p = subprocess.run(
                 ["security", "find-generic-password", "-s", KEY_SERVICE,
                  "-a", KEY_ACCOUNT, "-w"],
@@ -1033,15 +930,14 @@ def _ask_key_store():
 def delete_api_key():
     """Take the key out of the OS credential store. True if one went.
 
-    The same three guards as the write, and for the same reason: this
-    hangs off a click on a checkbox, where nothing catches a fault, and
-    a locked keychain can leave "security" waiting on a question.
+    The same guards as the write: this hangs off a click on a checkbox,
+    and a locked keychain can leave "security" waiting.
     """
     forget_api_key()
     if key_store_off_limits():
         return False
-    # Unticking the box lands here, and it lands here again the moment a
-    # failed write puts the tick back -- so the same look as the write.
+    # Unticking lands here, and again when a failed write puts the tick
+    # back -- so the same look before it as the write has.
     if key_store_locked():
         return False
     if sys.platform == "darwin":
@@ -1069,21 +965,16 @@ def _pip_install(*packages):
     """Ask, then run pip. False where the answer is no.
 
     Nothing is installed unasked: this writes into a Python other
-    things use. The question sits in this one place, so no caller
-    can skip it.
-
-    Plain and --user, no third: --break-system-packages defeats the
-    barrier a system puts up against exactly this.
+    things use. Plain and --user, no third: --break-system-packages
+    defeats the barrier a system puts up against exactly this.
     """
     printed = " ".join(packages)
     if INSTALL_TOOLS:
         # VPM_INSTALL_TOOLS: whoever set it has answered in advance.
         print(T('  Installing it: pip install %s') % printed)
     elif not sys.stdin.isatty():
-        # Nobody to answer, so nothing is asked and nothing is said:
-        # the caller knows what it wanted and says that in its own
-        # words. A question printed where it cannot be answered is
-        # noise on every start.
+        # Nobody to answer, so nothing is asked and nothing is said: a
+        # question where it cannot be answered is noise on every start.
         return False
     else:
         print(T('  %s would be installed into this Python: %s')
@@ -1101,10 +992,9 @@ def _pip_install(*packages):
     last = ""
     for extra_text in ([], ["--user"]):
         try:
-            # stdout stays visible: PySide6 is a download of a few
-            # hundred megabytes, and silence for that long looks like a
-            # hang. stderr is captured because a rejected attempt is
-            # followed by the next one.
+            # stdout stays visible: PySide6 is a few hundred megabytes
+            # and silence that long looks like a hang. stderr is caught
+            # because a rejected attempt is followed by the next.
             p = subprocess.run([sys.executable, "-m", "pip", "install"]
                                + extra_text + list(packages),
                                stderr=subprocess.PIPE, env=clean)
@@ -1113,8 +1003,7 @@ def _pip_install(*packages):
         if p.returncode == 0:
             return True
         last = (p.stderr or b"").decode("utf-8", "replace").strip()
-    # Why it failed, not just that it did. Without this the advice below
-    # is the same command again, and it fails the same way again.
+    # Why it failed: else the advice below is the same command again.
     for line in last.splitlines()[-4:]:
         print("    %s" % line)
     return False
@@ -1123,18 +1012,15 @@ def _pip_install(*packages):
 def _really_there(module):
     """Import a module, or None -- and a hollow one counts as missing.
 
-    pip leaves a package's __pycache__ folder behind on uninstall, and
-    Python reads it as a namespace package: the import succeeds and the
-    module is empty. Taken for the real package it fails much later,
-    somewhere that says nothing about the cause.
+    pip leaves a package's __pycache__ behind on uninstall and Python
+    reads it as a namespace package: the import succeeds, empty.
     """
     import importlib
     try:
         got = importlib.import_module(module)
     except ImportError:
         return None
-    # A namespace package -- what the empty folder reads as -- has no
-    # origin. A real module names the file it was read from.
+    # A namespace package has no origin; a real module names its file.
     spec = got.__spec__
     return got if spec is not None and spec.origin else None
 
@@ -1149,9 +1035,7 @@ def _require_module(module, package=None):
     if got is not None:
         return got
     pkg = package or module
-    # Not "installing it": the install is asked for below and may be
-    # refused, and a line that promises what has not been decided is
-    # worse than one that only says what is known.
+    # Not "installing it": the install below may still be refused.
     print(T('%s is missing. The first time it takes a few minutes.') % pkg)
     if _pip_install(pkg):
         importlib.invalidate_caches()

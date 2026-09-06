@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
 """The order a run is given: out of the window, and read back off the line.
 
-slider_argv and run_argv write what the window holds as a command
-line; build_argument_parser reads one back. Two sections, below.
-
-A piece of the program, read out of the folder beside the way in by
-beside(). It cannot import the file it was cut out of, so the program
-is handed in and every name used out of it is bound below, by name.
+slider_argv and run_argv write what the window holds as a command line;
+build_argument_parser reads one back. A piece of the program, read in
+by beside(): the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# order reads as it did in the window. Not one of them is a name the
-# program binds again while it runs -- such a name is read through
-# PROGRAM. where it is used, and there is none of that sort in here.
+# Bound above the seam, so the order reads as it did in the window.
+# Not one is a name the program binds again while it runs.
 CUT_CHOICES = PROGRAM.CUT_CHOICES
 CUT_FIELDS = PROGRAM.CUT_FIELDS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -45,19 +39,15 @@ separation_has_voices = PROGRAM.separation_has_voices
 
 #--------------------------------------- Out of the window into an order
 # What the window holds, written as the command line a run is given.
-# Nothing here is Qt: plain values in, a list of strings out, and the
-# whole of it testable without opening a window.
+# Nothing here is Qt: plain values in, a list of strings out.
 
 
 def slider_numbers(values):
     """Read the cut sliders as numbers.
 
-    An empty field means the default and a comma means a decimal point --
-    typing "1,2" means 1.2 and should not produce an error.
-
-    Returns ({field: (text, number)}, the first field that is not a number, or
-    None). The text comes back too because the command line passes it on
-    unchanged and the message quotes it.
+    An empty field means the default and a comma a decimal point: "1,2"
+    means 1.2. Returns ({field: (text, number)}, the first field that is
+    not a number, or None); the text comes back because a message quotes it.
     """
     out = {}
     for api_key, _b, default_value, _e, _k, _l in CUT_FIELDS:
@@ -73,10 +63,9 @@ def slider_numbers(values):
 def voices_of_values(values):
     """Name -> camera file, out of what the interface holds.
 
-    The window knows a camera by the name of its file; the run wants
-    the file. A voice set to "no camera of its own" or left out is not
-    in the answer -- it keeps its name in the markers and takes no
-    picture.
+    The window knows a camera by the name of its file; the run wants the
+    file. A voice set to "no camera of its own" or left out is not in
+    the answer -- it keeps its name in the markers and takes no picture.
     """
     where = {}
     for cam in (values.get("cameras") or ()):
@@ -97,8 +86,8 @@ def voices_of_values(values):
 def slider_argv(values):
     """Return the cut sliders as command line switches.
 
-    Returns (switch list, the first field that is not a number, or None). The
-    switches for the fields before the bad one are already in the list.
+    Returns (switch list, the first field that is not a number, or None).
+    The switches for the fields before the bad one are already in it.
     """
     numbers, bad = slider_numbers(values)
     out = []
@@ -116,9 +105,7 @@ def slider_argv(values):
 def run_argv(values, assignment_file_path=""):
     """Build the command line from what the interface holds.
 
-    This part has nothing to do with Qt: a dict of plain values goes in, a
-    list of strings comes out. It decides what a run does, and can be
-    tested without opening a window.
+    Nothing here is Qt: a dict of plain values in, a list of strings out.
 
     Returns (argv, plan, messages)
 
@@ -128,9 +115,8 @@ def run_argv(values, assignment_file_path=""):
                 interface should present them. "error" means show and
                 abort, "question" means ask and abort on no.
 
-    The order matters: first the query about camera audio, then the checks on
-    the assignment, then the key. Answering the first query with no means the
-    later messages are never seen.
+    The order matters: the query about camera audio first, then the
+    checks on the assignment, then the key.
     """
     messages = []
 
@@ -140,12 +126,10 @@ def run_argv(values, assignment_file_path=""):
 
     files = list(values.get("files") or [])
     clip_kind = dict(values.get("clip_kinds") or {})
-    # Intro and outro are not cameras: they do not go into the file list but
-    # along as their own switch.
+    # Intro and outro are not cameras: they go as their own switch.
     edge = {}
-    # One intro and one outro. Two files of the same kind would go into
-    # the same switch and the last one would silently win, so the run
-    # stops and names the two that are meant.
+    # One intro and one outro. Two of a kind would go into the same
+    # switch and the last would silently win, so the run stops.
     doubled = []
     for file_path, kind in sorted(clip_kind.items()):
         switch = ("--intro" if kind == TYPE_INTRO
@@ -170,36 +154,31 @@ def run_argv(values, assignment_file_path=""):
                                         and p not in off]
     for switch, file_path in sorted(edge.items()):
         argv += [switch, file_path]
-    # The wide shots stay in the file list -- they are cameras, and the
-    # run films, aligns and renders them like any other. The switch
-    # only says that no speaker belongs to them.
+    # The wide shots stay in the file list: they are cameras like any
+    # other, and the switch says only that no speaker belongs to them.
     for file_path in sorted(p for p, a in clip_kind.items()
                             if a == TYPE_WIDE and p not in off):
         argv += ["--wide-shot", file_path]
     if values.get("out_folder"):
         argv += ["--out", values["out_folder"]]
-    # No switch means "take it from the source files", the same as on the
-    # command line. So the entry that adjusts nothing adds nothing here.
+    # No switch means "take it from the source files", as on the line.
     if values.get("lufs") is not None:
         argv += ["--lufs", "%g" % values["lufs"]]
     if (values.get("speech_language") or "").strip():
         argv += ["--speech-language", values["speech_language"].strip()]
-    # Blocks taken out of a recording by hand. Without this the run
-    # searches the folder and joins them up again.
+    # Blocks taken out by hand; without this the run joins them again.
     for p in sorted(values.get("apart") or ()):
         argv += ["--apart", p]
-    # Files put into a recording by hand. The search would not find them
-    # together, so the run has to be told.
+    # Files put into a recording by hand: the search would not find them.
     for group in (values.get("together") or ()):
         if len(group) > 1:
             argv += ["--together"] + list(group)
     if values.get("dry_run"):
         argv += ["--dry-run"]
 
-    # The last net under the window's own mark: a voice whose name is
-    # on somebody else already. Refused and not asked -- to the cut two
-    # voices of one name are one person, and there is nothing sensible
-    # to do with the answer "yes, merge them".
+    # The last net under the window's own mark: a voice whose name is on
+    # somebody else already. Refused and not asked -- to the cut two
+    # voices of one name are one person.
     voices = [(r.get("name") or "").strip()
               for r in (values.get("voices") or ())
               if r.get("camera") != IGNORE_AUDIO
@@ -264,10 +243,9 @@ def run_argv(values, assignment_file_path=""):
                     full = p
                     break
             camera_track = bool(r.get("own_audio"))
-            # Two different things, kept apart: where the audio comes from,
-            # and which camera the speaker is on. For a clip-on microphone
-            # plugged into one camera they need not be the same -- the
-            # person may well be filmed by another one.
+            # Two different things, kept apart: where the audio comes
+            # from, and which camera the speaker is on. A clip-on plugged
+            # into one camera may film a person another one carries.
             source = r.get("from_camera") or ""
             straight = bool(blocks) and os.path.splitext(
                 blocks[0])[1].lower() in VIDEO_SUFFIXES
@@ -279,14 +257,12 @@ def run_argv(values, assignment_file_path=""):
                                             (camera_track and straight))}
             if camera_track or only_video:
                 if not full:
-                    # No camera picked: the track belongs to the one it
-                    # came out of.
+                    # No camera picked: it belongs to the one it came from.
                     entry["camera"] = os.path.abspath(source or (
                         blocks[0] if blocks else ""))
                 entry["from_camera"] = os.path.abspath(
                     source or (blocks[0] if blocks else ""))
-                # What the background thread has already fetched the run
-                # need not fetch again.
+                # What the background thread fetched is not fetched again.
                 if r.get("audio_done"):
                     entry["audio_done"] = r["audio_done"]
             tracks.append(entry)
@@ -308,22 +284,17 @@ def run_argv(values, assignment_file_path=""):
         # in the time of its own file -- the run puts it on the axis.
         if separation_has_voices(values.get("speakers_of")):
             plan["speakers_of"] = values["speakers_of"]
-            # And which camera each voice belongs to. The simple path
-            # has sent this along since it learned to cut; multitrack
-            # never did, so the run knew the voices and not where they
-            # sit.
+            # And which camera each voice belongs to; without it the run
+            # knows the voices and not where they sit.
             plan["voices_of"] = voices_of_values(values)
         argv += ["--multitrack", "--assign", assignment_file_path]
         if values.get("speakers_wanted") is False:
             argv += ["--no-speakers-local"]
     elif separation_has_voices(values.get("speakers_of")) \
             and assignment_file_path:
-        # One track, and the voices in it already told apart. It
-        # travels the way the multitrack path sends it, so the run does
-        # not spend the minutes twice -- and with it which camera each
-        # voice belongs to, which only the window knows. The sliders go
-        # too: since 24.8.2026 this path cuts as well, and numbers that
-        # do not reach the run are numbers that do nothing.
+        # One track, and the voices in it already told apart. It travels
+        # the way the multitrack path sends it, so the run does not spend
+        # the minutes twice -- with the cameras, and with the sliders.
         plan = {"format": FILE_FORMAT,
                 "created_by": "videopodcast-magic %s" % VERSION,
                 "speakers_of": values["speakers_of"],
@@ -334,18 +305,8 @@ def run_argv(values, assignment_file_path=""):
         argv += ["--no-speakers-local"]
 
     # The time window and the cut numbers belong to every run, not only
-    # to the two that carry an assignment file. They hang on no
-    # speaker: In point and Out point are a window over the material,
-    # and docs/simple-path.md promises them to the simple way in so
-    # many words. The cut numbers are what the preview beside them is
-    # computed from, and a preview that is computed from other numbers
-    # than the run uses is worse than none.
-    #
-    # Until 2.10.1-beta these sat inside the two branches above. On the
-    # third way -- no Multitrack, no separation in the window -- In
-    # point, Out point, the numbers, the choices and the wide shot tick
-    # all stayed in the window, the run cut with the built-in defaults,
-    # and nothing said so.
+    # the two that carry an assignment file: In point and Out point are
+    # a window over the material, and the preview is computed from these.
     if (values.get("in_point") or "").strip():
         argv += ["--in-point", values["in_point"].strip()]
     if (values.get("out_point") or "").strip():
@@ -359,10 +320,8 @@ def run_argv(values, assignment_file_path=""):
     if not values.get("wide_at_edges"):
         argv += ["--no-wide-edges"]
 
-    # Finished tracks lie in a folder, and nothing is sent anywhere to
-    # use them. This used to hang inside "if key:", so a run without a
-    # key never saw the folder -- the same lock as on the command line,
-    # found on 23.8.2026 while opening that one.
+    # Finished tracks lie in a folder and nothing is sent anywhere to
+    # use them, so this stands outside "if key:".
     if values.get("done_folder"):
         argv += ["--auphonic-done", values["done_folder"]]
 
@@ -375,8 +334,7 @@ def run_argv(values, assignment_file_path=""):
                 T('Load Presets and pick one, or leave the API Key empty.'))
         argv += ["--auphonic-api-key", key, "--auphonic-preset", selected]
         # Only with a key: without auphonic.com there is nobody to
-        # transcribe, and the switch would promise something that
-        # cannot happen.
+        # transcribe, and the switch would promise what cannot happen.
     elif values.get("multitrack"):
         # No key, no preset: it runs locally. Everything that only
         # auphonic.com can do is missing, and the run says so.
@@ -389,13 +347,9 @@ def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
 
     *assign_lines* are the recording rows, *voice_lines* the voices a
     separation found under one of them, *voiced* the recordings whose
-    voices stand underneath.
-
-    The assignment has exactly one level. Where the voices of a
-    recording stand under it, they carry the camera and the recording
-    does not -- two answers one above the other could say different
-    things about the same camera. Two voices on one camera are one
-    condition and not two; segments_per_camera folds them together.
+    voices stand underneath. Where the voices stand under a recording
+    they carry the camera and the recording does not, or two answers
+    could say different things about the same camera.
     """
     where_to = {}
     for chain, name_value, camera_value in assign_lines:
@@ -412,9 +366,8 @@ def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
 
 
 #---------------------------------------------------- An order read back
-# The same switches the other way about: what a command line may say.
-# slider_argv above writes them and this declares them, both out of
-# CUT_FIELDS and CUT_CHOICES -- one renamed and not the other is red.
+# The same switches the other way about. slider_argv writes them and
+# this declares them, both out of CUT_FIELDS and CUT_CHOICES.
 
 
 def build_argument_parser():
@@ -740,8 +693,7 @@ def build_argument_parser():
                     help="only measure and report, write nothing")
     # A switch that needs several recordings says so, or it would be
     # taken and do nothing. Marked here rather than at the call site:
-    # --help builds its own parser and never reached the old place, so
-    # the mark was set and shown to nobody.
+    # --help builds its own parser and never reaches that one.
     for entry in ap._actions:
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"

@@ -1,21 +1,17 @@
 # -*- coding: utf-8 -*-
 """The preflight: does the material fit together before the long run?
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name.
-run_ffmpeg_with_progress at the end is not checking: it is what the
-long steps run ffmpeg through, and it stands under the same heading.
+A piece of the program, read by beside(). It cannot import the file it
+was cut out of, so the program is handed in and every name used out of
+it is bound below. run_ffmpeg_with_progress at the end does not check:
+it is what the long steps run ffmpeg through.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# checking reads as it did in the one file. Nine names are missing,
-# and the three blocks under the list say which and why.
+# What this piece uses out of the program, bound once. Nine names are
+# missing, and the three blocks under the list say which and why.
 
 ByFile = PROGRAM.ByFile
 CAMERA_MARGIN_S = PROGRAM.CAMERA_MARGIN_S
@@ -68,20 +64,17 @@ timecode_string = PROGRAM.timecode_string
 unwrap_day = PROGRAM.unwrap_day
 write_beside_then_move = PROGRAM.write_beside_then_move
 
-# Six of the ten stand in a piece read after this one: read_preset in
-# the processing -- a circle, because choose_preset over there asks
-# check_preset here -- MATRIX_BT2020 in the project, and caption_room,
-# hint, label and speaks_as in the window. All through PROGRAM.
+# Six stand in a piece read after this one: read_preset in the
+# processing (a circle: choose_preset there asks check_preset here),
+# MATRIX_BT2020 in the project, caption_room, hint, label, speaks_as.
 
-# Three of the ten are bent while the run goes on, and a copy taken here
-# would answer with the value of the run before: set_language rebinds
-# LANG, and the window sets GUI_RUNNING and OUTPUT_SINK on the program
-# object, which is a write the pieces are never told about.
+# Three are bent while the run goes on, and a copy taken here would
+# answer with the run before: set_language rebinds LANG, and the window
+# sets GUI_RUNNING and OUTPUT_SINK on the program object.
 
-# numpy is the tenth, and the one name here that the program has still
-# to fetch: it holds a stand-in until the first sum asks, and binds the
-# real module under its own name then -- which a copy taken up there
-# would never see. So this asks the program once, the same way.
+# numpy is the tenth: the program holds a stand-in until the first sum
+# asks and binds the real module then, which a copy taken up here would
+# never see. So this asks the program instead, the same way.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
 
@@ -95,37 +88,21 @@ class LateNumpy:
 np = LateNumpy()
 
 
-# =====================================================================
-#  Preflight
-#  ---------
-#  Before the first long step begins: does the material fit together?
-#  A two hour run that fails at the end over a detail is more
-#  expensive than a minute of checking -- and a production uploaded to
-#  auphonic.com with the wrong settings costs credit on top.
-#
-#  The report is the same for both modes and is called from one place,
-#  before the fork. What needs several tracks -- the crosstalk -- simply
-#  falls away with one track.
-# =====================================================================
+# Before the first long step: does the material fit together? A two
+# hour run that fails at the end over a detail costs more than a minute
+# of checking, and a wrong upload to auphonic.com costs credit on top.
 
-# How much separation the 3:1 rule asks for: with the other microphone three
-# times as far away as the speaker's own, the neighbouring voice is about 9.5
-# dB quieter -- 20*log10(3). Below that, crosstalk starts to be audible in the
-# mix as a comb filter.
+# How much separation the 3:1 rule asks for: with the other microphone
+# three times as far away as the speaker's own, the neighbouring voice
+# is about 9.5 dB quieter -- 20*log10(3). Below that it combs the mix.
 THREE_TO_ONE_DB = 9.5
-
-# The kind of a video file in the project. Content is a camera like any
-# other; intro and outro are finished clips that are neither aligned nor
-# processed -- they only go into the timeline.
-
 
 class Finding(object):
     """One item from the preflight report.
 
     Four kinds, and the kind decides what happens next: "good" is only
-    counted, "hint" appears in the report, "fixed" says the script
-    fixed it itself, and "abort" stops the run unless --anyway is
-    given.
+    counted, "hint" appears in the report, "fixed" says the script fixed
+    it itself, and "abort" stops the run unless --anyway is given.
     """
 
     def __init__(self, kind, field, text, advice="", file=""):
@@ -133,13 +110,11 @@ class Finding(object):
         self.field = field
         self.text = text
         self.advice = advice
-        # Which file the finding belongs to. Empty means it only arises from
-        # comparing several files. The interface hangs the mark on it; a name
-        # comparison would be too imprecise here.
+        # Which file the finding belongs to; empty means it arises from
+        # comparing several. The interface hangs the mark on it.
         self.file = file
-        # Belongs to a file that does not take part. It is checked anyway -- a
-        # row without a mark looks forgotten -- but its finding does not count
-        # towards the balance and holds nothing up.
+        # A file that does not take part is checked anyway -- a row with
+        # no mark looks forgotten -- but its finding holds nothing up.
         self.set_aside = False
 
     def line(self, width=17):
@@ -149,11 +124,9 @@ class Finding(object):
         return as_warn(out) if self.kind == "abort" else out
 
 
-# What a cached measurement contains changes with the script. This number is
-# part of the fingerprint: raising it makes all old measurements stale and they
-# are taken once more. Without it the interface would show the old result for
-# weeks after an extension.
-#   2  the recording curve from the logs atom was added
+# What a cached measurement holds changes with the program. This number
+# is part of the fingerprint: raising it makes every old measurement
+# stale, and without it the window shows the old result for weeks.
 MEASUREMENT_VERSION = 2
 
 
@@ -161,11 +134,8 @@ def _fingerprint(paths):
     """Return a fingerprint: version, language, path, size and mtime.
 
     A changed file gets a different fingerprint and is measured again.
-    Unchanged, the earlier measurement stands.
-
     The language belongs in it because a stored finding holds its text
-    ready-made. Without it a run in one language would serve the report of
-    the last run in the other.
+    ready-made, and a run in one language would else serve the other's.
     """
     if isinstance(paths, str):
         paths = [paths]
@@ -202,8 +172,6 @@ def cache_read(fingerprint):
     return d
 
 
-
-
 def cache_write(fingerprint, content):
     """Store a measurement so the next run need not repeat it."""
     d = dict(content)
@@ -218,8 +186,7 @@ def clean_preflight_cache(days=30):
     """Discard stale measurements; once per run is enough.
 
     Every entry names the version that wrote it and is refused after an
-    update, so without this the folder keeps a dead layer for every
-    release it has lived through.
+    update, so without this the folder keeps a layer per release.
     """
     clean_old_files(cache_folder("preflight"), days)
 
@@ -237,10 +204,9 @@ def _findings_from_json(raw):
 def measure_cached(file_path, label, measure, fresh=False):
     """Measure *one* file, from the cache or freshly.
 
-    Cached per file, not per selection: in the interface files arrive one
-    after another, and adding the fifth should not wait for the first four
-    to be measured. Returns {"findings": [...], "data": {...}}; the data
-    feeds the comparison across all files.
+    Cached per file, not per selection: adding the fifth must not wait
+    for the first four. Returns {"findings": [...], "data": {...}}, the
+    data feeding the comparison across all files.
     """
     fingerprint = "%s_%s" % (label, _fingerprint(file_path))
     d = None if fresh else cache_read(fingerprint)
@@ -262,26 +228,19 @@ def measure_cached(file_path, label, measure, fresh=False):
 def sample_frame_intervals(file_path, duration, spots=5, window_s=2.0):
     """Sample the intervals between frames at several points in the file.
 
-    Returns one list of intervals in seconds per point. The *packets* are
-    queried, not the frames: a packet is a frame, its timestamp is in the
-    container, and ffprobe decodes nothing for it. On a 4K file that is the
-    difference between a blink and half a minute.
-
-    Read in time windows rather than packet counts: ffprobe always resumes
-    at the keyframe before a seek, and with long groups of pictures a window
-    of 48 packets would still lie entirely before the intended spot. Without
-    this sample only the average would be known, and that looks the same for
-    a variable rate as for a fixed one.
+    Returns one list of intervals in seconds per point. The *packets*
+    are queried, not the frames: ffprobe decodes nothing for a packet,
+    which on a 4K file is a blink against half a minute. In time windows
+    rather than packet counts, because ffprobe resumes at the keyframe
+    before a seek and 48 packets can lie before the spot.
     """
     if not duration or duration <= 0:
         points = [0.0]
     else:
         points = [duration * k / float(spots) for k in range(spots)]
-    # All the points in one call. ffprobe takes a comma separated list of
-    # intervals, and every call is a process: five per file cost nothing
-    # here and 1.8 seconds each on the Windows builder, where starting a
-    # process is the expensive part. Measured 30.8.2026: this test made
-    # 62 of them and took two seconds on this Mac and 126 on the builder.
+    # All the points in one call: every call is a process, and one costs
+    # 1.8 seconds on the Windows builder. 62 of them take two seconds
+    # here and 126 there.
     reading = ",".join("%.3f%%+%.1f" % (t0, window_s) for t0 in points)
     try:
         p = subprocess.run(
@@ -300,15 +259,9 @@ def sample_frame_intervals(file_path, duration, spots=5, window_s=2.0):
             times.append(float(line))
         except ValueError:
             pass
-    # Packets arrive in decoding order, and with H.264 B-frames that is not
-    # display order: the timestamps then jump back and forth. Sort first,
-    # or one measures the codec's picture structure and takes it for a
-    # variable frame rate.
-    #
-    # Sorting also puts the windows back in order, since they do not
-    # overlap: what separates them is a gap of seconds, and the same
-    # test that throws away an interval too long to be one frame is what
-    # cuts one window from the next.
+    # Packets arrive in decoding order, which with H.264 B-frames is not
+    # display order. Sort first, or the codec's picture structure reads
+    # as a variable frame rate. Sorting orders the windows too.
     times.sort()
     out, window = [], []
     for a, b in zip(times, times[1:]):
@@ -327,15 +280,11 @@ def sample_frame_intervals(file_path, duration, spots=5, window_s=2.0):
 def _rate_is_variable(window):
     """Report whether the frame timing varies, and how strongly.
 
-    Two questions, because a single doubled interval means nothing. The
-    sample cuts into the middle of a group of pictures; a frame is then
-    missing at the edge and the interval beside it is exactly twice as
-    large. That is an artefact of sampling, not a variable rate.
-
-    Counted as variable only:
-      * a noticeable share of odd intervals -- ones that are not a whole
-        multiple of the frame duration, or
-      * different frame durations at different points in the file.
+    A single doubled interval means nothing: the sample cuts into a
+    group of pictures, and the interval beside the missing frame is
+    exactly twice as large. Counted as variable only: a noticeable share
+    of intervals that are no whole multiple of the frame duration, or
+    different frame durations at different points in the file.
     """
     if not window:
         return False, 0.0
@@ -354,8 +303,7 @@ def _rate_is_variable(window):
     if not middles or not total:
         return False, 0.0
     odd_share = odd / float(total)
-    # Where the frame duration wanders over the file, the rate is variable,
-    # even if every single interval looks clean on its own.
+    # A frame duration that wanders over the file is a variable rate.
     drift = (max(middles) - min(middles)) / min(middles) if len(middles) > 1\
         else 0.0
     return (odd_share > 0.05 or drift > 0.02,
@@ -365,16 +313,11 @@ def _rate_is_variable(window):
 def inspect_frame_rate(file_path):
     """Report whether the frame rate is fixed or variable, and what it costs.
 
-    Two questions, two routes. *Whether* the intervals between frames vary
-    is what the sample shows. *How far* the file is off over its whole
-    length is in the container: frame count against duration.
-
-    The distinction matters because it decides whether anything needs doing
-    at all. An even deviation -- the file says 30, it is constantly 29.98 --
-    is the same as clock drift in the audio and is compensated during
-    alignment. Only *uneven* frame timing cannot be caught that way: pulling
-    the audio onto the average fits at the start and the end, not in the
-    middle.
+    Two questions, two routes: *whether* the intervals vary is what the
+    sample shows, *how far* the file is off over its length is in the
+    container. An even deviation -- the file says 30, it is constantly
+    29.98 -- is clock drift and is compensated during alignment. Only
+    *uneven* timing cannot be: the average fits the ends, not the middle.
     """
     d = ffprobe_json(file_path)
     v = next((s for s in d.get("streams", [])
@@ -412,8 +355,8 @@ def inspect_frame_rate(file_path):
 def check_camera_file(file_path):
     """Report what the preflight has to say about *one* camera.
 
-    Returns (findings, data). The data is what the comparison across all
-    cameras needs, so no file has to be touched a second time for it.
+    Returns (findings, data), the data being what the comparison across
+    cameras needs, so no file is touched a second time.
     """
     name = os.path.basename(file_path)
     b = inspect_frame_rate(file_path)
@@ -424,10 +367,9 @@ def check_camera_file(file_path):
                       b["codec"] or "?", b["width"] or 0, b["height"] or 0,
                       number_text(b["videos"], 0),
                       as_hms(b["duration"])))]
-    # From when is it worth mentioning? The difference between frame count
-    # times nominal rate and the track duration is a few frames on every camera
-    # and has no consequences -- alignment measures against the camera audio,
-    # not against this number. A whole second is a statement.
+    # A few frames between frame count times nominal rate and the track
+    # duration are on every camera and mean nothing -- alignment measures
+    # the camera audio. A whole second is a statement.
     noticeable = abs(b["offset_s"]) > 1.0
     if b["varies"]:
         out.append(Finding(
@@ -438,9 +380,8 @@ def check_camera_file(file_path):
               'audio. If the sample points spread during alignment as '
               'well, convert to a fixed frame rate.')))
     elif noticeable:
-        # Which way round it runs decides both sentences. Taken as an
-        # amount, a file that runs slower than its label reads as one
-        # that runs faster, and then both halves say the opposite.
+        # Which way round it runs decides both sentences: as an amount,
+        # slower than the label reads as faster and both are wrong.
         quicker = b["offset_s"] < 0
         spare = abs(b["offset_s"]) * b["nominal"]
         out.append(Finding(
@@ -481,15 +422,14 @@ def compare_cameras(data):
               'or the next rate Resolve has above it. It converts the '
               'others; with 23.976 against 24 that is where its audio '
               'analysis tends to stall.')))
-    # With Apple the recording curve is not in the colr box but in the logs
-    # atom. Where that is present there is nothing to guess and nothing to
-    # report -- it is read out and carried along byte for byte.
+    # With Apple the recording curve is in the logs atom, not the colr
+    # box: where it is there, nothing is guessed and nothing reported.
     curves = {}
     for d in data:
         if d.get("logs"):
             curves.setdefault(d["logs"], []).append(d.get("name") or "?")
-    # Curve and primaries unset: say it once for all rather than per file -- it
-    # is a property of the camera, not of the recording.
+    # Curve and primaries unset: said once for all, being a property of
+    # the camera and not of the recording.
     without_colour = [d for d in data
                   if not d.get("logs")
                   and len(d.get("colour") or ()) >= 2
@@ -507,24 +447,22 @@ def compare_cameras(data):
               'under Clip Attributes, tab Color Space: if it says '
               '"Project" there, the input colour space was not recognised '
               'and has to be set by hand.')))
-    # Differing recording curves would be worth a message; the same one
-    # everywhere is not, since it is already in the colour line of every file.
+    # Differing curves are worth a message; the same one everywhere is
+    # already in the colour line of every file.
     if len(curves) > 1:
         out.append(Finding(
             "hint", T('Capture curve'),
             T('the video files carry different recording curves: %s')
-            # One per line: the names of three cameras behind one
-            # another ran past the end of the column, and what was cut
-            # off was the file name the reader needed.
+            # One per line, or three camera names in a row run past the
+            # end of the column and the file name is what is cut off.
             % "\n      ".join(T('%s in %s') % (k, ", ".join(v))
                               for k, v in sorted(curves.items())),
             T('It is in the logs atom of the picture description -- that '
               'is how Resolve recognises the input colour space. Different '
               'curves mean different input colour spaces.')))
-    # Differently tagged cameras need different input colour spaces in Resolve.
-    # That otherwise only shows once one camera looks unlike the other. Where
-    # the logs atom says the same for all, the case is closed; Resolve goes by
-    # that.
+    # Differently tagged cameras need different input colour spaces in
+    # Resolve, which otherwise shows once one looks unlike the other.
+    # Where the logs atom says the same for all, Resolve goes by that.
     tags = {}
     for d in data:
         f = d.get("colour") or ()
@@ -537,9 +475,8 @@ def compare_cameras(data):
         out.append(Finding(
             "hint", T('Colour tag'),
             T('the video files are tagged differently: %s')
-            # One tag per line, as with the curves above: "2/2/9 in
-            # <camera>; 2/2/1 in <camera>" was cut off inside the first
-            # camera's name.
+            # One tag per line, as with the curves above: two of them
+            # in a row are cut off inside the first camera's name.
             % "\n      ".join(T('%s in %s') % (k, ", ".join(v))
                               for k, v in sorted(tags.items())),
             T('The three numbers are primaries, curve and matrix. '
@@ -560,10 +497,9 @@ def compare_cameras(data):
 def find_camera_gaps(video_paths):
     """Find cameras that stopped in between.
 
-    A camera splitting its recording into numbered blocks means they belong
-    together -- but only if the next block starts where the previous one
-    ends. A gap means the camera stopped, and then a piece of picture is
-    missing exactly where the audio keeps running.
+    Numbered blocks belong together only if the next starts where the
+    one before ends. A gap means the camera stopped, and a piece of
+    picture is missing exactly where the audio keeps running.
     """
     groups = {}
     for p in video_paths:
@@ -633,11 +569,9 @@ def check_audio_file(file_path):
               'track, or two microphones and therefore two tracks. Silent '
               'inputs drop out. The rows under the file say what was '
               'measured, and the tick overrules it.')))
-    # Clipping is invisible here otherwise, and actively so: the master
-    # is measured as a sum and a limiter pulls it under -1 dBTP, so a
-    # lapel microphone that was against the stop all evening comes out
-    # looking clean. A hint, never a stop -- an overdriven recording is
-    # sometimes the only recording there is.
+    # Otherwise invisible: the master is measured as a sum and a limiter
+    # pulls it under -1 dBTP, so a microphone against the stop all
+    # evening looks clean. A hint, never a stop.
     for channel, facts_ in sorted(clipping_facts(file_path).items()):
         runs, longest, milliseconds, first = facts_
         out.append(Finding(
@@ -663,9 +597,8 @@ def check_audio_file(file_path):
 def by_recording(audio_data, chains):
     """Turn per-block data into per-recording data.
 
-    A block is not a recording: several blocks in a row make one long
-    recording. Recordings are compared, otherwise every block would count
-    as too short.
+    A block is not a recording: several in a row make one long one.
+    Recordings are compared, or every block counts as too short.
     """
     after_file_path = ByFile((d.get("path"), d)
                             for d in audio_data if d.get("path"))
@@ -706,14 +639,11 @@ def compare_audio_tracks(data):
 def timecode_comparison(data):
     """Find files whose timecode belongs to an entirely different time.
 
-    Material from one recording runs simultaneously, so the timecode windows
-    overlap. A file overlapping with none of the others had an unset clock --
-    typical for a recorder starting at 00:00:00 while the cameras write time
-    of day.
-
-    The rule itself is clocks_apart, and only there: what is decided
-    here also decides the zero point of the cut, so the two must not
-    be able to disagree about the same clock.
+    Material from one recording runs at the same time, so the windows
+    overlap; a file overlapping none of the others had an unset clock.
+    The rule itself is clocks_apart and only there: what is decided here
+    also decides the zero point of the cut, and the two must not
+    disagree about one clock.
     """
     rows = [d for d in data if d.get("tc") is not None]
     apart, moved, placed = clocks_apart(
@@ -736,9 +666,8 @@ def timecode_comparison(data):
     for a0, _n, i in placed:
         if i not in apart:
             continue
-        # Each value goes back into a timecode at the rate of the file it
-        # came off. A camera running at 25 counts 25 frames to the second,
-        # and printing its timecode at 30 would move it by two frames.
+        # Each value goes back into a timecode at its own file's rate:
+        # printing a 25 fps camera at 30 moves it by two frames.
         other = sorted((b0, j) for b0, _m, j in placed if j != i)
         middle, other_row = other[len(other) // 2]
         out.append(Finding(
@@ -752,12 +681,9 @@ def timecode_comparison(data):
     return out
 
 
-# How far into a recording the bleed windows may reach before it is
-# cheaper to read the whole thing once than to seek into it five times.
-# Five minutes at 16 kHz mono is 19 MB; a two-hour interview would be
-# 460, which is the reason the sampling exists at all. What this buys is
-# process starts, and those are what a Windows builder charges for:
-# local_run made 62 of them and took two seconds here and 126 there.
+# How far into a recording the bleed windows may reach before reading
+# the whole thing once beats seeking into it five times. Five minutes
+# at 16 kHz mono is 19 MB, a two-hour interview 460.
 WHOLE_READ_S = 300.0
 
 
@@ -765,11 +691,10 @@ def crosstalk_apart(audio_paths, rate=16000, window=5, long=20.0,
                     min_len_long=4.0):
     """Measure how loudly each voice appears in the others' microphones.
 
-    Not the whole recording -- too slow for a preflight -- but a few
-    windows over the shared time, enough for a level ratio. Returns
-    ([(who, in whose microphone, dB), ...], indices into *audio_paths*,
-    plus why not. One measurement, two readers: the preflight makes
-    sentences of it, the separation asks whether the tracks still tell.
+    A few windows over the shared time, not the whole recording, which
+    would be too slow for a preflight. Returns ([(who, in whose
+    microphone, dB), ...], plus why not. Two readers: the preflight
+    makes sentences of it, the separation asks whether the tracks tell.
     """
     if len(audio_paths) < 2:
         return [], ""
@@ -805,12 +730,9 @@ def crosstalk_apart(audio_paths, rate=16000, window=5, long=20.0,
     data = []
     for i, p in enumerate(audio_paths):
         pieces = []
-        # Five windows of 5.7 seconds out of a 34-second recording is the
-        # whole file read in five processes, and the pieces are joined
-        # again on the next line anyway. Where the windows reach no
-        # further than a few minutes in, it is read once and cut up
-        # here. Not for a two-hour interview: at this rate the whole of
-        # one is 460 MB, which is what the sampling is for.
+        # Five windows out of a 34-second recording is the whole file
+        # read in five processes. Where they reach no further than a
+        # few minutes in it is read once and cut up here.
         reach = max(max(0.0, row[i]) for row in offset) + long
         if reach <= WHOLE_READ_S:
             try:
@@ -854,9 +776,8 @@ def microphones_apart_db(audio_paths):
     """How far the closest pair of these microphones stands apart, in dB.
 
     The worst of every recording against every other, both ways round;
-    None where it could not be measured. That is the number the
-    separation asks before it decides whether the tracks can still say
-    who is speaking on their own.
+    None where it could not be measured. The separation asks it before
+    trusting the tracks to say who is speaking.
     """
     try:
         rows, _why = crosstalk_apart(audio_paths)
@@ -869,11 +790,10 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
                     min_len_long=4.0):
     """Say in words how much of each voice sits in the other microphones.
 
-    The yardstick is the 3:1 rule of audio recording: with the other
-    microphone three times as far from the speaker as their own, the
-    neighbouring voice is about 9.5 dB quieter. That is a statement
-    about the *setup in the room*, not about post-production; it can
-    only be changed next time.
+    The yardstick is the 3:1 rule: with the other microphone three times
+    as far from the speaker as their own, the neighbouring voice is
+    about 9.5 dB quieter. A statement about the *room* and about nothing
+    afterwards; it can only be changed next time.
     """
     if len(audio_paths) < 2:
         return []
@@ -922,9 +842,8 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
 
 
 # What the room has to be over the estimate before the run is called
-# safe. The estimate is a rough one and says so, and a rough estimate
-# passed by one per cent is not a pass: a real run cleared the old check
-# by 1.1 GB of 96.6 and died at 88 per cent.
+# safe: a rough estimate passed by one per cent is not a pass -- 1.1 GB
+# of 96.6 spare, and the run dies at 88 per cent.
 SPACE_MARGIN = 1.15
 
 
@@ -944,8 +863,7 @@ def window_between(in_point, out_point, fps=30.0):
     """How long the delivered cameras are, out of In point and Out point.
 
     Only where both are given and count the same way is the length known
-    before the axis has been measured. One point alone leaves the other
-    end open, and then the answer is None and nothing is scaled.
+    before the axis is measured; one point alone answers None.
     """
     begin, begin_abs = parse_time_point(in_point or "", fps)
     end, end_abs = parse_time_point(out_point or "", fps)
@@ -965,8 +883,7 @@ def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
 
     Erring upward: every camera is copied and gets audio tracks added,
     plus the processed tracks and the mix. With a window each camera
-    carries that stretch and no more, so it shrinks by its own share and
-    not by the longest camera's. Both numbers are megabytes.
+    shrinks by its own share, not by the longest one's. In megabytes.
     """
     video_mb, delivered = 0.0, 0.0
     for p in video_paths:
@@ -981,11 +898,9 @@ def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
         delivered = max(delivered, running * share)
         video_mb += os.path.getsize(p) / 1e6 * share
     audio_mb = sum(os.path.getsize(p) for p in audio_paths) / 1e6
-    # The picture is copied unchanged; what grows the file is the audio,
-    # and it is written uncompressed: 48 kHz, 24 bit, two channels are
-    # 0.29 MB per second and per track. Counting it from the sizes of the
-    # given audio files was far too low wherever the cameras bring their
-    # own sound and no separate recording exists at all.
+    # The picture is copied unchanged; the audio grows the file and is
+    # written uncompressed: 48 kHz, 24 bit, two channels are 0.29 MB per
+    # second and per track. The given audio files are no measure of it.
     per_second = 48000 * 3 * 2 / 1e6
     if multitrack:
         # Every camera carries its own mix, its speakers, the overall mix
@@ -1003,10 +918,9 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
                         in_point="", out_point=""):
     """What the run writes and what is free, for the summary before it.
 
-    The size is the preflight's own reckoning, so the two numbers agree
-    and a time window shortens both. Only what lands in the target
-    folder counts here; the temporary files are the preflight's
-    question. Where the disk cannot be read, only the target is named.
+    The preflight's own reckoning, so the two numbers agree and a time
+    window shortens both. Only what lands in the target folder counts;
+    where the disk cannot be read, only the target is named.
     """
     where = target or T('the source folder')
     try:
@@ -1027,9 +941,9 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
                         window_s=None):
     """Report whether there is enough disk space for what will be created.
 
-    Roughly calculated but erring upward, so that a run stops before it
-    starts rather than halfway. *window_s* shortens the cameras, so the
-    estimate follows it -- generously, or a run that fits is refused.
+    Rough but erring upward, so a run stops before it starts rather than
+    halfway. *window_s* shortens the cameras and the estimate follows
+    it, generously, or a run that fits is refused.
     """
     folder = target_folder or (os.path.dirname(os.path.abspath(video_paths[0]))
                             if video_paths else os.getcwd())
@@ -1044,16 +958,13 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
         return []
     needed, added = space_needed_mb(audio_paths, video_paths, multitrack,
                                     window_s)
-    # The temporary files go into the system temp folder, and where that
-    # sits on the same disk as the output they eat the same space twice.
-    # Counted once the check passed a real run by 1.1 GB and the run
-    # died at 88 per cent with nothing said (31.8.2026).
+    # The temporary files go to the system temp folder, and on the same
+    # disk as the output they eat the same space twice.
     if on_one_disk(tempfile.gettempdir(), folder or "."):
         needed += added
-    # "hint", not "abort": the numbers do fit, and the estimate errs
-    # upward, so refusing the run would be wrong. But an estimate that
-    # calls itself rough, cleared by one per cent, is not room enough --
-    # a real run passed that way and died at 88 per cent.
+    # "hint", not "abort": the numbers fit and the estimate errs upward,
+    # so refusing would be wrong. But a rough estimate cleared by one
+    # per cent is not room enough -- such a run dies at 88 per cent.
     kind = ("abort" if free < needed
             else "hint" if free < needed * SPACE_MARGIN else "good")
     advice = ""
@@ -1070,9 +981,8 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
                    % (as_data_size(free), as_data_size(needed), folder), advice)]
 
 
-# What the platforms expect as loudness. The podcast directories work with -16
-# LUFS for stereo and -19 for mono; YouTube turns loud material down to about
-# -14 LUFS but does not turn quiet material up.
+# What the platforms expect: -16 LUFS for stereo and -19 for mono in
+# the podcast directories, and YouTube turns down to -14, never up.
 PLATFORMS = {
     "podcast": (-16.0, 'Podcast directories, stereo'),
     "podcast-mono": (-19.0, 'Podcast directories, mono'),
@@ -1084,20 +994,11 @@ PLATFORMS = {
 def loudness_choices():
     """The loudness targets to pick from: (value, caption).
 
-    The caption carries the number and, in brackets, what that number is
-    the standard for. The number on its own says nothing to anybody who
-    has not learnt the four by heart, and the brackets are what makes
-    the list readable without a manual.
-
-    None is the fifth answer and not a fifth number: nothing of ours
-    adjusts at all. auphonic.com goes on doing what its preset says --
-    anything else would be a silent remote control of somebody else's
-    service -- and without auphonic.com the sound stays as it is in the
-    source files.
-
-    The caption goes through as_written: it is a label and nothing
-    else, and its minus sign is the whole difference between -16 and
-    16.
+    The caption carries the number and, in brackets, what it is the
+    standard for: the number alone says nothing to anybody who has not
+    learnt the four by heart. None is the fifth answer and not a fifth
+    number -- nothing of ours adjusts. The caption goes through
+    as_written, its minus sign being the difference between -16 and 16.
     """
     out = [(target, as_written("%.0f LUFS (%s)" % (target, T(what_for))))
            for target, what_for in PLATFORMS.values()]
@@ -1114,12 +1015,10 @@ def loudness_answer_file():
 def loudness_last():
     """The loudness last chosen in the window; -16 LUFS if never chosen.
 
-    Remembered the way the answer about looking for updates is: one
-    small file in the cache folder, and no second mechanism beside it.
-    Whoever delivers to the same place every week should not have to
-    pick the same entry every week. A project file carrying its own
-    value beats this one -- what was saved with a production belongs to
-    that production.
+    One small file in the cache folder, the way the answer about updates
+    is kept, so whoever delivers to the same place every week need not
+    pick the same entry every week. A project file's own value beats it:
+    what was saved with a production belongs to that production.
     """
     where = loudness_answer_file()
     if not where or not os.path.exists(where):
@@ -1141,8 +1040,7 @@ def loudness_last_set(value):
     """Remember the choice, so it holds for the next new project.
 
     Returns whether it could be written. Nothing is lost where it
-    cannot -- the value is in the window and in the project file -- but
-    a caller that wants to know is told rather than left guessing.
+    cannot: the value is in the window and in the project file.
     """
     where = loudness_answer_file()
     if not where:
@@ -1158,17 +1056,11 @@ def loudness_last_set(value):
 def loudness_field_build(into, value):
     """Build the loudness row of the Production box.
 
-    Out here and not inside the window, for the reason
-    cut_fields_build gives: the window is long enough without another
-    stretch of widget assembly. It is a builder and nothing else --
-    the value it binds to comes in, the drop-down comes back.
-
-    It belongs in the Production box, on the page and not behind
-    "Settings ...": it is a property of this episode the way the name
-    and the output folder are, and whoever delivers somewhere else next
-    month has to trip over it rather than go looking for it. Until this
-    was built no widget was bound to the loudness at all, and every
-    episode out of the window came out at -16 LUFS whatever it was for.
+    Out here for the reason cut_fields_build gives: the window is long
+    enough without another stretch of widget assembly. In the Production
+    box and not behind "Settings ...": it is a property of this episode
+    the way the name and the output folder are, and whoever delivers
+    somewhere else next month has to trip over it, not go looking.
     """
     from PySide6 import QtWidgets as _qw
     row = _qw.QHBoxLayout()
@@ -1183,9 +1075,8 @@ def loudness_field_build(into, value):
     def row_of(want):
         """Which row carries *want*, or -1.
 
-        Compared as a number, not as an object: the same target arrives
-        as -16.0 from the list and out of a project file, and one of
-        them being an int would put the list on the wrong row.
+        Compared as a number, not as an object: one of the two being an
+        int would put the list on the wrong row.
         """
         for i in range(box.count()):
             here = box.itemData(i)
@@ -1200,10 +1091,9 @@ def loudness_field_build(into, value):
         """Put the stored value onto the list."""
         i = row_of(value.get())
         if i < 0:
-            # A value nobody can pick here -- out of a project file
-            # written by hand, or by a run with its own --lufs. It is
-            # added rather than replaced: opening a project must not
-            # quietly change what it was set to.
+            # A value nobody can pick here, out of a project file or a
+            # run with its own --lufs. Added rather than replaced:
+            # opening a project must not change what it was set to.
             box.addItem("%.0f LUFS" % value.get(), value.get())
             i = box.count() - 1
         if box.currentIndex() != i:
@@ -1219,9 +1109,8 @@ def loudness_field_build(into, value):
     show()
     PROGRAM.speaks_as(box, T('Loudness of the finished episode'))
     # The name of the last entry stands inside the sentence rather than
-    # being dropped into a slot: in German it carries an article, and a
-    # piece that settles its own case before it knows the slot is how a
-    # wrong sentence gets built. Both halves are translated together.
+    # in a slot: in German it carries an article, and a piece cannot
+    # settle its own case before it knows the slot.
     row.addWidget(PROGRAM.hint(
         box,
         T('How loud the finished episode is made. The same gain goes on '
@@ -1236,12 +1125,10 @@ def loudness_field_build(into, value):
 def lufs_does_nothing(args, videos):
     """Whether --lufs changes anything on the path this run takes.
 
-    Several voices and no picture: the tracks leave as they were
-    recorded, because a gain per track would put the voices out of
-    balance with each other, and that balance is the one thing that
-    path exists to keep. The number still travels to auphonic.com,
-    which masters the mix, so a key puts it back in force. One place,
-    because the preflight and the run both say it.
+    Several voices and no picture: the tracks leave as recorded, a gain
+    per track being what would put the voices out of balance, and that
+    balance is what the path exists to keep. The number still travels to
+    auphonic.com, which masters the mix, so a key puts it back in force.
     """
     return (not videos and bool(getattr(args, "multitrack", False))
             and getattr(args, "lufs", None) is not None
@@ -1251,12 +1138,10 @@ def lufs_does_nothing(args, videos):
 def check_loudness_target(args, videos=()):
     """Report the loudness target in force. It only reports.
 
-    It used to set args.lufs from --platform on the side, and a check
-    that quietly changes what it is checking was the cause of the old
-    fault: the report and the run could come apart. --platform is gone;
-    the four numbers are a list in the window now. Where the number
-    does nothing the report says so, or the log names a target that is
-    then contradicted further down.
+    It sets nothing: a check that quietly changes what it is checking
+    lets the report and the run come apart. Where the number does
+    nothing the report says so, or the log names a target that is
+    contradicted further down.
     """
     if getattr(args, "lufs", None) is None:
         return [Finding("good", T('Loudness'),
@@ -1297,9 +1182,8 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
         target = None
     if lufs is None:
         # Nothing of ours adjusts, so there is nothing to compare the
-        # preset against: what it masters to is what comes out. That is
-        # said, not complained about -- a check with no second value has
-        # no verdict to give.
+        # preset against: what it masters to is what comes out. Said,
+        # not complained about.
         if target is not None:
             out.append(Finding(
                 "good", T('Loudness'),
@@ -1344,9 +1228,8 @@ def report_findings(findings, heading, anyway=False):
     print(as_head(T('\nPREFLIGHT -- %s') % heading))
     for b in findings:
         print(b.line())
-        # In the window the finding stands on its file and the advice on
-        # the mark. The log has neither, and a count with no findings
-        # under it names none of them -- so only the advice is held back.
+        # In the window the finding stands on its file and the advice
+        # on the mark; the log has neither, so only the advice waits.
         if b.advice and not PROGRAM.GUI_RUNNING:
             for line in textwrap.wrap(b.advice, 70):
                 print("      %s" % line)
@@ -1377,14 +1260,11 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     set_aside=(), apart=(), together=()):
     """Collect all findings about the material.
 
-    Each file is measured and cached individually. Adding a file measures
-    only that one; the others are already there. What shows only in
-    comparison is derived from the cached data and costs nothing.
-
+    Each file is measured and cached on its own, so adding one measures
+    only that one; what shows in comparison comes off the cached data.
     *set_aside* are files that do not take part -- ignored ones, intro,
-    outro. They are still checked so their row is not the only one without a
-    mark, but they stay out of the comparisons. A colour chart has different
-    dimensions from the cameras, and turning that into a hint helps nobody.
+    outro. They are checked so their row is not the only one without a
+    mark, and stay out of the comparisons.
     """
     set_aside = {path_key(x) for x in (set_aside or ())}
 
@@ -1395,9 +1275,8 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
         return findings_
 
     findings, video_data, audio_data = [], [], []
-    # The files are measured all at once. Each has its own cache entry
-    # and knows nothing of the others, so there is nothing to wait for;
-    # what compares them happens below, on the results.
+    # All at once: each has its own cache entry and knows nothing of the
+    # others, so there is nothing to wait for.
     for p, (b, d) in zip(video_paths, parallel_map(
             video_paths,
             lambda x: measure_cached(x, "video", check_camera_file, fresh))):
@@ -1414,9 +1293,8 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             audio_data.append(d)
-    # Everything comparing audio recordings works with recordings, not with
-    # blocks: two blocks of the same recording run one after another, are
-    # individually shorter and never overlap.
+    # Comparisons work with recordings, not with blocks: two blocks of
+    # one recording run in turn, are each shorter and never overlap.
     audio_paths = [p for p in audio_paths if path_key(p) not in set_aside]
     chains = (group_recording_parts(audio_paths, apart=apart,
                                     together=together)
@@ -1426,8 +1304,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     findings += timecode_comparison(video_data + recordings)
     heads = [row[0] for row, _rest in chains]
     if crosstalk and len(heads) > 1:
-        # Crosstalk is a statement about the interplay, not about a single
-        # file, so it is cached for exactly this set.
+        # Crosstalk is about the interplay, so it is cached per set.
         audio_paths = heads
         fingerprint = 'crosstalk_%s' % _fingerprint(audio_paths)
         d = None if fresh else cache_read(fingerprint)
@@ -1447,8 +1324,7 @@ def run_preflight(args, audio_paths, video_paths):
     """Run the preflight report on the material. Returns 1 to abort.
 
     Called once for both modes, before the fork in main(). What needs
-    several tracks only checks itself then; everything else applies to a
-    single track just as well.
+    several tracks falls away with one.
     """
     if getattr(args, "no_preflight", False):
         return 0
@@ -1457,8 +1333,7 @@ def run_preflight(args, audio_paths, video_paths):
                               bool(getattr(args, "multitrack", False)),
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()))
-    # These two depend not on the material but on the call and the machine, so
-    # they are determined afresh every time.
+    # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
                              bool(getattr(args, "multitrack", False)),
                              window_from_points(args))
@@ -1470,9 +1345,8 @@ def run_preflight(args, audio_paths, video_paths):
 def run_ffmpeg_with_progress(cmd, duration, text):
     """Run ffmpeg and show its progress.
 
-    Errors go to a file, not to a pipe. Progress is read from stdout until
-    it ends, so an unread stderr pipe would fill up and ffmpeg would stop
-    in the middle of the run, waiting for someone to empty it.
+    Errors go to a file, not to a pipe: stdout is read to the end, and
+    an unread stderr pipe fills up and stops ffmpeg in mid-run.
     """
     cmd = cmd[:1] + ["-nostats", "-progress", "pipe:1"] + cmd[1:]
     fd, log = tempfile.mkstemp(prefix="vpm_ff_", suffix=".txt")
@@ -1481,8 +1355,7 @@ def run_ffmpeg_with_progress(cmd, duration, text):
         with open(log, "wb") as fh:
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=fh)
             # This is where a run spends its minutes, so this is where
-            # breaking off has to reach. The child says it is here; the
-            # window ends it, and the loop below falls out of itself.
+            # breaking off has to reach. The window ends the child.
             RUN_STOP["children"].add(proc)
             try:
                 show_progress(text, 0.0)

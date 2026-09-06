@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 """Put the installed command where a person looks for programs.
 
-A piece of the program, read out of the folder beside it by beside().
-No software is installed here: pip has already put a starter into a
-bin folder, and everything below lays a pointer to that starter where
-the system shows programs. Nothing in here may stop a start -- every
-way it can go wrong ends in one sentence and a program that runs.
+A piece of the program, read in by beside(). No software is installed
+here: pip has already put a starter into a bin folder, and everything
+below lays a pointer to it. Nothing in here may stop a start.
 """
-# Nothing is imported at the top. plistlib, sysconfig and collections
-# are not loaded by the rest of the program, and asking for the three
-# of them costs 2.5 to 3.5 ms on every start -- ten times what reading
-# this file costs -- for code that runs once. They are asked for below.
+# Nothing is imported at the top: plistlib, sysconfig and collections
+# cost 2.5 to 3.5 ms on every start, for code that runs once.
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
 T = PROGRAM.T
@@ -28,22 +23,17 @@ struct = PROGRAM.struct
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 
-
-# The name pip writes into bin/, and the name a person reads under the
-# icon. Both spellings are needed and they are deliberately the same.
+# pip's name in bin/ and the name under the icon, deliberately the same.
 COMMAND = "videopodcast-magic"
 IDENTIFIER = "com.github.bascht74.videopodcast-magic"
 SAYS = "Raw material from a video podcast becomes an edited episode"
 
-# What is written down between two starts. The value is the path that
-# was laid, not True: a boolean cannot tell "never made" from "made and
-# thrown away", and that difference is the whole of the second question.
+# What is written down between two starts: the path that was laid, not
+# True -- a boolean cannot tell "never made" from "thrown away".
 KEPT = "shortcut_laid"
 
-# The picture, in this folder rather than written out as text inside
-# it. It has to be named in [tool.setuptools.package-data] as well, or
-# the wheel carries the reader and not the picture -- the way round the
-# nine translations were missing until 5.9.2026.
+# The picture, in this folder rather than as text. Named in
+# [tool.setuptools.package-data] too, or the wheel carries no picture.
 ICON_FILE = "icon.png"
 
 
@@ -51,9 +41,8 @@ class Laid(object):
     """What one attempt to lay the pointer came to.
 
     *where* is the path that was laid, or would be, or was found gone.
-    *made* is True only where something was written in this call.
-    *say* is the finished line, and empty wherever the right answer is
-    to leave the person alone.
+    *made* is True only where something was written in this call. *say*
+    is the finished line, empty where the person is to be left alone.
     """
 
     def __init__(self, where, made, say):
@@ -65,11 +54,8 @@ class Laid(object):
 def lay_on_first_start():
     """Lay the pointer if this start is the first one, and say so.
 
-    Only an installed copy lays anything; VPM_SHORTCUT stands in for
-    the home folder the way VPM_LOGS does for the log folder. The
-    condition is positive on purpose -- development/decisions.md says
-    what it cost to learn that. And the line goes into the log, never
-    onto the console: this runs before the window opens.
+    Only an installed copy lays anything; VPM_SHORTCUT stands in for the
+    home folder. The line goes into the log: this runs before the window.
     """
     root = os.environ.get("VPM_SHORTCUT") or ""
     if not root and not installed_by_a_package_manager():
@@ -87,9 +73,8 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
 
     *root* stands in for the home folder and every path is built under
     it, so a measurement never reaches the account it runs in. *target*
-    is the starter it points at, *png* the picture as PNG bytes, *kept*
-    what earlier runs wrote down and *write_down(name, value)* the way
-    one thing is written down.
+    is the starter, *png* the picture, *kept* what earlier runs wrote
+    down, *write_down(name, value)* how one thing is written down.
     """
     system = system or _system()
     kept = {} if kept is None else kept
@@ -98,17 +83,14 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if _thrown_away(kept.get(KEPT), where):
         return Laid(where, False, "")
 
-    # What is already there is asked before the starter is looked up,
-    # and that order is the whole cost of this on every start after the
-    # first: an entry that still runs is finished business.
+    # What is already there is asked before the starter is looked up:
+    # an entry that still runs is finished business.
     there = os.path.exists(where)
     if there:
         old = _points_at(where, system)
         if old and _is_a_starter(old):
-            # Written down although nothing was laid. Settings that were
-            # reset would otherwise hold a working entry and no note, and
-            # the next one taken away by hand would come back -- against
-            # the one promise this makes.
+            # Written down although nothing was laid: reset settings
+            # would otherwise hold a working entry and no note.
             if write_down is not None and kept.get(KEPT) != where:
                 write_down(KEPT, where)
             return Laid(where, False, "")
@@ -116,16 +98,13 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if target is None:
         target = _starter_or_nothing()
     if not target:
-        # No starter means this copy was not installed by pip -- it is
-        # a checkout somebody is working in, and a checkout has no
-        # business in the program list. Written down, never printed:
-        # a line on every start of every working copy is noise.
+        # No starter means a checkout, not a pip install, and a checkout
+        # has no business in the program list. Written down, not printed.
         log_aside("shortcut -- no starter found to point at")
         return Laid(where, False, "")
 
     if there and system == "darwin":
-        # A bundle is a folder, and writing into the old one would
-        # leave whatever the old one had beside the new.
+        # A bundle is a folder: writing into the old one keeps its old.
         shutil.rmtree(where, ignore_errors=True)
 
     png = icon_bytes() if png is None else png
@@ -168,10 +147,8 @@ def _starter_or_nothing():
 def _thrown_away(remembered, where):
     """Did somebody take away what an earlier run laid down?
 
-    Absence alone says nothing: on a second machine, or under another
-    root, the same absence means "never laid here". So the folder is
-    asked as well. Where the folder stands and the thing in it does
-    not, somebody took it out, and it does not come back.
+    Absence alone says nothing -- under another root it means "never
+    laid here" -- so the folder is asked too and must stand.
     """
     if not remembered or os.path.exists(remembered):
         return False
@@ -186,10 +163,8 @@ def _thrown_away(remembered, where):
 def command_path(name=COMMAND):
     """The absolute path of the starter pip laid down, or "".
 
-    Four places are asked, in the order in which they are trustworthy
-    rather than the order in which they are quick. The search path is
-    asked last: it answers for whichever installation stands in front,
-    which need not be the one this file was read out of.
+    Four places are asked, trustworthiest first. The search path is
+    last: it answers for whichever installation stands in front.
     """
     import sysconfig
     tries = [os.path.join(
@@ -217,10 +192,8 @@ def command_path(name=COMMAND):
 def _schemes(sysconfig):
     """The installation schemes worth asking, this system's first.
 
-    Asking for a scheme this Python does not know raises, so the list
-    is cut against what it does know. get_default_scheme came in 3.10
-    and pyproject.toml asks for 3.10, so it is called outright; the
-    caller of all this catches whatever comes out of it anyway.
+    Asking for a scheme this Python does not know raises, so the list is
+    cut against what it does know. get_default_scheme came in 3.10.
     """
     here = sysconfig.get_default_scheme()
     user = "nt_user" if os.name == "nt" else (
@@ -233,9 +206,7 @@ def _beside_the_module():
     """Folders that could hold the starter, read off this file's place.
 
     site-packages lies under the prefix as lib/pythonX.Y/site-packages,
-    and the starters lie under the same prefix in bin. Walking up to
-    the prefix and down again finds them without asking anything about
-    the environment this start happens to have.
+    the starters under the same prefix in bin. No environment is asked.
     """
     folders = []
     up = os.path.dirname(os.path.abspath(__file__))
@@ -276,9 +247,8 @@ def home(root=None):
 def place(root=None, system=None):
     """The full path of the thing that would be laid down.
 
-    One line per system, and they are not variations of one shape: a
-    bundle is a folder, a Start menu entry is a file with a suffix, a
-    launcher is a text file in a folder the desktop reads.
+    One line per system, and not variations of one shape: a bundle is a
+    folder, a Start menu entry a file, a launcher a text file.
     """
     system = system or _system()
     if system == "darwin":
@@ -293,8 +263,7 @@ def _roaming(root):
     """The roaming profile folder -- APPDATA, or built under *root*.
 
     Asked of the system only where no root was given: under a root this
-    is a measurement, and APPDATA would lead straight back into the
-    account it is meant to keep out of.
+    is a measurement, and APPDATA leads back into the account.
     """
     if root is None and os.environ.get("APPDATA"):
         return os.environ["APPDATA"]
@@ -319,10 +288,8 @@ def _system():
 def icon_bytes(folder=None):
     """The program's picture as PNG bytes, or b"".
 
-    Every way this can go wrong ends in the same answer, and that
-    answer is a working entry without a picture. The bytes are read
-    rather than trusted: a half-written file would otherwise reach
-    three different icon formats and be found out three times.
+    Every way this can go wrong ends in the same answer: a working entry
+    without a picture. The bytes are read rather than trusted.
     """
     where = os.path.join(folder or os.path.dirname(os.path.abspath(__file__)),
                          ICON_FILE)
@@ -344,10 +311,8 @@ def _png_size(png):
 def _points_at(where, system):
     """The starter an entry that is already there points at, or "".
 
-    Read back out of the thing itself and not out of what was written
-    down: an interpreter that moved -- a Python upgraded from 3.13 to
-    3.14 is the usual way -- leaves an entry that still exists and no
-    longer starts anything, and the only place that shows is inside it.
+    Read back out of the thing itself, not out of what was written down:
+    an interpreter that moved leaves an entry that starts nothing.
     """
     try:
         if system == "darwin":
@@ -376,8 +341,7 @@ def _out_of_launcher(where):
     """The starter a .desktop file names on its Exec line.
 
     Undoing exactly what _exec_quote did. Splitting on the next double
-    quote instead would stop at an escaped one and hand back half a
-    path -- and a backslash would come back doubled.
+    quote would stop at an escaped one and hand back half a path.
     """
     with open(where, encoding="utf-8", errors="replace") as f:
         for line in f:
@@ -404,9 +368,7 @@ def _bundle(where, target, png):
     """A .app -- a folder the Finder and the Dock read as one program.
 
     The Dock takes bundles and nothing else: a file in bin/ cannot be
-    kept there, cannot be found by name in Spotlight and does not show
-    up in the program list. That is the whole reason this is a folder
-    with four files in it rather than a link.
+    kept there, found in Spotlight, or shown in the program list.
     """
     import plistlib
     contents = os.path.join(where, "Contents")
@@ -424,9 +386,7 @@ def _bundle(where, target, png):
         "CFBundleInfoDictionaryVersion": "6.0",
         "CFBundleShortVersionString": VERSION,
         "CFBundleVersion": VERSION,
-        # Without this the window is drawn at one pixel per point and
-        # blown up, which on every Mac sold this decade is a blurred
-        # interface. It costs one line.
+        # Without this the window is blown up and blurred on any Mac.
         "NSHighResolutionCapable": True,
     }
     icon = os.path.join(resources, COMMAND + ".icns")
@@ -435,9 +395,8 @@ def _bundle(where, target, png):
 
     with open(os.path.join(contents, "Info.plist"), "wb") as f:
         plistlib.dump(facts, f)
-    # Eight bytes and no newline. Modern macOS reads the plist, but
-    # older Finder paths still look here first, and a bundle without
-    # it is shown as a plain folder.
+    # Eight bytes and no newline. Modern macOS reads the plist, but older
+    # Finder paths look here first and show a bundle without it as a folder.
     with open(os.path.join(contents, "PkgInfo"), "w", encoding="ascii") as f:
         f.write("APPL????")
 
@@ -450,10 +409,9 @@ def _bundle(where, target, png):
 def _stub_text(target):
     """The little runner inside the bundle.
 
-    The search path is set here and not left alone. A program started
-    from the Dock inherits the one launchd holds, which is
-    /usr/bin:/bin:/usr/sbin:/sbin -- so ffmpeg from Homebrew would
-    simply not be found, and from a terminal it would.
+    The search path is set here and not left alone: a program started
+    from the Dock inherits launchd's, /usr/bin:/bin:/usr/sbin:/sbin, so
+    ffmpeg from Homebrew would not be found.
     """
     folder = os.path.dirname(target)
     return (
@@ -470,10 +428,8 @@ def _stub_text(target):
         'exec "%s" "$@"\n' % (folder.replace('"', '\\"'),
                               target.replace('"', '\\"')))
 
-
-# The square sizes an .icns has a slot for. Anything else has no slot
-# and cannot be written down as itself, which is why the picture this
-# program ships is one of them.
+# The square sizes an .icns has a slot for. Anything else cannot be
+# written down as itself, which is why the shipped picture is one.
 SLOTS = {16: b"icp4", 32: b"icp5", 64: b"icp6", 128: b"ic07",
          256: b"ic08", 512: b"ic09", 1024: b"ic10"}
 
@@ -481,10 +437,8 @@ SLOTS = {16: b"icp4", 32: b"icp5", 64: b"icp6", 128: b"ic07",
 def _icns(path, png):
     """Write a one-image .icns beside the stub. True where it went.
 
-    The format is a header and a list of chunks, and one chunk holding
-    a PNG is a whole valid file -- so this needs nothing but struct, on
-    any system. One slot and not seven: the other sizes could only hold
-    blown-up copies, and macOS scales as well as anything else does.
+    The format is a header and a list of chunks, and one chunk holding a
+    PNG is a whole valid file, so this needs nothing but struct.
     """
     width, height = _png_size(png)
     if width != height or width not in SLOTS:
@@ -504,15 +458,12 @@ def _link(where, target, png, root):
 
     Writing one by hand is a page of struct that would have to be
     maintained; Windows brings the writer with it, reachable from
-    PowerShell. pywin32 would do it in process and would put a compiled
-    package into every installation for one line that runs once.
+    PowerShell. pywin32 would add a compiled package for one line.
     """
     icon = ""
     if png:
         # The same roaming folder the settings file is in, reached the
-        # way place() reaches it: a link under APPDATA and an icon under
-        # a home folder worked out by hand would be two answers to one
-        # question, and the second is wrong often enough.
+        # way place() reaches it: two answers would be one too many.
         folder = os.path.join(_roaming(root), COMMAND)
         os.makedirs(folder, exist_ok=True)
         icon = os.path.join(folder, COMMAND + ".ico")
@@ -535,9 +486,8 @@ def _link(where, target, png, root):
 def _ps_quote(text):
     """One PowerShell string, with nothing in it read as code.
 
-    Single quotes: inside them PowerShell expands nothing, so a path
-    holding a dollar or a backtick stays a path. The only character
-    that has to be handled is the single quote, written twice.
+    Single quotes: inside them PowerShell expands nothing, so a dollar
+    or a backtick stays a character. A single quote is written twice.
     """
     return "'" + str(text).replace("'", "''") + "'"
 
@@ -545,10 +495,9 @@ def _ps_quote(text):
 def _powershell(script):
     """Run that script and give back what it printed.
 
-    Fed through the standard input rather than put on a command line: a
-    command line is parsed twice on Windows, and a path with a space in
-    it is where that goes wrong. No profile, because somebody's profile
-    must not change what this does, and no console window either.
+    Fed through standard input rather than a command line: a command
+    line is parsed twice on Windows, and a path with a space is where
+    that goes wrong. No profile, and no console window.
     """
     shell = shutil.which("powershell") or shutil.which("pwsh")
     if not shell:
@@ -569,9 +518,8 @@ def _ico(path, png):
     """Write a one-image .ico. True where it went.
 
     A PNG may stand inside an .ico unchanged since Windows Vista, so
-    this is a header and a directory entry in front of bytes that are
-    already there. Width and height are one byte each and 256 is
-    written as 0 -- the one trap in the format.
+    this is a header and a directory entry in front of bytes already
+    there. Width and height are one byte each, and 256 is written as 0.
     """
     width, height = _png_size(png)
     if not width or width > 256 or height > 256:
@@ -591,10 +539,9 @@ def _ico(path, png):
 def _launcher(where, target, png, root):
     """A .desktop file, and the icon under the name the theme knows.
 
-    The icon is named by a bare name and the file is put where the icon
+    The icon is named by a bare name and the file put where the icon
     theme looks for that name. That is the way round the standard asks
-    for, and the only one under which the same entry keeps its picture
-    when the desktop switches theme or scale.
+    for, and the only one that survives a theme or scale change.
     """
     icon = _theme_icon(png, root)
     lines = [
@@ -606,9 +553,8 @@ def _launcher(where, target, png, root):
         "Exec=%s %%F" % _exec_quote(target),
         "Terminal=false",
         "Categories=AudioVideo;AudioVideoEditing;",
-        # NOT MEASURED: what Qt reports as the window class has not
-        # been seen on a Linux desktop from here. A wrong line costs a
-        # doubled task bar entry and nothing else.
+        # NOT MEASURED: what Qt reports as the window class has not been
+        # seen on a Linux desktop. A wrong line costs a doubled entry.
         "StartupWMClass=%s" % COMMAND,
     ]
     if icon:
@@ -621,9 +567,8 @@ def _theme_icon(png, root):
     """Write the picture where the icon theme looks, and name it.
 
     A square image goes into the theme under a bare name. Anything else
-    -- artwork that is not square, or a theme folder that cannot be
-    written -- still gets a picture, named by its full path, which the
-    standard allows too. A missing one must not stop the entry.
+    -- not square, or an unwritable theme folder -- still gets a
+    picture, named by its full path, which the standard allows too.
     """
     width, height = _png_size(png)
     if not width:
@@ -646,10 +591,9 @@ def _theme_icon(png, root):
 def _exec_quote(target):
     """One argument of an Exec line, as the standard spells it.
 
-    Double quotes, and inside them a backslash in front of a backslash,
-    a double quote, a dollar and a backtick. A path with a space in it
-    and no quotes is read as two arguments, which is the ordinary way
-    this fails for anybody whose folder is called "My Programs".
+    Double quotes, and inside them a backslash before a backslash, a
+    double quote, a dollar and a backtick. A path with a space and no
+    quotes is read as two arguments.
     """
     out = str(target)
     for char in ("\\", '"', "$", "`"):

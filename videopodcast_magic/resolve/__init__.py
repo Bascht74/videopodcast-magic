@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 """The project in DaVinci Resolve: timelines, colour, render, markers.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name, so
-that nothing in here comes from nowhere.
+Read out of the folder beside it by beside(). It cannot import the file
+it was cut out of -- that file is still being read -- so the program is
+handed in and every name is bound below, by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# project building reads as it did in the one file. Not one of them is
-# a name the program rebinds while it runs, so none of them has to
-# stay PROGRAM.something the way a few of the window's do.
+# What this piece uses out of the program, bound once. None of them is
+# a name the program rebinds while it runs.
 ByFile = PROGRAM.ByFile
 Finding = PROGRAM.Finding
 HINT_MULTICAM = PROGRAM.HINT_MULTICAM
@@ -53,10 +48,8 @@ textwrap = PROGRAM.textwrap
 
 # ------------------------------------------------------------ Resolve
 #
-# The scripting interface has no multicam: project, import, timelines,
-# track names and markers can be driven remotely, converting to a
-# multicam clip stays a right click. The track name becomes the angle
-# name, and this whole part rests on that.
+# The scripting interface has no multicam: everything else is remote,
+# converting stays a right click. The track name becomes the angle name.
 
 MARKER_COLOURS = ["Blue", "Cyan", "Green", "Yellow", "Red", "Pink", "Purple",
                  "Fuchsia", "Rose", "Lavender", "Sky", "Mint", "Lemon",
@@ -92,8 +85,7 @@ def resolve_module_paths():
 def resolve_installed():
     """Report whether Resolve is installed.
 
-    Only the files are checked; this says nothing about whether the
-    program is running. Enough to disable a control that would go nowhere.
+    Only the files are checked, which is enough to disable a control.
     """
     api, lib = resolve_module_paths()
     return os.path.isdir(api) and os.path.exists(lib)
@@ -122,10 +114,8 @@ def connect_to_resolve():
     return r
 
 
-# Why the connection can fail. The third point is uncertain: a statement by
-# Blackmagic that external scripting is reserved for the Studio edition appears
-# neither in the interface README nor in the official documentation. It is
-# reported for version 19.1 and later.
+# Why the connection can fail. The third point is uncertain: no statement
+# by Blackmagic on it exists; it is reported for version 19.1 and later.
 RESOLVE_REASONS = (
     ('Possible reasons:\n  1. Resolve is not running -- the interface '
      'answers only while the program runs.\n  2. Preferences > System > '
@@ -138,9 +128,8 @@ RESOLVE_REASONS = (
 def check_resolve():
     """Report what can be reached of Resolve. Returns (works, lines).
 
-    In order: is the interface there, does the program answer, which edition
-    is it, which project is open. Each stage reports separately, so the
-    result says not just that it failed but how far it got.
+    In order: interface, program, edition, project. Each stage reports
+    separately, so the result says how far it got.
     """
     api, lib = resolve_module_paths()
     lines = [T('Interface:      %s%s') % (api, "" if os.path.isdir(api)
@@ -161,8 +150,7 @@ def check_resolve():
         except Exception:
             return ""
 
-    # Where it works, one bracket is enough. The paths only matter where it
-    # does not.
+    # Where it works one bracket is enough; paths matter only where not.
     what = " ".join(x for x in (ask(r.GetProductName),
                                ask(r.GetVersionString)) if x)
     return True, [what]
@@ -176,25 +164,20 @@ def seconds_to_frames(seconds, fps):
 def frames_of_the_file(length, fps, own):
     """How many frames of a file fit into *length* frames of the Timeline.
 
-    The most that fit and never one more, so a shot never runs into the
-    next one: Resolve pushes what overlaps, and the pushes add up. What
-    a shot leaves uncovered is picked up by the one after it, which
-    begins that much earlier. One frame is the floor -- a shot shorter
-    than a single frame of its file cannot be had.
+    The most that fit and never one more, or a shot runs into the next
+    one: Resolve pushes what overlaps, and the pushes add up. What a
+    shot leaves uncovered the one after it picks up; one frame is floor.
     """
-    # A whole number of frames that a division misses by a billionth is
-    # that whole number: 23.976 in a 23.976 Timeline asked for one frame
-    # more than the shot has, and pushed the next one along for nothing.
+    # A whole number of frames a division misses by a billionth is that
+    # whole number: 23.976 in a 23.976 Timeline asks one frame too many.
     return max(1, int(math.ceil((length + 1) * own / float(fps) - 1e-9)) - 1)
 
 
 def timeline_frames_of(count, fps, own):
     """How many frames of the Timeline a span of *count* file frames fills.
 
-    Resolve matches a foreign rate over the duration and keeps whole
-    Timeline frames, so the last part frame does not count. Measured on
-    21.0.4.5: 175 frames of a 24 file fill 218 frames of a 30 Timeline,
-    176 fill 220 -- 219 is not reachable at all.
+    Resolve keeps whole Timeline frames, so the last part frame is lost:
+    175 frames of a 24 file fill 218 of a 30 Timeline, 176 fill 220.
     """
     return int(count * fps / float(own) + 1e-9)
 
@@ -205,18 +188,16 @@ RESOLVE_FRAME_RATES = (16.0, 18.0, 23.976, 24.0, 25.0, 29.97, 30.0, 47.952,
                  119.88, 120.0)
 
 # How far a measured rate may sit from one of those and still be it.
-# Relative: one frame at 120 is a fifth of one at 24. A container names
-# its rate to within a millionth and an averaged reading strays a few
-# ten-thousandths, while the nearest foreign rate lies four times out.
+# Relative: one frame at 120 is a fifth of one at 24. An averaged
+# reading strays a few ten-thousandths, a foreign rate four times that.
 FRAME_RATE_TOLERANCE = 0.01
 
 
 def nearest_known_frame_rate(fps):
     """Round a frame rate to one Resolve knows.
 
-    ffprobe measures averaged values for some files. Resolve rejects
-    those and picks something itself, so it is decided here and said.
-    Whether it is one of Resolve's rates at all is known_frame_rate.
+    ffprobe measures averaged values Resolve rejects, so it is decided
+    here. Whether it is a Resolve rate at all is known_frame_rate.
     """
     if not fps:
         return 30.0
@@ -227,8 +208,7 @@ def known_frame_rate(fps):
     """The Resolve rate this one is, allowing for a measured reading.
 
     A rate this answers None for is not one Resolve gives a Timeline.
-    The file is used all the same: the Timeline takes a rate Resolve
-    does have, and the file keeps counting in its own.
+    The file is used all the same, counting in its own.
     """
     if not fps:
         return None
@@ -240,10 +220,8 @@ def own_frame_rate(fps):
     """The rate a file's own frames are counted at.
 
     A measured reading strays a few ten-thousandths from the format it
-    means, so where it means one of Resolve's rates that is the answer.
-    Where it means none of them the reading itself is the answer, and
-    it is not moved to the nearest: a file at 15 counts fifteen frames
-    to the second, and its length, its timecode and its cut all say so.
+    means, so a Resolve rate answers where it means one. Where it means
+    none the reading itself does: a file at 15 counts fifteen a second.
     """
     return known_frame_rate(fps) or float(fps or 30.0)
 
@@ -251,12 +229,9 @@ def own_frame_rate(fps):
 def resolve_timeline_rate(fps):
     """The rate a Timeline gets for material running at this one.
 
-    Not the nearest but the next one up: upwards Resolve repeats
-    frames, downwards it throws them away. Above the fastest rate it
-    has there is no higher one, so that is where it stops. Measured on
-    21.0.4.5: 15 and 240 are refused as project rates, 16 and 120 are
-    the ends -- and a 15 file in a 16 Timeline keeps its length to the
-    millisecond, every shot on the source frame the cut names.
+    Not the nearest but the next one up: upwards Resolve repeats frames,
+    downwards it throws them away. 16 and 120 are the ends -- 15 and 240
+    are refused -- and a 15 file in a 16 Timeline keeps its length.
     """
     known = known_frame_rate(fps)
     if known is not None:
@@ -270,10 +245,8 @@ def resolve_timeline_rate(fps):
 def file_frame_rate(info):
     """The rate a video file runs at: the one its container declares.
 
-    An averaged reading is not a format -- a file whose rate varies
-    averages to something that is no rate at all -- so the container's
-    own figure decides, and the average stands in only where the
-    container names none.
+    An averaged reading is not a format, so the container's own figure
+    decides and the average stands in only where it names none.
     """
     return (info or {}).get("nominal") or (info or {}).get("fps") or 0.0
 
@@ -282,9 +255,7 @@ def timeline_frame_rate(args, videos, ref_clip):
     """The rate the Timeline runs at: the highest one in the material.
 
     Converted upwards Resolve repeats frames, downwards it throws them
-    away, so the fastest camera decides. Intro and outro are finished
-    clips and no cameras of the episode, so they do not count; where no
-    camera is left the longest recording decides, as it did before.
+    away, so the fastest camera decides. Intro and outro do not count.
     """
     edges = {path_key(p) for p in (getattr(args, "intro", None),
                                    getattr(args, "outro", None)) if p}
@@ -297,8 +268,8 @@ def timeline_frame_rate(args, videos, ref_clip):
 def frames_to_timecode(frames, fps, drop_frame=False):
     """The other way round: a frame number since midnight as a timecode.
 
-    Counts on the timecode clock, like timecode_to_frames -- dividing by
-    the true rate instead is off by about a minute per hour.
+    On the timecode clock, like timecode_to_frames: the true rate is
+    off by about a minute per hour.
     """
     full = int(round(own_frame_rate(fps)))
     n = max(0, int(frames)) % (full * 86400)
@@ -434,9 +405,8 @@ def set_remote_grades(p, on=False):
 
     Remote grades tie every clip of the same source file together, so a
     single cut can no longer be corrected on its own; colour groups do
-    the same more finely. Set on every run and before anything is built,
-    because it only affects clips added to a timeline afterwards. The
-    setting's name is not documented, so it is looked up, not guessed.
+    the same more finely. Set before anything is built -- it only
+    affects clips added afterwards. The name is looked up, not guessed.
     """
     try:
         every = p.GetSetting("")
@@ -475,9 +445,8 @@ def set_remote_grades(p, on=False):
     return matches
 
 
-# What YouTube recommends for upload, in kbit/s. For ranges the upper value is
-# used: the upload happens once, and what is lost in their re-encode nobody
-# gets back. HFR means high frame rates -- 48, 50, 60.
+# What YouTube recommends for upload, in kbit/s. The upper value of a
+# range: the upload happens once. HFR is 48, 50, 60.
 #                    height  SDR    SDR-HFR  HDR    HDR-HFR
 RENDER_BITRATE = ((4320, 160000, 240000, 200000, 300000),
                   (2160,  45000,  68000,  56000,  85000),
@@ -501,15 +470,12 @@ def bitrate_for(height, fps=30.0, hdr=False):
 # Transfer characteristic codes per ITU-T H.273. 16 is PQ, 18 is HLG, both HDR
 # markers. 9 as colour space is BT.2020.
 TRC_HDR = {16: "PQ", 18: "HLG"}
-# Log is not a display curve but a recording curve: it preserves the dynamic
-# range the camera sees and is converted to something else for delivery. For
-# output that means the same as HDR -- eight bit is not enough and gradients
-# would band. 21 is the code Apple Log carries in the file.
+# Log is a recording curve, not a display one: it keeps the range the
+# camera sees. For output that means the same as HDR -- eight bit bands.
 TRC_LOG = {21: "Apple Log"}
 PRIMARIES_BT2020 = 9
 # Another way to spot log: the cameras write it into their QuickTime keys.
-# Searched by word markers rather than by "log", which hides in too many
-# harmless words.
+# Searched by word markers, not by "log", which hides in harmless words.
 LOG_MARKERS = ("apple log", "applelog", "s-log", "slog", "v-log", "vlog",
               "log3", "logc", "c-log", "clog", "f-log", "flog",
               "blackmagic design film", "bmd film", "arri logc",
@@ -532,9 +498,8 @@ def _marker_stands_alone(hay, label):
     return False
 
 
-# Names for the ITU-T H.273 codes. Anything not in the list is shown as a
-# number rather than guessed. 2 means "unspecified" in both lists: the file
-# says nothing about its colour.
+# Names for the ITU-T H.273 codes. Anything not listed is shown as a
+# number rather than guessed. 2 means "unspecified": nothing is said.
 PRIMARIES_NAMES = {0: 'reserved', 1: "BT.709", 2: 'unspecified',
                    4: "BT.470 M", 5: "BT.470 B/G", 6: "BT.601 (SMPTE 170M)",
                    7: "SMPTE 240M", 8: "Film", 9: "BT.2020", 10: "XYZ",
@@ -593,9 +558,8 @@ def colour_text(file_path, v, tags):
     Log ffprobe reports a curve that is wrong.
     """
     values = mov_colour_tags(file_path)
-    # Apple writes the recording curve into the logs atom of the sample
-    # description rather than into the colr box. That is the only way Resolve
-    # knows Apple Log is present; colr says nothing about it.
+    # Apple writes the recording curve into the logs atom, not into the
+    # colr box, and that is the only way Apple Log shows.
     curve = log_curve_from_atom(_logs_atom_text(file_path))
     parts, hdr = [], bool(curve)
     if curve:
@@ -615,9 +579,8 @@ def colour_text(file_path, v, tags):
                          % MATRIX_NAMES.get(mat, T('Number %d') % mat))
         if not parts:
             parts.append(T('Curve and colour space are missing from the file'))
-        # The matrix counts too: some cameras write only that and leave curve
-        # and primaries empty. BT.2020 as a matrix is still a statement about
-        # the range of the material.
+        # The matrix counts too: some cameras write only that, and
+        # BT.2020 as a matrix still states the range of the material.
         hdr = hdr or (trc in TRC_HDR or trc in TRC_LOG
                       or prim == PRIMARIES_BT2020 or mat == MATRIX_BT2020)
         if full:
@@ -651,8 +614,7 @@ def camera_text(tags):
         device = model           # some write the manufacturer into it as well
     else:
         device = " ".join(x for x in (maker, model) if x)
-    # Last of all what wrote the file: some cameras put their own name in
-    # "encoder" and say it in no other key.
+    # Some cameras put their own name in "encoder" and in no other key.
     software = d.get("software") or d.get("firmware") or d.get("encoder") or ""
     if device and software:
         return "%s  --  Software %s" % (device, software)
@@ -660,9 +622,8 @@ def camera_text(tags):
 
 
 # What a finished file has to carry for a player to recognise HDR -- the ITU-T
-# H.273 codes. 9 as primaries is BT.2020, 16 is PQ (SMPTE ST 2084), 18 is HLG,
-# 9 as matrix is BT.2020 non-constant luminance. 14 looks similar but is SDR in
-# the BT.2020 space and does not qualify.
+# H.273 codes. 9 as primaries is BT.2020, 16 is PQ, 18 is HLG, 9 as matrix is
+# BT.2020 non-constant luminance. 14 looks similar but is SDR and does not.
 HDR_PRIMARIES = 9
 HDR_MATRIX = 9
 HDR_CURVES = {16: "PQ (HDR10)", 18: "HLG"}
@@ -672,9 +633,8 @@ def hdr_static_metadata(file_path):
     """Return which HDR static metadata a file carries.
 
     ffprobe attaches mastering display and content light level to the
-    first frame rather than to the stream, and they appear as a
-    container box or as SEI depending on the file. So the first frame is
-    what gets queried. Returns the set of kinds found.
+    first frame rather than to the stream, so the first frame is what
+    gets queried. Returns the set of kinds found.
     """
     try:
         raw = subprocess.run(
@@ -819,11 +779,9 @@ def check_hdr(file_path):
 def hdr_from_sources(video_paths):
     """Report whether the source material is HDR. Returns (yes, reason).
 
-    The camera file's colr box is read, not guessed. Three things count
-    as HDR: PQ or HLG, the two display curves; log, a recording curve
-    HDR is graded from; and BT.2020 as the colour space. Log belongs
-    there because ungraded it looks flat but carries the full range, and
-    in eight bit it bands. The reason stays English: it goes into a file.
+    The colr box is read, not guessed: PQ or HLG, log (flat ungraded but
+    carrying the full range, and it bands in eight bit), or BT.2020. The
+    reason stays English -- it goes into a file.
     """
     for file_path in video_paths or []:
         name = os.path.basename(file_path)
@@ -840,8 +798,7 @@ def hdr_from_sources(video_paths):
                 return True, ("BT.2020 in %s" % name)
             if _mat == MATRIX_BT2020:
                 return True, ("BT.2020 as matrix in %s" % name)
-        # Some cameras write nothing usable into the colr box; for those it is
-        # in the QuickTime keys.
+        # Where the colr box says nothing usable, the QuickTime keys do.
         source_text = _log_gamma_in_metadata(file_path)
         if source_text:
             return True, ("log according to camera data: %s (%s)"
@@ -858,10 +815,9 @@ HDR_TAGS = {
             ("HLG", "Rec.2100 HLG", "ARIB STD-B67")),
 }
 
-# The same for a delivery that is not HDR. Without it the render stays
-# at "Same as Project", and an HDR project would put an HDR colr box on
-# an eight bit file. The order of the gamma spellings matters: the one
-# that lands right comes first, the others write "unspecified".
+# The same for a delivery that is not HDR: without it an HDR project
+# puts an HDR colr box on an eight bit file. The gamma spelling that
+# lands right comes first, the others write "unspecified".
 SDR_TAGS = (("Rec.709", "Rec. 709", "Rec709"),
             ("Rec.709", "Gamma 2.4", "Rec.709 Gamma 2.4", "Gamma2.4"))
 
@@ -869,8 +825,7 @@ SDR_TAGS = (("Rec.709", "Rec. 709", "Rec709"),
 def hdr_kind_from_project(p):
     """Return the HDR curve the project outputs: PQ, HLG or none.
 
-    The output colour space is read as Resolve enumerates it. Nothing is
-    guessed: unrecognisable means None and "Same as Project" stands.
+    Nothing is guessed: unrecognisable means None and the tag stands.
     """
     try:
         every = p.GetSetting("")
@@ -894,8 +849,8 @@ def hdr_kind_from_project(p):
 def hdr_from_project(p):
     """Report whether the Resolve project settings say HDR is being output.
 
-    The setting's name is not guessed but looked up among all settings.
-    Finding nothing, this says nothing and the material decides.
+    The name is looked up, not guessed; finding nothing, this says
+    nothing and the material decides.
     """
     try:
         every = p.GetSetting("")
@@ -922,8 +877,7 @@ def hdr_from_project(p):
 def _first_match(pairs, wanted_name):
     """Return the first identifier from {description: identifier} that matches.
 
-    Neither the format nor the codec names are documented and they
-    change between versions, so both are enumerated and searched.
+    Neither format nor codec names are documented, so both are searched.
     """
     if not isinstance(pairs, dict):
         return None, None
@@ -932,8 +886,7 @@ def _first_match(pairs, wanted_name):
                    if search_word.lower() in ("%s %s" % (b, k)).lower()]
         if hit:
             # The shortest name is the plain one: "H.265" before "H.265
-            # (NVIDIA)". The variants with a GPU in the name are not available
-            # everywhere and produce different results.
+            # (NVIDIA)", which is not everywhere and gives other results.
             hit.sort(key=lambda x: len(x[0]) + len(x[1]))
             return hit[0]
     return None, None
@@ -955,8 +908,7 @@ def output_folder_from(d):
 def free_render_name(folder, name, extension=".mp4"):
     """Return a name in this folder that no file carries yet.
 
-    Resolve renders over an existing file without asking, and a delivery
-    is the one file nobody keeps a copy of.
+    Resolve renders over an existing file without asking.
     """
     if not os.path.exists(os.path.join(folder, name + extension)):
         return name
@@ -971,9 +923,8 @@ def free_render_name(folder, name, extension=".mp4"):
 def hdr_says(value):
     """Report whether a colour space name means HDR.
 
-    Read on the answer Resolve gives, which is its internal name --
-    "Rec.2100 ST2084", "Rec.709 (Scene)". The dropdown names carry the
-    answer in front ("SDR Rec.2020"), so those are read from the front.
+    Read on Resolve's internal names -- "Rec.2100 ST2084" -- and on the
+    dropdown names, which carry the answer in front ("SDR Rec.2020").
     """
     wl = str(value).strip().lower()
     if wl.startswith("sdr"):
@@ -987,10 +938,9 @@ def project_colour_to_material(p, hdr):
     """Bring a project we made ourselves to the colour space of the material.
 
     A project created a minute ago carries whatever this machine
-    defaults to, and machines differ; one somebody set up is never
-    touched. Only the output space is set -- a wide gamut working space
-    under an SDR output is a state Resolve offers on purpose -- and
-    `isAutoColorManage` stays untouched. Returns (stands, "") or ("", why).
+    defaults to; one somebody set up is never touched. Only the output
+    space is set -- a wide gamut working space under an SDR output is
+    deliberate -- and `isAutoColorManage` stays. Returns (stands, why).
     """
     try:
         every = p.GetSetting("")
@@ -998,10 +948,9 @@ def project_colour_to_material(p, hdr):
         return "", ""
     if not isinstance(every, dict):
         return "", ""
-    # Two namespaces, and they exclude each other: with automatic colour
-    # management on, only the dropdown names are taken and the internal
-    # one comes back; with it off, only the internal names. So both are
-    # tried, and success is judged by what the setting says afterwards.
+    # Two namespaces that exclude each other: with automatic colour
+    # management on only the dropdown names are taken, with it off only
+    # the internal ones. So both are tried and the answer is read back.
     if hdr:
         values = ["HDR PQ", "Rec.2100 ST2084", "HDR HLG", "Rec.2100 HLG"]
     else:
@@ -1027,8 +976,7 @@ def project_colour_to_material(p, hdr):
             missed.append("%s = %s" % (name, every[name]))
     if not hdr and str(every.get("hdr10PlusControlsOn", "")) in ("1", "True"):
         # Only ever off, never on: switching on a delivery feature
-        # nobody asked for is not this program's business, while leaving
-        # it on in an SDR delivery is a contradiction.
+        # nobody asked for is not this program's business.
         try:
             p.SetSetting("hdr10PlusControlsOn", "0")
         except Exception:
@@ -1041,11 +989,9 @@ def project_colour_to_material(p, hdr):
 def queue_render_job(p, tl, d, folder, name, project_is_new=False):
     """Set the render profile and queue the job.
 
-    After this only "Render All" is left to press in Resolve. Whatever
-    the interface accepts is set; whatever it rejects appears in the log
-    so nobody has to hunt for it. HDR or SDR is decided by the material
-    and the project, not by preference: an HDR picture in eight bit
-    H.264 bands in every gradient.
+    After this only "Render All" is left to press; whatever the
+    interface rejects appears in the log. HDR or SDR is decided by the
+    material and the project: HDR in eight bit H.264 bands everywhere.
     """
     print(T('\n  Render job'))
     try:
@@ -1056,8 +1002,7 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
     reason = d.get("hdr_reason") or ""
     off_project, project_reason = hdr_from_project(p)
     if project_is_new and off_project is not None and off_project != hdr:
-        # Our own project, and its colour space says something other
-        # than the material. Whatever it says was not chosen for this
+        # Our own project, and what it says was not chosen for this
         # job, so the material decides -- in both directions.
         stands, instead = project_colour_to_material(p, hdr)
         if stands:
@@ -1115,9 +1060,8 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
         print(T('    Format and codec could not be set: %s') % e)
         return False
     try:
-        # Said out loud when it does not take: refused, the delivery
-        # quietly becomes one file per clip, and somebody looking for
-        # one episode finds a folder full of shots instead.
+        # Said out loud: refused, the delivery quietly becomes one file
+        # per clip and one episode is a folder full of shots.
         if p.SetCurrentRenderMode(1) is False:   # 1 = one file, not per clip
             print(T('    One file per delivery was refused; Resolve will '
                     'write one file per clip.'))
@@ -1147,13 +1091,11 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
         "AudioBitDepth": 16,
         "AudioSampleRate": SR,
     }
-    # Ten bit has no switch of its own, only the profile. Whether this Resolve
-    # knows the name shows only on setting it, so it is tried with and, if
-    # rejected, without.
+    # Ten bit has no switch of its own, only the profile, and whether the
+    # name is known shows only on setting it. So tried with, then without.
     extra_text = {"EncodingProfile": "Main10"} if hdr else {}
-    # And the tagging: without it the finished file carries no HDR however
-    # cleanly it was graded. Which curve is what the project says; nothing is
-    # guessed.
+    # And the tagging: without it the finished file carries no HDR
+    # however cleanly it was graded. The project names the curve.
     kind, kind_reason = hdr_kind_from_project(p)
     tag_pairs = []
     if hdr and kind in HDR_TAGS:
@@ -1190,10 +1132,8 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
                                 else T('Main10 rejected -- the default stays')))
     if tag_pairs:
         if "ColorSpaceTag" in accepted:
-            # The reason names the HDR curve the project outputs, so it
-            # belongs to the HDR tags alone. An SDR delivery has none:
-            # beside Rec.709 the setting would explain a curve that was
-            # not applied, and empty brackets read as a failed lookup.
+            # The reason names the HDR curve, so it belongs to the HDR
+            # tags alone: beside Rec.709 it would explain nothing.
             print("    %-22s %s / %s%s"
                   % (T('Tagging'), accepted["ColorSpaceTag"],
                      accepted["GammaTag"],
@@ -1212,8 +1152,7 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
           % ("Bitrate", number_text(bitrate, 0),
              "HDR" if hdr else "SDR", T(' at high frame rates') if fps > 30.5
              else ""))
-    # The interface has no key for the audio bitrate. So write down what should
-    # be there, and nobody has to look for it.
+    # The interface has no key for the audio bitrate, so it is written down.
     print(T('    %-22s AAC, %s kHz, two channel  (bitrate cannot be set '
             'remotely --\n%s%s kbit/s are the recommendation for stereo)')
           % (T('Audio'), number_text(SR / 1000.0, None), " " * 28,
@@ -1239,10 +1178,8 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
 def set_loudness_target(p, target_lufs):
     """Set the loudness meter target to ours.
 
-    Resolve measures against -23 LUFS by default, the broadcast value. We
-    deliver for web and podcast and normalise to -16, where the meter would
-    permanently read +7. The setting's name is not guessed but looked up
-    among all project settings.
+    Resolve measures against -23 LUFS, the broadcast value; we deliver
+    for web and podcast at -16. The name is looked up, not guessed.
     """
     try:
         every = p.GetSetting("")
@@ -1257,9 +1194,8 @@ def set_loudness_target(p, target_lufs):
     hit = [k for k in hit if "scale" not in k.lower()]
     if not hit:
         # Not through the language: the number is typed into Resolve's
-        # own field, and three lines down the program sets that field
-        # to the same "%g" string. A German comma there is a number the
-        # person cannot type back.
+        # own field, and a German comma there is a number that cannot
+        # be typed back.
         print(T('    Loudness meter target level not found -- please set '
                 'it by hand:\n    Project Settings > Fairlight > Target '
                 'Loudness Level %s LUFS.')
@@ -1284,11 +1220,9 @@ def import_media(mp, paths):
     fresh = mp.ImportMedia(list(paths)) or []
     print(T('  %s of %s files imported.')
           % (number_text(len(fresh), 0), number_text(len(paths), 0)))
-    # Two cameras can write C0001.MP4 in two folders. Looked up by name
-    # both land on one media pool item, and the second camera then gets the
-    # first one's picture without a word. Resolve reports the real path, so
-    # that is the key; the name stays as a fallback for versions that do
-    # not, and a collision there stops the run instead of wiring it wrong.
+    # Two cameras can write C0001.MP4 in two folders, and by name both
+    # land on one media pool item. So the real path is the key; the name
+    # is a fallback, and a collision there stops the run.
     after_path, after_name = ByFile(), {}
     for c in (mp.GetRootFolder().GetClipList() or []):
         try:
@@ -1343,10 +1277,8 @@ def find_timeline(p, name):
 def refresh_resolve_timelines(p, mp, names):
     """Delete these timelines so they can be built again.
 
-    Everything else stays: the media pool and whatever else is in the
-    project. Updating means a fresh cut, not an empty project.
-
-    Returns (what was removed, what stayed).
+    Everything else stays -- updating means a fresh cut, not an empty
+    project. Returns (what was removed, what stayed).
     """
     existing = {}
     for i in range(1, (p.GetTimelineCount() or 0) + 1):
@@ -1356,8 +1288,7 @@ def refresh_resolve_timelines(p, mp, names):
     duplicate = [n for n in names if n in existing]
     if not duplicate:
         return [], []
-    # The open timeline cannot be deleted, so switch to another one first where
-    # there is one.
+    # The open timeline cannot be deleted, so switch away first.
     other = next((tl for n, tl in existing.items() if n not in names), None)
     if other is not None:
         try:
@@ -1374,8 +1305,7 @@ def refresh_resolve_timelines(p, mp, names):
                 mp.DeleteTimelines([tl])
             except Exception:
                 pass
-    # Check what really went: the interface's answer alone is not enough -- it
-    # reports success even where nothing happened.
+    # Check what really went: the interface reports success regardless.
     gone = [n for n in duplicate if find_timeline(p, n) is None]
     stayed = [n for n in duplicate if n not in gone]
     return gone, stayed
@@ -1384,10 +1314,9 @@ def refresh_resolve_timelines(p, mp, names):
 def multicam_timeline_unchanged(p, name, cameras):
     """Report whether the multicam timeline already looks the way it should.
 
-    The cut timeline may be rebuilt every run -- it is cheap and changes
-    with every number. The multicam timeline carries manual work: the
-    multicam clip is converted from it by hand, so it stays as long as the
-    same cameras sit on it in the same order.
+    The cut timeline may be rebuilt every run. The multicam one carries
+    manual work -- the multicam clip is converted from it by hand -- so
+    it stays as long as the same cameras sit on it in the same order.
     """
     tl = find_timeline(p, name)
     if tl is None:
@@ -1408,10 +1337,9 @@ def multicam_timeline_unchanged(p, name, cameras):
 def cameras_in_track_order(cameras):
     """Put the camera carrying the overall mix on track one.
 
-    Converting to a multicam clip makes video track 1 angle 1, and its first
-    audio track is the one Resolve falls back to. The overall mix belongs
-    there -- that is the wide shot, which carries exactly that as its first
-    track. The rest keep their order.
+    Converting makes video track 1 angle 1, and its first audio track is
+    the one Resolve falls back to. The overall mix belongs there -- that
+    is the wide shot. The rest keep their order.
     """
     def first_of(cam):
         names = [n.lower() for n in (cam.get("audio_tracks") or [])]
@@ -1421,9 +1349,8 @@ def cameras_in_track_order(cameras):
     return sorted(cameras, key=first_of)
 
 
-# Where a new Resolve timeline starts when nobody says otherwise:
-# 01:00:00:00. Material without a timecode is laid down there rather
-# than at frame 0, which would be eighteen hours before the beginning.
+# Where a new Resolve timeline starts when nobody says otherwise. Frame 0
+# would be eighteen hours before the beginning.
 TIMELINE_START_HOUR = 1
 
 
@@ -1431,13 +1358,8 @@ def timeline_origin(d):
     """Return where frame zero of the timeline sits and how fast it runs.
 
     Resolve counts recordFrame from midnight, not from the start of the
-    timeline. Passing zero puts the clip 18 hours before the beginning: it
-    is there, but not visible.
-
-    Where the handover carries no timecode, the timeline's own start is
-    used. Measured on a screen recording: at frame 0 the clips sit
-    outside a timeline that begins at 01:00:00:00, and the delivery is a
-    single frame while the log says six seconds.
+    timeline: zero puts the clip 18 hours before the beginning. Without
+    a timecode in the handover, the timeline's own start is used.
     """
     fps = resolve_timeline_rate(d.get("fps") or 30.0)
     if not d.get("start_tc"):
@@ -1448,11 +1370,9 @@ def timeline_origin(d):
 def set_timeline_start(tl, tc):
     """Give the Timeline its start timecode, and check that it took.
 
-    Every shot is placed by a frame number counted from midnight. Where
-    the start does not take, the Timeline keeps the 01:00:00:00 a new
-    one is born with, and the whole episode sits fifteen hours into it:
-    the shots right against each other, and the clock an hour out. The
-    interface answers, so the answer is read.
+    Every shot is placed by a frame number counted from midnight, so
+    where the start does not take the whole episode sits hours into the
+    Timeline. The interface answers, so the answer is read.
     """
     if not tc:
         return True
@@ -1477,9 +1397,8 @@ def set_timeline_start(tl, tc):
 def audio_track_count(cam):
     """Return how many audio tracks this camera file carries.
 
-    Counted in the file, not in the handover, which lists only the processed
-    tracks and omits the camera microphone. That difference used to leave no
-    room for the last camera, which then vanished along with its picture.
+    Counted in the file, not in the handover, which lists only the
+    processed tracks and omits the camera microphone.
     """
     file_path = cam.get("file") or cam.get("source")
     try:
@@ -1496,40 +1415,29 @@ def audio_track_count(cam):
 def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     """Lay all cameras side by side, one per video track, one audio track each.
 
-    With all_tracks every audio track stays instead. That is the single
-    camera case: there is nothing to untangle and the individual speakers
-    plus the mix belong in the timeline.
-
-    Uncut and at full length -- exactly how a timeline destined to become a
-    multicam clip has to look.
-
-    Clips are inserted with all their audio, because there is no way to
-    choose which audio track comes along. Then it is cleaned up: unlink
-    audio from video, delete all but the first audio track of each camera,
-    remove the empty tracks, and link picture and remaining audio again --
-    V1 to A1, V2 to A2. Unlinking is required, otherwise deleting an audio
-    track takes its picture with it.
-
-    For these files the first audio track is the right one: it holds this
-    camera's speaker, with the overall mix and the camera microphone behind
-    it.
+    Uncut and at full length, as a timeline destined to become a multicam
+    clip has to look. With all_tracks every audio track stays instead --
+    the single camera case. Clips are inserted with all their audio,
+    because there is no way to choose which track comes along; then audio
+    is unlinked from video, all but the first audio track per camera
+    deleted, empty tracks removed, and picture and audio linked again.
+    Unlinking is required, or deleting a track takes its picture with it.
+    The first track holds this camera's speaker.
     """
     set_timeline_start(tl, d.get("start_tc"))
     fps, origin = timeline_origin(d)
     while tl.GetTrackCount("video") < len(cameras):
-        # Checked like the audio loop below it: an AddTrack that refuses
-        # would otherwise be asked again for ever, and every ask is a call
-        # into Resolve. The window would look frozen with nothing said.
+        # An AddTrack that refuses would otherwise be asked for ever, and
+        # every ask is a call into Resolve: the window looks frozen.
         if not tl.AddTrack("video"):
             print(as_warn(T('  Resolve refuses more video tracks -- '
                             '%s of %s cameras fit.')
                           % (number_text(tl.GetTrackCount("video"), 0),
                              number_text(len(cameras), 0))))
             break
-    # Room for the audio: the cameras run simultaneously, so their audio tracks
-    # all need room side by side. Otherwise Resolve places only what fits and
-    # silently drops the rest. With some slack: what Resolve actually occupies
-    # is not known in advance, and the cleanup removes empty tracks afterwards.
+    # Room for the audio, side by side, or Resolve places what fits and
+    # silently drops the rest. With slack: what it occupies is not known
+    # in advance, and the cleanup removes empty tracks afterwards.
     needed = sum(audio_track_count(cam) for cam in cameras) + len(cameras)
     while tl.GetTrackCount("audio") < needed:
         if not tl.AddTrack("audio"):
@@ -1540,14 +1448,11 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
              " + ".join("%s %d" % (cam["track"], audio_track_count(cam))
                         for cam in cameras)))
 
-    # This timeline starts at the earliest camera, not at In point. Otherwise
-    # every camera would lie before the timeline start -- a negative position
-    # Resolve sometimes accepts and sometimes silently discards.
+    # This timeline starts at the earliest camera, not at In point, or
+    # cameras lie at a negative position Resolve sometimes discards.
     early = earliest_offset(cameras)
-    # Where the timeline really begins. The report further down measures
-    # against it, and once the start has moved the In point is no longer that
-    # point -- a distance counted from there would send the search for a
-    # missing camera after the wrong number.
+    # Where the timeline really begins: the report below measures against
+    # it, and once the start has moved the In point is no longer it.
     start_frame, begin = origin, d.get("start_tc") or "?"
     if early < 0:
         start_frame = origin + seconds_to_frames(early, fps)
@@ -1561,14 +1466,13 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
         c = clips.get(cam["file"])
         if c is None:
             continue
-        # Each camera at its measured position in the window, not all at the
-        # same point. They started at different times.
+        # Each camera at its measured position: they started at different
+        # times.
         entry[cam["track"]] = {
             "mediaPoolItem": c, "trackIndex": i,
             "recordFrame": origin + seconds_to_frames(cam.get("offset") or 0.0, fps)}
-    # One after another, not all at once. Given a batch, Resolve places what
-    # fits and drops the rest without a word -- and the audio tracks the
-    # skipped camera would have needed are then taken by the next.
+    # One after another: given a batch, Resolve places what fits and drops
+    # the rest without a word, and the next camera takes its audio tracks.
     for cam in cameras:
         if cam["track"] not in entry:
             continue
@@ -1576,11 +1480,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
         mp.AppendToTimeline([e])
         if timeline_items_per_camera(tl, cameras).get(cam["track"]):
             continue
-        # Without mediaType Resolve puts picture *and* audio on the same track
-        # number. The second camera should go to V2, but the first camera's
-        # second audio channel is long since there, and Resolve refuses without
-        # a word. So separately: picture to its video track, audio to the first
-        # free audio track.
+        # Without mediaType Resolve puts picture *and* audio on the same
+        # track number, and refuses without a word where that is taken.
+        # So separately: picture to its track, audio to the first free one.
         free = first_free_audio_track(tl)
         mp.AppendToTimeline([dict(e, mediaType=1)])
         mp.AppendToTimeline([{"mediaPoolItem": e["mediaPoolItem"],
@@ -1594,8 +1496,7 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     present = timeline_items_per_camera(tl, cameras)
     absent = [cam["track"] for cam in cameras if not present.get(cam["track"])]
     if absent:
-        # When Resolve inserts nothing it does not say why. So write down the
-        # numbers it was called with; that shows afterwards what it was.
+        # Resolve does not say why it inserted nothing, so note the numbers.
         print(T('    For checking -- Timeline starts at frame %d (%s):')
               % (start_frame, begin))
         for cam in cameras:
@@ -1617,8 +1518,7 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     print(T('  %s video tracks, named after the speakers:')
           % number_text(len(cameras), 0))
     for i, cam in enumerate(cameras, 1):
-        # The track carries the file's name, so printing both says the
-        # same thing twice -- and these names run long.
+        # The track carries the file's name; printing both says it twice.
         name = os.path.basename(cam["file"] or cam["source"])
         print("    V%-3d %s%s%s"
               % (i, cam["track"],
@@ -1653,10 +1553,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
 def cameras_by_file_name(cameras):
     """Map file name to camera, and say so where two names collide.
 
-    A timeline item reports its name, never its path, so the file name is
-    the only key there is. Two cameras writing C0001.MP4 in different
-    folders would land on one entry, and the second would quietly take
-    over the first one's clips.
+    A timeline item reports its name, never its path, so the file name
+    is the only key there is. Two cameras writing C0001.MP4 in different
+    folders land on one entry, the second taking over the first's clips.
     """
     after_file = {}
     for cam in cameras:
@@ -1691,9 +1590,8 @@ def audio_tracks_per_camera(tl, cameras):
 def trim_audio_tracks(tl, cameras, video_items):
     """Keep only the first audio track per camera and link it to its picture.
 
-    Conversion turns every track into an angle. Leaving the overall mix and
-    the camera microphone in place creates angles without picture, and
-    SmartSwitch then hears every speaker on every camera.
+    Conversion turns every track into an angle, and mix plus camera
+    microphone would become angles without picture.
     """
     audio = audio_tracks_per_camera(tl, cameras)
     if not audio:
@@ -1702,13 +1600,9 @@ def trim_audio_tracks(tl, cameras, video_items):
     print(T('\n  CLEAN UP AUDIO TRACKS'))
     kept = {}
     for cam in cameras:
-        # By the track number alone. The entries are (track, item), and
-        # two cameras whose files carry the same name put two items on
-        # the same track -- then Python compares the items themselves,
-        # and two Resolve objects cannot be put in an order. Measured
-        # against the running Resolve: it raised there and took the
-        # whole Resolve part down after the collision had been
-        # reported.
+        # By the track number alone: two cameras whose files carry the
+        # same name put two items on one track, and Python would then
+        # compare the items -- two Resolve objects cannot be ordered.
         entries = sorted(audio.get(cam["track"]) or [],
                          key=lambda pair: pair[0])
         if not entries:
@@ -1726,9 +1620,8 @@ def trim_audio_tracks(tl, cameras, video_items):
             print(T('    %-24s could not be unlinked: %s') % (cam["track"], e))
         gone = every[1:]
         if gone and not separate:
-            # Resolve reports failure only as False. Deleting now would take
-            # the linked picture along -- exactly the damage unlinking
-            # prevents.
+            # Deleting now would take the linked picture along -- exactly
+            # the damage unlinking prevents.
             print(T('    %-24s Unlinking had no effect -- the surplus '
                     'audio tracks\n    %-24s stay in place.')
                   % (cam["track"], ""))
@@ -1747,8 +1640,7 @@ def trim_audio_tracks(tl, cameras, video_items):
 
     remove_empty_audio_tracks(tl)
 
-    # Link them again: picture and its audio belong together, otherwise editing
-    # moves only half of it.
+    # Link them again, or editing moves only half of it.
     linked = 0
     for cam in cameras:
         entry = kept.get(cam["track"])
@@ -1794,11 +1686,8 @@ def trim_audio_tracks(tl, cameras, video_items):
 def remove_empty_audio_tracks(tl):
     """Remove audio tracks while they are empty.
 
-    A new timeline brings one along, and that too would become an angle on
-    conversion. Sound only: a file carries several audio tracks and only
-    some of them are taken, so an empty one is the ordinary case. An empty
-    video track is not -- a camera is missing, and the run says so loudly
-    rather than tidying the evidence away.
+    A new timeline brings one along, and that too would become an angle.
+    Sound only: an empty video track means a camera is missing.
     """
     gone = 0
     for i in range(tl.GetTrackCount("audio"), 0, -1):
@@ -1817,16 +1706,15 @@ def remove_empty_audio_tracks(tl):
 def source_channel_count(clip):
     """Return how many audio tracks this media pool clip carries.
 
-    The mapping is read from the clip properties rather than from the file,
-    so a clip reduced to one track shows as one. Resolve answers like this:
+    Read from the clip properties, not the file, so a clip reduced to
+    one track shows as one. Resolve answers like this:
 
         {"embedded_audio_channels": 4,
          "linked_audio": {},
          "track_mapping": {"1": {"channel_idx": [1], "mute": false,
                                  "type": "mono"}}}
 
-    So: four channels embedded, one track used, from channel 1. Returns
-    (tracks, embedded channels).
+    Four channels embedded, one track used. Returns (tracks, channels).
     """
     try:
         raw = clip.GetAudioMapping()
@@ -1845,8 +1733,7 @@ def source_channel_count(clip):
     channels = m.get("embedded_audio_channels")
     if not isinstance(channels, int):
         channels = None
-    # Do not rely on the name "track_mapping" alone -- it appears in no
-    # description I know of, only in the response itself.
+    # Not on the name "track_mapping" alone -- it is documented nowhere.
     for api_key, value in m.items():
         s = str(api_key).lower()
         if "linked" in s or not any(word in s for word in ("track", "mapping")):
@@ -1862,9 +1749,8 @@ def source_channel_count(clip):
 def print_audio_track_mapping():
     """Print what Resolve reports about the audio tracks, changing nothing.
 
-    For the open project: the raw channel mapping of every media pool clip,
-    plus each timeline with its tracks. Enough to check whether a change in
-    the clip attributes arrived.
+    For the open project: the raw channel mapping of every media pool
+    clip, plus each timeline with its tracks.
     """
     print(as_head(T('\nRESOLVE -- INSPECT ONLY')))
     r = connect_to_resolve()
@@ -1974,9 +1860,8 @@ def first_free_audio_track(tl):
 def clip_signature(c):
     """Return the properties Resolve might reject a file for.
 
-    Resolve does not say why it refuses to insert something. The only way
-    left is to put the cameras side by side and see how the rejected one
-    differs from the accepted ones.
+    Resolve does not say why it refuses to insert something, so the
+    cameras are put side by side and compared.
     """
     if c is None:
         return T('not in the media pool')
@@ -1997,15 +1882,10 @@ def clip_signature(c):
 def timeline_items_per_camera(tl, cameras):
     """Return which timeline clip belongs to which camera.
 
-    Returns {camera track name: [TimelineItem, ...]}.
-
-    Where two cameras write the same file name the name cannot tell them
-    apart, and the last one read would take both. What can tell them
-    apart here is the video track: every camera gets one of its own, in
-    the order they were inserted -- the same order the renaming below
-    goes by. Without that the first of the two was reported as not
-    inserted although its clip was on the timeline, so the collision
-    arrived twice: once correctly, and once as a false alarm.
+    Returns {camera track name: [TimelineItem, ...]}. Where two cameras
+    write the same file name the name cannot tell them apart, and the
+    last one read would take both. The video track can: every camera
+    gets one of its own, in the order they were inserted.
     """
     after_file = cameras_by_file_name(cameras)
     doubled = {}
@@ -2028,24 +1908,19 @@ def timeline_items_per_camera(tl, cameras):
     return assignment
 
 
-# Resolve's clip colours, sorted by distinguishability. With two speakers the
-# first two should lie as far apart as possible; a third should stand out from
-# both, and so on.
-#
-# Which names Resolve accepts appears in no documentation I know of. So nothing
-# is guessed: SetClipColor reports whether it worked, and one pass establishes
-# the usable list.
+# Resolve's clip colours, sorted by distinguishability: the first two lie
+# as far apart as possible, a third stands out from both, and so on.
+# Which names Resolve accepts is documented nowhere, so nothing is guessed
+# -- SetClipColor reports, and one pass establishes the usable list.
 CLIP_COLOURS = ["Blue", "Orange", "Green", "Pink", "Yellow", "Violet",
               "Teal", "Brown", "Lime", "Navy", "Apricot", "Purple",
               "Olive", "Chocolate", "Beige", "Tan"]
-# The wide shot is not a voice but the fallback, so it gets a calm colour that
-# stays out of the speakers' way. In Resolve that remains "Tan": the clip
-# colour should not shift under already graded projects. On a dark background
-# the interface uses a different shade -- see CLIP_COLOURS_RGB_DARK.
+# The wide shot is the fallback, not a voice, so it gets a calm colour. In
+# Resolve it stays "Tan": the colour must not shift under graded projects.
+# On dark the interface uses another shade -- see CLIP_COLOURS_RGB_DARK.
 COLOUR_WIDE_SHOT = "Tan"
-# Approximations of the clip colours for the cut band in the interface. They
-# should be recognisable, not exact -- what Resolve makes of them is what
-# counts.
+# Approximations of the clip colours for the cut band: recognisable, not
+# exact -- what Resolve makes of them is what counts.
 CLIP_COLOURS_RGB = {
     "Blue": "#3f7fbf", "Cyan": "#3fbfbf", "Green": "#3fbf5f",
     "Yellow": "#d9c23a", "Red": "#bf3f3f", "Pink": "#d98fbf",
@@ -2056,15 +1931,11 @@ CLIP_COLOURS_RGB = {
     "Teal": "#3f8f8f", "Brown": "#8f5f3f", "Lime": "#9fd93f",
     "Navy": "#3f4f8f", "Apricot": "#e8b07f", "Olive": "#7f8f3f",
     "Chocolate": "#6f4f3f", "Beige": "#ddd0b0", "Tan": "#c8b088"}
-# On a dark background the dark shades all but vanish. These are lightened far
-# enough to sit at least 50 CIE76 from the sheet -- computed, not by feel. All
-# others stay as they are.
-#
-# "Tan" is there for a different reason: as a warm sand brown it sits too close
-# to the orange of the second camera (34.9 CIE76), and that shows even more on
-# dark than on light. The pale sage keeps at least 52.9 from every speaker
-# colour and still stays calm. In Resolve the clip is still called Tan; this is
-# only the display.
+# On a dark background the dark shades all but vanish. These are lightened
+# far enough to sit at least 50 CIE76 from the sheet -- computed, not felt.
+# "Tan" is there for another reason: as a warm sand brown it sits 34.9 CIE76
+# from the second camera's orange, while the pale sage keeps at least 52.9
+# from every speaker colour. In Resolve the clip is still called Tan.
 CLIP_COLOURS_RGB_DARK = {
     "Brown": "#9d6945", "Chocolate": "#a57760", "Cocoa": "#9d7a57",
     "Navy": "#4c5fac", "Teal": "#429696", "Tan": "#b5c9b1"}
@@ -2077,8 +1948,8 @@ ON_DARK = [False]
 def usable_clip_colours(item, wanted):
     """Return the clip colour names this Resolve accepts.
 
-    Tried on a single clip whose original colour is restored afterwards.
-    Better to look once than to guess a list that changes between versions.
+    Tried on a single clip whose colour is restored afterwards: better
+    to look once than to guess a list that changes between versions.
     """
     try:
         before_value = item.GetClipColor()
@@ -2104,16 +1975,11 @@ def usable_clip_colours(item, wanted):
 def colour_per_camera(cameras, colours):
     """Assign a colour to each camera.
 
-    The wide shot colour is set aside first so no speaker gets the same one,
-    which would make the fallback look like a person. The rest are handed
-    out in order, and that order is sorted so the first two lie furthest
-    apart.
-
-    Only the first wide shot gets that colour. Two of them used to share
-    it, and the legend then showed "Wide shot 1" and "Wide shot 2"
-    behind two squares of the same colour -- two names for what looked
-    like one camera. The second one takes a speaker colour instead: it
-    is a camera of its own in the band, which is what it is.
+    The wide shot colour is set aside first so no speaker gets it, which
+    would make the fallback look like a person; the rest are handed out
+    in order, sorted so the first two lie furthest apart. Only the first
+    wide shot gets that colour -- two of them sharing it put two names
+    behind two identical squares, and the second is a camera of its own.
     """
     if not colours:
         return {}, 0
@@ -2128,8 +1994,7 @@ def colour_per_camera(cameras, colours):
         assigned[cam["track"]] = rest[i % len(rest)]
     for cam in wides[:1]:
         assigned[cam["track"]] = wide_shot_colour
-    # More angles than colours means the sequence repeats. That should not
-    # happen silently.
+    # More angles than colours repeats the sequence, and not silently.
     duplicate = max(0, len(row) - len(rest))
     return assigned, duplicate
 
@@ -2137,8 +2002,7 @@ def colour_per_camera(cameras, colours):
 def colour_clips_by_camera(tl, cameras):
     """Colour every cut in the colour of its camera.
 
-    The edit window then shows at a glance who is on screen when and how the
-    rhythm runs, without a single marker.
+    The edit window then shows who is on screen when, without a marker.
     """
     assignment = timeline_items_per_camera(tl, cameras)
     if not assignment:
@@ -2184,14 +2048,9 @@ def colour_clips_by_camera(tl, cameras):
 def create_colour_groups(p, tl, cameras):
     """Create one colour group per camera and put all its clips in.
 
-    That means grading once per camera instead of once per cut: switch the
-    node editor to "Group Pre-Clip" and the correction applies to every clip
-    of the group. Switched to "Clip" it applies to that one cut only -- both
-    side by side, computed in that order. This is why remote grades stay
-    off: they would glue the clip level together as well.
-
-    Groups can still be changed later, unlike remote grades, which would
-    have to be set before inserting.
+    Grading once per camera instead of once per cut: the node editor at
+    "Group Pre-Clip" applies to the whole group, at "Clip" to one cut.
+    This is why remote grades stay off -- they glue the clip level too.
     """
     existing = {}
     try:
@@ -2237,12 +2096,10 @@ def create_colour_groups(p, tl, cameras):
 def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
     """Insert the two clips, after the content.
 
-    The content has to be in place first, otherwise the second track they
-    belong on does not exist yet.
+    The content first, or the second track they belong on does not exist.
     """
     applied = []
-    # The second video track does not appear by itself. Without it
-    # AppendToTimeline accepts the clip and puts it nowhere.
+    # Without a second video track AppendToTimeline puts the clip nowhere.
     needs_audio = any((d.get(a) or {}).get("has_audio")
                       for a in ("intro", "outro"))
     for kind_track, at_least in (("video", 2), ("audio", 2 if needs_audio
@@ -2292,8 +2149,7 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
         tl.SetTrackName("audio", 2, "Audio Intro / Outro")
     except Exception:
         pass
-    # Check rather than trust: the interface reports success even when the clip
-    # lands somewhere else.
+    # Check rather than trust: success is reported either way.
     try:
         up_v2 = tl.GetItemListInTrack("video", 2) or []
         print(TN(len(up_v2), '    V2 now holds %s clip: %s',
@@ -2322,10 +2178,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
                              lead_in=0):
     """Build the finished camera cut.
 
-    Picture comes from the cameras, audio from the mix. The picture pieces
-    go onto the timeline without their audio, otherwise a different audio
-    track would sit under every cut and the sound would jump. The overall
-    mix runs underneath in one piece.
+    Picture from the cameras, audio from the mix. The picture pieces go
+    on without their audio, or a different audio track would sit under
+    every cut and the sound would jump. The mix runs underneath whole.
     """
     fps, origin = timeline_origin(d)
     set_timeline_start(tl, d.get("start_tc"))
@@ -2347,30 +2202,26 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
         """Return the piece if it fits this camera, otherwise nothing.
 
         *length* arrives in Timeline frames and is converted to the
-        camera's own. Rounding both separately mostly works and is
-        occasionally one frame off, and then the cut has a gap.
+        camera's own; rounding both separately leaves a gap.
         """
         entry = after_camera.get(name)
         if entry is None:
             return None
         c, offset, duration, own = entry
-        # Counted in the camera's own rate, not the Timeline's: at the
-        # Timeline's, a 24 camera in a 30 Timeline shows a quarter of the
-        # running time too late and the shot comes out a quarter too long.
+        # In the camera's own rate: at the Timeline's, a 24 camera in a
+        # 30 Timeline runs a quarter late and a quarter too long.
         start_frame = seconds_to_frames(t0 - offset, own)
         end_frame = start_frame + frames_of_the_file(length, fps, own)
         if length <= 0 or start_frame < 0:
             return None
         if duration and end_frame > seconds_to_frames(duration, own):
             return None
-        # endFrame counts exclusively -- with end_frame - 1 exactly one frame
-        # was missing at the end of every cut and a gap opened between them.
+        # endFrame counts exclusively, or a frame is missing at every cut.
         return {"mediaPoolItem": c, "startFrame": start_frame, "endFrame": end_frame}
 
-    # What the shot before left uncovered on the Timeline. A camera's own
-    # frames rarely divide the Timeline's, so a shot stops a little short
-    # of its place; the next one starts there instead of at the frame the
-    # cut names, and nothing is ever left black or pushed along.
+    # What the shot before left uncovered. A camera's own frames rarely
+    # divide the Timeline's, so a shot stops short and the next starts
+    # there rather than at the frame the cut names.
     carry = 0
     for e in cut:
         a, b = seconds_to_frames(e["start"], fps), seconds_to_frames(e["end"], fps)
@@ -2379,9 +2230,8 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
         at = a - carry
         length = b - at
         began = e["start"] - carry / float(fps)
-        # In the timeline: from the window start. In the file: later by as much
-        # as this camera started later. Where it was not yet or no longer
-        # running, the wide shot takes the place, otherwise a gap would open.
+        # In the file, later by as much as this camera started later.
+        # Where it was not running the wide shot takes the place.
         used = e["camera"]
         part = piece(used, began, length)
         if part is None:
@@ -2413,11 +2263,8 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
         return tl
     put = mp.AppendToTimeline(item)
     tl.SetTrackName("video", 1, "Camera cut")
-    # Counted from what is on the timeline, not from what was sent. The
-    # camera timeline checks every insert; this one used to report the
-    # length of the whole cut list even where Resolve had taken nothing,
-    # so a timeline that was black for its whole length was announced as
-    # finished.
+    # Counted from what is on the timeline, not from what was sent: a
+    # timeline Resolve took nothing into is not a finished one.
     landed = tl.GetItemListInTrack("video", 1) or []
     if not landed:
         print(as_warn(T('  Resolve took no picture at all -- the Timeline '
@@ -2440,10 +2287,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     if c is None:
         print(T('  The Full-Mix could not be imported.'))
         return tl
-    # Only the stored mix begins at the In point. The two fallbacks are camera
-    # files, and a camera that was already rolling carries that much extra
-    # sound at its head; laid down untrimmed the whole mix would run
-    # against the picture by exactly that camera's offset.
+    # Only the stored mix begins at the In point. The fallbacks are camera
+    # files, and one already rolling carries that much extra sound at its
+    # head -- untrimmed it runs against the picture by that offset.
     mix_cam = next((cam for cam in (d.get("cameras") or [])
                     if cam.get("file") == file_path), None)
     # A camera file again, so its frames are its own as well.
@@ -2480,11 +2326,9 @@ def add_speaker_markers(tl, speaker, d, from_s=0.0):
     the multicam timeline, which begins at the earliest camera.
     """
     fps, _origin = timeline_origin(d)
-    # Markers count differently from clips: from the start of the timeline
-    # rather than from midnight, so no offset here. Resolve allows only one
-    # marker per frame. Two speakers starting at once would be a silent loss,
-    # so they are collected first, the names merged, and moved on by a frame
-    # where necessary.
+    # Markers count from the start of the timeline, not from midnight, so
+    # no offset here. Resolve allows one marker per frame, so two speakers
+    # starting at once are merged and moved on by a frame.
     on_spot, colour_of = {}, {}
     for idx, s in enumerate(speaker):
         colour_of[s["name"]] = MARKER_COLOURS[idx % len(MARKER_COLOURS)]
@@ -2514,9 +2358,8 @@ def add_speaker_markers(tl, speaker, d, from_s=0.0):
 class Transcript(object):
     """Write everything printed to a file as well.
 
-    A lot goes wrong in the Resolve part that only shows afterwards: which
-    timeline was created, which settings Resolve accepted, which file was
-    not found again.
+    A lot goes wrong in the Resolve part that only shows afterwards:
+    which timeline was created, which settings Resolve accepted.
     """
 
     def __init__(self, file_path):
@@ -2561,8 +2404,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
             return 1
         d["_source_path"] = source_path
     if log:
-        # Only opening the file may fail here. Wrapping the build itself
-        # would run it a second time on any disk error.
+        # Only opening may fail here; wrapping the build would run it twice.
         try:
             written = Transcript(log)
         except OSError as e:
@@ -2600,16 +2442,13 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     print("  %s %s" % (r.GetProductName(), r.GetVersionString()))
     pm = r.GetProjectManager()
     p, kind = open_or_create_project(pm, name, project_carry_on)
-    # Held under its own name: the loop over intro and outro further down
-    # binds "kind" again, and the render job still has to know whether this
-    # project is one from a minute ago or one somebody set up.
+    # Held under its own name: the loop below binds "kind" again, and the
+    # render job still has to know whose project this is.
     project_is_new = kind == "created"
     if kind == "update":
-        # Only the cut timeline. The multicam one is not touched here: it
-        # carries manual work -- the multicam clip is converted from it by
-        # hand -- and further down there is a check that leaves it alone
-        # when the same cameras still sit on it in the same order. Deleting
-        # it up here made that check unreachable and threw the work away.
+        # Only the cut timeline. The multicam one carries manual work, and
+        # the check further down leaves it alone where the same cameras
+        # still sit on it -- deleting here makes that check unreachable.
         gone, stayed = refresh_resolve_timelines(
             p, p.GetMediaPool(), ["%s Cut" % name])
         if gone:
@@ -2626,10 +2465,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     print(T('\n  Settings'))
     apply_project_settings(p, d)
-    # The meter needs a scale even where nothing was adjusted, and -16 is the
-    # one for web and podcast. A display adjusts nothing, so it may stand
-    # there -- but it must not read as if the run had normalised to it, so
-    # the line above says what happened.
+    # The meter needs a scale even where nothing was adjusted, and -16 is
+    # the one for web and podcast. It must not read as if the run had
+    # normalised to it, so the line above says what happened.
     if d.get("lufs") is None:
         print(T('    Loudness was not adjusted -- the target below is only '
                 'what the meter\n    measures against.'))
@@ -2649,8 +2487,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     print("\n  Import")
     mp = p.GetMediaPool()
-    # The overall mix comes along as its own file where it exists, so nobody
-    # has to guess which audio track in which camera is the right one.
+    # The mix as its own file, so no audio track has to be guessed.
     mix = mix_file_from_handover(d)
     to_insert = [cam["file"] for cam in cameras]
     if mix[0] and mix[0] not in to_insert:
@@ -2661,18 +2498,15 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
             to_insert.append(entry["source"])
     clips = import_media(mp, to_insert)
 
-    # What gets built depends on what is there. A camera cut needs the speaker
-    # statistics; a multicam clip needs more than one camera. Missing either,
-    # that timeline is not created at all -- an empty one helps nobody.
+    # A camera cut needs the speaker statistics, a multicam clip more than
+    # one camera. Missing either, that timeline is not created at all.
     only_one = len(cameras) < 2
     tl = None
     if d.get("cut"):
         print(T('\n  Timeline with the finished cut'))
         tl = create_timeline(mp, "%s Cut" % name)
         # No speaker markers on a cut of several cameras: the picture
-        # already says who speaks, and they would only sit around under
-        # the clips. With one camera it is the other way round, and the
-        # only_one branch below sets them on this very timeline.
+        # already says who speaks. With one camera the branch below does.
         _fps, _origin = timeline_origin(d)
         lead_in = lead_in_offset(mp, tl, d, clips, _fps, _origin)
         build_cut_timeline(mp, tl, d["cut"], cameras, clips, d,
@@ -2707,11 +2541,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     if only_one:
         print(T('\n  Only one camera -- a multicam clip would be pointless.'))
-        # The markers then belong on the cut timeline. They sat on the
-        # multicam timeline alone, and with one camera there is none, so
-        # a single-camera run said the passages travelled as markers and
-        # set not one. Whoever reframes a 360 shot by hand needs to see
-        # where each person speaks.
+        # The markers then belong on the cut timeline: there is no
+        # multicam one, and whoever reframes a 360 shot by hand needs
+        # to see where each person speaks.
         if tl is not None:
             if d.get("speakers"):
                 add_speaker_markers(tl, d["speakers"], d)
@@ -2732,9 +2564,8 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
                                for i, cam in enumerate(ordered, 1))))
         return 0
     if find_timeline(p, "%s Multicam" % name) is not None:
-        # It is there but holds other cameras. It is not deleted: whatever
-        # was done to it by hand is worth more than a tidy name, and the
-        # multicam clip made from it would be gone with it.
+        # It is there but holds other cameras. Not deleted: the multicam
+        # clip made from it by hand would go with it.
         print(as_warn(T('  A Timeline of this name is there with other '
                         'cameras on it. It stays;\n  the new one is built '
                         'beside it under a name of its own.')))

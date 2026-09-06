@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 """One file, whatever it is called: the shape a path is compared in.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses. One name, and it stands
-# above the seam, so it is a copy of what was there and not read late.
+# Bound above the seam, so it is a copy and not read late.
 os = PROGRAM.os
 
 
@@ -23,12 +19,9 @@ os = PROGRAM.os
 def path_key(path):
     """The one shape a path takes when two of them are compared.
 
-    abspath settles the folder and nothing else: on Windows the same
-    file reached two ways keeps the case and the separator it was typed
-    with, and compares unequal. normcase settles both, and on a Mac it
-    changes nothing. Every comparison and every path used as a key goes
-    through here, so the fault where one side is put into shape and the
-    other is not cannot be written.
+    abspath settles the folder; normcase settles case and separator, so
+    the same file reached two ways on Windows compares equal. Every
+    comparison and every path used as a key goes through here.
     """
     return os.path.normcase(os.path.abspath(path))
 
@@ -36,16 +29,13 @@ def path_key(path):
 class ByFile(dict):
     """A dictionary of files: one entry per file, whatever it is called.
 
-    The same file arrives typed by hand, out of a file dialogue and out
-    of a project file, and on Windows those differ in case while
-    meaning one file. Finding therefore goes through path_key on every
-    side. The key keeps the spelling it was first written under, so
-    what is walked over, shown or saved is the name on the disc.
+    On Windows one file arrives under several spellings, so finding
+    goes through path_key on every side. The key keeps the spelling it
+    was first written under: what is shown or saved is the name on disc.
     """
 
-    # A key that is not a string passes through untouched. A key made
-    # of a path and something else is built where it is built, and
-    # path_key belongs in that one place -- see prework_api_key.
+    # A key that is not a string passes through untouched; a compound
+    # key is put into shape where it is built -- see prework_api_key.
 
     def __init__(self, *given, **named):
         dict.__init__(self)
@@ -57,8 +47,7 @@ class ByFile(dict):
         """The spelling each file sits under, rebuilt if it is gone.
 
         A dictionary can come into being without __init__ -- fromkeys,
-        a copy read back in -- and a lookup against an index that is
-        not there would quietly miss.
+        a copy read back in -- and a lookup would then quietly miss.
         """
         try:
             return self._spelt
@@ -136,11 +125,7 @@ class ByFile(dict):
 
 
 class FileSet(set):
-    """A set of files: one entry per file, whatever it is called.
-
-    The companion to ByFile, and for the same reason. Only the members
-    that are strings are put into shape; anything else passes through.
-    """
+    """A set of files: one entry per file, whatever it is called."""
 
     def __init__(self, given=()):
         set.__init__(self)

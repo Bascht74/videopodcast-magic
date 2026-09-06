@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
 """What a file says of itself: its size, its atoms, its colour, its keys.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name.
+A piece read out of the folder beside it by beside(). It cannot import
+the file it was cut out of -- that file is still being read -- so the
+program is handed in and every name is bound below, by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# reading reads as it did in the one file. Seven names are missing,
-# and the two blocks under the list say which and why.
+# What this piece uses out of the program. Seven names are missing, and
+# the blocks under the list say which and why.
 
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -35,15 +32,13 @@ sys = PROGRAM.sys
 timecode_string = PROGRAM.timecode_string
 unwrap_day = PROGRAM.unwrap_day
 
-# Six of the seven stand in the project, which is read far below this
-# piece: MATRIX_BT2020, PRIMARIES_BT2020, camera_text, colour_text,
-# file_frame_rate and known_frame_rate. A copy taken here would find
-# nothing, so each is read as PROGRAM.<name> where it is used.
+# Six of the seven stand further down than this piece, so a copy here
+# would find nothing: MATRIX_BT2020, PRIMARIES_BT2020, camera_text,
+# colour_text, file_frame_rate, known_frame_rate.
 
-# GUI_RUNNING is the seventh. The window sets it on the program
-# object, which is a write no piece is told about, so a copy taken
-# here would answer with the value of the run before. It stays over
-# there and is read as PROGRAM.GUI_RUNNING as well.
+# GUI_RUNNING is the seventh: the window writes it on the program
+# object without telling the pieces, so a copy here would answer with
+# the run before. Read as PROGRAM.GUI_RUNNING.
 
 
 # =====================================================================
@@ -68,10 +63,8 @@ def khz_text(value):
     """A sample rate in kilohertz, the way a person reads one.
 
     48000 gives "48" and 44100 gives "44.1", as many places as the
-    number needs; the unit stands in the sentence and not here, so a
-    catalogue key goes on saying what its slots hold. ffprobe hands
-    the rate over as text and can hand over none, and one that cannot
-    be read cannot be divided: then "?" stands where the digits would.
+    number needs; the unit stands in the sentence, so a catalogue key
+    goes on saying what its slots hold.
     """
     try:
         return number_text(float(value) / 1000.0, None)
@@ -90,9 +83,8 @@ def audio_summary(file_path):
                             or a.get("bits_per_sample") or "?")
     channels = channel_text(a.get("channels"))
     tc = file_timecode(file_path)
-    # Read at the file's own rate, so shown at it too: at 25 the frames
-    # of the timecode are worth 1/25 s, and a line printed at 30 would
-    # give the file back a timecode it never carried.
+    # Read at the file's own rate, so shown at it too: a line printed
+    # at 30 gives back a timecode the file never carried.
     rate = picture_rate(d) or 30.0
     return [("Format", "%s, %s, %s kHz, %s"
              % (a.get("codec_name", "?"), depth,
@@ -109,7 +101,7 @@ MOV_CONTAINERS = (b"moov", b"trak", b"mdia", b"minf", b"stbl", b"wave")
 def _mov_atoms(f, end):
     """Enumerate atoms between the current offset and end.
 
-    Yields (kind, start of payload, end of atom) per atom.
+    Yields (kind, start of payload, end of atom).
     """
     while True:
         begin = f.tell()
@@ -172,8 +164,7 @@ def colour_arguments(source, extend=False):
     With -c:v copy ffmpeg rewrites the colr box from its own values and
     replaces anything it does not know, so Resolve no longer recognises
     the input colour space. With fill_gaps=True one gap some cameras
-    leave is closed: a BT.2020 matrix with unspecified primaries makes
-    the primaries BT.2020 too. Nothing is invented.
+    leave is closed: BT.2020 matrix, unspecified primaries.
     """
     values = mov_colour_tags(source)
     if not values:
@@ -191,11 +182,9 @@ def colour_arguments(source, extend=False):
 def camera_metadata(file_path):
     """Read the camera's QuickTime metadata keys.
 
-    They name the device and app used. Resolve reads them; without them
-    it cannot tell that a phone recorded in log, because the colr box of
-    those files reports the transfer function as unspecified. Only the
-    com. keys, because these have to reach the new file unchanged, and a
-    plain key such as encoder is rewritten by whatever wrote it.
+    Without them Resolve cannot tell that a phone recorded in log: the
+    colr box of those files reports the transfer as unspecified. Only
+    the com. keys -- encoder is rewritten by whatever wrote it.
     """
     try:
         d = ffprobe_json(file_path)
@@ -205,10 +194,9 @@ def camera_metadata(file_path):
     return {k: v for k, v in tags.items() if k.startswith("com.")}
 
 
-# The one data track ffmpeg writes whole. mebx -- what an iPhone writes
-# -- and camm, rtmd and fdsc arrive with an empty sample description.
-# And never tmcd: ffmpeg then drops the timecode this program worked
-# out, and the camera lands in the wrong place on the common axis.
+# The one data track ffmpeg writes whole: mebx, camm, rtmd and fdsc
+# arrive with an empty sample description. Never tmcd -- ffmpeg then
+# drops the timecode and the camera lands in the wrong place.
 DATA_TAGS_TO_KEEP = ("gpmd",)
 
 
@@ -235,8 +223,7 @@ def data_track_maps(file_path):
 def check_data_tracks(source, target):
     """Report which of the camera's data tracks reached the new file.
 
-    The timecode track is not counted: this program writes one of its
-    own, so it is replaced rather than lost.
+    The timecode track is not counted: this program writes its own.
     """
     a = [t for t in data_track_tags(source) if t != "tmcd"]
     if not a:
@@ -251,9 +238,8 @@ def check_data_tracks(source, target):
         print(T('  Data tracks:     %s carried over') % ", ".join(kept))
 
 
-# What the container says about itself and who wrote it. Every rewrite
-# moves these, and none of them came off a camera, so counting them
-# would claim camera data the camera never wrote.
+# What the container says about itself and who wrote it. None came off
+# a camera, so counting them would claim data no camera wrote.
 CONTAINER_TAGS = ("major_brand", "minor_version", "compatible_brands",
                   "encoder")
 
@@ -271,11 +257,9 @@ def file_metadata(file_path):
 def check_camera_metadata(source, target):
     """Report whether the camera metadata keys survived the copy.
 
-    Every key the source carries, not only the Apple ones: a camera
-    writing none of those used to get no line at all. Presence is
-    compared and not the value, because some values change on purpose
-    -- the timecode is worked out afresh -- and a check reading those
-    as a loss would cry wolf on every run.
+    Every key the source carries, not only the Apple ones. Presence is
+    compared and not the value: some values change on purpose -- the
+    timecode is worked out afresh -- and would read as a loss.
     """
     a, b = file_metadata(source), file_metadata(target)
     if not a:
@@ -297,21 +281,19 @@ def check_camera_metadata(source, target):
 
 
 # Atoms in the sample description that ffmpeg drops when copying but
-# Resolve reads. For iPhone recordings "logs" holds the recording
-# curve, e.g. "com.apple.apple-wide-gamut.apple-log", which is how
-# Resolve recognises Apple Log 2. The colr box says nothing about it.
+# Resolve reads. "logs" holds the recording curve of an iPhone, which
+# is how Resolve knows Apple Log 2; the colr box says nothing about it.
 
 # "gama" is the curve of older QuickTime recordings, "dvcC" and "dvvC"
-# the Dolby Vision set. Not "st3d": ffmpeg writes a vexu box of its own
-# beside it, and the two together make a file nothing will open, while
-# every check in copy_mov_atoms passes.
+# the Dolby Vision set. Not "st3d": ffmpeg writes a vexu box beside it
+# and the two together make a file nothing will open.
 ATOMS_TO_COPY = (b"logs", b"gama", b"dvcC", b"dvvC")
 
 
 def _atom_boxes(data, start, end):
     """Return the boxes of one MOV level.
 
-    Yields (start, size, kind, header length) per box.
+    Yields (start, size, kind, header length).
     """
     i = start
     while i + 8 <= end:
@@ -349,8 +331,7 @@ def _video_track_chain(data, moov_i, moov_size, moov_head):
             continue
         hdlr = _find_atom(data, mdia[0] + mdia[2], mdia[0] + mdia[1],
                            b"hdlr")
-        # hdlr: four bytes version and flags, four reserved, then the kind
-        # of track.
+        # hdlr: version and flags, four reserved, then the kind.
         if not hdlr or data[hdlr[0] + hdlr[2] + 8:
                              hdlr[0] + hdlr[2] + 12] != b"vide":
             continue
@@ -407,9 +388,8 @@ ATOM_LIMIT = 64 * 1024
 def _verify_mov_after_edit(file_path, moov_pos, moov_old_size, above_before_value, for_it):
     """Verify the file survived the edit. An empty result means it did.
 
-    Checked against the state before: same top level boxes at the same
-    offsets, moov still last and reaching the end of file, the chain down to
-    the video sample entry readable again, and the intended atoms present.
+    Against the state before: the same top level boxes at the same
+    offsets, moov still last and reaching the end of the file.
     """
     try:
         total = os.path.getsize(file_path)
@@ -438,8 +418,7 @@ def _verify_mov_after_edit(file_path, moov_pos, moov_old_size, above_before_valu
         missing = [a.decode("latin1") for a in for_it if a not in present]
         if missing:
             return T('did not arrive: %s') % ", ".join(missing)
-        # Every level has to fit exactly inside its parent, otherwise some
-        # size field is wrong.
+        # A level not fitting inside its parent means a wrong size field.
         for idx in range(len(chain) - 1):
             i, head = chain[idx]
             size = struct.unpack(">I", moov[i:i + 4])[0]
@@ -455,14 +434,12 @@ def _verify_mov_after_edit(file_path, moov_pos, moov_old_size, above_before_valu
 def copy_mov_atoms(source, target, kinds=ATOMS_TO_COPY):
     """Copy sample description atoms from the source into the new file.
 
-    Copied byte for byte, nothing synthesised, and only where moov sits
-    at the end of the target: growing it then moves no media data and
-    every offset stays valid. The result is verified and the old moov
-    put back on any mismatch -- better without the atom than with a file
-    nothing will open. Returns the atoms copied, [] where none were.
+    Copied byte for byte and only where moov sits at the end of the
+    target: growing it then moves no media data and every offset stays
+    valid. The old moov goes back on any mismatch.
     """
-    # Folders, missing paths and empty names occur here, and copying
-    # atoms is a side step: they end it quietly rather than raise.
+    # Copying atoms is a side step, so a folder or a missing path ends
+    # it quietly rather than raising.
     for file_path in (source, target):
         if not file_path or not os.path.isfile(file_path):
             return []
@@ -481,8 +458,7 @@ def copy_mov_atoms(source, target, kinds=ATOMS_TO_COPY):
     e_size = struct.unpack(">I", src[e_i:e_i + 4])[0]
     src_kind = bytes(src[e_i + 4:e_i + 8])       # hvc1, avc1, apcn ...
     existing = {}
-    # The sub-atoms sit behind the box header and 78 bytes of fixed
-    # fields of the video entry.
+    # The sub-atoms sit behind the header and 78 fixed bytes.
     for i, size, kind, head in _atom_boxes(src, e_i + e_head + 78,
                                    e_i + e_size):
         if kind not in kinds:
@@ -505,8 +481,7 @@ def copy_mov_atoms(source, target, kinds=ATOMS_TO_COPY):
         dst = bytearray(f.read(dst_size))
     if len(dst) != dst_size:
         return []
-    # The old moov stays in place: if the verification fails, it comes
-    # back exactly as it was.
+    # Kept, so a failed verification can put it back byte for byte.
     old_moov = bytes(dst)
     chain = _video_track_chain(dst, 0, len(dst), 8)
     if not chain:
@@ -515,8 +490,7 @@ def copy_mov_atoms(source, target, kinds=ATOMS_TO_COPY):
     e_size = struct.unpack(">I", dst[e_i:e_i + 4])[0]
     dst_kind = bytes(dst[e_i + 4:e_i + 8])
     if dst_kind != src_kind:
-        # An atom from an HEVC description does not belong in an H.264 one.
-        # The boxes fit, the contents do not.
+        # HEVC atom in an H.264 entry: the boxes fit, the contents do not.
         print(T('  Cannot add atoms: the source is %s, the target %s.') % (src_kind.decode("latin1", "replace"),
                        dst_kind.decode("latin1", "replace")))
         return []
@@ -595,9 +569,7 @@ def log_curve_from_atom(text):
 
     The name carries the colour space too: the same curve is recorded in
     two of them, and a table built for one lays the wrong space on the
-    other. Known identifiers get a plain name, anything else is shown
-    verbatim -- an unknown identifier is information, an invented name
-    would not be.
+    other. Anything unknown is shown verbatim rather than named.
     """
     raw = (text or "").replace("\x00", " ").strip()
     if not raw:
@@ -608,8 +580,8 @@ def log_curve_from_atom(text):
 def check_colour_survived(source, target, extend=False):
     """Report whether the written file carries the intended colour tags.
 
-    Compared against the intended values, not against the source: missing
-    primaries are filled in from the matrix, so the box is meant to differ.
+    Against the intended values, not the source: missing primaries are
+    filled in from the matrix, so the box is meant to differ.
     """
     a, b = mov_colour_tags(source), mov_colour_tags(target)
     if a is None and b is None:
@@ -633,10 +605,9 @@ def check_colour_survived(source, target, extend=False):
 def mov_colour_tags(file_path):
     """Read the colr box of a MOV file.
 
-    Returns (primaries, transfer, matrix, full range) or None. ffprobe
-    is not used: it reports names rather than numbers and names a wrong
-    one for values it does not know, Apple Log among them. Only the atom
-    tree is walked, so a huge recording is skipped over rather than read.
+    Returns (primaries, transfer, matrix, full range) or None. Not
+    ffprobe: it reports names rather than numbers and names a wrong one
+    for values it does not know, Apple Log among them.
     """
     try:
         size = os.path.getsize(file_path)
@@ -650,8 +621,7 @@ def video_summary(file_path, info):
     v = info["video"]
     tags = info.get("tags") or {}
     # The nominal rate comes first: editors use it. The measured one
-    # beside it where it differs -- frame count over track duration, so a
-    # property of the container.
+    # beside it where it differs -- frame count over track duration.
     label_text, measured = info.get("nominal") or info["fps"], info["fps"]
     lines = [("Video", "%s, %sx%s, %s fps%s%s"
                % (v.get("codec_name", "?"), v.get("width"), v.get("height"),
@@ -711,8 +681,8 @@ def open_in_file_manager(file_path):
             if os.path.isdir(file_path):
                 os.startfile(folder)
             else:
-                # The switch and the path have to be one single argument,
-                # otherwise Explorer opens the documents folder.
+                # Switch and path as one argument, or Explorer opens
+                # the documents folder.
                 subprocess.Popen('explorer /select,"%s"'
                                  % os.path.normpath(file_path))
         else:
