@@ -551,16 +551,35 @@ tracks are decided, under the assignment table.
 
 At the top stands **Language of the window**. Its first entry is the
 system's own language, and it says which one that is, so nobody has to
-guess what they are choosing. Under it the nine the program speaks,
-each written the way that language writes it -- Русский, 中文, 日本語
-and the six in Latin letters. A name is written in its own language on
-purpose: whoever is looking for a language may not read the one the
-window is standing in.
+guess what they are choosing. Under it the ten the program speaks, each
+written the way that language writes it -- العربية, Русский, 中文,
+日本語 and the six in Latin letters. A name is written in its own
+language on purpose: whoever is looking for a language may not read the
+one the window is standing in.
+
+**Arabic turns the window round.** Menu bar, tabs, boxes, tables and
+this settings sheet all read from right to left, the way an Arabic
+reader expects. The log keeps its own direction: a line that begins
+with a path or a timecode stays as it was written, because a run's own
+words are not a sentence in any language.
 
 The choice is spoken from the next start, and the line above the field
 says so before anybody picks. The window settles its language once,
 while it is being built, and every caption in it has its words by the
 time it stands there.
+
+**The window speaks the language you chose; what runs beside it mostly
+does not.** The menu bar, the tabs and the buttons carry the chosen
+language in every language on offer. What the program says while it is
+working -- the lines that scroll past during a run -- stays English.
+That is the same in Spanish, French and Arabic alike: the program says
+about 1400 different things, and a translation carries some 330 of
+them, the ones a person reads before a run rather than during it. What
+is not translated shows in English rather than as a gap.
+
+German is the exception, and even there it is not all of it: about one
+text in eight has no German either and stands in English too.
+
 ## Reaching everything by menu or key
 
 The menu bar carries four menus: **File**, **View**, **Player** and
