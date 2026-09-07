@@ -18,7 +18,6 @@ T = PROGRAM.T
 TN = PROGRAM.TN
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 audio_summary = PROGRAM.audio_summary
-beside = PROGRAM.beside
 group_recording_parts = PROGRAM.group_recording_parts
 guess_production_name = PROGRAM.guess_production_name
 number_text = PROGRAM.number_text
@@ -41,13 +40,12 @@ video_summary = PROGRAM.video_summary
 # same way: both are asked as PROGRAM.something where they are called,
 # by which time the window has been read whole.
 
-# What the fittings bring. beside() lays its path against the folder
-# the way in sits in, so this finds videopodcast_magic/fittings/ and
-# not a folder under this one; the window is handed the same module.
-fittings = beside("fittings", program=PROGRAM)
-_list_accepts = fittings._list_accepts
-label = fittings.label
-speaks_as = fittings.speaks_as
+# What the fittings bring. The way in reads that piece above the
+# window now, so these are ordinary head lines and no beside() call
+# is needed here to reach the same module.
+_list_accepts = PROGRAM._list_accepts
+label = PROGRAM.label
+speaks_as = PROGRAM.speaks_as
 
 
 #-------------------------------------------------- The list as a widget

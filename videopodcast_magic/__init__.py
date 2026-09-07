@@ -303,6 +303,26 @@ watch_outside_calls = herald.watch_outside_calls
 write_through = herald.write_through
 
 
+#------------------------------------------------ Beside the window
+# What is running right now, so that breaking off can end it. A flag
+# alone would not do: the run waits on ffmpeg for most of its minutes,
+# and a child nobody tells goes on writing after the window has stopped.
+RUN_STOP = {"wanted": False, "children": set(), "at": ""}
+
+
+#----------------------------------------------- The window's toolbox
+# Read here and not by the window, so any piece that takes a window
+# part of its own binds these names at its head instead of reaching
+# for them at every use. Neither needs anything later than the herald.
+player = beside("player", program=PROGRAM)
+take_from(player)
+
+# fittings/ asks for player/ at its own head, so it stands second and
+# beside() hands it back the piece already read.
+fittings = beside("fittings", program=PROGRAM)
+take_from(fittings)
+
+
 #--------------------------------------------------------- The hearing
 
 hearing = beside("hearing", program=PROGRAM)
@@ -501,13 +521,6 @@ def main():
     # the recordings are grouped and nothing else -- not the time axis,
     # not the arithmetic, not which code writes the files.
     return multitrack_or_single(args, ap, audio_paths, video_paths)
-
-
-#------------------------------------------------ Beside the window
-# What is running right now, so that breaking off can end it. A flag
-# alone would not do: the run waits on ffmpeg for most of its minutes,
-# and a child nobody tells goes on writing after the window has stopped.
-RUN_STOP = {"wanted": False, "children": set(), "at": ""}
 
 
 #---------------------------------------------------------- The material
