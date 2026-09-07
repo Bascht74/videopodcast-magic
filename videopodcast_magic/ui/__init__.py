@@ -63,7 +63,6 @@ assignment_rows = PROGRAM.assignment_rows
 audio_summary = PROGRAM.audio_summary
 back_pick = PROGRAM.back_pick
 beside = PROGRAM.beside
-blocks_facts = PROGRAM.blocks_facts
 camera_after_a_mark = PROGRAM.camera_after_a_mark
 camera_gets_from = PROGRAM.camera_gets_from
 camera_name_suggestion = PROGRAM.camera_name_suggestion
@@ -72,9 +71,7 @@ camera_to_remember = PROGRAM.camera_to_remember
 cameras_in_track_order = PROGRAM.cameras_in_track_order
 cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
-channel_count = PROGRAM.channel_count
-channel_facts_name = PROGRAM.channel_facts_name
-channel_joins = PROGRAM.channel_joins
+channel_rows_build = PROGRAM.channel_rows_build
 check_resolve = PROGRAM.check_resolve
 collect_findings = PROGRAM.collect_findings
 colours_pick = PROGRAM.colours_pick
@@ -103,7 +100,6 @@ how_to_get_ffmpeg = PROGRAM.how_to_get_ffmpeg
 https_context = PROGRAM.https_context
 install_ffmpeg = PROGRAM.install_ffmpeg
 installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
-joined_channels = PROGRAM.joined_channels
 json = PROGRAM.json
 keep_setting = PROGRAM.keep_setting
 kept_language = PROGRAM.kept_language
@@ -152,7 +148,6 @@ preset_list_bring = PROGRAM.preset_list_bring
 preset_missing_rows = PROGRAM.preset_missing_rows
 preset_mode_note = PROGRAM.preset_mode_note
 preview_out_of_date = PROGRAM.preview_out_of_date
-probe_has = PROGRAM.probe_has
 probe_warm = PROGRAM.probe_warm
 project_files = PROGRAM.project_files
 project_opened_note = PROGRAM.project_opened_note
@@ -1298,133 +1293,6 @@ def join_box_fill(box, path, targets, blocks=None):
                   'search nothing to go on.'))
 
 
-def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
-                       channel_choice, channel_node, channels_arrived,
-                       clip_kind_values, items, remembered, split_files):
-    """Build the channel rows under one recording.
-
-    Out of gui() because it holds no state: what it needs comes in as
-    arguments, in the order the window has them.
-    """
-    api_key = os.path.abspath(path)
-    channel_node[api_key] = (node, path)
-    row = blocks_of.get(api_key) or [api_key]
-    # Where the list stands, kept over the rebuild: ticking a channel
-    # replaces every row below the file, and the list would jump to top.
-    bar_was = items.verticalScrollBar().value()
-    QtCore.QTimer.singleShot(
-        0, lambda: items.verticalScrollBar().setValue(bar_was))
-    for k in range(node.childCount() - 1, -1, -1):
-        kid = node.child(k)
-        if kid.data(0, Qt.UserRole + 2) == "channel":
-            node.removeChild(kid)
-    try:
-        how_many = channel_count(path)
-    except Exception:
-        how_many = 1
-    if how_many <= 1:
-        return
-
-    spot = [0]
-
-    def channel_row(text, value):
-        kid = QtWidgets.QTreeWidgetItem([text, "", value])
-        kid.setData(0, Qt.UserRole + 2, "channel")
-        node.insertChild(spot[0], kid)
-        spot[0] += 1
-        return kid
-
-    if not all(probe_has(channel_facts_name(), x) for x in row):
-        channel_row(T('      %s channels') % number_text(how_many, 0),
-                    T('measurement running ...'))
-        return
-    # Over the whole recording: the first block can be the soundcheck,
-    # and then it says nothing about what the channels carry.
-    facts = blocks_facts(row)
-    silent = list(facts.get("silent") or [])
-    picked = channel_choice.get(api_key) or {}
-    # What the file is decides before the measurement does, and only for
-    # a two channel intro or outro -- see kind_makes_stereo.
-    of_kind = clip_kind_values.get(api_key)
-    kind = (of_kind.get() if of_kind is not None
-            else remembered.get("kind:" + api_key))
-    joined = joined_channels(facts, picked, kind)
-    judged = {k: (stereo, sure, why)
-              for k, stereo, sure, why in channel_joins(facts, kind)}
-    # One row per channel; the tick says "this one and the next make one
-    # stereo track". On a mixer, channels 2 and 3 can be the pair.
-    second = {k + 1 for k in joined}
-    for k in range(how_many):
-        kid = channel_row(T('      Channel %d') % (k + 1), "")
-        if k in second:
-            kid.setText(2, T('with Channel %d one stereo track') % k)
-            continue
-        if silent[k:k + 1] == [True]:
-            kid.setText(2, T('unused input -- ignored'))
-            continue
-        if k >= how_many - 1 or silent[k + 1:k + 2] == [True]:
-            kid.setText(2, T('a track of its own'))
-            continue
-        stereo, sure, why = judged.get(k, (False, False, ""))
-        measured_stereo = stereo         # before any hand overrides it
-        if picked.get(k) is not None:
-            stereo = bool(picked[k])
-            why = T('set by hand -- overrides the measurement')
-            sure = True
-        # The tick and its reason side by side in the wide column: in the
-        # narrow one the word beside the box is cut off after one letter.
-        beside = QtWidgets.QWidget()
-        in_a_row = QtWidgets.QHBoxLayout(beside)
-        in_a_row.setContentsMargins(0, 0, 0, 0)
-        in_a_row.setSpacing(8)
-        # An offer, not a statement: a channel already spoken for says
-        # "with Channel N one stereo track" instead.
-        box = QtWidgets.QCheckBox(
-            T('join with Channel %d') % (k + 2))
-        box.setChecked(bool(joined.get(k)))
-        said = label(why if sure else T('uncertain -- %s') % why,
-                     COLOURS["quiet"])
-        # German writes the finding half as long again as English, so it
-        # wraps: what would run past the edge is the finding itself.
-        said.setWordWrap(True)
-        in_a_row.addWidget(box)
-        in_a_row.addWidget(said, 1)
-        hint(box, T('On makes one stereo track out of this channel '
-                    'and the next.\nThe next one then has no tick of '
-                    'its own -- it is spoken for.\nWhat was measured '
-                    'is in the line beside it.'))
-
-        def chosen(on, file_path=api_key, number=k,
-                   measured=measured_stereo):
-            # Only a real override is remembered: ticking a pair the
-            # measurement already found puts the row back to measured.
-            by_hand = channel_choice.setdefault(file_path, {})
-            if bool(on) == bool(measured):
-                by_hand.pop(number, None)
-            else:
-                by_hand[number] = bool(on)
-            # The cut tracks follow the old answer, so every block goes:
-            # block one's channel 1 beside block two's 1+2 otherwise.
-            for block in blocks_of.get(file_path) or [file_path]:
-                split_files.pop(block, None)
-            QtCore.QTimer.singleShot(
-                0, lambda: channels_arrived(file_path))
-
-        box.toggled.connect(chosen)
-        items.setItemWidget(kid, 2, beside)
-    # A moment later: the column still answers with its old width while
-    # it is saying that the width has changed.
-    def when_settled(*_a):
-        QtCore.QTimer.singleShot(
-            0, lambda: channel_rows_fit(items, Qt, QtCore, QtWidgets))
-
-    head = items.header()
-    if not head.property("channel_rows_fit"):
-        head.setProperty("channel_rows_fit", True)
-        head.sectionResized.connect(when_settled)
-    when_settled()
-
-
 def queue_once(QtCore, pending, key, work):
     """Let the event loop do this once, however often it is asked.
 
@@ -1623,23 +1491,6 @@ def break_off_arm(button):
     button.setEnabled(True)
     button.setText(T('Stop'))
     button.setVisible(True)
-
-
-def wide_too_short(number):
-    """A line for where the wide shot lasts less than the shortest shot.
-
-    Both are free fields and nothing stops them contradicting: set that
-    way, every wide shot is merged away again and no line says why. The
-    numbers go through the number helper and not "%g", which turns
-    exponential from a million on and leaves "1,5e+06 s" in German.
-    """
-    holds = float(number.get("wide-length") or 0.0)
-    least = float(number.get("min-edit-duration") or 0.0)
-    if holds <= 0 or least <= 0 or holds >= least:
-        return ""
-    return T('The wide shot holds %s s, less than the shortest shot of '
-             '%s s -- so it is merged away again and never appears.\n') % (
-                 number_text(holds, 1), number_text(least, 1))
 
 
 def question_dialog(f, window, QtWidgets, label):
