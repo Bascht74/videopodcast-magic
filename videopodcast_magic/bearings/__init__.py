@@ -15,18 +15,24 @@ PROGRAM = PROGRAM
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 ByFile = PROGRAM.ByFile
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
+CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 COLOURS = PROGRAM.COLOURS
 COLOURS_DARK = PROGRAM.COLOURS_DARK
 COLOURS_LIGHT = PROGRAM.COLOURS_LIGHT
 CUT_CHOICES = PROGRAM.CUT_CHOICES
 CUT_FIELDS = PROGRAM.CUT_FIELDS
+FILE_FORMAT = PROGRAM.FILE_FORMAT
 FileSet = PROGRAM.FileSet
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
+PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
 SOUND_MATCH_ENOUGH = PROGRAM.SOUND_MATCH_ENOUGH
 T = PROGRAM.T
 TN = PROGRAM.TN
 TRAILING_NUMBER = PROGRAM.TRAILING_NUMBER
+TYPE_CONTENT = PROGRAM.TYPE_CONTENT
+TYPE_IGNORED = PROGRAM.TYPE_IGNORED
+TYPE_INTRO = PROGRAM.TYPE_INTRO
 VERSION = PROGRAM.VERSION
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 WEAK_MATCH = PROGRAM.WEAK_MATCH
@@ -47,6 +53,7 @@ format_complaint = PROGRAM.format_complaint
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 glob = PROGRAM.glob
 json = PROGRAM.json
+no_place_message = PROGRAM.no_place_message
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
@@ -55,9 +62,11 @@ path_key = PROGRAM.path_key
 place_track_on_axis = PROGRAM.place_track_on_axis
 qt_palette = PROGRAM.qt_palette
 re = PROGRAM.re
+safe_filename = PROGRAM.safe_filename
 shapes_match = PROGRAM.shapes_match
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
+threading = PROGRAM.threading
 time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
 video_envelope = PROGRAM.video_envelope
@@ -1454,6 +1463,295 @@ def axis_answer_kept(state):
     state["axis_answered"] = state.get("axis_asked")
     state["axis_covered"] = ((state.get("axis_covered") or set())
                              | (state.get("axis_asking") or set()))
+
+
+def kinds_said_again(state, rows):
+    """Draw the Kind fields of both tables again.
+
+    Only the assignment tab knows how to say its own; before it stands,
+    the file list is all there is.
+    """
+    if state.get("kinds_refresh"):
+        state["kinds_refresh"]()
+    else:
+        video_kinds_again(rows)
+
+
+def kind_proposal_apply(values, unplaceable, brief=()):
+    """Propose a Kind for every file with no place.
+
+    Fills only what still carries the program's own answer, never a Kind
+    somebody picked -- read off chosen_by_hand, not off the text, since
+    setting a file back to content by hand is an answer too. Unplaceable
+    None means no measurement ran. *brief*: the shortest becomes intro.
+    """
+    if unplaceable is None:
+        return []
+    lost = set(os.path.abspath(p) for p in unplaceable)
+    short = [os.path.abspath(p) for p in (brief or ())]
+    elsewhere = any(v.get() == TYPE_INTRO
+                    and getattr(v, "kind_said", None) != TYPE_INTRO
+                    for v in values.values())
+    # A jingle has no place because it is not a camera, and is meant to
+    # be used rather than left out. One intro only, and none if taken.
+    intro = short[0] if short and not elsewhere else None
+    moved = []
+    for path, value in list(values.items()):
+        if getattr(value, "born_as", None) is None:
+            value.born_as = value.get()
+        if getattr(value, "chosen_by_hand", False):
+            continue
+        now, was = value.get(), value.born_as
+        said = getattr(value, "kind_said", None)
+        here = os.path.abspath(path)
+        want = TYPE_INTRO if here == intro else TYPE_IGNORED
+        if here in lost or here == intro:
+            if now == want or now != (said or was):
+                continue
+            value.kind_said = want
+            value.set(want)
+            moved.append(path)
+        elif said and now == said:
+            value.kind_said = None
+            value.set(was or TYPE_CONTENT)
+            moved.append(path)
+    return moved
+
+
+def kinds_off_the_axis(values, no_place):
+    """Move every file with no place off content and the wide shot.
+
+    Not a proposal but a fact: a file with no timecode whose sound has
+    nothing in common with the rest cannot be cut into the episode,
+    however that answer got there. It lands on intro while that is
+    free, and is left out where it is taken; outro stays a click away.
+    """
+    lost = set(path_key(p) for p in (no_place or ()))
+    moved = []
+    for path, value in list(values.items()):
+        if path_key(path) not in lost or value.get() not in CAMERA_TYPES:
+            continue
+        taken = any(other.get() == TYPE_INTRO
+                    for p, other in values.items()
+                    if path_key(p) != path_key(path))
+        value.set(TYPE_IGNORED if taken else TYPE_INTRO)
+        moved.append(path)
+    return moved
+
+
+def kind_proposal_say(values, data):
+    """Apply the proposal from a finished measurement and say what moved.
+
+    Out of the window entirely: it decides nothing and touches no widget.
+    """
+    moved = kind_proposal_apply(values, (data or {}).get("unplaceable"),
+                                (data or {}).get("brief"))
+    # The proposal first, the fact after: what the proposal leaves on
+    # content or the wide shot is exactly what cannot be true.
+    forced = kinds_off_the_axis(values, (data or {}).get("no_place"))
+    for path in forced:
+        print(T('%s fits nothing in the material, so it cannot be cut '
+                'into the episode: set to Intro.') % os.path.basename(path)
+              if values[path].get() == TYPE_INTRO else
+              T('%s fits nothing in the material either, and the intro is '
+                'taken: left out.') % os.path.basename(path))
+    for path in moved:
+        name, kind = os.path.basename(path), values[path].get()
+        if kind == TYPE_INTRO:
+            print(T('%s fits nothing in the material and is far shorter '
+                    'than the rest: proposed as the intro, which is put '
+                    'at the front and never measured.') % name)
+        elif kind == TYPE_IGNORED:
+            print(no_place_message(name))
+        else:
+            print(T('%s can be placed again and is back in the run.') % name)
+    return moved + [p for p in forced if p not in moved]
+
+
+def video_kinds_again(rows):
+    """Draw the Kind cells of the file list again.
+
+    Which camera is the wide shot is derived from who is assigned where,
+    an answer given on another tab long after this list was built. Every
+    row left behind how to draw itself in *rows*.
+    """
+    for again in list(rows.values()):
+        try:
+            again()
+        except RuntimeError:
+            # That row is gone. The list that replaced it drew itself
+            # from the answer as it stands now.
+            continue
+
+
+def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
+                   blocks_of, real_tc, HOP, prework_busy, out_folder,
+                   production_var, commonest_folder, project_move,
+                   project_collect, settings_extend, axis_label, player,
+                   video_kind_again, kind_answered, show_weak,
+                   tc_column_show, player_follow_up, window_enable,
+                   window_position_show):
+    """The one time axis: measured, kept, and shown.
+
+    Beside the rest of the axis because the seven are one theme -- where
+    the files lie relative to each other, read out of the material,
+    written into the project file and read back. The call in gui() sits
+    below kind_answered, the last name axis_present reaches for.
+    """
+
+    def axis_measure(paths):
+        """Determine how all files sit relative to each other."""
+        return axis_with_blocks(paths, real_tc, HOP, blocks_of)
+
+    def axis_file():
+        """Return the project file, even before a name is settled.
+
+        There is exactly one. It comes into being while the time axis is
+        measured, still next to the material, and moves once an output
+        folder is chosen. Two copies would be a trap: the wrong one opens.
+        """
+        target = out_folder.get() or commonest_folder()
+        if not target or not os.path.isdir(target):
+            return None
+        name = safe_filename(production_var.get().strip() or 'Project')
+        return os.path.join(target, "%s%s.json" % (PROJECT_PREFIX, name))
+
+    def axis_store(axis):
+        """Put the measurement into the project file.
+
+        Over two hours of material it takes minutes, so it should be
+        there next time. Size and mtime are stored with it.
+        """
+        # A restart told not to save writes nothing: the clean-up calls
+        # this on every way out, and would put down what was declined.
+        if state.get("restart_saving") is False:
+            return
+        project_move()
+        file_path = axis_file()
+        if not file_path:
+            return
+        d = project_collect(file_path)
+        d["format"] = FILE_FORMAT
+        d["version"] = VERSION
+        # Without a measurement the stored one stays: this is also how the
+        # settings reach the file where no axis was ever measured.
+        if axis:
+            d["timeline"] = timeline_entries(axis, state.get("axis_clock"))
+            d["timeline_absolute"] = bool(state.get("axis_absolute"))
+        d["files"] = [{"path": p, "kind": a} for p, a in files]
+        settings_extend(d)
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(d, f, ensure_ascii=False, indent=1)
+        except OSError as e:
+            # Several minutes of measurement are in here. Lost silently,
+            # the next start measures it all again.
+            print(T('  Project file could not be written: %s') % e)
+
+    def axis_read(paths):
+        """Reuse a previously measured axis if it still fits."""
+        file_path = axis_file()
+        if not file_path or not os.path.exists(file_path):
+            return None
+        try:
+            with open(file_path, encoding="utf-8") as f:
+                d = json.load(f) or {}
+        except (OSError, ValueError):
+            return None
+        return axis_still_valid(d, paths)
+
+    def axis_work_loop(paths, label_run):
+        """Wait for the envelopes, then measure.
+
+        Broken off where the list it was started for has gone: this is
+        the longest reading of the material there is.
+        """
+        while prework_busy():
+            if state.get("axis_run") != label_run:
+                return
+            time.sleep(0.4)
+        if state.get("axis_run") != label_run:
+            return
+        try:
+            data, text = axis_measure(paths)
+        except Exception as e:
+            data, text = {}, T('time axis not measurable: %s') % str(e)[:60]
+        # Counted like the check above: putting an answer about files
+        # that have left in would carry one axis into the next.
+        if state.get("axis_run") == label_run:
+            bridge_emit(bridge.axis, data or {}, text)
+
+    def axis_kick_off(paths):
+        """Measure wherever there are two files, timecode or not.
+
+        A clock is set by hand and is set wrong; the run measures anyway.
+        """
+        every = list(paths)
+        for row, _nv, _cv in assign_lines:
+            if row[0] not in every:
+                every.append(row[0])
+        if len(every) < 2:
+            return
+        if not axis_worth_measuring(files, every, state):
+            return
+        remembered = axis_read(every)
+        if remembered:
+            axis_present(remembered, "", remember=False)
+            return
+        if state.get("axis_running"):
+            # A file added while the measurement runs: the answer on its
+            # way is about the list without it, so the request is kept.
+            state["axis_again"] = list(paths)
+            return
+        state["axis_running"] = True
+        label_run = state.get("axis_run", 0) + 1
+        state["axis_run"] = label_run
+        plan.begin("axis", T('Measuring time axis'), 3.0)
+        axis_label.setText(T('Measuring time axis ...'))
+        axis_label.setStyleSheet("color: %s" % COLOURS["quiet"])
+        threading.Thread(target=axis_work_loop, args=(every, label_run),
+                         daemon=True).start()
+
+    def axis_present(data, text, remember=True):
+        state["axis_running"] = False
+        axis_answer_kept(state)
+        plan.done("axis")
+        axis = (data or {}).get("axis") or {}
+        state["axis"] = axis
+        state["axis_clock"] = (data or {}).get("clock") or {}
+        state["axis_absolute"] = bool((data or {}).get("absolute"))
+        state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
+        state["no_place"] = set(path_key(p)
+                                for p in ((data or {}).get("no_place") or []))
+        if axis and remember:
+            axis_store(axis)
+        show_weak()
+        # A file nothing could place is proposed for "ignore this video",
+        # or "Intro" where it is far shorter. A proposal stops at answers.
+        for p in kind_proposal_say(state.get("clip_kinds") or {}, data):
+            kind_answered(p)
+        # And the Kind fields are said again even where no proposal
+        # moved one: which files sit nowhere is known only now.
+        kinds_said_again(state, video_kind_again)
+        axis_label.setText(text)
+        axis_label.setStyleSheet("color: %s" % (COLOURS["good"] if axis
+                                                 else COLOURS["warning"]))
+        player.spot(int(player.spot_s() * 1000))
+        player.window_draw()
+        window_enable()
+        window_position_show()
+        tc_column_show()
+        # Only now can it be said which file holds the boundaries: relative
+        # values count from the start of the material.
+        player_follow_up()
+        # Taken out before it is asked again, or a stored axis coming
+        # back through here would ask a third time.
+        if state.get("axis_again") is not None:
+            axis_kick_off(state.pop("axis_again"))
+
+    bridge.axis.connect(axis_present)
+
+    return axis_file, axis_kick_off, axis_store
 
 
 def recordings_text(chains, file_count):
