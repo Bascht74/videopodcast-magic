@@ -27,6 +27,15 @@ from PySide6.QtCore import Qt
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
 vpm = the_program.load()
+# The window is read before anything is asked of it. wide_settings_grey
+# lives in cut/ and reaches choices_shut, a name of ui/, through
+# PROGRAM. -- so it only works once the window stands, which in the
+# program it always does: its one caller is inside gui(). This test was
+# green without the line by accident: its first call happened to be a
+# name the way in did not hold, so __getattr__ fired and read the
+# window as a side effect. That stopped on 7.9.2026, when the window's
+# toolbox began to be read by the way in.
+vpm.window()
 vpm.set_language("en")
 
 QUIET = vpm.COLOURS["quiet"]
