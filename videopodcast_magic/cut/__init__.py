@@ -12,10 +12,10 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. GUI_RUNNING,
-# choices_shut and distribute_tracks_to_cameras stay below, and so
-# do the six the preview reads: they belong to the window, to the
-# fittings and to orders/, and none of those is read yet here.
+# What this piece uses out of the program, bound once. What is not in
+# the list is read as PROGRAM.<name> where it is used: it is written
+# while the program runs, or its piece -- the window, the fittings,
+# pipeline/, orders/ -- is not read yet where this one stands.
 
 ByFile = PROGRAM.ByFile
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
@@ -28,6 +28,7 @@ FileSet = PROGRAM.FileSet
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIX_ONLY = PROGRAM.MIX_ONLY
+PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
 SHOT_ALTERNATE = PROGRAM.SHOT_ALTERNATE
 SHOT_ANSWER = PROGRAM.SHOT_ANSWER
 SHOT_HOLD = PROGRAM.SHOT_HOLD
@@ -64,6 +65,7 @@ ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 find_pauses = PROGRAM.find_pauses
 frames_to_timecode = PROGRAM.frames_to_timecode
+glob = PROGRAM.glob
 hdr_from_sources = PROGRAM.hdr_from_sources
 is_drop_frame = PROGRAM.is_drop_frame
 json = PROGRAM.json
@@ -74,6 +76,7 @@ number_text = PROGRAM.number_text
 os = PROGRAM.os
 own_frame_rate = PROGRAM.own_frame_rate
 parse_time_point = PROGRAM.parse_time_point
+parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 picture_rate = PROGRAM.picture_rate
 preview_handover = PROGRAM.preview_handover
@@ -94,6 +97,7 @@ speakers_window_all = PROGRAM.speakers_window_all
 step_begin = PROGRAM.step_begin
 struct = PROGRAM.struct
 subprocess = PROGRAM.subprocess
+sys = PROGRAM.sys
 threading = PROGRAM.threading
 timecode_seconds = PROGRAM.timecode_seconds
 timecode_string = PROGRAM.timecode_string
@@ -104,7 +108,6 @@ tracks_awaiting_measure = PROGRAM.tracks_awaiting_measure
 trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
 voices_of_file = PROGRAM.voices_of_file
-widest_frame = PROGRAM.widest_frame
 words_for_handover = PROGRAM.words_for_handover
 words_from_handover = PROGRAM.words_from_handover
 
@@ -2730,3 +2733,175 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
              number_text(min((b - a) for a, b, _ in cut)
                          if cut else 0)))
     return cut, segment_list
+
+
+def _read_project_file(folder):
+    # The prefix is written down once, in the way in. A pattern spelling
+    # it out again would keep looking for the old name after a rename,
+    # silently and with no error to catch it.
+    for file_path in sorted(glob.glob(os.path.join(
+            folder, PROJECT_PREFIX + "*.json"))):
+        try:
+            with open(file_path, encoding="utf-8") as f:
+                return json.load(f)
+        except (OSError, ValueError):
+            continue
+    return {}
+
+
+def refresh_cut_list(d, file_path):
+    """Check the cut list is still valid before building.
+
+    Who speaks when is in the handover already, so turning the cut values
+    costs no run. Only a new run can mend a changed In or Out point --
+    the audio inside the videos then belongs to another window. Returns
+    that reason as text.
+    """
+    folder = os.path.dirname(os.path.abspath(file_path))
+    project = _read_project_file(folder)
+    speakers = [(x.get("name") or "", [tuple(v) for v in
+                                       (x.get("sections") or [])])
+                for x in (d.get("speakers") or [])]
+    if not speakers or not project or d.get("start_s") is None:
+        return None
+    fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
+    call = project.get("call") or []
+
+    # Does the project file now hold a different time window from the handover?
+    # Then the audio files no longer match it.
+    def tc_value(switch):
+        if switch not in call:
+            return None
+        i = call.index(switch)
+        if i + 1 >= len(call):
+            return None
+        try:
+            return parse_timecode(call[i + 1], fps)
+        except Exception:
+            return None
+    in_point, out_point = tc_value("--in-point"), tc_value("--out-point")
+
+    def then(key):
+        """The window the existing files were made with, in seconds."""
+        raw = d.get(key)
+        if not raw:
+            return None
+        try:
+            return parse_timecode(raw, fps)
+        except Exception:
+            return None
+
+    made_in, made_out = then("in_point"), then("out_point")
+    # Both complaints hold the setting against the window the handover
+    # was made with, and stay silent where it carries none. Only the
+    # complaints: the cut list is worked out again either way.
+    if (in_point is not None and made_in is not None
+            and abs(in_point - made_in) > 0.5):
+        return (T('In point is now %s, but the existing files belong to %s.\n '
+                  ' The audio in the videos is cut to the old window -- '
+                  'press Start\n  above again.')
+                % (timecode_string(in_point, fps),
+                   timecode_string(made_in, fps)))
+    # The old window's length, and only where both its ends are written
+    # down. length_s is no substitute: that is the axis, the whole of
+    # the material, and an unchanged window would read minutes short.
+    length = ((made_out - made_in)
+              if made_in is not None and made_out is not None else 0.0)
+    if (in_point is not None and out_point is not None
+            and length and abs((out_point - in_point) - length) > 0.5):
+        return (T('Out point is now %s; the window would be %s long, the '
+                  'existing\n  files are %s -- press Start above again.') % (timecode_string(out_point, fps), as_hms(out_point - in_point),
+                            as_hms(length)))
+
+    print(T('\n  REFRESH THE CUT LIST'))
+    # The sliders come from the interface, otherwise from the project
+    # file -- or the button carries on with the values of the last run.
+    command_line = [a for a in sys.argv[1:]]
+    own_measure = any(a.startswith("--wide-")
+                 or a in ("--min-edit-duration", "--edit-change-delay")
+                 for a in command_line)
+    # Through PROGRAM: orders/ is read after this piece, so a head line
+    # for it would find nothing.
+    settings = PROGRAM._sliders_from_command_line(command_line + call,
+                                                  d.get("production"))
+    if own_measure:
+        settings.no_wide_edges = "--no-wide-edges" in command_line
+    cameras = [{"video": cam["source"], "name": cam["camera"]}
+               for cam in (d.get("cameras") or []) if cam.get("source")]
+    videos = [(cam["video"], None) for cam in cameras]
+    tracks = [{"name": n, "camera": cam["source"]}
+              for cam in (d.get("cameras") or [])
+              for n in (cam.get("speakers") or [])]
+    ref_clip = (cameras[0]["video"] if cameras else "",
+                {"fps": fps, "tc": d.get("start_tc")})
+    # The handover file carries what was said and where the sound is:
+    # the cut points come from those two, not from the clock.
+    cut, segs = write_cut_list(
+        settings, speakers, tracks, cameras, videos, folder,
+        float(d["start_s"]), ref_clip, length,
+        words=words_from_handover(d),
+        sound_source=(d.get("audio_files") or {}).get("Full-Mix", ""))
+    if not cut:
+        return T('That produced no cut -- press Start above again.')
+    before_value = d.get("cut") or []
+    d["cut"] = [{"start": round(a, 3), "end": round(b, 3), "camera": n}
+                    for a, b, n in cut]
+    if d["cut"] == before_value:
+        print(T('  The cut stays as it was.'))
+    else:
+        print(T('  The cut has changed: %s shots instead of %s.')
+              % (number_text(len(d["cut"]), 0),
+                 number_text(len(before_value), 0)))
+    d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
+                                                for a, b in segs2]}
+                     for n, segs2 in segs]
+    d["created_by"] = ('videopodcast-magic %s (cut list refreshed)'
+                       % VERSION)
+    # Written beside it and moved into place: writing straight onto it,
+    # a failure half way leaves a fragment the next run silently skips.
+    beside = file_path + ".new"
+    try:
+        with open(beside, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False, indent=1)
+        os.replace(beside, file_path)
+    except OSError as e:
+        try:
+            os.unlink(beside)
+        except OSError:
+            pass
+        print(T('  %s could not be rewritten: %s')
+              % (os.path.basename(file_path), e))
+    return None
+
+
+def voices_on_cameras(segment_list, videos, wanted=None, fallback=""):
+    """One pseudo track per voice, so write_cut_list can read the cameras.
+
+    The cut asks the tracks which camera a name belongs to; on the simple
+    path one track holds several voices, so the voices stand in for
+    tracks. *wanted* is name -> camera, and anything it does not know
+    falls back to *fallback*. All on one camera is not a defect -- the
+    cut then falls at the change of speaker instead of between cameras.
+    """
+    wanted = dict(wanted or {})
+    after_name = dict((os.path.basename(v), v) for v, _info in videos)
+    after_file = ByFile((v, v) for v, _info in videos)
+    out = []
+    for name, _segs in segment_list or ():
+        pick = wanted.get(name) or ""
+        camera = after_name.get(pick) or after_file.get(pick) \
+            if pick else ""
+        out.append({"name": name, "camera": camera or fallback})
+    return out
+
+
+def widest_frame(sizes):
+    """Pick the largest frame that a camera really recorded.
+
+    Not the largest width beside the largest height: a landscape and a
+    portrait camera in one production would then give a square frame that
+    no camera has, and Resolve scales everything into it.
+    """
+    if not sizes:
+        return (None, None)
+    return max(sizes, key=lambda wh: (wh[0] * wh[1], wh[0]))
