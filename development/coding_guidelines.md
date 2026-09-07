@@ -1,8 +1,8 @@
 # Coding guidelines
 
 For the folder `videopodcast_magic/` and the text files in it. These grew
-out of the work on this program. What is written here either proved right while building it, or
-was learned by getting it wrong.
+out of the work on this program. What is written here either proved
+right while building it, or was learned by getting it wrong.
 
 ---
 
@@ -373,29 +373,28 @@ files side by side on one screen are worth more than long lines.
 
 ## 12. The one exception: `gui()`
 
-`gui()` is 2334 lines long -- eight times the rule above. Measured on
-6 September 2026, after eighteen pieces were lifted out of it, sixteen
-of them to module level in the same file and two on into `filelist/`;
-it was 5753 on 23 August. `source_limits_hold_test.py` prints the
-figure of the day on every run, so the current number is read there and
-not here. This is a decision, not an oversight, and this is where the
-reasons live.
+`gui()` is 1900 lines long -- six times the rule above. Measured on
+7 September 2026, after the window parts were moved out to the pieces
+whose subject they show; it was 2334 on 6 September and 5753 on
+23 August. `source_limits_hold_test.py` prints the figure of the day on
+every run, so the current number is read there and not here. This is a
+decision, not an oversight, and this is where the reasons live.
 
 **Why it is one function.** Qt builds an interface out of closures. A
 button needs a callback, and the callback needs the button, the field
 beside it and the value both of them mean. In C++ the shared place for
 that is a class with fields; in Python it is a function with functions
 inside it. Both write down the same thing. Only one of them counts as a
-class with 89 members, the other as a function with 2334 lines.
-Counted with the compiler's own bookkeeping, not by eye: 89 definitions
-stand directly in the body of `gui()` -- 88 functions and the `Bridge`
+class with 75 members, the other as a function with 1900 lines.
+Counted with the compiler's own bookkeeping, not by eye: 75 definitions
+stand directly in the body of `gui()` -- 74 functions and the `Bridge`
 class -- and hold 51 percent of its lines. Under that same rule they
 were 182 and 76 percent before the cutting began. `state`, a single
 dictionary, is captured by most of them.
 
-**Why the obvious split does not work.** 113 forward references: 48 of
-the inner functions read 73 names that the text binds further down, and
-`buttons_check` uses a button that comes into being 1640 lines later.
+**Why the obvious split does not work.** 53 forward references: 22 of
+the inner functions read 43 names that the text binds further down, and
+`buttons_check` uses a button that comes into being 1255 lines later.
 **The rule those numbers are counted by**, written down so that anybody
 can count them again: compile the file, take the code object of each
 function standing directly in the body of `gui()`, and count the pair
@@ -426,10 +425,11 @@ was.
 has to keep working on the command line. A class inheriting from a Qt
 widget cannot be defined at module level at all. Every Qt-touching
 helper that moves out therefore costs a factory on top. And **there is
-no `nonlocal` in this file, not one**. Shared mutable state runs
-through named containers, the `state` dictionary and the `Value`
-objects, and never through rebinding a name. That is why these
-thousands of lines can be read at all, and it is the condition the
+no `nonlocal` in `videopodcast_magic/ui/__init__.py`, not one** -- nor
+anywhere else in the program, measured over all 36 files. Shared
+mutable state runs through named containers, the `state` dictionary and
+the `Value` objects, and never through rebinding a name. That is why
+these thousands of lines can be read at all, and it is the condition the
 exception rests on.
 
 **What still holds.** The exception covers the interface that is there.
@@ -462,17 +462,18 @@ It is not a licence.
 - **A helper inside `gui()` that captures nothing is in the wrong
   place.** Whether it captures anything has an exact answer:
   `co_freevars` of the compiled function, not a search through the text.
-- **The number goes down, never up.** `source_limits_hold_test.py` prints the largest
-  function on every run, and a ratchet holds whatever comes off. Nothing
-  here freezes any number as acceptable. It stood at 5753 on 23 August,
-  and `largest_function` in `tests/state/style_state.json` has carried
-  it down from there step by step; that file and its history are the
-  record, so no list of the steps is kept here to go stale. **Once the
-  number rose**, on 30 August: `c746179` wrote a fall to 5218 into the
-  state while `gui()` had in fact grown to 5267 -- the run there is red
-  on its own ratchet -- and `c506337` put the measured figure back by
-  hand. The function did not grow that day; the record of it was wrong
-  for fourteen minutes.
+- **The number goes down, never up.** `source_limits_hold_test.py`
+  prints the largest function on every run, and a ratchet holds whatever
+  comes off. Nothing here freezes any number as acceptable. It stood at
+  5753 on 23 August, and `largest_function` in
+  `tests/state/style_state.json` has carried it down from there step by
+  step; that file and its history are the record, so no list of the
+  steps is kept here to go stale. **Once the number rose**, on 30
+  August: `c746179` wrote a fall to 5218 into the state while `gui()`
+  had in fact grown to 5267 -- the run there is red on its own ratchet
+  -- and `c506337` put the measured figure back by hand. The function
+  did not grow that day; the record of it was wrong for fourteen
+  minutes.
 
 **The long version** is `docs/notes/gui_struktur.md`: the map of the
 banner sections with the seam measured at each one. It also holds what

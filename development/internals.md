@@ -1,4 +1,4 @@
-# Inside the script
+# Inside the program
 
 For the folder `videopodcast_magic/` and the text files in it. How the
 program is put together, and how each step works. Not part of the
@@ -10,7 +10,7 @@ rates, run times, distributions, comparisons.
 
 ---
 
-## How the script is put together
+## How the program is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
 program lives any more -- 717 lines of it, against the 37 535 it held
@@ -728,7 +728,7 @@ The program writes both channel conversions out rather than leaving
 them to ffmpeg. ffmpeg's own result depends on the output format.
 Writing integers it scales the matrix down against clipping and the
 level comes out right after all; writing floats it does not. The same
-call is correct in one place and 3 dB out in the next. The script's own
+call is correct in one place and 3 dB out in the next. The program's own
 conversion uses an equal-power law.
 
 Only neighbours are compared: channel 1 against 2, 2 against 3, and so
@@ -954,9 +954,9 @@ With `-c:v copy` ffmpeg rewrites the `colr` box from its own values and
 replaces what it does not know. Transfer function 21 (Apple Log) comes
 back out as an 18. Without `-movflags +write_colr` it writes no `colr`
 box at all, and the values live only in the bitstream, where Resolve
-does not look. So the script reads the box out of the source itself,
+does not look. So the program reads the box out of the source itself,
 not through ffprobe. ffprobe reports names instead of numbers, and a
-wrong name for what it does not know. The script passes the numbers on
+wrong name for what it does not know. The program passes the numbers on
 explicitly (`-color_primaries`, `-color_trc`, `-colorspace`,
 `-color_range`), forces the write and checks afterwards: log line
 **Colour**.
@@ -964,7 +964,7 @@ explicitly (`-color_primaries`, `-color_trc`, `-colorspace`,
 ffmpeg throws the QuickTime keys of the container away
 (`com.apple.quicktime.model`, `com.apple.quicktime.software`,
 `com.blackmagic-design.camera.*`) without `-map_metadata 0 -movflags
-+use_metadata_tags`. The script sets both.
++use_metadata_tags`. The program sets both.
 
 ## What makes a file count as HDR
 
@@ -985,7 +985,7 @@ type and never reads it in. Its *muxer* writes only `colr`, `pasp`,
 `gama`, `btrt` and the codec's own box into a picture entry. There is
 no switch for it.
 
-So the script adds the atom itself after writing, byte for byte from
+So the program adds the atom itself after writing, byte for byte from
 the source. That works only because ffmpeg puts `moov` at the end of
 the file. Growing it there moves no media data, and the chunk offsets
 in `stco`/`co64` stay valid. It keeps its hands off when
@@ -1075,7 +1075,7 @@ directions:
 4. a clause break within +/-5 s.
 
 The exact spot comes out of the audio. In a window of +/-0.5 s around
-the target the script takes the dip. The threshold is
+the target the program takes the dip. The threshold is
 p5 + 0.30 * (p95 - p5) of the 10 ms levels in that window itself, and
 the dip is chosen by width - 0.5 * distance. A fixed dB threshold fails
 on quiet material.
@@ -1152,7 +1152,7 @@ Files are looked up over the real path: `/tmp` on macOS is a link to
 The minimum edit duration stands at one place in the source, and
 interface, switch and function defaults read that same value: 3.0 s.
 
-## How the script talks to Resolve
+## How the program talks to Resolve
 
 The check runs in the background on the first look at the tab. A run
 that ends by building a project should not find out at the end that
@@ -1187,7 +1187,7 @@ therefore deleted after the insert.
 
 Remote grades glue the **Clip** level together with the source file, so
 a single cut can no longer be corrected on its own. The colour group
-does the same work without giving up the clip level. The script sets
+does the same work without giving up the clip level. The program sets
 local versions on every run because a project from an earlier run would
 otherwise still have remote grades on.
 

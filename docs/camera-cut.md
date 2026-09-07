@@ -549,7 +549,7 @@ programme time minus offset, the same offset the cut timeline is built
 with.
 
 The program sets every spot again until it holds;
-[Inside the script](../development/internals.md) names how often and
+[Inside the program](../development/internals.md) names how often and
 for how long.
 
 ### Measuring the speakers without Auphonic
