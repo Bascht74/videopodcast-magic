@@ -22,6 +22,7 @@ import glob
 import io
 import re
 import sys
+import subprocess
 import symtable
 import time
 
@@ -480,19 +481,45 @@ for name, body in PIECES:
             elif isinstance(inner, ast.Attribute):
                 read_somewhere.add(inner.attr)
 # A name a test reaches for is read, even when no piece calls it.
-for name in sorted(os.listdir(HERE)):
-    if not name.endswith(".py"):
-        continue
-    words = set(re.findall(r"[A-Za-z_][A-Za-z_0-9]*",
-                           io.open(os.path.join(HERE, name),
-                                   encoding="utf-8", errors="ignore").read()))
-    read_somewhere |= words
+# **The repository, not the folder.** The builder moves the tests a
+# machine cannot run out of tests/ before the suite starts, and their
+# names would then look unread: measured 7.9.2026, this section said 7
+# here and 10 on both macOS jobs, the extra ones reached only by a test
+# that had been set aside. So the list comes from git, and a file that
+# is listed but not on disk is read out of the last commit.
+ROOT = os.path.dirname(HERE)
+shipped = []
+try:
+    listed = subprocess.run(("git", "-C", ROOT, "ls-files", "-z", "tests"),
+                            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    if listed.returncode == 0:
+        shipped = [x for x in listed.stdout.decode("utf-8", "ignore").split("\0")
+                   if x.endswith(".py")]
+except OSError:
+    shipped = []
+from_git = 0
+if not shipped:
+    shipped = ["tests/" + n for n in sorted(os.listdir(HERE))
+               if n.endswith(".py")]
+for rel in shipped:
+    full = os.path.join(ROOT, rel)
+    if os.path.exists(full):
+        text = io.open(full, encoding="utf-8", errors="ignore").read()
+    else:
+        got = subprocess.run(("git", "-C", ROOT, "show", "HEAD:" + rel),
+                             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        if got.returncode != 0:
+            continue
+        text = got.stdout.decode("utf-8", "ignore")
+        from_git += 1
+    read_somewhere |= set(re.findall(r"[A-Za-z_][A-Za-z_0-9]*", text))
 unread = sorted(n for n in defined if n not in read_somewhere)
 held = state.places("unread_names",
                     dict((n, (1, first_at.get(n, 0))) for n in unread))
 check("names nobody reads: %d (ratchet %d)" % (len(unread), held.limit),
-      held.ok, "%d against a ratchet of %d, first: %s"
-      % (len(unread), held.limit, unread[:5]))
+      held.ok, "%d against a ratchet of %d over %d test files (%d out of "
+      "the last commit), first: %s"
+      % (len(unread), held.limit, len(shipped), from_git, unread[:5]))
 held.report()
 for n in unread:
     print("      %-32s %s" % (n, first_at.get(n, "")))
