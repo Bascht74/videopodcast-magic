@@ -25,10 +25,13 @@ What is in them, largest first, every folder of the program on the list
 and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **5214** -- the window and everything it shows, asks or offers
-* `speakers/` **3295** -- who speaks and when: the separation itself,
-  which microphone each voice is on, the names the voices carry, and a
-  separation stored in a project file put back on the axis
+* `ui/` **4869** -- the window and everything it shows, asks or offers,
+  less what a subject has taken to stand beside its own logic
+* `speakers/` **3653** -- who speaks and when: the separation itself,
+  which microphone each voice is on, the names the voices carry, a
+  separation stored in a project file put back on the axis, and the
+  three the window shows of all that -- the rows one per voice, the
+  marks on the assignment table, and the speaking-time table
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
@@ -38,7 +41,7 @@ figure of the day is that command, not this paragraph**:
   markers
 * `material/` **2551** -- channels, chains, continuation files, what a
   track is made of
-* `bearings/` **2374** -- the time axis, the offsets, which camera
+* `bearings/` **2377** -- the time axis, the offsets, which camera
   belongs to which voice
 * `pipeline/` **1972** -- the chain the recordings run until the camera
   files are written
@@ -575,7 +578,7 @@ way every window in this table was found.
 | `logbook/` | binds `cache_folder` above; `herald/` and `soundings/` bind its `outside_say` at their heads | after `cache_folder`, before `soundings/` |
 | `soundings/` | binds `outside_say` above; `timecode/` binds its `ffprobe_json` at its head, as do ten pieces after it | after `outside_say`, before `timecode/` |
 | `timecode/` | 13 pieces bind its names at their heads | above all 13 |
-| `tables/` | binds 8 names, the latest of them the timecode's `parse_timecode`; only `ui/` binds its own so far | **both edges measured 7.9.2026**: one read earlier -- above `timecode/` -- answers `AttributeError: 'Program' object has no attribute 'parse_timecode'`, rc=1; right after it, rc=0 and the suite whole. It stands as early as it can so that any piece taking a window part of its own can bind the fifteen table names |
+| `tables/` | binds 8 names, the latest of them the timecode's `parse_timecode`; `ui/` binds 10 of its own and `speakers/` 8 | **both edges measured 7.9.2026**: one read earlier -- above `timecode/` -- answers `AttributeError: 'Program' object has no attribute 'parse_timecode'`, rc=1; right after it, rc=0 and the suite whole. It stands as early as it can so that any piece taking a window part of its own can bind the fifteen table names -- which `speakers/` then did, and all 8 it wanted bound at its head |
 | `metadata/` | 8 pieces bind its names at their heads | above all 8 |
 | `herald/` | `material/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads | before both of them |
 | `hearing/` | binds the herald's progress line; `material/` binds 10 of its names | after the herald, before the material |
@@ -585,14 +588,14 @@ way every window in this table was found.
 | `bearings/` | binds the material's names; the window's colours and the cut list it reads late | after the material, before the checking |
 | `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
-| `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 19 of its names, the cut 13, `pipeline/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |
+| `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 10 of its names, the cut 13, `pipeline/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |
 | `project/` | binds four names of `speakers/` and reaches five of the window's through `PROGRAM.`; `ui/` binds `make_project_file` and `project_state_read` at its head, `filelist/` binds `project_offer` | directly under the separation, and both edges are measured: one read-block earlier the loader stops at `speakers_all_from_project`, below the window's own read it stops on `make_project_file`. Every position between the two loads |
 | `resolve/` | binds `Finding`, which the preflight above brings in | here, and not where it is first used |
-| `cut/` | the window binds 13 of its names, `pipeline/` four, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head | before the line that reads the window |
+| `cut/` | the window binds 12 of its names, `pipeline/` four, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head | before the line that reads the window |
 | `pipeline/` | binds four of the cut's names and five of the speakers' -- who asks, who was named, what a run separated; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
-| `ui/` | binds 19 names out of `speakers/` and 13 out of `cut/`, both read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+| `ui/` | binds 10 names out of `speakers/` and 12 out of `cut/`, both read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
 
 ### The seven functions the seam is made of
 
