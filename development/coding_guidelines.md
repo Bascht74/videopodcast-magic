@@ -342,12 +342,27 @@ not. `state["speakers_local"]` written in one piece and read in five
 others is an agreement between six files that nothing declares and
 nothing checks.
 
-**Splitting a file does not narrow that seam by itself -- moving a
-reader does.** A key that `ui/` and `speakers/` both touched is touched
-by one of them after the window part of the speakers moves across, and
-the count falls. So it is the one number that says whether a round of
-moves bought anything, measured the same way before and after, and it
-belongs beside the crossing count in every report on a cut.
+**Splitting a file does not narrow that seam, and moving a reader does
+not either -- it moves it.** This paragraph said the opposite for half a
+day, and the move it named as the example is the one that disproved it.
+Measured: the speakers' window part went out of `ui/` into `speakers/`,
+and the crossings of the window's boundary rose **45 to 49**, the shared
+keys **61 to 66**. Two keys stopped crossing, because the moved code was
+the only thing in `ui/` that touched them. **Six started**, because
+`ui/` alone had touched them and now two pieces do.
+
+**That is not a fault in the move. It is what a shared record does when
+a subject gets whole**: putting the window part beside the logic it
+shows means two files reach into the same keys. The seam widens because
+the subject stopped being split, which is the thing that was wanted.
+
+So the number measures the record, not the cut. It belongs in a report
+beside the crossing count, and it says one useful thing there -- how
+much of the program's coupling this move did *not* touch. **It must
+never become a ratchet**: a ratchet on it would forbid exactly the moves
+that put a subject in one file. What would really narrow it is work on
+`state` itself, giving its keys owners, and that is a different job from
+moving code.
 
 **One thing lives in one place.** Two ways of computing the same result
 drift apart sooner or later. That has happened twice in this program,
