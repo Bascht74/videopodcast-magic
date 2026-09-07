@@ -6590,3 +6590,6 @@ msgid ""
 msgstr ""
 "Dieses Programm läuft als %s, die dafür installierten Pakete sind %s -- "
 "geladen werden kann davon keines. So startet es richtig: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Diese Übergabe trägt keine Bildrate, deshalb läßt sich die Zeitleiste daraus nicht bauen. Bitte den Lauf noch einmal machen."

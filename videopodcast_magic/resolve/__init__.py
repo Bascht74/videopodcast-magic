@@ -373,12 +373,36 @@ def same_setting_value(a, b):
         return str(a).strip() == str(b).strip()
 
 
+def handover_complaint(d):
+    """Say why a handover cannot be used, or return "".
+
+    The rate is asked here and nowhere else: this program writes the
+    handover and writes the rate every time, so a file without one came
+    from somewhere else, and the timeline it builds has its cuts beside
+    the picture. One sentence at the door beats a silent 30 four times
+    inside. A number and not a string, because that is what is written.
+    """
+    rate = d.get("fps")
+    if isinstance(rate, (int, float)) and not isinstance(rate, bool) \
+            and float(rate) > 0:
+        return ""
+    return T("This handover carries no frame rate, so the timeline "
+             "cannot be built from it. Please make the run again.")
+
+
 def apply_project_settings(p, d):
-    """Set frame rate, drop frame and resolution, then verify they took."""
-    rate = resolve_timeline_rate(d.get("fps") or 30.0)
+    """Set frame rate, drop frame and resolution, then verify they took.
+
+    The rate is read once and without a fallback. `write_handover`
+    writes it into every handover unconditionally, so a file without
+    one is broken rather than a case to work around -- and the silent
+    30 that stood here made a broken handover look like a sound one,
+    while the line under it read the same key without forgiving
+    anything. `handover_complaint` turns that away at the door.
+    """
+    rate = resolve_timeline_rate(d["fps"])
     value = "%g" % rate
-    if d.get("fps_measured") and abs(d["fps_measured"]
-                                     - resolve_timeline_rate(d["fps"])) > 0.001:
+    if d.get("fps_measured") and abs(d["fps_measured"] - rate) > 0.001:
         print(T('    Measured %s frames/s -- Resolve only knows fixed '
                 'rates,\n    %s is used.')
               % (number_text(d["fps_measured"], None),
@@ -1075,7 +1099,7 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
         print(T('    One file per delivery could not be asked for: %s') % e)
     height = int(d.get("height") or 1080)
     width = int(d.get("width") or 1920)
-    fps = float(d.get("fps") or 30.0)
+    fps = float(d["fps"])
     bitrate = bitrate_for(height, fps, hdr)
     taken = free_render_name(folder, name)
     if taken != name:
@@ -1367,7 +1391,7 @@ def timeline_origin(d):
     timeline: zero puts the clip 18 hours before the beginning. Without
     a timecode in the handover, the timeline's own start is used.
     """
-    fps = resolve_timeline_rate(d.get("fps") or 30.0)
+    fps = resolve_timeline_rate(d["fps"])
     if not d.get("start_tc"):
         return fps, int(round(TIMELINE_START_HOUR * 3600 * fps))
     return fps, timecode_to_frames(d.get("start_tc"), fps)
@@ -2362,7 +2386,7 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
                       % (number_text(len(landed), 0),
                          number_text(len(item), 0))))
     on_it = sum(float(x.GetDuration() or 0) for x in landed) / max(
-        1.0, float(resolve_timeline_rate(d.get("fps"))))
+        1.0, float(resolve_timeline_rate(d["fps"])))
     print(T('  %s shots, %s s in total, without their audio.')
           % (number_text(len(landed), 0), number_text(on_it)))
 
@@ -2485,7 +2509,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
             d = json.load(f)
         if log is None:
             log = os.path.splitext(source)[0] + "_log.txt"
-        complaint = format_complaint(d)
+        complaint = format_complaint(d) or handover_complaint(d)
         if complaint:
             print(as_bad(T('Abort: %s') % complaint))
             return 1
