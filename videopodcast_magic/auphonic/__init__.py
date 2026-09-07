@@ -11,40 +11,62 @@ or a message.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. One name is
-# missing, and the block under the list says which and why.
+# What this piece uses out of the program, bound once. Two names are
+# missing, and the two blocks under the list say which and why.
 
+COLOURS = PROGRAM.COLOURS
+PRESET_NONE = PROGRAM.PRESET_NONE
 T = PROGRAM.T
+Value = PROGRAM.Value
 as_data_size = PROGRAM.as_data_size
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 ask_choice = PROGRAM.ask_choice
+caption_room = PROGRAM.caption_room
 channel_count = PROGRAM.channel_count
 channel_text = PROGRAM.channel_text
 check_preset = PROGRAM.check_preset
+checkbox_bind = PROGRAM.checkbox_bind
+delete_api_key = PROGRAM.delete_api_key
+field_bind = PROGRAM.field_bind
+finished_tracks_deeper = PROGRAM.finished_tracks_deeper
+finished_tracks_find = PROGRAM.finished_tracks_find
 gui_log = PROGRAM.gui_log
+hint = PROGRAM.hint
 json = PROGRAM.json
 kept_channels = PROGRAM.kept_channels
+key_store_locked = PROGRAM.key_store_locked
+key_store_trouble = PROGRAM.key_store_trouble
+label = PROGRAM.label
+label_of = PROGRAM.label_of
 load_api_key = PROGRAM.load_api_key
 number_text = PROGRAM.number_text
+open_key_store_app = PROGRAM.open_key_store_app
 os = PROGRAM.os
+platform = PROGRAM.platform
 re = PROGRAM.re
 report_findings = PROGRAM.report_findings
 safe_filename = PROGRAM.safe_filename
 show_progress = PROGRAM.show_progress
 similarity = PROGRAM.similarity
 step_begin = PROGRAM.step_begin
+store_api_key = PROGRAM.store_api_key
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 tempfile = PROGRAM.tempfile
+threading = PROGRAM.threading
 time = PROGRAM.time
 widest_track = PROGRAM.widest_track
 
-# OUTPUT_SINK is the one: the window sets it on the program object, a
+# OUTPUT_SINK is the first: the window sets it on the program object, a
 # write the pieces are never told about, so a copy here would answer
 # None and the progress line would reach nobody.
+
+# tick_off_quietly is the second: it belongs to the window, which is
+# read after this piece, so a line up here would be refused. The box
+# below asks the program for it at the moment it takes a tick back.
 
 
 AUPHONIC = "https://auphonic.com"
@@ -484,6 +506,327 @@ def preset_mode_note(preset_list, multitrack_on):
              T('The key is good. Of the %s presets in the account none '
                'is a Singletrack one, so the list stays empty.'))
             % number_text(len(preset_list), 0), fitting)
+
+
+#------------------------------------------ The box in the window
+# The key and the presets it unlocks already stand above; the box that
+# asks for both, and says what came back of them, stands here, so that
+# what is asked and what is done with it are read in one place.
+
+
+def make_key_note(QtWidgets, label, hint, settings_open):
+    """The line that says what is wrong with the key for auphonic.com.
+
+    Built twice, because the key is looked at from two places: the field
+    and its button in the settings window, the preset they unlock on the
+    sheet -- and that window stands over the sheet. Returns the settings
+    label, the row for the sheet, and the calls that show and hide it.
+    """
+    settings_note = label("", COLOURS["warning"])
+    settings_note.setWordWrap(True)
+    settings_note.setVisible(False)
+    settings_note.setObjectName("key_note_settings")
+    settings_note.setAccessibleName(T('What auphonic.com replied'))
+
+    key_row = QtWidgets.QHBoxLayout()
+    key_note = label("", COLOURS["quiet"])
+    key_note.setWordWrap(True)
+    key_note.setVisible(False)
+    key_note.setObjectName("key_note")
+    key_note.setAccessibleName(T('What auphonic.com replied'))
+    key_row.addWidget(key_note, 1)
+    # A button and not a link inside the line: a link in a label is
+    # announced as plain text and fires on no key at all, while a
+    # button carries its own name and answers the space bar.
+    settings_way = QtWidgets.QPushButton(T('Settings ...'))
+    settings_way.setFlat(True)
+    settings_way.setVisible(False)
+    settings_way.setObjectName("key_note_way")
+    settings_way.clicked.connect(lambda: settings_open())
+    key_row.addWidget(hint(settings_way,
+                           T('Open the settings, where the key is.')))
+
+    def show(text):
+        """Say what is wrong with the key, in both places it is read.
+
+        Never in a box: a box has to be clicked away before the field
+        it is about can be reached.
+        """
+        for note in (key_note, settings_note):
+            note.setText(text)
+            note.setStyleSheet("color: %s;" % COLOURS["warning"])
+            note.setVisible(True)
+        settings_way.setVisible(True)
+
+    def hide():
+        """Take the note back; nothing is wrong until something is."""
+        key_note.setVisible(False)
+        settings_note.setVisible(False)
+        settings_way.setVisible(False)
+
+    return settings_note, key_row, show, hide
+
+
+def keychain_row_add(into, keep_button):
+    """Put in the line that shows while the macOS keychain is locked.
+
+    A timer asks again while the window stands, so the box wakes up by
+    itself -- that waking is the only sign the unlock took. Returns the
+    call that reads the state once.
+    """
+    from PySide6 import QtCore as _qc, QtWidgets as _qw
+    row = _qw.QWidget()
+    row.setObjectName("keychain_row")
+    line = _qw.QHBoxLayout(row)
+    line.setContentsMargins(0, 0, 0, 0)
+    note = label(T('The keychain is locked. Unlock it and this button '
+                   'wakes up.'), COLOURS["warning"])
+    note.setWordWrap(True)
+    note.setObjectName("keychain_locked")
+    line.addWidget(note, 1)
+    way = _qw.QPushButton(T('Open Keychain Access'))
+    way.setObjectName("keychain_way")
+    way.clicked.connect(lambda *_: open_key_store_app())
+    line.addWidget(hint(way, T('Opens the app that unlocks the keychain.')))
+    into.addWidget(row)
+
+    def look():
+        """Grey the save box while the store is shut, and wake it up."""
+        shut = key_store_locked() is True
+        row.setVisible(shut)
+        keep_button.setEnabled(not shut)
+
+    look()
+    watch = _qc.QTimer(row)
+    watch.timeout.connect(look)
+    # Half a second: often enough that unlocking feels answered, and
+    # cheap -- it starts no process and puts nothing on the screen.
+    watch.start(500)
+    return look
+
+
+def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
+                      settings_open, buttons_check, multi_button,
+                      multitrack, out_folder, commonest_folder, report):
+    """The key for auphonic.com, and the preset a run is given.
+
+    Here and not in the window because the two are one theme: the key is
+    checked by fetching the presets, and what comes back is what the
+    preset box offers. gui() calls it below multi_button, which the
+    preset switches on when it says no processing is wanted.
+    """
+    # --- In two places in the window: the key behind "Settings ...", set
+    #     once; the preset under the assignment, chosen every time.
+    access_box = QtWidgets.QGroupBox(T('Access to auphonic.com'))
+    access_layout = QtWidgets.QVBoxLayout(access_box)
+    first_line = QtWidgets.QHBoxLayout()
+    access_layout.addLayout(first_line)
+    first_line.addWidget(label("API Key:"))
+    _key_first, state["key_from"] = api_key_source()
+    key_var = Value(_key_first)
+    key_entry = field_bind(QtWidgets.QLineEdit(), key_var, 280)
+    key_entry.setEchoMode(QtWidgets.QLineEdit.Password)
+    first_line.addWidget(key_entry)
+    remember = Value(bool(load_api_key()))
+    # Name where it goes; "remember" does not say where.
+    if platform.system() == "Darwin":
+        keep_text, keep_where = T('Save in Keychain'), T('Keychain')
+    elif platform.system() == "Windows":
+        keep_text, keep_where = T('Save in Registry'), "Registry"
+    else:
+        keep_text, keep_where = T('Keep it saved'), T('system store')
+    keep_button = checkbox_bind(QtWidgets.QCheckBox(keep_text), remember)
+    first_line.addWidget(hint(
+        keep_button, T('The key is then in the %s, never in a file.')
+        % keep_where))
+    check_button = QtWidgets.QPushButton(T('Connect'))
+    check_button.setFixedWidth(caption_room(check_button, 110))
+    first_line.addWidget(hint(check_button,
+                                  T('Check the key and fetch Presets.')))
+    keychain_row_add(access_layout, keep_button)
+
+    # The note about the key, under the field and on the sheet both.
+    (settings_note, key_row, key_note_show,
+     key_note_hide) = make_key_note(QtWidgets, label, hint,
+                                    lambda: settings_open())
+    access_layout.addWidget(settings_note)
+    run_layout.addLayout(key_row)
+
+    def button_green(on):
+        """Checked and good: the button turns green and goes to sleep."""
+        check_button.setEnabled(not on)
+        check_button.setStyleSheet(
+            "QPushButton:disabled { background: %s; color: white; "
+            "font-weight: bold; border: 0px; border-radius: 4px; }"
+            % COLOURS["good"] if on else "")
+
+    second_line = QtWidgets.QHBoxLayout()
+    run_layout.addLayout(second_line)
+    second_line.addWidget(label(T('Preset:')))
+    presets_wanted_now = lambda: presets_load(asked=False)
+    preset_box = preset_box_widget(QtWidgets, state, presets_wanted_now)()
+    preset_box.setMinimumWidth(caption_room(preset_box, 320,
+                                            preset_missing_rows()))
+    # While no key is checked there is only the one entry, and it describes
+    # exactly what happens then.
+    preset_box.addItem(label_of(PRESET_NONE), PRESET_NONE)
+    second_line.addWidget(hint(preset_box,
+        T('Determines how auphonic.com processes the audio.\n\n"%s" leaves '
+          'the key in place and still does not go there.\nThe audio is then '
+          'only merged and normalised, not unmixed --\nand without separate '
+          'tracks there is no camera cut.') % label_of(PRESET_NONE)))
+    second_line.addSpacing(16)
+    # Where the processed tracks are already there, nothing is uploaded. The
+    # script finds that out itself; this only says so.
+    done_folder = Value("")
+    done_label = label("", COLOURS["good"])
+    second_line.addWidget(done_label)
+    second_line.addStretch(1)
+
+    def without_auphonic():
+        """Report whether the entry stands in the preset list."""
+        return preset_box.currentData() == PRESET_NONE
+
+    def without_auphonic_toggled(*_):
+        """Multitrack no longer hangs off auphonic.com.
+
+        Without a preset the run stays local: aligned, mixed, cut -- only
+        de-bleed, leveler and noise removal are missing.
+        """
+        multi_button.setEnabled(True)
+        buttons_check()
+
+    preset_box.currentIndexChanged.connect(without_auphonic_toggled)
+
+    def preset_picked(*_):
+        """A pick by hand is the wish from here on, whatever it was.
+
+        Only a click raises this; rebuilding the list is done with the
+        signals blocked, so what is kept here is never a fallback.
+        """
+        state["preset_wanted"] = preset_box.currentData() or ""
+
+    preset_box.activated.connect(preset_picked)
+    def finished_tracks_check():
+        """Check whether processed tracks are already in the output folder."""
+        found = (finished_tracks_find(out_folder.get())
+                    or finished_tracks_find(commonest_folder())
+                    or finished_tracks_deeper(commonest_folder()))
+        done_folder.set(found or "")
+        done_label.setText(T('processed tracks found -- nothing is uploaded') if found else "")
+
+    def remember_toggled(on):
+        if on:
+            if not store_api_key(key_var.get().strip()):
+                PROGRAM.tick_off_quietly(keep_button, remember)
+                report(T('The key was not saved'), key_store_trouble())
+        else:
+            delete_api_key()
+
+    keep_button.toggled.connect(remember_toggled)
+
+    def presets_filter():
+        """Offer only the presets that match the mode."""
+        preset_box_fill(preset_box,
+                        preset_entries(state["presets"], multitrack.get(),
+                                       label_of(PRESET_NONE), PRESET_NONE),
+                        state, PRESET_NONE)
+        without_auphonic_toggled()
+
+    def preset_plaintext():
+        """Return the chosen preset name, empty where none was chosen.
+
+        The first entry is not a preset but the decision to work without
+        auphonic.com, so it yields nothing to pass on.
+        """
+        choice = preset_box.currentData()
+        return "" if not choice or choice == PRESET_NONE else choice
+
+    def presets_load(asked=True):
+        """Check the API key and fetch the presets in one go.
+
+        The call is the test: a preset list coming back means the key is
+        good. Fetched in its own thread so the window does not freeze.
+        *asked* decides the wording only. Neither opens a box: a rejected
+        key belongs at the ungreen button and the line under it.
+        """
+        state["key_asked"] = asked
+        key_note_hide()
+        key = key_var.get()
+        wrong = key_complaint(key)
+        if wrong:
+            # Nothing leaves the house over a key that is plainly not one.
+            # Which case it is stands in the sentence itself.
+            key_note_show(wrong)
+            return
+        key = key.strip()
+        state["presets_busy"] = True
+        check_button.setEnabled(False)
+        check_button.setText(T('checking ...'))
+
+        def fetch():
+            try:
+                bridge_emit(bridge.presets, list_presets(key), "", key)
+            except Exception as e:
+                bridge_emit(bridge.presets, None, str(e)[:90], key)
+
+        threading.Thread(target=fetch, daemon=True).start()
+
+    def presets_arrived(preset_list, error, checked=""):
+        state["presets_busy"] = False
+        check_button.setText(T('Connect'))
+        # Opened while it was still fetching: show it again with what came
+        # back -- but never let a fetch from Connect open a list itself.
+        open_after = state.pop("presets_open_after", False) and preset_list
+        if preset_list is None:
+            state["presets"] = None
+            button_green(False)
+            presets_filter()
+            # Whole and unshortened: what auphonic.com said is the only
+            # account anybody gets. Only the wording differs.
+            if not state.get("key_asked", True):
+                key_note_show(key_refused_note(state.get("key_from"), error))
+                return
+            key_note_show(key_refused_note("", error))
+            return
+        state["presets"] = preset_list
+        # A store that refuses must show, or the button goes green over a
+        # key that is gone at the next start. The key that goes in is the
+        # one that was checked, never the field read a second time.
+        if remember.get() and not store_api_key(
+                (checked or key_var.get()).strip()):
+            PROGRAM.tick_off_quietly(keep_button, remember)
+            key_note_show(T('The key was not saved: %s')
+                          % key_store_trouble())
+        button_green(True)
+        presets_filter()
+        note, fitting = preset_mode_note(preset_list, multitrack.get())
+        if note:
+            key_note_show(note)
+        if open_after and fitting:
+            preset_box.showPopup()
+
+    bridge.presets.connect(presets_arrived)
+    check_button.clicked.connect(lambda: presets_load(asked=True))
+
+    def api_key_changed():
+        """A new key means unchecked until OK is pressed again.
+
+        Multitrack is not touched: it works without auphonic.com too, so a
+        key being retyped is no reason to switch it off.
+        """
+        state["presets"] = None
+        button_green(False)
+        # The complaint was about the key that stood there before, and
+        # it must not be read as being about the one now being typed.
+        key_note_hide()
+        presets_filter()
+
+    key_var.listen(api_key_changed)
+
+    return (access_box, keep_where, key_var, done_folder,
+            without_auphonic, preset_plaintext, presets_filter,
+            presets_wanted_now, finished_tracks_check)
 
 
 # Output files with these endings are text about the audio, not audio.

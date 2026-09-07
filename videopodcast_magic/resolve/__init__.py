@@ -12,6 +12,7 @@ PROGRAM = PROGRAM
 # What this piece uses out of the program, bound once. None of them is
 # a name the program rebinds while it runs.
 ByFile = PROGRAM.ByFile
+COLOURS = PROGRAM.COLOURS
 Finding = PROGRAM.Finding
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -27,7 +28,9 @@ ask_choice = PROGRAM.ask_choice
 camera_metadata = PROGRAM.camera_metadata
 ffprobe_json = PROGRAM.ffprobe_json
 format_complaint = PROGRAM.format_complaint
+hint = PROGRAM.hint
 json = PROGRAM.json
+label = PROGRAM.label
 label_of = PROGRAM.label_of
 log_curve_from_atom = PROGRAM.log_curve_from_atom
 math = PROGRAM.math
@@ -35,10 +38,12 @@ mov_colour_tags = PROGRAM.mov_colour_tags
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
+speaks_as = PROGRAM.speaks_as
 strip_marks = PROGRAM.strip_marks
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 textwrap = PROGRAM.textwrap
+threading = PROGRAM.threading
 
 # ------------------------------------------------------------ Resolve
 #
@@ -2670,3 +2675,102 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     return 0
 
 
+#-------------------------------------------- The box in the window
+# The connection has a box in the settings window, and the box says
+# what check_resolve above found. Both here, so that a change to the
+# one is made where the other is read.
+
+
+def make_resolve_check(QtWidgets, bridge, bridge_emit, resolve_position,
+                       settings_open):
+    """The box saying whether Resolve answers, and the run behind it.
+
+    Here and not in the window because the box, the check and the line
+    above the cut tab are one theme. gui() calls it below settings_open,
+    which the way into the settings window reaches for.
+    """
+    # The box only appears with multitrack, which is where the
+    # speaker-to-camera assignment is. Resolve is checked on opening.
+    resolve_box = QtWidgets.QGroupBox(T('Connection to Resolve'))
+    # Two areas side by side as in the assignment: what is configured on the
+    # left, what comes of it on the right.
+    resolve_columns = QtWidgets.QHBoxLayout()
+    resolve_position.addLayout(resolve_columns, 1)
+    resolve_left = QtWidgets.QVBoxLayout()
+    resolve_right = QtWidgets.QVBoxLayout()
+    resolve_columns.addLayout(resolve_left, 1)
+    resolve_columns.addLayout(resolve_right, 1)
+    # One line saying whether Resolve is there, and the way to the box
+    # that can ask again. Hidden until something has been asked.
+    _echo_row = QtWidgets.QHBoxLayout()
+    resolve_left.addLayout(_echo_row)
+    resolve_echo = label("", COLOURS["quiet"], True)
+    resolve_echo.setVisible(False)
+    _echo_row.addWidget(resolve_echo)
+    _echo_button = QtWidgets.QPushButton(T('Settings ...'))
+    _echo_button.setFlat(True)
+    _echo_button.clicked.connect(lambda: settings_open())
+    _echo_button.setVisible(False)
+    _echo_row.addWidget(_echo_button)
+    _echo_row.addStretch(1)
+    _resolve_rows = QtWidgets.QVBoxLayout(resolve_box)
+    _resolve_head_row = QtWidgets.QHBoxLayout()
+    _resolve_rows.addLayout(_resolve_head_row)
+    resolve_head = label(T('not checked yet'), COLOURS["quiet"], True)
+    resolve_head.setWordWrap(True)
+    _resolve_head_row.addWidget(resolve_head, 1)
+    verify_button = QtWidgets.QPushButton(T('Check again'))
+    speaks_as(verify_button, T('Check the connection to Resolve again'))
+    hint(verify_button, T('Connects to Resolve again.'))
+    _resolve_head_row.addWidget(verify_button)
+    resolve_text = label("", COLOURS["quiet"])
+    resolve_text.setWordWrap(True)
+    resolve_text.setVisible(False)
+    _resolve_rows.addWidget(resolve_text)
+
+    def resolve_check_run_fill_in(result):
+        works, lines = result
+        # The box lives in the settings window; its answer belongs here as
+        # well, or it is written into a window nobody has opened.
+        resolve_echo.setText(T('Resolve answers') if works
+                             else T('Resolve does not answer -- see '
+                                    'Settings'))
+        resolve_echo.setStyleSheet("color: %s;" % (COLOURS["good"] if works
+                                                   else COLOURS["error"]))
+        # Only where it does not answer: a line saying Resolve is there
+        # costs a row, and the way to the box is for somebody with a fix.
+        resolve_echo.setVisible(not works)
+        _echo_button.setVisible(not works)
+        resolve_head.setText(T('Resolve answers%s')
+                             % (("  (%s)" % lines[0]) if works and lines
+                                else "" if works else T(' not.')))
+        resolve_head.setStyleSheet("color: %s; font-weight: bold;"
+                                   % (COLOURS["good"] if works
+                                      else COLOURS["error"]))
+        resolve_text.setText("" if works else "\n".join(lines))
+        resolve_text.setVisible(not works)
+        verify_button.setEnabled(True)
+        verify_button.setText(T('Check again'))
+
+    def resolve_check_run_work_loop():
+        try:
+            result = check_resolve()
+        except Exception as e:
+            result = (False, [T('Check itself failed: %s') % e])
+        bridge_emit(bridge.resolve_check, result)
+
+    def resolve_check_run_kick_off():
+        verify_button.setEnabled(False)
+        verify_button.setText(T('checking ...'))
+        resolve_head.setText(T('checking ...'))
+        resolve_head.setStyleSheet("color: %s;" % COLOURS["quiet"])
+        resolve_text.setText("")
+        resolve_text.setVisible(False)
+        threading.Thread(target=resolve_check_run_work_loop,
+                         daemon=True).start()
+
+    verify_button.clicked.connect(resolve_check_run_kick_off)
+    bridge.resolve_check.connect(resolve_check_run_fill_in)
+
+    return (resolve_box, resolve_left, resolve_right,
+            resolve_check_run_kick_off)
