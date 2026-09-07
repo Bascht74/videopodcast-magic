@@ -20,6 +20,8 @@ with `ast` and `symtable`; none is guessed.
      the receiving one (the fifth kind of head line).             +1 each
   E  something left behind still calls the moved name, so the piece it
      left has to fetch it back.                                 +1 if so
+     For the six pieces the window reads out of itself there is no
+     take_from(), so EVERY moved name needs a line there.
   F  head lines in the piece it left whose last reader was the moved
      code. They have to go: source_no_loose_ends is red on a head line
      nobody reads.                                                -1 each
@@ -236,6 +238,25 @@ def main(argv):
         if left:
             E.append((n, left))
 
+    # E again, for the six pieces the window reads out of itself: there
+    # is no take_from() for them, so a name of theirs reaches the
+    # programme only through an explicit `X = <piece>.X` line in the
+    # window. Every moved name needs one, whether a reader is left
+    # behind or not. Measured 7.9.2026: with one bind line instead of
+    # five, dir(vpm) after the window fell 1292 -> 1288 and lost
+    # exactly the four names that had none.
+    ui_src = open(os.path.join(folder, "ui", "__init__.py"),
+                  encoding="utf-8").read()
+    under = {n.args[0].value
+             for n in ast.walk(ast.parse(ui_src))
+             if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+             and n.func.id == "beside" and n.args
+             and isinstance(n.args[0], ast.Constant)}
+    bind_only = to in under
+    if bind_only:
+        had = {n for n, _l in E}
+        E = E + [(n, ["a bind line in ui/"]) for n in names if n not in had]
+
     # F: head lines of the piece it leaves whose last reader was the group.
     from_head = head_of(from_path)
     uses = {}
@@ -263,8 +284,16 @@ def main(argv):
                 and a.attr in names and a.attr not in to_head})
 
     lines = sum(b - a + 1 for a, b in (spans[n] for n in names))
+    # A fetch-back into a piece the way in reads is `X = PROGRAM.X`, and
+    # the ledger counts that. Into one of the six the window reads
+    # itself it is `X = <piece>.X`, which the ledger does not count --
+    # it is work and a place that can go wrong, but not a crossing.
+    # Held against all three measured moves: the channel rows +0, the
+    # short-shot line -1, the footer +1. No other reading gives all
+    # three.
     paid = len(B) + len(C) + len(E)
-    net = paid - len(F) - len(D)
+    crossing_E = 0 if bind_only else len(E)
+    net = len(B) + len(C) + crossing_E - len(F) - len(D)
     sieve = len([1 for n, lives in C if frm in lives])
 
     print("moving %s from %s/ to %s/ -- %d lines"
@@ -280,7 +309,9 @@ def main(argv):
     print("  F  dead head line in %s/     %2d  %s" % (frm, len(F), sorted(F)))
     print("  D  read %s/ already had    %2d  %s" % (to, len(D), D))
     print("  ----")
-    print("  paid = B+C+E = %d      net = paid - F - D = %+d" % (paid, net))
+    print("  paid = B+C+E = %d      net = %+d%s"
+          % (paid, net, "   (the %d line(s) back are not crossings: no "
+                        "take_from for %s/)" % (len(E), to) if bind_only else ""))
     print("  a screen counting late names alone sees %d, and is out by %+d"
           % (sieve, paid - sieve))
     if net > 0:
