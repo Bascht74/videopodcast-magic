@@ -295,7 +295,7 @@ def own_project(case, vpm, fixture):
     with open(project, "w", encoding="utf-8") as f:
         json.dump({
             "format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-            "call": [], "preset": "", "production": "Sound picture",
+            "preset": "", "production": "Sound picture",
             # Several cameras, or there is no camera cut to look at.
             "multitrack": True, "out_folder": result,
             "assignment": {

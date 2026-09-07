@@ -2782,21 +2782,20 @@ def refresh_cut_list(d, file_path):
     if not speakers or not project or d.get("start_s") is None:
         return None
     fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
-    call = project.get("call") or []
 
-    # Does the project file now hold a different time window from the handover?
-    # Then the audio files no longer match it.
-    def tc_value(switch):
-        if switch not in call:
-            return None
-        i = call.index(switch)
-        if i + 1 >= len(call):
+    # Does the project file now hold a different time window from the
+    # handover? Then the audio files no longer match it. Both ends come
+    # from the file's own two keys, written in the same breath as the
+    # rest of the settings.
+    def tc_value(key):
+        raw = project.get(key)
+        if not raw:
             return None
         try:
-            return parse_timecode(call[i + 1], fps)
+            return parse_timecode(raw, fps)
         except Exception:
             return None
-    in_point, out_point = tc_value("--in-point"), tc_value("--out-point")
+    in_point, out_point = tc_value("in_point"), tc_value("out_point")
 
     def then(key):
         """The window the existing files were made with, in seconds."""
@@ -2831,18 +2830,11 @@ def refresh_cut_list(d, file_path):
                             as_hms(length)))
 
     print(T('\n  REFRESH THE CUT LIST'))
-    # The sliders come from the interface, otherwise from the project
-    # file -- or the button carries on with the values of the last run.
-    command_line = [a for a in sys.argv[1:]]
-    own_measure = any(a.startswith("--wide-")
-                 or a in ("--min-edit-duration", "--edit-change-delay")
-                 for a in command_line)
-    # Through PROGRAM: orders/ is read after this piece, so a head line
-    # for it would find nothing.
-    settings = PROGRAM._sliders_from_command_line(command_line + call,
-                                                  d.get("production"))
-    if own_measure:
-        settings.no_wide_edges = "--no-wide-edges" in command_line
+    # The sliders come from the project file, and a value typed on the
+    # command line beats the one it holds. Through PROGRAM: orders/ is
+    # read after this piece, so a head line for it would find nothing.
+    settings = PROGRAM._sliders_from_project(project, d.get("production"),
+                                             sys.argv[1:])
     cameras = [{"video": cam["source"], "name": cam["camera"]}
                for cam in (d.get("cameras") or []) if cam.get("source")]
     videos = [(cam["video"], None) for cam in cameras]

@@ -106,7 +106,7 @@ INSIDE = [media("Inside_A.wav"), media("Inside_B.mov")]
 PROJECT = os.path.join(ROOT, vpm.PROJECT_PREFIX + "First.json")
 with open(PROJECT, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "version": "test",
-               "timeline": [], "call": [], "production": "First",
+               "timeline": [], "production": "First",
                "files": [{"path": p,
                           "kind": "audio" if p.endswith(".wav") else "video"}
                          for p in INSIDE]}, f)

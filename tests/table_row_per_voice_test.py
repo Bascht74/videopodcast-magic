@@ -139,7 +139,7 @@ def look(case, media):
     # one track there is nothing to distribute, and the program refuses
     # to start while the tick says otherwise.
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-         "call": [], "assignment": {}, "preset": "",
+         "assignment": {}, "preset": "",
          "files": [{"path": recording, "kind": "audio"},
                    {"path": video, "kind": "video"}],
          "out_folder": os.path.join(folder, "Result"),

@@ -50,7 +50,7 @@ subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
                 "aac", "-shortest", "-y", video], check=True)
 project = os.path.join(folder, "videopodcast-magic_Interview_2.json")
 with open(project, "w", encoding="utf-8") as f:
-    json.dump({"format": 3, "version": "test", "timeline": [], "call": [],
+    json.dump({"format": 3, "version": "test", "timeline": [],
                "files": [{"path": p, "kind": "audio"}
                          for p in (one, two, three, guest)]
                         + [{"path": video, "kind": "video"}],

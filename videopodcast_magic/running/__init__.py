@@ -307,7 +307,7 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         PROGRAM.break_off_arm(break_off)
         run_plan_build()
         result_button_check()
-        project_write(argv)      # the dry run too: same hand work
+        project_write()          # the dry run too: same hand work
         threading.Thread(target=work_loop, args=(argv,), daemon=True).start()
         output_timer.start()
 
