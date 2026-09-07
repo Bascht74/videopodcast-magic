@@ -309,14 +309,99 @@ for where, node in everywhere():
         functions.setdefault(node.name, []).append(
             (required, len(node.args.args), node.args.vararg is not None,
              set(a.arg for a in node.args.args + node.args.kwonlyargs)))
+
+
+def own_names(fn):
+    """The names a function binds itself, nested definitions left out.
+
+    A name bound in a nested definition is that definition's own; it
+    says nothing about the text around it.
+    """
+    args = fn.args
+    names = set(a.arg for a in args.args + args.kwonlyargs
+                + getattr(args, "posonlyargs", []))
+    if args.vararg:
+        names.add(args.vararg.arg)
+    if args.kwarg:
+        names.add(args.kwarg.arg)
+
+    def look(node):
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                  ast.ClassDef)):
+                names.add(child.name)
+                continue
+            if isinstance(child, ast.Name) and isinstance(child.ctx, ast.Store):
+                names.add(child.id)
+            elif isinstance(child, (ast.Import, ast.ImportFrom)):
+                for one in child.names:
+                    names.add((one.asname or one.name).split(".")[0])
+            elif isinstance(child, ast.ExceptHandler) and child.name:
+                names.add(child.name)
+            look(child)
+
+    # A lambda's body is one expression, a function's is a list.
+    for step in fn.body if isinstance(fn.body, list) else [fn.body]:
+        look(step)
+    return names
+
+
+def calls_with_scope():
+    """Every call by bare name, with the names bound around it.
+
+    A call whose name is a parameter, a local assignment or a loop
+    variable is not a call of the program's function of that name, and
+    holding it against that signature is a false alarm. Only function
+    scopes count: at module level a bare name really is the global one.
+    """
+    found = []
+    here = [""]
+
+    def walk(node, bound):
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, ast.Call) and isinstance(child.func, ast.Name):
+                found.append((here[0], child, bound))
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                inner = bound | own_names(child)
+                for step in child.body:
+                    walk(step, inner)
+                # Decorators and default values are read where the
+                # definition stands, not inside it.
+                for step in child.decorator_list + child.args.defaults:
+                    walk(step, bound)
+                continue
+            if isinstance(child, ast.Lambda):
+                walk(child.body, bound | own_names(child))
+                continue
+            if isinstance(child, (ast.ListComp, ast.SetComp, ast.DictComp,
+                                  ast.GeneratorExp)):
+                inner = set(bound)
+                for gen in child.generators:
+                    for name in ast.walk(gen.target):
+                        if isinstance(name, ast.Name):
+                            inner.add(name.id)
+                walk(child, inner)
+                continue
+            walk(child, bound)
+
+    for where, tree in TREES:
+        here[0] = where
+        walk(tree, set())
+    return found
+
+
 bad_calls = []
 judged = 0
 passed_over = 0
-for where, node in everywhere():
-    if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)):
-        continue
+shadowed = 0
+for where, node, bound in calls_with_scope():
     sig = functions.get(node.func.id)
     if not sig:
+        continue
+    if node.func.id in bound:
+        # The name is bound where the call stands, so this is not the
+        # program's function of that name.
+        shadowed += 1
         continue
     if len(sig) != 1:
         passed_over += 1
@@ -338,12 +423,17 @@ for where, node in everywhere():
     elif kw - names:
         bad_calls.append((at, node.func.id,
                           "unknown: %s" % sorted(kw - names)))
-# The two counts are the reach: a section that judges nothing is green
-# and says so, instead of reporting no fault over an empty search.
+# The three counts are the reach: a section that judges nothing is
+# green and says so, instead of reporting no fault over an empty
+# search. The third one is new -- a call whose name is bound where it
+# stands is not this function's call, and counting them apart shows
+# whether the new rule is quietly eating the section.
 check("no call with the wrong number of values", not bad_calls,
       "%d wrong of %d calls judged in %d piece(s), %d passed over for a "
-      "name defined more than once: %s"
-      % (len(bad_calls), judged, len(PIECES), passed_over, bad_calls[:4]))
+      "name defined more than once, %d for a name bound where the call "
+      "stands: %s"
+      % (len(bad_calls), judged, len(PIECES), passed_over, shadowed,
+         bad_calls[:4]))
 
 print("\n7. What the catalogue promises does exist")
 # The translations do not stand in the program any more; each language
