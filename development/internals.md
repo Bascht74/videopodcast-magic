@@ -260,9 +260,12 @@ be tested: `run_command_built_test.py` goes through eighteen cases.
 
 ## What a cut out of the way in has to know
 
-Seven pieces were cut in one night, and each of the seven paid for the
-same handful of lessons again. They are written down here so that the
-eighth does not.
+Every piece cut out of the way in has paid for the same handful of
+lessons again, and each one was learned by running something the
+reader before had reasoned about. They are written down here so that
+the next cut does not pay a third time. The list of head lines that
+cannot be written comes first, because it is the one that costs a
+whole round when it is missed.
 
 **`PROGRAM.X = value` does not write through to the pieces.
 `module.X = value` does.** The way in sets `PROGRAM.__dict__ =
@@ -283,6 +286,40 @@ Move one and the program breaks where nobody looks -- while the suite
 stays green, because the suite bends the name through the door that
 does write through. `ASK_SINK` stood inside a cut range and was caught
 by this rule, not by a red test.
+
+### Six kinds of name that may not be bound at a piece's head
+
+They were found one at a time over three nights, each by a different
+hand, and each paragraph below carries its own measured case. Read the
+list first, because from outside four of the six look identical -- the
+same `AttributeError: 'Program' object has no attribute '<name>'`,
+rc=1 -- and the two that do not are the expensive ones.
+
+1. **a name the window writes through `module.X = value`** -- it must
+   not travel and must not be bound. Not an error: the copy simply
+   stops following. See the paragraph above.
+2. **a name defined below the seam** -- `AttributeError`.
+3. **a name that lives in another piece**, and above all a name of
+   `ui/`, which reaches the programme only with `take_from(ui)` at the
+   very end -- `AttributeError`.
+4. **a name from a piece read *after* the receiving one** -- the same
+   error, and from outside indistinguishable from 3, though both pieces
+   are read by the way in long before any window.
+5. **the receiving piece's own name** -- `AttributeError`, and the way
+   out is not `PROGRAM.` but **no head line at all**.
+6. **a name a piece rebinds with `global`** -- **this one is accepted**,
+   rc=0, and is therefore the dangerous one: it keeps a copy of the
+   value as it stood when the piece was read, and nothing catches it.
+
+**Ways out, in order of preference**: a head line where the name is
+already on the programme; `beside("<piece>", program=PROGRAM)` to take
+it off the piece directly; `PROGRAM.<name>` at the use. And for 5 and
+6, nothing -- the name is read as it is, or the function does not move.
+
+**One trap that is not a head line**: `take_from` skips a name the way
+in already holds, so a forced `PROGRAM.<name>` can answer a different
+object than the one meant. Ask it at runtime -- `PROGRAM.x is
+<piece>.x` -- for every forced read introduced.
 
 **A name defined below the seam gets no binding line either.** The head
 of a piece is read while the way in is still being read, so a copy of
