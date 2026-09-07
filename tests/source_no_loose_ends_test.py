@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """Looks for half-finished renames and other loose ends.
 
-A name that is read but never set; a getattr on an attribute that does
-not exist; a dictionary key that is written but never read. The move to
-English snagged on exactly those more than once, and no test noticed.
+A name that is read but never set, and one that is set and never read
+by anybody; a getattr on an attribute that does not exist; a dictionary
+key that is written but never read. The move to English snagged on
+those more than once, and no test noticed.
 
 The program is a folder of pieces and every one of them is read, or a
 piece cut out of the way in would take its loose ends out of sight with
@@ -21,6 +22,7 @@ import glob
 import io
 import re
 import sys
+import subprocess
 import symtable
 import time
 
@@ -421,6 +423,106 @@ check("tests without a single check: %d (ratchet %d)"
 held.report()
 for name in mute:
     print("      %s" % name)
+
+print("\n9. Every name a piece defines is read somewhere")
+# The mirror of section 2. That one finds a name read and never set;
+# this one finds a name set and never read -- by anybody, in any piece
+# or any test. Section 3 of source_no_loose_ends cannot see it: it
+# judges `X = PROGRAM.X` head lines, not definitions.
+#
+# "No reader in its own piece" is the ordinary case here and not a
+# fault: a piece exists to hold names other pieces call. What is a
+# fault is a name nobody anywhere reads, and two of those were found
+# by hand on 7.9.2026 -- queue_once, left behind in the window when
+# its callers moved out, and voices_on_cameras, whose two callers went
+# in a clean-up eight days earlier while it stayed.
+defined, first_at = {}, {}
+for name, body in PIECES:
+    piece = name.split("/")[0]
+    for node in ast.parse(body).body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            defined.setdefault(node.name, piece)
+            first_at.setdefault(node.name, "%s line %d" % (name, node.lineno))
+        elif isinstance(node, ast.Assign):
+            # A handle on another piece -- `filelist = beside("filelist")`
+            # -- is not a definition of anything. It is read only in the
+            # `X = filelist.X` lines under it, which this section skips
+            # as bindings, so counting it would report it every time.
+            if isinstance(node.value, ast.Call) \
+                    and isinstance(node.value.func, ast.Name) \
+                    and node.value.func.id == "beside":
+                continue
+            for target in node.targets:
+                if isinstance(target, ast.Name):
+                    defined.setdefault(target.id, piece)
+                    first_at.setdefault(target.id,
+                                        "%s line %d" % (name, node.lineno))
+
+
+def is_binding(node):
+    """A line that only fetches a name: `X = PROGRAM.X` or `X = piece.X`."""
+    if not (isinstance(node, ast.Assign) and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and isinstance(node.value, ast.Attribute)):
+        return False
+    return node.value.attr == node.targets[0].id
+
+
+read_somewhere = set()
+for name, body in PIECES:
+    for node in ast.parse(body).body:
+        if is_binding(node):
+            continue
+        own = getattr(node, "name", None)
+        for inner in ast.walk(node):
+            if isinstance(inner, ast.Name) and isinstance(inner.ctx, ast.Load):
+                if inner.id != own:
+                    read_somewhere.add(inner.id)
+            elif isinstance(inner, ast.Attribute):
+                read_somewhere.add(inner.attr)
+# A name a test reaches for is read, even when no piece calls it.
+# **The repository, not the folder.** The builder moves the tests a
+# machine cannot run out of tests/ before the suite starts, and their
+# names would then look unread: measured 7.9.2026, this section said 7
+# here and 10 on both macOS jobs, the extra ones reached only by a test
+# that had been set aside. So the list comes from git, and a file that
+# is listed but not on disk is read out of the last commit.
+ROOT = os.path.dirname(HERE)
+shipped = []
+try:
+    listed = subprocess.run(("git", "-C", ROOT, "ls-files", "-z", "tests"),
+                            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    if listed.returncode == 0:
+        shipped = [x for x in listed.stdout.decode("utf-8", "ignore").split("\0")
+                   if x.endswith(".py")]
+except OSError:
+    shipped = []
+from_git = 0
+if not shipped:
+    shipped = ["tests/" + n for n in sorted(os.listdir(HERE))
+               if n.endswith(".py")]
+for rel in shipped:
+    full = os.path.join(ROOT, rel)
+    if os.path.exists(full):
+        text = io.open(full, encoding="utf-8", errors="ignore").read()
+    else:
+        got = subprocess.run(("git", "-C", ROOT, "show", "HEAD:" + rel),
+                             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        if got.returncode != 0:
+            continue
+        text = got.stdout.decode("utf-8", "ignore")
+        from_git += 1
+    read_somewhere |= set(re.findall(r"[A-Za-z_][A-Za-z_0-9]*", text))
+unread = sorted(n for n in defined if n not in read_somewhere)
+held = state.places("unread_names",
+                    dict((n, (1, first_at.get(n, 0))) for n in unread))
+check("names nobody reads: %d (ratchet %d)" % (len(unread), held.limit),
+      held.ok, "%d against a ratchet of %d over %d test files (%d out of "
+      "the last commit), first: %s"
+      % (len(unread), held.limit, len(shipped), from_git, unread[:5]))
+held.report()
+for n in unread:
+    print("      %-32s %s" % (n, first_at.get(n, "")))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
