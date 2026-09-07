@@ -38,6 +38,13 @@ themselves that can be counted without a judgement: a name nobody else
 reads is private to its piece, so moving it carries the whole of it
 across and leaves nothing scattered behind.
 
+**A head line is not a reading, but the piece that writes one usually
+is a reader.** Both are counted here: a piece counts as a reader when
+the name stands anywhere in it except in the `X = PROGRAM.X` line that
+fetches it. The first version of this line excluded any name found in
+the receiving head at all, and so reported every group as private when
+half of them were called elsewhere.
+
 **A constant at the top level counts too**, since 7.9.2026: what it
 reads is read off its value rather than out of a symtable block, which
 it does not have. What its span does *not* cover is the comment above
@@ -247,17 +254,27 @@ def other_readers(folder, names, frm):
         if not os.path.exists(path):
             continue
         tree = ast.parse(open(path, encoding="utf-8").read())
+        # Everywhere but the head lines themselves. Until 7.9.2026 this
+        # threw away any name that stood in the receiving file's head --
+        # and a head line is exactly how a piece gets hold of a name it
+        # calls, so every genuine reader was dropped. It said "5 of 5
+        # read by no piece but bearings/" for a group of which `ui/`
+        # calls three and `cut/` one. A strand held it against the
+        # program and contradicted it.
         seen = set()
-        for x in ast.walk(tree):
-            if isinstance(x, ast.Name) and isinstance(x.ctx, ast.Load):
-                seen.add(x.id)
-            elif isinstance(x, ast.Attribute):
-                seen.add(x.attr)
-        head = head_of(path)
+        for node in tree.body:
+            if isinstance(node, ast.Assign) and any(
+                    isinstance(a, ast.Attribute)
+                    and getattr(a.value, "id", "") == "PROGRAM"
+                    for a in ast.walk(node)):
+                continue
+            for x in ast.walk(node):
+                if isinstance(x, ast.Name) and isinstance(x.ctx, ast.Load):
+                    seen.add(x.id)
+                elif isinstance(x, ast.Attribute):
+                    seen.add(x.attr)
         for n in names:
-            # A head line alone is not a reading: it is the binding, and
-            # it goes out with the name.
-            if n in seen and n not in head:
+            if n in seen:
                 out[n].append(piece)
     return out
 
