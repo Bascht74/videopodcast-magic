@@ -56,6 +56,29 @@ stopped somewhere, or when a command in it is being changed.
    in with the version. That file is the only place the count survives
    between releases, because the notes themselves do not.
 
+   **And this is where the list is cleared out, not only counted.**
+   The owner's rule, 7 September 2026: a release reworks
+   `aufgaben.md`, and everything finished goes out of it. Counting alone was tried and
+   failed -- on that day the file stood at **18 109 lines and 370
+   sections**, of which **153 were long done and 82 were no task at
+   all**, two thirds ballast, although the rule „what is finished comes
+   out" had stood in the file's own head since 22 August.
+
+   It has a release to hang on because a release is the one moment
+   where somebody counts anyway. **Every section that goes out is
+   measured against the program first** -- not against what the entry
+   claims about itself; the entries are older than the code and say so
+   wrongly. What still holds at a finished point goes somewhere else
+   before it goes: a standing decision to `claude_intern.md`, a
+   measurement to `development/measurements.md`, what a user notices to
+   `CHANGELOG.md`, what they must know to the manual.
+
+   The second line of the report then carries the number it cost:
+
+   * `aufgaben.md: N sections, M written, K taken out since
+     v<previous>` -- **and K may not be nought in a release that
+     closed anything.**
+
    **Where `docs/notes/` is not on the disc, the first line says so and
    the release goes on.** It is in `.gitignore` on purpose -- it carries
    material out of real productions -- so it is here and on no clone.
