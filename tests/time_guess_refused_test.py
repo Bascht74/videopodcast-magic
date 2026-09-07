@@ -14,10 +14,9 @@ import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import glob, shutil, subprocess, sys, time, wave
+import glob, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
-from fixture_root import fixture
 
 vpm = the_program.load()
 # The sentences the run prints are held against the ones this process
@@ -105,8 +104,13 @@ def begins_at(reference, track):
     return (k - n if k > n // 2 else k) / float(RATE)
 
 
-D = fixture("noplace")
-shutil.rmtree(D, ignore_errors=True)
+# Its own folder under the run's TMPDIR, which the run throws away at
+# the end. Not in the shared fixture root: no other test reads this
+# material, and wiping a folder in that root pulls it out from under
+# whatever runs beside it. The leaf keeps its name, because the program
+# builds the names of the files it writes out of the folder it was
+# pointed at, and checks below look for them.
+D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "noplace")
 os.makedirs(D)
 whole = (bursts(LENGTH, 1)
          + np.random.default_rng(9).normal(0, 0.0004, int(LENGTH * RATE)))

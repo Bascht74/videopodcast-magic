@@ -11,11 +11,10 @@ import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import json, shutil, subprocess, sys, time, wave
+import json, subprocess, sys, tempfile, time, wave
 import numpy as np
 sys.path.insert(0, os.path.dirname(
     os.path.abspath(__file__)))
-from fixture_root import fixture
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 vpm = the_program.load()
@@ -33,8 +32,13 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
-D = fixture("localrun")
-shutil.rmtree(D, ignore_errors=True)
+# Its own folder under the run's TMPDIR, which the run throws away at
+# the end. Not in the shared fixture root: no other test reads this
+# material, and wiping a folder in that root pulls it out from under
+# whatever runs beside it. The leaf keeps its name, because the program
+# builds the names of the files it writes out of the folder it was
+# pointed at, and checks below look for them.
+D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "localrun")
 os.makedirs(D)
 # The program refuses a common range of sound and picture under 30
 # seconds, and the second camera starts CAM_LATE late, so the window is
