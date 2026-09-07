@@ -30,6 +30,20 @@ with `ast` and `symtable`; none is guessed.
 
     paid = B + C + E      net = B + C + E - F - D
 
+Under those, one line that is not a cost: **how many of the names are
+read by no piece but the one they are leaving.** Every term above says
+what a move costs, and none of them says whether it is right -- there is
+no measure that does. This one says the single thing about the names
+themselves that can be counted without a judgement: a name nobody else
+reads is private to its piece, so moving it carries the whole of it
+across and leaves nothing scattered behind.
+
+**It prices functions and classes only.** A module-level constant is not
+at the top level as far as this tool is concerned, and it refuses the
+run; leave the constants out and count their head lines by hand. Four of
+them then show up under C as forced reads although they are moving too,
+so the net comes out that much too high.
+
 A screen counts only the part of C that lives in the piece being left,
 so its error per candidate is  B + E - F  -- and it has no sign: on one
 row here it was 3.5x optimistic, on the next it said free and the move
@@ -194,6 +208,43 @@ def reads_of(path, names):
     return spans, out
 
 
+def other_readers(folder, names, frm):
+    """Which pieces besides *frm* read each of these names.
+
+    The one number this tool has that is not a cost. A name no other
+    piece reads is private to the one it sits in, so moving it carries
+    the whole of it across and leaves nothing scattered behind; a name
+    half the program reads sits on the programme either way, and where
+    it lives says much less.
+
+    The way in is not counted as a reader. Its `X = <piece>.X` lines
+    bind nothing -- they stand there for a reader and for
+    source_no_loose_ends -- and counting them would make every name look
+    as though the way in used it.
+    """
+    out = dict((n, []) for n in names)
+    for piece in sorted(os.listdir(folder)):
+        if piece in (frm, "__pycache__", "language"):
+            continue
+        path = os.path.join(folder, piece, "__init__.py")
+        if not os.path.exists(path):
+            continue
+        tree = ast.parse(open(path, encoding="utf-8").read())
+        seen = set()
+        for x in ast.walk(tree):
+            if isinstance(x, ast.Name) and isinstance(x.ctx, ast.Load):
+                seen.add(x.id)
+            elif isinstance(x, ast.Attribute):
+                seen.add(x.attr)
+        head = head_of(path)
+        for n in names:
+            # A head line alone is not a reading: it is the binding, and
+            # it goes out with the name.
+            if n in seen and n not in head:
+                out[n].append(piece)
+    return out
+
+
 def main(argv):
     if len(argv) < 4:
         print(__doc__)
@@ -314,6 +365,19 @@ def main(argv):
                         "take_from for %s/)" % (len(E), to) if bind_only else ""))
     print("  a screen counting late names alone sees %d, and is out by %+d"
           % (sieve, paid - sieve))
+    # The one line here that is not a cost. Every other number says what
+    # the move costs; none of them says whether it is right, and the
+    # literature has no measure that does -- so this says the one thing
+    # about the name itself that can be counted without a judgement.
+    others = other_readers(folder, names, frm)
+    alone = sorted(n for n in names if not others[n])
+    print("  ----")
+    print("  read by no piece but %s/    %2d of %d  %s"
+          % (frm, len(alone), len(names), alone))
+    for n in names:
+        if others[n]:
+            print("      %-28s also read in %s"
+                  % (n, ", ".join(p + "/" for p in others[n])))
     if net > 0:
         print("  %.0f lines a crossing (net)" % (lines / net))
     elif net == 0:
