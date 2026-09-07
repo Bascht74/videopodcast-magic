@@ -15,10 +15,9 @@ import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import shutil, subprocess, sys, time, wave
+import subprocess, sys, tempfile, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
-from fixture_root import fixture
 
 vpm = the_program.load()
 
@@ -64,8 +63,13 @@ def write(path, x):
         f.writeframes((np.clip(x, -1, 1) * 32000).astype("<i2").tobytes())
 
 
-D = fixture("intropropose")
-shutil.rmtree(D, ignore_errors=True)
+# Its own folder under the run's TMPDIR, which the run throws away at
+# the end. Not in the shared fixture root: no other test reads this
+# material, and wiping a folder in that root pulls it out from under
+# whatever runs beside it. The leaf keeps its name, because the program
+# builds the names of the files it writes out of the folder it was
+# pointed at, and checks below look for them.
+D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "intropropose")
 os.makedirs(D)
 write(D + "/room.wav", turns(CAM_LEN + 10, 1))
 # A jingle: music, loud all the way through, with no turns to align on.

@@ -18,10 +18,9 @@ import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import json, re, shutil, subprocess, sys, time, wave
+import json, re, subprocess, sys, tempfile, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
-from fixture_root import fixture
 
 # The same environment the suite gives every test, so a run by hand
 # measures the same thing. Speaker separation is off: it fetches a
@@ -126,8 +125,13 @@ def loud(x, step=1.0):
             if float(np.sqrt(np.mean(x[i * n:(i + 1) * n] ** 2))) > 50]
 
 
-D = fixture("mtwindow")
-shutil.rmtree(D, ignore_errors=True)
+# Its own folder under the run's TMPDIR, which the run throws away at
+# the end. Not in the shared fixture root: no other test reads this
+# material, and wiping a folder in that root pulls it out from under
+# whatever runs beside it. The leaf keeps its name, because the program
+# builds the names of the files it writes out of the folder it was
+# pointed at, and checks below look for them.
+D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "mtwindow")
 os.makedirs(D)
 host, guest = voice(TURNS["Host"], 1), voice(TURNS["Guest"], 2)
 bleed = 10 ** (-8.0 / 20)            # under the 3:1 rule on purpose
