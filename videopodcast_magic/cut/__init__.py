@@ -2399,6 +2399,22 @@ def why_no_cut(d):
              'shorter shortest shot, or less wide shot, gives one '
              'again.') % as_hms(length)
 
+def wide_too_short(number):
+    """A line for where the wide shot lasts less than the shortest shot.
+
+    Both are free fields and nothing stops them contradicting: set that
+    way, every wide shot is merged away again and no line says why. The
+    numbers go through the number helper and not "%g", which turns
+    exponential from a million on and leaves "1,5e+06 s" in German.
+    """
+    holds = float(number.get("wide-length") or 0.0)
+    least = float(number.get("min-edit-duration") or 0.0)
+    if holds <= 0 or least <= 0 or holds >= least:
+        return ""
+    return T('The wide shot holds %s s, less than the shortest shot of '
+             '%s s -- so it is merged away again and never appears.\n') % (
+                 number_text(holds, 1), number_text(least, 1))
+
 def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
                  camera_lines, voice_lines, cut_var, cut_parts, edge_on,
                  start_var, end_var, multitrack, out_folder, clip_kind_value,
@@ -2659,7 +2675,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         state["cut_numbers"] = numbers
         state["cut_data"] = d
         band_show(numbers)
-        preview_label.setText(PROGRAM.wide_too_short(number)
+        preview_label.setText(wide_too_short(number)
                               + metrics_sentence(numbers, COLOURS, as_minutes))
 
     return preview_compute, speaker_measure
