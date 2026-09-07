@@ -122,9 +122,16 @@ as much as in the file.**
 These belong in every order, because a strand that is not told will try
 them and lose the time:
 
-* **No `timeout`** and no `gtimeout`. A strand that needs a deadline
-  builds it into the script it starts -- **and clears it away before it
-  reports.** Four wait loops once outlived their measurement, one of
+* **`timeout` does not exist here; `gtimeout` does**, at
+  `/opt/local/bin/gtimeout`, and `run.sh` finds it itself and caps
+  every test at 300 seconds. This line said "no `timeout` and no
+  `gtimeout`" for weeks and half of it was false -- a strand measured
+  it on 7.9.2026 with `command -v` and contradicted the order. A strand
+  told it has no deadline either builds one the awkward way or lets a
+  hang run, believing nothing can stop it. **A limit copied into every
+  order is never checked again, which is exactly why it has to be, now
+  and then.** Whoever needs a deadline of their own takes `gtimeout`
+  -- **and clears it away before reporting.** Four wait loops once outlived their measurement, one of
   them a bare spin burning a core, and whoever measured next never saw
   that they were a core short: the numbers still looked like numbers.
 * **And when it has to wait for something it started itself, this is
@@ -192,6 +199,16 @@ them and lose the time:
   said what was out of bounds for achieving it. **A rule that forbids
   something says where the answer may live.**
 
+  **And "the scratch space" means the strand's own folder, not `/tmp`.**
+  On 7.9.2026 a strand was given `/tmp/vpm-kratz-r4` and ran
+  `rm -f /tmp/*.txt` to tidy up after itself. Four files went that had
+  nothing to do with the work and belonged to the owner; none is
+  recoverable. It also wiped the strand beside it halfway through its
+  own extraction. **So: no `rm` with a pattern anywhere but inside the
+  strand's own folder**, and the order names the folder rather than
+  leaving the strand to infer where its edge is. `/tmp` is a shared
+  room, and every other strand and the owner keep things in it.
+
 ## What the order has to ask back for
 
 Three things. Without them a claim comes back instead of a result.
@@ -234,8 +251,10 @@ Prepare only: <a foreign file you deliver old-text/new-text pairs for
 
 Read first:   <file, section — what the rules say about this>
 
-This machine: no timeout, windows offscreen only, nothing committed,
-              nothing pushed, broken copies in scratch space only.
+This machine: `gtimeout` (/opt/local/bin), no `timeout`; windows
+              offscreen only; nothing committed, nothing pushed; broken
+              copies in <your folder> only, and no `rm` with a pattern
+              anywhere else.
               Own VPM_FIXTURES, never pkill, and the copies go as soon
               as the measurement is written.
 
@@ -288,9 +307,10 @@ nobody could find them.
    when the file came free?
 6. No name, path, production or preset in the order that must not stand
    in the repository?
-7. Does it name what this machine cannot do -- no `timeout`, windows
-   offscreen only, nothing committed or pushed, broken copies in the
-   scratch space, nothing outside the repository touched?
+7. Does it name what this machine cannot do -- `gtimeout` but no
+   `timeout`, windows offscreen only, nothing committed or pushed,
+   broken copies in the scratch space, nothing outside the repository
+   touched, and no `rm` with a pattern outside the strand's own folder?
 8. Where it forbids something, does it say where the answer may live?
 9. Does it ask back for the counter-proof, the red line word for word?
 10. For measured or read, on every statement?
