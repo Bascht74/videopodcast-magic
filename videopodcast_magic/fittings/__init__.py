@@ -19,6 +19,7 @@ CUT_FIELDS = PROGRAM.CUT_FIELDS
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 NAME_ROOM = PROGRAM.NAME_ROOM
 ROW_ROOM = PROGRAM.ROW_ROOM
+RUN_STOP = PROGRAM.RUN_STOP
 SEVERAL_SPEAKERS = PROGRAM.SEVERAL_SPEAKERS
 SHOT_NAMES = PROGRAM.SHOT_NAMES
 T = PROGRAM.T
@@ -27,6 +28,7 @@ Value = PROGRAM.Value
 fill_choices = PROGRAM.fill_choices
 label_of = PROGRAM.label_of
 os = PROGRAM.os
+run_stages = PROGRAM.run_stages
 sys = PROGRAM.sys
 time = PROGRAM.time
 
@@ -787,3 +789,219 @@ def mark_red(widget, on, reason=""):
         widget.setToolTip(reason if on else "")
     except RuntimeError:
         pass
+
+
+def stop_asked_for(where=""):
+    """Ask the run to stop, and end what it has running at this moment."""
+    RUN_STOP["wanted"] = True
+    RUN_STOP["at"] = where
+    for child in list(RUN_STOP["children"]):
+        try:
+            child.terminate()
+        except Exception:
+            # It ended by itself between the two lines. Nothing to do.
+            pass
+
+def break_off_button(QtWidgets, state, say):
+    """The button that stops a run, and what it says while it does.
+
+    Away while nothing runs: a button that does nothing is a question
+    nobody asked. It can be pressed at any moment, but the run stops only
+    where nothing is left half written, so between the press and the end
+    there is a wait -- said out loud, or the button looks broken.
+    """
+    button = QtWidgets.QPushButton(T('Stop'))
+    button.setVisible(False)
+
+    def pressed():
+        if not state.get("running"):
+            return
+        button.setEnabled(False)
+        button.setText(T('Stopping ...'))
+        say(T('\nStopping. The run ends as soon as it can do so '
+              'without leaving a file half written -- one moment.\n'))
+        stop_asked_for(state.get("run_step") or "")
+
+    button.clicked.connect(pressed)
+    return button
+
+def button_in_a_frame(QtWidgets, button):
+    """Wrap a button in a bare frame, and hand the frame back.
+
+    A disabled button takes no mouse events in Qt and so shows no
+    tooltip; the frame takes them and carries a copy of its text. And a
+    button wants a fixed height where a plain widget wants a preferred
+    one, so on an odd difference a bare button rounds apart.
+    """
+    frame = QtWidgets.QWidget()
+    row = QtWidgets.QHBoxLayout(frame)
+    row.setContentsMargins(0, 0, 0, 0)
+    row.addWidget(button)
+    if button.toolTip():
+        frame.setToolTip(button.toolTip())
+    return frame
+
+def row_same_height(buttons):
+    """Give a row of buttons the height of the tallest among them.
+
+    A flat button asks for less room than a framed one: Start stands 29
+    pixels high where "Settings ..." stands 25, so it lines up with
+    neither edge. No fixed number -- that is the system font talking, and
+    the wish stands whether the button is on screen or not.
+    """
+    tallest = max([b.sizeHint().height() for b in buttons] or [0])
+    for b in buttons:
+        b.setMinimumHeight(tallest)
+    return tallest
+
+def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
+                plan, bridge, late, multitrack, without_auphonic,
+                settings_open):
+    """The bottom row of the window: the one bar, and the four buttons.
+
+    One strip answered end to end -- the bar, the plan behind it that
+    says what each stage is worth, and the four buttons. The break-off
+    reaches back through state["write"]: the writer is made in the
+    window. Qt comes in as a parameter.
+    """
+    # Above the buttons, not under them: a line below the bottom row
+    # reads like a footnote, not the answer to "why can I not press it".
+    start_note = label("", COLOURS["quiet"])
+    vertical.addWidget(start_note)
+    foot = QtWidgets.QHBoxLayout()
+    vertical.addLayout(foot)
+    total_bar = QtWidgets.QProgressBar()
+    total_bar.setRange(0, 1000)
+    total_bar.setTextVisible(False)
+    total_bar.setFixedHeight(12)
+    # Wide enough to read a share off it, and growing with the window
+    # rather than fixed: the stretch behind it takes every spare pixel.
+    # The maximum keeps it from pushing the grey-Start reason off screen.
+    total_bar.setMinimumWidth(220)
+    total_bar.setMaximumWidth(620)
+    hint(total_bar, T('Everything still outstanding, measured against '
+                      'what is done. Long pieces of work take up more of '
+                      'the bar than short ones.'))
+    total_line = label("", COLOURS["quiet"])
+    foot.addWidget(total_bar, 3)
+    foot.addWidget(total_line, 1)
+    total_bar.hide()
+    total_line.hide()
+    total_state = {"full_since": 0.0}
+
+    run_step_order = []
+
+    def plan_wipe():
+        total_hide(plan, total_state, total_bar, total_line)
+
+    def run_plan_build():
+        """Announce the stages of the run before it starts.
+
+        The whole job at once, not stage by stage: a bar that learns of
+        the next stage only when the last ends jumps backwards at every
+        boundary. The plan before it is thrown away, finished or not --
+        added to, the bar stands still, because it never falls back.
+        """
+        plan_wipe()
+        cameras = len([1 for p, a in files if a == "video"])
+        stages = run_stages(bool(multitrack.get()), cameras,
+                            not without_auphonic(),
+                            speakers=bool(multitrack.get()
+                                          or state.get("speakers_local")))
+        run_step_order[:] = [name for name, _w, _c in stages]
+        for name, weight, caption in stages:
+            plan.add("run:" + name, weight, caption)
+
+    def run_step_take(name, share):
+        """One stage of the run reports. Runs in the window thread.
+
+        A stage beginning means every earlier one is over, whether it ran
+        or was skipped -- a step left at nothing holds the bar back.
+        """
+        if name not in run_step_order:
+            # No caption: the key is an internal English word, and a
+            # step with none says nothing rather than showing it.
+            plan.add("run:" + name, 1.0)
+            run_step_order.append(name)
+        if share < 0:
+            for earlier in run_step_order[:run_step_order.index(name)]:
+                plan.done("run:" + earlier)
+            plan.begin("run:" + name)
+            return
+        plan.report("run:" + name, share)
+
+    bridge.run_step.connect(run_step_take)
+
+    def total_show():
+        """Refresh the one bar. A timer calls this, not the work.
+
+        The work reports from several threads at very different rates;
+        redrawing on each report stutters or stands still for a minute.
+        """
+        try:
+            total_paint(Qt, plan, total_state, total_bar, total_line)
+        except RuntimeError:
+            # The window is closing and the widgets are gone. A timer
+            # firing into them must not become a traceback on the way out.
+            total_clock.stop()
+
+    total_clock = QtCore.QTimer(window)
+    total_clock.timeout.connect(total_show)
+    total_clock.start(200)
+    foot.addStretch(1)
+    # Only the Resolve part: after a run, or where a handover file is
+    # already in the output folder. Then nothing has to be recomputed.
+    start_run = QtWidgets.QPushButton(T('Start'))
+    start_run.setEnabled(False)
+    hint(start_run, T('Measure, align, process, write files.'))
+    # Both run buttons sit in a frame of their own: it makes the tooltip
+    # of a switched-off button reachable. button_in_a_frame says why.
+    start_run_env_curve = button_in_a_frame(QtWidgets, start_run)
+    foot.addWidget(start_run_env_curve)
+    preview_button = QtWidgets.QPushButton(T('Dry run'))
+    preview_button.setEnabled(False)
+    hint(preview_button,
+            T('Measure only -- nothing is written or uploaded.'))
+    foot.addWidget(button_in_a_frame(QtWidgets, preview_button))
+    break_off = break_off_button(QtWidgets, state, lambda t: state["write"](t))
+    foot.addWidget(break_off)
+    # The two run buttons are one pair and switch off the same way. The
+    # rank stays readable: the main action filled, the dry run outlined.
+    start_run.setStyleSheet(
+        "QPushButton { background: %s; color: %s; font-weight: bold; "
+        "border: 1px solid %s; border-radius: 5px; padding: 6px 21px; }"
+        "QPushButton:disabled { background: %s; color: %s; "
+        "border-color: %s; }"
+        "QPushButton:hover:!disabled { background: %s; border-color: %s; }"
+        % (COLOURS["heading"], COLOURS["sheet"], COLOURS["heading"],
+           COLOURS["off"], COLOURS["off_text"], COLOURS["off"],
+           COLOURS["value"], COLOURS["value"]))
+    preview_button.setStyleSheet(
+        "QPushButton { background: %s; color: %s; "
+        "border: 1px solid %s; border-radius: 5px; padding: 6px 17px; }"
+        "QPushButton:disabled { background: transparent; color: %s; "
+        "border-color: %s; }"
+        "QPushButton:hover:!disabled { background: %s; }"
+        % (COLOURS["box"], COLOURS["heading"], COLOURS["heading"],
+           COLOURS["off_text"], COLOURS["off"], COLOURS["backdrop"]))
+    # Settings belongs with the buttons, not beside the tabs: not a step
+    # of the work, so flat and at a distance, but where a button is sought.
+    settings_button = QtWidgets.QPushButton(T('Settings ...'))
+    settings_button.setFlat(True)
+    hint(settings_button, T('Key for auphonic.com, and whether Resolve '
+                            'answers.'))
+    settings_button.clicked.connect(lambda: settings_open())
+    foot.addSpacing(18)
+    foot.addWidget(settings_button)
+    row_same_height([start_run, preview_button, break_off, settings_button])
+
+    # In full and in view: a tooltip is out of reach for the keyboard.
+    start_note.setWordWrap(True)
+    start_note.setVisible(False)
+    # Named so it can be found: the test looks for this line, and a
+    # reading program announces it by name rather than as "label".
+    start_note.setObjectName("start_note")
+    start_note.setAccessibleName(T('Why the run cannot start'))
+    late["start_note"] = start_note
+    return (start_run, start_run_env_curve, preview_button, break_off,
+            plan_wipe, run_plan_build, run_step_order, total_clock)
