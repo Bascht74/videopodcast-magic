@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The bearings: where each thing sits, and how each one reads.
+"""The bearings: where each file and each voice sits, and how each one reads.
 
 Read out of the folder beside the program by beside(). It cannot import
 the file it was cut out of -- that file is still being read -- so the
@@ -9,8 +9,8 @@ program is handed in and every name used out of it is bound below.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Seven names are
-# missing; the two blocks under the list say which and why.
+# What this piece uses out of the program, bound once. One name is
+# missing, and the block under the list says which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 ByFile = PROGRAM.ByFile
@@ -45,32 +45,25 @@ finished_tracks_find = PROGRAM.finished_tracks_find
 fit_places_it = PROGRAM.fit_places_it
 format_complaint = PROGRAM.format_complaint
 gcc_phat_offset = PROGRAM.gcc_phat_offset
-glob = PROGRAM.glob
 group_recording_parts = PROGRAM.group_recording_parts
 json = PROGRAM.json
 no_place_message = PROGRAM.no_place_message
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
-parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 place_track_on_axis = PROGRAM.place_track_on_axis
 re = PROGRAM.re
 safe_filename = PROGRAM.safe_filename
 subprocess = PROGRAM.subprocess
-sys = PROGRAM.sys
 threading = PROGRAM.threading
 time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
 video_envelope = PROGRAM.video_envelope
-words_from_handover = PROGRAM.words_from_handover
 
 
-# Six of the seven stand below the place this piece is read, so a copy
-# taken here would find nothing: they are read as PROGRAM.<name>.
-
-# numpy is the seventh: the program binds the real module only when
-# the first sum asks, which a copy taken up there would never see.
+# numpy is the one that is missing: the program binds the real module
+# only when the first sum asks, which a copy up there would never see.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
 
@@ -307,266 +300,6 @@ def find_handover_file(*places, deeper=False, ours=None):
                 except (OSError, ValueError):
                     pass
     return max(hit)[1] if hit else None
-
-
-def mix_file_from_handover(d):
-    """Return the file carrying the overall mix.
-
-    Preferably the separate file, which is unambiguous. Otherwise the wide
-    shot, where the mix is the first audio track. Otherwise any camera with
-    a track of that name.
-    """
-    for name, file_path in (d.get("audio_files") or {}).items():
-        if "full" in name.lower() and file_path and os.path.exists(file_path):
-            return file_path, T('stored file %s') % os.path.basename(file_path)
-    for cam in (d.get("cameras") or []):
-        if cam.get("wide") and cam.get("file") and os.path.exists(cam["file"]):
-            return cam["file"], (T('wide shot %s, the mix is its first audio '
-                                 'track') % cam["camera"])
-    for cam in (d.get("cameras") or []):
-        names = [n.lower() for n in (cam.get("audio_tracks") or [])]
-        if any("full" in n for n in names) and os.path.exists(
-                cam.get("file") or ""):
-            idx = [i for i, n in enumerate(names, 1) if "full" in n][0]
-            # The track number names the track in that file, the way
-            # the editor counts them: plain digits.
-            return cam["file"], (T('%s, audio track %d') % (cam["camera"], idx))
-    return None, ""
-
-
-def first_and_last_word(d):
-    """Return when the first word falls and when the last one ends.
-
-    Out of the speaker statistics in the handover file, the same source
-    the camera cut came from. Returns seconds from the start of the
-    timeline, or (None, None).
-    """
-    starts, ends = [], []
-    for speaker in (d.get("speakers") or []):
-        for a, b in (speaker.get("sections") or []):
-            starts.append(float(a))
-            ends.append(float(b))
-    if not starts:
-        return None, None
-    return min(starts), max(ends)
-
-
-def _meeting_point(entry, kind):
-    """Return the point in the clip that should meet the word.
-
-    For the intro the end of its audible audio, where the first word
-    starts; for the outro the start of its audio. A clip without audio
-    uses its end for the intro and its start for the outro. Nothing is
-    cut -- only the position moves, and the picture overlap is where the
-    dissolve goes.
-    """
-    entry = entry or {}
-    duration = float(entry.get("duration") or 0.0)
-    if kind == "intro":
-        value = entry.get("audio_to")
-        return float(value) if value is not None else duration
-    value = entry.get("audio_from")
-    return float(value) if value is not None else 0.0
-
-
-def lead_in_offset(mp, tl, d, clips, fps, origin):
-    """Place intro and outro on the second video and audio track.
-
-    The intro's end falls on the first spoken word, the outro starts
-    where the last one ends. The scripting interface knows no
-    transitions, so the intro lies *over* the content rather than beside
-    it: one drag on the clip corner and the dissolve is there. Returns
-    by how many frames the content has to move back.
-    """
-    intro = d.get("intro")
-    if not intro:
-        return 0
-    word0, _word1 = first_and_last_word(d)
-    W = word0 if word0 is not None else 0.0
-    # The content moves as far as the intro reaches past the start,
-    # measured where its audio stops, not at its file length.
-    return PROGRAM.seconds_to_frames(
-        max(0.0, _meeting_point(intro, "intro") - W), fps)
-
-
-HINT_MULTICAM = ('\n  To convert: in the media pool right-click "%s '
-                 'Multicam" >\n  "Convert Timeline to Multicam Clip" > '
-                 '"Use Source Audio Channels".\n  One way only -- but a '
-                 'new run rebuilds the Timeline at any time.\n  Angles:%s\n '
-                 ' Everything else -- audio choice, colour groups, '
-                 'framing -- is in the\n  manual, docs/resolve.md.\n')
-
-
-def _read_project_file(folder):
-    # The prefix is written down once, in the way in. A pattern spelling
-    # it out again would keep looking for the old name after a rename,
-    # silently and with no error to catch it.
-    for file_path in sorted(glob.glob(os.path.join(
-            folder, PROJECT_PREFIX + "*.json"))):
-        try:
-            with open(file_path, encoding="utf-8") as f:
-                return json.load(f)
-        except (OSError, ValueError):
-            continue
-    return {}
-
-
-def refresh_cut_list(d, file_path):
-    """Check the cut list is still valid before building.
-
-    Who speaks when is in the handover already, so turning the cut values
-    costs no run. Only a new run can mend a changed In or Out point --
-    the audio inside the videos then belongs to another window. Returns
-    that reason as text.
-    """
-    folder = os.path.dirname(os.path.abspath(file_path))
-    project = _read_project_file(folder)
-    speakers = [(x.get("name") or "", [tuple(v) for v in
-                                       (x.get("sections") or [])])
-                for x in (d.get("speakers") or [])]
-    if not speakers or not project or d.get("start_s") is None:
-        return None
-    fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
-    call = project.get("call") or []
-
-    # Does the project file now hold a different time window from the handover?
-    # Then the audio files no longer match it.
-    def tc_value(switch):
-        if switch not in call:
-            return None
-        i = call.index(switch)
-        if i + 1 >= len(call):
-            return None
-        try:
-            return parse_timecode(call[i + 1], fps)
-        except Exception:
-            return None
-    in_point, out_point = tc_value("--in-point"), tc_value("--out-point")
-
-    def then(key):
-        """The window the existing files were made with, in seconds."""
-        raw = d.get(key)
-        if not raw:
-            return None
-        try:
-            return parse_timecode(raw, fps)
-        except Exception:
-            return None
-
-    made_in, made_out = then("in_point"), then("out_point")
-    # Both complaints hold the setting against the window the handover
-    # was made with, and stay silent where it carries none. Only the
-    # complaints: the cut list is worked out again either way.
-    if (in_point is not None and made_in is not None
-            and abs(in_point - made_in) > 0.5):
-        return (T('In point is now %s, but the existing files belong to %s.\n '
-                  ' The audio in the videos is cut to the old window -- '
-                  'press Start\n  above again.')
-                % (timecode_string(in_point, fps),
-                   timecode_string(made_in, fps)))
-    # The old window's length, and only where both its ends are written
-    # down. length_s is no substitute: that is the axis, the whole of
-    # the material, and an unchanged window would read minutes short.
-    length = ((made_out - made_in)
-              if made_in is not None and made_out is not None else 0.0)
-    if (in_point is not None and out_point is not None
-            and length and abs((out_point - in_point) - length) > 0.5):
-        return (T('Out point is now %s; the window would be %s long, the '
-                  'existing\n  files are %s -- press Start above again.') % (timecode_string(out_point, fps), as_hms(out_point - in_point),
-                            as_hms(length)))
-
-    print(T('\n  REFRESH THE CUT LIST'))
-    # The sliders come from the interface, otherwise from the project
-    # file -- or the button carries on with the values of the last run.
-    command_line = [a for a in sys.argv[1:]]
-    own_measure = any(a.startswith("--wide-")
-                 or a in ("--min-edit-duration", "--edit-change-delay")
-                 for a in command_line)
-    # Through PROGRAM: orders/ is read after this piece, so a head line
-    # for it would find nothing.
-    settings = PROGRAM._sliders_from_command_line(command_line + call,
-                                                  d.get("production"))
-    if own_measure:
-        settings.no_wide_edges = "--no-wide-edges" in command_line
-    cameras = [{"video": cam["source"], "name": cam["camera"]}
-               for cam in (d.get("cameras") or []) if cam.get("source")]
-    videos = [(cam["video"], None) for cam in cameras]
-    tracks = [{"name": n, "camera": cam["source"]}
-              for cam in (d.get("cameras") or [])
-              for n in (cam.get("speakers") or [])]
-    ref_clip = (cameras[0]["video"] if cameras else "",
-                {"fps": fps, "tc": d.get("start_tc")})
-    # The handover file carries what was said and where the sound is:
-    # the cut points come from those two, not from the clock.
-    cut, segs = PROGRAM.write_cut_list(
-        settings, speakers, tracks, cameras, videos, folder,
-        float(d["start_s"]), ref_clip, length,
-        words=words_from_handover(d),
-        sound_source=(d.get("audio_files") or {}).get("Full-Mix", ""))
-    if not cut:
-        return T('That produced no cut -- press Start above again.')
-    before_value = d.get("cut") or []
-    d["cut"] = [{"start": round(a, 3), "end": round(b, 3), "camera": n}
-                    for a, b, n in cut]
-    if d["cut"] == before_value:
-        print(T('  The cut stays as it was.'))
-    else:
-        print(T('  The cut has changed: %s shots instead of %s.')
-              % (number_text(len(d["cut"]), 0),
-                 number_text(len(before_value), 0)))
-    d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
-                                                for a, b in segs2]}
-                     for n, segs2 in segs]
-    d["created_by"] = ('videopodcast-magic %s (cut list refreshed)'
-                       % VERSION)
-    # Written beside it and moved into place: writing straight onto it,
-    # a failure half way leaves a fragment the next run silently skips.
-    beside = file_path + ".new"
-    try:
-        with open(beside, "w", encoding="utf-8") as f:
-            json.dump(d, f, ensure_ascii=False, indent=1)
-        os.replace(beside, file_path)
-    except OSError as e:
-        try:
-            os.unlink(beside)
-        except OSError:
-            pass
-        print(T('  %s could not be rewritten: %s')
-              % (os.path.basename(file_path), e))
-    return None
-
-
-def voices_on_cameras(segment_list, videos, wanted=None, fallback=""):
-    """One pseudo track per voice, so write_cut_list can read the cameras.
-
-    The cut asks the tracks which camera a name belongs to; on the simple
-    path one track holds several voices, so the voices stand in for
-    tracks. *wanted* is name -> camera, and anything it does not know
-    falls back to *fallback*. All on one camera is not a defect -- the
-    cut then falls at the change of speaker instead of between cameras.
-    """
-    wanted = dict(wanted or {})
-    after_name = dict((os.path.basename(v), v) for v, _info in videos)
-    after_file = ByFile((v, v) for v, _info in videos)
-    out = []
-    for name, _segs in segment_list or ():
-        pick = wanted.get(name) or ""
-        camera = after_name.get(pick) or after_file.get(pick) \
-            if pick else ""
-        out.append({"name": name, "camera": camera or fallback})
-    return out
-
-
-def widest_frame(sizes):
-    """Pick the largest frame that a camera really recorded.
-
-    Not the largest width beside the largest height: a landscape and a
-    portrait camera in one production would then give a square frame that
-    no camera has, and Resolve scales everything into it.
-    """
-    if not sizes:
-        return (None, None)
-    return max(sizes, key=lambda wh: (wh[0] * wh[1], wh[0]))
 
 
 def _block_levels(data, rate, block=1.0):

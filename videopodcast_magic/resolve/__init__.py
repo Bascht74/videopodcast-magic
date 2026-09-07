@@ -13,14 +13,12 @@ PROGRAM = PROGRAM
 # a name the program rebinds while it runs.
 ByFile = PROGRAM.ByFile
 Finding = PROGRAM.Finding
-HINT_MULTICAM = PROGRAM.HINT_MULTICAM
 SR = PROGRAM.SR
 T = PROGRAM.T
 TN = PROGRAM.TN
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
 _logs_atom_text = PROGRAM._logs_atom_text
-_meeting_point = PROGRAM._meeting_point
 as_bad = PROGRAM.as_bad
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
@@ -28,19 +26,15 @@ as_warn = PROGRAM.as_warn
 ask_choice = PROGRAM.ask_choice
 camera_metadata = PROGRAM.camera_metadata
 ffprobe_json = PROGRAM.ffprobe_json
-first_and_last_word = PROGRAM.first_and_last_word
 format_complaint = PROGRAM.format_complaint
 json = PROGRAM.json
 label_of = PROGRAM.label_of
-lead_in_offset = PROGRAM.lead_in_offset
 log_curve_from_atom = PROGRAM.log_curve_from_atom
 math = PROGRAM.math
-mix_file_from_handover = PROGRAM.mix_file_from_handover
 mov_colour_tags = PROGRAM.mov_colour_tags
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
-refresh_cut_list = PROGRAM.refresh_cut_list
 strip_marks = PROGRAM.strip_marks
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
@@ -54,6 +48,13 @@ textwrap = PROGRAM.textwrap
 MARKER_COLOURS = ["Blue", "Cyan", "Green", "Yellow", "Red", "Pink", "Purple",
                  "Fuchsia", "Rose", "Lavender", "Sky", "Mint", "Lemon",
                  "Sand", "Cocoa", "Cream"]
+
+HINT_MULTICAM = ('\n  To convert: in the media pool right-click "%s '
+                 'Multicam" >\n  "Convert Timeline to Multicam Clip" > '
+                 '"Use Source Audio Channels".\n  One way only -- but a '
+                 'new run rebuilds the Timeline at any time.\n  Angles:%s\n '
+                 ' Everything else -- audio choice, colour groups, '
+                 'framing -- is in the\n  manual, docs/resolve.md.\n')
 
 
 def resolve_module_paths():
@@ -2093,6 +2094,86 @@ def create_colour_groups(p, tl, cameras):
               % (n, number_text(done[n][0], 0), number_text(done[n][1], 0)))
 
 
+def mix_file_from_handover(d):
+    """Return the file carrying the overall mix.
+
+    Preferably the separate file, which is unambiguous. Otherwise the wide
+    shot, where the mix is the first audio track. Otherwise any camera with
+    a track of that name.
+    """
+    for name, file_path in (d.get("audio_files") or {}).items():
+        if "full" in name.lower() and file_path and os.path.exists(file_path):
+            return file_path, T('stored file %s') % os.path.basename(file_path)
+    for cam in (d.get("cameras") or []):
+        if cam.get("wide") and cam.get("file") and os.path.exists(cam["file"]):
+            return cam["file"], (T('wide shot %s, the mix is its first audio '
+                                 'track') % cam["camera"])
+    for cam in (d.get("cameras") or []):
+        names = [n.lower() for n in (cam.get("audio_tracks") or [])]
+        if any("full" in n for n in names) and os.path.exists(
+                cam.get("file") or ""):
+            idx = [i for i, n in enumerate(names, 1) if "full" in n][0]
+            # The track number names the track in that file, the way
+            # the editor counts them: plain digits.
+            return cam["file"], (T('%s, audio track %d') % (cam["camera"], idx))
+    return None, ""
+
+
+def first_and_last_word(d):
+    """Return when the first word falls and when the last one ends.
+
+    Out of the speaker statistics in the handover file, the same source
+    the camera cut came from. Returns seconds from the start of the
+    timeline, or (None, None).
+    """
+    starts, ends = [], []
+    for speaker in (d.get("speakers") or []):
+        for a, b in (speaker.get("sections") or []):
+            starts.append(float(a))
+            ends.append(float(b))
+    if not starts:
+        return None, None
+    return min(starts), max(ends)
+
+
+def _meeting_point(entry, kind):
+    """Return the point in the clip that should meet the word.
+
+    For the intro the end of its audible audio, where the first word
+    starts; for the outro the start of its audio. A clip without audio
+    uses its end for the intro and its start for the outro. Nothing is
+    cut -- only the position moves, and the picture overlap is where the
+    dissolve goes.
+    """
+    entry = entry or {}
+    duration = float(entry.get("duration") or 0.0)
+    if kind == "intro":
+        value = entry.get("audio_to")
+        return float(value) if value is not None else duration
+    value = entry.get("audio_from")
+    return float(value) if value is not None else 0.0
+
+
+def lead_in_offset(mp, tl, d, clips, fps, origin):
+    """Place intro and outro on the second video and audio track.
+
+    The intro's end falls on the first spoken word, the outro starts
+    where the last one ends. The scripting interface knows no
+    transitions, so the intro lies *over* the content rather than beside
+    it: one drag on the clip corner and the dissolve is there. Returns
+    by how many frames the content has to move back.
+    """
+    intro = d.get("intro")
+    if not intro:
+        return 0
+    word0, _word1 = first_and_last_word(d)
+    W = word0 if word0 is not None else 0.0
+    # The content moves as far as the intro reaches past the start,
+    # measured where its audio stops, not at its file length.
+    return seconds_to_frames(
+        max(0.0, _meeting_point(intro, "intro") - W), fps)
+
+
 def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
     """Insert the two clips, after the content.
 
@@ -2419,7 +2500,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
             return code
     source_path = d.pop("_source_path", None)
     if source_path:
-        bad = refresh_cut_list(d, source_path)
+        bad = PROGRAM.refresh_cut_list(d, source_path)
         if bad:
             print(T('\n  STOPPED: %s') % bad)
             return 1
