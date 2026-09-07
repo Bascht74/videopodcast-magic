@@ -27,7 +27,7 @@ figure of the day is that command, not this paragraph**:
 
 * `ui/` **4869** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `speakers/` **3653** -- who speaks and when: the separation itself,
+* `speakers/` **3654** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -37,11 +37,11 @@ figure of the day is that command, not this paragraph**:
   when the other starts
 * `cut/` **2732** -- who is on camera when, and what carries it out
   of here; the voices reach it named, out of `speakers/`
+* `material/` **2694** -- channels, chains, continuation files, what a
+  track is made of
 * `resolve/` **2591** -- the DaVinci Resolve project, timelines, colour,
   markers
-* `material/` **2551** -- channels, chains, continuation files, what a
-  track is made of
-* `bearings/` **2377** -- the time axis, the offsets, which camera
+* `bearings/` **2047** -- the time axis, the offsets, which camera
   belongs to which voice
 * `pipeline/` **1972** -- the chain the recordings run until the camera
   files are written
@@ -59,10 +59,10 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
+* `orders/` **774** -- the command line a run is given: written out of
+  the window, and read back off the line
 * `metadata/` **725** -- MOV atoms, colour tags, what a recording says
   about itself
-* `orders/` **703** -- the command line a run is given: written out of
-  the window, and read back off the line
 * `herald/` **615** -- the progress bar, the stages, the console and log
   redirection
 * `project/` **541** -- the program's own project file: writing
@@ -74,6 +74,8 @@ figure of the day is that command, not this paragraph**:
   shown in, and what adding and removing do to it
 * `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
+* `livery/` **392** -- the colours, the marks that say what kind a line
+  is, and the room a name or a table may take
 * `tables/` **348** -- the tables and trees the window builds
 * `running/` **344** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
@@ -81,8 +83,6 @@ figure of the day is that command, not this paragraph**:
   looks one up
 * `timecode/` **317** -- timecode strings, frame rates, the clock a file
   carries
-* `livery/` **276** -- the colours, the marks that say what kind a line
-  is, and the room a name or a table may take
 * `menus/` **237** -- the menu bar and what follows it
 * `workbench/` **232** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
@@ -571,7 +571,7 @@ way every window in this table was found.
 | `workbench/` | binds `T`; `setup/` binds its `number_text` at its head | between the language and the setting up, and both edges are measured -- above, no `T`; after setup, no `number_text`. Either is fatal |
 | `setup/` | binds only what stands above it, and reaches `as_warn` through `PROGRAM.` | at the top: what stands under it wants tools and modules that may not be installed yet |
 | `choices/` | takes `T` alone; ten pieces below bind its names at their heads | anywhere under the language and above those ten |
-| `livery/` | takes `os`, `re` and `sys` only; 15 pieces bind its names at their heads | above all 15 |
+| `livery/` | takes `os`, `re` and `sys` at its head, and reaches four names of `resolve/` -- `ON_DARK` and the three clip colours -- through `PROGRAM.`, because `resolve/` is read far below it; 16 pieces bind its names at their heads | above all 16 |
 | `dials/` | reads no name out of the program; six pieces below bind its own | above those six |
 | `filing/` | 12 pieces bind its names at their heads; no line above it reads any | above all 12 |
 | `stowage/` | `logbook/` binds its `cache_folder` at its head | before `logbook/`. `kept_language` stands far above it and reaches `settings` through `PROGRAM.` |
@@ -585,7 +585,7 @@ way every window in this table was found.
 | `upkeep/` | binds the herald's `write_through`, and nothing else binds that; the separation binds its `PIP_SOURCE` | after the herald, before the separation |
 | `speech/` | binds `SPEECH_CODES`, which is the last name of the way in's own that it takes | anywhere from `SPEECH_CODES` down would do; it stands above the run that wants it |
 | `material/` | the checking binds the camera margin, the clipping and `parallel_map` out of it | before the checking |
-| `bearings/` | binds the material's names; the window's colours and the cut list it reads late | after the material, before the checking |
+| `bearings/` | binds the material's names, `group_recording_parts` among them; four it reads late through `PROGRAM.` -- `np`, `seconds_to_frames`, `write_cut_list`, and `_sliders_from_command_line` out of `orders/`, which is read a hundred lines below it | after the material, before the checking |
 | `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
 | `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 10 of its names, the cut 13, `pipeline/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |
