@@ -1070,6 +1070,7 @@ mark_red = fittings.mark_red
 measuring_stop = fittings.measuring_stop
 more_speakers_row = fittings.more_speakers_row
 qt_own_words = fittings.qt_own_words
+queue_once = fittings.queue_once
 row_same_height = fittings.row_same_height
 say_dialog = fittings.say_dialog
 speaker_name_cell = fittings.speaker_name_cell
@@ -1262,26 +1263,6 @@ def join_box_fill(box, path, targets, blocks=None):
                 T('Puts this recording into another one, with every '
                   'block it has.\nUse it where the file names give the '
                   'search nothing to go on.'))
-
-
-def queue_once(QtCore, pending, key, work):
-    """Let the event loop do this once, however often it is asked.
-
-    One answer fires more than one listener, and each asks for the same
-    table again. Asked three times, the second and third land while the
-    first is still exchanging cells -- and with a player starting at that
-    moment Qt stands in QWidget::createWinId. Two runs in four hang.
-    """
-    mark = "queued " + key
-    if work is None or pending.get(mark):
-        return
-    pending[mark] = True
-
-    def run():
-        pending[mark] = False
-        work()
-
-    QtCore.QTimer.singleShot(0, run)
 
 
 def not_on_the_axis(path, kinds, remembered):
