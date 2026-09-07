@@ -1166,6 +1166,23 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
                            if a_camera(p)], taken, marked),
             bool(marked))
 
+def wide_shot_barred(path, value, placeless):
+    """Why this file cannot be the wide shot, or "" where it can be one.
+
+    The wide shot is what the cut falls back on, so it has to lie on
+    the time axis. *placeless* are the paths the measurement placed
+    nowhere; empty or None bars nothing. A Kind somebody picked is
+    barred too: this is a fact about the material, not a suggestion.
+    """
+    if not placeless:
+        return ""
+    if path_key(path) not in set(path_key(p) for p in placeless):
+        return ""
+    return T('It fits nowhere in the material: no timecode, and its '
+             'sound has nothing in common with the rest. The wide shot '
+             'is what the cut falls back on, so it has to lie on the '
+             'time axis.')
+
 def wide_bar_of(targets, wides, said, aside):
     """What a wide shot mark bars, and where what it displaces is kept.
 

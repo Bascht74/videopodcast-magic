@@ -438,17 +438,21 @@ It is not a licence.
 - **New code that gets by without a widget does not go into `gui()`.**
   Computation, checking, preparation: whatever touches no widget is
   written beside `gui()` and takes what it needs as an argument.
-  **Twenty-three of them live outside it now, and only eleven are still
-  in the window's own file** -- counted 7.9.2026 with `ast` over every
-  piece: `ui/` 11, `player/` 5, `filelist/` and `prework/` 2 each,
-  `desktop/`, `running/` and `speakers/` 1 each. `make_key_note`,
+  **Twenty-three of them live outside it now, and only one is still in
+  the window's own file** -- counted 7.9.2026 with `ast` over every
+  piece, and every one of the twenty-three stands at module level:
+  `player/` 5, `auphonic/`, `filelist/`, `prework/` and `speakers/` 2
+  each, and one apiece in `bearings/`, `cut/`, `desktop/`, `fittings/`,
+  `preflight/`, `project/`, `resolve/`, `running/`, `upkeep/` and
+  `ui/`, whose one is `make_log_writer`. `make_key_note`,
   `make_log_writer` and `make_update_sink` were the first; then nine in
   one night, and after them six more.
   **A factory that leaves `gui()` often leaves the file next**, and
   that is the pattern rather than an accident: `make_file_list` and
   `make_file_changes` went to `filelist/`, `make_player_choice` and
   `make_band_and_player` to `player/`, `make_speaker_split` to
-  `speakers/`. Pulling a block out of `gui()` names it, and a named
+  `speakers/`, `make_key_note` to `auphonic/` and `make_update_sink`
+  to `upkeep/`. Pulling a block out of `gui()` names it, and a named
   block shows which piece it belonged to all along.
   The factory hands back the names `gui()` still needs, one theme
   each.

@@ -1381,6 +1381,30 @@ def every_audio_block(files, blocks_of, using_audio=()):
     return out
 
 
+def camera_offset(cameras, origin=None, fps=30.0):
+    """Return how far each camera is shifted against programme time.
+
+    A handover file carries an ``offset`` per camera, negative where the
+    camera started before In point: position in the file is programme
+    time minus offset, and deciding it again here is how the player and
+    Resolve came apart. Failing that ``start_s`` against *origin*.
+    """
+    out = {}
+    # A stored offset that disagrees with the camera's own timecode is
+    # heard as sound against the wrong picture, away from the reference.
+    rate = max(1.0, float(fps or 30.0))
+    if any(x.get("offset") is not None for x in cameras):
+        for x in cameras:
+            out[x["track"]] = float(x.get("offset") or 0.0)
+        return out
+    begin = (float(origin) if origin is not None else
+              min((float(x.get("start_s") or 0.0) for x in cameras),
+                  default=0.0))
+    for x in cameras:
+        out[x["track"]] = float(x.get("start_s") or 0.0) - begin
+    return out
+
+
 def window_suggestion(entries, fps=30.0):
     """Suggest the In point and the Out point from what the cameras offer.
 
@@ -1401,6 +1425,25 @@ def window_suggestion(entries, fps=30.0):
     # Whole seconds are enough here, and the mark depends on the
     # language, so it is asked for explicitly.
     return "+0:00", "+%s" % as_hms(max(lengths), ".").split(".")[0], False
+
+
+def not_on_the_axis(path, kinds, remembered):
+    """Why the file in the player carries no window boundary, or "".
+
+    A boundary is a point on the axis of the episode, and an intro is not
+    on that axis: it is set in front, not cut in. Content and the wide
+    shot stay usable. The reason comes back with it, because greying the
+    buttons without one reads as a fault.
+    """
+    held = (kinds or {}).get(path)
+    kind = (held.get() if held is not None
+            else (remembered or {}).get("kind:" + (path or ""))
+            or TYPE_CONTENT)
+    if not path or kind in CAMERA_TYPES:
+        return ""
+    return T('%s is not on the axis of the episode: it is set in front of '
+             'the material or after it, not cut into it. In point and Out '
+             'point belong to what lies between.') % os.path.basename(path)
 
 
 def has_sound(file_path):

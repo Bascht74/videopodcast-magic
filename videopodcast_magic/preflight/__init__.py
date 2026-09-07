@@ -10,7 +10,7 @@ it is what the long steps run ffmpeg through.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Nine names are
+# What this piece uses out of the program, bound once. Six names are
 # missing, and the three blocks under the list say which and why.
 
 ByFile = PROGRAM.ByFile
@@ -36,6 +36,7 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 as_written = PROGRAM.as_written
 cache_folder = PROGRAM.cache_folder
+caption_room = PROGRAM.caption_room
 channel_text = PROGRAM.channel_text
 clean_old_files = PROGRAM.clean_old_files
 clipping_facts = PROGRAM.clipping_facts
@@ -44,7 +45,9 @@ decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 group_recording_parts = PROGRAM.group_recording_parts
+hint = PROGRAM.hint
 json = PROGRAM.json
+label = PROGRAM.label
 log_curve_from_atom = PROGRAM.log_curve_from_atom
 math = PROGRAM.math
 mov_colour_tags = PROGRAM.mov_colour_tags
@@ -56,6 +59,7 @@ path_key = PROGRAM.path_key
 progress_from_line = PROGRAM.progress_from_line
 show_progress = PROGRAM.show_progress
 shutil = PROGRAM.shutil
+speaks_as = PROGRAM.speaks_as
 stop_wanted = PROGRAM.stop_wanted
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
@@ -67,15 +71,16 @@ timecode_string = PROGRAM.timecode_string
 unwrap_day = PROGRAM.unwrap_day
 write_beside_then_move = PROGRAM.write_beside_then_move
 
-# Six stand in a piece read after this one: read_preset in the
+# Two stand in a piece read after this one: read_preset in the
 # processing (a circle: choose_preset there asks check_preset here),
-# MATRIX_BT2020 in the project, caption_room, hint, label, speaks_as.
+# and MATRIX_BT2020 in the Resolve project. The other four of the six
+# that stood here are head lines now -- the fittings moved above.
 
 # Three are bent while the run goes on, and a copy taken here would
 # answer with the run before: set_language rebinds LANG, and the window
 # sets GUI_RUNNING and OUTPUT_SINK on the program object.
 
-# numpy is the tenth: the program holds a stand-in until the first sum
+# numpy is the sixth: the program holds a stand-in until the first sum
 # asks and binds the real module then, which a copy taken up here would
 # never see. So this asks the program instead, the same way.
 class LateNumpy:
@@ -1068,11 +1073,11 @@ def loudness_field_build(into, value):
     from PySide6 import QtWidgets as _qw
     row = _qw.QHBoxLayout()
     into.addLayout(row)
-    row.addWidget(PROGRAM.label(T('Loudness')))
+    row.addWidget(label(T('Loudness')))
     box = _qw.QComboBox()
     for target, caption in loudness_choices():
         box.addItem(caption, target)
-    box.setMinimumWidth(PROGRAM.caption_room(
+    box.setMinimumWidth(caption_room(
         box, 300, [c for _v, c in loudness_choices()]))
 
     def row_of(want):
@@ -1110,11 +1115,11 @@ def loudness_field_build(into, value):
     box.currentIndexChanged.connect(chosen)
     value.listen(lambda *_: show())
     show()
-    PROGRAM.speaks_as(box, T('Loudness of the finished episode'))
+    speaks_as(box, T('Loudness of the finished episode'))
     # The name of the last entry stands inside the sentence rather than
     # in a slot: in German it carries an article, and a piece cannot
     # settle its own case before it knows the slot.
-    row.addWidget(PROGRAM.hint(
+    row.addWidget(hint(
         box,
         T('How loud the finished episode is made. The same gain goes on '
           'every\ntrack, so the balance between the speakers is kept.\n'

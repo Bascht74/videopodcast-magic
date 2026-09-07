@@ -37,7 +37,6 @@ TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
 TYPE_WIDE = PROGRAM.TYPE_WIDE
-UPDATE_OFF = PROGRAM.UPDATE_OFF
 VERSION = PROGRAM.VERSION
 Value = PROGRAM.Value
 _ENV = PROGRAM._ENV
@@ -45,19 +44,17 @@ _joins_seamlessly = PROGRAM._joins_seamlessly
 _require_module = PROGRAM._require_module
 app_style_set = PROGRAM.app_style_set
 as_bad = PROGRAM.as_bad
-as_data_size = PROGRAM.as_data_size
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_relative_time = PROGRAM.as_relative_time
 assignment_marks_show = PROGRAM.assignment_marks_show
 assignment_rows = PROGRAM.assignment_rows
-audio_summary = PROGRAM.audio_summary
-back_pick = PROGRAM.back_pick
 beside = PROGRAM.beside
 camera_after_a_mark = PROGRAM.camera_after_a_mark
 camera_gets_from = PROGRAM.camera_gets_from
 camera_name_suggestion = PROGRAM.camera_name_suggestion
+camera_offset = PROGRAM.camera_offset
 camera_row_cameras = PROGRAM.camera_row_cameras
 camera_to_remember = PROGRAM.camera_to_remember
 cameras_in_track_order = PROGRAM.cameras_in_track_order
@@ -81,10 +78,7 @@ guess_speaker_name = PROGRAM.guess_speaker_name
 gui_log = PROGRAM.gui_log
 has_sound = PROGRAM.has_sound
 how_to_get_ffmpeg = PROGRAM.how_to_get_ffmpeg
-https_context = PROGRAM.https_context
 install_ffmpeg = PROGRAM.install_ffmpeg
-installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
-json = PROGRAM.json
 keep_setting = PROGRAM.keep_setting
 kept_language = PROGRAM.kept_language
 kind_on_show = PROGRAM.kind_on_show
@@ -108,10 +102,9 @@ make_project_file = PROGRAM.make_project_file
 make_resolve_check = PROGRAM.make_resolve_check
 make_speaker_split = PROGRAM.make_speaker_split
 make_time_axis = PROGRAM.make_time_axis
-newer_release = PROGRAM.newer_release
-not_installed_note = PROGRAM.not_installed_note
+make_update_sink = PROGRAM.make_update_sink
+not_on_the_axis = PROGRAM.not_on_the_axis
 number_text = PROGRAM.number_text
-older_releases = PROGRAM.older_releases
 open_in_file_manager = PROGRAM.open_in_file_manager
 open_page = PROGRAM.open_page
 os = PROGRAM.os
@@ -124,12 +117,11 @@ preview_out_of_date = PROGRAM.preview_out_of_date
 project_state_read = PROGRAM.project_state_read
 question_note_build = PROGRAM.question_note_build
 release_text_in = PROGRAM.release_text_in
+release_text_of = PROGRAM.release_text_of
 resolve_installed = PROGRAM.resolve_installed
 sample_count = PROGRAM.sample_count
-set_update_skipped = PROGRAM.set_update_skipped
 settings = PROGRAM.settings
 sign_of_life = PROGRAM.sign_of_life
-size_in_mb = PROGRAM.size_in_mb
 soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
@@ -145,8 +137,7 @@ tc_column_write = PROGRAM.tc_column_write
 threading = PROGRAM.threading
 timecode_string = PROGRAM.timecode_string
 trouble_log = PROGRAM.trouble_log
-update_fetched = PROGRAM.update_fetched
-update_promise = PROGRAM.update_promise
+update_offer = PROGRAM.update_offer
 video_facts = PROGRAM.video_facts
 video_kinds_again = PROGRAM.video_kinds_again
 voice_names_clashing = PROGRAM.voice_names_clashing
@@ -157,6 +148,7 @@ wide_bar_of = PROGRAM.wide_bar_of
 wide_cameras_of = PROGRAM.wide_cameras_of
 wide_note_build = PROGRAM.wide_note_build
 wide_settings_grey = PROGRAM.wide_settings_grey
+wide_shot_barred = PROGRAM.wide_shot_barred
 window_suggestion = PROGRAM.window_suggestion
 
 
@@ -401,78 +393,6 @@ def missing_conditions(files, production, multitrack, assign_lines,
         pending[22] = (T('Two cameras would produce the same file: %s')
                      % ", ".join(duplicate))
     return pending
-
-
-def chain_fill_in(group, row, discarded, selected,
-                  item, lines_node, channel_rows_show):
-    """Show a multi-part recording as one entry with its blocks below.
-
-    Displayed like a single file -- format, length, timecode -- because
-    that is what it is downstream. The last three arguments are the
-    window's: the row maker, the map from a file to the row a finding
-    belongs on, and the channel rows. Nothing in it needs gui().
-    """
-    lengths = [sample_count(p) for p in row]
-    tcs = [file_timecode(p) for p in row]
-    if all(t is not None for t in tcs):
-        total = max(t + n / float(SR)
-                     for t, n in zip(tcs, lengths)) - min(tcs)
-    else:
-        total = sum(lengths) / float(SR)
-    node = item(group,
-                    TN(len(row) - 1, '%s  + %s continuation',
-                       '%s  + %s continuations')
-                    % (os.path.basename(row[0]), number_text(len(row) - 1, 0)),
-                    os.path.dirname(row[0]), "audio", files_for_it=row)
-    # A finding about block 3 belongs to the recording, not to nowhere.
-    for part in row:
-        lines_node[part] = node
-    channel_rows_show(node, row[0])
-    try:
-        lines = audio_summary(row[0])
-    except Exception as e:
-        lines = [(T('Error'), str(e)[:120])]
-    for k, value in lines:
-        # Length and timecode are the whole recording's, not block 1's.
-        if k == T('Length'):
-            value = (T('%s  (%s)  --  %s  --  %s blocks')
-                 % (as_hms(total), as_data_size(sum(size_in_mb(x) for x in row)),
-                    T('Timecode from %s')
-                    % timecode_string(min(t for t in tcs if t is not None))
-                    if any(t is not None for t in tcs)
-                    else T('no timecode'), number_text(len(row), 0)))
-        item(node, "      " + k, value)
-    for i, (p, n, t) in enumerate(zip(row, lengths, tcs), 1):
-        source_text = (T('selected') if os.path.abspath(p) in selected
-                 else T('found automatically'))
-        # The row stands for this block alone: Remove takes out only it.
-        item(node, "      %d. %s" % (i, os.path.basename(p)),
-               "%s, %s%s, %s"
-               % (as_data_size(size_in_mb(p)), as_hms(n / float(SR)),
-                  ", %s" % timecode_string(t) if t is not None else "",
-                  source_text), "block", files_for_it=[p])
-    for nm, reason in discarded:
-        item(node, "      %s" % nm, T('does not belong: %s') % reason)
-    node.setExpanded(False)
-    return node
-
-
-def wide_shot_barred(path, value, placeless):
-    """Why this file cannot be the wide shot, or "" where it can be one.
-
-    The wide shot is what the cut falls back on, so it has to lie on
-    the time axis. *placeless* are the paths the measurement placed
-    nowhere; empty or None bars nothing. A Kind somebody picked is
-    barred too: this is a fact about the material, not a suggestion.
-    """
-    if not placeless:
-        return ""
-    if path_key(path) not in set(path_key(p) for p in placeless):
-        return ""
-    return T('It fits nowhere in the material: no timecode, and its '
-             'sound has nothing in common with the rest. The wide shot '
-             'is what the cut falls back on, so it has to lie on the '
-             'time axis.')
 
 
 def edge_kind_barred(path, kinds):
@@ -954,8 +874,8 @@ split_column_fit = PROGRAM.split_column_fit
 
 filelist = beside("filelist", program=PROGRAM)
 
-# What the window calls out of it, bound by name. The two go the other
-# way as well: that piece asks the program for chain_fill_in.
+# What the window calls out of it, bound by name. It goes the other way
+# as well: that piece asks the program for join_box_fill below.
 make_file_changes = filelist.make_file_changes
 make_file_list = filelist.make_file_list
 
@@ -1014,30 +934,6 @@ def prepared_tracks_in(folder):
             out[parts[0]] = os.path.join(folder, name)
     return out
 
-
-def camera_offset(cameras, origin=None, fps=30.0):
-    """Return how far each camera is shifted against programme time.
-
-    A handover file carries an ``offset`` per camera, negative where the
-    camera started before In point: position in the file is programme
-    time minus offset, and deciding it again here is how the player and
-    Resolve came apart. Failing that ``start_s`` against *origin*.
-    """
-    out = {}
-    # A stored offset that disagrees with the camera's own timecode is
-    # heard as sound against the wrong picture, away from the reference.
-    rate = max(1.0, float(fps or 30.0))
-    if any(x.get("offset") is not None for x in cameras):
-        for x in cameras:
-            out[x["track"]] = float(x.get("offset") or 0.0)
-        return out
-    begin = (float(origin) if origin is not None else
-              min((float(x.get("start_s") or 0.0) for x in cameras),
-                  default=0.0))
-    for x in cameras:
-        out[x["track"]] = float(x.get("start_s") or 0.0) - begin
-    return out
-
 def reason_set(env_curve, button, on, reason, what_for):
     button.setEnabled(on)
     env_curve.setToolTip(what_for if on else reason)
@@ -1047,42 +943,6 @@ class Question(object):
         self.possible, self.title = possible, title
         self.event = threading.Event()
         self.choice = "abort"
-
-
-def channel_rows_fit(items, Qt, QtCore, QtWidgets):
-    """Give every channel row the height its reason needs.
-
-    The reason stands in the column that takes what the others leave,
-    so its line count is known only once the window has a width.
-    Without this the wrapped line is drawn outside its row.
-    """
-    room = items.columnWidth(2)
-
-    def fit(kid):
-        beside = items.itemWidget(kid, 2)
-        said = beside.findChild(QtWidgets.QLabel) if beside else None
-        if said is None:
-            return
-        box = beside.findChild(QtWidgets.QCheckBox)
-        # The width it has; the column's only before the first layout.
-        # From the column both times, the rows creep taller each round.
-        left = said.width() or (
-            room - (box.sizeHint().width() if box else 0) - 8)
-        tall = said.fontMetrics().boundingRect(
-            QtCore.QRect(0, 0, max(60, left), 0), Qt.TextWordWrap,
-            said.text()).height()
-        want = max(box.sizeHint().height() if box else 0, tall) + 4
-        if kid.sizeHint(2).height() != want:
-            kid.setSizeHint(2, QtCore.QSize(0, want))
-
-    def walk(node):
-        for i in range(node.childCount()):
-            kid = node.child(i)
-            if kid.data(0, Qt.UserRole + 2) == "channel":
-                fit(kid)
-            walk(kid)
-
-    walk(items.invisibleRootItem())
 
 
 def join_barred(path, targets, blocks=None):
@@ -1128,25 +988,6 @@ def join_box_fill(box, path, targets, blocks=None):
                 T('Puts this recording into another one, with every '
                   'block it has.\nUse it where the file names give the '
                   'search nothing to go on.'))
-
-
-def not_on_the_axis(path, kinds, remembered):
-    """Why the file in the player carries no window boundary, or "".
-
-    A boundary is a point on the axis of the episode, and an intro is not
-    on that axis: it is set in front, not cut in. Content and the wide
-    shot stay usable. The reason comes back with it, because greying the
-    buttons without one reads as a fault.
-    """
-    held = (kinds or {}).get(path)
-    kind = (held.get() if held is not None
-            else (remembered or {}).get("kind:" + (path or ""))
-            or TYPE_CONTENT)
-    if not path or kind in CAMERA_TYPES:
-        return ""
-    return T('%s is not on the axis of the episode: it is set in front of '
-             'the material or after it, not cut into it. In point and Out '
-             'point belong to what lies between.') % os.path.basename(path)
 
 
 def fitted(Qt, label, text):
@@ -1295,29 +1136,6 @@ def make_log_writer(state, post):
         post.put(text)
 
     return write
-
-
-def make_update_sink(state, write, show, timer):
-    """The window's way of running a long job with its output in view.
-
-    The road a run takes: the job works in a thread of its own, its
-    lines go into the Output tab, and the flag the window watches keeps
-    a run from starting on top of it.
-    """
-    def beside(job):
-        show()
-        state["running"] = True
-
-        def loop():
-            trouble = job(write)
-            if trouble:
-                write(as_bad("\n" + trouble + "\n"))
-            state["running"] = False
-
-        threading.Thread(target=loop, daemon=True).start()
-        timer.start()
-
-    return beside
 
 
 def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
@@ -3892,18 +3710,6 @@ def ffmpeg_in_place():
               'now, or you can do that yourself later.'))
 
 
-def version_in_place(tag):
-    """What the restart box says once that version arrived.
-
-    Three things somebody needs and cannot see: which version is on the
-    disc, that this window is still the old one, and that it can wait.
-    """
-    return ("Video Podcast Magic", T('%s is in place.') % tag,
-            T('This window is still the version it started as. It can '
-              'start again now and come up as the new one, or you can '
-              'do that yourself later.'))
-
-
 def restart_offer(window, said):
     """Say in a box what arrived, and offer the restart. *said* is the words.
 
@@ -3960,26 +3766,11 @@ def about_show(window):
     box.exec()
 
 
+# The upkeep looks a release up by tag and asks the program for this
+# one: that piece is read before this file, so a head line there is an
+# AttributeError.
 RELEASE_BY_TAG = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
                   "/releases/tags/%s")
-
-
-def release_text_of(tag):
-    """What the release with that tag says about itself, or "".
-
-    Asked by name: "what changed in this version" is about the one
-    running here, not the newest one there. Nothing is sent.
-    """
-    if UPDATE_OFF or not tag:
-        return ""
-    try:
-        import urllib.request
-        with urllib.request.urlopen(RELEASE_BY_TAG % tag,
-                                    context=https_context(),
-                                    timeout=20) as answer:
-            return str(json.load(answer).get("body") or "").strip()
-    except Exception:
-        return ""
 
 
 def story_window(window, title, said, changed, page=""):
@@ -4060,197 +3851,6 @@ def newest_shown(window, page, changed):
         return
     story_window(window, T('Look for a newer version now'), said, changed,
                  page)
-
-
-def update_offer(window, asked=False):
-    """Ask about looking for updates, look, and offer the new one.
-
-    Everything happens in the window: the command line is left alone,
-    because a run started from a script must not stop to ask. *asked* is
-    somebody choosing to look from the menu -- then there is an answer
-    either way, since silence after a click reads like nothing happened.
-    """
-    QtWidgets = _qt_widgets()
-    tag, page, changed, trouble = newer_release(asked)
-    if not tag:
-        if asked:
-            # Switched off, or unable to look: both mean nothing was seen,
-            # and calling this the newest version would be a guess.
-            if UPDATE_OFF or trouble:
-                QtWidgets.QMessageBox.information(
-                    window, T('Look for a newer version now'),
-                    trouble or T('The check for new versions is '
-                                 'switched off here.'))
-            else:
-                newest_shown(window, page, changed)
-        return
-    # A dialog of its own rather than a QMessageBox: the box hides what
-    # changed behind an untranslated "Show Details" button with four
-    # lines of room. What somebody is about to install is not a detail.
-    from PySide6 import QtCore
-    owner = installed_by_a_package_manager()
-    box = QtWidgets.QDialog(window)
-    box.setWindowTitle(T('A newer version is out'))
-    box.resize(680, 560)
-    rows = QtWidgets.QVBoxLayout(box)
-
-    head = QtWidgets.QLabel(T('%s is out. This is %s.') % (tag, VERSION))
-    font = head.font()
-    font.setBold(True)
-    head.setFont(font)
-    rows.addWidget(head)
-
-    said = QtWidgets.QLabel(update_promise(owner))
-    said.setWordWrap(True)
-    rows.addWidget(said)
-
-    if changed:
-        rows.addWidget(QtWidgets.QLabel(T('What changed since %s:') % VERSION))
-        story = QtWidgets.QPlainTextEdit(changed)
-        story.setReadOnly(True)
-        # The bar stands there whether it is needed or not: a text that
-        # scrolls without one looks like one that ends at the frame.
-        story.setVerticalScrollBarPolicy(
-            QtCore.Qt.ScrollBarAlwaysOn)
-        story.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
-        story.setAccessibleName(T('What changed since %s:') % VERSION)
-        rows.addWidget(story, 1)
-    if page:
-        where = QtWidgets.QLabel(page)
-        where.setStyleSheet("color: %s;" % COLOURS["quiet"])
-        where.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
-        rows.addWidget(where)
-
-    quiet = QtWidgets.QCheckBox(T('Skip this version'))
-    quiet.setToolTip(T('Only this one. The next release asks again, and '
-                       'Help > Look for a newer version now asks at any '
-                       'time.'))
-    rows.addWidget(quiet)
-
-    feet = QtWidgets.QHBoxLayout()
-    rows.addLayout(feet)
-    feet.addStretch(1)
-    later = QtWidgets.QPushButton(T('Later'))
-    later.clicked.connect(box.reject)
-    feet.addWidget(later)
-    now = QtWidgets.QPushButton(T('Update'))
-    now.setDefault(True)
-    now.clicked.connect(box.accept)
-    feet.addWidget(now)
-
-    answered = box.exec()
-    if quiet.isChecked():
-        # Only this one version, and remembered whichever button was
-        # pressed: ticking it and updating anyway still meant this one.
-        set_update_skipped(tag)
-    if answered != QtWidgets.QDialog.Accepted:
-        return
-    trouble = update_watched(window, tag, owner)
-    if trouble:
-        warn_box(QtWidgets, window, T('A newer version is out'), trouble)
-
-
-def update_watched(window, tag, owner):
-    """Put that version in place and offer the restart once it is in.
-
-    update_fetched hands pip to the window and comes back while pip is
-    still fetching, so a box said there would be said too early. The sink
-    is wrapped for that one call: what the job ended with lands in a
-    list, and the ffmpeg install's timer turns it into the box.
-    """
-    ended = []
-    sink = PROGRAM.UPDATE_SINK
-
-    def watched(job):
-        def watch(say):
-            trouble = job(say)
-            ended.append(trouble)
-            return trouble
-
-        sink(watch)
-
-    if sink is not None:
-        PROGRAM.UPDATE_SINK = watched
-    try:
-        trouble = update_fetched(tag, owner)
-    finally:
-        PROGRAM.UPDATE_SINK = sink
-    # Only the road pip takes: the other one writes over a loose file
-    # and starts again by itself, so there is nothing left to offer.
-    if not trouble and owner:
-        restart_when_done(window, ended, version_in_place(tag))
-    return trouble
-
-
-def restore_offer(window):
-    """Ask which earlier version, then hand that one to pip.
-
-    Asked with the weight of the update itself: it decides which program
-    runs from the next start. A list and not one name, because the
-    version that broke something is not always the one before this.
-    """
-    QtWidgets = _qt_widgets()
-    title = T('Back to an earlier version')
-    owner = installed_by_a_package_manager()
-    if not owner:
-        # Nothing pip keeps a record of, so nothing for pip to put back.
-        # Said before a list is fetched that could not be acted on.
-        warn_box(QtWidgets, window, title, not_installed_note())
-        return
-    older, trouble = older_releases(VERSION)
-    if trouble or not older:
-        # Two different answers, and they must not read alike: one says
-        # nothing older is out, the other says nobody could look.
-        QtWidgets.QMessageBox.information(
-            window, title,
-            trouble or T('No version earlier than %s is out that pip can '
-                         'install.') % VERSION)
-        return
-    box = QtWidgets.QDialog(window)
-    box.setWindowTitle(title)
-    box.setMinimumWidth(620)
-    rows = QtWidgets.QVBoxLayout(box)
-    rows.setContentsMargins(18, 16, 18, 14)
-    rows.setSpacing(14)
-    head = QtWidgets.QLabel(
-        T('This is %s. Which version shall pip put in its place?')
-        % VERSION)
-    font = head.font()
-    font.setBold(True)
-    head.setFont(font)
-    rows.addWidget(head)
-    picked = QtWidgets.QComboBox()
-    picked.addItems(older)
-    picked.setCurrentIndex(older.index(back_pick(older)))
-    speaks_as(picked, title)
-    rows.addWidget(picked)
-    # What a step back does not do stands here: it is the one thing about
-    # it that surprises people, and afterwards is too late.
-    said = QtWidgets.QLabel(
-        T('pip fetches it into %s, and what pip says appears under '
-          'Output. The version chosen here runs from the next '
-          'start.\n\nIt brings the program back and nothing else. What '
-          'a newer version wrote into the settings stays written, and '
-          'projects and their files are left as they are.') % owner)
-    said.setWordWrap(True)
-    rows.addWidget(said)
-    feet = QtWidgets.QHBoxLayout()
-    rows.addLayout(feet)
-    feet.addStretch(1)
-    later = QtWidgets.QPushButton(T('Later'))
-    later.clicked.connect(box.reject)
-    feet.addWidget(later)
-    now = QtWidgets.QPushButton(T('Go back'))
-    now.setDefault(True)
-    now.clicked.connect(box.accept)
-    feet.addWidget(now)
-    if box.exec() != QtWidgets.QDialog.Accepted:
-        return
-    # The same road as the update, down to the command: pip is handed
-    # the tag that was chosen, and its lines go into the Output tab.
-    trouble = update_fetched(picked.currentText(), owner)
-    if trouble:
-        warn_box(QtWidgets, window, title, trouble)
 
 
 def _qt_widgets():
