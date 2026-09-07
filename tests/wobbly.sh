@@ -32,8 +32,13 @@ report() {
     return
   fi
   runs=$(cut -f1 "$FILE" | sort -u | grep -cv '^#')
+  # Every run that was read stands in the file, the quiet ones as a
+  # marker. Without the second number the first one reads as though
+  # only four runs had ever been looked at.
+  read_runs=$(grep -o '^\(# \)\{0,1\}[0-9]\{6,\}' "$FILE" \
+              | sed 's/^# //' | sort -u | wc -l | tr -d ' ')
   echo
-  echo "$(grep -cv '^#' "$FILE") wobbles over $runs runs, from $(
+  echo "$(grep -cv '^#' "$FILE") wobbles over $runs of $read_runs runs read, from $(
     grep -v '^#' "$FILE" | cut -f2 | sort | head -1) to $(
     grep -v '^#' "$FILE" | cut -f2 | sort | tail -1)"
   echo
@@ -76,12 +81,15 @@ if [ -z "$runs" ]; then
   exit 2
 fi
 
-log=$(mktemp); trap 'rm -f "$log"' EXIT
+log=$(mktemp); found=$(mktemp); trap 'rm -f "$log" "$found"' EXIT
 fresh=0; already=0; gone=0
 
 while IFS=$'\t' read -r id when; do
   [ -n "$id" ] || continue
-  if grep -q "^$id	" "$FILE" 2>/dev/null; then
+  # Both shapes count as read: the rows of a run that wobbled, which
+  # begin with the id, and the marker of one that did not, which begins
+  # with "# " so the report passes over it.
+  if grep -qE "^(# )?$id	" "$FILE" 2>/dev/null; then
     already=$((already + 1)); continue
   fi
   if ! gh run view "$id" --log > "$log" 2>/dev/null; then
@@ -123,7 +131,16 @@ while IFS=$'\t' read -r id when; do
         printf "%s\t%s\t%s\t%s\t%s\n", id, day, part[1], part[2],
                (k in fell ? fell[k] : "unknown")
       }
-    }' "$log" >> "$FILE"
+    }' "$log" > "$found"
+  if [ -s "$found" ]; then
+    cat "$found" >> "$FILE"
+  else
+    # A quiet run leaves a mark too, or it is fetched again on every
+    # call and the record can never catch up: on 7.9.2026 there were
+    # 286 runs unread since 30 August, and every call spent itself on
+    # the newest twenty logs instead of moving forward.
+    printf '# %s\t%s\tread, no wobble\n' "$id" "${when%%T*}" >> "$FILE"
+  fi
   fresh=$((fresh + 1))
 done <<< "$runs"
 
