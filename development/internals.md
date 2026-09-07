@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 696 lines of it, against the 37 535 it held
+program lives any more -- 704 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-five
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -101,14 +101,19 @@ figure of the day is that command, not this paragraph**:
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
 
-**Seven pieces are asked for by another piece, not by the way in.**
-`player/`, `fittings/`, `tables/`, `menus/`, `filelist/`, `prework/` and
+**Six pieces are asked for by another piece, not by the way in.**
+`player/`, `fittings/`, `menus/`, `filelist/`, `prework/` and
 `running/` are read out of `ui/__init__.py`, where the blocks they hold
 used to stand, and two of them again one folder deeper: `player/` out of
 `fittings/` and `fittings/` out of `filelist/`. `orders/` stood among them until
 6.9.2026, when `build_argument_parser` moved into it and the way in
 began to read it too -- the window then asks `beside()` for a piece
-that is read already. `beside()` does not mind -- it lays
+that is read already. **`tables/` left the six on 7.9.2026 and for a
+different reason**: it is the toolbox a table is built out of, and while
+the window read it last, no other piece could bind one of its names --
+a subject that takes a window part of its own had to reach for
+`tree_cell` and seven more through `PROGRAM.` at every use. Read after
+the timecode, they are head lines for everybody. `beside()` does not mind -- it lays
 its path against the folder the *way in* sits in, whoever calls it, so
 `beside("player")` out of `ui/` finds `videopodcast_magic/player/`, one
 folder up from the caller and beside its own.
@@ -570,6 +575,7 @@ way every window in this table was found.
 | `logbook/` | binds `cache_folder` above; `herald/` and `soundings/` bind its `outside_say` at their heads | after `cache_folder`, before `soundings/` |
 | `soundings/` | binds `outside_say` above; `timecode/` binds its `ffprobe_json` at its head, as do ten pieces after it | after `outside_say`, before `timecode/` |
 | `timecode/` | 13 pieces bind its names at their heads | above all 13 |
+| `tables/` | binds 8 names, the latest of them the timecode's `parse_timecode`; only `ui/` binds its own so far | **both edges measured 7.9.2026**: one read earlier -- above `timecode/` -- answers `AttributeError: 'Program' object has no attribute 'parse_timecode'`, rc=1; right after it, rc=0 and the suite whole. It stands as early as it can so that any piece taking a window part of its own can bind the fifteen table names |
 | `metadata/` | 8 pieces bind its names at their heads | above all 8 |
 | `herald/` | `material/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads | before both of them |
 | `hearing/` | binds the herald's progress line; `material/` binds 10 of its names | after the herald, before the material |
