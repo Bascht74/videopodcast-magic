@@ -733,42 +733,54 @@ def cut_slider_defaults():
     return out
 
 
-def _sliders_from_command_line(call, production):
-    """Recover the sliders from the stored call, for write_cut_list."""
+def _sliders_from_project(project, production, over=()):
+    """Recover the sliders from the project file's own keys.
+
+    Nine numbers and five choices stand under `camera_cut` by their own
+    names, the loudness under `lufs`, the wide shots are the files whose
+    kind says so, and the edge is `wide_at_edges` the other way round.
+
+    *over* is the command line this program was started with, and a
+    value typed there beats the one the file holds.
+    """
     class Sliders(object):
         pass
     e = Sliders()
     e.production = production
-    e.no_wide_edges = "--no-wide-edges" in (call or [])
-    # Every --wide-shot in the stored call, not only the first: the mark
-    # may stand on several cameras, and without this the button builds a
-    # cut with no wide shot while the window above shows one marked.
-    e.wide_shot = [(call or [])[i + 1] for i, x in enumerate(call or [])
-                   if x == "--wide-shot" and i + 1 < len(call or [])]
-    # And the file saying which voice was heard on which camera. Without
-    # it every separate voice falls back to the wide shot after all.
-    for switch in ("--assign", "--speakers-from"):
-        value = ""
-        if call and switch in call:
-            i = call.index(switch)
-            if i + 1 < len(call):
-                value = call[i + 1]
-        setattr(e, switch[2:].replace("-", "_"), value)
+    e.no_wide_edges = not project.get("wide_at_edges", True)
+    e.wide_shot = sorted(f.get("path") or "" for f in (project.get("files") or [])
+                         if f.get("kind") == TYPE_WIDE)
+    # A path into TMPDIR, which ages out. Empty is the honest answer.
+    e.assign = ""
+    e.speakers_from = ""
+    held = project.get("camera_cut") or {}
+    over = list(over or ())
+
+    def typed(switch):
+        """What the command line says for that switch, or None."""
+        if switch in over and over.index(switch) + 1 < len(over):
+            return over[over.index(switch) + 1]
+        return None
+
+    # Three are not in the window's cut box: the loudness has a key of
+    # its own, the two reaction numbers can only be typed.
     for switch, field, default_value in cut_slider_defaults():
-        value = default_value
-        if call and switch in call:
-            i = call.index(switch)
-            if i + 1 < len(call):
-                try:
-                    value = float(call[i + 1])
-                except ValueError:
-                    pass
+        value = typed(switch)
+        if value is None and switch == "--lufs":
+            value = project.get("lufs", default_value)
+        if value is None:
+            value = held.get(switch.lstrip("-"), default_value)
+        try:
+            value = default_value if value in (None, "") else float(value)
+        except (TypeError, ValueError):
+            value = default_value
         setattr(e, field, value)
     for switch, _caption, default_value, values, _k, _l in CUT_CHOICES:
-        value = default_value
-        if call and "--" + switch in call:
-            i = call.index("--" + switch)
-            if i + 1 < len(call) and call[i + 1] in values:
-                value = call[i + 1]
-        setattr(e, switch.replace("-", "_"), value)
+        value = typed("--" + switch)
+        if value is None:
+            value = held.get(switch, default_value)
+        setattr(e, switch.replace("-", "_"),
+                value if value in values else default_value)
+    if "--no-wide-edges" in over:
+        e.no_wide_edges = True
     return e

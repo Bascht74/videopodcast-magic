@@ -361,7 +361,7 @@ import ast
 # The window is gui() and every piece lifted out of it, joined. Reading
 # gui() alone lets a check on absence go green because what it looks
 # for moved house rather than went away -- project_write left gui() for
-# make_project_file and took the line that throws the key out with it,
+# make_project_file and took the writing of the file with it,
 # start and only_resolve_start_run left it for make_run_start, and the
 # file list left it for make_preflight and make_file_changes, and the
 # time axis for make_time_axis. Measured twice on a broken copy, the
@@ -420,13 +420,20 @@ check("no argv tinkering left in the window",
         % (len(window),
            ["%s %s" % (where, t) for where, body in window
             for t in tinkering if t in body] or "none"))
-check("the key is still thrown out when saving",
-        'if part == "--auphonic-api-key":' in source,
-        "16. over %d pieces of the window --auphonic-api-key is named in %s, "
-        "wanted one reading if part == \"--auphonic-api-key\":"
-        % (len(window),
-           [l.strip() for l in source.splitlines()
-            if "--auphonic-api-key" in l] or "no line at all"))
+# Nothing is filtered out of a stored command line any more, because
+# none is stored: the maker builds its dictionary out of names, and a
+# filter that is not there cannot be got round.
+saving = [body for where, body in window
+          if where.endswith(":make_project_file")]
+check("the window has one project file maker", len(saving) == 1,
+        "16. over %d pieces of the window %d are called make_project_file, "
+        "wanted 1" % (len(window), len(saving)))
+check("and it carries no command line at all",
+        len(saving) == 1 and "argv" not in saving[0],
+        "16. makers found: %d, argv named in %s, wanted one maker and "
+        "no line" % (len(saving),
+                     [l.strip() for b in saving for l in b.splitlines()
+                      if "argv" in l] or "no line"))
 
 print("\n17. slider_argv on its own")
 t, bad = vpm.slider_argv({})

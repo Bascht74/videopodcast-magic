@@ -33,7 +33,7 @@
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
 auphonic_key_answer_fits	16
 auphonic_key_by_pipe	68
-auphonic_key_out_of_view	24
+auphonic_key_out_of_view	25
 auphonic_may_be_skipped	23
 auphonic_mono_not_stereo	7
 auphonic_none_chosen	4
@@ -121,7 +121,7 @@ project_two_timelines_go	16
 run_bar_never_falls	20
 run_bar_tracks_work	35
 run_choice_kept	17
-run_command_built	62
+run_command_built	63
 run_dry_reports_voices	13
 run_ffmpeg_new_enough	26
 run_ffmpeg_not_fetched	15
@@ -202,7 +202,7 @@ text_lists_match	30
 text_no_german_left	49
 text_numbers_fit_reader	21
 text_only_texts_change	100
-text_release_ready	35
+text_release_ready	36
 text_skills_listed	12
 text_tests_listed	9
 text_whole_sentences	4
