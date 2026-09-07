@@ -701,3 +701,74 @@ def build_argument_parser():
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
+
+
+# How the command line switch is named and how the field behind it. All others
+# are named alike, with an underscore instead of a hyphen.
+SLIDER_TO_DEST = {"edit-change-delay": "delay"}
+
+
+def cut_slider_defaults():
+    """Return the camera cut sliders with their defaults.
+
+    Derived from CUT_FIELDS so there is a single source: the same number
+    in three places drifts apart, and then one path cuts differently
+    from the next.
+    """
+    out = []
+    for api_key, _b, default_value, _e, _k, _l in CUT_FIELDS:
+        field = SLIDER_TO_DEST.get(api_key, api_key.replace("-", "_"))
+        try:
+            out.append(("--" + api_key, field, float(default_value)))
+        except ValueError:
+            continue
+    # None like the switch itself: no --lufs in the stored call means the
+    # run took the loudness from the source files, not that it took -16.
+    out.append(("--lufs", "lufs", None))
+    # And two numbers the run takes that the window has no field for.
+    # Out of CUT_FIELDS alone they are not recovered, and the rules fall
+    # back to their own default -- "--reaction-gap 8" arrives as 3.0.
+    out.append(("--reaction-gap", "reaction_gap", 3.0))
+    out.append(("--reaction-hold", "reaction_hold", 0.7))
+    return out
+
+
+def _sliders_from_command_line(call, production):
+    """Recover the sliders from the stored call, for write_cut_list."""
+    class Sliders(object):
+        pass
+    e = Sliders()
+    e.production = production
+    e.no_wide_edges = "--no-wide-edges" in (call or [])
+    # Every --wide-shot in the stored call, not only the first: the mark
+    # may stand on several cameras, and without this the button builds a
+    # cut with no wide shot while the window above shows one marked.
+    e.wide_shot = [(call or [])[i + 1] for i, x in enumerate(call or [])
+                   if x == "--wide-shot" and i + 1 < len(call or [])]
+    # And the file saying which voice was heard on which camera. Without
+    # it every separate voice falls back to the wide shot after all.
+    for switch in ("--assign", "--speakers-from"):
+        value = ""
+        if call and switch in call:
+            i = call.index(switch)
+            if i + 1 < len(call):
+                value = call[i + 1]
+        setattr(e, switch[2:].replace("-", "_"), value)
+    for switch, field, default_value in cut_slider_defaults():
+        value = default_value
+        if call and switch in call:
+            i = call.index(switch)
+            if i + 1 < len(call):
+                try:
+                    value = float(call[i + 1])
+                except ValueError:
+                    pass
+        setattr(e, field, value)
+    for switch, _caption, default_value, values, _k, _l in CUT_CHOICES:
+        value = default_value
+        if call and "--" + switch in call:
+            i = call.index("--" + switch)
+            if i + 1 < len(call) and call[i + 1] in values:
+                value = call[i + 1]
+        setattr(e, switch.replace("-", "_"), value)
+    return e

@@ -17,12 +17,7 @@ ByFile = PROGRAM.ByFile
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 COLOURS = PROGRAM.COLOURS
-COLOURS_DARK = PROGRAM.COLOURS_DARK
-COLOURS_LIGHT = PROGRAM.COLOURS_LIGHT
-CUT_CHOICES = PROGRAM.CUT_CHOICES
-CUT_FIELDS = PROGRAM.CUT_FIELDS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
-FileSet = PROGRAM.FileSet
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
@@ -46,12 +41,12 @@ decode_audio = PROGRAM.decode_audio
 expand_chains_to_tracks = PROGRAM.expand_chains_to_tracks
 ffprobe_json = PROGRAM.ffprobe_json
 files_with_no_place = PROGRAM.files_with_no_place
-find_continuation_files = PROGRAM.find_continuation_files
 finished_tracks_find = PROGRAM.finished_tracks_find
 fit_places_it = PROGRAM.fit_places_it
 format_complaint = PROGRAM.format_complaint
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 glob = PROGRAM.glob
+group_recording_parts = PROGRAM.group_recording_parts
 json = PROGRAM.json
 no_place_message = PROGRAM.no_place_message
 number_text = PROGRAM.number_text
@@ -60,10 +55,8 @@ parallel_map = PROGRAM.parallel_map
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 place_track_on_axis = PROGRAM.place_track_on_axis
-qt_palette = PROGRAM.qt_palette
 re = PROGRAM.re
 safe_filename = PROGRAM.safe_filename
-shapes_match = PROGRAM.shapes_match
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 threading = PROGRAM.threading
@@ -316,118 +309,6 @@ def find_handover_file(*places, deeper=False, ours=None):
     return max(hit)[1] if hit else None
 
 
-def colours_pick(dark):
-    """Fill COLOURS with the set this desktop asks for.
-
-    Refilled in place rather than replaced: every module holds on to
-    this one dictionary, and a new object would leave them all reading
-    the old one.
-    """
-    COLOURS.clear()
-    COLOURS.update(COLOURS_DARK if dark else COLOURS_LIGHT)
-    PROGRAM.ON_DARK[0] = bool(dark)
-
-
-def sheet_recoloured(sheet, dark):
-    """Return one style sheet with the colours of the other set in it.
-
-    Both palettes carry the same roles, so a value is swapped for the one
-    its role holds in the other set. No two roles share a value and no
-    value stands in both sets, so a swap cannot be applied twice. A
-    colour in neither set is left alone -- the black behind a video is
-    not a role.
-    """
-    leaving = COLOURS_LIGHT if dark else COLOURS_DARK
-    entering = COLOURS_DARK if dark else COLOURS_LIGHT
-    for role, value in leaving.items():
-        if value in sheet:
-            sheet = sheet.replace(value, entering[role])
-    return sheet
-
-
-def app_style_set(app):
-    """Put the palette into the whole program, twice over.
-
-    Into Qt's own palette first: the ground of the window and of a
-    scrolled sheet is painted from that and carries no style sheet, so
-    nothing else on the way reaches it. Then into the style sheet.
-    Its own function so both are set again when the desktop switches.
-    """
-    import PySide6.QtGui as _qg
-    app.setPalette(qt_palette(_qg, COLOURS))
-    app.setStyleSheet("""
-    QGroupBox {
-        border: 1px solid %(frame)s; border-radius: 6px;
-        /* The top margin is half the height of the heading, so the
-           line runs through the middle of the text. */
-        margin-top: 10px; padding-top: 14px; background: %(box)s;
-    }
-    QGroupBox::title {
-        subcontrol-origin: margin; subcontrol-position: top left;
-        left: 12px; top: 2px; padding: 0 8px; background: %(box)s;
-        color: %(heading)s; font-weight: bold;
-    }
-    QTabWidget::pane {
-        border: 1px solid %(frame)s; border-radius: 6px; top: -1px;
-        background: %(sheet)s;
-    }
-    QTabWidget::tab-bar { alignment: left; left: 6px; }
-    QTabBar::tab {
-        background: %(head)s; color: %(quiet)s;
-        border: 1px solid %(frame)s; border-bottom: none;
-        border-top-left-radius: 6px; border-top-right-radius: 6px;
-        padding: 8px 22px; margin-right: 3px; font-weight: bold;
-    }
-    QTabBar::tab:selected { background: %(heading)s; color: %(sheet)s; }
-    QTabBar::tab:hover:!selected { background: %(stripe)s; }
-    QHeaderView::section {
-        background: %(head)s; color: %(heading)s; font-weight: bold;
-        border: 0px; border-bottom: 1px solid %(frame)s; padding: 4px;
-    }
-    QTableWidget, QTreeView, QTextEdit, QListWidget {
-        background: %(sheet)s; alternate-background-color: %(head)s;
-        color: %(text)s;
-    }
-""" % {k: COLOURS[k] for k in ("frame", "box", "heading", "head",
-                              "quiet", "sheet", "stripe", "text")})
-
-
-def styles_follow_scheme(app, dark):
-    """Recolour every widget that styled itself, and say how many.
-
-    What a widget wrote into its own style sheet is out of reach of the
-    program's: setting that again leaves those rows in the colours they
-    were born in. Which ones they are need not be remembered -- a widget
-    with a sheet of its own is one whose ``styleSheet()`` is not empty.
-    """
-    changed = 0
-    for widget in app.allWidgets():
-        try:
-            sheet = widget.styleSheet()
-        except RuntimeError:
-            continue                  # gone while we were walking
-        if not sheet:
-            continue
-        fresh = sheet_recoloured(sheet, dark)
-        if fresh == sheet:
-            continue
-        try:
-            widget.setStyleSheet(fresh)
-        except RuntimeError:
-            continue
-        changed += 1
-    return changed
-
-
-def clip_colour_rgb(name):
-    """Return the RGB approximation of a clip colour for this background."""
-    exception = (PROGRAM.CLIP_COLOURS_RGB_DARK if PROGRAM.ON_DARK[0]
-                 else PROGRAM.CLIP_COLOURS_RGB_LIGHT)
-    if name in exception:
-        return exception[name]
-    return PROGRAM.CLIP_COLOURS_RGB.get(name, "#888888")
-
-
 def mix_file_from_handover(d):
     """Return the file carrying the overall mix.
 
@@ -516,77 +397,6 @@ HINT_MULTICAM = ('\n  To convert: in the media pool right-click "%s '
                  'framing -- is in the\n  manual, docs/resolve.md.\n')
 
 
-# How the command line switch is named and how the field behind it. All others
-# are named alike, with an underscore instead of a hyphen.
-SLIDER_TO_DEST = {"edit-change-delay": "delay"}
-
-
-def cut_slider_defaults():
-    """Return the camera cut sliders with their defaults.
-
-    Derived from CUT_FIELDS so there is a single source: the same number
-    in three places drifts apart, and then one path cuts differently
-    from the next.
-    """
-    out = []
-    for api_key, _b, default_value, _e, _k, _l in CUT_FIELDS:
-        field = SLIDER_TO_DEST.get(api_key, api_key.replace("-", "_"))
-        try:
-            out.append(("--" + api_key, field, float(default_value)))
-        except ValueError:
-            continue
-    # None like the switch itself: no --lufs in the stored call means the
-    # run took the loudness from the source files, not that it took -16.
-    out.append(("--lufs", "lufs", None))
-    # And two numbers the run takes that the window has no field for.
-    # Out of CUT_FIELDS alone they are not recovered, and the rules fall
-    # back to their own default -- "--reaction-gap 8" arrives as 3.0.
-    out.append(("--reaction-gap", "reaction_gap", 3.0))
-    out.append(("--reaction-hold", "reaction_hold", 0.7))
-    return out
-
-
-def _sliders_from_command_line(call, production):
-    """Recover the sliders from the stored call, for write_cut_list."""
-    class Sliders(object):
-        pass
-    e = Sliders()
-    e.production = production
-    e.no_wide_edges = "--no-wide-edges" in (call or [])
-    # Every --wide-shot in the stored call, not only the first: the mark
-    # may stand on several cameras, and without this the button builds a
-    # cut with no wide shot while the window above shows one marked.
-    e.wide_shot = [(call or [])[i + 1] for i, x in enumerate(call or [])
-                   if x == "--wide-shot" and i + 1 < len(call or [])]
-    # And the file saying which voice was heard on which camera. Without
-    # it every separate voice falls back to the wide shot after all.
-    for switch in ("--assign", "--speakers-from"):
-        value = ""
-        if call and switch in call:
-            i = call.index(switch)
-            if i + 1 < len(call):
-                value = call[i + 1]
-        setattr(e, switch[2:].replace("-", "_"), value)
-    for switch, field, default_value in cut_slider_defaults():
-        value = default_value
-        if call and switch in call:
-            i = call.index(switch)
-            if i + 1 < len(call):
-                try:
-                    value = float(call[i + 1])
-                except ValueError:
-                    pass
-        setattr(e, field, value)
-    for switch, _caption, default_value, values, _k, _l in CUT_CHOICES:
-        value = default_value
-        if call and "--" + switch in call:
-            i = call.index("--" + switch)
-            if i + 1 < len(call) and call[i + 1] in values:
-                value = call[i + 1]
-        setattr(e, switch.replace("-", "_"), value)
-    return e
-
-
 def _read_project_file(folder):
     # The prefix is written down once, in the way in. A pattern spelling
     # it out again would keep looking for the old name after a rename,
@@ -672,8 +482,10 @@ def refresh_cut_list(d, file_path):
     own_measure = any(a.startswith("--wide-")
                  or a in ("--min-edit-duration", "--edit-change-delay")
                  for a in command_line)
-    settings = _sliders_from_command_line(command_line + call,
-                                          d.get("production"))
+    # Through PROGRAM: orders/ is read after this piece, so a head line
+    # for it would find nothing.
+    settings = PROGRAM._sliders_from_command_line(command_line + call,
+                                                  d.get("production"))
     if own_measure:
         settings.no_wide_edges = "--no-wide-edges" in command_line
     cameras = [{"video": cam["source"], "name": cam["camera"]}
@@ -2031,148 +1843,6 @@ def camera_output_name(production, camera, speaker=()):
     else:
         name = "_".join(x for x in (stem, who) if x)
     return without_repeated_words(name)
-
-
-def together_chains(together):
-    """Bring the by-hand groupings into one ordered list per recording.
-
-    Given as [[a, b], [b, c]] they mean one recording a, b, c: naming a
-    file in two groups joins those groups. Order is kept -- the first
-    time a file is named is where it sits.
-    """
-    rows = []
-    for group in (together or ()):
-        wanted = [os.path.abspath(x) for x in group if x]
-        if len(wanted) < 2:
-            continue
-        hit = [r for r in rows if any(x in r for x in wanted)]
-        if not hit:
-            rows.append(list(dict.fromkeys(wanted)))
-            continue
-        first = hit[0]
-        for other in hit[1:]:
-            first += [x for x in other if x not in first]
-            rows.remove(other)
-        first += [x for x in wanted if x not in first]
-    return rows
-
-
-def group_recording_parts(paths, no_followups=False, apart=(), together=()):
-    """Group the selected audio files into recordings.
-
-    Numbered continuations are searched from the first block and only
-    seamless ones appended. *apart* names blocks that must stand alone,
-    or the search, looking in the folder and not in the selection, finds
-    them again on the next rebuild. *together* is the other way, each
-    named file bringing the blocks already found for it; *apart* wins.
-    """
-    apart = FileSet(apart or ())
-
-    def with_its_blocks(row):
-        """Each named file plus the blocks already found for it.
-
-        Only what fits: channel count and sample rate have to match the
-        first block, since everything after the join treats them as one
-        recording.
-        """
-        out, refused = [], []
-        for x in row:
-            if not os.path.exists(x):
-                refused.append((os.path.basename(x), T('not found')))
-                continue
-            found = [x]
-            if not no_followups and x not in apart:
-                try:
-                    found, _ = find_continuation_files(x)
-                except Exception:
-                    found = [x]
-            for y in found:
-                y = os.path.abspath(y)
-                if y in apart or y in out:
-                    continue
-                if out:
-                    fits, why = shapes_match(out[0], y)
-                    if not fits:
-                        refused.append((os.path.basename(y), why))
-                        continue
-                out.append(y)
-        return out, refused
-
-    made = [with_its_blocks(row) for row in together_chains(together)]
-    # Two groups can end up holding the same block. A block belongs to
-    # one recording, so the first group to claim it keeps it.
-    by_hand, turned_away, claimed = [], {}, set()
-    homeless = {}
-    for row, refused in made:
-        mine = [x for x in row if x not in claimed]
-        notes = list(refused) + [
-            (os.path.basename(x), T('already in another recording'))
-            for x in row if x not in mine]
-        if len(mine) < 2:
-            # Nothing left to group, but the notes still have to reach
-            # somebody: the recording the one remaining file ends up in.
-            for x in mine or row:
-                homeless.setdefault(x, []).extend(notes)
-            continue
-        claimed.update(mine)
-        turned_away[len(by_hand)] = notes
-        by_hand.append(mine)
-    put = {}
-    for i, row in enumerate(by_hand):
-        for x in row:
-            put[x] = i
-    pending = sorted(paths, key=lambda x: os.path.basename(x).lower())
-    chains, taken, done_by_hand = [], set(), set()
-    for p in pending:
-        a = os.path.abspath(p)
-        if a in taken:
-            continue
-        if a in put:
-            # A grouping made by hand: exactly these files, in the order
-            # they were named, and nothing searched in the folder.
-            i = put[a]
-            if i in done_by_hand:
-                continue
-            done_by_hand.add(i)
-            row, discarded = list(by_hand[i]), list(turned_away.get(i) or [])
-            for path in row:
-                taken.add(path)
-                discarded = discarded + homeless.pop(path, [])
-            chains.append((row, discarded))
-            continue
-        if no_followups or a in apart:
-            row, discarded = [a], []
-        else:
-            try:
-                row, discarded = find_continuation_files(a)
-            except Exception:
-                row, discarded = [a], []
-            row = [x for x in row if os.path.abspath(x) not in apart
-                   and os.path.abspath(x) not in put]
-        for path in row:
-            taken.add(os.path.abspath(path))
-            discarded = discarded + homeless.pop(path, [])
-        chains.append((row, discarded))
-    # A note whose file never reached a recording of its own: claimed by
-    # another group, or not in the list at all. It still has to be read,
-    # so it goes to the first recording rather than nowhere.
-    if homeless and chains:
-        left = [note for notes in homeless.values() for note in notes]
-        chains[0] = (chains[0][0], list(chains[0][1]) + left)
-    return chains
-
-
-def recording_family(file_path):
-    """Every block that would belong to this recording, marks aside.
-
-    Used when a whole recording leaves the list: the marks of its blocks
-    go with it, so adding the files again joins them up as before.
-    """
-    try:
-        row, _discarded = find_continuation_files(os.path.abspath(file_path))
-    except Exception:
-        row = [os.path.abspath(file_path)]
-    return {os.path.abspath(x) for x in row} | {os.path.abspath(file_path)}
 
 
 def cameras_as_tracks(args):
