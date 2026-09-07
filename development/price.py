@@ -56,7 +56,30 @@ def read_order(folder):
                 seen.add(name)
                 order.append((node.lineno, name))
     order.sort()
-    return [n for _l, n in order]
+    out = [n for _l, n in order]
+    # The six pieces the window reads out of itself stand nowhere in
+    # the way in's list, and without a position they were priced as
+    # unreachable from everywhere -- found 7.9.2026, when a head line
+    # for `run_stages` in `fittings/` was called impossible and then
+    # run green. They are read while `ui/` is read, so they sit at
+    # `ui/`'s place: everything the way in took before `ui/` is theirs
+    # to bind, and nothing after it is.
+    if "ui" in out:
+        ui_src = open(os.path.join(folder, "ui", "__init__.py"),
+                      encoding="utf-8").read()
+        under, seen2 = [], set()
+        for node in ast.walk(ast.parse(ui_src)):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+                    and node.func.id == "beside" and node.args \
+                    and isinstance(node.args[0], ast.Constant):
+                nm = node.args[0].value
+                if nm not in seen2 and nm not in out:
+                    seen2.add(nm)
+                    under.append((node.lineno, nm))
+        under.sort()
+        at = out.index("ui")
+        out = out[:at + 1] + [n for _l, n in under] + out[at + 1:]
+    return out
 
 
 def owners(folder):
