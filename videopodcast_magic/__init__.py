@@ -260,6 +260,14 @@ timecode = beside("timecode", program=PROGRAM)
 take_from(timecode)
 
 
+#----------------------------------------------------- The window's tables
+# Read here and not by the window, so any piece that shows a table
+# binds these names at its head instead of reaching for them at
+# every use. It needs nothing later than the timecode above it.
+tables = beside("tables", program=PROGRAM)
+take_from(tables)
+
+
 #----------------------------------------------------- The spoken language
 
 # ffmpeg wants three letters after ISO 639-2/B, both recognisers the
