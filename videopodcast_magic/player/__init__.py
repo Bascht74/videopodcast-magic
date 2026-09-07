@@ -2554,7 +2554,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 def make_log_view(QtGui, QtWidgets, Cursor):
     """The log pane of the output tab, once Qt is there.
 
-    Outside gui() for the same reason as the player widgets.
+    Its own name for the same reason as the player widgets.
     """
     class LogView(QtWidgets.QTextEdit):
         """The log pane, coloured so the structure is visible.
@@ -2685,7 +2685,7 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                        end_var, player, remembered, state, window_enable):
     """Which file the player shows, and where it starts inside it.
 
-    Outside gui() because it decides nothing about the window: it reads
+    Its own name because it decides nothing about the window: it reads
     the two boundary fields, the file list and the Kinds. `state`,
     `files` and `remembered` go on being written through.
     """

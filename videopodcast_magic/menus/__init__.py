@@ -60,7 +60,7 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
                 project_here=None):
     """The whole menu bar, from a table of what each entry does.
 
-    Outside gui() because it decides nothing. Every entry is a name, a
+    Its own name because it decides nothing. Every entry is a name, a
     key and something to call, and all three come in. *buttons* are the
     ones the switched entries follow, in their order.
     """

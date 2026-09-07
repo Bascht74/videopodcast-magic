@@ -451,7 +451,7 @@ def mac_menu_name(name):
 def total_paint(Qt, plan, total_state, total_bar, total_line):
     """Draw the whole run's progress bar, or take it away when it is over.
 
-    Outside gui() because it reaches into nothing of its own: plan and
+    Its own name because it reaches into nothing of its own: plan and
     widgets come in as arguments.
     """
     if plan.busy():
