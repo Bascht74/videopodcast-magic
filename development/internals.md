@@ -338,6 +338,23 @@ piece with `beside()`), and **what the receiving piece already owns
 (nothing to do)**. The third heap looks exactly like the second from
 outside, and only the run tells them apart.
 
+**And the rule about `global` is about the function, not the name.** A
+piece that rebinds a name with `global` -- `set_language` writing `LANG`,
+`Numpy` writing `np` -- cannot move that function anywhere, because the
+`global` would then write a different module's name. But a **head line**
+for such a name is not refused at all: measured 7.9.2026, `LANG =
+PROGRAM.LANG` and `np = PROGRAM.np` at `fittings/`'s head both load and
+build the window, rc=0, and `source_names_stay_fresh` on the copy came
+back green.
+
+**That makes it the dangerous one of the five**, and the opposite of
+what it looks like. The other four announce themselves with an
+`AttributeError` the moment anybody runs them. This one takes the head
+line, keeps a **copy of the value as it stood when the piece was read**,
+and goes on answering that copy after the programme has changed its
+mind. Nothing catches it. `source_names_stay_fresh` exists for the
+narrower case and does not reach this one.
+
 **A cycle is broken by deleting the binding line, not by forwarding.**
 A function of the same name that calls the real one is bound into the
 way in under its own name before the real one exists, and the call ends

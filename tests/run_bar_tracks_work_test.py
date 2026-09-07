@@ -179,13 +179,14 @@ print("\n8. A stage nobody announced still gets no caption")
 # caption. A stage that reports without having been announced is
 # caught by a guard, and that guard used to hand the plan the stage's
 # own key -- the one thing section 6 exists to keep out of the line.
-# Read out of the source because the guard sits inside the window's
-# own closure, where nothing can call it without a window.
+# Read out of the source because the guard sits inside a closure of the
+# footer, where nothing can call it without a window. Every piece is
+# read and not the one it lives in today: the footer moved out of the
+# window once already, and a reader naming a file finds nothing after
+# the next move and says the guard is gone.
 import ast as _ast
-_ui = os.path.join(os.path.dirname(SCRIPT), "ui", "__init__.py")
-with open(_ui, encoding="utf-8") as _fh:
-    _src = _fh.read()
-_guard = [n for n in _ast.walk(_ast.parse(_src))
+_guard = [n for _where, _body in the_program.pieces()
+          for n in _ast.walk(_ast.parse(_body))
           if isinstance(n, _ast.FunctionDef) and n.name == "run_step_take"]
 _adds = [c for g in _guard for c in _ast.walk(g)
          if isinstance(c, _ast.Call) and isinstance(c.func, _ast.Attribute)
