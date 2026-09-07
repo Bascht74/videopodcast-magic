@@ -181,8 +181,8 @@ The whole contents: **[docs/README.md](docs/README.md)**.
 Beside the manual stand the documents for whoever changes the program
 rather than uses it. They are English only.
 
-**[Inside the script](development/internals.md)** says how the program
-is put together and how each step works. **[What was
+**[Inside the program](development/internals.md)** says how it is put
+together and how each step works. **[What was
 measured](development/measurements.md)** holds the evidence behind
 the numbers: hit rates, run times, distributions, comparisons.
 **[Coding guidelines](development/coding_guidelines.md)** says how

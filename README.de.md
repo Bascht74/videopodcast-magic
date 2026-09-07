@@ -190,7 +190,7 @@ Das ganze Verzeichnis: **[docs/README.de.md](docs/README.de.md)**.
 Neben dem Handbuch stehen die Dokumente für alle, die das Programm
 ändern statt es zu benutzen. Sie sind alle englisch.
 
-**[Inside the script](development/internals.md)** sagt, wie das
+**[Inside the program](development/internals.md)** sagt, wie das
 Programm aufgebaut ist und wie jeder Schritt arbeitet. **[What was
 measured](development/measurements.md)** hält die Belege hinter den
 Zahlen: Trefferquoten, Laufzeiten, Verteilungen, Vergleiche. **[Coding

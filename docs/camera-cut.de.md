@@ -579,7 +579,7 @@ Kameradatei ist Programmzeit minus Versatz, derselbe Versatz, mit dem
 auch die Schnitt-Timeline gebaut wird.
 
 Das Programm setzt jede Stelle nach, bis sie sitzt;
-[Inside the script](../development/internals.md) (englisch) nennt, wie
+[Inside the program](../development/internals.md) (englisch) nennt, wie
 oft und wie lange.
 
 ### Sprecher ohne Auphonic messen
