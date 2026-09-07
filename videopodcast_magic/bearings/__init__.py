@@ -588,8 +588,11 @@ def _sliders_from_command_line(call, production):
 
 
 def _read_project_file(folder):
-    for file_path in sorted(glob.glob(os.path.join(folder,
-                                              "videopodcast-magic_*.json"))):
+    # The prefix is written down once, in the way in. A pattern spelling
+    # it out again would keep looking for the old name after a rename,
+    # silently and with no error to catch it.
+    for file_path in sorted(glob.glob(os.path.join(
+            folder, PROJECT_PREFIX + "*.json"))):
         try:
             with open(file_path, encoding="utf-8") as f:
                 return json.load(f)
