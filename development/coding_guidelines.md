@@ -312,6 +312,27 @@ it.
 player and has nothing to do with building the interface, so it lives
 somewhere else.
 
+**And when something moves house, the subject decides, not the price.**
+A move out of one piece into another costs crossings at the seam --
+head lines, forced `PROGRAM.` reads, a name bound back -- and
+`development/price.py` counts them. **That number says what the move
+will cost. It never says whether the move is right.** What belongs to
+the same subject goes, even where it costs; what does not, stays, even
+where it would be free.
+
+Measured 7.9.2026, and it is written down because it nearly went the
+other way: `make_project_file` was to be moved into `cut/` because that
+cost four crossings while `filing/`, where a project file actually
+belongs, cost thirteen. Both were wrong. The project file's own
+business -- writing it, reading it back, finding it, offering it, and
+what becomes of the work before the window is rebuilt -- is a subject,
+and a subject gets a piece.
+
+**So a report on a cut names what a number buys in the same breath.**
+"Three crossings more" on its own teaches whoever reads it that
+crossings are the point. "Three crossings more, and the project file is
+in one file instead of three" says what happened.
+
 **One thing lives in one place.** Two ways of computing the same result
 drift apart sooner or later. That has happened twice in this program,
 with the cut sliders and with the window arithmetic.
