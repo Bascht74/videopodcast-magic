@@ -58,7 +58,7 @@ speaks_as = fittings.speaks_as
 def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
     """Tab 1: the list of chosen files, with its stripes and its marks.
 
-    Outside gui() because it is the widget and nothing else: the tree,
+    Its own name because it is the widget and nothing else: the tree,
     what a file dropped on it does, the sentence the check writes into,
     the colour tables, and the maker of a single row.
     """
@@ -203,7 +203,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                       remove_button, bar_env_curve):
     """The file list changing: adding, removing, and reading it again.
 
-    Outside gui() because the five are one theme and answer each other:
+    One name for five because they are one theme and answer each other:
     take_paths and remove change what `files` holds, and both end in
     items_fresh, which builds every row again and asks for a check.
     """

@@ -82,7 +82,7 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
                    run_step_order, project_write):
     """Setting a run going: the summary, the command line, the thread.
 
-    Outside gui() because the four are one theme and answer each other:
+    One name for four because they are one theme and answer each other:
     what the summary offers is what start then builds, and both runs --
     the whole one and the Resolve-only one -- end in the same work_loop.
     What the window holds comes in as an argument and keeps its name
