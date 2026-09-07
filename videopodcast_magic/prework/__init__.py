@@ -104,7 +104,7 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
                      prework_run, prework_shares):
     """The prework bar, and what the working threads report into it.
 
-    Outside gui() because it builds no widget: the box, the bar and the
+    Its own name because it builds no widget: the box, the bar and the
     label are made there and handed in, and everything here runs in the
     window thread the signal arrives on. QtCore is a parameter because
     PySide6 is imported inside gui().

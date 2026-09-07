@@ -174,6 +174,7 @@ source_limits_hold	15
 source_names_stay_fresh	4
 source_no_loose_ends	12
 source_no_real_names	6
+source_no_stale_places	1
 source_numpy_comes_last	4
 source_piece_list_holds	4
 source_reds_carry_value	6
