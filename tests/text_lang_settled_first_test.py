@@ -226,6 +226,34 @@ check("and a run that asked for nothing is told in the machine's language",
                           % (MARK, " ".join(said.split())[:60])),
          len(missing), len(ENGLISH), missing[:2] or "none"))
 
+print("\n3. No sentence is made while a piece is being read")
+# The two parts above watch main(). This watches something earlier:
+# a T() call standing at the top level of a piece runs while that
+# piece is read, which is before main() has settled anything -- so
+# the English msgid is frozen into a module global and no later
+# change of language can reach it. Measured 7.9.2026: after load()
+# alone, vpm.LANG is the machine's language while T() still answers
+# the msgid, so the window between the two is real. Nothing in the
+# program stands in it today; this is the guard, not a repair.
+_frozen = []
+for _where, _body in the_program.pieces():
+    _tree = ast.parse(_body)
+    _in_a_def = set()
+    for _top in _tree.body:
+        if isinstance(_top, (ast.FunctionDef, ast.AsyncFunctionDef,
+                             ast.ClassDef)):
+            _in_a_def.update(range(_top.lineno, _top.end_lineno + 1))
+    for _node in ast.walk(_tree):
+        if isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name) \
+                and _node.func.id == "T" and _node.lineno not in _in_a_def:
+            _frozen.append("%s:%d" % (os.path.basename(os.path.dirname(_where))
+                                      or "the way in", _node.lineno))
+check("no piece says a sentence at the top level, where nothing can "
+      "translate it yet",
+      not _frozen,
+      "%d such call(s) over %d pieces: %s"
+      % (len(_frozen), len(the_program.pieces()), _frozen[:3] or "none"))
+
 shutil.rmtree(work, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
