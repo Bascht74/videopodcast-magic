@@ -15,6 +15,8 @@ PROGRAM = PROGRAM
 
 ByFile = PROGRAM.ByFile
 CAMERA_MARGIN_S = PROGRAM.CAMERA_MARGIN_S
+COLOURS = PROGRAM.COLOURS
+IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 RUN_STOP = PROGRAM.RUN_STOP
 SR = PROGRAM.SR
 Stopped = PROGRAM.Stopped
@@ -22,6 +24,7 @@ T = PROGRAM.T
 THREAD_SHARE = PROGRAM.THREAD_SHARE
 TN = PROGRAM.TN
 TRAILING_NUMBER = PROGRAM.TRAILING_NUMBER
+TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 VERSION = PROGRAM.VERSION
 _block_levels = PROGRAM._block_levels
 _logs_atom_text = PROGRAM._logs_atom_text
@@ -1340,6 +1343,150 @@ def run_preflight(args, audio_paths, video_paths):
     findings += check_loudness_target(args, video_paths)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
+
+
+#--------------------------------------- The check in the window
+# What the window makes of these findings: the marks in the file
+# list and the line under it. Here, with what they are about, so
+# that a finding and the row it lands in are changed in one place.
+
+
+def preflight_sentence(findings, audio_file_list, recordings, videos_n):
+    """The line under the file list: what is there, and what is wrong.
+
+    Here because the findings are its subject, and it reaches into
+    nothing else. Returns the line and the colour it is written in.
+    """
+    recordings = recordings or audio_file_list
+    parts = []
+    if audio_file_list:
+        parts.append("%s%s" % (
+            TN(recordings, '%s audio recording', '%s audio recordings')
+            % number_text(recordings, 0),
+            "" if recordings == audio_file_list
+            else T(' from %s files') % number_text(audio_file_list, 0)))
+    if videos_n:
+        parts.append(TN(videos_n, '%s video file', '%s video files')
+                     % number_text(videos_n, 0))
+    sentence = ", ".join(parts) if parts else T('nothing selected')
+    # What belongs to a file that does not take part is shown on its row,
+    # not in the balance below.
+    counts = [b for b in findings if not b.set_aside]
+    serious = [b for b in counts if b.kind == "abort"]
+    hints = [b for b in counts if b.kind == "hint"]
+    if serious:
+        return sentence + " -- %s" % serious[0].text, COLOURS["error"]
+    if len(hints) == 1:
+        return (sentence + T(' -- 1 note: %s') % hints[0].text[:110],
+                COLOURS["warning"])
+    if hints:
+        return (sentence + T(' -- %s notes') % number_text(len(hints), 0),
+                COLOURS["warning"])
+    return sentence + T(' -- nothing to fault.'), COLOURS["quiet"]
+
+
+def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
+                   set_mark, append_findings, show_overall, lines_node,
+                   no_join, together_now, multitrack, assign_lines,
+                   clip_kind_values):
+    """Checking the files in the background, and showing what came back.
+
+    Here and not in the window because the three are one theme: the list
+    changed, so it is measured again, and the marks come back into the
+    same rows. gui() calls it below clip_kind_values, which
+    preflight_kick_off reads.
+    """
+
+    def preflight_fill_in(findings):
+        """Write the preflight findings into the list."""
+        plan.done("check")
+        if not files:
+            return
+        # Remember them: the list is rebuilt on every change and the marks
+        # would be lost.
+        state["preflight_findings"] = findings
+        # The worst mark per file -- one hint weighs more than nine lines
+        # of "fine". Which file is meant the finding says itself.
+        rank = {"good": 0, "fixed": 1, "hint": 2, "abort": 3}
+        # Collected per *row*, not per file: a multi-part recording has
+        # three files and one row, and the last block would overwrite it.
+        per_node, general = {}, []
+        for b in findings:
+            node = lines_node.get(b.file) if b.file else None
+            if node is not None:
+                per_node.setdefault(id(node), (node, []))[1].append(b)
+            elif b.kind != "good":
+                # No row for it, so into the general group rather than counting
+                # the finding and showing it nowhere.
+                general.append(b)
+        for node, its_findings in per_node.values():
+            worst = max(its_findings, key=lambda x: rank[x.kind])
+            set_mark(node, worst.kind, worst.text)
+            append_findings(node, its_findings)
+        show_overall(general)
+        # The sentence below: what is there, and whether anything speaks
+        # against it.
+        sentence, colour_line = preflight_sentence(
+            findings, len([1 for _p, a in files if a == "audio"]),
+            state.get("audio_recordings"),
+            len([1 for _p, a in files if a == "video"]))
+        preflight_line.setText(sentence)
+        preflight_line.setStyleSheet("color: %s;" % colour_line)
+
+    def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
+                         set_aside=(), apart=(), together=()):
+        """Measure in the background so the interface does not freeze."""
+        try:
+            findings = collect_findings(audio_files, videos_p, False,
+                                        crosstalk, set_aside, apart,
+                                        together)
+        except Exception as e:
+            # An empty list would read as "nothing to fault", and the run
+            # would start on material nobody looked at.
+            findings = [Finding("abort", T('Check'),
+                                T('the check itself stopped: %s') % e)]
+        if state.get("preflight_run") == label_run:
+            bridge_emit(bridge.preflight, findings)
+
+    def preflight_kick_off():
+        """Re-check after every change to the file list.
+
+        Measured and cached per file, so adding a camera waits only for that
+        one.
+        """
+        if not files:
+            # Counted on, so the answer of a check still running
+            # against the old list is dropped when it arrives.
+            state["preflight_run"] = state.get("preflight_run", 0) + 1
+            plan.drop(["check"])
+            preflight_line.setText("")
+            return
+        # What is left out is still checked, or its row would be the only
+        # one without a mark. It enters no comparison and no balance.
+        gone = set()
+        for row, _nv, cv in assign_lines:
+            if cv.get() == IGNORE_AUDIO:
+                gone.update(path_key(x) for x in row)
+        for file_path, value in clip_kind_values.items():
+            if value.get() == TYPE_IGNORED:
+                gone.add(path_key(file_path))
+        audio_files = [p for p, a in files if a == "audio"]
+        videos_p = [p for p, a in files if a == "video"]
+        label_run = state.get("preflight_run", 0) + 1
+        state["preflight_run"] = label_run
+        plan.begin("check", T('Checking files'), 2.0)
+        preflight_line.setText(T('checking ...'))
+        preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
+        # Crosstalk is a question about per-speaker tracks. Without
+        # multitrack there are none, and nothing is assigned yet.
+        threading.Thread(target=preflight_work_loop,
+                         args=(audio_files, videos_p, label_run,
+                               bool(multitrack.get()), gone,
+                               frozenset(no_join),
+                               tuple(tuple(g) for g in together_now())),
+                         daemon=True).start()
+
+    return preflight_fill_in, preflight_kick_off
 
 
 def run_ffmpeg_with_progress(cmd, duration, text):
