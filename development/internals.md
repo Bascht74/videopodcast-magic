@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 704 lines of it, against the 37 535 it held
+program lives any more -- 717 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-five
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -25,7 +25,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4869** -- the window and everything it shows, asks or offers,
+* `ui/` **4821** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3654** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -35,7 +35,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **2907** -- who is on camera when, and what carries it out
+* `cut/` **2886** -- who is on camera when, and what carries it out
   of here; the voices reach it named, out of `speakers/`
 * `material/` **2694** -- channels, chains, continuation files, what a
   track is made of
@@ -57,7 +57,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key
 * `hearing/` **1046** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1007** -- helpers that shape what the window shows and
+* `fittings/` **1027** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
@@ -72,7 +72,7 @@ figure of the day is that command, not this paragraph**:
   the work before the window is rebuilt
 * `upkeep/` **457** -- which release is out, the way back, and pip
   putting one in place
-* `filelist/` **439** -- the list of chosen files: the tree it is
+* `filelist/` **437** -- the list of chosen files: the tree it is
   shown in, and what adding and removing do to it
 * `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
@@ -106,22 +106,36 @@ figure of the day is that command, not this paragraph**:
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
 
-**Six pieces are asked for by another piece, not by the way in.**
-`player/`, `fittings/`, `menus/`, `filelist/`, `prework/` and
-`running/` are read out of `ui/__init__.py`, where the blocks they hold
-used to stand, and two of them again one folder deeper: `player/` out of
-`fittings/` and `fittings/` out of `filelist/`. `orders/` stood among them until
-6.9.2026, when `build_argument_parser` moved into it and the way in
-began to read it too -- the window then asks `beside()` for a piece
-that is read already. **`tables/` left the six on 7.9.2026 and for a
-different reason**: it is the toolbox a table is built out of, and while
-the window read it last, no other piece could bind one of its names --
-a subject that takes a window part of its own had to reach for
-`tree_cell` and seven more through `PROGRAM.` at every use. Read after
-the timecode, they are head lines for everybody. `beside()` does not mind -- it lays
-its path against the folder the *way in* sits in, whoever calls it, so
-`beside("player")` out of `ui/` finds `videopodcast_magic/player/`, one
-folder up from the caller and beside its own.
+**Four pieces are asked for by another piece, not by the way in.**
+`menus/`, `filelist/`, `prework/` and `running/` are read out of
+`ui/__init__.py`, where the blocks they hold used to stand. `orders/`
+stood among them until 6.9.2026, when `build_argument_parser` moved
+into it and the way in began to read it too -- the window then asks
+`beside()` for a piece that is read already. **`tables/` left them on
+7.9.2026 and for a different reason**: it is the toolbox a table is
+built out of, and while the window read it last, no other piece could
+bind one of its names -- a subject that takes a window part of its own
+had to reach for `tree_cell` and seven more through `PROGRAM.` at every
+use. Read after the timecode, they are head lines for everybody.
+
+**`player/` and `fittings/` left for that same reason on 7.9.2026**,
+and they are the toolbox a *window* is built out of: `hint`, `label`,
+`speaks_as`, `field_bind`, `caption_room`, `mark_red`,
+`voice_row_cells` and more. Read right after the herald, they are head
+lines for everybody too. Two names had to come off `player/`'s head
+first -- `block_at` out of `bearings/` and `legend_markup` out of
+`cut/`, both read far below the herald -- and the way in's own
+`RUN_STOP` had to move above the new block, or `fittings/`'s head
+answers `AttributeError` for it. Measured on one move waiting on this,
+`make_auphonic_box` and two more out of `ui/` into `auphonic/`: six
+forced `PROGRAM.` reads before, one after, and that one lives in `ui/`
+itself, where no read order can reach it.
+
+`beside()` does not mind -- it lays its path against the folder the
+*way in* sits in, whoever calls it, so `beside("player")` out of
+`fittings/` finds `videopodcast_magic/player/`, one folder up from the
+caller and beside its own, and is handed the very piece the way in read
+a block earlier.
 
 **What did mind was the check.** `text_german_arrives` collects the
 `beside(...)` folder names out of the way in and holds them against
@@ -583,6 +597,8 @@ way every window in this table was found.
 | `tables/` | binds 8 names, the latest of them the timecode's `parse_timecode`; `ui/` binds 10 of its own and `speakers/` 8 | **both edges measured 7.9.2026**: one read earlier -- above `timecode/` -- answers `AttributeError: 'Program' object has no attribute 'parse_timecode'`, rc=1; right after it, rc=0 and the suite whole. It stands as early as it can so that any piece taking a window part of its own can bind the fifteen table names -- which `speakers/` then did, and all 8 it wanted bound at its head |
 | `metadata/` | 8 pieces bind its names at their heads | above all 8 |
 | `herald/` | `material/` and `hearing/` bind the progress line -- `progress_from_line` and `show_progress` -- at their heads | before both of them |
+| `player/` | 35 head lines, the latest of them the herald's `SEEK_AGAIN_MS` and `gui_log`; it takes `file_span` off `tables/` with `beside()`, and reads `block_at`, `legend_markup`, `hint`, `label` and `zoom_button` through `PROGRAM.` at the use | **both edges measured 7.9.2026**: one read-block earlier -- above `herald/` -- answers `AttributeError: 'Program' object has no attribute 'SEEK_AGAIN_MS'`, rc=1; right after the herald, rc=0 and the window stands. As early as it can, so that any piece taking a window part of its own binds `caption_room` and the rest at its head |
+| `fittings/` | 19 head lines, the latest of them the herald's `run_stages`; it asks `beside("player")` for three widths and is handed the piece read just above. `fitted` of `ui/` and `widget_width` of `tables/` are read through `PROGRAM.` | directly under `player/`, because its own head asks for it -- and **the way in's `RUN_STOP` moved above this block for it**: left where it stood, `RUN_STOP = PROGRAM.RUN_STOP` at this head answers `AttributeError`, rc=1. `ui/` binds 15 of its names, `filelist/` three |
 | `hearing/` | binds the herald's progress line; `material/` binds 10 of its names | after the herald, before the material |
 | `upkeep/` | binds the herald's `write_through`, and nothing else binds that; the separation binds its `PIP_SOURCE` | after the herald, before the separation |
 | `speech/` | binds `SPEECH_CODES`, which is the last name of the way in's own that it takes | anywhere from `SPEECH_CODES` down would do; it stands above the run that wants it |
@@ -597,7 +613,7 @@ way every window in this table was found.
 | `pipeline/` | binds four of the cut's names and five of the speakers' -- who asks, who was named, what a run separated; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
-| `ui/` | binds 10 names out of `speakers/` and 12 out of `cut/`, both read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+| `ui/` | binds 10 names out of `speakers/` and 12 out of `cut/`, and since 7.9.2026 seven out of `player/` and 15 out of `fittings/` instead of reading those two itself -- all read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
 
 ### The seven functions the seam is made of
 
