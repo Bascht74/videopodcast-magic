@@ -26,7 +26,6 @@ IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MICROPHONES_APART_DB = PROGRAM.MICROPHONES_APART_DB
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIX_ONLY = PROGRAM.MIX_ONLY
-PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
 SHOT_ALTERNATE = PROGRAM.SHOT_ALTERNATE
 SHOT_ANSWER = PROGRAM.SHOT_ANSWER
 SHOT_HOLD = PROGRAM.SHOT_HOLD
@@ -114,7 +113,6 @@ step_begin = PROGRAM.step_begin
 struct = PROGRAM.struct
 subprocess = PROGRAM.subprocess
 threading = PROGRAM.threading
-time = PROGRAM.time
 timecode_seconds = PROGRAM.timecode_seconds
 timecode_string = PROGRAM.timecode_string
 timecode_to_frames = PROGRAM.timecode_to_frames
@@ -1277,149 +1275,6 @@ def cut_basis_line(basis, speakers, length):
         text = T('measured from the recordings -- %s speakers, %s')
     return (text % (number_text(speakers, 0), as_hms(length)),
             COLOURS["good" if basis in ("run", "auphonic") else "warning"])
-
-def project_opened_note(target):
-    """The note in the log after a project was opened, and what to do next."""
-    return T('PROJECT OPENED\n  All entries are back, nothing has been '
-             'computed in this session.\n  The output folder holds the '
-             'files of the last run:\n  %s\n\n  Three ways from here:\n   '
-             ' • below "Open result folder" -- look at the files from '
-             'that run,\n    • below "Create Resolve project" -- from '
-             "that run's handover file,\n      without computing "
-             'anything again,\n    • above "Start" -- compute '
-             'everything again and overwrite the files.\n') % target
-
-def projects_beside(paths, deep=40):
-    """The project files lying with this material, newest first.
-
-    Looked for in the folders the material is in and one level below,
-    since the project file goes into the output folder. Not deeper: a
-    search over the whole disk would stand in the way of adding a file.
-    Gives (path, when) pairs, each path once.
-    """
-    folders = []
-    for one in paths:
-        folder = os.path.dirname(os.path.abspath(one))
-        if folder not in folders:
-            folders.append(folder)
-    look = list(folders)
-    for folder in folders:
-        # Counted by folders, not by names: a recording folder holds
-        # hundreds of files, the output folder anywhere among them.
-        count = 0
-        try:
-            names = sorted(os.listdir(folder))
-        except OSError:
-            continue
-        for name in names:
-            full = os.path.join(folder, name)
-            if full in look or not os.path.isdir(full):
-                continue
-            look.append(full)
-            count += 1
-            if count >= deep:
-                break
-    found = {}
-    for folder in look:
-        # One attempt for the whole folder, not one per file: a folder
-        # nobody can read holds no project file anybody can open.
-        try:
-            for name in os.listdir(folder):
-                if (name.startswith(PROJECT_PREFIX)
-                        and name.lower().endswith(".json")):
-                    full = os.path.join(folder, name)
-                    found[full] = os.path.getmtime(full)
-        except OSError:
-            continue
-    return sorted(found.items(), key=lambda pair: -pair[1])
-
-def when_written(when):
-    """When a file was written, short enough to stand in a list."""
-    return time.strftime("%Y-%m-%d %H:%M", time.localtime(when))
-
-def project_offer(QtWidgets, window, state, paths, ask, load):
-    """Offer a project file lying with the material; never load it silently.
-
-    Asked once per file found; the project is opened whole or not at
-    all, and once one is open nothing more is offered. Returns whether
-    one was opened -- the caller must not then rebuild the list.
-    """
-    if state.get("project_from"):
-        return False
-    seen = state.setdefault("projects_offered", set())
-    found = [(one, when) for one, when in projects_beside(paths)
-             if one not in seen]
-    if not found:
-        return False
-    seen.update(one for one, _ in found)
-    whole = T('Everything comes back from it: names, separation, assignment, '
-              'types, the time window. The list of files is replaced by the '
-              'one the project holds.')
-    if len(found) == 1:
-        one, when = found[0]
-        if ask(T('Project found'),
-               T('A project file lies with this material:\n\n  %s\n  '
-                 'written %s\n\n%s')
-               % (os.path.basename(one), when_written(when), whole),
-               T('Open the project')):
-            load(one)
-            return True
-        return False
-    lines = ["%s   (%s)" % (os.path.basename(one), when_written(when))
-             for one, when in found]
-    picked, chosen = QtWidgets.QInputDialog.getItem(
-        window, T('Project found'),
-        T('Several project files lie with this material. Which one?\n\n%s')
-        % whole, lines, 0, False)
-    if chosen and picked in lines:
-        load(found[lines.index(picked)][0])
-        return True
-    return False
-
-def find_project_file(file_path):
-    """Find the project file for whatever was pointed at.
-
-    Pointing at the folder, or at the wrong file in it, should not
-    produce an error, so the neighbourhood is searched too. A project
-    file is a dict containing "files" -- the name alone is not enough,
-    since plenty of files end in json. Returns (contents, path).
-    """
-    if not file_path:
-        return None, ""
-    folder = file_path if os.path.isdir(file_path) else os.path.dirname(file_path)
-    attempts = [] if os.path.isdir(file_path) else [file_path]
-    try:
-        attempts += sorted(os.path.join(folder, n) for n in os.listdir(folder)
-                           if n.startswith(PROJECT_PREFIX)
-                           and n.lower().endswith(".json"))
-    except OSError:
-        pass
-    for attempt in attempts:
-        try:
-            with open(attempt, encoding="utf-8") as f:
-                loaded = json.load(f)
-        except (OSError, ValueError):
-            continue
-        if isinstance(loaded, dict) and "files" in loaded:
-            return loaded, attempt
-    return None, ""
-
-def project_files(d):
-    """Split the project's file list into what is still there and what is not.
-
-    Returns ([(path, kind), ...], [missing names]). Vanished files are named
-    rather than silently dropped.
-    """
-    present, missing = [], []
-    for entry in ((d or {}).get("files") or []):
-        file_path = entry.get("path")
-        if not file_path:
-            continue
-        if os.path.exists(file_path):
-            present.append((file_path, entry.get("kind") or "audio"))
-        else:
-            missing.append(os.path.basename(file_path))
-    return present, missing
 
 def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
     """Return where programme time starts on the clock.

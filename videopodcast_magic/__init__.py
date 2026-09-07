@@ -569,8 +569,13 @@ speakers = beside("speakers", program=PROGRAM)
 take_from(speakers)
 
 
+#----------------------------------------------------- The project file
 
-#---------------------------------------------------------- The project
+project = beside("project", program=PROGRAM)
+take_from(project)
+
+
+#-------------------------------------------------- The Resolve project
 
 resolve = beside("resolve", program=PROGRAM)
 take_from(resolve)
