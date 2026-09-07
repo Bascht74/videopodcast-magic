@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Who speaks, and when: separated, heard off the tracks, or read back.
 
-Everything about a voice is here -- the separation, who is on which
-microphone, the names the voices carry, and a stored separation put
-back on the axis. Which camera that puts on screen is the cut's.
+Everything about a voice is here -- the separation, the microphones,
+the names, a stored separation back on the axis, and what the window
+shows of it. Which camera that puts on screen is the cut's.
 
 A piece of the program, read by beside(). It cannot import the file it
 was cut out of, so the program is handed in and bound below by name.
@@ -16,12 +16,23 @@ PROGRAM = PROGRAM
 # below, and apply_time_window, choose_zero_point and cells_laid_out,
 # whose files are read after this one.
 
+# Ten more are read as PROGRAM.<name> at the place they are used: their
+# files are read after this one. Out of cut/: as_minutes,
+# camera_after_a_mark, wide_bar_of. Out of fittings/, which the window
+# reads: mark_red, voice_row_cells.
+
+# The last five are the window's own and can never be head lines here,
+# because ui/ is the last piece read: SpeakerName, camera_tracks_of,
+# camera_tracks_clashing, choices_shut, queue_once.
+
 ByFile = PROGRAM.ByFile
 CATALOGUE = PROGRAM.CATALOGUE
 CLOSING_MARKS = PROGRAM.CLOSING_MARKS
 COLOURS = PROGRAM.COLOURS
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
+MIX_ONLY = PROGRAM.MIX_ONLY
 PIP_SOURCE = PROGRAM.PIP_SOURCE
+SPEAKER_ROWS_SHOWN = PROGRAM.SPEAKER_ROWS_SHOWN
 SR = PROGRAM.SR
 T = PROGRAM.T
 TN = PROGRAM.TN
@@ -29,15 +40,23 @@ TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
 VERSION = PROGRAM.VERSION
+Value = PROGRAM.Value
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
+assignment_pairs = PROGRAM.assignment_pairs
 cache_folder = PROGRAM.cache_folder
+camera_row_cameras = PROGRAM.camera_row_cameras
+camera_to_remember = PROGRAM.camera_to_remember
 clocks_apart = PROGRAM.clocks_apart
+cut_box_title = PROGRAM.cut_box_title
+cut_has_people = PROGRAM.cut_has_people
 decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
 file_fingerprint = PROGRAM.file_fingerprint
 file_timecode = PROGRAM.file_timecode
+fix_table_width = PROGRAM.fix_table_width
+folded_summary = PROGRAM.folded_summary
 hashlib = PROGRAM.hashlib
 how_many_processors = PROGRAM.how_many_processors
 https_context = PROGRAM.https_context
@@ -45,6 +64,7 @@ json = PROGRAM.json
 label_of = PROGRAM.label_of
 math = PROGRAM.math
 microphones_apart_db = PROGRAM.microphones_apart_db
+multitrack_state_note = PROGRAM.multitrack_state_note
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
@@ -52,6 +72,7 @@ path_key = PROGRAM.path_key
 pip_repair = PROGRAM.pip_repair
 re = PROGRAM.re
 remove_quietly = PROGRAM.remove_quietly
+row_picker_watch = PROGRAM.row_picker_watch
 run_ffmpeg_with_progress = PROGRAM.run_ffmpeg_with_progress
 running_from = PROGRAM.running_from
 sample_count = PROGRAM.sample_count
@@ -67,6 +88,11 @@ threading = PROGRAM.threading
 time = PROGRAM.time
 timecode_seconds = PROGRAM.timecode_seconds
 timecode_string = PROGRAM.timecode_string
+tree_cell = PROGRAM.tree_cell
+tree_field = PROGRAM.tree_field
+tree_row = PROGRAM.tree_row
+tree_row_of = PROGRAM.tree_row_of
+tree_rows_fit = PROGRAM.tree_rows_fit
 trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
 words_of_recording = PROGRAM.words_of_recording
@@ -3293,3 +3319,336 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
     split_never.clicked.connect(speaker_split_never)
 
     return speaker_split_kick_off, split_stop, voices_of, several_set
+
+
+#------------------------------ The rows, the marks and the speaking time
+
+
+def speech_table_fill(Qt, QtGui, QtWidgets, table, d):
+    """Write the speaker statistics into the table.
+
+    It reaches into nothing of the window's own, so it stands beside
+    what it counts rather than in the window. Returns the total speech
+    time as a sentence, empty where no speaker is known.
+    """
+    lines, total, silence, length = (speaker_statistics(d) if d
+                                      else ([], 0.0, 0.0, 0.0))
+    table.setRowCount(len(lines) + (1 if length > 0 else 0))
+    # The block count reaches four digits after nine minutes: a block
+    # lasts at least 0.2 s and takes 0.35 s of silence to end it, so it
+    # goes through the number helper like the columns beside it.
+    for i, e in enumerate(lines):
+        for column, text in ((0, e["name"]),
+                             (1, PROGRAM.as_minutes(e["seconds"])),
+                             (2, "%s %%" % number_text(e["share"], 1)),
+                             (3, number_text(e["blocks"], 0)),
+                             (4, "%s s" % number_text(e["mean"], 1))):
+            p = QtWidgets.QTableWidgetItem(text)
+            if column:
+                p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            table.setItem(i, column, p)
+    if length > 0:
+        i = len(lines)
+        quiet_share = number_text(100.0 * silence / length, 1)
+        for column, text in ((0, T('Silence')),
+                             (1, PROGRAM.as_minutes(silence)),
+                             (2, "%s %%" % quiet_share),
+                             (3, ""), (4, "")):
+            p = QtWidgets.QTableWidgetItem(text)
+            p.setForeground(QtGui.QBrush(QtGui.QColor(COLOURS["quiet"])))
+            if column:
+                p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            table.setItem(i, column, p)
+    fix_table_width(table, most_rows=SPEAKER_ROWS_SHOWN)
+    return (T('%s speech time') % PROGRAM.as_minutes(total) if lines else "")
+
+
+def assignment_marks_show(audio_fields, assign_lines, video_fields,
+                          camera_lines, multitrack_on, state,
+                          voice_lines=()):
+    """Mark the trouble spots red, and say beside the tables what they are.
+
+    Three things are caught before they do damage: two recordings under
+    one speaker name, which become a single track, a voice carrying a
+    name that is on somebody else, and two cameras with the same output
+    name, where the second overwrites the first.
+    """
+    voiced = state.get("voiced") or set()
+    audio_reason, video_reason = (state.get("audio_reason"),
+                                  state.get("video_reason"))
+    # Every name on the sheet at once, both levels. A recording showing
+    # its voices is left out: its field says "several speakers".
+    twice = set(names_used_twice(assign_lines, voice_lines, voiced))
+    used = [(f, v) for f, (r, v, cv) in zip(audio_fields, assign_lines)
+               if cv.get() != IGNORE_AUDIO
+               and os.path.abspath(r[0]) not in voiced] \
+        if len(audio_fields) == len(assign_lines) else []
+    names = [v.get() for _f, v in used]
+    duplicate = set(n for n in names if n and names.count(n) > 1)
+    for field, value in used:
+        n = value.get()
+        PROGRAM.mark_red(
+            field, bool(n) and n in twice,
+            T('This name occurs more than once. The recordings '
+              'would become one track -- for Multitrack '
+              'auphonic.com needs at least two different ones.'))
+    fields = voice_marks_of(state).get("field") or {}
+    for key, name_value, camera_value in voice_lines or ():
+        n = name_value.get().strip()
+        if fields.get(key) is not None:
+            PROGRAM.mark_red(
+                fields[key],
+                bool(n) and n in twice
+                and camera_value.get() != IGNORE_AUDIO,
+                T('This name is on somebody else already. A name is '
+                  'a person, and the cut puts a person on one '
+                  'camera -- please give this voice its own.'))
+    if audio_reason is not None:
+        if duplicate and multitrack_on and len(set(names)) < 2:
+            audio_reason.setText(
+                T('✕  All recordings carry the same name. That makes '
+                  'one track -- Multitrack needs at least two.'))
+            audio_reason.setVisible(True)
+        elif duplicate:
+            audio_reason.setText(
+                T('✕  %s occurs more than once. These recordings are '
+                  'merged into one track and placed in sequence by '
+                  'their timecode -- correct if recording was stopped '
+                  'in between.') % ", ".join(sorted(duplicate)))
+            audio_reason.setVisible(True)
+        else:
+            audio_reason.setVisible(False)
+
+    if len(video_fields) == len(camera_lines):
+        outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
+        duplicate_video = set(n for n in outputs
+                              if n and outputs.count(n) > 1)
+        same_name = set(PROGRAM.camera_tracks_clashing(camera_lines))
+        track_of = dict(PROGRAM.camera_tracks_of(camera_lines))
+        for field, (p, value, _k, _n) in zip(video_fields, camera_lines):
+            n = value.get().strip()
+            # The file name first: of the two it is the one this field
+            # can put right.
+            same_file = bool(n) and n in duplicate_video
+            PROGRAM.mark_red(
+                field,
+                same_file or track_of.get(p) in same_name,
+                T('Two cameras would produce the same file. '
+                  'The second would overwrite the first.')
+                if same_file else
+                T('Two cameras are one camera in the cut. Their '
+                  'files carry the same name, so rename one of '
+                  'them.'))
+        if video_reason is not None:
+            if duplicate_video:
+                video_reason.setText(
+                    T('✕  Two cameras would produce the same file '
+                      '(%s). The second would overwrite the first.')
+                    % ", ".join(sorted(duplicate_video)))
+                video_reason.setVisible(True)
+            elif same_name:
+                video_reason.setText(
+                    T('✕  Two cameras are one camera in the cut (%s). '
+                      'Their files carry the same name, so rename one '
+                      'of them.')
+                    % ", ".join(sorted(same_name)))
+                video_reason.setVisible(True)
+            else:
+                video_reason.setVisible(False)
+
+
+def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
+                    files, remembered, state, tree_open, multitrack, player,
+                    assignment_check, player_load, speaker_split_kick_off,
+                    voices_of):
+    """The rows of the assignment tree, and the voices under them.
+
+    None of it builds a widget -- the window's own objects go on being
+    written through -- so it stands beside the voices it shows.
+    `player` is a parameter on purpose: the module-level name player
+    holds the piece read by beside(), and a free read here picks up
+    the module, not the widget.
+    """
+    def assignment_state_show():
+        """What the material allows: the cut box, and the tick's line.
+
+        The camera cut needs speakers told apart, and whether they came
+        of separate tracks or of one recording taken apart is no part of
+        it. The widgets are looked up and not closed over: this runs
+        while the window is still being built.
+        """
+        boxes = state.get("cut_boxes")
+        if boxes:
+            pairs = assignment_pairs(voice_lines, assign_lines)
+            seen = len(camera_lines)
+            on = bool(multitrack.get()) or cut_has_people(pairs, seen)
+            boxes[0].setTitle(cut_box_title(pairs, multitrack.get(), seen))
+            boxes[0].setVisible(on)
+            boxes[1].setVisible(on)
+            boxes[2].setVisible(not on)
+        note = state.get("multitrack_note")
+        if note is not None:
+            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
+            note.setText(multitrack_state_note(
+                len(used), sum(1 for _b, _nv, own, _n in camera_lines
+                               if not own.get())))
+
+    def voice_play(key):
+        """Hand that voice to the player on the right.
+
+        Without hearing it a name is a guess. The player on the right has
+        the rail, the pause, the jumps and the boundaries. It jumps into
+        the middle of the longest stretch: the first moment of a passage
+        is often the tail of somebody else's word.
+        """
+        source, label = voice_key_parts(key)
+        source = source or state.get("speakers_source") or ""
+        stretch = longest_stretch(
+            speakers_stored(state, source).get("segments"), label)
+        if not source or not stretch:
+            return
+        length = min(8.0, stretch[1] - stretch[0])
+        begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
+        player.load(source, seconds=begin, running=True)
+
+    def assignment_row_show(tree):
+        """A clicked row in the assignment tree, whichever level it is.
+
+        The recording goes into the player like any other file. A voice
+        has no file of its own, so the player opens the recording it was
+        heard in and jumps to where that voice speaks longest -- which is
+        the whole of what a Listen button would offer, so there is none.
+        """
+        row = tree_row_of(tree, tree.currentIndex())
+        if row is None:
+            return
+        if row[0].data(Qt.UserRole + 2):
+            voice_play(row[0].data(Qt.UserRole + 2))
+        elif row[0].data(Qt.UserRole + 1):
+            player_load(row[0].data(Qt.UserRole + 1))
+
+    def folded_show(where):
+        """Open, the voices carry the assignment; folded, the row sums up.
+
+        The assignment has exactly one level: where the voices are on the
+        screen the recording above shows nothing beside its name, because
+        two answers one above the other can contradict each other.
+        Folded, the row says their cameras -- not how many.
+        """
+        tree = state.get("assignment_tree")
+        row = tree_row_of(tree, where) if tree is not None else None
+        if row is None:
+            return
+        p, many = row[0].data(Qt.UserRole + 1), row[0].rowCount()
+        if not p or not many:
+            return
+        open_now = tree.isExpanded(where)
+        tree_open[p] = open_now
+        tree_cell(row, 2, "" if open_now else folded_summary(tree, row),
+                  COLOURS["quiet"])
+        tree_rows_fit(tree, 266)
+
+    def voice_add(source):
+        """Say there is one more voice on that recording than was found.
+
+        A row without segments would say nothing, so this is the input
+        to a fresh separation rather than an entry in a list.
+        """
+        found = len(speakers_stored(state, source).get("segments") or ())
+        state["speakers_source_chosen"] = source
+        state["speakers_count"] = found + 1
+        speaker_split_kick_off(fresh=True)
+
+    def voices_build(tree, under, path, videos, targets, wide=None):
+        """The voices heard in one recording, hung under its row.
+
+        Everything counts per camera and not per speaker: two voices set
+        to the same camera are one condition, which is why the camera
+        sits on the voice and not on the file. *wide* is what
+        wide_bar_of worked out. Returns how many voices there were.
+        """
+        wide = wide or PROGRAM.wide_bar_of(targets, (), False, {})
+        barred = wide["barred"]
+        found = voices_of(path)
+        # The names of this recording, not of the window.
+        called = dict(speakers_stored(state, path).get("names") or {})
+        for label, _parts in found:
+            key = voice_key(path, label)
+            name_value = PROGRAM.SpeakerName(voice_name_free(
+                remembered.get("voicename:" + key) or called.get(label),
+                [nv.get() for _k, nv, _c in voice_lines]))
+            picked, worked_out = camera_row_cameras(
+                PROGRAM.camera_after_a_mark(
+                    "voice:" + key, remembered.get("voice:" + key), wide,
+                    name_value.get().strip() or label),
+                wide["pickable"], name_value.get(), videos)
+            camera_value = Value(MIX_ONLY if picked in barred else picked)
+            camera_value.derived = worked_out
+            # The first column says which of the two levels this row is,
+            # the way the file list writes "4 channels" under a file.
+            kid = tree_row(tree, under, [])
+            tree_cell(kid, 0, T('Voice'), COLOURS["quiet"])
+            kid[0].setData(key, Qt.UserRole + 2)
+            field, box = PROGRAM.voice_row_cells(name_value, camera_value,
+                                                 targets, name_value.get())
+            PROGRAM.choices_shut(box, barred, wide["why"], COLOURS["quiet"])
+            tree_field(tree, kid, 1, field)
+            tree_field(tree, kid, 2, box)
+            row_picker_watch(state["row_picker"], field, box)
+            voice_row_marks(state, key, name_value, camera_value,
+                            field, box)
+            def voice_answered(*_):
+                """Store it, mark it, and say the Kind column again.
+
+                Name and camera both count: the wide shot is derived
+                from the cameras nobody is assigned to.
+                """
+                PROGRAM.queue_once(QtCore, state, "voices", voices_remember)
+                QtCore.QTimer.singleShot(0, assignment_check)
+                PROGRAM.queue_once(QtCore, state, "kinds",
+                                   state.get("kinds_refresh"))
+                # The preview reads a handover older than this
+                # answer, so it is told -- through the usual wait.
+                soon = state.get("preview_soon")
+                if soon:
+                    soon()
+
+            name_value.listen(voice_answered)
+            camera_value.listen(voice_answered)
+            voice_lines.append((key, name_value, camera_value))
+        return len(found)
+
+    def voices_remember():
+        """Keep the names and cameras given to the voices."""
+        if not voice_lines:
+            # Switched back to a single name: the rows are hidden, and
+            # what was measured and named must survive a mis-click.
+            return
+        # Each recording's names go back to that recording.
+        named = voice_names_by_source(voice_lines,
+                                      state.get("speakers_source") or "")
+        voice_names_store(state, named)
+        for k, nv, cv in voice_lines:
+            # Only a real override: a camera the program worked out goes
+            # back as nothing, so renaming a voice moves its camera too.
+            remembered["voice:" + k] = camera_to_remember(
+                cv.get(), getattr(cv, "derived", None))
+            # The name as well: state alone does not reach the project
+            # file, and the name is what auphonic.com puts on the track.
+            said = nv.get().strip()
+            if said:
+                remembered["voicename:" + k] = said
+            else:
+                remembered.pop("voicename:" + k, None)
+        voices_answer_kept(remembered, files, named)
+        # A voice that has just been given a camera may be the second
+        # one, and with it the camera cut becomes possible.
+        assignment_state_show()
+        # Bound in the window and not here, so it is reached the way
+        # voice_answered above reaches it: through state.
+        soon = state.get("preview_soon")
+        if soon:
+            soon()
+
+    return (assignment_state_show, voice_play, assignment_row_show,
+            folded_show, voice_add, voices_build, voices_remember)
