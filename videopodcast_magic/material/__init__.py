@@ -9,7 +9,7 @@ program is handed in and every name used out of it is bound below.
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Eight names are
+# What this piece uses out of the program, bound once. Seven names are
 # missing; the four blocks under the list say which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
@@ -68,20 +68,20 @@ timecode_string = PROGRAM.timecode_string
 video_envelope = PROGRAM.video_envelope
 video_facts = PROGRAM.video_facts
 
-# Two of the eight stand in a piece read after this one and go through
+# Two of the seven stand in a piece read after this one and go through
 # PROGRAM: run_ffmpeg_with_progress, and tracks_folder behind it.
 
-# Three are the window's, and channel_rows_build below reaches them
-# through PROGRAM where it calls them: channel_rows_fit is the
-# window's own, hint and label it takes out of the fittings. None of
-# the three stands on the program until a window has been asked for.
+# Two are the fittings' -- hint and label -- and channel_rows_build
+# below reaches them through PROGRAM where it calls them. That is a
+# leftover from the window: the fittings are read above this piece
+# since #152, so both could be head lines here.
 
 # Two are bent while the run goes on: the window sets OUTPUT_SINK and
 # ASK_SINK on the program object, a write the pieces are never told
 # about, so a copy taken here would hold the value of the run before.
 
-# numpy is the eighth: the program binds the real module only when the
-# first sum asks, which a copy taken up there would never see.
+# numpy is the seventh: the program binds the real module only when
+# the first sum asks, which a copy taken up there would never see.
 class LateNumpy:
     """Stands in for the program's numpy until a sum wants it."""
 
@@ -2442,13 +2442,49 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
     # it is saying that the width has changed.
     def when_settled(*_a):
         QtCore.QTimer.singleShot(
-            0, lambda: PROGRAM.channel_rows_fit(items, Qt, QtCore, QtWidgets))
+            0, lambda: channel_rows_fit(items, Qt, QtCore, QtWidgets))
 
     head = items.header()
     if not head.property("channel_rows_fit"):
         head.setProperty("channel_rows_fit", True)
         head.sectionResized.connect(when_settled)
     when_settled()
+
+
+def channel_rows_fit(items, Qt, QtCore, QtWidgets):
+    """Give every channel row the height its reason needs.
+
+    The reason stands in the column that takes what the others leave,
+    so its line count is known only once the window has a width.
+    Without this the wrapped line is drawn outside its row.
+    """
+    room = items.columnWidth(2)
+
+    def fit(kid):
+        beside = items.itemWidget(kid, 2)
+        said = beside.findChild(QtWidgets.QLabel) if beside else None
+        if said is None:
+            return
+        box = beside.findChild(QtWidgets.QCheckBox)
+        # The width it has; the column's only before the first layout.
+        # From the column both times, the rows creep taller each round.
+        left = said.width() or (
+            room - (box.sizeHint().width() if box else 0) - 8)
+        tall = said.fontMetrics().boundingRect(
+            QtCore.QRect(0, 0, max(60, left), 0), Qt.TextWordWrap,
+            said.text()).height()
+        want = max(box.sizeHint().height() if box else 0, tall) + 4
+        if kid.sizeHint(2).height() != want:
+            kid.setSizeHint(2, QtCore.QSize(0, want))
+
+    def walk(node):
+        for i in range(node.childCount()):
+            kid = node.child(i)
+            if kid.data(0, Qt.UserRole + 2) == "channel":
+                fit(kid)
+            walk(kid)
+
+    walk(items.invisibleRootItem())
 
 
 def mix_width(tracks):

@@ -8,16 +8,20 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# Bound above the seam. Two names are missing, and the two blocks
-# under the list say which and why.
+# Bound above the seam. One name is missing, and the block under the
+# list says which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 COLOURS = PROGRAM.COLOURS
 ON_DARK = PROGRAM.ON_DARK
+SR = PROGRAM.SR
 T = PROGRAM.T
 TN = PROGRAM.TN
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
+as_data_size = PROGRAM.as_data_size
+as_hms = PROGRAM.as_hms
 audio_summary = PROGRAM.audio_summary
+file_timecode = PROGRAM.file_timecode
 group_recording_parts = PROGRAM.group_recording_parts
 guess_production_name = PROGRAM.guess_production_name
 number_text = PROGRAM.number_text
@@ -28,17 +32,17 @@ project_offer = PROGRAM.project_offer
 recording_family = PROGRAM.recording_family
 recordings_text = PROGRAM.recordings_text
 remembered_forget = PROGRAM.remembered_forget
+sample_count = PROGRAM.sample_count
+size_in_mb = PROGRAM.size_in_mb
+timecode_string = PROGRAM.timecode_string
 trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
 video_summary = PROGRAM.video_summary
 
-# join_box_fill is the first one missing: it stands in the window
-# below the line this file is read at, so a copy taken here is an
-# AttributeError, and no earlier seam mends that.
-
-# chain_fill_in is the second, and stands above that line. It goes the
-# same way: both are asked as PROGRAM.something where they are called,
-# by which time the window has been read whole.
+# join_box_fill is the one missing: it stands in the window below the
+# line this file is read at, so a copy taken here is an AttributeError,
+# and no earlier seam mends that. It is asked as PROGRAM.join_box_fill
+# where it is called, by which time the window has been read whole.
 
 # What the fittings bring. The way in reads that piece above the
 # window now, so these are ordinary head lines and no beside() call
@@ -284,7 +288,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                         recording_of[x] = head
                 for row, discarded in chains:
                     if len(row) > 1:
-                        node = PROGRAM.chain_fill_in(
+                        node = chain_fill_in(
                             group, row, discarded, selected, item,
                             lines_node, channel_rows_show)
                         join_row_show(node, row[0], heads)
@@ -435,3 +439,62 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         remembered_forget(remembered, gone)
 
     return items_fresh, take_paths, add_files, remove
+
+#--------------------------------- A recording of several blocks
+# One entry with its blocks under it, built for the list above
+# and read nowhere else. It stood in the window while the window
+# still held the list.
+
+
+def chain_fill_in(group, row, discarded, selected,
+                  item, lines_node, channel_rows_show):
+    """Show a multi-part recording as one entry with its blocks below.
+
+    Displayed like a single file -- format, length, timecode -- because
+    that is what it is downstream. The last three arguments are the
+    window's: the row maker, the map from a file to the row a finding
+    belongs on, and the channel rows. Nothing in it needs gui().
+    """
+    lengths = [sample_count(p) for p in row]
+    tcs = [file_timecode(p) for p in row]
+    if all(t is not None for t in tcs):
+        total = max(t + n / float(SR)
+                     for t, n in zip(tcs, lengths)) - min(tcs)
+    else:
+        total = sum(lengths) / float(SR)
+    node = item(group,
+                    TN(len(row) - 1, '%s  + %s continuation',
+                       '%s  + %s continuations')
+                    % (os.path.basename(row[0]), number_text(len(row) - 1, 0)),
+                    os.path.dirname(row[0]), "audio", files_for_it=row)
+    # A finding about block 3 belongs to the recording, not to nowhere.
+    for part in row:
+        lines_node[part] = node
+    channel_rows_show(node, row[0])
+    try:
+        lines = audio_summary(row[0])
+    except Exception as e:
+        lines = [(T('Error'), str(e)[:120])]
+    for k, value in lines:
+        # Length and timecode are the whole recording's, not block 1's.
+        if k == T('Length'):
+            value = (T('%s  (%s)  --  %s  --  %s blocks')
+                 % (as_hms(total), as_data_size(sum(size_in_mb(x) for x in row)),
+                    T('Timecode from %s')
+                    % timecode_string(min(t for t in tcs if t is not None))
+                    if any(t is not None for t in tcs)
+                    else T('no timecode'), number_text(len(row), 0)))
+        item(node, "      " + k, value)
+    for i, (p, n, t) in enumerate(zip(row, lengths, tcs), 1):
+        source_text = (T('selected') if os.path.abspath(p) in selected
+                 else T('found automatically'))
+        # The row stands for this block alone: Remove takes out only it.
+        item(node, "      %d. %s" % (i, os.path.basename(p)),
+               "%s, %s%s, %s"
+               % (as_data_size(size_in_mb(p)), as_hms(n / float(SR)),
+                  ", %s" % timecode_string(t) if t is not None else "",
+                  source_text), "block", files_for_it=[p])
+    for nm, reason in discarded:
+        item(node, "      %s" % nm, T('does not belong: %s') % reason)
+    node.setExpanded(False)
+    return node

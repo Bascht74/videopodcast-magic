@@ -1,26 +1,32 @@
 # -*- coding: utf-8 -*-
 """Keeping itself up to date: which release is out, and pip fetching it.
 
-A piece of the program, read in by beside(): it cannot import the file
-it was cut out of, so the program is handed in and bound below by name.
+The boxes the window puts in front of that -- look now, update, go back
+a version -- stand here too. A piece of the program, read in by
+beside(): it cannot import the file it was cut out of, so the program
+is handed in and bound below by name.
 """
 
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# Bound above the seam. Three names are missing, and the three blocks
+# Bound above the seam. Eight names are missing, and the four blocks
 # under the list say which and why.
 
+COLOURS = PROGRAM.COLOURS
 T = PROGRAM.T
 VERSION = PROGRAM.VERSION
+as_bad = PROGRAM.as_bad
 cache_folder = PROGRAM.cache_folder
 https_context = PROGRAM.https_context
 installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
 json = PROGRAM.json
 os = PROGRAM.os
 re = PROGRAM.re
+speaks_as = PROGRAM.speaks_as
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
+threading = PROGRAM.threading
 write_through = PROGRAM.write_through
 
 # UPDATE_SINK is the first: the window sets it on the program object,
@@ -32,6 +38,10 @@ write_through = PROGRAM.write_through
 
 # __file__ is the third and cannot be bound: in here it names this
 # file, while start_again below means the program.
+
+# Five more stand in a piece read after this one and are asked through
+# PROGRAM where they are used: RELEASE_BY_TAG, _qt_widgets,
+# newest_shown and restart_when_done in the window, warn_box in the cut.
 
 # Looking for a newer release is free and always happens; only
 # VPM_NO_UPDATE_CHECK stops it. Fetching is asked every single time and
@@ -455,3 +465,254 @@ def start_again():
     except OSError as e:
         print(T('Starting again did not work: %s') % e)
         print(T('Start it by hand: %s %s') % (sys.executable, here))
+
+
+#------------------------------------------ What the window offers
+# The boxes behind Help: look now, fetch it, go back a version. They
+# stand here because what they offer is this piece's; only the box
+# itself is the window's, asked through the program where it is used.
+
+
+def make_update_sink(state, write, show, timer):
+    """The window's way of running a long job with its output in view.
+
+    The road a run takes: the job works in a thread of its own, its
+    lines go into the Output tab, and the flag the window watches keeps
+    a run from starting on top of it.
+    """
+    def beside(job):
+        show()
+        state["running"] = True
+
+        def loop():
+            trouble = job(write)
+            if trouble:
+                write(as_bad("\n" + trouble + "\n"))
+            state["running"] = False
+
+        threading.Thread(target=loop, daemon=True).start()
+        timer.start()
+
+    return beside
+
+
+def release_text_of(tag):
+    """What the release with that tag says about itself, or "".
+
+    Asked by name: "what changed in this version" is about the one
+    running here, not the newest one there. Nothing is sent.
+    """
+    if UPDATE_OFF or not tag:
+        return ""
+    try:
+        import urllib.request
+        with urllib.request.urlopen(PROGRAM.RELEASE_BY_TAG % tag,
+                                    context=https_context(),
+                                    timeout=20) as answer:
+            return str(json.load(answer).get("body") or "").strip()
+    except Exception:
+        return ""
+
+
+def version_in_place(tag):
+    """What the restart box says once that version arrived.
+
+    Three things somebody needs and cannot see: which version is on the
+    disc, that this window is still the old one, and that it can wait.
+    """
+    return ("Video Podcast Magic", T('%s is in place.') % tag,
+            T('This window is still the version it started as. It can '
+              'start again now and come up as the new one, or you can '
+              'do that yourself later.'))
+
+
+def update_offer(window, asked=False):
+    """Ask about looking for updates, look, and offer the new one.
+
+    Everything happens in the window: the command line is left alone,
+    because a run started from a script must not stop to ask. *asked* is
+    somebody choosing to look from the menu -- then there is an answer
+    either way, since silence after a click reads like nothing happened.
+    """
+    QtWidgets = PROGRAM._qt_widgets()
+    tag, page, changed, trouble = newer_release(asked)
+    if not tag:
+        if asked:
+            # Switched off, or unable to look: both mean nothing was seen,
+            # and calling this the newest version would be a guess.
+            if UPDATE_OFF or trouble:
+                QtWidgets.QMessageBox.information(
+                    window, T('Look for a newer version now'),
+                    trouble or T('The check for new versions is '
+                                 'switched off here.'))
+            else:
+                PROGRAM.newest_shown(window, page, changed)
+        return
+    # A dialog of its own rather than a QMessageBox: the box hides what
+    # changed behind an untranslated "Show Details" button with four
+    # lines of room. What somebody is about to install is not a detail.
+    from PySide6 import QtCore
+    owner = installed_by_a_package_manager()
+    box = QtWidgets.QDialog(window)
+    box.setWindowTitle(T('A newer version is out'))
+    box.resize(680, 560)
+    rows = QtWidgets.QVBoxLayout(box)
+
+    head = QtWidgets.QLabel(T('%s is out. This is %s.') % (tag, VERSION))
+    font = head.font()
+    font.setBold(True)
+    head.setFont(font)
+    rows.addWidget(head)
+
+    said = QtWidgets.QLabel(update_promise(owner))
+    said.setWordWrap(True)
+    rows.addWidget(said)
+
+    if changed:
+        rows.addWidget(QtWidgets.QLabel(T('What changed since %s:') % VERSION))
+        story = QtWidgets.QPlainTextEdit(changed)
+        story.setReadOnly(True)
+        # The bar stands there whether it is needed or not: a text that
+        # scrolls without one looks like one that ends at the frame.
+        story.setVerticalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAlwaysOn)
+        story.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
+        story.setAccessibleName(T('What changed since %s:') % VERSION)
+        rows.addWidget(story, 1)
+    if page:
+        where = QtWidgets.QLabel(page)
+        where.setStyleSheet("color: %s;" % COLOURS["quiet"])
+        where.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        rows.addWidget(where)
+
+    quiet = QtWidgets.QCheckBox(T('Skip this version'))
+    quiet.setToolTip(T('Only this one. The next release asks again, and '
+                       'Help > Look for a newer version now asks at any '
+                       'time.'))
+    rows.addWidget(quiet)
+
+    feet = QtWidgets.QHBoxLayout()
+    rows.addLayout(feet)
+    feet.addStretch(1)
+    later = QtWidgets.QPushButton(T('Later'))
+    later.clicked.connect(box.reject)
+    feet.addWidget(later)
+    now = QtWidgets.QPushButton(T('Update'))
+    now.setDefault(True)
+    now.clicked.connect(box.accept)
+    feet.addWidget(now)
+
+    answered = box.exec()
+    if quiet.isChecked():
+        # Only this one version, and remembered whichever button was
+        # pressed: ticking it and updating anyway still meant this one.
+        set_update_skipped(tag)
+    if answered != QtWidgets.QDialog.Accepted:
+        return
+    trouble = update_watched(window, tag, owner)
+    if trouble:
+        PROGRAM.warn_box(QtWidgets, window,
+                         T('A newer version is out'), trouble)
+
+
+def update_watched(window, tag, owner):
+    """Put that version in place and offer the restart once it is in.
+
+    update_fetched hands pip to the window and comes back while pip is
+    still fetching, so a box said there would be said too early. The sink
+    is wrapped for that one call: what the job ended with lands in a
+    list, and the ffmpeg install's timer turns it into the box.
+    """
+    ended = []
+    sink = PROGRAM.UPDATE_SINK
+
+    def watched(job):
+        def watch(say):
+            trouble = job(say)
+            ended.append(trouble)
+            return trouble
+
+        sink(watch)
+
+    if sink is not None:
+        PROGRAM.UPDATE_SINK = watched
+    try:
+        trouble = update_fetched(tag, owner)
+    finally:
+        PROGRAM.UPDATE_SINK = sink
+    # Only the road pip takes: the other one writes over a loose file
+    # and starts again by itself, so there is nothing left to offer.
+    if not trouble and owner:
+        PROGRAM.restart_when_done(window, ended, version_in_place(tag))
+    return trouble
+
+
+def restore_offer(window):
+    """Ask which earlier version, then hand that one to pip.
+
+    Asked with the weight of the update itself: it decides which program
+    runs from the next start. A list and not one name, because the
+    version that broke something is not always the one before this.
+    """
+    QtWidgets = PROGRAM._qt_widgets()
+    title = T('Back to an earlier version')
+    owner = installed_by_a_package_manager()
+    if not owner:
+        # Nothing pip keeps a record of, so nothing for pip to put back.
+        # Said before a list is fetched that could not be acted on.
+        PROGRAM.warn_box(QtWidgets, window, title, not_installed_note())
+        return
+    older, trouble = older_releases(VERSION)
+    if trouble or not older:
+        # Two different answers, and they must not read alike: one says
+        # nothing older is out, the other says nobody could look.
+        QtWidgets.QMessageBox.information(
+            window, title,
+            trouble or T('No version earlier than %s is out that pip can '
+                         'install.') % VERSION)
+        return
+    box = QtWidgets.QDialog(window)
+    box.setWindowTitle(title)
+    box.setMinimumWidth(620)
+    rows = QtWidgets.QVBoxLayout(box)
+    rows.setContentsMargins(18, 16, 18, 14)
+    rows.setSpacing(14)
+    head = QtWidgets.QLabel(
+        T('This is %s. Which version shall pip put in its place?')
+        % VERSION)
+    font = head.font()
+    font.setBold(True)
+    head.setFont(font)
+    rows.addWidget(head)
+    picked = QtWidgets.QComboBox()
+    picked.addItems(older)
+    picked.setCurrentIndex(older.index(back_pick(older)))
+    speaks_as(picked, title)
+    rows.addWidget(picked)
+    # What a step back does not do stands here: it is the one thing about
+    # it that surprises people, and afterwards is too late.
+    said = QtWidgets.QLabel(
+        T('pip fetches it into %s, and what pip says appears under '
+          'Output. The version chosen here runs from the next '
+          'start.\n\nIt brings the program back and nothing else. What '
+          'a newer version wrote into the settings stays written, and '
+          'projects and their files are left as they are.') % owner)
+    said.setWordWrap(True)
+    rows.addWidget(said)
+    feet = QtWidgets.QHBoxLayout()
+    rows.addLayout(feet)
+    feet.addStretch(1)
+    later = QtWidgets.QPushButton(T('Later'))
+    later.clicked.connect(box.reject)
+    feet.addWidget(later)
+    now = QtWidgets.QPushButton(T('Go back'))
+    now.setDefault(True)
+    now.clicked.connect(box.accept)
+    feet.addWidget(now)
+    if box.exec() != QtWidgets.QDialog.Accepted:
+        return
+    # The same road as the update, down to the command: pip is handed
+    # the tag that was chosen, and its lines go into the Output tab.
+    trouble = update_fetched(picked.currentText(), owner)
+    if trouble:
+        PROGRAM.warn_box(QtWidgets, window, title, trouble)
