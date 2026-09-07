@@ -25,17 +25,20 @@ What is in them, largest first, every folder of the program on the list
 and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **6224** -- the window and everything it shows, asks or offers
-* `cut/` **3955** -- who is on camera when, and what carries it out of
+* `ui/` **5214** -- the window and everything it shows, asks or offers
+* `cut/` **3826** -- who is on camera when, and what carries it out of
   here
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
+* `project/` **541** -- the program's own project file: writing
+  it, reading it back, finding it, offering it, and what becomes of
+  the work before the window is rebuilt
 * `resolve/` **2591** -- the DaVinci Resolve project, timelines, colour,
   markers
-* `material/` **2417** -- channels, chains, continuation files, what a
+* `material/` **2551** -- channels, chains, continuation files, what a
   track is made of
-* `bearings/` **2075** -- the time axis, the offsets, which camera
+* `bearings/` **2373** -- the time axis, the offsets, which camera
   belongs to which voice
 * `speakers/` **2157** -- who is speaking, out of the sound alone
 * `pipeline/` **1972** -- the chain the recordings run until the camera
@@ -50,7 +53,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key
 * `hearing/` **1046** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **789** -- helpers that shape what the window shows and
+* `fittings/` **1007** -- helpers that shape what the window shows and
   hold none of its state
 * `metadata/` **725** -- MOV atoms, colour tags, what a recording says
   about itself
@@ -576,6 +579,7 @@ way every window in this table was found.
 | `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
 | `speakers/` | the cut binds 20 of its names and the window 28; `orders/` and three pieces the window reads bind one or two more | before all of them |
+| `project/` | binds four names of `speakers/` and reaches five of the window's through `PROGRAM.`; `ui/` binds `make_project_file` and `project_state_read` at its head, `filelist/` binds `project_offer` | directly under the separation, and both edges are measured: one read-block earlier the loader stops at `speakers_all_from_project`, below the window's own read it stops on `make_project_file`. Every position between the two loads |
 | `resolve/` | binds `Finding`, which the preflight above brings in | here, and not where it is first used |
 | `cut/` | the window binds its names | before the line that reads the window |
 | `pipeline/` | binds the cut's names; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
