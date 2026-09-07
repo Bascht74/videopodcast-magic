@@ -32,18 +32,18 @@ run_stages = PROGRAM.run_stages
 sys = PROGRAM.sys
 time = PROGRAM.time
 
-# Three widths come out of the player and not out of the way in.
-# beside() lays its path against the folder the program starts in, so
-# this is the piece the window read and not a second copy of it.
+# Three widths come out of the player. The way in reads that piece
+# just above this one now, and beside() hands back what was read
+# rather than a second copy, so this is that same player.
 beside = PROGRAM.beside
 player = beside("player", program=PROGRAM)
 caption_room = player.caption_room
 cut_caption_room = player.cut_caption_room
 cut_choice_room = player.cut_choice_room
 
-# fitted and widget_width stay in the window: this file is read while
-# the window still is, so a copy of either would be an AttributeError.
-# They are read as PROGRAM.<name> at the one place each is used.
+# fitted stays in the window: that piece is read last, after this one,
+# so a copy of it here would be an AttributeError. widget_width comes
+# out of the tables. Both are read as PROGRAM.<name> at their one use.
 
 
 def queue_once(QtCore, pending, key, work):

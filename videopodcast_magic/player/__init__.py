@@ -3,9 +3,9 @@
 
 Read out of the folder beside the way in by beside(). It cannot import
 the file it was cut out of -- that file is still being read -- so the
-program is handed in and every name is bound below, by name. Four names
-of the window cannot be bound there and are read through PROGRAM. where
-they are used; the comment at the end of the head says which and why.
+program is handed in and every name is bound below, by name. Five names
+cannot be bound there and are read through PROGRAM. where they are
+used; the comment at the end of the head says which and why.
 """
 
 # beside() puts the program here before this file is read.
@@ -30,10 +30,8 @@ T = PROGRAM.T
 TN = PROGRAM.TN
 as_hms = PROGRAM.as_hms
 as_written = PROGRAM.as_written
-block_at = PROGRAM.block_at
 file_timecode = PROGRAM.file_timecode
 gui_log = PROGRAM.gui_log
-legend_markup = PROGRAM.legend_markup
 math = PROGRAM.math
 number_text = PROGRAM.number_text
 os = PROGRAM.os
@@ -50,18 +48,19 @@ time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
 video_facts = PROGRAM.video_facts
 
-# file_span comes out of the tables and not out of the way in: that
-# piece is read out of the window just above this one, so its names
-# are not on the program yet. beside() lays its path against the
-# folder the program starts in, so this is the piece the window read.
+# file_span comes out of the tables. beside() lays its path against
+# the folder the program starts in and hands back what was already
+# read, so this is the one piece and not a second copy of it.
 beside = PROGRAM.beside
 tables = beside("tables", program=PROGRAM)
 file_span = tables.file_span
 
-# hint, label and zoom_button stay in the window: the fittings are read
-# below this file, so they are read as PROGRAM.<name> where they are
-# used. hush_when_running came here with the two players that were its
-# only readers, and is this piece's own name now -- no head line.
+# hint, label and zoom_button stay in the window, and block_at and
+# legend_markup in the bearings and the cut: all five are read below
+# this file, so they are read as PROGRAM.<name> where they are used.
+
+# hush_when_running came here with the two players that were its only
+# readers, and is this piece's own name now -- no head line.
 
 
 # Two names came out of the window with the block that wanted them,
@@ -2236,14 +2235,15 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """
             here = self.axis_spot()
             if here is not None:
-                path, into = block_at(
+                path, into = PROGRAM.block_at(
                     self.track_blocks, here,
                     lambda p: state["axis"].get(path_key(p)))
                 if path is not None:
                     return path, into, "measured"
             here = self.timer_s()
             if here is not None:
-                path, into = block_at(self.track_blocks, here, real_tc)
+                path, into = PROGRAM.block_at(self.track_blocks, here,
+                                              real_tc)
                 if path is not None:
                     return path, into, "by clock"
             return None, None, ""
@@ -2881,7 +2881,7 @@ def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
 
     def legend_show(numbers):
         """Which colour belongs to which camera."""
-        band_legend.setText(legend_markup(numbers))
+        band_legend.setText(PROGRAM.legend_markup(numbers))
 
     def band_show(numbers):
         present = bool(numbers and numbers.get("cut"))

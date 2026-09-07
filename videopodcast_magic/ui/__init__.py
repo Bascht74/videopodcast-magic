@@ -739,27 +739,16 @@ tree_rows_fit = PROGRAM.tree_rows_fit
 
 
 #------------------------------------------------------------ The player
-# A piece of its own, in the folder "player". Read where its block stood.
-
-player = beside("player", program=PROGRAM)
-
-# What the window binds out of it by name. Not every one is read here:
-# take_from() carries them all to the program, and that is where the
-# menus and the tests ask for them.
-NAME_HOLD_S = player.NAME_HOLD_S
-box_room = player.box_room
-caption_room = player.caption_room
-cut_caption_room = player.cut_caption_room
-cut_choice_room = player.cut_choice_room
-digits_font = player.digits_font
-make_band_and_player = player.make_band_and_player
-make_drop_area = player.make_drop_area
-make_log_view = player.make_log_view
-make_player_choice = player.make_player_choice
-make_player_widgets = player.make_player_widgets
-player_menu = player.player_menu
-qt_cut_band = player.qt_cut_band
-qt_cut_player = player.qt_cut_player
+# A piece of its own, in "player". The way in reads it above this
+# file now, so these are ordinary head lines; seven names no code
+# here reads have gone, and take_from() puts them on the program.
+box_room = PROGRAM.box_room
+caption_room = PROGRAM.caption_room
+make_band_and_player = PROGRAM.make_band_and_player
+make_drop_area = PROGRAM.make_drop_area
+make_log_view = PROGRAM.make_log_view
+make_player_choice = PROGRAM.make_player_choice
+make_player_widgets = PROGRAM.make_player_widgets
 
 
 #------------------------------------------------------------ The orders
@@ -1046,42 +1035,24 @@ def log_entry(act, where, window):
 
 
 #---------------------------------------------------------- The fittings
-# A piece of its own, in the folder "fittings". Read where its block stood.
-
-fittings = beside("fittings", program=PROGRAM)
-
-# What the window still calls out of it, bound by name. Five of them
-# are read by no code here -- cells_laid_out, and the four the footer
-# uses among themselves: these lines are the only way those names
-# reach the program, because nothing calls take_from on this piece.
-NAME_COLUMN_LEAST = fittings.NAME_COLUMN_LEAST
-_list_accepts = fittings._list_accepts
-break_off_button = fittings.break_off_button
-button_in_a_frame = fittings.button_in_a_frame
-cells_laid_out = fittings.cells_laid_out
-checkbox_bind = fittings.checkbox_bind
-cut_fields_build = fittings.cut_fields_build
-field_bind = fittings.field_bind
-hint = fittings.hint
-label = fittings.label
-mac_menu_name = fittings.mac_menu_name
-make_footer = fittings.make_footer
-mark_red = fittings.mark_red
-measuring_stop = fittings.measuring_stop
-more_speakers_row = fittings.more_speakers_row
-qt_own_words = fittings.qt_own_words
-queue_once = fittings.queue_once
-row_same_height = fittings.row_same_height
-say_dialog = fittings.say_dialog
-speaker_name_cell = fittings.speaker_name_cell
-speaks_as = fittings.speaks_as
-split_cell_build = fittings.split_cell_build
-split_column_fit = fittings.split_column_fit
-stop_asked_for = fittings.stop_asked_for
-total_hide = fittings.total_hide
-total_paint = fittings.total_paint
-voice_row_cells = fittings.voice_row_cells
-zoom_button = fittings.zoom_button
+# A piece of its own, in "fittings". The way in reads it above this
+# file now, so these are ordinary head lines; thirteen names no code
+# here reads have gone, and take_from() puts them on the program.
+checkbox_bind = PROGRAM.checkbox_bind
+cut_fields_build = PROGRAM.cut_fields_build
+field_bind = PROGRAM.field_bind
+hint = PROGRAM.hint
+label = PROGRAM.label
+mac_menu_name = PROGRAM.mac_menu_name
+make_footer = PROGRAM.make_footer
+mark_red = PROGRAM.mark_red
+more_speakers_row = PROGRAM.more_speakers_row
+qt_own_words = PROGRAM.qt_own_words
+say_dialog = PROGRAM.say_dialog
+speaker_name_cell = PROGRAM.speaker_name_cell
+speaks_as = PROGRAM.speaks_as
+split_cell_build = PROGRAM.split_cell_build
+split_column_fit = PROGRAM.split_column_fit
 
 
 #--------------------------------------------------------- The file list
