@@ -14,7 +14,7 @@ production is named here -- not a place, a person, a file or a number
 -- so the tables can be read against each other without any of it
 being public.
 
-How the program is built is in [Inside the script](internals.md).
+[Inside the program](internals.md) says how it is built.
 
 ---
 
