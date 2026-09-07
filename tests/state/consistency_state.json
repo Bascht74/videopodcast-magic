@@ -1,5 +1,14 @@
 {
  "mute_tests": {},
+ "unread_names": {
+  "CLIP_NEAR_TOP_DB": [1, "material/__init__.py line 1453"],
+  "audio_range_covered_by_video": [1, "hearing/__init__.py line 629"],
+  "nearest_known_frame_rate": [1, "resolve/__init__.py line 197"],
+  "print_audio_details": [1, "metadata/__init__.py line 663"],
+  "print_video_details": [1, "metadata/__init__.py line 667"],
+  "stop_here": [1, "ui/__init__.py line 1312"],
+  "texts_of_file": [1, "language/__init__.py line 118"]
+ },
  "write_only": {
   "abort": [1, 21191],
   "created_by": [1, 11127],
