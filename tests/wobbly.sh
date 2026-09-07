@@ -72,10 +72,16 @@ fi
 mkdir -p "$HERE/state"
 [ -f "$FILE" ] || printf '# run\tfinished\tjob\ttest\thow\n' > "$FILE"
 
+# The number of attempts comes with the list, because `gh run view
+# --log` without one hands back the LAST attempt only. A rerun of a
+# red job therefore hides the wobble that made somebody rerun it --
+# measured 7.9.2026 on run 34146268560, where "unsteady: 1 --
+# window_restart_carries" stood in attempt 1 and the record read
+# attempt 2 and wrote "no wobble".
 runs=$(gh run list --workflow=tests.yml --limit "$BACK" \
-       --json databaseId,conclusion,updatedAt \
+       --json databaseId,conclusion,updatedAt,attempt \
        --jq '.[] | select(.conclusion == "success" or .conclusion == "failure")
-             | "\(.databaseId)\t\(.updatedAt)"' 2>/dev/null)
+             | "\(.databaseId)\t\(.updatedAt)\t\(.attempt)"' 2>/dev/null)
 if [ -z "$runs" ]; then
   echo "no finished runs of the suite found" >&2
   exit 2
@@ -84,15 +90,25 @@ fi
 log=$(mktemp); found=$(mktemp); trap 'rm -f "$log" "$found"' EXIT
 fresh=0; already=0; gone=0
 
-while IFS=$'\t' read -r id when; do
+while IFS=$'\t' read -r id when tries; do
   [ -n "$id" ] || continue
+  [ -n "$tries" ] || tries=1
   # Both shapes count as read: the rows of a run that wobbled, which
   # begin with the id, and the marker of one that did not, which begins
   # with "# " so the report passes over it.
   if grep -qE "^(# )?$id	" "$FILE" 2>/dev/null; then
     already=$((already + 1)); continue
   fi
-  if ! gh run view "$id" --log > "$log" 2>/dev/null; then
+  # Every attempt, oldest first: the wobble usually stands in the one
+  # that was rerun.
+  : > "$log"
+  had_log=""
+  for try in $(seq 1 "$tries"); do
+    if gh run view "$id" --attempt "$try" --log >> "$log" 2>/dev/null; then
+      had_log=yes
+    fi
+  done
+  if [ -z "$had_log" ]; then
     # Counted as read all the same, with no wobbles: without this the
     # script would ask after the same vanished run for ever.
     printf '# %s\t%s\tlog gone\n' "$id" "${when%%T*}" >> "$FILE"
@@ -104,8 +120,15 @@ while IFS=$'\t' read -r id when; do
   # together: "15/120  interface  RED (rc=1)  48 s  221 p". Reading the
   # code off any other line in the job would hang one test's death on
   # another test's name.
+  # The first field of a log line is the job, the second the step, the
+  # third the timestamped text. The guard used to ask for a "/" in the
+  # job name, because the jobs were once called "macos-latest /
+  # py3.14"; they are called "macOS py3.14" now, and the guard matched
+  # nothing at all -- measured 7.9.2026: 0 lines of a whole run. That
+  # is why nothing has been recorded since the names changed.
   awk -F'\t' -v id="$id" -v day="${when%%T*}" '
-    $1 ~ /\// {
+    NF >= 3 {
+      seen_job = 1
       job = $1
       line = $0
       if (match(line, /unsteady: [0-9]+ --[^(]*/)) {
@@ -126,6 +149,12 @@ while IFS=$'\t' read -r id when; do
       }
     }
     END {
+      # A log in which no line even looks like a job line is not a
+      # quiet run, it is a log this script cannot read -- and saying
+      # so is the whole difference between the two.
+      if (!seen_job)
+        printf "# %s\t%s\tno job lines -- has the log changed shape?\n",
+               id, day
       for (k in seen) {
         split(k, part, "\t")
         printf "%s\t%s\t%s\t%s\t%s\n", id, day, part[1], part[2],

@@ -6,7 +6,117 @@
 33324285308	2026-08-30	macos-latest / py3.10	sound_and_picture	beside rc=1
 33324285308	2026-08-30	macos-latest / py3.14	sound_and_picture	beside rc=1
 33323745147	2026-08-30	macos-latest / py3.14	sound_and_picture	beside rc=1
-# 34117253611	2026-09-07	read, no wobble
-# 34116450852	2026-09-07	read, no wobble
-# 34114018084	2026-09-07	read, no wobble
-# 34113078341	2026-09-07	read, no wobble
+34146268560	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34146268560	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34146268560	2026-09-07	Linux py3.10	table_row_per_voice	beside rc=1
+34146268560	2026-09-07	macOS py3.10	window_answers_arrive	beside rc=1
+34146268560	2026-09-07	Linux py3.14	project_run_comes_back	beside rc=1
+34145588771	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34145588771	2026-09-07	macOS py3.14	window_answers_arrive	beside rc=1
+34145588771	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34145213879	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34145213879	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34145213879	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34145213879	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34145204153	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34145204153	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34145204153	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34143645080	2026-09-07	macOS py3.10	run_outside_seen	beside rc=1
+34143645080	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34143645080	2026-09-07	macOS py3.14	window_hears_while_split	beside rc=1
+34143645080	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34143645080	2026-09-07	Windows py3.10	table_row_per_voice	beside rc=124
+34143579997	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34143579997	2026-09-07	Linux py3.14	voice_both_splits_stand	beside rc=124
+34143579997	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34143579997	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34143579997	2026-09-07	Linux py3.14	project_run_comes_back	beside rc=1
+34142951730	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34142951730	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34142408890	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34142408890	2026-09-07	Windows py3.10	window_setup_kept_apart	unknown
+34142408890	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34142408890	2026-09-07	macOS py3.10	window_answers_arrive	beside rc=1
+34142408890	2026-09-07	macOS py3.10	window_hears_while_split	beside rc=1
+34142408890	2026-09-07	Windows py3.10	project_keeps_answers	unknown
+34142172267	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34142172267	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34142172267	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34142111205	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34142111205	2026-09-07	macOS py3.14	window_answers_arrive	beside rc=1
+34142111205	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34141308013	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34141308013	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34141308013	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34141298265	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34141298265	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34141298265	2026-09-07	Windows py3.10	window_picture_returns	beside rc=1
+34140411279	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34139909611	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34139909611	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34139625520	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34139625520	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34139625520	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34117253611	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34117253611	2026-09-07	macOS py3.14	window_hears_while_split	beside rc=1
+34117253611	2026-09-07	Windows py3.10	window_setup_kept_apart	unknown
+34117253611	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34117253611	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34117253611	2026-09-07	macOS py3.10	window_answers_arrive	beside rc=1
+34117253611	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34116450852	2026-09-07	macOS py3.10	cut_player_jump_lands	beside rc=1
+34116450852	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34116450852	2026-09-07	macOS py3.10	window_picture_returns	beside rc=1
+34116450852	2026-09-07	Windows py3.10	table_notes_in_one_row	unknown
+34116450852	2026-09-07	Windows py3.10	window_setup_kept_apart	crashed rc=139
+34116450852	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34114018084	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34114018084	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34114018084	2026-09-07	Linux py3.10	table_row_per_voice	beside rc=124
+34113078341	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34113078341	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34113078341	2026-09-07	Linux py3.10	table_row_per_voice	beside rc=124
+34113078341	2026-09-07	macOS py3.10	window_answers_arrive	beside rc=1
+34113078341	2026-09-07	Windows py3.14	voice_both_splits_stand	beside rc=124
+34113078341	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34113078341	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34111012848	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34111012848	2026-09-07	macOS py3.14	window_hears_while_split	beside rc=1
+34111012848	2026-09-07	Windows py3.10	table_notes_in_one_row	unknown
+34111012848	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34111012848	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34111012848	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34111012848	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34110985004	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34110985004	2026-09-07	Linux py3.14	voice_both_splits_stand	beside rc=124
+34110985004	2026-09-07	Windows py3.10	voice_both_splits_stand	beside rc=124
+34110985004	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34110985004	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34110211458	2026-09-07	Windows py3.14	window_hears_while_split	beside rc=1
+34110211458	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34110211458	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34110211458	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34110211458	2026-09-07	Linux py3.10	table_row_per_voice	beside rc=124
+34110211458	2026-09-07	macOS py3.10	window_answers_arrive	beside rc=1
+34110211458	2026-09-07	Linux py3.10	cut_player_in_sync	beside rc=1
+34109474785	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34109474785	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34109474785	2026-09-07	Linux py3.10	window_marks_take_spot	unknown
+34109474785	2026-09-07	macOS py3.10	window_hears_while_split	beside rc=1
+34109194989	2026-09-07	Windows py3.10	window_play_follows_tab	unknown
+34109194989	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34109194989	2026-09-07	Windows py3.14	voice_both_splits_stand	beside rc=124
+34108102438	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34108102438	2026-09-07	macOS py3.14	window_hears_while_split	beside rc=1
+34108102438	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34106454411	2026-09-07	macOS py3.14	window_answers_arrive	beside rc=1
+34106454411	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34106454411	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34105255532	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34105255532	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34102952111	2026-09-07	Windows py3.14	window_restart_carries	beside rc=1
+34102952111	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34102952111	2026-09-07	Linux py3.14	cut_player_in_sync	beside rc=1
+34102167426	2026-09-07	macOS py3.14	window_answers_arrive	beside rc=1
+34102167426	2026-09-07	Windows py3.10	window_restart_carries	beside rc=1
+34102167426	2026-09-07	macOS py3.10	window_answers_arrive	beside rc=1
