@@ -333,6 +333,22 @@ and a subject gets a piece.
 crossings are the point. "Three crossings more, and the project file is
 in one file instead of three" says what happened.
 
+**And the seam that is not made of names is the wider one.** Every
+piece reaches into one untyped record, `state`, by string key.
+`development/seam.py` counts it: **98 keys, 61 of them touched by more
+than one piece, 45 crossing the boundary of the window** on 7.9.2026.
+A name that crosses stands in a head line and can be seen; a key does
+not. `state["speakers_local"]` written in one piece and read in five
+others is an agreement between six files that nothing declares and
+nothing checks.
+
+**Splitting a file does not narrow that seam by itself -- moving a
+reader does.** A key that `ui/` and `speakers/` both touched is touched
+by one of them after the window part of the speakers moves across, and
+the count falls. So it is the one number that says whether a round of
+moves bought anything, measured the same way before and after, and it
+belongs beside the crossing count in every report on a cut.
+
 **One thing lives in one place.** Two ways of computing the same result
 drift apart sooner or later. That has happened twice in this program,
 with the cut sliders and with the window arithmetic.
