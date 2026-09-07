@@ -66,7 +66,8 @@ What comes out depends on the material:
 One recording everybody is audible on is enough for the cut. The video
 file carrying that sound has to be set to contribute it: in the file
 list on the **Files & production** tab, in that file's row, put **Camera
-audio** on **use the audio**. It then has a row in the assignment table.
+audio** on **use internal audio**. It then has a row in the assignment
+table.
 Answer its **Speaker name** with **several speakers**, the one entry
 that field offers to pick, and the voices on that one recording are told
 apart ([Speech recognition and speaker separation](speech.md)). The
@@ -300,7 +301,7 @@ exist.
 ### When something goes wrong
 
 - **The camera's row is missing from the assignment table.** Its sound
-  is not in use yet: put **Camera audio** on **use the audio** in the
+  is not in use yet: put **Camera audio** on **use internal audio** in the
   file list.
 - **The continuation files are missing from the recording.** The names
   give the search nothing to go on: put them together by hand with
