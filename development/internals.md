@@ -35,16 +35,18 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **2732** -- who is on camera when, and what carries it out
+* `cut/` **2907** -- who is on camera when, and what carries it out
   of here; the voices reach it named, out of `speakers/`
 * `material/` **2694** -- channels, chains, continuation files, what a
   track is made of
-* `resolve/` **2591** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2672** -- the DaVinci Resolve project, timelines, colour,
   markers
-* `bearings/` **2047** -- the time axis, the offsets, which camera
-  belongs to which voice
 * `pipeline/` **1972** -- the chain the recordings run until the camera
   files are written
+* `bearings/` **1780** -- where each file and each voice sits, and how
+  each one reads: the time axis and the offsets, which camera belongs
+  to which voice, and what a meter, a stored handover and a file name
+  read as
 * `preflight/` **1385** -- whether the material fits together before the
   first long step
 * `auphonic/` **1314** -- the sending to auphonic.com and the fetching
@@ -585,13 +587,13 @@ way every window in this table was found.
 | `upkeep/` | binds the herald's `write_through`, and nothing else binds that; the separation binds its `PIP_SOURCE` | after the herald, before the separation |
 | `speech/` | binds `SPEECH_CODES`, which is the last name of the way in's own that it takes | anywhere from `SPEECH_CODES` down would do; it stands above the run that wants it |
 | `material/` | the checking binds the camera margin, the clipping and `parallel_map` out of it | before the checking |
-| `bearings/` | binds the material's names, `group_recording_parts` among them; four it reads late through `PROGRAM.` -- `np`, `seconds_to_frames`, `write_cut_list`, and `_sliders_from_command_line` out of `orders/`, which is read a hundred lines below it | after the material, before the checking |
+| `bearings/` | 48 head lines, the material's names among them, `group_recording_parts` one of those; `np` is now the only name it reads late through `PROGRAM.`, and no piece read below it is reached from here at all. Eleven pieces bind names of its own, `ui/` 15 of them and `speakers/` seven | after the material, before the checking |
 | `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
 | `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 10 of its names, the cut 13, `pipeline/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |
 | `project/` | binds four names of `speakers/` and reaches five of the window's through `PROGRAM.`; `ui/` binds `make_project_file` and `project_state_read` at its head, `filelist/` binds `project_offer` | directly under the separation, and both edges are measured: one read-block earlier the loader stops at `speakers_all_from_project`, below the window's own read it stops on `make_project_file`. Every position between the two loads |
-| `resolve/` | binds `Finding`, which the preflight above brings in | here, and not where it is first used |
-| `cut/` | the window binds 12 of its names, `pipeline/` four, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head | before the line that reads the window |
+| `resolve/` | binds `Finding`, which the preflight above brings in, and 28 names in all; `cut/` binds ten of its own, `pipeline/` and `ui/` four each. `refresh_cut_list` sits in `cut/`, read 29 lines below it, so it carries no head line for it and reads `PROGRAM.refresh_cut_list` at the call | here, and not where it is first used |
+| `cut/` | the window binds 12 of its names, `pipeline/` four, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head, ten of `resolve/` and 93 in all. `resolve/`, read above it, reaches its `refresh_cut_list` through `PROGRAM.` | before the line that reads the window |
 | `pipeline/` | binds four of the cut's names and five of the speakers' -- who asks, who was named, what a run separated; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
