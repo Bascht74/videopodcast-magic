@@ -685,10 +685,10 @@ msgstr "ラウドネスの計測"
 msgid "Merge them"
 msgstr "まとめる"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "音声を使わない"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "音声を使う"
 
 msgid "Mute."

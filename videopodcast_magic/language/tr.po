@@ -702,10 +702,10 @@ msgstr "Ses yüksekliği ölçülüyor"
 msgid "Merge them"
 msgstr "Birleştir"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "sesi kullanma"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "sesi kullan"
 
 msgid "Mute."

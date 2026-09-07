@@ -706,10 +706,10 @@ msgstr "Misurazione della sonorità"
 msgid "Merge them"
 msgstr "Unisci"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "non usare l’audio"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "usa l’audio"
 
 msgid "Mute."

@@ -715,10 +715,10 @@ msgstr "Вимірювання гучності"
 msgid "Merge them"
 msgstr "Об'єднати їх"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "не використовувати звук"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "використовувати звук"
 
 msgid "Mute."

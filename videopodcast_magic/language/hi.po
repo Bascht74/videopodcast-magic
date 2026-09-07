@@ -690,10 +690,10 @@ msgstr "लाउडनेस मापना"
 msgid "Merge them"
 msgstr "इन्हें मिलाएँ"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "ऑडियो का उपयोग न करें"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "ऑडियो का उपयोग करें"
 
 msgid "Mute."

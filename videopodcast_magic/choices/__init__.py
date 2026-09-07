@@ -51,8 +51,8 @@ CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
                  # rules use; a second name reads as a second thing.
                  TYPE_WIDE: 'Wide shot',
                  TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video",
-                 AUDIO_UNUSED: "do not use the audio",
-                 AUDIO_MATERIAL: "use the audio"}
+                 AUDIO_UNUSED: "do not use internal audio",
+                 AUDIO_MATERIAL: "use internal audio"}
 
 
 def label_of(value):

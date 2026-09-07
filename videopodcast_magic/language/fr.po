@@ -691,10 +691,10 @@ msgstr "Mesure de la sonie"
 msgid "Merge them"
 msgstr "Les fusionner"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "ne pas utiliser l’audio"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "utiliser l’audio"
 
 msgid "Mute."

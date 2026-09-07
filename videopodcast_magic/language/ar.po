@@ -725,10 +725,10 @@ msgstr "قياس الجهارة"
 msgid "Merge them"
 msgstr "دمجها"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "لا تستخدم الصوت"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "استخدام الصوت"
 
 msgid "Mute."
