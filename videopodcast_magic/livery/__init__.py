@@ -17,6 +17,10 @@ sys = PROGRAM.sys
 # __file__ is not among them: no line below reads it, so nothing here
 # can quietly answer with this folder instead of the program's own.
 
+# Four names are missing. ON_DARK and the three clip colours stand in
+# resolve/, read long after this piece, so a copy taken here would find
+# nothing: they are read as PROGRAM.<name>.
+
 # Parallel runs keep output apart; text is flushed when its file is done.
 THREAD_SHARE = {}    # thread id -> progress fraction of that file
 THREAD_BUFFER = {}   # thread id -> list of text chunks
@@ -135,6 +139,118 @@ def qt_palette(QtGui, colours):
                          getattr(QtGui.QPalette, name),
                          QtGui.QColor(colours[role]))
     return palette
+
+
+def colours_pick(dark):
+    """Fill COLOURS with the set this desktop asks for.
+
+    Refilled in place rather than replaced: every module holds on to
+    this one dictionary, and a new object would leave them all reading
+    the old one.
+    """
+    COLOURS.clear()
+    COLOURS.update(COLOURS_DARK if dark else COLOURS_LIGHT)
+    PROGRAM.ON_DARK[0] = bool(dark)
+
+
+def sheet_recoloured(sheet, dark):
+    """Return one style sheet with the colours of the other set in it.
+
+    Both palettes carry the same roles, so a value is swapped for the one
+    its role holds in the other set. No two roles share a value and no
+    value stands in both sets, so a swap cannot be applied twice. A
+    colour in neither set is left alone -- the black behind a video is
+    not a role.
+    """
+    leaving = COLOURS_LIGHT if dark else COLOURS_DARK
+    entering = COLOURS_DARK if dark else COLOURS_LIGHT
+    for role, value in leaving.items():
+        if value in sheet:
+            sheet = sheet.replace(value, entering[role])
+    return sheet
+
+
+def app_style_set(app):
+    """Put the palette into the whole program, twice over.
+
+    Into Qt's own palette first: the ground of the window and of a
+    scrolled sheet is painted from that and carries no style sheet, so
+    nothing else on the way reaches it. Then into the style sheet.
+    Its own function so both are set again when the desktop switches.
+    """
+    import PySide6.QtGui as _qg
+    app.setPalette(qt_palette(_qg, COLOURS))
+    app.setStyleSheet("""
+    QGroupBox {
+        border: 1px solid %(frame)s; border-radius: 6px;
+        /* The top margin is half the height of the heading, so the
+           line runs through the middle of the text. */
+        margin-top: 10px; padding-top: 14px; background: %(box)s;
+    }
+    QGroupBox::title {
+        subcontrol-origin: margin; subcontrol-position: top left;
+        left: 12px; top: 2px; padding: 0 8px; background: %(box)s;
+        color: %(heading)s; font-weight: bold;
+    }
+    QTabWidget::pane {
+        border: 1px solid %(frame)s; border-radius: 6px; top: -1px;
+        background: %(sheet)s;
+    }
+    QTabWidget::tab-bar { alignment: left; left: 6px; }
+    QTabBar::tab {
+        background: %(head)s; color: %(quiet)s;
+        border: 1px solid %(frame)s; border-bottom: none;
+        border-top-left-radius: 6px; border-top-right-radius: 6px;
+        padding: 8px 22px; margin-right: 3px; font-weight: bold;
+    }
+    QTabBar::tab:selected { background: %(heading)s; color: %(sheet)s; }
+    QTabBar::tab:hover:!selected { background: %(stripe)s; }
+    QHeaderView::section {
+        background: %(head)s; color: %(heading)s; font-weight: bold;
+        border: 0px; border-bottom: 1px solid %(frame)s; padding: 4px;
+    }
+    QTableWidget, QTreeView, QTextEdit, QListWidget {
+        background: %(sheet)s; alternate-background-color: %(head)s;
+        color: %(text)s;
+    }
+""" % {k: COLOURS[k] for k in ("frame", "box", "heading", "head",
+                              "quiet", "sheet", "stripe", "text")})
+
+
+def styles_follow_scheme(app, dark):
+    """Recolour every widget that styled itself, and say how many.
+
+    What a widget wrote into its own style sheet is out of reach of the
+    program's: setting that again leaves those rows in the colours they
+    were born in. Which ones they are need not be remembered -- a widget
+    with a sheet of its own is one whose ``styleSheet()`` is not empty.
+    """
+    changed = 0
+    for widget in app.allWidgets():
+        try:
+            sheet = widget.styleSheet()
+        except RuntimeError:
+            continue                  # gone while we were walking
+        if not sheet:
+            continue
+        fresh = sheet_recoloured(sheet, dark)
+        if fresh == sheet:
+            continue
+        try:
+            widget.setStyleSheet(fresh)
+        except RuntimeError:
+            continue
+        changed += 1
+    return changed
+
+
+def clip_colour_rgb(name):
+    """Return the RGB approximation of a clip colour for this background."""
+    exception = (PROGRAM.CLIP_COLOURS_RGB_DARK if PROGRAM.ON_DARK[0]
+                 else PROGRAM.CLIP_COLOURS_RGB_LIGHT)
+    if name in exception:
+        return exception[name]
+    return PROGRAM.CLIP_COLOURS_RGB.get(name, "#888888")
 
 
 ANSI = {"heading": "\033[1;36m", "good": "\033[1;32m", "warning": "\033[33m",

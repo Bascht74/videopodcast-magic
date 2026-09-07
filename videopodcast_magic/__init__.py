@@ -526,6 +526,7 @@ place_track_on_axis = material.place_track_on_axis
 python_note = material.python_note
 remove_quietly = material.remove_quietly
 shapes_match = material.shapes_match
+together_chains = material.together_chains
 wav_safe = material.wav_safe
 widest_track = material.widest_track
 
@@ -538,7 +539,6 @@ take_from(bearings)
 check_mode_fits_input = bearings.check_mode_fits_input
 guess_speaker_name = bearings.guess_speaker_name
 split_audio_and_video = bearings.split_audio_and_video
-together_chains = bearings.together_chains
 
 
 #--------------------------------------------------------- The preflight

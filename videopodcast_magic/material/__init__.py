@@ -16,6 +16,7 @@ AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
 COLOURS = PROGRAM.COLOURS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
+FileSet = PROGRAM.FileSet
 LIKES_PYTHON = PROGRAM.LIKES_PYTHON
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 SR = PROGRAM.SR
@@ -321,6 +322,148 @@ def find_continuation_files(file_path):
         # The counter found nothing either, so the clock's answer wins.
         return by_clock
     return row, discarded
+
+
+def together_chains(together):
+    """Bring the by-hand groupings into one ordered list per recording.
+
+    Given as [[a, b], [b, c]] they mean one recording a, b, c: naming a
+    file in two groups joins those groups. Order is kept -- the first
+    time a file is named is where it sits.
+    """
+    rows = []
+    for group in (together or ()):
+        wanted = [os.path.abspath(x) for x in group if x]
+        if len(wanted) < 2:
+            continue
+        hit = [r for r in rows if any(x in r for x in wanted)]
+        if not hit:
+            rows.append(list(dict.fromkeys(wanted)))
+            continue
+        first = hit[0]
+        for other in hit[1:]:
+            first += [x for x in other if x not in first]
+            rows.remove(other)
+        first += [x for x in wanted if x not in first]
+    return rows
+
+
+def group_recording_parts(paths, no_followups=False, apart=(), together=()):
+    """Group the selected audio files into recordings.
+
+    Numbered continuations are searched from the first block and only
+    seamless ones appended. *apart* names blocks that must stand alone,
+    or the search, looking in the folder and not in the selection, finds
+    them again on the next rebuild. *together* is the other way, each
+    named file bringing the blocks already found for it; *apart* wins.
+    """
+    apart = FileSet(apart or ())
+
+    def with_its_blocks(row):
+        """Each named file plus the blocks already found for it.
+
+        Only what fits: channel count and sample rate have to match the
+        first block, since everything after the join treats them as one
+        recording.
+        """
+        out, refused = [], []
+        for x in row:
+            if not os.path.exists(x):
+                refused.append((os.path.basename(x), T('not found')))
+                continue
+            found = [x]
+            if not no_followups and x not in apart:
+                try:
+                    found, _ = find_continuation_files(x)
+                except Exception:
+                    found = [x]
+            for y in found:
+                y = os.path.abspath(y)
+                if y in apart or y in out:
+                    continue
+                if out:
+                    fits, why = shapes_match(out[0], y)
+                    if not fits:
+                        refused.append((os.path.basename(y), why))
+                        continue
+                out.append(y)
+        return out, refused
+
+    made = [with_its_blocks(row) for row in together_chains(together)]
+    # Two groups can end up holding the same block. A block belongs to
+    # one recording, so the first group to claim it keeps it.
+    by_hand, turned_away, claimed = [], {}, set()
+    homeless = {}
+    for row, refused in made:
+        mine = [x for x in row if x not in claimed]
+        notes = list(refused) + [
+            (os.path.basename(x), T('already in another recording'))
+            for x in row if x not in mine]
+        if len(mine) < 2:
+            # Nothing left to group, but the notes still have to reach
+            # somebody: the recording the one remaining file ends up in.
+            for x in mine or row:
+                homeless.setdefault(x, []).extend(notes)
+            continue
+        claimed.update(mine)
+        turned_away[len(by_hand)] = notes
+        by_hand.append(mine)
+    put = {}
+    for i, row in enumerate(by_hand):
+        for x in row:
+            put[x] = i
+    pending = sorted(paths, key=lambda x: os.path.basename(x).lower())
+    chains, taken, done_by_hand = [], set(), set()
+    for p in pending:
+        a = os.path.abspath(p)
+        if a in taken:
+            continue
+        if a in put:
+            # A grouping made by hand: exactly these files, in the order
+            # they were named, and nothing searched in the folder.
+            i = put[a]
+            if i in done_by_hand:
+                continue
+            done_by_hand.add(i)
+            row, discarded = list(by_hand[i]), list(turned_away.get(i) or [])
+            for path in row:
+                taken.add(path)
+                discarded = discarded + homeless.pop(path, [])
+            chains.append((row, discarded))
+            continue
+        if no_followups or a in apart:
+            row, discarded = [a], []
+        else:
+            try:
+                row, discarded = find_continuation_files(a)
+            except Exception:
+                row, discarded = [a], []
+            row = [x for x in row if os.path.abspath(x) not in apart
+                   and os.path.abspath(x) not in put]
+        for path in row:
+            taken.add(os.path.abspath(path))
+            discarded = discarded + homeless.pop(path, [])
+        chains.append((row, discarded))
+    # A note whose file never reached a recording of its own: claimed by
+    # another group, or not in the list at all. It still has to be read,
+    # so it goes to the first recording rather than nowhere.
+    if homeless and chains:
+        left = [note for notes in homeless.values() for note in notes]
+        chains[0] = (chains[0][0], list(chains[0][1]) + left)
+    return chains
+
+
+def recording_family(file_path):
+    """Every block that would belong to this recording, marks aside.
+
+    Used when a whole recording leaves the list: the marks of its blocks
+    go with it, so adding the files again joins them up as before.
+    """
+    try:
+        row, _discarded = find_continuation_files(os.path.abspath(file_path))
+    except Exception:
+        row = [os.path.abspath(file_path)]
+    return {os.path.abspath(x) for x in row} | {os.path.abspath(file_path)}
 
 
 def track_order_for_camera(own, every, singles=()):
