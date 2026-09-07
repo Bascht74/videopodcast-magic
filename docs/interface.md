@@ -78,8 +78,8 @@ Four tabs, in the order they are needed.
   cut into tracks. Synchronising takes that sound either way; the field
   does not decide it.
 
-  Where there is nothing to decide the field sets itself, greys out and
-  carries the reason beside it:
+  Where there is nothing to decide the field sets itself and greys out.
+  Nothing stands beside it saying why, so these are the cases:
 
   - the file has no audio track,
   - the file stays out entirely,

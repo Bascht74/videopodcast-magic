@@ -86,8 +86,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Kanäle bleiben draußen, in Spuren zerlegt. Zum Synchronisieren wird
   dieser Ton ohnehin genommen; darüber entscheidet das Feld nicht.
 
-  Wo nichts zu entscheiden ist, setzt sich das Feld selbst, ist
-  ausgegraut und trägt den Grund daneben:
+  Wo nichts zu entscheiden ist, setzt sich das Feld selbst und ist
+  ausgegraut. Eine Begründung steht nicht daneben; das sind die Fälle:
 
   - die Datei hat keine Tonspur,
   - die Datei bleibt ganz draußen,
