@@ -85,7 +85,7 @@ def look(media):
     picks = [box.itemData(i) for i in range(box.count())]
     check("the field offers two answers and no more",
           picks == [vpm.AUDIO_UNUSED, vpm.AUDIO_MATERIAL], str(picks))
-    check("and stands on 'do not use the audio'",
+    check("and stands on 'do not use internal audio'",
           box.currentData() == vpm.AUDIO_UNUSED, str(box.currentData()))
     box.setCurrentIndex(box.findData(vpm.AUDIO_MATERIAL))
     check("choosing writes the decision down", value.get() is True,
@@ -123,7 +123,7 @@ def look(media):
           repr([w.text() for w in cell3.findChildren(QtWidgets.QLabel)]))
     box3.setCurrentIndex(box3.findData(vpm.AUDIO_UNUSED))
     # And back again, or the check cannot fall. The settled field opens
-    # on "use the audio" while the value behind it is a no, so a move
+    # on "use internal audio" while the value behind it is a no, so a move
     # away from it would write that same no and nothing would show. Only
     # the move back writes a yes, and that is the one to look for.
     box3.setCurrentIndex(box3.findData(vpm.AUDIO_MATERIAL))

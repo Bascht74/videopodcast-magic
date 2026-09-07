@@ -213,9 +213,9 @@ def run_argv(values, assignment_file_path=""):
                 T('Multitrack needs several tracks'),
                 T('Multitrack needs at least two input tracks. A track is '
                   'a recording of its own, a channel of a multichannel '
-                  'recorder, or the audio of a video file set to "use the '
-                  'audio". Several blocks of the same recording count as '
-                  'one, tracks set aside not at all.'))
+                  'recorder, or the audio of a video file set to "use '
+                  'internal audio". Several blocks of the same recording '
+                  'count as one, tracks set aside not at all.'))
         names = [(r.get("speakers") or "").strip() for r in lines]
         if not all(names):
             return error(

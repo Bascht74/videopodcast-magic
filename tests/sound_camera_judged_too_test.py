@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """A camera whose audio is in use is an audio file like any other.
 
-The field on the video file says no more than "use the audio"; the same
+The field on the video file says no more than "use internal audio"; the same
 measurement as for a recorder file decides what it becomes. The sound is
 offered twice, inside the camera and as a recording beside it, for the
 same verdict and the same tracks; the cutting carries the rate over and

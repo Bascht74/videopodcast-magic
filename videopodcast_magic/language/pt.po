@@ -690,10 +690,10 @@ msgstr "Medindo a sonoridade"
 msgid "Merge them"
 msgstr "Uni-los"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "não usar o áudio"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "usar o áudio"
 
 msgid "Mute."

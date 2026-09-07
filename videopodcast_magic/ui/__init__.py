@@ -398,7 +398,7 @@ def missing_conditions(files, production, multitrack, assign_lines,
         if len(used) < 2:
             pending[22] = (T('Multitrack needs two tracks in the table '
                              'above -- a camera counts as one once its '
-                             'Camera audio is set to "use the audio".'))
+                             'Camera audio is set to "use internal audio".'))
         elif not all(v.get() for _r, v, _k in used):
             pending[22] = T('One audio recording has no speaker name yet.')
         else:
@@ -417,7 +417,7 @@ def missing_conditions(files, production, multitrack, assign_lines,
     # contributes none, and a run with nothing to hear has no first step.
     if files and not assign_lines:
         pending[11] = T('No sound to work with -- set a video file\'s '
-                        'Camera audio to "use the audio", or add an '
+                        'Camera audio to "use internal audio", or add an '
                         'audio recording.')
     # Before the file names below, so the one with a field to type wins.
     same_name = camera_tracks_clashing(camera_lines)
@@ -2015,7 +2015,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     if not chains:
         column_layout.addWidget(label(
             T('No sound in use yet -- add an audio recording, or set '
-              'a video file\'s Camera audio to "use the audio" in the '
+              'a video file\'s Camera audio to "use internal audio" in the '
               'file list.'), COLOURS["quiet"]))
         # Before the exit, not after the table: the time axis is needed
         # whether or not any sound is in use.
