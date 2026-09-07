@@ -372,6 +372,19 @@ def main(argv):
     print("  C  forced PROGRAM. read       %2d  %s"
           % (len(C), ["%s (%s)" % (n, ",".join(w) or "the way in")
                       for n, w in C]))
+    # The sixth fault this tool has been caught in, and the only one it
+    # can warn about itself: a move priced in parts is priced wrong.
+    # Measured 7.9.2026 on the same move -- the first block of twelve
+    # names alone came out at +2, and all forty-one together at -13,
+    # because a name that is moving too looks from here like a name
+    # staying behind. Every such name shows up under C with the piece
+    # being left in its brackets, so the count is free.
+    left_behind = [n for n, lives in C if frm in lives]
+    if left_behind:
+        print("     of those, %d live in %s/, which you are leaving: if any "
+              "of them is\n     moving as well, price them in one run or "
+              "this comes out too high" % (len(left_behind), frm))
+        print("     %s" % sorted(left_behind))
     print("  E  fetched back into %s/     %2d  %s"
           % (frm, len(E), [n for n, _l in E]))
     print("  F  dead head line in %s/     %2d  %s" % (frm, len(F), sorted(F)))
