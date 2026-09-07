@@ -46,6 +46,26 @@ cut_choice_room = player.cut_choice_room
 # They are read as PROGRAM.<name> at the one place each is used.
 
 
+def queue_once(QtCore, pending, key, work):
+    """Let the event loop do this once, however often it is asked.
+
+    One answer fires more than one listener, and each asks for the same
+    table again. Asked three times, the second and third land while the
+    first is still exchanging cells -- and with a player starting at that
+    moment Qt stands in QWidget::createWinId. Two runs in four hang.
+    """
+    mark = "queued " + key
+    if work is None or pending.get(mark):
+        return
+    pending[mark] = True
+
+    def run():
+        pending[mark] = False
+        work()
+
+    QtCore.QTimer.singleShot(0, run)
+
+
 # None of these reaches into gui(), so they stand out here where a test
 # can call them directly rather than cutting them out of the source.
 
