@@ -38,11 +38,11 @@ themselves that can be counted without a judgement: a name nobody else
 reads is private to its piece, so moving it carries the whole of it
 across and leaves nothing scattered behind.
 
-**It prices functions and classes only.** A module-level constant is not
-at the top level as far as this tool is concerned, and it refuses the
-run; leave the constants out and count their head lines by hand. Four of
-them then show up under C as forced reads although they are moving too,
-so the net comes out that much too high.
+**A constant at the top level counts too**, since 7.9.2026: what it
+reads is read off its value rather than out of a symtable block, which
+it does not have. What its span does *not* cover is the comment above
+it, and that travels with it -- so the "lines a crossing" figure is a
+little low for a group of constants.
 
 A screen counts only the part of C that lives in the piece being left,
 so its error per candidate is  B + E - F  -- and it has no sign: on one
@@ -179,6 +179,19 @@ def reads_of(path, names):
     spans = {n.name: (n.lineno, n.end_lineno) for n in tree.body
              if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
              and n.name in names}
+    # A constant at the top level travels the same way a function does,
+    # and until 7.9.2026 naming one made this refuse the whole run. Six
+    # of them had to be left out of a move of thirty-five names, and
+    # four then showed up under C as forced reads although they were
+    # moving too: the net came out four too high. A constant has no
+    # symtable block, so what it reads is read off its value here.
+    values = {}
+    for n in tree.body:
+        if isinstance(n, ast.Assign) and len(n.targets) == 1 \
+                and isinstance(n.targets[0], ast.Name) \
+                and n.targets[0].id in names and n.targets[0].id not in spans:
+            spans[n.targets[0].id] = (n.lineno, n.end_lineno)
+            values[n.targets[0].id] = n.value
     missing = [n for n in names if n not in spans]
     if missing:
         raise SystemExit("not at the top level of %s: %s" % (path, missing))
@@ -195,6 +208,10 @@ def reads_of(path, names):
 
     out = {}
     for name in names:
+        if name in values:
+            out[name] = {x.id for x in ast.walk(values[name])
+                         if isinstance(x, ast.Name)} - set(dir(builtins))
+            continue
         got, tb = set(), block(name)
 
         def walk(t):
