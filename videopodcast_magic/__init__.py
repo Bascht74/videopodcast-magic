@@ -568,6 +568,14 @@ _SPEAKER_WHY = ""
 speakers = beside("speakers", program=PROGRAM)
 take_from(speakers)
 
+is_stand_in_name = speakers.is_stand_in_name
+roles_report = speakers.roles_report
+separation_for_run = speakers.separation_for_run
+speakers_for_the_cut = speakers.speakers_for_the_cut
+speakers_from_tracks = speakers.speakers_from_tracks
+voice_names_report = speakers.voice_names_report
+who_asks = speakers.who_asks
+
 
 #----------------------------------------------------- The project file
 
@@ -612,13 +620,6 @@ take_from(cut)
 MIN_SPEECH_TO_SWITCH_S = cut.MIN_SPEECH_TO_SWITCH_S
 WIDE_AFTER_S = cut.WIDE_AFTER_S
 finish_without_auphonic = cut.finish_without_auphonic
-is_stand_in_name = cut.is_stand_in_name
-roles_report = cut.roles_report
-separation_for_run = cut.separation_for_run
-speakers_for_the_cut = cut.speakers_for_the_cut
-speakers_from_tracks = cut.speakers_from_tracks
-voice_names_report = cut.voice_names_report
-who_asks = cut.who_asks
 write_cut_list = cut.write_cut_list
 write_handover = cut.write_handover
 write_metrics_csv = cut.write_metrics_csv
