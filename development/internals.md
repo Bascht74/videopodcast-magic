@@ -25,7 +25,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4821** -- the window and everything it shows, asks or offers,
+* `ui/` **4259** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3654** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -37,20 +37,21 @@ figure of the day is that command, not this paragraph**:
   when the other starts
 * `cut/` **2886** -- who is on camera when, and what carries it out
   of here; the voices reach it named, out of `speakers/`
+* `resolve/` **2776** -- the DaVinci Resolve project, timelines, colour,
+  markers, and the box in the window that says whether Resolve answers
 * `material/` **2694** -- channels, chains, continuation files, what a
   track is made of
-* `resolve/` **2672** -- the DaVinci Resolve project, timelines, colour,
-  markers
 * `pipeline/` **1972** -- the chain the recordings run until the camera
   files are written
 * `bearings/` **1780** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, and what a meter, a stored handover and a file name
   read as
-* `preflight/` **1385** -- whether the material fits together before the
-  first long step
-* `auphonic/` **1314** -- the sending to auphonic.com and the fetching
-  back
+* `auphonic/` **1657** -- the sending to auphonic.com and the fetching
+  back, and in the window the key, the note about it and the preset box
+* `preflight/` **1532** -- whether the material fits together before the
+  first long step, and the marks and the sentence the window makes of
+  the findings
 * `speech/` **1089** -- what is said and when, and what is written down
   from it
 * `setup/` **1089** -- finding ffmpeg, installing a missing module,
@@ -126,7 +127,7 @@ lines for everybody too. Two names had to come off `player/`'s head
 first -- `block_at` out of `bearings/` and `legend_markup` out of
 `cut/`, both read far below the herald -- and the way in's own
 `RUN_STOP` had to move above the new block, or `fittings/`'s head
-answers `AttributeError` for it. Measured on one move waiting on this,
+answers `AttributeError` for it. Measured on the move that waited on this,
 `make_auphonic_box` and two more out of `ui/` into `auphonic/`: six
 forced `PROGRAM.` reads before, one after, and that one lives in `ui/`
 itself, where no read order can reach it.
@@ -608,12 +609,12 @@ way every window in this table was found.
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
 | `speakers/` | everything about a voice is in it, so it is bound widest: the window takes 10 of its names, the cut 13, `pipeline/` five, `project/` four, and `orders/` and three pieces the window reads one each -- counted 7.9.2026 | before all of them |
 | `project/` | binds four names of `speakers/` and reaches five of the window's through `PROGRAM.`; `ui/` binds `make_project_file` and `project_state_read` at its head, `filelist/` binds `project_offer` | directly under the separation, and both edges are measured: one read-block earlier the loader stops at `speakers_all_from_project`, below the window's own read it stops on `make_project_file`. Every position between the two loads |
-| `resolve/` | binds `Finding`, which the preflight above brings in, and 28 names in all; `cut/` binds ten of its own, `pipeline/` and `ui/` four each. `refresh_cut_list` sits in `cut/`, read 29 lines below it, so it carries no head line for it and reads `PROGRAM.refresh_cut_list` at the call | here, and not where it is first used |
+| `resolve/` | binds `Finding`, which the preflight above brings in, and 33 names in all -- `hint`, `label` and `speaks_as` among them, for the box in the window that stands at its foot; `cut/` binds ten of its own, `pipeline/` and `ui/` four each. `refresh_cut_list` sits in `cut/`, read 29 lines below it, so it carries no head line for it and reads `PROGRAM.refresh_cut_list` at the call | here, and not where it is first used |
 | `cut/` | the window binds 12 of its names, `pipeline/` four, `orders/` two and `player/` one; who speaks is not its subject and it binds 13 names of `speakers/` at its own head, ten of `resolve/` and 93 in all. `resolve/`, read above it, reaches its `refresh_cut_list` through `PROGRAM.` | before the line that reads the window |
 | `pipeline/` | binds four of the cut's names and five of the speakers' -- who asks, who was named, what a run separated; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
-| `ui/` | binds 10 names out of `speakers/` and 12 out of `cut/`, and since 7.9.2026 seven out of `player/` and 15 out of `fittings/` instead of reading those two itself -- all read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+| `ui/` | binds 10 names out of `speakers/` and 12 out of `cut/`, and since 7.9.2026 six out of `player/` and 15 out of `fittings/` instead of reading those two itself -- all read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
 
 ### The seven functions the seam is made of
 

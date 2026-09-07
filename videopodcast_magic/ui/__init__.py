@@ -20,7 +20,6 @@ CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 CLIP_TYPES = PROGRAM.CLIP_TYPES
 COLOURS = PROGRAM.COLOURS
 FileSet = PROGRAM.FileSet
-Finding = PROGRAM.Finding
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 ON_DARK = PROGRAM.ON_DARK
@@ -44,7 +43,6 @@ Value = PROGRAM.Value
 _ENV = PROGRAM._ENV
 _joins_seamlessly = PROGRAM._joins_seamlessly
 _require_module = PROGRAM._require_module
-api_key_source = PROGRAM.api_key_source
 app_style_set = PROGRAM.app_style_set
 as_bad = PROGRAM.as_bad
 as_data_size = PROGRAM.as_data_size
@@ -66,11 +64,8 @@ cameras_in_track_order = PROGRAM.cameras_in_track_order
 cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
 channel_rows_build = PROGRAM.channel_rows_build
-check_resolve = PROGRAM.check_resolve
-collect_findings = PROGRAM.collect_findings
 colours_pick = PROGRAM.colours_pick
 cut_title_of = PROGRAM.cut_title_of
-delete_api_key = PROGRAM.delete_api_key
 desktop_is_dark = PROGRAM.desktop_is_dark
 every_audio_block = PROGRAM.every_audio_block
 ffmpeg_can_be_had = PROGRAM.ffmpeg_can_be_had
@@ -92,10 +87,6 @@ installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
 json = PROGRAM.json
 keep_setting = PROGRAM.keep_setting
 kept_language = PROGRAM.kept_language
-key_complaint = PROGRAM.key_complaint
-key_refused_note = PROGRAM.key_refused_note
-key_store_locked = PROGRAM.key_store_locked
-key_store_trouble = PROGRAM.key_store_trouble
 kind_on_show = PROGRAM.kind_on_show
 known_language = PROGRAM.known_language
 label_of = PROGRAM.label_of
@@ -104,8 +95,6 @@ language_name = PROGRAM.language.language_name
 make_preview = PROGRAM.make_preview
 reads_right_to_left = PROGRAM.language.reads_right_to_left
 languages = PROGRAM.languages
-list_presets = PROGRAM.list_presets
-load_api_key = PROGRAM.load_api_key
 log_aside = PROGRAM.log_aside
 make_voice_rows = PROGRAM.make_voice_rows
 mark_time = PROGRAM.mark_time
@@ -113,7 +102,10 @@ log_path = PROGRAM.log_path
 loudness_field_build = PROGRAM.loudness_field_build
 loudness_last = PROGRAM.loudness_last
 main = PROGRAM.main
+make_auphonic_box = PROGRAM.make_auphonic_box
+make_preflight = PROGRAM.make_preflight
 make_project_file = PROGRAM.make_project_file
+make_resolve_check = PROGRAM.make_resolve_check
 make_speaker_split = PROGRAM.make_speaker_split
 make_time_axis = PROGRAM.make_time_axis
 newer_release = PROGRAM.newer_release
@@ -121,7 +113,6 @@ not_installed_note = PROGRAM.not_installed_note
 number_text = PROGRAM.number_text
 older_releases = PROGRAM.older_releases
 open_in_file_manager = PROGRAM.open_in_file_manager
-open_key_store_app = PROGRAM.open_key_store_app
 open_page = PROGRAM.open_page
 os = PROGRAM.os
 parse_time_point = PROGRAM.parse_time_point
@@ -129,11 +120,6 @@ parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 pick_choice = PROGRAM.pick_choice
 platform = PROGRAM.platform
-preset_box_fill = PROGRAM.preset_box_fill
-preset_box_widget = PROGRAM.preset_box_widget
-preset_entries = PROGRAM.preset_entries
-preset_missing_rows = PROGRAM.preset_missing_rows
-preset_mode_note = PROGRAM.preset_mode_note
 preview_out_of_date = PROGRAM.preview_out_of_date
 project_state_read = PROGRAM.project_state_read
 question_note_build = PROGRAM.question_note_build
@@ -150,7 +136,6 @@ speakers_project_block = PROGRAM.speakers_project_block
 speakers_still_wanted = PROGRAM.speakers_still_wanted
 speech_table_fill = PROGRAM.speech_table_fill
 start_again = PROGRAM.start_again
-store_api_key = PROGRAM.store_api_key
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
 subprocess = PROGRAM.subprocess
@@ -740,10 +725,9 @@ tree_rows_fit = PROGRAM.tree_rows_fit
 
 #------------------------------------------------------------ The player
 # A piece of its own, in "player". The way in reads it above this
-# file now, so these are ordinary head lines; seven names no code
+# file now, so these are ordinary head lines; eight names no code
 # here reads have gone, and take_from() puts them on the program.
 box_room = PROGRAM.box_room
-caption_room = PROGRAM.caption_room
 make_band_and_player = PROGRAM.make_band_and_player
 make_drop_area = PROGRAM.make_drop_area
 make_log_view = PROGRAM.make_log_view
@@ -766,8 +750,9 @@ voices_of_values = orders.voices_of_values
 
 
 #---------------------------------------- The settings sheet and the log
-# The Settings window: the language box, the boxes for the key and for
-# Resolve, and the row the macOS keychain needs. The log way at the end.
+# The Settings window: the language box, and the sheet the boxes for
+# the key and for Resolve are set into -- each of those two is built in
+# the piece it is about. The log way at the end.
 
 
 # What gui() answers with when the window is to be built again in
@@ -899,59 +884,6 @@ def settings_dialog_build(parent, access_box, resolve_box, keep_where,
     return d
 
 
-def make_key_note(QtWidgets, label, hint, settings_open):
-    """The line that says what is wrong with the key for auphonic.com.
-
-    Built twice, because the key is looked at from two places: the field
-    and its button in the settings window, the preset they unlock on the
-    sheet -- and that window stands over the sheet. Returns the settings
-    label, the row for the sheet, and the calls that show and hide it.
-    """
-    settings_note = label("", COLOURS["warning"])
-    settings_note.setWordWrap(True)
-    settings_note.setVisible(False)
-    settings_note.setObjectName("key_note_settings")
-    settings_note.setAccessibleName(T('What auphonic.com replied'))
-
-    key_row = QtWidgets.QHBoxLayout()
-    key_note = label("", COLOURS["quiet"])
-    key_note.setWordWrap(True)
-    key_note.setVisible(False)
-    key_note.setObjectName("key_note")
-    key_note.setAccessibleName(T('What auphonic.com replied'))
-    key_row.addWidget(key_note, 1)
-    # A button and not a link inside the line: a link in a label is
-    # announced as plain text and fires on no key at all, while a
-    # button carries its own name and answers the space bar.
-    settings_way = QtWidgets.QPushButton(T('Settings ...'))
-    settings_way.setFlat(True)
-    settings_way.setVisible(False)
-    settings_way.setObjectName("key_note_way")
-    settings_way.clicked.connect(lambda: settings_open())
-    key_row.addWidget(hint(settings_way,
-                           T('Open the settings, where the key is.')))
-
-    def show(text):
-        """Say what is wrong with the key, in both places it is read.
-
-        Never in a box: a box has to be clicked away before the field
-        it is about can be reached.
-        """
-        for note in (key_note, settings_note):
-            note.setText(text)
-            note.setStyleSheet("color: %s;" % COLOURS["warning"])
-            note.setVisible(True)
-        settings_way.setVisible(True)
-
-    def hide():
-        """Take the note back; nothing is wrong until something is."""
-        key_note.setVisible(False)
-        settings_note.setVisible(False)
-        settings_way.setVisible(False)
-
-    return settings_note, key_row, show, hide
-
-
 def tick_off_quietly(box, value):
     """Take a tick back without the box answering its own toggle.
 
@@ -961,44 +893,6 @@ def tick_off_quietly(box, value):
     box.blockSignals(True)
     value.set(False)
     box.blockSignals(False)
-
-
-def keychain_row_add(into, keep_button):
-    """Put in the line that shows while the macOS keychain is locked.
-
-    A timer asks again while the window stands, so the box wakes up by
-    itself -- that waking is the only sign the unlock took. Returns the
-    call that reads the state once.
-    """
-    from PySide6 import QtCore as _qc, QtWidgets as _qw
-    row = _qw.QWidget()
-    row.setObjectName("keychain_row")
-    line = _qw.QHBoxLayout(row)
-    line.setContentsMargins(0, 0, 0, 0)
-    note = label(T('The keychain is locked. Unlock it and this button '
-                   'wakes up.'), COLOURS["warning"])
-    note.setWordWrap(True)
-    note.setObjectName("keychain_locked")
-    line.addWidget(note, 1)
-    way = _qw.QPushButton(T('Open Keychain Access'))
-    way.setObjectName("keychain_way")
-    way.clicked.connect(lambda *_: open_key_store_app())
-    line.addWidget(hint(way, T('Opens the app that unlocks the keychain.')))
-    into.addWidget(row)
-
-    def look():
-        """Grey the save box while the store is shut, and wake it up."""
-        shut = key_store_locked() is True
-        row.setVisible(shut)
-        keep_button.setEnabled(not shut)
-
-    look()
-    watch = _qc.QTimer(row)
-    watch.timeout.connect(look)
-    # Half a second: often enough that unlocking feels answered, and
-    # cheap -- it starts no process and puts nothing on the screen.
-    watch.start(500)
-    return look
 
 
 def log_open():
@@ -1384,40 +1278,6 @@ def question_dialog(f, window, QtWidgets, label):
     else:
         f.choice = "abort"
     f.event.set()
-
-
-def preflight_sentence(findings, audio_file_list, recordings, videos_n):
-    """The line under the file list: what is there, and what is wrong.
-
-    Outside gui() because it reaches into nothing. Returns the line and
-    the colour it is written in.
-    """
-    recordings = recordings or audio_file_list
-    parts = []
-    if audio_file_list:
-        parts.append("%s%s" % (
-            TN(recordings, '%s audio recording', '%s audio recordings')
-            % number_text(recordings, 0),
-            "" if recordings == audio_file_list
-            else T(' from %s files') % number_text(audio_file_list, 0)))
-    if videos_n:
-        parts.append(TN(videos_n, '%s video file', '%s video files')
-                     % number_text(videos_n, 0))
-    sentence = ", ".join(parts) if parts else T('nothing selected')
-    # What belongs to a file that does not take part is shown on its row,
-    # not in the balance below.
-    counts = [b for b in findings if not b.set_aside]
-    serious = [b for b in counts if b.kind == "abort"]
-    hints = [b for b in counts if b.kind == "hint"]
-    if serious:
-        return sentence + " -- %s" % serious[0].text, COLOURS["error"]
-    if len(hints) == 1:
-        return (sentence + T(' -- 1 note: %s') % hints[0].text[:110],
-                COLOURS["warning"])
-    if hints:
-        return (sentence + T(' -- %s notes') % number_text(len(hints), 0),
-                COLOURS["warning"])
-    return sentence + T(' -- nothing to fault.'), COLOURS["quiet"]
 
 
 def make_log_writer(state, post):
@@ -1952,428 +1812,6 @@ def app_language_set(QtCore, Qt, app):
     qt_own_words(QtCore, app)
     app.setLayoutDirection(Qt.RightToLeft if reads_right_to_left(PROGRAM.LANG)
                            else Qt.LeftToRight)
-
-
-def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
-                   set_mark, append_findings, show_overall, lines_node,
-                   no_join, together_now, multitrack, assign_lines,
-                   clip_kind_values):
-    """Checking the files in the background, and showing what came back.
-
-    Outside gui() because the three are one theme: the list changed, so
-    it is measured again, and the marks come back into the same rows. The
-    call sits below clip_kind_values, which preflight_kick_off reads.
-    """
-
-    def preflight_fill_in(findings):
-        """Write the preflight findings into the list."""
-        plan.done("check")
-        if not files:
-            return
-        # Remember them: the list is rebuilt on every change and the marks
-        # would be lost.
-        state["preflight_findings"] = findings
-        # The worst mark per file -- one hint weighs more than nine lines
-        # of "fine". Which file is meant the finding says itself.
-        rank = {"good": 0, "fixed": 1, "hint": 2, "abort": 3}
-        # Collected per *row*, not per file: a multi-part recording has
-        # three files and one row, and the last block would overwrite it.
-        per_node, general = {}, []
-        for b in findings:
-            node = lines_node.get(b.file) if b.file else None
-            if node is not None:
-                per_node.setdefault(id(node), (node, []))[1].append(b)
-            elif b.kind != "good":
-                # No row for it, so into the general group rather than counting
-                # the finding and showing it nowhere.
-                general.append(b)
-        for node, its_findings in per_node.values():
-            worst = max(its_findings, key=lambda x: rank[x.kind])
-            set_mark(node, worst.kind, worst.text)
-            append_findings(node, its_findings)
-        show_overall(general)
-        # The sentence below: what is there, and whether anything speaks
-        # against it.
-        sentence, colour_line = preflight_sentence(
-            findings, len([1 for _p, a in files if a == "audio"]),
-            state.get("audio_recordings"),
-            len([1 for _p, a in files if a == "video"]))
-        preflight_line.setText(sentence)
-        preflight_line.setStyleSheet("color: %s;" % colour_line)
-
-    def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
-                         set_aside=(), apart=(), together=()):
-        """Measure in the background so the interface does not freeze."""
-        try:
-            findings = collect_findings(audio_files, videos_p, False,
-                                        crosstalk, set_aside, apart,
-                                        together)
-        except Exception as e:
-            # An empty list would read as "nothing to fault", and the run
-            # would start on material nobody looked at.
-            findings = [Finding("abort", T('Check'),
-                                T('the check itself stopped: %s') % e)]
-        if state.get("preflight_run") == label_run:
-            bridge_emit(bridge.preflight, findings)
-
-    def preflight_kick_off():
-        """Re-check after every change to the file list.
-
-        Measured and cached per file, so adding a camera waits only for that
-        one.
-        """
-        if not files:
-            # Counted on, so the answer of a check still running
-            # against the old list is dropped when it arrives.
-            state["preflight_run"] = state.get("preflight_run", 0) + 1
-            plan.drop(["check"])
-            preflight_line.setText("")
-            return
-        # What is left out is still checked, or its row would be the only
-        # one without a mark. It enters no comparison and no balance.
-        gone = set()
-        for row, _nv, cv in assign_lines:
-            if cv.get() == IGNORE_AUDIO:
-                gone.update(path_key(x) for x in row)
-        for file_path, value in clip_kind_values.items():
-            if value.get() == TYPE_IGNORED:
-                gone.add(path_key(file_path))
-        audio_files = [p for p, a in files if a == "audio"]
-        videos_p = [p for p, a in files if a == "video"]
-        label_run = state.get("preflight_run", 0) + 1
-        state["preflight_run"] = label_run
-        plan.begin("check", T('Checking files'), 2.0)
-        preflight_line.setText(T('checking ...'))
-        preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
-        # Crosstalk is a question about per-speaker tracks. Without
-        # multitrack there are none, and nothing is assigned yet.
-        threading.Thread(target=preflight_work_loop,
-                         args=(audio_files, videos_p, label_run,
-                               bool(multitrack.get()), gone,
-                               frozenset(no_join),
-                               tuple(tuple(g) for g in together_now())),
-                         daemon=True).start()
-
-    return preflight_fill_in, preflight_kick_off
-
-
-def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
-                      settings_open, buttons_check, multi_button,
-                      multitrack, out_folder, commonest_folder, report):
-    """The key for auphonic.com, and the preset a run is given.
-
-    Outside gui() because the two are one theme: the key is checked by
-    fetching the presets, and what comes back is what the preset box
-    offers. The call sits below multi_button, which the preset switches
-    on when it says no processing is wanted.
-    """
-    # --- In two places in the window: the key behind "Settings ...", set
-    #     once; the preset under the assignment, chosen every time.
-    access_box = QtWidgets.QGroupBox(T('Access to auphonic.com'))
-    access_layout = QtWidgets.QVBoxLayout(access_box)
-    first_line = QtWidgets.QHBoxLayout()
-    access_layout.addLayout(first_line)
-    first_line.addWidget(label("API Key:"))
-    _key_first, state["key_from"] = api_key_source()
-    key_var = Value(_key_first)
-    key_entry = field_bind(QtWidgets.QLineEdit(), key_var, 280)
-    key_entry.setEchoMode(QtWidgets.QLineEdit.Password)
-    first_line.addWidget(key_entry)
-    remember = Value(bool(load_api_key()))
-    # Name where it goes; "remember" does not say where.
-    if platform.system() == "Darwin":
-        keep_text, keep_where = T('Save in Keychain'), T('Keychain')
-    elif platform.system() == "Windows":
-        keep_text, keep_where = T('Save in Registry'), "Registry"
-    else:
-        keep_text, keep_where = T('Keep it saved'), T('system store')
-    keep_button = checkbox_bind(QtWidgets.QCheckBox(keep_text), remember)
-    first_line.addWidget(hint(
-        keep_button, T('The key is then in the %s, never in a file.')
-        % keep_where))
-    check_button = QtWidgets.QPushButton(T('Connect'))
-    check_button.setFixedWidth(caption_room(check_button, 110))
-    first_line.addWidget(hint(check_button,
-                                  T('Check the key and fetch Presets.')))
-    keychain_row_add(access_layout, keep_button)
-
-    # The note about the key, under the field and on the sheet both.
-    (settings_note, key_row, key_note_show,
-     key_note_hide) = make_key_note(QtWidgets, label, hint,
-                                    lambda: settings_open())
-    access_layout.addWidget(settings_note)
-    run_layout.addLayout(key_row)
-
-    def button_green(on):
-        """Checked and good: the button turns green and goes to sleep."""
-        check_button.setEnabled(not on)
-        check_button.setStyleSheet(
-            "QPushButton:disabled { background: %s; color: white; "
-            "font-weight: bold; border: 0px; border-radius: 4px; }"
-            % COLOURS["good"] if on else "")
-
-    second_line = QtWidgets.QHBoxLayout()
-    run_layout.addLayout(second_line)
-    second_line.addWidget(label(T('Preset:')))
-    presets_wanted_now = lambda: presets_load(asked=False)
-    preset_box = preset_box_widget(QtWidgets, state, presets_wanted_now)()
-    preset_box.setMinimumWidth(caption_room(preset_box, 320,
-                                            preset_missing_rows()))
-    # While no key is checked there is only the one entry, and it describes
-    # exactly what happens then.
-    preset_box.addItem(label_of(PRESET_NONE), PRESET_NONE)
-    second_line.addWidget(hint(preset_box,
-        T('Determines how auphonic.com processes the audio.\n\n"%s" leaves '
-          'the key in place and still does not go there.\nThe audio is then '
-          'only merged and normalised, not unmixed --\nand without separate '
-          'tracks there is no camera cut.') % label_of(PRESET_NONE)))
-    second_line.addSpacing(16)
-    # Where the processed tracks are already there, nothing is uploaded. The
-    # script finds that out itself; this only says so.
-    done_folder = Value("")
-    done_label = label("", COLOURS["good"])
-    second_line.addWidget(done_label)
-    second_line.addStretch(1)
-
-    def without_auphonic():
-        """Report whether the entry stands in the preset list."""
-        return preset_box.currentData() == PRESET_NONE
-
-    def without_auphonic_toggled(*_):
-        """Multitrack no longer hangs off auphonic.com.
-
-        Without a preset the run stays local: aligned, mixed, cut -- only
-        de-bleed, leveler and noise removal are missing.
-        """
-        multi_button.setEnabled(True)
-        buttons_check()
-
-    preset_box.currentIndexChanged.connect(without_auphonic_toggled)
-
-    def preset_picked(*_):
-        """A pick by hand is the wish from here on, whatever it was.
-
-        Only a click raises this; rebuilding the list is done with the
-        signals blocked, so what is kept here is never a fallback.
-        """
-        state["preset_wanted"] = preset_box.currentData() or ""
-
-    preset_box.activated.connect(preset_picked)
-    def finished_tracks_check():
-        """Check whether processed tracks are already in the output folder."""
-        found = (finished_tracks_find(out_folder.get())
-                    or finished_tracks_find(commonest_folder())
-                    or finished_tracks_deeper(commonest_folder()))
-        done_folder.set(found or "")
-        done_label.setText(T('processed tracks found -- nothing is uploaded') if found else "")
-
-    def remember_toggled(on):
-        if on:
-            if not store_api_key(key_var.get().strip()):
-                tick_off_quietly(keep_button, remember)
-                report(T('The key was not saved'), key_store_trouble())
-        else:
-            delete_api_key()
-
-    keep_button.toggled.connect(remember_toggled)
-
-    def presets_filter():
-        """Offer only the presets that match the mode."""
-        preset_box_fill(preset_box,
-                        preset_entries(state["presets"], multitrack.get(),
-                                       label_of(PRESET_NONE), PRESET_NONE),
-                        state, PRESET_NONE)
-        without_auphonic_toggled()
-
-    def preset_plaintext():
-        """Return the chosen preset name, empty where none was chosen.
-
-        The first entry is not a preset but the decision to work without
-        auphonic.com, so it yields nothing to pass on.
-        """
-        choice = preset_box.currentData()
-        return "" if not choice or choice == PRESET_NONE else choice
-
-    def presets_load(asked=True):
-        """Check the API key and fetch the presets in one go.
-
-        The call is the test: a preset list coming back means the key is
-        good. Fetched in its own thread so the window does not freeze.
-        *asked* decides the wording only. Neither opens a box: a rejected
-        key belongs at the ungreen button and the line under it.
-        """
-        state["key_asked"] = asked
-        key_note_hide()
-        key = key_var.get()
-        wrong = key_complaint(key)
-        if wrong:
-            # Nothing leaves the house over a key that is plainly not one.
-            # Which case it is stands in the sentence itself.
-            key_note_show(wrong)
-            return
-        key = key.strip()
-        state["presets_busy"] = True
-        check_button.setEnabled(False)
-        check_button.setText(T('checking ...'))
-
-        def fetch():
-            try:
-                bridge_emit(bridge.presets, list_presets(key), "", key)
-            except Exception as e:
-                bridge_emit(bridge.presets, None, str(e)[:90], key)
-
-        threading.Thread(target=fetch, daemon=True).start()
-
-    def presets_arrived(preset_list, error, checked=""):
-        state["presets_busy"] = False
-        check_button.setText(T('Connect'))
-        # Opened while it was still fetching: show it again with what came
-        # back -- but never let a fetch from Connect open a list itself.
-        open_after = state.pop("presets_open_after", False) and preset_list
-        if preset_list is None:
-            state["presets"] = None
-            button_green(False)
-            presets_filter()
-            # Whole and unshortened: what auphonic.com said is the only
-            # account anybody gets. Only the wording differs.
-            if not state.get("key_asked", True):
-                key_note_show(key_refused_note(state.get("key_from"), error))
-                return
-            key_note_show(key_refused_note("", error))
-            return
-        state["presets"] = preset_list
-        # A store that refuses must show, or the button goes green over a
-        # key that is gone at the next start. The key that goes in is the
-        # one that was checked, never the field read a second time.
-        if remember.get() and not store_api_key(
-                (checked or key_var.get()).strip()):
-            tick_off_quietly(keep_button, remember)
-            key_note_show(T('The key was not saved: %s')
-                          % key_store_trouble())
-        button_green(True)
-        presets_filter()
-        note, fitting = preset_mode_note(preset_list, multitrack.get())
-        if note:
-            key_note_show(note)
-        if open_after and fitting:
-            preset_box.showPopup()
-
-    bridge.presets.connect(presets_arrived)
-    check_button.clicked.connect(lambda: presets_load(asked=True))
-
-    def api_key_changed():
-        """A new key means unchecked until OK is pressed again.
-
-        Multitrack is not touched: it works without auphonic.com too, so a
-        key being retyped is no reason to switch it off.
-        """
-        state["presets"] = None
-        button_green(False)
-        # The complaint was about the key that stood there before, and
-        # it must not be read as being about the one now being typed.
-        key_note_hide()
-        presets_filter()
-
-    key_var.listen(api_key_changed)
-
-    return (access_box, keep_where, key_var, done_folder,
-            without_auphonic, preset_plaintext, presets_filter,
-            presets_wanted_now, finished_tracks_check)
-
-
-def make_resolve_check(QtWidgets, bridge, bridge_emit, resolve_position,
-                       settings_open):
-    """The box saying whether Resolve answers, and the run behind it.
-
-    Outside gui() because the box, the check and the line above the cut
-    tab are one theme. The call sits below settings_open, which the way
-    into the settings window reaches for.
-    """
-    # The box only appears with multitrack, which is where the
-    # speaker-to-camera assignment is. Resolve is checked on opening.
-    resolve_box = QtWidgets.QGroupBox(T('Connection to Resolve'))
-    # Two areas side by side as in the assignment: what is configured on the
-    # left, what comes of it on the right.
-    resolve_columns = QtWidgets.QHBoxLayout()
-    resolve_position.addLayout(resolve_columns, 1)
-    resolve_left = QtWidgets.QVBoxLayout()
-    resolve_right = QtWidgets.QVBoxLayout()
-    resolve_columns.addLayout(resolve_left, 1)
-    resolve_columns.addLayout(resolve_right, 1)
-    # One line saying whether Resolve is there, and the way to the box
-    # that can ask again. Hidden until something has been asked.
-    _echo_row = QtWidgets.QHBoxLayout()
-    resolve_left.addLayout(_echo_row)
-    resolve_echo = label("", COLOURS["quiet"], True)
-    resolve_echo.setVisible(False)
-    _echo_row.addWidget(resolve_echo)
-    _echo_button = QtWidgets.QPushButton(T('Settings ...'))
-    _echo_button.setFlat(True)
-    _echo_button.clicked.connect(lambda: settings_open())
-    _echo_button.setVisible(False)
-    _echo_row.addWidget(_echo_button)
-    _echo_row.addStretch(1)
-    _resolve_rows = QtWidgets.QVBoxLayout(resolve_box)
-    _resolve_head_row = QtWidgets.QHBoxLayout()
-    _resolve_rows.addLayout(_resolve_head_row)
-    resolve_head = label(T('not checked yet'), COLOURS["quiet"], True)
-    resolve_head.setWordWrap(True)
-    _resolve_head_row.addWidget(resolve_head, 1)
-    verify_button = QtWidgets.QPushButton(T('Check again'))
-    speaks_as(verify_button, T('Check the connection to Resolve again'))
-    hint(verify_button, T('Connects to Resolve again.'))
-    _resolve_head_row.addWidget(verify_button)
-    resolve_text = label("", COLOURS["quiet"])
-    resolve_text.setWordWrap(True)
-    resolve_text.setVisible(False)
-    _resolve_rows.addWidget(resolve_text)
-
-    def resolve_check_run_fill_in(result):
-        works, lines = result
-        # The box lives in the settings window; its answer belongs here as
-        # well, or it is written into a window nobody has opened.
-        resolve_echo.setText(T('Resolve answers') if works
-                             else T('Resolve does not answer -- see '
-                                    'Settings'))
-        resolve_echo.setStyleSheet("color: %s;" % (COLOURS["good"] if works
-                                                   else COLOURS["error"]))
-        # Only where it does not answer: a line saying Resolve is there
-        # costs a row, and the way to the box is for somebody with a fix.
-        resolve_echo.setVisible(not works)
-        _echo_button.setVisible(not works)
-        resolve_head.setText(T('Resolve answers%s')
-                             % (("  (%s)" % lines[0]) if works and lines
-                                else "" if works else T(' not.')))
-        resolve_head.setStyleSheet("color: %s; font-weight: bold;"
-                                   % (COLOURS["good"] if works
-                                      else COLOURS["error"]))
-        resolve_text.setText("" if works else "\n".join(lines))
-        resolve_text.setVisible(not works)
-        verify_button.setEnabled(True)
-        verify_button.setText(T('Check again'))
-
-    def resolve_check_run_work_loop():
-        try:
-            result = check_resolve()
-        except Exception as e:
-            result = (False, [T('Check itself failed: %s') % e])
-        bridge_emit(bridge.resolve_check, result)
-
-    def resolve_check_run_kick_off():
-        verify_button.setEnabled(False)
-        verify_button.setText(T('checking ...'))
-        resolve_head.setText(T('checking ...'))
-        resolve_head.setStyleSheet("color: %s;" % COLOURS["quiet"])
-        resolve_text.setText("")
-        resolve_text.setVisible(False)
-        threading.Thread(target=resolve_check_run_work_loop,
-                         daemon=True).start()
-
-    verify_button.clicked.connect(resolve_check_run_kick_off)
-    bridge.resolve_check.connect(resolve_check_run_fill_in)
-
-    return (resolve_box, resolve_left, resolve_right,
-            resolve_check_run_kick_off)
 
 
 #----------------------------------------------------- The window itself
