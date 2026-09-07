@@ -685,10 +685,10 @@ msgstr "测量响度"
 msgid "Merge them"
 msgstr "将它们合并"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "不使用其音频"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "使用其音频"
 
 msgid "Mute."

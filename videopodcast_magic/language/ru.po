@@ -696,10 +696,10 @@ msgstr "Измерение громкости"
 msgid "Merge them"
 msgstr "Объединить их"
 
-msgid "do not use the audio"
+msgid "do not use internal audio"
 msgstr "не использовать звук"
 
-msgid "use the audio"
+msgid "use internal audio"
 msgstr "использовать звук"
 
 msgid "Mute."

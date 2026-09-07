@@ -2212,7 +2212,8 @@ def check_mode_fits_input(audio_paths, args):
               'needed, and only %s was found.\n  A track is a recording of '
               'its own, a channel of a multichannel\n  recorder, or the '
               'audio of a camera -- that counts as soon as its\n  Camera '
-              'audio says "use the audio". Without two of them there\n  '
+              'audio says "use internal audio". Without two of them '
+              'there\n  '
               'is nothing to decouple, and the same file runs through as an\n'
               '  ordinary production.')
             % number_text(chains, 0))
@@ -2356,7 +2357,7 @@ def multitrack_state_note(tracks, cameras_left):
         return ""
     if cameras_left:
         return T('One track only -- set a camera\'s Camera audio to '
-                 '"use the audio" for a second.')
+                 '"use internal audio" for a second.')
     return T('One track only, and no camera audio left to take.')
 
 
