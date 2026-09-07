@@ -25,6 +25,111 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b10] - 2026-09-07
+
+### Changed
+
+- **The Camera audio field says "use internal audio" now.** It said
+  "use the audio", and the column it stands in is already called Camera
+  audio, so the field named nothing. "Internal" says which sound is
+  meant: the one the camera recorded itself, as against the separate
+  recordings. German keeps "Ton verwenden" -- its column is called
+  "Kameraton", and there was nothing ambiguous there to mend.
+
+### Removed
+
+- **The project file no longer stores the command line that made the
+  run.** It stood under `call`, and two places read values back out of
+  it. Everything that line carried already stands in the file under its
+  own name -- the cut settings, the loudness, the In and Out points,
+  the wide shots -- so a project reopens exactly as it did, and a file
+  written by an older version still opens.
+
+### Fixed
+
+- **A German run wrote "+1.5 s" where every other number in the program
+  writes "+1,5 s".** When Resolve inserts nothing it says nothing about
+  why, so the program prints how far each track's first frame stands
+  from the start of the timeline. That one offset went past the
+  language. It carries the German comma now, and a large one gains the
+  thousands mark with it: "-1.234,5".
+
+- **A handover file without a frame rate no longer builds a timeline at
+  30 in silence.** Four places read the rate forgivingly and put 30 in
+  its place, which made a broken handover look like a sound one: the
+  timeline came out at 30 while the cut had been worked out at 25, and
+  every cut sat beside the picture with nothing said. Such a file is
+  turned away at the door now, with one sentence saying the run has to
+  be made again.
+
+### Security
+
+- **The Auphonic key has no way into a project file any more.** It used
+  to be struck out of the command line before that line was written
+  into the file. A filter can be got round; a line that is never
+  written cannot.
+
+### Documentation
+
+- **The chapter on the Camera audio field no longer promises a reason
+  beside it when it greys out.** Nothing stands there, and that is on
+  purpose -- a sentence in the row made it too long to read. Both
+  languages say now that the field sets itself, that it greys out, that
+  nothing beside it says why, and that the list underneath holds the
+  cases.
+
+**Deutsch**
+
+### Geändert
+
+- **Im englischen Fenster heißt das Feld in der Spalte Kameraton jetzt
+  „use internal audio".** Vorher sagte es nur „Ton verwenden" ohne zu
+  sagen, welchen -- und die Spalte, in der es steht, heißt dort
+  ohnehin schon Camera audio, das Feld benannte also nichts. **Am deutschen Fenster ändert sich nichts:** die Spalte heißt
+  „Kameraton", und „Ton verwenden" war dort nie mehrdeutig.
+
+### Entfernt
+
+- **Die Projektdatei speichert die Kommandozeile des Laufs nicht mehr.**
+  Sie stand unter `call`, und zwei Stellen holten sich Werte daraus
+  zurück. Alles, was diese Zeile trug, steht in der Datei längst unter
+  eigenem Namen -- die Schnittwerte, die Lautheit, In- und Out-Punkt,
+  die Totalen. Ein Projekt öffnet sich also genau wie vorher, und eine
+  Datei aus einer älteren Fassung öffnet sich weiterhin.
+
+### Behoben
+
+- **Ein deutscher Lauf schrieb „+1.5 s", wo jede andere Zahl im
+  Programm „+1,5 s" schreibt.** Wenn Resolve nichts einfügt, sagt es
+  auch nicht warum, also druckt das Programm, wie weit das erste Bild
+  jeder Spur vom Anfang der Zeitleiste steht. Dieser eine Abstand ging
+  an der Sprache vorbei. Er trägt jetzt das Komma, und ein großer
+  Abstand bekommt den Tausenderpunkt dazu: „-1.234,5".
+
+- **Eine Übergabedatei ohne Bildrate baut die Zeitleiste nicht mehr
+  stillschweigend mit 30.** Vier Stellen lasen die Rate nachsichtig und
+  setzten 30 ein; eine kaputte Übergabe sah damit aus wie eine heile --
+  die Zeitleiste entstand mit 30, während der Schnitt mit 25 gerechnet
+  war, und jeder Schnitt saß neben dem Bild, ohne daß etwas gesagt
+  wurde. So eine Datei wird jetzt an der Tür abgewiesen, mit einem
+  Satz, der sagt: den Lauf noch einmal machen.
+
+### Sicherheit
+
+- **Der Auphonic-Schlüssel hat keinen Weg mehr in eine Projektdatei.**
+  Bisher wurde er aus der Kommandozeile gestrichen, bevor diese in die
+  Datei geschrieben wurde. Einen Filter kann man umgehen; eine Zeile,
+  die gar nicht geschrieben wird, nicht.
+
+### Dokumentation
+
+- **Das Handbuch verspricht keine Begründung mehr neben dem
+  ausgegrauten Feld „Kameraton".** Dort steht nichts, und das mit
+  Absicht -- ein Satz in der Zeile machte sie zu lang zum Lesen. Beide
+  Sprachen sagen jetzt, daß das Feld sich selbst setzt, daß es
+  ausgraut, daß daneben nichts steht, und daß die Liste darunter die
+  Fälle nennt.
+
 ## [3.0.0b9] - 2026-09-06
 
 ### Added

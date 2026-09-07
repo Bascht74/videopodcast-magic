@@ -43,6 +43,19 @@ usable, the reason stands at it:
 - **The run is still going.** Wait for it; the button frees itself when
   the run is done.
 
+**And a handover the button does take can still be turned away when it
+is opened.** Two things make one unusable, and both stop the work
+before a timeline is built, with the reason on the line beginning
+*Abort*:
+
+- **It was written by another version, in another format.** The names
+  inside have moved since, so reading it anyway would put the wrong
+  things in the wrong places. Set the run up again.
+- **It carries no frame rate.** Every handover this program writes
+  carries one, so a file without it came from somewhere else. Without
+  the rate the timeline would be built at a guessed speed and every cut
+  would sit beside the picture. Make the run again.
+
 The match over the cameras is asked on opening, and only there. A camera
 whose **Kind** is changed to intro, outro or **ignore this video** after
 a run therefore costs nothing straight away -- the button keeps working
