@@ -77,3 +77,8 @@ _to_delete/
 build/
 dist/
 *.egg-info/
+
+# Material somebody keeps beside the program to look things up in --
+# vendor manuals and their text extractions. Hundreds of megabytes, not
+# ours to ship, and one `git add -A` away from the repository.
+Resolve Handbuch/
