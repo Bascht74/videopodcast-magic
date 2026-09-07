@@ -1510,9 +1510,10 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
                 print(T('      %-24s no file in the media pool') % cam["track"])
                 continue
             rf = entry[cam["track"]]["recordFrame"]
-            print(T('      %-24s track V%d, from frame %d (%+.1f s to the '
+            print(T('      %-24s track V%d, from frame %d (%s s to the '
                     'start), %s%s') % (cam["track"], entry[cam["track"]]["trackIndex"], rf,
-                            (rf - start_frame) / max(1.0, fps),
+                            number_text((rf - start_frame) / max(1.0, fps),
+                                        1, plus=True),
                             T('Duration %s') % as_hms(cam.get("duration") or 0.0),
                             T('   NOT INSERTED')
                             if cam["track"] in absent else ""))

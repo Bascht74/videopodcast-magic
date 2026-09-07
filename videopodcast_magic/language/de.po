@@ -846,8 +846,8 @@ msgstr ""
 msgid "               Audio %s at %s -- there it meets the %s word."
 msgstr "               Ton %s bei %s -- dort trifft er auf das %s Wort."
 
-msgid "      %-24s track V%d, from frame %d (%+.1f s to the start), %s%s"
-msgstr "      %-24s Spur V%d, ab Bild %d (%+.1f s zum Anfang), %s%s"
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s Spur V%d, ab Bild %d (%s s zum Anfang), %s%s"
 
 msgid ""
 "      Both clips stay uncut; they overlap the content.\n"
