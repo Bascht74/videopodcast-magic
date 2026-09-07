@@ -22,6 +22,9 @@ with `ast` and `symtable`; none is guessed.
      left has to fetch it back.                                 +1 if so
      For the six pieces the window reads out of itself there is no
      take_from(), so EVERY moved name needs a line there.
+  G  a THIRD piece binds a moved name at its head, and the move
+     carries the name past that piece's read position: the line
+     becomes the fourth kind and has to be a forced read.       +1 each
   F  head lines in the piece it left whose last reader was the moved
      code. They have to go: source_no_loose_ends is red on a head line
      nobody reads.                                                -1 each
@@ -30,7 +33,7 @@ with `ast` and `symtable`; none is guessed.
      and a head line does not merely retire, it becomes the fifth kind
      and has to go.                                            -1 each
 
-    paid = B + C + E      net = B + C + E - F - D
+    paid = B + C + E + G      net = B + C + E + G - F - D
 
 Under those, one line that is not a cost: **how many of the names are
 read by no piece but the one they are leaving.** Every term above says
@@ -386,9 +389,32 @@ def main(argv):
     # Held against all three measured moves: the channel rows +0, the
     # short-shot line -1, the footer +1. No other reading gives all
     # three.
-    paid = len(B) + len(C) + len(E)
+    # G: a THIRD piece binds a moved name at its head, and the move
+    # carries the name past that piece's read position. The head line is
+    # then the fourth kind and answers AttributeError, so it has to
+    # become a forced read at the use. No other term sees this: E only
+    # looks at the piece being left.
+    #
+    # Measured 7.9.2026 on the move that showed it up. refresh_cut_list
+    # goes out of bearings/ (way in 536) into cut/ (625), and resolve/
+    # sits between them at 596 with the name at its head. After the move
+    # that line is `AttributeError: 'Program' object has no attribute
+    # 'refresh_cut_list'`, rc=1.
+    G = []
+    for piece in order:
+        if piece in (frm, to):
+            continue
+        path = piece_file(folder, piece)
+        if not os.path.exists(path):
+            continue
+        head = head_of(path)
+        for n in names:
+            if n in head and where.get(to, -1) > where.get(piece, 99):
+                G.append((n, piece))
+
+    paid = len(B) + len(C) + len(E) + len(G)
     crossing_E = 0 if bind_only else len(E)
-    net = len(B) + len(C) + crossing_E - len(F) - len(D)
+    net = len(B) + len(C) + crossing_E + len(G) - len(F) - len(D)
     sieve = len([1 for n, lives in C if frm in lives])
 
     print("moving %s from %s/ to %s/ -- %d lines"
@@ -416,8 +442,10 @@ def main(argv):
           % (frm, len(E), [n for n, _l in E]))
     print("  F  dead head line in %s/     %2d  %s" % (frm, len(F), sorted(F)))
     print("  D  read %s/ already had    %2d  %s" % (to, len(D), D))
+    print("  G  head line broken elsewhere %2d  %s"
+          % (len(G), ["%s (%s/)" % (n, w) for n, w in G]))
     print("  ----")
-    print("  paid = B+C+E = %d      net = %+d%s"
+    print("  paid = B+C+E+G = %d    net = %+d%s"
           % (paid, net, "   (the %d line(s) back are not crossings: no "
                         "take_from for %s/)" % (len(E), to) if bind_only else ""))
     print("  a screen counting late names alone sees %d, and is out by %+d"
