@@ -32,11 +32,25 @@ def check(name, ok, extra=""):
 
 
 def holding(text, *pieces):
-    """The first line of text carrying one of pieces, for the FAIL line."""
+    """The first line of text carrying one of pieces, for the FAIL line.
+
+    Where no line carries any of them it used to hand back "", and the
+    failure line then read "'' -- wanted ... in it": it named nothing
+    that was really there. On another machine only the failure line
+    survives, so it says what the report did say instead.
+    """
     for line in text.splitlines():
         if any(p in line for p in pieces):
             return line.strip()
-    return ""
+    # The heading carries a mark for the terminal, and a control
+    # character in a failure line makes the log unreadable where it is
+    # read: on the builder, in a browser.
+    plain = "".join(c if c >= " " or c == "\n" else " " for c in text)
+    said = [line.strip() for line in plain.splitlines() if line.strip()]
+    if not said:
+        return "nothing was reported at all"
+    return "no line held %s; the report said: %s" % (
+        " or ".join(repr(p) for p in pieces), " / ".join(said[:3])[:160])
 
 
 # Who asks, as the ranking hands it on: name, sentences, questions,
