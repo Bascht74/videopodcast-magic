@@ -166,8 +166,8 @@ Multitrack needs two input tracks. Three things count as a track:
 
 - a recording of its own,
 - a channel of a multichannel recorder,
-- the audio of a video file whose **Camera audio** stands on **use the
-  audio**.
+- the audio of a video file whose **Camera audio** stands on **use
+  internal audio**.
 
 The program counts the rows of the upper table, minus those on **do not
 use**. The camera cut does not need this field.
@@ -182,7 +182,7 @@ Multitrack tick and the box for auphonic.com.*
 
 Whether a camera contributes its sound is asked at the file: in the file
 list on the **Files & production** tab, in the column **Camera audio**.
-It stands on **do not use the audio** until somebody says otherwise, at
+It stands on **do not use internal audio** until somebody says otherwise, at
 every camera and however many there are. Nothing can measure that
 answer -- two radio microphones recorded straight into the video track
 look exactly like the camera's own microphone in the room, so only
@@ -195,14 +195,16 @@ heard.
 
 One case settles itself: exactly one video file with sound and no audio
 recording beside it. That sound is then the only sound there is, and the
-field stands on **use the audio**, greyed out, with the reason beside it.
-It is derived, not stored -- an audio recording added takes it back to a
-question ([The simple path](simple-path.md)).
+field stands on **use internal audio** and cannot be changed. Nothing
+stands beside it saying why: a field that is shut says by being shut
+that there is nothing left to answer. It is derived, not stored -- an
+audio recording added takes it back to a question
+([The simple path](simple-path.md)).
 
-Set to **use the audio**, the camera gets a row in the upper table, with
-its speaker name. It counts like any other track: processed, in the
-Full-Mix, counted in the speaking time for the camera cut, and the first
-audio track of its own camera.
+Set to **use internal audio**, the camera gets a row in the upper
+table, with its speaker name. It counts like any other track:
+processed, in the Full-Mix, counted in the speaking time for the camera
+cut, and the first audio track of its own camera.
 
 "Like any other track" includes the channels. The field only keeps the
 audio; the same measurement as for a recorder file decides what it
@@ -411,8 +413,9 @@ masters to ([Preflight](preflight.md)).
 - **Mark In and Mark Out stay locked.** The common time axis is not
   there yet. Wait for the bar under the tables.
 - **Several cameras, no audio recording, and Start stays locked.** No
-  camera is contributing its sound. Set **Camera audio** to **use the
-  audio** at every camera that is to be heard; each one is then a track.
+  camera is contributing its sound. Set **Camera audio** to **use
+  internal audio** at every camera that is to be heard; each one is then
+  a track.
   They no longer become tracks by themselves: a camera recording a
   usable track cannot be told from one merely filming in the same room.
 - **A voice carries a name somebody else has, and Start stays locked.**

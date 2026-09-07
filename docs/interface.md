@@ -71,7 +71,8 @@ Four tabs, in the order they are needed.
   records making that file, not that nobody did.
 
   Every video file carries **Camera audio** in the list. It reads
-  **do not use the audio** until somebody sets it to **use the audio**.
+  **do not use internal audio** until somebody sets it to **use
+  internal audio**.
   Set, that sound goes the same way as a recording that was read in:
   channels measured, one track or two decided, empty channels left out,
   cut into tracks. Synchronising takes that sound either way; the field
@@ -85,7 +86,7 @@ Four tabs, in the order they are needed.
   - the file is an intro or an outro,
   - one video file carries sound and no audio recording stands beside
     it. That sound is the only one there is, and the field stands on
-    **use the audio**. Adding a recording gives the choice back.
+    **use internal audio**. Adding a recording gives the choice back.
 
   The same field stands at the camera on **Assignment & time window**,
   on the same value: change one and the other follows at once.
@@ -238,7 +239,7 @@ Four tabs, in the order they are needed.
   camera, on the value from the file list, and **Kind** beside it, on
   the same value and with the same entries barred: that a clip is in
   truth an outro is noticed while watching it, and the player is here.
-  A camera set to **use the audio** gets a row in the assignment table
+  A camera set to **use internal audio** gets a row in the assignment table
   above, like a recording of its own.
 
   ![Assignment table and player](images/assignment.png)
@@ -370,12 +371,12 @@ auphonic.com. The camera cut does not need the tick.
 
 Multitrack needs two input tracks. An input track is a recording of its
 own, a channel of a multichannel recorder, or the audio of a video file
-set to **use the audio**. Several blocks of one recording count as one
+set to **use internal audio**. Several blocks of one recording count as one
 track, and a track set aside counts as none.
 
 The tick stays clickable whatever the material. With one track only a
 grey line beside it says so, and it names the way to a second:
-**Camera audio** at a camera, set to **use the audio**. If every camera
+**Camera audio** at a camera, set to **use internal audio**. If every camera
 already gives its audio away, that line says there is none left to
 take.
 
@@ -426,7 +427,7 @@ is stands under the buttons**, with the tab it is on:
 
 - no files,
 - no sound in use: no audio recording, and no video file set to
-  **use the audio**,
+  **use internal audio**,
 - no production name,
 - fewer than two tracks in the assignment table for multitrack,
 - with multitrack, a recording with no name at all: none typed, and

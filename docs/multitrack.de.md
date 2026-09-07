@@ -200,9 +200,11 @@ zu hören ist.
 
 Ein Fall entscheidet sich selbst: genau eine Videodatei mit Ton und
 keine Tonaufnahme daneben. Dann ist dieser Ton der einzige, den es gibt,
-und das Feld steht auf **Ton verwenden**, ausgegraut, mit der Begründung
-daneben. Es ist hergeleitet, nicht gespeichert -- kommt eine Tonaufnahme
-dazu, ist es wieder eine Frage ([Der einfache Weg](simple-path.de.md)).
+und das Feld steht auf **Ton verwenden** und lässt sich nicht ändern.
+Eine Begründung steht nicht daneben: ein Feld, das zu ist, sagt schon
+dadurch, dass hier nichts mehr zu beantworten ist. Es ist hergeleitet,
+nicht gespeichert -- kommt eine Tonaufnahme dazu, ist es wieder eine
+Frage ([Der einfache Weg](simple-path.de.md)).
 
 Auf **Ton verwenden** gestellt, bekommt die Kamera eine Zeile in der
 oberen Tabelle, mit ihrem Sprechernamen. Sie zählt wie jede andere Spur:
