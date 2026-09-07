@@ -250,7 +250,8 @@ rm -rf /tmp/vpm-wheel
 pip3 wheel --no-deps . -w /tmp/vpm-wheel
 
 find videopodcast_magic \( -name models -o -name __pycache__ \) -prune \
-     -o -name '*.py' -print | LC_ALL=C sort > /tmp/vpm-here.txt
+     -o \( -name '*.py' -o -name '*.po' -o -name '*.png' \) -print \
+     | LC_ALL=C sort > /tmp/vpm-here.txt
 python3 - /tmp/vpm-wheel/*.whl <<'PY' | LC_ALL=C sort > /tmp/vpm-inside.txt
 import sys, zipfile
 for name in zipfile.ZipFile(sys.argv[1]).namelist():
@@ -274,14 +275,23 @@ between -- comes out red rather than quietly right. And it clears up
 after itself, because a check that leaves a `build/` behind lays the
 trap it exists for.
 
-**It asks after the shape, not the number.** Eleven files is today; a
-tenth language tomorrow is a file in `language/` and travels by itself,
-and a written-down eleven would turn a good release red. `models/` and
-`__pycache__` are pruned on this side for the same reasons as in the
-archive: 31 MB of speaker model that the program fetches itself, and
-bytecode that is not in the repository at all. The .py pattern is what
-setuptools ships out of a package that declares no data of its own; the
-day it declares some, this line names it too.
+**It asks after the shape, not the number.** Forty-nine files is
+today -- 36 of program, twelve catalogues and one icon; a thirteenth language tomorrow is a file in `language/` and
+travels by itself, and a written-down number would turn a good release
+red. `models/` and `__pycache__` are pruned on this side for the same
+reasons as in the archive: 31 MB of speaker model that the program
+fetches itself, and bytecode that is not in the repository at all.
+
+**The three patterns are the three things `pyproject.toml` ships**, and
+they have to be read off it rather than remembered: `.py` for the
+program, and `[tool.setuptools.package-data]` for the rest -- today
+`"videopodcast_magic.desktop" = ["*.png"]` and
+`"videopodcast_magic.language" = ["*.po"]`. **This line stood at `.py`
+alone until 7.9.2026 and turned a sound package red**: the icon and
+twelve catalogues came out as thirteen `>` lines, and the sentence
+warning that the day would come stood right beneath it. So whoever
+adds a line to `package-data` adds its pattern here in the same
+breath.
 
 **Both directions at once, and one case is not covered here.** Measured
 4.9.2026 on copies: a `build/lib/` holding a stale

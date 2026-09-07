@@ -391,7 +391,7 @@ it is green.
 | `cut_player_right_file` | #62: The player takes the file that holds the In point and the Out point. |
 | `cut_player_speeds_up` | The cut player runs forward faster on every press, and says how fast. |
 | `cut_preview_is_the_run` | The preview shows the cut the run will really make. |
-| `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
+| `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the project file holds. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
 | `cut_speech_time_fits` | The speech time the preview reports fits inside the timeline. |

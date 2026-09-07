@@ -46,6 +46,19 @@ Wo der Knopf nicht bedienbar ist, steht der Grund an ihm:
 - **Der Lauf läuft noch.** Abwarten; wenn er durch ist, wird der Knopf
   von selbst wieder frei.
 
+**Und auch eine Übergabe, die der Knopf annimmt, kann beim Öffnen noch
+abgewiesen werden.** Zweierlei macht eine unbrauchbar, und beides hält
+die Arbeit an, bevor eine Zeitleiste entsteht — der Grund steht in der
+Zeile, die mit *Abbruch* beginnt:
+
+- **Sie stammt aus einer anderen Fassung, in einem anderen Format.** Die
+  Namen darin sind seither verrückt; sie trotzdem zu lesen hieße, das
+  Falsche an die falsche Stelle zu setzen. Den Lauf neu aufsetzen.
+- **Sie trägt keine Bildrate.** Jede Übergabe, die dieses Programm
+  schreibt, trägt eine — eine ohne kommt also von woanders her. Ohne die
+  Rate entstünde die Zeitleiste mit einer geratenen Geschwindigkeit, und
+  jeder Schnitt säße neben dem Bild. Den Lauf noch einmal machen.
+
 Der Abgleich über die Kameras wird beim Öffnen gefragt und nur dort.
 Wird der **Typ** einer Kamera nach einem Lauf auf Vorspann, Abspann oder
 **Video ignorieren** gestellt, kostet das also sofort nichts — der Knopf

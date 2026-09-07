@@ -64,7 +64,7 @@ def look(media):
     folder = tempfile.mkdtemp(prefix="vpm_a5c_")
     project = os.path.join(folder, "videopodcast-magic_Cameras.json")
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-         "call": [], "assignment": {}, "preset": "",
+         "assignment": {}, "preset": "",
          "files": [{"path": p, "kind": "video"} for p in videos],
          "out_folder": os.path.join(folder, "Result"),
          "production": PRODUCTION, "multitrack": False,

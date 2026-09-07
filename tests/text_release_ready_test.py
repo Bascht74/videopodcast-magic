@@ -161,10 +161,10 @@ check("the key is taken out before pip runs",
       "%d places" % source.count('clean.pop("AUPHONIC_TOKEN", None)'))
 
 
-# The switch is dropped inside project_write, which sits in gui() and
-# cannot be called from here. So its own filter is cut out of the source
-# and run over a command line carrying a key: the lines themselves
-# answer, instead of the word "strip" standing somewhere in the file.
+# The switch used to be dropped out of a command line project_write
+# stored. Since 7.9.2026 there is no line to drop it from: the source
+# of the function is read here and asked both halves of that, because a
+# filter can be got round and an absent argument cannot.
 def project_write_body():
     """The source of project_write, dedented to the left margin."""
     lines = source.split("\n")
@@ -181,35 +181,15 @@ def project_write_body():
     return "\n".join(out)
 
 
-# The filter is one assignment and the loop that follows it.
-lifted = []
-for one in (ast.parse(project_write_body() or "def project_write(argv): pass")
-            .body[0].body):
-    if isinstance(one, ast.Assign) and "clean" in ast.dump(one.targets[0]):
-        lifted = [one]
-    elif lifted and isinstance(one, ast.For):
-        lifted.append(one)
-        break
-
-
-def key_dropped(argv):
-    """What project_write's filter leaves of a command line."""
-    if len(lifted) != 2:
-        return None
-    room = {"argv": argv}
-    exec(compile(ast.Module(body=lifted, type_ignores=[]),
-                 "project_write", "exec"), room)
-    return room.get("clean")
-
-
-KEY = "not-a-real-key-000"
-left = key_dropped(["videopodcast_magic.py", "--out", "somewhere",
-                    "--auphonic-api-key", KEY, "--auphonic-preset", "podcast"])
-check("the project file drops the switch and its key",
-      left is not None and "--auphonic-api-key" not in left
-      and KEY not in left and "--auphonic-preset" in left
-      and "podcast" in left,
-      "the call it would write: %s" % (left,))
+body = project_write_body()
+first = (body or "").split("\n")[0]
+check("project_write is handed no command line",
+      first.startswith("def project_write():"),
+      "its first line: %r" % (first.strip() or "no project_write found",))
+check("and fetches none of its own", body and "argv" not in body,
+      "argv named in %s"
+      % ([x.strip() for x in (body or "").split("\n") if "argv" in x]
+         or ("no line" if body else "no project_write found")))
 
 print("\n5. Both languages, and each in its own")
 # A machine cannot say whether a sentence is good, but it can say

@@ -16,7 +16,7 @@ if os.path.isdir(folder):
               for p in sorted(glob.glob(folder + "/*.mov"))]
     with open(folder + "/videopodcast-magic_Interview_2.json", "w") as f:
         json.dump({"format": 3, "version": "fixture", "files": files,
-                   "timeline": [], "timeline_absolute": False, "call": [],
+                   "timeline": [], "timeline_absolute": False,
                    "production": "Interview 2",
                    "out_folder": folder + "/Ergebnis",
                    "multitrack": True, "wide_at_edges": True,

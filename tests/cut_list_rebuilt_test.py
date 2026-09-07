@@ -6,7 +6,9 @@ standing. A test held the In point against start_s -- but start_s is
 the zero of the axis, earlier than any In point anybody sets, so every
 window was refused, and a window is the exception, not the rule. And
 what Resolve is built from is the file, so the changed cut is read back
-off the disk and not out of the dictionary the call was handed.
+off the disk and not out of the dictionary the call was handed. The
+settings come out of the project file under their own names, which is
+where the button has read them since the stored command line went.
 """
 import os
 import the_program
@@ -67,11 +69,17 @@ def a_handover(window=None):
             "cameras": cams, "cut": list(STALE)}
 
 
-def refreshed(call, window=None):
-    """Put the settings in the project file and press the button."""
+def refreshed(settings, window=None):
+    """Put the settings in the project file and press the button.
+
+    *settings* are the file's own keys, spelt the way the window writes
+    them, because that is where the button reads them since 7.9.2026.
+    """
+    held = {"production": "Test"}
+    held.update(settings)
     with open(os.path.join(cut_folder, "videopodcast-magic_Test.json"),
               "w", encoding="utf-8") as f:
-        json.dump({"production": "Test", "call": call}, f)
+        json.dump(held, f)
     d = a_handover(window)
     path = os.path.join(cut_folder, "Test_resolve.json")
     with open(path, "w", encoding="utf-8") as f:
@@ -92,11 +100,13 @@ def as_shots(cut):
     return [(c["start"], c["end"], c["camera"]) for c in (cut or [])]
 
 
-short, short_cut, short_disk = refreshed(["--min-edit-duration", "3"])
+short, short_cut, short_disk = refreshed(
+    {"camera_cut": {"min-edit-duration": "3"}})
 check("without a window it does not refuse", short is None, str(short))
 check("and the cut of the last run is gone", short_cut != STALE,
       str(short_cut[:2]))
-long_r, long_cut, _disk = refreshed(["--min-edit-duration", "12"])
+long_r, long_cut, _disk = refreshed(
+    {"camera_cut": {"min-edit-duration": "12"}})
 check("the turned setting does not refuse either", long_r is None,
       str(long_r))
 check("and it really builds again: another number of shots",
@@ -116,17 +126,19 @@ check("and the speakers in the file are still the ones the run measured",
       % [x.get("name") for x in (short_disk.get("speakers") or [])])
 # The In point of the interface against a handover that has none: the
 # pair that was refused.
-with_in, in_cut, _disk = refreshed(["--in-point", "18:55:30:00",
-                                    "--min-edit-duration", "12"])
+with_in, in_cut, _disk = refreshed(
+    {"camera_cut": {"min-edit-duration": "12"},
+     "in_point": "18:55:30:00"})
 check("an In point beside a handover without one does not refuse",
       with_in is None, str(with_in))
 check("and gives the same cut as without it", in_cut == long_cut,
       "%d against %d" % (len(in_cut), len(long_cut)))
 # And what may still be refused, so that the repair did not take the
 # guard with it: the window really did move since the files were made.
-moved, _c, _disk = refreshed(["--in-point", "19:00:00:00",
-                              "--min-edit-duration", "12"],
-                             window=("18:55:30:00", "18:59:00:00"))
+moved, _c, _disk = refreshed(
+    {"camera_cut": {"min-edit-duration": "12"},
+     "in_point": "19:00:00:00"},
+    window=("18:55:30:00", "18:59:00:00"))
 check("a window that really moved is still refused", bool(moved),
       str(moved))
 

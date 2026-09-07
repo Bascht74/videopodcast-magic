@@ -275,7 +275,7 @@ project = os.path.join(media, "videopodcast-magic_Prepared.json")
 with open(project, "w", encoding="utf-8") as f:
     json.dump({
         "format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-        "call": [], "preset": "", "production": "Prepared",
+        "preset": "", "production": "Prepared",
         "multitrack": True, "out_folder": result, "assignment": {},
         "files": [{"path": here[n],
                    "kind": "video" if n.endswith(".mov") else "audio"}

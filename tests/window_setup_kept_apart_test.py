@@ -71,7 +71,7 @@ def tone(name, hz):
 one, two = tone("A_speaker.wav", 300), tone("B_speaker.wav", 900)
 project = os.path.join(folder, "videopodcast-magic_Interview_2.json")
 with open(project, "w", encoding="utf-8") as f:
-    json.dump({"format": 3, "version": "test", "timeline": [], "call": [],
+    json.dump({"format": 3, "version": "test", "timeline": [],
                "files": [{"path": one, "kind": "audio"},
                          {"path": two, "kind": "audio"}],
                "out_folder": os.path.join(folder, "Ergebnis"),

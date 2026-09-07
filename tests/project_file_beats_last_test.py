@@ -98,7 +98,6 @@ def project_file(name, own):
     path = os.path.join(folder, "videopodcast-magic_%s.json" % name)
     with open(path, "w", encoding="utf-8") as f:
         json.dump({"format": 3, "version": "test", "timeline": [],
-                   "call": [],
                    "files": [{"path": audio, "kind": "audio"},
                              {"path": camera, "kind": "video"},
                              {"path": second, "kind": "video"}],

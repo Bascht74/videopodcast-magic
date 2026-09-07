@@ -35,7 +35,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **2903** -- who is on camera when, and what carries it out
+* `cut/` **2895** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2801** -- the DaVinci Resolve project, timelines, colour,
@@ -63,7 +63,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
-* `orders/` **774** -- the command line a run is given: written out of
+* `orders/` **786** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **725** -- MOV atoms, colour tags, what a recording says
   about itself
@@ -71,7 +71,7 @@ figure of the day is that command, not this paragraph**:
   one in place, and what the window offers of all three
 * `herald/` **615** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **541** -- the program's own project file: writing
+* `project/` **533** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **500** -- the list of chosen files: the tree it is

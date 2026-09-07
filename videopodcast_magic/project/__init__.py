@@ -310,33 +310,25 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
     resolve_button_check stand, and hands both in.
     """
 
-    def project_write(argv):
+    def project_write():
         """Store what this run did, so it can be reopened.
 
         Not the state of every button but what counts: the files, the
-        output folder and the command line.
+        output folder, and every setting under its own name. No command
+        line: everything one carried stands here by name already, and
+        an absent line cannot leak the Auphonic key the way a filter
+        over one can be got round.
         """
         project_move()
         file_path = axis_file()
         if not file_path:
             return
-        # The API key does not belong in a file.
-        clean, skip = [], False
-        for part in argv[1:]:
-            if skip:
-                skip = False
-                continue
-            if part == "--auphonic-api-key":
-                skip = True
-                continue
-            clean.append(part)
         axis_old = (project_collect(file_path).get("timeline") or [])
         d = {"format": FILE_FORMAT,
              "version": VERSION,
              "files": [{"path": p, "kind": a} for p, a in files],
              "timeline": axis_old,
-             "timeline_absolute": bool(state.get("axis_absolute")),
-             "call": clean}
+             "timeline_absolute": bool(state.get("axis_absolute"))}
         settings_extend(d)
         try:
             with open(file_path, "w", encoding="utf-8") as f:

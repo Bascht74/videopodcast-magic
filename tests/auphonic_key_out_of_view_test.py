@@ -422,8 +422,6 @@ def lifted(name):
 
 room = tempfile.mkdtemp(prefix="vpm_key_view_")
 project_path = os.path.join(room, "podcast.vpm")
-ARGV = ["videopodcast_magic.py", "--out", room,
-        "--auphonic-api-key", KEY, "--auphonic-preset", "podcast"]
 
 body = lifted("project_write")
 around = {"project_move": lambda: None,
@@ -437,10 +435,14 @@ around = {"project_move": lambda: None,
           "json": json,
           "write": lambda text: None,
           "as_head": lambda text: text,
+          # Within reach on purpose: since no command line is stored,
+          # the store is the only way the key could still get into the
+          # file, and a check nothing can break is no check.
+          "load_api_key": lambda: KEY,
           "T": vpm.T}
 if body:
     exec(compile(body, "project_write", "exec"), around)
-    around["project_write"](ARGV)
+    around["project_write"]()
 
 written = ""
 if os.path.exists(project_path):
@@ -451,14 +453,20 @@ check("a project file is written at all, so there is something to read",
       "%d bytes at %s, project_write %s"
       % (len(written), project_path, "lifted" if body else "not found"))
 
-stored = []
+# The switch cannot be filtered out of a line that is not written.
+# project_write stores no command line, and it is handed none: the two
+# checks below say both, because either one alone could come back.
+holds = {}
 try:
-    stored = json.loads(written).get("call") or []
+    holds = json.loads(written)
 except ValueError:
     pass
-check("the call stored in the project file drops the key's switch",
-      "--auphonic-api-key" not in stored and "--auphonic-preset" in stored,
-      "the call it wrote: %s" % (stored,))
+check("the project file holds no command line",
+      "call" not in holds,
+      "keys in it: %s" % (sorted(holds),))
+check("and project_write is handed none either",
+      "argv" not in body.split("\n")[0],
+      "its first line: %s" % (body.split("\n")[0].strip(),))
 
 at = written.find(KEY)
 check("no character of the project file is the key", at < 0,

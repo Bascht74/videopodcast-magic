@@ -171,7 +171,7 @@ def look(case, media, folder):
     # builder's two machines do not.
     if case == "make":
         d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-             "call": [], "assignment": {}, "preset": "",
+             "assignment": {}, "preset": "",
              "files": ([{"path": recording, "kind": "audio"}]
                        + [{"path": v, "kind": "video"} for v in videos]),
              "out_folder": os.path.dirname(project),
