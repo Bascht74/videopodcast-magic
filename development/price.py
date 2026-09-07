@@ -25,8 +25,10 @@ with `ast` and `symtable`; none is guessed.
   F  head lines in the piece it left whose last reader was the moved
      code. They have to go: source_no_loose_ends is red on a head line
      nobody reads.                                                -1 each
-  D  a PROGRAM. read the RECEIVING piece already had for the moved name
-     -- it retires when the name lands there.                  -1 each
+  D  a PROGRAM. read the RECEIVING piece already had for the moved name,
+     at a use or at its head. It retires when the name lands there --
+     and a head line does not merely retire, it becomes the fifth kind
+     and has to go.                                            -1 each
 
     paid = B + C + E      net = B + C + E - F - D
 
@@ -360,13 +362,21 @@ def main(argv):
     # Found 7.9.2026 by a strand holding this tool against a ledger it
     # had counted by hand: `wide_too_short` came out free here and the
     # ledger fell by one, because `cut/` was already reaching for it.
+    #
+    # **A head line in the receiving piece counts here too**, and until
+    # later the same day it did not -- the line read `and a.attr not in
+    # to_head`. A head line for a name the piece itself will hold is the
+    # fifth kind and an AttributeError, so it does not merely retire: it
+    # has to go, or the program does not start. Measured on the move
+    # that showed it: five handover names go out of `bearings/` into
+    # `resolve/`, which binds all five at its head today, and the tool
+    # called that move free where it pays for itself five times over.
     src_to = open(to_path, encoding="utf-8").read()
     tree_to = ast.parse(src_to)
-    to_head = head_of(to_path)
     D = sorted({a.attr for a in ast.walk(tree_to)
                 if isinstance(a, ast.Attribute)
                 and getattr(a.value, "id", "") == "PROGRAM"
-                and a.attr in names and a.attr not in to_head})
+                and a.attr in names})
 
     lines = sum(b - a + 1 for a, b in (spans[n] for n in names))
     # A fetch-back into a piece the way in reads is `X = PROGRAM.X`, and
