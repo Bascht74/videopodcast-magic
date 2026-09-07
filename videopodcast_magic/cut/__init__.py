@@ -2874,27 +2874,6 @@ def refresh_cut_list(d, file_path):
     return None
 
 
-def voices_on_cameras(segment_list, videos, wanted=None, fallback=""):
-    """One pseudo track per voice, so write_cut_list can read the cameras.
-
-    The cut asks the tracks which camera a name belongs to; on the simple
-    path one track holds several voices, so the voices stand in for
-    tracks. *wanted* is name -> camera, and anything it does not know
-    falls back to *fallback*. All on one camera is not a defect -- the
-    cut then falls at the change of speaker instead of between cameras.
-    """
-    wanted = dict(wanted or {})
-    after_name = dict((os.path.basename(v), v) for v, _info in videos)
-    after_file = ByFile((v, v) for v, _info in videos)
-    out = []
-    for name, _segs in segment_list or ():
-        pick = wanted.get(name) or ""
-        camera = after_name.get(pick) or after_file.get(pick) \
-            if pick else ""
-        out.append({"name": name, "camera": camera or fallback})
-    return out
-
-
 def widest_frame(sizes):
     """Pick the largest frame that a camera really recorded.
 
