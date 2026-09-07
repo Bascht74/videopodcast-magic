@@ -9,7 +9,10 @@ those more than once, and no test noticed.
 The program is a folder of pieces and every one of them is read, or a
 piece cut out of the way in would take its loose ends out of sight with
 it. The translations are read too, and they are not program: they are
-data, and are held to the two things a translation owes.
+data, and are held to the two things a translation owes. The developer
+paper's stock list of the pieces is held against the folder both ways,
+line counts included -- but the folders only: the way in's own count
+stands there in prose, off the list, and nothing reads it.
 """
 import os
 import the_program
@@ -613,6 +616,77 @@ check("names nobody reads: %d (ratchet %d)" % (len(unread), held.limit),
 held.report()
 for n in unread:
     print("      %-32s %s" % (n, first_at.get(n, "")))
+
+print("\n10. The developer paper's stock list is the folder")
+# development/internals.md carries every folder of the program with the
+# line count of its own __init__.py, and nothing held it to either half
+# of that until now: source_piece_list_holds asks pyproject.toml, and no
+# number in the paper was read anywhere. A count that has gone stale
+# reads like a measurement and is a guess -- resolve/ stood one line
+# short the day this was written, from a commit the paper never saw --
+# and a folder missing from the list is a piece nobody documents.
+#
+# Two places are asked here and which is which matters:
+#
+# * **The paper is the repository's, so the folder it describes is read
+#   out of the repository too**, not out of the_program.FOLDER. That one
+#   follows VPM_SCRIPT into a snapshot in /tmp, and a counter-proof for
+#   one of the sections above adds or drops a line in its own copy of the
+#   program -- this section would then call the paper stale over a break
+#   that has nothing to do with it.
+# * **The folder is asked, not `git ls-files`.** The builder moves tests
+#   aside before the suite starts (section 9 asks git for exactly that
+#   reason), but never a piece of the program: what lies in
+#   videopodcast_magic/ is the whole of it on every machine.
+SAYS = os.path.join("development", "internals.md")
+PAPER = os.path.join(ROOT, SAYS)
+CARRIES = os.path.join(ROOT, "videopodcast_magic")
+# The shape of a row, measured off the paper rather than guessed:
+# `* `ui/` **3859** -- the window and everything it shows`. Thirty-five
+# of them, and nothing else in the file is shaped like one -- models/ is
+# named in the prose under the list and carries no count, because it
+# holds the speaker model and no code.
+ROW = re.compile(r"(?m)^\* `([a-z_]+)/` \*\*([0-9]+)\*\*")
+try:
+    paper = io.open(PAPER, encoding="utf-8").read()
+except OSError:
+    # A paper that is not there is not a traceback: the checks below fall
+    # with the path in their line, and the run still reaches the count at
+    # the bottom.
+    paper = ""
+# A list and not a dictionary: a folder written twice would lose one of
+# its two counts without a sound, and a wrong one could then hide behind
+# a right one.
+rows = [(name, int(said)) for name, said in ROW.findall(paper)]
+# A folder of the program is one with a piece in it, the same test
+# source_piece_list_holds makes -- models/ has no __init__.py and is
+# therefore no piece.
+on_disk = sorted(name for name in os.listdir(CARRIES)
+                 if os.path.isfile(os.path.join(CARRIES, name, "__init__.py")))
+# The paper says its numbers were taken with `wc -l`, so they are read
+# the way wc reads them: the newlines in the file, counted on the bytes.
+# Text mode would fold a lone carriage return in with them and count one
+# line too many.
+real = dict((name, io.open(os.path.join(CARRIES, name, "__init__.py"),
+                           "rb").read().count(b"\n")) for name in on_disk)
+listed = set(name for name, _said in rows)
+absent = sorted(set(on_disk) - listed)
+check("every folder of the program stands in the developer paper",
+      bool(on_disk) and not absent,
+      "%d folder(s) hold a piece, %d row(s) in %s, on no row: %s"
+      % (len(on_disk), len(rows), SAYS, absent or "none"))
+phantom = sorted(listed - set(on_disk))
+check("the developer paper names no folder that is not there",
+      bool(rows) and not phantom,
+      "%d row(s) in %s against %d folder(s) that hold a piece, with no "
+      "folder behind them: %s"
+      % (len(rows), SAYS, len(on_disk), phantom or "none"))
+stale = ["%s says %d, wc -l says %d" % (name, said, real[name])
+         for name, said in rows if name in real and real[name] != said]
+check("every line count in the developer paper is the folder's own",
+      bool(rows) and not stale,
+      "%d of %d row(s) in %s carry a count that is not the folder's: %s"
+      % (len(stale), len(rows), SAYS, stale or "none"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:

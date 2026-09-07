@@ -1,4 +1,14 @@
 {
+ "big_without_docstring": {
+  "main": [1, 367],
+  "make_player_widgets.Player.__init__": [1, 1545],
+  "make_preview.preview_compute": [1, 1749],
+  "make_project_file.project_open": [1, 410],
+  "make_run_start.start": [1, 152],
+  "qt_cut_band.CutBand": [1, 260],
+  "qt_cut_player.CutPlayer": [1, 713],
+  "qt_cut_player.CutPlayer.__init__": [1, 731]
+ },
  "german": 0,
  "heading": 0,
  "largest_function": 1900,

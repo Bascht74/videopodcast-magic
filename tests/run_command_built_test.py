@@ -7,7 +7,8 @@ cameras and the tracks; and what cannot be run is refused with a title
 a person can read, while a merely doubtful case becomes a question.
 The last sections hold the window to calling this and keeping no
 assembly of its own, since two builders of one command line drift
-apart. The window is gui() and the pieces lifted out of it."""
+apart. The window is gui() and every make_* function beside it, and
+those are collected out of the program rather than listed here."""
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -356,8 +357,8 @@ check("the other row without", "audio_done" not in plan["tracks_of"][1],
         % (sorted(plan["tracks_of"][1]),))
 
 print("\n16. The interface really calls run_argv")
-import inspect
-# The window is gui() and the pieces lifted out of it, joined. Reading
+import ast
+# The window is gui() and every piece lifted out of it, joined. Reading
 # gui() alone lets a check on absence go green because what it looks
 # for moved house rather than went away -- project_write left gui() for
 # make_project_file and took the line that throws the key out with it,
@@ -365,20 +366,47 @@ import inspect
 # file list left it for make_preflight and make_file_changes, and the
 # time axis for make_time_axis. Measured twice on a broken copy, the
 # second time on 6.9.2026 with the axis: the same planted line was red
-# before each move and green after it, until the new name was added
-# here. Whoever lifts the next piece out of gui() adds it to this list
-# in the same edit, or this check quietly stops looking at it.
-source = (inspect.getsource(vpm.gui)
-          + inspect.getsource(vpm.make_project_file)
-          + inspect.getsource(vpm.make_run_start)
-          + inspect.getsource(vpm.make_preflight)
-          + inspect.getsource(vpm.make_file_changes)
-          + inspect.getsource(vpm.make_time_axis))
+# before each move and green after it, until the new name was added to
+# the list of six that stood here. That list was four times too short
+# -- make_prework_bar and make_prework_tasks never stood in it at all
+# -- so it is gone: the pieces are collected instead, and the next one
+# lifted out of gui() is in them the day it is written.
+
+
+def window_pieces():
+    """gui() and every make_* function of the program, with its place.
+
+    Read out of the files, not off the loaded program: desktop's
+    make_shortcut is fetched only when somebody asks for a shortcut,
+    so at import time it is no attribute of the program at all and
+    inspect.getsource would never be handed it.
+
+    ast.walk and not the top level alone, so a piece lifted into a
+    class or into another function is still seen. It then stands twice
+    in the joined text, once on its own and once inside its holder,
+    and a word search pays nothing for that.
+    """
+    found = []
+    for where, body in the_program.pieces():
+        for node in ast.walk(ast.parse(body)):
+            if not isinstance(node, ast.FunctionDef):
+                continue
+            if node.name == "gui" or node.name.startswith("make_"):
+                found.append(("%s:%s" % (where, node.name),
+                              ast.get_source_segment(body, node)))
+    return found
+
+
+window = window_pieces()
+source = "\n".join(body for _where, body in window)
+print("    %d pieces of the window read: gui() and every make_*"
+      % len(window))
 check("call present", "run_argv(values, assign_file)" in source,
-        "16. the window names run_argv in %s, wanted one reading "
-        "run_argv(values, assign_file)"
-        % ([l.strip() for l in source.splitlines() if "run_argv(" in l]
-           or "no line at all",))
+        "16. over %d pieces of the window run_argv is named in %s, wanted "
+        "one reading run_argv(values, assign_file)"
+        % (len(window),
+           [l.strip() for l in source.splitlines() if "run_argv(" in l]
+           or "no line at all"))
 # Written out once for the failure line, and once more in the check itself:
 # a list read by both would be logic deciding what is tested.
 tinkering = ['argv += ["--auphonic-api-key"', '"--multitrack", "--assign"',
@@ -387,14 +415,18 @@ check("no argv tinkering left in the window",
         'argv += ["--auphonic-api-key"' not in source
         and '"--multitrack", "--assign"' not in source
         and 'argv += ["--" + key' not in source,
-        "16. the window still carries %s of the 3 fragments, wanted none"
-        % ([t for t in tinkering if t in source],))
+        "16. over %d pieces of the window %s of the 3 fragments is still "
+        "carried, wanted none"
+        % (len(window),
+           ["%s %s" % (where, t) for where, body in window
+            for t in tinkering if t in body] or "none"))
 check("the key is still thrown out when saving",
         'if part == "--auphonic-api-key":' in source,
-        "16. the window names --auphonic-api-key in %s, wanted one reading "
-        "if part == \"--auphonic-api-key\":"
-        % ([l.strip() for l in source.splitlines()
-            if "--auphonic-api-key" in l] or "no line at all",))
+        "16. over %d pieces of the window --auphonic-api-key is named in %s, "
+        "wanted one reading if part == \"--auphonic-api-key\":"
+        % (len(window),
+           [l.strip() for l in source.splitlines()
+            if "--auphonic-api-key" in l] or "no line at all"))
 
 print("\n17. slider_argv on its own")
 t, bad = vpm.slider_argv({})
@@ -417,8 +449,9 @@ check("a non-number is reported", bad == "wide-after",
         "17. reported %r, wanted 'wide-after'" % (bad,))
 check("and the same list is shared with only_resolve_start_run",
         "slider_argv(values)" in source,
-        "17. the window calls slider_argv(values) %d times, wanted at least 1"
-        % source.count("slider_argv(values)"))
+        "17. over %d pieces of the window slider_argv(values) is called %d "
+        "times, wanted at least 1"
+        % (len(window), source.count("slider_argv(values)")))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

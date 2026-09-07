@@ -4,10 +4,11 @@
 Two things must not come back as more gets written: German comments (the
 interface stays German, the code does not) and narrating comments that
 report what stood there before. Beside them stand the sizes -- lines,
-blocks, docstrings, functions -- the except branches that only pass, and
-the paths put into shape on one side of a comparison or of a lookup
-while the other side is left raw. All of it is counted as ratchets, so
-the numbers may fall and never rise.
+blocks, docstrings, functions -- the big definitions carrying no
+docstring at all, the except branches that only pass, and the paths put
+into shape on one side of a comparison or of a lookup while the other
+side is left raw. All of it is counted as ratchets, so the numbers may
+fall and never rise.
 
 Every piece of the program is read, not the file it starts in alone: a
 ratchet over one file falls of its own accord the day a piece moves
@@ -312,6 +313,47 @@ check("largest function: %d lines (ratchet %d)" % (largest, limit_l),
         largest <= limit_l,
         sizes[0][1] if sizes else "")
 state.note(limit_l, largest)
+
+# ------------------------------------ A big definition says what it is for
+# A hundred lines cannot be taken in at a glance, so whoever arrives at
+# one needs the sentence saying what it is for before they start reading
+# it. Classes count beside functions: a class of seven hundred lines is
+# the same problem. Held on the name, so one definition growing a
+# docstring does not buy room for another to lose one.
+#
+# ast.get_docstring is the reader on purpose, because it answers the
+# question the way Python does. A text wrapped in T() is no longer the
+# first statement of the body, so it is no longer a docstring: help()
+# and pydoc show nothing, and this counts it as missing.
+DEFINITION_MIN = 100
+
+undescribed = []
+for piece, tree, seen in trees:
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                                 ast.ClassDef)):
+            continue
+        end = getattr(node, "end_lineno", None)
+        if not end or end - node.lineno + 1 < DEFINITION_MIN:
+            continue
+        if not ast.get_docstring(node):
+            undescribed.append((end - node.lineno + 1,
+                                ratchet.qualified(seen, node), node.lineno,
+                                piece))
+undescribed.sort(reverse=True)
+
+held = state.places("big_without_docstring",
+                    dict((name, (1, line))
+                         for _size, name, line, _piece in undescribed))
+check("definitions of %d lines or more without a docstring: %d (ratchet %d)"
+      % (DEFINITION_MIN, len(undescribed), held.limit), held.ok, over(held))
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d"
+          % (held.limit, len(undescribed)))
+for size, name, line, piece in undescribed[:8]:
+    print("      %-28s %5d lines, from line %s"
+          % (name[:28], size, where(piece, line)))
 
 # ------------------------------------------------- Exceptions swallowed
 # An except that does nothing hides the reason something did not work.
