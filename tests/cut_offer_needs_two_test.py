@@ -138,7 +138,6 @@ def own_project(case, vpm):
         here[name] = link
     assignment = {}
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-         "call": [],
          "files": [{"path": here[n],
                     "kind": "video" if n.endswith(".mov") else "audio"}
                    for n in wanted],

@@ -90,7 +90,7 @@ one, two = clip("B_camera.mov"), clip("C_camera.mov")
 shutil.copy(one, os.path.join(out_folder, "Fertig.mov"))
 project = os.path.join(folder, "videopodcast-magic_Tabs.json")
 with open(project, "w", encoding="utf-8") as f:
-    json.dump({"format": 3, "version": "test", "timeline": [], "call": [],
+    json.dump({"format": 3, "version": "test", "timeline": [],
                "files": [{"path": audio, "kind": "audio"},
                          {"path": one, "kind": "video"},
                          {"path": two, "kind": "video"}],

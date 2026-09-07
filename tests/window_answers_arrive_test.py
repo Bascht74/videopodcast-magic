@@ -139,7 +139,6 @@ def own_project():
     one = here[SPLIT]
     st = os.stat(one)
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
-         "call": [],
          "files": [{"path": here[n],
                     "kind": "video" if n.endswith(".mov") else "audio"}
                    for n in (SPLIT, PLAIN) + CAMERAS],
