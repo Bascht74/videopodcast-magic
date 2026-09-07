@@ -737,26 +737,23 @@ def window_title(project=""):
 #------------------------------------------------------------ The tables
 # A piece of its own, in the folder "tables". Read where its block stood.
 
-tables = beside("tables", program=PROGRAM)
-
-# What the window binds out of it by name. widget_width and file_span
-# are read by no code here and stand all the same: the fittings ask
-# the program for the one, a test for the other.
-file_span = tables.file_span
-fix_table_width = tables.fix_table_width
-folded_summary = tables.folded_summary
-from_the_front = tables.from_the_front
-row_picker_for = tables.row_picker_for
-row_picker_watch = tables.row_picker_watch
-table_build = tables.table_build
-table_rows_fit = tables.table_rows_fit
-tree_build = tables.tree_build
-tree_cell = tables.tree_cell
-tree_field = tables.tree_field
-tree_row = tables.tree_row
-tree_row_of = tables.tree_row_of
-tree_rows_fit = tables.tree_rows_fit
-widget_width = tables.widget_width
+# The way in reads tables/ now: this binds what it brought rather than
+# reading the piece again, which would leave two copies to drift.
+# file_span and widget_width are gone -- no code here reads either, and
+# the fittings ask the program for the one, a test for the other.
+fix_table_width = PROGRAM.fix_table_width
+folded_summary = PROGRAM.folded_summary
+from_the_front = PROGRAM.from_the_front
+row_picker_for = PROGRAM.row_picker_for
+row_picker_watch = PROGRAM.row_picker_watch
+table_build = PROGRAM.table_build
+table_rows_fit = PROGRAM.table_rows_fit
+tree_build = PROGRAM.tree_build
+tree_cell = PROGRAM.tree_cell
+tree_field = PROGRAM.tree_field
+tree_row = PROGRAM.tree_row
+tree_row_of = PROGRAM.tree_row_of
+tree_rows_fit = PROGRAM.tree_rows_fit
 
 
 #------------------------------------------------------------ The player
