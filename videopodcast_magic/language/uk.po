@@ -1084,8 +1084,8 @@ msgstr "Відповідач"
 msgid "%s is in place."
 msgstr "%s встановлено."
 
-msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
-msgstr "Це вікно все ще та версія, з якою воно запустилося. Воно може перезапуститися зараз і піднятися вже новим, або ви зробите це пізніше самі."
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Це вікно все ще та версія, з якою воно запустилося. Воно може перезапуститися зараз і піднятися вже цією версією, або ви зробите це пізніше самі."
 
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Ця копія працює з власної теки, тому pip тут нічого оновлювати. Встановити її можна так: %s"

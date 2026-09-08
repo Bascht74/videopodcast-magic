@@ -67,7 +67,7 @@ figure of the day is that command, not this paragraph**:
   the window, and read back off the line
 * `metadata/` **725** -- MOV atoms, colour tags, what a recording says
   about itself
-* `upkeep/` **718** -- which release is out, the way back, pip putting
+* `upkeep/` **720** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
 * `herald/` **615** -- the progress bar, the stages, the console and log
   redirection
