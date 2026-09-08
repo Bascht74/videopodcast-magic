@@ -1794,7 +1794,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                                               args.name_camera))
         stamp = camera_stamp(info, cut_at, at_s)
         if stamp:
-            print("  Timecode:        %s" % stamp)
+            print(T('  Timecode:        %s') % stamp)
         if keep_s:
             print(T('  Time window:     %s of %s written, from %s of the '
                     'camera') % (as_hms(keep_s), as_hms(info["duration"]),

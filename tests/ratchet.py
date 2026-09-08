@@ -148,6 +148,32 @@ class Ratchet(object):
             self._save()
         return old
 
+    def rising(self, key, value):
+        """A counter that may rise, never fall -- the other direction.
+
+        `number` is for defects: fewer is better, and a rise is the
+        failure. Some counters run the other way. How much of the
+        program a language answers is one: it may only grow.
+
+        The difference matters more than it looks. Counting the gap
+        instead and letting it fall reads the same until the program
+        grows -- then every language's gap grows through no fault of
+        its own, and a check meant to catch a language falling back
+        reddens eleven of them because somebody wrote a sentence.
+        Measured on 8.9.2026, before this existed.
+
+        Returns the floor this run is held to.
+        """
+        old = self.old.get(key)
+        if not isinstance(old, int):
+            self.new[key] = value
+            self._save()
+            return value
+        if value > old:
+            self.new[key] = value
+            self._save()
+        return old
+
     def places(self, key, found):
         """A counter that knows where its finds sit.
 

@@ -4624,3 +4624,5 @@ msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Se crea %s archivo de vídeo, unos %s. Destino: %s"
 msgstr[1] "Se crean %s archivos de vídeo, unos %s. Destino: %s"
 
+msgid "  Timecode:        %s"
+msgstr "  Timecode:          %s"

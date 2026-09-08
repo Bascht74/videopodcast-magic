@@ -13,7 +13,8 @@ answers both.
 The sections: that no shipped catalogue carries an empty translation,
 which would blank a label rather than leave it English; that the gap
 between what the program says and what each language answers may only
-close; and that the languages the window offers and the catalogues on
+grow, never shrink; that a language called finished still answers all
+of it; and that the languages the window offers and the catalogues on
 disk are the same set, so neither can appear without the other.
 """
 import ast
@@ -88,24 +89,49 @@ check("no shipped catalogue carries an empty translation",
       "%d empty of %d catalogues: %s"
       % (len(blank), len(CATALOGUES), blank[:4] or "none"))
 
-print("\n3. The gap may only close")
-gaps = {}
+print("\n3. What a language answers may only grow")
+# Counted as what it answers, not as what it lacks. The gap grows when
+# the program does, through no fault of the language: measured, one
+# sentence added to the program reddened eleven of twelve at once, and
+# a check that reddens eleven languages because somebody wrote a
+# sentence gets worked around instead of followed.
+answered = {}
 for code, path in CATALOGUES:
-    answers = set(the_program.po_texts(path))
-    gaps[code] = len([w for w in said if w not in answers])
+    has = set(the_program.po_texts(path))
+    answered[code] = len([w for w in said if w in has])
 # One check over all of them, not one per language: a check whose name
 # is computed carries one wording for twelve judgements, and the
 # register cannot then say which of the twelve was ever seen red.
 worse = []
-for code in sorted(gaps):
-    limit = state.number("gap_" + code, gaps[code])
-    state.note(limit, gaps[code])
-    if gaps[code] > limit:
-        worse.append("%s %d against %d" % (code, gaps[code], limit))
+for code in sorted(answered):
+    floor = state.rising("answers_" + code, answered[code])
+    if answered[code] > floor:
+        print("      ratchet raised: %d -> %d" % (floor, answered[code]))
+    if answered[code] < floor:
+        worse.append("%s %d against %d" % (code, answered[code], floor))
 check("no language answers fewer of the program's texts than before",
       not worse,
       "%d of %d languages fell back: %s"
-      % (len(worse), len(gaps), worse[:4] or "none"))
+      % (len(worse), len(answered), worse[:4] or "none"))
+
+print("\n3b. A language called finished stays finished")
+# The floor above cannot see this: a finished language keeps answering
+# just as many while the program says one more, and nothing moves. So
+# the ones declared finished are held to everything -- that is where
+# the upkeep gets paid, and it is two translations rather than eleven.
+FINISHED = ("de", "es")
+short = []
+for code in FINISHED:
+    path = dict(CATALOGUES).get(code)
+    has = set(the_program.po_texts(path)) if path else set()
+    missing = [w for w in said if w not in has]
+    if missing:
+        short.append("%s misses %d, first %r"
+                     % (code, len(missing), missing[0][:40]))
+check("every language called finished still answers all of it",
+      not short,
+      "%d of %d finished languages fell short: %s"
+      % (len(short), len(FINISHED), short[:2] or "none"))
 
 print("\n4. The list of languages and the catalogues on disk agree")
 # Not "is every catalogue held to a number": the ratchet adopts a new
