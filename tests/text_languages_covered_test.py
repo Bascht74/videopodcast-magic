@@ -119,7 +119,7 @@ print("\n3b. A language called finished stays finished")
 # just as many while the program says one more, and nothing moves. So
 # the ones declared finished are held to everything -- that is where
 # the upkeep gets paid, and it is two translations rather than eleven.
-FINISHED = ("de", "es")
+FINISHED = ("de", "es", "ru")
 short = []
 for code in FINISHED:
     path = dict(CATALOGUES).get(code)
