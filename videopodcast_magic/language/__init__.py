@@ -51,7 +51,9 @@ def read_po(path):
     Forgiving on purpose: a line that makes no sense costs the entry it
     stands in and nothing more, so a typo loses a sentence rather than
     a language. The empty msgid is gettext's header, handed back on its
-    own because the plural rule lives in it.
+    own because the plural rule lives in it. An empty translation is
+    left out rather than kept: kept, T() would hand back the empty
+    string and the label would vanish instead of staying English.
     """
     texts, plurals = {}, {}
     header = ""
@@ -63,9 +65,9 @@ def read_po(path):
     def keep():
         if key == "" and value:
             return value                  # the header, handed upward
-        if key and forms:
+        if key and forms and any(forms.values()):
             plurals[key] = [forms[i] for i in sorted(forms)]
-        elif key and value is not None:
+        elif key and value:
             texts[key] = value
         return None
 
