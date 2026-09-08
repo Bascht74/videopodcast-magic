@@ -6,6 +6,10 @@ nothing said so for months -- what the catalogues are held to is that
 they carry the same placeholders and no key twice, never how much of
 the program they cover.
 
+A counted thing is one text here, not two: TN() carries a singular and
+a plural of the same sentence, and one block keyed by the singular
+answers both.
+
 The sections: that no shipped catalogue carries an empty translation,
 which would blank a label rather than leave it English; that the gap
 between what the program says and what each language answers may only
@@ -45,18 +49,29 @@ print("\n1. What the program says")
 # Every text handed to T() or TN() as a literal, over every piece --
 # reading one file measures a program with holes in it the moment a
 # piece moves out, and it moves out silently.
+# A counted thing is one text, not two. TN() carries the singular and
+# the plural of the same sentence, and a catalogue answers both with one
+# block keyed by the singular -- po_pairs hands it back that way. Asking
+# for the plural wording as an entry of its own demands a duplicate that
+# nothing ever reads: measured, none of the 40 is said through T()
+# anywhere in the program, and the forty standing in de.po are dead.
 said = set()
+second = set()
 for _piece, body in the_program.pieces():
     for node in ast.walk(ast.parse(body)):
         if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
                 and node.func.id in ("T", "TN")):
             continue
-        for arg in node.args:
-            if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
-                said.add(arg.value)
+        words = [a.value for a in node.args
+                 if isinstance(a, ast.Constant) and isinstance(a.value, str)]
+        if node.func.id == "TN" and len(words) >= 2:
+            second.add(words[1])
+        said.update(words)
+said -= second
 check("the program was read, not an empty tree",
       len(said) > 1000,
-      "%d texts out of %d pieces" % (len(said), len(the_program.pieces())))
+      "%d texts out of %d pieces, %d plural wordings left aside"
+      % (len(said), len(the_program.pieces()), len(second)))
 
 print("\n2. No catalogue carries an empty translation")
 # An empty msgstr used to be kept, and T() handed back the empty string
