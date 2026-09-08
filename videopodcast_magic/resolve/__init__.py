@@ -14,6 +14,7 @@ PROGRAM = PROGRAM
 ByFile = PROGRAM.ByFile
 COLOURS = PROGRAM.COLOURS
 Finding = PROGRAM.Finding
+MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 SR = PROGRAM.SR
 T = PROGRAM.T
 TN = PROGRAM.TN
@@ -1372,8 +1373,8 @@ def cameras_in_track_order(cameras):
     is the wide shot. The rest keep their order.
     """
     def first_of(cam):
-        names = [n.lower() for n in (cam.get("audio_tracks") or [])]
-        if names and "full" in names[0]:
+        names = list(cam.get("audio_tracks") or [])
+        if names and names[0].startswith(MIX_TRACK_NAME):
             return 0
         return 0 if (cam.get("wide") and not names) else 1
     return sorted(cameras, key=first_of)
@@ -2129,20 +2130,25 @@ def mix_file_from_handover(d):
 
     Preferably the separate file, which is unambiguous. Otherwise the wide
     shot, where the mix is the first audio track. Otherwise any camera with
-    a track of that name.
+    a track of that name. The name is matched with startswith against
+    MIX_TRACK_NAME, the way pipeline does it: asking whether "full" stood
+    anywhere in the lower-cased name let a speaker called Fullerton win
+    every time, because the keys come speakers first and the mix last.
     """
     for name, file_path in (d.get("audio_files") or {}).items():
-        if "full" in name.lower() and file_path and os.path.exists(file_path):
+        if (name.startswith(MIX_TRACK_NAME) and file_path
+                and os.path.exists(file_path)):
             return file_path, T('stored file %s') % os.path.basename(file_path)
     for cam in (d.get("cameras") or []):
         if cam.get("wide") and cam.get("file") and os.path.exists(cam["file"]):
             return cam["file"], (T('wide shot %s, the mix is its first audio '
                                  'track') % cam["camera"])
     for cam in (d.get("cameras") or []):
-        names = [n.lower() for n in (cam.get("audio_tracks") or [])]
-        if any("full" in n for n in names) and os.path.exists(
+        names = list(cam.get("audio_tracks") or [])
+        if any(n.startswith(MIX_TRACK_NAME) for n in names) and os.path.exists(
                 cam.get("file") or ""):
-            idx = [i for i, n in enumerate(names, 1) if "full" in n][0]
+            idx = [i for i, n in enumerate(names, 1)
+                   if n.startswith(MIX_TRACK_NAME)][0]
             # The track number names the track in that file, the way
             # the editor counts them: plain digits.
             return cam["file"], (T('%s, audio track %d') % (cam["camera"], idx))
