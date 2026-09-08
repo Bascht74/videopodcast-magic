@@ -755,20 +755,28 @@ def metrics_sentence(numbers, colours, minutes_fn):
 
     How much speech time lands on the speaker's own camera, how much on
     the wide shot, how much on the wrong one -- the last in warning red.
+    Every number stands as %(name)s and goes through number_text, never
+    %(name).1f: a place from the format writes a point on German where a
+    comma belongs and drops the thousands mark -- and the mapping form
+    hides it from every search for "%.1f".
     """
-    return (T("<span style='color:%(t)s'><b>%(n)d shots</b>, median "
-              '%(med).1f s, shortest %(short).1f s, longest camera '
-              '%(long).0f s</span>. Speech time: <b>%(own).1f %%</b> on '
-              'their own camera (%(own_t)s), %(wide).1f %% on the wide '
+    return (T("<span style='color:%(t)s'><b>%(n)s shots</b>, median "
+              '%(med)s s, shortest %(short)s s, longest camera '
+              '%(long)s s</span>. Speech time: <b>%(own)s %%</b> on '
+              'their own camera (%(own_t)s), %(wide)s %% on the wide '
               "shot (%(wide_t)s), <span style='color:%(warn)s'>at "
-              "%(off).1f %% (%(off_t)s) the speaker's camera is not "
+              "%(off)s %% (%(off_t)s) the speaker's camera is not "
               'active</span>')
             % {"t": colours["heading"], "warn": colours["warning"],
-               "n": numbers["shots"], "med": numbers["median"],
-               "short": numbers["shortest"], "long": numbers["longest_camera"],
-               "own": numbers["in_frame"], "own_t": minutes_fn(numbers["in_frame_s"]),
-               "wide": numbers["on_wide"], "wide_t": minutes_fn(numbers["on_wide_s"]),
-               "off": numbers["off_camera"],
+               "n": number_text(numbers["shots"], 0),
+               "med": number_text(numbers["median"]),
+               "short": number_text(numbers["shortest"]),
+               "long": number_text(numbers["longest_camera"], 0),
+               "own": number_text(numbers["in_frame"]),
+               "own_t": minutes_fn(numbers["in_frame_s"]),
+               "wide": number_text(numbers["on_wide"]),
+               "wide_t": minutes_fn(numbers["on_wide_s"]),
+               "off": number_text(numbers["off_camera"]),
                "off_t": minutes_fn(numbers["off_camera_s"])})
 
 def speech_heading(own_measure_measured, total_sum=""):
