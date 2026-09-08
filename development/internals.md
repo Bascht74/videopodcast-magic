@@ -84,7 +84,7 @@ figure of the day is that command, not this paragraph**:
 * `tables/` **348** -- the tables and trees the window builds
 * `running/` **344** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
-* `language/` **324** -- a .po file per language and the reader that
+* `language/` **326** -- a .po file per language and the reader that
   looks one up
 * `timecode/` **317** -- timecode strings, frame rates, the clock a file
   carries
