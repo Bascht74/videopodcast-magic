@@ -69,6 +69,7 @@ glob = PROGRAM.glob
 hdr_from_sources = PROGRAM.hdr_from_sources
 is_drop_frame = PROGRAM.is_drop_frame
 json = PROGRAM.json
+MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 measure_loudness = PROGRAM.measure_loudness
 mix_width = PROGRAM.mix_width
 normalise_loudness = PROGRAM.normalise_loudness
@@ -388,7 +389,7 @@ def sound_levels_for(d):
     length = float((d or {}).get("length_s") or 0.0)
     if not files or length <= 0:
         return []
-    for name in sorted(files, key=lambda n: (n != "Full-Mix", n)):
+    for name in sorted(files, key=lambda n: (n != MIX_TRACK_NAME, n)):
         path = files[name]
         if not path or not os.path.exists(path):
             continue
@@ -2857,7 +2858,7 @@ def refresh_cut_list(d, file_path):
         settings, speakers, tracks, cameras, videos, folder,
         float(d["start_s"]), ref_clip, length,
         words=words_from_handover(d),
-        sound_source=(d.get("audio_files") or {}).get("Full-Mix", ""))
+        sound_source=(d.get("audio_files") or {}).get(MIX_TRACK_NAME, ""))
     if not cut:
         return T('That produced no cut -- press Start above again.')
     before_value = d.get("cut") or []

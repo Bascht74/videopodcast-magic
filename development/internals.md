@@ -25,7 +25,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **3859** -- the window and everything it shows, asks or offers,
+* `ui/` **3867** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3654** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -35,10 +35,10 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **2903** -- who is on camera when, and what carries it out
+* `cut/` **2904** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2801** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2807** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2730** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it

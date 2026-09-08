@@ -22,6 +22,7 @@ COLOURS = PROGRAM.COLOURS
 FileSet = PROGRAM.FileSet
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
+MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 ON_DARK = PROGRAM.ON_DARK
 PRESET_NONE = PROGRAM.PRESET_NONE
 ProgressPlan = PROGRAM.ProgressPlan
@@ -1184,6 +1185,13 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
             state["results"][-1])
     state["running"] = False
 
+# What a finished track can be called when it comes back from the
+# service: our own name first, then the two spellings it hands back
+# instead. Not a second name for MIX_TRACK_NAME -- these are foreign,
+# and only the first of them is ours.
+MIX_TRACK_ALIASES = (MIX_TRACK_NAME, "Fullmix", "Mix")
+
+
 def audio_under_camera(camera_path, kind_of, done,
                    assign_lines, blocks_of):
     """Return the audio recording belonging to this camera.
@@ -1208,7 +1216,7 @@ def audio_under_camera(camera_path, kind_of, done,
         if os.path.exists(row[0]):
             # The whole recording, not its head -- see block_at.
             return blocks_of.get(row[0]) or [row[0]]
-    for name in ("Full-Mix", "Fullmix", "Mix"):
+    for name in MIX_TRACK_ALIASES:
         if name in done:
             return [done[name]]
     return None
@@ -3113,7 +3121,7 @@ def gui():
         quieter. A speaker camera would be worse: it brings one voice.
         """
         done = prepared_tracks()
-        mix = next((done[n] for n in ("Full-Mix", "Fullmix", "Mix")
+        mix = next((done[n] for n in MIX_TRACK_ALIASES
                     if n in done), None)
         origin = d.get("start_s")
         if mix and origin is not None:
