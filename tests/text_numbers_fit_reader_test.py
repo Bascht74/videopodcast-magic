@@ -502,18 +502,6 @@ NAMED = [
      "as digits, so the column no longer lines up"),
     ('volume %.2f',
      "the same readout again, one line of telemetry with one convention"),
-    ("<span style='color:%(t)s'><b>%(n)d shots</b>, median "
-     '%(med).1f s, shortest %(short).1f s, longest camera '
-     '%(long).0f s</span>. Speech time: <b>%(own).1f %%</b> on '
-     'their own camera (%(own_t)s), %(wide).1f %% on the wide '
-     "shot (%(wide_t)s), <span style='color:%(warn)s'>at "
-     "%(off).1f %% (%(off_t)s) the speaker's camera is not "
-     'active</span>',
-     "NOT AN EXCEPTION -- a fault, found 7.9.2026 and reported, not "
-     "repaired: metrics_sentence() is the summary a person reads under "
-     "the cut preview, and under German it says 'Median 3.5 s' and "
-     "'67.5 %' where it means '3,5' and '67,5'. Repair it and take this "
-     "row out in the same edit"),
 ]
 EXCUSED = set(text for text, _why in NAMED)
 
