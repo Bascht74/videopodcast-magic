@@ -1,14 +1,14 @@
 {
- "gap_ar": 1161,
- "gap_de": 0,
- "gap_es": 0,
- "gap_fr": 1161,
- "gap_hi": 1161,
- "gap_it": 1161,
- "gap_ja": 1161,
- "gap_pt": 1161,
- "gap_ru": 1161,
- "gap_tr": 1161,
- "gap_uk": 1161,
- "gap_zh": 1161
+ "answers_ar": 250,
+ "answers_de": 1412,
+ "answers_es": 1412,
+ "answers_fr": 250,
+ "answers_hi": 250,
+ "answers_it": 250,
+ "answers_ja": 250,
+ "answers_pt": 250,
+ "answers_ru": 250,
+ "answers_tr": 250,
+ "answers_uk": 250,
+ "answers_zh": 250
 }
