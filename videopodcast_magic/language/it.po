@@ -1072,8 +1072,8 @@ msgstr "Chi risponde"
 msgid "%s is in place."
 msgstr "%s è installato."
 
-msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
-msgstr "Questa finestra è ancora la versione con cui è partita. Può riavviarsi ora e ripresentarsi come quella nuova, oppure puoi farlo tu più tardi."
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Questa finestra è ancora la versione con cui è partita. Può riavviarsi ora e ripresentarsi come quella, oppure puoi farlo tu più tardi."
 
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Questa copia gira da una cartella propria, quindi qui pip non ha nulla da aggiornare. Questo la installa: %s"

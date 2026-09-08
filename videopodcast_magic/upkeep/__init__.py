@@ -519,11 +519,13 @@ def version_in_place(tag):
 
     Three things somebody needs and cannot see: which version is on the
     disc, that this window is still the old one, and that it can wait.
+    "That one" points at the line above and holds both ways: the same
+    box now follows a step back, where "the new one" was untrue.
     """
     return ("Video Podcast Magic", T('%s is in place.') % tag,
             T('This window is still the version it started as. It can '
-              'start again now and come up as the new one, or you can '
-              'do that yourself later.'))
+              'start again now and come up as that one, or you can do '
+              'that yourself later.'))
 
 
 def update_offer(window, asked=False):
@@ -713,6 +715,6 @@ def restore_offer(window):
         return
     # The same road as the update, down to the command: pip is handed
     # the tag that was chosen, and its lines go into the Output tab.
-    trouble = update_fetched(picked.currentText(), owner)
+    trouble = update_watched(window, picked.currentText(), owner)
     if trouble:
         PROGRAM.warn_box(QtWidgets, window, title, trouble)

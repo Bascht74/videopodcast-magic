@@ -1068,8 +1068,8 @@ msgstr "Yanıt veren konuşmacı"
 msgid "%s is in place."
 msgstr "%s kuruldu."
 
-msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
-msgstr "Bu pencere hâlâ başladığı sürüm. Şimdi yeniden başlayıp yeni sürüm olarak açılabilir ya da bunu daha sonra kendiniz yapabilirsiniz."
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Bu pencere hâlâ başladığı sürüm. Şimdi yeniden başlayıp o sürüm olarak açılabilir ya da bunu daha sonra kendiniz yapabilirsiniz."
 
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Bu kopya kendine ait bir klasörden çalışıyor, bu yüzden pip'in burada güncelleyeceği bir şey yok. Şu komut kurar: %s"
