@@ -78,6 +78,17 @@ itself, next to the check: the same reading over a faked list, with the
 offset turned round, with the switch off. That version stays in scratch
 space too, or is taken back out after the run.
 
+**And that run still needs `VPM_SCRIPT`, even though nothing in the
+program was broken.** Measured 8.9.2026: a falsified harvest handed the
+collector one piece with no text in it, every counter came out nought,
+and `Ratchet.number` wrote those noughts into
+`tests/state/coverage_state.json` as the new floor -- because
+`state_is_ours()` was true, the run looking genuine from the outside.
+The check then went red on the next honest run for a reason that was
+not in the program. **So point `VPM_SCRIPT` at an untouched copy for
+these too**: it changes nothing about the question and it is the one
+thing that tells a ratchet this run is not the state of the world.
+
 ## The copy protects the program, not the world
 
 **Before breaking a guard that keeps a run out of somebody's own files,
