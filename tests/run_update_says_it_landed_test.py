@@ -6,7 +6,9 @@ window that asked keeps running the old version with nothing said. The
 sections: that a box comes up by itself once pip is done, that it names
 the version that arrived and is not the one ffmpeg's install puts up,
 that the window's own way of running a long job is handed back
-afterwards, and that the Update button leads to this road at all.
+afterwards, that the Update button leads to this road at all, and that
+the way back to an earlier version takes the same road rather than
+handing pip the tag on its own.
 
 No pip is ever really started and nothing goes out: the look for a
 newer version and pip itself are both replaced, and the one door to
@@ -148,6 +150,42 @@ check("pressing Update in the window leads to the watched update",
       taken == [(TAG, OWNER)],
       "%d updates started, %r, wanted one for %s -- and %d warnings: %r"
       % (len(taken), taken[:1], TAG, len(warned), warned[:1]))
+
+print("\n3. And the way back leads down the same road")
+was_watched = vpm.update_watched
+was_fetched = vpm.update_fetched
+was_older = vpm.older_releases
+was_owner = vpm.installed_by_a_package_manager
+was_exec = QtWidgets.QDialog.exec
+watched, fetched = [], []
+# Both roads are counted, not only the one that should be taken: a line
+# saying "the watched road was not taken" leaves open whether anything
+# happened at all, and the answer to that is the first thing to know.
+try:
+    vpm.update_watched = lambda w, tag, owner: watched.append(tag) or ""
+    vpm.update_fetched = lambda tag, owner: fetched.append(tag) or ""
+    vpm.older_releases = lambda running: ([TAG], "")
+    vpm.installed_by_a_package_manager = lambda: OWNER
+    QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
+    vpm.restore_offer(window)
+finally:
+    vpm.update_watched = was_watched
+    vpm.update_fetched = was_fetched
+    vpm.older_releases = was_older
+    vpm.installed_by_a_package_manager = was_owner
+    QtWidgets.QDialog.exec = was_exec
+check("the way back leads to the watched update, not straight to pip",
+      watched == [TAG] and fetched == [],
+      "%d down the watched road %r and %d straight to pip %r, wanted "
+      "one and none" % (len(watched), watched[:1], len(fetched),
+                        fetched[:1]))
+# The box is the same box both ways, so its words have to hold both
+# ways: after a step back "the new one" would name the wrong version.
+words = "\n".join(vpm.version_in_place(TAG))
+check("the restart box says nothing that only holds going forward",
+      "new one" not in words and TAG in words,
+      "the box said %r, wanted %s in it and no 'new one'"
+      % (words[:80], TAG))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
