@@ -1,6 +1,6 @@
 # The test suite
 
-260 tests against the program in `../videopodcast_magic/`. Every one of them stands
+261 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-260 tests. The name is the one a red line carries, and beside it the
+261 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -413,6 +413,7 @@ it is green.
 | `project_handover_built` | The handover is built from data alone, without a window. |
 | `project_hdr_follows` | The render job carries the codec, profile and tags of its range. |
 | `project_keeps_answers` | The saved project holds what was answered, and nothing else. |
+| `project_mix_by_name` | The mix is found by its own name, not by a word inside another one. |
 | `project_output_says_hdr` | The project's output colour space decides HDR, and silence is not no. |
 | `project_real_frame` | The frame of the project is one a camera really recorded. |
 | `project_render_kept` | A render never writes over the delivery before it. |
