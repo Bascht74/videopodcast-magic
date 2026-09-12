@@ -1078,6 +1078,15 @@ AR_SIX = (0, 1, 2, 3, 11, 100)
 # French puts nought with the singular -- plural=(n > 1) -- where
 # English puts it with the plural. No other language here does that.
 FR_ZERO, FR_ONE, FR_TWO = 0, 1, 2
+# A French word that is the same in both numbers says the same thing at
+# two as at one, and that is right. Named here with its reason rather
+# than let through by rule: a plural copied from the singular by mistake
+# looks exactly alike, so each one is looked at once by a person. A name
+# here whose two forms have come apart, or that the catalogue no longer
+# answers for, falls too -- an exception outliving its reason is a hole.
+FR_SAME_IN_BOTH = {
+    "  From %s: %s voice.": "voix is one word for both numbers",
+}
 
 _speaks = [_c for _c in vpm.languages() if _c != vpm.SOURCE_LANG]
 
@@ -1136,8 +1145,15 @@ _zero = []
 for _w in _fr:
     _at = [vpm.TN(_n, _w, _counted_many[_w])
            for _n in (FR_ZERO, FR_ONE, FR_TWO)]
-    if not (_at[0] == _at[1] != _at[2]):
+    if _w in FR_SAME_IN_BOTH:
+        _right = _at[0] == _at[1] == _at[2]
+    else:
+        _right = _at[0] == _at[1] != _at[2]
+    if not _right:
         _zero.append("%r: 0 %r, 1 %r, 2 %r" % (_w, _at[0], _at[1], _at[2]))
+for _w in sorted(set(FR_SAME_IN_BOTH) - set(_fr)):
+    _zero.append("%r: named as the same in both numbers, but French "
+                 "no longer answers for it" % (_w,))
 check("French says at nought what it says at one, and not what it says at "
       "two", bool(_fr) and not _zero,
       "%d of %d counted things wrong at nought, first: %s"
