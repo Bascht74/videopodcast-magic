@@ -3450,7 +3450,7 @@ msgid "Reading audio track from %s"
 msgstr "Leyendo la pista de audio de %s"
 
 msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "¿Quitar de la lista todos los %s %ss?\n\n%s"
+msgstr "¿Quitar de la lista todos los archivos de este tipo? Son %s, tipo: %s.\n\n%s"
 
 msgid "Remove the chosen file from the list"
 msgstr "Quitar de la lista el archivo elegido"
