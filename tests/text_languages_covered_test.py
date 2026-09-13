@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 """No language answers fewer of the program's texts than it did before.
 
-German answers all of them; the eleven others answer a quarter, and
-nothing said so for months -- what the catalogues are held to is that
-they carry the same placeholders and no key twice, never how much of
-the program they cover.
+What the catalogues were held to was that they carry the same
+placeholders and no key twice, never how much of the program they
+cover -- and for months nothing said that most of them covered a
+quarter of it.
 
 A counted thing is one text here, not two: TN() carries a singular and
 a plural of the same sentence, and one block keyed by the singular
 answers both.
 
 The sections: that no shipped catalogue carries an empty translation,
-which would blank a label rather than leave it English; that the gap
-between what the program says and what each language answers may only
-grow, never shrink; that a language called finished still answers all
+which would blank a label rather than leave it English; that what each
+language answers may only grow, never shrink; that a language called finished still answers all
 of it; and that the languages the window offers and the catalogues on
 disk are the same set, so neither can appear without the other.
 """
