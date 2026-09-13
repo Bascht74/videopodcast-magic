@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b2 durchgegangen worden.
+zuletzt für 3.0.0b11 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b10.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b11.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -38,9 +38,11 @@ hat, und dann noch um ein, zwei Bilder daneben. Fenster, Vorschau und
 fertiges Projekt stehen alle auf dieser einen Rechnung.
 
 Sprechertrennung, Spracherkennung und Niederschrift laufen auf der
-Maschine, vor der du sitzt. Das Modell liegt in einem Ordner neben dem
-Programm: kein Konto, kein Token, und nach dem einen Download kein
-Netz. Die Niederschrift bei auphonic.com zu bestellen ist weggefallen,
+Maschine, vor der du sitzt. Trennung und Erkennung
+brauchen je ein Modell, das beim ersten Gebrauch einmal geholt wird: das
+der Trennung liegt in einem Ordner neben dem Programm, das der Erkennung
+in einem eigenen Zwischenspeicher. Kein Konto, kein Token, und nach dem
+einen Download kein Netz. Die Niederschrift bei auphonic.com zu bestellen ist weggefallen,
 mit ihr der Haken und der Schalter dafür; die Worte hängen also weder
 daran, dass der Dienst erreichbar ist, noch daran, dass eine
 Voreinstellung gewählt wurde. Pegel, De-Bleed und Rauschunterdrückung
@@ -62,31 +64,42 @@ steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
 ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
+Das Fenster spricht dreizehn Sprachen, und vier davon sagen alles.
+Deutsch, Spanisch, Französisch und Russisch haben für jeden der rund
+1400 Texte des Programms eine Antwort, die Zeilen eines Laufs und den
+Schritt nach Resolve eingeschlossen. Arabisch, Hindi, Italienisch,
+Japanisch, Portugiesisch, Türkisch, Ukrainisch und Chinesisch haben
+etwa 250 davon — die Beschriftungen des Fensters, was man vor einem
+Lauf liest — und zeigen den Rest auf Englisch statt als Lücke. Was
+jede Sprache beantwortet, wird bei jedem Push gezählt und darf nur
+wachsen, und die vier fertigen werden an allem gemessen.
+
 Es ist ein Python-Programm: ein Ordner, `videopodcast_magic/`, in dem
-eine große Datei liegt und daneben die Dateien, aus denen es seine
-Texte liest. Installiert wird es mit `pip3 install git+...`, zu bauen
-ist daran nichts. Eine einzelne Datei zu holen und zu starten war bis
-zum 4.9.2026 der zweite Weg hinein und ist keiner mehr -- eine Kopie
-ohne den übrigen Ordner bleibt schon beim Import stehen. Python 3.10 oder neuer muss da sein
-und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
+eine kleine Datei liegt, mit der das Programm startet, daneben
+fünfunddreißig Stücke in je einem eigenen Ordner und das Sprechermodell.
+Installiert wird es mit `pip3 install git+...`, zu bauen ist daran
+nichts. Eine einzelne Datei zu holen und zu starten war bis zum 4.9.2026
+der zweite Weg hinein und ist keiner mehr -- eine Kopie ohne den übrigen
+Ordner bleibt schon beim Import stehen. Python 3.10 oder neuer muss da
+sein und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
 mitbringen kann; jedes Python-Paket, das es braucht, steht auf der
 Liste, die pip liest, und kommt mit der Installation. Benutzt wird es
 unter macOS und Windows, unter Linux läuft es mit zwei Einschränkungen.
 
 **Bis zum 4.9.2026 war es eine Datei, und jetzt ist es ein Ordner.**
-Zuerst gingen die Texte heraus, je Sprache eine Datei, und am selben
-Tag folgte der Rest: im Ordner liegen das Programm, die Sprachen und
-das Sprechermodell. Die große Datei darin ist weiter groß, und sie zu
-zerlegen ist die Arbeit, die weitergeht. Für jeden, der daran
-arbeitet, folgt daraus nur eines -- das Programm wird als Ordner
-kopiert, nie als die Datei darin. Eine
-Suite aus 220 Tests läuft bei jedem Push: sechs Läufe nebeneinander,
-drei Systeme und zwei Python-Versionen. Daneben liegen vier weitere,
-die ein echtes Resolve brauchen und nirgends sonst laufen können. Die sechs sind nicht gleich
-schnell, und der langsame ist Windows: über die letzten sieben grünen
-Läufe, gemessen am 3.9.2026, brauchte der langsamste der sechs zwischen
-404 und 835 Sekunden, und es war jedes Mal ein Windows-Lauf. Gewartet
-wird auf diesen einen, nicht auf die Summe der sechs.
+Zuerst gingen die Texte heraus, je Sprache eine Datei, und in den drei
+Tagen danach folgte der Rest: die Datei, mit der das Programm startet,
+hatte an jenem Tag 37 535 Zeilen und hat jetzt 717, und das größte
+Stück, das Fenster, hat 3867. Für jeden, der daran arbeitet, folgt
+daraus nur eines -- das Programm wird als Ordner kopiert, nie als die
+Datei darin. Eine Suite aus 263 Tests läuft bei jedem Push: sechs Läufe
+nebeneinander, drei Systeme und zwei Python-Versionen. Daneben liegen
+vier weitere, die ein echtes Resolve brauchen und nirgends sonst laufen
+können. Die sechs sind nicht gleich schnell, und der langsame ist
+Windows: über die letzten sieben grünen Läufe, gemessen am 3.9.2026,
+brauchte der langsamste der sechs zwischen 404 und 835 Sekunden, und es
+war jedes Mal ein Windows-Lauf. Gewartet wird auf diesen einen, nicht
+auf die Summe der sechs.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
@@ -96,9 +109,21 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Vier Punkte. Die ersten zwei sind Arbeit. Die letzten zwei sind gebaut,
+Sechs Punkte. Die ersten vier sind Arbeit. Die letzten zwei sind gebaut,
 und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
 nicht weiteres Bauen.
+
+**Jede Sprache sagt alles, und sechzehn kommen dazu.** Die acht
+Sprachen, die das Fenster übersetzen und den Lauf nicht, werden auf das
+Ganze gebracht, die Zeilen eines Laufs und der Schritt nach Resolve
+eingeschlossen. Danach kommen sechzehn hinzu: Bengalisch, Vietnamesisch
+und Koreanisch, dazu dreizehn europäische — Polnisch, Rumänisch,
+Niederländisch, Griechisch, Schwedisch, Ungarisch, Serbisch,
+Tschechisch, Kroatisch, Dänisch, Finnisch, Slowakisch und Norwegisch,
+das Norwegische als Bokmål und das Serbische kyrillisch. Das sind dann
+neunundzwanzig Sprachen. Fertig ist es, wenn jede von ihnen jeden Text
+beantwortet, den das Programm sagt, und die Prüfung der Feldbreiten sie
+alle ansieht statt nur Englisch und Deutsch.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
 Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet
@@ -123,6 +148,12 @@ Start. Der Vorspann gehört hierher: das Programm legt ihn auf die zweite
 Videospur und liest nach, wie viele Clips dort liegen, und eine Attrappe
 kann das nicht bestätigen. Und der Fall, den keine Attrappe je gezeigt
 hat: ein Resolve, das nein sagt.
+
+**Die Tests ziehen in Ordner wie die Stücke, die sie prüfen.** Das
+Programm ist in Stücke geteilt, jedes in einem eigenen Ordner. Bis auf vier
+stehen die Tests noch nebeneinander in einem, weit über zweihundert. Wenn sie
+folgen, stehen ein Stück und seine Prüfungen an einer Stelle, und wer
+ein Stück ändert, findet seine Tests daneben.
 
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Beide stellen dieselbe Frage — kommt eine Stereo-Aufnahme
@@ -152,32 +183,33 @@ Gröber, und in keiner festen Reihenfolge.
   ein einziger Schnitt. Jede von ihnen wird gemessen oder kleiner.
 
 * **Die Ränder des Programms bekommen Tests.** Wie weit die Tests
-  reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit
-  gesetztem `COVERAGE_PROCESS_START`, damit die Läufe mitzählen, die
-  die Tests selbst starten. Grün sind es rund drei Viertel der
-  Anweisungen — gelesen als Spanne und nie als Ziel. Was so ein Lauf
-  wirklich wert ist, ist die Liste der Stellen, die kein Test betritt,
-  und die will neu erhoben werden: Die letzte ist mehrere Fassungen alt,
-  und das meiste, was sie nannte — die Schalter, die genommen wurden,
-  ohne dass jemand prüfte, was sie tun, eingeschlossen —, ist seither
-  gedeckt.
+  reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit gesetztem
+  `COVERAGE_PROCESS_START`, damit die Läufe mitzählen, die die Tests
+  selbst starten. Beim letzten solchen Lauf betrat die
+  Suite rund sieben von zehn Anweisungen. Die Zahl wird als Spanne gelesen und nie als
+  Ziel, und sie stammt aus der Zeit, als das Programm noch eine einzige
+  Datei war — sie will neu erhoben werden. Was so ein Lauf wirklich wert
+  ist, ist die Liste der Stellen, die kein Test betritt. Zwei sind auch
+  ohne ihn bekannt: die Meldungen, mit denen das Programm abbricht, wenn
+  unterwegs etwas Unerwartetes schiefgeht, und der Weg, der den Ton
+  allein aus den Kameras nimmt, wenn es keine eigenen Aufnahmen gibt.
+  Ein dritter, ein Resolve, das sich weigert, gehört zu den Tests gegen
+  ein echtes Resolve weiter oben.
 
-* **Die Kommentare im Programm bekommen, was die Tests schon hinter
-  sich haben.** Knapp ein Drittel des Programms ist Kommentar und Docstring, und das
-  meiste davon ist
-  vor den Regeln geschrieben worden, nach denen einer geschrieben wird.
-  In den Tests ist es getan, und sie sind dabei um ein Drittel kürzer
-  geworden.
+* **Acht lange Definitionen bekommen ihre Beschreibung.** Die Kommentare
+  im Programm haben bekommen, was die Tests schon hinter sich hatten:
+  Kommentar und Docstring sind von knapp einem Drittel der Zeilen auf
+  ein Viertel gefallen, und die Stellen, an denen ein Kommentar länger
+  läuft, als die Regeln wollen, von 104 und 141 auf je sieben. Übrig
+  ist die umgekehrte Lücke. Acht Definitionen von hundert Zeilen und
+  mehr, der Schnittplayer darunter, tragen noch gar keine Beschreibung,
+  und eine Prüfung hält diese Zahl fest, sodass sie nur noch fallen
+  kann.
 
 * **Das Handbuch bekommt, was ihm fehlt.** Rund ein Dutzend Zahlen
   stehen noch ohne ihre Vorgabe und ohne die Richtung, in die sie
   ziehen. Und eine veröffentlichte Adresse, sobald jemand eine zum
   Weitergeben braucht.
-
-* **Kleinere Commits.** Ein Commit, dessen Betreff ein „und“ braucht,
-  sind zwei Commits. Das kostet nichts, und `git bisect` und
-  `git blame` beantworten danach eine Frage, statt auf einen Haufen zu
-  zeigen.
 
 ## Was wir nicht vorhaben
 
@@ -204,10 +236,11 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Satz- und Teilsatzenden kommen aus den Wortzeiten —, und der Ton
   sagt genau wo. Das zu tauschen machte den Schnitt schlechter.
 
-* **Pull Requests als Prüfstelle, Pflichtdurchsichten, CODEOWNERS.**
-  Alle drei setzen einen zweiten Menschen voraus. Wer sich selbst
-  freigibt, hat nur den Weg verlängert. Pull Requests können trotzdem
-  kommen, sobald es einen Ablauf gibt, dessen Ergebnis daran hängt.
+* **Pflichtdurchsichten und CODEOWNERS.** Beide setzen einen zweiten
+  Menschen voraus, und wer sich selbst freigibt, hat nur den Weg
+  verlängert. Was vor `main` steht, ist der Baurechner: Eine Änderung
+  kommt als Pull Request, und hinein kommt sie erst, wenn alle sechs
+  Läufe grün zurück sind.
 
 * **Discussions.** Ein leerer Raum wirkt schlechter als kein Raum.
   Issues sind an, und dorthin gehört eine Frage.
@@ -220,7 +253,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Prozentzahl auf einer GitHub-Seite, solange niemand schreibt. Die
   Vorlage für Issues kommt an dem Tag, an dem wirklich jemand etwas
   meldet. Was ein Patch mitbringen muss, steht aus dem umgekehrten
-  Grund niedergeschrieben: Vier Regeln weisen hier eine Änderung
+  Grund niedergeschrieben: Fünf Regeln weisen hier eine Änderung
   zurück, so gut der Gedanke auch ist, und wer nicht nachfragen kann,
   muss sie in zehn Minuten lesen können. Das ist
   [CONTRIBUTING.md](CONTRIBUTING.md), und das Formular, mit dem ein Pull
@@ -232,7 +265,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Generator machte daraus eine Liste von Betreffzeilen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Das wären vier
-  neue Abhängigkeiten für ein Programm, dessen 220 Tests als schlichte
+  neue Abhängigkeiten für ein Programm, dessen 263 Tests als schlichte
   Scripts durchlaufen. Eine dünne pytest-Schicht, die genau diese
   Scripts unverändert startet, ist etwas anderes und kann kommen.
 
@@ -240,8 +273,9 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   entstehen im echten Fensterstil, dafür braucht es einen Bildschirm
   mit angemeldetem Benutzer, und ein Test darf sich den Vordergrund
   nicht nehmen. Ein solcher Test wäre überall sonst rot oder blind.
-  Ein niedergeschriebener Sollstand des Fensterbaums leistet dasselbe
-  billiger und ist im Vergleich zweier Stände lesbar.
+  Stattdessen werden die Bilder einer Version, die das Fenster ändert,
+  vor ihrer Freigabe neu aufgenommen, damit das Handbuch das Fenster
+  zeigt, mit dem sie hinausgeht.
 
 * **Doku-Tests, die Sätze vergleichen.** Am heutigen Handbuch
   gemessen: jede fette Beschriftung oder jede genannte Vorgabe zu
@@ -263,9 +297,18 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   flatternder Test ist ein Fehler, den man sucht, kein Rauschen, das
   man durch Wiederholen loswird.
 
-* **Installationsprogramme, signierte Pakete, Notarisierung, PyPI.**
-  Ein Weg hinein reicht: `pip3 install` aus dem Repository. Das dauert
-  drei Sekunden und braucht kein PyPI.
+* **Installationsprogramme, signierte Pakete, Notarisierung, ein Eintrag
+  bei PyPI.** Ein Weg hinein reicht: aus dem Repository, mit
+  `pip3 install`, oder mit `pipx install` und derselben Adresse, wo das
+  Python des Systems pip nicht hineinlässt. Die erste Installation dauert
+  Minuten, weil das Fenster, die Spracherkennung und die
+  Sprechertrennung mitkommen. Das Programm kommt aus dem Repository, was
+  es von anderen braucht, von PyPI; drei Dinge kommen an pip vorbei —
+  ffmpeg, wo es fehlt, denn es ist kein Python, und beim ersten Gebrauch
+  zwei Modelle: das der Sprechertrennung aus dem eigenen Repository des
+  Programms, das der Spracherkennung, das die Erkennung selbst holt.
+  Aktualisiert wird auf demselben Weg, aus dem Fenster wie von der
+  Kommandozeile: Es ruft pip auf.
 
 * **Sponsors, Projects.** Papierkram ohne Gegenwert.
 
@@ -292,9 +335,11 @@ dazu: darin steht, was die Abspieler geladen und gespielt haben, welche
 Aufnahme unter welches Bild gelegt wurde, und wie jede Datei zu ihrem
 Platz auf der Zeitachse kam.
 
-**Der Auphonic-Schlüssel gehört nie in eine Meldung.** Das Programm
-hält ihn im Schlüsselbund oder in der Registry, und aus der Projektdatei
-nimmt es ihn heraus. Keine Meldung braucht ihn.
+**Der Auphonic-Schlüssel gehört nie in eine Meldung.** Auf dem Mac hält
+das Programm ihn im Schlüsselbund, unter Windows in der Registry; unter
+Linux speichert es ihn gar nicht. Die Projektdatei enthält keine
+Befehlszeile, also steht er auch dort nicht drin. Keine Meldung braucht
+ihn.
 
 **Patches sind willkommen, und einen zweiten Leser gibt es nicht.**
 Eine kleine Änderung, die eine Sache tut, wird gelesen und übernommen;

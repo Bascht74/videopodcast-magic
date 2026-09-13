@@ -117,7 +117,10 @@ with the true one, and it takes drop frame into account.
 picture pieces **without their audio**. Below on A1 (`Audio-Full-Mix`)
 the Full-Mix runs through in one piece, so the sound does not jump at
 the cuts. The mix comes from the separate file, otherwise from the wide
-shot, where it is the first audio track.
+shot, where it is the first audio track, otherwise from a camera that
+carries it as one of its audio tracks. The log names the source; with
+none of the three it says `No Full-Mix found` and the timeline stays
+silent.
 
 The measured offset decides which part of each camera file the timeline
 uses, not the timecode. If a camera was not running, another steps in,

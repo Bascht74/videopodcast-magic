@@ -1,6 +1,6 @@
 # The test suite
 
-262 tests against the program in `../videopodcast_magic/`. Every one of them stands
+263 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-262 tests. The name is the one a red line carries, and beside it the
+263 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -298,6 +298,7 @@ it is green.
 | `sound_join_order` | Audio blocks are joined in the order they were handed over. |
 | `sound_loudest_block` | The facts of a recording come from its loudest block. |
 | `sound_mix_hits_target` | Loudness: does the range come along, and does it still normalise? |
+| `sound_mix_says_the_name` | While mixing, a track is named by its speaker, and only the mix as the mix. |
 | `sound_one_pass_agrees` | Reading the channels: one pass has to say what one pass per channel said. |
 | `sound_silent_no_pair` | A silent channel is never one side of a stereo track. |
 | `sound_stereo_kept` | Stereo stays stereo: on the axis, in the single track, in the mix. |

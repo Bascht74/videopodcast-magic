@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b10.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b11.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -103,9 +103,11 @@ leeren Ordner dieses Namens, keinen Befehl und keine Fehlermeldung.
 Wer `UNKNOWN` liest, hat das falsche pip erwischt; dann Python 3.10
 oder neuer installieren und dessen `pip3` nehmen.
 
-Später, und nur wenn jemand will, wofür sie da sind, holt es noch
-zwei Dinge: die Umgebung, in der die Sprechertrennung läuft, und ihr
-Modell.
+Später, und nur wenn jemand will, wofür sie da sind, kommen zwei
+Modelle nach: das der Sprechertrennung, das das Programm aus seinem
+eigenen Repository holt, und das der Spracherkennung, das die Erkennung
+selbst holt und in einem eigenen Zwischenspeicher ablegt. Was beide zum
+Laufen brauchen, kommt schon mit der Installation.
 
 **Zum Modell.** Die Trennung liest es aus einem Ordner neben dem
 Programm — ohne Konto, ohne Zugangsschlüssel, und nach dem einen
@@ -133,7 +135,11 @@ es nicht.
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
 erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest -- dreizehn
 stehen zur Wahl, `docs/command-line.de.md` nennt sie; ohne den Schalter
-entscheidet die Systemsprache. Nur `--help` bleibt englisch.
+entscheidet die Systemsprache. Nur `--help` bleibt englisch. Deutsch,
+Spanisch, Französisch und Russisch sagen alles andere, auch während eines
+Laufs; die übrigen acht übersetzen das Fenster und lassen den Rest
+englisch stehen -- welche was, sagt
+[die Oberfläche](docs/interface.de.md).
 
 ![Der Reiter Zuordnung](docs/images/assignment.de.png)
 

@@ -313,7 +313,7 @@ Der Kasten **Kameraschnitt -- Vorschau** trägt die Länge im Titel und
 darunter eine Zeile Zahlen:
 
 * Einstellungen
-* mittlere Standzeit
+* Median der Standzeit
 * kürzeste Einstellung
 * längste Standzeit einer Kamera
 * die Redezeit, geteilt in eigene Kamera, Weitwinkel und fremde Kamera
