@@ -2546,10 +2546,27 @@ def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
          "-map", "[out]", "-c:a", "pcm_s24le"] + clock
         + wav_safe(target) + ["-y", target],
         sample_count(sources[0]) / float(SR),
-        T('Mixing %s') % (os.path.splitext(os.path.basename(target))[0]
-                       .replace("mix_", "").replace("single_", "")
-                       .replace("full", "Full-Mix")))
+        T('Mixing %s') % mixing_label(target))
     return target
+
+
+def mixing_label(target):
+    """The name the progress line gives a mix: the track, not the file.
+
+    The targets are called mix_full, single_<speaker> and mix_<camera
+    file>. Only the overall mix is announced as the mix, and only a prefix
+    at the start comes off: replacing "full" and "mix_" wherever they
+    stood announced a speaker called Carefully as CareFull-Mixy. The
+    overall mix is asked for before any prefix comes off, or a speaker
+    called full would be announced as the mix again.
+    """
+    stem = os.path.splitext(os.path.basename(target))[0]
+    if stem == "mix_full":
+        return MIX_TRACK_NAME
+    for prefix in ("mix_", "single_"):
+        if stem.startswith(prefix):
+            return stem[len(prefix):]
+    return stem
 
 
 def rate_filter_chain(b):
