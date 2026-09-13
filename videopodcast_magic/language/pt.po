@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in Portuguese.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# Part of the program's texts stand here -- the captions the window
-# itself carries, not the report that runs beside them. Every text that
+# All of the program's texts stand here since 13.9.2026 -- the captions
+# the window carries and the report that runs beside them, Resolve
+# included; until then it was the captions alone. Every text that
 # is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
@@ -12,6 +13,13 @@
 # has read them, and nobody has reviewed a single line. Treat every
 # entry as a first draft. Correcting one costs nothing but this file:
 # delete an entry and that text is English again.
+#
+# The 1131 texts and 31 counted things added on 13.9.2026 were written
+# by one model, four languages at a time from one sheet, and a sample
+# of them was read back by another, which found 5 places to put
+# right -- a meaning that had slipped, or a word the catalogue already
+# says otherwise; those were repaired. Treat the rest as the first draft it
+# is.
 #
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
@@ -1070,3 +1078,3552 @@ msgstr "O idioma escolhido aqui vale a partir do próximo início."
 
 msgid "System language (%s)"
 msgstr "Idioma do sistema (%s)"
+
+msgid "No audio file given."
+msgstr "Nenhum arquivo de áudio indicado."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Extensão desconhecida, ignorado: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Várias câmeras, mas nenhum arquivo de áudio. Cada câmera teria o seu próprio áudio --\né para isso que serve --multitrack. Caso contrário, uma câmera após a outra."
+
+msgid "Not found: %s"
+msgstr "Não encontrado: %s"
+
+msgid "Stopped: %s"
+msgstr "Interrompido: %s"
+
+msgid "Resolve part stopped: %s"
+msgstr "Parte do Resolve interrompida: %s"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Não foi possível carregar as predefinições: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Áudio da câmera não utilizável: %s"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com não aceita a chave: %s"
+
+msgid "There is no key."
+msgstr "Não há nenhuma chave."
+
+msgid "The key has a space or a line break at one end."
+msgstr "A chave tem um espaço ou uma quebra de linha numa das pontas."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "A chave está partida ao meio por um espaço ou uma quebra de linha."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "A chave contém um caractere que não pode ser digitado."
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Qual predefinição do Auphonic deve processar este arquivo?"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Nenhuma predefinição própria -- crie uma em auphonic.com"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Nenhuma predefinição Multitrack própria -- crie uma"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Nenhuma predefinição Singletrack própria -- crie uma"
+
+msgid "What auphonic.com replied"
+msgstr "O que auphonic.com respondeu"
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "O Chaveiro está bloqueado. Desbloqueie-o e este botão volta a funcionar."
+
+msgid "What should happen with it?"
+msgstr "O que deve acontecer com ela?"
+
+msgid "This production already exists"
+msgstr "Esta produção já existe"
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Lá as faixas têm outros nomes:"
+
+msgid "Different track names"
+msgstr "Nomes de faixa diferentes"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  JÁ EXISTE UMA PRODUÇÃO COM ESTE NOME"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "A chave de AUPHONIC_TOKEN não é aceita: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "A chave guardada não é aceita: %s"
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nenhuma chave de API. Indique --auphonic-api-key CHAVE, defina AUPHONIC_TOKEN ou faça-a ser guardada uma vez na interface. A chave está nas configurações da conta Auphonic."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "Nenhuma predefinição guardada na conta. É possível criar uma na interface web."
+
+msgid "does the preset fit the run?"
+msgstr "a predefinição serve para a execução?"
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Nenhuma predefinição indicada, nenhuma entrada possível. Escolha uma das acima com --auphonic-preset NOME."
+
+msgid "Open the settings, where the key is."
+msgstr "Abrir as configurações, onde está a chave."
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Abre o app que desbloqueia o Chaveiro."
+
+msgid "Check the key and fetch Presets."
+msgstr "Verificar a chave e buscar as predefinições."
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Dois canais solicitados -- a gravação é estéreo"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "PROCESSAMENTO NO AUPHONIC.COM:"
+
+msgid "  Preset:  %s"
+msgstr "  Predefinição: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Arquivo:      %s (%s, %s)"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (só medição: nada enviado)\n"
+
+msgid "  Production running (%s)"
+msgstr "  Produção em andamento (%s)"
+
+msgid "production finished, but no output file"
+msgstr "produção concluída, mas sem arquivo de saída"
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Resultado: %s (%s) -- fica ao lado do arquivo de vídeo\n"
+
+msgid "  Created:     %s"
+msgstr "  Criada:      %s"
+
+msgid "  Uploaded:"
+msgstr "  Enviados:"
+
+msgid "  Results:"
+msgstr "  Resultados:"
+
+msgid "  Results:     none"
+msgstr "  Resultados:  nenhum"
+
+msgid "the individual tracks"
+msgstr "as faixas individuais"
+
+msgid "the mixdown as the yardstick"
+msgstr "o mixdown como referência"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "PROCESSAMENTO NO AUPHONIC.COM (MULTIPISTA):"
+
+msgid "  Production:  %s"
+msgstr "  Produção:    %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Faixas:      %s"
+
+msgid "  To upload:   %s"
+msgstr "  A enviar:    %s"
+
+msgid "no production id in the response"
+msgstr "nenhum id de produção na resposta"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Produção concluída, mas sem ZIP com as faixas individuais"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "enviar tudo de novo e recalcular -- isto custa crédito"
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Interrompido. Escolha outro nome de produção -- então é criada\n  uma nova produção -- ou uma das outras opções."
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Faltam arquivos lá -- sem um novo envio nada pode ser calculado.\n  Com --auphonic-resume upload o script envia de novo; isto custa crédito."
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Resultado existente adotado -- nada calculado, nada pago."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Nota: o cálculo usa os arquivos enviados na época. Eles trazem\n  a janela de tempo e o alinhamento daquele dia. Onde o ponto de entrada, o ponto de saída\n  ou a posição medida forem diferentes agora, a verificação de retorno mede a\n  diferença e coloca as faixas no lugar."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Configurações ajustadas à predefinição %r"
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Os arquivos são enviados de novo -- isto custa crédito."
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  Os arquivos existentes são reutilizados -- recalcular não custa nada."
+
+msgid "  Time limit: %s"
+msgstr "  Limite de tempo: %s"
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Limite de tempo de %s atingido, produção ainda em andamento: %s/engine/status/%s"
+
+msgid "  In the archive: %s"
+msgstr "  No arquivo compactado: %s"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic informa %s: %s"
+
+msgid "No Multitrack preset found in the account."
+msgstr "Nenhuma predefinição Multitrack encontrada na conta."
+
+msgid "No Singletrack preset found in the account."
+msgstr "Nenhuma predefinição Singletrack encontrada na conta."
+
+msgid "preset does not fit the run"
+msgstr "a predefinição não serve para a execução"
+
+msgid "No preset is called %r."
+msgstr "Nenhuma predefinição se chama %r."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Indique um número entre 1 e %d."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "A chave é válida. Das %s predefinições da conta nenhuma é Multitrack, então a lista fica vazia."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "A chave é válida. Das %s predefinições da conta nenhuma é Singletrack, então a lista fica vazia."
+
+msgid "Save in Registry"
+msgstr "Guardar no Registro"
+
+msgid "system store"
+msgstr "armazenamento do sistema"
+
+msgid "The key is then in the %s, never in a file."
+msgstr "A chave fica então aqui, nunca num arquivo: %s."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Determina como o auphonic.com processa o áudio.\n\n“%s” mantém a chave e mesmo assim não vai até lá.\nO áudio é então apenas juntado e normalizado, não separado --\ne sem faixas separadas não há corte de câmera."
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic não aceita as configurações: %s"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Mais de dois canais vão para o auphonic.com como um só: a mistura só é desligada para estéreo.\n  Onde os canais devem ficar separados, corte antes o arquivo em faixas."
+
+msgid "Uploading %s"
+msgstr "Enviando %s"
+
+msgid "no production id in the response: %s"
+msgstr "nenhum id de produção na resposta: %s"
+
+msgid "no download address for %s"
+msgstr "nenhum endereço de download para %s"
+
+msgid "Downloading %s"
+msgstr "Baixando %s"
+
+msgid "downloaded file is only %s bytes"
+msgstr "o arquivo baixado tem só %s bytes"
+
+msgid "Preset not readable: %s"
+msgstr "Predefinição ilegível: %s"
+
+msgid "the individual tracks, packed"
+msgstr "as faixas individuais, compactadas"
+
+msgid "  Missing:     %s"
+msgstr "  Faltam:      %s"
+
+msgid "Change rejected: %s"
+msgstr "Alteração rejeitada: %s"
+
+msgid "rejected"
+msgstr "rejeitado"
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r não é uma predefinição Multitrack"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "O Auphonic criou faixas diferentes das pedidas: %s em vez de %s"
+
+msgid "These tracks got no file: %s"
+msgstr "Estas faixas não receberam arquivo: %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "usar o resultado existente (nada calculado, nada pago)"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "recalcular com a predefinição escolhida -- os arquivos ficam\n       onde estão, não custa crédito"
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Faixa %d  %-22s (aqui: %s)"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Lá há %s faixas e aqui %s -- não confere."
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "usar os nomes de lá e continuar com eles --\n       nenhum envio, não custa nada"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "manter os nossos nomes e enviar tudo de novo -- isto custa\n       crédito"
+
+msgid "This production has no result yet."
+msgstr "Esta produção ainda não tem resultado."
+
+msgid "  All needed output files already exist."
+msgstr "  Todos os arquivos de saída necessários já existem."
+
+msgid "  Tracks: %s"
+msgstr "  Faixas: %s"
+
+msgid "curl ended with %d"
+msgstr "curl terminou com %d"
+
+msgid "Response was not JSON: %s"
+msgstr "A resposta não era JSON: %s"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Número (vazio = cancelar): "
+
+msgid "The key was not saved"
+msgstr "A chave não foi guardada"
+
+msgid "The key was not saved: %s"
+msgstr "A chave não foi guardada: %s"
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s já está aqui -- não baixado duas vezes"
+
+msgid "  Also fetched: %s"
+msgstr "  Também baixado: %s"
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Dois canais, porque uma faixa é estéreo"
+
+msgid "the finished mixdown"
+msgstr "o mixdown pronto"
+
+msgid "%s: not there"
+msgstr "%s: não existe lá"
+
+msgid "Uploading %s tracks"
+msgstr "Enviando %s faixas"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s está duas vezes na produção -- baixado uma vez."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Interrompido. Nada foi enviado e nada calculado."
+
+msgid "  The names from there are adopted:"
+msgstr "  Os nomes de lá são adotados:"
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "O resultado existente não serve: lá falta %s. Com --auphonic-resume rerun pode ser recalculado sem enviar nada."
+
+msgid "  Added: %s"
+msgstr "  Adicionados: %s"
+
+msgid "%s brought to the preset"
+msgstr "%s ajustadas à predefinição"
+
+msgid "%s were already right"
+msgstr "%s já estavam certas"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Durante a alteração foram adicionadas faixas (agora %s). Assim a mistura\n  fica errada. Apague em auphonic.com as faixas sem arquivo."
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  concluído%s\n"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic informa um erro: %s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- nada adequado encontrado"
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "Nenhuma predefinição Multitrack na conta. Só estas: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "Nenhuma predefinição Singletrack na conta. Só estas: %s"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  Não foi possível baixar %s: %s"
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Mixdown pronto solicitado como referência (%s)"
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Atenção: a produção contém mais faixas (%s). Elas entram na\n  mistura -- apague-as em auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Atenção: faixa %s -- mantém as suas configurações."
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r é uma predefinição Singletrack, e é preciso uma Multitrack."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r é uma predefinição Multitrack, e é preciso uma Singletrack."
+
+msgid "-- nothing --"
+msgstr "-- nada --"
+
+msgid " and "
+msgstr " e "
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Só uma faixa, e não sobra áudio de câmera para usar."
+
+msgid "    Cross-check:"
+msgstr "    Contraprova:"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "eixo do tempo medido e atrelado ao timecode"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "eixo do tempo medido -- os saltos caem no mesmo ponto"
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s não está no eixo do episódio: é colocado antes ou depois do material, não cortado dentro dele. O ponto de entrada e o ponto de saída pertencem ao que fica entre eles."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Só uma faixa -- para uma segunda, defina o Áudio da câmera de uma câmera como “usar o áudio”."
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nCOMPARAÇÃO DE CORES DAS CÂMERAS"
+
+msgid "-- only one camera"
+msgstr "-- só uma câmera"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Verificação pelo vazamento -- a referência é %s:"
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Nenhum par mensurável -- fica como está."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Todas as faixas estão no lugar -- nada a mover."
+
+msgid "    Cross-check: not measurable"
+msgstr "    Contraprova: não mensurável"
+
+msgid "time axis not measurable"
+msgstr "eixo do tempo não mensurável"
+
+msgid "No camera of their own: %s"
+msgstr "Sem câmera própria: %s"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- são todos, então cada plano vai para a mesma câmera."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTIPISTA NÃO É POSSÍVEL\n  Sem chave de API não há nada para enviar ao auphonic.com.\n  Com --without-auphonic roda localmente: alinhado,\n  mixado e cortado, mas sem de-bleed e leveler."
+
+msgid "\nCAMERA CUT"
+msgstr "\nCORTE DE CÂMERA"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nCORTE COM O PLANO GERAL"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nPRIMEIRO CORTE POR FALANTE"
+
+msgid "Bright."
+msgstr "Brilho"
+
+msgid "Colour U"
+msgstr "Cor U"
+
+msgid "Colour V"
+msgstr "Cor V"
+
+msgid "Distance to mean"
+msgstr "Distância à média"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s deslocada em %s ms%s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTIPISTA NÃO É POSSÍVEL\n  São necessárias pelo menos duas faixas de entrada, e só foi encontrada %s.\n  Uma faixa é uma gravação própria, um canal de um gravador\n  multicanal ou o áudio de uma câmera -- que conta assim que o seu\n  Áudio da câmera diz “usar o áudio”. Sem duas delas não há\n  nada a separar, e o mesmo arquivo passa como uma\n  produção comum."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  As câmeras estão próximas (no máximo %s degraus de brilho)."
+
+msgid "    not possible: %s"
+msgstr "    não é possível: %s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s trajeto do som %4s ms (%s m), desvio %6s ms, deriva %5s ppm (%s pontos, %s ms de sobra)%s"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- não pode estar certo, a faixa\n    %-20s fica onde está."
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Contraprova não é possível: %s"
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s não corresponde a nada no material, por isso não pode ser cortado no episódio: definido como Abertura."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s também não corresponde a nada no material, e a abertura já está ocupada: deixado de fora."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s não corresponde a nada no material e é bem mais curto que o resto: proposto como abertura, que vai para o início e nunca é medida."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Atenção: %s degraus de diferença de brilho -- visível ao alternar."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s pode ser posicionado de novo e voltou à execução."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Não foi possível gravar o arquivo de projeto: %s"
+
+msgid "time axis not measurable: %s"
+msgstr "eixo do tempo não mensurável: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "só %s segundos em que %s fala sozinho, são necessários %s"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "vazamento pouco nítido: %s de %s segundos utilizáveis, nitidez máxima %s, são necessários %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (trajeto do som negativo -- algo está errado)"
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", deriva do relógio de %s ppm descontada"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: não é possível determinar quantos canais tem (%s) -- não é medido"
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Nenhuma câmera está livre de falantes, então não há plano geral: as quatro configurações de plano geral e a marca para as bordas não fazem nada. Dê a uma câmera o Tipo “Plano geral”, ou deixe uma sem falante."
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Ainda não há transcrição. Sem ela nenhuma pergunta é encontrada e nenhum limite de frase é conhecido, por isso estas quatro configurações não fazem nada. Uma execução a escreve, e a partir daí funcionam."
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "Não se encaixa em lugar nenhum do material: sem timecode, e o seu áudio não tem nada em comum com o resto. O plano geral é o recurso do corte, por isso tem de estar no eixo do tempo."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Pergunta: sem transcrição, então nenhuma pergunta foi encontrada e nenhum\n            corte de reação aconteceu. As palavras são transcritas do mix pronto\n            durante a execução; sem elas a configuração não faz nada."
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s planos</b>, mediana %(med)s s, o mais curto %(short)s s, câmera mais longa %(long)s s</span>. Tempo de fala: <b>%(own)s %%</b> na própria câmera (%(own_t)s), %(wide)s %% no plano geral (%(wide_t)s), <span style='color:%(warn)s'>em %(off)s %% (%(off_t)s) a câmera de quem fala não está ativa</span>"
+
+msgid "Speakers, as the run measured them"
+msgstr "Falantes, como a execução os mediu"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "das faixas processadas pelo Auphonic -- %s falantes, %s"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Por que as configurações de plano geral estão cinzentas"
+
+msgid "Why the question settings are grey"
+msgstr "Por que as configurações de pergunta estão cinzentas"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "marcada como plano geral -- não recebe falantes"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "nenhum falante -- este é o plano geral"
+
+msgid "the mix of all tracks"
+msgstr "a mistura de todas as faixas"
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Aqui nenhum falante é conhecido -- sem saber quem fala quando, não há entre o que cortar."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Nenhuma câmera está atribuída, então não há entre o que cortar."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Nenhuma voz tem ainda uma câmera -- assim todos os planos seriam o mesmo."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "As regras de corte não deixam nenhum plano nestes %s. Um plano mínimo mais curto, ou menos plano geral, devolve um."
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "O plano geral dura %s s, menos que o plano mais curto de %s s -- por isso é fundido de novo e nunca aparece.\n"
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Calcula quem fala quando a partir das próprias faixas -- um microfone por pessoa, nível contra o próprio ruído de fundo. Onde todos estão numa só gravação, o caminho é “vários locutores” no campo Nome do falante."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  As faixas são usadas como foram gravadas: alinhadas, mixadas e levadas à\n  loudness alvo. Sem de-bleed, sem leveler, sem remoção de ruído -- para\n  isso a execução precisa do auphonic.com."
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  ATUALIZAR A LISTA DE CORTES"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Disso não saiu nenhum corte -- toque de novo em Iniciar acima."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Pergunta: %s na transcrição, %s viraram corte de reação."
+
+msgid "the main speaker asked"
+msgstr "o falante principal perguntou"
+
+msgid "asker and answerer on one camera"
+msgstr "quem pergunta e quem responde numa só câmera"
+
+msgid "nobody answered in time"
+msgstr "ninguém respondeu a tempo"
+
+msgid "the answer did not keep the floor"
+msgstr "a resposta não manteve a palavra"
+
+msgid "nobody was speaking at the question"
+msgstr "ninguém falava no momento da pergunta"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "da execução concluída -- %s locutores, %s"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "medido a partir das gravações -- %s locutores, %s"
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Nenhuma câmera atribuída ainda -- para isso, ative Multipista."
+
+msgid "In point or Out point cannot be read here."
+msgstr "O ponto de entrada ou o ponto de saída não pode ser lido aqui."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "O ponto de saída fica menos de 5 segundos depois do ponto de entrada."
+
+msgid "because no speaker is assigned to it"
+msgstr "porque nenhum locutor lhe está atribuído"
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "O programa tem aqui %s de duração -- nada pode ser disposto nisso. Quem o define são o ponto de entrada e o ponto de saída."
+
+msgid "working out who speaks when ..."
+msgstr "a determinar quem fala quando ..."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nSEM AUPHONIC.COM"
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (só medição: nada escrito)"
+
+msgid "FOR RESOLVE"
+msgstr "PARA O RESOLVE"
+
+msgid "  The handover file could not be written."
+msgstr "  Não foi possível escrever o arquivo de entrega."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Cada câmera tem um locutor, então não há plano geral: as quatro configurações do plano geral e a marca para as bordas não fazem nada aqui."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s locutores, %s planos, o mais curto %s s"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "O ponto de entrada agora é %s, mas os arquivos existentes pertencem a %s.\n  O áudio dos vídeos está cortado na janela antiga -- clique de novo em\n  Iniciar, acima."
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "O ponto de saída agora é %s; a janela teria %s, os arquivos\n  existentes têm %s -- clique de novo em Iniciar, acima."
+
+msgid "  The cut stays as it was."
+msgstr "  O corte fica como estava."
+
+msgid "  Not used:  %s."
+msgstr "  Não usados: %s."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Plano geral nas bordas: ignorado -- o primeiro ou o último anúncio\n  seria longo demais para uma saudação."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Plano geral nas bordas: até %s e a partir de %s"
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Nenhum locutor conhecido ainda -- nada medido, nada separado, e nenhum arquivo de entrega de uma execução anterior em %s ou nas suas subpastas."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "A janela de tempo fica fora do material: ponto de entrada em %s, ponto de saída em %s, e o material dura %s."
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "este é o plano geral -- %s passou para \"sem câmera própria\""
+
+msgid "No audio tracks are assigned."
+msgstr "Nenhuma faixa de áudio atribuída."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Nenhum locutor conhecido ainda -- eles são obtidos das faixas assim que esta aba é aberta. Se todos estiverem numa só gravação, o caminho é \"vários locutores\" no campo Nome do falante."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Daí resultam o projeto, a importação e %s:"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Crie-o com \"Criar projeto do Resolve\" na interface. O Resolve precisa estar em execução."
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nLOCUTORES\n  Ninguém foi ouvido -- daqui não sai corte de câmera."
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %sx fora do locutor porque um plano durou mais de %s s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  Uma câmera para todos: cortada em %s planos na troca de locutor, para que o Resolve possa agrupá-los."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  O corte mudou: %s planos em vez de %s."
+
+msgid "the cut uses %s"
+msgstr "o corte usa %s"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "nenhum locutor lhe está atribuído, mas o corte usa %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s ainda não medido -- no corte sim, nesta pré-visualização ainda não."
+
+msgid "%r is not a number."
+msgstr "%r não é um número."
+
+msgid "Before: %s"
+msgstr "Antes: %s"
+
+msgid "After: %s"
+msgstr "Depois: %s"
+
+msgid "  Metrics not writable: %s"
+msgstr "  Métricas não graváveis: %s"
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Não entregue: a execução não conseguiu posicionar %s, portanto não é uma câmera deste episódio."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  Nada foi encontrado no som para %s -- posicionado só pelo timecode."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Nenhum deslocamento medido para %s -- posicionado no início do eixo."
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Não foi possível escrever %s: %s"
+
+msgid "two Timelines"
+msgstr "duas Timelines"
+
+msgid "one Timeline"
+msgstr "uma Timeline"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s imagem do corte de câmera, áudio numa só peça"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s todas as câmeras lado a lado -- vira o clipe multicam"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s está em %s, que não é uma câmera desta execução -- o corte o nomeia mesmo assim."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s planos gerais: o corte usa %s."
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  Não foi possível reescrever %s: %s"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r conta a partir do fim -- isso só funciona para o ponto de saída."
+
+msgid "Preview not possible: %s"
+msgstr "Pré-visualização impossível: %s"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s a câmera numa só peça, o mix embaixo"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Parte do Resolve interrompida: %s"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s está pronto -- com --resolve-json isso pode ser feito depois."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: a medição a coloca em %s s, o timecode em %s s -- usa-se a medição."
+
+msgid "it was written and was not there afterwards"
+msgstr "foi escrito e depois não estava lá"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Este programa está em execução como %s e os pacotes instalados para ele são %s, então nenhum deles pode ser carregado. Assim ele inicia corretamente: %s"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Foi criado um atalho para este programa: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Nenhum atalho para este programa foi criado: %s"
+
+msgid "Chosen files"
+msgstr "Arquivos escolhidos"
+
+msgid "fixed"
+msgstr "corrigido"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Áudio e vídeo (%s);;Todos os arquivos (*)"
+
+msgid "Select audio and video files"
+msgstr "Selecionar arquivos de áudio e vídeo"
+
+msgid "found automatically"
+msgstr "encontrado automaticamente"
+
+msgid "AUDIO"
+msgstr "ÁUDIO"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s blocos"
+
+msgid "does not belong: %s"
+msgstr "não faz parte: %s"
+
+msgid "belongs to"
+msgstr "pertence a"
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Estes arquivos não são nem áudio nem vídeo e ficam de fora:\n\n  %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "Remover da lista todos os arquivos deste tipo? São %s, tipo: %s.\n\n%s"
+
+msgid "no timecode"
+msgstr "sem timecode"
+
+msgid "Timecode from %s"
+msgstr "Timecode a partir de %s"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Separa a gravação por voz: cada voz ganha uma linha própria, e nela a sua câmera. Cerca de um minuto para meia hora de áudio, neste computador e sem envio."
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Quem se ouve nesta gravação. Um nome significa que é essa única pessoa.\n\"vários locutores\" determina quem fala quando, neste computador e sem envio -- cerca de um minuto para meia hora de áudio. Os nomes vão depois nas linhas abaixo."
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Ouve essa gravação de novo, procurando um locutor a mais do que os encontrados."
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Tudo o que ainda falta, medido em relação ao que está feito. Trabalhos longos ocupam mais da barra do que os curtos."
+
+msgid "Measure, align, process, write files."
+msgstr "Medir, alinhar, processar, escrever arquivos."
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Só medir -- nada é escrito nem enviado."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Chave para auphonic.com, e se o Resolve responde."
+
+msgid "Why the run cannot start"
+msgstr "Por que a execução não pode começar"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nInterrompendo. A execução termina assim que puder fazê-lo sem deixar um arquivo escrito pela metade -- um momento.\n"
+
+msgid "%s, seconds"
+msgstr "%s, segundos"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s não pode ser posicionado: o som dele não tem nada em comum com o resto do material, e o arquivo não traz timecode. Ele precisa de um que combine com as outras gravações, e isso tem de ser definido com outro programa."
+
+msgid "placed on the bands that move"
+msgstr "posicionado pelas bandas que se movem"
+
+msgid "too little audio to align"
+msgstr "áudio insuficiente para alinhar"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s blocos unidos pelo timecode, início %s"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Eles se sobrepõem -- vários microfones ao mesmo tempo, não blocos em sequência."
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s blocos unidos por ordem de nome (sem timecode -- lacunas não seriam reconhecíveis)"
+
+msgid "edges implausible"
+msgstr "bordas implausíveis"
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "posicionado por fase, nitidez %s contra um piso de %s, deriva desconhecida"
+
+msgid "Reading audio track from %s"
+msgstr "Lendo a faixa de áudio de %s"
+
+msgid "no audio data from %s"
+msgstr "sem dados de áudio de %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Só o mix vai para o vídeo (--no-single-tracks)."
+
+msgid "no match in the middle either (%s)"
+msgstr "nenhuma correspondência também no meio (%s)"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      ATENÇÃO: correspondência fraca para %s (%s, o piso é %s). Os dois talvez não sejam do mesmo par."
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Lacuna de %s em %s -- preenchida com silêncio"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Sobreposição de %s em %s -- ali soam os dois"
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Cada um vai também para o vídeo como faixa própria: %s"
+
+msgid "this pair of files"
+msgstr "este par de arquivos"
+
+msgid "%s (%s files)"
+msgstr "%s (%s arquivos)"
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Este arquivo foi escrito pela versão %s no formato %d; esta escreve o formato %d. Os nomes dentro dele mudaram desde então, por isso não pode ser lido. Configure a execução de novo."
+
+msgid "previous block is shorter than the rest"
+msgstr "o bloco anterior é mais curto que os demais"
+
+msgid "This is not a file of this program."
+msgstr "Este não é um arquivo deste programa."
+
+msgid "Channel %d is silent -- unused input"
+msgstr "O canal %d está em silêncio -- entrada não usada"
+
+msgid ", agreed at %s of %s places"
+msgstr ", coincidente em %s de %s pontos"
+
+msgid "Given"
+msgstr "Predefinido"
+
+msgid "Chosen"
+msgstr "Escolhido"
+
+msgid "Writing %s"
+msgstr "Escrevendo %s"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nVERIFICAR O RETORNO"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com os dobrou. O mix mantém os dois canais; o que se perdeu é a\n  diferença entre os dois microfones daquela faixa."
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s deslocamento %s ms%s, duração %s s, dispersão %s ms, %s de %s pontos%s%s"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALIZAR"
+
+msgid "Measuring the yardstick"
+msgstr "Medindo a referência"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Loudness não mensurável -- fica como está."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Sem ajuste:        tirado dos arquivos de origem -- nenhum ganho em faixa alguma e nenhum\n                     limitador. O som sai exatamente como entrou."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Soma das faixas:   %s LUFS, pico %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Alvo:              %s LUFS  ->  %s dB em cada faixa"
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Resultado:         cerca de %s LUFS, pico %s dBTP"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "O canal %d está %s dB abaixo do mais alto -- nada conectado"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Canal %d a %s dBFS -- só resta ruído do conversor"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz contra %s kHz"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "definido à mão -- prevalece sobre a medição"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Ligado faz uma faixa estéreo deste canal e do seguinte.\nO seguinte então não tem marca própria -- já está ocupado.\nO que foi medido está na linha ao lado."
+
+msgid "Mixing %s"
+msgstr "Mixando %s"
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Nota: este ffmpeg não tem soxr -- a deriva do relógio só pode ser removida em\n  passos de 21 ppm."
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s não dá som para medir -- posicionado só pelo seu relógio, e não havia nada com que conferi-lo"
+
+msgid "overlap of %s per timecode"
+msgstr "sobreposição de %s segundo o timecode"
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Nenhuma entrada possível. Use %s %s para definir o que deve acontecer."
+
+msgid "  -->  aligned"
+msgstr "  -->  alinhado"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  Para %s não foi possível determinar se o retorno corresponde ao\n  envio. Melhor parar do que escrever algo errado."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Picos:             %s dB acima de %s dBTP -- o limitador os segura"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Demais:            o limitador teria de tirar %s dB. Mais de %s dB\n                     soa esmagado -- %s dB a menos de ganho."
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Fica:              %s dB em cada faixa, ou seja, %s LUFS em vez de %s"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Limitador:         no máximo %s dB, a mesma curva em cada faixa%s"
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "uma introdução ou encerramento com dois canais é um mix estéreo -- não medido"
+
+msgid "%s channels against %s"
+msgstr "%s canais contra %s"
+
+msgid "      %s channels"
+msgstr "      %s canais"
+
+msgid "      Channel %d"
+msgstr "      Canal %d"
+
+msgid "join with Channel %d"
+msgstr "unir com o canal %d"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "dois nomes de arquivo para o mesmo momento -- nenhum dos dois é usado"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "distância de %s segundo o timecode, afastado demais para uma gravação"
+
+msgid "already in another recording"
+msgstr "já em outra gravação"
+
+msgid "  Number: "
+msgstr "  Número: "
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  alinhado, deriva do relógio de %s ppm removida"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Atenção: medição inutilizável"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Mixdown do auphonic.com: %s LUFS, pico %s dBTP (%s)"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Faixa:             %s LU (para fala, normalmente de 3 a 7 LU)"
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Curva de nível impossível (%s) -- sem limitador"
+
+msgid "does not start where the block before it ends"
+msgstr "não começa onde o bloco anterior termina"
+
+msgid "ends before the next block starts"
+msgstr "termina antes de o próximo bloco começar"
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Os quadros-chave de %s não podem ser lidos (%s) -- a cópia começa no início do arquivo."
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s não mensurável: %s"
+
+msgid " (fine: %s ms)"
+msgstr " (fino: %s ms)"
+
+msgid ", range %s LU"
+msgstr ", faixa %s LU"
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (o auphonic.com tira a mesma quantidade)"
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Atenção: faixa     só %s LU -- muito estreita. Para fala, normalmente 3 a 7 LU;\n                     abaixo disso soa esmagado. Verifique a intensidade do leveler\n                     definida no auphonic.com."
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "os dois canais idênticos -- mono colocado nos dois lados"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s não pode ser classificado: %s"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "provavelmente dois microfones -- a cerca de %s m de distância%s"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "não reconhecível -- só %s de %s pontos em que os dois canais têm som, são necessários %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "não reconhecível -- estes dois não coincidem melhor do que cada um com o canal ao lado"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "provavelmente uma faixa estéreo -- os dois microfones no mesmo lugar"
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   O Resolve talvez não reconheça então o espaço de cor de entrada."
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Dados câmera:    a origem não traz nenhum"
+
+msgid "boxes no longer readable"
+msgstr "caixas não mais legíveis"
+
+msgid "moov is no longer in its place"
+msgstr "o moov não está mais no seu lugar"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "o moov não termina mais no fim do arquivo"
+
+msgid "the media data is no longer where it was"
+msgstr "os dados de mídia não estão mais onde estavam"
+
+msgid "moov has not grown"
+msgstr "o moov não cresceu"
+
+msgid "the video track can no longer be found"
+msgstr "a faixa de vídeo não é mais encontrada"
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Não é possível acrescentar átomos: o moov não está no fim."
+
+msgid "the old moov is back in place"
+msgstr "o moov antigo está de volta no lugar"
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sVerificação do timecode do arquivo de áudio"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Deslocamento pelo timecode:     %s"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Deslocamento medido:            %s"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Faixas dados:    %s mantidas"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Dados câmera:    %s chaves mantidas (%s)"
+
+msgid "did not arrive: %s"
+msgstr "não chegaram: %s"
+
+msgid "a box no longer fits into its parent"
+msgstr "uma caixa não cabe mais na sua mãe"
+
+msgid "cannot be read back (%s)"
+msgstr "não pode ser relido (%s)"
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Não é possível acrescentar átomos: a origem é %s, o destino %s."
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Não é possível acrescentar átomos: uma caixa de 64 bits está no caminho."
+
+msgid "while writing: %s"
+msgstr "durante a escrita: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Acréscimo de átomos desfeito -- %s. %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Cor:             %d/%d/%d -- primárias completadas a partir da matriz (origem: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Cor:             %d/%d/%d mantida"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Cor:             Atenção, %s na origem, %s no arquivo novo"
+
+msgid "no audio track present"
+msgstr "nenhuma faixa de áudio presente"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Áudio começa pelo timecode em   %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Imagem começa pelo timecode em  %s"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Desvio:                         %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  O timecode do áudio não combina de jeito nenhum com a imagem -- provavelmente um relógio nunca ajustado. Usa-se a medição."
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Faixas dados:    %s omitida -- o ffmpeg não consegue escrevê-la"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Dados câmera:    Atenção, %s de %s chaves faltam no arquivo novo: %s"
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Átomo %s ignorado: %s bytes são demais para ele."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "A REVERSÃO FALHOU (%s)"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Desvio:                         %s  (%s quadros)"
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  O timecode não combina com o que se ouve. Usa-se a medição."
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Desvio:                         %s  (%s quadros) -- confere"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  nenhuma Timeline do Resolve roda nesta taxa; é convertido"
+
+msgid "  (container; measured %s)"
+msgstr "  (contêiner; medido %s)"
+
+msgid "One name for two voices"
+msgstr "Um nome para duas vozes"
+
+msgid "Two files as %s"
+msgstr "Dois arquivos como %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s e %s estão ambos definidos como %s. Só um arquivo pode sê-lo -- volte o outro para Conteúdo."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s está em mais de uma voz. Um nome é uma pessoa, e o corte coloca uma pessoa numa câmera -- duas vozes com o mesmo nome seriam uma pessoa em dois lugares."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack precisa de várias faixas"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack precisa de pelo menos duas faixas de entrada. Uma faixa é uma gravação própria, um canal de um gravador multicanal ou o áudio de um arquivo de vídeo definido como \"usar o áudio\". Vários blocos da mesma gravação contam como uma faixa, faixas postas de lado não contam."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Cada linha precisa de um nome -- no Auphonic ele se torna a track ID."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Todas as linhas têm o mesmo nome -- isso resulta numa única faixa, e Multitrack precisa de pelo menos duas."
+
+msgid "File names"
+msgstr "Nomes de arquivo"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Duas câmeras produziriam o mesmo arquivo novo. Dê nomes diferentes."
+
+msgid "Preset missing"
+msgstr "Predefinição ausente"
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Carregue as predefinições e escolha uma, ou deixe a API Key vazia."
+
+msgid "Names used more than once"
+msgstr "Nomes usados mais de uma vez"
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Não há gravações de áudio separadas. Usa-se então o áudio das %s câmeras -- cada uma vira uma faixa, e o Auphonic remove o vazamento."
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Estes nomes aparecem mais de uma vez:\n\n  %s\n\nAs gravações são juntadas numa faixa e postas uma após a outra pelo seu Timecode. Isso está certo se a gravação foi parada no meio."
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Janela de tempo manual:"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Sem imagem: as faixas são alinhadas umas contra as outras."
+
+msgid "up to %s"
+msgstr "até %s"
+
+msgid "from %s"
+msgstr "a partir de %s"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Verificação:         %s em relação à faixa da câmera %s ms (correspondência %s)%s"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "NENHUM ARQUIVO DE ÁUDIO -- USANDO O ÁUDIO DA CÂMERA"
+
+msgid "  from %s, %s"
+msgstr "  de %s, %s"
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Menos de duas câmeras com som -- poucas demais para Multitrack."
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "NENHUMA GRAVAÇÃO DE ÁUDIO SEPARADA -- USANDO O ÁUDIO DAS CÂMERAS"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    O ponto de saída está antes do ponto de entrada -- assim não funciona."
+
+msgid "    the measured window is therefore kept."
+msgstr "    mantém-se por isso a janela medida."
+
+msgid "RECOGNISED PLAN"
+msgstr "PLANO RECONHECIDO"
+
+msgid "\n  This produces:"
+msgstr "\n  Isso resulta em:"
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Só um arquivo de áudio e nenhuma imagem -- nada a fazer."
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Referência: %s (%s, maior duração)"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nMEDINDO O EIXO DO TEMPO"
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nSó uma faixa encontrou lugar -- não resta nada contra o que alinhá-la."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Janela:         %s -- tudo o que alguma faixa ouviu"
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs não tem efeito aqui: as faixas saem como foram gravadas, e a loudness é definida onde forem mixadas."
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nGRAVANDO AS FAIXAS NO EIXO"
+
+msgid "RESULT"
+msgstr "RESULTADO"
+
+msgid "  Of no consequence for the sound."
+msgstr "  Sem consequência para o som."
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nNenhuma faixa de áudio pôde ser alinhada -- não há nada para pôr no eixo."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Janela comum:   %s a %s (%s)"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    começa com %s e termina com %s -- o trecho que todas as câmeras viram"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (só medição: sem chave de API para aqui)"
+
+msgid "\nMIXING"
+msgstr "\nMIXAGEM"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nSALVANDO AS FAIXAS"
+
+msgid "%s has no audio track."
+msgstr "%s não tem faixa de áudio."
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "EXTRAINDO O ÁUDIO DAS CÂMERAS"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s de %s"
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    A câmera de referência não tem Timecode. O eixo depende do relógio de %s, e o seu primeiro quadro marca %s."
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    Ponto de entrada   %s   (Timecode %s)"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Ponto de saída     %s   (Timecode %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    Ponto de entrada   %s\n    Ponto de saída     %s"
+
+msgid "In point is %s before the first frame"
+msgstr "o ponto de entrada está %s antes do primeiro quadro"
+
+msgid "Out point is %s after the last frame"
+msgstr "o ponto de saída está %s depois do último quadro"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Atenção: %s. Ali não há imagem;"
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    A janela teria só %s -- isso não pode ser intencional."
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Duração   %s  (em vez de %s)"
+
+msgid "    Length  %s"
+msgstr "    Duração   %s"
+
+msgid "  In summary: %s"
+msgstr "  Em resumo: %s"
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Nenhum som nas câmeras -- nada com que trabalhar."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Produção em auphonic.com:   %s"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s recebe %s faixas mixadas juntas: %s"
+
+msgid "%s blocks"
+msgstr "%s blocos"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s deslocamento %s, deriva do relógio %s ppm (+/- %s), dispersão residual %s ms, %s de %s pontos%s"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: silêncio de %s no início e %s no fim"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nTerminou sem resultado: %s"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nNenhum arquivo de vídeo utilizável -- sem o áudio das câmeras não há eixo do tempo comum."
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nDepois de juntar os blocos resta só uma faixa, e o multipista precisa de uma por voz. Onde duas pessoas foram tomadas por uma gravação, --apart deixa um bloco de fora."
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  A Timeline recebe %s: a mais alta delas, ou a próxima taxa que o Resolve\n  tem acima dela. Convertendo para cima o Resolve repete quadros, para baixo\n  os descarta. Cada câmera mantém a sua própria taxa, e o corte conta\n  nela."
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s deslocamento %s, deriva do relógio %s ppm (+/- %s), dispersão residual %s ms, %s de %s pontos"
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nSom e imagem têm só %s em comum, e o alinhamento encontrou nisso %s pontos de amostragem. É pouco demais para posicionar algo."
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s no início e %s no fim não têm imagem e ficam de fora"
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Áudio ausente %s preenchido com silêncio%s"
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic e --auphonic-done foram ambos indicados. As faixas prontas prevalecem: não resta nada a enviar."
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nJÁ PROCESSADO"
+
+msgid "  From %s"
+msgstr "  De %s"
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Os arquivos na pasta devem ter o nome dos locutores e pertencer\n  a esta execução. Sem a pasta, passa de novo por auphonic.com."
+
+msgid "Check: %s and camera track"
+msgstr "Verificação: %s e faixa da câmera"
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Verificação:         uma das duas faixas não está no arquivo gravado, por isso nada foi medido."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Verificação:         as duas faixas não podem ser comparadas (correspondência %s, %s é o limite). Isso nada diz sobre a sincronia."
+
+msgid "   Caution: more than one frame"
+msgstr "   Atenção: mais de um quadro"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Átomos da câmera:    %s adicionados -- %s"
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s mixadas juntas"
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Esta câmera não pôde ser posicionada -- ignorada"
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Deslocamento:        %s   (da comparação das câmeras)"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Deriva do relógio:   nada medido -- esta é a referência contra a qual as outras são medidas"
+
+msgid "Saving %s"
+msgstr "Salvando %s"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Timecode %s gravado como bext e iXML (referência: %s)"
+
+msgid "\nRESULT"
+msgstr "\nRESULTADO"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nTRANSCRIÇÃO"
+
+msgid "\nMETRICS"
+msgstr "\nMÉTRICAS"
+
+msgid "Would write: %s"
+msgstr "Gravaria: %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nNenhuma predefinição escolhida: %s"
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s não tem som de câmera -- sem ele nada pode ser alinhado"
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s roda a %s quadros/s, uma taxa para a qual o Resolve não tem Timeline -- é convertida, não deixada de fora"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nTAXAS DE QUADROS DIFERENTES: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nTAMANHOS DE QUADRO DIFERENTES: %s"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  MAS %s -- nem a janela de tempo (%s) nem\n    %-20s    todo o intervalo medido (%s). Pertence a outra execução."
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Não utilizável: %s"
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Verificação:         não é possível (%s)"
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Átomos da câmera:    não é possível adicionar (%s)"
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  O registro das execuções anteriores aqui não pode ser lido (%s), por isso é informado tudo o que já existe."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s existe de uma execução anterior desta produção e é substituído."
+
+msgid "\nPROCESSING: %s"
+msgstr "\nPROCESSANDO: %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Contraprova:         %s do Full-Mix, desvio %s ms (%s de %s pontos)%s"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Deriva do relógio:   %s ppm (+/- %s), dispersão residual %s ms, %s de %s pontos"
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Deriva ao longo da duração: %s s = %s quadros  -->  %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Faixa de áudio %d:    %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Timecode:            %s"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Janela de tempo:     %s de %s gravados, a partir de %s da câmera"
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  As câmeras levam a janela de tempo e um segundo em cada ponta: %s gravados para %s dos %s registrados."
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: nenhum áudio para extrair (%s)"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: o canal %s não pode ser extraído (%s)"
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r é um Timecode, mas aqui não há imagem e, portanto, nenhuma câmera a partir da qual contá-lo. Então só funciona um valor a partir do início da janela, como +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r é um Timecode, mas o eixo do tempo não depende de nenhum relógio: nenhum arquivo aqui tem um, incluindo a câmera de referência %s. Então só funciona um valor a partir do início da janela, como +12:30."
+
+msgid "Assignment file not readable: %s"
+msgstr "Arquivo de atribuição ilegível: %s"
+
+msgid "        Track %d: %s"
+msgstr "        Faixa %d: %s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Loudness não mensurável: %s"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s não pode ser alinhada: %s"
+
+msgid "Processing failed: %s"
+msgstr "Falha no processamento: %s"
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, ignorado"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- um ponto de entrada ou de saída poupa o envio"
+
+msgid ", clock drift left in"
+msgstr ", a deriva do relógio permanece"
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s nenhum arquivo com nome correspondente"
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, semelhança do nome %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, recortado para a janela de tempo, semelhança do nome %s)"
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s já existe e é sobrescrito -- esta produção não tem registro de tê-lo criado."
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Contraprova:         não é possível (%s)"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Interrompido: %s"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Comparação de cores não é possível: %s"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s aparece duas vezes com câmeras diferentes -- usa-se %s"
+
+msgid "%s from %s recordings"
+msgstr "%s de %s gravações"
+
+msgid "Abort: %s"
+msgstr "Interrupção: %s"
+
+msgid "is actively taken out"
+msgstr "é compensada ativamente"
+
+msgid "is left in"
+msgstr "permanece"
+
+msgid "  Error while writing: %s"
+msgstr "  Erro ao gravar: %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML para %s não gravado: %s"
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Cada plano na cor da sua câmera. Passe o cursor para câmera e duração, clique para saltar."
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Mostrar o dobro (tecla menos, ou a roda sobre a faixa)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Mostrar a metade, em torno da posição atual (tecla mais, ou a roda sobre a faixa)"
+
+msgid "The whole length again (0 key)"
+msgstr "De novo toda a duração (tecla 0)"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Reproduzir para a frente, duas vezes mais rápido a cada toque -- a tecla L."
+
+msgid "after the device change"
+msgstr "após a troca de dispositivo"
+
+msgid "Audio at programme time"
+msgstr "Áudio no tempo de programa"
+
+msgid "External preview -- the app does not know this format"
+msgstr "Pré-visualização externa -- o app não conhece este formato"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Reproduzir e pausar -- a barra de espaço também funciona."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "A gravação atribuída a esta câmera em vez do áudio da câmera."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Não há player embutido aqui -- a reprodução é feita no ffplay em janela própria."
+
+msgid "/not seekable"
+msgstr "/não posicionável"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: deve ir para %s%s -- %s"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), tentativa %d, depois em %s"
+
+msgid "  Player: %s"
+msgstr "  Player: %s"
+
+msgid "Video 1"
+msgstr "Vídeo 1"
+
+msgid "Video 2"
+msgstr "Vídeo 2"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Volume. 100 é o máximo -- o Qt não aceita nada acima disso."
+
+msgid "%s reports %s"
+msgstr "%s informa %s"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Player: a saída de áudio muda para %s"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- salto para %s do tempo de programa%s ---"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Player: o áudio não está tocando (%s) -- mais uma tentativa."
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- ponto definido, o tempo de programa começa em %s ---"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Relógio %7.2f%s | B1[%s] %s | B2[%s] %s | Áudio %s %s"
+
+msgid "Prepare pane %d for %s"
+msgstr "Preparar o painel %d para %s"
+
+msgid "  --  this file is outside"
+msgstr "  --  este arquivo está fora"
+
+msgid "%s virtual"
+msgstr "%s virtual"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   o app não conhece este formato"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Player: %s fica em %s em vez de %s -- desistiu após %s tentativas (%s)"
+
+msgid "the default device"
+msgstr "o dispositivo padrão"
+
+msgid "Audio file %s"
+msgstr "Arquivo de áudio %s"
+
+msgid "Fast forward, %s times speed"
+msgstr "Avanço rápido, velocidade %s×"
+
+msgid "Pane %d on %s"
+msgstr "Painel %d em %s"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "O painel %d carrega %s (%s)"
+
+msgid "   --   audio only"
+msgstr "   --   só áudio"
+
+msgid "  (this file starts later)"
+msgstr "  (este arquivo começa mais tarde)"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Tocando %s -- a faixa processada de auphonic.com,\nno nível de transmissão. O mesmo áudio do corte de câmera."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Tocando %s -- a gravação bruta.\nÉ bem mais baixa que o áudio processado; assim que as faixas de auphonic.com\nestiverem prontas, a pré-visualização usa essas."
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: ainda não posicionável, será feito depois (%s)"
+
+msgid " SEEKING"
+msgstr " BUSCANDO"
+
+msgid "MUTED"
+msgstr "MUDO"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Player: %s informa um erro -- %s"
+
+msgid " target %.2f"
+msgstr " alvo %.2f"
+
+msgid "volume %.2f"
+msgstr "volume %.2f"
+
+msgid "the source folder"
+msgstr "a pasta de origem"
+
+msgid "Loudness of the finished episode"
+msgstr "Loudness do episódio pronto"
+
+msgid "Free space there: %s"
+msgstr "Espaço livre ali: %s"
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Faltam cerca de %s. Libere espaço ou escolha outra pasta com --out. Os arquivos temporários durante a execução ficam ainda em outro lugar, na pasta temporária do sistema."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "A estimativa é aproximada, então este espaço não basta. Libere espaço ou escolha outra pasta com --out."
+
+msgid "Disk space"
+msgstr "Espaço em disco"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Quão alto o episódio pronto fica. O mesmo ganho vai em cada\nfaixa, assim o equilíbrio entre os locutores se mantém.\n\"Obter dos arquivos de origem\" não ajusta nada: auphonic.com continua\nfazendo o que sua predefinição diz, e sem auphonic.com o som\nfica como está nos arquivos de origem."
+
+msgid "Algorithms"
+msgstr "Algoritmos"
+
+msgid "%s checked"
+msgstr "%s verificados"
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway está definido: roda apesar dos pontos acima."
+
+msgid "does the material fit together?"
+msgstr "o material combina?"
+
+msgid " -- nothing to fault."
+msgstr " -- nada a apontar."
+
+msgid "Note: "
+msgstr "Nota: "
+
+msgid "fixed: "
+msgstr "corrigido: "
+
+msgid "Caution: "
+msgstr "Atenção: "
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s quadros em %s"
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Um ritmo irregular de quadros não pode ser compensado pelo áudio. Se durante o alinhamento os pontos de amostragem também se dispersarem, converta para uma taxa de quadros fixa."
+
+msgid "Frame rates"
+msgstr "Taxas de quadros"
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "A Timeline recebe uma taxa fixa -- a mais alta delas, ou a próxima taxa que o Resolve tem acima dela. Ele converte as outras; com 23,976 contra 24 é aí que a sua análise de áudio costuma travar."
+
+msgid "Colour space"
+msgstr "Espaço de cor"
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Usado tal como está -- nada é inventado. Verifique no Resolve em Clip Attributes, aba Color Space: se ali estiver \"Project\", o espaço de cor de entrada não foi reconhecido e precisa ser definido manualmente."
+
+msgid "Capture curve"
+msgstr "Curva de gravação"
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "Fica no átomo logs da descrição da imagem -- é assim que o Resolve reconhece o espaço de cor de entrada. Curvas diferentes significam espaços de cor de entrada diferentes."
+
+msgid "Colour tag"
+msgstr "Marcação de cor"
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "Os três números são primárias, curva e matriz. Marcações diferentes exigem no Resolve espaços de cor de entrada diferentes -- senão uma câmera fica diferente da outra."
+
+msgid "Resolutions"
+msgstr "Resoluções"
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "O Resolve escala para a resolução da Timeline. O que for menor é ampliado e fica mais suave."
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Cada par de canais é avaliado por si: uma faixa estéreo, ou dois microfones e, portanto, duas faixas. Entradas silenciosas são descartadas. As linhas abaixo do arquivo dizem o que foi medido, e a marcação prevalece."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Contado aqui, amostra por amostra, na taxa em que o arquivo foi gravado: uma sequência de três ou mais amostras no valor mais alto que um formato inteiro comporta. Uma ou duas são arredondamento e não são relatadas. O que foi cortado ali está perdido e nenhum processamento o recupera -- mas a gravação continua sendo a gravação, e isto não impede nada. Só formatos inteiros são contados. Ponto flutuante de 32 bits não tem limite em fundo de escala, então ali não há nada a contar."
+
+msgid "Midnight"
+msgstr "Meia-noite"
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Um timecode conta a partir da meia-noite e ali recomeça. Os arquivos são colocados num único eixo antes de qualquer subtração, senão a gravação depois da meia-noite parece estar quase um dia distante da anterior. Se realmente foram gravadas em dias diferentes, o alinhamento está errado e vale o deslocamento medido."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "O alinhamento segue o deslocamento medido; o timecode é apenas a contraprova."
+
+msgid "not measurable."
+msgstr "não mensurável."
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "nenhum trecho encontrado em que fale exatamente uma pessoa -- a separação não pode ser medida."
+
+msgid "3:1 rule"
+msgstr "Regra 3:1"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "Isso vem da gravação, não de depois: os microfones estão próximos demais entre si ou longe demais da boca."
+
+msgid "free %s, about %s needed (%s)"
+msgstr "livre %s, necessário cerca de %s (%s)"
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "tirado dos arquivos de origem, nenhum --lufs informado -- nada é ajustado"
+
+msgid "none switched on"
+msgstr "nenhuma ativada"
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nVERIFICAÇÃO PRÉVIA -- %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nParado antes da primeira etapa longa. Com --anyway, continua mesmo assim."
+
+msgid "no video track"
+msgstr "nenhuma faixa de vídeo"
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "O espaçamento entre quadros varia %s %% -- a temporização dos quadros é irregular."
+
+msgid "the video files run at different rates: %s"
+msgstr "os arquivos de vídeo têm taxas diferentes: %s"
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s de %s arquivos de vídeo não trazem curva nem espaço de cor na caixa colr%s -- provavelmente material log."
+
+msgid "the video files carry different recording curves: %s"
+msgstr "os arquivos de vídeo têm curvas de gravação diferentes: %s"
+
+msgid "the video files are tagged differently: %s"
+msgstr "os arquivos de vídeo têm marcações diferentes: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "os arquivos de vídeo têm tamanhos de imagem diferentes: %s"
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz em vez de %s kHz -- convertido durante o processamento."
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s canais -- divididos em faixas, veja as linhas acima."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "O canal %d está no limite: %s vezes três ou mais amostras seguidas, a mais longa %s (%s ms), a primeira em %s."
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Iniciada tarde ou parada cedo -- essa voz então falta no mix em alguns trechos."
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s traz um timecode do outro lado da meia-noite -- contado como uma noite, não como um dia de diferença."
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Timecode %s, os outros arquivos estão em %s -- este relógio não foi ajustado."
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "as gravações se sobrepõem só por %s -- pouco demais para medir."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "a gravação mais curta tem só %s -- pouco demais para medir."
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s de %s comparações estão abaixo de %s dB -- cada gravação contra cada outra, nas duas direções."
+
+msgid "Target: %s"
+msgstr "Destino: %s"
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s está definido, e nada é ajustado aqui: as faixas saem como foram gravadas, e a loudness é definida onde forem mixadas."
+
+msgid "Track template"
+msgstr "Modelo de faixa"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "a predefinição Multitrack não tem nenhuma faixa armazenada."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "A primeira faixa da predefinição define as configurações de todas as nossas faixas. Caso contrário, elas voltam sem processamento. Crie uma faixa na predefinição pela interface web."
+
+msgid "per track"
+msgstr "por faixa"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 aviso: %s"
+
+msgid " -- %s notes"
+msgstr " -- %s avisos"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "em várias partes, sem timecode -- lacunas entre elas não podem ser detectadas."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Ali o corte não tem imagem. Quando a Timeline é montada, o trecho fica vazio e o áudio continua."
+
+msgid "only %s long, the longest recording has %s."
+msgstr "só %s de duração, a gravação mais longa tem %s."
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s no microfone de %s: só %s dB a menos"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s no microfone de %s: %s dB a menos que no próprio."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "Surgiu durante a gravação e não pode mais ser mudado. Quanto menos os microfones estiverem separados, mais cautelosamente o De-Bleed em auphonic.com pode trabalhar. Da próxima vez: três vezes mais longe do microfone vizinho do que da própria boca, e a voz vizinha fica cerca de %s dB mais baixa."
+
+msgid "not readable (%s) -- unchecked."
+msgstr "não legível (%s) -- não verificado."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "a predefinição masteriza em %s LUFS -- isso vale, nada do nosso lado ajusta."
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "a predefinição masteriza em %s LUFS, o cálculo usa %s."
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "As duas coisas ao mesmo tempo não funcionam: as faixas que voltam iriam para um valor, o nosso mix para o outro. Defina --lufs %.0f ou altere a predefinição."
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "o modelo de faixa não tem nada ativado -- as faixas voltariam exatamente como foram enviadas."
+
+msgid "Check"
+msgstr "Verificação"
+
+msgid "not readable: %s"
+msgstr "não legível: %s"
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, não os %s do arquivo -- %s quadros a mais na mesma duração."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, não os %s do arquivo -- %s quadros a menos na mesma duração."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Os quadros duram um pouco menos; o arquivo não fica mais longo por isso. Um software de edição omite cerca de um quadro a cada %s s, e imagem e áudio da câmera continuam juntos."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Os quadros duram um pouco mais; o arquivo não fica mais curto por isso. Um software de edição repete cerca de um quadro a cada %s s, e imagem e áudio da câmera continuam juntos."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- só a matriz indica BT.2020"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Lacuna de %s entre o bloco %d e %d -- a câmera parou."
+
+msgid " from %s files"
+msgstr " de %s arquivos"
+
+msgid "the check itself stopped: %s"
+msgstr "a própria verificação parou: %s"
+
+msgid "%s in %s"
+msgstr "%s em %s"
+
+msgid "Limits the de-bleed: "
+msgstr "Limita o De-Bleed: "
+
+msgid "not measurable: %s"
+msgstr "não mensurável: %s"
+
+msgid "Envelope"
+msgstr "Envoltória"
+
+msgid "Cutting out track %d of %d"
+msgstr "Recortando a faixa %d de %d"
+
+msgid "no audio: %s"
+msgstr "sem áudio: %s"
+
+msgid "Envelope failed: %s"
+msgstr "Falha na envoltória: %s"
+
+msgid "channels not readable: %s"
+msgstr "canais não legíveis: %s"
+
+msgid "cutting failed: %s"
+msgstr "falha ao recortar: %s"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Tudo volta dali: nomes, separação, atribuição, tipos, a janela de tempo. A lista de arquivos é substituída pela que o projeto contém."
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROJETO ABERTO\n  Todos os dados estão de volta, nada foi calculado nesta sessão.\n  A pasta de saída contém os arquivos da última execução:\n  %s\n\n  Três caminhos a partir daqui:\n    • embaixo \"Abrir a pasta de resultados\" -- ver os arquivos daquela execução,\n    • embaixo \"Criar projeto do Resolve\" -- a partir do arquivo de entrega daquela execução,\n      sem calcular nada de novo,\n    • em cima \"Iniciar\" -- calcular tudo de novo e sobrescrever os arquivos.\n"
+
+msgid "Restart the application"
+msgstr "Reiniciar o aplicativo"
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "O aplicativo vai reiniciar. Salvar o trabalho num arquivo de projeto antes?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Se salvo, a nova janela abre o projeto de novo e tudo fica onde estava. Se não, ela abre vazia e os arquivos precisam ser adicionados de novo."
+
+msgid "Save and restart"
+msgstr "Salvar e reiniciar"
+
+msgid "Restart without saving"
+msgstr "Reiniciar sem salvar"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Há vários arquivos de projeto junto a este material. Qual?\n\n%s"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "O arquivo de projeto vai para a pasta de saída, e nenhuma foi escolhida ainda. Escolha uma."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "Há um arquivo de projeto junto a este material:\n\n  %s\n  gravado %s\n\n%s"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROJETO SALVO\n  %s\n  Esta execução pode ser aberta de novo mais tarde -- no canto superior esquerdo\n  \"Abrir projeto ...\"\n\n"
+
+msgid "Open json project file"
+msgstr "Abrir arquivo de projeto json"
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "Este não é um arquivo de projeto, e não há nenhum na mesma pasta.\n\nProcura-se %s*.json -- o script o grava na pasta de saída ao iniciar."
+
+msgid "These files no longer exist:\n  "
+msgstr "Estes arquivos não existem mais:\n  "
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Arquivo de projeto não gravável (%s)\n"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;Arquivos JSON (*.json);;Todos os arquivos (*)"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Esta entrega não traz taxa de quadros, então não é possível montar a Timeline a partir dela. Faça a execução de novo."
+
+msgid "This Resolve project already exists"
+msgstr "Este projeto do Resolve já existe"
+
+msgid "Too many projects with this name."
+msgstr "Projetos demais com este nome."
+
+msgid "no information in the file"
+msgstr "nenhuma informação no arquivo"
+
+msgid "\n  Render job"
+msgstr "\n  Tarefa de renderização"
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    Na fila -- no Resolve só falta \"Render All\"."
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  LIMPEZA DAS FAIXAS DE ÁUDIO"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  CLIPES NO MEDIA POOL"
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Nada foi alterado."
+
+msgid "not in the media pool"
+msgstr "não está no Media Pool"
+
+msgid "no information"
+msgstr "nenhuma informação"
+
+msgid "    Colours per angle:"
+msgstr "    Cores por ângulo:"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Os dois clipes ficam inteiros; eles se sobrepõem ao conteúdo.\n      A transição fica na sobreposição -- onde exatamente, você decide no Resolve.\n      (A interface de script do Resolve não consegue criar transições.)"
+
+msgid "\n  Settings"
+msgstr "\n  Configurações"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline para o clipe multicâmera: todas as câmeras, sem cortes"
+
+msgid "Check the connection to Resolve again"
+msgstr "Verificar de novo a conexão com o Resolve"
+
+msgid "Connects to Resolve again."
+msgstr "Conecta-se de novo ao Resolve."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Sem conexão com o Resolve.\n  O programa está em execução? O script externo está definido como 'Local'\n  em Preferences > System > General?"
+
+msgid "Interface:      %s%s"
+msgstr "Interface:      %s%s"
+
+msgid "Library:        %s%s"
+msgstr "Biblioteca:     %s%s"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  JÁ EXISTE UM PROJETO COM ESTE NOME: %r"
+
+msgid "Stopped. Nothing was created."
+msgstr "Interrompido. Nada foi criado."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Nem tudo pôde ser definido. O Resolve aceita alguns valores só\n    enquanto a Timeline ainda está vazia -- compare acima."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote Grades estão ativados: uma correção de cor por câmera vale\n    para todos os seus cortes -- um corte isolado não pode mais ser corrigido\n    sozinho."
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Versões locais: no editor de nós, \"Group Pre-Clip\" vale para a câmera\n    inteira, \"Clip\" só para aquele corte. Uma coisa não exclui\n    a outra."
+
+msgid "Log according to camera data"
+msgstr "Log conforme os dados da câmera"
+
+msgid "Bit depth"
+msgstr "Profundidade de bits"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nVERIFICAÇÃO HDR  %s"
+
+msgid "already right"
+msgstr "já estava correto"
+
+msgid "    Render settings rejected."
+msgstr "    Configurações de renderização recusadas."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (recomendação do YouTube para %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, dois canais  (a taxa de bits não pode ser definida remotamente --\n%s%s kbit/s é a recomendação para estéreo)"
+
+msgid "    Render job could not be created."
+msgstr "    Não foi possível criar a tarefa de renderização."
+
+msgid "  %s of %s files imported."
+msgstr "  %s de %s arquivos importados."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  %s faixas de vídeo, %s faixas de áudio criadas (%s)"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s faixas de vídeo, com os nomes dos locutores:"
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Nenhum áudio na Timeline -- nada a limpar."
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- SÓ CONSULTA"
+
+msgid "  Project %r"
+msgstr "  Projeto %r"
+
+msgid "    No clips found."
+msgstr "    Nenhum clipe encontrado."
+
+msgid "    Clip colours could not be set."
+msgstr "    Não foi possível definir as cores dos clipes."
+
+msgid "  No clips found for colour groups."
+msgstr "  Nenhum clipe encontrado para os grupos de cor."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Início %s -- cada plano é posicionado em relação a ele."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Nenhum corte restante -- a Timeline fica vazia."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s planos, %s s no total, sem o áudio deles."
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Nenhum Full-Mix encontrado -- a Timeline fica muda."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Não foi possível importar o Full-Mix."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Não foi possível inserir o Full-Mix."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Áudio: Full-Mix em uma só peça em A1 (%s)."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  Nenhuma câmera na entrega -- nada a montar."
+
+msgid "  The media pool stays as it is."
+msgstr "  O Media Pool fica como está."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    A loudness não foi ajustada -- o alvo abaixo é só a referência\n    contra a qual o medidor mede."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Clipes de uma execução anterior ainda estão presos aos seus Remote Grades. Na\n    página Color, clique com o botão direito numa miniatura > \"Copy Remote Grades to Local\"\n    (leva a correção junto) ou \"Use Local Grades\". Timelines novas\n    não precisam disso."
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline com o corte pronto"
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Só uma câmera -- um clipe multicâmera não faria sentido."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Ela já existe, com as mesmas câmeras na mesma ordem -- fica\n  intocada. Quem quiser uma nova a apaga no Resolve."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "A interface do Resolve não está onde eu espero:\n  %s\n  %s"
+
+msgid "  Project %r created."
+msgstr "  Projeto %r criado."
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "atualizar -- as duas Timelines são apagadas e\n       montadas de novo, o Media Pool fica como está"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "deixar como está e colocar as novas Timelines ao lado --\n       as existentes ficam"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "criar um projeto novo ao lado (nome com sufixo)"
+
+msgid "  Project %r opened."
+msgstr "  Projeto %r aberto."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Medidos %s quadros/s -- o Resolve só conhece taxas fixas,\n    é usado %s."
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Configurações não listáveis -- defina manualmente:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Nenhuma configuração encontrada para as versões -- defina manualmente:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Curva e espaço de cor faltam no arquivo"
+
+msgid "full range"
+msgstr "faixa completa"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "ausente -- o contêiner não traz marcação de cor"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Sem ela, todo player precisa adivinhar, e todos adivinham SDR. No Resolve, em Deliver > Advanced Settings, defina Color space tag e Gamma tag em vez de deixá-los em \"Same as Project\"."
+
+msgid "Primaries"
+msgstr "Primárias"
+
+msgid "Curve"
+msgstr "Curva"
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Oito bits não bastam para HDR: todo degradê forma faixas, e o YouTube exige dez ou doze."
+
+msgid "Codec profile"
+msgstr "Perfil do codec"
+
+msgid "Static metadata"
+msgstr "Metadados estáticos"
+
+msgid "not needed with HLG"
+msgstr "não necessário com HLG"
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG é referenciado à tela -- não tem entrada para a tela de masterização."
+
+msgid "The file is tagged as HDR."
+msgstr "O arquivo está marcado como HDR."
+
+msgid "Dynamic range"
+msgstr "Faixa dinâmica"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Nenhum formato MP4 encontrado. Disponíveis: %s"
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Nenhum codec adequado encontrado. Disponíveis: %s"
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Atenção: H.265 não disponível -- será H.264 com oito bits.\n             Pouco demais para HDR; os degradês vão formar faixas."
+
+msgid "    Format and codec could not be set."
+msgstr "    Não foi possível definir formato e codec."
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    Um arquivo por entrega foi recusado; o Resolve vai gravar um arquivo por clipe."
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s já existe -- renderizado em %s em vez disso, para que a\n%sentrega anterior fique."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s fica em \"Same as Project\" -- o projeto não indica\n%snenhuma curva HDR. Verificar no Resolve em\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Se o arquivo pronto passa como HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Nível-alvo do medidor de loudness não encontrado -- defina manualmente:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "These files do not exist:\n  "
+msgstr "Estes arquivos não existem:\n  "
+
+msgid "Timeline %r could not be created."
+msgstr "Não foi possível criar a Timeline %r."
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Início %s (câmera mais antiga) -- senão tudo ficaria antes do início da Timeline."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Para conferência -- a Timeline começa no quadro %d (%s):"
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s áudio de A%d mantido, mais %d apagados"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Grupos de cor: %s -- todos os clipes atribuídos"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Grupo de cor %-24s só %s de %s clipes"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s de %s, duração %s%s"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %sx a câmera prevista não estava gravando -- há outra no lugar."
+
+msgid "    Left without picture: %s"
+msgstr "    Ficou sem imagem: %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  O Resolve não aceitou imagem nenhuma -- a Timeline está vazia. Nada\n  mais é montado sobre ela."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Ainda não existia nenhuma dessas Timelines -- ela é apenas montada."
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: a câmera em uma só peça, o mix embaixo"
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Nenhum corte de câmeras na entrega -- sem estatísticas de locutores não há.\n  Só a Timeline para o clipe multicâmera é montada."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Já existe uma Timeline com este nome, com outras câmeras. Ela fica;\n  a nova é montada ao lado com um nome próprio."
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s vai para a faixa de vídeo 1 -- ali a primeira faixa de áudio leva o\n  Full-Mix, e a faixa de vídeo 1 vira o ângulo 1."
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "O Resolve não responde -- veja Configurações"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "O módulo DaVinciResolveScript não pode ser carregado: %s"
+
+msgid "   -- not found"
+msgstr "   -- não encontrado"
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Sem esses dois nada funciona. O Resolve está instalado?"
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Não foi possível criar o projeto %r. O nome já está em outra pasta?"
+
+msgid "Project %r could not be opened."
+msgstr "Não foi possível abrir o projeto %r."
+
+msgid "does not exist: %s"
+msgstr "não existe: %s"
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "Para HDR, aqui é preciso 9 (BT.2020). No Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "Para HDR, aqui é preciso 16 (PQ, ou seja, HDR10) ou 18 (HLG). No Resolve: Gamma tag = ST.2084 ou HLG. 14 não é uma curva HDR, mas SDR no espaço BT.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "Para HDR, aqui é preciso 9 (BT.2020, luminância não constante)."
+
+msgid "Value range"
+msgstr "Faixa de valores"
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Para dez bits, o HEVC precisa do perfil Main 10. No Resolve, ele fica em Deliver como \"Profile\"."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "Para HDR, o usual é HEVC (Main 10), AV1 ou VP9 Profile 2. O YouTube também aceita H.264, mas precisa de mais bitrate."
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Não é obrigatório -- o YouTube aplica então valores padrão (Sony BVM-X300). Para obtê-los: no Resolve, ative HDR10+ em Color Management, execute \"Analyze All Shots\" na página Color e marque \"Embed HDR10 Metadata\" ao renderizar."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "O arquivo NÃO é reconhecido como HDR."
+
+msgid "    Format list not readable: %s"
+msgstr "    Lista de formatos ilegível: %s"
+
+msgid "    Codec list not readable: %s"
+msgstr "    Lista de codecs ilegível: %s"
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Não foi possível definir formato e codec: %s"
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    Não foi possível pedir um arquivo por entrega: %s"
+
+msgid "Tagging"
+msgstr "Marcação"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s rejeitada -- nenhuma grafia foi aceita.\n%sDefina à mão no Resolve em Deliver > Advanced Settings:\n%sColor space tag Rec.2020, Gamma tag %s."
+
+msgid " at high frame rates"
+msgstr " em altas taxas de quadros"
+
+msgid "    Render job could not be created: %s"
+msgstr "    Não foi possível criar o trabalho de renderização: %s"
+
+msgid "Not found again after import: %s"
+msgstr "Não encontrado de novo após a importação: %s"
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s e %s têm o mesmo nome de arquivo, e o Resolve não informa\n  caminho para eles. Renomeie um dos dois."
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  A Timeline começa em %s, não em %s -- cada plano fica deslocado nessa mesma medida."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  O início %s da Timeline não foi aceito."
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: imagem e áudio inseridos separadamente (áudio de A%d)."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s faixa V%d, a partir do quadro %d (%s s em relação ao início), %s%s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Não foi possível renomear a faixa de vídeo %d."
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s nenhum áudio inserido"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Desvincular não teve efeito -- as faixas de áudio\n    %-24s excedentes permanecem no lugar."
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Não é possível criar o grupo de cor %r."
+
+msgid "stored file %s"
+msgstr "arquivo armazenado %s"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "plano geral %s, o mix é a sua primeira faixa de áudio"
+
+msgid "%s, audio track %d"
+msgstr "%s, faixa de áudio %d"
+
+msgid "    %s could not be imported."
+msgstr "    Não foi possível importar %s."
+
+msgid "    %s could not be inserted."
+msgstr "    Não foi possível inserir %s."
+
+msgid "    V2 could not be read back: %s"
+msgstr "    Não foi possível reler V2: %s"
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               O áudio %s em %s -- ali encontra a %s palavra."
+
+msgid "%s (%s to %s)"
+msgstr "%s (de %s a %s)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Apenas %s de %s planos estão na Timeline."
+
+msgid "  Transcript: %s"
+msgstr "  Transcrição: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  INTERROMPIDO: %s"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Excluído: %s -- reconstrução em andamento."
+
+msgid "Project %r could not be created."
+msgstr "Não foi possível criar o projeto %r."
+
+msgid "(wanted %s)"
+msgstr "(pretendido %s)"
+
+msgid "Curve number %d"
+msgstr "Curva número %d"
+
+msgid "Primaries number %d"
+msgstr "Primárias número %d"
+
+msgid "limited (Video/TV)"
+msgstr "limitada (Vídeo/TV)"
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Na entrega, o usual é a faixa limitada. A completa não está errada, mas alguns players a interpretam mal."
+
+msgid " -- not readable"
+msgstr " -- ilegível"
+
+msgid "missing: %s"
+msgstr "faltam: %s"
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Atenção: o projeto está em %s, o material é %s.\n             A entrega leva as marcações do material. Para ajustar\n             o projeto: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (dez bits)"
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 rejeitado -- fica o padrão"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Já existia uma Timeline %r -- a nova se chama %r."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  O início %s da Timeline foi recusado: %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  O Resolve recusa mais faixas de vídeo -- cabem %s de %s câmeras."
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s nenhum arquivo no Media Pool"
+
+msgid "   MISSING"
+msgstr "   FALTANDO"
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Atenção: %s e %s se chamam ambas %s. Na Timeline\n  o Resolve informa só o nome, então os clipes não podem ser\n  distinguidos -- renomeie um dos dois arquivos."
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s não foi possível desvincular: %s"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s não foi possível vincular de novo"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Falha ao vincular: %s"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   vazio (%r)"
+
+msgid "    %s track could not be created: %s"
+msgstr "    Não foi possível criar a faixa (%s): %s"
+
+msgid ", audio on A2"
+msgstr ", áudio em A2"
+
+msgid ", no audio"
+msgstr ", sem áudio"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s não (nenhum quadro livre)"
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Transcrição impossível (%s) -- segue mesmo assim."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Atenção: não foi possível excluir %s -- por isso a nova Timeline\n  recebe um acréscimo no nome."
+
+msgid " not."
+msgstr " -- não."
+
+msgid "Number %d"
+msgstr "Número %d"
+
+msgid "Duration %s"
+msgstr "Duração %s"
+
+msgid "   NOT INSERTED"
+msgstr "   NÃO INSERIDO"
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Falha ao excluir."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Falha ao excluir: %s"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   falha: %s"
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Não é possível criar o grupo de cor %r: %s"
+
+msgid "    %s track %d could not be created."
+msgstr "    Não foi possível criar a faixa (%s) %d."
+
+msgid "ends"
+msgstr "termina"
+
+msgid "begins"
+msgstr "começa"
+
+msgid "first"
+msgstr "primeira"
+
+msgid "last"
+msgstr "última"
+
+msgid "Check itself failed: %s"
+msgstr "A própria verificação falhou: %s"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nPronto. Abaixo, \"Abrir a pasta de resultados\" mostra o resultado.\nSe estiver tudo certo, \"Criar projeto do Resolve\" monta o projeto a partir dele.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nMedido. Nada foi gravado -- uma execução de teste deixa a pasta de resultados como estava.\n"
+
+msgid "Without processing at auphonic.com"
+msgstr "Sem processamento no auphonic.com"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Execução de teste: só medição, nada gravado, nada enviado."
+
+msgid "This is what happens next"
+msgstr "Isto é o que acontece a seguir"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Execução %s ===\n\n"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Processamento no auphonic.com com \"%s\""
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Estes arquivos já existem e serão gravados de novo:\n\n  %s\n\nÉ isso mesmo?"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "pelo gerenciador de pacotes: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Este ffmpeg não tem soxr: o desvio de relógio entre as câmeras sai em passos de 21 ppm em vez de 0,21."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "A chave só pode ser guardada no Mac e no Windows -- no Chaveiro ou no registro. Ela não vai para um arquivo."
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  O ffmpeg.org tem builds para Windows. A pasta com ffmpeg.exe precisa então ir para o PATH, ou os arquivos para junto deste programa."
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "instale o Homebrew de brew.sh e depois repita isto"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "de ffmpeg.org, e a pasta no PATH"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Este ffmpeg tem soxr: o desvio de relógio entre as câmeras sai em passos de 0,21 ppm."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Esta execução é de teste e o armazenamento ainda tem o nome real, por isso nada foi gravado. Aponte antes KEY_SERVICE, KEY_ACCOUNT ou REG_PATH para outro lugar."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "O Chaveiro não aceitou a chave. O Acesso às Chaves pode dizer por quê."
+
+msgid "The registry did not take the key."
+msgstr "O registro não aceitou a chave."
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Nenhum pacote de certificados encontrado -- um download por HTTPS pode falhar."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Nada funciona até isso ser corrigido. Assim: %s"
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Baixando um ffmpeg já compilado. É grande, então leva alguns minutos: %s"
+
+msgid "  It is here: %s"
+msgstr "  Está aqui: %s"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "O Chaveiro está bloqueado. Desbloqueie-o e tente de novo."
+
+msgid "  Putting it back: %s"
+msgstr "  Restaurando: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "Falta %s. Na primeira vez leva alguns minutos."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "Não foi possível instalar %s.\nÀ mão:  %s -m pip install %s"
+
+msgid "%s is missing."
+msgstr "Falta: %s."
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Aqui: %s. Necessário: %s ou mais recente."
+
+msgid "That worked."
+msgstr "Deu certo."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Agora está sendo compilado, e essa é a parte demorada: minutos numa máquina rápida e bem mais numa mais antiga. Nada está travado -- enquanto trabalha, aparece um ponto a cada poucos segundos."
+
+msgid "  Installing it: %s"
+msgstr "  Instalando: %s"
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Primeiro, tirando do caminho o ffmpeg existente: %s"
+
+msgid "The build could not be fetched: %s"
+msgstr "Não foi possível baixar o build: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  É possível baixar um ffmpeg 9.0.1 já compilado com soxr: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  O arquivo compactado continha %s dos dois programas."
+
+msgid "  Installing it: pip install %s"
+msgstr "  Instalando: pip install %s"
+
+msgid "  That did not work: %s"
+msgstr "  Não deu certo: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Nesta máquina: %s"
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Esta máquina pode instalá-lo direito: %s"
+
+msgid "  The page could not be opened: %s"
+msgstr "  Não foi possível abrir a página: %s"
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Não foi possível abrir o Acesso às Chaves: %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s seria instalado neste Python: %s"
+
+msgid "no answer"
+msgstr "sem resposta"
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Abrir a página? [Y/n] "
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Não foi possível descompactar o build: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  À mão:  %s -m pip install %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Baixar agora? [Y/n] "
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Executar agora? [Y/n] "
+
+msgid "  %s of %s MB"
+msgstr "  %s de %s MB"
+
+msgid "Its sound cannot be used."
+msgstr "O som não pode ser usado."
+
+msgid "The list of model files came back empty."
+msgstr "A lista de arquivos do modelo voltou vazia."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "A separação de locutores não está instalada aqui. Isto a restaura: %s"
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   som não reconhecido; posicionado pelo timecode"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  A ordem se sustenta, a distância entre eles não: medida em quatro episódios, ela nunca se inverteu, enquanto a distância entre o primeiro e o último variou quatro vezes. Pressupõe uma voz por faixa; onde duas carregam a mesma fala, nada é dito."
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Só para vozes que ainda têm o nome dado pelo programa; um nome digitado por alguém nunca é alterado. Os papéis são deduzidos de quem pergunta e quem responde, o que vale para uma conversa com um convidado e é uma proposta, não uma configuração."
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Vale sob uma premissa: um microfone por pessoa, e cada um capta só essa pessoa. Onde as faixas se sobrepõem demais para serem distinguidas, ou duas vozes apontam para o mesmo microfone, nada é dito em vez de algo incerto."
+
+msgid "the interface"
+msgstr "a interface"
+
+msgid "the separation in this run"
+msgstr "a separação nesta execução"
+
+msgid "Separating speakers: %s"
+msgstr "Separando locutores: %s"
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "Não é possível gravar na pasta do programa: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Restaurando a separação de locutores ..."
+
+msgid "The speaker separation model is not beside the program."
+msgstr "O modelo de separação de locutores não está junto ao programa."
+
+msgid "The speaker separation is not set up."
+msgstr "A separação de locutores não está configurada."
+
+msgid "Nothing was audible in the recording."
+msgstr "Nada era audível na gravação."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "O pyannote envia dados para casa a cada execução e esta versão não oferece como desativar isso, por isso a separação não foi iniciada."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "A separação de locutores está desativada para este projeto."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Quem fala quando pode ser determinado nesta máquina, a partir de qualquer gravação em que todos sejam audíveis."
+
+msgid "Set to %s; %s is one click away."
+msgstr "Definido como %s; %s está a um clique."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Deixado de fora: já há %s; %s está a um clique."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   não combina com os outros arquivos: som não reconhecido, sem timecode.\n   %s"
+
+msgid "Mixing the tracks for the separation"
+msgstr "Mixando as faixas para a separação"
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "os microfones se ouvem uns aos outros quase tão alto quanto o próprio locutor"
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nQUEM PERGUNTA -- uma proposta, e nada é definido a partir dela"
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nCOMO AS VOZES PODERIAM SE CHAMAR -- uma proposta"
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nQUAL MICROFONE -- uma proposta, e nada é definido a partir dela"
+
+msgid "no recording named"
+msgstr "nenhuma gravação indicada"
+
+msgid "nothing of it falls inside the window"
+msgstr "nada disso cai dentro da janela de tempo"
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  Nada era audível nas faixas -- disso não sai corte de câmeras."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s é %-20s %s dB acima do microfone seguinte, descontado o nível de gravação"
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "Este nome aparece mais de uma vez. As gravações virariam uma só faixa -- para Multitrack, o auphonic.com precisa de pelo menos duas diferentes."
+
+msgid "The model could not be fetched: %s"
+msgstr "Não foi possível baixar o modelo: %s"
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s não confere com seu checksum e não foi gravado."
+
+msgid "The model file %s does not match its checksum."
+msgstr "O arquivo de modelo %s não confere com seu checksum."
+
+msgid "The speaker separation reports: %s"
+msgstr "A separação de locutores informa: %s"
+
+msgid " computed"
+msgstr " calculado"
+
+msgid " virtual"
+msgstr " virtual"
+
+msgid "the tracks are too much alike to separate"
+msgstr "as faixas são parecidas demais para separar"
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Quem pergunta -- não é dito aqui: duas das faixas carregam a mesma fala, então as perguntas iriam para o gravador que estivesse mais alto."
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s de fala, %s de %s frases são perguntas"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s soa como %-20s %s %% dentro daquela faixa, %s pontos à frente da seguinte"
+
+msgid "Nothing was audible in the tracks."
+msgstr "Nada era audível nas faixas."
+
+msgid "%s is not part of this run"
+msgstr "%s não faz parte desta execução"
+
+msgid "%s has no place on the axis"
+msgstr "%s não tem lugar no eixo do tempo"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nSEPARAÇÃO DOS LOCUTORES"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Já separado uma vez: relido, não medido de novo."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (só medição: nada separado)"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nLOCUTORES -- SEPARADOS POR VOZ"
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nLOCUTORES -- MEDIDOS AQUI"
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Das próprias faixas, uma voz por faixa: %s."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Fora do corte: %s -- uma separação vale pela gravação, ou ela não foi medida."
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Não foi possível dizer qual voz pertence a qual microfone, por isso as faixas são medidas em vez disso."
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "Este nome já está com outra pessoa. Um nome é uma pessoa, e o corte coloca uma pessoa em uma câmera -- dê a esta voz um nome próprio."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Todas as gravações têm o mesmo nome. Isso resulta em uma só faixa -- Multitrack precisa de pelo menos duas."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Baixando o modelo (cerca de %s MB): %s"
+
+msgid "The model could not be written: %s"
+msgstr "Não foi possível gravar o modelo: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Baixando o modelo (cerca de %s MB) ..."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Medindo %s (%s de %s)"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s poderia se chamar %s"
+
+msgid "Measuring not possible: %s"
+msgstr "Medição impossível: %s"
+
+msgid "  %s cannot be read: %s"
+msgstr "  Não é possível ler %s: %s"
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Os microfones se ouvem bem demais para dizer quem fala, então a separação escuta todos os %s de uma vez, nesta máquina."
+
+msgid "  In %s, on this machine."
+msgstr "  Em %s, nesta máquina."
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  A separação de locutores não é usada: %s."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Duas câmeras gerariam o mesmo arquivo. A segunda sobrescreveria a primeira."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Duas câmeras são uma só câmera no corte. Seus arquivos têm o mesmo nome, então renomeie um deles."
+
+msgid "  Bleed not separable: %s"
+msgstr "  Vazamento não separável: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Nenhum momento encontrado em que fale exatamente uma pessoa -- o vazamento fica na detecção de fala."
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s quase não fala na janela de tempo -- proposta: não usar."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  O que a janela separou é descartado: ela ouviu uma única gravação, e os microfones se ouvem tão bem uns aos outros que nenhum se destaca -- %s dB contra os %s dB de que um deles precisa sozinho para dizer quem está falando."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Cerca de %s de processamento para %s de áudio."
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s aparece mais de uma vez. Essas gravações são reunidas em uma única faixa e colocadas em sequência pelo timecode -- correto se a gravação foi parada no meio."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Duas câmeras produziriam o mesmo arquivo (%s). A segunda sobrescreveria a primeira."
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Vazamento medido, %s em %s apenas %s dB mais baixo -- retirado da detecção de fala"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  As faixas não foram medidas, então %s está na mixagem e não no corte: %s"
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Duas câmeras são uma só no corte (%s). Os arquivos delas têm o mesmo nome, então renomeie um deles."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Atenção: apenas %s de %s pares mensuráveis. Para os demais não foi encontrado nenhum momento em que exatamente uma pessoa fala, então o vazamento deles permanece -- a detecção de falantes não é confiável aqui."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Construindo o reconhecedor de fala ..."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  O reconhecimento de fala informa: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  O reconhecedor de fala está pronto (%s s)."
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Reconhecido em %s: pronto em %s s, ouvido em %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Não há reconhecimento de fala nesta máquina: o macOS 26 traz um, caso contrário o faster-whisper é instalado."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Reconhecimento de fala (%s): %s palavras em %s s"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s palavras: %s %% para uma voz, %s %% para duas, %s %% em uma lacuna"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s palavras, sem nomes -- ninguém foi separado"
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  O compilador Swift informa: %s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Reconhecimento de fala (%s): %s palavras, relidas"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s está faltando -- instalando. Na primeira vez leva alguns minutos."
+
+msgid "  %s could not be written: %s"
+msgstr "  Não foi possível gravar %s: %s"
+
+msgid ", %s without"
+msgstr ", %s sem câmera"
+
+msgid "The production has no name yet."
+msgstr "A produção ainda não tem nome."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Nenhum som com que trabalhar -- ajuste o Áudio da câmera de um arquivo de vídeo para \"usar o áudio\", ou adicione uma gravação de áudio."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Conteúdo: uma câmera como qualquer outra.\nPlano geral: uma câmera diante da qual ninguém se senta -- ela não recebe nenhum falante, e o corte vai para ela numa pausa e num monólogo longo.\nAbertura e encerramento são clipes prontos -- não alinhados, não processados, apenas colocados na Timeline.\nIgnorar vídeo: o arquivo fica totalmente de fora."
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- o material bruto vira um podcast editado"
+
+msgid "The work can be written to a project file first."
+msgstr "O trabalho pode antes ser gravado em um arquivo de projeto."
+
+msgid "Show the log of this run"
+msgstr "Mostrar o registro desta execução"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Coloca esta gravação dentro de outra, com todos os seus blocos.\nUse quando os nomes dos arquivos não dão nenhuma pista à busca."
+
+msgid "Remove the chosen file from the list"
+msgstr "Remover da lista o arquivo escolhido"
+
+msgid "Output folder back beside each video file"
+msgstr "Pasta de saída de volta ao lado de cada arquivo de vídeo"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Envolventes e áudio das câmeras são preparados em segundo plano."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Sem timecode, a posição dos arquivos é medida."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Deixa a separação desligada para este projeto. O corte vem então das faixas ou do auphonic.com, como antes."
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Ainda não há corte de câmera: são necessárias duas pessoas, cada uma com um nome e uma câmera.\nGravações separadas fornecem isso com a marca Multipista, e também \"vários locutores\" no campo Nome do falante de uma gravação --\nas vozes encontradas ali recebem sua câmera na tabela abaixo das gravações.\nUm projeto do Resolve é criado de qualquer forma -- todas as câmeras nas posições medidas, prontas para Multicam."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Isso precisa do arquivo de entrega de uma execução, e não há nenhum."
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Corte, EDL, CSV e a entrega são recalculados a partir dos números acima. Quem fala quando fica como a execução mediu. O Resolve precisa estar aberto."
+
+msgid "Quit"
+msgstr "Sair"
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Tudo funciona sem isso. Obter uma compilação que o tenha leva alguns minutos, e o que ela diz aparece em Saída."
+
+msgid "Carry on"
+msgstr "Continuar"
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "Isso leva alguns minutos -- um gerenciador de pacotes pode compilar a partir do código-fonte. O que ele diz aparece aqui."
+
+msgid "ffmpeg is in place."
+msgstr "O ffmpeg está instalado."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "O programa o lê ao iniciar. Ele pode reiniciar agora, ou você pode fazer isso mais tarde."
+
+msgid "Start again now"
+msgstr "Reiniciar agora"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "A reinicialização não funcionou. Feche a janela e inicie o programa como fez antes."
+
+msgid "No newer version found. This one is %s."
+msgstr "Nenhuma versão mais recente encontrada. Esta é a %s."
+
+msgid "no audio track in this file"
+msgstr "nenhuma faixa de áudio neste arquivo"
+
+msgid "this file stays out entirely"
+msgstr "este arquivo fica totalmente de fora"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "um clipe pronto -- apenas colocado, não processado"
+
+msgid "the only sound there is"
+msgstr "o único som que existe"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multipista precisa de duas faixas na tabela acima -- uma câmera conta como uma quando seu Áudio da câmera está em \"usar o áudio\"."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s está em mais de um falante -- um nome é uma pessoa, e cada pessoa precisa do seu."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Duas câmeras são uma só no corte: %s. Os arquivos delas têm o mesmo nome, então renomeie um deles."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Duas câmeras produziriam o mesmo arquivo: %s"
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "Não se encaixa em nenhum lugar do material, então não pode ser cortado dentro do episódio. Pode ser colocado antes ou depois."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Se usado, o som deste arquivo vira uma faixa como qualquer outra -- ele aparece na tabela acima.\nO mesmo campo está na lista de arquivos; ambos mostram a mesma resposta."
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Se usado, os canais medidos sob este arquivo são divididos em faixas, como numa gravação.\nA medição acontece de qualquer forma: é com base nesse veredito que se decide, e a sincronização usa o som de todo modo."
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Falta tudo o que vem depois dessa etapa. A pasta contém uma parte de uma execução, não um resultado."
+
+msgid "   (camera audio)"
+msgstr "   (áudio da câmera)"
+
+msgid "new file name"
+msgstr "novo nome do arquivo"
+
+msgid "gets audio from"
+msgstr "recebe áudio de"
+
+msgid "this window"
+msgstr "esta janela"
+
+msgid "GENERAL NOTES"
+msgstr "OBSERVAÇÕES GERAIS"
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "A ordem não importa. De uma gravação em várias partes, basta o primeiro bloco."
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "Soltar em ÁUDIO ou VÍDEO leva todos."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Título no auphonic.com e início dos novos nomes de arquivo."
+
+msgid "If empty: next to each video file."
+msgstr "Se vazio: ao lado de cada arquivo de vídeo."
+
+msgid "Puts it back next to each video file."
+msgstr "Coloca-a de volta ao lado de cada arquivo de vídeo."
+
+msgid "Takes the position from the picture."
+msgstr "Pega a posição da imagem."
+
+msgid "Jumps to the start of the window."
+msgstr "Salta para o início da janela."
+
+msgid "Jumps to the end of the window."
+msgstr "Salta para o fim da janela."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Nenhum arquivo de áudio traz timecode. Ponto de entrada e ponto de saída contam a partir do início do material -- a posição dos arquivos entre si é medida."
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Uma faixa de áudio por pessoa, mantida separada até o auphonic.com.\nFunciona também sem -- então sem de-bleed e leveler.\nSão necessárias duas faixas de entrada: uma gravação própria, um canal de um\ngravador multicanal ou o áudio de um arquivo de vídeo ajustado para \"usar\no áudio\". O corte de câmera não precisa desta marca."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Durante a saudação e a despedida, a imagem fica em plano geral."
+
+msgid "Nothing runs until that is put right."
+msgstr "Nada roda até que isso seja corrigido."
+
+msgid "Get it: %s"
+msgstr "Obter: %s"
+
+msgid "Installing ffmpeg"
+msgstr "Instalando o ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "Reinicie o programa para que ele o reconheça."
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "Licença MIT, Copyright (c) 2026 Sebastian Lotz. Entregue como está, sem garantia de qualquer tipo."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "Uma gravação de áudio ainda não tem nome do falante."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s já está definido como %s, e um episódio só tem um. Responda de outra forma aqui, ou tire primeiro a marca daquele arquivo."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Reiniciar o aplicativo a traz imediatamente, e pergunta antes o que fazer com o trabalho. Deixar como está não custa nada -- ela vem no próximo início."
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "A execução ainda está em andamento. A janela pode ser reiniciada quando ela terminar."
+
+msgid "Nothing has been written yet."
+msgstr "Nada foi escrito ainda."
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- unido à mão, essa diferença entra no arquivo como silêncio, e nada depois a retira."
+
+msgid "\nStopped during: %s"
+msgstr "\nInterrompido durante: %s"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- o que deve acontecer com isso?\nOs detalhes estão no registro."
+
+msgid "\nFinished with errors.\n"
+msgstr "\nConcluído com erros.\n"
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Nenhum som em uso ainda -- adicione uma gravação de áudio, ou ajuste na lista de arquivos o Áudio da câmera de um arquivo de vídeo para \"usar o áudio\"."
+
+msgid "the voices below carry the cameras"
+msgstr "as vozes abaixo levam as câmeras"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Linhas marcadas em vermelho mostram onde está o problema; uma marca na aba significa que está tudo lá."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s não está em nenhum dos arquivos de vídeo. Há um timecode que combine com o material?"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "O idioma falado na gravação. Ele vira a etiqueta da\nfaixa de áudio gravada, e o reconhecimento daqui é avisado para esperá-lo.\nPreenchido a partir do idioma do sistema. \"%s\" deixa a faixa sem etiqueta\ne deixa o reconhecimento descobrir o idioma sozinho."
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "Ponto de entrada: %s     Ponto de saída: %s     Duração: %s"
+
+msgid "The run is still going."
+msgstr "A execução ainda está em andamento."
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Nada foi gravado -- ainda não há material."
+
+msgid "The text for %s could not be fetched."
+msgstr "Não foi possível obter o texto da %s."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Todas as gravações têm o mesmo nome -- isso resulta em uma única faixa."
+
+msgid "stays out"
+msgstr "fica de fora"
+
+msgid "used directly"
+msgstr "usado diretamente"
+
+msgid "Playback not possible"
+msgstr "Reprodução impossível"
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Este arquivo não pode ser reproduzido aqui, e o ffplay está faltando como alternativa."
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "Ponto de entrada e ponto de saída ficam disponíveis quando o eixo do tempo estiver definido -- pelo timecode ou medido."
+
+msgid "Written:\n\n  %s"
+msgstr "Gravado:\n\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "A interface do Resolve não está onde deveria estar."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Obtê-lo leva alguns minutos, e o que ele diz aparece em Saída."
+
+msgid "\nStopped: %s"
+msgstr "\nInterrompido: %s"
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s está em %s -- o arquivo agora está no player."
+
+msgid "Beginning"
+msgstr "Início"
+
+msgid "End"
+msgstr "Fim"
+
+msgid "the whole material"
+msgstr "todo o material"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "O material bruto de um videopodcast vira um episódio editado: o bom áudio dos arquivos de vídeo, as câmeras em um único eixo do tempo, um primeiro corte por falante e um projeto do DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s em %s"
+
+msgid "There is no window to show what pip says."
+msgstr "Não há janela para mostrar o que o pip diz."
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Só esta. A próxima versão pergunta de novo, e Ajuda > Procurar agora uma versão mais recente pergunta a qualquer momento."
+
+msgid "The list of earlier versions could not be read."
+msgstr "Não foi possível ler a lista de versões anteriores."
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "O pip parou com %s. O que ele conseguiu fazer está nas linhas acima."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Atualizar? O pip a baixa em %s. O que o pip diz aparece em Saída, e a nova versão roda a partir do próximo início."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update a baixa e a coloca no lugar."
+
+msgid "The check for new versions is switched off here."
+msgstr "A busca por novas versões está desativada aqui."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Esta é a %s. Qual versão o pip deve colocar no lugar dela?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "O pip a baixa em %s, e o que o pip diz aparece em Saída. A versão escolhida aqui roda a partir do próximo início.\n\nIsso traz de volta o programa e nada mais. O que uma versão mais recente gravou nas configurações continua gravado, e os projetos e seus arquivos ficam como estão."
+
+msgid "pip could not be started: %s"
+msgstr "Não foi possível iniciar o pip: %s"
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s está instalada. Ela roda a partir do próximo início."
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Não foi possível procurar versões anteriores: %s"
+
+msgid "Starting again did not work: %s"
+msgstr "A reinicialização não funcionou: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Inicie-o manualmente: %s %s"
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Não há nenhuma versão anterior à %s que o pip possa instalar."
+
+msgid "Could not look for a newer version: %s"
+msgstr "Não foi possível procurar uma versão mais recente: %s"
+
+msgid "channel count unknown"
+msgstr "número de canais desconhecido"
+
+msgid "no video track in %s"
+msgstr "nenhuma faixa de vídeo em %s"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s gravação de %s arquivos"
+msgstr[1] "%s gravações de %s arquivos"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s arquivo não combina"
+msgstr[1] ", %s arquivos não combinam"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s continuação"
+msgstr[1] "%s  + %s continuações"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Separação: %s falante"
+msgstr[1] "Separação: %s falantes"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  A faixa %s subiu em estéreo e voltou em um só canal."
+msgstr[1] "  As faixas %s subiram em estéreo e voltaram cada uma em um só canal."
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s faixa, %s, %s kHz, %s"
+msgstr[1] "%s faixas, %s, %s kHz, %s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix de %s faixas, %s canal"
+msgstr[1] "  Full-Mix de %s faixas, %s canais"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s fica em dois canais"
+msgstr[1] "  %s ficam em dois canais"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: está em %s (alvo %s) após %d ms, %d tentativa"
+msgstr[1] "%s: está em %s (alvo %s) após %d ms, %d tentativas"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Isto gera %s arquivo de vídeo, cerca de %s. Destino: %s"
+msgstr[1] "Isto gera %s arquivos de vídeo, cerca de %s. Destino: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s resolvido sozinho"
+msgstr[1] "%s resolvidos sozinhos"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s dica"
+msgstr[1] "%s dicas"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s motivo de interrupção"
+msgstr[1] "%s motivos de interrupção"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  Resta %s faixa de áudio:"
+msgstr[1] "  Restam %s faixas de áudio:"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s marcador definido%s."
+msgstr[1] "  %s marcadores definidos%s."
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  Fica %s faixa de áudio: %s"
+msgstr[1] "  Ficam %s faixas de áudio: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Imagem e áudio ligados novamente: %s ângulo"
+msgstr[1] "    Imagem e áudio ligados novamente: %s ângulos"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s faixa de áudio vazia removida"
+msgstr[1] "    %s faixas de áudio vazias removidas"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Mais ângulos que cores -- %s cor aparece duas vezes."
+msgstr[1] "      Mais ângulos que cores -- %s cores aparecem duas vezes."
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s clipe ficou sem cor."
+msgstr[1] "      %s clipes ficaram sem cor."
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    V2 agora contém %s clipe: %s"
+msgstr[1] "    V2 agora contém %s clipes: %s"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Atenção: ângulo %s não inserido. Sem este ângulo a\n  Timeline não serve para a conversão."
+msgstr[1] "  Atenção: ângulos %s não inseridos. Sem estes ângulos a\n  Timeline não serve para a conversão."
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> interpretado como %s faixa de áudio%s"
+msgstr[1] "      --> interpretado como %s faixas de áudio%s"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "O arquivo está marcado como HDR, com %s observação."
+msgstr[1] "O arquivo está marcado como HDR, com %s observações."
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " de %s canal incorporado"
+msgstr[1] " de %s canais incorporados"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Separação de falantes (%s): %s falante em %s de áudio"
+msgstr[1] "  Separação de falantes (%s): %s falantes em %s de áudio"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s em %s trecho"
+msgstr[1] "  %-20s %s em %s trechos"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Fonte: %s -- %s voz."
+msgstr[1] "  Fonte: %s -- %s vozes."
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s palavra voltou sem marcação de tempo e foi omitida."
+msgstr[1] "  %s palavras voltaram sem marcação de tempo e foram omitidas."
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s arquivo foi concluído antes disso e está completo: %s"
+msgstr[1] "%s arquivos foram concluídos antes disso e estão completos: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s ponto"
+msgstr[1] "%s pontos"
+
