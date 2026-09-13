@@ -135,11 +135,8 @@ es nicht.
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
 erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest -- dreizehn
 stehen zur Wahl, `docs/command-line.de.md` nennt sie; ohne den Schalter
-entscheidet die Systemsprache. Nur `--help` bleibt englisch. Deutsch,
-Spanisch, Französisch und Russisch sagen alles andere, auch während eines
-Laufs; die übrigen acht übersetzen das Fenster und lassen den Rest
-englisch stehen -- welche was, sagt
-[die Oberfläche](docs/interface.de.md).
+entscheidet die Systemsprache. Nur `--help` bleibt englisch. Jede
+Sprache sagt alles andere, auch während eines Laufs.
 
 ![Der Reiter Zuordnung](docs/images/assignment.de.png)
 
