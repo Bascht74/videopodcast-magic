@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in Japanese.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# Part of the program's texts stand here -- the captions the window
-# itself carries, not the report that runs beside them. Every text that
+# All of the program's texts stand here since 13.9.2026 -- the captions
+# the window carries and the report that runs beside them, Resolve
+# included; until then it was the captions alone. Every text that
 # is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
@@ -12,6 +13,13 @@
 # has read them, and nobody has reviewed a single line. Treat every
 # entry as a first draft. Correcting one costs nothing but this file:
 # delete an entry and that text is English again.
+#
+# The 1131 texts and 31 counted things added on 13.9.2026 were written
+# by one model, four languages at a time from one sheet, and a sample
+# of them was read back by another, which found 9 places to put
+# right -- a meaning that had slipped, or a word the catalogue already
+# says otherwise; those were repaired. Treat the rest as the first draft it
+# is.
 #
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
@@ -1062,3 +1070,3521 @@ msgstr "ここで選んだ言語は次回の起動から使われます。"
 
 msgid "System language (%s)"
 msgstr "システムの言語 (%s)"
+
+msgid "No audio file given."
+msgstr "音声ファイルが指定されていません。"
+
+msgid "Unknown extension, skipped: %s"
+msgstr "不明な拡張子のためスキップ：%s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "カメラが複数あるのに音声ファイルがありません。各カメラが自分の音声を持つことになります --\nそのための --multitrack です。そうでなければカメラを 1 台ずつ。"
+
+msgid "Not found: %s"
+msgstr "見つかりません：%s"
+
+msgid "Stopped: %s"
+msgstr "中止しました：%s"
+
+msgid "Resolve part stopped: %s"
+msgstr "Resolve の処理を中止しました：%s"
+
+msgid "Presets could not be loaded: %s"
+msgstr "プリセットを読み込めませんでした：%s"
+
+msgid "Camera audio not usable: %s"
+msgstr "カメラ音声が使えません：%s"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com がキーを受け付けません：%s"
+
+msgid "There is no key."
+msgstr "キーがありません。"
+
+msgid "The key has a space or a line break at one end."
+msgstr "キーの先頭か末尾に空白か改行があります。"
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "キーの途中が空白か改行で区切られています。"
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "キーにキーボードで入力できない文字が含まれています。"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "このファイルをどの Auphonic プリセットで処理しますか？"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "自分のプリセットがありません -- auphonic.com で作成してください"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "自分の Multitrack プリセットがありません -- 作成してください"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "自分の Singletrack プリセットがありません -- 作成してください"
+
+msgid "What auphonic.com replied"
+msgstr "auphonic.com の返答"
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "キーチェーンがロックされています。ロックを解除するとこのボタンが使えるようになります。"
+
+msgid "What should happen with it?"
+msgstr "これをどうしますか？"
+
+msgid "This production already exists"
+msgstr "この制作はすでに存在します"
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  あちらではトラック名が異なります："
+
+msgid "Different track names"
+msgstr "異なるトラック名"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  この名前の制作はすでにあります"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "AUPHONIC_TOKEN のキーが受け付けられません：%s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "保存されたキーが受け付けられません：%s"
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API キーがありません。--auphonic-api-key キー を指定するか、AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "アカウントにプリセットが保存されていません。Web 画面で作成できます。"
+
+msgid "does the preset fit the run?"
+msgstr "プリセットはこの実行に合っていますか？"
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "プリセットが指定されておらず、入力もできません。--auphonic-preset 名前 で上のいずれかを選んでください。"
+
+msgid "Open the settings, where the key is."
+msgstr "キーのある設定を開きます。"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "キーチェーンのロックを解除するアプリを開きます。"
+
+msgid "Check the key and fetch Presets."
+msgstr "キーを確認してプリセットを取得します。"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  2 チャンネルを要求 -- 録音はステレオです"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "AUPHONIC.COM で処理："
+
+msgid "  Preset:  %s"
+msgstr "  プリセット：  %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  ファイル：    %s (%s, %s)"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  （計測のみ：何もアップロードしていません）\n"
+
+msgid "  Production running (%s)"
+msgstr "  制作を実行中（%s）"
+
+msgid "production finished, but no output file"
+msgstr "制作は完了しましたが、出力ファイルがありません"
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  結果：%s（%s） -- 動画ファイルの隣に置かれます\n"
+
+msgid "  Created:     %s"
+msgstr "  作成日時：        %s"
+
+msgid "  Uploaded:"
+msgstr "  アップロード済み："
+
+msgid "  Results:"
+msgstr "  結果："
+
+msgid "  Results:     none"
+msgstr "  結果：            なし"
+
+msgid "the individual tracks"
+msgstr "個別トラック"
+
+msgid "the mixdown as the yardstick"
+msgstr "基準となるミックスダウン"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "AUPHONIC.COM で処理（マルチトラック）："
+
+msgid "  Production:  %s"
+msgstr "  制作：            %s"
+
+msgid "  Tracks:      %s"
+msgstr "  トラック：        %s"
+
+msgid "  To upload:   %s"
+msgstr "  アップロード量：  %s"
+
+msgid "no production id in the response"
+msgstr "応答に制作 ID がありません"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "制作は完了しましたが、個別トラックの ZIP がありません"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "すべて再アップロードして再計算 -- クレジットを消費します"
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "中止しました。別の制作名を選ぶと新しい制作が作成されます --\n  あるいは他の選択肢から選んでください。"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "あちらにファイルが不足しています -- 再アップロードなしでは何も計算できません。\n  --auphonic-resume upload を使うとスクリプトが再アップロードします。クレジットを消費します。"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  既存の結果を採用 -- 計算なし、支払いなし。"
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  注：当時アップロードしたファイルで計算します。ファイルには\n  その日の時間枠と位置合わせが含まれています。イン点、アウト点\n  または測定位置が現在と異なる場合、戻りチェックが\n  差を測ってトラックを所定の位置に動かします。"
+
+msgid "  Settings brought to preset %r"
+msgstr "  設定をプリセット %r に合わせます"
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  ファイルを再アップロードします -- クレジットを消費します。"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  既存のファイルを再利用します -- 再計算は無料です。"
+
+msgid "  Time limit: %s"
+msgstr "  制限時間：%s"
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "制限時間 %s に達しましたが、制作はまだ実行中です：%s/engine/status/%s"
+
+msgid "  In the archive: %s"
+msgstr "  アーカイブ内：%s"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic の報告 %s：%s"
+
+msgid "No Multitrack preset found in the account."
+msgstr "アカウントに Multitrack プリセットが見つかりません。"
+
+msgid "No Singletrack preset found in the account."
+msgstr "アカウントに Singletrack プリセットが見つかりません。"
+
+msgid "preset does not fit the run"
+msgstr "プリセットがこの実行に合いません"
+
+msgid "No preset is called %r."
+msgstr "%r という名前のプリセットはありません。"
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  1 から %d までの数字を入力してください。"
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "キーは有効です。アカウントの %s 個のプリセットに Multitrack のものはないため、リストは空のままです。"
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "キーは有効です。アカウントの %s 個のプリセットに Singletrack のものはないため、リストは空のままです。"
+
+msgid "Save in Registry"
+msgstr "レジストリに保存"
+
+msgid "system store"
+msgstr "システムの保管場所"
+
+msgid "The key is then in the %s, never in a file."
+msgstr "キーは%sに入り、ファイルには入りません。"
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "auphonic.com が音声をどう処理するかを決めます。\n\n「%s」はキーをそのまま残し、それでも送信しません。\n音声は結合と正規化だけで、分離はされません --\n分かれたトラックがなければカメラ切り替えもありません。"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic が設定を受け付けません：%s"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  3 チャンネル以上は 1 つにまとめて auphonic.com に送られます：まとめを解除するのはステレオだけです。\n  チャンネルを分けたままにしたい場合は、先にファイルをトラックに分割してください。"
+
+msgid "Uploading %s"
+msgstr "%s をアップロード中"
+
+msgid "no production id in the response: %s"
+msgstr "応答に制作 ID がありません：%s"
+
+msgid "no download address for %s"
+msgstr "%s のダウンロード先がありません"
+
+msgid "Downloading %s"
+msgstr "%s をダウンロード中"
+
+msgid "downloaded file is only %s bytes"
+msgstr "ダウンロードしたファイルは %s バイトしかありません"
+
+msgid "Preset not readable: %s"
+msgstr "プリセットを読み取れません：%s"
+
+msgid "the individual tracks, packed"
+msgstr "個別トラック（圧縮済み）"
+
+msgid "  Missing:     %s"
+msgstr "  不足：            %s"
+
+msgid "Change rejected: %s"
+msgstr "変更が拒否されました：%s"
+
+msgid "rejected"
+msgstr "拒否"
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r は Multitrack プリセットではありません"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic が要求と異なるトラックを作成しました：%s（本来は %s）"
+
+msgid "These tracks got no file: %s"
+msgstr "次のトラックにファイルが入りませんでした：%s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "既存の結果を使う（計算なし、支払いなし）"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "選んだプリセットで再計算 -- ファイルは\n       そのまま、クレジットは消費しません"
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    トラック %d  %-22s（こちら：%s）"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  あちらは %s トラック、こちらは %s -- 一致しません。"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "あちらの名前を採用してそのまま続ける --\n       アップロードなし、費用なし"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "こちらの名前のまま全部を再アップロード -- クレジットを\n       消費します"
+
+msgid "This production has no result yet."
+msgstr "この制作にはまだ結果がありません。"
+
+msgid "  All needed output files already exist."
+msgstr "  必要な出力ファイルはすべて揃っています。"
+
+msgid "  Tracks: %s"
+msgstr "  トラック：%s"
+
+msgid "curl ended with %d"
+msgstr "curl が %d で終了しました"
+
+msgid "Response was not JSON: %s"
+msgstr "応答が JSON ではありませんでした：%s"
+
+msgid "  Number (empty = cancel): "
+msgstr "  番号（空欄 = キャンセル）: "
+
+msgid "The key was not saved"
+msgstr "キーは保存されませんでした"
+
+msgid "The key was not saved: %s"
+msgstr "キーは保存されませんでした：%s"
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s はすでにあります -- 二重には取得しません"
+
+msgid "  Also fetched: %s"
+msgstr "  あわせて取得：%s"
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  1 トラックがステレオのため 2 チャンネル"
+
+msgid "the finished mixdown"
+msgstr "完成したミックスダウン"
+
+msgid "%s: not there"
+msgstr "%s：あちらにありません"
+
+msgid "Uploading %s tracks"
+msgstr "%s トラックをアップロード中"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s は制作内に 2 つあります -- 1 回だけ取得しました。"
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "中止しました。アップロードも計算も行っていません。"
+
+msgid "  The names from there are adopted:"
+msgstr "  あちらの名前を採用します："
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "既存の結果は使えません：あちらに %s がありません。--auphonic-resume rerun を使えば、何もアップロードせずに再計算できます。"
+
+msgid "  Added: %s"
+msgstr "  追加：%s"
+
+msgid "%s brought to the preset"
+msgstr "%s 本をプリセットに合わせました"
+
+msgid "%s were already right"
+msgstr "%s 本はすでに正しい状態でした"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "変更中にトラックが追加されました（現在 %s）。これではミックスが\n  正しくなりません。auphonic.com でファイルのないトラックを削除してください。"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  完了%s\n"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic がエラーを報告しました：%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- 該当するものが見つかりません"
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "アカウントに Multitrack プリセットがありません。あるのは次のものだけです：%s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "アカウントに Singletrack プリセットがありません。あるのは次のものだけです：%s"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s を取得できませんでした：%s"
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  基準として完成ミックスダウンを要求（%s）"
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  注意：制作にほかのトラックがあります（%s）。それらは\n  ミックスに入ります -- auphonic.com で削除してください。"
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  注意：トラック %s -- 設定はそのまま保持されます。"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r は Singletrack プリセットですが、Multitrack プリセットが必要です。"
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r は Multitrack プリセットですが、Singletrack プリセットが必要です。"
+
+msgid "-- nothing --"
+msgstr "-- なし --"
+
+msgid " and "
+msgstr " と "
+
+msgid "One track only, and no camera audio left to take."
+msgstr "トラックは 1 本だけで、使えるカメラ音声も残っていません。"
+
+msgid "    Cross-check:"
+msgstr "    照合："
+
+msgid "time axis measured and tied to the timecode"
+msgstr "時間軸を測定し、タイムコードに結び付けました"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "時間軸を測定 -- ジャンプは同じ位置に着地します"
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s はエピソードの時間軸上にありません：素材の前か後ろに置かれ、中には挿入されません。イン点とアウト点はその間にあるものに属します。"
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "トラックは 1 本だけです -- 2 本目のために、いずれかのカメラの「カメラ音声」を「音声を使う」にしてください。"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nカメラの色の比較"
+
+msgid "-- only one camera"
+msgstr "-- カメラは 1 台のみ"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  かぶりによる確認 -- 基準は %s："
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    測定できるペアがありません -- そのままにします。"
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    すべてのトラックが正しい位置にあります -- 移動は不要です。"
+
+msgid "    Cross-check: not measurable"
+msgstr "    照合：測定できません"
+
+msgid "time axis not measurable"
+msgstr "時間軸を測定できません"
+
+msgid "No camera of their own: %s"
+msgstr "専用カメラなし：%s"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- つまり全員なので、どのショットも同じカメラになります。"
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "マルチトラックは使えません\n  API キーがなければ auphonic.com に送るものがありません。\n  --without-auphonic を使うと代わりにローカルで実行されます：位置合わせ、\n  ミックス、カットは行われますが、De-Bleed と Leveler はありません。"
+
+msgid "\nCAMERA CUT"
+msgstr "\nカメラ切り替え"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\n引き画を使ったカット"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\n話者ごとの最初のカット"
+
+msgid "Bright."
+msgstr "明るさ"
+
+msgid "Colour U"
+msgstr "色 U"
+
+msgid "Colour V"
+msgstr "色 V"
+
+msgid "Distance to mean"
+msgstr "平均との差"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s を %s ms ずらしました%s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "マルチトラックは使えません\n  入力トラックが 2 本以上必要ですが、見つかったのは %s だけです。\n  トラックとは、単独の録音、マルチチャンネル\n  レコーダーの 1 チャンネル、またはカメラの音声です -- カメラの音声は、\n  「カメラ音声」が「音声を使う」になっていれば数えられます。2 本なければ\n  分離するものがなく、同じファイルが通常の\n  制作として処理されます。"
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  カメラ同士は近い状態です（明るさの差は最大 %s 段階）。"
+
+msgid "    not possible: %s"
+msgstr "    不可能：%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s 音の経路 %4s ms（%s m）、ずれ %6s ms、ドリフト %5s ppm（%s 点、残差 %s ms）%s"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- これは正しいはずがありません。トラック\n    %-20s はそのままです。"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    照合できません：%s"
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s は素材のどこにも合わないため、エピソードに挿入できません：イントロに設定しました。"
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s も素材のどこにも合わず、イントロはすでに埋まっています：除外しました。"
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s は素材のどこにも合わず、ほかよりずっと短いため、イントロとして提案します。イントロは先頭に置かれ、測定されません。"
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  注意：明るさに %s 段階の差 -- 切り替え時に目立ちます。"
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s は再び位置を特定でき、実行に戻りました。"
+
+msgid "  Project file could not be written: %s"
+msgstr "  プロジェクトファイルを書き込めませんでした：%s"
+
+msgid "time axis not measurable: %s"
+msgstr "時間軸を測定できません：%s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "単独で話している区間はわずか %s 秒（%s）、必要なのは %s 秒"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "かぶりが不明瞭すぎます：使えるのは %s 秒（全 %s 秒中）、最も明瞭な %s が必要（%s 中）"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   （音の経路が負 -- 何かがおかしい）"
+
+msgid ", clock drift %s ppm taken out"
+msgstr "、クロックのドリフト %s ppm を補正"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s：チャンネル数を判定できません（%s） -- 測定しません"
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "話者のいないカメラがないため、引き画がありません：引き画の 4 つの設定と端のチェックは効果がありません。いずれかのカメラの「種類」を「引き画」にするか、話者なしのカメラを 1 台残してください。"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "まだ文字起こしがありません。文字起こしがないと質問も文の区切りも見つからないため、この 4 つの設定は効果がありません。実行時に書き出され、それ以降は有効になります。"
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "素材のどこにも合いません：タイムコードがなく、音声もほかと共通点がありません。カットは引き画に戻るので、引き画は時間軸上になければなりません。"
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  質問：文字起こしがないため、質問は見つからず、リアクションカットも\n        行われませんでした。言葉は実行中に完成したミックスから\n        書き起こされます。それがなければこの設定は効果がありません。"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s ショット</b>、中央値 %(med)s 秒、最短 %(short)s 秒、カメラ最長 %(long)s 秒</span>。発話時間：<b>%(own)s %%</b> が本人のカメラ（%(own_t)s）、%(wide)s %% が引き画（%(wide_t)s）、<span style='color:%(warn)s'>%(off)s %%（%(off_t)s）は話者のカメラが映っていません</span>"
+
+msgid "Speakers, as the run measured them"
+msgstr "実行で測定した話者"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "処理済みの Auphonic トラックから -- 話者 %s 人、%s"
+
+msgid "Why the wide shot settings are grey"
+msgstr "引き画の設定がグレーになっている理由"
+
+msgid "Why the question settings are grey"
+msgstr "質問の設定がグレーになっている理由"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "引き画として指定 -- 話者は割り当てられません"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "話者なし -- これは引き画です"
+
+msgid "the mix of all tracks"
+msgstr "全トラックのミックス"
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "ここでは話者が分かりません -- 誰がいつ話すかが分からなければ、切り替える対象がありません。"
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "カメラが割り当てられていないため、切り替える対象がありません。"
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "まだどの声にもカメラがありません -- これではすべてのショットが同じになります。"
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "カットの規則により、この %s の間にショットが残りません。最短ショットを短くするか、引き画を減らせば、また現れます。"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "引き画は %s 秒で、最短ショットの %s 秒より短いため、再び統合されて表示されることはありません。\n"
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "誰がいつ話すかをトラック自体から割り出します -- 1 人に 1 本のマイク、レベルはそれぞれのノイズフロアと比べます。全員が 1 つの録音に入っている場合は、「話者名」欄の「複数の話者」を使います。"
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  トラックは録音されたまま使われます：位置合わせ、ミックス、\n  目標ラウドネスへの調整のみ。De-Bleed、Leveler、ノイズ除去はありません -- それらには\n  auphonic.com が必要です。"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  カットリストを更新"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "カットは生成されませんでした -- 上の「開始」をもう一度押してください。"
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  質問：文字起こし中に %s、うち %s がリアクションカットになりました。"
+
+msgid "the main speaker asked"
+msgstr "メインの話者が質問した"
+
+msgid "asker and answerer on one camera"
+msgstr "質問者と回答者が同じカメラ"
+
+msgid "nobody answered in time"
+msgstr "時間内に誰も答えなかった"
+
+msgid "the answer did not keep the floor"
+msgstr "回答が続かなかった"
+
+msgid "nobody was speaking at the question"
+msgstr "質問の時点では誰も話していませんでした"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "完了した実行から -- 話者 %s 人、%s"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "録音から測定 -- 話者 %s 人、%s"
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "まだカメラが割り当てられていません -- 割り当てるにはマルチトラックをオンにしてください。"
+
+msgid "In point or Out point cannot be read here."
+msgstr "ここではイン点またはアウト点を読み取れません。"
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "アウト点がイン点から 5 秒未満の位置にあります。"
+
+msgid "because no speaker is assigned to it"
+msgstr "話者が割り当てられていないため"
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "ここでは番組の長さが %s しかなく、何も配置できません。長さを決めるのはイン点とアウト点です。"
+
+msgid "working out who speaks when ..."
+msgstr "誰がいつ話しているかを割り出しています ..."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nAUPHONIC.COM なし"
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  （測定のみ: 何も書き込んでいません）"
+
+msgid "FOR RESOLVE"
+msgstr "RESOLVE 向け"
+
+msgid "  The handover file could not be written."
+msgstr "  受け渡しファイルを書き込めませんでした。"
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  どのカメラにも話者がいるため、引き画はありません。引き画の 4 つの設定と両端のチェックはここでは効きません。"
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  話者 %s 人、ショット %s 個、最短 %s 秒"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "イン点は現在 %s ですが、既存のファイルは %s のものです。\n  映像内の音声は古い範囲で切られています -- 上の「開始」を\n  もう一度押してください。"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "アウト点は現在 %s です。範囲の長さは %s になりますが、既存の\n  ファイルは %s です -- 上の「開始」をもう一度押してください。"
+
+msgid "  The cut stays as it was."
+msgstr "  カットは元のままです。"
+
+msgid "  Not used:  %s."
+msgstr "  未使用: %s。"
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  両端の引き画: 省略 -- 最初または最後の発言が\n  あいさつにしては長すぎます。"
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  両端の引き画: %s まで、%s から"
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "まだ話者が分かっていません -- 何も測定・分離されておらず、%s とそのサブフォルダーに以前の実行の受け渡しファイルもありません。"
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "時間枠が素材の外にあります: イン点 %s、アウト点 %s、素材の長さは %s です。"
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "これは引き画です -- %s は「専用カメラなし」に移りました"
+
+msgid "No audio tracks are assigned."
+msgstr "音声トラックが割り当てられていません。"
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "まだ話者が分かっていません -- このタブを開くとすぐにトラックから割り出されます。全員が 1 つの録音に入っている場合は、話者名の欄で「複数の話者」を選んでください。"
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  これによりプロジェクト、読み込み、%s ができます:"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  画面の「Resolve プロジェクトを作成」で作成します。Resolve が起動している必要があります。"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\n話者\n  誰の声も聞こえませんでした -- ここからカメラ切り替えは作れません。"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s 回、ショットが %s 秒を超えたため話者から離れました"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  全員に 1 台のカメラ: 話者の交代で %s 個のショットに切り分けました。Resolve でグループ化できます。"
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  カットが変わりました: ショット %s 個（以前は %s 個）。"
+
+msgid "the cut uses %s"
+msgstr "カットは %s を使います"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "話者は割り当てられていませんが、カットは %s を使います"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s はまだ測定されていません -- カットには反映済み、このプレビューにはまだ反映されていません。"
+
+msgid "%r is not a number."
+msgstr "%r は数値ではありません。"
+
+msgid "Before: %s"
+msgstr "前: %s"
+
+msgid "After: %s"
+msgstr "後: %s"
+
+msgid "  Metrics not writable: %s"
+msgstr "  測定値を書き込めません: %s"
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  受け渡していません: 実行で %s を配置できなかったため、この回のカメラではありません。"
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  %s の音声に手がかりが見つかりません -- タイムコードだけで配置しました。"
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  %s の測定オフセットがありません -- 軸の先頭に配置しました。"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  %s を書き込めませんでした: %s"
+
+msgid "two Timelines"
+msgstr "2 本の Timeline"
+
+msgid "one Timeline"
+msgstr "1 本の Timeline"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s 映像はカメラ切り替えから、音声は一続き"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s 全カメラを並べたもの -- マルチカムクリップになります"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s は %s に置かれていますが、これはこの実行のカメラではありません -- それでもカットはこれを挙げています。"
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  引き画 %s 個: カットは %s を使います。"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s を書き直せませんでした: %s"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r は末尾から数えます -- これはアウト点でしか使えません。"
+
+msgid "Preview not possible: %s"
+msgstr "プレビューできません: %s"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s カメラは一続き、その下にミックス"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Resolve の処理を中止しました: %s"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s の準備ができています -- --resolve-json で後から実行できます。"
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: 測定では %s 秒、タイムコードでは %s 秒 -- 測定を使います。"
+
+msgid "it was written and was not there afterwards"
+msgstr "書き込んだのに、その後存在しませんでした"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "このプログラムは %s として動いており、そのためにインストールされたパッケージは %s なので、どれも読み込めません。正しい起動方法: %s"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "このプログラムへのショートカットを作成しました: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "このプログラムへのショートカットは作成されませんでした: %s"
+
+msgid "Chosen files"
+msgstr "選択したファイル"
+
+msgid "fixed"
+msgstr "修正済み"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "音声と映像 (%s);;すべてのファイル (*)"
+
+msgid "Select audio and video files"
+msgstr "音声ファイルと映像ファイルを選択"
+
+msgid "found automatically"
+msgstr "自動で検出"
+
+msgid "AUDIO"
+msgstr "音声"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s ブロック"
+
+msgid "does not belong: %s"
+msgstr "含まれません: %s"
+
+msgid "belongs to"
+msgstr "所属先"
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "これらのファイルは音声でも映像でもないため、対象外です:\n\n  %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "この種類のファイルをすべてリストから削除しますか？ 件数: %s、種類: %s\n\n%s"
+
+msgid "no timecode"
+msgstr "タイムコードなし"
+
+msgid "Timecode from %s"
+msgstr "タイムコード %s から"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "録音を声ごとに分けます: 声ごとに専用の行ができ、そこにそのカメラが入ります。音声 30 分あたり約 1 分、このコンピューター上でアップロードなしに行います。"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "この録音で誰の声が聞こえるか。名前を入れると、その 1 人だけという意味です。\n「複数の話者」は、誰がいつ話しているかをこのコンピューター上でアップロードなしに割り出します -- 音声 30 分あたり約 1 分。名前はその後、下の行に入れます。"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "その録音をもう一度聞き、見つかった人数より 1 人多い話者を探します。"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "まだ残っているすべての作業を、終わった作業と比べて示します。長い作業ほどバーの多くを占めます。"
+
+msgid "Measure, align, process, write files."
+msgstr "測定、位置合わせ、処理、ファイル書き込み。"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "測定のみ -- 何も書き込まず、アップロードもしません。"
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "auphonic.com のキーと、Resolve が応答するかどうか。"
+
+msgid "Why the run cannot start"
+msgstr "実行を開始できない理由"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\n停止しています。ファイルを書きかけのまま残さずに済む時点で、実行はすぐに終わります -- 少々お待ちください。\n"
+
+msgid "%s, seconds"
+msgstr "%s、秒"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s を配置できません: その音声は他の素材と共通点がなく、ファイルにタイムコードもありません。他の録音に合うタイムコードが必要で、それは別のプログラムで設定する必要があります。"
+
+msgid "placed on the bands that move"
+msgstr "変化する帯域をもとに配置"
+
+msgid "too little audio to align"
+msgstr "位置合わせには音声が少なすぎます"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s 個のブロックをタイムコードで連結、開始 %s"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  重なっています -- 複数のマイクが同時に録ったもので、順に続くブロックではありません。"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s 個のブロックを名前順に連結（タイムコードなし -- 隙間は判別できません）"
+
+msgid "edges implausible"
+msgstr "端が不自然"
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "位相で配置、鋭さ %s（下限 %s）、ずれは不明"
+
+msgid "Reading audio track from %s"
+msgstr "%s から音声トラックを読み込み中"
+
+msgid "no audio data from %s"
+msgstr "%s から音声データがありません"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  映像に入るのはミックスだけです (--no-single-tracks)。"
+
+msgid "no match in the middle either (%s)"
+msgstr "中央でも一致しません (%s)"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      警告: %s の一致が弱いです（%s、下限は %s）。この 2 つは対応していない可能性があります。"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  %s の隙間（%s） -- 無音で埋めました"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  %s の重なり（%s） -- そこでは両方が鳴ります"
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  それぞれが専用のトラックとしても映像に入ります: %s"
+
+msgid "this pair of files"
+msgstr "このファイルの組"
+
+msgid "%s (%s files)"
+msgstr "%s（%s ファイル）"
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "このファイルはバージョン %s で形式 %d として書かれました。このバージョンは形式 %d を書きます。中の名前がその後変わったため、読み込めません。実行を設定し直してください。"
+
+msgid "previous block is shorter than the rest"
+msgstr "前のブロックが他より短い"
+
+msgid "This is not a file of this program."
+msgstr "これはこのプログラムのファイルではありません。"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "チャンネル %d は無音 -- 使われていない入力"
+
+msgid ", agreed at %s of %s places"
+msgstr "、%s / %s か所で一致"
+
+msgid "Given"
+msgstr "既定"
+
+msgid "Chosen"
+msgstr "選択"
+
+msgid "Writing %s"
+msgstr "%s を書き込み中"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\n返却分の確認"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com がこれを 1 つにまとめました。ミックスは 2 チャンネルのままです。失われたのは\n  そのトラックの 2 本のマイクの差です。"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s オフセット %s ミリ秒%s、長さ %s 秒、ばらつき %s ミリ秒、%s / %s 点%s%s"
+
+msgid "\nNORMALISE"
+msgstr "\nノーマライズ"
+
+msgid "Measuring the yardstick"
+msgstr "基準を測定中"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  ラウドネスを測定できません -- そのままにします。"
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  調整なし:          ソースファイルのまま -- どのトラックにもゲインなし、\n                     リミッターなし。音は入ってきたとおりに出ていきます。"
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  トラック合計:      %s LUFS、ピーク %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  目標:              %s LUFS  ->  各トラックに %s dB"
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  結果:              約 %s LUFS、ピーク %s dBTP"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "チャンネル %d は最大のものより %s dB 低い -- 何も接続されていません"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "チャンネル %d は %s dBFS -- 変換器のノイズしか残っていません"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz 対 %s kHz"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "手動で設定 -- 測定より優先されます"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "オンにすると、このチャンネルと次のチャンネルで 1 本のステレオトラックになります。\n次のチャンネルには専用のチェックがなくなります -- 使用済みです。\n測定結果は横の行にあります。"
+
+msgid "Mixing %s"
+msgstr "%s をミックス中"
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  注記: この ffmpeg には soxr がありません -- クロックのずれは\n  21 ppm 刻みでしか取り除けません。"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s からは測定できる音が得られません -- 内蔵時計だけで配置しました。照合できるものもありませんでした"
+
+msgid "overlap of %s per timecode"
+msgstr "タイムコード上 %s の重なり"
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "入力できません。%s %s で動作を指定してください。"
+
+msgid "  -->  aligned"
+msgstr "  -->  位置合わせ済み"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  %s について、返却分がアップロードしたものと一致するか\n  確認できませんでした。誤ったものを書くより中止します。"
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  ピーク:            %s dB が %s dBTP を超過 -- リミッターが抑えます"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  過大:              リミッターが %s dB 削る必要があります。%s dB を超えると\n                     つぶれた音になります -- ゲインを %s dB 下げます。"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  残り:              各トラックに %s dB、つまり %s LUFS（本来は %s）"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  リミッター:        最大 %s dB、全トラックに同じカーブ%s"
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "2 チャンネルのイントロやアウトロはステレオミックス -- 測定しません"
+
+msgid "%s channels against %s"
+msgstr "%s チャンネル 対 %s"
+
+msgid "      %s channels"
+msgstr "      %s チャンネル"
+
+msgid "      Channel %d"
+msgstr "      チャンネル %d"
+
+msgid "join with Channel %d"
+msgstr "チャンネル %d とまとめる"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "同じ時点に 2 つのファイル名 -- どちらも使いません"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "タイムコード上 %s の間隔、1 つの録音としては離れすぎ"
+
+msgid "already in another recording"
+msgstr "既に別の録音に含まれています"
+
+msgid "  Number: "
+msgstr "  番号: "
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  位置合わせ済み、クロックのずれ %s ppm を除去"
+
+msgid "   Caution: measurement unusable"
+msgstr "   注意: 測定値は使えません"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  auphonic.com のミックスダウン: %s LUFS、ピーク %s dBTP (%s)"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  レンジ:            %s LU（話し声では通常 3〜7 LU）"
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  レベルカーブを作れません (%s) -- リミッターなし"
+
+msgid "does not start where the block before it ends"
+msgstr "前のブロックが終わる位置から始まっていません"
+
+msgid "ends before the next block starts"
+msgstr "次のブロックが始まる前に終わっています"
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  %s のキーフレームを読み取れません (%s) -- コピーはファイルの先頭から始まります。"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s 測定できません: %s"
+
+msgid " (fine: %s ms)"
+msgstr " (精密: %s ミリ秒)"
+
+msgid ", range %s LU"
+msgstr "、レンジ %s LU"
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com も同じだけ削ります)"
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  注意: レンジ       わずか %s LU -- 非常に狭い。話し声では通常 3〜7 LU、\n                     それを下回るとつぶれた音になります。auphonic.com で\n                     レベラーの強さを確認してください。"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "両チャンネルが同一 -- モノラルを左右に配置したもの"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s を分類できません: %s"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "おそらくマイク 2 本 -- 約 %s m 離れています%s"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "判別できません -- 両チャンネルに音がある箇所は %s（全 %s 箇所中）だけで、%s 箇所必要です"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "判別できません -- この 2 つの一致度は、それぞれと隣のチャンネルとの一致度より高くありません"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "おそらく 1 本のステレオトラック -- 2 本のマイクが同じ場所にあります"
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   その場合、Resolve が入力カラースペースを認識できないことがあります。"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  カメラデータ:    ソースにはありません"
+
+msgid "boxes no longer readable"
+msgstr "ボックスが読み取れなくなりました"
+
+msgid "moov is no longer in its place"
+msgstr "moov が元の位置にありません"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov がファイルの末尾で終わっていません"
+
+msgid "the media data is no longer where it was"
+msgstr "メディアデータが元の位置にありません"
+
+msgid "moov has not grown"
+msgstr "moov が大きくなっていません"
+
+msgid "the video track can no longer be found"
+msgstr "映像トラックが見つからなくなりました"
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  アトムを追加できません: moov が末尾にありません。"
+
+msgid "the old moov is back in place"
+msgstr "古い moov を元に戻しました"
+
+msgid "%sTimecode check of the audio file"
+msgstr "%s音声ファイルのタイムコード確認"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  タイムコード上のオフセット:     %s"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  測定したオフセット:             %s"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  データトラック:  %s を引き継ぎ"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  カメラデータ:    %s 個のキーを引き継ぎ（%s）"
+
+msgid "did not arrive: %s"
+msgstr "届いていません: %s"
+
+msgid "a box no longer fits into its parent"
+msgstr "ボックスが親に収まらなくなりました"
+
+msgid "cannot be read back (%s)"
+msgstr "読み直せません (%s)"
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  アトムを追加できません: ソースは %s、ターゲットは %s です。"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  アトムを追加できません: 64 ビットのボックスが邪魔をしています。"
+
+msgid "while writing: %s"
+msgstr "書き込み中: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  アトムの追加を取り消しました -- %s。%s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  色:              %d/%d/%d -- 原色をマトリクスから補完（ソース: %d）"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  色:              %d/%d/%d を引き継ぎ"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  色:              注意: ソースでは %s、新しいファイルでは %s"
+
+msgid "no audio track present"
+msgstr "音声トラックがありません"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  タイムコード上の音声開始:       %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  タイムコード上の映像開始:       %s"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  ずれ:                           %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  音声のタイムコードが映像とまったく合いません -- おそらく時計が一度も設定されていません。測定を使います。"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  データトラック:  %s は省略 -- ffmpeg では書き込めません"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  カメラデータ:    注意: 新しいファイルで %s 個のキーが欠けています（全 %s 個）: %s"
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  アトム %s をスキップ: %s バイトはこれには多すぎます。"
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "ロールバック失敗 (%s)"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  ずれ:                           %s  (%s フレーム)"
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  タイムコードが聞こえる内容と合いません。測定を使います。"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  ずれ:                           %s  (%s フレーム) -- 一致"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  このレートで動く Resolve の Timeline はありません。変換されます"
+
+msgid "  (container; measured %s)"
+msgstr "  （コンテナ。計測値 %s）"
+
+msgid "One name for two voices"
+msgstr "二つの声に一つの名前"
+
+msgid "Two files as %s"
+msgstr "%s としてのファイルが二つ"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s と %s の両方が %s に設定されています。そうできるのは一つのファイルだけです。もう一方をコンテンツに戻してください。"
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s が複数の声に付いています。名前は一人の人物で、切り替えは一人を一台のカメラに置きます。同じ名前の二つの声は、一人が二か所にいることになります。"
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack には複数のトラックが必要です"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack には入力トラックが二つ以上必要です。トラックとは独立した録音、マルチチャンネルレコーダーの一つのチャンネル、または「音声を使う」に設定された動画ファイルの音声です。同じ録音の複数のブロックは一つと数え、脇に置いたトラックは数えません。"
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "どの行にも名前が必要です。Auphonic ではそれが track ID になります。"
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "すべての行が同じ名前です。それではトラックが一つになり、Multitrack には二つ以上必要です。"
+
+msgid "File names"
+msgstr "ファイル名"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "二台のカメラが同じ新しいファイルを作ることになります。別々の名前を付けてください。"
+
+msgid "Preset missing"
+msgstr "プリセットがありません"
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "プリセットを読み込んで一つ選ぶか、API Key を空欄にしてください。"
+
+msgid "Names used more than once"
+msgstr "複数回使われている名前"
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "別録りの音声がありません。その場合は %s 台のカメラの音声を使います。それぞれがトラックになり、Auphonic がかぶりを取り除きます。"
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "次の名前が複数回出てきます:\n\n  %s\n\n録音は一つのトラックにまとめられ、タイムコードに従って順に並べられます。途中で録音を止めた場合はこれで正しい状態です。"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  手動の時間枠:"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  映像なし: トラック同士を突き合わせます。"
+
+msgid "up to %s"
+msgstr "%s まで"
+
+msgid "from %s"
+msgstr "%s から"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  確認：            %s とカメラトラック %s ms（一致度 %s）%s"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "音声ファイルなし -- カメラ音声を使用"
+
+msgid "  from %s, %s"
+msgstr "  %s から、%s"
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  音声のあるカメラが二台未満です -- Multitrack には足りません。"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "別録りの音声なし -- カメラ音声を使用"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    アウト点がイン点より前にあります -- これでは成り立ちません。"
+
+msgid "    the measured window is therefore kept."
+msgstr "    そのため計測した枠をそのまま使います。"
+
+msgid "RECOGNISED PLAN"
+msgstr "認識したプラン"
+
+msgid "\n  This produces:"
+msgstr "\n  結果として:"
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "音声ファイルが一つだけで映像がありません -- することはありません。"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  基準: %s（%s、最長の再生時間）"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\n時間軸の計測"
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\n位置が決まったトラックは一つだけです -- 突き合わせる相手が残っていません。"
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  枠：        %s -- いずれかのトラックが聞いたすべて"
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs はここでは効きません: トラックは録音されたままで出力され、ラウドネスはミックスする段階で決まります。"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nトラックを軸に書き込む"
+
+msgid "RESULT"
+msgstr "結果"
+
+msgid "  Of no consequence for the sound."
+msgstr "  音声には影響しません。"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\n揃えられた音声トラックがありません -- 軸に置くものがありません。"
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  共通の枠：  %s から %s（%s）"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    %s で始まり %s で終わる -- すべてのカメラが捉えた区間"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  （計測のみ: API キーがないのでここで止まります）"
+
+msgid "\nMIXING"
+msgstr "\nミックス"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nトラックを保存"
+
+msgid "%s has no audio track."
+msgstr "%s には音声トラックがありません。"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "カメラ音声を抽出"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s %s から"
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    基準カメラにはタイムコードがありません。軸は %s の時計に従い、その最初のフレームは %s です。"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    イン点     %s   （タイムコード %s）"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    アウト点   %s   （タイムコード %s）"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    イン点     %s\n    アウト点   %s"
+
+msgid "In point is %s before the first frame"
+msgstr "イン点が最初のフレームより %s 前にあります"
+
+msgid "Out point is %s after the last frame"
+msgstr "アウト点が最後のフレームより %s 後にあります"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    注意: %s。そこには映像がありません。"
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    枠の長さがわずか %s になります -- 意図したものとは思えません。"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    長さ  %s  （本来は %s）"
+
+msgid "    Length  %s"
+msgstr "    長さ  %s"
+
+msgid "  In summary: %s"
+msgstr "  まとめ: %s"
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "カメラに音声がありません -- 使えるものがありません。"
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  auphonic.com での制作:  %s"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s には %s 本のトラックをミックス: %s"
+
+msgid "%s blocks"
+msgstr "%s ブロック"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s オフセット %s、クロックのずれ %s ppm (+/- %s)、残差のばらつき %s ms、%s / %s 点%s"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: 先頭に %s、末尾に %s の無音"
+
+msgid "\nEnded without a result: %s"
+msgstr "\n結果なしで終了: %s"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\n使える動画ファイルがありません -- カメラ音声がなければ共通の時間軸は作れません。"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nブロックを結合するとトラックが一つしか残らず、Multitrack には声ごとに一つ必要です。二人が一つの録音と見なされた場合は、--apart でブロックをそこから外せます。"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline は %s になります: その中で最も高いもの、またはその上で Resolve が\n  持つ次のレートです。上へ変換すると Resolve はフレームを繰り返し、下へは\n  フレームを捨てます。各カメラは自分のレートを保ち、切り替えは\n  そのレートで数えます。"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s オフセット %s、クロックのずれ %s ppm (+/- %s)、残差のばらつき %s ms、%s / %s 点"
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\n音声と映像の共通部分は %s しかなく、位置合わせでそこに見つかったサンプル点は %s です。これでは何も置けません。"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: 先頭の %s と末尾の %s は映像がないため省きます"
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "欠けている音声 %s を無音で埋めました%s"
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic と --auphonic-done が両方指定されました。完成したトラックが優先されます。どこにも送るものは残っていません。"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\n処理済み"
+
+msgid "  From %s"
+msgstr "  %s から"
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  フォルダー内のファイルは話者の名前で、この実行のものでなければ\n  なりません。フォルダーがなければ auphonic.com をもう一度通します。"
+
+msgid "Check: %s and camera track"
+msgstr "確認: %s とカメラトラック"
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  確認：            二つのトラックの一方が書き出したファイルにないため、何も計測していません。"
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  確認：            二つのトラックは比較できません（一致度 %s、下限は %s）。タイミングについては何もわかりません。"
+
+msgid "   Caution: more than one frame"
+msgstr "   注意: 1 フレーム以上"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  カメラアトム：    %s を追加 -- %s"
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s をミックス"
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  このカメラは配置できませんでした -- スキップ"
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  オフセット：      %s   （カメラ比較から）"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  クロックのずれ：  計測なし -- これは他を合わせる基準です"
+
+msgid "Saving %s"
+msgstr "%s を保存中"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  タイムコード %s を bext と iXML として書き込み（基準: %s）"
+
+msgid "\nRESULT"
+msgstr "\n結果"
+
+msgid "\nTRANSCRIPT"
+msgstr "\n文字起こし"
+
+msgid "\nMETRICS"
+msgstr "\n指標"
+
+msgid "Would write: %s"
+msgstr "書き出し予定: %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nプリセットが選ばれていません: %s"
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s にはカメラ音声がありません -- それがないと何も揃えられません"
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s は %s フレーム/秒で、Resolve に Timeline のないレートです -- 除外せずに変換します"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\n異なるフレームレート: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\n異なるフレームサイズ: %s"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  ただし %s -- 時間枠（%s）でも\n    %-20s    計測範囲全体（%s）でもありません。別の実行のものです。"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  使用不可: %s"
+
+msgid "  Check:           not possible (%s)"
+msgstr "  確認：            できません（%s）"
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  カメラアトム：    追加できません（%s）"
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  ここにある以前の実行の記録が読めません（%s）。そのため既にあるものをすべて報告します。"
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s はこの制作の以前の実行で作られたもので、置き換えます。"
+
+msgid "\nPROCESSING: %s"
+msgstr "\n処理中: %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  照合：            Full-Mix から %s、偏差 %s ms（%s / %s 点）%s"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  クロックのずれ：  %s ppm (+/- %s)、残差のばらつき %s ms、%s / %s 点"
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  再生時間全体でのずれ: %s 秒 = %s フレーム  -->  %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  音声トラック %d：  %s"
+
+msgid "  Timecode:        %s"
+msgstr "  タイムコード：    %s"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  時間枠：          %s / %s を書き込み、カメラの %s から"
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  カメラには時間枠と両端それぞれ 1 秒が入ります: 書き込み %s、対象は %s（収録全体 %s）。"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: 抽出する音声がありません（%s）"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: チャンネル %s を切り出せません（%s）"
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r はタイムコードですが、ここには映像がなく、数え始めるカメラがありません。その場合は枠の開始からの値だけが使えます（例: +12:30）。"
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r はタイムコードですが、時間軸はどの時計にも従っていません: 基準カメラ %s を含め、ここにそれを持つファイルはありません。その場合は枠の開始からの値だけが使えます（例: +12:30）。"
+
+msgid "Assignment file not readable: %s"
+msgstr "割り当てファイルを読めません: %s"
+
+msgid "        Track %d: %s"
+msgstr "        トラック %d: %s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  ラウドネスを計測できません: %s"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s 揃えられません: %s"
+
+msgid "Processing failed: %s"
+msgstr "処理に失敗しました: %s"
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s、スキップ"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- イン点かアウト点を置けばアップロードを省けます"
+
+msgid ", clock drift left in"
+msgstr "、クロックのずれはそのまま"
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s 名前が一致するファイルがありません"
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  （%s、名前の類似度 %s）"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  （%s、時間枠に切り詰め、名前の類似度 %s）"
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s は既にあり、上書きされます -- この制作がそれを作ったという記録はありません。"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  照合：            できません（%s）"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  中止: %s"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  色の比較ができません: %s"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s が異なるカメラで二回出てきます -- 使うのは %s"
+
+msgid "%s from %s recordings"
+msgstr "%s（%s 本の録音から）"
+
+msgid "Abort: %s"
+msgstr "中止: %s"
+
+msgid "is actively taken out"
+msgstr "積極的に取り除きます"
+
+msgid "is left in"
+msgstr "そのまま残します"
+
+msgid "  Error while writing: %s"
+msgstr "  書き込み中のエラー: %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  %s の iXML を書き込めませんでした: %s"
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "各ショットはカメラの色で表示されます。ポインターを合わせるとカメラと長さ、クリックでその位置へ移動します。"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "2 倍の範囲を表示（マイナスキー、または帯の上でホイール）"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "現在位置を中心に半分の範囲を表示（プラスキー、または帯の上でホイール）"
+
+msgid "The whole length again (0 key)"
+msgstr "全体の長さに戻す（0 キー）"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "順方向に再生。押すたびに 2 倍速になります -- L キー。"
+
+msgid "after the device change"
+msgstr "デバイス切り替え後"
+
+msgid "Audio at programme time"
+msgstr "番組時間の音声"
+
+msgid "External preview -- the app does not know this format"
+msgstr "外部プレビュー -- アプリはこの形式を扱えません"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "再生と一時停止 -- スペースキーでも操作できます。"
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "カメラ音声の代わりに、このカメラに割り当てた録音。"
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "ここにはプレーヤーが組み込まれていません -- 再生は ffplay の別ウィンドウで行います。"
+
+msgid "/not seekable"
+msgstr "/シーク不可"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: 移動先 %s%s -- %s"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s)、試行 %d、その後 %s"
+
+msgid "  Player: %s"
+msgstr "  プレーヤー: %s"
+
+msgid "Video 1"
+msgstr "映像 1"
+
+msgid "Video 2"
+msgstr "映像 2"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "音量。100 が最大です -- Qt はそれ以上を受け付けません。"
+
+msgid "%s reports %s"
+msgstr "%s の報告: %s"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  プレーヤー: 音声出力を %s に切り替え"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- 番組時間 %s へジャンプ%s ---"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  プレーヤー: 音声が再生されていません（%s） -- もう一度試します。"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- 位置確定、番組時間は %s から ---"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "時計 %7.2f%s | B1[%s] %s | B2[%s] %s | 音声 %s %s"
+
+msgid "Prepare pane %d for %s"
+msgstr "ペイン %d を %s 用に準備"
+
+msgid "  --  this file is outside"
+msgstr "  --  このファイルは範囲外です"
+
+msgid "%s virtual"
+msgstr "%s（仮想）"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   アプリはこの形式を扱えません"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  プレーヤー: %s は %s のままで %s になりません -- %s 回試して断念（%s）"
+
+msgid "the default device"
+msgstr "既定のデバイス"
+
+msgid "Audio file %s"
+msgstr "音声ファイル %s"
+
+msgid "Fast forward, %s times speed"
+msgstr "早送り、%s 倍速"
+
+msgid "Pane %d on %s"
+msgstr "ペイン %d は %s"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "ペイン %d で %s を読み込み（%s）"
+
+msgid "   --   audio only"
+msgstr "   --   音声のみ"
+
+msgid "  (this file starts later)"
+msgstr "  （このファイルは後から始まります）"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "%s を再生中 -- auphonic.com で処理したトラックで、\n放送レベルです。カメラ切り替えと同じ音声です。"
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "%s を再生中 -- 未処理の録音です。\n処理済みの音声よりかなり小さく聞こえます。auphonic.com からトラックが\n届けば、プレビューはそちらを使います。"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: まだシークできません。後で行います（%s）"
+
+msgid " SEEKING"
+msgstr " シーク中"
+
+msgid "MUTED"
+msgstr "ミュート"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  プレーヤー: %s がエラーを報告 -- %s"
+
+msgid " target %.2f"
+msgstr " 目標 %.2f"
+
+msgid "volume %.2f"
+msgstr "音量 %.2f"
+
+msgid "the source folder"
+msgstr "元フォルダー"
+
+msgid "Loudness of the finished episode"
+msgstr "完成したエピソードのラウドネス"
+
+msgid "Free space there: %s"
+msgstr "そこの空き容量: %s"
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "約 %s 足りません。空き容量を作るか、--out で別のフォルダーを選んでください。実行中の一時ファイルはさらに別の場所、システムの一時フォルダーに置かれます。"
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "見積もりは大まかなので、これでは足りません。空き容量を作るか、--out で別のフォルダーを選んでください。"
+
+msgid "Disk space"
+msgstr "ディスク容量"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "完成したエピソードの音の大きさ。すべてのトラックに同じゲインが\nかかるので、話者間のバランスは保たれます。\n「元ファイルから取得」は何も調整しません: auphonic.com は\nプリセットのとおりに処理し、auphonic.com を使わなければ音声は\n元ファイルのままです。"
+
+msgid "Algorithms"
+msgstr "アルゴリズム"
+
+msgid "%s checked"
+msgstr "%s 件を確認"
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway が指定されています: 上の項目にかかわらず実行します。"
+
+msgid "does the material fit together?"
+msgstr "素材は互いに合っていますか？"
+
+msgid " -- nothing to fault."
+msgstr " -- 問題はありません。"
+
+msgid "Note: "
+msgstr "注: "
+
+msgid "fixed: "
+msgstr "修正済み: "
+
+msgid "Caution: "
+msgstr "注意: "
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s、%dx%d、%s フレーム / %s"
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "フレーム間隔の不均一は音声では補正できません。位置合わせでサンプル点もばらつく場合は、固定フレームレートに変換してください。"
+
+msgid "Frame rates"
+msgstr "フレームレート"
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline には固定レートが一つ設定されます -- その中で最も高いもの、またはその上で Resolve が持つ次のレートです。他は Resolve が変換します。23.976 と 24 の組み合わせでは、そこで音声解析が止まりがちです。"
+
+msgid "Colour space"
+msgstr "色空間"
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "記載どおりに使います -- 何も作り出しません。Resolve の Clip Attributes の Color Space タブで確認してください。そこに \"Project\" とあれば入力色空間は認識されておらず、手動で設定する必要があります。"
+
+msgid "Capture curve"
+msgstr "撮影カーブ"
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "画像記述の logs アトムにあります -- Resolve はこれで入力色空間を判別します。カーブが違えば入力色空間も違います。"
+
+msgid "Colour tag"
+msgstr "色タグ"
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "3 つの数値はプライマリ、カーブ、マトリクスです。タグが違えば Resolve で別々の入力色空間が必要です -- さもないとカメラごとに見え方が変わります。"
+
+msgid "Resolutions"
+msgstr "解像度"
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve は Timeline の解像度に合わせて拡大縮小します。それより小さいものは拡大され、柔らかくなります。"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "チャンネルのペアはそれぞれ個別に判定されます：1 本のステレオトラック、または 2 本のマイクで 2 トラック。無音の入力は除外されます。ファイルの下の行は測定結果を示し、チェックマークはそれに優先します。"
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "ここではファイルの録音時のサンプルレートで、1 サンプルずつ数えます：整数形式が保持できる最大値に 3 サンプル以上連続して張り付いた箇所です。1〜2 サンプルは丸めによるもので報告しません。そこで切り取られたものは失われ、どんな処理でも戻りません -- ただし録音は録音のままで、これで何かが止まることはありません。数えるのは整数形式だけです。32 bit float にはフルスケールでの上限がないため、数えるものがありません。"
+
+msgid "Midnight"
+msgstr "午前 0 時"
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "タイムコードは午前 0 時から数え、そこで最初に戻ります。何かを差し引く前にファイルを 1 本の軸に並べます。さもないと午前 0 時以降の録音が、その前の録音からほぼ 1 日離れて見えます。本当に別の日に録音したのなら、位置合わせは誤りで、信頼すべきは測定したオフセットです。"
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "位置合わせは測定したオフセットで行います。タイムコードは照合用にすぎません。"
+
+msgid "not measurable."
+msgstr "測定できません。"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "ちょうど 1 人だけが話している箇所が見つかりません -- 分離は測定できません。"
+
+msgid "3:1 rule"
+msgstr "3:1 ルール"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "これは録音時に生じたもので、後からではありません：マイク同士が近すぎるか、口から遠すぎます。"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "空き %s、必要量 約 %s（%s）"
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "元ファイルのまま、--lufs 指定なし -- 何も調整しません"
+
+msgid "none switched on"
+msgstr "オンの項目なし"
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\n事前チェック -- %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\n最初の長い処理の前で停止しました。--anyway を付ければそのまま実行します。"
+
+msgid "no video track"
+msgstr "映像トラックなし"
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "フレーム間隔が %s %% ばらついています -- フレームのタイミングが不均一です。"
+
+msgid "the video files run at different rates: %s"
+msgstr "映像ファイルのフレームレートが異なります: %s"
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s 本（全 %s 本中）の映像ファイルは colr ボックスにカーブも色空間も持っていません%s -- おそらく Log 素材です。"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "映像ファイルの撮影カーブが異なります: %s"
+
+msgid "the video files are tagged differently: %s"
+msgstr "映像ファイルの色タグが異なります: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "映像ファイルの画像サイズが異なります: %s"
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz（本来は %s kHz） -- 処理中に変換します。"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s チャンネル -- トラックに分割します。上の行を参照してください。"
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "チャンネル %d が上限に張り付いています：3 サンプル以上の連続が %s 回、最長 %s（%s ms）、最初は %s。"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "開始が遅いか停止が早すぎます -- この声はミックスの所々で欠けます。"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s は午前 0 時をまたいだ側のタイムコードです -- 1 日離れているのではなく、同じ夜として数えます。"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "タイムコード %s、他のファイルは %s -- この時計は合わせられていませんでした。"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "録音の重なりは %s だけです -- 測定には短すぎます。"
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "最も短い録音は %s しかありません -- 測定には短すぎます。"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s 件（全 %s 件中）の比較が %s dB 未満です -- すべての録音を他のすべてと、双方向で比較しています。"
+
+msgid "Target: %s"
+msgstr "保存先: %s"
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s が設定されているため、ここでは何も調整しません：トラックは録音されたままで出力され、ラウドネスはミックスする側で設定します。"
+
+msgid "Track template"
+msgstr "トラックテンプレート"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "Multitrack プリセットにトラックが登録されていません。"
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "プリセットの最初のトラックが、こちらの全トラックの設定を決めます。それがないとトラックは未処理のまま戻ってきます。Web 画面でプリセットにトラックを作成してください。"
+
+msgid "per track"
+msgstr "トラックごと"
+
+msgid " -- 1 note: %s"
+msgstr " -- 注意 1 件: %s"
+
+msgid " -- %s notes"
+msgstr " -- 注意 %s 件"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "複数に分割、タイムコードなし -- 間の欠落は検出できません。"
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "カットのその部分には映像がありません。Timeline を作るとその箇所は空のままで、音声は続きます。"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "長さ %s しかありません。最も長い録音は %s です。"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s は %s のマイクでわずか %s dB 小さいだけ"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s は %s のマイクで：自分のマイクより %s dB 小さい。"
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "これは録音時に生じたもので、今からは変えられません。マイクの分離が小さいほど、auphonic.com の De-Bleed は慎重にしか働けません。次回は、隣のマイクまでの距離を自分の口までの 3 倍にしてください。そうすれば隣の声は約 %s dB 低くなります。"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "読み取れません（%s） -- 未確認。"
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "プリセットは %s LUFS でマスタリングします -- それが有効で、こちらでは何も調整しません。"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "プリセットは %s LUFS でマスタリングしますが、計算には %s を使います。"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "両方同時にはできません：戻ってくるトラックは一方の値に、こちらのミックスはもう一方の値になります。--lufs %.0f を指定するか、プリセットを変更してください。"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "トラックテンプレートで何もオンになっていません -- トラックはアップロードしたとおりのまま戻ってきます。"
+
+msgid "Check"
+msgstr "チェック"
+
+msgid "not readable: %s"
+msgstr "読み取れません: %s"
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps（ファイル上は %s） -- 同じ長さでフレームが %s 枚多くなります。"
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps（ファイル上は %s） -- 同じ長さでフレームが %s 枚少なくなります。"
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "各フレームの表示時間が少し短くなりますが、ファイルが長くなるわけではありません。編集ソフトは約 %s 秒ごとに 1 フレームを省き、映像とカメラ音声はずれません。"
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "各フレームの表示時間が少し長くなりますが、ファイルが短くなるわけではありません。編集ソフトは約 %s 秒ごとに 1 フレームを繰り返し、映像とカメラ音声はずれません。"
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- マトリクスだけが BT.2020"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "%s の空き（ブロック %d と %d の間） -- カメラが止まっていました。"
+
+msgid " from %s files"
+msgstr " （%s 個のファイルから）"
+
+msgid "the check itself stopped: %s"
+msgstr "チェック自体が中断しました: %s"
+
+msgid "%s in %s"
+msgstr "%s（%s）"
+
+msgid "Limits the de-bleed: "
+msgstr "De-Bleed を制限: "
+
+msgid "not measurable: %s"
+msgstr "測定できません: %s"
+
+msgid "Envelope"
+msgstr "エンベロープ"
+
+msgid "Cutting out track %d of %d"
+msgstr "トラック %d / %d を切り出し中"
+
+msgid "no audio: %s"
+msgstr "音声なし: %s"
+
+msgid "Envelope failed: %s"
+msgstr "エンベロープ失敗: %s"
+
+msgid "channels not readable: %s"
+msgstr "チャンネルを読み取れません: %s"
+
+msgid "cutting failed: %s"
+msgstr "切り出し失敗: %s"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "すべてがここから戻ります：名前、分離、割り当て、種類、時間範囲。ファイル一覧はプロジェクトに保存されたものに置き換わります。"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "プロジェクトを開きました\n  すべての入力が戻りました。このセッションではまだ何も計算していません。\n  出力フォルダーには前回の実行のファイルがあります:\n  %s\n\n  ここからの 3 つの道:\n    • 下の「結果フォルダーを開く」 -- その実行のファイルを見る、\n    • 下の「Resolve プロジェクトを作成」 -- その実行の受け渡しファイルから、\n      何も再計算せずに、\n    • 上の「開始」 -- すべてを再計算してファイルを上書きする。\n"
+
+msgid "Restart the application"
+msgstr "アプリケーションを再起動"
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "アプリケーションはまもなく再起動します。先に作業をプロジェクトファイルに書き出しますか?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "書き出せば、新しいウィンドウがプロジェクトを再び開き、すべて元の状態に戻ります。書き出さなければ空の状態で起動し、ファイルを追加し直す必要があります。"
+
+msgid "Save and restart"
+msgstr "保存して再起動"
+
+msgid "Restart without saving"
+msgstr "保存せずに再起動"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "この素材には複数のプロジェクトファイルがあります。どれにしますか?\n\n%s"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "プロジェクトファイルは出力フォルダーに保存されますが、まだ選ばれていません。選択してください。"
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "この素材にはプロジェクトファイルがあります:\n\n  %s\n  書き出し日時 %s\n\n%s"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "プロジェクトを保存しました\n  %s\n  この実行は後で再び開けます -- 左上の\n  「プロジェクトを開く ...」\n\n"
+
+msgid "Open json project file"
+msgstr "json プロジェクトファイルを開く"
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "これはプロジェクトファイルではなく、同じフォルダーにもありません。\n\n探すのは %s*.json です -- スクリプトが開始時に出力フォルダーへ書き出します。"
+
+msgid "These files no longer exist:\n  "
+msgstr "これらのファイルはもう存在しません:\n  "
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  プロジェクトファイルに書き込めません（%s）\n"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;JSON ファイル (*.json);;すべてのファイル (*)"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "この受け渡しにはフレームレートがないため、Timeline を作れません。もう一度実行してください。"
+
+msgid "This Resolve project already exists"
+msgstr "この Resolve プロジェクトは既に存在します"
+
+msgid "Too many projects with this name."
+msgstr "この名前のプロジェクトが多すぎます。"
+
+msgid "no information in the file"
+msgstr "ファイルに情報なし"
+
+msgid "\n  Render job"
+msgstr "\n  レンダージョブ"
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    キューに追加しました -- Resolve では \"Render All\" を押すだけです。"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  音声トラックの整理"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  Media Pool 内のクリップ"
+
+msgid "\n  Nothing was changed."
+msgstr "\n  何も変更していません。"
+
+msgid "not in the media pool"
+msgstr "Media Pool にありません"
+
+msgid "no information"
+msgstr "情報なし"
+
+msgid "    Colours per angle:"
+msgstr "    アングルごとの色:"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      両方のクリップはカットせずに残し、本編と重ねます。\n      ディゾルブは重なりの部分に入ります -- 正確な位置は Resolve で決めてください。\n      （Resolve のスクリプトインターフェースはトランジションを作成できません。）"
+
+msgid "\n  Settings"
+msgstr "\n  設定"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  マルチカムクリップ用の Timeline: 全カメラ、カットなし"
+
+msgid "Check the connection to Resolve again"
+msgstr "Resolve との接続を再確認"
+
+msgid "Connects to Resolve again."
+msgstr "Resolve に再接続します。"
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Resolve に接続できません。\n  プログラムは起動していますか? Preferences > System > General で\n  external scripting が 'Local' になっていますか?"
+
+msgid "Interface:      %s%s"
+msgstr "インターフェース:  %s%s"
+
+msgid "Library:        %s%s"
+msgstr "ライブラリ:        %s%s"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  この名前のプロジェクトは既に存在します: %r"
+
+msgid "Stopped. Nothing was created."
+msgstr "中止しました。何も作成していません。"
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    すべては設定できませんでした。Resolve は一部の値を\n    Timeline が空のうちしか受け付けません -- 上と見比べてください。"
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades がオンです：カメラごとに 1 つのカラー補正が\n    そのすべてのカットに適用されます -- 1 つのカットだけを\n    個別に補正することはできなくなります。"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Local versions: ノードエディターでは \"Group Pre-Clip\" が\n    カメラ全体に、\"Clip\" はその 1 カットだけに適用されます。両者は\n    併用できます。"
+
+msgid "Log according to camera data"
+msgstr "カメラデータによると Log"
+
+msgid "Bit depth"
+msgstr "ビット深度"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nHDR チェック  %s"
+
+msgid "already right"
+msgstr "既に正しい設定"
+
+msgid "    Render settings rejected."
+msgstr "    レンダー設定が拒否されました。"
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  （%s%s に対する YouTube 推奨値）"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC、%s kHz、2 チャンネル  （ビットレートはリモートで設定できません --\n%sステレオの推奨は %s kbit/s）"
+
+msgid "    Render job could not be created."
+msgstr "    レンダージョブを作成できませんでした。"
+
+msgid "  %s of %s files imported."
+msgstr "  %s / %s 個のファイルを読み込みました。"
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  映像トラック %s 本、音声トラック %s 本を作成（%s）"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  映像トラック %s 本、話者の名前付き:"
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Timeline に音声がありません -- 整理するものはありません。"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- 確認のみ"
+
+msgid "  Project %r"
+msgstr "  プロジェクト %r"
+
+msgid "    No clips found."
+msgstr "    クリップが見つかりません。"
+
+msgid "    Clip colours could not be set."
+msgstr "    クリップの色を設定できませんでした。"
+
+msgid "  No clips found for colour groups."
+msgstr "  カラーグループ用のクリップが見つかりません。"
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  開始 %s -- すべてのショットはこれを基準に配置します。"
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  カットが残っていません -- Timeline は空のままです。"
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  ショット %s 個、合計 %s 秒、音声なし。"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Full-Mix が見つかりません -- Timeline は無音のままです。"
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix を読み込めませんでした。"
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix を挿入できませんでした。"
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  音声: Full-Mix を一続きで A1 に（%s）。"
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  受け渡しにカメラがありません -- 作るものはありません。"
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool はそのままです。"
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    ラウドネスは調整していません -- 下の目標値はメーターが\n    基準にする値にすぎません。"
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    以前の実行のクリップはまだ remote grades に結び付いています。\n    カラーページでサムネイルを右クリック > \"Copy Remote Grades to Local\"\n    （補正を引き継ぐ）または \"Use Local Grades\"。新しい Timeline には\n    必要ありません。"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  完成したカットの Timeline"
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  カメラが 1 台だけです -- マルチカムクリップは意味がありません。"
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  既に同じカメラが同じ順で入ったものがあります -- そのまま\n  手を付けません。作り直すには Resolve で削除してください。"
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Resolve のインターフェースが想定の場所にありません:\n  %s\n  %s"
+
+msgid "  Project %r created."
+msgstr "  プロジェクト %r を作成しました。"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "最新の状態にする -- 両方の Timeline を削除して\n       作り直します。Media Pool はそのままです"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "そのままにして新しい Timeline を横に追加 --\n       既存のものは残ります"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "横に新しいプロジェクトを作成（名前に接尾辞付き）"
+
+msgid "  Project %r opened."
+msgstr "  プロジェクト %r を開きました。"
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    測定値 %s フレーム/秒 -- Resolve は固定レートしか扱えないため、\n    %s を使います。"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    設定を一覧できません -- 手動で設定してください:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s。"
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    バージョンの設定が見つかりません -- 手動で設定してください:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s。"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "ファイルにカーブと色空間がありません"
+
+msgid "full range"
+msgstr "フルレンジ"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "なし -- コンテナに色タグがありません"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "これがないとどのプレーヤーも推測するしかなく、すべて SDR と判断します。Resolve の Deliver > Advanced Settings で Color space tag と Gamma tag を \"Same as Project\" のままにせず設定してください。"
+
+msgid "Primaries"
+msgstr "プライマリ"
+
+msgid "Curve"
+msgstr "カーブ"
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "HDR には 8 ビットでは足りません：どのグラデーションにも縞が出ます。YouTube は 10 または 12 ビットを求めます。"
+
+msgid "Codec profile"
+msgstr "コーデックプロファイル"
+
+msgid "Static metadata"
+msgstr "静的メタデータ"
+
+msgid "not needed with HLG"
+msgstr "HLG では不要"
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG はディスプレイ基準です -- マスタリングディスプレイの項目はありません。"
+
+msgid "The file is tagged as HDR."
+msgstr "ファイルは HDR としてタグ付けされています。"
+
+msgid "Dynamic range"
+msgstr "ダイナミックレンジ"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    MP4 形式が見つかりません。利用可能: %s"
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    合うコーデックが見つかりません。利用可能: %s"
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    注意: H.265 がありません -- 8 ビットの H.264 になります。\n          HDR には不十分で、グラデーションに縞が出ます。"
+
+msgid "    Format and codec could not be set."
+msgstr "    形式とコーデックを設定できませんでした。"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    書き出しごとに 1 ファイルの設定が拒否されました。Resolve はクリップごとに 1 ファイルを書き出します。"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s は既にあります -- 代わりに %s へレンダリングし、\n%s以前の書き出しを残します。"
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s \"Same as Project\" のままです -- プロジェクトに\n%sHDR カーブの指定がありません。Resolve の次の場所で確認:\n%sProject Settings > Color Management > Output Color Space。"
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    完成したファイルが HDR として通るかどうか:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    ラウドネスメーターの目標レベルが見つかりません -- 手動で設定してください:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS。"
+
+msgid "These files do not exist:\n  "
+msgstr "これらのファイルは存在しません:\n  "
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r を作成できませんでした。"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  開始 %s（最も早いカメラ） -- さもないとすべてが Timeline の開始より前になります。"
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    確認用 -- Timeline はフレーム %d（%s）から始まります:"
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s A%d の音声を残し、ほか %d 本を削除"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s、%s"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    カラーグループ: %s -- すべてのクリップを割り当て済み"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    カラーグループ %-24s %s / %s クリップのみ"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s %s から、長さ %s%s"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s 回、予定のカメラが回っていませんでした -- 別のカメラを入れています。"
+
+msgid "    Left without picture: %s"
+msgstr "    映像なしのまま: %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve は映像を 1 つも取り込みませんでした -- Timeline は空です。\n  この上には何も作りません。"
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  このような Timeline はまだありません -- 新たに作るだけです。"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: カメラを一続きで、ミックスをその下に"
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  受け渡しにカメラ切り替えがありません -- 話者の統計がなければ作られません。\n  マルチカムクリップ用の Timeline だけを作ります。"
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  この名前の Timeline があり、別のカメラが入っています。それは残し、\n  新しいものを別の名前で横に作ります。"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s は映像トラック 1 に入ります -- そこでは最初の音声トラックが\n  Full-Mix を持ち、映像トラック 1 がアングル 1 になります。"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve が応答しません -- 設定を参照"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "モジュール DaVinciResolveScript を読み込めません: %s"
+
+msgid "   -- not found"
+msgstr "   -- 見つかりません"
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "この 2 つがないと何も動きません。Resolve はインストールされていますか?"
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "プロジェクト %r を作成できませんでした。その名前が別のフォルダーで使われていませんか？"
+
+msgid "Project %r could not be opened."
+msgstr "プロジェクト %r を開けませんでした。"
+
+msgid "does not exist: %s"
+msgstr "存在しません: %s"
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR にはここが 9 である必要があります（BT.2020）。Resolve では: Color space tag = Rec.2020。"
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR にはここが 16（PQ、つまり HDR10）か 18（HLG）である必要があります。Resolve では: Gamma tag = ST.2084 または HLG。14 は HDR カーブではなく、BT.2020 色空間の SDR です。"
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR にはここが 9 である必要があります（BT.2020、非定輝度）。"
+
+msgid "Value range"
+msgstr "値の範囲"
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "10 ビットには HEVC の Main 10 プロファイルが必要です。Resolve では Deliver の「Profile」にあります。"
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "HDR には通常 HEVC（Main 10）、AV1 または VP9 Profile 2 を使います。YouTube は H.264 も受け付けますが、より高いビットレートが必要です。"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "必須ではありません -- その場合 YouTube は既定値（Sony BVM-X300）を適用します。付けるには: Resolve の Color Management で HDR10+ をオンにし、Color ページで「Analyze All Shots」を実行し、レンダリング時に「Embed HDR10 Metadata」にチェックを入れます。"
+
+msgid "The file is NOT recognised as HDR."
+msgstr "このファイルは HDR として認識されません。"
+
+msgid "    Format list not readable: %s"
+msgstr "    フォーマット一覧を読めません: %s"
+
+msgid "    Codec list not readable: %s"
+msgstr "    コーデック一覧を読めません: %s"
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    フォーマットとコーデックを設定できませんでした: %s"
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    出力ごとに 1 ファイルを指定できませんでした: %s"
+
+msgid "Tagging"
+msgstr "タグ付け"
+
+msgid "Profile"
+msgstr "プロファイル"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s 拒否 -- どの表記も受け付けられませんでした。\n%sResolve の Deliver > Advanced Settings で手動設定:\n%sColor space tag Rec.2020、Gamma tag %s。"
+
+msgid " at high frame rates"
+msgstr " 高フレームレート時"
+
+msgid "    Render job could not be created: %s"
+msgstr "    レンダージョブを作成できませんでした: %s"
+
+msgid "Not found again after import: %s"
+msgstr "読み込み後に見つかりません: %s"
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s と %s は同じファイル名で、Resolve はそれらの\n  パスを示しません。どちらかの名前を変えてください。"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline は %s から始まり、%s からではありません -- すべてのショットがその分だけ後ろにずれます。"
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Timeline の開始 %s は受け付けられませんでした。"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: 映像と音声を別々に挿入しました（音声は A%d から）。"
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s トラック V%d、フレーム %d から（先頭まで %s 秒）、%s%s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    ビデオトラック %d の名前を変更できませんでした。"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s 音声は挿入されていません"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s リンク解除が効きませんでした -- 余分な音声トラックは\n    %-24s そのまま残ります。"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  カラーグループ %r を作成できません。"
+
+msgid "stored file %s"
+msgstr "保存済みファイル %s"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "引き画 %s、ミックスはその最初の音声トラック"
+
+msgid "%s, audio track %d"
+msgstr "%s、音声トラック %d"
+
+msgid "    %s could not be imported."
+msgstr "    %s を読み込めませんでした。"
+
+msgid "    %s could not be inserted."
+msgstr "    %s を挿入できませんでした。"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 を読み戻せませんでした: %s"
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               音声の%s: %s -- そこで%sの言葉に重なります。"
+
+msgid "%s (%s to %s)"
+msgstr "%s（%s～%s）"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Timeline 上にあるのは %s / %s ショットだけです。"
+
+msgid "  Transcript: %s"
+msgstr "  書き起こし: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  中止: %s"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  削除しました: %s -- 今から作り直します。"
+
+msgid "Project %r could not be created."
+msgstr "プロジェクト %r を作成できませんでした。"
+
+msgid "(wanted %s)"
+msgstr "（指定は %s）"
+
+msgid "Curve number %d"
+msgstr "カーブ番号 %d"
+
+msgid "Primaries number %d"
+msgstr "原色番号 %d"
+
+msgid "limited (Video/TV)"
+msgstr "リミテッド（ビデオ/TV）"
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "納品には通常リミテッドレンジを使います。フルは誤りではありませんが、誤って解釈するプレーヤーもあります。"
+
+msgid " -- not readable"
+msgstr " -- 読めません"
+
+msgid "missing: %s"
+msgstr "不足: %s"
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    注意: プロジェクトは %s、素材は %s です。\n             出力には素材のタグが付きます。プロジェクトを\n             合わせるには: Project Settings > Color Management >\n             Output Color Space = %s。"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10（10 ビット）"
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 拒否 -- 既定のまま"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Timeline %r は既にありました -- 新しいものの名前は %r です。"
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Timeline の開始 %s は拒否されました: %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  Resolve はこれ以上ビデオトラックを追加できません -- 収まるのは %s / %s 台のカメラです。"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s メディアプールにファイルがありません"
+
+msgid "   MISSING"
+msgstr "   欠落"
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  注意: %s と %s はどちらも %s という名前です。Timeline 上で\n  Resolve は名前しか示さないため、クリップを区別\n  できません -- どちらかのファイル名を変えてください。"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s リンクを解除できませんでした: %s"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s 再リンクできませんでした"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s リンクに失敗: %s"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   空（%r）"
+
+msgid "    %s track could not be created: %s"
+msgstr "    %s トラックを作成できませんでした: %s"
+
+msgid ", audio on A2"
+msgstr "、音声は A2"
+
+msgid ", no audio"
+msgstr "、音声なし"
+
+msgid ", %s not (no free picture)"
+msgstr "、%s 件は不可（空きフレームなし）"
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  書き起こしはできません（%s） -- 処理はそのまま続きます。"
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  注意: %s を削除できませんでした -- そのため新しい Timeline の\n  名前に追記が付きます。"
+
+msgid " not."
+msgstr " なし。"
+
+msgid "Number %d"
+msgstr "番号 %d"
+
+msgid "Duration %s"
+msgstr "長さ %s"
+
+msgid "   NOT INSERTED"
+msgstr "   未挿入"
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s 削除に失敗しました。"
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s 削除に失敗: %s"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   失敗: %s"
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  カラーグループ %r を作成できません: %s"
+
+msgid "    %s track %d could not be created."
+msgstr "    %s トラック %d を作成できませんでした。"
+
+msgid "ends"
+msgstr "終わり"
+
+msgid "begins"
+msgstr "始まり"
+
+msgid "first"
+msgstr "最初"
+
+msgid "last"
+msgstr "最後"
+
+msgid "Check itself failed: %s"
+msgstr "チェック自体が失敗: %s"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\n完了。下の「結果フォルダーを開く」で結果を確認できます。\n問題なければ「Resolve プロジェクトを作成」でプロジェクトを作ります。\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\n計測しました。何も書き込んでいません -- 試し実行では結果フォルダーはそのままです。\n"
+
+msgid "Without processing at auphonic.com"
+msgstr "auphonic.com での処理なし"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "試し実行: 計測のみ。書き込みもアップロードもしません。"
+
+msgid "This is what happens next"
+msgstr "次に行うこと"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== 実行 %s ===\n\n"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "auphonic.com で「%s」を使って処理"
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "これらのファイルは既にあり、書き直されます:\n\n  %s\n\nよろしいですか？"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "パッケージマネージャーで: apt install ffmpeg、dnf install ffmpeg"
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "この ffmpeg には soxr がありません: カメラ間のクロックのずれは 0.21 ではなく 21 ppm 刻みで補正されます。"
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "キーは Mac と Windows でのみ保存できます -- キーチェーンかレジストリに。ファイルには書き込みません。"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org に Windows 用のビルドがあります。ffmpeg.exe のあるフォルダーを PATH に加えるか、ファイルをこのプログラムの隣に置いてください。"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "brew.sh から Homebrew をインストールし、もう一度これを実行"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "ffmpeg.org から入手し、フォルダーを PATH に"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "この ffmpeg には soxr があります: カメラ間のクロックのずれは 0.21 ppm 刻みで補正されます。"
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "この実行はテスト実行で、保存先がまだ本来の名前のままなので、何も書き込んでいません。先に KEY_SERVICE、KEY_ACCOUNT または REG_PATH を別の場所に向けてください。"
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "キーチェーンがキーを受け付けませんでした。「キーチェーンアクセス」で理由を確認できます。"
+
+msgid "The registry did not take the key."
+msgstr "レジストリがキーを受け付けませんでした。"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  証明書バンドルが見つかりません -- HTTPS でのダウンロードは失敗することがあります。"
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "これが直るまで何も動きません。方法: %s"
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  ビルド済みの ffmpeg を取得しています。大きいので数分かかります: %s"
+
+msgid "  It is here: %s"
+msgstr "  場所: %s"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "キーチェーンがロックされています。ロックを解除して再試行してください。"
+
+msgid "  Putting it back: %s"
+msgstr "  元に戻しています: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s がありません。初回は数分かかります。"
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s をインストールできませんでした。\n手動で:  %s -m pip install %s"
+
+msgid "%s is missing."
+msgstr "%s がありません。"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "ここでは: %s。必要: %s 以降。"
+
+msgid "That worked."
+msgstr "うまくいきました。"
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "これからコンパイルします。ここが長い部分です: 速いマシンで数分、古いマシンではかなり長くかかります。止まってはいません -- 処理中は数秒ごとに点が表示されます。"
+
+msgid "  Installing it: %s"
+msgstr "  インストール中: %s"
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  まず既存の ffmpeg をどかします: %s"
+
+msgid "The build could not be fetched: %s"
+msgstr "ビルドを取得できませんでした: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  soxr 付きのビルド済み ffmpeg 9.0.1 を取得できます: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  アーカイブには 2 つのプログラムのうち %s 個が入っていました。"
+
+msgid "  Installing it: pip install %s"
+msgstr "  インストール中: pip install %s"
+
+msgid "  That did not work: %s"
+msgstr "  うまくいきませんでした: %s"
+
+msgid "  On this machine: %s"
+msgstr "  このマシンでは: %s"
+
+msgid "  This machine can install it properly: %s"
+msgstr "  このマシンなら正しくインストールできます: %s"
+
+msgid "  The page could not be opened: %s"
+msgstr "  ページを開けませんでした: %s"
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  「キーチェーンアクセス」を開けませんでした: %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s はこの Python にインストールされます: %s"
+
+msgid "no answer"
+msgstr "応答なし"
+
+msgid "  Open the page? [Y/n] "
+msgstr "  ページを開きますか？ [Y/n] "
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  ビルドを展開できませんでした: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  手動で:  %s -m pip install %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  今すぐ取得しますか？ [Y/n] "
+
+msgid "  Run that now? [Y/n] "
+msgstr "  今すぐ実行しますか？ [Y/n] "
+
+msgid "  %s of %s MB"
+msgstr "  %s / %s MB"
+
+msgid "Its sound cannot be used."
+msgstr "この音声は使えません。"
+
+msgid "The list of model files came back empty."
+msgstr "モデルファイルの一覧が空で返ってきました。"
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "話者分離がここにはインストールされていません。これで元に戻せます: %s"
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   音声を認識できず、タイムコードで配置しました"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  順序は当てになりますが、間隔は当てになりません: 4 回分で計測して順序は一度も入れ替わらず、最初と最後の間隔は 4 倍変わりました。1 トラックに 1 人の声を前提とします。2 つのトラックが同じ発話を含む場合は何も言いません。"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  プログラムが付けた名前のままの声だけが対象です。誰かが入力した名前には決して触れません。役割は誰が質問し誰が答えるかから読み取ります。これはゲスト 1 人の会話に当てはまり、提案であって設定ではありません。"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  前提は 1 つです: 1 人に 1 本のマイクがあり、各マイクがその人だけを拾うこと。トラックの重なりが大きすぎて区別できない場合や、2 つの声が同じマイクを指す場合は、不確かなことを言うより何も言いません。"
+
+msgid "the interface"
+msgstr "画面"
+
+msgid "the separation in this run"
+msgstr "この実行での分離"
+
+msgid "Separating speakers: %s"
+msgstr "話者を分離中: %s"
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "プログラムのフォルダーに書き込めません: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "話者分離を元に戻しています ..."
+
+msgid "The speaker separation model is not beside the program."
+msgstr "話者分離のモデルがプログラムの隣にありません。"
+
+msgid "The speaker separation is not set up."
+msgstr "話者分離がセットアップされていません。"
+
+msgid "Nothing was audible in the recording."
+msgstr "録音には何も聞こえませんでした。"
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote は実行ごとに送信元へ痕跡を送り、このバージョンにはそれを止める手段がないため、分離は開始しませんでした。"
+
+msgid "Speaker separation is switched off for this project."
+msgstr "このプロジェクトでは話者分離はオフです。"
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "誰がいつ話すかは、全員が聞こえる録音が 1 つあれば、このマシン上で割り出せます。"
+
+msgid "Set to %s; %s is one click away."
+msgstr "%s に設定しました。%s はワンクリックで選べます。"
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "除外しました。%s は既に使われています。%s はワンクリックで選べます。"
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   他のファイルと合いません: 音声を認識できず、タイムコードもありません。\n   %s"
+
+msgid "Mixing the tracks for the separation"
+msgstr "分離のためにトラックをミックス"
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "マイクが互いの音を自分の話者とほぼ同じ大きさで拾っています"
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\n誰が質問するか -- 提案であり、これで何も設定されません"
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\n声の名前の候補 -- 提案"
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nどのマイクか -- 提案であり、これで何も設定されません"
+
+msgid "no recording named"
+msgstr "録音が指定されていません"
+
+msgid "nothing of it falls inside the window"
+msgstr "時間枠に入る部分がありません"
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  トラックには何も聞こえませんでした -- ここからカメラ切り替えは作れません。"
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s は %-20s 次のマイクより %s dB 上、録音レベルを差し引き済み"
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "この名前は複数回出てきます。録音が 1 トラックになってしまいます -- Multitrack には auphonic.com で少なくとも 2 つの異なる名前が必要です。"
+
+msgid "The model could not be fetched: %s"
+msgstr "モデルを取得できませんでした: %s"
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s はチェックサムと一致しないため、書き込みませんでした。"
+
+msgid "The model file %s does not match its checksum."
+msgstr "モデルファイル %s がチェックサムと一致しません。"
+
+msgid "The speaker separation reports: %s"
+msgstr "話者分離の報告: %s"
+
+msgid " computed"
+msgstr " 算出"
+
+msgid " virtual"
+msgstr " 仮想"
+
+msgid "the tracks are too much alike to separate"
+msgstr "トラック同士が似すぎていて分離できません"
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  誰が質問するか -- ここでは言いません: 2 つのトラックが同じ発話を含むため、質問は最も音量を上げていたレコーダーに割り当てられてしまいます。"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s 発話 %s、%s / %s 文が質問"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s は %-20s に近い そのトラック内に %s %%、次より %s ポイント上"
+
+msgid "Nothing was audible in the tracks."
+msgstr "トラックには何も聞こえませんでした。"
+
+msgid "%s is not part of this run"
+msgstr "%s はこの実行に含まれていません"
+
+msgid "%s has no place on the axis"
+msgstr "%s は時間軸上に位置がありません"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\n話者の分離"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  分離済み: 読み戻しました。再計測はしていません。"
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  （計測のみ: 分離はしていません）"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\n話者 -- 声で分離"
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\n話者 -- ここで計測"
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  トラックそのものから、1 トラックに 1 人の声: %s。"
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  カットに含まれません: %s -- その録音は分離の結果が代わりを務めるか、計測されていません。"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  どの声がどのマイクのものか判別できなかったため、代わりにトラックを計測します。"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "この名前は既に別の人に付いています。名前は 1 人の人物を表し、カットは 1 人を 1 台のカメラに割り当てます -- この声には別の名前を付けてください。"
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  すべての録音が同じ名前です。これでは 1 トラックになります -- Multitrack には少なくとも 2 つ必要です。"
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "モデルを取得中（約 %s MB）: %s"
+
+msgid "The model could not be written: %s"
+msgstr "モデルを書き込めませんでした: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "モデルを取得中（約 %s MB）..."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "%s を計測中（%s / %s）"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s の名前は %s が考えられます"
+
+msgid "Measuring not possible: %s"
+msgstr "計測できません: %s"
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s を読めません: %s"
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  マイク同士が互いの音を拾いすぎて誰が話しているか言えないため、分離は %s 本すべてをまとめて聞きます（このマシン上で）。"
+
+msgid "  In %s, on this machine."
+msgstr "  %s で、このマシン上で。"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  話者分離は使いません: %s。"
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "2 台のカメラが同じファイルを作ることになります。2 台目が 1 台目を上書きします。"
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "カットでは 2 台のカメラが 1 台として扱われます。ファイル名が同じなので、どちらかの名前を変えてください。"
+
+msgid "  Bleed not separable: %s"
+msgstr "  かぶりを分離できません: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  1 人だけが話している箇所が見つかりません -- かぶりは発話検出に残ります。"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s は時間枠の中でほとんど話していません -- 提案: 使用しない。"
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  ウィンドウが分離した結果は破棄されます: 聞いたのは1つの録音だけで、マイク同士が互いの音をよく拾うため、どれも際立ちません -- %s dB。1つのマイクだけで誰が話しているかを判断するには %s dB が必要です。"
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  計算時間 約 %s（音声 %s 分）。"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s が複数回あります。これらの録音は1つのトラックにまとめられ、タイムコード順に並べられます -- 途中で録音を止めた場合はこれで正しいです。"
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  2台のカメラが同じファイルを作ることになります (%s)。2台目が1台目を上書きします。"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  かぶりを測定: %s は %s の中で %s dB しか小さくない -- 発話検出から除去しました"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  トラックを測定していないため、%s はミックスには入りますがカットには入りません: %s"
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  カットの中で2台のカメラが1台になります (%s)。ファイル名が同じなので、どちらかの名前を変えてください。"
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  注意: 測定できたペアは %s 組のみ（全 %s 組）。残りは1人だけが話している瞬間が見つからず、かぶりが残ります -- ここでは話者検出は信頼できません。"
+
+msgid "  Building the speech recogniser ..."
+msgstr "  音声認識を構築しています ..."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  音声認識からの報告: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  音声認識を構築しました (%s 秒)。"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  %s で認識: 準備 %s 秒、聞き取り %s 秒"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  このマシンには音声認識がありません: macOS 26 には付属しています。それ以外では faster-whisper をインストールします。"
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  音声認識 (%s): %s 語、%s 秒"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s 語: 1つの声に %s %%、2つの声に %s %%、間に %s %%"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s 語、名前なし -- 誰も分離されていません"
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Swift コンパイラからの報告: %s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  音声認識 (%s): %s 語、保存分を読み込み"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s がありません -- インストールします。初回は数分かかります。"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s を書き込めませんでした: %s"
+
+msgid ", %s without"
+msgstr "、なし %s"
+
+msgid "The production has no name yet."
+msgstr "制作物にまだ名前がありません。"
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "扱える音声がありません -- 映像ファイルのカメラ音声を「音声を使う」にするか、音声録音を追加してください。"
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "本編: ほかと同じ1台のカメラ。\n引き画: 誰も前に座っていないカメラ -- 話者を持たず、間(ま)と長い独話のときにカットがここへ切り替わります。\nイントロとアウトロは完成したクリップです -- 位置合わせも処理もせず、Timeline に置くだけです。\n映像を無視: このファイルはまったく使いません。"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- 素材から編集済みのポッドキャストへ"
+
+msgid "The work can be written to a project file first."
+msgstr "作業内容を先にプロジェクトファイルへ書き出せます。"
+
+msgid "Show the log of this run"
+msgstr "この実行のログを表示"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "この録音を、すべてのブロックごと別の録音に入れます。\nファイル名から検索の手がかりが得られないときに使います。"
+
+msgid "Remove the chosen file from the list"
+msgstr "選んだファイルをリストから外す"
+
+msgid "Output folder back beside each video file"
+msgstr "出力フォルダーを各映像ファイルの隣に戻す"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "エンベロープとカメラ音声はバックグラウンドで準備されます。"
+
+msgid "Without timecode the position of the files is measured."
+msgstr "タイムコードがなければ、ファイルの位置は測定されます。"
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "このプロジェクトでは話者分離をオフのままにします。カットはこれまでどおりトラックまたは auphonic.com から得られます。"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "まだカメラカットはありません: 名前とカメラを持つ2人が必要です。\n別々の録音なら Multitrack のチェックで、1つの録音なら話者名欄の「複数の話者」でも同じことができます --\nそこで見つかった声には、録音の下の表でカメラを割り当てます。\nそれでも Resolve プロジェクトは作成されます -- すべてのカメラが測定した位置にあり、Multicam の準備ができています。"
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "それには実行の受け渡しファイルが必要ですが、ありません。"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "カット、EDL、CSV、受け渡しファイルを上の数値から計算し直します。誰がいつ話すかは実行で測定したままです。Resolve が起動している必要があります。"
+
+msgid "Quit"
+msgstr "終了"
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "なくてもすべて動作します。これを含むビルドの取得には数分かかり、その出力は「出力」に表示されます。"
+
+msgid "Carry on"
+msgstr "続ける"
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "数分かかります -- パッケージマネージャーがソースからビルドすることがあります。その出力はここに表示されます。"
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg は準備できています。"
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "プログラムは起動時にこれを読み込みます。今すぐ再起動することも、あとでご自身で再起動することもできます。"
+
+msgid "Start again now"
+msgstr "今すぐ再起動"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "再起動できませんでした。ウィンドウを閉じ、前と同じ方法でプログラムを起動してください。"
+
+msgid "No newer version found. This one is %s."
+msgstr "新しいバージョンは見つかりませんでした。これは %s です。"
+
+msgid "no audio track in this file"
+msgstr "このファイルには音声トラックがありません"
+
+msgid "this file stays out entirely"
+msgstr "このファイルはまったく使いません"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "完成したクリップ -- 置くだけで処理しません"
+
+msgid "the only sound there is"
+msgstr "ここにある唯一の音声"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack には上の表に2つのトラックが必要です -- カメラは、カメラ音声を「音声を使う」にすると1つに数えられます。"
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s が複数の話者に付いています -- 名前は1人の人を表し、人ごとに別の名前が必要です。"
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "カットの中で2台のカメラが1台になります: %s。ファイル名が同じなので、どちらかの名前を変えてください。"
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "2台のカメラが同じファイルを作ることになります: %s"
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "素材のどこにも合わないため、エピソードの中に編集で入れることはできません。前か後ろに置くことはできます。"
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "使う場合、このファイルの音声はほかと同じ1本のトラックになり、上の表に表示されます。\n同じ欄がファイルリストにもあり、どちらも同じ答えを示します。"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "使う場合、このファイルの下で測定したチャンネルを、録音と同じようにトラックに分けます。\n測定はどちらでも行われます: その判定をもとにこれを決め、同期にはいずれにせよ音声を使います。"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "その手順より後はすべて欠けています。フォルダーにあるのは実行の一部で、結果ではありません。"
+
+msgid "   (camera audio)"
+msgstr "   (カメラ音声)"
+
+msgid "new file name"
+msgstr "新しいファイル名"
+
+msgid "gets audio from"
+msgstr "音声の取得元"
+
+msgid "this window"
+msgstr "このウィンドウ"
+
+msgid "GENERAL NOTES"
+msgstr "全般的な注意"
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "順番は関係ありません。複数に分かれた録音では最初のブロックだけで十分です。"
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "AUDIO または VIDEO にドロップすると、すべて取り込みます。"
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "auphonic.com でのタイトルと、新しいファイル名の先頭。"
+
+msgid "If empty: next to each video file."
+msgstr "空欄なら: 各映像ファイルの隣。"
+
+msgid "Puts it back next to each video file."
+msgstr "各映像ファイルの隣に戻します。"
+
+msgid "Takes the position from the picture."
+msgstr "位置を映像から取ります。"
+
+msgid "Jumps to the start of the window."
+msgstr "時間枠の先頭へ移動します。"
+
+msgid "Jumps to the end of the window."
+msgstr "時間枠の末尾へ移動します。"
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "タイムコードを持つ音声ファイルはありません。イン点とアウト点は素材の先頭から数えます -- ファイル同士の位置は測定したものです。"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "1人につき1本の音声トラックを、auphonic.com まで分けたまま扱います。\nなくても動作します -- その場合 de-bleed と leveler はありません。\n入力トラックが2本必要です: 単独の録音、マルチチャンネル\nレコーダーの1チャンネル、または「音声を使う」に設定した\n映像ファイルの音声。カメラカットにはこのチェックは不要です。"
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "あいさつと締めくくりの間は、映像は引きのままです。"
+
+msgid "Nothing runs until that is put right."
+msgstr "これが直るまで何も実行されません。"
+
+msgid "Get it: %s"
+msgstr "取得: %s"
+
+msgid "Installing ffmpeg"
+msgstr "ffmpeg をインストールしています"
+
+msgid "Start the program again to pick it up."
+msgstr "反映させるには、プログラムを再起動してください。"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "MIT ライセンス、Copyright (c) 2026 Sebastian Lotz。現状のまま提供され、いかなる保証もありません。"
+
+msgid "One audio recording has no speaker name yet."
+msgstr "話者名がまだない音声録音が1つあります。"
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s はすでに %s に設定されていて、1つのエピソードにそれは1つだけです。ここでは別の答えを選ぶか、先にそのファイルの印を外してください。"
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "アプリケーションを再起動するとすぐに反映され、その前に作業をどうするか尋ねます。そのままにしても失うものはありません -- 次の起動時に反映されます。"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "実行はまだ続いています。終わったらウィンドウを再起動できます。"
+
+msgid "Nothing has been written yet."
+msgstr "まだ何も書き出されていません。"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- 手作業でつなぐと、その差は無音としてファイルに入り、あとで取り除かれることはありません。"
+
+msgid "\nStopped during: %s"
+msgstr "\n停止した箇所: %s"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- どうしますか?\n詳細はログにあります。"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nエラーありで終了しました。\n"
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "使用中の音声がまだありません -- 音声録音を追加するか、ファイルリストで映像ファイルのカメラ音声を「音声を使う」にしてください。"
+
+msgid "the voices below carry the cameras"
+msgstr "下の声がカメラを受け持ちます"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "赤く示された行が問題の箇所です。タブにチェックがあれば、すべてそろっています。"
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s はどの映像ファイルにも含まれていません。素材に合うタイムコードはありますか?"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "録音で話されている言語。書き出す音声トラックの\nタグになり、ここでの認識もこの言語を前提にします。\nシステムの言語で初期設定されます。「%s」はトラックにタグを付けず、\n言語の判定を認識に任せます。"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "イン点: %s     アウト点: %s     長さ: %s"
+
+msgid "The run is still going."
+msgstr "実行はまだ続いています。"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "何も書き出していません -- まだ素材がありません。"
+
+msgid "The text for %s could not be fetched."
+msgstr "%s のテキストを取得できませんでした。"
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "すべての録音が同じ名前です -- その場合トラックは1本になります。"
+
+msgid "stays out"
+msgstr "使わない"
+
+msgid "used directly"
+msgstr "そのまま使用"
+
+msgid "Playback not possible"
+msgstr "再生できません"
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "このファイルはここでは再生できず、代わりとなる ffplay もありません。"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "イン点とアウト点は、時間軸が決まると使えます -- タイムコードから、または測定で。"
+
+msgid "Written:\n\n  %s"
+msgstr "書き出しました:\n\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Resolve のインターフェースがあるべき場所にありません。"
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "取得には数分かかり、その出力は「出力」に表示されます。"
+
+msgid "\nStopped: %s"
+msgstr "\n停止: %s"
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s は %s にあります -- そのファイルを今プレーヤーに表示しています。"
+
+msgid "Beginning"
+msgstr "先頭"
+
+msgid "End"
+msgstr "末尾"
+
+msgid "the whole material"
+msgstr "素材全体"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "ビデオポッドキャストの素材が編集済みのエピソードになります: 良い音声を映像ファイルに、カメラを1本の時間軸に、話者に応じた最初のカット、そして DaVinci Resolve プロジェクト。"
+
+msgid "Python %s on %s"
+msgstr "Python %s（%s 上）"
+
+msgid "There is no window to show what pip says."
+msgstr "pip の出力を表示するウィンドウがありません。"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "今回だけです。次のリリースでまた尋ねます。ヘルプ > 新しいバージョンを今すぐ確認 でいつでも確認できます。"
+
+msgid "The list of earlier versions could not be read."
+msgstr "以前のバージョンの一覧を読み取れませんでした。"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip は %s で停止しました。そこまでの結果は上の行にあります。"
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "更新しますか? pip が %s に取得します。pip の出力は「出力」に表示され、新しいバージョンは次回の起動から動作します。"
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update で取得して入れ替えます。"
+
+msgid "The check for new versions is switched off here."
+msgstr "ここでは新しいバージョンの確認がオフになっています。"
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "これは %s です。pip でどのバージョンに置き換えますか?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip が %s に取得し、pip の出力は「出力」に表示されます。ここで選んだバージョンは次回の起動から動作します。\n\n戻るのはプログラムだけです。新しいバージョンが設定に書き込んだ内容はそのまま残り、プロジェクトとそのファイルも変わりません。"
+
+msgid "pip could not be started: %s"
+msgstr "pip を起動できませんでした: %s"
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s をインストールしました。次回の起動から動作します。"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "以前のバージョンを探せませんでした: %s"
+
+msgid "Starting again did not work: %s"
+msgstr "再起動できませんでした: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "手動で起動してください: %s %s"
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "pip でインストールできる %s より前のバージョンは出ていません。"
+
+msgid "Could not look for a newer version: %s"
+msgstr "新しいバージョンを探せませんでした: %s"
+
+msgid "channel count unknown"
+msgstr "チャンネル数不明"
+
+msgid "no video track in %s"
+msgstr "%s に映像トラックがありません"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s 件の録音（%s 個のファイルから）"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] "、%s 個のファイルが合いません"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + 続き %s 件"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "分離: 話者 %s 人"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  %s はステレオで送られ、それぞれ 1 チャンネルで戻ってきました。"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s トラック、%s、%s kHz、%s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  %s トラックから Full-Mix、%s チャンネル"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s は 2 チャンネルのまま"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: %s の位置（目標 %s）、%d ms 後、試行 %d 回"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "動画ファイルが %s 個でき、約 %s です。保存先: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s 件は自動で修正済み"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "ヒント %s 件"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "中止理由 %s 件"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  音声トラックが %s 本残ります:"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  マーカーを %s 個設定しました%s。"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  音声トラックが %s 本残ります: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    映像と音声を再びリンク: アングル %s 個"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    空の音声トラックを %s 本削除"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      色よりアングルが多い -- %s 色が 2 回使われます。"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s クリップに色が付きませんでした。"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    V2 のクリップは現在 %s 個: %s"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  注意: %s を挿入できませんでした。このアングルがないと\n  Timeline は変換に使えません。"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> 音声トラック %s 本として解釈%s"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "このファイルは HDR として記録されています（注記 %s 件）。"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " （埋め込み %s チャンネル中）"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  話者分離 (%s): 話者 %s 人（音声 %s から）"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s（%s 区間）"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  %s から: 声 %s 人。"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s 語が時刻なしで返り、除外されました。"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s 個のファイルはその前に完了しており、欠けはありません: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s 項目"
+
