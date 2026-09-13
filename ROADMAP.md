@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b2.
+gone through for 3.0.0b11.
 
 ## Where the program stands today
 
-**Version 3.0.0b10.** It runs every week, on real material.
+**Version 3.0.0b11.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -38,8 +38,10 @@ and even then by a frame or two. The window, the preview and the
 finished project are all built on that one reckoning.
 
 Separation, speech recognition and the transcript run on the machine in
-front of you. The model sits in a folder beside the program: no account,
-no token, and after the one download no network. Ordering the transcript
+front of you. Separation and recognition each need a
+model, fetched once on first use: the separation's lies in a folder
+beside the program, the recognition's in a cache of its own. No account,
+no token, and after that one download no network. Ordering the transcript
 from auphonic.com is gone, tick and switch with it, so the words no
 longer depend on a service being reachable or on a preset being chosen.
 Levelling, de-bleed and noise removal there are still optional, and the
@@ -58,29 +60,40 @@ recording. Everything the window showed in red stands there too, with
 the time of day -- a red mark is gone the moment its row is drawn
 again, and the complaint about it arrives hours later.
 
-It is a Python program: a folder, `videopodcast_magic/`, holding one
-large file and beside it the files it reads its texts out of. It is
-installed with `pip3 install git+...` and there is nothing to build.
-Fetching one file and starting it was the other way in until 4.9.2026
-and is not one any more -- a copy without the rest of the folder stops
-during the import. Python 3.10 or newer has to be there, and `ffmpeg`, which is
-not Python and is the one thing pip cannot bring; every Python package
-it needs is on the list pip reads and arrives with the install. macOS
-and Windows are what it is used on, and Linux works with two limits.
+The window speaks thirteen languages, and four of them say everything.
+German, Spanish, French and Russian answer every one of the roughly
+1400 texts the program has, the lines of a run and the step into
+Resolve included. Arabic, Hindi, Italian, Japanese, Portuguese,
+Turkish, Ukrainian and Chinese answer about 250 -- the window's own
+captions, what is read before a run -- and show the rest in English
+rather than as a gap. What each language answers is counted at every
+push and may only grow, and the four finished ones are held to all of
+it.
+
+It is a Python program: a folder, `videopodcast_magic/`, holding a small
+file the program starts in, thirty-five pieces beside it in folders of
+their own, and the speaker model. It is installed with
+`pip3 install git+...` and there is nothing to build. Fetching one file
+and starting it was the other way in until 4.9.2026 and is not one any
+more -- a copy without the rest of the folder stops during the import.
+Python 3.10 or newer has to be there, and `ffmpeg`, which is not Python
+and is the one thing pip cannot bring; every Python package it needs is
+on the list pip reads and arrives with the install. macOS and Windows
+are what it is used on, and Linux works with two limits.
 
 **It was one file until 4.9.2026, and it is a folder now.** The texts
 went out first, into a file for each language, and the rest followed
-the same day: the folder holds the program, the languages and the
-speaker model. The big file inside it is still big, and cutting it up
-is the work that goes on. What follows for anybody working on it is
-only this -- the program is copied as a folder, never as the file
-inside it. A suite of 220 tests runs at every
-push: six runs side by side, three systems and two versions of Python.
-Beside it stand four more that want a real Resolve and cannot run
-anywhere else. The six are not equally fast, and Windows is the slow
-one: over the last seven green runs, measured on 3.9.2026, the slowest
-of the six took between 404 and 835 seconds, and it was a Windows job
-every time. That longest job is the wait, not the sum of the six.
+over the next three days: the file the program starts in held 37 535
+lines that day and holds 717 now, and the largest piece, the window,
+holds 3867. What follows for anybody working on it is only this -- the
+program is copied as a folder, never as the file inside it. A suite of
+263 tests runs at every push: six runs side by side, three systems and
+two versions of Python. Beside it stand four more that want a real
+Resolve and cannot run anywhere else. The six are not equally fast, and
+Windows is the slow one: over the last seven green runs, measured on
+3.9.2026, the slowest of the six took between 404 and 835 seconds, and
+it was a Windows job every time. That longest job is the wait, not the
+sum of the six.
 
 **Why it is still beta.** The format of the project file may still
 change. An older file is refused with a clear message rather than half
@@ -90,9 +103,20 @@ the major number.
 
 ## What comes next
 
-Four items. The first two are work. The last two are built, and what
+Six items. The first four are work. The last two are built, and what
 they wait on is somebody sitting down with real material rather than
 more building.
+
+**Every language says everything, and sixteen more come.** The eight
+languages that translate the window and not the run are brought to all
+of it, the lines of a run and the step into Resolve included. Then
+sixteen are added: Bengali, Vietnamese and Korean, and thirteen
+European ones -- Polish, Romanian, Dutch, Greek, Swedish, Hungarian,
+Serbian, Czech, Croatian, Danish, Finnish, Slovak and Norwegian, the
+Norwegian as Bokmål and the Serbian in Cyrillic. That makes twenty-nine
+languages. It is done when every one of them answers every text the
+program says, and the check on the width of labels looks at all of them
+rather than at English and German alone.
 
 **The whole way gets tests, not the single functions along it.** Seven
 steps, and each of them on both paths: the program opens, files come
@@ -115,6 +139,13 @@ is the state after every start. The opening title belongs here -- the
 program puts it on the second video track and reads back how many clips
 landed there, and a stand-in cannot confirm that. So does the case no
 stand-in has ever shown: a Resolve that says no.
+
+**The tests move into folders like the pieces they test.** The program
+is cut into pieces, each in a folder of its own. All but four of the
+tests still stand side by side in one folder, well over two hundred of
+them. Once they
+follow, a piece and its checks stand in one place, and whoever changes a
+piece finds its tests beside it.
 
 **The two ways to auphonic.com get run against the service.** Both ask
 the same question -- does a stereo recording come back with both
@@ -145,28 +176,28 @@ Coarser, and in no fixed order.
 
 * **The edges of the program get tests.** What the coverage is, a run
   says: coverage.py over `bash run.sh`, with `COVERAGE_PROCESS_START`
-  set so the runs the tests start are counted too. On a green run it
-  stands at about three quarters of the statements; it is read as a
-  band, and never as a target. What is worth having out of such a run
-  is the list of places no test ever enters, and that list wants taking
-  again: the last one is several versions old, and most of what it
-  named -- the switches taken with nothing checking what they do
-  included -- has been covered since.
+  set so the runs the tests start are counted too. The last such run
+  found about seven statements in ten entered. It is read as a band and
+  never as a target, and it was taken while the program was still one
+  file, so it wants taking again. What is worth having out of such a run
+  is the list of places no test ever enters. Two are known without it:
+  the messages the program stops with when something unexpected goes
+  wrong, and the way that takes the sound from the cameras alone when
+  there are no separate recordings. A third, a Resolve that refuses,
+  belongs to the tests against a real Resolve above.
 
-* **The comments in the program get the treatment the tests have had.**
-  Nearly a third of the program is comment and docstring, and most of
-  it was written before the
-  rules for writing one. In the tests it is done, and they came out a
-  third shorter.
+* **Eight long definitions get their description.** The comments in the
+  program have had the treatment the tests had: comment and docstring
+  fell from nearly a third of its lines to a quarter, and the places
+  where a comment runs longer than the rules want fell from 104 and 141
+  to seven each. What is left is the opposite gap. Eight definitions of
+  a hundred lines and more, the cut player among them, still carry no
+  description at all, and a check holds that number so it can only fall.
 
 * **The manual gets what it still lacks.** About a dozen numbers still
   stand without their default and the direction they pull in. And a
   published address for the manual, once somebody needs one to hand
   out.
-
-* **Smaller commits.** A commit whose subject needs an "and" is two
-  commits. It costs nothing, and it makes `git bisect` and `git blame`
-  answer a question instead of pointing at a heap.
 
 ## What we do not plan to do
 
@@ -192,10 +223,11 @@ been refused, it has only not come up yet.
   and clause ends come from the word times -- and the sound says
   exactly where. Swapping that round would make the cut worse.
 
-* **Pull requests as a review gate, required reviews, CODEOWNERS.**
-  All three assume a second person. A maintainer who approves his own
-  change has only made the path longer. Pull requests may still turn
-  up once there is a workflow whose result can hang on them.
+* **Required reviews and CODEOWNERS.** Both assume a second person, and
+  a maintainer who approves his own change has only made the path
+  longer. What does stand in front of `main` is the builder: a change
+  arrives as a pull request, and it goes in only once all six runs have
+  come back green.
 
 * **Discussions.** An empty room reads worse than no room. Issues are
   on, and that is where a question goes.
@@ -208,7 +240,7 @@ been refused, it has only not come up yet.
   percentage on a GitHub profile page while there is nobody writing.
   The issue template arrives the day somebody actually reports
   something. What a patch really has to carry is written down for the
-  opposite reason: four rules here turn a change back however good the
+  opposite reason: five rules here turn a change back however good the
   idea is, and somebody who cannot ask has to be able to read them in
   ten minutes. That is [CONTRIBUTING.md](CONTRIBUTING.md), and the form
   a pull request opens with already asks for them.
@@ -219,15 +251,16 @@ been refused, it has only not come up yet.
   turn it into a list of subject lines.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** They would be
-  four new dependencies for a program whose 220 tests run as plain
+  four new dependencies for a program whose 263 tests run as plain
   scripts. A thin pytest layer that starts those same scripts
   unchanged is a different thing, and that one may come.
 
-* **Screenshot comparison in the test suite.** The manual's pictures
-  are taken in the real window style, which needs a screen somebody is
+* **Screenshot comparison in the test suite.** The manual's pictures are
+  taken in the real window style, which needs a screen somebody is
   logged in to, and a test may not take the foreground. Such a test
-  would be red everywhere else or blind. A written baseline of the
-  window tree does the same job more cheaply and reads in a diff.
+  would be red everywhere else or blind. Instead, a version that changes
+  the window has its pictures taken again before it goes out, so the
+  manual shows the window it ships with.
 
 * **Documentation tests that compare sentences.** Measured against the
   manual as it stands, checking every bold label or every stated
@@ -248,9 +281,17 @@ been refused, it has only not come up yet.
   unsteady rather than counting it green. A test that flaps is a fault
   to be found, not noise to be retried away.
 
-* **Installers, signed packages, notarising, PyPI.** One way in is
-  enough: `pip3 install` from the repository. It takes three seconds
-  and needs no PyPI.
+* **Installers, signed packages, notarising, a release on PyPI.** One
+  way in is enough: from the repository, with `pip3 install`, or with
+  `pipx install` and the same address where a system's Python keeps pip
+  out. The first install takes minutes, because the window, the speech
+  recognition and the speaker separation come with it. The program
+  comes from the repository and what it needs from others from PyPI;
+  three things arrive past pip -- ffmpeg where it is missing, which is
+  not Python, and two models on first use: the speaker separation's
+  from the program's own repository, the speech recognition's fetched
+  by the recognition itself. Updating takes the same road as installing,
+  from the window as from the command line: it runs pip.
 
 * **Sponsors, Projects.** Paperwork with nothing in return.
 
@@ -275,9 +316,10 @@ preview, or about where a camera landed, wants the log itself: it holds
 what the players loaded and played, which recording was laid under
 which picture, and how every file got its place on the time axis.
 
-**Never paste your Auphonic key.** The program keeps it in the
-keychain or the registry, and it strips the key out of the project
-file. No report needs it.
+**Never paste your Auphonic key.** On a Mac the program keeps it in the
+keychain and on Windows in the registry; on Linux it does not store it
+at all. The project file holds no command line, so the key is not in it
+either. No report needs it.
 
 **Patches are welcome, and there is no second reviewer.** A small
 change that does one thing gets read and merged; a large one waits.

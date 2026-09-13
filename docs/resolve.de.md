@@ -123,7 +123,10 @@ berücksichtigt.
 Bildstücke **ohne ihren Ton**. Darunter läuft auf A1 (`Audio-Full-Mix`)
 der Full-Mix in einem Stück durch, damit der Klang an den Schnitten nicht
 springt. Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem
-Weitwinkel, wo er die erste Tonspur ist.
+Weitwinkel, wo er die erste Tonspur ist, und fehlt auch der, aus einer
+Kamera, die ihn unter ihren Tonspuren trägt. Woher er stammt, steht im
+Protokoll; findet sich keine der drei Quellen, meldet es `Kein Full-Mix
+gefunden`, und die Timeline bleibt stumm.
 
 Aus dem gemessenen Versatz ergibt sich, welches Stück aus welcher
 Kameradatei in die Timeline kommt, nicht aus dem Timecode. Wenn eine

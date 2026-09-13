@@ -630,9 +630,10 @@ field then says that the run is still going and that the application
 can be started again once it is finished.
 
 The same question comes before the other two ways the program starts
-again -- after a new version has been installed, and after ffmpeg has
-been fetched. Both of those replace the running program, so what the
-window is holding would go the same way.
+again -- after a version has been installed, a newer one or an
+earlier one, and after ffmpeg has been fetched. Both of those replace
+the running program, so what the window is holding would go the same
+way.
 
 The window settles its language once, while it is being built, and
 every caption in it has its words by the time it stands there.
@@ -817,6 +818,15 @@ tab, **Output**, and the chosen version runs from the next start. This
 is not a second machinery: forwards and backwards are one road, and the
 only difference is which version is named on it.
 
+**So a step back ends the way an update does.** Once pip has put the
+chosen version in place, the same box comes up: it names the version
+now in place, says that this window is still the one it started as,
+and leaves the choice -- **Start again now** and come up as that
+version, or **Later**. Choosing later loses nothing; the older version
+is on the machine either way and the next start picks it up. Where pip
+stops with an error nothing is offered: the reason stands in
+**Output**, and the version that ran before is untouched.
+
 **A step back brings the program back, and nothing else.** Settings are
 not rolled back with it: what a newer version wrote into them stays
 written, and it is read by the older version as it stands. Projects and
@@ -958,7 +968,8 @@ nothing are told apart.
   version now** tries again.
 - **A new version made things worse**: **Help > Back to an earlier
   version ...** offers the versions published before this one and lets
-  pip put the chosen one back. It brings the program back and not the
+  pip put the chosen one back; once it is in place, a box offers to
+  start again with it. It brings the program back and not the
   settings -- see "The way back to an earlier version" above.
 - **Asking for help**: send the version from `--version`, the operating
   system, `videopodcast-magic.log` and what you were trying to do, before
