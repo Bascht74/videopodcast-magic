@@ -684,26 +684,20 @@ demselben Weg verloren.
 Das Fenster legt seine Sprache einmal fest, während es gebaut wird; jede
 Beschriftung darin hat ihre Wörter, sobald es dasteht.
 
-**Vier der zwölf Sprachen tragen alles, die übrigen acht das Fenster,
-aber nicht den Lauf.** Menüleiste, Reiter und Schalter sind in jeder
-angebotenen Sprache übersetzt. Anders steht es mit dem, was das Programm
-während der Arbeit sagt -- den Zeilen, die während eines Laufs
-durchlaufen. Dort gehen die Sprachen auseinander.
-
-**Deutsch, Spanisch, Französisch und Russisch sagen alles.** Das
-Programm sagt rund 1400 verschiedene Dinge, und diese vier haben für
-jedes eine Antwort, den Lauf eingeschlossen. Arabisch, Hindi,
-Italienisch, Japanisch, Portugiesisch, Türkisch, Ukrainisch und
-Chinesisch haben etwa 250 davon -- die, die man vor einem Lauf liest,
-nicht die währenddessen. Was nicht übersetzt ist, erscheint auf
-Englisch und nicht als Lücke; eine halb übersetzte Sprache bleibt also
-lesbar.
+**Jede angebotene Sprache sagt alles.** Menüleiste, Reiter und
+Schalter sind in allen zwölf übersetzt, und ebenso, was das Programm
+während der Arbeit sagt -- die Zeilen, die während eines Laufs
+durchlaufen, und der Schritt nach Resolve. Das Programm sagt rund 1400
+verschiedene Dinge, und jede der zwölf hat für jedes eine Antwort. Was
+nicht übersetzt ist, erscheint auf Englisch und nicht als Lücke; eine
+Sprache, die einem neuen Text hinterherhinkt, bleibt also lesbar.
 
 Gezählte Dinge -- „1 Datei" gegen „3 Dateien" -- sind eine eigene Art
 Eintrag, denn der Wortlaut ändert sich mit der Zahl, und nicht jede
-Sprache ändert ihn an denselben Stellen. Auch die tragen die vier
-vollständigen Sprachen, jede mit so vielen Formen, wie sie kennt: zwei
-im Deutschen, Spanischen und Französischen, drei im Russischen.
+Sprache ändert ihn an denselben Stellen. Auch die trägt jede Sprache,
+mit so vielen Formen, wie sie kennt: eine im Japanischen und
+Chinesischen, zwei in den meisten, drei im Russischen und
+Ukrainischen, sechs im Arabischen.
 
 **Hell und dunkel wird hier nicht eingestellt, und anderswo auch
 nicht.** Einen solchen Eintrag gibt es weder auf diesem Blatt noch in

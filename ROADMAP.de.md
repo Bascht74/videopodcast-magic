@@ -64,15 +64,11 @@ steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
 ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
-Das Fenster spricht dreizehn Sprachen, und vier davon sagen alles.
-Deutsch, Spanisch, Französisch und Russisch haben für jeden der rund
-1400 Texte des Programms eine Antwort, die Zeilen eines Laufs und den
-Schritt nach Resolve eingeschlossen. Arabisch, Hindi, Italienisch,
-Japanisch, Portugiesisch, Türkisch, Ukrainisch und Chinesisch haben
-etwa 250 davon — die Beschriftungen des Fensters, was man vor einem
-Lauf liest — und zeigen den Rest auf Englisch statt als Lücke. Was
-jede Sprache beantwortet, wird bei jedem Push gezählt und darf nur
-wachsen, und die vier fertigen werden an allem gemessen.
+Das Fenster spricht dreizehn Sprachen, und jede sagt alles: jeder der
+zwölf Kataloge hat für jeden der rund 1400 Texte des Programms eine
+Antwort, die Zeilen eines Laufs und den Schritt nach Resolve
+eingeschlossen. Was jede Sprache beantwortet, wird bei jedem Push
+gezählt und darf nur wachsen, und jede wird an allem gemessen.
 
 Es ist ein Python-Programm: ein Ordner, `videopodcast_magic/`, in dem
 eine kleine Datei liegt, mit der das Programm startet, daneben
@@ -113,17 +109,14 @@ Sechs Punkte. Die ersten vier sind Arbeit. Die letzten zwei sind gebaut,
 und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
 nicht weiteres Bauen.
 
-**Jede Sprache sagt alles, und sechzehn kommen dazu.** Die acht
-Sprachen, die das Fenster übersetzen und den Lauf nicht, werden auf das
-Ganze gebracht, die Zeilen eines Laufs und der Schritt nach Resolve
-eingeschlossen. Danach kommen sechzehn hinzu: Bengalisch, Vietnamesisch
-und Koreanisch, dazu dreizehn europäische — Polnisch, Rumänisch,
+**Sechzehn Sprachen kommen dazu.** Bengalisch, Vietnamesisch und
+Koreanisch, dazu dreizehn europäische — Polnisch, Rumänisch,
 Niederländisch, Griechisch, Schwedisch, Ungarisch, Serbisch,
 Tschechisch, Kroatisch, Dänisch, Finnisch, Slowakisch und Norwegisch,
 das Norwegische als Bokmål und das Serbische kyrillisch. Das sind dann
-neunundzwanzig Sprachen. Fertig ist es, wenn jede von ihnen jeden Text
-beantwortet, den das Programm sagt, und die Prüfung der Feldbreiten sie
-alle ansieht statt nur Englisch und Deutsch.
+neunundzwanzig Sprachen, jede mit einer Antwort auf jeden Text des
+Programms, so wie die dreizehn von heute; die Prüfung der Feldbreiten
+sieht schon jede Sprache an, die das Fenster anbietet.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
 Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet
