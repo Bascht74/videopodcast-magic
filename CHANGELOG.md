@@ -25,6 +25,50 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b12] - 2026-09-13
+
+### Added
+
+- **Everything the program says is now translated into Arabic, Hindi,
+  Italian, Japanese, Portuguese, Turkish, Ukrainian and Chinese, not
+  only the window's captions.** A run in one of these languages wrote
+  its lines in the "Output" tab in English until now, the step into
+  Resolve included. It speaks the chosen language now, as the other
+  four already did. Every one of the roughly 1100 new texts was read
+  through once more after translating, and about three in a hundred
+  were put right; no native speaker has read them yet.
+
+### Fixed
+
+- **"Missing audio ... filled with silence" names the saved upload only
+  in a run that uploads.** Where more than half a minute of audio was
+  missing, the line added "-- an In or Out point saves the upload" in
+  every run, also with "--without-auphonic", which uploads nothing. Now
+  that half stands only where the tracks really go to auphonic.com.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Alles, was das Programm sagt, ist jetzt auch auf Arabisch, Hindi,
+  Italienisch, Japanisch, Portugiesisch, Türkisch, Ukrainisch und
+  Chinesisch übersetzt, nicht nur die Beschriftungen des Fensters.**
+  Ein Lauf in einer dieser Sprachen schrieb seine Zeilen im Reiter
+  „Ausgabe" bisher auf Englisch, den Schritt nach Resolve eingeschlossen.
+  Jetzt spricht er die gewählte Sprache, wie es die übrigen vier schon
+  taten. Jeder der rund 1100 neuen Texte ist nach dem Übersetzen noch
+  einmal ganz gelesen worden, und etwa drei von hundert wurden
+  berichtigt; ein Muttersprachler hat sie noch nicht gelesen.
+
+### Behoben
+
+- **„Fehlender Ton ... mit Stille aufgefüllt" nennt das gesparte
+  Hochladen nur noch, wo hochgeladen wird.** Fehlte mehr als eine halbe
+  Minute Ton, hängte die Zeile in jedem Lauf „-- ein In- oder Out-Punkt
+  spart das Hochladen" an, auch in einem Lauf ohne Auphonic, der nichts
+  hochlädt. Jetzt steht dieser Teil nur noch dort, wo die Spuren
+  wirklich zu auphonic.com gehen.
+
 ## [3.0.0b11] - 2026-09-13
 
 ### Added

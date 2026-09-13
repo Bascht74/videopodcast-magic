@@ -1594,7 +1594,7 @@ msgid "  %s: how many channels it has cannot be determined (%s) -- it is not mea
 msgstr "  %s：无法确定其声道数（%s）——不予测量"
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
-msgstr "没有哪台摄像机不带说话人，所以没有全景：全景的四项设置和边缘的勾选都不起作用。请把某台摄像机的“类型”设为“全景”，或留一台不分配说话人。"
+msgstr "没有哪台摄像机不带说话人，所以没有全景：全景的四项设置和首尾勾选都不起作用。请把某台摄像机的“类型”设为“全景”，或留一台不分配说话人。"
 
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "还没有转录文本。没有它就找不到提问，也不知道句子边界，因此这四项设置不起作用。一次运行会写出它，此后这些设置即生效。"
@@ -1606,7 +1606,7 @@ msgid "  Question: no transcript, so no question was found and no reaction cut\n
 msgstr "  提问：没有转录文本，因此未找到提问，也没有进行反应镜头切换。\n        转录文字是在运行中从完成的混音里\n        写出的；没有它们，此设置不起作用。"
 
 msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
-msgstr "<span style='color:%(t)s'><b>%(n)s 个镜头</b>，中位数 %(med)s 秒，最短 %(short)s 秒，单机位最长 %(long)s 秒</span>。发言时间：<b>%(own)s %%</b> 在本人摄像机上（%(own_t)s），%(wide)s %% 在全景上（%(wide_t)s），<span style='color:%(warn)s'>%(off)s %%（%(off_t)s）未使用说话人的摄像机</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s 个镜头</b>，中位数 %(med)s 秒，最短 %(short)s 秒，单机位最长 %(long)s 秒</span>。说话时长：<b>%(own)s %%</b> 在本人摄像机上（%(own_t)s），%(wide)s %% 在全景上（%(wide_t)s），<span style='color:%(warn)s'>%(off)s %%（%(off_t)s）未使用说话人的摄像机</span>"
 
 msgid "Speakers, as the run measured them"
 msgstr "本次运行测得的说话人"
@@ -1663,7 +1663,7 @@ msgid "the main speaker asked"
 msgstr "主讲人提的问"
 
 msgid "asker and answerer on one camera"
-msgstr "提问者和回答者在同一台摄像机上"
+msgstr "提问者和答话者在同一台摄像机上"
 
 msgid "nobody answered in time"
 msgstr "无人及时回答"
@@ -1990,7 +1990,7 @@ msgid ", agreed at %s of %s places"
 msgstr "，%s/%s 处一致"
 
 msgid "Given"
-msgstr "预设"
+msgstr "给定"
 
 msgid "Chosen"
 msgstr "所选"
@@ -2140,7 +2140,7 @@ msgid " (auphonic.com takes the same amount)"
 msgstr " (auphonic.com 也削减同样多)"
 
 msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
-msgstr "  注意：动态范围     仅 %s LU -- 非常窄。语音通常为 3 到 7 LU；\n                     低于此值听起来会被压扁。请检查 auphonic.com 上\n                     电平器（leveler）的强度设置。"
+msgstr "  注意：动态范围     仅 %s LU -- 非常窄。语音通常为 3 到 7 LU；\n                     低于此值听起来会被压扁。请检查 auphonic.com 上\n                     Leveler 的强度设置。"
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "两个声道完全相同 -- 单声道放在了两侧"
@@ -2227,13 +2227,13 @@ msgid "  Adding atoms taken back -- %s. %s"
 msgstr "  已撤销添加 atom -- %s。%s"
 
 msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
-msgstr "  色彩：           %d/%d/%d -- 原色已根据矩阵补全（源：%d）"
+msgstr "  颜色：           %d/%d/%d -- 原色已根据矩阵补全（源：%d）"
 
 msgid "  Colour:          %d/%d/%d carried over"
-msgstr "  色彩：           %d/%d/%d 已沿用"
+msgstr "  颜色：           %d/%d/%d 已沿用"
 
 msgid "  Colour:          Caution, %s in the source, %s in the new file"
-msgstr "  色彩：           注意：源文件中为 %s，新文件中为 %s"
+msgstr "  颜色：           注意：源文件中为 %s，新文件中为 %s"
 
 msgid "no audio track present"
 msgstr "没有音轨"
@@ -2284,7 +2284,7 @@ msgid "Two files as %s"
 msgstr "两个文件都设为 %s"
 
 msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
-msgstr "%s 和 %s 都设为 %s。只能有一个文件是它 —— 请把另一个改回内容。"
+msgstr "%s 和 %s 都设为 %s。只能有一个文件是它 —— 请把另一个改回正片。"
 
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s 用在了不止一个声音上。一个名字就是一个人，镜头切换把一个人放在一台摄像机上 —— 同名的两个声音就等于一个人同时在两处。"
@@ -2881,7 +2881,7 @@ msgid "Capture curve"
 msgstr "拍摄曲线"
 
 msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
-msgstr "它位于图像描述的 logs 原子中 -- Resolve 据此识别输入色彩空间。曲线不同，输入色彩空间也不同。"
+msgstr "它位于图像描述的 logs atom 中 -- Resolve 据此识别输入色彩空间。曲线不同，输入色彩空间也不同。"
 
 msgid "Colour tag"
 msgstr "色彩标记"
@@ -3064,7 +3064,7 @@ msgid " -- only the matrix says BT.2020"
 msgstr " -- 只有矩阵标为 BT.2020"
 
 msgid "Gap of %s between block %d and %d -- the camera stopped."
-msgstr "%s 的空隙，位于第 %d 块与第 %d 块之间 -- 摄像机停过。"
+msgstr "%s 的空隙，位于第 %d 个片段与第 %d 个片段之间 -- 摄像机停过。"
 
 msgid " from %s files"
 msgstr " （来自 %s 个文件）"
@@ -3100,7 +3100,7 @@ msgid "cutting failed: %s"
 msgstr "切出失败：%s"
 
 msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
-msgstr "一切都从中恢复：名称、分离、分配、类型、时间窗口。文件列表会被项目中保存的列表替换。"
+msgstr "一切都从中恢复：名称、分离、分配、类型、时间窗。文件列表会被项目中保存的列表替换。"
 
 msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
 msgstr "项目已打开\n  所有设置都已恢复，本次会话中尚未计算任何内容。\n  输出文件夹中是上次运行的文件：\n  %s\n\n  接下来有三种做法：\n    • 下方\"打开结果文件夹\" -- 查看那次运行的文件，\n    • 下方\"创建 Resolve 项目\" -- 使用那次运行的交接文件，\n      无需重新计算，\n    • 上方\"开始\" -- 全部重新计算并覆盖文件。\n"
@@ -3250,7 +3250,7 @@ msgid "  %s of %s files imported."
 msgstr "  已导入 %s 个文件（共 %s 个）。"
 
 msgid "  %s video tracks, %s audio tracks created (%s)"
-msgstr "  已创建 %s 条视频轨道、%s 条音频轨道（%s）"
+msgstr "  已创建 %s 条视频轨道、%s 条音轨（%s）"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  %s 条视频轨道，以说话人命名："
@@ -3388,7 +3388,7 @@ msgid "    No matching codec found. Available: %s"
 msgstr "    未找到合适的编码器。可用：%s"
 
 msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
-msgstr "    注意： 没有 H.265 可用 -- 将使用 8 位的 H.264。\n           对 HDR 来说太少；渐变会出现色带。"
+msgstr "    注意：没有 H.265 可用 -- 将使用 8 位的 H.264。\n             对 HDR 来说太少；渐变会出现色带。"
 
 msgid "    Format and codec could not be set."
 msgstr "    无法设置格式和编码器。"
@@ -3457,7 +3457,7 @@ msgid "  A Timeline of this name is there with other cameras on it. It stays;\n 
 msgstr "  已有同名 Timeline，其上是其他摄像机。它保留；\n  新的会以自己的名称建在旁边。"
 
 msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
-msgstr "  %s 放在视频轨道 1 上 -- 那里的第一条音频轨道承载\n  Full-Mix，视频轨道 1 成为机位 1。"
+msgstr "  %s 放在视频轨道 1 上 -- 那里的第一条音轨承载\n  Full-Mix，视频轨道 1 成为机位 1。"
 
 msgid "Resolve does not answer -- see Settings"
 msgstr "Resolve 无响应 -- 请查看设置"
@@ -3514,7 +3514,7 @@ msgid "    Format and codec could not be set: %s"
 msgstr "    无法设置格式和编解码器：%s"
 
 msgid "    One file per delivery could not be asked for: %s"
-msgstr "    无法要求每次输出一个文件：%s"
+msgstr "    无法要求每次交付一个文件：%s"
 
 msgid "Tagging"
 msgstr "标记"
@@ -3622,7 +3622,7 @@ msgid "missing: %s"
 msgstr "缺少：%s"
 
 msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
-msgstr "    注意：项目设为 %s，素材为 %s。\n             输出带有素材的标记。要让项目\n             一致：Project Settings > Color Management >\n             Output Color Space = %s。"
+msgstr "    注意：项目设为 %s，素材为 %s。\n             交付带有素材的标记。要让项目\n             一致：Project Settings > Color Management >\n             Output Color Space = %s。"
 
 msgid "Main10 (ten bit)"
 msgstr "Main10（10 位）"
@@ -3640,7 +3640,7 @@ msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
 msgstr "  Resolve 不再接受更多视频轨道 -- 只容得下 %s / %s 台摄像机。"
 
 msgid "      %-24s no file in the media pool"
-msgstr "      %-24s 媒体池中没有文件"
+msgstr "      %-24s Media Pool 中没有文件"
 
 msgid "   MISSING"
 msgstr "   缺失"
@@ -3661,7 +3661,7 @@ msgid "      GetAudioMapping   empty (%r)"
 msgstr "      GetAudioMapping   为空（%r）"
 
 msgid "    %s track could not be created: %s"
-msgstr "    无法创建 %s 轨道：%s"
+msgstr "    无法创建类型为 %s 的轨道：%s"
 
 msgid ", audio on A2"
 msgstr "，声音在 A2"
@@ -3703,7 +3703,7 @@ msgid "  Colour group %r cannot be created: %s"
 msgstr "  无法创建颜色组 %r：%s"
 
 msgid "    %s track %d could not be created."
-msgstr "    无法创建 %s 轨道 %d。"
+msgstr "    无法创建类型为 %s 的轨道 %d。"
 
 msgid "ends"
 msgstr "结束"
@@ -4156,7 +4156,7 @@ msgid "Show the log of this run"
 msgstr "显示本次运行的日志"
 
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
-msgstr "把这段录音连同它的所有分段放进另一段录音。\n用于文件名无法给搜索提供线索的情况。"
+msgstr "把这段录音连同它的所有片段放进另一段录音。\n用于文件名无法给搜索提供线索的情况。"
 
 msgid "Remove the chosen file from the list"
 msgstr "从列表中移除所选文件"
@@ -4174,7 +4174,7 @@ msgid "Leaves the separation switched off for this project. The cut then comes f
 msgstr "本项目保持说话人分离关闭。剪辑照旧来自轨道或 auphonic.com。"
 
 msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "还没有摄像机剪辑：需要两个人，每人有一个名字和一台摄像机。\n分开的录音勾选 Multitrack 即可做到，单段录音在说话人姓名栏中填“多个说话人”也可以——\n在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
+msgstr "还没有摄像机剪辑：需要两个人，每人有一个名字和一台摄像机。\n分开的录音勾选 Multitrack 即可做到，单段录音在说话人姓名栏中填“多位发言人”也可以——\n在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "这需要某次运行的交接文件，而现在没有。"
@@ -4234,7 +4234,7 @@ msgid "Two cameras would produce the same file: %s"
 msgstr "两台摄像机会生成同一个文件：%s"
 
 msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "它在素材中找不到位置，因此无法剪进这一期中。可以放在它之前或之后。"
+msgstr "它在素材中找不到位置，因此无法剪进这一期中。可以放在这一期之前或之后。"
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "使用时，此文件的声音会成为与其他一样的一条轨道——它出现在上方表格中。\n文件列表中也有同一个栏位；两者显示同一个答案。"
@@ -4261,7 +4261,7 @@ msgid "GENERAL NOTES"
 msgstr "一般说明"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
-msgstr "顺序无关紧要。多段录音只需第一个分段。"
+msgstr "顺序无关紧要。多段录音只需第一个片段。"
 
 msgid "Dropping AUDIO or VIDEO takes all of it."
 msgstr "拖放到 AUDIO 或 VIDEO 上会全部采用。"
@@ -4288,7 +4288,7 @@ msgid "No audio file carries a timecode. In point and Out point count from the s
 msgstr "没有任何音频文件带有时间码。入点和出点从素材开头算起——文件之间的相对位置是测得的。"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "每人一条音轨，一直分开保持到 auphonic.com。\n不勾选也能工作——但就没有 de-bleed 和 leveler。\n需要两条输入轨道：单独的录音、多声道录音机的\n一个声道，或设为“使用其音频”的\n视频文件的音频。摄像机剪辑不需要这个勾选。"
+msgstr "每人一条音轨，一直分开保持到 auphonic.com。\n不勾选也能工作——但就没有 De-Bleed 和 Leveler。\n需要两条输入音轨：单独的录音、多声道录音机的\n一个声道，或设为“使用其音频”的\n视频文件的音频。镜头切换不需要这个勾选。"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "在开场问候和结尾道别时，画面保持全景。"
@@ -4550,7 +4550,7 @@ msgstr[0] "    V2 现有 %s 个片段：%s"
 
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr[0] "  注意：未插入 %s。缺少这些机位，\n  Timeline 无法用于转换。"
+msgstr[0] "  注意：未插入 %s。缺少上述机位，\n  Timeline 无法用于转换。"
 
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
