@@ -1192,7 +1192,7 @@ msgid "production finished, but no output file"
 msgstr "制作は完了しましたが、出力ファイルがありません"
 
 msgid "  Result: %s (%s) -- stays next to the video file\n"
-msgstr "  結果：%s（%s） -- 動画ファイルの隣に置かれます\n"
+msgstr "  結果：%s（%s） -- 映像ファイルの隣に置かれます\n"
 
 msgid "  Created:     %s"
 msgstr "  作成日時：        %s"
@@ -1522,7 +1522,7 @@ msgid "\nCUT WITH THE WIDE SHOT"
 msgstr "\n引き画を使ったカット"
 
 msgid "\nFIRST CUT BY SPEAKER"
-msgstr "\n話者ごとの最初のカット"
+msgstr "\n話者による最初のカット"
 
 msgid "Bright."
 msgstr "明るさ"
@@ -1549,7 +1549,7 @@ msgid "    not possible: %s"
 msgstr "    不可能：%s"
 
 msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
-msgstr "    %-14s <-> %-14s 音の経路 %4s ms（%s m）、ずれ %6s ms、ドリフト %5s ppm（%s 点、残差 %s ms）%s"
+msgstr "    %-14s <-> %-14s 音の経路 %4s ms（%s m）、オフセット %6s ms、ずれ %5s ppm（%s 点、残差 %s ms）%s"
 
 msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
 msgstr "    %-20s %s ms / %s ppm -- これは正しいはずがありません。トラック\n    %-20s はそのままです。"
@@ -1588,13 +1588,13 @@ msgid "   (sound path negative -- something is wrong)"
 msgstr "   （音の経路が負 -- 何かがおかしい）"
 
 msgid ", clock drift %s ppm taken out"
-msgstr "、クロックのドリフト %s ppm を補正"
+msgstr "、クロックのずれ %s ppm を補正"
 
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s：チャンネル数を判定できません（%s） -- 測定しません"
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
-msgstr "話者のいないカメラがないため、引き画がありません：引き画の 4 つの設定と端のチェックは効果がありません。いずれかのカメラの「種類」を「引き画」にするか、話者なしのカメラを 1 台残してください。"
+msgstr "話者のいないカメラがないため、引き画がありません：引き画の 4 つの設定と両端のチェックは効果がありません。いずれかのカメラの「種類」を「引き画」にするか、話者なしのカメラを 1 台残してください。"
 
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "まだ文字起こしがありません。文字起こしがないと質問も文の区切りも見つからないため、この 4 つの設定は効果がありません。実行時に書き出され、それ以降は有効になります。"
@@ -1663,7 +1663,7 @@ msgid "the main speaker asked"
 msgstr "メインの話者が質問した"
 
 msgid "asker and answerer on one camera"
-msgstr "質問者と回答者が同じカメラ"
+msgstr "質問者と応答者が同じカメラ"
 
 msgid "nobody answered in time"
 msgstr "時間内に誰も答えなかった"
@@ -2140,7 +2140,7 @@ msgid " (auphonic.com takes the same amount)"
 msgstr " (auphonic.com も同じだけ削ります)"
 
 msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
-msgstr "  注意: レンジ       わずか %s LU -- 非常に狭い。話し声では通常 3〜7 LU、\n                     それを下回るとつぶれた音になります。auphonic.com で\n                     レベラーの強さを確認してください。"
+msgstr "  注意: レンジ       わずか %s LU -- 非常に狭い。話し声では通常 3〜7 LU、\n                     それを下回るとつぶれた音になります。auphonic.com で\n                     Leveler の強さを確認してください。"
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "両チャンネルが同一 -- モノラルを左右に配置したもの"
@@ -2284,7 +2284,7 @@ msgid "Two files as %s"
 msgstr "%s としてのファイルが二つ"
 
 msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
-msgstr "%s と %s の両方が %s に設定されています。そうできるのは一つのファイルだけです。もう一方をコンテンツに戻してください。"
+msgstr "%s と %s の両方が %s に設定されています。そうできるのは一つのファイルだけです。もう一方を本編に戻してください。"
 
 msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
 msgstr "%s が複数の声に付いています。名前は一人の人物で、切り替えは一人を一台のカメラに置きます。同じ名前の二つの声は、一人が二か所にいることになります。"
@@ -2293,7 +2293,7 @@ msgid "Multitrack needs several tracks"
 msgstr "Multitrack には複数のトラックが必要です"
 
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack には入力トラックが二つ以上必要です。トラックとは独立した録音、マルチチャンネルレコーダーの一つのチャンネル、または「音声を使う」に設定された動画ファイルの音声です。同じ録音の複数のブロックは一つと数え、脇に置いたトラックは数えません。"
+msgstr "Multitrack には入力トラックが二つ以上必要です。トラックとは独立した録音、マルチチャンネルレコーダーの一つのチャンネル、または「音声を使う」に設定された映像ファイルの音声です。同じ録音の複数のブロックは一つと数え、脇に置いたトラックは数えません。"
 
 msgid "Every row needs a name -- at Auphonic it becomes the track ID."
 msgstr "どの行にも名前が必要です。Auphonic ではそれが track ID になります。"
@@ -2470,7 +2470,7 @@ msgid "\nEnded without a result: %s"
 msgstr "\n結果なしで終了: %s"
 
 msgid "\nNo usable video file -- without camera audio there is no common time axis."
-msgstr "\n使える動画ファイルがありません -- カメラ音声がなければ共通の時間軸は作れません。"
+msgstr "\n使える映像ファイルがありません -- カメラ音声がなければ共通の時間軸は作れません。"
 
 msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
 msgstr "\nブロックを結合するとトラックが一つしか残らず、Multitrack には声ごとに一つ必要です。二人が一つの録音と見なされた場合は、--apart でブロックをそこから外せます。"
@@ -3100,7 +3100,7 @@ msgid "cutting failed: %s"
 msgstr "切り出し失敗: %s"
 
 msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
-msgstr "すべてがここから戻ります：名前、分離、割り当て、種類、時間範囲。ファイル一覧はプロジェクトに保存されたものに置き換わります。"
+msgstr "すべてがここから戻ります：名前、分離、割り当て、種類、時間枠。ファイル一覧はプロジェクトに保存されたものに置き換わります。"
 
 msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
 msgstr "プロジェクトを開きました\n  すべての入力が戻りました。このセッションではまだ何も計算していません。\n  出力フォルダーには前回の実行のファイルがあります:\n  %s\n\n  ここからの 3 つの道:\n    • 下の「結果フォルダーを開く」 -- その実行のファイルを見る、\n    • 下の「Resolve プロジェクトを作成」 -- その実行の受け渡しファイルから、\n      何も再計算せずに、\n    • 上の「開始」 -- すべてを再計算してファイルを上書きする。\n"
@@ -3388,7 +3388,7 @@ msgid "    No matching codec found. Available: %s"
 msgstr "    合うコーデックが見つかりません。利用可能: %s"
 
 msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
-msgstr "    注意: H.265 がありません -- 8 ビットの H.264 になります。\n          HDR には不十分で、グラデーションに縞が出ます。"
+msgstr "    注意: H.265 がありません -- 8 ビットの H.264 になります。\n             HDR には不十分で、グラデーションに縞が出ます。"
 
 msgid "    Format and codec could not be set."
 msgstr "    形式とコーデックを設定できませんでした。"
@@ -3505,16 +3505,16 @@ msgid "The file is NOT recognised as HDR."
 msgstr "このファイルは HDR として認識されません。"
 
 msgid "    Format list not readable: %s"
-msgstr "    フォーマット一覧を読めません: %s"
+msgstr "    形式一覧を読めません: %s"
 
 msgid "    Codec list not readable: %s"
 msgstr "    コーデック一覧を読めません: %s"
 
 msgid "    Format and codec could not be set: %s"
-msgstr "    フォーマットとコーデックを設定できませんでした: %s"
+msgstr "    形式とコーデックを設定できませんでした: %s"
 
 msgid "    One file per delivery could not be asked for: %s"
-msgstr "    出力ごとに 1 ファイルを指定できませんでした: %s"
+msgstr "    書き出しごとに 1 ファイルを指定できませんでした: %s"
 
 msgid "Tagging"
 msgstr "タグ付け"
@@ -3550,7 +3550,7 @@ msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
 msgstr "      %-24s トラック V%d、フレーム %d から（先頭まで %s 秒）、%s%s"
 
 msgid "    Video track %d could not be renamed."
-msgstr "    ビデオトラック %d の名前を変更できませんでした。"
+msgstr "    映像トラック %d の名前を変更できませんでした。"
 
 msgid "    %-24s no audio inserted"
 msgstr "    %-24s 音声は挿入されていません"
@@ -3622,7 +3622,7 @@ msgid "missing: %s"
 msgstr "不足: %s"
 
 msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
-msgstr "    注意: プロジェクトは %s、素材は %s です。\n             出力には素材のタグが付きます。プロジェクトを\n             合わせるには: Project Settings > Color Management >\n             Output Color Space = %s。"
+msgstr "    注意: プロジェクトは %s、素材は %s です。\n             書き出しには素材のタグが付きます。プロジェクトを\n             合わせるには: Project Settings > Color Management >\n             Output Color Space = %s。"
 
 msgid "Main10 (ten bit)"
 msgstr "Main10（10 ビット）"
@@ -3637,10 +3637,10 @@ msgid "  The Timeline start %s was refused: %s"
 msgstr "  Timeline の開始 %s は拒否されました: %s"
 
 msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve はこれ以上ビデオトラックを追加できません -- 収まるのは %s / %s 台のカメラです。"
+msgstr "  Resolve はこれ以上映像トラックを追加できません -- 収まるのは %s / %s 台のカメラです。"
 
 msgid "      %-24s no file in the media pool"
-msgstr "      %-24s メディアプールにファイルがありません"
+msgstr "      %-24s Media Pool にファイルがありません"
 
 msgid "   MISSING"
 msgstr "   欠落"
@@ -3661,7 +3661,7 @@ msgid "      GetAudioMapping   empty (%r)"
 msgstr "      GetAudioMapping   空（%r）"
 
 msgid "    %s track could not be created: %s"
-msgstr "    %s トラックを作成できませんでした: %s"
+msgstr "    種類 %s のトラックを作成できませんでした: %s"
 
 msgid ", audio on A2"
 msgstr "、音声は A2"
@@ -3703,7 +3703,7 @@ msgid "  Colour group %r cannot be created: %s"
 msgstr "  カラーグループ %r を作成できません: %s"
 
 msgid "    %s track %d could not be created."
-msgstr "    %s トラック %d を作成できませんでした。"
+msgstr "    種類 %s のトラック %d を作成できませんでした。"
 
 msgid "ends"
 msgstr "終わり"
@@ -4135,7 +4135,7 @@ msgid "  %s could not be written: %s"
 msgstr "  %s を書き込めませんでした: %s"
 
 msgid ", %s without"
-msgstr "、なし %s"
+msgstr "、カメラなし %s"
 
 msgid "The production has no name yet."
 msgstr "制作物にまだ名前がありません。"
@@ -4174,7 +4174,7 @@ msgid "Leaves the separation switched off for this project. The cut then comes f
 msgstr "このプロジェクトでは話者分離をオフのままにします。カットはこれまでどおりトラックまたは auphonic.com から得られます。"
 
 msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "まだカメラカットはありません: 名前とカメラを持つ2人が必要です。\n別々の録音なら Multitrack のチェックで、1つの録音なら話者名欄の「複数の話者」でも同じことができます --\nそこで見つかった声には、録音の下の表でカメラを割り当てます。\nそれでも Resolve プロジェクトは作成されます -- すべてのカメラが測定した位置にあり、Multicam の準備ができています。"
+msgstr "まだカメラ切り替えはありません: 名前とカメラを持つ2人が必要です。\n別々の録音なら Multitrack のチェックで、1つの録音なら話者名欄の「複数の話者」でも同じことができます --\nそこで見つかった声には、録音の下の表でカメラを割り当てます。\nそれでも Resolve プロジェクトは作成されます -- すべてのカメラが測定した位置にあり、Multicam の準備ができています。"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "それには実行の受け渡しファイルが必要ですが、ありません。"
@@ -4288,7 +4288,7 @@ msgid "No audio file carries a timecode. In point and Out point count from the s
 msgstr "タイムコードを持つ音声ファイルはありません。イン点とアウト点は素材の先頭から数えます -- ファイル同士の位置は測定したものです。"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "1人につき1本の音声トラックを、auphonic.com まで分けたまま扱います。\nなくても動作します -- その場合 de-bleed と leveler はありません。\n入力トラックが2本必要です: 単独の録音、マルチチャンネル\nレコーダーの1チャンネル、または「音声を使う」に設定した\n映像ファイルの音声。カメラカットにはこのチェックは不要です。"
+msgstr "1人につき1本の音声トラックを、auphonic.com まで分けたまま扱います。\nなくても動作します -- その場合 De-Bleed と Leveler はありません。\n入力トラックが2本必要です: 単独の録音、マルチチャンネル\nレコーダーの1チャンネル、または「音声を使う」に設定した\n映像ファイルの音声。カメラ切り替えにはこのチェックは不要です。"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "あいさつと締めくくりの間は、映像は引きのままです。"
@@ -4405,7 +4405,7 @@ msgid "the whole material"
 msgstr "素材全体"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
-msgstr "ビデオポッドキャストの素材が編集済みのエピソードになります: 良い音声を映像ファイルに、カメラを1本の時間軸に、話者に応じた最初のカット、そして DaVinci Resolve プロジェクト。"
+msgstr "ビデオポッドキャストの素材が編集済みのエピソードになります: 良い音声を映像ファイルに、カメラを1本の時間軸に、話者による最初のカット、そして DaVinci Resolve プロジェクト。"
 
 msgid "Python %s on %s"
 msgstr "Python %s（%s 上）"
@@ -4502,7 +4502,7 @@ msgstr[0] "%s: %s の位置（目標 %s）、%d ms 後、試行 %d 回"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
-msgstr[0] "動画ファイルが %s 個でき、約 %s です。保存先: %s"
+msgstr[0] "映像ファイルが %s 個でき、約 %s です。保存先: %s"
 
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
