@@ -98,8 +98,11 @@ leaves an empty folder of that name, no command and no error. Reading
 `UNKNOWN` means the pip is the wrong one; install Python 3.10 or newer
 and use its `pip3`.
 
-Later, and only when somebody wants what they are for, it fetches two
-more: the environment the speaker separation runs in, and its model.
+Later, and only when somebody wants what they are for, two models come
+down: the speaker separation's, which the program fetches from its own
+repository, and the speech recognition's, which the recognition fetches
+itself and keeps in a cache of its own. What both run on comes with the
+install.
 
 **About the model.** The separation reads it from a folder beside the
 program -- no account, no token, and after the one download no network.
