@@ -676,8 +676,9 @@ Solange ein Lauf läuft, tut der Schalter überhaupt nichts: die Zeile
 Anwendung neu starten lässt, sobald er fertig ist.
 
 Dieselbe Frage kommt vor den beiden anderen Neustarts -- nachdem eine
-neue Version installiert wurde und nachdem ffmpeg geholt wurde. Beide
-ersetzen das laufende Programm, und was im Fenster liegt, ginge auf
+Version installiert wurde, ob neuere oder ältere, und nachdem ffmpeg
+geholt wurde.
+Beide ersetzen das laufende Programm, und was im Fenster liegt, ginge auf
 demselben Weg verloren.
 
 Das Fenster legt seine Sprache einmal fest, während es gebaut wird; jede
@@ -872,6 +873,16 @@ zweites Verfahren gibt es dafür nicht -- vorwärts und rückwärts sind
 derselbe Weg, und verschieden ist nur, welche Version darauf genannt
 wird.
 
+**Deshalb endet ein Schritt zurück auch so wie ein Update.** Hat pip
+die gewählte Version eingespielt, kommt derselbe Kasten: Er nennt die
+Version, die jetzt liegt, sagt, dass dieses Fenster noch die Fassung
+ist, mit der es gestartet wurde, und lässt die Wahl -- **Jetzt neu
+starten** und mit dieser Version hochkommen, oder **Später**. Wer
+später wählt, verliert nichts; die ältere Version liegt so oder so auf
+dem Rechner, und der nächste Start nimmt sie. Bricht pip mit einem
+Fehler ab, wird nichts angeboten: der Grund steht unter **Ausgabe**,
+und die Version, die vorher lief, bleibt unangetastet.
+
 **Zurück kommt das Programm, sonst nichts.** Die Einstellungen wandern
 nicht mit: was eine neuere Version hineingeschrieben hat, bleibt
 stehen, und die ältere liest es so, wie es dasteht. Projekte und die
@@ -1022,7 +1033,8 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   Update suchen ...** versucht es noch einmal.
 - **Eine neue Version hat es schlimmer gemacht**: **Hilfe > Zurück auf
   eine ältere Version ...** zeigt die Versionen vor dieser an und lässt
-  pip die gewählte wieder einsetzen. Zurück kommt das Programm, nicht
+  pip die gewählte wieder einsetzen; liegt sie, bietet ein Kasten an,
+  gleich mit ihr neu zu starten. Zurück kommt das Programm, nicht
   die Einstellungen -- siehe „Der Weg zurück auf eine ältere Version"
   weiter oben.
 - **Beim Nachfragen mitschicken**: die Version aus `--version`, das
