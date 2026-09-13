@@ -15,7 +15,7 @@ gone through for 3.0.0b2.
 
 ## Where the program stands today
 
-**Version 3.0.0b10.** It runs every week, on real material.
+**Version 3.0.0b11.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -58,29 +58,40 @@ recording. Everything the window showed in red stands there too, with
 the time of day -- a red mark is gone the moment its row is drawn
 again, and the complaint about it arrives hours later.
 
-It is a Python program: a folder, `videopodcast_magic/`, holding one
-large file and beside it the files it reads its texts out of. It is
-installed with `pip3 install git+...` and there is nothing to build.
-Fetching one file and starting it was the other way in until 4.9.2026
-and is not one any more -- a copy without the rest of the folder stops
-during the import. Python 3.10 or newer has to be there, and `ffmpeg`, which is
-not Python and is the one thing pip cannot bring; every Python package
-it needs is on the list pip reads and arrives with the install. macOS
-and Windows are what it is used on, and Linux works with two limits.
+The window speaks thirteen languages, and four of them say everything.
+German, Spanish, French and Russian answer every one of the roughly
+1400 texts the program has, the lines of a run and the step into
+Resolve included. Arabic, Hindi, Italian, Japanese, Portuguese,
+Turkish, Ukrainian and Chinese answer about 250 -- the window's own
+captions, what is read before a run -- and show the rest in English
+rather than as a gap. What each language answers is counted at every
+push and may only grow, and the four finished ones are held to all of
+it.
+
+It is a Python program: a folder, `videopodcast_magic/`, holding a small
+file the program starts in, thirty-five pieces beside it in folders of
+their own, and the speaker model. It is installed with
+`pip3 install git+...` and there is nothing to build. Fetching one file
+and starting it was the other way in until 4.9.2026 and is not one any
+more -- a copy without the rest of the folder stops during the import.
+Python 3.10 or newer has to be there, and `ffmpeg`, which is not Python
+and is the one thing pip cannot bring; every Python package it needs is
+on the list pip reads and arrives with the install. macOS and Windows
+are what it is used on, and Linux works with two limits.
 
 **It was one file until 4.9.2026, and it is a folder now.** The texts
 went out first, into a file for each language, and the rest followed
-the same day: the folder holds the program, the languages and the
-speaker model. The big file inside it is still big, and cutting it up
-is the work that goes on. What follows for anybody working on it is
-only this -- the program is copied as a folder, never as the file
-inside it. A suite of 220 tests runs at every
-push: six runs side by side, three systems and two versions of Python.
-Beside it stand four more that want a real Resolve and cannot run
-anywhere else. The six are not equally fast, and Windows is the slow
-one: over the last seven green runs, measured on 3.9.2026, the slowest
-of the six took between 404 and 835 seconds, and it was a Windows job
-every time. That longest job is the wait, not the sum of the six.
+over the next three days: the file the program starts in held 37 535
+lines that day and holds 717 now, and the largest piece, the window,
+holds 3867. What follows for anybody working on it is only this -- the
+program is copied as a folder, never as the file inside it. A suite of
+262 tests runs at every push: six runs side by side, three systems and
+two versions of Python. Beside it stand four more that want a real
+Resolve and cannot run anywhere else. The six are not equally fast, and
+Windows is the slow one: over the last seven green runs, measured on
+3.9.2026, the slowest of the six took between 404 and 835 seconds, and
+it was a Windows job every time. That longest job is the wait, not the
+sum of the six.
 
 **Why it is still beta.** The format of the project file may still
 change. An older file is refused with a clear message rather than half
@@ -219,7 +230,7 @@ been refused, it has only not come up yet.
   turn it into a list of subject lines.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** They would be
-  four new dependencies for a program whose 220 tests run as plain
+  four new dependencies for a program whose 262 tests run as plain
   scripts. A thin pytest layer that starts those same scripts
   unchanged is a different thing, and that one may come.
 

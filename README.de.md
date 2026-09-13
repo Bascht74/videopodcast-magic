@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b10.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b11.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -133,7 +133,11 @@ es nicht.
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
 erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest -- dreizehn
 stehen zur Wahl, `docs/command-line.de.md` nennt sie; ohne den Schalter
-entscheidet die Systemsprache. Nur `--help` bleibt englisch.
+entscheidet die Systemsprache. Nur `--help` bleibt englisch. Deutsch,
+Spanisch, Französisch und Russisch sagen alles andere, auch während eines
+Laufs; die übrigen acht übersetzen das Fenster und lassen den Rest
+englisch stehen -- welche was, sagt
+[die Oberfläche](docs/interface.de.md).
 
 ![Der Reiter Zuordnung](docs/images/assignment.de.png)
 

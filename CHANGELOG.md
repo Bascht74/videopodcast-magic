@@ -25,6 +25,108 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b11] - 2026-09-13
+
+### Added
+
+- **Everything the program says is now translated into Spanish, French
+  and Russian, not only the window's captions.** Until now only the
+  menus, tabs and buttons were, and a run in one of these languages
+  wrote its lines in the "Output" tab in English, including the part
+  that builds the timeline in Resolve. The run now speaks the chosen
+  language too, as it already did in German. No native speaker has
+  read these translations yet.
+
+### Fixed
+
+- **The line of numbers under the preview in the "Camera cut" box
+  follows the chosen language now.** A German window read "Median
+  3.5 s", "67.5 %" and "1234 Einstellungen" there; it reads "Median
+  3,5 s", "67,5 %" and "1.234 Einstellungen" now. English gains the
+  thousands mark it was missing: "1,234 shots".
+
+- **A speaker whose name holds the letters "full" was taken for the
+  Full-Mix on the way into Resolve.** The program looked for those four
+  letters anywhere in a track name, so a speaker called Fullerton was
+  found before the mix and ended up on audio track A1 in its place. The
+  mix is now recognised only by its own name, "Full-Mix", and no
+  speaker's name can stand in for it.
+
+- **"Back to an earlier version ..." in the Help menu now offers the
+  restart, as "Look for a newer version now" does.** It installed the
+  chosen version, but only the lines in the "Output" tab said so, and
+  the window went on running the version it had started with. Now the
+  same box follows both: it names the version in place and offers to
+  start the window again with it, now or later.
+
+- **The progress line while mixing now names a speaker's track by the
+  speaker's name.** Every name holding the letters "full" was announced
+  as the Full-Mix there, so a speaker called Carefully read as "Mixing
+  CareFull-Mixy". Now only the mix of all tracks is called Full-Mix, and
+  every other track keeps its name.
+
+### Documentation
+
+- **The manual's paragraph on the window's language now says in which
+  languages the run is translated too.** It said that a run's lines
+  stayed in English in every translation, and in German too for some
+  texts. It now names the four in which everything is translated --
+  German, Spanish, French and Russian -- and says that in the others
+  only the window is translated, not the lines of a run.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Auf Spanisch, Französisch und Russisch ist jetzt alles übersetzt,
+  was das Programm sagt, nicht nur die Beschriftungen des Fensters.**
+  Bisher waren es nur Menüs, Reiter und Schalter; ein Lauf in einer
+  dieser Sprachen schrieb seine Zeilen im Reiter „Ausgabe" auf
+  Englisch, auch den Teil, der die Timeline in Resolve baut. Jetzt
+  spricht auch der Lauf die gewählte Sprache, wie auf Deutsch schon
+  bisher. Gelesen hat die Übersetzungen noch niemand, der eine dieser
+  Sprachen als Muttersprache spricht.
+
+### Behoben
+
+- **Die Zahlenzeile unter der Vorschau im Kasten „Kameraschnitt" richtet
+  sich jetzt nach der gewählten Sprache.** Im deutschen Fenster stand
+  dort „Median 3.5 s", „67.5 %" und „1234 Einstellungen"; jetzt steht
+  dort „Median 3,5 s", „67,5 %" und „1.234 Einstellungen". Auch das
+  Englische bekommt das Tausendertrennzeichen, das ihm fehlte:
+  „1,234 shots".
+
+- **Ein Sprecher mit den Buchstaben „full" im Namen wurde auf dem Weg
+  nach Resolve für den Full-Mix gehalten.** Das Programm suchte diese
+  vier Buchstaben irgendwo im Spurnamen; ein Sprecher namens Fullerton
+  wurde darum vor dem Mix gefunden und landete an seiner Stelle auf der
+  Tonspur A1. Jetzt wird der Mix nur noch an seinem eigenen Namen
+  erkannt, „Full-Mix", und kein Sprechername tritt mehr an seine Stelle.
+
+- **„Zurück auf eine ältere Version ..." im Menü „Hilfe" bietet jetzt den
+  Neustart an, wie es „Nach Update suchen ..." tut.** Bisher spielte es
+  die gewählte Version ein, doch das sagten nur die Zeilen im Reiter
+  „Ausgabe", und das Fenster lief mit der Version weiter, mit der es
+  gestartet war. Jetzt kommt in beiden Fällen derselbe Kasten: Er nennt
+  die eingespielte Version und bietet an, gleich oder später mit ihr
+  neu zu starten.
+
+- **Die Fortschrittszeile beim Mischen nennt eine Sprecherspur jetzt beim
+  Namen des Sprechers.** Jeder Name mit der Buchstabenfolge „full" wurde
+  dort als Full-Mix angekündigt; ein Sprecher namens Carefully erschien
+  als „Mische CareFull-Mixy". Jetzt heißt nur der Mix aller Spuren
+  Full-Mix, und jede andere Spur behält ihren Namen.
+
+### Dokumentation
+
+- **Der Absatz des Handbuchs über die Sprache des Fensters sagt jetzt,
+  in welchen Sprachen auch der Lauf übersetzt ist.** Bisher hieß es
+  dort, die Zeilen eines Laufs blieben in jeder Übersetzung englisch,
+  zum Teil sogar im Deutschen. Jetzt nennt er die vier Sprachen, in
+  denen alles übersetzt ist -- Deutsch, Spanisch, Französisch und
+  Russisch --, und sagt, dass in den übrigen nur das Fenster übersetzt
+  ist, nicht die Zeilen eines Laufs.
+
 ## [3.0.0b10] - 2026-09-07
 
 ### Changed

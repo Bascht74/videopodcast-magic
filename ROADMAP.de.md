@@ -15,7 +15,7 @@ zuletzt für 3.0.0b2 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b10.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b11.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -62,31 +62,42 @@ steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
 ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
+Das Fenster spricht dreizehn Sprachen, und vier davon sagen alles.
+Deutsch, Spanisch, Französisch und Russisch haben für jeden der rund
+1400 Texte des Programms eine Antwort, die Zeilen eines Laufs und den
+Schritt nach Resolve eingeschlossen. Arabisch, Hindi, Italienisch,
+Japanisch, Portugiesisch, Türkisch, Ukrainisch und Chinesisch haben
+etwa 250 davon — die Beschriftungen des Fensters, was man vor einem
+Lauf liest — und zeigen den Rest auf Englisch statt als Lücke. Was
+jede Sprache beantwortet, wird bei jedem Push gezählt und darf nur
+wachsen, und die vier fertigen werden an allem gemessen.
+
 Es ist ein Python-Programm: ein Ordner, `videopodcast_magic/`, in dem
-eine große Datei liegt und daneben die Dateien, aus denen es seine
-Texte liest. Installiert wird es mit `pip3 install git+...`, zu bauen
-ist daran nichts. Eine einzelne Datei zu holen und zu starten war bis
-zum 4.9.2026 der zweite Weg hinein und ist keiner mehr -- eine Kopie
-ohne den übrigen Ordner bleibt schon beim Import stehen. Python 3.10 oder neuer muss da sein
-und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
+eine kleine Datei liegt, mit der das Programm startet, daneben
+fünfunddreißig Stücke in je einem eigenen Ordner und das Sprechermodell.
+Installiert wird es mit `pip3 install git+...`, zu bauen ist daran
+nichts. Eine einzelne Datei zu holen und zu starten war bis zum 4.9.2026
+der zweite Weg hinein und ist keiner mehr -- eine Kopie ohne den übrigen
+Ordner bleibt schon beim Import stehen. Python 3.10 oder neuer muss da
+sein und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
 mitbringen kann; jedes Python-Paket, das es braucht, steht auf der
 Liste, die pip liest, und kommt mit der Installation. Benutzt wird es
 unter macOS und Windows, unter Linux läuft es mit zwei Einschränkungen.
 
 **Bis zum 4.9.2026 war es eine Datei, und jetzt ist es ein Ordner.**
-Zuerst gingen die Texte heraus, je Sprache eine Datei, und am selben
-Tag folgte der Rest: im Ordner liegen das Programm, die Sprachen und
-das Sprechermodell. Die große Datei darin ist weiter groß, und sie zu
-zerlegen ist die Arbeit, die weitergeht. Für jeden, der daran
-arbeitet, folgt daraus nur eines -- das Programm wird als Ordner
-kopiert, nie als die Datei darin. Eine
-Suite aus 220 Tests läuft bei jedem Push: sechs Läufe nebeneinander,
-drei Systeme und zwei Python-Versionen. Daneben liegen vier weitere,
-die ein echtes Resolve brauchen und nirgends sonst laufen können. Die sechs sind nicht gleich
-schnell, und der langsame ist Windows: über die letzten sieben grünen
-Läufe, gemessen am 3.9.2026, brauchte der langsamste der sechs zwischen
-404 und 835 Sekunden, und es war jedes Mal ein Windows-Lauf. Gewartet
-wird auf diesen einen, nicht auf die Summe der sechs.
+Zuerst gingen die Texte heraus, je Sprache eine Datei, und in den drei
+Tagen danach folgte der Rest: die Datei, mit der das Programm startet,
+hatte an jenem Tag 37 535 Zeilen und hat jetzt 717, und das größte
+Stück, das Fenster, hat 3867. Für jeden, der daran arbeitet, folgt
+daraus nur eines -- das Programm wird als Ordner kopiert, nie als die
+Datei darin. Eine Suite aus 262 Tests läuft bei jedem Push: sechs Läufe
+nebeneinander, drei Systeme und zwei Python-Versionen. Daneben liegen
+vier weitere, die ein echtes Resolve brauchen und nirgends sonst laufen
+können. Die sechs sind nicht gleich schnell, und der langsame ist
+Windows: über die letzten sieben grünen Läufe, gemessen am 3.9.2026,
+brauchte der langsamste der sechs zwischen 404 und 835 Sekunden, und es
+war jedes Mal ein Windows-Lauf. Gewartet wird auf diesen einen, nicht
+auf die Summe der sechs.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
@@ -232,7 +243,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Generator machte daraus eine Liste von Betreffzeilen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Das wären vier
-  neue Abhängigkeiten für ein Programm, dessen 220 Tests als schlichte
+  neue Abhängigkeiten für ein Programm, dessen 262 Tests als schlichte
   Scripts durchlaufen. Eine dünne pytest-Schicht, die genau diese
   Scripts unverändert startet, ist etwas anderes und kann kommen.
 
