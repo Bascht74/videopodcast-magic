@@ -40,7 +40,7 @@ figure of the day is that command, not this paragraph**:
   reach it named, out of `speakers/`
 * `resolve/` **2807** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2730** -- channels, chains, continuation files, what a
+* `material/` **2747** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
 * `pipeline/` **1972** -- the chain the recordings run until the camera
   files are written
