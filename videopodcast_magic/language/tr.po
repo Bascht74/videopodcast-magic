@@ -1263,7 +1263,7 @@ msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  Mevcut sonuç alındı -- hiçbir şey hesaplanmadı, hiçbir şey ödenmedi."
 
 msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Not: hesaplama o zaman yüklenen dosyalarla yapılır. Onlar o günün\n  zaman penceresini ve hizalamasını taşır. Giriş noktası, çıkış noktası\n  ya da ölçülen konum şimdi farklıysa, dönüş denetimi farkı\n  ölçer ve izleri yerine kaydırır."
+msgstr "  Not: hesaplama o zaman yüklenen dosyalarla yapılır. Onlar o günün\n  zaman aralığını ve hizalamasını taşır. Giriş noktası, çıkış noktası\n  ya da ölçülen konum şimdi farklıysa, dönüş denetimi farkı\n  ölçer ve izleri yerine kaydırır."
 
 msgid "  Settings brought to preset %r"
 msgstr "  Ayarlar %r hazır ayarına getirildi"
@@ -1737,10 +1737,10 @@ msgid "  %s speakers, %s shots, shortest %s s"
 msgstr "  %s konuşmacı, %s çekim, en kısası %s sn"
 
 msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
-msgstr "Giriş noktası artık %s, ama mevcut dosyalar %s ile ilgili.\n  Videolardaki ses eski pencereye göre kesildi -- yukarıda yeniden\n  Başlat'a basın."
+msgstr "Giriş noktası artık %s, ama mevcut dosyalar %s ile ilgili.\n  Videolardaki ses eski aralığa göre kesildi -- yukarıda yeniden\n  Başlat'a basın."
 
 msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
-msgstr "Çıkış noktası artık %s; pencere %s uzunluğunda olurdu, mevcut\n  dosyalar %s -- yukarıda yeniden Başlat'a basın."
+msgstr "Çıkış noktası artık %s; aralık %s uzunluğunda olurdu, mevcut\n  dosyalar %s -- yukarıda yeniden Başlat'a basın."
 
 msgid "  The cut stays as it was."
 msgstr "  Kurgu olduğu gibi kalıyor."
@@ -1758,10 +1758,10 @@ msgid "No speakers known yet -- nothing measured, nothing separated, and no hand
 msgstr "Henüz bilinen konuşmacı yok -- hiçbir şey ölçülmedi, hiçbir şey ayrılmadı ve %s ya da alt klasörlerinde önceki bir çalıştırmanın teslim dosyası yok."
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
-msgstr "Zaman penceresi malzemenin dışında: giriş noktası %s, çıkış noktası %s ve malzeme %s sürüyor."
+msgstr "Zaman aralığı malzemenin dışında: giriş noktası %s, çıkış noktası %s ve malzeme %s sürüyor."
 
 msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "bu geniş çekim -- %s \"kendi kamerası yok\" seçeneğine geçti"
+msgstr "bu geniş çekim -- %s \"kendine ait kamera yok\" seçeneğine geçti"
 
 msgid "No audio tracks are assigned."
 msgstr "Hiçbir ses izi atanmadı."
@@ -1785,7 +1785,7 @@ msgid "  One camera for everybody: cut into %s shots at the change of speaker, s
 msgstr "  Herkes için tek kamera: konuşmacı değişiminde %s çekime bölündü, böylece Resolve onları gruplayabilir."
 
 msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  Kurgu değişti: %s yerine %s çekim."
+msgstr "  Kurgu değişti: %s çekim, önceki %s yerine."
 
 msgid "the cut uses %s"
 msgstr "kurgu %s kullanıyor"
@@ -1962,7 +1962,7 @@ msgid "edges implausible"
 msgstr "kenarlar makul değil"
 
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
-msgstr "faza göre yerleştirildi, keskinlik %s, taban %s, kayma bilinmiyor"
+msgstr "faza göre yerleştirildi, keskinlik %s, taban %s, sürüklenme bilinmiyor"
 
 msgid "Reading audio track from %s"
 msgstr "%s içinden ses izi okunuyor"
@@ -2067,7 +2067,7 @@ msgid "Mixing %s"
 msgstr "%s karıştırılıyor"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
-msgstr "  Not: bu ffmpeg'de soxr yok -- saat kayması yalnızca 21 ppm'lik\n  adımlarla giderilebilir."
+msgstr "  Not: bu ffmpeg'de soxr yok -- saat sürüklenmesi yalnızca 21 ppm'lik\n  adımlarla giderilebilir."
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s ölçülecek ses vermiyor -- yalnızca kendi saatine göre yerleştirildi ve bunu karşılaştıracak bir şey yoktu"
@@ -2124,7 +2124,7 @@ msgid "  Number: "
 msgstr "  Numara: "
 
 msgid "  -->  aligned, clock drift %s ppm taken out"
-msgstr "  -->  hizalandı, %s ppm saat kayması giderildi"
+msgstr "  -->  hizalandı, %s ppm saat sürüklenmesi giderildi"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Dikkat: ölçüm kullanılamaz"
@@ -2343,7 +2343,7 @@ msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged in
 msgstr "Bu adlar birden çok kez geçiyor:\n\n  %s\n\nKayıtlar tek bir izde birleştirilir ve Timecode'larına göre art arda dizilir. Arada kayıt durdurulduysa bu doğrudur."
 
 msgid "\n  Time window by hand:"
-msgstr "\n  Elle zaman penceresi:"
+msgstr "\n  Elle zaman aralığı:"
 
 msgid "  No picture: the tracks are laid against each other."
 msgstr "  Görüntü yok: izler birbirine göre hizalanır."
@@ -2373,7 +2373,7 @@ msgid "    Out point lies before In point -- that does not work."
 msgstr "    Çıkış noktası giriş noktasından önce -- bu olmaz."
 
 msgid "    the measured window is therefore kept."
-msgstr "    bu nedenle ölçülen pencere korunur."
+msgstr "    bu nedenle ölçülen aralık korunur."
 
 msgid "RECOGNISED PLAN"
 msgstr "TANINAN PLAN"
@@ -2412,7 +2412,7 @@ msgid "\nNo audio track could be aligned -- there is nothing to put on the axis.
 msgstr "\nHiçbir ses izi hizalanamadı -- eksene konacak bir şey yok."
 
 msgid "  Common window:       %s to %s (%s)"
-msgstr "  Ortak pencere:   %s - %s (%s)"
+msgstr "  Ortak aralık:    %s - %s (%s)"
 
 msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
 msgstr "    %s ile başlar ve %s ile biter -- her kameranın gördüğü kesit"
@@ -2481,7 +2481,7 @@ msgid "%s blocks"
 msgstr "%s blok"
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
-msgstr "  %-20s kayma %s, saat kayması %s ppm (+/- %s), kalan saçılım %s ms, %s / %s nokta%s"
+msgstr "  %-20s kayma %s, saat sürüklenmesi %s ppm (+/- %s), kalan saçılım %s ms, %s / %s nokta%s"
 
 msgid "    %s: silence for %s at the front and %s at the back"
 msgstr "    %s: başta %s ve sonda %s sessizlik"
@@ -2493,13 +2493,13 @@ msgid "\nNo usable video file -- without camera audio there is no common time ax
 msgstr "\nKullanılabilir video dosyası yok -- kamera sesi olmadan ortak zaman ekseni olmaz."
 
 msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nBloklar birleştirildikten sonra yalnızca bir iz kalıyor, çok izli işlem ise ses başına bir iz ister. İki kişinin tek bir kayıt sanıldığı yerde --apart bir bloğu dışarıda tutar."
+msgstr "\nBloklar birleştirildikten sonra yalnızca bir iz kalıyor, çok izli mod ise ses başına bir iz ister. İki kişinin tek bir kayıt sanıldığı yerde --apart bir bloğu dışarıda tutar."
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline %s alır: aralarındaki en yüksek hız ya da Resolve'un bunun\n  üstündeki bir sonraki hızı. Yukarı dönüştürürken Resolve kareleri tekrarlar,\n  aşağı dönüştürürken atar. Her kamera kendi hızını korur ve kurgu\n  o hızla sayar."
 
 msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  %-20s kayma %s, saat kayması %s ppm (+/- %s), kalan saçılım %s ms, %s / %s nokta"
+msgstr "  %-20s kayma %s, saat sürüklenmesi %s ppm (+/- %s), kalan saçılım %s ms, %s / %s nokta"
 
 msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
 msgstr "\nSes ile görüntünün yalnızca %s ortak kısmı var ve hizalama bunun içinde %s örnek noktası buldu. Bu, bir şey yerleştirmek için çok az."
@@ -2547,7 +2547,7 @@ msgid "  Offset:          %s   (from the camera comparison)"
 msgstr "  Kayma:             %s   (kamera karşılaştırmasından)"
 
 msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
-msgstr "  Saat kayması:      ölçülmedi -- diğerlerinin karşılaştırıldığı referans budur"
+msgstr "  Saat sürüklenmesi: ölçülmedi -- diğerlerinin karşılaştırıldığı referans budur"
 
 msgid "Saving %s"
 msgstr "%s kaydediliyor"
@@ -2583,7 +2583,7 @@ msgid "\nDIFFERENT FRAME SIZES: %s"
 msgstr "\nFARKLI KARE BOYUTLARI: %s"
 
 msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
-msgstr "    %-20s <- %s  AMA %s -- ne zaman penceresi (%s) ne de\n    %-20s    ölçülen aralığın tamamı (%s). Başka bir çalıştırmaya ait."
+msgstr "    %-20s <- %s  AMA %s -- ne zaman aralığı (%s) ne de\n    %-20s    ölçülen aralığın tamamı (%s). Başka bir çalıştırmaya ait."
 
 msgid "\n  Not usable: %s"
 msgstr "\n  Kullanılamaz: %s"
@@ -2607,10 +2607,10 @@ msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points
 msgstr "  Çapraz denetim:    Full-Mix'ten %s, sapma %s ms (%s / %s nokta)%s"
 
 msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
-msgstr "  Saat kayması:      %s ppm (+/- %s), kalan saçılım %s ms, %s / %s nokta"
+msgstr "  Saat sürüklenmesi: %s ppm (+/- %s), kalan saçılım %s ms, %s / %s nokta"
 
 msgid "  Drift over the running time: %s s = %s frames  -->  %s"
-msgstr "  Süre boyunca kayma: %s sn = %s kare  -->  %s"
+msgstr "  Süre boyunca sürüklenme: %s sn = %s kare  -->  %s"
 
 msgid "  Audio track %d:   %s"
 msgstr "  Ses izi %d:         %s"
@@ -2619,10 +2619,10 @@ msgid "  Timecode:        %s"
 msgstr "  Timecode:          %s"
 
 msgid "  Time window:     %s of %s written, from %s of the camera"
-msgstr "  Zaman penceresi:   %s / %s yazıldı, kameranın %s noktasından itibaren"
+msgstr "  Zaman aralığı:     %s / %s yazıldı, kameranın %s noktasından itibaren"
 
 msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
-msgstr "  Kameralar zaman penceresini ve her iki uçta birer saniye taşır: yazılan %s; karşılık gelen kayıt %s, toplam kayıt %s."
+msgstr "  Kameralar zaman aralığını ve her iki uçta birer saniye taşır: yazılan %s; karşılık gelen kayıt %s, toplam kayıt %s."
 
 msgid "\n  %s: no audio to extract (%s)"
 msgstr "\n  %s: çıkarılacak ses yok (%s)"
@@ -2631,10 +2631,10 @@ msgid "  %s: channel %s cannot be cut out (%s)"
 msgstr "  %s: %s numaralı kanal ayrılamıyor (%s)"
 
 msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
-msgstr "%r bir Timecode, ama burada görüntü ve dolayısıyla onu sayacak bir kamera yok. O zaman yalnızca pencere başından itibaren bir değer işe yarar, örneğin +12:30."
+msgstr "%r bir Timecode, ama burada görüntü ve dolayısıyla onu sayacak bir kamera yok. O zaman yalnızca aralığın başından itibaren bir değer işe yarar, örneğin +12:30."
 
 msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
-msgstr "%r bir Timecode, ama zaman ekseni hiçbir saate bağlı değil: buradaki hiçbir dosya, referans kamera %s dahil, saat taşımıyor. O zaman yalnızca pencere başından itibaren bir değer işe yarar, örneğin +12:30."
+msgstr "%r bir Timecode, ama zaman ekseni hiçbir saate bağlı değil: buradaki hiçbir dosya, referans kamera %s dahil, saat taşımıyor. O zaman yalnızca aralığın başından itibaren bir değer işe yarar, örneğin +12:30."
 
 msgid "Assignment file not readable: %s"
 msgstr "Atama dosyası okunamıyor: %s"
@@ -2658,7 +2658,7 @@ msgid " -- an In or Out point saves the upload"
 msgstr " -- bir giriş ya da çıkış noktası yüklemeden tasarruf sağlar"
 
 msgid ", clock drift left in"
-msgstr ", saat kayması bırakılır"
+msgstr ", saat sürüklenmesi bırakılır"
 
 msgid "    %-20s no file with a matching name"
 msgstr "    %-20s adı eşleşen dosya yok"
@@ -2667,7 +2667,7 @@ msgid "    %-20s <- %s  (%s, name similarity %s)"
 msgstr "    %-20s <- %s  (%s, ad benzerliği %s)"
 
 msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
-msgstr "    %-20s <- %s  (%s, zaman penceresine kırpıldı, ad benzerliği %s)"
+msgstr "    %-20s <- %s  (%s, zaman aralığına kırpıldı, ad benzerliği %s)"
 
 msgid "  %s is already there and is written over -- this production has no record of making it."
 msgstr "  %s zaten var ve üzerine yazılıyor -- bu prodüksiyonda onu oluşturduğuna dair kayıt yok."
@@ -3069,10 +3069,10 @@ msgid "not readable: %s"
 msgstr "okunamıyor: %s"
 
 msgid "%s fps, not the %s in the file -- %s more frames in the same length."
-msgstr "dosyadaki %s değil, %s fps -- aynı sürede %s kare fazla."
+msgstr "%s fps, dosyadaki %s değil -- aynı sürede %s kare fazla."
 
 msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
-msgstr "dosyadaki %s değil, %s fps -- aynı sürede %s kare eksik."
+msgstr "%s fps, dosyadaki %s değil -- aynı sürede %s kare eksik."
 
 msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
 msgstr "Kareler biraz daha kısa durur; dosya bu yüzden uzamaz. Bir kurgu programı yaklaşık her %s s'de bir kare atlar; görüntü ve kamera sesi birlikte kalır."
@@ -3204,7 +3204,7 @@ msgid "    Colours per angle:"
 msgstr "    Açıya göre renkler:"
 
 msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
-msgstr "      İki klip de kesilmeden kalır; içerikle örtüşürler.\n      Geçiş örtüşmenin içindedir -- tam olarak nerede olacağına Resolve'da sen karar verirsin.\n      (Resolve'un script arayüzü geçiş oluşturamaz.)"
+msgstr "      İki klip de kesilmeden kalır; içerikle örtüşürler.\n      Geçiş örtüşmenin içindedir -- tam olarak nerede olacağına Resolve'da siz karar verirsiniz.\n      (Resolve'un script arayüzü geçiş oluşturamaz.)"
 
 msgid "\n  Settings"
 msgstr "\n  Ayarlar"
@@ -3453,7 +3453,7 @@ msgid "    Colour group %-24s only %s of %s clips"
 msgstr "    Renk grubu %-24s yalnızca %s/%s klip"
 
 msgid "    %-10s from %s, %s long%s"
-msgstr "    %-10s kaynak %s, süre %s%s"
+msgstr "    %-10s başlangıç %s, süre %s%s"
 
 msgid "    %sx the intended camera was not running -- a different one is there."
 msgstr "    %sx öngörülen kamera çalışmıyordu -- yerinde başka biri var."
@@ -3546,7 +3546,7 @@ msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve
 msgstr "    %-22s reddedildi -- hiçbir yazım kabul edilmedi.\n%sResolve'da Deliver > Advanced Settings altında elle\n%sayarlayın: Color space tag Rec.2020, Gamma tag %s."
 
 msgid " at high frame rates"
-msgstr " yüksek kare hızlarında"
+msgstr " ve yüksek kare hızı"
 
 msgid "    Render job could not be created: %s"
 msgstr "    Render işi oluşturulamadı: %s"
@@ -3768,7 +3768,7 @@ msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
 msgstr "paket yöneticisiyle: apt install ffmpeg, dnf install ffmpeg"
 
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
-msgstr "Bu ffmpeg'de soxr yok: kameralar arasındaki saat kayması 0,21 yerine 21 ppm'lik adımlarla çıkar."
+msgstr "Bu ffmpeg'de soxr yok: kameralar arasındaki saat sürüklenmesi 0,21 yerine 21 ppm'lik adımlarla çıkar."
 
 msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
 msgstr "Anahtar yalnızca Mac ve Windows'ta saklanabilir -- Anahtar Zinciri'nde ya da kayıt defterinde. Bir dosyaya yazılmaz."
@@ -3783,7 +3783,7 @@ msgid "from ffmpeg.org, and the folder into PATH"
 msgstr "ffmpeg.org'dan, ve klasörü PATH'e"
 
 msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
-msgstr "Bu ffmpeg'de soxr var: kameralar arasındaki saat kayması 0,21 ppm'lik adımlarla çıkar."
+msgstr "Bu ffmpeg'de soxr var: kameralar arasındaki saat sürüklenmesi 0,21 ppm'lik adımlarla çıkar."
 
 msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
 msgstr "Bu çalışma bir test çalışması ve depo hâlâ gerçek adını taşıyor, bu yüzden hiçbir şey yazılmadı. Önce KEY_SERVICE, KEY_ACCOUNT ya da REG_PATH'i başka bir yere yönlendirin."
@@ -3969,7 +3969,7 @@ msgid "no recording named"
 msgstr "kayıt belirtilmedi"
 
 msgid "nothing of it falls inside the window"
-msgstr "hiçbir kısmı zaman penceresine düşmüyor"
+msgstr "hiçbir kısmı zaman aralığına düşmüyor"
 
 msgid "  Nothing was audible in the tracks -- no camera cut from this."
 msgstr "  İzlerde hiçbir şey duyulmuyordu -- bundan kamera kurgusu çıkmaz."
@@ -4158,7 +4158,7 @@ msgid ", %s without"
 msgstr ", %s kamerasız"
 
 msgid "The production has no name yet."
-msgstr "Yapımın henüz bir adı yok."
+msgstr "Prodüksiyonun henüz bir adı yok."
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Üzerinde çalışılacak ses yok -- bir video dosyasının Kamera sesini \"sesi kullan\" olarak ayarlayın ya da bir ses kaydı ekleyin."
@@ -4611,8 +4611,8 @@ msgstr[1] " (%s gömülü kanaldan)"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr[0] "  Konuşmacı ayırma (%s): %s konuşmacı, %s sesten"
-msgstr[1] "  Konuşmacı ayırma (%s): %s konuşmacı, %s sesten"
+msgstr[0] "  Konuşmacı ayrımı (%s): %s konuşmacı, %s sesten"
+msgstr[1] "  Konuşmacı ayrımı (%s): %s konuşmacı, %s sesten"
 
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"

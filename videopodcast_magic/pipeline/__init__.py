@@ -983,6 +983,29 @@ def common_window(camera_areas):
     return t0, begins_with, t1, ends_with
 
 
+def run_uploads(args):
+    """Whether this run sends its tracks to auphonic.com.
+
+    Not with --without-auphonic, and not with --auphonic-done, which
+    hands in tracks that are processed already.
+    """
+    return (not getattr(args, "without_auphonic", False)
+            and not getattr(args, "auphonic_done", None))
+
+
+def silence_sentence(where, how_much, uploading):
+    """The line for missing audio that was filled with silence.
+
+    Past half a minute an In or Out point would have kept that silence
+    out of the upload, and the line says so -- but only where there is
+    an upload to save. A run with --without-auphonic was told it would
+    save one it never makes.
+    """
+    return (T('Missing audio %s filled with silence%s')
+            % (where, T(' -- an In or Out point saves the upload')
+               if how_much > 30 and uploading else ""))
+
+
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
     """Put all audio tracks on one common time axis.
 
@@ -1215,10 +1238,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if max(missing) <= 1:
             return
         def sentence(how_much, point):
-            return (T('Missing audio %s filled with silence%s')
-                    % (shape % as_hms(point),
-                       T(' -- an In or Out point saves the upload')
-                       if how_much > 30 else ""))
+            return silence_sentence(shape % as_hms(point), how_much,
+                                    run_uploads(args))
         if max(missing) - min(missing) < 15:
             print("  %s" % sentence(max(missing), points[missing.index(max(missing))]))
             return

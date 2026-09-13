@@ -1108,13 +1108,13 @@ msgid "System language (%s)"
 msgstr "Мова системи (%s)"
 
 msgid "No audio file given."
-msgstr "Аудіофайл не вказано."
+msgstr "Звуковий файл не вказано."
 
 msgid "Unknown extension, skipped: %s"
 msgstr "Невідоме розширення, пропущено: %s"
 
 msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
-msgstr "Кілька камер, але жодного аудіофайлу. Кожна камера мала б власний звук --\nсаме для цього є --multitrack. Інакше одна камера за іншою."
+msgstr "Кілька камер, але жодного звукового файлу. Кожна камера мала б власний звук --\nсаме для цього є --multitrack. Інакше одна камера за іншою."
 
 msgid "Not found: %s"
 msgstr "Не знайдено: %s"
@@ -1165,7 +1165,7 @@ msgid "The keychain is locked. Unlock it and this button wakes up."
 msgstr "Зв'язку ключів заблоковано. Розблокуйте її, і ця кнопка оживе."
 
 msgid "What should happen with it?"
-msgstr "Що з нею робити?"
+msgstr "Що з ним робити?"
 
 msgid "This production already exists"
 msgstr "Цей випуск уже існує"
@@ -1177,7 +1177,7 @@ msgid "Different track names"
 msgstr "Інші назви доріжок"
 
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
-msgstr "\n  ПРОДУКЦІЯ З ТАКОЮ НАЗВОЮ ВЖЕ ІСНУЄ"
+msgstr "\n  ВИПУСК З ТАКОЮ НАЗВОЮ ВЖЕ ІСНУЄ"
 
 msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
 msgstr "Ключ з AUPHONIC_TOKEN не приймається: %s"
@@ -1222,7 +1222,7 @@ msgid "  (measuring only: nothing uploaded)\n"
 msgstr "  (лише вимірювання: нічого не вивантажено)\n"
 
 msgid "  Production running (%s)"
-msgstr "  Продукція триває (%s)"
+msgstr "  Випуск триває (%s)"
 
 msgid "production finished, but no output file"
 msgstr "випуск завершено, але вихідного файлу немає"
@@ -1279,7 +1279,7 @@ msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  Наявний результат прийнято -- нічого не пораховано, нічого не сплачено."
 
 msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  Примітка: рахується з файлами, вивантаженими тоді. Вони несуть\n  часове вікно й вирівнювання того дня. Якщо точка входу, точка виходу\n  чи виміряне положення тепер інші, перевірка повернення вимірює\n  різницю й ставить доріжки на місце."
+msgstr "  Зауваження: рахується з файлами, вивантаженими тоді. Вони несуть\n  часове вікно й вирівнювання того дня. Якщо точка входу, точка виходу\n  чи виміряне положення тепер інші, перевірка повернення вимірює\n  різницю й ставить доріжки на місце."
 
 msgid "  Settings brought to preset %r"
 msgstr "  Налаштування приведено до пресета %r"
@@ -1558,7 +1558,7 @@ msgid "\nCUT WITH THE WIDE SHOT"
 msgstr "\nМОНТАЖ ІЗ ЗАГАЛЬНИМ ПЛАНОМ"
 
 msgid "\nFIRST CUT BY SPEAKER"
-msgstr "\nПЕРШИЙ МОНТАЖ ЗА МОВЦЯМИ"
+msgstr "\nПЕРША НАРІЗКА ЗА МОВЦЯМИ"
 
 msgid "Bright."
 msgstr "Яскр."
@@ -1615,7 +1615,7 @@ msgid "time axis not measurable: %s"
 msgstr "вісь часу не вимірюється: %s"
 
 msgid "only %s seconds where %s speaks alone, %s needed"
-msgstr "лише %s с, коли %s говорить сам, потрібно %s"
+msgstr "лише %s с, коли говорить тільки %s, потрібно %s"
 
 msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
 msgstr "протікання надто нечітке: придатно %s з %s с, найбільша чіткість %s, потрібно %s"
@@ -1936,7 +1936,7 @@ msgid "Listens to that recording again, looking for one speaker more than was fo
 msgstr "Прослуховує той запис ще раз, шукаючи на одного мовця більше, ніж знайдено."
 
 msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
-msgstr "Усе, що ще лишилося, у мірі до вже зробленого. Довгі роботи займають більше смуги, ніж короткі."
+msgstr "Усе, що ще лишилося, виміряне відносно вже зробленого. Довгі роботи займають більше смуги, ніж короткі."
 
 msgid "Measure, align, process, write files."
 msgstr "Виміряти, вирівняти, обробити, записати файли."
@@ -2113,7 +2113,7 @@ msgid "  Limiter:           at most %s dB, the same curve on every track%s"
 msgstr "  Лімітер:           щонайбільше %s dB, та сама крива на кожній доріжці%s"
 
 msgid "an intro or outro with two channels is a stereo mix -- not measured"
-msgstr "заставка чи фінальна заставка з двома каналами -- це стереомікс, не виміряно"
+msgstr "заставка чи кінцівка з двома каналами -- це стереомікс, не виміряно"
 
 msgid "%s channels against %s"
 msgstr "каналів %s проти %s"
@@ -2227,7 +2227,7 @@ msgid "the old moov is back in place"
 msgstr "старий moov знову на місці"
 
 msgid "%sTimecode check of the audio file"
-msgstr "%sПеревірка таймкоду аудіофайла"
+msgstr "%sПеревірка таймкоду звукового файлу"
 
 msgid "%s  Offset per timecode:            %s"
 msgstr "%s  Зсув за таймкодом:              %s"
@@ -2356,7 +2356,7 @@ msgid "There are no separate audio recordings. Then the audio of the %s cameras 
 msgstr "Окремих звукових записів немає. Тоді використовується звук камер (%s) -- кожна стає доріжкою, а Auphonic прибирає просочування."
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
-msgstr "Ці імена трапляються кілька разів:\n\n  %s\n\nЗаписи об'єднуються в одну доріжку й розташовуються один за одним за своїм Timecode. Це правильно, якщо запис між тим зупиняли."
+msgstr "Ці імена трапляються кілька разів:\n\n  %s\n\nЗаписи об'єднуються в одну доріжку й розташовуються один за одним за своїм таймкодом. Це правильно, якщо запис між тим зупиняли."
 
 msgid "\n  Time window by hand:"
 msgstr "\n  Часове вікно вручну:"
@@ -2452,13 +2452,13 @@ msgid "  %-24s from %s"
 msgstr "  %-24s з %s"
 
 msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
-msgstr "    Еталонна камера не має Timecode. Вісь тримається на годиннику %s, і її перший кадр показує %s."
+msgstr "    Еталонна камера не має таймкоду. Вісь тримається на годиннику %s, і її перший кадр показує %s."
 
 msgid "    In point   %s   (Timecode %s)"
-msgstr "    Точка входу    %s   (Timecode %s)"
+msgstr "    Точка входу    %s   (таймкод %s)"
 
 msgid "    Out point  %s   (Timecode %s)"
-msgstr "    Точка виходу   %s   (Timecode %s)"
+msgstr "    Точка виходу   %s   (таймкод %s)"
 
 msgid "    In point   %s\n    Out point  %s"
 msgstr "    Точка входу    %s\n    Точка виходу   %s"
@@ -2488,7 +2488,7 @@ msgid "No sound in the cameras -- nothing to work with."
 msgstr "У камерах немає звуку -- немає з чим працювати."
 
 msgid "  Production at auphonic.com:   %s"
-msgstr "  Продукція на auphonic.com:   %s"
+msgstr "  Випуск на auphonic.com:   %s"
 
 msgid "  %s gets %s tracks mixed together: %s"
 msgstr "  %s отримує зведені разом доріжки (%s): %s"
@@ -2509,7 +2509,7 @@ msgid "\nNo usable video file -- without camera audio there is no common time ax
 msgstr "\nНемає придатного відеофайлу -- без звуку камер немає спільної осі часу."
 
 msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
-msgstr "\nПісля об'єднання блоків залишається лише одна доріжка, а багатодоріжковий режим потребує по одній на голос. Там, де двох людей прийнято за один запис, --apart тримає блок окремо."
+msgstr "\nПісля об'єднання блоків залишається лише одна доріжка, а режим Multitrack потребує по одній на голос. Там, де двох людей прийнято за один запис, --apart тримає блок окремо."
 
 msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
 msgstr "  Timeline отримує %s: найвищу з них або наступну частоту, яку Resolve\n  має над нею. Угору Resolve повторює кадри, униз -- відкидає\n  їх. Кожна камера зберігає власну частоту, і монтаж рахує\n  в ній."
@@ -2569,7 +2569,7 @@ msgid "Saving %s"
 msgstr "Збереження %s"
 
 msgid "  Timecode %s written as bext and iXML (reference: %s)"
-msgstr "  Timecode %s записано як bext та iXML (еталон: %s)"
+msgstr "  Таймкод %s записано як bext та iXML (еталон: %s)"
 
 msgid "\nRESULT"
 msgstr "\nРЕЗУЛЬТАТ"
@@ -2590,7 +2590,7 @@ msgid "  %s has no camera sound -- without it nothing can be aligned"
 msgstr "  %s не має звуку камери -- без нього нічого не вирівняти"
 
 msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
-msgstr "  %s працює з частотою %s кадр./с, для якої Resolve не має Timeline -- її перераховують, а не відкидають"
+msgstr "  %s працює з частотою %s кадр./с, для якої Resolve не має Timeline -- його перераховують, а не відкидають"
 
 msgid "\nDIFFERENT FRAME RATES: %s"
 msgstr "\nРІЗНІ ЧАСТОТИ КАДРІВ: %s"
@@ -2632,7 +2632,7 @@ msgid "  Audio track %d:   %s"
 msgstr "  Звукова доріжка %d:   %s"
 
 msgid "  Timecode:        %s"
-msgstr "  Timecode:            %s"
+msgstr "  Таймкод:             %s"
 
 msgid "  Time window:     %s of %s written, from %s of the camera"
 msgstr "  Часове вікно:        %s з %s записано, від %s камери"
@@ -2647,10 +2647,10 @@ msgid "  %s: channel %s cannot be cut out (%s)"
 msgstr "  %s: канал %s не вдається вирізати (%s)"
 
 msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
-msgstr "%r -- це Timecode, але тут немає зображення, а отже й камери, від якої його відлічувати. Тоді підходить лише значення від початку вікна, наприклад +12:30."
+msgstr "%r -- це таймкод, але тут немає зображення, а отже й камери, від якої його відлічувати. Тоді підходить лише значення від початку вікна, наприклад +12:30."
 
 msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
-msgstr "%r -- це Timecode, але вісь часу не тримається на жодному годиннику: жоден файл тут його не має, еталонна камера %s теж. Тоді підходить лише значення від початку вікна, наприклад +12:30."
+msgstr "%r -- це таймкод, але вісь часу не тримається на жодному годиннику: жоден файл тут його не має, еталонна камера %s теж. Тоді підходить лише значення від початку вікна, наприклад +12:30."
 
 msgid "Assignment file not readable: %s"
 msgstr "Файл призначення не читається: %s"
@@ -2686,7 +2686,7 @@ msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
 msgstr "    %-20s <- %s  (%s, обрізано до часового вікна, схожість імені %s)"
 
 msgid "  %s is already there and is written over -- this production has no record of making it."
-msgstr "  %s уже існує й буде перезаписаний -- цей випуск не має запису, що створив його."
+msgstr "  %s уже існує й буде перезаписаний -- цей випуск не має запису про те, що створив його."
 
 msgid "  Cross-check:     not possible (%s)"
 msgstr "  Звірка:              неможлива (%s)"
@@ -2881,13 +2881,13 @@ msgid "    --anyway is set: it runs despite the points above."
 msgstr "    --anyway задано: запуск іде попри пункти вище."
 
 msgid "does the material fit together?"
-msgstr "чи матеріал пасує одне до одного?"
+msgstr "чи пасує матеріал між собою?"
 
 msgid " -- nothing to fault."
 msgstr " -- зауважень немає."
 
 msgid "Note: "
-msgstr "Примітка: "
+msgstr "Зауваження: "
 
 msgid "fixed: "
 msgstr "виправлено: "
@@ -2941,10 +2941,10 @@ msgid "Midnight"
 msgstr "Північ"
 
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
-msgstr "Timecode рахує від півночі й там починає знову. Файли кладуть на одну вісь, перш ніж щось віднімати, інакше запис після півночі здається майже на добу віддаленим від попереднього. Якщо їх справді записано в різні дні, вирівнювання хибне, і діє виміряний зсув."
+msgstr "Таймкод рахує від півночі й там починає знову. Файли кладуть на одну вісь, перш ніж щось віднімати, інакше запис після півночі здається майже на добу віддаленим від попереднього. Якщо їх справді записано в різні дні, вирівнювання хибне, і діє виміряний зсув."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
-msgstr "Вирівнювання йде за виміряним зсувом; timecode -- лише для перевірки."
+msgstr "Вирівнювання йде за виміряним зсувом; таймкод -- лише для перевірки."
 
 msgid "not measurable."
 msgstr "не вимірюється."
@@ -3010,7 +3010,7 @@ msgid "%s carries a timecode from the other side of midnight -- counted as one n
 msgstr "%s має timecode з іншого боку півночі -- враховано як одну ніч, а не як добу різниці."
 
 msgid "Timecode %s, the other files are at %s -- this clock was not set."
-msgstr "Timecode %s, інші файли на %s -- цей годинник не було налаштовано."
+msgstr "Таймкод %s, інші файли на %s -- цей годинник не було налаштовано."
 
 msgid "the recordings overlap only %s -- too little to measure."
 msgstr "записи перекриваються лише на %s -- замало для вимірювання."
@@ -3019,7 +3019,7 @@ msgid "the shortest recording has only %s -- too little to measure."
 msgstr "найкоротший запис має лише %s -- замало для вимірювання."
 
 msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
-msgstr "%s з %s порівнянь нижче %s дБ -- кожен запис із кожним іншим, в обидва боки."
+msgstr "%s з %s порівнянь нижче %s dB -- кожен запис із кожним іншим, в обидва боки."
 
 msgid "Target: %s"
 msgstr "Куди: %s"
@@ -3040,10 +3040,10 @@ msgid "per track"
 msgstr "на доріжку"
 
 msgid " -- 1 note: %s"
-msgstr " -- 1 примітка: %s"
+msgstr " -- 1 зауваження: %s"
 
 msgid " -- %s notes"
-msgstr " -- приміток: %s"
+msgstr " -- зауважень: %s"
 
 msgid "multi-part, no timecode -- gaps in between cannot be detected."
 msgstr "з кількох частин, без timecode -- прогалини між ними виявити не можна."
@@ -3055,13 +3055,13 @@ msgid "only %s long, the longest recording has %s."
 msgstr "завдовжки лише %s, найдовший запис має %s."
 
 msgid "%s%s in %s's microphone only %s dB quieter"
-msgstr "%s%s у мікрофоні %s лише на %s дБ тихіше"
+msgstr "%s%s у мікрофоні %s лише на %s dB тихіше"
 
 msgid "%s in %s's microphone: %s dB quieter than in their own."
-msgstr "%s у мікрофоні %s: на %s дБ тихіше, ніж у власному."
+msgstr "%s у мікрофоні %s: на %s dB тихіше, ніж у власному."
 
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
-msgstr "Це виникло під час запису, і тепер цього вже не змінити. Що менше розділені мікрофони, то обережніше може працювати De-Bleed на auphonic.com. Наступного разу: утричі далі від сусіднього мікрофона, ніж від власного рота, тоді сусідній голос буде приблизно на %s дБ нижче."
+msgstr "Це виникло під час запису, і тепер цього вже не змінити. Що менше розділені мікрофони, то обережніше може працювати De-Bleed на auphonic.com. Наступного разу: утричі далі від сусіднього мікрофона, ніж від власного рота, тоді сусідній голос буде приблизно на %s dB нижче."
 
 msgid "not readable (%s) -- unchecked."
 msgstr "не читається (%s) -- не перевірено."
@@ -3202,7 +3202,7 @@ msgid "    Queued -- in Resolve only \"Render All\" is left."
 msgstr "    У черзі -- у Resolve лишається тільки \"Render All\"."
 
 msgid "\n  CLEAN UP AUDIO TRACKS"
-msgstr "\n  ПРИБИРАННЯ АУДІОДОРІЖОК"
+msgstr "\n  ПРИБИРАННЯ ЗВУКОВИХ ДОРІЖОК"
 
 msgid "\n  CLIPS IN THE MEDIA POOL"
 msgstr "\n  КЛІПИ В MEDIA POOL"
@@ -3220,7 +3220,7 @@ msgid "    Colours per angle:"
 msgstr "    Кольори за ракурсами:"
 
 msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
-msgstr "      Обидва кліпи лишаються необрізаними; вони перекривають вміст.\n      Перехід стоїть у перекритті -- де саме, вирішуєш ти в Resolve.\n      (Інтерфейс скриптів Resolve не вміє створювати переходи.)"
+msgstr "      Обидва кліпи лишаються необрізаними; вони перекривають вміст.\n      Перехід стоїть у перекритті -- де саме, вирішуєте ви в Resolve.\n      (Інтерфейс скриптів Resolve не вміє створювати переходи.)"
 
 msgid "\n  Settings"
 msgstr "\n  Налаштування"
@@ -3286,7 +3286,7 @@ msgid "  %s of %s files imported."
 msgstr "  Імпортовано файлів: %s з %s."
 
 msgid "  %s video tracks, %s audio tracks created (%s)"
-msgstr "  Створено відеодоріжок: %s, аудіодоріжок: %s (%s)"
+msgstr "  Створено відеодоріжок: %s, звукових доріжок: %s (%s)"
 
 msgid "  %s video tracks, named after the speakers:"
 msgstr "  Відеодоріжок: %s, названих за мовцями:"
@@ -3493,7 +3493,7 @@ msgid "  A Timeline of this name is there with other cameras on it. It stays;\n 
 msgstr "  Timeline з такою назвою вже є, з іншими камерами. Вона лишається;\n  нова будується поруч під власною назвою."
 
 msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
-msgstr "  %s іде на відеодоріжку 1 -- там перша аудіодоріжка несе\n  Full-Mix, і відеодоріжка 1 стає ракурсом 1."
+msgstr "  %s іде на відеодоріжку 1 -- там перша звукова доріжка несе\n  Full-Mix, і відеодоріжка 1 стає ракурсом 1."
 
 msgid "Resolve does not answer -- see Settings"
 msgstr "Resolve не відповідає -- див. Налаштування"
@@ -3550,7 +3550,7 @@ msgid "    Format and codec could not be set: %s"
 msgstr "    Не вдалося задати формат і кодек: %s"
 
 msgid "    One file per delivery could not be asked for: %s"
-msgstr "    Не вдалося замовити окремий файл для кожного виводу: %s"
+msgstr "    Не вдалося запросити один файл на видачу: %s"
 
 msgid "Tagging"
 msgstr "Позначення"
@@ -3991,7 +3991,7 @@ msgid "  Nothing was audible in the tracks -- no camera cut from this."
 msgstr "  На доріжках нічого не було чути -- монтажу камер із цього не буде."
 
 msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
-msgstr "  %-20s -- це %-20s на %s дБ попереду наступного мікрофона, без урахування рівня запису"
+msgstr "  %-20s -- це %-20s на %s dB попереду наступного мікрофона, без урахування рівня запису"
 
 msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
 msgstr "Це ім'я трапляється кілька разів. Записи стали б однією доріжкою -- для Multitrack auphonic.com потребує принаймні двох різних."
@@ -4123,7 +4123,7 @@ msgid "✕  Two cameras would produce the same file (%s). The second would overw
 msgstr "✕  Дві камери дали б той самий файл (%s). Друга перезаписала б першу."
 
 msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
-msgstr "  Просочування виміряно, %s у %s лише на %s dB тихіше -- вилучено з розпізнавання мовлення"
+msgstr "  Просочування виміряно, %s у %s лише на %s dB тихіше -- вилучено з виявлення мовлення"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Доріжки не виміряно, тож %s є в міксі, але не в монтажі: %s"
@@ -4174,13 +4174,13 @@ msgid ", %s without"
 msgstr ", %s без камери"
 
 msgid "The production has no name yet."
-msgstr "Продукція ще не має назви."
+msgstr "Випуск ще не має назви."
 
 msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
 msgstr "Немає звуку для роботи -- установіть для відеофайлу Звук камери на \"використовувати звук\" або додайте звукозапис."
 
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
-msgstr "Зміст: камера, як будь-яка інша.\nЗагальний план: камера, перед якою ніхто не сидить -- вона не бере жодного мовця, а монтаж переходить до неї в паузі й у довгому монолозі.\nЗаставка й кінцівка -- готові кліпи: не вирівнюються, не обробляються, лише кладуться в Timeline.\nІгнорувати відео: файл повністю залишається осторонь."
+msgstr "Зміст: камера, як будь-яка інша.\nЗагальний план: камера, перед якою ніхто не сидить -- вона не бере жодного мовця, а монтаж переходить до неї в паузі й у довгому монолозі.\nЗаставка й кінцівка -- готові кліпи: не вирівнюються, не обробляються, лише кладуться в Timeline.\nПропустити відео: файл повністю залишається осторонь."
 
 msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
 msgstr "Video Podcast Magic %s -- із сирого матеріалу виходить змонтований подкаст"
@@ -4222,7 +4222,7 @@ msgid "Quit"
 msgstr "Вийти"
 
 msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
-msgstr "Усе працює й без нього. Отримання збірки, яка його має, триває кілька хвилин, а що вона повідомляє, з'являється у Вивід."
+msgstr "Усе працює й без нього. Отримання збірки, яка його має, триває кілька хвилин, а що вона повідомляє, з'являється на вкладці \"Вивід\"."
 
 msgid "Carry on"
 msgstr "Продовжити"
@@ -4300,7 +4300,7 @@ msgid "Order does not matter. For a multi-part recording the first block is enou
 msgstr "Порядок не має значення. Для запису з кількох частин досить першого блоку."
 
 msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Перетягування на ЗВУК або ВІДЕО бере все."
+msgstr "Перетягування на АУДІО або ВІДЕО бере все."
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "Назва на auphonic.com і початок нових назв файлів."
@@ -4423,7 +4423,7 @@ msgid "The Resolve interface is not where it should be."
 msgstr "Інтерфейс Resolve не там, де має бути."
 
 msgid "Getting it takes a few minutes, and what it says appears under Output."
-msgstr "Отримання триває кілька хвилин, а що воно повідомляє, з'являється у Вивід."
+msgstr "Отримання триває кілька хвилин, а що воно повідомляє, з'являється на вкладці \"Вивід\"."
 
 msgid "\nStopped: %s"
 msgstr "\nЗупинено: %s"
@@ -4441,7 +4441,7 @@ msgid "the whole material"
 msgstr "увесь матеріал"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
-msgstr "Сирий матеріал відеоподкасту стає змонтованим епізодом: добрий звук із відеофайлів, камери на одній осі часу, перший монтаж за мовцями і проєкт DaVinci Resolve."
+msgstr "Сирий матеріал відеоподкасту стає змонтованим епізодом: добрий звук із відеофайлів, камери на одній осі часу, перша нарізка за мовцями і проєкт DaVinci Resolve."
 
 msgid "Python %s on %s"
 msgstr "Python %s на %s"
@@ -4459,7 +4459,7 @@ msgid "pip stopped with %s. What it managed stands in the lines above."
 msgstr "pip зупинився з %s. Що йому вдалося, видно в рядках вище."
 
 msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
-msgstr "Оновити? pip завантажує її в %s. Що каже pip, з'являється у Вивід, а нова версія працюватиме з наступного запуску."
+msgstr "Оновити? pip завантажує її в %s. Що каже pip, з'являється на вкладці \"Вивід\", а нова версія працюватиме з наступного запуску."
 
 msgid "--update fetches it and puts it in place."
 msgstr "--update завантажує її і ставить на місце."
@@ -4471,7 +4471,7 @@ msgid "This is %s. Which version shall pip put in its place?"
 msgstr "Це %s. Яку версію pip має поставити на її місце?"
 
 msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
-msgstr "pip завантажує її в %s, а що каже pip, з'являється у Вивід. Вибрана тут версія працюватиме з наступного запуску.\n\nПовертається програма, і нічого більше. Те, що новіша версія записала в налаштування, залишається записаним, а проєкти та їхні файли залишаються як є."
+msgstr "pip завантажує її в %s, а що каже pip, з'являється на вкладці \"Вивід\". Вибрана тут версія працюватиме з наступного запуску.\n\nПовертається програма, і нічого більше. Те, що новіша версія записала в налаштування, залишається записаним, а проєкти та їхні файли залишаються як є."
 
 msgid "pip could not be started: %s"
 msgstr "Не вдалося запустити pip: %s"

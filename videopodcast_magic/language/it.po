@@ -1327,7 +1327,7 @@ msgid "Auphonic will not take the settings: %s"
 msgstr "Auphonic non accetta le impostazioni: %s"
 
 msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
-msgstr "  Più di due canali vanno a auphonic.com come uno solo: il downmix è disattivato solo per lo stereo.\n  Se i canali devono restare separati, taglia prima il file in tracce."
+msgstr "  Più di due canali vanno ad auphonic.com come uno solo: il downmix è disattivato solo per lo stereo.\n  Se i canali devono restare separati, taglia prima il file in tracce."
 
 msgid "Uploading %s"
 msgstr "Caricamento di %s"
@@ -1537,7 +1537,7 @@ msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- sono tutti, quindi ogni inquadratura va alla stessa telecamera."
 
 msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
-msgstr "MULTITRACCIA NON POSSIBILE\n  Senza chiave API non c’è nulla da inviare a auphonic.com.\n  Con --without-auphonic funziona invece in locale: allineato,\n  mixato e montato, ma senza de-bleed e leveler."
+msgstr "MULTITRACCIA NON POSSIBILE\n  Senza chiave API non c’è nulla da inviare ad auphonic.com.\n  Con --without-auphonic funziona invece in locale: allineato,\n  mixato e montato, ma senza de-bleed e leveler."
 
 msgid "\nCAMERA CUT"
 msgstr "\nMONTAGGIO DELLE TELECAMERE"
@@ -1573,7 +1573,7 @@ msgid "    not possible: %s"
 msgstr "    non possibile: %s"
 
 msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
-msgstr "    %-14s <-> %-14s percorso del suono %4s ms (%s m), scarto %6s ms, deriva %5s ppm (%s punti, %s ms di resto)%s"
+msgstr "    %-14s <-> %-14s percorso del suono %4s ms (%s m), scostamento %6s ms, deriva %5s ppm (%s punti, %s ms di resto)%s"
 
 msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
 msgstr "    %-20s %s ms / %s ppm -- non può essere giusto, la traccia\n    %-20s resta dov’è."
@@ -1603,7 +1603,7 @@ msgid "time axis not measurable: %s"
 msgstr "asse dei tempi non misurabile: %s"
 
 msgid "only %s seconds where %s speaks alone, %s needed"
-msgstr "solo %s secondi in cui %s parla da solo, ne servono %s"
+msgstr "solo %s secondi in cui parla unicamente %s, ne servono %s"
 
 msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
 msgstr "rientro troppo indistinto: %s di %s secondi utilizzabili, nitidezza massima %s, ne serve %s"
@@ -1672,7 +1672,7 @@ msgid "Works out who speaks when from the tracks themselves -- one microphone pe
 msgstr "Ricava chi parla quando dalle tracce stesse -- un microfono per persona, livello rispetto al proprio rumore di fondo. Se tutti sono su un’unica registrazione, la strada è “più parlanti” nel campo Nome del parlante."
 
 msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
-msgstr "  Le tracce vengono usate come registrate: allineate, mixate e portate alla\n  loudness di destinazione. Niente de-bleed, niente leveler, niente riduzione del rumore -- per\n  quelli l’esecuzione ha bisogno di auphonic.com."
+msgstr "  Le tracce vengono usate come registrate: allineate, mixate e portate alla\n  sonorità di destinazione. Niente de-bleed, niente leveler, niente riduzione del rumore -- per\n  quelli l’esecuzione ha bisogno di auphonic.com."
 
 msgid "\n  REFRESH THE CUT LIST"
 msgstr "\n  AGGIORNA LA LISTA DI MONTAGGIO"
@@ -1726,7 +1726,7 @@ msgid "\nWITHOUT AUPHONIC.COM"
 msgstr "\nSENZA AUPHONIC.COM"
 
 msgid "\n  (measuring only: nothing written)"
-msgstr "\n  (solo misura: nulla scritto)"
+msgstr "\n  (solo misurazione: nulla scritto)"
 
 msgid "FOR RESOLVE"
 msgstr "PER RESOLVE"
@@ -2038,10 +2038,10 @@ msgid "Measuring the yardstick"
 msgstr "Misura del riferimento"
 
 msgid "  Loudness not measurable -- it stays as it is."
-msgstr "  Loudness non misurabile -- resta com'è."
+msgstr "  Sonorità non misurabile -- resta com'è."
 
 msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
-msgstr "  Non regolato:      preso dai file sorgente -- nessun guadagno su alcuna traccia e nessun\n                     limiter. Il suono esce esattamente come è entrato."
+msgstr "  Non regolato:      preso dai file di origine -- nessun guadagno su alcuna traccia e nessun\n                     limiter. Il suono esce esattamente come è entrato."
 
 msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
 msgstr "  Somma tracce:      %s LUFS, picco %s dBTP%s"
@@ -2188,7 +2188,7 @@ msgid "                   Resolve may then not recognise the input colour space.
 msgstr "                   Resolve potrebbe allora non riconoscere lo spazio colore di ingresso."
 
 msgid "  Camera data:     the source carries none"
-msgstr "  Dati camera:     la sorgente non ne porta"
+msgstr "  Dati telecamera: la sorgente non ne porta"
 
 msgid "boxes no longer readable"
 msgstr "box non più leggibili"
@@ -2227,7 +2227,7 @@ msgid "  Data tracks:     %s carried over"
 msgstr "  Tracce dati:     %s mantenute"
 
 msgid "  Camera data:     %s keys carried over (%s)"
-msgstr "  Dati camera:     %s chiavi mantenute (%s)"
+msgstr "  Dati telecamera: %s chiavi mantenute (%s)"
 
 msgid "did not arrive: %s"
 msgstr "non arrivati: %s"
@@ -2278,7 +2278,7 @@ msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
 msgstr "  Tracce dati:     %s tralasciata -- ffmpeg non può scriverla"
 
 msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
-msgstr "  Dati camera:     Attenzione, %s di %s chiavi mancano nel nuovo file: %s"
+msgstr "  Dati telecamera: Attenzione, %s di %s chiavi mancano nel nuovo file: %s"
 
 msgid "  Atom %s skipped: %s bytes are too much for it."
 msgstr "  Atomo %s saltato: %s byte sono troppi per esso."
@@ -2344,7 +2344,7 @@ msgid "There are no separate audio recordings. Then the audio of the %s cameras 
 msgstr "Non ci sono registrazioni audio separate. Si usa allora l’audio delle %s telecamere -- ognuna diventa una traccia, e Auphonic elimina la diafonia."
 
 msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
-msgstr "Questi nomi compaiono più volte:\n\n  %s\n\nLe registrazioni vengono unite in una traccia e messe una dopo l’altra secondo il loro Timecode. È giusto se la registrazione è stata interrotta nel frattempo."
+msgstr "Questi nomi compaiono più volte:\n\n  %s\n\nLe registrazioni vengono unite in una traccia e messe una dopo l’altra secondo il loro timecode. È giusto se la registrazione è stata interrotta nel frattempo."
 
 msgid "\n  Time window by hand:"
 msgstr "\n  Finestra temporale a mano:"
@@ -2401,7 +2401,7 @@ msgid "  Window:              %s -- everything any track heard"
 msgstr "  Finestra:          %s -- tutto ciò che una qualsiasi traccia ha sentito"
 
 msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
-msgstr "  --lufs qui non ha effetto: le tracce escono come sono state registrate, e il volume viene impostato dove vengono mixate."
+msgstr "  --lufs qui non ha effetto: le tracce escono come sono state registrate, e la sonorità viene impostata dove vengono mixate."
 
 msgid "\nWRITING TRACKS TO THE AXIS"
 msgstr "\nSCRITTURA DELLE TRACCE SULL’ASSE"
@@ -2440,13 +2440,13 @@ msgid "  %-24s from %s"
 msgstr "  %-24s da %s"
 
 msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
-msgstr "    La telecamera di riferimento non ha Timecode. L’asse dipende dall’orologio di %s, e il suo primo fotogramma segna %s."
+msgstr "    La telecamera di riferimento non ha timecode. L’asse dipende dall’orologio di %s, e il suo primo fotogramma segna %s."
 
 msgid "    In point   %s   (Timecode %s)"
-msgstr "    Punto di ingresso   %s   (Timecode %s)"
+msgstr "    Punto di ingresso   %s   (timecode %s)"
 
 msgid "    Out point  %s   (Timecode %s)"
-msgstr "    Punto di uscita     %s   (Timecode %s)"
+msgstr "    Punto di uscita     %s   (timecode %s)"
 
 msgid "    In point   %s\n    Out point  %s"
 msgstr "    Punto di ingresso   %s\n    Punto di uscita     %s"
@@ -2578,7 +2578,7 @@ msgid "  %s has no camera sound -- without it nothing can be aligned"
 msgstr "  %s non ha audio della telecamera -- senza di esso non si può allineare nulla"
 
 msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
-msgstr "  %s gira a %s fotogrammi/s, una frequenza per cui Resolve non ha una Timeline -- viene convertita, non tralasciata"
+msgstr "  %s gira a %s fotogrammi/s, una frequenza per cui Resolve non ha una Timeline -- viene convertito, non tralasciato"
 
 msgid "\nDIFFERENT FRAME RATES: %s"
 msgstr "\nFREQUENZE DI FOTOGRAMMA DIVERSE: %s"
@@ -2635,10 +2635,10 @@ msgid "  %s: channel %s cannot be cut out (%s)"
 msgstr "  %s: il canale %s non si può estrarre (%s)"
 
 msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
-msgstr "%r è un Timecode, ma qui non c’è immagine e quindi nessuna telecamera da cui contarlo. Allora funziona solo un valore dall’inizio della finestra, come +12:30."
+msgstr "%r è un timecode, ma qui non c’è immagine e quindi nessuna telecamera da cui contarlo. Allora funziona solo un valore dall’inizio della finestra, come +12:30."
 
 msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
-msgstr "%r è un Timecode, ma l’asse dei tempi non dipende da alcun orologio: nessun file qui ne porta uno, compresa la telecamera di riferimento %s. Allora funziona solo un valore dall’inizio della finestra, come +12:30."
+msgstr "%r è un timecode, ma l’asse dei tempi non dipende da alcun orologio: nessun file qui ne porta uno, compresa la telecamera di riferimento %s. Allora funziona solo un valore dall’inizio della finestra, come +12:30."
 
 msgid "Assignment file not readable: %s"
 msgstr "File di assegnazione non leggibile: %s"
@@ -2647,7 +2647,7 @@ msgid "        Track %d: %s"
 msgstr "        Traccia %d: %s"
 
 msgid "  Loudness not measurable: %s"
-msgstr "  Loudness non misurabile: %s"
+msgstr "  Sonorità non misurabile: %s"
 
 msgid "  %-20s cannot be aligned: %s"
 msgstr "  %-20s non si può allineare: %s"
@@ -2737,7 +2737,7 @@ msgid "The recording assigned to this camera instead of the camera audio."
 msgstr "La registrazione assegnata a questa telecamera invece dell’audio della telecamera."
 
 msgid "No player is built in here -- playback runs in ffplay in its own window."
-msgstr "Qui non è integrato alcun player -- la riproduzione avviene in ffplay in una finestra propria."
+msgstr "Qui non è integrato alcun lettore -- la riproduzione avviene in ffplay in una finestra propria."
 
 msgid "/not seekable"
 msgstr "/non posizionabile"
@@ -2749,7 +2749,7 @@ msgid "%s: setPosition(%s), attempt %d, then at %s"
 msgstr "%s: setPosition(%s), tentativo %d, poi a %s"
 
 msgid "  Player: %s"
-msgstr "  Player: %s"
+msgstr "  Lettore: %s"
 
 msgid "Video 1"
 msgstr "Video 1"
@@ -2764,13 +2764,13 @@ msgid "%s reports %s"
 msgstr "%s segnala %s"
 
 msgid "  Player: audio output switches to %s"
-msgstr "  Player: l’uscita audio passa a %s"
+msgstr "  Lettore: l’uscita audio passa a %s"
 
 msgid "--- jump to %s programme time%s ---"
 msgstr "--- salto a %s del tempo di programma%s ---"
 
 msgid "  Player: the audio is not running (%s) -- one more attempt."
-msgstr "  Player: l’audio non è in riproduzione (%s) -- ancora un tentativo."
+msgstr "  Lettore: l’audio non è in riproduzione (%s) -- ancora un tentativo."
 
 msgid "--- point set, programme time runs from %s ---"
 msgstr "--- punto impostato, il tempo di programma parte da %s ---"
@@ -2791,7 +2791,7 @@ msgid "%s   --   the app does not know this format"
 msgstr "%s   --   l’app non conosce questo formato"
 
 msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
-msgstr "  Player: %s resta a %s invece di %s -- rinuncia dopo %s tentativi (%s)"
+msgstr "  Lettore: %s resta a %s invece di %s -- rinuncia dopo %s tentativi (%s)"
 
 msgid "the default device"
 msgstr "il dispositivo predefinito"
@@ -2830,7 +2830,7 @@ msgid "MUTED"
 msgstr "MUTO"
 
 msgid "  Player: %s reports an error -- %s"
-msgstr "  Player: %s segnala un errore -- %s"
+msgstr "  Lettore: %s segnala un errore -- %s"
 
 msgid " target %.2f"
 msgstr " obiettivo %.2f"
@@ -2842,7 +2842,7 @@ msgid "the source folder"
 msgstr "la cartella di origine"
 
 msgid "Loudness of the finished episode"
-msgstr "Volume dell’episodio finito"
+msgstr "Sonorità dell’episodio finito"
 
 msgid "Free space there: %s"
 msgstr "Spazio libero lì: %s"
@@ -2929,10 +2929,10 @@ msgid "Midnight"
 msgstr "Mezzanotte"
 
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
-msgstr "Un timecode conta dalla mezzanotte e lì ricomincia da capo. I file vengono messi su un unico asse prima di sottrarre qualsiasi cosa, altrimenti la registrazione dopo mezzanotte sembra lontana quasi un giorno da quella precedente. Se sono state davvero registrate in giorni diversi, l’allineamento è sbagliato e vale l’offset misurato."
+msgstr "Un timecode conta dalla mezzanotte e lì ricomincia da capo. I file vengono messi su un unico asse prima di sottrarre qualsiasi cosa, altrimenti la registrazione dopo mezzanotte sembra lontana quasi un giorno da quella precedente. Se sono state davvero registrate in giorni diversi, l’allineamento è sbagliato e vale lo scostamento misurato."
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
-msgstr "L’allineamento si basa sull’offset misurato; il timecode serve solo come controllo incrociato."
+msgstr "L’allineamento si basa sullo scostamento misurato; il timecode serve solo come controprova."
 
 msgid "not measurable."
 msgstr "non misurabile."
@@ -2950,7 +2950,7 @@ msgid "free %s, about %s needed (%s)"
 msgstr "liberi %s, servono circa %s (%s)"
 
 msgid "taken from the source files, no --lufs given -- nothing is adjusted"
-msgstr "ripreso dai file sorgente, nessun --lufs indicato -- non si regola nulla"
+msgstr "ripreso dai file di origine, nessun --lufs indicato -- non si regola nulla"
 
 msgid "none switched on"
 msgstr "nessuna attivata"
@@ -3013,7 +3013,7 @@ msgid "Target: %s"
 msgstr "Destinazione: %s"
 
 msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
-msgstr "%s è impostato, e qui non si regola nulla: le tracce escono come sono state registrate, e il loudness viene fissato dove vengono mixate."
+msgstr "%s è impostato, e qui non si regola nulla: le tracce escono come sono state registrate, e la sonorità viene fissata dove vengono mixate."
 
 msgid "Track template"
 msgstr "Modello di traccia"
@@ -3028,10 +3028,10 @@ msgid "per track"
 msgstr "per traccia"
 
 msgid " -- 1 note: %s"
-msgstr " -- 1 avviso: %s"
+msgstr " -- 1 nota: %s"
 
 msgid " -- %s notes"
-msgstr " -- %s avvisi"
+msgstr " -- %s note"
 
 msgid "multi-part, no timecode -- gaps in between cannot be detected."
 msgstr "in più parti, senza timecode -- le lacune intermedie non si possono rilevare."
@@ -3325,7 +3325,7 @@ msgid "  The media pool stays as it is."
 msgstr "  Il Media Pool resta com’è."
 
 msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
-msgstr "    Il loudness non è stato regolato -- il target qui sotto è solo il riferimento\n    rispetto a cui misura l’indicatore."
+msgstr "    La sonorità non è stata regolata -- il target qui sotto è solo il riferimento\n    rispetto a cui misura l’indicatore."
 
 msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
 msgstr "    Clip di un’esecuzione precedente sono ancora legate ai loro Remote Grades. Nella\n    pagina Color clic destro su una miniatura > \"Copy Remote Grades to Local\"\n    (porta con sé la correzione) oppure \"Use Local Grades\". Le nuove Timeline\n    non ne hanno bisogno."
@@ -3370,13 +3370,13 @@ msgid "Curve and colour space are missing from the file"
 msgstr "Nel file mancano curva e spazio colore"
 
 msgid "full range"
-msgstr "gamma completa"
+msgstr "intervallo completo"
 
 msgid "missing -- the container carries no colour tagging"
 msgstr "manca -- il contenitore non porta alcuna etichetta colore"
 
 msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
-msgstr "Senza di essa ogni player deve indovinare, e tutti indovinano SDR. In Resolve, sotto Deliver > Advanced Settings, impostare Color space tag e Gamma tag invece di lasciarli su \"Same as Project\"."
+msgstr "Senza di essa ogni lettore deve indovinare, e tutti indovinano SDR. In Resolve, sotto Deliver > Advanced Settings, impostare Color space tag e Gamma tag invece di lasciarli su \"Same as Project\"."
 
 msgid "Primaries"
 msgstr "Primari"
@@ -3430,7 +3430,7 @@ msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --
 msgstr "    Se il file finito passa come HDR:\n      videopodcast-magic --hdr-check %s"
 
 msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
-msgstr "    Livello target dell’indicatore di loudness non trovato -- impostarlo a mano:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Livello target dell’indicatore di sonorità non trovato -- impostarlo a mano:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
 
 msgid "These files do not exist:\n  "
 msgstr "Questi file non esistono:\n  "
@@ -3550,7 +3550,7 @@ msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve
 msgstr "    %-22s rifiutata -- nessuna grafia è stata accettata.\n%sImpostare a mano in Resolve sotto Deliver > Advanced Settings:\n%sColor space tag Rec.2020, Gamma tag %s."
 
 msgid " at high frame rates"
-msgstr " ad alto frame rate"
+msgstr " ad alte frequenze di fotogramma"
 
 msgid "    Render job could not be created: %s"
 msgstr "    Impossibile creare il job di rendering: %s"
@@ -4417,7 +4417,7 @@ msgid "\nStopped: %s"
 msgstr "\nInterrotto: %s"
 
 msgid "%s is in %s -- the file is now in the player."
-msgstr "%s è in %s -- il file ora è nel player."
+msgstr "%s è in %s -- il file ora è nel lettore."
 
 msgid "Beginning"
 msgstr "Inizio"

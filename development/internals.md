@@ -42,7 +42,7 @@ figure of the day is that command, not this paragraph**:
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2747** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
-* `pipeline/` **1972** -- the chain the recordings run until the camera
+* `pipeline/` **1993** -- the chain the recordings run until the camera
   files are written
 * `bearings/` **1823** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs

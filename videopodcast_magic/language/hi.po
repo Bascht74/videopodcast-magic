@@ -1206,7 +1206,7 @@ msgid "  Created:     %s"
 msgstr "  बनाया गया:     %s"
 
 msgid "  Uploaded:"
-msgstr "  अपलोड किया गया:"
+msgstr "  अपलोड किए गए:"
 
 msgid "  Results:"
 msgstr "  परिणाम:"
@@ -1557,7 +1557,7 @@ msgid "    not possible: %s"
 msgstr "    संभव नहीं: %s"
 
 msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
-msgstr "    %-14s <-> %-14s ध्वनि पथ %4s ms (%s m), ऑफ़सेट %6s ms, ड्रिफ़्ट %5s ppm (%s बिंदु, %s ms शेष)%s"
+msgstr "    %-14s <-> %-14s ध्वनि पथ %4s ms (%s m), ऑफ़सेट %6s ms, विचलन %5s ppm (%s बिंदु, %s ms शेष)%s"
 
 msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
 msgstr "    %-20s %s ms / %s ppm -- यह सही नहीं हो सकता, ट्रैक\n    %-20s जहाँ है वहीं रहता है।"
@@ -1581,7 +1581,7 @@ msgid "%s can be placed again and is back in the run."
 msgstr "%s को फिर से स्थान दिया जा सकता है और यह फिर से रन में है।"
 
 msgid "  Project file could not be written: %s"
-msgstr "  प्रोजेक्ट फ़ाइल लिखी नहीं जा सकी: %s"
+msgstr "  परियोजना फ़ाइल लिखी नहीं जा सकी: %s"
 
 msgid "time axis not measurable: %s"
 msgstr "समय अक्ष मापने योग्य नहीं: %s"
@@ -1596,7 +1596,7 @@ msgid "   (sound path negative -- something is wrong)"
 msgstr "   (ध्वनि पथ ऋणात्मक -- कुछ गड़बड़ है)"
 
 msgid ", clock drift %s ppm taken out"
-msgstr ", घड़ी का ड्रिफ़्ट %s ppm हटाया गया"
+msgstr ", घड़ी का विचलन %s ppm हटाया गया"
 
 msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
 msgstr "  %s: इसमें कितने चैनल हैं, यह तय नहीं हो सका (%s) -- इसे मापा नहीं जाता"
@@ -1614,7 +1614,7 @@ msgid "  Question: no transcript, so no question was found and no reaction cut\n
 msgstr "  प्रश्न: कोई ट्रांसक्रिप्ट नहीं, इसलिए न कोई प्रश्न मिला और न कोई रिएक्शन कट\n          हुआ। शब्द रन के दौरान तैयार मिक्स से\n          लिखे जाते हैं; उनके बिना यह सेटिंग कुछ नहीं करती।"
 
 msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
-msgstr "<span style='color:%(t)s'><b>%(n)s शॉट</b>, माध्यिका %(med)s से, सबसे छोटा %(short)s से, एक कैमरे पर सबसे लंबा %(long)s से</span>. बोलने का समय: <b>%(own)s %%</b> अपने कैमरे पर (%(own_t)s), %(wide)s %% वाइड शॉट पर (%(wide_t)s), <span style='color:%(warn)s'>%(off)s %% (%(off_t)s) समय वक्ता का कैमरा सक्रिय नहीं है</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s शॉट</b>, माध्यिका %(med)s s, सबसे छोटा %(short)s s, एक कैमरे पर सबसे लंबा %(long)s s</span>. बोलने का समय: <b>%(own)s %%</b> अपने कैमरे पर (%(own_t)s), %(wide)s %% वाइड शॉट पर (%(wide_t)s), <span style='color:%(warn)s'>%(off)s %% (%(off_t)s) समय वक्ता का कैमरा सक्रिय नहीं है</span>"
 
 msgid "Speakers, as the run measured them"
 msgstr "रन द्वारा मापे गए वक्ता"
@@ -1650,7 +1650,7 @@ msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot
 msgstr "कट के नियम इन %s में कोई शॉट नहीं छोड़ते। छोटा “सबसे छोटा शॉट” या कम वाइड शॉट फिर से एक शॉट देता है।"
 
 msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
-msgstr "वाइड शॉट %s से का है, जो सबसे छोटे शॉट %s से से कम है -- इसलिए यह फिर से मिल जाता है और कभी दिखता नहीं।\n"
+msgstr "वाइड शॉट %s s का है, जो सबसे छोटे शॉट %s s से कम है -- इसलिए यह फिर से मिल जाता है और कभी दिखता नहीं।\n"
 
 msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "ट्रैकों से ही पता लगाता है कि कौन कब बोलता है -- हर व्यक्ति का एक माइक्रोफ़ोन, स्तर उसके अपने नॉइज़ फ़्लोर के मुकाबले। जहाँ सब एक ही रिकॉर्डिंग पर हों, वहाँ “वक्ता का नाम” फ़ील्ड में “कई वक्ता” रास्ता है।"
@@ -1671,7 +1671,7 @@ msgid "the main speaker asked"
 msgstr "मुख्य वक्ता ने पूछा"
 
 msgid "asker and answerer on one camera"
-msgstr "पूछने वाला और जवाब देने वाला एक ही कैमरे पर"
+msgstr "पूछने वाला और उत्तर देने वाला एक ही कैमरे पर"
 
 msgid "nobody answered in time"
 msgstr "किसी ने समय पर जवाब नहीं दिया"
@@ -1773,7 +1773,7 @@ msgid "  One camera for everybody: cut into %s shots at the change of speaker, s
 msgstr "  सभी के लिए एक कैमरा: वक्ता बदलने पर %s शॉट में काटा गया, ताकि Resolve उन्हें समूह में रख सके।"
 
 msgid "  The cut has changed: %s shots instead of %s."
-msgstr "  कट बदल गया है: %s के बजाय %s शॉट।"
+msgstr "  कट बदल गया है: %s शॉट, %s के बजाय।"
 
 msgid "the cut uses %s"
 msgstr "कट %s का उपयोग करता है"
@@ -1977,7 +1977,7 @@ msgid "  Each one also goes into the video as a track of its own: %s"
 msgstr "  हर एक अपने अलग ट्रैक के रूप में भी वीडियो में जाता है: %s"
 
 msgid "this pair of files"
-msgstr "फ़ाइलों का यह जोड़ा"
+msgstr "फ़ाइलों के इस जोड़े"
 
 msgid "%s (%s files)"
 msgstr "%s (%s फ़ाइलें)"
@@ -2013,7 +2013,7 @@ msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone 
 msgstr "  auphonic.com ने इन्हें मिला दिया। मिक्स दोनों चैनल रखता है; जो गया वह है\n  उस ट्रैक के दोनों माइक्रोफ़ोन के बीच का अंतर।"
 
 msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
-msgstr "  %-20s ऑफ़सेट %s ms%s, लंबाई %s s, फैलाव %s ms, %s में से %s बिंदु%s%s"
+msgstr "  %-20s ऑफ़सेट %s ms%s, लंबाई %s s, फैलाव %s ms, %s/%s बिंदु%s%s"
 
 msgid "\nNORMALISE"
 msgstr "\nनॉर्मलाइज़"
@@ -2148,7 +2148,7 @@ msgid " (auphonic.com takes the same amount)"
 msgstr " (auphonic.com भी इतना ही लेता है)"
 
 msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
-msgstr "  सावधान: रेंज         केवल %s LU -- बहुत संकरा। बोली में आमतौर पर 3 से 7 LU;\n                     इससे कम पर दबा हुआ लगता है। देखें कि auphonic.com पर\n                     लेवलर कितना तेज़ सेट है।"
+msgstr "  सावधान: रेंज         केवल %s LU -- बहुत संकरा। बोली में आमतौर पर 3 से 7 LU;\n                     इससे कम पर दबा हुआ लगता है। देखें कि auphonic.com पर\n                     Leveler कितना तेज़ सेट है।"
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "दोनों चैनल समान -- मोनो दोनों ओर रखा गया"
@@ -2523,7 +2523,7 @@ msgid "   Caution: more than one frame"
 msgstr "   सावधान: एक से अधिक फ़्रेम"
 
 msgid "  Camera atoms:    %s added -- %s"
-msgstr "  कैमरा ऐटम:     %s जोड़े गए -- %s"
+msgstr "  कैमरा एटम:     %s जोड़े गए -- %s"
 
 msgid "  %s: %s mixed together"
 msgstr "  %s: %s मिलाए गए"
@@ -2580,7 +2580,7 @@ msgid "  Check:           not possible (%s)"
 msgstr "  जाँच:          संभव नहीं (%s)"
 
 msgid "  Camera atoms:    cannot be added (%s)"
-msgstr "  कैमरा ऐटम:     जोड़े नहीं जा सकते (%s)"
+msgstr "  कैमरा एटम:     जोड़े नहीं जा सकते (%s)"
 
 msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
 msgstr "  यहाँ पिछले रन का रिकॉर्ड पढ़ा नहीं जा सकता (%s), इसलिए जो कुछ पहले से मौजूद है उसकी सूचना दी जाती है।"
@@ -2598,7 +2598,7 @@ msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s point
 msgstr "  घड़ी विचलन:    %s ppm (+/- %s), शेष बिखराव %s ms, %s / %s बिंदु"
 
 msgid "  Drift over the running time: %s s = %s frames  -->  %s"
-msgstr "  अवधि भर में विचलन: %s से = %s फ़्रेम  -->  %s"
+msgstr "  अवधि भर में विचलन: %s s = %s फ़्रेम  -->  %s"
 
 msgid "  Audio track %d:   %s"
 msgstr "  ऑडियो ट्रैक %d:  %s"
@@ -2712,7 +2712,7 @@ msgid "Audio at programme time"
 msgstr "कार्यक्रम समय पर ऑडियो"
 
 msgid "External preview -- the app does not know this format"
-msgstr "बाहरी पूर्वावलोकन -- ऐप यह फ़ॉर्मैट नहीं जानता"
+msgstr "बाहरी पूर्वावलोकन -- ऐप यह फ़ॉर्मेट नहीं जानता"
 
 msgid "Play and pause -- the space bar works too."
 msgstr "चलाएँ और रोकें -- स्पेस बार भी काम करता है।"
@@ -2772,7 +2772,7 @@ msgid "%s virtual"
 msgstr "%s आभासी"
 
 msgid "%s   --   the app does not know this format"
-msgstr "%s   --   ऐप यह फ़ॉर्मैट नहीं जानता"
+msgstr "%s   --   ऐप यह फ़ॉर्मेट नहीं जानता"
 
 msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
 msgstr "  प्लेयर: %s %s पर रुका है, %s के बजाय -- %s प्रयासों के बाद छोड़ा (%s)"
@@ -2916,7 +2916,7 @@ msgid "A timecode counts from midnight and starts over there. The files are put 
 msgstr "टाइमकोड आधी रात से गिनता है और वहीं से फिर शुरू होता है। कुछ भी घटाने से पहले फ़ाइलों को एक ही अक्ष पर रखा जाता है, वरना आधी रात के बाद की रिकॉर्डिंग पिछली से लगभग एक दिन दूर दिखती। अगर ये सचमुच अलग-अलग दिनों में रिकॉर्ड हुई थीं, तो संरेखण गलत है और मापा गया ऑफ़सेट ही भरोसेमंद है।"
 
 msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
-msgstr "संरेखण मापे गए ऑफ़सेट से होता है; टाइमकोड केवल मिलान-जाँच के लिए है।"
+msgstr "संरेखण मापे गए ऑफ़सेट से होता है; टाइमकोड केवल प्रति-जाँच के लिए है।"
 
 msgid "not measurable."
 msgstr "मापा नहीं जा सकता।"
@@ -3108,19 +3108,19 @@ msgid "cutting failed: %s"
 msgstr "काटना विफल: %s"
 
 msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
-msgstr "सब कुछ इसी से लौटता है: नाम, पृथक्करण, नियतन, प्रकार, समय-खिड़की। फ़ाइलों की सूची की जगह प्रोजेक्ट वाली सूची आ जाती है।"
+msgstr "सब कुछ इसी से लौटता है: नाम, पृथक्करण, नियतन, प्रकार, समय-खिड़की। फ़ाइलों की सूची की जगह परियोजना वाली सूची आ जाती है।"
 
 msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
-msgstr "प्रोजेक्ट खोला गया\n  सभी प्रविष्टियाँ वापस आ गई हैं, इस सत्र में अभी कुछ गणना नहीं हुई।\n  आउटपुट फ़ोल्डर में पिछले रन की फ़ाइलें हैं:\n  %s\n\n  यहाँ से तीन रास्ते:\n    • नीचे \"परिणाम फ़ोल्डर खोलें\" -- उस रन की फ़ाइलें देखें,\n    • नीचे \"Resolve परियोजना बनाएँ\" -- उस रन की सौंपने वाली फ़ाइल से,\n      बिना कुछ दोबारा गणना किए,\n    • ऊपर \"शुरू\" -- सब कुछ फिर से गणना करें और फ़ाइलें अधिलेखित करें।\n"
+msgstr "परियोजना खोली गई\n  सभी प्रविष्टियाँ वापस आ गई हैं, इस सत्र में अभी कुछ गणना नहीं हुई।\n  आउटपुट फ़ोल्डर में पिछले रन की फ़ाइलें हैं:\n  %s\n\n  यहाँ से तीन रास्ते:\n    • नीचे \"परिणाम फ़ोल्डर खोलें\" -- उस रन की फ़ाइलें देखें,\n    • नीचे \"Resolve परियोजना बनाएँ\" -- उस रन की सौंपने वाली फ़ाइल से,\n      बिना कुछ दोबारा गणना किए,\n    • ऊपर \"शुरू\" -- सब कुछ फिर से गणना करें और फ़ाइलें अधिलेखित करें।\n"
 
 msgid "Restart the application"
 msgstr "ऐप्लिकेशन फिर से शुरू करें"
 
 msgid "The application is about to start again. Shall the work be written to a project file first?"
-msgstr "ऐप्लिकेशन अभी फिर से शुरू होने वाला है। क्या काम पहले किसी प्रोजेक्ट फ़ाइल में लिखा जाए?"
+msgstr "ऐप्लिकेशन अभी फिर से शुरू होने वाला है। क्या काम पहले किसी परियोजना फ़ाइल में लिखा जाए?"
 
 msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
-msgstr "लिखा गया, तो नई विंडो प्रोजेक्ट को फिर खोलती है और सब कुछ वहीं रहता है जहाँ था। नहीं लिखा गया, तो वह खाली खुलती है और फ़ाइलें फिर से जोड़नी होंगी।"
+msgstr "लिखा गया, तो नई विंडो परियोजना को फिर खोलती है और सब कुछ वहीं रहता है जहाँ था। नहीं लिखा गया, तो वह खाली खुलती है और फ़ाइलें फिर से जोड़नी होंगी।"
 
 msgid "Save and restart"
 msgstr "सहेजें और फिर शुरू करें"
@@ -3129,28 +3129,28 @@ msgid "Restart without saving"
 msgstr "बिना सहेजे फिर शुरू करें"
 
 msgid "Several project files lie with this material. Which one?\n\n%s"
-msgstr "इस सामग्री के साथ कई प्रोजेक्ट फ़ाइलें हैं। कौन-सी?\n\n%s"
+msgstr "इस सामग्री के साथ कई परियोजना फ़ाइलें हैं। कौन-सी?\n\n%s"
 
 msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
-msgstr "प्रोजेक्ट फ़ाइल आउटपुट फ़ोल्डर में जाती है, और अभी कोई चुना नहीं गया। कृपया एक चुनें।"
+msgstr "परियोजना फ़ाइल आउटपुट फ़ोल्डर में जाती है, और अभी कोई चुना नहीं गया। कृपया एक चुनें।"
 
 msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
-msgstr "इस सामग्री के साथ एक प्रोजेक्ट फ़ाइल है:\n\n  %s\n  लिखी गई %s\n\n%s"
+msgstr "इस सामग्री के साथ एक परियोजना फ़ाइल है:\n\n  %s\n  लिखी गई %s\n\n%s"
 
 msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
-msgstr "प्रोजेक्ट सहेजा गया\n  %s\n  यह रन बाद में फिर खोला जा सकता है -- ऊपर बाईं ओर\n  \"प्रोजेक्ट खोलें ...\"\n\n"
+msgstr "परियोजना सहेजी गई\n  %s\n  यह रन बाद में फिर खोला जा सकता है -- ऊपर बाईं ओर\n  \"प्रोजेक्ट खोलें ...\"\n\n"
 
 msgid "Open json project file"
-msgstr "json प्रोजेक्ट फ़ाइल खोलें"
+msgstr "json परियोजना फ़ाइल खोलें"
 
 msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
-msgstr "यह प्रोजेक्ट फ़ाइल नहीं है, और उसी फ़ोल्डर में भी कोई नहीं है।\n\nखोज %s*.json की होती है -- स्क्रिप्ट इसे शुरू में आउटपुट फ़ोल्डर में लिखती है।"
+msgstr "यह परियोजना फ़ाइल नहीं है, और उसी फ़ोल्डर में भी कोई नहीं है।\n\nखोज %s*.json की होती है -- स्क्रिप्ट इसे शुरू में आउटपुट फ़ोल्डर में लिखती है।"
 
 msgid "These files no longer exist:\n  "
 msgstr "ये फ़ाइलें अब मौजूद नहीं हैं:\n  "
 
 msgid "  Project file not writable (%s)\n"
-msgstr "  प्रोजेक्ट फ़ाइल लिखी नहीं जा सकती (%s)\n"
+msgstr "  परियोजना फ़ाइल लिखी नहीं जा सकती (%s)\n"
 
 msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
 msgstr "Video Podcast Magic (%s*.json);;JSON फ़ाइलें (*.json);;सभी फ़ाइलें (*)"
@@ -3159,10 +3159,10 @@ msgid "This handover carries no frame rate, so the timeline cannot be built from
 msgstr "इस सौंपने वाली फ़ाइल में फ़्रेम दर नहीं है, इसलिए इससे Timeline नहीं बन सकती। कृपया रन फिर से करें।"
 
 msgid "This Resolve project already exists"
-msgstr "यह Resolve प्रोजेक्ट पहले से मौजूद है"
+msgstr "यह Resolve परियोजना पहले से मौजूद है"
 
 msgid "Too many projects with this name."
-msgstr "इस नाम के बहुत अधिक प्रोजेक्ट हैं।"
+msgstr "इस नाम की बहुत अधिक परियोजनाएँ हैं।"
 
 msgid "no information in the file"
 msgstr "फ़ाइल में कोई जानकारी नहीं"
@@ -3216,7 +3216,7 @@ msgid "Library:        %s%s"
 msgstr "लाइब्रेरी:        %s%s"
 
 msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
-msgstr "\n  इस नाम का प्रोजेक्ट पहले से मौजूद है: %r"
+msgstr "\n  इस नाम की परियोजना पहले से मौजूद है: %r"
 
 msgid "Stopped. Nothing was created."
 msgstr "रोका गया। कुछ नहीं बनाया गया।"
@@ -3246,7 +3246,7 @@ msgid "    Render settings rejected."
 msgstr "    रेंडर सेटिंग्स अस्वीकार हुईं।"
 
 msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
-msgstr "    %-22s %s kbit/s  (%s%s के लिए YouTube की सिफ़ारिश)"
+msgstr "    %-22s %s kbit/s  (YouTube की सिफ़ारिश: %s%s)"
 
 msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
 msgstr "    %-22s AAC, %s kHz, दो चैनल  (बिटरेट दूर से सेट नहीं हो सकता --\n%s%s kbit/s स्टीरियो के लिए अनुशंसित है)"
@@ -3270,7 +3270,7 @@ msgid "\nRESOLVE -- INSPECT ONLY"
 msgstr "\nRESOLVE -- केवल देखना"
 
 msgid "  Project %r"
-msgstr "  प्रोजेक्ट %r"
+msgstr "  परियोजना %r"
 
 msgid "    No clips found."
 msgstr "    कोई क्लिप नहीं मिली।"
@@ -3327,7 +3327,7 @@ msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
 msgstr "Resolve इंटरफ़ेस वहाँ नहीं है जहाँ अपेक्षित था:\n  %s\n  %s"
 
 msgid "  Project %r created."
-msgstr "  प्रोजेक्ट %r बनाया गया।"
+msgstr "  परियोजना %r बनाई गई।"
 
 msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
 msgstr "नवीनतम करें -- दोनों Timelines हटाकर\n       फिर से बनाई जाती हैं, Media Pool वैसा ही रहता है"
@@ -3336,10 +3336,10 @@ msgid "leave it and put the new Timelines alongside --\n       the existing ones
 msgstr "ऐसे ही छोड़ें और नई Timelines बगल में रखें --\n       मौजूदा बनी रहती हैं"
 
 msgid "create a new project alongside (name with suffix)"
-msgstr "बगल में नया प्रोजेक्ट बनाएँ (नाम में जोड़ के साथ)"
+msgstr "बगल में नई परियोजना बनाएँ (नाम में जोड़ के साथ)"
 
 msgid "  Project %r opened."
-msgstr "  प्रोजेक्ट %r खोला गया।"
+msgstr "  परियोजना %r खोली गई।"
 
 msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
 msgstr "    मापा गया %s फ़्रेम/s -- Resolve केवल निश्चित दरें जानता है,\n    %s लिया जाता है।"
@@ -3396,7 +3396,7 @@ msgid "    No matching codec found. Available: %s"
 msgstr "    कोई उपयुक्त कोडेक नहीं मिला। उपलब्ध: %s"
 
 msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
-msgstr "    सावधान: H.265 उपलब्ध नहीं -- यह आठ बिट वाला H.264 होगा।\n            HDR के लिए बहुत कम; ग्रेडिएंट में पट्टियाँ दिखेंगी।"
+msgstr "    सावधान: H.265 उपलब्ध नहीं -- यह आठ बिट वाला H.264 होगा।\n             HDR के लिए बहुत कम; ग्रेडिएंट में पट्टियाँ दिखेंगी।"
 
 msgid "    Format and codec could not be set."
 msgstr "    फ़ॉर्मेट और कोडेक सेट नहीं हो सके।"
@@ -3408,7 +3408,7 @@ msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier 
 msgstr "    %-22s %s पहले से मौजूद है -- इसके बजाय %s पर रेंडर किया गया, ताकि\n%sपिछली डिलीवरी बनी रहे।"
 
 msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
-msgstr "    %-22s \"Same as Project\" पर रहता है -- प्रोजेक्ट कोई\n%sHDR कर्व नहीं बताता। Resolve में यहाँ जाँचें:\n%sProject Settings > Color Management > Output Color Space।"
+msgstr "    %-22s \"Same as Project\" पर रहता है -- परियोजना कोई\n%sHDR कर्व नहीं बताती। Resolve में यहाँ जाँचें:\n%sProject Settings > Color Management > Output Color Space।"
 
 msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
 msgstr "    तैयार फ़ाइल HDR के रूप में पास होती है या नहीं:\n      videopodcast-magic --hdr-check %s"
@@ -3480,10 +3480,10 @@ msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "इन दोनों के बिना कुछ नहीं चलता। क्या Resolve इंस्टॉल है?"
 
 msgid "Project %r could not be created. Is the name already in another folder?"
-msgstr "प्रोजेक्ट %r नहीं बनाया जा सका। क्या यह नाम पहले से किसी दूसरे फ़ोल्डर में है?"
+msgstr "परियोजना %r नहीं बनाई जा सकी। क्या यह नाम पहले से किसी दूसरे फ़ोल्डर में है?"
 
 msgid "Project %r could not be opened."
-msgstr "प्रोजेक्ट %r नहीं खोला जा सका।"
+msgstr "परियोजना %r नहीं खोली जा सकी।"
 
 msgid "does not exist: %s"
 msgstr "मौजूद नहीं: %s"
@@ -3513,13 +3513,13 @@ msgid "The file is NOT recognised as HDR."
 msgstr "फ़ाइल को HDR के रूप में नहीं पहचाना जाता।"
 
 msgid "    Format list not readable: %s"
-msgstr "    फ़ॉर्मैट सूची पढ़ी नहीं जा सकती: %s"
+msgstr "    फ़ॉर्मेट सूची पढ़ी नहीं जा सकती: %s"
 
 msgid "    Codec list not readable: %s"
 msgstr "    कोडेक सूची पढ़ी नहीं जा सकती: %s"
 
 msgid "    Format and codec could not be set: %s"
-msgstr "    फ़ॉर्मैट और कोडेक सेट नहीं हो सके: %s"
+msgstr "    फ़ॉर्मेट और कोडेक सेट नहीं हो सके: %s"
 
 msgid "    One file per delivery could not be asked for: %s"
 msgstr "    हर डिलीवरी के लिए एक फ़ाइल नहीं माँगी जा सकी: %s"
@@ -3606,7 +3606,7 @@ msgid "  Deleted: %s -- being rebuilt now."
 msgstr "  हटाया गया: %s -- अभी फिर से बनाया जा रहा है।"
 
 msgid "Project %r could not be created."
-msgstr "प्रोजेक्ट %r नहीं बनाया जा सका।"
+msgstr "परियोजना %r नहीं बनाई जा सकी।"
 
 msgid "(wanted %s)"
 msgstr "(चाहिए था %s)"
@@ -3630,7 +3630,7 @@ msgid "missing: %s"
 msgstr "गायब: %s"
 
 msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
-msgstr "    सावधान: प्रोजेक्ट %s पर है, सामग्री %s है।\n             डिलीवरी में सामग्री के टैग रहते हैं। प्रोजेक्ट को\n             साथ लाने के लिए: Project Settings > Color Management >\n             Output Color Space = %s।"
+msgstr "    सावधान: परियोजना %s पर है, सामग्री %s है।\n             डिलीवरी में सामग्री के टैग रहते हैं। परियोजना को\n             साथ लाने के लिए: Project Settings > Color Management >\n             Output Color Space = %s।"
 
 msgid "Main10 (ten bit)"
 msgstr "Main10 (दस बिट)"
@@ -3648,7 +3648,7 @@ msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
 msgstr "  Resolve और वीडियो ट्रैक नहीं लेता -- %s कैमरे (%s में से) समा पाते हैं।"
 
 msgid "      %-24s no file in the media pool"
-msgstr "      %-24s मीडिया पूल में कोई फ़ाइल नहीं"
+msgstr "      %-24s Media Pool में कोई फ़ाइल नहीं"
 
 msgid "   MISSING"
 msgstr "   गायब"
@@ -3669,7 +3669,7 @@ msgid "      GetAudioMapping   empty (%r)"
 msgstr "      GetAudioMapping   खाली (%r)"
 
 msgid "    %s track could not be created: %s"
-msgstr "    %s ट्रैक नहीं बनाया जा सका: %s"
+msgstr "    %s प्रकार का ट्रैक नहीं बनाया जा सका: %s"
 
 msgid ", audio on A2"
 msgstr ", ऑडियो A2 पर"
@@ -3711,7 +3711,7 @@ msgid "  Colour group %r cannot be created: %s"
 msgstr "  रंग समूह %r नहीं बनाया जा सकता: %s"
 
 msgid "    %s track %d could not be created."
-msgstr "    %s ट्रैक %d नहीं बनाया जा सका।"
+msgstr "    %s प्रकार का ट्रैक %d नहीं बनाया जा सका।"
 
 msgid "ends"
 msgstr "अंत"
@@ -3729,7 +3729,7 @@ msgid "Check itself failed: %s"
 msgstr "जाँच स्वयं विफल: %s"
 
 msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
-msgstr "\nहो गया। नीचे \"परिणाम फ़ोल्डर खोलें\" परिणाम दिखाता है।\nसब ठीक हो तो \"Resolve प्रोजेक्ट बनाएँ\" उससे प्रोजेक्ट बनाता है।\n"
+msgstr "\nहो गया। नीचे \"परिणाम फ़ोल्डर खोलें\" परिणाम दिखाता है।\nसब ठीक हो तो \"Resolve परियोजना बनाएँ\" उससे परियोजना बनाता है।\n"
 
 msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
 msgstr "\nमापा गया। कुछ भी नहीं लिखा गया -- सूखा परीक्षण परिणाम फ़ोल्डर को जैसा था वैसा छोड़ता है।\n"
@@ -3900,7 +3900,7 @@ msgid "the interface"
 msgstr "इंटरफ़ेस"
 
 msgid "the separation in this run"
-msgstr "इस रन का पृथक्करण"
+msgstr "इस रन के पृथक्करण"
 
 msgid "Separating speakers: %s"
 msgstr "वक्ता पृथक्करण: %s"
@@ -3924,7 +3924,7 @@ msgid "pyannote sends a trace home on every run and this version offers no way t
 msgstr "pyannote हर रन पर घर एक निशान भेजता है और यह संस्करण इसे बंद करने का कोई तरीका नहीं देता, इसलिए पृथक्करण शुरू नहीं किया गया।"
 
 msgid "Speaker separation is switched off for this project."
-msgstr "इस प्रोजेक्ट के लिए वक्ता पृथक्करण बंद है।"
+msgstr "इस परियोजना के लिए वक्ता पृथक्करण बंद है।"
 
 msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
 msgstr "कौन कब बोलता है, यह इस मशीन पर निकाला जा सकता है -- किसी भी एक रिकॉर्डिंग से जिसमें सभी सुनाई देते हों।"
@@ -3993,7 +3993,7 @@ msgid "  Who asks -- not said here: two of the tracks carry the same speech, so 
 msgstr "  कौन पूछता है -- यहाँ नहीं कहा गया: दो ट्रैकों में एक ही बात है, इसलिए प्रश्न उस रिकॉर्डर के खाते में जाते जिसका वॉल्यूम सबसे ऊँचा था।"
 
 msgid "  %-20s %s speaking, %s of %s sentences a question"
-msgstr "  %-20s %s बोलना, %s में से %s वाक्य प्रश्न"
+msgstr "  %-20s %s बोलना, %s प्रश्न (कुल %s वाक्यों में से)"
 
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s लगता है %-20s उसका %s %% उस ट्रैक में, अगले से %s अंक आगे"
@@ -4158,13 +4158,13 @@ msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
 msgstr "Video Podcast Magic %s -- कच्चे माल से संपादित पॉडकास्ट"
 
 msgid "The work can be written to a project file first."
-msgstr "काम को पहले किसी प्रोजेक्ट फ़ाइल में लिखा जा सकता है।"
+msgstr "काम को पहले किसी परियोजना फ़ाइल में लिखा जा सकता है।"
 
 msgid "Show the log of this run"
 msgstr "इस रन का लॉग दिखाएँ"
 
 msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
-msgstr "इस रिकॉर्डिंग को उसके सभी ब्लॉकों के साथ किसी दूसरी रिकॉर्डिंग में रखता है।\nइसका उपयोग तब करें जब फ़ाइल नामों से खोज को कोई सुराग न मिले।"
+msgstr "इस रिकॉर्डिंग को उसके सभी खंडों के साथ किसी दूसरी रिकॉर्डिंग में रखता है।\nइसका उपयोग तब करें जब फ़ाइल नामों से खोज को कोई सुराग न मिले।"
 
 msgid "Remove the chosen file from the list"
 msgstr "चुनी गई फ़ाइल को सूची से हटाएँ"
@@ -4179,10 +4179,10 @@ msgid "Without timecode the position of the files is measured."
 msgstr "टाइमकोड के बिना फ़ाइलों की स्थिति मापी जाती है।"
 
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
-msgstr "इस प्रोजेक्ट के लिए पृथक्करण बंद रखता है। तब कट पहले की तरह ट्रैकों से या auphonic.com से आता है।"
+msgstr "इस परियोजना के लिए पृथक्करण बंद रखता है। तब कट पहले की तरह ट्रैकों से या auphonic.com से आता है।"
 
 msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "अभी कोई कैमरा कट नहीं है: इसके लिए दो लोग चाहिए, हर एक का एक नाम और एक कैमरा।\nअलग रिकॉर्डिंग यह Multitrack टिक से देती हैं, और किसी एक रिकॉर्डिंग के वक्ता का नाम फ़ील्ड में \"कई वक्ता\" भी --\nवहाँ मिली आवाज़ों को रिकॉर्डिंग के नीचे की तालिका में उनका कैमरा मिलता है।\nResolve प्रोजेक्ट फिर भी बनता है -- सभी कैमरे अपनी मापी गई जगहों पर, Multicam के लिए तैयार।"
+msgstr "अभी कोई कैमरा कट नहीं है: इसके लिए दो लोग चाहिए, हर एक का एक नाम और एक कैमरा।\nअलग रिकॉर्डिंग यह Multitrack टिक से देती हैं, और किसी एक रिकॉर्डिंग के वक्ता का नाम फ़ील्ड में \"कई वक्ता\" भी --\nवहाँ मिली आवाज़ों को रिकॉर्डिंग के नीचे की तालिका में उनका कैमरा मिलता है।\nResolve परियोजना फिर भी बनती है -- सभी कैमरे अपनी मापी गई जगहों पर, Multicam के लिए तैयार।"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "इसके लिए किसी रन की सौंपने वाली फ़ाइल चाहिए, और वह नहीं है।"
@@ -4269,7 +4269,7 @@ msgid "GENERAL NOTES"
 msgstr "सामान्य टिप्पणियाँ"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
-msgstr "क्रम से कोई फ़र्क नहीं पड़ता। कई हिस्सों वाली रिकॉर्डिंग के लिए पहला ब्लॉक काफ़ी है।"
+msgstr "क्रम से कोई फ़र्क नहीं पड़ता। कई हिस्सों वाली रिकॉर्डिंग के लिए पहला खंड काफ़ी है।"
 
 msgid "Dropping AUDIO or VIDEO takes all of it."
 msgstr "AUDIO या VIDEO पर छोड़ने से वह सब ले लिया जाता है।"
@@ -4296,7 +4296,7 @@ msgid "No audio file carries a timecode. In point and Out point count from the s
 msgstr "किसी भी ऑडियो फ़ाइल में टाइमकोड नहीं है। इन पॉइंट और आउट पॉइंट सामग्री की शुरुआत से गिने जाते हैं -- फ़ाइलों की एक-दूसरे के सापेक्ष स्थिति मापी गई है।"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "हर व्यक्ति के लिए एक ऑडियो ट्रैक, auphonic.com तक अलग रखा गया।\nइसके बिना भी काम करता है -- तब de-bleed और leveler के बिना।\nइसके लिए दो इनपुट ट्रैक चाहिए: एक अलग रिकॉर्डिंग, मल्टीचैनल\nरिकॉर्डर का एक चैनल, या \"ऑडियो का उपयोग करें\" पर सेट\nकिसी वीडियो फ़ाइल का ऑडियो। कैमरा कट को इस टिक की ज़रूरत नहीं।"
+msgstr "हर व्यक्ति के लिए एक ऑडियो ट्रैक, auphonic.com तक अलग रखा गया।\nइसके बिना भी काम करता है -- तब De-Bleed और Leveler के बिना।\nइसके लिए दो इनपुट ट्रैक चाहिए: एक अलग रिकॉर्डिंग, मल्टीचैनल\nरिकॉर्डर का एक चैनल, या \"ऑडियो का उपयोग करें\" पर सेट\nकिसी वीडियो फ़ाइल का ऑडियो। कैमरा कट को इस टिक की ज़रूरत नहीं।"
 
 msgid "During greeting and farewell the picture stays wide."
 msgstr "अभिवादन और विदाई के दौरान चित्र वाइड रहता है।"
@@ -4332,7 +4332,7 @@ msgid "Nothing has been written yet."
 msgstr "अभी तक कुछ नहीं लिखा गया है।"
 
 msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
-msgstr "%s -- हाथ से जोड़ने पर वह अंतर फ़ाइल में चुप्पी बनकर जाता है, और बाद में कुछ भी उसे नहीं हटाता।"
+msgstr "%s -- हाथ से जोड़ने पर वह अंतर फ़ाइल में मौन बनकर जाता है, और बाद में कुछ भी उसे नहीं हटाता।"
 
 msgid "\nStopped during: %s"
 msgstr "\nइस दौरान रुका: %s"
@@ -4413,7 +4413,7 @@ msgid "the whole material"
 msgstr "पूरी सामग्री"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
-msgstr "वीडियो पॉडकास्ट का कच्चा माल एक संपादित एपिसोड बनता है: अच्छा ऑडियो वीडियो फ़ाइलों में, कैमरे एक समय अक्ष पर, वक्ता के अनुसार पहला कट, और एक DaVinci Resolve प्रोजेक्ट।"
+msgstr "वीडियो पॉडकास्ट का कच्चा माल एक संपादित एपिसोड बनता है: अच्छा ऑडियो वीडियो फ़ाइलों में, कैमरे एक समय अक्ष पर, वक्ता के अनुसार पहला कट, और एक DaVinci Resolve परियोजना।"
 
 msgid "Python %s on %s"
 msgstr "Python %s, %s पर"

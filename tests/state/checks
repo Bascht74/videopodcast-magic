@@ -131,6 +131,7 @@ run_findings_reach_both	6
 run_install_is_watched	40
 run_log_within_reach	26
 run_metrics_add_up	51
+run_no_upload_no_hint	8
 run_odd_clock_named	17
 run_only_newer_offered	83
 run_outside_seen	14
