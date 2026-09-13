@@ -103,9 +103,11 @@ leeren Ordner dieses Namens, keinen Befehl und keine Fehlermeldung.
 Wer `UNKNOWN` liest, hat das falsche pip erwischt; dann Python 3.10
 oder neuer installieren und dessen `pip3` nehmen.
 
-Später, und nur wenn jemand will, wofür sie da sind, holt es noch
-zwei Dinge: die Umgebung, in der die Sprechertrennung läuft, und ihr
-Modell.
+Später, und nur wenn jemand will, wofür sie da sind, kommen zwei
+Modelle nach: das der Sprechertrennung, das das Programm aus seinem
+eigenen Repository holt, und das der Spracherkennung, das die Erkennung
+selbst holt und in einem eigenen Zwischenspeicher ablegt. Was beide zum
+Laufen brauchen, kommt schon mit der Installation.
 
 **Zum Modell.** Die Trennung liest es aus einem Ordner neben dem
 Programm — ohne Konto, ohne Zugangsschlüssel, und nach dem einen
