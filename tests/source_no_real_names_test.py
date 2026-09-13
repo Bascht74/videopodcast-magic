@@ -247,7 +247,11 @@ hits = set(piece for piece in cand
 # register ships too; a line naming the name would leak it there.
 places = []
 for path in sorted(texts):
-    low = texts[path].lower()
+    # One character for one: a place found in the lower-cased copy is
+    # read back in the original, so the copy may not grow. Turkish "İ"
+    # lowers to two characters, and with 114 of them in tr.po every
+    # find slid three lines on and the copyright line was read wrong.
+    low = "".join((ch.lower() or ch)[0] for ch in texts[path])
     at_all = []
     for piece in hits:
         at = low.find(piece)

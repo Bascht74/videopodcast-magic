@@ -638,25 +638,19 @@ way.
 The window settles its language once, while it is being built, and
 every caption in it has its words by the time it stands there.
 
-**Four of the twelve languages carry everything; the other eight carry
-the window and not the run.** The menu bar, the tabs and the buttons
-are translated in every language on offer. What the program says while
-it is working -- the lines that scroll past during a run -- is another
-matter, and there the languages part company.
-
-**German, Spanish, French and Russian say all of it.** The program says
-about 1400 different things, and those four answer every one, the run
-included. Arabic, Hindi, Italian, Japanese, Portuguese, Turkish,
-Ukrainian and Chinese answer about 250 -- the ones a person reads
-before a run rather than during it. What is not translated shows in
-English rather than as a gap, so a half-translated language reads
-rather than breaks.
+**Every language on offer says everything.** The menu bar, the tabs
+and the buttons are translated in all twelve, and so is what the
+program says while it is working -- the lines that scroll past during a
+run and the step into Resolve. The program says about 1400 different
+things, and each of the twelve answers every one. What is not
+translated shows in English rather than as a gap, so a language that
+falls behind a new text reads rather than breaks.
 
 A counted thing -- "1 file" against "3 files" -- is its own kind of
 entry, because the wording changes with the number and not every
-language changes it in the same places. The four full languages carry
-those too, each with as many wordings as the language has: two in
-German, Spanish and French, three in Russian.
+language changes it in the same places. Every language carries those
+too, with as many wordings as it has: one in Japanese and Chinese, two
+in most, three in Russian and Ukrainian, six in Arabic.
 
 **Light and dark are not set here, and nowhere else either.** There is
 no such entry, in this sheet or in any menu, because the window takes

@@ -129,10 +129,8 @@ terminal. There is no second way in.
 Without arguments the interface opens. Files are told apart by extension;
 the order does not matter. `--lang` fixes the language -- thirteen are on
 offer, and `docs/command-line.md` names them; without it the system locale
-decides. Only `--help` stays English. German, Spanish, French and
-Russian say everything else, the lines of a run included; the other eight
-translate the window and leave the rest in English --
-[the interface](docs/interface.md) says which is which.
+decides. Only `--help` stays English. Every language
+says everything else, the lines of a run included.
 
 ![The assignment tab](docs/images/assignment.png)
 
