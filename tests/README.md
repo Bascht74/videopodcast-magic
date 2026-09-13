@@ -1,6 +1,6 @@
 # The test suite
 
-263 tests against the program in `../videopodcast_magic/`. Every one of them stands
+264 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-263 tests. The name is the one a red line carries, and beside it the
+264 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -515,6 +515,7 @@ it is green.
 | `run_install_is_watched` | Installing ffmpeg shows what it is doing while it does it. |
 | `run_log_within_reach` | The log of a run is where whoever started it can get at it. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
+| `run_no_upload_no_hint` | The run promises to save an upload only where it uploads. |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody or guess. |
 | `run_outside_seen` | Every call to another program is in the log, and none in the output. |
