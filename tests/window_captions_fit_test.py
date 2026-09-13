@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 """Does every visible caption fit the field that carries it?
 
-Both languages, because that is where this goes wrong: a caption cut off
-in German only ever stood in a screenshot, and nothing in the program
-misbehaved, so no test that runs the program noticed.
+Every language the window offers, read off the catalogues beside the
+program, because that is where this goes wrong: a caption cut off in
+German only ever stood in a screenshot, and nothing in the program
+misbehaved, so no test that runs the program noticed. Four windows are
+built at a time. A caption this platform draws with a missing glyph is
+not judged but named as left out: its width is the width of boxes, and
+a machine without the script's fonts would otherwise call it cut off,
+or not, for a reason that is not in the program.
 
 Every widget carrying text in the window -- built for real, offscreen,
 with the fixture project in it -- is asked how wide its text is and how
@@ -35,7 +40,16 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 
-LANGUAGES = ("en", "de")
+# Every language the window offers, read off the catalogues beside the
+# program: written down here, the list stops at the languages there were
+# that day, and the next one is offered unmeasured.
+LANGUAGES = ("en",) + tuple(sorted(
+    os.path.splitext(p)[0]
+    for p in os.listdir(os.path.join(os.path.dirname(SCRIPT), "language"))
+    if p.endswith(".po")))
+# Windows built at once: each is a whole program with Qt in it, and
+# thirteen side by side are memory the machine may not have.
+AT_ONCE = 4
 # Rounding, nothing else: a size hint is not the sum of the character
 # widths, and both are whole pixels. Above what rounding costs in either
 # language, well below the width a caption is really cut off by.
@@ -173,6 +187,15 @@ def measure(language):
         return text.replace("&&", "\x00").replace("&", "") \
                    .replace("\x00", "&")
 
+    def missing_glyphs(font, text):
+        """How many characters of the text this platform draws as a box."""
+        layout = QtGui.QTextLayout(drawn(text).replace("\n", " "), font)
+        layout.beginLayout()
+        layout.createLine()
+        layout.endLayout()
+        return sum(1 for run in layout.glyphRuns()
+                   for glyph in run.glyphIndexes() if glyph == 0)
+
     def widest(metrics, text):
         """The widest line, since a caption may hold a line break."""
         return max(metrics.horizontalAdvance(line)
@@ -256,6 +279,7 @@ def measure(language):
     rounds = [{}, {}]
     round_now = [rounds[0]]
     seen = [0]
+    undrawable = set()
 
     def windows_size():
         """Give every window the program did not size itself its hint.
@@ -308,6 +332,9 @@ def measure(language):
                         continue   # the icon takes room the twin has not
                 except Exception:
                     pass
+            if missing_glyphs(w.font(), text):
+                undrawable.add(text)
+                continue
             room = surcharge(w)
             if room is None:
                 continue
@@ -498,6 +525,7 @@ def measure(language):
         result["size"] = "%dx%d" % (window.width(), window.height())
         result["seen"] = seen[0]
         result["zoom_row"] = zoom_row_holds(window)
+        result["undrawable"] = sorted(undrawable)
         result["found"] = [dict(text=t, kind=k, box=b, short=s)
                            for (t, k, b), s in rounds[1].items()
                            if (t, k, b) in rounds[0]]
@@ -534,23 +562,28 @@ def check(name, ok, extra=""):
 # language: they are about the platform, not about the words in it.
 said = []
 
-started = []
-for language in LANGUAGES:
-    locale = "%s_%s.UTF-8" % (language, language.upper())
-    env = dict(os.environ, VPM_LAYOUT_LANG=language, LANG=locale,
-               LC_ALL=locale, LANGUAGE=language,
-               QT_QPA_PLATFORM=PLATFORM)
-    started.append((language, subprocess.Popen(
-        [sys.executable, os.path.abspath(__file__)], stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT, text=True, env=env, cwd=HERE)))
+outputs = []
+for first in range(0, len(LANGUAGES), AT_ONCE):
+    started = []
+    for language in LANGUAGES[first:first + AT_ONCE]:
+        locale = "%s_%s.UTF-8" % (language, language.upper())
+        env = dict(os.environ, VPM_LAYOUT_LANG=language, LANG=locale,
+                   LC_ALL=locale, LANGUAGE=language,
+                   QT_QPA_PLATFORM=PLATFORM)
+        started.append((language, subprocess.Popen(
+            [sys.executable, os.path.abspath(__file__)],
+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+            env=env, cwd=HERE)))
+    for language, process in started:
+        try:
+            out, _ = process.communicate(timeout=600)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.communicate()
+            out = "the window never came back"
+        outputs.append((language, out))
 
-for language, process in started:
-    try:
-        out, _ = process.communicate(timeout=600)
-    except subprocess.TimeoutExpired:
-        process.kill()
-        process.communicate()
-        out = "the window never came back"
+for language, out in outputs:
     # The measuring happens in the child, so its dump would otherwise go
     # into the pipe and no further.
     if DUMP:
@@ -572,6 +605,15 @@ for language, process in started:
     print("\n%s: %d captions, %s %s, window %s"
           % (language, report["seen"], report["style"], report["font"],
              report["size"]))
+    if report.get("undrawable"):
+        # A piece of this language was not judged, and run.sh reports
+        # the test green with that piece named rather than green whole.
+        print("  LEFT OUT (%s, the script's glyphs): this platform draws "
+              "%d caption(s) with a missing glyph, so their width is the "
+              "width of boxes and was not judged -- first %r. A platform "
+              "with the script's fonts judges them."
+              % (language, len(report["undrawable"]),
+                 report["undrawable"][0][:40]))
     if not report.get("project"):
         print("  the interview fixture is not there -- only the empty "
               "window was looked at. Run tests/fixtures.sh.")

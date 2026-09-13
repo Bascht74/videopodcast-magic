@@ -60,15 +60,11 @@ recording. Everything the window showed in red stands there too, with
 the time of day -- a red mark is gone the moment its row is drawn
 again, and the complaint about it arrives hours later.
 
-The window speaks thirteen languages, and four of them say everything.
-German, Spanish, French and Russian answer every one of the roughly
-1400 texts the program has, the lines of a run and the step into
-Resolve included. Arabic, Hindi, Italian, Japanese, Portuguese,
-Turkish, Ukrainian and Chinese answer about 250 -- the window's own
-captions, what is read before a run -- and show the rest in English
-rather than as a gap. What each language answers is counted at every
-push and may only grow, and the four finished ones are held to all of
-it.
+The window speaks thirteen languages, and every one of them says
+everything: each of the twelve catalogues answers every one of the
+roughly 1400 texts the program has, the lines of a run and the step
+into Resolve included. What each language answers is counted at every
+push and may only grow, and every one is held to all of it.
 
 It is a Python program: a folder, `videopodcast_magic/`, holding a small
 file the program starts in, thirty-five pieces beside it in folders of
@@ -107,16 +103,13 @@ Six items. The first four are work. The last two are built, and what
 they wait on is somebody sitting down with real material rather than
 more building.
 
-**Every language says everything, and sixteen more come.** The eight
-languages that translate the window and not the run are brought to all
-of it, the lines of a run and the step into Resolve included. Then
-sixteen are added: Bengali, Vietnamese and Korean, and thirteen
-European ones -- Polish, Romanian, Dutch, Greek, Swedish, Hungarian,
-Serbian, Czech, Croatian, Danish, Finnish, Slovak and Norwegian, the
-Norwegian as Bokmål and the Serbian in Cyrillic. That makes twenty-nine
-languages. It is done when every one of them answers every text the
-program says, and the check on the width of labels looks at all of them
-rather than at English and German alone.
+**Sixteen more languages.** Bengali, Vietnamese and Korean, and
+thirteen European ones -- Polish, Romanian, Dutch, Greek, Swedish,
+Hungarian, Serbian, Czech, Croatian, Danish, Finnish, Slovak and
+Norwegian, the Norwegian as Bokmål and the Serbian in Cyrillic. That
+makes twenty-nine languages, each answering every text the program
+says, as the thirteen of today do; the check on the width of labels
+already looks at every language the window offers.
 
 **The whole way gets tests, not the single functions along it.** Seven
 steps, and each of them on both paths: the program opens, files come
