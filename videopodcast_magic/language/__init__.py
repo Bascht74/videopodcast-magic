@@ -5,14 +5,11 @@ English wording is the key: `T()` looks a message up by it, so an
 untranslated text shows in English rather than disappearing. Each
 language is a `.po` beside this one -- a translation is data, and a
 Python catalogue that fails to parse takes the whole start down.
-
-A new language is its `.po`, with the Plural-Forms line in its header,
-and four lines: its own name in LANGUAGE_NAMES below, a CATALOGUE line
-at the end of the program's own `__init__.py`, its code in FINISHED
-in `tests/text_languages_covered_test.py`, and its code under `--lang`
-in `docs/command-line.md`, the one place the manual lists them.
-Nothing else names or counts the languages.
 """
+# A new language: its .po (with Plural-Forms), its name in LANGUAGE_NAMES,
+# a CATALOGUE line in ../__init__.py, its code in FINISHED in
+# tests/text_languages_covered_test.py and under --lang in
+# docs/command-line.md.
 import io
 import os
 import re
@@ -160,6 +157,7 @@ def languages():
 # looks for a language may not read the one the window stands in.
 LANGUAGE_NAMES = dict(
     ar="العربية",
+    bn="বাংলা",
     de="Deutsch",
     en="English",
     es="Español",
@@ -167,10 +165,14 @@ LANGUAGE_NAMES = dict(
     hi="हिन्दी",
     it="Italiano",
     ja="日本語",
+    ko="한국어",
+    nl="Nederlands",
+    pl="Polski",
     pt="Português",
     ru="Русский",
     tr="Türkçe",
     uk="Українська",
+    vi="Tiếng Việt",
     zh="中文",
 )
 
