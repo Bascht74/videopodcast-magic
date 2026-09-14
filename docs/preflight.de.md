@@ -34,7 +34,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Ton | Abtastwerte am Anschlag, je Kanal | Hinweis, nur Ganzzahlformate |
 | Timecode | die Uhren der Dateien gegeneinander | Hinweis, wo eine Uhr nicht gestellt war |
 | Raum | Übersprechen je Sprecherpaar, gegen die 3:1-Regel | Hinweis für die *nächste* Aufnahme |
-| System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht |
+| System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht; ein Probelauf gibt nur den Hinweis |
 | Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
 
@@ -287,7 +287,8 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   Platte hilft dann so viel wie Aufräumen. Wird ohnehin nur ein Stück
   der Aufnahme gebraucht, hilft ein engerer In- und Out-Punkt mehr als
   beides: Die Kameras werden dann nur noch für dieses Fenster
-  geschrieben.
+  geschrieben. Ein Probelauf schreibt keine Kameradatei, deshalb nennt
+  er fehlenden Platz nur und läuft weiter.
 - **Das Preset mastert auf eine andere Lautheit.** `--lufs` auf den Wert
   des Presets setzen oder das Lautheitsziel des Presets auf
   auphonic.com ändern. Beides zusammen geht nicht: die Spuren kommen auf

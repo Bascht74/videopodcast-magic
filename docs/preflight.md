@@ -34,7 +34,7 @@ The report holds for both modes.
 | Sound | samples on the stop, per channel | note, integer formats only |
 | Timecode | the clocks of the files against each other | note where a clock was not set |
 | Room | bleed per pair of speakers, against the 3:1 rule | note for the *next* recording |
-| System | free disk space against the estimated need | note where it is tight, **stop** where it is short |
+| System | free disk space against the estimated need | note where it is tight, **stop** where it is short; a dry run only notes it |
 | Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
 | Loudness | which target holds and where it comes from | -- |
 
@@ -271,7 +271,8 @@ for it.
   space twice, and an output folder on another drive is worth as much as
   clearing space. Where only a stretch of the recording is wanted
   anyway, a narrower In point and Out point is worth more than either:
-  the cameras are then written for that window alone.
+  the cameras are then written for that window alone. A dry run writes
+  no camera file, so it only notes a shortage and goes on.
 - **The preset masters to a different loudness.** Set `--lufs` to the
   value of the preset, or change the loudness target of the preset at
   auphonic.com. Both at once does not work: the tracks come back at one

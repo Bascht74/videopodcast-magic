@@ -946,12 +946,14 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
 
 
 def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
-                        window_s=None):
+                        window_s=None, dry_run=False):
     """Report whether there is enough disk space for what will be created.
 
     Rough but erring upward, so a run stops before it starts rather than
     halfway. *window_s* shortens the cameras and the estimate follows
-    it, generously, or a run that fits is refused.
+    it, generously, or a run that fits is refused. A *dry_run* writes no
+    camera file, so a shortage is a note there and not a stop; the
+    sentence still says what the real run would lack.
     """
     folder = target_folder or (os.path.dirname(os.path.abspath(video_paths[0]))
                             if video_paths else os.getcwd())
@@ -984,6 +986,8 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
     elif kind == "hint":
         advice = T('The estimate is rough, so this is not room enough. Free '
                    'up space or choose another folder with --out.')
+    if kind == "abort" and dry_run:
+        kind = "hint"
     return [Finding(kind, T('Disk space'),
                    T('free %s, about %s needed (%s)')
                    % (as_data_size(free), as_data_size(needed), folder), advice)]
@@ -1344,7 +1348,8 @@ def run_preflight(args, audio_paths, video_paths):
     # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
                              bool(getattr(args, "multitrack", False)),
-                             window_from_points(args))
+                             window_from_points(args),
+                             bool(getattr(args, "dry_run", False)))
     findings += check_loudness_target(args, video_paths)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
