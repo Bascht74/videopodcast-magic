@@ -691,10 +691,11 @@ pieces_answer_together()
 
 
 #--------------------------------------------------------------- Catalogue
-# One file per language beside this one. How to add one: see the top.
+# One file per language in language/. How to add one: see the top of
+# language/__init__.py.
 
 CATALOGUE["de"] = texts_of_language("de")
-# All twelve answer every text; one a catalogue does not carry yet
+# Every catalogue answers every text; one it does not carry yet
 # appears in English. Arabic turns the window round.
 CATALOGUE["es"] = texts_of_language("es")
 CATALOGUE["pt"] = texts_of_language("pt")

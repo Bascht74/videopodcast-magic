@@ -127,9 +127,9 @@ pip's own warning names that folder: put it on the path and open a new
 terminal. There is no second way in.
 
 Without arguments the interface opens. Files are told apart by extension;
-the order does not matter. `--lang` fixes the language -- thirteen are on
-offer, and `docs/command-line.md` names them; without it the system locale
-decides. Only `--help` stays English. Every language
+the order does not matter. `--lang` fixes the language --
+`docs/command-line.md` names the ones on offer; without it the system
+locale decides. Only `--help` stays English. Every language
 says everything else, the lines of a run included.
 
 ![The assignment tab](docs/images/assignment.png)

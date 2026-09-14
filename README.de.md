@@ -133,8 +133,8 @@ aufnehmen und ein neues Terminal öffnen. Einen zweiten Weg hinein gibt
 es nicht.
 
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
-erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest -- dreizehn
-stehen zur Wahl, `docs/command-line.de.md` nennt sie; ohne den Schalter
+erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest --
+`docs/command-line.de.md` nennt die, die zur Wahl stehen; ohne den Schalter
 entscheidet die Systemsprache. Nur `--help` bleibt englisch. Jede
 Sprache sagt alles andere, auch während eines Laufs.
 
