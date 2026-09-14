@@ -9,7 +9,7 @@ not fit -- before anything is written.*
 
 *Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
 
-**Version 3.0.0b13.** It does the work it was written for, every week, on
+**Version 3.0.0b14.** It does the work it was written for, every week, on
 real material. The step to 3 is a break rather than a heap of new
 features: the program is installed now, with pip3, and it is a command
 called `videopodcast-magic`. Anything that still starts it as a file
@@ -127,9 +127,9 @@ pip's own warning names that folder: put it on the path and open a new
 terminal. There is no second way in.
 
 Without arguments the interface opens. Files are told apart by extension;
-the order does not matter. `--lang` fixes the language -- thirteen are on
-offer, and `docs/command-line.md` names them; without it the system locale
-decides. Only `--help` stays English. Every language
+the order does not matter. `--lang` fixes the language --
+`docs/command-line.md` names the ones on offer; without it the system
+locale decides. Only `--help` stays English. Every language
 says everything else, the lines of a run included.
 
 ![The assignment tab](docs/images/assignment.png)

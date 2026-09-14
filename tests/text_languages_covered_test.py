@@ -99,8 +99,8 @@ for code, path in CATALOGUES:
     has = set(the_program.po_texts(path))
     answered[code] = len([w for w in said if w in has])
 # One check over all of them, not one per language: a check whose name
-# is computed carries one wording for twelve judgements, and the
-# register cannot then say which of the twelve was ever seen red.
+# is computed carries one wording for every language, and the
+# register cannot then say which of them was ever seen red.
 worse = []
 for code in sorted(answered):
     floor = state.rising("answers_" + code, answered[code])
@@ -118,7 +118,8 @@ print("\n3b. A language called finished stays finished")
 # just as many while the program says one more, and nothing moves. So
 # the ones declared finished are held to everything -- that is where
 # the upkeep gets paid, by the few declared finished rather than all.
-FINISHED = ("ar", "de", "es", "fr", "hi", "it", "ja", "pt", "ru", "tr", "uk", "zh")
+FINISHED = ("ar", "bn", "de", "es", "fr", "hi", "it", "ja", "ko", "nl", "pl", "pt", "ru",
+            "tr", "uk", "vi", "zh")
 short = []
 for code in FINISHED:
     path = dict(CATALOGUES).get(code)

@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b13.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b14.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -133,8 +133,8 @@ aufnehmen und ein neues Terminal öffnen. Einen zweiten Weg hinein gibt
 es nicht.
 
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
-erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest -- dreizehn
-stehen zur Wahl, `docs/command-line.de.md` nennt sie; ohne den Schalter
+erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest --
+`docs/command-line.de.md` nennt die, die zur Wahl stehen; ohne den Schalter
 entscheidet die Systemsprache. Nur `--help` bleibt englisch. Jede
 Sprache sagt alles andere, auch während eines Laufs.
 
