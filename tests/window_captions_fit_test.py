@@ -48,7 +48,7 @@ LANGUAGES = ("en",) + tuple(sorted(
     for p in os.listdir(os.path.join(os.path.dirname(SCRIPT), "language"))
     if p.endswith(".po")))
 # Windows built at once: each is a whole program with Qt in it, and
-# thirteen side by side are memory the machine may not have.
+# all of them side by side are memory the machine may not have.
 AT_ONCE = 4
 # Rounding, nothing else: a size hint is not the sum of the character
 # widths, and both are whole pixels. Above what rounding costs in either

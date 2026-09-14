@@ -99,8 +99,8 @@ for code, path in CATALOGUES:
     has = set(the_program.po_texts(path))
     answered[code] = len([w for w in said if w in has])
 # One check over all of them, not one per language: a check whose name
-# is computed carries one wording for twelve judgements, and the
-# register cannot then say which of the twelve was ever seen red.
+# is computed carries one wording for every language, and the
+# register cannot then say which of them was ever seen red.
 worse = []
 for code in sorted(answered):
     floor = state.rising("answers_" + code, answered[code])
