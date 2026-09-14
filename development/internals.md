@@ -32,7 +32,7 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `player/` **3018** -- the moving picture: the player, the cut band,
+* `player/` **3036** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
 * `cut/` **2904** -- who is on camera when, and what carries it out
