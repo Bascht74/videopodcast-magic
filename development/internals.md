@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   stored handover and a file name read as
 * `auphonic/` **1657** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1537** -- whether the material fits together before the
+* `preflight/` **1542** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `speech/` **1089** -- what is said and when, and what is written down

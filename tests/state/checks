@@ -124,6 +124,7 @@ run_bar_tracks_work	35
 run_choice_kept	17
 run_command_built	63
 run_dry_reports_voices	13
+run_dry_run_not_stopped	6
 run_ffmpeg_new_enough	26
 run_ffmpeg_not_fetched	15
 run_ffmpeg_offered	19
