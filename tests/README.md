@@ -1,6 +1,6 @@
 # The test suite
 
-264 tests against the program in `../videopodcast_magic/`. Every one of them stands
+265 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-264 tests. The name is the one a red line carries, and beside it the
+265 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -508,6 +508,7 @@ it is green.
 | `run_choice_kept` | A choice made in one run is found by the next, and by nobody else. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
+| `run_dry_run_not_stopped` | A dry run short of disk space is told so and goes on; a real run stops. |
 | `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and only that. |
 | `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
 | `run_ffmpeg_offered` | Getting ffmpeg is offered on all three systems, and a test run gets none. |

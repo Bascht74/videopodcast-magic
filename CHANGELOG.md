@@ -25,6 +25,25 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b13] - 2026-09-14
+
+### Changed
+
+- **A "Dry run" that finds too little disk space now names the shortage
+  and goes on.** It stopped before, as a real run does, although a dry
+  run writes no camera file. The note still says how much the real run
+  would lack, and a real run still stops there.
+
+**Deutsch**
+
+### Geändert
+
+- **Ein „Probelauf", der zu wenig Plattenplatz findet, nennt das jetzt
+  und läuft weiter.** Bisher hielt er an wie ein echter Lauf, obwohl ein
+  Probelauf keine Kameradatei schreibt. Der Hinweis sagt weiterhin, wie
+  viel dem echten Lauf fehlen würde, und ein echter Lauf hält dort nach
+  wie vor an.
+
 ## [3.0.0b12] - 2026-09-13
 
 ### Added

@@ -19,11 +19,13 @@
 # corrected line is a whole contribution.
 #
 # The 1131 texts and 31 counted things added on 13.9.2026 were written
-# by one model, four languages at a time from one sheet, and a sample
-# of them was read back by another, which found 3 places to put
-# right -- a meaning that had slipped, or a word the catalogue already
-# says otherwise; those were repaired. Treat the rest as the first draft it
-# is.
+# by one model, four languages at a time from one sheet. A sample of
+# them was read back by another, which found 3 places to put right;
+# the same day every one of them was read back in full, against the
+# English, the line of code it stands in and the words this catalogue
+# used before, and 35 more were put right -- mostly a word the
+# catalogue already says otherwise, now and then a meaning that had
+# slipped. Treat them as the first draft they still are.
 #
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
