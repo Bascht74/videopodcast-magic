@@ -708,6 +708,11 @@ CATALOGUE["zh"] = texts_of_language("zh")
 CATALOGUE["ja"] = texts_of_language("ja")
 CATALOGUE["hi"] = texts_of_language("hi")
 CATALOGUE["ar"] = texts_of_language("ar")
+CATALOGUE["bn"] = texts_of_language("bn")
+CATALOGUE["vi"] = texts_of_language("vi")
+CATALOGUE["ko"] = texts_of_language("ko")
+CATALOGUE["pl"] = texts_of_language("pl")
+CATALOGUE["nl"] = texts_of_language("nl")
 
 # What somebody chose in an earlier run, else the system. --lang beats
 # both, and main() applies it once the command line has been read.
