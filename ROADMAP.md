@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b13.
+gone through for 3.0.0b14.
 
 ## Where the program stands today
 
-**Version 3.0.0b13.** It runs every week, on real material.
+**Version 3.0.0b14.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -60,8 +60,8 @@ recording. Everything the window showed in red stands there too, with
 the time of day -- a red mark is gone the moment its row is drawn
 again, and the complaint about it arrives hours later.
 
-The window speaks thirteen languages, and every one of them says
-everything: each of the twelve catalogues answers every one of the
+Every language the window offers says everything: its catalogue
+answers every one of the
 roughly 1400 texts the program has, the lines of a run and the step
 into Resolve included. What each language answers is counted at every
 push and may only grow, and every one is held to all of it.
@@ -103,13 +103,12 @@ Six items. The first four are work. The last two are built, and what
 they wait on is somebody sitting down with real material rather than
 more building.
 
-**Sixteen more languages.** Bengali, Vietnamese and Korean, and
-thirteen European ones -- Polish, Romanian, Dutch, Greek, Swedish,
-Hungarian, Serbian, Czech, Croatian, Danish, Finnish, Slovak and
-Norwegian, the Norwegian as Bokmål and the Serbian in Cyrillic. That
-makes twenty-nine languages, each answering every text the program
-says, as the thirteen of today do; the check on the width of labels
-already looks at every language the window offers.
+**More languages.** Proposed and not yet chosen: Romanian, Greek,
+Swedish, Hungarian, Serbian, Czech, Croatian, Danish, Finnish, Slovak
+and Norwegian, the Norwegian as Bokmål and the Serbian in Cyrillic.
+Each is chosen on its own, and each would answer every text the
+program says, as every language on offer does; the check on the
+width of labels already looks at every language the window offers.
 
 **The whole way gets tests, not the single functions along it.** Seven
 steps, and each of them on both paths: the program opens, files come

@@ -1,0 +1,4494 @@
+# What is translated of this program's messages, in Dutch.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Dutch speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 14.9.2026 in two steps: the window's captions
+# first, which fixed the form of address and one word for each thing,
+# and then every other text against them, five languages at a time from
+# one sheet. Every entry was read back once in full by another model,
+# against the English, the line of code it stands in and those words,
+# and 3 were put right; a third refuted what was not a fault.
+#
+# Anyone who speaks Dutch is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else,
+# nought included -- "0 camera's" and not "0 camera".
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Montage met het totaalshot"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Scheidt de opname op stem: elke stem krijgt een eigen rij, met de camera erin. Ongeveer een minuut per half uur geluid, op deze computer en zonder uploaden."
+
+msgid ", %s without"
+msgstr ", %s zonder"
+
+msgid "no camera yet"
+msgstr "nog geen camera"
+
+msgid "A newer version is out"
+msgstr "Er is een nieuwere versie"
+
+msgid "%s is out. This is %s."
+msgstr "%s is uit. Dit is %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Bijwerken? pip haalt hem op naar %s. Wat pip meldt verschijnt onder Uitvoer, en de nieuwe versie draait vanaf de volgende start."
+
+msgid "pip could not be started: %s"
+msgstr "pip kon niet worden gestart: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip is gestopt met %s. Wat het heeft gedaan staat in de regels hierboven."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s is geïnstalleerd. Het draait vanaf de volgende start."
+
+msgid "There is no window to show what pip says."
+msgstr "Er is geen venster om te tonen wat pip meldt."
+
+msgid "Back to an earlier version ..."
+msgstr "Terug naar een eerdere versie ..."
+
+msgid "Back to an earlier version"
+msgstr "Terug naar een eerdere versie"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Kon niet naar eerdere versies zoeken: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "De lijst met eerdere versies kon niet worden gelezen."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Er is geen versie ouder dan %s die pip kan installeren."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Dit is %s. Welke versie moet pip ervoor in de plaats zetten?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip haalt hem op naar %s, en wat pip meldt verschijnt onder Uitvoer. De hier gekozen versie draait vanaf de volgende start.\n\nHet brengt het programma terug en verder niets. Wat een nieuwere versie in de instellingen heeft geschreven blijft staan, en projecten en hun bestanden blijven zoals ze zijn."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "een intro of outro met twee kanalen is een stereomix -- niet gemeten"
+
+msgid "Multitrack mode"
+msgstr "Multitrack-modus"
+
+msgid "Singletrack mode"
+msgstr "Singletrack-modus"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Geen eigen Multitrack-voorinstelling -- maak er een aan"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Geen eigen Singletrack-voorinstelling -- maak er een aan"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Geen eigen voorinstelling -- maak er een aan op auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "Geen Multitrack-voorinstelling gevonden in het account."
+
+msgid "No Singletrack preset found in the account."
+msgstr "Geen Singletrack-voorinstelling gevonden in het account."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "Geen Multitrack-voorinstelling in het account. Alleen deze: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "Geen Singletrack-voorinstelling in het account. Alleen deze: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r is een Singletrack-voorinstelling, en er is een Multitrack-voorinstelling nodig."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r is een Multitrack-voorinstelling, en er is een Singletrack-voorinstelling nodig."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "De sleutel is goed. Van de %s voorinstellingen in het account is geen enkele een Multitrack-voorinstelling, dus de lijst blijft leeg."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "De sleutel is goed. Van de %s voorinstellingen in het account is geen enkele een Singletrack-voorinstelling, dus de lijst blijft leeg."
+
+msgid "fetching from auphonic.com ..."
+msgstr "ophalen van auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Wat er sinds %s is veranderd:"
+
+msgid "Update"
+msgstr "Bijwerken"
+
+msgid "Later"
+msgstr "Later"
+
+msgid "Go back"
+msgstr "Teruggaan"
+
+msgid "Starting again did not work: %s"
+msgstr "Opnieuw starten is niet gelukt: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Start het met de hand: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Geen nieuwere versie gevonden. Dit is %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update haalt hem op en installeert hem."
+
+msgid "The check for new versions is switched off here."
+msgstr "Het zoeken naar nieuwe versies is hier uitgeschakeld."
+
+msgid "About Video Podcast Magic"
+msgstr "Over Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Ruw materiaal van een videopodcast wordt een gemonteerde aflevering: het goede geluid uit de videobestanden, de camera's op één tijdas, een eerste montage per spreker en een DaVinci Resolve-project."
+
+msgid "Python %s on %s"
+msgstr "Python %s op %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "MIT-licentie, Copyright (c) 2026 Sebastian Lotz. Geleverd zoals het is, zonder enige garantie."
+
+msgid "&File"
+msgstr "&Bestand"
+
+msgid "&View"
+msgstr "&Weergave"
+
+msgid "&Player"
+msgstr "&Speler"
+
+msgid "&Help"
+msgstr "&Help"
+
+msgid "Play and pause"
+msgstr "Afspelen en pauzeren"
+
+msgid "Fast forward"
+msgstr "Snel vooruit"
+
+msgid "Fast forward, %s times speed"
+msgstr "Snel vooruit, %s keer zo snel"
+
+msgid "Play forward, faster on every press"
+msgstr "Vooruit afspelen, sneller bij elke druk"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Vooruit afspelen, bij elke druk twee keer zo snel -- de L-toets."
+
+msgid "Pause"
+msgstr "Pauzeren"
+
+msgid "One frame back"
+msgstr "Eén frame terug"
+
+msgid "One frame forward"
+msgstr "Eén frame vooruit"
+
+msgid "One second back"
+msgstr "Eén seconde terug"
+
+msgid "One second forward"
+msgstr "Eén seconde vooruit"
+
+msgid "Ten seconds back"
+msgstr "Tien seconden terug"
+
+msgid "Ten seconds forward"
+msgstr "Tien seconden vooruit"
+
+msgid "The manual"
+msgstr "De handleiding"
+
+msgid "What changed in this version"
+msgstr "Wat er in deze versie is veranderd"
+
+msgid "Show the log of this run"
+msgstr "Logboek van dit proces tonen"
+
+msgid "Nothing has been written yet."
+msgstr "Er is nog niets geschreven."
+
+msgid "Look for a newer version now"
+msgstr "Nu naar een nieuwere versie zoeken"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Geen certificaatbundel gevonden -- een download via HTTPS kan mislukken."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Spraakherkenner wordt gebouwd ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  De Swift-compiler meldt: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  De spraakherkenner is gebouwd (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  De spraakherkenning meldt: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Herkend in %s: klaar in %s s, gehoord in %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Geen spraakherkenning op deze computer: macOS 26 heeft er een, anders wordt faster-whisper geïnstalleerd."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Spraakherkenning (%s): %s woorden in %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Spraakherkenning (%s): %s woorden, teruggelezen"
+
+msgid "Separating speakers: %s"
+msgstr "Sprekers worden gescheiden: %s"
+
+msgid "Separating ..."
+msgstr "Scheiden ..."
+
+msgid "Voice"
+msgstr "Stem"
+
+msgid "Stop"
+msgstr "Stoppen"
+
+msgid "Stopping ..."
+msgstr "Wordt gestopt ..."
+
+msgid "Not on this machine"
+msgstr "Niet op deze computer"
+
+msgid "Reading the audio ..."
+msgstr "Geluid lezen ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "In de opname was niets te horen."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "De sprekerscheiding staat uit voor dit project."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Wie wanneer spreekt, kan op deze computer worden bepaald, uit elke opname waarop iedereen te horen is."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Laat de scheiding voor dit project uitgeschakeld. De montage komt dan zoals voorheen uit de sporen of van auphonic.com."
+
+msgid "The speaker separation reports: %s"
+msgstr "De sprekerscheiding meldt: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "De sprekerscheiding wordt teruggezet ..."
+
+msgid "The speaker separation is not set up."
+msgstr "De sprekerscheiding is niet ingericht."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "De sprekerscheiding is hier niet geïnstalleerd. Dit zet haar terug: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Model wordt opgehaald (ongeveer %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Model wordt opgehaald (ongeveer %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Het model kon niet worden opgehaald: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Het model kon niet worden geschreven: %s"
+
+msgid "The list of model files came back empty."
+msgstr "De lijst met modelbestanden kwam leeg terug."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s komt niet overeen met zijn controlesom en is niet geschreven."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "In de map van het programma kan niet worden geschreven: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Het model voor de sprekerscheiding staat niet naast het programma."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Het modelbestand %s komt niet overeen met zijn controlesom."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote stuurt bij elke run een spoor naar huis en deze versie biedt geen manier om dat uit te zetten, dus de scheiding is niet gestart."
+
+msgid "Speakers"
+msgstr "Sprekers"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Wie er op deze opname te horen is. Een naam betekent: die ene persoon.\n\"meerdere sprekers\" bepaalt wie wanneer spreekt, op deze computer en zonder uploaden -- ongeveer een minuut per half uur geluid. De namen komen dan in de rijen eronder."
+
+msgid "Speaker %d"
+msgstr "Spreker %d"
+
+msgid "One more speaker in %s"
+msgstr "Nog een spreker in %s"
+
+msgid "One more speaker in"
+msgstr "Nog een spreker in"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Luistert die opname opnieuw af, op zoek naar één spreker meer dan er gevonden is."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
+
+msgid " SEEKING"
+msgstr " ZOEKT"
+
+msgid " computed"
+msgstr " berekend"
+
+msgid " virtual"
+msgstr " virtueel"
+
+msgid "%s were already right"
+msgstr "%s stonden al goed"
+
+msgid "%s (%s files)"
+msgstr "%s (%s bestanden)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s tot %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d tot %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- met de hand samengevoegd komt dat verschil als stilte in het bestand, en niets haalt het er later nog uit."
+
+msgid "%s and %s more"
+msgstr "%s en nog %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s en %s staan allebei op %s. Maar één bestand kan dat zijn -- zet het andere terug op Inhoud."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s en %s hebben dezelfde bestandsnaam, en Resolve meldt er geen\n  pad bij. Hernoem een van de twee."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s frames in %s"
+
+msgid "%s reports %s"
+msgstr "%s meldt %s"
+
+msgid "%s speech time"
+msgstr "%s spreektijd"
+
+msgid "%s virtual"
+msgstr "%s virtueel"
+
+msgid "%s, audio track %d"
+msgstr "%s, audiospoor %d"
+
+msgid "3:1 rule"
+msgstr "3:1-regel"
+
+msgid "Output"
+msgstr "Uitvoer"
+
+msgid "Access to auphonic.com"
+msgstr "Toegang tot auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Toegang en verbinding worden één keer gevraagd en blijven dan. De sleutel gaat in de %s, nooit in een bestand."
+
+msgid "Checking files"
+msgstr "Bestanden controleren"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Alles wat nog openstaat, afgezet tegen wat klaar is. Lange taken nemen meer van de balk in dan korte."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Sleutel voor auphonic.com, en of Resolve antwoordt."
+
+msgid "Measuring time axis"
+msgstr "Tijdas meten"
+
+msgid "Resolve answers"
+msgstr "Resolve antwoordt"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve antwoordt niet -- zie Instellingen"
+
+msgid "Settings"
+msgstr "Instellingen"
+
+msgid "Settings ..."
+msgstr "Instellingen ..."
+
+msgid "Two files as %s"
+msgstr "Twee bestanden als %s"
+
+msgid "begins"
+msgstr "begint"
+
+msgid "done"
+msgstr "klaar"
+
+msgid "ends"
+msgstr "eindigt"
+
+msgid "first"
+msgstr "eerste"
+
+msgid "from %s"
+msgstr "vanaf %s"
+
+msgid "join with Channel %d"
+msgstr "samenvoegen met kanaal %d"
+
+msgid "last"
+msgstr "laatste"
+
+msgid "rejected"
+msgstr "geweigerd"
+
+msgid ","
+msgstr "."
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Soort"
+
+msgid "Speech time"
+msgstr "Spreektijd"
+
+msgid "Share"
+msgstr "Aandeel"
+
+msgid "Beginning"
+msgstr "Begin"
+
+msgid "the whole material"
+msgstr "het hele materiaal"
+
+msgid "Colour"
+msgstr "Kleur"
+
+msgid "  Preset:  %s"
+msgstr "  Voorinstelling:  %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  Resolve weigert meer videosporen -- %s van %s camera's passen."
+
+msgid "Preset"
+msgstr "Voorinstelling"
+
+msgid "Preset:"
+msgstr "Voorinstelling:"
+
+msgid "Start"
+msgstr "Starten"
+
+msgid "Production"
+msgstr "Productie"
+
+msgid "Target"
+msgstr "Doel"
+
+msgid "Bright."
+msgstr "Helderh."
+
+msgid "Colour U"
+msgstr "Kleur U"
+
+msgid "Colour V"
+msgstr "Kleur V"
+
+msgid "Writing %s"
+msgstr "%s schrijven"
+
+msgid "  Timecode:        %s"
+msgstr "  Timecode:       %s"
+
+msgid "none"
+msgstr "geen"
+
+msgid "Length"
+msgstr "Lengte"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- dat is iedereen, dus elk shot gaat naar dezelfde camera."
+
+msgid "No camera of their own: %s"
+msgstr "Geen eigen camera: %s"
+
+msgid "this window"
+msgstr "dit venster"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "twee bestandsnamen voor hetzelfde moment -- geen van beide wordt genomen"
+
+msgid "This is not a file of this program."
+msgstr "Dit is geen bestand van dit programma."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Dit bestand is geschreven door versie %s in formaat %d; deze versie schrijft formaat %d. De namen erin zijn sindsdien veranderd, dus het kan niet worden gelezen. Richt de run opnieuw in."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (alleen meten: niets geschreven)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (alleen meten: zonder API-sleutel stopt het hier)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Controle aan de overspraak -- referentie is %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Kon %s niet schrijven: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  Voor %s kon niet worden vastgesteld of de teruggave bij de\n  upload past. Beter stoppen dan iets verkeerds schrijven."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Geen cameramontage in de overdracht -- zonder sprekersstatistiek is die er niet.\n  Alleen de Timeline voor de multicamclip wordt gebouwd."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Er is niets gewijzigd."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Maar één camera -- een multicamclip zou zinloos zijn."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Daar hebben de sporen andere namen:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Tijdvenster met de hand:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline voor de multicamclip: alle camera's, ongemonteerd"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline met de afgewerkte montage"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: de camera in één stuk, de mix eronder"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nKlaar. Hieronder toont \"Resultatenmap openen\" het resultaat.\nKlopt alles, dan maakt \"Resolve-project aanmaken\" er het project van.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nHDR-CONTROLE  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nGeen voorinstelling gekozen: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nGestopt vóór de eerste lange stap. Met --anyway loopt het toch."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Resolve herkent de invoerkleurruimte dan misschien niet."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Geluid %s op %s -- daar raakt het het %s woord."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s spoor V%d, vanaf frame %d (%s s tot het begin), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Beide clips blijven ongeknipt; ze overlappen de inhoud.\n      De overvloeier zit in de overlap -- waar precies, beslis je in Resolve.\n      (De scriptinterface van Resolve kan geen overgangen maken.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   mislukt: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      WAARSCHUWING: zwakke overeenkomst voor %s (%s, %s is de ondergrens). De twee horen misschien niet bij elkaar."
+
+msgid "this pair of files"
+msgstr "dit bestandspaar"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- dat kan niet kloppen, spoor\n    %-20s blijft waar het is."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, naamgelijkenis %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, bijgesneden tot het tijdvenster, naamgelijkenis %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  MAAR %s -- noch het tijdvenster (%s) noch het\n    %-20s    hele gemeten bereik (%s). Dit hoort bij een andere run."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s geen bestand met een passende naam"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s verschoven met %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s bestaat al -- in plaats daarvan gerenderd naar %s, zodat de\n%seerdere aflevering blijft."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (aanbeveling van YouTube voor %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, twee kanalen  (bitrate is niet op afstand in te stellen --\n%s%s kbit/s is de aanbeveling voor stereo)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s geweigerd -- geen enkele schrijfwijze werd aanvaard.\n%sStel handmatig in Resolve in onder Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s blijft op \"Same as Project\" -- het project noemt\n%sgeen HDR-curve. Te controleren in Resolve onder\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Verwijderen mislukt."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Verwijderen mislukt: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Koppelen mislukt: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Ontkoppelen had geen effect -- de overtollige audiosporen\n    %-24s blijven staan."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s geluid van A%d behouden, nog %d verwijderd"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s kon niet opnieuw worden gekoppeld"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s kon niet worden ontkoppeld: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s geen geluid ingevoegd"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %sx liep de bedoelde camera niet -- daar staat een andere."
+
+msgid "    %s could not be imported."
+msgstr "    %s kon niet worden geïmporteerd."
+
+msgid "    %s could not be inserted."
+msgstr "    %s kon niet worden ingevoegd."
+
+msgid "    %s track %d could not be created."
+msgstr "    Spoor van het type %s nr. %d kon niet worden aangemaakt."
+
+msgid "    %s track could not be created: %s"
+msgstr "    Spoor van het type %s kon niet worden aangemaakt: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: beeld en geluid apart ingevoegd (geluid vanaf A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway is ingesteld: het loopt ondanks de punten hierboven."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Alle sporen liggen goed -- niets te verschuiven."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Let op: geen H.265 beschikbaar -- het wordt H.264 met acht bits.\n             Te weinig voor HDR; verlopen zullen banding vertonen."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Let op: het project staat op %s, het materiaal is %s.\n             De aflevering draagt de labels van het materiaal. Om het\n             project mee te nemen: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Kleurruimte"
+
+msgid "already right"
+msgstr "stond al goed"
+
+msgid "    Clip colours could not be set."
+msgstr "    Clipkleuren konden niet worden ingesteld."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Clips uit een eerdere run hangen nog aan hun remote grades. Klik op de\n    Color-pagina met rechts op een miniatuur > \"Copy Remote Grades to Local\"\n    (neemt de correctie mee) of \"Use Local Grades\". Nieuwe Timelines\n    hebben dit niet nodig."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Codeclijst niet leesbaar: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Kleurgroep %-24s slechts %s van %s clips"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Kruiscontrole niet mogelijk: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Kruiscontrole: niet meetbaar"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    In-punt    %s   (timecode %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    In-punt    %s\n    Uit-punt   %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Uit-punt   %s   (timecode %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Uit-punt ligt voor In-punt -- zo werkt het niet."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    De referentiecamera heeft geen timecode. De as hangt aan de klok van %s, en het eerste frame daarvan staat op %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Ter controle -- de Timeline begint bij frame %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Formaat en codec konden niet worden ingesteld."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Formaat en codec konden niet worden ingesteld: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Formatlijst niet leesbaar: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    Eén bestand per aflevering werd geweigerd; Resolve schrijft één bestand per clip."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    Eén bestand per aflevering kon niet worden aangevraagd: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Lengte     %s  (in plaats van %s)"
+
+msgid "    Length  %s"
+msgstr "    Lengte     %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Lokale versies: in de node-editor geldt \"Group Pre-Clip\" voor de\n    hele camera, \"Clip\" alleen voor dat ene fragment. Het een sluit het\n    ander niet uit."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Doelniveau van de luidheidsmeter niet gevonden -- stel het handmatig in:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Gemeten: %s frames/s -- Resolve kent alleen vaste waarden,\n    %s wordt gebruikt."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Geen paar meetbaar -- het blijft zoals het is."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Geen instelling voor de versies gevonden -- stel handmatig in:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Niet alles kon worden ingesteld. Resolve neemt sommige waarden alleen aan\n    zolang de Timeline nog leeg is -- vergelijk hierboven."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    In de wachtrij -- in Resolve rest alleen nog \"Render All\"."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades staan aan: één kleurcorrectie per camera geldt voor\n    al haar fragmenten -- een los fragment kan dan niet meer\n    apart worden gecorrigeerd."
+
+msgid "    Render job could not be created."
+msgstr "    Renderopdracht kon niet worden aangemaakt."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Renderopdracht kon niet worden aangemaakt: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Instellingen niet op te sommen -- stel handmatig in:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Het tijdvenster zou maar %s lang zijn -- dat kan niet de bedoeling zijn."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Spoor %d  %-22s (hier: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 kon niet worden teruggelezen: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Videospoor %d kon niet worden hernoemd."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Of het afgewerkte bestand als HDR doorgaat:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    niet mogelijk: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (geluidsweg negatief -- er klopt iets niet)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s kan niet worden uitgelijnd: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s niet meetbaar: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s offset %s, klokdrift %s ppm (+/- %s), restspreiding %s ms, %s van %s punten"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s offset %s, klokdrift %s ppm (+/- %s), restspreiding %s ms, %s van %s punten%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s uit %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s blokken op naamvolgorde samengevoegd (geen timecode -- gaten zouden niet herkenbaar zijn)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s blokken via timecode samengevoegd, begin %s"
+
+msgid "  %s of %s files imported."
+msgstr "  %s van %s bestanden geïmporteerd."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s sprekers, %s shots, kortste %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s videosporen, genoemd naar de sprekers:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s komt twee keer voor met verschillende camera's -- %s wordt gebruikt"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s kan niet worden ingedeeld: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s geeft geen meetbaar geluid -- alleen op zijn klok geplaatst, en er is niets gevonden om het mee te controleren"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s kon niet worden opgehaald: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s kon niet opnieuw worden geschreven: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s komt op videospoor 1 -- daar draagt het eerste audiospoor de\n  Full-Mix, en videospoor 1 wordt hoek 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s heeft geen camerageluid -- zonder dat kan niets worden uitgelijnd"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s staat twee keer in de productie -- één keer opgehaald."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s staat er al en wordt overschreven -- deze productie heeft geen verslag dat ze het heeft gemaakt."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s staat er van een eerdere run van deze productie en wordt vervangen."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s loopt op %s frames/s, een snelheid waarvoor Resolve geen Timeline heeft -- het wordt omgerekend, niet weggelaten"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s staat klaar -- met --resolve-json kan het later."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, overgeslagen"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: hoeveel kanalen het heeft, is niet vast te stellen (%s) -- het wordt niet gemeten"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (alleen meten: niets geüpload)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Er bestond al een Timeline %r -- de nieuwe heet %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Er is een Timeline met deze naam, met andere camera's erop. Die blijft;\n  de nieuwe wordt ernaast gebouwd onder een eigen naam."
+
+msgid "  Added: %s"
+msgstr "  Toegevoegd: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Toevoegen van atoms teruggedraaid -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Alle benodigde uitvoerbestanden bestaan al."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Atom %s overgeslagen: %s bytes is er te veel voor."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Geluid: Full-Mix in één stuk op A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Let op: %s stappen verschil in helderheid -- zichtbaar bij het wisselen."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Let op: %s en %s heten allebei %s. Op de Timeline\n  meldt Resolve alleen de naam, dus hun clips zijn niet uit\n  elkaar te houden -- hernoem een van de twee bestanden."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Let op: %s kon niet worden verwijderd -- de nieuwe Timeline krijgt daarom\n  een toevoeging aan de naam."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Let op: bereik     maar %s LU -- erg krap. Spraak is meestal 3 tot 7 LU;\n                     daaronder klinkt het platgedrukt. Controleer hoe sterk de Leveler\n                     bij auphonic.com is ingesteld."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Let op: de productie bevat nog meer sporen (%s). Die gaan mee in de\n  mix -- verwijder ze op auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Let op: spoor %s -- dit behoudt zijn instellingen."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Camera-atomen:  kunnen niet worden toegevoegd (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Cameradata:      %s sleutels overgenomen (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Cameradata:      Let op, %s van %s sleutels ontbreken in het nieuwe bestand: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Cameradata:      de bron heeft er geen"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Kan geen atoms toevoegen: een 64-bits box zit in de weg."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Kan geen atoms toevoegen: moov staat niet aan het eind."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Kan geen atoms toevoegen: de bron is %s, het doel %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Controle:        niet mogelijk (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Klokdrift:      %s ppm (+/- %s), restspreiding %s ms, %s van %s punten"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Klokdrift:      niets gemeten -- dit is de referentie waartegen de andere worden gehouden"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Kleurvergelijking niet mogelijk: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Kleurgroep %r kan niet worden aangemaakt."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Kleurgroep %r kan niet worden aangemaakt: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Kleur:           %d/%d/%d -- primaire kleuren aangevuld uit de matrix (bron: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Kleur:           %d/%d/%d overgenomen"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Kleur:           Let op, in de bron %s, in het nieuwe bestand %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Controle:       %s uit de Full-Mix, afwijking %s ms (%s van %s punten)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Controle:       niet mogelijk (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Datasporen:      %s overgenomen"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Datasporen:      %s weggelaten -- ffmpeg kan dat niet schrijven"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Verwijderd: %s -- wordt nu opnieuw gebouwd."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Drift over de speelduur: %s s = %s frames  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Bestaand resultaat overgenomen -- niets berekend, niets betaald."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Minder dan twee camera's met geluid -- te weinig voor Multitrack."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Kant-en-klare mixdown aangevraagd als maatstaf (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "begint niet waar het blok ervoor eindigt"
+
+msgid "ends before the next block starts"
+msgstr "eindigt voordat het volgende blok begint"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com heeft ze samengevouwen. De mix houdt de twee kanalen; wat weg is, is het\n  verschil tussen de twee microfoons van dat spoor."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Twee kanalen, omdat één spoor stereo is"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Gat van %s op %s -- met stilte gevuld"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Overlap van %s op %s -- daar klinken beide"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Ze overlappen -- meerdere microfoons tegelijk, geen blokken na elkaar."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Elk gaat ook als eigen spoor in de video: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Alleen de mix gaat in de video (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Hij bestaat al, met dezelfde camera's in dezelfde volgorde -- hij blijft\n  onaangeroerd. Wil je een nieuwe, verwijder hem dan in Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Keyframes van %s zijn niet leesbaar (%s) -- de kopie begint aan het begin van het bestand."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Niveaucurve niet mogelijk (%s) -- zonder limiter"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Limiter:           hoogstens %s dB, dezelfde curve op elk spoor%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Luidheid niet meetbaar: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Luidheid niet meetbaar -- het blijft zoals het is."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Kengetallen niet schrijfbaar: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Mixdown van auphonic.com: %s LUFS, piek %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Geen Full-Mix gevonden -- de Timeline blijft stil."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Geen geluid op de Timeline -- niets op te ruimen."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  Geen camera's in de overdracht -- niets te bouwen."
+
+msgid "  No clips found for colour groups."
+msgstr "  Geen clips gevonden voor kleurgroepen."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Geen montage over -- de Timeline blijft leeg."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Niet overgedragen: de run kon %s niet plaatsen, dus het is geen camera van deze aflevering."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Geen gemeten offset voor %s -- aan het begin van de as geplaatst."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  In het geluid is niets gevonden voor %s -- alleen op de timecode geplaatst."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: de meting zet het op %s s, de timecode op %s s -- de meting wordt gebruikt."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Het Timeline-begin %s werd geweigerd: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  De Timeline begint op %s, niet op %s -- elk shot staat zoveel verder naar binnen."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Het Timeline-begin %s werd niet overgenomen."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Begin %s -- elk shot wordt daartegen geplaatst."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Zo'n Timeline bestond nog niet -- hij wordt alleen gebouwd."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Opmerking: dit rekent met de bestanden die toen zijn geüpload. Die dragen\n  het tijdvenster en de uitlijning van die dag. Waar het In-punt, het Uit-punt\n  of de gemeten positie nu anders zijn, meet de retourcontrole het\n  verschil en zet de sporen op hun plaats."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Opmerking: deze ffmpeg heeft geen soxr -- klokdrift kan alleen worden verwijderd\n  in stappen van 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Zonder gevolgen voor het geluid."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Offset:         %s   (uit de cameravergelijking)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Maar %s van %s shots staan op de Timeline."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Pieken:            %s dB boven %s dBTP -- de limiter vangt ze op"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Speler: %s meldt een fout -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Speler: %s blijft op %s in plaats van %s -- opgegeven na %s pogingen (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Speler: geluidsuitvoer schakelt over naar %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Speler: het geluid loopt niet (%s) -- nog één poging."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Geef een getal tussen 1 en %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Productie bij auphonic.com:  %s"
+
+msgid "  Production running (%s)"
+msgstr "  Productie loopt (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Project %r geopend."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Projectbestand kon niet worden geschreven: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Projectbestand niet schrijfbaar (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Bereik:            %s LU (spraak is meestal 3 tot 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Referentie: %s (%s, langste looptijd)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Blijft:            %s dB op elk spoor, dat is %s LUFS in plaats van %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve heeft helemaal geen beeld overgenomen -- de Timeline is leeg. Er\n  wordt verder niets op gebouwd."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Resultaat: %s (%s) -- blijft naast het videobestand\n"
+
+msgid "  Not used:  %s."
+msgstr "  Niet gebruikt:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Vraag:    %s in het transcript, %s werden een reactieshot."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Vraag:    geen transcript, dus er is geen vraag gevonden en geen reactieshot\n            gezet. De woorden worden tijdens de run uit de klare mix\n            opgeschreven; zonder die woorden doet de instelling niets."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Instellingen afgestemd op voorinstelling %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Begin %s (vroegste camera) -- anders zou alles vóór het begin van de Timeline liggen."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Niet aangepast:    overgenomen uit de bronbestanden -- geen versterking op enig spoor en geen\n                     limiter. Het geluid gaat precies zo naar buiten als het binnenkwam."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Som van sporen:    %s LUFS, piek %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Doel:              %s LUFS  ->  %s dB op elk spoor"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  De Timeline krijgt %s: de hoogste daarvan, of de volgende framerate\n  die Resolve daarboven heeft. Omhoog omgerekend herhaalt Resolve frames, omlaag\n  gooit het ze weg. Elke camera houdt zijn eigen framerate, en de montage rekent\n  in die."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  De Full-Mix kon niet worden geïmporteerd."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  De Full-Mix kon niet worden ingevoegd."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  De camera's bevatten het tijdvenster en aan elk eind een seconde: %s geschreven voor %s van de %s opgenomen."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  De camera's liggen dicht bij elkaar (hooguit %s stappen helderheid)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  De montage is veranderd: %s shots in plaats van %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Het verslag van eerdere runs hier is niet leesbaar (%s), dus alles wat er al staat wordt gemeld."
+
+msgid "  The cut stays as it was."
+msgstr "  De montage blijft zoals ze was."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  De bestanden worden opnieuw geüpload -- dit kost tegoed."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  De bestanden in de map moeten naar de sprekers heten en bij\n  deze run horen. Zonder de map gaat het opnieuw via auphonic.com."
+
+msgid "  The media pool stays as it is."
+msgstr "  De mediapool blijft zoals hij is."
+
+msgid "  The names from there are adopted:"
+msgstr "  De namen van daar worden overgenomen:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Daar zijn het %s sporen, hier %s -- dat klopt niet."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Deze camera kon niet worden geplaatst -- overgeslagen"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Tijdvenster:    %s van %s geschreven, vanaf %s van de camera"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Timecode %s geschreven als bext en iXML (referentie: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Te veel:           de limiter zou %s dB moeten wegnemen. Meer dan %s dB\n                     klinkt platgedrukt -- %s dB minder versterking."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Transcriptie niet mogelijk (%s) -- het loopt toch door."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Totaalshot aan de randen: overgeslagen -- de eerste of laatste aankondiging\n  zou te lang zijn voor een begroeting."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Totaalshot aan de randen: tot %s en vanaf %s"
+
+msgid "  from %s, %s"
+msgstr "  uit %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML voor %s niet geschreven: %s"
+
+msgid " at high frame rates"
+msgstr " bij hoge framerates"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Geluid begint volgens timecode op  %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Beeld begint volgens timecode op   %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  De audiotimecode past helemaal niet bij het beeld -- waarschijnlijk een klok die nooit is ingesteld. De meting wordt gebruikt."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  De timecode past niet bij wat er te horen is. De meting wordt gebruikt."
+
+msgid "%s from %s recordings"
+msgstr "%s uit %s opnamen"
+
+msgid "%s is missing."
+msgstr "%s ontbreekt."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s staat bij meer dan één spreker -- een naam is een persoon, en elke persoon heeft een eigen naam nodig."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s staat op meer dan één stem. Een naam is een persoon, en de montage zet een persoon op één camera -- twee stemmen met één naam zouden één persoon op twee plekken zijn."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Deze computer kan het goed installeren: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Wordt geïnstalleerd: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Op deze computer: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Wordt geïnstalleerd: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s zou in deze Python worden geïnstalleerd: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  Met de hand:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Kon niet naar een nieuwere versie zoeken: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s ontbreekt. De eerste keer duurt het een paar minuten."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Nu uitvoeren? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  Dat is niet gelukt: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Wordt teruggezet: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  Op ffmpeg.org staan builds voor Windows. De map met ffmpeg.exe moet dan in PATH, of de bestanden naast dit programma."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  De pagina openen? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  De pagina kon niet worden geopend: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s ontbreekt -- wordt geïnstalleerd. De eerste keer duurt dat een paar minuten."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sTimecodecontrole van het audiobestand"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s niet (geen vrij beeld)"
+
+msgid ", audio on A2"
+msgstr ", geluid op A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Toewijzingsbestand niet leesbaar: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Camerageluid niet bruikbaar: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK NIET MOGELIJK\n  Er zijn minstens twee ingangssporen nodig, en er is maar %s gevonden.\n  Een spoor is een eigen opname, een kanaal van een meerkanaals\n  recorder, of het geluid van een camera -- dat telt mee zodra het\n  Camerageluid op \"intern geluid gebruiken\" staat. Zonder twee daarvan\n  valt er niets los te koppelen, en hetzelfde bestand loopt door als een\n  gewone productie."
+
+msgid "No preset is called %r."
+msgstr "Geen voorinstelling heet %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Geen geluid in de camera's -- niets om mee te werken."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Maar één audiobestand en geen beeld -- niets te doen."
+
+msgid "Open project ..."
+msgstr "Project openen ..."
+
+msgid "Save project"
+msgstr "Project opslaan"
+
+msgid "Close project"
+msgstr "Project sluiten"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Het projectbestand gaat naar de uitvoermap, en die is nog niet gekozen. Kies er een."
+
+msgid "Written:\n\n  %s"
+msgstr "Geschreven:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Er is niets geschreven -- er is nog geen materiaal."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nWIE VRAAGT -- een voorstel, en er wordt niets op ingesteld"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s spreektijd, %s van %s zinnen een vraag"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  De volgorde klopt, de afstand ertussen niet: gemeten over vier afleveringen draaide ze nooit om, terwijl de afstand tussen eerste en laatste viervoudig veranderde. Het vraagt één stem per spoor; waar twee dezelfde spraak dragen, wordt helemaal niets gezegd."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Wie vraagt -- hier niet gezegd: twee van de sporen dragen dezelfde spraak, dus de vragen zouden naar de recorder gaan die het hardst stond."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nWELKE MICROFOON -- een voorstel, en er wordt niets op ingesteld"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s klinkt als %-20s %s %% ervan in dat spoor, %s punten voor op het volgende"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Het geldt onder één aanname: één microfoon per persoon, en elke microfoon draagt alleen die persoon. Waar de sporen te veel overlappen om uit elkaar te houden, of twee stemmen naar dezelfde microfoon wijzen, wordt liever niets gezegd dan iets onzekers."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nHOE DE STEMMEN ZOUDEN KUNNEN HETEN -- een voorstel"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s zou %s kunnen heten"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s spreekt nauwelijks binnen het tijdvenster -- voorstel: niet gebruiken."
+
+msgid "Guest"
+msgstr "Gast"
+
+msgid "Host"
+msgstr "Presentator"
+
+msgid "Host %d"
+msgstr "Presentator %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Alleen voor stemmen die nog de naam dragen die het programma ze gaf; een door iemand getypte naam wordt nooit aangeraakt. De rollen worden afgelezen aan wie vraagt en wie antwoordt, wat klopt voor een gesprek met één gast, en het is een voorstel, geen instelling."
+
+msgid "Skip this version"
+msgstr "Deze versie overslaan"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Alleen deze. De volgende release vraagt het opnieuw, en Help > Nu naar een nieuwere versie zoeken vraagt het op elk moment."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s is er al -- niet twee keer opgehaald"
+
+msgid "The text for %s could not be fetched."
+msgstr "De tekst voor %s kon niet worden opgehaald."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Controle:        een van de twee sporen staat niet in het geschreven bestand, dus er is niets gemeten."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Controle:        de twee sporen zijn niet te vergelijken (overeenkomst %s, de ondergrens is %s). Dit zegt niets over de timing."
+
+msgid "Project found"
+msgstr "Project gevonden"
+
+msgid "Open the project"
+msgstr "Project openen"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Alles komt eruit terug: namen, scheiding, toewijzing, soorten, het tijdvenster. De lijst met bestanden wordt vervangen door die van het project."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "Bij dit materiaal hoort een projectbestand:\n\n  %s\n  geschreven %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Bij dit materiaal horen meerdere projectbestanden. Welk?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROJECT GEOPEND\n  Alle gegevens zijn terug, in deze sessie is nog niets berekend.\n  De uitvoermap bevat de bestanden van de laatste uitvoering:\n  %s\n\n  Drie wegen vanaf hier:\n    • onder \"Resultatenmap openen\" -- de bestanden van die uitvoering bekijken,\n    • onder \"Resolve-project aanmaken\" -- vanuit het overdrachtsbestand van die uitvoering,\n      zonder opnieuw te rekenen,\n    • boven \"Starten\" -- alles opnieuw berekenen en de bestanden overschrijven.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROJECT OPGESLAGEN\n  %s\n  Deze uitvoering kan later weer worden geopend -- linksboven\n  \"Project openen ...\"\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Voorinstellingen konden niet worden geladen: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Meerdere camera's maar geen audiobestand. Elke camera zou zijn eigen geluid hebben --\ndaar is --multitrack voor. Anders de ene camera na de andere."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Het bestand wordt NIET als HDR herkend."
+
+msgid "The file is tagged as HDR."
+msgstr "Het bestand is gelabeld als HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Onbekende extensie, overgeslagen: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Welke Auphonic-voorinstelling moet dit bestand bewerken?"
+
+msgid "Would write: %s"
+msgstr "Zou schrijven: %s"
+
+msgid "channel count unknown"
+msgstr "aantal kanalen onbekend"
+
+msgid "is actively taken out"
+msgstr "wordt actief weggewerkt"
+
+msgid "not readable"
+msgstr "onleesbaar"
+
+msgid "the default device"
+msgstr "het standaardapparaat"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: geen geluid om te extraheren (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  ER BESTAAT AL EEN PROJECT MET DEZE NAAM: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  AUDIOSPOREN OPRUIMEN"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  CLIPS IN DE MEDIA POOL"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Niet bruikbaar: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  MONTAGELIJST VERNIEUWEN"
+
+msgid "\n  Render job"
+msgstr "\n  Renderopdracht"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Resolve-deel afgebroken: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  AFGEBROKEN: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Instellingen"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Gestopt: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  ER IS AL EEN PRODUCTIE MET DEZE NAAM"
+
+msgid "\n  This produces:"
+msgstr "\n  Dit levert op:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Run %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nAL BEWERKT"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nKLEURVERGELIJKING VAN DE CAMERA'S"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nTERUGGAVE CONTROLEREN"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nVERSCHILLENDE FRAMERATES: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nVERSCHILLENDE FRAMEGROOTTES: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nZonder resultaat geëindigd: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nBeëindigd met fouten.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nTIJDAS METEN"
+
+msgid "\nMETRICS"
+msgstr "\nKENGETALLEN"
+
+msgid "\nMIXING"
+msgstr "\nMIXEN"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALISEREN"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Geen beeld: de sporen worden tegen elkaar gelegd."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs doet hier niets: de sporen gaan eruit zoals ze zijn opgenomen, en de luidheid wordt ingesteld waar ze worden gemixt."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nMaar één spoor heeft een plek gevonden -- er is niets meer om het tegen te leggen."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Tijdvenster:                    %s -- alles wat een spoor heeft gehoord"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: stilte van %s aan het begin en %s aan het eind"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nNa het samenvoegen van de blokken blijft maar één spoor over, en Multitrack heeft er één per stem nodig. Waar twee mensen voor één opname zijn gehouden, houdt --apart een blok erbuiten."
+
+msgid "RECOGNISED PLAN"
+msgstr "HERKEND PLAN"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nGeen enkel audiospoor kon worden uitgelijnd -- er is niets om op de as te zetten."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nGeluid en beeld hebben maar %s gemeen, en de uitlijning vond daarin %s meetpunten. Dat is te weinig om iets op te plaatsen."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s samengemixt"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nGeen bruikbaar videobestand -- zonder camerageluid is er geen gemeenschappelijke tijdas."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nVOORCONTROLE -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nBEWERKING: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- ALLEEN BEKIJKEN"
+
+msgid "\nRESULT"
+msgstr "\nRESULTAAT"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nSPOREN OPSLAAN"
+
+msgid "\nStopped: %s"
+msgstr "\nGestopt: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nSPOREN OP DE AS SCHRIJVEN"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  klaar%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Spoor %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s geen bestand in de Media Pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   leeg (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s vanaf %s, %s lang%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s geluidsweg %4s ms (%s m), offset %6s ms, drift %5s ppm (%s punten, %s ms rest)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- niets passends gevonden"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Let op: %s. Daar is geen beeld;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Kleurgroepen: %s -- alle clips toegewezen"
+
+msgid "    Colours per angle:"
+msgstr "    Kleuren per camerahoek:"
+
+msgid "    Cross-check:"
+msgstr "    Kruiscontrole:"
+
+msgid "    Left without picture: %s"
+msgstr "    Zonder beeld gebleven: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Geen MP4-formaat gevonden. Beschikbaar: %s"
+
+msgid "    No clips found."
+msgstr "    Geen clips gevonden."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Geen passende codec gevonden. Beschikbaar: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Renderinstellingen geweigerd."
+
+msgid "    the measured window is therefore kept."
+msgstr "    daarom blijft het gemeten tijdvenster staan."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s shots, samen %s s, zonder hun geluid."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  %s videosporen, %s audiosporen aangemaakt (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s krijgt %s sporen samengemixt: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Audiospoor %d:   %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Camera-atomen:  %s toegevoegd -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s aan het begin en %s aan het eind hebben geen beeld en vallen weg"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    het begint met %s en eindigt met %s -- het stuk dat elke camera zag"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nWordt gestopt. De run eindigt zodra dat kan zonder een bestand half geschreven achter te laten -- een ogenblik.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Het totaalshot duurt %s s, korter dan het kortste shot van %s s -- dus het wordt weer weggevoegd en verschijnt nooit.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nGemeten. Er is niets geschreven -- een proefdraai laat de resultatenmap zoals hij was.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nGestopt tijdens: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Alles na die stap ontbreekt. De map bevat een deel van een proces, geen resultaat."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Gemeenschappelijk tijdvenster:  %s tot %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Aangemaakt:  %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Fout bij het schrijven: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Bestand:         %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Twee kanalen aangevraagd -- de opname is stereo"
+
+msgid "  From %s"
+msgstr "  Uit %s"
+
+msgid "  In summary: %s"
+msgstr "  Samengevat: %s"
+
+msgid "  In the archive: %s"
+msgstr "  In het archief: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Ontbreekt:   %s"
+
+msgid "  Player: %s"
+msgstr "  Speler: %s"
+
+msgid "  Production:  %s"
+msgstr "  Productie:    %s"
+
+msgid "  Project %r"
+msgstr "  Project %r"
+
+msgid "  Project %r created."
+msgstr "  Project %r aangemaakt."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Resultaat:         ongeveer %s LUFS, piek %s dBTP"
+
+msgid "  Results:"
+msgstr "  Resultaten:"
+
+msgid "  Results:     none"
+msgstr "  Resultaten:  geen"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  De bestaande bestanden worden hergebruikt -- opnieuw berekenen kost niets."
+
+msgid "  Time limit: %s"
+msgstr "  Tijdslimiet: %s"
+
+msgid "  To upload:   %s"
+msgstr "  Te uploaden:  %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Sporen:       %s"
+
+msgid "  Tracks: %s"
+msgstr "  Sporen: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Transcriptie: %s"
+
+msgid "  Uploaded:"
+msgstr "  Geüpload:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Afwijking:                         %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Afwijking:                         %s  (%s frames)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Afwijking:                         %s  (%s frames) -- klopt"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Offset gemeten:                    %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Offset volgens timecode:           %s"
+
+msgid "Abort: %s"
+msgstr "Afgebroken: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "CAMERAGELUID EXTRAHEREN"
+
+msgid "FOR RESOLVE"
+msgstr "VOOR RESOLVE"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "GEEN AUDIOBESTAND -- CAMERAGELUID WORDT GEBRUIKT"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "GEEN APARTE AUDIO-OPNAMEN -- CAMERAGELUID WORDT GEBRUIKT"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "BEWERKING BIJ AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "BEWERKING BIJ AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "Bewerking mislukt: %s"
+
+msgid "RESULT"
+msgstr "RESULTAAT"
+
+msgid "Resolve part stopped: %s"
+msgstr "Resolve-deel afgebroken: %s"
+
+msgid "Stopped: %s"
+msgstr "Afgebroken: %s"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s alle camera's naast elkaar -- wordt de multicamclip"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s beeld uit de cameramontage, geluid in één stuk"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s de camera in één stuk, de mix eronder"
+
+msgid "   --   audio only"
+msgstr "   --   alleen geluid"
+
+msgid "   -- not found"
+msgstr "   -- niet gevonden"
+
+msgid "   Caution: more than one frame"
+msgstr "   Let op: meer dan één frame"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s offset %s ms%s, lengte %s s, spreiding %s ms, %s van %s punten%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (dit bestand eindigt eerder)"
+
+msgid "  (this file starts later)"
+msgstr "  (dit bestand begint later)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  geen Resolve-Timeline loopt op deze framerate; er wordt omgerekend"
+
+msgid "  --  this file is outside"
+msgstr "  --  dit bestand ligt erbuiten"
+
+msgid "  -->  aligned"
+msgstr "  -->  uitgelijnd"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  uitgelijnd, klokdrift van %s ppm verrekend"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Controle:        %s tegen het cameraspoor %s ms (overeenkomst %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Maak het aan met \"Resolve-project aanmaken\" in de interface. Resolve moet draaien."
+
+msgid "  The handover file could not be written."
+msgstr "  Het overdrachtsbestand kon niet worden geschreven."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Hieruit ontstaan het project, de import en %s:"
+
+msgid " (paused)"
+msgstr " (gepauzeerd)"
+
+msgid " (playing)"
+msgstr " (speelt af)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- een In- of Uit-punt bespaart het uploaden"
+
+msgid " -- not readable"
+msgstr " -- niet leesbaar"
+
+msgid " -- nothing to fault."
+msgstr " -- niets aan te merken."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- alleen de matrix zegt BT.2020"
+
+msgid " and "
+msgstr " en "
+
+msgid " from %s files"
+msgstr " uit %s bestanden"
+
+msgid " not."
+msgstr " niet."
+
+msgid "%s blocks"
+msgstr "%s blokken"
+
+msgid "%s brought to the preset"
+msgstr "%s afgestemd op de voorinstelling"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s kanalen -- in sporen opgedeeld, zie de rijen hierboven."
+
+msgid "%s checked"
+msgstr "%s gecontroleerd"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s van %s vergelijkingen liggen onder %s dB -- elke opname tegen elke andere, in beide richtingen."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s van %s videobestanden hebben in de colr-box geen curve en geen kleurruimte%s -- waarschijnlijk log-materiaal."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r is een timecode, maar hier is geen beeld en dus geen camera om vanaf te tellen. Dan werkt alleen een waarde vanaf het begin van het tijdvenster, zoals +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r is een timecode, maar de tijdas hangt aan geen enkele klok: geen bestand hier heeft er een, de referentiecamera %s inbegrepen. Dan werkt alleen een waarde vanaf het begin van het tijdvenster, zoals +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r is geen Multitrack-voorinstelling"
+
+msgid "%r is not a number."
+msgstr "%r is geen getal."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   past niet bij de andere bestanden: geluid niet herkend, geen timecode.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Ingesteld als %s; %s is één klik verwijderd."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Buiten gelaten, %s is al bezet; %s is één klik verwijderd."
+
+msgid "Its sound cannot be used."
+msgstr "Het geluid ervan is niet bruikbaar."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   geluid niet herkend; geplaatst op zijn timecode"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   de app kent dit formaat niet"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s blokken"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- wat moet ermee gebeuren?\nDe details staan in het logboek."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz in plaats van %s kHz -- wordt bij de bewerking omgezet."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s kan niet worden geplaatst: het geluid heeft niets gemeen met de rest van het materiaal, en het bestand heeft geen timecode. Het heeft er een nodig die bij de andere opnamen past, en die moet met een ander programma worden ingesteld."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s past bij niets in het materiaal en is veel korter dan de rest: voorgesteld als intro, die vooraan wordt gezet en nooit wordt gemeten."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s is ingesteld, en hier wordt niets aangepast: de sporen gaan eruit zoals ze zijn opgenomen, en de luidheid wordt gezet waar ze worden gemixt."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s kan weer worden geplaatst en doet weer mee in de uitvoering."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s kon niet worden geïnstalleerd.\nMet de hand:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s heeft geen audiospoor."
+
+msgid "%s in %s"
+msgstr "%s in %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s in de microfoon van %s: %s dB zachter dan in de eigen."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s ligt in %s -- het bestand staat nu in de speler."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s ligt niet op de tijdas van de aflevering: het wordt voor of na het materiaal gezet, niet erin gemonteerd. In-punt en Uit-punt horen bij wat daartussen ligt."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s ligt in geen enkel videobestand. Staat er een timecode die bij het materiaal past?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s in de microfoon van %s maar %s dB zachter"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: nog niet spoelbaar, volgt later (%s)"
+
+msgid "%s: not there"
+msgstr "%s: niet aanwezig"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), poging %d, daarna op %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: moet naar %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", zonder geluid"
+
+msgid "-- only one camera"
+msgstr "-- maar één camera"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- sprong naar %s programmatijd%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- punt gezet, programmatijd loopt vanaf %s ---"
+
+msgid "... or add files ..."
+msgstr "... of bestanden toevoegen ..."
+
+msgid "/not seekable"
+msgstr "/niet spoelbaar"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s shots</b>, mediaan %(med)s s, kortste %(short)s s, langste camera %(long)s s</span>. Spreektijd: <b>%(own)s %%</b> op de eigen camera (%(own_t)s), %(wide)s %% op het totaalshot (%(wide_t)s), <span style='color:%(warn)s'>bij %(off)s %% (%(off_t)s) is de camera van de spreker niet actief</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Elk paar kanalen wordt apart beoordeeld: één stereospoor, of twee microfoons en dus twee sporen. Stille ingangen vallen weg. De rijen onder het bestand zeggen wat er gemeten is, en het vinkje gaat daarboven."
+
+msgid "Add files ..."
+msgstr "Bestanden toevoegen ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Uitlijnen gaat op de gemeten offset; de timecode is alleen de controle."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Alle opnamen hebben dezelfde naam -- dat wordt één spoor."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Alle rijen hebben dezelfde naam -- dat geeft één spoor, en Multitrack heeft er minstens twee nodig."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Toewijzing: welk audiospoor bij welke camera hoort"
+
+msgid "Audio"
+msgstr "Geluid"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Geluid en video (%s);;Alle bestanden (*)"
+
+msgid "Audio at programme time"
+msgstr "Geluid op programmatijd"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic heeft andere sporen aangemaakt dan gevraagd: %s in plaats van %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic meldt een fout: %s"
+
+msgid "Bleed"
+msgstr "Overspraak"
+
+msgid "Blocks"
+msgstr "Blokken"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Allebei tegelijk werkt niet: de terugkomende sporen zouden op de ene waarde uitkomen, onze eigen mix op de andere. Zet --lufs %.0f of pas de voorinstelling aan."
+
+msgid "Camera"
+msgstr "Camera"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Camerageluid, nog %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- voorbeeld  (lengte %s)"
+
+msgid "Why the run cannot start"
+msgstr "Waarom de run niet kan starten"
+
+msgid "Cannot start yet: %s"
+msgstr "Kan nog niet starten: %s"
+
+msgid "Change rejected: %s"
+msgstr "Wijziging geweigerd: %s"
+
+msgid "Check again"
+msgstr "Opnieuw controleren"
+
+msgid "Check the connection to Resolve again"
+msgstr "Verbinding met Resolve opnieuw controleren"
+
+msgid "Check itself failed: %s"
+msgstr "De controle zelf is mislukt: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Sleutel controleren en voorinstellingen ophalen."
+
+msgid "Chosen"
+msgstr "Gekozen"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Klok %7.2f%s | B1[%s] %s | B2[%s] %s | Geluid %s %s"
+
+msgid "Close"
+msgstr "Sluiten"
+
+msgid "Connects to Resolve again."
+msgstr "Maakt opnieuw verbinding met Resolve."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Inhoud: een camera als elke andere.\nTotaalshot: een camera waar niemand voor zit -- hij krijgt geen spreker, en de montage gaat naar hem bij een pauze en bij een lange monoloog.\nIntro en outro zijn kant-en-klare clips -- niet uitgelijnd, niet bewerkt, alleen in de Timeline geplaatst.\nVideo negeren: het bestand blijft volledig buiten beschouwing."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s totaalshots: de montage gebruikt %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Elke camera draagt een spreker, dus er is geen totaalshot: de vier totaalshot-instellingen en het vinkje voor de randen doen hier niets."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Geen enkele camera is vrij van sprekers, dus er is geen totaalshot: de vier totaalshot-instellingen en het vinkje voor de randen doen niets. Geef een camera de Soort \"Totaalshot\", of laat er een zonder spreker."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "geplaatst op fase, scherpte %s tegen een ondergrens van %s, drift onbekend"
+
+msgid "placed on the bands that move"
+msgstr "geplaatst op de banden die bewegen"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Waarom de totaalshot-instellingen grijs zijn"
+
+msgid "because no speaker is assigned to it"
+msgstr "omdat er geen spreker aan is toegewezen"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "gemarkeerd als totaalshot -- ze krijgt geen sprekers"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "geen spreker -- dit is het totaalshot"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "er is geen spreker aan toegewezen, maar de montage gebruikt %s"
+
+msgid "the cut uses %s"
+msgstr "de montage gebruikt %s"
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "dit is het totaalshot -- %s is verplaatst naar \"geen eigen camera\""
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Curve en kleurruimte ontbreken in het bestand"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "In-punt en Uit-punt zijn beschikbaar zodra de tijdas vaststaat -- uit de timecode of gemeten."
+
+msgid "In point is %s before the first frame"
+msgstr "In-punt ligt %s voor het eerste frame"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "Het In-punt staat nu op %s, maar de bestaande bestanden horen bij %s.\n  Het geluid in de video's is op het oude venster geknipt -- druk\n  bovenaan opnieuw op Starten."
+
+msgid "Out point is %s after the last frame"
+msgstr "Uit-punt ligt %s na het laatste frame"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Het Uit-punt staat nu op %s; het venster zou %s lang zijn, de bestaande\n  bestanden zijn %s -- druk bovenaan opnieuw op Starten."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Voor aflevering is het beperkte bereik gebruikelijk. Volledig is niet fout, maar sommige spelers lezen het verkeerd."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Bepaalt hoe auphonic.com het geluid bewerkt.\n\n\"%s\" laat de sleutel staan en gaat er toch niet heen.\nHet geluid wordt dan alleen samengevoegd en genormaliseerd, niet gescheiden --\nen zonder aparte sporen is er geen cameramontage."
+
+msgid "Distance to mean"
+msgstr "Afstand tot gemiddelde"
+
+msgid "Drag audio and video files here"
+msgstr "Sleep audio- en videobestanden hierheen"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Proefdraai: alleen meten, niets geschreven, niets geüpload."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Tijdens begroeting en afscheid blijft het totaalshot in beeld."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "De frames staan iets langer; het bestand wordt er niet korter door. Montagesoftware herhaalt ongeveer elke %s s een frame, en beeld en camerageluid blijven bij elkaar."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "De frames staan iets korter; het bestand wordt er niet langer door. Montagesoftware laat ongeveer elke %s s een frame weg, en beeld en camerageluid blijven bij elkaar."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Acht bits zijn niet genoeg voor HDR: elk verloop vertoont banding, en YouTube vraagt tien of twaalf."
+
+msgid "Envelope"
+msgstr "Omhullende"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s staat op %s, en dat is geen camera van deze run -- de montage noemt hem toch."
+
+msgid "Envelope failed: %s"
+msgstr "Omhullende mislukt: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Omhullenden en camerageluid worden op de achtergrond voorbereid."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Elke rij heeft een naam nodig -- bij Auphonic wordt dat de track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Extern voorbeeld -- de app kent dit formaat niet"
+
+msgid "Fetching audio"
+msgstr "Geluid ophalen"
+
+msgid "Fetching audio ..."
+msgstr "Geluid ophalen ..."
+
+msgid "File"
+msgstr "Bestand"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Daar ontbreken bestanden -- zonder nieuwe upload valt er niets te berekenen.\n  Met --auphonic-resume upload uploadt het script opnieuw; dit kost tegoed."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "Voor HDR is de gebruikelijke keuze HEVC (Main 10), AV1 of VP9 Profile 2. YouTube neemt ook H.264 aan, maar dat vraagt meer bitrate."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Voor tien bits heeft HEVC het profiel Main 10 nodig. In Resolve staat het onder Deliver als \"Profile\"."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, niet de %s uit het bestand -- %s frames minder op dezelfde lengte."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, niet de %s uit het bestand -- %s frames meer op dezelfde lengte."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "De afstand tussen frames varieert met %s %% -- de frametiming is ongelijkmatig."
+
+msgid "Free space there: %s"
+msgstr "Vrije ruimte daar: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Gat van %s tussen blok %d en %d -- de camera is gestopt."
+
+msgid "Drag to move the position."
+msgstr "Sleep om de positie te verplaatsen."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR vraagt hier 16 (PQ, dus HDR10) of 18 (HLG). In Resolve: Gamma tag = ST.2084 of HLG. 14 is geen HDR-curve maar SDR in de BT.2020-ruimte."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR vraagt hier 9 (BT.2020). In Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR vraagt hier 9 (BT.2020, niet-constante luminantie)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG is display-gerefereerd -- het heeft geen gegeven voor het masteringdisplay."
+
+msgid "If empty: next to each video file."
+msgstr "Indien leeg: naast elk videobestand."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "Het is bij de opname ontstaan en valt nu niet meer te veranderen. Hoe minder de microfoons gescheiden zijn, hoe voorzichtiger De-Bleed bij auphonic.com kan werken. Volgende keer: drie keer zo ver van de naburige microfoon als van je eigen mond, dan ligt de naburige stem ongeveer %s dB lager."
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "Ze past nergens in het materiaal: geen timecode, en het geluid heeft niets gemeen met de rest. Op het totaalshot valt de montage terug, dus het moet op de tijdas liggen."
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "Het past nergens in het materiaal en kan dus niet in de aflevering worden gemonteerd. Ervoor of erna plaatsen kan wel."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s past bij niets in het materiaal en kan dus niet in de aflevering worden gemonteerd: ingesteld als intro."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s past ook bij niets in het materiaal, en de intro is al bezet: weggelaten."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s is al ingesteld als %s, en een aflevering heeft er daar maar één van. Kies hier een ander antwoord, of haal eerst de markering bij dat bestand weg."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "Het staat in het logs-atom van de beeldbeschrijving -- daaraan herkent Resolve de invoerkleurruimte. Verschillende curves betekenen verschillende invoerkleurruimtes."
+
+msgid "Jumps to the end of the window."
+msgstr "Springt naar het einde van het tijdvenster."
+
+msgid "Jumps to the start of the window."
+msgstr "Springt naar het begin van het tijdvenster."
+
+msgid "Keychain"
+msgstr "sleutelhanger"
+
+msgid "Limits the de-bleed: "
+msgstr "Beperkt De-Bleed: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Laad de voorinstellingen en kies er een, of laat de API-sleutel leeg."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 geweigerd -- de standaard blijft"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Alleen meten -- er wordt niets geschreven of geüpload."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "%s wordt gemeten (%s van %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Meten niet mogelijk: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Maatstaf meten"
+
+msgid "Measuring time axis ..."
+msgstr "Tijdas wordt gemeten ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Ontbrekend geluid %s opgevuld met stilte%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Module DaVinciResolveScript kan niet worden geladen: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Eén audiospoor per persoon, gescheiden gehouden tot aan auphonic.com.\nWerkt ook zonder -- dan zonder De-Bleed en Leveler.\nHet heeft twee invoersporen nodig: een eigen opname, een kanaal van een\nmeerkanaalsrecorder, of het geluid van een videobestand dat op\n\"intern geluid gebruiken\" staat. De cameramontage heeft dit vinkje niet nodig."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (één spoor per spreker)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"interne audio gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Geen API-sleutel. Geef --auphonic-api-key SLEUTEL op, stel AUPHONIC_TOKEN in of laat hem één keer onthouden in de interface. De sleutel staat in de accountinstellingen van Auphonic."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Geen enkel audiobestand heeft een timecode. In-punt en Uit-punt tellen vanaf het begin van het materiaal -- de positie van de bestanden ten opzichte van elkaar is gemeten."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Nog geen geluid in gebruik -- voeg een audio-opname toe, of zet in de bestandslijst het Camerageluid van een videobestand op \"intern geluid gebruiken\"."
+
+msgid "No audio tracks are assigned."
+msgstr "Er zijn geen audiosporen toegewezen."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Er is geen camera toegewezen, dus er valt niets om tussen te monteren."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Nog geen camera's toegewezen -- zet daarvoor Multitrack aan."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Geen verbinding met Resolve.\n  Draait het programma? Staat external scripting op 'Local'\n  onder Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "Nog geen bestanden of project geopend."
+
+msgid "No files selected yet."
+msgstr "Nog geen bestanden geselecteerd."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Geen invoer mogelijk. Gebruik %s %s om vast te leggen wat er moet gebeuren."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Hier is geen speler ingebouwd -- afspelen gebeurt in ffplay in een eigen venster."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Geen voorinstelling opgegeven, invoer niet mogelijk. Kies er een van hierboven met --auphonic-preset NAAM."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "Geen voorinstellingen opgeslagen in het account. Je kunt er een maken in de webinterface."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Hier is geen spreker bekend -- zonder wie wanneer spreekt valt er niets om tussen te monteren."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Nog geen stem heeft een camera -- zo zou elk shot hetzelfde zijn."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Nog geen sprekers bekend -- niets gemeten, niets gescheiden, en geen overdrachtsbestand van een eerdere run in %s of de submappen ervan."
+
+msgid "Not found again after import: %s"
+msgstr "Na het importeren niet teruggevonden: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "van ffmpeg.org, en de map in PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "via de pakketbeheerder: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Hier: %s. Nodig: %s of nieuwer."
+
+msgid "no answer"
+msgstr "geen antwoord"
+
+msgid "Nothing runs until that is put right."
+msgstr "Niets draait tot dat is verholpen."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Tot dat in orde is, loopt er niets. Zo doe je het: %s"
+
+msgid "Get it: %s"
+msgstr "Ophalen: %s"
+
+msgid "Quit"
+msgstr "Stoppen"
+
+msgid "That worked."
+msgstr "Dat is gelukt."
+
+msgid "Installing ffmpeg"
+msgstr "ffmpeg wordt geïnstalleerd"
+
+msgid "Start the program again to pick it up."
+msgstr "Start het programma opnieuw zodat het dit oppikt."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Ophalen duurt een paar minuten, en wat het meldt verschijnt onder Uitvoer."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "Dit duurt een paar minuten -- een pakketbeheerder bouwt misschien vanuit de broncode. Wat hij meldt verschijnt hier."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Nu wordt er gecompileerd, en dat is het lange deel: minuten op een snelle computer en flink langer op een oudere. Er hangt niets -- zolang er gewerkt wordt, verschijnt er om de paar seconden een punt."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg is geïnstalleerd."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Het programma leest het bij het starten. Het kan nu opnieuw starten, of je doet dat later zelf."
+
+msgid "Start again now"
+msgstr "Nu opnieuw starten"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Opnieuw starten is niet gelukt. Sluit het venster en start het programma zoals je dat eerder deed."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Eerst gaat de aanwezige ffmpeg uit de weg: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Een gebouwde ffmpeg 9.0.1 met soxr kan worden opgehaald: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Nu ophalen? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Een gebouwde ffmpeg wordt opgehaald. Hij is groot, dus dit duurt een paar minuten: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s van %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "De build kon niet worden opgehaald: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  De build kon niet worden uitgepakt: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Het archief bevatte %s van de twee programma's."
+
+msgid "  It is here: %s"
+msgstr "  Hij staat hier: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "installeer Homebrew van brew.sh, en dan dit nog een keer"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Deze ffmpeg heeft soxr: de klokdrift tussen de camera's wordt gecorrigeerd in stappen van 0,21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Deze ffmpeg heeft geen soxr: de klokdrift tussen de camera's wordt gecorrigeerd in stappen van 21 ppm in plaats van 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Alles werkt ook zonder. Een build ophalen die het heeft duurt een paar minuten, en wat die meldt verschijnt onder Uitvoer."
+
+msgid "Carry on"
+msgstr "Doorgaan"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Niet verplicht -- YouTube past dan standaardwaarden toe (Sony BVM-X300). Om ze erin te krijgen: zet in Resolve HDR10+ aan onder Color Management, voer op de Color-pagina \"Analyze All Shots\" uit en vink bij het renderen \"Embed HDR10 Metadata\" aan."
+
+msgid "Not ready yet:"
+msgstr "Nog niet klaar:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "In de sporen was niets te horen."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "Eén audio-opname heeft nog geen sprekernaam."
+
+msgid "One frame back."
+msgstr "Eén frame terug."
+
+msgid "One second back."
+msgstr "Eén seconde terug."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Elk shot in de kleur van zijn camera. Wijs aan voor camera en duur, klik om te springen."
+
+msgid "Only one speaker"
+msgstr "Maar één spreker"
+
+msgid "Open json project file"
+msgstr "json-projectbestand openen"
+
+msgid "Open result folder"
+msgstr "Resultatenmap openen"
+
+msgid "Open the settings, where the key is."
+msgstr "De instellingen openen, waar de sleutel staat."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Volgorde maakt niet uit. Bij een opname uit meerdere delen is het eerste blok genoeg."
+
+msgid "Overwrite"
+msgstr "Overschrijven"
+
+msgid "Overwrite files"
+msgstr "Bestanden overschrijven"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Vlak %d laadt %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Vlak %d op %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Afspelen en pauzeren -- de spatiebalk werkt ook."
+
+msgid "Play and pause."
+msgstr "Afspelen en pauzeren."
+
+msgid "Playback not possible"
+msgstr "Afspelen niet mogelijk"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Speelt %s -- het bewerkte spoor van auphonic.com,\nop uitzendniveau gebracht. Hetzelfde geluid als in de cameramontage."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Speelt %s -- de ruwe opname.\nDie is veel zachter dan het bewerkte geluid; zodra de sporen van auphonic.com\ner zijn, neemt het voorbeeld die."
+
+msgid "Prepare pane %d for %s"
+msgstr "Vlak %d voorbereiden op %s"
+
+msgid "Preset not readable: %s"
+msgstr "Voorinstelling niet leesbaar: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Voorbeeld niet mogelijk: %s"
+
+msgid "Preview running ..."
+msgstr "Voorbeeld loopt ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Voorwerk -- geluid lezen en omhullenden berekenen:\n"
+
+msgid "Primaries"
+msgstr "Primaire kleuren"
+
+msgid "Primaries number %d"
+msgstr "Primaire kleuren nummer %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Bewerking bij auphonic.com (optioneel)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Bewerking bij auphonic.com met \"%s\""
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Productie klaar, maar geen ZIP met de afzonderlijke sporen"
+
+msgid "Production name"
+msgstr "Naam van de productie"
+
+msgid "Chosen files"
+msgstr "Gekozen bestanden"
+
+msgid "Remove the chosen file from the list"
+msgstr "Gekozen bestand uit de lijst verwijderen"
+
+msgid "Project %r could not be created."
+msgstr "Project %r kon niet worden aangemaakt."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Project %r kon niet worden aangemaakt. Staat de naam al in een andere map?"
+
+msgid "Project %r could not be opened."
+msgstr "Project %r kon niet worden geopend."
+
+msgid "Puts it back next to each video file."
+msgstr "Zet hem terug naast elk videobestand."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "TERUGDRAAIEN MISLUKT (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Audiospoor lezen uit %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "Alle bestanden van deze soort uit de lijst verwijderen? Aantal: %s, soort: %s.\n\n%s"
+
+msgid "Resolutions"
+msgstr "Resoluties"
+
+msgid "Resolve running ..."
+msgstr "Resolve loopt ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve schaalt naar de resolutie van de Timeline. Alles wat kleiner is, wordt opgeschaald en zachter."
+
+msgid "Response was not JSON: %s"
+msgstr "Antwoord was geen JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Rood gemarkeerde rijen laten zien waar het probleem zit; een vinkje op het tabblad betekent dat alles er is."
+
+msgid "Save in Keychain"
+msgstr "Bewaren in sleutelhanger"
+
+msgid "Save in Registry"
+msgstr "Bewaren in register"
+
+msgid "Select audio and video files"
+msgstr "Audio- en videobestanden kiezen"
+
+msgid "Speakers, as the run measured them"
+msgstr "Sprekers, zoals de run ze heeft gemeten"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Sprekers, zelf gemeten uit de sporen"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Te laat gestart of te vroeg gestopt -- deze stem ontbreekt dan hier en daar in de mix."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Afgebroken. Kies een andere productienaam -- dan wordt er een nieuwe productie\n  aangemaakt -- of kies een van de andere mogelijkheden."
+
+msgid "Stopped. Nothing was created."
+msgstr "Gestopt. Er is niets aangemaakt."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Afgebroken. Er is niets geüpload en niets berekend."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Het wordt gebruikt zoals het er staat -- er wordt niets verzonnen. Controleer in Resolve onder Clip Attributes, tabblad Color Space: staat daar \"Project\", dan is de invoerkleurruimte niet herkend en moet je die met de hand instellen."
+
+msgid "Takes the position from the picture."
+msgstr "Neemt de positie over uit het beeld."
+
+msgid "Ten seconds back."
+msgstr "Tien seconden terug."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "De Resolve-interface staat niet waar ik hem verwacht:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "De Resolve-interface staat niet waar hij hoort."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "De Timeline krijgt één vaste rate -- de hoogste daarvan, of de eerstvolgende hogere die Resolve heeft. De andere zet Resolve om; bij 23,976 tegen 24 blijft zijn geluidsanalyse daar vaak hangen."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "De audio-opname van elke spreker, plus de camera's.\nDe volgorde maakt niet uit -- het programma herkent wat wat is.\nBij een opname in meerdere delen is het eerste blok genoeg."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "De montage heeft daar geen beeld. Bij het bouwen van de Timeline blijft de plek leeg, het geluid loopt door."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Het bestaande resultaat is onbruikbaar: daar ontbreekt %s. Met --auphonic-resume rerun kan het opnieuw worden berekend zonder iets te uploaden."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "De montageregels laten in deze %s geen shot staan. Een korter kortste shot, of minder totaalshot, levert er weer een op."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Het programma is hier %s lang -- daarin valt niets op te bouwen. Het In-punt en Uit-punt bepalen dat."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Het tijdvenster ligt buiten het materiaal: In-punt op %s, Uit-punt op %s, en het materiaal duurt %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "Het eerste spoor van de voorinstelling bepaalt de instellingen voor al onze sporen. Anders komen ze onbewerkt terug. Maak in de webinterface een spoor aan in de voorinstelling."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Daarvoor is het overdrachtsbestand van een proces nodig, en dat is er niet."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "De sleutel kan alleen op Mac en Windows worden bewaard -- in de sleutelhanger of het register. Hij gaat niet in een bestand."
+
+msgid "%s -- being checked"
+msgstr "%s -- wordt gecontroleerd"
+
+msgid "The key was not saved: %s"
+msgstr "De sleutel is niet opgeslagen: %s"
+
+msgid "The key was not saved"
+msgstr "De sleutel is niet opgeslagen"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "De sleutelhanger is vergrendeld. Ontgrendel hem en probeer het opnieuw."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Deze run is een testrun en de opslag draagt nog zijn echte naam, dus er is niets geschreven. Laat KEY_SERVICE, KEY_ACCOUNT of REG_PATH eerst ergens anders naar wijzen."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "De sleutelhanger is vergrendeld. Ontgrendel hem en deze knop wordt actief."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "De sleutelhanger heeft de sleutel niet aangenomen. Sleutelhangertoegang kan zeggen waarom."
+
+msgid "The registry did not take the key."
+msgstr "Het register heeft de sleutel niet aangenomen."
+
+msgid "Open Keychain Access"
+msgstr "Sleutelhangertoegang openen"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Opent de app die de sleutelhanger ontgrendelt."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Sleutelhangertoegang kon niet worden geopend: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "De opgeslagen sleutel wordt niet geaccepteerd: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "De sleutel uit AUPHONIC_TOKEN wordt niet geaccepteerd: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Wat auphonic.com antwoordde"
+
+msgid "There is no key."
+msgstr "Er is geen sleutel."
+
+msgid "The key has a space or a line break at one end."
+msgstr "De sleutel heeft aan één kant een spatie of een regeleinde."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "De sleutel wordt in het midden onderbroken door een spatie of een regeleinde."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "De sleutel bevat een teken dat niet te typen is."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "De sleutel staat dan in de %s, nooit in een bestand."
+
+msgid "The production has no name yet."
+msgstr "De productie heeft nog geen naam."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "De opname die aan deze camera is toegewezen, in plaats van het camerageluid."
+
+msgid "The run is still going."
+msgstr "Het proces loopt nog."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Nog geen sprekers bekend -- ze worden uit de sporen bepaald zodra dit tabblad opengaat. Staat iedereen op één opname, dan is \"meerdere sprekers\" in het veld Sprekernaam de weg."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "De drie getallen zijn primaire kleuren, curve en matrix. Verschillende labels hebben in Resolve verschillende invoerkleurruimtes nodig -- anders ziet de ene camera er anders uit dan de andere."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Er zijn geen aparte audio-opnamen. Dan wordt het geluid van de %s camera's gebruikt -- elke wordt een spoor, en Auphonic verwijdert de overspraak."
+
+msgid "There is no result yet."
+msgstr "Er is nog geen resultaat."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Deze bestanden zijn geen geluid en geen video en blijven buiten:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "Deze bestanden bestaan niet:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Deze bestanden bestaan al en worden opnieuw geschreven:\n\n  %s\n\nIs dat de bedoeling?"
+
+msgid "These files no longer exist:\n  "
+msgstr "Deze bestanden bestaan niet meer:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Deze namen komen meer dan eens voor:\n\n  %s\n\nDe opnamen worden samengevoegd tot één spoor en op hun timecode achter elkaar gelegd. Dat klopt als de opname tussendoor is gestopt."
+
+msgid "These tracks got no file: %s"
+msgstr "Deze sporen kregen geen bestand: %s"
+
+msgid "This Resolve project already exists"
+msgstr "Dit Resolve-project bestaat al"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "Dit komt van de opname, niet van later: de microfoons staan te dicht bij elkaar of te ver van de mond."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Dit bestand kan hier niet worden afgespeeld, en ffplay ontbreekt als uitwijkmogelijkheid."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "Dit is geen projectbestand, en in dezelfde map staat er geen.\n\nEr wordt gezocht naar %s*.json -- het script schrijft dat bij de start in de uitvoermap."
+
+msgid "This is what happens next"
+msgstr "Dit gebeurt er nu"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "Deze naam staat al bij iemand anders. Een naam is een persoon, en de montage zet een persoon op één camera -- geef deze stem alsjeblieft een eigen naam."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "Deze naam komt meer dan eens voor. De opnamen zouden één spoor worden -- voor Multitrack heeft auphonic.com er minstens twee verschillende nodig."
+
+msgid "This production already exists"
+msgstr "Deze productie bestaat al"
+
+msgid "This production has no result yet."
+msgstr "Deze productie heeft nog geen resultaat."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Tijdslimiet van %s bereikt, productie loopt nog: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Timecode %s, de andere bestanden staan op %s -- deze klok was niet gezet."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r kon niet worden aangemaakt."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Titel bij auphonic.com en begin van de nieuwe bestandsnamen."
+
+msgid "To the In point."
+msgstr "Naar het In-punt."
+
+msgid "To the start."
+msgstr "Naar het begin."
+
+msgid "Too many projects with this name."
+msgstr "Te veel projecten met deze naam."
+
+msgid "Track"
+msgstr "Spoor"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Tijdens het wijzigen zijn er sporen bijgekomen (nu %s). Daardoor klopt de mix\n  niet. Verwijder op auphonic.com de sporen zonder bestand."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Twee camera's zijn in de montage één camera. Hun bestanden hebben dezelfde naam, dus hernoem er een."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Twee camera's zijn in de montage één camera: %s. Hun bestanden hebben dezelfde naam, dus hernoem er één."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Twee camera's zouden hetzelfde bestand opleveren. De tweede zou de eerste overschrijven."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Twee camera's zouden hetzelfde bestand opleveren: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Twee camera's zouden hetzelfde nieuwe bestand opleveren. Geef verschillende namen."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Ongelijkmatige frametiming is niet via het geluid gelijk te trekken. Als de meetpunten bij het uitlijnen ook uiteenlopen, zet dan om naar een vaste framerate."
+
+msgid "Video"
+msgstr "Beeld"
+
+msgid "Video 1"
+msgstr "Beeld 1"
+
+msgid "Video 2"
+msgstr "Beeld 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- van ruw materiaal naar een gemonteerde podcast"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Volume. 100 is zo luid als het gaat -- Qt neemt niets hoger aan."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- door elkaar praten telt dubbel"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Totaalshot voor de begroeting aan het begin en het afscheid aan het eind"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Zonder dit moet elke speler raden, en ze raden allemaal SDR. Stel in Resolve onder Deliver > Advanced Settings de Color space tag en de Gamma tag in, in plaats van ze op \"Same as Project\" te laten."
+
+msgid "Without processing at auphonic.com"
+msgstr "Zonder bewerking bij auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Er is nog geen cameramontage: daarvoor zijn twee personen nodig, elk met een naam en een camera.\nAparte opnamen leveren dat met het vinkje Multitrack, en \"meerdere sprekers\" in het veld Sprekernaam van één opname ook --\nde stemmen die daar gevonden worden krijgen hun camera in de tabel onder de opnamen.\nEr wordt toch een Resolve-project aangemaakt -- alle camera's op hun gemeten plek, klaar voor Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Zonder timecode wordt de positie van de bestanden gemeten."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Bepaalt uit de sporen zelf wie wanneer spreekt -- één microfoon per persoon, niveau tegen de eigen ruisvloer. Staat iedereen op één opname, dan is \"meerdere sprekers\" in het veld Sprekernaam de weg."
+
+msgid "a box no longer fits into its parent"
+msgstr "een box past niet meer in zijn ouder"
+
+msgid "after the device change"
+msgstr "na de apparaatwissel"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com accepteert de sleutel niet: %s"
+
+msgid "average"
+msgstr "gemiddeld"
+
+msgid "belongs to"
+msgstr "hoort bij"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "overspraak te onduidelijk: %s van %s seconden bruikbaar, scherpste %s, %s nodig"
+
+msgid "Midnight"
+msgstr "Middernacht"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s heeft een timecode van de andere kant van middernacht -- geteld als één nacht, niet als een dag verschil."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Een timecode telt vanaf middernacht en begint daar opnieuw. De bestanden komen op één as voordat er iets van elkaar wordt afgetrokken, anders lijkt de opname na middernacht bijna een dag van de vorige verwijderd. Als ze echt op verschillende dagen zijn opgenomen, klopt de uitlijning niet en is de gemeten offset de juiste."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Kanaal %d zit tegen de aanslag: %s keer drie of meer samples op rij, de langste %s (%s ms), de eerste op %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Hier geteld, sample voor sample, op de rate waarmee het bestand is opgenomen: een reeks van drie of meer samples op de hoogste waarde die een integerformaat kan bevatten. Eén of twee zijn afronding en worden niet gemeld. Wat daar is afgekapt, is weg en geen bewerking haalt het terug -- maar de opname blijft de opname, en dit houdt niets tegen. Alleen integerformaten worden geteld. 32 bit float heeft bij volle schaal geen aanslag, dus daar valt niets te tellen."
+
+msgid "boxes no longer readable"
+msgstr "boxen niet meer leesbaar"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "bijwerken -- beide Timelines worden verwijderd en\n       opnieuw opgebouwd, de Media Pool blijft zoals hij is"
+
+msgid "cannot be read back (%s)"
+msgstr "niet terug te lezen (%s)"
+
+msgid "checking ..."
+msgstr "controleren ..."
+
+msgid "complete"
+msgstr "volledig"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "een nieuw project ernaast aanmaken (naam met achtervoegsel)"
+
+msgid "curl ended with %d"
+msgstr "curl eindigde met %d"
+
+msgid "did not arrive: %s"
+msgstr "niet aangekomen: %s"
+
+msgid "does not belong: %s"
+msgstr "hoort er niet bij: %s"
+
+msgid "does not exist: %s"
+msgstr "bestaat niet: %s"
+
+msgid "does the material fit together?"
+msgstr "past het materiaal bij elkaar?"
+
+msgid "does the preset fit the run?"
+msgstr "past de voorinstelling bij de uitvoering?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "gedownload bestand is maar %s bytes"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "afstand van %s volgens timecode, te ver uit elkaar voor één opname"
+
+msgid "gets audio from"
+msgstr "krijgt geluid van"
+
+msgid "hear assigned audio"
+msgstr "toegewezen geluid beluisteren"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "onze namen houden en alles opnieuw uploaden -- dit kost\n       tegoed"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "zo laten en de nieuwe Timelines ernaast zetten --\n       de bestaande blijven"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "ontbreekt -- de container heeft geen kleurlabels"
+
+msgid "missing: %s"
+msgstr "ontbreekt: %s"
+
+msgid "moov has not grown"
+msgstr "moov is niet gegroeid"
+
+msgid "moov is no longer in its place"
+msgstr "moov staat niet meer op zijn plaats"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov eindigt niet meer aan het einde van het bestand"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "uit meerdere delen, geen timecode -- gaten ertussen zijn niet vast te stellen."
+
+msgid "new file name"
+msgstr "nieuwe bestandsnaam"
+
+msgid "next to each video file"
+msgstr "naast elk videobestand"
+
+msgid "no audio data from %s"
+msgstr "geen geluidsgegevens uit %s"
+
+msgid "no audio track present"
+msgstr "geen audiospoor aanwezig"
+
+msgid "no audio: %s"
+msgstr "geen geluid: %s"
+
+msgid "no download address for %s"
+msgstr "geen downloadadres voor %s"
+
+msgid "no information"
+msgstr "geen gegevens"
+
+msgid "no information in the file"
+msgstr "geen gegevens in het bestand"
+
+msgid "no match in the middle either (%s)"
+msgstr "ook in het midden geen overeenkomst (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "geen plek gevonden waar precies één persoon spreekt -- de scheiding is niet meetbaar."
+
+msgid "no production id in the response"
+msgstr "geen productie-ID in het antwoord"
+
+msgid "no production id in the response: %s"
+msgstr "geen productie-ID in het antwoord: %s"
+
+msgid "no timecode"
+msgstr "geen timecode"
+
+msgid "no video track"
+msgstr "geen videospoor"
+
+msgid "no video track in %s"
+msgstr "geen videospoor in %s"
+
+msgid "none switched on"
+msgstr "geen ingeschakeld"
+
+msgid "not checked yet"
+msgstr "nog niet gecontroleerd"
+
+msgid "not in the media pool"
+msgstr "niet in de Media Pool"
+
+msgid "not measurable."
+msgstr "niet meetbaar."
+
+msgid "not measurable: %s"
+msgstr "niet meetbaar: %s"
+
+msgid "not needed with HLG"
+msgstr "niet nodig bij HLG"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "niet leesbaar (%s) -- niet gecontroleerd."
+
+msgid "not readable: %s"
+msgstr "niet leesbaar: %s"
+
+msgid "nothing loaded yet"
+msgstr "nog niets geladen"
+
+msgid "nothing selected"
+msgstr "niets geselecteerd"
+
+msgid "off"
+msgstr "uit"
+
+msgid "one Timeline"
+msgstr "één Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "maar %s lang, de langste opname heeft %s."
+
+msgid "overlap of %s per timecode"
+msgstr "overlap van %s volgens timecode"
+
+msgid "per track"
+msgstr "per spoor"
+
+msgid "preset does not fit the run"
+msgstr "voorinstelling past niet bij de uitvoering"
+
+msgid "previous block is shorter than the rest"
+msgstr "vorig blok is korter dan de rest"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "bewerkte sporen gevonden -- er wordt niets geüpload"
+
+msgid "production finished, but no output file"
+msgstr "productie klaar, maar geen uitvoerbestand"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "opnieuw berekenen met de gekozen voorinstelling -- de bestanden blijven\n       waar ze zijn, kost geen tegoed"
+
+msgid "reset"
+msgstr "herstellen"
+
+msgid "running ..."
+msgstr "loopt ..."
+
+msgid "selected"
+msgstr "geselecteerd"
+
+msgid "stays out"
+msgstr "blijft buiten"
+
+msgid "stored file %s"
+msgstr "opgeslagen bestand %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "het bestaande resultaat overnemen (niets berekend, niets betaald)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "de namen van daar overnemen en ermee verder gaan --\n       geen upload, kost niets"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "de Multitrack-voorinstelling heeft geen spoor opgeslagen."
+
+msgid "the finished mixdown"
+msgstr "de kant-en-klare mixdown"
+
+msgid "the individual tracks"
+msgstr "de afzonderlijke sporen"
+
+msgid "the individual tracks, packed"
+msgstr "de afzonderlijke sporen, ingepakt"
+
+msgid "the media data is no longer where it was"
+msgstr "de mediadata staan niet meer waar ze stonden"
+
+msgid "the mix of all tracks"
+msgstr "de mix van alle sporen"
+
+msgid "the mixdown as the yardstick"
+msgstr "de mixdown als maatstaf"
+
+msgid "the old moov is back in place"
+msgstr "de oude moov staat weer op zijn plaats"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "de voorinstelling mastert naar %s LUFS, de berekening gebruikt %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "de voorinstelling mastert naar %s LUFS -- dat blijft zo, niets van ons past het aan."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "overgenomen uit de bronbestanden, geen --lufs opgegeven -- er wordt niets aangepast"
+
+msgid "the answer did not keep the floor"
+msgstr "het antwoord hield het woord niet vast"
+
+msgid "the main speaker asked"
+msgstr "hoofdspreker vroeg"
+
+msgid "nobody answered in time"
+msgstr "niemand antwoordde op tijd"
+
+msgid "nobody was speaking at the question"
+msgstr "bij de vraag sprak niemand"
+
+msgid "asker and answerer on one camera"
+msgstr "vrager en antwoorder op één camera"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "de opnamen overlappen maar %s -- te weinig om te meten."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "de kortste opname heeft maar %s -- te weinig om te meten."
+
+msgid "the source folder"
+msgstr "de bronmap"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "het spoorsjabloon heeft niets ingeschakeld -- de sporen zouden precies zo terugkomen als ze zijn geüpload."
+
+msgid "the video files are tagged differently: %s"
+msgstr "de videobestanden zijn verschillend gelabeld: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "de videobestanden hebben verschillende opnamecurves: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "de videobestanden hebben verschillende beeldformaten: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "de videobestanden lopen op verschillende rates: %s"
+
+msgid "the video track can no longer be found"
+msgstr "het videospoor is niet meer te vinden"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "tijdas gemeten -- sprongen komen op hetzelfde punt uit"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "tijdas gemeten en aan de timecode gekoppeld"
+
+msgid "time axis not measurable"
+msgstr "tijdas niet meetbaar"
+
+msgid "time axis not measurable: %s"
+msgstr "tijdas niet meetbaar: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "slechts %s seconden waarin %s alleen spreekt, %s nodig"
+
+msgid "too little audio to align"
+msgstr "te weinig geluid om uit te lijnen"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "alles opnieuw uploaden en opnieuw berekenen -- dit kost tegoed"
+
+msgid "used directly"
+msgstr "direct gebruikt"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "totaalshot %s, de mix is het eerste audiospoor ervan"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s komt meer dan eens voor. Deze opnamen worden samengevoegd tot één spoor en op hun timecode achter elkaar gelegd -- juist als de opname tussendoor is gestopt."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Alle opnamen dragen dezelfde naam. Dat wordt één spoor -- Multitrack heeft er minstens twee nodig."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Twee camera's zijn in de montage één camera (%s). Hun bestanden hebben dezelfde naam, dus hernoem er een."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Twee camera's zouden hetzelfde bestand opleveren (%s). De tweede zou de eerste overschrijven."
+
+msgid "   (camera audio)"
+msgstr "   (camerageluid)"
+
+msgid "  Number: "
+msgstr "  Nummer: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", klokdrift van %s ppm verrekend"
+
+msgid "Files && production"
+msgstr "Bestanden && productie"
+
+msgid "Assignment && time window"
+msgstr "Toewijzing && tijdvenster"
+
+msgid "Resolve cut"
+msgstr "Resolve-montage"
+
+msgid "Camera audio"
+msgstr "Camerageluid"
+
+msgid "Camera audio %s"
+msgstr "Camerageluid %s"
+
+msgid "%s channels against %s"
+msgstr "%s kanalen tegen %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz tegen %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: kanaal %s kan niet worden uitgeknipt (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Kanaal %d ligt %s dB onder het luidste -- niets aangesloten"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Kanaal %d op %s dBFS -- alleen nog converterruis"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Kanaal %d is stil -- ongebruikte ingang"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Aan maakt van dit kanaal en het volgende één stereospoor.\nHet volgende heeft dan geen eigen vinkje meer -- het is al bezet.\nWat gemeten is, staat in de regel ernaast."
+
+msgid "a track of its own"
+msgstr "een eigen spoor"
+
+msgid "with Channel %d one stereo track"
+msgstr "met kanaal %d één stereospoor"
+
+msgid "already in another recording"
+msgstr "al in een andere opname"
+
+msgid "not found"
+msgstr "niet gevonden"
+
+msgid "a recording of its own"
+msgstr "een eigen opname"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Voegt deze opname in een andere in, met al haar blokken.\nGebruik dit waar de bestandsnamen de zoekfunctie geen houvast geven."
+
+msgid "Cameras only"
+msgstr "Alleen camera's"
+
+msgid "Curve number %d"
+msgstr "Curve nummer %d"
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "AUDIO of VIDEO verwijderen haalt alles daarvan weg."
+
+msgid "End"
+msgstr "Einde"
+
+msgid "End %s"
+msgstr "Einde %s"
+
+msgid "Error"
+msgstr "Fout"
+
+msgid "Mark In"
+msgstr "In-punt markeren"
+
+msgid "Mark Out"
+msgstr "Uit-punt markeren"
+
+msgid "Measure, align, process, write files."
+msgstr "Meten, uitlijnen, bewerken, bestanden schrijven."
+
+msgid "%s, seconds"
+msgstr "%s, seconden"
+
+msgid "Names used more than once"
+msgstr "Meer dan eens gebruikte namen"
+
+msgid "One name for two voices"
+msgstr "Eén naam voor twee stemmen"
+
+msgid "No files given."
+msgstr "Geen bestanden opgegeven."
+
+msgid "Number %d"
+msgstr "Nummer %d"
+
+msgid "Preset missing"
+msgstr "Voorinstelling ontbreekt"
+
+msgid "Speaker"
+msgstr "Spreker"
+
+msgid "Start %s"
+msgstr "Begin %s"
+
+msgid "Take from source files"
+msgstr "Overnemen uit bronbestanden"
+
+msgid "Take the camera audio"
+msgstr "Camerageluid gebruiken"
+
+msgid "Target: %s"
+msgstr "Doel: %s"
+
+msgid "Transfer"
+msgstr "Overdracht"
+
+msgid "Uploading %s tracks"
+msgstr "%s sporen uploaden"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;JSON-bestanden (*.json);;Alle bestanden (*)"
+
+msgid "the voices below carry the cameras"
+msgstr "de stemmen hieronder dragen de camera's"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "gemeten uit de opnamen -- %s sprekers, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "uit de voltooide run -- %s sprekers, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "uit de bewerkte Auphonic-sporen -- %s sprekers, %s"
+
+msgid "no folder"
+msgstr "(geen map)"
+
+msgid "no text"
+msgstr "geen tekst"
+
+msgid "unnamed"
+msgstr "naamloos"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Let op: meting onbruikbaar"
+
+msgid "   MISSING"
+msgstr "   ONTBREEKT"
+
+msgid "   NOT INSERTED"
+msgstr "   NIET INGEVOEGD"
+
+msgid "  (container; measured %s)"
+msgstr "  (container; gemeten %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Nummer (leeg = annuleren): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com neemt evenveel weg)"
+
+msgid " (fine: %s ms)"
+msgstr " (fijn: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- %s opmerkingen"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 opmerking: %s"
+
+msgid " target %.2f"
+msgstr " doel %.2f"
+
+msgid "(wanted %s)"
+msgstr "(gewenst %s)"
+
+msgid ", clock drift left in"
+msgstr ", klokdrift blijft staan"
+
+msgid ", range %s LU"
+msgstr ", bereik %s LU"
+
+msgid "-- nothing --"
+msgstr "-- niets --"
+
+msgid "After: %s"
+msgstr "Na: %s"
+
+msgid "Algorithms"
+msgstr "Algoritmen"
+
+msgid "Audio file %s"
+msgstr "Audiobestand %s"
+
+msgid "Audio recording"
+msgstr "Audio-opname"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic meldt %s: %s"
+
+msgid "Before: %s"
+msgstr "Voor: %s"
+
+msgid "Bit depth"
+msgstr "Bitdiepte"
+
+msgid "Building the sum"
+msgstr "Som maken"
+
+msgid "Caution: "
+msgstr "Let op: "
+
+msgid "Camera cut"
+msgstr "Cameramontage"
+
+msgid "%s -- preview"
+msgstr "%s -- voorbeeld"
+
+msgid "Cancel"
+msgstr "Annuleren"
+
+msgid "Capture curve"
+msgstr "Opnamecurve"
+
+msgid "Check: %s and camera track"
+msgstr "Controle: %s en cameraspoor"
+
+msgid "Codec profile"
+msgstr "Codecprofiel"
+
+msgid "Colour tag"
+msgstr "Kleurlabel"
+
+msgid "Connect"
+msgstr "Verbinden"
+
+msgid "Connection to Resolve"
+msgstr "Verbinding met Resolve"
+
+msgid "Continue"
+msgstr "Doorgaan"
+
+msgid "Create Resolve project"
+msgstr "Resolve-project aanmaken"
+
+msgid "Curve"
+msgstr "Curve"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "In-punt: %s     Uit-punt: %s     Duur: %s"
+
+msgid "In point %s"
+msgstr "In-punt %s"
+
+msgid "Out point %s"
+msgstr "Uit-punt %s"
+
+msgid "Different track names"
+msgstr "Andere spoornamen"
+
+msgid "Disk space"
+msgstr "Schijfruimte"
+
+msgid "Downloading %s"
+msgstr "%s downloaden"
+
+msgid "Dry run"
+msgstr "Proefdraai"
+
+msgid "Duration %s"
+msgstr "Duur %s"
+
+msgid "Dynamic range"
+msgstr "Dynamisch bereik"
+
+msgid "File names"
+msgstr "Bestandsnamen"
+
+msgid "Frame rates"
+msgstr "Framerates"
+
+msgid "GENERAL NOTES"
+msgstr "ALGEMENE OPMERKINGEN"
+
+msgid "Given"
+msgstr "Opgegeven"
+
+msgid "Go ahead"
+msgstr "Uitvoeren"
+
+msgid "Interface:      %s%s"
+msgstr "Interface:      %s%s"
+
+msgid "Keep it saved"
+msgstr "Bewaard houden"
+
+msgid "Library:        %s%s"
+msgstr "Bibliotheek:    %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log volgens cameragegevens"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (tien bit)"
+
+msgid "Measure"
+msgstr "Meten"
+
+msgid "Measuring loudness"
+msgstr "Luidheid meten"
+
+msgid "Merge them"
+msgstr "Samenvoegen"
+
+msgid "Mixing %s"
+msgstr "%s mixen"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack heeft twee sporen nodig in de tabel hierboven -- een camera telt als één zodra het Camerageluid op \"intern geluid gebruiken\" staat."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Maar één spoor -- zet voor een tweede het Camerageluid van een camera op \"intern geluid gebruiken\"."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Maar één spoor, en er is geen camerageluid meer over om te nemen."
+
+msgid "the only sound there is"
+msgstr "het enige geluid dat er is"
+
+msgid "no audio track in this file"
+msgstr "geen audiospoor in dit bestand"
+
+msgid "this file stays out entirely"
+msgstr "dit bestand blijft volledig buiten beschouwing"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "een kant-en-klare clip -- alleen geplaatst, niet bewerkt"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Wordt het gebruikt, dan worden de onder dit bestand gemeten kanalen in sporen opgedeeld, zoals bij een opname.\nGemeten wordt er hoe dan ook: dat oordeel is de basis voor deze keuze, en synchroniseren gebruikt het geluid sowieso."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Wordt het gebruikt, dan wordt het geluid van dit bestand een spoor als elk ander -- het verschijnt in de tabel hierboven.\nHetzelfde veld staat in de bestandslijst; beide tonen hetzelfde antwoord."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Geen geluid om mee te werken -- zet het Camerageluid van een videobestand op \"intern geluid gebruiken\", of voeg een audio-opname toe."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack heeft meerdere sporen nodig"
+
+msgid "Mute."
+msgstr "Dempen."
+
+msgid "No audio file given."
+msgstr "Geen audiobestand opgegeven."
+
+msgid "No project open."
+msgstr "Geen project geopend."
+
+msgid "Not found: %s"
+msgstr "Niet gevonden: %s"
+
+msgid "Not recognised"
+msgstr "Niet herkend"
+
+msgid "Note"
+msgstr "Opmerking"
+
+msgid "Note: "
+msgstr "Opmerking: "
+
+msgid "One frame forward."
+msgstr "Eén frame vooruit."
+
+msgid "One second forward."
+msgstr "Eén seconde vooruit."
+
+msgid "Output folder"
+msgstr "Uitvoermap"
+
+msgid "Choose the output folder"
+msgstr "Uitvoermap kiezen"
+
+msgid "Output folder back beside each video file"
+msgstr "Uitvoermap terug naast elk videobestand"
+
+msgid "Output folder ..."
+msgstr "Uitvoermap ..."
+
+msgid "Preview player"
+msgstr "Voorbeeldspeler"
+
+msgid "Preview player%s"
+msgstr "Voorbeeldspeler%s"
+
+msgid "Processing"
+msgstr "Bewerking"
+
+msgid "Profile"
+msgstr "Profiel"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Nog geen transcript. Zonder transcript wordt er geen vraag gevonden en is geen zinsgrens bekend, dus deze vier instellingen doen niets. Een run schrijft het, en vanaf dan werken ze."
+
+msgid "Why the question settings are grey"
+msgstr "Waarom de vraag-instellingen grijs zijn"
+
+msgid "Question"
+msgstr "Vraag"
+
+msgid "Remove"
+msgstr "Verwijderen"
+
+msgid "Remove all"
+msgstr "Alles verwijderen"
+
+msgid "Remove from list"
+msgstr "Uit lijst verwijderen"
+
+msgid "Resolve answers%s"
+msgstr "Resolve antwoordt%s"
+
+msgid "Saving %s"
+msgstr "%s opslaan"
+
+msgid "Show in Finder."
+msgstr "Tonen in Finder."
+
+msgid "Silence"
+msgstr "Stilte"
+
+msgid "Speaker name"
+msgstr "Sprekernaam"
+
+msgid "Speaker names"
+msgstr "Sprekernamen"
+
+msgid "Static metadata"
+msgstr "Statische metadata"
+
+msgid "Tagging"
+msgstr "Labels"
+
+msgid "Ten seconds forward."
+msgstr "Tien seconden vooruit."
+
+msgid "Timecode from %s"
+msgstr "Timecode vanaf %s"
+
+msgid "Track template"
+msgstr "Spoorsjabloon"
+
+msgid "Uploading %s"
+msgstr "%s uploaden"
+
+msgid "Value range"
+msgstr "Waardebereik"
+
+msgid "What should happen with it?"
+msgstr "Wat moet ermee gebeuren?"
+
+msgid "Window %s%s"
+msgstr "Tijdvenster %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Montage, EDL, CSV en de overdracht worden opnieuw berekend uit de getallen hierboven. Wie wanneer spreekt blijft zoals het proces het heeft gemeten. Resolve moet draaien."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Zonder deze twee werkt niets. Is Resolve geïnstalleerd?"
+
+msgid "audio file"
+msgstr "audiobestand"
+
+msgid "cancel"
+msgstr "annuleren"
+
+msgid "cancelled"
+msgstr "geannuleerd"
+
+msgid "edges implausible"
+msgstr "randen onaannemelijk"
+
+msgid "fixed: "
+msgstr "hersteld: "
+
+msgid "found automatically"
+msgstr "automatisch gevonden"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "vrij %s, nodig ongeveer %s (%s)"
+
+msgid "full range"
+msgstr "volledig bereik"
+
+msgid "is left in"
+msgstr "blijft staan"
+
+msgid "limited (Video/TV)"
+msgstr "beperkt (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "bepalen wie wanneer spreekt ..."
+
+msgid "nothing"
+msgstr "niets"
+
+msgid "nothing to do"
+msgstr "niets te doen"
+
+msgid "system store"
+msgstr "systeemopslag"
+
+msgid "to In point"
+msgstr "naar In-punt"
+
+msgid "to Out point"
+msgstr "naar Uit-punt"
+
+msgid "too short"
+msgstr "te kort"
+
+msgid "two Timelines"
+msgstr "twee Timelines"
+
+msgid "up to %s"
+msgstr "tot %s"
+
+msgid "video file"
+msgstr "videobestand"
+
+msgid "volume %.2f"
+msgstr "volume %.2f"
+
+msgid "while writing: %s"
+msgstr "tijdens het schrijven: %s"
+
+msgid "AUDIO"
+msgstr "GELUID"
+
+msgid "Caution"
+msgstr "Let op"
+
+msgid "MUTED"
+msgstr "GEDEMPT"
+
+msgid "fixed"
+msgstr "verholpen"
+
+msgid "on"
+msgstr "aan"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r telt vanaf het eind -- dat werkt alleen voor het Uit-punt."
+
+msgid "Check"
+msgstr "Controle"
+
+msgid "the check itself stopped: %s"
+msgstr "de controle zelf is gestopt: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "Het In-punt of Uit-punt kan hier niet worden gelezen."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Het Uit-punt ligt minder dan 5 seconden na het In-punt."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Er ontbreekt ongeveer %s. Maak ruimte vrij of kies met --out een andere map. De tijdelijke bestanden tijdens de run gaan weer ergens anders heen, naar de tijdelijke map van het systeem."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "De schatting is grof, dus dit is niet genoeg ruimte. Maak ruimte vrij of kies met --out een andere map."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nSPREKERS -- HIER GEMETEN"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nSPREKERS -- GESCHEIDEN OP STEM"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nSPREKERS\n  Er was niemand te horen -- hier komt geen cameramontage uit."
+
+msgid "\nCAMERA CUT"
+msgstr "\nCAMERAMONTAGE"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nMONTAGE MET HET TOTAALSHOT"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nEERSTE MONTAGE PER SPREKER"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Meer dan twee kanalen gaan als één naar auphonic.com: het samenvouwen wordt alleen voor stereo uitgeschakeld.\n  Waar de kanalen gescheiden moeten blijven, knip je het bestand eerst in sporen."
+
+msgid "First cut by speaker"
+msgstr "Eerste montage per spreker"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nTRANSCRIPT"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s woorden: %s %% bij één stem, %s %% bij twee, %s %% in een gat"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s woorden, zonder namen -- er is niemand gescheiden"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s kon niet worden geschreven: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nSPREKERS WORDEN GESCHEIDEN"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Al eens gescheiden: teruggelezen, niet opnieuw gemeten."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Ongeveer %s rekentijd voor %s geluid."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (alleen gemeten: niets gescheiden)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  De sporen zijn niet gemeten, dus %s zit in de mix en niet in de montage: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s nog niet gemeten -- in de montage wel, in dit voorbeeld nog niet."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Uit de sporen zelf, één stem per spoor: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  In %s, op deze computer."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  De microfoons horen elkaar te goed om te zeggen wie er spreekt, dus de scheiding luistert naar alle %s tegelijk, op deze computer."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  Wat het venster heeft gescheiden, wordt verworpen: het luisterde naar één opname, en de microfoons horen elkaar zo goed dat er geen enkele uitspringt -- %s dB tegen de %s dB die er één alleen nodig heeft om te zeggen wie er spreekt."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Sporen mengen voor de scheiding"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Welke stem bij welke microfoon hoort, was niet te zeggen, dus worden in plaats daarvan de sporen gemeten."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s is %-20s %s dB voor op de volgende microfoon, het opnameniveau eruit gerekend"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  De sprekerscheiding wordt niet gebruikt: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s is niet leesbaar: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s hoort niet bij deze run"
+
+msgid "%s has no place on the axis"
+msgstr "%s heeft geen plaats op de tijdas"
+
+msgid "no recording named"
+msgstr "geen opname genoemd"
+
+msgid "nothing of it falls inside the window"
+msgstr "niets ervan valt binnen het tijdvenster"
+
+msgid "the interface"
+msgstr "de interface"
+
+msgid "the separation in this run"
+msgstr "de scheiding in deze run"
+
+msgid "Speakers, separated by voice"
+msgstr "Sprekers, gescheiden op stem"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Daar kwam geen montage uit -- druk bovenaan opnieuw op Starten."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nZONDER AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Overspraak gemeten, %s in %s maar %s dB zachter -- uit de meting van wie wanneer spreekt gehaald"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Overspraak niet te scheiden: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Geen moment gevonden waarop precies één persoon spreekt -- de overspraak blijft in de meting van wie wanneer spreekt."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  In de sporen was niets te horen -- hier komt geen cameramontage uit."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Niet in de montage: %s -- een scheiding spreekt voor de opname, of het is niet gemeten."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  De sporen worden gebruikt zoals ze zijn opgenomen: uitgelijnd, gemixt en op de\n  doelluidheid gebracht. Geen De-Bleed, geen Leveler, geen ruisverwijdering -- daarvoor\n  heeft de run auphonic.com nodig."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic en --auphonic-done zijn allebei opgegeven. De kant-en-klare sporen winnen: er valt nergens meer iets naartoe te sturen."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK NIET MOGELIJK\n  Zonder API-sleutel valt er niets naar auphonic.com te sturen.\n  Met --without-auphonic loopt het in plaats daarvan lokaal: uitgelijnd,\n  gemixt en gemonteerd, maar zonder De-Bleed en Leveler."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Let op: maar %s van %s paren meetbaar. Voor de rest is geen moment gevonden waarop precies één persoon spreekt, dus hun overspraak blijft erin -- wie wanneer spreekt, is hier onbetrouwbaar."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "de microfoons horen elkaar bijna even luid als hun eigen spreker"
+
+msgid "the tracks are too much alike to separate"
+msgstr "de sporen lijken te veel op elkaar om te scheiden"
+
+msgid "Reading the plan"
+msgstr "Plan lezen"
+
+msgid "Audio out of the cameras"
+msgstr "Geluid uit de camera's"
+
+msgid "Common time axis"
+msgstr "Gemeenschappelijke tijdas"
+
+msgid "Processing at auphonic.com"
+msgstr "Bewerking bij auphonic.com"
+
+msgid "Loudness"
+msgstr "Luidheid"
+
+msgid "Loudness and levels"
+msgstr "Luidheid en niveaus"
+
+msgid "Loudness of the finished episode"
+msgstr "Luidheid van de afgewerkte aflevering"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Hoe luid de afgewerkte aflevering wordt gemaakt. Dezelfde versterking gaat op elk\nspoor, zodat de balans tussen de sprekers behouden blijft.\n\"Overnemen uit bronbestanden\" past helemaal niets aan: auphonic.com blijft\ndoen wat zijn voorinstelling zegt, en zonder auphonic.com blijft het geluid\nzoals het in de bronbestanden is."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    De luidheid is niet aangepast -- het doel hieronder is alleen waartegen\n    de meter meet."
+
+msgid "Who speaks when"
+msgstr "Wie spreekt wanneer"
+
+msgid "Writing the camera files"
+msgstr "Camerabestanden schrijven"
+
+msgid "Handover and result"
+msgstr "Overdracht en resultaat"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Twee keer zoveel tonen (mintoets, of het wieltje boven de band)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Half zoveel tonen, rond de huidige positie (plustoets, of het wieltje boven de band)"
+
+msgid "The whole length again (0 key)"
+msgstr "Weer de hele lengte (0-toets)"
+
+msgid "  Also fetched: %s"
+msgstr "  Ook opgehaald: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic accepteert de instellingen niet: %s"
+
+msgid "      %s channels"
+msgstr "      %s kanalen"
+
+msgid "measurement running ..."
+msgstr "meting loopt ..."
+
+msgid "      Channel %d"
+msgstr "      Kanaal %d"
+
+msgid "Looking at the channels"
+msgstr "Kanalen bekijken"
+
+msgid "channels not readable: %s"
+msgstr "kanalen niet leesbaar: %s"
+
+msgid "unused input -- ignored"
+msgstr "ongebruikte ingang -- genegeerd"
+
+msgid "uncertain -- %s"
+msgstr "onzeker -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "met de hand ingesteld -- gaat boven de meting"
+
+msgid "Language"
+msgstr "Taal"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "beide kanalen identiek -- mono op beide kanten gelegd"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "waarschijnlijk twee microfoons -- ongeveer %s m uit elkaar%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", overeenstemmend op %s van %s plaatsen"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "waarschijnlijk één stereospoor -- beide microfoons op dezelfde plek"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "niet herkenbaar -- maar %s van %s plaatsen waar beide kanalen geluid dragen, %s nodig"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "niet herkenbaar -- deze twee komen niet beter overeen dan elk met het kanaal ernaast"
+
+msgid "not set"
+msgstr "niet ingesteld"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "De taal die in de opname wordt gesproken. Die wordt het label van het\ngeschreven audiospoor, en de herkenning hier wordt erop ingesteld.\nVooraf ingevuld vanuit de systeemtaal. \"%s\" laat het spoor zonder label\nen laat de herkenning de taal zelf bepalen."
+
+msgid "Cutting out track %d of %d"
+msgstr "Spoor %d van %d wordt uitgesneden"
+
+msgid "cutting failed: %s"
+msgstr "uitsnijden mislukt: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  Eén camera voor iedereen: bij de sprekerwissel in %s shots geknipt, zodat Resolve ze kan groeperen."
+
+msgid "Wide shot %d"
+msgstr "Totaalshot %d"
+
+msgid "(wide shot)"
+msgstr "(totaalshot)"
+
+msgid "No speaker"
+msgstr "Geen spreker"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %sx weg van de spreker omdat een shot langer liep dan %s s"
+
+msgid "%s is in place."
+msgstr "%s is geïnstalleerd."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Dit venster is nog de versie waarmee het is gestart. Het kan nu opnieuw starten en als die versie terugkomen, of je doet dat later zelf."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Deze kopie draait vanuit een eigen map, dus pip heeft hier niets bij te werken. Zo installeer je hem: %s"
+
+msgid "Language of the window"
+msgstr "Taal van het venster"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Een hier gekozen taal geldt vanaf de volgende start."
+
+msgid "Restart the application"
+msgstr "Toepassing opnieuw starten"
+
+msgid "The work can be written to a project file first."
+msgstr "Het werk kan eerst in een projectbestand worden geschreven."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Het programma opnieuw starten voert de wijziging meteen door en vraagt eerst wat er met het werk moet gebeuren. Laat je het zo, dan kost dat niets -- de wijziging komt bij de volgende start."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "De toepassing start zo opnieuw. Moet het werk eerst in een projectbestand worden geschreven?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Met opslaan opent het nieuwe venster het project weer en staat alles waar het stond. Zonder opslaan komt het leeg op en moeten de bestanden opnieuw worden toegevoegd."
+
+msgid "Save and restart"
+msgstr "Opslaan en opnieuw starten"
+
+msgid "Restart without saving"
+msgstr "Opnieuw starten zonder opslaan"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Het proces loopt nog. Het venster kan opnieuw worden gestart zodra het klaar is."
+
+msgid "System language (%s)"
+msgstr "Systeemtaal (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Er is een snelkoppeling naar dit programma gemaakt: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Er is geen snelkoppeling naar dit programma gemaakt: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "hij is geschreven en was er daarna niet"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Dit programma draait als %s en de pakketten die ervoor zijn geïnstalleerd zijn %s, dus geen ervan kan worden geladen. Zo start je het goed: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Deze overdracht bevat geen framerate, dus de Timeline kan er niet uit worden opgebouwd. Doe de uitvoering nog een keer."
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s bestand past niet"
+msgstr[1] ", %s bestanden passen niet"
+
+msgid ", %s files do not fit"
+msgstr ", %s bestanden passen niet"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s bestand"
+msgstr[1] "%s bestanden"
+
+msgid "%s files"
+msgstr "%s bestanden"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s opname uit %s bestanden"
+msgstr[1] "%s opnamen uit %s bestanden"
+
+msgid "%s recordings from %s files"
+msgstr "%s opnamen uit %s bestanden"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s vervolg"
+msgstr[1] "%s  + %s vervolgen"
+
+msgid "%s  + %s continuations"
+msgstr "%s  + %s vervolgen"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Gescheiden: %s spreker"
+msgstr[1] "Gescheiden: %s sprekers"
+
+msgid "Separated: %s speakers"
+msgstr "Gescheiden: %s sprekers"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  %s is in stereo geüpload en in één kanaal teruggekomen."
+msgstr[1] "  %s zijn in stereo geüpload en elk in één kanaal teruggekomen."
+
+msgid "  %s went up in stereo and came back in one channel each."
+msgstr "  %s zijn in stereo geüpload en elk in één kanaal teruggekomen."
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s spoor, %s, %s kHz, %s"
+msgstr[1] "%s sporen, %s, %s kHz, %s"
+
+msgid "%s tracks, %s, %s kHz, %s"
+msgstr "%s sporen, %s, %s kHz, %s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix uit %s sporen, %s kanaal"
+msgstr[1] "  Full-Mix uit %s sporen, %s kanalen"
+
+msgid "  Full-Mix from %s tracks, %s channels"
+msgstr "  Full-Mix uit %s sporen, %s kanalen"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s blijft tweekanaals"
+msgstr[1] "  %s blijven tweekanaals"
+
+msgid "  %s stay in two channels"
+msgstr "  %s blijven tweekanaals"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: staat op %s (doel %s) na %d ms, %d poging"
+msgstr[1] "%s: staat op %s (doel %s) na %d ms, %d pogingen"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr "%s: staat op %s (doel %s) na %d ms, %d pogingen"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Dit levert %s videobestand op, ongeveer %s. Doel: %s"
+msgstr[1] "Dit levert %s videobestanden op, ongeveer %s. Doel: %s"
+
+msgid "This makes %s video files, about %s. Target: %s"
+msgstr "Dit levert %s videobestanden op, ongeveer %s. Doel: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s vanzelf verholpen"
+msgstr[1] "%s vanzelf verholpen"
+
+msgid "%s fixed on their own"
+msgstr "%s vanzelf verholpen"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s aanwijzing"
+msgstr[1] "%s aanwijzingen"
+
+msgid "%s hints"
+msgstr "%s aanwijzingen"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s reden om te stoppen"
+msgstr[1] "%s redenen om te stoppen"
+
+msgid "%s reasons to stop"
+msgstr "%s redenen om te stoppen"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s audio-opname"
+msgstr[1] "%s audio-opnamen"
+
+msgid "%s audio recordings"
+msgstr "%s audio-opnamen"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s videobestand"
+msgstr[1] "%s videobestanden"
+
+msgid "%s video files"
+msgstr "%s videobestanden"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Het bestand is gemarkeerd als HDR, met %s opmerking."
+msgstr[1] "Het bestand is gemarkeerd als HDR, met %s opmerkingen."
+
+msgid "The file is tagged as HDR, with %s notes."
+msgstr "Het bestand is gemarkeerd als HDR, met %s opmerkingen."
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Let op: %s niet ingevoegd. Zonder deze camerahoek is de\n  Timeline niet bruikbaar voor omzetten."
+msgstr[1] "  Let op: %s niet ingevoegd. Zonder deze camerahoeken is de\n  Timeline niet bruikbaar voor omzetten."
+
+msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr "  Let op: %s niet ingevoegd. Zonder deze camerahoeken is de\n  Timeline niet bruikbaar voor omzetten."
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s audiospoor blijft: %s"
+msgstr[1] "  %s audiosporen blijven: %s"
+
+msgid "  %s audio tracks stay: %s"
+msgstr "  %s audiosporen blijven: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Beeld en geluid weer gekoppeld: %s camerahoek"
+msgstr[1] "    Beeld en geluid weer gekoppeld: %s camerahoeken"
+
+msgid "    Picture and audio linked again: %s angles"
+msgstr "    Beeld en geluid weer gekoppeld: %s camerahoeken"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s audiospoor blijft over:"
+msgstr[1] "  %s audiosporen blijven over:"
+
+msgid "  %s audio tracks remain:"
+msgstr "  %s audiosporen blijven over:"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s clip"
+msgstr[1] "%s clips"
+
+msgid "%s clips"
+msgstr "%s clips"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s leeg audiospoor verwijderd"
+msgstr[1] "    %s lege audiosporen verwijderd"
+
+msgid "    %s empty audio tracks removed"
+msgstr "    %s lege audiosporen verwijderd"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> geïnterpreteerd als %s audiospoor%s"
+msgstr[1] "      --> geïnterpreteerd als %s audiosporen%s"
+
+msgid "      --> interpreted as %s audio tracks%s"
+msgstr "      --> geïnterpreteerd als %s audiosporen%s"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " van %s ingebed kanaal"
+msgstr[1] " van %s ingebedde kanalen"
+
+msgid " of %s embedded channels"
+msgstr " van %s ingebedde kanalen"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s videospoor"
+msgstr[1] "%s videosporen"
+
+msgid "%s video tracks"
+msgstr "%s videosporen"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s audiospoor"
+msgstr[1] "%s audiosporen"
+
+msgid "%s audio tracks"
+msgstr "%s audiosporen"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Meer camerahoeken dan kleuren -- %s kleur komt twee keer voor."
+msgstr[1] "      Meer camerahoeken dan kleuren -- %s kleuren komen twee keer voor."
+
+msgid "      More angles than colours -- %s colours occur twice."
+msgstr "      Meer camerahoeken dan kleuren -- %s kleuren komen twee keer voor."
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s clip zonder kleur gebleven."
+msgstr[1] "      %s clips zonder kleur gebleven."
+
+msgid "      %s clips left without a colour."
+msgstr "      %s clips zonder kleur gebleven."
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    Op V2 staat nu %s clip: %s"
+msgstr[1] "    Op V2 staan nu %s clips: %s"
+
+msgid "    V2 now holds %s clips: %s"
+msgstr "    Op V2 staan nu %s clips: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s marker geplaatst%s."
+msgstr[1] "  %s markers geplaatst%s."
+
+msgid "  %s markers set%s."
+msgstr "  %s markers geplaatst%s."
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s camera"
+msgstr[1] "%s camera's"
+
+msgid "%s cameras"
+msgstr "%s camera's"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Sprekerscheiding (%s): %s spreker uit %s geluid"
+msgstr[1] "  Sprekerscheiding (%s): %s sprekers uit %s geluid"
+
+msgid "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr "  Sprekerscheiding (%s): %s sprekers uit %s geluid"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s in %s fragment"
+msgstr[1] "  %-20s %s in %s fragmenten"
+
+msgid "  %-20s %s in %s passages"
+msgstr "  %-20s %s in %s fragmenten"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Uit %s: %s stem."
+msgstr[1] "  Uit %s: %s stemmen."
+
+msgid "  From %s: %s voices."
+msgstr "  Uit %s: %s stemmen."
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s woord kwam terug zonder tijd en is weggelaten."
+msgstr[1] "  %s woorden kwamen terug zonder tijd en zijn weggelaten."
+
+msgid "  %s words came back without a time and were left out."
+msgstr "  %s woorden kwamen terug zonder tijd en zijn weggelaten."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "op %s camera"
+msgstr[1] "op %s camera's"
+
+msgid "on %s cameras"
+msgstr "op %s camera's"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s bestand was daarvoor al klaar en is volledig: %s"
+msgstr[1] "%s bestanden waren daarvoor al klaar en zijn volledig: %s"
+
+msgid "%s files were finished before that and are whole: %s"
+msgstr "%s bestanden waren daarvoor al klaar en zijn volledig: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s punt"
+msgstr[1] "%s punten"
+
+msgid "%s points"
+msgstr "%s punten"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s kanaal"
+msgstr[1] "%s kanalen"
+
+msgid "%s channels"
+msgstr "%s kanalen"

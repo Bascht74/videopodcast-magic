@@ -92,6 +92,25 @@ attack the lot. The same day, a run over 257 places in five files came
 back with **31 strands**. Only where a file really hands back a
 contested case does that case get a reader of its own.
 
+## A strand saves as it goes, and stopping keeps what is done
+
+**A workflow cannot be paused, only stopped, and its strands take no
+messages** -- measured 14.9.2026: a running workflow's agents do not
+appear among the recipients a message could go to. So what a strand
+has done survives a stop only if it is already on disk.
+
+**So a strand that writes a file writes it after every block, not at
+the end**, and one that finds its file already there carries on after
+the last entry in it. Measured the same night: eight translators were
+told to "write the file at the end"; a stop at the cost line threw away
+four of them half done -- **1.47 million tokens, to avoid spending 0.4
+million more**, and every one of those tokens had to be paid again.
+
+**And at a cost line, the sum is cost to finish against cost lost.**
+What is running and nearly done is let finish; what has not started
+yet is what gets held back, and the owner is asked. Stopping a strand
+that will have to be run again anyway saves nothing -- it spends twice.
+
 ## Refuting is the point
 
 A finder that reports and nobody checks is a finder that reports
@@ -174,3 +193,5 @@ If the script bounds anything — the top ten, no retry, a sample —
 10. Is it one file, one agent, with each prompt naming the files that
     are somebody else's?
 11. Is anything the script bounded written into the log?
+12. Does every strand that writes a file save after every block and
+    carry on from a file it finds -- so a stop costs a block, not a strand?

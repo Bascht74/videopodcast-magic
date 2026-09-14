@@ -25,6 +25,33 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b14] - 2026-09-14
+
+### Added
+
+- **The window and everything the program says are now also in
+  Bengali, Korean, Dutch, Polish and Vietnamese.** Each of the five
+  answers every one of the program's texts, the lines of a run and the
+  step into Resolve included, and "Language of the window" offers it
+  under its own name. The window's captions were translated first and
+  fixed the form of address and one word for each thing; every text was
+  then read back once in full, and 18 were put right. No native speaker
+  has read them yet.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Das Fenster und alles, was das Programm sagt, gibt es jetzt auch
+  auf Bengalisch, Koreanisch, Niederländisch, Polnisch und
+  Vietnamesisch.** Jede der fünf hat eine Antwort auf jeden Text des
+  Programms, die Zeilen eines Laufs und den Schritt nach Resolve
+  eingeschlossen, und „Sprache des Fensters" bietet sie unter ihrem
+  eigenen Namen an. Zuerst wurden die Beschriftungen des Fensters
+  übersetzt; sie legten die Anrede und für jedes Ding ein Wort fest.
+  Danach wurde jeder Text noch einmal ganz gelesen, und 18 wurden
+  berichtigt. Ein Muttersprachler hat sie noch nicht gelesen.
+
 ## [3.0.0b13] - 2026-09-14
 
 ### Changed

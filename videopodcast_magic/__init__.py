@@ -198,7 +198,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b13"
+VERSION = "3.0.0b14"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -691,10 +691,11 @@ pieces_answer_together()
 
 
 #--------------------------------------------------------------- Catalogue
-# One file per language beside this one. How to add one: see the top.
+# One file per language in language/. How to add one: see the top of
+# language/__init__.py.
 
 CATALOGUE["de"] = texts_of_language("de")
-# All twelve answer every text; one a catalogue does not carry yet
+# Every catalogue answers every text; one it does not carry yet
 # appears in English. Arabic turns the window round.
 CATALOGUE["es"] = texts_of_language("es")
 CATALOGUE["pt"] = texts_of_language("pt")
@@ -707,6 +708,11 @@ CATALOGUE["zh"] = texts_of_language("zh")
 CATALOGUE["ja"] = texts_of_language("ja")
 CATALOGUE["hi"] = texts_of_language("hi")
 CATALOGUE["ar"] = texts_of_language("ar")
+CATALOGUE["bn"] = texts_of_language("bn")
+CATALOGUE["vi"] = texts_of_language("vi")
+CATALOGUE["ko"] = texts_of_language("ko")
+CATALOGUE["pl"] = texts_of_language("pl")
+CATALOGUE["nl"] = texts_of_language("nl")
 
 # What somebody chose in an earlier run, else the system. --lang beats
 # both, and main() applies it once the command line has been read.

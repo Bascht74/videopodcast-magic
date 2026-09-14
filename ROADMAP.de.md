@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b13 durchgegangen worden.
+zuletzt für 3.0.0b14 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b13.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b14.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -64,8 +64,8 @@ steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
 ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
-Das Fenster spricht dreizehn Sprachen, und jede sagt alles: jeder der
-zwölf Kataloge hat für jeden der rund 1400 Texte des Programms eine
+Jede Sprache, die das Fenster anbietet, sagt alles: ihr Katalog hat
+für jeden der rund 1400 Texte des Programms eine
 Antwort, die Zeilen eines Laufs und den Schritt nach Resolve
 eingeschlossen. Was jede Sprache beantwortet, wird bei jedem Push
 gezählt und darf nur wachsen, und jede wird an allem gemessen.
@@ -109,14 +109,13 @@ Sechs Punkte. Die ersten vier sind Arbeit. Die letzten zwei sind gebaut,
 und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
 nicht weiteres Bauen.
 
-**Sechzehn Sprachen kommen dazu.** Bengalisch, Vietnamesisch und
-Koreanisch, dazu dreizehn europäische — Polnisch, Rumänisch,
-Niederländisch, Griechisch, Schwedisch, Ungarisch, Serbisch,
-Tschechisch, Kroatisch, Dänisch, Finnisch, Slowakisch und Norwegisch,
-das Norwegische als Bokmål und das Serbische kyrillisch. Das sind dann
-neunundzwanzig Sprachen, jede mit einer Antwort auf jeden Text des
-Programms, so wie die dreizehn von heute; die Prüfung der Feldbreiten
-sieht schon jede Sprache an, die das Fenster anbietet.
+**Weitere Sprachen.** Vorgeschlagen und noch nicht gewählt: Rumänisch,
+Griechisch, Schwedisch, Ungarisch, Serbisch, Tschechisch, Kroatisch,
+Dänisch, Finnisch, Slowakisch und Norwegisch, das Norwegische als
+Bokmål und das Serbische kyrillisch. Jede wird für sich gewählt, und
+jede hätte eine Antwort auf jeden Text des Programms, so wie jede
+Sprache, die zur Wahl steht; die Prüfung der Feldbreiten sieht schon
+jede Sprache an, die das Fenster anbietet.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
 Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet

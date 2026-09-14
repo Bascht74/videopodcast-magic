@@ -76,6 +76,24 @@ def digits_font(QtGui, widget):
     # Without the hint the text falls back to the interface face, which
     # is not fixed width and measures 12 per cent narrower.
     font.setStyleHint(QtGui.QFont.Monospace)
+    return fixed_width(QtGui, font)
+
+
+def fixed_width(QtGui, font):
+    """The font as asked for, or a fixed-width family named outright.
+
+    Asked for by an alias, the typewriter face follows the language on
+    Linux: under a Vietnamese locale fontconfig hands back DejaVu Sans,
+    which has every Vietnamese letter and no fixed width. Digits and
+    columns need no letter of the language, so any fixed family does.
+    """
+    if QtGui.QFontInfo(font).fixedPitch():
+        return font
+    for family in QtGui.QFontDatabase.families():
+        if (QtGui.QFontDatabase.isFixedPitch(family)
+                and family.lower() not in ("monospace", "mono", "fixed")):
+            font.setFamily(family)
+            break
     return font
 
 
@@ -2580,7 +2598,7 @@ def make_log_view(QtGui, QtWidgets, Cursor):
                             else "Consolas", 11 if sys.platform == "darwin"
                             else 9)
             s.setStyleHint(QtGui.QFont.Monospace)
-            self.setFont(s)
+            self.setFont(fixed_width(QtGui, s))
             self._kind = "text"
             self._formats = {}
             self._formats_build()
