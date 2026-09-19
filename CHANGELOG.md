@@ -25,6 +25,36 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b15] - 2026-09-18
+
+### Added
+
+- **The window and everything the program says are now also in Czech,
+  Danish, Finnish, Greek, Croatian, Hungarian, Norwegian, Romanian,
+  Serbian, Slovak and Swedish.** Each of the eleven answers every one
+  of the program's texts, the lines of a run and the step into Resolve
+  included, and "Language of the window" offers it under its own name;
+  the Norwegian is Bokmål and the Serbian is written in Cyrillic. The
+  window's captions were translated first and fixed the form of address
+  and one word for each thing; every text was then read back once in
+  full, and 258 were put right. No native speaker has read them yet.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Das Fenster und alles, was das Programm sagt, gibt es jetzt auch
+  auf Dänisch, Finnisch, Griechisch, Kroatisch, Norwegisch, Rumänisch,
+  Schwedisch, Serbisch, Slowakisch, Tschechisch und Ungarisch.** Jede
+  der elf hat eine Antwort auf jeden Text des Programms, die Zeilen
+  eines Laufs und den Schritt nach Resolve eingeschlossen, und „Sprache
+  des Fensters" bietet sie unter ihrem eigenen Namen an; das Norwegische
+  ist Bokmål, das Serbische kyrillisch geschrieben. Zuerst wurden die
+  Beschriftungen des Fensters übersetzt; sie legten die Anrede und für
+  jedes Ding ein Wort fest. Danach wurde jeder Text noch einmal ganz
+  gelesen, und 258 wurden berichtigt. Ein Muttersprachler hat sie noch
+  nicht gelesen.
+
 ## [3.0.0b14] - 2026-09-14
 
 ### Added

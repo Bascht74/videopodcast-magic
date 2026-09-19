@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b14 durchgegangen worden.
+zuletzt für 3.0.0b15 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b14.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b15.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -105,17 +105,9 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Sechs Punkte. Die ersten vier sind Arbeit. Die letzten zwei sind gebaut,
+Fünf Punkte. Die ersten drei sind Arbeit. Die letzten zwei sind gebaut,
 und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
 nicht weiteres Bauen.
-
-**Weitere Sprachen.** Vorgeschlagen und noch nicht gewählt: Rumänisch,
-Griechisch, Schwedisch, Ungarisch, Serbisch, Tschechisch, Kroatisch,
-Dänisch, Finnisch, Slowakisch und Norwegisch, das Norwegische als
-Bokmål und das Serbische kyrillisch. Jede wird für sich gewählt, und
-jede hätte eine Antwort auf jeden Text des Programms, so wie jede
-Sprache, die zur Wahl steht; die Prüfung der Feldbreiten sieht schon
-jede Sprache an, die das Fenster anbietet.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
 Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet

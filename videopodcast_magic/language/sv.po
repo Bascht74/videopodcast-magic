@@ -1,0 +1,4494 @@
+# What is translated of this program's messages, in Swedish.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Swedish speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 18.9.2026 in two steps: the window's captions
+# first, which fixed the form of address and one word for each thing,
+# and then every other text against them, four languages at a time
+# from one sheet. Every entry was read back once in full by another model,
+# against the English, the line of code it stands in and those words,
+# and 13 were put right; a third refuted what was not a fault.
+#
+# Anyone who speaks Swedish is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else,
+# nought included.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Klippning med översiktsbilden"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Separerar inspelningen efter röst: varje röst får en egen rad, och sin kamera i den. Ungefär en minut för en halvtimme ljud, på den här datorn och utan uppladdning."
+
+msgid ", %s without"
+msgstr ", %s utan kamera"
+
+msgid "no camera yet"
+msgstr "ingen kamera ännu"
+
+msgid "A newer version is out"
+msgstr "En nyare version är ute"
+
+msgid "%s is out. This is %s."
+msgstr "%s är ute. Det här är %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Uppdatera? pip hämtar den till %s. Vad pip säger visas under Utdata, och den nya versionen körs från nästa start."
+
+msgid "pip could not be started: %s"
+msgstr "pip gick inte att starta: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip avslutades med %s. Vad det hann med står i raderna ovanför."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s är installerad. Den körs från nästa start."
+
+msgid "There is no window to show what pip says."
+msgstr "Det finns inget fönster som kan visa vad pip säger."
+
+msgid "Back to an earlier version ..."
+msgstr "Tillbaka till en tidigare version ..."
+
+msgid "Back to an earlier version"
+msgstr "Tillbaka till en tidigare version"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Kunde inte söka efter tidigare versioner: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Listan över tidigare versioner gick inte att läsa."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Det finns ingen version före %s som pip kan installera."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Det här är %s. Vilken version ska pip sätta i dess ställe?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip hämtar den till %s, och vad pip säger visas under Utdata. Versionen som väljs här körs från nästa start.\n\nDet tar tillbaka programmet och inget annat. Vad en nyare version skrev i inställningarna förblir skrivet, och projekt och deras filer lämnas som de är."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "ett intro eller outro med två kanaler är en stereomix -- inte mätt"
+
+msgid "Multitrack mode"
+msgstr "Multitrack-läge"
+
+msgid "Singletrack mode"
+msgstr "Singletrack-läge"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Ingen egen Multitrack-förinställning -- skapa en"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Ingen egen Singletrack-förinställning -- skapa en"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Ingen egen förinställning -- skapa en på auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "Ingen Multitrack-förinställning hittades i kontot."
+
+msgid "No Singletrack preset found in the account."
+msgstr "Ingen Singletrack-förinställning hittades i kontot."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "Ingen Multitrack-förinställning i kontot. Bara dessa: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "Ingen Singletrack-förinställning i kontot. Bara dessa: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r är en Singletrack-förinställning, och det behövs en Multitrack-förinställning."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r är en Multitrack-förinställning, och det behövs en Singletrack-förinställning."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "Nyckeln är bra. Av de %s förinställningarna i kontot är ingen en Multitrack-förinställning, så listan förblir tom."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "Nyckeln är bra. Av de %s förinställningarna i kontot är ingen en Singletrack-förinställning, så listan förblir tom."
+
+msgid "fetching from auphonic.com ..."
+msgstr "hämtar från auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Vad som ändrats sedan %s:"
+
+msgid "Update"
+msgstr "Uppdatera"
+
+msgid "Later"
+msgstr "Senare"
+
+msgid "Go back"
+msgstr "Gå tillbaka"
+
+msgid "Starting again did not work: %s"
+msgstr "Omstarten fungerade inte: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Starta det för hand: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Ingen nyare version hittades. Den här är %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update hämtar den och sätter den på plats."
+
+msgid "The check for new versions is switched off here."
+msgstr "Sökningen efter nya versioner är avstängd här."
+
+msgid "About Video Podcast Magic"
+msgstr "Om Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Råmaterial från en videopodcast blir ett klippt avsnitt: det goda ljudet ur videofilerna, kamerorna på en tidsaxel, en första klippning efter talare och ett DaVinci Resolve-projekt."
+
+msgid "Python %s on %s"
+msgstr "Python %s på %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "MIT-licens, Copyright (c) 2026 Sebastian Lotz. Överlämnad som den är, utan garanti av något slag."
+
+msgid "&File"
+msgstr "&Arkiv"
+
+msgid "&View"
+msgstr "&Visa"
+
+msgid "&Player"
+msgstr "&Spelare"
+
+msgid "&Help"
+msgstr "&Hjälp"
+
+msgid "Play and pause"
+msgstr "Spela och pausa"
+
+msgid "Fast forward"
+msgstr "Snabbspolning"
+
+msgid "Fast forward, %s times speed"
+msgstr "Snabbspolning, %s gånger hastigheten"
+
+msgid "Play forward, faster on every press"
+msgstr "Spela framåt, snabbare för varje tryck"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Spela framåt, dubbelt så snabbt för varje tryck -- tangenten L."
+
+msgid "Pause"
+msgstr "Paus"
+
+msgid "One frame back"
+msgstr "En bildruta bakåt"
+
+msgid "One frame forward"
+msgstr "En bildruta framåt"
+
+msgid "One second back"
+msgstr "En sekund bakåt"
+
+msgid "One second forward"
+msgstr "En sekund framåt"
+
+msgid "Ten seconds back"
+msgstr "Tio sekunder bakåt"
+
+msgid "Ten seconds forward"
+msgstr "Tio sekunder framåt"
+
+msgid "The manual"
+msgstr "Handboken"
+
+msgid "What changed in this version"
+msgstr "Vad som ändrats i den här versionen"
+
+msgid "Show the log of this run"
+msgstr "Visa loggen för den här körningen"
+
+msgid "Nothing has been written yet."
+msgstr "Inget har skrivits ännu."
+
+msgid "Look for a newer version now"
+msgstr "Sök efter en nyare version nu"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Inget certifikatpaket hittades -- en nedladdning över HTTPS kan misslyckas."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Bygger taligenkänningen ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Swift-kompilatorn meddelar: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  Taligenkänningen är byggd (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  Taligenkänningen meddelar: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Igenkänning på %s: redo efter %s s, hört efter %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Ingen taligenkänning på den här datorn: macOS 26 har en med sig, annars installeras faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Taligenkänning (%s): %s ord på %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Taligenkänning (%s): %s ord, återlästa"
+
+msgid "Separating speakers: %s"
+msgstr "Separerar talare: %s"
+
+msgid "Separating ..."
+msgstr "Separerar ..."
+
+msgid "Voice"
+msgstr "Röst"
+
+msgid "Stop"
+msgstr "Stoppa"
+
+msgid "Stopping ..."
+msgstr "Stoppar ..."
+
+msgid "Not on this machine"
+msgstr "Inte på den här datorn"
+
+msgid "Reading the audio ..."
+msgstr "Läser ljudet ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "Inget hördes i inspelningen."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "Talarsepareringen är avstängd för det här projektet."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Vem som talar när kan räknas ut på den här datorn, ur vilken som helst inspelning där alla hörs."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Låter separeringen vara avstängd för det här projektet. Klippningen kommer då från spåren eller från auphonic.com, som förut."
+
+msgid "The speaker separation reports: %s"
+msgstr "Talarsepareringen rapporterar: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Återställer talarsepareringen ..."
+
+msgid "The speaker separation is not set up."
+msgstr "Talarsepareringen är inte konfigurerad."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "Talarsepareringen är inte installerad här. Det här återställer den: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Hämtar modellen (cirka %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Hämtar modellen (cirka %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Modellen gick inte att hämta: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Modellen gick inte att skriva: %s"
+
+msgid "The list of model files came back empty."
+msgstr "Listan över modellfiler kom tillbaka tom."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s stämmer inte med sin kontrollsumma och skrevs inte."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "Programmets mapp går inte att skriva till: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Modellen för talarsepareringen ligger inte bredvid programmet."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Modellfilen %s stämmer inte med sin kontrollsumma."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote skickar hem en rapport vid varje körning, och den här versionen erbjuder inget sätt att stänga av det, så separeringen startades inte."
+
+msgid "Speakers"
+msgstr "Talare"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Vem som ska höras på den här inspelningen. Ett namn betyder att det är just den personen.\n\"flera talare\" räknar ut vem som talar när, på den här datorn och utan uppladdning -- ungefär en minut för en halvtimme ljud. Namnen skrivs sedan in i raderna under."
+
+msgid "Speaker %d"
+msgstr "Talare %d"
+
+msgid "One more speaker in %s"
+msgstr "En talare till i %s"
+
+msgid "One more speaker in"
+msgstr "En talare till i"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Lyssnar på den inspelningen igen och letar efter en talare mer än vad som hittades."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
+
+msgid " SEEKING"
+msgstr " SÖKER"
+
+msgid " computed"
+msgstr " beräknad"
+
+msgid " virtual"
+msgstr " virtuell"
+
+msgid "%s were already right"
+msgstr "%s var redan rätt"
+
+msgid "%s (%s files)"
+msgstr "%s (%s filer)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s till %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d till %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- sammanfogat för hand hamnar den skillnaden i filen som tystnad, och inget senare tar bort den."
+
+msgid "%s and %s more"
+msgstr "%s och %s till"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s och %s är båda satta till %s. Bara en fil kan vara det -- sätt tillbaka den andra till innehåll."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s och %s har samma filnamn, och Resolve anger ingen\n  sökväg för dem. Byt namn på en av de två."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s bildrutor på %s"
+
+msgid "%s reports %s"
+msgstr "%s rapporterar %s"
+
+msgid "%s speech time"
+msgstr "%s taltid"
+
+msgid "%s virtual"
+msgstr "%s virtuell"
+
+msgid "%s, audio track %d"
+msgstr "%s, ljudspår %d"
+
+msgid "3:1 rule"
+msgstr "3:1-regeln"
+
+msgid "Output"
+msgstr "Utdata"
+
+msgid "Access to auphonic.com"
+msgstr "Åtkomst till auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Åtkomst och anslutning frågas efter en gång och stannar sedan kvar. Nyckeln hamnar i %s, aldrig i en fil."
+
+msgid "Checking files"
+msgstr "Kontrollerar filer"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Allt som ännu återstår, mätt mot det som är klart. Långa arbeten tar upp mer av stapeln än korta."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Nyckel för auphonic.com, och om Resolve svarar."
+
+msgid "Measuring time axis"
+msgstr "Mäter tidsaxeln"
+
+msgid "Resolve answers"
+msgstr "Resolve svarar"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve svarar inte -- se Inställningar"
+
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Settings ..."
+msgstr "Inställningar ..."
+
+msgid "Two files as %s"
+msgstr "Två filer som %s"
+
+msgid "begins"
+msgstr "börjar"
+
+msgid "done"
+msgstr "klar"
+
+msgid "ends"
+msgstr "slutar"
+
+msgid "first"
+msgstr "första"
+
+msgid "from %s"
+msgstr "från %s"
+
+msgid "join with Channel %d"
+msgstr "slå ihop med kanal %d"
+
+msgid "last"
+msgstr "sista"
+
+msgid "rejected"
+msgstr "avvisad"
+
+msgid ","
+msgstr " "
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Typ"
+
+msgid "Speech time"
+msgstr "Taltid"
+
+msgid "Share"
+msgstr "Andel"
+
+msgid "Beginning"
+msgstr "Början"
+
+msgid "the whole material"
+msgstr "hela materialet"
+
+msgid "Colour"
+msgstr "Färg"
+
+msgid "  Preset:  %s"
+msgstr "  Förinställning:  %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  Resolve vägrar fler videospår -- %s av %s kameror får plats."
+
+msgid "Preset"
+msgstr "Förinställning"
+
+msgid "Preset:"
+msgstr "Förinställning:"
+
+msgid "Start"
+msgstr "Starta"
+
+msgid "Production"
+msgstr "Produktion"
+
+msgid "Target"
+msgstr "Mål"
+
+msgid "Bright."
+msgstr "Ljush."
+
+msgid "Colour U"
+msgstr "Färg U"
+
+msgid "Colour V"
+msgstr "Färg V"
+
+msgid "Writing %s"
+msgstr "Skriver %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Timecode:        %s"
+
+msgid "none"
+msgstr "inga"
+
+msgid "Length"
+msgstr "Längd"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- det är alla, så varje klipp går till samma kamera."
+
+msgid "No camera of their own: %s"
+msgstr "Ingen egen kamera: %s"
+
+msgid "this window"
+msgstr "det här fönstret"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "två filnamn för samma ögonblick -- ingen av dem tas"
+
+msgid "This is not a file of this program."
+msgstr "Det här är inte en fil från det här programmet."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Den här filen skrevs av version %s i format %d; den här skriver format %d. Namnen inuti har ändrats sedan dess, så den kan inte läsas. Sätt upp körningen igen."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (bara mätning: inget skrivet)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (bara mätning: utan API-nyckel stannar det här)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Kontroll mot överhörningen -- referens är %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Kunde inte skriva %s: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  För %s gick det inte att fastställa om det som kom tillbaka stämmer med\n  det uppladdade. Bättre att stoppa än att skriva något fel."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Ingen kameraklippning i överlämningen -- utan talarstatistik finns det ingen.\n  Bara Timeline för multicam-klippet byggs."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Inget ändrades."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Bara en kamera -- ett multicam-klipp vore meningslöst."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Spåren heter något annat där:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Tidsfönster för hand:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline för multicam-klippet: alla kameror, oklippta"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline med den färdiga klippningen"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: kameran i ett stycke, mixen under"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nKlart. Nedan visar ”Öppna resultatmappen” resultatet.\nStämmer allt, bygger ”Skapa Resolve-projekt” projektet av det.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nHDR-KONTROLL  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nIngen förinställning vald: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nStoppat före det första långa steget. Med --anyway körs det ändå."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Resolve känner då kanske inte igen ingångsfärgrymden."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Ljudet %s vid %s -- där möter det det %s ordet."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s spår V%d, från bildruta %d (%s s till starten), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Båda klippen förblir oklippta; de överlappar innehållet.\n      Övertoningen sitter i överlappningen -- exakt var avgör du i Resolve.\n      (Resolves skriptgränssnitt kan inte skapa övergångar.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   misslyckas: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      VARNING: svag träff för %s (%s, %s är golvet). De två hör kanske inte ihop."
+
+msgid "this pair of files"
+msgstr "det här filparet"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- det kan inte stämma, spåret\n    %-20s blir kvar där det är."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, namnlikhet %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, beskuren till tidsfönstret, namnlikhet %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  MEN %s -- varken tidsfönstret (%s) eller hela\n    %-20s    det uppmätta området (%s). Det hör till en annan körning."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s ingen fil med passande namn"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s flyttat %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s finns redan -- renderas i stället till %s, så den\n%stidigare leveransen blir kvar."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (YouTubes rekommendation för %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, två kanaler  (bithastigheten kan inte sättas på distans --\n%s%s kbit/s är rekommendationen för stereo)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s avvisades -- ingen skrivning godtogs.\n%sSätt för hand i Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s stannar på \"Same as Project\" -- projektet nämner\n%singen HDR-kurva. Att kontrollera i Resolve under\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Radering misslyckades."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Radering misslyckades: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Ihopkoppling misslyckades: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Losskopplingen hade ingen verkan -- de överflödiga ljudspåren\n    %-24s blir kvar."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s ljud från A%d behållet, %d till raderade"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s kunde inte kopplas ihop igen"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s kunde inte kopplas loss: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s inget ljud infogat"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %sx var den avsedda kameran inte igång -- där står en annan."
+
+msgid "    %s could not be imported."
+msgstr "    %s kunde inte importeras."
+
+msgid "    %s could not be inserted."
+msgstr "    %s kunde inte infogas."
+
+msgid "    %s track %d could not be created."
+msgstr "    %s-spår %d kunde inte skapas."
+
+msgid "    %s track could not be created: %s"
+msgstr "    %s-spår kunde inte skapas: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: bild och ljud infogade var för sig (ljud från A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway är satt: det körs trots punkterna ovan."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Alla spår ligger rätt -- inget att flytta."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Varning: ingen H.265 tillgänglig -- det blir H.264 med åtta bitar.\n             För lite för HDR; övergångar får ränder."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Varning: projektet står på %s, materialet är %s.\n             Leveransen bär materialets märkning. För att ta med\n             projektet: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Färgrymd"
+
+msgid "already right"
+msgstr "var redan rätt"
+
+msgid "    Clip colours could not be set."
+msgstr "    Klippfärgerna kunde inte sättas."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Klipp från en tidigare körning hänger fortfarande på sina remote grades. På\n    färgsidan högerklicka på en miniatyr > ”Copy Remote Grades to Local”\n    (tar med korrigeringen) eller ”Use Local Grades”. Nya Timelines\n    behöver inte detta."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Codec-listan kan inte läsas: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Färggrupp %-24s bara %s av %s klipp"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Motkontroll inte möjlig: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Motkontroll: inte mätbar"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    In-punkt    %s   (tidskod %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    In-punkt    %s\n    Ut-punkt    %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Ut-punkt    %s   (tidskod %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Ut-punkten ligger före in-punkten -- det går inte."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    Referenskameran bär ingen tidskod. Axeln hänger på klockan i %s, och dess första bildruta visar %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    För kontroll -- Timeline börjar vid bildruta %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Format och codec kunde inte sättas."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Format och codec kunde inte sättas: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Formatlistan kan inte läsas: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    En fil per leverans avvisades; Resolve skriver en fil per klipp."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    En fil per leverans kunde inte begäras: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Längd       %s  (i stället för %s)"
+
+msgid "    Length  %s"
+msgstr "    Längd       %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Lokala versioner: i nodredigeraren gäller \"Group Pre-Clip\" för hela\n    kameran, \"Clip\" bara för det ena klippet. Det ena utesluter inte\n    det andra."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Målnivån för ljudstyrkemätaren hittades inte -- sätt för hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Uppmätt %s bildrutor/s -- Resolve känner bara fasta frekvenser,\n    %s används."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Inget par mätbart -- det blir som det är."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Ingen inställning för versionerna hittades -- sätt för hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Allt kunde inte sättas. Resolve tar emot vissa värden bara\n    så länge Timeline fortfarande är tom -- jämför ovan."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    I kön -- i Resolve återstår bara \"Render All\"."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades är på: en färgkorrigering per kamera gäller\n    för alla dess klipp -- ett enskilt klipp kan då inte längre korrigeras\n    för sig."
+
+msgid "    Render job could not be created."
+msgstr "    Renderingsjobbet kunde inte skapas."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Renderingsjobbet kunde inte skapas: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Inställningarna kan inte listas -- sätt för hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Fönstret skulle bara bli %s långt -- det kan inte vara avsikten."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Spår %d  %-22s (här: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 kunde inte läsas tillbaka: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Videospår %d kunde inte döpas om."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Om den färdiga filen går igenom som HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    inte möjligt: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (ljudvägen negativ -- något är fel)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s går inte att rikta in: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s inte mätbar: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s förskjutning %s, klockdrift %s ppm (+/- %s), restspridning %s ms, %s av %s punkter"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s förskjutning %s, klockdrift %s ppm (+/- %s), restspridning %s ms, %s av %s punkter%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s från %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s block sammanfogade i namnordning (ingen tidskod -- luckor skulle inte gå att känna igen)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s block sammanfogade via tidskod, start %s"
+
+msgid "  %s of %s files imported."
+msgstr "  %s av %s filer importerade."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s talare, %s klipp, kortaste %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s videospår, namngivna efter talarna:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s står två gånger med olika kameror -- %s används"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s går inte att klassificera: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s ger inget ljud att mäta -- placerad enbart efter sin klocka, och inget fanns att kontrollera det mot"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s kunde inte hämtas: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s kunde inte skrivas om: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s hamnar på videospår 1 -- där bär det första ljudspåret\n  Full-Mix, och videospår 1 blir vinkel 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s har inget kameraljud -- utan det går inget att rikta in"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s finns två gånger i produktionen -- hämtades en gång."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s finns redan och skrivs över -- den här produktionen har ingen anteckning om att ha skapat den."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s finns från en tidigare körning av den här produktionen och ersätts."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s går i %s bildrutor/s, en frekvens Resolve inte har någon Timeline för -- den räknas om, inte utelämnas"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s är klar -- med --resolve-json kan det göras senare."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, överhoppad"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: hur många kanaler den har går inte att avgöra (%s) -- den mäts inte"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (bara mätning: inget laddas upp)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  En Timeline %r fanns redan -- den nya heter %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  En Timeline med det här namnet finns, med andra kameror på. Den blir kvar;\n  den nya byggs bredvid under ett eget namn."
+
+msgid "  Added: %s"
+msgstr "  Läggs till: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Tillägg av atomer återtaget -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Alla utdatafiler som behövs finns redan."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Atom %s överhoppad: %s byte är för mycket för den."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Ljud: Full-Mix i ett stycke på A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Varning: %s steg skillnad i ljushet -- syns vid växling."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Varning: %s och %s heter båda %s. På Timeline\n  anger Resolve bara namnet, så deras klipp går inte\n  att skilja åt -- byt namn på en av de två filerna."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Varning: %s gick inte att radera -- den nya Timeline får\n  därför ett tillägg i namnet."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Varning: omfång    bara %s LU -- mycket trångt. Tal ligger vanligen på 3 till 7 LU;\n                     under det låter det hoptryckt. Kontrollera hur hårt nivåutjämnaren\n                     är inställd hos auphonic.com."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Varning: produktionen innehåller fler spår (%s). De går in i\n  mixen -- ta bort dem på auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Varning: spår %s -- det behåller sina inställningar."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Kameraatomer:    kan inte läggas till (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Kameradata:      %s nycklar överförda (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Kameradata:      Varning, %s av %s nycklar saknas i den nya filen: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Kameradata:      källan bär inga"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Kan inte lägga till atomer: en 64-bitars box är i vägen."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Kan inte lägga till atomer: moov ligger inte i slutet."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Kan inte lägga till atomer: källan är %s, målet %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Kontroll:        inte möjlig (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Klockdrift:      %s ppm (+/- %s), restspridning %s ms, %s av %s punkter"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Klockdrift:      inget mätt -- det här är referensen som de andra hålls mot"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Färgjämförelse inte möjlig: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Färggruppen %r kan inte skapas."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Färggruppen %r kan inte skapas: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Färg:            %d/%d/%d -- primärfärger ifyllda från matrisen (källa: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Färg:            %d/%d/%d överförd"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Färg:            Varning, %s i källan, %s i den nya filen"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Motkontroll:     %s från Full-Mix, avvikelse %s ms (%s av %s punkter)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Motkontroll:     inte möjlig (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Dataspår:        %s överförda"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Dataspår:        %s utelämnade -- ffmpeg kan inte skriva dem"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Raderad: %s -- byggs om nu."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Drift över speltiden: %s s = %s bildrutor  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Befintligt resultat taget -- inget beräknat, inget betalt."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Färre än två kameror med ljud -- för få för Multitrack."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Färdig mixdown begärd som måttstock (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "börjar inte där blocket före slutar"
+
+msgid "ends before the next block starts"
+msgstr "slutar innan nästa block börjar"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com har vikt ihop dem. Mixen behåller de två kanalerna; det som är\n  borta är skillnaden mellan de två mikrofonerna i det spåret."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Två kanaler, eftersom ett spår är stereo"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Lucka på %s vid %s -- fylld med tystnad"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Överlapp på %s vid %s -- båda ljuder där"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  De överlappar -- flera mikrofoner samtidigt, inte block i följd."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Var och en går också in i videon som ett eget spår: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Bara mixen går in i videon (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Den finns redan, med samma kameror i samma ordning -- den lämnas\n  orörd. Den som vill ha en ny raderar den i Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Nyckelbildrutorna i %s kan inte läsas (%s) -- kopian börjar vid filens början."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Nivåkurva inte möjlig (%s) -- utan limiter"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Limiter:           högst %s dB, samma kurva på varje spår%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Ljudstyrka inte mätbar: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Ljudstyrkan kan inte mätas -- den förblir som den är."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Mätvärden kan inte skrivas: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Mixdown från auphonic.com: %s LUFS, topp %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Ingen Full-Mix hittades -- Timeline förblir tyst."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Inget ljud på Timeline -- inget att städa upp."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  Inga kameror i överlämningen -- inget att bygga."
+
+msgid "  No clips found for colour groups."
+msgstr "  Inga klipp hittades för färggrupper."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Ingen klippning kvar -- Timeline förblir tom."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Inte överlämnad: körningen kunde inte placera %s, så den är ingen kamera i det här avsnittet."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Ingen uppmätt förskjutning för %s -- placerad i början av axeln."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  Inget hittades i ljudet för %s -- placerad enbart efter tidskoden."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: mätningen sätter den vid %s s, tidskoden vid %s s -- mätningen används."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Timeline-starten %s avvisades: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline börjar vid %s, inte vid %s -- varje klipp sitter så mycket längre in."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Timeline-starten %s godtogs inte."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Start %s -- varje klipp placeras i förhållande till den."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Det fanns ännu ingen sådan Timeline -- den byggs bara."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Anmärkning: det räknas med filerna som laddades upp då. De bär\n  tidsfönstret och inriktningen från den dagen. Där in-punkten, ut-punkten\n  eller den uppmätta positionen är andra nu, mäter returkontrollen\n  skillnaden och flyttar spåren på plats."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Anmärkning: detta ffmpeg saknar soxr -- klockdrift kan bara tas bort i\n  steg om 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Utan betydelse för ljudet."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Förskjutning:    %s   (från kamerajämförelsen)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Bara %s av %s klipp ligger på Timeline."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Toppar:            %s dB över %s dBTP -- limitern fångar dem"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Spelare: %s rapporterar ett fel -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Spelare: %s stannar vid %s i stället för %s -- uppgivet efter %s försök (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Spelare: ljudutgången byter till %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Spelare: ljudet går inte (%s) -- ett försök till."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Ange ett tal mellan 1 och %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Produktion hos auphonic.com:  %s"
+
+msgid "  Production running (%s)"
+msgstr "  Produktionen pågår (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Projektet %r öppnat."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Projektfilen kunde inte skrivas: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Projektfilen kan inte skrivas (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Omfång:            %s LU (tal ligger vanligen på 3 till 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Referens: %s (%s, längst speltid)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Återstår:          %s dB på varje spår, det är %s LUFS i stället för %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve tog inte emot någon bild alls -- Timeline är tom. Inget\n  mer byggs på den."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Resultat: %s (%s) -- blir kvar bredvid videofilen\n"
+
+msgid "  Not used:  %s."
+msgstr "  Inte använda: %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Fråga: %s i transkriptionen, %s blev reaktionsklipp."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Fråga: ingen transkription, så ingen fråga hittades och inget\n         reaktionsklipp gjordes. Orden skrivs ned från den färdiga mixen\n         under körningen; utan dem gör inställningen ingenting."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Inställningarna sätts efter förinställningen %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Start %s (tidigaste kameran) -- annars skulle allt ligga före Timeline-starten."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Inte justerat:     taget från källfilerna -- ingen förstärkning på något spår och\n                     ingen limiter. Ljudet går ut exakt som det kom in."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Summa av spår:     %s LUFS, topp %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Mål:               %s LUFS  ->  %s dB på varje spår"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline får %s: den högsta av dem, eller nästa frekvens Resolve\n  har ovanför. Uppåt upprepar Resolve bildrutor, nedåt kastar det\n  bort dem. Varje kamera behåller sin egen frekvens, och klippningen räknar\n  i den."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix gick inte att importera."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix gick inte att infoga."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  Kamerorna bär tidsfönstret och en sekund i varje ände: %s skrivna för %s av de inspelade %s."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  Kamerorna ligger nära varandra (högst %s steg ljushet)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  Klippningen har ändrats: %s klipp i stället för %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Anteckningen om tidigare körningar här kan inte läsas (%s), så allt som redan finns på plats rapporteras."
+
+msgid "  The cut stays as it was."
+msgstr "  Klippningen förblir som den var."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Filerna laddas upp igen -- det kostar krediter."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Filerna i mappen måste heta som talarna och höra till\n  den här körningen. Utan mappen går det via auphonic.com igen."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool förblir som den är."
+
+msgid "  The names from there are adopted:"
+msgstr "  Namnen därifrån tas över:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Där finns %s spår och här %s -- det stämmer inte överens."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Den här kameran kunde inte placeras -- hoppas över"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Tidsfönster:     %s av %s skrivna, från %s av kameran"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Timecode %s skriven som bext och iXML (referens: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  För mycket:        limitern skulle behöva ta bort %s dB. Mer än %s dB\n                     låter hoptryckt -- %s dB mindre förstärkning."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Transkription inte möjlig (%s) -- det körs ändå."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Översiktsbild i kanterna: hoppas över -- det första eller sista inlägget\n  vore för långt för en hälsning."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Översiktsbild i kanterna: till %s och från %s"
+
+msgid "  from %s, %s"
+msgstr "  från %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML för %s inte skriven: %s"
+
+msgid " at high frame rates"
+msgstr " vid höga bildfrekvenser"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Ljudet börjar enligt tidskod vid  %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Bilden börjar enligt tidskod vid  %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  Ljudfilens tidskod passar inte alls till bilden -- troligen en klocka som aldrig ställts. Mätningen används."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  Tidskoden passar inte till det som hörs. Mätningen används."
+
+msgid "%s from %s recordings"
+msgstr "%s från %s inspelningar"
+
+msgid "%s is missing."
+msgstr "%s saknas."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s står på mer än en talare -- ett namn är en person, och varje person behöver ett eget."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s står på mer än en röst. Ett namn är en person, och klippningen sätter en person på en kamera -- två röster med ett namn vore en person på två ställen."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Den här datorn kan installera det ordentligt: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Installerar: %s"
+
+msgid "  On this machine: %s"
+msgstr "  På den här datorn: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Installerar: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s skulle installeras i det här Python: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  För hand:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Kunde inte söka efter en nyare version: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s saknas. Första gången tar det några minuter."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Kör det nu? [J/n] "
+
+msgid "  That did not work: %s"
+msgstr "  Det gick inte: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Återställs: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org har färdiga versioner för Windows. Mappen med ffmpeg.exe måste sedan in i PATH, eller filerna bredvid det här programmet."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Öppna sidan? [J/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  Sidan gick inte att öppna: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s saknas -- installerar det. Första gången tar det några minuter."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sTidskodskontroll av ljudfilen"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s inte (ingen ledig bild)"
+
+msgid ", audio on A2"
+msgstr ", ljud på A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Tilldelningsfilen går inte att läsa: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Kameraljudet går inte att använda: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK INTE MÖJLIGT\n  Minst två ingångsspår behövs, och bara %s hittades.\n  Ett spår är en egen inspelning, en kanal från en flerkanalig\n  inspelare eller ljudet från en kamera -- det räknas så snart dess\n  Kameraljud säger \"använd internt ljud\". Utan två av dem finns\n  det inget att koppla isär, och samma fil körs igenom som en\n  vanlig produktion."
+
+msgid "No preset is called %r."
+msgstr "Ingen förinställning heter %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Inget ljud i kamerorna -- inget att arbeta med."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Bara en ljudfil och ingen bild -- inget att göra."
+
+msgid "Open project ..."
+msgstr "Öppna projekt ..."
+
+msgid "Save project"
+msgstr "Spara projekt"
+
+msgid "Close project"
+msgstr "Stäng projekt"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Projektfilen hamnar i utdatamappen, och ingen är vald ännu. Välj en."
+
+msgid "Written:\n\n  %s"
+msgstr "Skrivet:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Inget skrevs -- det finns inget material ännu."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nVEM SOM FRÅGAR -- ett förslag, och inget ställs in efter det"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s taltid, %s av %s meningar en fråga"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  Ordningen håller, avståndet mellan dem inte: mätt över fyra avsnitt vände den sig aldrig, medan avståndet mellan första och sista ändrades fyrfaldigt. Det förutsätter en röst per spår; där två av dem bär samma tal sägs ingenting alls."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Vem som frågar -- sägs inte här: två av spåren bär samma tal, så frågorna skulle gå till den inspelare som var uppskruvad högst."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nVILKEN MIKROFON -- ett förslag, och inget ställs in efter det"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s låter som %-20s %s %% av den i det spåret, %s poäng före nästa"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Det gäller under ett antagande: en mikrofon per person, och var och en bär bara den personen. Där spåren överlappar för mycket för att kunna skiljas åt, eller två röster pekar på samma mikrofon, sägs hellre ingenting alls än något osäkert."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nVAD RÖSTERNA SKULLE KUNNA HETA -- ett förslag"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s skulle kunna heta %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s talar knappt inom tidsfönstret -- förslag: använd inte."
+
+msgid "Guest"
+msgstr "Gäst"
+
+msgid "Host"
+msgstr "Programledare"
+
+msgid "Host %d"
+msgstr "Programledare %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Bara för röster som fortfarande bär namnet programmet gav dem; ett som någon skrivit in rörs aldrig. Rollerna läses av utifrån vem som frågar och vem som svarar, vilket gäller för ett samtal med en gäst och är ett förslag, inte en inställning."
+
+msgid "Skip this version"
+msgstr "Hoppa över den här versionen"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Bara den här. Nästa version frågar igen, och Hjälp > Sök efter en nyare version nu frågar när som helst."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s finns redan -- hämtas inte två gånger"
+
+msgid "The text for %s could not be fetched."
+msgstr "Texten till %s gick inte att hämta."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Kontroll:        ett av de två spåren är inte i den skrivna filen, så inget mättes."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Kontroll:        de två spåren går inte att jämföra (överensstämmelse %s, %s är golvet). Det säger inget om tidsläget."
+
+msgid "Project found"
+msgstr "Projekt hittat"
+
+msgid "Open the project"
+msgstr "Öppna projektet"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Allt kommer tillbaka därifrån: namn, separering, tilldelning, typer, tidsfönstret. Fillistan ersätts med den som projektet innehåller."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "En projektfil ligger vid det här materialet:\n\n  %s\n  skriven %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Flera projektfiler ligger vid det här materialet. Vilken?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROJEKT ÖPPNAT\n  Alla uppgifter är tillbaka, inget har beräknats i den här sessionen.\n  Utdatamappen innehåller filerna från den senaste körningen:\n  %s\n\n  Tre vägar härifrån:\n    • nedan \"Öppna resultatmappen\" -- titta på filerna från den körningen,\n    • nedan \"Skapa Resolve-projekt\" -- från den körningens överlämningsfil,\n      utan att beräkna något på nytt,\n    • ovan \"Starta\" -- beräkna allt på nytt och skriv över filerna.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROJEKT SPARAT\n  %s\n  Den här körningen kan öppnas igen senare -- uppe till vänster\n  \"Öppna projekt ...\"\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Förinställningarna kunde inte läsas in: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Flera kameror men ingen ljudfil. Varje kamera skulle ha sitt eget ljud --\ndet är det --multitrack är till för. Annars en kamera i taget."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Filen känns INTE igen som HDR."
+
+msgid "The file is tagged as HDR."
+msgstr "Filen är märkt som HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Okänd filändelse, hoppas över: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Vilken Auphonic-förinställning ska bearbeta den här filen?"
+
+msgid "Would write: %s"
+msgstr "Skulle skriva: %s"
+
+msgid "channel count unknown"
+msgstr "kanalantal okänt"
+
+msgid "is actively taken out"
+msgstr "räknas aktivt bort"
+
+msgid "not readable"
+msgstr "inte läsbar"
+
+msgid "the default device"
+msgstr "standardenheten"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: inget ljud att hämta ut (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  ETT PROJEKT MED DET HÄR NAMNET FINNS REDAN: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  STÄDA UPP LJUDSPÅREN"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  KLIPP I MEDIA POOL"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Inte användbara: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  UPPDATERA KLIPPLISTAN"
+
+msgid "\n  Render job"
+msgstr "\n  Renderingsjobb"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Resolve-delen stoppad: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  STOPPAT: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Inställningar"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Stoppad: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  DET FINNS REDAN EN PRODUKTION MED DET HÄR NAMNET"
+
+msgid "\n  This produces:"
+msgstr "\n  Det här ger:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Körning %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nREDAN BEARBETAT"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nFÄRGJÄMFÖRELSE MELLAN KAMERORNA"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nKONTROLLERA DET SOM KOMMER TILLBAKA"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nOLIKA BILDFREKVENSER: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nOLIKA BILDSTORLEKAR: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nSlutade utan resultat: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nAvslutad med fel.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nMÄTER TIDSAXELN"
+
+msgid "\nMETRICS"
+msgstr "\nMÄTVÄRDEN"
+
+msgid "\nMIXING"
+msgstr "\nMIXNING"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALISERA"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Ingen bild: spåren läggs mot varandra."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs gör inget här: spåren går ut som de spelades in, och ljudstyrkan sätts där de mixas."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nBara ett spår fann en plats -- det finns inget kvar att lägga det mot."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Fönster:             %s -- allt som något spår hörde"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: tystnad i %s i början och %s i slutet"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nBara ett spår blir kvar när blocken fogats ihop, och Multitrack behöver ett per röst. Där två personer togs för en inspelning håller --apart ett block utanför."
+
+msgid "RECOGNISED PLAN"
+msgstr "IGENKÄND PLAN"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nInget ljudspår gick att rikta in -- det finns inget att lägga på axeln."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nLjud och bild har bara %s gemensamt, och inriktningen fann %s samplingspunkter i det. Det är för lite att placera något på."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s mixade tillsammans"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nIngen användbar videofil -- utan kameraljud finns ingen gemensam tidsaxel."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nFÖRKONTROLL -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nBEARBETNING: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- BARA TITTA"
+
+msgid "\nRESULT"
+msgstr "\nRESULTAT"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nSPARAR SPÅR"
+
+msgid "\nStopped: %s"
+msgstr "\nStoppad: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nSKRIVER SPÅREN TILL AXELN"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  klart%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Spår %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s ingen fil i Media Pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   tom (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s från %s, %s lång%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s ljudväg %4s ms (%s m), förskjutning %6s ms, drift %5s ppm (%s punkter, %s ms över)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- inget passande hittades"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Se upp: %s. Där finns ingen bild;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Färggrupper: %s -- alla klipp tilldelade"
+
+msgid "    Colours per angle:"
+msgstr "    Färger per vinkel:"
+
+msgid "    Cross-check:"
+msgstr "    Motkontroll:"
+
+msgid "    Left without picture: %s"
+msgstr "    Blev utan bild: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Inget MP4-format hittades. Tillgängliga: %s"
+
+msgid "    No clips found."
+msgstr "    Inga klipp hittades."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Ingen passande codec hittades. Tillgängliga: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Renderingsinställningarna avvisades."
+
+msgid "    the measured window is therefore kept."
+msgstr "    därför behålls det uppmätta fönstret."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s klipp, %s s sammanlagt, utan sitt ljud."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  %s videospår, %s ljudspår skapade (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s får %s spår sammanmixade: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Ljudspår %d:      %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Kameraatomer:    %s tillagda -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s i början och %s i slutet har ingen bild och utelämnas"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    börjar med %s och slutar med %s -- sträckan som varje kamera såg"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nStoppar. Körningen avslutas så snart den kan göra det utan att lämna en fil halvskriven -- ett ögonblick.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Översiktsbilden håller %s s, mindre än det kortaste klippet på %s s -- så den slås ihop igen och syns aldrig.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nMätt. Inget skrevs -- en provkörning lämnar resultatmappen som den var.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nStoppades under: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Allt efter det steget saknas. Mappen innehåller en del av en körning, inte ett resultat."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Gemensamt fönster:   %s till %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Skapad:      %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Fel vid skrivning: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Fil:             %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Två kanaler begärda -- inspelningen är stereo"
+
+msgid "  From %s"
+msgstr "  Från %s"
+
+msgid "  In summary: %s"
+msgstr "  Sammanfattat: %s"
+
+msgid "  In the archive: %s"
+msgstr "  I arkivet: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Saknas:      %s"
+
+msgid "  Player: %s"
+msgstr "  Spelare: %s"
+
+msgid "  Production:  %s"
+msgstr "  Produktion:    %s"
+
+msgid "  Project %r"
+msgstr "  Projekt %r"
+
+msgid "  Project %r created."
+msgstr "  Projektet %r skapat."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Resultat:          ungefär %s LUFS, topp %s dBTP"
+
+msgid "  Results:"
+msgstr "  Resultat:"
+
+msgid "  Results:     none"
+msgstr "  Resultat:    inga"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  De befintliga filerna återanvänds -- att räkna om kostar inget."
+
+msgid "  Time limit: %s"
+msgstr "  Tidsgräns: %s"
+
+msgid "  To upload:   %s"
+msgstr "  Att ladda upp: %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Spår:          %s"
+
+msgid "  Tracks: %s"
+msgstr "  Spår: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Transkription: %s"
+
+msgid "  Uploaded:"
+msgstr "  Uppladdat:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Avvikelse:                        %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Avvikelse:                        %s  (%s bildrutor)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Avvikelse:                        %s  (%s bildrutor) -- passar"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Förskjutning uppmätt:             %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Förskjutning enligt tidskod:      %s"
+
+msgid "Abort: %s"
+msgstr "Avbrott: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "HÄMTAR UT KAMERALJUDET"
+
+msgid "FOR RESOLVE"
+msgstr "FÖR RESOLVE"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "INGEN LJUDFIL -- KAMERALJUDET ANVÄNDS"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "INGA SEPARATA LJUDINSPELNINGAR -- KAMERALJUDET ANVÄNDS"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "BEARBETNING HOS AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "BEARBETNING HOS AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "Bearbetningen misslyckades: %s"
+
+msgid "RESULT"
+msgstr "RESULTAT"
+
+msgid "Resolve part stopped: %s"
+msgstr "Resolve-delen stoppad: %s"
+
+msgid "Stopped: %s"
+msgstr "Stoppat: %s"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s alla kameror sida vid sida -- blir multicam-klippet"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s bild från kameraklippningen, ljudet i ett stycke"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s kameran i ett stycke, mixen under"
+
+msgid "   --   audio only"
+msgstr "   --   bara ljud"
+
+msgid "   -- not found"
+msgstr "   -- hittades inte"
+
+msgid "   Caution: more than one frame"
+msgstr "   Varning: mer än en bildruta"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s förskjutning %s ms%s, längd %s s, spridning %s ms, %s av %s punkter%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (den här filen slutar tidigare)"
+
+msgid "  (this file starts later)"
+msgstr "  (den här filen börjar senare)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  ingen Resolve-Timeline går i den här frekvensen; den räknas om"
+
+msgid "  --  this file is outside"
+msgstr "  --  den här filen ligger utanför"
+
+msgid "  -->  aligned"
+msgstr "  -->  uppriktad"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  uppriktad, klockdrift %s ppm borttagen"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Kontroll:        %s mot kameraspåret %s ms (överensstämmelse %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Skapa det med \"Skapa Resolve-projekt\" i gränssnittet. Resolve måste vara igång."
+
+msgid "  The handover file could not be written."
+msgstr "  Överlämningsfilen kunde inte skrivas."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Det här ger projektet, importen och %s:"
+
+msgid " (paused)"
+msgstr " (pausad)"
+
+msgid " (playing)"
+msgstr " (spelar)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- en in- eller ut-punkt sparar uppladdningen"
+
+msgid " -- not readable"
+msgstr " -- inte läsbart"
+
+msgid " -- nothing to fault."
+msgstr " -- inget att anmärka på."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- bara matrisen säger BT.2020"
+
+msgid " and "
+msgstr " och "
+
+msgid " from %s files"
+msgstr " från %s filer"
+
+msgid " not."
+msgstr " inte."
+
+msgid "%s blocks"
+msgstr "%s block"
+
+msgid "%s brought to the preset"
+msgstr "%s satta efter förinställningen"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s kanaler -- delas upp i spår, se raderna ovan."
+
+msgid "%s checked"
+msgstr "%s kontrollerade"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s av %s jämförelser ligger under %s dB -- varje inspelning mot varje annan, i båda riktningarna."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s av %s videofiler bär ingen kurva och ingen färgrymd i colr-boxen%s -- troligen log-material."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r är en tidskod, men här finns ingen bild och därmed ingen kamera att räkna den från. Då fungerar bara ett värde från fönstrets början, till exempel +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r är en tidskod, men tidsaxeln hänger inte på någon klocka: ingen fil här bär någon, referenskameran %s inräknad. Då fungerar bara ett värde från fönstrets början, till exempel +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r är ingen Multitrack-förinställning"
+
+msgid "%r is not a number."
+msgstr "%r är inte ett tal."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   passar inte ihop med de andra filerna: ljudet inte igenkänt, ingen tidskod.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Satt till %s; %s är ett klick bort."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Utelämnad, %s är redan upptaget; %s är ett klick bort."
+
+msgid "Its sound cannot be used."
+msgstr "Dess ljud går inte att använda."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   ljudet inte igenkänt; placerad efter sin tidskod"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   appen känner inte till det här formatet"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s block"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- vad ska ske med det?\nDetaljerna finns i loggen."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz i stället för %s kHz -- konverteras under bearbetningen."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s kan inte placeras: dess ljud har inget gemensamt med resten av materialet, och filen bär ingen tidskod. Den behöver en som passar de andra inspelningarna, och den måste sättas med ett annat program."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s passar inte ihop med något i materialet och är mycket kortare än resten: föreslås som intro, som läggs först och aldrig mäts."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s är inställt, och inget justeras här: spåren går ut som de spelades in, och ljudstyrkan sätts där de mixas."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s går att placera igen och är tillbaka i körningen."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s gick inte att installera.\nFör hand:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s har inget ljudspår."
+
+msgid "%s in %s"
+msgstr "%s i %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s i mikrofonen hos %s: %s dB tystare än i den egna."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s ligger i %s -- filen är nu i spelaren."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s ligger inte på avsnittets tidsaxel: det läggs före materialet eller efter, inte klipps in i det. In-punkt och ut-punkt hör till det som ligger däremellan."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s ligger i ingen av videofilerna. Finns det en tidskod som passar materialet?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s i mikrofonen hos %s bara %s dB tystare"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: inte sökbar ännu, görs senare (%s)"
+
+msgid "%s: not there"
+msgstr "%s: finns inte där"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), försök %d, därefter vid %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: ska gå till %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", inget ljud"
+
+msgid "-- only one camera"
+msgstr "-- bara en kamera"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- hopp till %s programtid%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- punkten satt, programtiden går från %s ---"
+
+msgid "... or add files ..."
+msgstr "... eller lägg till filer ..."
+
+msgid "/not seekable"
+msgstr "/inte sökbar"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s klipp</b>, median %(med)s s, kortaste %(short)s s, längsta kamera %(long)s s</span>. Taltid: <b>%(own)s %%</b> på egen kamera (%(own_t)s), %(wide)s %% på översiktsbilden (%(wide_t)s), <span style='color:%(warn)s'>vid %(off)s %% (%(off_t)s) är talarens kamera inte aktiv</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Varje kanalpar bedöms för sig: ett stereospår, eller två mikrofoner och därmed två spår. Tysta ingångar faller bort. Raderna under filen säger vad som mättes, och bocken går före."
+
+msgid "Add files ..."
+msgstr "Lägg till filer ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Inriktningen går efter den uppmätta förskjutningen; tidskoden är bara motkontrollen."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Alla inspelningar bär samma namn -- det blir ett enda spår."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Alla rader bär samma namn -- det ger ett enda spår, och Multitrack behöver minst två."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Tilldelning: vilket ljudspår hör till vilken kamera"
+
+msgid "Audio"
+msgstr "Ljud"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Ljud och video (%s);;Alla filer (*)"
+
+msgid "Audio at programme time"
+msgstr "Ljud vid programtid"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic skapade andra spår än de begärda: %s i stället för %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic rapporterar ett fel: %s"
+
+msgid "Bleed"
+msgstr "Överhörning"
+
+msgid "Blocks"
+msgstr "Block"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Båda på en gång fungerar inte: de återkommande spåren skulle hamna på det ena värdet, vår egen mix på det andra. Sätt antingen --lufs %.0f eller ändra förinställningen."
+
+msgid "Camera"
+msgstr "Kamera"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Kameraljud, %s kvar ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- förhandsvisning  (längd %s)"
+
+msgid "Why the run cannot start"
+msgstr "Varför körningen inte kan starta"
+
+msgid "Cannot start yet: %s"
+msgstr "Kan inte starta ännu: %s"
+
+msgid "Change rejected: %s"
+msgstr "Ändringen avvisades: %s"
+
+msgid "Check again"
+msgstr "Kontrollera igen"
+
+msgid "Check the connection to Resolve again"
+msgstr "Kontrollera anslutningen till Resolve igen"
+
+msgid "Check itself failed: %s"
+msgstr "Själva kontrollen misslyckades: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Kontrollera nyckeln och hämta förinställningar."
+
+msgid "Chosen"
+msgstr "Valt"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Klocka %7.2f%s | B1[%s] %s | B2[%s] %s | Ljud %s %s"
+
+msgid "Close"
+msgstr "Stäng"
+
+msgid "Connects to Resolve again."
+msgstr "Ansluter till Resolve igen."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Innehåll: en kamera som vilken som helst.\nÖversiktsbild: en kamera som ingen sitter framför -- den tar ingen talare, och klippningen går till den i en paus och i en lång monolog.\nIntro och outro är färdiga klipp -- inte justerade, inte bearbetade, bara lagda i Timeline.\nIgnorera video: filen hålls helt utanför."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s översiktsbilder: klippningen använder %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Varje kamera bär en talare, så det finns ingen översiktsbild: de fyra inställningarna för översiktsbilden och bocken för kanterna gör ingenting här."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Ingen kamera är fri från talare, så det finns ingen översiktsbild: de fyra inställningarna för översiktsbilden och bocken för kanterna gör ingenting. Ge en kamera typen \"Översiktsbild\", eller lämna en utan talare."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "placerad efter fas, skärpa %s mot ett golv på %s, drift okänd"
+
+msgid "placed on the bands that move"
+msgstr "placerad efter frekvensbanden som rör sig"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Varför inställningarna för översiktsbilden är gråa"
+
+msgid "because no speaker is assigned to it"
+msgstr "eftersom ingen talare är tilldelad den"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "markerad som översiktsbild -- den tar inga talare"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "ingen talare -- det här är översiktsbilden"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "ingen talare är tilldelad den, men klippningen använder %s"
+
+msgid "the cut uses %s"
+msgstr "klippningen använder %s"
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "det här är översiktsbilden -- %s flyttades till \"ingen egen kamera\""
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Kurva och färgrymd saknas i filen"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "In-punkt och ut-punkt finns så snart tidsaxeln är satt -- från tidskoden eller mätt."
+
+msgid "In point is %s before the first frame"
+msgstr "In-punkten ligger %s före den första bildrutan"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "In-punkten är nu %s, men de befintliga filerna hör till %s.\n  Ljudet i videorna är klippt efter det gamla fönstret -- tryck på Starta\n  ovanför igen."
+
+msgid "Out point is %s after the last frame"
+msgstr "Ut-punkten ligger %s efter den sista bildrutan"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Ut-punkten är nu %s; fönstret skulle bli %s långt, de befintliga\n  filerna är %s -- tryck på Starta ovanför igen."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Vid leverans används vanligen det begränsade omfånget. Fullt är inte fel, men vissa spelare tolkar det fel."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Bestämmer hur auphonic.com bearbetar ljudet.\n\n”%s” låter nyckeln vara kvar och går ändå inte dit.\nLjudet slås då bara ihop och normaliseras, inte separeras --\noch utan separata spår blir det ingen kameraklippning."
+
+msgid "Distance to mean"
+msgstr "Avstånd till medel"
+
+msgid "Drag audio and video files here"
+msgstr "Dra ljud- och videofiler hit"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Provkörning: bara mätning, inget skrivs, inget laddas upp."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Under hälsning och avsked stannar bilden i översiktsbild."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Bildrutorna står lite längre; filen blir inte kortare för det. Ett redigeringsprogram upprepar ungefär en bildruta var %s s, och bild och kameraljud håller ihop."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Bildrutorna står lite kortare; filen blir inte längre för det. Ett redigeringsprogram hoppar över ungefär en bildruta var %s s, och bild och kameraljud håller ihop."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Åtta bitar räcker inte för HDR: varje övergång får ränder, och YouTube kräver tio eller tolv."
+
+msgid "Envelope"
+msgstr "Envelopp"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s är placerad på %s, som inte är någon kamera i den här körningen -- klippningen namnger den ändå."
+
+msgid "Envelope failed: %s"
+msgstr "Envelopp misslyckades: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Envelopper och kameraljud förbereds i bakgrunden."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Varje rad behöver ett namn -- hos Auphonic blir det track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Extern förhandsvisning -- appen känner inte till det här formatet"
+
+msgid "Fetching audio"
+msgstr "Hämtar ljud"
+
+msgid "Fetching audio ..."
+msgstr "Hämtar ljud ..."
+
+msgid "File"
+msgstr "Fil"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Där saknas filer -- utan en ny uppladdning kan inget beräknas.\n  Med --auphonic-resume upload laddar skriptet upp igen; det kostar krediter."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "För HDR är det vanliga valet HEVC (Main 10), AV1 eller VP9 Profile 2. YouTube tar även H.264, men det behöver högre bithastighet."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "För tio bitar behöver HEVC profilen Main 10. I Resolve ligger den under Deliver som \"Profile\"."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, inte de %s som står i filen -- %s bildrutor färre på samma längd."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, inte de %s som står i filen -- %s bildrutor fler på samma längd."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "Bildavståndet varierar med %s %% -- bildtakten är ojämn."
+
+msgid "Free space there: %s"
+msgstr "Ledigt utrymme där: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Lucka på %s mellan block %d och %d -- kameran stannade."
+
+msgid "Drag to move the position."
+msgstr "Dra för att flytta positionen."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR kräver 16 här (PQ, det vill säga HDR10) eller 18 (HLG). I Resolve: Gamma tag = ST.2084 eller HLG. 14 är ingen HDR-kurva utan SDR i BT.2020-rymden."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR kräver 9 här (BT.2020). I Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR kräver 9 här (BT.2020, icke-konstant luminans)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG är visningsrelaterat -- det har ingen uppgift om masteringskärmen."
+
+msgid "If empty: next to each video file."
+msgstr "Om tomt: bredvid varje videofil."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "Det uppstod vid inspelningen och kan inte ändras nu. Ju mindre mikrofonerna är åtskilda, desto försiktigare måste De-Bleed hos auphonic.com arbeta. Nästa gång: tre gånger så långt till grannmikrofonen som till din egen mun, då ligger grannrösten ungefär %s dB lägre."
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "Den passar ingenstans i materialet: ingen tidskod, och dess ljud har inget gemensamt med resten. Översiktsbilden är det klippningen faller tillbaka på, så den måste ligga på tidsaxeln."
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "Det passar ingenstans i materialet och kan därför inte klippas in i avsnittet. Det kan sättas framför eller efter."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s passar inte ihop med något i materialet och kan därför inte klippas in i avsnittet: satt till Intro."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s passar inte heller ihop med något i materialet, och intron är upptagen: lämnas utanför."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s är redan satt som %s, och ett avsnitt har bara en sådan. Svara annorlunda här, eller ta först bort markeringen från den filen."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "Det står i logs-atomen i bildbeskrivningen -- så känner Resolve igen inmatningsfärgrymden. Olika kurvor betyder olika inmatningsfärgrymder."
+
+msgid "Jumps to the end of the window."
+msgstr "Hoppar till fönstrets slut."
+
+msgid "Jumps to the start of the window."
+msgstr "Hoppar till fönstrets början."
+
+msgid "Keychain"
+msgstr "Nyckelring"
+
+msgid "Limits the de-bleed: "
+msgstr "Begränsar De-Bleed: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Ladda förinställningar och välj en, eller lämna API-nyckeln tom."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 avvisades -- standardvärdet blir kvar"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Bara mäta -- inget skrivs eller laddas upp."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Mäter %s (%s av %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Mätning inte möjlig: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Mäter måttstocken"
+
+msgid "Measuring time axis ..."
+msgstr "Mäter tidsaxeln ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Saknat ljud %s fyllt med tystnad%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Modulen DaVinciResolveScript kan inte laddas: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Ett ljudspår per person, hållet isär hela vägen till auphonic.com.\nFungerar även utan -- då utan de-bleed och nivåutjämnare.\nDet kräver två ingångsspår: en egen inspelning, en kanal från en\nflerkanalig inspelare eller ljudet från en videofil som står på\n\"använd internt ljud\". Kameraklippningen behöver inte den här bocken."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (ett spår per talare)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack behöver minst två ingångsspår. Ett spår är en egen inspelning, en kanal från en flerkanalig inspelare eller ljudet från en videofil som är satt till \"använd internt ljud\". Flera block av samma inspelning räknas som ett, spår som lagts åt sidan inte alls."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Ingen API-nyckel. Ange --auphonic-api-key NYCKEL, sätt AUPHONIC_TOKEN eller låt den sparas en gång i gränssnittet. Nyckeln finns i Auphonic-kontots inställningar."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Ingen ljudfil bär en tidskod. In-punkt och ut-punkt räknas från materialets början -- filernas läge i förhållande till varandra mäts."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Inget ljud i bruk ännu -- lägg till en ljudinspelning, eller ställ en videofils Kameraljud på \"använd internt ljud\" i fillistan."
+
+msgid "No audio tracks are assigned."
+msgstr "Inga ljudspår är tilldelade."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Ingen kamera är tilldelad, så det finns inget att klippa emellan."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Inga kameror tilldelade ännu -- slå på Multitrack för att göra det."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Ingen anslutning till Resolve.\n  Körs programmet? Är extern skriptning satt till 'Local'\n  under Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "Inga filer eller projekt öppnade ännu."
+
+msgid "No files selected yet."
+msgstr "Inga filer valda ännu."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Ingen inmatning möjlig. Använd %s %s för att ange vad som ska hända."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Ingen spelare är inbyggd här -- uppspelningen sker i ffplay i ett eget fönster."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Ingen förinställning angiven, ingen inmatning möjlig. Välj en av ovanstående med --auphonic-preset NAMN."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "Inga förinställningar sparade i kontot. En kan skapas i webbgränssnittet."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Ingen talare är känd här -- utan vem som talar när finns det inget att klippa emellan."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Ingen röst har någon kamera ännu -- med det vore varje klipp detsamma."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Inga talare kända ännu -- inget mätt, inget separerat, och ingen överlämningsfil från en tidigare körning i %s eller dess undermappar."
+
+msgid "Not found again after import: %s"
+msgstr "Hittades inte igen efter importen: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "från ffmpeg.org, och mappen in i PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "via pakethanteraren: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Här: %s. Behövs: %s eller nyare."
+
+msgid "no answer"
+msgstr "inget svar"
+
+msgid "Nothing runs until that is put right."
+msgstr "Inget körs förrän det är åtgärdat."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Inget körs förrän det är åtgärdat. Så här: %s"
+
+msgid "Get it: %s"
+msgstr "Hämta det: %s"
+
+msgid "Quit"
+msgstr "Avsluta"
+
+msgid "That worked."
+msgstr "Det gick bra."
+
+msgid "Installing ffmpeg"
+msgstr "Installerar ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "Starta om programmet så att det tar upp det."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Att hämta det tar några minuter, och vad det säger visas under Utdata."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "Det tar några minuter -- en pakethanterare kan bygga från källkod. Vad den säger visas här."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Nu kompileras det, och det är den långa delen: minuter på en snabb dator och betydligt längre på en äldre. Inget har fastnat -- en punkt visas med några sekunders mellanrum så länge det arbetar."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg är på plats."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Programmet läser in det vid start. Det kan starta om nu, eller så gör du det själv senare."
+
+msgid "Start again now"
+msgstr "Starta om nu"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Omstarten fungerade inte. Stäng fönstret och starta programmet som du gjorde förut."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Det befintliga ffmpeg flyttas först ur vägen: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Ett färdigbyggt ffmpeg 9.0.1 med soxr går att hämta: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Hämta det nu? [J/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Ett färdigbyggt ffmpeg hämtas. Det är stort, så det tar några minuter: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s av %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "Det färdiga bygget gick inte att hämta: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Det färdiga bygget gick inte att packa upp: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Arkivet innehöll %s av de två programmen."
+
+msgid "  It is here: %s"
+msgstr "  Det ligger här: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "installera Homebrew från brew.sh, sedan det här igen"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Det här ffmpeg har soxr: klockdriften mellan kamerorna jämnas ut i steg om 0,21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Det här ffmpeg saknar soxr: klockdriften mellan kamerorna jämnas ut i steg om 21 ppm i stället för 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Allt fungerar utan det. Att hämta ett bygge som har det tar några minuter, och vad det säger visas under Utdata."
+
+msgid "Carry on"
+msgstr "Fortsätt"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Obligatoriskt är det inte -- YouTube använder då standardvärden (Sony BVM-X300). För att få dem: slå på HDR10+ i Resolve under Color Management, kör \"Analyze All Shots\" på Color-sidan och bocka för \"Embed HDR10 Metadata\" vid rendering."
+
+msgid "Not ready yet:"
+msgstr "Inte redo ännu:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "Inget hördes i spåren."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "En ljudinspelning har inget talarnamn ännu."
+
+msgid "One frame back."
+msgstr "En bildruta bakåt."
+
+msgid "One second back."
+msgstr "En sekund bakåt."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Varje tagning i sin kameras färg. Håll muspekaren över för kamera och längd, klicka för att hoppa."
+
+msgid "Only one speaker"
+msgstr "Bara en talare"
+
+msgid "Open json project file"
+msgstr "Öppna json-projektfil"
+
+msgid "Open result folder"
+msgstr "Öppna resultatmappen"
+
+msgid "Open the settings, where the key is."
+msgstr "Öppna inställningarna, där nyckeln finns."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Ordningen spelar ingen roll. Vid en flerdelad inspelning räcker det första blocket."
+
+msgid "Overwrite"
+msgstr "Skriv över"
+
+msgid "Overwrite files"
+msgstr "Skriv över filer"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Panel %d laddar %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Panel %d på %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Spela och pausa -- mellanslag fungerar också."
+
+msgid "Play and pause."
+msgstr "Spela och pausa."
+
+msgid "Playback not possible"
+msgstr "Uppspelning inte möjlig"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Spelar %s -- det bearbetade spåret från auphonic.com,\npå sändningsnivå. Samma ljud som i kameraklippningen."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Spelar %s -- råinspelningen.\nDen är mycket tystare än det bearbetade ljudet; när spåren från auphonic.com\nfinns tar förhandsvisningen dem."
+
+msgid "Prepare pane %d for %s"
+msgstr "Förbered panel %d för %s"
+
+msgid "Preset not readable: %s"
+msgstr "Förinställningen går inte att läsa: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Förhandsvisning inte möjlig: %s"
+
+msgid "Preview running ..."
+msgstr "Förhandsvisning pågår ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Förarbete -- läsa ljud och beräkna envelopper:\n"
+
+msgid "Primaries"
+msgstr "Primärfärger"
+
+msgid "Primaries number %d"
+msgstr "Primärfärger nummer %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Bearbetning hos auphonic.com (valfritt)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Bearbetning hos auphonic.com med ”%s”"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Produktionen är klar, men ingen ZIP med de enskilda spåren"
+
+msgid "Production name"
+msgstr "Produktionens namn"
+
+msgid "Chosen files"
+msgstr "Valda filer"
+
+msgid "Remove the chosen file from the list"
+msgstr "Ta bort den valda filen från listan"
+
+msgid "Project %r could not be created."
+msgstr "Projektet %r kunde inte skapas."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Projektet %r kunde inte skapas. Finns namnet redan i en annan mapp?"
+
+msgid "Project %r could not be opened."
+msgstr "Projektet %r kunde inte öppnas."
+
+msgid "Puts it back next to each video file."
+msgstr "Lägger den tillbaka bredvid varje videofil."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "ÅTERSTÄLLNING MISSLYCKADES (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Läser ljudspår från %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "Ta bort alla filer av den här typen från listan? Det är %s stycken, typ: %s.\n\n%s"
+
+msgid "Resolutions"
+msgstr "Upplösningar"
+
+msgid "Resolve running ..."
+msgstr "Resolve pågår ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve skalar till Timelines upplösning. Allt mindre skalas upp och blir mjukare."
+
+msgid "Response was not JSON: %s"
+msgstr "Svaret var inte JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Rödmarkerade rader visar var problemet finns; en bock på fliken betyder att allt är på plats."
+
+msgid "Save in Keychain"
+msgstr "Spara i nyckelringen"
+
+msgid "Save in Registry"
+msgstr "Spara i Registry"
+
+msgid "Select audio and video files"
+msgstr "Välj ljud- och videofiler"
+
+msgid "Speakers, as the run measured them"
+msgstr "Talare, så som körningen mätte dem"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Talare, egenmätta från spåren"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Startade sent eller stannade tidigt -- den här rösten saknas då ställvis i mixen."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Stoppat. Välj ett annat produktionsnamn -- då skapas en ny\n  produktion -- eller välj ett av de andra alternativen."
+
+msgid "Stopped. Nothing was created."
+msgstr "Stoppat. Inget skapades."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Stoppat. Inget laddades upp och inget beräknades."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Används som det står -- inget hittas på. Kontrollera i Resolve under Clip Attributes, fliken Color Space: står det \"Project\" där, blev inmatningsfärgrymden inte igenkänd och måste sättas för hand."
+
+msgid "Takes the position from the picture."
+msgstr "Tar positionen från bilden."
+
+msgid "Ten seconds back."
+msgstr "Tio sekunder bakåt."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Resolve-gränssnittet ligger inte där jag väntar mig det:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Resolve-gränssnittet ligger inte där det borde."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline får en fast frekvens -- den högsta av dem, eller den närmaste frekvens Resolve har ovanför. De andra räknar det om; med 23,976 mot 24 är det där dess ljudanalys gärna fastnar."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "Ljudinspelningen från varje talare, plus kamerorna.\nOrdningen spelar ingen roll -- programmet känner igen vad som är vad.\nVid en flerdelad inspelning räcker det första blocket."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Klippningen har ingen bild där. När Timeline byggs förblir stället tomt, ljudet fortsätter."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Det befintliga resultatet är oanvändbart: %s saknas där. Med --auphonic-resume rerun kan det räknas om utan att något laddas upp."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "Klippreglerna lämnar inget klipp kvar under de här %s. Ett kortare kortaste klipp, eller mindre översiktsbild, ger ett igen."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Programmet är %s långt här -- inget kan läggas upp i det. In-punkt och ut-punkt är det som bestämmer det."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Tidsfönstret ligger utanför materialet: in-punkt vid %s, ut-punkt vid %s, och materialet är %s långt."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "Det första spåret i förinställningen bestämmer inställningarna för alla våra spår. Annars kommer de tillbaka obearbetade. Skapa ett spår i förinställningen i webbgränssnittet."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Det kräver överlämningsfilen från en körning, och det finns ingen."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "Nyckeln kan bara sparas på Mac och Windows -- i nyckelringen eller registret. I en fil hamnar den inte."
+
+msgid "%s -- being checked"
+msgstr "%s -- kontrolleras"
+
+msgid "The key was not saved: %s"
+msgstr "Nyckeln sparades inte: %s"
+
+msgid "The key was not saved"
+msgstr "Nyckeln sparades inte"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Nyckelringen är låst. Lås upp den och försök igen."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Den här körningen är en testkörning och lagret bär fortfarande sitt riktiga namn, så inget skrevs. Peka KEY_SERVICE, KEY_ACCOUNT eller REG_PATH någon annanstans först."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Nyckelringen är låst. Lås upp den, så vaknar den här knappen."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Nyckelringen tog inte emot nyckeln. Nyckelhanterare kan säga varför."
+
+msgid "The registry did not take the key."
+msgstr "Registret tog inte emot nyckeln."
+
+msgid "Open Keychain Access"
+msgstr "Öppna Nyckelhanterare"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Öppnar programmet som låser upp nyckelringen."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Nyckelhanterare gick inte att öppna: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "Den sparade nyckeln godtas inte: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "Nyckeln från AUPHONIC_TOKEN godtas inte: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Vad auphonic.com svarade"
+
+msgid "There is no key."
+msgstr "Det finns ingen nyckel."
+
+msgid "The key has a space or a line break at one end."
+msgstr "Nyckeln har ett mellanslag eller en radbrytning i ena änden."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "Nyckeln är delad på mitten av ett mellanslag eller en radbrytning."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "Nyckeln innehåller ett tecken som inte går att skriva in."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "Nyckeln ligger då i %s, aldrig i en fil."
+
+msgid "The production has no name yet."
+msgstr "Produktionen har inget namn ännu."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "Inspelningen som är tilldelad den här kameran i stället för kameraljudet."
+
+msgid "The run is still going."
+msgstr "Körningen pågår fortfarande."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Inga talare är kända ännu -- de räknas ut från spåren så snart den här fliken öppnas. Där alla ligger på en inspelning är \"flera talare\" i fältet Talarnamn vägen."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "De tre talen är primärfärger, kurva och matris. Olika märkningar kräver olika inmatningsfärgrymder i Resolve -- annars ser den ena kameran annorlunda ut än den andra."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Det finns inga separata ljudinspelningar. Då används ljudet från de %s kamerorna -- var och en blir ett spår, och Auphonic tar bort överhörningen."
+
+msgid "There is no result yet."
+msgstr "Det finns inget resultat ännu."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "De här filerna är varken ljud eller video och lämnas utanför:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "De här filerna finns inte:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "De här filerna finns redan och kommer att skrivas om:\n\n  %s\n\nÄr det meningen?"
+
+msgid "These files no longer exist:\n  "
+msgstr "De här filerna finns inte längre:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "De här namnen förekommer mer än en gång:\n\n  %s\n\nInspelningarna slås ihop till ett spår och läggs efter varandra enligt sin tidskod. Det är rätt om inspelningen stoppades däremellan."
+
+msgid "These tracks got no file: %s"
+msgstr "De här spåren fick ingen fil: %s"
+
+msgid "This Resolve project already exists"
+msgstr "Det här Resolve-projektet finns redan"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "Det kommer från inspelningen, inte efteråt: mikrofonerna sitter för nära varandra eller för långt från munnen."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Den här filen kan inte spelas upp här, och ffplay saknas som reserv."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "Det här är ingen projektfil, och det finns ingen i samma mapp.\n\nDet som söks är %s*.json -- skriptet skriver den till utdatamappen vid start."
+
+msgid "This is what happens next"
+msgstr "Det här händer nu"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "Det här namnet har redan någon annan. Ett namn är en person, och klippningen sätter en person på en kamera -- ge den här rösten ett eget."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "Det här namnet förekommer mer än en gång. Inspelningarna skulle bli ett spår -- för Multitrack behöver auphonic.com minst två olika."
+
+msgid "This production already exists"
+msgstr "Den här produktionen finns redan"
+
+msgid "This production has no result yet."
+msgstr "Den här produktionen har inget resultat ännu."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Tidsgränsen på %s nådd, produktionen pågår fortfarande: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Timecode %s, de andra filerna ligger vid %s -- den här klockan var inte ställd."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r kunde inte skapas."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Titel hos auphonic.com och början på de nya filnamnen."
+
+msgid "To the In point."
+msgstr "Till in-punkten."
+
+msgid "To the start."
+msgstr "Till början."
+
+msgid "Too many projects with this name."
+msgstr "För många projekt med det här namnet."
+
+msgid "Track"
+msgstr "Spår"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Spår kom till under ändringen (nu %s). Det gör mixen\n  fel. Ta bort spåren utan fil på auphonic.com."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Två kameror är en kamera i klippningen. Deras filer heter likadant, så byt namn på en av dem."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Två kameror är en kamera i klippningen: %s. Deras filer bär samma namn, så döp om en av dem."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Två kameror skulle ge samma fil. Den andra skulle skriva över den första."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Två kameror skulle ge samma fil: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Två kameror skulle ge samma nya fil. Ange olika namn."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Ojämn bildtakt kan inte jämnas ut via ljudet. Om samplingspunkterna sprids även vid inriktningen, konvertera till en fast bildfrekvens."
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Video 1"
+msgstr "Video 1"
+
+msgid "Video 2"
+msgstr "Video 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- råmaterial blir en klippt podcast"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Volym. 100 är så högt det går -- Qt tar inte emot mer än så."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- samtidigt tal räknas dubbelt"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Översiktsbild för hälsning i början och avsked i slutet"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Utan den måste varje spelare gissa, och alla gissar SDR. Sätt i Resolve under Deliver > Advanced Settings Color space tag och Gamma tag i stället för att lämna dem på \"Same as Project\"."
+
+msgid "Without processing at auphonic.com"
+msgstr "Utan bearbetning hos auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Det finns ingen kameraklippning ännu: den kräver två personer, var och en med ett namn och en kamera.\nSeparata inspelningar ger det med bocken Multitrack, och det gör även \"flera talare\" i fältet Talarnamn för en inspelning --\nrösterna som hittas där får sin kamera i tabellen under inspelningarna.\nEtt Resolve-projekt skapas ändå -- alla kameror på sina uppmätta platser, redo för Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Utan tidskod mäts filernas läge."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Räknar ut vem som talar när från spåren själva -- en mikrofon per person, nivå mot dess eget grundbrus. Där alla ligger på en inspelning är \"flera talare\" i fältet Talarnamn vägen."
+
+msgid "a box no longer fits into its parent"
+msgstr "en box ryms inte längre i sin förälder"
+
+msgid "after the device change"
+msgstr "efter enhetsbytet"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com godtar inte nyckeln: %s"
+
+msgid "average"
+msgstr "i genomsnitt"
+
+msgid "belongs to"
+msgstr "hör till"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "överhörningen för otydlig: %s av %s sekunder användbara, skarpaste %s av %s behövs"
+
+msgid "Midnight"
+msgstr "Midnatt"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s bär en tidskod från andra sidan midnatt -- räknat som en natt, inte som ett dygns avstånd."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "En tidskod räknar från midnatt och börjar om där. Filerna läggs på en axel innan något dras av, annars ligger inspelningen efter midnatt nästan ett dygn från den före. Om de här verkligen spelades in olika dagar är inriktningen fel, och den uppmätta förskjutningen är den som gäller."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Kanal %d ligger i taket: %s gånger tre samplingar eller fler i rad, den längsta %s (%s ms), den första vid %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Räknat här, sampling för sampling, i den samplingsfrekvens filen spelades in med: en följd av tre eller fler samplingar på det högsta värde ett heltalsformat kan rymma. En eller två är avrundning och rapporteras inte. Det som klipps av där är borta, och ingen bearbetning hämtar tillbaka det -- men inspelningen är fortfarande inspelningen, och det här stoppar ingenting. Bara heltalsformat räknas. 32 bitars flyttal har inget tak vid fullt utslag, så där finns inget att räkna."
+
+msgid "boxes no longer readable"
+msgstr "boxarna går inte längre att läsa"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "uppdatera -- båda Timelines raderas och\n       byggs på nytt, Media Pool förblir som den är"
+
+msgid "cannot be read back (%s)"
+msgstr "går inte att läsa tillbaka (%s)"
+
+msgid "checking ..."
+msgstr "kontrollerar ..."
+
+msgid "complete"
+msgstr "fullständig"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "skapa ett nytt projekt bredvid (namn med tillägg)"
+
+msgid "curl ended with %d"
+msgstr "curl avslutades med %d"
+
+msgid "did not arrive: %s"
+msgstr "kom inte fram: %s"
+
+msgid "does not belong: %s"
+msgstr "hör inte till: %s"
+
+msgid "does not exist: %s"
+msgstr "finns inte: %s"
+
+msgid "does the material fit together?"
+msgstr "passar materialet ihop?"
+
+msgid "does the preset fit the run?"
+msgstr "passar förinställningen till körningen?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "den nerladdade filen är bara %s byte"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "lucka på %s enligt tidskoden, för långt isär för en inspelning"
+
+msgid "gets audio from"
+msgstr "får ljud från"
+
+msgid "hear assigned audio"
+msgstr "lyssna på tilldelat ljud"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "behåll våra namn och ladda upp allt igen -- det kostar\n       krediter"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "låt det vara och lägg de nya Timelines bredvid --\n       de befintliga blir kvar"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "saknas -- containern bär ingen färgmärkning"
+
+msgid "missing: %s"
+msgstr "saknas: %s"
+
+msgid "moov has not grown"
+msgstr "moov har inte vuxit"
+
+msgid "moov is no longer in its place"
+msgstr "moov står inte längre på sin plats"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov slutar inte längre vid filens slut"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "flerdelad, utan tidskod -- luckor däremellan kan inte upptäckas."
+
+msgid "new file name"
+msgstr "nytt filnamn"
+
+msgid "next to each video file"
+msgstr "bredvid varje videofil"
+
+msgid "no audio data from %s"
+msgstr "inga ljuddata från %s"
+
+msgid "no audio track present"
+msgstr "inget ljudspår finns"
+
+msgid "no audio: %s"
+msgstr "inget ljud: %s"
+
+msgid "no download address for %s"
+msgstr "ingen nerladdningsadress för %s"
+
+msgid "no information"
+msgstr "inga uppgifter"
+
+msgid "no information in the file"
+msgstr "inga uppgifter i filen"
+
+msgid "no match in the middle either (%s)"
+msgstr "ingen träff i mitten heller (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "inget ställe hittat där exakt en person talar -- separeringen kan inte mätas."
+
+msgid "no production id in the response"
+msgstr "ingen produktions-id i svaret"
+
+msgid "no production id in the response: %s"
+msgstr "ingen produktions-id i svaret: %s"
+
+msgid "no timecode"
+msgstr "ingen tidskod"
+
+msgid "no video track"
+msgstr "inget videospår"
+
+msgid "no video track in %s"
+msgstr "inget videospår i %s"
+
+msgid "none switched on"
+msgstr "inga påslagna"
+
+msgid "not checked yet"
+msgstr "inte kontrollerad ännu"
+
+msgid "not in the media pool"
+msgstr "inte i Media Pool"
+
+msgid "not measurable."
+msgstr "inte mätbar."
+
+msgid "not measurable: %s"
+msgstr "inte mätbar: %s"
+
+msgid "not needed with HLG"
+msgstr "behövs inte med HLG"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "inte läsbar (%s) -- okontrollerad."
+
+msgid "not readable: %s"
+msgstr "inte läsbar: %s"
+
+msgid "nothing loaded yet"
+msgstr "inget laddat ännu"
+
+msgid "nothing selected"
+msgstr "inget valt"
+
+msgid "off"
+msgstr "av"
+
+msgid "one Timeline"
+msgstr "en Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "bara %s lång, den längsta inspelningen har %s."
+
+msgid "overlap of %s per timecode"
+msgstr "överlapp på %s enligt tidskoden"
+
+msgid "per track"
+msgstr "per spår"
+
+msgid "preset does not fit the run"
+msgstr "förinställningen passar inte till körningen"
+
+msgid "previous block is shorter than the rest"
+msgstr "föregående block är kortare än de övriga"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "bearbetade spår hittades -- inget laddas upp"
+
+msgid "production finished, but no output file"
+msgstr "produktionen är klar, men ingen utdatafil"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "räkna om med den valda förinställningen -- filerna blir\n       kvar där de är, kostar inga krediter"
+
+msgid "reset"
+msgstr "återställ"
+
+msgid "running ..."
+msgstr "pågår ..."
+
+msgid "selected"
+msgstr "vald"
+
+msgid "stays out"
+msgstr "hålls utanför"
+
+msgid "stored file %s"
+msgstr "lagrad fil %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "ta det befintliga resultatet (inget beräknas, inget betalas)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "ta namnen därifrån och fortsätt med dem --\n       ingen uppladdning, kostar inget"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "Multitrack-förinställningen har inget spår sparat."
+
+msgid "the finished mixdown"
+msgstr "den färdiga mixdownen"
+
+msgid "the individual tracks"
+msgstr "de enskilda spåren"
+
+msgid "the individual tracks, packed"
+msgstr "de enskilda spåren, packade"
+
+msgid "the media data is no longer where it was"
+msgstr "mediadatan ligger inte längre där den låg"
+
+msgid "the mix of all tracks"
+msgstr "mixen av alla spår"
+
+msgid "the mixdown as the yardstick"
+msgstr "mixdownen som måttstock"
+
+msgid "the old moov is back in place"
+msgstr "det gamla moov är tillbaka på plats"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "förinställningen mastrar till %s LUFS, beräkningen använder %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "förinställningen mastrar till %s LUFS -- det gäller, inget från vår sida justerar."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "taget från källfilerna, inget --lufs angivet -- inget justeras"
+
+msgid "the answer did not keep the floor"
+msgstr "svaret behöll inte ordet"
+
+msgid "the main speaker asked"
+msgstr "huvudtalaren frågade"
+
+msgid "nobody answered in time"
+msgstr "ingen svarade i tid"
+
+msgid "nobody was speaking at the question"
+msgstr "ingen talade vid frågan"
+
+msgid "asker and answerer on one camera"
+msgstr "frågeställare och svarande på samma kamera"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "inspelningarna överlappar bara %s -- för lite att mäta."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "den kortaste inspelningen har bara %s -- för lite att mäta."
+
+msgid "the source folder"
+msgstr "källmappen"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "spårmallen har inget påslaget -- spåren skulle komma tillbaka precis som de laddades upp."
+
+msgid "the video files are tagged differently: %s"
+msgstr "videofilerna är olika märkta: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "videofilerna bär olika inspelningskurvor: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "videofilerna har olika bildstorlekar: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "videofilerna går i olika frekvenser: %s"
+
+msgid "the video track can no longer be found"
+msgstr "videospåret går inte längre att hitta"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "tidsaxeln mätt -- hoppen träffar samma punkt"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "tidsaxeln mätt och knuten till tidskod"
+
+msgid "time axis not measurable"
+msgstr "tidsaxeln inte mätbar"
+
+msgid "time axis not measurable: %s"
+msgstr "tidsaxeln inte mätbar: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "bara %s sekunder där %s talar ensam, %s behövs"
+
+msgid "too little audio to align"
+msgstr "för lite ljud för att rikta upp"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "ladda upp allt igen och räkna om -- det kostar krediter"
+
+msgid "used directly"
+msgstr "används direkt"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "översiktsbild %s, mixen är dess första ljudspår"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s förekommer mer än en gång. De här inspelningarna slås ihop till ett spår och läggs efter varandra enligt sin tidskod -- rätt om inspelningen stoppades däremellan."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Alla inspelningar bär samma namn. Det blir ett spår -- Multitrack behöver minst två."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Två kameror är en kamera i klippningen (%s). Deras filer heter likadant, så byt namn på en av dem."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Två kameror skulle ge samma fil (%s). Den andra skulle skriva över den första."
+
+msgid "   (camera audio)"
+msgstr "   (kameraljud)"
+
+msgid "  Number: "
+msgstr "  Nummer: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", klockdrift %s ppm borträknad"
+
+msgid "Files && production"
+msgstr "Filer && produktion"
+
+msgid "Assignment && time window"
+msgstr "Tilldelning && tidsfönster"
+
+msgid "Resolve cut"
+msgstr "Resolve-klippning"
+
+msgid "Camera audio"
+msgstr "Kameraljud"
+
+msgid "Camera audio %s"
+msgstr "Kameraljud %s"
+
+msgid "%s channels against %s"
+msgstr "%s kanaler mot %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz mot %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: kanal %s går inte att skära ut (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Kanal %d ligger %s dB under den starkaste -- inget inkopplat"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Kanal %d på %s dBFS -- bara omvandlarbrus kvar"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Kanal %d är tyst -- oanvänd ingång"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "På gör ett stereospår av den här kanalen och nästa.\nNästa har då ingen egen bock -- den är upptagen.\nVad som mättes står på raden bredvid."
+
+msgid "a track of its own"
+msgstr "ett eget spår"
+
+msgid "with Channel %d one stereo track"
+msgstr "med kanal %d ett stereospår"
+
+msgid "already in another recording"
+msgstr "redan i en annan inspelning"
+
+msgid "not found"
+msgstr "hittades inte"
+
+msgid "a recording of its own"
+msgstr "en egen inspelning"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Lägger den här inspelningen i en annan, med alla dess block.\nAnvänd det där filnamnen inte ger sökningen något att gå på."
+
+msgid "Cameras only"
+msgstr "Bara kameror"
+
+msgid "Curve number %d"
+msgstr "Kurva nummer %d"
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "På LJUD eller VIDEO tas allt bort."
+
+msgid "End"
+msgstr "Slutet"
+
+msgid "End %s"
+msgstr "Slut %s"
+
+msgid "Error"
+msgstr "Fel"
+
+msgid "Mark In"
+msgstr "Markera in"
+
+msgid "Mark Out"
+msgstr "Markera ut"
+
+msgid "Measure, align, process, write files."
+msgstr "Mäta, rikta upp, bearbeta, skriva filer."
+
+msgid "%s, seconds"
+msgstr "%s, sekunder"
+
+msgid "Names used more than once"
+msgstr "Namn använda mer än en gång"
+
+msgid "One name for two voices"
+msgstr "Ett namn för två röster"
+
+msgid "No files given."
+msgstr "Inga filer angivna."
+
+msgid "Number %d"
+msgstr "Nummer %d"
+
+msgid "Preset missing"
+msgstr "Förinställning saknas"
+
+msgid "Speaker"
+msgstr "Talare"
+
+msgid "Start %s"
+msgstr "Start %s"
+
+msgid "Take from source files"
+msgstr "Ta från källfilerna"
+
+msgid "Take the camera audio"
+msgstr "Använd kameraljudet"
+
+msgid "Target: %s"
+msgstr "Mål: %s"
+
+msgid "Transfer"
+msgstr "Överföring"
+
+msgid "Uploading %s tracks"
+msgstr "Laddar upp %s spår"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;JSON-filer (*.json);;Alla filer (*)"
+
+msgid "the voices below carry the cameras"
+msgstr "rösterna nedanför bär kamerorna"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "mätt från inspelningarna -- %s talare, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "från den färdiga körningen -- %s talare, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "från de bearbetade Auphonic-spåren -- %s talare, %s"
+
+msgid "no folder"
+msgstr "ingen mapp"
+
+msgid "no text"
+msgstr "ingen text"
+
+msgid "unnamed"
+msgstr "namnlös"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Varning: mätningen oanvändbar"
+
+msgid "   MISSING"
+msgstr "   SAKNAS"
+
+msgid "   NOT INSERTED"
+msgstr "   INTE INFOGAD"
+
+msgid "  (container; measured %s)"
+msgstr "  (container; uppmätt %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Nummer (tomt = avbryt): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com tar lika mycket)"
+
+msgid " (fine: %s ms)"
+msgstr " (finjustering: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- %s anmärkningar"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 anmärkning: %s"
+
+msgid " target %.2f"
+msgstr " mål %.2f"
+
+msgid "(wanted %s)"
+msgstr "(ville ha %s)"
+
+msgid ", clock drift left in"
+msgstr ", klockdriften kvarlämnad"
+
+msgid ", range %s LU"
+msgstr ", omfång %s LU"
+
+msgid "-- nothing --"
+msgstr "-- inget --"
+
+msgid "After: %s"
+msgstr "Efter: %s"
+
+msgid "Algorithms"
+msgstr "Algoritmer"
+
+msgid "Audio file %s"
+msgstr "Ljudfil %s"
+
+msgid "Audio recording"
+msgstr "Ljudinspelning"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic rapporterar %s: %s"
+
+msgid "Before: %s"
+msgstr "Före: %s"
+
+msgid "Bit depth"
+msgstr "Bitdjup"
+
+msgid "Building the sum"
+msgstr "Bildar summan"
+
+msgid "Caution: "
+msgstr "Varning: "
+
+msgid "Camera cut"
+msgstr "Kameraklippning"
+
+msgid "%s -- preview"
+msgstr "%s -- förhandsvisning"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Capture curve"
+msgstr "Inspelningskurva"
+
+msgid "Check: %s and camera track"
+msgstr "Kontroll: %s och kameraspår"
+
+msgid "Codec profile"
+msgstr "Codec-profil"
+
+msgid "Colour tag"
+msgstr "Färgmärkning"
+
+msgid "Connect"
+msgstr "Anslut"
+
+msgid "Connection to Resolve"
+msgstr "Anslutning till Resolve"
+
+msgid "Continue"
+msgstr "Fortsätt"
+
+msgid "Create Resolve project"
+msgstr "Skapa Resolve-projekt"
+
+msgid "Curve"
+msgstr "Kurva"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "In-punkt: %s     Ut-punkt: %s     Längd: %s"
+
+msgid "In point %s"
+msgstr "In-punkt %s"
+
+msgid "Out point %s"
+msgstr "Ut-punkt %s"
+
+msgid "Different track names"
+msgstr "Andra spårnamn"
+
+msgid "Disk space"
+msgstr "Diskutrymme"
+
+msgid "Downloading %s"
+msgstr "Laddar ner %s"
+
+msgid "Dry run"
+msgstr "Provkörning"
+
+msgid "Duration %s"
+msgstr "Längd %s"
+
+msgid "Dynamic range"
+msgstr "Dynamiskt omfång"
+
+msgid "File names"
+msgstr "Filnamn"
+
+msgid "Frame rates"
+msgstr "Bildfrekvenser"
+
+msgid "GENERAL NOTES"
+msgstr "ALLMÄNNA ANMÄRKNINGAR"
+
+msgid "Given"
+msgstr "Angivet"
+
+msgid "Go ahead"
+msgstr "Sätt igång"
+
+msgid "Interface:      %s%s"
+msgstr "Gränssnitt:     %s%s"
+
+msgid "Keep it saved"
+msgstr "Behåll sparad"
+
+msgid "Library:        %s%s"
+msgstr "Bibliotek:      %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log enligt kameradata"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (tio bitar)"
+
+msgid "Measure"
+msgstr "Mät"
+
+msgid "Measuring loudness"
+msgstr "Mäter ljudstyrkan"
+
+msgid "Merge them"
+msgstr "Slå ihop dem"
+
+msgid "Mixing %s"
+msgstr "Mixar %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack behöver två spår i tabellen ovanför -- en kamera räknas som ett så snart dess Kameraljud står på \"använd internt ljud\"."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Bara ett spår -- sätt Kameraljud för en kamera till \"använd internt ljud\" för att få ett andra."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Bara ett spår, och inget kameraljud kvar att ta."
+
+msgid "the only sound there is"
+msgstr "det enda ljud som finns"
+
+msgid "no audio track in this file"
+msgstr "inget ljudspår i den här filen"
+
+msgid "this file stays out entirely"
+msgstr "den här filen hålls helt utanför"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "ett färdigt klipp -- placeras bara, bearbetas inte"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Används det delas kanalerna som mätts under den här filen upp i spår, som för en inspelning.\nMätningen sker i vilket fall: det omdömet är grunden för beslutet, och synkroniseringen tar ljudet oavsett."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Används det blir ljudet i den här filen ett spår som vilket som helst -- det dyker upp i tabellen ovanför.\nSamma fält står i fillistan; båda visar ett och samma svar."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Inget ljud att arbeta med -- ställ en videofils Kameraljud på \"använd internt ljud\", eller lägg till en ljudinspelning."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack behöver flera spår"
+
+msgid "Mute."
+msgstr "Stäng av ljudet."
+
+msgid "No audio file given."
+msgstr "Ingen ljudfil angiven."
+
+msgid "No project open."
+msgstr "Inget projekt öppet."
+
+msgid "Not found: %s"
+msgstr "Hittades inte: %s"
+
+msgid "Not recognised"
+msgstr "Inte igenkänd"
+
+msgid "Note"
+msgstr "Anmärkning"
+
+msgid "Note: "
+msgstr "Anmärkning: "
+
+msgid "One frame forward."
+msgstr "En bildruta framåt."
+
+msgid "One second forward."
+msgstr "En sekund framåt."
+
+msgid "Output folder"
+msgstr "Utdatamapp"
+
+msgid "Choose the output folder"
+msgstr "Välj utdatamapp"
+
+msgid "Output folder back beside each video file"
+msgstr "Utdatamapp tillbaka bredvid varje videofil"
+
+msgid "Output folder ..."
+msgstr "Utdatamapp ..."
+
+msgid "Preview player"
+msgstr "Förhandsvisningsspelare"
+
+msgid "Preview player%s"
+msgstr "Förhandsvisningsspelare%s"
+
+msgid "Processing"
+msgstr "Bearbetning"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Ingen transkription ännu. Utan den hittas ingen fråga och ingen meningsgräns är känd, så de här fyra inställningarna gör ingenting. En körning skriver den, och från och med då fungerar de."
+
+msgid "Why the question settings are grey"
+msgstr "Varför inställningarna för frågan är gråa"
+
+msgid "Question"
+msgstr "Fråga"
+
+msgid "Remove"
+msgstr "Ta bort"
+
+msgid "Remove all"
+msgstr "Ta bort alla"
+
+msgid "Remove from list"
+msgstr "Ta bort från listan"
+
+msgid "Resolve answers%s"
+msgstr "Resolve svarar%s"
+
+msgid "Saving %s"
+msgstr "Sparar %s"
+
+msgid "Show in Finder."
+msgstr "Visa i Finder."
+
+msgid "Silence"
+msgstr "Tystnad"
+
+msgid "Speaker name"
+msgstr "Talarnamn"
+
+msgid "Speaker names"
+msgstr "Talarnamn"
+
+msgid "Static metadata"
+msgstr "Statiska metadata"
+
+msgid "Tagging"
+msgstr "Märkning"
+
+msgid "Ten seconds forward."
+msgstr "Tio sekunder framåt."
+
+msgid "Timecode from %s"
+msgstr "Tidskod från %s"
+
+msgid "Track template"
+msgstr "Spårmall"
+
+msgid "Uploading %s"
+msgstr "Laddar upp %s"
+
+msgid "Value range"
+msgstr "Värdeomfång"
+
+msgid "What should happen with it?"
+msgstr "Vad ska hända med den?"
+
+msgid "Window %s%s"
+msgstr "Fönster %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Klippning, EDL, CSV och överlämningen räknas ut på nytt från siffrorna ovanför. Vem som talar när förblir som körningen mätte det. Resolve måste vara igång."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Utan de här två fungerar inget. Är Resolve installerat?"
+
+msgid "audio file"
+msgstr "ljudfil"
+
+msgid "cancel"
+msgstr "avbryt"
+
+msgid "cancelled"
+msgstr "avbruten"
+
+msgid "edges implausible"
+msgstr "kanterna orimliga"
+
+msgid "fixed: "
+msgstr "åtgärdat: "
+
+msgid "found automatically"
+msgstr "hittad automatiskt"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "ledigt %s, ungefär %s behövs (%s)"
+
+msgid "full range"
+msgstr "fullt omfång"
+
+msgid "is left in"
+msgstr "lämnas kvar"
+
+msgid "limited (Video/TV)"
+msgstr "begränsat (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "räknar ut vem som talar när ..."
+
+msgid "nothing"
+msgstr "inget"
+
+msgid "nothing to do"
+msgstr "inget att göra"
+
+msgid "system store"
+msgstr "systemets lagringsplats"
+
+msgid "to In point"
+msgstr "till in-punkten"
+
+msgid "to Out point"
+msgstr "till ut-punkten"
+
+msgid "too short"
+msgstr "för kort"
+
+msgid "two Timelines"
+msgstr "två Timelines"
+
+msgid "up to %s"
+msgstr "fram till %s"
+
+msgid "video file"
+msgstr "videofil"
+
+msgid "volume %.2f"
+msgstr "volym %.2f"
+
+msgid "while writing: %s"
+msgstr "vid skrivning: %s"
+
+msgid "AUDIO"
+msgstr "LJUD"
+
+msgid "Caution"
+msgstr "Varning"
+
+msgid "MUTED"
+msgstr "TYST"
+
+msgid "fixed"
+msgstr "åtgärdad"
+
+msgid "on"
+msgstr "på"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r räknar från slutet -- det fungerar bara för ut-punkten."
+
+msgid "Check"
+msgstr "Kontroll"
+
+msgid "the check itself stopped: %s"
+msgstr "kontrollen själv stannade: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "In-punkt eller ut-punkt kan inte läsas här."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Ut-punkten ligger mindre än 5 sekunder efter in-punkten."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Ungefär %s saknas. Frigör utrymme eller välj en annan mapp med --out. De tillfälliga filerna under körningen hamnar någon annanstans igen, i systemets temp-mapp."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "Uppskattningen är grov, så det här är inte tillräckligt med plats. Frigör utrymme eller välj en annan mapp med --out."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nTALARE -- MÄTTA HÄR"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nTALARE -- SEPARERADE EFTER RÖST"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nTALARE\n  Ingen hördes -- ingen kameraklippning av det här."
+
+msgid "\nCAMERA CUT"
+msgstr "\nKAMERAKLIPPNING"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nKLIPPNING MED ÖVERSIKTSBILDEN"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nFÖRSTA KLIPPNING EFTER TALARE"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Fler än två kanaler går till auphonic.com som en: nedmixningen stängs bara av för stereo.\n  Där kanalerna ska hållas isär, dela filen i spår först."
+
+msgid "First cut by speaker"
+msgstr "Första klippning efter talare"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nTRANSKRIPTION"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s ord: %s %% till en röst, %s %% till två, %s %% i en lucka"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s ord, utan namn -- ingen separerades"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s gick inte att skriva: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nSEPARERAR TALARNA"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Redan separerat en gång: inläst igen, inte mätt på nytt."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Ungefär %s beräkning för %s ljud."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (bara mätning: inget separerat)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  Spåren mättes inte, så %s ligger i mixen och inte i klippningen: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s inte mätt ännu -- i klippningen, ännu inte i den här förhandsvisningen."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Från spåren själva, en röst per spår: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  I %s, på den här datorn."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Mikrofonerna hör varandra för väl för att säga vem som talar, så separeringen lyssnar på alla %s samtidigt, på den här datorn."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  Det fönstret separerade förkastas: det lyssnade på en enda inspelning, och mikrofonerna hör varandra så väl att ingen av dem sticker ut -- %s dB mot de %s dB som en av dem ensam behöver för att säga vem som talar."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Mixar spåren för separeringen"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Vilken röst som hör till vilken mikrofon gick inte att avgöra, så spåren mäts i stället."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s är %-20s %s dB före nästa mikrofon, inspelningsnivån borträknad"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  Talarsepareringen används inte: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s går inte att läsa: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s hör inte till den här körningen"
+
+msgid "%s has no place on the axis"
+msgstr "%s har ingen plats på tidsaxeln"
+
+msgid "no recording named"
+msgstr "ingen inspelning angiven"
+
+msgid "nothing of it falls inside the window"
+msgstr "inget av det faller inom tidsfönstret"
+
+msgid "the interface"
+msgstr "gränssnittet"
+
+msgid "the separation in this run"
+msgstr "separeringen i den här körningen"
+
+msgid "Speakers, separated by voice"
+msgstr "Talare, separerade efter röst"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Det gav ingen klippning -- tryck på Starta ovanför igen."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nUTAN AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Överhörning mätt, %s i %s bara %s dB svagare -- borträknad ur taldetekteringen"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Överhörning inte separerbar: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Inget ögonblick hittades där exakt en person talar -- överhörningen ligger kvar i taldetekteringen."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  Inget hördes i spåren -- ingen kameraklippning av det här."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Inte i klippningen: %s -- en separering talar för inspelningen, eller så mättes den inte."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  Spåren används som de spelades in: uppriktade, mixade och förda till\n  målljudstyrkan. Ingen överhörningsdämpning, ingen nivåutjämnare, ingen\n  brusreducering -- för det behöver körningen auphonic.com."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic och --auphonic-done angavs båda. De färdiga spåren vinner: det finns inget kvar att skicka någonstans."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK INTE MÖJLIGT\n  Utan API-nyckel finns det inget att skicka till auphonic.com.\n  Med --without-auphonic körs det lokalt i stället: uppriktat,\n  mixat och klippt, men utan överhörningsdämpning och nivåutjämnare."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Varning: bara %s av %s par mätbara. För de övriga hittades inget ögonblick där exakt en person talar, så deras överhörning ligger kvar -- talardetekteringen är opålitlig här."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "mikrofonerna hör varandra nästan lika högt som sin egen talare"
+
+msgid "the tracks are too much alike to separate"
+msgstr "spåren är för lika för att kunna separeras"
+
+msgid "Reading the plan"
+msgstr "Läser planen"
+
+msgid "Audio out of the cameras"
+msgstr "Ljud ur kamerorna"
+
+msgid "Common time axis"
+msgstr "Gemensam tidsaxel"
+
+msgid "Processing at auphonic.com"
+msgstr "Bearbetning hos auphonic.com"
+
+msgid "Loudness"
+msgstr "Ljudstyrka"
+
+msgid "Loudness and levels"
+msgstr "Ljudstyrka och nivåer"
+
+msgid "Loudness of the finished episode"
+msgstr "Ljudstyrka för det färdiga avsnittet"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Hur högt det färdiga avsnittet görs. Samma förstärkning läggs på varje\nspår, så balansen mellan talarna behålls.\n\"Ta från källfilerna\" justerar ingenting alls: auphonic.com fortsätter\ngöra vad dess förinställning säger, och utan auphonic.com förblir ljudet\nsom det är i källfilerna."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    Ljudstyrkan justerades inte -- målet nedan är bara det som mätaren\n    mäter mot."
+
+msgid "Who speaks when"
+msgstr "Vem som talar när"
+
+msgid "Writing the camera files"
+msgstr "Skriver kamerafilerna"
+
+msgid "Handover and result"
+msgstr "Överlämning och resultat"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Visa dubbelt så mycket (minustangenten, eller hjulet över bandet)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Visa hälften så mycket, runt den aktuella positionen (plustangenten, eller hjulet över bandet)"
+
+msgid "The whole length again (0 key)"
+msgstr "Hela längden igen (tangenten 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  Hämtades också: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic godtar inte inställningarna: %s"
+
+msgid "      %s channels"
+msgstr "      %s kanaler"
+
+msgid "measurement running ..."
+msgstr "mätning pågår ..."
+
+msgid "      Channel %d"
+msgstr "      Kanal %d"
+
+msgid "Looking at the channels"
+msgstr "Undersöker kanalerna"
+
+msgid "channels not readable: %s"
+msgstr "kanaler inte läsbara: %s"
+
+msgid "unused input -- ignored"
+msgstr "oanvänd ingång -- ignoreras"
+
+msgid "uncertain -- %s"
+msgstr "osäker -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "satt för hand -- åsidosätter mätningen"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "båda kanalerna identiska -- mono lagd på båda sidor"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "troligen två mikrofoner -- ungefär %s m isär%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", överensstämmer på %s av %s ställen"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "troligen ett stereospår -- båda mikrofonerna på samma plats"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "inte igenkännbart -- bara %s av %s ställen där båda kanalerna bär ljud, %s behövs"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "inte igenkännbart -- de två stämmer inte bättre överens än var och en gör med kanalen bredvid"
+
+msgid "not set"
+msgstr "inte angivet"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "Språket som talas i inspelningen. Det blir taggen på det\nskrivna ljudspåret, och igenkänningen här ställs in på att vänta sig det.\nFörinställt från systemspråket. \"%s\" lämnar spåret otaggat\noch låter igenkänningen själv lista ut språket."
+
+msgid "Cutting out track %d of %d"
+msgstr "Skär ut spår %d av %d"
+
+msgid "cutting failed: %s"
+msgstr "utskärning misslyckades: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  En kamera för alla: klippt i %s klipp vid talarbytet, så att Resolve kan gruppera dem."
+
+msgid "Wide shot %d"
+msgstr "Översiktsbild %d"
+
+msgid "(wide shot)"
+msgstr "(översiktsbild)"
+
+msgid "No speaker"
+msgstr "Ingen talare"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %sx bort från talaren för att ett klipp varade längre än %s s"
+
+msgid "%s is in place."
+msgstr "%s är på plats."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Det här fönstret är fortfarande den version det startade som. Det kan starta om nu och komma upp som den, eller så gör du det själv senare."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Den här kopian körs från en egen mapp, så pip har inget här att uppdatera. Det här installerar den: %s"
+
+msgid "Language of the window"
+msgstr "Fönstrets språk"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Ett språk som väljs här används från nästa start."
+
+msgid "Restart the application"
+msgstr "Starta om programmet"
+
+msgid "The work can be written to a project file first."
+msgstr "Arbetet kan först skrivas till en projektfil."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Startas programmet om kommer det på en gång, och det frågas först vad som ska ske med arbetet. Att låta det vara kostar inget -- det kommer vid nästa start."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "Programmet startar strax om. Ska arbetet först skrivas till en projektfil?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Om det skrivs öppnar det nya fönstret projektet igen och allt står där det stod. Om inte kommer det upp tomt och filerna måste läggas till på nytt."
+
+msgid "Save and restart"
+msgstr "Spara och starta om"
+
+msgid "Restart without saving"
+msgstr "Starta om utan att spara"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Körningen pågår fortfarande. Fönstret kan startas om när den är klar."
+
+msgid "System language (%s)"
+msgstr "Systemspråk (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "En genväg till det här programmet skapades: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Ingen genväg till det här programmet skapades: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "den skrevs och fanns inte där efteråt"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Det här programmet körs som %s och paketen som installerats för det är %s, så inget av dem kan laddas. Det här startar det rätt: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Den här överlämningen bär ingen bildfrekvens, så Timeline kan inte byggas från den. Gör körningen på nytt."
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s fil passar inte"
+msgstr[1] ", %s filer passar inte"
+
+msgid ", %s files do not fit"
+msgstr ", %s filer passar inte"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s fil"
+msgstr[1] "%s filer"
+
+msgid "%s files"
+msgstr "%s filer"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s inspelning från %s filer"
+msgstr[1] "%s inspelningar från %s filer"
+
+msgid "%s recordings from %s files"
+msgstr "%s inspelningar från %s filer"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s fortsättning"
+msgstr[1] "%s  + %s fortsättningar"
+
+msgid "%s  + %s continuations"
+msgstr "%s  + %s fortsättningar"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Separerat: %s talare"
+msgstr[1] "Separerat: %s talare"
+
+msgid "Separated: %s speakers"
+msgstr "Separerat: %s talare"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  %s laddades upp i stereo och kom tillbaka med en kanal."
+msgstr[1] "  %s laddades upp i stereo och kom tillbaka med en kanal var."
+
+msgid "  %s went up in stereo and came back in one channel each."
+msgstr "  %s laddades upp i stereo och kom tillbaka med en kanal var."
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s spår, %s, %s kHz, %s"
+msgstr[1] "%s spår, %s, %s kHz, %s"
+
+msgid "%s tracks, %s, %s kHz, %s"
+msgstr "%s spår, %s, %s kHz, %s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix från %s spår, %s kanal"
+msgstr[1] "  Full-Mix från %s spår, %s kanaler"
+
+msgid "  Full-Mix from %s tracks, %s channels"
+msgstr "  Full-Mix från %s spår, %s kanaler"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s stannar kvar i två kanaler"
+msgstr[1] "  %s stannar kvar i två kanaler"
+
+msgid "  %s stay in two channels"
+msgstr "  %s stannar kvar i två kanaler"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: står vid %s (mål %s) efter %d ms, %d försök"
+msgstr[1] "%s: står vid %s (mål %s) efter %d ms, %d försök"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr "%s: står vid %s (mål %s) efter %d ms, %d försök"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Detta ger %s videofil, ungefär %s. Mål: %s"
+msgstr[1] "Detta ger %s videofiler, ungefär %s. Mål: %s"
+
+msgid "This makes %s video files, about %s. Target: %s"
+msgstr "Detta ger %s videofiler, ungefär %s. Mål: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s åtgärdat av sig självt"
+msgstr[1] "%s åtgärdade av sig själva"
+
+msgid "%s fixed on their own"
+msgstr "%s åtgärdade av sig själva"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s anmärkning"
+msgstr[1] "%s anmärkningar"
+
+msgid "%s hints"
+msgstr "%s anmärkningar"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s skäl att avbryta"
+msgstr[1] "%s skäl att avbryta"
+
+msgid "%s reasons to stop"
+msgstr "%s skäl att avbryta"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s ljudinspelning"
+msgstr[1] "%s ljudinspelningar"
+
+msgid "%s audio recordings"
+msgstr "%s ljudinspelningar"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s videofil"
+msgstr[1] "%s videofiler"
+
+msgid "%s video files"
+msgstr "%s videofiler"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Filen är märkt som HDR, med %s anmärkning."
+msgstr[1] "Filen är märkt som HDR, med %s anmärkningar."
+
+msgid "The file is tagged as HDR, with %s notes."
+msgstr "Filen är märkt som HDR, med %s anmärkningar."
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Varning: %s inte infogad. Utan den här vinkeln duger\n  Timeline inte till konvertering."
+msgstr[1] "  Varning: %s inte infogade. Utan de här vinklarna duger\n  Timeline inte till konvertering."
+
+msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr "  Varning: %s inte infogade. Utan de här vinklarna duger\n  Timeline inte till konvertering."
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s ljudspår blir kvar: %s"
+msgstr[1] "  %s ljudspår blir kvar: %s"
+
+msgid "  %s audio tracks stay: %s"
+msgstr "  %s ljudspår blir kvar: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Bild och ljud länkade igen: %s vinkel"
+msgstr[1] "    Bild och ljud länkade igen: %s vinklar"
+
+msgid "    Picture and audio linked again: %s angles"
+msgstr "    Bild och ljud länkade igen: %s vinklar"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s ljudspår återstår:"
+msgstr[1] "  %s ljudspår återstår:"
+
+msgid "  %s audio tracks remain:"
+msgstr "  %s ljudspår återstår:"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s klipp"
+msgstr[1] "%s klipp"
+
+msgid "%s clips"
+msgstr "%s klipp"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s tomt ljudspår borttaget"
+msgstr[1] "    %s tomma ljudspår borttagna"
+
+msgid "    %s empty audio tracks removed"
+msgstr "    %s tomma ljudspår borttagna"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> tolkas som %s ljudspår%s"
+msgstr[1] "      --> tolkas som %s ljudspår%s"
+
+msgid "      --> interpreted as %s audio tracks%s"
+msgstr "      --> tolkas som %s ljudspår%s"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " av %s inbäddad kanal"
+msgstr[1] " av %s inbäddade kanaler"
+
+msgid " of %s embedded channels"
+msgstr " av %s inbäddade kanaler"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s videospår"
+msgstr[1] "%s videospår"
+
+msgid "%s video tracks"
+msgstr "%s videospår"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s ljudspår"
+msgstr[1] "%s ljudspår"
+
+msgid "%s audio tracks"
+msgstr "%s ljudspår"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Fler vinklar än färger -- %s färg förekommer två gånger."
+msgstr[1] "      Fler vinklar än färger -- %s färger förekommer två gånger."
+
+msgid "      More angles than colours -- %s colours occur twice."
+msgstr "      Fler vinklar än färger -- %s färger förekommer två gånger."
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s klipp blev utan färg."
+msgstr[1] "      %s klipp blev utan färg."
+
+msgid "      %s clips left without a colour."
+msgstr "      %s klipp blev utan färg."
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    V2 innehåller nu %s klipp: %s"
+msgstr[1] "    V2 innehåller nu %s klipp: %s"
+
+msgid "    V2 now holds %s clips: %s"
+msgstr "    V2 innehåller nu %s klipp: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s markör satt%s."
+msgstr[1] "  %s markörer satta%s."
+
+msgid "  %s markers set%s."
+msgstr "  %s markörer satta%s."
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s kamera"
+msgstr[1] "%s kameror"
+
+msgid "%s cameras"
+msgstr "%s kameror"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Talarseparering (%s): %s talare ur %s ljud"
+msgstr[1] "  Talarseparering (%s): %s talare ur %s ljud"
+
+msgid "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr "  Talarseparering (%s): %s talare ur %s ljud"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s i %s avsnitt"
+msgstr[1] "  %-20s %s i %s avsnitt"
+
+msgid "  %-20s %s in %s passages"
+msgstr "  %-20s %s i %s avsnitt"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Från %s: %s röst."
+msgstr[1] "  Från %s: %s röster."
+
+msgid "  From %s: %s voices."
+msgstr "  Från %s: %s röster."
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s ord kom tillbaka utan tid och utelämnades."
+msgstr[1] "  %s ord kom tillbaka utan tid och utelämnades."
+
+msgid "  %s words came back without a time and were left out."
+msgstr "  %s ord kom tillbaka utan tid och utelämnades."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "på %s kamera"
+msgstr[1] "på %s kameror"
+
+msgid "on %s cameras"
+msgstr "på %s kameror"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s fil var klar dessförinnan och är hel: %s"
+msgstr[1] "%s filer var klara dessförinnan och är hela: %s"
+
+msgid "%s files were finished before that and are whole: %s"
+msgstr "%s filer var klara dessförinnan och är hela: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s punkt"
+msgstr[1] "%s punkter"
+
+msgid "%s points"
+msgstr "%s punkter"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s kanal"
+msgstr[1] "%s kanaler"
+
+msgid "%s channels"
+msgstr "%s kanaler"

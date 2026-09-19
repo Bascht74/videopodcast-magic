@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b14.
+gone through for 3.0.0b15.
 
 ## Where the program stands today
 
-**Version 3.0.0b14.** It runs every week, on real material.
+**Version 3.0.0b15.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -99,16 +99,9 @@ the major number.
 
 ## What comes next
 
-Six items. The first four are work. The last two are built, and what
+Five items. The first three are work. The last two are built, and what
 they wait on is somebody sitting down with real material rather than
 more building.
-
-**More languages.** Proposed and not yet chosen: Romanian, Greek,
-Swedish, Hungarian, Serbian, Czech, Croatian, Danish, Finnish, Slovak
-and Norwegian, the Norwegian as Bokmål and the Serbian in Cyrillic.
-Each is chosen on its own, and each would answer every text the
-program says, as every language on offer does; the check on the
-width of labels already looks at every language the window offers.
 
 **The whole way gets tests, not the single functions along it.** Seven
 steps, and each of them on both paths: the program opens, files come
