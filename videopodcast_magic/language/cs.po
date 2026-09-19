@@ -1,0 +1,4535 @@
+# What is translated of this program's messages, in Czech.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Czech speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 18.9.2026 in two steps: the window's captions
+# first, which fixed the form of address and one word for each thing,
+# and then every other text against them, three languages at a time
+# from one sheet. Every entry was read back once in full by another model,
+# against the English, the line of code it stands in and those words,
+# and 10 were put right; a third refuted what was not a fault.
+#
+# Anyone who speaks Czech is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Three here: [0] where the count is one, [1] where it is 2, 3 or 4,
+# [2] everywhere else -- nought, 5 and up, 22 and 104 included, which
+# is where Czech parts from Russian.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Střih se širokým záběrem"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Oddělí nahrávku podle hlasů: každý hlas dostane vlastní řádek a v něm svou kameru. Asi minuta na půl hodiny zvuku, na tomto počítači a bez nahrávání."
+
+msgid ", %s without"
+msgstr ", %s bez kamery"
+
+msgid "no camera yet"
+msgstr "zatím žádná kamera"
+
+msgid "A newer version is out"
+msgstr "Vyšla novější verze"
+
+msgid "%s is out. This is %s."
+msgstr "%s je venku. Tady běží %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Aktualizovat? pip ji stáhne do %s. Co pip říká, se objeví pod Výstup, a nová verze běží od příštího spuštění."
+
+msgid "pip could not be started: %s"
+msgstr "pip se nepodařilo spustit: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip skončil s %s. Co stihl, stojí v řádcích výše."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s je nainstalována. Běží od příštího spuštění."
+
+msgid "There is no window to show what pip says."
+msgstr "Není žádné okno, které by ukázalo, co pip říká."
+
+msgid "Back to an earlier version ..."
+msgstr "Zpět na starší verzi ..."
+
+msgid "Back to an earlier version"
+msgstr "Zpět na starší verzi"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Nepodařilo se vyhledat starší verze: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Seznam starších verzí se nepodařilo přečíst."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Není vydána žádná verze starší než %s, kterou by pip mohl nainstalovat."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Tady běží %s. Kterou verzi má pip dosadit na její místo?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip ji stáhne do %s, a co pip říká, se objeví pod Výstup. Zde zvolená verze běží od příštího spuštění.\n\nVrátí program a nic jiného. Co novější verze zapsala do nastavení, zůstává zapsáno, a projekty a jejich soubory zůstávají, jak jsou."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "intro nebo outro se dvěma kanály je stereo mix -- neměřeno"
+
+msgid "Multitrack mode"
+msgstr "Režim Multitrack"
+
+msgid "Singletrack mode"
+msgstr "Režim Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Žádná vlastní předvolba Multitrack -- vytvořte ji"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Žádná vlastní předvolba Singletrack -- vytvořte ji"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Žádná vlastní předvolba -- vytvořte ji na auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "V účtu nebyla nalezena žádná předvolba Multitrack."
+
+msgid "No Singletrack preset found in the account."
+msgstr "V účtu nebyla nalezena žádná předvolba Singletrack."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "V účtu není žádná předvolba Multitrack. Jen tyto: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "V účtu není žádná předvolba Singletrack. Jen tyto: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r je předvolba Singletrack, potřebná je předvolba Multitrack."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r je předvolba Multitrack, potřebná je předvolba Singletrack."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "Klíč je v pořádku. Z %s předvoleb v účtu není žádná typu Multitrack, seznam tedy zůstává prázdný."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "Klíč je v pořádku. Z %s předvoleb v účtu není žádná typu Singletrack, seznam tedy zůstává prázdný."
+
+msgid "fetching from auphonic.com ..."
+msgstr "načítá se z auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Co se změnilo od %s:"
+
+msgid "Update"
+msgstr "Aktualizovat"
+
+msgid "Later"
+msgstr "Později"
+
+msgid "Go back"
+msgstr "Vrátit se"
+
+msgid "Starting again did not work: %s"
+msgstr "Nové spuštění se nezdařilo: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Spusťte ho ručně: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Nebyla nalezena žádná novější verze. Tady běží %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update ji stáhne a nainstaluje."
+
+msgid "The check for new versions is switched off here."
+msgstr "Vyhledávání nových verzí je zde vypnuto."
+
+msgid "About Video Podcast Magic"
+msgstr "O aplikaci Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Ze surového materiálu videopodcastu vznikne sestříhaná epizoda: dobrý zvuk z videosouborů, kamery na jedné časové ose, první střih podle mluvčích a projekt DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s na %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "Licence MIT, Copyright (c) 2026 Sebastian Lotz. Poskytnuto tak, jak je, bez jakékoli záruky."
+
+msgid "&File"
+msgstr "&Soubor"
+
+msgid "&View"
+msgstr "&Zobrazení"
+
+msgid "&Player"
+msgstr "&Přehrávač"
+
+msgid "&Help"
+msgstr "&Nápověda"
+
+msgid "Play and pause"
+msgstr "Přehrát a pozastavit"
+
+msgid "Fast forward"
+msgstr "Rychle vpřed"
+
+msgid "Fast forward, %s times speed"
+msgstr "Rychle vpřed, %snásobná rychlost"
+
+msgid "Play forward, faster on every press"
+msgstr "Přehrávat vpřed, každým stiskem rychleji"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Přehrávat vpřed, každým stiskem dvakrát rychleji -- klávesa L."
+
+msgid "Pause"
+msgstr "Pozastavit"
+
+msgid "One frame back"
+msgstr "O snímek zpět"
+
+msgid "One frame forward"
+msgstr "O snímek vpřed"
+
+msgid "One second back"
+msgstr "O sekundu zpět"
+
+msgid "One second forward"
+msgstr "O sekundu vpřed"
+
+msgid "Ten seconds back"
+msgstr "O deset sekund zpět"
+
+msgid "Ten seconds forward"
+msgstr "O deset sekund vpřed"
+
+msgid "The manual"
+msgstr "Příručka"
+
+msgid "What changed in this version"
+msgstr "Co se v této verzi změnilo"
+
+msgid "Show the log of this run"
+msgstr "Zobrazit protokol tohoto běhu"
+
+msgid "Nothing has been written yet."
+msgstr "Zatím nebylo nic zapsáno."
+
+msgid "Look for a newer version now"
+msgstr "Vyhledat novější verzi nyní"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Nenalezen žádný balík certifikátů -- stahování přes HTTPS může selhat."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Sestavuje se rozpoznávač řeči ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Kompilátor Swift hlásí: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  Rozpoznávač řeči je sestaven (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  Rozpoznávání řeči hlásí: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Rozpoznáno v %s: připraveno za %s s, vyslechnuto za %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Na tomto počítači není žádné rozpoznávání řeči: macOS 26 ho přináší, jinak se nainstaluje faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Rozpoznávání řeči (%s): %s slov za %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Rozpoznávání řeči (%s): %s slov, načteno zpět"
+
+msgid "Separating speakers: %s"
+msgstr "Oddělují se mluvčí: %s"
+
+msgid "Separating ..."
+msgstr "Odděluje se ..."
+
+msgid "Voice"
+msgstr "Hlas"
+
+msgid "Stop"
+msgstr "Zastavit"
+
+msgid "Stopping ..."
+msgstr "Zastavuje se ..."
+
+msgid "Not on this machine"
+msgstr "Ne na tomto počítači"
+
+msgid "Reading the audio ..."
+msgstr "Čte se zvuk ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "V nahrávce nebylo nic slyšet."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "Oddělení mluvčích je pro tento projekt vypnuto."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Kdo kdy mluví, lze zjistit na tomto počítači, z kterékoli nahrávky, na které jsou slyšet všichni."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Ponechá oddělení pro tento projekt vypnuté. Střih pak pochází ze stop nebo z auphonic.com, jako dosud."
+
+msgid "The speaker separation reports: %s"
+msgstr "Oddělení mluvčích hlásí: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Oddělení mluvčích se vrací zpět ..."
+
+msgid "The speaker separation is not set up."
+msgstr "Oddělení mluvčích není nastaveno."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "Oddělení mluvčích tu není nainstalováno. Toto je vrátí: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Stahuje se model (asi %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Stahuje se model (asi %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Model se nepodařilo stáhnout: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Model se nepodařilo zapsat: %s"
+
+msgid "The list of model files came back empty."
+msgstr "Seznam souborů modelu se vrátil prázdný."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s neodpovídá svému kontrolnímu součtu a nebyl zapsán."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "Do složky programu nelze zapisovat: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Model pro oddělení mluvčích neleží vedle programu."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Soubor modelu %s neodpovídá svému kontrolnímu součtu."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote při každém běhu posílá domů zprávu a tato verze nenabízí způsob, jak to vypnout, takže oddělení nebylo spuštěno."
+
+msgid "Speakers"
+msgstr "Mluvčí"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Kdo je na této nahrávce slyšet. Jméno znamená: tato jedna osoba.\n\"více mluvčích\" zjistí, kdo kdy mluví, na tomto počítači a bez nahrávání -- asi minuta na půl hodiny zvuku. Jména pak přijdou do řádků pod tím."
+
+msgid "Speaker %d"
+msgstr "Mluvčí %d"
+
+msgid "One more speaker in %s"
+msgstr "O jednoho mluvčího víc v %s"
+
+msgid "One more speaker in"
+msgstr "O jednoho mluvčího víc v"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Poslechne tuto nahrávku znovu a hledá o jednoho mluvčího víc, než bylo nalezeno."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
+
+msgid " SEEKING"
+msgstr " HLEDÁ"
+
+msgid " computed"
+msgstr " vypočtený"
+
+msgid " virtual"
+msgstr " virtuální"
+
+msgid "%s were already right"
+msgstr "%s už bylo správně"
+
+msgid "%s (%s files)"
+msgstr "%s (počet souborů: %s)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s až %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d až %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- při ručním spojení se tento rozdíl dostane do souboru jako ticho a nic ho pak už neodstraní."
+
+msgid "%s and %s more"
+msgstr "%s a %s dalších"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s a %s jsou oba nastaveny na %s. To může být jen jeden soubor -- nastavte prosím ten druhý zpět na Obsah."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s a %s mají stejný název souboru a Resolve k nim neuvádí\n  žádnou cestu. Jeden z těch dvou přejmenujte."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s snímků za %s"
+
+msgid "%s reports %s"
+msgstr "%s hlásí %s"
+
+msgid "%s speech time"
+msgstr "Doba řeči %s"
+
+msgid "%s virtual"
+msgstr "%s virtuální"
+
+msgid "%s, audio track %d"
+msgstr "%s, zvuková stopa %d"
+
+msgid "3:1 rule"
+msgstr "Pravidlo 3:1"
+
+msgid "Output"
+msgstr "Výstup"
+
+msgid "Access to auphonic.com"
+msgstr "Přístup k auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Přístup a připojení se zadávají jednou a pak zůstávají. Klíč nikdy nejde do souboru, ale sem: %s."
+
+msgid "Checking files"
+msgstr "Kontrola souborů"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Vše, co ještě zbývá, měřeno tím, co je hotové. Dlouhé práce zabírají v pruhu víc místa než krátké."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Klíč pro auphonic.com, a zda Resolve odpovídá."
+
+msgid "Measuring time axis"
+msgstr "Měření časové osy"
+
+msgid "Resolve answers"
+msgstr "Resolve odpovídá"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve neodpovídá -- viz Nastavení"
+
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Settings ..."
+msgstr "Nastavení ..."
+
+msgid "Two files as %s"
+msgstr "Dva soubory jako %s"
+
+msgid "begins"
+msgstr "začíná"
+
+msgid "done"
+msgstr "hotovo"
+
+msgid "ends"
+msgstr "končí"
+
+msgid "first"
+msgstr "prvním"
+
+msgid "from %s"
+msgstr "od %s"
+
+msgid "join with Channel %d"
+msgstr "sloučit s kanálem %d"
+
+msgid "last"
+msgstr "posledním"
+
+msgid "rejected"
+msgstr "odmítnuto"
+
+msgid ","
+msgstr " "
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Typ"
+
+msgid "Speech time"
+msgstr "Doba řeči"
+
+msgid "Share"
+msgstr "Podíl"
+
+msgid "Beginning"
+msgstr "Začátek"
+
+msgid "the whole material"
+msgstr "celý materiál"
+
+msgid "Colour"
+msgstr "Barva"
+
+msgid "  Preset:  %s"
+msgstr "  Předvolba: %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  Resolve odmítá další videostopy -- vejde se %s z %s kamer."
+
+msgid "Preset"
+msgstr "Předvolba"
+
+msgid "Preset:"
+msgstr "Předvolba:"
+
+msgid "Start"
+msgstr "Spustit"
+
+msgid "Production"
+msgstr "Produkce"
+
+msgid "Target"
+msgstr "Cíl"
+
+msgid "Bright."
+msgstr "Jas"
+
+msgid "Colour U"
+msgstr "Barva U"
+
+msgid "Colour V"
+msgstr "Barva V"
+
+msgid "Writing %s"
+msgstr "Zapisuje se %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Časový kód:       %s"
+
+msgid "none"
+msgstr "žádná"
+
+msgid "Length"
+msgstr "Délka"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- to jsou všichni, takže každý záběr jde na tutéž kameru."
+
+msgid "No camera of their own: %s"
+msgstr "Bez vlastní kamery: %s"
+
+msgid "this window"
+msgstr "toto okno"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "dva názvy souborů pro tentýž okamžik -- žádný z nich se nebere"
+
+msgid "This is not a file of this program."
+msgstr "Toto není soubor tohoto programu."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Tento soubor zapsala verze %s ve formátu %d; tato verze zapisuje formát %d. Názvy uvnitř se od té doby změnily, takže ho nelze přečíst. Nastavte prosím běh znovu."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (jen měření: nic se nezapisuje)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (jen měření: bez API klíče to tady končí)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Kontrola podle přeslechu -- referencí je %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Nepodařilo se zapsat %s: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  U %s se nepodařilo zjistit, zda vrácené odpovídá nahranému.\n  Lepší zastavit než zapsat něco špatného."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  V předání není žádný střih kamer -- bez statistiky mluvčích žádný není.\n  Staví se jen Timeline pro multicam klip."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Nic nebylo změněno."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Jen jedna kamera -- multicam klip by neměl smysl."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Stopy se tam jmenují jinak:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Časové okno ručně:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline pro multicam klip: všechny kamery, nesestříhané"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline s hotovým střihem"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: kamera vcelku, mix pod ní"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nHotovo. Dole ukáže „Otevřít složku s výsledkem“ výsledek.\nJe-li vše v pořádku, „Vytvořit projekt Resolve“ z něj sestaví projekt.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nKONTROLA HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nNení zvolena žádná předvolba: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nZastaveno před prvním dlouhým krokem. S --anyway to poběží i tak."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Resolve pak možná nerozpozná vstupní barevný prostor."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Zvuk %s v %s -- tam se potkává s %s slovem."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s stopa V%d, od snímku %d (%s s k začátku), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Oba klipy zůstávají nezkrácené; překrývají obsah.\n      V překryvu sedí prolínačka -- kde přesně, rozhodnete vy v Resolve.\n      (Skriptovací rozhraní Resolve neumí vytvářet přechody.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   selhává: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      VAROVÁNÍ: slabá shoda pro %s (%s, %s je práh). Ty dva možná nepatří k sobě."
+
+msgid "this pair of files"
+msgstr "tato dvojice souborů"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- to nemůže být správně, stopa\n    %-20s zůstává, kde je."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, podobnost názvů %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, oříznuto na časové okno, podobnost názvů %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  ALE %s -- ani časové okno (%s), ani\n    %-20s    celý změřený rozsah (%s). Patří k jinému běhu."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s žádný soubor s odpovídajícím názvem"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s posunuta o %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s už existuje -- renderuje se místo toho do %s,\n%sdřívější výstup zůstane."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (doporučení YouTube pro %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, dva kanály  (datový tok nelze nastavit vzdáleně --\n%s%s kbit/s je doporučení pro stereo)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s odmítnuto -- žádná podoba zápisu nebyla přijata.\n%sV Resolve nastavte ručně pod Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s zůstává na „Same as Project“ -- projekt neuvádí\n%sžádnou HDR křivku. Ke kontrole v Resolve pod\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Smazání se nezdařilo."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Smazání se nezdařilo: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Propojení se nezdařilo: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Odpojení nemělo účinek -- přebytečné zvukové stopy\n    %-24s zůstávají na místě."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s zvuk z A%d ponechán, dalších %d smazáno"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s nelze znovu propojit"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s nelze odpojit: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s žádný zvuk nevložen"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %sx neběžela zamýšlená kamera -- místo ní je tam jiná."
+
+msgid "    %s could not be imported."
+msgstr "    %s se nepodařilo importovat."
+
+msgid "    %s could not be inserted."
+msgstr "    %s se nepodařilo vložit."
+
+msgid "    %s track %d could not be created."
+msgstr "    %s stopu %d se nepodařilo vytvořit."
+
+msgid "    %s track could not be created: %s"
+msgstr "    %s stopu se nepodařilo vytvořit: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: obraz a zvuk vloženy zvlášť (zvuk od A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway je nastaveno: běží to navzdory bodům výše."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Všechny stopy jsou na místě -- není co posouvat."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Pozor: H.265 není k dispozici -- bude to H.264 s osmi bity.\n             Pro HDR příliš málo; v přechodech vzniknou pruhy."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Pozor: projekt stojí na %s, materiál je %s.\n             Výstup nese označení materiálu. Aby projekt\n             držel krok: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Barevný prostor"
+
+msgid "already right"
+msgstr "už bylo správně"
+
+msgid "    Clip colours could not be set."
+msgstr "    Barvy klipů se nepodařilo nastavit."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Klipy z dřívějšího běhu jsou stále vázány na své Remote Grades. Na\n    stránce barev klikněte pravým tlačítkem na miniaturu > \"Copy Remote Grades to Local\"\n    (převezme korekci) nebo \"Use Local Grades\". Nové Timeline\n    to nepotřebují."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Seznam kodeků nelze přečíst: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Barevná skupina %-24s jen %s z %s klipů"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Křížová kontrola není možná: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Křížová kontrola: neměřitelná"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    Bod In     %s   (časový kód %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    Bod In     %s\n    Bod Out    %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Bod Out    %s   (časový kód %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Bod Out leží před bodem In -- tak to nejde."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    Referenční kamera nenese žádný časový kód. Osa visí na hodinách %s a její první snímek ukazuje %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Ke kontrole -- Timeline začíná snímkem %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Formát a kodek se nepodařilo nastavit."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Formát a kodek se nepodařilo nastavit: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Seznam formátů nelze přečíst: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    Jeden soubor na výstup byl odmítnut; Resolve zapíše jeden soubor na klip."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    Jeden soubor na výstup nebylo možné vyžádat: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Délka   %s  (místo %s)"
+
+msgid "    Length  %s"
+msgstr "    Délka   %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Lokální verze: v editoru uzlů platí \"Group Pre-Clip\" pro celou\n    kameru, \"Clip\" jen pro ten jeden střih. Jedno nevylučuje\n    druhé."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Cílová úroveň měřiče hlasitosti nenalezena -- nastavte ji prosím ručně:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Naměřeno %s snímků/s -- Resolve zná jen pevné frekvence,\n    použije se %s."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Žádný pár není měřitelný -- zůstává, jak je."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Nastavení pro verze nenalezeno -- nastavte prosím ručně:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Ne všechno se podařilo nastavit. Některé hodnoty Resolve přijme jen,\n    dokud je Timeline ještě prázdná -- porovnejte prosím výše."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    Ve frontě -- v Resolve zbývá už jen \"Render All\"."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades jsou zapnuté: jedna barevná korekce na kameru platí\n    pro všechny její střihy -- jednotlivý střih pak už nelze korigovat\n    samostatně."
+
+msgid "    Render job could not be created."
+msgstr "    Renderovací úlohu se nepodařilo vytvořit."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Renderovací úlohu se nepodařilo vytvořit: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Nastavení nelze vypsat -- nastavte prosím ručně:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Okno by bylo dlouhé jen %s -- to nemůže být záměr."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Stopa %d  %-22s (zde: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 nelze zpětně přečíst: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Videostopu %d se nepodařilo přejmenovat."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Zda hotový soubor projde jako HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    není možné: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (dráha zvuku záporná -- něco není v pořádku)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s nelze zarovnat: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s nelze změřit: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s posun %s, drift hodin %s ppm (+/- %s), zbytkový rozptyl %s ms, %s z %s bodů"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s posun %s, drift hodin %s ppm (+/- %s), zbytkový rozptyl %s ms, %s z %s bodů%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s z %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  Bloky (%s) spojeny v pořadí názvů (bez časového kódu -- mezery by nešlo rozpoznat)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  Bloky (%s) spojeny přes časový kód, začátek %s"
+
+msgid "  %s of %s files imported."
+msgstr "  Importováno %s z %s souborů."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  mluvčí: %s, záběry: %s, nejkratší %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  Videostopy: %s, pojmenované podle mluvčích:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s se vyskytuje dvakrát s různými kamerami -- použije se %s"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s nelze zařadit: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s nedává žádný měřitelný zvuk -- zařazeno jen podle jeho hodin a nenašlo se nic, oproti čemu to ověřit"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s se nepodařilo načíst: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s se nepodařilo znovu zapsat: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s jde na videostopu 1 -- tam první zvuková stopa nese\n  Full-Mix a videostopa 1 se stane úhlem 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s nemá zvuk kamery -- bez něj nelze nic zarovnat"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s je v produkci dvakrát -- načteno jednou."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s už tu je a bude přepsán -- tato produkce nemá záznam, že by ho vytvořila."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s pochází z dřívějšího běhu této produkce a bude nahrazen."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s běží %s snímky/s, frekvencí, pro kterou Resolve nemá Timeline -- přepočítává se, nevynechává"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s je připraven -- s --resolve-json to lze udělat později."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, přeskočeno"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: kolik má kanálů, nelze zjistit (%s) -- neměří se"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (jen měření: nic se nenahrává)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Timeline %r už existovala -- nová se jmenuje %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Timeline tohoto názvu existuje, s jinými kamerami. Zůstává;\n  nová se staví vedle ní pod vlastním názvem."
+
+msgid "  Added: %s"
+msgstr "  Doplněno: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Přidání atomů vzato zpět -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Všechny potřebné výstupní soubory už existují."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Atom %s přeskočen: %s bajtů je na něj příliš."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Zvuk: Full-Mix vcelku na A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Pozor: %s stupňů rozdílu jasu -- viditelné při přepínání."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Pozor: %s a %s se oba jmenují %s. Na Timeline\n  Resolve uvádí jen název, jejich klipy proto nelze\n  rozlišit -- jeden z těch dvou souborů přejmenujte."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Pozor: %s se nepodařilo smazat -- nová Timeline proto dostane\n  přídavek k názvu."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Pozor: rozsah  jen %s LU -- velmi těsné. U řeči bývá 3 až 7 LU;\n                 pod tím to zní zmáčknutě. Zkontrolujte, jak silně je\n                 na auphonic.com nastaven Leveler."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Pozor: produkce obsahuje další stopy (%s). Jdou do\n  mixu -- smažte je prosím na auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Pozor: stopa %s -- ponechává si své nastavení."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Atomy kamery:     nelze doplnit (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Data kamery:     %s klíčů převzato (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Data kamery:     Pozor, %s z %s klíčů chybí v novém souboru: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Data kamery:     zdroj žádná nenese"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Atomy nelze přidat: v cestě je 64bitový box."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Atomy nelze přidat: moov není na konci."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Atomy nelze přidat: zdroj je %s, cíl %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Kontrola:        není možná (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Drift hodin:      %s ppm (+/- %s), zbytkový rozptyl %s ms, %s z %s bodů"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Drift hodin:      nic neměřeno -- toto je reference, vůči níž se drží ostatní"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Porovnání barev není možné: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Barevnou skupinu %r nelze vytvořit."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Barevnou skupinu %r nelze vytvořit: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Barva:           %d/%d/%d -- primární barvy doplněny z matice (zdroj: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Barva:           %d/%d/%d převzato"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Barva:           Pozor, %s ve zdroji, %s v novém souboru"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Křížová kontrola: %s podle Full-Mix, odchylka %s ms (%s z %s bodů)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Křížová kontrola: není možná (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Datové stopy:    %s převzaty"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Datové stopy:    %s vynechány -- ffmpeg je neumí zapsat"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Smazáno: %s -- hned se staví znovu."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Drift za dobu běhu: %s s = %s snímků  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Stávající výsledek převzat -- nic se nepočítalo, nic se neplatilo."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Méně než dvě kamery se zvukem -- pro Multitrack příliš málo."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Hotový mixdown vyžádán jako měřítko (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "nezačíná tam, kde končí blok před ním"
+
+msgid "ends before the next block starts"
+msgstr "končí dřív, než začíná další blok"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com je sloučil. Mix si ponechá oba kanály; pryč je\n  rozdíl mezi oběma mikrofony této stopy."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Dva kanály, protože jedna stopa je stereo"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Mezera %s u %s -- vyplněna tichem"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Překryv %s u %s -- tam znějí oba"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Překrývají se -- několik mikrofonů najednou, ne bloky za sebou."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Každý jde navíc do videa jako vlastní stopa: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Do videa jde jen mix (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Už existuje, se stejnými kamerami ve stejném pořadí -- zůstává\n  nedotčená. Kdo ji chce novou, smaže ji v Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Klíčové snímky %s nelze přečíst (%s) -- kopie začíná na začátku souboru."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Křivka úrovně není možná (%s) -- bez limiteru"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Limiter:       nejvýše %s dB, stejná křivka na každé stopě%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Hlasitost nelze změřit: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Hlasitost nelze změřit -- zůstává, jak je."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Metriky nelze zapsat: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Mixdown z auphonic.com: %s LUFS, špička %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Nenalezen žádný Full-Mix -- Timeline zůstává němá."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Na Timeline není žádný zvuk -- není co uklízet."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  V předání nejsou žádné kamery -- není co stavět."
+
+msgid "  No clips found for colour groups."
+msgstr "  Nenalezeny žádné klipy pro barevné skupiny."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Nezbyl žádný střih -- Timeline zůstává prázdná."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Nepředáno: běh nedokázal umístit %s, takže to není kamera této epizody."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Žádný změřený posun pro %s -- umístěno na začátek osy."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  Ve zvuku se pro %s nic nenašlo -- umístěno jen podle časového kódu."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: měření ji umisťuje na %s s, časový kód na %s s -- použije se měření."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Začátek Timeline %s byl odmítnut: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline začíná na %s, ne na %s -- o tolik dál sedí každý záběr."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Začátek Timeline %s nebyl přijat."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Začátek %s -- podle něj se umisťuje každý záběr."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Taková Timeline ještě neexistovala -- pouze se staví."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Poznámka: počítá se se soubory nahranými tehdy. Nesou v sobě\n  časové okno a zarovnání z toho dne. Kde se bod In, bod Out\n  nebo změřená poloha nyní liší, zpětná kontrola změří\n  rozdíl a posune stopy na místo."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Poznámka: tento ffmpeg nemá soxr -- drift hodin lze odstranit jen\n  v krocích po 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Pro zvuk bez významu."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Posun:            %s   (z porovnání kamer)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Na Timeline je jen %s z %s záběrů."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Špičky:        %s dB nad %s dBTP -- limiter je zachytí"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Přehrávač: %s hlásí chybu -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Přehrávač: %s zůstává na %s místo %s -- vzdáno po %s pokusech (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Přehrávač: zvukový výstup se přepíná na %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Přehrávač: zvuk neběží (%s) -- ještě jeden pokus."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Zadejte prosím číslo mezi 1 a %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Produkce na auphonic.com:     %s"
+
+msgid "  Production running (%s)"
+msgstr "  Produkce běží (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Projekt %r otevřen."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Soubor projektu se nepodařilo zapsat: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Projektový soubor nelze zapsat (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Rozsah:        %s LU (u řeči bývá 3 až 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Reference: %s (%s, nejdelší doba běhu)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Zbývá:         %s dB na každé stopě, to je %s LUFS místo %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve nepřevzal žádný obraz -- Timeline je prázdná. Nic\n  dalšího se na ní nestaví."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Výsledek: %s (%s) -- zůstává vedle videosouboru\n"
+
+msgid "  Not used:  %s."
+msgstr "  Nevyužito:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Otázka: v přepisu %s, reakčním střihem se stalo %s."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Otázka: žádný přepis, takže nebyla nalezena žádná otázka a žádný\n            reakční střih se nestal. Slova se zapisují během běhu\n            z hotového mixu; bez nich toto nastavení nic nedělá."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Nastavení uvedena na předvolbu %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Začátek %s (nejranější kamera) -- jinak by všechno leželo před začátkem Timeline."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Neupraveno:    převzato ze zdrojových souborů -- žádné zesílení na žádné stopě\n                 a žádný limiter. Zvuk odchází přesně tak, jak přišel."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Součet stop:   %s LUFS, špička %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Cíl:           %s LUFS  ->  %s dB na každé stopě"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline dostane %s: nejvyšší z nich, nebo nejbližší frekvenci,\n  kterou Resolve má nad ní. Při převodu nahoru Resolve snímky opakuje,\n  dolů je zahazuje. Každá kamera si nechává vlastní frekvenci a střih\n  počítá v ní."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix se nepodařilo importovat."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix se nepodařilo vložit."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  Kamery nesou časové okno a po jedné sekundě na každém konci: %s zapsáno pro %s z nahraných %s."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  Kamery leží blízko u sebe (nejvýše %s stupňů jasu)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  Střih se změnil: záběrů %s místo %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Záznam o dřívějších bězích na tomto místě nelze přečíst (%s), proto se hlásí vše, co už tu je."
+
+msgid "  The cut stays as it was."
+msgstr "  Střih zůstává, jak byl."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Soubory se nahrávají znovu -- to stojí kredit."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Soubory ve složce se musí jmenovat podle mluvčích a patřit\n  k tomuto běhu. Bez složky to projde přes auphonic.com znovu."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool zůstává, jak je."
+
+msgid "  The names from there are adopted:"
+msgstr "  Názvy odtamtud se přebírají:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Tam je %s stop, tady %s -- to nesedí."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Tuto kameru nebylo možné zařadit -- přeskočena"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Časové okno:      %s z %s zapsáno, od %s kamery"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Časový kód %s zapsán jako bext a iXML (reference: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Příliš mnoho:  limiter by musel ubrat %s dB. Víc než %s dB\n                 zní zmáčknutě -- o %s dB méně zesílení."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Přepis není možný (%s) -- běží to i tak."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Široký záběr na okrajích: přeskočeno -- první nebo poslední hláška\n  by byla na přivítání příliš dlouhá."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Široký záběr na okrajích: do %s a od %s"
+
+msgid "  from %s, %s"
+msgstr "  z %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML pro %s nezapsáno: %s"
+
+msgid " at high frame rates"
+msgstr " při vysoké snímkové frekvenci"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Zvuk začíná podle časového kódu na   %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Obraz začíná podle časového kódu na  %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  Časový kód zvuku vůbec neodpovídá obrazu -- pravděpodobně nikdy nenastavené hodiny. Použije se měření."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  Časový kód neodpovídá tomu, co je slyšet. Použije se měření."
+
+msgid "%s from %s recordings"
+msgstr "%s z %s nahrávek"
+
+msgid "%s is missing."
+msgstr "%s chybí."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s je u více než jednoho mluvčího -- jméno je osoba a každá osoba potřebuje své vlastní."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s stojí na více než jednom hlasu. Jméno je jedna osoba a střih staví jednu osobu na jednu kameru -- dva hlasy jednoho jména by byly jedna osoba na dvou místech."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Tento počítač to umí nainstalovat pořádně: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Instaluje se: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Na tomto počítači: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Instaluje se: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s by se nainstaloval do tohoto Pythonu: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  Ručně:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Nepodařilo se vyhledat novější verzi: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s chybí. Poprvé to trvá pár minut."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Spustit to teď? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  To se nepovedlo: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Vrací se zpět: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  Na ffmpeg.org jsou sestavení pro Windows. Složka s ffmpeg.exe pak musí do PATH, nebo soubory vedle tohoto programu."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Otevřít stránku? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  Stránku se nepodařilo otevřít: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s chybí -- instaluje se. Poprvé to trvá několik minut."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sKontrola časového kódu zvukového souboru"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s ne (žádný volný obraz)"
+
+msgid ", audio on A2"
+msgstr ", zvuk na A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Soubor přiřazení nelze přečíst: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Zvuk kamery není použitelný: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK NENÍ MOŽNÝ\n  Jsou potřeba alespoň dvě vstupní stopy, nalezena byla jen %s.\n  Stopa je vlastní nahrávka, kanál vícekanálového rekordéru nebo\n  zvuk kamery -- ten se počítá, jakmile jeho Zvuk kamery říká\n  \"použít interní zvuk\". Bez dvou z nich není co rozpojovat\n  a tentýž soubor projde jako obyčejná\n  produkce."
+
+msgid "No preset is called %r."
+msgstr "Žádná předvolba se nejmenuje %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Žádný zvuk v kamerách -- není s čím pracovat."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Jen jeden zvukový soubor a žádný obraz -- není co dělat."
+
+msgid "Open project ..."
+msgstr "Otevřít projekt ..."
+
+msgid "Save project"
+msgstr "Uložit projekt"
+
+msgid "Close project"
+msgstr "Zavřít projekt"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Projektový soubor se ukládá do výstupní složky, a ta ještě není zvolena. Zvolte prosím nějakou."
+
+msgid "Written:\n\n  %s"
+msgstr "Zapsáno:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Nic nebylo zapsáno -- zatím není žádný materiál."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nKDO SE PTÁ -- návrh, a nic se z něj nenastavuje"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s řeči, %s z %s vět otázka"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  Pořadí platí, vzdálenost mezi nimi ne: měřeno na čtyřech dílech se nikdy neotočilo, zatímco vzdálenost mezi prvním a posledním se změnila čtyřnásobně. Předpokládá jeden hlas na stopu; kde dvě nesou tutéž řeč, neříká se vůbec nic."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Kdo se ptá -- zde neřečeno: dvě ze stop nesou tutéž řeč, otázky by tedy připadly tomu rekordéru, který byl nejvíc vytočený."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nKTERÝ MIKROFON -- návrh, a nic se z něj nenastavuje"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s zní jako %-20s %s %% z toho v této stopě, o %s bodů před dalším"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Platí za jednoho předpokladu: jeden mikrofon na osobu a každý nese jen tuto jednu. Kde se stopy překrývají příliš, než aby šly rozlišit, nebo dva hlasy ukazují na tentýž mikrofon, neříká se raději vůbec nic než něco nejistého."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nJAK BY SE HLASY MOHLY JMENOVAT -- návrh"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s by se mohl jmenovat %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s v časovém okně skoro nemluví -- návrh: nepoužít."
+
+msgid "Guest"
+msgstr "Host"
+
+msgid "Host"
+msgstr "Moderátor"
+
+msgid "Host %d"
+msgstr "Moderátor %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Jen pro hlasy, které stále nesou jméno, jež jim dal program; ručně napsaného se nikdy nedotkne. Role se odečítají z toho, kdo se ptá a kdo odpovídá, což platí pro rozhovor s jedním hostem a je to návrh, ne nastavení."
+
+msgid "Skip this version"
+msgstr "Přeskočit tuto verzi"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Jen tuto jednu. Další vydání se zeptá znovu, a Nápověda > Vyhledat novější verzi nyní se zeptá kdykoli."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s už tu je -- nenačítá se dvakrát"
+
+msgid "The text for %s could not be fetched."
+msgstr "Text k %s se nepodařilo načíst."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Kontrola:        jedna ze dvou stop není v zapsaném souboru, nic se tedy neměřilo."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Kontrola:        obě stopy nelze porovnat (shoda %s, spodní hranice je %s). O časové poloze to nic neříká."
+
+msgid "Project found"
+msgstr "Nalezen projekt"
+
+msgid "Open the project"
+msgstr "Otevřít projekt"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Všechno se z něj vrátí: jména, oddělení, přiřazení, typy, časové okno. Seznam souborů se nahradí tím, který je uložen v projektu."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "U tohoto materiálu leží projektový soubor:\n\n  %s\n  zapsán %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "U tohoto materiálu leží několik projektových souborů. Který?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROJEKT OTEVŘEN\n  Všechny údaje jsou zpět, v této relaci se zatím nic nepočítalo.\n  Ve výstupní složce leží soubory posledního běhu:\n  %s\n\n  Odtud vedou tři cesty:\n    • dole „Otevřít složku s výsledkem“ -- prohlédnout soubory z toho běhu,\n    • dole „Vytvořit projekt Resolve“ -- z předávacího souboru toho běhu,\n      aniž by se cokoli počítalo znovu,\n    • nahoře „Spustit“ -- spočítat vše znovu a soubory přepsat.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROJEKT ULOŽEN\n  %s\n  Tento běh lze později znovu otevřít -- vlevo nahoře\n  „Otevřít projekt ...“\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Předvolby se nepodařilo načíst: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Několik kamer, ale žádný zvukový soubor. Každá kamera by měla vlastní zvuk --\nk tomu slouží --multitrack. Jinak jednu kameru po druhé."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Soubor NENÍ rozpoznán jako HDR."
+
+msgid "The file is tagged as HDR."
+msgstr "Soubor je označen jako HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Neznámá přípona, přeskočeno: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Která předvolba Auphonic má tento soubor zpracovat?"
+
+msgid "Would write: %s"
+msgstr "Zapsalo by se: %s"
+
+msgid "channel count unknown"
+msgstr "počet kanálů neznámý"
+
+msgid "is actively taken out"
+msgstr "se aktivně odstraňuje"
+
+msgid "not readable"
+msgstr "nečitelné"
+
+msgid "the default device"
+msgstr "výchozí zařízení"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: žádný zvuk k extrakci (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  PROJEKT S TÍMTO NÁZVEM UŽ EXISTUJE: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  ÚKLID ZVUKOVÝCH STOP"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  KLIPY V MEDIA POOL"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Nepoužitelné: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  OBNOVIT STŘIHOVÝ SEZNAM"
+
+msgid "\n  Render job"
+msgstr "\n  Renderovací úloha"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Část pro Resolve zastavena: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  ZASTAVENO: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Nastavení"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Zastaveno: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  PRODUKCE S TÍMTO NÁZVEM UŽ EXISTUJE"
+
+msgid "\n  This produces:"
+msgstr "\n  Z toho vznikne:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Běh %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nJIŽ ZPRACOVÁNO"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nPOROVNÁNÍ BAREV KAMER"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nKONTROLA VRÁCENÉHO"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nRŮZNÉ SNÍMKOVÉ FREKVENCE: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nRŮZNÉ VELIKOSTI SNÍMKŮ: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nSkončilo bez výsledku: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nDokončeno s chybami.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nMĚŘENÍ ČASOVÉ OSY"
+
+msgid "\nMETRICS"
+msgstr "\nMETRIKY"
+
+msgid "\nMIXING"
+msgstr "\nMIXOVÁNÍ"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALIZOVAT"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Žádný obraz: stopy se kladou proti sobě."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs tu nic nedělá: stopy odcházejí tak, jak byly nahrány, a hlasitost se nastavuje tam, kde se mixují."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nJen jedna stopa našla místo -- nezbývá nic, oproti čemu ji položit."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Okno:                %s -- vše, co kterákoli stopa slyšela"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: ticho %s na začátku a %s na konci"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nPo spojení bloků zbývá jen jedna stopa a multitrack potřebuje jednu na každý hlas. Kde byli dva lidé považováni za jednu nahrávku, --apart z ní jeden blok vyjme."
+
+msgid "RECOGNISED PLAN"
+msgstr "ROZPOZNANÝ PLÁN"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nŽádnou zvukovou stopu nešlo zarovnat -- není co položit na osu."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nZvuk a obraz mají společných jen %s a zarovnání v nich našlo %s vzorkovacích bodů. To je příliš málo, aby se na to dalo něco položit."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s smícháno dohromady"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nŽádný použitelný videosoubor -- bez zvuku kamery není společná časová osa."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nPŘEDBĚŽNÁ KONTROLA -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nZPRACOVÁNÍ: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- JEN NAHLÉDNOUT"
+
+msgid "\nRESULT"
+msgstr "\nVÝSLEDEK"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nUKLÁDÁNÍ STOP"
+
+msgid "\nStopped: %s"
+msgstr "\nPřerušeno: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nZÁPIS STOP NA OSU"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  hotovo%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Stopa %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s žádný soubor v Media Pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   prázdné (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s od %s, délka %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s dráha zvuku %4s ms (%s m), posun %6s ms, drift %5s ppm (%s bodů, %s ms zbytek)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- nic vhodného nenalezeno"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Pozor: %s. Tam není žádný obraz;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Barevné skupiny: %s -- všechny klipy přiřazeny"
+
+msgid "    Colours per angle:"
+msgstr "    Barvy podle úhlu záběru:"
+
+msgid "    Cross-check:"
+msgstr "    Křížová kontrola:"
+
+msgid "    Left without picture: %s"
+msgstr "    Zůstalo bez obrazu: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Nenalezen žádný formát MP4. K dispozici: %s"
+
+msgid "    No clips found."
+msgstr "    Nenalezeny žádné klipy."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Nenalezen žádný vhodný kodek. K dispozici: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Nastavení renderování odmítnuto."
+
+msgid "    the measured window is therefore kept."
+msgstr "    proto zůstává změřené okno."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s záběrů, celkem %s s, bez jejich zvuku."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  Vytvořeno videostop: %s, zvukových stop: %s (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s dostane %s stop smíchaných dohromady: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Zvuková stopa %d:  %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Atomy kamery:     %s doplněno -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s na začátku a %s na konci nemají obraz a vynechávají se"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    začíná s %s a končí s %s -- úsek, který viděla každá kamera"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nZastavuje se. Běh skončí, jakmile to půjde, aniž by nechal soubor napůl zapsaný -- okamžik.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Široký záběr drží %s s, méně než nejkratší záběr %s s -- proto se zase sloučí a nikdy se neobjeví.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nZměřeno. Nic nebylo zapsáno -- zkušební běh nechá složku s výsledkem, jak byla.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nPřerušeno během: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Vše po tomto kroku chybí. Ve složce je část běhu, ne výsledek."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Společné okno:       %s až %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Vytvořeno:   %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Chyba při zápisu: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Soubor:    %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Vyžádány dva kanály -- nahrávka je stereo"
+
+msgid "  From %s"
+msgstr "  Z %s"
+
+msgid "  In summary: %s"
+msgstr "  Souhrnně: %s"
+
+msgid "  In the archive: %s"
+msgstr "  V archivu: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Chybí:       %s"
+
+msgid "  Player: %s"
+msgstr "  Přehrávač: %s"
+
+msgid "  Production:  %s"
+msgstr "  Produkce:  %s"
+
+msgid "  Project %r"
+msgstr "  Projekt %r"
+
+msgid "  Project %r created."
+msgstr "  Projekt %r vytvořen."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Výsledek:      asi %s LUFS, špička %s dBTP"
+
+msgid "  Results:"
+msgstr "  Výsledky:"
+
+msgid "  Results:     none"
+msgstr "  Výsledky:    žádné"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  Stávající soubory se použijí znovu -- přepočet nestojí nic."
+
+msgid "  Time limit: %s"
+msgstr "  Časový limit: %s"
+
+msgid "  To upload:   %s"
+msgstr "  K nahrání: %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Stopy:     %s"
+
+msgid "  Tracks: %s"
+msgstr "  Stopy: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Přepis: %s"
+
+msgid "  Uploaded:"
+msgstr "  Nahráno:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Odchylka:                            %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Odchylka:                            %s  (%s snímků)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Odchylka:                            %s  (%s snímků) -- sedí"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Posun změřený:                       %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Posun podle časového kódu:           %s"
+
+msgid "Abort: %s"
+msgstr "Přerušení: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "EXTRAKCE ZVUKU KAMER"
+
+msgid "FOR RESOLVE"
+msgstr "PRO RESOLVE"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "ŽÁDNÝ ZVUKOVÝ SOUBOR -- POUŽÍVÁ SE ZVUK KAMERY"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "ŽÁDNÉ ODDĚLENÉ ZVUKOVÉ NAHRÁVKY -- POUŽÍVÁ SE ZVUK KAMERY"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "ZPRACOVÁNÍ NA AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "ZPRACOVÁNÍ NA AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "Zpracování selhalo: %s"
+
+msgid "RESULT"
+msgstr "VÝSLEDEK"
+
+msgid "Resolve part stopped: %s"
+msgstr "Část Resolve zastavena: %s"
+
+msgid "Stopped: %s"
+msgstr "Zastaveno: %s"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s všechny kamery vedle sebe -- z toho vznikne multicam klip"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s obraz ze střihu kamer, zvuk vcelku"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s kamera vcelku, mix pod ní"
+
+msgid "   --   audio only"
+msgstr "   --   jen zvuk"
+
+msgid "   -- not found"
+msgstr "   -- nenalezeno"
+
+msgid "   Caution: more than one frame"
+msgstr "   Pozor: víc než jeden snímek"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s posun %s ms%s, délka %s s, rozptyl %s ms, %s z %s bodů%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (tento soubor končí dřív)"
+
+msgid "  (this file starts later)"
+msgstr "  (tento soubor začíná později)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  žádná Timeline v Resolve neběží touto frekvencí; přepočítává se"
+
+msgid "  --  this file is outside"
+msgstr "  --  tento soubor leží mimo"
+
+msgid "  -->  aligned"
+msgstr "  -->  zarovnáno"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  zarovnáno, drift hodin %s ppm odstraněn"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Kontrola:        %s proti stopě kamery %s ms (shoda %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Vytvořte ho pomocí \"Vytvořit projekt Resolve\" v rozhraní. Resolve musí běžet."
+
+msgid "  The handover file could not be written."
+msgstr "  Soubor předání se nepodařilo zapsat."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Z toho vznikne projekt, import a %s:"
+
+msgid " (paused)"
+msgstr " (pozastaveno)"
+
+msgid " (playing)"
+msgstr " (přehrává se)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- bod In nebo Out ušetří nahrávání"
+
+msgid " -- not readable"
+msgstr " -- nečitelné"
+
+msgid " -- nothing to fault."
+msgstr " -- nic k vytknutí."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- jen matice říká BT.2020"
+
+msgid " and "
+msgstr " a "
+
+msgid " from %s files"
+msgstr " z %s souborů"
+
+msgid " not."
+msgstr " -- ne."
+
+msgid "%s blocks"
+msgstr "bloků: %s"
+
+msgid "%s brought to the preset"
+msgstr "%s uvedeno na předvolbu"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s kanálů -- rozdělí se do stop, viz řádky výše."
+
+msgid "%s checked"
+msgstr "%s zkontrolováno"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s z %s porovnání je pod %s dB -- každá nahrávka proti každé jiné, v obou směrech."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s z %s videosouborů nenese v bloku colr žádnou křivku ani barevný prostor%s -- pravděpodobně log materiál."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r je časový kód, ale tady není žádný obraz, a tedy žádná kamera, od které by se počítal. Pak funguje jen hodnota od začátku okna, například +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r je časový kód, ale časová osa nevisí na žádných hodinách: žádný soubor tady žádný nenese, včetně referenční kamery %s. Pak funguje jen hodnota od začátku okna, například +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r není předvolba Multitrack"
+
+msgid "%r is not a number."
+msgstr "%r není číslo."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   nepasuje k ostatním souborům: zvuk nerozpoznán, žádný časový kód.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Nastaveno na %s; %s je na jedno kliknutí."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Vynecháno, %s je už obsazeno; %s je na jedno kliknutí."
+
+msgid "Its sound cannot be used."
+msgstr "Jeho zvuk nelze použít."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   zvuk nerozpoznán; umístěno podle časového kódu"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   aplikace tento formát nezná"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  bloků: %s"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- co se s tím má stát?\nPodrobnosti jsou v protokolu."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz místo %s kHz -- při zpracování se převede."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s nelze umístit: zvuk nemá se zbytkem materiálu nic společného a soubor nenese žádný časový kód. Potřebuje takový, který odpovídá ostatním nahrávkám, a ten se musí nastavit jiným programem."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s se k ničemu v materiálu nehodí a je mnohem kratší než zbytek: navrženo jako intro, které se dává na začátek a nikdy se neměří."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s je nastaveno a tady se nic neupravuje: stopy odcházejí tak, jak byly nahrány, a hlasitost se nastaví tam, kde se mixují."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s lze znovu zařadit a je zpět v běhu."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s se nepodařilo nainstalovat.\nRučně:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s nemá žádnou zvukovou stopu."
+
+msgid "%s in %s"
+msgstr "%s v %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s v mikrofonu mluvčího %s: o %s dB tišeji než ve vlastním."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s je v %s -- soubor je nyní v přehrávači."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s neleží na časové ose epizody: dává se před materiál nebo za něj, nevstřihává se do něj. Bod In a bod Out patří k tomu, co leží mezi tím."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s není v žádném videosouboru. Je tam časový kód, který odpovídá materiálu?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s v mikrofonu mluvčího %s jen o %s dB tišeji"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: zatím nelze přetáčet, doplní se později (%s)"
+
+msgid "%s: not there"
+msgstr "%s: tam není"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), pokus %d, poté na %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: má jít na %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", bez zvuku"
+
+msgid "-- only one camera"
+msgstr "-- jen jedna kamera"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- skok na %s programového času%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- bod nastaven, programový čas běží od %s ---"
+
+msgid "... or add files ..."
+msgstr "... nebo přidat soubory ..."
+
+msgid "/not seekable"
+msgstr "/nelze přetáčet"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>záběrů: %(n)s</b>, medián %(med)s s, nejkratší %(short)s s, nejdelší kamera %(long)s s</span>. Doba řeči: <b>%(own)s %%</b> na vlastní kameře (%(own_t)s), %(wide)s %% na širokém záběru (%(wide_t)s), <span style='color:%(warn)s'>u %(off)s %% (%(off_t)s) není aktivní kamera mluvčího</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Každá dvojice kanálů se posuzuje samostatně: jedna stereo stopa, nebo dva mikrofony a tedy dvě stopy. Tiché vstupy odpadají. Řádky pod souborem říkají, co bylo změřeno, a zaškrtnutí to přebíjí."
+
+msgid "Add files ..."
+msgstr "Přidat soubory ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Zarovnání jde podle naměřeného posunu; časový kód je jen křížová kontrola."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Všechny nahrávky nesou stejné jméno -- z toho vznikne jediná stopa."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Všechny řádky nesou stejné jméno -- z toho vznikne jediná stopa a Multitrack potřebuje aspoň dvě."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Přiřazení: která zvuková stopa patří ke které kameře"
+
+msgid "Audio"
+msgstr "Zvuk"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Zvuk a video (%s);;Všechny soubory (*)"
+
+msgid "Audio at programme time"
+msgstr "Zvuk v programovém čase"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic vytvořil jiné stopy, než bylo požadováno: %s místo %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic hlásí chybu: %s"
+
+msgid "Bleed"
+msgstr "Přeslech"
+
+msgid "Blocks"
+msgstr "Bloky"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Obojí najednou nejde: vracející se stopy by šly na jednu hodnotu, náš vlastní mix na druhou. Buď nastavte --lufs %.0f, nebo změňte předvolbu."
+
+msgid "Camera"
+msgstr "Kamera"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Zvuk kamery, zbývá %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- náhled  (délka %s)"
+
+msgid "Why the run cannot start"
+msgstr "Proč běh nemůže začít"
+
+msgid "Cannot start yet: %s"
+msgstr "Zatím nelze spustit: %s"
+
+msgid "Change rejected: %s"
+msgstr "Změna odmítnuta: %s"
+
+msgid "Check again"
+msgstr "Zkontrolovat znovu"
+
+msgid "Check the connection to Resolve again"
+msgstr "Znovu zkontrolovat připojení k Resolve"
+
+msgid "Check itself failed: %s"
+msgstr "Selhala samotná kontrola: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Zkontrolovat klíč a načíst předvolby."
+
+msgid "Chosen"
+msgstr "Zvoleno"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Hodiny %7.2f%s | B1[%s] %s | B2[%s] %s | Zvuk %s %s"
+
+msgid "Close"
+msgstr "Zavřít"
+
+msgid "Connects to Resolve again."
+msgstr "Znovu se připojí k Resolve."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Obsah: kamera jako každá jiná.\nŠiroký záběr: kamera, před kterou nikdo nesedí -- nebere žádného mluvčího a střih na ni přechází v pauze a při dlouhém monologu.\nIntro a outro jsou hotové klipy -- nezarovnané, nezpracované, jen vložené do Timeline.\nIgnorovat video: soubor zůstává zcela stranou."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  Široké záběry (%s): střih používá %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Každá kamera nese mluvčího, takže není žádný široký záběr: čtyři nastavení širokého záběru a zaškrtnutí pro okraje zde nic nedělají."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Žádná kamera není bez mluvčích, takže není žádný široký záběr: čtyři nastavení širokého záběru a zaškrtnutí pro okraje nic nedělají. Dejte některé kameře Typ \"Široký záběr\", nebo jednu nechte bez mluvčího."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "umístěno podle fáze, ostrost %s proti prahu %s, drift neznámý"
+
+msgid "placed on the bands that move"
+msgstr "umístěno podle pásem, která se pohybují"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Proč jsou nastavení širokého záběru šedá"
+
+msgid "because no speaker is assigned to it"
+msgstr "protože jí není přiřazen žádný mluvčí"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "označena jako široký záběr -- nebere žádné mluvčí"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "žádný mluvčí -- to je široký záběr"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "není jí přiřazen žádný mluvčí, ale střih používá %s"
+
+msgid "the cut uses %s"
+msgstr "střih používá %s"
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "to je široký záběr -- %s: přesunuto na \"bez vlastní kamery\""
+
+msgid "Curve and colour space are missing from the file"
+msgstr "V souboru chybí křivka i barevný prostor"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "Bod In a bod Out jsou k dispozici, jakmile je určena časová osa -- z časového kódu nebo změřená."
+
+msgid "In point is %s before the first frame"
+msgstr "Bod In je %s před prvním snímkem"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "Bod In je nyní %s, ale existující soubory patří k %s.\n  Zvuk ve videích je sestříhán na staré okno -- stiskněte nahoře\n  znovu Spustit."
+
+msgid "Out point is %s after the last frame"
+msgstr "Bod Out je %s za posledním snímkem"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Bod Out je nyní %s; okno by bylo dlouhé %s, existující\n  soubory mají %s -- stiskněte nahoře znovu Spustit."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Pro distribuci se obvykle používá omezený rozsah. Plný není špatně, ale některé přehrávače ho čtou chybně."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Určuje, jak auphonic.com zpracuje zvuk.\n\n„%s“ nechá klíč na místě, a přesto tam nejde.\nZvuk se pak jen sloučí a normalizuje, nerozdělí --\na bez oddělených stop není žádný střih kamer."
+
+msgid "Distance to mean"
+msgstr "Odchylka od průměru"
+
+msgid "Drag audio and video files here"
+msgstr "Sem přetáhněte zvukové a videosoubory"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Zkušební běh: jen se měří, nic se nezapisuje, nic se nenahrává."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Během přivítání a rozloučení zůstává obraz široký."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Snímky stojí o něco déle; soubor tím kratší není. Střihový program proto zopakuje zhruba každých %s s jeden snímek a obraz i zvuk kamery zůstanou pohromadě."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Snímky stojí o něco kratší dobu; soubor tím delší není. Střihový program proto vynechá zhruba každých %s s jeden snímek a obraz i zvuk kamery zůstanou pohromadě."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Osm bitů pro HDR nestačí: v každém přechodu vznikají pruhy a YouTube vyžaduje deset nebo dvanáct."
+
+msgid "Envelope"
+msgstr "Obálka"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s je umístěn na %s, což není kamera tohoto běhu -- střih ji přesto jmenuje."
+
+msgid "Envelope failed: %s"
+msgstr "Obálka selhala: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Obálky a zvuk kamery se připravují na pozadí."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Každý řádek potřebuje jméno -- u Auphonic se z něj stane track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Externí náhled -- aplikace tento formát nezná"
+
+msgid "Fetching audio"
+msgstr "Načítání zvuku"
+
+msgid "Fetching audio ..."
+msgstr "Načítá se zvuk ..."
+
+msgid "File"
+msgstr "Soubor"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Tam chybí soubory -- bez nového nahrání nelze nic spočítat.\n  S --auphonic-resume upload skript nahraje znovu; to stojí kredit."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "Pro HDR se obvykle volí HEVC (Main 10), AV1 nebo VP9 Profile 2. YouTube bere i H.264, ale potřebuje víc datového toku."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Pro deset bitů potřebuje HEVC profil Main 10. V Resolve je pod Deliver jako „Profile“."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, ne %s ze souboru -- o %s snímků méně na stejné délce."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, ne %s ze souboru -- o %s snímků víc na stejné délce."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "Rozestupy snímků kolísají o %s %% -- časování snímků je nerovnoměrné."
+
+msgid "Free space there: %s"
+msgstr "Volné místo tam: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Mezera %s mezi blokem %d a %d -- kamera se zastavila."
+
+msgid "Drag to move the position."
+msgstr "Tažením posunete pozici."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR tu potřebuje 16 (PQ, tedy HDR10) nebo 18 (HLG). V Resolve: Gamma tag = ST.2084 nebo HLG. 14 není HDR křivka, ale SDR v prostoru BT.2020."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR tu potřebuje 9 (BT.2020). V Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR tu potřebuje 9 (BT.2020, nekonstantní jas)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG je vztažen k zobrazení -- nemá žádný údaj o mastering displeji."
+
+msgid "If empty: next to each video file."
+msgstr "Je-li prázdné: vedle každého videosouboru."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "Vzniklo při nahrávání a teď už to nelze změnit. Čím méně jsou mikrofony oddělené, tím opatrněji může De-Bleed na auphonic.com pracovat. Příště: třikrát dál od sousedního mikrofonu než od vlastních úst, pak sedí sousední hlas asi o %s dB níž."
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "Nikam do materiálu nezapadá: žádný časový kód a její zvuk nemá se zbytkem nic společného. Na široký záběr se střih spoléhá jako na zálohu, takže musí ležet na časové ose."
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "Nikam do materiálu nezapadá, a tak jej nelze do epizody vestřihnout. Lze jej umístit před ni nebo za ni."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s se k ničemu v materiálu nehodí, a proto nelze vstřihnout do epizody: nastaveno na Intro."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s se rovněž k ničemu v materiálu nehodí a intro je obsazeno: vynecháno."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s je už nastaven jako %s, a ten má epizoda jen jeden. Odpovězte zde jinak, nebo nejprve odeberte označení u onoho souboru."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "Stojí to v atomu logs v popisu obrazu -- podle něj Resolve rozpozná vstupní barevný prostor. Různé křivky znamenají různé vstupní barevné prostory."
+
+msgid "Jumps to the end of the window."
+msgstr "Skočí na konec okna."
+
+msgid "Jumps to the start of the window."
+msgstr "Skočí na začátek okna."
+
+msgid "Keychain"
+msgstr "Klíčenka"
+
+msgid "Limits the de-bleed: "
+msgstr "Omezuje De-Bleed: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Načtěte předvolby a jednu vyberte, nebo nechte API Key prázdný."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 odmítnut -- zůstává výchozí nastavení"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Jen změřit -- nic se nezapisuje ani nenahrává."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Měří se %s (%s z %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Měření není možné: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Měření měřítka"
+
+msgid "Measuring time axis ..."
+msgstr "Měří se časová osa ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Chybějící zvuk %s doplněn tichem%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Modul DaVinciResolveScript nelze načíst: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Jedna zvuková stopa na osobu, držená odděleně až do auphonic.com.\nFunguje i bez toho -- pak ale bez De-Bleed a bez Leveleru.\nPotřebuje dvě vstupní stopy: vlastní nahrávku, kanál\nvícekanálového rekordéru nebo zvuk videosouboru nastavený na\n\"použít interní zvuk\". Střih kamer toto zaškrtnutí nepotřebuje."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (jedna stopa na mluvčího)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack potřebuje aspoň dvě vstupní stopy. Stopa je vlastní nahrávka, kanál vícekanálového rekordéru nebo zvuk videosouboru nastaveného na \"použít interní zvuk\". Více bloků téže nahrávky se počítá jako jedna, odložené stopy vůbec."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Žádný klíč API. Zadejte --auphonic-api-key KLÍČ, nastavte AUPHONIC_TOKEN nebo si ho nechte jednou zapamatovat v rozhraní. Klíč je v nastavení účtu Auphonic."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Žádný zvukový soubor nenese časový kód. Bod In a bod Out se počítají od začátku materiálu -- vzájemná poloha souborů je změřena."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Zatím se nepoužívá žádný zvuk -- přidejte zvukovou nahrávku, nebo v seznamu souborů nastavte u videosouboru Zvuk kamery na \"použít interní zvuk\"."
+
+msgid "No audio tracks are assigned."
+msgstr "Nejsou přiřazeny žádné zvukové stopy."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Není přiřazena žádná kamera, takže není mezi čím stříhat."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Zatím nejsou přiřazeny žádné kamery -- zapněte k tomu Multitrack."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Žádné připojení k Resolve.\n  Běží program? Je externí skriptování nastaveno na 'Local'\n  pod Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "Zatím nejsou otevřeny žádné soubory ani projekt."
+
+msgid "No files selected yet."
+msgstr "Zatím nejsou vybrány žádné soubory."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Není možný žádný vstup. Pomocí %s %s určete, co se má stát."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Zde není vestavěný žádný přehrávač -- přehrávání běží v ffplay ve vlastním okně."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Není zadána žádná předvolba, vstup není možný. Zvolte jednu z výše uvedených pomocí --auphonic-preset NÁZEV."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "V účtu nejsou uloženy žádné předvolby. Lze ji vytvořit ve webovém rozhraní."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Zde není znám žádný mluvčí -- bez toho, kdo kdy mluví, není mezi čím stříhat."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Žádný hlas zatím nemá kameru -- s tím by byl každý záběr tentýž."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Zatím nejsou známi žádní mluvčí -- nic změřeno, nic odděleno a žádný soubor předání z dřívějšího běhu v %s ani v jeho podsložkách."
+
+msgid "Not found again after import: %s"
+msgstr "Po importu znovu nenalezeno: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "z ffmpeg.org, a složku do PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "přes správce balíčků: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Zde: %s. Potřeba: %s nebo novější."
+
+msgid "no answer"
+msgstr "žádná odpověď"
+
+msgid "Nothing runs until that is put right."
+msgstr "Dokud to nebude v pořádku, nic neběží."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Dokud to není v pořádku, nic neběží. Takto: %s"
+
+msgid "Get it: %s"
+msgstr "Získat: %s"
+
+msgid "Quit"
+msgstr "Ukončit"
+
+msgid "That worked."
+msgstr "To se povedlo."
+
+msgid "Installing ffmpeg"
+msgstr "Instaluje se ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "Spusťte program znovu, aby to zaznamenal."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Získat ho trvá několik minut, a co říká, se objeví pod Výstup."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "Trvá to několik minut -- správce balíčků možná sestavuje ze zdrojového kódu. Co říká, se objeví zde."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Nyní se kompiluje, a to je ta dlouhá část: na rychlém počítači minuty, na starším podstatně déle. Nic nevisí -- dokud se pracuje, objeví se každých pár sekund tečka."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg je nainstalován."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Program ho načte při spuštění. Může se nyní spustit znovu, nebo to můžete udělat později sami."
+
+msgid "Start again now"
+msgstr "Spustit znovu nyní"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Nové spuštění se nezdařilo. Zavřete okno a spusťte program tak jako dříve."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Nejprve se odklidí stávající ffmpeg: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Hotové ffmpeg 9.0.1 se soxr lze stáhnout: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Stáhnout teď? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Stahuje se hotové ffmpeg. Je velké, takže to potrvá pár minut: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s z %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "Sestavení se nepodařilo stáhnout: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Sestavení se nepodařilo rozbalit: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Archiv obsahoval %s ze dvou programů."
+
+msgid "  It is here: %s"
+msgstr "  Je zde: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "nainstalovat Homebrew z brew.sh, pak znovu toto"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Toto ffmpeg má soxr: drift hodin mezi kamerami se vyrovnává v krocích po 0,21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Toto ffmpeg nemá soxr: drift hodin mezi kamerami se vyrovnává v krocích po 21 ppm místo 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Vše funguje i bez toho. Získat sestavení, které to má, trvá několik minut, a co říká, se objeví pod Výstup."
+
+msgid "Carry on"
+msgstr "Pokračovat"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Povinné to není -- YouTube pak použije výchozí hodnoty (Sony BVM-X300). Kdo je chce: v Resolve pod Color Management zapnout HDR10+, na stránce Color spustit „Analyze All Shots“ a při renderování zaškrtnout „Embed HDR10 Metadata“."
+
+msgid "Not ready yet:"
+msgstr "Ještě není připraveno:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "Ve stopách nebylo nic slyšet."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "Jedna zvuková nahrávka zatím nemá jméno mluvčího."
+
+msgid "One frame back."
+msgstr "O snímek zpět."
+
+msgid "One second back."
+msgstr "O sekundu zpět."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Každý záběr v barvě své kamery. Najetím zobrazíte kameru a délku, kliknutím skočíte."
+
+msgid "Only one speaker"
+msgstr "Jen jeden mluvčí"
+
+msgid "Open json project file"
+msgstr "Otevřít projektový soubor json"
+
+msgid "Open result folder"
+msgstr "Otevřít složku s výsledkem"
+
+msgid "Open the settings, where the key is."
+msgstr "Otevřít nastavení, kde je klíč."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Na pořadí nezáleží. U vícedílné nahrávky stačí první blok."
+
+msgid "Overwrite"
+msgstr "Přepsat"
+
+msgid "Overwrite files"
+msgstr "Přepsat soubory"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Plocha %d načítá %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Plocha %d na %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Přehrát a pozastavit -- funguje i mezerník."
+
+msgid "Play and pause."
+msgstr "Přehrát a pozastavit."
+
+msgid "Playback not possible"
+msgstr "Přehrávání není možné"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Přehrává se %s -- zpracovaná stopa z auphonic.com,\nna vysílací úrovni. Stejný zvuk jako ve střihu kamer."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Přehrává se %s -- surová nahrávka.\nJe mnohem tišší než zpracovaný zvuk; jakmile jsou stopy z auphonic.com\nk dispozici, náhled vezme ty."
+
+msgid "Prepare pane %d for %s"
+msgstr "Připravit plochu %d pro %s"
+
+msgid "Preset not readable: %s"
+msgstr "Předvolba není čitelná: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Náhled není možný: %s"
+
+msgid "Preview running ..."
+msgstr "Náhled běží ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Příprava -- načíst zvuk a spočítat obálky:\n"
+
+msgid "Primaries"
+msgstr "Primární barvy"
+
+msgid "Primaries number %d"
+msgstr "Primární barvy číslo %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Zpracování na auphonic.com (volitelné)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Zpracování na auphonic.com s „%s“"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Produkce dokončena, ale žádný ZIP s jednotlivými stopami"
+
+msgid "Production name"
+msgstr "Název produkce"
+
+msgid "Chosen files"
+msgstr "Vybrané soubory"
+
+msgid "Remove the chosen file from the list"
+msgstr "Odebrat zvolený soubor ze seznamu"
+
+msgid "Project %r could not be created."
+msgstr "Projekt %r se nepodařilo vytvořit."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Projekt %r se nepodařilo vytvořit. Není ten název už v jiné složce?"
+
+msgid "Project %r could not be opened."
+msgstr "Projekt %r se nepodařilo otevřít."
+
+msgid "Puts it back next to each video file."
+msgstr "Vrátí ji vedle každého videosouboru."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "NÁVRAT ZPĚT SELHAL (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Čte se zvuková stopa z %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "Odebrat ze seznamu všechny soubory tohoto typu? Je jich %s, typ: %s.\n\n%s"
+
+msgid "Resolutions"
+msgstr "Rozlišení"
+
+msgid "Resolve running ..."
+msgstr "Resolve běží ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve škáluje na rozlišení Timeline. Cokoli menšího se zvětší a bude měkčí."
+
+msgid "Response was not JSON: %s"
+msgstr "Odpověď nebyla JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Červeně označené řádky ukazují, kde je problém; zaškrtnutí na kartě znamená, že je tam vše."
+
+msgid "Save in Keychain"
+msgstr "Uložit do Klíčenky"
+
+msgid "Save in Registry"
+msgstr "Uložit do Registry"
+
+msgid "Select audio and video files"
+msgstr "Vybrat zvukové a videosoubory"
+
+msgid "Speakers, as the run measured them"
+msgstr "Mluvčí, jak je běh změřil"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Mluvčí, změření programem ze stop"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Spuštěno pozdě nebo zastaveno brzy -- tento hlas pak v mixu místy chybí."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Zastaveno. Zvolte jiný název produkce -- pak se vytvoří nová\n  produkce -- nebo vyberte jednu z ostatních možností."
+
+msgid "Stopped. Nothing was created."
+msgstr "Zastaveno. Nic nebylo vytvořeno."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Zastaveno. Nic nebylo nahráno a nic spočítáno."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Použije se, jak to stojí -- nic se nevymýšlí. Zkontrolujte v Resolve pod Clip Attributes, záložka Color Space: pokud tam stojí „Project“, vstupní barevný prostor nebyl rozpoznán a musí se nastavit ručně."
+
+msgid "Takes the position from the picture."
+msgstr "Převezme polohu z obrazu."
+
+msgid "Ten seconds back."
+msgstr "O deset sekund zpět."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Rozhraní Resolve neleží tam, kde je očekávám:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Rozhraní Resolve není tam, kde by mělo být."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline dostane jednu pevnou frekvenci -- nejvyšší z nich, nebo nejbližší vyšší, kterou má Resolve. Ostatní převede; u 23,976 proti 24 se jeho analýza zvuku ráda zasekne."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "Zvuková nahrávka každého mluvčího, k tomu kamery.\nNa pořadí nezáleží -- program rozpozná, co je co.\nU vícedílné nahrávky stačí první blok."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Střih tam nemá obraz. Při stavbě Timeline zůstane místo prázdné, zvuk běží dál."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Stávající výsledek je nepoužitelný: chybí tam %s. S --auphonic-resume rerun ho lze přepočítat, aniž by se cokoli nahrávalo."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "Pravidla střihu nenechají v těchto %s stát žádný záběr. Kratší nejkratší záběr nebo méně širokého záběru ho zase přinese."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Pořad je zde dlouhý %s -- do toho nelze nic rozvrhnout. Určují to bod In a bod Out."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Časové okno leží mimo materiál: bod In na %s, bod Out na %s, a materiál trvá %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "První stopa předvolby určuje nastavení pro všechny naše stopy. Jinak se vrátí nezpracované. Vytvořte stopu v předvolbě ve webovém rozhraní."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "K tomu je třeba soubor předání z běhu, a žádný není."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "Klíč lze uložit jen na Macu a Windows -- do Klíčenky nebo do registru. Do souboru nejde."
+
+msgid "%s -- being checked"
+msgstr "%s -- kontroluje se"
+
+msgid "The key was not saved: %s"
+msgstr "Klíč nebyl uložen: %s"
+
+msgid "The key was not saved"
+msgstr "Klíč nebyl uložen"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Klíčenka je zamčená. Odemkněte ji a zkuste to znovu."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Tento běh je testovací a úložiště stále nese svůj skutečný název, takže nebylo nic zapsáno. Nejprve nasměrujte KEY_SERVICE, KEY_ACCOUNT nebo REG_PATH jinam."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Klíčenka je zamčená. Odemkněte ji a toto tlačítko se probudí."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Klíčenka klíč nepřijala. Aplikace Klíčenka může říct proč."
+
+msgid "The registry did not take the key."
+msgstr "Registr klíč nepřijal."
+
+msgid "Open Keychain Access"
+msgstr "Otevřít Klíčenku"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Otevře aplikaci, která odemyká Klíčenku."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Klíčenku se nepodařilo otevřít: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "Uložený klíč není přijat: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "Klíč z AUPHONIC_TOKEN není přijat: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Co odpověděl auphonic.com"
+
+msgid "There is no key."
+msgstr "Není tu žádný klíč."
+
+msgid "The key has a space or a line break at one end."
+msgstr "Klíč má na jednom konci mezeru nebo zalomení řádku."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "Klíč je uprostřed rozdělen mezerou nebo zalomením řádku."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "Klíč obsahuje znak, který nelze napsat."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "Klíč pak nejde do souboru, ale sem: %s."
+
+msgid "The production has no name yet."
+msgstr "Produkce zatím nemá název."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "Místo zvuku kamery nahrávka, která je této kameře přiřazena."
+
+msgid "The run is still going."
+msgstr "Běh stále probíhá."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Zatím nejsou známi žádní mluvčí -- zjistí se ze stop, jakmile se otevře tato karta. Kde jsou všichni na jedné nahrávce, je cestou \"více mluvčích\" v poli Jméno mluvčího."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "Tři čísla jsou primární barvy, křivka a matice. Různé značky potřebují v Resolve různé vstupní barevné prostory -- jinak vypadá jedna kamera jinak než druhá."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Nejsou tu žádné oddělené zvukové nahrávky. Použije se tedy zvuk %s kamer -- každá se stane stopou a Auphonic odstraní přeslech."
+
+msgid "There is no result yet."
+msgstr "Zatím není žádný výsledek."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Tyto soubory nejsou ani zvuk, ani video a zůstávají venku:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "Tyto soubory neexistují:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Tyto soubory už existují a budou zapsány znovu:\n\n  %s\n\nJe to tak zamýšleno?"
+
+msgid "These files no longer exist:\n  "
+msgstr "Tyto soubory už neexistují:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Tato jména se vyskytují vícekrát:\n\n  %s\n\nNahrávky se sloučí do jedné stopy a položí za sebe podle svého časového kódu. To je správně, pokud se nahrávání mezitím zastavilo."
+
+msgid "These tracks got no file: %s"
+msgstr "Tyto stopy nedostaly žádný soubor: %s"
+
+msgid "This Resolve project already exists"
+msgstr "Tento projekt Resolve už existuje"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "Pochází z nahrávání, ne z doby potom: mikrofony jsou příliš blízko u sebe nebo příliš daleko od úst."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Tento soubor zde nelze přehrát a ffplay jako náhradní řešení chybí."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "Toto není projektový soubor a ve stejné složce žádný neleží.\n\nHledá se %s*.json -- ten skript při spuštění zapisuje do výstupní složky."
+
+msgid "This is what happens next"
+msgstr "Toto se stane teď"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "Toto jméno už nese někdo jiný. Jméno je osoba a střih staví jednu osobu na jednu kameru -- dejte prosím tomuto hlasu vlastní."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "Toto jméno se vyskytuje vícekrát. Z nahrávek by vznikla jedna stopa -- pro Multitrack potřebuje auphonic.com aspoň dvě různé."
+
+msgid "This production already exists"
+msgstr "Tato produkce už existuje"
+
+msgid "This production has no result yet."
+msgstr "Tato produkce zatím nemá výsledek."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Dosažen časový limit %s, produkce stále běží: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Časový kód %s, ostatní soubory jsou u %s -- tyto hodiny nebyly nastaveny."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r se nepodařilo vytvořit."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Název na auphonic.com a začátek nových názvů souborů."
+
+msgid "To the In point."
+msgstr "Na bod In."
+
+msgid "To the start."
+msgstr "Na začátek."
+
+msgid "Too many projects with this name."
+msgstr "Příliš mnoho projektů s tímto názvem."
+
+msgid "Track"
+msgstr "Stopa"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Při změně přibyly stopy (nyní %s). Tím je mix\n  špatně. Smažte prosím na auphonic.com stopy bez souboru."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Dvě kamery jsou ve střihu jedna. Jejich soubory se jmenují stejně, jeden z nich tedy přejmenujte."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Dvě kamery jsou ve střihu jednou kamerou: %s. Jejich soubory se jmenují stejně, přejmenujte tedy jeden z nich."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Dvě kamery by daly stejný soubor. Druhá by přepsala první."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Dvě kamery by vytvořily stejný soubor: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Dvě kamery by vytvořily stejný nový soubor. Zadejte prosím různé názvy."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Nerovnoměrné časování snímků nelze vyrovnat přes zvuk. Pokud se při zarovnávání rozptylují i vzorkovací body, převeďte na pevnou snímkovou frekvenci."
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Video 1"
+msgstr "Video 1"
+
+msgid "Video 2"
+msgstr "Video 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- ze surového materiálu vznikne sestříhaný podcast"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Hlasitost. 100 je nejvíc, co jde -- víc Qt nepřijme."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- mluvení najednou se počítá dvakrát"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Široký záběr pro přivítání na začátku a rozloučení na konci"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Bez něj musí každý přehrávač hádat, a všechny hádají SDR. V Resolve pod Deliver > Advanced Settings nastavte Color space tag a Gamma tag, místo abyste je nechali na „Same as Project“."
+
+msgid "Without processing at auphonic.com"
+msgstr "Bez zpracování na auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Zatím není žádný střih kamer: potřebuje dvě osoby, každou se jménem a kamerou.\nOddělené nahrávky to dávají se zaškrtnutím Multitrack, a stejně tak \"více mluvčích\" v poli Jméno mluvčího jedné nahrávky --\nhlasy tam nalezené dostanou svou kameru v tabulce pod nahrávkami.\nProjekt Resolve vznikne tak jako tak -- všechny kamery na svých změřených místech, připravené pro Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Bez časového kódu se poloha souborů měří."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Zjistí ze samotných stop, kdo kdy mluví -- jeden mikrofon na osobu, úroveň proti vlastnímu šumu pozadí. Kde jsou všichni na jedné nahrávce, je cestou \"více mluvčích\" v poli Jméno mluvčího."
+
+msgid "a box no longer fits into its parent"
+msgstr "box se už nevejde do svého rodiče"
+
+msgid "after the device change"
+msgstr "po změně zařízení"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com klíč nepřijímá: %s"
+
+msgid "average"
+msgstr "průměr"
+
+msgid "belongs to"
+msgstr "patří k"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "přeslech příliš nezřetelný: použitelných %s z %s sekund, nejostřejších potřeba %s z %s"
+
+msgid "Midnight"
+msgstr "Půlnoc"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s nese časový kód z druhé strany půlnoci -- počítá se jako jedna noc, ne jako den rozdílu."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Časový kód počítá od půlnoci a tam začíná znovu. Soubory se položí na jednu osu, než se cokoli odečte, jinak vypadá nahrávka po půlnoci skoro den vzdálená od té před ní. Pokud se tu opravdu nahrávalo v různé dny, je zarovnání špatně a platí naměřený posun."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Kanál %d je na dorazu: %skrát tři nebo více vzorků za sebou, nejdelší %s (%s ms), první v %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Zde počítáno vzorek po vzorku, ve vzorkovací frekvenci nahrávky: řada tří nebo více vzorků na nejvyšší hodnotě, kterou celočíselný formát pojme. Jeden nebo dva jsou zaokrouhlení a nehlásí se. Co je tam oříznuto, je pryč a žádné zpracování to nevrátí -- ale nahrávka zůstává nahrávkou a nic se tím nezastaví. Počítá se jen u celočíselných formátů. 32bitová plovoucí čárka nemá při plném rozsahu žádný doraz, takže tam není co počítat."
+
+msgid "boxes no longer readable"
+msgstr "boxy už nejsou čitelné"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "aktualizovat -- obě Timeline se smažou a\n       znovu postaví, Media Pool zůstane, jak je"
+
+msgid "cannot be read back (%s)"
+msgstr "nelze zpětně načíst (%s)"
+
+msgid "checking ..."
+msgstr "kontroluje se ..."
+
+msgid "complete"
+msgstr "úplné"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "vytvořit vedle nový projekt (název s dodatkem)"
+
+msgid "curl ended with %d"
+msgstr "curl skončil s %d"
+
+msgid "did not arrive: %s"
+msgstr "nedorazilo: %s"
+
+msgid "does not belong: %s"
+msgstr "nepatří k tomu: %s"
+
+msgid "does not exist: %s"
+msgstr "neexistuje: %s"
+
+msgid "does the material fit together?"
+msgstr "pasuje materiál k sobě?"
+
+msgid "does the preset fit the run?"
+msgstr "hodí se předvolba k běhu?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "stažený soubor má jen %s bajtů"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "mezera %s podle časového kódu, na jednu nahrávku příliš daleko od sebe"
+
+msgid "gets audio from"
+msgstr "dostává zvuk z"
+
+msgid "hear assigned audio"
+msgstr "slyšet přiřazený zvuk"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "ponechat naše názvy a vše znovu nahrát -- to stojí\n       kredit"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "nechat být a nové Timeline položit vedle --\n       stávající zůstanou"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "chybí -- kontejner nenese žádné barevné označení"
+
+msgid "missing: %s"
+msgstr "chybí: %s"
+
+msgid "moov has not grown"
+msgstr "moov nenarostl"
+
+msgid "moov is no longer in its place"
+msgstr "moov už není na svém místě"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov už nekončí na konci souboru"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "vícedílné, bez časového kódu -- mezery mezi díly nelze zjistit."
+
+msgid "new file name"
+msgstr "nový název souboru"
+
+msgid "next to each video file"
+msgstr "vedle každého videosouboru"
+
+msgid "no audio data from %s"
+msgstr "žádná zvuková data z %s"
+
+msgid "no audio track present"
+msgstr "žádná zvuková stopa"
+
+msgid "no audio: %s"
+msgstr "žádný zvuk: %s"
+
+msgid "no download address for %s"
+msgstr "žádná adresa ke stažení pro %s"
+
+msgid "no information"
+msgstr "žádné údaje"
+
+msgid "no information in the file"
+msgstr "v souboru žádné údaje"
+
+msgid "no match in the middle either (%s)"
+msgstr "ani uprostřed žádná shoda (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "nenalezeno místo, kde mluví přesně jeden člověk -- oddělení nelze změřit."
+
+msgid "no production id in the response"
+msgstr "v odpovědi není id produkce"
+
+msgid "no production id in the response: %s"
+msgstr "v odpovědi není id produkce: %s"
+
+msgid "no timecode"
+msgstr "bez časového kódu"
+
+msgid "no video track"
+msgstr "žádná videostopa"
+
+msgid "no video track in %s"
+msgstr "v %s není žádná videostopa"
+
+msgid "none switched on"
+msgstr "žádný zapnutý"
+
+msgid "not checked yet"
+msgstr "zatím nezkontrolováno"
+
+msgid "not in the media pool"
+msgstr "není v Media Pool"
+
+msgid "not measurable."
+msgstr "nelze změřit."
+
+msgid "not measurable: %s"
+msgstr "nelze změřit: %s"
+
+msgid "not needed with HLG"
+msgstr "u HLG není potřeba"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "nečitelné (%s) -- nezkontrolováno."
+
+msgid "not readable: %s"
+msgstr "nečitelné: %s"
+
+msgid "nothing loaded yet"
+msgstr "zatím nic nenačteno"
+
+msgid "nothing selected"
+msgstr "nic nevybráno"
+
+msgid "off"
+msgstr "vypnuto"
+
+msgid "one Timeline"
+msgstr "jedna Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "jen %s dlouhé, nejdelší nahrávka má %s."
+
+msgid "overlap of %s per timecode"
+msgstr "překryv %s podle časového kódu"
+
+msgid "per track"
+msgstr "na stopu"
+
+msgid "preset does not fit the run"
+msgstr "předvolba se k běhu nehodí"
+
+msgid "previous block is shorter than the rest"
+msgstr "předchozí blok je kratší než ostatní"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "nalezeny zpracované stopy -- nic se nenahrává"
+
+msgid "production finished, but no output file"
+msgstr "produkce dokončena, ale žádný výstupní soubor"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "přepočítat se zvolenou předvolbou -- soubory zůstávají,\n       kde jsou, nestojí žádný kredit"
+
+msgid "reset"
+msgstr "resetovat"
+
+msgid "running ..."
+msgstr "běží ..."
+
+msgid "selected"
+msgstr "vybráno"
+
+msgid "stays out"
+msgstr "zůstává stranou"
+
+msgid "stored file %s"
+msgstr "uložený soubor %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "převzít stávající výsledek (nic se nepočítá, nic se neplatí)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "převzít názvy odtamtud a pokračovat s nimi --\n       nic se nenahrává, nestojí nic"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "předvolba Multitrack nemá uloženou žádnou stopu."
+
+msgid "the finished mixdown"
+msgstr "hotový mixdown"
+
+msgid "the individual tracks"
+msgstr "jednotlivé stopy"
+
+msgid "the individual tracks, packed"
+msgstr "jednotlivé stopy, zabalené"
+
+msgid "the media data is no longer where it was"
+msgstr "mediální data už nejsou tam, kde byla"
+
+msgid "the mix of all tracks"
+msgstr "mix všech stop"
+
+msgid "the mixdown as the yardstick"
+msgstr "mixdown jako měřítko"
+
+msgid "the old moov is back in place"
+msgstr "starý moov je zpět na místě"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "předvolba masteruje na %s LUFS, výpočet používá %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "předvolba masteruje na %s LUFS -- to platí, z naší strany se nic neupravuje."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "převzato ze zdrojových souborů, žádné --lufs nezadáno -- nic se neupravuje"
+
+msgid "the answer did not keep the floor"
+msgstr "odpověď si neudržela slovo"
+
+msgid "the main speaker asked"
+msgstr "ptal se hlavní mluvčí"
+
+msgid "nobody answered in time"
+msgstr "nikdo neodpověděl včas"
+
+msgid "nobody was speaking at the question"
+msgstr "při otázce nikdo nemluvil"
+
+msgid "asker and answerer on one camera"
+msgstr "tazatel a odpovídající na jedné kameře"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "nahrávky se překrývají jen %s -- příliš málo na měření."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "nejkratší nahrávka má jen %s -- příliš málo na měření."
+
+msgid "the source folder"
+msgstr "zdrojová složka"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "šablona stopy nemá nic zapnuto -- stopy by se vrátily přesně tak, jak byly nahrány."
+
+msgid "the video files are tagged differently: %s"
+msgstr "videosoubory jsou označeny různě: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "videosoubory nesou různé záznamové křivky: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "videosoubory mají různě velké obrazy: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "videosoubory mají různé snímkové frekvence: %s"
+
+msgid "the video track can no longer be found"
+msgstr "videostopu už nelze najít"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "časová osa změřena -- skoky dopadají na stejné místo"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "časová osa změřena a navázána na časový kód"
+
+msgid "time axis not measurable"
+msgstr "časová osa není měřitelná"
+
+msgid "time axis not measurable: %s"
+msgstr "časová osa není měřitelná: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "jen %s sekund, kdy mluví jen %s, potřeba %s"
+
+msgid "too little audio to align"
+msgstr "příliš málo zvuku k zarovnání"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "vše znovu nahrát a přepočítat -- to stojí kredit"
+
+msgid "used directly"
+msgstr "použit přímo"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "široký záběr %s, mix je jeho první zvuková stopa"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s se vyskytuje vícekrát. Tyto nahrávky se sloučí do jedné stopy a seřadí za sebou podle časového kódu -- správně, pokud se mezitím nahrávání zastavilo."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Všechny nahrávky nesou stejné jméno. Z toho vznikne jedna stopa -- Multitrack potřebuje aspoň dvě."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Dvě kamery jsou ve střihu jedna (%s). Jejich soubory se jmenují stejně, jeden z nich tedy přejmenujte."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Dvě kamery by daly stejný soubor (%s). Druhá by přepsala první."
+
+msgid "   (camera audio)"
+msgstr "   (zvuk kamery)"
+
+msgid "  Number: "
+msgstr "  Číslo: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", drift hodin %s ppm odečten"
+
+msgid "Files && production"
+msgstr "Soubory && produkce"
+
+msgid "Assignment && time window"
+msgstr "Přiřazení && časové okno"
+
+msgid "Resolve cut"
+msgstr "Střih pro Resolve"
+
+msgid "Camera audio"
+msgstr "Zvuk kamery"
+
+msgid "Camera audio %s"
+msgstr "Zvuk kamery %s"
+
+msgid "%s channels against %s"
+msgstr "%s kanálů proti %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz proti %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: kanál %s nelze vyříznout (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Kanál %d je %s dB pod nejhlasitějším -- nic není připojeno"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Kanál %d na %s dBFS -- zbývá jen šum převodníku"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Kanál %d je tichý -- nevyužitý vstup"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Zapnuto udělá z tohoto a následujícího kanálu jednu stereo stopu.\nNásledující pak nemá vlastní zaškrtávací políčko -- je obsazený.\nCo bylo změřeno, stojí v řádku vedle."
+
+msgid "a track of its own"
+msgstr "vlastní stopa"
+
+msgid "with Channel %d one stereo track"
+msgstr "s kanálem %d jedna stereo stopa"
+
+msgid "already in another recording"
+msgstr "už je v jiné nahrávce"
+
+msgid "not found"
+msgstr "nenalezeno"
+
+msgid "a recording of its own"
+msgstr "vlastní nahrávka"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Vloží tuto nahrávku do jiné, se všemi jejími bloky.\nPoužijte to tam, kde názvy souborů hledání nic nenapovídají."
+
+msgid "Cameras only"
+msgstr "Jen kamery"
+
+msgid "Curve number %d"
+msgstr "Křivka číslo %d"
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "Přetažením na ZVUK nebo VIDEO se vezme vše."
+
+msgid "End"
+msgstr "Konec"
+
+msgid "End %s"
+msgstr "Konec %s"
+
+msgid "Error"
+msgstr "Chyba"
+
+msgid "Mark In"
+msgstr "Označit In"
+
+msgid "Mark Out"
+msgstr "Označit Out"
+
+msgid "Measure, align, process, write files."
+msgstr "Změřit, zarovnat, zpracovat, zapsat soubory."
+
+msgid "%s, seconds"
+msgstr "%s, sekundy"
+
+msgid "Names used more than once"
+msgstr "Vícekrát použitá jména"
+
+msgid "One name for two voices"
+msgstr "Jedno jméno pro dva hlasy"
+
+msgid "No files given."
+msgstr "Nebyly zadány žádné soubory."
+
+msgid "Number %d"
+msgstr "Číslo %d"
+
+msgid "Preset missing"
+msgstr "Chybí předvolba"
+
+msgid "Speaker"
+msgstr "Mluvčí"
+
+msgid "Start %s"
+msgstr "Začátek %s"
+
+msgid "Take from source files"
+msgstr "Převzít ze zdrojových souborů"
+
+msgid "Take the camera audio"
+msgstr "Vzít zvuk kamery"
+
+msgid "Target: %s"
+msgstr "Cíl: %s"
+
+msgid "Transfer"
+msgstr "Přenos"
+
+msgid "Uploading %s tracks"
+msgstr "Nahrává se %s stop"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;Soubory JSON (*.json);;Všechny soubory (*)"
+
+msgid "the voices below carry the cameras"
+msgstr "hlasy níže nesou kamery"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "změřeno z nahrávek -- mluvčí: %s, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "z dokončeného běhu -- mluvčí: %s, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "ze zpracovaných stop Auphonic -- mluvčí: %s, %s"
+
+msgid "no folder"
+msgstr "žádné složce"
+
+msgid "no text"
+msgstr "bez textu"
+
+msgid "unnamed"
+msgstr "bez názvu"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Pozor: měření nepoužitelné"
+
+msgid "   MISSING"
+msgstr "   CHYBÍ"
+
+msgid "   NOT INSERTED"
+msgstr "   NEVLOŽENO"
+
+msgid "  (container; measured %s)"
+msgstr "  (kontejner; změřeno %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Číslo (prázdné = zrušit): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com bere stejně)"
+
+msgid " (fine: %s ms)"
+msgstr " (jemně: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- počet poznámek: %s"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 poznámka: %s"
+
+msgid " target %.2f"
+msgstr " cíl %.2f"
+
+msgid "(wanted %s)"
+msgstr "(požadováno %s)"
+
+msgid ", clock drift left in"
+msgstr ", drift hodin ponechán"
+
+msgid ", range %s LU"
+msgstr ", rozsah %s LU"
+
+msgid "-- nothing --"
+msgstr "-- nic --"
+
+msgid "After: %s"
+msgstr "Po: %s"
+
+msgid "Algorithms"
+msgstr "Algoritmy"
+
+msgid "Audio file %s"
+msgstr "Zvukový soubor %s"
+
+msgid "Audio recording"
+msgstr "Zvuková nahrávka"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic hlásí %s: %s"
+
+msgid "Before: %s"
+msgstr "Před: %s"
+
+msgid "Bit depth"
+msgstr "Bitová hloubka"
+
+msgid "Building the sum"
+msgstr "Sestavení součtu"
+
+msgid "Caution: "
+msgstr "Pozor: "
+
+msgid "Camera cut"
+msgstr "Střih kamer"
+
+msgid "%s -- preview"
+msgstr "%s -- náhled"
+
+msgid "Cancel"
+msgstr "Zrušit"
+
+msgid "Capture curve"
+msgstr "Snímací křivka"
+
+msgid "Check: %s and camera track"
+msgstr "Kontrola: %s a stopa kamery"
+
+msgid "Codec profile"
+msgstr "Profil kodeku"
+
+msgid "Colour tag"
+msgstr "Barevná značka"
+
+msgid "Connect"
+msgstr "Připojit"
+
+msgid "Connection to Resolve"
+msgstr "Připojení k Resolve"
+
+msgid "Continue"
+msgstr "Pokračovat"
+
+msgid "Create Resolve project"
+msgstr "Vytvořit projekt Resolve"
+
+msgid "Curve"
+msgstr "Křivka"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "Bod In: %s     Bod Out: %s     Délka: %s"
+
+msgid "In point %s"
+msgstr "Bod In %s"
+
+msgid "Out point %s"
+msgstr "Bod Out %s"
+
+msgid "Different track names"
+msgstr "Jiné názvy stop"
+
+msgid "Disk space"
+msgstr "Místo na disku"
+
+msgid "Downloading %s"
+msgstr "Stahuje se %s"
+
+msgid "Dry run"
+msgstr "Zkušební běh"
+
+msgid "Duration %s"
+msgstr "Délka %s"
+
+msgid "Dynamic range"
+msgstr "Dynamický rozsah"
+
+msgid "File names"
+msgstr "Názvy souborů"
+
+msgid "Frame rates"
+msgstr "Snímkové frekvence"
+
+msgid "GENERAL NOTES"
+msgstr "OBECNÉ POZNÁMKY"
+
+msgid "Given"
+msgstr "Zadáno"
+
+msgid "Go ahead"
+msgstr "Do toho"
+
+msgid "Interface:      %s%s"
+msgstr "Rozhraní:       %s%s"
+
+msgid "Keep it saved"
+msgstr "Nechat uložený"
+
+msgid "Library:        %s%s"
+msgstr "Knihovna:       %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log podle dat kamery"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (deset bitů)"
+
+msgid "Measure"
+msgstr "Změřit"
+
+msgid "Measuring loudness"
+msgstr "Měření hlasitosti"
+
+msgid "Merge them"
+msgstr "Sloučit je"
+
+msgid "Mixing %s"
+msgstr "Mixuje se %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack potřebuje dvě stopy v tabulce výše -- kamera se počítá jako jedna, jakmile je její Zvuk kamery nastaven na \"použít interní zvuk\"."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Jen jedna stopa -- pro druhou nastavte Zvuk kamery některé kamery na \"použít interní zvuk\"."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Jen jedna stopa, a žádný zvuk kamery, který by šlo vzít, už nezbývá."
+
+msgid "the only sound there is"
+msgstr "jediný zvuk, který je k dispozici"
+
+msgid "no audio track in this file"
+msgstr "v tomto souboru není žádná zvuková stopa"
+
+msgid "this file stays out entirely"
+msgstr "tento soubor zůstává zcela stranou"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "hotový klip -- jen umístěn, nezpracován"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Je-li použit, rozdělí se kanály změřené pod tímto souborem na stopy, stejně jako u nahrávky.\nMěří se tak jako tak: na tomto výroku stojí rozhodnutí a synchronizace si zvuk bere v každém případě."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Je-li použit, stane se zvuk tohoto souboru stopou jako každá jiná -- objeví se v tabulce výše.\nStejné pole je i v seznamu souborů; obě ukazují tutéž odpověď."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Žádný zvuk, se kterým by se dalo pracovat -- nastavte u videosouboru Zvuk kamery na \"použít interní zvuk\", nebo přidejte zvukovou nahrávku."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack potřebuje více stop"
+
+msgid "Mute."
+msgstr "Ztlumit."
+
+msgid "No audio file given."
+msgstr "Nebyl zadán žádný zvukový soubor."
+
+msgid "No project open."
+msgstr "Není otevřen žádný projekt."
+
+msgid "Not found: %s"
+msgstr "Nenalezeno: %s"
+
+msgid "Not recognised"
+msgstr "Nerozpoznáno"
+
+msgid "Note"
+msgstr "Poznámka"
+
+msgid "Note: "
+msgstr "Poznámka: "
+
+msgid "One frame forward."
+msgstr "O snímek vpřed."
+
+msgid "One second forward."
+msgstr "O sekundu vpřed."
+
+msgid "Output folder"
+msgstr "Výstupní složka"
+
+msgid "Choose the output folder"
+msgstr "Zvolit výstupní složku"
+
+msgid "Output folder back beside each video file"
+msgstr "Výstupní složka zpět vedle každého videosouboru"
+
+msgid "Output folder ..."
+msgstr "Výstupní složka ..."
+
+msgid "Preview player"
+msgstr "Přehrávač náhledu"
+
+msgid "Preview player%s"
+msgstr "Přehrávač náhledu%s"
+
+msgid "Processing"
+msgstr "Zpracování"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Zatím žádný přepis. Bez něj se nenajde žádná otázka a není známa žádná hranice věty, takže tato čtyři nastavení nic nedělají. Běh ho zapíše a od té chvíle fungují."
+
+msgid "Why the question settings are grey"
+msgstr "Proč jsou nastavení otázky šedá"
+
+msgid "Question"
+msgstr "Otázka"
+
+msgid "Remove"
+msgstr "Odebrat"
+
+msgid "Remove all"
+msgstr "Odebrat vše"
+
+msgid "Remove from list"
+msgstr "Odebrat ze seznamu"
+
+msgid "Resolve answers%s"
+msgstr "Resolve odpovídá%s"
+
+msgid "Saving %s"
+msgstr "Ukládá se %s"
+
+msgid "Show in Finder."
+msgstr "Zobrazit v aplikaci Finder."
+
+msgid "Silence"
+msgstr "Ticho"
+
+msgid "Speaker name"
+msgstr "Jméno mluvčího"
+
+msgid "Speaker names"
+msgstr "Jména mluvčích"
+
+msgid "Static metadata"
+msgstr "Statická metadata"
+
+msgid "Tagging"
+msgstr "Označení"
+
+msgid "Ten seconds forward."
+msgstr "O deset sekund vpřed."
+
+msgid "Timecode from %s"
+msgstr "Časový kód od %s"
+
+msgid "Track template"
+msgstr "Šablona stopy"
+
+msgid "Uploading %s"
+msgstr "Nahrává se %s"
+
+msgid "Value range"
+msgstr "Rozsah hodnot"
+
+msgid "What should happen with it?"
+msgstr "Co se s ní má stát?"
+
+msgid "Window %s%s"
+msgstr "Okno %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Střih, EDL, CSV a předání se znovu spočítají z čísel výše. Kdo kdy mluví, zůstává tak, jak to běh změřil. Resolve musí běžet."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Bez těchto dvou nic nefunguje. Je Resolve nainstalován?"
+
+msgid "audio file"
+msgstr "zvukový soubor"
+
+msgid "cancel"
+msgstr "zrušit"
+
+msgid "cancelled"
+msgstr "zrušeno"
+
+msgid "edges implausible"
+msgstr "okraje nevěrohodné"
+
+msgid "fixed: "
+msgstr "opraveno: "
+
+msgid "found automatically"
+msgstr "nalezeno automaticky"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "volné %s, potřeba asi %s (%s)"
+
+msgid "full range"
+msgstr "plný rozsah"
+
+msgid "is left in"
+msgstr "zůstává"
+
+msgid "limited (Video/TV)"
+msgstr "omezený (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "zjišťuje se, kdo kdy mluví ..."
+
+msgid "nothing"
+msgstr "nic"
+
+msgid "nothing to do"
+msgstr "není co dělat"
+
+msgid "system store"
+msgstr "úložiště systému"
+
+msgid "to In point"
+msgstr "na bod In"
+
+msgid "to Out point"
+msgstr "na bod Out"
+
+msgid "too short"
+msgstr "příliš krátké"
+
+msgid "two Timelines"
+msgstr "dvě Timeline"
+
+msgid "up to %s"
+msgstr "do %s"
+
+msgid "video file"
+msgstr "videosoubor"
+
+msgid "volume %.2f"
+msgstr "hlasitost %.2f"
+
+msgid "while writing: %s"
+msgstr "při zápisu: %s"
+
+msgid "AUDIO"
+msgstr "ZVUK"
+
+msgid "Caution"
+msgstr "Pozor"
+
+msgid "MUTED"
+msgstr "ZTLUMENO"
+
+msgid "fixed"
+msgstr "opraveno"
+
+msgid "on"
+msgstr "zapnuto"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r počítá od konce -- to funguje jen u bodu Out."
+
+msgid "Check"
+msgstr "Kontrola"
+
+msgid "the check itself stopped: %s"
+msgstr "kontrola sama se zastavila: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "Bod In nebo bod Out zde nelze přečíst."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Bod Out leží méně než 5 sekund za bodem In."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Chybí asi %s. Uvolněte místo nebo zvolte pomocí --out jinou složku. Dočasné soubory během běhu jdou ještě jinam, do dočasné složky systému."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "Odhad je hrubý, takže to není dost místa. Uvolněte místo nebo zvolte pomocí --out jinou složku."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nMLUVČÍ -- ZMĚŘENI ZDE"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nMLUVČÍ -- ODDĚLENI PODLE HLASU"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nMLUVČÍ\n  Nikdo nebyl slyšet -- z toho nevznikne žádný střih kamer."
+
+msgid "\nCAMERA CUT"
+msgstr "\nSTŘIH KAMER"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nSTŘIH SE ŠIROKÝM ZÁBĚREM"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nPRVNÍ STŘIH PODLE MLUVČÍCH"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Více než dva kanály jdou na auphonic.com jako jeden: sloučení se vypíná jen u sterea.\n  Kde mají kanály zůstat oddělené, rozdělte soubor nejdřív na stopy."
+
+msgid "First cut by speaker"
+msgstr "První střih podle mluvčích"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nPŘEPIS"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s slov: %s %% na jeden hlas, %s %% na dva, %s %% v mezeře"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s slov, bez jmen -- nikdo nebyl oddělen"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s se nepodařilo zapsat: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nODDĚLOVÁNÍ MLUVČÍCH"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Už jednou odděleno: načteno zpět, neměřeno znovu."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Asi %s výpočtu na %s zvuku."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (jen měření: nic neodděleno)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  Stopy nebyly změřeny, %s je tedy v mixu, a ne ve střihu: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s zatím nezměřeno -- ve střihu ano, v tomto náhledu zatím ne."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Ze samotných stop, jeden hlas na stopu: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  V %s, na tomto počítači."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Mikrofony se slyší navzájem příliš dobře, než aby šlo říct, kdo mluví, oddělení proto poslouchá všech %s najednou, na tomto počítači."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  Co okno rozdělilo, se zahazuje: poslouchalo jedinou nahrávku a mikrofony se slyší navzájem tak dobře, že žádný z nich nevyčnívá -- %s dB proti %s dB, které jeden sám potřebuje, aby řekl, kdo mluví."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Míchání stop pro oddělení"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Který hlas patří ke kterému mikrofonu, nešlo říct, měří se proto místo toho stopy."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s je %-20s %s dB před dalším mikrofonem, po odečtení úrovně nahrávání"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  Oddělení mluvčích se nepoužije: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s nelze přečíst: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s nepatří k tomuto běhu"
+
+msgid "%s has no place on the axis"
+msgstr "%s nemá místo na časové ose"
+
+msgid "no recording named"
+msgstr "žádná nahrávka neuvedena"
+
+msgid "nothing of it falls inside the window"
+msgstr "nic z toho nespadá do časového okna"
+
+msgid "the interface"
+msgstr "rozhraní"
+
+msgid "the separation in this run"
+msgstr "oddělení v tomto běhu"
+
+msgid "Speakers, separated by voice"
+msgstr "Mluvčí, oddělení podle hlasu"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Z toho nevznikl žádný střih -- stiskněte nahoře znovu Spustit."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nBEZ AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Přeslech změřen, %s v %s jen o %s dB tišší -- vyřazeno z detekce řeči"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Přeslech nelze oddělit: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Nenašel se žádný okamžik, kdy mluví přesně jedna osoba -- přeslech zůstává v detekci řeči."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  Ve stopách nebylo nic slyšet -- z toho žádný střih kamer nevznikne."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Ne ve střihu: %s -- za nahrávku mluví oddělení, nebo nebyla změřena."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  Stopy se použijí tak, jak byly nahrány: zarovnané, smíchané a přivedené\n  na cílovou hlasitost. Žádné odstranění přeslechu, žádný Leveler, žádné\n  odstranění šumu -- na to běh potřebuje auphonic.com."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic a --auphonic-done byly zadány oba. Hotové stopy vítězí: nezbývá nic, co by se kam posílalo."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK NENÍ MOŽNÝ\n  Bez API klíče není co poslat na auphonic.com.\n  S --without-auphonic to místo toho běží místně: zarovnáno,\n  smícháno a sestříháno, ale bez odstranění přeslechu a bez Leveleru."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Pozor: měřitelných jen %s z %s párů. Pro ostatní se nenašel žádný okamžik, kdy mluví přesně jedna osoba, takže jejich přeslech zůstává -- detekce mluvčích je zde nespolehlivá."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "mikrofony se slyší navzájem téměř stejně hlasitě jako svého vlastního mluvčího"
+
+msgid "the tracks are too much alike to separate"
+msgstr "stopy jsou si příliš podobné, než aby šly oddělit"
+
+msgid "Reading the plan"
+msgstr "Čtení plánu"
+
+msgid "Audio out of the cameras"
+msgstr "Zvuk z kamer"
+
+msgid "Common time axis"
+msgstr "Společná časová osa"
+
+msgid "Processing at auphonic.com"
+msgstr "Zpracování na auphonic.com"
+
+msgid "Loudness"
+msgstr "Hlasitost"
+
+msgid "Loudness and levels"
+msgstr "Hlasitost a úrovně"
+
+msgid "Loudness of the finished episode"
+msgstr "Hlasitost hotové epizody"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Jak hlasitá se hotová epizoda udělá. Stejný zisk jde na každou\nstopu, takže poměr mezi mluvčími zůstává zachován.\n„Převzít ze zdrojových souborů“ neupravuje vůbec nic: auphonic.com dál\ndělá, co říká jeho předvolba, a bez auphonic.com zůstává zvuk\ntakový, jaký je ve zdrojových souborech."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    Hlasitost nebyla upravena -- cíl níže je jen to, vůči čemu\n    měří ukazatel."
+
+msgid "Who speaks when"
+msgstr "Kdo kdy mluví"
+
+msgid "Writing the camera files"
+msgstr "Zápis souborů kamer"
+
+msgid "Handover and result"
+msgstr "Předání a výsledek"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Zobrazit dvakrát tolik (klávesa minus, nebo kolečko nad pásem)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Zobrazit polovinu, kolem aktuální pozice (klávesa plus, nebo kolečko nad pásem)"
+
+msgid "The whole length again (0 key)"
+msgstr "Znovu celá délka (klávesa 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  Načteno také: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic nepřijímá nastavení: %s"
+
+msgid "      %s channels"
+msgstr "      kanálů: %s"
+
+msgid "measurement running ..."
+msgstr "měření běží ..."
+
+msgid "      Channel %d"
+msgstr "      Kanál %d"
+
+msgid "Looking at the channels"
+msgstr "Zkoumání kanálů"
+
+msgid "channels not readable: %s"
+msgstr "kanály nelze přečíst: %s"
+
+msgid "unused input -- ignored"
+msgstr "nevyužitý vstup -- ignorován"
+
+msgid "uncertain -- %s"
+msgstr "nejisté -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "nastaveno ručně -- má přednost před měřením"
+
+msgid "Language"
+msgstr "Jazyk"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "oba kanály shodné -- mono položené na obě strany"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "pravděpodobně dva mikrofony -- asi %s m od sebe%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", shoda na %s z %s míst"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "pravděpodobně jedna stereo stopa -- oba mikrofony na stejném místě"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "nelze rozpoznat -- jen %s z %s míst, kde oba kanály nesou zvuk, potřeba %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "nelze rozpoznat -- tyto dva se neshodují o nic lépe než každý z nich s kanálem vedle"
+
+msgid "not set"
+msgstr "nenastaveno"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "Jazyk, kterým se v nahrávce mluví. Stane se označením\nzapsané zvukové stopy a zdejší rozpoznávání se na něj nastaví.\nPředvyplněno ze systémového jazyka. \"%s\" ponechá stopu bez označení\na nechá rozpoznávání, aby si jazyk určilo samo."
+
+msgid "Cutting out track %d of %d"
+msgstr "Vyřezává se stopa %d z %d"
+
+msgid "cutting failed: %s"
+msgstr "vyřezání selhalo: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  Jedna kamera pro všechny: rozstříháno při změně mluvčího na záběry (celkem %s), aby je Resolve mohl seskupit."
+
+msgid "Wide shot %d"
+msgstr "Široký záběr %d"
+
+msgid "(wide shot)"
+msgstr "(široký záběr)"
+
+msgid "No speaker"
+msgstr "Žádný mluvčí"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %sx pryč od mluvčího, protože záběr trval déle než %s s"
+
+msgid "%s is in place."
+msgstr "%s je nainstalována."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Toto okno je stále verze, se kterou bylo spuštěno. Může se nyní spustit znovu a naběhnout jako ta nová, nebo to můžete udělat později sami."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Tato kopie běží z vlastní složky, pip tu tedy nemá co aktualizovat. Nainstaluje ji toto: %s"
+
+msgid "Language of the window"
+msgstr "Jazyk okna"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Zde zvolený jazyk platí od příštího spuštění."
+
+msgid "Restart the application"
+msgstr "Restartovat aplikaci"
+
+msgid "The work can be written to a project file first."
+msgstr "Práci lze nejprve zapsat do souboru projektu."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Nové spuštění aplikace jej přinese hned a nejprve se zeptá, co se má stát s prací. Nechat to být nic nestojí -- přijde při příštím spuštění."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "Aplikace se za chvíli znovu spustí. Má se práce nejdřív zapsat do projektového souboru?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Pokud se zapíše, nové okno projekt znovu otevře a všechno zůstane, jak bylo. Pokud ne, otevře se prázdné a soubory bude třeba přidat znovu."
+
+msgid "Save and restart"
+msgstr "Uložit a restartovat"
+
+msgid "Restart without saving"
+msgstr "Restartovat bez uložení"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Běh stále probíhá. Okno lze znovu spustit, jakmile skončí."
+
+msgid "System language (%s)"
+msgstr "Jazyk systému (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Zástupce tohoto programu byl vytvořen: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Zástupce tohoto programu nebyl vytvořen: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "byl zapsán a poté tam nebyl"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Tento program běží jako %s a balíčky pro něj nainstalované jsou %s, takže žádný z nich nelze načíst. Správně ho spustí toto: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Toto předání nenese žádnou snímkovou frekvenci, Timeline z něj proto nelze postavit. Spusťte prosím běh znovu."
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s soubor k tomu nepasuje"
+msgstr[1] ", %s soubory k tomu nepasují"
+msgstr[2] ", %s souborů k tomu nepasuje"
+
+msgid ", %s files do not fit"
+msgstr ", %s souborů k tomu nepasuje"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s soubor"
+msgstr[1] "%s soubory"
+msgstr[2] "%s souborů"
+
+msgid "%s files"
+msgstr "%s souborů"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s nahrávka z %s souborů"
+msgstr[1] "%s nahrávky z %s souborů"
+msgstr[2] "%s nahrávek z %s souborů"
+
+msgid "%s recordings from %s files"
+msgstr "%s nahrávek z %s souborů"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s pokračování"
+msgstr[1] "%s  + %s pokračování"
+msgstr[2] "%s  + %s pokračování"
+
+msgid "%s  + %s continuations"
+msgstr "%s  + %s pokračování"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Odděleno: %s mluvčí"
+msgstr[1] "Odděleno: %s mluvčí"
+msgstr[2] "Odděleno: %s mluvčích"
+
+msgid "Separated: %s speakers"
+msgstr "Odděleno: %s mluvčích"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  Stopa %s šla nahoru jako stereo a vrátila se s jedním kanálem."
+msgstr[1] "  Stopy %s šly nahoru jako stereo a každá se vrátila s jedním kanálem."
+msgstr[2] "  Stopy %s šly nahoru jako stereo a každá se vrátila s jedním kanálem."
+
+msgid "  %s went up in stereo and came back in one channel each."
+msgstr "  Stopy %s šly nahoru jako stereo a každá se vrátila s jedním kanálem."
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s stopa, %s, %s kHz, %s"
+msgstr[1] "%s stopy, %s, %s kHz, %s"
+msgstr[2] "%s stop, %s, %s kHz, %s"
+
+msgid "%s tracks, %s, %s kHz, %s"
+msgstr "%s stop, %s, %s kHz, %s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix z %s stop, %s kanál"
+msgstr[1] "  Full-Mix z %s stop, %s kanály"
+msgstr[2] "  Full-Mix z %s stop, %s kanálů"
+
+msgid "  Full-Mix from %s tracks, %s channels"
+msgstr "  Full-Mix z %s stop, %s kanálů"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s zůstává dvoukanálová"
+msgstr[1] "  %s zůstávají dvoukanálové"
+msgstr[2] "  %s zůstávají dvoukanálové"
+
+msgid "  %s stay in two channels"
+msgstr "  %s zůstávají dvoukanálové"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: sedí na %s (cíl %s) po %d ms, %d pokus"
+msgstr[1] "%s: sedí na %s (cíl %s) po %d ms, %d pokusy"
+msgstr[2] "%s: sedí na %s (cíl %s) po %d ms, %d pokusů"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr "%s: sedí na %s (cíl %s) po %d ms, %d pokusů"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Vznikne %s videosoubor, asi %s. Cíl: %s"
+msgstr[1] "Vzniknou %s videosoubory, asi %s. Cíl: %s"
+msgstr[2] "Vznikne %s videosouborů, asi %s. Cíl: %s"
+
+msgid "This makes %s video files, about %s. Target: %s"
+msgstr "Vznikne %s videosouborů, asi %s. Cíl: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s opraveno samo od sebe"
+msgstr[1] "%s opraveny samy od sebe"
+msgstr[2] "%s opraveno samo od sebe"
+
+msgid "%s fixed on their own"
+msgstr "%s opraveno samo od sebe"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s upozornění"
+msgstr[1] "%s upozornění"
+msgstr[2] "%s upozornění"
+
+msgid "%s hints"
+msgstr "%s upozornění"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s důvod k zastavení"
+msgstr[1] "%s důvody k zastavení"
+msgstr[2] "%s důvodů k zastavení"
+
+msgid "%s reasons to stop"
+msgstr "%s důvodů k zastavení"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s zvuková nahrávka"
+msgstr[1] "%s zvukové nahrávky"
+msgstr[2] "%s zvukových nahrávek"
+
+msgid "%s audio recordings"
+msgstr "%s zvukových nahrávek"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s videosoubor"
+msgstr[1] "%s videosoubory"
+msgstr[2] "%s videosouborů"
+
+msgid "%s video files"
+msgstr "%s videosouborů"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Soubor je označen jako HDR, s %s poznámkou."
+msgstr[1] "Soubor je označen jako HDR, s %s poznámkami."
+msgstr[2] "Soubor je označen jako HDR, s %s poznámkami."
+
+msgid "The file is tagged as HDR, with %s notes."
+msgstr "Soubor je označen jako HDR, s %s poznámkami."
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Pozor: %s nevloženo. Bez tohoto úhlu se\n  Timeline nehodí k převodu."
+msgstr[1] "  Pozor: %s nevloženo. Bez těchto úhlů se\n  Timeline nehodí k převodu."
+msgstr[2] "  Pozor: %s nevloženo. Bez těchto úhlů se\n  Timeline nehodí k převodu."
+
+msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr "  Pozor: %s nevloženo. Bez těchto úhlů se\n  Timeline nehodí k převodu."
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s zvuková stopa zůstává: %s"
+msgstr[1] "  %s zvukové stopy zůstávají: %s"
+msgstr[2] "  %s zvukových stop zůstává: %s"
+
+msgid "  %s audio tracks stay: %s"
+msgstr "  %s zvukových stop zůstává: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Obraz a zvuk znovu propojeny: %s úhel"
+msgstr[1] "    Obraz a zvuk znovu propojeny: %s úhly"
+msgstr[2] "    Obraz a zvuk znovu propojeny: %s úhlů"
+
+msgid "    Picture and audio linked again: %s angles"
+msgstr "    Obraz a zvuk znovu propojeny: %s úhlů"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s zvuková stopa zbývá:"
+msgstr[1] "  %s zvukové stopy zbývají:"
+msgstr[2] "  %s zvukových stop zbývá:"
+
+msgid "  %s audio tracks remain:"
+msgstr "  %s zvukových stop zbývá:"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s klip"
+msgstr[1] "%s klipy"
+msgstr[2] "%s klipů"
+
+msgid "%s clips"
+msgstr "%s klipů"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s prázdná zvuková stopa odebrána"
+msgstr[1] "    %s prázdné zvukové stopy odebrány"
+msgstr[2] "    %s prázdných zvukových stop odebráno"
+
+msgid "    %s empty audio tracks removed"
+msgstr "    %s prázdných zvukových stop odebráno"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> vyhodnoceno jako %s zvuková stopa%s"
+msgstr[1] "      --> vyhodnoceno jako %s zvukové stopy%s"
+msgstr[2] "      --> vyhodnoceno jako %s zvukových stop%s"
+
+msgid "      --> interpreted as %s audio tracks%s"
+msgstr "      --> vyhodnoceno jako %s zvukových stop%s"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " z %s vloženého kanálu"
+msgstr[1] " z %s vložených kanálů"
+msgstr[2] " z %s vložených kanálů"
+
+msgid " of %s embedded channels"
+msgstr " z %s vložených kanálů"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s videostopa"
+msgstr[1] "%s videostopy"
+msgstr[2] "%s videostop"
+
+msgid "%s video tracks"
+msgstr "%s videostop"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s zvuková stopa"
+msgstr[1] "%s zvukové stopy"
+msgstr[2] "%s zvukových stop"
+
+msgid "%s audio tracks"
+msgstr "%s zvukových stop"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Víc úhlů než barev -- %s barva je dvakrát."
+msgstr[1] "      Víc úhlů než barev -- %s barvy jsou dvakrát."
+msgstr[2] "      Víc úhlů než barev -- %s barev je dvakrát."
+
+msgid "      More angles than colours -- %s colours occur twice."
+msgstr "      Víc úhlů než barev -- %s barev je dvakrát."
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s klip zůstal bez barvy."
+msgstr[1] "      %s klipy zůstaly bez barvy."
+msgstr[2] "      %s klipů zůstalo bez barvy."
+
+msgid "      %s clips left without a colour."
+msgstr "      %s klipů zůstalo bez barvy."
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    Na V2 je teď %s klip: %s"
+msgstr[1] "    Na V2 jsou teď %s klipy: %s"
+msgstr[2] "    Na V2 je teď %s klipů: %s"
+
+msgid "    V2 now holds %s clips: %s"
+msgstr "    Na V2 je teď %s klipů: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s značka nastavena%s."
+msgstr[1] "  %s značky nastaveny%s."
+msgstr[2] "  %s značek nastaveno%s."
+
+msgid "  %s markers set%s."
+msgstr "  %s značek nastaveno%s."
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s kamera"
+msgstr[1] "%s kamery"
+msgstr[2] "%s kamer"
+
+msgid "%s cameras"
+msgstr "%s kamer"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Oddělení mluvčích (%s): %s mluvčí z %s zvuku"
+msgstr[1] "  Oddělení mluvčích (%s): %s mluvčí z %s zvuku"
+msgstr[2] "  Oddělení mluvčích (%s): %s mluvčích z %s zvuku"
+
+msgid "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr "  Oddělení mluvčích (%s): %s mluvčích z %s zvuku"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s v %s úseku"
+msgstr[1] "  %-20s %s ve %s úsecích"
+msgstr[2] "  %-20s %s v %s úsecích"
+
+msgid "  %-20s %s in %s passages"
+msgstr "  %-20s %s v %s úsecích"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Zdroj: %s -- %s hlas."
+msgstr[1] "  Zdroj: %s -- %s hlasy."
+msgstr[2] "  Zdroj: %s -- %s hlasů."
+
+msgid "  From %s: %s voices."
+msgstr "  Zdroj: %s -- %s hlasů."
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s slovo se vrátilo bez času a bylo vynecháno."
+msgstr[1] "  %s slova se vrátila bez času a byla vynechána."
+msgstr[2] "  %s slov se vrátilo bez času a bylo vynecháno."
+
+msgid "  %s words came back without a time and were left out."
+msgstr "  %s slov se vrátilo bez času a bylo vynecháno."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "na %s kameře"
+msgstr[1] "na %s kamerách"
+msgstr[2] "na %s kamerách"
+
+msgid "on %s cameras"
+msgstr "na %s kamerách"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s soubor byl hotový už předtím a je celý: %s"
+msgstr[1] "%s soubory byly hotové už předtím a jsou celé: %s"
+msgstr[2] "%s souborů bylo hotových už předtím a jsou celé: %s"
+
+msgid "%s files were finished before that and are whole: %s"
+msgstr "%s souborů bylo hotových už předtím a jsou celé: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s bod"
+msgstr[1] "%s body"
+msgstr[2] "%s bodů"
+
+msgid "%s points"
+msgstr "%s bodů"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s kanál"
+msgstr[1] "%s kanály"
+msgstr[2] "%s kanálů"
+
+msgid "%s channels"
+msgstr "%s kanálů"
