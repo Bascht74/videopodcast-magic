@@ -1,0 +1,4536 @@
+# What is translated of this program's messages, in Romanian.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Romanian speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 18.9.2026 in two steps: the window's captions
+# first, which fixed the form of address and one word for each thing,
+# and then every other text against them, four languages at a time
+# from one sheet. Every entry was read back once in full by another model,
+# against the English, the line of code it stands in and those words,
+# and 75 were put right; a third refuted what was not a fault.
+#
+# Anyone who speaks Romanian is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Three here: [0] where the count is one, [1] where it is nought or
+# ends in 01 to 19 -- 0, 2 to 19, 101 to 119 -- and [2] everywhere
+# else, which is where Romanian puts "de" before the noun: "20 de
+# camere" against "19 camere".
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Montaj cu planul larg"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Separă înregistrarea după voci: fiecare voce primește un rând propriu, și în el camera sa. Cam un minut pentru o jumătate de oră de audio, pe acest calculator și fără încărcare."
+
+msgid ", %s without"
+msgstr ", %s fără cameră"
+
+msgid "no camera yet"
+msgstr "încă nicio cameră"
+
+msgid "A newer version is out"
+msgstr "A apărut o versiune mai nouă"
+
+msgid "%s is out. This is %s."
+msgstr "%s a apărut. Aceasta este %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Actualizați? pip o aduce în %s. Ce spune pip apare sub Ieșire, iar noua versiune rulează de la următoarea pornire."
+
+msgid "pip could not be started: %s"
+msgstr "pip nu a putut fi pornit: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip s-a oprit cu %s. Ce a reușit stă în rândurile de mai sus."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s este instalată. Rulează de la următoarea pornire."
+
+msgid "There is no window to show what pip says."
+msgstr "Nu există o fereastră care să arate ce spune pip."
+
+msgid "Back to an earlier version ..."
+msgstr "Înapoi la o versiune anterioară ..."
+
+msgid "Back to an earlier version"
+msgstr "Înapoi la o versiune anterioară"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Nu s-a putut căuta versiuni anterioare: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Lista versiunilor anterioare nu a putut fi citită."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Nu există nicio versiune anterioară lui %s pe care pip să o poată instala."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Aceasta este %s. Ce versiune să pună pip în locul ei?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip o aduce în %s, iar ce spune pip apare sub Ieșire. Versiunea aleasă aici rulează de la următoarea pornire.\n\nAduce înapoi programul și nimic altceva. Ce a scris o versiune mai nouă în setări rămâne scris, iar proiectele și fișierele lor rămân așa cum sunt."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "un intro sau outro cu două canale este un mix stereo -- nu se măsoară"
+
+msgid "Multitrack mode"
+msgstr "Mod Multitrack"
+
+msgid "Singletrack mode"
+msgstr "Mod Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Nicio presetare Multitrack proprie -- creați una"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Nicio presetare Singletrack proprie -- creați una"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Nicio presetare proprie -- creați una pe auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "Nu s-a găsit nicio presetare Multitrack în cont."
+
+msgid "No Singletrack preset found in the account."
+msgstr "Nu s-a găsit nicio presetare Singletrack în cont."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "Nicio presetare Multitrack în cont. Doar acestea: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "Nicio presetare Singletrack în cont. Doar acestea: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r este o presetare Singletrack, iar este nevoie de una Multitrack."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r este o presetare Multitrack, iar este nevoie de una Singletrack."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "Cheia este bună. Dintre presetările din cont (%s) niciuna nu este Multitrack, așa că lista rămâne goală."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "Cheia este bună. Dintre presetările din cont (%s) niciuna nu este Singletrack, așa că lista rămâne goală."
+
+msgid "fetching from auphonic.com ..."
+msgstr "se preia de pe auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Ce s-a schimbat de la %s:"
+
+msgid "Update"
+msgstr "Actualizare"
+
+msgid "Later"
+msgstr "Mai târziu"
+
+msgid "Go back"
+msgstr "Înapoi"
+
+msgid "Starting again did not work: %s"
+msgstr "Repornirea nu a reușit: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Porniți-l manual: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Nu s-a găsit o versiune mai nouă. Aceasta este %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update o aduce și o instalează."
+
+msgid "The check for new versions is switched off here."
+msgstr "Căutarea de versiuni noi este dezactivată aici."
+
+msgid "About Video Podcast Magic"
+msgstr "Despre Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Materialul brut al unui podcast video devine un episod montat: sunetul bun scos din fișierele video, camerele pe o singură axă a timpului, un prim montaj după vorbitori și un proiect DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s pe %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "Licență MIT, Copyright (c) 2026 Sebastian Lotz. Predat așa cum este, fără nicio garanție."
+
+msgid "&File"
+msgstr "&Fișier"
+
+msgid "&View"
+msgstr "&Vizualizare"
+
+msgid "&Player"
+msgstr "&Redare"
+
+msgid "&Help"
+msgstr "&Ajutor"
+
+msgid "Play and pause"
+msgstr "Redare și pauză"
+
+msgid "Fast forward"
+msgstr "Derulare înainte"
+
+msgid "Fast forward, %s times speed"
+msgstr "Derulare înainte, viteză de %s ori"
+
+msgid "Play forward, faster on every press"
+msgstr "Redare înainte, mai rapid la fiecare apăsare"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Redare înainte, de două ori mai rapid la fiecare apăsare -- tasta L."
+
+msgid "Pause"
+msgstr "Pauză"
+
+msgid "One frame back"
+msgstr "Un cadru înapoi"
+
+msgid "One frame forward"
+msgstr "Un cadru înainte"
+
+msgid "One second back"
+msgstr "O secundă înapoi"
+
+msgid "One second forward"
+msgstr "O secundă înainte"
+
+msgid "Ten seconds back"
+msgstr "Zece secunde înapoi"
+
+msgid "Ten seconds forward"
+msgstr "Zece secunde înainte"
+
+msgid "The manual"
+msgstr "Manualul"
+
+msgid "What changed in this version"
+msgstr "Ce s-a schimbat în această versiune"
+
+msgid "Show the log of this run"
+msgstr "Afișați jurnalul acestei rulări"
+
+msgid "Nothing has been written yet."
+msgstr "Nu s-a scris încă nimic."
+
+msgid "Look for a newer version now"
+msgstr "Căutați acum o versiune mai nouă"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Nu s-a găsit niciun pachet de certificate -- o descărcare prin HTTPS poate eșua."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Se construiește recunoașterea vorbirii ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Compilatorul Swift raportează: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  Recunoașterea vorbirii este construită (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  Recunoașterea vorbirii raportează: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Recunoscut în %s: gata în %s s, ascultat în %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Nu există recunoaștere a vorbirii pe acest calculator: macOS 26 aduce una, altfel se instalează faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Recunoașterea vorbirii (%s): cuvinte: %s în %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Recunoașterea vorbirii (%s): cuvinte: %s, recitite"
+
+msgid "Separating speakers: %s"
+msgstr "Se separă vorbitorii: %s"
+
+msgid "Separating ..."
+msgstr "Se separă ..."
+
+msgid "Voice"
+msgstr "Voce"
+
+msgid "Stop"
+msgstr "Oprire"
+
+msgid "Stopping ..."
+msgstr "Se oprește ..."
+
+msgid "Not on this machine"
+msgstr "Nu pe acest calculator"
+
+msgid "Reading the audio ..."
+msgstr "Se citește audio ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "În înregistrare nu s-a auzit nimic."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "Separarea vorbitorilor este dezactivată pentru acest proiect."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Cine vorbește când se poate determina pe acest calculator, din orice înregistrare pe care se aud toți."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Lasă separarea dezactivată pentru acest proiect. Montajul vine atunci din piste sau de la auphonic.com, ca înainte."
+
+msgid "The speaker separation reports: %s"
+msgstr "Separarea vorbitorilor raportează: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Se readuce separarea vorbitorilor ..."
+
+msgid "The speaker separation is not set up."
+msgstr "Separarea vorbitorilor nu este configurată."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "Separarea vorbitorilor nu este instalată aici. Aceasta o readuce: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Se preia modelul (circa %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Se preia modelul (circa %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Modelul nu a putut fi preluat: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Modelul nu a putut fi scris: %s"
+
+msgid "The list of model files came back empty."
+msgstr "Lista fișierelor modelului a venit goală."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s nu corespunde sumei sale de control și nu a fost scris."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "În dosarul programului nu se poate scrie: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Modelul pentru separarea vorbitorilor nu se află lângă program."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Fișierul de model %s nu corespunde sumei sale de control."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote trimite acasă o urmă la fiecare rulare, iar această versiune nu oferă nicio cale de a dezactiva asta, așa că separarea nu a fost pornită."
+
+msgid "Speakers"
+msgstr "Vorbitori"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Cine se aude pe această înregistrare. Un nume înseamnă că este acea singură persoană.\n\"mai mulți vorbitori\" determină cine vorbește când, pe acest calculator și fără încărcare -- cam un minut pentru o jumătate de oră de audio. Numele merg apoi în rândurile de dedesubt."
+
+msgid "Speaker %d"
+msgstr "Vorbitor %d"
+
+msgid "One more speaker in %s"
+msgstr "Încă un vorbitor în %s"
+
+msgid "One more speaker in"
+msgstr "Încă un vorbitor în"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Ascultă din nou acea înregistrare, căutând un vorbitor în plus față de câți s-au găsit."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
+
+msgid " SEEKING"
+msgstr " CAUTĂ"
+
+msgid " computed"
+msgstr " calculat"
+
+msgid " virtual"
+msgstr " virtual"
+
+msgid "%s were already right"
+msgstr "%s erau deja corecte"
+
+msgid "%s (%s files)"
+msgstr "%s (fișiere: %s)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s până la %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d până la %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- unite manual, această diferență intră în fișier ca liniște, și nimic nu o mai scoate ulterior."
+
+msgid "%s and %s more"
+msgstr "%s și încă %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s și %s sunt ambele setate ca %s. Doar un singur fișier poate fi asta -- vă rugăm să îl setați pe celălalt înapoi la Conținut."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s și %s au același nume de fișier, iar Resolve nu raportează\n  nicio cale pentru ele. Redenumiți unul dintre cele două."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, cadre: %s în %s"
+
+msgid "%s reports %s"
+msgstr "%s raportează %s"
+
+msgid "%s speech time"
+msgstr "%s timp de vorbire"
+
+msgid "%s virtual"
+msgstr "%s virtual"
+
+msgid "%s, audio track %d"
+msgstr "%s, pista audio %d"
+
+msgid "3:1 rule"
+msgstr "Regula 3:1"
+
+msgid "Output"
+msgstr "Ieșire"
+
+msgid "Access to auphonic.com"
+msgstr "Acces la auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Accesul și conexiunea se cer o singură dată și apoi rămân. Cheia nu ajunge niciodată într-un fișier, ci aici: %s."
+
+msgid "Checking files"
+msgstr "Verificarea fișierelor"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Tot ce mai este de făcut, măsurat față de ce este gata. Lucrările lungi ocupă mai mult din bară decât cele scurte."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Cheia pentru auphonic.com, și dacă Resolve răspunde."
+
+msgid "Measuring time axis"
+msgstr "Măsurarea axei timpului"
+
+msgid "Resolve answers"
+msgstr "Resolve răspunde"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve nu răspunde -- vedeți Setări"
+
+msgid "Settings"
+msgstr "Setări"
+
+msgid "Settings ..."
+msgstr "Setări ..."
+
+msgid "Two files as %s"
+msgstr "Două fișiere ca %s"
+
+msgid "begins"
+msgstr "începe"
+
+msgid "done"
+msgstr "gata"
+
+msgid "ends"
+msgstr "se termină"
+
+msgid "first"
+msgstr "primul"
+
+msgid "from %s"
+msgstr "de la %s"
+
+msgid "join with Channel %d"
+msgstr "unire cu canalul %d"
+
+msgid "last"
+msgstr "ultimul"
+
+msgid "rejected"
+msgstr "respins"
+
+msgid ","
+msgstr "."
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Tip"
+
+msgid "Speech time"
+msgstr "Timp de vorbire"
+
+msgid "Share"
+msgstr "Pondere"
+
+msgid "Beginning"
+msgstr "Început"
+
+msgid "the whole material"
+msgstr "tot materialul"
+
+msgid "Colour"
+msgstr "Culoare"
+
+msgid "  Preset:  %s"
+msgstr "  Presetare: %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  Resolve refuză mai multe piste video -- %s din %s camere încap."
+
+msgid "Preset"
+msgstr "Presetare"
+
+msgid "Preset:"
+msgstr "Presetare:"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Production"
+msgstr "Producție"
+
+msgid "Target"
+msgstr "Țintă"
+
+msgid "Bright."
+msgstr "Lumin."
+
+msgid "Colour U"
+msgstr "Cul. U"
+
+msgid "Colour V"
+msgstr "Cul. V"
+
+msgid "Writing %s"
+msgstr "Se scrie %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Timecode:           %s"
+
+msgid "none"
+msgstr "niciunul"
+
+msgid "Length"
+msgstr "Durată"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- adică toți, deci fiecare plan merge pe aceeași cameră."
+
+msgid "No camera of their own: %s"
+msgstr "Fără cameră proprie: %s"
+
+msgid "this window"
+msgstr "această fereastră"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "două nume de fișier pentru același moment -- niciunul dintre ele nu este luat"
+
+msgid "This is not a file of this program."
+msgstr "Acesta nu este un fișier al acestui program."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Acest fișier a fost scris de versiunea %s în formatul %d; aceasta scrie formatul %d. Numele din el s-au schimbat de atunci, deci nu poate fi citit. Configurați din nou rularea."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (doar măsurare: nu s-a scris nimic)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (doar măsurare: fără un API key se oprește aici)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Verificare pe baza diafoniei -- referința este %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Nu s-a putut scrie %s: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  Pentru %s nu s-a putut stabili dacă rezultatul returnat se potrivește cu\n  ce s-a încărcat. Mai bine oprire decât să se scrie ceva greșit."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Niciun montaj pe camere în predare -- fără statistica vorbitorilor nu există.\n  Se construiește doar Timeline-ul pentru clipul multicam."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Nu s-a schimbat nimic."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  O singură cameră -- un clip multicam nu ar avea rost."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Acolo pistele au alte nume:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Fereastră de timp setată manual:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline pentru clipul multicam: toate camerele, nemontate"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline cu montajul finalizat"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: camera dintr-o bucată, mixul dedesubt"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nGata. Mai jos, „Deschideți dosarul cu rezultate” arată rezultatul.\nDacă totul este în regulă, „Creați proiect Resolve” construiește proiectul din el.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nVERIFICARE HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nNicio presetare aleasă: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nOprit înainte de primul pas lung. Cu --anyway rulează oricum."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Resolve s-ar putea să nu recunoască atunci spațiul de culoare de intrare."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Audio %s la %s -- acolo întâlnește %s cuvânt."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s pista V%d, de la cadrul %d (%s s până la început), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Ambele clipuri rămân netăiate; ele se suprapun peste conținut.\n      Tranziția stă în suprapunere -- unde exact, decideți în Resolve.\n      (Interfața de scripting a Resolve nu poate crea tranziții.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   eșuează: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      ATENȚIE: potrivire slabă pentru %s (%s, %s este pragul). Este posibil ca cele două să nu aparțină împreună."
+
+msgid "this pair of files"
+msgstr "această pereche de fișiere"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- nu poate fi corect, pista\n    %-20s rămâne unde este."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, similaritate a numelui %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, decupat la fereastra de timp, similaritate a numelui %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  DAR %s -- nici fereastra de timp (%s), nici\n    %-20s    întregul interval măsurat (%s). Aparține altei rulări."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s niciun fișier cu nume potrivit"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s mutată cu %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s există deja -- se randează în schimb în %s, astfel\n%slivrarea anterioară rămâne."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (recomandarea YouTube pentru %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, două canale  (bitrate-ul nu se poate seta de la distanță --\n%s%s kbit/s sunt recomandați pentru stereo)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s respins -- nicio scriere nu a fost acceptată.\n%sSetați manual în Resolve la Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s rămâne pe „Same as Project” -- proiectul nu numește\n%snicio curbă HDR. De verificat în Resolve la\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Ștergerea a eșuat."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Ștergerea a eșuat: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Legarea a eșuat: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Dezlegarea nu a avut efect -- pistele audio în plus\n    %-24s rămân pe loc."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s audio de pe A%d păstrat, încă %d șterse"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s nu a putut fi legată din nou"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s nu a putut fi dezlegată: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s niciun audio inserat"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    de %s ori camera prevăzută nu funcționa -- acolo se află o alta."
+
+msgid "    %s could not be imported."
+msgstr "    %s nu a putut fi importat."
+
+msgid "    %s could not be inserted."
+msgstr "    %s nu a putut fi inserat."
+
+msgid "    %s track %d could not be created."
+msgstr "    Pista %s %d nu a putut fi creată."
+
+msgid "    %s track could not be created: %s"
+msgstr "    Pista %s nu a putut fi creată: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: imaginea și audio inserate separat (audio de pe A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway este setat: rulează în ciuda punctelor de mai sus."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Toate pistele sunt la locul lor -- nimic de mutat."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Atenție: H.265 nu este disponibil -- va fi H.264 cu opt biți.\n             Prea puțin pentru HDR; gradientele vor avea benzi."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Atenție: proiectul este setat pe %s, materialul este %s.\n             Livrarea poartă etichetele materialului. Pentru a aduce\n             proiectul la zi: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Spațiu de culoare"
+
+msgid "already right"
+msgstr "era deja corect"
+
+msgid "    Clip colours could not be set."
+msgstr "    Culorile clipurilor nu au putut fi setate."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Clipurile dintr-o rulare anterioară sunt încă legate de remote grades. Pe\n    pagina Color, clic dreapta pe o miniatură > \"Copy Remote Grades to Local\"\n    (ia corecția cu el) sau \"Use Local Grades\". Timeline-urile noi\n    nu au nevoie de asta."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Lista de codecuri nu se poate citi: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Grupul de culoare %-24s clipuri: doar %s din %s"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Contraverificare imposibilă: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Contraverificare: nemăsurabil"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    Punctul In  %s   (timecode %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    Punctul In  %s\n    Punctul Out %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Punctul Out %s   (timecode %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Punctul Out se află înaintea punctului In -- așa nu funcționează."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    Camera de referință nu poartă timecode. Axa este legată de ceasul lui %s, iar primul ei cadru arată %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Pentru verificare -- Timeline-ul începe la cadrul %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Formatul și codecul nu au putut fi setate."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Formatul și codecul nu au putut fi setate: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Lista de formate nu se poate citi: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    „Un fișier per livrare” a fost refuzat; Resolve va scrie câte un fișier per clip."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    „Un fișier per livrare” nu a putut fi solicitat: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Durată  %s  (în loc de %s)"
+
+msgid "    Length  %s"
+msgstr "    Durată  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Versiuni locale: în editorul de noduri „Group Pre-Clip” se aplică\n    întregii camere, „Clip” doar acelei tăieturi. Una nu o exclude\n    pe cealaltă."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Nivelul țintă al indicatorului de sonoritate nu a fost găsit -- setați manual:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    S-au măsurat %s cadre/s -- Resolve cunoaște doar rate fixe,\n    se folosește %s."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Nicio pereche măsurabilă -- rămâne așa cum este."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Nu s-a găsit nicio setare pentru versiuni -- setați manual:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Nu s-a putut seta totul. Resolve acceptă unele valori doar\n    cât timp Timeline-ul este încă gol -- comparați mai sus."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    În coadă -- în Resolve mai rămâne doar „Render All”."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades sunt active: o corecție de culoare per cameră se aplică\n    tuturor tăieturilor ei -- o tăietură singură nu mai poate fi corectată\n    separat."
+
+msgid "    Render job could not be created."
+msgstr "    Sarcina de randare nu a putut fi creată."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Sarcina de randare nu a putut fi creată: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Setările nu pot fi listate -- setați manual:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Fereastra ar avea doar %s -- nu poate fi intenționat."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Pista %d  %-22s (aici: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 nu a putut fi recitit: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Pista video %d nu a putut fi redenumită."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Dacă fișierul finit trece drept HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    nu este posibil: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (drum sonor negativ -- ceva nu este în regulă)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s nu se poate alinia: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s nemăsurabil: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s decalaj %s, deriva ceasului %s ppm (+/- %s), dispersie reziduală %s ms, puncte: %s din %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s decalaj %s, deriva ceasului %s ppm (+/- %s), dispersie reziduală %s ms, puncte: %s din %s%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s din %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  Blocuri unite în ordinea numelor: %s (fără timecode -- golurile nu s-ar putea recunoaște)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  Blocuri unite prin timecode: %s, început %s"
+
+msgid "  %s of %s files imported."
+msgstr "  Fișiere importate: %s din %s."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  vorbitori: %s, planuri: %s, cel mai scurt %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  Piste video (%s), denumite după vorbitori:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s apare de două ori cu camere diferite -- se folosește %s"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s nu se poate clasifica: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s nu dă niciun sunet de măsurat -- plasată doar după ceasul ei, și nu s-a găsit nimic cu care să se verifice"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s nu a putut fi preluat: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s nu a putut fi rescris: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s merge pe pista video 1 -- acolo prima pistă audio poartă\n  Full-Mix-ul, iar pista video 1 devine unghiul 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s nu are sunet de cameră -- fără el nu se poate alinia nimic"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s apare de două ori în producție -- preluat o dată."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s există deja și este suprascris -- această producție nu are nicio evidență că l-ar fi creat."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s provine dintr-o rulare anterioară a acestei producții și este înlocuit."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s rulează la %s cadre/s, o rată pentru care Resolve nu are Timeline -- se convertește, nu se omite"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s este gata -- cu --resolve-json se poate face mai târziu."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, omis"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: nu se poate stabili câte canale are (%s) -- nu se măsoară"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (doar măsurare: nimic încărcat)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Un Timeline %r exista deja -- cel nou se numește %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Există un Timeline cu acest nume, cu alte camere pe el. Rămâne;\n  cel nou se construiește alături, sub un nume propriu."
+
+msgid "  Added: %s"
+msgstr "  Adăugate: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Adăugarea atomilor anulată -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Toate fișierele de ieșire necesare există deja."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Atomul %s omis: octeți: %s -- prea mult pentru el."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Audio: Full-Mix dintr-o bucată pe A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Atenție: trepte de diferență de luminozitate: %s -- vizibil la comutare."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Atenție: %s și %s se numesc amândouă %s. Pe Timeline\n  Resolve raportează doar numele, așa că clipurile lor nu pot fi\n  deosebite -- redenumiți unul dintre cele două fișiere."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Atenție: %s nu a putut fi șters -- noul Timeline primește\n  de aceea un adaos la nume."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Atenție: interval   doar %s LU -- foarte strâns. La vorbire sunt obișnuite 3 până la 7 LU;\n                     sub atât sună strivit. Verificați cât de puternic este setat nivelatorul\n                     la auphonic.com."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Atenție: producția conține și alte piste (%s). Ele intră în\n  mix -- ștergeți-le pe auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Atenție: pista %s -- își păstrează setările."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Atomi cameră:       nu se pot adăuga (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Date cameră:     chei preluate: %s (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Date cameră:     Atenție, chei lipsă în noul fișier: %s din %s: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Date cameră:     sursa nu conține niciuna"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Nu se pot adăuga atomi: un box pe 64 de biți stă în cale."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Nu se pot adăuga atomi: moov nu este la sfârșit."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Nu se pot adăuga atomi: sursa este %s, ținta %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Verificare:      nu este posibilă (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Deriva ceasului:    %s ppm (+/- %s), dispersie reziduală %s ms, puncte: %s din %s"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Deriva ceasului:    nimic măsurat -- aceasta este referința față de care sunt ținute celelalte"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Compararea culorilor nu este posibilă: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Grupul de culoare %r nu poate fi creat."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Grupul de culoare %r nu poate fi creat: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Culoare:         %d/%d/%d -- primarele completate din matrice (sursă: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Culoare:         %d/%d/%d preluat"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Culoare:         Atenție, %s în sursă, %s în noul fișier"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Contraprobă:        %s din Full-Mix, abatere %s ms (puncte: %s din %s)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Contraprobă:        imposibilă (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Piste de date:   %s preluate"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Piste de date:   %s omise -- ffmpeg nu le poate scrie"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Șters: %s -- se reconstruiește acum."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Derivă pe durata rulării: %s s = %s (cadre)  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Rezultatul existent preluat -- nimic calculat, nimic plătit."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Mai puțin de două camere cu sunet -- prea puține pentru Multitrack."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Mixajul final cerut ca reper (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "nu începe acolo unde se termină blocul dinainte"
+
+msgid "ends before the next block starts"
+msgstr "se termină înainte să înceapă blocul următor"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com le-a pliat. Mixul păstrează cele două canale; ce s-a pierdut este\n  diferența dintre cele două microfoane ale acelei piste."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Două canale, pentru că o pistă este stereo"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Gol de %s la %s -- umplut cu liniște"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Suprapunere de %s la %s -- acolo se aud ambele"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Se suprapun -- mai multe microfoane deodată, nu blocuri unul după altul."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Fiecare intră în plus în video ca pistă proprie: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Doar mixul intră în video (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Există deja, cu aceleași camere în aceeași ordine -- rămâne\n  neatins. Cine vrea unul nou îl șterge în Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Cadrele-cheie ale %s nu pot fi citite (%s) -- copia începe de la începutul fișierului."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Curba de nivel nu este posibilă (%s) -- fără limitator"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Limitator:         cel mult %s dB, aceeași curbă pe fiecare pistă%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Sonoritatea nu se poate măsura: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Sonoritatea nu poate fi măsurată -- rămâne așa cum este."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Metricile nu pot fi scrise: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Mixdown de la auphonic.com: %s LUFS, vârf %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Nu s-a găsit niciun Full-Mix -- Timeline-ul rămâne mut."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Niciun audio pe Timeline -- nimic de curățat."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  Nicio cameră în predare -- nimic de construit."
+
+msgid "  No clips found for colour groups."
+msgstr "  Nu s-au găsit clipuri pentru grupurile de culoare."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Nu a mai rămas niciun montaj -- Timeline-ul rămâne gol."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Nepredat: rularea nu a putut plasa %s, deci nu este o cameră a acestui episod."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Niciun decalaj măsurat pentru %s -- plasat la începutul axei."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  În sunet nu s-a găsit nimic pentru %s -- plasat numai după timecode."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: măsurarea o plasează la %s s, timecode-ul la %s s -- se folosește măsurarea."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Începutul %s al Timeline-ului a fost refuzat: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline-ul începe la %s, nu la %s -- fiecare plan stă cu atât mai departe înăuntru."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Începutul %s al Timeline-ului nu a fost acceptat."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Început %s -- fiecare plan este așezat față de el."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Nu exista încă un asemenea Timeline -- se construiește doar."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Notă: se calculează cu fișierele încărcate atunci. Ele poartă\n  fereastra de timp și alinierea din acea zi. Unde punctul In, punctul Out\n  sau poziția măsurată diferă acum, verificarea la întoarcere măsoară\n  diferența și mută pistele la locul lor."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Notă: acest ffmpeg nu are soxr -- deriva ceasului se poate elimina doar în\n  pași de 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Fără importanță pentru sunet."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Decalaj:            %s   (din compararea camerelor)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Planuri pe Timeline: doar %s din %s."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Vârfuri:           %s dB peste %s dBTP -- limitatorul le prinde"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Player: %s raportează o eroare -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Player: %s rămâne la %s în loc de %s -- abandonat, încercări: %s (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Player: ieșirea audio trece la %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Player: audio nu rulează (%s) -- încă o încercare."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Indicați un număr între 1 și %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Producție la auphonic.com:   %s"
+
+msgid "  Production running (%s)"
+msgstr "  Producția rulează (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Proiectul %r a fost deschis."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Fișierul de proiect nu a putut fi scris: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Fișierul de proiect nu se poate scrie (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Interval:          %s LU (la vorbire sunt obișnuite 3 până la 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Referință: %s (%s, cea mai lungă durată)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Rămâne:            %s dB pe fiecare pistă, adică %s LUFS în loc de %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve nu a preluat nicio imagine -- Timeline-ul este gol. Nu se\n  mai construiește nimic pe el."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Rezultat: %s (%s) -- rămâne lângă fișierul video\n"
+
+msgid "  Not used:  %s."
+msgstr "  Nefolosite:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Întrebare: %s în transcriere, %s au devenit tăietură de reacție."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Întrebare: nu există transcriere, deci nu s-a găsit nicio întrebare și nu s-a\n            făcut nicio tăietură de reacție. Cuvintele se notează în timpul rulării\n            din mixul finit; fără ele setarea nu face nimic."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Setările aduse la presetarea %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Început %s (cea mai timpurie cameră) -- altfel totul ar sta înaintea începutului Timeline-ului."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Neajustat:         preluat din fișierele sursă -- niciun câștig pe nicio pistă și niciun\n                     limitator. Sunetul iese exact așa cum a intrat."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Suma pistelor:     %s LUFS, vârf %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Țintă:             %s LUFS  ->  %s dB pe fiecare pistă"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline-ul primește %s: cea mai mare dintre ele, sau următoarea rată pe care\n  Resolve o are deasupra. Convertind în sus Resolve repetă cadre, în jos\n  le aruncă. Fiecare cameră își păstrează rata proprie, iar montajul numără\n  în aceea."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix nu a putut fi importat."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix nu a putut fi inserat."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  Camerele poartă fereastra de timp și câte o secundă la fiecare capăt: %s scris pentru %s din cele %s înregistrate."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  Camerele sunt apropiate între ele (trepte de luminozitate: cel mult %s)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  Montajul s-a schimbat: planuri: %s în loc de %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Evidența rulărilor anterioare de aici nu poate fi citită (%s), așa că se raportează tot ce există deja."
+
+msgid "  The cut stays as it was."
+msgstr "  Montajul rămâne așa cum era."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Fișierele se încarcă din nou -- asta costă credit."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Fișierele din dosar trebuie să poarte numele vorbitorilor și să aparțină\n  acestei rulări. Fără dosar, se trece din nou prin auphonic.com."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media pool rămâne așa cum este."
+
+msgid "  The names from there are adopted:"
+msgstr "  Numele de acolo sunt preluate:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Acolo sunt %s piste, aici %s -- nu se potrivesc."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Această cameră nu a putut fi plasată -- omisă"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Fereastră de timp:  %s din %s scris, de la %s din cameră"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Timecode %s scris ca bext și iXML (referință: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Prea mult:         limitatorul ar trebui să ia %s dB. Mai mult de %s dB\n                     sună strivit -- cu %s dB mai puțin câștig."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Transcriere imposibilă (%s) -- rulează oricum."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Plan larg la margini: omis -- primul sau ultimul anunț\n  ar fi prea lung pentru un salut."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Plan larg la margini: până la %s și de la %s"
+
+msgid "  from %s, %s"
+msgstr "  din %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML pentru %s nescris: %s"
+
+msgid " at high frame rates"
+msgstr " la rate de cadre mari"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Audio începe după timecode la        %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Imaginea începe după timecode la     %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  Timecode-ul audio nu se potrivește deloc cu imaginea -- probabil un ceas niciodată setat. Se folosește măsurarea."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  Timecode-ul nu se potrivește cu ce se aude. Se folosește măsurarea."
+
+msgid "%s from %s recordings"
+msgstr "%s, înregistrări: %s"
+
+msgid "%s is missing."
+msgstr "%s lipsește."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s stă pe mai mult de un vorbitor -- un nume este o persoană, și fiecare persoană are nevoie de al său."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s stă pe mai mult de o voce. Un nume este o persoană, iar montajul pune o persoană pe o cameră -- două voci cu același nume ar fi o persoană în două locuri."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Acest calculator îl poate instala cum se cuvine: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Se instalează: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Pe acest calculator: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Se instalează: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s s-ar instala în acest Python: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  Manual:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Nu s-a putut căuta o versiune mai nouă: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s lipsește. Prima dată durează câteva minute."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Rulați acum? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  Nu a mers: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Se readuce: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org are versiuni compilate pentru Windows. Dosarul cu ffmpeg.exe trebuie apoi pus în PATH, sau fișierele lângă acest program."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Deschideți pagina? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  Pagina nu a putut fi deschisă: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s lipsește -- se instalează. Prima dată durează câteva minute."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sVerificarea timecode-ului fișierului audio"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s nu (fără imagine liberă)"
+
+msgid ", audio on A2"
+msgstr ", audio pe A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Fișierul de atribuire nu se poate citi: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Audio cameră inutilizabil: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK IMPOSIBIL\n  Sunt necesare cel puțin două piste de intrare, și s-a găsit doar %s.\n  O pistă este o înregistrare proprie, un canal al unui recorder\n  multicanal sau audio-ul unei camere -- acesta contează de îndată ce\n  Audio cameră spune \"folosește audio intern\". Fără două dintre ele\n  nu este nimic de decuplat, iar același fișier trece ca o\n  producție obișnuită."
+
+msgid "No preset is called %r."
+msgstr "Nicio presetare nu se numește %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Niciun sunet în camere -- nu există nimic cu care să se lucreze."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Un singur fișier audio și nicio imagine -- nimic de făcut."
+
+msgid "Open project ..."
+msgstr "Deschideți proiect ..."
+
+msgid "Save project"
+msgstr "Salvați proiectul"
+
+msgid "Close project"
+msgstr "Închideți proiectul"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Fișierul de proiect merge în dosarul de ieșire, iar acesta nu este încă ales. Alegeți unul."
+
+msgid "Written:\n\n  %s"
+msgstr "Scris:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Nu s-a scris nimic -- nu există încă material."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nCINE ÎNTREABĂ -- o propunere, și nu se setează nimic din ea"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s vorbire, întrebări: %s din %s (propoziții)"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  Ordinea ține, distanța dintre ei nu: măsurată pe patru episoade, nu s-a inversat niciodată, în timp ce distanța dintre primul și ultimul a variat de până la patru ori. Presupune o voce pe pistă; unde două dintre ele poartă aceeași vorbire, nu se spune nimic."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Cine întreabă -- aici nu se spune: două dintre piste poartă aceeași vorbire, așa că întrebările ar merge la recorderul care a fost dat cel mai tare."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nCARE MICROFON -- o propunere, și nu se setează nimic din ea"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s sună ca %-20s %s %% din ea în acea pistă, puncte înaintea următoarei: %s"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Este valabil sub o presupunere: un microfon de persoană, și fiecare purtând doar acea persoană. Unde pistele se suprapun prea mult pentru a fi deosebite, sau două voci arată spre același microfon, mai degrabă nu se spune nimic decât să se spună ceva nesigur."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nCUM S-AR PUTEA NUMI VOCILE -- o propunere"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s s-ar putea numi %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s abia vorbește în fereastra de timp -- propunere: nu folosiți."
+
+msgid "Guest"
+msgstr "Invitat"
+
+msgid "Host"
+msgstr "Gazdă"
+
+msgid "Host %d"
+msgstr "Gazdă %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Doar pentru vocile care încă poartă numele dat de program; unul tastat de cineva nu este atins niciodată. Rolurile se citesc după cine întreabă și cine răspunde, ceea ce este valabil pentru o conversație cu un invitat și este o propunere, nu o setare."
+
+msgid "Skip this version"
+msgstr "Omiteți această versiune"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Doar aceasta. Următoarea versiune întreabă din nou, iar Ajutor > Căutați acum o versiune mai nouă întreabă oricând."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s există deja -- nu se preia de două ori"
+
+msgid "The text for %s could not be fetched."
+msgstr "Textul pentru %s nu a putut fi preluat."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Verificare:      una dintre cele două piste nu este în fișierul scris, deci nu s-a măsurat nimic."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Verificare:      cele două piste nu se pot compara (potrivire %s, pragul este %s). Asta nu spune nimic despre sincronizare."
+
+msgid "Project found"
+msgstr "Proiect găsit"
+
+msgid "Open the project"
+msgstr "Deschideți proiectul"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Totul revine din el: numele, separarea, atribuirea, tipurile, fereastra de timp. Lista de fișiere este înlocuită cu cea din proiect."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "Lângă acest material se află un fișier de proiect:\n\n  %s\n  scris %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Lângă acest material se află mai multe fișiere de proiect. Care dintre ele?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROIECT DESCHIS\n  Toate datele sunt la loc, nimic nu a fost calculat în această sesiune.\n  Dosarul de ieșire conține fișierele ultimei rulări:\n  %s\n\n  Trei căi de aici:\n    • jos „Deschideți dosarul cu rezultate” -- vedeți fișierele acelei rulări,\n    • jos „Creați proiect Resolve” -- din fișierul de predare al acelei rulări,\n      fără a recalcula nimic,\n    • sus „Start” -- recalculați totul și suprascrieți fișierele.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROIECT SALVAT\n  %s\n  Această rulare poate fi deschisă din nou mai târziu -- sus în stânga\n  „Deschideți proiect ...”\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Presetările nu au putut fi încărcate: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Mai multe camere, dar niciun fișier audio. Fiecare cameră ar avea audio propriu --\npentru asta există --multitrack. Altfel, o cameră după alta."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Fișierul NU este recunoscut ca HDR."
+
+msgid "The file is tagged as HDR."
+msgstr "Fișierul este etichetat ca HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Extensie necunoscută, omis: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Cu ce presetare Auphonic ar trebui procesat acest fișier?"
+
+msgid "Would write: %s"
+msgstr "Ar scrie: %s"
+
+msgid "channel count unknown"
+msgstr "număr de canale necunoscut"
+
+msgid "is actively taken out"
+msgstr "este compensată activ"
+
+msgid "not readable"
+msgstr "nu se poate citi"
+
+msgid "the default device"
+msgstr "dispozitivul implicit"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: niciun audio de extras (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  EXISTĂ DEJA UN PROIECT CU ACEST NUME: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  CURĂȚAREA PISTELOR AUDIO"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  CLIPURI ÎN MEDIA POOL"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Neutilizabil: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  REÎMPROSPĂTAREA LISTEI DE MONTAJ"
+
+msgid "\n  Render job"
+msgstr "\n  Sarcină de randare"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Partea Resolve s-a oprit: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  OPRIT: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Setări"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Oprit: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  EXISTĂ DEJA O PRODUCȚIE CU ACEST NUME"
+
+msgid "\n  This produces:"
+msgstr "\n  Rezultă:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Rulare %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nDEJA PROCESAT"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nCOMPARAREA CULORILOR CAMERELOR"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nVERIFICAREA REZULTATULUI RETURNAT"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nRATE DE CADRE DIFERITE: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nDIMENSIUNI DE CADRU DIFERITE: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nS-a încheiat fără rezultat: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nÎncheiat cu erori.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nMĂSURAREA AXEI TIMPULUI"
+
+msgid "\nMETRICS"
+msgstr "\nINDICATORI"
+
+msgid "\nMIXING"
+msgstr "\nMIXARE"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALIZARE"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Nicio imagine: pistele se aliniază una față de alta."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs nu are efect aici: pistele ies așa cum au fost înregistrate, iar sonoritatea se stabilește acolo unde sunt mixate."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nO singură pistă și-a găsit locul -- nu a mai rămas nimic față de care să fie așezată."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Fereastră:         %s -- tot ce a auzit oricare pistă"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: liniște timp de %s la început și %s la sfârșit"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nDupă unirea blocurilor rămâne o singură pistă, iar Multitrack are nevoie de una pentru fiecare voce. Acolo unde doi oameni au fost luați drept o singură înregistrare, --apart ține un bloc deoparte."
+
+msgid "RECOGNISED PLAN"
+msgstr "PLAN RECUNOSCUT"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nNicio pistă audio nu s-a putut alinia -- nu există nimic de pus pe axă."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nSunetul și imaginea au în comun doar %s, iar alinierea a găsit în acest interval %s puncte de eșantionare. Este prea puțin pentru a așeza ceva pe el."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s mixate împreună"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nNiciun fișier video utilizabil -- fără audio de cameră nu există axă comună a timpului."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nVERIFICARE PRELIMINARĂ -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nPROCESARE: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- DOAR INSPECTARE"
+
+msgid "\nRESULT"
+msgstr "\nREZULTAT"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nSALVAREA PISTELOR"
+
+msgid "\nStopped: %s"
+msgstr "\nOprit: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nSCRIEREA PISTELOR PE AXĂ"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  gata%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Pista %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s niciun fișier în media pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   gol (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s de la %s, durată %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s drum sonor %4s ms (%s m), decalaj %6s ms, derivă %5s ppm (puncte: %s, %s ms rest)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- nimic potrivit găsit"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Atenție: %s. Acolo nu există imagine;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Grupuri de culoare: %s -- toate clipurile atribuite"
+
+msgid "    Colours per angle:"
+msgstr "    Culori per unghi:"
+
+msgid "    Cross-check:"
+msgstr "    Contraverificare:"
+
+msgid "    Left without picture: %s"
+msgstr "    Rămas fără imagine: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Nu s-a găsit niciun format MP4. Disponibile: %s"
+
+msgid "    No clips found."
+msgstr "    Nu s-au găsit clipuri."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Nu s-a găsit niciun codec potrivit. Disponibile: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Setările de randare au fost respinse."
+
+msgid "    the measured window is therefore kept."
+msgstr "    de aceea se păstrează fereastra măsurată."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  Planuri: %s, în total %s s, fără sunetul lor."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  Create -- piste video: %s, piste audio: %s (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s primește %s piste mixate împreună: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Pistă audio %d:      %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Atomi cameră:       %s adăugați -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s la început și %s la sfârșit nu au imagine și se omit"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    începe cu %s și se termină cu %s -- porțiunea văzută de fiecare cameră"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nSe oprește. Rularea se încheie de îndată ce o poate face fără a lăsa un fișier scris pe jumătate -- un moment.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Planul larg ține %s s, mai puțin decât cel mai scurt plan de %s s -- deci este comasat la loc și nu apare niciodată.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nMăsurat. Nu s-a scris nimic -- o rulare de probă lasă dosarul cu rezultate așa cum era.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nOprit în timpul: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Tot ce urmează după acel pas lipsește. Dosarul conține o parte dintr-o rulare, nu un rezultat."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Fereastră comună:  %s până la %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Creată:      %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Eroare la scriere: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Fișier:    %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  S-au cerut două canale -- înregistrarea este stereo"
+
+msgid "  From %s"
+msgstr "  Din %s"
+
+msgid "  In summary: %s"
+msgstr "  Pe scurt: %s"
+
+msgid "  In the archive: %s"
+msgstr "  În arhivă: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Lipsă:       %s"
+
+msgid "  Player: %s"
+msgstr "  Player: %s"
+
+msgid "  Production:  %s"
+msgstr "  Producție:   %s"
+
+msgid "  Project %r"
+msgstr "  Proiect %r"
+
+msgid "  Project %r created."
+msgstr "  Proiectul %r a fost creat."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Rezultat:          circa %s LUFS, vârf %s dBTP"
+
+msgid "  Results:"
+msgstr "  Rezultate:"
+
+msgid "  Results:     none"
+msgstr "  Rezultate:   niciunul"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  Fișierele existente sunt refolosite -- recalcularea nu costă nimic."
+
+msgid "  Time limit: %s"
+msgstr "  Limită de timp: %s"
+
+msgid "  To upload:   %s"
+msgstr "  De încărcat: %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Piste:       %s"
+
+msgid "  Tracks: %s"
+msgstr "  Piste: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Transcriere: %s"
+
+msgid "  Uploaded:"
+msgstr "  Încărcate:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Abatere:                             %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Abatere:                             %s  (cadre: %s)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Abatere:                             %s  (cadre: %s) -- se potrivește"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Decalaj măsurat:                     %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Decalaj după timecode:               %s"
+
+msgid "Abort: %s"
+msgstr "Abandon: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "EXTRAGEREA AUDIO DIN CAMERE"
+
+msgid "FOR RESOLVE"
+msgstr "PENTRU RESOLVE"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "NICIUN FIȘIER AUDIO -- SE FOLOSEȘTE AUDIO DE LA CAMERĂ"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "NICIO ÎNREGISTRARE AUDIO SEPARATĂ -- SE FOLOSEȘTE AUDIO DE LA CAMERĂ"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "PROCESARE LA AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "PROCESARE LA AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "Procesarea a eșuat: %s"
+
+msgid "RESULT"
+msgstr "REZULTAT"
+
+msgid "Resolve part stopped: %s"
+msgstr "Partea Resolve oprită: %s"
+
+msgid "Stopped: %s"
+msgstr "Oprit: %s"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s toate camerele una lângă alta -- devine clipul multicam"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s imaginea din montajul pe camere, audio-ul dintr-o bucată"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s camera dintr-o bucată, mixul dedesubt"
+
+msgid "   --   audio only"
+msgstr "   --   doar audio"
+
+msgid "   -- not found"
+msgstr "   -- negăsit"
+
+msgid "   Caution: more than one frame"
+msgstr "   Atenție: mai mult de un cadru"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s decalaj %s ms%s, durată %s s, împrăștiere %s ms, puncte: %s din %s%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (acest fișier se termină mai devreme)"
+
+msgid "  (this file starts later)"
+msgstr "  (acest fișier începe mai târziu)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  niciun Timeline Resolve nu rulează la această rată; se convertește"
+
+msgid "  --  this file is outside"
+msgstr "  --  acest fișier este în afară"
+
+msgid "  -->  aligned"
+msgstr "  -->  aliniată"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  aliniată, deriva ceasului de %s ppm eliminată"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Verificare:      %s față de pista camerei %s ms (potrivire %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Creați-l cu \"Creați proiect Resolve\" în interfață. Resolve trebuie să ruleze."
+
+msgid "  The handover file could not be written."
+msgstr "  Fișierul de predare nu a putut fi scris."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Din acesta rezultă proiectul, importul și %s:"
+
+msgid " (paused)"
+msgstr " (pauză)"
+
+msgid " (playing)"
+msgstr " (redă)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- un punct In sau Out scutește încărcarea"
+
+msgid " -- not readable"
+msgstr " -- nu se poate citi"
+
+msgid " -- nothing to fault."
+msgstr " -- nimic de reproșat."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- doar matricea spune BT.2020"
+
+msgid " and "
+msgstr " și "
+
+msgid " from %s files"
+msgstr " (fișiere: %s)"
+
+msgid " not."
+msgstr " -- niciunul."
+
+msgid "%s blocks"
+msgstr "blocuri: %s"
+
+msgid "%s brought to the preset"
+msgstr "%s aduse la presetare"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s canale -- împărțite în piste, vezi rândurile de mai sus."
+
+msgid "%s checked"
+msgstr "%s verificate"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "comparații: %s din %s sunt sub %s dB -- fiecare înregistrare față de fiecare alta, în ambele direcții."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "fișiere video fără curbă și fără spațiu de culoare în blocul colr: %s din %s%s -- probabil material Log."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r este un timecode, dar aici nu există imagine și deci nicio cameră de la care să fie numărat. Atunci funcționează doar o valoare de la începutul ferestrei, de exemplu +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r este un timecode, dar axa timpului nu este legată de niciun ceas: niciun fișier de aici nu poartă unul, inclusiv camera de referință %s. Atunci funcționează doar o valoare de la începutul ferestrei, de exemplu +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r nu este o presetare Multitrack"
+
+msgid "%r is not a number."
+msgstr "%r nu este un număr."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   nu se potrivește cu celelalte fișiere: sunet nerecunoscut, fără timecode.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Setat ca %s; %s este la un clic distanță."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Lăsat deoparte, %s fiind deja ocupat; %s este la un clic distanță."
+
+msgid "Its sound cannot be used."
+msgstr "Sunetul său nu poate fi folosit."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   sunet nerecunoscut; așezat după timecode-ul său"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   aplicația nu cunoaște acest format"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  blocuri: %s"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- ce să se întâmple cu asta?\nDetaliile sunt în jurnal."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz în loc de %s kHz -- se convertește la procesare."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s nu poate fi plasat: sunetul său nu are nimic în comun cu restul materialului, iar fișierul nu poartă timecode. Are nevoie de unul care să se potrivească cu celelalte înregistrări, iar acela trebuie setat cu alt program."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s nu se potrivește cu nimic din material și este mult mai scurt decât restul: propus ca Intro, care se pune la început și nu se măsoară niciodată."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s este setat, iar aici nu se ajustează nimic: pistele pleacă așa cum au fost înregistrate, iar sonoritatea se stabilește acolo unde sunt mixate."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s poate fi din nou plasat și este înapoi în rulare."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s nu a putut fi instalat.\nManual:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s nu are pistă audio."
+
+msgid "%s in %s"
+msgstr "%s în %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s în microfonul lui %s: cu %s dB mai încet decât în al său."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s se află în %s -- fișierul este acum în player."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s nu se află pe axa episodului: se pune înaintea materialului sau după el, nu se montează în el. Punctul In și punctul Out aparțin celor ce se află între ele."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s nu se află în niciun fișier video. Există un timecode care se potrivește cu materialul?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s în microfonul lui %s cu numai %s dB mai încet"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: încă nu se poate derula, se va face ulterior (%s)"
+
+msgid "%s: not there"
+msgstr "%s: nu există acolo"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), încercarea %d, apoi la %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: ar trebui să ajungă la %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", fără audio"
+
+msgid "-- only one camera"
+msgstr "-- doar o cameră"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- salt la %s timp de program%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- punct fixat, timpul de program pornește de la %s ---"
+
+msgid "... or add files ..."
+msgstr "... sau adăugați fișiere ..."
+
+msgid "/not seekable"
+msgstr "/nu se poate derula"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>planuri: %(n)s</b>, mediană %(med)s s, cel mai scurt %(short)s s, cea mai lungă cameră %(long)s s</span>. Timp de vorbire: <b>%(own)s %%</b> pe camera proprie (%(own_t)s), %(wide)s %% pe planul larg (%(wide_t)s), <span style='color:%(warn)s'>la %(off)s %% (%(off_t)s) camera vorbitorului nu este activă</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Fiecare pereche de canale este judecată separat: o pistă stereo, sau două microfoane și deci două piste. Intrările silențioase cad. Rândurile de sub fișier spun ce s-a măsurat, iar bifa are prioritate."
+
+msgid "Add files ..."
+msgstr "Adăugați fișiere ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Alinierea se face după decalajul măsurat; timecode-ul este doar contraproba."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Toate înregistrările poartă același nume -- din asta rezultă o singură pistă."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Toate rândurile poartă același nume -- rezultă o singură pistă, iar Multitrack are nevoie de cel puțin două."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Atribuire: care pistă audio aparține cărei camere"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Audio și video (%s);;Toate fișierele (*)"
+
+msgid "Audio at programme time"
+msgstr "Audio la timpul de program"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic a creat alte piste decât cele cerute: %s în loc de %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic raportează o eroare: %s"
+
+msgid "Bleed"
+msgstr "Diafonie"
+
+msgid "Blocks"
+msgstr "Blocuri"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Ambele deodată nu merg: pistele care se întorc ar ajunge la o valoare, mixul nostru la cealaltă. Fie setați --lufs %.0f, fie schimbați presetarea."
+
+msgid "Camera"
+msgstr "Cameră"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Audio cameră, încă %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- previzualizare  (durată %s)"
+
+msgid "Why the run cannot start"
+msgstr "De ce rularea nu poate porni"
+
+msgid "Cannot start yet: %s"
+msgstr "Nu se poate porni încă: %s"
+
+msgid "Change rejected: %s"
+msgstr "Modificare respinsă: %s"
+
+msgid "Check again"
+msgstr "Verificați din nou"
+
+msgid "Check the connection to Resolve again"
+msgstr "Verificați din nou conexiunea la Resolve"
+
+msgid "Check itself failed: %s"
+msgstr "Verificarea însăși a eșuat: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Verificați cheia și preluați presetările."
+
+msgid "Chosen"
+msgstr "Ales"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Ceas %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+
+msgid "Close"
+msgstr "Închidere"
+
+msgid "Connects to Resolve again."
+msgstr "Se conectează din nou la Resolve."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Conținut: o cameră ca oricare alta.\nPlan larg: o cameră în fața căreia nu stă nimeni -- nu primește niciun vorbitor, iar montajul trece la ea într-o pauză și într-un monolog lung.\nIntro și outro sunt clipuri finite -- nealiniate, neprocesate, doar plasate în Timeline.\nIgnorați video: fișierul rămâne complet în afară."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  Planuri largi: %s; montajul folosește %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Fiecare cameră poartă un vorbitor, deci nu există plan larg: cele patru setări ale planului larg și bifa pentru margini nu fac nimic aici."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Nicio cameră nu este liberă de vorbitori, deci nu există plan larg: cele patru setări ale planului larg și bifa pentru margini nu fac nimic. Dați unei camere Tipul \"Plan larg\", sau lăsați una fără vorbitor."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "plasat după fază, claritate %s față de un prag de %s, derivă necunoscută"
+
+msgid "placed on the bands that move"
+msgstr "plasat după benzile care se mișcă"
+
+msgid "Why the wide shot settings are grey"
+msgstr "De ce setările planului larg sunt gri"
+
+msgid "because no speaker is assigned to it"
+msgstr "pentru că niciun vorbitor nu îi este atribuit"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "marcată ca plan larg -- nu primește vorbitori"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "niciun vorbitor -- acesta este planul larg"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "niciun vorbitor nu îi este atribuit, dar montajul folosește %s"
+
+msgid "the cut uses %s"
+msgstr "montajul folosește %s"
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "acesta este planul larg -- trecere la \"fără cameră proprie\": %s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Curba și spațiul de culoare lipsesc din fișier"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "Punctul In și punctul Out sunt disponibile de îndată ce axa timpului este stabilită -- din timecode sau măsurată."
+
+msgid "In point is %s before the first frame"
+msgstr "Punctul In este cu %s înaintea primului cadru"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "Punctul In este acum %s, dar fișierele existente aparțin lui %s.\n  Audio-ul din videoclipuri este tăiat pe vechea fereastră -- apăsați din nou\n  Start, mai sus."
+
+msgid "Out point is %s after the last frame"
+msgstr "Punctul Out este cu %s după ultimul cadru"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Punctul Out este acum %s; fereastra ar dura %s, fișierele existente\n  durează %s -- apăsați din nou Start, mai sus."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Livrarea folosește de obicei intervalul limitat. Complet nu este greșit, dar unele playere îl interpretează greșit."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Stabilește cum procesează auphonic.com materialul audio.\n\n„%s” lasă cheia pe loc și totuși nu merge acolo.\nAudio este atunci doar comasat și normalizat, nu separat --\niar fără piste separate nu există montaj pe camere."
+
+msgid "Distance to mean"
+msgstr "Distanța față de medie"
+
+msgid "Drag audio and video files here"
+msgstr "Trageți aici fișiere audio și video"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Rulare de probă: doar se măsoară, nu se scrie nimic, nu se încarcă nimic."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "În timpul salutului și al rămas-bunului imaginea rămâne în plan larg."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Cadrele stau puțin mai mult; fișierul nu devine mai scurt din acest motiv. Programul de montaj repetă cam un cadru la fiecare %s s, iar imaginea și audio cameră rămân împreună."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Cadrele stau puțin mai scurt; fișierul nu devine mai lung din acest motiv. Programul de montaj omite cam un cadru la fiecare %s s, iar imaginea și audio cameră rămân împreună."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Opt biți nu ajung pentru HDR: fiecare gradient face benzi, iar YouTube cere zece sau doisprezece."
+
+msgid "Envelope"
+msgstr "Anvelopă"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s stă pe %s, care nu este o cameră a acestei rulări -- montajul o numește totuși."
+
+msgid "Envelope failed: %s"
+msgstr "Anvelopa a eșuat: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Anvelopele și audio cameră se pregătesc în fundal."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Fiecare rând are nevoie de un nume -- la Auphonic devine track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Previzualizare externă -- aplicația nu cunoaște acest format"
+
+msgid "Fetching audio"
+msgstr "Se preia audio"
+
+msgid "Fetching audio ..."
+msgstr "Se preia audio ..."
+
+msgid "File"
+msgstr "Fișier"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Acolo lipsesc fișiere -- fără o nouă încărcare nu se poate calcula nimic.\n  Cu --auphonic-resume upload scriptul încarcă din nou; asta costă credit."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "Pentru HDR, alegerea obișnuită este HEVC (Main 10), AV1 sau VP9 Profile 2. YouTube acceptă și H.264, dar are nevoie de mai mult bitrate."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Pentru zece biți, HEVC are nevoie de profilul Main 10. În Resolve se află la Deliver, ca „Profile”."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, nu cele %s din fișier -- cadre în minus pe aceeași durată: %s."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, nu cele %s din fișier -- cadre în plus pe aceeași durată: %s."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "Distanța dintre cadre variază cu %s %% -- cadența cadrelor este neuniformă."
+
+msgid "Free space there: %s"
+msgstr "Spațiu liber acolo: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Gol de %s între blocul %d și %d -- camera s-a oprit."
+
+msgid "Drag to move the position."
+msgstr "Trageți pentru a muta poziția."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR are nevoie aici de 16 (PQ, adică HDR10) sau 18 (HLG). În Resolve: Gamma tag = ST.2084 sau HLG. 14 nu este o curbă HDR, ci SDR în spațiul BT.2020."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR are nevoie aici de 9 (BT.2020). În Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR are nevoie aici de 9 (BT.2020, luminanță neconstantă)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG este raportat la afișaj -- nu are nicio intrare pentru display-ul de mastering."
+
+msgid "If empty: next to each video file."
+msgstr "Dacă este gol: lângă fiecare fișier video."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "A apărut la înregistrare și nu mai poate fi schimbat acum. Cu cât microfoanele sunt mai puțin separate, cu atât mai prudent poate lucra De-Bleed de la auphonic.com. Data viitoare: de trei ori mai departe de microfonul vecin decât de propria gură, atunci vocea vecină stă cu circa %s dB mai jos."
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "Nu se potrivește nicăieri în material: fără timecode, iar sunetul ei nu are nimic în comun cu restul. Planul larg este cel la care montajul revine, deci trebuie să se afle pe axa timpului."
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "Nu se potrivește nicăieri în material, așa că nu poate fi montat în episod. Poate fi pus înaintea lui sau după el."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s nu se potrivește cu nimic din material, așa că nu poate fi montat în episod: setat ca Intro."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s nu se potrivește nici el cu nimic din material, iar Intro este ocupat: lăsat pe dinafară."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s este deja setat ca %s, iar un episod are unul singur. Răspundeți altfel aici sau scoateți mai întâi marcajul de pe acel fișier."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "Se află în atomul logs al descrierii imaginii -- după el Resolve recunoaște spațiul de culoare de intrare. Curbe diferite înseamnă spații de culoare de intrare diferite."
+
+msgid "Jumps to the end of the window."
+msgstr "Sare la sfârșitul ferestrei."
+
+msgid "Jumps to the start of the window."
+msgstr "Sare la începutul ferestrei."
+
+msgid "Keychain"
+msgstr "Portchei"
+
+msgid "Limits the de-bleed: "
+msgstr "Limitează eliminarea diafoniei: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Încărcați presetările și alegeți una, sau lăsați API Key gol."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 respins -- rămâne valoarea implicită"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Doar măsurare -- nu se scrie și nu se încarcă nimic."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Se măsoară %s (%s din %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Măsurarea nu este posibilă: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Măsurarea etalonului"
+
+msgid "Measuring time axis ..."
+msgstr "Se măsoară axa timpului ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Audio lipsă %s umplut cu liniște%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Modulul DaVinciResolveScript nu poate fi încărcat: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "O pistă audio pentru fiecare persoană, ținută separat până la auphonic.com.\nMerge și fără -- atunci însă fără de-bleed și nivelator.\nAre nevoie de două piste de intrare: o înregistrare proprie, un canal al unui\nînregistrator multicanal sau sunetul unui fișier video setat pe „folosiți\naudio”. Montajul pe camere nu are nevoie de această bifă."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (o pistă per vorbitor)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosește audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nicio cheie API. Indicați --auphonic-api-key CHEIE, setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără de la începutul materialului -- poziția fișierelor unul față de altul este măsurată."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Niciun sunet în uz încă -- adăugați o înregistrare audio sau setați în lista de fișiere Audio cameră al unui fișier video pe „folosiți audio intern”."
+
+msgid "No audio tracks are assigned."
+msgstr "Nu este atribuită nicio pistă audio."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Nicio cameră nu este atribuită, deci nu există nimic între care să se monteze."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Încă nu s-au atribuit camere -- porniți Multitrack pentru asta."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Nicio conexiune la Resolve.\n  Rulează programul? Este scriptingul extern setat pe 'Local'\n  la Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "Nu s-au deschis încă fișiere sau un proiect."
+
+msgid "No files selected yet."
+msgstr "Nu s-au selectat încă fișiere."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Nu este posibilă nicio intrare. Folosiți %s %s pentru a stabili ce trebuie să se întâmple."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Niciun player nu este încorporat aici -- redarea rulează în ffplay, într-o fereastră proprie."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Nicio presetare indicată, nicio introducere posibilă. Alegeți una dintre cele de mai sus cu --auphonic-preset NUME."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "Nicio presetare stocată în cont. Una se poate crea în interfața web."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Aici nu se cunoaște niciun vorbitor -- fără cine vorbește când nu există nimic între care să se monteze."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Nicio voce nu are încă o cameră -- așa, fiecare plan ar fi același."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Încă nu se cunosc vorbitori -- nimic măsurat, nimic separat, și niciun fișier de predare al unei rulări anterioare în %s sau în subdosarele sale."
+
+msgid "Not found again after import: %s"
+msgstr "Nu s-a regăsit după import: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "de pe ffmpeg.org, iar dosarul în PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "prin managerul de pachete: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Aici: %s. Necesar: %s sau mai nou."
+
+msgid "no answer"
+msgstr "niciun răspuns"
+
+msgid "Nothing runs until that is put right."
+msgstr "Nimic nu rulează până nu se rezolvă asta."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Nu rulează nimic până când asta nu este pusă în ordine. Așa se face: %s"
+
+msgid "Get it: %s"
+msgstr "Obțineți: %s"
+
+msgid "Quit"
+msgstr "Ieșiți"
+
+msgid "That worked."
+msgstr "A funcționat."
+
+msgid "Installing ffmpeg"
+msgstr "Se instalează ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "Reporniți programul pentru a-l prelua."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Obținerea durează câteva minute, iar ce spune apare sub Ieșire."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "Durează câteva minute -- un manager de pachete poate compila din sursă. Ce spune apare aici."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Acum se compilează, și aceasta este partea lungă: minute pe un calculator rapid și considerabil mai mult pe unul mai vechi. Nu s-a blocat nimic -- cât timp se lucrează, apare un punct la fiecare câteva secunde."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg este instalat."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Programul îl citește la pornire. Poate reporni acum, sau puteți face asta mai târziu."
+
+msgid "Start again now"
+msgstr "Reporniți acum"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Repornirea nu a reușit. Închideți fereastra și porniți programul așa cum ați făcut înainte."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Mai întâi, ffmpeg-ul existent este dat la o parte: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Se poate prelua un ffmpeg 9.0.1 compilat, cu soxr: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Preluați acum? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Se preia un ffmpeg compilat. Este mare, așa că durează câteva minute: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s din %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "Versiunea compilată nu a putut fi preluată: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Versiunea compilată nu a putut fi despachetată: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Arhiva conținea %s din cele două programe."
+
+msgid "  It is here: %s"
+msgstr "  Se află aici: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "instalați Homebrew de pe brew.sh, apoi din nou aceasta"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Acest ffmpeg are soxr: deriva ceasului între camere se compensează în pași de 0,21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Acest ffmpeg nu are soxr: deriva ceasului între camere se compensează în pași de 21 ppm în loc de 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Totul funcționează și fără el. Obținerea unei versiuni compilate care îl are durează câteva minute, iar ce spune apare sub Ieșire."
+
+msgid "Carry on"
+msgstr "Continuați"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Nu sunt obligatorii -- YouTube aplică atunci valori implicite (Sony BVM-X300). Pentru a le obține: în Resolve activați HDR10+ la Color Management, rulați „Analyze All Shots” pe pagina Color și bifați „Embed HDR10 Metadata” la randare."
+
+msgid "Not ready yet:"
+msgstr "Încă nu este gata:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "În piste nu s-a auzit nimic."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "O înregistrare audio nu are încă numele vorbitorului."
+
+msgid "One frame back."
+msgstr "Un cadru înapoi."
+
+msgid "One second back."
+msgstr "O secundă înapoi."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Fiecare plan în culoarea camerei sale. Treceți cu mausul pentru cameră și durată, clic pentru a sări."
+
+msgid "Only one speaker"
+msgstr "Un singur vorbitor"
+
+msgid "Open json project file"
+msgstr "Deschideți fișier de proiect json"
+
+msgid "Open result folder"
+msgstr "Deschideți dosarul cu rezultate"
+
+msgid "Open the settings, where the key is."
+msgstr "Deschideți setările, unde se află cheia."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Ordinea nu contează. La o înregistrare în mai multe părți este suficient primul bloc."
+
+msgid "Overwrite"
+msgstr "Suprascrieți"
+
+msgid "Overwrite files"
+msgstr "Suprascrieți fișierele"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Panoul %d încarcă %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Panoul %d pe %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Redare și pauză -- merge și tasta spațiu."
+
+msgid "Play and pause."
+msgstr "Redare și pauză."
+
+msgid "Playback not possible"
+msgstr "Redarea nu este posibilă"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Se redă %s -- pista procesată de la auphonic.com,\nadusă la nivel de difuzare. Același audio ca în montajul pe camere."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Se redă %s -- înregistrarea brută.\nEste mult mai încet decât audio procesat; odată ce pistele de la auphonic.com\nsunt acolo, previzualizarea le folosește pe acelea."
+
+msgid "Prepare pane %d for %s"
+msgstr "Pregătirea panoului %d pentru %s"
+
+msgid "Preset not readable: %s"
+msgstr "Presetare ilizibilă: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Previzualizare imposibilă: %s"
+
+msgid "Preview running ..."
+msgstr "Previzualizare în curs ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Pregătire -- citirea audio și calculul anvelopelor:\n"
+
+msgid "Primaries"
+msgstr "Culori primare"
+
+msgid "Primaries number %d"
+msgstr "Culorile primare numărul %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Procesare la auphonic.com (opțional)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Procesare la auphonic.com cu „%s”"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Producție încheiată, dar niciun ZIP cu pistele individuale"
+
+msgid "Production name"
+msgstr "Numele producției"
+
+msgid "Chosen files"
+msgstr "Fișiere alese"
+
+msgid "Remove the chosen file from the list"
+msgstr "Eliminați fișierul ales din listă"
+
+msgid "Project %r could not be created."
+msgstr "Proiectul %r nu a putut fi creat."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Proiectul %r nu a putut fi creat. Există numele deja în alt dosar?"
+
+msgid "Project %r could not be opened."
+msgstr "Proiectul %r nu a putut fi deschis."
+
+msgid "Puts it back next to each video file."
+msgstr "Îl pune înapoi lângă fiecare fișier video."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "REVENIREA A EȘUAT (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Se citește pista audio din %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "Eliminați din listă toate fișierele de acest tip? Sunt %s, tip: %s.\n\n%s"
+
+msgid "Resolutions"
+msgstr "Rezoluții"
+
+msgid "Resolve running ..."
+msgstr "Resolve în curs ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve scalează la rezoluția Timeline-ului. Tot ce este mai mic este mărit și devine mai neclar."
+
+msgid "Response was not JSON: %s"
+msgstr "Răspunsul nu a fost JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Rândurile marcate cu roșu arată unde este problema; o bifă pe filă înseamnă că totul este la locul lui."
+
+msgid "Save in Keychain"
+msgstr "Salvați în Portchei"
+
+msgid "Save in Registry"
+msgstr "Salvați în Registru"
+
+msgid "Select audio and video files"
+msgstr "Selectați fișiere audio și video"
+
+msgid "Speakers, as the run measured them"
+msgstr "Vorbitori, așa cum i-a măsurat rularea"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Vorbitori, măsurați de program din piste"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Pornită târziu sau oprită devreme -- această voce lipsește atunci pe alocuri din mix."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Oprit. Alegeți alt nume de producție -- atunci se creează o producție\n  nouă -- sau alegeți una dintre celelalte opțiuni."
+
+msgid "Stopped. Nothing was created."
+msgstr "Oprit. Nu s-a creat nimic."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Oprit. Nimic nu a fost încărcat și nimic calculat."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Se folosește așa cum este -- nimic nu este inventat. Verificați în Resolve sub Clip Attributes, fila Color Space: dacă acolo scrie „Project”, spațiul de culoare de intrare nu a fost recunoscut și trebuie setat manual."
+
+msgid "Takes the position from the picture."
+msgstr "Preia poziția din imagine."
+
+msgid "Ten seconds back."
+msgstr "Zece secunde înapoi."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Interfața Resolve nu se află unde mă aștept:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Interfața Resolve nu se află acolo unde ar trebui să fie."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline-ul primește o rată fixă -- cea mai mare dintre ele, sau următoarea rată pe care Resolve o are deasupra. Pe celelalte le convertește; la 23,976 față de 24 analiza sa audio tinde să se blocheze."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "Înregistrarea audio a fiecărui vorbitor, plus camerele.\nOrdinea nu contează -- programul recunoaște ce este ce.\nLa o înregistrare în mai multe părți este suficient primul bloc."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Montajul nu are imagine acolo. Când se construiește Timeline-ul, locul rămâne gol, audio continuă."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Rezultatul existent este inutilizabil, ce lipsește acolo: %s. Cu --auphonic-resume rerun poate fi recalculat fără a încărca nimic."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "Regulile de montaj nu lasă niciun plan în picioare în aceste %s. Un cel mai scurt plan mai scurt, sau mai puțin plan larg, aduce din nou unul."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Emisiunea durează aici %s -- în atât nu se poate aranja nimic. Punctul In și punctul Out sunt cele care stabilesc asta."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Fereastra de timp este în afara materialului: punctul In la %s, punctul Out la %s, iar materialul durează %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "Prima pistă a presetării stabilește setările pentru toate pistele noastre. Altfel se întorc neprocesate. Creați o pistă în presetare, în interfața web."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Pentru asta este nevoie de fișierul de predare dintr-o rulare, și nu există niciunul."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "Cheia poate fi păstrată doar pe Mac și Windows -- în portchei sau în registru. Nu ajunge într-un fișier."
+
+msgid "%s -- being checked"
+msgstr "%s -- se verifică"
+
+msgid "The key was not saved: %s"
+msgstr "Cheia nu a fost salvată: %s"
+
+msgid "The key was not saved"
+msgstr "Cheia nu a fost salvată"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Portcheiul este blocat. Deblocați-l și încercați din nou."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Această rulare este o rulare de test, iar spațiul de stocare încă poartă numele său real, așa că nu s-a scris nimic. Îndreptați mai întâi KEY_SERVICE, KEY_ACCOUNT sau REG_PATH în altă parte."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Portcheiul este blocat. Deblocați-l și acest buton se trezește."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Portcheiul nu a acceptat cheia. Acces portchei poate spune de ce."
+
+msgid "The registry did not take the key."
+msgstr "Registrul nu a acceptat cheia."
+
+msgid "Open Keychain Access"
+msgstr "Deschideți Acces portchei"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Deschide aplicația care deblochează portcheiul."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Acces portchei nu a putut fi deschis: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "Cheia stocată nu este acceptată: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "Cheia din AUPHONIC_TOKEN nu este acceptată: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Ce a răspuns auphonic.com"
+
+msgid "There is no key."
+msgstr "Nu există nicio cheie."
+
+msgid "The key has a space or a line break at one end."
+msgstr "Cheia are un spațiu sau un sfârșit de linie la unul dintre capete."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "Cheia este întreruptă la mijloc de un spațiu sau un sfârșit de linie."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "Cheia conține un caracter care nu poate fi tastat."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "Cheia nu ajunge atunci într-un fișier, ci aici: %s."
+
+msgid "The production has no name yet."
+msgstr "Producția nu are încă un nume."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "Înregistrarea atribuită acestei camere în loc de audio cameră."
+
+msgid "The run is still going."
+msgstr "Rularea este încă în curs."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Încă nu se cunosc vorbitori -- sunt determinați din piste de îndată ce se deschide această filă. Unde toți sunt pe o singură înregistrare, calea este \"mai mulți vorbitori\" în câmpul Numele vorbitorului."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "Cele trei numere sunt primarele, curba și matricea. Etichete diferite au nevoie de spații de culoare de intrare diferite în Resolve -- altfel o cameră arată altfel decât cealaltă."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Nu există înregistrări audio separate. Atunci se folosește audio de la camere (%s) -- fiecare devine o pistă, iar Auphonic elimină diafonia."
+
+msgid "There is no result yet."
+msgstr "Nu există încă un rezultat."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Aceste fișiere nu sunt nici audio, nici video și rămân pe dinafară:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "Aceste fișiere nu există:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Aceste fișiere există deja și vor fi scrise din nou:\n\n  %s\n\nAsta este intenția?"
+
+msgid "These files no longer exist:\n  "
+msgstr "Aceste fișiere nu mai există:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Aceste nume apar de mai multe ori:\n\n  %s\n\nÎnregistrările sunt comasate într-o singură pistă și așezate una după alta după timecode-ul lor. Este corect dacă înregistrarea a fost oprită între timp."
+
+msgid "These tracks got no file: %s"
+msgstr "Aceste piste nu au primit niciun fișier: %s"
+
+msgid "This Resolve project already exists"
+msgstr "Acest proiect Resolve există deja"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "Provine din înregistrare, nu de după: microfoanele stau prea aproape unul de altul sau prea departe de gură."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Acest fișier nu poate fi redat aici, iar ffplay lipsește ca soluție de rezervă."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "Acesta nu este un fișier de proiect și nu există niciunul în același dosar.\n\nSe caută %s*.json -- scriptul îl scrie în dosarul de ieșire la pornire."
+
+msgid "This is what happens next"
+msgstr "Iată ce urmează"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "Acest nume îl poartă deja altcineva. Un nume este o persoană, iar montajul pune o persoană pe o cameră -- dați acestei voci unul propriu."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "Acest nume apare de mai multe ori. Înregistrările ar deveni o singură pistă -- pentru Multitrack auphonic.com are nevoie de cel puțin două diferite."
+
+msgid "This production already exists"
+msgstr "Această producție există deja"
+
+msgid "This production has no result yet."
+msgstr "Această producție nu are încă un rezultat."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Limita de timp de %s atinsă, producția încă rulează: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Timecode %s, celelalte fișiere sunt la %s -- acest ceas nu a fost potrivit."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline-ul %r nu a putut fi creat."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Titlul la auphonic.com și începutul noilor nume de fișiere."
+
+msgid "To the In point."
+msgstr "La punctul In."
+
+msgid "To the start."
+msgstr "La început."
+
+msgid "Too many projects with this name."
+msgstr "Prea multe proiecte cu acest nume."
+
+msgid "Track"
+msgstr "Pistă"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "S-au adăugat piste în timpul modificării (acum %s). Asta face mixul\n  greșit. Ștergeți pe auphonic.com pistele fără fișier."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Două camere sunt o singură cameră în montaj. Fișierele lor poartă același nume, deci redenumiți unul dintre ele."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Două camere sunt una singură în montaj: %s. Fișierele lor poartă același nume, așa că redenumiți unul dintre ele."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Două camere ar produce același fișier. A doua l-ar suprascrie pe primul."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Două camere ar produce același fișier: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Două camere ar produce același fișier nou. Vă rugăm să dați nume diferite."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Cadența neuniformă a cadrelor nu poate fi corectată prin audio. Dacă și punctele de eșantionare se dispersează la aliniere, convertiți la o rată de cadre fixă."
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Video 1"
+msgstr "Video 1"
+
+msgid "Video 2"
+msgstr "Video 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- din material brut iese un podcast montat"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Volum. 100 este maximul -- Qt nu acceptă nimic peste."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- vorbitul simultan se numără de două ori"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Plan larg pentru salutul de la început și rămas-bunul de la sfârșit"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Fără ea, fiecare player trebuie să ghicească, și toți ghicesc SDR. În Resolve, la Deliver > Advanced Settings, setați Color space tag și Gamma tag în loc să le lăsați pe „Same as Project”."
+
+msgid "Without processing at auphonic.com"
+msgstr "Fără procesare la auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Nu există încă un montaj pe camere: are nevoie de două persoane, fiecare cu un nume și o cameră.\nÎnregistrările separate oferă asta cu bifa Multitrack, la fel și „mai mulți vorbitori” în câmpul Numele vorbitorului al unei înregistrări --\nvocile găsite acolo își primesc camera în tabelul de sub înregistrări.\nUn proiect Resolve se creează oricum -- toate camerele la pozițiile lor măsurate, gata pentru Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Fără timecode, poziția fișierelor se măsoară."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Determină din pistele însele cine vorbește când -- un microfon de persoană, nivelul față de propriul zgomot de fond. Unde toți sunt pe o singură înregistrare, calea este \"mai mulți vorbitori\" în câmpul Numele vorbitorului."
+
+msgid "a box no longer fits into its parent"
+msgstr "un box nu mai încape în părintele lui"
+
+msgid "after the device change"
+msgstr "după schimbarea dispozitivului"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com nu acceptă cheia: %s"
+
+msgid "average"
+msgstr "în medie"
+
+msgid "belongs to"
+msgstr "aparține de"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "diafonie prea neclară: secunde utilizabile: %s din %s, cele mai clare necesare: %s din %s"
+
+msgid "Midnight"
+msgstr "Miezul nopții"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s poartă un timecode de cealaltă parte a miezului nopții -- numărat ca o singură noapte, nu ca o zi distanță."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Un timecode numără de la miezul nopții și o ia de la capăt acolo. Fișierele sunt puse pe o singură axă înainte de a se scădea ceva, altfel înregistrarea de după miezul nopții pare la aproape o zi distanță de cea dinainte. Dacă acestea chiar au fost înregistrate în zile diferite, alinierea este greșită și decalajul măsurat este cel de încredere."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Canalul %d este la limită: serii de trei eșantioane sau mai multe la rând: %s, cea mai lungă %s (%s ms), prima la %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Numărat aici, eșantion cu eșantion, la rata la care a fost înregistrat fișierul: o serie de trei sau mai multe eșantioane pe cea mai mare valoare pe care o poate ține un format întreg. Unul sau două sunt rotunjire și nu se raportează. Ce este tăiat acolo este pierdut și nicio procesare nu îl aduce înapoi -- dar înregistrarea rămâne înregistrarea, și nimic nu se oprește din acest motiv. Se numără doar formatele întregi. 32 bit float nu are limită la scară maximă, deci nu este nimic de numărat acolo."
+
+msgid "boxes no longer readable"
+msgstr "box-urile nu se mai pot citi"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "aduceți la zi -- ambele Timeline-uri sunt șterse și\n       reconstruite, media pool-ul rămâne așa cum este"
+
+msgid "cannot be read back (%s)"
+msgstr "nu se poate reciti (%s)"
+
+msgid "checking ..."
+msgstr "se verifică ..."
+
+msgid "complete"
+msgstr "complet"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "creați un proiect nou alături (nume cu sufix)"
+
+msgid "curl ended with %d"
+msgstr "curl s-a încheiat cu %d"
+
+msgid "did not arrive: %s"
+msgstr "nu au ajuns: %s"
+
+msgid "does not belong: %s"
+msgstr "nu aparține: %s"
+
+msgid "does not exist: %s"
+msgstr "nu există: %s"
+
+msgid "does the material fit together?"
+msgstr "se potrivește materialul?"
+
+msgid "does the preset fit the run?"
+msgstr "se potrivește presetarea cu rularea?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "octeți în fișierul descărcat: doar %s"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "gol de %s după timecode, prea departe pentru o singură înregistrare"
+
+msgid "gets audio from"
+msgstr "primește audio de la"
+
+msgid "hear assigned audio"
+msgstr "ascultați audio atribuit"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "păstrați numele noastre și încărcați totul din nou -- asta costă\n       credit"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "lăsați-l și puneți noile Timeline-uri alături --\n       cele existente rămân"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "lipsește -- containerul nu are nicio etichetare de culoare"
+
+msgid "missing: %s"
+msgstr "lipsesc: %s"
+
+msgid "moov has not grown"
+msgstr "moov nu a crescut"
+
+msgid "moov is no longer in its place"
+msgstr "moov nu mai este la locul lui"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov nu se mai termină la sfârșitul fișierului"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "în mai multe părți, fără timecode -- golurile dintre ele nu pot fi detectate."
+
+msgid "new file name"
+msgstr "nume nou de fișier"
+
+msgid "next to each video file"
+msgstr "lângă fiecare fișier video"
+
+msgid "no audio data from %s"
+msgstr "nu există date audio din %s"
+
+msgid "no audio track present"
+msgstr "nicio pistă audio prezentă"
+
+msgid "no audio: %s"
+msgstr "fără audio: %s"
+
+msgid "no download address for %s"
+msgstr "nicio adresă de descărcare pentru %s"
+
+msgid "no information"
+msgstr "nicio informație"
+
+msgid "no information in the file"
+msgstr "nicio informație în fișier"
+
+msgid "no match in the middle either (%s)"
+msgstr "nicio potrivire nici la mijloc (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "nu s-a găsit niciun loc în care vorbește exact o persoană -- separarea nu poate fi măsurată."
+
+msgid "no production id in the response"
+msgstr "niciun identificator de producție în răspuns"
+
+msgid "no production id in the response: %s"
+msgstr "niciun identificator de producție în răspuns: %s"
+
+msgid "no timecode"
+msgstr "fără timecode"
+
+msgid "no video track"
+msgstr "fără pistă video"
+
+msgid "no video track in %s"
+msgstr "nicio pistă video în %s"
+
+msgid "none switched on"
+msgstr "niciunul activat"
+
+msgid "not checked yet"
+msgstr "neverificat încă"
+
+msgid "not in the media pool"
+msgstr "nu este în media pool"
+
+msgid "not measurable."
+msgstr "nemăsurabil."
+
+msgid "not measurable: %s"
+msgstr "nemăsurabil: %s"
+
+msgid "not needed with HLG"
+msgstr "nu sunt necesare la HLG"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "nu se poate citi (%s) -- neverificat."
+
+msgid "not readable: %s"
+msgstr "nu se poate citi: %s"
+
+msgid "nothing loaded yet"
+msgstr "nimic încărcat încă"
+
+msgid "nothing selected"
+msgstr "nimic selectat"
+
+msgid "off"
+msgstr "dezactivat"
+
+msgid "one Timeline"
+msgstr "un Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "durează doar %s, cea mai lungă înregistrare are %s."
+
+msgid "overlap of %s per timecode"
+msgstr "suprapunere de %s după timecode"
+
+msgid "per track"
+msgstr "per pistă"
+
+msgid "preset does not fit the run"
+msgstr "presetarea nu se potrivește cu rularea"
+
+msgid "previous block is shorter than the rest"
+msgstr "blocul anterior este mai scurt decât celelalte"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "s-au găsit piste procesate -- nu se încarcă nimic"
+
+msgid "production finished, but no output file"
+msgstr "producție încheiată, dar niciun fișier de ieșire"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "recalculați cu presetarea aleasă -- fișierele rămân\n       unde sunt, nu costă credit"
+
+msgid "reset"
+msgstr "resetare"
+
+msgid "running ..."
+msgstr "în curs ..."
+
+msgid "selected"
+msgstr "selectat"
+
+msgid "stays out"
+msgstr "rămâne în afară"
+
+msgid "stored file %s"
+msgstr "fișierul stocat %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "preluați rezultatul existent (nimic calculat, nimic plătit)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "preluați numele de acolo și continuați cu ele --\n       fără încărcare, nu costă nimic"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "presetarea Multitrack nu are nicio pistă stocată."
+
+msgid "the finished mixdown"
+msgstr "mixajul final"
+
+msgid "the individual tracks"
+msgstr "pistele individuale"
+
+msgid "the individual tracks, packed"
+msgstr "pistele individuale, arhivate"
+
+msgid "the media data is no longer where it was"
+msgstr "datele media nu mai sunt unde erau"
+
+msgid "the mix of all tracks"
+msgstr "mixul tuturor pistelor"
+
+msgid "the mixdown as the yardstick"
+msgstr "mixajul final ca reper"
+
+msgid "the old moov is back in place"
+msgstr "vechiul moov este din nou la locul lui"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "presetarea masterizează la %s LUFS, calculul folosește %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "presetarea masterizează la %s LUFS -- asta rămâne, nimic de-al nostru nu ajustează."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "preluat din fișierele sursă, fără --lufs indicat -- nu se ajustează nimic"
+
+msgid "the answer did not keep the floor"
+msgstr "răspunsul nu a păstrat cuvântul"
+
+msgid "the main speaker asked"
+msgstr "a întrebat vorbitorul principal"
+
+msgid "nobody answered in time"
+msgstr "nimeni nu a răspuns la timp"
+
+msgid "nobody was speaking at the question"
+msgstr "nimeni nu vorbea la întrebare"
+
+msgid "asker and answerer on one camera"
+msgstr "cel care întreabă și cel care răspunde pe aceeași cameră"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "înregistrările se suprapun doar %s -- prea puțin pentru a măsura."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "cea mai scurtă înregistrare are doar %s -- prea puțin pentru a măsura."
+
+msgid "the source folder"
+msgstr "dosarul sursă"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "șablonul de pistă nu are nimic activat -- pistele s-ar întoarce exact așa cum au fost încărcate."
+
+msgid "the video files are tagged differently: %s"
+msgstr "fișierele video sunt etichetate diferit: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "fișierele video poartă curbe de înregistrare diferite: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "fișierele video au dimensiuni de imagine diferite: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "fișierele video rulează la rate diferite: %s"
+
+msgid "the video track can no longer be found"
+msgstr "pista video nu mai poate fi găsită"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "axa timpului măsurată -- salturile cad în același punct"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "axa timpului măsurată și legată de timecode"
+
+msgid "time axis not measurable"
+msgstr "axa timpului nemăsurabilă"
+
+msgid "time axis not measurable: %s"
+msgstr "axa timpului nemăsurabilă: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "secunde: doar %s, în care vorbește doar %s, necesare %s"
+
+msgid "too little audio to align"
+msgstr "prea puțin audio pentru aliniere"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "încărcați totul din nou și recalculați -- asta costă credit"
+
+msgid "used directly"
+msgstr "folosit direct"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "planul larg %s, mixul este prima sa pistă audio"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s apare de mai multe ori. Aceste înregistrări sunt comasate într-o singură pistă și așezate una după alta după timecode -- corect dacă înregistrarea a fost oprită între timp."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Toate înregistrările poartă același nume. Asta dă o singură pistă -- Multitrack are nevoie de cel puțin două."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Două camere sunt o singură cameră în montaj (%s). Fișierele lor poartă același nume, deci redenumiți unul dintre ele."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Două camere ar produce același fișier (%s). A doua l-ar suprascrie pe primul."
+
+msgid "   (camera audio)"
+msgstr "   (audio cameră)"
+
+msgid "  Number: "
+msgstr "  Numărul: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", deriva ceasului de %s ppm eliminată"
+
+msgid "Files && production"
+msgstr "Fișiere && producție"
+
+msgid "Assignment && time window"
+msgstr "Atribuire && fereastră de timp"
+
+msgid "Resolve cut"
+msgstr "Montaj în Resolve"
+
+msgid "Camera audio"
+msgstr "Audio cameră"
+
+msgid "Camera audio %s"
+msgstr "Audio cameră %s"
+
+msgid "%s channels against %s"
+msgstr "canale: %s față de %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz față de %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: canalul %s nu poate fi decupat (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Canalul %d este cu %s dB sub cel mai puternic -- nimic conectat"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Canalul %d la %s dBFS -- a rămas doar zgomotul convertorului"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Canalul %d este tăcut -- intrare nefolosită"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Activat face din acest canal și din următorul o pistă stereo.\nUrmătorul nu mai are atunci o bifă proprie -- este deja luat.\nCe s-a măsurat se află în rândul de alături."
+
+msgid "a track of its own"
+msgstr "pistă proprie"
+
+msgid "with Channel %d one stereo track"
+msgstr "cu canalul %d o pistă stereo"
+
+msgid "already in another recording"
+msgstr "deja într-o altă înregistrare"
+
+msgid "not found"
+msgstr "negăsit"
+
+msgid "a recording of its own"
+msgstr "o înregistrare proprie"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Pune această înregistrare într-o alta, cu toate blocurile ei.\nFolosiți-o acolo unde numele fișierelor nu oferă căutării niciun punct de sprijin."
+
+msgid "Cameras only"
+msgstr "Doar camerele"
+
+msgid "Curve number %d"
+msgstr "Curba numărul %d"
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "Eliminând AUDIO sau VIDEO, se elimină tot ce este acolo."
+
+msgid "End"
+msgstr "Sfârșit"
+
+msgid "End %s"
+msgstr "Sfârșit %s"
+
+msgid "Error"
+msgstr "Eroare"
+
+msgid "Mark In"
+msgstr "Marcați In"
+
+msgid "Mark Out"
+msgstr "Marcați Out"
+
+msgid "Measure, align, process, write files."
+msgstr "Măsurare, aliniere, procesare, scrierea fișierelor."
+
+msgid "%s, seconds"
+msgstr "%s, secunde"
+
+msgid "Names used more than once"
+msgstr "Nume folosite de mai multe ori"
+
+msgid "One name for two voices"
+msgstr "Un nume pentru două voci"
+
+msgid "No files given."
+msgstr "Nu s-au indicat fișiere."
+
+msgid "Number %d"
+msgstr "Numărul %d"
+
+msgid "Preset missing"
+msgstr "Lipsește presetarea"
+
+msgid "Speaker"
+msgstr "Vorbitor"
+
+msgid "Start %s"
+msgstr "Început %s"
+
+msgid "Take from source files"
+msgstr "Preluare din fișierele sursă"
+
+msgid "Take the camera audio"
+msgstr "Folosiți audio de la cameră"
+
+msgid "Target: %s"
+msgstr "Țintă: %s"
+
+msgid "Transfer"
+msgstr "Transfer"
+
+msgid "Uploading %s tracks"
+msgstr "Se încarcă %s piste"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;Fișiere JSON (*.json);;Toate fișierele (*)"
+
+msgid "the voices below carry the cameras"
+msgstr "vocile de mai jos poartă camerele"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "măsurat din înregistrări -- vorbitori: %s, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "din rularea încheiată -- vorbitori: %s, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "din pistele Auphonic procesate -- vorbitori: %s, %s"
+
+msgid "no folder"
+msgstr "niciun dosar"
+
+msgid "no text"
+msgstr "fără text"
+
+msgid "unnamed"
+msgstr "fără nume"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Atenție: măsurare inutilizabilă"
+
+msgid "   MISSING"
+msgstr "   LIPSEȘTE"
+
+msgid "   NOT INSERTED"
+msgstr "   NEINSERAT"
+
+msgid "  (container; measured %s)"
+msgstr "  (container; măsurat %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Număr (gol = anulare): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com ia la fel de mult)"
+
+msgid " (fine: %s ms)"
+msgstr " (fin: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- note: %s"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 notă: %s"
+
+msgid " target %.2f"
+msgstr " țintă %.2f"
+
+msgid "(wanted %s)"
+msgstr "(se dorea %s)"
+
+msgid ", clock drift left in"
+msgstr ", deriva ceasului rămâne"
+
+msgid ", range %s LU"
+msgstr ", interval %s LU"
+
+msgid "-- nothing --"
+msgstr "-- nimic --"
+
+msgid "After: %s"
+msgstr "După: %s"
+
+msgid "Algorithms"
+msgstr "Algoritmi"
+
+msgid "Audio file %s"
+msgstr "Fișier audio %s"
+
+msgid "Audio recording"
+msgstr "Înregistrare audio"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic raportează %s: %s"
+
+msgid "Before: %s"
+msgstr "Înainte: %s"
+
+msgid "Bit depth"
+msgstr "Adâncime de biți"
+
+msgid "Building the sum"
+msgstr "Formarea sumei"
+
+msgid "Caution: "
+msgstr "Atenție: "
+
+msgid "Camera cut"
+msgstr "Montaj pe camere"
+
+msgid "%s -- preview"
+msgstr "%s -- previzualizare"
+
+msgid "Cancel"
+msgstr "Anulare"
+
+msgid "Capture curve"
+msgstr "Curbă de captură"
+
+msgid "Check: %s and camera track"
+msgstr "Verificare: %s și pista camerei"
+
+msgid "Codec profile"
+msgstr "Profil codec"
+
+msgid "Colour tag"
+msgstr "Etichetă de culoare"
+
+msgid "Connect"
+msgstr "Conectare"
+
+msgid "Connection to Resolve"
+msgstr "Conexiune la Resolve"
+
+msgid "Continue"
+msgstr "Continuare"
+
+msgid "Create Resolve project"
+msgstr "Creați proiect Resolve"
+
+msgid "Curve"
+msgstr "Curbă"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "Punct In: %s     Punct Out: %s     Durată: %s"
+
+msgid "In point %s"
+msgstr "Punct In %s"
+
+msgid "Out point %s"
+msgstr "Punct Out %s"
+
+msgid "Different track names"
+msgstr "Nume de piste diferite"
+
+msgid "Disk space"
+msgstr "Spațiu pe disc"
+
+msgid "Downloading %s"
+msgstr "Se descarcă %s"
+
+msgid "Dry run"
+msgstr "Rulare de probă"
+
+msgid "Duration %s"
+msgstr "Durată %s"
+
+msgid "Dynamic range"
+msgstr "Interval dinamic"
+
+msgid "File names"
+msgstr "Nume de fișiere"
+
+msgid "Frame rates"
+msgstr "Rate de cadre"
+
+msgid "GENERAL NOTES"
+msgstr "NOTE GENERALE"
+
+msgid "Given"
+msgstr "Predefinit"
+
+msgid "Go ahead"
+msgstr "Continuați"
+
+msgid "Interface:      %s%s"
+msgstr "Interfață:      %s%s"
+
+msgid "Keep it saved"
+msgstr "Păstrați-o salvată"
+
+msgid "Library:        %s%s"
+msgstr "Bibliotecă:     %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log conform datelor camerei"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (zece biți)"
+
+msgid "Measure"
+msgstr "Măsurați"
+
+msgid "Measuring loudness"
+msgstr "Măsurarea sonorității"
+
+msgid "Merge them"
+msgstr "Comasați-le"
+
+msgid "Mixing %s"
+msgstr "Se mixează %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack are nevoie de două piste în tabelul de mai sus -- o cameră contează ca una de îndată ce Audio cameră este setat pe „folosiți audio intern”."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "O singură pistă -- pentru a doua, setați Audio cameră al unei camere pe \"folosește audio intern\"."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "O singură pistă, și nu a mai rămas niciun audio de cameră de preluat."
+
+msgid "the only sound there is"
+msgstr "singurul sunet care există"
+
+msgid "no audio track in this file"
+msgstr "nicio pistă audio în acest fișier"
+
+msgid "this file stays out entirely"
+msgstr "acest fișier rămâne complet în afară"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "un clip finit -- doar plasat, nu procesat"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Folosite, canalele măsurate sub acest fișier sunt împărțite în piste, ca la o înregistrare.\nMăsurarea are loc oricum: pe acel verdict se bazează decizia, iar sincronizarea folosește sunetul indiferent de răspuns."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Folosit, sunetul acestui fișier devine o pistă ca oricare alta -- apare în tabelul de mai sus.\nAcelași câmp se află în lista de fișiere; ambele arată același răspuns."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Niciun sunet cu care să se lucreze -- setați Audio cameră al unui fișier video pe „folosiți audio intern” sau adăugați o înregistrare audio."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack are nevoie de mai multe piste"
+
+msgid "Mute."
+msgstr "Fără sunet."
+
+msgid "No audio file given."
+msgstr "Nu s-a indicat niciun fișier audio."
+
+msgid "No project open."
+msgstr "Niciun proiect deschis."
+
+msgid "Not found: %s"
+msgstr "Negăsit: %s"
+
+msgid "Not recognised"
+msgstr "Nerecunoscut"
+
+msgid "Note"
+msgstr "Notă"
+
+msgid "Note: "
+msgstr "Notă: "
+
+msgid "One frame forward."
+msgstr "Un cadru înainte."
+
+msgid "One second forward."
+msgstr "O secundă înainte."
+
+msgid "Output folder"
+msgstr "Dosar de ieșire"
+
+msgid "Choose the output folder"
+msgstr "Alegeți dosarul de ieșire"
+
+msgid "Output folder back beside each video file"
+msgstr "Dosarul de ieșire înapoi lângă fiecare fișier video"
+
+msgid "Output folder ..."
+msgstr "Dosar de ieșire ..."
+
+msgid "Preview player"
+msgstr "Player de previzualizare"
+
+msgid "Preview player%s"
+msgstr "Player de previzualizare%s"
+
+msgid "Processing"
+msgstr "Procesare"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Încă nu există transcriere. Fără ea nu se găsește nicio întrebare și nu se cunoaște nicio limită de propoziție, deci aceste patru setări nu fac nimic. O rulare o scrie, și de atunci funcționează."
+
+msgid "Why the question settings are grey"
+msgstr "De ce setările întrebării sunt gri"
+
+msgid "Question"
+msgstr "Întrebare"
+
+msgid "Remove"
+msgstr "Eliminați"
+
+msgid "Remove all"
+msgstr "Eliminați tot"
+
+msgid "Remove from list"
+msgstr "Eliminați din listă"
+
+msgid "Resolve answers%s"
+msgstr "Răspuns de la Resolve%s"
+
+msgid "Saving %s"
+msgstr "Se salvează %s"
+
+msgid "Show in Finder."
+msgstr "Afișați în Finder."
+
+msgid "Silence"
+msgstr "Liniște"
+
+msgid "Speaker name"
+msgstr "Numele vorbitorului"
+
+msgid "Speaker names"
+msgstr "Numele vorbitorilor"
+
+msgid "Static metadata"
+msgstr "Metadate statice"
+
+msgid "Tagging"
+msgstr "Etichetare"
+
+msgid "Ten seconds forward."
+msgstr "Zece secunde înainte."
+
+msgid "Timecode from %s"
+msgstr "Timecode de la %s"
+
+msgid "Track template"
+msgstr "Șablon de pistă"
+
+msgid "Uploading %s"
+msgstr "Se încarcă %s"
+
+msgid "Value range"
+msgstr "Interval de valori"
+
+msgid "What should happen with it?"
+msgstr "Ce ar trebui să se întâmple cu ea?"
+
+msgid "Window %s%s"
+msgstr "Fereastră %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Montajul, EDL, CSV și predarea se recalculează din numerele de mai sus. Cine vorbește când rămâne așa cum a măsurat rularea. Resolve trebuie să ruleze."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Fără acestea două nu funcționează nimic. Este instalat Resolve?"
+
+msgid "audio file"
+msgstr "fișier audio"
+
+msgid "cancel"
+msgstr "anulare"
+
+msgid "cancelled"
+msgstr "anulat"
+
+msgid "edges implausible"
+msgstr "margini neplauzibile"
+
+msgid "fixed: "
+msgstr "remediat: "
+
+msgid "found automatically"
+msgstr "găsit automat"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "liber %s, necesar cam %s (%s)"
+
+msgid "full range"
+msgstr "interval complet"
+
+msgid "is left in"
+msgstr "rămâne"
+
+msgid "limited (Video/TV)"
+msgstr "limitat (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "se determină cine vorbește când ..."
+
+msgid "nothing"
+msgstr "nimic"
+
+msgid "nothing to do"
+msgstr "nimic de făcut"
+
+msgid "system store"
+msgstr "spațiul de stocare al sistemului"
+
+msgid "to In point"
+msgstr "la punctul In"
+
+msgid "to Out point"
+msgstr "la punctul Out"
+
+msgid "too short"
+msgstr "prea scurt"
+
+msgid "two Timelines"
+msgstr "două Timeline-uri"
+
+msgid "up to %s"
+msgstr "până la %s"
+
+msgid "video file"
+msgstr "fișier video"
+
+msgid "volume %.2f"
+msgstr "volum %.2f"
+
+msgid "while writing: %s"
+msgstr "la scriere: %s"
+
+msgid "AUDIO"
+msgstr "AUDIO"
+
+msgid "Caution"
+msgstr "Atenție"
+
+msgid "MUTED"
+msgstr "FĂRĂ SUNET"
+
+msgid "fixed"
+msgstr "remediat"
+
+msgid "on"
+msgstr "activat"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r numără de la sfârșit -- asta merge doar pentru punctul Out."
+
+msgid "Check"
+msgstr "Verificare"
+
+msgid "the check itself stopped: %s"
+msgstr "verificarea însăși s-a oprit: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "Punctul In sau punctul Out nu poate fi citit aici."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Punctul Out se află la mai puțin de 5 secunde după punctul In."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Lipsesc cam %s. Eliberați spațiu sau alegeți alt dosar cu --out. Fișierele temporare din timpul rulării merg din nou altundeva, în dosarul temporar al sistemului."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "Estimarea este aproximativă, deci acesta nu este loc suficient. Eliberați spațiu sau alegeți alt dosar cu --out."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nVORBITORI -- MĂSURAȚI AICI"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nVORBITORI -- SEPARAȚI DUPĂ VOCE"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nVORBITORI\n  Nu s-a auzit nimeni -- de aici nu rezultă niciun montaj pe camere."
+
+msgid "\nCAMERA CUT"
+msgstr "\nMONTAJ PE CAMERE"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nMONTAJ CU PLANUL LARG"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nPRIMUL MONTAJ DUPĂ VORBITORI"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Mai mult de două canale merg la auphonic.com ca unul singur: plierea este dezactivată doar pentru stereo.\n  Unde canalele trebuie să rămână separate, tăiați mai întâi fișierul în piste."
+
+msgid "First cut by speaker"
+msgstr "Primul montaj după vorbitori"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nTRANSCRIERE"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  Cuvinte: %s -- %s %% către o voce, %s %% către două, %s %% într-o pauză"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  Cuvinte: %s, fără nume -- nimeni nu a fost separat"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s nu a putut fi scris: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nSEPARAREA VORBITORILOR"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Separat deja o dată: recitit, nu măsurat din nou."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Circa %s de calcul pentru %s de audio."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (doar măsurare: nimic separat)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  Pistele nu au fost măsurate, deci în mix și nu în montaj: %s. Motivul: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "Încă nu s-a măsurat: %s -- în montaj, dar încă nu în această previzualizare."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Din pistele însele, o voce pe pistă: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  În %s, pe acest calculator."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Microfoanele se aud unul pe altul prea bine pentru a spune cine vorbește, așa că separarea ascultă toate cele %s deodată, pe acest calculator."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  Ce a separat fereastra se abandonează: a ascultat o singură înregistrare, iar microfoanele se aud unul pe altul atât de bine, încât niciunul nu iese în evidență -- %s dB față de cei %s dB de care unul singur are nevoie pentru a spune cine vorbește."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Mixarea pistelor pentru separare"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Nu s-a putut spune care voce aparține cărui microfon, așa că se măsoară pistele în schimb."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s este %-20s %s dB înaintea următorului microfon, nivelul de înregistrare scăzut"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  Separarea vorbitorilor nu se folosește: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s nu poate fi citit: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s nu face parte din această rulare"
+
+msgid "%s has no place on the axis"
+msgstr "%s nu are loc pe axă"
+
+msgid "no recording named"
+msgstr "nicio înregistrare indicată"
+
+msgid "nothing of it falls inside the window"
+msgstr "nimic din ea nu cade în fereastră"
+
+msgid "the interface"
+msgstr "interfață"
+
+msgid "the separation in this run"
+msgstr "separarea din această rulare"
+
+msgid "Speakers, separated by voice"
+msgstr "Vorbitori, separați după voce"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Nu a rezultat niciun montaj -- apăsați din nou Start, mai sus."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nFĂRĂ AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Diafonie măsurată, %s în %s cu doar %s dB mai încet -- scoasă din detectarea vorbirii"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Diafonie neseparabilă: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Nu s-a găsit niciun moment în care vorbește exact o persoană -- diafonia rămâne în detectarea vorbirii."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  În piste nu s-a auzit nimic -- din asta nu iese niciun montaj pe camere."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Nu în montaj: %s -- o separare vorbește pentru înregistrare, sau nu a fost măsurată."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  Pistele sunt folosite așa cum au fost înregistrate: aliniate, mixate și aduse\n  la sonoritatea țintă. Fără eliminarea diafoniei, fără nivelator, fără reducerea\n  zgomotului -- pentru acestea rularea are nevoie de auphonic.com."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic și --auphonic-done au fost date amândouă. Pistele finalizate câștigă: nu a mai rămas nimic de trimis nicăieri."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK IMPOSIBIL\n  Fără o cheie API nu este nimic de trimis la auphonic.com.\n  Cu --without-auphonic rulează în schimb local: aliniat,\n  mixat și montat, dar fără eliminarea diafoniei și fără nivelator."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Atenție: perechi măsurabile: doar %s din %s. Pentru restul nu s-a găsit niciun moment în care vorbește exact o persoană, așa că diafonia lor rămâne -- detectarea vorbitorilor este aici nesigură."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "microfoanele se aud unul pe altul aproape la fel de tare ca pe propriul vorbitor"
+
+msgid "the tracks are too much alike to separate"
+msgstr "pistele seamănă prea mult pentru a fi separate"
+
+msgid "Reading the plan"
+msgstr "Citirea planului"
+
+msgid "Audio out of the cameras"
+msgstr "Audio din camere"
+
+msgid "Common time axis"
+msgstr "Axa comună a timpului"
+
+msgid "Processing at auphonic.com"
+msgstr "Procesare la auphonic.com"
+
+msgid "Loudness"
+msgstr "Sonoritate"
+
+msgid "Loudness and levels"
+msgstr "Sonoritate și niveluri"
+
+msgid "Loudness of the finished episode"
+msgstr "Sonoritatea episodului finit"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Cât de tare este făcut episodul finit. Același câștig se aplică pe fiecare\npistă, așa că echilibrul dintre vorbitori se păstrează.\n„Preluare din fișierele sursă” nu ajustează nimic: auphonic.com continuă\nsă facă ce spune presetarea sa, iar fără auphonic.com sunetul\nrămâne așa cum este în fișierele sursă."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    Sonoritatea nu a fost ajustată -- ținta de mai jos este doar cea\n    față de care măsoară indicatorul."
+
+msgid "Who speaks when"
+msgstr "Cine vorbește când"
+
+msgid "Writing the camera files"
+msgstr "Scrierea fișierelor de cameră"
+
+msgid "Handover and result"
+msgstr "Predare și rezultat"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Afișați de două ori mai mult (tasta minus sau rotița peste bandă)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Afișați pe jumătate, în jurul poziției curente (tasta plus sau rotița peste bandă)"
+
+msgid "The whole length again (0 key)"
+msgstr "Din nou întreaga durată (tasta 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  De asemenea preluat: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic nu acceptă setările: %s"
+
+msgid "      %s channels"
+msgstr "      %s canale"
+
+msgid "measurement running ..."
+msgstr "măsurare în curs ..."
+
+msgid "      Channel %d"
+msgstr "      Canalul %d"
+
+msgid "Looking at the channels"
+msgstr "Examinarea canalelor"
+
+msgid "channels not readable: %s"
+msgstr "canalele nu se pot citi: %s"
+
+msgid "unused input -- ignored"
+msgstr "intrare nefolosită -- ignorată"
+
+msgid "uncertain -- %s"
+msgstr "nesigur -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "setat manual -- are prioritate față de măsurare"
+
+msgid "Language"
+msgstr "Limbă"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "ambele canale identice -- mono pus pe ambele părți"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "probabil două microfoane -- la circa %s m distanță%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", locuri concordante: %s din %s"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "probabil o singură pistă stereo -- ambele microfoane în același loc"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "nu se poate recunoaște -- locuri în care ambele canale poartă sunet: doar %s din %s, sunt necesare %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "nu se poate recunoaște -- cele două nu concordă mai bine decât fiecare cu canalul de alături"
+
+msgid "not set"
+msgstr "nesetat"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "Limba vorbită în înregistrare. Devine eticheta pistei audio\nscrise, iar recunoașterea de aici este pregătită să o aștepte.\nPrestabilită din limba sistemului. „%s” lasă pista fără etichetă\nși lasă recunoașterea să afle singură limba."
+
+msgid "Cutting out track %d of %d"
+msgstr "Se extrage pista %d din %d"
+
+msgid "cutting failed: %s"
+msgstr "decuparea a eșuat: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  O singură cameră pentru toți: montat la schimbarea vorbitorului (planuri: %s), ca Resolve să le poată grupa."
+
+msgid "Wide shot %d"
+msgstr "Plan larg %d"
+
+msgid "(wide shot)"
+msgstr "(plan larg)"
+
+msgid "No speaker"
+msgstr "Niciun vorbitor"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  de %s ori departe de vorbitor pentru că un plan a durat mai mult de %s s"
+
+msgid "%s is in place."
+msgstr "%s este instalată."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Această fereastră este încă versiunea cu care a pornit. Poate reporni acum și reveni ca aceea, sau puteți face asta mai târziu."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Această copie rulează dintr-un dosar propriu, așa că pip nu are nimic de actualizat aici. Aceasta o instalează: %s"
+
+msgid "Language of the window"
+msgstr "Limba ferestrei"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "O limbă aleasă aici se aplică de la următoarea pornire."
+
+msgid "Restart the application"
+msgstr "Reporniți aplicația"
+
+msgid "The work can be written to a project file first."
+msgstr "Lucrarea poate fi scrisă mai întâi într-un fișier de proiect."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Repornirea aplicației o aduce imediat și întreabă mai întâi ce să se întâmple cu lucrarea. Dacă nu faceți nimic, nu pierdeți nimic -- vine la următoarea pornire."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "Aplicația urmează să repornească. Să fie scrisă mai întâi munca într-un fișier de proiect?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Dacă este scrisă, noua fereastră deschide din nou proiectul și totul rămâne unde era. Dacă nu este scrisă, fereastra pornește goală și fișierele trebuie adăugate din nou."
+
+msgid "Save and restart"
+msgstr "Salvați și reporniți"
+
+msgid "Restart without saving"
+msgstr "Reporniți fără a salva"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Rularea este încă în curs. Fereastra poate fi repornită după ce se termină."
+
+msgid "System language (%s)"
+msgstr "Limba sistemului (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "S-a creat o scurtătură către acest program: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Nu s-a creat nicio scurtătură către acest program: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "a fost scrisă și după aceea nu mai exista"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Acest program rulează ca %s, iar pachetele instalate pentru el sunt %s, deci niciunul dintre ele nu poate fi încărcat. Așa pornește corect: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Această predare nu conține rata de cadre, așa că Timeline-ul nu poate fi construit din ea. Vă rugăm să faceți din nou rularea."
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s fișier nu se potrivește"
+msgstr[1] ", %s fișiere nu se potrivesc"
+msgstr[2] ", %s de fișiere nu se potrivesc"
+
+msgid ", %s files do not fit"
+msgstr ", %s de fișiere nu se potrivesc"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s fișier"
+msgstr[1] "%s fișiere"
+msgstr[2] "%s de fișiere"
+
+msgid "%s files"
+msgstr "%s de fișiere"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s înregistrare din %s fișiere"
+msgstr[1] "%s înregistrări din %s fișiere"
+msgstr[2] "%s de înregistrări din %s fișiere"
+
+msgid "%s recordings from %s files"
+msgstr "%s de înregistrări din %s fișiere"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s continuare"
+msgstr[1] "%s  + %s continuări"
+msgstr[2] "%s  + %s de continuări"
+
+msgid "%s  + %s continuations"
+msgstr "%s  + %s de continuări"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Separat: %s vorbitor"
+msgstr[1] "Separat: %s vorbitori"
+msgstr[2] "Separat: %s de vorbitori"
+
+msgid "Separated: %s speakers"
+msgstr "Separat: %s de vorbitori"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  %s a urcat în stereo și s-a întors cu un singur canal."
+msgstr[1] "  %s au urcat în stereo și s-au întors fiecare cu un singur canal."
+msgstr[2] "  %s au urcat în stereo și s-au întors fiecare cu un singur canal."
+
+msgid "  %s went up in stereo and came back in one channel each."
+msgstr "  %s au urcat în stereo și s-au întors fiecare cu un singur canal."
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s pistă, %s, %s kHz, %s"
+msgstr[1] "%s piste, %s, %s kHz, %s"
+msgstr[2] "%s de piste, %s, %s kHz, %s"
+
+msgid "%s tracks, %s, %s kHz, %s"
+msgstr "%s de piste, %s, %s kHz, %s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix din %s piste, %s canal"
+msgstr[1] "  Full-Mix din %s piste, %s canale"
+msgstr[2] "  Full-Mix din %s piste, %s de canale"
+
+msgid "  Full-Mix from %s tracks, %s channels"
+msgstr "  Full-Mix din %s piste, %s de canale"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s rămâne pe două canale"
+msgstr[1] "  %s rămân pe două canale"
+msgstr[2] "  %s rămân pe două canale"
+
+msgid "  %s stay in two channels"
+msgstr "  %s rămân pe două canale"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: stă la %s (țintă %s) după %d ms, %d încercare"
+msgstr[1] "%s: stă la %s (țintă %s) după %d ms, %d încercări"
+msgstr[2] "%s: stă la %s (țintă %s) după %d ms, %d de încercări"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr "%s: stă la %s (țintă %s) după %d ms, %d de încercări"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Rezultă %s fișier video, circa %s. Țintă: %s"
+msgstr[1] "Rezultă %s fișiere video, circa %s. Țintă: %s"
+msgstr[2] "Rezultă %s de fișiere video, circa %s. Țintă: %s"
+
+msgid "This makes %s video files, about %s. Target: %s"
+msgstr "Rezultă %s de fișiere video, circa %s. Țintă: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s remediată de la sine"
+msgstr[1] "%s remediate de la sine"
+msgstr[2] "%s de remediate de la sine"
+
+msgid "%s fixed on their own"
+msgstr "%s de remediate de la sine"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s notă"
+msgstr[1] "%s note"
+msgstr[2] "%s de note"
+
+msgid "%s hints"
+msgstr "%s de note"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s motiv de oprire"
+msgstr[1] "%s motive de oprire"
+msgstr[2] "%s de motive de oprire"
+
+msgid "%s reasons to stop"
+msgstr "%s de motive de oprire"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s înregistrare audio"
+msgstr[1] "%s înregistrări audio"
+msgstr[2] "%s de înregistrări audio"
+
+msgid "%s audio recordings"
+msgstr "%s de înregistrări audio"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s fișier video"
+msgstr[1] "%s fișiere video"
+msgstr[2] "%s de fișiere video"
+
+msgid "%s video files"
+msgstr "%s de fișiere video"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Fișierul este marcat ca HDR, cu %s notă."
+msgstr[1] "Fișierul este marcat ca HDR, cu %s note."
+msgstr[2] "Fișierul este marcat ca HDR, cu %s de note."
+
+msgid "The file is tagged as HDR, with %s notes."
+msgstr "Fișierul este marcat ca HDR, cu %s de note."
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Atenție: %s nu a fost inserat. Fără acest unghi,\n  Timeline-ul nu este bun pentru conversie."
+msgstr[1] "  Atenție: %s nu au fost inserate. Fără aceste unghiuri,\n  Timeline-ul nu este bun pentru conversie."
+msgstr[2] "  Atenție: %s nu au fost inserate. Fără aceste unghiuri,\n  Timeline-ul nu este bun pentru conversie."
+
+msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr "  Atenție: %s nu au fost inserate. Fără aceste unghiuri,\n  Timeline-ul nu este bun pentru conversie."
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s pistă audio rămâne: %s"
+msgstr[1] "  %s piste audio rămân: %s"
+msgstr[2] "  %s de piste audio rămân: %s"
+
+msgid "  %s audio tracks stay: %s"
+msgstr "  %s de piste audio rămân: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Imagine și audio legate din nou: %s unghi"
+msgstr[1] "    Imagine și audio legate din nou: %s unghiuri"
+msgstr[2] "    Imagine și audio legate din nou: %s de unghiuri"
+
+msgid "    Picture and audio linked again: %s angles"
+msgstr "    Imagine și audio legate din nou: %s de unghiuri"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s pistă audio rămâne:"
+msgstr[1] "  %s piste audio rămân:"
+msgstr[2] "  %s de piste audio rămân:"
+
+msgid "  %s audio tracks remain:"
+msgstr "  %s de piste audio rămân:"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s clip"
+msgstr[1] "%s clipuri"
+msgstr[2] "%s de clipuri"
+
+msgid "%s clips"
+msgstr "%s de clipuri"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s pistă audio goală eliminată"
+msgstr[1] "    %s piste audio goale eliminate"
+msgstr[2] "    %s de piste audio goale eliminate"
+
+msgid "    %s empty audio tracks removed"
+msgstr "    %s de piste audio goale eliminate"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> interpretat ca %s pistă audio%s"
+msgstr[1] "      --> interpretat ca %s piste audio%s"
+msgstr[2] "      --> interpretat ca %s de piste audio%s"
+
+msgid "      --> interpreted as %s audio tracks%s"
+msgstr "      --> interpretat ca %s de piste audio%s"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " din %s canal încorporat"
+msgstr[1] " din %s canale încorporate"
+msgstr[2] " din %s de canale încorporate"
+
+msgid " of %s embedded channels"
+msgstr " din %s de canale încorporate"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s pistă video"
+msgstr[1] "%s piste video"
+msgstr[2] "%s de piste video"
+
+msgid "%s video tracks"
+msgstr "%s de piste video"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s pistă audio"
+msgstr[1] "%s piste audio"
+msgstr[2] "%s de piste audio"
+
+msgid "%s audio tracks"
+msgstr "%s de piste audio"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Mai multe unghiuri decât culori -- %s culoare apare de două ori."
+msgstr[1] "      Mai multe unghiuri decât culori -- %s culori apar de două ori."
+msgstr[2] "      Mai multe unghiuri decât culori -- %s de culori apar de două ori."
+
+msgid "      More angles than colours -- %s colours occur twice."
+msgstr "      Mai multe unghiuri decât culori -- %s de culori apar de două ori."
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s clip a rămas fără culoare."
+msgstr[1] "      %s clipuri au rămas fără culoare."
+msgstr[2] "      %s de clipuri au rămas fără culoare."
+
+msgid "      %s clips left without a colour."
+msgstr "      %s de clipuri au rămas fără culoare."
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    Pe V2 se află acum %s clip: %s"
+msgstr[1] "    Pe V2 se află acum %s clipuri: %s"
+msgstr[2] "    Pe V2 se află acum %s de clipuri: %s"
+
+msgid "    V2 now holds %s clips: %s"
+msgstr "    Pe V2 se află acum %s de clipuri: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s marcaj pus%s."
+msgstr[1] "  %s marcaje puse%s."
+msgstr[2] "  %s de marcaje puse%s."
+
+msgid "  %s markers set%s."
+msgstr "  %s de marcaje puse%s."
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s cameră"
+msgstr[1] "%s camere"
+msgstr[2] "%s de camere"
+
+msgid "%s cameras"
+msgstr "%s de camere"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Separarea vorbitorilor (%s): %s vorbitor din %s de audio"
+msgstr[1] "  Separarea vorbitorilor (%s): %s vorbitori din %s de audio"
+msgstr[2] "  Separarea vorbitorilor (%s): %s de vorbitori din %s de audio"
+
+msgid "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr "  Separarea vorbitorilor (%s): %s de vorbitori din %s de audio"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s în %s pasaj"
+msgstr[1] "  %-20s %s în %s pasaje"
+msgstr[2] "  %-20s %s în %s de pasaje"
+
+msgid "  %-20s %s in %s passages"
+msgstr "  %-20s %s în %s de pasaje"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Din %s: %s voce."
+msgstr[1] "  Din %s: %s voci."
+msgstr[2] "  Din %s: %s de voci."
+
+msgid "  From %s: %s voices."
+msgstr "  Din %s: %s de voci."
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s cuvânt s-a întors fără timp și a fost lăsat deoparte."
+msgstr[1] "  %s cuvinte s-au întors fără timp și au fost lăsate deoparte."
+msgstr[2] "  %s de cuvinte s-au întors fără timp și au fost lăsate deoparte."
+
+msgid "  %s words came back without a time and were left out."
+msgstr "  %s de cuvinte s-au întors fără timp și au fost lăsate deoparte."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "pe %s cameră"
+msgstr[1] "pe %s camere"
+msgstr[2] "pe %s de camere"
+
+msgid "on %s cameras"
+msgstr "pe %s de camere"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s fișier era gata înainte de asta și este întreg: %s"
+msgstr[1] "%s fișiere erau gata înainte de asta și sunt întregi: %s"
+msgstr[2] "%s de fișiere erau gata înainte de asta și sunt întregi: %s"
+
+msgid "%s files were finished before that and are whole: %s"
+msgstr "%s de fișiere erau gata înainte de asta și sunt întregi: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s punct"
+msgstr[1] "%s puncte"
+msgstr[2] "%s de puncte"
+
+msgid "%s points"
+msgstr "%s de puncte"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s canal"
+msgstr[1] "%s canale"
+msgstr[2] "%s de canale"
+
+msgid "%s channels"
+msgstr "%s de canale"

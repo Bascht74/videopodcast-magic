@@ -713,6 +713,17 @@ CATALOGUE["vi"] = texts_of_language("vi")
 CATALOGUE["ko"] = texts_of_language("ko")
 CATALOGUE["pl"] = texts_of_language("pl")
 CATALOGUE["nl"] = texts_of_language("nl")
+CATALOGUE["cs"] = texts_of_language("cs")
+CATALOGUE["da"] = texts_of_language("da")
+CATALOGUE["el"] = texts_of_language("el")
+CATALOGUE["fi"] = texts_of_language("fi")
+CATALOGUE["hr"] = texts_of_language("hr")
+CATALOGUE["hu"] = texts_of_language("hu")
+CATALOGUE["nb"] = texts_of_language("nb")
+CATALOGUE["ro"] = texts_of_language("ro")
+CATALOGUE["sk"] = texts_of_language("sk")
+CATALOGUE["sr"] = texts_of_language("sr")
+CATALOGUE["sv"] = texts_of_language("sv")
 
 # What somebody chose in an earlier run, else the system. --lang beats
 # both, and main() applies it once the command line has been read.
