@@ -3670,10 +3670,10 @@ msgid "Output folder ..."
 msgstr "Φάκελος εξόδου ..."
 
 msgid "Preview player"
-msgstr "Πρόγραμμα αναπαραγωγής προεπισκόπησης"
+msgstr "Αναπαραγωγή προεπισκόπησης"
 
 msgid "Preview player%s"
-msgstr "Πρόγραμμα αναπαραγωγής προεπισκόπησης%s"
+msgstr "Αναπαραγωγή προεπισκόπησης%s"
 
 msgid "Processing"
 msgstr "Επεξεργασία"
