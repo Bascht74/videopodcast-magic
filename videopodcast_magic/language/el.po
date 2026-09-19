@@ -1,0 +1,4494 @@
+# What is translated of this program's messages, in Greek.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Greek speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 18.9.2026 in two steps: the window's captions
+# first, which fixed the form of address and one word for each thing,
+# and then every other text against them, four languages at a time
+# from one sheet. Every entry was read back once in full by another model,
+# against the English, the line of code it stands in and those words,
+# and 18 were put right; a third refuted what was not a fault.
+#
+# Anyone who speaks Greek is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else,
+# nought included.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Μοντάζ με το γενικό πλάνο"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Διαχωρίζει την ηχογράφηση ανά φωνή: κάθε φωνή παίρνει δική της γραμμή, και μέσα της την κάμερά της. Περίπου ένα λεπτό για μισή ώρα ήχου, σε αυτόν τον υπολογιστή και χωρίς μεταφόρτωση."
+
+msgid ", %s without"
+msgstr ", %s χωρίς κάμερα"
+
+msgid "no camera yet"
+msgstr "καμία κάμερα ακόμη"
+
+msgid "A newer version is out"
+msgstr "Κυκλοφόρησε νεότερη έκδοση"
+
+msgid "%s is out. This is %s."
+msgstr "Κυκλοφόρησε η %s. Αυτή είναι η %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Ενημέρωση; Το pip τη φέρνει στο %s. Ό,τι λέει το pip εμφανίζεται στην Έξοδο, και η νέα έκδοση εκτελείται από την επόμενη εκκίνηση."
+
+msgid "pip could not be started: %s"
+msgstr "Το pip δεν ήταν δυνατό να ξεκινήσει: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "Το pip σταμάτησε με %s. Ό,τι κατάφερε βρίσκεται στις παραπάνω γραμμές."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "Η %s είναι εγκατεστημένη. Εκτελείται από την επόμενη εκκίνηση."
+
+msgid "There is no window to show what pip says."
+msgstr "Δεν υπάρχει παράθυρο για να δείξει τι λέει το pip."
+
+msgid "Back to an earlier version ..."
+msgstr "Επιστροφή σε προηγούμενη έκδοση ..."
+
+msgid "Back to an earlier version"
+msgstr "Επιστροφή σε προηγούμενη έκδοση"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Δεν ήταν δυνατή η αναζήτηση προηγούμενων εκδόσεων: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Η λίστα των προηγούμενων εκδόσεων δεν ήταν δυνατό να διαβαστεί."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Δεν υπάρχει έκδοση παλαιότερη από την %s που να μπορεί να εγκαταστήσει το pip."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Αυτή είναι η %s. Ποια έκδοση να βάλει το pip στη θέση της;"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "Το pip τη φέρνει στο %s, και ό,τι λέει το pip εμφανίζεται στην Έξοδο. Η έκδοση που επιλέγεται εδώ εκτελείται από την επόμενη εκκίνηση.\n\nΕπαναφέρει το πρόγραμμα και τίποτα άλλο. Ό,τι έγραψε μια νεότερη έκδοση στις ρυθμίσεις μένει γραμμένο, και τα έργα και τα αρχεία τους μένουν όπως είναι."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "ένα intro ή outro με δύο κανάλια είναι στερεοφωνική μίξη -- δεν μετρήθηκε"
+
+msgid "Multitrack mode"
+msgstr "Λειτουργία Multitrack"
+
+msgid "Singletrack mode"
+msgstr "Λειτουργία Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Καμία δική σας προρύθμιση Multitrack -- δημιουργήστε μία"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Καμία δική σας προρύθμιση Singletrack -- δημιουργήστε μία"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Καμία δική σας προρύθμιση -- δημιουργήστε μία στο auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "Δεν βρέθηκε προρύθμιση Multitrack στον λογαριασμό."
+
+msgid "No Singletrack preset found in the account."
+msgstr "Δεν βρέθηκε προρύθμιση Singletrack στον λογαριασμό."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "Καμία προρύθμιση Multitrack στον λογαριασμό. Μόνο αυτές: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "Καμία προρύθμιση Singletrack στον λογαριασμό. Μόνο αυτές: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "Το %r είναι προρύθμιση Singletrack, και χρειάζεται μία Multitrack."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "Το %r είναι προρύθμιση Multitrack, και χρειάζεται μία Singletrack."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "Το κλειδί είναι σωστό. Από τις προρυθμίσεις του λογαριασμού (%s) καμία δεν είναι Multitrack, οπότε η λίστα μένει κενή."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "Το κλειδί είναι σωστό. Από τις προρυθμίσεις του λογαριασμού (%s) καμία δεν είναι Singletrack, οπότε η λίστα μένει κενή."
+
+msgid "fetching from auphonic.com ..."
+msgstr "λήψη από το auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Τι άλλαξε από την %s:"
+
+msgid "Update"
+msgstr "Ενημέρωση"
+
+msgid "Later"
+msgstr "Αργότερα"
+
+msgid "Go back"
+msgstr "Επιστροφή"
+
+msgid "Starting again did not work: %s"
+msgstr "Η επανεκκίνηση δεν λειτούργησε: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Ξεκινήστε το χειροκίνητα: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Δεν βρέθηκε νεότερη έκδοση. Αυτή είναι η %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update τη φέρνει και την εγκαθιστά."
+
+msgid "The check for new versions is switched off here."
+msgstr "Ο έλεγχος για νέες εκδόσεις είναι απενεργοποιημένος εδώ."
+
+msgid "About Video Podcast Magic"
+msgstr "Σχετικά με το Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Το ακατέργαστο υλικό ενός video podcast γίνεται μονταρισμένο επεισόδιο: ο καλός ήχος από τα αρχεία βίντεο, οι κάμερες σε έναν κοινό άξονα χρόνου, ένα πρώτο μοντάζ ανά ομιλητή, και ένα έργο DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s σε %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "Άδεια MIT, Copyright (c) 2026 Sebastian Lotz. Παραδίδεται ως έχει, χωρίς καμία εγγύηση."
+
+msgid "&File"
+msgstr "&Αρχείο"
+
+msgid "&View"
+msgstr "&Προβολή"
+
+msgid "&Player"
+msgstr "Α&ναπαραγωγή"
+
+msgid "&Help"
+msgstr "&Βοήθεια"
+
+msgid "Play and pause"
+msgstr "Αναπαραγωγή και παύση"
+
+msgid "Fast forward"
+msgstr "Γρήγορη προώθηση"
+
+msgid "Fast forward, %s times speed"
+msgstr "Γρήγορη προώθηση, %s φορές η ταχύτητα"
+
+msgid "Play forward, faster on every press"
+msgstr "Αναπαραγωγή προς τα εμπρός, ταχύτερα σε κάθε πάτημα"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Αναπαραγωγή προς τα εμπρός, διπλάσια ταχύτητα σε κάθε πάτημα -- το πλήκτρο L."
+
+msgid "Pause"
+msgstr "Παύση"
+
+msgid "One frame back"
+msgstr "Ένα καρέ πίσω"
+
+msgid "One frame forward"
+msgstr "Ένα καρέ μπροστά"
+
+msgid "One second back"
+msgstr "Ένα δευτερόλεπτο πίσω"
+
+msgid "One second forward"
+msgstr "Ένα δευτερόλεπτο μπροστά"
+
+msgid "Ten seconds back"
+msgstr "Δέκα δευτερόλεπτα πίσω"
+
+msgid "Ten seconds forward"
+msgstr "Δέκα δευτερόλεπτα μπροστά"
+
+msgid "The manual"
+msgstr "Το εγχειρίδιο"
+
+msgid "What changed in this version"
+msgstr "Τι άλλαξε σε αυτήν την έκδοση"
+
+msgid "Show the log of this run"
+msgstr "Εμφάνιση του αρχείου καταγραφής αυτής της εκτέλεσης"
+
+msgid "Nothing has been written yet."
+msgstr "Δεν έχει γραφτεί τίποτα ακόμη."
+
+msgid "Look for a newer version now"
+msgstr "Αναζήτηση νεότερης έκδοσης τώρα"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Δεν βρέθηκε δέσμη πιστοποιητικών -- μια λήψη μέσω HTTPS μπορεί να αποτύχει."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Δημιουργία του αναγνωριστή ομιλίας ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Ο μεταγλωττιστής Swift αναφέρει: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  Ο αναγνωριστής ομιλίας δημιουργήθηκε (%s δ.)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  Η αναγνώριση ομιλίας αναφέρει: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Αναγνώριση σε %s: έτοιμο σε %s δ., ακρόαση σε %s δ."
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Δεν υπάρχει αναγνώριση ομιλίας σε αυτόν τον υπολογιστή: το macOS 26 φέρνει μία, αλλιώς εγκαθίσταται το faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Αναγνώριση ομιλίας (%s): %s λέξεις σε %s δ."
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Αναγνώριση ομιλίας (%s): %s λέξεις, ξαναδιαβάστηκαν"
+
+msgid "Separating speakers: %s"
+msgstr "Διαχωρισμός ομιλητών: %s"
+
+msgid "Separating ..."
+msgstr "Διαχωρισμός ..."
+
+msgid "Voice"
+msgstr "Φωνή"
+
+msgid "Stop"
+msgstr "Διακοπή"
+
+msgid "Stopping ..."
+msgstr "Διακοπή σε εξέλιξη ..."
+
+msgid "Not on this machine"
+msgstr "Όχι σε αυτόν τον υπολογιστή"
+
+msgid "Reading the audio ..."
+msgstr "Ανάγνωση του ήχου ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "Τίποτα δεν ακουγόταν στην ηχογράφηση."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "Ο διαχωρισμός ομιλητών είναι απενεργοποιημένος για αυτό το έργο."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Το ποιος μιλάει πότε μπορεί να προσδιοριστεί σε αυτό το μηχάνημα, από οποιαδήποτε ηχογράφηση στην οποία ακούγονται όλοι."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Αφήνει τον διαχωρισμό απενεργοποιημένο για αυτό το έργο. Το μοντάζ προέρχεται τότε από τα κομμάτια ή από το auphonic.com, όπως πριν."
+
+msgid "The speaker separation reports: %s"
+msgstr "Ο διαχωρισμός ομιλητών αναφέρει: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Επαναφορά του διαχωρισμού ομιλητών ..."
+
+msgid "The speaker separation is not set up."
+msgstr "Ο διαχωρισμός ομιλητών δεν έχει ρυθμιστεί."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "Ο διαχωρισμός ομιλητών δεν είναι εγκατεστημένος εδώ. Αυτό τον επαναφέρει: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Λήψη του μοντέλου (περίπου %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Λήψη του μοντέλου (περίπου %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Το μοντέλο δεν ήταν δυνατό να ληφθεί: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Το μοντέλο δεν ήταν δυνατό να γραφτεί: %s"
+
+msgid "The list of model files came back empty."
+msgstr "Η λίστα των αρχείων του μοντέλου επέστρεψε κενή."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "Το %s δεν ταιριάζει με το άθροισμα ελέγχου του και δεν γράφτηκε."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "Δεν είναι δυνατή η εγγραφή στον φάκελο του προγράμματος: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Το μοντέλο διαχωρισμού ομιλητών δεν βρίσκεται δίπλα στο πρόγραμμα."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Το αρχείο μοντέλου %s δεν ταιριάζει με το άθροισμα ελέγχου του."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "Το pyannote στέλνει ίχνος στο σπίτι του σε κάθε εκτέλεση και αυτή η έκδοση δεν προσφέρει τρόπο να απενεργοποιηθεί, οπότε ο διαχωρισμός δεν ξεκίνησε."
+
+msgid "Speakers"
+msgstr "Ομιλητές"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Ποιος ακούγεται σε αυτήν την ηχογράφηση. Ένα όνομα σημαίνει ότι είναι αυτό το ένα άτομο.\n\"περισσότεροι ομιλητές\" προσδιορίζει ποιος μιλάει πότε, σε αυτόν τον υπολογιστή και χωρίς μεταφόρτωση -- περίπου ένα λεπτό για μισή ώρα ήχου. Τα ονόματα μπαίνουν έπειτα στις γραμμές από κάτω."
+
+msgid "Speaker %d"
+msgstr "Ομιλητής %d"
+
+msgid "One more speaker in %s"
+msgstr "Ένας ακόμη ομιλητής στο %s"
+
+msgid "One more speaker in"
+msgstr "Ένας ακόμη ομιλητής σε"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Ακούει ξανά εκείνη την ηχογράφηση, αναζητώντας έναν ομιλητή περισσότερο από όσους βρέθηκαν."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d λεπ."
+
+msgid " SEEKING"
+msgstr " ΑΝΑΖΗΤΗΣΗ"
+
+msgid " computed"
+msgstr " υπολογισμένο"
+
+msgid " virtual"
+msgstr " εικονικό"
+
+msgid "%s were already right"
+msgstr "%s ήταν ήδη σωστά"
+
+msgid "%s (%s files)"
+msgstr "%s (%s αρχεία)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s έως %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d έως %d:%02d (%s δ.)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- με χειροκίνητη ένωση αυτή η διαφορά μπαίνει στο αρχείο ως σιωπή, και τίποτα αργότερα δεν την αφαιρεί."
+
+msgid "%s and %s more"
+msgstr "%s και %s ακόμη"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s και %s έχουν οριστεί και τα δύο ως %s. Μόνο ένα αρχείο μπορεί να είναι αυτό -- παρακαλώ επαναφέρετε το άλλο σε Περιεχόμενο."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "Τα %s και %s φέρουν το ίδιο όνομα αρχείου, και το Resolve δεν αναφέρει\n  διαδρομή για αυτά. Μετονομάστε το ένα από τα δύο."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s καρέ σε %s"
+
+msgid "%s reports %s"
+msgstr "%s αναφέρει %s"
+
+msgid "%s speech time"
+msgstr "%s χρόνος ομιλίας"
+
+msgid "%s virtual"
+msgstr "%s εικονικό"
+
+msgid "%s, audio track %d"
+msgstr "%s, κομμάτι ήχου %d"
+
+msgid "3:1 rule"
+msgstr "Κανόνας 3:1"
+
+msgid "Output"
+msgstr "Έξοδος"
+
+msgid "Access to auphonic.com"
+msgstr "Πρόσβαση στο auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Η πρόσβαση και η σύνδεση ζητούνται μία φορά και μετά παραμένουν. Το κλειδί δεν πηγαίνει ποτέ σε αρχείο, αλλά εδώ: %s."
+
+msgid "Checking files"
+msgstr "Έλεγχος αρχείων"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Ό,τι εκκρεμεί ακόμη, μετρημένο σε σχέση με ό,τι έχει γίνει. Οι μεγάλες εργασίες πιάνουν περισσότερη μπάρα από τις σύντομες."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Κλειδί για το auphonic.com, και αν το Resolve απαντά."
+
+msgid "Measuring time axis"
+msgstr "Μέτρηση άξονα χρόνου"
+
+msgid "Resolve answers"
+msgstr "Το Resolve απαντά"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Το Resolve δεν απαντά -- βλ. Ρυθμίσεις"
+
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+msgid "Settings ..."
+msgstr "Ρυθμίσεις ..."
+
+msgid "Two files as %s"
+msgstr "Δύο αρχεία ως %s"
+
+msgid "begins"
+msgstr "αρχίζει"
+
+msgid "done"
+msgstr "ολοκληρώθηκε"
+
+msgid "ends"
+msgstr "τελειώνει"
+
+msgid "first"
+msgstr "πρώτη"
+
+msgid "from %s"
+msgstr "από %s"
+
+msgid "join with Channel %d"
+msgstr "ένωση με το κανάλι %d"
+
+msgid "last"
+msgstr "τελευταία"
+
+msgid "rejected"
+msgstr "απορρίφθηκε"
+
+msgid ","
+msgstr "."
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Τύπος"
+
+msgid "Speech time"
+msgstr "Χρόνος ομιλίας"
+
+msgid "Share"
+msgstr "Μερίδιο"
+
+msgid "Beginning"
+msgstr "Αρχή"
+
+msgid "the whole material"
+msgstr "όλο το υλικό"
+
+msgid "Colour"
+msgstr "Χρώμα"
+
+msgid "  Preset:  %s"
+msgstr "  Προρύθμιση: %s"
+
+msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
+msgstr "  Το Resolve αρνείται περισσότερα κομμάτια βίντεο -- χωρούν %s από %s κάμερες."
+
+msgid "Preset"
+msgstr "Προρύθμιση"
+
+msgid "Preset:"
+msgstr "Προρύθμιση:"
+
+msgid "Start"
+msgstr "Έναρξη"
+
+msgid "Production"
+msgstr "Παραγωγή"
+
+msgid "Target"
+msgstr "Στόχος"
+
+msgid "Bright."
+msgstr "Φωτειν."
+
+msgid "Colour U"
+msgstr "Χρώμα U"
+
+msgid "Colour V"
+msgstr "Χρώμα V"
+
+msgid "Writing %s"
+msgstr "Εγγραφή του %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Timecode:           %s"
+
+msgid "none"
+msgstr "κανένα"
+
+msgid "Length"
+msgstr "Διάρκεια"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- δηλαδή όλοι, οπότε κάθε πλάνο πηγαίνει στην ίδια κάμερα."
+
+msgid "No camera of their own: %s"
+msgstr "Χωρίς δική τους κάμερα: %s"
+
+msgid "this window"
+msgstr "αυτό το παράθυρο"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "δύο ονόματα αρχείου για την ίδια στιγμή -- κανένα από τα δύο δεν λαμβάνεται"
+
+msgid "This is not a file of this program."
+msgstr "Αυτό δεν είναι αρχείο αυτού του προγράμματος."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Αυτό το αρχείο γράφτηκε από την έκδοση %s σε μορφή %d· αυτή εδώ γράφει μορφή %d. Τα ονόματα μέσα του έχουν αλλάξει από τότε, οπότε δεν μπορεί να διαβαστεί. Παρακαλούμε ρυθμίστε ξανά την εκτέλεση."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (μόνο μέτρηση: δεν γράφτηκε τίποτα)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (μόνο μέτρηση: χωρίς API key σταματά εδώ)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Έλεγχος με βάση τη διαρροή -- αναφορά είναι %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Δεν ήταν δυνατή η εγγραφή του %s: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  Για το %s δεν ήταν δυνατό να διαπιστωθεί αν αυτό που επιστράφηκε ταιριάζει με\n  ό,τι μεταφορτώθηκε. Καλύτερα διακοπή παρά να γραφτεί κάτι λάθος."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Κανένα μοντάζ καμερών στην παράδοση -- χωρίς στατιστικά ομιλητών δεν υπάρχει.\n  Χτίζεται μόνο το Timeline για το κλιπ multicam."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Τίποτα δεν άλλαξε."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Μόνο μία κάμερα -- ένα κλιπ multicam δεν θα είχε νόημα."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Εκεί τα κομμάτια έχουν διαφορετικά ονόματα:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Χρονικό παράθυρο χειροκίνητα:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline για το κλιπ multicam: όλες οι κάμερες, χωρίς μοντάζ"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline με το τελικό μοντάζ"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: η κάμερα σε ένα κομμάτι, η μίξη από κάτω"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nΟλοκληρώθηκε. Παρακάτω, το «Άνοιγμα φακέλου αποτελεσμάτων» δείχνει το αποτέλεσμα.\nΑν όλα είναι σωστά, το «Δημιουργία έργου Resolve» χτίζει το έργο από αυτό.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nΕΛΕΓΧΟΣ HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nΔεν επιλέχθηκε προρύθμιση: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nΔιακόπηκε πριν από το πρώτο μεγάλο βήμα. Με --anyway εκτελείται ούτως ή άλλως."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Το Resolve ίσως τότε να μην αναγνωρίσει τον χρωματικό χώρο εισόδου."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Ο ήχος %s στο %s -- εκεί συναντά την %s λέξη."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s κομμάτι V%d, από το καρέ %d (%s δ. ως την αρχή), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Και τα δύο κλιπ μένουν άκοπα· επικαλύπτουν το περιεχόμενο.\n      Η μετάβαση βρίσκεται στην επικάλυψη -- πού ακριβώς, το αποφασίζετε εσείς στο Resolve.\n      (Η διεπαφή scripting του Resolve δεν μπορεί να δημιουργήσει μεταβάσεις.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   αποτυγχάνει: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      ΠΡΟΣΟΧΗ: αδύναμη αντιστοιχία για %s (%s, %s είναι το κατώφλι). Τα δύο ίσως να μην ανήκουν μαζί."
+
+msgid "this pair of files"
+msgstr "αυτό το ζεύγος αρχείων"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- δεν μπορεί να είναι σωστό, το κομμάτι\n    %-20s μένει εκεί που είναι."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, ομοιότητα ονόματος %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, περικομμένο στο χρονικό παράθυρο, ομοιότητα ονόματος %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  ΑΛΛΑ %s -- ούτε το χρονικό παράθυρο (%s) ούτε το\n    %-20s    ολόκληρο μετρημένο εύρος (%s). Ανήκει σε άλλη εκτέλεση."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s κανένα αρχείο με αντίστοιχο όνομα"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s μετατοπίστηκε κατά %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s υπάρχει ήδη -- το rendering γίνεται αντ' αυτού στο %s, ώστε η\n%sπροηγούμενη παράδοση να μείνει."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (σύσταση YouTube για %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, δύο κανάλια  (το bitrate δεν ορίζεται απομακρυσμένα --\n%s%s kbit/s είναι η σύσταση για στερεοφωνικό)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s απορρίφθηκε -- καμία γραφή δεν έγινε δεκτή.\n%sΟρίστε χειροκίνητα στο Resolve στο Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s μένει σε «Same as Project» -- το έργο δεν ονομάζει\n%sκαμία καμπύλη HDR. Προς έλεγχο στο Resolve στο\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Η διαγραφή απέτυχε."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Η διαγραφή απέτυχε: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Η σύνδεση απέτυχε: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Η αποσύνδεση δεν είχε αποτέλεσμα -- τα περιττά κομμάτια ήχου\n    %-24s μένουν στη θέση τους."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s ήχος από A%d κρατήθηκε, %d ακόμη διαγράφηκαν"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s δεν μπόρεσε να συνδεθεί ξανά"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s δεν μπόρεσε να αποσυνδεθεί: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s κανένας ήχος δεν εισήχθη"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s φορές η προβλεπόμενη κάμερα δεν λειτουργούσε -- εκεί βρίσκεται μια άλλη."
+
+msgid "    %s could not be imported."
+msgstr "    %s δεν μπόρεσε να εισαχθεί."
+
+msgid "    %s could not be inserted."
+msgstr "    %s δεν μπόρεσε να τοποθετηθεί."
+
+msgid "    %s track %d could not be created."
+msgstr "    Το κομμάτι %s αρ. %d δεν μπόρεσε να δημιουργηθεί."
+
+msgid "    %s track could not be created: %s"
+msgstr "    Το κομμάτι %s δεν μπόρεσε να δημιουργηθεί: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: εικόνα και ήχος εισήχθησαν χωριστά (ήχος από A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway έχει οριστεί: εκτελείται παρά τα παραπάνω σημεία."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Όλα τα κομμάτια είναι στη θέση τους -- τίποτα να μετακινηθεί."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Προσοχή: δεν υπάρχει H.265 -- θα είναι H.264 με οκτώ bit.\n             Πολύ λίγο για HDR· οι διαβαθμίσεις θα εμφανίζουν ζώνες."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Προσοχή: το έργο είναι σε %s, το υλικό είναι %s.\n             Η παράδοση φέρει τις επισημάνσεις του υλικού. Για να ακολουθήσει\n             το έργο: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Χρωματικός χώρος"
+
+msgid "already right"
+msgstr "ήταν ήδη σωστό"
+
+msgid "    Clip colours could not be set."
+msgstr "    Τα χρώματα των κλιπ δεν μπόρεσαν να οριστούν."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Τα κλιπ από προηγούμενη εκτέλεση είναι ακόμη δεμένα με τα remote grades. Στη\n    σελίδα Color, δεξί κλικ σε μια μικρογραφία > \"Copy Remote Grades to Local\"\n    (παίρνει μαζί τη διόρθωση) ή \"Use Local Grades\". Τα νέα Timeline\n    δεν το χρειάζονται."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Η λίστα codec δεν είναι αναγνώσιμη: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Χρωματική ομάδα %-24s μόνο %s από %s κλιπ"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Διασταύρωση αδύνατη: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Διασταύρωση: μη μετρήσιμη"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    Σημείο In  %s   (timecode %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    Σημείο In  %s\n    Σημείο Out %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Σημείο Out %s   (timecode %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Το σημείο Out βρίσκεται πριν από το σημείο In -- αυτό δεν λειτουργεί."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    Η κάμερα αναφοράς δεν έχει timecode. Ο άξονας κρέμεται από το ρολόι του %s, και το πρώτο του καρέ δείχνει %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Για έλεγχο -- το Timeline ξεκινά στο καρέ %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Η μορφή και το codec δεν μπόρεσαν να οριστούν."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Η μορφή και το codec δεν μπόρεσαν να οριστούν: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Η λίστα μορφών δεν είναι αναγνώσιμη: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    Το «ένα αρχείο ανά παράδοση» απορρίφθηκε· το Resolve θα γράψει ένα αρχείο ανά κλιπ."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    Το «ένα αρχείο ανά παράδοση» δεν μπόρεσε να ζητηθεί: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Διάρκεια  %s  (αντί για %s)"
+
+msgid "    Length  %s"
+msgstr "    Διάρκεια  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Τοπικές εκδόσεις: στον επεξεργαστή κόμβων το «Group Pre-Clip» ισχύει για\n    ολόκληρη την κάμερα, το «Clip» μόνο για το ένα κόψιμο. Το ένα δεν αποκλείει\n    το άλλο."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Η στάθμη-στόχος του μετρητή ακουστότητας δεν βρέθηκε -- παρακαλώ ορίστε την χειροκίνητα:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Μετρήθηκαν %s καρέ/s -- το Resolve γνωρίζει μόνο σταθερούς ρυθμούς,\n    χρησιμοποιείται %s."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Κανένα ζεύγος μετρήσιμο -- μένει όπως είναι."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Δεν βρέθηκε ρύθμιση για τις εκδόσεις -- παρακαλώ ορίστε χειροκίνητα:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Δεν μπόρεσαν να οριστούν όλα. Το Resolve δέχεται ορισμένες τιμές μόνο\n    όσο το Timeline είναι ακόμη άδειο -- παρακαλώ συγκρίνετε παραπάνω."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    Στην ουρά -- στο Resolve μένει μόνο το «Render All»."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Τα remote grades είναι ενεργά: μία διόρθωση χρώματος ανά κάμερα ισχύει\n    για όλα τα κοψίματά της -- ένα μεμονωμένο κόψιμο δεν μπορεί πια να διορθωθεί\n    από μόνο του."
+
+msgid "    Render job could not be created."
+msgstr "    Η εργασία rendering δεν μπόρεσε να δημιουργηθεί."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Η εργασία rendering δεν μπόρεσε να δημιουργηθεί: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Οι ρυθμίσεις δεν μπορούν να καταγραφούν -- παρακαλώ ορίστε χειροκίνητα:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Το παράθυρο θα είχε διάρκεια μόνο %s -- αυτό δεν μπορεί να είναι το ζητούμενο."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Κομμάτι %d  %-22s (εδώ: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    Το V2 δεν μπόρεσε να διαβαστεί ξανά: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Το κομμάτι βίντεο %d δεν μπόρεσε να μετονομαστεί."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Αν το έτοιμο αρχείο περνάει ως HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    δεν είναι δυνατό: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (αρνητική διαδρομή ήχου -- κάτι δεν πάει καλά)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s δεν μπορεί να ευθυγραμμιστεί: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s μη μετρήσιμο: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s μετατόπιση %s, ολίσθηση ρολογιού %s ppm (+/- %s), υπολειπόμενη διασπορά %s ms, %s από %s σημεία"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s μετατόπιση %s, ολίσθηση ρολογιού %s ppm (+/- %s), υπολειπόμενη διασπορά %s ms, %s από %s σημεία%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s από %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s μπλοκ ενώθηκαν με σειρά ονόματος (χωρίς timecode -- τα κενά δεν θα αναγνωρίζονταν)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s μπλοκ ενώθηκαν μέσω timecode, αρχή %s"
+
+msgid "  %s of %s files imported."
+msgstr "  Αρχεία που εισήχθησαν: %s από %s."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s ομιλητές, %s πλάνα, συντομότερο %s δ."
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s κομμάτια βίντεο, με τα ονόματα των ομιλητών:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s εμφανίζεται δύο φορές με διαφορετικές κάμερες -- χρησιμοποιείται %s"
+
+msgid "  %s cannot be classified: %s"
+msgstr "  %s δεν μπορεί να ταξινομηθεί: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s δεν δίνει ήχο για μέτρηση -- τοποθετήθηκε μόνο με βάση το ρολόι της, και δεν βρέθηκε τίποτα για να ελεγχθεί"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  Το %s δεν ήταν δυνατό να ληφθεί: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  Το %s δεν ήταν δυνατό να ξαναγραφτεί: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  Η %s πηγαίνει στο κομμάτι βίντεο 1 -- εκεί το πρώτο κομμάτι ήχου φέρει\n  το Full-Mix, και το κομμάτι βίντεο 1 γίνεται η γωνία 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s δεν έχει ήχο κάμερας -- χωρίς αυτόν δεν ευθυγραμμίζεται τίποτα"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  Το %s υπάρχει δύο φορές στην παραγωγή -- λήφθηκε μία φορά."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  Το %s υπάρχει ήδη και αντικαθίσταται -- αυτή η παραγωγή δεν έχει καταγραφή ότι το δημιούργησε."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  Το %s υπάρχει από προηγούμενη εκτέλεση αυτής της παραγωγής και αντικαθίσταται."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s τρέχει στα %s καρέ/s, ρυθμό για τον οποίο το Resolve δεν έχει Timeline -- μετατρέπεται, δεν παραλείπεται"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  Το %s είναι έτοιμο -- με --resolve-json μπορεί να γίνει αργότερα."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, παραλείφθηκε"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: δεν μπορεί να προσδιοριστεί πόσα κανάλια έχει (%s) -- δεν μετριέται"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (μόνο μέτρηση: δεν μεταφορτώθηκε τίποτα)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Ένα Timeline %r υπήρχε ήδη -- το νέο ονομάζεται %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Υπάρχει Timeline με αυτό το όνομα, με άλλες κάμερες πάνω του. Μένει·\n  το νέο χτίζεται δίπλα του με δικό του όνομα."
+
+msgid "  Added: %s"
+msgstr "  Προστέθηκαν: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Η προσθήκη atom αναιρέθηκε -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Όλα τα απαιτούμενα αρχεία εξόδου υπάρχουν ήδη."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Το atom %s παραλείφθηκε: %s byte είναι πάρα πολλά για αυτό."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Ήχος: Full-Mix σε ένα κομμάτι στο A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Προσοχή: %s βαθμίδες διαφορά φωτεινότητας -- ορατή κατά την εναλλαγή."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Προσοχή: τα %s και %s ονομάζονται και τα δύο %s. Στο Timeline\n  το Resolve αναφέρει μόνο το όνομα, οπότε τα κλιπ τους δεν ξεχωρίζουν\n  -- μετονομάστε το ένα από τα δύο αρχεία."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Προσοχή: το %s δεν ήταν δυνατό να διαγραφεί -- το νέο Timeline παίρνει\n  γι' αυτό μια προσθήκη στο όνομά του."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Προσοχή: εύρος      μόνο %s LU -- πολύ στενό. Στην ομιλία συνηθίζονται 3 έως 7 LU·\n                     κάτω από αυτό ακούγεται συμπιεσμένο. Ελέγξτε πόσο δυνατά είναι ρυθμισμένος\n                     ο ισοσταθμιστής στο auphonic.com."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Προσοχή: η παραγωγή περιέχει κι άλλα κομμάτια (%s). Μπαίνουν στη\n  μίξη -- διαγράψτε τα στο auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Προσοχή: κομμάτι %s -- διατηρεί τις ρυθμίσεις του."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Άτομα κάμερας:      δεν μπορούν να προστεθούν (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Δεδομένα κάμερας:    %s κλειδιά μεταφέρθηκαν (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Δεδομένα κάμερας:    Προσοχή, %s από %s κλειδιά λείπουν στο νέο αρχείο: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Δεδομένα κάμερας:    η πηγή δεν έχει καθόλου"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Δεν μπορούν να προστεθούν atom: ένα box 64 bit εμποδίζει."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Δεν μπορούν να προστεθούν atom: το moov δεν είναι στο τέλος."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Δεν μπορούν να προστεθούν atom: η πηγή είναι %s, ο στόχος %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Έλεγχος:         δεν είναι δυνατός (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Ολίσθηση ρολογιού:  %s ppm (+/- %s), υπολειπόμενη διασπορά %s ms, %s από %s σημεία"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Ολίσθηση ρολογιού:  τίποτα δεν μετρήθηκε -- αυτή είναι η αναφορά με την οποία συγκρίνονται οι άλλες"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Η σύγκριση χρωμάτων δεν είναι δυνατή: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Η χρωματική ομάδα %r δεν μπορεί να δημιουργηθεί."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Η χρωματική ομάδα %r δεν μπορεί να δημιουργηθεί: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Χρώμα:               %d/%d/%d -- τα πρωτεύοντα συμπληρώθηκαν από τον πίνακα (πηγή: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Χρώμα:               %d/%d/%d μεταφέρθηκε"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Χρώμα:               Προσοχή, %s στην πηγή, %s στο νέο αρχείο"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Αντιπαραβολή:       %s από το Full-Mix, απόκλιση %s ms (%s από %s σημεία)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Αντιπαραβολή:       δεν είναι δυνατή (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Κομμάτια δεδομένων:  %s μεταφέρθηκαν"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Κομμάτια δεδομένων:  %s παραλείφθηκαν -- το ffmpeg δεν μπορεί να τα γράψει"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Διαγράφηκε: %s -- ξαναχτίζεται τώρα."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Ολίσθηση στη διάρκεια εκτέλεσης: %s δ. = %s καρέ  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Το υπάρχον αποτέλεσμα υιοθετήθηκε -- τίποτα δεν υπολογίστηκε, τίποτα δεν πληρώθηκε."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Λιγότερες από δύο κάμερες με ήχο -- πολύ λίγες για Multitrack."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Ζητήθηκε η τελική μίξη ως μέτρο σύγκρισης (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "δεν αρχίζει εκεί όπου τελειώνει το προηγούμενο μπλοκ"
+
+msgid "ends before the next block starts"
+msgstr "τελειώνει πριν αρχίσει το επόμενο μπλοκ"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  Το auphonic.com τα δίπλωσε. Η μίξη κρατά τα δύο κανάλια· αυτό που χάθηκε είναι η\n  διαφορά ανάμεσα στα δύο μικρόφωνα εκείνου του κομματιού."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Δύο κανάλια, επειδή ένα κομμάτι είναι στερεοφωνικό"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Κενό %s στο %s -- γεμίστηκε με σιωπή"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Επικάλυψη %s στο %s -- εκεί ακούγονται και τα δύο"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Επικαλύπτονται -- πολλά μικρόφωνα ταυτόχρονα, όχι μπλοκ το ένα μετά το άλλο."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Καθεμία μπαίνει επιπλέον στο βίντεο ως δικό της κομμάτι: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Μόνο η μίξη μπαίνει στο βίντεο (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Υπάρχει ήδη, με τις ίδιες κάμερες στην ίδια σειρά -- μένει\n  ανέγγιχτο. Όποιος θέλει νέο, το διαγράφει στο Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Τα καρέ-κλειδιά του %s δεν μπορούν να διαβαστούν (%s) -- το αντίγραφο αρχίζει από την αρχή του αρχείου."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Η καμπύλη στάθμης δεν είναι δυνατή (%s) -- χωρίς περιοριστή"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Περιοριστής:       το πολύ %s dB, η ίδια καμπύλη σε κάθε κομμάτι%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Η ακουστότητα δεν μετριέται: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Η ακουστότητα δεν μπορεί να μετρηθεί -- μένει όπως είναι."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Οι μετρικές δεν μπορούν να γραφτούν: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Mixdown από το auphonic.com: %s LUFS, κορυφή %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Δεν βρέθηκε Full-Mix -- το Timeline μένει σιωπηλό."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Κανένας ήχος στο Timeline -- τίποτα να καθαριστεί."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  Καμία κάμερα στην παράδοση -- τίποτα να χτιστεί."
+
+msgid "  No clips found for colour groups."
+msgstr "  Δεν βρέθηκαν κλιπ για χρωματικές ομάδες."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Δεν απέμεινε μοντάζ -- το Timeline μένει κενό."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Δεν παραδόθηκε: η εκτέλεση δεν μπόρεσε να τοποθετήσει το %s, οπότε δεν είναι κάμερα αυτού του επεισοδίου."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Καμία μετρημένη μετατόπιση για το %s -- τοποθετήθηκε στην αρχή του άξονα."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  Δεν βρέθηκε τίποτα στον ήχο για το %s -- τοποθετήθηκε μόνο με το timecode."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: η μέτρηση την τοποθετεί στα %s δ., το timecode στα %s δ. -- χρησιμοποιείται η μέτρηση."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Η αρχή %s του Timeline απορρίφθηκε: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Το Timeline ξεκινά στο %s, όχι στο %s -- κάθε πλάνο βρίσκεται τόσο πιο μέσα."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Η αρχή %s του Timeline δεν έγινε δεκτή."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Αρχή %s -- κάθε πλάνο τοποθετείται σε σχέση με αυτήν."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Δεν υπήρχε ακόμη τέτοιο Timeline -- απλώς χτίζεται."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Σημείωση: ο υπολογισμός γίνεται με τα αρχεία που μεταφορτώθηκαν τότε. Φέρουν\n  το χρονικό παράθυρο και την ευθυγράμμιση εκείνης της ημέρας. Όπου το σημείο In, το σημείο Out\n  ή η μετρημένη θέση διαφέρουν τώρα, ο έλεγχος επιστροφής μετρά τη\n  διαφορά και μετακινεί τα κομμάτια στη θέση τους."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Σημείωση: αυτό το ffmpeg δεν έχει soxr -- η ολίσθηση ρολογιού αφαιρείται μόνο σε\n  βήματα των 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Χωρίς σημασία για τον ήχο."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Μετατόπιση:         %s   (από τη σύγκριση των καμερών)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Μόνο %s από %s πλάνα βρίσκονται στο Timeline."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Κορυφές:           %s dB πάνω από %s dBTP -- ο περιοριστής τις πιάνει"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Πρόγραμμα αναπαραγωγής: %s αναφέρει σφάλμα -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Πρόγραμμα αναπαραγωγής: %s παραμένει στο %s αντί για %s -- εγκαταλείφθηκε μετά από %s προσπάθειες (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Πρόγραμμα αναπαραγωγής: η έξοδος ήχου αλλάζει σε %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Πρόγραμμα αναπαραγωγής: ο ήχος δεν τρέχει (%s) -- μία ακόμη προσπάθεια."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Δώστε έναν αριθμό από 1 έως %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Παραγωγή στο auphonic.com:   %s"
+
+msgid "  Production running (%s)"
+msgstr "  Η παραγωγή εκτελείται (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Το έργο %r ανοίχτηκε."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Το αρχείο έργου δεν ήταν δυνατό να γραφτεί: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Το αρχείο έργου δεν είναι εγγράψιμο (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Εύρος:             %s LU (στην ομιλία συνηθίζονται 3 έως 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Αναφορά: %s (%s, μεγαλύτερη διάρκεια)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Απομένει:          %s dB σε κάθε κομμάτι, δηλαδή %s LUFS αντί για %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Το Resolve δεν πήρε καμία εικόνα -- το Timeline είναι κενό. Τίποτα\n  άλλο δεν χτίζεται πάνω του."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Αποτέλεσμα: %s (%s) -- μένει δίπλα στο αρχείο βίντεο\n"
+
+msgid "  Not used:  %s."
+msgstr "  Δεν χρησιμοποιήθηκαν:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Ερώτηση: %s στην απομαγνητοφώνηση, %s έγιναν κοπή αντίδρασης."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Ερώτηση: δεν υπάρχει απομαγνητοφώνηση, οπότε δεν βρέθηκε ερώτηση και δεν\n            έγινε κοπή αντίδρασης. Οι λέξεις καταγράφονται από την τελική μίξη\n            κατά την εκτέλεση· χωρίς αυτές η ρύθμιση δεν κάνει τίποτα."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Οι ρυθμίσεις μεταφέρθηκαν στην προρύθμιση %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Αρχή %s (η πρωιμότερη κάμερα) -- αλλιώς όλα θα βρίσκονταν πριν από την αρχή του Timeline."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Χωρίς προσαρμογή:  ελήφθη από τα αρχεία προέλευσης -- καμία ενίσχυση σε κανένα κομμάτι και\n                     κανένας περιοριστής. Ο ήχος βγαίνει ακριβώς όπως μπήκε."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Σύνολο κομματιών:  %s LUFS, κορυφή %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Στόχος:            %s LUFS  ->  %s dB σε κάθε κομμάτι"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Η Timeline παίρνει %s: τον υψηλότερο από αυτούς, ή τον επόμενο ρυθμό που\n  έχει το Resolve πάνω από αυτόν. Προς τα πάνω το Resolve επαναλαμβάνει καρέ,\n  προς τα κάτω τα πετάει. Κάθε κάμερα κρατά τον δικό της ρυθμό, και το μοντάζ\n  μετρά σε εκείνον."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Το Full-Mix δεν ήταν δυνατό να εισαχθεί."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Το Full-Mix δεν ήταν δυνατό να εισαχθεί στο Timeline."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  Οι κάμερες φέρουν το χρονικό παράθυρο και ένα δευτερόλεπτο σε κάθε άκρο: %s γράφτηκαν για %s από τα %s που καταγράφηκαν."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  Οι κάμερες βρίσκονται κοντά μεταξύ τους (το πολύ %s βαθμίδες φωτεινότητας)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  Το μοντάζ άλλαξε: %s πλάνα αντί για %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Το αρχείο καταγραφής προηγούμενων εκτελέσεων εδώ δεν μπορεί να διαβαστεί (%s), οπότε αναφέρεται ό,τι υπάρχει ήδη."
+
+msgid "  The cut stays as it was."
+msgstr "  Το μοντάζ μένει όπως ήταν."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Τα αρχεία μεταφορτώνονται ξανά -- αυτό κοστίζει πίστωση."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Τα αρχεία στον φάκελο πρέπει να έχουν τα ονόματα των ομιλητών και να ανήκουν\n  σε αυτήν την εκτέλεση. Χωρίς τον φάκελο περνά ξανά από το auphonic.com."
+
+msgid "  The media pool stays as it is."
+msgstr "  Το media pool μένει όπως είναι."
+
+msgid "  The names from there are adopted:"
+msgstr "  Τα ονόματα από εκεί υιοθετούνται:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Εκεί υπάρχουν %s κομμάτια και εδώ %s -- δεν ταιριάζουν."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Αυτή η κάμερα δεν μπόρεσε να τοποθετηθεί -- παραλείπεται"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Χρονικό παράθυρο:   %s από %s γράφτηκαν, από το %s της κάμερας"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Timecode %s γράφτηκε ως bext και iXML (αναφορά: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Υπερβολικό:        ο περιοριστής θα έπρεπε να αφαιρέσει %s dB. Πάνω από %s dB\n                     ακούγεται συμπιεσμένο -- %s dB λιγότερη ενίσχυση."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Απομαγνητοφώνηση αδύνατη (%s) -- τρέχει έτσι κι αλλιώς."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Γενικό πλάνο στα άκρα: παραλείφθηκε -- η πρώτη ή η τελευταία\n  αναγγελία θα ήταν πολύ μεγάλη για χαιρετισμό."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Γενικό πλάνο στα άκρα: έως %s και από %s"
+
+msgid "  from %s, %s"
+msgstr "  από %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  Το iXML για %s δεν γράφτηκε: %s"
+
+msgid " at high frame rates"
+msgstr " σε υψηλούς ρυθμούς καρέ"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Ο ήχος αρχίζει κατά το timecode στις    %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Η εικόνα αρχίζει κατά το timecode στις  %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  Το timecode του ήχου δεν ταιριάζει καθόλου με την εικόνα -- πιθανώς ρολόι που δεν ρυθμίστηκε ποτέ. Χρησιμοποιείται η μέτρηση."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  Το timecode δεν ταιριάζει με αυτό που ακούγεται. Χρησιμοποιείται η μέτρηση."
+
+msgid "%s from %s recordings"
+msgstr "%s από %s ηχογραφήσεις"
+
+msgid "%s is missing."
+msgstr "Λείπει: %s."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "Το %s βρίσκεται σε περισσότερους από έναν ομιλητές -- ένα όνομα είναι ένα πρόσωπο, και κάθε πρόσωπο χρειάζεται το δικό του."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s βρίσκεται σε περισσότερες από μία φωνές. Ένα όνομα είναι ένα πρόσωπο, και το μοντάζ βάζει ένα πρόσωπο σε μία κάμερα -- δύο φωνές με ένα όνομα θα ήταν ένα πρόσωπο σε δύο θέσεις."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Αυτό το μηχάνημα μπορεί να το εγκαταστήσει σωστά: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Εγκατάσταση: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Σε αυτό το μηχάνημα: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Εγκατάσταση: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  Το %s θα εγκατασταθεί σε αυτό το Python: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  Χειροκίνητα:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Δεν ήταν δυνατή η αναζήτηση νεότερης έκδοσης: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "Λείπει το %s. Την πρώτη φορά παίρνει λίγα λεπτά."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Να εκτελεστεί τώρα; [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  Αυτό δεν δούλεψε: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Επαναφορά: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  Το ffmpeg.org έχει έτοιμες εκδόσεις για Windows. Ο φάκελος με το ffmpeg.exe πρέπει έπειτα να μπει στο PATH, ή τα αρχεία δίπλα σε αυτό το πρόγραμμα."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Να ανοίξει η σελίδα; [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  Η σελίδα δεν ήταν δυνατό να ανοιχτεί: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "Λείπει το %s -- εγκαθίσταται. Την πρώτη φορά χρειάζονται λίγα λεπτά."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sΈλεγχος timecode του αρχείου ήχου"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s όχι (χωρίς ελεύθερη εικόνα)"
+
+msgid ", audio on A2"
+msgstr ", ήχος στο A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Το αρχείο αντιστοίχισης δεν είναι αναγνώσιμο: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Ο ήχος κάμερας δεν είναι χρησιμοποιήσιμος: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "ΤΟ MULTITRACK ΔΕΝ ΕΙΝΑΙ ΔΥΝΑΤΟ\n  Χρειάζονται τουλάχιστον δύο κομμάτια εισόδου, και βρέθηκε μόνο %s.\n  Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης\n  συσκευής εγγραφής ή ο ήχος μιας κάμερας -- αυτός μετράει μόλις ο\n  Ήχος κάμερας λέει \"χρήση εσωτερικού ήχου\". Χωρίς δύο από αυτά δεν\n  υπάρχει τίποτα να αποσυνδεθεί, και το ίδιο αρχείο περνά ως\n  συνηθισμένη παραγωγή."
+
+msgid "No preset is called %r."
+msgstr "Καμία προρύθμιση δεν ονομάζεται %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Κανένας ήχος στις κάμερες -- δεν υπάρχει τίποτα για να δουλέψει."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Μόνο ένα αρχείο ήχου και καμία εικόνα -- τίποτα να γίνει."
+
+msgid "Open project ..."
+msgstr "Άνοιγμα έργου ..."
+
+msgid "Save project"
+msgstr "Αποθήκευση έργου"
+
+msgid "Close project"
+msgstr "Κλείσιμο έργου"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Το αρχείο έργου πηγαίνει στον φάκελο εξόδου, και δεν έχει επιλεγεί ακόμη κανένας. Παρακαλώ επιλέξτε έναν."
+
+msgid "Written:\n\n  %s"
+msgstr "Γράφτηκε:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Δεν γράφτηκε τίποτα -- δεν υπάρχει υλικό ακόμη."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nΠΟΙΟΣ ΡΩΤΑΕΙ -- μια πρόταση, και τίποτα δεν ορίζεται από αυτήν"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s ομιλία, %s από %s προτάσεις ερώτηση"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  Η σειρά κρατάει, η απόσταση μεταξύ τους όχι: μετρημένη σε τέσσερα επεισόδια δεν αντιστράφηκε ποτέ, ενώ η απόσταση πρώτου και τελευταίου άλλαξε κατά τέσσερις φορές. Προϋποθέτει μία φωνή ανά κομμάτι· όπου δύο από αυτά φέρουν την ίδια ομιλία, δεν λέγεται τίποτα."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Ποιος ρωτάει -- δεν λέγεται εδώ: δύο από τα κομμάτια φέρουν την ίδια ομιλία, οπότε οι ερωτήσεις θα πήγαιναν σε όποιο μαγνητόφωνο ήταν ανοιγμένο πιο δυνατά."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nΠΟΙΟ ΜΙΚΡΟΦΩΝΟ -- μια πρόταση, και τίποτα δεν ορίζεται από αυτήν"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s ακούγεται σαν %-20s %s %% της μέσα σε εκείνο το κομμάτι, %s μονάδες μπροστά από το επόμενο"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Ισχύει υπό μία προϋπόθεση: ένα μικρόφωνο ανά άτομο, και καθένα να φέρει μόνο εκείνο το άτομο. Όπου τα κομμάτια επικαλύπτονται τόσο που δεν ξεχωρίζουν, ή δύο φωνές δείχνουν το ίδιο μικρόφωνο, καλύτερα να μη λέγεται τίποτα παρά κάτι αβέβαιο."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nΠΩΣ ΘΑ ΜΠΟΡΟΥΣΑΝ ΝΑ ΛΕΓΟΝΤΑΙ ΟΙ ΦΩΝΕΣ -- μια πρόταση"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s θα μπορούσε να λέγεται %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s σχεδόν δεν μιλάει μέσα στο χρονικό παράθυρο -- πρόταση: να μη χρησιμοποιηθεί."
+
+msgid "Guest"
+msgstr "Καλεσμένος"
+
+msgid "Host"
+msgstr "Παρουσιαστής"
+
+msgid "Host %d"
+msgstr "Παρουσιαστής %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Μόνο για φωνές που φέρουν ακόμη το όνομα που τους έδωσε το πρόγραμμα· ένα που πληκτρολόγησε κάποιος δεν αγγίζεται ποτέ. Οι ρόλοι διαβάζονται από το ποιος ρωτάει και ποιος απαντά, κάτι που ισχύει για συζήτηση με έναν καλεσμένο και είναι πρόταση, όχι ρύθμιση."
+
+msgid "Skip this version"
+msgstr "Παράλειψη αυτής της έκδοσης"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Μόνο αυτή. Η επόμενη έκδοση ρωτά ξανά, και το Βοήθεια > Αναζήτηση νεότερης έκδοσης τώρα ρωτά ανά πάσα στιγμή."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  Το %s υπάρχει ήδη -- δεν λαμβάνεται δύο φορές"
+
+msgid "The text for %s could not be fetched."
+msgstr "Το κείμενο για την %s δεν ήταν δυνατό να ληφθεί."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Έλεγχος:         ένα από τα δύο κομμάτια δεν είναι στο γραμμένο αρχείο, οπότε δεν μετρήθηκε τίποτα."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Έλεγχος:         τα δύο κομμάτια δεν συγκρίνονται (ταύτιση %s, το κατώφλι είναι %s). Αυτό δεν λέει τίποτα για τον χρονισμό."
+
+msgid "Project found"
+msgstr "Βρέθηκε έργο"
+
+msgid "Open the project"
+msgstr "Άνοιγμα του έργου"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Όλα επανέρχονται από αυτό: ονόματα, διαχωρισμός, αντιστοίχιση, τύποι, το χρονικό παράθυρο. Η λίστα αρχείων αντικαθίσταται από αυτήν που περιέχει το έργο."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "Ένα αρχείο έργου βρίσκεται μαζί με αυτό το υλικό:\n\n  %s\n  γράφτηκε %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Πολλά αρχεία έργου βρίσκονται μαζί με αυτό το υλικό. Ποιο από αυτά;\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "ΤΟ ΕΡΓΟ ΑΝΟΙΧΤΗΚΕ\n  Όλες οι καταχωρίσεις επανήλθαν, τίποτα δεν υπολογίστηκε σε αυτήν τη συνεδρία.\n  Ο φάκελος εξόδου περιέχει τα αρχεία της τελευταίας εκτέλεσης:\n  %s\n\n  Τρεις δρόμοι από εδώ:\n    • κάτω «Άνοιγμα φακέλου αποτελεσμάτων» -- δείτε τα αρχεία εκείνης της εκτέλεσης,\n    • κάτω «Δημιουργία έργου Resolve» -- από το αρχείο παράδοσης εκείνης της εκτέλεσης,\n      χωρίς να υπολογιστεί τίποτα ξανά,\n    • πάνω «Έναρξη» -- υπολογισμός όλων ξανά και αντικατάσταση των αρχείων.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "ΤΟ ΕΡΓΟ ΑΠΟΘΗΚΕΥΤΗΚΕ\n  %s\n  Αυτή η εκτέλεση μπορεί να ανοιχτεί ξανά αργότερα -- πάνω αριστερά\n  «Άνοιγμα έργου ...»\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Δεν ήταν δυνατή η φόρτωση των προρυθμίσεων: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Πολλές κάμερες, αλλά κανένα αρχείο ήχου. Κάθε κάμερα θα είχε δικό της ήχο --\nγι' αυτό υπάρχει το --multitrack. Αλλιώς, μία κάμερα μετά την άλλη."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Το αρχείο ΔΕΝ αναγνωρίζεται ως HDR."
+
+msgid "The file is tagged as HDR."
+msgstr "Το αρχείο είναι επισημασμένο ως HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Άγνωστη επέκταση, παραλείφθηκε: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Ποια προρύθμιση Auphonic να επεξεργαστεί αυτό το αρχείο;"
+
+msgid "Would write: %s"
+msgstr "Θα έγραφε: %s"
+
+msgid "channel count unknown"
+msgstr "άγνωστος αριθμός καναλιών"
+
+msgid "is actively taken out"
+msgstr "αφαιρείται ενεργά"
+
+msgid "not readable"
+msgstr "μη αναγνώσιμο"
+
+msgid "the default device"
+msgstr "προεπιλεγμένη συσκευή"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: δεν υπάρχει ήχος για εξαγωγή (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  ΥΠΑΡΧΕΙ ΗΔΗ ΕΡΓΟ ΜΕ ΑΥΤΟ ΤΟ ΟΝΟΜΑ: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  ΚΑΘΑΡΙΣΜΟΣ ΚΟΜΜΑΤΙΩΝ ΗΧΟΥ"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  ΚΛΙΠ ΣΤΟ MEDIA POOL"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Μη χρησιμοποιήσιμο: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  ΑΝΑΝΕΩΣΗ ΤΗΣ ΛΙΣΤΑΣ ΜΟΝΤΑΖ"
+
+msgid "\n  Render job"
+msgstr "\n  Εργασία rendering"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Το μέρος του Resolve σταμάτησε: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  ΔΙΑΚΟΠΗ: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Ρυθμίσεις"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Διακόπηκε: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  ΥΠΑΡΧΕΙ ΗΔΗ ΠΑΡΑΓΩΓΗ ΜΕ ΑΥΤΟ ΤΟ ΟΝΟΜΑ"
+
+msgid "\n  This produces:"
+msgstr "\n  Αυτό παράγει:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Εκτέλεση %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nΗΔΗ ΕΠΕΞΕΡΓΑΣΜΕΝΟ"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nΣΥΓΚΡΙΣΗ ΧΡΩΜΑΤΩΝ ΚΑΜΕΡΩΝ"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nΕΛΕΓΧΟΣ ΤΗΣ ΕΠΙΣΤΡΟΦΗΣ"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nΔΙΑΦΟΡΕΤΙΚΟΙ ΡΥΘΜΟΙ ΚΑΡΕ: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nΔΙΑΦΟΡΕΤΙΚΑ ΜΕΓΕΘΗ ΚΑΡΕ: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nΤελείωσε χωρίς αποτέλεσμα: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nΟλοκληρώθηκε με σφάλματα.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nΜΕΤΡΗΣΗ ΤΟΥ ΑΞΟΝΑ ΧΡΟΝΟΥ"
+
+msgid "\nMETRICS"
+msgstr "\nΜΕΤΡΙΚΕΣ"
+
+msgid "\nMIXING"
+msgstr "\nΜΙΞΗ"
+
+msgid "\nNORMALISE"
+msgstr "\nΚΑΝΟΝΙΚΟΠΟΙΗΣΗ"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Καμία εικόνα: τα κομμάτια τοποθετούνται το ένα ως προς το άλλο."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs δεν κάνει τίποτα εδώ: τα κομμάτια βγαίνουν όπως ηχογραφήθηκαν, και η ακουστότητα ορίζεται εκεί όπου μιξάρονται."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nΜόνο ένα κομμάτι βρήκε θέση -- δεν έμεινε τίποτα για να τοποθετηθεί απέναντί του."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Παράθυρο:        %s -- ό,τι άκουσε οποιοδήποτε κομμάτι"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: σιωπή για %s στην αρχή και %s στο τέλος"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nΜόλις ενωθούν τα μπλοκ μένει μόνο ένα κομμάτι, και το Multitrack χρειάζεται ένα ανά φωνή. Όπου δύο άνθρωποι θεωρήθηκαν μία ηχογράφηση, το --apart κρατά ένα μπλοκ έξω."
+
+msgid "RECOGNISED PLAN"
+msgstr "ΑΝΑΓΝΩΡΙΣΜΕΝΟ ΣΧΕΔΙΟ"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nΚανένα κομμάτι ήχου δεν ευθυγραμμίστηκε -- δεν υπάρχει τίποτα να μπει στον άξονα."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nΉχος και εικόνα έχουν κοινά μόνο %s, και η ευθυγράμμιση βρήκε σε αυτά %s σημεία δειγματοληψίας. Είναι πολύ λίγα για να τοποθετηθεί κάτι πάνω τους."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s μιξαρισμένα μαζί"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nΚανένα χρησιμοποιήσιμο αρχείο βίντεο -- χωρίς ήχο κάμερας δεν υπάρχει κοινός άξονας χρόνου."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nΠΡΟΕΛΕΓΧΟΣ -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nΕΠΕΞΕΡΓΑΣΙΑ: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- ΜΟΝΟ ΕΠΙΘΕΩΡΗΣΗ"
+
+msgid "\nRESULT"
+msgstr "\nΑΠΟΤΕΛΕΣΜΑ"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nΑΠΟΘΗΚΕΥΣΗ ΚΟΜΜΑΤΙΩΝ"
+
+msgid "\nStopped: %s"
+msgstr "\nΔιακοπή: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nΕΓΓΡΑΦΗ ΤΩΝ ΚΟΜΜΑΤΙΩΝ ΣΤΟΝ ΑΞΟΝΑ"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  ολοκληρώθηκε%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Κομμάτι %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s κανένα αρχείο στο media pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   κενό (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s από %s, διάρκεια %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s διαδρομή ήχου %4s ms (%s m), μετατόπιση %6s ms, ολίσθηση %5s ppm (%s σημεία, %s ms υπόλοιπο)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- δεν βρέθηκε τίποτα κατάλληλο"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Προσοχή: %s. Εκεί δεν υπάρχει εικόνα,"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Χρωματικές ομάδες: %s -- όλα τα κλιπ αντιστοιχίστηκαν"
+
+msgid "    Colours per angle:"
+msgstr "    Χρώματα ανά γωνία:"
+
+msgid "    Cross-check:"
+msgstr "    Διασταύρωση:"
+
+msgid "    Left without picture: %s"
+msgstr "    Έμεινε χωρίς εικόνα: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Δεν βρέθηκε μορφή MP4. Διαθέσιμες: %s"
+
+msgid "    No clips found."
+msgstr "    Δεν βρέθηκαν κλιπ."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Δεν βρέθηκε κατάλληλο codec. Διαθέσιμα: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Οι ρυθμίσεις rendering απορρίφθηκαν."
+
+msgid "    the measured window is therefore kept."
+msgstr "    γι' αυτό διατηρείται το μετρημένο παράθυρο."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  Πλάνα: %s, %s δ. συνολικά, χωρίς τον ήχο τους."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  Δημιουργήθηκαν -- κομμάτια βίντεο: %s, κομμάτια ήχου: %s (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s παίρνει %s κομμάτια μιξαρισμένα μαζί: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Κομμάτι ήχου %d:     %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Άτομα κάμερας:      %s προστέθηκαν -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s στην αρχή και %s στο τέλος δεν έχουν εικόνα και παραλείπονται"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    αρχίζει με %s και τελειώνει με %s -- το τμήμα που είδε κάθε κάμερα"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nΔιακοπή. Η εκτέλεση τελειώνει μόλις μπορέσει χωρίς να αφήσει αρχείο μισογραμμένο -- μια στιγμή.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Το γενικό πλάνο κρατά %s δ., λιγότερο από το συντομότερο πλάνο των %s δ. -- οπότε συγχωνεύεται ξανά και δεν εμφανίζεται ποτέ.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nΜετρήθηκε. Δεν γράφτηκε τίποτα -- μια δοκιμαστική εκτέλεση αφήνει τον φάκελο αποτελεσμάτων όπως ήταν.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nΔιακοπή κατά τη διάρκεια: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Όλα όσα έπονται αυτού του βήματος λείπουν. Ο φάκελος περιέχει μέρος μιας εκτέλεσης, όχι αποτέλεσμα."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Κοινό παράθυρο:  %s έως %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Δημιουργία:   %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Σφάλμα κατά την εγγραφή: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Αρχείο:     %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Ζητήθηκαν δύο κανάλια -- η ηχογράφηση είναι στερεοφωνική"
+
+msgid "  From %s"
+msgstr "  Από %s"
+
+msgid "  In summary: %s"
+msgstr "  Συνοπτικά: %s"
+
+msgid "  In the archive: %s"
+msgstr "  Στο συμπιεσμένο αρχείο: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Λείπουν:      %s"
+
+msgid "  Player: %s"
+msgstr "  Πρόγραμμα αναπαραγωγής: %s"
+
+msgid "  Production:  %s"
+msgstr "  Παραγωγή:    %s"
+
+msgid "  Project %r"
+msgstr "  Έργο %r"
+
+msgid "  Project %r created."
+msgstr "  Το έργο %r δημιουργήθηκε."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Αποτέλεσμα:        περίπου %s LUFS, κορυφή %s dBTP"
+
+msgid "  Results:"
+msgstr "  Αποτελέσματα:"
+
+msgid "  Results:     none"
+msgstr "  Αποτελέσματα: κανένα"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  Τα υπάρχοντα αρχεία επαναχρησιμοποιούνται -- ο επανυπολογισμός δεν κοστίζει τίποτα."
+
+msgid "  Time limit: %s"
+msgstr "  Χρονικό όριο: %s"
+
+msgid "  To upload:   %s"
+msgstr "  Μεταφόρτωση: %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Κομμάτια:    %s"
+
+msgid "  Tracks: %s"
+msgstr "  Κομμάτια: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Απομαγνητοφώνηση: %s"
+
+msgid "  Uploaded:"
+msgstr "  Μεταφορτώθηκαν:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Απόκλιση:                               %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Απόκλιση:                               %s  (%s καρέ)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Απόκλιση:                               %s  (%s καρέ) -- ταιριάζει"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Μετατόπιση μετρημένη:                   %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Μετατόπιση κατά το timecode:            %s"
+
+msgid "Abort: %s"
+msgstr "Ματαίωση: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "ΕΞΑΓΩΓΗ ΤΟΥ ΗΧΟΥ ΚΑΜΕΡΑΣ"
+
+msgid "FOR RESOLVE"
+msgstr "ΓΙΑ ΤΟ RESOLVE"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "ΚΑΝΕΝΑ ΑΡΧΕΙΟ ΗΧΟΥ -- ΧΡΗΣΗ ΤΟΥ ΗΧΟΥ ΚΑΜΕΡΑΣ"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "ΚΑΜΙΑ ΞΕΧΩΡΙΣΤΗ ΗΧΟΓΡΑΦΗΣΗ -- ΧΡΗΣΗ ΤΟΥ ΗΧΟΥ ΚΑΜΕΡΑΣ"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "ΕΠΕΞΕΡΓΑΣΙΑ ΣΤΟ AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "ΕΠΕΞΕΡΓΑΣΙΑ ΣΤΟ AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "Η επεξεργασία απέτυχε: %s"
+
+msgid "RESULT"
+msgstr "ΑΠΟΤΕΛΕΣΜΑ"
+
+msgid "Resolve part stopped: %s"
+msgstr "Το τμήμα Resolve διακόπηκε: %s"
+
+msgid "Stopped: %s"
+msgstr "Διακόπηκε: %s"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s όλες οι κάμερες δίπλα-δίπλα -- γίνεται το κλιπ multicam"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s εικόνα από το μοντάζ καμερών, ήχος σε ένα κομμάτι"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s η κάμερα σε ένα κομμάτι, η μίξη από κάτω"
+
+msgid "   --   audio only"
+msgstr "   --   μόνο ήχος"
+
+msgid "   -- not found"
+msgstr "   -- δεν βρέθηκε"
+
+msgid "   Caution: more than one frame"
+msgstr "   Προσοχή: περισσότερα από ένα καρέ"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s μετατόπιση %s ms%s, διάρκεια %s δ., διασπορά %s ms, %s από %s σημεία%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (αυτό το αρχείο τελειώνει νωρίτερα)"
+
+msgid "  (this file starts later)"
+msgstr "  (αυτό το αρχείο ξεκινά αργότερα)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  καμία Timeline του Resolve δεν τρέχει σε αυτόν τον ρυθμό, γίνεται μετατροπή"
+
+msgid "  --  this file is outside"
+msgstr "  --  αυτό το αρχείο είναι εκτός"
+
+msgid "  -->  aligned"
+msgstr "  -->  ευθυγραμμίστηκε"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  ευθυγραμμίστηκε, ολίσθηση ρολογιού %s ppm αφαιρέθηκε"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Έλεγχος:         %s ως προς το κομμάτι κάμερας %s ms (ταύτιση %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Δημιουργήστε το με \"Δημιουργία έργου Resolve\" στη διεπαφή. Το Resolve πρέπει να εκτελείται."
+
+msgid "  The handover file could not be written."
+msgstr "  Το αρχείο παράδοσης δεν ήταν δυνατό να γραφτεί."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Από αυτό προκύπτουν το έργο, η εισαγωγή και %s:"
+
+msgid " (paused)"
+msgstr " (παύση)"
+
+msgid " (playing)"
+msgstr " (αναπαραγωγή)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- ένα σημείο In ή Out γλιτώνει τη μεταφόρτωση"
+
+msgid " -- not readable"
+msgstr " -- μη αναγνώσιμο"
+
+msgid " -- nothing to fault."
+msgstr " -- τίποτα να επισημανθεί."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- μόνο ο πίνακας λέει BT.2020"
+
+msgid " and "
+msgstr " και "
+
+msgid " from %s files"
+msgstr " από %s αρχεία"
+
+msgid " not."
+msgstr " -- καμία."
+
+msgid "%s blocks"
+msgstr "%s μπλοκ"
+
+msgid "%s brought to the preset"
+msgstr "%s μεταφέρθηκαν στην προρύθμιση"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s κανάλια -- χωρίζονται σε κομμάτια, δείτε τις γραμμές παραπάνω."
+
+msgid "%s checked"
+msgstr "%s ελέγχθηκαν"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s από %s συγκρίσεις είναι κάτω από %s dB -- κάθε ηχογράφηση έναντι κάθε άλλης, και προς τις δύο κατευθύνσεις."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s από %s αρχεία βίντεο δεν φέρουν καμπύλη ούτε χρωματικό χώρο στο πλαίσιο colr%s -- πιθανότατα υλικό Log."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r είναι timecode, αλλά εδώ δεν υπάρχει εικόνα και άρα καμία κάμερα από την οποία να μετρηθεί. Τότε λειτουργεί μόνο μια τιμή από την αρχή του παραθύρου, όπως +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r είναι timecode, αλλά ο άξονας χρόνου δεν κρέμεται από κανένα ρολόι: κανένα αρχείο εδώ δεν έχει, ούτε η κάμερα αναφοράς %s. Τότε λειτουργεί μόνο μια τιμή από την αρχή του παραθύρου, όπως +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "Το %r δεν είναι προρύθμιση Multitrack"
+
+msgid "%r is not a number."
+msgstr "Το %r δεν είναι αριθμός."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   δεν ταιριάζει με τα άλλα αρχεία: ήχος μη αναγνωρισμένος, χωρίς timecode.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Ορίστηκε ως %s· το %s είναι ένα κλικ μακριά."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Έμεινε απέξω, το %s είναι ήδη πιασμένο· το %s είναι ένα κλικ μακριά."
+
+msgid "Its sound cannot be used."
+msgstr "Ο ήχος του δεν μπορεί να χρησιμοποιηθεί."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   ήχος μη αναγνωρισμένος· τοποθετήθηκε κατά το timecode του"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   η εφαρμογή δεν γνωρίζει αυτή τη μορφή"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s μπλοκ"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- τι να γίνει με αυτό;\nΟι λεπτομέρειες βρίσκονται στο αρχείο καταγραφής."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz αντί για %s kHz -- μετατρέπεται κατά την επεξεργασία."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "Το %s δεν μπορεί να τοποθετηθεί: ο ήχος του δεν έχει τίποτα κοινό με το υπόλοιπο υλικό, και το αρχείο δεν φέρει timecode. Χρειάζεται ένα που να ταιριάζει με τις άλλες ηχογραφήσεις, και αυτό πρέπει να οριστεί με άλλο πρόγραμμα."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "Το %s δεν ταιριάζει με τίποτα στο υλικό και είναι πολύ πιο σύντομο από τα υπόλοιπα: προτείνεται ως Intro, το οποίο μπαίνει μπροστά και δεν μετριέται ποτέ."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s έχει οριστεί, και εδώ δεν προσαρμόζεται τίποτα: τα κομμάτια φεύγουν όπως ηχογραφήθηκαν, και η ακουστότητα ορίζεται εκεί όπου μιξάρονται."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "Το %s μπορεί να τοποθετηθεί ξανά και είναι πάλι στην εκτέλεση."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "Το %s δεν ήταν δυνατό να εγκατασταθεί.\nΧειροκίνητα:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "Το %s δεν έχει κομμάτι ήχου."
+
+msgid "%s in %s"
+msgstr "%s σε %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s στο μικρόφωνο του ομιλητή %s: %s dB πιο σιγά από ό,τι στο δικό του."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "Το %s βρίσκεται στο %s -- το αρχείο είναι τώρα στο πρόγραμμα αναπαραγωγής."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "Το %s δεν βρίσκεται στον άξονα του επεισοδίου: τοποθετείται μπροστά από το υλικό ή μετά από αυτό, δεν μοντάρεται μέσα του. Το σημείο In και το σημείο Out ανήκουν σε ό,τι βρίσκεται ανάμεσα."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "Το %s δεν βρίσκεται σε κανένα από τα αρχεία βίντεο. Υπάρχει timecode που να ταιριάζει με το υλικό;"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s στο μικρόφωνο του ομιλητή %s μόνο %s dB πιο σιγά"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: δεν είναι ακόμη δυνατή η μετάβαση, θα γίνει αργότερα (%s)"
+
+msgid "%s: not there"
+msgstr "%s: δεν υπάρχει εκεί"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), προσπάθεια %d, μετά στο %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: πρέπει να πάει στο %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", χωρίς ήχο"
+
+msgid "-- only one camera"
+msgstr "-- μόνο μία κάμερα"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- μετάβαση στο %s χρόνο προγράμματος%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- το σημείο ορίστηκε, ο χρόνος προγράμματος τρέχει από %s ---"
+
+msgid "... or add files ..."
+msgstr "... ή προσθήκη αρχείων ..."
+
+msgid "/not seekable"
+msgstr "/δεν είναι δυνατή η μετάβαση"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>πλάνα: %(n)s</b>, διάμεσος %(med)s δ., συντομότερο %(short)s δ., μεγαλύτερη κάμερα %(long)s δ.</span>. Χρόνος ομιλίας: <b>%(own)s %%</b> στη δική τους κάμερα (%(own_t)s), %(wide)s %% στο γενικό πλάνο (%(wide_t)s), <span style='color:%(warn)s'>στο %(off)s %% (%(off_t)s) η κάμερα του ομιλητή δεν είναι ενεργή</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Κάθε ζεύγος καναλιών κρίνεται χωριστά: ένα στερεοφωνικό κομμάτι, ή δύο μικρόφωνα και άρα δύο κομμάτια. Οι σιωπηλές είσοδοι αφαιρούνται. Οι γραμμές κάτω από το αρχείο λένε τι μετρήθηκε, και το τσεκ υπερισχύει."
+
+msgid "Add files ..."
+msgstr "Προσθήκη αρχείων ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Η ευθυγράμμιση γίνεται με τη μετρημένη μετατόπιση· το timecode είναι μόνο η αντιπαραβολή."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Όλες οι ηχογραφήσεις φέρουν το ίδιο όνομα -- αυτό δίνει ένα μόνο κομμάτι."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Όλες οι γραμμές έχουν το ίδιο όνομα -- αυτό δίνει ένα μόνο κομμάτι, και το Multitrack χρειάζεται τουλάχιστον δύο."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Αντιστοίχιση: ποιο κομμάτι ήχου ανήκει σε ποια κάμερα"
+
+msgid "Audio"
+msgstr "Ήχος"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Ήχος και βίντεο (%s);;Όλα τα αρχεία (*)"
+
+msgid "Audio at programme time"
+msgstr "Ήχος στον χρόνο προγράμματος"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Το Auphonic δημιούργησε διαφορετικά κομμάτια από τα ζητούμενα: %s αντί για %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Το Auphonic αναφέρει σφάλμα: %s"
+
+msgid "Bleed"
+msgstr "Διαρροή"
+
+msgid "Blocks"
+msgstr "Μπλοκ"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Και τα δύο μαζί δεν λειτουργούν: τα κομμάτια που επιστρέφουν θα πήγαιναν σε μία τιμή, η δική μας μίξη στην άλλη. Είτε ορίστε --lufs %.0f είτε αλλάξτε την προρύθμιση."
+
+msgid "Camera"
+msgstr "Κάμερα"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Ήχος κάμερας, %s ακόμη ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- προεπισκόπηση  (διάρκεια %s)"
+
+msgid "Why the run cannot start"
+msgstr "Γιατί η εκτέλεση δεν μπορεί να ξεκινήσει"
+
+msgid "Cannot start yet: %s"
+msgstr "Δεν μπορεί να ξεκινήσει ακόμη: %s"
+
+msgid "Change rejected: %s"
+msgstr "Η αλλαγή απορρίφθηκε: %s"
+
+msgid "Check again"
+msgstr "Επανέλεγχος"
+
+msgid "Check the connection to Resolve again"
+msgstr "Επανέλεγχος της σύνδεσης με το Resolve"
+
+msgid "Check itself failed: %s"
+msgstr "Ο ίδιος ο έλεγχος απέτυχε: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Έλεγχος του κλειδιού και λήψη των προρυθμίσεων."
+
+msgid "Chosen"
+msgstr "Επιλεγμένο"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Ρολόι %7.2f%s | B1[%s] %s | B2[%s] %s | Ήχος %s %s"
+
+msgid "Close"
+msgstr "Κλείσιμο"
+
+msgid "Connects to Resolve again."
+msgstr "Συνδέεται ξανά με το Resolve."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Περιεχόμενο: μια κάμερα σαν όλες τις άλλες.\nΓενικό πλάνο: μια κάμερα μπροστά στην οποία δεν κάθεται κανείς -- δεν παίρνει ομιλητή, και το μοντάζ πηγαίνει σε αυτήν σε μια παύση και σε έναν μακρύ μονόλογο.\nΤο intro και το outro είναι έτοιμα κλιπ -- χωρίς ευθυγράμμιση, χωρίς επεξεργασία, μόνο τοποθετημένα στο Timeline.\nΑγνόηση βίντεο: το αρχείο μένει εντελώς απ’ έξω."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s γενικά πλάνα: το μοντάζ χρησιμοποιεί %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Κάθε κάμερα φέρει έναν ομιλητή, οπότε δεν υπάρχει γενικό πλάνο: οι τέσσερις ρυθμίσεις του γενικού πλάνου και το τικ για τα άκρα δεν κάνουν τίποτα εδώ."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Καμία κάμερα δεν είναι ελεύθερη από ομιλητές, οπότε δεν υπάρχει γενικό πλάνο: οι τέσσερις ρυθμίσεις του γενικού πλάνου και το τικ για τα άκρα δεν κάνουν τίποτα. Δώστε σε μια κάμερα τον Τύπο \"Γενικό πλάνο\", ή αφήστε μία χωρίς ομιλητή."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "τοποθετήθηκε με τη φάση, οξύτητα %s έναντι κατωφλίου %s, ολίσθηση άγνωστη"
+
+msgid "placed on the bands that move"
+msgstr "τοποθετήθηκε με βάση τις ζώνες που κινούνται"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Γιατί οι ρυθμίσεις του γενικού πλάνου είναι γκρι"
+
+msgid "because no speaker is assigned to it"
+msgstr "επειδή δεν της έχει αντιστοιχιστεί ομιλητής"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "σημειωμένη ως γενικό πλάνο -- δεν δέχεται ομιλητές"
+
+msgid "no speaker -- this is the wide shot"
+msgstr "κανένας ομιλητής -- αυτό είναι το γενικό πλάνο"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "δεν της έχει αντιστοιχιστεί ομιλητής, αλλά το μοντάζ χρησιμοποιεί %s"
+
+msgid "the cut uses %s"
+msgstr "το μοντάζ χρησιμοποιεί %s"
+
+msgid "this is the wide shot -- %s moved to \"no camera of its own\""
+msgstr "αυτό είναι το γενικό πλάνο -- μεταφορά σε \"χωρίς δική του κάμερα\": %s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Η καμπύλη και ο χρωματικός χώρος λείπουν από το αρχείο"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "Το σημείο In και το σημείο Out είναι διαθέσιμα μόλις οριστεί ο άξονας χρόνου -- από το timecode ή με μέτρηση."
+
+msgid "In point is %s before the first frame"
+msgstr "Το σημείο In είναι %s πριν από το πρώτο καρέ"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "Το σημείο In είναι τώρα %s, αλλά τα υπάρχοντα αρχεία ανήκουν στο %s.\n  Ο ήχος στα βίντεο είναι κομμένος στο παλιό παράθυρο -- πατήστε ξανά\n  Έναρξη παραπάνω."
+
+msgid "Out point is %s after the last frame"
+msgstr "Το σημείο Out είναι %s μετά το τελευταίο καρέ"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Το σημείο Out είναι τώρα %s· το παράθυρο θα διαρκούσε %s, τα υπάρχοντα\n  αρχεία διαρκούν %s -- πατήστε ξανά Έναρξη παραπάνω."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Η παράδοση συνήθως χρησιμοποιεί το περιορισμένο εύρος. Το πλήρες δεν είναι λάθος, αλλά ορισμένα προγράμματα αναπαραγωγής το ερμηνεύουν λανθασμένα."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Καθορίζει πώς επεξεργάζεται το auphonic.com τον ήχο.\n\n«%s» αφήνει το κλειδί στη θέση του και παρ' όλα αυτά δεν πηγαίνει εκεί.\nΟ ήχος τότε μόνο συγχωνεύεται και κανονικοποιείται, δεν διαχωρίζεται --\nκαι χωρίς ξεχωριστά κομμάτια δεν υπάρχει μοντάζ καμερών."
+
+msgid "Distance to mean"
+msgstr "Απόσταση από τον μέσο όρο"
+
+msgid "Drag audio and video files here"
+msgstr "Σύρετε εδώ αρχεία ήχου και βίντεο"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Δοκιμαστική εκτέλεση: μόνο μέτρηση, τίποτα δεν γράφεται, τίποτα δεν μεταφορτώνεται."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Κατά τον χαιρετισμό και τον αποχαιρετισμό η εικόνα μένει σε γενικό πλάνο."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Τα καρέ μένουν λίγο περισσότερο· το αρχείο δεν γίνεται συντομότερο γι’ αυτό. Το λογισμικό μοντάζ επαναλαμβάνει περίπου ένα καρέ κάθε %s δ., και η εικόνα και ο ήχος κάμερας μένουν μαζί."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Τα καρέ μένουν λίγο λιγότερο· το αρχείο δεν γίνεται μακρύτερο γι’ αυτό. Το λογισμικό μοντάζ παραλείπει περίπου ένα καρέ κάθε %s δ., και η εικόνα και ο ήχος κάμερας μένουν μαζί."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Οκτώ bit δεν αρκούν για HDR: κάθε διαβάθμιση κάνει ζώνες, και το YouTube απαιτεί δέκα ή δώδεκα."
+
+msgid "Envelope"
+msgstr "Περιβάλλουσα"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s βρίσκεται στο %s, που δεν είναι κάμερα αυτής της εκτέλεσης -- το μοντάζ την κατονομάζει παρ' όλα αυτά."
+
+msgid "Envelope failed: %s"
+msgstr "Η περιβάλλουσα απέτυχε: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Οι περιβάλλουσες και ο ήχος κάμερας προετοιμάζονται στο παρασκήνιο."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Κάθε γραμμή χρειάζεται ένα όνομα -- στο Auphonic γίνεται το track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Εξωτερική προεπισκόπηση -- η εφαρμογή δεν γνωρίζει αυτή τη μορφή"
+
+msgid "Fetching audio"
+msgstr "Λήψη ήχου"
+
+msgid "Fetching audio ..."
+msgstr "Λήψη ήχου ..."
+
+msgid "File"
+msgstr "Αρχείο"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Εκεί λείπουν αρχεία -- χωρίς νέα μεταφόρτωση δεν μπορεί να υπολογιστεί τίποτα.\n  Με --auphonic-resume upload το script μεταφορτώνει ξανά· αυτό κοστίζει πίστωση."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "Για HDR η συνήθης επιλογή είναι HEVC (Main 10), AV1 ή VP9 Profile 2. Το YouTube δέχεται και H.264, αλλά χρειάζεται περισσότερο bitrate."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Για δέκα bit το HEVC χρειάζεται το προφίλ Main 10. Στο Resolve βρίσκεται στο Deliver ως «Profile»."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, όχι τα %s του αρχείου -- %s καρέ λιγότερα στην ίδια διάρκεια."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, όχι τα %s του αρχείου -- %s καρέ περισσότερα στην ίδια διάρκεια."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "Η απόσταση των καρέ διαφέρει κατά %s %% -- ο χρονισμός των καρέ είναι ανομοιόμορφος."
+
+msgid "Free space there: %s"
+msgstr "Ελεύθερος χώρος εκεί: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Κενό %s ανάμεσα στο μπλοκ %d και %d -- η κάμερα σταμάτησε."
+
+msgid "Drag to move the position."
+msgstr "Σύρετε για να μετακινήσετε τη θέση."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "Το HDR χρειάζεται εδώ 16 (PQ, δηλαδή HDR10) ή 18 (HLG). Στο Resolve: Gamma tag = ST.2084 ή HLG. Το 14 δεν είναι καμπύλη HDR αλλά SDR στον χώρο BT.2020."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "Το HDR χρειάζεται εδώ 9 (BT.2020). Στο Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "Το HDR χρειάζεται εδώ 9 (BT.2020, μη σταθερή λαμπρότητα)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "Το HLG αναφέρεται στην οθόνη -- δεν έχει καταχώριση για την οθόνη mastering."
+
+msgid "If empty: next to each video file."
+msgstr "Αν είναι κενό: δίπλα σε κάθε αρχείο βίντεο."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "Προέκυψε κατά την ηχογράφηση και δεν αλλάζει πια. Όσο λιγότερο διαχωρισμένα είναι τα μικρόφωνα, τόσο πιο προσεκτικά μπορεί να δουλέψει το De-Bleed στο auphonic.com. Την επόμενη φορά: τρεις φορές πιο μακριά από το διπλανό μικρόφωνο απ’ ό,τι από το δικό σας στόμα, τότε η διπλανή φωνή κάθεται περίπου %s dB χαμηλότερα."
+
+msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
+msgstr "Δεν ταιριάζει πουθενά στο υλικό: χωρίς timecode, και ο ήχος της δεν έχει τίποτα κοινό με τα υπόλοιπα. Το γενικό πλάνο είναι εκεί όπου καταφεύγει το μοντάζ, οπότε πρέπει να βρίσκεται στον άξονα χρόνου."
+
+msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
+msgstr "Δεν ταιριάζει πουθενά στο υλικό, οπότε δεν μπορεί να μονταριστεί μέσα στο επεισόδιο. Μπορεί να τοποθετηθεί πριν ή μετά από αυτό."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "Το %s δεν ταιριάζει με τίποτα στο υλικό, οπότε δεν μπορεί να μονταριστεί στο επεισόδιο: ορίστηκε ως Intro."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "Ούτε το %s ταιριάζει με τίποτα στο υλικό, και το Intro είναι ήδη πιασμένο: μένει απ' έξω."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "Το %s έχει ήδη οριστεί ως %s, και ένα επεισόδιο έχει μόνο ένα τέτοιο. Απαντήστε διαφορετικά εδώ, ή αφαιρέστε πρώτα τη σήμανση από εκείνο το αρχείο."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "Βρίσκεται στο άτομο logs της περιγραφής εικόνας -- έτσι αναγνωρίζει το Resolve τον χρωματικό χώρο εισόδου. Διαφορετικές καμπύλες σημαίνουν διαφορετικούς χρωματικούς χώρους εισόδου."
+
+msgid "Jumps to the end of the window."
+msgstr "Μεταβαίνει στο τέλος του παραθύρου."
+
+msgid "Jumps to the start of the window."
+msgstr "Μεταβαίνει στην αρχή του παραθύρου."
+
+msgid "Keychain"
+msgstr "Κλειδοθήκη"
+
+msgid "Limits the de-bleed: "
+msgstr "Περιορίζει την αφαίρεση διαρροής: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Φορτώστε τις προρυθμίσεις και επιλέξτε μία, ή αφήστε το API Key κενό."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 απορρίφθηκε -- μένει η προεπιλογή"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Μόνο μέτρηση -- τίποτα δεν γράφεται ούτε μεταφορτώνεται."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Μέτρηση %s (%s από %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Η μέτρηση δεν είναι δυνατή: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Μέτρηση του μέτρου αναφοράς"
+
+msgid "Measuring time axis ..."
+msgstr "Μέτρηση άξονα χρόνου ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Ήχος που λείπει %s συμπληρώθηκε με σιωπή%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Η μονάδα DaVinciResolveScript δεν μπορεί να φορτωθεί: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Ένα κομμάτι ήχου ανά πρόσωπο, χωριστά μέχρι το auphonic.com.\nΛειτουργεί και χωρίς αυτό -- τότε όμως χωρίς de-bleed και ισοσταθμιστή.\nΧρειάζεται δύο κομμάτια εισόδου: μια δική του ηχογράφηση, ένα κανάλι\nπολυκάναλης συσκευής εγγραφής, ή τον ήχο ενός αρχείου βίντεο ορισμένο σε\n«χρήση του ήχου». Το μοντάζ καμερών δεν χρειάζεται αυτό το τικ."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κομμάτια εισόδου. Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης συσκευής εγγραφής ή ο ήχος ενός αρχείου βίντεο ορισμένου σε \"χρήση εσωτερικού ήχου\". Πολλά μπλοκ της ίδιας ηχογράφησης μετρούν ως ένα, τα κομμάτια που τέθηκαν στην άκρη καθόλου."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Δεν υπάρχει κλειδί API. Δώστε --auphonic-api-key ΚΛΕΙΔΙ, ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από την αρχή του υλικού -- η θέση των αρχείων μεταξύ τους μετριέται."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Δεν χρησιμοποιείται ήχος ακόμη -- προσθέστε μια ηχογράφηση, ή ορίστε στη λίστα αρχείων τον Ήχο κάμερας ενός αρχείου βίντεο σε «χρήση εσωτερικού ήχου»."
+
+msgid "No audio tracks are assigned."
+msgstr "Δεν έχουν αντιστοιχιστεί κομμάτια ήχου."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Δεν έχει αντιστοιχιστεί κάμερα, οπότε δεν υπάρχει τίποτα ανάμεσα στο οποίο να γίνει μοντάζ."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Δεν έχουν αντιστοιχιστεί κάμερες ακόμη -- ενεργοποιήστε το Multitrack για αυτό."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Καμία σύνδεση με το Resolve.\n  Εκτελείται το πρόγραμμα; Είναι το εξωτερικό scripting ρυθμισμένο σε 'Local'\n  στο Preferences > System > General;"
+
+msgid "No files or project opened yet."
+msgstr "Δεν έχουν ανοιχτεί αρχεία ή έργο ακόμη."
+
+msgid "No files selected yet."
+msgstr "Δεν έχουν επιλεγεί αρχεία ακόμη."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Δεν είναι δυνατή η εισαγωγή. Χρησιμοποιήστε %s %s για να ορίσετε τι πρέπει να γίνει."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Δεν υπάρχει ενσωματωμένο πρόγραμμα αναπαραγωγής εδώ -- η αναπαραγωγή γίνεται στο ffplay σε δικό του παράθυρο."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Δεν δόθηκε προρύθμιση, δεν είναι δυνατή η εισαγωγή. Επιλέξτε μία από τις παραπάνω με --auphonic-preset ΟΝΟΜΑ."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "Δεν υπάρχουν αποθηκευμένες προρυθμίσεις στον λογαριασμό. Μπορείτε να δημιουργήσετε μία στη διεπαφή web."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Εδώ δεν είναι γνωστός κανένας ομιλητής -- χωρίς το ποιος μιλάει πότε δεν υπάρχει τίποτα ανάμεσα στο οποίο να γίνει μοντάζ."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Καμία φωνή δεν έχει κάμερα ακόμη -- έτσι κάθε πλάνο θα ήταν το ίδιο."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Δεν είναι γνωστοί ομιλητές ακόμη -- τίποτα μετρημένο, τίποτα διαχωρισμένο, και κανένα αρχείο παράδοσης προηγούμενης εκτέλεσης στο %s ή στους υποφακέλους του."
+
+msgid "Not found again after import: %s"
+msgstr "Δεν βρέθηκε ξανά μετά την εισαγωγή: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "από το ffmpeg.org, και τον φάκελο στο PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "μέσω του διαχειριστή πακέτων: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Εδώ: %s. Απαιτείται: %s ή νεότερη."
+
+msgid "no answer"
+msgstr "καμία απάντηση"
+
+msgid "Nothing runs until that is put right."
+msgstr "Τίποτα δεν εκτελείται μέχρι να διορθωθεί αυτό."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Τίποτα δεν τρέχει μέχρι να διορθωθεί αυτό. Έτσι γίνεται: %s"
+
+msgid "Get it: %s"
+msgstr "Λήψη: %s"
+
+msgid "Quit"
+msgstr "Τερματισμός"
+
+msgid "That worked."
+msgstr "Αυτό δούλεψε."
+
+msgid "Installing ffmpeg"
+msgstr "Εγκατάσταση του ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "Επανεκκινήστε το πρόγραμμα για να το εντοπίσει."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Η λήψη του χρειάζεται λίγα λεπτά, και ό,τι λέει εμφανίζεται στην Έξοδο."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "Αυτό χρειάζεται λίγα λεπτά -- ένας διαχειριστής πακέτων ίσως μεταγλωττίσει από τον πηγαίο κώδικα. Ό,τι λέει εμφανίζεται εδώ."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Τώρα μεταγλωττίζεται, και αυτό είναι το μεγάλο μέρος: λεπτά σε γρήγορο μηχάνημα και αρκετά περισσότερο σε παλαιότερο. Τίποτα δεν έχει κολλήσει -- όσο δουλεύει, εμφανίζεται μια τελεία κάθε λίγα δευτερόλεπτα."
+
+msgid "ffmpeg is in place."
+msgstr "Το ffmpeg είναι εγκατεστημένο."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Το πρόγραμμα το διαβάζει κατά την εκκίνηση. Μπορεί να επανεκκινήσει τώρα, ή μπορείτε να το κάνετε εσείς αργότερα."
+
+msgid "Start again now"
+msgstr "Επανεκκίνηση τώρα"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Η επανεκκίνηση δεν λειτούργησε. Κλείστε το παράθυρο και ξεκινήστε το πρόγραμμα όπως το κάνατε πριν."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Πρώτα παραμερίζεται το ffmpeg που υπάρχει: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Μπορεί να ληφθεί ένα έτοιμο ffmpeg 9.0.1 με soxr: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Να ληφθεί τώρα; [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Λαμβάνεται ένα έτοιμο ffmpeg. Είναι μεγάλο, οπότε παίρνει λίγα λεπτά: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s από %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "Η έτοιμη έκδοση δεν ήταν δυνατό να ληφθεί: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Η έτοιμη έκδοση δεν ήταν δυνατό να αποσυμπιεστεί: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Το αρχείο περιείχε %s από τα δύο προγράμματα."
+
+msgid "  It is here: %s"
+msgstr "  Βρίσκεται εδώ: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "εγκαταστήστε το Homebrew από το brew.sh, έπειτα ξανά αυτό"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Αυτό το ffmpeg έχει soxr: η ολίσθηση ρολογιού μεταξύ των καμερών αντισταθμίζεται σε βήματα των 0,21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Αυτό το ffmpeg δεν έχει soxr: η ολίσθηση ρολογιού μεταξύ των καμερών αντισταθμίζεται σε βήματα των 21 ppm αντί για 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Όλα λειτουργούν και χωρίς αυτό. Η λήψη μιας έκδοσης που το έχει χρειάζεται λίγα λεπτά, και ό,τι λέει εμφανίζεται στην Έξοδο."
+
+msgid "Carry on"
+msgstr "Συνέχεια"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Δεν είναι υποχρεωτικά -- το YouTube εφαρμόζει τότε προεπιλεγμένες τιμές (Sony BVM-X300). Για να τα αποκτήσετε: στο Resolve ενεργοποιήστε το HDR10+ στο Color Management, εκτελέστε «Analyze All Shots» στη σελίδα Color και τσεκάρετε «Embed HDR10 Metadata» κατά το rendering."
+
+msgid "Not ready yet:"
+msgstr "Δεν είναι έτοιμο ακόμη:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "Τίποτα δεν ακουγόταν στα κομμάτια."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "Μία ηχογράφηση δεν έχει όνομα ομιλητή ακόμη."
+
+msgid "One frame back."
+msgstr "Ένα καρέ πίσω."
+
+msgid "One second back."
+msgstr "Ένα δευτερόλεπτο πίσω."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Κάθε πλάνο στο χρώμα της κάμεράς του. Περάστε τον δείκτη για κάμερα και διάρκεια, κάντε κλικ για μετάβαση."
+
+msgid "Only one speaker"
+msgstr "Μόνο ένας ομιλητής"
+
+msgid "Open json project file"
+msgstr "Άνοιγμα αρχείου έργου json"
+
+msgid "Open result folder"
+msgstr "Άνοιγμα φακέλου αποτελεσμάτων"
+
+msgid "Open the settings, where the key is."
+msgstr "Άνοιγμα των ρυθμίσεων, όπου βρίσκεται το κλειδί."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Η σειρά δεν έχει σημασία. Για ηχογράφηση σε πολλά μέρη αρκεί το πρώτο μπλοκ."
+
+msgid "Overwrite"
+msgstr "Αντικατάσταση"
+
+msgid "Overwrite files"
+msgstr "Αντικατάσταση αρχείων"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Το πλαίσιο %d φορτώνει %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Πλαίσιο %d σε %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Αναπαραγωγή και παύση -- λειτουργεί και το πλήκτρο διαστήματος."
+
+msgid "Play and pause."
+msgstr "Αναπαραγωγή και παύση."
+
+msgid "Playback not possible"
+msgstr "Η αναπαραγωγή δεν είναι δυνατή"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Αναπαραγωγή %s -- το επεξεργασμένο κομμάτι από το auphonic.com,\nστη στάθμη εκπομπής. Ο ίδιος ήχος όπως στο μοντάζ καμερών."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Αναπαραγωγή %s -- η ακατέργαστη ηχογράφηση.\nΕίναι πολύ πιο σιγανή από τον επεξεργασμένο ήχο· μόλις τα κομμάτια από το auphonic.com\nείναι εκεί, η προεπισκόπηση παίρνει εκείνα."
+
+msgid "Prepare pane %d for %s"
+msgstr "Προετοιμασία πλαισίου %d για %s"
+
+msgid "Preset not readable: %s"
+msgstr "Η προρύθμιση δεν είναι αναγνώσιμη: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Η προεπισκόπηση δεν είναι δυνατή: %s"
+
+msgid "Preview running ..."
+msgstr "Προεπισκόπηση σε εξέλιξη ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Προεργασία -- ανάγνωση ήχου και υπολογισμός περιβαλλουσών:\n"
+
+msgid "Primaries"
+msgstr "Πρωτεύοντα χρώματα"
+
+msgid "Primaries number %d"
+msgstr "Πρωτεύοντα χρώματα αριθμός %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Επεξεργασία στο auphonic.com (προαιρετικό)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Επεξεργασία στο auphonic.com με «%s»"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Η παραγωγή ολοκληρώθηκε, αλλά κανένα ZIP με τα επιμέρους κομμάτια"
+
+msgid "Production name"
+msgstr "Όνομα παραγωγής"
+
+msgid "Chosen files"
+msgstr "Επιλεγμένα αρχεία"
+
+msgid "Remove the chosen file from the list"
+msgstr "Αφαίρεση του επιλεγμένου αρχείου από τη λίστα"
+
+msgid "Project %r could not be created."
+msgstr "Το έργο %r δεν μπόρεσε να δημιουργηθεί."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Το έργο %r δεν μπόρεσε να δημιουργηθεί. Υπάρχει ήδη το όνομα σε άλλον φάκελο;"
+
+msgid "Project %r could not be opened."
+msgstr "Το έργο %r δεν μπόρεσε να ανοιχτεί."
+
+msgid "Puts it back next to each video file."
+msgstr "Τον επαναφέρει δίπλα σε κάθε αρχείο βίντεο."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "Η ΕΠΑΝΑΦΟΡΑ ΑΠΕΤΥΧΕ (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Ανάγνωση κομματιού ήχου από %s"
+
+msgid "Remove all %s %ss from the list?\n\n%s"
+msgstr "Αφαίρεση από τη λίστα όλων των αρχείων αυτού του τύπου; Είναι %s, τύπος: %s.\n\n%s"
+
+msgid "Resolutions"
+msgstr "Αναλύσεις"
+
+msgid "Resolve running ..."
+msgstr "Resolve σε εξέλιξη ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Το Resolve κλιμακώνει στην ανάλυση του Timeline. Ό,τι είναι μικρότερο μεγεθύνεται και γίνεται πιο θολό."
+
+msgid "Response was not JSON: %s"
+msgstr "Η απάντηση δεν ήταν JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Οι γραμμές με κόκκινη σήμανση δείχνουν πού είναι το πρόβλημα· ένα τικ στην καρτέλα σημαίνει ότι όλα είναι εκεί."
+
+msgid "Save in Keychain"
+msgstr "Αποθήκευση στην Κλειδοθήκη"
+
+msgid "Save in Registry"
+msgstr "Αποθήκευση στο Μητρώο"
+
+msgid "Select audio and video files"
+msgstr "Επιλογή αρχείων ήχου και βίντεο"
+
+msgid "Speakers, as the run measured them"
+msgstr "Ομιλητές, όπως τους μέτρησε η εκτέλεση"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Ομιλητές, μετρημένοι από το πρόγραμμα από τα κομμάτια"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Ξεκίνησε αργά ή σταμάτησε νωρίς -- αυτή η φωνή λείπει τότε σε σημεία από τη μίξη."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Διακόπηκε. Επιλέξτε άλλο όνομα παραγωγής -- τότε δημιουργείται νέα\n  παραγωγή -- ή διαλέξτε μία από τις άλλες επιλογές."
+
+msgid "Stopped. Nothing was created."
+msgstr "Διακόπηκε. Δεν δημιουργήθηκε τίποτα."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Διακόπηκε. Τίποτα δεν μεταφορτώθηκε και τίποτα δεν υπολογίστηκε."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Χρησιμοποιείται όπως είναι -- τίποτα δεν επινοείται. Ελέγξτε στο Resolve στο Clip Attributes, καρτέλα Color Space: αν εκεί γράφει «Project», ο χρωματικός χώρος εισόδου δεν αναγνωρίστηκε και πρέπει να οριστεί χειροκίνητα."
+
+msgid "Takes the position from the picture."
+msgstr "Παίρνει τη θέση από την εικόνα."
+
+msgid "Ten seconds back."
+msgstr "Δέκα δευτερόλεπτα πίσω."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Η διεπαφή του Resolve δεν βρίσκεται εκεί που την περιμένω:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Η διεπαφή του Resolve δεν βρίσκεται εκεί όπου θα έπρεπε."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Το Timeline παίρνει έναν σταθερό ρυθμό -- τον υψηλότερο από αυτούς, ή τον επόμενο ρυθμό που έχει το Resolve πάνω από αυτόν. Τους άλλους τους μετατρέπει· με 23,976 έναντι 24 εκεί η ανάλυση ήχου του τείνει να κολλάει."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "Η ηχογράφηση κάθε ομιλητή, συν τις κάμερες.\nΗ σειρά δεν έχει σημασία -- το πρόγραμμα αναγνωρίζει τι είναι τι.\nΓια ηχογράφηση σε πολλά μέρη αρκεί το πρώτο μπλοκ."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Το μοντάζ δεν έχει εικόνα εκεί. Όταν χτίζεται το Timeline, το σημείο μένει κενό, ο ήχος συνεχίζει."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Το υπάρχον αποτέλεσμα είναι άχρηστο, εκεί δεν υπάρχει: %s. Με --auphonic-resume rerun μπορεί να υπολογιστεί ξανά χωρίς να μεταφορτωθεί τίποτα."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "Οι κανόνες μοντάζ δεν αφήνουν κανένα πλάνο όρθιο σε αυτά τα %s. Ένα μικρότερο συντομότερο πλάνο, ή λιγότερο γενικό πλάνο, δίνει ξανά ένα."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Η εκπομπή διαρκεί εδώ %s -- σε αυτό δεν μπορεί να στηθεί τίποτα. Το σημείο In και το σημείο Out είναι αυτά που το ορίζουν."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Το χρονικό παράθυρο βρίσκεται έξω από το υλικό: σημείο In στο %s, σημείο Out στο %s, και το υλικό διαρκεί %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "Το πρώτο κομμάτι της προρύθμισης ορίζει τις ρυθμίσεις για όλα τα κομμάτια μας. Αλλιώς επιστρέφουν ανεπεξέργαστα. Δημιουργήστε ένα κομμάτι στην προρύθμιση στη διεπαφή ιστού."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Αυτό χρειάζεται το αρχείο παράδοσης από μια εκτέλεση, και δεν υπάρχει κανένα."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "Το κλειδί μπορεί να αποθηκευτεί μόνο σε Mac και Windows -- στην κλειδοθήκη ή στο μητρώο. Δεν πηγαίνει σε αρχείο."
+
+msgid "%s -- being checked"
+msgstr "%s -- ελέγχεται"
+
+msgid "The key was not saved: %s"
+msgstr "Το κλειδί δεν αποθηκεύτηκε: %s"
+
+msgid "The key was not saved"
+msgstr "Το κλειδί δεν αποθηκεύτηκε"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Η κλειδοθήκη είναι κλειδωμένη. Ξεκλειδώστε την και δοκιμάστε ξανά."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Αυτή η εκτέλεση είναι δοκιμαστική και ο χώρος αποθήκευσης φέρει ακόμη το πραγματικό του όνομα, οπότε δεν γράφτηκε τίποτα. Στρέψτε πρώτα το KEY_SERVICE, το KEY_ACCOUNT ή το REG_PATH αλλού."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Η Κλειδοθήκη είναι κλειδωμένη. Ξεκλειδώστε την και αυτό το κουμπί ξυπνά."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Η κλειδοθήκη δεν δέχτηκε το κλειδί. Η Πρόσβαση Κλειδοθήκης μπορεί να πει γιατί."
+
+msgid "The registry did not take the key."
+msgstr "Το μητρώο δεν δέχτηκε το κλειδί."
+
+msgid "Open Keychain Access"
+msgstr "Άνοιγμα της Πρόσβασης Κλειδοθήκης"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Ανοίγει την εφαρμογή που ξεκλειδώνει την Κλειδοθήκη."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Η Πρόσβαση Κλειδοθήκης δεν ήταν δυνατό να ανοιχτεί: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "Το αποθηκευμένο κλειδί δεν γίνεται δεκτό: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "Το κλειδί από το AUPHONIC_TOKEN δεν γίνεται δεκτό: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Τι απάντησε το auphonic.com"
+
+msgid "There is no key."
+msgstr "Δεν υπάρχει κλειδί."
+
+msgid "The key has a space or a line break at one end."
+msgstr "Το κλειδί έχει κενό ή αλλαγή γραμμής σε ένα από τα άκρα του."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "Το κλειδί διακόπτεται στη μέση από κενό ή αλλαγή γραμμής."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "Το κλειδί περιέχει έναν χαρακτήρα που δεν μπορεί να πληκτρολογηθεί."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "Το κλειδί δεν πηγαίνει τότε σε αρχείο, αλλά εδώ: %s."
+
+msgid "The production has no name yet."
+msgstr "Η παραγωγή δεν έχει όνομα ακόμη."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "Η ηχογράφηση που αντιστοιχίζεται σε αυτή την κάμερα αντί για τον ήχο της κάμερας."
+
+msgid "The run is still going."
+msgstr "Η εκτέλεση είναι ακόμη σε εξέλιξη."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Δεν είναι γνωστοί ομιλητές ακόμη -- προσδιορίζονται από τα κομμάτια μόλις ανοίξει αυτή η καρτέλα. Όπου όλοι είναι σε μία ηχογράφηση, ο δρόμος είναι \"περισσότεροι ομιλητές\" στο πεδίο Όνομα ομιλητή."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "Οι τρεις αριθμοί είναι τα πρωτεύοντα χρώματα, η καμπύλη και ο πίνακας. Διαφορετικές ετικέτες χρειάζονται διαφορετικούς χρωματικούς χώρους εισόδου στο Resolve -- αλλιώς η μία κάμερα δεν μοιάζει με την άλλη."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Δεν υπάρχουν ξεχωριστές ηχογραφήσεις. Τότε χρησιμοποιείται ο ήχος των %s καμερών -- καθεμία γίνεται ένα κομμάτι, και το Auphonic αφαιρεί τη διαρροή."
+
+msgid "There is no result yet."
+msgstr "Δεν υπάρχει αποτέλεσμα ακόμη."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Αυτά τα αρχεία δεν είναι ούτε ήχος ούτε βίντεο και μένουν απ' έξω:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "Αυτά τα αρχεία δεν υπάρχουν:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Αυτά τα αρχεία υπάρχουν ήδη και θα γραφτούν ξανά:\n\n  %s\n\nΑυτό θέλετε;"
+
+msgid "These files no longer exist:\n  "
+msgstr "Αυτά τα αρχεία δεν υπάρχουν πια:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Αυτά τα ονόματα εμφανίζονται περισσότερες από μία φορές:\n\n  %s\n\nΟι ηχογραφήσεις συγχωνεύονται σε ένα κομμάτι και τοποθετούνται η μία μετά την άλλη κατά το timecode τους. Αυτό είναι σωστό αν η ηχογράφηση διακόπηκε ενδιάμεσα."
+
+msgid "These tracks got no file: %s"
+msgstr "Αυτά τα κομμάτια δεν έλαβαν αρχείο: %s"
+
+msgid "This Resolve project already exists"
+msgstr "Αυτό το έργο Resolve υπάρχει ήδη"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "Προέρχεται από την ηχογράφηση, όχι από μετά: τα μικρόφωνα είναι πολύ κοντά μεταξύ τους ή πολύ μακριά από το στόμα."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Αυτό το αρχείο δεν μπορεί να αναπαραχθεί εδώ, και το ffplay λείπει ως εναλλακτική."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "Αυτό δεν είναι αρχείο έργου, και δεν υπάρχει κανένα στον ίδιο φάκελο.\n\nΗ αναζήτηση αφορά %s*.json -- το σενάριο το γράφει στον φάκελο εξόδου κατά την έναρξη."
+
+msgid "This is what happens next"
+msgstr "Αυτό ακολουθεί τώρα"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "Αυτό το όνομα το έχει ήδη κάποιος άλλος. Ένα όνομα είναι ένα άτομο, και το μοντάζ βάζει ένα άτομο σε μία κάμερα -- δώστε σε αυτήν τη φωνή δικό της."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "Αυτό το όνομα εμφανίζεται περισσότερες από μία φορές. Οι ηχογραφήσεις θα γίνονταν ένα κομμάτι -- για Multitrack το auphonic.com χρειάζεται τουλάχιστον δύο διαφορετικά."
+
+msgid "This production already exists"
+msgstr "Αυτή η παραγωγή υπάρχει ήδη"
+
+msgid "This production has no result yet."
+msgstr "Αυτή η παραγωγή δεν έχει ακόμη αποτέλεσμα."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Το χρονικό όριο των %s συμπληρώθηκε, η παραγωγή εκτελείται ακόμη: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Timecode %s, τα άλλα αρχεία είναι στο %s -- αυτό το ρολόι δεν είχε ρυθμιστεί."
+
+msgid "Timeline %r could not be created."
+msgstr "Το Timeline %r δεν μπόρεσε να δημιουργηθεί."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Τίτλος στο auphonic.com και αρχή των νέων ονομάτων αρχείων."
+
+msgid "To the In point."
+msgstr "Στο σημείο In."
+
+msgid "To the start."
+msgstr "Στην αρχή."
+
+msgid "Too many projects with this name."
+msgstr "Πάρα πολλά έργα με αυτό το όνομα."
+
+msgid "Track"
+msgstr "Κομμάτι"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Προστέθηκαν κομμάτια κατά την αλλαγή (τώρα %s). Έτσι η μίξη γίνεται\n  λανθασμένη. Διαγράψτε στο auphonic.com τα κομμάτια χωρίς αρχείο."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Δύο κάμερες είναι μία κάμερα στο μοντάζ. Τα αρχεία τους φέρουν το ίδιο όνομα, οπότε μετονομάστε ένα από αυτά."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Δύο κάμερες είναι μία κάμερα στο μοντάζ: %s. Τα αρχεία τους φέρουν το ίδιο όνομα, οπότε μετονομάστε το ένα από αυτά."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Δύο κάμερες θα παρήγαγαν το ίδιο αρχείο. Η δεύτερη θα αντικαθιστούσε την πρώτη."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Δύο κάμερες θα παρήγαγαν το ίδιο αρχείο: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Δύο κάμερες θα παρήγαγαν το ίδιο νέο αρχείο. Παρακαλώ δώστε διαφορετικά ονόματα."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Ο ανομοιόμορφος χρονισμός καρέ δεν εξομαλύνεται μέσω του ήχου. Αν και τα σημεία δειγματοληψίας διασκορπίζονται κατά την ευθυγράμμιση, μετατρέψτε σε σταθερό ρυθμό καρέ."
+
+msgid "Video"
+msgstr "Βίντεο"
+
+msgid "Video 1"
+msgstr "Βίντεο 1"
+
+msgid "Video 2"
+msgstr "Βίντεο 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- το ακατέργαστο υλικό γίνεται μονταρισμένο podcast"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Ένταση. Το 100 είναι το μέγιστο -- το Qt δεν δέχεται τίποτα παραπάνω."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- η ταυτόχρονη ομιλία μετράει διπλά"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Γενικό πλάνο για τον χαιρετισμό στην αρχή και τον αποχαιρετισμό στο τέλος"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Χωρίς αυτήν κάθε πρόγραμμα αναπαραγωγής πρέπει να μαντέψει, και όλα μαντεύουν SDR. Στο Resolve, στο Deliver > Advanced Settings, ορίστε το Color space tag και το Gamma tag αντί να τα αφήσετε σε «Same as Project»."
+
+msgid "Without processing at auphonic.com"
+msgstr "Χωρίς επεξεργασία στο auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Δεν υπάρχει ακόμη μοντάζ καμερών: χρειάζεται δύο πρόσωπα, το καθένα με όνομα και κάμερα.\nΟι χωριστές ηχογραφήσεις το δίνουν με το τικ Multitrack, το ίδιο και το «περισσότεροι ομιλητές» στο πεδίο Όνομα ομιλητή μιας ηχογράφησης --\nοι φωνές που βρίσκονται εκεί παίρνουν την κάμερά τους στον πίνακα κάτω από τις ηχογραφήσεις.\nΈνα έργο Resolve δημιουργείται ούτως ή άλλως -- όλες οι κάμερες στις μετρημένες θέσεις τους, έτοιμες για Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Χωρίς timecode η θέση των αρχείων μετριέται."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Προσδιορίζει ποιος μιλάει πότε από τα ίδια τα κομμάτια -- ένα μικρόφωνο ανά άτομο, στάθμη σε σχέση με τον δικό του θόρυβο βάθους. Όπου όλοι είναι σε μία ηχογράφηση, ο δρόμος είναι \"περισσότεροι ομιλητές\" στο πεδίο Όνομα ομιλητή."
+
+msgid "a box no longer fits into its parent"
+msgstr "ένα box δεν χωράει πια στο γονικό του"
+
+msgid "after the device change"
+msgstr "μετά την αλλαγή συσκευής"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "Το auphonic.com δεν δέχεται το κλειδί: %s"
+
+msgid "average"
+msgstr "μέσος όρος"
+
+msgid "belongs to"
+msgstr "ανήκει σε"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "διαρροή πολύ ασαφής: %s από %s δευτερόλεπτα χρησιμοποιήσιμα, χρειάζονται τα πιο ευκρινή %s από %s"
+
+msgid "Midnight"
+msgstr "Μεσάνυχτα"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "Το %s φέρει timecode από την άλλη πλευρά των μεσάνυχτων -- μετριέται ως μία νύχτα, όχι ως μία μέρα απόσταση."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Ένα timecode μετρά από τα μεσάνυχτα και ξαναρχίζει εκεί. Τα αρχεία τοποθετούνται σε έναν άξονα πριν αφαιρεθεί οτιδήποτε, αλλιώς η ηχογράφηση μετά τα μεσάνυχτα φαίνεται σχεδόν μία μέρα μακριά από την προηγούμενη. Αν αυτά πράγματι ηχογραφήθηκαν σε διαφορετικές μέρες, η ευθυγράμμιση είναι λάθος και η μετρημένη μετατόπιση είναι αυτή που ισχύει."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Το κανάλι %d είναι στο όριο: %s φορές τρία δείγματα ή περισσότερα στη σειρά, το μεγαλύτερο %s (%s ms), το πρώτο στο %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Μετρημένο εδώ, δείγμα προς δείγμα, στον ρυθμό με τον οποίο ηχογραφήθηκε το αρχείο: μια σειρά τριών ή περισσότερων δειγμάτων στην υψηλότερη τιμή που χωράει μια ακέραια μορφή. Ένα ή δύο είναι στρογγυλοποίηση και δεν αναφέρονται. Ό,τι κόβεται εκεί χάνεται και καμία επεξεργασία δεν το επαναφέρει -- αλλά η ηχογράφηση παραμένει η ηχογράφηση, και τίποτα δεν σταματά εδώ. Μετριούνται μόνο ακέραιες μορφές. Το 32 bit float δεν έχει όριο στην πλήρη κλίμακα, οπότε δεν υπάρχει τίποτα να μετρηθεί εκεί."
+
+msgid "boxes no longer readable"
+msgstr "τα box δεν διαβάζονται πια"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "ενημέρωση -- και τα δύο Timeline διαγράφονται και\n       ξαναχτίζονται, το media pool μένει ως έχει"
+
+msgid "cannot be read back (%s)"
+msgstr "δεν μπορεί να ξαναδιαβαστεί (%s)"
+
+msgid "checking ..."
+msgstr "έλεγχος ..."
+
+msgid "complete"
+msgstr "πλήρες"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "δημιουργία νέου έργου δίπλα (όνομα με επίθημα)"
+
+msgid "curl ended with %d"
+msgstr "το curl τερμάτισε με %d"
+
+msgid "did not arrive: %s"
+msgstr "δεν έφτασαν: %s"
+
+msgid "does not belong: %s"
+msgstr "δεν ανήκει: %s"
+
+msgid "does not exist: %s"
+msgstr "δεν υπάρχει: %s"
+
+msgid "does the material fit together?"
+msgstr "ταιριάζει το υλικό;"
+
+msgid "does the preset fit the run?"
+msgstr "ταιριάζει η προρύθμιση στην εκτέλεση;"
+
+msgid "downloaded file is only %s bytes"
+msgstr "το αρχείο που λήφθηκε έχει μόνο %s byte"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "κενό %s κατά το timecode, πολύ μεγάλη απόσταση για μία ηχογράφηση"
+
+msgid "gets audio from"
+msgstr "παίρνει ήχο από"
+
+msgid "hear assigned audio"
+msgstr "ακρόαση αντιστοιχισμένου ήχου"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "διατήρηση των δικών μας ονομάτων και μεταφόρτωση όλων ξανά -- αυτό κοστίζει\n       πίστωση"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "να μείνει και τα νέα Timeline να μπουν δίπλα --\n       τα υπάρχοντα μένουν"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "λείπει -- ο container δεν φέρει χρωματική επισήμανση"
+
+msgid "missing: %s"
+msgstr "λείπουν: %s"
+
+msgid "moov has not grown"
+msgstr "το moov δεν μεγάλωσε"
+
+msgid "moov is no longer in its place"
+msgstr "το moov δεν είναι πια στη θέση του"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "το moov δεν τελειώνει πια στο τέλος του αρχείου"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "πολλά μέρη, χωρίς timecode -- τα κενά ανάμεσά τους δεν μπορούν να εντοπιστούν."
+
+msgid "new file name"
+msgstr "νέο όνομα αρχείου"
+
+msgid "next to each video file"
+msgstr "δίπλα σε κάθε αρχείο βίντεο"
+
+msgid "no audio data from %s"
+msgstr "δεν υπάρχουν δεδομένα ήχου από %s"
+
+msgid "no audio track present"
+msgstr "δεν υπάρχει κομμάτι ήχου"
+
+msgid "no audio: %s"
+msgstr "χωρίς ήχο: %s"
+
+msgid "no download address for %s"
+msgstr "καμία διεύθυνση λήψης για %s"
+
+msgid "no information"
+msgstr "καμία πληροφορία"
+
+msgid "no information in the file"
+msgstr "καμία πληροφορία στο αρχείο"
+
+msgid "no match in the middle either (%s)"
+msgstr "καμία αντιστοιχία ούτε στη μέση (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "δεν βρέθηκε σημείο όπου μιλάει ακριβώς ένα άτομο -- ο διαχωρισμός δεν μπορεί να μετρηθεί."
+
+msgid "no production id in the response"
+msgstr "κανένα αναγνωριστικό παραγωγής στην απάντηση"
+
+msgid "no production id in the response: %s"
+msgstr "κανένα αναγνωριστικό παραγωγής στην απάντηση: %s"
+
+msgid "no timecode"
+msgstr "χωρίς timecode"
+
+msgid "no video track"
+msgstr "χωρίς κομμάτι βίντεο"
+
+msgid "no video track in %s"
+msgstr "κανένα κομμάτι βίντεο στο %s"
+
+msgid "none switched on"
+msgstr "κανένας ενεργός"
+
+msgid "not checked yet"
+msgstr "δεν ελέγχθηκε ακόμη"
+
+msgid "not in the media pool"
+msgstr "όχι στο media pool"
+
+msgid "not measurable."
+msgstr "μη μετρήσιμο."
+
+msgid "not measurable: %s"
+msgstr "μη μετρήσιμο: %s"
+
+msgid "not needed with HLG"
+msgstr "δεν χρειάζονται με HLG"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "μη αναγνώσιμο (%s) -- δεν ελέγχθηκε."
+
+msgid "not readable: %s"
+msgstr "μη αναγνώσιμο: %s"
+
+msgid "nothing loaded yet"
+msgstr "τίποτα φορτωμένο ακόμη"
+
+msgid "nothing selected"
+msgstr "τίποτα επιλεγμένο"
+
+msgid "off"
+msgstr "ανενεργό"
+
+msgid "one Timeline"
+msgstr "ένα Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "διαρκεί μόνο %s, η μεγαλύτερη ηχογράφηση έχει %s."
+
+msgid "overlap of %s per timecode"
+msgstr "επικάλυψη %s κατά το timecode"
+
+msgid "per track"
+msgstr "ανά κομμάτι"
+
+msgid "preset does not fit the run"
+msgstr "η προρύθμιση δεν ταιριάζει στην εκτέλεση"
+
+msgid "previous block is shorter than the rest"
+msgstr "το προηγούμενο μπλοκ είναι μικρότερο από τα υπόλοιπα"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "βρέθηκαν επεξεργασμένα κομμάτια -- δεν μεταφορτώνεται τίποτα"
+
+msgid "production finished, but no output file"
+msgstr "η παραγωγή ολοκληρώθηκε, αλλά κανένα αρχείο εξόδου"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "επανυπολογισμός με την επιλεγμένη προρύθμιση -- τα αρχεία μένουν\n       εκεί που είναι, δεν κοστίζει πίστωση"
+
+msgid "reset"
+msgstr "επαναφορά"
+
+msgid "running ..."
+msgstr "σε εξέλιξη ..."
+
+msgid "selected"
+msgstr "επιλεγμένο"
+
+msgid "stays out"
+msgstr "μένει απ’ έξω"
+
+msgid "stored file %s"
+msgstr "αποθηκευμένο αρχείο %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "λήψη του υπάρχοντος αποτελέσματος (τίποτα δεν υπολογίζεται, τίποτα δεν πληρώνεται)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "λήψη των ονομάτων από εκεί και συνέχεια με αυτά --\n       χωρίς μεταφόρτωση, δεν κοστίζει τίποτα"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "η προρύθμιση Multitrack δεν έχει αποθηκευμένο κομμάτι."
+
+msgid "the finished mixdown"
+msgstr "η τελική μίξη"
+
+msgid "the individual tracks"
+msgstr "τα επιμέρους κομμάτια"
+
+msgid "the individual tracks, packed"
+msgstr "τα επιμέρους κομμάτια, συμπιεσμένα"
+
+msgid "the media data is no longer where it was"
+msgstr "τα δεδομένα μέσων δεν είναι πια εκεί που ήταν"
+
+msgid "the mix of all tracks"
+msgstr "τη μίξη όλων των κομματιών"
+
+msgid "the mixdown as the yardstick"
+msgstr "η τελική μίξη ως μέτρο σύγκρισης"
+
+msgid "the old moov is back in place"
+msgstr "το παλιό moov είναι πάλι στη θέση του"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "η προρύθμιση κάνει mastering στα %s LUFS, ο υπολογισμός χρησιμοποιεί %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "η προρύθμιση κάνει mastering στα %s LUFS -- αυτό ισχύει, τίποτα δικό μας δεν προσαρμόζει."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "λήφθηκε από τα αρχεία προέλευσης, χωρίς --lufs -- τίποτα δεν προσαρμόζεται"
+
+msgid "the answer did not keep the floor"
+msgstr "η απάντηση δεν κράτησε τον λόγο"
+
+msgid "the main speaker asked"
+msgstr "ρώτησε ο κύριος ομιλητής"
+
+msgid "nobody answered in time"
+msgstr "κανείς δεν απάντησε εγκαίρως"
+
+msgid "nobody was speaking at the question"
+msgstr "κανείς δεν μιλούσε στην ερώτηση"
+
+msgid "asker and answerer on one camera"
+msgstr "αυτός που ρωτά και αυτός που απαντά στην ίδια κάμερα"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "οι ηχογραφήσεις επικαλύπτονται μόνο %s -- πολύ λίγο για μέτρηση."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "η συντομότερη ηχογράφηση έχει μόνο %s -- πολύ λίγο για μέτρηση."
+
+msgid "the source folder"
+msgstr "ο φάκελος προέλευσης"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "το πρότυπο κομματιού δεν έχει τίποτα ενεργό -- τα κομμάτια θα επέστρεφαν ακριβώς όπως μεταφορτώθηκαν."
+
+msgid "the video files are tagged differently: %s"
+msgstr "τα αρχεία βίντεο έχουν διαφορετικές ετικέτες: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "τα αρχεία βίντεο φέρουν διαφορετικές καμπύλες καταγραφής: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "τα αρχεία βίντεο έχουν διαφορετικά μεγέθη εικόνας: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "τα αρχεία βίντεο τρέχουν με διαφορετικούς ρυθμούς: %s"
+
+msgid "the video track can no longer be found"
+msgstr "το κομμάτι βίντεο δεν βρίσκεται πια"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "άξονας χρόνου μετρημένος -- τα άλματα πέφτουν στο ίδιο σημείο"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "άξονας χρόνου μετρημένος και δεμένος στο timecode"
+
+msgid "time axis not measurable"
+msgstr "άξονας χρόνου μη μετρήσιμος"
+
+msgid "time axis not measurable: %s"
+msgstr "άξονας χρόνου μη μετρήσιμος: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "μόνο %s δευτερόλεπτα όπου μιλά μόνο %s, χρειάζονται %s"
+
+msgid "too little audio to align"
+msgstr "πολύ λίγος ήχος για ευθυγράμμιση"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "μεταφόρτωση όλων ξανά και επανυπολογισμός -- αυτό κοστίζει πίστωση"
+
+msgid "used directly"
+msgstr "χρησιμοποιείται απευθείας"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "γενικό πλάνο %s, η μίξη είναι το πρώτο του κομμάτι ήχου"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  Το %s εμφανίζεται περισσότερες από μία φορές. Αυτές οι ηχογραφήσεις συγχωνεύονται σε ένα κομμάτι και μπαίνουν στη σειρά κατά το timecode τους -- σωστό αν η ηχογράφηση σταμάτησε ενδιάμεσα."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Όλες οι ηχογραφήσεις φέρουν το ίδιο όνομα. Αυτό κάνει ένα κομμάτι -- το Multitrack χρειάζεται τουλάχιστον δύο."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Δύο κάμερες είναι μία κάμερα στο μοντάζ (%s). Τα αρχεία τους φέρουν το ίδιο όνομα, οπότε μετονομάστε ένα από αυτά."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Δύο κάμερες θα παρήγαγαν το ίδιο αρχείο (%s). Η δεύτερη θα αντικαθιστούσε την πρώτη."
+
+msgid "   (camera audio)"
+msgstr "   (ήχος κάμερας)"
+
+msgid "  Number: "
+msgstr "  Αριθμός: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", ολίσθηση ρολογιού %s ppm αφαιρέθηκε"
+
+msgid "Files && production"
+msgstr "Αρχεία && παραγωγή"
+
+msgid "Assignment && time window"
+msgstr "Αντιστοίχιση && χρονικό παράθυρο"
+
+msgid "Resolve cut"
+msgstr "Μοντάζ στο Resolve"
+
+msgid "Camera audio"
+msgstr "Ήχος κάμερας"
+
+msgid "Camera audio %s"
+msgstr "Ήχος κάμερας %s"
+
+msgid "%s channels against %s"
+msgstr "κανάλια: %s έναντι %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz έναντι %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: το κανάλι %s δεν μπορεί να αποκοπεί (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Το κανάλι %d είναι %s dB κάτω από το πιο δυνατό -- τίποτα συνδεδεμένο"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Το κανάλι %d στα %s dBFS -- έμεινε μόνο ο θόρυβος του μετατροπέα"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Το κανάλι %d είναι σιωπηλό -- αχρησιμοποίητη είσοδος"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Ενεργό κάνει από αυτό το κανάλι και το επόμενο ένα στερεοφωνικό κομμάτι.\nΤο επόμενο δεν έχει τότε δικό του πλαίσιο επιλογής -- είναι δεσμευμένο.\nΌ,τι μετρήθηκε βρίσκεται στη διπλανή γραμμή."
+
+msgid "a track of its own"
+msgstr "δικό του κομμάτι"
+
+msgid "with Channel %d one stereo track"
+msgstr "με το κανάλι %d ένα στερεοφωνικό κομμάτι"
+
+msgid "already in another recording"
+msgstr "ήδη σε άλλη ηχογράφηση"
+
+msgid "not found"
+msgstr "δεν βρέθηκε"
+
+msgid "a recording of its own"
+msgstr "δική του ηχογράφηση"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Βάζει αυτή την ηχογράφηση μέσα σε μια άλλη, με όλα τα μπλοκ της.\nΧρησιμοποιήστε το όπου τα ονόματα αρχείων δεν δίνουν στην αναζήτηση κανένα στοιχείο."
+
+msgid "Cameras only"
+msgstr "Μόνο κάμερες"
+
+msgid "Curve number %d"
+msgstr "Καμπύλη αριθμός %d"
+
+msgid "Dropping AUDIO or VIDEO takes all of it."
+msgstr "Η αφαίρεση του ΗΧΟΣ ή του ΒΙΝΤΕΟ αφαιρεί όλα όσα περιέχουν."
+
+msgid "End"
+msgstr "Τέλος"
+
+msgid "End %s"
+msgstr "Τέλος %s"
+
+msgid "Error"
+msgstr "Σφάλμα"
+
+msgid "Mark In"
+msgstr "Σήμανση In"
+
+msgid "Mark Out"
+msgstr "Σήμανση Out"
+
+msgid "Measure, align, process, write files."
+msgstr "Μέτρηση, ευθυγράμμιση, επεξεργασία, εγγραφή αρχείων."
+
+msgid "%s, seconds"
+msgstr "%s, δευτερόλεπτα"
+
+msgid "Names used more than once"
+msgstr "Ονόματα που χρησιμοποιούνται περισσότερες από μία φορές"
+
+msgid "One name for two voices"
+msgstr "Ένα όνομα για δύο φωνές"
+
+msgid "No files given."
+msgstr "Δεν δόθηκαν αρχεία."
+
+msgid "Number %d"
+msgstr "Αριθμός %d"
+
+msgid "Preset missing"
+msgstr "Λείπει η προρύθμιση"
+
+msgid "Speaker"
+msgstr "Ομιλητής"
+
+msgid "Start %s"
+msgstr "Αρχή %s"
+
+msgid "Take from source files"
+msgstr "Λήψη από τα αρχεία προέλευσης"
+
+msgid "Take the camera audio"
+msgstr "Χρήση του ήχου κάμερας"
+
+msgid "Target: %s"
+msgstr "Στόχος: %s"
+
+msgid "Transfer"
+msgstr "Μεταφορά"
+
+msgid "Uploading %s tracks"
+msgstr "Μεταφόρτωση %s κομματιών"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;Αρχεία JSON (*.json);;Όλα τα αρχεία (*)"
+
+msgid "the voices below carry the cameras"
+msgstr "οι φωνές παρακάτω φέρουν τις κάμερες"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "μετρημένο από τις ηχογραφήσεις -- %s ομιλητές, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "από την ολοκληρωμένη εκτέλεση -- %s ομιλητές, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "από τα επεξεργασμένα κομμάτια Auphonic -- %s ομιλητές, %s"
+
+msgid "no folder"
+msgstr "κανέναν φάκελο"
+
+msgid "no text"
+msgstr "χωρίς κείμενο"
+
+msgid "unnamed"
+msgstr "χωρίς όνομα"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Προσοχή: μέτρηση άχρηστη"
+
+msgid "   MISSING"
+msgstr "   ΛΕΙΠΕΙ"
+
+msgid "   NOT INSERTED"
+msgstr "   ΔΕΝ ΕΙΣΗΧΘΗ"
+
+msgid "  (container; measured %s)"
+msgstr "  (container, μετρήθηκε %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Αριθμός (κενό = ακύρωση): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (το auphonic.com αφαιρεί το ίδιο)"
+
+msgid " (fine: %s ms)"
+msgstr " (λεπτή: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- %s σημειώσεις"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 σημείωση: %s"
+
+msgid " target %.2f"
+msgstr " στόχος %.2f"
+
+msgid "(wanted %s)"
+msgstr "(ζητήθηκε %s)"
+
+msgid ", clock drift left in"
+msgstr ", η ολίσθηση ρολογιού παραμένει"
+
+msgid ", range %s LU"
+msgstr ", εύρος %s LU"
+
+msgid "-- nothing --"
+msgstr "-- τίποτα --"
+
+msgid "After: %s"
+msgstr "Μετά: %s"
+
+msgid "Algorithms"
+msgstr "Αλγόριθμοι"
+
+msgid "Audio file %s"
+msgstr "Αρχείο ήχου %s"
+
+msgid "Audio recording"
+msgstr "Ηχογράφηση"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Το Auphonic αναφέρει %s: %s"
+
+msgid "Before: %s"
+msgstr "Πριν: %s"
+
+msgid "Bit depth"
+msgstr "Βάθος bit"
+
+msgid "Building the sum"
+msgstr "Δημιουργία του αθροίσματος"
+
+msgid "Caution: "
+msgstr "Προσοχή: "
+
+msgid "Camera cut"
+msgstr "Μοντάζ καμερών"
+
+msgid "%s -- preview"
+msgstr "%s -- προεπισκόπηση"
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Capture curve"
+msgstr "Καμπύλη λήψης"
+
+msgid "Check: %s and camera track"
+msgstr "Έλεγχος: %s και κομμάτι κάμερας"
+
+msgid "Codec profile"
+msgstr "Προφίλ codec"
+
+msgid "Colour tag"
+msgstr "Ετικέτα χρώματος"
+
+msgid "Connect"
+msgstr "Σύνδεση"
+
+msgid "Connection to Resolve"
+msgstr "Σύνδεση με το Resolve"
+
+msgid "Continue"
+msgstr "Συνέχεια"
+
+msgid "Create Resolve project"
+msgstr "Δημιουργία έργου Resolve"
+
+msgid "Curve"
+msgstr "Καμπύλη"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "Σημείο In: %s     Σημείο Out: %s     Διάρκεια: %s"
+
+msgid "In point %s"
+msgstr "Σημείο In %s"
+
+msgid "Out point %s"
+msgstr "Σημείο Out %s"
+
+msgid "Different track names"
+msgstr "Διαφορετικά ονόματα κομματιών"
+
+msgid "Disk space"
+msgstr "Χώρος δίσκου"
+
+msgid "Downloading %s"
+msgstr "Λήψη %s"
+
+msgid "Dry run"
+msgstr "Δοκιμαστική εκτέλεση"
+
+msgid "Duration %s"
+msgstr "Διάρκεια %s"
+
+msgid "Dynamic range"
+msgstr "Δυναμικό εύρος"
+
+msgid "File names"
+msgstr "Ονόματα αρχείων"
+
+msgid "Frame rates"
+msgstr "Ρυθμοί καρέ"
+
+msgid "GENERAL NOTES"
+msgstr "ΓΕΝΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ"
+
+msgid "Given"
+msgstr "Προκαθορισμένο"
+
+msgid "Go ahead"
+msgstr "Συνέχεια"
+
+msgid "Interface:      %s%s"
+msgstr "Διεπαφή:        %s%s"
+
+msgid "Keep it saved"
+msgstr "Να μείνει αποθηκευμένο"
+
+msgid "Library:        %s%s"
+msgstr "Βιβλιοθήκη:     %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log σύμφωνα με τα δεδομένα της κάμερας"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (δέκα bit)"
+
+msgid "Measure"
+msgstr "Μέτρηση"
+
+msgid "Measuring loudness"
+msgstr "Μέτρηση ακουστότητας"
+
+msgid "Merge them"
+msgstr "Συγχώνευσή τους"
+
+msgid "Mixing %s"
+msgstr "Μίξη %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Το Multitrack χρειάζεται δύο κομμάτια στον παραπάνω πίνακα -- μια κάμερα μετράει ως ένα μόλις ο Ήχος κάμερας οριστεί σε «χρήση εσωτερικού ήχου»."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Μόνο ένα κομμάτι -- για δεύτερο, ορίστε τον Ήχο κάμερας μιας κάμερας σε \"χρήση εσωτερικού ήχου\"."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Μόνο ένα κομμάτι, και δεν έχει μείνει ήχος κάμερας για χρήση."
+
+msgid "the only sound there is"
+msgstr "ο μόνος ήχος που υπάρχει"
+
+msgid "no audio track in this file"
+msgstr "κανένα κομμάτι ήχου σε αυτό το αρχείο"
+
+msgid "this file stays out entirely"
+msgstr "αυτό το αρχείο μένει εντελώς απ’ έξω"
+
+msgid "a finished clip -- only placed, not processed"
+msgstr "ένα έτοιμο κλιπ -- μόνο τοποθετείται, δεν επεξεργάζεται"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Αν χρησιμοποιηθούν, τα κανάλια που μετρήθηκαν κάτω από αυτό το αρχείο χωρίζονται σε κομμάτια, όπως σε μια ηχογράφηση.\nΗ μέτρηση γίνεται ούτως ή άλλως: σε εκείνη την κρίση βασίζεται αυτή η απόφαση, και ο συγχρονισμός παίρνει τον ήχο σε κάθε περίπτωση."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Αν χρησιμοποιηθεί, ο ήχος αυτού του αρχείου γίνεται κομμάτι σαν όλα τα άλλα -- εμφανίζεται στον παραπάνω πίνακα.\nΤο ίδιο πεδίο βρίσκεται και στη λίστα αρχείων· και τα δύο δείχνουν την ίδια απάντηση."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Δεν υπάρχει ήχος για επεξεργασία -- ορίστε τον Ήχο κάμερας ενός αρχείου βίντεο σε «χρήση εσωτερικού ήχου» ή προσθέστε μια ηχογράφηση."
+
+msgid "Multitrack needs several tracks"
+msgstr "Το Multitrack χρειάζεται περισσότερα κομμάτια"
+
+msgid "Mute."
+msgstr "Σίγαση."
+
+msgid "No audio file given."
+msgstr "Δεν δόθηκε αρχείο ήχου."
+
+msgid "No project open."
+msgstr "Κανένα έργο ανοιχτό."
+
+msgid "Not found: %s"
+msgstr "Δεν βρέθηκε: %s"
+
+msgid "Not recognised"
+msgstr "Δεν αναγνωρίστηκε"
+
+msgid "Note"
+msgstr "Σημείωση"
+
+msgid "Note: "
+msgstr "Σημείωση: "
+
+msgid "One frame forward."
+msgstr "Ένα καρέ μπροστά."
+
+msgid "One second forward."
+msgstr "Ένα δευτερόλεπτο μπροστά."
+
+msgid "Output folder"
+msgstr "Φάκελος εξόδου"
+
+msgid "Choose the output folder"
+msgstr "Επιλογή φακέλου εξόδου"
+
+msgid "Output folder back beside each video file"
+msgstr "Φάκελος εξόδου ξανά δίπλα σε κάθε αρχείο βίντεο"
+
+msgid "Output folder ..."
+msgstr "Φάκελος εξόδου ..."
+
+msgid "Preview player"
+msgstr "Πρόγραμμα αναπαραγωγής προεπισκόπησης"
+
+msgid "Preview player%s"
+msgstr "Πρόγραμμα αναπαραγωγής προεπισκόπησης%s"
+
+msgid "Processing"
+msgstr "Επεξεργασία"
+
+msgid "Profile"
+msgstr "Προφίλ"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Δεν υπάρχει απομαγνητοφώνηση ακόμη. Χωρίς αυτήν δεν βρίσκεται ερώτηση και δεν είναι γνωστό κανένα όριο πρότασης, οπότε αυτές οι τέσσερις ρυθμίσεις δεν κάνουν τίποτα. Μια εκτέλεση τη γράφει, και από τότε λειτουργούν."
+
+msgid "Why the question settings are grey"
+msgstr "Γιατί οι ρυθμίσεις της ερώτησης είναι γκρι"
+
+msgid "Question"
+msgstr "Ερώτηση"
+
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+msgid "Remove all"
+msgstr "Αφαίρεση όλων"
+
+msgid "Remove from list"
+msgstr "Αφαίρεση από τη λίστα"
+
+msgid "Resolve answers%s"
+msgstr "Απάντηση από το Resolve%s"
+
+msgid "Saving %s"
+msgstr "Αποθήκευση %s"
+
+msgid "Show in Finder."
+msgstr "Εμφάνιση στο Finder."
+
+msgid "Silence"
+msgstr "Σιωπή"
+
+msgid "Speaker name"
+msgstr "Όνομα ομιλητή"
+
+msgid "Speaker names"
+msgstr "Ονόματα ομιλητών"
+
+msgid "Static metadata"
+msgstr "Στατικά μεταδεδομένα"
+
+msgid "Tagging"
+msgstr "Επισήμανση"
+
+msgid "Ten seconds forward."
+msgstr "Δέκα δευτερόλεπτα μπροστά."
+
+msgid "Timecode from %s"
+msgstr "Timecode από %s"
+
+msgid "Track template"
+msgstr "Πρότυπο κομματιού"
+
+msgid "Uploading %s"
+msgstr "Μεταφόρτωση %s"
+
+msgid "Value range"
+msgstr "Εύρος τιμών"
+
+msgid "What should happen with it?"
+msgstr "Τι να γίνει με αυτήν;"
+
+msgid "Window %s%s"
+msgstr "Παράθυρο %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Το μοντάζ, το EDL, το CSV και η παράδοση υπολογίζονται ξανά από τους παραπάνω αριθμούς. Το ποιος μιλάει πότε μένει όπως το μέτρησε η εκτέλεση. Το Resolve πρέπει να εκτελείται."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Χωρίς αυτά τα δύο τίποτα δεν λειτουργεί. Είναι εγκατεστημένο το Resolve;"
+
+msgid "audio file"
+msgstr "αρχείο ήχου"
+
+msgid "cancel"
+msgstr "ακύρωση"
+
+msgid "cancelled"
+msgstr "ακυρώθηκε"
+
+msgid "edges implausible"
+msgstr "μη εύλογα άκρα"
+
+msgid "fixed: "
+msgstr "διορθώθηκε: "
+
+msgid "found automatically"
+msgstr "βρέθηκε αυτόματα"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "ελεύθερα %s, χρειάζονται περίπου %s (%s)"
+
+msgid "full range"
+msgstr "πλήρες εύρος"
+
+msgid "is left in"
+msgstr "παραμένει"
+
+msgid "limited (Video/TV)"
+msgstr "περιορισμένο (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "προσδιορίζεται ποιος μιλάει πότε ..."
+
+msgid "nothing"
+msgstr "τίποτα"
+
+msgid "nothing to do"
+msgstr "τίποτα να γίνει"
+
+msgid "system store"
+msgstr "χώρος αποθήκευσης του συστήματος"
+
+msgid "to In point"
+msgstr "στο σημείο In"
+
+msgid "to Out point"
+msgstr "στο σημείο Out"
+
+msgid "too short"
+msgstr "πολύ σύντομο"
+
+msgid "two Timelines"
+msgstr "δύο Timeline"
+
+msgid "up to %s"
+msgstr "έως %s"
+
+msgid "video file"
+msgstr "αρχείο βίντεο"
+
+msgid "volume %.2f"
+msgstr "ένταση %.2f"
+
+msgid "while writing: %s"
+msgstr "κατά την εγγραφή: %s"
+
+msgid "AUDIO"
+msgstr "ΗΧΟΣ"
+
+msgid "Caution"
+msgstr "Προσοχή"
+
+msgid "MUTED"
+msgstr "ΣΙΓΑΣΗ"
+
+msgid "fixed"
+msgstr "διορθώθηκε"
+
+msgid "on"
+msgstr "ενεργό"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "Το %r μετρά από το τέλος -- αυτό λειτουργεί μόνο για το σημείο Out."
+
+msgid "Check"
+msgstr "Έλεγχος"
+
+msgid "the check itself stopped: %s"
+msgstr "ο ίδιος ο έλεγχος σταμάτησε: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "Το σημείο In ή το σημείο Out δεν μπορεί να διαβαστεί εδώ."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Το σημείο Out βρίσκεται λιγότερο από 5 δευτερόλεπτα μετά το σημείο In."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Λείπουν περίπου %s. Ελευθερώστε χώρο ή επιλέξτε άλλον φάκελο με --out. Τα προσωρινά αρχεία κατά την εκτέλεση πηγαίνουν πάλι αλλού, στον προσωρινό φάκελο του συστήματος."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "Η εκτίμηση είναι χονδρική, οπότε αυτός δεν είναι αρκετός χώρος. Ελευθερώστε χώρο ή επιλέξτε άλλον φάκελο με --out."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nΟΜΙΛΗΤΕΣ -- ΜΕΤΡΗΜΕΝΟΙ ΕΔΩ"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nΟΜΙΛΗΤΕΣ -- ΔΙΑΧΩΡΙΣΜΕΝΟΙ ΑΝΑ ΦΩΝΗ"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nΟΜΙΛΗΤΕΣ\n  Δεν ακούστηκε κανείς -- από αυτό δεν προκύπτει μοντάζ καμερών."
+
+msgid "\nCAMERA CUT"
+msgstr "\nΜΟΝΤΑΖ ΚΑΜΕΡΩΝ"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nΜΟΝΤΑΖ ΜΕ ΤΟ ΓΕΝΙΚΟ ΠΛΑΝΟ"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nΠΡΩΤΟ ΜΟΝΤΑΖ ΑΝΑ ΟΜΙΛΗΤΗ"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Περισσότερα από δύο κανάλια πηγαίνουν στο auphonic.com ως ένα: η αναδίπλωση απενεργοποιείται μόνο για στερεοφωνικό.\n  Όπου τα κανάλια πρέπει να μείνουν χωριστά, κόψτε πρώτα το αρχείο σε κομμάτια."
+
+msgid "First cut by speaker"
+msgstr "Πρώτο μοντάζ ανά ομιλητή"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nΑΠΟΜΑΓΝΗΤΟΦΩΝΗΣΗ"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s λέξεις: %s %% σε μία φωνή, %s %% σε δύο, %s %% σε κενό"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s λέξεις, χωρίς ονόματα -- κανείς δεν διαχωρίστηκε"
+
+msgid "  %s could not be written: %s"
+msgstr "  Το %s δεν ήταν δυνατό να γραφτεί: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nΔΙΑΧΩΡΙΣΜΟΣ ΤΩΝ ΟΜΙΛΗΤΩΝ"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Διαχωρίστηκε ήδη μία φορά: διαβάστηκε ξανά, δεν μετρήθηκε πάλι."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Περίπου %s υπολογισμού για %s ήχου."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (μόνο μέτρηση: τίποτα δεν διαχωρίστηκε)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  Τα κομμάτια δεν μετρήθηκαν, άρα στη μίξη και όχι στο μοντάζ: %s. Αιτία: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "Δεν μετρήθηκε ακόμη: %s -- στο μοντάζ, όχι ακόμη σε αυτήν την προεπισκόπηση."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Από τα ίδια τα κομμάτια, μία φωνή ανά κομμάτι: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  Στο %s, σε αυτό το μηχάνημα."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Τα μικρόφωνα ακούν το ένα το άλλο υπερβολικά καλά για να πουν ποιος μιλάει, οπότε ο διαχωρισμός ακούει και τα %s ταυτόχρονα, σε αυτό το μηχάνημα."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  Ό,τι διαχώρισε το παράθυρο απορρίπτεται: άκουσε μία μόνο ηχογράφηση, και τα μικρόφωνα ακούν το ένα το άλλο τόσο καλά που κανένα δεν ξεχωρίζει -- %s dB έναντι των %s dB που χρειάζεται ένα μόνο του για να πει ποιος μιλάει."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Μίξη των κομματιών για τον διαχωρισμό"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Δεν ήταν δυνατό να ειπωθεί ποια φωνή ανήκει σε ποιο μικρόφωνο, οπότε μετρώνται τα κομμάτια αντ' αυτού."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s είναι %-20s %s dB μπροστά από το επόμενο μικρόφωνο, με τη στάθμη ηχογράφησης αφαιρεμένη"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  Ο διαχωρισμός ομιλητών δεν χρησιμοποιείται: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  Το %s δεν μπορεί να διαβαστεί: %s"
+
+msgid "%s is not part of this run"
+msgstr "Το %s δεν ανήκει σε αυτήν την εκτέλεση"
+
+msgid "%s has no place on the axis"
+msgstr "Το %s δεν έχει θέση στον άξονα"
+
+msgid "no recording named"
+msgstr "δεν ονομάστηκε ηχογράφηση"
+
+msgid "nothing of it falls inside the window"
+msgstr "τίποτα από αυτήν δεν πέφτει μέσα στο παράθυρο"
+
+msgid "the interface"
+msgstr "τη διεπαφή"
+
+msgid "the separation in this run"
+msgstr "τον διαχωρισμό σε αυτήν την εκτέλεση"
+
+msgid "Speakers, separated by voice"
+msgstr "Ομιλητές, διαχωρισμένοι ανά φωνή"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Αυτό δεν έδωσε μοντάζ -- πατήστε ξανά Έναρξη παραπάνω."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nΧΩΡΙΣ AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Διαρροή μετρημένη, %s στο %s μόνο %s dB πιο σιγά -- αφαιρέθηκε από την ανίχνευση ομιλίας"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Διαρροή μη διαχωρίσιμη: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Δεν βρέθηκε στιγμή όπου μιλάει ακριβώς ένα άτομο -- η διαρροή παραμένει στην ανίχνευση ομιλίας."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  Τίποτα δεν ακουγόταν στα κομμάτια -- κανένα μοντάζ καμερών από αυτό."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Όχι στο μοντάζ: %s -- ένας διαχωρισμός μιλάει για την ηχογράφηση, ή δεν μετρήθηκε."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  Τα κομμάτια χρησιμοποιούνται όπως ηχογραφήθηκαν: ευθυγραμμισμένα, μιξαρισμένα\n  και στην ακουστότητα-στόχο. Χωρίς αφαίρεση διαρροής, χωρίς ισοσταθμιστή, χωρίς\n  αφαίρεση θορύβου -- για αυτά η εκτέλεση χρειάζεται το auphonic.com."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic και --auphonic-done δόθηκαν και τα δύο. Τα έτοιμα κομμάτια υπερισχύουν: δεν έμεινε τίποτα να σταλεί πουθενά."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "ΤΟ MULTITRACK ΔΕΝ ΕΙΝΑΙ ΔΥΝΑΤΟ\n  Χωρίς κλειδί API δεν υπάρχει τίποτα να σταλεί στο auphonic.com.\n  Με --without-auphonic εκτελείται τοπικά αντί γι' αυτό: ευθυγραμμισμένο,\n  μιξαρισμένο και μονταρισμένο, αλλά χωρίς αφαίρεση διαρροής και ισοσταθμιστή."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Προσοχή: μόνο %s από %s ζεύγη μετρήσιμα. Για τα υπόλοιπα δεν βρέθηκε στιγμή όπου μιλάει ακριβώς ένα άτομο, οπότε η διαρροή τους παραμένει -- η ανίχνευση ομιλητών είναι εδώ αναξιόπιστη."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "τα μικρόφωνα ακούν το ένα το άλλο σχεδόν τόσο δυνατά όσο τον δικό τους ομιλητή"
+
+msgid "the tracks are too much alike to separate"
+msgstr "τα κομμάτια μοιάζουν υπερβολικά για να διαχωριστούν"
+
+msgid "Reading the plan"
+msgstr "Ανάγνωση του σχεδίου"
+
+msgid "Audio out of the cameras"
+msgstr "Ήχος από τις κάμερες"
+
+msgid "Common time axis"
+msgstr "Κοινός άξονας χρόνου"
+
+msgid "Processing at auphonic.com"
+msgstr "Επεξεργασία στο auphonic.com"
+
+msgid "Loudness"
+msgstr "Ακουστότητα"
+
+msgid "Loudness and levels"
+msgstr "Ακουστότητα και στάθμες"
+
+msgid "Loudness of the finished episode"
+msgstr "Ακουστότητα του τελικού επεισοδίου"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Πόσο δυνατό γίνεται το τελικό επεισόδιο. Το ίδιο κέρδος πηγαίνει σε κάθε\nκομμάτι, έτσι η ισορροπία μεταξύ των ομιλητών διατηρείται.\n«Λήψη από τα αρχεία προέλευσης» δεν προσαρμόζει τίποτα: το auphonic.com\nσυνεχίζει να κάνει ό,τι λέει η προρύθμισή του, και χωρίς auphonic.com ο ήχος\nμένει όπως είναι στα αρχεία προέλευσης."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    Η ακουστότητα δεν προσαρμόστηκε -- ο στόχος παρακάτω είναι μόνο αυτό\n    ως προς το οποίο μετράει ο μετρητής."
+
+msgid "Who speaks when"
+msgstr "Ποιος μιλάει πότε"
+
+msgid "Writing the camera files"
+msgstr "Εγγραφή των αρχείων κάμερας"
+
+msgid "Handover and result"
+msgstr "Παράδοση και αποτέλεσμα"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Εμφάνιση διπλάσιου εύρους (πλήκτρο μείον, ή η ροδέλα πάνω από τη λωρίδα)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Εμφάνιση μισού εύρους, γύρω από την τρέχουσα θέση (πλήκτρο συν, ή η ροδέλα πάνω από τη λωρίδα)"
+
+msgid "The whole length again (0 key)"
+msgstr "Ξανά ολόκληρη η διάρκεια (πλήκτρο 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  Λήφθηκε επίσης: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Το Auphonic δεν δέχεται τις ρυθμίσεις: %s"
+
+msgid "      %s channels"
+msgstr "      %s κανάλια"
+
+msgid "measurement running ..."
+msgstr "μέτρηση σε εξέλιξη ..."
+
+msgid "      Channel %d"
+msgstr "      Κανάλι %d"
+
+msgid "Looking at the channels"
+msgstr "Εξέταση των καναλιών"
+
+msgid "channels not readable: %s"
+msgstr "τα κανάλια δεν είναι αναγνώσιμα: %s"
+
+msgid "unused input -- ignored"
+msgstr "αχρησιμοποίητη είσοδος -- αγνοείται"
+
+msgid "uncertain -- %s"
+msgstr "αβέβαιο -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "ορίστηκε χειροκίνητα -- υπερισχύει της μέτρησης"
+
+msgid "Language"
+msgstr "Γλώσσα"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "και τα δύο κανάλια πανομοιότυπα -- μονοφωνικό και στις δύο πλευρές"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "πιθανώς δύο μικρόφωνα -- σε απόσταση περίπου %s m%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", συμφωνία σε %s από %s σημεία"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "πιθανώς ένα στερεοφωνικό κομμάτι -- και τα δύο μικρόφωνα στο ίδιο σημείο"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "δεν αναγνωρίζεται -- μόνο %s από %s σημεία όπου και τα δύο κανάλια έχουν ήχο, χρειάζονται %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "δεν αναγνωρίζεται -- τα δύο αυτά δεν συμφωνούν καλύτερα απ' ό,τι το καθένα με το διπλανό του κανάλι"
+
+msgid "not set"
+msgstr "δεν ορίστηκε"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "Η γλώσσα που μιλιέται στην ηχογράφηση. Γίνεται η ετικέτα του\nκομματιού ήχου που γράφεται, και η αναγνώριση εδώ την περιμένει.\nΠροσυμπληρώνεται από τη γλώσσα του συστήματος. Το «%s» αφήνει το κομμάτι χωρίς ετικέτα\nκαι αφήνει την αναγνώριση να βρει μόνη της τη γλώσσα."
+
+msgid "Cutting out track %d of %d"
+msgstr "Αποκοπή κομματιού %d από %d"
+
+msgid "cutting failed: %s"
+msgstr "η αποκοπή απέτυχε: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  Μία κάμερα για όλους: κομμένη σε %s πλάνα στην αλλαγή ομιλητή, ώστε το Resolve να μπορεί να τα ομαδοποιήσει."
+
+msgid "Wide shot %d"
+msgstr "Γενικό πλάνο %d"
+
+msgid "(wide shot)"
+msgstr "(γενικό πλάνο)"
+
+msgid "No speaker"
+msgstr "Κανένας ομιλητής"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s φορές μακριά από τον ομιλητή επειδή ένα πλάνο κράτησε πάνω από %s δ."
+
+msgid "%s is in place."
+msgstr "Η %s είναι εγκατεστημένη."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "Αυτό το παράθυρο είναι ακόμη η έκδοση με την οποία ξεκίνησε. Μπορεί να επανεκκινήσει τώρα και να ανοίξει ως εκείνη, ή μπορείτε να το κάνετε εσείς αργότερα."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Αυτό το αντίγραφο εκτελείται από δικό του φάκελο, οπότε το pip δεν έχει τίποτα να ενημερώσει εδώ. Αυτό το εγκαθιστά: %s"
+
+msgid "Language of the window"
+msgstr "Γλώσσα του παραθύρου"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Η γλώσσα που επιλέγεται εδώ ισχύει από την επόμενη εκκίνηση."
+
+msgid "Restart the application"
+msgstr "Επανεκκίνηση της εφαρμογής"
+
+msgid "The work can be written to a project file first."
+msgstr "Η εργασία μπορεί πρώτα να γραφτεί σε αρχείο έργου."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Η επανεκκίνηση της εφαρμογής τη φέρνει αμέσως, και ρωτά πρώτα τι θα γίνει με την εργασία. Αν δεν κάνετε τίποτα, δεν χάνετε τίποτα -- έρχεται στην επόμενη εκκίνηση."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "Η εφαρμογή πρόκειται να ξεκινήσει ξανά. Να γραφτεί πρώτα η εργασία σε αρχείο έργου;"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Αν γραφτεί, το νέο παράθυρο ανοίγει ξανά το έργο και όλα μένουν όπως ήταν. Αν δεν γραφτεί, ανοίγει άδειο και τα αρχεία πρέπει να προστεθούν εκ νέου."
+
+msgid "Save and restart"
+msgstr "Αποθήκευση και επανεκκίνηση"
+
+msgid "Restart without saving"
+msgstr "Επανεκκίνηση χωρίς αποθήκευση"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Η εκτέλεση είναι ακόμη σε εξέλιξη. Το παράθυρο μπορεί να επανεκκινήσει μόλις ολοκληρωθεί."
+
+msgid "System language (%s)"
+msgstr "Γλώσσα συστήματος (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Δημιουργήθηκε συντόμευση για αυτό το πρόγραμμα: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Δεν δημιουργήθηκε συντόμευση για αυτό το πρόγραμμα: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "γράφτηκε και μετά δεν υπήρχε"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Αυτό το πρόγραμμα εκτελείται ως %s και τα πακέτα που εγκαταστάθηκαν για αυτό είναι %s, οπότε κανένα τους δεν μπορεί να φορτωθεί. Έτσι ξεκινά σωστά: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Αυτή η παράδοση δεν φέρει ρυθμό καρέ, οπότε το Timeline δεν μπορεί να χτιστεί από αυτήν. Παρακαλώ κάντε ξανά την εκτέλεση."
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s αρχείο δεν ταιριάζει"
+msgstr[1] ", %s αρχεία δεν ταιριάζουν"
+
+msgid ", %s files do not fit"
+msgstr ", %s αρχεία δεν ταιριάζουν"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s αρχείο"
+msgstr[1] "%s αρχεία"
+
+msgid "%s files"
+msgstr "%s αρχεία"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s ηχογράφηση από %s αρχεία"
+msgstr[1] "%s ηχογραφήσεις από %s αρχεία"
+
+msgid "%s recordings from %s files"
+msgstr "%s ηχογραφήσεις από %s αρχεία"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s συνέχεια"
+msgstr[1] "%s  + %s συνέχειες"
+
+msgid "%s  + %s continuations"
+msgstr "%s  + %s συνέχειες"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Διαχωρίστηκε: %s ομιλητής"
+msgstr[1] "Διαχωρίστηκαν: %s ομιλητές"
+
+msgid "Separated: %s speakers"
+msgstr "Διαχωρίστηκαν: %s ομιλητές"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  Το %s ανέβηκε στερεοφωνικά και επέστρεψε σε ένα κανάλι."
+msgstr[1] "  Τα %s ανέβηκαν στερεοφωνικά και επέστρεψαν σε ένα κανάλι το καθένα."
+
+msgid "  %s went up in stereo and came back in one channel each."
+msgstr "  Τα %s ανέβηκαν στερεοφωνικά και επέστρεψαν σε ένα κανάλι το καθένα."
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s κομμάτι, %s, %s kHz, %s"
+msgstr[1] "%s κομμάτια, %s, %s kHz, %s"
+
+msgid "%s tracks, %s, %s kHz, %s"
+msgstr "%s κομμάτια, %s, %s kHz, %s"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix από %s κομμάτια, %s κανάλι"
+msgstr[1] "  Full-Mix από %s κομμάτια, %s κανάλια"
+
+msgid "  Full-Mix from %s tracks, %s channels"
+msgstr "  Full-Mix από %s κομμάτια, %s κανάλια"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  Το %s παραμένει σε δύο κανάλια"
+msgstr[1] "  Τα %s παραμένουν σε δύο κανάλια"
+
+msgid "  %s stay in two channels"
+msgstr "  Τα %s παραμένουν σε δύο κανάλια"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: βρίσκεται στο %s (στόχος %s) μετά από %d ms, %d προσπάθεια"
+msgstr[1] "%s: βρίσκεται στο %s (στόχος %s) μετά από %d ms, %d προσπάθειες"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr "%s: βρίσκεται στο %s (στόχος %s) μετά από %d ms, %d προσπάθειες"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Προκύπτει %s αρχείο βίντεο, περίπου %s. Στόχος: %s"
+msgstr[1] "Προκύπτουν %s αρχεία βίντεο, περίπου %s. Στόχος: %s"
+
+msgid "This makes %s video files, about %s. Target: %s"
+msgstr "Προκύπτουν %s αρχεία βίντεο, περίπου %s. Στόχος: %s"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s διορθώθηκε από μόνο του"
+msgstr[1] "%s διορθώθηκαν από μόνα τους"
+
+msgid "%s fixed on their own"
+msgstr "%s διορθώθηκαν από μόνα τους"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s σημείωση"
+msgstr[1] "%s σημειώσεις"
+
+msgid "%s hints"
+msgstr "%s σημειώσεις"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s λόγος διακοπής"
+msgstr[1] "%s λόγοι διακοπής"
+
+msgid "%s reasons to stop"
+msgstr "%s λόγοι διακοπής"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s ηχογράφηση"
+msgstr[1] "%s ηχογραφήσεις"
+
+msgid "%s audio recordings"
+msgstr "%s ηχογραφήσεις"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s αρχείο βίντεο"
+msgstr[1] "%s αρχεία βίντεο"
+
+msgid "%s video files"
+msgstr "%s αρχεία βίντεο"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Το αρχείο φέρει σήμανση HDR, με %s σημείωση."
+msgstr[1] "Το αρχείο φέρει σήμανση HDR, με %s σημειώσεις."
+
+msgid "The file is tagged as HDR, with %s notes."
+msgstr "Το αρχείο φέρει σήμανση HDR, με %s σημειώσεις."
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Προσοχή: το %s δεν εισήχθη. Χωρίς αυτή τη γωνία, το\n  Timeline δεν κάνει για μετατροπή."
+msgstr[1] "  Προσοχή: τα %s δεν εισήχθησαν. Χωρίς αυτές τις γωνίες, το\n  Timeline δεν κάνει για μετατροπή."
+
+msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr "  Προσοχή: τα %s δεν εισήχθησαν. Χωρίς αυτές τις γωνίες, το\n  Timeline δεν κάνει για μετατροπή."
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  Παραμένει %s κομμάτι ήχου: %s"
+msgstr[1] "  Παραμένουν %s κομμάτια ήχου: %s"
+
+msgid "  %s audio tracks stay: %s"
+msgstr "  Παραμένουν %s κομμάτια ήχου: %s"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Εικόνα και ήχος συνδέθηκαν ξανά: %s γωνία"
+msgstr[1] "    Εικόνα και ήχος συνδέθηκαν ξανά: %s γωνίες"
+
+msgid "    Picture and audio linked again: %s angles"
+msgstr "    Εικόνα και ήχος συνδέθηκαν ξανά: %s γωνίες"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  Παραμένει %s κομμάτι ήχου:"
+msgstr[1] "  Παραμένουν %s κομμάτια ήχου:"
+
+msgid "  %s audio tracks remain:"
+msgstr "  Παραμένουν %s κομμάτια ήχου:"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s κλιπ"
+msgstr[1] "%s κλιπ"
+
+msgid "%s clips"
+msgstr "%s κλιπ"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s κενό κομμάτι ήχου αφαιρέθηκε"
+msgstr[1] "    %s κενά κομμάτια ήχου αφαιρέθηκαν"
+
+msgid "    %s empty audio tracks removed"
+msgstr "    %s κενά κομμάτια ήχου αφαιρέθηκαν"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> ερμηνεύεται ως %s κομμάτι ήχου%s"
+msgstr[1] "      --> ερμηνεύεται ως %s κομμάτια ήχου%s"
+
+msgid "      --> interpreted as %s audio tracks%s"
+msgstr "      --> ερμηνεύεται ως %s κομμάτια ήχου%s"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " από %s ενσωματωμένο κανάλι"
+msgstr[1] " από %s ενσωματωμένα κανάλια"
+
+msgid " of %s embedded channels"
+msgstr " από %s ενσωματωμένα κανάλια"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s κομμάτι βίντεο"
+msgstr[1] "%s κομμάτια βίντεο"
+
+msgid "%s video tracks"
+msgstr "%s κομμάτια βίντεο"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s κομμάτι ήχου"
+msgstr[1] "%s κομμάτια ήχου"
+
+msgid "%s audio tracks"
+msgstr "%s κομμάτια ήχου"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Περισσότερες γωνίες από χρώματα -- %s χρώμα εμφανίζεται δύο φορές."
+msgstr[1] "      Περισσότερες γωνίες από χρώματα -- %s χρώματα εμφανίζονται δύο φορές."
+
+msgid "      More angles than colours -- %s colours occur twice."
+msgstr "      Περισσότερες γωνίες από χρώματα -- %s χρώματα εμφανίζονται δύο φορές."
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s κλιπ έμεινε χωρίς χρώμα."
+msgstr[1] "      %s κλιπ έμειναν χωρίς χρώμα."
+
+msgid "      %s clips left without a colour."
+msgstr "      %s κλιπ έμειναν χωρίς χρώμα."
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    Το V2 περιέχει τώρα %s κλιπ: %s"
+msgstr[1] "    Το V2 περιέχει τώρα %s κλιπ: %s"
+
+msgid "    V2 now holds %s clips: %s"
+msgstr "    Το V2 περιέχει τώρα %s κλιπ: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s δείκτης τοποθετήθηκε%s."
+msgstr[1] "  %s δείκτες τοποθετήθηκαν%s."
+
+msgid "  %s markers set%s."
+msgstr "  %s δείκτες τοποθετήθηκαν%s."
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s κάμερα"
+msgstr[1] "%s κάμερες"
+
+msgid "%s cameras"
+msgstr "%s κάμερες"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Διαχωρισμός ομιλητών (%s): %s ομιλητής από %s ήχου"
+msgstr[1] "  Διαχωρισμός ομιλητών (%s): %s ομιλητές από %s ήχου"
+
+msgid "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr "  Διαχωρισμός ομιλητών (%s): %s ομιλητές από %s ήχου"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s σε %s απόσπασμα"
+msgstr[1] "  %-20s %s σε %s αποσπάσματα"
+
+msgid "  %-20s %s in %s passages"
+msgstr "  %-20s %s σε %s αποσπάσματα"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Από %s: %s φωνή."
+msgstr[1] "  Από %s: %s φωνές."
+
+msgid "  From %s: %s voices."
+msgstr "  Από %s: %s φωνές."
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s λέξη επέστρεψε χωρίς χρόνο και παραλείφθηκε."
+msgstr[1] "  %s λέξεις επέστρεψαν χωρίς χρόνο και παραλείφθηκαν."
+
+msgid "  %s words came back without a time and were left out."
+msgstr "  %s λέξεις επέστρεψαν χωρίς χρόνο και παραλείφθηκαν."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "σε %s κάμερα"
+msgstr[1] "σε %s κάμερες"
+
+msgid "on %s cameras"
+msgstr "σε %s κάμερες"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s αρχείο είχε ολοκληρωθεί πριν από αυτό και είναι ακέραιο: %s"
+msgstr[1] "%s αρχεία είχαν ολοκληρωθεί πριν από αυτό και είναι ακέραια: %s"
+
+msgid "%s files were finished before that and are whole: %s"
+msgstr "%s αρχεία είχαν ολοκληρωθεί πριν από αυτό και είναι ακέραια: %s"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s σημείο"
+msgstr[1] "%s σημεία"
+
+msgid "%s points"
+msgstr "%s σημεία"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s κανάλι"
+msgstr[1] "%s κανάλια"
+
+msgid "%s channels"
+msgstr "%s κανάλια"
