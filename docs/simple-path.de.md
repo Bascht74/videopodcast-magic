@@ -16,6 +16,15 @@ Spur, unter ihrem Namen und einer Kamera zugeordnet. Ohne es wird aller
 Ton ein Mix. Alles Weitere ist dieselbe Maschine: eine gemeinsame
 Zeitachse, ein Schreiber.
 
+Der Projekttyp ist eine andere Frage, und die beiden vertreten einander
+nicht. **Nur synchronisieren** läuft immer ohne das Häkchen -- die Zeile
+fehlt auf dem Reiter, und das Häkchen ist aus --, aber ein Lauf ohne
+Häkchen ist nicht Nur synchronisieren: mit **Schnitt nach Sprecher**
+hält er die Sprecher weiterhin auseinander, schreibt den Text mit und
+schneidet. Das Häkchen handelt von Spuren, der Typ von Sprechern und
+Schnitt. Alles auf dieser Seite gilt für Schnitt nach Sprecher; was Nur
+synchronisieren weglässt, steht dort, wo es fehlt.
+
 Beide Wege schreiben dieselbe Art Datei: MOV, Bild umkopiert, Ton
 unkomprimiert, die `colr`-Angabe und die QuickTime-Schlüssel der Kamera
 mitgenommen.
@@ -24,7 +33,9 @@ Was der einfache Weg genauso kann wie Multitrack:
 
 - **Dieselben Dateien.** Kennzahlen, Transkript, die vier Schnittlisten,
   die Tonspuren als Dateien in `auphonic-tracks/` und die Übergabe an
-  Resolve werden auch hier geschrieben.
+  Resolve werden auch hier geschrieben. Bei **Nur synchronisieren** sind
+  es Kennzahlen, Protokoll und Übergabe: kein Transkript und keine
+  Schnittliste, weil niemand gefragt wurde, wer spricht.
 - **Zeitfenster.** Die Knöpfe **In markieren** und **Out markieren**
   wirken auch hier (auf der Kommandozeile `--in-point` und
   `--out-point`). Sie nehmen die Schreibweisen aus

@@ -121,7 +121,10 @@ separation](speech.md).
 Every run can do without the service. The first entry of the preset
 list, **work without Auphonic**, keeps this run here (on the command
 line `--without-auphonic`). It is not a preset. The key stays in the
-field, remembered and checked, only not passed on.
+field, remembered and checked, only not passed on. An empty field is
+the same answer: a run started from the window with no key in it runs
+without the service, on the plain path as on the multitrack one, and
+does not go and fetch a stored key behind the field's back.
 
 Everything then happens here: the program aligns the tracks on the
 common axis, mixes them and distributes them over the cameras. Camera

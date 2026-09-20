@@ -4641,3 +4641,38 @@ msgid_plural "%s points"
 msgstr[0] "%s madde"
 msgstr[1] "%s madde"
 
+msgid "Cut by speaker"
+msgstr "Konuşmacıya göre kurgu"
+
+msgid "Sync only"
+msgstr "Yalnızca senkronizasyon"
+
+msgid "Project type"
+msgstr "Proje türü"
+
+msgid "No project type chosen yet."
+msgstr "Henüz proje türü seçilmedi."
+
+msgid "What is this production to become?"
+msgstr "Bu prodüksiyon ne olacak?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": kameralar tek bir zaman ekseninde ve kimin konuştuğuna göre kurgu.\n\"%s\": kameralar tek bir zaman ekseninde, başka bir şey yok -- konuşmacı yok, kurgu yok."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Yalnızca senkronizasyon: kurgu yok. Aktarım yalnızca multicam Timeline’ı taşır; Resolve projesi \"Çıktı\" sekmesinden oluşturulur."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Proje türü: Yalnızca senkronizasyon -- konuşmacı yok, transkript yok, kurgu yok; aktarım yalnızca multicam Timeline’ı taşır."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Yalnızca senkronizasyon: konuşmacıya göre kurgu istenmedi.\n  Yalnızca multicam klibi için Timeline oluşturulur."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s video izi, kamera dosyalarının adlarıyla:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Yalnızca senkronizasyon tek bir ses kaydı alır; bu bir tane daha: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Yalnızca senkronizasyon: aktarım yeniden hesaplanır; yeniden yapılacak kurgu yok. Resolve çalışıyor olmalı."

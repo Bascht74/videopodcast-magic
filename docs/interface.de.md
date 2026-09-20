@@ -8,10 +8,10 @@
 Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
 - **Dateien & Produktion**: oben die Dateiliste, darunter ein schmaler
-  Streifen mit Produktionsname, gesprochener Sprache und Ausgabeordner.
-  Dateien oder ganze Ordner hineinziehen, hinzufügen oder ein früheres
-  Projekt öffnen. Solange die Liste leer ist, steht dort eine
-  Ablegefläche, die den Ablauf erklärt.
+  Streifen mit Produktionsname, gesprochener Sprache, Projekttyp und
+  Ausgabeordner. Dateien oder ganze Ordner hineinziehen, hinzufügen
+  oder ein früheres Projekt öffnen. Solange die Liste leer ist, steht
+  dort eine Ablegefläche, die den Ablauf erklärt.
 
   Das Programm nennt den Blick auf das Material vor einem Lauf den
   Vorflug. Jede Datei bekommt daraus schon beim Hinzufügen ein
@@ -264,6 +264,20 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   steht hier. Eine Kamera auf **Ton verwenden** bekommt eine Zeile in
   der Zuordnungstabelle darüber, wie eine eigene Aufnahme.
 
+  Mit dem Projekttyp **Nur synchronisieren** ist dieser Reiter kürzer.
+  Die Spalten **Sprechername** und **Sprecher** fehlen, und mit ihnen
+  der Eintrag **mehrere Sprecher**, die Stimmzeilen, der Knopf **Ein
+  Sprecher mehr in ...** und die Zeile **Auf diesem Rechner nicht**:
+  wer spricht, fragt niemand, weil nichts geschnitten wird. Auch die
+  Zeile **Multitrack (je Sprecher eine Spur)** fehlt, und das Häkchen
+  ist aus. Auch **gehört zu** fehlt, und in der Kameratabelle **neue
+  Datei heißt** und **bekommt Audio von**: ohne Sprecher gibt es
+  nichts zuzuordnen, die eine Aufnahme kommt in jede Kameradatei.
+  Geblieben sind die Zeile der Aufnahme mit ihrem Timecode, die
+  Kameratabelle mit **Kamera**, **Typ** und **Kameraton**, der Player
+  und der Kasten für auphonic.com -- die eine Aufnahme kann dort
+  weiterhin aufbereitet werden.
+
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
   *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
@@ -383,6 +397,18 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   dieselbe Frage, und der Lauf macht dieselbe Antwort daraus. Das
   Häkchen anzuklicken kostet deshalb nichts — von Hand gewählte Kameras
   bleiben stehen.
+
+  Mit **Nur synchronisieren** bleibt der Reiter, und ein Satz ganz oben
+  sagt, was er nicht ist: **Nur synchronisieren: kein Schnitt. Die
+  Übergabe trägt allein die Multicam-Zeitleiste; das Resolve-Projekt
+  wird im Reiter „Ausgabe“ angelegt.** Der Kasten mit den Werten für
+  den Schnitt, der Kasten **Sprecher** und die Vorschau stehen
+  ausgegraut darunter, gemessen wird darin nichts, und beim Öffnen des
+  Reiters werden keine Sprecher geholt. Auf **Ausgabe** sagt der
+  Hinweis am Knopf **Resolve-Projekt anlegen**, was der Knopf bei
+  diesem Typ baut. Die Zeile über Resolve tut, was sie
+  immer tut: ob Resolve antwortet, wird beim ersten Blick auf diesen
+  Reiter gefragt, bei beiden Typen.
 - **Ausgabe**: erscheint, sobald etwas läuft, in denselben Farben wie
   das Terminal, mit den Knöpfen **Ergebnis-Ordner öffnen** und
   **Resolve-Projekt anlegen**. Der Reiter kommt außerdem beim Öffnen
@@ -399,7 +425,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
 Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
 und ohne; nach dem API Key fragt das Programm erst auf dem Weg über
-auphonic.com. Der Kameraschnitt braucht das Häkchen nicht.
+auphonic.com. Der Kameraschnitt braucht das Häkchen nicht. Beim
+Projekttyp **Nur synchronisieren** fehlt die Zeile, und das Häkchen ist
+aus: je Sprecher eine Spur ist eine Frage für den Schnitt nach Sprecher.
 
 Multitrack braucht zwei Eingangsspuren. Eine Eingangsspur ist eine
 eigene Aufnahme, ein Kanal eines mehrkanaligen Aufnahmegeräts oder der
@@ -430,6 +458,33 @@ Zur Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
 sagt, was die Erkennung schreibt, und [Spracherkennung und
 Sprechertrennung](speech.de.md), welchen Weg sie auf welchem Rechner
 nimmt.
+
+**Projekttyp** daneben sagt, was aus der Produktion werden soll; das
+Feld beginnt auf **nicht gesetzt**. Zwei Einträge:
+
+- **Schnitt nach Sprecher**: die Kameras auf einer Zeitachse und ein
+  Schnitt danach, wer gerade spricht -- alles, was der Rest dieses
+  Handbuchs beschreibt.
+- **Nur synchronisieren**: die Kameras auf einer Zeitachse, mehr
+  nicht. Keine Sprecher, kein Transkript, kein Schnitt; die Übergabe
+  trägt allein die Multicam-Timeline, und Resolve bekommt diese eine
+  Timeline. Hinein geht nur eine Tonaufnahme ([Vorflug](preflight.de.md)
+  sagt, was eine zweite bekommt), und wo der Typ den hinteren Reitern
+  etwas nimmt, steht es oben bei den Reitern.
+
+Wer auf dem Feld stehen bleibt, liest dasselbe. Dateien dürfen vor der
+Antwort hereinkommen, und vermessen werden sie so oder so; nur
+**Start** und **Probelauf** warten, und die Zeile unter den Knöpfen sagt
+**Noch kein Projekttyp gewählt.** Wer ohne Antwort auf den Reiter
+**Zuordnung & Zeitfenster** wechselt, wird einmal je Produktion
+gefragt, in einem Kasten **Projekttyp** -- **Was soll aus dieser
+Produktion werden?** -- mit den beiden Einträgen und **Abbrechen**.
+**Abbrechen** wählt nichts, und gefragt wird nicht noch einmal; das
+Feld im Streifen nimmt die Antwort weiterhin an. Ein geöffnetes Projekt
+fragt nie: der Typ steht in der Projektdatei, und eine Projektdatei aus
+der Zeit vor dem Typ öffnet sich als **Schnitt nach Sprecher**. Auf der
+Kommandozeile heißt es `--project-type cut` oder `sync`, und `cut`, wo
+nichts gesagt wird.
 
 **Lautheit** in der Gruppe **Produktion** auf der ersten Seite legt fest,
 wie laut die fertige Folge gemacht wird; derselbe Gewinn geht auf jede
@@ -463,6 +518,7 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 - kein Ton in Verwendung: keine Tonaufnahme, und keine Videodatei auf
   **Ton verwenden**,
 - kein Produktionsname,
+- kein Projekttyp gewählt,
 - weniger als zwei Spuren in der Zuordnungstabelle für Multitrack,
 - bei Multitrack eine Aufnahme ganz ohne Namen: keiner getippt, und
   keiner, den der Dateiname nahelegt -- der graue Vorschlag gilt als
@@ -600,7 +656,9 @@ denselben Namen, mit Multitrack und ohne:
   an den Kameras aus und lässt sie in Ruhe.
 - **Gemeinsame Zeitachse**
 - **Aufbereitung bei auphonic.com**, ohne Schlüssel **Lautheit und Pegel**
-- **Wer wann spricht**
+- **Wer wann spricht**: nur bei **Schnitt nach Sprecher**. **Nur
+  synchronisieren** fragt niemanden, und das Protokoll sagt das in
+  seinen ersten Zeilen.
 - **Kameradateien werden geschrieben**
 - **Übergabe und Ergebnis**
 

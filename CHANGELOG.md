@@ -25,6 +25,55 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b17] - 2026-09-20
+
+### Added
+
+- **A production now has a project type: "Cut by speaker" or "Sync
+  only".** The field stands on "Files & production" beside "Language";
+  files may come in before it is chosen, and whoever switches to the
+  second tab without choosing is asked once. "Cut by speaker" is
+  everything as before. "Sync only" is for an interview that will be cut
+  by hand in Resolve: one audio recording goes onto every camera, the
+  cameras land on one time axis, and the handover carries the Multicam
+  timeline alone -- no speakers, no speech recognition, no transcript,
+  no cut. A second audio recording is refused in the preflight. The
+  type is kept in the project file and stands on the command line as
+  `--project-type`.
+
+### Changed
+
+- **A run started from the window with an empty "API Key" field runs
+  without auphonic.com on every path.** Before, only a run with
+  "Multitrack" ticked did; the plain run looked the key up in the
+  Keychain and stopped without one. Now the field decides, and the log
+  says "measuring only" where it used to say the key was missing.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Eine Produktion hat jetzt einen Projekttyp: „Schnitt nach Sprecher"
+  oder „Nur synchronisieren".** Das Feld steht auf „Dateien & Produktion"
+  neben „Sprache"; Dateien dürfen vor der Wahl hereinkommen, und wer
+  ohne Wahl auf den zweiten Reiter wechselt, wird einmal gefragt.
+  „Schnitt nach Sprecher" ist alles wie bisher. „Nur synchronisieren"
+  ist für ein Interview, das später von Hand in Resolve geschnitten
+  wird: eine Tonaufnahme kommt auf jede Kamera, die Kameras auf eine
+  Zeitachse, und die Übergabe trägt allein die Multicam-Timeline --
+  keine Sprecher, keine Spracherkennung, kein Transkript, kein Schnitt.
+  Eine zweite Tonaufnahme weist der Vorflug ab. Der Typ steht in der
+  Projektdatei und auf der Kommandozeile als `--project-type`.
+
+### Geändert
+
+- **Ein Lauf aus dem Fenster mit leerem Feld „API Key" läuft auf jedem
+  Weg ohne auphonic.com.** Bisher tat das nur ein Lauf mit gesetztem
+  „Multitrack"; der gewöhnliche Lauf suchte den Schlüssel im
+  Schlüsselbund und blieb ohne ihn stehen. Jetzt entscheidet das Feld,
+  und das Log sagt „nur messen", wo es bisher den fehlenden Schlüssel
+  nannte.
+
 ## [3.0.0b16] - 2026-09-20
 
 ### Fixed

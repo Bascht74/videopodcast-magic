@@ -4629,3 +4629,38 @@ msgid_plural "%s points"
 msgstr[0] "%s बिंदु"
 msgstr[1] "%s बिंदु"
 
+msgid "Cut by speaker"
+msgstr "वक्ता के अनुसार कट"
+
+msgid "Sync only"
+msgstr "केवल सिंक"
+
+msgid "Project type"
+msgstr "परियोजना प्रकार"
+
+msgid "No project type chosen yet."
+msgstr "अभी कोई परियोजना प्रकार नहीं चुना गया।"
+
+msgid "What is this production to become?"
+msgstr "इस प्रोडक्शन को क्या बनना है?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": कैमरे एक समय अक्ष पर और इस आधार पर कट कि कौन बोल रहा है।\n\"%s\": कैमरे एक समय अक्ष पर, इससे अधिक कुछ नहीं -- न वक्ता, न कट।"
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "केवल सिंक: कोई कट नहीं। सौंपने वाली फ़ाइल में केवल मल्टीकैम Timeline है; Resolve परियोजना \"आउटपुट\" टैब से बनाई जाती है।"
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "परियोजना प्रकार: केवल सिंक -- न वक्ता, न ट्रांसक्रिप्ट, न कट; सौंपने वाली फ़ाइल में केवल मल्टीकैम Timeline है।"
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  केवल सिंक: वक्ता के अनुसार कट नहीं माँगा गया।\n  केवल मल्टीकैम क्लिप के लिए Timeline बनाई जाती है।"
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s वीडियो ट्रैक, कैमरा फ़ाइलों के नाम पर:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "केवल सिंक में एक ही ऑडियो रिकॉर्डिंग ली जाती है; यह एक और है: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "केवल सिंक: सौंपने वाली फ़ाइल फिर से निकाली जाती है; दोबारा करने को कोई कट नहीं है। Resolve चल रहा होना चाहिए।"

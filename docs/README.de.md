@@ -128,6 +128,7 @@ der das Wort erklärt, steht vorn.
   `camera-cut`, „Wenn die Sprache nicht sagt, wer zu zeigen ist“
 * **Node Sizing**: `resolve`, „Position und Zoom für eine ganze Kamera
   setzen“
+* **Nur synchronisieren (Projekttyp)**: siehe Projekttyp
 * **ohne Auphonic arbeiten**: `auphonic`, „Ohne Auphonic arbeiten“
 * **Out-Punkt**: siehe In-Punkt
 * **Paketverwaltung**: `requirements`, „Woher ffmpeg kommt“
@@ -142,6 +143,8 @@ der das Wort erklärt, steht vorn.
   Probelauf von den Sprechern zeigt“
 * **Projektdatei**: `camera-cut`, „Was die Projektdatei behält“;
   `interface`, „Wie die Zeitachse gemessen wird“
+* **Projekttyp**: `interface`, „Die vier Reiter“; `overview`, „Zwei Arten
+  von Produktion“; `resolve`, „Der Knopf und die beiden Timelines“
 * **Protokoll (`videopodcast-magic.log`)**: `interface`, „Die vier Reiter“
 * **Prüfzeichen ✓ ! ✕**: `interface`, „Die vier Reiter“; `preflight`, „Was
   geprüft wird“
@@ -157,6 +160,7 @@ der das Wort erklärt, steht vorn.
   `requirements`, „Was sich je Plattform unterscheidet“
 * **Schnitt mit dem Weitwinkel (Kasten)**: `camera-cut`, „Wie der
   Schnitt entsteht“
+* **Schnitt nach Sprecher (Projekttyp)**: siehe Projekttyp
 * **Schnittband**: `camera-cut`, „Schnittband und Legende lesen“
 * **Schnittgrundlage (Zeile unter der Vorschau)**: `interface`, „Die
   vier Reiter“

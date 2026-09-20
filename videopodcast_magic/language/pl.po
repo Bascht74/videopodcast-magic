@@ -4534,3 +4534,39 @@ msgstr[2] "%s kanałów"
 
 msgid "%s channels"
 msgstr "%s kanałów"
+
+msgid "Cut by speaker"
+msgstr "Montaż według mówców"
+
+msgid "Sync only"
+msgstr "Tylko synchronizacja"
+
+msgid "Project type"
+msgstr "Typ projektu"
+
+msgid "No project type chosen yet."
+msgstr "Nie wybrano jeszcze typu projektu."
+
+msgid "What is this production to become?"
+msgstr "Czym ma się stać ta produkcja?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": kamery na jednej osi czasu i montaż według tego, kto mówi.\n\"%s\": kamery na jednej osi czasu, nic więcej -- bez mówców, bez montażu."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Tylko synchronizacja: bez montażu. Przekazanie niesie tylko Timeline multicam; projekt Resolve tworzy się z karty \"Wyjście\"."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Typ projektu: Tylko synchronizacja -- bez mówców, bez transkrypcji, bez montażu; przekazanie niesie tylko Timeline multicam."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Tylko synchronizacja: nie zażądano montażu według mówców.\n  Budowana jest tylko Timeline dla klipu multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  Ścieżki wideo: %s, nazwane według plików kamer:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Tylko synchronizacja przyjmuje jedno nagranie audio; to jest kolejne: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Tylko synchronizacja: przekazanie jest wyliczane ponownie; nie ma montażu do powtórzenia. Resolve musi być uruchomiony."

@@ -95,8 +95,10 @@ button takes into the cut list.*
 | several cameras, speakers separated | picture from the camera cut, audio in one piece | all cameras side by side |
 | several cameras, one speaker with a camera | their camera, broken up by the wide shot | all cameras side by side |
 | several cameras, nobody with a name and a camera | none | all cameras side by side |
+| several cameras, Sync only | none | all cameras side by side, one track per camera file |
 | one camera, speakers separated | one shot per change of speaker, the mix below | none |
 | one camera, one voice or no separation | the camera in one piece, the mix below | none |
+| one camera, Sync only | the camera in one piece, the mix below | none |
 
 The speaker separation decides the cut timeline, not the path. Two
 people with a name and a camera give a camera cut, on the simple path as
@@ -104,6 +106,17 @@ well, and so does one person as soon as a second camera is there that
 nobody is on: their camera stands and the wide shot breaks it up.
 Without that the multicam timeline stands alone: all cameras at their
 measured places, and Resolve makes the multicam clip from it.
+
+**Sync only** is the one case where the path does decide. Nobody was
+asked who speaks, so there is no cut timeline to build and no speaker
+markers; the log says **Sync only: no cut by speaker was asked for.
+Only the Timeline for the multicam clip is built.** The video tracks
+are named after the camera files, the name without its ending, and the
+log lists them under **video tracks, named after the camera files**.
+No render job is queued, because the job hangs on the cut timeline and
+there is none; with one camera the straight **… Cut** timeline is built
+as it always is for one camera, mix below and render job with it, and
+without markers.
 
 A reading that plainly means one of Resolve's rates is taken as that
 rate: ffprobe measures 29.994 or 30.001 for some files where the camera
@@ -130,7 +143,8 @@ timeline carries no markers.
 **… Multicam**: all cameras side by side, one per video track, each as
 long as its own file and **uncut**, at its measured place. Track names = speakers, a
 camera without a speaker is called `Wide`, and the speaker names stand
-as markers. Video track 1 takes the camera whose first audio track is
+as markers. With **Sync only** every track carries the name of its
+camera file, and there are no markers. Video track 1 takes the camera whose first audio track is
 the Full-Mix, usually the wide shot; on conversion it becomes angle 1.
 
 **Exactly one audio track per camera, linked to its picture.** The
@@ -253,7 +267,8 @@ A single video file with its own sound is that case. The separation
 tells the speakers apart on the one track, and the cut falls at every
 change of speaker. The picture stays the same across the shots. A 360
 degree camera gets its framing by hand, shot by shot, and the markers
-say whose turn it is.
+say whose turn it is. With **Sync only** the same timeline is built,
+without markers: nobody was asked who speaks.
 
 ### When the project already exists
 
@@ -307,7 +322,9 @@ Each camera also gets a **colour group**, described further down under
 ### What the render job sets
 
 Once the timelines stand, the script sets the render profile and queues the
-job. In Resolve only **Render All** is left.
+job for the cut timeline. In Resolve only **Render All** is left. With
+**Sync only** and several cameras there is no cut timeline and no job:
+the multicam timeline is a start for the edit, not a delivery.
 
 The material and the project decide HDR or SDR, not taste. The script reads
 the `colr` box of the camera files first. Three things count as HDR:
@@ -553,7 +570,8 @@ scripting interface has no multicam. So by hand:
 
 On the audio, see the four choices above. The track name becomes the name of
 the angle (manual, chapter 49), and that is why the video tracks carry the
-speakers' names. Converting is a one-way operation, and Resolve keeps no
+speakers' names -- or, with **Sync only**, the names of the camera files.
+Converting is a one-way operation, and Resolve keeps no
 backup copy.
 
 ### When something goes wrong

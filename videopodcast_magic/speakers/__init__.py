@@ -3478,14 +3478,27 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         while the window is still being built.
         """
         boxes = state.get("cut_boxes")
+        sync_only = state.get("project_type") == "sync"
         if boxes:
             pairs = assignment_pairs(voice_lines, assign_lines)
             seen = len(camera_lines)
             on = bool(multitrack.get()) or cut_has_people(pairs, seen)
             boxes[0].setTitle(cut_box_title(pairs, multitrack.get(), seen))
-            boxes[0].setVisible(on)
-            boxes[1].setVisible(on)
-            boxes[2].setVisible(not on)
+            # Sync only: the boxes stand, greyed, under one sentence
+            # saying why -- a tab gone empty says nothing.
+            boxes[0].setVisible(on or sync_only)
+            boxes[1].setVisible(on or sync_only)
+            boxes[2].setVisible(not on and not sync_only)
+        parts = state.get("sync_parts")
+        if parts:
+            note, speaker_box, multitrack_bar, split_line = parts
+            note.setVisible(sync_only)
+            for box in (boxes[0], boxes[1], speaker_box):
+                box.setEnabled(not sync_only)
+            multitrack_bar.setVisible(not sync_only)
+            # Shown again by the separation's own line, in cut.
+            if sync_only:
+                split_line.setVisible(False)
         note = state.get("multitrack_note")
         if note is not None:
             used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]

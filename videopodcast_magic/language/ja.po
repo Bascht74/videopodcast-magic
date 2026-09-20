@@ -4590,3 +4590,38 @@ msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s 項目"
 
+msgid "Cut by speaker"
+msgstr "話者ごとのカット"
+
+msgid "Sync only"
+msgstr "同期のみ"
+
+msgid "Project type"
+msgstr "プロジェクトの種類"
+
+msgid "No project type chosen yet."
+msgstr "プロジェクトの種類がまだ選ばれていません。"
+
+msgid "What is this production to become?"
+msgstr "この制作物を何にしますか？"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "「%s」：カメラを一つの時間軸にそろえ、話している人に合わせてカットします。\n「%s」：カメラを一つの時間軸にそろえるだけ -- 話者もカットもありません。"
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "同期のみ：カットはありません。受け渡しはマルチカムの Timeline だけを持ちます。Resolve プロジェクトは「出力」タブから作成します。"
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "プロジェクトの種類：同期のみ -- 話者も文字起こしもカットもありません。受け渡しはマルチカムの Timeline だけを持ちます。"
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  同期のみ：話者ごとのカットは求められていません。\n  マルチカムクリップの Timeline だけを作ります。"
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  映像トラック %s 本、カメラファイルの名前付き:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "同期のみは音声録音を1つだけ受け付けます。これはもう1つです：%s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "同期のみ：受け渡しファイルを計算し直します。やり直すカットはありません。Resolve が起動している必要があります。"

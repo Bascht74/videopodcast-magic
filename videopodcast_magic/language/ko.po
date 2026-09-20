@@ -4452,3 +4452,39 @@ msgstr[0] "채널 %s개"
 
 msgid "%s channels"
 msgstr "채널 %s개"
+
+msgid "Cut by speaker"
+msgstr "화자별 편집"
+
+msgid "Sync only"
+msgstr "동기화만"
+
+msgid "Project type"
+msgstr "프로젝트 유형"
+
+msgid "No project type chosen yet."
+msgstr "아직 프로젝트 유형을 고르지 않았습니다."
+
+msgid "What is this production to become?"
+msgstr "이 프로덕션을 무엇으로 만들까요?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": 카메라를 하나의 시간 축에 맞추고, 누가 말하는지에 따라 편집합니다.\n\"%s\": 카메라를 하나의 시간 축에 맞추기만 합니다 -- 화자도 편집도 없습니다."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "동기화만: 편집이 없습니다. 인계에는 멀티캠 Timeline만 담깁니다. Resolve 프로젝트는 \"출력\" 탭에서 만듭니다."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "프로젝트 유형: 동기화만 -- 화자도, 전사본도, 편집도 없습니다. 인계에는 멀티캠 Timeline만 담깁니다."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  동기화만: 화자별 편집을 요청하지 않았습니다.\n  멀티캠 클립의 Timeline만 만듭니다."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  비디오 트랙 %s개, 카메라 파일 이름으로:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "동기화만은 오디오 녹음을 하나만 받습니다. 이것은 하나 더입니다: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "동기화만: 인계 파일을 다시 계산합니다. 다시 할 편집은 없습니다. Resolve가 실행 중이어야 합니다."
