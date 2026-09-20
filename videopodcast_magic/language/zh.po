@@ -184,7 +184,7 @@ msgid "One more speaker in %s"
 msgstr "%s 中再多一位说话人"
 
 msgid "One more speaker in"
-msgstr "再加一位发言人"
+msgstr "再加一位说话人"
 
 msgid "%s:%02d min"
 msgstr "%s:%02d 分"
@@ -271,7 +271,7 @@ msgid "do not use"
 msgstr "不使用"
 
 msgid "several speakers"
-msgstr "多位发言人"
+msgstr "多位说话人"
 
 msgid "Content"
 msgstr "正片"
@@ -417,7 +417,7 @@ msgid "Measuring time axis ..."
 msgstr "正在测量时间轴 ..."
 
 msgid "Multitrack (one track per speaker)"
-msgstr "多轨（每位发言人一轨）"
+msgstr "多轨（每位说话人一轨）"
 
 msgid "No files or project opened yet."
 msgstr "尚未打开文件或项目。"
@@ -468,7 +468,7 @@ msgid "Save in Keychain"
 msgstr "保存到钥匙串"
 
 msgid "Speakers, self-measured from the tracks"
-msgstr "发言人，由程序自音轨测得"
+msgstr "说话人，由程序自音轨测得"
 
 msgid "Ten seconds back."
 msgstr "后退十秒。"
@@ -478,7 +478,7 @@ msgid ""
 "The order does not matter -- the program recognises what is what.\n"
 "For a multi-part recording the first block is enough."
 msgstr ""
-"每位发言人的录音，加上各机位。\n"
+"每位说话人的录音，加上各机位。\n"
 "顺序无关紧要——程序自己识别哪个是哪个。\n"
 "分段录制时，第一段就够了。"
 
@@ -498,7 +498,7 @@ msgid "To the start."
 msgstr "跳到开头。"
 
 msgid "Track"
-msgstr "轨道"
+msgstr "音轨"
 
 msgid "Video"
 msgstr "视频"
@@ -615,7 +615,7 @@ msgid "No files given."
 msgstr "未给出文件。"
 
 msgid "Speaker"
-msgstr "发言人"
+msgstr "说话人"
 
 msgid "Start %s"
 msgstr "开始 %s"
@@ -711,7 +711,7 @@ msgid "Not recognised"
 msgstr "无法识别"
 
 msgid "Note"
-msgstr "备注"
+msgstr "提示"
 
 msgid "One frame forward."
 msgstr "前进一帧。"
@@ -1020,7 +1020,7 @@ msgid "Recognition uncertain"
 msgstr "识别不确定"
 
 msgid "the speaker recognition frays or leaves a heap behind"
-msgstr "发言人识别开始散乱或留下一堆残余"
+msgstr "说话人识别开始散乱或留下一堆残余"
 
 msgid "the picture goes to the answer before it starts"
 msgstr "画面在答话开始前就切过去"
@@ -1245,7 +1245,7 @@ msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  采用现有结果——未计算，未付费。"
 
 msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  注：计算使用的是当时上传的文件。它们带有\n  当天的时间窗和对齐。如果入点、出点\n  或测得的位置现在有所不同，返回检查会测量\n  差值并把音轨移到正确位置。"
+msgstr "  提示：计算使用的是当时上传的文件。它们带有\n  当天的时间窗和对齐。如果入点、出点\n  或测得的位置现在有所不同，返回检查会测量\n  差值并把音轨移到正确位置。"
 
 msgid "  Settings brought to preset %r"
 msgstr "  设置已调整为预设 %r"
@@ -1647,7 +1647,7 @@ msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is
 msgstr "全景只有 %s 秒，短于最短镜头的 %s 秒——因此会被重新合并，永远不会出现。\n"
 
 msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
-msgstr "直接从音轨中算出谁在何时说话——每人一支麦克风，电平与其自身的底噪相比。如果所有人都在同一段录音中，请在“说话人姓名”栏中选择“多位发言人”。"
+msgstr "直接从音轨中算出谁在何时说话——每人一支麦克风，电平与其自身的底噪相比。如果所有人都在同一段录音中，请在“说话人姓名”栏中选择“多位说话人”。"
 
 msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
 msgstr "  音轨按录制原样使用：对齐、混音并调整到\n  目标响度。没有 De-Bleed、没有 Leveler、没有降噪——这些\n  需要 auphonic.com。"
@@ -1677,10 +1677,10 @@ msgid "nobody was speaking at the question"
 msgstr "提问时没有人在说话"
 
 msgid "from the finished run -- %s speakers, %s"
-msgstr "来自已完成的运行 -- %s 位发言人，%s"
+msgstr "来自已完成的运行 -- %s 位说话人，%s"
 
 msgid "measured from the recordings -- %s speakers, %s"
-msgstr "从录音测得 -- %s 位发言人，%s"
+msgstr "从录音测得 -- %s 位说话人，%s"
 
 msgid "No cameras assigned yet -- switch Multitrack on to do that."
 msgstr "尚未分配摄像机 -- 请为此开启多轨。"
@@ -1692,7 +1692,7 @@ msgid "Out point lies less than 5 seconds after In point."
 msgstr "出点距入点不足 5 秒。"
 
 msgid "because no speaker is assigned to it"
-msgstr "因为没有为它分配发言人"
+msgstr "因为没有为它分配说话人"
 
 msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
 msgstr "此处节目时长为 %s -- 无法在其中安排任何内容。决定时长的是入点和出点。"
@@ -1713,10 +1713,10 @@ msgid "  The handover file could not be written."
 msgstr "  无法写入交接文件。"
 
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
-msgstr "  每台摄像机都对应一位发言人，因此没有全景：四项全景设置和首尾勾选在此都不起作用。"
+msgstr "  每台摄像机都对应一位说话人，因此没有全景：四项全景设置和首尾勾选在此都不起作用。"
 
 msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s 位发言人，%s 个镜头，最短 %s 秒"
+msgstr "  %s 位说话人，%s 个镜头，最短 %s 秒"
 
 msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
 msgstr "入点现在是 %s，但现有文件属于 %s。\n  视频中的声音是按旧时间窗剪切的 -- 请再次点击上方的\n  “开始”。"
@@ -1737,7 +1737,7 @@ msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  首尾全景：至 %s，自 %s 起"
 
 msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "尚无已知发言人 -- 未测量、未分离，且 %s 及其子文件夹中没有以往运行的交接文件。"
+msgstr "尚无已知说话人 -- 未测量、未分离，且 %s 及其子文件夹中没有以往运行的交接文件。"
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "时间窗超出素材范围：入点在 %s，出点在 %s，素材时长为 %s。"
@@ -1749,7 +1749,7 @@ msgid "No audio tracks are assigned."
 msgstr "未分配音轨。"
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
-msgstr "尚无已知发言人 -- 一打开此选项卡就会从音轨中得出。若所有人都在同一段录音里，请在说话人姓名栏中选择“多位发言人”。"
+msgstr "尚无已知说话人 -- 一打开此选项卡就会从音轨中得出。若所有人都在同一段录音里，请在说话人姓名栏中选择“多位说话人”。"
 
 msgid "  This produces the project, the import and %s:"
 msgstr "  由此生成项目、导入和%s："
@@ -1758,13 +1758,13 @@ msgid "  Create it with \"Create Resolve project\" in the interface. Resolve mus
 msgstr "  请在界面中通过“创建 Resolve 项目”来创建。Resolve 必须正在运行。"
 
 msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
-msgstr "\n发言人\n  没有听到任何人 -- 无法由此生成镜头切换。"
+msgstr "\n说话人\n  没有听到任何人 -- 无法由此生成镜头切换。"
 
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
-msgstr "  %s 次离开发言人，因为某个镜头超过了 %s 秒"
+msgstr "  %s 次离开说话人，因为某个镜头超过了 %s 秒"
 
 msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  所有人共用一台摄像机：在发言人切换处切成 %s 个镜头，以便 Resolve 将其编组。"
+msgstr "  所有人共用一台摄像机：在说话人切换处切成 %s 个镜头，以便 Resolve 将其编组。"
 
 msgid "  The cut has changed: %s shots instead of %s."
 msgstr "  剪辑已改变：%s 个镜头，而不是 %s 个。"
@@ -1773,7 +1773,7 @@ msgid "the cut uses %s"
 msgstr "剪辑使用 %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
-msgstr "没有为它分配发言人，但剪辑使用 %s"
+msgstr "没有为它分配说话人，但剪辑使用 %s"
 
 msgid "%s not measured yet -- in the cut, not yet in this preview."
 msgstr "%s 尚未测量 -- 已在剪辑中，尚未在此预览中。"
@@ -1896,10 +1896,10 @@ msgid "Separates the recording by voice: every voice gets a row of its own, and 
 msgstr "按声音拆分录音：每个声音各占一行，其摄像机也在该行中。每半小时音频约需一分钟，在本机完成，无需上传。"
 
 msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
-msgstr "这段录音中能听到谁。填一个名字表示只有这一个人。\n“多位发言人”会在本机、无需上传地确定谁在何时说话 -- 每半小时音频约需一分钟。然后在下面各行填写姓名。"
+msgstr "这段录音中能听到谁。填一个名字表示只有这一个人。\n“多位说话人”会在本机、无需上传地确定谁在何时说话 -- 每半小时音频约需一分钟。然后在下面各行填写姓名。"
 
 msgid "Listens to that recording again, looking for one speaker more than was found."
-msgstr "再听一遍该录音，寻找比已找到的多一位的发言人。"
+msgstr "再听一遍该录音，寻找比已找到的多一位的说话人。"
 
 msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
 msgstr "所有尚未完成的工作，与已完成的相比较。耗时长的工作在进度条上占的比例比短的大。"
@@ -2049,7 +2049,7 @@ msgid "Mixing %s"
 msgstr "正在混音 %s"
 
 msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
-msgstr "  备注：此 ffmpeg 不含 soxr -- 时钟漂移只能以\n  21 ppm 为步长消除。"
+msgstr "  提示：此 ffmpeg 不含 soxr -- 时钟漂移只能以\n  21 ppm 为步长消除。"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s 没有可测量的声音 -- 仅按其时钟放置，也找不到可用来核对的依据"
@@ -3882,13 +3882,13 @@ msgid "%s\n   sound not recognised; placed by its timecode"
 msgstr "%s\n   未识别出声音；按其时间码放置"
 
 msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
-msgstr "  顺序可靠，彼此间距则不然：在四期节目中测量，顺序从未颠倒，而首尾间距变化达四倍。它假定每条轨道一个声音；若两条轨道含有相同的话语，则什么也不说。"
+msgstr "  顺序可靠，彼此间距则不然：在四期节目中测量，顺序从未颠倒，而首尾间距变化达四倍。它假定每条音轨一个声音；若两条音轨含有相同的话语，则什么也不说。"
 
 msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
 msgstr "  仅针对仍使用程序所起名称的声音；有人输入的名称绝不改动。角色依据谁提问、谁回答来判断，这适用于只有一位嘉宾的对话，只是建议，并非设置。"
 
 msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
-msgstr "  它基于一个前提：每人一支麦克风，且每支只收录这个人。若轨道重叠太多而无法区分，或两个声音指向同一支麦克风，则宁可什么也不说，也不说不确定的话。"
+msgstr "  它基于一个前提：每人一支麦克风，且每支只收录这个人。若音轨重叠太多而无法区分，或两个声音指向同一支麦克风，则宁可什么也不说，也不说不确定的话。"
 
 msgid "the interface"
 msgstr "界面"
@@ -3933,7 +3933,7 @@ msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n
 msgstr "%s\n   与其他文件不匹配：未识别出声音，也没有时间码。\n   %s"
 
 msgid "Mixing the tracks for the separation"
-msgstr "为分离混合轨道"
+msgstr "为分离混合音轨"
 
 msgid "the microphones hear each other almost as loudly as their own speaker"
 msgstr "各麦克风听到彼此的声音几乎和自己的说话人一样响"
@@ -3954,13 +3954,13 @@ msgid "nothing of it falls inside the window"
 msgstr "没有任何部分落在时间窗口内"
 
 msgid "  Nothing was audible in the tracks -- no camera cut from this."
-msgstr "  轨道中没有任何可听内容 -- 无法据此进行镜头切换。"
+msgstr "  音轨中没有任何可听内容 -- 无法据此进行镜头切换。"
 
 msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
 msgstr "  %-20s 是 %-20s 比下一支麦克风高 %s dB，已扣除录音电平"
 
 msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
-msgstr "该名称出现了多次。这些录音会合成一条轨道 -- auphonic.com 的 Multitrack 至少需要两个不同的名称。"
+msgstr "该名称出现了多次。这些录音会合成一条音轨 -- auphonic.com 的 Multitrack 至少需要两个不同的名称。"
 
 msgid "The model could not be fetched: %s"
 msgstr "无法获取模型：%s"
@@ -3981,19 +3981,19 @@ msgid " virtual"
 msgstr " 虚拟"
 
 msgid "the tracks are too much alike to separate"
-msgstr "轨道过于相似，无法分离"
+msgstr "音轨过于相似，无法分离"
 
 msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
-msgstr "  谁在提问 -- 此处不作判断：有两条轨道含有相同的话语，问题会被归给音量调得最大的录音机。"
+msgstr "  谁在提问 -- 此处不作判断：有两条音轨含有相同的话语，问题会被归给音量调得最大的录音机。"
 
 msgid "  %-20s %s speaking, %s of %s sentences a question"
 msgstr "  %-20s 说话 %s，%s / %s 句为提问"
 
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
-msgstr "  %-20s 听起来像 %-20s %s %% 在该轨道内，领先下一个 %s 个点"
+msgstr "  %-20s 听起来像 %-20s %s %% 在该音轨内，领先下一个 %s 个点"
 
 msgid "Nothing was audible in the tracks."
-msgstr "轨道中没有任何可听内容。"
+msgstr "音轨中没有任何可听内容。"
 
 msgid "%s is not part of this run"
 msgstr "%s 不属于本次运行"
@@ -4017,19 +4017,19 @@ msgid "\nSPEAKERS -- MEASURED HERE"
 msgstr "\n说话人 -- 在此测量"
 
 msgid "  From the tracks themselves, one voice per track: %s."
-msgstr "  来自轨道本身，每条轨道一个声音：%s。"
+msgstr "  来自音轨本身，每条音轨一个声音：%s。"
 
 msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
 msgstr "  不在剪辑中：%s -- 该录音由分离结果代表，或未经测量。"
 
 msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
-msgstr "  无法判断哪个声音属于哪支麦克风，因此改为测量各轨道。"
+msgstr "  无法判断哪个声音属于哪支麦克风，因此改为测量各音轨。"
 
 msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
 msgstr "该名称已被其他人使用。一个名称代表一个人，而剪辑会把一个人放到一台摄像机上 -- 请为这个声音另起名称。"
 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
-msgstr "✕  所有录音名称相同。这样只会得到一条轨道 -- Multitrack 至少需要两条。"
+msgstr "✕  所有录音名称相同。这样只会得到一条音轨 -- Multitrack 至少需要两条。"
 
 msgid "Fetching the model (about %s MB): %s"
 msgstr "正在获取模型（约 %s MB）：%s"
@@ -4083,7 +4083,7 @@ msgid "  About %s of computing for %s of audio."
 msgstr "  约 %s 的计算，对应 %s 的音频。"
 
 msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
-msgstr "✕  %s 出现了不止一次。这些录音会合并为一条轨道，并按时间码先后排列——如果中途停止过录制，这样是对的。"
+msgstr "✕  %s 出现了不止一次。这些录音会合并为一条音轨，并按时间码先后排列——如果中途停止过录制，这样是对的。"
 
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  两台摄像机会生成同一个文件（%s）。第二个会覆盖第一个。"
@@ -4092,7 +4092,7 @@ msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech 
 msgstr "  已测量串音，%s 在 %s 中仅低 %s dB——已从语音检测中去除"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
-msgstr "  轨道未经测量，因此 %s 在混音中，但不在剪辑中：%s"
+msgstr "  音轨未经测量，因此 %s 在混音中，但不在剪辑中：%s"
 
 msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
 msgstr "✕  两台摄像机在剪辑中成了一台（%s）。它们的文件同名，请重命名其中一个。"
@@ -4173,10 +4173,10 @@ msgid "Without timecode the position of the files is measured."
 msgstr "没有时间码时，会测量文件的位置。"
 
 msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
-msgstr "本项目保持说话人分离关闭。剪辑照旧来自轨道或 auphonic.com。"
+msgstr "本项目保持说话人分离关闭。剪辑照旧来自音轨或 auphonic.com。"
 
 msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "还没有镜头切换：需要两个人，每人有一个名字和一台摄像机。\n分开的录音勾选 Multitrack 即可做到，单段录音在说话人姓名栏中填“多位发言人”也可以——\n在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
+msgstr "还没有镜头切换：需要两个人，每人有一个名字和一台摄像机。\n分开的录音勾选 Multitrack 即可做到，单段录音在说话人姓名栏中填“多位说话人”也可以——\n在那里找到的声音会在录音下方的表格中获得各自的摄像机。\n无论如何都会创建 Resolve 项目——所有摄像机都在测得的位置上，可直接用于 Multicam。"
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "这需要某次运行的交接文件，而现在没有。"
@@ -4224,7 +4224,7 @@ msgid "the only sound there is"
 msgstr "唯一的声音"
 
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
-msgstr "Multitrack 需要上方表格中有两条轨道——摄像机的摄像机声音设为“使用其音频”后，就算作一条。"
+msgstr "Multitrack 需要上方表格中有两条音轨——摄像机的摄像机声音设为“使用其音频”后，就算作一条。"
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s 用在了不止一个说话人上——一个名字就是一个人，每个人都需要自己的名字。"
@@ -4239,10 +4239,10 @@ msgid "It fits nowhere in the material, so it cannot be cut into the episode. It
 msgstr "它在素材中找不到位置，因此无法剪进这一期中。可以放在这一期之前或之后。"
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
-msgstr "使用时，此文件的声音会成为与其他一样的一条轨道——它出现在上方表格中。\n文件列表中也有同一个栏位；两者显示同一个答案。"
+msgstr "使用时，此文件的声音会成为与其他一样的一条音轨——它出现在上方表格中。\n文件列表中也有同一个栏位；两者显示同一个答案。"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
-msgstr "使用时，此文件下测得的声道会像录音一样拆分为轨道。\n无论如何都会测量：这里正是依据该判定来决定的，而同步无论如何都会用到声音。"
+msgstr "使用时，此文件下测得的声道会像录音一样拆分为音轨。\n无论如何都会测量：这里正是依据该判定来决定的，而同步无论如何都会用到声音。"
 
 msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
 msgstr "该步骤之后的一切都缺失了。文件夹里是一次运行的一部分，而不是结果。"
@@ -4350,7 +4350,7 @@ msgid "%s is in none of the video files. Is there a timecode that fits the mater
 msgstr "%s 不在任何视频文件中。是否有与素材相符的时间码？"
 
 msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
-msgstr "录音中所说的语言。它会成为写出的音轨的\n标签，此处的识别也会按此语言进行。\n默认取自系统语言。“%s”不给轨道加标签，\n由识别自行判断语言。"
+msgstr "录音中所说的语言。它会成为写出的音轨的\n标签，此处的识别也会按此语言进行。\n默认取自系统语言。“%s”不给音轨加标签，\n由识别自行判断语言。"
 
 msgid "In point: %s     Out point: %s     Duration: %s"
 msgstr "入点：%s     出点：%s     时长：%s"
@@ -4365,7 +4365,7 @@ msgid "The text for %s could not be fetched."
 msgstr "无法获取 %s 的说明文字。"
 
 msgid "All recordings carry the same name -- that makes a single track."
-msgstr "所有录音都用同一个名字——这样只会得到一条轨道。"
+msgstr "所有录音都用同一个名字——这样只会得到一条音轨。"
 
 msgid "stays out"
 msgstr "不使用"
@@ -4488,7 +4488,7 @@ msgstr[0] "  %s 以立体声上传，返回时各只剩一个声道。"
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
-msgstr[0] "%s 条轨道，%s，%s kHz，%s"
+msgstr[0] "%s 条音轨，%s，%s kHz，%s"
 
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
