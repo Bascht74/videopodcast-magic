@@ -198,7 +198,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b15"
+VERSION = "3.0.0b16"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -691,39 +691,14 @@ pieces_answer_together()
 
 
 #--------------------------------------------------------------- Catalogue
-# One file per language in language/. How to add one: see the top of
-# language/__init__.py.
-
-CATALOGUE["de"] = texts_of_language("de")
-# Every catalogue answers every text; one it does not carry yet
-# appears in English. Arabic turns the window round.
-CATALOGUE["es"] = texts_of_language("es")
-CATALOGUE["pt"] = texts_of_language("pt")
-CATALOGUE["fr"] = texts_of_language("fr")
-CATALOGUE["it"] = texts_of_language("it")
-CATALOGUE["tr"] = texts_of_language("tr")
-CATALOGUE["ru"] = texts_of_language("ru")
-CATALOGUE["uk"] = texts_of_language("uk")
-CATALOGUE["zh"] = texts_of_language("zh")
-CATALOGUE["ja"] = texts_of_language("ja")
-CATALOGUE["hi"] = texts_of_language("hi")
-CATALOGUE["ar"] = texts_of_language("ar")
-CATALOGUE["bn"] = texts_of_language("bn")
-CATALOGUE["vi"] = texts_of_language("vi")
-CATALOGUE["ko"] = texts_of_language("ko")
-CATALOGUE["pl"] = texts_of_language("pl")
-CATALOGUE["nl"] = texts_of_language("nl")
-CATALOGUE["cs"] = texts_of_language("cs")
-CATALOGUE["da"] = texts_of_language("da")
-CATALOGUE["el"] = texts_of_language("el")
-CATALOGUE["fi"] = texts_of_language("fi")
-CATALOGUE["hr"] = texts_of_language("hr")
-CATALOGUE["hu"] = texts_of_language("hu")
-CATALOGUE["nb"] = texts_of_language("nb")
-CATALOGUE["ro"] = texts_of_language("ro")
-CATALOGUE["sk"] = texts_of_language("sk")
-CATALOGUE["sr"] = texts_of_language("sr")
-CATALOGUE["sv"] = texts_of_language("sv")
+# One file per language in language/, read for every name in
+# LANGUAGE_NAMES but the source language -- that dict is the one list of
+# languages. How to add one: see the top of language/__init__.py.
+for code in language.LANGUAGE_NAMES:
+    if code != SOURCE_LANG:
+        # A missing .po answers {} and so English, quietly; section 4 of
+        # text_languages_covered holds the names against the files.
+        CATALOGUE[code] = texts_of_language(code)
 
 # What somebody chose in an earlier run, else the system. --lang beats
 # both, and main() applies it once the command line has been read.

@@ -178,6 +178,15 @@ only the window. So a new menu entry makes no picture invalid.
 The same holds for anything that touches only the command line, the log
 or the handover, and for every state the picture pass does not set up.
 
+**A new version number alone.** The terminal picture shows the number in
+its header, so every release makes it a version old; retaking it costs a
+visible terminal, an unlocked screen and the owner's permission. The
+chapters it stands in are about the call, not about the number, so the
+number in it is accepted (settled 20.9.2026, after four retakes in one
+week that moved nothing but the number). It is retaken when the header,
+the preflight, the switches in the call or the message under it change
+-- and that is decided with the checksum like every other picture.
+
 ## When a window may be visible
 
 **Only for the picture pass** -- that is what it is for. The normal case

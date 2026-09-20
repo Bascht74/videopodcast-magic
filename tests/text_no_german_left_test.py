@@ -75,8 +75,10 @@ def check(what, ok, detail=""):
 #-------------------------------------------------------------- the catalogue
 catalogue_node = None
 catalogue_at = []
+# The whole tree, not only the top level: the catalogue is filled in
+# one loop over the language list, so the assignment sits inside a For.
 for _piece, tree in TREES:
-    for node in tree.body:
+    for node in ast.walk(tree):
         if not isinstance(node, ast.Assign):
             continue
         for target in node.targets:

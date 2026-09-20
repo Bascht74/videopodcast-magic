@@ -288,15 +288,23 @@ check("pip is told to install the texts, which are not Python",
 # -------------------------------------------------------------- the order
 print("\n3. The language is settled after the texts stand")
 last = {}
-for node in program.body:
+# The whole tree, not only the top level: the catalogue is filled in a
+# loop over the language list, so its assignment sits inside a For.
+# Walked breadth first the order is not the file's, so the last line
+# is taken by number, not by visit -- and only at the top level for LANG,
+# because functions assign it again further up the file.
+for node in ast.walk(program):
     if not isinstance(node, ast.Assign):
         continue
     aim = node.targets[0]
     if isinstance(aim, ast.Subscript) \
             and getattr(aim.value, "id", "") == "CATALOGUE":
-        last["texts"] = node.lineno
-    if isinstance(aim, ast.Name) and aim.id == "LANG":
-        last["lang"] = node.lineno
+        last["texts"] = max(last.get("texts", 0), node.lineno)
+for node in program.body:
+    if isinstance(node, ast.Assign):
+        aim = node.targets[0]
+        if isinstance(aim, ast.Name) and aim.id == "LANG":
+            last["lang"] = max(last.get("lang", 0), node.lineno)
 check("the texts are taken in before the language is settled",
       last.get("texts", 0) and last.get("texts", 0) < last.get("lang", 0),
       "the last CATALOGUE line is %s, the last LANG line %s"

@@ -286,7 +286,7 @@ msgid "ignore this video"
 msgstr "इस वीडियो को अनदेखा करें"
 
 msgid "Open project ..."
-msgstr "प्रोजेक्ट खोलें ..."
+msgstr "परियोजना खोलें ..."
 
 msgid "Save project"
 msgstr "परियोजना सहेजें"
@@ -746,7 +746,7 @@ msgid "Preview player%s"
 msgstr "पूर्वावलोकन प्लेयर%s"
 
 msgid "Processing"
-msgstr "प्रसंस्करण"
+msgstr "प्रोसेसिंग"
 
 msgid "Project"
 msgstr "परियोजना"
@@ -869,7 +869,7 @@ msgid "Common time axis"
 msgstr "साझा समय-अक्ष"
 
 msgid "Processing at auphonic.com"
-msgstr "auphonic.com पर प्रसंस्करण"
+msgstr "auphonic.com पर प्रोसेसिंग"
 
 msgid "Loudness"
 msgstr "लाउडनेस"
@@ -1253,7 +1253,7 @@ msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  मौजूदा परिणाम अपनाया गया -- न कुछ गणना हुई, न कुछ भुगतान।"
 
 msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  नोट: गणना उस समय अपलोड की गई फ़ाइलों से होती है। उनमें\n  उस दिन की समय खिड़की और संरेखण है। जहाँ इन पॉइंट, आउट पॉइंट\n  या मापी गई स्थिति अब अलग है, वहाँ वापसी जाँच\n  अंतर मापती है और ट्रैकों को सही जगह ले आती है।"
+msgstr "  टिप्पणी: गणना उस समय अपलोड की गई फ़ाइलों से होती है। उनमें\n  उस दिन की समय खिड़की और संरेखण है। जहाँ इन पॉइंट, आउट पॉइंट\n  या मापी गई स्थिति अब अलग है, वहाँ वापसी जाँच\n  अंतर मापती है और ट्रैकों को सही जगह ले आती है।"
 
 msgid "  Settings brought to preset %r"
 msgstr "  सेटिंग्स प्रीसेट %r के अनुसार की जा रही हैं"
@@ -2861,7 +2861,7 @@ msgid " -- nothing to fault."
 msgstr " -- कोई कमी नहीं।"
 
 msgid "Note: "
-msgstr "नोट: "
+msgstr "टिप्पणी: "
 
 msgid "fixed: "
 msgstr "ठीक किया: "
@@ -3014,10 +3014,10 @@ msgid "per track"
 msgstr "प्रति ट्रैक"
 
 msgid " -- 1 note: %s"
-msgstr " -- 1 सूचना: %s"
+msgstr " -- 1 टिप्पणी: %s"
 
 msgid " -- %s notes"
-msgstr " -- %s सूचनाएँ"
+msgstr " -- %s टिप्पणियाँ"
 
 msgid "multi-part, no timecode -- gaps in between cannot be detected."
 msgstr "कई भागों में, टाइमकोड नहीं -- बीच के अंतराल पता नहीं चल सकते।"
@@ -3140,7 +3140,7 @@ msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
 msgstr "इस सामग्री के साथ एक परियोजना फ़ाइल है:\n\n  %s\n  लिखी गई %s\n\n%s"
 
 msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
-msgstr "परियोजना सहेजी गई\n  %s\n  यह रन बाद में फिर खोला जा सकता है -- ऊपर बाईं ओर\n  \"प्रोजेक्ट खोलें ...\"\n\n"
+msgstr "परियोजना सहेजी गई\n  %s\n  यह रन बाद में फिर खोला जा सकता है -- ऊपर बाईं ओर\n  \"परियोजना खोलें ...\"\n\n"
 
 msgid "Open json project file"
 msgstr "json परियोजना फ़ाइल खोलें"
@@ -4445,7 +4445,7 @@ msgid "This is %s. Which version shall pip put in its place?"
 msgstr "यह %s है। pip इसकी जगह कौन-सा संस्करण रखे?"
 
 msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
-msgstr "pip इसे %s में लाता है, और pip जो कहता है वह आउटपुट के नीचे दिखता है। यहाँ चुना गया संस्करण अगली शुरुआत से चलता है।\n\nयह केवल प्रोग्राम को वापस लाता है, और कुछ नहीं। नए संस्करण ने सेटिंग्स में जो लिखा वह लिखा ही रहता है, और प्रोजेक्ट व उनकी फ़ाइलें जैसी हैं वैसी रहती हैं।"
+msgstr "pip इसे %s में लाता है, और pip जो कहता है वह आउटपुट के नीचे दिखता है। यहाँ चुना गया संस्करण अगली शुरुआत से चलता है।\n\nयह केवल प्रोग्राम को वापस लाता है, और कुछ नहीं। नए संस्करण ने सेटिंग्स में जो लिखा वह लिखा ही रहता है, और परियोजना व उनकी फ़ाइलें जैसी हैं वैसी रहती हैं।"
 
 msgid "pip could not be started: %s"
 msgstr "pip शुरू नहीं किया जा सका: %s"

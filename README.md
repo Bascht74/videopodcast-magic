@@ -9,7 +9,7 @@ not fit -- before anything is written.*
 
 *Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
 
-**Version 3.0.0b15.** It does the work it was written for, every week, on
+**Version 3.0.0b16.** It does the work it was written for, every week, on
 real material. The step to 3 is a break rather than a heap of new
 features: the program is installed now, with pip3, and it is a command
 called `videopodcast-magic`. Anything that still starts it as a file
@@ -65,10 +65,11 @@ pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
 Everything the program needs in Python comes with it in that one go --
 the window, the measurements, the certificates, the speech recognition
 -- so nothing gets fetched behind your back later and nothing is
-missing when the window first opens. Measured on 4 September 2026 on a
-Mac: five minutes, 498 MB down the line, 1.4 GB on the disk. Nearly
-all of it is the window: `PySide6` alone comes in a piece of 332 MB,
-which is what a first install looks like when it seems to be hanging.
+missing when the window first opens. It is close to a gigabyte down the
+line and two and a half on the disk; the numbers, measured, stand in
+[docs/requirements.md](docs/requirements.md). Nearly half of it is the
+window: `PySide6` comes in one piece of over 300 MB, and that piece is
+what a first install looks like when it seems to be hanging.
 Every `-U` after that is seconds -- twelve, measured, where the version
 had not moved -- because pip reads the repository, compares the version
 and stops where it is already the one installed.
