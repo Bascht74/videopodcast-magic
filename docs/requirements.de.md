@@ -198,7 +198,10 @@ einer, den dieses Programm nicht geschrieben hat.
 Untergrenze ist das, was die Oberfläche braucht: PySide6 baut
 unterhalb von 3.10 nicht. Die Testsuite läuft auf 3.14.7, der Version,
 die hier täglich benutzt wird. Sie deckt nur 3.14.7 ab; was zwischen
-3.10 und 3.14.7 liegt, ist nicht gemessen.
+3.10 und 3.14.7 liegt, ist nicht gemessen. Für macOS und Windows
+liegt das Installationsprogramm unter
+<https://www.python.org/downloads/>; unter Linux kommt Python aus der
+Paketverwaltung der Distribution.
 
 `--version`, die Kopfzeile des Protokolls und die erste Zeile jedes
 Laufs sagen, welches Python läuft. Sie nennen die empfohlene Version,

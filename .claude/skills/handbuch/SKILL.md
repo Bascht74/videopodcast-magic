@@ -110,6 +110,9 @@ the thought differently.
 * **Name things with the words that stand on the screen** -- in German,
   the German ones. Where the German window says "Trockenlauf", the
   German chapter says "Trockenlauf", not "Dry run".
+* **A line out of the log stands in typewriter face, never in bold**:
+  `CAMERA CUT`, not **Camera cut**. It is a quotation, not an emphasis;
+  bold is for what is on the screen to be clicked or ticked.
 * **What the reader can do, in the order they do it.** A chapter follows
   the handgrip, not the layout of the program.
 
