@@ -1,6 +1,6 @@
 # The test suite
 
-271 tests against the program in `../videopodcast_magic/`. Every one of them stands
+280 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-271 tests. The name is the one a red line carries, and beside it the
+280 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -302,6 +302,7 @@ it is green.
 | `sound_mix_says_the_name` | While mixing, a track is named by its speaker, and only the mix as the mix. |
 | `sound_one_pass_agrees` | Reading the channels: one pass has to say what one pass per channel said. |
 | `sound_silent_no_pair` | A silent channel is never one side of a stereo track. |
+| `sound_speakers_matched` | Without auphonic.com the speaker tracks are brought to one level first. |
 | `sound_stereo_kept` | Stereo stays stereo: on the axis, in the single track, in the mix. |
 | `sound_tracks_written` | Which audio tracks stand in a written camera file, counted and named. |
 
@@ -318,6 +319,7 @@ it is green.
 | `time_clock_read_at_rate` | What a file's clock says is read at that file's own rate. |
 | `time_clock_track_first` | A file's clock is read off its track before the file's own level. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
+| `time_drop_label_kept` | A timecode written back stays on the clock it was read from. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
 | `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
@@ -333,6 +335,7 @@ it is green.
 | `time_track_starts_late` | A track that begins after the picture is placed where the file says. |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
 | `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
+| `time_weak_at_its_clock` | A file the sound did not place stands at its clock, not at what failed. |
 | `time_which_way_is_said` | The run says which way put a track on the axis, and how sure it is. |
 | `time_window_is_shared` | The window is the stretch EVERY camera saw, not the one any saw. |
 | `time_zero_at_in_point` | #66: Where does programme time start on the clock, and what hangs on it? |
@@ -376,6 +379,7 @@ it is green.
 | `cut_both_are_shown` | Two talk at once: does the camera showing both come up? |
 | `cut_box_fits_the_picture` | The picture keeps its shape, and the note under it keeps to two lines. |
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |
+| `cut_edl_says_drop_frame` | The EDL head says which clock the Timeline runs on, and so do its times. |
 | `cut_jingle_over_start` | Intro and outro: where they sit, and how far the content moves. |
 | `cut_list_rebuilt` | The cut list is built again unless the window really moved. |
 | `cut_no_wide_silences` | Without a wide shot the settings that steer it are silenced in the cut. |
@@ -455,6 +459,7 @@ it is green.
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
+| `window_clock_sound_said` | Until the sound is measured in, the line under the picture says so. |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
 | `window_dark_follows` | A desktop switched to dark leaves no light ground standing in the window. |
 | `window_foot_on_one_line` | The buttons in the footer stand on one line, and say why they are off. |
@@ -462,9 +467,11 @@ it is green.
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
 | `window_hears_while_split` | The words are written down while the speakers are being separated. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
+| `window_marks_come_back` | A file that fits nothing is still marked after the project is reopened. |
 | `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
+| `window_not_started_said` | A camera switched to before it began says so, and the moment is kept. |
 | `window_note_names_kind` | A file with no place is told what became of it, not only what is wrong. |
 | `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
 | `window_offers_restart` | The window offers to start again when another language is chosen. |
@@ -476,6 +483,7 @@ it is green.
 | `window_restart_carries` | A restart carries the work over, or says plainly that it will not. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_size_as_run` | The window's summary names the size the run really needs. |
+| `window_sound_fault_named` | A refused sound track costs neither the picture nor the truth. |
 | `window_speaker_cell_fits` | Whatever is written into the Speakers cell can be read there. |
 | `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
@@ -483,6 +491,7 @@ it is green.
 | `window_start_runs` | The start button must build a command line and start a run. |
 | `window_symbol_from_file` | The window's symbol is the picture in the file, and nowhere else. |
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
+| `window_voice_audio_heard` | A camera occupied only through the voices table hears that voice. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what a press then means. |
 
 ### `table_` -- the assignment table
