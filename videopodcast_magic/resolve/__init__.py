@@ -1547,7 +1547,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     for i, cam in enumerate(cameras, 1):
         if not tl.SetTrackName("video", i, cam["track"]):
             print(T('    Video track %d could not be renamed.') % i)
-    print(T('  %s video tracks, named after the speakers:')
+    print((T('  %s video tracks, named after the camera files:')
+           if d.get("project_type") == "sync"
+           else T('  %s video tracks, named after the speakers:'))
           % number_text(len(cameras), 0))
     for i, cam in enumerate(cameras, 1):
         # The track carries the file's name; printing both says it twice.
@@ -2617,9 +2619,12 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     # A camera cut needs the speaker statistics, a multicam clip more than
     # one camera. Missing either, that timeline is not created at all.
+    # "sync" is the flag, not an empty cut: a run of that type never asked
+    # who speaks, and a cut list in such a handover is not its own.
     only_one = len(cameras) < 2
+    sync = d.get("project_type") == "sync"
     tl = None
-    if d.get("cut"):
+    if d.get("cut") and not sync:
         print(T('\n  Timeline with the finished cut'))
         tl = create_timeline(mp, "%s Cut" % name)
         # No speaker markers on a cut of several cameras: the picture
@@ -2651,6 +2656,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         create_colour_groups(p, tl, cameras)
         queue_render_job(p, tl, d, output_folder_from(d), name,
                          project_is_new)
+    elif sync:
+        print(T('\n  Sync only: no cut by speaker was asked for.\n  Only '
+                'the Timeline for the multicam clip is built.'))
     else:
         print(T('\n  No camera cut in the handover -- without speaker '
                 'statistics there is none.\n  Only the Timeline for the '
@@ -2662,7 +2670,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         # multicam one, and whoever reframes a 360 shot by hand needs
         # to see where each person speaks.
         if tl is not None:
-            if d.get("speakers"):
+            if d.get("speakers") and not sync:
                 add_speaker_markers(tl, d["speakers"], d)
             p.SetCurrentTimeline(tl)
         return 0
@@ -2696,7 +2704,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     create_colour_groups(p, tl2, ordered)
     # Converting to a multicam clip is a one-way operation; a new run
     # rebuilds this timeline from the handover file.
-    if d.get("speakers"):
+    if d.get("speakers") and not sync:
         add_speaker_markers(tl2, d["speakers"], d, from_s=earliest_offset(ordered))
 
     p.SetCurrentTimeline(tl if tl is not None else tl2)

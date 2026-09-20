@@ -490,6 +490,55 @@ check("so the track name Resolve is keyed on reads the same either way",
         "%r against 'CoPresenter + Presenter'" % (one.get("track"),))
 shutil.rmtree(RUN_WORK, ignore_errors=True)
 
+print("\n15. Sync only: the handover knows nobody, whatever was assigned")
+# The same material as 14 -- a recording with a camera, a voice under
+# it -- but the run only synchronises. Then no name reaches the
+# handover: the camera is plain, its track keeps the file's name, and
+# the file says which kind of run it came from. A run that never
+# learned the switch is a cut.
+SYNC_WORK = tempfile.mkdtemp(prefix="handover_sync_")
+SYNC_CAM = os.path.join(SYNC_WORK, "A001.MP4")
+open(SYNC_CAM, "w").write("x")
+SYNC_VOICES = os.path.join(SYNC_WORK, "assign.json")
+with open(SYNC_VOICES, "w", encoding="utf-8") as f:
+    json.dump({"voices_of": {"CoPresenter": SYNC_CAM}}, f)
+
+
+class SyncArgs(RunArgs):
+    production = "Sync"
+    assign = SYNC_VOICES
+    project_type = "sync"
+
+
+said = io.StringIO()
+with contextlib.redirect_stdout(said):
+    vpm.write_handover(
+        SyncArgs(), [{"name": "Presenter", "camera": SYNC_CAM}],
+        [{"name": "A001", "video": SYNC_CAM}],
+        [(SYNC_CAM, {"fps": 30.0, "width": 1920, "height": 1080,
+                     "duration": 100.0, "tc": "10:00:00:00"})],
+        SYNC_WORK, 0.0, (SYNC_CAM, {"fps": 30.0, "tc": "10:00:00:00"}))
+synced = json.load(io.open(os.path.join(SYNC_WORK, "Sync_resolve.json"),
+                           encoding="utf-8"))
+plain = (synced.get("cameras") or [{}])[0]
+check("the handover of a sync run says so",
+        synced.get("project_type") == "sync",
+        "project_type is %r" % (synced.get("project_type"),))
+check("and its camera carries nobody, though a recording and a voice "
+        "were assigned to it",
+        plain.get("speakers") == [] and plain.get("wide") is True,
+        "speakers %r, wide %r -- the cut run above puts "
+        "['CoPresenter', 'Presenter'] here"
+        % (plain.get("speakers"), plain.get("wide")))
+check("so its track keeps the file's name",
+        plain.get("track") == "A001",
+        "%r against 'A001'" % (plain.get("track"),))
+check("and a run that never learned the switch hands over a cut",
+        written.get("project_type") == "cut",
+        "project_type is %r in the handover of section 14"
+        % (written.get("project_type"),))
+shutil.rmtree(SYNC_WORK, ignore_errors=True)
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)
