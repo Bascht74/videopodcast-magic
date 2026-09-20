@@ -634,7 +634,8 @@ camera.
 
 `videopodcast-magic_<Production>.json` in the output folder holds
 everything set by hand that cannot be guessed again. That is the file
-list, the production name and the output folder, the time window, every
+list, the production name, the project type and the output folder, the
+time window, every
 value of the camera cut, who belongs to which camera, the Auphonic
 preset, the stereo ticks, the measured position of every file and how
 fast its recorder ran; the

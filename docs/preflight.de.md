@@ -36,10 +36,21 @@ Der Bericht gilt für beide Betriebsarten.
 | Raum | Übersprechen je Sprecherpaar, gegen die 3:1-Regel | Hinweis für die *nächste* Aufnahme |
 | System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht; ein Probelauf gibt nur den Hinweis |
 | Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
+| Projekttyp | bei **Nur synchronisieren** eine zweite Tonaufnahme | **Abbruch** |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
 
 Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen
 wird.
+
+**Nur synchronisieren nimmt eine Tonaufnahme.** Bei diesem Projekttyp
+bekommt jede Aufnahme nach der ersten in der Dateiliste ein ✕, und der
+Satz daran nennt sie: **Nur synchronisieren nimmt eine Tonaufnahme;
+hier ist noch eine: `<Name>`**. Eine Aufnahme ist, was die Liste als
+eine Zeile zeigt: ein Recorder, der eine Aufnahme in Blöcke geteilt
+hat, liefert trotzdem eine Aufnahme, und eine Kamera auf **Ton
+verwenden** ist eine Spur dieser Kamera und zählt hier nicht mit. Die
+erste Aufnahme ist die erste der Liste, nach Dateinamen; die andere
+herausnehmen, oder **Schnitt nach Sprecher** antworten.
 
 Laufen die Kameras nicht alle gleich schnell, nennt der Hinweis die
 Rate, die die Timeline bekommt: die höchste davon -- oder, wenn Resolve
@@ -301,6 +312,10 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   aufgenommen wurde, etwa von einer Kamera, diese Aufnahme nehmen. Hier
   lässt sich nichts reparieren, also bei der nächsten Aufnahme niedriger
   aussteuern.
+- **Eine Aufnahme trägt ein ✕ und sagt, hier sei noch eine.** Der
+  Projekttyp ist **Nur synchronisieren**, und der nimmt eine
+  Tonaufnahme. Die übrigen entfernen, oder im Streifen auf dem ersten
+  Reiter **Schnitt nach Sprecher** wählen.
 
 Das Material ist jetzt geprüft, und jede Beanstandung ist entweder
 erledigt oder wissentlich hingenommen. Der Bericht nennt die Kanäle jeder

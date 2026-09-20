@@ -8,8 +8,8 @@
 Four tabs, in the order they are needed.
 
 - **Files & production**: the file list on top, below it a narrow strip
-  with production name, spoken language and output folder. Drag files or
-  whole folders in, add them, or open an earlier project. While the list
+  with production name, spoken language, project type and output folder.
+  Drag files or whole folders in, add them, or open an earlier project. While the list
   is empty a drop area stands in its place and explains the workflow.
 
   The program calls the look at the material before a run the preflight.
@@ -242,6 +242,19 @@ Four tabs, in the order they are needed.
   A camera set to **use internal audio** gets a row in the assignment table
   above, like a recording of its own.
 
+  With the project type **Sync only** this tab is shorter. The columns
+  **Speaker name** and **Speakers** are gone, and with them the entry
+  **several speakers**, the voice rows, the button **One more speaker
+  in ...** and the line **Not on this machine**: nobody is asked who
+  speaks, because nothing will be cut. The line **Multitrack (one track
+  per speaker)** is gone as well, and the tick is off. So is **belongs
+  to**, and in the camera table **new file name** and **gets audio
+  from**: without speakers there is nothing to assign, and the one
+  recording goes into every camera file. What stays is the recording's
+  row with its timecode, the camera table with **Camera**, **Kind** and
+  **Camera audio**, the player, and the box for auphonic.com -- the one
+  recording can still be processed there.
+
   ![Assignment table and player](images/assignment.png)
 
   *Above which recording belongs to which camera, below what becomes
@@ -352,6 +365,17 @@ Four tabs, in the order they are needed.
   because which camera a recording belongs to is the same question
   either way and the run makes the same answer of it. Clicking the tick
   therefore costs nothing -- the cameras picked by hand stay picked.
+
+  With **Sync only** the tab stays, and one sentence at its top says
+  what it is not: **Sync only: no cut. The handover carries the
+  multicam timeline alone; the Resolve project is created from the
+  Output tab.** The box with the cut values, the box **Speaker** and
+  the preview stand under it greyed, nothing in them is measured, and
+  no speakers are worked out when the tab is opened. On **Output** the
+  tooltip on **Create Resolve project** says what the button builds
+  under this type. The line about
+  Resolve does what it always does: whether Resolve answers is asked
+  on the first look at this tab, in either type.
 - **Output**: appears as soon as something runs, in the same colours as
   the terminal, with the buttons **Open result folder** and
   **Create Resolve project**. It also comes up on opening a project
@@ -367,7 +391,9 @@ Four tabs, in the order they are needed.
 **Multitrack (one track per speaker)** has a line of its own under the
 assignment table, above the Auphonic box. It works with auphonic.com and
 without; the program asks for the API key only on the way over
-auphonic.com. The camera cut does not need the tick.
+auphonic.com. The camera cut does not need the tick. With the project
+type **Sync only** the line is not there and the tick is off: one track
+per speaker is a question for a cut by speaker.
 
 Multitrack needs two input tracks. An input track is a recording of its
 own, a channel of a multichannel recorder, or the audio of a video file
@@ -396,6 +422,30 @@ list holds only languages the recognition here also knows.
 [The transcript is made here](auphonic.md#the-transcript-is-made-here)
 says what the recognition writes, and [Speech recognition and speaker
 separation](speech.md) which way it takes on which machine.
+
+**Project type** beside it says what the production is to become, and
+the field starts on **not set**. Two entries:
+
+- **Cut by speaker**: the cameras on one time axis and a cut by who is
+  speaking -- everything the rest of this manual describes.
+- **Sync only**: the cameras on one time axis, nothing more. No
+  speakers, no transcript, no cut; the handover carries the multicam
+  timeline alone, and Resolve gets that one timeline. Only one audio
+  recording goes in ([Preflight](preflight.md) says what a second one
+  gets), and where the type takes something off the later tabs, those
+  tabs say so above.
+
+Resting on the field says the same. Files can come in before the
+answer, and the measuring starts on them either way; only **Start**
+and **Dry run** wait, and the line under the buttons says **No project
+type chosen yet.** Opening the **Assignment & time window** tab without
+an answer asks once per production, in a box **Project type** --
+**What is this production to become?** -- with the two entries and
+**Cancel**. **Cancel** chooses nothing and is not asked again; the field
+in the strip still takes the answer. An opened project never asks: the
+type is in the project file, and a project file written before there
+was a type opens as **Cut by speaker**. On the command line it is
+`--project-type cut` or `sync`, and `cut` where nothing is said.
 
 **Loudness** in the **Production** box on the first page sets how loud
 the finished episode is made; the same gain goes on every track, so the
@@ -429,6 +479,7 @@ is stands under the buttons**, with the tab it is on:
 - no sound in use: no audio recording, and no video file set to
   **use internal audio**,
 - no production name,
+- no project type chosen,
 - fewer than two tracks in the assignment table for multitrack,
 - with multitrack, a recording with no name at all: none typed, and
   none the file name suggests -- the grey suggestion counts as the name
@@ -557,7 +608,8 @@ paths, with Multitrack and without:
   aligns against the cameras and leaves them alone.
 - **Common time axis**
 - **Processing at auphonic.com**, or **Loudness and levels** without a key
-- **Who speaks when**
+- **Who speaks when**: only with **Cut by speaker**. **Sync only** asks
+  nobody, and the log says so in its first lines.
 - **Writing the camera files**
 - **Handover and result**
 

@@ -36,9 +36,19 @@ The report holds for both modes.
 | Room | bleed per pair of speakers, against the 3:1 rule | note for the *next* recording |
 | System | free disk space against the estimated need | note where it is tight, **stop** where it is short; a dry run only notes it |
 | Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
+| Project type | with **Sync only**, a second audio recording | **stop** |
 | Loudness | which target holds and where it comes from | -- |
 
 A stop halts the run before anything is written or uploaded.
+
+**Sync only takes one audio recording.** With that project type every
+recording past the first gets ✕ in the file list, and the sentence on
+it names it: **Sync only takes one audio recording; this is one more:
+`<name>`**. A recording is what the list shows as one row: a recorder
+that cut a take into blocks still delivers one recording, and a camera
+set to **use internal audio** is a track of that camera, never a
+recording of this count. The first recording is the first in the list,
+by file name; take the other out, or answer **Cut by speaker**.
 
 Where the cameras do not all run at the same speed, the note names the
 rate the timeline will get: the highest of them, or, where Resolve has no
@@ -284,6 +294,10 @@ for it.
   a second time, on a camera for instance, use that recording instead.
   There is nothing to repair here, so record the next session at a lower
   level.
+- **A recording carries ✕ and says it is one more.** The project
+  type is **Sync only**, which takes one audio recording. Remove the
+  others, or set the type to **Cut by speaker** in the strip on the
+  first tab.
 
 The material is now checked, and every complaint is either dealt with or
 knowingly accepted. The report names the channels of every file.

@@ -15,6 +15,15 @@ and tied to a camera. Without it, all the audio becomes one mix.
 Everything after that is the same machine: one common time axis, one
 writer.
 
+The project type is another question, and the two do not stand in for
+each other. **Sync only** always runs without the tick -- the line is
+gone from the tab and the tick is off -- but a run without the tick is
+not Sync only: with **Cut by speaker** it still tells the speakers
+apart, writes the words down and cuts. The tick is about tracks; the
+type is about speakers and the cut. Everything on this page holds for
+Cut by speaker; what Sync only leaves out is said where it leaves it
+out.
+
 Both paths write the same kind of file: MOV, picture copied over, audio
 uncompressed, the `colr` box and the camera's QuickTime keys carried
 along.
@@ -23,7 +32,9 @@ What the simple path does just like multitrack:
 
 - **The same files.** Metrics, transcript, the four cut lists, the audio
   tracks as files in `auphonic-tracks/` and the handover for Resolve are
-  written here as well.
+  written here as well. With **Sync only** it is the metrics, the log
+  and the handover: no transcript and no cut lists, because nobody was
+  asked who speaks.
 - **Time window.** The buttons **Mark In** and **Mark Out** work here
   too (on the command line `--in-point` and `--out-point`). They take
   the notations listed in [Multitrack](multitrack.md), section "Time

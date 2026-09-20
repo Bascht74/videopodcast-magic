@@ -9,6 +9,12 @@ Das Programm schreibt mit, was gesprochen wird, und es trennt die
 Stimmen einer Aufnahme. Beides läuft auf diesem Rechner, ohne Konto und
 ohne Hochladen, und bevor irgendetwas zu auphonic.com geht.
 
+Beim Projekttyp **Nur synchronisieren** geschieht nichts davon. Dieser
+Typ fragt niemanden, wer spricht: keine Trennung, keine Erkennung, kein
+Transkript, und die Spalten, um die es in diesem Kapitel geht, stehen
+nicht auf dem Reiter. Das Protokoll sagt es in seinen ersten Zeilen.
+Alles Weitere hier ist **Schnitt nach Sprecher**.
+
 ### Die Sprecher trennen
 
 Auf dem Reiter **Zuordnung & Zeitfenster** trägt jede Aufnahme einen
@@ -485,3 +491,5 @@ Diese Optionen gibt es im Fenster nicht.
 * `--no-speech-recognition` lässt den Text weg.
 * `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: keine Spalte **Sprecher**,
   kein Knopf, und die Trennung startet nie von selbst.
+* `--project-type sync` schaltet alles davon auf einmal ab: keine
+  Trennung, keine Erkennung, kein Transkript, kein Schnitt.
