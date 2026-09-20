@@ -105,6 +105,18 @@ def heard():
     return player.track.source().toLocalFile()
 
 
+def same_file(a, b):
+    """Whether two spellings name one file.
+
+    Qt hands a local file back with forward slashes, and on Windows the
+    path the test built carries backslashes and may differ in the case
+    of the drive letter -- measured red there with the two basenames
+    printing alike. Compared normalised, so a spelling is not a fault.
+    """
+    return os.path.normcase(os.path.normpath(a)) \
+        == os.path.normcase(os.path.normpath(b))
+
+
 try:
     print("1. A camera that only a voice occupies, its track finished")
     player.load(CAMERA)
@@ -114,18 +126,16 @@ try:
           "enabled %r" % player.track_checkbox.isEnabled())
     check("a camera occupied only through the voices table hears the "
           "voice's finished track",
-          heard() == FINISHED,
-          "source %r against %r" % (os.path.basename(heard()),
-                                    os.path.basename(FINISHED)))
+          same_file(heard(), FINISHED),
+          "source %r against %r" % (heard(), FINISHED))
 
     print("\n2. The same voice before its track is finished")
     finished.clear()
     player.track_adjust()
     app.processEvents()
     check("without a finished track the voice's own recording plays",
-          heard() == RECORDING,
-          "source %r against %r" % (os.path.basename(heard()),
-                                    os.path.basename(RECORDING)))
+          same_file(heard(), RECORDING),
+          "source %r against %r" % (heard(), RECORDING))
 
     print("\n3. A camera nobody occupies, and no mix")
     voice_lines[:] = []
