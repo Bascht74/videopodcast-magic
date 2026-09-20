@@ -25,6 +25,78 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b16] - 2026-09-20
+
+### Fixed
+
+- **Six of the older languages said the same thing two ways, and each
+  now says it one way.** Portuguese calls a speaker "falante" throughout
+  where half the texts said "locutor"; Ukrainian says "запитання" for a
+  question and "звук" for audio; Hindi says "परियोजना" for the project
+  and "टिप्पणी" for a note; Japanese says "注記" for a note where the
+  counters said "注意", its word for a caution; Chinese says "说话人"
+  for a speaker and "提示" for a note; and the Turkish row label
+  "Voice" says "Ses". 106 texts moved, none changed its meaning.
+
+### Tests
+
+- **A test run no longer rewrites the checked-in recording of two
+  voices.** On a Mac the suite speaks that recording afresh, and until
+  now it copied the result back into the repository, so a full run left
+  a changed sound file behind. It now only says whether the fresh
+  recording matches the checked-in one, and a new check holds every
+  file under the test material to the bytes it found before the run.
+- **The "Output" tab is held to a fixed-width font in every language.**
+  On Linux the typewriter face follows the language, and under some of
+  them it comes back proportional; the reading beside the zoom buttons
+  was already checked for that, and the tab a run writes into now is
+  too.
+
+### Documentation
+
+- **How large a first installation is stands in one place, measured
+  again.** The README, the package file and the requirements chapter
+  gave three different sizes; the chapter now carries the numbers --
+  about 900 MB down the line and 2.5 GB on the disk on a Mac with Apple
+  silicon -- and the other two point there.
+
+**Deutsch**
+
+### Behoben
+
+- **Sechs der älteren Sprachen sagten dasselbe auf zwei Arten, jetzt
+  sagt jede es auf eine.** Portugiesisch nennt einen Sprecher durchweg
+  „falante", wo die Hälfte der Texte „locutor" sagte; Ukrainisch sagt
+  „запитання" für eine Frage und „звук" für den Ton; Hindi sagt
+  „परियोजना" für das Projekt und „टिप्पणी" für einen Hinweis; Japanisch
+  sagt „注記" für einen Hinweis, wo die Zähler „注意" sagten, sein Wort
+  für eine Warnung; Chinesisch sagt „说话人" für einen Sprecher und
+  „提示" für einen Hinweis; die türkische Zeilenbeschriftung „Voice"
+  sagt „Ses". 106 Texte bewegt, keiner in seiner Bedeutung.
+
+### Tests
+
+- **Ein Testlauf schreibt die eingecheckte Aufnahme zweier Stimmen nicht
+  mehr um.** Auf einem Mac spricht die Suite diese Aufnahme neu, und
+  bisher kopierte sie das Ergebnis zurück ins Repository, so daß ein
+  ganzer Lauf eine veränderte Tondatei hinterließ. Jetzt sagt sie nur
+  noch, ob die frische Aufnahme der eingecheckten gleicht, und eine
+  neue Prüfung hält jede Datei unter dem Testmaterial auf den Bytes, die
+  sie vor dem Lauf vorfand.
+- **Der Reiter „Ausgabe" wird in jeder Sprache auf eine Schrift fester
+  Breite geprüft.** Unter Linux folgt die Schreibmaschinenschrift der
+  Sprache, und unter manchen kommt sie proportional zurück; die Anzeige
+  neben den Zoom-Knöpfen wurde darauf schon geprüft, der Reiter, in den
+  ein Lauf schreibt, jetzt auch.
+
+### Dokumentation
+
+- **Wie groß eine erste Installation ist, steht an einer Stelle, neu
+  gemessen.** README, Paketdatei und das Kapitel zu den Voraussetzungen
+  nannten drei verschiedene Größen; das Kapitel trägt jetzt die Zahlen
+  — rund 900 MB über die Leitung und 2,5 GB auf der Platte, auf einem
+  Mac mit Apple-Prozessor — und die beiden anderen verweisen dorthin.
+
 ## [3.0.0b15] - 2026-09-18
 
 ### Added
