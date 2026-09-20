@@ -25,6 +25,144 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b18] - 2026-09-20
+
+### Added
+
+- **On the run without auphonic.com the speakers are matched to one
+  another.** Each speaker track is pulled to the middle of the voices
+  before the loudness is set; a track with nothing on it is left alone.
+  The log says under "SPEAKER LEVELS" by how much each one moved.
+- **The preview says when its sound is only placed by the clock.** The
+  line under the picture reads "sound placed by clock -- measurement
+  pending" until the measurement is in, and a camera that has not begun
+  yet says so instead of showing a time of zero.
+
+### Changed
+
+- **The Full-Mix goes onto every camera file, also onto the camera that
+  carries every speaker.** Before, that one camera got no Full-Mix,
+  although the manual promised it. The file grows by that track, the
+  same sound as the mix under two names.
+- **A camera without a clock is placed at the In point.** Before, a
+  camera with neither a measurement nor a timecode landed nineteen
+  hours off in the preview and the handover.
+
+### Fixed
+
+- **A recording whose sound does not fit now stands at its clock.** The
+  file list said "placed by its timecode" while the axis kept the failed
+  measurement or left the file out. Such a file no longer votes on
+  where the others stand.
+- **A project opened again now keeps its marks.** "Does not fit", "no
+  place" and "too short" are written into the project file with the
+  time axis and come back with it.
+- **The EDL of a drop-frame production now says "DROP FRAME" and starts
+  on the camera's clock.** The header was fixed to NON-DROP FRAME, and
+  a 10:00:00;00 start was counted 36 seconds later in the EDL, the CSV,
+  the handover and the Resolve Start line.
+- **A camera without sound now gets no camera track, and a camera with
+  several gets them numbered.** The track plan named "Camera Original"
+  for every camera whatever the file held.
+- **A fault in the sound alone no longer hides the picture.** The
+  player said "the app does not know this format" and stopped; now the
+  picture runs on and the title says the sound cannot be played.
+- **An Intro or Outro file without a place is no longer marked red.**
+  It stands in the plain colour; only a file that should have a place
+  and has none is a fault.
+- **"listens to all N of them at once" now counts the tracks that went
+  into the mix,** not every track the run was handed.
+- **The player now hears a speaker's track for a camera occupied only
+  through the voices table.** Before it fell back to the mix, and the
+  tick under the picture stayed grey once greyed.
+- **Two more Resolve colour spaces are now read as HDR:** "Rec.2100
+  Hybrid Log Gamma" and "HDR Rec.2020 PQ (P3-D65 limited)". Both
+  readers of that setting spell it the same way.
+- **The question before removing every audio or video file is now a
+  whole sentence in every language,** singular and plural, instead of
+  an "s" stuck onto a translated word.
+- **Old measurements are no longer read back after the program
+  changed.** The words of the speech recognition, the preflight's
+  measurements and ffprobe's answers are kept under the recipe that
+  made them.
+- **With the check for new versions switched off, "--update" now says
+  so** instead of saying nothing.
+
+### Documentation
+
+- **Where Python comes from stands in "Requirements",** and "Camera
+  cut" says that the timeline follows the largest camera.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Auf dem Lauf ohne auphonic.com werden die Sprecher aneinander
+  angeglichen.** Jede Sprecherspur wird auf die Mitte der Stimmen
+  gezogen, bevor die Lautheit gesetzt wird; eine leere Spur bleibt, wie
+  sie ist. Das Log sagt unter „SPRECHERPEGEL", um wieviel jede bewegt
+  wurde.
+- **Die Vorschau sagt, wenn ihr Ton nur nach der Uhr liegt.** Die Zeile
+  unter dem Bild lautet „nach der Uhr platziert -- Messung steht aus",
+  bis die Messung da ist, und eine Kamera, die noch nicht begonnen hat,
+  sagt das, statt eine Zeit null zu zeigen.
+
+### Geändert
+
+- **Der Full-Mix kommt auf jede Kameradatei, auch auf die Kamera, die
+  alle Sprecher trägt.** Bisher bekam gerade diese keinen Full-Mix,
+  obwohl das Handbuch ihn versprach. Die Datei wächst um diese Spur,
+  derselbe Ton wie der Mix unter zwei Namen.
+- **Eine Kamera ohne Uhr wird an den In-Punkt gelegt.** Bisher landete
+  eine Kamera ohne Messung und ohne Timecode in Vorschau und Übergabe
+  neunzehn Stunden daneben.
+
+### Behoben
+
+- **Eine Aufnahme, deren Klang nicht paßt, steht jetzt an ihrer Uhr.**
+  Die Dateiliste sagte „nach ihrem Timecode eingeordnet", während die
+  Achse die mißlungene Messung behielt oder die Datei ausließ. So eine
+  Datei stimmt nicht mehr darüber ab, wo die anderen stehen.
+- **Ein wieder geöffnetes Projekt behält jetzt seine Marken.** „Paßt
+  nicht", „kein Platz" und „zu kurz" stehen mit der Zeitachse in der
+  Projektdatei und kommen mit ihr zurück.
+- **Die EDL einer Drop-Frame-Produktion sagt jetzt „DROP FRAME" und
+  beginnt auf der Uhr der Kamera.** Der Kopf stand fest auf NON-DROP
+  FRAME, und ein Start 10:00:00;00 wurde in EDL, CSV, Übergabe und der
+  Startzeile in Resolve 36 Sekunden später gezählt.
+- **Eine Kamera ohne Ton bekommt jetzt keine Kameraspur, eine mit
+  mehreren bekommt sie numeriert.** Der Spurplan nannte „Camera
+  Original" für jede Kamera, was die Datei auch trug.
+- **Ein Fehler allein im Ton verbirgt das Bild nicht mehr.** Der
+  Abspieler sagte „Format kennt die App nicht" und blieb stehen; jetzt
+  läuft das Bild weiter, und der Titel sagt, daß der Ton nicht
+  abgespielt werden kann.
+- **Eine Vorspann- oder Abspanndatei ohne Platz ist nicht mehr rot
+  markiert.** Sie steht in der gewöhnlichen Farbe; nur eine Datei, die
+  einen Platz haben sollte und keinen hat, ist ein Fehler.
+- **„hört allen N auf einmal zu" zählt jetzt die Spuren, die in den Mix
+  gingen,** nicht jede Spur, die der Lauf bekam.
+- **Der Abspieler hört jetzt die Spur eines Sprechers für eine Kamera,
+  die nur über die Stimmentabelle belegt ist.** Bisher fiel er auf den
+  Mix zurück, und das Häkchen unter dem Bild blieb grau, einmal ergraut.
+- **Zwei weitere Farbräume aus Resolve werden jetzt als HDR gelesen:**
+  „Rec.2100 Hybrid Log Gamma" und „HDR Rec.2020 PQ (P3-D65 limited)".
+  Beide Leser dieser Einstellung schreiben sie gleich.
+- **Die Frage vor dem Entfernen aller Ton- oder Videodateien ist jetzt
+  in jeder Sprache ein ganzer Satz,** Einzahl und Mehrzahl, statt eines
+  angeklebten „s" hinter einem übersetzten Wort.
+- **Alte Messungen werden nach einer Änderung des Programms nicht mehr
+  zurückgelesen.** Die Wörter der Spracherkennung, die Messungen des
+  Vorflugs und die Antworten von ffprobe liegen unter dem Rezept, das
+  sie gemacht hat.
+- **Bei abgeschalteter Prüfung auf neue Versionen sagt „--update" das
+  jetzt auch,** statt nichts zu sagen.
+
+### Dokumentation
+
+- **Woher Python kommt, steht in „Voraussetzungen",** und „Kameraschnitt"
+  sagt, daß die Zeitleiste der größten Kamera folgt.
+
 ## [3.0.0b17] - 2026-09-20
 
 ### Added
