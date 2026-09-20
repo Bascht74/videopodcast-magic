@@ -5,7 +5,10 @@ Where a file sits, and how fast the recorder that wrote it ran. The
 second is what the run divides the offset by before it writes a track,
 so the axis has to carry it and the project file has to keep it: with
 it thrown away the window measured the speakers on one clock and the
-run on another.
+run on another. The verdict on a file that did not fit is kept the
+same way, in the last section: without it a reopened project measured
+everything again or, where the file had left the cameras, showed it
+plain.
 """
 import os
 import the_program
@@ -72,6 +75,7 @@ build_material()
 # path itself, on Windows the case and the separator are settled with
 # it, and a plain string would find nothing there.
 KA, KB, KC = vpm.path_key(A), vpm.path_key(B), vpm.path_key(C)
+KF = vpm.path_key(FOREIGN)
 # A, B and C start 0, 5 and 8 s in: whoever starts later sits further
 # along the common axis.
 print("1. Three recordings of the same event")
@@ -182,6 +186,65 @@ check("and a file stored without one comes back at 1",
         == dict((vpm.path_key(p), 1.0) for p in (A, B, C)),
         "a project file written before the speed was kept says %s"
         % vpm.axis_still_valid({"timeline": older}, [A, B, C])["clock"])
+
+print("\n8. What did not fit survives the project file")
+# Without a clock the foreign file has no place at all. Stored with the
+# axis it has to come back as that: not measured again, not at 0.
+d, _t = vpm.measure_time_axis([A, B, FOREIGN])
+marks = dict((k, list((d or {}).get(k) or []))
+             for k in ("weak", "no_place", "brief"))
+entries = vpm.timeline_entries((d or {}).get("axis") or {},
+                               (d or {}).get("clock") or {}, marks)
+stored = dict((os.path.basename(e["path"]), e) for e in entries)
+check("a file with no place is written down with the verdict and no place",
+        stored.get("foreign.wav", {}).get("fit") == "nowhere"
+        and "start_s" not in stored.get("foreign.wav", {}),
+        "the entry says %s" % (stored.get("foreign.wav"),))
+back = vpm.axis_still_valid({"timeline": entries}, [A, B, FOREIGN])
+check("the stored axis still applies with that file in the list",
+        back is not None,
+        "came back %r for two placed files and one with no place" % (back,))
+check("and the verdict comes back with it",
+        back is not None and back.get("weak") == [FOREIGN]
+        and back.get("no_place") == [FOREIGN],
+        "weak %s, no place %s"
+        % ([os.path.basename(p) for p in (back or {}).get("weak") or []],
+           [os.path.basename(p) for p in (back or {}).get("no_place") or []]))
+check("while the file with no place is not put on the axis",
+        back is not None and KF not in back["axis"],
+        "on the axis: %s" % sorted(
+            k.rsplit("/", 1)[-1] for k in (back or {}).get("axis") or {}))
+# Set to the intro it is no camera, and the axis is asked about the
+# other two alone; the row of the intro still has to say why.
+aside = vpm.axis_still_valid({"timeline": entries}, [A, B])
+check("a marked file the axis is no longer asked about keeps its verdict",
+        aside is not None and [vpm.path_key(p) for p in aside.get("no_place")
+                               or []] == [KF],
+        "asked about two files, no place came back as %s"
+        % ([os.path.basename(p) for p in (aside or {}).get("no_place") or []]
+           if aside else aside))
+# Made up: on this material nothing is far shorter than the rest.
+short = vpm.timeline_entries((d or {}).get("axis") or {},
+                             (d or {}).get("clock") or {},
+                             {"weak": [FOREIGN], "no_place": [FOREIGN],
+                              "brief": [FOREIGN]})
+came = vpm.axis_still_valid({"timeline": short}, [A, B, FOREIGN])
+check("and one far shorter than the rest comes back as that",
+        came is not None and came.get("brief") == [FOREIGN]
+        and came.get("no_place") == [FOREIGN],
+        "brief %s, no place %s"
+        % ([os.path.basename(p) for p in (came or {}).get("brief") or []],
+           [os.path.basename(p) for p in (came or {}).get("no_place") or []]))
+before = [dict((k, v) for k, v in e.items() if k != "fit")
+          for e in entries if "start_s" in e]
+check("a project file written before the verdict was kept opens as it did",
+        vpm.axis_still_valid({"timeline": before}, [A, B]) is not None
+        and vpm.axis_still_valid({"timeline": before}, [A, B, FOREIGN])
+        is None,
+        "the two placed files come back %s, with the unknown one %s -- "
+        "wanted an axis and None"
+        % (vpm.axis_still_valid({"timeline": before}, [A, B]) is not None,
+           vpm.axis_still_valid({"timeline": before}, [A, B, FOREIGN])))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
