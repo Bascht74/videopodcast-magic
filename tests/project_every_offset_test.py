@@ -5,7 +5,8 @@ The offsets are kept under the rendered file. A camera without one had
 no key, and 0.0 as a fallback put it at the start of the axis. A file
 the run refused altogether is not handed over at all: it has no place
 on the axis, and nobody is assigned to it, which is what the handover
-reads as the wide shot.
+reads as the wide shot. Two cameras nobody is assigned to keep two track
+names: the track name is the key the Resolve side files a camera under.
 """
 import os
 import the_program
@@ -76,6 +77,12 @@ check("the camera without one is found by its source",
       str(by_camera["Guest"]["offset"]))
 check("nothing to complain about", "offset" not in said.lower(),
       said.strip()[:60])
+# Nobody is assigned to either camera here, and one word for both would
+# put two cameras on one key -- the second would take the first's place.
+check("two cameras nobody is assigned to keep two track names",
+      by_camera["Wide"]["track"] == "Wide"
+      and by_camera["Guest"]["track"] == "Guest",
+      "tracks %s" % [(c["camera"], c["track"]) for c in written["cameras"]])
 
 # And where nothing was measured for a camera, it is said out loud.
 out, said = spoken(vpm.write_handover, Args(), [], cameras, videos, hand,

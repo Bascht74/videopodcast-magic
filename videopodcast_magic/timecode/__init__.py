@@ -22,14 +22,24 @@ struct = PROGRAM.struct
 #  Time and timecode
 #  -----------------
 
-def timecode_string(seconds, fps=30.0):
+def timecode_string(seconds, fps=30.0, drop_frame=False):
+    """A time of day since midnight as a timecode label.
+
+    The digits are the same on both clocks -- a drop-frame label reads
+    as time of day, that is what the dropped numbers buy -- so
+    *drop_frame* decides the separator alone: a semicolon before the
+    frames, which is what timecode_to_frames counts the label by. A
+    colon on a drop-frame count lands frame zero 3.6 s per hour since
+    midnight away from the camera's own clock.
+    """
     if seconds < 0:
         seconds = 0.0
     f = int(round((seconds - int(seconds)) * fps))
     s = int(seconds)
     if f >= int(round(fps)):
         f, s = 0, s + 1
-    return "%02d:%02d:%02d:%02d" % (s // 3600 % 24, s % 3600 // 60, s % 60, f)
+    return "%02d:%02d:%02d%s%02d" % (s // 3600 % 24, s % 3600 // 60, s % 60,
+                                     ";" if drop_frame else ":", f)
 
 
 def parse_timecode(s, fps=30.0):
@@ -77,11 +87,8 @@ def timecode_moved(tc, by_s, fps=30.0):
     Cutting a head moves the moment the first frame was taken. The
     drop-frame semicolon is kept, or the frame reads as another time.
     """
-    moved = timecode_string(parse_timecode(tc, fps) + by_s, fps)
-    if is_drop_frame(tc):
-        head, _sep, frames = moved.rpartition(":")
-        moved = head + ";" + frames
-    return moved
+    return timecode_string(parse_timecode(tc, fps) + by_s, fps,
+                           drop_frame=is_drop_frame(tc))
 
 
 def build_ixml(name, tr, fps, bits=24, channels=1, df=False):
