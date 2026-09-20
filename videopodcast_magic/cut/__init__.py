@@ -966,8 +966,12 @@ def apply_time_window(d, in_point, out_point):
         fresh["start_s"] = round(float(origin) + from_s, 3)
         # And the timecode with it. Resolve places by this field alone,
         # so one standing still puts every frame out by the removed head.
+        # On the clock it was written on: a drop-frame label handed back
+        # with a colon is counted non-drop, 3.6 s an hour since midnight.
         if d.get("start_tc"):
-            fresh["start_tc"] = timecode_string(fresh["start_s"], fps)
+            fresh["start_tc"] = timecode_string(
+                fresh["start_s"], fps,
+                drop_frame=is_drop_frame(d.get("start_tc")))
     fresh["speakers"] = [
         {"name": s.get("name"),
          "sections": [[max(0.0, a - from_s), min(until, b) - from_s]
@@ -1307,9 +1311,10 @@ def without_a_wide_shot(after, edge, rules):
     """Silence the wide shot settings where there is no wide shot.
 
     Four numbers, one tick and one value in three of the choice fields
-    all say what the wide shot does, and where there is none they have
-    nothing to say -- without this they said it to the first camera. The
-    window greys the same settings. Returns (after, edge, rules).
+    say what the wide shot does; where there is none they are replaced,
+    and the window greys the same settings. "on_silence" stays outside on
+    purpose: silence needs some picture, and there the wide shot means
+    the stand-in, the first camera by name. Returns (after, edge, rules).
     """
     rules = dict(rules or {})
     for api_key in ("on_monologue", "on_together", "on_uncertain"):
@@ -1687,7 +1692,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
                 a = timecode_seconds(video_facts(file_path))
             except (OSError, ValueError, RuntimeError):
                 a = None
-        return float(a) if a is not None else 0.0
+        return float(a) if a is not None else None
 
     def forecast_empty(empty):
         """While nothing is computed the box holds only the hint."""
@@ -2200,22 +2205,32 @@ def merge_short_shots(cut, min_len, key=shot_key):
         i = max(0, i - 1)
     return extra
 
-def timeline_timecode(seconds, zero, fps):
+def timeline_timecode(seconds, zero, fps, drop_frame=False):
     """The timecode a moment of programme time carries on the Timeline.
 
     Frame zero of the Timeline, then the frames since it -- the two steps
     build_cut_timeline takes, or the paper and the Timeline name frames
-    one apart wherever the zero does not sit on a whole one.
+    one apart wherever the zero does not sit on a whole one. *drop_frame*
+    is the Timeline's own setting: the same frame reads differently on
+    the two clocks, and Resolve reads what is written on the one it runs.
     """
-    return frames_to_timecode(zero + seconds_to_frames(seconds, fps), fps)
+    return frames_to_timecode(zero + seconds_to_frames(seconds, fps), fps,
+                              drop_frame)
 
-def write_edl(file_path, title, segments, zero, fps):
-    """Write segments as an EDL; Resolve imports it as timeline markers."""
+def write_edl(file_path, title, segments, zero, fps, drop_frame=False):
+    """Write segments as an EDL; Resolve imports it as timeline markers.
+
+    The head says which clock the timecodes are on -- FCM is the one
+    line of an EDL an importer reads before the events -- and drop frame
+    writes a semicolon before the frames. A head saying non-drop over a
+    drop-frame Timeline lands every marker about a minute per hour off.
+    """
     with open(file_path, "w", encoding="utf-8") as f:
-        f.write("TITLE: %s\nFCM: NON-DROP FRAME\n\n" % title)
+        f.write("TITLE: %s\nFCM: %s\n\n"
+                % (title, "DROP FRAME" if drop_frame else "NON-DROP FRAME"))
         for i, (a, b, name) in enumerate(segments, 1):
-            t0 = timeline_timecode(a, zero, fps)
-            t1 = timeline_timecode(b, zero, fps)
+            t0 = timeline_timecode(a, zero, fps, drop_frame)
+            t1 = timeline_timecode(b, zero, fps, drop_frame)
             f.write("%03d  AX       A     C        %s %s %s %s\n"
                     % (i, t0, t1, t0, t1))
             f.write("* FROM CLIP NAME: %s\n\n" % name)
@@ -2332,7 +2347,8 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     The tracks are aligned and equally long, which is everything the mix
     and the cameras need. What is missing is what only auphonic.com does:
     de-bleeding, leveler, noise removal. Who speaks when is measured from
-    the tracks -- and there the bleed comes out of the *measurement*.
+    the tracks -- and there the bleed comes out of the *measurement*. The
+    voices are brought to one level before the sum is levelled.
     """
     step_begin("loudness")
     print(as_head(T('\nWITHOUT AUPHONIC.COM')))
@@ -2520,6 +2536,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))
+    drop = is_drop_frame(ref_clip[1].get("tc") if ref_clip else None)
     handover = {
         "format": FILE_FORMAT,
         "created_by": "videopodcast-magic %s" % VERSION,
@@ -2530,11 +2547,15 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         "project_type": "sync" if sync_only(args) else "cut",
         "fps": resolve_timeline_rate(fps),
         "fps_measured": round(fps, 4),
-        "drop_frame": is_drop_frame(ref_clip[1].get("tc") if ref_clip else None),
+        "drop_frame": drop,
+        # The highest resolution wins, as a decision and not a side effect:
+        # the files are copied, never scaled, so an 8K camera beside three
+        # in HD gives an 8K Timeline that shows the small ones whole rather
+        # than throwing away what the largest one recorded.
         "width": widest_frame(resolutions)[0],
         "height": widest_frame(resolutions)[1],
-        "start_tc": (timecode_string(tc_start,
-                                     resolve_timeline_rate(fps))
+        "start_tc": (timecode_string(tc_start, resolve_timeline_rate(fps),
+                                     drop_frame=drop)
                      if tc_start is not None else None),
         "start_s": tc_start,
         # The window this run was made with. Without it the check before
@@ -2650,10 +2671,16 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         return [], []
     length = length or max((b for _n, segs in segment_list
                             for _a, b in segs), default=0.0)
+    # The clock the Timeline runs on, read the way the handover reads it:
+    # the two EDL files and the two CSV files carry the same timecodes as
+    # the Timeline Resolve builds from the handover, or a marker imported
+    # from the paper lands beside the shot it names.
+    drop = is_drop_frame(ref_clip[1].get("tc") if ref_clip else None)
     # Frame zero of the Timeline, read back out of the start timecode --
     # the same step timeline_origin takes, and it has to be the same.
     zero = timecode_to_frames(
-        timecode_string(tc_start if tc_start is not None else 0.0, fps), fps)
+        timecode_string(tc_start if tc_start is not None else 0.0, fps,
+                        drop_frame=drop), fps)
 
     # Who belongs to which camera, and which is the wide shot? Through
     # path_key, or two shapes of one path count as two cameras.
@@ -2703,10 +2730,10 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         f.write(csv_line(("Speaker", "Start TC", "End TC",
                           "Time from start", "Duration s")))
         for a, b, n in lines:
-            f.write(csv_line((n, timeline_timecode(a, zero, fps),
-                              timeline_timecode(b, zero, fps),
+            f.write(csv_line((n, timeline_timecode(a, zero, fps, drop),
+                              timeline_timecode(b, zero, fps, drop),
                               as_hms(a, "."), "%.2f" % (b - a))))
-    write_edl(stem + "_speakers.edl", "Speakers", lines, zero, fps)
+    write_edl(stem + "_speakers.edl", "Speakers", lines, zero, fps, drop)
 
     # With one camera nothing changes hands, so the word would be wrong:
     # what comes of it is a first cut at every change of speaker.
@@ -2768,13 +2795,13 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                           "End TC", "Duration s")))
         for i, (a, b, n, speaking) in enumerate(detail, 1):
             f.write(csv_line((i, n, " + ".join(speaking),
-                              timeline_timecode(a, zero, fps),
-                              timeline_timecode(b, zero, fps),
+                              timeline_timecode(a, zero, fps, drop),
+                              timeline_timecode(b, zero, fps, drop),
                               "%.2f" % (b - a))))
     write_edl(stem + "_cameracut.edl", "Camera cut",
               [(a, b, " + ".join(speaking) or n)
                for a, b, n, speaking in detail] if alone else cut,
-              zero, fps)
+              zero, fps, drop)
 
     # The numbers are in the interface and the files; the outcome is enough.
     print(T('  %s speakers, %s shots, shortest %s s')
