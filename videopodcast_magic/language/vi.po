@@ -4452,3 +4452,39 @@ msgstr[0] "%s kênh"
 
 msgid "%s channels"
 msgstr "%s kênh"
+
+msgid "Cut by speaker"
+msgstr "Dựng theo người nói"
+
+msgid "Sync only"
+msgstr "Chỉ đồng bộ"
+
+msgid "Project type"
+msgstr "Loại dự án"
+
+msgid "No project type chosen yet."
+msgstr "Chưa chọn loại dự án."
+
+msgid "What is this production to become?"
+msgstr "Bản sản xuất này sẽ thành gì?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": các máy quay trên cùng một trục thời gian và dựng theo ai đang nói.\n\"%s\": các máy quay trên cùng một trục thời gian, không gì thêm -- không người nói, không dựng."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Chỉ đồng bộ: không dựng. Bản bàn giao chỉ mang Timeline multicam; dự án Resolve được tạo từ thẻ \"Đầu ra\"."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Loại dự án: Chỉ đồng bộ -- không người nói, không bản chép lời, không dựng; bản bàn giao chỉ mang Timeline multicam."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Chỉ đồng bộ: không yêu cầu dựng theo người nói.\n  Chỉ dựng Timeline cho clip multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s rãnh video, đặt tên theo tệp máy quay:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Chỉ đồng bộ chỉ nhận một bản ghi âm; đây là một bản nữa: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Chỉ đồng bộ: tệp bàn giao được tính lại; không có bản dựng nào để làm lại. Resolve phải đang chạy."

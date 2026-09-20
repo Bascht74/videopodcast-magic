@@ -4494,3 +4494,39 @@ msgstr[1] "%s csatorna"
 
 msgid "%s channels"
 msgstr "%s csatorna"
+
+msgid "Cut by speaker"
+msgstr "Vágás beszélők szerint"
+
+msgid "Sync only"
+msgstr "Csak szinkronizálás"
+
+msgid "Project type"
+msgstr "Projekttípus"
+
+msgid "No project type chosen yet."
+msgstr "Még nincs kiválasztva projekttípus."
+
+msgid "What is this production to become?"
+msgstr "Mi legyen ebből a produkcióból?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s”: a kamerák egy időtengelyen, és vágás aszerint, hogy ki beszél.\n„%s”: a kamerák egy időtengelyen, semmi több -- se beszélők, se vágás."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Csak szinkronizálás: nincs vágás. Az átadás csak a multicam Timeline-t hordozza; a Resolve-projekt a „Kimenet” fülről hozható létre."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projekttípus: Csak szinkronizálás -- se beszélők, se átirat, se vágás; az átadás csak a multicam Timeline-t hordozza."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Csak szinkronizálás: nem kértek vágást beszélők szerint.\n  Csak a multicam klip Timeline-ja épül fel."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s videósáv, a kamerafájlok nevével:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Csak szinkronizálás egy hangfelvételt fogad; itt van még egy: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Csak szinkronizálás: az átadás újra kiszámolódik; nincs vágás, amit újra kellene csinálni. A Resolve-nak futnia kell."

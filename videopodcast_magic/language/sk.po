@@ -4533,3 +4533,39 @@ msgstr[2] "%s kanálov"
 
 msgid "%s channels"
 msgstr "%s kanálov"
+
+msgid "Cut by speaker"
+msgstr "Strih podľa rečníkov"
+
+msgid "Sync only"
+msgstr "Len synchronizácia"
+
+msgid "Project type"
+msgstr "Typ projektu"
+
+msgid "No project type chosen yet."
+msgstr "Typ projektu zatiaľ nie je zvolený."
+
+msgid "What is this production to become?"
+msgstr "Čo má z tejto produkcie vzniknúť?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s“: kamery na jednej časovej osi a strih podľa toho, kto hovorí.\n„%s“: kamery na jednej časovej osi, nič viac -- žiadni rečníci, žiadny strih."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Len synchronizácia: žiadny strih. Odovzdanie nesie len multicam Timeline; projekt Resolve sa vytvorí z karty „Výstup“."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Typ projektu: Len synchronizácia -- žiadni rečníci, žiadny prepis, žiadny strih; odovzdanie nesie len multicam Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Len synchronizácia: žiadny strih podľa rečníkov nebol požadovaný.\n  Postaví sa len Timeline pre multicam klip."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  Videostopy: %s, pomenované podľa súborov kamier:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Len synchronizácia berie jednu zvukovú nahrávku; tu je ďalšia: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Len synchronizácia: odovzdanie sa znova vypočíta; žiadny strih netreba prerábať. Resolve musí bežať."

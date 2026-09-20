@@ -4800,3 +4800,38 @@ msgstr[3] "%s نقاطٍ"
 msgstr[4] "%s نقطةً"
 msgstr[5] "%s نقطة"
 
+msgid "Cut by speaker"
+msgstr "المونتاج حسب المتحدث"
+
+msgid "Sync only"
+msgstr "مزامنة فقط"
+
+msgid "Project type"
+msgstr "نوع المشروع"
+
+msgid "No project type chosen yet."
+msgstr "لم يُختر نوع المشروع بعد."
+
+msgid "What is this production to become?"
+msgstr "ماذا سيصبح هذا الإنتاج؟"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": الكاميرات على محور زمن واحد ومونتاج حسب من يتحدث.\n\"%s\": الكاميرات على محور زمن واحد، لا أكثر -- لا متحدثين، لا مونتاج."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "مزامنة فقط: لا مونتاج. ملف التسليم يحمل الـTimeline multicam وحده؛ ويُنشأ مشروع Resolve من تبويب \"الإخراج\"."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "نوع المشروع: مزامنة فقط -- لا متحدثين، لا نص مفرغ، لا مونتاج؛ ملف التسليم يحمل الـTimeline multicam وحده."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  مزامنة فقط: لم يُطلب مونتاج حسب المتحدث.\n  يُبنى الـTimeline لمقطع multicam فقط."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  مسارات الفيديو: %s، مسمّاة بأسماء ملفات الكاميرا:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "مزامنة فقط تقبل تسجيلًا صوتيًا واحدًا؛ وهذا واحد آخر: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "مزامنة فقط: يُعاد حساب ملف التسليم؛ لا مونتاج يُعاد. يجب أن يكون Resolve قيد التشغيل."

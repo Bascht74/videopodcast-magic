@@ -4492,3 +4492,39 @@ msgstr[1] "%s κανάλια"
 
 msgid "%s channels"
 msgstr "%s κανάλια"
+
+msgid "Cut by speaker"
+msgstr "Μοντάζ ανά ομιλητή"
+
+msgid "Sync only"
+msgstr "Μόνο συγχρονισμός"
+
+msgid "Project type"
+msgstr "Τύπος έργου"
+
+msgid "No project type chosen yet."
+msgstr "Δεν έχει επιλεγεί ακόμη τύπος έργου."
+
+msgid "What is this production to become?"
+msgstr "Τι πρόκειται να γίνει αυτή η παραγωγή;"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "«%s»: οι κάμερες σε έναν άξονα χρόνου και μοντάζ ανάλογα με το ποιος μιλά.\n«%s»: οι κάμερες σε έναν άξονα χρόνου, τίποτα περισσότερο -- χωρίς ομιλητές, χωρίς μοντάζ."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Μόνο συγχρονισμός: χωρίς μοντάζ. Η παράδοση φέρει μόνο το Timeline multicam· το έργο Resolve δημιουργείται από την καρτέλα «Έξοδος»."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Τύπος έργου: Μόνο συγχρονισμός -- χωρίς ομιλητές, χωρίς απομαγνητοφώνηση, χωρίς μοντάζ· η παράδοση φέρει μόνο το Timeline multicam."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Μόνο συγχρονισμός: δεν ζητήθηκε μοντάζ ανά ομιλητή.\n  Χτίζεται μόνο το Timeline για το κλιπ multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s κομμάτια βίντεο, με τα ονόματα των αρχείων κάμερας:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Μόνο συγχρονισμός δέχεται μία ηχογράφηση· αυτή είναι μία ακόμη: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Μόνο συγχρονισμός: η παράδοση υπολογίζεται ξανά· δεν υπάρχει μοντάζ να ξαναγίνει. Το Resolve πρέπει να εκτελείται."

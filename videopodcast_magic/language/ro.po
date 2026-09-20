@@ -4534,3 +4534,39 @@ msgstr[2] "%s de canale"
 
 msgid "%s channels"
 msgstr "%s de canale"
+
+msgid "Cut by speaker"
+msgstr "Montaj după vorbitori"
+
+msgid "Sync only"
+msgstr "Doar sincronizare"
+
+msgid "Project type"
+msgstr "Tip de proiect"
+
+msgid "No project type chosen yet."
+msgstr "Nu a fost ales încă niciun tip de proiect."
+
+msgid "What is this production to become?"
+msgstr "Ce trebuie să devină această producție?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s”: camerele pe o singură axă a timpului și un montaj după cine vorbește.\n„%s”: camerele pe o singură axă a timpului, nimic mai mult -- fără vorbitori, fără montaj."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Doar sincronizare: fără montaj. Predarea poartă doar Timeline-ul multicam; proiectul Resolve se creează din fila „Ieșire”."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Tip de proiect: Doar sincronizare -- fără vorbitori, fără transcriere, fără montaj; predarea poartă doar Timeline-ul multicam."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Doar sincronizare: nu s-a cerut niciun montaj după vorbitori.\n  Se construiește doar Timeline-ul pentru clipul multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  Piste video (%s), denumite după fișierele de cameră:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Doar sincronizare acceptă o singură înregistrare audio; aceasta este încă una: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Doar sincronizare: predarea se recalculează; nu există niciun montaj de refăcut. Resolve trebuie să ruleze."

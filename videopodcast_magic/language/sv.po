@@ -4492,3 +4492,39 @@ msgstr[1] "%s kanaler"
 
 msgid "%s channels"
 msgstr "%s kanaler"
+
+msgid "Cut by speaker"
+msgstr "Klippning efter talare"
+
+msgid "Sync only"
+msgstr "Bara synkronisering"
+
+msgid "Project type"
+msgstr "Projekttyp"
+
+msgid "No project type chosen yet."
+msgstr "Ingen projekttyp vald ännu."
+
+msgid "What is this production to become?"
+msgstr "Vad ska den här produktionen bli?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "”%s”: kamerorna på en tidsaxel och en klippning efter vem som talar.\n”%s”: kamerorna på en tidsaxel, inget mer -- inga talare, ingen klippning."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Bara synkronisering: ingen klippning. Överlämningen bär bara multicam-Timeline; Resolve-projektet skapas från fliken ”Utdata”."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projekttyp: Bara synkronisering -- inga talare, ingen transkription, ingen klippning; överlämningen bär bara multicam-Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Bara synkronisering: ingen klippning efter talare begärdes.\n  Bara Timeline för multicam-klippet byggs."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s videospår, namngivna efter kamerafilerna:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Bara synkronisering tar en ljudinspelning; här är en till: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Bara synkronisering: överlämningen räknas ut på nytt; det finns ingen klippning att göra om. Resolve måste vara igång."
