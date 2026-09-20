@@ -460,6 +460,21 @@ check("and the same list is shared with only_resolve_start_run",
         "times, wanted at least 1"
         % (len(window), source.count("slider_argv(values)")))
 
+print("\n18. One recording without a key runs locally too")
+a, _p, m = vpm.run_argv(values(
+    files=[("/x/a.wav", "audio"), ("/x/G.mov", "video")]))
+check("--without-auphonic is there without multitrack",
+        "--without-auphonic" in (a or []),
+        "18. one recording and no key gave %s, wanted --without-auphonic "
+        "on the line" % shown(a))
+a, _p, m = vpm.run_argv(values(
+    files=[("/x/a.wav", "audio"), ("/x/G.mov", "video")],
+    key="k", preset="p"))
+check("a key and a preset keep it off the line",
+        "--without-auphonic" not in (a or []),
+        "18. a key and a preset gave %s, wanted no --without-auphonic"
+        % shown(a))
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

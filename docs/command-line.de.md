@@ -21,6 +21,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 |---|---|
 | `--lang KÜRZEL` | Sprache der Meldungen: `ar`, `bn`, `cs`, `da`, `de`, `el`, `en`, `es`, `fi`, `fr`, `hi`, `hr`, `hu`, `it`, `ja`, `ko`, `nb`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sr`, `sv`, `tr`, `uk`, `vi`, `zh` (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
+| `--project-type WAS` | wofür der Lauf da ist: `cut` legt die Kameras auf eine Zeitachse und schneidet nach Sprecher, im Fenster „Schnitt nach Sprecher“; `sync` legt nur den Ton auf jede Kamera und baut die Multicam-Timeline, „Nur synchronisieren“ -- ohne Sprecher, ohne Spracherkennung, ohne Transkript, ohne Schnittlisten (`cut`) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0)  `[multitrack only]` |
