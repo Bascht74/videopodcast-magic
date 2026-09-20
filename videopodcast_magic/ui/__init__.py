@@ -343,19 +343,24 @@ def camera_tracks_clashing(camera_lines):
 
 
 def missing_conditions(files, production, multitrack, assign_lines,
-                       camera_lines, voice_lines=(), voiced=()):
+                       camera_lines, voice_lines=(), voiced=(),
+                       project_type="cut"):
     """Report what is still missing, and where it is missing.
 
     Returns {key: reason}; empty means everything is there. Reasons go
     under the start button and are in plain words -- greyed out without
     one is a dead end. The key says which sheet: 1 and 11 the file tab,
-    21 the production strip on it, 22 the assignment tab. 1 is empty.
+    21 and 23 the production strip on it, 22 the assignment tab. 1 is
+    empty. *project_type* "" is unanswered; a caller without a window
+    has the answer the command line has, which is "cut".
     """
     pending = {}
     if not files:
         pending[1] = T('No files selected yet.')
     if not production.strip():
         pending[21] = T('The production has no name yet.')
+    if not project_type:
+        pending[23] = T('No project type chosen yet.')
     if multitrack:
         used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
         if len(used) < 2:
@@ -683,6 +688,127 @@ LANGUAGE_AGAIN = 7
 # The window's own question before it is torn down: save the work, or
 # not, or think better of it. The three ways out all ask the same one.
 RESTART_ASK = [None]
+
+# The one question about a production the window asks by itself: cut
+# by speaker, or only synchronised. Asked once, on the first look at
+# the assignment tab, and reached through this hook so a test can
+# answer it without a window standing in the way.
+PROJECT_TYPE_ASK = [None]
+
+
+def project_type_choices():
+    """The two project types: the name the switch takes, and the shown one."""
+    return [("cut", T('Cut by speaker')), ("sync", T('Sync only'))]
+
+
+def project_type_explained():
+    """What the two types mean, in one breath: the strip and the question."""
+    return (T('"%s": the cameras on one time axis and a cut by who is '
+              'speaking.\n"%s": the cameras on one time axis, nothing '
+              'more -- no speakers, no cut.')
+            % (T('Cut by speaker'), T('Sync only')))
+
+
+def strip_choice_build(QtWidgets, bar, value, caption, choices, tip):
+    """One drop-down on the production strip, before the bar's stretch.
+
+    Entry 0 is the empty answer, which the value holds as "": the
+    spoken language and the project type both start there. The list
+    shows the translated names and the value keeps the tag.
+    """
+    box = QtWidgets.QComboBox()
+    box.addItem(T('not set'), "")
+    for tag, name in choices:
+        box.addItem(name, tag)
+
+    def follow_up():
+        i = box.findData(value.get() or "")
+        box.setCurrentIndex(i if i >= 0 else 0)
+
+    box.currentIndexChanged.connect(
+        lambda *_: value.set(box.currentData() or ""))
+    value.listen(follow_up)
+    follow_up()
+    speaks_as(box, caption)
+    bar.insertSpacing(bar.count() - 1, 18)
+    bar.insertWidget(bar.count() - 1, label(caption, COLOURS["quiet"]))
+    bar.insertSpacing(bar.count() - 1, 6)
+    bar.insertWidget(bar.count() - 1, hint(box, tip))
+    return box
+
+
+def project_type_wire(state, tabs, tab2, project_type, multitrack,
+                      mode_toggled):
+    """Wire the project type to the tabs: the shape, and the question.
+
+    Whatever is needed from gui() comes in as an argument and keeps its
+    name inside. A change of type rebuilds the later tabs the way the
+    Multitrack tick does; the first look at the assignment tab with no
+    type chosen asks once, through PROJECT_TYPE_ASK.
+    """
+    def project_type_changed():
+        state["project_type"] = project_type.get()
+        if project_type.get() == "sync" and multitrack.get():
+            multitrack.set(False)       # the tick's own handler rebuilds
+        else:
+            mode_toggled()
+
+    def project_type_asked(*_):
+        if (tabs.currentWidget() is not tab2 or project_type.get()
+                or state.get("project_type_asked")):
+            return
+        state["project_type_asked"] = True
+        ask = PROJECT_TYPE_ASK[0]
+        project_type.set(ask() if ask is not None else "")
+
+    project_type.listen(project_type_changed)
+    tabs.currentChanged.connect(project_type_asked)
+
+
+def sync_note_build(into):
+    """The one sentence the cut tab carries while the project only syncs."""
+    note = label(T('Sync only: no cut. The handover carries the multicam '
+                   'timeline alone; the Resolve project is created from '
+                   'the Output tab.'), COLOURS["quiet"])
+    note.setWordWrap(True)
+    into.addWidget(note)
+    note.setVisible(False)
+    return note
+
+
+def scroll_sheet_build(QtWidgets):
+    """Return a scrolling tab and its layout: settings outgrow the window."""
+    outside = QtWidgets.QScrollArea()
+    outside.setWidgetResizable(True)
+    outside.setFrameShape(QtWidgets.QFrame.NoFrame)
+    inside = QtWidgets.QWidget()
+    outside.setWidget(inside)
+    position = QtWidgets.QVBoxLayout(inside)
+    position.setContentsMargins(10, 12, 10, 10)
+    position.setSpacing(16)
+    return outside, position
+
+
+def resolve_what_for(sync_only):
+    """What "Create Resolve project" works out again: the button's tip."""
+    if sync_only:
+        return T('Sync only: the handover is worked out again; there is '
+                 'no cut to redo. Resolve must be running.')
+    return T('Cut, EDL, CSV and the handover are worked out again from '
+             'the numbers above. Who speaks when stays as the run '
+             'measured it. Resolve must be running.')
+
+
+def unless_sync(state, compute):
+    """*compute*, silenced while the project type is "sync".
+
+    The preview and the speaker measure are about the cut; a project
+    that only synchronises has none, and its tab says so instead.
+    """
+    def guarded(*args, **named):
+        if state.get("project_type") != "sync":
+            return compute(*args, **named)
+    return guarded
 
 
 def language_box_build(parent, state):
@@ -1334,6 +1460,15 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     if not SPEAKER_SPLIT_OFF:
         columns.append(T('Speakers'))
     tree_audio = tree_build(columns)
+    # Sync only: the columns about speakers stay in the tree, hidden,
+    # so the cells keep their numbers and the project file its keys.
+    sync_only = state.get("project_type") == "sync"
+    tree_audio.setColumnHidden(1, sync_only)
+    # And "belongs to" with them: without a plan the run reads no
+    # camera off a recording, so the column would promise an answer.
+    tree_audio.setColumnHidden(2, sync_only)
+    if not SPEAKER_SPLIT_OFF:
+        tree_audio.setColumnHidden(4, sync_only)
     state["assignment_tree"] = tree_audio
     state["row_picker"] = row_picker_for(tree_audio)
     column_layout.addWidget(tree_audio, 1)
@@ -1377,7 +1512,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         name_value = SpeakerName(old_name or "", stem)
         # The voices this recording is showing. Where there are any, the
         # assignment belongs to them: it has exactly one level.
-        kids = voices_of(first)
+        kids = [] if sync_only else voices_of(first)
         if kids:
             state["voiced"].add(os.path.abspath(first))
         if SPEAKER_SPLIT_OFF:
@@ -1456,7 +1591,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             0, assignment_check))
     # A voice the separation missed is asked for below the tree: it is
     # the input to another separation, not a row of this one.
-    more = more_speakers_row(audio_file_list, voice_add)
+    more = (None if sync_only
+            else more_speakers_row(audio_file_list, voice_add))
     if more is not None:
         column_layout.addWidget(more)
     audio_reason = label("", COLOURS["error"])
@@ -1487,6 +1623,10 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     table_video = table_build([T('Camera'), T('new file name'),
                                T('gets audio from'), T('Kind'),
                                T('Camera audio')])
+    # Sync only: the name and the audio source reach the run through
+    # the plan alone, and there is none -- so those two are hidden too.
+    table_video.setColumnHidden(1, sync_only)
+    table_video.setColumnHidden(2, sync_only)
     column_layout.addWidget(table_video, 1)
     video_reason = label("", COLOURS["error"])
     video_reason.setWordWrap(True)
@@ -1590,7 +1730,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     # The new file name is long, so it gets whatever is left.
     table_video.horizontalHeader().setStretchLastSection(False)
     table_video.horizontalHeader().setSectionResizeMode(
-        1, QtWidgets.QHeaderView.Stretch)
+        0 if sync_only else 1, QtWidgets.QHeaderView.Stretch)
     tree_audio.header().setStretchLastSection(True)
     if not SPEAKER_SPLIT_OFF:
         # A width for what the column will hold, not for what is in it:
@@ -1617,7 +1757,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         prework_kick_off(every, having_audio)
     # Beside the prework, not behind it: the two do not slow each
     # other down, and the separation is the long one of the two.
-    speaker_split_kick_off()
+    if not sync_only:
+        speaker_split_kick_off()
     assignment_check()
     assignment_state_show()
     # The last camera to be given a speaker takes the wide shot away.
@@ -1699,7 +1840,7 @@ def gui():
                "assignment_content": None, "statistics": False,
                "in_point": "", "out_point": "", "axis": {}, "tc_there": False,
                "weak": set(), "tables": [], "axis_absolute": False,
-               "axis_clock": {}}
+               "axis_clock": {}, "project_type": ""}
     post = queue.Queue()
 
     # ------------------------------------------------------------------
@@ -1800,18 +1941,6 @@ def gui():
     tabs = QtWidgets.QTabWidget()
     vertical.addWidget(tabs, 1)
 
-    def scroll_sheet():
-        """Return a scrolling tab; the settings outgrow the window."""
-        outside = QtWidgets.QScrollArea()
-        outside.setWidgetResizable(True)
-        outside.setFrameShape(QtWidgets.QFrame.NoFrame)
-        inside = QtWidgets.QWidget()
-        outside.setWidget(inside)
-        position = QtWidgets.QVBoxLayout(inside)
-        position.setContentsMargins(10, 12, 10, 10)
-        position.setSpacing(16)
-        return outside, position
-
     sheet1 = QtWidgets.QWidget()
     sheet1_position = QtWidgets.QVBoxLayout(sheet1)
     sheet1_position.setContentsMargins(10, 10, 10, 10)
@@ -1823,8 +1952,8 @@ def gui():
     in_layout = QtWidgets.QVBoxLayout(tab1)
     in_layout.setContentsMargins(0, 6, 0, 0)
     in_layout.setSpacing(14)
-    tab2, assign_position_outside = scroll_sheet()
-    tab3, resolve_position = scroll_sheet()
+    tab2, assign_position_outside = scroll_sheet_build(QtWidgets)
+    tab3, resolve_position = scroll_sheet_build(QtWidgets)
 
     sheet2 = QtWidgets.QWidget()
     sheet2_position = QtWidgets.QVBoxLayout(sheet2)
@@ -1955,7 +2084,8 @@ def gui():
         return missing_conditions(files, production_var.get(),
                                   multitrack.get(), assign_lines,
                                   camera_lines, voice_lines,
-                                  state.get("voiced") or set())
+                                  state.get("voiced") or set(),
+                                  project_type.get())
 
     def tab_named(sheet):
         """What the tab holding this sheet is called at the moment.
@@ -1973,7 +2103,7 @@ def gui():
         pending = what_missing()
         # The first tab now carries both, files and production, so what is
         # missing on it can come from either.
-        first = bool({1, 11, 21} & set(pending))
+        first = bool({1, 11, 21, 23} & set(pending))
         # Only the two tabs that can hold something outstanding: a tick
         # that is always on says nothing.
         for sheet, pending_here, base_title in (
@@ -2002,7 +2132,7 @@ def gui():
         if pending and not state["running"]:
             # The names come from the tabs themselves: a second list
             # drifts apart at every rename and points at nothing.
-            on_tab = {1: sheet1, 11: sheet1, 21: sheet1,
+            on_tab = {1: sheet1, 11: sheet1, 21: sheet1, 23: sheet1,
                       22: tab2}
             lines = [T('Not ready yet:')]
             for index_number in sorted(pending):
@@ -2187,6 +2317,7 @@ def gui():
     start_var = Value("")
     end_var = Value("")
     multitrack = Value(False)
+    project_type = Value("")
 
     def commonest_folder():
         """Return the folder most of the chosen files come from."""
@@ -2594,6 +2725,7 @@ def gui():
             d["production"] = production_var.get().strip()
             d["out_folder"] = out_folder.get()
             d["multitrack"] = bool(multitrack.get())
+            d["project_type"] = project_type.get()
             d["wide_at_edges"] = bool(edge_on.get())
             d["camera_cut"] = {s: cut_var[s].get() for s in cut_var}
             d["in_point"] = start_var.get()
@@ -2931,30 +3063,21 @@ def gui():
     # The separation, which stands above this line, reads the tag when
     # it starts a run.
     state["speech_language"] = speech_language
-    language_box = QtWidgets.QComboBox()
-    language_box.addItem(T('not set'), "")
-    for tag, name in spoken_language_choices():
-        language_box.addItem(name, tag)
-
-    def language_show():
-        """Put the stored tag onto the list."""
-        i = language_box.findData(speech_language.get() or "")
-        language_box.setCurrentIndex(i if i >= 0 else 0)
-
-    language_box.currentIndexChanged.connect(
-        lambda *_: speech_language.set(language_box.currentData() or ""))
-    speech_language.listen(lambda *_: language_show())
-    language_show()
-    name_bar.insertSpacing(name_bar.count() - 1, 18)
-    name_bar.insertWidget(name_bar.count() - 1,
-                          label(T('Language'), COLOURS["quiet"]))
-    name_bar.insertSpacing(name_bar.count() - 1, 6)
-    name_bar.insertWidget(name_bar.count() - 1, hint(language_box,
+    strip_choice_build(
+        QtWidgets, name_bar, speech_language, T('Language'),
+        spoken_language_choices(),
         T('The language spoken in the recording. It becomes the tag of '
           'the\nwritten audio track, and the recognition here is told to '
           'expect it.\nPreset from the system language. "%s" leaves the '
           'track untagged\nand lets the recognition work the language '
-          'out itself.') % T('not set')))
+          'out itself.') % T('not set'))
+
+    # --- Project type, beside it: cut by speaker, or only synchronised.
+    #     Empty until somebody answers; the assignment tab asks once.
+    strip_choice_build(QtWidgets, name_bar, project_type, T('Project type'),
+                       project_type_choices(), project_type_explained())
+    project_type_wire(state, tabs, tab2, project_type, multitrack,
+                      mode_toggled)
 
     # The key for auphonic.com and the preset a run is given stand in
     # make_auphonic_box(). Below multi_button, which its handler switches.
@@ -2981,6 +3104,8 @@ def gui():
         if not state.get("resolve_checked"):
             state["resolve_checked"] = True
             resolve_check_run_kick_off()
+        if state.get("project_type") == "sync":
+            return          # no cut, so no speakers to measure
         if speakers_still_wanted(state):
             gui_log("cut tab opened with no speakers known -- measuring")
             speaker_measure()
@@ -3006,6 +3131,8 @@ def gui():
     start_var.listen(window_info_show)
     end_var.listen(window_info_show)
 
+    # Sync only: nothing on this tab is set, and one sentence says so.
+    sync_note = sync_note_build(resolve_left)
     # What stands in place of the camera cut: one line saying why.
     without_cut_label = label(
         T('There is no camera cut yet: it needs two people, each with a '
@@ -3077,6 +3204,8 @@ def gui():
     # cannot be judged.
     speaker_box = QtWidgets.QGroupBox(T('Speaker'))
     resolve_left.addWidget(speaker_box)
+    # What the project type greys or hides: the same way over as cut_boxes.
+    state["sync_parts"] = (sync_note, speaker_box, multitrack_bar, split_line)
     speech_column = QtWidgets.QVBoxLayout(speaker_box)
     speech_column.setContentsMargins(10, 2, 10, 8)
     speech_title = label(T('Speakers, separated by voice'),
@@ -3195,7 +3324,8 @@ def gui():
         commonest_folder, band_show, speech_show, window_info_show,
         question_note, cut_column, forecast_box, preview_label,
         speech_title, speech_table)
-
+    # A project that only synchronises has no cut to preview.
+    preview_compute = unless_sync(state, preview_compute)
     state["preview_compute"] = preview_compute
 
     # Do not compute on every keystroke; wait a moment.
@@ -3325,10 +3455,7 @@ def gui():
                          T('The run is still going.'), "")
             return
         js = state.get("resolve_json")
-        what_for = T('Cut, EDL, CSV and the handover are worked out '
-                     'again from the numbers above. Who speaks when '
-                     'stays as the run measured it. Resolve must be '
-                     'running.')
+        what_for = resolve_what_for(state.get("project_type") == "sync")
         if js and resolve_installed():
             state["resolve_json"] = js
             reason_set(only_resolve_env_curve, only_resolve, True, "",
@@ -3376,7 +3503,7 @@ def gui():
     (project_write, project_new, project_open) = make_project_file(
         QtWidgets, window, state, files, log, report, sheet2,
         out_folder, production_var, start_var, end_var,
-        speech_language, lufs_value, edge_on, multitrack,
+        speech_language, lufs_value, edge_on, multitrack, project_type,
         cut_var, channel_choice, clip_kind_values,
         audio_use_values, no_join, join_to, remembered,
         assign_lines, camera_lines, axis_file, axis_store,
@@ -3439,8 +3566,9 @@ def gui():
         QtCore, state, files, log, report, ask, write, ask_user,
         bridge, bridge_emit, out_folder, production_var, start_var,
         end_var, speech_language, lufs_value, done_folder, key_var,
-        cut_var, edge_on, multitrack, clip_kind_values, clip_kind_value,
-        no_join, together_now, assign_lines, camera_lines, voice_lines,
+        cut_var, edge_on, multitrack, project_type, clip_kind_values,
+        clip_kind_value, no_join, together_now, assign_lines,
+        camera_lines, voice_lines,
         prework_node, prework_done, prework_queue, prework_run,
         prework_lock, prework_busy, start_run, preview_button,
         only_resolve, break_off, output_timer, files_for_run,

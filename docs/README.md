@@ -74,6 +74,7 @@ explains the word comes first.
 * **cut band**: `camera-cut`, "Reading the cut band and the legend"
 * **cut basis (the line under the preview)**: `interface`, "The four
   tabs"
+* **Cut by speaker (project type)**: see project type
 * **Cut with the wide shot (box)**: `camera-cut`, "How the cut comes about"
 * **dark mode**: `interface`, "What Settings ... holds"
 * **de-bleed**: `auphonic`, "Working without Auphonic"; `preflight`, "How
@@ -160,6 +161,8 @@ explains the word comes first.
   checked"
 * **project file**: `camera-cut`, "What the project file keeps";
   `interface`, "How the time axis is measured"
+* **project type**: `interface`, "The four tabs"; `overview`, "Two kinds
+  of production"; `resolve`, "The button and the two timelines"
 * **PySide6**: `requirements`, "Getting the program"
 * **raw recording (level)**: `camera-cut`, "How the preview players choose
   file and sound"
@@ -188,6 +191,7 @@ explains the word comes first.
   sound"
 * **stereo track**: `channels`, "Stereo stays stereo"; `preflight`, "Which
   loudness target holds"
+* **Sync only (project type)**: see project type
 * **time axis**: `interface`, "How the time axis is measured";
   `multitrack`, "What Multitrack does"
 * **time window**: `multitrack`, "Setting the time window"; `multitrack`,

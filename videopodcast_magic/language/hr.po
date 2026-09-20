@@ -4534,3 +4534,39 @@ msgstr[2] "%s kanala"
 
 msgid "%s channels"
 msgstr "%s kanala"
+
+msgid "Cut by speaker"
+msgstr "Rez po govornicima"
+
+msgid "Sync only"
+msgstr "Samo sinkronizacija"
+
+msgid "Project type"
+msgstr "Vrsta projekta"
+
+msgid "No project type chosen yet."
+msgstr "Vrsta projekta još nije odabrana."
+
+msgid "What is this production to become?"
+msgstr "Što ova produkcija treba postati?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s”: kamere na jednoj vremenskoj osi i rez prema tome tko govori.\n„%s”: kamere na jednoj vremenskoj osi, ništa više -- bez govornika, bez reza."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Samo sinkronizacija: bez reza. Predaja nosi samo multicam Timeline; Resolve projekt stvara se s kartice „Izlaz”."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Vrsta projekta: Samo sinkronizacija -- bez govornika, bez transkripta, bez reza; predaja nosi samo multicam Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Samo sinkronizacija: nije zatražen rez po govornicima.\n  Gradi se samo Timeline za multicam isječak."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  Video zapisi: %s, nazvani po datotekama kamera:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Samo sinkronizacija uzima jednu audio snimku; ovo je još jedna: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Samo sinkronizacija: predaja se ponovno izračunava; nema reza koji bi se ponavljao. Resolve mora biti pokrenut."

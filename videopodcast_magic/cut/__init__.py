@@ -2314,6 +2314,16 @@ def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
         return None
     return file_path
 
+def sync_only(args):
+    """Whether this run only synchronises: no speakers, no cut.
+
+    The project type "sync" puts the one recording onto every camera
+    and stops there. Everything that reads it asks here, so the answer
+    is one -- and a run that never learned the switch is a cut.
+    """
+    return getattr(args, "project_type", "cut") == "sync"
+
+
 def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
                             t0, t1, ref_clip):
     """Finish a multitrack run without auphonic.com.
@@ -2333,8 +2343,11 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     if args.dry_run:
         print(T('\n  (measuring only: nothing written)'))
         return 0
-    step_begin("speakers")
-    segment_list = speakers_for_the_cut(args, tracks)
+    if sync_only(args):
+        segment_list = []
+    else:
+        step_begin("speakers")
+        segment_list = speakers_for_the_cut(args, tracks)
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(videos[0][0]))
     gain, curve = normalise_loudness(tracks, args.lufs, tmpdir, None,
@@ -2431,8 +2444,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             left_out.append(cam["name"])
             continue
         # Sorted, like build_handover's: gathered as they arrive, the same
-        # two people come out as one name here and another there.
-        who = sorted(speaker_of.get(v) or [])
+        # two people come out as one name here and another there. Sync
+        # only knows nobody: every camera is a plain camera, whatever
+        # an assignment says, and the track keeps the file's name.
+        who = [] if sync_only(args) else sorted(speaker_of.get(v) or [])
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
@@ -2505,6 +2520,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         "format": FILE_FORMAT,
         "created_by": "videopodcast-magic %s" % VERSION,
         "production": args.production or 'Production',
+        # "cut" or "sync". The Resolve side branches on this and not on
+        # an empty cut list: a cut can be empty because nobody was heard,
+        # and that is a different thing from nobody having been asked.
+        "project_type": "sync" if sync_only(args) else "cut",
         "fps": resolve_timeline_rate(fps),
         "fps_measured": round(fps, 4),
         "drop_frame": is_drop_frame(ref_clip[1].get("tc") if ref_clip else None),

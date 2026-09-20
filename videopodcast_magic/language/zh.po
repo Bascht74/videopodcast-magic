@@ -4590,3 +4590,38 @@ msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s 项"
 
+msgid "Cut by speaker"
+msgstr "按说话人剪辑"
+
+msgid "Sync only"
+msgstr "仅同步"
+
+msgid "Project type"
+msgstr "项目类型"
+
+msgid "No project type chosen yet."
+msgstr "尚未选择项目类型。"
+
+msgid "What is this production to become?"
+msgstr "这次制作要做成什么？"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "“%s”：摄像机放到同一时间轴上，并按谁在说话进行剪辑。\n“%s”：摄像机放到同一时间轴上，仅此而已 -- 没有说话人，没有剪辑。"
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "仅同步：不剪辑。交接文件只包含多机位 Timeline；Resolve 项目从“输出”选项卡创建。"
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "项目类型：仅同步 -- 没有说话人，没有转录文本，没有剪辑；交接文件只包含多机位 Timeline。"
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  仅同步：未要求按说话人剪辑。\n  只构建多机位片段的 Timeline。"
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s 条视频轨道，以摄像机文件命名："
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "仅同步只接受一段音频录音；这是多出的一段：%s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "仅同步：交接文件会重新计算；没有需要重做的剪辑。Resolve 必须正在运行。"

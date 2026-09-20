@@ -4645,3 +4645,38 @@ msgid_plural "%s points"
 msgstr[0] "%s punto"
 msgstr[1] "%s punti"
 
+msgid "Cut by speaker"
+msgstr "Montaggio per parlante"
+
+msgid "Sync only"
+msgstr "Solo sincronizzazione"
+
+msgid "Project type"
+msgstr "Tipo di progetto"
+
+msgid "No project type chosen yet."
+msgstr "Nessun tipo di progetto scelto finora."
+
+msgid "What is this production to become?"
+msgstr "Che cosa deve diventare questa produzione?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": le telecamere su un unico asse dei tempi e un montaggio secondo chi parla.\n\"%s\": le telecamere su un unico asse dei tempi, nient’altro -- niente parlanti, niente montaggio."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Solo sincronizzazione: nessun montaggio. La consegna contiene soltanto la Timeline multicam; il progetto Resolve si crea dalla scheda \"Uscita\"."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Tipo di progetto: Solo sincronizzazione -- niente parlanti, niente trascrizione, niente montaggio; la consegna contiene soltanto la Timeline multicam."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Solo sincronizzazione: non è stato chiesto alcun montaggio per parlante.\n  Viene costruita soltanto la Timeline per la clip multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s tracce video, con i nomi dei file delle telecamere:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Solo sincronizzazione accetta una sola registrazione audio; questa è una in più: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Solo sincronizzazione: la consegna viene ricalcolata; non c’è alcun montaggio da rifare. Resolve deve essere in funzione."

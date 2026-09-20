@@ -4737,3 +4737,39 @@ msgstr "Le fichier est marqué comme HDR, avec %s notes."
 
 msgid "This makes %s video files, about %s. Target: %s"
 msgstr "Cela produit %s fichiers vidéo, environ %s. Destination : %s"
+
+msgid "Cut by speaker"
+msgstr "Montage par locuteur"
+
+msgid "Sync only"
+msgstr "Synchronisation seule"
+
+msgid "Project type"
+msgstr "Type de projet"
+
+msgid "No project type chosen yet."
+msgstr "Aucun type de projet choisi pour l’instant."
+
+msgid "What is this production to become?"
+msgstr "Que doit devenir cette production ?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "« %s » : les caméras sur un même axe temporel et un montage selon qui parle.\n« %s » : les caméras sur un même axe temporel, rien de plus -- ni locuteurs, ni montage."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Synchronisation seule : pas de montage. Le transfert ne porte que la Timeline multicam ; le projet Resolve se crée depuis l’onglet « Sortie »."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Type de projet : Synchronisation seule -- ni locuteurs, ni transcription, ni montage ; le transfert ne porte que la Timeline multicam."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Synchronisation seule : aucun montage par locuteur n’a été demandé.\n  Seule la Timeline du clip multicam est construite."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s pistes vidéo, nommées d’après les fichiers caméra :"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Synchronisation seule n’accepte qu’un seul enregistrement audio ; en voici un de plus : %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Synchronisation seule : le transfert est recalculé ; il n’y a pas de montage à refaire. Resolve doit tourner."

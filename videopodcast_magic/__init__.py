@@ -198,7 +198,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b16"
+VERSION = "3.0.0b17"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -466,6 +466,14 @@ def main():
                  "dry_run", "multitrack", "resolve"):
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
+    # One word for the whole run. "sync" means no speakers, no speech
+    # recognition and no transcript, and the three switches that say so
+    # are set here, once -- the pipeline reads one flag, and each of the
+    # three keeps working on its own.
+    if args.project_type == "sync":
+        args.no_speakers_local = True
+        args.no_speech_recognition = True
+        args.no_transcript_file = True
 
     if args.auphonic_key and not args.files:
         try:

@@ -4492,3 +4492,39 @@ msgstr[1] "%s kanavaa"
 
 msgid "%s channels"
 msgstr "%s kanavaa"
+
+msgid "Cut by speaker"
+msgstr "Leikkaus puhujan mukaan"
+
+msgid "Sync only"
+msgstr "Vain synkronointi"
+
+msgid "Project type"
+msgstr "Projektityyppi"
+
+msgid "No project type chosen yet."
+msgstr "Projektityyppiä ei ole vielä valittu."
+
+msgid "What is this production to become?"
+msgstr "Mitä tästä tuotannosta on tarkoitus tulla?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "”%s”: kamerat samalle aika-akselille ja leikkaus sen mukaan, kuka puhuu.\n”%s”: kamerat samalle aika-akselille, ei muuta -- ei puhujia, ei leikkausta."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Vain synkronointi: ei leikkausta. Luovutus sisältää vain multicam-Timelinen; Resolve-projekti luodaan Tuloste-välilehdeltä."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projektityyppi: Vain synkronointi -- ei puhujia, ei transkriptiota, ei leikkausta; luovutus sisältää vain multicam-Timelinen."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Vain synkronointi: leikkausta puhujan mukaan ei pyydetty.\n  Vain multicam-leikkeen Timeline rakennetaan."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s videoraitaa, nimetty kameratiedostojen mukaan:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Vain synkronointi ottaa yhden äänitallenteen; tässä on vielä yksi: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Vain synkronointi: luovutus lasketaan uudelleen; leikkausta ei ole tehtävä uusiksi. Resolven on oltava käynnissä."

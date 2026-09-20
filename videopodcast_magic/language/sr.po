@@ -4534,3 +4534,39 @@ msgstr[2] "%s канала"
 
 msgid "%s channels"
 msgstr "%s канала"
+
+msgid "Cut by speaker"
+msgstr "Монтажа по говорницима"
+
+msgid "Sync only"
+msgstr "Само синхронизација"
+
+msgid "Project type"
+msgstr "Врста пројекта"
+
+msgid "No project type chosen yet."
+msgstr "Врста пројекта још није изабрана."
+
+msgid "What is this production to become?"
+msgstr "Шта ова продукција треба да постане?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s“: камере на једној временској оси и монтажа према томе ко говори.\n„%s“: камере на једној временској оси, ништа више -- без говорника, без монтаже."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Само синхронизација: без монтаже. Предаја носи само multicam Timeline; Resolve пројекат се прави са картице „Излаз“."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Врста пројекта: Само синхронизација -- без говорника, без транскрипта, без монтаже; предаја носи само multicam Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Само синхронизација: није затражена монтажа по говорницима.\n  Прави се само Timeline за multicam клип."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  Видео трака (%s), назване по датотекама камера:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Само синхронизација узима један аудио снимак; ово је још један: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Само синхронизација: предаја се поново рачуна; нема монтаже коју би требало поновити. Resolve мора да ради."

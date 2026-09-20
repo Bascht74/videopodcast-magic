@@ -124,7 +124,8 @@ WRITTEN = {"format": vpm.FILE_FORMAT, "version": vpm.VERSION,
            "preset": vpm.PRESET_NONE, "speech_language": LANGUAGE_TAG,
            "lufs": LUFS, "speakers": {}, "speakers_source": "",
            "speakers_local": False, "apart": [SOUND_B],
-           "together": {SOUND_A2: SOUND_A}, "channels": {}}
+           "together": {SOUND_A2: SOUND_A}, "channels": {},
+           "project_type": "cut"}
 
 project_path = os.path.join(
     out_folder, "%s%s.json" % (vpm.PROJECT_PREFIX,
@@ -167,6 +168,7 @@ back = {
                        if "kind:" + p in assignment),
     "out_folder": d.get("out_folder") or "",
     "multitrack": bool(d.get("multitrack")),
+    "project_type": d.get("project_type") or "cut",
     "camera_audio_only": False,
     "dry_run": False,
     "rows": [{"blocks": [k[len("audio:"):]], "speakers": value[0],
@@ -366,7 +368,8 @@ CENSUS = (("out_folder", "--out", "out", out_folder),
           ("preset", "--without-auphonic", "without_auphonic", True),
           ("speakers_local", "--no-speakers-local", "no_speakers_local",
            True),
-          ("camera_cut", "--min-edit-duration", "min_edit_duration", 2.5))
+          ("camera_cut", "--min-edit-duration", "min_edit_duration", 2.5),
+          ("project_type", "--project-type", "project_type", "cut"))
 # The five that carry no switch, and the door each takes instead:
 # the production names the job in the assignment file, the assignment
 # reaches the run as the kinds above and the tracks in that same file,

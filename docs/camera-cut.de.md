@@ -668,7 +668,8 @@ einzigen Kamera.
 
 `videopodcast-magic_<Produktion>.json` im Ausgabeordner enthält alles,
 was man von Hand eingestellt hat und nicht wieder erraten kann. Das sind
-die Dateiliste, Name und Ablageort der Produktion, das Zeitfenster, alle
+die Dateiliste, Name, Projekttyp und Ablageort der Produktion, das
+Zeitfenster, alle
 Werte des Kameraschnitts, wer zu welcher Kamera gehört, das
 Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei und
 wie schnell ihr Recorder lief; der API Key steht **nicht** darin.

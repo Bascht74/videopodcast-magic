@@ -97,13 +97,14 @@ files_project_first	14
 files_project_offered	35
 files_set_aside_skipped	14
 files_split_found_again	10
+files_sync_one_recording	19
 project_amounts_grouped	3
 project_cameras_land	23
 project_each_track_set	5
 project_every_offset	9
 project_file_beats_last	6
 project_grades_stay_off	8
-project_handover_built	81
+project_handover_built	85
 project_hdr_follows	49
 project_keeps_answers	13
 project_mix_by_name	7
@@ -115,6 +116,7 @@ project_rerun_updates	10
 project_run_comes_back	16
 project_same_offset	11
 project_settings_return	31
+project_sync_multicam	13
 project_tag_reason_fits	8
 project_top_rate_wins	20
 project_two_stay_two	6
@@ -122,7 +124,7 @@ project_two_timelines_go	16
 run_bar_never_falls	20
 run_bar_tracks_work	35
 run_choice_kept	17
-run_command_built	63
+run_command_built	65
 run_dry_reports_voices	13
 run_dry_run_not_stopped	6
 run_ffmpeg_new_enough	26
@@ -138,6 +140,7 @@ run_only_newer_offered	83
 run_outside_seen	14
 run_overwrite_is_said	13
 run_prework_listed	43
+run_project_type_reaches	12
 run_promise_is_written	12
 run_shortcut_laid_once	28
 run_simple_path_agrees	26
@@ -146,6 +149,7 @@ run_starter_arch_fits	30
 run_stays_local	20
 run_switch_changes_it	12
 run_switch_has_effect	8
+run_sync_only_no_cut	19
 run_threads_keep_order	17
 run_three_ways_agree	19
 run_update_says_it_landed	7
@@ -285,6 +289,7 @@ window_offers_restart	13
 window_picture_returns	8
 window_play_follows_tab	23
 window_prework_box_goes	3
+window_project_type_set	34
 window_reads_as_chosen	14
 window_restart_carries	17
 window_setup_kept_apart	19

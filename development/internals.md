@@ -22,12 +22,12 @@ loader, the version check, the run, the values more than one piece
 reads, and the catalogue.
 
 What is in them, largest first, every folder of the program on the list
-and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
+and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **3867** -- the window and everything it shows, asks or offers,
+* `ui/` **3995** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `speakers/` **3654** -- who speaks and when: the separation itself,
+* `speakers/` **3667** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -35,14 +35,14 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3036** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **2904** -- who is on camera when, and what carries it out
+* `cut/` **2923** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2807** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2815** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2747** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
-* `pipeline/` **1993** -- the chain the recordings run until the camera
+* `pipeline/` **2015** -- the chain the recordings run until the camera
   files are written
 * `bearings/` **1823** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   stored handover and a file name read as
 * `auphonic/` **1657** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1542** -- whether the material fits together before the
+* `preflight/` **1578** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `speech/` **1089** -- what is said and when, and what is written down
@@ -59,11 +59,11 @@ figure of the day is that command, not this paragraph**:
   keeping the key
 * `hearing/` **1046** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1027** -- helpers that shape what the window shows and
+* `fittings/` **1028** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
-* `orders/` **786** -- the command line a run is given: written out of
+* `orders/` **799** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **725** -- MOV atoms, colour tags, what a recording says
   about itself
@@ -71,7 +71,7 @@ figure of the day is that command, not this paragraph**:
   one in place, and what the window offers of all three
 * `herald/` **615** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **533** -- the program's own project file: writing
+* `project/` **567** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **500** -- the list of chosen files: the tree it is
@@ -82,7 +82,7 @@ figure of the day is that command, not this paragraph**:
 * `livery/` **392** -- the colours, the marks that say what kind a line
   is, and the room a name or a table may take
 * `tables/` **348** -- the tables and trees the window builds
-* `running/` **344** -- what a run is offered before it starts, the
+* `running/` **347** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **346** -- a .po file per language and the reader that
   looks one up
