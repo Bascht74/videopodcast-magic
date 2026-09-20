@@ -182,7 +182,7 @@ audio_start = vpm.file_timecode(REC)
 print("1. What the alignment finds, and what it admits")
 found = {}
 for v in (GOOD, LOST, CLOCK):
-    a, b, st = vpm.align_audio_to_video(REC, v, 0)
+    a, b, st = vpm.align_audio_to_video(REC, v)
     found[v] = (a, st)
     print("   %-10s offset %+7.3f s, envelopes %+.3f, phase %s"
           % (os.path.basename(v), a, st.get("quality", 0.0),
@@ -434,7 +434,7 @@ check("the refusal is written down once", source.count("unplaceable\"] = True")
 #------------------------------ 6. The recording side of the same rule
 
 print("\n6. A recording: the same verdict, read by another caller")
-_a, _b, stray_st = vpm.align_audio_to_video(STRAY, GOOD, 0)
+_a, _b, stray_st = vpm.align_audio_to_video(STRAY, GOOD)
 check("a recording foreign to the camera is marked unplaceable",
       bool(stray_st.get("unplaceable")),
       "envelopes %.3f against %.2f, phase %.1f against %.1f"

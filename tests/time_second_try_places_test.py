@@ -126,7 +126,7 @@ def numbers(st):
 
 print("1. The plain curve alone, with the second try taken out")
 vpm.align_on_moving_bands = lambda *a, **k: None
-plain_a, _b, plain = vpm.align_audio_to_video(GUEST, HUMMED, 0, **ASKED)
+plain_a, _b, plain = vpm.align_audio_to_video(GUEST, HUMMED, **ASKED)
 vpm.align_on_moving_bands = second_way
 print("   hummed camera, plain only: %s, offset %+.3f s"
       % (numbers(plain), plain_a))
@@ -157,7 +157,7 @@ alone = second_way(vpm.decode_audio(HUMMED, rate=4000),
                    vpm.decode_audio(GUEST, rate=4000, ss=0.0),
                    5.0, 4000, ASKED["sample_points"], 20.0,
                    ASKED["distance_s"])
-found_a, found_b, found = vpm.align_audio_to_video(GUEST, HUMMED, 0, **ASKED)
+found_a, found_b, found = vpm.align_audio_to_video(GUEST, HUMMED, **ASKED)
 print("   hummed camera: on its own %s | through the chain %s, offset "
       "%+.3f s" % ("-- none --" if alone is None else numbers(alone[2]),
                    numbers(found), found_a))
@@ -207,9 +207,9 @@ def counted(*a, **k):
 
 
 vpm.align_on_moving_bands = counted
-easy_a, _b, easy = vpm.align_audio_to_video(GUEST, CLEAN, 0, **ASKED)
+easy_a, _b, easy = vpm.align_audio_to_video(GUEST, CLEAN, **ASKED)
 after_easy = len(tried)
-vpm.align_audio_to_video(GUEST, HUMMED, 0, **ASKED)
+vpm.align_audio_to_video(GUEST, HUMMED, **ASKED)
 after_hard = len(tried)
 vpm.align_on_moving_bands = second_way
 print("   camera without the tone: %s, offset %+.3f s"
@@ -230,7 +230,7 @@ check("a camera it cannot place does enter it",
 #------------------------------------------------------ 4. The guard
 
 print("\n4. A recording that fits nowhere is not placed either")
-lost_a, _b, lost = vpm.align_audio_to_video(STRAY, HUMMED, 0, **ASKED)
+lost_a, _b, lost = vpm.align_audio_to_video(STRAY, HUMMED, **ASKED)
 apart = second_way(vpm.decode_audio(HUMMED, rate=4000),
                    vpm.decode_audio(STRAY, rate=4000, ss=0.0),
                    5.0, 4000, ASKED["sample_points"], 20.0,
