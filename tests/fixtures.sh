@@ -393,16 +393,28 @@ fi
 # all -- and it is the one test that lets the real pyannote run. The
 # copy costs 1.0 MB and holds nothing but these six sentences.
 #
-# Where say(1) is there the folder is spoken afresh anyway, and the
-# result is written back over the checked-in copy. So the recipe stays
-# exercised instead of quietly rotting, and a changed voice, a changed
-# say(1) or a changed sentence shows up as a diff somebody sees.
-# -bitexact is what makes that diff worth looking at: without it
-# ffmpeg writes its own version into the file (ISFT Lavf...), and every
-# ffmpeg update would produce a 34-byte diff at unchanged sound --
-# noise that teaches you to stop looking. With it, a diff means the
-# sound is different. Measured 4.9.2026: 16 builds on one Mac gave the
-# same bytes to the byte.
+# Where say(1) is there the folder is spoken afresh anyway, so the
+# recipe stays exercised instead of quietly rotting. What was spoken
+# is then held against the checked-in copy, and one line below says
+# whether the two are the same bytes or not. It says; it does not
+# write. Until 20.9.2026 this block copied the fresh files back over
+# tests/material/twovoices, and a full run on 19.9.2026 left a changed
+# talk.wav and truth.txt in the working tree that nearly travelled
+# into a pull request about something else. A run must not change what
+# is checked in -- test-neu, section 8 -- and a diff that turns up in
+# an unrelated pull request is not a signal, it is a trap.
+#
+# So the copy is refreshed by hand and on purpose, never by a run: a
+# changed voice, a changed say(1) or a changed sentence shows up as
+# the "differs" line, and whoever wants the new sound on the four
+# machines without say(1) copies the three files there themselves and
+# commits them as their own change. -bitexact is what makes that
+# comparison worth reading: without it ffmpeg writes its own version
+# into the file (ISFT Lavf...), and every ffmpeg update would produce a
+# 34-byte difference at unchanged sound -- noise that teaches you to
+# stop looking. With it, a difference means the sound is different.
+# Measured 4.9.2026: 16 builds on one Mac gave the same bytes to the
+# byte.
 #
 # THE PRICE, and it is taken with open eyes: the two macOS jobs speak
 # the material, the other four read the copy. Should they ever drift
@@ -411,7 +423,7 @@ fi
 # checksum guard on purpose: the builder's ffmpeg moves with Homebrew,
 # so a guard would go red on Homebrew's schedule rather than on the
 # material's, and a check that cries wolf is worse than none. What
-# catches a drift is the diff on this folder, and a person reading it.
+# catches a drift is the line below, and a person reading it.
 #
 # The word below changed when -bitexact came in, so a machine carrying
 # material from before speaks it once more and lands on the new bytes.
@@ -494,11 +506,19 @@ up and every cut lands in the wrong place."
     printf '%s %s\n' "$V1" "$V2" > voices.txt
     rm -f piece*.wav hush*.wav list.txt
     done_with "$FIX/twovoices" "$TWOVOICES_BUILD"
-    # Back into the repository, so the four machines without say(1)
-    # read what this one just spoke. Identical bytes leave no diff;
-    # different bytes are the signal described above.
-    mkdir -p "$KEPT"
-    cp talk.wav truth.txt voices.txt "$KEPT/"
-    echo "  "$FIX/twovoices"    built ($V1, $V2), copy in tests/material"
+    echo "  "$FIX/twovoices"    built ($V1, $V2)"
+    # Held against the checked-in copy, and only said. Nothing here
+    # writes into the repository -- see the comment above the block.
+    same=yes
+    for f in talk.wav truth.txt voices.txt; do
+      cmp -s "$f" "$KEPT/$f" || same=no
+    done
+    if [ "$same" = yes ]; then
+      echo "    identical to tests/material/twovoices"
+    else
+      echo "    differs from tests/material/twovoices -- the four machines" \
+           "without say(1) read the copy; if the change is wanted, copy" \
+           "it there by hand"
+    fi
   fi
 fi
