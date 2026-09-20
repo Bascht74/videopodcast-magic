@@ -602,6 +602,17 @@ def check_audio_file(file_path):
                   "tc": file_timecode(file_path)}
 
 
+def recording_name(head_name, blocks):
+    """What a recording is called in a finding.
+
+    Its first block, and how many follow it. One place, so the report
+    and the sentence under the list name a three-block recording alike.
+    """
+    if blocks > 1:
+        return "%s +%d" % (head_name or "?", blocks - 1)
+    return head_name or "?"
+
+
 def by_recording(audio_data, chains):
     """Turn per-block data into per-recording data.
 
@@ -618,10 +629,27 @@ def by_recording(audio_data, chains):
             continue
         head = dict(parts[0])
         head["duration"] = sum(t.get("duration") or 0.0 for t in parts)
-        if len(parts) > 1:
-            head["name"] = "%s +%d" % (head.get("name") or "?",
-                                       len(parts) - 1)
+        head["name"] = recording_name(head.get("name"), len(parts))
         out.append(head)
+    return out
+
+
+def one_recording_only(chains):
+    """Sync only: every audio recording past the first is a reason to stop.
+
+    A recording is a chain, not a file -- a recorder that cuts a take
+    into blocks at 2 GB still delivers one recording -- and a camera
+    using its own sound is a track, never in this list. The first is
+    the first in the order the chains already have: by file name of the
+    block that heads it, which is how the list and the log show them.
+    """
+    out = []
+    for row, _rest in chains[1:]:
+        name = recording_name(os.path.basename(row[0]), len(row))
+        out.append(Finding(
+            "abort", name[:17],
+            T('Sync only takes one audio recording; this is one more: %s')
+            % name, "", row[0]))
     return out
 
 
@@ -1269,14 +1297,15 @@ def report_findings(findings, heading, anyway=False):
 
 
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
-                    set_aside=(), apart=(), together=()):
+                    set_aside=(), apart=(), together=(), project_type="cut"):
     """Collect all findings about the material.
 
     Each file is measured and cached on its own, so adding one measures
     only that one; what shows in comparison comes off the cached data.
     *set_aside* are files that do not take part -- ignored ones, intro,
     outro. They are checked so their row is not the only one without a
-    mark, and stay out of the comparisons.
+    mark, and stay out of the comparisons. *project_type* "sync" takes
+    exactly one audio recording and refuses every further one.
     """
     set_aside = {path_key(x) for x in (set_aside or ())}
 
@@ -1315,6 +1344,8 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     findings += compare_audio_tracks(recordings)
     findings += timecode_comparison(video_data + recordings)
     heads = [row[0] for row, _rest in chains]
+    if project_type == "sync":
+        findings += one_recording_only(chains)
     if crosstalk and len(heads) > 1:
         # Crosstalk is about the interplay, so it is cached per set.
         audio_paths = heads
@@ -1332,11 +1363,12 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     return findings
 
 
-def run_preflight(args, audio_paths, video_paths):
+def run_preflight(args, audio_paths, video_paths, project_type=None):
     """Run the preflight report on the material. Returns 1 to abort.
 
     Called once for both modes, before the fork in main(). What needs
-    several tracks falls away with one.
+    several tracks falls away with one. main() hands *project_type*
+    over as the call says it; not given reads as cut.
     """
     if getattr(args, "no_preflight", False):
         return 0
@@ -1344,7 +1376,8 @@ def run_preflight(args, audio_paths, video_paths):
                               bool(getattr(args, "preflight_again", False)),
                               bool(getattr(args, "multitrack", False)),
                               apart=getattr(args, "apart", ()),
-                              together=getattr(args, "together", ()))
+                              together=getattr(args, "together", ()),
+                              project_type=project_type or "cut")
     # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
                              bool(getattr(args, "multitrack", False)),
@@ -1444,12 +1477,13 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
         preflight_line.setStyleSheet("color: %s;" % colour_line)
 
     def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
-                         set_aside=(), apart=(), together=()):
+                         set_aside=(), apart=(), together=(),
+                         project_type="cut"):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
                                         crosstalk, set_aside, apart,
-                                        together)
+                                        together, project_type)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
             # would start on material nobody looked at.
@@ -1488,12 +1522,14 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
         preflight_line.setText(T('checking ...'))
         preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
         # Crosstalk is a question about per-speaker tracks. Without
-        # multitrack there are none, and nothing is assigned yet.
+        # multitrack there are none, and nothing is assigned yet. The
+        # project type is the window's state; unset reads as cut.
         threading.Thread(target=preflight_work_loop,
                          args=(audio_files, videos_p, label_run,
                                bool(multitrack.get()), gone,
                                frozenset(no_join),
-                               tuple(tuple(g) for g in together_now())),
+                               tuple(tuple(g) for g in together_now()),
+                               state.get("project_type") or "cut"),
                          daemon=True).start()
 
     return preflight_fill_in, preflight_kick_off
