@@ -4492,3 +4492,39 @@ msgstr[1] "%s kanalen"
 
 msgid "%s channels"
 msgstr "%s kanalen"
+
+msgid "Cut by speaker"
+msgstr "Montage per spreker"
+
+msgid "Sync only"
+msgstr "Alleen synchroniseren"
+
+msgid "Project type"
+msgstr "Projecttype"
+
+msgid "No project type chosen yet."
+msgstr "Nog geen projecttype gekozen."
+
+msgid "What is this production to become?"
+msgstr "Wat moet deze productie worden?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": de camera's op één tijdas en een montage naar wie er spreekt.\n\"%s\": de camera's op één tijdas, meer niet -- geen sprekers, geen montage."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Alleen synchroniseren: geen montage. De overdracht bevat alleen de multicam-Timeline; het Resolve-project wordt aangemaakt vanaf het tabblad \"Uitvoer\"."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projecttype: Alleen synchroniseren -- geen sprekers, geen transcript, geen montage; de overdracht bevat alleen de multicam-Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Alleen synchroniseren: er is geen montage per spreker gevraagd.\n  Alleen de Timeline voor de multicamclip wordt opgebouwd."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s videosporen, genoemd naar de camerabestanden:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Alleen synchroniseren neemt één audio-opname; dit is er nog een: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Alleen synchroniseren: de overdracht wordt opnieuw berekend; er is geen montage om over te doen. Resolve moet draaien."

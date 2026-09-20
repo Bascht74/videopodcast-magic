@@ -4669,3 +4669,39 @@ msgstr[2] "Получится %s видеофайлов, около %s. Куда
 
 msgid "  Timecode:        %s"
 msgstr "  Таймкод:         %s"
+
+msgid "Cut by speaker"
+msgstr "Нарезка по говорящим"
+
+msgid "Sync only"
+msgstr "Только синхронизация"
+
+msgid "Project type"
+msgstr "Тип проекта"
+
+msgid "No project type chosen yet."
+msgstr "Тип проекта ещё не выбран."
+
+msgid "What is this production to become?"
+msgstr "Чем должна стать эта продукция?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "«%s»: камеры на одной оси времени и нарезка по тому, кто говорит.\n«%s»: камеры на одной оси времени, и ничего больше -- без говорящих, без нарезки."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Только синхронизация: без нарезки. Передача несёт только мультикамерный Timeline; проект Resolve создаётся на вкладке «Вывод»."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Тип проекта: Только синхронизация -- без говорящих, без транскрипта, без нарезки; передача несёт только мультикамерный Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Только синхронизация: нарезка по говорящим не запрашивалась.\n  Строится только Timeline для мультикамерного клипа."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  видеодорожек: %s, названы по файлам камер:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Только синхронизация берёт одну звукозапись; вот ещё одна: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Только синхронизация: файл передачи пересчитывается заново; нарезки, которую нужно переделать, нет. Resolve должен быть запущен."

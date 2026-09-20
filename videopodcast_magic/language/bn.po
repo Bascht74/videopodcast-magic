@@ -4494,3 +4494,39 @@ msgstr[1] "%sটি চ্যানেল"
 
 msgid "%s channels"
 msgstr "%sটি চ্যানেল"
+
+msgid "Cut by speaker"
+msgstr "বক্তা অনুযায়ী কাট"
+
+msgid "Sync only"
+msgstr "শুধু সিঙ্ক"
+
+msgid "Project type"
+msgstr "প্রজেক্টের ধরন"
+
+msgid "No project type chosen yet."
+msgstr "এখনও প্রজেক্টের ধরন বেছে নেওয়া হয়নি।"
+
+msgid "What is this production to become?"
+msgstr "এই প্রোডাকশন কী হয়ে উঠবে?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": ক্যামেরাগুলো এক সময়-অক্ষে, আর কে কথা বলছে সেই অনুযায়ী কাট।\n\"%s\": ক্যামেরাগুলো এক সময়-অক্ষে, এর বেশি কিছু নয় -- কোনো বক্তা নেই, কোনো কাট নেই।"
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "শুধু সিঙ্ক: কোনো কাট নেই। হস্তান্তরে শুধু মাল্টিক্যাম Timeline থাকে; Resolve প্রজেক্ট \"আউটপুট\" ট্যাব থেকে তৈরি হয়।"
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "প্রজেক্টের ধরন: শুধু সিঙ্ক -- কোনো বক্তা নেই, কোনো ট্রান্সক্রিপ্ট নেই, কোনো কাট নেই; হস্তান্তরে শুধু মাল্টিক্যাম Timeline থাকে।"
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  শুধু সিঙ্ক: বক্তা অনুযায়ী কাট চাওয়া হয়নি।\n  শুধু মাল্টিক্যাম ক্লিপের Timeline তৈরি হয়।"
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %sটি ভিডিও ট্র্যাক, ক্যামেরা ফাইলের নামে:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "শুধু সিঙ্ক একটি মাত্র অডিও রেকর্ডিং নেয়; এটি আরও একটি: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "শুধু সিঙ্ক: হস্তান্তর আবার হিসাব করা হয়; আবার করার মতো কোনো কাট নেই। Resolve চালু থাকতে হবে।"

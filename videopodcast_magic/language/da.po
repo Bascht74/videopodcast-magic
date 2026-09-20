@@ -4492,3 +4492,39 @@ msgstr[1] "%s kanaler"
 
 msgid "%s channels"
 msgstr "%s kanaler"
+
+msgid "Cut by speaker"
+msgstr "Klipning efter taler"
+
+msgid "Sync only"
+msgstr "Kun synkronisering"
+
+msgid "Project type"
+msgstr "Projekttype"
+
+msgid "No project type chosen yet."
+msgstr "Der er endnu ikke valgt en projekttype."
+
+msgid "What is this production to become?"
+msgstr "Hvad skal denne produktion blive til?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "”%s”: kameraerne på én tidsakse og en klipning efter, hvem der taler.\n”%s”: kameraerne på én tidsakse, ikke mere -- ingen talere, ingen klipning."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Kun synkronisering: ingen klipning. Overdragelsen bærer kun multicam-Timeline; Resolve-projektet oprettes fra fanen ”Output”."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projekttype: Kun synkronisering -- ingen talere, ingen transskription, ingen klipning; overdragelsen bærer kun multicam-Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Kun synkronisering: der blev ikke bedt om klipning efter taler.\n  Kun Timeline til multicam-klippet bygges."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s videospor, navngivet efter kamerafilerne:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Kun synkronisering tager én lydoptagelse; her er én til: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Kun synkronisering: overdragelsen udregnes igen; der er ingen klipning at gøre om. Resolve skal køre."

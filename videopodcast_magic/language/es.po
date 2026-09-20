@@ -4626,3 +4626,39 @@ msgstr[1] "Se crean %s archivos de vídeo, unos %s. Destino: %s"
 
 msgid "  Timecode:        %s"
 msgstr "  Timecode:          %s"
+
+msgid "Cut by speaker"
+msgstr "Montaje por hablante"
+
+msgid "Sync only"
+msgstr "Solo sincronizar"
+
+msgid "Project type"
+msgstr "Tipo de proyecto"
+
+msgid "No project type chosen yet."
+msgstr "Todavía no se ha elegido el tipo de proyecto."
+
+msgid "What is this production to become?"
+msgstr "¿En qué se va a convertir esta producción?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "«%s»: las cámaras en un eje de tiempo y un montaje según quién habla.\n«%s»: las cámaras en un eje de tiempo, nada más -- sin hablantes, sin montaje."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Solo sincronizar: sin montaje. La entrega lleva únicamente la Timeline multicámara; el proyecto de Resolve se crea desde la pestaña «Salida»."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Tipo de proyecto: Solo sincronizar -- sin hablantes, sin transcripción, sin montaje; la entrega lleva únicamente la Timeline multicámara."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Solo sincronizar: no se pidió ningún montaje por hablante.\n  Solo se construye la Timeline para el clip multicámara."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s pistas de vídeo, con el nombre de los archivos de cámara:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Solo sincronizar admite una sola grabación de audio; esta es una más: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Solo sincronizar: la entrega se calcula de nuevo; no hay ningún montaje que rehacer. Resolve tiene que estar en marcha."

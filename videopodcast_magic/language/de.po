@@ -6593,3 +6593,39 @@ msgstr ""
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Diese Übergabe trägt keine Bildrate, deshalb läßt sich die Zeitleiste daraus nicht bauen. Bitte den Lauf noch einmal machen."
+
+msgid "Cut by speaker"
+msgstr "Schnitt nach Sprecher"
+
+msgid "Sync only"
+msgstr "Nur synchronisieren"
+
+msgid "Project type"
+msgstr "Projekttyp"
+
+msgid "No project type chosen yet."
+msgstr "Noch kein Projekttyp gewählt."
+
+msgid "What is this production to become?"
+msgstr "Was soll aus dieser Produktion werden?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s“: die Kameras auf einer Zeitachse und ein Schnitt danach, wer gerade spricht.\n„%s“: die Kameras auf einer Zeitachse, mehr nicht -- keine Sprecher, kein Schnitt."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Nur synchronisieren: kein Schnitt. Die Übergabe trägt allein die Multicam-Zeitleiste; das Resolve-Projekt wird im Reiter „Ausgabe“ angelegt."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projekttyp: Nur synchronisieren -- keine Sprecher, kein Transkript, kein Schnitt; die Übergabe trägt allein die Multicam-Zeitleiste."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Nur synchronisieren: kein Schnitt nach Sprecher verlangt.\n  Nur die Timeline für den Multicam-Clip wird gebaut."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s Bildspuren, benannt nach den Kameradateien:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Nur synchronisieren nimmt eine Tonaufnahme; hier ist noch eine: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Nur synchronisieren: die Übergabe wird neu gerechnet; einen Schnitt gibt es nicht. Resolve muss laufen."
