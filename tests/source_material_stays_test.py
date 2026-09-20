@@ -13,6 +13,9 @@ by hand and on purpose shows there until it is committed.
 
 VPM_FIXTURES_SH names the script to run; without it, the one beside
 this test. The material held is always the folder beside that script.
+On Windows the first bash on the search path is the WSL stub, which
+only says how to install a distribution; Git's bash is taken there,
+and the fresh folder is handed to it in its own spelling.
 """
 import hashlib
 import os
@@ -66,8 +69,28 @@ def git(*words):
     return got
 
 
-for tool in ("bash", "ffmpeg"):
-    if not shutil.which(tool):
+def bash():
+    """Where bash is -- on Windows Git's, not the WSL stub in System32.
+
+    C:\Windows\System32\bash.exe stands first on the search path and
+    answers every call with the line to install a distribution, so
+    shutil.which() alone hands the script to a shell that runs nothing.
+    Git's bash sets EXEPATH to its root when it is the shell running
+    the suite; otherwise the usual install folder is tried.
+    """
+    if sys.platform == "win32":
+        for root in (os.environ.get("EXEPATH"),
+                     os.path.join(os.environ.get("ProgramFiles", ""),
+                                  "Git")):
+            exe = os.path.join(root or "", "bin", "bash.exe")
+            if root and os.path.isfile(exe):
+                return exe
+    return shutil.which("bash")
+
+
+BASH = bash()
+for tool, found in (("bash", BASH), ("ffmpeg", shutil.which("ffmpeg"))):
+    if not found:
         print("SKIPPED: no %s on the search path -- fixtures.sh cannot "
               "build without it; install it and run again" % tool)
         print("\n%d checks in %.2f s" % (done, time.time() - began))
@@ -76,13 +99,21 @@ for tool in ("bash", "ffmpeg"):
 
 before = sums()
 fix = tempfile.mkdtemp(prefix="vpm-material-stays-")
-env = dict(os.environ, VPM_FIXTURES=fix)
+fix_for_bash = fix
+if sys.platform == "win32":
+    # The folder in bash's own spelling (/c/Users/...), so the script's
+    # mkdir, cp and rm see one path and not a mixed one.
+    posix = subprocess.run([BASH, "-c", 'cygpath -u "$0"', fix],
+                           capture_output=True, text=True)
+    if posix.returncode == 0 and posix.stdout.strip():
+        fix_for_bash = posix.stdout.strip()
+env = dict(os.environ, VPM_FIXTURES=fix_for_bash)
 env.pop("VPM_FIXTURES_SH", None)
 returned = None
 tail = ""
 try:
     try:
-        run = subprocess.run(["bash", SCRIPT], env=env, cwd=fix,
+        run = subprocess.run([BASH, SCRIPT], env=env, cwd=fix,
                              capture_output=True, text=True,
                              timeout=PATIENCE)
         returned = run.returncode
