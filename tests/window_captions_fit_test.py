@@ -25,12 +25,18 @@ last two hang together: the pin is measured for a reading of noughts, so
 that is the widest reading there is only while every digit is as wide as
 a nought.
 
+The text pane of the Output tab -- the one a run writes into -- is asked
+the same question about its face. It asks for a typewriter family by
+name, and where that name is absent Qt falls to an alias that follows
+the language, so a pane drawn fixed width here can be proportional on
+another platform under another locale.
+
 Windowless, Qt answers a request for the system's typewriter face with
 the Linux alias "monospace" whatever the machine, so which face the
 system itself would name cannot be judged there. That piece is left out
 by name, with the numbers beside it, and what is drawn is judged all the
 same. Where the platform knows no fixed-width family at all -- windowless
-Windows is the reported case -- both font checks are left out, because a
+Windows is the reported case -- the font checks are left out, because a
 red line would then name the platform and not the program.
 """
 import os, sys, json, subprocess, time
@@ -425,6 +431,25 @@ def measure(language):
                 "needs": span.fontMetrics().horizontalAdvance(
                     WIDEST_READING)}
 
+    def output_pane_face():
+        """The text pane of the Output tab: which face is it drawn in?
+
+        Found by its class rather than through the tab bar: the sheet
+        it sits on only goes into the bar once a run writes into it, so
+        while the window is measured the pane has no window above it.
+        It is the program's one text pane of that class; a second one
+        would make the answer ambiguous, so the count is reported too.
+        """
+        panes = [w for w in app.allWidgets()
+                 if isinstance(w, QtWidgets.QTextEdit)]
+        if len(panes) != 1:
+            return {"found": len(panes)}
+        pane = panes[0]
+        drawn_in = QtGui.QFontInfo(pane.font())
+        return {"found": 1, "family": pane.font().family(),
+                "drawn": drawn_in.family(),
+                "fixed_pitch": bool(drawn_in.fixedPitch())}
+
     def tabs_sweep(window):
         """Sheet by sheet: only what lies on top is on the screen."""
         for bar in window.findChildren(QtWidgets.QTabBar):
@@ -525,6 +550,7 @@ def measure(language):
         result["size"] = "%dx%d" % (window.width(), window.height())
         result["seen"] = seen[0]
         result["zoom_row"] = zoom_row_holds(window)
+        result["output_pane"] = output_pane_face()
         result["undrawable"] = sorted(undrawable)
         result["found"] = [dict(text=t, kind=k, box=b, short=s)
                            for (t, k, b), s in rounds[1].items()
@@ -673,7 +699,7 @@ for language, out in outputs:
                 print("  LEFT OUT (the width of the face): this "
                       "platform's Qt knows no fixed-width font family "
                       "at all, so nothing the program asks for can be "
-                      "drawn with one and neither font check says "
+                      "drawn with one and none of the font checks says "
                       "anything about the program. %s. Windowless "
                       "Windows is the known case, QTBUG-142818; "
                       "QT_QPA_FONTDIR pointing at the system's font "
@@ -682,6 +708,19 @@ for language, out in outputs:
         else:
             check("%s: the reading is drawn with a fixed width" % language,
                   bool(row.get("fixed_pitch")), evidence)
+            # The pane a run writes into asks for a family by name and
+            # falls to the alias where the name is absent -- the same
+            # door as the reading, and it stood open unmeasured.
+            pane = report.get("output_pane") or {}
+            check("%s: the output pane is drawn with a fixed width" % language,
+                  pane.get("found") == 1 and bool(pane.get("fixed_pitch")),
+                  "the text pane of the Output tab asks for %r and draws "
+                  "%r, fixed pitch %s"
+                  % (pane.get("family"), pane.get("drawn"),
+                     pane.get("fixed_pitch"))
+                  if pane.get("found") == 1 else
+                  "%d text panes of the class found where one was expected"
+                  % pane.get("found", 0))
             check("%s: every digit in the reading is one width" % language,
                   high - low < SAME_WIDTH,
                   "drawn in %r, the digits measure %.2f to %.2f px; the "
