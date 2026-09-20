@@ -450,7 +450,8 @@ So: derive it, and prove the derivation by moving the number.
 ## 9. Visible texts
 
 **What a user sees goes through `T()`, and the German lives in
-`language/de.py` inside the program's folder.** If the check
+`language/de.po` inside the program's folder, read by
+`language/__init__.py` into `CATALOGUE`.** If the check
 brings a new string into the program, both sides change, or
 `text_no_german_left_test.py` turns red.
 

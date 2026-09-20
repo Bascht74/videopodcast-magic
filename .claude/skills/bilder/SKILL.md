@@ -64,6 +64,21 @@ once -- ask, shoot, bring the descriptions up to date, check in.
 * **PySide6**, and `ffprobe` on the path -- the latter only for the
   `channels` set.
 
+## First the caption test with the real font
+
+**Before the pictures, on this Mac:**
+
+```bash
+cd tests && VPM_LAYOUT_PLATFORM=cocoa bash run.sh window_captions_fit
+```
+
+The suite runs it offscreen, and offscreen draws the Fusion faces: it can
+say that a caption is fixed width, never whether the face the system
+itself uses as its typewriter face fits the column. Only `cocoa` has that
+face, so the question is answered here or nowhere; the builder never
+sees it. The test keeps its window off the screen like the pass, and a
+red line there is fixed in the program before a single picture is taken.
+
 ## The commands
 
 ```bash
@@ -111,9 +126,9 @@ in the manual.
 
 **The set is bounded by the checksum comparison above: every picture
 whose sum moved is looked at in both languages, and the answers are
-written down.** "Look at them" gets skipped; six questions with answers
-do not. The six stand at the end of this file. The first four each
-caught a fault no test had; the last two are there to stop the next one.
+written down.** "Look at them" gets skipped; eight questions with answers
+do not. The eight stand at the end of this file. The first four each
+caught a fault no test had; the others are there to stop the next one.
 What follows here is what each of them once caught.
 
 **The German sentence is the longer one; what fits in English says
@@ -215,3 +230,5 @@ written down:
 6. Did it change for the reason you expected?
 7. Is there one line per changed picture in the release report, and one
    record of what the change invalidated?
+8. Was `window_captions_fit` run with `VPM_LAYOUT_PLATFORM=cocoa` before
+   the pictures, and was it green?
