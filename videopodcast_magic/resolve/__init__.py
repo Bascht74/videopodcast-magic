@@ -853,26 +853,61 @@ SDR_TAGS = (("Rec.709", "Rec. 709", "Rec709"),
             ("Rec.709", "Gamma 2.4", "Rec.709 Gamma 2.4", "Gamma2.4"))
 
 
-def hdr_kind_from_project(p):
-    """Return the HDR curve the project outputs: PQ, HLG or none.
+def plain_spelling(value):
+    """One spelling of a colour space name for both readers below.
 
-    Nothing is guessed: unrecognisable means None and the tag stands.
+    Lower case, the dots out, runs of blanks to one, and the blank
+    between a word and its digits out -- so "Rec. 2100 ST.2084",
+    "Rec.2100 ST2084" and "REC2100 ST 2084" read the same, while the
+    blanks that make "log gamma" or "arri logc" words of their own stay,
+    because the log markers are held to word boundaries.
+    """
+    out = ""
+    for word in str(value).lower().replace(".", "").split():
+        if out and word[:1].isdigit() and out[-1].isalpha():
+            out += word
+        else:
+            out += (" " if out else "") + word
+    return out
+
+
+def output_colour_settings(p):
+    """Return [(api_key, value, plain)] for the project's output colour.
+
+    The whole dictionary is asked for by the empty name, because the
+    key that names the output colour space differs between versions;
+    a project that will not answer, or answers no dictionary, gives an
+    empty list. Both readers below walk this and nothing else, so one
+    spelling -- plain_spelling -- serves both.
     """
     try:
         every = p.GetSetting("")
     except Exception:
-        return None, ""
+        return []
     if not isinstance(every, dict):
-        return None, ""
+        return []
+    found = []
     for api_key, value in every.items():
         k = api_key.lower()
         if "color" not in k or "output" not in k:
             continue
         value = str(value)
-        wl = value.lower().replace(" ", "").replace(".", "")
-        if "st2084" in wl or wl.endswith("pq"):
+        found.append((api_key, value, plain_spelling(value)))
+    return found
+
+
+def hdr_kind_from_project(p):
+    """Return the HDR curve the project outputs: PQ, HLG or none.
+
+    Nothing is guessed: unrecognisable means None and the tag stands.
+    PQ is ST 2084 or the word PQ on its own -- "HDR Rec.2020 PQ (P3-D65
+    limited)" is a real name -- and HLG is the abbreviation or the
+    words "Hybrid Log Gamma" written out.
+    """
+    for api_key, value, plain in output_colour_settings(p):
+        if "st2084" in plain or _marker_stands_alone(plain, "pq"):
             return "pq", "%s = %s" % (api_key, value)
-        if "hlg" in wl:
+        if "hlg" in plain or "hybrid log gamma" in plain:
             return "hlg", "%s = %s" % (api_key, value)
     return None, ""
 
@@ -883,24 +918,13 @@ def hdr_from_project(p):
     The name is looked up, not guessed; finding nothing, this says
     nothing and the material decides.
     """
-    try:
-        every = p.GetSetting("")
-    except Exception:
-        return None, ""
-    if not isinstance(every, dict):
-        return None, ""
-    for api_key, value in every.items():
-        k = api_key.lower()
-        if "color" not in k or "output" not in k:
-            continue
-        value = str(value)
-        wl = value.lower()
-        if any(x in wl for x in ("2100", "st2084", "pq", "hlg", "hdr")):
+    for api_key, value, plain in output_colour_settings(p):
+        if any(x in plain for x in ("2100", "st2084", "pq", "hlg", "hdr")):
             return True, "%s = %s" % (api_key, value)
-        if "2020" in wl or any(_marker_stands_alone(wl, m)
-                               for m in LOG_MARKERS):
+        if "2020" in plain or any(_marker_stands_alone(plain, m)
+                                  for m in LOG_MARKERS):
             return True, "%s = %s" % (api_key, value)
-        if wl and wl not in ("", "none"):
+        if plain and plain not in ("", "none"):
             return False, "%s = %s" % (api_key, value)
     return None, ""
 
