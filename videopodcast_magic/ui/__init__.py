@@ -141,6 +141,7 @@ trouble_log = PROGRAM.trouble_log
 update_offer = PROGRAM.update_offer
 video_facts = PROGRAM.video_facts
 video_kinds_again = PROGRAM.video_kinds_again
+voice_key_parts = PROGRAM.voice_key_parts
 voice_names_clashing = PROGRAM.voice_names_clashing
 voice_suggest_round = PROGRAM.voice_suggest_round
 warn_box = PROGRAM.warn_box
@@ -1319,13 +1320,15 @@ MIX_TRACK_ALIASES = (MIX_TRACK_NAME, "Fullmix", "Mix")
 
 
 def audio_under_camera(camera_path, kind_of, done,
-                   assign_lines, blocks_of):
+                   assign_lines, voice_lines, blocks_of):
     """Return the audio recording belonging to this camera.
 
     For the preview the audio assigned to the camera plays instead of the
     camera audio: preferably the processed track, at delivery level, else
-    the raw recording. With several speakers the first applies. With no
-    speaker -- the wide shot -- the overall mix plays if it exists.
+    the raw recording. With several speakers the first applies. A voice
+    heard inside a recording occupies a camera like a recording does,
+    and without a processed track its recording plays. With no speaker
+    -- the wide shot -- the overall mix plays if it exists.
     """
     # An intro or outro stands before or after the episode, so nothing
     # off the episode's own axis belongs under it.
@@ -1333,15 +1336,20 @@ def audio_under_camera(camera_path, kind_of, done,
     if kind is not None and kind.get() in (TYPE_INTRO, TYPE_OUTRO):
         return []
     short = os.path.basename(camera_path)
-    for row, nv, cv in assign_lines:
+    # The recordings first, then the voices under them: the raw sound
+    # behind a voice is the recording it was heard in.
+    rows = ([(row[0], nv, cv) for row, nv, cv in assign_lines]
+            + [(voice_key_parts(key)[0], nv, cv)
+               for key, nv, cv in voice_lines or ()])
+    for source, nv, cv in rows:
         if cv.get() != short:
             continue
         name = nv.get()
         if name and name in done:
             return [done[name]]
-        if os.path.exists(row[0]):
+        if source and os.path.exists(source):
             # The whole recording, not its head -- see block_at.
-            return blocks_of.get(row[0]) or [row[0]]
+            return blocks_of.get(source) or [source]
     for name in MIX_TRACK_ALIASES:
         if name in done:
             return [done[name]]
@@ -2827,7 +2835,7 @@ def gui():
         """The recording that belongs under this camera in the preview."""
         return audio_under_camera(camera_path, clip_kind_values,
                                   prepared_tracks(), assign_lines,
-                                  blocks_of)
+                                  voice_lines, blocks_of)
 
     def line_show(table, file_list):
         """A clicked row of the camera table: that file in the player.
