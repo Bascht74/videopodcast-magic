@@ -172,7 +172,7 @@ msgid "Separating ..."
 msgstr "Ayrılıyor ..."
 
 msgid "Voice"
-msgstr "Konuşma"
+msgstr "Ses"
 
 msgid "Stop"
 msgstr "Durdur"
