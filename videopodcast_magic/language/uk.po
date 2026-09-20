@@ -55,12 +55,11 @@
 # applies the count to whatever comes back, and a form without it stops
 # the run on a number nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a group,
-# and it is not spare: it is what a run falls back on where the rule
-# cannot be read at all, and Ukrainian then says the many-wording
-# instead of English. The English singular has no entry of its own --
-# that would be the same msgid twice -- so in that one case a count of
-# one comes out English.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -79,9 +78,6 @@ msgid_plural "on %s cameras"
 msgstr[0] "на %s камері"
 msgstr[1] "на %s камерах"
 msgstr[2] "на %s камерах"
-
-msgid "on %s cameras"
-msgstr "на %s камерах"
 
 msgid "no camera yet"
 msgstr "поки немає камери"
@@ -341,26 +337,17 @@ msgstr[0] "%s звукова доріжка"
 msgstr[1] "%s звукові доріжки"
 msgstr[2] "%s звукових доріжок"
 
-msgid "%s audio tracks"
-msgstr "%s звукових доріжок"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s кліп"
 msgstr[1] "%s кліпи"
 msgstr[2] "%s кліпів"
 
-msgid "%s clips"
-msgstr "%s кліпів"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s відеодоріжка"
 msgstr[1] "%s відеодоріжки"
 msgstr[2] "%s відеодоріжок"
-
-msgid "%s video tracks"
-msgstr "%s відеодоріжок"
 
 msgid "  (this file ends earlier)"
 msgstr "  (цей файл закінчується раніше)"
@@ -377,17 +364,11 @@ msgstr[0] "%s канал"
 msgstr[1] "%s канали"
 msgstr[2] "%s каналів"
 
-msgid "%s channels"
-msgstr "%s каналів"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s файл"
 msgstr[1] "%s файли"
 msgstr[2] "%s файлів"
-
-msgid "%s files"
-msgstr "%s файлів"
 
 msgid "... or add files ..."
 msgstr "... або додати файли ..."
@@ -818,9 +799,6 @@ msgstr "На десять секунд вперед."
 msgid "Window %s%s"
 msgstr "Вікно %s%s"
 
-msgid "audio file"
-msgstr "звуковий файл"
-
 msgid "cancel"
 msgstr "скасувати"
 
@@ -845,17 +823,11 @@ msgstr "занадто коротко"
 msgid "unknown"
 msgstr "невідомо"
 
-msgid "video file"
-msgstr "відеофайл"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s звукозапис"
 msgstr[1] "%s звукозаписи"
 msgstr[2] "%s звукозаписів"
-
-msgid "%s audio recordings"
-msgstr "%s звукозаписів"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
@@ -863,17 +835,11 @@ msgstr[0] "%s камера"
 msgstr[1] "%s камери"
 msgstr[2] "%s камер"
 
-msgid "%s cameras"
-msgstr "%s камер"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s відеофайл"
 msgstr[1] "%s відеофайли"
 msgstr[2] "%s відеофайлів"
-
-msgid "%s video files"
-msgstr "%s відеофайлів"
 
 msgid "Caution"
 msgstr "Увага"
@@ -1919,8 +1885,17 @@ msgstr "належить до"
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
 msgstr "Ці файли не є ні звуковими, ні відеофайлами й лишаються поза списком:\n\n  %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Прибрати зі списку всі файли цього типу? Їх %s, тип: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Прибрати зі списку %s звуковий файл?\n\n%s"
+msgstr[1] "Прибрати зі списку всі %s звукові файли?\n\n%s"
+msgstr[2] "Прибрати зі списку всі %s звукових файлів?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Прибрати зі списку %s відеофайл?\n\n%s"
+msgstr[1] "Прибрати зі списку всі %s відеофайли?\n\n%s"
+msgstr[2] "Прибрати зі списку всі %s відеофайлів?\n\n%s"
 
 msgid "no timecode"
 msgstr "без таймкоду"
@@ -4723,3 +4698,33 @@ msgstr "Лише синхронізація бере один звукозапи
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Лише синхронізація: передача обчислюється наново; нарізки, яку треба переробити, немає. Resolve має бути запущено."
+
+msgid "%s has not started yet"
+msgstr "%s: запис ще не почався"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   звук не відтворюється"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "звук розміщено за годинником -- вимірювання ще попереду"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nРІВНІ МОВЦІВ"
+
+msgid "Measuring %s"
+msgstr "Вимірювання %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s не виміряти -- лишається як є"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- на ній нічого немає, лишається як є"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Лише один голос -- немає з чим порівняти."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Спільний рівень:     %s LUFS, медіана голосів"

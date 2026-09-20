@@ -37,10 +37,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -57,9 +58,6 @@ msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "en %s cámara"
 msgstr[1] "en %s cámaras"
-
-msgid "on %s cameras"
-msgstr "en %s cámaras"
 
 msgid "no camera yet"
 msgstr "aún sin cámara"
@@ -318,24 +316,15 @@ msgid_plural "%s audio tracks"
 msgstr[0] "%s pista de audio"
 msgstr[1] "%s pistas de audio"
 
-msgid "%s audio tracks"
-msgstr "%s pistas de audio"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s clip"
 msgstr[1] "%s clips"
 
-msgid "%s clips"
-msgstr "%s clips"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s pista de vídeo"
 msgstr[1] "%s pistas de vídeo"
-
-msgid "%s video tracks"
-msgstr "%s pistas de vídeo"
 
 msgid "  (this file ends earlier)"
 msgstr "  (este archivo termina antes)"
@@ -351,16 +340,10 @@ msgid_plural "%s channels"
 msgstr[0] "%s canal"
 msgstr[1] "%s canales"
 
-msgid "%s channels"
-msgstr "%s canales"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s archivo"
 msgstr[1] "%s archivos"
-
-msgid "%s files"
-msgstr "%s archivos"
 
 msgid "... or add files ..."
 msgstr "... o añadir archivos ..."
@@ -791,9 +774,6 @@ msgstr "Diez segundos adelante."
 msgid "Window %s%s"
 msgstr "Ventana %s%s"
 
-msgid "audio file"
-msgstr "archivo de audio"
-
 msgid "cancel"
 msgstr "cancelar"
 
@@ -818,32 +798,20 @@ msgstr "demasiado corto"
 msgid "unknown"
 msgstr "desconocido"
 
-msgid "video file"
-msgstr "archivo de vídeo"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s grabación de audio"
 msgstr[1] "%s grabaciones de audio"
-
-msgid "%s audio recordings"
-msgstr "%s grabaciones de audio"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s cámara"
 msgstr[1] "%s cámaras"
 
-msgid "%s cameras"
-msgstr "%s cámaras"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s archivo de vídeo"
 msgstr[1] "%s archivos de vídeo"
-
-msgid "%s video files"
-msgstr "%s archivos de vídeo"
 
 msgid "Caution"
 msgstr "Atención"
@@ -3449,8 +3417,15 @@ msgstr "Del material bruto de un podcast en vídeo sale un episodio montado: el 
 msgid "Reading audio track from %s"
 msgstr "Leyendo la pista de audio de %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "¿Quitar de la lista todos los archivos de este tipo? Son %s, tipo: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "¿Quitar %s archivo de audio de la lista?\n\n%s"
+msgstr[1] "¿Quitar de la lista todos los %s archivos de audio?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "¿Quitar %s archivo de vídeo de la lista?\n\n%s"
+msgstr[1] "¿Quitar de la lista todos los %s archivos de vídeo?\n\n%s"
 
 msgid "Remove the chosen file from the list"
 msgstr "Quitar de la lista el archivo elegido"
@@ -4662,3 +4637,33 @@ msgstr "Solo sincronizar admite una sola grabación de audio; esta es una más: 
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Solo sincronizar: la entrega se calcula de nuevo; no hay ningún montaje que rehacer. Resolve tiene que estar en marcha."
+
+msgid "%s has not started yet"
+msgstr "%s aún no ha empezado"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   el sonido no se puede reproducir"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "sonido colocado por el reloj -- medición pendiente"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nNIVELES DE LOS HABLANTES"
+
+msgid "Measuring %s"
+msgstr "Midiendo %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s no medible -- se queda como está"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- nada en ella, se queda como está"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Solo una voz -- nada con qué compararla."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Nivel común:         %s LUFS, la mediana de las voces"

@@ -198,7 +198,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b17"
+VERSION = "3.0.0b18"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -365,6 +365,16 @@ write_transcript_files = speech.write_transcript_files
 #--------------------------------------------------------------------- Run
 
 def main():
+    """The way in: a command line means a run, a bare start means the window.
+
+    The order is the point. Help and version answer before any tool is
+    looked for, --update before ffmpeg, because a broken installation is
+    why it is typed; a bare start (or --lang alone) ends in the window,
+    the console redirected into the log first. Everything else is a run:
+    the one-shot jobs return on their own, the rest goes through
+    preflight and one door, multitrack_or_single. Faults are said, not raised.
+    """
+
     force_utf8_output()
     # Here rather than beside the last line of the file: a run started
     # through the installed command never passes that line.

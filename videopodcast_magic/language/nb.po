@@ -44,10 +44,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2631,8 +2632,15 @@ msgstr "TILBAKERULLING MISLYKTES (%s)"
 msgid "Reading audio track from %s"
 msgstr "Leser lydspor fra %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Fjern alle filer av denne typen fra listen? Det er %s stykker, type: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Fjern %s lydfil fra listen?\n\n%s"
+msgstr[1] "Fjern alle %s lydfiler fra listen?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Fjern %s videofil fra listen?\n\n%s"
+msgstr[1] "Fjern alle %s videofiler fra listen?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Oppløsninger"
@@ -3750,9 +3758,6 @@ msgstr "Klipping, EDL, CSV og overleveringen regnes ut på nytt fra tallene oven
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Uten disse to virker ingenting. Er Resolve installert?"
 
-msgid "audio file"
-msgstr "lydfil"
-
 msgid "cancel"
 msgstr "avbryt"
 
@@ -3806,9 +3811,6 @@ msgstr "to Timelines"
 
 msgid "up to %s"
 msgstr "fram til %s"
-
-msgid "video file"
-msgstr "videofil"
 
 msgid "volume %.2f"
 msgstr "volum %.2f"
@@ -4178,320 +4180,200 @@ msgid_plural ", %s files do not fit"
 msgstr[0] ", %s fil passer ikke"
 msgstr[1] ", %s filer passer ikke"
 
-msgid ", %s files do not fit"
-msgstr ", %s filer passer ikke"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s fil"
 msgstr[1] "%s filer"
-
-msgid "%s files"
-msgstr "%s filer"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "%s opptak fra %s filer"
 msgstr[1] "%s opptak fra %s filer"
 
-msgid "%s recordings from %s files"
-msgstr "%s opptak fra %s filer"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s fortsettelse"
 msgstr[1] "%s  + %s fortsettelser"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s fortsettelser"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "Separert: %s taler"
 msgstr[1] "Separert: %s talere"
 
-msgid "Separated: %s speakers"
-msgstr "Separert: %s talere"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s ble lastet opp i stereo og kom tilbake med én kanal."
 msgstr[1] "  %s ble lastet opp i stereo og kom tilbake med én kanal hver."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s ble lastet opp i stereo og kom tilbake med én kanal hver."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "%s spor, %s, %s kHz, %s"
 msgstr[1] "%s spor, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s spor, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix fra %s spor, %s kanal"
 msgstr[1] "  Full-Mix fra %s spor, %s kanaler"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix fra %s spor, %s kanaler"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  %s blir i to kanaler"
 msgstr[1] "  %s blir i to kanaler"
 
-msgid "  %s stay in two channels"
-msgstr "  %s blir i to kanaler"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: står ved %s (mål %s) etter %d ms, %d forsøk"
 msgstr[1] "%s: står ved %s (mål %s) etter %d ms, %d forsøk"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: står ved %s (mål %s) etter %d ms, %d forsøk"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Dette gir %s videofil, omtrent %s. Mål: %s"
 msgstr[1] "Dette gir %s videofiler, omtrent %s. Mål: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Dette gir %s videofiler, omtrent %s. Mål: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s rettet av seg selv"
 msgstr[1] "%s rettet av seg selv"
-
-msgid "%s fixed on their own"
-msgstr "%s rettet av seg selv"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "%s merknad"
 msgstr[1] "%s merknader"
 
-msgid "%s hints"
-msgstr "%s merknader"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s grunn til å avbryte"
 msgstr[1] "%s grunner til å avbryte"
-
-msgid "%s reasons to stop"
-msgstr "%s grunner til å avbryte"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s lydopptak"
 msgstr[1] "%s lydopptak"
 
-msgid "%s audio recordings"
-msgstr "%s lydopptak"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s videofil"
 msgstr[1] "%s videofiler"
-
-msgid "%s video files"
-msgstr "%s videofiler"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "Filen er merket som HDR, med %s merknad."
 msgstr[1] "Filen er merket som HDR, med %s merknader."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Filen er merket som HDR, med %s merknader."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Advarsel: %s ikke satt inn. Uten denne vinkelen duger\n  Timeline ikke til konvertering."
 msgstr[1] "  Advarsel: %s ikke satt inn. Uten disse vinklene duger\n  Timeline ikke til konvertering."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Advarsel: %s ikke satt inn. Uten disse vinklene duger\n  Timeline ikke til konvertering."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  %s lydspor blir stående: %s"
 msgstr[1] "  %s lydspor blir stående: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %s lydspor blir stående: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Bilde og lyd koblet sammen igjen: %s vinkel"
 msgstr[1] "    Bilde og lyd koblet sammen igjen: %s vinkler"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Bilde og lyd koblet sammen igjen: %s vinkler"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  %s lydspor gjenstår:"
 msgstr[1] "  %s lydspor gjenstår:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %s lydspor gjenstår:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s klipp"
 msgstr[1] "%s klipp"
-
-msgid "%s clips"
-msgstr "%s klipp"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    %s tomt lydspor fjernet"
 msgstr[1] "    %s tomme lydspor fjernet"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %s tomme lydspor fjernet"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> tolket som %s lydspor%s"
 msgstr[1] "      --> tolket som %s lydspor%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> tolket som %s lydspor%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " av %s innebygd kanal"
 msgstr[1] " av %s innebygde kanaler"
 
-msgid " of %s embedded channels"
-msgstr " av %s innebygde kanaler"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s videospor"
 msgstr[1] "%s videospor"
-
-msgid "%s video tracks"
-msgstr "%s videospor"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%s lydspor"
 msgstr[1] "%s lydspor"
 
-msgid "%s audio tracks"
-msgstr "%s lydspor"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Flere vinkler enn farger -- %s farge forekommer to ganger."
 msgstr[1] "      Flere vinkler enn farger -- %s farger forekommer to ganger."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Flere vinkler enn farger -- %s farger forekommer to ganger."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      %s klipp ble uten farge."
 msgstr[1] "      %s klipp ble uten farge."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s klipp ble uten farge."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    V2 inneholder nå %s klipp: %s"
 msgstr[1] "    V2 inneholder nå %s klipp: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    V2 inneholder nå %s klipp: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  %s markør satt%s."
 msgstr[1] "  %s markører satt%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s markører satt%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s kamera"
 msgstr[1] "%s kameraer"
-
-msgid "%s cameras"
-msgstr "%s kameraer"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  Talerseparering (%s): %s taler ut av %s lyd"
 msgstr[1] "  Talerseparering (%s): %s talere ut av %s lyd"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Talerseparering (%s): %s talere ut av %s lyd"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s i %s passasje"
 msgstr[1] "  %-20s %s i %s passasjer"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s i %s passasjer"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  Fra %s: %s stemme."
 msgstr[1] "  Fra %s: %s stemmer."
 
-msgid "  From %s: %s voices."
-msgstr "  Fra %s: %s stemmer."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s ord kom tilbake uten tid og ble utelatt."
 msgstr[1] "  %s ord kom tilbake uten tid og ble utelatt."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s ord kom tilbake uten tid og ble utelatt."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "på %s kamera"
 msgstr[1] "på %s kameraer"
 
-msgid "on %s cameras"
-msgstr "på %s kameraer"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s fil var ferdig før det og er hel: %s"
 msgstr[1] "%s filer var ferdige før det og er hele: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s filer var ferdige før det og er hele: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s punkt"
 msgstr[1] "%s punkter"
 
-msgid "%s points"
-msgstr "%s punkter"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s kanal"
 msgstr[1] "%s kanaler"
-
-msgid "%s channels"
-msgstr "%s kanaler"
 
 msgid "Cut by speaker"
 msgstr "Klipping etter taler"
@@ -4528,3 +4410,33 @@ msgstr "Bare synkronisering tar ett lydopptak; her er ett til: %s"
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Bare synkronisering: overleveringen regnes ut på nytt; det er ingen klipping å gjøre om. Resolve må kjøre."
+
+msgid "%s has not started yet"
+msgstr "%s har ikke begynt ennå"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   lyden kan ikke spilles av"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "lyd plassert etter klokken -- måling venter"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nTALERNIVÅER"
+
+msgid "Measuring %s"
+msgstr "Måler %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s ikke målbar -- blir som det er"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- ingenting på det, blir som det er"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Bare én stemme -- ingenting å måle den mot."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Felles nivå:         %s LUFS, medianen av stemmene"

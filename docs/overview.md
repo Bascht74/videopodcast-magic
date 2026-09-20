@@ -46,13 +46,13 @@ lands within 31 milliseconds. It counts only where it has set enough
 points over the whole running time and they all sit on one line;
 otherwise the recording goes on to the third way. Where it holds, the
 drift comes out of the length as before, and the log marks the line:
-**placed on the bands that move**.
+`placed on the bands that move`.
 
 Both comparisons live on pauses in the speech, and music has none. Where
 neither finds anything, the program looks at the phase, which survives a
 room and a second microphone. The phase answers where the audio sits. How
 fast the clocks run stays unknown, so the program takes no drift out on
-this path. The log marks that line too: **placed by phase**.
+this path. The log marks that line too: `placed by phase`.
 
 ## What comes out
 

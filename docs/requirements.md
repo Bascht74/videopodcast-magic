@@ -192,6 +192,9 @@ hand, and one this program did not write.
 what the interface needs: PySide6 does not build below 3.10. The
 test suite runs on 3.14.7, the version this is used on daily. It
 covers 3.14.7 only; anything between it and 3.10 is not measured.
+The installers for macOS and Windows are at
+<https://www.python.org/downloads/>; on Linux the distribution's own
+package brings it.
 
 `--version`, the header of the log and the first line of every run say
 which Python is running. They name the recommended one when it is

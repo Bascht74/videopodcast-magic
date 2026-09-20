@@ -57,6 +57,7 @@ parallel_map = PROGRAM.parallel_map
 parse_time_point = PROGRAM.parse_time_point
 path_key = PROGRAM.path_key
 progress_from_line = PROGRAM.progress_from_line
+recipe_mark = PROGRAM.recipe_mark
 show_progress = PROGRAM.show_progress
 shutil = PROGRAM.shutil
 speaks_as = PROGRAM.speaks_as
@@ -132,22 +133,32 @@ class Finding(object):
         return as_warn(out) if self.kind == "abort" else out
 
 
-# What a cached measurement holds changes with the program. This number
-# is part of the fingerprint: raising it makes every old measurement
-# stale, and without it the window shows the old result for weeks.
+# Part of the fingerprint: raising it makes every old measurement stale,
+# else the window shows the old result for weeks. The recipe mark below
+# sees the three checks change by themselves; this number is for a
+# change in what they call.
 MEASUREMENT_VERSION = 2
 
 
-def _fingerprint(paths):
-    """Return a fingerprint: version, language, path, size and mtime.
+def preflight_recipe_mark():
+    """The mark for a stored measurement, so a changed check lets go."""
+    return recipe_mark("preflight", check_camera_file, check_audio_file,
+                       check_crosstalk)
 
-    A changed file gets a different fingerprint and is measured again.
-    The language belongs in it because a stored finding holds its text
-    ready-made, and a run in one language would else serve the other's.
+
+def _fingerprint(paths):
+    """Return a fingerprint: version, recipe, language, path, size, mtime.
+
+    A changed file gets a different fingerprint and is measured again,
+    and so does a changed check: without the recipe mark the old answer
+    reads as the new check's. The language belongs in it because a
+    stored finding holds its text ready-made, and a run in one language
+    would else serve the other's.
     """
     if isinstance(paths, str):
         paths = [paths]
-    parts = ["format %d %s" % (MEASUREMENT_VERSION, PROGRAM.LANG)]
+    parts = ["format %d %s %s" % (MEASUREMENT_VERSION,
+                                  preflight_recipe_mark(), PROGRAM.LANG)]
     for x in sorted(paths):
         try:
             s = os.stat(x)

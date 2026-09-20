@@ -44,10 +44,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2631,8 +2632,15 @@ msgstr "Η ΕΠΑΝΑΦΟΡΑ ΑΠΕΤΥΧΕ (%s)"
 msgid "Reading audio track from %s"
 msgstr "Ανάγνωση κομματιού ήχου από %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Αφαίρεση από τη λίστα όλων των αρχείων αυτού του τύπου; Είναι %s, τύπος: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Αφαίρεση από τη λίστα %s αρχείου ήχου;\n\n%s"
+msgstr[1] "Αφαίρεση από τη λίστα όλων των %s αρχείων ήχου;\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Αφαίρεση από τη λίστα %s αρχείου βίντεο;\n\n%s"
+msgstr[1] "Αφαίρεση από τη λίστα όλων των %s αρχείων βίντεο;\n\n%s"
 
 msgid "Resolutions"
 msgstr "Αναλύσεις"
@@ -3750,9 +3758,6 @@ msgstr "Το μοντάζ, το EDL, το CSV και η παράδοση υπο�
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Χωρίς αυτά τα δύο τίποτα δεν λειτουργεί. Είναι εγκατεστημένο το Resolve;"
 
-msgid "audio file"
-msgstr "αρχείο ήχου"
-
 msgid "cancel"
 msgstr "ακύρωση"
 
@@ -3806,9 +3811,6 @@ msgstr "δύο Timeline"
 
 msgid "up to %s"
 msgstr "έως %s"
-
-msgid "video file"
-msgstr "αρχείο βίντεο"
 
 msgid "volume %.2f"
 msgstr "ένταση %.2f"
@@ -4178,320 +4180,200 @@ msgid_plural ", %s files do not fit"
 msgstr[0] ", %s αρχείο δεν ταιριάζει"
 msgstr[1] ", %s αρχεία δεν ταιριάζουν"
 
-msgid ", %s files do not fit"
-msgstr ", %s αρχεία δεν ταιριάζουν"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s αρχείο"
 msgstr[1] "%s αρχεία"
-
-msgid "%s files"
-msgstr "%s αρχεία"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "%s ηχογράφηση από %s αρχεία"
 msgstr[1] "%s ηχογραφήσεις από %s αρχεία"
 
-msgid "%s recordings from %s files"
-msgstr "%s ηχογραφήσεις από %s αρχεία"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s συνέχεια"
 msgstr[1] "%s  + %s συνέχειες"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s συνέχειες"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "Διαχωρίστηκε: %s ομιλητής"
 msgstr[1] "Διαχωρίστηκαν: %s ομιλητές"
 
-msgid "Separated: %s speakers"
-msgstr "Διαχωρίστηκαν: %s ομιλητές"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  Το %s ανέβηκε στερεοφωνικά και επέστρεψε σε ένα κανάλι."
 msgstr[1] "  Τα %s ανέβηκαν στερεοφωνικά και επέστρεψαν σε ένα κανάλι το καθένα."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  Τα %s ανέβηκαν στερεοφωνικά και επέστρεψαν σε ένα κανάλι το καθένα."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "%s κομμάτι, %s, %s kHz, %s"
 msgstr[1] "%s κομμάτια, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s κομμάτια, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix από %s κομμάτια, %s κανάλι"
 msgstr[1] "  Full-Mix από %s κομμάτια, %s κανάλια"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix από %s κομμάτια, %s κανάλια"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  Το %s παραμένει σε δύο κανάλια"
 msgstr[1] "  Τα %s παραμένουν σε δύο κανάλια"
 
-msgid "  %s stay in two channels"
-msgstr "  Τα %s παραμένουν σε δύο κανάλια"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: βρίσκεται στο %s (στόχος %s) μετά από %d ms, %d προσπάθεια"
 msgstr[1] "%s: βρίσκεται στο %s (στόχος %s) μετά από %d ms, %d προσπάθειες"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: βρίσκεται στο %s (στόχος %s) μετά από %d ms, %d προσπάθειες"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Προκύπτει %s αρχείο βίντεο, περίπου %s. Στόχος: %s"
 msgstr[1] "Προκύπτουν %s αρχεία βίντεο, περίπου %s. Στόχος: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Προκύπτουν %s αρχεία βίντεο, περίπου %s. Στόχος: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s διορθώθηκε από μόνο του"
 msgstr[1] "%s διορθώθηκαν από μόνα τους"
-
-msgid "%s fixed on their own"
-msgstr "%s διορθώθηκαν από μόνα τους"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "%s σημείωση"
 msgstr[1] "%s σημειώσεις"
 
-msgid "%s hints"
-msgstr "%s σημειώσεις"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s λόγος διακοπής"
 msgstr[1] "%s λόγοι διακοπής"
-
-msgid "%s reasons to stop"
-msgstr "%s λόγοι διακοπής"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s ηχογράφηση"
 msgstr[1] "%s ηχογραφήσεις"
 
-msgid "%s audio recordings"
-msgstr "%s ηχογραφήσεις"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s αρχείο βίντεο"
 msgstr[1] "%s αρχεία βίντεο"
-
-msgid "%s video files"
-msgstr "%s αρχεία βίντεο"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "Το αρχείο φέρει σήμανση HDR, με %s σημείωση."
 msgstr[1] "Το αρχείο φέρει σήμανση HDR, με %s σημειώσεις."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Το αρχείο φέρει σήμανση HDR, με %s σημειώσεις."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Προσοχή: το %s δεν εισήχθη. Χωρίς αυτή τη γωνία, το\n  Timeline δεν κάνει για μετατροπή."
 msgstr[1] "  Προσοχή: τα %s δεν εισήχθησαν. Χωρίς αυτές τις γωνίες, το\n  Timeline δεν κάνει για μετατροπή."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Προσοχή: τα %s δεν εισήχθησαν. Χωρίς αυτές τις γωνίες, το\n  Timeline δεν κάνει για μετατροπή."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  Παραμένει %s κομμάτι ήχου: %s"
 msgstr[1] "  Παραμένουν %s κομμάτια ήχου: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  Παραμένουν %s κομμάτια ήχου: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Εικόνα και ήχος συνδέθηκαν ξανά: %s γωνία"
 msgstr[1] "    Εικόνα και ήχος συνδέθηκαν ξανά: %s γωνίες"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Εικόνα και ήχος συνδέθηκαν ξανά: %s γωνίες"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  Παραμένει %s κομμάτι ήχου:"
 msgstr[1] "  Παραμένουν %s κομμάτια ήχου:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  Παραμένουν %s κομμάτια ήχου:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s κλιπ"
 msgstr[1] "%s κλιπ"
-
-msgid "%s clips"
-msgstr "%s κλιπ"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    %s κενό κομμάτι ήχου αφαιρέθηκε"
 msgstr[1] "    %s κενά κομμάτια ήχου αφαιρέθηκαν"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %s κενά κομμάτια ήχου αφαιρέθηκαν"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> ερμηνεύεται ως %s κομμάτι ήχου%s"
 msgstr[1] "      --> ερμηνεύεται ως %s κομμάτια ήχου%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> ερμηνεύεται ως %s κομμάτια ήχου%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " από %s ενσωματωμένο κανάλι"
 msgstr[1] " από %s ενσωματωμένα κανάλια"
 
-msgid " of %s embedded channels"
-msgstr " από %s ενσωματωμένα κανάλια"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s κομμάτι βίντεο"
 msgstr[1] "%s κομμάτια βίντεο"
-
-msgid "%s video tracks"
-msgstr "%s κομμάτια βίντεο"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%s κομμάτι ήχου"
 msgstr[1] "%s κομμάτια ήχου"
 
-msgid "%s audio tracks"
-msgstr "%s κομμάτια ήχου"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Περισσότερες γωνίες από χρώματα -- %s χρώμα εμφανίζεται δύο φορές."
 msgstr[1] "      Περισσότερες γωνίες από χρώματα -- %s χρώματα εμφανίζονται δύο φορές."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Περισσότερες γωνίες από χρώματα -- %s χρώματα εμφανίζονται δύο φορές."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      %s κλιπ έμεινε χωρίς χρώμα."
 msgstr[1] "      %s κλιπ έμειναν χωρίς χρώμα."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s κλιπ έμειναν χωρίς χρώμα."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    Το V2 περιέχει τώρα %s κλιπ: %s"
 msgstr[1] "    Το V2 περιέχει τώρα %s κλιπ: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    Το V2 περιέχει τώρα %s κλιπ: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  %s δείκτης τοποθετήθηκε%s."
 msgstr[1] "  %s δείκτες τοποθετήθηκαν%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s δείκτες τοποθετήθηκαν%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s κάμερα"
 msgstr[1] "%s κάμερες"
-
-msgid "%s cameras"
-msgstr "%s κάμερες"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  Διαχωρισμός ομιλητών (%s): %s ομιλητής από %s ήχου"
 msgstr[1] "  Διαχωρισμός ομιλητών (%s): %s ομιλητές από %s ήχου"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Διαχωρισμός ομιλητών (%s): %s ομιλητές από %s ήχου"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s σε %s απόσπασμα"
 msgstr[1] "  %-20s %s σε %s αποσπάσματα"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s σε %s αποσπάσματα"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  Από %s: %s φωνή."
 msgstr[1] "  Από %s: %s φωνές."
 
-msgid "  From %s: %s voices."
-msgstr "  Από %s: %s φωνές."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s λέξη επέστρεψε χωρίς χρόνο και παραλείφθηκε."
 msgstr[1] "  %s λέξεις επέστρεψαν χωρίς χρόνο και παραλείφθηκαν."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s λέξεις επέστρεψαν χωρίς χρόνο και παραλείφθηκαν."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "σε %s κάμερα"
 msgstr[1] "σε %s κάμερες"
 
-msgid "on %s cameras"
-msgstr "σε %s κάμερες"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s αρχείο είχε ολοκληρωθεί πριν από αυτό και είναι ακέραιο: %s"
 msgstr[1] "%s αρχεία είχαν ολοκληρωθεί πριν από αυτό και είναι ακέραια: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s αρχεία είχαν ολοκληρωθεί πριν από αυτό και είναι ακέραια: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s σημείο"
 msgstr[1] "%s σημεία"
 
-msgid "%s points"
-msgstr "%s σημεία"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s κανάλι"
 msgstr[1] "%s κανάλια"
-
-msgid "%s channels"
-msgstr "%s κανάλια"
 
 msgid "Cut by speaker"
 msgstr "Μοντάζ ανά ομιλητή"
@@ -4528,3 +4410,33 @@ msgstr "Μόνο συγχρονισμός δέχεται μία ηχογράφη
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Μόνο συγχρονισμός: η παράδοση υπολογίζεται ξανά· δεν υπάρχει μοντάζ να ξαναγίνει. Το Resolve πρέπει να εκτελείται."
+
+msgid "%s has not started yet"
+msgstr "%s δεν έχει ξεκινήσει ακόμη"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   ο ήχος δεν μπορεί να αναπαραχθεί"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "ήχος τοποθετημένος κατά το ρολόι -- η μέτρηση εκκρεμεί"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nΣΤΑΘΜΕΣ ΟΜΙΛΗΤΩΝ"
+
+msgid "Measuring %s"
+msgstr "Μέτρηση %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s μη μετρήσιμο -- μένει όπως είναι"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- τίποτα επάνω του, μένει όπως είναι"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Μόνο μία φωνή -- δεν υπάρχει τίποτα για σύγκριση."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Κοινή στάθμη:        %s LUFS, η διάμεσος των φωνών"

@@ -126,6 +126,15 @@ check("sections move along and are trimmed",
 check("the co-host moves just the same",
         w["speakers"][1]["sections"] == [[0.0, 60.0]],
         "%r against [[0.0, 60.0]]" % (w["speakers"][1]["sections"],))
+# The label goes along on the clock it was written on. build_handover
+# writes none; the run does, and for a drop-frame reference with the
+# semicolon -- given here by hand. The In point is a whole second, so
+# the digits follow start_s at any rate and only the separator can go.
+d["start_tc"] = "17:00:00;00"
+w, _complaint = vpm.apply_time_window(dict(d), "17:01:00:00", "")
+check("a fresh start_tc keeps the semicolon",
+        w.get("start_tc") == "17:01:00;00",
+        "%r against '17:01:00;00'" % (w.get("start_tc"),))
 
 print("\n6. The interface really takes this way")
 source = the_program.whole()

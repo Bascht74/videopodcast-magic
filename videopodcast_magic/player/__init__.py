@@ -276,6 +276,12 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
     """
 
     class CutBand(QtWidgets.QWidget):
+        """The band itself: one bar per shot, zoomed and scrolled by hand.
+
+        `set` takes the cut, `view` holds the stretch on show, the wheel
+        and the arrow keys move it, and a click sends the moment under
+        the mouse out through `selected`.
+        """
 
         selected = QtCore.Signal(float)
         zoomed = QtCore.Signal()
@@ -729,6 +735,12 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             painter.end()
 
     class CutPlayer(QtWidgets.QWidget):
+        """The widget that plays the cut: picture, note, rail, transport.
+
+        Two surfaces take turns with the shots, the audio runs on from
+        one file, and a clock of its own carries the programme time.
+        `set` takes the cut; `jump`, `play`, `pause` and `nudge` drive it.
+        """
 
         position_changed = QtCore.Signal(float)
 
@@ -747,6 +759,12 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         SHAPE = 16.0 / 9.0
 
         def __init__(self, parent=None):
+            """Build the box, the two surfaces, the note, rail and buttons.
+
+            The window is made before any player holds a file, the note
+            comes last so Qt lays it over the picture, and the audio
+            player follows the output device.
+            """
             QtWidgets.QWidget.__init__(self, parent)
             position = QtWidgets.QVBoxLayout(self)
             position.setContentsMargins(0, 0, 0, 0)
@@ -1561,6 +1579,13 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
 
         def __init__(self, parent=None):
+            """Build the viewer: title, picture, rail, cut buttons, players.
+
+            The stack holds Qt's surface and a still, and a button for
+            ffplay stands in where a format is refused. One player
+            carries the camera file, a second the recording assigned
+            to it.
+            """
             QtWidgets.QWidget.__init__(self, parent)
             self.file_path = None
             self.tc0 = None            # wall clock time at file start
@@ -1758,6 +1783,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.track_path = None          # the block playing now
             self.track_blocks = []          # the whole recording, in order
             self.find_track = None          # set by the GUI
+            self._track_basis = ""         # what placed the sound
             self._track_target = None
             self.track.mediaStatusChanged.connect(self.track_loaded)
             self.audio = audio_sink(QtMultimedia, self)
@@ -2195,18 +2221,29 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.stack.setCurrentWidget(self.still)
 
         # --- the assigned audio track
+        def track_offered(self):
+            """The recording assigned to this picture, or nothing.
+
+            Only a picture has one: a sound file on show is its own
+            sound, and nothing is looked up under it.
+            """
+            path = self.file_path
+            if (not self.find_track or not path
+                    or os.path.splitext(path)[1].lower() in AUDIO_SUFFIXES):
+                return None
+            return self.find_track(path)
+
         def track_adjust(self):
             """Pick the audio for the picture: own or assigned."""
-            wanted_value = None
-            if (self.track_checkbox.isChecked() and self.find_track
-                    and self.file_path and os.path.splitext(self.file_path)[1].lower()
-                    not in AUDIO_SUFFIXES):
-                wanted_value = self.find_track(self.file_path)
+            offered = self.track_offered()
+            # The tick hangs on the lookup's answer, not on there being
+            # a lookup: greyed where nothing is assigned to this picture.
+            self.track_checkbox.setEnabled(bool(offered))
+            wanted_value = offered if self.track_checkbox.isChecked() else None
             if not wanted_value:
                 self.track_path, self.track_blocks = None, []
                 self.track.stop()
                 self.track.setSource(QtCore.QUrl())
-                self.track_checkbox.setEnabled(bool(self.find_track))
                 self.audio_adjust()
                 return
             # A recording arrives as all its blocks; track_follow_up
@@ -2392,8 +2429,12 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             acting only on a change.
             """
             if not self.track_blocks:
+                self._track_basis = ""
                 return
-            path, into, _whose = self.track_where()
+            path, into, whose = self.track_where()
+            # Kept for the line under the picture: by clock the sound
+            # sits a whole clock error off until the measurement is in.
+            self._track_basis = whose
             due = into is not None
             playing = (self.track.playbackState()
                         == QtMultimedia.QMediaPlayer.PlayingState)
@@ -2416,9 +2457,21 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             # in set it counts from there, negative before it, as in an editor.
             begins = self._limit(state["in_point"])
             rel = (ms - (begins or 0)) / 1000.0
-            self.middle.setText("%s   %s%s"
-                               % (self.time_mark(ms / 1000.0),
-                                  "-" if rel < 0 else "", as_hms(abs(rel))))
+            if self._moment is not None and not ms:
+                # This camera had not begun at the moment kept for the
+                # switch: a zero here would read as if it had.
+                self.middle.setText(T('%s has not started yet')
+                                    % os.path.basename(self.file_path or ""))
+            elif self._track_basis == "by clock":
+                # Said where it is heard; the time comes back with the
+                # measurement.
+                self.middle.setText(
+                    T('sound placed by clock -- measurement pending'))
+            else:
+                self.middle.setText("%s   %s%s"
+                                   % (self.time_mark(ms / 1000.0),
+                                      "-" if rel < 0 else "",
+                                      as_hms(abs(rel))))
             self.show_edges()
 
         def spot_s(self):
@@ -2490,6 +2543,20 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      % (os.path.basename(self.file_path or "-"),
                         self.player.errorString() or "no reason given",
                         error))
+            # A codec refused while this file is open with a picture in
+            # it is the sound track: the picture runs on and the line says
+            # what cannot be played. Open is asked too -- at a refusal
+            # during loading hasVideo() still answers for the file before.
+            opened = (QtMultimedia.QMediaPlayer.LoadedMedia,
+                      QtMultimedia.QMediaPlayer.BufferingMedia,
+                      QtMultimedia.QMediaPlayer.BufferedMedia,
+                      QtMultimedia.QMediaPlayer.EndOfMedia)
+            if (error == QtMultimedia.QMediaPlayer.FormatError
+                    and self.player.mediaStatus() in opened
+                    and self.player.hasVideo()):
+                self._title_show(T('%s   --   the sound cannot be played')
+                                   % os.path.basename(self.file_path or ""))
+                return
             self.player.stop()
             self.video.hide()
             self.extern.show()

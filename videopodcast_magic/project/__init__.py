@@ -405,6 +405,13 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         state["axis"] = {}
         state["axis_clock"] = {}
         state["axis_absolute"] = False
+        # What was asked and answered about the old axis goes with it:
+        # left standing, a project opened again with the same files in
+        # one session never read its stored axis and showed none.
+        for name in ("axis_answered", "axis_covered", "axis_asked",
+                     "axis_asking", "axis_marks"):
+            state.pop(name, None)
+        state["weak"], state["no_place"] = set(), set()
         # The timecode belonged to the material that has just gone; left
         # standing, the menu went on offering marks on an empty window.
         state["tc_there"] = False
@@ -429,6 +436,16 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         preview_compute()
 
     def project_open(file_path=""):
+        """Read a project file back into the window, as it was saved.
+
+        Emptied first through project_new, so one list says what belongs
+        to a project and the file only fills it. The order matters: the
+        type before the files, points and assignment before the tables, or
+        the window prefills what the file meant to set. Earlier results
+        come back as a sheet with their handover file; files that no longer
+        exist are reported last, after all that could be restored has been.
+        """
+
         file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
             window, T('Open json project file'),
             out_folder.get() or commonest_folder() or "",
