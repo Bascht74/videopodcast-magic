@@ -6,10 +6,10 @@ untranslated text shows in English rather than disappearing. Each
 language is a `.po` beside this one -- a translation is data, and a
 Python catalogue that fails to parse takes the whole start down.
 """
-# A new language: its .po (with Plural-Forms), its name in LANGUAGE_NAMES,
-# a CATALOGUE line in ../__init__.py, its code in FINISHED in
-# tests/text_languages_covered_test.py and under --lang in
-# docs/command-line.md.
+# A new language: its .po (with Plural-Forms) beside this file, its name
+# in LANGUAGE_NAMES below, and its code under --lang in
+# docs/command-line.md and docs/command-line.de.md. The catalogue is
+# filled from LANGUAGE_NAMES, and the tests hold every .po to every text.
 import io
 import os
 import re

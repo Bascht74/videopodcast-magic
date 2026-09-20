@@ -12,9 +12,10 @@ answers both.
 
 The sections: that no shipped catalogue carries an empty translation,
 which would blank a label rather than leave it English; that what each
-language answers may only grow, never shrink; that a language called finished still answers all
-of it; and that the languages the window offers and the catalogues on
-disk are the same set, so neither can appear without the other.
+language answers may only grow, never shrink; that every catalogue on
+disk answers all of it; and that the languages the window offers and
+the catalogues on disk are the same set, so neither can appear without
+the other.
 """
 import ast
 import os
@@ -113,26 +114,24 @@ check("no language answers fewer of the program's texts than before",
       "%d of %d languages fell back: %s"
       % (len(worse), len(answered), worse[:4] or "none"))
 
-print("\n3b. A language called finished stays finished")
-# The floor above cannot see this: a finished language keeps answering
-# just as many while the program says one more, and nothing moves. So
-# the ones declared finished are held to everything -- that is where
-# the upkeep gets paid, by the few declared finished rather than all.
-FINISHED = ("ar", "bn", "cs", "da", "de", "el", "es", "fi", "fr", "hi", "hr",
-            "hu", "it", "ja", "ko", "nb", "nl", "pl", "pt", "ro", "ru", "sk",
-            "sr", "sv", "tr", "uk", "vi", "zh")
+print("\n3b. Every catalogue answers all of it")
+# The floor above cannot see this: a language keeps answering just as
+# many while the program says one more, and nothing moves. So every
+# catalogue on disk is held to everything. A half-finished .po then
+# turns the suite red instead of merely raising its floor, and that is
+# wanted: every language answers every text today, and one that falls
+# behind is a fault, not a language on its way.
 short = []
-for code in FINISHED:
-    path = dict(CATALOGUES).get(code)
-    has = set(the_program.po_texts(path)) if path else set()
+for code, path in CATALOGUES:
+    has = set(the_program.po_texts(path))
     missing = [w for w in said if w not in has]
     if missing:
         short.append("%s misses %d, first %r"
                      % (code, len(missing), missing[0][:40]))
-check("every language called finished still answers all of it",
+check("every catalogue answers all of the program's texts",
       not short,
-      "%d of %d finished languages fell short: %s"
-      % (len(short), len(FINISHED), short[:2] or "none"))
+      "%d of %d catalogues fell short: %s"
+      % (len(short), len(CATALOGUES), short[:2] or "none"))
 
 print("\n4. The list of languages and the catalogues on disk agree")
 # Not "is every catalogue held to a number": the ratchet adopts a new
