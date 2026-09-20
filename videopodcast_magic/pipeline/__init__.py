@@ -109,6 +109,7 @@ speakers_for_the_cut = PROGRAM.speakers_for_the_cut
 split_channels = PROGRAM.split_channels
 split_target = PROGRAM.split_target
 step_begin = PROGRAM.step_begin
+sync_only = PROGRAM.sync_only
 sys = PROGRAM.sys
 tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
@@ -581,6 +582,12 @@ def one_track_left(plan):
 def show_multitrack_plan(args, audio_paths, video_paths):
     """Show the detected plan without doing anything yet."""
     step_begin("plan")
+    # Said once, at the top: everything the log then does not show --
+    # no speakers, no transcript, no cut -- was left out on purpose.
+    if sync_only(args):
+        print(T('Project type: Sync only -- no speakers, no transcript, '
+                'no cut; the handover carries the multicam timeline '
+                'alone.'))
     plan, cameras, title = [], [], ""
     if args.assign and os.path.exists(args.assign):
         try:
@@ -1274,10 +1281,15 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     # is processed: the axis stands now, so a separation can be placed
     # on it -- and only on the cameras that have a place, as in the
     # window: the segments of a file that sits nowhere land nowhere.
-    args._speakers = separation_for_run(
-        args, tracks, position, t0, t1,
-        [ref_clip[0]] + [v for v, _e in videos
-                         if v != ref_clip[0] and v in position])
+    if sync_only(args):
+        # Sync only asks nobody who speaks: no separation is read, none
+        # is made, and the cut further down has nothing to go by.
+        args._speakers = None
+    else:
+        args._speakers = separation_for_run(
+            args, tracks, position, t0, t1,
+            [ref_clip[0]] + [v for v, _e in videos
+                             if v != ref_clip[0] and v in position])
 
     #--------------------------------------------------- Processing
     # --auphonic-done first, and on purpose. It names a folder: an
@@ -1551,7 +1563,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     from auphonic.com are cleaner to measure than the raw ones.
     """
     step_begin("cameras")
-    if segment_list is None:
+    sync = sync_only(args)
+    if segment_list is None and sync:
+        segment_list = []
+    elif segment_list is None:
         step_begin("speakers")
         segment_list = speakers_for_the_cut(args, tracks)
     names_every = [track["name"] for track in tracks]
@@ -1588,7 +1603,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         heard["words"] = words or []
 
     listening = None
-    if not getattr(args, "no_speech_recognition", False):
+    if not sync and not getattr(args, "no_speech_recognition", False):
         listening = threading.Thread(target=listen_to_the_mix, daemon=True)
         listening.start()
 
@@ -1934,23 +1949,30 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # The last stage: the cut list, the handover, the result. The bar
     # lists it, so it is announced here too.
     step_begin("result")
-    cut, segment_list = write_cut_list(
-        args, segment_list, tracks, cameras, videos, folder, tc_start,
-        ref_clip, t1 - t0 if t1 is not None else 0,
-        words=heard_words(), sound_source=single_files.get(MIX_TRACK_NAME, ""))
-    # Who does the asking. Said, not acted on: the order is what the
-    # measurement supports, and a name in the interface is a person's
-    # decision.
-    asking = who_asks(segment_list, heard_words())
-    for line in (roles_report(asking, segment_list)
-                 + voice_names_report(asking)):
-        print(line)
-    if not getattr(args, "no_transcript_file", False) and heard_words():
-        print(as_head(T('\nTRANSCRIPT')))
-        for path in write_transcript_files(
-                folder, safe_filename(args.production or 'Production'),
-                heard_words(), segment_list):
-            print("  %s" % path)
+    if sync:
+        # Sync only: no cut list, no roles, no transcript. The plan said
+        # so at the top; here the lists are simply empty, and the
+        # metrics and the handover below take them as they are.
+        cut, segment_list = [], []
+    else:
+        cut, segment_list = write_cut_list(
+            args, segment_list, tracks, cameras, videos, folder, tc_start,
+            ref_clip, t1 - t0 if t1 is not None else 0,
+            words=heard_words(),
+            sound_source=single_files.get(MIX_TRACK_NAME, ""))
+        # Who does the asking. Said, not acted on: the order is what the
+        # measurement supports, and a name in the interface is a
+        # person's decision.
+        asking = who_asks(segment_list, heard_words())
+        for line in (roles_report(asking, segment_list)
+                     + voice_names_report(asking)):
+            print(line)
+        if not getattr(args, "no_transcript_file", False) and heard_words():
+            print(as_head(T('\nTRANSCRIPT')))
+            for path in write_transcript_files(
+                    folder, safe_filename(args.production or 'Production'),
+                    heard_words(), segment_list):
+                print("  %s" % path)
     # Content and wide shot, and nothing else. The comparison exists to
     # show what a cut between two cameras looks like, so a file that is
     # never cut against them does not belong in it: an 18-second jingle
