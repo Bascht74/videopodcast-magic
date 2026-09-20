@@ -26,8 +26,13 @@ thing it answers for, and the right one of the three at seven counts.
 Last of all it asks the same of every language the program offers, so
 that a catalogue cannot arrive with a rule and no wordings under it:
 Arabic at the six counts it tells apart, French at nought and at two,
-where French counts differently from English and where an exchange of
-its two forms would otherwise hide.
+where French counts differently from English, and its blocks held to
+the plural the program says. The question the file list asks
+before it removes every file of a kind is the one wording that was once
+bent by gluing an "s" behind a translated word: it is held to be a
+counted pair per kind, and every language is asked it at one and at
+five, so that the count and the list of names still fit into what it
+says.
 
 The switch section really starts the program, twice, on a file that is
 not there: whether --lang is acted on cannot be read off the parser,
@@ -414,8 +419,12 @@ for _name, tree in TREES:
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
                 and node.func.id in ("T", "TN") and node.args:
-            # T(text, ...) -- TN(number, singular, plural)
-            args = node.args[1:] if node.func.id == "TN" else node.args[:1]
+            # T(text, ...) -- TN(number, singular, plural). Of a counted
+            # thing only the singular is asked: the block keyed by it
+            # answers every count, and the plural wording stands in no
+            # catalogue on its own -- an ordinary entry for it was dead
+            # weight, and it is gone.
+            args = node.args[1:2] if node.func.id == "TN" else node.args[:1]
             for a in args:
                 if isinstance(a, ast.Constant) and isinstance(a.value, str):
                     asked.append(a.value)
@@ -424,7 +433,7 @@ for t in vpm.CHOICE_LABELS.values():
 # A counted thing lives in PLURALS, not in CATALOGUE: read_po puts a
 # msgid with a msgid_plural under it into the wordings and leaves it out
 # of the ordinary texts. Looking only in CATALOGUE would report the
-# forty German counted things as gaps the day they became blocks.
+# German counted things as gaps the day they became blocks.
 absent = sorted(set(t for t in asked
                     if t not in vpm.CATALOGUE["de"]
                     and t not in vpm.language.PLURALS.get("de", {})))
@@ -1162,21 +1171,129 @@ check("French says at nought what it says at one, and not what it says at "
 # The one above cannot see the two forms exchanged: with plural=(n > 1)
 # nought and one take the same form, so a swap keeps them equal and only
 # moves which wording both of them say. So the wording at two is held
-# against the ordinary entry the catalogue still carries for the English
-# plural -- two roads to the same text, and a swap sends them apart.
+# against the block itself, read out of the file with this test's own
+# eyes: the block keyed by the singular has to name the plural the
+# program says, and what French answers at two has to be the wording
+# written under that line -- French has two, and the second is the one
+# from two upward. A block that kept an old English plural while the
+# program moved on falls here, and so does a reader or a rule that
+# answers at two out of the wrong slot. What no check can see is a
+# translator who wrote the two French wordings in the wrong order: both
+# roads then agree on the wrong text. The second road used to be an
+# ordinary entry for the English plural beside every block, which
+# nothing in the program ever read; those entries are gone.
+
+
+def po_blocks(path):
+    """Every counted block of one PO file: singular -> (plural, wordings).
+
+    A reader of its own, like po_pairs: the program's reader throws the
+    English plural away, and a check that reads its subject with the
+    subject's own eyes says only that the two agree.
+    """
+    out, key, plural, forms, at = {}, None, None, {}, None
+
+    def keep():
+        if key and plural is not None:
+            out[key] = (plural, [forms[i] for i in sorted(forms)])
+
+    for raw in io.open(path, encoding="utf-8"):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        head, piece = "", line
+        if not line.startswith('"'):
+            head, piece = line.split(" ", 1)
+        quoted = the_program.PO_QUOTED.match(piece)
+        if not quoted:
+            continue
+        piece = the_program.PO_ESCAPE.sub(
+            lambda m: the_program.PO_CODES.get(m.group(1), m.group(1)),
+            quoted.group(1))
+        if head == "msgid":
+            keep()
+            key, plural, forms, at = piece, None, {}, "msgid"
+        elif head == "msgid_plural":
+            plural, at = piece, "plural"
+        elif head.startswith("msgstr["):
+            at = int(head[7:-1])
+            forms[at] = piece
+        elif head == "msgstr":
+            at = "msgstr"
+        elif head:
+            at = None
+        elif at == "msgid":
+            key += piece
+        elif at == "plural":
+            plural += piece
+        elif isinstance(at, int):
+            forms[at] += piece
+    keep()
+    return out
+
+
+TEXTS_FR = os.path.join(os.path.dirname(SCRIPT), "language", "fr.po")
+_blocks = po_blocks(TEXTS_FR)
 _swapped = []
 for _w in _fr:
-    _plural = vpm.CATALOGUE.get("fr", {}).get(_counted_many[_w])
-    if _plural is None:
-        _swapped.append("%r: no ordinary entry for its plural" % (_w,))
+    _names, _under = _blocks.get(_w, (None, []))
+    if _names != _counted_many[_w]:
+        _swapped.append("%r: the block names %r, the program says %r"
+                        % (_w, _names, _counted_many[_w]))
         continue
     _said = vpm.TN(FR_TWO, _w, _counted_many[_w])
-    if _said != _plural:
-        _swapped.append("%r: at two %r, catalogue %r" % (_w, _said, _plural))
-check("what French says at two is the wording its catalogue holds for the "
-      "plural", bool(_fr) and not _swapped,
+    if len(_under) < 2 or _said != _under[1]:
+        _swapped.append("%r: at two %r, under the plural %r"
+                        % (_w, _said, _under[1] if len(_under) > 1 else None))
+check("what French says at two is the wording written under the plural "
+      "the program says", bool(_fr) and not _swapped,
       "%d of %d wrong at two, first: %s"
       % (len(_swapped), len(_fr), _swapped[:2] or "none"))
+
+# The question before all files of a kind leave the list was 'Remove all
+# %s %ss', a translated word with an "s" hung on it -- right in English,
+# "archivo de audios" in Spanish, and rebuilt in every catalogue rather
+# than at the cause. It is a counted pair per kind now, and a pair is
+# whole when both wordings say the count and the list of names, and
+# say different things. Read out of the program, so a return to the
+# glued word leaves no pair here and this falls.
+REMOVING_KINDS = 2      # audio and video, the two kinds the list groups
+_removing = sorted(_w for _w in _counted if _w.startswith("Remove "))
+_half = []
+for _w in _removing:
+    _m = _counted_many.get(_w, "")
+    if _w == _m or _w.count("%s") != 2 or _m.count("%s") != 2:
+        _half.append("%r against %r" % (_w[:30], _m[:34]))
+check("the question before removing every file of a kind is a counted "
+      "pair, whole in both numbers",
+      len(_removing) == REMOVING_KINDS and not _half,
+      "%d pairs, wanted %d; half: %s" % (len(_removing), REMOVING_KINDS,
+                                         _half or "none"))
+
+# Every language at one and at five: the answer is the catalogue's and
+# not English, and the count and the names still go into it. A form
+# that lost a slot raises here and would raise in the window.
+REMOVING_AT = (1, 5)
+_unfit = []
+for _c in _speaks:
+    vpm.set_language(_c)
+    for _w in _removing:
+        for _n in REMOVING_AT:
+            _one = vpm.TN(_n, _w, _counted_many[_w])
+            try:
+                _said = _one % (str(_n), "names")
+            except (TypeError, ValueError) as _e:
+                _unfit.append("%s at %d: %s" % (_c, _n, _e))
+                continue
+            if _one == (_w if _n == 1 else _counted_many[_w]):
+                _unfit.append("%s at %d: English" % (_c, _n))
+            elif str(_n) not in _said or "names" not in _said:
+                _unfit.append("%s at %d: %r" % (_c, _n, _said[:40]))
+check("every language says the removing question at one and at five with "
+      "the count and the names in it", bool(_removing) and not _unfit,
+      "%d of %d answers unfit, first: %s"
+      % (len(_unfit), len(_speaks) * len(_removing) * len(REMOVING_AT),
+         _unfit[:2] or "none"))
 
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")

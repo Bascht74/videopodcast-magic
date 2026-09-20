@@ -37,12 +37,11 @@
 # in 12 to 14, [2] everywhere else. The wordings are read as a list, so
 # a form left empty costs that form and not the entry.
 #
-# The English plural keeps its own ordinary entry beside such a group,
-# and it is not spare: it is what a run falls back on where the rule
-# cannot be read at all, and Russian then says the many-wording instead
-# of English. The English singular has no entry of its own -- that
-# would be the same msgid twice -- so in that one case a count of one
-# comes out English.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -61,9 +60,6 @@ msgid_plural "on %s cameras"
 msgstr[0] "на %s камере"
 msgstr[1] "на %s камерах"
 msgstr[2] "на %s камерах"
-
-msgid "on %s cameras"
-msgstr "на %s камерах"
 
 msgid "no camera yet"
 msgstr "пока нет камеры"
@@ -323,26 +319,17 @@ msgstr[0] "%s звуковая дорожка"
 msgstr[1] "%s звуковые дорожки"
 msgstr[2] "%s звуковых дорожек"
 
-msgid "%s audio tracks"
-msgstr "%s звуковых дорожек"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s клип"
 msgstr[1] "%s клипа"
 msgstr[2] "%s клипов"
 
-msgid "%s clips"
-msgstr "%s клипов"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s видеодорожка"
 msgstr[1] "%s видеодорожки"
 msgstr[2] "%s видеодорожек"
-
-msgid "%s video tracks"
-msgstr "%s видеодорожек"
 
 msgid "  (this file ends earlier)"
 msgstr "  (этот файл заканчивается раньше)"
@@ -359,17 +346,11 @@ msgstr[0] "%s канал"
 msgstr[1] "%s канала"
 msgstr[2] "%s каналов"
 
-msgid "%s channels"
-msgstr "%s каналов"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s файл"
 msgstr[1] "%s файла"
 msgstr[2] "%s файлов"
-
-msgid "%s files"
-msgstr "%s файлов"
 
 msgid "... or add files ..."
 msgstr "... или добавить файлы ..."
@@ -800,9 +781,6 @@ msgstr "На десять секунд вперёд."
 msgid "Window %s%s"
 msgstr "Окно %s%s"
 
-msgid "audio file"
-msgstr "звуковой файл"
-
 msgid "cancel"
 msgstr "отменить"
 
@@ -827,17 +805,11 @@ msgstr "слишком коротко"
 msgid "unknown"
 msgstr "неизвестно"
 
-msgid "video file"
-msgstr "видеофайл"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s звукозапись"
 msgstr[1] "%s звукозаписи"
 msgstr[2] "%s звукозаписей"
-
-msgid "%s audio recordings"
-msgstr "%s звукозаписей"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
@@ -845,17 +817,11 @@ msgstr[0] "%s камера"
 msgstr[1] "%s камеры"
 msgstr[2] "%s камер"
 
-msgid "%s cameras"
-msgstr "%s камер"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s видеофайл"
 msgstr[1] "%s видеофайла"
 msgstr[2] "%s видеофайлов"
-
-msgid "%s video files"
-msgstr "%s видеофайлов"
 
 msgid "Caution"
 msgstr "Внимание"
@@ -3461,8 +3427,17 @@ msgstr "Из сырого материала видеоподкаста полу
 msgid "Reading audio track from %s"
 msgstr "Чтение звуковой дорожки из %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Удалить из списка все файлы этого вида? Их %s, вид: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Удалить из списка %s звуковой файл?\n\n%s"
+msgstr[1] "Удалить из списка все %s звуковых файла?\n\n%s"
+msgstr[2] "Удалить из списка все %s звуковых файлов?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Удалить из списка %s видеофайл?\n\n%s"
+msgstr[1] "Удалить из списка все %s видеофайла?\n\n%s"
+msgstr[2] "Удалить из списка все %s видеофайлов?\n\n%s"
 
 msgid "Remove the chosen file from the list"
 msgstr "Удалить выбранный файл из списка"
@@ -4705,3 +4680,33 @@ msgstr "Только синхронизация берёт одну звукоз
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Только синхронизация: файл передачи пересчитывается заново; нарезки, которую нужно переделать, нет. Resolve должен быть запущен."
+
+msgid "%s has not started yet"
+msgstr "%s: запись ещё не началась"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   звук не воспроизводится"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "звук размещён по часам -- измерение ожидается"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nУРОВНИ ГОВОРЯЩИХ"
+
+msgid "Measuring %s"
+msgstr "Измерение %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s не измеряется -- остаётся как есть"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- на ней ничего нет, остаётся как есть"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s дБ"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Только один голос -- не с чем сравнивать."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Общий уровень:       %s LUFS, медиана голосов"

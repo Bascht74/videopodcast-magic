@@ -40,10 +40,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -59,9 +60,6 @@ msgstr "ワイドショットでのカット"
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "%s 台のカメラに"
-
-msgid "on %s cameras"
-msgstr "%s 台のカメラに"
 
 msgid "no camera yet"
 msgstr "まだカメラなし"
@@ -319,22 +317,13 @@ msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "音声トラック %s 本"
 
-msgid "%s audio tracks"
-msgstr "音声トラック %s 本"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s クリップ"
 
-msgid "%s clips"
-msgstr "%s クリップ"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "映像トラック %s 本"
-
-msgid "%s video tracks"
-msgstr "映像トラック %s 本"
 
 msgid "  (this file ends earlier)"
 msgstr "  (このファイルは先に終わります)"
@@ -349,15 +338,9 @@ msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s チャンネル"
 
-msgid "%s channels"
-msgstr "%s チャンネル"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "ファイル %s 個"
-
-msgid "%s files"
-msgstr "ファイル %s 個"
 
 msgid "... or add files ..."
 msgstr "... またはファイルを追加 ..."
@@ -788,9 +771,6 @@ msgstr "10 秒進みます。"
 msgid "Window %s%s"
 msgstr "ウィンドウ %s%s"
 
-msgid "audio file"
-msgstr "音声ファイル"
-
 msgid "cancel"
 msgstr "キャンセル"
 
@@ -815,29 +795,17 @@ msgstr "短すぎます"
 msgid "unknown"
 msgstr "不明"
 
-msgid "video file"
-msgstr "映像ファイル"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "音声録音 %s 件"
-
-msgid "%s audio recordings"
-msgstr "音声録音 %s 件"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "カメラ %s 台"
 
-msgid "%s cameras"
-msgstr "カメラ %s 台"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "映像ファイル %s 個"
-
-msgid "%s video files"
-msgstr "映像ファイル %s 個"
 
 msgid "Caution"
 msgstr "注意"
@@ -1883,8 +1851,13 @@ msgstr "所属先"
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
 msgstr "これらのファイルは音声でも映像でもないため、対象外です:\n\n  %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "この種類のファイルをすべてリストから削除しますか？ 件数: %s、種類: %s\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "音声ファイル %s 個をリストから削除しますか？\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "映像ファイル %s 個をリストから削除しますか？\n\n%s"
 
 msgid "no timecode"
 msgstr "タイムコードなし"
@@ -4625,3 +4598,33 @@ msgstr "同期のみは音声録音を1つだけ受け付けます。これは�
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "同期のみ：受け渡しファイルを計算し直します。やり直すカットはありません。Resolve が起動している必要があります。"
+
+msgid "%s has not started yet"
+msgstr "%s はまだ始まっていません"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   音声を再生できません"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "音声は時計で配置 -- 計測待ち"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\n話者のレベル"
+
+msgid "Measuring %s"
+msgstr "%s を計測中"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s 測定できません -- そのままにします"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- 何も入っていません、そのままにします"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  声が一つだけです -- 合わせる相手がありません。"
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  共通レベル:          %s LUFS、声の中央値"

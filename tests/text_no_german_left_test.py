@@ -115,7 +115,10 @@ for _piece, tree in TREES:
                 and isinstance(node.func, ast.Name)
                 and node.func.id in ("T", "TN")):
             continue
-        for a in node.args:
+        # Of a counted thing only the singular: the block keyed by it
+        # answers every count, and the plural wording stands in no
+        # catalogue on its own.
+        for a in (node.args[1:2] if node.func.id == "TN" else node.args):
             if isinstance(a, ast.Constant) \
                     and isinstance(a.value, str):
                 wanted.add(a.value)
@@ -149,6 +152,8 @@ check("and the same indent", not indent,
 # comes back unchanged was forgotten rather than translated.
 SAME_IN_BOTH = {
     '  Preset:  %s', 'Preset', 'Preset:', 'Start', '  Timecode:        %s',
+    # A name, two units and an arrow: nothing in it has a German.
+    '  %-20s %s LUFS  ->  %s dB',
     '\n    %s  --  %s, %s',
     # Player is the ordinary German word too, so both sides are right.
     '  Player: %s',

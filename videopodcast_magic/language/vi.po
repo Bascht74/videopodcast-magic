@@ -44,10 +44,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2631,8 +2632,13 @@ msgstr "HOÀN TÁC THẤT BẠI (%s)"
 msgid "Reading audio track from %s"
 msgstr "Đang đọc rãnh âm thanh từ %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Xóa khỏi danh sách mọi tệp loại này? Có %s tệp, loại: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Xóa %s tệp âm thanh khỏi danh sách?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Xóa %s tệp video khỏi danh sách?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Độ phân giải"
@@ -3750,9 +3756,6 @@ msgstr "Bản dựng, EDL, CSV và tệp bàn giao được tính lại từ cá
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Thiếu hai thứ này thì không gì hoạt động. Resolve đã được cài đặt chưa?"
 
-msgid "audio file"
-msgstr "tệp âm thanh"
-
 msgid "cancel"
 msgstr "hủy"
 
@@ -3806,9 +3809,6 @@ msgstr "hai Timeline"
 
 msgid "up to %s"
 msgstr "đến %s"
-
-msgid "video file"
-msgstr "tệp video"
 
 msgid "volume %.2f"
 msgstr "âm lượng %.2f"
@@ -4177,281 +4177,161 @@ msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"
 msgstr[0] ", %s tệp không khớp"
 
-msgid ", %s files do not fit"
-msgstr ", %s tệp không khớp"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s tệp"
-
-msgid "%s files"
-msgstr "%s tệp"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "%s bản ghi từ %s tệp"
 
-msgid "%s recordings from %s files"
-msgstr "%s bản ghi từ %s tệp"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s phần tiếp theo"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s phần tiếp theo"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "Đã tách: %s người nói"
 
-msgid "Separated: %s speakers"
-msgstr "Đã tách: %s người nói"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s được tải lên dạng stereo và mỗi rãnh trở về với một kênh."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s được tải lên dạng stereo và mỗi rãnh trở về với một kênh."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "%s rãnh, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s rãnh, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix từ %s rãnh, %s kênh"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix từ %s rãnh, %s kênh"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  %s giữ nguyên hai kênh"
 
-msgid "  %s stay in two channels"
-msgstr "  %s giữ nguyên hai kênh"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: ở %s (mục tiêu %s) sau %d ms, %d lần thử"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: ở %s (mục tiêu %s) sau %d ms, %d lần thử"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Sẽ tạo %s tệp video, khoảng %s. Đích: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Sẽ tạo %s tệp video, khoảng %s. Đích: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s tự khắc phục"
-
-msgid "%s fixed on their own"
-msgstr "%s tự khắc phục"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "%s gợi ý"
 
-msgid "%s hints"
-msgstr "%s gợi ý"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s lý do dừng"
-
-msgid "%s reasons to stop"
-msgstr "%s lý do dừng"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s bản ghi âm"
 
-msgid "%s audio recordings"
-msgstr "%s bản ghi âm"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s tệp video"
-
-msgid "%s video files"
-msgstr "%s tệp video"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "Tệp được gắn nhãn HDR, kèm %s lưu ý."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Tệp được gắn nhãn HDR, kèm %s lưu ý."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Cảnh báo: chưa chèn %s. Thiếu các góc máy này thì\n  Timeline không dùng được để chuyển đổi."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Cảnh báo: chưa chèn %s. Thiếu các góc máy này thì\n  Timeline không dùng được để chuyển đổi."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  Giữ lại %s rãnh âm thanh: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  Giữ lại %s rãnh âm thanh: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Đã liên kết lại hình và âm thanh: %s góc máy"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Đã liên kết lại hình và âm thanh: %s góc máy"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  Còn lại %s rãnh âm thanh:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  Còn lại %s rãnh âm thanh:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s clip"
-
-msgid "%s clips"
-msgstr "%s clip"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    Đã xóa %s rãnh âm thanh trống"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    Đã xóa %s rãnh âm thanh trống"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> hiểu là %s rãnh âm thanh%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> hiểu là %s rãnh âm thanh%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " trong %s kênh nhúng"
 
-msgid " of %s embedded channels"
-msgstr " trong %s kênh nhúng"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s rãnh video"
-
-msgid "%s video tracks"
-msgstr "%s rãnh video"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%s rãnh âm thanh"
 
-msgid "%s audio tracks"
-msgstr "%s rãnh âm thanh"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Nhiều góc máy hơn màu -- %s màu bị dùng hai lần."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Nhiều góc máy hơn màu -- %s màu bị dùng hai lần."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      %s clip vẫn chưa có màu."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s clip vẫn chưa có màu."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    V2 hiện có %s clip: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    V2 hiện có %s clip: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  Đã đặt %s điểm đánh dấu%s."
 
-msgid "  %s markers set%s."
-msgstr "  Đã đặt %s điểm đánh dấu%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s máy quay"
-
-msgid "%s cameras"
-msgstr "%s máy quay"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  Tách người nói (%s): %s người nói trong %s âm thanh"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Tách người nói (%s): %s người nói trong %s âm thanh"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s trong %s đoạn"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s trong %s đoạn"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  Từ %s: %s giọng nói."
 
-msgid "  From %s: %s voices."
-msgstr "  Từ %s: %s giọng nói."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s từ trả về không có thời gian và đã bị bỏ qua."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s từ trả về không có thời gian và đã bị bỏ qua."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "trên %s máy quay"
 
-msgid "on %s cameras"
-msgstr "trên %s máy quay"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s tệp đã xong trước đó và còn nguyên vẹn: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s tệp đã xong trước đó và còn nguyên vẹn: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s mục"
 
-msgid "%s points"
-msgstr "%s mục"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s kênh"
-
-msgid "%s channels"
-msgstr "%s kênh"
 
 msgid "Cut by speaker"
 msgstr "Dựng theo người nói"
@@ -4488,3 +4368,33 @@ msgstr "Chỉ đồng bộ chỉ nhận một bản ghi âm; đây là một b�
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Chỉ đồng bộ: tệp bàn giao được tính lại; không có bản dựng nào để làm lại. Resolve phải đang chạy."
+
+msgid "%s has not started yet"
+msgstr "%s chưa bắt đầu"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   không thể phát âm thanh"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "âm thanh đặt theo đồng hồ -- đang chờ đo"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nMỨC ÂM CỦA NGƯỜI NÓI"
+
+msgid "Measuring %s"
+msgstr "Đang đo %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s không đo được -- giữ nguyên như cũ"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- không có gì trên đó, giữ nguyên như cũ"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Chỉ một giọng nói -- không có gì để so sánh."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Mức âm chung:        %s LUFS, trung vị của các giọng nói"

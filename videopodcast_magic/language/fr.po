@@ -27,10 +27,10 @@
 # against 8.8 for the Spanish run, which was made without the list of
 # traps that grew out of it.
 #
-# One place could not be repaired here and is not a fault of this file:
-# the program builds a plural by hanging an "s" on a translated word,
-# which gives "fichier vidéos" where French wants "fichiers vidéo".
-# The head carries the count in French, and no catalogue can reach it.
+# One place could not be repaired here until 20.9.2026: the program
+# built a plural by hanging an "s" on a translated word, which gave
+# "fichier vidéos" where French wants "fichiers vidéo". The question
+# is a counted thing now, and this file carries both of its wordings.
 #
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
@@ -49,10 +49,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -69,9 +70,6 @@ msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "sur %s caméra"
 msgstr[1] "sur %s caméras"
-
-msgid "on %s cameras"
-msgstr "sur %s caméras"
 
 msgid "no camera yet"
 msgstr "pas encore de caméra"
@@ -330,24 +328,15 @@ msgid_plural "%s audio tracks"
 msgstr[0] "%s piste audio"
 msgstr[1] "%s pistes audio"
 
-msgid "%s audio tracks"
-msgstr "%s pistes audio"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s clip"
 msgstr[1] "%s clips"
 
-msgid "%s clips"
-msgstr "%s clips"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s piste vidéo"
 msgstr[1] "%s pistes vidéo"
-
-msgid "%s video tracks"
-msgstr "%s pistes vidéo"
 
 msgid "  (this file ends earlier)"
 msgstr "  (ce fichier se termine plus tôt)"
@@ -363,16 +352,10 @@ msgid_plural "%s channels"
 msgstr[0] "%s canal"
 msgstr[1] "%s canaux"
 
-msgid "%s channels"
-msgstr "%s canaux"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s fichier"
 msgstr[1] "%s fichiers"
-
-msgid "%s files"
-msgstr "%s fichiers"
 
 msgid "... or add files ..."
 msgstr "... ou ajouter des fichiers ..."
@@ -803,9 +786,6 @@ msgstr "Dix secondes en avant."
 msgid "Window %s%s"
 msgstr "Fenêtre %s%s"
 
-msgid "audio file"
-msgstr "fichier audio"
-
 msgid "cancel"
 msgstr "annuler"
 
@@ -830,32 +810,20 @@ msgstr "trop court"
 msgid "unknown"
 msgstr "inconnu"
 
-msgid "video file"
-msgstr "fichier vidéo"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s enregistrement audio"
 msgstr[1] "%s enregistrements audio"
-
-msgid "%s audio recordings"
-msgstr "%s enregistrements audio"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s caméra"
 msgstr[1] "%s caméras"
 
-msgid "%s cameras"
-msgstr "%s caméras"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s fichier vidéo"
 msgstr[1] "%s fichiers vidéo"
-
-msgid "%s video files"
-msgstr "%s fichiers vidéo"
 
 msgid "Caution"
 msgstr "Attention"
@@ -3464,8 +3432,15 @@ msgstr "Le matériel brut d’un podcast vidéo devient un épisode monté : le 
 msgid "Reading audio track from %s"
 msgstr "Lecture de la piste audio de %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Retirer de la liste tous les fichiers de ce type ? Ils sont %s, type : %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Retirer %s fichier audio de la liste ?\n\n%s"
+msgstr[1] "Retirer de la liste tous les %s fichiers audio ?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Retirer %s fichier vidéo de la liste ?\n\n%s"
+msgstr[1] "Retirer de la liste tous les %s fichiers vidéo ?\n\n%s"
 
 msgid "Remove the chosen file from the list"
 msgstr "Retirer de la liste le fichier choisi"
@@ -4639,105 +4614,6 @@ msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Cela produit %s fichier vidéo, environ %s. Destination : %s"
 msgstr[1] "Cela produit %s fichiers vidéo, environ %s. Destination : %s"
 
-# The ordinary entries below belong to the counted things above:
-# one per English plural, carrying the same wording the block
-# holds for it. Not spare -- this is the road a run takes when the
-# Plural-Forms rule cannot be read, and the one a check walks to
-# see that the two forms have not been exchanged.
-
-msgid "      %s clips left without a colour."
-msgstr "      %s clips sont restés sans couleur."
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> interprété comme %s pistes audio%s"
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Plus d’angles que de couleurs -- %s couleurs apparaissent deux fois."
-
-msgid "    %s empty audio tracks removed"
-msgstr "    %s pistes audio vides supprimées"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Image et audio de nouveau liés : %s angles"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    V2 contient maintenant %s clips : %s"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s en %s passages"
-
-msgid "  %s audio tracks remain:"
-msgstr "  Il reste %s pistes audio :"
-
-msgid "  %s audio tracks stay: %s"
-msgstr "  Il reste %s pistes audio : %s"
-
-msgid "  %s markers set%s."
-msgstr "  %s marqueurs placés%s."
-
-msgid "  %s stay in two channels"
-msgstr "  %s restent sur deux canaux"
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  Les pistes %s sont montées en stéréo et revenues chacune sur un seul canal."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s mots sont revenus sans horodatage et ont été laissés de côté."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Attention : les angles %s n’ont pas été insérés. Sans ces angles, la\n  Timeline ne convient pas pour la conversion."
-
-msgid "  From %s: %s voices."
-msgstr "  De %s : %s voix."
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix de %s pistes, %s canaux"
-
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Séparation des locuteurs (%s) : %s locuteurs à partir de %s d’audio"
-
-msgid " of %s embedded channels"
-msgstr " de %s canaux intégrés"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s suites"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s fichiers étaient terminés avant cela et sont complets : %s"
-
-msgid "%s fixed on their own"
-msgstr "%s corrigés tout seuls"
-
-msgid "%s hints"
-msgstr "%s notes"
-
-msgid "%s points"
-msgstr "%s points"
-
-msgid "%s reasons to stop"
-msgstr "%s motifs d’interruption"
-
-msgid "%s recordings from %s files"
-msgstr "%s enregistrements à partir de %s fichiers"
-
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s pistes, %s, %s kHz, %s"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s : se trouve à %s (cible %s) après %d ms, %d tentatives"
-
-msgid ", %s files do not fit"
-msgstr ", %s fichiers ne concordent pas"
-
-msgid "Separated: %s speakers"
-msgstr "Séparation : %s locuteurs"
-
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Le fichier est marqué comme HDR, avec %s notes."
-
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Cela produit %s fichiers vidéo, environ %s. Destination : %s"
-
 msgid "Cut by speaker"
 msgstr "Montage par locuteur"
 
@@ -4773,3 +4649,33 @@ msgstr "Synchronisation seule n’accepte qu’un seul enregistrement audio ; en
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Synchronisation seule : le transfert est recalculé ; il n’y a pas de montage à refaire. Resolve doit tourner."
+
+msgid "%s has not started yet"
+msgstr "%s n’a pas encore commencé"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   le son ne peut pas être lu"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "son placé d’après l’horloge -- mesure en attente"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nNIVEAUX DES LOCUTEURS"
+
+msgid "Measuring %s"
+msgstr "Mesure de %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s non mesurable -- reste telle quelle"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- rien dessus, reste telle quelle"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Une seule voix -- rien à quoi la comparer."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Niveau commun :      %s LUFS, la médiane des voix"

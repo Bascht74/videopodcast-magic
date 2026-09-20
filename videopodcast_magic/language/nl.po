@@ -44,10 +44,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2631,8 +2632,15 @@ msgstr "TERUGDRAAIEN MISLUKT (%s)"
 msgid "Reading audio track from %s"
 msgstr "Audiospoor lezen uit %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Alle bestanden van deze soort uit de lijst verwijderen? Aantal: %s, soort: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "%s audiobestand uit de lijst verwijderen?\n\n%s"
+msgstr[1] "Alle %s audiobestanden uit de lijst verwijderen?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "%s videobestand uit de lijst verwijderen?\n\n%s"
+msgstr[1] "Alle %s videobestanden uit de lijst verwijderen?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Resoluties"
@@ -3750,9 +3758,6 @@ msgstr "Montage, EDL, CSV en de overdracht worden opnieuw berekend uit de getall
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Zonder deze twee werkt niets. Is Resolve geïnstalleerd?"
 
-msgid "audio file"
-msgstr "audiobestand"
-
 msgid "cancel"
 msgstr "annuleren"
 
@@ -3806,9 +3811,6 @@ msgstr "twee Timelines"
 
 msgid "up to %s"
 msgstr "tot %s"
-
-msgid "video file"
-msgstr "videobestand"
 
 msgid "volume %.2f"
 msgstr "volume %.2f"
@@ -4178,320 +4180,200 @@ msgid_plural ", %s files do not fit"
 msgstr[0] ", %s bestand past niet"
 msgstr[1] ", %s bestanden passen niet"
 
-msgid ", %s files do not fit"
-msgstr ", %s bestanden passen niet"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s bestand"
 msgstr[1] "%s bestanden"
-
-msgid "%s files"
-msgstr "%s bestanden"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "%s opname uit %s bestanden"
 msgstr[1] "%s opnamen uit %s bestanden"
 
-msgid "%s recordings from %s files"
-msgstr "%s opnamen uit %s bestanden"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s vervolg"
 msgstr[1] "%s  + %s vervolgen"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s vervolgen"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "Gescheiden: %s spreker"
 msgstr[1] "Gescheiden: %s sprekers"
 
-msgid "Separated: %s speakers"
-msgstr "Gescheiden: %s sprekers"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s is in stereo geüpload en in één kanaal teruggekomen."
 msgstr[1] "  %s zijn in stereo geüpload en elk in één kanaal teruggekomen."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s zijn in stereo geüpload en elk in één kanaal teruggekomen."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "%s spoor, %s, %s kHz, %s"
 msgstr[1] "%s sporen, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s sporen, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix uit %s sporen, %s kanaal"
 msgstr[1] "  Full-Mix uit %s sporen, %s kanalen"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix uit %s sporen, %s kanalen"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  %s blijft tweekanaals"
 msgstr[1] "  %s blijven tweekanaals"
 
-msgid "  %s stay in two channels"
-msgstr "  %s blijven tweekanaals"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: staat op %s (doel %s) na %d ms, %d poging"
 msgstr[1] "%s: staat op %s (doel %s) na %d ms, %d pogingen"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: staat op %s (doel %s) na %d ms, %d pogingen"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Dit levert %s videobestand op, ongeveer %s. Doel: %s"
 msgstr[1] "Dit levert %s videobestanden op, ongeveer %s. Doel: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Dit levert %s videobestanden op, ongeveer %s. Doel: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s vanzelf verholpen"
 msgstr[1] "%s vanzelf verholpen"
-
-msgid "%s fixed on their own"
-msgstr "%s vanzelf verholpen"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "%s aanwijzing"
 msgstr[1] "%s aanwijzingen"
 
-msgid "%s hints"
-msgstr "%s aanwijzingen"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s reden om te stoppen"
 msgstr[1] "%s redenen om te stoppen"
-
-msgid "%s reasons to stop"
-msgstr "%s redenen om te stoppen"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s audio-opname"
 msgstr[1] "%s audio-opnamen"
 
-msgid "%s audio recordings"
-msgstr "%s audio-opnamen"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s videobestand"
 msgstr[1] "%s videobestanden"
-
-msgid "%s video files"
-msgstr "%s videobestanden"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "Het bestand is gemarkeerd als HDR, met %s opmerking."
 msgstr[1] "Het bestand is gemarkeerd als HDR, met %s opmerkingen."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Het bestand is gemarkeerd als HDR, met %s opmerkingen."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Let op: %s niet ingevoegd. Zonder deze camerahoek is de\n  Timeline niet bruikbaar voor omzetten."
 msgstr[1] "  Let op: %s niet ingevoegd. Zonder deze camerahoeken is de\n  Timeline niet bruikbaar voor omzetten."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Let op: %s niet ingevoegd. Zonder deze camerahoeken is de\n  Timeline niet bruikbaar voor omzetten."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  %s audiospoor blijft: %s"
 msgstr[1] "  %s audiosporen blijven: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %s audiosporen blijven: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Beeld en geluid weer gekoppeld: %s camerahoek"
 msgstr[1] "    Beeld en geluid weer gekoppeld: %s camerahoeken"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Beeld en geluid weer gekoppeld: %s camerahoeken"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  %s audiospoor blijft over:"
 msgstr[1] "  %s audiosporen blijven over:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %s audiosporen blijven over:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s clip"
 msgstr[1] "%s clips"
-
-msgid "%s clips"
-msgstr "%s clips"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    %s leeg audiospoor verwijderd"
 msgstr[1] "    %s lege audiosporen verwijderd"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %s lege audiosporen verwijderd"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> geïnterpreteerd als %s audiospoor%s"
 msgstr[1] "      --> geïnterpreteerd als %s audiosporen%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> geïnterpreteerd als %s audiosporen%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " van %s ingebed kanaal"
 msgstr[1] " van %s ingebedde kanalen"
 
-msgid " of %s embedded channels"
-msgstr " van %s ingebedde kanalen"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s videospoor"
 msgstr[1] "%s videosporen"
-
-msgid "%s video tracks"
-msgstr "%s videosporen"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%s audiospoor"
 msgstr[1] "%s audiosporen"
 
-msgid "%s audio tracks"
-msgstr "%s audiosporen"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Meer camerahoeken dan kleuren -- %s kleur komt twee keer voor."
 msgstr[1] "      Meer camerahoeken dan kleuren -- %s kleuren komen twee keer voor."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Meer camerahoeken dan kleuren -- %s kleuren komen twee keer voor."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      %s clip zonder kleur gebleven."
 msgstr[1] "      %s clips zonder kleur gebleven."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s clips zonder kleur gebleven."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    Op V2 staat nu %s clip: %s"
 msgstr[1] "    Op V2 staan nu %s clips: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    Op V2 staan nu %s clips: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  %s marker geplaatst%s."
 msgstr[1] "  %s markers geplaatst%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s markers geplaatst%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s camera"
 msgstr[1] "%s camera's"
-
-msgid "%s cameras"
-msgstr "%s camera's"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  Sprekerscheiding (%s): %s spreker uit %s geluid"
 msgstr[1] "  Sprekerscheiding (%s): %s sprekers uit %s geluid"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Sprekerscheiding (%s): %s sprekers uit %s geluid"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s in %s fragment"
 msgstr[1] "  %-20s %s in %s fragmenten"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s in %s fragmenten"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  Uit %s: %s stem."
 msgstr[1] "  Uit %s: %s stemmen."
 
-msgid "  From %s: %s voices."
-msgstr "  Uit %s: %s stemmen."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s woord kwam terug zonder tijd en is weggelaten."
 msgstr[1] "  %s woorden kwamen terug zonder tijd en zijn weggelaten."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s woorden kwamen terug zonder tijd en zijn weggelaten."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "op %s camera"
 msgstr[1] "op %s camera's"
 
-msgid "on %s cameras"
-msgstr "op %s camera's"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s bestand was daarvoor al klaar en is volledig: %s"
 msgstr[1] "%s bestanden waren daarvoor al klaar en zijn volledig: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s bestanden waren daarvoor al klaar en zijn volledig: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s punt"
 msgstr[1] "%s punten"
 
-msgid "%s points"
-msgstr "%s punten"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s kanaal"
 msgstr[1] "%s kanalen"
-
-msgid "%s channels"
-msgstr "%s kanalen"
 
 msgid "Cut by speaker"
 msgstr "Montage per spreker"
@@ -4528,3 +4410,33 @@ msgstr "Alleen synchroniseren neemt één audio-opname; dit is er nog een: %s"
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Alleen synchroniseren: de overdracht wordt opnieuw berekend; er is geen montage om over te doen. Resolve moet draaien."
+
+msgid "%s has not started yet"
+msgstr "%s is nog niet begonnen"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   het geluid kan niet worden afgespeeld"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "geluid op de klok geplaatst -- meting staat nog uit"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nSPREKERNIVEAUS"
+
+msgid "Measuring %s"
+msgstr "%s wordt gemeten"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s niet meetbaar -- blijft zoals het is"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- niets erop, blijft zoals het is"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Maar één stem -- niets om mee te vergelijken."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Gemeenschappelijk niveau:  %s LUFS, de mediaan van de stemmen"
