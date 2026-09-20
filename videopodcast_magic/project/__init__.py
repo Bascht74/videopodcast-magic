@@ -284,6 +284,33 @@ def restart_question(window, state, files, out_folder, report, folder_pick,
     state["restart_saving"] = False
     return True
 
+
+def project_type_question(window):
+    """Ask which kind of project this is, once, when the answer is due.
+
+    Two named buttons and a way out: Cancel chooses nothing, and the
+    strip on the first tab still holds the choice. Returns "cut",
+    "sync" or "". A silent run has nobody to answer and gets "" without
+    a box, so a test switching tabs does not hang on it.
+    """
+    if os.environ.get("VPM_SILENT"):
+        return ""
+    QtWidgets = PROGRAM._qt_widgets()
+    box = QtWidgets.QMessageBox(window)
+    box.setWindowTitle(T('Project type'))
+    box.setText(T('What is this production to become?'))
+    box.setInformativeText(PROGRAM.project_type_explained())
+    cut = box.addButton(T('Cut by speaker'), QtWidgets.QMessageBox.AcceptRole)
+    sync = box.addButton(T('Sync only'), QtWidgets.QMessageBox.AcceptRole)
+    box.addButton(T('Cancel'), QtWidgets.QMessageBox.RejectRole)
+    box.exec()
+    pressed = box.clickedButton()
+    if pressed is cut:
+        return "cut"
+    if pressed is sync:
+        return "sync"
+    return ""
+
 # =====================================================================
 #  Write it, close it, open it again
 #  ---------------------------------
@@ -291,7 +318,7 @@ def restart_question(window, state, files, out_folder, report, folder_pick,
 def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                       out_folder, production_var, start_var, end_var,
                       speech_language, lufs_value, edge_on, multitrack,
-                      cut_var, channel_choice, clip_kind_values,
+                      project_type, cut_var, channel_choice, clip_kind_values,
                       audio_use_values, no_join, join_to, remembered,
                       assign_lines, camera_lines, axis_file, axis_store,
                       project_collect, project_move, settings_extend,
@@ -369,7 +396,8 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
-                     "cut_basis", "run_auphonic") + SPEAKER_STATE:
+                     "cut_basis", "run_auphonic",
+                     "project_type_asked") + SPEAKER_STATE:
             state.pop(name, None)
         words_forgotten(state)
         # Emptied, not taken away: the axis is read by name, and a missing
@@ -392,6 +420,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         lufs_value.set(loudness_last())
         edge_on.set(True)
         multitrack.set(False)
+        project_type.set("")
         items_fresh()
         folder_show()
         window_enable()
@@ -425,6 +454,10 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         project_new()
         state["project_from"] = file_path
         window.setWindowTitle(PROGRAM.window_title(file_path))
+        # Files from before the question were all cuts by speaker: read
+        # as that, and nothing asked. Before the files, so the tables
+        # are built once, in the shape the type asks for.
+        project_type.set(d.get("project_type") or "cut")
         present, missing = project_files(d)
         files[:] = present
         # Before anything is drawn: every file measured once, in
@@ -529,5 +562,6 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
     PROGRAM.RESTART_ASK[0] = lambda: restart_question(
         window, state, files, out_folder, report, folder_pick,
         axis_file, axis_store)
+    PROGRAM.PROJECT_TYPE_ASK[0] = lambda: project_type_question(window)
     project_open_after_restart()
     return project_write, project_new, project_open
