@@ -8,15 +8,14 @@ what the file says. The sections: four runs go through with nothing
 leaving the house; the plan, the run's own report afterwards and
 ffprobe name the same tracks in the same order; and the camera files in
 the folder are the ones the plan promised, none of them appearing
-unannounced and none going missing without a word.
-
-One thing the run says differently today, and the judgement stays true
-when it is put right: the plan names the camera's own track under every
-camera while the run writes it only where the camera has sound and
---no-camera-audio was not given, so exactly that one name may be
-promised and not delivered. Every other name has to match letter for
-letter -- the overall mix included, which is why it is asked about on
-its own as well.
+unannounced and none going missing without a word. Last, the rule the
+plan is written by, asked on its own: a camera carrying every speaker
+is still promised the overall mix, a camera without sound is promised
+no track of its own, and several of its own are numbered as the file
+numbers them. Every name has to match letter for letter, the camera's
+own track included -- the overall mix is asked about on its own as
+well, because it used to be spelt one way in the plan and another in
+the file.
 """
 import os
 import the_program
@@ -338,17 +337,14 @@ check("there is a written file to hold the plan against", len(rows) >= 5,
       % (len(rows), len(RUNS)))
 if not rows:
     stop()
-# The camera's own track is the one name the plan may promise without
-# the file carrying it: it is announced under every camera and written
-# only where the camera has sound and --no-camera-audio was not given.
-# Where that is put right the exception is simply never used, and the
-# judgement stays true.
+# No exception for the camera's own track: the plan asks the camera
+# what it brings before it promises anything, so a camera without sound
+# and a run with --no-camera-audio are held to the file like the rest.
 over = [(name, source, line, held)
         for name, source, promise, _said, held in rows
         for line in promise
-        if line != CAMERA_TRACK
-        and not any(names_it(line, one) for one in held)]
-check("the plan names no track the file lacks beyond the camera's own",
+        if not any(names_it(line, one) for one in held)]
+check("the plan names no track the file lacks",
       not over,
       "%d over %d camera files, the first: %s"
       % (len(over), len(rows), over[0] if over else ()))
@@ -423,6 +419,27 @@ check("and no camera file was written that the plan did not promise",
       not unpromised,
       "%d over %d runs, the first: %s"
       % (len(unpromised), len(RUNS), unpromised[0] if unpromised else ()))
+
+print("\n4. The rule the plan is written by follows the camera")
+# The rule on its own, told what the writer knows about the camera. The
+# expected lists stand here as values, in the order the file carries
+# the tracks; the mix and the camera track carry the program's names.
+order = vpm.track_order_for_camera
+got = order(["Guest", "Presenter"], ["Guest", "Presenter"],
+            camera_tracks=1, name_camera=CAMERA_TRACK)
+check("every speaker on one camera: the plan still names the mix",
+      got == ["Mix Guest + Presenter", "Guest", "Presenter", MIX,
+              CAMERA_TRACK],
+      "got %s" % got)
+got = order(["Guest"], ["Guest", "Presenter"], camera_tracks=0,
+            name_camera=CAMERA_TRACK)
+check("a camera without sound gets no camera track in the plan",
+      got == ["Guest", MIX], "got %s" % got)
+got = order([], ["Guest", "Presenter"], (), camera_tracks=2,
+            name_camera=CAMERA_TRACK)
+check("two camera tracks are numbered in the plan as in the file",
+      got == [MIX, CAMERA_TRACK + " 1", CAMERA_TRACK + " 2"],
+      "got %s" % got)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
