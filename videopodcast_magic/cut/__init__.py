@@ -70,6 +70,7 @@ hdr_from_sources = PROGRAM.hdr_from_sources
 is_drop_frame = PROGRAM.is_drop_frame
 json = PROGRAM.json
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
+match_speakers = PROGRAM.match_speakers
 measure_loudness = PROGRAM.measure_loudness
 mix_width = PROGRAM.mix_width
 normalise_loudness = PROGRAM.normalise_loudness
@@ -2350,6 +2351,9 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
         segment_list = speakers_for_the_cut(args, tracks)
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(videos[0][0]))
+    # The voices first, each on its own, then the sum: one common gain
+    # keeps whatever balance came in, and here no leveler set one.
+    match_speakers(tracks, tmpdir)
     gain, curve = normalise_loudness(tracks, args.lufs, tmpdir, None,
                                      channels=mix_width(tracks))
     return PROGRAM.distribute_tracks_to_cameras(
