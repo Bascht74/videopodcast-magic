@@ -1,6 +1,6 @@
 # The test suite
 
-266 tests against the program in `../videopodcast_magic/`. Every one of them stands
+271 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-266 tests. The name is the one a red line carries, and beside it the
+271 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -278,6 +278,7 @@ it is green.
 | `files_project_offered` | A project file lying with the material is offered, not read behind a back. |
 | `files_set_aside_skipped` | Set-aside files: checked yes, compared no, counted no. |
 | `files_split_found_again` | Split blocks are found again by the names they carry today. |
+| `files_sync_one_recording` | Sync only takes one audio recording, and the second is refused. |
 
 ### `sound_` -- channels, tracks and loudness
 
@@ -423,6 +424,7 @@ it is green.
 | `project_run_comes_back` | Opening a project takes up the handover its own run left behind. |
 | `project_same_offset` | Preview and Resolve put a camera at the same offset. |
 | `project_settings_return` | What is typed into the window reaches the project file and comes back. |
+| `project_sync_multicam` | A sync-only handover builds the multicam timeline alone, and says so. |
 | `project_tag_reason_fits` | The Tagging line names a reason only where it explains its own tags. |
 | `project_top_rate_wins` | The Timeline gets the highest rate in the material, not the longest one's. |
 | `project_two_stay_two` | Two cameras whose files share a name stay two cameras. |
@@ -469,6 +471,7 @@ it is green.
 | `window_picture_returns` | A refused format does not outlive the attempt it was about. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_prework_box_goes` | The box that shows the prework goes away once the prework is over. |
+| `window_project_type_set` | The project type is chosen once, and the later tabs take its shape. |
 | `window_reads_as_chosen` | The window is laid out the way the chosen language reads. |
 | `window_restart_carries` | A restart carries the work over, or says plainly that it will not. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
@@ -522,6 +525,7 @@ it is green.
 | `run_outside_seen` | Every call to another program is in the log, and none in the output. |
 | `run_overwrite_is_said` | A run that replaces a file says so, and marks one it did not make. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
+| `run_project_type_reaches` | The project type reaches the run and says what sync leaves out. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |
 | `run_shortcut_laid_once` | One shortcut is laid on the first start, and never a second time. |
 | `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
@@ -530,6 +534,7 @@ it is green.
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
 | `run_switch_changes_it` | A switch that is taken changes the result, not only the parser. |
 | `run_switch_has_effect` | A switch that is taken and does nothing is worse than no switch. |
+| `run_sync_only_no_cut` | A Sync only run leaves no cut, no speaker and no transcript behind. |
 | `run_threads_keep_order` | Doing several things at once: in order, complete, and honest about errors. |
 | `run_three_ways_agree` | Window, project file and command line come to the same cut. |
 | `run_update_says_it_landed` | An update that went through says so, and offers the restart. |
