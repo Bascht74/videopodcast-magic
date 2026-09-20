@@ -695,11 +695,22 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                    or getattr(args, "no_single_tracks", False) else every)
         for cam in cameras:
             own = combined.get(cam["video"]) or []
+            # How many camera tracks the file will carry: as many as the
+            # camera brought, none with --no-camera-audio. The probe is
+            # remembered, so the writer asks it no second time.
+            try:
+                heard = len(video_facts(cam["video"], args.fps,
+                                        args.tc)["audio"])
+            except Exception:
+                heard = 1
+            camera_tracks = 0 if args.no_camera_audio else heard
             print("    %s  ->  %s"
                   % (os.path.basename(cam["video"]),
                      cam["name"] + (args.suffix or "_audio") + ".mov"))
             for idx, what in enumerate(
-                    track_order_for_camera(own, every, singles), 1):
+                    track_order_for_camera(own, every, singles,
+                                           camera_tracks,
+                                           args.name_camera), 1):
                 # The track number names the track, it does not count
                 # anything: it is what the editor sees in the strip and
                 # what the writer below numbers by. Plain digits, the
@@ -830,7 +841,7 @@ def measure_tracks_against_each_other(tracks):
             # second way of aligning would be a second answer to one
             # question.
             a, b, st = align_audio_to_video(
-                track["source"], reference["source"], 0,
+                track["source"], reference["source"],
                 sample_points=int(max(20, min(120, length / 30.0))),
                 distance_s=30.0)
         except Exception as e:
@@ -1126,7 +1137,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         blocks, name = made["blocks"], made["name"]
         source, hint = made["source"], made["hint"]
         try:
-            a, b, st = align_audio_to_video(source, ref_clip[0], 0,
+            a, b, st = align_audio_to_video(source, ref_clip[0],
                                   sample_points=int(max(20, min(120,
                                       ref_clip[1]["duration"] / 30.0))),
                                   distance_s=30.0)
@@ -1716,8 +1727,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             if len(own) > 1:
                 for track in own:
                     items.append((track["name"], single[track["name"]]))
-            if set(track["name"] for track in own) != set(names_every):
-                items.append((MIX_TRACK_NAME, full_mix))
+            # The Full-Mix goes onto every camera, also onto the one that
+            # carries every speaker: the manual promises it, and cut/ and
+            # resolve/ look it up by name.
+            items.append((MIX_TRACK_NAME, full_mix))
         else:
             items.append((MIX_TRACK_NAME, full_mix))
             # And the recordings the mix was made of, each on a line of

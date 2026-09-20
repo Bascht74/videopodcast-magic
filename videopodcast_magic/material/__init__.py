@@ -99,6 +99,7 @@ np = LateNumpy()
 # take off. Nothing else in the program reads either one.
 CEILING_DBTP = -1.0       # true-peak ceiling of the result
 LIMIT_MAX_DB = 6.0        # most the limiter may take off
+SPEAKER_FLOOR_LUFS = -50.0  # under it a track carries no voice to match
 
 
 #---------------------------------------- Which files belong together
@@ -256,8 +257,12 @@ def _joins_seamlessly(before, after, row):
 def find_continuation_files(file_path):
     """Find every block of the same recording, forwards and backwards.
 
-    Only seamless continuations are appended, and the same test applies
-    both ways, so it makes no difference which block is picked.
+    Only seamless continuations are appended, the same test both ways,
+    so which block is picked makes no difference. Both rules hold the
+    letters as written; the counter's one freedom is the number's width
+    (back from REC10 it tries REC09 and REC9), six beside eight digits
+    is refused as a doubled moment, and neither folds case -- normcase
+    would, on Windows only, and one folder must not join differently there.
     """
     folder = os.path.dirname(file_path) or "."
     name, ext = os.path.splitext(os.path.basename(file_path))
@@ -276,6 +281,7 @@ def find_continuation_files(file_path):
         # written into every block, with the real index behind it. So
         # the counter rule gets its turn, and the clock's find is kept.
         by_clock = (row, discarded)
+    # The counter rule; the docstring says what it may and may not try.
     m = TRAILING_NUMBER.match(name)
     if not m:
         return by_clock or ([file_path], [])
@@ -466,12 +472,16 @@ def recording_family(file_path):
     return {os.path.abspath(x) for x in row} | {os.path.abspath(file_path)}
 
 
-def track_order_for_camera(own, every, singles=()):
+def track_order_for_camera(own, every, singles=(), camera_tracks=1,
+                           name_camera="Camera Original"):
     """Return the audio tracks for one camera, in order.
 
     Track 1 is the finished mix for this camera, so taking only the first
-    is correct; then the same speakers, the overall mix minus the
-    crosstalk, and last the camera microphone.
+    is correct; then the same speakers, the overall mix, and last the
+    camera's own sound. *camera_tracks* is how many of its own the camera
+    brings -- none where it filmed without sound or --no-camera-audio was
+    given -- and *name_camera* what they are called; more than one are
+    numbered the way the written file numbers them.
     """
     sequence = []
     if own:
@@ -482,9 +492,17 @@ def track_order_for_camera(own, every, singles=()):
     else:
         sequence.append(MIX_TRACK_NAME)
         sequence += list(singles)
-    if every and own and set(own) != set(every):
+    # The overall mix under every camera that carries a speaker, also
+    # where that one camera carries them all. It is then the same sound
+    # twice under two names -- but the manual promises the track, and
+    # the cut and the handover look it up by this name, not by content.
+    if own:
         sequence.append(MIX_TRACK_NAME)
-    sequence.append("Camera Original")
+    if camera_tracks == 1:
+        sequence.append(name_camera)
+    else:
+        sequence += ["%s %d" % (name_camera, i + 1)
+                     for i in range(camera_tracks)]
     return sequence
 
 
@@ -979,12 +997,70 @@ def remove_quietly(path):
     return True
 
 
+def match_speakers(tracks, tmpdir):
+    """Bring the speaker tracks to one level, each with a gain of its own.
+
+    Only where auphonic.com set no balance: one common gain keeps voices
+    six decibels apart six apart. Each track is measured as it is, the way
+    normalise_loudness measures, and moved to the median of the voices; a
+    track under SPEAKER_FLOOR_LUFS carries no voice and stays, since lifting
+    silence lifts only its noise. The moved copy becomes the track's
+    "ready". Returns [(name, LUFS, gain dB)], one per track, in order.
+    """
+    if len(tracks) < 2:
+        return [(track["name"], None, 0.0) for track in tracks]
+    print(as_head(T('\nSPEAKER LEVELS')))
+    heard = []
+    for track in tracks:
+        have, _peak, _lra = measure_loudness(
+            track["ready"], sample_count(track["ready"]) / float(SR),
+            T('Measuring %s') % track["name"])
+        heard.append(have)
+    voices = sorted(have for have in heard
+                    if have is not None and have > SPEAKER_FLOOR_LUFS)
+    # The median: the fewest decibels moved in all, and one quiet
+    # microphone drags nobody else down with it.
+    middle = len(voices) // 2
+    level = None
+    if len(voices) >= 2:
+        level = (voices[middle] if len(voices) % 2
+                 else (voices[middle - 1] + voices[middle]) / 2.0)
+    moved = []
+    for track, have in zip(tracks, heard):
+        gain = 0.0
+        if have is None:
+            print(T('  %-20s not measurable -- left as it is')
+                  % track["name"])
+        elif have <= SPEAKER_FLOOR_LUFS:
+            print(T('  %-20s %s LUFS -- nothing on it, left as it is')
+                  % (track["name"], number_text(have, 1)))
+        else:
+            if level is not None:
+                gain = level - have
+            print(T('  %-20s %s LUFS  ->  %s dB')
+                  % (track["name"], number_text(have, 1),
+                     number_text(gain, 1, plus=True)))
+            track["ready"] = mix_tracks(
+                [track["ready"]],
+                os.path.join(tmpdir, "level_%s.wav"
+                             % safe_filename(track["name"])),
+                gain, None, channels=kept_channels(track["ready"]))
+        moved.append((track["name"], have, gain))
+    if level is None:
+        print(T('  Only one voice -- nothing to match it against.'))
+    else:
+        print(T('  Common level:      %s LUFS, the median of the voices')
+              % number_text(level, 1))
+    return moved
+
+
 def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
     """Compute one common gain for all tracks.
 
     The sum is measured, not the single track, and the same gain goes on
-    every track so the speakers keep the balance Auphonic set. The
-    finished mixdown is the yardstick; *target_lufs* None still measures.
+    every track so the speakers keep their balance -- set by auphonic.com,
+    or by match_speakers on the path without it. The finished mixdown is
+    the yardstick; *target_lufs* None still measures.
     """
     print(as_head(T('\nNORMALISE')))
     keep = target_lufs is None
