@@ -1682,9 +1682,10 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
     def camera_start(file_path):
         """Return where this file starts on the common time axis.
 
-        The measurement first, then the timecode. Without either the
-        beginning -- then all files lie on top of each other and the
-        preview still shows the rhythm.
+        The measurement first, then the timecode. Without either,
+        nothing: the player puts such a file at the In point, the way
+        the run's camera_place answers "nowhere" for it, instead of
+        the start of the axis minus the origin.
         """
         a = (state.get("axis") or {}).get(path_key(file_path))
         if a is None:
