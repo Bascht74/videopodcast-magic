@@ -39,10 +39,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -59,9 +60,6 @@ msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "%s कैमरे पर"
 msgstr[1] "%s कैमरों पर"
-
-msgid "on %s cameras"
-msgstr "%s कैमरों पर"
 
 msgid "no camera yet"
 msgstr "अभी कोई कैमरा नहीं"
@@ -320,24 +318,15 @@ msgid_plural "%s audio tracks"
 msgstr[0] "%s ऑडियो ट्रैक"
 msgstr[1] "%s ऑडियो ट्रैक"
 
-msgid "%s audio tracks"
-msgstr "%s ऑडियो ट्रैक"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s क्लिप"
 msgstr[1] "%s क्लिप"
 
-msgid "%s clips"
-msgstr "%s क्लिप"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s वीडियो ट्रैक"
 msgstr[1] "%s वीडियो ट्रैक"
-
-msgid "%s video tracks"
-msgstr "%s वीडियो ट्रैक"
 
 msgid "  (this file ends earlier)"
 msgstr "  (यह फ़ाइल पहले समाप्त होती है)"
@@ -353,16 +342,10 @@ msgid_plural "%s channels"
 msgstr[0] "%s चैनल"
 msgstr[1] "%s चैनल"
 
-msgid "%s channels"
-msgstr "%s चैनल"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s फ़ाइल"
 msgstr[1] "%s फ़ाइलें"
-
-msgid "%s files"
-msgstr "%s फ़ाइलें"
 
 msgid "... or add files ..."
 msgstr "... या फ़ाइलें जोड़ें ..."
@@ -793,9 +776,6 @@ msgstr "दस सेकंड आगे।"
 msgid "Window %s%s"
 msgstr "खिड़की %s%s"
 
-msgid "audio file"
-msgstr "ऑडियो फ़ाइल"
-
 msgid "cancel"
 msgstr "रद्द करें"
 
@@ -820,32 +800,20 @@ msgstr "बहुत छोटा"
 msgid "unknown"
 msgstr "अज्ञात"
 
-msgid "video file"
-msgstr "वीडियो फ़ाइल"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s ऑडियो रिकॉर्डिंग"
 msgstr[1] "%s ऑडियो रिकॉर्डिंग"
-
-msgid "%s audio recordings"
-msgstr "%s ऑडियो रिकॉर्डिंग"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s कैमरा"
 msgstr[1] "%s कैमरे"
 
-msgid "%s cameras"
-msgstr "%s कैमरे"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s वीडियो फ़ाइल"
 msgstr[1] "%s वीडियो फ़ाइलें"
-
-msgid "%s video files"
-msgstr "%s वीडियो फ़ाइलें"
 
 msgid "Caution"
 msgstr "सावधान"
@@ -1891,8 +1859,15 @@ msgstr "इसका हिस्सा"
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
 msgstr "ये फ़ाइलें न ऑडियो हैं न वीडियो, और बाहर रहती हैं:\n\n  %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "इस प्रकार की सभी फ़ाइलें सूची से हटाएँ? संख्या: %s, प्रकार: %s\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "सूची से %s ऑडियो फ़ाइल हटाएँ?\n\n%s"
+msgstr[1] "सूची से सभी %s ऑडियो फ़ाइलें हटाएँ?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "सूची से %s वीडियो फ़ाइल हटाएँ?\n\n%s"
+msgstr[1] "सूची से सभी %s वीडियो फ़ाइलें हटाएँ?\n\n%s"
 
 msgid "no timecode"
 msgstr "कोई टाइमकोड नहीं"
@@ -4664,3 +4639,33 @@ msgstr "केवल सिंक में एक ही ऑडियो रि
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "केवल सिंक: सौंपने वाली फ़ाइल फिर से निकाली जाती है; दोबारा करने को कोई कट नहीं है। Resolve चल रहा होना चाहिए।"
+
+msgid "%s has not started yet"
+msgstr "%s अभी शुरू नहीं हुआ"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   ध्वनि नहीं चलाई जा सकती"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "घड़ी के अनुसार ध्वनि रखी गई -- माप बाकी है"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nवक्ताओं के स्तर"
+
+msgid "Measuring %s"
+msgstr "%s मापा जा रहा है"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s मापा नहीं जा सकता -- जैसा है वैसा रहता है"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- इस पर कुछ नहीं, जैसा है वैसा रहता है"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  केवल एक आवाज़ -- मिलाने को कुछ नहीं।"
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  साझा स्तर:           %s LUFS, आवाज़ों की माध्यिका"

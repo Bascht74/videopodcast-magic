@@ -49,10 +49,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -74,9 +75,6 @@ msgstr[2] "على كاميرتين %s"
 msgstr[3] "على %s كاميراتٍ"
 msgstr[4] "على %s كاميرًا"
 msgstr[5] "على %s كاميرا"
-
-msgid "on %s cameras"
-msgstr "على %s كاميرات"
 
 msgid "no camera yet"
 msgstr "لا كاميرا بعد"
@@ -339,9 +337,6 @@ msgstr[3] "%s مساراتٍ صوتيةٍ"
 msgstr[4] "%s مسارًا صوتيًا"
 msgstr[5] "%s مسار صوتي"
 
-msgid "%s audio tracks"
-msgstr "%s مسارات صوتية"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s مقاطع"
@@ -351,9 +346,6 @@ msgstr[3] "%s مقاطعَ"
 msgstr[4] "%s مقطعًا"
 msgstr[5] "%s مقطع"
 
-msgid "%s clips"
-msgstr "%s مقاطع"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s مسارات فيديو"
@@ -362,9 +354,6 @@ msgstr[2] "مسارا فيديو %s"
 msgstr[3] "%s مساراتِ فيديو"
 msgstr[4] "%s مسارَ فيديو"
 msgstr[5] "%s مسار فيديو"
-
-msgid "%s video tracks"
-msgstr "%s مسارات فيديو"
 
 msgid "  (this file ends earlier)"
 msgstr "  (ينتهي هذا الملف قبل ذلك)"
@@ -384,9 +373,6 @@ msgstr[3] "%s قنواتٍ"
 msgstr[4] "%s قناةً"
 msgstr[5] "%s قناة"
 
-msgid "%s channels"
-msgstr "%s قنوات"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s ملفات"
@@ -395,9 +381,6 @@ msgstr[2] "ملفان %s"
 msgstr[3] "%s ملفاتٍ"
 msgstr[4] "%s ملفًا"
 msgstr[5] "%s ملف"
-
-msgid "%s files"
-msgstr "%s ملفات"
 
 msgid "... or add files ..."
 msgstr "... أو إضافة ملفات ..."
@@ -828,9 +811,6 @@ msgstr "عشر ثوانٍ للأمام."
 msgid "Window %s%s"
 msgstr "النافذة %s%s"
 
-msgid "audio file"
-msgstr "ملف صوتي"
-
 msgid "cancel"
 msgstr "إلغاء"
 
@@ -855,9 +835,6 @@ msgstr "قصير جدًا"
 msgid "unknown"
 msgstr "غير معروف"
 
-msgid "video file"
-msgstr "ملف فيديو"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s تسجيلات صوتية"
@@ -866,9 +843,6 @@ msgstr[2] "تسجيلان صوتيان %s"
 msgstr[3] "%s تسجيلاتٍ صوتيةٍ"
 msgstr[4] "%s تسجيلًا صوتيًا"
 msgstr[5] "%s تسجيل صوتي"
-
-msgid "%s audio recordings"
-msgstr "%s تسجيلات صوتية"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
@@ -879,9 +853,6 @@ msgstr[3] "%s كاميراتٍ"
 msgstr[4] "%s كاميرًا"
 msgstr[5] "%s كاميرا"
 
-msgid "%s cameras"
-msgstr "%s كاميرات"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s ملفات فيديو"
@@ -890,9 +861,6 @@ msgstr[2] "ملفا فيديو %s"
 msgstr[3] "%s ملفاتِ فيديو"
 msgstr[4] "%s ملفَ فيديو"
 msgstr[5] "%s ملف فيديو"
-
-msgid "%s video files"
-msgstr "%s ملفات فيديو"
 
 msgid "Caution"
 msgstr "تنبيه"
@@ -1938,8 +1906,23 @@ msgstr "ينتمي إلى"
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
 msgstr "هذه الملفات ليست صوتًا ولا فيديو وتبقى خارجًا:\n\n  %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "إزالة كل الملفات من هذا النوع من القائمة؟ عددها: %s، النوع: %s\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "إزالة كل %s ملفات صوتية من القائمة؟\n\n%s"
+msgstr[1] "إزالة ملف صوتي %s من القائمة؟\n\n%s"
+msgstr[2] "إزالة كلا الملفين الصوتيين (%s) من القائمة؟\n\n%s"
+msgstr[3] "إزالة كل %s ملفاتٍ صوتيةٍ من القائمة؟\n\n%s"
+msgstr[4] "إزالة كل %s ملفًا صوتيًا من القائمة؟\n\n%s"
+msgstr[5] "إزالة كل %s ملف صوتي من القائمة؟\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "إزالة كل %s ملفات فيديو من القائمة؟\n\n%s"
+msgstr[1] "إزالة ملف فيديو %s من القائمة؟\n\n%s"
+msgstr[2] "إزالة كلا ملفي الفيديو (%s) من القائمة؟\n\n%s"
+msgstr[3] "إزالة كل %s ملفاتِ فيديو من القائمة؟\n\n%s"
+msgstr[4] "إزالة كل %s ملفَ فيديو من القائمة؟\n\n%s"
+msgstr[5] "إزالة كل %s ملف فيديو من القائمة؟\n\n%s"
 
 msgid "no timecode"
 msgstr "بلا كود زمني"
@@ -4835,3 +4818,33 @@ msgstr "مزامنة فقط تقبل تسجيلًا صوتيًا واحدًا؛ 
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "مزامنة فقط: يُعاد حساب ملف التسليم؛ لا مونتاج يُعاد. يجب أن يكون Resolve قيد التشغيل."
+
+msgid "%s has not started yet"
+msgstr "%s لم يبدأ بعد"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   لا يمكن تشغيل الصوت"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "وُضع الصوت حسب الساعة -- القياس قيد الانتظار"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nمستويات المتحدثين"
+
+msgid "Measuring %s"
+msgstr "قياس %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s غير قابل للقياس -- يبقى كما هو"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- لا شيء عليه، يبقى كما هو"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  صوت واحد فقط -- لا شيء يُقارن به."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  المستوى المشترك:     %s LUFS، وسيط الأصوات"

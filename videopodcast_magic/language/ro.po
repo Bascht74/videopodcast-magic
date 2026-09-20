@@ -46,10 +46,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2633,8 +2634,17 @@ msgstr "REVENIREA A EȘUAT (%s)"
 msgid "Reading audio track from %s"
 msgstr "Se citește pista audio din %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Eliminați din listă toate fișierele de acest tip? Sunt %s, tip: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Eliminați din listă %s fișier audio?\n\n%s"
+msgstr[1] "Eliminați din listă toate cele %s fișiere audio?\n\n%s"
+msgstr[2] "Eliminați din listă toate cele %s de fișiere audio?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Eliminați din listă %s fișier video?\n\n%s"
+msgstr[1] "Eliminați din listă toate cele %s fișiere video?\n\n%s"
+msgstr[2] "Eliminați din listă toate cele %s de fișiere video?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Rezoluții"
@@ -3752,9 +3762,6 @@ msgstr "Montajul, EDL, CSV și predarea se recalculează din numerele de mai sus
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Fără acestea două nu funcționează nimic. Este instalat Resolve?"
 
-msgid "audio file"
-msgstr "fișier audio"
-
 msgid "cancel"
 msgstr "anulare"
 
@@ -3808,9 +3815,6 @@ msgstr "două Timeline-uri"
 
 msgid "up to %s"
 msgstr "până la %s"
-
-msgid "video file"
-msgstr "fișier video"
 
 msgid "volume %.2f"
 msgstr "volum %.2f"
@@ -4181,17 +4185,11 @@ msgstr[0] ", %s fișier nu se potrivește"
 msgstr[1] ", %s fișiere nu se potrivesc"
 msgstr[2] ", %s de fișiere nu se potrivesc"
 
-msgid ", %s files do not fit"
-msgstr ", %s de fișiere nu se potrivesc"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s fișier"
 msgstr[1] "%s fișiere"
 msgstr[2] "%s de fișiere"
-
-msgid "%s files"
-msgstr "%s de fișiere"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
@@ -4199,17 +4197,11 @@ msgstr[0] "%s înregistrare din %s fișiere"
 msgstr[1] "%s înregistrări din %s fișiere"
 msgstr[2] "%s de înregistrări din %s fișiere"
 
-msgid "%s recordings from %s files"
-msgstr "%s de înregistrări din %s fișiere"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s continuare"
 msgstr[1] "%s  + %s continuări"
 msgstr[2] "%s  + %s de continuări"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s de continuări"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
@@ -4217,17 +4209,11 @@ msgstr[0] "Separat: %s vorbitor"
 msgstr[1] "Separat: %s vorbitori"
 msgstr[2] "Separat: %s de vorbitori"
 
-msgid "Separated: %s speakers"
-msgstr "Separat: %s de vorbitori"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s a urcat în stereo și s-a întors cu un singur canal."
 msgstr[1] "  %s au urcat în stereo și s-au întors fiecare cu un singur canal."
 msgstr[2] "  %s au urcat în stereo și s-au întors fiecare cu un singur canal."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s au urcat în stereo și s-au întors fiecare cu un singur canal."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
@@ -4235,17 +4221,11 @@ msgstr[0] "%s pistă, %s, %s kHz, %s"
 msgstr[1] "%s piste, %s, %s kHz, %s"
 msgstr[2] "%s de piste, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s de piste, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix din %s piste, %s canal"
 msgstr[1] "  Full-Mix din %s piste, %s canale"
 msgstr[2] "  Full-Mix din %s piste, %s de canale"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix din %s piste, %s de canale"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
@@ -4253,17 +4233,11 @@ msgstr[0] "  %s rămâne pe două canale"
 msgstr[1] "  %s rămân pe două canale"
 msgstr[2] "  %s rămân pe două canale"
 
-msgid "  %s stay in two channels"
-msgstr "  %s rămân pe două canale"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: stă la %s (țintă %s) după %d ms, %d încercare"
 msgstr[1] "%s: stă la %s (țintă %s) după %d ms, %d încercări"
 msgstr[2] "%s: stă la %s (țintă %s) după %d ms, %d de încercări"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: stă la %s (țintă %s) după %d ms, %d de încercări"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
@@ -4271,17 +4245,11 @@ msgstr[0] "Rezultă %s fișier video, circa %s. Țintă: %s"
 msgstr[1] "Rezultă %s fișiere video, circa %s. Țintă: %s"
 msgstr[2] "Rezultă %s de fișiere video, circa %s. Țintă: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Rezultă %s de fișiere video, circa %s. Țintă: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s remediată de la sine"
 msgstr[1] "%s remediate de la sine"
 msgstr[2] "%s de remediate de la sine"
-
-msgid "%s fixed on their own"
-msgstr "%s de remediate de la sine"
 
 msgid "%s hint"
 msgid_plural "%s hints"
@@ -4289,17 +4257,11 @@ msgstr[0] "%s notă"
 msgstr[1] "%s note"
 msgstr[2] "%s de note"
 
-msgid "%s hints"
-msgstr "%s de note"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s motiv de oprire"
 msgstr[1] "%s motive de oprire"
 msgstr[2] "%s de motive de oprire"
-
-msgid "%s reasons to stop"
-msgstr "%s de motive de oprire"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
@@ -4307,17 +4269,11 @@ msgstr[0] "%s înregistrare audio"
 msgstr[1] "%s înregistrări audio"
 msgstr[2] "%s de înregistrări audio"
 
-msgid "%s audio recordings"
-msgstr "%s de înregistrări audio"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s fișier video"
 msgstr[1] "%s fișiere video"
 msgstr[2] "%s de fișiere video"
-
-msgid "%s video files"
-msgstr "%s de fișiere video"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
@@ -4325,17 +4281,11 @@ msgstr[0] "Fișierul este marcat ca HDR, cu %s notă."
 msgstr[1] "Fișierul este marcat ca HDR, cu %s note."
 msgstr[2] "Fișierul este marcat ca HDR, cu %s de note."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Fișierul este marcat ca HDR, cu %s de note."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Atenție: %s nu a fost inserat. Fără acest unghi,\n  Timeline-ul nu este bun pentru conversie."
 msgstr[1] "  Atenție: %s nu au fost inserate. Fără aceste unghiuri,\n  Timeline-ul nu este bun pentru conversie."
 msgstr[2] "  Atenție: %s nu au fost inserate. Fără aceste unghiuri,\n  Timeline-ul nu este bun pentru conversie."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Atenție: %s nu au fost inserate. Fără aceste unghiuri,\n  Timeline-ul nu este bun pentru conversie."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
@@ -4343,17 +4293,11 @@ msgstr[0] "  %s pistă audio rămâne: %s"
 msgstr[1] "  %s piste audio rămân: %s"
 msgstr[2] "  %s de piste audio rămân: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %s de piste audio rămân: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Imagine și audio legate din nou: %s unghi"
 msgstr[1] "    Imagine și audio legate din nou: %s unghiuri"
 msgstr[2] "    Imagine și audio legate din nou: %s de unghiuri"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Imagine și audio legate din nou: %s de unghiuri"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
@@ -4361,17 +4305,11 @@ msgstr[0] "  %s pistă audio rămâne:"
 msgstr[1] "  %s piste audio rămân:"
 msgstr[2] "  %s de piste audio rămân:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %s de piste audio rămân:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s clip"
 msgstr[1] "%s clipuri"
 msgstr[2] "%s de clipuri"
-
-msgid "%s clips"
-msgstr "%s de clipuri"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
@@ -4379,17 +4317,11 @@ msgstr[0] "    %s pistă audio goală eliminată"
 msgstr[1] "    %s piste audio goale eliminate"
 msgstr[2] "    %s de piste audio goale eliminate"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %s de piste audio goale eliminate"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> interpretat ca %s pistă audio%s"
 msgstr[1] "      --> interpretat ca %s piste audio%s"
 msgstr[2] "      --> interpretat ca %s de piste audio%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> interpretat ca %s de piste audio%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
@@ -4397,17 +4329,11 @@ msgstr[0] " din %s canal încorporat"
 msgstr[1] " din %s canale încorporate"
 msgstr[2] " din %s de canale încorporate"
 
-msgid " of %s embedded channels"
-msgstr " din %s de canale încorporate"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s pistă video"
 msgstr[1] "%s piste video"
 msgstr[2] "%s de piste video"
-
-msgid "%s video tracks"
-msgstr "%s de piste video"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
@@ -4415,17 +4341,11 @@ msgstr[0] "%s pistă audio"
 msgstr[1] "%s piste audio"
 msgstr[2] "%s de piste audio"
 
-msgid "%s audio tracks"
-msgstr "%s de piste audio"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Mai multe unghiuri decât culori -- %s culoare apare de două ori."
 msgstr[1] "      Mai multe unghiuri decât culori -- %s culori apar de două ori."
 msgstr[2] "      Mai multe unghiuri decât culori -- %s de culori apar de două ori."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Mai multe unghiuri decât culori -- %s de culori apar de două ori."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
@@ -4433,17 +4353,11 @@ msgstr[0] "      %s clip a rămas fără culoare."
 msgstr[1] "      %s clipuri au rămas fără culoare."
 msgstr[2] "      %s de clipuri au rămas fără culoare."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s de clipuri au rămas fără culoare."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    Pe V2 se află acum %s clip: %s"
 msgstr[1] "    Pe V2 se află acum %s clipuri: %s"
 msgstr[2] "    Pe V2 se află acum %s de clipuri: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    Pe V2 se află acum %s de clipuri: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
@@ -4451,17 +4365,11 @@ msgstr[0] "  %s marcaj pus%s."
 msgstr[1] "  %s marcaje puse%s."
 msgstr[2] "  %s de marcaje puse%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s de marcaje puse%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s cameră"
 msgstr[1] "%s camere"
 msgstr[2] "%s de camere"
-
-msgid "%s cameras"
-msgstr "%s de camere"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
@@ -4469,17 +4377,11 @@ msgstr[0] "  Separarea vorbitorilor (%s): %s vorbitor din %s de audio"
 msgstr[1] "  Separarea vorbitorilor (%s): %s vorbitori din %s de audio"
 msgstr[2] "  Separarea vorbitorilor (%s): %s de vorbitori din %s de audio"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Separarea vorbitorilor (%s): %s de vorbitori din %s de audio"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s în %s pasaj"
 msgstr[1] "  %-20s %s în %s pasaje"
 msgstr[2] "  %-20s %s în %s de pasaje"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s în %s de pasaje"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
@@ -4487,17 +4389,11 @@ msgstr[0] "  Din %s: %s voce."
 msgstr[1] "  Din %s: %s voci."
 msgstr[2] "  Din %s: %s de voci."
 
-msgid "  From %s: %s voices."
-msgstr "  Din %s: %s de voci."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s cuvânt s-a întors fără timp și a fost lăsat deoparte."
 msgstr[1] "  %s cuvinte s-au întors fără timp și au fost lăsate deoparte."
 msgstr[2] "  %s de cuvinte s-au întors fără timp și au fost lăsate deoparte."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s de cuvinte s-au întors fără timp și au fost lăsate deoparte."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
@@ -4505,17 +4401,11 @@ msgstr[0] "pe %s cameră"
 msgstr[1] "pe %s camere"
 msgstr[2] "pe %s de camere"
 
-msgid "on %s cameras"
-msgstr "pe %s de camere"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s fișier era gata înainte de asta și este întreg: %s"
 msgstr[1] "%s fișiere erau gata înainte de asta și sunt întregi: %s"
 msgstr[2] "%s de fișiere erau gata înainte de asta și sunt întregi: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s de fișiere erau gata înainte de asta și sunt întregi: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
@@ -4523,17 +4413,11 @@ msgstr[0] "%s punct"
 msgstr[1] "%s puncte"
 msgstr[2] "%s de puncte"
 
-msgid "%s points"
-msgstr "%s de puncte"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s canal"
 msgstr[1] "%s canale"
 msgstr[2] "%s de canale"
-
-msgid "%s channels"
-msgstr "%s de canale"
 
 msgid "Cut by speaker"
 msgstr "Montaj după vorbitori"
@@ -4570,3 +4454,33 @@ msgstr "Doar sincronizare acceptă o singură înregistrare audio; aceasta este 
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Doar sincronizare: predarea se recalculează; nu există niciun montaj de refăcut. Resolve trebuie să ruleze."
+
+msgid "%s has not started yet"
+msgstr "%s nu a început încă"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   sunetul nu poate fi redat"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "sunet plasat după ceas -- măsurare în așteptare"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nNIVELURILE VORBITORILOR"
+
+msgid "Measuring %s"
+msgstr "Se măsoară %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s nemăsurabil -- rămâne așa cum este"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- nimic pe ea, rămâne așa cum este"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  O singură voce -- nimic cu care să fie comparată."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Nivel comun:         %s LUFS, mediana vocilor"

@@ -40,10 +40,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -59,9 +60,6 @@ msgstr "使用全景的剪辑"
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "在 %s 台摄像机上"
-
-msgid "on %s cameras"
-msgstr "在 %s 台摄像机上"
 
 msgid "no camera yet"
 msgstr "尚无摄像机"
@@ -319,22 +317,13 @@ msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%s 条音轨"
 
-msgid "%s audio tracks"
-msgstr "%s 条音轨"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s 个片段"
 
-msgid "%s clips"
-msgstr "%s 个片段"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s 条视频轨"
-
-msgid "%s video tracks"
-msgstr "%s 条视频轨"
 
 msgid "  (this file ends earlier)"
 msgstr "  (此文件结束得更早)"
@@ -349,15 +338,9 @@ msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s 个声道"
 
-msgid "%s channels"
-msgstr "%s 个声道"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s 个文件"
-
-msgid "%s files"
-msgstr "%s 个文件"
 
 msgid "... or add files ..."
 msgstr "... 或添加文件 ..."
@@ -788,9 +771,6 @@ msgstr "前进十秒。"
 msgid "Window %s%s"
 msgstr "窗口 %s%s"
 
-msgid "audio file"
-msgstr "音频文件"
-
 msgid "cancel"
 msgstr "取消"
 
@@ -815,29 +795,17 @@ msgstr "太短"
 msgid "unknown"
 msgstr "未知"
 
-msgid "video file"
-msgstr "视频文件"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s 个音频录音"
-
-msgid "%s audio recordings"
-msgstr "%s 个音频录音"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s 台摄像机"
 
-msgid "%s cameras"
-msgstr "%s 台摄像机"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s 个视频文件"
-
-msgid "%s video files"
-msgstr "%s 个视频文件"
 
 msgid "Caution"
 msgstr "注意"
@@ -1883,8 +1851,13 @@ msgstr "属于"
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
 msgstr "这些文件既不是音频也不是视频，不予纳入：\n\n  %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "从列表中移除所有此类文件？数量：%s，类型：%s\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "从列表中移除 %s 个音频文件？\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "从列表中移除 %s 个视频文件？\n\n%s"
 
 msgid "no timecode"
 msgstr "无时间码"
@@ -4625,3 +4598,33 @@ msgstr "仅同步只接受一段音频录音；这是多出的一段：%s"
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "仅同步：交接文件会重新计算；没有需要重做的剪辑。Resolve 必须正在运行。"
+
+msgid "%s has not started yet"
+msgstr "%s 尚未开始"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   声音无法播放"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "声音按时钟放置 -- 等待测量"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\n说话人电平"
+
+msgid "Measuring %s"
+msgstr "正在测量 %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s 无法测量 -- 保持原样"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- 没有内容，保持原样"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  只有一个声音 -- 没有可以对齐的对象。"
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  共同电平：           %s LUFS，声音的中位数"

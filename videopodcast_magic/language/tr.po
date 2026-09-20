@@ -51,10 +51,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -71,9 +72,6 @@ msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "%s kamerada"
 msgstr[1] "%s kamerada"
-
-msgid "on %s cameras"
-msgstr "%s kamerada"
 
 msgid "no camera yet"
 msgstr "henüz kamera yok"
@@ -332,24 +330,15 @@ msgid_plural "%s audio tracks"
 msgstr[0] "%s ses izi"
 msgstr[1] "%s ses izi"
 
-msgid "%s audio tracks"
-msgstr "%s ses izi"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s klip"
 msgstr[1] "%s klip"
 
-msgid "%s clips"
-msgstr "%s klip"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s video izi"
 msgstr[1] "%s video izi"
-
-msgid "%s video tracks"
-msgstr "%s video izi"
 
 msgid "  (this file ends earlier)"
 msgstr "  (bu dosya daha erken bitiyor)"
@@ -365,16 +354,10 @@ msgid_plural "%s channels"
 msgstr[0] "%s kanal"
 msgstr[1] "%s kanal"
 
-msgid "%s channels"
-msgstr "%s kanal"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s dosya"
 msgstr[1] "%s dosya"
-
-msgid "%s files"
-msgstr "%s dosya"
 
 msgid "... or add files ..."
 msgstr "... ya da dosya ekle ..."
@@ -805,9 +788,6 @@ msgstr "On saniye ileri."
 msgid "Window %s%s"
 msgstr "Pencere %s%s"
 
-msgid "audio file"
-msgstr "ses dosyası"
-
 msgid "cancel"
 msgstr "iptal"
 
@@ -832,32 +812,20 @@ msgstr "çok kısa"
 msgid "unknown"
 msgstr "bilinmiyor"
 
-msgid "video file"
-msgstr "video dosyası"
-
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s ses kaydı"
 msgstr[1] "%s ses kaydı"
-
-msgid "%s audio recordings"
-msgstr "%s ses kaydı"
 
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s kamera"
 msgstr[1] "%s kamera"
 
-msgid "%s cameras"
-msgstr "%s kamera"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s video dosyası"
 msgstr[1] "%s video dosyası"
-
-msgid "%s video files"
-msgstr "%s video dosyası"
 
 msgid "Caution"
 msgstr "Dikkat"
@@ -1903,8 +1871,15 @@ msgstr "ait olduğu"
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
 msgstr "Bu dosyalar ne ses ne video, dışarıda kalıyor:\n\n  %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Bu türdeki tüm dosyalar listeden kaldırılsın mı? Sayı: %s, tür: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "%s ses dosyası listeden kaldırılsın mı?\n\n%s"
+msgstr[1] "%s ses dosyasının tümü listeden kaldırılsın mı?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "%s video dosyası listeden kaldırılsın mı?\n\n%s"
+msgstr[1] "%s video dosyasının tümü listeden kaldırılsın mı?\n\n%s"
 
 msgid "no timecode"
 msgstr "timecode yok"
@@ -4676,3 +4651,33 @@ msgstr "Yalnızca senkronizasyon tek bir ses kaydı alır; bu bir tane daha: %s"
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Yalnızca senkronizasyon: aktarım yeniden hesaplanır; yeniden yapılacak kurgu yok. Resolve çalışıyor olmalı."
+
+msgid "%s has not started yet"
+msgstr "%s henüz başlamadı"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   ses oynatılamıyor"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "ses saate göre yerleştirildi -- ölçüm bekliyor"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nKONUŞMACI SEVİYELERİ"
+
+msgid "Measuring %s"
+msgstr "%s ölçülüyor"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s ölçülemiyor -- olduğu gibi kalıyor"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- üzerinde bir şey yok, olduğu gibi kalıyor"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Yalnızca bir ses -- karşılaştırılacak bir şey yok."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Ortak seviye:        %s LUFS, seslerin medyanı"

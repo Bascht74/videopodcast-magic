@@ -45,10 +45,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2632,8 +2633,17 @@ msgstr "NÁVRAT SPÄŤ ZLYHAL (%s)"
 msgid "Reading audio track from %s"
 msgstr "Číta sa zvuková stopa z %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Odstrániť zo zoznamu všetky súbory tohto typu? Je ich %s, typ: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Odstrániť zo zoznamu %s zvukový súbor?\n\n%s"
+msgstr[1] "Odstrániť zo zoznamu všetky %s zvukové súbory?\n\n%s"
+msgstr[2] "Odstrániť zo zoznamu všetkých %s zvukových súborov?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Odstrániť zo zoznamu %s videosúbor?\n\n%s"
+msgstr[1] "Odstrániť zo zoznamu všetky %s videosúbory?\n\n%s"
+msgstr[2] "Odstrániť zo zoznamu všetkých %s videosúborov?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Rozlíšenia"
@@ -3751,9 +3761,6 @@ msgstr "Strih, EDL, CSV a odovzdanie sa znova vypočítajú z čísel vyššie. 
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Bez týchto dvoch nič nefunguje. Je Resolve nainštalovaný?"
 
-msgid "audio file"
-msgstr "zvukový súbor"
-
 msgid "cancel"
 msgstr "zrušiť"
 
@@ -3807,9 +3814,6 @@ msgstr "dve Timeline"
 
 msgid "up to %s"
 msgstr "do %s"
-
-msgid "video file"
-msgstr "videosúbor"
 
 msgid "volume %.2f"
 msgstr "hlasitosť %.2f"
@@ -4180,17 +4184,11 @@ msgstr[0] ", %s súbor k tomu nepasuje"
 msgstr[1] ", %s súbory k tomu nepasujú"
 msgstr[2] ", %s súborov k tomu nepasuje"
 
-msgid ", %s files do not fit"
-msgstr ", %s súborov k tomu nepasuje"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s súbor"
 msgstr[1] "%s súbory"
 msgstr[2] "%s súborov"
-
-msgid "%s files"
-msgstr "%s súborov"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
@@ -4198,17 +4196,11 @@ msgstr[0] "%s nahrávka z %s súborov"
 msgstr[1] "%s nahrávky z %s súborov"
 msgstr[2] "%s nahrávok z %s súborov"
 
-msgid "%s recordings from %s files"
-msgstr "%s nahrávok z %s súborov"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s pokračovanie"
 msgstr[1] "%s  + %s pokračovania"
 msgstr[2] "%s  + %s pokračovaní"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s pokračovaní"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
@@ -4216,17 +4208,11 @@ msgstr[0] "Oddelené: %s rečník"
 msgstr[1] "Oddelené: %s rečníci"
 msgstr[2] "Oddelené: %s rečníkov"
 
-msgid "Separated: %s speakers"
-msgstr "Oddelené: %s rečníkov"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  Stopa %s išla hore ako stereo a vrátila sa s jedným kanálom."
 msgstr[1] "  Stopy %s išli hore ako stereo a každá sa vrátila s jedným kanálom."
 msgstr[2] "  Stopy %s išli hore ako stereo a každá sa vrátila s jedným kanálom."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  Stopy %s išli hore ako stereo a každá sa vrátila s jedným kanálom."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
@@ -4234,17 +4220,11 @@ msgstr[0] "%s stopa, %s, %s kHz, %s"
 msgstr[1] "%s stopy, %s, %s kHz, %s"
 msgstr[2] "%s stôp, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s stôp, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix z %s stôp, %s kanál"
 msgstr[1] "  Full-Mix z %s stôp, %s kanály"
 msgstr[2] "  Full-Mix z %s stôp, %s kanálov"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix z %s stôp, %s kanálov"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
@@ -4252,17 +4232,11 @@ msgstr[0] "  %s zostáva dvojkanálová"
 msgstr[1] "  %s zostávajú dvojkanálové"
 msgstr[2] "  %s zostávajú dvojkanálové"
 
-msgid "  %s stay in two channels"
-msgstr "  %s zostávajú dvojkanálové"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: sedí na %s (cieľ %s) po %d ms, %d pokus"
 msgstr[1] "%s: sedí na %s (cieľ %s) po %d ms, %d pokusy"
 msgstr[2] "%s: sedí na %s (cieľ %s) po %d ms, %d pokusov"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: sedí na %s (cieľ %s) po %d ms, %d pokusov"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
@@ -4270,17 +4244,11 @@ msgstr[0] "Vznikne %s videosúbor, asi %s. Cieľ: %s"
 msgstr[1] "Vzniknú %s videosúbory, asi %s. Cieľ: %s"
 msgstr[2] "Vznikne %s videosúborov, asi %s. Cieľ: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Vznikne %s videosúborov, asi %s. Cieľ: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s opravené samo od seba"
 msgstr[1] "%s opravené samy od seba"
 msgstr[2] "%s opravených samo od seba"
-
-msgid "%s fixed on their own"
-msgstr "%s opravených samo od seba"
 
 msgid "%s hint"
 msgid_plural "%s hints"
@@ -4288,17 +4256,11 @@ msgstr[0] "%s upozornenie"
 msgstr[1] "%s upozornenia"
 msgstr[2] "%s upozornení"
 
-msgid "%s hints"
-msgstr "%s upozornení"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s dôvod na zastavenie"
 msgstr[1] "%s dôvody na zastavenie"
 msgstr[2] "%s dôvodov na zastavenie"
-
-msgid "%s reasons to stop"
-msgstr "%s dôvodov na zastavenie"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
@@ -4306,17 +4268,11 @@ msgstr[0] "%s zvuková nahrávka"
 msgstr[1] "%s zvukové nahrávky"
 msgstr[2] "%s zvukových nahrávok"
 
-msgid "%s audio recordings"
-msgstr "%s zvukových nahrávok"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s videosúbor"
 msgstr[1] "%s videosúbory"
 msgstr[2] "%s videosúborov"
-
-msgid "%s video files"
-msgstr "%s videosúborov"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
@@ -4324,17 +4280,11 @@ msgstr[0] "Súbor je označený ako HDR, s %s poznámkou."
 msgstr[1] "Súbor je označený ako HDR, s %s poznámkami."
 msgstr[2] "Súbor je označený ako HDR, s %s poznámkami."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Súbor je označený ako HDR, s %s poznámkami."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Pozor: %s nevložené. Bez tohto uhla sa\n  Timeline nehodí na prevod."
 msgstr[1] "  Pozor: %s nevložené. Bez týchto uhlov sa\n  Timeline nehodí na prevod."
 msgstr[2] "  Pozor: %s nevložené. Bez týchto uhlov sa\n  Timeline nehodí na prevod."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Pozor: %s nevložené. Bez týchto uhlov sa\n  Timeline nehodí na prevod."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
@@ -4342,17 +4292,11 @@ msgstr[0] "  %s zvuková stopa zostáva: %s"
 msgstr[1] "  %s zvukové stopy zostávajú: %s"
 msgstr[2] "  %s zvukových stôp zostáva: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %s zvukových stôp zostáva: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Obraz a zvuk znovu prepojené: %s uhol"
 msgstr[1] "    Obraz a zvuk znovu prepojené: %s uhly"
 msgstr[2] "    Obraz a zvuk znovu prepojené: %s uhlov"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Obraz a zvuk znovu prepojené: %s uhlov"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
@@ -4360,17 +4304,11 @@ msgstr[0] "  %s zvuková stopa zostáva:"
 msgstr[1] "  %s zvukové stopy zostávajú:"
 msgstr[2] "  %s zvukových stôp zostáva:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %s zvukových stôp zostáva:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s klip"
 msgstr[1] "%s klipy"
 msgstr[2] "%s klipov"
-
-msgid "%s clips"
-msgstr "%s klipov"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
@@ -4378,17 +4316,11 @@ msgstr[0] "    %s prázdna zvuková stopa odstránená"
 msgstr[1] "    %s prázdne zvukové stopy odstránené"
 msgstr[2] "    %s prázdnych zvukových stôp odstránených"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %s prázdnych zvukových stôp odstránených"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> vyhodnotené ako %s zvuková stopa%s"
 msgstr[1] "      --> vyhodnotené ako %s zvukové stopy%s"
 msgstr[2] "      --> vyhodnotené ako %s zvukových stôp%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> vyhodnotené ako %s zvukových stôp%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
@@ -4396,17 +4328,11 @@ msgstr[0] " z %s vloženého kanála"
 msgstr[1] " z %s vložených kanálov"
 msgstr[2] " z %s vložených kanálov"
 
-msgid " of %s embedded channels"
-msgstr " z %s vložených kanálov"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s videostopa"
 msgstr[1] "%s videostopy"
 msgstr[2] "%s videostôp"
-
-msgid "%s video tracks"
-msgstr "%s videostôp"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
@@ -4414,17 +4340,11 @@ msgstr[0] "%s zvuková stopa"
 msgstr[1] "%s zvukové stopy"
 msgstr[2] "%s zvukových stôp"
 
-msgid "%s audio tracks"
-msgstr "%s zvukových stôp"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Viac uhlov než farieb -- %s farba je dvakrát."
 msgstr[1] "      Viac uhlov než farieb -- %s farby sú dvakrát."
 msgstr[2] "      Viac uhlov než farieb -- %s farieb je dvakrát."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Viac uhlov než farieb -- %s farieb je dvakrát."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
@@ -4432,17 +4352,11 @@ msgstr[0] "      %s klip zostal bez farby."
 msgstr[1] "      %s klipy zostali bez farby."
 msgstr[2] "      %s klipov zostalo bez farby."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s klipov zostalo bez farby."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    Na V2 je teraz %s klip: %s"
 msgstr[1] "    Na V2 sú teraz %s klipy: %s"
 msgstr[2] "    Na V2 je teraz %s klipov: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    Na V2 je teraz %s klipov: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
@@ -4450,17 +4364,11 @@ msgstr[0] "  %s značka nastavená%s."
 msgstr[1] "  %s značky nastavené%s."
 msgstr[2] "  %s značiek nastavených%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s značiek nastavených%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s kamera"
 msgstr[1] "%s kamery"
 msgstr[2] "%s kamier"
-
-msgid "%s cameras"
-msgstr "%s kamier"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
@@ -4468,17 +4376,11 @@ msgstr[0] "  Oddelenie rečníkov (%s): %s rečník z %s zvuku"
 msgstr[1] "  Oddelenie rečníkov (%s): %s rečníci z %s zvuku"
 msgstr[2] "  Oddelenie rečníkov (%s): %s rečníkov z %s zvuku"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Oddelenie rečníkov (%s): %s rečníkov z %s zvuku"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s v %s úseku"
 msgstr[1] "  %-20s %s v %s úsekoch"
 msgstr[2] "  %-20s %s v %s úsekoch"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s v %s úsekoch"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
@@ -4486,17 +4388,11 @@ msgstr[0] "  Zdroj: %s -- %s hlas."
 msgstr[1] "  Zdroj: %s -- %s hlasy."
 msgstr[2] "  Zdroj: %s -- %s hlasov."
 
-msgid "  From %s: %s voices."
-msgstr "  Zdroj: %s -- %s hlasov."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s slovo sa vrátilo bez času a bolo vynechané."
 msgstr[1] "  %s slová sa vrátili bez času a boli vynechané."
 msgstr[2] "  %s slov sa vrátilo bez času a bolo vynechaných."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s slov sa vrátilo bez času a bolo vynechaných."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
@@ -4504,17 +4400,11 @@ msgstr[0] "na %s kamere"
 msgstr[1] "na %s kamerách"
 msgstr[2] "na %s kamerách"
 
-msgid "on %s cameras"
-msgstr "na %s kamerách"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s súbor bol hotový už predtým a je celý: %s"
 msgstr[1] "%s súbory boli hotové už predtým a sú celé: %s"
 msgstr[2] "%s súborov bolo hotových už predtým a sú celé: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s súborov bolo hotových už predtým a sú celé: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
@@ -4522,17 +4412,11 @@ msgstr[0] "%s bod"
 msgstr[1] "%s body"
 msgstr[2] "%s bodov"
 
-msgid "%s points"
-msgstr "%s bodov"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s kanál"
 msgstr[1] "%s kanály"
 msgstr[2] "%s kanálov"
-
-msgid "%s channels"
-msgstr "%s kanálov"
 
 msgid "Cut by speaker"
 msgstr "Strih podľa rečníkov"
@@ -4569,3 +4453,33 @@ msgstr "Len synchronizácia berie jednu zvukovú nahrávku; tu je ďalšia: %s"
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Len synchronizácia: odovzdanie sa znova vypočíta; žiadny strih netreba prerábať. Resolve musí bežať."
+
+msgid "%s has not started yet"
+msgstr "%s: nahrávka ešte nezačala"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   zvuk nemožno prehrať"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "zvuk umiestnený podľa hodín -- meranie ešte čaká"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nÚROVNE REČNÍKOV"
+
+msgid "Measuring %s"
+msgstr "Meria sa %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s nedá sa zmerať -- zostáva, ako je"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- nič na nej, zostáva, ako je"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Len jeden hlas -- nie je s čím ho porovnať."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Spoločná úroveň:     %s LUFS, medián hlasov"
