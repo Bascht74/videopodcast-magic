@@ -1272,10 +1272,17 @@ def weak_kind(kinds, path):
     return value.get() if value is not None else ""
 
 
-def weak_colour(odd, placeless):
-    """The colour a badly fitting file is written in."""
+def weak_colour(odd, placeless, kind=""):
+    """The colour a badly fitting file is written in.
+
+    A file with no place is refused, so it stands in red -- unless it
+    has been set to the intro or the outro, which are placed by hand:
+    then the row already says what became of it, and red beside that
+    reads as a fault where there is none. *kind* is what the row says.
+    """
     if placeless:
-        return COLOURS["error"]
+        return (COLOURS["text"] if kind in (TYPE_INTRO, TYPE_OUTRO)
+                else COLOURS["error"])
     return COLOURS["warning"] if odd else COLOURS["text"]
 
 
@@ -1293,7 +1300,8 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None):
     for p, item in list(nodes.items()):
         placeless = path_key(p) in nowhere
         odd = path_key(p) in weak or placeless
-        ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless)))
+        kind = weak_kind(kinds, p)
+        ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless, kind)))
         try:
             # Column 1 keeps the check mark: two inks in one cell
             # overwrite each other, whichever ran last.
@@ -1301,7 +1309,7 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None):
                 item.setForeground(column, ink)
             if odd:
                 item.setText(2, weak_note(os.path.dirname(p), placeless,
-                                          weak_kind(kinds, p)))
+                                          kind))
         except RuntimeError:
             dropped.append(p)
     return dropped
@@ -1340,7 +1348,8 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None):
             continue
         placeless = path_key(p) in nowhere
         odd = path_key(p) in weak or placeless
-        ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless)))
+        kind = weak_kind(kinds, p)
+        ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless, kind)))
         try:
             for cell in row:
                 cell.setForeground(ink)
@@ -1349,7 +1358,7 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None):
             # travels beside the row, or a second pass nests sentences.
             said = plain
             if odd:
-                said = weak_note(plain, placeless, weak_kind(kinds, p))
+                said = weak_note(plain, placeless, kind)
             row[0].setText(said)
             # The column can be narrower than the sentence.
             row[0].setToolTip(said if odd else "")
@@ -2858,6 +2867,11 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
                            % (path_key(p), file_fingerprint(p),
                               float(track.get("a") or 0.0),
                               float(track.get("b") or 1.0)))
+        # What the log says it listens to: the tracks that went into
+        # the mix, which is fewer than the run holds where one has no
+        # axis. Kept on *args* like the distance, this being the one
+        # place that knows the number.
+        args._speakers_mixed_count = len(picked)
         return speaker_mix_file(picked, made_of + [str(x) for x in window])
 
     apart = (microphones_apart_of_run(args, tracks)
@@ -2941,7 +2955,7 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             print(T('  The microphones hear each other too well to say who '
                     'is speaking, so the separation listens to all %s of '
                     'them at once, on this machine.')
-                  % number_text(len(tracks), 0))
+                  % number_text(args._speakers_mixed_count, 0))
         else:
             print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
