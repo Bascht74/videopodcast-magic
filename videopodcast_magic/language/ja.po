@@ -1245,7 +1245,7 @@ msgid "  Existing result adopted -- nothing computed, nothing paid."
 msgstr "  既存の結果を採用 -- 計算なし、支払いなし。"
 
 msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
-msgstr "  注：当時アップロードしたファイルで計算します。ファイルには\n  その日の時間枠と位置合わせが含まれています。イン点、アウト点\n  または測定位置が現在と異なる場合、戻りチェックが\n  差を測ってトラックを所定の位置に動かします。"
+msgstr "  注記：当時アップロードしたファイルで計算します。ファイルには\n  その日の時間枠と位置合わせが含まれています。イン点、アウト点\n  または測定位置が現在と異なる場合、戻りチェックが\n  差を測ってトラックを所定の位置に動かします。"
 
 msgid "  Settings brought to preset %r"
 msgstr "  設定をプリセット %r に合わせます"
@@ -2853,7 +2853,7 @@ msgid " -- nothing to fault."
 msgstr " -- 問題はありません。"
 
 msgid "Note: "
-msgstr "注: "
+msgstr "注記: "
 
 msgid "fixed: "
 msgstr "修正済み: "
@@ -3006,10 +3006,10 @@ msgid "per track"
 msgstr "トラックごと"
 
 msgid " -- 1 note: %s"
-msgstr " -- 注意 1 件: %s"
+msgstr " -- 注記 1 件: %s"
 
 msgid " -- %s notes"
-msgstr " -- 注意 %s 件"
+msgstr " -- 注記 %s 件"
 
 msgid "multi-part, no timecode -- gaps in between cannot be detected."
 msgstr "複数に分割、タイムコードなし -- 間の欠落は検出できません。"

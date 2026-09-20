@@ -184,7 +184,7 @@ msgid "One more speaker in %s"
 msgstr "Mais um falante em %s"
 
 msgid "One more speaker in"
-msgstr "Mais um locutor"
+msgstr "Mais um falante"
 
 msgid "%s:%02d min"
 msgstr "%s:%02d min"
@@ -271,7 +271,7 @@ msgid "do not use"
 msgstr "não usar"
 
 msgid "several speakers"
-msgstr "vários locutores"
+msgstr "vários falantes"
 
 msgid "Content"
 msgstr "Conteúdo"
@@ -422,7 +422,7 @@ msgid "Measuring time axis ..."
 msgstr "Medindo o eixo do tempo ..."
 
 msgid "Multitrack (one track per speaker)"
-msgstr "Multipista (uma faixa por locutor)"
+msgstr "Multipista (uma faixa por falante)"
 
 msgid "No files or project opened yet."
 msgstr "Ainda não foi aberto nenhum arquivo nem projeto."
@@ -473,7 +473,7 @@ msgid "Save in Keychain"
 msgstr "Salvar no Chaveiro"
 
 msgid "Speakers, self-measured from the tracks"
-msgstr "Locutores, medidos pelo programa a partir das faixas"
+msgstr "Falantes, medidos pelo programa a partir das faixas"
 
 msgid "Ten seconds back."
 msgstr "Dez segundos atrás."
@@ -483,7 +483,7 @@ msgid ""
 "The order does not matter -- the program recognises what is what.\n"
 "For a multi-part recording the first block is enough."
 msgstr ""
-"A gravação de áudio de cada locutor, mais as câmeras.\n"
+"A gravação de áudio de cada falante, mais as câmeras.\n"
 "A ordem não importa -- o programa reconhece o que é o quê.\n"
 "Para uma gravação em várias partes basta o primeiro bloco."
 
@@ -620,7 +620,7 @@ msgid "No files given."
 msgstr "Nenhum arquivo informado."
 
 msgid "Speaker"
-msgstr "Locutor"
+msgstr "Falante"
 
 msgid "Start %s"
 msgstr "Início %s"
@@ -1028,7 +1028,7 @@ msgid "Recognition uncertain"
 msgstr "Reconhecimento incerto"
 
 msgid "the speaker recognition frays or leaves a heap behind"
-msgstr "o reconhecimento de locutores se desfia ou deixa um monte"
+msgstr "o reconhecimento de falantes se desfia ou deixa um monte"
 
 msgid "the picture goes to the answer before it starts"
 msgstr "a imagem passa para a resposta antes de ela começar"
@@ -1655,7 +1655,7 @@ msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is
 msgstr "O plano geral dura %s s, menos que o plano mais curto de %s s -- por isso é fundido de novo e nunca aparece.\n"
 
 msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
-msgstr "Calcula quem fala quando a partir das próprias faixas -- um microfone por pessoa, nível contra o próprio ruído de fundo. Onde todos estão numa só gravação, o caminho é “vários locutores” no campo Nome do falante."
+msgstr "Calcula quem fala quando a partir das próprias faixas -- um microfone por pessoa, nível contra o próprio ruído de fundo. Onde todos estão numa só gravação, o caminho é “vários falantes” no campo Nome do falante."
 
 msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
 msgstr "  As faixas são usadas como foram gravadas: alinhadas, mixadas e levadas à\n  sonoridade-alvo. Sem de-bleed, sem leveler, sem remoção de ruído -- para\n  isso a execução precisa do auphonic.com."
@@ -1700,7 +1700,7 @@ msgid "Out point lies less than 5 seconds after In point."
 msgstr "O ponto de saída fica menos de 5 segundos depois do ponto de entrada."
 
 msgid "because no speaker is assigned to it"
-msgstr "porque nenhum locutor lhe está atribuído"
+msgstr "porque nenhum falante lhe está atribuído"
 
 msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
 msgstr "O programa tem aqui %s de duração -- nada pode ser disposto nisso. Quem o define são o ponto de entrada e o ponto de saída."
@@ -1721,10 +1721,10 @@ msgid "  The handover file could not be written."
 msgstr "  Não foi possível escrever o arquivo de entrega."
 
 msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
-msgstr "  Cada câmera tem um locutor, então não há plano geral: as quatro configurações do plano geral e a marca para as bordas não fazem nada aqui."
+msgstr "  Cada câmera tem um falante, então não há plano geral: as quatro configurações do plano geral e a marca para as bordas não fazem nada aqui."
 
 msgid "  %s speakers, %s shots, shortest %s s"
-msgstr "  %s locutores, %s planos, o mais curto %s s"
+msgstr "  %s falantes, %s planos, o mais curto %s s"
 
 msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
 msgstr "O ponto de entrada agora é %s, mas os arquivos existentes pertencem a %s.\n  O áudio dos vídeos está cortado na janela antiga -- clique de novo em\n  Iniciar, acima."
@@ -1745,7 +1745,7 @@ msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Plano geral nas bordas: até %s e a partir de %s"
 
 msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
-msgstr "Nenhum locutor conhecido ainda -- nada medido, nada separado, e nenhum arquivo de entrega de uma execução anterior em %s ou nas suas subpastas."
+msgstr "Nenhum falante conhecido ainda -- nada medido, nada separado, e nenhum arquivo de entrega de uma execução anterior em %s ou nas suas subpastas."
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "A janela de tempo fica fora do material: ponto de entrada em %s, ponto de saída em %s, e o material dura %s."
@@ -1757,7 +1757,7 @@ msgid "No audio tracks are assigned."
 msgstr "Nenhuma faixa de áudio atribuída."
 
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
-msgstr "Nenhum locutor conhecido ainda -- eles são obtidos das faixas assim que esta aba é aberta. Se todos estiverem numa só gravação, o caminho é \"vários locutores\" no campo Nome do falante."
+msgstr "Nenhum falante conhecido ainda -- eles são obtidos das faixas assim que esta aba é aberta. Se todos estiverem numa só gravação, o caminho é \"vários falantes\" no campo Nome do falante."
 
 msgid "  This produces the project, the import and %s:"
 msgstr "  Daí resultam o projeto, a importação e %s:"
@@ -1766,13 +1766,13 @@ msgid "  Create it with \"Create Resolve project\" in the interface. Resolve mus
 msgstr "  Crie-o com \"Criar projeto do Resolve\" na interface. O Resolve precisa estar em execução."
 
 msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
-msgstr "\nLOCUTORES\n  Ninguém foi ouvido -- daqui não sai corte de câmera."
+msgstr "\nFALANTES\n  Ninguém foi ouvido -- daqui não sai corte de câmera."
 
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
-msgstr "  %sx fora do locutor porque um plano durou mais de %s s"
+msgstr "  %sx fora do falante porque um plano durou mais de %s s"
 
 msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
-msgstr "  Uma câmera para todos: cortada em %s planos na troca de locutor, para que o Resolve possa agrupá-los."
+msgstr "  Uma câmera para todos: cortada em %s planos na troca de falante, para que o Resolve possa agrupá-los."
 
 msgid "  The cut has changed: %s shots instead of %s."
 msgstr "  O corte mudou: %s planos em vez de %s."
@@ -1781,7 +1781,7 @@ msgid "the cut uses %s"
 msgstr "o corte usa %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
-msgstr "nenhum locutor lhe está atribuído, mas o corte usa %s"
+msgstr "nenhum falante lhe está atribuído, mas o corte usa %s"
 
 msgid "%s not measured yet -- in the cut, not yet in this preview."
 msgstr "%s ainda não medido -- no corte sim, nesta pré-visualização ainda não."
@@ -1904,10 +1904,10 @@ msgid "Separates the recording by voice: every voice gets a row of its own, and 
 msgstr "Separa a gravação por voz: cada voz ganha uma linha própria, e nela a sua câmera. Cerca de um minuto para meia hora de áudio, neste computador e sem envio."
 
 msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
-msgstr "Quem se ouve nesta gravação. Um nome significa que é essa única pessoa.\n\"vários locutores\" determina quem fala quando, neste computador e sem envio -- cerca de um minuto para meia hora de áudio. Os nomes vão depois nas linhas abaixo."
+msgstr "Quem se ouve nesta gravação. Um nome significa que é essa única pessoa.\n\"vários falantes\" determina quem fala quando, neste computador e sem envio -- cerca de um minuto para meia hora de áudio. Os nomes vão depois nas linhas abaixo."
 
 msgid "Listens to that recording again, looking for one speaker more than was found."
-msgstr "Ouve essa gravação de novo, procurando um locutor a mais do que os encontrados."
+msgstr "Ouve essa gravação de novo, procurando um falante a mais do que os encontrados."
 
 msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
 msgstr "Tudo o que ainda falta, medido em relação ao que está feito. Trabalhos longos ocupam mais da barra do que os curtos."
@@ -2510,7 +2510,7 @@ msgid "  From %s"
 msgstr "  De %s"
 
 msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
-msgstr "  Os arquivos na pasta devem ter o nome dos locutores e pertencer\n  a esta execução. Sem a pasta, passa de novo por auphonic.com."
+msgstr "  Os arquivos na pasta devem ter o nome dos falantes e pertencer\n  a esta execução. Sem a pasta, passa de novo por auphonic.com."
 
 msgid "Check: %s and camera track"
 msgstr "Verificação: %s e faixa da câmera"
@@ -2843,7 +2843,7 @@ msgid "Disk space"
 msgstr "Espaço em disco"
 
 msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
-msgstr "Quão alto o episódio pronto fica. O mesmo ganho vai em cada\nfaixa, assim o equilíbrio entre os locutores se mantém.\n\"Obter dos arquivos de origem\" não ajusta nada: auphonic.com continua\nfazendo o que sua predefinição diz, e sem auphonic.com o som\nfica como está nos arquivos de origem."
+msgstr "Quão alto o episódio pronto fica. O mesmo ganho vai em cada\nfaixa, assim o equilíbrio entre os falantes se mantém.\n\"Obter dos arquivos de origem\" não ajusta nada: auphonic.com continua\nfazendo o que sua predefinição diz, e sem auphonic.com o som\nfica como está nos arquivos de origem."
 
 msgid "Algorithms"
 msgstr "Algoritmos"
@@ -3263,7 +3263,7 @@ msgid "  %s video tracks, %s audio tracks created (%s)"
 msgstr "  %s faixas de vídeo, %s faixas de áudio criadas (%s)"
 
 msgid "  %s video tracks, named after the speakers:"
-msgstr "  %s faixas de vídeo, com os nomes dos locutores:"
+msgstr "  %s faixas de vídeo, com os nomes dos falantes:"
 
 msgid "  No audio on the Timeline -- nothing to clean up."
 msgstr "  Nenhum áudio na Timeline -- nada a limpar."
@@ -3461,7 +3461,7 @@ msgid "\n  Timeline: the camera in one piece, the mix below"
 msgstr "\n  Timeline: a câmera em uma só peça, o mix embaixo"
 
 msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
-msgstr "\n  Nenhum corte de câmeras na entrega -- sem estatísticas de locutores não há.\n  Só a Timeline para o clipe multicâmera é montada."
+msgstr "\n  Nenhum corte de câmeras na entrega -- sem estatísticas de falantes não há.\n  Só a Timeline para o clipe multicâmera é montada."
 
 msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
 msgstr "  Já existe uma Timeline com este nome, com outras câmeras. Ela fica;\n  a nova é montada ao lado com um nome próprio."
@@ -3884,7 +3884,7 @@ msgid "The list of model files came back empty."
 msgstr "A lista de arquivos do modelo voltou vazia."
 
 msgid "The speaker separation is not installed here. This puts it back: %s"
-msgstr "A separação de locutores não está instalada aqui. Isto a restaura: %s"
+msgstr "A separação de falantes não está instalada aqui. Isto a restaura: %s"
 
 msgid "%s\n   sound not recognised; placed by its timecode"
 msgstr "%s\n   som não reconhecido; posicionado pelo timecode"
@@ -3905,19 +3905,19 @@ msgid "the separation in this run"
 msgstr "a separação nesta execução"
 
 msgid "Separating speakers: %s"
-msgstr "Separando locutores: %s"
+msgstr "Separando falantes: %s"
 
 msgid "The folder of the program cannot be written to: %s"
 msgstr "Não é possível gravar na pasta do programa: %s"
 
 msgid "Putting the speaker separation back ..."
-msgstr "Restaurando a separação de locutores ..."
+msgstr "Restaurando a separação de falantes ..."
 
 msgid "The speaker separation model is not beside the program."
-msgstr "O modelo de separação de locutores não está junto ao programa."
+msgstr "O modelo de separação de falantes não está junto ao programa."
 
 msgid "The speaker separation is not set up."
-msgstr "A separação de locutores não está configurada."
+msgstr "A separação de falantes não está configurada."
 
 msgid "Nothing was audible in the recording."
 msgstr "Nada era audível na gravação."
@@ -3926,7 +3926,7 @@ msgid "pyannote sends a trace home on every run and this version offers no way t
 msgstr "O pyannote envia dados para casa a cada execução e esta versão não oferece como desativar isso, por isso a separação não foi iniciada."
 
 msgid "Speaker separation is switched off for this project."
-msgstr "A separação de locutores está desativada para este projeto."
+msgstr "A separação de falantes está desativada para este projeto."
 
 msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
 msgstr "Quem fala quando pode ser determinado nesta máquina, a partir de qualquer gravação em que todos sejam audíveis."
@@ -3944,7 +3944,7 @@ msgid "Mixing the tracks for the separation"
 msgstr "Mixando as faixas para a separação"
 
 msgid "the microphones hear each other almost as loudly as their own speaker"
-msgstr "os microfones se ouvem uns aos outros quase tão alto quanto o próprio locutor"
+msgstr "os microfones se ouvem uns aos outros quase tão alto quanto o próprio falante"
 
 msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
 msgstr "\nQUEM PERGUNTA -- uma proposta, e nada é definido a partir dela"
@@ -3980,7 +3980,7 @@ msgid "The model file %s does not match its checksum."
 msgstr "O arquivo de modelo %s não confere com seu checksum."
 
 msgid "The speaker separation reports: %s"
-msgstr "A separação de locutores informa: %s"
+msgstr "A separação de falantes informa: %s"
 
 msgid " computed"
 msgstr " calculado"
@@ -4010,7 +4010,7 @@ msgid "%s has no place on the axis"
 msgstr "%s não tem lugar no eixo do tempo"
 
 msgid "\nSEPARATING THE SPEAKERS"
-msgstr "\nSEPARAÇÃO DOS LOCUTORES"
+msgstr "\nSEPARAÇÃO DOS FALANTES"
 
 msgid "  Separated once already: read back, not measured again."
 msgstr "  Já separado uma vez: relido, não medido de novo."
@@ -4019,10 +4019,10 @@ msgid "  (measuring only: nothing separated)"
 msgstr "  (só medição: nada separado)"
 
 msgid "\nSPEAKERS -- SEPARATED BY VOICE"
-msgstr "\nLOCUTORES -- SEPARADOS POR VOZ"
+msgstr "\nFALANTES -- SEPARADOS POR VOZ"
 
 msgid "\nSPEAKERS -- MEASURED HERE"
-msgstr "\nLOCUTORES -- MEDIDOS AQUI"
+msgstr "\nFALANTES -- MEDIDOS AQUI"
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Das próprias faixas, uma voz por faixa: %s."
@@ -4067,7 +4067,7 @@ msgid "  In %s, on this machine."
 msgstr "  Em %s, nesta máquina."
 
 msgid "  The speaker separation is not used: %s."
-msgstr "  A separação de locutores não é usada: %s."
+msgstr "  A separação de falantes não é usada: %s."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Duas câmeras gerariam o mesmo arquivo. A segunda sobrescreveria a primeira."
@@ -4184,7 +4184,7 @@ msgid "Leaves the separation switched off for this project. The cut then comes f
 msgstr "Deixa a separação desligada para este projeto. O corte vem então das faixas ou do auphonic.com, como antes."
 
 msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
-msgstr "Ainda não há corte de câmera: são necessárias duas pessoas, cada uma com um nome e uma câmera.\nGravações separadas fornecem isso com a marca Multipista, e também \"vários locutores\" no campo Nome do falante de uma gravação --\nas vozes encontradas ali recebem sua câmera na tabela abaixo das gravações.\nUm projeto do Resolve é criado de qualquer forma -- todas as câmeras nas posições medidas, prontas para Multicam."
+msgstr "Ainda não há corte de câmera: são necessárias duas pessoas, cada uma com um nome e uma câmera.\nGravações separadas fornecem isso com a marca Multipista, e também \"vários falantes\" no campo Nome do falante de uma gravação --\nas vozes encontradas ali recebem sua câmera na tabela abaixo das gravações.\nUm projeto do Resolve é criado de qualquer forma -- todas as câmeras nas posições medidas, prontas para Multicam."
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Isso precisa do arquivo de entrega de uma execução, e não há nenhum."

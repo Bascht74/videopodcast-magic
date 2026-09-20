@@ -1635,7 +1635,7 @@ msgid "No camera is free of speakers, so there is no wide shot: the four wide sh
 msgstr "Жодна камера не вільна від мовців, тож загального плану немає: чотири налаштування загального плану й позначка для країв нічого не дають. Задайте камері Вид «Загальний план» або залиште одну без мовця."
 
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Транскрипту ще немає. Без нього не знайдеться жодне питання й не відома жодна межа речення, тож ці чотири налаштування нічого не дають. Запуск його запише, і відтоді вони працюють."
+msgstr "Транскрипту ще немає. Без нього не знайдеться жодне запитання й не відома жодна межа речення, тож ці чотири налаштування нічого не дають. Запуск його запише, і відтоді вони працюють."
 
 msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
 msgstr "Вона ніде не вписується в матеріал: немає таймкоду, і її звук не має нічого спільного з рештою. На загальний план монтаж відступає, тож він мусить лежати на осі часу."
@@ -1656,7 +1656,7 @@ msgid "Why the wide shot settings are grey"
 msgstr "Чому налаштування загального плану сірі"
 
 msgid "Why the question settings are grey"
-msgstr "Чому налаштування питання сірі"
+msgstr "Чому налаштування запитання сірі"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "позначена як загальний план -- мовців не бере"
@@ -1896,16 +1896,16 @@ msgid "fixed"
 msgstr "виправлено"
 
 msgid "Audio and video (%s);;All files (*)"
-msgstr "Аудіо та відео (%s);;Усі файли (*)"
+msgstr "Звук та відео (%s);;Усі файли (*)"
 
 msgid "Select audio and video files"
-msgstr "Вибрати аудіо- та відеофайли"
+msgstr "Вибрати звукові та відеофайли"
 
 msgid "found automatically"
 msgstr "знайдено автоматично"
 
 msgid "AUDIO"
-msgstr "АУДІО"
+msgstr "ЗВУК"
 
 msgid "%s  (%s)  --  %s  --  %s blocks"
 msgstr "%s  (%s)  --  %s  --  блоків: %s"
@@ -1917,7 +1917,7 @@ msgid "belongs to"
 msgstr "належить до"
 
 msgid "These files are neither audio nor video and stay out:\n\n  %s"
-msgstr "Ці файли не є ні аудіо, ні відео й лишаються поза списком:\n\n  %s"
+msgstr "Ці файли не є ні звуковими, ні відеофайлами й лишаються поза списком:\n\n  %s"
 
 msgid "Remove all %s %ss from the list?\n\n%s"
 msgstr "Прибрати зі списку всі файли цього типу? Їх %s, тип: %s.\n\n%s"
@@ -4020,10 +4020,10 @@ msgid "the tracks are too much alike to separate"
 msgstr "доріжки надто схожі, щоб їх розділити"
 
 msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
-msgstr "  Хто питає -- тут не сказано: дві доріжки несуть те саме мовлення, тож питання дісталися б тому рекордеру, що був налаштований найгучніше."
+msgstr "  Хто питає -- тут не сказано: дві доріжки несуть те саме мовлення, тож запитання дісталися б тому рекордеру, що був налаштований найгучніше."
 
 msgid "  %-20s %s speaking, %s of %s sentences a question"
-msgstr "  %-20s %s мовлення, %s з %s речень -- питання"
+msgstr "  %-20s %s мовлення, %s з %s речень -- запитання"
 
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s звучить як %-20s %s %% у цій доріжці, на %s пунктів попереду наступної"
@@ -4302,7 +4302,7 @@ msgid "Order does not matter. For a multi-part recording the first block is enou
 msgstr "Порядок не має значення. Для запису з кількох частин досить першого блоку."
 
 msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Перетягування на АУДІО або ВІДЕО бере все."
+msgstr "Перетягування на ЗВУК або ВІДЕО бере все."
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "Назва на auphonic.com і початок нових назв файлів."

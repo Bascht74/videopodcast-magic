@@ -27,7 +27,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "videopodcast-magic"
-version = "3.0.0b15"
+version = "3.0.0b16"
 description = "Raw material from a video podcast becomes an edited episode"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -38,9 +38,9 @@ dependencies = [
     "certifi",   # what an https connection is checked against
     "faster-whisper",   # speech recognition, used as soon as a transcript is
     # The speaker separation, and it is not an extra: cutting by who is
-    # speaking is what this program is for. It brings torch and
-    # torchvision with it, so an installation is some 828 MB rather than
-    # a few -- measured 4.9.2026, torch alone 536 MB.
+    # speaking is what this program is for. It brings torch with it,
+    # the second largest piece of an installation after the window; the
+    # measured sizes stand in docs/requirements.md and nowhere else.
     #
     # It stands here rather than in a folder of its own so that one
     # command repairs everything. A separate environment is out of
