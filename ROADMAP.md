@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b15.
+gone through for 3.0.0b16.
 
 ## Where the program stands today
 
-**Version 3.0.0b15.** It runs every week, on real material.
+**Version 3.0.0b16.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
