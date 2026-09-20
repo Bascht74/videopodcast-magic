@@ -21,12 +21,19 @@ Stück ist. Danach wird nichts mehr hinter jemandes Rücken nachgeholt,
 und beim ersten Öffnen des Fensters fehlt nichts.
 
 **Dieser erste Befehl dauert Minuten, und die Wartezeit sind diese
-Pakete.** Auf einem Mac gemessen: etwa hundert Sekunden und danach rund
-2565 MB auf der Platte. Das meiste davon sind zwei Brocken — das
-Fenster, ein Download von 443 MB in zwei Stücken und 1,2 GB ausgepackt,
-und der Unterbau, auf dem die Sprechertrennung rechnet, 536 MB in einem
-Stück. An einer schnellen Leitung ist es früher vorbei; an einer
-langsamen hängt nichts, sondern es lädt gerade an einem der beiden.
+Pakete.** Die Zahlen stehen nur hier; die README und die Paketdatei
+verweisen hierher. Gemessen am 20. September 2026 auf einem Mac mit
+Apple-Prozessor, Python 3.14, in eine leere Umgebung: rund 900 MB über
+die Leitung — die Pakete, 690 MB in 103 Stücken, und das Repository
+selbst, 200 MB mitsamt seiner Geschichte — und danach 2,5 GB auf der
+Platte. Das meiste davon sind zwei Brocken: das Fenster, ein Download
+von 420 MB in zwei Stücken und 1,2 GB ausgepackt, und der Unterbau, auf
+dem die Sprechertrennung rechnet, 120 MB geladen und 590 MB ausgepackt.
+An einer schnellen Leitung war das Ganze in einer Minute vorbei; an
+einer langsamen hängt nichts, sondern es lädt gerade an einem der
+beiden. Ein anderes System bekommt andere Zahlen — unter Linux kann der
+Unterbau der Sprechertrennung mit seiner Grafikkarten-Hälfte kommen und
+ein Mehrfaches wiegen.
 
 **Die Sprechertrennung gehört zur Installation, und das mit Absicht.**
 Sie hat sich früher beim ersten Gebrauch eine eigene Umgebung

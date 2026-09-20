@@ -67,11 +67,12 @@ pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
 er.** Alles, was das Programm an Python braucht, kommt in diesem einen
 Zug mit — das Fenster, die Messungen, die Zertifikate, die
 Spracherkennung. Danach wird nichts mehr hinter dem Rücken nachgeholt,
-und beim ersten Öffnen des Fensters fehlt nichts. Gemessen am
-4. September 2026 auf einem Mac: fünf Minuten, 498 MB über die
-Leitung, 1,4 GB auf der Platte. Fast alles davon ist das Fenster:
-`PySide6` allein kommt in einem Stück von 332 MB, und genau so sieht
-eine erste Installation aus, wenn man denkt, sie hänge. Jedes `-U`
+und beim ersten Öffnen des Fensters fehlt nichts. Es ist knapp ein
+Gigabyte über die Leitung und zweieinhalb auf der Platte; die Zahlen,
+gemessen, stehen in [docs/requirements.de.md](docs/requirements.de.md).
+Fast die Hälfte davon ist das Fenster: `PySide6` kommt in einem Stück
+von über 300 MB, und genau dieses Stück ist es, wenn eine erste
+Installation zu hängen scheint. Jedes `-U`
 danach ist eine Sache von Sekunden — zwölf, gemessen, als sich die
 Versionsnummer nicht bewegt hatte —, denn pip liest die Ablage,
 vergleicht die Nummer und hört auf, wo dort schon die installierte

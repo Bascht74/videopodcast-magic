@@ -21,12 +21,18 @@ anybody's back afterwards, and nothing is missing when the window opens
 for the first time.
 
 **That first command takes minutes, and the wait is those packages.**
-Measured on a Mac: about a hundred seconds and about 2565 MB on the
-disk afterwards. Two pieces are most of it -- the window, which is a
-443 MB download in two parts and 1.2 GB unpacked, and the machinery
-the speaker separation runs on, 536 MB in one piece. On a fast line it
-is over sooner; on a slow one it is not stuck, it is fetching one of
-those.
+This is the one place the numbers stand; the README and the package
+file point here. Measured on 20 September 2026 on a Mac with Apple
+silicon, Python 3.14, into an empty environment: about 900 MB down the
+line -- the packages, 690 MB in 103 pieces, and the repository itself,
+200 MB with its history -- and 2.5 GB on the disk afterwards. Two
+pieces are most of it: the window, which is a 420 MB download in two
+parts and 1.2 GB unpacked, and the machinery the speaker separation
+runs on, 120 MB down and 590 MB unpacked. On a fast line the whole of
+it took a minute; on a slow one it is not stuck, it is fetching one of
+those two. Another system gets other numbers -- on Linux the machinery
+under the speaker separation can come with its graphics-card half and
+be several times the size.
 
 **The speaker separation is part of the installation, and that is
 deliberate.** It used to set itself up an environment of its own the
