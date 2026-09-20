@@ -100,8 +100,10 @@ der Knopf in die Schnittliste nimmt.*
 | mehrere Kameras, Sprecher getrennt | Bild aus dem Kameraschnitt, Ton am Stück | alle Kameras nebeneinander |
 | mehrere Kameras, ein Sprecher mit Kamera | seine Kamera, vom Weitwinkel unterbrochen | alle Kameras nebeneinander |
 | mehrere Kameras, niemand mit Namen und Kamera | keine | alle Kameras nebeneinander |
+| mehrere Kameras, Nur synchronisieren | keine | alle Kameras nebeneinander, je Kameradatei eine Spur |
 | eine Kamera, Sprecher getrennt | je Sprecherwechsel ein Schnitt, der Mix darunter | keine |
 | eine Kamera, eine Stimme oder keine Trennung | die Kamera am Stück, der Mix darunter | keine |
+| eine Kamera, Nur synchronisieren | die Kamera am Stück, der Mix darunter | keine |
 
 Über die Schnitt-Timeline entscheidet die Sprechertrennung, nicht der
 Weg. Zwei Leute mit Namen und Kamera ergeben einen Kameraschnitt, auch
@@ -109,6 +111,18 @@ auf dem einfachen Weg, und ebenso eine Person, sobald es eine zweite
 Kamera gibt, auf der niemand ist: ihre Kamera steht, und der Weitwinkel
 unterbricht sie. Sonst bleibt nur die Multicam-Timeline: alle Kameras an
 ihren gemessenen Stellen, und Resolve macht daraus den Multicam-Clip.
+
+**Nur synchronisieren** ist der eine Fall, in dem der Weg doch
+entscheidet. Niemand wurde gefragt, wer spricht, also gibt es keine
+Schnitt-Timeline zu bauen und keine Sprechermarker; das Protokoll sagt
+**Nur synchronisieren: kein Schnitt nach Sprecher verlangt. Nur die
+Timeline für den Multicam-Clip wird gebaut.** Die Bildspuren heißen
+nach den Kameradateien, der Name ohne Endung, und das Protokoll zählt
+sie unter **Bildspuren, benannt nach den Kameradateien** auf. Ein
+Renderauftrag entsteht nicht, denn der hängt an der Schnitt-Timeline,
+und die fehlt; bei einer Kamera entsteht die gerade Timeline **… Cut**
+wie immer bei einer Kamera, mit dem Mix darunter und dem Renderauftrag,
+und ohne Marker.
 
 Eine Messung, die erkennbar eine Rate von Resolve meint, gilt als diese
 Rate: ffprobe misst bei manchen Dateien 29,994 oder 30,001, wo die
@@ -138,7 +152,8 @@ Marker.
 lang wie ihre eigene Datei und **ohne Schnitte**, an ihrer gemessenen
 Stelle. Die
 Spurnamen sind die Sprecher, eine Kamera ohne Sprecher heißt `Wide`, und
-die Sprechernamen stehen als Marker. Auf Bildspur 1 kommt die Kamera,
+die Sprechernamen stehen als Marker. Bei **Nur synchronisieren** trägt
+jede Spur den Namen ihrer Kameradatei, und Marker gibt es keine. Auf Bildspur 1 kommt die Kamera,
 deren erste Tonspur der Full-Mix ist, meist der Weitwinkel; beim
 Umwandeln wird er zu Perspektive 1.
 
@@ -271,7 +286,9 @@ Eine einzelne Videodatei mit eigenem Ton ist dieser Fall. Die Trennung
 hält die Sprecher auf der einen Spur auseinander, und der Schnitt fällt
 an jedem Sprecherwechsel. Das Bild bleibt über die Schnitte hinweg
 dasselbe. Eine 360-Grad-Kamera bekommt ihren Bildausschnitt von Hand,
-Schnitt für Schnitt, und die Marker sagen, wer dran ist.
+Schnitt für Schnitt, und die Marker sagen, wer dran ist. Bei **Nur
+synchronisieren** entsteht dieselbe Timeline, ohne Marker: niemand
+wurde gefragt, wer spricht.
 
 ### Wenn es das Projekt schon gibt
 
@@ -327,7 +344,10 @@ unter *Eine ganze Kamera auf einmal korrigieren*.
 ### Was der Renderauftrag setzt
 
 Stehen die Timelines, legt das Script das Renderprofil an und stellt den
-Auftrag in die Warteschlange. In Resolve bleibt nur noch **Render All**.
+Auftrag für die Schnitt-Timeline in die Warteschlange. In Resolve bleibt
+nur noch **Render All**. Bei **Nur synchronisieren** mit mehreren
+Kameras gibt es keine Schnitt-Timeline und keinen Auftrag: die
+Multicam-Timeline ist ein Anfang für den Schnitt, keine Lieferung.
 
 Material und Projekt entscheiden, ob HDR oder SDR herauskommt, nicht der
 Geschmack. Das Script liest zuerst den `colr`-Block der Kameradateien.
@@ -587,7 +607,8 @@ anlegen: die Scripting-Schnittstelle kennt Multicam nicht. Also von Hand:
 
 Zum Ton siehe die vier Möglichkeiten weiter oben. Der Spurname wird zum Namen
 der Perspektive (Handbuch, Kapitel 49), und deshalb heißen die Bildspuren
-nach den Sprechern. Die Umwandlung ist ein Einwegvorgang, und Resolve legt
+nach den Sprechern -- oder, bei **Nur synchronisieren**, nach den
+Kameradateien. Die Umwandlung ist ein Einwegvorgang, und Resolve legt
 keine Sicherungskopie an.
 
 ### Wenn etwas klemmt

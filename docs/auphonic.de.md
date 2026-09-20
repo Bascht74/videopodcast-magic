@@ -131,7 +131,11 @@ Sprechertrennung](speech.de.md).
 Jeder Lauf kommt ohne den Dienst aus. Der erste Eintrag der Presetliste,
 **ohne Auphonic arbeiten**, hält diesen Lauf hier (auf der
 Kommandozeile `--without-auphonic`). Er ist kein Preset. Der Schlüssel
-bleibt im Feld, gemerkt und geprüft, nur nicht weitergereicht.
+bleibt im Feld, gemerkt und geprüft, nur nicht weitergereicht. Ein
+leeres Feld ist dieselbe Antwort: ein aus dem Fenster gestarteter Lauf
+ohne Schlüssel darin läuft ohne den Dienst, auf dem einfachen Weg wie
+auf dem Multitrack-Weg, und holt sich keinen gespeicherten Schlüssel
+hinter dem Feld hervor.
 
 Alles läuft dann hier: das Programm richtet die Spuren auf der
 gemeinsamen Achse aus, mischt sie und verteilt sie auf die Kameras.

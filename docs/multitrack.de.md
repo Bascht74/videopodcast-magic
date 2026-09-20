@@ -24,6 +24,13 @@ ein Kanal eines Recorders und eine Stimme, die die Trennung gefunden
 hat, zählen gleich -- draußen bleibt nur, wer auf **nicht verwenden**
 steht.
 
+Das Häkchen gehört zum **Schnitt nach Sprecher**. Beim Projekttyp **Nur
+synchronisieren** fehlt die Zeile auf dem Reiter, und das Häkchen ist
+aus: je Person eine Spur ist eine Frage danach, wer spricht, und dieser
+Typ fragt niemanden. Er nimmt eine Tonaufnahme und legt sie als
+`Full-Mix` in jede Kameradatei ([Der einfache Weg](simple-path.de.md)
+sagt, wie die beiden Fragen zueinander stehen).
+
 Alles andere läuft lokal. [Aufbereitung über auphonic.com](auphonic.de.md)
 beschreibt den Weg dahin (auf der Kommandozeile `--without-auphonic`). Das
 Programm richtet dann den Ton aus, mischt ihn, setzt die Lautheit und baut
@@ -163,9 +170,9 @@ Feld steht die eigene Antwort des Programms -- **Vorspann**, oder
 oder wenn an der Datei überhaupt nichts zu messen war
 ([Die Oberfläche](interface.de.md)).
 
-Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
-ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
-beide es. Auf der Kommandozeile (`--multitrack`) zählt es genauso.
+Das Häkchen **Multitrack** steht unter den Tabellen, auf der eigenen
+Zeile, die [Die Oberfläche](interface.de.md) beschreibt, und sonst
+nirgends. Auf der Kommandozeile heißt es `--multitrack`.
 
 Multitrack braucht zwei Eingangsspuren. Drei Dinge zählen als Spur:
 

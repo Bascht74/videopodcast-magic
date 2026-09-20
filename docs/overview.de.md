@@ -76,6 +76,21 @@ landet jeder Messwert in einer CSV, die der nächste Lauf nicht
 überschreibt. Über ein paar Monate sieht man daran, dass ein Recorder
 langsamer wird oder eine Kamera den anderen farblich davonläuft.
 
+## Zwei Arten von Produktion
+
+Eines fragt das Fenster zuerst: was aus der Produktion werden soll. Das
+Feld **Projekttyp** auf dem ersten Reiter hat zwei Antworten. **Schnitt
+nach Sprecher** ist alles, was unten steht: die Kameras auf einer
+Zeitachse und ein Schnitt danach, wer gerade spricht -- die Sprecher
+auseinandergehalten, der Text mitgeschrieben, ein Resolve-Projekt mit
+dem Schnitt darin. **Nur synchronisieren** hört nach der Zeitachse auf:
+der gute Ton in jeder Kameradatei, eine Timeline mit allen Kameras
+nebeneinander, und nichts über Sprecher -- keine Trennung, kein
+Transkript, kein Schnitt. Das ist die Antwort, wenn der Schnitt von Hand
+oder in Resolve entstehen soll, und sie nimmt eine Tonaufnahme und
+keine zweite. Gefragt wird einmal; die Antwort steht in der
+Projektdatei und auf der Kommandozeile als `--project-type`.
+
 ## Mehrere Sprecher auf eine Zeitachse legen
 
 Drei Leute am Tisch heißt drei Mikrofone, und auf jedem sind alle drei zu

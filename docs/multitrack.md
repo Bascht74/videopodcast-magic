@@ -23,6 +23,13 @@ came in by either: a recording of one person, the sound of a camera, a
 channel of a recorder and a voice a separation found all count alike,
 and only **do not use** keeps somebody out.
 
+The tick belongs to **Cut by speaker**. With the project type **Sync
+only** the line is not on the tab and the tick is off: one track per
+person is a question about who speaks, and that type asks nobody. It
+takes one audio recording and puts it into every camera file as the
+`Full-Mix` ([The simple path](simple-path.md) says how the two
+questions stand to each other).
+
 Everything else runs locally. [Processing at auphonic.com](auphonic.md)
 describes the way there (on the command line `--without-auphonic`). The
 program then aligns the audio, mixes it, sets the loudness and builds the
@@ -158,9 +165,9 @@ or **ignore this video** where another file already holds the intro, or
 where nothing at all could be measured of the file
 ([The interface](interface.md)).
 
-Under the tables the **Multitrack** tick sits a second time. It is the
-same tick as under **Production**: click either one and both show it.
-The count is the same on the command line (`--multitrack`).
+The **Multitrack** tick sits under the tables, on the line of its own
+that [The interface](interface.md) describes, and nowhere else. On the
+command line it is `--multitrack`.
 
 Multitrack needs two input tracks. Three things count as a track:
 

@@ -73,6 +73,20 @@ measurement lands in a CSV the next run does not overwrite. Over a few
 months that is where a recorder going slow, or a camera drifting away
 from the others in colour, shows up.
 
+## Two kinds of production
+
+The window asks one thing first: what the production is to become. The
+field **Project type** on the first tab has two answers. **Cut by
+speaker** is everything below: the cameras on one time axis and a cut by
+who is speaking, with the speakers told apart, the words written down
+and a Resolve project that holds the cut. **Sync only** stops after the
+time axis: the good audio in every camera file, one timeline with all
+the cameras side by side, and nothing about speakers -- no separation,
+no transcript, no cut. That is the answer where the cut is to be made by
+hand or in Resolve, and it takes one audio recording and no second one.
+The type is asked once, kept in the project file, and stands on the
+command line as `--project-type`.
+
 ## Putting several speakers on one time axis
 
 Three people at a table means three microphones, and all three voices are

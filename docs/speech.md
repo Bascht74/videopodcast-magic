@@ -9,6 +9,11 @@ The program writes down what is spoken, and it tells the voices on a
 recording apart. Both run on this machine, without an account and
 without an upload, and before anything goes to auphonic.com.
 
+None of it happens with the project type **Sync only**. That type asks
+nobody who speaks: no separation, no recognition, no transcript, and
+the columns this chapter is about are not on the tab. The log says so
+in its first lines. Everything below is **Cut by speaker**.
+
 ### Separating the speakers
 
 On the **Assignment & time window** tab every recording carries a
@@ -460,3 +465,5 @@ These options are not in the window.
 * `--no-speech-recognition` leaves the text out.
 * `VPM_NO_SPEAKER_SPLIT=1` in front of the call: no column
   **Speakers**, no button, and the separation never starts by itself.
+* `--project-type sync` switches all of it off at once: no separation,
+  no recognition, no transcript, no cut.
