@@ -735,7 +735,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     the whole axis off it. Returns (result, text), keyed by path_key:
     "axis", "clock" (recorder speed), and four narrowing lists -- "weak"
     fits badly, "no_place" has no timecode either, "unplaceable" is under
-    the floor as well, "brief" is far shorter than the rest.
+    the floor as well, "brief" is far shorter than the rest. A weak file
+    stands at its clock where one places it, never at what failed.
     """
     # Every file at once: each envelope is read on its own, and over
     # hours of 4K this is the longest part of the measurement.
@@ -828,13 +829,24 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     for p in axis:
         axis[p] -= origin
     # The median offset is used so one outlier cannot skew everything.
-    offsets = sorted(t - axis[p] for p in axis
+    # A file whose sound was not recognised has no vote: what it holds
+    # is the measurement that failed, and beside its clock that would
+    # pull the middle towards a place nothing found.
+    offsets = sorted(t - axis[p] for p in axis if p not in weak
                        for t in [tc_of(p)] if t is not None)
     absolute = bool(offsets)
     if absolute:
         middle = offsets[len(offsets) // 2]
         for p in axis:
             axis[p] += middle
+        # Sound first, then the clock -- what the note beside the file
+        # says and what the run does. Not the failed measurement, which
+        # stood here for a camera that fits the sound and not the other
+        # cameras; and only here, since a reading means nothing relative.
+        for p in weak:
+            if p not in nowhere and clocks.get(p) is not None:
+                axis[p] = float(clocks[p])
+                clock_speed[p] = 1.0
     # Not before here: everything above reads the file itself, and the
     # timecode is asked for under the name that was passed in.
     axis = dict((path_key(p), t) for p, t in axis.items())
@@ -938,20 +950,40 @@ def file_fingerprint(file_path):
         return None
 
 
-def timeline_entries(axis, clocks):
+def timeline_entries(axis, clocks, marks=None):
     """The measured place of every file, as the project file keeps it.
 
     The clock speed rides along: measuring it again costs the same
     minutes, and a changed file is caught by its size and time anyway.
+    So does the verdict on a file that did not fit, one word under "fit"
+    out of *marks* (the measurement's "weak", "no_place", "brief"):
+    "weak" is placed by its clock, "nowhere" by nothing, "brief" nowhere
+    and far shorter. Without it a reopened project lost the mark.
     """
+    fit = {}
+    for word, key in (("weak", "weak"), ("nowhere", "no_place"),
+                      ("brief", "brief")):
+        for p in (marks or {}).get(key) or ():
+            fit[path_key(p)] = (word, p)
     out = []
     for p, start in (axis or {}).items():
         k = file_fingerprint(p)
         if k:
+            e = {"path": k[0], "mtime": k[1], "size": k[2],
+                 "start_s": round(start, 3),
+                 "clock": round(float(
+                     (clocks or {}).get(path_key(p), 1.0)), 9)}
+            if path_key(p) in fit:
+                e["fit"] = fit[path_key(p)][0]
+            out.append(e)
+    # A file with no place has no start_s: not 0.0, which would read as
+    # a place on the axis.
+    written = set(path_key(e["path"]) for e in out)
+    for key, (word, p) in fit.items():
+        k = file_fingerprint(p) if key not in written else None
+        if k:
             out.append({"path": k[0], "mtime": k[1], "size": k[2],
-                        "start_s": round(start, 3),
-                        "clock": round(float(
-                            (clocks or {}).get(path_key(p), 1.0)), 9)})
+                        "fit": word})
     return out
 
 
@@ -960,8 +992,10 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
 
     All or nothing: the axis is a statement about their relationship, and
     a half valid one would be worse than none because it would look
-    right. Returns {"axis", "clock", "weak", "absolute"} or None, keyed
-    by path_key; without a stored clock speed a file comes back at 1.0.
+    right. Returns {"axis", "clock", "weak", "no_place", "brief",
+    "absolute"} or None, the lists as the paths were passed; without a
+    stored clock speed a file comes back at 1.0, and one stored without
+    a verdict fits, as every file did before one was kept.
     """
     known = {}
     for e in ((d or {}).get("timeline") or []):
@@ -969,16 +1003,44 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
         if stored:
             known[path_key(stored)] = e
     axis, speed = {}, {}
+    weak, nowhere, brief = [], [], []
+
+    def verdict(fit, file_path):
+        weak.append(file_path)
+        if fit in ("nowhere", "brief"):
+            nowhere.append(file_path)
+        if fit == "brief":
+            brief.append(file_path)
+
+    seen = set()
     for file_path in paths:
         k = fingerprint(file_path)
         e = known.get(path_key(k[0])) if k else None
         if not e or e.get("mtime") != k[1] or e.get("size") != k[2]:
             return None
+        seen.add(path_key(k[0]))
+        fit = e.get("fit")
+        if fit:
+            verdict(fit, file_path)
+            # Placed by nothing: it has no start_s, and is not put at
+            # the start of the axis for want of one.
+            if e.get("start_s") is None:
+                continue
         axis[path_key(k[0])] = float(e.get("start_s") or 0.0)
         speed[path_key(k[0])] = float(e.get("clock") or 1.0)
+    # A file the axis is no longer asked about keeps its verdict: set to
+    # the intro or left out it is no camera and not in *paths*, and its
+    # row still says why. One that changed or left says nothing.
+    for key, e in known.items():
+        if not e.get("fit") or key in seen:
+            continue
+        k = fingerprint(e["path"])
+        if k and e.get("mtime") == k[1] and e.get("size") == k[2]:
+            verdict(e["fit"], e["path"])
     if not axis:
         return None
-    return {"axis": axis, "clock": speed, "weak": [],
+    return {"axis": axis, "clock": speed, "weak": weak,
+            "no_place": nowhere, "brief": brief,
             "absolute": bool((d or {}).get("timeline_absolute"))}
 
 
@@ -1184,7 +1246,8 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         # Without a measurement the stored one stays: this is also how the
         # settings reach the file where no axis was ever measured.
         if axis:
-            d["timeline"] = timeline_entries(axis, state.get("axis_clock"))
+            d["timeline"] = timeline_entries(axis, state.get("axis_clock"),
+                                             state.get("axis_marks"))
             d["timeline_absolute"] = bool(state.get("axis_absolute"))
         d["files"] = [{"path": p, "kind": a} for p, a in files]
         settings_extend(d)
@@ -1229,6 +1292,21 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         if state.get("axis_run") == label_run:
             bridge_emit(bridge.axis, data or {}, text)
 
+    def axis_hand_back(data, label_run):
+        """Present a stored axis once the prework is done.
+
+        The way a measured one arrives: the prework writes the file
+        rows while it runs, and a mark put there before it is done is
+        written over -- measured 20.9.2026, a reopened project showed
+        the file that fits nothing plain although the file named it.
+        """
+        while prework_busy():
+            if state.get("axis_run") != label_run:
+                return
+            time.sleep(0.4)
+        if state.get("axis_run") == label_run:
+            bridge_emit(bridge.axis, data, "")
+
     def axis_kick_off(paths):
         """Measure wherever there are two files, timecode or not.
 
@@ -1244,7 +1322,14 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             return
         remembered = axis_read(every)
         if remembered:
-            axis_present(remembered, "", remember=False)
+            # Not stored again: it came out of the file.
+            remembered["remembered"] = True
+            state["axis_running"] = True
+            label_run = state.get("axis_run", 0) + 1
+            state["axis_run"] = label_run
+            threading.Thread(target=axis_hand_back,
+                             args=(remembered, label_run),
+                             daemon=True).start()
             return
         if state.get("axis_running"):
             # A file added while the measurement runs: the answer on its
@@ -1271,7 +1356,12 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
         state["no_place"] = set(path_key(p)
                                 for p in ((data or {}).get("no_place") or []))
-        if axis and remember:
+        # As the measurement named them, for the project file: the two
+        # sets above are keys, and a key is not a path to stat.
+        state["axis_marks"] = dict(
+            (key, list((data or {}).get(key) or []))
+            for key in ("weak", "no_place", "brief"))
+        if axis and remember and not (data or {}).get("remembered"):
             axis_store(axis)
         show_weak()
         # A file nothing could place is proposed for "ignore this video",
@@ -1387,7 +1477,9 @@ def camera_offset(cameras, origin=None, fps=30.0):
     A handover file carries an ``offset`` per camera, negative where the
     camera started before In point: position in the file is programme
     time minus offset, and deciding it again here is how the player and
-    Resolve came apart. Failing that ``start_s`` against *origin*.
+    Resolve came apart. Failing that ``start_s`` against *origin*; a
+    camera without one -- nothing measured, no clock -- sits at the In
+    point, offset 0.0, as the run answers "nowhere" for it.
     """
     out = {}
     # A stored offset that disagrees with the camera's own timecode is
@@ -1397,11 +1489,12 @@ def camera_offset(cameras, origin=None, fps=30.0):
         for x in cameras:
             out[x["track"]] = float(x.get("offset") or 0.0)
         return out
+    placed = [x for x in cameras if x.get("start_s") is not None]
     begin = (float(origin) if origin is not None else
-              min((float(x.get("start_s") or 0.0) for x in cameras),
-                  default=0.0))
+              min((float(x["start_s"]) for x in placed), default=0.0))
     for x in cameras:
-        out[x["track"]] = float(x.get("start_s") or 0.0) - begin
+        out[x["track"]] = (float(x["start_s"]) - begin
+                            if x.get("start_s") is not None else 0.0)
     return out
 
 

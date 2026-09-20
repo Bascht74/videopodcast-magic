@@ -399,10 +399,20 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
             affected = [p for p, a in files if a == kind]
             if not affected:
                 return
-            how = T('audio file') if kind == "audio" else T('video file')
+            # Two whole wordings per kind, never a word with an "s"
+            # glued on: a catalogue bends the thing itself, and each
+            # language says in its own file how many forms it has.
+            if kind == "audio":
+                question = TN(len(affected),
+                              'Remove %s audio file from the list?\n\n%s',
+                              'Remove all %s audio files from the list?\n\n%s')
+            else:
+                question = TN(len(affected),
+                              'Remove %s video file from the list?\n\n%s',
+                              'Remove all %s video files from the list?\n\n%s')
             if not ask(T('Remove all'),
-                    T('Remove all %s %ss from the list?\n\n%s')
-                    % (number_text(len(affected), 0), how,
+                    question
+                    % (number_text(len(affected), 0),
                        "\n".join("  " + os.path.basename(p)
                                   for p in affected[:12])
                        + ("\n  ..." if len(affected) > 12 else "")),

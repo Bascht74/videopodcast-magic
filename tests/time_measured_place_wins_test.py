@@ -10,16 +10,18 @@ a measurement is one nobody checked.
 The sections: the three steps camera_place goes through and the word
 it hands back for each; which file of a row its clock is read from;
 the same three steps once more through the handover, one camera
-placed each way; the lines the run owes wherever a measurement was
-missing; and a camera whose sound gives nothing, which the axis
-places by its clock rather than stopping on.
+placed each way; the same cameras in the preview's shape, where the
+one nothing placed lands at the In point and sets no zero point, the
+preview handing it on with no start at all; the lines the run owes wherever a measurement was missing; and a camera
+whose sound gives nothing, which the axis places by its clock rather
+than stopping on.
 """
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
 import io, json, struct, subprocess, sys, tempfile, time
-import contextlib
+import contextlib, inspect
 vpm = the_program.load()
 WORK = tempfile.mkdtemp(prefix="measuredplace_")
 began = time.time()
@@ -230,6 +232,37 @@ check("where nothing was measured, nothing is claimed about the sound "
       kept.get("Presenter") is None and kept.get("Guest") is None,
       "the two unmeasured cameras carry %r and %r, wanted nothing"
       % (kept.get("Presenter"), kept.get("Guest")))
+
+print("\nThe same cameras in the preview's shape")
+# Before a run the preview carries each camera's own start on the axis
+# and no offset, and camera_offset counts against the zero point. The
+# guest's camera has no start at all -- nothing measured, no clock --
+# and taken as a start of 0.0 it stood the whole zero point, nineteen
+# hours, before the timeline.
+preview = [{"track": "WideCam", "start_s": ZERO + MEASURED},
+           {"track": "Presenter", "start_s": 68117.4},
+           {"track": "Guest", "start_s": None}]
+in_preview = vpm.camera_offset(preview, ZERO, 30.0)
+check("in the preview the guest's camera lands on the start of the axis "
+      "too", in_preview.get("Guest") == 0.0,
+      "offset %r, wanted 0.0 and not the zero point turned round, %.1f"
+      % (in_preview.get("Guest"), -ZERO))
+no_zero_point = vpm.camera_offset(preview, None, 30.0)
+check("and without a zero point it does not set one: the earliest placed "
+      "camera is the zero",
+      no_zero_point.get("WideCam") == 0.0 and no_zero_point.get("Guest") == 0.0,
+      "%s, wanted the wide shot and the guest both at 0.0" % (no_zero_point,))
+# The start the preview hands in comes out of camera_start, a closure
+# of make_preview no test can call on its own; so its source is read.
+# It has to hand nothing on for such a camera -- a 0.0 there would count
+# against the origin above, and the camera stood the zero point before
+# the timeline.
+preview_source = inspect.getsource(vpm.make_preview)
+check("and the preview hands such a camera on with no start at all",
+      "return float(a) if a is not None else None" in preview_source,
+      "camera_start ends in %s" % [line.strip() for line in
+                                   preview_source.splitlines()
+                                   if "return float(a)" in line])
 
 print("\nWhat the run says where a measurement was missing")
 # The program's own lines, out of the catalogue: written out here they

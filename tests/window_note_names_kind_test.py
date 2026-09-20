@@ -8,9 +8,11 @@ note beside the file said none of that: it complained, the row beside
 it said Intro, and the two read as contradicting each other.
 
 Sections: what the note says for each of the two decisions and for a
-file nobody has decided about; and that the note is written out of the
+file nobody has decided about; that the note is written out of the
 Kind field the window really holds, rather than out of a value passed
-in beside it.
+in beside it; and that the colour follows the decision too -- the
+plain colour on both sheets for a file set to Intro or Outro, red for
+one nobody has placed.
 
 The words in it are the program's own, asked for by their value, so
 this measures the sentence and not one language's spelling of it.
@@ -95,6 +97,47 @@ check("the note is written out of the Kind field the window really holds",
       INTRO in written and OUTRO in written,
       "the row says %r, wanted %r and %r in it -- the field says %r"
       % (written.splitlines()[-1], INTRO, OUTRO, kinds[PATH].get()))
+
+
+print("\n3. The colour follows the decision too")
+#
+# The same row said Intro and stood in red: the colour that means
+# refused, beside a sentence saying where the file went. Red is for a
+# file with no place that nobody has placed; one set to the intro or
+# the outro is placed by hand, and stands in the plain colour on the
+# file list and on the assignment tree alike.
+from PySide6 import QtGui
+
+PLAIN = QtGui.QColor(vpm.COLOURS["text"]).name()
+RED = QtGui.QColor(vpm.COLOURS["error"]).name()
+
+
+def inks_of(kind):
+    """The colour of that file on both sheets, once its Kind says *kind*."""
+    kinds[PATH] = Kind(kind)
+    node = QtWidgets.QTreeWidgetItem([os.path.basename(PATH), "", ""])
+    vpm.weak_marks_show(state, {PATH: node})
+    return (node.foreground(2).color().name(),
+            row[0].foreground().color().name())
+
+
+on_list, on_tree = inks_of(vpm.TYPE_INTRO)
+check("a file set to Intro stands in the plain colour on both sheets",
+      on_list == PLAIN and on_tree == PLAIN,
+      "the file list writes it in %s and the tree in %s, wanted %s (text) "
+      "and not %s (error)" % (on_list, on_tree, PLAIN, RED))
+
+on_list, on_tree = inks_of(vpm.TYPE_OUTRO)
+check("and so does one set to Outro",
+      on_list == PLAIN and on_tree == PLAIN,
+      "the file list writes it in %s and the tree in %s, wanted %s (text) "
+      "and not %s (error)" % (on_list, on_tree, PLAIN, RED))
+
+on_list, on_tree = inks_of(vpm.TYPE_CONTENT)
+check("while a file nobody has placed keeps the red",
+      on_list == RED and on_tree == RED,
+      "the file list writes it in %s and the tree in %s, wanted %s (error) "
+      "and not %s (text)" % (on_list, on_tree, RED, PLAIN))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

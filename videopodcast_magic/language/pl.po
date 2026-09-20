@@ -46,10 +46,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2633,8 +2634,17 @@ msgstr "COFNIĘCIE NIE POWIODŁO SIĘ (%s)"
 msgid "Reading audio track from %s"
 msgstr "Odczyt ścieżki audio z %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Usunąć z listy wszystkie pliki tego rodzaju? Liczba: %s, rodzaj: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Usunąć z listy %s plik audio?\n\n%s"
+msgstr[1] "Usunąć z listy wszystkie %s pliki audio?\n\n%s"
+msgstr[2] "Usunąć z listy wszystkie %s plików audio?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Usunąć z listy %s plik wideo?\n\n%s"
+msgstr[1] "Usunąć z listy wszystkie %s pliki wideo?\n\n%s"
+msgstr[2] "Usunąć z listy wszystkie %s plików wideo?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Rozdzielczości"
@@ -3752,9 +3762,6 @@ msgstr "Montaż, EDL, CSV i przekazanie są wyliczane ponownie z liczb powyżej.
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Bez tych dwóch nic nie działa. Czy Resolve jest zainstalowany?"
 
-msgid "audio file"
-msgstr "plik audio"
-
 msgid "cancel"
 msgstr "anuluj"
 
@@ -3808,9 +3815,6 @@ msgstr "dwie Timeline"
 
 msgid "up to %s"
 msgstr "do %s"
-
-msgid "video file"
-msgstr "plik wideo"
 
 msgid "volume %.2f"
 msgstr "głośność %.2f"
@@ -4181,17 +4185,11 @@ msgstr[0] ", %s plik nie pasuje"
 msgstr[1] ", %s pliki nie pasują"
 msgstr[2] ", %s plików nie pasuje"
 
-msgid ", %s files do not fit"
-msgstr ", %s plików nie pasuje"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s plik"
 msgstr[1] "%s pliki"
 msgstr[2] "%s plików"
-
-msgid "%s files"
-msgstr "%s plików"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
@@ -4199,17 +4197,11 @@ msgstr[0] "%s nagranie z %s plików"
 msgstr[1] "%s nagrania z %s plików"
 msgstr[2] "%s nagrań z %s plików"
 
-msgid "%s recordings from %s files"
-msgstr "%s nagrań z %s plików"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s kontynuacja"
 msgstr[1] "%s  + %s kontynuacje"
 msgstr[2] "%s  + %s kontynuacji"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s kontynuacji"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
@@ -4217,17 +4209,11 @@ msgstr[0] "Rozdzielono: %s mówcę"
 msgstr[1] "Rozdzielono: %s mówców"
 msgstr[2] "Rozdzielono: %s mówców"
 
-msgid "Separated: %s speakers"
-msgstr "Rozdzielono: %s mówców"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s: przesłano w stereo, wróciło w jednym kanale."
 msgstr[1] "  %s: przesłano w stereo, każda ścieżka wróciła w jednym kanale."
 msgstr[2] "  %s: przesłano w stereo, każda ścieżka wróciła w jednym kanale."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s: przesłano w stereo, każda ścieżka wróciła w jednym kanale."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
@@ -4235,17 +4221,11 @@ msgstr[0] "%s ścieżka, %s, %s kHz, %s"
 msgstr[1] "%s ścieżki, %s, %s kHz, %s"
 msgstr[2] "%s ścieżek, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s ścieżek, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix z %s ścieżek, %s kanał"
 msgstr[1] "  Full-Mix z %s ścieżek, %s kanały"
 msgstr[2] "  Full-Mix z %s ścieżek, %s kanałów"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix z %s ścieżek, %s kanałów"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
@@ -4253,17 +4233,11 @@ msgstr[0] "  %s: zostaje w dwóch kanałach"
 msgstr[1] "  %s: zostają w dwóch kanałach"
 msgstr[2] "  %s: zostają w dwóch kanałach"
 
-msgid "  %s stay in two channels"
-msgstr "  %s: zostają w dwóch kanałach"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: stoi na %s (cel %s) po %d ms, %d próba"
 msgstr[1] "%s: stoi na %s (cel %s) po %d ms, %d próby"
 msgstr[2] "%s: stoi na %s (cel %s) po %d ms, %d prób"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: stoi na %s (cel %s) po %d ms, %d prób"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
@@ -4271,17 +4245,11 @@ msgstr[0] "Powstanie %s plik wideo, około %s. Cel: %s"
 msgstr[1] "Powstaną %s pliki wideo, około %s. Cel: %s"
 msgstr[2] "Powstanie %s plików wideo, około %s. Cel: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Powstanie %s plików wideo, około %s. Cel: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s problem naprawiony samoczynnie"
 msgstr[1] "%s problemy naprawione samoczynnie"
 msgstr[2] "%s problemów naprawionych samoczynnie"
-
-msgid "%s fixed on their own"
-msgstr "%s problemów naprawionych samoczynnie"
 
 msgid "%s hint"
 msgid_plural "%s hints"
@@ -4289,17 +4257,11 @@ msgstr[0] "%s wskazówka"
 msgstr[1] "%s wskazówki"
 msgstr[2] "%s wskazówek"
 
-msgid "%s hints"
-msgstr "%s wskazówek"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s powód do przerwania"
 msgstr[1] "%s powody do przerwania"
 msgstr[2] "%s powodów do przerwania"
-
-msgid "%s reasons to stop"
-msgstr "%s powodów do przerwania"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
@@ -4307,17 +4269,11 @@ msgstr[0] "%s nagranie audio"
 msgstr[1] "%s nagrania audio"
 msgstr[2] "%s nagrań audio"
 
-msgid "%s audio recordings"
-msgstr "%s nagrań audio"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s plik wideo"
 msgstr[1] "%s pliki wideo"
 msgstr[2] "%s plików wideo"
-
-msgid "%s video files"
-msgstr "%s plików wideo"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
@@ -4325,17 +4281,11 @@ msgstr[0] "Plik jest oznaczony jako HDR, z %s wskazówką."
 msgstr[1] "Plik jest oznaczony jako HDR, z %s wskazówkami."
 msgstr[2] "Plik jest oznaczony jako HDR, z %s wskazówkami."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Plik jest oznaczony jako HDR, z %s wskazówkami."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Uwaga: nie wstawiono %s. Bez tej perspektywy\n  Timeline nie nadaje się do konwersji."
 msgstr[1] "  Uwaga: nie wstawiono %s. Bez tych perspektyw\n  Timeline nie nadaje się do konwersji."
 msgstr[2] "  Uwaga: nie wstawiono %s. Bez tych perspektyw\n  Timeline nie nadaje się do konwersji."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Uwaga: nie wstawiono %s. Bez tych perspektyw\n  Timeline nie nadaje się do konwersji."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
@@ -4343,17 +4293,11 @@ msgstr[0] "  %s ścieżka audio zostaje: %s"
 msgstr[1] "  %s ścieżki audio zostają: %s"
 msgstr[2] "  %s ścieżek audio zostaje: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %s ścieżek audio zostaje: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Obraz i dźwięk ponownie połączone: %s perspektywa"
 msgstr[1] "    Obraz i dźwięk ponownie połączone: %s perspektywy"
 msgstr[2] "    Obraz i dźwięk ponownie połączone: %s perspektyw"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Obraz i dźwięk ponownie połączone: %s perspektyw"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
@@ -4361,17 +4305,11 @@ msgstr[0] "  %s ścieżka audio pozostaje:"
 msgstr[1] "  %s ścieżki audio pozostają:"
 msgstr[2] "  %s ścieżek audio pozostaje:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %s ścieżek audio pozostaje:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s klip"
 msgstr[1] "%s klipy"
 msgstr[2] "%s klipów"
-
-msgid "%s clips"
-msgstr "%s klipów"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
@@ -4379,17 +4317,11 @@ msgstr[0] "    Usunięto %s pustą ścieżkę audio"
 msgstr[1] "    Usunięto %s puste ścieżki audio"
 msgstr[2] "    Usunięto %s pustych ścieżek audio"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    Usunięto %s pustych ścieżek audio"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> rozpoznano: %s ścieżka audio%s"
 msgstr[1] "      --> rozpoznano: %s ścieżki audio%s"
 msgstr[2] "      --> rozpoznano: %s ścieżek audio%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> rozpoznano: %s ścieżek audio%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
@@ -4397,17 +4329,11 @@ msgstr[0] " z %s osadzonego kanału"
 msgstr[1] " z %s osadzonych kanałów"
 msgstr[2] " z %s osadzonych kanałów"
 
-msgid " of %s embedded channels"
-msgstr " z %s osadzonych kanałów"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s ścieżka wideo"
 msgstr[1] "%s ścieżki wideo"
 msgstr[2] "%s ścieżek wideo"
-
-msgid "%s video tracks"
-msgstr "%s ścieżek wideo"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
@@ -4415,17 +4341,11 @@ msgstr[0] "%s ścieżka audio"
 msgstr[1] "%s ścieżki audio"
 msgstr[2] "%s ścieżek audio"
 
-msgid "%s audio tracks"
-msgstr "%s ścieżek audio"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Więcej perspektyw niż kolorów -- %s kolor występuje dwukrotnie."
 msgstr[1] "      Więcej perspektyw niż kolorów -- %s kolory występują dwukrotnie."
 msgstr[2] "      Więcej perspektyw niż kolorów -- %s kolorów występuje dwukrotnie."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Więcej perspektyw niż kolorów -- %s kolorów występuje dwukrotnie."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
@@ -4433,17 +4353,11 @@ msgstr[0] "      %s klip pozostał bez koloru."
 msgstr[1] "      %s klipy pozostały bez koloru."
 msgstr[2] "      %s klipów pozostało bez koloru."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s klipów pozostało bez koloru."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    Na V2 jest teraz %s klip: %s"
 msgstr[1] "    Na V2 są teraz %s klipy: %s"
 msgstr[2] "    Na V2 jest teraz %s klipów: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    Na V2 jest teraz %s klipów: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
@@ -4451,17 +4365,11 @@ msgstr[0] "  %s znacznik ustawiony%s."
 msgstr[1] "  %s znaczniki ustawione%s."
 msgstr[2] "  %s znaczników ustawionych%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s znaczników ustawionych%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s kamera"
 msgstr[1] "%s kamery"
 msgstr[2] "%s kamer"
-
-msgid "%s cameras"
-msgstr "%s kamer"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
@@ -4469,17 +4377,11 @@ msgstr[0] "  Rozdzielenie mówców (%s): %s mówca z %s dźwięku"
 msgstr[1] "  Rozdzielenie mówców (%s): %s mówców z %s dźwięku"
 msgstr[2] "  Rozdzielenie mówców (%s): %s mówców z %s dźwięku"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Rozdzielenie mówców (%s): %s mówców z %s dźwięku"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s w %s fragmencie"
 msgstr[1] "  %-20s %s w %s fragmentach"
 msgstr[2] "  %-20s %s w %s fragmentach"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s w %s fragmentach"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
@@ -4487,17 +4389,11 @@ msgstr[0] "  Źródło: %s -- %s głos."
 msgstr[1] "  Źródło: %s -- %s głosy."
 msgstr[2] "  Źródło: %s -- %s głosów."
 
-msgid "  From %s: %s voices."
-msgstr "  Źródło: %s -- %s głosów."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s słowo wróciło bez czasu i zostało pominięte."
 msgstr[1] "  %s słowa wróciły bez czasu i zostały pominięte."
 msgstr[2] "  %s słów wróciło bez czasu i zostało pominiętych."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s słów wróciło bez czasu i zostało pominiętych."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
@@ -4505,17 +4401,11 @@ msgstr[0] "na %s kamerze"
 msgstr[1] "na %s kamerach"
 msgstr[2] "na %s kamerach"
 
-msgid "on %s cameras"
-msgstr "na %s kamerach"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s plik był gotowy wcześniej i jest kompletny: %s"
 msgstr[1] "%s pliki były gotowe wcześniej i są kompletne: %s"
 msgstr[2] "%s plików było gotowych wcześniej i jest kompletnych: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s plików było gotowych wcześniej i jest kompletnych: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
@@ -4523,17 +4413,11 @@ msgstr[0] "%s punkt"
 msgstr[1] "%s punkty"
 msgstr[2] "%s punktów"
 
-msgid "%s points"
-msgstr "%s punktów"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s kanał"
 msgstr[1] "%s kanały"
 msgstr[2] "%s kanałów"
-
-msgid "%s channels"
-msgstr "%s kanałów"
 
 msgid "Cut by speaker"
 msgstr "Montaż według mówców"
@@ -4570,3 +4454,33 @@ msgstr "Tylko synchronizacja przyjmuje jedno nagranie audio; to jest kolejne: %s
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Tylko synchronizacja: przekazanie jest wyliczane ponownie; nie ma montażu do powtórzenia. Resolve musi być uruchomiony."
+
+msgid "%s has not started yet"
+msgstr "%s: nagranie jeszcze się nie zaczęło"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   nie można odtworzyć dźwięku"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "dźwięk umieszczono według zegara -- pomiar oczekuje"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nPOZIOMY MÓWCÓW"
+
+msgid "Measuring %s"
+msgstr "Mierzenie: %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s niemierzalne -- zostaje bez zmian"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- nic na niej, zostaje bez zmian"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Tylko jeden głos -- nie ma z czym go porównać."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Wspólny poziom:      %s LUFS, mediana głosów"

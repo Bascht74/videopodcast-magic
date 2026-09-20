@@ -147,6 +147,54 @@ def po_pairs(path):
     return found
 
 
+def po_plurals(path):
+    """Every counted block of one PO file: singular -> (plural, wordings).
+
+    A reader of its own, like po_pairs (the same one text_only_texts_change carries as po_blocks): the program's reader throws the
+    English plural away, and a check that reads its subject with the
+    subject's own eyes says only that the two agree.
+    """
+    out, key, plural, forms, at = {}, None, None, {}, None
+
+    def keep():
+        if key and plural is not None:
+            out[key] = (plural, [forms[i] for i in sorted(forms)])
+
+    for raw in io.open(path, encoding="utf-8"):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        head, piece = "", line
+        if not line.startswith('"'):
+            head, piece = line.split(" ", 1)
+        quoted = PO_QUOTED.match(piece)
+        if not quoted:
+            continue
+        piece = PO_ESCAPE.sub(
+            lambda m: PO_CODES.get(m.group(1), m.group(1)),
+            quoted.group(1))
+        if head == "msgid":
+            keep()
+            key, plural, forms, at = piece, None, {}, "msgid"
+        elif head == "msgid_plural":
+            plural, at = piece, "plural"
+        elif head.startswith("msgstr["):
+            at = int(head[7:-1])
+            forms[at] = piece
+        elif head == "msgstr":
+            at = "msgstr"
+        elif head:
+            at = None
+        elif at == "msgid":
+            key += piece
+        elif at == "plural":
+            plural += piece
+        elif isinstance(at, int):
+            forms[at] += piece
+    keep()
+    return out
+
+
 def po_texts(path):
     """One language's entries as {English wording: translation}."""
     return dict((key, value) for key, value, _at in po_pairs(path))

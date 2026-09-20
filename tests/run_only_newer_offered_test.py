@@ -9,8 +9,9 @@ cannot pass over a real look.
 
 The sections: which version is newer, that only a newer one is
 offered, that a pre-release sorts under its release in both
-spellings, that nothing a user did once can stop the looking, that
-the switches which did that are gone, that a copy no package manager
+spellings, that nothing a user did once can stop the looking and the
+one switch that still does says so to whoever asked, that the switches
+which did that are gone, that a copy no package manager
 owns is told rather than written over, that one version may be passed
 over, that a release text is shown in one language, what the command
 line says, what --update does to such a copy, that a look which could
@@ -297,11 +298,16 @@ check("and no look writes that file back", not os.path.exists(LEFT),
 # machine, not to whoever clicks.
 was_off = vpm.UPDATE_OFF
 vpm.UPDATE_OFF = True
-offered = with_tag("v9.9.9", asked=True)[0]
+offered, _page, _changed, said = with_tag("v9.9.9", asked=True)
 vpm.UPDATE_OFF = was_off
 check("only VPM_NO_UPDATE_CHECK still stops it", offered == "",
       "asked with the switch set: offered %r for v9.9.9, wanted ''"
       % (offered,))
+# And it says so, in the same place a look that could not happen says
+# so: an empty answer here is what "nothing newer" looks like, and the
+# menu would then tell somebody they run the newest version.
+check("and a direct question is told the switch is set", said != "",
+      "asked with the switch set: said %r, wanted a sentence" % (said,))
 
 print("\n5. The switches that stopped it are gone")
 # Not the parser alone: the two switches were answered off sys.argv

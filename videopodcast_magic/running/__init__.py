@@ -151,6 +151,16 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
                       T('Go ahead') if not only_look else T('Measure'))
 
     def start(only_look=False):
+        """Turn what the window holds into a command line and set it going.
+
+        Nothing starts twice or unconfirmed: the summary comes first, and
+        while camera audio is still being extracted the button counts down
+        and calls back here. The interface is read once into plain values,
+        run_argv builds argv, wishes and questions from them -- testable
+        without a window -- and every question is put before anything is
+        written. The work runs in a thread; the timer drains its output.
+        """
+
         if state["running"] or not files:
             return
         if not state.get("confirmed") and not summary_show(

@@ -44,10 +44,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2631,8 +2632,15 @@ msgstr "PALAUTUS EPÄONNISTUI (%s)"
 msgid "Reading audio track from %s"
 msgstr "Luetaan ääniraitaa tiedostosta %s"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "Poistetaanko kaikki tämäntyyppiset tiedostot luettelosta? Niitä on %s, tyyppi: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Poistetaanko %s äänitiedosto luettelosta?\n\n%s"
+msgstr[1] "Poistetaanko kaikki %s äänitiedostoa luettelosta?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Poistetaanko %s videotiedosto luettelosta?\n\n%s"
+msgstr[1] "Poistetaanko kaikki %s videotiedostoa luettelosta?\n\n%s"
 
 msgid "Resolutions"
 msgstr "Resoluutiot"
@@ -3750,9 +3758,6 @@ msgstr "Leikkaus, EDL, CSV ja luovutus lasketaan uudelleen yllä olevista luvuis
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "Ilman näitä kahta mikään ei toimi. Onko Resolve asennettu?"
 
-msgid "audio file"
-msgstr "äänitiedosto"
-
 msgid "cancel"
 msgstr "peruuta"
 
@@ -3806,9 +3811,6 @@ msgstr "kaksi Timelinea"
 
 msgid "up to %s"
 msgstr "%s asti"
-
-msgid "video file"
-msgstr "videotiedosto"
 
 msgid "volume %.2f"
 msgstr "voimakkuus %.2f"
@@ -4178,320 +4180,200 @@ msgid_plural ", %s files do not fit"
 msgstr[0] ", %s tiedosto ei sovi"
 msgstr[1] ", %s tiedostoa ei sovi"
 
-msgid ", %s files do not fit"
-msgstr ", %s tiedostoa ei sovi"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%s tiedosto"
 msgstr[1] "%s tiedostoa"
-
-msgid "%s files"
-msgstr "%s tiedostoa"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "%s tallenne %s tiedostosta"
 msgstr[1] "%s tallennetta %s tiedostosta"
 
-msgid "%s recordings from %s files"
-msgstr "%s tallennetta %s tiedostosta"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %s jatko-osa"
 msgstr[1] "%s  + %s jatko-osaa"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %s jatko-osaa"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "Eroteltu: %s puhuja"
 msgstr[1] "Eroteltu: %s puhujaa"
 
-msgid "Separated: %s speakers"
-msgstr "Eroteltu: %s puhujaa"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s lähetettiin stereona ja palasi yksikanavaisena."
 msgstr[1] "  %s lähetettiin stereona ja palasivat kukin yksikanavaisina."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s lähetettiin stereona ja palasivat kukin yksikanavaisina."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "%s raita, %s, %s kHz, %s"
 msgstr[1] "%s raitaa, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%s raitaa, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix %s raidasta, %s kanava"
 msgstr[1] "  Full-Mix %s raidasta, %s kanavaa"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix %s raidasta, %s kanavaa"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  %s pysyy kaksikanavaisena"
 msgstr[1] "  %s pysyvät kaksikanavaisina"
 
-msgid "  %s stay in two channels"
-msgstr "  %s pysyvät kaksikanavaisina"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: on kohdassa %s (tavoite %s) %d ms:n jälkeen, %d yritys"
 msgstr[1] "%s: on kohdassa %s (tavoite %s) %d ms:n jälkeen, %d yritystä"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: on kohdassa %s (tavoite %s) %d ms:n jälkeen, %d yritystä"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "Tästä syntyy %s videotiedosto, noin %s. Kohde: %s"
 msgstr[1] "Tästä syntyy %s videotiedostoa, noin %s. Kohde: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "Tästä syntyy %s videotiedostoa, noin %s. Kohde: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s korjautui itsestään"
 msgstr[1] "%s korjautui itsestään"
-
-msgid "%s fixed on their own"
-msgstr "%s korjautui itsestään"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "%s huomautus"
 msgstr[1] "%s huomautusta"
 
-msgid "%s hints"
-msgstr "%s huomautusta"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "%s syy keskeyttää"
 msgstr[1] "%s syytä keskeyttää"
-
-msgid "%s reasons to stop"
-msgstr "%s syytä keskeyttää"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%s äänitallenne"
 msgstr[1] "%s äänitallennetta"
 
-msgid "%s audio recordings"
-msgstr "%s äänitallennetta"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%s videotiedosto"
 msgstr[1] "%s videotiedostoa"
-
-msgid "%s video files"
-msgstr "%s videotiedostoa"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "Tiedosto on merkitty HDR:ksi, ja siihen liittyy %s huomautus."
 msgstr[1] "Tiedosto on merkitty HDR:ksi, ja siihen liittyy %s huomautusta."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "Tiedosto on merkitty HDR:ksi, ja siihen liittyy %s huomautusta."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  Varoitus: kuvakulmaa %s ei lisätty. Ilman tätä kuvakulmaa\n  Timeline ei kelpaa muuntamiseen."
 msgstr[1] "  Varoitus: kuvakulmia %s ei lisätty. Ilman näitä kuvakulmia\n  Timeline ei kelpaa muuntamiseen."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  Varoitus: kuvakulmia %s ei lisätty. Ilman näitä kuvakulmia\n  Timeline ei kelpaa muuntamiseen."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  %s ääniraita jää: %s"
 msgstr[1] "  %s ääniraitaa jää: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %s ääniraitaa jää: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    Kuva ja ääni linkitetty uudelleen: %s kuvakulma"
 msgstr[1] "    Kuva ja ääni linkitetty uudelleen: %s kuvakulmaa"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    Kuva ja ääni linkitetty uudelleen: %s kuvakulmaa"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  %s ääniraita jäljellä:"
 msgstr[1] "  %s ääniraitaa jäljellä:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %s ääniraitaa jäljellä:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%s leike"
 msgstr[1] "%s leikettä"
-
-msgid "%s clips"
-msgstr "%s leikettä"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    %s tyhjä ääniraita poistettu"
 msgstr[1] "    %s tyhjää ääniraitaa poistettu"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %s tyhjää ääniraitaa poistettu"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> tulkittu %s ääniraidaksi%s"
 msgstr[1] "      --> tulkittu %s ääniraidaksi%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> tulkittu %s ääniraidaksi%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " %s upotetusta kanavasta"
 msgstr[1] " %s upotetusta kanavasta"
 
-msgid " of %s embedded channels"
-msgstr " %s upotetusta kanavasta"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%s videoraita"
 msgstr[1] "%s videoraitaa"
-
-msgid "%s video tracks"
-msgstr "%s videoraitaa"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%s ääniraita"
 msgstr[1] "%s ääniraitaa"
 
-msgid "%s audio tracks"
-msgstr "%s ääniraitaa"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      Enemmän kuvakulmia kuin värejä -- %s väri esiintyy kahdesti."
 msgstr[1] "      Enemmän kuvakulmia kuin värejä -- %s väriä esiintyy kahdesti."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      Enemmän kuvakulmia kuin värejä -- %s väriä esiintyy kahdesti."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      %s leike jäi ilman väriä."
 msgstr[1] "      %s leikettä jäi ilman väriä."
 
-msgid "      %s clips left without a colour."
-msgstr "      %s leikettä jäi ilman väriä."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    V2 sisältää nyt %s leikkeen: %s"
 msgstr[1] "    V2 sisältää nyt %s leikettä: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    V2 sisältää nyt %s leikettä: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  %s merkki asetettu%s."
 msgstr[1] "  %s merkkiä asetettu%s."
 
-msgid "  %s markers set%s."
-msgstr "  %s merkkiä asetettu%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%s kamera"
 msgstr[1] "%s kameraa"
-
-msgid "%s cameras"
-msgstr "%s kameraa"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  Puhujien erottelu (%s): %s puhuja %s äänestä"
 msgstr[1] "  Puhujien erottelu (%s): %s puhujaa %s äänestä"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  Puhujien erottelu (%s): %s puhujaa %s äänestä"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s %s jaksossa"
 msgstr[1] "  %-20s %s %s jaksossa"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s %s jaksossa"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  Lähde %s: %s puheääni."
 msgstr[1] "  Lähde %s: %s puheääntä."
 
-msgid "  From %s: %s voices."
-msgstr "  Lähde %s: %s puheääntä."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %s sana palasi ilman aikaa ja jätettiin pois."
 msgstr[1] "  %s sanaa palasi ilman aikaa ja jätettiin pois."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %s sanaa palasi ilman aikaa ja jätettiin pois."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "%s kamerassa"
 msgstr[1] "%s kamerassa"
 
-msgid "on %s cameras"
-msgstr "%s kamerassa"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%s tiedosto valmistui sitä ennen ja on ehjä: %s"
 msgstr[1] "%s tiedostoa valmistui sitä ennen ja on ehjiä: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%s tiedostoa valmistui sitä ennen ja on ehjiä: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%s kohta"
 msgstr[1] "%s kohtaa"
 
-msgid "%s points"
-msgstr "%s kohtaa"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%s kanava"
 msgstr[1] "%s kanavaa"
-
-msgid "%s channels"
-msgstr "%s kanavaa"
 
 msgid "Cut by speaker"
 msgstr "Leikkaus puhujan mukaan"
@@ -4528,3 +4410,33 @@ msgstr "Vain synkronointi ottaa yhden äänitallenteen; tässä on vielä yksi: 
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "Vain synkronointi: luovutus lasketaan uudelleen; leikkausta ei ole tehtävä uusiksi. Resolven on oltava käynnissä."
+
+msgid "%s has not started yet"
+msgstr "%s ei ole vielä alkanut"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   ääntä ei voi toistaa"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "ääni sijoitettu kellon mukaan -- mittaus odottaa"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nPUHUJIEN TASOT"
+
+msgid "Measuring %s"
+msgstr "Mitataan %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s ei mitattavissa -- pysyy ennallaan"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- ei mitään raidalla, pysyy ennallaan"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Vain yksi puheääni -- ei mitään, mihin verrata."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Yhteinen taso:       %s LUFS, puheäänten mediaani"

@@ -4,8 +4,11 @@
 German settles the article and the case at the front of a phrase, so a
 piece dropped into a slot cannot know what governs it: every piece is
 right and the sentence is wrong. No run finds this. Visible is only the
-shape that produces it, in three grades: pieces joined with "+", a piece
-carrying an article substituted with "%", and a bare function word.
+shape that produces it, in four grades: pieces joined with "+", a piece
+carrying an article substituted with "%", a bare function word, and a
+plural made by gluing a letter behind the slot a translated word goes
+into -- one wording bent for every language at once, which no catalogue
+can put right.
 """
 import ast, io, os, re, sys, time
 
@@ -49,6 +52,10 @@ TREES = [(name, ast.parse(body)) for name, body in PIECES]
 # importing the program: nothing here runs the program, so nothing here
 # can open a window.
 catalogue = the_program.po_texts(TEXTS_DE)
+# The English plural of a counted thing has no entry of its own: its
+# German is the last wording of the block keyed by the singular.
+catalogue.update((plural, forms[-1]) for plural, forms
+                 in the_program.po_plurals(TEXTS_DE).values() if forms)
 check("the German catalogue could be read", len(catalogue) > 100,
       "%d entries in %s" % (len(catalogue), os.path.basename(TEXTS_DE)))
 
@@ -223,6 +230,29 @@ check("no text that is only a function word", not bare, "%d" % len(bare))
 for line, text in sorted(bare)[:8]:
     print("      line %-14s %r -> %r"
           % (line, text, catalogue.get(text, text)))
+
+# ------------------------------ 4. a plural glued behind a translated slot
+print("\n4. No plural built by a letter glued behind a translated slot")
+# 'all %s %ss' puts a translated word into the slot and hangs an "s" on
+# it: right in English, wrong in Spanish, and every catalogue had to
+# rebuild the sentence to escape it. The shape is the slot itself
+# followed by an ending, and TN() with two whole wordings is the way
+# out of it. Only the endings a plural is made of, so '%sx' (times) and
+# '%sTimecode' (an indent) stay what they are.
+GLUED = re.compile(r"%s(?:s|es|n|en|e)\b")
+
+glued_on = []
+for piece, tree in TREES:
+    for node in ast.walk(tree):
+        if not is_call(node):
+            continue
+        for text in texts_of(node):
+            if GLUED.search(text):
+                glued_on.append(("%s %d" % (piece, node.lineno), text[:44]))
+check("no plural built by a letter glued behind a translated slot",
+      not glued_on, "%d, the first: %s" % (len(glued_on), glued_on[:2]))
+for line, text in sorted(glued_on)[:8]:
+    print("      line %-14s %r" % (line, text))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:

@@ -301,12 +301,16 @@ def newer_release(asked=False):
 
     All four are "" where nothing newer was found. *trouble* carries a
     sentence where the looking itself could not happen -- no network,
-    an unreadable certificate store -- and must not read as "nothing
-    newer". A pre-release is never the answer. The release text comes
-    with it. *asked* is a direct question; VPM_NO_UPDATE_CHECK beats it.
+    an unreadable certificate store, the switch set -- and must not
+    read as "nothing newer". A pre-release is never the answer. The
+    release text comes with it. *asked* is a direct question;
+    VPM_NO_UPDATE_CHECK beats it, and says so to whoever asked.
     """
     if UPDATE_OFF:
-        return "", "", "", ""
+        # The one answer for the switch, given here and nowhere else:
+        # whoever asks is told, whoever did not is not.
+        return "", "", "", (T('The check for new versions is switched '
+                               'off here.') if asked else "")
     passed_over = "" if asked else update_skipped()
     try:
         import urllib.request
@@ -431,11 +435,9 @@ def update_from_command_line():
 
     Asked for outright, so a version passed over does not stand against
     it. The same machinery as the window's button; what differs is
-    where pip's lines go. Nothing is started again afterwards.
+    where pip's lines go. Nothing is started again afterwards. The
+    switch is not asked here: newer_release answers for it in *trouble*.
     """
-    if UPDATE_OFF:
-        print(T('The check for new versions is switched off here.'))
-        return 1
     tag, _page, _changed, trouble = newer_release(asked=True)
     if trouble:
         print(trouble)
@@ -540,13 +542,12 @@ def update_offer(window, asked=False):
     tag, page, changed, trouble = newer_release(asked)
     if not tag:
         if asked:
-            # Switched off, or unable to look: both mean nothing was seen,
-            # and calling this the newest version would be a guess.
-            if UPDATE_OFF or trouble:
+            # Switched off, or unable to look: both come back as
+            # trouble, both mean nothing was seen, and calling this the
+            # newest version would be a guess.
+            if trouble:
                 QtWidgets.QMessageBox.information(
-                    window, T('Look for a newer version now'),
-                    trouble or T('The check for new versions is '
-                                 'switched off here.'))
+                    window, T('Look for a newer version now'), trouble)
             else:
                 PROGRAM.newest_shown(window, page, changed)
         return

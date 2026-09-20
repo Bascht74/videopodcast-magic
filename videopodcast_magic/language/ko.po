@@ -44,10 +44,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2631,8 +2632,13 @@ msgstr "되돌리기 실패 (%s)"
 msgid "Reading audio track from %s"
 msgstr "%s에서 오디오 트랙 읽는 중"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "이 종류의 파일을 모두 목록에서 제거할까요? %s개, 종류: %s.\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "오디오 파일 %s개를 목록에서 제거할까요?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "비디오 파일 %s개를 목록에서 제거할까요?\n\n%s"
 
 msgid "Resolutions"
 msgstr "해상도"
@@ -3750,9 +3756,6 @@ msgstr "편집, EDL, CSV와 인계 파일을 위의 숫자로 다시 계산합�
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "이 두 가지가 없으면 아무것도 작동하지 않습니다. Resolve가 설치되어 있습니까?"
 
-msgid "audio file"
-msgstr "오디오 파일"
-
 msgid "cancel"
 msgstr "취소"
 
@@ -3806,9 +3809,6 @@ msgstr "Timeline 두 개"
 
 msgid "up to %s"
 msgstr "%s까지"
-
-msgid "video file"
-msgstr "비디오 파일"
 
 msgid "volume %.2f"
 msgstr "볼륨 %.2f"
@@ -4177,281 +4177,161 @@ msgid ", %s file does not fit"
 msgid_plural ", %s files do not fit"
 msgstr[0] ", 맞지 않는 파일 %s개"
 
-msgid ", %s files do not fit"
-msgstr ", 맞지 않는 파일 %s개"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "파일 %s개"
-
-msgid "%s files"
-msgstr "파일 %s개"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "녹음 %s개 (파일 %s개에서)"
 
-msgid "%s recordings from %s files"
-msgstr "녹음 %s개 (파일 %s개에서)"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + 이어지는 파일 %s개"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + 이어지는 파일 %s개"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "분리됨: 화자 %s명"
 
-msgid "Separated: %s speakers"
-msgstr "분리됨: 화자 %s명"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s: 스테레오로 업로드했으나 각각 한 채널로 돌아왔습니다."
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s: 스테레오로 업로드했으나 각각 한 채널로 돌아왔습니다."
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "트랙 %s개, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "트랙 %s개, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  Full-Mix: 트랙 %s개, 채널 %s개"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  Full-Mix: 트랙 %s개, 채널 %s개"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  %s: 두 채널 유지"
 
-msgid "  %s stay in two channels"
-msgstr "  %s: 두 채널 유지"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: %s에 위치 (목표 %s), %d ms 후, %d회 시도"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: %s에 위치 (목표 %s), %d ms 후, %d회 시도"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "비디오 파일 %s개가 만들어집니다, 약 %s. 대상: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "비디오 파일 %s개가 만들어집니다, 약 %s. 대상: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%s개 자동 수정됨"
-
-msgid "%s fixed on their own"
-msgstr "%s개 자동 수정됨"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "힌트 %s개"
 
-msgid "%s hints"
-msgstr "힌트 %s개"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "중단 사유 %s개"
-
-msgid "%s reasons to stop"
-msgstr "중단 사유 %s개"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "오디오 녹음 %s개"
 
-msgid "%s audio recordings"
-msgstr "오디오 녹음 %s개"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "비디오 파일 %s개"
-
-msgid "%s video files"
-msgstr "비디오 파일 %s개"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "파일에 HDR 표시가 있으며 참고 사항이 %s개 있습니다."
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "파일에 HDR 표시가 있으며 참고 사항이 %s개 있습니다."
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  주의: %s이(가) 삽입되지 않았습니다. 이 앵글이 없으면\n  Timeline을 변환에 사용할 수 없습니다."
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  주의: %s이(가) 삽입되지 않았습니다. 이 앵글이 없으면\n  Timeline을 변환에 사용할 수 없습니다."
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  오디오 트랙 %s개 유지: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  오디오 트랙 %s개 유지: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    영상과 오디오 다시 연결됨: 앵글 %s개"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    영상과 오디오 다시 연결됨: 앵글 %s개"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  남은 오디오 트랙 %s개:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  남은 오디오 트랙 %s개:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "클립 %s개"
-
-msgid "%s clips"
-msgstr "클립 %s개"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    빈 오디오 트랙 %s개 제거됨"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    빈 오디오 트랙 %s개 제거됨"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> 오디오 트랙 %s개로 해석%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> 오디오 트랙 %s개로 해석%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " (내장 채널 %s개 중)"
 
-msgid " of %s embedded channels"
-msgstr " (내장 채널 %s개 중)"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "비디오 트랙 %s개"
-
-msgid "%s video tracks"
-msgstr "비디오 트랙 %s개"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "오디오 트랙 %s개"
 
-msgid "%s audio tracks"
-msgstr "오디오 트랙 %s개"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      앵글이 색상보다 많습니다 -- 색상 %s개가 두 번 쓰입니다."
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      앵글이 색상보다 많습니다 -- 색상 %s개가 두 번 쓰입니다."
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      클립 %s개가 색상 없이 남았습니다."
 
-msgid "      %s clips left without a colour."
-msgstr "      클립 %s개가 색상 없이 남았습니다."
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    V2에 이제 클립 %s개: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    V2에 이제 클립 %s개: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  마커 %s개 설정됨%s."
 
-msgid "  %s markers set%s."
-msgstr "  마커 %s개 설정됨%s."
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "카메라 %s대"
-
-msgid "%s cameras"
-msgstr "카메라 %s대"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  화자 분리 (%s): 화자 %s명, 오디오 %s 기준"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  화자 분리 (%s): 화자 %s명, 오디오 %s 기준"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s, %s개 구간"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s, %s개 구간"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  %s에서: 목소리 %s개."
 
-msgid "  From %s: %s voices."
-msgstr "  %s에서: 목소리 %s개."
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  단어 %s개가 시간 없이 돌아와 제외되었습니다."
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  단어 %s개가 시간 없이 돌아와 제외되었습니다."
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "카메라 %s대에서"
 
-msgid "on %s cameras"
-msgstr "카메라 %s대에서"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "그 전에 완료되어 온전한 파일 %s개: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "그 전에 완료되어 온전한 파일 %s개: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "항목 %s개"
 
-msgid "%s points"
-msgstr "항목 %s개"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "채널 %s개"
-
-msgid "%s channels"
-msgstr "채널 %s개"
 
 msgid "Cut by speaker"
 msgstr "화자별 편집"
@@ -4488,3 +4368,33 @@ msgstr "동기화만은 오디오 녹음을 하나만 받습니다. 이것은 �
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "동기화만: 인계 파일을 다시 계산합니다. 다시 할 편집은 없습니다. Resolve가 실행 중이어야 합니다."
+
+msgid "%s has not started yet"
+msgstr "%s: 아직 시작되지 않음"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   소리를 재생할 수 없음"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "소리는 시계 기준으로 배치 -- 측정 대기 중"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\n화자 레벨"
+
+msgid "Measuring %s"
+msgstr "%s 측정 중"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s 측정 불가 -- 그대로 둡니다"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- 아무것도 없음, 그대로 둡니다"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  목소리가 하나뿐입니다 -- 맞출 대상이 없습니다."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  공통 레벨:           %s LUFS, 목소리들의 중앙값"

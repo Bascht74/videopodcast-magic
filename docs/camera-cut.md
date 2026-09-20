@@ -59,6 +59,12 @@ and `_cameracut.edl`, whatever the cut is called. The heads are
 `Shot,Camera,Speaker,Start TC,End TC,Duration s`, the EDLs are titled
 `Speakers` and `Camera cut`.
 
+**The timeline follows the largest camera.** The frame Resolve builds
+the timeline in is the frame of the camera with the highest resolution
+-- one 8K camera beside 4K ones gives an 8K timeline -- and nothing is
+scaled up on the way there: every file keeps the picture it was recorded
+with, and a smaller camera sits in that frame at its own size.
+
 ### Setting the knobs
 
 The interface takes every value on the **Resolve cut** tab, in the box

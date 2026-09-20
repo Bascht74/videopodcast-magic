@@ -8,8 +8,13 @@ cameras really deliver, where a version digit follows the marker; two
 invented names burying a marker inside a longer word, where the word
 boundary is decided; an ordinary SDR space, which says no; the spaces
 carrying HDR in their name; the cases where nothing can be read, which
-say nothing -- not no; the reason, read back on a yes and on a no; and
-which curve is read out of every output colour space Resolve offers.
+say nothing -- not no; the reason, read back on a yes and on a no;
+which curve is read out of every output colour space Resolve offers;
+two names Resolve really writes that a reading by word end missed; and
+one odd spelling that both readers have to read alike, because they
+read the same plain spelling of the same settings. The one door to a
+Resolve that is really running is nailed shut first: every project here
+is a stand-in, and a reading that asked for a real one would be news.
 """
 import os
 import the_program
@@ -18,6 +23,18 @@ SCRIPT = the_program.SCRIPT
 import sys, time
 vpm = the_program.load()
 vpm.set_language("en")
+
+
+# The one door to a Resolve that is really running, and it is nailed
+# shut. Resolve may be up on this machine, and nothing here may reach
+# it: a reading that asked for a real project instead of the stand-in
+# it was handed gets this refusal out loud, and gets nothing to invent
+# a project manager or a project out of.
+def no_resolve(*_args, **_kwargs):
+    raise RuntimeError("hdr_from_project asked for a Resolve")
+
+
+vpm.connect_to_resolve = no_resolve
 
 began = time.time()
 done = 0
@@ -192,6 +209,31 @@ wrong = [(n, vpm.hdr_kind_from_project(OneSetting(n))[0]) for n in NEITHER
          if vpm.hdr_kind_from_project(OneSetting(n))[0] is not None]
 check("a space that is neither is read as neither", not wrong,
       "%d of %d taken for HDR: %r" % (len(wrong), len(NEITHER), wrong[:3]))
+
+print("\nF. Two names Resolve really writes, and the word is not at the end")
+kind, why = vpm.hdr_kind_from_project(
+    OneSetting("HDR Rec.2020 PQ (P3-D65 limited)"))
+check("a PQ output space limited to P3-D65 is read as PQ", kind == "pq",
+      "read back %r for 'HDR Rec.2020 PQ (P3-D65 limited)', wanted 'pq'"
+      % (kind,))
+
+kind, why = vpm.hdr_kind_from_project(
+    OneSetting("Rec.2100 Hybrid Log Gamma"))
+check("an HLG output space written out in words is read as HLG",
+      kind == "hlg",
+      "read back %r for 'Rec.2100 Hybrid Log Gamma', wanted 'hlg'" % (kind,))
+
+print("\nG. One odd spelling, and both readers read it alike")
+# Dots and a blank inside the curve's name, and no second word -- no
+# 2100, no HDR -- that either reader could fall back on: what they make
+# of it is what they make of the one plain spelling both are handed.
+ODD = "P3-D65 ST. 2084 (1000 nit)"
+got, why = vpm.hdr_from_project(OneSetting(ODD))
+kind, why = vpm.hdr_kind_from_project(OneSetting(ODD))
+check("both readers read one odd spelling of ST 2084 as the same HDR",
+      got is True and kind == "pq",
+      "hdr_from_project read %r and hdr_kind_from_project %r for %r, "
+      "wanted True and 'pq'" % (got, kind, ODD))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

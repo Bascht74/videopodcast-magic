@@ -65,6 +65,13 @@ und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
 `Shot,Camera,Speaker,Start TC,End TC,Duration s`, die EDL-Titel
 `Speakers` und `Camera cut`.
 
+**Die Timeline richtet sich nach der größten Kamera.** Resolve baut sie
+im Bildformat der Kamera mit der höchsten Auflösung -- eine 8K-Kamera
+neben 4K-Kameras ergibt eine 8K-Timeline --, und auf dem Weg dorthin wird
+nichts hochgerechnet: jede Datei behält das Bild, mit dem sie
+aufgenommen wurde, und eine kleinere Kamera liegt in diesem Rahmen in
+ihrer eigenen Größe.
+
 ### Die Stellschrauben einstellen
 
 Die Oberfläche nimmt alle Werte entgegen: auf dem Reiter

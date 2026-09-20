@@ -740,12 +740,12 @@ def align_on_moving_bands(x_video, x_audio, HOP, rate, sample_points,
                            window_s, distance_s, warn=False)
 
 
-def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0,
+def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
                distance_s=120.0):
     """Return a, b with audio time = a + b * video time."""
     HOP, rate = 5.0, 4000
     env_video = video_envelope(video, HOP, rate)
-    x_audio = decode_audio(audio, rate=rate, ss=head_s / float(SR))
+    x_audio = decode_audio(audio, rate=rate)
     env_audio = envelope(x_audio, HOP, rate)
     a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
                                window_s, distance_s,
@@ -780,8 +780,9 @@ def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0
 
 
 # Below this the agreement between two envelopes is not worth calling a
-# match. A floor, not a measured threshold; a good alignment is
-# measured at 0.5 to 0.9 on material that belongs together.
+# match. A floor, not a measured threshold: a good alignment measures
+# 0.5 to 0.9, and 25 of 293 foreign pairs still exceed 0.05, the
+# highest at 0.124 (measured 9.2026).
 WEAK_MATCH = 0.05
 
 # The shortest stretch of shared sound and picture a run works with
@@ -1022,11 +1023,6 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
     if len(points) >= 3:
         tv = np.array([p[0] for p in points])
         dt = np.array([p[1] for p in points])
-        # What the raw points say, before anything is thrown away. It
-        # stays in the report: a run that cleans itself up quietly and
-        # then calls the result good hides the fault instead.
-        b0, a0 = np.polyfit(tv, dt, 1)
-        raw_spread = float(np.std(dt - (a0 + b0 * tv)) * 1000)
         tv, dt, dropped = without_outliers(tv, dt)
         b, a = np.polyfit(tv, dt, 1)
         rest = dt - (a + b * tv)
@@ -1036,9 +1032,7 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         se_b = (s2 / sxx) ** 0.5 if sxx > 0 else float("inf")
         count_n.update({"ppm": b * 1e6, "ppm_error": se_b * 1e6,
                          "spread_ms": float(np.std(rest) * 1000), "quality": g,
-                         "raw_spread_ms": raw_spread,
                          "dropped": dropped,
-                         "spans_share": _spans_share(tv, duration_v),
                          "offsets": [float(x) for x in dt],
                          "times": [float(x) for x in tv]})
         return a, 1.0 + b, count_n

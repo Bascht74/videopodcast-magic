@@ -11,9 +11,10 @@ that arrives in several blocks, which has to be measured as the one
 recording it is. Last a run started out of the window with a separation
 already in hand: below the limit the run overrules it, above the limit
 and wherever the measurement could decide nothing it does not, and the
-question of how far apart they stand is asked once a run at most. The
-model itself is not run -- the voices are handed in with their true
-times.
+question of how far apart they stand is asked once a run at most.
+Then the count the log gives for the mix: the tracks that went into
+it, not every track the run was handed. The model itself is not run
+-- the voices are handed in with their true times.
 """
 import os
 import the_program
@@ -696,6 +697,39 @@ try:
           "the run says %r after %d measurements -- wanted %r and none"
           % (no_model_run["from"], no_model_run["apart"],
              vpm.T('the interface')))
+
+    print("\n9. The log counts the tracks that went into the mix")
+    #
+    # A run can hold a track that sits on no axis, and the mix takes
+    # only the tracks that have one. The log said "all 4 of them" out
+    # of the count of tracks the run was handed, so it named one more
+    # than the separation listens to. Four tracks here, close enough to
+    # be mixed, one of them without an axis: two more copies of the
+    # close pair, which stand 0 dB from their originals.
+    third = os.path.join(WORK, "close_CoPresenter.wav")
+    shutil.copyfile(dict(CLOSE)["Guest"], third)
+    fourth = os.path.join(WORK, "close_WideCam.wav")
+    shutil.copyfile(dict(CLOSE)["Presenter"], fourth)
+    four = on_the_axis(CLOSE + [("CoPresenter", third)]) + [
+        {"name": "WideCam", "source": fourth, "blocks": [fourth],
+         "axis": "", "a": 0.0, "b": 1.0}]
+    kept_out, sys.stdout = sys.stdout, io.StringIO()
+    try:
+        vpm.separation_for_run(Started(), four, {}, 0.0, LENGTH, [])
+    finally:
+        said_of_four, sys.stdout = sys.stdout.getvalue(), kept_out
+    wanted = vpm.T('  The microphones hear each other too well to say who '
+                   'is speaking, so the separation listens to all %s of '
+                   'them at once, on this machine.') % vpm.number_text(3, 0)
+    opening = wanted.strip().split(",")[0]
+    said_about_all = [line.strip() for line in said_of_four.splitlines()
+                      if opening in line]
+    check("the log counts the tracks that went into the mix, not every "
+          "track the run was handed",
+          wanted.strip() in said_about_all,
+          "the log says %r, wanted %r -- three of the four tracks have "
+          "an axis" % (said_about_all[0] if said_about_all else "nothing",
+                       wanted.strip()))
 finally:
     vpm.microphones_apart_db = straight_apart
     vpm.separation_source_of_run = straight_pick

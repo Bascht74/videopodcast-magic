@@ -46,10 +46,11 @@
 # comes back, and a form without it stops the run on a number
 # nobody tried.
 #
-# The English plural keeps its own ordinary entry beside such a
-# group. It is not spare: it is what a run falls back on where the
-# rule cannot be read at all. The English singular has no entry of
-# its own -- that would be the same msgid twice.
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -2633,8 +2634,15 @@ msgstr "ফিরিয়ে আনা ব্যর্থ (%s)"
 msgid "Reading audio track from %s"
 msgstr "%s থেকে অডিও ট্র্যাক পড়া হচ্ছে"
 
-msgid "Remove all %s %ss from the list?\n\n%s"
-msgstr "এই ধরনের সব ফাইল তালিকা থেকে সরাবেন? সংখ্যা: %s, ধরন: %s।\n\n%s"
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "তালিকা থেকে %sটি অডিও ফাইল সরাবেন?\n\n%s"
+msgstr[1] "তালিকা থেকে সব %sটি অডিও ফাইল সরাবেন?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "তালিকা থেকে %sটি ভিডিও ফাইল সরাবেন?\n\n%s"
+msgstr[1] "তালিকা থেকে সব %sটি ভিডিও ফাইল সরাবেন?\n\n%s"
 
 msgid "Resolutions"
 msgstr "রেজোলিউশন"
@@ -3752,9 +3760,6 @@ msgstr "কাট, EDL, CSV ও হস্তান্তর ওপরের স�
 msgid "Without these two nothing works. Is Resolve installed?"
 msgstr "এই দুটি ছাড়া কিছুই কাজ করে না। Resolve কি ইনস্টল করা আছে?"
 
-msgid "audio file"
-msgstr "অডিও ফাইল"
-
 msgid "cancel"
 msgstr "বাতিল"
 
@@ -3808,9 +3813,6 @@ msgstr "দুটি Timeline"
 
 msgid "up to %s"
 msgstr "%s পর্যন্ত"
-
-msgid "video file"
-msgstr "ভিডিও ফাইল"
 
 msgid "volume %.2f"
 msgstr "ভলিউম %.2f"
@@ -4180,320 +4182,200 @@ msgid_plural ", %s files do not fit"
 msgstr[0] ", %sটি ফাইল মেলে না"
 msgstr[1] ", %sটি ফাইল মেলে না"
 
-msgid ", %s files do not fit"
-msgstr ", %sটি ফাইল মেলে না"
-
 msgid "%s file"
 msgid_plural "%s files"
 msgstr[0] "%sটি ফাইল"
 msgstr[1] "%sটি ফাইল"
-
-msgid "%s files"
-msgstr "%sটি ফাইল"
 
 msgid "%s recording from %s files"
 msgid_plural "%s recordings from %s files"
 msgstr[0] "%sটি রেকর্ডিং, %sটি ফাইল থেকে"
 msgstr[1] "%sটি রেকর্ডিং, %sটি ফাইল থেকে"
 
-msgid "%s recordings from %s files"
-msgstr "%sটি রেকর্ডিং, %sটি ফাইল থেকে"
-
 msgid "%s  + %s continuation"
 msgid_plural "%s  + %s continuations"
 msgstr[0] "%s  + %sটি ধারাবাহিক অংশ"
 msgstr[1] "%s  + %sটি ধারাবাহিক অংশ"
-
-msgid "%s  + %s continuations"
-msgstr "%s  + %sটি ধারাবাহিক অংশ"
 
 msgid "Separated: %s speaker"
 msgid_plural "Separated: %s speakers"
 msgstr[0] "পৃথক করা হয়েছে: %s জন বক্তা"
 msgstr[1] "পৃথক করা হয়েছে: %s জন বক্তা"
 
-msgid "Separated: %s speakers"
-msgstr "পৃথক করা হয়েছে: %s জন বক্তা"
-
 msgid "  %s went up in stereo and came back in one channel."
 msgid_plural "  %s went up in stereo and came back in one channel each."
 msgstr[0] "  %s স্টেরিওতে আপলোড হয়েছিল, ফিরেছে এক চ্যানেলে।"
 msgstr[1] "  %s স্টেরিওতে আপলোড হয়েছিল, প্রতিটি ফিরেছে এক চ্যানেলে।"
-
-msgid "  %s went up in stereo and came back in one channel each."
-msgstr "  %s স্টেরিওতে আপলোড হয়েছিল, প্রতিটি ফিরেছে এক চ্যানেলে।"
 
 msgid "%s track, %s, %s kHz, %s"
 msgid_plural "%s tracks, %s, %s kHz, %s"
 msgstr[0] "%sটি ট্র্যাক, %s, %s kHz, %s"
 msgstr[1] "%sটি ট্র্যাক, %s, %s kHz, %s"
 
-msgid "%s tracks, %s, %s kHz, %s"
-msgstr "%sটি ট্র্যাক, %s, %s kHz, %s"
-
 msgid "  Full-Mix from %s tracks, %s channel"
 msgid_plural "  Full-Mix from %s tracks, %s channels"
 msgstr[0] "  %sটি ট্র্যাক থেকে Full-Mix, %sটি চ্যানেল"
 msgstr[1] "  %sটি ট্র্যাক থেকে Full-Mix, %sটি চ্যানেল"
-
-msgid "  Full-Mix from %s tracks, %s channels"
-msgstr "  %sটি ট্র্যাক থেকে Full-Mix, %sটি চ্যানেল"
 
 msgid "  %s stays in two channels"
 msgid_plural "  %s stay in two channels"
 msgstr[0] "  %s দুই চ্যানেলেই থাকছে"
 msgstr[1] "  %s দুই চ্যানেলেই থাকছে"
 
-msgid "  %s stay in two channels"
-msgstr "  %s দুই চ্যানেলেই থাকছে"
-
 msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
 msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
 msgstr[0] "%s: %s-এ আছে (লক্ষ্য %s), %d ms পরে, %d বার চেষ্টায়"
 msgstr[1] "%s: %s-এ আছে (লক্ষ্য %s), %d ms পরে, %d বার চেষ্টায়"
-
-msgid "%s: sits at %s (target %s) after %d ms, %d attempts"
-msgstr "%s: %s-এ আছে (লক্ষ্য %s), %d ms পরে, %d বার চেষ্টায়"
 
 msgid "This makes %s video file, about %s. Target: %s"
 msgid_plural "This makes %s video files, about %s. Target: %s"
 msgstr[0] "এতে %sটি ভিডিও ফাইল তৈরি হবে, প্রায় %s। গন্তব্য: %s"
 msgstr[1] "এতে %sটি ভিডিও ফাইল তৈরি হবে, প্রায় %s। গন্তব্য: %s"
 
-msgid "This makes %s video files, about %s. Target: %s"
-msgstr "এতে %sটি ভিডিও ফাইল তৈরি হবে, প্রায় %s। গন্তব্য: %s"
-
 msgid "%s fixed on its own"
 msgid_plural "%s fixed on their own"
 msgstr[0] "%sটি নিজে থেকে ঠিক হয়েছে"
 msgstr[1] "%sটি নিজে থেকে ঠিক হয়েছে"
-
-msgid "%s fixed on their own"
-msgstr "%sটি নিজে থেকে ঠিক হয়েছে"
 
 msgid "%s hint"
 msgid_plural "%s hints"
 msgstr[0] "%sটি পরামর্শ"
 msgstr[1] "%sটি পরামর্শ"
 
-msgid "%s hints"
-msgstr "%sটি পরামর্শ"
-
 msgid "%s reason to stop"
 msgid_plural "%s reasons to stop"
 msgstr[0] "থামার %sটি কারণ"
 msgstr[1] "থামার %sটি কারণ"
-
-msgid "%s reasons to stop"
-msgstr "থামার %sটি কারণ"
 
 msgid "%s audio recording"
 msgid_plural "%s audio recordings"
 msgstr[0] "%sটি অডিও রেকর্ডিং"
 msgstr[1] "%sটি অডিও রেকর্ডিং"
 
-msgid "%s audio recordings"
-msgstr "%sটি অডিও রেকর্ডিং"
-
 msgid "%s video file"
 msgid_plural "%s video files"
 msgstr[0] "%sটি ভিডিও ফাইল"
 msgstr[1] "%sটি ভিডিও ফাইল"
-
-msgid "%s video files"
-msgstr "%sটি ভিডিও ফাইল"
 
 msgid "The file is tagged as HDR, with %s note."
 msgid_plural "The file is tagged as HDR, with %s notes."
 msgstr[0] "ফাইলটি HDR হিসেবে চিহ্নিত, %sটি নোটসহ।"
 msgstr[1] "ফাইলটি HDR হিসেবে চিহ্নিত, %sটি নোটসহ।"
 
-msgid "The file is tagged as HDR, with %s notes."
-msgstr "ফাইলটি HDR হিসেবে চিহ্নিত, %sটি নোটসহ।"
-
 msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
 msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
 msgstr[0] "  সতর্কতা: %s যোগ করা হয়নি। এই অ্যাঙ্গেল ছাড়া\n  Timeline রূপান্তরের কাজে লাগবে না।"
 msgstr[1] "  সতর্কতা: %s যোগ করা হয়নি। এই অ্যাঙ্গেলগুলো ছাড়া\n  Timeline রূপান্তরের কাজে লাগবে না।"
-
-msgid "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
-msgstr "  সতর্কতা: %s যোগ করা হয়নি। এই অ্যাঙ্গেলগুলো ছাড়া\n  Timeline রূপান্তরের কাজে লাগবে না।"
 
 msgid "  %s audio track stays: %s"
 msgid_plural "  %s audio tracks stay: %s"
 msgstr[0] "  %sটি অডিও ট্র্যাক থাকছে: %s"
 msgstr[1] "  %sটি অডিও ট্র্যাক থাকছে: %s"
 
-msgid "  %s audio tracks stay: %s"
-msgstr "  %sটি অডিও ট্র্যাক থাকছে: %s"
-
 msgid "    Picture and audio linked again: %s angle"
 msgid_plural "    Picture and audio linked again: %s angles"
 msgstr[0] "    ছবি ও অডিও আবার যুক্ত: %sটি অ্যাঙ্গেল"
 msgstr[1] "    ছবি ও অডিও আবার যুক্ত: %sটি অ্যাঙ্গেল"
-
-msgid "    Picture and audio linked again: %s angles"
-msgstr "    ছবি ও অডিও আবার যুক্ত: %sটি অ্যাঙ্গেল"
 
 msgid "  %s audio track remains:"
 msgid_plural "  %s audio tracks remain:"
 msgstr[0] "  %sটি অডিও ট্র্যাক বাকি:"
 msgstr[1] "  %sটি অডিও ট্র্যাক বাকি:"
 
-msgid "  %s audio tracks remain:"
-msgstr "  %sটি অডিও ট্র্যাক বাকি:"
-
 msgid "%s clip"
 msgid_plural "%s clips"
 msgstr[0] "%sটি ক্লিপ"
 msgstr[1] "%sটি ক্লিপ"
-
-msgid "%s clips"
-msgstr "%sটি ক্লিপ"
 
 msgid "    %s empty audio track removed"
 msgid_plural "    %s empty audio tracks removed"
 msgstr[0] "    %sটি খালি অডিও ট্র্যাক সরানো হয়েছে"
 msgstr[1] "    %sটি খালি অডিও ট্র্যাক সরানো হয়েছে"
 
-msgid "    %s empty audio tracks removed"
-msgstr "    %sটি খালি অডিও ট্র্যাক সরানো হয়েছে"
-
 msgid "      --> interpreted as %s audio track%s"
 msgid_plural "      --> interpreted as %s audio tracks%s"
 msgstr[0] "      --> %s অডিও ট্র্যাক হিসেবে ধরা হয়েছে%s"
 msgstr[1] "      --> %s অডিও ট্র্যাক হিসেবে ধরা হয়েছে%s"
-
-msgid "      --> interpreted as %s audio tracks%s"
-msgstr "      --> %s অডিও ট্র্যাক হিসেবে ধরা হয়েছে%s"
 
 msgid " of %s embedded channel"
 msgid_plural " of %s embedded channels"
 msgstr[0] " (%sটি এমবেডেড চ্যানেলের মধ্যে)"
 msgstr[1] " (%sটি এমবেডেড চ্যানেলের মধ্যে)"
 
-msgid " of %s embedded channels"
-msgstr " (%sটি এমবেডেড চ্যানেলের মধ্যে)"
-
 msgid "%s video track"
 msgid_plural "%s video tracks"
 msgstr[0] "%sটি ভিডিও ট্র্যাক"
 msgstr[1] "%sটি ভিডিও ট্র্যাক"
-
-msgid "%s video tracks"
-msgstr "%sটি ভিডিও ট্র্যাক"
 
 msgid "%s audio track"
 msgid_plural "%s audio tracks"
 msgstr[0] "%sটি অডিও ট্র্যাক"
 msgstr[1] "%sটি অডিও ট্র্যাক"
 
-msgid "%s audio tracks"
-msgstr "%sটি অডিও ট্র্যাক"
-
 msgid "      More angles than colours -- %s colour occurs twice."
 msgid_plural "      More angles than colours -- %s colours occur twice."
 msgstr[0] "      রঙের চেয়ে অ্যাঙ্গেল বেশি -- %sটি রং দুবার এসেছে।"
 msgstr[1] "      রঙের চেয়ে অ্যাঙ্গেল বেশি -- %sটি রং দুবার এসেছে।"
-
-msgid "      More angles than colours -- %s colours occur twice."
-msgstr "      রঙের চেয়ে অ্যাঙ্গেল বেশি -- %sটি রং দুবার এসেছে।"
 
 msgid "      %s clip left without a colour."
 msgid_plural "      %s clips left without a colour."
 msgstr[0] "      %sটি ক্লিপ রং ছাড়া রয়ে গেছে।"
 msgstr[1] "      %sটি ক্লিপ রং ছাড়া রয়ে গেছে।"
 
-msgid "      %s clips left without a colour."
-msgstr "      %sটি ক্লিপ রং ছাড়া রয়ে গেছে।"
-
 msgid "    V2 now holds %s clip: %s"
 msgid_plural "    V2 now holds %s clips: %s"
 msgstr[0] "    V2-তে এখন %sটি ক্লিপ: %s"
 msgstr[1] "    V2-তে এখন %sটি ক্লিপ: %s"
-
-msgid "    V2 now holds %s clips: %s"
-msgstr "    V2-তে এখন %sটি ক্লিপ: %s"
 
 msgid "  %s marker set%s."
 msgid_plural "  %s markers set%s."
 msgstr[0] "  %sটি মার্কার বসানো হয়েছে%s।"
 msgstr[1] "  %sটি মার্কার বসানো হয়েছে%s।"
 
-msgid "  %s markers set%s."
-msgstr "  %sটি মার্কার বসানো হয়েছে%s।"
-
 msgid "%s camera"
 msgid_plural "%s cameras"
 msgstr[0] "%sটি ক্যামেরা"
 msgstr[1] "%sটি ক্যামেরা"
-
-msgid "%s cameras"
-msgstr "%sটি ক্যামেরা"
 
 msgid "  Speaker separation (%s): %s speaker out of %s of audio"
 msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr[0] "  বক্তা পৃথকীকরণ (%s): %s জন বক্তা, মোট %s অডিও থেকে"
 msgstr[1] "  বক্তা পৃথকীকরণ (%s): %s জন বক্তা, মোট %s অডিও থেকে"
 
-msgid "  Speaker separation (%s): %s speakers out of %s of audio"
-msgstr "  বক্তা পৃথকীকরণ (%s): %s জন বক্তা, মোট %s অডিও থেকে"
-
 msgid "  %-20s %s in %s passage"
 msgid_plural "  %-20s %s in %s passages"
 msgstr[0] "  %-20s %s, %sটি অংশে"
 msgstr[1] "  %-20s %s, %sটি অংশে"
-
-msgid "  %-20s %s in %s passages"
-msgstr "  %-20s %s, %sটি অংশে"
 
 msgid "  From %s: %s voice."
 msgid_plural "  From %s: %s voices."
 msgstr[0] "  %s থেকে: %sটি কণ্ঠস্বর।"
 msgstr[1] "  %s থেকে: %sটি কণ্ঠস্বর।"
 
-msgid "  From %s: %s voices."
-msgstr "  %s থেকে: %sটি কণ্ঠস্বর।"
-
 msgid "  %s word came back without a time and was left out."
 msgid_plural "  %s words came back without a time and were left out."
 msgstr[0] "  %sটি শব্দ সময় ছাড়া ফিরেছে এবং বাদ দেওয়া হয়েছে।"
 msgstr[1] "  %sটি শব্দ সময় ছাড়া ফিরেছে এবং বাদ দেওয়া হয়েছে।"
-
-msgid "  %s words came back without a time and were left out."
-msgstr "  %sটি শব্দ সময় ছাড়া ফিরেছে এবং বাদ দেওয়া হয়েছে।"
 
 msgid "on %s camera"
 msgid_plural "on %s cameras"
 msgstr[0] "%sটি ক্যামেরায়"
 msgstr[1] "%sটি ক্যামেরায়"
 
-msgid "on %s cameras"
-msgstr "%sটি ক্যামেরায়"
-
 msgid "%s file was finished before that and is whole: %s"
 msgid_plural "%s files were finished before that and are whole: %s"
 msgstr[0] "%sটি ফাইল তার আগেই শেষ হয়েছিল এবং সম্পূর্ণ: %s"
 msgstr[1] "%sটি ফাইল তার আগেই শেষ হয়েছিল এবং সম্পূর্ণ: %s"
-
-msgid "%s files were finished before that and are whole: %s"
-msgstr "%sটি ফাইল তার আগেই শেষ হয়েছিল এবং সম্পূর্ণ: %s"
 
 msgid "%s point"
 msgid_plural "%s points"
 msgstr[0] "%sটি বিষয়"
 msgstr[1] "%sটি বিষয়"
 
-msgid "%s points"
-msgstr "%sটি বিষয়"
-
 msgid "%s channel"
 msgid_plural "%s channels"
 msgstr[0] "%sটি চ্যানেল"
 msgstr[1] "%sটি চ্যানেল"
-
-msgid "%s channels"
-msgstr "%sটি চ্যানেল"
 
 msgid "Cut by speaker"
 msgstr "বক্তা অনুযায়ী কাট"
@@ -4530,3 +4412,33 @@ msgstr "শুধু সিঙ্ক একটি মাত্র অডিও �
 
 msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
 msgstr "শুধু সিঙ্ক: হস্তান্তর আবার হিসাব করা হয়; আবার করার মতো কোনো কাট নেই। Resolve চালু থাকতে হবে।"
+
+msgid "%s has not started yet"
+msgstr "%s এখনও শুরু হয়নি"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   শব্দ চালানো যায় না"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "ঘড়ি অনুযায়ী শব্দ বসানো হয়েছে -- মাপ এখনও বাকি"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nবক্তাদের লেভেল"
+
+msgid "Measuring %s"
+msgstr "%s মাপা হচ্ছে"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s মাপা যায় না -- যেমন আছে তেমনই থাকে"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- এতে কিছু নেই, যেমন আছে তেমনই থাকে"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  শুধু একটি কণ্ঠস্বর -- মেলানোর মতো কিছু নেই।"
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  অভিন্ন লেভেল:        %s LUFS, কণ্ঠস্বরগুলোর মধ্যমা"
