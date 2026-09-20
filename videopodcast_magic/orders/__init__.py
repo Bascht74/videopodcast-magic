@@ -178,6 +178,10 @@ def run_argv(values, assignment_file_path=""):
             argv += ["--together"] + list(group)
     if values.get("dry_run"):
         argv += ["--dry-run"]
+    # Only the two words the parser takes go on the line, and nothing
+    # while the window has not asked yet: the run then reads it as a cut.
+    if values.get("project_type") in ("cut", "sync"):
+        argv += ["--project-type", values["project_type"]]
 
     # The last net under the window's own mark: a voice whose name is on
     # somebody else already. Refused and not asked -- to the cut two
@@ -338,9 +342,11 @@ def run_argv(values, assignment_file_path=""):
         argv += ["--auphonic-api-key", key, "--auphonic-preset", selected]
         # Only with a key: without auphonic.com there is nobody to
         # transcribe, and the switch would promise what cannot happen.
-    elif values.get("multitrack"):
-        # No key, no preset: it runs locally. Everything that only
-        # auphonic.com can do is missing, and the run says so.
+    else:
+        # No key, no preset: it runs locally, on either path. Everything
+        # that only auphonic.com can do is missing, and the run says so.
+        # Without the switch one recording would go and ask the
+        # credential store for the key the window had just set aside.
         argv += ["--without-auphonic"]
     return argv, plan, messages
 
@@ -389,6 +395,13 @@ def build_argument_parser():
                          "Audio only = join and write.")
     ap.add_argument("--out", default=None,
                     help="output folder (default: next to each video)")
+    ap.add_argument("--project-type", dest="project_type", default="cut",
+                    choices=("cut", "sync"),
+                    help="what the run is for: cut = the cameras on one "
+                         "time axis and a cut by speaker, sync = the audio "
+                         "onto each camera and the multicam timeline only, "
+                         "with no speakers, no speech recognition, no "
+                         "transcript and no cut lists. (default: cut)")
     ap.add_argument("--auphonic-api-key", dest="auphonic_key",
                     default=None, metavar="KEY",
                     help="API key from the Auphonic account settings. Turns "

@@ -466,6 +466,14 @@ def main():
                  "dry_run", "multitrack", "resolve"):
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
+    # One word for the whole run. "sync" means no speakers, no speech
+    # recognition and no transcript, and the three switches that say so
+    # are set here, once -- the pipeline reads one flag, and each of the
+    # three keeps working on its own.
+    if args.project_type == "sync":
+        args.no_speakers_local = True
+        args.no_speech_recognition = True
+        args.no_transcript_file = True
 
     if args.auphonic_key and not args.files:
         try:
