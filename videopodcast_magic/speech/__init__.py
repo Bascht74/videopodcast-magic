@@ -25,6 +25,7 @@ os = PROGRAM.os
 outside_work = PROGRAM.outside_work
 platform = PROGRAM.platform
 re = PROGRAM.re
+recipe_mark = PROGRAM.recipe_mark
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 tempfile = PROGRAM.tempfile
@@ -848,16 +849,32 @@ def whisper_words(audio_path, language="", install=True):
 WORD_WAYS = (("macos", "macOS"), ("whisper", WHISPER_MODEL))
 
 
+def words_recipe_mark():
+    """The mark for written-down words, so a changed listener lets go.
+
+    Over the two listeners and the correction of their timing. The
+    numbers that correction is called with and the Swift program macOS
+    listens through stand outside any function, so they go in by value.
+    """
+    return recipe_mark("words", macos_words, whisper_words, corrected_words,
+                       read_word_tsv, speech_word) + hashlib.sha1(
+        ("%s|%s|%s|%s|%s" % (MACOS_START_S, MACOS_END_S, WHISPER_START_S,
+                             WHISPER_END_S, SPEECH_SWIFT)
+         ).encode("utf-8")).hexdigest()[:12]
+
+
 def words_cache_key(mark, language, way):
     """The name a written-down recording lives under.
 
     What the recording holds decides, not where it lies: the run mixes
     into a new folder every time, so a key on the path never meets
-    itself. Language and way belong in it: both change the words.
+    itself. Language and way belong in it: both change the words, and
+    so does the recipe -- without its mark a changed listener reads
+    the old listener's words back as its own.
     """
     if not mark:
         return ""
-    parts = [mark, (language or "").lower(), way or ""]
+    parts = [mark, (language or "").lower(), way or "", words_recipe_mark()]
     return hashlib.sha1(
         "\n".join(parts).encode("utf-8")).hexdigest()[:16]
 

@@ -124,11 +124,18 @@ def probe_has(name, path):
     return stamp is not None and (name,) + stamp in _PROBE
 
 
+def ffprobe_recipe_mark():
+    """The mark of the ffprobe call, so a kept answer names its recipe."""
+    return PROGRAM.recipe_mark("ffprobe", _ffprobe_text)
+
+
 def ffprobe_json(path):
     """Return what ffprobe says about a file.
 
-    Parsed afresh each time; a caller may change what it gets back.
+    Parsed afresh each time; a caller may change what it gets back. The
+    kept answer is keyed on the recipe as well as on the file: a call
+    that asks ffprobe something else must not read the old answer back.
     """
-    out = probe_remember("ffprobe", path, lambda: _ffprobe_text(path),
-                         keep=True)
+    out = probe_remember("ffprobe-" + ffprobe_recipe_mark(), path,
+                         lambda: _ffprobe_text(path), keep=True)
     return json.loads(out or b"{}")
