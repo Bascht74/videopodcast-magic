@@ -18,7 +18,9 @@ that counts as an answer rather than a miss. Then the mix a run writes
 into a folder of its own, which is known by what it holds and not by
 its name, and two separations in the window, each keeping its own
 words instead of sending the other back to the recogniser, and neither
-started a second time while it is still being written down.
+started a second time while it is still being written down. Last, what
+the store lets go of by age, and a listener or a check whose recipe
+changed, which reads nothing old back.
 """
 import os
 import the_program
@@ -207,7 +209,8 @@ check("a file changed on disk is measured again, store or no store",
 # "measured again" is true of any program and says nothing.
 vpm._PROBE.clear()
 stamp = vpm.file_stamp(a)
-kept = vpm.probe_cache_path(("ffprobe",) + stamp) if stamp else None
+kept = (vpm.probe_cache_path(("ffprobe-" + vpm.ffprobe_recipe_mark(),)
+                             + stamp) if stamp else None)
 there = bool(kept) and os.path.exists(kept)
 check("the store did keep what was measured", there,
       "kept file %s, wanted one that exists"
@@ -619,6 +622,59 @@ check("a measurement untouched for longer than the limit is let go",
       "%s is still there" % os.path.basename(stale))
 check("and one from this month is kept", os.path.exists(fresh),
       "%s went with it" % os.path.basename(fresh))
+
+print("\n12. A changed recipe reads nothing old")
+# Both stores are keyed on the way the answer is worked out as well as
+# on the file: a listener or a check that changed would else be
+# answered out of what the old one wrote, for as long as the file
+# stands. The mark is over the source; here it is bent by hand.
+recipe = recording("recipe.wav", 0.2)
+listens(lambda: vpm.recognise_speech(recipe, "eng"))
+_same, same_runs = listens(lambda: vpm.recognise_speech(recipe, "eng"))
+real_words_recipe = vpm.words_recipe_mark
+vpm.words_recipe_mark = lambda: "another"
+_new, new_runs = listens(lambda: vpm.recognise_speech(recipe, "eng"))
+vpm.words_recipe_mark = real_words_recipe
+check("the same listener reads the recording back", same_runs == 0,
+      "%d recogniser runs under the same recipe, wanted 0" % same_runs)
+check("a changed listening recipe listens again rather than reading back",
+      new_runs == 1,
+      "%d recogniser runs under another recipe mark, wanted 1" % new_runs)
+
+measured = []
+
+
+def measure_counted(path):
+    """Stand in for a check of one file: note the call, find nothing."""
+    measured.append(path)
+    return [], {"length": 1}
+
+
+vpm.measure_cached(a, "video", measure_counted)
+vpm.measure_cached(a, "video", measure_counted)
+same_measured = len(measured)
+real_preflight_recipe = vpm.preflight_recipe_mark
+vpm.preflight_recipe_mark = lambda: "another"
+vpm.measure_cached(a, "video", measure_counted)
+vpm.preflight_recipe_mark = real_preflight_recipe
+check("a file measured under the same check is not measured twice",
+      same_measured == 1,
+      "%d measurements for two asks, wanted 1" % same_measured)
+check("a changed preflight recipe measures the file again",
+      len(measured) == 2,
+      "%d measurements after the recipe changed, wanted 2" % len(measured))
+
+probes(lambda: vpm.ffprobe_json(a))
+same_probe = probes(lambda: vpm.ffprobe_json(a))
+real_ffprobe_recipe = vpm.ffprobe_recipe_mark
+vpm.ffprobe_recipe_mark = lambda: "another"
+new_probe = probes(lambda: vpm.ffprobe_json(a))
+vpm.ffprobe_recipe_mark = real_ffprobe_recipe
+check("the same probe reads the description back", same_probe == 0,
+      "%d ffprobe runs under the same recipe, wanted 0" % same_probe)
+check("a changed probe recipe asks ffprobe again rather than reading back",
+      new_probe == 1,
+      "%d ffprobe runs under another recipe mark, wanted 1" % new_probe)
 kept_preflight = vpm.cache_folder("preflight")
 if kept_preflight:                      # inside this test's own cache
     shutil.rmtree(kept_preflight, ignore_errors=True)
