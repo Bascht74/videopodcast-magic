@@ -26,7 +26,15 @@ out.
 
 Both paths write the same kind of file: MOV, picture copied over, audio
 uncompressed, the `colr` box and the camera's QuickTime keys carried
-along.
+along. And both name it the same way: each camera file, and its track
+in Resolve, after the field **new file name** in the camera table on
+the **Assignment & time window** tab, which comes filled in with a
+proposal. How that proposal is built and why `_audio` is hung on stands
+in [Multitrack](multitrack.md), section "Setting the assignment". The
+run without the tick used to keep the camera file's own name, and a
+camera nobody speaks on still gets it as its proposal; a camera with a
+speaker on it is now proposed a name with the speaker in it, so such a
+production comes out under new file names when it is run again.
 
 What the simple path does just like multitrack:
 

@@ -248,12 +248,15 @@ Four tabs, in the order they are needed.
   in ...** and the line **Not on this machine**: nobody is asked who
   speaks, because nothing will be cut. The line **Multitrack (one track
   per speaker)** is gone as well, and the tick is off. So is **belongs
-  to**, and in the camera table **new file name** and **gets audio
-  from**: without speakers there is nothing to assign, and the one
-  recording goes into every camera file. What stays is the recording's
-  row with its timecode, the camera table with **Camera**, **Kind** and
+  to**, and in the camera table **gets audio from**: without speakers
+  there is nothing to assign, and the one recording goes into every
+  camera file. What stays is the recording's row with its timecode, the
+  camera table with **Camera**, **new file name**, **Kind** and
   **Camera audio**, the player, and the box for auphonic.com -- the one
-  recording can still be processed there.
+  recording can still be processed there. **new file name** counts here
+  as on every path: the run writes the camera file under it, and the
+  camera's track in Resolve carries it ([Multitrack](multitrack.md),
+  "Setting the assignment").
 
   ![Assignment table and player](images/assignment.png)
 

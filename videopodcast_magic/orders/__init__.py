@@ -199,6 +199,15 @@ def run_argv(values, assignment_file_path=""):
               'name would be one person in two places.')
             % ", ".join(twice))
 
+    # One entry per camera, under the name the window's field gives it
+    # or, with the field empty, the file's stem. Both paths read it: the
+    # multitrack plan carries the list, the plain path sends the names
+    # as switches further down.
+    cameras = [{"video": cam.get("path"),
+                "name": (cam.get("name") or "").strip()
+                or os.path.splitext(os.path.basename(
+                    cam.get("path") or ""))[0]}
+               for cam in (values.get("cameras") or [])]
     plan = None
     if values.get("multitrack"):
         only_video = bool(values.get("camera_audio_only"))
@@ -273,16 +282,6 @@ def run_argv(values, assignment_file_path=""):
                 if r.get("audio_done"):
                     entry["audio_done"] = r["audio_done"]
             tracks.append(entry)
-        cameras = [{"video": cam.get("path"),
-                    "name": (cam.get("name") or "").strip()
-                    or os.path.splitext(os.path.basename(
-                        cam.get("path") or ""))[0]}
-                   for cam in (values.get("cameras") or [])]
-        if len(set(cam["name"] for cam in cameras)) != len(cameras):
-            return error(
-                T('File names'),
-                T('Two cameras would produce the same new file. Please '
-                  'give different names.'))
         plan = {"format": FILE_FORMAT,
                 "created_by": "videopodcast-magic %s" % VERSION,
                 "production": (values.get("production") or "").strip()
@@ -307,6 +306,25 @@ def run_argv(values, assignment_file_path=""):
                 "speakers_of": values["speakers_of"],
                 "voices_of": voices_of_values(values)}
         argv += ["--speakers-from", assignment_file_path]
+    # Two cameras under one name would be one file and one track. The
+    # window refuses it before the button; this is the net under it,
+    # on both paths, and without case, as the disks compare.
+    if len(set(cam["name"].lower() for cam in cameras)) != len(cameras):
+        return error(
+            T('File names'),
+            T('Two cameras would produce the same new file. Please '
+              'give different names.'))
+    if not values.get("multitrack"):
+        # No plan on this path, so a name typed for a camera goes as a
+        # switch pair; an empty field sends nothing and the run names
+        # the file after itself. Only the cameras that ride along: an
+        # intro, an outro or a file set aside is no camera of the run.
+        for cam in (values.get("cameras") or []):
+            name = (cam.get("name") or "").strip()
+            file_path = cam.get("path") or ""
+            if name and file_path and file_path not in edge.values() \
+                    and file_path not in off:
+                argv += ["--new-name", file_path, name]
     if values.get("speakers_wanted") is False \
             and not values.get("multitrack"):
         argv += ["--no-speakers-local"]
@@ -606,6 +624,14 @@ def build_argument_parser():
                          "be given several times. Without it the cameras "
                          "no speaker is assigned to are the wide shots. "
                          "(default: none, so derived)")
+    ap.add_argument("--new-name", dest="new_name", action="append", nargs=2,
+                    default=[], metavar=("FILE", "NAME"),
+                    help="this video file is written as NAME, with the "
+                         "ending hung on, and its track in the handover "
+                         "carries that name; may be given several times. "
+                         "Without it the file's own name. The interface "
+                         "sends what stands in its \"new file name\" "
+                         "field where no assignment file carries it.")
     ap.add_argument("--no-single-tracks", dest="no_single_tracks",
                     action="store_true",
                     help="put only the mix into the video, not the single "
