@@ -1404,6 +1404,26 @@ def cameras_in_track_order(cameras):
     return sorted(cameras, key=first_of)
 
 
+def track_labels(cameras, d):
+    """What each video track is called, keyed by the camera's track name.
+
+    The key stays what the handover wrote -- the speakers, or the file's
+    stem -- because two cameras nobody is on would fall on one key
+    otherwise. The label is the one the window puts under the cut band:
+    the speakers, and a camera nobody is on is the wide shot, numbered
+    where there are two. Where the window has no legend -- Sync only, or
+    nobody was heard -- the tracks keep the camera files' names.
+    """
+    if d.get("project_type") == "sync" or not d.get("speakers"):
+        return dict((cam["track"], cam["track"]) for cam in cameras)
+    # Both live in cut/, which is read after this piece: reached at the use.
+    wides = PROGRAM.wide_shots_of(
+        [cam["track"] for cam in cameras],
+        set(cam["track"] for cam in cameras if cam.get("speakers")),
+        [cam["track"] for cam in cameras if cam.get("wide_marked")])
+    return PROGRAM.legend_names(cameras, wides)
+
+
 # Where a new Resolve timeline starts when nobody says otherwise. Frame 0
 # would be eighteen hours before the beginning.
 TIMELINE_START_HOUR = 1
@@ -1568,19 +1588,20 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
                             if cam["track"] in absent else ""))
             print("        %s" % clip_signature(clips.get(cam["file"])))
 
+    labels = track_labels(cameras, d)
     for i, cam in enumerate(cameras, 1):
-        if not tl.SetTrackName("video", i, cam["track"]):
+        if not tl.SetTrackName("video", i, labels[cam["track"]]):
             print(T('    Video track %d could not be renamed.') % i)
     print((T('  %s video tracks, named after the camera files:')
            if d.get("project_type") == "sync"
            else T('  %s video tracks, named after the speakers:'))
           % number_text(len(cameras), 0))
     for i, cam in enumerate(cameras, 1):
-        # The track carries the file's name; printing both says it twice.
+        # A track carrying the file's name: printing both says it twice.
         name = os.path.basename(cam["file"] or cam["source"])
         print("    V%-3d %s%s%s"
-              % (i, cam["track"],
-                 "" if os.path.splitext(name)[0] == cam["track"]
+              % (i, labels[cam["track"]],
+                 "" if os.path.splitext(name)[0] == labels[cam["track"]]
                  else "   %s" % name,
                  T('   MISSING') if cam["track"] in absent else ""))
     if absent:
@@ -1604,7 +1625,7 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
               % (number_text(tl.GetTrackCount("audio"), 0),
                  ", ".join(names[:tl.GetTrackCount("audio")]) or T('unnamed')))
     else:
-        trim_audio_tracks(tl, cameras, present)
+        trim_audio_tracks(tl, cameras, present, labels)
     return tl
 
 
@@ -1645,12 +1666,14 @@ def audio_tracks_per_camera(tl, cameras):
     return assignment
 
 
-def trim_audio_tracks(tl, cameras, video_items):
+def trim_audio_tracks(tl, cameras, video_items, labels=None):
     """Keep only the first audio track per camera and link it to its picture.
 
     Conversion turns every track into an angle, and mix plus camera
-    microphone would become angles without picture.
+    microphone would become angles without picture. The audio tracks
+    are named like the video tracks, so the labels come along.
     """
+    labels = labels or {}
     audio = audio_tracks_per_camera(tl, cameras)
     if not audio:
         print(T('  No audio on the Timeline -- nothing to clean up.'))
@@ -1727,7 +1750,7 @@ def trim_audio_tracks(tl, cameras, video_items):
             for cam in cameras:
                 if os.path.basename(cam["file"] or cam["source"]) ==\
                         (item[0].GetName() or ""):
-                    name = cam["track"]
+                    name = labels.get(cam["track"], cam["track"])
                     break
         if name:
             tl.SetTrackName("audio", track, name)
@@ -2701,6 +2724,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     print(T('\n  Timeline for the multicam clip: all cameras, uncut'))
     ordered = cameras_in_track_order(cameras)
+    labels = track_labels(ordered, d)
     existing = multicam_timeline_unchanged(p, "%s Multicam" % name, ordered)
     if existing is not None:
         print(T('  It already exists, with the same cameras in the same '
@@ -2709,7 +2733,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         if tl is not None:
             p.SetCurrentTimeline(tl)
         print(T(HINT_MULTICAM)
-              % (name, "".join("\n    V%-3d %s" % (i, cam["track"])
+              % (name, "".join("\n    V%-3d %s" % (i, labels[cam["track"]])
                                for i, cam in enumerate(ordered, 1))))
         return 0
     if find_timeline(p, "%s Multicam" % name) is not None:
@@ -2733,7 +2757,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     p.SetCurrentTimeline(tl if tl is not None else tl2)
     print(T(HINT_MULTICAM)
-          % (name, "".join("\n    V%-3d %s" % (i, cam["track"])
+          % (name, "".join("\n    V%-3d %s" % (i, labels[cam["track"]])
                            for i, cam in enumerate(ordered, 1))))
     return 0
 
