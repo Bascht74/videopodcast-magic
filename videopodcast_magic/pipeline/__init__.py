@@ -579,9 +579,77 @@ def one_track_left(plan):
     return None
 
 
+def names_given(args, video_paths):
+    """The names --new-name gives, by file, or why they cannot be used.
+
+    Before anything is written: a plain file name, for a camera of the
+    run, one name per file, and no two cameras in one file -- without
+    case, as the writer and the disks compare; the window asks that
+    too, a command line never passes it. Shared stems without a name
+    stay the writer's.
+    """
+    cameras = {path_key(p): p for p in video_paths}
+    called = {}
+    for file, name in (getattr(args, "new_name", None) or ()):
+        name, shown = (name or "").strip(), os.path.basename(file)
+        if path_key(file) not in cameras:
+            return {}, T('--new-name names %s, which is not one of the '
+                         'camera files of this run.') % shown
+        if not name:
+            return {}, T('The new name for %s is empty; give a plain file '
+                         'name or leave --new-name out.') % shown
+        sign = [c for c in "/\\:" if c in name]
+        if sign:
+            return {}, T('The new name "%s" for %s holds "%s", a folder or '
+                         'drive separator; give a plain file name.') % (
+                name, shown, sign[0])
+        if name.startswith("."):
+            return {}, T('The new name "%s" for %s begins with a dot, which '
+                         'makes a hidden file or a folder; give a plain file '
+                         'name.') % (name, shown)
+        if called.get(path_key(file), name) != name:
+            return {}, T('--new-name gives %s two names, "%s" and "%s"; '
+                         'give each file one.') % (
+                shown, called[path_key(file)], name)
+        called[path_key(file)] = name
+    seen = {}
+    for key, path in cameras.items():
+        name = called.get(key) or os.path.splitext(os.path.basename(path))[0]
+        other, first = seen.setdefault(name.lower(), (key, name))
+        if other != key and (key in called or other in called):
+            return {}, T('Two cameras would be written as one file, %s: '
+                         '%s and %s.') % (
+                first + (getattr(args, "suffix", "") or "_audio") + ".mov",
+                os.path.basename(cameras[other]), os.path.basename(path))
+    return called, ""
+
+
+def names_have_no_place(called, cameras, plan, audio_paths):
+    """Why the names --new-name gives would go unused here, or "".
+
+    They act where each camera is named after its file. An assignment
+    file listing the cameras names them itself, and cameras alone are
+    named after the tracks taken from their sound: there a name would be
+    dropped without a word, so it is refused before anything is written.
+    """
+    if called and cameras:
+        return T('The assignment file names the cameras here, so '
+                 '--new-name would be dropped; give the names there or '
+                 'leave --new-name out.')
+    if called and not plan and not audio_paths:
+        return T('With cameras only, each file is named after the tracks '
+                 'taken from its sound, so --new-name would be dropped; '
+                 'leave --new-name out.')
+    return ""
+
+
 def show_multitrack_plan(args, audio_paths, video_paths):
     """Show the detected plan without doing anything yet."""
     step_begin("plan")
+    called, complaint = names_given(args, video_paths)
+    if complaint:
+        print(as_bad(T('Abort: %s') % complaint))
+        return 1
     # Said once, at the top: everything the log then does not show --
     # no speakers, no transcript, no cut -- was left out on purpose.
     if sync_only(args):
@@ -611,6 +679,10 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             args.production = title
         else:
             plan = d
+    complaint = names_have_no_place(called, cameras, plan, audio_paths)
+    if complaint:
+        print(as_bad(T('Abort: %s') % complaint))
+        return 1
     print(as_head(T('RECOGNISED PLAN')))
     if title:
         print(T('  Production at auphonic.com:   %s') % title)
@@ -660,10 +732,12 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                        for v, names in who.items()]
     if not cameras and video_paths:
         # No assignment file and no names from the plan: one entry per
-        # video file, named after the file. The ending that keeps it off
-        # the source is hung on where every target name is settled.
+        # video file, named as --new-name says or after the file, for the
+        # written file and the handover's track alike. The ending is hung
+        # on where every target name is settled.
         cameras = [{"video": os.path.abspath(path),
-                    "name": os.path.splitext(os.path.basename(path))[0]}
+                    "name": called.get(path_key(path))
+                    or os.path.splitext(os.path.basename(path))[0]}
                    for path in video_paths]
     plan = merge_plan_entries(plan)
     for e in plan:

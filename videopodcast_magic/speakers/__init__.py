@@ -3434,9 +3434,11 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
             audio_reason.setVisible(False)
 
     if len(video_fields) == len(camera_lines):
+        # Without case, as the run and the disks compare.
         outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
+        folded = [n.lower() for n in outputs]
         duplicate_video = set(n for n in outputs
-                              if n and outputs.count(n) > 1)
+                              if n and folded.count(n.lower()) > 1)
         same_name = set(PROGRAM.camera_tracks_clashing(camera_lines))
         track_of = dict(PROGRAM.camera_tracks_of(camera_lines))
         for field, (p, value, _k, _n) in zip(video_fields, camera_lines):

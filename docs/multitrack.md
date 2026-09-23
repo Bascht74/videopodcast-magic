@@ -115,17 +115,24 @@ second time because the player is here: that a clip is in truth an
 outro is noticed while watching it. A click on a row fetches that file
 into the player.
 
-**new file name** is what will come out of that camera. It is a
+**new file name** is what will come out of that camera, with the tick
+and without it, under **Sync only** too: the run writes the camera file
+under that name, and the camera's track in Resolve carries it. It is a
 proposal until somebody types over it, and it is built from the camera
-and the speakers. The production name is not part of it: the result
-usually lies beside the material, where a folder full of files all
-beginning with the same word tells nobody anything. Where the camera
-counts its files with a number, the speakers go in front of that number
-and the camera's own name stays in front of them, so the front still
-reads as which camera it was. Where there is no such number the
+and the speakers. A camera with no speaker's name on it -- no speaker,
+and not its own sound kept as a track -- gets `Audio-Full-Mix` where the
+speakers would stand when the tick is set, because what it carries is
+the whole sound. Without the tick, and so under **Sync only**, such a
+camera is offered its own file name: `CAM_B.mov` is offered `CAM_B`,
+the name it was written under before. The production name is not part of it:
+the result usually lies beside the material, where a folder full of
+files all beginning with the same word tells nobody anything. Where the
+camera counts its files with a number, the speakers go in front of that
+number and the camera's own name stays in front of them, so the front
+still reads as which camera it was. Where there is no such number the
 camera's name is left whole and the speakers follow it, and where the
-camera is called after those speakers already they are not said a
-second time.
+camera is called after those speakers already they are not said a second
+time.
 
 The written file carries `_audio` at the end on top of what stands in
 the field. That ending is not decoration: without it the name can come

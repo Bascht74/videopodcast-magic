@@ -548,6 +548,50 @@ check("and a run that never learned the switch hands over a cut",
         % (written.get("project_type"),))
 shutil.rmtree(SYNC_WORK, ignore_errors=True)
 
+print("\n16. The track carries the camera's name, not the file's")
+# What the run gave the camera as its name -- the window's field, or
+# --new-name on the line -- reaches the handover as the track, under a
+# cut with nobody on it and under Sync only alike. Where nothing was
+# given the run has already put the file's stem into that name, which
+# is why sections 14 and 15 see A001: the same rule, not another.
+NAME_WORK = tempfile.mkdtemp(prefix="handover_named_")
+NAME_CAM = os.path.join(NAME_WORK, "A001.MP4")
+open(NAME_CAM, "w").write("x")
+
+
+class NamedArgs(RunArgs):
+    production = "Named"
+    assign = ""
+
+
+class NamedSyncArgs(NamedArgs):
+    production = "NamedSync"
+    project_type = "sync"
+
+
+track_under = {}
+for made in (NamedArgs(), NamedSyncArgs()):
+    said = io.StringIO()
+    with contextlib.redirect_stdout(said):
+        vpm.write_handover(
+            made, [], [{"name": "Presenter", "video": NAME_CAM}],
+            [(NAME_CAM, {"fps": 30.0, "width": 1920, "height": 1080,
+                         "duration": 100.0, "tc": "10:00:00:00"})],
+            NAME_WORK, 0.0, (NAME_CAM, {"fps": 30.0, "tc": "10:00:00:00"}))
+    hand = json.load(io.open(os.path.join(
+        NAME_WORK, made.production + "_resolve.json"), encoding="utf-8"))
+    track_under[made.production] = [c.get("track")
+                                    for c in hand.get("cameras") or []]
+check("a camera given a name is handed over under that name",
+        track_under.get("Named") == ["Presenter"],
+        "%r against ['Presenter'] -- the file is A001.MP4, so A001 here "
+        "means the stem won" % (track_under.get("Named"),))
+check("and under Sync only just the same",
+        track_under.get("NamedSync") == ["Presenter"],
+        "%r against ['Presenter'] -- the cut run beside it says %r"
+        % (track_under.get("NamedSync"), track_under.get("Named")))
+shutil.rmtree(NAME_WORK, ignore_errors=True)
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)
