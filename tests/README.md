@@ -1,6 +1,6 @@
 # The test suite
 
-280 tests against the program in `../videopodcast_magic/`. Every one of them stands
+286 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-280 tests. The name is the one a red line carries, and beside it the
+286 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -290,6 +290,7 @@ it is green.
 | `sound_both_sides_alike` | The two channel mix: same signal on both sides, and the right loudness. |
 | `sound_camera_counts` | A camera counts as a track once the assignment says so. |
 | `sound_camera_judged_too` | A camera whose audio is in use is an audio file like any other. |
+| `sound_camera_own_used` | A camera's own sound, taken for want of a recording, is its track. |
 | `sound_channels_split` | A file with several channels becomes several tracks. |
 | `sound_check_reads_once` | The check of a written camera file reads it once, not once per track. |
 | `sound_clipping_counted` | Clipping is counted per channel, and only where the format has a stop. |
@@ -422,6 +423,7 @@ it is green.
 | `project_mix_by_name` | The mix is found by its own name, not by a word inside another one. |
 | `project_output_says_hdr` | The project's output colour space decides HDR, and silence is not no. |
 | `project_real_frame` | The frame of the project is one a camera really recorded. |
+| `project_refusal_heeded` | A track Resolve refuses is asked for once, and a refused video one named. |
 | `project_render_kept` | A render never writes over the delivery before it. |
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
 | `project_rerun_updates` | #60 in a whole run: build twice, update on the second pass. |
@@ -482,6 +484,7 @@ it is green.
 | `window_reads_as_chosen` | The window is laid out the way the chosen language reads. |
 | `window_restart_carries` | A restart carries the work over, or says plainly that it will not. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
+| `window_sheets_fit` | The window fits its screen and its first three sheets fit the window. |
 | `window_size_as_run` | The window's summary names the size the run really needs. |
 | `window_sound_fault_named` | A refused sound track costs neither the picture nor the truth. |
 | `window_speaker_cell_fits` | Whatever is written into the Speakers cell can be read there. |
@@ -528,6 +531,7 @@ it is green.
 | `run_install_is_watched` | Installing ffmpeg shows what it is doing while it does it. |
 | `run_log_within_reach` | The log of a run is where whoever started it can get at it. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
+| `run_new_name_checked` | A run refuses a --new-name it cannot follow as given, and says why. |
 | `run_no_upload_no_hint` | The run promises to save an upload only where it uploads. |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody or guess. |
@@ -541,6 +545,7 @@ it is green.
 | `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
 | `run_starter_arch_fits` | The start asks for the architecture the installed packages fit. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
+| `run_stop_names_why` | A run main() stops returns 1, its last line naming what failed and why. |
 | `run_switch_changes_it` | A switch that is taken changes the result, not only the parser. |
 | `run_switch_has_effect` | A switch that is taken and does nothing is worse than no switch. |
 | `run_sync_only_no_cut` | A Sync only run leaves no cut, no speaker and no transcript behind. |
@@ -572,6 +577,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `source_checks_proved` | Which checks have been seen red, and which have not. |
+| `source_floor_needs_main` | A ratchet writes no floor from a tree that is behind origin/main. |
 | `source_imported_is_whole` | Importing the program gives the whole of it, whatever argv said. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_material_stays` | A run of fixtures.sh leaves the checked-in material as it found it. |
