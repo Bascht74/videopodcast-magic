@@ -1,0 +1,459 @@
+# -*- coding: utf-8 -*-
+"""The window fits its screen and its first three sheets fit the window.
+
+The window is built offscreen on a stated screen, with the fixture
+project opened the way window_captions_fit opens it -- the assignment
+and Resolve sheets only exist once there are files. English and German,
+each in a window of its own, German because its captions are longer.
+First that the window came up on that screen with the project in it,
+and that it opened no wider than that screen; then per sheet what it
+needs against the room the window lets be seen of it on opening, and
+for the two scrolling sheets whether a sideways scrollbar shows. Both
+sides come out of one run on one platform, so a platform that draws
+wider moves both; no pixel bound is written down.
+Left out: the Output sheet, which only appears once a run has made
+something, and this test runs nothing; other languages; and a chosen
+output folder -- the files sheet is measured with none, because its
+label shows a chosen folder's path unshortened.
+"""
+import os, re, sys, json, shutil, subprocess, tempfile, time
+import the_program
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = the_program.SCRIPT
+sys.path.insert(0, HERE)
+
+LANGUAGES = ("en", "de")
+NAME = "videopodcast-magic_Interview_2.json"
+# The screen the window is opened on: the plainest desktop there is.
+# Offscreen the platform's own screen is 800 px wide, under the window's
+# minimum, and the width the program asks for would never be seen. The
+# program opens the window as wide as the screen up to a cap of its own;
+# this test does not say what the cap is, it reads the width off the
+# window.
+SCREEN = (1920, 1080)
+# An example, not a bound: one run offscreen on a Mac, 23.9.2026, gave
+# the window 1600 px and a page of 1574 px; the sheets needed 906 en /
+# 974 de (files), 1054 / 1053 (assignment), 1216 / 1265 (Resolve).
+# Windows draws wider and the builder's faces differ, so a fixed number
+# measured here would be red there for no fault: what is held is the
+# sheet against its own window, in the same run.
+
+
+def own_project(own):
+    """A private copy of the fixture project in *own*, or None.
+
+    Opening a project moves the project file into its output folder and
+    deletes copies lying elsewhere, which on the shared fixture would
+    leave the next test with nothing to open.
+    """
+    from fixture_root import fixture
+    source = os.path.join(fixture("interview"), NAME)
+    if not os.path.exists(source):
+        return None
+    with open(source, encoding="utf-8") as f:
+        d = json.load(f)
+    for entry in d.get("files") or []:
+        link = os.path.join(own, os.path.basename(entry["path"]))
+        if not os.path.exists(link):
+            os.symlink(entry["path"], link)
+        entry["path"] = link
+    # No output folder: "next to each video file", which is this folder.
+    # The files sheet shows the folder's path unshortened, so with one
+    # named the sheet's width would be the length of the run's temporary
+    # path -- a statement about the machine, not about the program.
+    d["out_folder"] = ""
+    path = os.path.join(own, NAME)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(d, f, indent=1)
+    return path
+
+
+def drawn(text):
+    """What stands on the tab: no doubled ampersand, no tick."""
+    return text.replace("&&", "\x00").replace("&", "") \
+               .replace("\x00", "&").replace("✓", "").strip()
+
+
+# --------------------------------------------------------------- the child
+# One process per language: parts of the program read the locale for
+# themselves, so the language has to reach it through the environment
+# too, and a second gui() would stand on the first.
+def measure(language):
+    """Build the window in that language and report the sheets' widths."""
+    own = tempfile.mkdtemp(prefix="vpm_sheets_")
+    with open(os.path.join(own, "screen.json"), "w") as f:
+        json.dump({"screens": [{"name": "desk", "x": 0, "y": 0,
+                                "width": SCREEN[0], "height": SCREEN[1],
+                                "logicalDpi": 96, "dpr": 1}]}, f)
+    # The screen file by its bare name, from its own folder: Qt splits
+    # the platform string at every colon, so a Windows path ('C:\...')
+    # would be read as a file called 'C' and Qt would abort. A path
+    # relative to the test's folder would not do either: on a builder the
+    # temporary folder and the checkout can lie on different drives.
+    os.environ["QT_QPA_PLATFORM"] = "offscreen:configfile=screen.json"
+    os.environ["VPM_SILENT"] = "1"
+    from PySide6 import QtCore, QtWidgets
+
+    was_in = os.getcwd()
+    os.chdir(own)
+    app = QtWidgets.QApplication(sys.argv[:1])
+    os.chdir(was_in)
+    vpm = the_program.load()
+    # Nothing may reach the network or the keychain: what is wanted is
+    # the window, not a run.
+    vpm.list_presets = lambda key: []
+    vpm.load_api_key = lambda: ""
+    vpm.update_offer = lambda *a, **k: None
+    vpm.set_language(language)
+
+    project = own_project(own)
+    if project:
+        QtWidgets.QFileDialog.getOpenFileName = staticmethod(
+            lambda *a, **k: (project, ""))
+    # Nothing may wait for a click: a modal window holds the test until
+    # the suite kills it.
+    QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
+    QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
+
+    # Off the desktop, on the way in: the attribute has to be set before
+    # the window is shown, and gui() shows it itself. It still goes
+    # through the whole layout machinery.
+    _show = QtWidgets.QWidget.show
+
+    def offstage(self):
+        self.setAttribute(QtCore.Qt.WA_DontShowOnScreen, True)
+        _show(self)
+
+    QtWidgets.QWidget.show = offstage
+    QtWidgets.QDialog.show = offstage
+
+    def settle():
+        """Let the layout finish before anything is measured.
+
+        Qt lays out over several passes; keep going until the widths
+        stop moving, and give up rather than hang.
+        """
+        was = None
+        for _ in range(10):
+            app.processEvents()
+            now = sum(w.width() for w in app.allWidgets() if w.isVisible())
+            if now == was:
+                return
+            was = now
+
+    def caption(w):
+        """The text drawn in the widget, or "" if it carries none."""
+        for name in ("text", "title"):
+            reader = getattr(w, name, None)
+            if reader is None:
+                continue
+            try:
+                value = reader()
+            except Exception:
+                continue
+            if isinstance(value, str):
+                return value
+        return ""
+
+    def least(w):
+        """The narrowest the widget can be drawn: its layout's minimum,
+        or a minimum set on it outright where that is larger."""
+        return max(w.minimumSizeHint().width(), w.minimumWidth())
+
+    def widest_path(holder):
+        """Down the widest visible child, level by level, for the FAIL line.
+
+        A sheet that asks for too much does so through one branch of its
+        layout; the line names that branch from the sheet down to the
+        piece at its end, each with the width it asks for.
+        """
+        steps = []
+        here = holder
+        for _ in range(6):
+            kids = [c for c in here.findChildren(
+                        QtWidgets.QWidget,
+                        options=QtCore.Qt.FindDirectChildrenOnly)
+                    if c.isVisible()]
+            if not kids:
+                break
+            here = max(kids, key=least)
+            name = drawn(caption(here))[:30] or type(here).__name__
+            steps.append("%r %d" % (name, least(here)))
+        return " > ".join(steps) or "no visible piece"
+
+    def shown(w):
+        """How much of the widget's width the window lets be seen.
+
+        Not its own width: a page can be laid out wider than the window
+        around it, and what lies past the window's edge is cut off all
+        the same.
+        """
+        top = w.window()
+        seen = QtCore.QRect(w.mapTo(top, QtCore.QPoint(0, 0)), w.size())
+        up = w.parentWidget()
+        while up is not None:
+            seen = seen.intersected(QtCore.QRect(
+                up.mapTo(top, QtCore.QPoint(0, 0)), up.size()))
+            up = up.parentWidget()
+        return max(0, seen.width())
+
+    def sheets_of(window):
+        """The first three sheets: what each needs and what it is given."""
+        bar = window.findChild(QtWidgets.QTabWidget)
+        out = []
+        for k in range(min(3, bar.count())):
+            bar.setCurrentIndex(k)
+            settle()
+            sheet = bar.widget(k)
+            one = {"place": k, "title": drawn(bar.tabText(k))}
+            if isinstance(sheet, QtWidgets.QScrollArea):
+                inside = sheet.widget()
+                one["need"] = least(inside)
+                one["room"] = shown(sheet.viewport())
+                one["bar_shown"] = sheet.horizontalScrollBar().isVisible()
+                one["scroll"] = sheet.horizontalScrollBar().maximum()
+                one["widest"] = widest_path(inside)
+            else:
+                one["need"] = least(sheet)
+                one["room"] = shown(sheet)
+                one["bar_shown"] = None
+                one["scroll"] = None
+                one["widest"] = widest_path(sheet)
+            out.append(one)
+        return out
+
+    result = {"project": bool(project), "tabs": [], "waited": 0,
+              "screen": app.primaryScreen().availableGeometry().width()}
+    step = [0]
+    began = time.time()
+
+    def window_of():
+        for x in app.topLevelWidgets():
+            if "Video Podcast Magic" in x.windowTitle():
+                return x
+
+    def look():
+        """Open the project, wait for it to be in, then measure."""
+        window = window_of()
+        if window is None:
+            result["error"] = "no window came up"
+            app.quit()
+            return
+        if step[0] == 0:
+            # As the program opened it: no resize by this test. The
+            # frame counts, since it takes room on the screen too.
+            frame = window.frameGeometry()
+            result["window"] = [frame.width(), frame.height()]
+            step[0] = 1
+            if project:
+                for b in window.findChildren(QtWidgets.QPushButton):
+                    if drawn(b.text()).startswith(
+                            vpm.T('Open project ...')[:8]):
+                        b.click()
+                        break
+            QtCore.QTimer.singleShot(400, look)
+            return
+        # The tables are only built once the project is read. Waiting
+        # for the rows rather than for the clock: a slow machine takes
+        # longer, a window that never gets there gives up -- and says
+        # so, rather than measuring a window with one sheet in it.
+        filled = any(t.rowCount() for t in
+                     window.findChildren(QtWidgets.QTableWidget))
+        if project and not filled and time.time() - began < 120:
+            QtCore.QTimer.singleShot(300, look)
+            return
+        result["filled"] = filled
+        result["waited"] = round(time.time() - began, 1)
+        result["sheets"] = sheets_of(window)
+        bar = window.findChild(QtWidgets.QTabWidget)
+        result["tabs"] = [drawn(bar.tabText(k)) for k in range(bar.count())]
+        app.quit()
+
+    QtCore.QTimer.singleShot(1200, look)
+    # A window that never comes up must not hold the suite -- and must
+    # not pass either: the report is empty then, and the parent says so.
+    QtCore.QTimer.singleShot(150000, app.quit)
+    vpm.gui()
+    print("SHEETS " + json.dumps(result))
+    shutil.rmtree(own, ignore_errors=True)
+
+
+if os.environ.get("VPM_SHEETS_LANG"):
+    measure(os.environ["VPM_SHEETS_LANG"])
+    raise SystemExit(0)
+
+
+# -------------------------------------------------------------- the parent
+began = time.time()
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+def home_off(text):
+    """A line from the child, the home folder as ~ and scratch as <scratch>.
+
+    A counter-proof's program copy lies in a scratch folder whose name
+    carries the account's (/tmp/claude-<uid>/-Users-<name>-...).
+    """
+    return re.sub(r"(/private)?/tmp/claude-\d+/[^/\s'\"]+", "<scratch>",
+                  text.replace(os.path.expanduser("~"), "~"))
+
+
+started = []
+for language in LANGUAGES:
+    locale = "%s_%s.UTF-8" % (language, language.upper())
+    env = dict(os.environ, VPM_SHEETS_LANG=language, LANG=locale,
+               LC_ALL=locale, LANGUAGE=language)
+    started.append((language, subprocess.Popen(
+        [sys.executable, os.path.abspath(__file__)],
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+        env=env, cwd=HERE)))
+
+reports = {}
+for language, process in started:
+    try:
+        out, _ = process.communicate(timeout=240)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        process.communicate()
+        out = "the window never came back within 240 s"
+    line = [x for x in out.split("\n") if x.startswith("SHEETS ")]
+    try:
+        report = json.loads(line[0][len("SHEETS "):]) if line else {}
+    except ValueError as e:
+        report = {"error": "the child's report did not read: %s" % e}
+    report["came_back"] = bool(line)
+    report["last_lines"] = home_off(" / ".join(
+        x for x in out.rstrip().split("\n")[-4:] if x))[:300]
+    reports[language] = report
+
+
+def came_up(report):
+    """The first thing that can be wrong, before any sheet is judged.
+
+    A window with one sheet in it, or on a screen narrower than the one
+    laid out, would make every line below about the harness.
+    """
+    screen = report.get("screen") or 0
+    window = (report.get("window") or [0, 0])[0]
+    if not report["came_back"]:
+        why = "nothing came back -- last lines: " + report["last_lines"]
+    elif report.get("error"):
+        why = report["error"]
+    elif not report.get("project"):
+        why = "no fixture project -- run tests/fixtures.sh"
+    elif not report.get("filled"):
+        why = "the tables stayed empty after %s s" % report.get("waited")
+    elif screen != SCREEN[0]:
+        why = ("the screen came up %d px wide, not the %d px laid out -- "
+               "the platform did not take the screen file"
+               % (screen, SCREEN[0]))
+    else:
+        why = "window %d px wide on a %d px screen, tabs %s, %.1f s" % (
+            window, screen, report.get("tabs"), report.get("waited") or 0)
+    return (report["came_back"] and report.get("filled") is True
+            and screen == SCREEN[0]), why
+
+
+def on_screen(report):
+    """The window opens no wider than the screen, measured in one run.
+
+    The program keeps a sheet that asks for too much from widening the
+    window by a minimum size set on it outright; without that, the room
+    the sheets are judged against below would grow with them, and every
+    sheet would fit a window that runs off the screen.
+    """
+    screen = report.get("screen") or 0
+    window = (report.get("window") or [0, 0])[0]
+    return 0 < window <= screen, "window %d px wide on a %d px screen" % (
+        window, screen)
+
+
+def sheet(report, place):
+    """The sheet at that place in the tab bar, or None."""
+    for s in report.get("sheets") or []:
+        if s["place"] == place:
+            return s
+    return None
+
+
+def missing(report, place):
+    return False, "no sheet at place %d -- the tab bar holds %s" % (
+        place, report.get("tabs"))
+
+
+def fits(report, place, room_name):
+    """What the sheet needs against the room it is given, in one run.
+
+    The files sheet is a plain page and cannot scroll: what does not fit
+    is cut off. The two others scroll, so what they need is the widget
+    inside the scroll area and their room is the viewport.
+    """
+    s = sheet(report, place)
+    if s is None:
+        return missing(report, place)
+    window = (report.get("window") or [0, 0])[0]
+    return s["need"] <= s["room"], (
+        "%r needs %d px in a %s %d px wide, the window %d px; widest: %s"
+        % (s["title"], s["need"], room_name, s["room"], window,
+           s["widest"]))
+
+
+def no_bar(report, place):
+    """No sideways scrollbar is shown on the scrolling sheet.
+
+    A claim of its own beside fits(): it also falls when a bar stands
+    there with nothing to scroll.
+    """
+    s = sheet(report, place)
+    if s is None:
+        return missing(report, place)
+    window = (report.get("window") or [0, 0])[0]
+    return s["bar_shown"] is False, (
+        "%r sideways bar shown: %s, scrolls %s px; needs %d px in a "
+        "viewport %d px wide, the window %d px"
+        % (s["title"], s["bar_shown"], s["scroll"], s["need"], s["room"],
+           window))
+
+
+# Written out once per language: a computed name would leave one wording
+# for two checks, and the register could not say which was seen red.
+en, de = reports["en"], reports["de"]
+check("en: the window came up with the project in it", *came_up(en))
+check("en: the window opens no wider than its screen", *on_screen(en))
+check("en: the files sheet fits the page on opening",
+      *fits(en, 0, "page"))
+check("en: the assignment sheet fits its viewport on opening",
+      *fits(en, 1, "viewport"))
+check("en: the assignment sheet shows no sideways scrollbar",
+      *no_bar(en, 1))
+check("en: the Resolve sheet fits its viewport on opening",
+      *fits(en, 2, "viewport"))
+check("en: the Resolve sheet shows no sideways scrollbar",
+      *no_bar(en, 2))
+
+check("de: the window came up with the project in it", *came_up(de))
+check("de: the window opens no wider than its screen", *on_screen(de))
+check("de: the files sheet fits the page on opening",
+      *fits(de, 0, "page"))
+check("de: the assignment sheet fits its viewport on opening",
+      *fits(de, 1, "viewport"))
+check("de: the assignment sheet shows no sideways scrollbar",
+      *no_bar(de, 1))
+check("de: the Resolve sheet fits its viewport on opening",
+      *fits(de, 2, "viewport"))
+check("de: the Resolve sheet shows no sideways scrollbar",
+      *no_bar(de, 2))
+
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)
