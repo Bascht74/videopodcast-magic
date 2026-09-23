@@ -2,16 +2,17 @@
 """A camera's own sound, taken for want of a recording, is its track.
 
 Real runs with --without-auphonic over two short cameras made here,
-each with a tone and a timecode of its own, as project type "sync" so
-that no speech is recognised. Afterwards the written camera files are
-asked, not the program: the track is found by its name, a few seconds
-of it are decoded with ffmpeg and its tone counted, and held against
-the tone counted the same way in the camera the run was given. The
-sections: "use internal audio" on two cameras, the plan built the way
-the window builds it; one camera on a bare command line and no
-recording, where the camera's sound becomes the mix; two cameras and
---multitrack with no recording; and cameras with no sound at all,
-where the run stops and says so.
+each with a tone and a timecode of its own and the tone in one pattern
+of bursts, so that the sound places them where their clocks do, as
+project type "sync" so that no speech is recognised. Afterwards the
+written camera files are asked, not the program: the track is found by
+its name, a few seconds of it are decoded with ffmpeg and its tone
+counted, and held against the tone counted the same way in the camera
+the run was given. The sections: "use internal audio" on two cameras,
+the plan built the way the window builds it; one camera on a bare
+command line and no recording, where the camera's sound becomes the
+mix; two cameras and --multitrack with no recording; and cameras with
+no sound at all, where the run stops and says so.
 
 The limit of the method: a tone is one frequency, so this says the
 right camera's sound arrived, not that nothing else was mixed into it.
@@ -196,17 +197,34 @@ HOME = tempfile.mkdtemp(prefix="vpm_camown_")
 LENGTH = 2 * vpm.AXIS_MIN_WINDOW_S
 
 
-def camera(name, hz, timecode):
+# Each camera's tone sounds only in bursts, and the bursts are one pattern
+# in the room's time, which each camera hears from its own start: of
+# different lengths at uneven spacing, so no shift but the true one lays
+# the two loudness curves over each other. A steady tone has no curve at
+# all, and then the cameras are placed by a guess that numerical noise
+# decides -- on the builders one that left under 8 s in common. The long
+# burst holds the stretch the tone is counted over, in every file and on
+# the axis.
+LATE = 2.48
+BURSTS = [(0.6, 1.3), (1.9, 2.1), (2.9, 3.2), (3.7, 8.9), (9.6, 10.0),
+          (10.8, 11.9), (12.3, 12.45), (13.4, 14.3), (15.1, 15.35),
+          (16.2, 17.8), (18.5, 18.65), (19.3, 20.3), (21.0, 21.4),
+          (21.9, 22.2)]
+
+
+def camera(name, hz, timecode, late):
+    gate = "+".join("between(t+%g,%g,%g)" % (late, x, y) for x, y in BURSTS)
     return make(os.path.join(HOME, name), [
         "-f", "lavfi", "-i", "testsrc=size=160x90:rate=25:duration=%g"
-        % LENGTH, "-f", "lavfi", "-i", "sine=frequency=%d:duration=%g"
-        % (hz, LENGTH), "-c:v", "libx264", "-preset", "ultrafast",
+        % LENGTH, "-f", "lavfi", "-i",
+        "aevalsrc='0.5*sin(2*PI*%d*t)*(%s)':s=48000:d=%g" % (hz, gate, LENGTH),
+        "-c:v", "libx264", "-preset", "ultrafast",
         "-pix_fmt", "yuv420p", "-c:a", "aac", "-timecode", timecode,
         "-shortest"])
 
 
-PRESENTER = camera("PresenterCam_C002.mov", 330, "18:55:04:00")
-GUEST = camera("GuestCam_C003.mov", 220, "18:55:06:12")
+PRESENTER = camera("PresenterCam_C002.mov", 330, "18:55:04:00", 0.0)
+GUEST = camera("GuestCam_C003.mov", 220, "18:55:06:12", LATE)
 # Each camera's tone, counted once by the same route as the written files.
 SOURCE = {path: tone(path) for path in (GUEST, PRESENTER)}
 
