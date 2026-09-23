@@ -111,8 +111,8 @@ measured places, and Resolve makes the multicam clip from it.
 asked who speaks, so there is no cut timeline to build and no speaker
 markers; the log says **Sync only: no cut by speaker was asked for.
 Only the Timeline for the multicam clip is built.** The video tracks
-are named after the camera files, the name without its ending, and the
-log lists them under **video tracks, named after the camera files**.
+carry each camera's **new file name** from the camera table -- by default
+the camera file's own name without its ending -- and the log lists them under **video tracks, named after the camera files**.
 No render job is queued, because the job hangs on the cut timeline and
 there is none; with one camera the straight **… Cut** timeline is built
 as it always is for one camera, mix below and render job with it, and
@@ -142,8 +142,10 @@ timeline carries no markers.
 
 **… Multicam**: all cameras side by side, one per video track, each as
 long as its own file and **uncut**, at its measured place. Track names = speakers, a
-camera without a speaker is called `Wide`, and the speaker names stand
-as markers. With **Sync only** every track carries the name of its
+camera without a speaker is called `Wide shot` (`Wide shot 1`, `Wide
+shot 2` where two), as the window labels it, and the speaker names stand
+as markers. Where nobody was heard, and with **Sync only**, every track
+carries the camera's **new file name**, by default the name of its
 camera file, and there are no markers. Video track 1 takes the camera whose first audio track is
 the Full-Mix, usually the wide shot; on conversion it becomes angle 1.
 
@@ -570,7 +572,7 @@ scripting interface has no multicam. So by hand:
 
 On the audio, see the four choices above. The track name becomes the name of
 the angle (manual, chapter 49), and that is why the video tracks carry the
-speakers' names -- or, with **Sync only**, the names of the camera files.
+speakers' names -- or, with **Sync only**, each camera's **new file name**.
 Converting is a one-way operation, and Resolve keeps no
 backup copy.
 
