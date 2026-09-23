@@ -151,9 +151,6 @@ msgstr "回到较早的版本 ..."
 msgid "Back to an earlier version"
 msgstr "回到较早的版本"
 
-msgid "Separating speakers"
-msgstr "分离说话人"
-
 msgid "Separating ..."
 msgstr "正在分离 ..."
 
@@ -4628,3 +4625,27 @@ msgstr "  只有一个声音 -- 没有可以对齐的对象。"
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  共同电平：           %s LUFS，声音的中位数"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name 指定了 %s，但它不是本次运行的任何一个摄像机文件。"
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "%s 的新名称为空；请给出一个简单的文件名，或去掉 --new-name。"
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "新名称 \"%s\"（用于 %s）含有 \"%s\"，这是文件夹或驱动器的分隔符；请给出一个简单的文件名。"
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "新名称 \"%s\"（用于 %s）以点开头，会成为隐藏文件或文件夹；请给出一个简单的文件名。"
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "两个摄像机将被写成同一个文件 %s：%s 和 %s。"
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name 给 %s 两个名称：\"%s\" 和 \"%s\"；每个文件只给一个名称。"
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "这里由分配文件为摄像机命名，因此 --new-name 会被丢弃；请在那里给出名称，或去掉 --new-name。"
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "只有摄像机时，每个文件以从其声音中取出的音轨命名，因此 --new-name 会被丢弃；请去掉 --new-name。"

@@ -8,7 +8,9 @@ and the catalogue as data. A German text missing a %s raises at run
 time, and only for people running in German. And one thing has one
 German word: a value the interface offers is called the same in every
 German text about it, or the log and the field are two names for one
-thing.
+thing. Every catalogue, not the German one alone, is held to carrying
+no entry the program cannot reach; reachable is a wording that stands
+in the program at all, so an entry whose string never meets T() passes.
 """
 import ast, io, os, re, sys, time
 
@@ -103,10 +105,25 @@ catalogue = vpm.CATALOGUE["de"]
 # the ordinary texts. Both are entries somebody wrote and both can go
 # stale, so both are held against what the program really says.
 plurals = vpm.language.PLURALS.get("de", {})
-unreachable = [k for k in list(catalogue) + list(plurals)
-               if k not in elsewhere]
+# Every catalogue the program loaded, not the German one alone: the
+# other twenty-seven are written from sheets, and eleven of them carried
+# a wording the program had stopped saying, with nothing to say so.
+# Reachable is a string standing anywhere in the program: a good many
+# wordings reach T() through a table -- the choice labels, the shot
+# names, the cut fields, the spoken languages -- and never as a literal.
+# One check over all of them, so the register can hold its row; the
+# line names each language that carries dead weight, with its count.
+unreachable = []
+for _code in sorted(vpm.CATALOGUE):
+    _dead = [k for k in list(vpm.CATALOGUE[_code])
+             + list(vpm.language.PLURALS.get(_code, {}))
+             if k not in elsewhere]
+    if _dead:
+        unreachable.append("%s %d: %s"
+                           % (_code, len(_dead), [repr(x)[:40] for x in _dead[:2]]))
 check("no entry nobody can reach", not unreachable,
-      "%d: %s" % (len(unreachable), [repr(x)[:40] for x in unreachable[:3]]))
+      "%d of %d catalogues: %s"
+      % (len(unreachable), len(vpm.CATALOGUE), unreachable[:3]))
 
 wanted = set()
 for _piece, tree in TREES:

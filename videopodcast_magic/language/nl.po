@@ -4440,3 +4440,30 @@ msgstr "  Maar één stem -- niets om mee te vergelijken."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Gemeenschappelijk niveau:  %s LUFS, de mediaan van de stemmen"
+
+msgid "Project"
+msgstr "Project"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name noemt %s, en dat is geen van de camerabestanden van deze run."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "De nieuwe naam voor %s is leeg; geef een gewone bestandsnaam of laat --new-name weg."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "De nieuwe naam \"%s\" voor %s bevat \"%s\", een scheidingsteken voor map of station; geef een gewone bestandsnaam."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "De nieuwe naam \"%s\" voor %s begint met een punt, wat een verborgen bestand of een map oplevert; geef een gewone bestandsnaam."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Twee camera's zouden als één bestand worden geschreven, %s: %s en %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name geeft %s twee namen, \"%s\" en \"%s\"; geef elk bestand er maar één."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Hier geeft het toewijzingsbestand de camera's hun namen, dus --new-name zou vervallen; geef de namen daar of laat --new-name weg."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Met alleen camera's wordt elk bestand genoemd naar de sporen uit zijn geluid, dus --new-name zou vervallen; laat --new-name weg."

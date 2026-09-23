@@ -4483,3 +4483,30 @@ msgstr "  Len jeden hlas -- nie je s čím ho porovnať."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Spoločná úroveň:     %s LUFS, medián hlasov"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name uvádza %s, čo nie je žiadny zo súborov kamier tohto behu."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Nový názov pre %s je prázdny; zadajte obyčajný názov súboru alebo --new-name vynechajte."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Nový názov \"%s\" pre %s obsahuje \"%s\", oddeľovač priečinkov alebo jednotiek; zadajte obyčajný názov súboru."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Nový názov \"%s\" pre %s začína bodkou, čo vytvorí skrytý súbor alebo priečinok; zadajte obyčajný názov súboru."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Dve kamery by sa zapísali ako jeden súbor, %s: %s a %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name dáva súboru %s dva názvy, \"%s\" a \"%s\"; dajte každému súboru len jeden."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Kamery tu pomenúva súbor priradenia, takže by --new-name bolo zahodené; zadajte názvy tam alebo --new-name vynechajte."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Len s kamerami sa každý súbor volá podľa stôp získaných z jeho zvuku, takže by --new-name bolo zahodené; --new-name vynechajte."

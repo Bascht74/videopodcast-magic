@@ -149,9 +149,6 @@ msgstr "Volver a una versión anterior ..."
 msgid "Back to an earlier version"
 msgstr "Volver a una versión anterior"
 
-msgid "Separating speakers"
-msgstr "Separando hablantes"
-
 msgid "Separating ..."
 msgstr "Separando ..."
 
@@ -4667,3 +4664,27 @@ msgstr "  Solo una voz -- nada con qué compararla."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Nivel común:         %s LUFS, la mediana de las voces"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name nombra %s, que no es ninguno de los archivos de cámara de esta ejecución."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "El nuevo nombre para %s está vacío; indicar un nombre de archivo simple u omitir --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "El nuevo nombre \"%s\" para %s contiene \"%s\", un separador de carpeta o de unidad; indicar un nombre de archivo simple."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "El nuevo nombre \"%s\" para %s empieza por un punto, lo que crea un archivo oculto o una carpeta; indicar un nombre de archivo simple."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Dos cámaras se escribirían como un solo archivo, %s: %s y %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name da a %s dos nombres, \"%s\" y \"%s\"; dar uno solo a cada archivo."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Aquí el archivo de asignación nombra las cámaras, así que --new-name se descartaría; indicar los nombres allí u omitir --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Con solo cámaras, cada archivo recibe el nombre de las pistas tomadas de su sonido, así que --new-name se descartaría; omitir --new-name."

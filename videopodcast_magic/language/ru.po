@@ -151,9 +151,6 @@ msgstr "Вернуться к более ранней версии ..."
 msgid "Back to an earlier version"
 msgstr "Вернуться к более ранней версии"
 
-msgid "Separating speakers"
-msgstr "Разделение говорящих"
-
 msgid "Separating ..."
 msgstr "Разделение ..."
 
@@ -4710,3 +4707,27 @@ msgstr "  Только один голос -- не с чем сравниват�
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Общий уровень:       %s LUFS, медиана голосов"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name называет %s, но такого нет среди файлов камер этого прогона."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Новое имя для %s пустое; указать простое имя файла или не задавать --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Новое имя \"%s\" для %s содержит \"%s\", разделитель папок или дисков; указать простое имя файла."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Новое имя \"%s\" для %s начинается с точки, а это даёт скрытый файл или папку; указать простое имя файла."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Две камеры были бы записаны в один файл, %s: %s и %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name даёт %s два имени, \"%s\" и \"%s\"; дать каждому файлу одно."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Здесь камеры называет файл назначения, поэтому --new-name был бы отброшен; указать имена там или не задавать --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Когда есть только камеры, каждый файл называется по дорожкам, взятым из его звука, поэтому --new-name был бы отброшен; не задавать --new-name."

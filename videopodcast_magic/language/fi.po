@@ -4440,3 +4440,30 @@ msgstr "  Vain yksi puheääni -- ei mitään, mihin verrata."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Yhteinen taso:       %s LUFS, puheäänten mediaani"
+
+msgid "Project"
+msgstr "Projekti"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name nimeää tiedoston %s, joka ei ole mikään tämän ajon kameratiedostoista."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Uusi nimi tiedostolle %s on tyhjä; anna pelkkä tiedostonimi tai jätä --new-name pois."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Uusi nimi \"%s\" tiedostolle %s sisältää merkin \"%s\", joka erottaa kansioita tai asemia; anna pelkkä tiedostonimi."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Uusi nimi \"%s\" tiedostolle %s alkaa pisteellä, jolloin syntyy piilotiedosto tai kansio; anna pelkkä tiedostonimi."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Kaksi kameraa kirjoitettaisiin yhdeksi tiedostoksi, %s: %s ja %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name antaa tiedostolle %s kaksi nimeä, \"%s\" ja \"%s\"; anna kullekin tiedostolle vain yksi."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Tässä määritystiedosto nimeää kamerat, joten --new-name jätettäisiin huomiotta; anna nimet siellä tai jätä --new-name pois."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Pelkillä kameroilla kukin tiedosto nimetään sen äänestä otettujen raitojen mukaan, joten --new-name jätettäisiin huomiotta; jätä --new-name pois."
