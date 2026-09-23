@@ -4398,3 +4398,30 @@ msgstr "  Chỉ một giọng nói -- không có gì để so sánh."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Mức âm chung:        %s LUFS, trung vị của các giọng nói"
+
+msgid "Project"
+msgstr "Dự án"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name nêu %s, nhưng đó không phải tệp máy quay nào của lượt chạy này."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Tên mới cho %s đang trống; hãy đưa ra một tên tệp đơn giản hoặc bỏ --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Tên mới \"%s\" cho %s chứa \"%s\", một ký tự phân cách thư mục hoặc ổ đĩa; hãy đưa ra một tên tệp đơn giản."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Tên mới \"%s\" cho %s bắt đầu bằng dấu chấm, điều này tạo ra tệp ẩn hoặc thư mục; hãy đưa ra một tên tệp đơn giản."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Hai máy quay sẽ bị ghi thành một tệp, %s: %s và %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name đặt cho %s hai tên, \"%s\" và \"%s\"; hãy chỉ đặt cho mỗi tệp một tên."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Ở đây tệp gán đặt tên cho các máy quay, nên --new-name sẽ bị bỏ qua; hãy đặt tên ở đó hoặc bỏ --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Khi chỉ có máy quay, mỗi tệp được đặt tên theo các rãnh lấy từ âm thanh của nó, nên --new-name sẽ bị bỏ qua; hãy bỏ --new-name."

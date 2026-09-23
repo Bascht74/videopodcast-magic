@@ -4484,3 +4484,30 @@ msgstr "  Samo jedan glas -- nema s čime ga usporediti."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Zajednička razina:   %s LUFS, medijan glasova"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name navodi %s, a to nije nijedna od datoteka kamera ovog prolaza."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Novi naziv za %s je prazan; navedite običan naziv datoteke ili izostavite --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Novi naziv \"%s\" za %s sadrži \"%s\", razdjelnik mapa ili pogona; navedite običan naziv datoteke."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Novi naziv \"%s\" za %s počinje točkom, što daje skrivenu datoteku ili mapu; navedite običan naziv datoteke."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Dvije bi se kamere zapisale kao jedna datoteka, %s: %s i %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name daje datoteci %s dva naziva, \"%s\" i \"%s\"; dajte svakoj datoteci samo jedan."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Ovdje kamere imenuje datoteka dodjele, pa bi --new-name bio odbačen; navedite nazive tamo ili izostavite --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Kad su samo kamere, svaka se datoteka naziva po zapisima uzetima iz njezina zvuka, pa bi --new-name bio odbačen; izostavite --new-name."
