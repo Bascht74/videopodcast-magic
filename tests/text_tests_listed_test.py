@@ -81,7 +81,7 @@ listed = dict((name, said) for _, name, said in rows)
 print("\n2. It names the tests that are here, and only those")
 missing = sorted(set(here) - set(listed))
 check("every test in the folder has a row", not missing,
-      "%d without one: %s" % (len(missing), ", ".join(missing[:4])))
+      "%d without one: %s" % (len(missing), ", ".join(missing)))
 gone = sorted(set(listed) - set(here))
 check("every row names a test that is here", not gone,
       "%d name none: %s" % (len(gone), ", ".join(gone[:4])))
