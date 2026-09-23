@@ -11,7 +11,8 @@ Two grounds, one claim. A refusal handed to the player while a file
 plays, and a file the app really cannot open followed by one it can.
 What is asked is only that a picture is on show and that nothing says
 "refused" any more -- never which page shows it, and never that a
-refusal hides anything in the first place.
+refusal hides anything in the first place. A refusal counts whether Qt
+signals it or only reports the InvalidMedia state.
 """
 import os
 import sys
@@ -59,27 +60,55 @@ def hint(widget, text):
     return widget
 
 
-PATIENCE = 20.0
-POLL = 0.02
+POLL = 0.02      # the interval: what a wait costs when the thing comes
+STILL = 20.0     # a sign of life unchanged this long: it never comes
+PATIENCE = 60.0  # the bound a step that keeps moving reaches only broken
 # What on_error writes over the file name today, without the name.
 REFUSED_SAYS = (vpm.T('%s   --   the app does not know this format')
                 % "").strip()
 
 
-def waited_for(condition, why, patience=PATIENCE):
-    """Wait on a condition, never on the clock; None where it never came.
+class Wait(object):
+    """What a wait came back with, in the shape the FAIL line reads."""
 
-    The judgement follows either way -- a wait that gave up must not
-    take the check with it, only explain the numbers it then reads.
+    def __init__(self, took, why_not=""):
+        self.took = took
+        self.came = took is not None
+        self.why_not = why_not
+
+    def __str__(self):
+        return "%.2f s" % self.took if self.came else self.why_not
+
+
+def waited_for(condition, why, alive):
+    """Wait on a condition, never on the clock; says what never came.
+
+    What ends a wait that does not come is standstill: the sign of life
+    unchanged for STILL seconds. One that keeps moving has PATIENCE. The
+    judgement follows either way -- a wait that gave up must not take
+    the check with it, only explain the numbers it then reads.
     """
     began_here = time.time()
-    while time.time() - began_here < patience:
+    last, moved = alive(), began_here
+    while True:
         app.processEvents()
         if condition():
-            return time.time() - began_here
+            return Wait(time.time() - began_here)
+        now = time.time()
+        seen = alive()
+        if seen != last:
+            last, moved = seen, now
+        if now - moved >= STILL:
+            why_not = ("%.0f s with nothing changing, last %r"
+                       % (now - moved, last))
+            break
+        if now - began_here >= PATIENCE:
+            why_not = ("%.0f s still moving, last %r"
+                       % (now - began_here, last))
+            break
         time.sleep(POLL)
-    print("      gave up after %.1f s waiting for %s" % (patience, why))
-    return None
+    print("      gave up waiting for %s: %s" % (why, why_not))
+    return Wait(None, why_not)
 
 
 # ------------------------------------------------------------- the material
@@ -111,6 +140,18 @@ player.player.videoSink().videoFrameChanged.connect(
 
 READY = (QtMultimedia.QMediaPlayer.LoadedMedia,
          QtMultimedia.QMediaPlayer.BufferedMedia)
+INVALID = QtMultimedia.QMediaPlayer.InvalidMedia
+
+
+def status():
+    """What moves while Qt opens or refuses a file: its state and error."""
+    return (player.player.mediaStatus(), player.player.error())
+
+
+def running():
+    """What moves while a file plays, whether or not a picture comes."""
+    return (player.player.playbackState(), player.player.position(),
+            len(pictures))
 
 
 def on_show():
@@ -132,27 +173,40 @@ def said_now():
 
 
 try:
-    print("1. A refusal, then the same file played")
+    print("1. A refusal while a file plays, then the same file on")
     player.load(PLAYS)
-    took = waited_for(lambda: player.player.mediaStatus() in READY,
-                      "the file to open")
+    waited_for(lambda: player.player.mediaStatus() in READY,
+               "the file to open", status)
+    was = len(pictures)
+    player.start()
+    took = waited_for(lambda: len(pictures) > was,
+                      "the picture to run before the refusal", running)
     name, up = on_show()
     check("the picture is up before anything is refused", up,
-          "page %r up %s, stack up %s, after %s s"
-          % (name, up, player.stack.isVisible(), took))
+          "page %r up %s, stack up %s, %d pictures after %s"
+          % (name, up, player.stack.isVisible(), len(pictures) - was, took))
 
-    # Refused before it has ever played, so what follows is a first
-    # start and not a restart out of the stop the refusal makes.
-    player.on_error(QtMultimedia.QMediaPlayer.FormatError, "in the test")
+    # Refused while it plays, so the refusal meets the page on show.
+    # Refused before it had ever played it hid a page nobody saw: the
+    # still was on show, the start switched to the picture and put it
+    # up, and the refusal was never taken back for this check to see
+    # (measured 23.9.2026: three repairs, each of them green alone).
+    # What the refusal met is printed with the judgement below.
+    # Not a FormatError: on an open file with a picture the preview
+    # reads that as the sound track and keeps the picture, and then
+    # nothing here ever stood in for it.
+    player.on_error(QtMultimedia.QMediaPlayer.ResourceError, "in the test")
+    met, met_up = on_show()
     app.processEvents()
     was = len(pictures)
     player.start()
     took = waited_for(lambda: len(pictures) > was,
-                      "the picture to run on after the refusal")
+                      "the picture to run on after the refusal", running)
     name, up = on_show()
     check("the picture is up again once it runs on after a refusal", up,
-          "page %r up %s, %d pictures more after %s s"
-          % (name, up, len(pictures) - was, took))
+          "page %r up %s, %d pictures more after %s; the refusal left "
+          "page %r up %s"
+          % (name, up, len(pictures) - was, took, met, met_up))
     check("and the line above it no longer says the format was refused",
           REFUSED_SAYS not in said_now(),
           "the line says %r, %d pictures more" % (said_now()[:60],
@@ -163,30 +217,43 @@ try:
           % (player.extern.isVisible(), len(pictures) - was))
 
     print("\n2. A file the app cannot open, then one it can")
+    # Each refusal as Qt gives it: the error signal, or only the state.
+    # Both as they arrive, never the state read back -- the file before
+    # leaves its state behind, and a read would take that for an answer.
     trouble = []
-    player.player.errorOccurred.connect(lambda *a: trouble.append(1))
+    player.player.errorOccurred.connect(lambda *a: trouble.append("error"))
+
+    def state_says(status):
+        if status == INVALID:
+            trouble.append("InvalidMedia")
+
+    player.player.mediaStatusChanged.connect(state_says)
     player.load(REFUSED)
-    took = waited_for(lambda: bool(trouble), "the app to refuse the file")
+    took = waited_for(lambda: bool(trouble), "the app to refuse the file",
+                      status)
     check("the app really cannot play the file put in front of it",
           bool(trouble),
-          "%d refusals after %s s, player error %r"
-          % (len(trouble), took, player.player.error()))
+          "%d refusals (%s) after %s, player error %r, status %r, "
+          "button up %s"
+          % (len(trouble), ", ".join(trouble) or "none", took,
+             player.player.error(), player.player.mediaStatus(),
+             player.extern.isVisible()))
 
     player.load(PLAYS)
     took = waited_for(lambda: player.player.mediaStatus() in READY,
-                      "the file that plays to open again")
+                      "the file that plays to open again", status)
     name, up = on_show()
     check("the picture is back once a file that plays is loaded", up,
-          "page %r up %s, stack up %s, after %s s"
+          "page %r up %s, stack up %s, after %s"
           % (name, up, player.stack.isVisible(), took))
 
     was = len(pictures)
     player.start()
     ran = waited_for(lambda: player.player.position() > 0,
-                     "the file to run on")
+                     "the file to run on", running)
     check("the file really plays on after the one that was refused",
-          ran is not None,
-          "position %d ms after %s s, %d pictures more"
+          ran.came,
+          "position %d ms after %s, %d pictures more"
           % (player.player.position(), ran, len(pictures) - was))
     name, up = on_show()
     check("and the picture is still there while that file plays", up,
