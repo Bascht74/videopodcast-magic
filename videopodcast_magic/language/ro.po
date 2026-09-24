@@ -4484,3 +4484,30 @@ msgstr "  O singură voce -- nimic cu care să fie comparată."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Nivel comun:         %s LUFS, mediana vocilor"
+
+msgid "Project"
+msgstr "Proiect"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name numește %s, care nu este niciunul dintre fișierele de cameră ale acestei rulări."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Numele nou pentru %s este gol; indicați un nume simplu de fișier sau omiteți --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Numele nou \"%s\" pentru %s conține \"%s\", un separator de dosar sau de unitate; indicați un nume simplu de fișier."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Numele nou \"%s\" pentru %s începe cu un punct, ceea ce face un fișier ascuns sau un dosar; indicați un nume simplu de fișier."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Două camere ar fi scrise ca un singur fișier, %s: %s și %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name dă fișierului %s două nume, \"%s\" și \"%s\"; dați fiecărui fișier unul singur."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Aici fișierul de atribuire numește camerele, deci --new-name ar fi ignorat; indicați numele acolo sau omiteți --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Doar cu camere, fiecare fișier poartă numele pistelor luate din sunetul său, deci --new-name ar fi ignorat; omiteți --new-name."

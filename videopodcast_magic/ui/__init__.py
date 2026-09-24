@@ -394,8 +394,11 @@ def missing_conditions(files, production, multitrack, assign_lines,
         pending[22] = (T('Two cameras are one camera in the cut: %s. Their '
                          'files carry the same name, so rename one of '
                          'them.') % ", ".join(same_name))
+    # Without case, as the run and the disks of macOS and Windows compare.
     outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
-    duplicate = sorted(set(n for n in outputs if n and outputs.count(n) > 1))
+    folded = [n.lower() for n in outputs]
+    duplicate = sorted(set(n for n in outputs
+                           if n and folded.count(n.lower()) > 1))
     if duplicate:
         pending[22] = (T('Two cameras would produce the same file: %s')
                      % ", ".join(duplicate))
@@ -1631,9 +1634,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     table_video = table_build([T('Camera'), T('new file name'),
                                T('gets audio from'), T('Kind'),
                                T('Camera audio')])
-    # Sync only: the name and the audio source reach the run through
-    # the plan alone, and there is none -- so those two are hidden too.
-    table_video.setColumnHidden(1, sync_only)
+    # Sync only: the new file name stays, since the run names each file
+    # and its track after it on every path; where the audio comes from
+    # is read off the speakers, and there are none -- so that one hides.
     table_video.setColumnHidden(2, sync_only)
     column_layout.addWidget(table_video, 1)
     video_reason = label("", COLOURS["error"])
@@ -1706,10 +1709,17 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         own = list(taken.get(short) or [])
         if used:
             own += mine or [own_audio_name]
-        suggestion = camera_name_suggestion(production_var.get(),
-                                            short, own)
+        multitrack_now = bool(state["multitrack"].get()) and not sync_only
+        suggestion = camera_name_suggestion(production_var.get(), short,
+                                            own, multitrack_now)
         suggestions[b] = suggestion
-        name_value = Value(remembered.get("video:" + b) or suggestion)
+        # A kept name that is the other tick's suggestion was never typed
+        # -- a project file saves every field -- so it follows the tick.
+        kept = remembered.get("video:" + b) or ""
+        if kept == camera_name_suggestion(production_var.get(), short,
+                                          own, not multitrack_now):
+            kept = ""
+        name_value = Value(kept or suggestion)
         name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
         speaks_as(name_entry, T('new file name'), short)
         from_the_front(name_entry)
@@ -1738,7 +1748,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     # The new file name is long, so it gets whatever is left.
     table_video.horizontalHeader().setStretchLastSection(False)
     table_video.horizontalHeader().setSectionResizeMode(
-        0 if sync_only else 1, QtWidgets.QHeaderView.Stretch)
+        1, QtWidgets.QHeaderView.Stretch)
     tree_audio.header().setStretchLastSection(True)
     if not SPEAKER_SPLIT_OFF:
         # A width for what the column will hold, not for what is in it:
@@ -1842,13 +1852,14 @@ def gui():
         window.setWindowIcon(symbol)
 
     files = []                      # [(path, "audio"|"video")]
+    multitrack = Value(False)
     state = {"running": False, "results": [], "presets": None,
                "resolve_json": None, "result_folder": None,
                "camera_audio": False, "waiting": False, "without_tc": False,
                "assignment_content": None, "statistics": False,
                "in_point": "", "out_point": "", "axis": {}, "tc_there": False,
                "weak": set(), "tables": [], "axis_absolute": False,
-               "axis_clock": {}, "project_type": ""}
+               "axis_clock": {}, "project_type": "", "multitrack": multitrack}
     post = queue.Queue()
 
     # ------------------------------------------------------------------
@@ -2324,7 +2335,6 @@ def gui():
     production_var = Value("")
     start_var = Value("")
     end_var = Value("")
-    multitrack = Value(False)
     project_type = Value("")
 
     def commonest_folder():

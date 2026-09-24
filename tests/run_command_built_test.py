@@ -5,10 +5,13 @@ Three independent claims. The command line is the one that would be
 written by hand; the plan beside it carries what no switch can, the
 cameras and the tracks; and what cannot be run is refused with a title
 a person can read, while a merely doubtful case becomes a question.
-The last sections hold the window to calling this and keeping no
+Two sections hold the window to calling this and keeping no
 assembly of its own, since two builders of one command line drift
 apart. The window is gui() and every make_* function beside it, and
-those are collected out of the program rather than listed here."""
+those are collected out of the program rather than listed here. The
+last section is the camera's name where no plan carries it: it goes
+as a switch pair the run's parser reads back, under Sync only too,
+and two cameras of one name, case aside, are refused on that path."""
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -474,6 +477,60 @@ check("a key and a preset keep it off the line",
         "--without-auphonic" not in (a or []),
         "18. a key and a preset gave %s, wanted no --without-auphonic"
         % shown(a))
+
+print("\n19. A camera's name rides on the line where no plan carries it")
+# The window's "new file name" field: with Multitrack it travels in the
+# plan, without one there is no plan, so it goes as a pair behind
+# --new-name. An empty field sends nothing and the run names the file
+# after itself; the pair count is the whole of that judgement.
+NAMED = [{"path": "/x/G.mov", "name": " Presenter "},
+         {"path": "/x/H.mov", "name": ""}]
+THREE = [("/x/a.wav", "audio"), ("/x/G.mov", "video"), ("/x/H.mov", "video")]
+
+
+def name_pairs(argv):
+    """Every FILE NAME pair behind --new-name, in the order sent."""
+    return [argv[i + 1:i + 3] for i, w in enumerate(argv) if w == "--new-name"]
+
+
+a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED))
+a = a or []
+check("the typed name goes as a pair and the plan stays away",
+        name_pairs(a) == [["/x/G.mov", "Presenter"]] and plan is None
+        and "--assign" not in a,
+        "19. pairs %s and plan %s, wanted [['/x/G.mov', 'Presenter']] "
+        "and None; the line is %s" % (name_pairs(a), brief(plan), shown(a)))
+space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
+check("and the run's parser reads the pair back as file and name",
+        getattr(space, "new_name", None) == [["/x/G.mov", "Presenter"]]
+        and rest == [],
+        "19. new_name read back as %r with %d words left over %s, wanted "
+        "[['/x/G.mov', 'Presenter']] and none"
+        % (getattr(space, "new_name", None), len(rest), rest[:4]))
+a, plan, m = vpm.run_argv(values(files=THREE, cameras=NAMED,
+                                 project_type="sync"))
+a = a or []
+check("under Sync only the pair rides along just the same",
+        name_pairs(a) == [["/x/G.mov", "Presenter"]]
+        and a[a.index("--project-type") + 1:][:1] == ["sync"],
+        "19. pairs %s behind --project-type %s, wanted [['/x/G.mov', "
+        "'Presenter']] and 'sync'; the line is %s"
+        % (name_pairs(a), a[a.index("--project-type") + 1:][:1]
+           if "--project-type" in a else "missing", shown(a)))
+a, _p, m = vpm.run_argv(values(
+    files=THREE, cameras=[{"path": "/x/G.mov", "name": "same"},
+                          {"path": "/x/H.mov", "name": "same"}]))
+check("two cameras of one name are refused without Multitrack too",
+        a is None and bool(m) and m[-1][1] == "File names",
+        "19. both named 'same' gave %s with the titles %s, wanted None "
+        "and 'File names' last" % (shown(a), [x[1] for x in m]))
+a, _p, m = vpm.run_argv(values(
+    files=THREE, cameras=[{"path": "/x/G.mov", "name": "Same"},
+                          {"path": "/x/H.mov", "name": "same"}]))
+check("and so are two whose names differ only in case",
+        a is None and bool(m) and m[-1][1] == "File names",
+        "19. named 'Same' and 'same' gave %s with the titles %s, wanted "
+        "None and 'File names' last" % (shown(a), [x[1] for x in m]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

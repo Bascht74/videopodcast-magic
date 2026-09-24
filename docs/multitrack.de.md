@@ -119,9 +119,17 @@ stehen hier ein zweites Mal, weil der Player hier ist: dass ein Clip in
 Wahrheit ein Abspann ist, fällt beim Ansehen auf. Ein Klick auf eine
 Zeile holt die Datei in den Player.
 
-**neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird.
-Bis jemand darüberschreibt, ist es ein Vorschlag, gebaut aus der Kamera
-und den Sprechern. Der Produktionsname gehört nicht dazu: das Ergebnis
+**neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird --
+mit Häkchen wie ohne, und auch bei **Nur synchronisieren**: unter
+diesem Namen schreibt der Lauf die Kameradatei, und die Spur der Kamera
+in Resolve trägt ihn ebenfalls. Bis jemand darüberschreibt, ist es ein
+Vorschlag, gebaut aus der Kamera und den Sprechern. Steht auf einer
+Kamera kein Sprechername -- kein Sprecher, und ihr eigener Ton nicht als
+Spur behalten --, tritt mit Häkchen `Audio-Full-Mix` an seine Stelle:
+diese Kamera trägt den ganzen Ton. Ohne Häkchen, und damit auch bei
+**Nur synchronisieren**, bekommt so eine Kamera ihren eigenen
+Dateinamen vorgeschlagen: `CAM_B.mov` bekommt `CAM_B`, den Namen, unter
+dem sie bisher geschrieben wurde. Der Produktionsname gehört nicht dazu: das Ergebnis
 liegt in aller Regel neben dem Material, und in einem Ordner, in dem
 jede Datei mit demselben Wort beginnt, sagt dieses Wort niemandem
 etwas. Zählt die Kamera ihre Dateien mit einer Nummer durch, stehen die

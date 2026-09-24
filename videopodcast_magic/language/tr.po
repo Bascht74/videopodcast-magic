@@ -163,9 +163,6 @@ msgstr "Önceki bir sürüme dön ..."
 msgid "Back to an earlier version"
 msgstr "Önceki bir sürüme dön"
 
-msgid "Separating speakers"
-msgstr "Konuşmacılar ayrılıyor"
-
 msgid "Separating ..."
 msgstr "Ayrılıyor ..."
 
@@ -4681,3 +4678,27 @@ msgstr "  Yalnızca bir ses -- karşılaştırılacak bir şey yok."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Ortak seviye:        %s LUFS, seslerin medyanı"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name %s dosyasını gösteriyor; bu, bu çalıştırmanın kamera dosyalarından biri değil."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Yeni ad boş (dosya: %s); düz bir dosya adı verin ya da --new-name kullanmayın."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Yeni ad \"%s\" (dosya: %s), bir klasör ya da sürücü ayırıcısı olan \"%s\" içeriyor; düz bir dosya adı verin."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Yeni ad \"%s\" (dosya: %s) nokta ile başlıyor, bu da gizli bir dosya ya da klasör oluşturur; düz bir dosya adı verin."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "İki kamera tek bir dosya olarak yazılırdı, %s: %s ve %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name %s dosyasına iki ad veriyor, \"%s\" ve \"%s\"; her dosyaya yalnızca bir ad verin."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Burada kameraları atama dosyası adlandırıyor, bu yüzden --new-name yok sayılırdı; adları orada verin ya da --new-name kullanmayın."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Yalnızca kameralarla her dosya kendi sesinden alınan izlerin adını alır, bu yüzden --new-name yok sayılırdı; --new-name kullanmayın."

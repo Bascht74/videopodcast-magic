@@ -21,6 +21,7 @@ import ast
 import io
 import json
 import os
+import subprocess
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # The program is a folder, and its entry is literally `__init__.py`. A
@@ -28,24 +29,74 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # every run under VPM_SCRIPT silently declines to write the state.
 IN_TREE = os.path.join(os.path.dirname(HERE), "videopodcast_magic",
                        "__init__.py")
+# The branch git names as the one everybody merges into. A floor is a
+# claim about that branch, so a tree that lacks part of it may measure
+# but not write.
+UPSTREAM = "origin/main"
+# One answer per folder: `_save` and `note` ask on every counter, and
+# git costs a process each time it is asked.
+_CURRENT = {}
 
 
-def state_is_ours():
-    """Whether this run may move the ratchet.
+def state_is_ours(folder=None):
+    """Whether this run may move the ratchet kept in `folder`.
 
     A ratchet counts only while it stands for the file in the working
     tree, and every ratchet here writes itself down as soon as a count
     comes out lower. So measure whatever VPM_SCRIPT names -- a snapshot
     would pull the ratchet down for good -- but write the state only
-    where that is the file this repository ships.
+    where that is the file this repository ships, and only from a tree
+    that holds everything origin/main holds (`tree_is_current`).
     """
     named = os.environ.get("VPM_SCRIPT")
-    if not named:
+    if named:
+        try:
+            if not os.path.samefile(named, IN_TREE):
+                return False
+        except OSError:
+            return False
+    return tree_is_current(folder or HERE)
+
+
+def tree_is_current(folder):
+    """Whether the tree around `folder` contains origin/main.
+
+    A ratchet tightens against whatever tree the run stands on. On a
+    branch that lacks main's newest commits it measures an older
+    program, writes that as the floor, and the next run on main is red
+    for a reason that is not a fault: main had legitimately grown under
+    the old floor. Measured 31.8.2026, three times in one day --
+    `largest_function` 5248 -> 5232 out of a half-finished tree, taken
+    back by hand each time.
+
+    Only git can say that, so only git's own "no" counts: no git, no
+    repository, or no `origin/main` -- a clone without the remote, the
+    builder's shallow checkout -- and the answer is yes, as it was
+    before this question was asked. And `origin/main` is as fresh as
+    the last fetch; a test does not fetch.
+    """
+    folder = os.path.abspath(folder)
+    if folder not in _CURRENT:
+        _CURRENT[folder] = _git_contains_upstream(folder)
+    return _CURRENT[folder]
+
+
+def _git_contains_upstream(folder):
+    """Ask git; True on every answer but a clear "HEAD lacks it"."""
+    def git(*words):
+        try:
+            return subprocess.run(("git", "-C", folder) + words,
+                                  stdout=subprocess.DEVNULL,
+                                  stderr=subprocess.DEVNULL).returncode
+        except OSError:
+            return None
+    named = git("rev-parse", "--verify", "-q", UPSTREAM)
+    if named is None:          # no git to ask
         return True
-    try:
-        return os.path.samefile(named, IN_TREE)
-    except OSError:
-        return False
+    if named != 0:             # no such branch, or no repository at all
+        return True
+    # 0 is contained, 1 is not, anything else is git failing to say.
+    return git("merge-base", "--is-ancestor", UPSTREAM, "HEAD") != 1
 
 
 def dumps(data):
@@ -99,6 +150,11 @@ class Ratchet(object):
 
     def __init__(self, path):
         self.path = path
+        # The tree the floor is a claim about is the one the state file
+        # lies in -- which lets a probe keep its state in a tree of its
+        # own instead of in this repository.
+        self.folder = os.path.dirname(os.path.abspath(path))
+        self.said = False
         self.fresh = not os.path.exists(path)
         self.old = {}
         if not self.fresh:
@@ -117,8 +173,19 @@ class Ratchet(object):
                   % os.path.basename(self.path))
 
     def _save(self):
-        """Write the state down, and say whether it really was written."""
-        if not state_is_ours():
+        """Write the state down, and say whether it really was written.
+
+        A run against a snapshot stays quiet, as it always has. A run on
+        a branch behind origin/main says so once: the floor it would
+        have moved stays where it is, and a reader who sees no
+        "tightened" line should know why.
+        """
+        if not state_is_ours(self.folder):
+            if not self.said and not tree_is_current(self.folder):
+                print("      NOTE: this tree is behind %s, so %s is measured"
+                      " and not written" % (UPSTREAM,
+                                            os.path.basename(self.path)))
+                self.said = True
             return False
         io.open(self.path, "w", encoding="utf-8").write(dumps(self.new))
         return True
@@ -130,7 +197,7 @@ class Ratchet(object):
         so a line saying the ratchet tightened would send whoever reads
         the log looking for a change that is not in the file.
         """
-        if now < limit and state_is_ours():
+        if now < limit and state_is_ours(self.folder):
             print("      ratchet tightened: %d -> %d" % (limit, now))
 
     def number(self, key, value):

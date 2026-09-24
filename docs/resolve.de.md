@@ -116,8 +116,9 @@ ihren gemessenen Stellen, und Resolve macht daraus den Multicam-Clip.
 entscheidet. Niemand wurde gefragt, wer spricht, also gibt es keine
 Schnitt-Timeline zu bauen und keine Sprechermarker; das Protokoll sagt
 **Nur synchronisieren: kein Schnitt nach Sprecher verlangt. Nur die
-Timeline für den Multicam-Clip wird gebaut.** Die Bildspuren heißen
-nach den Kameradateien, der Name ohne Endung, und das Protokoll zählt
+Timeline für den Multicam-Clip wird gebaut.** Die Bildspuren tragen,
+was in der Kameratabelle unter **neue Datei heißt** steht -- ohne Eingabe
+den Namen der Kameradatei ohne Endung --, und das Protokoll zählt
 sie unter **Bildspuren, benannt nach den Kameradateien** auf. Ein
 Renderauftrag entsteht nicht, denn der hängt an der Schnitt-Timeline,
 und die fehlt; bei einer Kamera entsteht die gerade Timeline **… Cut**
@@ -151,9 +152,12 @@ Marker.
 **… Multicam**: alle Kameras nebeneinander, eine je Bildspur, jede so
 lang wie ihre eigene Datei und **ohne Schnitte**, an ihrer gemessenen
 Stelle. Die
-Spurnamen sind die Sprecher, eine Kamera ohne Sprecher heißt `Wide`, und
-die Sprechernamen stehen als Marker. Bei **Nur synchronisieren** trägt
-jede Spur den Namen ihrer Kameradatei, und Marker gibt es keine. Auf Bildspur 1 kommt die Kamera,
+Spurnamen sind die Sprecher, eine Kamera ohne Sprecher heißt
+`Weitwinkel` (`Weitwinkel 1`, `Weitwinkel 2` bei zweien), so wie das
+Fenster sie beschriftet, und die Sprechernamen stehen als Marker. Wo
+niemand gehört wurde, und bei **Nur synchronisieren**, trägt jede Spur,
+was unter **neue Datei heißt** steht, ohne Eingabe den Namen ihrer
+Kameradatei, und Marker gibt es keine. Auf Bildspur 1 kommt die Kamera,
 deren erste Tonspur der Full-Mix ist, meist der Weitwinkel; beim
 Umwandeln wird er zu Perspektive 1.
 
@@ -607,8 +611,8 @@ anlegen: die Scripting-Schnittstelle kennt Multicam nicht. Also von Hand:
 
 Zum Ton siehe die vier Möglichkeiten weiter oben. Der Spurname wird zum Namen
 der Perspektive (Handbuch, Kapitel 49), und deshalb heißen die Bildspuren
-nach den Sprechern -- oder, bei **Nur synchronisieren**, nach den
-Kameradateien. Die Umwandlung ist ein Einwegvorgang, und Resolve legt
+nach den Sprechern -- oder, bei **Nur synchronisieren**, nach dem, was
+unter **neue Datei heißt** steht. Die Umwandlung ist ein Einwegvorgang, und Resolve legt
 keine Sicherungskopie an.
 
 ### Wenn etwas klemmt

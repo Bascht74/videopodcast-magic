@@ -151,9 +151,6 @@ msgstr "पिछले संस्करण पर लौटें ..."
 msgid "Back to an earlier version"
 msgstr "पिछले संस्करण पर लौटें"
 
-msgid "Separating speakers"
-msgstr "वक्ताओं का पृथक्करण"
-
 msgid "Separating ..."
 msgstr "अलग किया जा रहा है ..."
 
@@ -4669,3 +4666,27 @@ msgstr "  केवल एक आवाज़ -- मिलाने को क�
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  साझा स्तर:           %s LUFS, आवाज़ों की माध्यिका"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name में %s दिया गया है, जो इस रन की कैमरा फ़ाइलों में से कोई नहीं है।"
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "%s के लिए नया नाम खाली है; कोई सादा फ़ाइल नाम दें या --new-name हटा दें।"
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "नया नाम \"%s\" (%s के लिए) में \"%s\" है, जो फ़ोल्डर या ड्राइव का विभाजक है; कोई सादा फ़ाइल नाम दें।"
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "नया नाम \"%s\" (%s के लिए) बिंदु से शुरू होता है, जिससे छिपी फ़ाइल या फ़ोल्डर बनता है; कोई सादा फ़ाइल नाम दें।"
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "दो कैमरे एक ही फ़ाइल के रूप में लिखे जाते, %s: %s और %s।"
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name %s को दो नाम देता है, \"%s\" और \"%s\"; हर फ़ाइल को केवल एक नाम दें।"
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "यहाँ कैमरों के नाम नियतन फ़ाइल देती है, इसलिए --new-name छोड़ दिया जाता; नाम वहीं दें या --new-name हटा दें।"
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "केवल कैमरों के साथ हर फ़ाइल का नाम उसकी ध्वनि से लिए गए ट्रैकों पर रखा जाता है, इसलिए --new-name छोड़ दिया जाता; --new-name हटा दें।"

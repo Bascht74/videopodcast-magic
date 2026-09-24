@@ -4440,3 +4440,30 @@ msgstr "  Μόνο μία φωνή -- δεν υπάρχει τίποτα για 
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Κοινή στάθμη:        %s LUFS, η διάμεσος των φωνών"
+
+msgid "Project"
+msgstr "Έργο"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "Το --new-name ονομάζει το %s, που δεν είναι κανένα από τα αρχεία κάμερας αυτής της εκτέλεσης."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Το νέο όνομα για το %s είναι κενό· δώστε ένα απλό όνομα αρχείου ή παραλείψτε το --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Το νέο όνομα \"%s\" για το %s περιέχει \"%s\", διαχωριστικό φακέλου ή μονάδας δίσκου· δώστε ένα απλό όνομα αρχείου."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Το νέο όνομα \"%s\" για το %s αρχίζει με τελεία, κάτι που δίνει κρυφό αρχείο ή φάκελο· δώστε ένα απλό όνομα αρχείου."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Δύο κάμερες θα γράφονταν ως ένα αρχείο, %s: %s και %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "Το --new-name δίνει στο %s δύο ονόματα, \"%s\" και \"%s\"· δώστε μόνο ένα σε κάθε αρχείο."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Εδώ τις κάμερες τις ονομάζει το αρχείο αντιστοίχισης, οπότε το --new-name θα απορριπτόταν· δώστε τα ονόματα εκεί ή παραλείψτε το --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Με μόνο κάμερες, κάθε αρχείο παίρνει το όνομά του από τα κομμάτια που λαμβάνονται από τον ήχο του, οπότε το --new-name θα απορριπτόταν· παραλείψτε το --new-name."

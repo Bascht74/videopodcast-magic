@@ -873,6 +873,12 @@ jobs:
               aside files_named_by_folder \
                 "it asks what /Volumes/Recordings is called. /Volumes is
                  the macOS shape of a volume root; Windows has none."
+              aside window_sheets_fit \
+                "it measures how wide the sheets draw against the window,
+                 and windowless Windows sees no system fonts (QTBUG-142818,
+                 the reason window_captions_fit leaves its font judgement
+                 out there): the widths it would measure are not the ones
+                 a user sees. macOS and Linux run it."
               ;;
             macOS)
               aside voice_words_intact \

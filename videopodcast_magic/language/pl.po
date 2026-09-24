@@ -4484,3 +4484,30 @@ msgstr "  Tylko jeden głos -- nie ma z czym go porównać."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Wspólny poziom:      %s LUFS, mediana głosów"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name wskazuje %s, a to nie jest żaden z plików kamer tego przebiegu."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Nowa nazwa dla %s jest pusta; podaj zwykłą nazwę pliku albo pomiń --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Nowa nazwa \"%s\" dla %s zawiera \"%s\", separator folderów lub dysków; podaj zwykłą nazwę pliku."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Nowa nazwa \"%s\" dla %s zaczyna się od kropki, co daje plik ukryty albo folder; podaj zwykłą nazwę pliku."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Dwie kamery zostałyby zapisane jako jeden plik, %s: %s i %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name nadaje plikowi %s dwie nazwy, \"%s\" i \"%s\"; nadaj każdemu plikowi jedną."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Tutaj kamery nazywa plik przypisania, więc --new-name zostałby pominięty; podaj nazwy tam albo pomiń --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Przy samych kamerach każdy plik nosi nazwę ścieżek wziętych z jego dźwięku, więc --new-name zostałby pominięty; pomiń --new-name."

@@ -4440,3 +4440,30 @@ msgstr "  Kun én stemme -- intet at holde den op imod."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Fælles niveau:       %s LUFS, medianen af stemmerne"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name angiver %s, som ikke er en af kamerafilerne i denne kørsel."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Det nye navn til %s er tomt; angiv et enkelt filnavn, eller udelad --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Det nye navn \"%s\" til %s indeholder \"%s\", et skilletegn for mappe eller drev; angiv et enkelt filnavn."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Det nye navn \"%s\" til %s begynder med et punktum, hvilket giver en skjult fil eller en mappe; angiv et enkelt filnavn."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "To kameraer ville blive skrevet som én fil, %s: %s og %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name giver %s to navne, \"%s\" og \"%s\"; giv hver fil kun ét."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Her navngiver tildelingsfilen kameraerne, så --new-name ville falde bort; angiv navnene dér, eller udelad --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Med kun kameraer navngives hver fil efter de spor, der tages fra dens lyd, så --new-name ville falde bort; udelad --new-name."

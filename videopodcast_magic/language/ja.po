@@ -151,9 +151,6 @@ msgstr "以前のバージョンに戻す ..."
 msgid "Back to an earlier version"
 msgstr "以前のバージョンに戻す"
 
-msgid "Separating speakers"
-msgstr "話者の分離"
-
 msgid "Separating ..."
 msgstr "分離中 ..."
 
@@ -4628,3 +4625,27 @@ msgstr "  声が一つだけです -- 合わせる相手がありません。"
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  共通レベル:          %s LUFS、声の中央値"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name が指定する %s は、この実行のカメラファイルのいずれでもありません。"
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "%s の新しい名前が空です。単純なファイル名を指定するか、--new-name を省いてください。"
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "新しい名前 \"%s\"（%s 用）には、フォルダーやドライブの区切り文字 \"%s\" が含まれています。単純なファイル名を指定してください。"
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "新しい名前 \"%s\"（%s 用）はドットで始まるため、隠しファイルかフォルダーになります。単純なファイル名を指定してください。"
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "2 台のカメラが 1 つのファイルに書き出されることになります（%s）: %s と %s。"
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name が %s に 2 つの名前 \"%s\" と \"%s\" を付けています。各ファイルの名前は 1 つにしてください。"
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "ここでは割り当てファイルがカメラに名前を付けるため、--new-name は無視されることになります。名前は割り当てファイルで指定するか、--new-name を省いてください。"
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "カメラだけの場合、各ファイルはその音声から取り出したトラックにちなんで名付けられるため、--new-name は無視されることになります。--new-name を省いてください。"

@@ -270,13 +270,16 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Sprecher mehr in ...** und die Zeile **Auf diesem Rechner nicht**:
   wer spricht, fragt niemand, weil nichts geschnitten wird. Auch die
   Zeile **Multitrack (je Sprecher eine Spur)** fehlt, und das Häkchen
-  ist aus. Auch **gehört zu** fehlt, und in der Kameratabelle **neue
-  Datei heißt** und **bekommt Audio von**: ohne Sprecher gibt es
-  nichts zuzuordnen, die eine Aufnahme kommt in jede Kameradatei.
-  Geblieben sind die Zeile der Aufnahme mit ihrem Timecode, die
-  Kameratabelle mit **Kamera**, **Typ** und **Kameraton**, der Player
-  und der Kasten für auphonic.com -- die eine Aufnahme kann dort
-  weiterhin aufbereitet werden.
+  ist aus. Auch **gehört zu** fehlt, und in der Kameratabelle
+  **bekommt Audio von**: ohne Sprecher gibt es nichts zuzuordnen, die
+  eine Aufnahme kommt in jede Kameradatei. Geblieben sind die Zeile der
+  Aufnahme mit ihrem Timecode, die Kameratabelle mit **Kamera**, **neue
+  Datei heißt**, **Typ** und **Kameraton**, der Player und der Kasten
+  für auphonic.com -- die eine Aufnahme kann dort weiterhin aufbereitet
+  werden. **neue Datei heißt** gilt auch hier, wie auf jedem Weg: unter
+  diesem Namen schreibt der Lauf die Kameradatei, und die Spur der
+  Kamera in Resolve trägt ihn ebenfalls ([Multitrack](multitrack.de.md),
+  „Die Zuordnung setzen“).
 
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
