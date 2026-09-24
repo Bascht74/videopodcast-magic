@@ -395,13 +395,14 @@ def look(media):
                   str(rows[mine[0]].currentData()))
         check("nothing else moved into the table",
               len(rows) == len(mine), str(list(rows)))
-        # Asked of the same function the program uses, so a changed rule
-        # changes both sides and a reformatted call changes neither.
-        check("the untouched camera is named as the full mix",
-              written(sheet, shorts[1])
-              == vpm.camera_output_name(PRODUCTION, shorts[1],
-                                        ["Audio-Full-Mix"]),
-              str(written(sheet, shorts[1])))
+        # The window here runs without Multitrack, and there a camera
+        # nobody is on keeps the name its file was written under -- read
+        # off the file name here, not asked of the program's own rule.
+        own_name = os.path.splitext(os.path.basename(shorts[1]))[0]
+        check("without Multitrack the untouched camera keeps its own name",
+              written(sheet, shorts[1]) == own_name,
+              "the field says %r, wanted %r"
+              % (written(sheet, shorts[1]), own_name))
         check("and now there is sound, so the run can start",
               start_button().isEnabled(),
               "the reason still under the button: %r"

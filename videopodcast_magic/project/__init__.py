@@ -455,7 +455,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
             return
         d, file_path = find_project_file(file_path)
         if d is None:
-            report('Project',
+            report(T('Project'),
                    T('This is not a project file, and there is none in the '
                      'same folder.\n\nThe search is for %s*.json -- the '
                      'script writes it into the output folder at start.')
@@ -463,7 +463,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
             return
         complaint = format_complaint(d)
         if complaint:
-            report('Project', "%s\n\n%s" % (os.path.basename(file_path),
+            report(T('Project'), "%s\n\n%s" % (os.path.basename(file_path),
                                              complaint))
             return
         # Emptied first, by the one list of what belongs to a project,
@@ -558,7 +558,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         # the player, or the two jump buttons go nowhere after opening.
         player_follow_up(spot_also=True)
         if missing:
-            report('Project', T('These files no longer exist:\n  ')
+            report(T('Project'), T('These files no longer exist:\n  ')
                    + "\n  ".join(missing[:12]))
 
     def project_open_after_restart():

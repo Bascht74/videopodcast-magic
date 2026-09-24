@@ -25,6 +25,60 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b19] - 2026-09-24
+
+### Added
+
+- **`--new-name FILE NAME` names a camera's file and its Resolve track
+  from the command line.** A name that would clash, leave the output
+  folder or miss the cameras stops the run before anything is written.
+
+### Changed
+
+- **"new file name" now names the file and its Resolve track on every
+  run, not only with Multitrack.** A camera with a speaker on it is
+  proposed a name with the speaker in it.
+- **Under "Sync only" the field "new file name" is shown.** It was
+  hidden there while the run already used it.
+- **On the Multicam timeline a camera nobody speaks on is labelled
+  "Wide shot"**, as in the window; two of them are numbered.
+- **Two camera names that differ only in capital letters are refused**,
+  in the window and in the run, because on macOS and Windows they are
+  one file.
+
+### Fixed
+
+- **The title above project messages now follows the window's
+  language.** It said "Project" in every language.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **`--new-name DATEI NAME` benennt Datei und Resolve-Spur einer Kamera
+  von der Kommandozeile aus.** Ein Name, der zusammenstößt, aus dem
+  Ausgabeordner führt oder keine Kamera trifft, hält den Lauf an, bevor
+  etwas geschrieben wird.
+
+### Geändert
+
+- **„neue Datei heißt“ benennt Datei und Resolve-Spur jetzt bei jedem
+  Lauf, nicht nur mit Multitrack.** Eine Kamera mit Sprecher bekommt
+  einen Namen mit dem Sprecher darin vorgeschlagen.
+- **Bei „Nur synchronisieren“ ist das Feld „neue Datei heißt“ zu
+  sehen.** Es war dort ausgeblendet, obwohl der Lauf es schon nahm.
+- **Auf der Multicam-Timeline heißt eine Kamera, auf der niemand
+  spricht, „Weitwinkel“**, wie im Fenster; zwei davon werden
+  durchnumeriert.
+- **Zwei Kameranamen, die sich nur in Groß- und Kleinschreibung
+  unterscheiden, werden abgewiesen**, im Fenster wie im Lauf, denn auf
+  macOS und Windows sind sie eine Datei.
+
+### Behoben
+
+- **Der Titel über Meldungen zum Projekt folgt jetzt der Sprache des
+  Fensters.** Er lautete in jeder Sprache „Project“.
+
 ## [3.0.0b18] - 2026-09-20
 
 ### Added

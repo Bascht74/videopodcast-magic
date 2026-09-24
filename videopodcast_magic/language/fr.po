@@ -161,9 +161,6 @@ msgstr "Revenir à une version antérieure ..."
 msgid "Back to an earlier version"
 msgstr "Revenir à une version antérieure"
 
-msgid "Separating speakers"
-msgstr "Séparation des locuteurs"
-
 msgid "Separating ..."
 msgstr "Séparation ..."
 
@@ -4679,3 +4676,27 @@ msgstr "  Une seule voix -- rien à quoi la comparer."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Niveau commun :      %s LUFS, la médiane des voix"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name nomme %s, qui n’est aucun des fichiers caméra de cette exécution."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Le nouveau nom pour %s est vide ; indiquer un simple nom de fichier ou omettre --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Le nouveau nom \"%s\" pour %s contient \"%s\", un séparateur de dossier ou de lecteur ; indiquer un simple nom de fichier."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Le nouveau nom \"%s\" pour %s commence par un point, ce qui donne un fichier caché ou un dossier ; indiquer un simple nom de fichier."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Deux caméras seraient écrites dans un seul fichier, %s : %s et %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name donne à %s deux noms, \"%s\" et \"%s\" ; n’en donner qu’un à chaque fichier."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Ici, le fichier d’affectation nomme les caméras, donc --new-name serait ignoré ; indiquer les noms dans ce fichier ou omettre --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Avec des caméras seulement, chaque fichier est nommé d’après les pistes extraites de son audio, donc --new-name serait ignoré ; omettre --new-name."

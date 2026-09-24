@@ -8,12 +8,16 @@ once through the hook a test answers, a look that chose nothing is not
 asked again, a new production asks afresh and the answer lands in the
 field; sync only hides the speaker name column and the Multitrack line
 and greys the cut tab under one sentence -- and with the speakers go
-"belongs to", the new file name and the camera's audio source, which
-no run without a plan reads; back on cut it all returns; the type goes
-round through the project file; a file from before the question reads
-as cut and asks nothing; and the Resolve button's tip names the cut
-only where there is one. The question's own box is
-never opened here -- the hook stands in for it, so its wording and
+"belongs to" and the camera's audio source, while the new file name
+stays, since it names the file on every path, and a camera nobody is
+on is offered its own stem there; back on cut it all returns, and the
+Multitrack tick offers such a camera the full mix instead, a typed
+name staying; the type goes round through the project file; a file from
+before the question reads as cut and asks nothing, and the full-mix
+name it saved for such a camera gives way to the stem while a name
+typed into it stays; and the Resolve
+button's tip names the cut only where there is one. The question's own
+box is never opened here -- the hook stands in for it, so its wording and
 buttons are not judged; and the suite runs without the separation, so
 the Speakers column it would hide is not on any tree here.
 """
@@ -91,7 +95,11 @@ with open(older, "w", encoding="utf-8") as f:
                          {"path": one, "kind": "video"},
                          {"path": two, "kind": "video"}],
                "out_folder": "", "production": "Older",
-               "multitrack": False, "assignment": {}, "preset": ""}, f)
+               "multitrack": False, "preset": "",
+               # Saved before the stem: every field went into the file,
+               # a suggestion nobody touched as well as a typed name.
+               "assignment": {"video:" + one: "B_camera_Audio-Full-Mix",
+                              "video:" + two: "Kept_name"}}, f)
 # Which file the Open project dialog answers with: set per step.
 opening = [older]
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
@@ -210,6 +218,21 @@ def table_hidden(t):
     """Which of the table's column heads are hidden, by name."""
     return [t.horizontalHeaderItem(c).text() for c in range(t.columnCount())
             if t.isColumnHidden(c)]
+
+
+def file_names():
+    """The camera table's new file name fields, by the camera's file."""
+    t = camera_table()
+    return {t.item(r, 0).text(): getattr(t.cellWidget(r, 1), "text",
+                                         lambda: None)()
+            for r in range(t.rowCount())}
+
+
+def multitrack_box():
+    """The Multitrack tick itself, by its wording."""
+    for w in win().findChildren(QtWidgets.QCheckBox):
+        if w.text() == vpm.T('Multitrack (one track per speaker)'):
+            return w
 
 
 def multitrack_line():
@@ -349,14 +372,19 @@ def step():
                   "hidden heads %s of %d columns"
                   % (head_hidden(t), len(heads(t))))
             cams = camera_table()
-            check("the camera table hides the new file name",
-                  vpm.T('new file name') in table_hidden(cams),
+            check("under sync only the camera table shows the new file name",
+                  vpm.T('new file name') not in table_hidden(cams),
                   "hidden heads %s of %d columns"
                   % (table_hidden(cams), cams.columnCount()))
-            check("and where the camera gets its audio from",
+            check("but hides where the camera gets its audio from",
                   vpm.T('gets audio from') in table_hidden(cams),
                   "hidden heads %s of %d columns"
                   % (table_hidden(cams), cams.columnCount()))
+            names = file_names()
+            check("under sync only a camera nobody is on keeps its own stem",
+                  names.get("C_camera.mov") == "C_camera",
+                  "the field says %r, wanted 'C_camera'; all fields %s"
+                  % (names.get("C_camera.mov"), names))
             check("the Multitrack line is hidden",
                   multitrack_line().isHidden(),
                   "hidden %r" % multitrack_line().isHidden())
@@ -388,7 +416,7 @@ def step():
                   vpm.T('Speaker name') not in head_hidden(t),
                   "hidden heads %s of %d columns"
                   % (head_hidden(t), len(heads(t))))
-            check("belongs to and the two camera columns are back",
+            check("belongs to and the audio source column are back",
                   vpm.T('belongs to') not in head_hidden(t)
                   and table_hidden(camera_table()) == [],
                   "hidden heads %s in the tree, %s in the camera table"
@@ -396,6 +424,21 @@ def step():
             check("the Multitrack line is back",
                   not multitrack_line().isHidden(),
                   "hidden %r" % multitrack_line().isHidden())
+            t = camera_table()
+            [t.cellWidget(r, 1) for r in range(t.rowCount())
+             if t.item(r, 0).text() == "C_camera.mov"][0].setText(
+                 "Typed_name")
+            multitrack_box().setChecked(True); app.processEvents()
+            names = file_names()
+            check("with Multitrack it is offered the full mix instead",
+                  names.get("B_camera.mov") == "B_camera_Audio-Full-Mix",
+                  "the field says %r, wanted 'B_camera_Audio-Full-Mix'; all "
+                  "fields %s" % (names.get("B_camera.mov"), names))
+            check("while a name typed before the tick stays",
+                  names.get("C_camera.mov") == "Typed_name",
+                  "the field says %r, wanted 'Typed_name'; all fields %s"
+                  % (names.get("C_camera.mov"), names))
+            multitrack_box().setChecked(False); app.processEvents()
             tab_to(2)
             check("the sentence is gone from the cut tab",
                   sync_sentence() is None or sync_sentence().isHidden(),
@@ -435,6 +478,15 @@ def step():
             tab_to(1)
             check("and the assignment tab asks nothing",
                   len(asked) == 2, "asked %d times in all" % len(asked))
+            names = file_names()
+            check("its saved full-mix name gives way to the stem",
+                  names.get("B_camera.mov") == "B_camera",
+                  "the field says %r, wanted 'B_camera'; all fields %s"
+                  % (names.get("B_camera.mov"), names))
+            check("while a name typed into the file stays",
+                  names.get("C_camera.mov") == "Kept_name",
+                  "the field says %r, wanted 'Kept_name'; all fields %s"
+                  % (names.get("C_camera.mov"), names))
             check("Start is live on the older project",
                   button("Start").isEnabled(),
                   "Start enabled %r, footer %r"

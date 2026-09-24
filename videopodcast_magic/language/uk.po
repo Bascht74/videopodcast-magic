@@ -169,9 +169,6 @@ msgstr "Повернутися до попередньої версії ..."
 msgid "Back to an earlier version"
 msgstr "Повернутися до попередньої версії"
 
-msgid "Separating speakers"
-msgstr "Розділення мовців"
-
 msgid "Separating ..."
 msgstr "Розділення ..."
 
@@ -4728,3 +4725,27 @@ msgstr "  Лише один голос -- немає з чим порівнят�
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Спільний рівень:     %s LUFS, медіана голосів"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name називає %s, але такого немає серед файлів камер цього запуску."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Нова назва для %s порожня; вкажіть просту назву файлу або приберіть --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Нова назва \"%s\" для %s містить \"%s\", роздільник тек або дисків; вкажіть просту назву файлу."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Нова назва \"%s\" для %s починається з крапки, а це дає прихований файл або теку; вкажіть просту назву файлу."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Дві камери було б записано як один файл, %s: %s і %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name дає %s дві назви, \"%s\" і \"%s\"; дайте кожному файлу одну."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Тут камери називає файл призначення, тож --new-name було б відкинуто; вкажіть назви там або приберіть --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Коли є лише камери, кожен файл називається за доріжками, взятими з його звуку, тож --new-name було б відкинуто; приберіть --new-name."

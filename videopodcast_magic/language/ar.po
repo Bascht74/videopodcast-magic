@@ -166,9 +166,6 @@ msgstr "العودة إلى إصدار أقدم ..."
 msgid "Back to an earlier version"
 msgstr "العودة إلى إصدار أقدم"
 
-msgid "Separating speakers"
-msgstr "فصل المتحدثين"
-
 msgid "Separating ..."
 msgstr "فصل ..."
 
@@ -4848,3 +4845,27 @@ msgstr "  صوت واحد فقط -- لا شيء يُقارن به."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  المستوى المشترك:     %s LUFS، وسيط الأصوات"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "يسمّي --new-name الملف %s، وهو ليس من ملفات الكاميرا في هذا التشغيل."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "الاسم الجديد لـ %s فارغ؛ أدخل اسم ملف بسيطًا أو احذف --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "الاسم الجديد \"%s\" لـ %s يحتوي على \"%s\"، وهو فاصل مجلدات أو محركات أقراص؛ أدخل اسم ملف بسيطًا."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "الاسم الجديد \"%s\" لـ %s يبدأ بنقطة، وهذا ينشئ ملفًا مخفيًا أو مجلدًا؛ أدخل اسم ملف بسيطًا."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "ستُكتب كاميرتان كملف واحد، %s: %s و%s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "يعطي --new-name الملف %s اسمين، \"%s\" و\"%s\"؛ أعطِ كل ملف اسمًا واحدًا فقط."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "ملف الإسناد يسمّي الكاميرات هنا، لذا سيُهمَل --new-name؛ أدخل الأسماء هناك أو احذف --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "مع الكاميرات فقط، يُسمّى كل ملف بأسماء المسارات المأخوذة من صوته، لذا سيُهمَل --new-name؛ احذف --new-name."

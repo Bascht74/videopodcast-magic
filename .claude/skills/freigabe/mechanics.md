@@ -22,10 +22,21 @@ YAML:
 0. **The title is not empty.** First because it costs nothing -- no
    checkout, no network -- and the commonest wrong start is found in two
    seconds.
-1. **The suite runs, here, on this commit.** `.github/workflows/tests.yml` is called from
+1. **The evidence, if it already exists.** Since 21.9.2026 a job
+   asks the API three things before the suite starts: is this commit
+   a merge, is its tree the tree of its second parent -- the pull
+   request's head -- and did every job of the suite conclude success
+   on that head. The job names are read off `tests.yml` at this
+   commit. Yes to all three and the suite below is skipped; the run
+   says `way: short -- ...` with the two commits and the six names.
+   Anything else says `way: long -- ...` with the reason, and the
+   suite runs. GitHub not answering counts as no.
+1b. **Otherwise the suite runs, here, on this commit.** `.github/workflows/tests.yml` is called from
    this workflow, so the six jobs are part of this run and answer for
    the commit the dispatch was started against. Red on any of them:
-   no tag.
+   no tag. And a suite that was skipped for any reason but the
+   evidence job's own "true" is no tag either -- the publish job holds
+   the suite to exactly two states, green or skipped-by-evidence.
 2. **One version number.** The program and `pyproject.toml` each carry
    exactly one line to read, and the two say the same thing. The title
    does not repeat the number. Stop on any of the three.
@@ -59,6 +70,49 @@ the calling run and appears under **no run of its own**, so that
 question would have found nothing and every release would have stopped
 at it. Running the suite here answers the same thing without the
 question, and one word does the whole of a release.
+
+## And why, since 21.9.2026, it asks first whether the evidence is already there
+
+**Every release ran the suite twice on the same bytes.** The branch
+protection wants the six checks green on the pull request before it
+can merge, and the workflow then ran the same six on the merge commit
+-- the same tree byte for byte whenever nothing else had landed on
+`main` -- about twelve minutes and fifty runner-minutes per release
+for an answer that was already in. The owner decided on 21.9.2026
+that the evidence is reused where it exists, and only there.
+
+**The question it asks now is one the API can answer.** Not "was
+there a run of `tests.yml` on this commit" -- there never is one, see
+above -- but "is this commit the merge of a pull request whose head
+has the same tree, and did that head's six check runs conclude
+success". A push to a branch is a run of its own, and it leaves one
+check run per job on the head commit, named after the job. Measured
+21.9.2026 on `8a58ea4`, the head of #186: six check runs, `Linux
+py3.10` to `Windows py3.14`, all `success`; and `484daa8`, its merge
+on `main`, carries the same tree id. So "evidence before the mark"
+holds on the short way as it does on the long one: the evidence is
+the pull request's run on the identical tree. Where `main` moved in
+between -- the tree differs -- or the commit is not a merge, or a
+check is missing or red, the suite runs as before, and the line under
+the run says why.
+
+**The three questions, and how each is asked.** Two parents, off
+`commits/<sha>`. One tree, off the two commits' tree ids -- the same
+question as `git diff --quiet HEAD^2 HEAD`, asked without a 59.5 MiB
+checkout. Six green, off `commits/<head>/check-runs`, held against
+the job names rendered out of `tests.yml` at this commit, so a job
+added to the matrix is asked about without the workflow being touched.
+`checks: read` was added to the permissions for the third; a scope
+not named there is none.
+
+**What the short way gives up, and it is written here rather than
+found later.** A push runs the everyday suite, separation off;
+`publish.yml` turns it on. The one test that really runs the
+separation, `voice_split_hears_two`, therefore runs for a release only
+on the long way. A check run's name does not say which of the two
+suites made it, so the evidence job cannot tell and does not pretend
+to. Whether that is worth the twelve minutes is the owner's question,
+and this paragraph is where it is kept.
 
 ## Why the archive is what it is
 

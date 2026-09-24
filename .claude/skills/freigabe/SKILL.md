@@ -204,6 +204,26 @@ A second commit pushed after the first therefore does not merely muddy
 the list of runs -- it moves the head the next dispatch would run
 against, and the suite answers for that commit instead.
 
+**Since 21.9.2026 the workflow reuses the evidence where it already
+exists, and only there.** A release goes out of `main`, and `main` is
+the merge of a pull request whose six checks the branch protection
+wanted green before it could merge. Where the merge commit's tree is
+byte for byte the tree of that pull request's head -- nothing else
+landed on `main` in between -- and the six check runs of that head
+concluded success, the workflow says so in one line (`way: short --
+...`) and does not run the suite a second time: the evidence is the
+pull request's run on the identical tree, and evidence before the mark
+holds exactly as before. Where `main` moved in between, or the commit
+is not a merge, or a check is missing or red, the suite runs as it has
+since 4.9.2026 (`way: long -- ...`, with the reason). Measured
+21.9.2026: `484daa8`, the merge of #186, carries the tree of `8a58ea4`,
+its head, and the six check runs of `8a58ea4` all concluded success.
+**One thing the short way does not give you:** the pull request's run
+is the everyday suite, separation off, and only the workflow's own run
+turns it on -- so `voice_split_hears_two` runs for a release only on
+the long way. How the three questions are asked, and where that
+difference is kept, is `.claude/skills/freigabe/mechanics.md`.
+
 **Before the word, count what is left over.** The commonest way to break
 the one-run rule is not impatience, it is a file forgotten while
 staging:
@@ -367,7 +387,7 @@ A release is held up by the five things and by nothing else.
 
 ## Before it counts as done
 
-1. Six builder jobs green on the very commit that is about to be tagged?
+1. Six builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
 2. `CHANGELOG.md` carries a section under this number, in both languages?
 3. The manual true again -- every chapter a visible change touched, both?
 4. What the manual pass turned up: a test, or its shape an entry on the list?

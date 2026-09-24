@@ -27,7 +27,17 @@ synchronisieren weglässt, steht dort, wo es fehlt.
 
 Beide Wege schreiben dieselbe Art Datei: MOV, Bild umkopiert, Ton
 unkomprimiert, die `colr`-Angabe und die QuickTime-Schlüssel der Kamera
-mitgenommen.
+mitgenommen. Und beide benennen sie gleich: Jede Kameradatei und ihre
+Spur in Resolve heißen so, wie es in der Kameratabelle auf dem Reiter
+**Zuordnung & Zeitfenster** unter **neue Datei heißt** steht; das Feld
+ist mit einem Vorschlag vorbelegt. Wie dieser Vorschlag entsteht und
+warum `_audio` angehängt wird, steht in [Multitrack](multitrack.de.md),
+Abschnitt „Die Zuordnung setzen“. Früher behielt der Lauf ohne Häkchen
+den Namen der Kameradatei bei, und eine Kamera, auf der niemand spricht,
+bekommt ihn weiter vorgeschlagen; eine Kamera mit einem Sprecher darauf
+bekommt jetzt einen Namen mit dem Sprecher vorgeschlagen, und eine
+solche Produktion kommt unter neuen Dateinamen heraus, wenn sie noch
+einmal läuft.
 
 Was der einfache Weg genauso kann wie Multitrack:
 

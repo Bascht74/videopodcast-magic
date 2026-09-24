@@ -49,11 +49,27 @@ run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}, separa
 # makes "what is tagged is what was tested" true by construction rather
 # than by reference.
 #
-# It costs a second full run of the suite on a commit the push has
-# already answered for -- measured 4.9.2026, ten minutes of wall clock
-# and 2985 s of builder time for an answer that was already in. Whether
-# that price is worth the certainty is written down as a question for
-# the owner, not settled here.
+# It used to cost a second full run of the suite on a commit the push
+# had already answered for -- measured 4.9.2026, ten minutes of wall
+# clock and 2985 s of builder time for an answer that was already in.
+# The owner settled that question on 21.9.2026: the evidence is reused
+# where it already exists, and only there. A release goes out of main,
+# and main is the merge of a pull request whose six checks the branch
+# protection wanted green before it could merge. Where the merge
+# commit's tree is byte for byte the tree of that pull request's head
+# -- nothing else landed on main in between -- the six check runs of
+# that head answer for exactly the bytes that are about to be tagged,
+# and running them again would say the same thing twelve minutes
+# later. So the job "evidence" below asks three questions of the API
+# before the suite starts, and the suite job is skipped only where all
+# three answer yes. Anywhere else -- main moved, the commit is not a
+# merge, a check is missing or not green -- the suite runs here as it
+# has since 4.9.2026, and the run says in one line which way it took
+# and why.
+#
+# "What is tagged is what was tested" stays true on both ways: on the
+# long way by construction, on the short way by identity of the tree.
+# What the short way gives up is written beside the evidence job.
 
 on:
   # By hand, and by nothing else. A release is a decision, and the one
@@ -77,13 +93,18 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  # write, because this run creates the tag and the release.
+  # write, because this run creates the tag and the release. It also
+  # covers what the evidence job reads -- a commit's parents and tree,
+  # and tests.yml at this commit -- because those are contents.
   contents: write
-  # write, and read would not do. Step 1 asks the API about the suite's
-  # runs, which contents does not reach -- but the last step also asks
-  # release.yml to answer for what was just published, and starting a
-  # run is a write in this scope.
+  # write, and read would not do: the last step asks release.yml to
+  # answer for what was just published, and starting a run is a write
+  # in this scope.
   actions: write
+  # read, because the evidence job asks for the check runs of the pull
+  # request's head. A check run is neither contents nor an action run;
+  # it is its own scope, and a scope not named here is none.
+  checks: read
   # read, because step 3b asks the roadmap issue which version it says
   # the program is at. Issues are their own scope as well.
   issues: read
@@ -133,17 +154,185 @@ jobs:
           fi
           echo "title: $TITLE"
 
-  # The suite itself, on this very commit, in this very run. It used to
-  # be asked of the API whether somebody had run it earlier; running it
-  # here says the same thing without the question, and one word does
-  # the whole of a release. Red here means no tag, and the six jobs say
-  # which of them fell.
+  # ------------------------------------------------------------
+  # 1. The evidence, if it already exists.
+  #
+  # Three questions, asked of the API and not of a checkout, because
+  # the answer is in the commit graph and the check runs and a clone
+  # of the whole history is 59.5 MiB for nothing:
+  #
+  #   a. Is this commit a merge -- does it have two parents?
+  #   b. Is its tree the tree of its second parent, the pull request's
+  #      head? That is the same question as `git diff --quiet HEAD^2
+  #      HEAD`, asked of the tree ids instead: two commits with one
+  #      tree id are the same bytes, and a tree that differs anywhere
+  #      has a different id. Identical means nothing else landed on
+  #      main between the pull request and this dispatch.
+  #   c. Did every job of the suite conclude success on that head?
+  #      The names are read off tests.yml at this commit and not
+  #      written down here: the suite job's name template with the
+  #      matrix rows put into it, so a seventh job added there is
+  #      asked about without this file being touched. A wanted name
+  #      that has no check run, or one whose latest run is anything
+  #      but success, is no evidence.
+  #
+  # Yes to all three and the suite job below is skipped; anything else
+  # and it runs as before. GitHub not answering is treated the same
+  # way as no: the long way costs twelve minutes, a release stopped
+  # for a bad minute at api.github.com costs a second dispatch, and
+  # the suite is the safe side. Only tests.yml unreadable at this
+  # commit is a fault of its own and stops the run, because a suite
+  # whose jobs cannot be named cannot be reused and should not be run
+  # blind either.
+  #
+  # The first build of this file asked the API whether the suite had
+  # run on this commit, and that question could never be answered,
+  # because a called workflow appears under no run of its own. This
+  # one asks about the pull request's head, whose run was a push and
+  # does appear -- as six check runs on that commit, named after the
+  # six jobs. Measured 21.9.2026 on 8a58ea4, the head of #186: six
+  # check runs, "Linux py3.10" to "Windows py3.14", all success, and
+  # its tree is the tree of 484daa8, the merge on main.
+  #
+  # What the short way gives up, written here rather than found later:
+  # a push runs the suite with the speaker separation off, and this
+  # file turns it on (speaker_split: true, below). The one test that
+  # really runs the separation, voice_split_hears_two, therefore runs
+  # for a release only on the long way. Nothing in a check run's name
+  # says which of the two suites it was, so this job cannot tell and
+  # does not pretend to.
+  evidence:
+    name: "Evidence: has this tree been tested already?"
+    needs: ready
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      tested: ${{ steps.look.outputs.tested }}
+      reason: ${{ steps.look.outputs.reason }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SHA: ${{ github.sha }}
+    steps:
+      - name: "1. The evidence, if it already exists"
+        id: look
+        run: |
+          R="$GITHUB_REPOSITORY"
+          short="${SHA:0:7}"
+          # One line, the same in the log and in the summary, and the
+          # two outputs the jobs below read. The reason is one line by
+          # construction -- nothing in it comes from outside this step
+          # but commit ids and job names -- and the newline is stripped
+          # anyway, because GITHUB_OUTPUT is parsed line by line.
+          decide() {
+            reason=$(printf '%s' "$2" | tr -d '\r\n')
+            if [ "$1" = "true" ]; then way="short"; else way="long"; fi
+            echo "tested=$1" >> "$GITHUB_OUTPUT"
+            echo "reason=$reason" >> "$GITHUB_OUTPUT"
+            echo
+            echo "way: $way -- $reason"
+            echo "way: $way -- $reason" >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          # a. Two parents.
+          if ! gh api "repos/$R/commits/$SHA" > /tmp/head.json; then
+            decide false "GitHub did not answer for $short, so the suite runs here"
+            exit 0
+          fi
+          parents=$(jq -r '.parents | length' /tmp/head.json)
+          tree=$(jq -r '.commit.tree.sha' /tmp/head.json)
+          if [ "$parents" != "2" ]; then
+            decide false "$short has $parents parent(s), not two: it is not the merge of a pull request, so no run of its own tree exists to point at, and the suite runs here"
+            exit 0
+          fi
+          head2=$(jq -r '.parents[1].sha' /tmp/head.json)
+          echo "merge:  $SHA"
+          echo "head:   $head2 (second parent, the pull request's head)"
+
+          # b. One tree.
+          if ! tree2=$(gh api "repos/$R/commits/$head2" \
+                         --jq .commit.tree.sha); then
+            decide false "GitHub did not answer for ${head2:0:7}, so the suite runs here"
+            exit 0
+          fi
+          echo "tree:   $tree"
+          echo "tree':  $tree2"
+          if [ "$tree" != "$tree2" ]; then
+            decide false "main moved: the tree of $short is not the tree of ${head2:0:7}, so what would be tagged was never tested as it is, and the suite runs here"
+            exit 0
+          fi
+
+          # c. Every job of the suite, green on that head. The names
+          # first, out of tests.yml as it stands at this commit.
+          gh api "repos/$R/contents/.github/workflows/tests.yml?ref=$SHA" \
+            --jq .content | base64 -d > /tmp/tests.yml
+          if ! python3 - /tmp/tests.yml > /tmp/wanted.txt 2> /tmp/why.txt <<'PY'
+          import re, sys
+          try:
+              import yaml
+          except ImportError:
+              sys.exit("no PyYAML on this runner")
+          suite = yaml.safe_load(open(sys.argv[1]))["jobs"]["suite"]
+          name = suite["name"]
+          for row in suite["strategy"]["matrix"]["include"]:
+              print(re.sub(r"\$\{\{\s*matrix\.(\w+)\s*\}\}",
+                           lambda m: str(row[m.group(1)]), name))
+          PY
+          then
+            echo "FAIL: tests.yml at $short could not be read for the"
+            echo "      names of the suite's jobs: $(cat /tmp/why.txt)"
+            echo "      Without them nothing can be held against the"
+            echo "      check runs, and a suite that cannot be named"
+            echo "      should not be run blind either."
+            exit 1
+          fi
+          n=$(grep -c '' /tmp/wanted.txt || true)
+          if [ "$n" = "0" ]; then
+            echo "FAIL: tests.yml at $short names no job in its matrix."
+            exit 1
+          fi
+
+          if ! gh api --paginate "repos/$R/commits/$head2/check-runs" \
+                 --jq '.check_runs[] | .name + "\t" + (.conclusion // "unfinished")' \
+                 > /tmp/runs.txt; then
+            decide false "GitHub did not answer for the check runs of ${head2:0:7}, so the suite runs here"
+            exit 0
+          fi
+          echo "check runs of ${head2:0:7}:"
+          sed 's/^/  /' /tmp/runs.txt
+          missing=""
+          notgreen=""
+          while IFS= read -r want; do
+            [ -n "$want" ] || continue
+            got=$(awk -F'\t' -v w="$want" '$1 == w {print $2}' /tmp/runs.txt)
+            if [ -z "$got" ]; then
+              missing="$missing '$want'"
+            elif printf '%s\n' "$got" | grep -qvx success; then
+              notgreen="$notgreen '$want'"
+            fi
+          done < /tmp/wanted.txt
+          if [ -n "$missing$notgreen" ]; then
+            decide false "the tree of $short is the tree of ${head2:0:7}, but of its $n jobs these have no check run:${missing:- none}, and these did not conclude success:${notgreen:- none} -- so the suite runs here"
+            exit 0
+          fi
+          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success -- the suite is not run again"
+
+  # The suite itself, on this very commit, in this very run -- unless
+  # the job above found it has already answered for this very tree.
+  # It used to be asked of the API whether somebody had run it earlier;
+  # running it here says the same thing without the question, and one
+  # word does the whole of a release. Red here means no tag, and the
+  # six jobs say which of them fell.
+  #
+  # The condition reads the evidence job's output and nothing else: a
+  # job that is skipped here is skipped because that job said "true",
+  # and the publish job below holds it to exactly that.
   tests:
     # Short, because it is written in front of every one of the six
     # names below it: "Suite / macOS py3.10" reads, "The suite /
     # macos-latest / py3.14" is cut off before it says anything.
     name: "Suite"
-    needs: ready
+    needs: evidence
+    if: needs.evidence.outputs.tested != 'true'
     uses: ./.github/workflows/tests.yml
     # On, and this is the one place it is ever turned on by itself. A
     # push runs the everyday suite; a release answers for the whole
@@ -158,13 +347,45 @@ jobs:
     with:
       speaker_split: true
 
+  # After the suite, or after the suite was skipped -- and the
+  # condition is the whole of the difference, so it is spelled out.
+  #
+  # Without a condition of its own a job takes the implicit success()
+  # of everything it needs, and GitHub counts a skipped job as not
+  # successful: a job that needs one is skipped too. That is the right
+  # default everywhere else in this file and the wrong one here, so
+  # this job says !cancelled() -- which, like always(), takes the
+  # implicit success() away and lets the job be looked at when the
+  # suite was skipped, but unlike always() does not start a publish
+  # inside a run somebody is cancelling.
+  #
+  # And then it holds the suite to one of exactly two states. success:
+  # every one of the six came back green, the way it has been since
+  # 4.9.2026. skipped, and only together with the evidence job's own
+  # word "true": the suite was not run because the pull request's run
+  # on the identical tree stands in for it. A failed suite is neither,
+  # a cancelled one is neither, and a suite skipped for any other
+  # reason -- the evidence job itself red, say -- is caught by the
+  # clause before it, because a job whose needs failed is skipped with
+  # its output empty. No tag on any of those.
   publish:
     name: "Publish: the evidence, then the tag"
-    needs: tests
+    needs: [evidence, tests]
+    if: >-
+      ${{ !cancelled()
+          && needs.evidence.result == 'success'
+          && (needs.tests.result == 'success'
+              || (needs.tests.result == 'skipped'
+                  && needs.evidence.outputs.tested == 'true')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       GH_TOKEN: ${{ github.token }}
+      # Which way the evidence came, said once more in this job's own
+      # log, so whoever opens the job that made the tag reads it there
+      # and not only in the job before.
+      TESTED: ${{ needs.evidence.outputs.tested }}
+      WHY: ${{ needs.evidence.outputs.reason }}
       # The title is somebody's prose, and prose with a backtick in it
       # becomes a command where it is written straight into a shell
       # line. It comes in through the environment, never through
@@ -181,13 +402,18 @@ jobs:
 
     steps:
 
-      # The suite has run in this very workflow, on this very commit,
-      # in the job above. It used to be asked of the API here whether
-      # somebody had run it earlier; that question cannot be asked any
-      # more and must not be, because a called workflow is part of this
-      # run and appears under no run of its own. What is tagged below
-      # is what was tested, and nothing has to be held against anything
-      # to know it.
+      # The suite has answered for this tree: either it ran in this
+      # very workflow, on this very commit, in the job above, or the
+      # evidence job found the pull request's run on the identical
+      # tree and said so. Which of the two, in one line, before
+      # anything else in this job.
+      - name: "1. Which way the evidence came"
+        run: |
+          if [ "$TESTED" = "true" ]; then
+            echo "way: short -- $WHY"
+          else
+            echo "way: long -- $WHY"
+          fi
 
       - uses: actions/checkout@v5
         with:

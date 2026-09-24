@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
 """A restart carries the work over, or says plainly that it will not.
 
-With files in the window the restart asks first, and the answer decides:
-saved, the new window comes back with the same files, project, In and
-Out and the same sheets; not saved, it comes up empty and the project
-file is left exactly as it lay; cancelled, nothing happens at all and
-the choice stays where it was made. The sections follow the shot, which
-presses the same button three times and answers it three ways.
+The shot opens a production and presses the restart button three times:
+first that it walked its whole way, to main() coming back and a return
+code 0, held files, and was asked with all three answers. Cancelled,
+nothing changes -- files, language, project file, the choice in the box
+and the way to restart. Saved, the new window speaks the new language
+with the same files, project, In, Out and sheets, the work is written
+into the project file, and one window is on the screen. Not saved, it
+comes up empty in the new language, and the project file is left
+exactly as it lay.
 """
 import os
 import the_program
 SCRIPT = the_program.SCRIPT
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -21,12 +25,21 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 # The window script is not part of this suite; it is only started here.
 SHOT = os.path.join(HERE, "carry_shot.py")
-# How long the shot may stand still before it is called hung. Standstill
-# and not a deadline: the builder is about nine times slower than this
-# machine, and a slow machine may take as long as it likes as long as it
-# is still writing. The shot writes a line at every reading.
-STILL = 120.0
-LOOK = 0.25             # how often the report file is looked at
+# What is waited for is what the shot reports, never a length of time:
+# its line "main came back with ..." says the program's main() returned,
+# and after it the process owes its end. The only clock is a standstill
+# -- how long nothing at all changed in the shot's own folder: the
+# report, the console, and the cache the window fills while it opens a
+# project. Measured here 23.9.2026 over three runs: the longest stretch
+# without a change 0.5 to 3.1 s; the builder is at most 12.6 times
+# slower, so the bound below is never reached in the normal case.
+STILL = 120.0           # seconds of nothing changing before it is hung
+# A shot that hangs while it keeps writing never stands still, so the
+# whole wait has a bound of its own too, under run.sh's 300 s: there the
+# test is killed and this FAIL line is lost. Alone on the builder the
+# test took 8 s, here 4.
+LONGEST = 240.0         # seconds from the start, whatever still moves
+LOOK = 0.25             # how often the folder is looked at
 
 began = time.time()
 done = 0
@@ -57,27 +70,112 @@ FOLDER = tempfile.mkdtemp(prefix="vpm_carries_")
 OWN = os.path.join(FOLDER, "home")
 os.makedirs(OWN)
 REPORT = os.path.join(FOLDER, "report.txt")
+# The shot's console goes into a file, never into a pipe read only at
+# the end: a full pipe stops the writer, and the reader waits for it.
+# Whether that is what made this test red on Windows beside the others
+# is an open guess, not a finding. Measured here 23.9.2026 with the
+# program's log rename refused, so its whole log goes to the console:
+# about 4 KB before the first reading, 8 KB when "main came back" is
+# written, 12 KB once the process has ended -- the log names the
+# program's path, so a longer path gives more (12.4 KB at the end, from
+# a refuter's copy). The builder's red line had all ten lines and no
+# end, so the guess holds only for a pipe that fills in between, and
+# only where the rename is refused -- neither is measured on Windows.
+# The file cannot fill either way, and the FAIL line names what never
+# came.
+CONSOLE = os.path.join(FOLDER, "console.txt")
 ENV = dict(os.environ, HOME=OWN, APPDATA=OWN, XDG_CONFIG_HOME=OWN,
            VPM_SETTINGS=OWN, VPM_CACHE=os.path.join(FOLDER, "cache"),
            QT_QPA_PLATFORM="offscreen", VPM_REBUILD_REPORT=REPORT)
 
 
+def footprint():
+    """Every file in the shot's folder with its size: what moves."""
+    seen = []
+    for root, _, names in os.walk(FOLDER):
+        for name in names:
+            try:
+                seen.append((os.path.join(root, name),
+                             os.path.getsize(os.path.join(root, name))))
+            except OSError:
+                pass        # written and gone between the two looks
+    return sorted(seen)
+
+
+def awaited(lines):
+    """What the shot owed next, read off what it has reported so far."""
+    if any(line.startswith("main came back with") for line in lines):
+        return "the process ending after 'main came back'"
+    if "done" in lines:
+        return "the line 'main came back with ...' after 'done'"
+    return "the shot's next line after %r" % (lines or ["nothing"])[-1][:60]
+
+
 def shot_run():
-    """Start the shot and wait on it writing, not on the clock."""
-    going = subprocess.Popen([sys.executable, SHOT], env=ENV, cwd=HERE,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT, text=True)
-    size, since = -1, time.time()
-    while going.poll() is None:
-        time.sleep(LOOK)
-        now = os.path.getsize(REPORT) if os.path.exists(REPORT) else 0
-        if now != size:
-            size, since = now, time.time()
-        elif time.time() - since > STILL:
-            going.kill()
-            going.wait()
-            return lines_read(), "", "stood still %.0f s" % STILL
-    return lines_read(), (going.stdout.read() or "")[-400:], "ended"
+    """Start the shot and wait on what it reports, not on the clock.
+
+    The wait ends when the process is gone -- "ended" -- or when nothing
+    in its folder has changed for STILL seconds, or after LONGEST
+    seconds in all: then it is killed, and the reason names what never
+    came and how long it was waited for. The process's return code
+    comes back last.
+    """
+    with open(CONSOLE, "wb") as console:
+        going = subprocess.Popen([sys.executable, SHOT], env=ENV, cwd=HERE,
+                                 stdout=console, stderr=subprocess.STDOUT)
+        started = time.time()
+        mark, since = None, started
+        while going.poll() is None:
+            time.sleep(LOOK)
+            now = footprint()
+            if now != mark:
+                mark, since = now, time.time()
+            elif time.time() - since > STILL:
+                return stopped(going, started,
+                               "nothing in its folder changed for %.0f s"
+                               % STILL)
+            if time.time() - started > LONGEST:
+                return stopped(going, started,
+                               "its folder still moving, the last change "
+                               "%.1f s before" % (time.time() - since))
+    return lines_read(), console_tail(), "ended", going.returncode
+
+
+def stopped(going, started, how):
+    """Kill the shot and say what it owed, how long, and how it stood."""
+    going.kill()
+    going.wait()
+    lines = lines_read()
+    return lines, console_tail(), (
+        "%s never came: %s, %.0f s after the start, the console %d bytes"
+        % (awaited(lines), how, time.time() - started,
+           os.path.getsize(CONSOLE))), going.returncode
+
+
+def console_tail():
+    with open(CONSOLE, encoding="utf-8", errors="replace") as f:
+        return f.read()[-400:]
+
+
+def unnamed(text):
+    """The text with the home folder as ~ and a scratch folder <scratch>."""
+    return re.sub(r"(/private)?/tmp/claude-\d+/[^/\s'\"]+", "<scratch>",
+                  text.replace(os.path.expanduser("~"), "~"))
+
+
+def plain(line):
+    """A report line for the FAIL line, a traceback kept by its end.
+
+    Of a BROKE traceback the last place and the exception's own line are
+    kept: a head cut short keeps only 'File ...' and loses what went
+    wrong.
+    """
+    line = unnamed(line)
+    if not line.startswith("BROKE "):
+        return line[:110]
+    parts = [p.strip() for p in line.split(" | ") if p.strip()]
+    places = [p for p in parts if p.startswith("File ")] or ["no place"]
+    return "BROKE at %s: %s" % (places[-1][:160], parts[-1][:200])
 
 
 def lines_read():
@@ -105,13 +203,16 @@ def same(one, two, *fields):
         "%s %r against %r" % (f, one.get(f), two.get(f)) for f in apart)
 
 
-LINES, PRINTED, WHY = shot_run()
-print("  the shot wrote %d lines and %s" % (len(LINES), WHY))
-if "done" not in LINES and PRINTED:
-    # Only where it did not finish: the console of a window run holds
+LINES, PRINTED, WHY, CODE = shot_run()
+BACK = [line for line in LINES if line.startswith("main came back with")]
+WALKED = "done" in LINES and bool(BACK) and WHY == "ended" and CODE == 0
+print("  the shot wrote %d lines and %s, return code %s"
+      % (len(LINES), WHY, CODE))
+if not WALKED and PRINTED:
+    # Only where it did not end: the console of a window run holds
     # the locale note of every Qt on this machine, and run.sh reads
     # every line of a test's output.
-    print("  what the shot printed: %r" % PRINTED)
+    print("  what the shot printed: %r" % unnamed(PRINTED))
 
 BEFORE, CANCELLED = seen("BEFORE"), seen("CANCELLED")
 SAVED, READY, DROPPED = seen("SAVED"), seen("READY"), seen("DROPPED")
@@ -120,10 +221,12 @@ SAVED, READY, DROPPED = seen("SAVED"), seen("READY"), seen("DROPPED")
 # to hold, and that is judged on its own below.
 CARRIED = ("rows", "project", "in", "out")
 
-check("the shot walked its whole way",
-      "done" in LINES and WHY == "ended",
-      "%s after %d lines, the last of them %s"
-      % (WHY, len(LINES), [line[:110] for line in (LINES or ["none"])[-3:]]))
+check("the shot walked its whole way", WALKED,
+      "wanted 'done', 'main came back with ...' and return code 0, got "
+      "'done' %s, %s, return code %s; %s -- %d lines, the last of them %s"
+      % ("written" if "done" in LINES else "missing",
+         repr(BACK[0][:60]) if BACK else "no 'main came back'", CODE, WHY,
+         len(LINES), [plain(line) for line in (LINES or ["none"])[-3:]]))
 check("the window really held a production before any of it",
       BEFORE.get("rows", 0) > 0 and bool(BEFORE.get("project"))
       and bool(BEFORE.get("in")),

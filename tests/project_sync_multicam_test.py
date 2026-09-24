@@ -10,8 +10,11 @@ nothing, because the flag decides and not the list; a cut handover
 without a cut keeps today's way -- multicam alone, the older reason in
 the log; a cut handover with a cut still gets both timelines and its
 render job; one camera in sync gets the straight timeline, as one
-camera always did; and the multicam timeline's own log line names the
-camera files rather than the speakers when the run only synchronised.
+camera always did; the multicam timeline's own log line names the
+camera files rather than the speakers when the run only synchronised;
+and a track carries the label the window's legend gives the camera --
+the speaker, or the wide shot -- while the key the camera is filed
+under stays the file's, so two cameras nobody is on stay two tracks.
 
 The limit of the method: nothing here is laid on a real timeline; the
 stand-in records the calls, and the real insert is another test's.
@@ -326,6 +329,54 @@ for kind, wants, wants_not in (("sync", FILES, PEOPLE),
               wants in said and wants_not not in said,
               "speakers at character %d, files at %d"
               % (said.find(wants), said.find(wants_not)))
+
+print("\n7. The track carries the window's label, the key stays the file's")
+# The real layer again, over a cut handover somebody speaks in. What a
+# camera is filed under stays the file's stem -- two cameras nobody is on
+# would otherwise fall on one key -- and only the name on the track is
+# the legend's, read back off the timeline and not off the log.
+WIDE = vpm.T('Wide shot')
+LONE = dict(CAMERAS[0], audio=1)
+OTHER = dict(CAMERAS[1], audio=1)
+GUEST = {"camera": "Guest", "track": "Guest", "file": "/tmp/G_C002.mov",
+         "source": "/tmp/G_C002.mov", "wide": False, "speakers": ["Guest"],
+         "offset": 0.0, "audio": 1}
+FILE_NAMES = {1: "W_C001", 2: "G_C003"}
+
+
+def laid(kind, cams, speakers):
+    """The real layer over a fresh timeline: (video names, audio names, tl)."""
+    tl = LaidTL(); tl.AddTrack("video"); tl.AddTrack("audio")
+    # Resolve reports a clip by its file name, never its path.
+    clips = {c["file"]: Clip(os.path.basename(c["file"]), 1) for c in cams}
+    with contextlib.redirect_stdout(io.StringIO()):
+        lay_cameras(LaidMP(tl), tl, cams, clips,
+                    {"project_type": kind, "fps": 30.0,
+                     "start_tc": "19:04:27:00", "in_point": "19:04:27:00",
+                     "speakers": speakers, "cameras": cams})
+    return tl.names["video"], tl.names["audio"], tl
+
+
+video, audio, tl = laid("cut", [LONE, GUEST], SPEAKERS)
+check("a camera nobody is on is labelled the wide shot on its track",
+      video.get(1) == WIDE, "V1 is %r against %r" % (video.get(1), WIDE))
+check("a camera with a speaker keeps the speaker's name",
+      video.get(2) == "Guest", "V2 is %r against 'Guest'" % video.get(2))
+check("the audio track under each says the same as its picture",
+      audio == {1: WIDE, 2: "Guest"},
+      "audio %s against %s" % (audio, {1: WIDE, 2: "Guest"}))
+video, audio, tl = laid("cut", [LONE, GUEST, OTHER], SPEAKERS)
+TWO = {1: vpm.T('Wide shot %d') % 1, 2: "Guest", 3: vpm.T('Wide shot %d') % 2}
+check("two cameras nobody is on stay two tracks, numbered apart",
+      tl.GetTrackCount("video") == 3 and video == TWO,
+      "%d video tracks named %s against %s"
+      % (tl.GetTrackCount("video"), video, TWO))
+video, audio, tl = laid("sync", [LONE, OTHER], SPEAKERS)
+check("in sync the tracks keep the camera files' names, speakers or not",
+      video == FILE_NAMES, "video %s against %s" % (video, FILE_NAMES))
+video, audio, tl = laid("cut", [LONE, OTHER], [])
+check("a cut nobody was heard in keeps the files' names, like the window",
+      video == FILE_NAMES, "video %s against %s" % (video, FILE_NAMES))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

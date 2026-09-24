@@ -4442,3 +4442,30 @@ msgstr "  শুধু একটি কণ্ঠস্বর -- মেলান�
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  অভিন্ন লেভেল:        %s LUFS, কণ্ঠস্বরগুলোর মধ্যমা"
+
+msgid "Project"
+msgstr "প্রকল্প"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name-এ %s দেওয়া হয়েছে, যা এই চালনার ক্যামেরা ফাইলগুলোর কোনোটি নয়।"
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "%s-এর নতুন নাম খালি; একটি সাধারণ ফাইলের নাম দিন অথবা --new-name বাদ দিন।"
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "নতুন নাম \"%s\" (%s-এর জন্য) \"%s\" ধারণ করে, যা ফোল্ডার বা ড্রাইভের বিভাজক; একটি সাধারণ ফাইলের নাম দিন।"
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "নতুন নাম \"%s\" (%s-এর জন্য) একটি বিন্দু দিয়ে শুরু, যা একটি লুকানো ফাইল বা ফোল্ডার তৈরি করে; একটি সাধারণ ফাইলের নাম দিন।"
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "দুটি ক্যামেরা একটি ফাইল হিসেবে লেখা হতো, %s: %s এবং %s।"
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name %s-কে দুটি নাম দেয়, \"%s\" এবং \"%s\"; প্রতিটি ফাইলকে কেবল একটি নাম দিন।"
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "এখানে বরাদ্দ ফাইলই ক্যামেরাগুলোর নাম দেয়, তাই --new-name বাদ পড়ে যেত; নামগুলো সেখানে দিন অথবা --new-name বাদ দিন।"
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "শুধু ক্যামেরা থাকলে প্রতিটি ফাইলের নাম হয় তার শব্দ থেকে নেওয়া ট্র্যাকগুলোর নামে, তাই --new-name বাদ পড়ে যেত; --new-name বাদ দিন।"

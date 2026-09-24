@@ -8,8 +8,8 @@ program. The sections: the run goes through and says at the top what it
 is; the folder holds a camera file per camera, the metrics and the
 handover, and no cut list, no speaker list, no transcript; the handover
 carries the project type, empty cut, speakers and words, and every
-camera plain, its track named after the file; the log holds no speaker
-statistics and the metrics no speech time.
+camera plain, its track named after the file or as the line named it;
+the log holds no speaker statistics and the metrics no speech time.
 
 The limit of the method: the microphone and the cameras of that folder
 share no signal, so nothing here says where the axis landed.
@@ -124,9 +124,13 @@ if len(RECORDING) != 1 or len(CAMERAS) < 2:
     stop()
 
 # No --no-speech-recognition and no --no-transcript-file on purpose:
-# leaving both out is what the project type is for.
+# leaving both out is what the project type is for. One camera gets a
+# name on the line, the way the window sends its field without a plan;
+# the others keep the file's stem.
+NAMED_CAM = CAMERAS[0]
 ARGV = ([sys.executable, SCRIPT, "--project-type", "sync",
-         "--without-auphonic", "--out", OUT] + RECORDING + CAMERAS)
+         "--without-auphonic", "--out", OUT,
+         "--new-name", NAMED_CAM, "Presenter"] + RECORDING + CAMERAS)
 code, said, stuck, took = run_and_watch(ARGV)
 print("    %d recording, %d cameras, %.1f s"
       % (len(RECORDING), len(CAMERAS), took))
@@ -211,17 +215,29 @@ check("every camera is a plain camera, nobody on it",
       bool(cameras) and not named,
       "%d of %d carry a name or are not wide: %s"
       % (len(named), len(cameras), named[:3]))
-STEMS = sorted(os.path.splitext(os.path.basename(p))[0] for p in CAMERAS)
-misnamed = [(c.get("track"), c.get("source")) for c in cameras
+STEMS = sorted(os.path.splitext(os.path.basename(p))[0] for p in CAMERAS
+               if p != NAMED_CAM)
+unnamed = [c for c in cameras
+           if os.path.basename(c.get("source") or "")
+           != os.path.basename(NAMED_CAM)]
+misnamed = [(c.get("track"), c.get("source")) for c in unnamed
             if c.get("track")
             != os.path.splitext(os.path.basename(c.get("source") or ""))[0]]
-check("and every track is named after its camera file",
-      bool(cameras) and not misnamed
-      and sorted(c.get("track") for c in cameras) == STEMS,
+check("every track not named on the line is named after its camera file",
+      bool(unnamed) and not misnamed
+      and sorted(c.get("track") for c in unnamed) == STEMS,
       "%d of %d differ from the file's stem, the first: %s; tracks %s "
       "against files %s"
-      % (len(misnamed), len(cameras), (misnamed + [()])[0],
-         sorted(c.get("track") for c in cameras), STEMS))
+      % (len(misnamed), len(unnamed), (misnamed + [()])[0],
+         sorted(c.get("track") for c in unnamed), STEMS))
+given = [c.get("track") for c in cameras
+         if os.path.basename(c.get("source") or "")
+         == os.path.basename(NAMED_CAM)]
+check("and the one named on the line carries that name, under Sync only",
+      given == ["Presenter"],
+      "%r against ['Presenter'] for %s -- the file's stem is %r"
+      % (given, os.path.basename(NAMED_CAM),
+         os.path.splitext(os.path.basename(NAMED_CAM))[0]))
 
 print("\n4. The log holds no speaker statistics")
 SPEAKER_HEADS = [vpm.T('\nSPEAKERS -- MEASURED HERE').strip(),

@@ -70,7 +70,7 @@ def git(*words):
 
 
 def bash():
-    """Where bash is -- on Windows Git's, not the WSL stub in System32.
+    r"""Where bash is -- on Windows Git's, not the WSL stub in System32.
 
     C:\Windows\System32\bash.exe stands first on the search path and
     answers every call with the line to install a distribution, so

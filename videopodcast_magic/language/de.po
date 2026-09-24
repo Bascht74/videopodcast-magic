@@ -3199,9 +3199,6 @@ msgstr "Zuordnung: welche Tonspur gehört zu welcher Kamera"
 msgid "Audio"
 msgstr "Ton"
 
-msgid "Audio "
-msgstr "Ton "
-
 msgid "Audio and video (%s);;All files (*)"
 msgstr "Ton und Bild (%s);;Alle Dateien (*)"
 
@@ -6531,3 +6528,27 @@ msgstr "  Nur eine Stimme -- nichts, woran sie sich messen könnte."
 
 msgid "  Common level:      %s LUFS, the median of the voices"
 msgstr "  Gemeinsamer Pegel:  %s LUFS, der Median der Stimmen"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name nennt %s, und das ist keine der Kameradateien dieses Laufs."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Der neue Name für %s ist leer; einen einfachen Dateinamen angeben oder --new-name weglassen."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Der neue Name \"%s\" für %s enthält \"%s\", ein Trennzeichen für Ordner oder Laufwerk; einen einfachen Dateinamen angeben."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Der neue Name \"%s\" für %s beginnt mit einem Punkt, das ergibt eine versteckte Datei oder einen Ordner; einen einfachen Dateinamen angeben."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Zwei Kameras würden als eine Datei geschrieben, %s: %s und %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name gibt %s zwei Namen, \"%s\" und \"%s\"; jeder Datei nur einen geben."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Die Zuordnungsdatei benennt hier die Kameras, also würde --new-name übergangen; die Namen dort angeben oder --new-name weglassen."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Nur mit Kameras heißt jede Datei nach den Spuren, die aus ihrem Ton genommen werden, also würde --new-name übergangen; --new-name weglassen."

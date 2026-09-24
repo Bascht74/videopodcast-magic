@@ -1259,12 +1259,15 @@ def camera_gets_from(short, wide, names):
     return (", ".join(v.get() or "?" for v in names)
             if names else T('the mix of all tracks'))
 
-def camera_name_suggestion(production, camera, values):
+def camera_name_suggestion(production, camera, values, multitrack=True):
     """The file name a camera is offered, out of the speakers on it.
 
     A speaker whose name is only suggested belongs in the camera's
-    file name too, and that name travels to Resolve.
+    file name too, and that name travels to Resolve. A camera nobody is
+    on carries the full mix under Multitrack; without it, its own stem.
     """
+    if not multitrack and not speaker_names_of(values):
+        return os.path.splitext(os.path.basename(camera))[0]
     return camera_output_name(production, camera,
                               speaker_names_of(values) or ["Audio-Full-Mix"])
 
@@ -2464,10 +2467,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # over it becomes the wide shot: nobody is assigned to it.
             left_out.append(cam["name"])
             continue
-        # Sorted, like build_handover's: gathered as they arrive, the same
-        # two people come out as one name here and another there. Sync
-        # only knows nobody: every camera is a plain camera, whatever
-        # an assignment says, and the track keeps the file's name.
+        # Sorted, like build_handover's, or one pair of people comes out
+        # under two names. Sync only knows nobody: every camera is plain,
+        # whatever an assignment says, and the track keeps the camera's
+        # name -- the window's or --new-name's, else the file's stem.
         who = [] if sync_only(args) else sorted(speaker_of.get(v) or [])
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
