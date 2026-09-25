@@ -80,6 +80,7 @@ ONE_OUT = vpm.TN(1, ', %s file does not fit',
 
 
 def short(row):
+    """The file names of a row, without their folders, sorted."""
     return sorted(os.path.basename(p) for p in (row or []))
 
 
@@ -136,6 +137,7 @@ real = vpm.bearings.align_envelopes
 
 
 def refusing(env_a, env_b, *args, **named):
+    """The real alignment, but it raises for the pair warned as CamA.mov."""
     if named.get("warn") == "CamA.mov":
         raise RuntimeError("stand-in: this pair cannot be measured")
     return real(env_a, env_b, *args, **named)
