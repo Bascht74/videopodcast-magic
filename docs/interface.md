@@ -465,17 +465,18 @@ shows the prework -- reading the audio and computing the envelopes --
 which is the same work the bar beside **Start** carries, here file by
 file.
 
-**Production name**, **Language** and **Project type** stand in one
-row. Where the window is too narrow for all three, the row goes on in a
-second line instead of pushing the **Files & production** tab past the
-window's edge, and a caption never parts from its field.
+**Production name**, **Language of the sound** and **Project type**
+stand in one row. Where the window is too narrow for all three, the row
+goes on in a second line instead of pushing the **Files & production**
+tab past the window's edge, and a caption never parts from its field.
 
-**Language** beside the production name is the language spoken in the
-recording, preset from the system language. It does two things: it
-becomes the tag of the written audio track, and the recognition on this
-machine is told to expect that language. "not set" leaves the track
-untagged and lets the recognition work the language out for itself. The
-list holds only languages the recognition here also knows.
+**Language of the sound** beside the production name is the language
+spoken in the recording, preset from the system language. It does two
+things: it becomes the tag of the written audio track, and the
+recognition on this machine is told to expect that language. "not set"
+leaves the track untagged and lets the recognition work the language
+out for itself. The list holds only languages the recognition here also
+knows.
 [The transcript is made here](auphonic.md#the-transcript-is-made-here)
 says what the recognition writes, and [Speech recognition and speaker
 separation](speech.md) which way it takes on which machine.
