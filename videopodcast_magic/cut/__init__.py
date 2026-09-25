@@ -2503,6 +2503,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     by_clock = []
     too_weak = []
     left_out = []
+    refused = []
     nowhere = FileSet(unplaceable or ())
     by_its_clock = ByFile(clocked or {})
     for cam in cameras:
@@ -2511,6 +2512,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # Refused by the run, so no camera of this episode. Handed
             # over it becomes the wide shot: nobody is assigned to it.
             left_out.append(cam["name"])
+            refused.append(v)
             continue
         # Sorted, like build_handover's, or one pair of people comes out
         # under two names. Sync only knows nobody: every camera is plain,
@@ -2632,6 +2634,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         "intro": _intro_outro_entry(getattr(args, "intro", None)),
         "outro": _intro_outro_entry(getattr(args, "outro", None)),
         "cameras": items,
+        # The files the run could not place, by their source: they were
+        # in hand, so a handover without them is still this run's.
+        "refused": refused,
         "cut": [{"start": round(a, 3), "end": round(b, 3), "camera": n}
                     for a, b, n in (cut or [])],
         "speakers": [{"name": n,

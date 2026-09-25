@@ -1554,8 +1554,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     placed = cameras[:tl.GetTrackCount("video")]
     # Room for the audio, side by side, or Resolve places what fits and
     # silently drops the rest. With slack: what it occupies is not known
-    # in advance, and the cleanup removes empty tracks afterwards.
-    needed = sum(audio_track_count(cam) for cam in cameras) + len(cameras)
+    # in advance, and the cleanup removes empty tracks afterwards. Only
+    # for the cameras laid: one refused its picture lays no sound either.
+    needed = sum(audio_track_count(cam) for cam in placed) + len(placed)
     audio_refused = 0
     while tl.GetTrackCount("audio") < needed:
         if not add_track(tl, "audio"):
