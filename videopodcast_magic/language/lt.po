@@ -4883,3 +4883,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s failas netinka prie kitų"
 msgstr[1] " -- %s failai netinka prie kitų"
 msgstr[2] " -- %s failų netinka prie kitų"
+
+msgid "Cameras"
+msgstr "Kameros"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Vienodas dydis ir trukmė: %s -- galbūt tas pats įrašas du kartus."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe nebeatidaro failo"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Trūksta: ffmpeg ir ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  Faile %s yra kalbėtojų atskyrimas įrašo, kuris nuo to laiko pasikeitė ar dingo, arba kito modelio -- jis nenaudojamas."

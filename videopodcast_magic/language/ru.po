@@ -4878,3 +4878,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s файл не подходит к остальным"
 msgstr[1] " -- %s файла не подходят к остальным"
 msgstr[2] " -- %s файлов не подходит к остальным"
+
+msgid "Cameras"
+msgstr "Камеры"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s имеют одинаковый размер и длительность -- возможно, одна запись дважды."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe больше не открывает файл"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg и ffprobe отсутствуют."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s содержит разделение говорящих для записи, которая с тех пор изменилась или исчезла, или от другой модели -- оно не используется."

@@ -4835,3 +4835,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s fil passar inte ihop med de andra"
 msgstr[1] " -- %s filer passar inte ihop med de andra"
+
+msgid "Cameras"
+msgstr "Kameror"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s har samma storlek och speltid -- kanske en inspelning två gånger."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe kan inte längre öppna filen"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg och ffprobe saknas."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s innehåller en talarseparering av en inspelning som sedan dess har ändrats eller försvunnit, eller från en annan modell -- den används inte."

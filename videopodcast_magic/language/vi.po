@@ -4792,3 +4792,18 @@ msgstr "stereo"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s tệp không khớp với các tệp khác"
+
+msgid "Cameras"
+msgstr "Máy quay"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s có cùng kích thước và thời lượng -- có thể là một bản ghi bị lặp hai lần."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe không còn mở được tệp"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Thiếu ffmpeg và ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s chứa phần tách giọng người nói của một bản ghi đã thay đổi hoặc không còn nữa từ đó, hoặc của một mô hình khác -- không được dùng."

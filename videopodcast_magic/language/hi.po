@@ -4836,3 +4836,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s फ़ाइल बाकी फ़ाइलों से मेल नहीं खाती"
 msgstr[1] " -- %s फ़ाइलें बाकी फ़ाइलों से मेल नहीं खातीं"
+
+msgid "Cameras"
+msgstr "कैमरे"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "एक जैसा आकार और अवधि: %s -- शायद एक ही रिकॉर्डिंग दो बार।"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe अब फ़ाइल नहीं खोलता"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg और ffprobe गायब हैं।"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s में ऐसी रिकॉर्डिंग का वक्ता पृथक्करण है जो तब से बदल गई है या अब नहीं है, या किसी दूसरे मॉडल का -- इसका उपयोग नहीं किया जाता।"

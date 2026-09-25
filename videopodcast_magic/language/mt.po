@@ -4927,3 +4927,18 @@ msgstr[0] " -- %s fajl ma jaqbilx mal-oħrajn"
 msgstr[1] " -- %s fajls ma jaqblux mal-oħrajn"
 msgstr[2] " -- %s fajl ma jaqblux mal-oħrajn"
 msgstr[3] " -- %s fajl ma jaqblux mal-oħrajn"
+
+msgid "Cameras"
+msgstr "Kameras"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s għandhom l-istess daqs u l-istess tul -- forsi l-istess reġistrazzjoni darbtejn."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe ma jiftaħx aktar il-fajl"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Neqsin: ffmpeg u ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s fih separazzjoni tal-kellimin ta' reġistrazzjoni li nbidlet jew m'għadhiex teżisti minn dak iż-żmien, jew ta' mudell ieħor -- ma tintużax."

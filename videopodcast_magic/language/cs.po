@@ -4879,3 +4879,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s soubor nepasuje k ostatním"
 msgstr[1] " -- %s soubory nepasují k ostatním"
 msgstr[2] " -- %s souborů nepasuje k ostatním"
+
+msgid "Cameras"
+msgstr "Kamery"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s mají stejnou velikost a délku -- možná jedna nahrávka dvakrát."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe už soubor neotevře"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg a ffprobe chybí."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s obsahuje oddělení mluvčích nahrávky, která se mezitím změnila nebo zmizela, nebo jiného modelu -- nepoužije se."
