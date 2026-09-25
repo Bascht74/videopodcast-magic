@@ -2460,7 +2460,9 @@ umgeschrieben.
 - A handover trimmed after it was written now moves its timecode along
   with the seconds. Only the seconds moved, and DaVinci Resolve places from
   the timecode alone -- every picture landed off by the trimmed head,
-  measured ten seconds.
+  measured ten seconds. *Changed in 2.31.1: the timecode now comes out
+  of the measurement; the camera's own clock moved by the trim is left
+  only where the camera the others are measured against has none.*
 - Two shots merged into one now name every speaker heard in them. The
   survivor kept its own names, so somebody who spoke for ten seconds on
   the same camera vanished from the "Speaker" column of the cut list and
@@ -2511,7 +2513,10 @@ umgeschrieben.
 - Eine Übergabedatei, die nachträglich beschnitten wird, zieht jetzt
   ihren Timecode mit. Bisher wanderten nur die Sekunden, und DaVinci
   Resolve richtet sich allein nach dem Timecode -- jedes Bild landete um
-  den abgeschnittenen Kopf versetzt, gemessen zehn Sekunden.
+  den abgeschnittenen Kopf versetzt, gemessen zehn Sekunden. *Mit
+  2.31.1 geändert: Der Timecode kommt jetzt aus der Messung; die um den
+  Beschnitt verschobene Uhr der Kamera bleibt nur, wo die Kamera, an der
+  die anderen gemessen werden, keinen hat.*
 - Zwei Einstellungen, die zu einer zusammengelegt werden, nennen jetzt
   jeden, der darin zu hören ist. Bisher behielt die verbleibende nur ihre
   eigenen Namen, und wer zehn Sekunden auf derselben Kamera sprach, fehlte
