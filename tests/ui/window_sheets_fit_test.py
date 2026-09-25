@@ -11,10 +11,9 @@ needs against the room the window lets be seen of it on opening, and
 for the two scrolling sheets whether a sideways scrollbar shows. Both
 sides come out of one run on one platform, so a platform that draws
 wider moves both; no pixel bound is written down.
-Left out: the Output sheet, which only appears once a run has made
-something, and this test runs nothing; other languages; and a chosen
-output folder -- the files sheet is measured with none, because its
-label shows a chosen folder's path unshortened.
+The files sheet is measured with a long output folder chosen, the
+kind a share gives. Left out: the Output sheet, which only appears once
+a run has made something, and this test runs nothing; other languages.
 """
 import os
 import sys
@@ -33,16 +32,15 @@ sys.path.insert(0, HERE)
 
 LANGUAGES = ("en", "de")
 NAME = "videopodcast-magic_Interview_2.json"
-# The screen the window is opened on: the plainest desktop there is.
-# Offscreen the platform's own screen is 800 px wide, under the window's
-# minimum, and the width the program asks for would never be seen. The
-# program opens the window as wide as the screen up to a cap of its own;
-# this test does not say what the cap is, it reads the width off the
-# window.
-SCREEN = (1920, 1080)
-# An example, not a bound: one run offscreen on a Mac, 23.9.2026, gave
-# the window 1600 px and a page of 1574 px; the sheets needed 906 en /
-# 974 de (files), 1054 / 1053 (assignment), 1216 / 1265 (Resolve).
+# The screen the window is opened on: a small laptop's. What a sheet
+# needs does not depend on the screen, only its room does, so this is
+# harder than any wider desk. Offscreen the platform's own screen is
+# 800 px wide, under the window's minimum. The test reads the window's
+# width off the window and does not say what the program's cap is.
+SCREEN = (1280, 1024)
+# An example, not a bound: one run offscreen on a Mac, 25.9.2026, gave
+# the window 1280 px and a page of 1254 px; the sheets needed 906 en /
+# 974 de (files), 1054 / 1053 (assignment), 968 / 1012 (Resolve).
 # Windows draws wider and the builder's faces differ, so a fixed number
 # measured here would be red there for no fault: what is held is the
 # sheet against its own window, in the same run.
@@ -66,11 +64,14 @@ def own_project(own):
         if not os.path.exists(link):
             os.symlink(entry["path"], link)
         entry["path"] = link
-    # No output folder: "next to each video file", which is this folder.
-    # The files sheet shows the folder's path unshortened, so with one
-    # named the sheet's width would be the length of the run's temporary
-    # path -- a statement about the machine, not about the program.
-    d["out_folder"] = ""
+    # A long output folder, as a share gives one: the files sheet shows
+    # the chosen folder, and a path is the longest thing it can show.
+    # Made here, because opening the project moves its file into it.
+    far = os.path.join(own, "Output_folder_with_a_long_name_as_a_share"
+                       "_would_give_it", "Season_03_Episode_Recordings_2026",
+                       "Cut_and_Sound_Versions_Final_Delivery")
+    os.makedirs(far, exist_ok=True)
+    d["out_folder"] = far
     path = os.path.join(own, NAME)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(d, f, indent=1)
@@ -186,7 +187,10 @@ def measure(language):
             if not kids:
                 break
             here = max(kids, key=least)
-            name = drawn(caption(here))[:30] or type(here).__name__
+            # The folder label holds this run's temporary folder, and
+            # the root of it, under the home folder or not, is masked.
+            name = drawn(caption(here)).replace(own, "<own>").replace(
+                os.path.dirname(own), "<tmp>")[:30] or type(here).__name__
             steps.append("%r %d" % (name, least(here)))
         return " > ".join(steps) or "no visible piece"
 
@@ -410,7 +414,10 @@ def fits(report, place, room_name):
     if s is None:
         return missing(report, place)
     window = (report.get("window") or [0, 0])[0]
-    return s["need"] <= s["room"], (
+    # The widest piece can be the folder's path, and should <own> not
+    # stand in for it, a temporary folder under the home folder would
+    # bring the account's name into the line.
+    return s["need"] <= s["room"], home_off(
         "%r needs %d px in a %s %d px wide, the window %d px; widest: %s"
         % (s["title"], s["need"], room_name, s["room"], window,
            s["widest"]))
