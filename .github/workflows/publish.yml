@@ -179,9 +179,9 @@ jobs:
   #   d. Does the merge leave the speaker separation alone? The files
   #      it brings in are the difference between its first parent and
   #      itself, listed by the compare API; one of them, or the name a
-  #      renamed one had before, under videopodcast_magic/speakers/,
-  #      and the check runs of c. are no evidence for it -- see the
-  #      last paragraph here.
+  #      renamed one had before, a file of the speaker separation, and
+  #      the check runs of c. are no evidence for it -- see the last
+  #      paragraph here for what counts as one.
   #
   # Yes to all four and the suite job below is skipped; anything else
   # and it runs as before. GitHub not answering is treated the same
@@ -210,14 +210,26 @@ jobs:
   # does not pretend to.
   #
   # So the owner decided on 24.9.2026 where that may be given up: only
-  # where the merge touches nothing under videopodcast_magic/speakers/.
-  # A pull request that changed the separation goes the long way, and
-  # the line says which file sent it there. The compare API lists at
-  # most 300 files and says nothing about any beyond them; a merge
-  # that fills that page may hide a speakers/ file on the next one, so
-  # 300 or more is the long way too, and said so. And as everywhere
-  # in this job, GitHub not answering -- or answering something that
-  # carries no list of files -- is no, never yes.
+  # where the merge touches nothing of the separation -- on 24.9.2026
+  # that was videopodcast_magic/speakers/, and on 25.9.2026 he widened
+  # it to four places: that folder, the model it loads
+  # (videopodcast_magic/models/speaker-diarization-*/), requirements.txt,
+  # which installs what it runs on, and voice_split_hears_two_test.py,
+  # the test that runs it, found by its file name anywhere under tests/
+  # because the tests are moving into folders. pyproject.toml is not
+  # one of them: its version changes with every release, and counting
+  # it would send every release the long way. The four are written
+  # once, as patterns, in the step below. A pull request that changed
+  # one of them goes the long way, and the line says which file sent
+  # it there. The compare API lists at most 300 files and says nothing
+  # about any beyond them; a merge that fills that page may hide such
+  # a file on the next one, so 300 or more is the long way too, and
+  # said so. And as everywhere in this job, GitHub not answering -- or
+  # answering something that carries no list of files, or an entry
+  # without a file name, which is no list either -- is no, never yes.
+  # What stays given up is a change to the separation that lies
+  # outside the four -- tests.yml's install of it, or the two voices
+  # the test listens to under tests/material/twovoices/.
   evidence:
     name: "Evidence: has this tree been tested already?"
     needs: ready
@@ -335,11 +347,14 @@ jobs:
           # d. Nothing of the speaker separation. The files the merge
           # brings in are its first parent against itself; a renamed
           # file counts under both its names. Every way this can fail
-          # -- no answer, no list in the answer, a list too long to be
-          # whole -- is the long way.
+          # -- no answer, no list in the answer, an entry without a file
+          # name (jq would print "null" for it, a file nobody has), a
+          # list too long to be whole -- is the long way.
           base=$(jq -r '.parents[0].sha' /tmp/head.json)
           if ! gh api "repos/$R/compare/$base...$SHA" > /tmp/compare.json \
-             || ! jq -e '.files | type == "array"' /tmp/compare.json \
+             || ! jq -e '.files | type == "array" and all(.[];
+                           (.filename | type) == "string"
+                           and .filename != "")' /tmp/compare.json \
                     > /dev/null \
              || ! jq -r '.files[] | .filename, (.previous_filename // empty)' \
                     /tmp/compare.json > /tmp/files.txt; then
@@ -349,19 +364,37 @@ jobs:
           nf=$(jq '.files | length' /tmp/compare.json)
           echo "files:  $nf, brought in by the merge (${base:0:7}...$short)"
           if [ "$nf" -ge 300 ]; then
-            decide false "$short brings in $nf files and the compare API lists no more than 300, so a file under videopodcast_magic/speakers/ may lie beyond them, and the suite runs here"
+            decide false "$short brings in $nf files and the compare API lists no more than 300, so a file of the speaker separation may lie beyond them, and the suite runs here"
             exit 0
           fi
-          grep '^videopodcast_magic/speakers/' /tmp/files.txt \
-            | LC_ALL=C sort -u > /tmp/speakers.txt || true
+          # The separation, as the owner drew it on 25.9.2026: its code,
+          # its model, what installs it, the test that runs it by name
+          # anywhere under tests/. Not pyproject.toml -- every release
+          # moves its version. The only place these four are written.
+          cat > /tmp/separation.txt <<'RE'
+          ^videopodcast_magic/speakers/
+          ^videopodcast_magic/models/speaker-diarization-[^/]*/
+          ^requirements\.txt$
+          ^tests/(.*/)?voice_split_hears_two_test\.py$
+          RE
+          echo "separation: $(paste -sd ' ' /tmp/separation.txt)"
+          # grep says 1 for no match; anything above is a grep that did
+          # not look, and that is no answer -- the long way, not short.
+          rc=0
+          grep -E -f /tmp/separation.txt /tmp/files.txt > /tmp/hits.txt || rc=$?
+          if [ "$rc" -gt 1 ]; then
+            decide false "the files ${base:0:7}...$short brings in could not be held against the speaker separation's patterns (grep said $rc), and the suite runs here"
+            exit 0
+          fi
+          LC_ALL=C sort -u /tmp/hits.txt > /tmp/speakers.txt
           if [ -s /tmp/speakers.txt ]; then
             first=$(head -n 1 /tmp/speakers.txt)
             more=$(( $(wc -l < /tmp/speakers.txt) - 1 ))
-            if [ "$more" -gt 0 ]; then others=" and $more more there"; else others=""; fi
+            if [ "$more" -gt 0 ]; then others=" and $more more of its files"; else others=""; fi
             decide false "the tree of $short is the tree of ${head2:0:7} and its $n check runs are green, but the merge brings in $first$others -- the speaker separation changed and the pull request ran with it off, so the suite runs here with it on"
             exit 0
           fi
-          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, and none of the $nf files the merge brings in lies under videopodcast_magic/speakers/ -- the suite is not run again"
+          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, and none of the $nf files the merge brings in is a file of the speaker separation -- the suite is not run again"
 
   # The suite itself, on this very commit, in this very run -- unless
   # the job above found it has already answered for this very tree.
