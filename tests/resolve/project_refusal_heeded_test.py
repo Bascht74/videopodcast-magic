@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-"""A track Resolve refuses is asked twice, then named, and the rest built.
+"""What Resolve refuses is named, said again at the end, and the rest built.
 
-Against a stand-in whose timelines refuse AddTrack on named calls. In
-turn: a camera's picture, spare audio room, a camera's sound, the
-intro's picture and sound, a track nothing needs, one granted when asked
-again, picture and sound together, the intro's sound beside a kept
-multicam timeline, and what the window then says. The code is 1 where
-something lacks and 0 where not; the last lines list only what was laid.
+Against a stand-in whose timelines refuse AddTrack on named calls and
+whose media pool refuses named clips. In turn: a camera's picture, spare
+audio room, a camera's sound, the intro's picture and sound, a track
+nothing needs, one granted when asked again, picture and sound together,
+the intro's sound beside a kept multicam timeline, what the window then
+says, a camera not inserted, and an intro with no sound. A track is
+asked for twice, the code is 1 where something lacks and 0 where not,
+and the closing lines list only what was laid.
 """
 import os
 import sys
@@ -115,7 +117,9 @@ class TL(object):
 
 class MP(object):
     """Picture and audio of one insert land on the same track number, and
-    a track that was never made is refused, as Resolve does."""
+    a track that was never made is refused, as Resolve does. A clip named
+    in `refuse["insert"]` is laid nowhere, and every item asked for a
+    track that is not there is written down in `nowhere`."""
     def __init__(self, p): self.p = p
     def CreateEmptyTimeline(self, name):
         tl = TL(name, self.p); self.p.tls.append(tl); return tl
@@ -129,6 +133,9 @@ class MP(object):
             fits = (picture if kind == 1 else sound if kind == 2
                     else picture and sound)
             if not fits:
+                self.p.nowhere.append((kind, i, clip.name))
+                continue
+            if clip.name in self.p.refuse.get("insert", ()):
                 continue
             if kind != 2:
                 tl.v[i].append(Item(clip.name))
@@ -142,6 +149,7 @@ class Project(object):
     def __init__(self, name, refuse, said):
         self.name, self.tls, self.mp = name, [], MP(self)
         self.refuse, self.refused, self.said = refuse, [], said
+        self.nowhere = []
     def GetName(self): return self.name
     def GetMediaPool(self): return self.mp
     def GetTimelineCount(self): return len(self.tls)
@@ -210,7 +218,7 @@ def build(handover, refuse, pm=None):
     if pm is not None:
         pm.said = said
         for p in pm.projects.values():
-            p.refuse, p.refused, p.said = refuse, [], said
+            p.refuse, p.refused, p.said, p.nowhere = refuse, [], said, []
     pm = pm or PM(refuse, said)
     CURRENT["pm"] = pm
     del QUEUED[:]
@@ -296,6 +304,18 @@ def angles(said):
     return out
 
 
+def video_rows(said):
+    """The rows under "... video tracks, named after ...", split into words."""
+    rows = lines(said)
+    at = [i for i, row in enumerate(rows) if "video tracks, named" in row]
+    out = []
+    for row in rows[at[0] + 1 if at else len(rows):]:
+        if not re.match(r"V\d+ ", row):
+            break
+        out.append(row.split())
+    return out
+
+
 print("1. A video track refused twice on the multicam timeline")
 # The new timeline has one video track; the second camera needs a
 # second, and every call for it is refused.
@@ -333,9 +353,19 @@ said_count = [x for x in lines(said) if "video tracks, named" in x]
 check("a camera refused its track is not counted as a video track",
       said_count == [COUNTED],
       "%r against [%r]" % (said_count, COUNTED))
+check("a camera refused its track is not listed among the video tracks",
+      video_rows(said) == [["V1", "W_C001"]],
+      "%r against [['V1', 'W_C001']]" % video_rows(said))
 check("a camera refused its track is not listed among the angles",
       angles(said) == [["V1", "W_C001"]],
       "%r against [['V1', 'W_C001']]" % angles(said))
+# The line in the middle naming each camera laid with its sound tracks;
+# how many audio tracks it counts is room asked for, not a camera.
+MADE = vpm.T('  %s video tracks, %s audio tracks created (%s)').split("%s")[2]
+made = [x for x in lines(said) if MADE.strip() in x]
+check("a camera refused its track is not named among those created",
+      len(made) == 1 and made[0].endswith("(W_C001 1)"),
+      "%r against one line ending in '(W_C001 1)'" % made)
 heard = sounds(tl) if tl else []
 rows = [x for x in lines(said) if x.startswith("A") and "G_C003" in x]
 check("a camera refused its track lays no sound without picture",
@@ -411,6 +441,11 @@ check("an intro track refused twice leaves the rest built",
       and len(QUEUED) == 1,
       "A2 holds %r against ['Intro.mov'], %d render jobs against 1, the "
       "build %s" % (sound, len(QUEUED), ended(code)))
+built = CURRENT["pm"].projects.get("X")
+sent = [x for x in (built.nowhere if built else []) if x[2] == "Intro.mov"]
+check("an intro track refused twice is sent no picture",
+      built is not None and not sent,
+      "asked for tracks that are not there: %r against none" % sent)
 check("an intro track refused twice is named again at the end",
       bool(naming("\n".join(last_two(said)), WORDS)),
       "the last two lines, against one saying refused and %r: %r"
@@ -445,6 +480,15 @@ ON_A2 = clean(vpm.T(', audio on A2'))
 claimed = [x for x in lines(said) if ON_A2 in x]
 check("an intro sound track refused twice is not said to be on A2",
       not claimed, "%r against no line saying %r" % (claimed, ON_A2))
+# The line under V2 says why there is no sound: a file with sound whose
+# track was refused is not a file without any.
+NO_SOUND = clean(vpm.T(', no audio'))
+INTRO = vpm.label_of(vpm.TYPE_INTRO) + " "
+REFUSED = clean(vpm.T(', its sound track refused'))
+intro_rows = [x for x in lines(said) if x.startswith(INTRO)]
+check("an intro sound track refused twice is not called soundless",
+      len(intro_rows) == 1 and intro_rows[0].endswith(REFUSED),
+      "%r against one line ending in %r" % (intro_rows, REFUSED))
 
 print("\n6. A second video track nothing would lie on, refused twice")
 # One camera and no intro: the second track is asked for all the same.
@@ -535,6 +579,55 @@ check("spare room refused leaves the window saying done",
       DONE in last and ERRORS not in last,
       "the last lines %r against %r, the build %s"
       % (last, DONE, ended(code)))
+
+print("\n11. A camera Resolve would not insert")
+# Both tracks are there; the media pool refuses to lay G_C003 on V2,
+# whole or as picture and sound apart.
+code, said, refused, tls = build(SYNC, {"insert": ("G_C003.mov",)})
+NOT_IN = vpm.TN(1, '  Caution: %s not inserted. Without this angle the'
+                '\n  Timeline is no good for converting.',
+                '  Caution: %s not inserted. Without these angles the'
+                '\n  Timeline is no good for converting.') % "G_C003"
+NOT_IN = [clean(x) for x in NOT_IN.splitlines()]
+check("a camera not inserted is named again at the end",
+      last_two(said) == NOT_IN,
+      "the last two lines %r against %r" % (last_two(said), NOT_IN))
+check("a camera not inserted ends the build in 1", code == 1,
+      "the build %s against 1" % ended(code))
+said_count = [x for x in lines(said) if "video tracks, named" in x]
+check("a camera not inserted is not counted as a video track",
+      said_count == [COUNTED],
+      "%r against [%r]" % (said_count, COUNTED))
+check("a camera not inserted is not listed among the video tracks",
+      video_rows(said) == [["V1", "W_C001"]],
+      "%r against [['V1', 'W_C001']]" % video_rows(said))
+check("a camera not inserted is not listed among the angles",
+      angles(said) == [["V1", "W_C001"]],
+      "%r against [['V1', 'W_C001']]" % angles(said))
+code, last = window_says(SYNC, {"insert": ("G_C003.mov",)})
+check("a camera not inserted leaves the window saying errors",
+      ERRORS in last and DONE not in last,
+      "the last lines %r against %r, the build %s"
+      % (last, ERRORS, ended(code)))
+
+print("\n12. An intro with no sound of its own")
+# Nothing is refused: the file has no sound, and the line says so.
+SILENT = dict(ONE, intro=dict(ONE["intro"], has_audio=False))
+code, said, refused, tls = build(SILENT, {})
+intro_rows = [x for x in lines(said) if x.startswith(INTRO)]
+check("an intro with no sound of its own is called soundless",
+      len(intro_rows) == 1 and intro_rows[0].endswith(NO_SOUND),
+      "%r against one line ending in %r, the build %s"
+      % (intro_rows, NO_SOUND, ended(code)))
+# The same intro and V2 refused: nothing is left to lay, so nothing is
+# handed to Resolve and nothing is called not inserted.
+code, said, refused, tls = build(SILENT, {"video": (1, ALWAYS)})
+NOT_LAID = clean(vpm.T('    %s could not be inserted.').split("%s")[1])
+not_laid = [x for x in lines(said) if NOT_LAID in x]
+check("a silent intro refused its track is not called not inserted",
+      not not_laid and code == 1,
+      "%r against no line saying %r, the build %s against 1"
+      % (not_laid, NOT_LAID, ended(code)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
