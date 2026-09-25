@@ -5,8 +5,9 @@ The offsets are kept under the rendered file. A camera without one had
 no key, and 0.0 as a fallback put it at the start of the axis. A file
 the run refused altogether is not handed over at all: it has no place
 on the axis, and nobody is assigned to it, which is what the handover
-reads as the wide shot. Two cameras nobody is assigned to keep two track
-names: the track name is the key the Resolve side files a camera under.
+reads as the wide shot. It is named apart, as refused. Two cameras
+nobody is assigned to keep two track names: the track name is the key
+the Resolve side files a camera under.
 """
 import os
 import sys
@@ -120,6 +121,13 @@ after = json.load(io.open(os.path.join(hand, "Test_resolve.json"),
 names = [c["camera"] for c in after["cameras"]]
 check("a file the run could not place is no camera in the handover",
       "Jingle" not in names, "the handover names %s" % names)
+# By its source, as the cameras are: a handover without it is then still
+# told from one written before a camera was added.
+refused = [vpm.path_key(p) for p in after.get("refused") or []]
+check("and the handover names it as refused, by its source",
+      refused == [vpm.path_key(jingle)],
+      "refused %r, wanted ['Jingle.mov'] by its whole path"
+      % [os.path.basename(str(p)) for p in after.get("refused") or []])
 check("and it reaches no entry marked as the wide shot",
       not [c for c in after["cameras"]
            if c["camera"] == "Jingle" and c.get("wide")],
