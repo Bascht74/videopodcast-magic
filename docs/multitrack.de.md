@@ -514,9 +514,10 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   einen eigenen Ordner --, sperren dagegen nichts: Das Fenster hält sie
   auseinander wie die Kommandozeile. Die zweite heißt `<Name> 2`, im
   Schnitt, im vorgeschlagenen Namen unter **neue Datei heißt** und in
-  Resolve, und jede behält ihr eigenes Bild. In den Listen des Fensters
-  -- in der Spalte **Kamera** und in der Auswahl unter **gehört zu** --
-  steht die zweite als `<Name> (2)`, und wer mit der Maus darauf stehen
+  Resolve, und jede behält ihr eigenes Bild. In dem, was das Fenster
+  selbst zeigt -- in der Spalte **Kamera**, in der Auswahl unter
+  **gehört zu** und im Hinweis bei einem zweiten Weitwinkel --, steht
+  die zweite als `<Name> (2)`, und wer mit der Maus darauf stehen
   bleibt, liest den ganzen Pfad. Ein Projekt aus einer älteren Fassung
   kannte eine Kamera nur beim Dateinamen. Öffnet man es jetzt, gehen
   alle Zeilen, die eine der beiden nannten, an die erste Datei dieses

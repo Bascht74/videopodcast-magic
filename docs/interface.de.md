@@ -206,8 +206,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   *Die Liste nach dem Öffnen eines Projekts, mit den Prüfzeichen aus
   dem Vorflug und dem Streifen darunter.*
-- **Zuordnung & Zeitfenster**: links die Tabellen, rechts der Player.
-  Erscheint mit den Dateien.
+- **Zuordnung & Zeitfenster**: links die Tabellen, rechts der Player;
+  ist das Fenster für beide nebeneinander zu schmal, rückt der Player
+  unter die Tabellen. Erscheint mit den Dateien.
 
   Die Aufnahmen sind ein Baum. Seine zweite Spalte ist der
   **Sprechername**. Sie startet leer, mit dem Namen, den der Dateiname
@@ -320,10 +321,12 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Zeitfenster, der Kasten mit den Werten für den Schnitt und der Kasten
   **Sprecher**, dessen Überschrift die Quelle der Sprecher nennt, in
   Klammern die gemessene Redezeit und dahinter, dass gleichzeitig
-  Redende doppelt zählen. Zuletzt der Kasten
-  **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer
-  Vorschau. Das Bild sagt unter sich, auf einer Fläche in der Farbe der
-  laufenden Einstellung, wer spricht und welche Kamera läuft; hat eine
+  Redende doppelt zählen. Das alles bildet die linke Spalte. Rechts
+  daneben steht der Kasten **Kameraschnitt -- Vorschau** mit
+  Schnittband und abspielbarer Vorschau; ist das Fenster für zwei
+  Spalten zu schmal, steht er unter den Einstellungen. Das Bild sagt
+  unter sich, auf einer Fläche in der Farbe der laufenden Einstellung,
+  wer spricht und welche Kamera läuft; hat eine
   Einstellung kein Bild, füllt die Farbe die ganze Fläche, und die
   beiden Zeilen stehen darauf. [Der Kameraschnitt](camera-cut.de.md)
   liest sie aus.
@@ -504,6 +507,12 @@ einzelnen. Eine Zeile verschwindet, sobald ihre Datei fertig ist, der
 Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
 lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
 neben **Start** mitträgt, hier Datei für Datei.
+
+**Name der Produktion**, **Sprache** und **Projekttyp** stehen in einer
+Zeile. Ist das Fenster für alle drei zu schmal, bricht die Zeile in eine
+zweite um, statt den Reiter **Dateien & Produktion** über den
+Fensterrand hinauszuschieben; eine Beschriftung bleibt dabei immer bei
+ihrem Feld.
 
 **Sprache** neben dem Produktionsnamen ist die in der Aufnahme
 gesprochene Sprache, vorbelegt aus der Systemsprache. Sie tut zweierlei:
