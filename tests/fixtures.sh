@@ -1,13 +1,15 @@
 #!/bin/bash
 # Build the fixture folders the suite does not build for itself.
 #
-# Most tests make their own material and clean it up again. Six folders
-# are shared and read-only, so they are built once, here: "$FIX/foreign"
-# (everything that is not a camera file), "$FIX/hdrtest" (HDR variants),
-# "$FIX/playertest" (long enough to play), "$FIX/interview" (the shape of
-# a whole job), "$FIX/mixer" (one file with eight channels) and
-# "$FIX/twovoices" (two synthetic voices taking turns). run.sh calls
-# this before the tests fan out; pass "force" to build them again.
+# Most tests make their own material and clean it up again. Seven
+# folders are shared and read-only, so they are built once, here:
+# "$FIX/foreign" (everything that is not a camera file), "$FIX/hdrtest"
+# (HDR variants), "$FIX/playertest" (long enough to play),
+# "$FIX/interview" (the shape of a whole job), "$FIX/mixedcase" (a job
+# at two rates and two bit depths), "$FIX/mixer" (one file with eight
+# channels) and "$FIX/twovoices" (two synthetic voices taking turns).
+# run.sh calls this before the tests fan out; pass "force" to build
+# them again.
 set -e
 force="$1"
 # Where this script lives, worked out before anything changes the
@@ -265,6 +267,88 @@ fi
 # Opening a project moves the project file into the output folder, so
 # after one run the fixture would have none. Written again every time.
 "${VPM_PYTHON:-python3}" "$HERE/interview_project.py" "$FIX/interview"
+
+# ---- "$FIX/mixedcase": a job the way the owner's cameras shoot it ----
+#
+# Everything above runs at one rate and eight bits, and the interview
+# gives every speaker a camera of their own. The owner's own jobs differ
+# in all three, and a run over them is where six faults came out that
+# 260 tests had let through. So this folder carries exactly those three
+# things, decided by the owner on 25.9.2026, and is a folder of its own
+# because forty tests read the interview's numbers.
+# project_mixed_run_lands_test.py reads it:
+#
+#   WideCam_01011000_C001.mov        25     8 bit h264   10:00:00:00   +0.00 s
+#   PresentersCam_01011000_C002.mov  25    10 bit hevc   10:00:03:00   +3.00 s
+#   GuestCam_01011000_C003.mov       29.97  8 bit h264   10:00:05:15   +5.50 s
+#
+# Two rates, and the Timeline takes the higher: 29.97. Its timecode is
+# non-drop and counts thirty labels a second, so 10:00:05:15 is 36005.5 s
+# by the label and 5.5 s after the wide shot. All three end on the same
+# second of the programme, 60 s after it began, so they are 60, 57 and
+# 54.5 s long, and the stretch all three saw is the last 54.5.
+#
+# No camera carries a speaker: nothing on the command line says who
+# sits where, and every camera hears the whole room, both voices at
+# half level over a noise floor. So each is placed by its sound, and
+# its clock says the same place: a camera landing elsewhere is a fault
+# of arithmetic, not a measurement and a clock disagreeing.
+#
+# Two recorders, one of them in two blocks (0-30 s and 30-60 s), the
+# boundary inside a turn of the other voice. Turns of 4 s and more, at
+# least 1.5 s apart, never overlapping -- the same reasons as the
+# interview's above:
+#
+#   Guest      1.0-6.0   14.0-20.0  29.0-34.5  43.0-48.0  55.0-59.5
+#   Presenter  7.5-12.5  21.5-27.5  36.0-41.5  49.5-53.5
+#
+# The room is written once, cut three ways and thrown away, so no test
+# globbing this folder for sound finds a third recording.
+MIXEDCASE_BUILD=owner-1
+if have "$FIX/mixedcase" "$MIXEDCASE_BUILD"; then
+  echo "  "$FIX/mixedcase"    already there"
+else
+  rm -rf "$FIX/mixedcase" && mkdir -p "$FIX/mixedcase"
+  cd "$FIX/mixedcase"
+  GUEST="between(t,1,6)+between(t,14,20)+between(t,29,34.5)"
+  GUEST="$GUEST+between(t,43,48)+between(t,55,59.5)"
+  PRES="between(t,7.5,12.5)+between(t,21.5,27.5)+between(t,36,41.5)"
+  PRES="$PRES+between(t,49.5,53.5)"
+  $FF -filter_complex "
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=7101,
+      highpass=f=120,lowpass=f=4600,tremolo=f=5.5:d=0.55,
+      volume=eval=frame:volume='$GUEST',volume=0.15,asplit=2[g1][g2];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=7202,
+      highpass=f=150,lowpass=f=5200,tremolo=f=4.7:d=0.55,
+      volume=eval=frame:volume='$PRES',volume=0.15,asplit=2[p1][p2];
+    anoisesrc=c=pink:r=48000:d=60:a=0.9:seed=7303,volume=0.004[room1];
+    anoisesrc=c=pink:r=48000:d=60:a=0.9:seed=7404,volume=0.004[room2];
+    anoisesrc=c=pink:r=48000:d=60:a=0.9:seed=7505,volume=0.006[room3];
+    [g1][room1]amix=inputs=2:normalize=0[k];
+    [p1][room2]amix=inputs=2:normalize=0,asplit=2[r1][r2];
+    [r1]atrim=0:30,asetpts=PTS-STARTPTS[ra];
+    [r2]atrim=30:60,asetpts=PTS-STARTPTS[rb];
+    [g2][p2][room3]amix=inputs=3:normalize=0,volume=0.5[room]" \
+    -map "[k]"  -ac 1 -ar 48000 -c:a pcm_s16le Guest_Take0031A.wav \
+    -map "[ra]" -ac 1 -ar 48000 -c:a pcm_s16le Presenter_REC00031.wav \
+    -map "[rb]" -ac 1 -ar 48000 -c:a pcm_s16le Presenter_REC00032.wav \
+    -map "[room]" -ac 1 -ar 48000 -c:a pcm_s16le room.wav -y
+  # mixcam <file> <from s> <rate> <timecode> <video codec and format...>
+  mixcam() { f=$1 at=$2 rate=$3 tc=$4; shift 4
+    $FF -f lavfi -i "testsrc=size=320x180:rate=$rate:duration=60" \
+      -ss "$at" -i room.wav -map 0:v -map 1:a "$@" -c:a aac \
+      -timecode "$tc" -shortest "$f" -y; }
+  mixcam WideCam_01011000_C001.mov 0 25 10:00:00:00 \
+    -c:v libx264 -preset ultrafast -pix_fmt yuv420p
+  mixcam PresentersCam_01011000_C002.mov 3 25 10:00:03:00 \
+    -c:v libx265 -preset ultrafast -pix_fmt yuv420p10le -tag:v hvc1 \
+    -x265-params log-level=error
+  mixcam GuestCam_01011000_C003.mov 5.5 30000/1001 10:00:05:15 \
+    -c:v libx264 -preset ultrafast -pix_fmt yuv420p
+  rm -f room.wav
+  done_with "$FIX/mixedcase" "$MIXEDCASE_BUILD"
+  echo "  "$FIX/mixedcase"    built"
+fi
 
 # ---- "$FIX/mixer": eight channels in one file, one case each ----
 #
