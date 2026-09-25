@@ -509,9 +509,9 @@ shutil.rmtree(RUN_WORK, ignore_errors=True)
 print("\n15. Sync only: the handover knows nobody, whatever was assigned")
 # The same material as 14 -- a recording with a camera, a voice under
 # it -- but the run only synchronises. Then no name reaches the
-# handover: the camera is plain, its track keeps the file's name, and
-# the file says which kind of run it came from. A run that never
-# learned the switch is a cut.
+# handover: the camera is plain and no wide shot, its track keeps the
+# file's name, and the file says which kind of run it came from. A run
+# that never learned the switch is a cut.
 SYNC_WORK = tempfile.mkdtemp(prefix="handover_sync_")
 SYNC_CAM = os.path.join(SYNC_WORK, "A001.MP4")
 open(SYNC_CAM, "w").write("x")
@@ -540,9 +540,9 @@ plain = (synced.get("cameras") or [{}])[0]
 check("the handover of a sync run says so",
         synced.get("project_type") == "sync",
         "project_type is %r" % (synced.get("project_type"),))
-check("and its camera carries nobody, though a recording and a voice "
-        "were assigned to it",
-        plain.get("speakers") == [] and plain.get("wide") is True,
+check("and its camera carries nobody and is no wide shot, though a "
+        "recording and a voice were assigned to it",
+        plain.get("speakers") == [] and plain.get("wide") is False,
         "speakers %r, wide %r -- the cut run above puts "
         "['CoPresenter', 'Presenter'] here"
         % (plain.get("speakers"), plain.get("wide")))

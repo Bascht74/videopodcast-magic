@@ -945,6 +945,16 @@ def join_only(args, tracks, tmpdir, title=""):
     return 0
 
 
+def drift_measured(st):
+    """Whether a placing measured a drift, and not only where a file sits.
+
+    A fit over the sample points gives one. The reference, a clock, the
+    phase and too few points give none, and their noughts -- "+0.00
+    ppm ... 0 of 40 points" -- read like a drift measured at zero.
+    """
+    return "ppm" in (st or {}) and not (st or {}).get("from_phase")
+
+
 def measure_tracks_against_each_other(tracks):
     """Put every track on the time axis of the longest one.
 
@@ -983,6 +993,11 @@ def measure_tracks_against_each_other(tracks):
         # it. Without it a track put there by phase shows +0.00 ppm and
         # nothing else, and that reads as a drift measured at zero.
         track["hint"] = which_way_placed(st, track.get("hint") or "")
+        if not drift_measured(st):
+            print(T('  %-20s offset %s, clock drift not measured%s')
+                  % (track["name"], as_hms(a), "  [" + track["hint"] + "]"
+                     if track.get("hint") else ""))
+            continue
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points%s')
               % (track["name"], as_hms(a),
@@ -1245,6 +1260,10 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if v not in position:
             continue
         a, b, st = position[v]
+        if not drift_measured(st):
+            print(T('  %-20s offset %s, clock drift not measured%s')
+                  % (os.path.basename(v), as_hms(a), ""))
+            continue
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points')
               % (os.path.basename(v), as_hms(a),
@@ -1269,14 +1288,15 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     for e, made in zip(plan, joined):
         blocks, name = made["blocks"], made["name"]
         source, hint = made["source"], made["hint"]
-        # A camera's own sound runs on its camera's clock: where that
-        # clock placed the camera, the track stands with it. Measured
-        # again, a steady tone lands wherever the phase finds a peak.
+        # A camera's own sound stands with its camera, whichever way the
+        # camera was placed: measured again it is the same sound, or a
+        # steady tone lands wherever the phase finds a peak.
         own = placed.get(e["from_camera"]) if e.get("from_camera") else None
-        if own is not None and own[2].get("by_clock_only"):
+        if own is not None:
             a, b, st = own[0], own[1], dict(own[2])
-            hint = (hint + ", " if hint else "") + T(
-                "placed with its camera, by that camera's clock")
+            hint = (hint + ", " if hint else "") + (
+                T("placed with its camera, by that camera's clock")
+                if st.get("by_clock_only") else T("placed with its camera"))
         else:
             try:
                 a, b, st = align_audio_to_video(
@@ -1299,6 +1319,10 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                        # own, and only this still names the recording.
                        "from_camera": e.get("from_camera") or "",
                        "blocks": list(blocks), "hint": hint})
+        if not drift_measured(st):
+            print(T('  %-20s offset %s, clock drift not measured%s')
+                  % (name, as_hms(a), "  [" + hint + "]" if hint else ""))
+            continue
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points%s')
               % (name, as_hms(a),
@@ -1950,6 +1974,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         if ref_clip and path_key(ref_clip[0]) == path_key(v):
             print(T('  Clock drift:     nothing measured -- this is the '
                     'reference the others are held against'))
+        elif not clocked and not drift_measured(st):
+            print(T('  Clock drift:     not measured -- too few points of '
+                    'its sound held for one'))
         elif not clocked:
             print(T('  Clock drift:     %s ppm (+/- %s), residual spread '
                     '%s ms, %s of %s points')
