@@ -25,7 +25,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4378** -- the window and everything it shows, asks or offers,
+* `ui/` **4380** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3735** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -44,7 +44,7 @@ figure of the day is that command, not this paragraph**:
   track is made of, and the channel rows the window shows of it
 * `pipeline/` **2216** -- the chain the recordings run until the camera
   files are written
-* `bearings/` **2009** -- where each file and each voice sits, and how
+* `bearings/` **2011** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
@@ -57,13 +57,13 @@ figure of the day is that command, not this paragraph**:
   from it
 * `setup/` **1091** -- finding ffmpeg, installing a missing module,
   keeping the key
-* `hearing/` **966** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **974** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1266** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
-* `orders/` **832** -- the command line a run is given: written out of
+* `orders/` **837** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself

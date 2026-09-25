@@ -121,6 +121,7 @@ project_keeps_answers	13
 project_leaves_others	10
 project_markers_placed	6
 project_mix_by_name	7
+project_mixed_run_lands	11
 project_output_says_hdr	24
 project_real_frame	4
 project_refusal_heeded	46
@@ -139,7 +140,7 @@ run_bar_never_falls	20
 run_bar_tracks_work	35
 run_choice_kept	17
 run_clock_place_travels	7
-run_command_built	71
+run_command_built	72
 run_done_tracks_used	7
 run_dry_reports_voices	13
 run_dry_run_not_stopped	6
@@ -168,7 +169,7 @@ run_simple_path_agrees	26
 run_space_has_margin	17
 run_starter_arch_fits	30
 run_stays_local	20
-run_stop_names_why	14
+run_stop_names_why	19
 run_switch_changes_it	12
 run_switch_has_effect	8
 run_sync_only_no_cut	20
@@ -192,6 +193,7 @@ sound_clipping_counted	14
 sound_delay_decides	14
 sound_each_gets_a_track	17
 sound_hush_reason	7
+sound_join_any_rate	6
 sound_join_order	2
 sound_loudest_block	5
 sound_mix_hits_target	13
@@ -229,7 +231,7 @@ table_names_one_order	11
 table_names_reach_camera	10
 table_no_place_not_wide	25
 table_notes_in_one_row	6
-table_one_entry_greyed	44
+table_one_entry_greyed	45
 table_pair_named_alike	5
 table_pair_seats_apart	10
 table_recording_shown	15
@@ -268,7 +270,7 @@ time_drift_taken_out	4
 time_drop_label_kept	6
 time_fit_reports	11
 time_guess_refused	56
-time_length_is_in_to_out	23
+time_length_is_in_to_out	24
 time_length_names_change	5
 time_measured_place_wins	38
 time_offset_found	6

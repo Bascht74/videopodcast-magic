@@ -1,6 +1,6 @@
 # The test suite
 
-331 tests against the program in `../videopodcast_magic/`. Every one of them stands
+333 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -85,6 +85,7 @@ root, and `fixture_root.py` tells the Python side where it is.
 | `hdrtest` | one file per HDR case: HDR10, HLG, no static metadata, the wrong curve, SDR |
 | `playertest` | a minute of picture and sound, enough for a cut of five shots |
 | `interview` | a whole small production: three recordings, three cameras, a project file |
+| `mixedcase` | a production like the owner's case: three cameras without a speaker at 25 and 29.97 fps, one in 10 bit, a recording in two blocks |
 | `mixer` | one file with eight channels, one case on each |
 | `twovoices` | two synthetic voices taking turns, for the speaker separation. Spoken on a Mac and checked in under `tests/samples/twovoices/`, read from there everywhere else -- `say(1)` is macOS's alone |
 
@@ -101,7 +102,7 @@ force` rebuilds regardless.
 | `VPM_SCRIPT` | which copy of the program is tested, named by its own `__init__.py` (default: the one in the folder above) |
 | `VPM_PYTHON` | which interpreter runs the suite (default: the version the program recommends, if it is installed) |
 | `VPM_MEDIA` | folder with a project to open (default: the `interview` fixture) |
-| `VPM_FIXTURES` | where the six shared folders live (default: `/tmp/vpm-fixtures-<uid>`) |
+| `VPM_FIXTURES` | where the seven shared folders live (default: `/tmp/vpm-fixtures-<uid>`) |
 | `VPM_SHOTS` | where the window screenshots go (default: `tests/shots/`) |
 | `WORKERS` | how many tests at once (default: processors + 1, at most 12) |
 | `TRIES` | how many goes a crashed test gets before the run is red (default 3) |
@@ -246,7 +247,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-331 tests. The name is the one a red line carries, and beside it the
+333 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -304,6 +305,7 @@ it is green.
 | `sound_delay_decides` | One pair of microphones, or two of them? |
 | `sound_each_gets_a_track` | Without Multitrack: the mix, and the recordings beside it. |
 | `sound_hush_reason` | A channel that carries nothing says which rule caught it. |
+| `sound_join_any_rate` | Timecoded blocks in a row are joined whole at 44.1 and 96 kHz too. |
 | `sound_join_order` | Audio blocks are joined in the order they were handed over. |
 | `sound_loudest_block` | The facts of a recording come from its loudest block. |
 | `sound_mix_hits_target` | Loudness: does the range come along, and does it still normalise? |
@@ -439,6 +441,7 @@ it is green.
 | `project_leaves_others` | Opening another project or a new one leaves each project file its own. |
 | `project_markers_placed` | Speaker markers land on the frame of each turn, one per frame. |
 | `project_mix_by_name` | The mix is found by its own name, not by a word inside another one. |
+| `project_mixed_run_lands` | A run on mixed rates hands Resolve what its material says, and it builds. |
 | `project_output_says_hdr` | The project's output colour space decides HDR, and silence is not no. |
 | `project_real_frame` | The frame of the project is one a camera really recorded. |
 | `project_refusal_heeded` | What Resolve refuses is named, said again at the end, and the rest built. |
@@ -658,7 +661,7 @@ the source, the texts and the documents as a whole.
 | `filelist/` | `files_block_out_and_back` |
 | `filing/` | `files_by_file_holds` |
 | `fittings/` | `table_recording_shown`, `window_choices_refit`, `window_foot_on_one_line`, `window_speaker_cell_fits` |
-| `hearing/` | `files_curve_kept_once`, `sound_block_gap_said`, `sound_check_reads_once`, `sound_each_gets_a_track`, `sound_join_order`, `time_bad_point_dropped`, `time_guess_refused`, `time_second_try_places`, `time_track_starts_late`, `time_which_way_is_said` |
+| `hearing/` | `files_curve_kept_once`, `sound_block_gap_said`, `sound_check_reads_once`, `sound_each_gets_a_track`, `sound_join_any_rate`, `sound_join_order`, `time_bad_point_dropped`, `time_guess_refused`, `time_second_try_places`, `time_track_starts_late`, `time_which_way_is_said` |
 | `herald/` | `run_bar_never_falls`, `run_bar_tracks_work`, `run_which_script`, `window_idle_bar_hidden`, `window_stages_named` |
 | `language/` | `text_german_arrives`, `text_lang_settled_first`, `text_languages_covered`, `text_no_german_left`, `text_numbers_fit_reader`, `text_only_texts_change`, `text_shown_catalogued`, `text_whole_sentences`, `window_reads_as_chosen` |
 | `livery/` | `window_dark_follows` |
@@ -672,7 +675,7 @@ the source, the texts and the documents as a whole.
 | `preflight/` | `auphonic_preset_fits`, `files_lengths_summed`, `files_line_counts_misfit`, `files_set_aside_skipped`, `files_sync_one_recording`, `files_twin_cameras_named`, `run_dry_run_not_stopped`, `run_findings_reach_both`, `run_odd_clock_named`, `run_rate_way_said_right`, `run_space_has_margin`, `sound_bleed_reported`, `table_notes_in_one_row`, `window_size_as_run` |
 | `prework/` | `window_prework_box_goes` |
 | `project/` | `files_project_first`, `files_project_offered`, `project_close_forgets`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `window_restart_carries` |
-| `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `cut_own_rate_counted`, `cut_wide_colour_apart`, `files_hdr_complete`, `files_named_as_written`, `project_amounts_grouped`, `project_audio_counted`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_markers_placed`, `project_mix_by_name`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_top_rate_wins`, `project_two_stay_two`, `project_two_timelines_go` |
+| `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `cut_own_rate_counted`, `cut_wide_colour_apart`, `files_hdr_complete`, `files_named_as_written`, `project_amounts_grouped`, `project_audio_counted`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_markers_placed`, `project_mix_by_name`, `project_mixed_run_lands`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_top_rate_wins`, `project_two_stay_two`, `project_two_timelines_go` |
 | `running/` | `window_overwrite_asked`, `window_start_runs` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_kept`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |
