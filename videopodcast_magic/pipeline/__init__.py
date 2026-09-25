@@ -806,7 +806,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                     if len(blocks) > 1 else ""),
                  as_hms(total), "  ->  " + target))
     combined = ByFile(
-        (cam, [e.get("speakers") or "?" for e in own])
+        (cam, [track_name_of(e) for e in own])
         for cam, own in tracks_per_camera(plan).items())
     multiple = {cam: v for cam, v in combined.items() if len(v) > 1}
     for cam, v in multiple.items():
@@ -814,7 +814,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
               % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
-        every = [e.get("speakers") or "?" for e in plan]
+        every = [track_name_of(e) for e in plan]
         # The same rule the writer follows: a recording gets a line of
         # its own only where no camera has a track at all, there is more
         # than one recording, and --no-single-tracks was not given.
@@ -2198,7 +2198,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             tracks, cut, segment_list, cameras, args, colours, gain)
         if target:
             print("  %s" % target)
-    write_handover(args, tracks, cameras, videos, folder, tc_start,
+    # The Resolve build's code is the run's: a track Resolve refused
+    # twice or a camera it would not insert is no finished project, and
+    # thrown away here the run would end in 0 and the window say Done.
+    if write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results, cut, segment_list,
                       t1 - t0 if t1 is not None else 0, track_names,
                       single_files, offsets, lengths, words=heard_words(),
@@ -2207,6 +2210,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                                    not in placed_cameras],
                       clocked={v: st.get("quality")
                                for v, (_a, _b, st) in (position or {}).items()
-                               if st.get("by_clock_only")})
+                               if st.get("by_clock_only")}):
+        error += 1
     shutil.rmtree(tmpdir, ignore_errors=True)
     return 1 if error else 0
