@@ -1699,7 +1699,7 @@ def preselected_camera(old, targets, speaker, videos, own_camera=""):
     if own_camera:
         return own_camera
     hit = camera_for_speaker(speaker, videos)
-    return os.path.basename(hit) if hit else MIX_ONLY
+    return hit if hit else MIX_ONLY
 
 
 def camera_to_remember(camera, derived, keep=None):

@@ -1591,6 +1591,30 @@ def voice_keys_carry_source(remembered, source):
             remembered.setdefault(fresh, remembered.pop(api_key))
 
 
+def cameras_carry_path(remembered, videos):
+    """Give an older project's camera answers the file they meant.
+
+    Such a project names a camera by its file name; both kinds of row go
+    to the first file of that name. Its run did so for a recording, but
+    put a separated voice on the last one. *videos* in the order of the
+    project's files. The fixed answers, nothing, a path and a name no
+    file carries stay as they are.
+    """
+    def fixed(camera):
+        """The path an older answer meant, or the answer itself."""
+        if not isinstance(camera, str) or PROGRAM.is_a_path(camera):
+            return camera
+        return next((p for p in videos or ()
+                     if PROGRAM.camera_is(camera, p)), camera)
+
+    for api_key, value in list(remembered.items()):
+        if api_key.startswith("audio:") and isinstance(value, tuple) \
+                and len(value) == 2:
+            remembered[api_key] = (value[0], fixed(value[1]))
+        elif api_key.startswith("voice:"):
+            remembered[api_key] = fixed(value)
+
+
 def split_cells_write(cells, busy, running, by_source, note):
     """Say in every recording's row how its separation stands.
 

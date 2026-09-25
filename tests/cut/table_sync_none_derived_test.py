@@ -49,7 +49,8 @@ def check(name, ok, extra=""):
 GUEST = "/tmp/GuestCam_01011858_C003.mov"
 WIDE = "/tmp/WideCam_01011855_C001.mov"
 FILES = [(GUEST, "video"), (WIDE, "video")]
-TAKEN = {"GuestCam_01011858_C003.mov"}
+# The window's chooser holds a camera by its path.
+TAKEN = {GUEST}
 
 
 def asked(kind_of_wide, sync):
@@ -58,17 +59,16 @@ def asked(kind_of_wide, sync):
              WIDE: vpm.Value(kind_of_wide)}
     wides, said = vpm.wide_cameras_of(FILES, kinds, {}, TAKEN, (),
                                       sync=sync)
-    return wides, said, vpm.kind_on_show(
-        kind_of_wide, "WideCam_01011855_C001.mov", wides, said)
+    return wides, said, vpm.kind_on_show(kind_of_wide, WIDE, wides, said)
 
 
 print("1. Cut by speaker: the camera nobody is on is the wide shot")
 wides, said, shown = asked(vpm.TYPE_CONTENT, False)
 check("without Sync only the camera nobody is on is the wide shot",
-      wides == ["WideCam_01011855_C001.mov"] and not said
+      wides == [WIDE] and not said
       and shown[0] == vpm.TYPE_WIDE and shown[2],
       "wide shots %s, marked %s, the field shows %r, wanted "
-      "['WideCam_01011855_C001.mov'], False and %r worked out"
+      "['/tmp/WideCam_01011855_C001.mov'], False and %r worked out"
       % (wides, said, shown, vpm.TYPE_WIDE))
 
 print("\n2. Sync only: nobody is asked, so nobody is missing")
@@ -84,8 +84,8 @@ check("and its Kind field shows its own Kind, with no grey reason",
 print("\n3. Sync only: a mark still makes one")
 wides, said, shown = asked(vpm.TYPE_WIDE, True)
 check("a camera marked the wide shot stays one under Sync only",
-      wides == ["WideCam_01011855_C001.mov"] and said,
-      "wide shots %s, marked %s, wanted ['WideCam_01011855_C001.mov'] "
+      wides == [WIDE] and said,
+      "wide shots %s, marked %s, wanted ['/tmp/WideCam_01011855_C001.mov'] "
       "and True" % (wides, said))
 
 print("\n4. The window over a Sync only project")

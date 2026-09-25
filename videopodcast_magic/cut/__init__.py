@@ -891,11 +891,11 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                         'to do that.'))
     out = []
     for cam in cameras:
-        short = os.path.basename(cam.get("file") or "")
         # The camera audio arrives through the assignment already, and
         # sorted, because write_handover builds the same list by name.
         who = sorted((n for n, target in assignment.items()
-                      if target == short), key=name_order)
+                      if PROGRAM.camera_is(target, cam.get("file"))),
+                     key=name_order)
         out.append({"track": cam.get("track"), "file": cam.get("file"),
                      "speakers": who,
                      "start_s": cam.get("start_s"),
@@ -1178,8 +1178,9 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=(),
         return kind in CAMERA_TYPES and (
             kind == TYPE_WIDE or path_key(path) not in lost)
 
-    marked = [os.path.basename(p) for p in videos if kind_of(p) == TYPE_WIDE]
-    cameras = [os.path.basename(p) for p in videos if a_camera(p)]
+    # Paths, as the choosers hold them: two files of one name are two.
+    marked = [p for p in videos if kind_of(p) == TYPE_WIDE]
+    cameras = [p for p in videos if a_camera(p)]
     return (wide_shots_of(cameras, cameras if sync else taken, marked),
             bool(marked))
 
@@ -1328,22 +1329,23 @@ def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
             taken.add(camera_value.get())
     return taken
 
-def kind_on_show(kind, short, wides, said):
+def kind_on_show(kind, path, wides, said):
     """What the Kind field shows, why, and whether it is derived.
 
     A mark is shown as it stands; where several are marked, the ones
     after the first are told which the cut uses. A camera nobody is
     assigned to is the wide shot, with a reason. (value, reason, derived).
     """
-    second = bool(wides) and len(wides) > 1 and wides[0] != short
+    second = bool(wides) and len(wides) > 1 and wides[0] != path
+    first = os.path.basename(wides[0]) if wides else ""
     if kind == TYPE_WIDE:
-        return kind, (T('the cut uses %s') % wides[0] if second else ""), False
+        return kind, (T('the cut uses %s') % first if second else ""), False
     # chosen_by_hand is not asked here, where wide_shot_barred does: a
     # place on the axis is a measurement, an assignment is an answer.
-    if kind == TYPE_CONTENT and not said and short in wides:
+    if kind == TYPE_CONTENT and not said and path in wides:
         if second:
             return TYPE_WIDE, T('no speaker is assigned to it, but the '
-                                'cut uses %s') % wides[0], True
+                                'cut uses %s') % first, True
         return TYPE_WIDE, T('because no speaker is assigned to it'), True
     return kind, "", False
 
@@ -1430,7 +1432,9 @@ def wide_marks_applied(d, wide_names, speakers_on=None, marked=False):
 
     The preview reads the handover for what a run measured, but which
     camera is the wide shot is an answer and the window may have a newer
-    one. A camera is recognised by its file, never by its track name.
+    one. A camera is recognised by its file, never by its track name:
+    a path by its path, so two files of one name stay two cameras, and
+    a bare file name, as older answers give it, by its stem.
     """
     if not d or not d.get("cameras") or not (wide_names or speakers_on):
         return d
@@ -1439,18 +1443,23 @@ def wide_marks_applied(d, wide_names, speakers_on=None, marked=False):
         stem = os.path.splitext(os.path.basename(str(name or "")))[0]
         return stem[:-6] if stem.endswith("_audio") else stem
 
-    want = set(stem_of(n) for n in wide_names or ())
+    def same(pick, whose):
+        """Whether an answer from the window names this camera."""
+        if PROGRAM.is_a_path(pick) and PROGRAM.is_a_path(whose):
+            return path_key(pick) == path_key(whose)
+        return stem_of(pick) == stem_of(whose)
+
     fresh = []
     for c in d.get("cameras") or ():
         # A run's handover names the render "file" and the camera "source".
-        stem = stem_of(c.get("source") or c.get("file") or c.get("camera"))
+        whose = str(c.get("source") or c.get("file") or c.get("camera") or "")
         who = c.get("speakers") or []
         if speakers_on:
             # Who sits in front of this camera. An empty assignment says
             # nothing rather than "nobody", or the file's own answer goes.
             who = sorted((n for n, cam in speakers_on.items()
-                          if stem_of(cam) == stem), key=name_order)
-        here = stem in want
+                          if same(cam, whose)), key=name_order)
+        here = any(same(w, whose) for w in wide_names or ())
         # Both answers, the way write_handover writes them: the cut goes
         # by "wide_marked", the colour and the mix source by "wide".
         fresh.append(dict(c, speakers=who,

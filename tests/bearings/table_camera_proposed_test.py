@@ -42,16 +42,17 @@ CAMERAS = ["/x/Colourchart.mov", "/x/Colourchart2.mov", "/x/Jingle.mp4",
            "/x/Guset_01011714_C003.mov",
            "/x/Hosts_01011714_C002.mov",
            "/x/Wide_01011714_C007.mov"]
-PICKABLE = [os.path.basename(p) for p in CAMERAS]
-GUEST, HOST = "Guset_01011714_C003.mov", "Hosts_01011714_C002.mov"
+# The window offers every camera by its path, as it stands in the file
+# list: two files of one name are two cameras.
+PICKABLE = list(CAMERAS)
+GUEST, HOST = "/x/Guset_01011714_C003.mov", "/x/Hosts_01011714_C002.mov"
 
 print("1. The name alone")
 
 
 def finds(speaker):
-    """The camera this speaker's name picks out, by its bare name."""
-    hit = m.camera_for_speaker(speaker, CAMERAS)
-    return os.path.basename(hit) if hit else None
+    """The camera this speaker's name picks out, by its path."""
+    return m.camera_for_speaker(speaker, CAMERAS)
 
 
 # Written out one by one rather than looped: the register that holds the
@@ -70,8 +71,8 @@ check("a name close but not equal still finds its camera",
 check("a mix belongs to no camera",
       finds("Full-Mix") is None, "found %s, wanted None" % finds("Full-Mix"))
 check("a name matching the wide shot finds the wide shot",
-      finds("Wide") == "Wide_01011714_C007.mov",
-      "found %s, wanted Wide_01011714_C007.mov" % finds("Wide"))
+      finds("Wide") == "/x/Wide_01011714_C007.mov",
+      "found %s, wanted /x/Wide_01011714_C007.mov" % finds("Wide"))
 check("an empty name finds nothing",
       finds("") is None, "found %s, wanted None" % finds(""))
 check("a name like no camera finds nothing",
@@ -93,10 +94,10 @@ check("a camera set by hand survives the next rebuild",
       "suggested %s, wanted %s"
       % (m.preselected_camera(HOST, PICKABLE, "Guest", CAMERAS), HOST))
 check("a camera that is gone does not hold the row",
-      m.preselected_camera("Deleted.mov", PICKABLE, "Guest",
+      m.preselected_camera("/x/Deleted.mov", PICKABLE, "Guest",
                            CAMERAS) == GUEST,
       "suggested %s, wanted %s"
-      % (m.preselected_camera("Deleted.mov", PICKABLE, "Guest", CAMERAS),
+      % (m.preselected_camera("/x/Deleted.mov", PICKABLE, "Guest", CAMERAS),
          GUEST))
 
 print("\n3. What is written back into the project")
