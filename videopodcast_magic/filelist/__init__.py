@@ -105,6 +105,16 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
     preflight_line.setWordWrap(True)
     preflight_line.setVisible(False)
     sheet1_position.addWidget(preflight_line)
+    # The sentence counts what the rows say, so a row painted again --
+    # the time axis landing, a Kind changed -- has it said again, once
+    # the painting is over; the check leaves the way in the state.
+    import PySide6.QtCore as _qc
+    line_again = _qc.QTimer(items)
+    line_again.setSingleShot(True)
+    line_again.setInterval(0)
+    line_again.timeout.connect(
+        lambda: (state.get("preflight_sentence_again") or (lambda: 0))())
+    items.itemChanged.connect(lambda *_: line_again.start())
 
     # The stripes: light on light, dark on dark, structure without glare.
     SHADES = {}
