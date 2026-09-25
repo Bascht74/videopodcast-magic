@@ -134,11 +134,12 @@ def judge():
     trees = [t for t in win().findChildren(QtWidgets.QTreeView)
              if t.isAncestorOf(name)]
     hidden = bool(trees) and trees[0].isColumnHidden(1)
+    # The file wrote the file name; opened, the answer is the path.
     on = getattr(field('belongs to', "Room.wav"), "currentData", str)()
     check("Guest stands on A_cam in a column Sync only hides",
-          typed == "Guest" and on == "A_cam.mov" and hidden,
+          typed == "Guest" and on == made["A_cam.mov"] and hidden,
           "speaker field reads %r on %r, its column hidden %s"
-          % (typed, on, hidden))
+          % (typed, os.path.basename(str(on)), hidden))
     check("the table offers the camera its own file stem",
           offered.text() == "A_cam",
           "offers %r, wanted 'A_cam'" % offered.text())

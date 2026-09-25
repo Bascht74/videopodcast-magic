@@ -381,9 +381,10 @@ def look(case, media, folder):
         The value behind the entry, not the words on it: the list shows
         a file name for a camera and a sentence for the two answers
         that are no camera, and only the value is the same in every
-        language.
+        language. A camera's value is its path, told here by its name.
         """
-        return [str(w.currentData() or "") if hasattr(w, "currentData")
+        return [os.path.basename(str(w.currentData() or ""))
+                if hasattr(w, "currentData")
                 else "" for w in voice_cells(short, vpm.T('belongs to'))]
 
     # What could be answered when the voices were seated, per recording.
@@ -399,7 +400,9 @@ def look(case, media, folder):
         boxes = voice_cells(short, vpm.T('belongs to'))
         got = []
         for w, want in zip(boxes, SEATS[short]):
-            i = w.findData(want) if hasattr(w, "findData") else -1
+            # The chooser holds a camera by its path.
+            i = (w.findData(os.path.join(media, want))
+                 if hasattr(w, "findData") else -1)
             if i >= 0:
                 w.setCurrentIndex(i)
             got.append(want if i >= 0 else "%s not on offer" % want)

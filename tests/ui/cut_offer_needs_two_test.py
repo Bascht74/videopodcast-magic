@@ -599,9 +599,11 @@ for case in CASES:
     if plan["voices"]:
         want = [(name, CAMERAS[min(i, plan["cameras"] - 1)])
                 for i, (_k, name) in enumerate(VOICES[:plan["voices"]])]
+        # The chooser holds the camera's path, in the child's own folder.
+        seated = [(v["name"], os.path.basename(v["camera"]))
+                  for v in voices]
         check("  each voice is named and on its camera",
-              [(v["name"], v["camera"]) for v in voices] == want,
-              json.dumps([(v["name"], v["camera"]) for v in voices]))
+              seated == want, json.dumps(seated))
     # The recording's own name field is never filled in by the program:
     # what the file name suggests stands beside it in grey, and a
     # stored separation writes nothing into it either -- only an answer.

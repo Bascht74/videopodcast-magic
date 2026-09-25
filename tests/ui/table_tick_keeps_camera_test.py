@@ -207,6 +207,17 @@ def picked_in(file_name):
     return None if box is None else box.currentData()
 
 
+def at(file_name):
+    """A camera as the chooser holds it: its path in the folder."""
+    return os.path.join(folder, file_name)
+
+
+def named(value):
+    """A stored answer as the FAIL line carries it: the file name."""
+    return (os.path.basename(value) if isinstance(value, str)
+            and value.startswith(folder) else value)
+
+
 def offered_in(file_name):
     """What can be picked in that row, as the program stores it."""
     box = belongs_box(file_name)
@@ -302,9 +313,9 @@ def step():
                   "rows with a chooser: %s, wanted %s among them"
                   % (rows_shown(), DRIVEN))
             check("both cameras stand in the chooser with the tick off",
-                  WIDE in offered and TARGET in offered,
+                  at(WIDE) in offered and at(TARGET) in offered,
                   "wanted %r and %r, the chooser offers %s"
-                  % (WIDE, TARGET, offered))
+                  % (WIDE, TARGET, [named(v) for v in offered]))
         elif i == 3:
             box = needed("the chooser of the driven row",
                          belongs_box(DRIVEN))
@@ -313,15 +324,15 @@ def step():
                   picked_in(DRIVEN) == vpm.MIX_ONLY,
                   "wanted %r, the row stands on %r"
                   % (vpm.MIX_ONLY, picked_in(DRIVEN)))
-            where = box.findData(TARGET)
+            where = box.findData(at(TARGET))
             needed("the target camera in the chooser", where >= 0)
             box.setCurrentIndex(where)
             app.processEvents()
         elif i == 4:
             check("a camera picked with the tick off stands in the row",
-                  picked_in(DRIVEN) == TARGET,
+                  picked_in(DRIVEN) == at(TARGET),
                   "wanted %r, the row stands on %r"
-                  % (TARGET, picked_in(DRIVEN)))
+                  % (TARGET, named(picked_in(DRIVEN))))
             needed("the Multitrack tick", multitrack_tick()).click()
         elif i == 5:
             box = needed("the Multitrack tick", multitrack_tick())
@@ -329,9 +340,9 @@ def step():
                   box.isChecked(),
                   "the tick reads %s, wanted on" % box.isChecked())
             check("ticking Multitrack leaves the picked camera standing",
-                  picked_in(DRIVEN) == TARGET,
+                  picked_in(DRIVEN) == at(TARGET),
                   "wanted %r, the row stands on %r"
-                  % (TARGET, picked_in(DRIVEN)))
+                  % (TARGET, named(picked_in(DRIVEN))))
             box.click()
         elif i == 6:
             box = needed("the Multitrack tick", multitrack_tick())
@@ -340,9 +351,9 @@ def step():
                   "the tick reads %s, wanted off" % box.isChecked())
             check("unticking Multitrack leaves the picked camera "
                   "standing",
-                  picked_in(DRIVEN) == TARGET,
+                  picked_in(DRIVEN) == at(TARGET),
                   "wanted %r, the row stands on %r"
-                  % (TARGET, picked_in(DRIVEN)))
+                  % (TARGET, named(picked_in(DRIVEN))))
             check("the recording nobody touched is still on no camera "
                   "of its own",
                   picked_in(OTHER) == vpm.MIX_ONLY,
@@ -383,9 +394,10 @@ def step():
             check("the project file keeps the camera picked with the "
                   "tick off",
                   isinstance(stored, list) and len(stored) > 1
-                  and stored[1] == TARGET,
+                  and stored[1] == at(TARGET),
                   "wanted %r in the second field, the file holds %r"
-                  % (TARGET, stored))
+                  % (TARGET, [named(v) for v in stored]
+                     if isinstance(stored, list) else stored))
         else:
             over.add("the first pass")
             app.quit()
@@ -438,9 +450,9 @@ def again():
             needed("the chooser of the driven row", belongs_box(DRIVEN))
             check("the picked camera is back after opening the project "
                   "again",
-                  picked_in(DRIVEN) == TARGET,
+                  picked_in(DRIVEN) == at(TARGET),
                   "wanted %r, the row stands on %r; rows with a chooser: "
-                  "%s" % (TARGET, picked_in(DRIVEN), rows_shown()))
+                  "%s" % (TARGET, named(picked_in(DRIVEN)), rows_shown()))
         else:
             over.add("the second pass")
             app.quit()
