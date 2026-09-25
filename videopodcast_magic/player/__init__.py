@@ -1955,7 +1955,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if value is None or absolute and (value < -0.05 or (
                     length > 0 and value > length + 0.05)):
                 return False
-            self.jump(int(max(0.0, value) * 1000))
+            ms = int(max(0.0, value) * 1000)
+            # Right after a load the jump becomes the load's target: a
+            # file still opening drops a setPosition, and seek_settle
+            # would pull the picture back to where the load aimed.
+            opening = self._target_ms is not None
+            if opening:
+                self._target_ms = ms
+                self._target_at = time.monotonic()
+                self._wanted_ms = ms   # the sound is placed inside jump()
+            self.jump(ms)
+            if opening:
+                self._wanted_ms = ms   # again: spot() in jump() drops it
             return True
 
         def set_mark(self):
