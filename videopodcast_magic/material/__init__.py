@@ -1525,8 +1525,6 @@ def channel_rate(file_path, channels, want=16000):
     return want
 
 
-# Peak level has to be this close to the top before counting starts.
-CLIP_NEAR_TOP_DB = -0.1
 # How many samples in a row on the stop make one event. One is rounding,
 # two is rounding twice; three in a row is a crest the converter could
 # not follow. Holds for speech and music, not for rumble under 50 Hz.

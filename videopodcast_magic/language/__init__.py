@@ -121,11 +121,6 @@ def read_po(path):
     return texts, plurals, header
 
 
-def texts_of_file(path):
-    """Every ordinary entry of one PO file, English wording to translation."""
-    return read_po(path)[0]
-
-
 def texts_of_language(code):
     """One language's texts, out of the PO file beside this one.
 

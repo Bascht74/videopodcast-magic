@@ -8,8 +8,9 @@ is still the folder pip owns; a start without switches says nothing in
 front of its window while a start that only reads the switches still
 answers; that the menu opens the log this run writes, its lines from
 before the redirect included, while the last run's log, or one another
-copy put there meanwhile, is kept as it was -- or, where it cannot be
-renamed, followed by this run in one file; and the Help menu offers it.
+copy put there meanwhile, is kept as it was and never replaced by an
+empty one -- or, where it cannot be renamed, followed by this run in one
+file; and the Help menu offers it.
 
 The installed case is rebuilt, not installed: a throwaway environment
 is made and the module files are copied into the folder pip would put
@@ -314,6 +315,22 @@ check("and the log of the run before is kept as that run left it",
       before == LAST_RUN,
       "%d characters kept against %d: %r" % (len(before), len(LAST_RUN),
                                              shown(before)))
+
+# No log at the path, only the kept one: the aside line starts a log of
+# its own, and once that line has moved behind the head it is empty. An
+# empty file renamed onto the kept one would wipe it for nothing.
+emptied = os.path.join(work, "emptied")
+os.makedirs(emptied, exist_ok=True)
+with io.open(os.path.join(emptied, "videopodcast-magic_1.log"), "w",
+             encoding="utf-8", newline="") as fh:
+    fh.write(LAST_RUN)
+code, _said, went_wrong = ask(sys.executable, ASIDE % (HERE, emptied, ""),
+                              dict(os.environ))
+kept = held(emptied, "videopodcast-magic_1.log")
+check("an empty log never takes the place of the kept one",
+      code == 0 and kept == LAST_RUN,
+      "code %d, %d characters kept against %d: %r, wrong %r"
+      % (code, len(kept), len(LAST_RUN), shown(kept), went_wrong[-120:]))
 
 # Renaming a log another copy holds open fails on Windows. Made to fail
 # here, where it would not: the run must still be written, after the
