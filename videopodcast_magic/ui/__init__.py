@@ -1204,15 +1204,19 @@ def choice_boxes_even(boxes, base=150):
     return boxes
 
 
-def unless_sync(state, compute):
+def unless_sync(state, compute, *said):
     """*compute*, silenced while the project type is "sync".
 
-    The preview and the speaker measure are about the cut; a project
-    that only synchronises has none, and its tab says so instead.
+    The preview and the wide shot are about the cut; a project that
+    only synchronises has none, and its tab says so instead. What
+    *compute* wrote into the labels *said* stands empty then: greyed,
+    it would still promise speakers worked out and a wide shot to set.
     """
     def guarded(*args, **named):
         if state.get("project_type") != "sync":
             return compute(*args, **named)
+        for words in said:
+            words.setText("")
     return guarded
 
 
@@ -3569,9 +3573,9 @@ def gui():
         after the tables that ask for this.
         """
         if state.get("cut_box_there"):
-            wide_settings_grey(cut_parts, _edge_box, wide_note,
-                               bool(wide_cameras_now()[0]), COLOURS["quiet"],
-                               bool(state.get("words_there")))
+            unless_sync(state, wide_settings_grey, wide_note)(
+                cut_parts, _edge_box, wide_note, bool(wide_cameras_now()[0]),
+                COLOURS["quiet"], bool(state.get("words_there")))
             preview_kick_off()
 
     # The same way over as refresh_names above, and for the same reason.
@@ -3726,7 +3730,7 @@ def gui():
         question_note, cut_column, forecast_box, preview_label,
         speech_title, speech_table)
     # A project that only synchronises has no cut to preview.
-    preview_compute = unless_sync(state, preview_compute)
+    preview_compute = unless_sync(state, preview_compute, preview_label)
     state["preview_compute"] = preview_compute
 
     # Do not compute on every keystroke; wait a moment.
