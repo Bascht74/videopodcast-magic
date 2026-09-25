@@ -25,6 +25,55 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b23] - 2026-09-25
+
+### Changed
+
+- **The row with the production's name, language and project type now
+  continues on a second line** where the window is too narrow, instead
+  of pushing the "Files & production" tab past its edge.
+- **On the "Assignment & time window" and "Resolve cut" tabs the preview
+  now goes below the settings** when the two columns do not fit side by
+  side. In Tamil all three tabs now fit a 1280 px screen on Linux too.
+- **The note on a second wide shot now names the camera the cut takes as
+  the window does**, "C0003.MP4 (2)" for the second of two files of one
+  name.
+
+### Fixed
+
+- **Bit depths now read in the chosen language** in the file list's
+  colour row, the preflight and the HDR check; German says "8 Bit"
+  instead of "8 bit".
+- **A floating-point recording is now described as "32 bit float"**
+  instead of "32f bit".
+- **The render settings in the Resolve log now write the frame rate with
+  the language's decimal mark.**
+
+**Deutsch**
+
+### Geändert
+
+- **Die Zeile mit Name, Sprache und Projekttyp der Produktion bricht
+  jetzt in eine zweite Zeile um**, wo das Fenster zu schmal ist, statt
+  den Reiter „Dateien & Produktion“ über seinen Rand hinauszuschieben.
+- **In den Reitern „Zuordnung & Zeitfenster“ und „Resolve-Schnitt“ rückt
+  die Vorschau jetzt unter die Einstellungen**, wenn die zwei Spalten
+  nicht nebeneinander passen. Auf Tamil passen alle drei Reiter jetzt auch
+  unter Linux auf 1280 px.
+- **Der Hinweis beim zweiten Weitwinkel nennt die Kamera, die der Schnitt
+  nimmt, jetzt so wie das Fenster**: „C0003.MP4 (2)“ für die zweite von
+  zwei gleichnamigen Dateien.
+
+### Behoben
+
+- **Bittiefen stehen jetzt in der gewählten Sprache** in der Farbzeile der
+  Dateiliste, in der Vorprüfung und in der HDR-Prüfung; Deutsch sagt
+  „8 Bit“ statt „8 bit“.
+- **Eine Gleitkomma-Aufnahme heißt jetzt „32 Bit Gleitkomma“** statt
+  „32f bit“.
+- **Die Render-Einstellungen im Resolve-Protokoll schreiben die Bildrate
+  jetzt mit dem Dezimalzeichen der Sprache.**
+
 ## [3.0.0b22] - 2026-09-25
 
 ### Changed
