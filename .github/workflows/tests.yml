@@ -769,15 +769,28 @@ jobs:
       - name: "Set aside: the tests this machine cannot run"
         shell: bash
         run: |
-          # tests/resolve/ is not touched here: those tests need a running
-          # DaVinci Resolve and are started by hand with tests/resolve.sh.
+          # tests/resolve/live/ is not touched here: those tests need a
+          # running DaVinci Resolve and are started by hand with
+          # tests/resolve.sh.
           cd tests
           ASIDE="$RUNNER_TEMP/set-aside"
           mkdir -p "$ASIDE"
           : > "$RUNNER_TEMP/aside.txt"
           n=0
+          # A test is named, not placed: it lies in tests/ or in the
+          # folder of the piece it checks, and never under resolve/live/.
+          where() {
+            for f in "$1_test.py" */"$1_test.py"; do
+              case "$f" in resolve/live/*) continue ;; esac
+              [ -f "$f" ] && { echo "$f"; return 0; }
+            done
+            return 1
+          }
           aside() {
-            mv "$1_test.py" "$ASIDE/"
+            file=$(where "$1") \
+              || { echo "no test called $1 under tests/ to set aside" >&2
+                   exit 1; }
+            mv "$file" "$ASIDE/"
             echo "  $1 -- $2"
             echo "$1 -- $2" >> "$RUNNER_TEMP/aside.txt"
             n=$((n+1))
@@ -820,7 +833,7 @@ jobs:
           # steps up. Nothing is fetched for this test any more.
           #
           # The material used to decide where the test could run, and it
-          # does not any more: tests/material/twovoices travels in git.
+          # does not any more: tests/samples/twovoices travels in git.
           # A machine with say(1) speaks the folder afresh and writes it
           # back, a machine without one reads the copy -- so Linux has
           # the two voices now and runs the test like the Mac. Measured
@@ -849,7 +862,7 @@ jobs:
               # package is not on the machine at all, so the cost this
               # line weighs was never paid. What is left here is the
               # case where the switch was on.
-              if [ -f voice_split_hears_two_test.py ]; then
+              if where voice_split_hears_two > /dev/null; then
                 aside voice_split_hears_two \
                   "the material reaches this machine now -- it is checked
                    in -- so this is a price, not an impossibility. Windows
@@ -935,14 +948,16 @@ jobs:
           # is kept by hand is wrong again with the next new test. The
           # ones set aside were moved out of tests/, so what is still in
           # the folder is what ran, and the two added together are all
-          # there are. run.sh picks its tests up out of the same folder
-          # with the same pattern, so this counts what it ran.
+          # there are. run.sh picks its tests up out of the same folders
+          # -- tests/ and each one under it, never resolve/live/ -- with
+          # the same pattern, so this counts what it ran.
           #
           # Counted by the shell itself. find(1) would be shorter, but
           # on Windows the name reaches Windows' own find, which is a
           # different program.
           ran=0
-          for f in tests/*_test.py; do
+          for f in tests/*_test.py tests/*/*_test.py; do
+            case "$f" in tests/resolve/live/*) continue ;; esac
             if [ -e "$f" ]; then ran=$((ran + 1)); fi
           done
           out=0
@@ -1038,8 +1053,13 @@ jobs:
           fi
           for t in $names; do
             echo "===================== $t ====================="
+            # Found by its name, in tests/ or the folder of its piece.
+            file="${t}_test.py"
+            for f in */"${t}_test.py"; do
+              case "$f" in resolve/live/*) ;; *) [ -f "$f" ] && file="$f" ;; esac
+            done
             # A red test returns non-zero, and the step runs under
             # set -eo pipefail: without this the second one is never read.
-            python "${t}_test.py" 2>&1 | tail -70 || true
+            python "$file" 2>&1 | tail -70 || true
             echo
           done

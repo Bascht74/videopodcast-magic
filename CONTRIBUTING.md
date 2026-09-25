@@ -29,7 +29,7 @@ is in it.
 | when this is about to happen | read first |
 |---|---|
 | a task touches more than one file | `strang` |
-| anything inside a `tests/*_test.py` changes -- also one line, also when no judgement changes | `test-neu` |
+| anything inside a `*_test.py` under `tests/` changes -- also one line, also when no judgement changes | `test-neu` |
 | a test is red, wobbling, or green and not to be trusted | `test-rot` |
 | a check was written or changed and is green | `gegenbeweis` |
 | a commit message is about to be written | `commit` |
@@ -107,9 +107,9 @@ bash run.sh <name>             # one test, without the _test.py
 WORKERS=1 bash run.sh          # one after another, easier to read
 ```
 
-The tests under `tests/resolve/` are not part of `run.sh` and not part
-of the builder. They need a running DaVinci Resolve and are started by
-hand: `cd tests && bash resolve.sh`. Every run of the suite says at the
+The tests under `tests/resolve/live/` are not part of `run.sh` and not
+part of the builder. They need a running DaVinci Resolve and are started
+by hand: `cd tests && bash resolve.sh`. Every run of the suite says at the
 end that they are there and did not run, and says it more sharply where
 git shows the Resolve branch has been worked on. On the builder it says
 nothing: nobody there could start them.
@@ -166,7 +166,7 @@ and found, as numbers. `"0.31 s against 0.80 s"`, never `"too short"`.
 
 ## How a test is written here
 
-`tests/table_no_place_not_wide_test.py` is the model. The name is
+`tests/cut/table_no_place_not_wide_test.py` is the model. The name is
 `<subject>_<claim>_test.py`, at most 24 characters before `_test.py`,
 and the prefix says **where the fault would sit**, not what the
 material is about:
@@ -175,6 +175,14 @@ material is about:
 files_  sound_  time_  voice_  cut_  project_
 auphonic_  window_  table_  run_  text_  source_
 ```
+
+The file lies in the folder of the piece whose logic it checks --
+`tests/cut/`, `tests/ui/`, one for each folder under
+`videopodcast_magic/` -- and `run.sh` finds it by its name wherever it
+lies. `tests/source/` holds the tests that read the source and the
+documents as a whole, `tests/resolve/live/` those that want a Resolve
+running. Copy the opening lines of any test word for word: they find
+`tests/` from the file's own folder.
 
 The second line of the file is its claim — what holds when the test is
 green — and it lands in the table at the end of `tests/README.md`,

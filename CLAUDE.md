@@ -26,7 +26,7 @@ out.
 | when this is about to happen | read first |
 |---|---|
 | a task touches more than one file | `strang` |
-| anything inside a `tests/*_test.py` changes -- also one line, also when no judgement changes | `test-neu` |
+| anything inside a `*_test.py` under `tests/` changes -- also one line, also when no judgement changes | `test-neu` |
 | a test is red, wobbling, or green and not to be trusted | `test-rot` |
 | a check was written or changed and is green | `gegenbeweis` |
 | a commit message is about to be written | `commit` |

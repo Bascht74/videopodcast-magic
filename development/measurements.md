@@ -196,8 +196,9 @@ already given up.
 
 ## What one bad point does to the drift
 
-Measured in `tests/time_bad_point_dropped_test.py`, 19 checks, on a built series of
-points: the true answer is known, so the error is known exactly too.
+Measured in `tests/hearing/time_bad_point_dropped_test.py`, 19 checks,
+on a built series of points: the true answer is known, so the error is
+known exactly too.
 
 A single wrong point **at the start** moves the offset by 188.9 ms and
 turns the drift from -64.07 ppm into +10.00 ppm. What changes is the

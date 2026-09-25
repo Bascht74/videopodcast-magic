@@ -134,7 +134,7 @@ something is worth more than one of twenty in which they drown.
 
 ## What the machine checks
 
-`tests/text_release_ready_test.py` checks what can be checked
+`tests/source/text_release_ready_test.py` checks what can be checked
 mechanically:
 
 * that the version number is the same in the program, in the changelog

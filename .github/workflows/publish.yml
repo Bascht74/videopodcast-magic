@@ -480,7 +480,7 @@ jobs:
       # second place for it to be wrong.
       #
       # pyproject.toml is the reason this step is not just a read.
-      # tests/text_release_ready_test.py holds six places against each
+      # tests/source/text_release_ready_test.py holds six places against each
       # other -- the program, the changelog, both READMEs, both
       # roadmaps -- and it has run already, on this commit, in step 1.
       # It does not reach pyproject.toml. That seventh place is what
@@ -572,7 +572,7 @@ jobs:
       # with nothing of 3.0.0b2 in it.
       #
       # Whether the section is in both languages and keeps its shape is
-      # tests/text_release_ready_test.py's question, and it was green in
+      # tests/source/text_release_ready_test.py's question, and it was green in
       # step 1. What is asked here is only that the cut came out
       # holding something -- the second of the three places this file
       # repeats release.yml on purpose. It holds the release notes

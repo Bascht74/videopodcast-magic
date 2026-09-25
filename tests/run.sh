@@ -132,105 +132,18 @@ mkdir -p "$RUN_TEMP_SETTINGS"
 export VPM_SETTINGS="$RUN_TEMP_SETTINGS"
 
 # Two suites on one machine share VPM_FIXTURES, and fixtures.sh deletes a
-# folder before building it again. Measured 24.9.2026: two runs on an
-# empty root, one stopped on "rm: whole.mp4: No such file or directory";
-# another recipe word rebuilt under a running suite, three of four red.
-FIX_LOCK="$VPM_FIXTURES.lock"
-FIX_RUNS="$VPM_FIXTURES.runs"
-# Runs with the same fixtures.sh build the same folders and may read side
-# by side; a run with another one waits until they are gone. Not quite
-# read-only: each start writes the interview project file again, and
-# fixtures.sh says why.
-RECIPE=$(cksum < "$HERE/fixtures.sh" | cut -d' ' -f1)
-# Waiting lasts while the other run lives. The bound only ends a wait on
-# a run that hangs; a whole run takes minutes. VPM_FIXTURE_WAIT=0 stops
-# at once instead of waiting.
-FIX_WAIT=${VPM_FIXTURE_WAIT:-3600}
-fixtures_let_go() {
-  rm -f "$FIX_RUNS/$$"
-  holder=$(cat "$FIX_LOCK/holder" 2> /dev/null)
-  [ "${holder%% *}" = "$$" ] && rm -rf "$FIX_LOCK"
-}
+# folder before building it again. The lock that keeps them apart stands
+# in fixture_lock.sh, because resolve.sh builds the same folders.
+. "$HERE/fixture_lock.sh"
 # Until the trap further down is set, an exit here leaves this run's
 # cache and settings behind; this takes them with it.
 fixtures_out() {
   fixtures_let_go
   [ -n "$KEEP_TEMP" ] || rm -rf "$RUN_TEMP_CACHE" "$RUN_TEMP_SETTINGS"
 }
-fixtures_wait() {
-  if [ "$1" != "$fix_said" ]; then
-    echo "fixtures: $VPM_FIXTURES -- waiting: $1"
-    fix_said="$1"
-  fi
-  if [ $((SECONDS - fix_began)) -ge "$FIX_WAIT" ]; then
-    echo "fixtures: stopping after $FIX_WAIT s of waiting -- $1" >&2
-    exit 2
-  fi
-  sleep 1
-}
-# What stands in the way: every live run reading with another recipe.
-# A run that died without its trap is only a file, and goes here.
-fixtures_other_readers() {
-  for f in "$FIX_RUNS"/*; do
-    [ -f "$f" ] && [ "${f##*/}" != "$$" ] || continue
-    if ! kill -0 "${f##*/}" 2> /dev/null; then rm -f "$f"; continue; fi
-    read -r recipe day clock at < "$f"
-    [ "$recipe" = "$RECIPE" ] && continue
-    echo "run ${f##*/} from $at reads it with another fixtures.sh since $day $clock"
-  done
-}
 trap fixtures_out EXIT
 trap 'exit 130' INT TERM
-fix_said=""
-fix_began=$SECONDS
-fix_empty=0
-# A suite that starts run.sh inside itself, as source_resolve_recalled
-# does, would wait on the suite it runs in. Its outer run holds the root
-# for it, so it goes in the way every run went before the lock.
-read -r held_pid held_root <<< "$VPM_FIXTURES_HELD"
-if [ "$held_root" = "$VPM_FIXTURES" ] && kill -0 "$held_pid" 2> /dev/null
-then
-  fix_inside=1
-else
-  fix_inside=""
-fi
-mkdir -p "$FIX_RUNS"
-until [ -n "$fix_inside" ] || mkdir "$FIX_LOCK" 2> /dev/null; do
-  # Refused, and nothing there: not a lock but a place nobody may write.
-  if [ ! -d "$FIX_LOCK" ]; then
-    mkdir "$FIX_LOCK" 2> /dev/null && break
-    [ -d "$FIX_LOCK" ] || { echo "fixtures: cannot make $FIX_LOCK" >&2; exit 2; }
-  fi
-  holder=$(cat "$FIX_LOCK/holder" 2> /dev/null)
-  # A holder that is gone never let go, and neither did a run killed
-  # between making the lock and naming itself in it: the name comes a
-  # moment after, so ten seconds without one is a lock nobody holds.
-  # Moved aside; two waiters doing that in the same instant can both
-  # get through, a window left open.
-  [ -z "$holder" ] && fix_empty=$((fix_empty + 1)) || fix_empty=0
-  if { [ -n "$holder" ] && ! kill -0 "${holder%% *}" 2> /dev/null; } \
-     || [ "$fix_empty" -gt 10 ]; then
-    left="named no run for 10 s"
-    [ -n "$holder" ] && left="was left by run ${holder%% *}, which is gone"
-    mv "$FIX_LOCK" "$FIX_LOCK.gone.$$" 2> /dev/null \
-      && rm -rf "$FIX_LOCK.gone.$$" \
-      && echo "fixtures: $FIX_LOCK $left -- taken over"
-    fix_empty=0
-    continue
-  fi
-  if [ -z "$holder" ]; then
-    fixtures_wait "another run is taking $FIX_LOCK"
-    continue
-  fi
-  read -r pid day clock at <<< "$holder"
-  fixtures_wait "run $pid from $at holds $FIX_LOCK since $day $clock"
-done
-[ -n "$fix_inside" ] \
-  || echo "$$ $(date '+%Y-%m-%d %H:%M:%S') $HERE" > "$FIX_LOCK/holder"
-while [ -z "$fix_inside" ] && other=$(fixtures_other_readers | head -1) \
-      && [ -n "$other" ]; do
-  fixtures_wait "$other"
-done
+fixtures_hold
 
 # The shared fixture folders are read-only. Building them here, before
 # the fan-out, keeps two tests from racing for the same files.
@@ -238,11 +151,7 @@ if ! bash "$HERE/fixtures.sh"; then
   echo "fixtures could not be built -- stopping." >&2
   exit 2
 fi
-if [ -z "$fix_inside" ]; then
-  echo "$RECIPE $(date '+%Y-%m-%d %H:%M:%S') $HERE" > "$FIX_RUNS/$$"
-  rm -rf "$FIX_LOCK"
-  export VPM_FIXTURES_HELD="$$ $VPM_FIXTURES"
-fi
+fixtures_share
 
 # Tests wanting a whole job take the fixture unless real material is
 # named. Without this they skip, and a skipped test looks harmless.
@@ -295,9 +204,15 @@ trap clean_up EXIT
 # Exiting rather than cleaning up in here keeps it to one place -- the
 # exit runs the trap above. 130 is a shell's "stopped by Ctrl-C".
 trap 'exit 130' INT TERM
-# Every *_test.py in this folder, so a new test is picked up by being
-# there. Sorted, so the order does not depend on the file system.
-TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
+# Every *_test.py in this folder and in the folders under it, one per
+# piece of the program, so a new test is picked up by being there. Not
+# resolve/live/: those want a Resolve running and resolve.sh starts
+# them; the pattern reaches one folder down and they lie two, and the
+# filter names them all the same. A test is known by its name alone,
+# wherever it lies. Sorted, so the order does not depend on the file
+# system.
+TESTS=$(cd "$HERE" && ls *_test.py */*_test.py 2>/dev/null \
+        | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//' | sort -u)
 # Named on the command line: only those, through the same machinery --
 # the same retry, the same report, the same progress line. One red test
 # is looked at on its own far more often than all of them are.
@@ -306,7 +221,17 @@ TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 # would leave the file no longer empty, and every test it never saw
 # would then be red for never having been counted.
 WHOLE=1
-[ $# -gt 0 ] && { TESTS="$*"; WHOLE=0; }
+# Asked for as cut/cut_rules_hold or cut_rules_hold_test.py, it is the
+# same name; a name that is not in the folder stops here, said.
+if [ $# -gt 0 ]; then
+  asked=$(printf '%s\n' "$@" | sed 's|.*/||; s/_test\.py$//')
+  for t in $asked; do
+    printf '%s\n' "$TESTS" | grep -qx "$t" && continue
+    echo "no test named $t in $HERE or a folder under it -- stopping." >&2
+    exit 2
+  done
+  TESTS=$asked; WHOLE=0
+fi
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -395,9 +320,21 @@ crash_block() {
   [ -n "$at" ] && echo "$1" | tail -n +"$at"
 }
 
+# Where a test lies, from its name: in this folder or in one under it,
+# left in $file. A glob and not a search, and no $(...) around it: on the
+# Windows builder every process started is what a run pays for.
+test_file() {
+  file="$HERE/$1_test.py"
+  for one in "$HERE"/*/"$1_test.py"; do
+    case "$one" in "$HERE/resolve/live/"*) continue ;; esac
+    [ -f "$one" ] && file="$one"
+  done
+}
+
 run_one() {
   t="$1"
   began=$SECONDS
+  test_file "$t"
   # A test that crashed is run again before the whole run is called red.
   # Only a crash: a check that said FAIL will say it again, and a test
   # that ran out of time will run out of time again. A signal does come
@@ -408,7 +345,7 @@ run_one() {
   fell_count=0
   while :; do
     out=$(VPM_COUNT_STARTS="$STARTS/$t" \
-          $LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
+          $LIMIT "$PY" "$file" 2>&1); rc=$?
     fell=0
     if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
       fell=1
@@ -570,7 +507,7 @@ $short"
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
     "$( [ -s "$STARTS/$t" ] && wc -l < "$STARTS/$t" | tr -d ' ' || echo 0)"
 }
-export -f run_one crash_block
+export -f run_one crash_block test_file
 export OUT HERE LIMIT TOTAL TRIES PY
 
 # A test that measures real time cannot share the machine. Playing a
@@ -763,7 +700,8 @@ if [ -n "$raised$census" ] && "$PY" -c \
   if [ -n "$raised" ]; then
     echo "state/checks: raised --$raised"
     for r in $raised; do
-      git -C "$HERE" status --porcelain -- "${r%%=*}_test.py" 2> /dev/null \
+      git -C "$HERE" status --porcelain -- "${r%%=*}_test.py" \
+        "*/${r%%=*}_test.py" 2> /dev/null \
         | sed 's|^...|state/checks: raised out of a file that is not saved: |'
     done
   fi
@@ -776,7 +714,7 @@ fi
 # it. Times written here put a test that is slow there last in the
 # queue on the strength of how fast it is on this machine.
 
-# The tests under resolve/ talk to a DaVinci Resolve really running on
+# The tests under resolve/live/ talk to a DaVinci Resolve really running on
 # this machine. They are not in this folder, so nothing above collected
 # them, counted them or judged them -- they are not skipped, they are
 # not part of this run at all, and the skips barrier must never hear of
@@ -792,9 +730,9 @@ fi
 # an instruction nobody there can follow, and tests.yml already says
 # where it belongs -- in the step that sets tests aside. CI and
 # GITHUB_ACTIONS are both set by GitHub; neither is set here.
-if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ] && [ -d "$HERE/resolve" ]
-then
-  apart=$(ls "$HERE"/resolve/*_test.py 2>/dev/null | wc -l | tr -d ' ')
+if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ] \
+   && [ -d "$HERE/resolve/live" ]; then
+  apart=$(ls "$HERE"/resolve/live/*_test.py 2>/dev/null | wc -l | tr -d ' ')
   # Sharper when the Resolve branch has just been worked on: a line that
   # reads the same every day is read once. Two signals, both out of git,
   # both without guesswork -- work under those paths not committed yet,
@@ -813,10 +751,10 @@ then
     # Named, not counted: "something changed" sends whoever reads it
     # looking for what. Three names and then a number, because the line
     # is a reminder and not a listing.
-    changed=$(git -C "$HERE" status --porcelain -- resolve resolve.sh \
+    changed=$(git -C "$HERE" status --porcelain -- resolve/live resolve.sh \
               2>/dev/null | sed 's/^...//' | grep -c . )
     if [ "${changed:-0}" -gt 0 ]; then
-      touched=$(git -C "$HERE" status --porcelain -- resolve resolve.sh \
+      touched=$(git -C "$HERE" status --porcelain -- resolve/live resolve.sh \
                 2>/dev/null | sed 's/^...//' | head -3 | tr '\n' ' ' \
                 | sed 's/ *$//')
       [ "$changed" -gt 3 ] && touched="$touched and $((changed - 3)) more"
@@ -825,7 +763,7 @@ then
       # commit is its only one has no HEAD~1, and a run there must not
       # break. An unborn HEAD answers nothing at all, which is why the
       # emptiness is asked after rather than compared.
-      was=$(git -C "$HERE" log -1 --format=%H -- resolve resolve.sh \
+      was=$(git -C "$HERE" log -1 --format=%H -- resolve/live resolve.sh \
             2>/dev/null)
       now=$(git -C "$HERE" rev-parse HEAD 2>/dev/null)
       [ -n "$was" ] && [ "$was" = "$now" ] \
@@ -833,13 +771,13 @@ then
     fi
   fi
   if [ "$apart" -gt 0 ] && [ -n "$touched" ]; then
-    echo "resolve: $apart tests under resolve/ did not run here, and the"
+    echo "resolve: $apart tests under resolve/live/ did not run here, and the"
     echo "         Resolve branch has been worked on: $touched"
     echo "         Nothing but a person starts them, and they want a"
     echo "         Resolve running:"
     echo "             cd tests && bash resolve.sh"
   elif [ "$apart" -gt 0 ]; then
-    echo "resolve: $apart tests under resolve/ did not run here. They talk"
+    echo "resolve: $apart tests under resolve/live/ did not run here. They talk"
     echo "         to a DaVinci Resolve really running, so a person"
     echo "         starts them:"
     echo "             cd tests && bash resolve.sh"
