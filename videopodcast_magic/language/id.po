@@ -4100,9 +4100,6 @@ msgstr "tidak pasti -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "diatur manual -- mengesampingkan pengukuran"
 
-msgid "Language"
-msgstr "Bahasa"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "kedua kanal identik -- mono ditempatkan di kedua sisi"
 
@@ -4844,3 +4841,6 @@ msgstr "\n  Impor"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Bahasa audio"

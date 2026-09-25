@@ -5,10 +5,12 @@ Each case is a bare command line in a process of its own: presets that
 cannot be fetched (curl stood in for, fenced behind a proxy to nowhere),
 a lone camera with no sound, a file of no known kind alone, a path that
 is not there, two cameras with no recording and no --multitrack, the
-last also naming the unknown file beside it as skipped, and the two
+last also naming the unknown file beside it as skipped, the two
 Resolve switches in a child cut off from Resolve, which checks that
-before main() and stops red, main() uncalled, where it is not. The
-limit: --hdr-check is not reached; it answers with its report.
+before main() and stops red, main() uncalled, where it is not, no
+ffmpeg with the repair stood in for and refused, and --multitrack over
+a single recording. The limit: --hdr-check is not reached; it answers
+with its report.
 """
 import os
 import sys
@@ -238,6 +240,66 @@ if bolted:
 else:
     print("   main() was not called: the checks on the two Resolve "
           "switches wait for a child that cannot reach Resolve")
+
+print("\n5. No ffmpeg, and the repair not made")
+# Both bent where main() and tools_repaired look them up: the search
+# answers missing, and the repair leaves a line in MENDED and fails,
+# so no installer and no download is ever reached.
+MENDED = os.path.join(HOME, "mended")
+TOOLLESS = "\n".join([
+    "import sys",
+    "sys.path.insert(0, %r)" % HERE,
+    "import the_program",
+    "vpm = the_program.load()",
+    "vpm.find_required_tools = lambda: ('missing', %r)"
+    % vpm.T('ffmpeg and ffprobe are missing.'),
+    "def not_mended(*a, **k):",
+    "    with open(%r, 'a') as f:" % MENDED,
+    "        f.write('asked\\n')",
+    "    return False",
+    "vpm.tools_repaired.__globals__['install_ffmpeg'] = not_mended",
+    "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
+    "sys.exit(vpm.main())"])
+code, last, _said = run([sys.executable, "-c", TOOLLESS,
+                         "--without-auphonic", NOTES])
+try:
+    with open(MENDED, encoding="utf-8") as f:
+        mended = len(f.read().splitlines())
+except OSError:
+    mended = 0
+WANT = (vpm.T('Nothing runs until that is put right. This way: %s')
+        % vpm.how_to_get_ffmpeg(False)).splitlines()[-1].strip()
+check("the repair asks the stand-in, never an installer", mended >= 1,
+      "the stand-in was asked %d times against at least 1" % mended)
+check("a run with no ffmpeg that is not repaired returns 1", code == 1,
+      "returned %r against 1" % code)
+check("and its last line says nothing runs until that is put right",
+      last == WANT, "last line %r against %r" % (last, WANT))
+
+print("\n6. Multitrack over a single recording")
+ALONE = os.path.join(HOME, "Presenter_REC0001.wav")
+made = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                       "sine=frequency=440:duration=2", "-c:a", "pcm_s16le",
+                       ALONE], stdout=subprocess.PIPE,
+                      stderr=subprocess.STDOUT, timeout=ASK)
+# A precondition of the material, not a judgement about the program.
+assert made.returncode == 0 and os.path.exists(ALONE), made.stdout
+code, last, _said = run([sys.executable, SCRIPT, "--multitrack",
+                         "--without-auphonic", "--out",
+                         os.path.join(HOME, "out6"), ALONE])
+WANT = (vpm.T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
+              'needed, and only %s was found.\n  A track is a recording of '
+              'its own, a channel of a multichannel\n  recorder, or the '
+              'audio of a camera -- that counts as soon as its\n  Camera '
+              'audio says "use internal audio". Without two of them '
+              'there\n  '
+              'is nothing to decouple, and the same file runs through as an\n'
+              '  ordinary production.')
+        % vpm.number_text(1, 0)).splitlines()[-1].strip()
+check("multitrack over one recording returns 1", code == 1,
+      "returned %r against 1, last line %r" % (code, last))
+check("and its last line says it would run as an ordinary production",
+      last == WANT, "last line %r against %r" % (last, WANT))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

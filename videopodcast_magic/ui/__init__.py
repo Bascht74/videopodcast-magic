@@ -596,13 +596,14 @@ def missing_conditions(files, production, multitrack, assign_lines,
     return pending
 
 
-def edge_kind_barred(path, kinds):
+def edge_kind_barred(path, kinds, labels=None):
     """Which of intro and outro this file cannot be, and why.
 
     An episode has one intro and one outro, each a single switch to the
     run. So while one file holds a mark that entry is shut everywhere
     else, rather than a second choice taking the mark off the first.
-    *kinds* is {path: Value}; a path missing from it counts as content.
+    *kinds* is {path: Value}, a path missing counting as content; the
+    holder is named by *labels* as the window names it (camera_labels).
     """
     here = path_key(path)
     barred = {}
@@ -613,7 +614,8 @@ def edge_kind_barred(path, kinds):
             barred[kind] = T('%s is already set as %s, and an episode has '
                              'one of those. Answer differently here, or '
                              'take the mark off that file first.') \
-                % (os.path.basename(holder), label_of(kind))
+                % (ByFile(labels or {}).get(holder)
+                   or os.path.basename(holder), label_of(kind))
     return barred
 
 
@@ -764,7 +766,7 @@ def kind_cell_for(path, value, wides, said, placeless, kinds, quiet,
     shown, why, derived = kind_on_show(value.get(), path, wides, said, labels)
     cell, box = clip_kind_cell(short, shown, why, quiet, derived,
                                wide_shot_barred(path, value, placeless),
-                               edge_kind_barred(path, kinds))
+                               edge_kind_barred(path, kinds, labels))
     clip_kind_bind(box, value, after=after)
     return cell, box
 
@@ -2965,7 +2967,7 @@ def gui():
 
     def window_enable():
         away = not_on_the_axis(getattr(player, "file_path", None),
-                               clip_kind_values, remembered)
+            clip_kind_values, remembered, state.get("camera_labels"))
         on = window_ready(state) and not away
         for widget in window_switch:
             widget.setEnabled(on)
@@ -3457,7 +3459,7 @@ def gui():
     # it starts a run.
     state["speech_language"] = speech_language
     strip_choice_build(
-        QtWidgets, name_bar, speech_language, T('Language'),
+        QtWidgets, name_bar, speech_language, T('Language of the sound'),
         spoken_language_choices(),
         T('The language spoken in the recording. It becomes the tag of '
           'the\nwritten audio track, and the recognition here is told to '

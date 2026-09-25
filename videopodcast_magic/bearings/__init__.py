@@ -1613,13 +1613,14 @@ def window_suggestion(entries, fps=30.0):
     return "+0:00", "+%s" % as_hms(max(lengths), ".").split(".")[0], False
 
 
-def not_on_the_axis(path, kinds, remembered):
+def not_on_the_axis(path, kinds, remembered, labels=None):
     """Why the file in the player carries no window boundary, or "".
 
     A boundary is a point on the axis of the episode, and an intro is not
     on that axis: it is set in front, not cut in. Content and the wide
     shot stay usable. The reason comes back with it, because greying the
-    buttons without one reads as a fault.
+    buttons without one reads as a fault; it names the file by *labels*
+    ({path: name}, as camera_labels), as the window does.
     """
     held = (kinds or {}).get(path)
     kind = (held.get() if held is not None
@@ -1629,7 +1630,8 @@ def not_on_the_axis(path, kinds, remembered):
         return ""
     return T('%s is not on the axis of the episode: it is set in front of '
              'the material or after it, not cut into it. In point and Out '
-             'point belong to what lies between.') % os.path.basename(path)
+             'point belong to what lies between.') % (
+                 ByFile(labels or {}).get(path) or os.path.basename(path))
 
 
 def has_sound(file_path):

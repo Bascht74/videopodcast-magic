@@ -427,6 +427,8 @@ Four tabs, in the order they are needed.
   minute by minute. Nobody starts the program from a terminal any more,
   so this is the terminal.
 
+  ![The Output tab at the end of a dry run](images/output.png)
+
   **Create Resolve project** follows the file list. Take a camera out
   and the button greys as soon as the last run's handover no longer
   names exactly the cameras standing there, and resting on it says that
@@ -465,17 +467,18 @@ shows the prework -- reading the audio and computing the envelopes --
 which is the same work the bar beside **Start** carries, here file by
 file.
 
-**Production name**, **Language** and **Project type** stand in one
-row. Where the window is too narrow for all three, the row goes on in a
-second line instead of pushing the **Files & production** tab past the
-window's edge, and a caption never parts from its field.
+**Production name**, **Language of the sound** and **Project type**
+stand in one row. Where the window is too narrow for all three, the row
+goes on in a second line instead of pushing the **Files & production**
+tab past the window's edge, and a caption never parts from its field.
 
-**Language** beside the production name is the language spoken in the
-recording, preset from the system language. It does two things: it
-becomes the tag of the written audio track, and the recognition on this
-machine is told to expect that language. "not set" leaves the track
-untagged and lets the recognition work the language out for itself. The
-list holds only languages the recognition here also knows.
+**Language of the sound** beside the production name is the language
+spoken in the recording, preset from the system language. It does two
+things: it becomes the tag of the written audio track, and the
+recognition on this machine is told to expect that language. "not set"
+leaves the track untagged and lets the recognition work the language
+out for itself. The list holds only languages the recognition here also
+knows.
 [The transcript is made here](auphonic.md#the-transcript-is-made-here)
 says what the recognition writes, and [Speech recognition and speaker
 separation](speech.md) which way it takes on which machine.

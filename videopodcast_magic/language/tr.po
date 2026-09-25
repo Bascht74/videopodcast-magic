@@ -872,9 +872,6 @@ msgstr "kullanılmayan giriş -- yok sayıldı"
 msgid "uncertain -- %s"
 msgstr "belirsiz -- %s"
 
-msgid "Language"
-msgstr "Dil"
-
 msgid "not set"
 msgstr "ayarlanmadı"
 
@@ -4896,3 +4893,6 @@ msgstr "\n  İçe aktarma"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Sesin dili"

@@ -4007,9 +4007,6 @@ msgstr "usikker -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "sat manuelt -- tilsidesætter målingen"
 
-msgid "Language"
-msgstr "Sprog"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "begge kanaler identiske -- mono lagt på begge sider"
 
@@ -4883,3 +4880,6 @@ msgstr "\n  Import"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Lydens sprog"

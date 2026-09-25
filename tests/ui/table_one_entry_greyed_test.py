@@ -26,7 +26,9 @@ the field around it stays black and open.
 The marks work the same way: an episode has one intro and one outro,
 so while a file holds either, that entry alone is greyed on every
 other file and says which file holds it. Both directions are asked,
-because a bar that never lifts would pass the first half.
+because a bar that never lifts would pass the first half. The holder
+is named by the label handed in, so the second of a pair is
+"C0003.MP4 (2)" there too.
 """
 import os
 import sys
@@ -297,6 +299,15 @@ check("the reason stands on the entry it is about",
 check("and the field is still open to be answered", box.isEnabled(),
       "the field is dead, with %d entries of which %d are barred"
       % (box.count(), len(barred(box))))
+# The pair of section 4: the second holds the intro, and the bare file
+# name would name the first, the very file the sentence stands on.
+PAIR_KINDS = {CARD_A: vpm.Value(vpm.TYPE_CONTENT),
+              CARD_B: vpm.Value(vpm.TYPE_INTRO)}
+said = vpm.edge_kind_barred(CARD_A, PAIR_KINDS, NAMES).get(vpm.TYPE_INTRO, "")
+check("of a pair the holder is named by the label handed in",
+      said.startswith("C0003.MP4 (2) "),
+      "%r, wanted it to start 'C0003.MP4 (2) '; labels %s"
+      % (said[:60], sorted(NAMES.values())))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -11,6 +11,7 @@ PROGRAM = PROGRAM
 
 # Bound above the seam, so the order reads as it did in the window.
 # Not one is a name the program binds again while it runs.
+ByFile = PROGRAM.ByFile
 CUT_CHOICES = PROGRAM.CUT_CHOICES
 CUT_FIELDS = PROGRAM.CUT_FIELDS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -29,6 +30,7 @@ VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 WIDE_AFTER_S = PROGRAM.WIDE_AFTER_S
 WIDE_LATEST_S = PROGRAM.WIDE_LATEST_S
 argparse = PROGRAM.argparse
+camera_labels = PROGRAM.camera_labels
 label_of = PROGRAM.label_of
 languages = PROGRAM.languages
 number_text = PROGRAM.number_text
@@ -147,11 +149,14 @@ def run_argv(values, assignment_file_path=""):
         edge[switch] = file_path
     if doubled:
         kind, first, second = doubled[0]
+        # Named as the window names them: two of one name are two files.
+        shown = ByFile(camera_labels([p for p, a in files if a == "video"]))
         return error(
             T('Two files as %s') % label_of(kind),
             T('%s and %s are both set to %s. Only one file can be that '
               '-- please set the other one back to content.')
-            % (os.path.basename(first), os.path.basename(second),
+            % (shown.get(first) or os.path.basename(first),
+               shown.get(second) or os.path.basename(second),
                label_of(kind)))
     # Anything set to "ignore this video" does not come along at all.
     off = set(p for p, a in clip_kind.items() if a == TYPE_IGNORED)

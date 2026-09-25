@@ -4011,9 +4011,6 @@ msgstr "nesigur -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "setat manual -- are prioritate față de măsurare"
 
-msgid "Language"
-msgstr "Limbă"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "ambele canale identice -- mono pus pe ambele părți"
 
@@ -4928,3 +4925,6 @@ msgstr "\n  Import"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Limba sunetului"

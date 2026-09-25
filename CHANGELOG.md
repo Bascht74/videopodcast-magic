@@ -25,6 +25,63 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b24] - 2026-09-25
+
+### Changed
+
+- **The field for the language spoken in the recording is now called
+  "Language of the sound"**, so it can no longer be taken for the
+  language of the window.
+- **Three more sentences now name the second of two camera files of one
+  name "C0003.MP4 (2)"**: the note on who holds Intro or Outro, the hint
+  beside the greyed In and Out buttons, and the refusal of two files set
+  to Intro.
+
+### Fixed
+
+- **A recording split into timecoded blocks at 44.1 or 96 kHz is now
+  joined whole.** Two 96 kHz blocks used to come out a quarter short,
+  with a gap reported that was not there.
+
+### Tests
+
+- **A real run's Resolve handover is now checked on material like a real
+  production**: two frame rates, one camera in 10 bit, cameras nobody
+  speaks on.
+
+### Documentation
+
+- **The manual now shows the "Output" tab** as a dry run leaves it.
+
+**Deutsch**
+
+### Geändert
+
+- **Das Feld für die Sprache, die in der Aufnahme gesprochen wird, heißt
+  jetzt „Sprache im Ton“**, damit es niemand mehr für die Sprache des
+  Fensters hält.
+- **Drei weitere Sätze nennen die zweite von zwei gleichnamigen
+  Kameradateien jetzt „C0003.MP4 (2)“**: der Hinweis, wer Intro oder
+  Outro belegt, der Hinweis neben den ausgegrauten In- und Out-Knöpfen und
+  die Ablehnung zweier Dateien, die beide auf Intro stehen.
+
+### Behoben
+
+- **Eine Aufnahme in Timecode-Blöcken mit 44,1 oder 96 kHz wird jetzt ganz
+  zusammengefügt.** Zwei 96-kHz-Blöcke kamen vorher ein Viertel zu kurz
+  heraus, mit einer gemeldeten Lücke, die es nicht gab.
+
+### Tests
+
+- **Die Resolve-Übergabe eines echten Laufs wird jetzt an Material wie
+  aus einer echten Produktion geprüft**: zwei Bildraten, eine Kamera in
+  10 Bit, Kameras, auf denen niemand spricht.
+
+### Dokumentation
+
+- **Das Handbuch zeigt jetzt den Reiter „Ausgabe“**, wie ein Probelauf ihn
+  hinterlässt.
+
 ## [3.0.0b23] - 2026-09-25
 
 ### Changed
@@ -2460,7 +2517,9 @@ umgeschrieben.
 - A handover trimmed after it was written now moves its timecode along
   with the seconds. Only the seconds moved, and DaVinci Resolve places from
   the timecode alone -- every picture landed off by the trimmed head,
-  measured ten seconds.
+  measured ten seconds. *Changed in 2.31.1: the timecode now comes out
+  of the measurement; the camera's own clock moved by the trim is left
+  only where the camera the others are measured against has none.*
 - Two shots merged into one now name every speaker heard in them. The
   survivor kept its own names, so somebody who spoke for ten seconds on
   the same camera vanished from the "Speaker" column of the cut list and
@@ -2511,7 +2570,10 @@ umgeschrieben.
 - Eine Übergabedatei, die nachträglich beschnitten wird, zieht jetzt
   ihren Timecode mit. Bisher wanderten nur die Sekunden, und DaVinci
   Resolve richtet sich allein nach dem Timecode -- jedes Bild landete um
-  den abgeschnittenen Kopf versetzt, gemessen zehn Sekunden.
+  den abgeschnittenen Kopf versetzt, gemessen zehn Sekunden. *Mit
+  2.31.1 geändert: Der Timecode kommt jetzt aus der Messung; die um den
+  Beschnitt verschobene Uhr der Kamera bleibt nur, wo die Kamera, an der
+  die anderen gemessen werden, keinen hat.*
 - Zwei Einstellungen, die zu einer zusammengelegt werden, nennen jetzt
   jeden, der darin zu hören ist. Bisher behielt die verbleibende nur ihre
   eigenen Namen, und wer zehn Sekunden auf derselben Kamera sprach, fehlte

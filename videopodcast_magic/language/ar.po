@@ -907,9 +907,6 @@ msgstr "مدخل غير مستخدم -- تم تجاهله"
 msgid "uncertain -- %s"
 msgstr "غير مؤكد -- %s"
 
-msgid "Language"
-msgstr "اللغة"
-
 msgid "not set"
 msgstr "غير محدد"
 
@@ -5067,3 +5064,6 @@ msgstr "\n  الاستيراد"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "لغة الصوت"

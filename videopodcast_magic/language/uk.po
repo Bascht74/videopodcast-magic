@@ -886,9 +886,6 @@ msgstr "невикористаний вхід -- пропущено"
 msgid "uncertain -- %s"
 msgstr "неточно -- %s"
 
-msgid "Language"
-msgstr "Мова"
-
 msgid "not set"
 msgstr "не задано"
 
@@ -4944,3 +4941,6 @@ msgstr "\n  Імпорт"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s мс %s ppm"
+
+msgid "Language of the sound"
+msgstr "Мова звуку"

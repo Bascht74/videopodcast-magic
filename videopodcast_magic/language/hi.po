@@ -860,9 +860,6 @@ msgstr "अप्रयुक्त इनपुट -- अनदेखा कि
 msgid "uncertain -- %s"
 msgstr "अनिश्चित -- %s"
 
-msgid "Language"
-msgstr "भाषा"
-
 msgid "not set"
 msgstr "निर्धारित नहीं"
 
@@ -4884,3 +4881,6 @@ msgstr "\n  इम्पोर्ट"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "ध्वनि की भाषा"

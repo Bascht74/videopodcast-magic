@@ -466,6 +466,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   für Minute. Aus einem Terminal startet das Programm niemand mehr,
   also ist dies das Terminal.
 
+  ![Der Reiter Ausgabe am Ende eines Probelaufs](images/output.de.png)
+
   **Resolve-Projekt anlegen** richtet sich nach der Dateiliste. Nimmt
   man eine Kamera heraus, wird der Knopf grau, sobald die Übergabe des
   letzten Laufs nicht mehr genau die Kameras nennt, die dort stehen, und
@@ -508,13 +510,13 @@ Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
 lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
 neben **Start** mitträgt, hier Datei für Datei.
 
-**Name der Produktion**, **Sprache** und **Projekttyp** stehen in einer
-Zeile. Ist das Fenster für alle drei zu schmal, bricht die Zeile in eine
-zweite um, statt den Reiter **Dateien & Produktion** über den
-Fensterrand hinauszuschieben; eine Beschriftung bleibt dabei immer bei
-ihrem Feld.
+**Name der Produktion**, **Sprache im Ton** und **Projekttyp** stehen
+in einer Zeile. Ist das Fenster für alle drei zu schmal, bricht die
+Zeile in eine zweite um, statt den Reiter **Dateien & Produktion** über
+den Fensterrand hinauszuschieben; eine Beschriftung bleibt dabei immer
+bei ihrem Feld.
 
-**Sprache** neben dem Produktionsnamen ist die in der Aufnahme
+**Sprache im Ton** neben dem Produktionsnamen ist die in der Aufnahme
 gesprochene Sprache, vorbelegt aus der Systemsprache. Sie tut zweierlei:
 Sie wird zur Kennzeichnung der geschriebenen Tonspur, und die Erkennung
 auf diesem Rechner wird auf diese Sprache eingestellt. „nicht gesetzt“

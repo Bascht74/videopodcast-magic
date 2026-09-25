@@ -140,6 +140,15 @@ check("rejected", a is None,
 check("and it says which two", m and "J.mp4" in m[0][2] and "K.mp4" in m[0][2],
         "2b. first message %s, wanted both J.mp4 and K.mp4 named in its text"
         % (m[:1],))
+# Two cards give two files C0003.MP4, and the window calls the second
+# "C0003.MP4 (2)"; by their bare names the refusal says one name twice.
+PAIR = ["/x/CardA/C0003.MP4", "/x/CardB/C0003.MP4"]
+a, _p, m = vpm.run_argv(values(
+    files=[("/x/G.mov", "video")] + [(p, "video") for p in PAIR],
+    clip_kinds={PAIR[0]: vpm.TYPE_INTRO, PAIR[1]: vpm.TYPE_INTRO}))
+check("and two of one name are told apart as the window names them",
+      m and "C0003.MP4 (2)" in m[0][2],
+      "2b. first message %s, wanted 'C0003.MP4 (2)' in its text" % (m[:1],))
 a, _p, m = vpm.run_argv(values(
     files=[("/x/G.mov", "video"), ("/x/J.mp4", "video"),
              ("/x/K.mp4", "video")],

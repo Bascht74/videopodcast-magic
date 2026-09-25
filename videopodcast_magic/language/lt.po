@@ -4101,9 +4101,6 @@ msgstr "neaišku -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "nustatyta rankiniu būdu -- turi viršenybę prieš matavimą"
 
-msgid "Language"
-msgstr "Kalba"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "abu kanalai vienodi -- mono paskirstytas į abi puses"
 
@@ -4931,3 +4928,6 @@ msgstr "\n  Importas"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Garso kalba"

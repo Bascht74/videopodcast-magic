@@ -545,15 +545,22 @@ def join_audio_parts(paths, target, keep_parts=False):
         same = [same[i] for i in order]
 
     if having_tc:
-        entries = list(zip(trs, paths, lengths)) if len(set(trs)) != len(trs) \
-            else sorted(zip(trs, paths, lengths))
-        t0 = entries[0][0]
+        # A stamp counts at its file's own rate, a length at the working
+        # one: laid against each other in working samples, each put back
+        # at its own rate in the graph -- or two 96 kHz blocks in a row
+        # come out a quarter short, with a hole said between them.
+        own = dict((p, float(wav_rate(p) or SR)) for p in paths)
+        stamp = dict(zip(paths, trs))
+        at = [t * SR / own[p] for t, p in zip(trs, paths)]
+        entries = list(zip(at, paths, lengths)) if len(set(trs)) != len(trs) \
+            else sorted(zip(at, paths, lengths))
+        t0, first = entries[0][0], stamp[entries[0][1]]
         total = max(t + n for t, _, n in entries) - t0
         gaps = []
         for (ta, _, na), (tb, _, _) in zip(entries, entries[1:]):
             g = tb - (ta + na)
             if abs(g) > SR // 100:
-                gaps.append((ta + na - t0, g))
+                gaps.append((int(round(ta + na - t0)), int(round(g))))
         # Overlapping means several microphones ran at once, and then
         # each one is worth a track of its own.
         side_by_side = any(tb < ta + na for (ta, _, na), (tb, _, _)
@@ -569,10 +576,11 @@ def join_audio_parts(paths, target, keep_parts=False):
         parts, chains, markers, writes = [], [], [], []
         for i, (t, p, n) in enumerate(entries):
             parts += ["-i", p]
-            d = t - t0
+            d = int(round((t - t0) * own[p] / SR))
+            whole = int(round(total * own[p] / SR))
             f = [PROGRAM.channel_filter(PROGRAM.kept_channels(p), channels)]
             f += ["adelay=delays=%dS:all=1" % d] if d else []
-            f += ["apad=whole_len=%d" % total, "atrim=end_sample=%d" % total,
+            f += ["apad=whole_len=%d" % whole, "atrim=end_sample=%d" % whole,
                   "asetpts=N/SR/TB"]
             # One decode, two uses: the sum and the track beside it. A
             # filter output can only be read once, hence the split.
@@ -582,20 +590,20 @@ def join_audio_parts(paths, target, keep_parts=False):
             if alone:
                 writes += (["-map", "[s%d]" % i, "-c:a", "pcm_s24le",
                             "-write_bext", "1", "-metadata",
-                            "time_reference=%d" % t0]
+                            "time_reference=%d" % first]
                            + PROGRAM.wav_safe(alone[i][1])
                            + ["-y", alone[i][1]])
         fc = ";".join(chains) + ";" + "".join(markers) +\
              "amix=inputs=%d:normalize=0[out]" % len(markers)
         shell_quote(["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
             "-map", "[out]", "-c:a", "pcm_s24le", "-write_bext", "1",
-            "-metadata", "time_reference=%d" % t0]
+            "-metadata", "time_reference=%d" % first]
             + PROGRAM.wav_safe(target) + ["-y", target] + writes)
-        # t0 is counted at the first block's own rate, the way its
+        # The stamp is counted at the first block's own rate, the way its
         # recorder wrote it: read at SR, a 44.1 kHz 01:00:00:00 is 00:55:07.
-        start_s = t0 / float(wav_rate(entries[0][1]) or SR)
+        start_s = first / own[entries[0][1]]
         return target, {"blocks": len(paths), "tc": True, "gaps_found": gaps,
-                      "start": t0, "start_s": start_s,
+                      "start": first, "start_s": start_s,
                       "side_by_side": side_by_side,
                       "parts": alone}
 

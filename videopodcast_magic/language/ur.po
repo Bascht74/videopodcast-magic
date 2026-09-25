@@ -4099,9 +4099,6 @@ msgstr "غیر یقینی -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "ہاتھ سے طے کیا گیا -- پیمائش پر فوقیت رکھتا ہے"
 
-msgid "Language"
-msgstr "زبان"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "دونوں چینل یکساں -- مونو دونوں طرف رکھا گیا"
 
@@ -4886,3 +4883,6 @@ msgstr "\n  امپورٹ"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "آڈیو کی زبان"
