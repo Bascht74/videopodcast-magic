@@ -4,10 +4,11 @@
 Each case is a bare command line in a process of its own: presets that
 cannot be fetched (curl stood in for, fenced behind a proxy to nowhere),
 a lone camera with no sound, a file of no known kind alone, a path that
-is not there, and two cameras with no recording and no --multitrack,
-the last also naming the unknown file beside it as skipped. The limit:
---hdr-check and the two Resolve switches are not reached -- the first
-answers with its report, the others lie past source_resolve_door_shut.
+is not there, two cameras with no recording and no --multitrack, the
+last also naming the unknown file beside it as skipped, and the two
+Resolve switches in a child cut off from Resolve, which checks that
+before main() and stops red, main() uncalled, where it is not. The
+limit: --hdr-check is not reached; it answers with its report.
 """
 import os
 import sys
@@ -20,6 +21,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
+import json
 import re
 import subprocess
 import tempfile
@@ -170,6 +172,72 @@ check("an unknown file beside real ones is named as skipped",
       "%r %s among %d lines" % (SKIPPED, "said" if SKIPPED in
                                 said.splitlines() else "not said",
                                 len(said.splitlines())))
+
+print("\n4. Resolve out of reach, and main() saying so")
+# The owner's Resolve may be running on this machine. So the child
+# points the scripting interface at a folder that is not there, drops
+# any path holding the module, nails connect_to_resolve, and checks all
+# three before main() is called; where one does not hold it stops there.
+RESOLVE_REASON = "no Resolve here -- the stand-in answers in its place"
+HANDOVER = os.path.join(HOME, "Door_resolve.json")
+with open(HANDOVER, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
+               "cameras": [{"file": CAMS[0], "name": "CamA"}]}, f)
+SHUT = "Resolve's scripting module is out of reach"
+# One string, not lines joined: source_resolve_door_shut reads it as a
+# child of its own and lets its switches through for the nail and the
+# bolt standing above them, and for nothing else.
+RESOLVE_CHILD = """import importlib.util, os, sys
+os.environ["RESOLVE_SCRIPT_API"] = %r
+os.environ["RESOLVE_SCRIPT_LIB"] = os.path.join(%r, "fusionscript.so")
+MODULES = ("DaVinciResolveScript", "fusionscript")
+sys.path[:] = [p for p in sys.path if not any(
+    os.path.exists(os.path.join(p, m + e)) for m in MODULES
+    for e in (".py", ".so", ".dll"))]
+sys.path.insert(0, %r)
+import the_program
+vpm = the_program.load()
+def refuse(*a, **k):
+    raise RuntimeError(%r)
+vpm.connect_to_resolve = refuse
+near = [m for m in MODULES if importlib.util.find_spec(m) is not None]
+there = [p for p in vpm.resolve_module_paths() if os.path.exists(p)]
+loose = [f.__name__ for f in (vpm.build_resolve_project,
+                              vpm.print_audio_track_mapping)
+         if f.__globals__.get("connect_to_resolve") is not refuse]
+if near or there or loose:
+    print("Resolve within reach, main() not called:", near, there, loose)
+    sys.exit(3)
+print(%r)
+sys.argv = ["videopodcast-magic"] + {
+    "json": ["--resolve-json", %r],
+    "tracks": ["--resolve-audio-tracks"]}[sys.argv[1]]
+sys.exit(vpm.main())
+""" % (os.path.join(HOME, "nowhere"), os.path.join(HOME, "nowhere"), HERE,
+       RESOLVE_REASON, SHUT, HANDOVER)
+code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "json"])
+bolted = SHUT in said.splitlines()
+check("the child finds Resolve out of reach before main() is called",
+      bolted, "%r %s, returned %r, last line %r"
+      % (SHUT, "said" if bolted else "not said", code, last))
+if bolted:
+    WANT = vpm.T('Resolve part stopped: %s') % RESOLVE_REASON
+    check("a Resolve build that cannot connect returns 1", code == 1,
+          "returned %r against 1" % code)
+    check("and its last line says the Resolve part stopped, and why",
+          last == WANT, "last line %r against %r" % (last, WANT))
+    code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "tracks"])
+    WANT = vpm.T('Stopped: %s') % RESOLVE_REASON
+    check("a look at Resolve's tracks that cannot connect returns 1",
+          code == 1 and SHUT in said.splitlines(),
+          "returned %r against 1, %r %s" % (code, SHUT, "said" if SHUT in
+                                            said.splitlines() else
+                                            "not said"))
+    check("and its last line says it stopped, and why", last == WANT,
+          "last line %r against %r" % (last, WANT))
+else:
+    print("   main() was not called: the checks on the two Resolve "
+          "switches wait for a child that cannot reach Resolve")
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
