@@ -25,12 +25,14 @@ PROGRAM = PROGRAM
 # because ui/ is the last piece read: SpeakerName, choices_shut,
 # queue_once.
 
+ALONE_LOUD_DB = PROGRAM.ALONE_LOUD_DB
 ByFile = PROGRAM.ByFile
 CATALOGUE = PROGRAM.CATALOGUE
 CLOSING_MARKS = PROGRAM.CLOSING_MARKS
 COLOURS = PROGRAM.COLOURS
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
+OTHERS_FAINT_DB = PROGRAM.OTHERS_FAINT_DB
 PIP_SOURCE = PROGRAM.PIP_SOURCE
 SPEAKER_ROWS_SHOWN = PROGRAM.SPEAKER_ROWS_SHOWN
 SR = PROGRAM.SR
@@ -1836,7 +1838,8 @@ def speaker_statistics(d):
     return out, total, max(0.0, length - spoken), length
 
 
-def coupling_matrix(power, speech, faint=6.0, loud=10.0, at_least=3):
+def coupling_matrix(power, speech, faint=OTHERS_FAINT_DB,
+                    loud=ALONE_LOUD_DB, at_least=3):
     """Return how loudly each voice arrives in the other microphones.
 
     ``c[i][j]`` is the power gain with which speaker j appears in
@@ -1894,6 +1897,10 @@ def unmix_levels(power, c, at_most=30.0):
 # The floor is where passages stop being "mhm" and start being breath.
 SPEECH_MIN_LEN_S = 0.2
 
+# The longest silence inside one passage that does not end it: a breath
+# between two words, not a turn handed over. Set, not measured.
+SPEECH_PAUSE_BRIDGED_S = 0.35
+
 
 def clock_on_axis(curve, clock):
     """Stretch a level curve from a recorder's own clock onto the axis.
@@ -1912,7 +1919,7 @@ def clock_on_axis(curve, clock):
 
 
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
-                        gap=0.35, min_len=SPEECH_MIN_LEN_S,
+                        gap=SPEECH_PAUSE_BRIDGED_S, min_len=SPEECH_MIN_LEN_S,
                         report=None, separate=True,
                         note=None, grid=None):
     """Derive speech segments from the separate tracks.
@@ -2934,6 +2941,15 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     if not given and getattr(args, "speakers_from", None):
         given = read_separation_file(args.speakers_from)
         where_from = os.path.basename(args.speakers_from)
+        # A block carrying the fingerprint of its recording is held to it,
+        # as the window holds a project's: a recording changed since would
+        # be cut by voices heard in the old one. One without it stands.
+        if given.get("mtime") is not None \
+                and not speakers_from_project({"speakers": given})[0]:
+            print(as_warn(T('  %s holds a separation of a recording that '
+                            'has changed or gone since, or of another '
+                            'model -- it is not used.') % where_from))
+            given = {}
     source, why, dropped = "", "", None
     if (getattr(args, "_speakers_of", None)
             and not SPEAKER_SPLIT_OFF
