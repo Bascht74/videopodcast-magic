@@ -1207,7 +1207,9 @@ def limiter_curve(total_sum, tmpdir, gain, ceiling=CEILING_DBTP):
         stdout=subprocess.PIPE)
     raw = os.path.join(tmpdir, "level_curve.raw")
     target = os.path.join(tmpdir, "level_curve.wav")
-    smallest, status, rest, done = 1.0, 1.0, b"", False
+    # No status before the first block: it starts where it must, or a
+    # peak in the first 5 ms goes through at full gain.
+    smallest, status, rest, done = 1.0, None, b"", False
     frame_bytes = 4 * channels
     try:
         with open(raw, "wb") as f:
@@ -1226,26 +1228,31 @@ def limiter_curve(total_sum, tmpdir, gain, ceiling=CEILING_DBTP):
                 rest = data[full:]
                 if full <= 0:
                     continue
-                frames = np.frombuffer(data[:full],
+                # The block kept back is read too, as the lookahead of the
+                # last one here, or a peak just after a seam goes through.
+                seen = full if done else full + frame_bytes * BLOCK
+                frames = np.frombuffer(data[:seen],
                                        dtype="<f4").reshape(-1, channels)
-                count = int(math.ceil(frames.shape[0] / float(BLOCK)))
-                needed = np.ones(count, dtype=np.float64)
-                for k in range(count):
+                n = full // frame_bytes
+                count = int(math.ceil(n / float(BLOCK)))
+                blocks = int(math.ceil(frames.shape[0] / float(BLOCK)))
+                needed = np.ones(blocks, dtype=np.float64)
+                for k in range(blocks):
                     piece = frames[k * BLOCK:(k + 1) * BLOCK]
                     peak = (float(np.max(np.abs(piece)))
                               if piece.size else 0.0)
                     if peak > limit:
                         needed[k] = limit / peak
                 # One block of lookahead: the reduction is in place first.
-                before = np.minimum(needed, np.roll(needed, -1))
-                before[-1] = needed[-1]
-                g = np.empty(frames.shape[0], dtype=np.float32)
+                before = np.minimum(needed, np.append(needed[1:], needed[-1]))
+                status = before[0] if status is None else status
+                g = np.empty(n, dtype=np.float32)
                 for k in range(count):
                     want = before[k]
                     if want > status:      # back up, but slowly
                         want = min(want, status * RECOVERY + (1.0 - RECOVERY))
                     a0 = k * BLOCK
-                    a1 = min(frames.shape[0], a0 + BLOCK)
+                    a1 = min(n, a0 + BLOCK)
                     g[a0:a1] = np.linspace(status, want, a1 - a0,
                                            endpoint=False)
                     status = want
