@@ -3,17 +3,18 @@
 
 The note printed after an open promises "Create Resolve project -- from
 that run's handover file", and the button hung on a state nobody filled
-while opening. Three projects over one material in one window: nothing
-in the output folder, the handover of its own run, and one of an earlier
-round over a single camera. Read off the search, the button, and the
-preview, which has to show the run's speakers rather than work them out
-again from the raw tracks -- and has to follow that file when it is
-written again, which is what turning a number above does.
+while opening. Four projects over one material in one window: nothing
+in the output folder, the handover of its own run, one of an earlier
+round over a single camera, and -- last -- one of a run that refused a
+camera. Read off the search, the button, and the preview, which has to
+show the run's speakers rather than work them out again from the raw
+tracks -- and has to follow that file when it is written again, which
+is what turning a number above does.
 
-Last the sheet that reads the recordings itself, opened where no run
-answered the question. That reading costs minutes on the graphics card,
-so a reading that came to nothing must not be set going a second time
-by the next look at the sheet.
+Before the fourth the sheet that reads the recordings itself, opened
+where no run answered the question. That reading costs minutes on the
+graphics card, so a reading that came to nothing must not be set going
+a second time by the next look at the sheet.
 """
 import os
 import sys
@@ -83,7 +84,8 @@ folder = tempfile.mkdtemp(prefix="vpm_comesback_")
 bare_folder = os.path.join(folder, "Bare")
 run_folder = os.path.join(folder, "Run")
 short_folder = os.path.join(folder, "Short")
-for _d in (bare_folder, run_folder, short_folder):
+refused_folder = os.path.join(folder, "Refused")
+for _d in (bare_folder, run_folder, short_folder, refused_folder):
     os.makedirs(_d, exist_ok=True)
 
 
@@ -115,7 +117,7 @@ audio = tone("A_speaker.wav")
 cams = [clip(n) for n in ("B_Presenter.mov", "C_Guest.mov", "D_WideCam.mov")]
 # A rendered file in each output folder, so both projects print the same
 # "PROJECT OPENED" note and the two readings differ in one thing only.
-for where in (bare_folder, run_folder, short_folder):
+for where in (bare_folder, run_folder, short_folder, refused_folder):
     shutil.copy(cams[0], os.path.join(where, "Presenter.mov"))
 
 # The run measured four minutes of it, in turns of twenty seconds. The
@@ -169,6 +171,24 @@ with open(SHORT_HANDOVER, "w", encoding="utf-8") as f:
                "audio_files": {}, "words": []}, f)
 
 
+# The handover of a run over all three that could not place the wide
+# camera: it names two, and the third as refused, by its source.
+REFUSED_HANDOVER = os.path.join(refused_folder, "Refused_resolve.json")
+with open(REFUSED_HANDOVER, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "created_by": "test",
+               "production": "Refused", "fps": 25, "fps_measured": 25.0,
+               "drop_frame": False, "width": 160, "height": 90,
+               "start_tc": None, "start_s": 0.0, "length_s": LENGTH,
+               "cameras": [a_camera(cams[0], "Presenter", ["Presenter"],
+                                    False),
+                           a_camera(cams[1], "Guest", ["Guest"], False)],
+               "refused": [cams[2]],
+               "cut": [{"start": 0.0, "end": LENGTH, "camera": "Guest"}],
+               "speakers": [{"name": n, "sections": TURNS[n]}
+                            for n in SPEAKERS],
+               "audio_files": {}, "words": []}, f)
+
+
 def project_file(name, target):
     """One project over this material, writing into that output folder."""
     path = os.path.join(folder, "videopodcast-magic_%s.json" % name)
@@ -185,6 +205,7 @@ def project_file(name, target):
 BARE = project_file("Bare", bare_folder)
 WITH_RUN = project_file("Run", run_folder)
 SHORT = project_file("Short", short_folder)
+REFUSED = project_file("Refused", refused_folder)
 wanted = [BARE]
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (wanted[0], ""))
@@ -591,6 +612,22 @@ def step():
                   % (len(measurements),
                      "was opened again" if came_back else "never came back",
                      measure_note()))
+            wanted[0] = REFUSED
+            seen[0], still[0] = -1, 0
+            needed("the Open project button",
+                   button(vpm.T('Open project ...'))).click()
+        elif i == 7:
+            if not named(REFUSED):
+                raise NotYet("the fourth project in the title bar, which "
+                             "reads %r" % win().windowTitle())
+            settled()
+            print("\n7. A handover whose run refused one of the cameras")
+            check("a handover over the cameras less the one its run "
+                  "refused is taken up on opening",
+                  bool(taken()) and os.path.abspath(taken())
+                  == os.path.abspath(REFUSED_HANDOVER), ground())
+            check("and Create Resolve project is usable after such an open",
+                  enabled() is True, ground())
         else:
             over.add("the pass")
             app.quit()
