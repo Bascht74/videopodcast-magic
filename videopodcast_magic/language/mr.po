@@ -3068,9 +3068,6 @@ msgstr "माहिती नाही"
 msgid "no information in the file"
 msgstr "फाइलमध्ये माहिती नाही"
 
-msgid "no match in the middle either (%s)"
-msgstr "मध्यभागीही जुळणी नाही (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "नेमकी एकच व्यक्ती बोलते अशी जागा सापडली नाही -- विभाजन मोजता येत नाही."
 
@@ -3800,9 +3797,6 @@ msgstr "रद्द करा"
 msgid "cancelled"
 msgstr "रद्द केले"
 
-msgid "edges implausible"
-msgstr "कडा पटण्याजोग्या नाहीत"
-
 msgid "fixed: "
 msgstr "दुरुस्त केले: "
 
@@ -3841,9 +3835,6 @@ msgstr "इन पॉइंटकडे"
 
 msgid "to Out point"
 msgstr "आउट पॉइंटकडे"
-
-msgid "too short"
-msgstr "खूप लहान"
 
 msgid "two Timelines"
 msgstr "दोन Timeline"

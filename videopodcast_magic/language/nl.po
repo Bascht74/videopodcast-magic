@@ -3032,9 +3032,6 @@ msgstr "geen gegevens"
 msgid "no information in the file"
 msgstr "geen gegevens in het bestand"
 
-msgid "no match in the middle either (%s)"
-msgstr "ook in het midden geen overeenkomst (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "geen plek gevonden waar precies één persoon spreekt -- de scheiding is niet meetbaar."
 
@@ -3713,9 +3710,6 @@ msgstr "annuleren"
 msgid "cancelled"
 msgstr "geannuleerd"
 
-msgid "edges implausible"
-msgstr "randen onaannemelijk"
-
 msgid "fixed: "
 msgstr "hersteld: "
 
@@ -3751,9 +3745,6 @@ msgstr "naar In-punt"
 
 msgid "to Out point"
 msgstr "naar Uit-punt"
-
-msgid "too short"
-msgstr "te kort"
 
 msgid "two Timelines"
 msgstr "twee Timelines"

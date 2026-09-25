@@ -3036,9 +3036,6 @@ msgstr "nicio informație"
 msgid "no information in the file"
 msgstr "nicio informație în fișier"
 
-msgid "no match in the middle either (%s)"
-msgstr "nicio potrivire nici la mijloc (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nu s-a găsit niciun loc în care vorbește exact o persoană -- separarea nu poate fi măsurată."
 
@@ -3717,9 +3714,6 @@ msgstr "anulare"
 msgid "cancelled"
 msgstr "anulat"
 
-msgid "edges implausible"
-msgstr "margini neplauzibile"
-
 msgid "fixed: "
 msgstr "remediat: "
 
@@ -3755,9 +3749,6 @@ msgstr "la punctul In"
 
 msgid "to Out point"
 msgstr "la punctul Out"
-
-msgid "too short"
-msgstr "prea scurt"
 
 msgid "two Timelines"
 msgstr "două Timeline-uri"

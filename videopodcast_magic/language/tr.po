@@ -803,9 +803,6 @@ msgstr "giriş noktasına"
 msgid "to Out point"
 msgstr "çıkış noktasına"
 
-msgid "too short"
-msgstr "çok kısa"
-
 msgid "unknown"
 msgstr "bilinmiyor"
 
@@ -1920,9 +1917,6 @@ msgstr "  Üst üste biniyorlar -- aynı anda birkaç mikrofon, art arda bloklar
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s blok ad sırasına göre birleştirildi (timecode yok -- boşluklar fark edilemezdi)"
 
-msgid "edges implausible"
-msgstr "kenarlar makul değil"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "faza göre yerleştirildi, keskinlik %s, taban %s, sürüklenme bilinmiyor"
 
@@ -1934,9 +1928,6 @@ msgstr "%s içinden ses verisi yok"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  Videoya yalnızca miks giriyor (--no-single-tracks)."
-
-msgid "no match in the middle either (%s)"
-msgstr "ortada da eşleşme yok (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      UYARI: %s için zayıf eşleşme (%s, taban %s). İkisi birbirine ait olmayabilir."

@@ -786,9 +786,6 @@ msgstr "跳到入点"
 msgid "to Out point"
 msgstr "跳到出点"
 
-msgid "too short"
-msgstr "太短"
-
 msgid "unknown"
 msgstr "未知"
 
@@ -1898,9 +1895,6 @@ msgstr "  它们相互重叠 -- 是同时录音的多支麦克风，而不是先
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s 个片段已按名称顺序拼接（无时间码 -- 无法识别间隙）"
 
-msgid "edges implausible"
-msgstr "边缘不可信"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "按相位放置，锐度 %s，下限 %s，漂移未知"
 
@@ -1912,9 +1906,6 @@ msgstr "未从 %s 获得音频数据"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  只有混音进入视频 (--no-single-tracks)。"
-
-msgid "no match in the middle either (%s)"
-msgstr "中间也没有匹配 (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      警告：%s 匹配较弱（%s，下限为 %s）。两者可能并不相配。"

@@ -3070,9 +3070,6 @@ msgstr "l-ebda informazzjoni"
 msgid "no information in the file"
 msgstr "l-ebda informazzjoni fil-fajl"
 
-msgid "no match in the middle either (%s)"
-msgstr "l-ebda qbil lanqas fin-nofs (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ma nstab l-ebda post fejn titkellem eżattament persuna waħda -- is-separazzjoni ma tistax titkejjel."
 
@@ -3802,9 +3799,6 @@ msgstr "ikkanċella"
 msgid "cancelled"
 msgstr "ikkanċellat"
 
-msgid "edges implausible"
-msgstr "truf mhux kredibbli"
-
 msgid "fixed: "
 msgstr "irranġat: "
 
@@ -3843,9 +3837,6 @@ msgstr "għall-punt tad-dħul"
 
 msgid "to Out point"
 msgstr "għall-punt tal-ħruġ"
-
-msgid "too short"
-msgstr "qasir wisq"
 
 msgid "two Timelines"
 msgstr "żewġ Timelines"

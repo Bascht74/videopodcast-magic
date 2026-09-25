@@ -3034,9 +3034,6 @@ msgstr "nincs információ"
 msgid "no information in the file"
 msgstr "nincs információ a fájlban"
 
-msgid "no match in the middle either (%s)"
-msgstr "középen sincs egyezés (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nem található olyan hely, ahol pontosan egy személy beszél -- a szétválasztás nem mérhető."
 
@@ -3715,9 +3712,6 @@ msgstr "mégse"
 msgid "cancelled"
 msgstr "megszakítva"
 
-msgid "edges implausible"
-msgstr "a szélek nem hihetőek"
-
 msgid "fixed: "
 msgstr "javítva: "
 
@@ -3753,9 +3747,6 @@ msgstr "az In pontra"
 
 msgid "to Out point"
 msgstr "az Out pontra"
-
-msgid "too short"
-msgstr "túl rövid"
 
 msgid "two Timelines"
 msgstr "két Timeline"

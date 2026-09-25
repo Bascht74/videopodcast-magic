@@ -3034,9 +3034,6 @@ msgstr "কোনো তথ্য নেই"
 msgid "no information in the file"
 msgstr "ফাইলে কোনো তথ্য নেই"
 
-msgid "no match in the middle either (%s)"
-msgstr "মাঝখানেও কোনো মিল নেই (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "এমন কোনো জায়গা পাওয়া যায়নি যেখানে ঠিক একজন কথা বলে -- পৃথকীকরণ মাপা যায় না।"
 
@@ -3715,9 +3712,6 @@ msgstr "বাতিল"
 msgid "cancelled"
 msgstr "বাতিল করা হয়েছে"
 
-msgid "edges implausible"
-msgstr "প্রান্তগুলো অবিশ্বাস্য"
-
 msgid "fixed: "
 msgstr "ঠিক করা হয়েছে: "
 
@@ -3753,9 +3747,6 @@ msgstr "ইন পয়েন্টে যান"
 
 msgid "to Out point"
 msgstr "আউট পয়েন্টে যান"
-
-msgid "too short"
-msgstr "খুব ছোট"
 
 msgid "two Timelines"
 msgstr "দুটি Timeline"

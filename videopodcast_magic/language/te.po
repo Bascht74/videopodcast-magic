@@ -3068,9 +3068,6 @@ msgstr "సమాచారం లేదు"
 msgid "no information in the file"
 msgstr "ఫైల్‌లో సమాచారం లేదు"
 
-msgid "no match in the middle either (%s)"
-msgstr "మధ్యలో కూడా సరిపోలిక లేదు (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "సరిగ్గా ఒక్కరే మాట్లాడే చోటు కనిపించలేదు -- మైక్రోఫోన్‌ల మధ్య వేర్పాటును కొలవలేము."
 
@@ -3800,9 +3797,6 @@ msgstr "రద్దు చేయి"
 msgid "cancelled"
 msgstr "రద్దు చేయబడింది"
 
-msgid "edges implausible"
-msgstr "అంచులు నమ్మదగినవిగా లేవు"
-
 msgid "fixed: "
 msgstr "సరిచేయబడింది: "
 
@@ -3841,9 +3835,6 @@ msgstr "ఇన్ పాయింట్‌కు"
 
 msgid "to Out point"
 msgstr "అవుట్ పాయింట్‌కు"
-
-msgid "too short"
-msgstr "చాలా చిన్నది"
 
 msgid "two Timelines"
 msgstr "రెండు Timelineలు"

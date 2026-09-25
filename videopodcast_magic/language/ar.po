@@ -826,9 +826,6 @@ msgstr "إلى نقطة البداية"
 msgid "to Out point"
 msgstr "إلى نقطة النهاية"
 
-msgid "too short"
-msgstr "قصير جدًا"
-
 msgid "unknown"
 msgstr "غير معروف"
 
@@ -1963,9 +1960,6 @@ msgstr "  إنها متداخلة -- عدة ميكروفونات في آن وا�
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s كتل ضُمّت بترتيب الأسماء (بلا كود زمني -- لا يمكن التعرف على الفجوات)"
 
-msgid "edges implausible"
-msgstr "الحواف غير معقولة"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "وُضع بالطور، الحدة %s مقابل حد أدنى %s، الانحراف غير معروف"
 
@@ -1977,9 +1971,6 @@ msgstr "لا بيانات صوتية من %s"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  المزيج وحده يدخل الفيديو (--no-single-tracks)."
-
-msgid "no match in the middle either (%s)"
-msgstr "لا تطابق في المنتصف أيضًا (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      تحذير: تطابق ضعيف لـ %s (%s، والحد الأدنى %s). قد لا ينتمي الاثنان إلى بعضهما."

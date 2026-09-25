@@ -3032,9 +3032,6 @@ msgstr "ei tietoja"
 msgid "no information in the file"
 msgstr "tiedostossa ei ole tietoja"
 
-msgid "no match in the middle either (%s)"
-msgstr "ei osumaa keskelläkään (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ei löytynyt kohtaa, jossa puhuu täsmälleen yksi henkilö -- erottumista ei voi mitata."
 
@@ -3713,9 +3710,6 @@ msgstr "peruuta"
 msgid "cancelled"
 msgstr "peruutettu"
 
-msgid "edges implausible"
-msgstr "reunat epäuskottavat"
-
 msgid "fixed: "
 msgstr "korjattu: "
 
@@ -3751,9 +3745,6 @@ msgstr "in-pisteeseen"
 
 msgid "to Out point"
 msgstr "out-pisteeseen"
-
-msgid "too short"
-msgstr "liian lyhyt"
 
 msgid "two Timelines"
 msgstr "kaksi Timelinea"

@@ -801,9 +801,6 @@ msgstr "au point d’entrée"
 msgid "to Out point"
 msgstr "au point de sortie"
 
-msgid "too short"
-msgstr "trop court"
-
 msgid "unknown"
 msgstr "inconnu"
 
@@ -3994,9 +3991,6 @@ msgstr "le préréglage convient-il à l’exécution ?"
 msgid "downloaded file is only %s bytes"
 msgstr "le fichier téléchargé ne fait que %s octets"
 
-msgid "edges implausible"
-msgstr "flancs invraisemblables"
-
 msgid "ends"
 msgstr "se termine"
 
@@ -4116,9 +4110,6 @@ msgstr "aucune indication"
 
 msgid "no information in the file"
 msgstr "aucune indication dans le fichier"
-
-msgid "no match in the middle either (%s)"
-msgstr "aucune correspondance au milieu non plus (%s)"
 
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "aucun endroit trouvé où exactement une personne parle -- la séparation ne peut pas être mesurée."

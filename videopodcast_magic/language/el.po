@@ -3032,9 +3032,6 @@ msgstr "καμία πληροφορία"
 msgid "no information in the file"
 msgstr "καμία πληροφορία στο αρχείο"
 
-msgid "no match in the middle either (%s)"
-msgstr "καμία αντιστοιχία ούτε στη μέση (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "δεν βρέθηκε σημείο όπου μιλάει ακριβώς ένα άτομο -- ο διαχωρισμός δεν μπορεί να μετρηθεί."
 
@@ -3713,9 +3710,6 @@ msgstr "ακύρωση"
 msgid "cancelled"
 msgstr "ακυρώθηκε"
 
-msgid "edges implausible"
-msgstr "μη εύλογα άκρα"
-
 msgid "fixed: "
 msgstr "διορθώθηκε: "
 
@@ -3751,9 +3745,6 @@ msgstr "στο σημείο In"
 
 msgid "to Out point"
 msgstr "στο σημείο Out"
-
-msgid "too short"
-msgstr "πολύ σύντομο"
 
 msgid "two Timelines"
 msgstr "δύο Timeline"

@@ -3067,9 +3067,6 @@ msgstr "کوئی معلومات نہیں"
 msgid "no information in the file"
 msgstr "فائل میں کوئی معلومات نہیں"
 
-msgid "no match in the middle either (%s)"
-msgstr "درمیان میں بھی کوئی مطابقت نہیں (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ایسی کوئی جگہ نہیں ملی جہاں ٹھیک ایک شخص بول رہا ہو -- علیحدگی ناپی نہیں جا سکتی۔"
 
@@ -3799,9 +3796,6 @@ msgstr "منسوخ کریں"
 msgid "cancelled"
 msgstr "منسوخ کر دیا گیا"
 
-msgid "edges implausible"
-msgstr "کنارے قابلِ یقین نہیں"
-
 msgid "fixed: "
 msgstr "درست کیا گیا: "
 
@@ -3840,9 +3834,6 @@ msgstr "اِن پوائنٹ پر"
 
 msgid "to Out point"
 msgstr "آؤٹ پوائنٹ پر"
-
-msgid "too short"
-msgstr "بہت مختصر"
 
 msgid "two Timelines"
 msgstr "دو Timeline"

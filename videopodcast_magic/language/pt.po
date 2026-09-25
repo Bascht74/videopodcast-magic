@@ -791,9 +791,6 @@ msgstr "ao ponto de entrada"
 msgid "to Out point"
 msgstr "ao ponto de saída"
 
-msgid "too short"
-msgstr "curto demais"
-
 msgid "unknown"
 msgstr "desconhecido"
 
@@ -1908,9 +1905,6 @@ msgstr "  Eles se sobrepõem -- vários microfones ao mesmo tempo, não blocos e
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s blocos unidos por ordem de nome (sem timecode -- lacunas não seriam reconhecíveis)"
 
-msgid "edges implausible"
-msgstr "bordas implausíveis"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "posicionado por fase, nitidez %s contra um piso de %s, deriva desconhecida"
 
@@ -1922,9 +1916,6 @@ msgstr "sem dados de áudio de %s"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  Só o mix vai para o vídeo (--no-single-tracks)."
-
-msgid "no match in the middle either (%s)"
-msgstr "nenhuma correspondência também no meio (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      ATENÇÃO: correspondência fraca para %s (%s, o piso é %s). Os dois talvez não sejam do mesmo par."

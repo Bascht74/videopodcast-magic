@@ -3068,9 +3068,6 @@ msgstr "hakuna taarifa"
 msgid "no information in the file"
 msgstr "hakuna taarifa ndani ya faili"
 
-msgid "no match in the middle either (%s)"
-msgstr "hakuna ulinganifu hata katikati (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "hakuna mahali palipopatikana ambapo mtu mmoja tu anazungumza -- utenganishaji hauwezi kupimwa."
 
@@ -3800,9 +3797,6 @@ msgstr "ghairi"
 msgid "cancelled"
 msgstr "imeghairiwa"
 
-msgid "edges implausible"
-msgstr "kingo hazina mantiki"
-
 msgid "fixed: "
 msgstr "imerekebishwa: "
 
@@ -3841,9 +3835,6 @@ msgstr "hadi alama ya kuingia"
 
 msgid "to Out point"
 msgstr "hadi alama ya kutoka"
-
-msgid "too short"
-msgstr "fupi mno"
 
 msgid "two Timelines"
 msgstr "Timeline mbili"

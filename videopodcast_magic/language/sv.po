@@ -3032,9 +3032,6 @@ msgstr "inga uppgifter"
 msgid "no information in the file"
 msgstr "inga uppgifter i filen"
 
-msgid "no match in the middle either (%s)"
-msgstr "ingen träff i mitten heller (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "inget ställe hittat där exakt en person talar -- separeringen kan inte mätas."
 
@@ -3713,9 +3710,6 @@ msgstr "avbryt"
 msgid "cancelled"
 msgstr "avbruten"
 
-msgid "edges implausible"
-msgstr "kanterna orimliga"
-
 msgid "fixed: "
 msgstr "åtgärdat: "
 
@@ -3751,9 +3745,6 @@ msgstr "till in-punkten"
 
 msgid "to Out point"
 msgstr "till ut-punkten"
-
-msgid "too short"
-msgstr "för kort"
 
 msgid "two Timelines"
 msgstr "två Timelines"

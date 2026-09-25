@@ -3069,9 +3069,6 @@ msgstr "nav informācijas"
 msgid "no information in the file"
 msgstr "failā nav informācijas"
 
-msgid "no match in the middle either (%s)"
-msgstr "arī vidū nav atbilstības (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nav atrasta vieta, kur runā tieši viens cilvēks -- atdalīšanu nevar izmērīt."
 
@@ -3801,9 +3798,6 @@ msgstr "atcelt"
 msgid "cancelled"
 msgstr "atcelts"
 
-msgid "edges implausible"
-msgstr "malas neticamas"
-
 msgid "fixed: "
 msgstr "labots: "
 
@@ -3842,9 +3836,6 @@ msgstr "uz sākuma punktu"
 
 msgid "to Out point"
 msgstr "uz beigu punktu"
-
-msgid "too short"
-msgstr "pārāk īss"
 
 msgid "two Timelines"
 msgstr "divi Timeline"
