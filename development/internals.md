@@ -25,9 +25,9 @@ What is in them, largest first, every folder of the program on the list
 and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4382** -- the window and everything it shows, asks or offers,
+* `ui/` **4383** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `speakers/` **3695** -- who speaks and when: the separation itself,
+* `speakers/` **3711** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -35,7 +35,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3143** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3011** -- who is on camera when, and what carries it out
+* `cut/` **3012** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2991** -- the DaVinci Resolve project, timelines, colour,
@@ -44,32 +44,32 @@ figure of the day is that command, not this paragraph**:
   track is made of, and the channel rows the window shows of it
 * `pipeline/` **2216** -- the chain the recordings run until the camera
   files are written
-* `bearings/` **2000** -- where each file and each voice sits, and how
+* `bearings/` **2007** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `auphonic/` **1664** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1660** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1650** -- whether the material fits together before the
+* `preflight/` **1693** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `speech/` **1106** -- what is said and when, and what is written down
   from it
-* `setup/` **1089** -- finding ffmpeg, installing a missing module,
+* `setup/` **1091** -- finding ffmpeg, installing a missing module,
   keeping the key
 * `hearing/` **1058** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1030** -- helpers that shape what the window shows and
+* `fittings/` **1095** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
-* `orders/` **827** -- the command line a run is given: written out of
+* `orders/` **828** -- the command line a run is given: written out of
   the window, and read back off the line
-* `metadata/` **734** -- MOV atoms, colour tags, what a recording says
+* `metadata/` **739** -- MOV atoms, colour tags, what a recording says
   about itself
 * `upkeep/` **721** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **615** -- the progress bar, the stages, the console and log
+* `herald/` **642** -- the progress bar, the stages, the console and log
   redirection
 * `project/` **594** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
@@ -93,12 +93,12 @@ figure of the day is that command, not this paragraph**:
   numbers as words, a channel count, one tool run, two recordings in
   step, what a video file says of itself, and the four the way in used
   itself
-* `logbook/` **191** -- where the log of a run goes, and what goes into
+* `logbook/` **195** -- where the log of a run goes, and what goes into
   it
 * `stowage/` **178** -- where things are put down between one run and
   the next: the work folder, what somebody chose, and the write that is
   moved into place rather than left half done
-* `dials/` **174** -- the kinds a shot can be, the cut fields and their
+* `dials/` **178** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **141** -- what has been measured of a file, taken once
@@ -619,7 +619,7 @@ way every window in this table was found.
 | `pipeline/` | binds four of the cut's names and five of the speakers' -- who asks, who was named, what a run separated; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
-| `ui/` | 167 head lines, the widest of them 17 out of `bearings/`, 15 out of `fittings/`, 13 each out of `cut/` and `choices/`, 10 each out of `speakers/`, `setup/` and `tables/`, six out of `player/` and five out of `upkeep/` -- all read above it. What it has handed over it binds back by name: `update_offer`, `make_update_sink` and `release_text_of` to `upkeep/`, `wide_shot_barred` to `cut/`, `camera_offset` and `not_on_the_axis` to `bearings/`, all on 7.9.2026 | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+| `ui/` | 168 head lines, the widest of them 17 out of `bearings/`, 16 out of `fittings/`, 13 each out of `cut/` and `choices/`, 10 each out of `speakers/`, `setup/` and `tables/`, six out of `player/` and five out of `upkeep/` -- all read above it. What it has handed over it binds back by name: `update_offer`, `make_update_sink` and `release_text_of` to `upkeep/`, `wide_shot_barred` to `cut/`, `camera_offset` and `not_on_the_axis` to `bearings/`, all on 7.9.2026 | on the way to the window and not in the list: a run on the command line opens none and never reads it |
 
 ### The seven functions the seam is made of
 
