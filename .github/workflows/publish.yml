@@ -60,12 +60,12 @@ run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}, separa
 # -- nothing else landed on main in between -- the six check runs of
 # that head answer for exactly the bytes that are about to be tagged,
 # and running them again would say the same thing twelve minutes
-# later. So the job "evidence" below asks three questions of the API
+# later. So the job "evidence" below asks four questions of the API
 # before the suite starts, and the suite job is skipped only where all
-# three answer yes. Anywhere else -- main moved, the commit is not a
-# merge, a check is missing or not green -- the suite runs here as it
-# has since 4.9.2026, and the run says in one line which way it took
-# and why.
+# four answer yes. Anywhere else -- main moved, the commit is not a
+# merge, a check is missing or not green, the merge brings in a file
+# of the speaker separation -- the suite runs here as it has since
+# 4.9.2026, and the run says in one line which way it took and why.
 #
 # "What is tagged is what was tested" stays true on both ways: on the
 # long way by construction, on the short way by identity of the tree.
@@ -95,7 +95,8 @@ concurrency:
 permissions:
   # write, because this run creates the tag and the release. It also
   # covers what the evidence job reads -- a commit's parents and tree,
-  # and tests.yml at this commit -- because those are contents.
+  # tests.yml at this commit, and the files a merge brings in --
+  # because those are contents.
   contents: write
   # write, and read would not do: the last step asks release.yml to
   # answer for what was just published, and starting a run is a write
@@ -157,7 +158,7 @@ jobs:
   # ------------------------------------------------------------
   # 1. The evidence, if it already exists.
   #
-  # Three questions, asked of the API and not of a checkout, because
+  # Four questions, asked of the API and not of a checkout, because
   # the answer is in the commit graph and the check runs and a clone
   # of the whole history is 59.5 MiB for nothing:
   #
@@ -175,8 +176,14 @@ jobs:
   #      asked about without this file being touched. A wanted name
   #      that has no check run, or one whose latest run is anything
   #      but success, is no evidence.
+  #   d. Does the merge leave the speaker separation alone? The files
+  #      it brings in are the difference between its first parent and
+  #      itself, listed by the compare API; one of them, or the name a
+  #      renamed one had before, under videopodcast_magic/speakers/,
+  #      and the check runs of c. are no evidence for it -- see the
+  #      last paragraph here.
   #
-  # Yes to all three and the suite job below is skipped; anything else
+  # Yes to all four and the suite job below is skipped; anything else
   # and it runs as before. GitHub not answering is treated the same
   # way as no: the long way costs twelve minutes, a release stopped
   # for a bad minute at api.github.com costs a second dispatch, and
@@ -201,6 +208,16 @@ jobs:
   # for a release only on the long way. Nothing in a check run's name
   # says which of the two suites it was, so this job cannot tell and
   # does not pretend to.
+  #
+  # So the owner decided on 24.9.2026 where that may be given up: only
+  # where the merge touches nothing under videopodcast_magic/speakers/.
+  # A pull request that changed the separation goes the long way, and
+  # the line says which file sent it there. The compare API lists at
+  # most 300 files and says nothing about any beyond them; a merge
+  # that fills that page may hide a speakers/ file on the next one, so
+  # 300 or more is the long way too, and said so. And as everywhere
+  # in this job, GitHub not answering -- or answering something that
+  # carries no list of files -- is no, never yes.
   evidence:
     name: "Evidence: has this tree been tested already?"
     needs: ready
@@ -314,7 +331,37 @@ jobs:
             decide false "the tree of $short is the tree of ${head2:0:7}, but of its $n jobs these have no check run:${missing:- none}, and these did not conclude success:${notgreen:- none} -- so the suite runs here"
             exit 0
           fi
-          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success -- the suite is not run again"
+
+          # d. Nothing of the speaker separation. The files the merge
+          # brings in are its first parent against itself; a renamed
+          # file counts under both its names. Every way this can fail
+          # -- no answer, no list in the answer, a list too long to be
+          # whole -- is the long way.
+          base=$(jq -r '.parents[0].sha' /tmp/head.json)
+          if ! gh api "repos/$R/compare/$base...$SHA" > /tmp/compare.json \
+             || ! jq -e '.files | type == "array"' /tmp/compare.json \
+                    > /dev/null \
+             || ! jq -r '.files[] | .filename, (.previous_filename // empty)' \
+                    /tmp/compare.json > /tmp/files.txt; then
+            decide false "GitHub gave no list of the files ${base:0:7}...$short brings in, so whether the speaker separation changed cannot be told, and the suite runs here"
+            exit 0
+          fi
+          nf=$(jq '.files | length' /tmp/compare.json)
+          echo "files:  $nf, brought in by the merge (${base:0:7}...$short)"
+          if [ "$nf" -ge 300 ]; then
+            decide false "$short brings in $nf files and the compare API lists no more than 300, so a file under videopodcast_magic/speakers/ may lie beyond them, and the suite runs here"
+            exit 0
+          fi
+          grep '^videopodcast_magic/speakers/' /tmp/files.txt \
+            | LC_ALL=C sort -u > /tmp/speakers.txt || true
+          if [ -s /tmp/speakers.txt ]; then
+            first=$(head -n 1 /tmp/speakers.txt)
+            more=$(( $(wc -l < /tmp/speakers.txt) - 1 ))
+            if [ "$more" -gt 0 ]; then others=" and $more more there"; else others=""; fi
+            decide false "the tree of $short is the tree of ${head2:0:7} and its $n check runs are green, but the merge brings in $first$others -- the speaker separation changed and the pull request ran with it off, so the suite runs here with it on"
+            exit 0
+          fi
+          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, and none of the $nf files the merge brings in lies under videopodcast_magic/speakers/ -- the suite is not run again"
 
   # The suite itself, on this very commit, in this very run -- unless
   # the job above found it has already answered for this very tree.
