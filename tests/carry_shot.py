@@ -2,7 +2,8 @@
 """Shot of a restart with work in the window, answered all three ways.
 
 Started by window_restart_carries_test.py. It runs the program's own
-main(), opens the fixture project, marks In and Out, and then presses
+main(), opens the fixture project, marks In and Out, waits for the time
+axis and marks the project file, and then presses
 Restart the application three times -- cancelling, saving, and not
 saving -- reading the window and the project file after each. What it
 finds goes into the file VPM_REBUILD_REPORT names, because main()
@@ -54,6 +55,20 @@ def live_state():
     return dict(zip(sink.__code__.co_freevars,
                     [c.cell_contents for c in sink.__closure__])).get(
                         "state") or {}
+
+
+def axis_settled():
+    """The time axis has come and nothing is measuring it again.
+
+    Its arrival writes the project file into the output folder, so a
+    reading of the file taken before it would be compared against a
+    file that has since moved. Read off the state the program writes
+    itself, and in the one thread that also presents the axis: when
+    this is true, that write is over.
+    """
+    s = live_state()
+    return (bool(s.get("axis")) and not s.get("axis_running")
+            and s.get("axis_again") is None)
 
 
 def button(text, where=None):
@@ -122,9 +137,15 @@ def project_on_disc():
     word of it being rewritten. The path is held from the first
     reading on, because a restart told not to save leaves no project
     in the window and the file still has to be looked at.
+
+    Where the file lies is read first, and where it was opened from only
+    when that is not known: once the time axis has come the file lies
+    in the output folder, while project_from goes on naming the folder
+    it came from, on purpose -- the Resolve handover is looked for
+    there.
     """
     s = live_state()
-    watched[0] = s.get("project_from") or s.get("project_last") or watched[0]
+    watched[0] = s.get("project_last") or s.get("project_from") or watched[0]
     p = watched[0]
     if not p or not os.path.isfile(p):
         return [os.path.basename(p), None, None, None]
@@ -188,9 +209,10 @@ def offer_press():
 
 
 PROBE = "not saved probe"
+KEPT = "saved probe"
 
 
-def probe_lay():
+def probe_lay(mark=PROBE):
     """Put a mark in the project file that any write would rub out.
 
     Without one a restart told not to save could write the file again
@@ -198,14 +220,22 @@ def probe_lay():
     in the production name, because that is a field the program sets
     on every write; it is laid in the file from outside, so the window
     itself is left exactly as it stands.
+
+    Laid once the time axis has come too, with a mark of its own, and
+    read with the window before the first restart: the save and a
+    cancel that wrote after all would put down the very bytes the time
+    axis wrote when it came, so without a mark a write and no write
+    look the same. Cancelled, the mark has to stand; saved, the window's
+    own production name has to stand in its place.
     """
+    project_on_disc()
     p = watched[0]
     if not p or not os.path.isfile(p):
         say("NO PROJECT FILE TO MARK")
         return True
     with open(p, encoding="utf-8") as f:
         d = json.load(f)
-    d["production"] = PROBE
+    d["production"] = mark
     with open(p, "w", encoding="utf-8") as f:
         json.dump(d, f, ensure_ascii=False, indent=1)
     return True
@@ -216,11 +246,15 @@ def probe_lay():
 def steps():
     yield ("the window", lambda: win() is not None, menu_open_project)
     yield ("the files", lambda: rows() > 0, marks_set)
-    # Read after the marks and not before them, so that what the
+    # Read after the marks and after the time axis, so that what the
     # restart has to bring back is one settled state and not one the
-    # window was still filling in.
+    # window was still filling in: the axis arriving moves the project
+    # file into the output folder and writes it there, and a reading
+    # taken before that would see every later look as a write.
     yield ("the marks", lambda: live_state().get("in_point"),
-           lambda: reading("BEFORE") or True)
+           lambda: True)
+    yield ("the time axis", axis_settled, lambda: probe_lay(KEPT))
+    yield ("nothing", lambda: True, lambda: reading("BEFORE") or True)
     yield ("nothing", lambda: True, settings_open)
     yield ("the language field", lambda: combo() is not None,
            lambda: language_pick(LADDER[0]))
@@ -233,8 +267,10 @@ def steps():
     yield ("nothing", lambda: True, offer_press)
     yield ("the question again", lambda: question() is not None,
            lambda: press(vpm.T('Save and restart')))
+    # The new window's time axis is waited for as well, so that nothing
+    # of its own is still to come when the drop's mark is laid.
     yield ("the window in %s" % LADDER[0],
-           lambda: vpm.LANG == LADDER[0] and rows() > 0,
+           lambda: vpm.LANG == LADDER[0] and rows() > 0 and axis_settled(),
            lambda: reading("SAVED") or True)
     yield ("nothing", lambda: True, settings_open)
     yield ("the field of the new sheet", lambda: combo() is not None,
@@ -276,8 +312,10 @@ def tick():
         app.quit()
         return
     name, ready, do = LEFT[0]
+    s = live_state()
     now = (rows(), vpm.LANG, len(windows()), question() is not None,
-           bool(combo()), len(LEFT))
+           bool(combo()), len(LEFT), s.get("axis_run"),
+           bool(s.get("axis_running")), bool(s.get("axis")))
     idle[0] = idle[0] + 1 if now == sign[0] else 0
     sign[0] = now
     if idle[0] > STILL:

@@ -55,6 +55,7 @@ beside = PROGRAM.beside
 camera_after_a_mark = PROGRAM.camera_after_a_mark
 camera_gets_from = PROGRAM.camera_gets_from
 camera_name_suggestion = PROGRAM.camera_name_suggestion
+camera_names_offered = PROGRAM.camera_names_offered
 camera_offset = PROGRAM.camera_offset
 camera_row_cameras = PROGRAM.camera_row_cameras
 camera_to_remember = PROGRAM.camera_to_remember
@@ -219,28 +220,29 @@ def audio_use_settled(video, chosen, forced, has_sound=True,
     """What the audio field of one video file shows, and why.
 
     Returns (used, why). An empty *why* means there is a choice to
-    make; otherwise the reason stands beside the greyed out field,
-    because greyed out without a reason is a dead end.
+    make; otherwise the reason stands in the greyed out field in place
+    of its value, because greyed out without a reason is a dead end. So
+    it is as short as the value it stands for.
     """
     a = path_key(video)
     if not has_sound:
-        return False, T('no audio track in this file')
+        return False, T('no audio track')
     if kind == TYPE_IGNORED:
-        return False, T('this file stays out entirely')
+        return False, T('the file stays out')
     if kind in (TYPE_INTRO, TYPE_OUTRO):
-        return False, T('a finished clip -- only placed, not processed')
+        return False, T('a finished clip')
     if a in set(path_key(p) for p in forced):
-        return True, T('the only sound there is')
+        return True, T('the only sound')
     return a in set(path_key(p) for p in chosen), ""
 
 
-def choice_cell(values, chosen, why="", quiet="", alive=False):
-    """One drop-down for a row of a list, with its reason beside it.
+def choice_cell(values, chosen):
+    """One drop-down for a row of a list, in a cell of its own.
 
-    A drop-down and not a tick: closed it says its own state. A *why*
-    settles the field; *alive* keeps it open for a reason that
-    explains without deciding. Grey over the whole field would make
-    every answer look barred, so choices_shut greys entry by entry.
+    A drop-down and not a tick: closed it says its own state. Why it
+    cannot be answered stands in the field itself (why_in_field), and
+    grey over the whole field would make every answer look barred, so
+    choices_shut greys entry by entry.
     """
     from PySide6 import QtWidgets as _qw
     cell = _qw.QWidget()
@@ -250,13 +252,6 @@ def choice_cell(values, chosen, why="", quiet="", alive=False):
     box = _qw.QComboBox()
     fill_choices(box, values, chosen)
     row.addWidget(box)
-    if why:
-        if not alive:
-            box.setEnabled(False)
-        note = _qw.QLabel(why)
-        note.setStyleSheet("color: %s" % quiet)
-        note.setWordWrap(True)
-        row.addWidget(note)
     row.addStretch(1)
     return cell, box
 
@@ -268,6 +263,7 @@ def choices_shut(box, shut, why, quiet, noted=None):
     differently; *noted* sets a sentence on an entry that stays open.
     Entries stay in the list, and every entry is set either way round:
     one that only shuts leaves a camera grey for the whole session.
+    While the list is open a barred entry says why after its caption.
     """
     from PySide6 import QtGui as _qg
     from PySide6.QtCore import Qt as _qt
@@ -286,7 +282,206 @@ def choices_shut(box, shut, why, quiet, noted=None):
                         _qt.ForegroundRole)
         box.setItemData(i, reasons[value] if barred else notes.get(value, ""),
                         _qt.ToolTipRole)
+    entries_say_why(box, dict((i, reasons[box.itemData(i)])
+                              for i in range(box.count())
+                              if box.itemData(i) in reasons))
     return box
+
+
+def entries_say_why(box, reasons):
+    """Let the barred entries of *box* say why while its list is open.
+
+    *reasons* is {index: why}. The caption becomes "caption: why" when
+    the list opens and goes back when it closes: a box sizes itself to
+    its captions, and a reason kept in one would widen the column. What
+    runs past about sixty characters is cut at the end.
+    """
+    from PySide6 import QtCore as _qc
+    box._shut_why = dict(reasons)
+    if reasons and getattr(box, "_open_why", None) is None:
+        box._open_why = _why_filters(_qc)[1](box)
+        box.installEventFilter(box._open_why)
+        box.view().installEventFilter(box._open_why)
+    return box
+
+
+def entries_captions(box, open_now):
+    """Put the reasons into the barred captions, or take them out."""
+    from PySide6.QtCore import Qt as _qt
+    kept = getattr(box, "_captions", None)
+    if kept is None:
+        kept = box._captions = {}
+    room = box.fontMetrics().horizontalAdvance("x") * 60
+    for i, why in (getattr(box, "_shut_why", None) or {}).items():
+        if i >= box.count():
+            continue
+        caption = kept.pop(i, None) or box.itemText(i)
+        if open_now:
+            kept[i] = caption
+            caption = "%s: %s" % (caption, box.fontMetrics().elidedText(
+                why, _qt.ElideRight, room))
+        box.setItemText(i, caption)
+
+
+def why_in_field(field, why, quiet):
+    """Write in grey, inside the field, why it cannot be answered.
+
+    Where the field is looked at, not in a tooltip or another column. A
+    shut drop-down shows it in place of its value, an open one and a
+    line edit after it. An open drop-down gets the width it needs, again
+    whenever its font or style moves; a shut one and a line edit keep
+    theirs and cut the reason at its end. An empty *why* takes it away.
+    """
+    from PySide6 import QtCore as _qc
+    painter = getattr(field, "_why", None)
+    if painter is None:
+        painter = field._why = _why_filters(_qc)[0](field)
+        field.installEventFilter(painter)
+    painter.why, painter.quiet = why, quiet
+    why_fit(field)
+    field.update()
+    return field
+
+
+def why_fit(field):
+    """Give an open drop-down with a reason the width that reason needs."""
+    from PySide6 import QtWidgets as _qw
+    why = getattr(getattr(field, "_why", None), "why", "")
+    if not isinstance(field, _qw.QComboBox):
+        return
+    if not why or not field.isEnabled():
+        field.setMinimumWidth(0)
+        return
+    # What the field lacks now, measured in the room it draws into: a
+    # frame and an arrow of the style's own size stand around that room.
+    # Two pixels over: a width rounded to whole pixels is cut exactly.
+    _said, room = why_shown(field)
+    lacks = field.fontMetrics().horizontalAdvance(why) + 2 - room.width()
+    field.setMinimumWidth(max(field.sizeHint().width(),
+                              field.width() + lacks))
+
+
+def why_shown(field):
+    """The reason as the field draws it, cut where the room runs out.
+
+    Returns (reason, rectangle), or ("", None) where the field carries
+    no reason. The painting asks here, so what is asked of a field is
+    what it draws.
+    """
+    from PySide6 import QtCore as _qc
+    from PySide6 import QtWidgets as _qw
+    why = getattr(getattr(field, "_why", None), "why", "")
+    if not why:
+        return "", None
+    fm = field.fontMetrics()
+    if isinstance(field, _qw.QComboBox):
+        opt = _qw.QStyleOptionComboBox()
+        field.initStyleOption(opt)
+        room = field.style().subControlRect(
+            _qw.QStyle.CC_ComboBox, opt, _qw.QStyle.SC_ComboBoxEditField,
+            field).adjusted(1, 0, -1, 0)
+        before = field.currentText() if field.isEnabled() else ""
+    else:
+        room = field.contentsRect().adjusted(2, 0, -2, 0)
+        before = field.text() or field.placeholderText()
+    used = fm.horizontalAdvance(before + "  ") if before else 0
+    if field.layoutDirection() == _qc.Qt.RightToLeft:
+        room.setRight(room.right() - used)
+    else:
+        room.setLeft(room.left() + used)
+    return (fm.elidedText(why, _qc.Qt.ElideRight, max(0, room.width())),
+            room)
+
+
+def why_paint(field, event):
+    """Draw the field as Qt would, then its reason in grey over it."""
+    from PySide6 import QtCore as _qc
+    from PySide6 import QtGui as _qg
+    from PySide6 import QtWidgets as _qw
+    if isinstance(field, _qw.QComboBox):
+        painter = _qw.QStylePainter(field)
+        opt = _qw.QStyleOptionComboBox()
+        field.initStyleOption(opt)
+        if not field.isEnabled():
+            opt.currentText = ""
+        painter.drawComplexControl(_qw.QStyle.CC_ComboBox, opt)
+        painter.drawControl(_qw.QStyle.CE_ComboBoxLabel, opt)
+    else:
+        type(field).paintEvent(field, event)
+        painter = _qg.QPainter(field)
+    said, room = why_shown(field)
+    painter.setPen(_qg.QColor(field._why.quiet))
+    painter.drawText(room, _qc.Qt.AlignVCenter | (
+        _qc.Qt.AlignRight if field.layoutDirection() == _qc.Qt.RightToLeft
+        else _qc.Qt.AlignLeft), said)
+    painter.end()
+
+
+_WHY_FILTERS = []
+
+
+def _why_filters(_qc):
+    """The two filters behind the reasons, made the first time asked.
+
+    Made here and not at the top: the program has to load without Qt.
+    """
+    if _WHY_FILTERS:
+        return _WHY_FILTERS[0]
+    moved = (_qc.QEvent.FontChange, _qc.QEvent.StyleChange,
+             _qc.QEvent.Polish)
+    opening = (_qc.Qt.Key_Space, _qc.Qt.Key_F4, _qc.Qt.Key_Down,
+               _qc.Qt.Key_Up)
+
+    class SaysWhy(_qc.QObject):
+        """Paints a field's reason into it, and keeps room for it."""
+
+        why, quiet = "", ""
+
+        def eventFilter(self, field, event):
+            """Paint after the field; fit again once its font moved."""
+            if event.type() in moved:
+                _qc.QTimer.singleShot(0, lambda f=field: _why_again(f))
+            if event.type() != _qc.QEvent.Paint or not self.why:
+                return False
+            why_paint(field, event)
+            return True
+
+    class OpenSaysWhy(_qc.QObject):
+        """Writes the reasons into a list as it opens, out as it shuts."""
+
+        def eventFilter(self, what, event):
+            """The press opens the list; its view hiding closes it."""
+            box = self.parent()
+            kind = event.type()
+            if what is box and (
+                    kind == _qc.QEvent.MouseButtonPress
+                    or kind == _qc.QEvent.KeyPress
+                    and event.key() in opening):
+                entries_captions(box, True)
+                _qc.QTimer.singleShot(0, lambda: _captions_back(box))
+            elif what is not box and kind == _qc.QEvent.Hide:
+                entries_captions(box, False)
+            return False
+
+    _WHY_FILTERS.append((SaysWhy, OpenSaysWhy))
+    return _WHY_FILTERS[0]
+
+
+def _why_again(field):
+    """why_fit, for a field that may be gone by the time it runs."""
+    try:
+        why_fit(field)
+    except RuntimeError:
+        return
+
+
+def _captions_back(box):
+    """Take the reasons out again where the press opened no list."""
+    try:
+        if not box.view().isVisible():
+            entries_captions(box, False)
+    except RuntimeError:
+        return
 
 
 def guess_worth_using(guess):
@@ -432,10 +627,11 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
 
     A reason goes on the entry it is about, never beside the field. With
     *derived* the value shown is what the program worked out, and *why*
-    bars the entry it is about; *no_wide* bars the wide shot, *no_edge*
-    the marks somebody gave. Without *derived* a *why* greys nothing.
+    bars Content; *no_wide* bars the wide shot, *no_edge* the marks
+    somebody gave. Without *derived* a *why* greys nothing. A wide shot,
+    marked or worked out, says in grey that nobody speaks on it.
     """
-    cell, box = choice_cell(CLIP_TYPES, kind, "", quiet, alive=True)
+    cell, box = choice_cell(CLIP_TYPES, kind)
     barred, noted = {}, {}
     if derived:
         barred[TYPE_CONTENT] = why
@@ -446,11 +642,12 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
         # Nor content: as content a placeless file becomes the wide shot
         # by derivation. Intro, outro and "leave out" stay open.
         barred.setdefault(TYPE_CONTENT, T(
-            'It fits nowhere in the material, so it cannot be cut into '
-            'the episode. It can be set in front of it or after it.'))
+            'cannot be cut into the episode -- only before or after it'))
     for value, sentence in (no_edge or {}).items():
         barred.setdefault(value, sentence)
     choices_shut(box, barred, why, quiet, noted)
+    if kind == TYPE_WIDE:
+        why_in_field(box, T('no speaker'), quiet)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
                 'camera nobody sits in front of -- it takes no '
@@ -468,13 +665,13 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
     Two places show it: the file list, where it is said which files play
     a part, and the camera table beside the player, where it can be heard
     whether that sound is usable. Where the field is settled it is shut,
-    and *why* says so from the field rather than from beside it.
+    and *why* stands in it in place of the value it settled on.
     """
     cell, box = choice_cell(AUDIO_USE,
-                            AUDIO_MATERIAL if used else AUDIO_UNUSED,
-                            "", quiet)
+                            AUDIO_MATERIAL if used else AUDIO_UNUSED)
     if why:
         box.setEnabled(False)
+        why_in_field(box, why, quiet)
     speaks_as(box, T('Camera audio'), short)
     hint(box, T('Used, the sound of this file becomes a track like any '
                 'other -- it appears in the table above.\nThe same field '
@@ -485,6 +682,43 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
            'way: that verdict is what this is decided on, and '
            'synchronising takes the sound regardless.'))
     return cell, box
+
+
+def name_shut(field, shut, guess, quiet):
+    """Shut a name field whose track is not used, and say so in it.
+
+    Greyed, not emptied: switching back must not cost the typing. The
+    guess stands in grey only while the name can still be given; while
+    it cannot, the reason stands there instead.
+    """
+    field.setEnabled(not shut)
+    inner = getattr(field, "lineEdit", None)
+    inner = inner() if callable(inner) else field
+    if inner is None:
+        return field
+    inner.setPlaceholderText("" if shut else str(guess or ""))
+    why_in_field(inner, T('not used') if shut else "", quiet)
+    return field
+
+
+def moved_says_why(box, key, wide, quiet):
+    """Say in a "belongs to" field that a wide shot mark moved it.
+
+    *key* is the row's key in wide["aside"], asked after
+    camera_after_a_mark set it. The reason stands whenever the field is
+    on "no camera of its own" while the mark keeps the row set aside --
+    before a pick, after one, and after the sheet is built again.
+    """
+    moved = wide["aside"].get(key) in wide["barred"]
+
+    def say(*_):
+        """The reason while the field is on "no camera of its own"."""
+        why_in_field(box, T('moved off the wide shot') if moved
+                     and box.currentData() == MIX_ONLY else "", quiet)
+
+    box.currentIndexChanged.connect(say)
+    say()
+    return box
 
 
 def cameras_using_audio(files, kinds, uses, sound_of=None):
@@ -793,6 +1027,38 @@ def scroll_sheet_build(QtWidgets):
     return outside, position
 
 
+def file_bar_build(QtWidgets, sheet, file_list):
+    """Put Add and Remove above the file list; return the bar and both.
+
+    The bar is hidden: it only shows once something is in the list, and
+    before that the drop area leads -- two offers side by side would be
+    one too many. Below it comes the list itself, and after that the
+    rest of the sheet: the name its folder suggests, the optional parts.
+    """
+    bar_env_curve = QtWidgets.QWidget()
+    bar = QtWidgets.QHBoxLayout(bar_env_curve)
+    bar.setContentsMargins(0, 0, 0, 0)
+    sheet.addWidget(bar_env_curve)
+    bar_env_curve.setVisible(False)
+    sheet.addWidget(file_list)
+    # At the start there are two ways: start fresh or open a project. Once
+    # files are in the list a project would overwrite them; the reverse works.
+    add_button = QtWidgets.QPushButton(T('Add files ...'))
+    bar.addWidget(hint(add_button,
+                       T('Order does not matter. For a multi-part '
+                         'recording the first block is enough.')))
+    remove_button = QtWidgets.QPushButton(T('Remove'))
+    remove_button.setEnabled(False)
+    # "Remove" on its own leaves open what goes; on screen the list
+    # beside it says so, read out it does not.
+    speaks_as(remove_button, T('Remove the chosen file from the list'))
+    bar.addWidget(hint(remove_button,
+                       T('Removing AUDIO or VIDEO takes everything under '
+                         'it.')))
+    bar.addStretch(1)
+    return bar_env_curve, add_button, remove_button
+
+
 def resolve_what_for(sync_only):
     """What "Create Resolve project" works out again: the button's tip."""
     if sync_only:
@@ -801,6 +1067,94 @@ def resolve_what_for(sync_only):
     return T('Cut, EDL, CSV and the handover are worked out again from '
              'the numbers above. Who speaks when stays as the run '
              'measured it. Resolve must be running.')
+
+
+def resolve_button_say(state, env_curve, button):
+    """Whether "Create Resolve project" can be pressed, and why not.
+
+    The simple path writes a handover too, for a multicam timeline, so
+    the file decides whether there is anything to build.
+    """
+    if state["running"]:
+        reason_set(env_curve, button, False, T('The run is still going.'), "")
+        return
+    js = state.get("resolve_json")
+    what_for = resolve_what_for(state.get("project_type") == "sync")
+    if js and resolve_installed():
+        reason_set(env_curve, button, True, "", what_for)
+        button.setText(T('Create Resolve project'))
+    else:
+        reason_set(env_curve, button, False,
+                   T('That needs the handover file from a run, and '
+                     'there is none.')
+                   if resolve_installed() else
+                   T('The Resolve interface is not where it should be.'),
+                   what_for)
+
+
+def handover_follows(state, cameras):
+    """Take up the handover over the cameras the table holds now.
+
+    Asked again only when the cameras changed, never on every rebuild:
+    the run's own handover leaves out a camera it refused, and that one
+    must not be dropped for a name typed or a speaker found. One naming
+    other cameras goes; where one over these lies in the output folder,
+    the project's or beside the last, it comes back, and the button says.
+    """
+    now = sorted(path_key(p) for p in cameras)
+    if state.get("handover_cameras") == now:
+        return
+    state["handover_cameras"] = now
+    js = state.get("resolve_json")
+    try:
+        with open(js or "", encoding="utf-8") as f:
+            kept = PROGRAM.handover_over_this_material(PROGRAM.json.load(f),
+                                                       cameras)
+    except (OSError, ValueError):
+        kept = False
+    if not kept:
+        out_folder, project = state.get("out_folder"), state.get(
+            "project_from")
+        state["resolve_json"] = PROGRAM.find_handover_file(
+            out_folder.get() if out_folder else "",
+            os.path.dirname(project) if project else "",
+            os.path.dirname(js) if js else "", ours=list(cameras))
+    (state.get("resolve_button_check") or (lambda: None))()
+
+
+def choice_boxes_even(boxes, base=150):
+    """The drop-downs of the camera cut: one width, and room for each entry.
+
+    The width is asked of the boxes in the font and style they are drawn
+    in, and again whenever either changes: one fixed while the window was
+    built stays put when either is drawn wider, and cut "Answering speaker".
+    """
+    from PySide6 import QtCore, QtWidgets as _qw
+    boxes = [b for b in boxes if isinstance(b, _qw.QComboBox)]
+    again = (QtCore.QEvent.FontChange, QtCore.QEvent.StyleChange,
+             QtCore.QEvent.Polish, QtCore.QEvent.Show)
+
+    def even():
+        """Every box at the width the widest of them asks for now."""
+        want = max([base] + [b.sizeHint().width() for b in boxes])
+        for b in boxes:
+            if b.width() != want or b.minimumWidth() != want:
+                b.setFixedWidth(want)
+
+    class Watch(QtCore.QObject):
+        """Asks for the width again after a box's font or style moved."""
+
+        def eventFilter(self, which, event):
+            """After the event, not in it: the new size is not yet known."""
+            if event.type() in again:
+                QtCore.QTimer.singleShot(0, even)
+            return False
+
+    for b in boxes:
+        b.setSizeAdjustPolicy(_qw.QComboBox.AdjustToContents)
+        b.installEventFilter(Watch(b))
+    even()
+    return boxes
 
 
 def unless_sync(state, compute):
@@ -1580,14 +1934,16 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         fill_choices(box, targets, camera_value.get())
         choices_shut(box, barred, wide["why"], COLOURS["quiet"])
 
-        def chosen(_i=0, b=box, value=camera_value, f=name_field):
+        def chosen(_i=0, b=box, value=camera_value, f=name_field,
+                   guess=name_value.suggested):
             """Hand the value on; an ignored track needs no name."""
             v = b.currentData()
             value.set(v)
-            f.setEnabled(v != IGNORE_AUDIO)
+            name_shut(f, v == IGNORE_AUDIO, guess, COLOURS["quiet"])
 
         box.currentIndexChanged.connect(chosen)
         chosen()
+        moved_says_why(box, "audio:" + first, wide, COLOURS["quiet"])
         # When the camera changes, the summary below no longer fits.
         box.currentIndexChanged.connect(
             lambda *_: QtCore.QTimer.singleShot(0, state["refresh_names"]))
@@ -1711,13 +2067,12 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             own += mine or [own_audio_name]
         multitrack_now = bool(state["multitrack"].get()) and not sync_only
         suggestion = camera_name_suggestion(production_var.get(), short,
-                                            own, multitrack_now)
+                                            own, multitrack_now, sync_only)
         suggestions[b] = suggestion
-        # A kept name that is the other tick's suggestion was never typed
-        # -- a project file saves every field -- so it follows the tick.
+        # A kept name the table offered itself was never typed -- a
+        # project file saves every field -- so it follows the table.
         kept = remembered.get("video:" + b) or ""
-        if kept == camera_name_suggestion(production_var.get(), short,
-                                          own, not multitrack_now):
+        if kept in camera_names_offered(production_var.get(), short, own):
             kept = ""
         name_value = Value(kept or suggestion)
         name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
@@ -1761,6 +2116,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     show_weak()
     main_track_show()
     every_cameras = [p for p, _n, _k, _own_name in camera_lines]
+    # A camera more or fewer can make another run's handover the right one.
+    handover_follows(state, every_cameras)
     # Every camera goes in either way -- the time axis lives on those
     # envelopes. Only fetching the sound is for those set to "use".
     having_audio = [p for p in every_cameras if p in own_now]
@@ -2302,31 +2659,8 @@ def gui():
 
     items.currentItemChanged.connect(lambda *_: removable())
 
-    # This bar only exists once something is in the list; before that the drop
-    # area leads, and two offers side by side would be one too many.
-    bar_env_curve = QtWidgets.QWidget()
-    bar = QtWidgets.QHBoxLayout(bar_env_curve)
-    bar.setContentsMargins(0, 0, 0, 0)
-    sheet1_position.addWidget(bar_env_curve)
-    bar_env_curve.setVisible(False)
-
-    # Order of the sheet: the files first, then the name that follows from
-    # their folder, then the optional parts.
-    sheet1_position.addWidget(tab1)
-    # At the start there are two ways: start fresh or open a project. Once
-    # files are in the list a project would overwrite them; the reverse works.
-    add_button = QtWidgets.QPushButton(T('Add files ...'))
-    bar.addWidget(hint(add_button,
-                       T('Order does not matter. For a multi-part '
-                         'recording the first block is enough.')))
-    remove_button = QtWidgets.QPushButton(T('Remove'))
-    remove_button.setEnabled(False)
-    # "Remove" on its own leaves open what goes; on screen the list
-    # beside it says so, read out it does not.
-    speaks_as(remove_button, T('Remove the chosen file from the list'))
-    bar.addWidget(hint(remove_button,
-                             T('Dropping AUDIO or VIDEO takes all of it.')))
-    bar.addStretch(1)
+    bar_env_curve, add_button, remove_button = file_bar_build(
+        QtWidgets, sheet1_position, tab1)
 
     # ------------------------------------------------------------------
     # Tab 2: settings
@@ -2502,12 +2836,10 @@ def gui():
     _in_point_button = QtWidgets.QPushButton(T('Mark In'))
     _in_point_button.clicked.connect(lambda: limit_set(start_var))
     set_line.addWidget(hint(_in_point_button, T('Takes the position from the picture.')))
-    def to_limit(text, how):
-        """Jump to the window boundary, fetching the right file if needed.
-
-        Only when no file contains the position does a message say why
-        nothing moved.
-        """
+    def to_limit(var):
+        """Go to *var*'s point, loading the file that holds it, or say why."""
+        text = var.get()
+        how = T('In point') if var is start_var else T('Out point')
         if player.jump_to(text):
             window_label.setVisible(False)
             return
@@ -2527,11 +2859,11 @@ def gui():
         window_label.setVisible(True)
 
     _to_in_point = QtWidgets.QPushButton(T('to In point'))
-    _to_in_point.clicked.connect(lambda: to_limit(start_var.get(), "In point"))
+    _to_in_point.clicked.connect(lambda: to_limit(start_var))
     set_line.addWidget(hint(_to_in_point, T('Jumps to the start of the window.')))
     set_line.addStretch(1)
     _to_out_point = QtWidgets.QPushButton(T('to Out point'))
-    _to_out_point.clicked.connect(lambda: to_limit(end_var.get(), "Out point"))
+    _to_out_point.clicked.connect(lambda: to_limit(end_var))
     set_line.addWidget(hint(_to_out_point, T('Jumps to the end of the window.')))
     _out_point_button = QtWidgets.QPushButton(T('Mark Out'))
     _out_point_button.clicked.connect(lambda: limit_set(end_var))
@@ -3170,6 +3502,7 @@ def gui():
     cut_position = QtWidgets.QVBoxLayout(cut_box)
     cut_parts = {}
     cut_var = cut_fields_build(cut_position, cut_parts)
+    choice_boxes_even([box for _line, box in cut_parts.values()])
     edge_on = Value(True)
     _edge_box = checkbox_bind(QtWidgets.QCheckBox(
         T('Wide shot for greeting at the start and farewell at the end')), edge_on)
@@ -3466,25 +3799,12 @@ def gui():
                else T('Nothing was written -- there is no material yet.'))
 
     def resolve_button_check():
-        # The simple path creates a handover too, for a multicam timeline.
-        # So the file decides whether there is anything to build.
-        if state["running"]:
-            reason_set(only_resolve_env_curve, only_resolve, False,
-                         T('The run is still going.'), "")
-            return
-        js = state.get("resolve_json")
-        what_for = resolve_what_for(state.get("project_type") == "sync")
-        if js and resolve_installed():
-            state["resolve_json"] = js
-            reason_set(only_resolve_env_curve, only_resolve, True, "",
-                       what_for)
-            only_resolve.setText(T('Create Resolve project'))
-        else:
-            reason_set(only_resolve_env_curve, only_resolve, False,
-                         T('That needs the handover file from a run, and '
-                           'there is none.')
-                         if resolve_installed() else
-                         T('The Resolve interface is not where it should be.'), what_for)
+        resolve_button_say(state, only_resolve_env_curve, only_resolve)
+
+    # The table builder stands above gui() and takes up the handover
+    # when the cameras change; both of these it reaches through state.
+    state["resolve_button_check"], state["out_folder"] = (
+        resolve_button_check, out_folder)
 
     # ------------------------------------------------------------- The run
     write = make_log_writer(state, post)
@@ -3643,8 +3963,8 @@ def gui():
         "save project": project_save, "close project": project_new,
         "mark in": lambda: limit_set(start_var),
         "mark out": lambda: limit_set(end_var),
-        "to in": lambda: to_limit(start_var.get(), "In point"),
-        "to out": lambda: to_limit(end_var.get(), "Out point")},
+        "to in": lambda: to_limit(start_var),
+        "to out": lambda: to_limit(end_var)},
         window_switch, cut_player, late,
         (remove_button, start_run, preview_button),
         lambda: bool(files) or bool(state.get("project_from")))

@@ -1233,16 +1233,21 @@ def tc_column_write(rows, real_tc, axis, absolute):
     return True
 
 
-def weak_decision(kind):
+def weak_decision(kind, intro_free=False):
     """What became of a file with no place, in the words on the screen.
 
     The program moves such a file off content and the wide shot at the
     moment it finds it, so a line that only complains stands beside a
     row that already says something else, and the two read as a
-    contradiction. *kind* is what the row says now.
+    contradiction. *kind* is what the row says now; *intro_free* that
+    no other file holds the intro, so a file left out was not left out
+    for that reason.
     """
     if kind == TYPE_INTRO:
         return T('Set to %s; %s is one click away.') \
+            % (label_of(TYPE_INTRO), label_of(TYPE_OUTRO))
+    if kind == TYPE_IGNORED and intro_free:
+        return T('Left out; %s or %s is one click away.') \
             % (label_of(TYPE_INTRO), label_of(TYPE_OUTRO))
     if kind == TYPE_IGNORED:
         return T('Left out, %s being taken already; %s is one click '
@@ -1250,18 +1255,24 @@ def weak_decision(kind):
     return T('Its sound cannot be used.')
 
 
-def weak_note(caption, placeless, kind=""):
+def weak_note(caption, placeless, kind="", intro_free=False,
+              clock_alone=False):
     """What a file whose sound was not recognised says beside its name.
 
     Two ways lead to a place and one is enough: with a timecode only
     the second opinion is missing, without one there is no place at
     all and its sound is out of the run. Then the finding comes first
-    and what was done about it under it.
+    and what was done about it under it. *clock_alone*: the file has a
+    timecode, but nothing it could be set against has one.
     """
+    decided = weak_decision(kind, intro_free)
+    if placeless and clock_alone:
+        return T('%s\n   does not fit the other files: sound not '
+                 'recognised,\n   nothing to set its timecode against.'
+                 '\n   %s') % (caption, decided)
     if placeless:
         return T('%s\n   does not fit the other files: sound not '
-                 'recognised, no timecode.\n   %s') \
-            % (caption, weak_decision(kind))
+                 'recognised, no timecode.\n   %s') % (caption, decided)
     return T('%s\n   sound not recognised; placed by its timecode') \
         % caption
 
@@ -1270,6 +1281,13 @@ def weak_kind(kinds, path):
     """What the Kind field of that file says now, or "" where none does."""
     value = (kinds or ByFile()).get(path)
     return value.get() if value is not None else ""
+
+
+def intro_free_of(kinds, path):
+    """Whether no Kind field but this file's own says Intro."""
+    return not any(value.get() == TYPE_INTRO
+                   for p, value in (kinds or ByFile()).items()
+                   if path_key(p) != path_key(path))
 
 
 def weak_colour(odd, placeless, kind=""):
@@ -1286,16 +1304,18 @@ def weak_colour(odd, placeless, kind=""):
     return COLOURS["warning"] if odd else COLOURS["text"]
 
 
-def weak_nodes_mark(nodes, weak, no_place=(), kinds=None):
+def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
     """Mark the rows of the file list that do not fit the time axis.
 
     Usually picked by mistake, out of another recording. *no_place* are
     the ones no timecode places either: those are refused, the rest
-    only warned about. *kinds* says what each was set to instead.
+    only warned about. *kinds* says what each was set to instead;
+    *alone* which of them has a timecode with none to set it against.
     Returns the rows that are gone.
     """
     import PySide6.QtGui as _qg
     nowhere = set(no_place or ())
+    alone = set(path_key(p) for p in (alone or ()))
     dropped = []
     for p, item in list(nodes.items()):
         placeless = path_key(p) in nowhere
@@ -1308,8 +1328,9 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None):
             for column in (0, 2):
                 item.setForeground(column, ink)
             if odd:
-                item.setText(2, weak_note(os.path.dirname(p), placeless,
-                                          kind))
+                item.setText(2, weak_note(
+                    os.path.dirname(p), placeless, kind,
+                    intro_free_of(kinds, p), path_key(p) in alone))
         except RuntimeError:
             dropped.append(p)
     return dropped
@@ -1327,12 +1348,14 @@ def weak_marks_show(state, nodes):
     # What the Kind field of each file says now, so the note can name
     # the decision the program has already taken on that file.
     kinds = state.get("clip_kinds")
-    dropped = weak_nodes_mark(nodes, weak, nowhere, kinds)
-    weak_rows_mark(state.get("file_rows") or (), weak, nowhere, kinds)
+    alone = state.get("clock_alone") or ()
+    dropped = weak_nodes_mark(nodes, weak, nowhere, kinds, alone)
+    weak_rows_mark(state.get("file_rows") or (), weak, nowhere, kinds,
+                   alone)
     return dropped
 
 
-def weak_rows_mark(rows, weak, no_place=(), kinds=None):
+def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=()):
     """The same mark on the recordings of the assignment tree.
 
     *rows* is (its row in the tree, the file, the plain caption), one
@@ -1343,6 +1366,7 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None):
     """
     import PySide6.QtGui as _qg
     nowhere = set(no_place or ())
+    alone = set(path_key(p) for p in (alone or ()))
     for row, p, plain in rows:
         if not p:
             continue
@@ -1358,7 +1382,9 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None):
             # travels beside the row, or a second pass nests sentences.
             said = plain
             if odd:
-                said = weak_note(plain, placeless, kind)
+                said = weak_note(plain, placeless, kind,
+                                 intro_free_of(kinds, p),
+                                 path_key(p) in alone)
             row[0].setText(said)
             # The column can be narrower than the sentence.
             row[0].setToolTip(said if odd else "")
@@ -3621,6 +3647,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
             field, box = PROGRAM.voice_row_cells(name_value, camera_value,
                                                  targets, name_value.get())
             PROGRAM.choices_shut(box, barred, wide["why"], COLOURS["quiet"])
+            PROGRAM.moved_says_why(box, "voice:" + key, wide, COLOURS["quiet"])
             tree_field(tree, kid, 1, field)
             tree_field(tree, kid, 2, box)
             row_picker_watch(state["row_picker"], field, box)
