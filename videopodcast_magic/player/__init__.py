@@ -227,11 +227,11 @@ def make_drop_area(QtCore, QtGui, QtWidgets):
             small.setStyleSheet("color: %s;" % colours["quiet"])
             position.addWidget(small)
             button = QtWidgets.QPushButton(T('... or add files ...'))
-            button.setFixedWidth(220)
+            button.setMinimumWidth(220)
             button.clicked.connect(lambda: pick())
             # Only here: once files are in the list it would overwrite them.
             button2 = QtWidgets.QPushButton(T('Open project ...'))
-            button2.setFixedWidth(220)
+            button2.setMinimumWidth(220)
             button2.clicked.connect(lambda: project())
             row = QtWidgets.QHBoxLayout()
             row.addStretch(1)
