@@ -1922,8 +1922,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         # in one camera does not mean the person is filmed by it.
         own_camera = (os.path.basename(from_camera or first)
                       if camera_track else "")
-        was = camera_after_a_mark("audio:" + first, old_camera, wide,
-            name_value.get() or os.path.basename(first))
+        was = camera_after_a_mark("audio:" + first, old_camera, wide)
         picked, worked_out = camera_row_cameras(
             was, wide["pickable"], name_value.get(), videos,
             own_camera="" if own_camera in barred else own_camera)
@@ -2079,7 +2078,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         speaks_as(name_entry, T('new file name'), short)
         from_the_front(name_entry)
         table_video.setCellWidget(row, 1, name_entry)
-        cell(table_video, row, 2, camera_gets_from(short, wide, own),
+        cell(table_video, row, 2, camera_gets_from(own),
              COLOURS["quiet"])
         # The file list's field again, on the same value: it stands
         # here because the player does, and usable sound is heard.
@@ -3229,7 +3228,7 @@ def gui():
                                cameras_with_a_speaker(
                                    assign_lines, voice_lines,
                                    state.get("voiced") or ()),
-                               state.get("no_place") or ())
+                               state.get("no_place") or (), state.get("project_type") == "sync")
 
     state["wide_cameras_now"] = wide_cameras_now
 

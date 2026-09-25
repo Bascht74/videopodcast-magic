@@ -5,7 +5,7 @@ The name field starts empty with the guess standing in it in grey, and
 a placeholder is not a value: what reads the field has to read the
 guess too. The sections: the cell that says where a camera gets its
 audio from, its names sorted as the file name sorts them, lower case
-and umlauts too, a marked wide shot's as any other's; and the file name
+and umlauts too, and the mix where nobody is on it; and the file name
 the camera is offered. What this cannot show is that the window really
 hands these fields in; that is one call at each of the two places.
 """
@@ -41,18 +41,16 @@ def field(typed="", offered=""):
     return vpm.SpeakerName(typed, offered)
 
 
-NOWHERE = {"barred": set(), "pushed": {}, "aside": {}}
 CAMERA = "GuestCam_01011858_C003.mov"
 
 print("1. What the camera row says it gets its audio from")
-typed = vpm.camera_gets_from(CAMERA, NOWHERE, [field("Guest")])
+typed = vpm.camera_gets_from([field("Guest")])
 check("a typed name stands in the camera's audio cell",
       typed == "Guest", "%r against 'Guest'" % typed)
-offered = vpm.camera_gets_from(CAMERA, NOWHERE, [field("", "Guest")])
+offered = vpm.camera_gets_from([field("", "Guest")])
 check("and so does a name that is only offered in grey",
       offered == "Guest", "%r against 'Guest'" % offered)
 three = vpm.camera_gets_from(
-    CAMERA, NOWHERE,
     [field("", "Guest"), field("Presenter"), field("", "CoPresenter")])
 # In the rows Guest, Presenter, CoPresenter: sorted is another order,
 # so a cell that keeps the rows' order cannot pass by chance.
@@ -64,19 +62,16 @@ check("three of them come out sorted, as in the camera's file name",
 UMLAUT = "\u00d6zlem"
 READ = "anna, Bob, %s, Paul" % UMLAUT
 mixed = vpm.camera_gets_from(
-    CAMERA, NOWHERE, [field("Paul"), field("", UMLAUT), field("anna"),
-                      field("", "Bob")])
+    [field("Paul"), field("", UMLAUT), field("anna"), field("", "Bob")])
 check("and lower case and an umlaut stand where a reader expects them",
       mixed == READ, "%r against %r" % (mixed, READ))
-nameless = vpm.camera_gets_from(CAMERA, NOWHERE, [field("", "")])
+nameless = vpm.camera_gets_from([field("", "")])
 check("a row with no name at all is still the one that says ?",
       nameless == "?", "%r against '?'" % nameless)
-# Why nobody speaks on a marked wide shot stands grey in its own
-# fields; this cell says what the camera gets, as for a derived one.
-MARKED = vpm.wide_bar_of([CAMERA], [CAMERA], True, {})
-vpm.camera_after_a_mark("audio:Guest", CAMERA, MARKED, "Guest")
-wide = vpm.camera_gets_from(CAMERA, MARKED, [])
-check("a marked wide shot says what it gets, like any other camera",
+# A marked wide shot is one of these: why nobody speaks on it stands
+# grey in its own fields, and this cell says what it gets.
+wide = vpm.camera_gets_from([])
+check("a camera nobody speaks on says it gets the mix of all tracks",
       wide == vpm.T("the mix of all tracks"),
       "%r against %r" % (wide, vpm.T("the mix of all tracks")))
 

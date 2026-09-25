@@ -6,16 +6,17 @@ them, on only one of the two roads. In order: the note itself, where
 the plain curve says nothing and the two later ways say who they are;
 the phase, which carries its sharpness against the floor and admits
 that no drift was measured; the road without a picture, which said
-nothing at all and showed +0.00 ppm beside a drift nobody knows; and
-last that the wording lives in one place, so the two roads cannot
-drift apart again. The road with a picture is not driven here -- it is
-minutes of material for one line of text -- so what it is held to is
-that it can say nothing of its own.
+nothing and showed +0.00 ppm for a drift nobody knows, and now says
+"not measured"; and last that the wording lives in one place, so the
+two roads cannot drift apart again. The road with a picture is not
+driven here -- it is minutes of material for one line of text -- so
+what it is held to is that it can say nothing of its own.
 """
 import ast
 import contextlib
 import io
 import os
+import re
 import sys
 import time
 import the_program
@@ -124,12 +125,16 @@ check("the report there names the phase as well",
       "phase" in text.lower(),
       "the report ends %r"
       % (text.replace("\n", " | ")[-170:],))
-check("and it carries the sharpness, beside the +0.00 ppm",
-      "28.7" in text and "0.00 ppm" in text,
-      "sharpness %.1f in it: %r, and +0.00 ppm in it: %r -- the report "
-      "ends %r"
-      % (SHARP, "28.7" in text, "0.00 ppm" in text,
-         text.replace("\n", " | ")[-170:]))
+# And beside it the drift is said to be unmeasured, not printed as a
+# nought that reads like one measured at zero.
+UNMEASURED = re.split(r"%-?\d*s", vpm.T('  %-20s offset %s, clock drift '
+                                         'not measured%s'))[2]
+check("and it carries the sharpness, beside a drift not measured",
+      "28.7" in text and UNMEASURED in text and "0.00 ppm" not in text,
+      "sharpness %.1f in it: %r, %r in it: %r, +0.00 ppm in it: %r -- the "
+      "report ends %r"
+      % (SHARP, "28.7" in text, UNMEASURED, UNMEASURED in text,
+         "0.00 ppm" in text, text.replace("\n", " | ")[-170:]))
 
 print("\n4. One wording, in one place")
 # Two roads report the same measurement. Written out twice they drift,
