@@ -755,7 +755,7 @@ def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
     a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
                                window_s, distance_s,
                                warn=os.path.basename(audio))
-    if st.get("quality", 0.0) >= WEAK_MATCH:
+    if st.get("quality", 0.0) >= WEAK_MATCH and not fit_speaks_against(st):
         return a, b, st
     # The plain way found nothing worth having. Read once here for the
     # second try and for the phase way under it.
@@ -825,6 +825,26 @@ def fit_places_it(st):
     spread = st.get("spread_ms")
     return (st.get("points", 0) >= FIT_POINTS_ENOUGH
             and spread is not None and spread <= FIT_SPREAD_MS)
+
+
+# How far one recorder's clock may run from another's before a fit is
+# not believed. Right pairs measured at most 133 ppm (synthetic, drift
+# 40/60 ppm), wrong ones 484 to 35,000. Only beside the spread.
+CLOCK_SPEED_BELIEVED_PPM = 1000.0
+
+
+def fit_speaks_against(st):
+    """Report whether the sample points contradict where the curve put a file.
+
+    Three points or more that scatter beyond FIT_SPREAD_MS, or that lie
+    on a line no recorder runs at. Fewer than three say nothing either
+    way: short material has none and is still placed right.
+    """
+    spread = st.get("spread_ms")
+    if st.get("points", 0) < 3 or spread is None:
+        return False
+    return bool(spread > FIT_SPREAD_MS
+                or abs(st.get("ppm", 0.0)) > CLOCK_SPEED_BELIEVED_PPM)
 
 
 # Against a sound recording a real match reads far lower, so this floor

@@ -42,6 +42,7 @@ TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
 VERSION = PROGRAM.VERSION
+VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 Value = PROGRAM.Value
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
@@ -1230,6 +1231,11 @@ def tc_column_write(rows, real_tc, axis, absolute):
         try:
             row[3].setText(text)
             row[3].setForeground(_qg.QBrush(_qg.QColor(colour)))
+            # The tree was sized before the measurement came: without
+            # this a rebuild lays it out wider than the fresh one.
+            view = row[3].model().parent()
+            if hasattr(view, "resizeColumnToContents"):
+                view.resizeColumnToContents(3)
         except RuntimeError:
             return False
     return True
@@ -1261,14 +1267,15 @@ def weak_decision(kind, intro_free=False):
 
 
 def weak_note(caption, placeless, kind="", intro_free=False,
-              clock_alone=False):
+              clock_alone=False, camera=True):
     """What a file whose sound was not recognised says beside its name.
 
     Two ways lead to a place and one is enough: with a timecode only
     the second opinion is missing, without one there is no place at
     all and its sound is out of the run. Then the finding comes first
     and what was done about it under it. *clock_alone*: the file has a
-    timecode, but nothing it could be set against has one.
+    timecode, but nothing it could be set against has one. A recording
+    (*camera* False) is never placed by its clock, but where the run is.
     """
     decided = weak_decision(kind, intro_free)
     if placeless and clock_alone:
@@ -1278,6 +1285,9 @@ def weak_note(caption, placeless, kind="", intro_free=False,
     if placeless:
         return T('%s\n   does not fit the other files: sound not '
                  'recognised, no timecode.\n   %s') % (caption, decided)
+    if not camera:
+        return T('%s\n   sound not recognised; placed where the run '
+                 'measures it, not by its timecode') % caption
     return T('%s\n   sound not recognised; placed by its timecode') \
         % caption
 
@@ -1335,7 +1345,8 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
             if odd:
                 item.setText(2, weak_note(
                     os.path.dirname(p), placeless, kind,
-                    intro_free_of(kinds, p), path_key(p) in alone))
+                    intro_free_of(kinds, p), path_key(p) in alone,
+                    p.lower().endswith(VIDEO_SUFFIXES)))
         except RuntimeError:
             dropped.append(p)
     return dropped
@@ -1389,7 +1400,8 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=()):
             if odd:
                 said = weak_note(plain, placeless, kind,
                                  intro_free_of(kinds, p),
-                                 path_key(p) in alone)
+                                 path_key(p) in alone,
+                                 p.lower().endswith(VIDEO_SUFFIXES))
             row[0].setText(said)
             # The column can be narrower than the sentence.
             row[0].setToolTip(said if odd else "")
