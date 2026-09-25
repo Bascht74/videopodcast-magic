@@ -1548,19 +1548,6 @@ def stop_forget():
     RUN_STOP["children"].clear()
 
 
-def stop_here(what=""):
-    """Break off, where a run may be broken off -- and nowhere else.
-
-    Called between steps, never in the middle of writing one file: a
-    half file looks finished from the outside, and the next run finds
-    it and believes it.
-    """
-    if RUN_STOP["wanted"]:
-        # What the window said is the better answer: it knows which step
-        # was on the screen, this only where the run got to.
-        raise Stopped(RUN_STOP["at"] or what)
-
-
 class Redirect(object):
     """Send the run output to the window and to the log file.
 
