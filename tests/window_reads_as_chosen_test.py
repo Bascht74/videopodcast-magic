@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """The window is laid out the way the chosen language reads.
 
-Arabic is the only language on offer that reads from right to left.
-The table is asked first; then the real window is started twice, in
-Arabic and in English, and each run is read for its last word, for a
-traceback -- a fault in a Qt slot ends a run on a nought -- and for
+Arabic, Persian, Hebrew and Urdu are the languages on offer that read
+from right to left, and the table is asked that first; then the real
+window is started twice, in Arabic and in English, and each run is read
+for its last word, for a traceback -- a fault in a Qt slot ends a run on a nought -- and for
 the direction of the window and of the Settings sheet. Then the labels
 each run printed are counted and laid out again here, and read for the
 order the eye meets them in: a seek button says "-10 s" and not
@@ -56,13 +56,20 @@ check("Arabic reads from right to left",
       vpm.language.reads_right_to_left("ar"),
       "reads_right_to_left('ar') gives %r"
       % vpm.language.reads_right_to_left("ar"))
+# The three whose windows are not started below: the table alone decides
+# their direction, so it is asked for each of them by name.
+READ_LEFTWARD = ("ar", "fa", "he", "ur")
+unturned = [c for c in ("fa", "he", "ur")
+            if not vpm.language.reads_right_to_left(c)]
+check("Persian, Hebrew and Urdu read from right to left", not unturned,
+      "%d of 3 say no: %s" % (len(unturned), unturned or "none"))
 # The other way round, which is the direction that bites: a table that
 # says yes to everything would leave every check above green and turn
 # every window in the program round.
 mirrored = [c for c in speaks
-            if c != "ar" and vpm.language.reads_right_to_left(c)]
-check("no other language on offer reads from right to left", not mirrored,
-      "%d of the %d offered say yes as well: %s"
+            if c not in READ_LEFTWARD and vpm.language.reads_right_to_left(c)]
+check("no language on offer beyond those four reads from right to left",
+      not mirrored, "%d of the %d offered say yes as well: %s"
       % (len(mirrored), len(speaks), mirrored or "none"))
 
 print("\n2. The window itself, started twice")

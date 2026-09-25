@@ -1586,9 +1586,6 @@ msgstr "Hiçbir kamera konuşmacısız değil, bu yüzden geniş çekim yok: dö
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "Henüz transkript yok. O olmadan hiçbir soru bulunmaz ve hiçbir cümle sınırı bilinmez, bu yüzden bu dört ayar bir şey yapmaz. Bir çalıştırma onu yazar, o andan itibaren çalışırlar."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Malzemenin hiçbir yerine uymuyor: timecode yok ve sesinin geri kalanla ortak bir yanı yok. Kurgu geniş çekime geri döner, bu yüzden geniş çekim zaman ekseninde olmalı."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Soru: transkript yok, bu yüzden soru bulunmadı ve tepki kesmesi\n        yapılmadı. Sözcükler çalıştırma sırasında bitmiş miksten\n        yazıya dökülür; onlar olmadan ayar bir şey yapmaz."
 
@@ -1609,9 +1606,6 @@ msgstr "Soru ayarları neden gri"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "geniş çekim olarak işaretli -- konuşmacı almaz"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "konuşmacı yok -- bu geniş çekim"
 
 msgid "the mix of all tracks"
 msgstr "tüm izlerin miksi"
@@ -1726,9 +1720,6 @@ msgstr "Henüz bilinen konuşmacı yok -- hiçbir şey ölçülmedi, hiçbir şe
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "Zaman aralığı malzemenin dışında: giriş noktası %s, çıkış noktası %s ve malzeme %s sürüyor."
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "bu geniş çekim -- %s \"kendine ait kamera yok\" seçeneğine geçti"
 
 msgid "No audio tracks are assigned."
 msgstr "Hiçbir ses izi atanmadı."
@@ -2138,9 +2129,6 @@ msgstr "  Dikkat: aralık     yalnızca %s LU -- çok dar. Konuşmada genellikle
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "iki kanal aynı -- mono her iki tarafa konmuş"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s sınıflandırılamıyor: %s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "muhtemelen iki mikrofon -- aralarında yaklaşık %s m%s"
@@ -3630,9 +3618,6 @@ msgstr "  %r adlı bir Timeline zaten vardı -- yenisinin adı %r."
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  Timeline başlangıcı %s reddedildi: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve daha fazla video izi kabul etmiyor -- %s / %s kamera sığıyor."
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool içinde dosya yok"
 
@@ -3695,9 +3680,6 @@ msgstr "      GetAudioMapping   başarısız: %s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  %r renk grubu oluşturulamıyor: %s"
-
-msgid "    %s track %d could not be created."
-msgstr "    İz (%s) %d oluşturulamadı."
 
 msgid "ends"
 msgstr "sonu"
@@ -4203,18 +4185,6 @@ msgstr "Yeniden başlatma olmadı. Pencereyi kapatın ve programı daha önce ya
 msgid "No newer version found. This one is %s."
 msgstr "Daha yeni bir sürüm bulunamadı. Bu sürüm %s."
 
-msgid "no audio track in this file"
-msgstr "bu dosyada ses izi yok"
-
-msgid "this file stays out entirely"
-msgstr "bu dosya tamamen dışarıda kalır"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "bitmiş bir klip -- yalnızca yerleştirilir, işlenmez"
-
-msgid "the only sound there is"
-msgstr "var olan tek ses"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "Çok izli, yukarıdaki tabloda iki iz gerektirir -- bir kamera, Kamera sesi \"sesi kullan\" olarak ayarlandığında bir iz sayılır."
 
@@ -4226,9 +4196,6 @@ msgstr "İki kamera kurguda tek kamera oluyor: %s. Dosyaları aynı adı taşıy
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "İki kamera aynı dosyayı üretecek: %s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Malzemenin hiçbir yerine uymuyor, bu yüzden bölümün içine kurgulanamaz. Önüne ya da arkasına konabilir."
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "Kullanılırsa bu dosyanın sesi diğerleri gibi bir iz olur -- yukarıdaki tabloda görünür.\nAynı alan dosya listesinde de var; ikisi de tek bir yanıtı gösterir."
@@ -4256,9 +4223,6 @@ msgstr "GENEL NOTLAR"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "Sıra önemli değil. Çok parçalı bir kayıtta ilk blok yeterli."
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "SES ya da VİDEO üzerine bırakmak hepsini alır."
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "auphonic.com'daki başlık ve yeni dosya adlarının başı."
@@ -4702,3 +4666,156 @@ msgstr "Burada kameraları atama dosyası adlandırıyor, bu yüzden --new-name 
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Yalnızca kameralarla her dosya kendi sesinden alınan izlerin adını alır, bu yüzden --new-name yok sayılırdı; --new-name kullanmayın."
+
+msgid "work without Auphonic"
+msgstr "Auphonic olmadan çalış"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Yalnızca ana konuşmacıdan gelmeyen bir sorudan sonra, başka biri hemen devralıp sözü elinde tuttuğunda.\n“erken geçme”, erken kamera değişikliği yok demektir: görüntü burada da her yerde olduğu gibi sesi izler."
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "“Dönüşümlü”, bu monoloğun son kesintisinin ne gösterdiğini hatırlar. Dinleyen, görüntüyü yalnızca son 20 saniyede o kameradaki biri duyulduysa alır; aksi halde geniş çekim."
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Bir karmaşanın içine kesmek telaşlı görünür."
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Cümle ortasındaki bir nefes ile bir düşüncenin sonu ikisi de sessizliktir ve program bunları ayırt edemez. Yalnızca uzunluk ayırt edebilir: “Şu süreye kadar kısa boşluk”, bir sessizliğin ne kadar uzun olup yine de nefes sayılabileceğini söyler."
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Tahmin etmek saniyelerce yanlış kişiyi ekrana getirir; geniş çekim her durumda doğrudur. Burada biri konuşuyor -- kimsenin konuşmadığı yerde “Kimse konuşmuyor” karar verir."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Negatif bir değer, görüntünün sesten önce gelmesini sağlar."
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Sıfır, soranın sustuğu yerdir, yanıtın başladığı yer değil: aradaki duraklama soruya aittir. Yalnızca “Bir sorudan sonra” bunu istediği yerde geçerlidir ve Edit Change Delay yeniden eklenmez."
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Çiftin yumuşak sınırı: buradan sonra program bir cümle sınırını bekler ve geniş çekimi saate göre değil, oraya koyar. 0 bunu kapatır. “Geniş çekim en geç” sert sınırdır; orada cümle sınırı olmadan da kesilir."
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Çiftin sert sınırı: “Şu süreden sonra geniş çekim”den bu yana hiçbir cümle sınırı çıkmadıysa en uzun konuşma duraklaması onun yerini tutar ve bu noktada, o an ne söylenirse söylensin kesilir."
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Ardından cümlenin sonuna kadar sürer. Beş saniyenin altında bu bakış bir seğirme gibi görünür."
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Cümlenin sonu bunun ötesindeyse, çekim ondan önceki son yan cümle sınırında biter -- cümlenin ortasında kesilmez."
+
+msgid "Shorter shots fall into the following one."
+msgstr "Daha kısa çekimler bir sonrakine katılır."
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Kısa bir “evet” görüntüyü yerinden oynatmaz. Bu olmadan yarım saniyelik bir blok kamerayı kendine çeker ve en kısa çekim süresi onu orada saniyelerce tutar."
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Yalnızca “Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda. Bu uzunluğa kadar bir boşluk hiçbir şeyi değiştirmez, daha uzunu geniş çekime geçer. İki saniyenin üstünde görüntü, susan birinin üzerinde beş saniyeden uzun kalmaya başlar."
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 sabit"
+
+msgid "reserved"
+msgstr "ayrılmış"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Dönüştürmek için: Media Pool'da \"%s Multicam\" üzerine sağ tıklayın >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Geri dönüşü yok -- ama yeni bir çalıştırma Timeline'ı her zaman yeniden oluşturabilir.\n  Açılar:%s\n  Geri kalan her şey -- ses seçimi, renk grupları, kadraj -- el\n  kitabında, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Olası nedenler:\n  1. Resolve çalışmıyor -- script arayüzü yalnızca program çalışırken yanıt verir.\n  2. Preferences > System > General: harici script \"Local\" yerine \"None\" olarak ayarlı.\n  3. Ücretsiz sürüm: bildirildiğine göre harici script, 19.1 sürümünden beri Studio sürümüne ayrılmış. Resmî bir açıklama bulamadım -- bu denetim bunu iddia etmek yerine ölçüyor."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s sınıflandırılamıyor: %s -- yalnızca kendi saatine göre yerleştirildi"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: ses eşleşmesi %s, %s tabanının altında -- yalnızca kendi saatine göre yerleştirildi"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Dikkat: bu proje tamamlanmamış -- Resolve şu izleri iki kez reddetti:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Kayma:             %s   (yalnızca kendi timecode'undan -- sesi onu yerleştiremedi, bu yüzden hiçbir şey denetlenmiyor)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve A%d ses izini “%s” Timeline'ında iki kez reddetti -- kameralar mevcut ses izlerine yerleştiriliyor (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve V%d video izini iki kez reddetti -- “%s” Timeline'ında eksik olan: %s."
+
+msgid "  Status:      %s"
+msgstr "  Durum:       %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  %s için ses çok zayıf eşleşti, güvenilemez -- yalnızca timecode'a göre yerleştirildi."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   diğer dosyalara uymuyor: ses tanınmadı,\n   timecode'unu karşılaştıracak bir şey yok.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s yerleştirilemiyor: sesinin malzemenin geri kalanıyla hiçbir ortak yanı yok ve sesin yerleştirdiği hiçbir kamera, bu dosyanın timecode'unun karşılaştırılabileceği bir timecode taşımıyor. Bunlardan birinin buna uyan bir timecode'a ihtiyacı var ve bunun başka bir programla ayarlanması lazım."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s malzemedeki hiçbir şeye uymuyor ve sesin yerleştirdiği hiçbir kamera, bu dosyanın timecode'unun karşılaştırılabileceği bir timecode taşımıyor; bu yüzden bölümün içine kesilemez: Giriş olarak ayarlandı."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s malzemedeki hiçbir şeye uymuyor ve sesin yerleştirdiği hiçbir kamera, bu dosyanın timecode'unun karşılaştırılabileceği bir timecode taşımıyor; giriş zaten dolu: dışarıda bırakıldı."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Giriş noktası"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Dışarıda bırakıldı; %s ya da %s bir tık uzakta."
+
+msgid "Out point"
+msgstr "Çıkış noktası"
+
+msgid "Presets:"
+msgstr "Hazır ayarlar:"
+
+msgid "Registry"
+msgstr "Kayıt Defteri"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "SES ya da VİDEO kaldırılırsa altındaki her şey de kaldırılır."
+
+msgid "VIDEO"
+msgstr "VİDEO"
+
+msgid "a finished clip"
+msgstr "bitmiş klip"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "bölümün içine kesilemez -- yalnızca önüne ya da arkasına"
+
+msgid "moved off the wide shot"
+msgstr "geniş çekimden alındı"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ne sesi ne de bir timecode onu zaman eksenine koyuyor"
+
+msgid "no audio track"
+msgstr "ses izi yok"
+
+msgid "no speaker"
+msgstr "konuşmacı yok"
+
+msgid "not used"
+msgstr "devre dışı"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "kamerasıyla birlikte, o kameranın saatine göre yerleştirildi"
+
+msgid "the file stays out"
+msgstr "dosya dışarıda kalır"
+
+msgid "the only sound"
+msgstr "tek ses"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve A%d ses izini iki kez reddetti -- “%s” Timeline'ında %s sesi eksik."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve V%d video izini iki kez reddetti -- “%s” Timeline'ında %s görüntüsü eksik."

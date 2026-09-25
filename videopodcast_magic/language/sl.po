@@ -1,0 +1,4899 @@
+# What is translated of this program's messages, in Slovenian.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Slovenian speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 24.9.2026 in two steps: a glossary first, which
+# fixed the form of address and one word for each thing, and then every
+# text against it, three languages at a time from one sheet. Every
+# entry was read back once in full by another model, against the
+# English and those words, and 55 were put right; a third refuted
+# what was not a fault.
+#
+# Anyone who speaks Slovenian is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Four here: [0] where the count ends in 01 -- 1, 101, 201 --, [1]
+# where it ends in 02, [2] where it ends in 03 or 04, [3] everywhere
+# else: nought, 5 to 100, 11 and 21 among them. Slovenian says
+# "enaindvajset", one-and-twenty, so 21 counts like 20 and takes the
+# genitive plural, "21 datotek", while 101 is "sto ena" and takes the
+# singular. [1] is the dual, "2 datoteki", and [3] turns the verb to
+# the neuter singular as well. Where a noun does not change, or the
+# count stands behind a colon, two wordings can read alike; that is
+# Slovenian, not a copied line.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: sl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Montaža s splošnim planom"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Loči posnetek po glasovih: vsak glas dobi svojo vrstico in v njej svojo kamero. Približno minuta za pol ure zvoka, na tem računalniku in brez nalaganja."
+
+msgid ", %s without"
+msgstr ", %s brez kamere"
+
+msgid "no camera yet"
+msgstr "še ni kamere"
+
+msgid "A newer version is out"
+msgstr "Na voljo je novejša različica"
+
+msgid "%s is out. This is %s."
+msgstr "Izšla je %s. Ta različica je %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Posodobim? pip jo prenese v %s. Kar pove pip, se prikaže na zavihku „Izhod“, nova različica pa deluje od naslednjega zagona programa."
+
+msgid "pip could not be started: %s"
+msgstr "pip ni bilo mogoče zagnati: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip se je ustavil s kodo %s. Kar mu je uspelo, je v vrsticah zgoraj."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "Različica %s je nameščena. Deluje od naslednjega zagona programa."
+
+msgid "There is no window to show what pip says."
+msgstr "Ni okna, ki bi prikazalo, kaj pravi pip."
+
+msgid "Back to an earlier version ..."
+msgstr "Nazaj na starejšo različico ..."
+
+msgid "Back to an earlier version"
+msgstr "Nazaj na starejšo različico"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Starejših različic ni bilo mogoče poiskati: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Seznama starejših različic ni bilo mogoče prebrati."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Ni različice, starejše od %s, ki bi jo pip lahko namestil."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Ta različica je %s. Katero različico naj pip namesti namesto nje?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip jo prenese v %s, kar pove pip, pa se prikaže na zavihku „Izhod“. Tu izbrana različica deluje od naslednjega zagona programa.\n\nVrne se le program in nič drugega. Kar je novejša različica zapisala v nastavitve, ostane zapisano, projekti in njihove datoteke pa ostanejo, kot so."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "uvodna ali odjavna špica z dvema kanaloma je stereo miks -- se ne meri"
+
+msgid "Multitrack mode"
+msgstr "Način Multitrack"
+
+msgid "Singletrack mode"
+msgstr "Način Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Nimate lastne prednastavitve Multitrack -- ustvarite jo"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Nimate lastne prednastavitve Singletrack -- ustvarite jo"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Nimate lastne prednastavitve -- ustvarite jo na auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "V računu ni bila najdena nobena prednastavitev Multitrack."
+
+msgid "No Singletrack preset found in the account."
+msgstr "V računu ni bila najdena nobena prednastavitev Singletrack."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "V računu ni prednastavitve Multitrack. Le te: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "V računu ni prednastavitve Singletrack. Le te: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r je prednastavitev Singletrack, potrebna pa je Multitrack."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r je prednastavitev Multitrack, potrebna pa je Singletrack."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "Ključ je veljaven. Med prednastavitvami v računu (%s) nobena ni Multitrack, zato seznam ostane prazen."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "Ključ je veljaven. Med prednastavitvami v računu (%s) nobena ni Singletrack, zato seznam ostane prazen."
+
+msgid "fetching from auphonic.com ..."
+msgstr "prenos z auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Kaj se je spremenilo od %s:"
+
+msgid "Update"
+msgstr "Posodobi"
+
+msgid "Later"
+msgstr "Pozneje"
+
+msgid "Go back"
+msgstr "Nazaj"
+
+msgid "Starting again did not work: %s"
+msgstr "Ponovni zagon programa ni uspel: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Zaženite ga ročno: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Novejša različica ni bila najdena. Ta je %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update jo prenese in namesti."
+
+msgid "The check for new versions is switched off here."
+msgstr "Preverjanje novih različic je tu izklopljeno."
+
+msgid "About Video Podcast Magic"
+msgstr "O programu Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Surovo gradivo videopodkasta postane zmontirana epizoda: dober zvok iz video datotek, kamere na eni časovni osi, prva montaža po govorcih in projekt DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s na %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "Licenca MIT, Copyright (c) 2026 Sebastian Lotz. Na voljo takšen, kot je, brez kakršnega koli jamstva."
+
+msgid "&File"
+msgstr "&Datoteka"
+
+msgid "&View"
+msgstr "&Pogled"
+
+msgid "&Player"
+msgstr "&Predvajalnik"
+
+msgid "&Help"
+msgstr "&Pomoč"
+
+msgid "Play and pause"
+msgstr "Predvajanje in premor"
+
+msgid "Fast forward"
+msgstr "Hitro naprej"
+
+msgid "Fast forward, %s times speed"
+msgstr "Hitro naprej, %s-kratna hitrost"
+
+msgid "Play forward, faster on every press"
+msgstr "Predvajanje naprej, ob vsakem pritisku hitreje"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Predvajanje naprej, ob vsakem pritisku dvakrat hitreje -- tipka L."
+
+msgid "Pause"
+msgstr "Premor"
+
+msgid "One frame back"
+msgstr "Ena sličica nazaj"
+
+msgid "One frame forward"
+msgstr "Ena sličica naprej"
+
+msgid "One second back"
+msgstr "Ena sekunda nazaj"
+
+msgid "One second forward"
+msgstr "Ena sekunda naprej"
+
+msgid "Ten seconds back"
+msgstr "Deset sekund nazaj"
+
+msgid "Ten seconds forward"
+msgstr "Deset sekund naprej"
+
+msgid "The manual"
+msgstr "Priročnik"
+
+msgid "What changed in this version"
+msgstr "Kaj se je spremenilo v tej različici"
+
+msgid "Show the log of this run"
+msgstr "Pokaži dnevnik tega zagona"
+
+msgid "Nothing has been written yet."
+msgstr "Nič še ni bilo zapisano."
+
+msgid "Look for a newer version now"
+msgstr "Poišči novejšo različico zdaj"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Paket potrdil ni bil najden -- prenos prek HTTPS morda ne bo uspel."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Gradnja razpoznavalnika govora ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Prevajalnik Swift sporoča: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  Razpoznavalnik govora je zgrajen (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  Razpoznavanje govora sporoča: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Razpoznano v jeziku %s: pripravljeno v %s s, preposlušano v %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Na tem računalniku ni razpoznavanja govora: macOS 26 ga prinaša, sicer se namesti faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Razpoznavanje govora (%s): %s besed v %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Razpoznavanje govora (%s): %s besed, ponovno prebrano"
+
+msgid "Separating speakers: %s"
+msgstr "Ločevanje govorcev: %s"
+
+msgid "Separating ..."
+msgstr "Ločevanje ..."
+
+msgid "Voice"
+msgstr "Glas"
+
+msgid "Stop"
+msgstr "Ustavi"
+
+msgid "Stopping ..."
+msgstr "Ustavljanje ..."
+
+msgid "Not on this machine"
+msgstr "Ne na tem računalniku"
+
+msgid "Reading the audio ..."
+msgstr "Branje zvoka ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "V posnetku ni bilo nič slišati."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "Ločevanje govorcev je za ta projekt izklopljeno."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Kdo govori kdaj, je mogoče ugotoviti na tem računalniku, iz katerega koli posnetka, na katerem se slišijo vsi."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Pusti ločevanje za ta projekt izklopljeno. Montaža potem pride iz sledi ali z auphonic.com, kot doslej."
+
+msgid "The speaker separation reports: %s"
+msgstr "Ločevanje govorcev sporoča: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Obnavljanje ločevanja govorcev ..."
+
+msgid "The speaker separation is not set up."
+msgstr "Ločevanje govorcev ni nastavljeno."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "Ločevanje govorcev tu ni nameščeno. Tole ga vrne: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Prenos modela (približno %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Prenos modela (približno %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Modela ni bilo mogoče prenesti: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Modela ni bilo mogoče zapisati: %s"
+
+msgid "The list of model files came back empty."
+msgstr "Seznam datotek modela je prišel prazen."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "Datoteka %s se ne ujema s svojo kontrolno vsoto in ni bila zapisana."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "V mapo programa ni mogoče pisati: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Modela za ločevanje govorcev ni ob programu."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Datoteka modela %s se ne ujema s svojo kontrolno vsoto."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote ob vsakem zagonu pošlje sled domov in ta različica ne ponuja načina, da bi to izklopili, zato ločevanje ni bilo zagnano."
+
+msgid "Speakers"
+msgstr "Govorci"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Kdo se sliši na tem posnetku. Ime pomeni, da je to ta ena oseba.\n„več govorcev“ ugotovi, kdo govori kdaj, na tem računalniku in brez nalaganja -- približno minuta za pol ure zvoka. Imena nato vpišete v vrstice spodaj."
+
+msgid "Speaker %d"
+msgstr "Govorec %d"
+
+msgid "One more speaker in %s"
+msgstr "Še en govorec v %s"
+
+msgid "One more speaker in"
+msgstr "Še en govorec v"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Znova posluša ta posnetek in išče enega govorca več, kot jih je bilo najdenih."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
+
+msgid " SEEKING"
+msgstr " ISKANJE"
+
+msgid " computed"
+msgstr " izračunana"
+
+msgid " virtual"
+msgstr " navidezna"
+
+msgid "%s were already right"
+msgstr "že v redu: %s"
+
+msgid "%s (%s files)"
+msgstr "%s (datotek: %s)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (od %s do %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- od %d:%02d do %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- pri ročnem združevanju ta razlika preide v datoteko kot tišina in je pozneje nič ne odstrani."
+
+msgid "%s and %s more"
+msgstr "%s in še %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "Datoteki %s in %s sta obe nastavljeni kot %s. To je lahko le ena datoteka -- prosimo, drugo nastavite nazaj na vsebino."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s in %s imata isto ime datoteke, Resolve pa zanju ne sporoča\n  poti. Preimenujte enega od obeh."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s sličic/s -- %s, %dx%d, število sličic %s v %s"
+
+msgid "%s reports %s"
+msgstr "%s sporoča: %s"
+
+msgid "%s speech time"
+msgstr "Čas govora: %s"
+
+msgid "%s virtual"
+msgstr "%s navidezna"
+
+msgid "%s, audio track %d"
+msgstr "%s, zvočna sled %d"
+
+msgid "3:1 rule"
+msgstr "Pravilo 3:1"
+
+msgid "Output"
+msgstr "Izhod"
+
+msgid "Access to auphonic.com"
+msgstr "Dostop do auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Dostop in povezava se nastavita enkrat in nato ostaneta. Ključ hrani %s, nikoli datoteka."
+
+msgid "Checking files"
+msgstr "Preverjanje datotek"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Vse, kar je še odprto, v primerjavi z opravljenim. Dolga opravila zasedejo več vrstice kot kratka."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Ključ za auphonic.com in ali se Resolve odziva."
+
+msgid "Measuring time axis"
+msgstr "Merjenje časovne osi"
+
+msgid "Resolve answers"
+msgstr "Resolve se odziva"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve se ne odziva -- glejte Nastavitve"
+
+msgid "Settings"
+msgstr "Nastavitve"
+
+msgid "Settings ..."
+msgstr "Nastavitve ..."
+
+msgid "Two files as %s"
+msgstr "Dve datoteki kot %s"
+
+msgid "begins"
+msgstr "začne"
+
+msgid "done"
+msgstr "končano"
+
+msgid "ends"
+msgstr "konča"
+
+msgid "first"
+msgstr "prva"
+
+msgid "from %s"
+msgstr "od %s"
+
+msgid "join with Channel %d"
+msgstr "združi s kanalom %d"
+
+msgid "last"
+msgstr "zadnja"
+
+msgid "rejected"
+msgstr "zavrnjeno"
+
+msgid ","
+msgstr "."
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Vrsta"
+
+msgid "Speech time"
+msgstr "Čas govora"
+
+msgid "Share"
+msgstr "Delež"
+
+msgid "Beginning"
+msgstr "Začetek"
+
+msgid "the whole material"
+msgstr "celotno gradivo"
+
+msgid "Colour"
+msgstr "Barva"
+
+msgid "  Preset:  %s"
+msgstr "  Prednastavitev:  %s"
+
+msgid "Preset"
+msgstr "Prednastavitev"
+
+msgid "Preset:"
+msgstr "Prednastavitev:"
+
+msgid "Start"
+msgstr "Začni"
+
+msgid "Production"
+msgstr "Produkcija"
+
+msgid "Target"
+msgstr "Cilj"
+
+msgid "Bright."
+msgstr "Svetl."
+
+msgid "Colour U"
+msgstr "Barva U"
+
+msgid "Colour V"
+msgstr "Barva V"
+
+msgid "Writing %s"
+msgstr "Zapisovanje: %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Časovna koda:    %s"
+
+msgid "none"
+msgstr "nobenega"
+
+msgid "Length"
+msgstr "Dolžina"
+
+msgid "no camera of its own"
+msgstr "brez lastne kamere"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- to so vsi, zato gre vsak kader na isto kamero."
+
+msgid "No camera of their own: %s"
+msgstr "Brez lastne kamere: %s"
+
+msgid "do not use"
+msgstr "ne uporabi"
+
+msgid "several speakers"
+msgstr "več govorcev"
+
+msgid "this window"
+msgstr "to okno"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "dve imeni datotek za isti trenutek -- ne upošteva se nobeno od njiju"
+
+msgid "work without Auphonic"
+msgstr "delo brez Auphonica"
+
+msgid "Content"
+msgstr "Vsebina"
+
+msgid "Intro"
+msgstr "Uvodna špica"
+
+msgid "Outro"
+msgstr "Odjavna špica"
+
+msgid "ignore this video"
+msgstr "prezri ta video"
+
+msgid "This is not a file of this program."
+msgstr "To ni datoteka tega programa."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "To datoteko je zapisala različica %s v obliki %d; ta zapisuje obliko %d. Imena v njej so se medtem spremenila, zato je ni mogoče prebrati. Prosimo, znova nastavite zagon."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (samo merjenje: nič ni zapisano)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (samo merjenje: brez ključa API se ustavi tukaj)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Preverjanje presluha -- referenca je %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Ni bilo mogoče zapisati %s: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  Za %s ni bilo mogoče ugotoviti, ali se vrnjeno ujema z\n  naloženim. Bolje ustaviti kot zapisati kaj napačnega."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  V predaji ni montaže kamer -- brez statistike govorcev je ni.\n  Zgradi se le Timeline za izrezek multicam."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Nič ni bilo spremenjeno."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Le ena kamera -- izrezek multicam bi bil nesmiseln."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Tam so sledi poimenovane drugače:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Časovno okno, nastavljeno ročno:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline za izrezek multicam: vse kamere, brez rezov"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline s končano montažo"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: kamera v enem kosu, miks pod njo"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nKončano. Spodaj „Odpri mapo z rezultatom“ pokaže rezultat.\nČe je vse v redu, „Ustvari projekt Resolve“ iz njega zgradi projekt.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nPREVERJANJE HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nNobena prednastavitev ni izbrana: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nUstavljeno pred prvim dolgim korakom. Z --anyway teče kljub temu."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Resolve potem morda ne bo prepoznal vhodnega barvnega prostora."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Zvok se %s ob %s -- tam je %s beseda."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s sled V%d, od sličice %d (%s s do začetka), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Oba izrezka ostaneta nerezana; prekrivata vsebino.\n      Pretapljanje je v prekrivanju -- kje točno, odločite vi v Resolve.\n      (Skriptni vmesnik Resolve ne more ustvarjati prehodov.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   ne uspe: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      OPOZORILO: šibko ujemanje za %s (%s, spodnja meja je %s). Morda ne sodita skupaj."
+
+msgid "this pair of files"
+msgstr "ta par datotek"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- to ne more biti prav, sled\n    %-20s ostane, kjer je."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, podobnost imen %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, obrezano na časovno okno, podobnost imen %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  VENDAR %s -- ne v časovnem oknu (%s) ne v\n    %-20s    celotnem izmerjenem razponu (%s). To spada k drugemu zagonu."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s ni datoteke z ustreznim imenom"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s premaknjena za %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s že obstaja -- namesto tega izvoženo v %s, da\n%sprejšnji izvoz ostane."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (priporočilo YouTube za %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, dva kanala  (bitne hitrosti ni mogoče nastaviti na daljavo --\n%s%s kbit/s je priporočilo za stereo)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s zavrnjeno -- noben zapis ni bil sprejet.\n%sNastavite ročno v Resolve pod Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s ostane na „Same as Project“ -- projekt ne navaja\n%snobene krivulje HDR. Preverite v Resolve pod\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Brisanje ni uspelo."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Brisanje ni uspelo: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Povezovanje ni uspelo: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Razvezava ni imela učinka -- odvečne zvočne sledi\n    %-24s ostanejo na mestu."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s zvok iz A%d ohranjen, drugih izbrisanih: %d"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s ni bilo mogoče znova povezati"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s ni bilo mogoče razvezati: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s zvok ni vstavljen"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s-krat predvidena kamera ni snemala -- tam je druga."
+
+msgid "    %s could not be imported."
+msgstr "    Ni bilo mogoče uvoziti: %s."
+
+msgid "    %s could not be inserted."
+msgstr "    Ni bilo mogoče vstaviti: %s."
+
+msgid "    %s track could not be created: %s"
+msgstr "    Sledi vrste %s ni bilo mogoče ustvariti: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: slika in zvok sta vstavljena ločeno (zvok iz A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway je nastavljen: zagon teče kljub zgornjim točkam."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Vse sledi so na mestu -- ničesar ni treba premakniti."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Pozor: H.265 ni na voljo -- bo H.264 z osmimi biti.\n             Premalo za HDR; prelivi bodo imeli pasove."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Pozor: projekt je nastavljen na %s, gradivo je %s.\n             Izvoz nosi oznake gradiva. Da projekt uskladite:\n             Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Barvni prostor"
+
+msgid "already right"
+msgstr "že v redu"
+
+msgid "    Clip colours could not be set."
+msgstr "    Barv izrezkov ni bilo mogoče nastaviti."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Izrezki iz prejšnjega zagona so še vedno vezani na svoje remote grades.\n    Na strani Color desno kliknite predogledno sliko > „Copy Remote Grades to Local“\n    (prenese korekcijo) ali „Use Local Grades“. Nove Timeline\n    tega ne potrebujejo."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Seznama kodekov ni mogoče prebrati: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Barvna skupina %-24s le %s od %s izrezkov"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Navzkrižno preverjanje ni mogoče: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Navzkrižno preverjanje: ni merljivo"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    Vstopna točka   %s   (časovna koda %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    Vstopna točka   %s\n    Izstopna točka  %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Izstopna točka  %s   (časovna koda %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Izstopna točka je pred vstopno -- tako ne gre."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    Referenčna kamera nima časovne kode. Os sledi uri, ki jo daje %s, prva sličica pa kaže %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Za preverjanje -- Timeline se začne pri sličici %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Formata in kodeka ni bilo mogoče nastaviti."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Formata in kodeka ni bilo mogoče nastaviti: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Seznama formatov ni mogoče prebrati: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    Ena datoteka na izvoz: zavrnjeno; Resolve bo zapisal po eno datoteko za vsak izrezek."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    Ene datoteke na izvoz ni bilo mogoče zahtevati: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Dolžina  %s  (namesto %s)"
+
+msgid "    Length  %s"
+msgstr "    Dolžina  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Lokalne različice: v urejevalniku vozlišč „Group Pre-Clip“ velja za\n    celotno kamero, „Clip“ samo za posamezni rez. Eno ne izključuje\n    drugega."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Ciljne ravni merilnika glasnosti ni bilo mogoče najti -- nastavite jo ročno:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Izmerjeno %s sličic/s -- Resolve pozna samo stalne hitrosti,\n    uporabi se %s."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Nobenega para ni mogoče izmeriti -- ostane, kot je."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Nastavitve za različice ni bilo mogoče najti -- nastavite ročno:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Vsega ni bilo mogoče nastaviti. Resolve nekatere vrednosti sprejme le,\n    dokler je Timeline še prazna -- primerjajte zgoraj."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    V čakalni vrsti -- v Resolve ostane samo še „Render All“."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote Grades je vklopljeno: ena barvna korekcija na kamero velja\n    za vse njene reze -- posameznega reza potem ni več mogoče popraviti\n    samostojno."
+
+msgid "    Render job could not be created."
+msgstr "    Opravila izvoza ni bilo mogoče ustvariti."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Opravila izvoza ni bilo mogoče ustvariti: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Nastavitev ni mogoče izpisati -- nastavite ročno:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Okno bi bilo dolgo samo %s -- to ne more biti namenoma."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Sled %d  %-22s (tukaj: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 ni bilo mogoče ponovno prebrati: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Video sledi %d ni bilo mogoče preimenovati."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Ali gotova datoteka velja za HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    ni mogoče: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (zvočna pot je negativna -- nekaj ni v redu)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s poravnava ni mogoča: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s meritev ni mogoča: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s zamik %s, drsenje ure %s ppm (+/- %s), preostali raztros %s ms, %s od %s točk"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s zamik %s, drsenje ure %s ppm (+/- %s), preostali raztros %s ms, %s od %s točk%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s iz %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  Združeni bloki: %s, po vrstnem redu imen (brez časovne kode -- vrzeli ne bi bile prepoznavne)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  Združeni bloki: %s, po časovni kodi, začetek %s"
+
+msgid "  %s of %s files imported."
+msgstr "  Uvožene datoteke: %s od %s."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  Govorci: %s, kadri: %s, najkrajši %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  Video sledi: %s, poimenovane po govorcih:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s se pojavi dvakrat z različnimi kamerami -- uporabi se %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s ne da zvoka za merjenje -- položaj je določen samo po uri in ni bilo ničesar, s čimer bi ga preverili"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s ni bilo mogoče prenesti: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s ni bilo mogoče znova zapisati: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s gre na video sled 1 -- tam prva zvočna sled nosi\n  Full-Mix, video sled 1 pa postane kot 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s nima zvoka kamere -- brez njega ni mogoče ničesar poravnati"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s je v produkciji dvakrat -- prenese se samo enkrat."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s že obstaja in se prepiše -- ta produkcija nima zapisa, da jo je ustvarila."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s je iz prejšnjega zagona te produkcije in se zamenja."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s: %s sličic/s, hitrost, za katero Resolve nima Timeline -- pretvori se, ne izpusti"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s je pripravljena -- z --resolve-json se to lahko naredi pozneje."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, preskočeno"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: števila kanalov ni mogoče določiti (%s) -- ne meri se"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (samo merjenje: nič ni naloženo)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Timeline %r je že obstajala -- nova se imenuje %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Timeline s tem imenom že obstaja, z drugimi kamerami. Ostane;\n  nova se zgradi poleg nje pod lastnim imenom."
+
+msgid "  Added: %s"
+msgstr "  Dodano: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Dodajanje atomov preklicano -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Vse potrebne izhodne datoteke že obstajajo."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Atom %s preskočen: %s bajtov je zanj preveč."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Zvok: Full-Mix v enem kosu na A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Pozor: razlika v svetlosti %s stopenj -- vidna pri preklapljanju."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Pozor: %s in %s se obe imenujeta %s. Na Timeline\n  Resolve sporoča samo ime, zato njunih izrezkov ni mogoče\n  ločiti -- preimenujte eno od obeh datotek."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Pozor: brisanje ni bilo mogoče: %s -- nova Timeline zato dobi\n  dodatek k imenu."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Pozor: razpon      samo %s LU -- zelo ozko. Govor ima običajno 3 do 7 LU;\n                     pod tem zveni stisnjeno. Preverite, kako močno je nastavljen\n                     Leveler na auphonic.com."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Pozor: produkcija vsebuje dodatne sledi (%s). Te gredo v\n  miks -- izbrišite jih na auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Pozor: sled %s -- obdrži svoje nastavitve."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Atomi kamere:           ni jih mogoče dodati (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Podatki kamere:         prenesenih ključev: %s (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Podatki kamere:         Pozor, %s od %s ključev manjka v novi datoteki: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Podatki kamere:         vir jih nima"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Atomov ni mogoče dodati: v napoto je 64-bitna škatla."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Atomov ni mogoče dodati: moov ni na koncu."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Atomov ni mogoče dodati: vir je %s, cilj %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Preverjanje:            ni mogoče (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Drsenje ure:            %s ppm (+/- %s), preostali raztros %s ms, %s od %s točk"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Drsenje ure:            nič ni izmerjeno -- to je referenca, ob kateri se merijo ostale"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Primerjava barv ni mogoča: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Barvne skupine %r ni mogoče ustvariti."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Barvne skupine %r ni mogoče ustvariti: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Barva:                  %d/%d/%d -- primarne barve dopolnjene iz matrike (vir: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Barva:                  %d/%d/%d preneseno"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Barva:                  Pozor, %s v viru, %s v novi datoteki"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Navzkrižno preverjanje: %s iz Full-Mix, odstopanje %s ms (%s od %s točk)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Navzkrižno preverjanje: ni mogoče (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Podatkovne sledi:       preneseno: %s"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Podatkovne sledi:       izpuščeno: %s -- ffmpeg tega ne more zapisati"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Izbrisana: %s -- zdaj se gradi znova."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Drsenje v celotnem trajanju: %s s = %s sličic  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Prevzet je obstoječi rezultat -- nič izračunano, nič plačano."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Manj kot dve kameri z zvokom -- premalo za Multitrack."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Končni miks je zahtevan kot merilo (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "se ne začne tam, kjer se konča prejšnji blok"
+
+msgid "ends before the next block starts"
+msgstr "se konča pred začetkom naslednjega bloka"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com ju je združil. Miks ohrani oba kanala; izgubljena pa je\n  razlika med obema mikrofonoma te sledi."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Dva kanala, ker je ena sled stereo"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Vrzel dolžine %s pri %s -- zapolnjena s tišino"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Prekrivanje dolžine %s pri %s -- tam zvenita oba"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Prekrivajo se -- več mikrofonov hkrati, ne bloki drug za drugim."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Vsak gre tudi v video kot lastna sled: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  V video gre samo miks (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  Že obstaja, z enakimi kamerami v enakem vrstnem redu -- ostane\n  nedotaknjena. Kdor želi novo, jo izbriše v Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Ključnih sličic za %s ni mogoče prebrati (%s) -- kopija se začne na začetku datoteke."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Krivulja ravni ni mogoča (%s) -- brez omejevalnika"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Omejevalnik:       največ %s dB, enaka krivulja na vsaki sledi%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Glasnosti ni mogoče izmeriti: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Glasnosti ni mogoče izmeriti -- ostane, kot je."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Kazalnikov ni mogoče zapisati: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Končni miks z auphonic.com: %s LUFS, vrh %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Full-Mix ni bil najden -- Timeline ostane tiha."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Na Timeline ni zvoka -- ničesar ni treba počistiti."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  V predaji ni kamer -- ničesar ni za zgraditi."
+
+msgid "  No clips found for colour groups."
+msgstr "  Za barvne skupine ni bilo najdenih izrezkov."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Ni ostal noben rez -- Timeline ostane prazna."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Ni predano: zagon ni mogel umestiti %s, zato to ni kamera te epizode."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Ni izmerjenega zamika za %s -- umeščeno na začetek osi."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  V zvoku za %s ni bilo najdenega ničesar -- umeščeno samo po časovni kodi."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: meritev da %s s, časovna koda %s s -- uporabi se meritev."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Začetek Timeline %s je bil zavrnjen: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline se začne pri %s, ne pri %s -- vsak kader je za toliko bolj navznoter."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Začetek Timeline %s ni bil sprejet."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Začetek %s -- vsak kader se umesti glede nanj."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Takšne Timeline še ni bilo -- samo se zgradi."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Opomba: računa se z datotekami, naloženimi takrat. Te nosijo\n  časovno okno in poravnavo tistega dne. Če se vstopna točka, izstopna točka\n  ali izmerjeni položaj zdaj razlikujejo, povratno preverjanje izmeri\n  razliko in premakne sledi na mesto."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Opomba: ta ffmpeg nima soxr -- drsenje ure je mogoče odstraniti le v\n  korakih po 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Za zvok nepomembno."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Zamik:                  %s   (iz primerjave kamer)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Na Timeline je samo %s od %s kadrov."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Vrhovi:            %s dB nad %s dBTP -- omejevalnik jih ujame"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Predvajalnik: %s javlja napako -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Predvajalnik: %s ostane pri %s namesto pri %s -- opuščeno po %s poskusih (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Predvajalnik: zvočni izhod preklopi na %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Predvajalnik: zvok ne teče (%s) -- še en poskus."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Vnesite število med 1 in %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Produkcija na auphonic.com:   %s"
+
+msgid "  Production running (%s)"
+msgstr "  Produkcija teče (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Projekt %r je odprt."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Projektne datoteke ni bilo mogoče zapisati: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Projektne datoteke ni mogoče zapisati (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Razpon:            %s LU (govor ima običajno 3 do 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Referenca: %s (%s, najdaljše trajanje)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Ostane:            %s dB na vsaki sledi, to je %s LUFS namesto %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve ni sprejel nobene slike -- Timeline je prazna. Nanjo se\n  ne gradi nič več."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Rezultat: %s (%s) -- ostane poleg video datoteke\n"
+
+msgid "  Not used:  %s."
+msgstr "  Neuporabljena:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Vprašanje: v prepisu %s, rezi na odziv: %s."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Vprašanje: ni prepisa, zato ni bilo najdeno nobeno vprašanje in ni bilo\n            reza na odziv. Besede se med zagonom zapišejo iz končnega\n            miksa; brez njih nastavitev ne naredi ničesar."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Nastavitve so usklajene s prednastavitvijo %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Začetek %s (najzgodnejša kamera) -- sicer bi vse ležalo pred začetkom Timeline."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Neprilagojeno:     prevzeto iz izvornih datotek -- brez ojačanja na nobeni sledi in brez\n                     omejevalnika. Zvok gre ven natanko tak, kot je prišel."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Vsota sledi:       %s LUFS, vrh %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Cilj:              %s LUFS  ->  %s dB na vsaki sledi"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline dobi %s: najvišjo med njimi ali naslednjo hitrost, ki jo ima Resolve\n  nad njo. Pri pretvorbi navzgor Resolve ponavlja sličice, navzdol\n  jih zavrže. Vsaka kamera obdrži svojo hitrost in montaža šteje\n  v njej."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix ni bilo mogoče uvoziti."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix ni bilo mogoče vstaviti."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  Kamere nosijo časovno okno in po eno sekundo na vsakem koncu: zapisano %s za %s od posnetih %s."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  Kamere so si blizu (stopnje svetlosti: največ %s)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  Montaža se je spremenila: število kadrov %s namesto %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Zapisa o prejšnjih zagonih tukaj ni mogoče prebrati (%s), zato se sporoči vse, kar že obstaja."
+
+msgid "  The cut stays as it was."
+msgstr "  Montaža ostane, kot je bila."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Datoteke se ponovno naložijo -- to stane dobroimetje."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Datoteke v mapi morajo biti poimenovane po govorcih in pripadati\n  temu zagonu. Brez mape gre vse znova prek auphonic.com."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool ostane, kot je."
+
+msgid "  The names from there are adopted:"
+msgstr "  Imena od tam se prevzamejo:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Tam je sledi %s, tukaj %s -- to se ne ujema."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Te kamere ni bilo mogoče umestiti -- preskočena"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Časovno okno:           zapisano %s od %s, od %s kamere"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Časovna koda %s zapisana kot bext in iXML (referenca: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Preveč:            omejevalnik bi moral odvzeti %s dB. Več kot %s dB\n                     zveni stisnjeno -- %s dB manj ojačanja."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Prepis ni mogoč (%s) -- zagon vseeno teče."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Splošni plan na robovih: preskočen -- prvi ali zadnji nagovor\n  bi bil predolg za pozdrav."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Splošni plan na robovih: do %s in od %s"
+
+msgid "  from %s, %s"
+msgstr "  iz %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML za %s ni zapisan: %s"
+
+msgid " at high frame rates"
+msgstr " pri visokih hitrostih sličic"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Zvok se po časovni kodi začne pri   %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Slika se po časovni kodi začne pri  %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  Časovna koda zvoka sploh ne ustreza sliki -- verjetno ura, ki ni bila nikoli nastavljena. Uporabi se meritev."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  Časovna koda ne ustreza slišanemu. Uporabi se meritev."
+
+msgid "%s from %s recordings"
+msgstr "%s iz %s posnetkov"
+
+msgid "%s is missing."
+msgstr "Manjka: %s."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "Isto ime je na več kot enem govorcu: %s -- ime je oseba in vsaka oseba potrebuje svoje."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "Isto ime je na več kot enem glasu: %s. Ime je oseba, montaža pa osebo postavi na eno kamero -- dva glasova z enim imenom bi bila ena oseba na dveh mestih."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  Ta računalnik ga lahko pravilno namesti: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Nameščanje: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Na tem računalniku: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Nameščanje: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  Namestitev %s v ta Python: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  Ročno:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Novejše različice ni bilo mogoče poiskati: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "Manjka: %s. Prvič to traja nekaj minut."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Zaženem zdaj? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  To ni uspelo: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Obnavljanje: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org ponuja različice za Windows. Mapo z ffmpeg.exe je nato treba dodati v PATH ali datoteke postaviti poleg tega programa."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Odprem stran? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  Strani ni bilo mogoče odpreti: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "Manjka: %s -- nameščanje. Prvič to traja nekaj minut."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sPreverjanje časovne kode zvočne datoteke"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s ne (ni proste sličice)"
+
+msgid ", audio on A2"
+msgstr ", zvok na A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Datoteke dodelitve ni mogoče prebrati: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Zvoka kamere ni mogoče uporabiti: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK NI MOGOČ\n  Potrebni sta vsaj dve vhodni sledi, najdena pa je bila samo %s.\n  Sled je lasten posnetek, kanal večkanalnega\n  snemalnika ali zvok kamere -- ta šteje, takoj ko je v polju\n  „Zvok kamere“ izbrano „z notranjim zvokom“. Brez dveh takih\n  ni česa ločiti in ista datoteka gre skozi kot\n  običajna produkcija."
+
+msgid "No preset is called %r."
+msgstr "Nobena prednastavitev se ne imenuje %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "V kamerah ni zvoka -- ni s čim delati."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Samo ena zvočna datoteka in nobene slike -- ni kaj narediti."
+
+msgid "Open project ..."
+msgstr "Odpri projekt ..."
+
+msgid "Save project"
+msgstr "Shrani projekt"
+
+msgid "Close project"
+msgstr "Zapri projekt"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Projektna datoteka gre v izhodno mapo, ki pa še ni izbrana. Izberite jo."
+
+msgid "Written:\n\n  %s"
+msgstr "Zapisano:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Nič ni bilo zapisano -- gradiva še ni."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nKDO SPRAŠUJE -- predlog, iz katerega se nič ne nastavi"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s govora, vprašanj: %s od %s stavkov"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  Vrstni red drži, razdalja med njimi ne: izmerjen v štirih epizodah se ni nikoli obrnil, razdalja med prvim in zadnjim pa se je spremenila za štirikrat. Predpostavlja en glas na sled; kjer dve sledi nosita isti govor, se ne pove nič."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Kdo sprašuje -- tukaj ni povedano: dve od sledi nosita isti govor, zato bi vprašanja pripadla tistemu snemalniku, ki je bil najbolj navit."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nKATERI MIKROFON -- predlog, iz katerega se nič ne nastavi"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s zveni kot %-20s %s %% znotraj te sledi, %s točk pred naslednjo"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  Velja ob eni predpostavki: en mikrofon na osebo in vsak od njih nosi samo to osebo. Kjer se sledi preveč prekrivajo, da bi jih bilo mogoče ločiti, ali dva glasova kažeta na isti mikrofon, se raje ne pove nič kot nekaj negotovega."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nKAKO BI SE LAHKO IMENOVALI GLASOVI -- predlog"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s bi se lahko imenoval %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s v časovnem oknu skoraj ne govori -- predlog: ne uporabi."
+
+msgid "Guest"
+msgstr "Gost"
+
+msgid "Host"
+msgstr "Voditelj"
+
+msgid "Host %d"
+msgstr "Voditelj %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Samo za glasove, ki še nosijo ime, ki jim ga je dal program; imena, ki ga je nekdo vtipkal, se nikoli ne dotakne. Vloge se razberejo iz tega, kdo sprašuje in kdo odgovarja, kar velja za pogovor z enim gostom in je predlog, ne nastavitev."
+
+msgid "Skip this version"
+msgstr "Preskoči to različico"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Samo to. Naslednja izdaja bo spet vprašala, Pomoč > Poišči novejšo različico zdaj pa vpraša kadar koli."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s že obstaja -- ne prenese se dvakrat"
+
+msgid "The text for %s could not be fetched."
+msgstr "Besedila za %s ni bilo mogoče prenesti."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Preverjanje:            ene od obeh sledi ni v zapisani datoteki, zato ni bilo nič izmerjeno."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Preverjanje:            obeh sledi ni mogoče primerjati (ujemanje %s, spodnja meja je %s). To ne pove ničesar o časovni legi."
+
+msgid "Project found"
+msgstr "Projekt najden"
+
+msgid "Open the project"
+msgstr "Odpri projekt"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Iz njega se vrne vse: imena, ločevanje, dodelitev, vrste, časovno okno. Seznam datotek se zamenja s tistim iz projekta."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "Pri tem gradivu je projektna datoteka:\n\n  %s\n  zapisana %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Pri tem gradivu je več projektnih datotek. Katera?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROJEKT ODPRT\n  Vsi vnosi so spet tu, v tej seji še ni bilo nič izračunano.\n  V izhodni mapi so datoteke zadnjega zagona:\n  %s\n\n  Od tu vodijo tri poti:\n    • spodaj „Odpri mapo z rezultatom“ -- ogled datotek tistega zagona,\n    • spodaj „Ustvari projekt Resolve“ -- iz predaje tistega zagona,\n      brez ponovnega računanja,\n    • zgoraj „Začni“ -- vse znova izračunati in prepisati datoteke.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROJEKT SHRANJEN\n  %s\n  Ta zagon je mogoče pozneje znova odpreti -- zgoraj levo\n  „Odpri projekt ...“\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Prednastavitev ni bilo mogoče naložiti: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Več kamer, a nobene zvočne datoteke. Vsaka kamera bi imela svoj zvok --\nza to je --multitrack. Sicer eno kamero za drugo."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Datoteka NI prepoznana kot HDR."
+
+msgid "The file is tagged as HDR."
+msgstr "Datoteka je označena kot HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Neznana končnica, preskočeno: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "S katero prednastavitvijo Auphonic naj se obdela ta datoteka?"
+
+msgid "Would write: %s"
+msgstr "Zapisalo bi se: %s"
+
+msgid "channel count unknown"
+msgstr "število kanalov neznano"
+
+msgid "is actively taken out"
+msgstr "se aktivno odstrani"
+
+msgid "not readable"
+msgstr "neberljivo število"
+
+msgid "the default device"
+msgstr "privzeto napravo"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: ni zvoka, ki bi ga bilo mogoče izvleči (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  PROJEKT S TEM IMENOM ŽE OBSTAJA: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  ČIŠČENJE ZVOČNIH SLEDI"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  IZREZKI V MEDIA POOL"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Neuporabno: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  OSVEŽITEV SEZNAMA MONTAŽE"
+
+msgid "\n  Render job"
+msgstr "\n  Opravilo izvoza"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Del z Resolve se je ustavil: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  USTAVLJENO: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Nastavitve"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Ustavljeno: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  PRODUKCIJA S TEM IMENOM ŽE OBSTAJA"
+
+msgid "\n  This produces:"
+msgstr "\n  Iz tega nastane:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Zagon %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nŽE OBDELANO"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nPRIMERJAVA BARV KAMER"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nPREVERJANJE VRNJENEGA"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nRAZLIČNE HITROSTI SLIČIC: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nRAZLIČNE VELIKOSTI SLIČIC: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nKončano brez rezultata: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nKončano z napakami.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nMERJENJE ČASOVNE OSI"
+
+msgid "\nMETRICS"
+msgstr "\nKAZALNIKI"
+
+msgid "\nMIXING"
+msgstr "\nMIKSANJE"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALIZACIJA"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Brez slike: sledi se poravnajo druga ob drugo."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs tukaj ne učinkuje: sledi gredo ven takšne, kot so bile posnete, glasnost pa se nastavi tam, kjer se miksajo."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nSamo ena sled je našla mesto -- ni več ničesar, ob kar bi jo poravnali."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Okno:                %s -- vse, kar je slišala katera koli sled"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: tišina %s na začetku in %s na koncu"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nKo se bloki združijo, ostane le ena sled, Multitrack pa potrebuje eno na glas. Kjer sta bili dve osebi zamenjani za en posnetek, --apart izloči blok iz njega."
+
+msgid "RECOGNISED PLAN"
+msgstr "PREPOZNANI NAČRT"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nNobene zvočne sledi ni bilo mogoče poravnati -- na os ni kaj postaviti."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nZvok in slika imata skupnega le %s, število merilnih točk, ki jih je poravnava našla v tem, pa je %s. To je premalo, da bi karkoli postavili nanj."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s, zmiksano skupaj"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nNi uporabne video datoteke -- brez zvoka kamere ni skupne časovne osi."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nPREDHODNO PREVERJANJE -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nOBDELAVA: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- SAMO OGLED"
+
+msgid "\nRESULT"
+msgstr "\nREZULTAT"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nSHRANJEVANJE SLEDI"
+
+msgid "\nStopped: %s"
+msgstr "\nUstavljeno: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nZAPISOVANJE SLEDI NA OS"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  končano%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Sled %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s ni datoteke v Media Pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   prazno (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s od %s, dolžina %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s pot zvoka %4s ms (%s m), zamik %6s ms, drsenje %5s ppm (točke: %s, ostanek %s ms)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- ni najdeno nič ustreznega"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Pozor: %s. Tam ni slike;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Barvne skupine: %s -- vsi izrezki so dodeljeni"
+
+msgid "    Colours per angle:"
+msgstr "    Barve po kotih:"
+
+msgid "    Cross-check:"
+msgstr "    Navzkrižno preverjanje:"
+
+msgid "    Left without picture: %s"
+msgstr "    Ostalo brez slike: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    Formata MP4 ni bilo mogoče najti. Na voljo: %s"
+
+msgid "    No clips found."
+msgstr "    Ni najdenih izrezkov."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Ni ustreznega kodeka. Na voljo: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Nastavitve izvoza so zavrnjene."
+
+msgid "    the measured window is therefore kept."
+msgstr "    zato ostane izmerjeno okno."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  Kadri: %s, skupaj %s s, brez svojega zvoka."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  Ustvarjene video sledi: %s, zvočne sledi: %s (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s dobi skupaj zmiksane sledi (%s): %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Zvočna sled %d:          %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Atomi kamere:           dodano %s -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s na začetku in %s na koncu nimata slike in se izpustita"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    začne se z %s in konča z %s -- odsek, ki ga je videla vsaka kamera"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nUstavljanje. Zagon se konča, takoj ko lahko, ne da bi pustil napol zapisano datoteko -- trenutek.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Splošni plan traja %s s, manj od najkrajšega kadra s %s s -- zato se znova združi in se nikoli ne pojavi.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nIzmerjeno. Nič ni bilo zapisano -- poskusni zagon pusti mapo z rezultatom takšno, kot je bila.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nUstavljeno med: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Vse po tem koraku manjka. V mapi je del zagona, ne rezultat."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Skupno okno:         %s do %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Ustvarjena:  %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Napaka pri zapisovanju: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Datoteka:        %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Zahtevana sta dva kanala -- posnetek je stereo"
+
+msgid "  From %s"
+msgstr "  Iz %s"
+
+msgid "  In summary: %s"
+msgstr "  Povzetek: %s"
+
+msgid "  In the archive: %s"
+msgstr "  V arhivu: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Manjka:      %s"
+
+msgid "  Player: %s"
+msgstr "  Predvajalnik: %s"
+
+msgid "  Production:  %s"
+msgstr "  Produkcija:  %s"
+
+msgid "  Project %r"
+msgstr "  Projekt %r"
+
+msgid "  Project %r created."
+msgstr "  Projekt %r je ustvarjen."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Rezultat:          približno %s LUFS, vrh %s dBTP"
+
+msgid "  Results:"
+msgstr "  Rezultati:"
+
+msgid "  Results:     none"
+msgstr "  Rezultati:   jih ni"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  Obstoječe datoteke se ponovno uporabijo -- ponoven izračun ne stane nič."
+
+msgid "  Time limit: %s"
+msgstr "  Časovna omejitev: %s"
+
+msgid "  To upload:   %s"
+msgstr "  Nalaganje:   %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Sledi:       %s"
+
+msgid "  Tracks: %s"
+msgstr "  Sledi: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Prepis: %s"
+
+msgid "  Uploaded:"
+msgstr "  Naloženo:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Odstopanje:                     %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Odstopanje:                     %s  (sličice: %s)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Odstopanje:                     %s  (sličice: %s) -- se ujema"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Izmerjeni zamik:                %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Zamik po časovni kodi:          %s"
+
+msgid "Abort: %s"
+msgstr "Prekinitev: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "IZLOČANJE ZVOKA KAMER"
+
+msgid "FOR RESOLVE"
+msgstr "ZA RESOLVE"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "NI ZVOČNE DATOTEKE -- UPORABI SE ZVOK KAMERE"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "NI LOČENIH ZVOČNIH POSNETKOV -- UPORABI SE ZVOK KAMERE"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "OBDELAVA NA AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "OBDELAVA NA AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "Obdelava ni uspela: %s"
+
+msgid "RESULT"
+msgstr "REZULTAT"
+
+msgid "Resolve part stopped: %s"
+msgstr "Del z Resolve se je ustavil: %s"
+
+msgid "Stopped: %s"
+msgstr "Ustavljeno: %s"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Za pretvorbo: v Media Pool desno kliknite „%s Multicam“ >\n  „Convert Timeline to Multicam Clip“ > „Use Source Audio Channels“.\n  Samo v eno smer -- a nov zagon lahko Timeline kadar koli znova zgradi.\n  Koti:%s\n  Vse ostalo -- izbira zvoka, barvne skupine, kadriranje -- je v\n  priročniku, docs/resolve.md.\n"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s vse kamere druga ob drugi -- postane izrezek multicam"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s slika iz montaže kamer, zvok v enem kosu"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s kamera v enem kosu, miks pod njo"
+
+msgid "   --   audio only"
+msgstr "   --   samo zvok"
+
+msgid "   -- not found"
+msgstr "   -- ni najdeno"
+
+msgid "   Caution: more than one frame"
+msgstr "   Pozor: več kot ena sličica"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s zamik %s ms%s, dolžina %s s, raztros %s ms, %s od %s točk%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (ta datoteka se konča prej)"
+
+msgid "  (this file starts later)"
+msgstr "  (ta datoteka se začne pozneje)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  nobena Timeline v Resolve ne teče s to hitrostjo; pretvori se"
+
+msgid "  --  this file is outside"
+msgstr "  --  ta datoteka je zunaj okna"
+
+msgid "  -->  aligned"
+msgstr "  -->  poravnano"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  poravnano, drsenje ure %s ppm odstranjeno"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Preverjanje:            %s proti sledi kamere %s ms (ujemanje %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Ustvarite ga z „Ustvari projekt Resolve“ v vmesniku. Resolve mora teči."
+
+msgid "  The handover file could not be written."
+msgstr "  Datoteke predaje ni bilo mogoče zapisati."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Iz tega nastanejo projekt, uvoz in %s:"
+
+msgid " (paused)"
+msgstr " (zaustavljeno)"
+
+msgid " (playing)"
+msgstr " (predvajanje)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- vstopna ali izstopna točka prihrani nalaganje"
+
+msgid " -- not readable"
+msgstr " -- ni berljivo"
+
+msgid " -- nothing to fault."
+msgstr " -- brez pripomb."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- le matrika navaja BT.2020"
+
+msgid " and "
+msgstr " in "
+
+msgid " from %s files"
+msgstr " iz datotek: %s"
+
+msgid " not."
+msgstr " -- ne."
+
+msgid "%s blocks"
+msgstr "bloki: %s"
+
+msgid "%s brought to the preset"
+msgstr "usklajeno s prednastavitvijo: %s"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "Kanali: %s -- razdelijo se na sledi, glejte vrstice zgoraj."
+
+msgid "%s checked"
+msgstr "preverjeno: %s"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s od %s primerjav je pod %s dB -- vsak posnetek proti vsakemu drugemu, v obe smeri."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s od %s video datotek nima krivulje ne barvnega prostora v polju colr%s -- verjetno gradivo log."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r je časovna koda, vendar tu ni slike in zato ne kamere, od katere bi jo šteli. Potem deluje le vrednost od začetka okna, na primer +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r je časovna koda, vendar časovna os ni vezana na nobeno uro: nobena datoteka tu je nima, tudi referenčna kamera %s ne. Potem deluje le vrednost od začetka okna, na primer +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r ni prednastavitev Multitrack"
+
+msgid "%r is not a number."
+msgstr "%r ni število."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   se ne ujema z drugimi datotekami: zvok ni prepoznan, ni časovne kode.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Nastavljeno na %s; %s je le en klik stran."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Izpuščeno, ker je %s že zasedena; %s je le en klik stran."
+
+msgid "Its sound cannot be used."
+msgstr "Njenega zvoka ni mogoče uporabiti."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   zvok ni prepoznan; umeščena po svoji časovni kodi"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   aplikacija ne pozna te oblike"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  bloki: %s"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- kaj naj se zgodi s tem?\nPodrobnosti so v dnevniku."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz namesto %s kHz -- pretvori se med obdelavo."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s ni mogoče umestiti: zvok nima nič skupnega z ostalim gradivom, datoteka pa nima časovne kode. Potrebuje takšno, ki se ujema z drugimi posnetki, to pa je treba nastaviti z drugim programom."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "Datoteka %s se ne ujema z ničemer v gradivu in je precej krajša od ostalega: predlagana je kot uvodna špica, ki se postavi na začetek in se nikoli ne meri."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "Nastavljeno je %s, tu pa se nič ne prilagaja: sledi gredo ven takšne, kot so bile posnete, glasnost pa se nastavi tam, kjer se miksajo."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "Datoteko %s je spet mogoče umestiti in je znova v zagonu."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "Namestitev %s ni uspela.\nRočno:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s nima zvočne sledi."
+
+msgid "%s in %s"
+msgstr "%s v %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s v mikrofonu %s: za %s dB tišje kot v lastnem."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s je v %s -- datoteka je zdaj v predvajalniku."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s ni na časovni osi epizode: postavi se pred gradivo ali za njim, ne vreže se vanj. Vstopna in izstopna točka pripadata temu, kar je vmes."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s ni v nobeni video datoteki. Ali je tam časovna koda, ki se ujema z gradivom?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s v mikrofonu %s le za %s dB tišje"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: še ni mogoče previjati, sledi pozneje (%s)"
+
+msgid "%s: not there"
+msgstr "%s: ni tam"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), poskus %d, nato na %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: naj gre na %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", brez zvoka"
+
+msgid "-- only one camera"
+msgstr "-- samo ena kamera"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- skok na %s programskega časa%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- točka nastavljena, programski čas teče od %s ---"
+
+msgid "... or add files ..."
+msgstr "... ali dodajte datoteke ..."
+
+msgid "/not seekable"
+msgstr "/brez previjanja"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>Kadri: %(n)s</b>, mediana %(med)s s, najkrajši %(short)s s, najdaljša kamera %(long)s s</span>. Čas govora: <b>%(own)s %%</b> na lastni kameri (%(own_t)s), %(wide)s %% na splošnem planu (%(wide_t)s), <span style='color:%(warn)s'>pri %(off)s %% (%(off_t)s) kamera govorca ni aktivna</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Vsak par kanalov se presoja posebej: ena stereo sled ali dva mikrofona in torej dve sledi. Tihi vhodi odpadejo. Vrstice pod datoteko povedo, kaj je bilo izmerjeno, kljukica pa to preglasi."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Pri negativni vrednosti slika prehiteva zvok."
+
+msgid "Add files ..."
+msgstr "Dodaj datoteke ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Poravnava gre po izmerjenem zamiku; časovna koda je le za navzkrižno preverjanje."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Vsi posnetki imajo isto ime -- iz tega nastane ena sama sled."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Vse vrstice imajo isto ime -- iz tega nastane ena sama sled, Multitrack pa potrebuje vsaj dve."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Dodelitev: katera zvočna sled pripada kateri kameri"
+
+msgid "Audio"
+msgstr "Zvok"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Zvok in video (%s);;Vse datoteke (*)"
+
+msgid "Audio at programme time"
+msgstr "Zvok ob programskem času"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic je ustvaril drugačne sledi, kot so bile zahtevane: %s namesto %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic javlja napako: %s"
+
+msgid "Bleed"
+msgstr "Presluh"
+
+msgid "Blocks"
+msgstr "Bloki"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Oboje hkrati ne gre: vrnjene sledi bi dobile eno vrednost, lastni miks pa drugo. Nastavite --lufs %.0f ali spremenite prednastavitev."
+
+msgid "Camera"
+msgstr "Kamera"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Zvok kamere, še %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- predogled  (dolžina %s)"
+
+msgid "Why the run cannot start"
+msgstr "Zakaj se zagon ne more začeti"
+
+msgid "Cannot start yet: %s"
+msgstr "Še ni mogoče začeti: %s"
+
+msgid "Change rejected: %s"
+msgstr "Sprememba zavrnjena: %s"
+
+msgid "Check again"
+msgstr "Preveri znova"
+
+msgid "Check the connection to Resolve again"
+msgstr "Znova preveri povezavo z Resolve"
+
+msgid "Check itself failed: %s"
+msgstr "Samo preverjanje ni uspelo: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Preveri ključ in prenese prednastavitve."
+
+msgid "Chosen"
+msgstr "Izbrano"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Ura %7.2f%s | B1[%s] %s | B2[%s] %s | Zvok %s %s"
+
+msgid "Close"
+msgstr "Zapri"
+
+msgid "Connects to Resolve again."
+msgstr "Znova se poveže z Resolve."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Vsebina: kamera kot vsaka druga.\nSplošni plan: kamera, pred katero ne sedi nihče -- ne prevzame nobenega govorca, montaža pa preide nanjo ob premoru in ob dolgem monologu.\nUvodna in odjavna špica sta končana izrezka -- nista poravnana ne obdelana, le postavljena v Timeline.\nPrezri ta video: datoteka ostane povsem zunaj."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  Splošni plani: %s; montaža uporablja %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Vsaka kamera ima govorca, zato ni splošnega plana: štiri nastavitve splošnega plana in kljukica za robove tu ne učinkujejo."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Nobena kamera ni brez govorcev, zato ni splošnega plana: štiri nastavitve splošnega plana in kljukica za robove ne učinkujejo. Eni kameri v polju Vrsta nastavite „Splošni plan“ ali pustite eno brez govorca."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "umeščeno po fazi, ostrina %s ob spodnji meji %s, drsenje neznano"
+
+msgid "placed on the bands that move"
+msgstr "umeščeno po frekvenčnih pasovih, ki se spreminjajo"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Zakaj so nastavitve splošnega plana sive"
+
+msgid "because no speaker is assigned to it"
+msgstr "ker ji ni dodeljen noben govorec"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "označena kot splošni plan -- ne prevzame govorcev"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "ji ni dodeljen noben govorec, vendar montaža uporablja %s"
+
+msgid "the cut uses %s"
+msgstr "montaža uporablja %s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Krivulja in barvni prostor manjkata v datoteki"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "Vstopna in izstopna točka sta na voljo, ko je časovna os določena -- iz časovne kode ali z meritvijo."
+
+msgid "In point is %s before the first frame"
+msgstr "Vstopna točka je %s pred prvo sličico"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "Vstopna točka je zdaj %s, obstoječe datoteke pa pripadajo %s.\n  Zvok v videih je odrezan na staro okno -- znova kliknite „Začni“\n  zgoraj."
+
+msgid "Out point is %s after the last frame"
+msgstr "Izstopna točka je %s za zadnjo sličico"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Izstopna točka je zdaj %s; okno bi bilo dolgo %s, obstoječe\n  datoteke pa %s -- znova kliknite „Začni“ zgoraj."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Za izvoz se običajno uporablja omejeni razpon. Polni ni napačen, a ga nekateri predvajalniki napačno razberejo."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Določa, kako auphonic.com obdela zvok.\n\n„%s“ pusti ključ na mestu in vseeno ne gre tja.\nZvok se tedaj le združi in normalizira, ne loči --\nbrez ločenih sledi pa ni montaže kamer."
+
+msgid "Distance to mean"
+msgstr "Odmik od povprečja"
+
+msgid "Drag audio and video files here"
+msgstr "Sem povlecite zvočne in video datoteke"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Poskusni zagon: samo merjenje, nič se ne zapiše, nič se ne naloži."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Med pozdravom in slovesom ostane slika v splošnem planu."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Sličice stojijo malo dlje; datoteka zaradi tega ni nič krajša. Program za montažo ponovi približno eno sličico vsakih %s s, slika in zvok kamere pa ostaneta skupaj."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Sličice stojijo malo manj časa; datoteka zaradi tega ni nič daljša. Program za montažo izpusti približno eno sličico vsakih %s s, slika in zvok kamere pa ostaneta skupaj."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "Osem bitov za HDR ni dovolj: v vsakem prelivu nastanejo pasovi, YouTube pa zahteva deset ali dvanajst."
+
+msgid "Envelope"
+msgstr "Ovojnica"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s stoji na %s, ki ni kamera tega zagona -- montaža jo vseeno navede."
+
+msgid "Envelope failed: %s"
+msgstr "Ovojnica ni uspela: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Ovojnice in zvok kamer se pripravljajo v ozadju."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Vsaka vrstica potrebuje ime -- pri Auphonicu postane track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Zunanji predogled -- aplikacija ne pozna te oblike"
+
+msgid "Fetching audio"
+msgstr "Pridobivanje zvoka"
+
+msgid "Fetching audio ..."
+msgstr "Pridobivanje zvoka ..."
+
+msgid "File"
+msgstr "Datoteka"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Tam manjkajo datoteke -- brez novega nalaganja ni mogoče ničesar izračunati.\n  Z --auphonic-resume upload skript znova naloži; to porabi dobroimetje."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "Za HDR je običajna izbira HEVC (Main 10), AV1 ali VP9 Profile 2. YouTube sprejme tudi H.264, vendar ta potrebuje večjo bitno hitrost."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Za deset bitov HEVC potrebuje profil Main 10. V Resolve je pod Deliver kot „Profile“."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s sličic/s namesto %s v datoteki -- za %s manj sličic na isti dolžini."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s sličic/s namesto %s v datoteki -- za %s več sličic na isti dolžini."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "Razmik med sličicami niha za %s %% -- časovni razpored sličic je neenakomeren."
+
+msgid "Free space there: %s"
+msgstr "Prosti prostor tam: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Vrzel %s med blokom %d in %d -- kamera se je ustavila."
+
+msgid "Drag to move the position."
+msgstr "Povlecite, da premaknete položaj."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "Za HDR mora biti tukaj 16 (PQ, torej HDR10) ali 18 (HLG). V Resolve: Gamma tag = ST.2084 ali HLG. 14 ni krivulja HDR, temveč SDR v prostoru BT.2020."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "Za HDR mora biti tukaj 9 (BT.2020). V Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "Za HDR mora biti tukaj 9 (BT.2020, nekonstantna svetilnost)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG je vezan na zaslon -- nima vnosa za zaslon za mastering."
+
+msgid "If empty: next to each video file."
+msgstr "Če je prazno: poleg vsake video datoteke."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "Nastalo je pri snemanju in se ga zdaj ne da več spremeniti. Manj ko so mikrofoni ločeni, bolj previdno lahko deluje De-Bleed na auphonic.com. Naslednjič: od sosednjega mikrofona trikrat dlje kot od lastnih ust, potem je sosednji glas približno %s dB tišji."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "Datoteka %s se ne ujema z ničemer v gradivu, zato je ni mogoče vmontirati v epizodo: nastavljena kot Uvodna špica."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "Tudi datoteka %s se ne ujema z ničemer v gradivu, uvodna špica pa je že zasedena: izpuščena."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "Datoteka %s je že nastavljena kot %s, epizoda pa ima samo eno takšno. Tu odgovorite drugače ali pa najprej odstranite oznako pri tisti datoteki."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "To je zapisano v atomu logs v opisu slike -- po tem Resolve prepozna vhodni barvni prostor. Različne krivulje pomenijo različne vhodne barvne prostore."
+
+msgid "Jumps to the end of the window."
+msgstr "Skoči na konec okna."
+
+msgid "Jumps to the start of the window."
+msgstr "Skoči na začetek okna."
+
+msgid "Keychain"
+msgstr "Keychain"
+
+msgid "Limits the de-bleed: "
+msgstr "Omejuje De-Bleed: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Prenesite prednastavitve in izberite eno ali pustite ključ API prazen."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 zavrnjen -- ostane privzeta nastavitev"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Samo merjenje -- nič se ne zapiše ali naloži."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Merjenje: %s (%s od %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Merjenje ni mogoče: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Merjenje merila"
+
+msgid "Measuring time axis ..."
+msgstr "Merjenje časovne osi ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Manjkajoči zvok %s je zapolnjen s tišino%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Modula DaVinciResolveScript ni mogoče naložiti: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Ena zvočna sled na osebo, ločeno vse do auphonic.com.\nDeluje tudi brez tega -- takrat brez De-Bleed in Leveler.\nPotrebni sta dve vhodni sledi: lasten posnetek, kanal večkanalnega\nsnemalnika ali zvok video datoteke, nastavljene na „z notranjim zvokom“.\nMontaža kamer te kljukice ne potrebuje."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (ena sled na govorca)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack potrebuje vsaj dve vhodni sledi. Sled je lasten posnetek, kanal večkanalnega snemalnika ali zvok video datoteke, nastavljene na „z notranjim zvokom“. Več blokov istega posnetka šteje kot ena, odložene sledi pa sploh ne."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Ni ključa API. Podajte --auphonic-api-key KEY, nastavite AUPHONIC_TOKEN ali ga enkrat shranite v vmesniku. Ključ je v nastavitvah računa Auphonic."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Nobena zvočna datoteka nima časovne kode. Vstopna in izstopna točka se štejeta od začetka gradiva -- lega datotek med seboj je izmerjena."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Zvok še ni v uporabi -- dodajte zvočni posnetek ali na seznamu datotek pri video datoteki nastavite Zvok kamere na „z notranjim zvokom“."
+
+msgid "No audio tracks are assigned."
+msgstr "Nobena zvočna sled ni dodeljena."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Nobena kamera ni dodeljena, zato ni ničesar, med čimer bi rezali."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Kamere še niso dodeljene -- za to vklopite Multitrack."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Ni povezave z Resolve.\n  Ali program teče? Ali je zunanje skriptiranje nastavljeno na 'Local'\n  pod Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "Odprta še ni nobena datoteka ali projekt."
+
+msgid "No files selected yet."
+msgstr "Izbrana še ni nobena datoteka."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Vnos ni mogoč. Z %s %s določite, kaj naj se zgodi."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Tu ni vgrajenega predvajalnika -- predvajanje teče v ffplay v lastnem oknu."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Prednastavitev ni podana, vnos ni mogoč. Eno od zgornjih izberite z --auphonic-preset NAME."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "V računu ni shranjenih prednastavitev. Eno lahko ustvarite v spletnem vmesniku."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Tu ni znan noben govorec -- brez tega, kdo govori kdaj, ni ničesar, med čimer bi rezali."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Noben glas še nima kamere -- tako bi bil vsak kader isti."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Govorci še niso znani -- nič ni izmerjeno, nič ločeno in ni datoteke predaje iz prejšnjega zagona v mapi %s ali njenih podmapah."
+
+msgid "Not found again after import: %s"
+msgstr "Po uvozu ni bilo znova najdeno: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "z ffmpeg.org in mapo v PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "prek upravitelja paketov: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Tukaj: %s. Potrebna: %s ali novejša."
+
+msgid "no answer"
+msgstr "ni odgovora"
+
+msgid "Nothing runs until that is put right."
+msgstr "Nič ne deluje, dokler to ni urejeno."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Nič ne deluje, dokler to ni urejeno. Takole: %s"
+
+msgid "Get it: %s"
+msgstr "Pridobi: %s"
+
+msgid "Quit"
+msgstr "Končaj"
+
+msgid "That worked."
+msgstr "To je uspelo."
+
+msgid "Installing ffmpeg"
+msgstr "Nameščanje ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "Znova zaženite program, da ga upošteva."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Prenos traja nekaj minut, njegova sporočila pa se prikažejo na zavihku „Izhod“."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "To traja nekaj minut -- upravitelj paketov morda gradi iz izvorne kode. Kar sporoča, se prikaže tukaj."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Zdaj se prevaja in to je dolgi del: na hitrem računalniku minute, na starejšem precej dlje. Nič se ni zataknilo -- dokler dela, se vsakih nekaj sekund prikaže pika."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg je na mestu."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Program to prebere ob zagonu. Zdaj se lahko znova zažene, ali pa to storite sami pozneje."
+
+msgid "Start again now"
+msgstr "Znova zaženi zdaj"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Ponovni zagon ni uspel. Zaprite okno in zaženite program kot prej."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Najprej se obstoječi ffmpeg umakne: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Prenesete lahko že zgrajen ffmpeg 9.0.1 s soxr: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Prenesem zdaj? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Prenaša se že zgrajen ffmpeg. Je velik, zato to traja nekaj minut: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s od %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "Zgrajene različice ni bilo mogoče prenesti: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Zgrajene različice ni bilo mogoče razpakirati: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Arhiv je vseboval %s od obeh programov."
+
+msgid "  It is here: %s"
+msgstr "  Nahaja se tukaj: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "namestite Homebrew z brew.sh, nato to znova"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Ta ffmpeg ima soxr: drsenje ure med kamerami se izravna v korakih po 0,21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Ta ffmpeg nima soxr: drsenje ure med kamerami se izravna v korakih po 21 ppm namesto 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Vse deluje tudi brez njega. Prenos različice, ki ga ima, traja nekaj minut, njegova sporočila pa se prikažejo na zavihku „Izhod“."
+
+msgid "Carry on"
+msgstr "Nadaljuj"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Ni obvezno -- YouTube takrat uporabi privzete vrednosti (Sony BVM-X300). Če jih želite: v Resolve vklopite HDR10+ pod Color Management, na strani Color zaženite „Analyze All Shots“ in pri izvozu označite „Embed HDR10 Metadata“."
+
+msgid "Not ready yet:"
+msgstr "Še ni pripravljeno:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "V sledeh ni bilo nič slišati."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "En zvočni posnetek še nima imena govorca."
+
+msgid "One frame back."
+msgstr "Eno sličico nazaj."
+
+msgid "One second back."
+msgstr "Eno sekundo nazaj."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Vsak kader v barvi svoje kamere. Pokažite z miško za kamero in trajanje, kliknite za skok."
+
+msgid "Only one speaker"
+msgstr "Samo en govorec"
+
+msgid "Open json project file"
+msgstr "Odpri projektno datoteko json"
+
+msgid "Open result folder"
+msgstr "Odpri mapo z rezultatom"
+
+msgid "Open the settings, where the key is."
+msgstr "Odprite nastavitve, kjer je ključ."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Vrstni red ni pomemben. Pri večdelnem posnetku zadošča prvi blok."
+
+msgid "Overwrite"
+msgstr "Prepiši"
+
+msgid "Overwrite files"
+msgstr "Prepiši datoteke"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Podokno %d nalaga %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Podokno %d za %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Predvajanje in premor -- deluje tudi preslednica."
+
+msgid "Play and pause."
+msgstr "Predvajanje in premor."
+
+msgid "Playback not possible"
+msgstr "Predvajanje ni mogoče"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Predvaja se: %s -- obdelana sled z auphonic.com,\nprivedena na raven za oddajanje. Isti zvok kot v montaži kamer."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Predvaja se: %s -- neobdelani posnetek.\nJe precej tišji od obdelanega zvoka; ko so sledi z auphonic.com\nna voljo, predogled uporabi njih."
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Možni razlogi:\n  1. Resolve ne teče -- vmesnik odgovarja le, dokler program teče.\n  2. Preferences > System > General: zunanje skriptiranje je nastavljeno na „None“ namesto „Local“.\n  3. Brezplačna izdaja: menda je zunanje skriptiranje od različice 19.1 pridržano izdaji Studio. Uradne izjave nisem našel -- to preverjanje to izmeri, namesto da bi trdilo."
+
+msgid "Prepare pane %d for %s"
+msgstr "Pripravi podokno %d za %s"
+
+msgid "Preset not readable: %s"
+msgstr "Prednastavitve ni mogoče prebrati: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Predogled ni mogoč: %s"
+
+msgid "Preview running ..."
+msgstr "Predogled teče ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Priprava -- branje zvoka in izračun ovojnic:\n"
+
+msgid "Primaries"
+msgstr "Primarne barve"
+
+msgid "Primaries number %d"
+msgstr "Primarne barve številka %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Obdelava na auphonic.com (neobvezno)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Obdelava na auphonic.com s prednastavitvijo „%s“"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Produkcija je končana, vendar ni ZIP-a s posameznimi sledmi"
+
+msgid "Production name"
+msgstr "Ime produkcije"
+
+msgid "Chosen files"
+msgstr "Izbrane datoteke"
+
+msgid "Remove the chosen file from the list"
+msgstr "Odstrani izbrano datoteko s seznama"
+
+msgid "Project %r could not be created."
+msgstr "Projekta %r ni bilo mogoče ustvariti."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Projekta %r ni bilo mogoče ustvariti. Ali je ime že v drugi mapi?"
+
+msgid "Project %r could not be opened."
+msgstr "Projekta %r ni bilo mogoče odpreti."
+
+msgid "Puts it back next to each video file."
+msgstr "Vrne ga nazaj poleg vsake video datoteke."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "RAZVELJAVITEV NI USPELA (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Branje zvočne sledi iz datoteke %s"
+
+msgid "Resolutions"
+msgstr "Ločljivosti"
+
+msgid "Resolve running ..."
+msgstr "Resolve teče ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve skalira na ločljivost Timeline. Vse manjše se poveča in postane mehkejše."
+
+msgid "Response was not JSON: %s"
+msgstr "Odgovor ni bil JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Rdeče označene vrstice kažejo, kje je težava; kljukica na zavihku pomeni, da je tam vse na voljo."
+
+msgid "Save in Keychain"
+msgstr "Shrani v Keychain"
+
+msgid "Save in Registry"
+msgstr "Shrani v register"
+
+msgid "Select audio and video files"
+msgstr "Izberite zvočne in video datoteke"
+
+msgid "Speakers, as the run measured them"
+msgstr "Govorci, kot jih je izmeril zagon"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Govorci, izmerjeni tukaj iz samih sledi"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Snemanje se je začelo pozno ali končalo zgodaj -- ta glas potem v miksu mestoma manjka."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Ustavljeno. Izberite drugo ime produkcije -- potem se ustvari nova\n  produkcija -- ali pa izberite eno od drugih možnosti."
+
+msgid "Stopped. Nothing was created."
+msgstr "Ustavljeno. Nič ni bilo ustvarjeno."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Ustavljeno. Nič ni bilo naloženo in nič izračunano."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Uporabi se, kakor je -- nič se ne izmišlja. Preverite v Resolve pod Clip Attributes, zavihek Color Space: če tam piše „Project“, vhodni barvni prostor ni bil prepoznan in ga je treba nastaviti ročno."
+
+msgid "Takes the position from the picture."
+msgstr "Prevzame položaj iz slike."
+
+msgid "Ten seconds back."
+msgstr "Deset sekund nazaj."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Vmesnik Resolve ni tam, kjer ga pričakujem:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Vmesnik Resolve ni tam, kjer bi moral biti."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline dobi eno fiksno hitrost -- najvišjo med njimi ali naslednjo višjo, ki jo Resolve pozna. Ostale pretvori; pri 23,976 proti 24 se prav tam njegova analiza zvoka rada zatakne."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "Zvočni posnetek vsakega govorca in kamere.\nVrstni red ni pomemben -- program prepozna, kaj je kaj.\nPri večdelnem posnetku zadošča prvi blok."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Montaža tam nima slike. Pri gradnji Timeline to mesto ostane prazno, zvok teče naprej."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Obstoječi rezultat ni uporaben: tam manjka %s. Z --auphonic-resume rerun ga je mogoče znova izračunati, ne da bi se karkoli naložilo."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "Pravila montaže v tem času (%s) ne pustijo nobenega kadra. Krajša najmanjša dolžina kadra ali manj splošnega plana spet da kader."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Oddaja je tu dolga %s -- vanjo ni mogoče ničesar razporediti. Določata jo vstopna in izstopna točka."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Časovno okno leži zunaj gradiva: vstopna točka pri %s, izstopna točka pri %s, gradivo pa traja %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "Prva sled prednastavitve določa nastavitve za vse naše sledi. Sicer se vrnejo neobdelane. V spletnem vmesniku ustvarite sled v prednastavitvi."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Za to je potrebna datoteka predaje iz zagona, te pa ni."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "Ključ je mogoče shraniti le na Macu in v Windows -- v Keychain ali v register. V datoteko ne gre."
+
+msgid "%s -- being checked"
+msgstr "%s -- preverjanje"
+
+msgid "The key was not saved: %s"
+msgstr "Ključ ni bil shranjen: %s"
+
+msgid "The key was not saved"
+msgstr "Ključ ni bil shranjen"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Keychain je zaklenjen. Odklenite ga in poskusite znova."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "Ta zagon je preizkusni, shramba pa še vedno nosi svoje pravo ime, zato ni bilo nič zapisano. Najprej usmerite KEY_SERVICE, KEY_ACCOUNT ali REG_PATH drugam."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Keychain je zaklenjen. Odklenite ga in ta gumb se bo aktiviral."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Keychain ni sprejel ključa. Keychain Access lahko pove, zakaj."
+
+msgid "The registry did not take the key."
+msgstr "Register ni sprejel ključa."
+
+msgid "Open Keychain Access"
+msgstr "Odpri Keychain Access"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Odpre aplikacijo, ki odklene Keychain."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Keychain Access ni bilo mogoče odpreti: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "Shranjeni ključ ni sprejet: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "Ključ iz AUPHONIC_TOKEN ni sprejet: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Kaj je odgovoril auphonic.com"
+
+msgid "There is no key."
+msgstr "Ključa ni."
+
+msgid "The key has a space or a line break at one end."
+msgstr "Ključ ima na enem koncu presledek ali prelom vrstice."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "Ključ je na sredini prekinjen s presledkom ali prelomom vrstice."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "Ključ vsebuje znak, ki ga ni mogoče natipkati."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "Ključ je potem tukaj: %s -- nikoli v datoteki."
+
+msgid "The production has no name yet."
+msgstr "Produkcija še nima imena."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "Posnetek, dodeljen tej kameri, namesto zvoka kamere."
+
+msgid "The run is still going."
+msgstr "Zagon še teče."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Govorci še niso znani -- iz sledi se izluščijo, takoj ko se odpre ta zavihek. Kadar so vsi na enem posnetku, je prava pot „več govorcev“ v polju Ime govorca."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "Tri številke so primarne barve, krivulja in matrika. Različne oznake zahtevajo različne vhodne barvne prostore v Resolve -- sicer je ena kamera videti drugače kot druga."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Ni ločenih zvočnih posnetkov. Potem se uporabi zvok kamer (%s) -- vsaka postane sled, Auphonic pa odstrani presluh."
+
+msgid "There is no result yet."
+msgstr "Rezultata še ni."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Te datoteke niso ne zvok ne video in ostanejo zunaj:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "Te datoteke ne obstajajo:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Te datoteke že obstajajo in bodo znova zapisane:\n\n  %s\n\nJe to namerno?"
+
+msgid "These files no longer exist:\n  "
+msgstr "Te datoteke ne obstajajo več:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Ta imena se pojavijo večkrat:\n\n  %s\n\nPosnetki se združijo v eno sled in se po svoji časovni kodi postavijo drug za drugim. To je prav, če je bilo snemanje vmes ustavljeno."
+
+msgid "These tracks got no file: %s"
+msgstr "Te sledi niso dobile datoteke: %s"
+
+msgid "This Resolve project already exists"
+msgstr "Ta projekt Resolve že obstaja"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "To nastane pri snemanju, ne pozneje: mikrofoni so preblizu skupaj ali predaleč od ust."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Te datoteke tukaj ni mogoče predvajati, ffplay kot rezerva pa manjka."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "To ni projektna datoteka in v isti mapi je ni.\n\nIšče se %s*.json -- skript jo ob zagonu zapiše v izhodno mapo."
+
+msgid "This is what happens next"
+msgstr "Kaj sledi"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "To ime že ima nekdo drug. Ime je oseba in montaža postavi osebo na eno kamero -- prosimo, dajte temu glasu lastno ime."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "To ime se pojavi večkrat. Posnetki bi postali ena sled -- za Multitrack auphonic.com potrebuje vsaj dve različni."
+
+msgid "This production already exists"
+msgstr "Ta produkcija že obstaja"
+
+msgid "This production has no result yet."
+msgstr "Ta produkcija še nima rezultata."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Dosežena časovna omejitev %s, produkcija še teče: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Časovna koda %s, ostale datoteke so pri %s -- ta ura ni bila nastavljena."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r ni bilo mogoče ustvariti."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Naslov na auphonic.com in začetek novih imen datotek."
+
+msgid "To the In point."
+msgstr "Na vstopno točko."
+
+msgid "To the start."
+msgstr "Na začetek."
+
+msgid "Too many projects with this name."
+msgstr "Preveč projektov s tem imenom."
+
+msgid "Track"
+msgstr "Sled"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Med spreminjanjem so bile dodane sledi (zdaj %s). Zaradi tega bo miks\n  napačen. Prosimo, na auphonic.com izbrišite sledi brez datoteke."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Dve kameri sta v montaži ena kamera. Njuni datoteki imata enako ime, zato eno od njiju preimenujte."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Dve kameri sta v montaži ena kamera: %s. Njuni datoteki imata enako ime, zato eno od njiju preimenujte."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Dve kameri bi ustvarili isto datoteko. Druga bi prepisala prvo."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Dve kameri bi ustvarili isto datoteko: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Dve kameri bi ustvarili isto novo datoteko. Prosimo, določite različna imena."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Neenakomernega časovnega zaporedja sličic ni mogoče izravnati prek zvoka. Če se pri poravnavi razpršijo tudi merilne točke, pretvorite v fiksno hitrost sličic."
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Video 1"
+msgstr "Video 1"
+
+msgid "Video 2"
+msgstr "Video 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- iz surovega gradiva nastane zmontiran podcast"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Jakost. 100 je največ -- Qt več ne sprejme."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- sočasno govorjenje se šteje dvakrat"
+
+msgid "Wide shot at most"
+msgstr "Splošni plan največ"
+
+msgid "Wide shot at the latest"
+msgstr "Splošni plan najpozneje"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Splošni plan za pozdrav na začetku in slovo na koncu"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Brez tega mora vsak predvajalnik ugibati in vsi ugibajo SDR. V Resolve pod Deliver > Advanced Settings nastavite Color space tag in Gamma tag, namesto da ju pustite na „Same as Project“."
+
+msgid "Without processing at auphonic.com"
+msgstr "Brez obdelave na auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Montaže kamer še ni: potrebni sta dve osebi, vsaka z imenom in kamero.\nLočeni posnetki to omogočijo s kljukico Multitrack, prav tako „več govorcev“ v polju Ime govorca enega posnetka --\nglasovi, najdeni tam, dobijo svojo kamero v tabeli pod posnetki.\nProjekt Resolve se vseeno ustvari -- vse kamere na svojih izmerjenih mestih, pripravljene za Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Brez časovne kode se lega datotek izmeri."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Iz samih sledi izračuna, kdo govori kdaj -- en mikrofon na osebo, raven glede na lastni šum ozadja. Kadar so vsi na enem posnetku, je prava pot „več govorcev“ v polju Ime govorca."
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- samo utiša, nikoli ne ojača"
+
+msgid "a box no longer fits into its parent"
+msgstr "škatla se ne prilega več v nadrejeno škatlo"
+
+msgid "after the device change"
+msgstr "po menjavi naprave"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com ne sprejme ključa: %s"
+
+msgid "average"
+msgstr "povprečje"
+
+msgid "belongs to"
+msgstr "pripada"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "presluh preveč nejasen: uporabnih %s od %s sekund, najostrejši %s, potrebno %s"
+
+msgid "Midnight"
+msgstr "Polnoč"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s ima časovno kodo z druge strani polnoči -- šteje se kot ena noč, ne kot dan razlike."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Časovna koda se šteje od polnoči in tam začne znova. Datoteke se postavijo na eno os, preden se karkoli odšteje -- sicer je posnetek po polnoči videti skoraj dan oddaljen od prejšnjega. Če so bili ti res posneti na različne dneve, je poravnava napačna in zaupati je treba izmerjenemu zamiku."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Kanal %d udarja v strop -- nizi treh ali več zaporednih vzorcev: %s, najdaljši %s (%s ms), prvi pri %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Prešteto tukaj, vzorec za vzorcem, pri frekvenci, s katero je bila datoteka posneta: niz treh ali več vzorcev na najvišji vrednosti, ki jo celoštevilski format lahko zajame. En ali dva sta zaokroževanje in se ne sporočata. Kar je tam odrezano, je izgubljeno in nobena obdelava tega ne vrne -- a posnetek ostaja posnetek in to ničesar ne zadrži. Štejejo se le celoštevilski formati. 32-bitni float nima stropa pri polni skali, zato tam ni česa šteti."
+
+msgid "boxes no longer readable"
+msgstr "škatel ni več mogoče prebrati"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "posodobi -- obe Timeline se izbrišeta in\n       zgradita na novo, Media Pool ostane, kakršen je"
+
+msgid "cannot be read back (%s)"
+msgstr "ni mogoče prebrati nazaj (%s)"
+
+msgid "checking ..."
+msgstr "preverjanje ..."
+
+msgid "complete"
+msgstr "popolni"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "ustvari nov projekt zraven (ime s pripono)"
+
+msgid "curl ended with %d"
+msgstr "curl se je končal s kodo %d"
+
+msgid "did not arrive: %s"
+msgstr "ni prispelo: %s"
+
+msgid "does not belong: %s"
+msgstr "ne spada zraven: %s"
+
+msgid "does not exist: %s"
+msgstr "ne obstaja: %s"
+
+msgid "does the material fit together?"
+msgstr "ali se gradivo ujema?"
+
+msgid "does the preset fit the run?"
+msgstr "ali prednastavitev ustreza zagonu?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "prenesena datoteka ima le %s B"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "razmik %s po časovni kodi, preveč za en posnetek"
+
+msgid "gets audio from"
+msgstr "dobi zvok iz"
+
+msgid "hear assigned audio"
+msgstr "poslušaj dodeljeni zvok"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "obdrži naša imena in znova naloži vse -- to stane\n       dobroimetje"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "pusti tako in dodaj nove Timeline zraven --\n       obstoječe ostanejo"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "manjka -- vsebnik nima barvnih oznak"
+
+msgid "missing: %s"
+msgstr "manjka: %s"
+
+msgid "moov has not grown"
+msgstr "moov se ni povečal"
+
+msgid "moov is no longer in its place"
+msgstr "moov ni več na svojem mestu"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov se ne konča več na koncu datoteke"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "večdelno, brez časovne kode -- vrzeli vmes ni mogoče zaznati."
+
+msgid "new file name"
+msgstr "novo ime datoteke"
+
+msgid "next to each video file"
+msgstr "poleg vsake video datoteke"
+
+msgid "no audio data from %s"
+msgstr "ni zvočnih podatkov iz %s"
+
+msgid "no audio track present"
+msgstr "ni zvočne sledi"
+
+msgid "no audio: %s"
+msgstr "ni zvoka: %s"
+
+msgid "no download address for %s"
+msgstr "ni naslova za prenos za %s"
+
+msgid "no information"
+msgstr "ni podatkov"
+
+msgid "no information in the file"
+msgstr "v datoteki ni podatkov"
+
+msgid "no match in the middle either (%s)"
+msgstr "tudi na sredini ni ujemanja (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "ni mesta, kjer govori natanko ena oseba -- ločevanja ni mogoče izmeriti."
+
+msgid "no production id in the response"
+msgstr "v odgovoru ni ID-ja produkcije"
+
+msgid "no production id in the response: %s"
+msgstr "v odgovoru ni ID-ja produkcije: %s"
+
+msgid "no timecode"
+msgstr "brez časovne kode"
+
+msgid "no video track"
+msgstr "ni video sledi"
+
+msgid "no video track in %s"
+msgstr "v %s ni video sledi"
+
+msgid "none switched on"
+msgstr "noben ni vklopljen"
+
+msgid "not checked yet"
+msgstr "še ni preverjeno"
+
+msgid "not in the media pool"
+msgstr "ni v Media Pool"
+
+msgid "not measurable."
+msgstr "ni merljivo."
+
+msgid "not measurable: %s"
+msgstr "ni merljivo: %s"
+
+msgid "not needed with HLG"
+msgstr "pri HLG ni potrebno"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "ni berljivo (%s) -- nepreverjeno."
+
+msgid "not readable: %s"
+msgstr "ni berljivo: %s"
+
+msgid "nothing loaded yet"
+msgstr "še nič ni odprto"
+
+msgid "nothing selected"
+msgstr "nič ni izbrano"
+
+msgid "off"
+msgstr "izklopljeno"
+
+msgid "one Timeline"
+msgstr "ena Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "le %s, najdaljši posnetek traja %s."
+
+msgid "overlap of %s per timecode"
+msgstr "prekrivanje %s po časovni kodi"
+
+msgid "per track"
+msgstr "za vsako sled"
+
+msgid "preset does not fit the run"
+msgstr "prednastavitev se ne ujema z zagonom"
+
+msgid "previous block is shorter than the rest"
+msgstr "prejšnji blok je krajši od ostalih"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "najdene so obdelane sledi -- nič se ne naloži"
+
+msgid "production finished, but no output file"
+msgstr "produkcija je končana, a ni izhodne datoteke"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "znova izračunaj z izbrano prednastavitvijo -- datoteke ostanejo\n       kjer so, ne stane dobroimetja"
+
+msgid "reset"
+msgstr "ponastavi"
+
+msgid "running ..."
+msgstr "teče ..."
+
+msgid "selected"
+msgstr "izbrano"
+
+msgid "shorter shots are merged in"
+msgstr "krajši kadri se združijo"
+
+msgid "stays out"
+msgstr "ostane zunaj"
+
+msgid "stored file %s"
+msgstr "shranjena datoteka %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "prevzemi obstoječi rezultat (nič se ne računa, nič se ne plača)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "prevzemi imena od tam in nadaljuj z njimi --\n       brez nalaganja, nič ne stane"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "prednastavitev Multitrack nima shranjene sledi."
+
+msgid "the finished mixdown"
+msgstr "končni miks"
+
+msgid "the individual tracks"
+msgstr "posamezne sledi"
+
+msgid "the individual tracks, packed"
+msgstr "posamezne sledi, zapakirane"
+
+msgid "the media data is no longer where it was"
+msgstr "medijski podatki niso več tam, kjer so bili"
+
+msgid "the mix of all tracks"
+msgstr "miks vseh sledi"
+
+msgid "the mixdown as the yardstick"
+msgstr "končni miks kot merilo"
+
+msgid "the old moov is back in place"
+msgstr "stari moov je spet na svojem mestu"
+
+msgid "the picture changes this much later than the sound"
+msgstr "slika se zamenja toliko pozneje kot zvok"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "prednastavitev masterira na %s LUFS, izračun uporablja %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "prednastavitev masterira na %s LUFS -- to velja, z naše strani se nič ne prilagodi."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "prevzeto iz izvornih datotek, --lufs ni podan -- nič se ne prilagodi"
+
+msgid "the answer did not keep the floor"
+msgstr "odgovor ni trajal dovolj dolgo"
+
+msgid "the main speaker asked"
+msgstr "glavni govorec je vprašal"
+
+msgid "nobody answered in time"
+msgstr "nihče ni odgovoril pravočasno"
+
+msgid "nobody was speaking at the question"
+msgstr "ob vprašanju ni nihče govoril"
+
+msgid "asker and answerer on one camera"
+msgstr "spraševalec in odgovarjajoči na eni kameri"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "posnetki se prekrivajo le %s -- premalo za merjenje."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "najkrajši posnetek ima le %s -- premalo za merjenje."
+
+msgid "the source folder"
+msgstr "izvorna mapa"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "predloga sledi nima nič vklopljenega -- sledi bi se vrnile točno takšne, kot so bile naložene."
+
+msgid "the video files are tagged differently: %s"
+msgstr "video datoteke so različno označene: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "video datoteke imajo različne krivulje zajema: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "video datoteke imajo različne velikosti slike: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "video datoteke imajo različne hitrosti sličic: %s"
+
+msgid "the video track can no longer be found"
+msgstr "video sledi ni več mogoče najti"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "časovna os izmerjena -- skoki pristanejo na isti točki"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "časovna os izmerjena in vezana na časovno kodo"
+
+msgid "time axis not measurable"
+msgstr "časovne osi ni mogoče izmeriti"
+
+msgid "time axis not measurable: %s"
+msgstr "časovne osi ni mogoče izmeriti: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "le %s s, v katerih govori samo %s; potrebnih je %s"
+
+msgid "too little audio to align"
+msgstr "premalo zvoka za poravnavo"
+
+msgid "unspecified"
+msgstr "nedoločeno"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "znova naloži vse in znova izračunaj -- to stane dobroimetje"
+
+msgid "used directly"
+msgstr "uporabi se neposredno"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "splošni plan %s, miks je njegova prva zvočna sled"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s se pojavi večkrat. Ti posnetki se združijo v eno sled in razvrstijo zaporedno po svoji časovni kodi -- pravilno, če je bilo snemanje vmes ustavljeno."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Vsi posnetki imajo isto ime. Iz tega nastane ena sled -- Multitrack potrebuje vsaj dve."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Dve kameri sta v montaži ena kamera (%s). Njuni datoteki imata isto ime, zato eno od njiju preimenujte."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Dve kameri bi ustvarili isto datoteko (%s). Druga bi prepisala prvo."
+
+msgid "   (camera audio)"
+msgstr "   (zvok kamere)"
+
+msgid "  Number: "
+msgstr "  Številka: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", odstranjeno drsenje ure %s ppm"
+
+msgid "Files && production"
+msgstr "Datoteke && produkcija"
+
+msgid "Assignment && time window"
+msgstr "Dodelitev && časovno okno"
+
+msgid "Resolve cut"
+msgstr "Montaža v Resolve"
+
+msgid "Camera audio"
+msgstr "Zvok kamere"
+
+msgid "Camera audio %s"
+msgstr "Zvok kamere %s"
+
+msgid "%s channels against %s"
+msgstr "kanali: %s proti %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz proti %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: kanala %s ni mogoče izrezati (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Kanal %d je %s dB pod najglasnejšim -- nič ni priključeno"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Kanal %d pri %s dBFS -- ostane le šum pretvornika"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Kanal %d je tih -- neuporabljen vhod"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Vklopljeno naredi iz tega in naslednjega kanala eno stereo sled.\nNaslednji potem nima svoje kljukice -- je že zaseden.\nKar je bilo izmerjeno, je v vrstici poleg."
+
+msgid "a track of its own"
+msgstr "lastna sled"
+
+msgid "with Channel %d one stereo track"
+msgstr "s kanalom %d ena stereo sled"
+
+msgid "already in another recording"
+msgstr "že v drugem posnetku"
+
+msgid "not found"
+msgstr "ni najdeno"
+
+msgid "a recording of its own"
+msgstr "lasten posnetek"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Postavi ta posnetek v drug posnetek, z vsemi njegovimi bloki.\nUporabite ga, kadar imena datotek iskanju ne dajo nobene opore."
+
+msgid "Cameras only"
+msgstr "Samo kamere"
+
+msgid "Curve number %d"
+msgstr "Krivulja številka %d"
+
+msgid "End"
+msgstr "Konec"
+
+msgid "End %s"
+msgstr "Konec %s"
+
+msgid "Error"
+msgstr "Napaka"
+
+msgid "Mark In"
+msgstr "Označi vstop"
+
+msgid "Mark Out"
+msgstr "Označi izstop"
+
+msgid "Measure, align, process, write files."
+msgstr "Izmeri, poravna, obdela, zapiše datoteke."
+
+msgid "Minimum Edit Duration"
+msgstr "Najmanjša dolžina kadra"
+
+msgid "%s, seconds"
+msgstr "%s, sekunde"
+
+msgid "Names used more than once"
+msgstr "Večkrat uporabljena imena"
+
+msgid "One name for two voices"
+msgstr "Eno ime za dva glasova"
+
+msgid "No files given."
+msgstr "Ni podanih datotek."
+
+msgid "Number %d"
+msgstr "Številka %d"
+
+msgid "Preset missing"
+msgstr "Manjka prednastavitev"
+
+msgid "Speaker"
+msgstr "Govorec"
+
+msgid "Start %s"
+msgstr "Začetek %s"
+
+msgid "Take from source files"
+msgstr "Iz izvornih datotek"
+
+msgid "Take the camera audio"
+msgstr "Vzemi zvok kamer"
+
+msgid "Target: %s"
+msgstr "Ciljna mapa: %s"
+
+msgid "Transfer"
+msgstr "Prenos podatkov"
+
+msgid "Uploading %s tracks"
+msgstr "Nalaganje sledi: %s"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;Datoteke JSON (*.json);;Vse datoteke (*)"
+
+msgid "Wide shot after"
+msgstr "Splošni plan po"
+
+msgid "the voices below carry the cameras"
+msgstr "glasovi spodaj nosijo kamere"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "izmerjeno iz posnetkov -- govorcev: %s, dolžina %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "iz končanega zagona -- govorcev: %s, dolžina %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "iz obdelanih sledi Auphonica -- govorcev: %s, dolžina %s"
+
+msgid "no folder"
+msgstr "nobeni mapi"
+
+msgid "no text"
+msgstr "brez besedila"
+
+msgid "unnamed"
+msgstr "brez imena"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Pozor: meritev je neuporabna"
+
+msgid "   MISSING"
+msgstr "   MANJKA"
+
+msgid "   NOT INSERTED"
+msgstr "   NI VSTAVLJENO"
+
+msgid "  (container; measured %s)"
+msgstr "  (vsebnik; izmerjeno %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Številka (prazno = prekliči): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com vzame enako)"
+
+msgid " (fine: %s ms)"
+msgstr " (fino: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- opombe: %s"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 opomba: %s"
+
+msgid " target %.2f"
+msgstr " cilj %.2f"
+
+msgid "(wanted %s)"
+msgstr "(želeno %s)"
+
+msgid ", clock drift left in"
+msgstr ", drsenje ure ostane"
+
+msgid ", range %s LU"
+msgstr ", razpon %s LU"
+
+msgid "-- nothing --"
+msgstr "-- nič --"
+
+msgid "After: %s"
+msgstr "Potem: %s"
+
+msgid "Algorithms"
+msgstr "Algoritmi"
+
+msgid "Audio file %s"
+msgstr "Zvočna datoteka %s"
+
+msgid "Audio recording"
+msgstr "Zvočni posnetek"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic sporoča %s: %s"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 konstantna"
+
+msgid "Before: %s"
+msgstr "Prej: %s"
+
+msgid "Bit depth"
+msgstr "Bitna globina"
+
+msgid "Building the sum"
+msgstr "Tvorjenje vsote"
+
+msgid "Caution: "
+msgstr "Pozor: "
+
+msgid "Camera cut"
+msgstr "Montaža kamer"
+
+msgid "%s -- preview"
+msgstr "%s -- predogled"
+
+msgid "Cancel"
+msgstr "Prekliči"
+
+msgid "Capture curve"
+msgstr "Krivulja zajema"
+
+msgid "Check: %s and camera track"
+msgstr "Preverjanje: %s in sled kamere"
+
+msgid "Codec profile"
+msgstr "Profil kodeka"
+
+msgid "Colour tag"
+msgstr "Barvna označitev"
+
+msgid "Connect"
+msgstr "Poveži"
+
+msgid "Connection to Resolve"
+msgstr "Povezava z Resolve"
+
+msgid "Continue"
+msgstr "Nadaljuj"
+
+msgid "Create Resolve project"
+msgstr "Ustvari projekt Resolve"
+
+msgid "Curve"
+msgstr "Krivulja"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "Vstopna točka: %s     Izstopna točka: %s     Trajanje: %s"
+
+msgid "In point %s"
+msgstr "Vstopna točka %s"
+
+msgid "Out point %s"
+msgstr "Izstopna točka %s"
+
+msgid "Different track names"
+msgstr "Različna imena sledi"
+
+msgid "Disk space"
+msgstr "Prostor na disku"
+
+msgid "Downloading %s"
+msgstr "Prenos: %s"
+
+msgid "Dry run"
+msgstr "Poskusni zagon"
+
+msgid "Duration %s"
+msgstr "Trajanje %s"
+
+msgid "Dynamic range"
+msgstr "Dinamični razpon"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, oddajanje"
+
+msgid "File names"
+msgstr "Imena datotek"
+
+msgid "Frame rates"
+msgstr "Hitrosti sličic"
+
+msgid "GENERAL NOTES"
+msgstr "SPLOŠNE OPOMBE"
+
+msgid "Given"
+msgstr "Podano"
+
+msgid "Go ahead"
+msgstr "Naprej"
+
+msgid "Interface:      %s%s"
+msgstr "Vmesnik:        %s%s"
+
+msgid "Keep it saved"
+msgstr "Ohrani shranjeno"
+
+msgid "Library:        %s%s"
+msgstr "Knjižnica:      %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log po podatkih kamere"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (deset bitov)"
+
+msgid "Measure"
+msgstr "Izmeri"
+
+msgid "Measuring loudness"
+msgstr "Merjenje glasnosti"
+
+msgid "Merge them"
+msgstr "Združi jih"
+
+msgid "Mixing %s"
+msgstr "Miksanje: %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack potrebuje dve sledi v zgornji tabeli -- kamera šteje kot ena, ko je njen Zvok kamere nastavljen na „z notranjim zvokom“."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Samo ena sled -- za drugo nastavite Zvok kamere pri eni od kamer na „z notranjim zvokom“."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Samo ena sled, in ni več zvoka kamere, ki bi ga lahko vzeli."
+
+msgid "do not use internal audio"
+msgstr "brez notranjega zvoka"
+
+msgid "use internal audio"
+msgstr "z notranjim zvokom"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Če se uporabi, se kanali, izmerjeni pod to datoteko, razrežejo v sledi, kot pri posnetku.\nMerjenje poteka v vsakem primeru: na tej oceni temelji odločitev, sinhronizacija pa zvok vzame ne glede na to."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Če se uporabi, zvok te datoteke postane sled kot vsaka druga -- pojavi se v zgornji tabeli.\nIsto polje je tudi na seznamu datotek; obe kažeta isti odgovor."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Ni zvoka za delo -- pri video datoteki nastavite Zvok kamere na „z notranjim zvokom“ ali dodajte zvočni posnetek."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack potrebuje več sledi"
+
+msgid "Mute."
+msgstr "Utiša zvok."
+
+msgid "No audio file given."
+msgstr "Ni podane zvočne datoteke."
+
+msgid "No project open."
+msgstr "Noben projekt ni odprt."
+
+msgid "Not found: %s"
+msgstr "Ni najdeno: %s"
+
+msgid "Not recognised"
+msgstr "Ni prepoznano"
+
+msgid "Note"
+msgstr "Opomba"
+
+msgid "Note: "
+msgstr "Opomba: "
+
+msgid "One frame forward."
+msgstr "Eno sličico naprej."
+
+msgid "One second forward."
+msgstr "Eno sekundo naprej."
+
+msgid "Output folder"
+msgstr "Izhodna mapa"
+
+msgid "Choose the output folder"
+msgstr "Izberite izhodno mapo"
+
+msgid "Output folder back beside each video file"
+msgstr "Izhodna mapa spet poleg vsake video datoteke"
+
+msgid "Output folder ..."
+msgstr "Izhodna mapa ..."
+
+msgid "Podcast directories, mono"
+msgstr "Imeniki podcastov, mono"
+
+msgid "Podcast directories, stereo"
+msgstr "Imeniki podcastov, stereo"
+
+msgid "Preview player"
+msgstr "Predvajalnik predogleda"
+
+msgid "Preview player%s"
+msgstr "Predvajalnik predogleda%s"
+
+msgid "Processing"
+msgstr "Obdelava"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "od tu naprej se išče dober trenutek zanj"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Mehka meja para: od tu program čaka na mejo stavka in tja postavi splošni plan, ne po uri. 0 jo izklopi. „Splošni plan najpozneje“ je trda meja, kjer se reže tudi brez nje."
+
+msgid "and here it is cut, good moment or not"
+msgstr "in tukaj se reže, dober trenutek ali ne"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Trda meja para: če se od „Splošni plan po“ ni pojavila nobena meja stavka, jo nadomesti najdaljši premor v govoru, in na tej točki se reže, karkoli se že govori."
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Prepisa še ni. Brez njega se ne najde nobeno vprašanje in ni znana nobena meja stavka, zato te štiri nastavitve ne naredijo ničesar. Zagon ga zapiše in od takrat delujejo."
+
+msgid "Why the question settings are grey"
+msgstr "Zakaj so nastavitve vprašanja sive"
+
+msgid "After a question"
+msgstr "Po vprašanju"
+
+msgid "Question"
+msgstr "Vprašanje"
+
+msgid "Remove"
+msgstr "Odstrani"
+
+msgid "Remove all"
+msgstr "Odstrani vse"
+
+msgid "Remove from list"
+msgstr "Odstrani s seznama"
+
+msgid "Resolve answers%s"
+msgstr "Resolve se odziva%s"
+
+msgid "Saving %s"
+msgstr "Shranjevanje: %s"
+
+msgid "Show in Finder."
+msgstr "Pokaže v Finderju."
+
+msgid "Silence"
+msgstr "Tišina"
+
+msgid "Speaker name"
+msgstr "Ime govorca"
+
+msgid "Speaker names"
+msgstr "Imena govorcev"
+
+msgid "Static metadata"
+msgstr "Statični metapodatki"
+
+msgid "Tagging"
+msgstr "Označevanje"
+
+msgid "Ten seconds forward."
+msgstr "Deset sekund naprej."
+
+msgid "Timecode from %s"
+msgstr "Časovna koda od %s"
+
+msgid "Track template"
+msgstr "Predloga sledi"
+
+msgid "Uploading %s"
+msgstr "Nalaganje: %s"
+
+msgid "Value range"
+msgstr "Razpon vrednosti"
+
+msgid "What should happen with it?"
+msgstr "Kaj naj se zgodi s tem?"
+
+msgid "Window %s%s"
+msgstr "Okno %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Montaža, EDL, CSV in predaja se znova izračunajo iz zgornjih števil. Kdo govori kdaj, ostane tako, kot je izmeril zagon. Resolve mora teči."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Brez teh dveh nič ne deluje. Ali je Resolve nameščen?"
+
+msgid "cancel"
+msgstr "prekliči"
+
+msgid "cancelled"
+msgstr "preklicano"
+
+msgid "edges implausible"
+msgstr "neverodostojni robovi"
+
+msgid "fixed: "
+msgstr "popravljeno: "
+
+msgid "found automatically"
+msgstr "najdeno samodejno"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "prosto %s, potrebno približno %s (%s)"
+
+msgid "full range"
+msgstr "polni razpon"
+
+msgid "is left in"
+msgstr "ostane"
+
+msgid "limited (Video/TV)"
+msgstr "omejen (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "ugotavljanje, kdo govori kdaj ..."
+
+msgid "nothing"
+msgstr "nič"
+
+msgid "nothing to do"
+msgstr "ni kaj narediti"
+
+msgid "reserved"
+msgstr "rezervirano"
+
+msgid "system store"
+msgstr "sistemska shramba"
+
+msgid "to In point"
+msgstr "na vstopno točko"
+
+msgid "to Out point"
+msgstr "na izstopno točko"
+
+msgid "too short"
+msgstr "prekratko"
+
+msgid "two Timelines"
+msgstr "dve Timeline"
+
+msgid "unknown"
+msgstr "neznano"
+
+msgid "up to %s"
+msgstr "do %s"
+
+msgid "volume %.2f"
+msgstr "jakost %.2f"
+
+msgid "while writing: %s"
+msgstr "med zapisovanjem: %s"
+
+msgid "AUDIO"
+msgstr "ZVOK"
+
+msgid "Caution"
+msgstr "Pozor"
+
+msgid "MUTED"
+msgstr "UTIŠANO"
+
+msgid "fixed"
+msgstr "popravljeno"
+
+msgid "on"
+msgstr "vklopljeno"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r šteje od konca -- to deluje samo za izstopno točko."
+
+msgid "Check"
+msgstr "Preverjanje"
+
+msgid "the check itself stopped: %s"
+msgstr "samo preverjanje se je ustavilo: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "Vstopne ali izstopne točke tu ni mogoče prebrati."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Izstopna točka je manj kot 5 sekund za vstopno točko."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Manjka približno %s. Sprostite prostor ali z --out izberite drugo mapo. Začasne datoteke med zagonom gredo še drugam, v začasno mapo sistema."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "Ocena je groba, zato ta prostor ne zadošča. Sprostite prostor ali z --out izberite drugo mapo."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nGOVORCI -- IZMERJENI TUKAJ"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nGOVORCI -- LOČENI PO GLASU"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nGOVORCI\n  Nikogar ni bilo slišati -- iz tega ni montaže kamer."
+
+msgid "\nCAMERA CUT"
+msgstr "\nMONTAŽA KAMER"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nMONTAŽA S SPLOŠNIM PLANOM"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nPRVA MONTAŽA PO GOVORCIH"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Več kot dva kanala gre na auphonic.com kot eden: združevanje se izklopi samo za stereo.\n  Kjer naj kanali ostanejo ločeni, datoteko najprej razrežite na sledi."
+
+msgid "First cut by speaker"
+msgstr "Prva montaža po govorcih"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nPREPIS"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  Besede (%s): %s %% enemu glasu, %s %% dvema, %s %% v vrzeli"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  Besede (%s), brez imen -- nihče ni bil ločen"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s: zapisovanje ni uspelo: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nLOČEVANJE GOVORCEV"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Že enkrat ločeno: prebrano nazaj, ne izmerjeno znova."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Približno %s računanja za %s zvoka."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (samo merjenje: nič ni ločeno)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  Sledi niso bile izmerjene, zato v miksu in ne v montaži: %s -- %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "Še ni izmerjeno: %s -- v montaži je, v tem predogledu pa še ne."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Iz samih sledi, en glas na sled: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  V %s, na tem računalniku."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Mikrofoni se medsebojno slišijo predobro, da bi se dalo reči, kdo govori, zato ločevanje posluša vse hkrati (skupaj %s), na tem računalniku."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  Kar je okno razstavilo, se zavrže: poslušalo je en posnetek, mikrofoni pa se medsebojno slišijo tako dobro, da noben ne izstopa -- %s dB proti %s dB, ki jih en sam potrebuje, da se lahko reče, kdo govori."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Mešanje sledi za ločevanje"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Kateri glas pripada kateremu mikrofonu, ni bilo mogoče ugotoviti, zato se namesto tega merijo sledi."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s je %-20s %s dB pred naslednjim mikrofonom, raven snemanja odšteta"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  Ločevanje govorcev se ne uporabi: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s: branje ni mogoče: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s ni del tega zagona"
+
+msgid "%s has no place on the axis"
+msgstr "%s nima mesta na časovni osi"
+
+msgid "no recording named"
+msgstr "noben posnetek ni naveden"
+
+msgid "nothing of it falls inside the window"
+msgstr "nič od tega ne pade v časovno okno"
+
+msgid "the interface"
+msgstr "vmesnik"
+
+msgid "the separation in this run"
+msgstr "ločevanje v tem zagonu"
+
+msgid "Speakers, separated by voice"
+msgstr "Govorci, ločeni po glasu"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Iz tega ni nastala montaža -- zgoraj znova kliknite „Začni“."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nBREZ AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Presluh izmerjen, %s v %s le %s dB tišje -- odšteto pri zaznavanju govora"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Presluha ni mogoče ločiti: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Ni bilo najdenega trenutka, ko govori natanko ena oseba -- presluh ostane v zaznavanju govora."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  V sledeh ni bilo nič slišati -- iz tega ni montaže kamer."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Ni v montaži: %s -- za posnetek govori ločevanje ali pa ni bil izmerjen."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  Sledi se uporabijo, kot so bile posnete: poravnane, zmešane in\n  pripeljane na ciljno glasnost. Brez De-Bleed, brez Leveler, brez\n  odstranjevanja šuma -- za to zagon potrebuje auphonic.com."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  Podana sta bila --without-auphonic in --auphonic-done. Končane sledi imajo prednost: ničesar ni več treba nikamor pošiljati."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK NI MOGOČ\n  Brez ključa API ni ničesar za pošiljanje na auphonic.com.\n  Z --without-auphonic namesto tega teče lokalno: poravnano,\n  zmešano in zmontirano, vendar brez De-Bleed in Leveler."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Pozor: merljivih je le %s od %s parov. Za ostale ni bil najden trenutek, ko govori natanko ena oseba, zato njihov presluh ostane -- zaznavanje govorcev je tu nezanesljivo."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "mikrofoni se medsebojno slišijo skoraj tako glasno kot lastnega govorca"
+
+msgid "the tracks are too much alike to separate"
+msgstr "sledi so si preveč podobne, da bi jih ločili"
+
+msgid "Reading the plan"
+msgstr "Branje načrta"
+
+msgid "Audio out of the cameras"
+msgstr "Zvok iz kamer"
+
+msgid "Common time axis"
+msgstr "Skupna časovna os"
+
+msgid "Processing at auphonic.com"
+msgstr "Obdelava na auphonic.com"
+
+msgid "Loudness"
+msgstr "Glasnost"
+
+msgid "Loudness and levels"
+msgstr "Glasnost in ravni"
+
+msgid "Loudness of the finished episode"
+msgstr "Glasnost končane epizode"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Kako glasna bo končana epizoda. Enako ojačanje gre na vsako\nsled, tako da razmerje med govorci ostane.\n„Iz izvornih datotek“ ne prilagodi ničesar: auphonic.com še naprej\ndela, kar pravi njegova prednastavitev, brez auphonic.com pa zvok\nostane tak, kot je v izvornih datotekah."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    Glasnost ni bila prilagojena -- spodnji cilj je le to, proti čemur\n    meri merilnik."
+
+msgid "Who speaks when"
+msgstr "Kdo govori kdaj"
+
+msgid "Writing the camera files"
+msgstr "Zapisovanje datotek kamer"
+
+msgid "Handover and result"
+msgstr "Predaja in rezultat"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Prikaže dvakrat več (tipka minus ali kolesce nad trakom)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Prikaže polovico, okoli trenutnega položaja (tipka plus ali kolesce nad trakom)"
+
+msgid "The whole length again (0 key)"
+msgstr "Spet celotna dolžina (tipka 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  Preneseno tudi: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic ne sprejme nastavitev: %s"
+
+msgid "      %s channels"
+msgstr "      Kanali: %s"
+
+msgid "measurement running ..."
+msgstr "merjenje poteka ..."
+
+msgid "      Channel %d"
+msgstr "      Kanal %d"
+
+msgid "Looking at the channels"
+msgstr "Pregledovanje kanalov"
+
+msgid "channels not readable: %s"
+msgstr "kanalov ni mogoče prebrati: %s"
+
+msgid "unused input -- ignored"
+msgstr "neuporabljen vhod -- prezrt"
+
+msgid "uncertain -- %s"
+msgstr "negotovo -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "nastavljeno ročno -- preglasi meritev"
+
+msgid "Language"
+msgstr "Jezik"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "oba kanala enaka -- mono na obeh straneh"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "verjetno dva mikrofona -- približno %s m narazen%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", ujemanje na %s od %s mest"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "verjetno ena stereo sled -- oba mikrofona na istem mestu"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "ni prepoznavno -- le %s od %s mest, kjer oba kanala nosita zvok, potrebno: %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "ni prepoznavno -- ta dva se ne ujemata bolje kot vsak od njiju s kanalom poleg"
+
+msgid "not set"
+msgstr "ni nastavljeno"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "Jezik, ki se govori v posnetku. Postane oznaka\nzapisane zvočne sledi, razpoznavanje govora tukaj pa ga pričakuje.\nPrednastavljen iz jezika sistema. „%s“ pusti sled brez oznake\nin prepusti razpoznavanju govora, da jezik ugotovi samo."
+
+msgid "German"
+msgstr "Nemščina"
+
+msgid "English"
+msgstr "Angleščina"
+
+msgid "French"
+msgstr "Francoščina"
+
+msgid "Spanish"
+msgstr "Španščina"
+
+msgid "Italian"
+msgstr "Italijanščina"
+
+msgid "Dutch"
+msgstr "Nizozemščina"
+
+msgid "Portuguese"
+msgstr "Portugalščina"
+
+msgid "Polish"
+msgstr "Poljščina"
+
+msgid "Russian"
+msgstr "Ruščina"
+
+msgid "Swedish"
+msgstr "Švedščina"
+
+msgid "Danish"
+msgstr "Danščina"
+
+msgid "Norwegian"
+msgstr "Norveščina"
+
+msgid "Finnish"
+msgstr "Finščina"
+
+msgid "Czech"
+msgstr "Češčina"
+
+msgid "Turkish"
+msgstr "Turščina"
+
+msgid "Greek"
+msgstr "Grščina"
+
+msgid "Hungarian"
+msgstr "Madžarščina"
+
+msgid "Romanian"
+msgstr "Romunščina"
+
+msgid "Ukrainian"
+msgstr "Ukrajinščina"
+
+msgid "Catalan"
+msgstr "Katalonščina"
+
+msgid "Arabic"
+msgstr "Arabščina"
+
+msgid "Hebrew"
+msgstr "Hebrejščina"
+
+msgid "Japanese"
+msgstr "Japonščina"
+
+msgid "Chinese"
+msgstr "Kitajščina"
+
+msgid "Korean"
+msgstr "Korejščina"
+
+msgid "Cutting out track %d of %d"
+msgstr "Izrezovanje sledi %d od %d"
+
+msgid "cutting failed: %s"
+msgstr "izrezovanje ni uspelo: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  Ena kamera za vse: ob menjavi govorca razrezana na kadre (%s), da jih Resolve lahko združi v skupine."
+
+msgid "Shorter shots fall into the following one."
+msgstr "Krajši kadri se priključijo naslednjemu."
+
+msgid "Speaks at least"
+msgstr "Govori vsaj"
+
+msgid "below this the camera does not follow"
+msgstr "pod tem kamera ne sledi"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Kratek „ja“ ne premakne slike. Brez tega blok pol sekunde povleče kamero k sebi, najmanjša dolžina kadra pa jo nato tam zadrži več sekund."
+
+msgid "Answer on screen earlier"
+msgstr "Odgovor prej v sliki"
+
+msgid "before the question ends"
+msgstr "pred koncem vprašanja"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Ničla je tam, kjer spraševalec neha, ne tam, kjer se začne odgovor: premor med njima pripada vprašanju. Velja le tam, kjer to zahteva „Po vprašanju“, in Edit Change Delay se ne prišteje še enkrat."
+
+msgid "Wide shot at least"
+msgstr "Splošni plan vsaj"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "vsaj toliko traja vstavljeni splošni plan"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Nato teče do konca stavka. Pod petimi sekundami pogled deluje kot trzaj."
+
+msgid "and at most this long"
+msgstr "in največ toliko"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Kjer je konec stavka dlje, kader konča zadnja meja med deli stavka pred njim -- ne reže se sredi stavka."
+
+msgid "Long monologue"
+msgstr "Dolg monolog"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "ena oseba govori dlje od „Splošni plan po“"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "„Izmenično“ si zapomni, kaj je pokazal zadnji prelom tega monologa. Poslušalec dobi sliko le, če je bil kdo na tej kameri slišan v zadnjih 20 sekundah; sicer splošni plan."
+
+msgid "Several speak at once"
+msgstr "Več jih govori hkrati"
+
+msgid "and no camera shows exactly them"
+msgstr "in nobena kamera ne kaže natanko njih"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Rezanje v zmedo deluje nervozno."
+
+msgid "Nobody speaks"
+msgstr "Nihče ne govori"
+
+msgid "no voice is heard at all here"
+msgstr "tu se sploh ne sliši noben glas"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Vdih sredi stavka in konec misli sta oba tišina in program ju ne more razlikovati. Le dolžina ju lahko: „Kratek premor do“ pove, kako dolga sme biti tišina, da še šteje kot vdih."
+
+msgid "Short gap up to"
+msgstr "Kratek premor do"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "toliko časa tišina pusti sliko pri miru"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Le kjer je „Nihče ne govori“ nastavljeno na zadržanje kratkega premora. Premor do te dolžine ne spremeni ničesar, daljši gre na splošni plan. Nad dvema sekundama začne slika stati na nekom, ki molči, dlje kot pet sekund."
+
+msgid "Recognition uncertain"
+msgstr "Negotovo razpoznavanje"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "razpoznavanje govorcev se cefra ali pusti kupček"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Ugibanje za več sekund pokaže napačno osebo; splošni plan je v vsakem primeru pravilen. Tu nekdo govori -- kjer nihče ne govori, odloča „Nihče ne govori“."
+
+msgid "the picture goes to the answer before it starts"
+msgstr "slika preide na odgovor, preden se ta začne"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Le po vprašanju, ki ga ne postavi glavni govorec, ko nekdo drug takoj prevzame besedo in jo obdrži.\n„ne prehitevaj“ pomeni brez zgodnje menjave kamere: slika tu sledi zvoku kot povsod drugod."
+
+msgid "Wide shot"
+msgstr "Splošni plan"
+
+msgid "Wide shot %d"
+msgstr "Splošni plan %d"
+
+msgid "(wide shot)"
+msgstr "(splošni plan)"
+
+msgid "No speaker"
+msgstr "Brez govorca"
+
+msgid "Listener"
+msgstr "Poslušalec"
+
+msgid "Alternating"
+msgstr "Izmenično"
+
+msgid "No camera change"
+msgstr "Brez menjave kamere"
+
+msgid "Hold a short gap"
+msgstr "Zadrži kratek premor"
+
+msgid "do not go early"
+msgstr "ne prehitevaj"
+
+msgid "Answering speaker"
+msgstr "Kdor odgovarja"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s-krat stran od govorca, ker je kader trajal dlje kot %s s"
+
+msgid "%s is in place."
+msgstr "Različica %s je nameščena."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "To okno je še vedno različica, s katero se je zagnalo. Zdaj se lahko znova zažene in odpre v tej različici, ali pa to storite sami pozneje."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Ta kopija teče iz lastne mape, zato pip tu nima česa posodobiti. Tole jo namesti: %s"
+
+msgid "Language of the window"
+msgstr "Jezik okna"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Jezik, izbran tukaj, velja od naslednjega zagona."
+
+msgid "Restart the application"
+msgstr "Znova zaženi aplikacijo"
+
+msgid "The work can be written to a project file first."
+msgstr "Delo je mogoče najprej zapisati v projektno datoteko."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Ponovni zagon aplikacije ga uveljavi takoj in najprej vpraša, kaj naj se zgodi z delom. Če tega ne storite, ne izgubite ničesar -- jezik se zamenja ob naslednjem zagonu."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "Aplikacija se bo znova zagnala. Ali naj se delo najprej zapiše v projektno datoteko?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Če je zapisano, novo okno znova odpre projekt in vse stoji tam, kjer je stalo. Če ni zapisano, se odpre prazno in datoteke je treba dodati na novo."
+
+msgid "Save and restart"
+msgstr "Shrani in znova zaženi"
+
+msgid "Restart without saving"
+msgstr "Znova zaženi brez shranjevanja"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Zagon še poteka. Okno je mogoče znova zagnati, ko se konča."
+
+msgid "System language (%s)"
+msgstr "Jezik sistema (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Bližnjica do tega programa je bila ustvarjena: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Bližnjica do tega programa ni bila ustvarjena: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "bila je zapisana, potem pa je ni bilo"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "Ta program teče kot %s, paketi, nameščeni zanj, pa so %s, zato nobenega od njih ni mogoče naložiti. Pravilno se zažene tako: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Ta predaja ne vsebuje hitrosti sličic, zato iz nje ni mogoče zgraditi Timeline. Prosimo, ponovite zagon."
+
+msgid "Cut by speaker"
+msgstr "Montaža po govorcih"
+
+msgid "Sync only"
+msgstr "Samo sinhronizacija"
+
+msgid "Project type"
+msgstr "Vrsta projekta"
+
+msgid "No project type chosen yet."
+msgstr "Vrsta projekta še ni izbrana."
+
+msgid "What is this production to become?"
+msgstr "Kaj naj nastane iz te produkcije?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s“: kamere na eni časovni osi in montaža po tem, kdo govori.\n„%s“: kamere na eni časovni osi, nič več -- brez govorcev, brez montaže."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Samo sinhronizacija: brez montaže. Predaja vsebuje le multicam Timeline; projekt Resolve se ustvari na zavihku „Izhod“."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Vrsta projekta: Samo sinhronizacija -- brez govorcev, brez prepisa, brez montaže; predaja vsebuje le multicam Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Samo sinhronizacija: montaža po govorcih ni bila zahtevana.\n  Zgradi se le Timeline za izrezek multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  Video sledi: %s, poimenovane po datotekah kamer:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Samo sinhronizacija sprejme en zvočni posnetek; to je še eden: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Samo sinhronizacija: predaja se znova izračuna; montaže za ponovitev ni. Resolve mora teči."
+
+msgid "%s has not started yet"
+msgstr "%s: še se ni začelo"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   zvoka ni mogoče predvajati"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "zvok postavljen po uri -- meritev še čaka"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nRAVNI GOVORCEV"
+
+msgid "Measuring %s"
+msgstr "Merjenje: %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s ni merljivo -- ostane, kot je"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- nič na njej, ostane, kot je"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Le en glas -- ni ga s čim primerjati."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Skupna raven:      %s LUFS, mediana glasov"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name navaja %s, ki ni ena od datotek kamer tega zagona."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Novo ime za %s je prazno; navedite preprosto ime datoteke ali izpustite --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Novo ime „%s“ za %s vsebuje „%s“, ločilo za mapo ali pogon; navedite preprosto ime datoteke."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Novo ime „%s“ za %s se začne s piko, kar ustvari skrito datoteko ali mapo; navedite preprosto ime datoteke."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Dve kameri bi bili zapisani kot ena datoteka, %s: %s in %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name da datoteki %s dve imeni, „%s“ in „%s“; vsaki datoteki dajte eno."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Datoteka dodelitve tukaj poimenuje kamere, zato bi bil --new-name prezrt; navedite imena tam ali izpustite --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Kadar so samo kamere, se vsaka datoteka imenuje po sledeh, vzetih iz njenega zvoka, zato bi bil --new-name prezrt; izpustite --new-name."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "na %s kameri"
+msgstr[1] "na %s kamerah"
+msgstr[2] "na %s kamerah"
+msgstr[3] "na %s kamerah"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s beseda se je vrnila brez časovne oznake in je bila izpuščena."
+msgstr[1] "  %s besedi sta se vrnili brez časovne oznake in sta bili izpuščeni."
+msgstr[2] "  %s besede so se vrnile brez časovne oznake in so bile izpuščene."
+msgstr[3] "  %s besed se je vrnilo brez časovne oznake in je bilo izpuščenih."
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Ločevanje govorcev (%s): %s govorec iz %s zvoka"
+msgstr[1] "  Ločevanje govorcev (%s): %s govorca iz %s zvoka"
+msgstr[2] "  Ločevanje govorcev (%s): %s govorci iz %s zvoka"
+msgstr[3] "  Ločevanje govorcev (%s): %s govorcev iz %s zvoka"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Ločeno: %s govorec"
+msgstr[1] "Ločeno: %s govorca"
+msgstr[2] "Ločeno: %s govorci"
+msgstr[3] "Ločeno: %s govorcev"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s samodejno odpravljeno"
+msgstr[1] "%s samodejno odpravljeni"
+msgstr[2] "%s samodejno odpravljena"
+msgstr[3] "%s samodejno odpravljenih"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Slika in zvok znova povezana: %s kot"
+msgstr[1] "    Slika in zvok znova povezana: %s kota"
+msgstr[2] "    Slika in zvok znova povezana: %s koti"
+msgstr[3] "    Slika in zvok znova povezana: %s kotov"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Pozor: kot %s ni vstavljen. Brez tega kota\n  Timeline ni uporabna za pretvorbo."
+msgstr[1] "  Pozor: kota %s nista vstavljena. Brez teh kotov\n  Timeline ni uporabna za pretvorbo."
+msgstr[2] "  Pozor: koti %s niso vstavljeni. Brez teh kotov\n  Timeline ni uporabna za pretvorbo."
+msgstr[3] "  Pozor: koti %s niso vstavljeni. Brez teh kotov\n  Timeline ni uporabna za pretvorbo."
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  Ostane v dveh kanalih: %s"
+msgstr[1] "  Ostaneta v dveh kanalih: %s"
+msgstr[2] "  Ostanejo v dveh kanalih: %s"
+msgstr[3] "  Ostanejo v dveh kanalih: %s"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  Sled %s je bila naložena v stereu in se je vrnila z enim kanalom."
+msgstr[1] "  Sledi %s sta bili naloženi v stereu in sta se vrnili vsaka z enim kanalom."
+msgstr[2] "  Sledi %s so bile naložene v stereu in so se vrnile vsaka z enim kanalom."
+msgstr[3] "  Sledi %s so bile naložene v stereu in so se vrnile vsaka z enim kanalom."
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " iz %s vdelanega kanala"
+msgstr[1] " iz %s vdelanih kanalov"
+msgstr[2] " iz %s vdelanih kanalov"
+msgstr[3] " iz %s vdelanih kanalov"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Datoteka je označena kot HDR in ima %s opombo."
+msgstr[1] "Datoteka je označena kot HDR in ima %s opombi."
+msgstr[2] "Datoteka je označena kot HDR in ima %s opombe."
+msgstr[3] "Datoteka je označena kot HDR in ima %s opomb."
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s zvočna sled"
+msgstr[1] "%s zvočni sledi"
+msgstr[2] "%s zvočne sledi"
+msgstr[3] "%s zvočnih sledi"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s izrezek"
+msgstr[1] "%s izrezka"
+msgstr[2] "%s izrezki"
+msgstr[3] "%s izrezkov"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s video sled"
+msgstr[1] "%s video sledi"
+msgstr[2] "%s video sledi"
+msgstr[3] "%s video sledi"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix iz %s sledi, %s kanal"
+msgstr[1] "  Full-Mix iz %s sledi, %s kanala"
+msgstr[2] "  Full-Mix iz %s sledi, %s kanali"
+msgstr[3] "  Full-Mix iz %s sledi, %s kanalov"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s izrezek je ostal brez barve."
+msgstr[1] "      %s izrezka sta ostala brez barve."
+msgstr[2] "      %s izrezki so ostali brez barve."
+msgstr[3] "      %s izrezkov je ostalo brez barve."
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> interpretirano kot %s zvočna sled%s"
+msgstr[1] "      --> interpretirano kot %s zvočni sledi%s"
+msgstr[2] "      --> interpretirano kot %s zvočne sledi%s"
+msgstr[3] "      --> interpretirano kot %s zvočnih sledi%s"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Več kotov kot barv -- %s barva se pojavi dvakrat."
+msgstr[1] "      Več kotov kot barv -- %s barvi se pojavita dvakrat."
+msgstr[2] "      Več kotov kot barv -- %s barve se pojavijo dvakrat."
+msgstr[3] "      Več kotov kot barv -- %s barv se pojavi dvakrat."
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s prazna zvočna sled je odstranjena"
+msgstr[1] "    %s prazni zvočni sledi sta odstranjeni"
+msgstr[2] "    %s prazne zvočne sledi so odstranjene"
+msgstr[3] "    %s praznih zvočnih sledi je odstranjenih"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    Na V2 je zdaj %s izrezek: %s"
+msgstr[1] "    Na V2 sta zdaj %s izrezka: %s"
+msgstr[2] "    Na V2 so zdaj %s izrezki: %s"
+msgstr[3] "    Na V2 je zdaj %s izrezkov: %s"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  Ostane %s zvočna sled:"
+msgstr[1] "  Ostaneta %s zvočni sledi:"
+msgstr[2] "  Ostanejo %s zvočne sledi:"
+msgstr[3] "  Ostane %s zvočnih sledi:"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  Ostane %s zvočna sled: %s"
+msgstr[1] "  Ostaneta %s zvočni sledi: %s"
+msgstr[2] "  Ostanejo %s zvočne sledi: %s"
+msgstr[3] "  Ostane %s zvočnih sledi: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  Postavljena je %s oznaka%s."
+msgstr[1] "  Postavljeni sta %s oznaki%s."
+msgstr[2] "  Postavljene so %s oznake%s."
+msgstr[3] "  Postavljenih je %s oznak%s."
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s datoteka je bila dokončana že prej in je cela: %s"
+msgstr[1] "%s datoteki sta bili dokončani že prej in sta celi: %s"
+msgstr[2] "%s datoteke so bile dokončane že prej in so cele: %s"
+msgstr[3] "%s datotek je bilo dokončanih že prej, vse so cele: %s"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s kanal"
+msgstr[1] "%s kanala"
+msgstr[2] "%s kanali"
+msgstr[3] "%s kanalov"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s datoteka"
+msgstr[1] "%s datoteki"
+msgstr[2] "%s datoteke"
+msgstr[3] "%s datotek"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s razlog za ustavitev"
+msgstr[1] "%s razloga za ustavitev"
+msgstr[2] "%s razlogi za ustavitev"
+msgstr[3] "%s razlogov za ustavitev"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s posnetek iz %s datotek"
+msgstr[1] "%s posnetka iz %s datotek"
+msgstr[2] "%s posnetki iz %s datotek"
+msgstr[3] "%s posnetkov iz %s datotek"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s sled, %s, %s kHz, %s"
+msgstr[1] "%s sledi, %s, %s kHz, %s"
+msgstr[2] "%s sledi, %s, %s kHz, %s"
+msgstr[3] "%s sledi, %s, %s kHz, %s"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: stoji na %s (cilj %s) po %d ms, %d poskus"
+msgstr[1] "%s: stoji na %s (cilj %s) po %d ms, %d poskusa"
+msgstr[2] "%s: stoji na %s (cilj %s) po %d ms, %d poskusi"
+msgstr[3] "%s: stoji na %s (cilj %s) po %d ms, %d poskusov"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s datoteka se ne ujema"
+msgstr[1] ", %s datoteki se ne ujemata"
+msgstr[2] ", %s datoteke se ne ujemajo"
+msgstr[3] ", %s datotek se ne ujema"
+
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Želite s seznama odstraniti %s zvočno datoteko?\n\n%s"
+msgstr[1] "Želite s seznama odstraniti %s zvočni datoteki?\n\n%s"
+msgstr[2] "Želite s seznama odstraniti vse %s zvočne datoteke?\n\n%s"
+msgstr[3] "Želite s seznama odstraniti vseh %s zvočnih datotek?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Želite s seznama odstraniti %s video datoteko?\n\n%s"
+msgstr[1] "Želite s seznama odstraniti %s video datoteki?\n\n%s"
+msgstr[2] "Želite s seznama odstraniti vse %s video datoteke?\n\n%s"
+msgstr[3] "Želite s seznama odstraniti vseh %s video datotek?\n\n%s"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s zvočni posnetek"
+msgstr[1] "%s zvočna posnetka"
+msgstr[2] "%s zvočni posnetki"
+msgstr[3] "%s zvočnih posnetkov"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s kamera"
+msgstr[1] "%s kameri"
+msgstr[2] "%s kamere"
+msgstr[3] "%s kamer"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s namig"
+msgstr[1] "%s namiga"
+msgstr[2] "%s namigi"
+msgstr[3] "%s namigov"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s točka"
+msgstr[1] "%s točki"
+msgstr[2] "%s točke"
+msgstr[3] "%s točk"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s video datoteka"
+msgstr[1] "%s video datoteki"
+msgstr[2] "%s video datoteke"
+msgstr[3] "%s video datotek"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s nadaljevanje"
+msgstr[1] "%s  + %s nadaljevanji"
+msgstr[2] "%s  + %s nadaljevanja"
+msgstr[3] "%s  + %s nadaljevanj"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Nastala bo %s video datoteka, približno %s. Ciljna mapa: %s"
+msgstr[1] "Nastali bosta %s video datoteki, približno %s. Ciljna mapa: %s"
+msgstr[2] "Nastale bodo %s video datoteke, približno %s. Ciljna mapa: %s"
+msgstr[3] "Nastalo bo %s video datotek, približno %s. Ciljna mapa: %s"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Vir: %s -- %s glas."
+msgstr[1] "  Vir: %s -- %s glasova."
+msgstr[2] "  Vir: %s -- %s glasovi."
+msgstr[3] "  Vir: %s -- %s glasov."
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s v %s odseku"
+msgstr[1] "  %-20s %s v %s odsekih"
+msgstr[2] "  %-20s %s v %s odsekih"
+msgstr[3] "  %-20s %s v %s odsekih"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s ni mogoče razvrstiti: %s -- umeščeno samo po lastni uri"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: ujemanje zvoka %s, pod spodnjo mejo %s -- umeščeno samo po lastni uri"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Pozor: ta projekt ni popoln -- Resolve je te sledi dvakrat zavrnil:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Zamik:                  %s   (samo po časovni kodi -- po zvoku umestitev ni bila mogoča, zato se nič ne preverja)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve je dvakrat zavrnil zvočno sled A%d na Timeline „%s“ -- kamere se položijo na obstoječe zvočne sledi (skupaj %s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve je dvakrat zavrnil video sled V%d -- na Timeline „%s“ manjka: %s."
+
+msgid "  Status:      %s"
+msgstr "  Stanje:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Ujemanje zvoka je prešibko, da bi mu lahko zaupali: %s -- umeščeno samo po časovni kodi."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   se ne ujema z drugimi datotekami: zvok ni prepoznan,\n   časovne kode ni s čim primerjati.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s ni mogoče umestiti: zvok nima nič skupnega z ostalim gradivom, nobena kamera, umeščena po zvoku, pa nima časovne kode, s katero bi lahko primerjali lastno. Ena od njih potrebuje časovno kodo, ki se ujema s to, to pa je treba nastaviti z drugim programom."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "Datoteka %s se ne ujema z ničemer v gradivu, nobena kamera, umeščena po zvoku, pa nima časovne kode, s katero bi lahko primerjali lastno, zato je ni mogoče vmontirati v epizodo: nastavljena kot Uvodna špica."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "Datoteka %s se ne ujema z ničemer v gradivu, nobena kamera, umeščena po zvoku, pa nima časovne kode, s katero bi lahko primerjali lastno; uvodna špica je že zasedena: izpuščena."
+
+msgid "API Key:"
+msgstr "Ključ API:"
+
+msgid "In point"
+msgstr "Vstopna točka"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Izpuščeno; %s ali %s je le en klik stran."
+
+msgid "Out point"
+msgstr "Izstopna točka"
+
+msgid "Presets:"
+msgstr "Prednastavitve:"
+
+msgid "Registry"
+msgstr "register"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Odstranitev „ZVOK“ ali „VIDEO“ odstrani vse, kar je pod njim."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "končan izrezek"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "ni mogoče vmontirati v epizodo -- le pred njo ali po njej"
+
+msgid "moved off the wide shot"
+msgstr "umaknjeno s splošnega plana"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ne zvok ne časovna koda je ne postavita na os"
+
+msgid "no audio track"
+msgstr "brez zvočne sledi"
+
+msgid "no speaker"
+msgstr "brez govorca"
+
+msgid "not used"
+msgstr "ni v rabi"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "umeščeno s svojo kamero, po uri te kamere"
+
+msgid "the file stays out"
+msgstr "datoteka ostane zunaj"
+
+msgid "the only sound"
+msgstr "edini zvok"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve je dvakrat zavrnil zvočno sled A%d -- na Timeline „%s“ manjka zvok (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve je dvakrat zavrnil video sled V%d -- na Timeline „%s“ manjka slika (%s)."

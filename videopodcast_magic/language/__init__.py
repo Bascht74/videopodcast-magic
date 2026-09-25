@@ -157,39 +157,58 @@ def languages():
 # looks for a language may not read the one the window stands in.
 LANGUAGE_NAMES = dict(
     ar="العربية",
+    bg="Български",
     bn="বাংলা",
+    bs="Bosanski",
     cs="Čeština",
     da="Dansk",
     de="Deutsch",
     el="Ελληνικά",
     en="English",
     es="Español",
+    et="Eesti",
+    fa="فارسی",
     fi="Suomi",
     fr="Français",
+    ga="Gaeilge",
+    gu="ગુજરાતી",
+    he="עברית",
     hi="हिन्दी",
     hr="Hrvatski",
     hu="Magyar",
+    id="Bahasa Indonesia",
     it="Italiano",
     ja="日本語",
     ko="한국어",
+    lt="Lietuvių",
+    lv="Latviešu",
+    mr="मराठी",
+    mt="Malti",
     nb="Norsk bokmål",
     nl="Nederlands",
+    pa="ਪੰਜਾਬੀ",
     pl="Polski",
     pt="Português",
     ro="Română",
     ru="Русский",
     sk="Slovenčina",
+    sl="Slovenščina",
     sr="Српски",
     sv="Svenska",
+    sw="Kiswahili",
+    ta="தமிழ்",
+    te="తెలుగు",
+    th="ไทย",
     tr="Türkçe",
     uk="Українська",
+    ur="اردو",
     vi="Tiếng Việt",
     zh="中文",
 )
 
 
 # Which languages are written from right to left -- a fact about the
-# language and not the window, and four of these five have no catalogue.
+# language and not the window; only Yiddish of these five has no catalogue.
 RIGHT_TO_LEFT = ("ar", "fa", "he", "ur", "yi")
 
 

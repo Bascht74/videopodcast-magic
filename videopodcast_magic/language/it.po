@@ -1590,9 +1590,6 @@ msgstr "Nessuna telecamera è libera da parlanti, quindi non c’è campo totale
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "Ancora nessuna trascrizione. Senza di essa non si trova nessuna domanda e non si conosce nessun confine di frase, quindi queste quattro impostazioni non hanno effetto. Un’esecuzione la scrive, e da allora funzionano."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Non trova posto nel materiale: nessun timecode, e il suo audio non ha nulla in comune con il resto. Il campo totale è ciò su cui il montaggio ripiega, quindi deve stare sull’asse dei tempi."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Domanda: nessuna trascrizione, quindi nessuna domanda trovata e nessuno stacco\n           di reazione. Le parole vengono trascritte dal mix finito durante\n           l’esecuzione; senza di esse l’impostazione non ha effetto."
 
@@ -1613,9 +1610,6 @@ msgstr "Perché le impostazioni della domanda sono grigie"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "contrassegnata come campo totale -- non prende parlanti"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "nessun parlante -- questo è il campo totale"
 
 msgid "the mix of all tracks"
 msgstr "il mix di tutte le tracce"
@@ -1730,9 +1724,6 @@ msgstr "Nessun parlante ancora noto -- nulla misurato, nulla separato, e nessun 
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "La finestra temporale sta fuori dal materiale: punto di ingresso a %s, punto di uscita a %s, e il materiale dura %s."
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "questo è il campo totale -- %s è passato a \"nessuna telecamera propria\""
 
 msgid "No audio tracks are assigned."
 msgstr "Nessuna traccia audio assegnata."
@@ -2142,9 +2133,6 @@ msgstr "  Attenzione: gamma  solo %s LU -- molto stretta. Per il parlato di soli
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "entrambi i canali identici -- mono posto su entrambi i lati"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s non si può classificare: %s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "probabilmente due microfoni -- a circa %s m di distanza%s"
@@ -3634,9 +3622,6 @@ msgstr "  Esisteva già una Timeline %r -- la nuova si chiama %r."
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  L’inizio %s della Timeline è stato rifiutato: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve non accetta altre tracce video -- ci stanno %s telecamere su %s."
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s nessun file nel Media Pool"
 
@@ -3699,9 +3684,6 @@ msgstr "      GetAudioMapping   non riesce: %s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  Impossibile creare il gruppo colore %r: %s"
-
-msgid "    %s track %d could not be created."
-msgstr "    Impossibile creare la traccia %s %d."
 
 msgid "ends"
 msgstr "finisce"
@@ -4207,18 +4189,6 @@ msgstr "Il riavvio non è riuscito. Chiudi la finestra e avvia il programma come
 msgid "No newer version found. This one is %s."
 msgstr "Nessuna versione più recente trovata. Questa è la %s."
 
-msgid "no audio track in this file"
-msgstr "nessuna traccia audio in questo file"
-
-msgid "this file stays out entirely"
-msgstr "questo file resta del tutto fuori"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "una clip finita -- solo posizionata, non elaborata"
-
-msgid "the only sound there is"
-msgstr "l’unico suono che c’è"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "Multitraccia richiede due tracce nella tabella qui sopra -- una telecamera conta come una quando il suo Audio della telecamera è impostato su \"usa l’audio\"."
 
@@ -4230,9 +4200,6 @@ msgstr "Due telecamere sono una sola nel montaggio: %s. I loro file hanno lo ste
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "Due telecamere produrrebbero lo stesso file: %s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Non trova posto da nessuna parte nel materiale, quindi non può essere montata nell’episodio. Può essere messa prima o dopo."
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "Se usato, il suono di questo file diventa una traccia come le altre -- compare nella tabella qui sopra.\nLo stesso campo sta nell’elenco dei file; entrambi mostrano l’unica risposta."
@@ -4260,9 +4227,6 @@ msgstr "NOTE GENERALI"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "L’ordine non conta. Di una registrazione in più parti basta il primo blocco."
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Rilasciare su AUDIO o VIDEO li prende tutti."
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "Titolo su auphonic.com e inizio dei nuovi nomi dei file."
@@ -4706,3 +4670,156 @@ msgstr "Qui il file di assegnazione dà i nomi alle telecamere, quindi --new-nam
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Con sole telecamere, ogni file prende il nome dalle tracce ricavate dal suo audio, quindi --new-name verrebbe scartato; ometti --new-name."
+
+msgid "work without Auphonic"
+msgstr "lavorare senza Auphonic"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Solo dopo una domanda che non viene dal parlante principale, quando qualcun altro subentra subito e mantiene la parola.\n«non andare in anticipo» significa nessun cambio di telecamera anticipato: l’immagine segue il suono qui come ovunque."
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "«Alternanza» ricorda che cosa ha mostrato l’ultima interruzione di questo monologo. Chi ascolta riceve l’immagine solo se negli ultimi 20 secondi si è sentito qualcuno su quella telecamera; altrimenti il campo totale."
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Staccare in mezzo a una confusione di voci appare frenetico."
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Un respiro a metà frase e la fine di un pensiero sono entrambi silenzio, e il programma non li distingue. Solo la durata può farlo: «Pausa breve fino a» dice quanto può durare un silenzio e contare ancora come respiro."
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Tirare a indovinare mostra per secondi la persona sbagliata; il campo totale è giusto in ogni caso. Qui qualcuno parla -- dove non parla nessuno, decide «Nessuno parla»."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Un valore negativo fa anticipare l’immagine rispetto al suono."
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Lo zero è dove chi chiede smette, non dove inizia la risposta: la pausa fra i due appartiene alla domanda. Vale solo dove «Dopo una domanda» lo richiede, e l’Edit Change Delay non viene aggiunto di nuovo."
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Il limite morbido della coppia: da qui il programma aspetta un confine di frase e mette lì il campo totale, non secondo l’orologio. 0 lo disattiva. «Campo totale al più tardi» è il limite rigido, dove si stacca anche senza."
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Il limite rigido della coppia: se da «Campo totale dopo» non è arrivato nessun confine di frase, la pausa di parlato più lunga ne prende il posto, e a questo punto si stacca, qualunque cosa si stia dicendo."
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Poi dura fino alla fine della frase. Sotto i cinque secondi lo sguardo sembra un sussulto."
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Se la fine della frase cade oltre, l’ultimo confine di proposizione prima di quel limite chiude l’inquadratura -- non viene troncata a metà frase."
+
+msgid "Shorter shots fall into the following one."
+msgstr "Le inquadrature più brevi confluiscono nella successiva."
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Un breve «sì» non sposta l’immagine. Senza questo, un blocco di mezzo secondo tira a sé la telecamera, e la durata minima dell’inquadratura la tiene poi lì per secondi."
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Solo dove «Nessuno parla» è impostato su mantenere una pausa breve. Una pausa fino a questa durata non cambia nulla, una più lunga passa al campo totale. Oltre due secondi l’immagine comincia a restare per più di cinque secondi su qualcuno che tace."
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 costante"
+
+msgid "reserved"
+msgstr "riservato"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Per convertire: nel Media Pool clic destro su \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Solo in un senso -- ma una nuova esecuzione ricostruisce la Timeline in qualsiasi momento.\n  Angolazioni:%s\n  Tutto il resto -- scelta dell’audio, gruppi colore, inquadratura -- è nel\n  manuale, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Possibili motivi:\n  1. Resolve non è in esecuzione -- l’interfaccia di scripting risponde solo mentre il programma è in esecuzione.\n  2. Preferences > System > General: lo scripting esterno è impostato su \"None\" invece di \"Local\".\n  3. Edizione gratuita: secondo alcune segnalazioni, dalla versione 19.1 lo scripting esterno è riservato all’edizione Studio. Non ho trovato alcuna dichiarazione ufficiale -- questo controllo lo misura invece di affermarlo."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s non si può classificare: %s -- collocato solo in base al suo orologio"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: il suo suono corrisponde per %s, sotto la soglia di %s -- collocato solo in base al suo orologio"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Attenzione: questo progetto non è completo -- Resolve ha rifiutato due volte queste tracce:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Scostamento:          %s   (solo dal suo timecode -- il suo suono non ha potuto collocarla, quindi non si verifica nulla)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve ha rifiutato due volte la traccia audio A%d sulla Timeline \"%s\" -- le telecamere vengono messe sulle %s tracce audio esistenti."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve ha rifiutato due volte la traccia video V%d -- la Timeline \"%s\" resta senza %s."
+
+msgid "  Status:      %s"
+msgstr "  Stato:       %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Il suono di %s corrispondeva troppo debolmente per fidarsi -- collocato solo in base al timecode."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   non si accorda con gli altri file: audio non riconosciuto,\n   niente con cui confrontare il suo timecode.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s non si può collocare: il suo suono non ha nulla in comune con il resto del materiale, e nessuna telecamera collocata dal suono porta un timecode con cui confrontare il suo. Una di queste ha bisogno di un timecode adatto a questo, e va impostato con un altro programma."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s non corrisponde a nulla nel materiale, e nessuna telecamera collocata dal suono porta un timecode con cui confrontare il suo, quindi non può essere montato nella puntata: impostato su Intro."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s non corrisponde a nulla nel materiale, e nessuna telecamera collocata dal suono porta un timecode con cui confrontare il suo; l’intro è già assegnata: lasciato fuori."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Il punto di ingresso"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Escluso; %s o %s è a un clic."
+
+msgid "Out point"
+msgstr "Il punto di uscita"
+
+msgid "Presets:"
+msgstr "Preset:"
+
+msgid "Registry"
+msgstr "Registro"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Rimuovere AUDIO o VIDEO rimuove tutto ciò che sta sotto."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "clip finita"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "non si può montare nella puntata -- solo prima o dopo"
+
+msgid "moved off the wide shot"
+msgstr "tolto dal campo totale"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "né il suo suono né un timecode lo mettono sull’asse"
+
+msgid "no audio track"
+msgstr "senza audio"
+
+msgid "no speaker"
+msgstr "nessuno parla"
+
+msgid "not used"
+msgstr "non in uso"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "collocato con la sua telecamera, in base all’orologio di quella telecamera"
+
+msgid "the file stays out"
+msgstr "il file resta fuori"
+
+msgid "the only sound"
+msgstr "l’unico audio"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve ha rifiutato due volte la traccia audio A%d -- la Timeline \"%s\" resta senza il suono di %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve ha rifiutato due volte la traccia video V%d -- la Timeline \"%s\" resta senza l’immagine di %s."

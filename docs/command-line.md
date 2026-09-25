@@ -19,7 +19,7 @@ hint. Without a key the multitrack run stops there.*
 
 | Switch | Does |
 |---|---|
-| `--lang CODE` | language of the messages: `ar`, `bn`, `cs`, `da`, `de`, `el`, `en`, `es`, `fi`, `fr`, `hi`, `hr`, `hu`, `it`, `ja`, `ko`, `nb`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sr`, `sv`, `tr`, `uk`, `vi`, `zh` (system language) |
+| `--lang CODE` | language of the messages: `ar`, `bg`, `bn`, `bs`, `cs`, `da`, `de`, `el`, `en`, `es`, `et`, `fa`, `fi`, `fr`, `ga`, `gu`, `he`, `hi`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `mr`, `mt`, `nb`, `nl`, `pa`, `pl`, `pt`, `ro`, `ru`, `sk`, `sl`, `sr`, `sv`, `sw`, `ta`, `te`, `th`, `tr`, `uk`, `ur`, `vi`, `zh` (system language) |
 | `--out FOLDER` | where the results go (next to each video) |
 | `--project-type WHAT` | what the run is for: `cut` puts the cameras on one time axis and cuts by speaker, in the window "Cut by speaker"; `sync` only puts the audio onto each camera and builds the multicam timeline, "Sync only" -- no speakers, no speech recognition, no transcript, no cut lists (`cut`) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
