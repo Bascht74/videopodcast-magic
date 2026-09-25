@@ -1727,12 +1727,12 @@ def audio_under_camera(camera_path, kind_of, done,
                    assign_lines, voice_lines, blocks_of):
     """Return the audio recording belonging to this camera.
 
-    For the preview the audio assigned to the camera plays instead of the
-    camera audio: preferably the processed track, at delivery level, else
-    the raw recording. With several speakers the first applies. A voice
-    heard inside a recording occupies a camera like a recording does,
-    and without a processed track its recording plays. With no speaker
-    -- the wide shot -- the overall mix plays if it exists.
+    For the preview the assigned audio plays instead of the camera's:
+    preferably the processed track, at delivery level, else the raw
+    recording; with several speakers the first. A voice heard inside a
+    recording occupies a camera like a recording does. With no speaker
+    -- the wide shot -- the overall mix plays; before it exists, the
+    one recording that carries every voice, where there is just one.
     """
     # An intro or outro stands before or after the episode, so nothing
     # off the episode's own axis belongs under it.
@@ -1757,6 +1757,16 @@ def audio_under_camera(camera_path, kind_of, done,
     for name in MIX_TRACK_ALIASES:
         if name in done:
             return [done[name]]
+    # Before the mix exists, one recording that carries every voice is
+    # the whole conversation. A speaker read as cut.cameras_with_a_speaker
+    # reads one, so a camera's own sound with a name on it carries too.
+    carriers = set(source for source, nv, cv in rows
+                   if source and nv.get().strip()
+                   and cv.get() not in (MIX_ONLY, IGNORE_AUDIO))
+    if len(carriers) == 1:
+        source = carriers.pop()
+        if os.path.exists(source):
+            return blocks_of.get(source) or [source]
     return None
 
 

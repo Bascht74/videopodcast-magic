@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A camera occupied only through the voices table hears that voice.
+"""A camera hears its voice; the wide shot, the one recording of every voice.
 
 The preview plays the assigned recording under a camera. A voice heard
 inside a recording gets its camera in the voices table, under the
@@ -7,11 +7,13 @@ recording, so a camera that only such a voice occupies has to hear the
 voice's track: the finished one where it exists, else the recording
 the voice was heard in. And the tick that switches the assigned sound
 on hangs on that lookup: offered where a voice occupies the camera,
-greyed where the lookup answers nothing.
+greyed where the lookup answers nothing. Then the wide shot, before
+any mix: it hears the one recording that carries every voice, and
+with two such recordings it keeps its own sound.
 
-One ground: one camera file, one voice row pointing at it, a finished
-track and the recording behind the voice. The lookup is the window's
-own; the tables are stood in for.
+One ground: a camera and a wide shot, voice rows, a finished track
+and the recordings behind the voices. The lookup is the window's own;
+the tables are stood in for.
 """
 import os
 import sys
@@ -74,8 +76,14 @@ FOLDER = tempfile.mkdtemp(prefix="vpm_voice_")
 CAMERA = os.path.join(FOLDER, "Guest_B002.mp4")
 RECORDING = os.path.join(FOLDER, "Guest_REC0002.wav")
 FINISHED = os.path.join(FOLDER, "final_Guest_10-12-03-00.wav")
-shutil.copy2(os.path.join(fixture("playertest"), "a.mp4"), CAMERA)
-for wav in (RECORDING, FINISHED):
+# The wide shot and the recordings of the last two sections: a room
+# recorder that hears everybody, and a presenter's own recorder.
+WIDE = os.path.join(FOLDER, "WideCam_C001.mp4")
+ROOM = os.path.join(FOLDER, "Room_REC0001.wav")
+OWN = os.path.join(FOLDER, "Presenter_REC0003.wav")
+for mp4 in (CAMERA, WIDE):
+    shutil.copy2(os.path.join(fixture("playertest"), "a.mp4"), mp4)
+for wav in (RECORDING, FINISHED, ROOM, OWN):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
                     "sine=frequency=440:duration=2", "-c:a", "pcm_s16le",
                     wav], check=True)
@@ -86,11 +94,12 @@ for wav in (RECORDING, FINISHED):
 voice_lines = [(vpm.speakers.voice_key(RECORDING, "SPEAKER_00"),
                 vpm.Value("Guest"), vpm.Value(os.path.basename(CAMERA)))]
 finished = {"Guest": FINISHED}
+assign_lines = []
 
 
 def lookup(path):
-    return vpm.ui.audio_under_camera(path, {}, finished, [], voice_lines,
-                                     vpm.ByFile())
+    return vpm.ui.audio_under_camera(path, {}, finished, assign_lines,
+                                     voice_lines, vpm.ByFile())
 
 
 state = {"in_point": None, "out_point": None, "axis": {}}
@@ -151,6 +160,35 @@ try:
           not player.track_checkbox.isEnabled(),
           "enabled %r, source %r"
           % (player.track_checkbox.isEnabled(), os.path.basename(heard())))
+
+    print("\n4. The wide shot, one recording carrying every voice, no mix")
+    # The room recorder goes to the mix only; both voices heard in it
+    # sit on their cameras. Nobody is on the wide shot.
+    assign_lines[:] = [((ROOM,), vpm.Value(""), vpm.Value(vpm.MIX_ONLY))]
+    voice_lines[:] = [
+        (vpm.speakers.voice_key(ROOM, "SPEAKER_00"), vpm.Value("Guest"),
+         vpm.Value(os.path.basename(CAMERA))),
+        (vpm.speakers.voice_key(ROOM, "SPEAKER_01"),
+         vpm.Value("Presenter"), vpm.Value("Presenter_B004.mp4"))]
+    player.load(WIDE)
+    app.processEvents()
+    check("the wide shot hears the one recording that carries every voice",
+          same_file(heard(), ROOM),
+          "source %r against %r, tick enabled %r"
+          % (heard(), ROOM, player.track_checkbox.isEnabled()))
+
+    print("\n5. The wide shot, two recordings carrying voices, no mix")
+    # The presenter now speaks into a recorder of their own.
+    assign_lines.append(((OWN,), vpm.Value("Presenter"),
+                         vpm.Value("Presenter_B004.mp4")))
+    del voice_lines[1:]
+    player.track_adjust()
+    app.processEvents()
+    check("with two recordings carrying voices the wide shot keeps its "
+          "own sound",
+          heard() == "" and not player.track_checkbox.isEnabled(),
+          "source %r, tick enabled %r"
+          % (os.path.basename(heard()), player.track_checkbox.isEnabled()))
 finally:
     try:
         player.track.stop()
