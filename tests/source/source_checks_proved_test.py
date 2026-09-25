@@ -14,12 +14,15 @@ keep their proofs in resolve/live/counterproof. Both are held, each
 against the tests that belong to it.
 
 The sections: that the register can be read, that every entry carries
-its evidence, that every row still belongs to a check that is here, the
-ratchet over what is owed, red as soon as a check enters the suite
-without a row of its own, the Resolve tests against their own register,
-where nothing may be owed at all, and last the reading that says how
-many judgements one row really covers, held against a text of a known
-shape.
+its evidence and that a program or test file it names by its path from
+the repository's top is one the repository holds, that every row still
+belongs to a check that is here, the ratchet over what is owed, red as
+soon as a check enters the suite without a row of its own, the Resolve
+tests against their own register, where nothing may be owed at all, and
+last the reading that says how many judgements one row really covers,
+held against a text of a known shape. Where a row broke is held to the
+files it names, not to the functions: a break invents names of its own
+often enough.
 
 A row names its check by that check's wording and its test by name. So
 rewording one check voids that one row and leaves its neighbours
@@ -107,6 +110,44 @@ undated = ["%s: %r" % (e["name"], e["when"]) for e in entries
            if not re.match(r"^\d{4}-\d{2}-\d{2}$", e["when"])]
 check("every entry says when", not undated,
       "%d of %d undated: %s" % (len(undated), len(entries), undated[:3]))
+# What was broken says where, so that somebody can break it there again.
+# The day the tests went into folders of their own that place died under
+# rows by the dozen and nothing said so. So a path of the two shapes the
+# repository has, videopodcast_magic/....py and tests/....py, has to be
+# one it holds. Only those two: the one file the program was before it
+# became a folder has another shape, and a path counted from tests/
+# ("resolve/...") is not told apart from one counted from the program.
+# A function's name is not asked -- a break invents its own often
+# enough -- and neither is a path the break itself makes, in the four
+# words the register says that with: copied to, renamed to, written back
+# as, and a path followed by "written,". Anything else a path follows,
+# "appended to" as well, names a place that has to be there. The red
+# line is not read; it is evidence, and stays as the run printed it.
+# The repository and not the folder, as in section 3, for the builder
+# moves tests aside.
+ROOT = os.path.dirname(HERE)
+NAMED = re.compile(
+    r"(?<![\w.-])((?:videopodcast_magic|tests)/[\w./-]*?\.py)\b")
+MADE_AFTER = ("copied to ", "renamed to ", "written back as ")
+held = set((overview.git(ROOT, "ls-files") or "").splitlines())
+named = 0
+nowhere = []
+for register, rows in (("state/counterproof", entries),
+                       ("resolve/live/counterproof",
+                        overview.rows_of(RESOLVE_STATE)[1])):
+    for e in rows:
+        for m in NAMED.finditer(e["how"]):
+            if e["how"][:m.start()].endswith(MADE_AFTER) \
+                    or e["how"][m.end():].startswith(" written,"):
+                continue
+            named += 1
+            if m.group(1) not in held and not os.path.isfile(
+                    os.path.join(ROOT, *m.group(1).split("/"))):
+                nowhere.append("%s, %s: %s"
+                               % (register, e["name"], m.group(1)))
+check("every path a register row names exists", not nowhere,
+      "%d of %d paths named are not in the repository: %s"
+      % (len(nowhere), named, nowhere[:3]))
 # The pair, never the wording on its own: nineteen wordings stand in
 # more than one test -- "English label", "and it says why" -- and a key
 # over the wording alone would fold them into one row.
