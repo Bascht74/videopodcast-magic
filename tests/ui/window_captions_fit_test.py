@@ -20,6 +20,12 @@ much room it has. The room is not guessed: a twin of the same class,
 parent, font and style sheet is given a long text, and its size hint
 minus the text width is what the frame costs. Word wrap, widgets with no
 text or with an icon, and fields somebody types into are left out.
+The window stands at the size the manual's pictures are taken at, and
+grows only where its sheets need more even at their narrowest: there
+the layout would squeeze a field below its text for want of window,
+not of field -- whether the sheets fit is window_sheets_fit's claim.
+Resolve is never asked: the sheet is measured as it stands where
+Resolve does not answer, since where it does it is somebody's own.
 
 The reading beside the zoom buttons is asked further things: that it
 holds its place, that it says something before anybody clicks, that the
@@ -52,7 +58,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-import os, sys, json, subprocess, time
+import os, sys, json, shutil, subprocess, time
 from concurrent.futures import ThreadPoolExecutor
 import the_program
 
@@ -101,6 +107,28 @@ PLATFORM = os.environ.get("VPM_LAYOUT_PLATFORM") or "offscreen"
 # Well under a tenth of a pixel: the faces that fail this are out by two
 # pixels, and a face that is really fixed width is out by nothing at all.
 SAME_WIDTH = 0.05
+# The Resolve sheet asks whether Resolve answers as soon as it is shown,
+# and on a machine where Resolve runs that is somebody's own. Pointed at
+# a folder that is not there, it answers "not" without asking anybody --
+# the answer every builder gives.
+NO_RESOLVE = (os.path.join(HERE, "no_resolve_here", "Scripting"),
+              os.path.join(HERE, "no_resolve_here", "fusionscript"))
+
+
+def media_links(files):
+    """One folder of links to the fixture's files, made once by the parent.
+
+    Every window then reads the files under the same names, so what the
+    first ones measured the rest find in the store, as a second opening
+    does for a user -- instead of each language decoding every file
+    again: ten processes fewer per window, measured, on a builder that
+    pays for every process it starts.
+    """
+    import tempfile
+    here = tempfile.mkdtemp(prefix="vpm_layout_media_")
+    for path in files:
+        os.symlink(path, os.path.join(here, os.path.basename(path)))
+    return here
 
 
 def own_project():
@@ -108,7 +136,9 @@ def own_project():
 
     Opening a project moves the project file into its output folder and
     deletes copies lying elsewhere, which on the shared fixture would
-    leave the next test with nothing to open.
+    leave the next test with nothing to open. The files are reached
+    through the parent's links where it made them, else through links
+    of this window's own.
     """
     import json as _json, tempfile
     from fixture_root import fixture
@@ -118,8 +148,9 @@ def own_project():
     with open(source, encoding="utf-8") as f:
         d = _json.load(f)
     own = tempfile.mkdtemp(prefix="vpm_layout_")
+    media = os.environ.get("VPM_LAYOUT_MEDIA") or own
     for entry in d.get("files") or []:
-        link = os.path.join(own, os.path.basename(entry["path"]))
+        link = os.path.join(media, os.path.basename(entry["path"]))
         if not os.path.exists(link):
             os.symlink(entry["path"], link)
         entry["path"] = link
@@ -139,6 +170,8 @@ def measure(language):
     """Build the window in that language and report every caption."""
     os.environ["QT_QPA_PLATFORM"] = PLATFORM
     os.environ["VPM_SILENT"] = "1"
+    os.environ["RESOLVE_SCRIPT_API"], os.environ["RESOLVE_SCRIPT_LIB"] = \
+        NO_RESOLVE
     from PySide6 import QtCore, QtGui, QtWidgets
 
     app = QtWidgets.QApplication(sys.argv[:1])
@@ -317,14 +350,24 @@ def measure(language):
     undrawable = set()
 
     def windows_size():
-        """Give every window the program did not size itself its hint.
+        """Every window at a width its sheets can be laid out in.
 
         The offscreen platform leaves a window it shows at its smallest
-        allowed width instead of the width it asked for, and every
-        caption in it would then look cut off.
+        allowed width, not the one it asked for: those get their hint.
+        The program's own window keeps the size the pictures are taken
+        at, and grows only to the least its sheets need -- narrower, the
+        layout squeezes fields below their text, which is the sheet not
+        fitting the window: window_sheets_fit's question, not this one's.
         """
+        main = window_of()
         for w in app.topLevelWidgets():
-            if not w.isVisible() or w.windowTitle().startswith("Video Pod"):
+            if not w.isVisible():
+                continue
+            if w is main:
+                least = w.minimumSizeHint().width()
+                if w.width() < least:
+                    result["widened"] = max(result.get("widened", 0), least)
+                    w.resize(least, w.height())
                 continue
             hint = w.sizeHint()
             if hint.isValid() and w.width() < hint.width():
@@ -558,7 +601,9 @@ def measure(language):
             window.resize(*WINDOW)
             app.processEvents()
             sweep()                      # the empty window as it opens,
-            if round_now[0] is empty[0]:  # and again half a second on
+            # and again half a second on, but only to confirm a finding:
+            # with none, the second look could not change the verdict.
+            if round_now[0] is empty[0] and empty[0]:
                 round_now[0] = empty[1]
                 QtCore.QTimer.singleShot(500, look)
                 return
@@ -679,7 +724,8 @@ def one(language):
     locale = "%s_%s.UTF-8" % (language, language.upper())
     env = dict(os.environ, VPM_LAYOUT_LANG=language, LANG=locale,
                LC_ALL=locale, LANGUAGE=language, QT_QPA_PLATFORM=PLATFORM,
-               VPM_LAYOUT_QUICK="1" if not_in else "")
+               VPM_LAYOUT_QUICK="1" if not_in else "",
+               VPM_LAYOUT_MEDIA=MEDIA)
     process = subprocess.Popen(
         [sys.executable, os.path.abspath(__file__)],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
@@ -695,9 +741,20 @@ def one(language):
     return language, out
 
 
+# The fixture's files, linked once for every window; with no fixture
+# each window says so itself.
+from fixture_root import fixture
+MEDIA = ""
+if os.path.exists(os.path.join(fixture("interview"), NAME)):
+    with open(os.path.join(fixture("interview"), NAME),
+              encoding="utf-8") as f:
+        MEDIA = media_links([e["path"] for e in json.load(f).get("files")
+                             or []])
 # A pool rather than waves: a wave waits for its slowest window.
 with ThreadPoolExecutor(AT_ONCE) as pool:
     outputs = list(pool.map(one, LANGUAGES))
+if MEDIA:
+    shutil.rmtree(MEDIA, ignore_errors=True)
 
 for language, out in outputs:
     # The measuring happens in the child, so its dump would otherwise go
@@ -721,6 +778,12 @@ for language, out in outputs:
     print("\n%s: %d captions, %s %s, window %s"
           % (language, report["seen"], report["style"], report["font"],
              report["size"]))
+    if report.get("widened"):
+        print("  the window was widened to %d px, the least its sheets "
+              "need in this platform's fonts: at %d px the layout would "
+              "squeeze fields below their text, and whether the sheets "
+              "fit the window is window_sheets_fit's question"
+              % (report["widened"], WINDOW[0]))
     if report.get("undrawable"):
         # A piece of this language was not judged, and run.sh reports
         # the test green with that piece named rather than green whole.
