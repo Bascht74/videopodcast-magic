@@ -701,6 +701,177 @@ def path_label(text, colour=None):
     widget.say(text)
     return widget
 
+def wrap_row(into, apart=18):
+    """A row of captioned fields that breaks onto a new line where it ends.
+
+    One long row asks for all of its width at once, and a page that
+    cannot scroll is cut off where the window ends -- the production
+    strip was, in Tamil on Linux. This one asks for its widest group
+    only. Groups stay whole, a caption never parts from its field, and
+    *apart* px more than the spacing lie between two of them.
+    """
+    from PySide6 import QtCore as _qc, QtWidgets as _qw
+
+    class WrapRow(_qw.QLayout):
+        """Left to right while there is room, then on the next line."""
+
+        def __init__(self):
+            """Empty, and flush with the layout it is put into."""
+            _qw.QLayout.__init__(self)
+            self.parts = []
+            self.setContentsMargins(0, 0, 0, 0)
+
+        def addItem(self, item):
+            """Qt hands every widget added over to here."""
+            self.parts.append(item)
+
+        def count(self):
+            """How many groups the row holds, shown or not."""
+            return len(self.parts)
+
+        def itemAt(self, i):
+            """The group at *i*, or None past the end."""
+            return self.parts[i] if 0 <= i < len(self.parts) else None
+
+        def takeAt(self, i):
+            """Take the group at *i* out, or None past the end."""
+            return self.parts.pop(i) if 0 <= i < len(self.parts) else None
+
+        def expandingDirections(self):
+            """Neither way: the groups keep the width they ask for."""
+            return _qc.Qt.Orientation(0)
+
+        def hasHeightForWidth(self):
+            """How tall it is depends on how many lines the width gives."""
+            return True
+
+        def heightForWidth(self, width):
+            """The height the lines take at *width*."""
+            return self.lines(_qc.QRect(0, 0, width, 0), False)
+
+        def setGeometry(self, rect):
+            """Lay the groups out in the room given."""
+            _qw.QLayout.setGeometry(self, rect)
+            self.lines(rect, True)
+
+        def shown(self):
+            """The groups that are drawn, and the gap between two."""
+            parts = [p for p in self.parts if not p.isEmpty()]
+            inner = parts[0].widget().layout().spacing() if parts else 0
+            return parts, max(0, inner) + apart
+
+        def sizeHint(self):
+            """All of it on one line."""
+            parts, gap = self.shown()
+            return _qc.QSize(
+                sum(p.sizeHint().width() for p in parts)
+                + gap * max(0, len(parts) - 1),
+                max([p.sizeHint().height() for p in parts] or [0]))
+
+        def minimumSize(self):
+            """The widest group alone: the rest can go under it."""
+            parts, _gap = self.shown()
+            return _qc.QSize(
+                max([p.minimumSize().width() for p in parts] or [0]),
+                max([p.minimumSize().height() for p in parts] or [0]))
+
+        def lines(self, rect, place):
+            """Break into lines at *rect*'s width; place them if asked."""
+            parts, gap = self.shown()
+            rows, row, wide = [], [], 0
+            for p in parts:
+                w = p.sizeHint().width()
+                if row and wide + gap + w > rect.width():
+                    rows.append(row)
+                    row, wide = [], 0
+                wide += (gap if row else 0) + w
+                row.append(p)
+            rows.append(row)
+            y = rect.y()
+            for row in rows:
+                tall = max([p.sizeHint().height() for p in row] or [0])
+                x = rect.x()
+                for p in row:
+                    size = p.sizeHint()
+                    if place:
+                        p.setGeometry(_qc.QRect(
+                            x, y + (tall - size.height()) // 2,
+                            size.width(), size.height()))
+                    x += size.width() + gap
+                y += tall + (gap - apart if row is not rows[-1] else 0)
+            return y - rect.y()
+
+        def pair(self, caption, field, between=0):
+            """Caption and field as one group, *between* px wider apart."""
+            group = _qw.QWidget()
+            line = _qw.QHBoxLayout(group)
+            line.setContentsMargins(0, 0, 0, 0)
+            line.addWidget(caption)
+            if between:
+                line.addSpacing(between)
+            line.addWidget(field)
+            self.addWidget(group)
+            return group
+
+    row = WrapRow()
+    into.addLayout(row)
+    return row
+
+def stack_when_narrow(sheet, columns):
+    """Put a scrolling sheet's columns under each other where they do not fit.
+
+    Side by side, two columns ask for the sum of their widths; where the
+    sheet shows less, it scrolls sideways and the right-hand column is
+    out of sight with nothing saying so. Stacked, it is only lower down
+    and the sheet asks for the wider column alone. Decided again when
+    the room or what the columns ask for changes. Returns *columns*.
+    """
+    from PySide6 import QtCore as _qc, QtWidgets as _qw
+    inside = sheet.widget()
+
+    def across():
+        """Whether the columns fit side by side in the room they would get.
+
+        The room is the sheet's without a vertical scrollbar, less one
+        where side by side would still be too tall: judged on the room
+        shown now, the bar that stacking brings would keep them stacked.
+        """
+        parts = [columns.itemAt(i) for i in range(columns.count())]
+        parts = [p for p in parts if not p.isEmpty()]
+        own = columns.contentsMargins()
+        outer = inside.layout().contentsMargins()
+        need = (sum(p.minimumSize().width() for p in parts)
+                + columns.spacing() * max(0, len(parts) - 1)
+                + own.left() + own.right() + outer.left() + outer.right())
+        tall = (inside.layout().minimumSize().height()
+                - columns.minimumSize().height() + own.top() + own.bottom()
+                + max([p.minimumSize().height() for p in parts] or [0]))
+        room = sheet.maximumViewportSize()
+        bar = sheet.verticalScrollBar().sizeHint().width()
+        return need <= room.width() - (bar if tall > room.height() else 0)
+
+    def decide():
+        """Turn the columns the way the room allows, if they are not."""
+        way = (_qw.QBoxLayout.LeftToRight if across()
+               else _qw.QBoxLayout.TopToBottom)
+        if columns.direction() != way:
+            columns.setDirection(way)
+
+    class RoomWatch(_qc.QObject):
+        """Asks again when the sheet is resized or its contents move."""
+
+        def eventFilter(self, which, event):
+            """Decide on a resize or a new layout, and let it through."""
+            if event.type() in (_qc.QEvent.Resize,
+                                _qc.QEvent.LayoutRequest):
+                decide()
+            return False
+
+    watch = RoomWatch(sheet)
+    sheet.viewport().installEventFilter(watch)
+    inside.installEventFilter(watch)
+    return columns
+
 def box_names_fit(box, room):
     """Give a chooser of file names the width it needs, up to *room*.
 
