@@ -397,9 +397,11 @@ def look(media):
         check("the camera has become a row in the recordings table",
               len(mine) == 1, str(list(rows)))
         if mine:
+            # The chooser holds the camera by its path.
             check("and that row starts on the camera it came out of",
-                  rows[mine[0]].currentData() == shorts[0],
-                  str(rows[mine[0]].currentData()))
+                  rows[mine[0]].currentData() == videos[0],
+                  "%s, wanted %s" % (os.path.basename(
+                      str(rows[mine[0]].currentData())), shorts[0]))
         check("nothing else moved into the table",
               len(rows) == len(mine), str(list(rows)))
         # The window here runs without Multitrack, and there a camera
@@ -596,38 +598,45 @@ check("nothing at all -> nothing at all", rows == [] and cam_audio is False,
         % (len(rows), cam_audio))
 
 print("\n2. Which camera a track is preselected to")
-TARGETS = ["Wide_C003.mov", "Guest_C009.mov", "Host_C005.mov",
-           vpm.MIX_ONLY, vpm.IGNORE_AUDIO]
+# The window offers each camera by its path, and answers with it.
+TARGETS = [b1, b2, b3, vpm.MIX_ONLY, vpm.IGNORE_AUDIO]
 VIDEOS = [b1, b2, b3]
 g = vpm.preselected_camera
-got = g("Host_C005.mov", TARGETS, "Guest", VIDEOS)
-check("set by hand still applies", got == "Host_C005.mov",
-        "%r against %r" % (got, "Host_C005.mov"))
+
+
+def said(got):
+    """A camera answer as the FAIL line carries it: the file name."""
+    return (os.path.basename(got) if isinstance(got, str)
+            and got.startswith(D) else got)
+
+
+got = g(b3, TARGETS, "Guest", VIDEOS)
+check("set by hand still applies", got == b3,
+        "%r against %r" % (said(got), "Host_C005.mov"))
 got = g(vpm.IGNORE_AUDIO, TARGETS, "Guest", VIDEOS)
 check("ignore stays as well", got == vpm.IGNORE_AUDIO,
-        "%r against %r" % (got, vpm.IGNORE_AUDIO))
-got = g("Gone_C099.mov", TARGETS, "Guest", VIDEOS)
-check("camera gone -> guessed anew", got == "Guest_C009.mov",
-        "%r against %r" % (got, "Guest_C009.mov"))
+        "%r against %r" % (said(got), vpm.IGNORE_AUDIO))
+got = g(os.path.join(D, "Gone_C099.mov"), TARGETS, "Guest", VIDEOS)
+check("camera gone -> guessed anew", got == b2,
+        "%r against %r" % (said(got), "Guest_C009.mov"))
 got = g(None, TARGETS, "Guest", VIDEOS)
-check("without an old choice, by the name", got == "Guest_C009.mov",
-        "%r against %r" % (got, "Guest_C009.mov"))
+check("without an old choice, by the name", got == b2,
+        "%r against %r" % (said(got), "Guest_C009.mov"))
 # No camera carries this speaker's name, not even a similar one.
 got = g(None, TARGETS, "Visitor", VIDEOS)
 check("no match -> mix only", got == vpm.MIX_ONLY,
-        "%r against %r" % (got, vpm.MIX_ONLY))
+        "%r against %r" % (said(got), vpm.MIX_ONLY))
 got = g(None, TARGETS, "", VIDEOS)
 check("empty name -> mix only", got == vpm.MIX_ONLY,
-        "%r against %r" % (got, vpm.MIX_ONLY))
+        "%r against %r" % (said(got), vpm.MIX_ONLY))
 # The camera the audio came out of is where a row starts, but only until
 # somebody says otherwise: the microphone may belong to another person.
-got = g(None, TARGETS, "Guest", VIDEOS, own_camera="Wide_C003.mov")
-check("own camera is the preselection", got == "Wide_C003.mov",
-        "%r against %r" % (got, "Wide_C003.mov"))
-got = g("Host_C005.mov", TARGETS, "Guest", VIDEOS,
-        own_camera="Wide_C003.mov")
-check("but a setting made by hand beats it", got == "Host_C005.mov",
-        "%r against %r" % (got, "Host_C005.mov"))
+got = g(None, TARGETS, "Guest", VIDEOS, own_camera=b1)
+check("own camera is the preselection", got == b1,
+        "%r against %r" % (said(got), "Wide_C003.mov"))
+got = g(b3, TARGETS, "Guest", VIDEOS, own_camera=b1)
+check("but a setting made by hand beats it", got == b3,
+        "%r against %r" % (said(got), "Host_C005.mov"))
 
 print("\n3. What the new video file is called")
 f = vpm.camera_output_name
