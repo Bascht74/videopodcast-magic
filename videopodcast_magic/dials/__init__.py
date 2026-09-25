@@ -82,6 +82,10 @@ MIN_EDIT_DURATION_S = 3.0
 # first over five appear.
 SILENCE_HOLD_S = 1.0
 
+# The hard limit of the wide shot: no camera stands longer than two
+# minutes without a cut. A rule of the cut, set, not measured.
+WIDE_LATEST_S = 120.0
+
 # How fine the camera cut turns out. Per entry: switch, label,
 # default, unit, short explanation beside it, longer in the tooltip.
 CUT_FIELDS = (
@@ -117,7 +121,7 @@ CUT_FIELDS = (
       'sentence boundary and puts the wide shot there, not on the '
       'clock. 0 turns it off. "Wide shot at the latest" is the hard '
       'limit, where it cuts without one.')),
-    ("wide-latest", 'Wide shot at the latest', "120", "s",
+    ("wide-latest", 'Wide shot at the latest', "%g" % WIDE_LATEST_S, "s",
      'and here it is cut, good moment or not',
      ('The hard limit of the pair: where no sentence boundary has '
       'turned up since "Wide shot after", the longest speech pause '
