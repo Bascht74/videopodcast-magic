@@ -125,11 +125,17 @@ check("and camera_place says nothing placed it", how_lost == "nowhere",
 # No zero point means no axis to measure a clock against, so the clock
 # is no answer here either -- and the word has to say that, or a camera
 # at the start of the axis and a camera nobody could place read alike.
-no_zero, how_no_zero = vpm.camera_place(at_four, None, None, 30.0)
+try:
+    no_zero, how_no_zero = vpm.camera_place(at_four, None, None, 30.0)
+    raised = ""
+except Exception as e:
+    # A clock read against no zero raises: said below, not a traceback.
+    no_zero, how_no_zero, raised = None, None, "%s: %s" % (
+        type(e).__name__, e)
 check("no zero point, so the clock cannot answer either",
-      abs(no_zero) < 1e-9 and how_no_zero == "nowhere",
-      "placed at %r by %r, wanted 0.0 and nothing having placed it"
-      % (no_zero, how_no_zero))
+      not raised and abs(no_zero) < 1e-9 and how_no_zero == "nowhere",
+      raised or "placed at %r by %r, wanted 0.0 and nothing having "
+      "placed it" % (no_zero, how_no_zero))
 
 print("\nWhich file of a row the clock is read from")
 # Every one of these is asked with nothing measured, because that is
