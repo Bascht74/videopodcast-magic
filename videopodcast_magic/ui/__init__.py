@@ -3457,7 +3457,7 @@ def gui():
     # it starts a run.
     state["speech_language"] = speech_language
     strip_choice_build(
-        QtWidgets, name_bar, speech_language, T('Language'),
+        QtWidgets, name_bar, speech_language, T('Language of the sound'),
         spoken_language_choices(),
         T('The language spoken in the recording. It becomes the tag of '
           'the\nwritten audio track, and the recognition here is told to '
