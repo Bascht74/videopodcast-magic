@@ -9,6 +9,9 @@ the reason on it.
 Not every sentence is a refusal. Where two cameras are marked as the
 wide shot, the second is told which of them the cut takes; that entry
 carries the sentence and stays open, because it can still be chosen.
+The one taken is named by the label handed in with it, camera_labels'
+name, so of two files of one name the second is "C0003.MP4 (2)",
+marked or not. Whether the window hands that label in is not asked.
 
 And the derivation does not ask who answered the field last. A camera
 without a speaker is the wide shot in the cut whatever the field says,
@@ -164,6 +167,37 @@ _cell, box = vpm.clip_kind_cell("Camera1.mov", value, why, QUIET, derived)
 check("and no entry of its list carries a sentence",
       not [v for v in vpm.CLIP_TYPES if note(box, v)],
       str([v for v in vpm.CLIP_TYPES if note(box, v)]))
+# Two cards give two files C0003.MP4, and camera_labels calls the second
+# "C0003.MP4 (2)". Host sits at the first, so the cut takes the second:
+# the bare file name would point at the camera Host is on.
+CARD_A, CARD_B = "/m/CardA/C0003.MP4", "/m/CardB/C0003.MP4"
+OTHER_WIDE = "/m/CardA/C0005.MP4"
+WINDOW = [CARD_A, CARD_B, OTHER_WIDE]
+NAMES = vpm.camera_labels(WINDOW)
+PAIR_FILES = [(p, "video") for p in WINDOW]
+wides, said = vpm.wide_cameras_of(
+    PAIR_FILES, {CARD_B: vpm.Value(vpm.TYPE_WIDE),
+                 OTHER_WIDE: vpm.Value(vpm.TYPE_WIDE)}, {}, {CARD_A})
+_v, why, _d = vpm.kind_on_show(vpm.TYPE_WIDE, OTHER_WIDE, wides, said, NAMES)
+check("a second mark names the camera cut to by the label handed in",
+      why == "the cut uses C0003.MP4 (2)",
+      "%r, wanted 'the cut uses C0003.MP4 (2)'; labels %s"
+      % (why, sorted(NAMES.values())))
+wides, said = vpm.wide_cameras_of(PAIR_FILES, {}, {}, {CARD_A})
+_v, why, _d = vpm.kind_on_show(vpm.TYPE_CONTENT, OTHER_WIDE, wides, said,
+                               NAMES)
+check("and so does a second wide shot nobody marked",
+      why == "no speaker is assigned to it, but the cut uses C0003.MP4 (2)",
+      "%r, wanted '... the cut uses C0003.MP4 (2)'; labels %s"
+      % (why, sorted(NAMES.values())))
+# The same file reached under another spelling is the same camera.
+SPELT = os.path.join(os.path.dirname(CARD_B), ".", "C0003.MP4")
+_v, why, _d = vpm.kind_on_show(vpm.TYPE_WIDE, OTHER_WIDE, [SPELT, OTHER_WIDE],
+                               said, NAMES)
+check("and its label is found under another spelling of that file",
+      why == "the cut uses C0003.MP4 (2)",
+      "%r for %r, wanted 'the cut uses C0003.MP4 (2)'; labels %s"
+      % (why, SPELT, sorted(NAMES.items())))
 
 print("\n5. A hand-picked Kind does not lift the derivation")
 # Deliberate, and the two bars differ on purpose. That a file sits

@@ -752,7 +752,7 @@ def audio_use_bind(box, value, why=""):
 
 
 def kind_cell_for(path, value, wides, said, placeless, kinds, quiet,
-                  after=None):
+                  after=None, labels=None):
     """The Kind field of one video file, built and tied to its value.
 
     Three tables show a Kind and all three ask here: two derivations of
@@ -761,7 +761,7 @@ def kind_cell_for(path, value, wides, said, placeless, kinds, quiet,
     intro and outro are free.
     """
     short = os.path.basename(path)
-    shown, why, derived = kind_on_show(value.get(), path, wides, said)
+    shown, why, derived = kind_on_show(value.get(), path, wides, said, labels)
     cell, box = clip_kind_cell(short, shown, why, quiet, derived,
                                wide_shot_barred(path, value, placeless),
                                edge_kind_barred(path, kinds))
@@ -2054,6 +2054,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             taken.setdefault(path_key(cv.get()), []).append(nv)
     wides, said = wide_cameras_now()
     shown = PROGRAM.camera_labels(videos)
+    state["camera_labels"] = shown
 
     def kinds_refresh():
         """Say the Kind column again, with the wide shot as it is now.
@@ -2074,7 +2075,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
                 box_cell, _box = kind_cell_for(
                     path, clip_kind_value(path), fresh, marked,
                     state.get("no_place"), clip_kind_values,
-                    COLOURS["quiet"], lambda q=path: kind_answered(q))
+                    COLOURS["quiet"], lambda q=path: kind_answered(q), shown)
                 table_video.setCellWidget(i, 3, box_cell)
         except RuntimeError:
             # The table was rebuilt under us; the new one is right.
@@ -2091,7 +2092,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         kind_cell, _kind_box = kind_cell_for(
             b, clip_kind, wides, said, state.get("no_place"),
             clip_kind_values, COLOURS["quiet"],
-            lambda p=b: kind_answered(p))
+            lambda p=b: kind_answered(p), shown)
         table_video.setCellWidget(row, 3, kind_cell)
         own_audio = audio_use_value(b)
         used, why = audio_use_settled(b, own_now, forced,
@@ -2693,10 +2694,10 @@ def gui():
         kind = clip_kind_values[path]
         video_kind_again[path] = lambda: video_choices_show(
             node, path, chosen, forced)
-        cell, box = kind_cell_for(path, kind, *wide_cameras_now(),
-                                  state.get("no_place"), clip_kind_values,
-                                  COLOURS["quiet"],
-                                  lambda p=path: kind_answered(p))
+        cell, box = kind_cell_for(
+            path, kind, *wide_cameras_now(), state.get("no_place"),
+            clip_kind_values, COLOURS["quiet"],
+            lambda p=path: kind_answered(p), state.get("camera_labels"))
         items.setItemWidget(node, 3, cell)
         used, why = audio_use_settled(path, chosen, forced,
                                       has_sound(path), kind.get())
