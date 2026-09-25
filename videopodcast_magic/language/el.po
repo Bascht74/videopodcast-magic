@@ -2714,9 +2714,6 @@ msgstr "%s -- ελέγχεται"
 msgid "The key was not saved: %s"
 msgstr "Το κλειδί δεν αποθηκεύτηκε: %s"
 
-msgid "The key was not saved"
-msgstr "Το κλειδί δεν αποθηκεύτηκε"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Η κλειδοθήκη είναι κλειδωμένη. Ξεκλειδώστε την και δοκιμάστε ξανά."
 
@@ -2857,12 +2854,6 @@ msgstr "Κομμάτι"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Προστέθηκαν κομμάτια κατά την αλλαγή (τώρα %s). Έτσι η μίξη γίνεται\n  λανθασμένη. Διαγράψτε στο auphonic.com τα κομμάτια χωρίς αρχείο."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Δύο κάμερες είναι μία κάμερα στο μοντάζ. Τα αρχεία τους φέρουν το ίδιο όνομα, οπότε μετονομάστε ένα από αυτά."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Δύο κάμερες είναι μία κάμερα στο μοντάζ: %s. Τα αρχεία τους φέρουν το ίδιο όνομα, οπότε μετονομάστε το ένα από αυτά."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Δύο κάμερες θα παρήγαγαν το ίδιο αρχείο. Η δεύτερη θα αντικαθιστούσε την πρώτη."
@@ -3251,9 +3242,6 @@ msgstr "✕  Το %s εμφανίζεται περισσότερες από μί
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Όλες οι ηχογραφήσεις φέρουν το ίδιο όνομα. Αυτό κάνει ένα κομμάτι -- το Multitrack χρειάζεται τουλάχιστον δύο."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Δύο κάμερες είναι μία κάμερα στο μοντάζ (%s). Τα αρχεία τους φέρουν το ίδιο όνομα, οπότε μετονομάστε ένα από αυτά."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Δύο κάμερες θα παρήγαγαν το ίδιο αρχείο (%s). Η δεύτερη θα αντικαθιστούσε την πρώτη."
 
@@ -3409,9 +3397,6 @@ msgstr "χωρίς όνομα"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Προσοχή: μέτρηση άχρηστη"
-
-msgid "   MISSING"
-msgstr "   ΛΕΙΠΕΙ"
 
 msgid "   NOT INSERTED"
 msgstr "   ΔΕΝ ΕΙΣΗΧΘΗ"
@@ -4717,9 +4702,6 @@ msgstr "  %s δεν μπορεί να ταξινομηθεί: %s -- τοποθε
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: ο ήχος της ταιριάζει κατά %s, κάτω από το κατώφλι του %s -- τοποθετήθηκε μόνο με βάση το ρολόι της"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Προσοχή: αυτό το έργο δεν είναι πλήρες -- το Resolve αρνήθηκε δύο φορές αυτά τα κομμάτια:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Μετατόπιση:         %s   (μόνο από το timecode της -- ο ήχος της δεν μπόρεσε να την τοποθετήσει, οπότε τίποτα δεν ελέγχεται)"
 
@@ -4765,9 +4747,6 @@ msgstr "Προρυθμίσεις:"
 msgid "Registry"
 msgstr "Μητρώο"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Η αφαίρεση του ΗΧΟΣ ή του ΒΙΝΤΕΟ αφαιρεί ό,τι βρίσκεται από κάτω."
-
 msgid "VIDEO"
 msgstr "ΒΙΝΤΕΟ"
 
@@ -4806,3 +4785,53 @@ msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι ή
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι βίντεο V%d -- από το Timeline «%s» λείπει η εικόνα (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s μετατόπιση %s, ολίσθηση ρολογιού δεν μετρήθηκε%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Προσοχή: αυτό το έργο δεν είναι πλήρες -- τι αρνήθηκε το Resolve:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Ολίσθηση ρολογιού:  δεν μετρήθηκε -- ο ήχος της έδωσε πολύ λίγα σημεία για μέτρηση"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit κινητής υποδιαστολής, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", το κομμάτι ήχου απορρίφθηκε"
+
+msgid "Format"
+msgstr "Μορφή"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Η αφαίρεση της γραμμής %s ή %s αφαιρεί και ό,τι βρίσκεται από κάτω."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "μονοφωνικό"
+
+msgid "placed with its camera"
+msgstr "τοποθετήθηκε μαζί με την κάμερά του"
+
+msgid "stereo"
+msgstr "στερεοφωνικό"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s αρχείο δεν ταιριάζει με τα υπόλοιπα"
+msgstr[1] " -- %s αρχεία δεν ταιριάζουν με τα υπόλοιπα"

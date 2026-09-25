@@ -1355,9 +1355,6 @@ msgstr "उत्तर JSON नहीं था: %s"
 msgid "  Number (empty = cancel): "
 msgstr "  संख्या (खाली = रद्द): "
 
-msgid "The key was not saved"
-msgstr "कुंजी सहेजी नहीं गई"
-
 msgid "The key was not saved: %s"
 msgstr "कुंजी सहेजी नहीं गई: %s"
 
@@ -3609,9 +3606,6 @@ msgstr "  Timeline की शुरुआत %s अस्वीकार हु�
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool में कोई फ़ाइल नहीं"
 
-msgid "   MISSING"
-msgstr "   गायब"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  सावधान: %s और %s दोनों का नाम %s है। Timeline पर\n  Resolve केवल नाम बताता है, इसलिए उनकी क्लिप अलग नहीं\n  पहचानी जा सकतीं -- दोनों में से एक फ़ाइल का नाम बदलें।"
 
@@ -4026,9 +4020,6 @@ msgstr "  वक्ता पृथक्करण उपयोग नहीं 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "दो कैमरे एक ही फ़ाइल बनाएँगे। दूसरा पहले को अधिलेखित कर देगा।"
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "कट में दो कैमरे एक ही कैमरा हैं। उनकी फ़ाइलों का नाम एक ही है, इसलिए उनमें से एक का नाम बदलें।"
-
 msgid "  Bleed not separable: %s"
 msgstr "  रिसाव अलग नहीं किया जा सकता: %s"
 
@@ -4055,9 +4046,6 @@ msgstr "  रिसाव मापा गया, %s, %s में केवल 
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ट्रैक मापे नहीं गए, इसलिए %s मिक्स में है, कट में नहीं: %s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  कट में दो कैमरे एक ही कैमरा बन जाते हैं (%s)। उनकी फ़ाइलों का नाम एक ही है, इसलिए उनमें से एक का नाम बदलें।"
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  सावधान: केवल %s जोड़े मापने योग्य (कुल %s में से)। बाकी के लिए ऐसा कोई क्षण नहीं मिला जहाँ ठीक एक व्यक्ति बोलता हो, इसलिए उनका रिसाव बना रहता है -- यहाँ वक्ता पहचान भरोसेमंद नहीं है।"
@@ -4178,9 +4166,6 @@ msgstr "Multitrack को ऊपर की तालिका में दो �
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s एक से अधिक वक्ता पर है -- एक नाम एक व्यक्ति है, और हर व्यक्ति को अपना नाम चाहिए।"
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "कट में दो कैमरे एक ही कैमरा बन जाते हैं: %s। उनकी फ़ाइलों का नाम एक ही है, इसलिए उनमें से एक का नाम बदलें।"
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "दो कैमरे एक ही फ़ाइल बनाएँगे: %s"
@@ -4718,9 +4703,6 @@ msgstr "  %s का वर्गीकरण नहीं हो सकता: %
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: उसकी ध्वनि %s तक मेल खाती है, न्यूनतम %s से नीचे -- केवल उसकी घड़ी से रखा गया"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  सावधान: यह परियोजना पूरी नहीं है -- Resolve ने ये ट्रैक दो बार अस्वीकार किए:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  ऑफ़सेट:         %s   (केवल उसके टाइमकोड से -- उसकी ध्वनि उसे नहीं रख सकी, इसलिए कुछ जाँचा नहीं जाता)"
 
@@ -4766,9 +4748,6 @@ msgstr "प्रीसेट:"
 msgid "Registry"
 msgstr "Registry"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "\"ऑडियो\" या \"वीडियो\" हटाने से उसके नीचे का सब कुछ हट जाता है।"
-
 msgid "VIDEO"
 msgstr "वीडियो"
 
@@ -4807,3 +4786,53 @@ msgstr "  Resolve ने ऑडियो ट्रैक A%d दो बार �
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ने वीडियो ट्रैक V%d दो बार अस्वीकार किया -- Timeline \"%s\" में %s का चित्र नहीं है।"
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s ऑफ़सेट %s, घड़ी विचलन मापा नहीं गया%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  सावधान: यह परियोजना पूरी नहीं है -- Resolve ने जो अस्वीकार किया:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  घड़ी विचलन:    मापा नहीं गया -- उसकी ध्वनि के बहुत कम बिंदु इसके लिए टिक पाए"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s बिट, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 बिट फ़्लोटिंग पॉइंट, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", इसका ऑडियो ट्रैक अस्वीकार किया गया"
+
+msgid "Format"
+msgstr "फ़ॉर्मेट"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "\"%s\" या \"%s\" हटाने से उसके नीचे का सब कुछ हट जाता है।"
+
+msgid "Timecode %s"
+msgstr "टाइमकोड %s"
+
+msgid "mono"
+msgstr "मोनो"
+
+msgid "placed with its camera"
+msgstr "अपने कैमरे के साथ रखा गया"
+
+msgid "stereo"
+msgstr "स्टीरियो"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s फ़ाइल बाकी फ़ाइलों से मेल नहीं खाती"
+msgstr[1] " -- %s फ़ाइलें बाकी फ़ाइलों से मेल नहीं खातीं"

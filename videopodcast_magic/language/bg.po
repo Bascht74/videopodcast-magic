@@ -2742,9 +2742,6 @@ msgstr "%s -- проверява се"
 msgid "The key was not saved: %s"
 msgstr "Ключът не беше запазен: %s"
 
-msgid "The key was not saved"
-msgstr "Ключът не беше запазен"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain е заключен. Отключете го и опитайте отново."
 
@@ -2885,12 +2882,6 @@ msgstr "Писта"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "При промяната бяха добавени писти (сега %s). Това прави микса\n  грешен. Моля, изтрийте пистите без файл в auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Две камери са една камера в монтажа. Файловете им имат едно и също име, затова преименувайте единия."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Две камери са една камера в монтажа: %s. Файловете им имат едно и също име, затова преименувайте единия."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Две камери биха създали един и същ файл. Вторият би презаписал първия."
@@ -3297,9 +3288,6 @@ msgstr "✕  %s се среща повече от веднъж. Тези зап�
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Всички записи носят едно и също име. Така се получава една писта -- за Multitrack са нужни поне две."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Две камери са една камера в монтажа (%s). Файловете им носят едно и също име, затова преименувайте единия от тях."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Две камери биха създали един и същ файл (%s). Втората би презаписала първата."
 
@@ -3461,9 +3449,6 @@ msgstr "без име"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Внимание: измерването е неизползваемо"
-
-msgid "   MISSING"
-msgstr "   ЛИПСВА"
 
 msgid "   NOT INSERTED"
 msgstr "   НЕ Е ВМЪКНАТО"
@@ -4722,9 +4707,6 @@ msgstr "  %s не може да се класифицира: %s -- мястот�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: съвпадението на звука е %s, под долната граница от %s -- мястото е определено само по часовника"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Внимание: този проект не е завършен -- Resolve отказа два пъти тези писти:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Отместване:          %s   (само от таймкода -- звукът ѝ не можа да я разположи, затова нищо не се проверява)"
 
@@ -4770,9 +4752,6 @@ msgstr "Пресети:"
 msgid "Registry"
 msgstr "регистър"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Премахването на ЗВУК или ВИДЕО премахва всичко под него."
-
 msgid "VIDEO"
 msgstr "ВИДЕО"
 
@@ -4811,3 +4790,53 @@ msgstr "  Resolve отказа два пъти аудиописта A%d -- в Ti
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve отказа два пъти видеописта V%d -- в Timeline „%s“ липсва картината на %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s отместване %s, дрейфът на часовника не е измерен%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Внимание: този проект не е завършен -- какво отказа Resolve:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Дрейф на часовника:  не е измерен -- звукът ѝ даде твърде малко точки за това"
+
+msgid "%s GB"
+msgstr "%s ГБ"
+
+msgid "%s MB"
+msgstr "%s МБ"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s бита, %s кХц, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s кадъра/с%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 бита с плаваща запетая, %s кХц, %s"
+
+msgid ", its sound track refused"
+msgstr ", аудиопистата е отказана"
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Премахването на %s или %s премахва и всичко под него."
+
+msgid "Timecode %s"
+msgstr "Таймкод %s"
+
+msgid "mono"
+msgstr "моно"
+
+msgid "placed with its camera"
+msgstr "поставено заедно с камерата си"
+
+msgid "stereo"
+msgstr "стерео"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s файл не пасва на останалите"
+msgstr[1] " -- %s файла не пасват на останалите"

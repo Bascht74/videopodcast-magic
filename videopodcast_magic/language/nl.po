@@ -2714,9 +2714,6 @@ msgstr "%s -- wordt gecontroleerd"
 msgid "The key was not saved: %s"
 msgstr "De sleutel is niet opgeslagen: %s"
 
-msgid "The key was not saved"
-msgstr "De sleutel is niet opgeslagen"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "De sleutelhanger is vergrendeld. Ontgrendel hem en probeer het opnieuw."
 
@@ -2857,12 +2854,6 @@ msgstr "Spoor"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Tijdens het wijzigen zijn er sporen bijgekomen (nu %s). Daardoor klopt de mix\n  niet. Verwijder op auphonic.com de sporen zonder bestand."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Twee camera's zijn in de montage één camera. Hun bestanden hebben dezelfde naam, dus hernoem er een."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Twee camera's zijn in de montage één camera: %s. Hun bestanden hebben dezelfde naam, dus hernoem er één."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Twee camera's zouden hetzelfde bestand opleveren. De tweede zou de eerste overschrijven."
@@ -3251,9 +3242,6 @@ msgstr "✕  %s komt meer dan eens voor. Deze opnamen worden samengevoegd tot é
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Alle opnamen dragen dezelfde naam. Dat wordt één spoor -- Multitrack heeft er minstens twee nodig."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Twee camera's zijn in de montage één camera (%s). Hun bestanden hebben dezelfde naam, dus hernoem er een."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Twee camera's zouden hetzelfde bestand opleveren (%s). De tweede zou de eerste overschrijven."
 
@@ -3409,9 +3397,6 @@ msgstr "naamloos"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Let op: meting onbruikbaar"
-
-msgid "   MISSING"
-msgstr "   ONTBREEKT"
 
 msgid "   NOT INSERTED"
 msgstr "   NIET INGEVOEGD"
@@ -4717,9 +4702,6 @@ msgstr "  %s kan niet worden ingedeeld: %s -- alleen op zijn klok geplaatst"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: het geluid komt overeen met %s, onder de ondergrens van %s -- alleen op zijn klok geplaatst"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Let op: dit project is niet volledig -- Resolve weigerde deze sporen twee keer:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Offset:         %s   (alleen uit de timecode -- het geluid kon het niet plaatsen, dus er wordt niets gecontroleerd)"
 
@@ -4765,9 +4747,6 @@ msgstr "Voorinstellingen:"
 msgid "Registry"
 msgstr "register"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "GELUID of VIDEO verwijderen neemt alles eronder mee."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4806,3 +4785,53 @@ msgstr "  Resolve weigerde audiospoor A%d twee keer -- de Timeline \"%s\" mist h
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve weigerde videospoor V%d twee keer -- de Timeline \"%s\" mist het beeld van %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s offset %s, klokdrift niet gemeten%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Let op: dit project is niet volledig -- wat Resolve weigerde:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Klokdrift:      niet gemeten -- het geluid leverde te weinig punten op voor een meting"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit float, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", het audiospoor geweigerd"
+
+msgid "Format"
+msgstr "Formaat"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Wordt %s of %s verwijderd, dan gaat alles eronder mee."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "geplaatst met zijn camera"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s bestand past niet bij de andere"
+msgstr[1] " -- %s bestanden passen niet bij de andere"

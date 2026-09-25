@@ -2740,9 +2740,6 @@ msgstr "%s -- சரிபார்க்கப்படுகிறது"
 msgid "The key was not saved: %s"
 msgstr "விசை சேமிக்கப்படவில்லை: %s"
 
-msgid "The key was not saved"
-msgstr "விசை சேமிக்கப்படவில்லை"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain பூட்டப்பட்டுள்ளது. அதைத் திறந்து மீண்டும் முயற்சிக்கவும்."
 
@@ -2883,12 +2880,6 @@ msgstr "தடம்"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "மாற்றும்போது தடங்கள் சேர்க்கப்பட்டன (இப்போது %s). அதனால் மிக்ஸ்\n  தவறாகும். தயவுசெய்து auphonic.com-இல் கோப்பு இல்லாத தடங்களை நீக்கவும்."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "கட்டில் இரண்டு கேமராக்கள் ஒரே கேமராவாக உள்ளன. அவற்றின் கோப்புகளுக்கு ஒரே பெயர், எனவே அவற்றில் ஒன்றின் பெயரை மாற்றவும்."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "கட்டில் இரண்டு கேமராக்கள் ஒரே கேமராவாக உள்ளன: %s. அவற்றின் கோப்புகளுக்கு ஒரே பெயர், எனவே அவற்றில் ஒன்றின் பெயரை மாற்றவும்."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "இரண்டு கேமராக்கள் ஒரே கோப்பை உருவாக்கும். இரண்டாவது முதலாவதை மேலெழுதும்."
@@ -3295,9 +3286,6 @@ msgstr "✕  ஒன்றுக்கு மேற்பட்ட முறை �
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  எல்லாப் பதிவுகளுக்கும் ஒரே பெயர் உள்ளது. அதனால் ஒரே தடம் உருவாகும் -- Multitrack-க்குக் குறைந்தது இரண்டு தேவை."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  கட்டில் இரண்டு கேமராக்கள் ஒரே கேமராவாகின்றன (%s). அவற்றின் கோப்புகளுக்கு ஒரே பெயர் உள்ளது, எனவே அவற்றில் ஒன்றின் பெயரை மாற்றவும்."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  இரண்டு கேமராக்கள் ஒரே கோப்பை உருவாக்கும் (%s). இரண்டாவது முதலாவதை மேலெழுதும்."
 
@@ -3459,9 +3447,6 @@ msgstr "பெயரில்லை"
 
 msgid "   Caution: measurement unusable"
 msgstr "   கவனம்: அளவீடு பயன்படாது"
-
-msgid "   MISSING"
-msgstr "   காணவில்லை"
 
 msgid "   NOT INSERTED"
 msgstr "   சேர்க்கப்படவில்லை"
@@ -4720,9 +4705,6 @@ msgstr "  %s-ஐ வகைப்படுத்த முடியவில்�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: அதன் ஆடியோ %s அளவில் பொருந்துகிறது, அடிமட்டம் %s-க்குக் கீழே -- அதன் கடிகாரத்தை மட்டும் வைத்து இடம் தரப்பட்டது"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  கவனம்: இந்தத் திட்டப்பணி முழுமையடையவில்லை -- Resolve இந்தத் தடங்களை இருமுறை மறுத்தது:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  ஆஃப்செட்:              %s   (அதன் டைம்கோடை மட்டும் வைத்து -- அதன் ஆடியோவால் இதை வைக்க முடியவில்லை, எனவே எதுவும் சரிபார்க்கப்படவில்லை)"
 
@@ -4768,9 +4750,6 @@ msgstr "முன்னமைவுகள்:"
 msgid "Registry"
 msgstr "பதிவகம்"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "\"ஆடியோ\" அல்லது \"வீடியோ\" பகுதியை அகற்றினால் அதன் கீழுள்ள அனைத்தும் அகற்றப்படும்."
-
 msgid "VIDEO"
 msgstr "வீடியோ"
 
@@ -4809,3 +4788,53 @@ msgstr "  Resolve ஆடியோ தடம் A%d-ஐ இருமுறை ம
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve வீடியோ தடம் V%d-ஐ இருமுறை மறுத்தது -- Timeline \"%s\"-இல் %s-இன் படம் இல்லை."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s ஆஃப்செட் %s, கடிகார விலகல் அளவிடப்படவில்லை%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  கவனம்: இந்தத் திட்டப்பணி முழுமையடையவில்லை -- Resolve மறுத்தவை:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  கடிகார விலகல்:        அளவிடப்படவில்லை -- அதன் ஆடியோவில் அதற்குப் போதுமான புள்ளிகள் கிடைக்கவில்லை"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s பிட், %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 பிட் ஃப்ளோட், %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", அதன் ஆடியோ தடம் மறுக்கப்பட்டது"
+
+msgid "Format"
+msgstr "வடிவம்"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "%s அல்லது %s அகற்றப்பட்டால், அதன் கீழ் உள்ள அனைத்தும் சேர்ந்து அகற்றப்படும்."
+
+msgid "Timecode %s"
+msgstr "டைம்கோடு %s"
+
+msgid "mono"
+msgstr "மோனோ"
+
+msgid "placed with its camera"
+msgstr "அதன் கேமராவுடன் வைக்கப்பட்டது"
+
+msgid "stereo"
+msgstr "ஸ்டீரியோ"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s கோப்பு மற்றவற்றுடன் பொருந்தவில்லை"
+msgstr[1] " -- %s கோப்புகள் மற்றவற்றுடன் பொருந்தவில்லை"

@@ -1402,9 +1402,6 @@ msgstr "لم يكن الرد بصيغة JSON: %s"
 msgid "  Number (empty = cancel): "
 msgstr "  الرقم (فارغ = إلغاء): "
 
-msgid "The key was not saved"
-msgstr "لم يُحفظ المفتاح"
-
 msgid "The key was not saved: %s"
 msgstr "لم يُحفظ المفتاح: %s"
 
@@ -3664,9 +3661,6 @@ msgstr "  رُفض بدء الـ Timeline عند %s: %s"
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s لا ملف في Media Pool"
 
-msgid "   MISSING"
-msgstr "   مفقود"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  تنبيه: %s و%s كلاهما باسم %s. على الـ Timeline\n  لا يذكر Resolve إلا الاسم، فلا يمكن التمييز بين مقاطعهما\n  -- أعد تسمية أحد الملفين."
 
@@ -4081,9 +4075,6 @@ msgstr "  لا يُستخدم فصل المتحدثين: %s."
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "ستُنتج كاميرتان الملف نفسه. الثانية ستستبدل الأولى."
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "كاميرتان تصبحان كاميرا واحدة في المونتاج. ملفاتهما تحمل الاسم نفسه، فأعد تسمية أحدها."
-
 msgid "  Bleed not separable: %s"
 msgstr "  التسرب الصوتي غير قابل للفصل: %s"
 
@@ -4110,9 +4101,6 @@ msgstr "  قيس التسرب الصوتي، %s في %s أخفض بـ %s dB فق
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  لم تُقَس المسارات، لذا %s في المزيج وليس في المونتاج: %s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  كاميرتان تصبحان كاميرا واحدة في المونتاج (%s). ملفاتهما تحمل الاسم نفسه، فأعد تسمية إحداهما."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  تنبيه: %s فقط من %s أزواج قابلة للقياس. أما البقية فلم يُعثر فيها على لحظة يتحدث فيها شخص واحد بالضبط، فيبقى تسربها -- كشف المتحدث غير موثوق هنا."
@@ -4233,9 +4221,6 @@ msgstr "يحتاج Multitrack إلى مسارين في الجدول أعلاه -
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s موجود على أكثر من متحدث -- الاسم شخص، وكل شخص يحتاج إلى اسمه الخاص."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "كاميرتان تصبحان كاميرا واحدة في المونتاج: %s. ملفاتهما تحمل الاسم نفسه، فأعد تسمية إحداهما."
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "كاميرتان ستُنتجان الملف نفسه: %s"
@@ -4897,9 +4882,6 @@ msgstr "  لا يمكن تصنيف %s: %s -- وُضع بساعته وحدها"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: يتطابق صوته بدرجة %s، تحت الحد الأدنى %s -- وُضع بساعته وحدها"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  تنبيه: هذا المشروع غير مكتمل -- رفض Resolve هذه المسارات مرتين:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  الإزاحة:          %s   (من كودها الزمني وحده -- لم يستطع صوتها تحديد موضعها، لذا لا يُفحص شيء)"
 
@@ -4945,9 +4927,6 @@ msgstr "الإعدادات المسبقة:"
 msgid "Registry"
 msgstr "السجل (Registry)"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "إزالة «صوت» أو «فيديو» تزيل كل ما تحته."
-
 msgid "VIDEO"
 msgstr "فيديو"
 
@@ -4986,3 +4965,57 @@ msgstr "  رفض Resolve المسار الصوتي A%d مرتين -- تفتقر 
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  رفض Resolve مسار الفيديو V%d مرتين -- تفتقر الـ Timeline «%s» إلى صورة %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s الإزاحة %s، انحراف الساعة لم يُقَس%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  تنبيه: هذا المشروع غير مكتمل -- ما رفضه Resolve:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  انحراف الساعة:    لم يُقَس -- ما ثبت من نقاط صوتها أقل من أن يكفي لقياسه"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s، %s بت، %s kHz، %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s، %sx%s، %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s، 32 بت بفاصلة عائمة، %s kHz، %s"
+
+msgid ", its sound track refused"
+msgstr "، رُفض مساره الصوتي"
+
+msgid "Format"
+msgstr "الصيغة"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "إزالة «%s» أو «%s» تزيل كل ما تحته."
+
+msgid "Timecode %s"
+msgstr "الكود الزمني %s"
+
+msgid "mono"
+msgstr "أحادي"
+
+msgid "placed with its camera"
+msgstr "وُضع مع كاميرته"
+
+msgid "stereo"
+msgstr "ستيريو"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s ملفات لا تتوافق مع البقية"
+msgstr[1] " -- ملف %s لا يتوافق مع البقية"
+msgstr[2] " -- ملفان %s لا يتوافقان مع البقية"
+msgstr[3] " -- %s ملفاتٍ لا تتوافق مع البقية"
+msgstr[4] " -- %s ملفًا لا يتوافق مع البقية"
+msgstr[5] " -- %s ملف لا يتوافق مع البقية"

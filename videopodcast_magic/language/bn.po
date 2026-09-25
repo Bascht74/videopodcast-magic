@@ -2716,9 +2716,6 @@ msgstr "%s -- যাচাই করা হচ্ছে"
 msgid "The key was not saved: %s"
 msgstr "কী-টি সংরক্ষণ করা হয়নি: %s"
 
-msgid "The key was not saved"
-msgstr "কী-টি সংরক্ষণ করা হয়নি"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain লক করা আছে। এটি আনলক করে আবার চেষ্টা করুন।"
 
@@ -2859,12 +2856,6 @@ msgstr "ট্র্যাক"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "পরিবর্তনের সময় ট্র্যাক যোগ হয়ে গেছে (এখন %s)। এতে মিক্স\n  ভুল হয়। auphonic.com-এ ফাইলহীন ট্র্যাকগুলো মুছে দিন।"
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "কাটে দুটি ক্যামেরা একটি ক্যামেরা হয়ে যায়। তাদের ফাইলের নাম একই, তাই একটির নাম বদলান।"
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "কাটে দুটি ক্যামেরা একটি ক্যামেরা হয়ে যাচ্ছে: %s। তাদের ফাইলের নাম একই, তাই একটির নাম বদলান।"
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "দুটি ক্যামেরা একই ফাইল তৈরি করবে। দ্বিতীয়টি প্রথমটিকে ওভাররাইট করবে।"
@@ -3253,9 +3244,6 @@ msgstr "✕  %s একাধিকবার আছে। এই রেকর্�
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  সব রেকর্ডিং একই নাম বহন করছে। তাতে একটি ট্র্যাক হয় -- Multitrack-এর জন্য অন্তত দুটি লাগে।"
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  কাটে দুটি ক্যামেরা একটি ক্যামেরা হয়ে যায় (%s)। তাদের ফাইলের নাম একই, তাই একটির নাম বদলান।"
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  দুটি ক্যামেরা একই ফাইল তৈরি করবে (%s)। দ্বিতীয়টি প্রথমটিকে ওভাররাইট করবে।"
 
@@ -3411,9 +3399,6 @@ msgstr "নামহীন"
 
 msgid "   Caution: measurement unusable"
 msgstr "   সতর্কতা: মাপ ব্যবহারযোগ্য নয়"
-
-msgid "   MISSING"
-msgstr "   অনুপস্থিত"
 
 msgid "   NOT INSERTED"
 msgstr "   বসানো হয়নি"
@@ -4719,9 +4704,6 @@ msgstr "  %s শ্রেণিবদ্ধ করা যায় না: %s --
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: এর শব্দ %s মাত্রায় মেলে, ন্যূনতম %s-এর নিচে -- শুধু নিজের ঘড়ি অনুযায়ী বসানো হয়েছে"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  সতর্কতা: এই প্রজেক্ট সম্পূর্ণ নয় -- Resolve এই ট্র্যাকগুলো দুবার প্রত্যাখ্যান করেছে:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  অফসেট:          %s   (শুধু এর টাইমকোড থেকে -- এর শব্দ একে বসাতে পারেনি, তাই কিছু যাচাই করা হয় না)"
 
@@ -4767,9 +4749,6 @@ msgstr "প্রিসেট:"
 msgid "Registry"
 msgstr "রেজিস্ট্রি"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "\"অডিও\" বা \"ভিডিও\" সরালে এর নিচের সবকিছু সরে যায়।"
-
 msgid "VIDEO"
 msgstr "ভিডিও"
 
@@ -4808,3 +4787,53 @@ msgstr "  Resolve অডিও ট্র্যাক A%d দুবার প্�
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ভিডিও ট্র্যাক V%d দুবার প্রত্যাখ্যান করেছে -- Timeline \"%s\"-এ %s-এর ছবি নেই।"
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s অফসেট %s, ঘড়ির বিচ্যুতি মাপা হয়নি%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  সতর্কতা: এই প্রজেক্ট সম্পূর্ণ নয় -- Resolve যা প্রত্যাখ্যান করেছে:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  ঘড়ির বিচ্যুতি:    মাপা হয়নি -- এর শব্দের খুব কম বিন্দু এর জন্য টিকেছে"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s বিট, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 বিট ফ্লোটিং পয়েন্ট, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", এর অডিও ট্র্যাক প্রত্যাখ্যাত"
+
+msgid "Format"
+msgstr "ফরম্যাট"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "\"%s\" বা \"%s\" সরালে এর নিচের সবকিছু সরে যায়।"
+
+msgid "Timecode %s"
+msgstr "টাইমকোড %s"
+
+msgid "mono"
+msgstr "মোনো"
+
+msgid "placed with its camera"
+msgstr "নিজের ক্যামেরার সঙ্গে বসানো"
+
+msgid "stereo"
+msgstr "স্টেরিও"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %sটি ফাইল অন্যগুলোর সঙ্গে মেলে না"
+msgstr[1] " -- %sটি ফাইল অন্যগুলোর সঙ্গে মেলে না"

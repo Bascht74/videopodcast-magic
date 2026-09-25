@@ -2746,9 +2746,6 @@ msgstr "%s -- faoi sheiceáil"
 msgid "The key was not saved: %s"
 msgstr "Níor sábháladh an eochair: %s"
 
-msgid "The key was not saved"
-msgstr "Níor sábháladh an eochair"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Tá Keychain faoi ghlas. Díghlasáil é agus bain triail eile as."
 
@@ -2889,12 +2886,6 @@ msgstr "Rian"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Cuireadh rianta leis le linn an athraithe (%s anois). Cuireann sé sin an meascán\n  as a riocht. Scrios na rianta gan chomhad ag auphonic.com, le do thoil."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Is ceamara amháin iad dhá cheamara sa ghearradh. Tá an t-ainm céanna ar a gcomhaid, mar sin athainmnigh ceann acu."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Is ceamara amháin iad dhá cheamara sa ghearradh: %s. Tá an t-ainm céanna ar a gcomhaid, mar sin athainmnigh ceann acu."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Chruthódh dhá cheamara an comhad céanna. Forscríobhfadh an dara ceann an chéad cheann."
@@ -3301,9 +3292,6 @@ msgstr "✕  Tá an t-ainm seo ann níos mó ná uair amháin: %s. Cumasctar na 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Tá an t-ainm céanna ar na taifeadtaí go léir. Déanann sin rian amháin -- teastaíonn dhá cheann ar a laghad ó Multitrack."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Is aon cheamara amháin iad dhá cheamara sa ghearradh (%s). Tá an t-ainm céanna ar a gcomhaid, mar sin athainmnigh ceann acu."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dhéanfadh dhá cheamara an comhad céanna (%s). Forscríobhfadh an dara ceann an chéad cheann."
 
@@ -3465,9 +3453,6 @@ msgstr "gan ainm"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Aire: níl an tomhas inúsáidte"
-
-msgid "   MISSING"
-msgstr "   AR IARRAIDH"
 
 msgid "   NOT INSERTED"
 msgstr "   NÍOR CUIREADH ISTEACH"
@@ -4852,9 +4837,6 @@ msgstr "  Ní féidir %s a rangú: %s -- curtha de réir a chloig amháin"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: oireann a fhuaim le %s, faoi bhun an urláir %s -- curtha de réir a chloig amháin"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Aire: níl an tionscadal seo iomlán -- dhiúltaigh Resolve faoi dhó do na rianta seo:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Fritháireamh:    %s   (óna chód ama amháin -- níorbh fhéidir lena fhuaim é a chur ina áit, mar sin ní sheiceáiltear aon rud)"
 
@@ -4900,9 +4882,6 @@ msgstr "Réamhshocruithe:"
 msgid "Registry"
 msgstr "Clárlann"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Má bhaintear FUAIM nó FÍSEÁN, baintear gach a bhfuil faoi."
-
 msgid "VIDEO"
 msgstr "FÍSEÁN"
 
@@ -4941,3 +4920,56 @@ msgstr "  Dhiúltaigh Resolve faoi dhó do rian fuaime A%d -- in easnamh ar an T
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Dhiúltaigh Resolve faoi dhó do rian físe V%d -- in easnamh ar an Timeline \"%s\": pictiúr %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s fritháireamh %s, sruth cloig gan tomhas%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Aire: níl an tionscadal seo iomlán -- an méid ar dhiúltaigh Resolve dó:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Sruth cloig:     níor tomhaiseadh é -- ró-bheagán pointí dá fhuaim a sheas le haghaidh tomhais"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s giotán, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, snámhphointe 32 giotán, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", diúltaíodh dá rian fuaime"
+
+msgid "Format"
+msgstr "Formáid"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Má bhaintear %s nó %s, baintear gach a bhfuil faoi."
+
+msgid "Timecode %s"
+msgstr "Cód ama %s"
+
+msgid "mono"
+msgstr "mona"
+
+msgid "placed with its camera"
+msgstr "curtha in áit lena cheamara"
+
+msgid "stereo"
+msgstr "steiréó"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- ní oireann %s chomhad do na cinn eile"
+msgstr[1] " -- ní oireann %s chomhad do na cinn eile"
+msgstr[2] " -- ní oireann %s chomhad do na cinn eile"
+msgstr[3] " -- ní oireann %s gcomhad do na cinn eile"
+msgstr[4] " -- ní oireann %s comhad do na cinn eile"

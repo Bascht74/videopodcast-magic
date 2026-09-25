@@ -1381,9 +1381,6 @@ msgstr "Відповідь не була JSON: %s"
 msgid "  Number (empty = cancel): "
 msgstr "  Номер (порожньо = скасувати): "
 
-msgid "The key was not saved"
-msgstr "Ключ не збережено"
-
 msgid "The key was not saved: %s"
 msgstr "Ключ не збережено: %s"
 
@@ -3637,9 +3634,6 @@ msgstr "  Початок Timeline %s відхилено: %s"
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s немає файлу в Media Pool"
 
-msgid "   MISSING"
-msgstr "   БРАКУЄ"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  Увага: %s і %s обидві називаються %s. На Timeline\n  Resolve показує лише назву, тож їхні кліпи неможливо\n  розрізнити -- перейменуйте один із двох файлів."
 
@@ -4054,9 +4048,6 @@ msgstr "  Розділення мовців не використовуєтьс�
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Дві камери створили б той самий файл. Друга перезаписала б першу."
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Дві камери в монтажі -- це одна камера. Їхні файли мають однакову назву, тож перейменуйте один із них."
-
 msgid "  Bleed not separable: %s"
 msgstr "  Просочування неможливо відокремити: %s"
 
@@ -4083,9 +4074,6 @@ msgstr "  Просочування виміряно, %s у %s лише на %s d
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Доріжки не виміряно, тож %s є в міксі, але не в монтажі: %s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Дві камери в монтажі є однією (%s). Їхні файли мають однакову назву, тож перейменуйте один із них."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Увага: вимірювані лише %s з %s пар. Для решти не знайшлося моменту, де говорить рівно одна особа, тож їхнє просочування залишається -- розпізнавання мовців тут ненадійне."
@@ -4206,9 +4194,6 @@ msgstr "Multitrack потребує двох доріжок у таблиці в
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s стоїть на більш ніж одному мовці -- ім'я -- це особа, і кожній особі потрібне своє."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Дві камери в монтажі є однією: %s. Їхні файли мають однакову назву, тож перейменуйте один із них."
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "Дві камери дали б той самий файл: %s"
@@ -4777,9 +4762,6 @@ msgstr "  %s не вдається класифікувати: %s -- розмі�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: збіг звуку %s, нижче порогу %s -- розміщено лише за власним годинником"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Увага: цей проєкт не завершений -- Resolve двічі відхилив ці доріжки:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Зсув:                %s   (лише за таймкодом -- за звуком розмістити не вдалося, тож нічого не перевіряється)"
 
@@ -4825,9 +4807,6 @@ msgstr "Пресети:"
 msgid "Registry"
 msgstr "Реєстр"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Вилучення «ЗВУК» або «ВІДЕО» прибирає все, що під ним."
-
 msgid "VIDEO"
 msgstr "ВІДЕО"
 
@@ -4866,3 +4845,54 @@ msgstr "  Resolve двічі відхилив звукову доріжку A%d 
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve двічі відхилив відеодоріжку V%d -- у Timeline «%s» бракує зображення (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s зсув %s, дрейф годинника не виміряно%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Увага: цей проєкт не завершений -- що Resolve відхилив:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Дрейф годинника:     не виміряно -- її звук дав замало точок для вимірювання"
+
+msgid "%s GB"
+msgstr "%s ГБ"
+
+msgid "%s MB"
+msgstr "%s МБ"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s біт, %s кГц, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 біт з рухомою комою, %s кГц, %s"
+
+msgid ", its sound track refused"
+msgstr ", її звукову доріжку відхилено"
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Вилучення «%s» або «%s» прибирає все, що під ним."
+
+msgid "Timecode %s"
+msgstr "Таймкод %s"
+
+msgid "mono"
+msgstr "моно"
+
+msgid "placed with its camera"
+msgstr "розміщено разом зі своєю камерою"
+
+msgid "stereo"
+msgstr "стерео"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s файл не підходить до інших"
+msgstr[1] " -- %s файли не підходять до інших"
+msgstr[2] " -- %s файлів не підходять до інших"
