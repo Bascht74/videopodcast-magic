@@ -27,6 +27,7 @@ TYPE_WIDE = PROGRAM.TYPE_WIDE
 VERSION = PROGRAM.VERSION
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 WIDE_AFTER_S = PROGRAM.WIDE_AFTER_S
+WIDE_LATEST_S = PROGRAM.WIDE_LATEST_S
 argparse = PROGRAM.argparse
 label_of = PROGRAM.label_of
 languages = PROGRAM.languages
@@ -592,10 +593,10 @@ def build_argument_parser():
                          "sentence lies beyond it, the last clause break "
                          "before it ends the shot. (default: 15)")
     ap.add_argument("--wide-latest", dest="wide_latest", type=float,
-                    default=120.0, metavar="SECONDS",
+                    default=WIDE_LATEST_S, metavar="SECONDS",
                     help="upper limit: longest one camera may stand without "
                          "a cut. Where no good pause turns up, it cuts "
-                         "anyway. (default: 120)")
+                         "anyway. (default: %g)" % WIDE_LATEST_S)
     ap.add_argument("--no-wide-edges", dest="no_wide_edges",
                     action="store_true",
                     help="do NOT hold the wide shot at the beginning and the "
