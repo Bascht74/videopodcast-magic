@@ -184,6 +184,13 @@ makes both compatible is that **a coarse area is not a mirror.** Twelve
 prefixes over a hundred and forty tests reproduce no part of the
 program; they make a register.
 
+**Since 25.9.2026 the files lie in folders as well, one per piece of the
+program** -- the owner's decision, so that a piece's logic and its
+checks are found side by side. That is the finer order the first side
+warns against, and the prefix stays beside it. Whether the folders tie
+the tests to the build the way the warning says is unmeasured: the first
+piece that is renamed or split will show it.
+
 **The literature gives no number for too coarse or too fine.** The
 usable test is a different one: **does every prefix actually separate?**
 A prefix with one member is not a category, one with sixty is not

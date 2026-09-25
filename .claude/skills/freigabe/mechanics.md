@@ -26,12 +26,13 @@ YAML:
    asks the API before the suite starts: is this commit a merge, is
    its tree the tree of its second parent -- the pull request's head
    -- and did every job of the suite conclude success on that head;
-   since 24.9.2026 also whether the merge leaves
-   `videopodcast_magic/speakers/` alone. The job names are read off
-   `tests.yml` at this commit. Yes to all four and the suite below is
-   skipped; the run says `way: short -- ...` with the two commits and
-   the six names. Anything else says `way: long -- ...` with the
-   reason, and the suite runs. GitHub not answering counts as no.
+   since 24.9.2026 also whether the merge leaves the speaker
+   separation alone (which files count, below). The job names are
+   read off `tests.yml` at this commit. Yes to all four and the suite
+   below is skipped; the run says `way: short -- ...` with the two
+   commits and the six names. Anything else says `way: long -- ...`
+   with the reason, and the suite runs. GitHub not answering counts as
+   no.
 1b. **Otherwise the suite runs, here, on this commit.** `.github/workflows/tests.yml` is called from
    this workflow, so the six jobs are part of this run and answer for
    the commit the dispatch was started against. Red on any of them:
@@ -94,8 +95,9 @@ on `main`, carries the same tree id. So "evidence before the mark"
 holds on the short way as it does on the long one: the evidence is
 the pull request's run on the identical tree. Where `main` moved in
 between -- the tree differs -- or the commit is not a merge, or a
-check is missing or red, the suite runs as before, and the line under
-the run says why.
+check is missing or red, or the merge brings in a file of the speaker
+separation, the suite runs as before, and the line under the run says
+why.
 
 **The four questions, and how each is asked.** Two parents, off
 `commits/<sha>`. One tree, off the two commits' tree ids -- the same
@@ -106,8 +108,8 @@ added to the matrix is asked about without the workflow being touched.
 `checks: read` was added to the permissions for the third; a scope
 not named there is none. Nothing of the separation, off
 `compare/<first parent>...<sha>` -- the files the merge brings in, a
-renamed one under both its names -- held against the prefix
-`videopodcast_magic/speakers/`.
+renamed one under both its names -- held against the separation's
+four patterns, written once in the step itself.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;
@@ -116,14 +118,24 @@ separation, `voice_split_hears_two`, therefore runs for a release only
 on the long way. A check run's name does not say which of the two
 suites made it, so the evidence job cannot tell and does not pretend
 to. **The owner settled it on 24.9.2026:** the short way is given up
-where the merge touches anything under `videopodcast_magic/speakers/`,
-and the line names the file that sent it the long way. The compare API
-lists at most 300 files and says nothing about the rest, so a merge of
-300 files or more goes the long way too, and says why; an answer with
-no list of files in it counts as no answer. What stays given up is a
-change to the separation that lies outside that folder -- the test
-itself, `tests.yml`'s install of it -- and this paragraph is where
-that is kept.
+where the merge touches anything of the separation, and the line
+names the file that sent it the long way. On 24.9.2026 that was
+`videopodcast_magic/speakers/`; **on 25.9.2026 he widened it to four
+places** -- that folder, the model under
+`videopodcast_magic/models/speaker-diarization-*/`, `requirements.txt`,
+which installs what it runs on, and `voice_split_hears_two_test.py`,
+matched by its file name anywhere under `tests/`, because the tests
+are moving into folders of their own. `pyproject.toml` is deliberately
+not one of them: every release changes its version, so counting it
+would send every release the long way. The compare API lists at most
+300 files and says nothing about the rest, so a merge of 300 files or
+more goes the long way too, and says why; an answer with no list of
+files in it counts as no answer, and so does a list with an entry that
+carries no file name -- `jq` prints `null` for it, which is no file at
+all. What stays given up is a change to the separation that lies
+outside the four -- `tests.yml`'s install of it, the two voices under
+`tests/material/twovoices/` -- and this paragraph is where that is
+kept.
 
 ## Why the archive is what it is
 
@@ -180,7 +192,7 @@ a Mac and on Windows with nothing installed, because the source archive
 beside it on the same page is one too, and because the release workflow
 opens it with Python's own `zipfile` and needs nothing fetched to do
 it. Always `videopodcast_magic.zip`, never the version in the name:
-`.github/workflows/release.yml` and `tests/text_release_ready_test.py`
+`.github/workflows/release.yml` and `tests/source/text_release_ready_test.py`
 name it letter for letter, the way `SHA256SUMS.txt` is named, and a
 name built out of the tag would have to be built the same way in three
 places.

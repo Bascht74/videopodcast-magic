@@ -2712,9 +2712,6 @@ msgstr "%s -- đang kiểm tra"
 msgid "The key was not saved: %s"
 msgstr "Chưa lưu được khóa: %s"
 
-msgid "The key was not saved"
-msgstr "Chưa lưu được khóa"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Chuỗi khóa đang bị khóa. Hãy mở khóa rồi thử lại."
 
@@ -2855,12 +2852,6 @@ msgstr "Rãnh"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Trong khi thay đổi đã có thêm rãnh (hiện là %s). Điều đó làm bản trộn\n  sai. Hãy xóa các rãnh không có tệp trên auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Hai máy quay thành một máy quay trong bản dựng. Tệp của chúng trùng tên, vì vậy hãy đổi tên một tệp."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Hai máy quay thành một máy quay trong bản dựng: %s. Tệp của chúng có cùng tên, vì vậy hãy đổi tên một tệp."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Hai máy quay sẽ tạo ra cùng một tệp. Tệp thứ hai sẽ ghi đè tệp thứ nhất."
@@ -3249,9 +3240,6 @@ msgstr "✕  %s xuất hiện nhiều lần. Các bản ghi này được gộp 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Tất cả bản ghi đều mang cùng một tên. Như vậy chỉ thành một rãnh -- Multitrack cần ít nhất hai."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Hai máy quay thành một máy quay trong bản dựng (%s). Tệp của chúng trùng tên, vì vậy hãy đổi tên một tệp."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Hai máy quay sẽ tạo ra cùng một tệp (%s). Tệp thứ hai sẽ ghi đè tệp thứ nhất."
 
@@ -3407,9 +3395,6 @@ msgstr "không tên"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Cảnh báo: số đo không dùng được"
-
-msgid "   MISSING"
-msgstr "   THIẾU"
 
 msgid "   NOT INSERTED"
 msgstr "   CHƯA CHÈN"
@@ -4675,9 +4660,6 @@ msgstr "  Không phân loại được %s: %s -- chỉ được đặt theo đ�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: âm thanh khớp ở mức %s, dưới ngưỡng %s -- chỉ được đặt theo đồng hồ của nó"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Cảnh báo: dự án này chưa hoàn chỉnh -- Resolve đã từ chối các rãnh sau hai lần:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Độ lệch:           %s   (chỉ từ mã thời gian của nó -- âm thanh không xác định được vị trí, nên không có gì được kiểm tra)"
 
@@ -4723,9 +4705,6 @@ msgstr "Các cài đặt sẵn:"
 msgid "Registry"
 msgstr "Sổ đăng ký"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Xóa ÂM THANH hoặc VIDEO sẽ xóa mọi thứ bên dưới nó."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4764,3 +4743,52 @@ msgstr "  Resolve đã từ chối rãnh âm thanh A%d hai lần -- Timeline \"%
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve đã từ chối rãnh video V%d hai lần -- Timeline \"%s\" thiếu hình ảnh của %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s độ lệch %s, không đo được độ trôi đồng hồ%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Cảnh báo: dự án này chưa hoàn chỉnh -- những gì Resolve đã từ chối:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Độ trôi đồng hồ:   không đo được -- âm thanh của nó cho quá ít điểm để đo"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit dấu phẩy động, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", rãnh âm thanh của nó bị từ chối"
+
+msgid "Format"
+msgstr "Định dạng"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Xóa %s hoặc %s sẽ xóa luôn mọi thứ bên dưới."
+
+msgid "Timecode %s"
+msgstr "Mã thời gian %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "đặt cùng máy quay của nó"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s tệp không khớp với các tệp khác"

@@ -2718,9 +2718,6 @@ msgstr "%s -- trwa sprawdzanie"
 msgid "The key was not saved: %s"
 msgstr "Klucz nie został zapisany: %s"
 
-msgid "The key was not saved"
-msgstr "Klucz nie został zapisany"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Pęk kluczy jest zablokowany. Odblokuj go i spróbuj ponownie."
 
@@ -2861,12 +2858,6 @@ msgstr "Ścieżka"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Podczas zmiany doszły ścieżki (teraz %s). Przez to miks\n  będzie błędny. Usuń w auphonic.com ścieżki bez pliku."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Dwie kamery są w montażu jedną kamerą. Ich pliki mają tę samą nazwę, więc zmień nazwę jednego z nich."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Dwie kamery są w montażu jedną kamerą: %s. Ich pliki mają tę samą nazwę, więc zmień nazwę jednego z nich."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Dwie kamery dałyby ten sam plik. Druga nadpisałaby pierwszą."
@@ -3255,9 +3246,6 @@ msgstr "✕  %s występuje więcej niż raz. Te nagrania są łączone w jedną 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Wszystkie nagrania mają tę samą nazwę. Powstaje z tego jedna ścieżka -- Multitrack potrzebuje co najmniej dwóch."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Dwie kamery są w montażu jedną kamerą (%s). Ich pliki mają tę samą nazwę, więc zmień nazwę jednego z nich."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dwie kamery dałyby ten sam plik (%s). Druga nadpisałaby pierwszą."
 
@@ -3413,9 +3401,6 @@ msgstr "bez nazwy"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Uwaga: pomiar bezużyteczny"
-
-msgid "   MISSING"
-msgstr "   BRAK"
 
 msgid "   NOT INSERTED"
 msgstr "   NIE WSTAWIONO"
@@ -4761,9 +4746,6 @@ msgstr "  Nie można sklasyfikować %s: %s -- umieszczono tylko według własneg
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: dopasowanie dźwięku %s, poniżej progu %s -- umieszczono tylko według własnego zegara"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Uwaga: ten projekt nie jest kompletny -- Resolve dwukrotnie odrzucił te ścieżki:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Przesunięcie:       %s   (tylko według timecode -- według dźwięku nie dało się umieścić, więc nic nie jest sprawdzane)"
 
@@ -4809,9 +4791,6 @@ msgstr "Presety:"
 msgid "Registry"
 msgstr "rejestr"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Usunięcie \"DŹWIĘK\" lub \"OBRAZ\" usuwa wszystko, co jest pod spodem."
-
 msgid "VIDEO"
 msgstr "OBRAZ"
 
@@ -4850,3 +4829,54 @@ msgstr "  Resolve dwukrotnie odrzucił ścieżkę audio A%d -- na Timeline \"%s\
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve dwukrotnie odrzucił ścieżkę wideo V%d -- na Timeline \"%s\" brakuje obrazu (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s przesunięcie %s, dryfu zegara nie zmierzono%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Uwaga: ten projekt nie jest kompletny -- co Resolve odrzucił:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Dryf zegara:        nie zmierzono -- jej dźwięk dał za mało punktów do pomiaru"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit zmiennoprzecinkowy, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", jego ścieżka audio odrzucona"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Usunięcie \"%s\" lub \"%s\" usuwa wszystko, co jest pod spodem."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "umieszczono razem z własną kamerą"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s plik nie pasuje do pozostałych"
+msgstr[1] " -- %s pliki nie pasują do pozostałych"
+msgstr[2] " -- %s plików nie pasuje do pozostałych"

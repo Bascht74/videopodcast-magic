@@ -1573,9 +1573,6 @@ msgstr "   Внимание: измерение непригодно"
 msgid "   Caution: more than one frame"
 msgstr "   Внимание: больше одного кадра"
 
-msgid "   MISSING"
-msgstr "   ОТСУТСТВУЕТ"
-
 msgid "   NOT INSERTED"
 msgstr "   НЕ ВСТАВЛЕНО"
 
@@ -3613,9 +3610,6 @@ msgstr "Ключ хорош. Из %s пресетов в учётной запи
 msgid "The key is then in the %s, never in a file."
 msgstr "Тогда ключ лежит здесь: %s -- и никогда в файле."
 
-msgid "The key was not saved"
-msgstr "Ключ не сохранён"
-
 msgid "The key was not saved: %s"
 msgstr "Ключ не сохранён: %s"
 
@@ -3810,12 +3804,6 @@ msgstr "Шаблон дорожек"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "При изменении добавились дорожки (теперь %s). Так микс выйдет\n  неверным. Удалите на auphonic.com дорожки без файла."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Две камеры в монтаже -- одна камера. Их файлы называются одинаково, переименуйте одну из них."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Две камеры в монтаже -- одна камера: %s. Их файлы называются одинаково, переименуйте одну из них."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Две камеры дали бы один и тот же файл. Второй перезаписал бы первый."
@@ -4411,9 +4399,6 @@ msgstr "✕  %s встречается несколько раз. Эти зап�
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Все записи носят одно и то же имя. Из этого выйдет одна дорожка -- для Multitrack нужны минимум две."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Две камеры в монтаже -- одна камера (%s). Их файлы называются одинаково, переименуйте одну из них."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Две камеры дали бы один и тот же файл (%s). Второй перезаписал бы первый."
 
@@ -4759,9 +4744,6 @@ msgstr "  %s не удаётся классифицировать: %s -- раз�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: совпадение звука %s, ниже границы %s -- размещено только по собственным часам"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Внимание: этот проект не завершён -- Resolve дважды отклонил эти дорожки:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Сдвиг:           %s   (только по таймкоду -- по звуку разместить не удалось, поэтому ничего не проверяется)"
 
@@ -4807,9 +4789,6 @@ msgstr "Пресеты:"
 msgid "Registry"
 msgstr "реестр"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Удаление «ЗВУК» или «ВИДЕО» убирает всё, что под ним."
-
 msgid "VIDEO"
 msgstr "ВИДЕО"
 
@@ -4848,3 +4827,54 @@ msgstr "  Resolve дважды отклонил звуковую дорожку 
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve дважды отклонил видеодорожку V%d -- в Timeline «%s» не хватает изображения (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s смещение %s, дрейф часов не измерен%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Внимание: этот проект не завершён -- что Resolve отклонил:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Дрейф часов:     не измерен -- её звук дал слишком мало точек для измерения"
+
+msgid "%s GB"
+msgstr "%s ГБ"
+
+msgid "%s MB"
+msgstr "%s МБ"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s бит, %s кГц, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 бит с плавающей точкой, %s кГц, %s"
+
+msgid ", its sound track refused"
+msgstr ", её звуковая дорожка отклонена"
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Удаление «%s» или «%s» убирает всё, что под ним."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "моно"
+
+msgid "placed with its camera"
+msgstr "размещено вместе со своей камерой"
+
+msgid "stereo"
+msgstr "стерео"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s файл не подходит к остальным"
+msgstr[1] " -- %s файла не подходят к остальным"
+msgstr[2] " -- %s файлов не подходит к остальным"

@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b20.
+gone through for 3.0.0b21.
 
 ## Where the program stands today
 
-**Version 3.0.0b20.** It runs every week, on real material.
+**Version 3.0.0b21.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -126,11 +126,13 @@ landed there, and a stand-in cannot confirm that. So does the case no
 stand-in has ever shown: a Resolve that says no.
 
 **The tests move into folders like the pieces they test.** The program
-is cut into pieces, each in a folder of its own. All but four of the
-tests still stand side by side in one folder, well over two hundred of
-them. Once they
-follow, a piece and its checks stand in one place, and whoever changes a
-piece finds its tests beside it.
+is cut into pieces, each in a folder of its own, and most tests now lie
+in the folder of the piece they check, so that whoever changes a piece
+finds its tests beside it. The last ones waited because the folder their
+piece would give them already meant something else; the tests that want
+a Resolve running moved on to `tests/resolve/live/`, the material the
+suite builds on to `tests/samples/`, and now every test lies in a
+folder.
 
 **The two ways to auphonic.com get run against the service.** Both ask
 the same question -- does a stereo recording come back with both

@@ -37,21 +37,27 @@ Liste ändern -- eine Datei mit **Entfernen** herausgenommen, mit
 Vorspann, Abspann oder **Video ignorieren** gestellt --, fragt das
 Programm neu, ob die Übergabe, die es hält, noch genau diese Kameras
 nennt. Tut sie es, bleibt sie. Wenn nicht, sucht es eine, die es tut: im
-Ausgabeordner, neben der Projektdatei und neben der bisherigen Übergabe.
-Findet sich keine, wird der Knopf grau. Wer eine Kamera herausnimmt,
-macht den Knopf also grau. Wer sie wieder hineinlegt, macht ihn nur dann
-wieder bedienbar, wenn eine Übergabe über genau diese Kameras im
-Ausgabeordner oder neben einer geöffneten Projektdatei liegt: Die
-Übergabe, die der Knopf hatte, ist dann schon weg, und neben ihr sieht
-niemand mehr nach. Mit **neben der jeweiligen Videodatei** und ohne
-geöffnetes Projekt, und nach einem Lauf, der eine Kamera draußen
-gelassen hat -- seine Übergabe nennt diese Kamera nie --, bleibt der
-Knopf grau; dann noch einmal **Start** drücken.
+Ausgabeordner -- bei **neben der jeweiligen Videodatei** in den Ordnern,
+in denen die Videos liegen --, neben der Projektdatei und neben der
+bisherigen Übergabe. Findet sich keine, wird der Knopf grau. Wer eine
+Kamera herausnimmt, macht den Knopf also grau, und wer sie wieder
+hineinlegt, macht ihn wieder bedienbar: Das Programm merkt sich, welche
+Übergabe der Knopf zu dieser Kameraliste hatte, und nimmt sie zurück,
+solange sie dort liegt, wo es jetzt sucht, und keine Kamera nennt, die
+nicht in der Liste steht. So kommt auch die Übergabe eines Laufs zurück,
+der eine Kamera draußen gelassen hat: Diese Kamera nennt sie nie, und
+doch ist sie die Übergabe, mit der diese Liste gelaufen ist.
 
-Einen Ausgabeordner zu wählen ist keine solche Änderung: das Wählen
-nimmt dem Knopf, was er hatte, und im neuen Ordner sieht niemand nach,
-bis sich die Kameras in der Liste ändern. Wo der Knopf nicht bedienbar
-ist, steht der Grund an ihm:
+Dieses Gedächtnis hält, solange das Fenster offen ist und das Projekt
+dasselbe bleibt; **Projekt schließen** löscht es. Ein neu
+geöffnetes Projekt nimmt nur eine Übergabe, die genau seine Kameras
+nennt; hat sein Lauf eine Kamera draußen gelassen, öffnet es also mit
+grauem Knopf, und es braucht noch einmal **Start**.
+
+Wer einen Ausgabeordner wählt oder mit **zurücksetzen** zu **neben der
+jeweiligen Videodatei** zurückkehrt, nimmt dem Knopf, was er hatte, und
+das Programm sieht sofort am neuen Ort nach. Wo der Knopf nicht
+bedienbar ist, steht der Grund an ihm:
 
 - **Dafür fehlt die Übergabedatei aus einem Lauf.** Kein Lauf in diesem
   Fenster, kein geöffnetes Projekt, dessen Übergabe passt, oder die
@@ -77,8 +83,9 @@ Zeile, die mit *Abbruch* beginnt:
   Rate entstünde die Zeitleiste mit einer geratenen Geschwindigkeit, und
   jeder Schnitt säße neben dem Bild. Den Lauf noch einmal machen.
 
-Den Abgleich über die Kameras macht das Programm beim Öffnen und
-jedes Mal, wenn sich die Kameras in der Liste ändern. Wird der **Typ**
+Den Abgleich über die Kameras macht das Programm beim Öffnen, jedes
+Mal, wenn sich die Kameras in der Liste ändern, und jedes Mal, wenn der
+Ausgabeordner wechselt. Wird der **Typ**
 einer Kamera nach einem Lauf auf Vorspann, Abspann oder **Video
 ignorieren** gestellt, gehört sie nicht mehr zu den Kameras der Liste;
 die Übergabe des Laufs über alle nennt dann eine zu viel, und der Knopf
@@ -253,7 +260,7 @@ der Sekunde etwa. **Eine solche Kamera wird trotzdem verwendet und nicht
 weggelassen.** Beim Einlesen nennt der Lauf sie und sagt dazu, dass
 Resolve für diese Rate keine Timeline hat und umgerechnet statt
 weggelassen wird; derselbe Hinweis steht in der Dateiliste, in der Zeile
-**Video** der geöffneten Datei. An Resolve 21.0.4.5 nachgemessen: Eine
+**Bild** der geöffneten Datei. An Resolve 21.0.4.5 nachgemessen: Eine
 Kamera mit 15 Bildern sitzt neben Kameras mit 30 in deren 30er-Timeline
 auf ein halbes eigenes Bild genau, ohne Lücke und mit stimmender Länge.
 Stünde sie dort allein, bekäme die Timeline 16 -- die nächste Rate, die
@@ -387,8 +394,11 @@ sitzt. Der Schlusshinweis im Protokoll sagt es auch.
 
 Jeder Schnitt bekommt die Farbe seiner Perspektive, auf beiden Timelines.
 Das Script sortiert die Farben nach Unterscheidbarkeit, der Weitwinkel
-bekommt `Tan`. Wenn es mehr Perspektiven als Farben gibt, wiederholt sich
-die Reihe, und das Protokoll sagt es.
+bekommt `Tan`. Bei **Nur synchronisieren** ist das nur eine Kamera, die
+jemand auf **Weitwinkel** gestellt hat: Dort fragt niemand, wer spricht,
+also wird auch keine Kamera zum Weitwinkel erklärt. Wenn es mehr
+Perspektiven als Farben gibt, wiederholt sich die Reihe, und das
+Protokoll sagt es.
 
 Dazu bekommt jede Kamera eine **Farbgruppe**, beschrieben weiter unten
 unter *Eine ganze Kamera auf einmal korrigieren*.
@@ -685,14 +695,21 @@ keine Sicherungskopie an.
   gefragt worden und hat wieder abgelehnt. Der Lauf hat es gesagt, als
   es geschah -- welche Spur, welche Timeline und was dieser Timeline nun
   fehlt: jede Kamera ab dieser Bildspur, der Ton einer Kamera, oder Bild
-  oder Ton von Vorspann oder Abspann. Alles andere hat er ohne sie
-  gebaut, und in seinen letzten Zeilen sagt er es noch einmal; die
-  Perspektiven im Schlusshinweis nennen nur die Kameras, die eine
-  Bildspur bekommen haben. Mit **Resolve-Projekt anlegen** gebaut, endet das
-  Fenster dann mit `Mit Fehlern beendet.` statt mit `Fertig.`; als
-  Teil eines ganzen Laufs (`--resolve`) sagen es nur diese letzten
-  Zeilen. Eine abgelehnte Tonspur, ohne die die Kameras auf den übrigen
-  Platz fanden, kostet nichts: das Protokoll vermerkt sie, ein Fehler
+  oder Ton von Vorspann oder Abspann. Eine Kamera, die Resolve gar
+  nicht auf ihre Spur legen wollte, zählt ebenso: Der Lauf sagt
+  `ACHTUNG: ... nicht eingefügt` und am Ende noch einmal. Alles andere
+  hat er ohne sie gebaut, und in seinen letzten Zeilen, unter `ACHTUNG:
+  dieses Projekt ist nicht vollständig -- was Resolve abgelehnt hat:`,
+  sagt er es noch einmal; die Liste der Bildspuren im Protokoll und die
+  Perspektiven im Schlusshinweis nennen nur die Kameras, die auf ihrer
+  Bildspur liegen. Hat Resolve die Tonspur von Vorspann oder Abspann
+  abgelehnt, endet die Zeile zu diesem Clip auf `, seine Tonspur
+  abgelehnt` -- Ton hat die Datei, nur hat Resolve ihn nicht genommen.
+  Mit **Resolve-Projekt anlegen** oder als Teil eines ganzen Laufs
+  (`--resolve`) gebaut, endet das Fenster dann mit `Mit Fehlern
+  beendet.` statt mit `Fertig.`, und ein Lauf von der Kommandozeile
+  endet mit einem Fehlercode. Eine abgelehnte Tonspur, ohne die die
+  Kameras auf den übrigen Platz fanden, kostet nichts: das Protokoll vermerkt sie, ein Fehler
   ist sie nicht. Die Spur in Resolve von Hand anlegen und das fehlende
   Stück darauflegen, oder das Projekt noch einmal bauen lassen.
 - **Eine Kamera steht neben ihrem Platz oder gleich ganz am Anfang.**
@@ -717,11 +734,11 @@ keine Sicherungskopie an.
   nennt andere Kameras, als jetzt in der Dateiliste stehen -- eine
   andere Produktion, eine Runde, bevor eine Kamera dazukam, oder eine
   Kamera ist seither aus der Liste genommen oder auf Vorspann, Abspann
-  oder **Video ignorieren** gestellt worden. Wer die Kamera wieder in
-  die Liste legt oder ihren Typ zurückstellt, macht den Knopf nur dann
-  wieder bedienbar, wenn eine Übergabe über genau diese Kameras im
-  Ausgabeordner oder neben einer geöffneten Projektdatei liegt (*Und der
-  Knopf folgt der Dateiliste*, oben); sonst noch einmal **Start**
+  oder **Video ignorieren** gestellt worden. Wer im selben Fenster die
+  Kamera wieder in die Liste legt oder ihren Typ zurückstellt, bekommt
+  die Übergabe zurück, die der Knopf hatte (*Und der Knopf folgt der
+  Dateiliste*, oben). Ein neu geöffnetes Projekt nimmt nur eine
+  Übergabe, die genau seine Kameras nennt; sonst noch einmal **Start**
   drücken.
 - **Im Ausgabeordner liegt je Einstellung eine Datei statt einer
   Folge.** Resolve hat eine Datei je Ausgabe abgelehnt, und das

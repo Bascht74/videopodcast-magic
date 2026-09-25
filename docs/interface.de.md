@@ -22,7 +22,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   **Projekt öffnen ...** steht auf der Ablegefläche und unter **Datei**.
   Ein geöffnetes Projekt nimmt jederzeit neue Dateien auf, und sein Name
   steht in der Titelzeile — ein Fenster mit geöffnetem Projekt und eines
-  ohne sind so nicht dasselbe Bild.
+  ohne sind so nicht dasselbe Bild. Die Projektdatei heißt nach der
+  Produktion und zieht mit um, wenn die Produktion einen neuen Namen
+  bekommt; die Titelzeile nennt sie dann unter dem neuen.
 
   Liegt beim Material eine Projektdatei, bietet das Programm sie an,
   während die Dateien hereinkommen, und bevor eine davon vermessen wird:
@@ -122,7 +124,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
     **Inhalt**, weil ihr kein Sprecher zugeordnet ist. Gibt man dieser
     Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
-    wieder frei.
+    wieder frei. Bei **Nur synchronisieren** fragt niemand, wer spricht,
+    und so wird dort auch keine Kamera zum Weitwinkel erklärt: Weitwinkel
+    ist nur eine Kamera, die jemand auf **Weitwinkel** stellt.
   - Eine Datei, für die die Messung keinen Platz gefunden hat, ist
     weder Inhalt noch Weitwinkel; für sie sind beide Einträge gesperrt.
     Inhalt wird in die Folge hineingeschnitten, und für diese Datei
@@ -459,7 +463,12 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   letzten Laufs nicht mehr genau die Kameras nennt, die dort stehen, und
   wer auf ihm stehen bleibt, liest, dass die Übergabedatei aus einem
   Lauf fehlt. Legt man die Kamera wieder hinein, lässt er sich wieder
-  drücken.
+  drücken -- auch nach einem Lauf, der eine Kamera draußen gelassen hat:
+  Das Fenster nimmt die Übergabe zurück, die der Knopf zu dieser Liste
+  hatte. Wer einen anderen Ausgabeordner wählt oder zu **neben der
+  jeweiligen Videodatei** zurückkehrt, lässt das Programm sofort am
+  neuen Ort nach einer Übergabe suchen ([Resolve](resolve.de.md) sagt,
+  wo es sucht).
 
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
 Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
@@ -1080,13 +1089,16 @@ gleich darunter.
 
 Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
 nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode.** und
-steht in Rot. Trägt sie zwar einen Timecode, aber keine Kamera, die der
-Ton eingeordnet hat, einen, mit dem er sich abgleichen ließe, heißt es
-stattdessen **passt nicht zu den anderen Dateien: Ton nicht erkannt,
-nichts, womit sich der Timecode abgleichen ließe.** — der Timecode ist
-da, ihm fehlt nur das Gegenüber. Darunter sagt der Vermerk in beiden
-Fällen, was mit der Datei geschehen ist: **Als Vorspann eingetragen;
-Abspann ist einen Klick entfernt.**, **Bleibt draußen, Vorspann ist
+steht in Rot -- es sei denn, sie steht auf Vorspann oder Abspann; dann
+sagt die Zeile schon, was aus ihr geworden ist. Trägt sie zwar einen
+Timecode, aber keine Kamera, die der Ton eingeordnet hat, einen, mit dem
+er sich abgleichen ließe, heißt es stattdessen **passt nicht zu den
+anderen Dateien: Ton nicht erkannt, nichts, womit sich der Timecode
+abgleichen ließe.** — der Timecode ist da, ihm fehlt nur das Gegenüber.
+Darunter sagt der Vermerk in beiden Fällen, was mit der Datei geschehen
+ist: **Als Vorspann eingetragen; Abspann ist einen Klick entfernt.**,
+bei einer von Hand auf den Abspann gestellten **Als Abspann eingetragen;
+Vorspann ist einen Klick entfernt.**, **Bleibt draußen, Vorspann ist
 schon vergeben; Abspann ist einen Klick entfernt.** oder, bei einer
 Datei auf **Video ignorieren**, während der Vorspann noch frei ist — so
 vorgeschlagen wie gleich darunter oder von Hand so gesetzt —, **Bleibt
@@ -1100,6 +1112,15 @@ und der Vermerk neben der Datei sagt, welches von beidem; Zeile und
 Vermerk sagen also dasselbe. Das ist kein Vorschlag, sondern eine
 Feststellung über das Material, und sie gilt, wie der **Typ** auch
 dorthin gekommen ist.
+
+Auch der Satz unter der Liste zählt diese Dateien. Jede Zeile, die in
+Rot steht -- eine Aufnahme ohne Platz oder ein Video ohne Platz, das auf
+**Video ignorieren** draußen bleibt --, zählt dort mit, ebenfalls in
+Rot: **3 Dateien passen nicht zu den anderen**, anstelle der Hinweise
+oder des Satzes, es gebe nichts zu bemängeln; nur ein Befund, der den
+Lauf aufhält, geht ihm vor. Eine Datei auf Vorspann oder Abspann steht
+nicht in Rot und wird nicht gezählt; eine, die allein ihr Timecode
+platziert, zählt als Hinweis.
 
 War an einer solchen Datei überhaupt nichts zu messen, wird ihr
 stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag

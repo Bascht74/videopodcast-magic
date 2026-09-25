@@ -61,6 +61,7 @@ threading = PROGRAM.threading
 time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
 video_envelope = PROGRAM.video_envelope
+video_facts = PROGRAM.video_facts
 
 
 # numpy is the one that is missing: the program binds the real module
@@ -712,22 +713,25 @@ def guess_production_name(file_path):
 INTRO_SHORT_ENOUGH = 0.1
 
 
-def files_far_shorter(some, length_of):
+def files_far_shorter(some, length_of, own=None):
     """Which of *some* are far shorter than the material around them.
 
     Held against the middle of the others rather than a written-down
     length: what counts as short is what the rest of the shoot is.
-    Shortest first.
+    *own* holds lengths that judge their own file and never stand in
+    the middle any other is held against. Shortest first.
     """
-    out = []
+    own = own or {}
+    runs, out = {}, []
     for p in some:
         others = sorted(s for q, s in length_of.items() if q != p)
-        if p not in length_of or not others:
+        runs[p] = length_of.get(p, own.get(p))
+        if runs[p] is None or not others:
             continue
         middle = others[len(others) // 2]
-        if middle > 0 and length_of[p] <= middle * INTRO_SHORT_ENOUGH:
+        if middle > 0 and runs[p] <= middle * INTRO_SHORT_ENOUGH:
             out.append(p)
-    return sorted(out, key=lambda p: length_of[p])
+    return sorted(out, key=lambda p: runs[p])
 
 
 def axis_text(data):
@@ -815,12 +819,19 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     # recording, which the run does not hold a camera against.
     by_clock = [p for p in unheard if p.lower().endswith(VIDEO_SUFFIXES)]
     if len(cameras) > 1:
+        # As densely as the run's align_cameras: at its one point every
+        # two minutes the fit could never reach its count under about
+        # 48 minutes, and a camera the run places by sound had none here.
+        density = int(max(20, min(120, len(envelopes[camera_ref])
+                                  * HOP / 1000.0 / 30.0)))
         for p in cameras:
             if p == camera_ref:
                 continue
             try:
                 _a, _b, st = align_envelopes(envelopes[camera_ref],
                                              envelopes[p], HOP,
+                                             sample_points=density,
+                                             distance_s=30.0,
                                              warn=os.path.basename(p))
             except Exception:
                 continue
@@ -847,11 +858,23 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
             clock_speed[p] = 1.0
     nowhere = [p for p in weak if p in refused]
     lost = [p for p in nowhere if p in under]
+    # A silent file has no curve to read a length off, so its container
+    # says how long it runs (one saying nothing has none, not 0). That
+    # judges it alone: in the middle, two short silent clips would stop
+    # a sounding jingle counting as short.
+    length_of = dict((p, len(e) * HOP / 1000.0)
+                     for p, e in envelopes.items())
+    silent_length = {}
+    for p in unheard:
+        try:
+            runs = float(video_facts(p).get("duration") or 0.0)
+        except Exception:
+            continue
+        if runs > 0.0:
+            silent_length[p] = runs
     # A file that fits nothing and is far shorter than everything around
     # it is a jingle, not a camera; a clock that places it beats sound.
-    brief = files_far_shorter(
-        nowhere, dict((p, len(e) * HOP / 1000.0)
-                      for p, e in envelopes.items()))
+    brief = files_far_shorter(nowhere, length_of, silent_length)
     # The median offset is used so one outlier cannot skew everything.
     # A file whose sound was not recognised has no vote: what it holds
     # is the measurement that failed, and beside its clock that would

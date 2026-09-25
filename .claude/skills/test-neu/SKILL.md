@@ -1,7 +1,7 @@
 ---
 name: test-neu
-description: Anything inside a `tests/*_test.py` is about to change -- a new file, a section, a rewritten `check`, a name, a docstring, a printed line, a cleanup. Also when it is only one line, and also when no judgement changes.
-when: anything inside a `tests/*_test.py` changes -- also one line, also when no judgement changes
+description: Anything inside a `*_test.py` under `tests/` is about to change -- a new file, a section, a rewritten `check`, a name, a docstring, a printed line, a cleanup. Also when it is only one line, and also when no judgement changes.
+when: anything inside a `*_test.py` under `tests/` changes -- also one line, also when no judgement changes
 tables: claude, contributing, agents, pr
 order: 20
 ---
@@ -63,10 +63,22 @@ somebody clears the concealed one away.
 
 **A new file owes a row in that table, and the row is not written by
 hand.** `python3 overview.py` writes the whole table out of the
-docstrings; `text_tests_listed_test.py` holds it against the folder, so
+docstrings; `text_tests_listed_test.py` holds it against the files, so
 a list that was not written back turns the suite red instead of going
 quietly stale. Renaming a test and rewording its first line need the
 same step.
+
+**A new file lies in the folder of the piece it checks** --
+`tests/<piece>/`, where `<piece>` is the folder under
+`videopodcast_magic/` whose logic the test judges, so that a piece and
+its checks are found side by side. Two folders are no piece:
+`tests/source/` holds the tests that read the source, the texts and
+the documents as a whole, and `tests/resolve/live/` the tests that want
+a Resolve running -- `tests/resolve/` itself is the piece's, like any
+other. `tests/samples/` holds checked-in material and no test.
+`run.sh` finds a test by its name wherever it lies, and the preamble
+every test opens with finds `tests/` from there -- copy it from any
+test, word for word.
 
 ## 2. What it is called
 
@@ -122,7 +134,7 @@ next tidy-up.
 
 ## 4. The judgements
 
-**Model: `tests/table_no_place_not_wide_test.py`.** Eighteen checks on
+**Model: `tests/cut/table_no_place_not_wide_test.py`.** Eighteen checks on
 one piece of ground, the canonical `check`, the canonical closing
 lines. Canonical is what a new test is written to, not what the folder
 already does: of the closing lines 46 say `ALL OK` and 69 `All good.`,
@@ -329,8 +341,8 @@ There are two ways to say a section was left out, and they are counted
 differently:
 
 * **`SKIPPED:` is the loud one, and it carries the fraction.**
-  `tests/text_no_german_left_test.py` prints `SKIPPED: %d of %d sections
-  ran in full` and ends on `Good as far as it went -- %d of %d
+  `tests/language/text_no_german_left_test.py` prints `SKIPPED: %d of
+  %d sections ran in full` and ends on `Good as far as it went -- %d of %d
   sections.` in place of `All good.` The run then counts that test as
   skipped, so it goes against the ratchet below.
 * **A line beginning `LEFT OUT` is the quiet one.** `run.sh` keeps the
@@ -552,7 +564,7 @@ counter-proofs lost.
 3. **The end is always reached** (§4). Every path past the closing
    lines, the crashed and the concurrent one included?
 4. **The name is a claim** (§2, §4). The file's name, and every
-   `check` name in it?
+   `check` name in it? And the file in the folder of its piece (§1)?
 5. **The failure line carries its evidence** (§5). In every one, as numbers?
 6. **The judgement can fall, and was seen falling** (§5b, §5c, §5d,
    §11). A counter-proof for each check on its own?

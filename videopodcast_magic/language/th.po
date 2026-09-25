@@ -2739,9 +2739,6 @@ msgstr "%s -- กำลังตรวจสอบ"
 msgid "The key was not saved: %s"
 msgstr "ไม่ได้บันทึกคีย์: %s"
 
-msgid "The key was not saved"
-msgstr "ไม่ได้บันทึกคีย์"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "พวงกุญแจถูกล็อกอยู่ ปลดล็อกแล้วลองอีกครั้ง"
 
@@ -2882,12 +2879,6 @@ msgstr "แทร็ก"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "มีการเพิ่มแทร็กระหว่างการเปลี่ยนแปลง (ตอนนี้ %s) ทำให้มิกซ์\n  ผิด โปรดลบแทร็กที่ไม่มีไฟล์ที่ auphonic.com"
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "กล้องสองตัวกลายเป็นกล้องเดียวในการตัดต่อ ไฟล์ของกล้องทั้งสองมีชื่อเดียวกัน จึงต้องเปลี่ยนชื่อไฟล์หนึ่ง"
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "กล้องสองตัวกลายเป็นกล้องเดียวในการตัดต่อ: %s ไฟล์ของกล้องทั้งสองมีชื่อเดียวกัน จึงต้องเปลี่ยนชื่อไฟล์หนึ่ง"
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "กล้องสองตัวจะสร้างไฟล์เดียวกัน ไฟล์ที่สองจะเขียนทับไฟล์แรก"
@@ -3294,9 +3285,6 @@ msgstr "✕  %s ปรากฏมากกว่าหนึ่งครั้�
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  การบันทึกทั้งหมดใช้ชื่อเดียวกัน จึงได้แทร็กเดียว -- Multitrack ต้องมีอย่างน้อยสองแทร็ก"
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  กล้องสองตัวกลายเป็นกล้องเดียวในการตัดต่อ (%s) ไฟล์ของกล้องทั้งสองมีชื่อเดียวกัน โปรดเปลี่ยนชื่อไฟล์หนึ่ง"
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  กล้องสองตัวจะสร้างไฟล์เดียวกัน (%s) ไฟล์ที่สองจะเขียนทับไฟล์แรก"
 
@@ -3458,9 +3446,6 @@ msgstr "ไม่มีชื่อ"
 
 msgid "   Caution: measurement unusable"
 msgstr "   ข้อควรระวัง: การวัดใช้ไม่ได้"
-
-msgid "   MISSING"
-msgstr "   ไม่มี"
 
 msgid "   NOT INSERTED"
 msgstr "   ไม่ได้แทรก"
@@ -4677,9 +4662,6 @@ msgstr "  %s จัดประเภทไม่ได้: %s -- วางต�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: เสียงตรงกันที่ %s ต่ำกว่าค่าขั้นต่ำ %s -- วางตามนาฬิกาของกล้องอย่างเดียว"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- Resolve ปฏิเสธแทร็กต่อไปนี้สองครั้ง:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  ออฟเซ็ต:           %s   (จากไทม์โค้ดอย่างเดียว -- เสียงของกล้องใช้วางตำแหน่งไม่ได้ จึงไม่มีการตรวจสอบใดๆ)"
 
@@ -4725,9 +4707,6 @@ msgstr "พรีเซ็ต:"
 msgid "Registry"
 msgstr "รีจิสทรี"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "การนำ \"เสียง\" หรือ \"วิดีโอ\" ออกจะนำทุกอย่างที่อยู่ข้างใต้ออกไปด้วย"
-
 msgid "VIDEO"
 msgstr "วิดีโอ"
 
@@ -4766,3 +4745,52 @@ msgstr "  Resolve ปฏิเสธแทร็กเสียง A%d สอง
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ปฏิเสธแทร็กวิดีโอ V%d สองครั้ง -- Timeline \"%s\" ขาดภาพของ %s"
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s ออฟเซ็ต %s, ไม่ได้วัดการคลาดของนาฬิกา%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- สิ่งที่ Resolve ปฏิเสธ:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  การคลาดของนาฬิกา:  ไม่ได้วัด -- เสียงของกล้องนี้มีจุดที่ใช้วัดได้น้อยเกินไป"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s บิต, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 บิต จุดลอยตัว, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", แทร็กเสียงถูกปฏิเสธ"
+
+msgid "Format"
+msgstr "รูปแบบ"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "การนำ “%s” หรือ “%s” ออก จะนำทุกอย่างที่อยู่ข้างใต้ออกไปด้วย"
+
+msgid "Timecode %s"
+msgstr "ไทม์โค้ด %s"
+
+msgid "mono"
+msgstr "โมโน"
+
+msgid "placed with its camera"
+msgstr "วางพร้อมกล้องต้นทาง"
+
+msgid "stereo"
+msgstr "สเตอริโอ"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s ไฟล์ไม่เข้ากับไฟล์อื่น"

@@ -720,7 +720,10 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         if on:
             if not store_api_key(key_var.get().strip()):
                 PROGRAM.tick_off_quietly(keep_button, remember)
-                report(T('The key was not saved'), key_store_trouble())
+                # On the key's own line, like the refusal after Connect:
+                # a box would have to be clicked away first.
+                key_note_show(T('The key was not saved: %s')
+                              % key_store_trouble())
         else:
             delete_api_key()
 

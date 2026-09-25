@@ -1367,9 +1367,6 @@ msgstr "Yanıt JSON değildi: %s"
 msgid "  Number (empty = cancel): "
 msgstr "  Numara (boş = iptal): "
 
-msgid "The key was not saved"
-msgstr "Anahtar kaydedilmedi"
-
 msgid "The key was not saved: %s"
 msgstr "Anahtar kaydedilmedi: %s"
 
@@ -3621,9 +3618,6 @@ msgstr "  Timeline başlangıcı %s reddedildi: %s"
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool içinde dosya yok"
 
-msgid "   MISSING"
-msgstr "   EKSİK"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  Dikkat: %s ile %s aynı adı taşıyor: %s. Timeline\n  üzerinde Resolve yalnızca adı bildirir, bu yüzden klipleri\n  ayırt edilemez -- iki dosyadan birini yeniden adlandırın."
 
@@ -4038,9 +4032,6 @@ msgstr "  Konuşmacı ayrımı kullanılmıyor: %s."
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "İki kamera aynı dosyayı üretecek. İkincisi birincinin üzerine yazacak."
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "İki kamera kurguda tek kamera oluyor. Dosyaları aynı adı taşıyor, bu yüzden birini yeniden adlandırın."
-
 msgid "  Bleed not separable: %s"
 msgstr "  Sızma ayrılamıyor: %s"
 
@@ -4067,9 +4058,6 @@ msgstr "  Sızma ölçüldü, %s, %s içinde yalnızca %s dB daha sessiz -- konu
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  İzler ölçülmedi, bu yüzden %s miksajda var ama kurguda yok: %s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  İki kamera kurguda tek kamera oluyor (%s). Dosyaları aynı adı taşıyor, birini yeniden adlandırın."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Dikkat: yalnızca %s çift ölçülebilir, toplam %s çiftten. Geri kalanlar için tam olarak bir kişinin konuştuğu bir an bulunamadı, bu yüzden sızmaları kalıyor -- konuşmacı algılaması burada güvenilir değil."
@@ -4190,9 +4178,6 @@ msgstr "Çok izli, yukarıdaki tabloda iki iz gerektirir -- bir kamera, Kamera s
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s birden fazla konuşmacıda var -- bir ad bir kişidir ve her kişinin kendi adı olmalı."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "İki kamera kurguda tek kamera oluyor: %s. Dosyaları aynı adı taşıyor, birini yeniden adlandırın."
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "İki kamera aynı dosyayı üretecek: %s"
@@ -4730,9 +4715,6 @@ msgstr "  %s sınıflandırılamıyor: %s -- yalnızca kendi saatine göre yerle
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: ses eşleşmesi %s, %s tabanının altında -- yalnızca kendi saatine göre yerleştirildi"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Dikkat: bu proje tamamlanmamış -- Resolve şu izleri iki kez reddetti:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Kayma:             %s   (yalnızca kendi timecode'undan -- sesi onu yerleştiremedi, bu yüzden hiçbir şey denetlenmiyor)"
 
@@ -4778,9 +4760,6 @@ msgstr "Hazır ayarlar:"
 msgid "Registry"
 msgstr "Kayıt Defteri"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "SES ya da VİDEO kaldırılırsa altındaki her şey de kaldırılır."
-
 msgid "VIDEO"
 msgstr "VİDEO"
 
@@ -4819,3 +4798,53 @@ msgstr "  Resolve A%d ses izini iki kez reddetti -- “%s” Timeline'ında %s s
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve V%d video izini iki kez reddetti -- “%s” Timeline'ında %s görüntüsü eksik."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s kayma %s, saat sürüklenmesi ölçülmedi%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Dikkat: bu proje tamamlanmamış -- Resolve'un reddettikleri:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Saat sürüklenmesi: ölçülmedi -- sesi bunun için çok az nokta verdi"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit kayan nokta, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", ses izi reddedildi"
+
+msgid "Format"
+msgstr "Biçim"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "%s veya %s kaldırılırsa altındaki her şey de kaldırılır."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "kamerasıyla birlikte yerleştirildi"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s dosya diğerlerine uymuyor"
+msgstr[1] " -- %s dosya diğerlerine uymuyor"

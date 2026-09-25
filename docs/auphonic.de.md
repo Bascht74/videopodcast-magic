@@ -61,9 +61,13 @@ Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security`
 also nicht in der Prozessliste. Das Programm liest ihn zurück, um zu
 sehen, dass er angekommen ist. Einen zweiten Weg gibt es nicht: als
 Argument übergeben stünde er dort, wo jeder am Rechner ihn lesen kann.
-Nimmt der Schlüsselbund ihn also nicht, wird nichts abgelegt, und eine
-Zeile sagt, warum. Das Häkchen geht dabei wieder heraus, damit es nicht
-gesetzt über einem Schlüssel steht, der beim nächsten Start fort ist.
+Nimmt der Schlüsselbund ihn also nicht, wird nichts abgelegt, und die
+Zeile unter dem Schlüsselfeld sagt, warum: **Der Schlüssel wurde nicht
+gespeichert: …** -- gleich, ob das Häkchen von Hand gesetzt wurde oder
+der Schlüssel mit **Verbinden** kam. Einen Kasten, der erst
+weggeklickt werden müsste, gibt es dabei nicht. Das Häkchen geht
+wieder heraus, damit es nicht gesetzt über einem Schlüssel steht, der
+beim nächsten Start fort ist.
 Beim Weg über die Windows-Registry stellt sich die Frage nicht.
 
 Abgelegt wird der Schlüssel, der geprüft wurde, und nicht das, was im

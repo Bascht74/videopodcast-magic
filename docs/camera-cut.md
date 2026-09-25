@@ -495,7 +495,10 @@ alternative. Without a timecode or a measured time axis the program
 claims nothing about the boundaries; once the axis is there, the player
 looks again. **to In point** and **to Out point** fetch their file
 themselves; if there is none at all, a line says why nothing
-happened.
+happened: **… is in none of the video files. Is there a timecode that
+fits the material?** That holds for a camera with a timecode too: a
+point before its start or past its end is named, not jumped to the
+nearest edge.
 
 With **hear assigned audio** the picture runs with the sound belonging to
 that camera:
@@ -503,19 +506,22 @@ that camera:
 * **never under a file set to Intro or Outro.** They stand before the
   episode and after it, not inside it, so nothing off its time axis
   belongs under them: even with the box ticked, the file's own sound is
-  heard. This is settled before the three below are asked at all
+  heard. This is settled before the four below are asked at all
 * the **processed track** from auphonic.com (`final_<Name>_<TC>.wav`), at
   the target chosen under **Loudness**, or that of the preset where
   nothing was chosen, and with a BWF timecode
 * failing that the **raw recording** of the assigned speaker
 * for the wide shot, the camera with no speaker assigned, the
   **Full-Mix**, if it is there
+* failing that, before the mix exists, the one recording that carries
+  every voice, where there is exactly one -- a single recorder with the
+  speakers' names on it is the whole conversation
 
 Raw recordings sit 16 to 36 dB below the processed sound, and the
 interface cannot make them louder. The tooltip says what is running and
 in which version.
 
-Whichever of the three it is, it is laid against the picture off the
+Whichever of the four it is, it is laid against the picture off the
 measured time axis: where the picture stands is read off the axis, where
 the recording begins is read off the same axis, and the difference is the
 point the sound is set to. Only where nothing was measured of one of the
@@ -638,7 +644,9 @@ one the run makes.
 
 The cut list says so too: with one camera for everybody the EDL carries
 the speaker name in place of the camera name. The Speaker column of
-`_cameracut.csv` is there in any case.
+`_cameracut.csv` is there in any case. Where several are heard in one
+shot, it and the EDL name them in the same alphabetical order as the
+camera names above.
 
 **A single voice on one camera gives no cut.** Nobody hands over, so
 there is nothing to cut at, and neither a cut list nor an EDL is

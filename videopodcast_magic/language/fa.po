@@ -2740,9 +2740,6 @@ msgstr "%s -- در حال بررسی"
 msgid "The key was not saved: %s"
 msgstr "کلید ذخیره نشد: %s"
 
-msgid "The key was not saved"
-msgstr "کلید ذخیره نشد"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain قفل است. قفل آن را باز کنید و دوباره تلاش کنید."
 
@@ -2883,12 +2880,6 @@ msgstr "ترک"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "هنگام تغییر، ترک‌هایی افزوده شد (اکنون %s). این کار میکس را\n  نادرست می‌کند. لطفاً ترک‌های بدون فایل را در auphonic.com حذف کنید."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "در برش، دو دوربین یک دوربین شده‌اند. فایل‌هایشان هم‌نام‌اند، پس نام یکی از آن‌ها را تغییر دهید."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "در برش، دو دوربین یک دوربین شده‌اند: %s. فایل‌هایشان هم‌نام‌اند، پس نام یکی از آن‌ها را تغییر دهید."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "دو دوربین یک فایل یکسان می‌ساختند. دومی روی اولی بازنویسی می‌شد."
@@ -3295,9 +3286,6 @@ msgstr "✕  %s بیش از یک بار آمده است. این ضبط‌ها د
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  همه ضبط‌ها یک نام دارند. این یک ترک می‌سازد -- Multitrack دست‌کم به دو ترک نیاز دارد."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  دو دوربین در برش یک دوربین هستند (%s). فایل‌هایشان هم‌نام‌اند، پس نام یکی از آن‌ها را تغییر دهید."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  دو دوربین یک فایل یکسان می‌سازند (%s). دومی روی اولی بازنویسی می‌کند."
 
@@ -3459,9 +3447,6 @@ msgstr "بی‌نام"
 
 msgid "   Caution: measurement unusable"
 msgstr "   احتیاط: اندازه‌گیری قابل استفاده نیست"
-
-msgid "   MISSING"
-msgstr "   ناموجود"
 
 msgid "   NOT INSERTED"
 msgstr "   درج نشد"
@@ -4720,9 +4705,6 @@ msgstr "  %s قابل دسته‌بندی نیست: %s -- فقط با ساعت �
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: صدای آن با میزان %s تطبیق دارد، زیر کف %s -- فقط با ساعت خودش جای‌گذاری شد"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  احتیاط: این پروژه کامل نیست -- Resolve این ترک‌ها را دو بار رد کرد:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  آفست:            %s   (فقط از تایم‌کد خودش -- صدایش نتوانست آن را جای‌گذاری کند، پس چیزی بررسی نمی‌شود)"
 
@@ -4768,9 +4750,6 @@ msgstr "پیش‌تنظیم‌ها:"
 msgid "Registry"
 msgstr "رجیستری"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "حذف «صدا» یا «ویدیو» هرچه زیر آن است را هم حذف می‌کند."
-
 msgid "VIDEO"
 msgstr "ویدیو"
 
@@ -4809,3 +4788,53 @@ msgstr "  Resolve ترک صوتی A%d را دو بار رد کرد -- Timeline �
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ترک ویدیویی V%d را دو بار رد کرد -- Timeline «%s» فاقد تصویر %s است."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s آفست %s، رانش ساعت اندازه‌گیری نشد%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  احتیاط: این پروژه کامل نیست -- آنچه Resolve رد کرد:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  رانش ساعت:       اندازه‌گیری نشد -- نقاط معتبر صدایش برای آن بسیار کم بود"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s، %s بیت، %s kHz، %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s، %sx%s، %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s، 32 بیت ممیز شناور، %s kHz، %s"
+
+msgid ", its sound track refused"
+msgstr "، ترک صدای آن رد شد"
+
+msgid "Format"
+msgstr "قالب"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "حذف «%s» یا «%s» هرچه زیر آن است را هم حذف می‌کند."
+
+msgid "Timecode %s"
+msgstr "تایم‌کد %s"
+
+msgid "mono"
+msgstr "مونو"
+
+msgid "placed with its camera"
+msgstr "با دوربین خودش جای‌گذاری شد"
+
+msgid "stereo"
+msgstr "استریو"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s فایل با بقیه مطابقت ندارد"
+msgstr[1] " -- %s فایل با بقیه مطابقت ندارد"

@@ -2741,9 +2741,6 @@ msgstr "%s -- kontrollitakse"
 msgid "The key was not saved: %s"
 msgstr "Võtit ei salvestatud: %s"
 
-msgid "The key was not saved"
-msgstr "Võtit ei salvestatud"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain on lukus. Ava see lukust ja proovi uuesti."
 
@@ -2884,12 +2881,6 @@ msgstr "Rada"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Muutmisel lisandus radu (nüüd %s). See teeb miksi\n  valeks. Palun kustuta auphonic.com-is failita rajad."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Kaks kaamerat on montaažis üks kaamera. Nende failidel on sama nimi, seega nimeta üks neist ümber."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Kaks kaamerat on montaažis üks kaamera: %s. Nende failidel on sama nimi, seega nimeta üks neist ümber."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Kaks kaamerat annaksid sama faili. Teine kirjutaks esimese üle."
@@ -3296,9 +3287,6 @@ msgstr "✕  Rohkem kui üks kord esineb: %s. Need salvestised liidetakse üheks
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Kõigil salvestistel on sama nimi. Sellest tuleb üks rada -- Multitrack vajab vähemalt kahte."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Kaks kaamerat on montaažis üks kaamera (%s). Nende failidel on sama nimi, seega nimeta üks neist ümber."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Kaks kaamerat annaksid sama faili (%s). Teine kirjutaks esimese üle."
 
@@ -3460,9 +3448,6 @@ msgstr "nimeta"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Tähelepanu: mõõtmine pole kasutatav"
-
-msgid "   MISSING"
-msgstr "   PUUDUB"
 
 msgid "   NOT INSERTED"
 msgstr "   LISAMATA"
@@ -4721,9 +4706,6 @@ msgstr "  Faili %s ei saa liigitada: %s -- paigutatud ainult selle kella järgi"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: heli sobib määraga %s, alla läve %s -- paigutatud ainult selle kella järgi"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Tähelepanu: see projekt pole täielik -- Resolve keeldus neist radadest kaks korda:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Nihe:            %s   (ainult ajakoodist -- heli ei suutnud seda paigutada, seega midagi ei kontrollita)"
 
@@ -4769,9 +4751,6 @@ msgstr "Eelseadistused:"
 msgid "Registry"
 msgstr "register"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Pealkirja HELI või VIDEO eemaldamine eemaldab kõik selle all oleva."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4810,3 +4789,53 @@ msgstr "  Resolve keeldus helirajast A%d kaks korda -- Timeline'il \"%s\" puudub
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve keeldus videorajast V%d kaks korda -- Timeline'il \"%s\" puudub pilt: %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s nihe %s, kella triiv mõõtmata%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Tähelepanu: see projekt pole täielik -- millest Resolve keeldus:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Kella triiv:     mõõtmata -- selle helist saadi mõõtmiseks liiga vähe punkte"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bitti, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s kaadrit/s%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit float, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", selle helirajast keelduti"
+
+msgid "Format"
+msgstr "Vorming"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Kui %s või %s eemaldatakse, eemaldatakse ka kõik selle all olev."
+
+msgid "Timecode %s"
+msgstr "Ajakood %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "paigutatud koos oma kaameraga"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s fail ei sobi teistega"
+msgstr[1] " -- %s faili ei sobi teistega"

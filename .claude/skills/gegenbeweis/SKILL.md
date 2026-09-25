@@ -32,8 +32,15 @@ mkdir -p /tmp/cp && cp -R videopodcast_magic /tmp/cp/broken
 # break exactly the one thing the check is about, in /tmp/cp/broken/__init__.py
 cd tests && LANG=C LC_ALL=C LANGUAGE=en VPM_SILENT=1 \
   VPM_NO_SPEAKER_SPLIT=1 VPM_NO_UPDATE_CHECK=1 \
-  VPM_SCRIPT=/tmp/cp/broken/__init__.py python3 <name>_test.py
+  VPM_SCRIPT=/tmp/cp/broken/__init__.py python3 <piece>/<name>_test.py
 ```
+
+**`<piece>` is the folder the test lies in**, one per piece of the
+program -- `ls */<name>_test.py` in `tests/` names it; a test that lies
+in `tests/` itself is started without one. The test finds `tests/` and
+its helpers from its own file, whatever folder it is started from; only
+the path on the line is relative, which is why the line starts in
+`tests/`.
 
 **Copying the whole folder is the whole point, and getting it wrong
 poisons the register.** The texts live in a `language/` folder beside
@@ -281,7 +288,7 @@ Nothing goes red there, so it gets a step. Before the test is called
 finished:
 
 ```bash
-git diff -- tests/<name>_test.py             # what really moved
+git diff -- tests/<piece>/<name>_test.py     # what really moved
 grep -P '^<name>\t' tests/state/counterproof # the rows as they stand
 ```
 

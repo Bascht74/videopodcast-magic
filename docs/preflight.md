@@ -12,7 +12,11 @@ the list says what was found, and each row carries a mark
 ([The interface](interface.md)). Hovering over the mark, or opening the
 row, shows what stands behind it. Every finding stands in full in the log
 and under **Output** as well: the sentence counts them, those two say
-which ones.
+which ones. The sentence also counts the files the time axis refuses --
+every row in red, as **3 files do not fit the others**, in red too --
+and a file its timecode alone places, as a note. A file set to Intro or
+Outro is not counted ([The interface](interface.md), "How the time axis is
+measured").
 
 ![The file list with the marks from the preflight](images/files.png)
 
@@ -254,7 +258,8 @@ only where it is at most a tenth as long as the middle of the rest of
 the material. The yardstick is the shoot itself, not a length written
 down: a jingle is orders below what it sits among, while a file that
 belongs to the shoot and merely fits nothing is about as long as
-everything else.
+everything else. A clip with no sound at all is measured by the running
+time its file states, so a silent jingle is proposed too.
 
 **Intro** means the file is put at the front and never measured
 ([DaVinci Resolve](resolve.md)), and there is one of those. So the

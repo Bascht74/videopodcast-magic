@@ -1347,9 +1347,6 @@ msgstr "応答が JSON ではありませんでした：%s"
 msgid "  Number (empty = cancel): "
 msgstr "  番号（空欄 = キャンセル）: "
 
-msgid "The key was not saved"
-msgstr "キーは保存されませんでした"
-
 msgid "The key was not saved: %s"
 msgstr "キーは保存されませんでした：%s"
 
@@ -3599,9 +3596,6 @@ msgstr "  Timeline の開始 %s は拒否されました: %s"
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool にファイルがありません"
 
-msgid "   MISSING"
-msgstr "   欠落"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  注意: %s と %s はどちらも %s という名前です。Timeline 上で\n  Resolve は名前しか示さないため、クリップを区別\n  できません -- どちらかのファイル名を変えてください。"
 
@@ -4016,9 +4010,6 @@ msgstr "  話者分離は使いません: %s。"
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "2 台のカメラが同じファイルを作ることになります。2 台目が 1 台目を上書きします。"
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "カットでは 2 台のカメラが 1 台として扱われます。ファイル名が同じなので、どちらかの名前を変えてください。"
-
 msgid "  Bleed not separable: %s"
 msgstr "  かぶりを分離できません: %s"
 
@@ -4045,9 +4036,6 @@ msgstr "  かぶりを測定: %s は %s の中で %s dB しか小さくない --
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  トラックを測定していないため、%s はミックスには入りますがカットには入りません: %s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  カットの中で2台のカメラが1台になります (%s)。ファイル名が同じなので、どちらかの名前を変えてください。"
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  注意: 測定できたペアは %s 組のみ（全 %s 組）。残りは1人だけが話している瞬間が見つからず、かぶりが残ります -- ここでは話者検出は信頼できません。"
@@ -4168,9 +4156,6 @@ msgstr "Multitrack には上の表に2つのトラックが必要です -- カ�
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s が複数の話者に付いています -- 名前は1人の人を表し、人ごとに別の名前が必要です。"
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "カットの中で2台のカメラが1台になります: %s。ファイル名が同じなので、どちらかの名前を変えてください。"
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "2台のカメラが同じファイルを作ることになります: %s"
@@ -4677,9 +4662,6 @@ msgstr "  %s を分類できません: %s -- 内蔵時計だけで配置しま�
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: 音声の一致度は %s で、下限 %s を下回ります -- 内蔵時計だけで配置しました"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  注意: このプロジェクトは完全ではありません -- Resolve が次のトラックを二度拒否しました:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  オフセット：      %s   （タイムコードのみから -- 音声では配置できなかったため、何も照合していません）"
 
@@ -4725,9 +4707,6 @@ msgstr "プリセット："
 msgid "Registry"
 msgstr "レジストリ"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "「音声」または「映像」を削除すると、その下のものもすべて削除されます。"
-
 msgid "VIDEO"
 msgstr "映像"
 
@@ -4766,3 +4745,52 @@ msgstr "  Resolve が音声トラック A%d を二度拒否しました -- Timel
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve が映像トラック V%d を二度拒否しました -- Timeline \"%s\" には %s の映像が欠けています。"
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s オフセット %s、クロックのずれは未測定%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  注意: このプロジェクトは完全ではありません -- Resolve が拒否したもの:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  クロックのずれ：  未測定 -- 音声から得られた点が少なすぎます"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s、%s ビット、%s kHz、%s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s、%sx%s、%s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s、32 ビット浮動小数点、%s kHz、%s"
+
+msgid ", its sound track refused"
+msgstr "、音声トラックは拒否されました"
+
+msgid "Format"
+msgstr "形式"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "「%s」または「%s」を削除すると、その下にあるものもすべて削除されます。"
+
+msgid "Timecode %s"
+msgstr "タイムコード %s"
+
+msgid "mono"
+msgstr "モノラル"
+
+msgid "placed with its camera"
+msgstr "元のカメラとともに配置"
+
+msgid "stereo"
+msgstr "ステレオ"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- ファイル %s 個が他のファイルと合いません"

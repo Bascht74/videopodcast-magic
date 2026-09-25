@@ -2743,9 +2743,6 @@ msgstr "%s -- qed jiġi ċċekkjat"
 msgid "The key was not saved: %s"
 msgstr "Iċ-ċavetta ma ġietx issejvjata: %s"
 
-msgid "The key was not saved"
-msgstr "Iċ-ċavetta ma ġietx issejvjata"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain huwa msakkar. Iftħu u erġa' pprova."
 
@@ -2886,12 +2883,6 @@ msgstr "Binarju"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Żdiedu binarji waqt il-bidla (issa %s). Dan jagħmel it-taħlita\n  ħażina. Jekk jogħġbok ħassar il-binarji mingħajr fajl fuq auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Żewġ kameras huma kamera waħda fil-muntaġġ. Il-fajls tagħhom għandhom l-istess isem, għalhekk ibdel l-isem ta' wieħed minnhom."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Żewġ kameras huma kamera waħda fil-muntaġġ: %s. Il-fajls tagħhom għandhom l-istess isem, għalhekk ibdel l-isem ta' wieħed minnhom."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Żewġ kameras kienu jipproduċu l-istess fajl. It-tieni kienet tikteb fuq l-ewwel."
@@ -3298,9 +3289,6 @@ msgstr "✕  L-isem %s jidher aktar minn darba. Dawn ir-reġistrazzjonijiet jing
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Ir-reġistrazzjonijiet kollha għandhom l-istess isem. Dan jagħmel binarju wieħed -- Multitrack jeħtieġ mill-inqas tnejn."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Żewġ kameras huma kamera waħda fil-muntaġġ (%s). Il-fajls tagħhom għandhom l-istess isem, għalhekk ibdel l-isem ta' waħda minnhom."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Żewġ kameras kienu jipproduċu l-istess fajl (%s). It-tieni kienet tikteb fuq l-ewwel."
 
@@ -3462,9 +3450,6 @@ msgstr "bla isem"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Attenzjoni: kejl li ma jistax jintuża"
-
-msgid "   MISSING"
-msgstr "   NIEQES"
 
 msgid "   NOT INSERTED"
 msgstr "   MHIX IMDAĦĦLA"
@@ -4807,9 +4792,6 @@ msgstr "  %s ma jistax jiġi kklassifikat: %s -- tqiegħed skont l-arloġġ tieg
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: il-ħoss tiegħu jaqbel b'%s, taħt il-livell minimu ta' %s -- tqiegħed skont l-arloġġ tiegħu biss"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Attenzjoni: dan il-proġett mhux komplut -- Resolve irrifjuta dawn il-binarji darbtejn:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Spostament:          %s   (mit-timecode tagħha biss -- il-ħoss tagħha ma setax ipoġġiha, għalhekk xejn ma jiġi ċċekkjat)"
 
@@ -4855,9 +4837,6 @@ msgstr "Presets:"
 msgid "Registry"
 msgstr "Reġistru"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "It-tneħħija ta' AWDJO jew VIDJO tneħħi kull ma hemm taħtu."
-
 msgid "VIDEO"
 msgstr "VIDJO"
 
@@ -4896,3 +4875,55 @@ msgstr "  Resolve irrifjuta l-binarju tal-awdjo A%d darbtejn -- fit-Timeline \"%
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve irrifjuta l-binarju tal-vidjo V%d darbtejn -- fit-Timeline \"%s\" tonqos l-istampa ta' %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s spostament %s, drift tal-arloġġ mhux imkejjel%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Attenzjoni: dan il-proġett mhux komplut -- dak li Resolve irrifjuta:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Drift tal-arloġġ:    mhux imkejjel -- ftit wisq punti tal-ħoss tagħha żammew għal kejl"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, float ta' 32 bit, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", il-binarju tal-awdjo tiegħu rrifjutat"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "It-tneħħija ta' %s jew %s tneħħi kull ma hemm taħtu."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "imqiegħed mal-kamera tiegħu"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s fajl ma jaqbilx mal-oħrajn"
+msgstr[1] " -- %s fajls ma jaqblux mal-oħrajn"
+msgstr[2] " -- %s fajl ma jaqblux mal-oħrajn"
+msgstr[3] " -- %s fajl ma jaqblux mal-oħrajn"

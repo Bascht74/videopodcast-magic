@@ -129,14 +129,16 @@ fi
 before=$( [ -f "$LONGEST" ] && awk '{ s += $2 } END { print s+0 }' "$LONGEST" || echo 0)
 # The old line first, the builder's after it, and the builder's wins by
 # standing later -- so a test that got faster shows it. A name with no
-# test file beside it is dropped: a renamed test would otherwise hold a
-# place in a queue it is no longer in.
+# test file here or in a folder under it is dropped: a renamed test would
+# otherwise hold a place in a queue it is no longer in.
+suite=$(cd "$HERE" && ls *_test.py */*_test.py 2> /dev/null \
+        | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//' | tr '\n' ' ')
 { [ -f "$LONGEST" ] && cat "$LONGEST" || true
   echo "$found"
-} | awk -v here="$HERE" '
+} | awk -v suite=" $suite" '
     { seen[$1] = $2 }
     END { for (n in seen)
-            if ((getline junk < (here "/" n "_test.py")) >= 0)
+            if (index(suite, " " n " "))
               printf "%s %d\n", n, seen[n] }' \
   | sort > "$LONGEST.new" && mv "$LONGEST.new" "$LONGEST"
 after=$(awk '{ s += $2 } END { print s+0 }' "$LONGEST")

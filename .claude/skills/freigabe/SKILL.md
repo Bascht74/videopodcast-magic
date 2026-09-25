@@ -161,8 +161,9 @@ moment the command is run.
 `videopodcast_magic/__init__.py`. The same number stands as the topmost
 numbered section in `CHANGELOG.md`, and as `**Version ....**` in
 `README.md`, `README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
-`tests/text_release_ready_test.py` holds those six against each other,
-and the workflow's first question is whether that test was green here.
+`tests/source/text_release_ready_test.py` holds those six against each
+other, and the workflow's first question is whether that test was green
+here.
 
 **A seventh place, and no test reaches it: `version = "..."` in
 `pyproject.toml`.** It is what pip hands somebody who installs rather
@@ -214,8 +215,9 @@ concluded success, the workflow says so in one line (`way: short --
 ...`) and does not run the suite a second time: the evidence is the
 pull request's run on the identical tree, and evidence before the mark
 holds exactly as before. Where `main` moved in between, or the commit
-is not a merge, or a check is missing or red, the suite runs as it has
-since 4.9.2026 (`way: long -- ...`, with the reason). Measured
+is not a merge, or a check is missing or red, or the merge brings in a
+file of the speaker separation, the suite runs as it has since
+4.9.2026 (`way: long -- ...`, with the reason). Measured
 21.9.2026: `484daa8`, the merge of #186, carries the tree of `8a58ea4`,
 its head, and the six check runs of `8a58ea4` all concluded success.
 **One thing the short way does not give you:** the pull request's run
@@ -223,8 +225,10 @@ is the everyday suite, separation off, and only the workflow's own run
 turns it on -- so `voice_split_hears_two` runs for a release only on
 the long way. **Since 24.9.2026 the owner's answer to that is a fourth
 question:** the short way is taken only where the merge touches nothing
-under `videopodcast_magic/speakers/`. A pull request that changed the
-separation goes the long way, and the line names the file that sent it
+of the separation -- since 25.9.2026 its code, its model,
+requirements.txt and the test that runs it, but not pyproject.toml,
+whose version every release changes. A pull request that changed one of
+them goes the long way, and the line names the file that sent it
 there. How the four questions are asked, and where that difference is
 kept, is `.claude/skills/freigabe/mechanics.md`.
 
@@ -400,7 +404,8 @@ A release is held up by the five things and by nothing else.
 7. The number set in the program and the four documents that carry it?
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
-10. `tests/text_release_ready_test.py` green here, and the whole suite with it?
+10. `tests/source/text_release_ready_test.py` green here, and the whole
+    suite with it?
 11. The builder's times fetched and looked at?
 12. `git status --short` empty, or every line in it explained out loud?
 13. `git stash list` free of this work?

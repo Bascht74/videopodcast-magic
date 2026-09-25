@@ -34,20 +34,24 @@ list change -- a file taken out with **Remove**, put back with **Add
 files ...**, or its **Kind** set to intro, outro or **ignore this
 video** -- the program asks again whether the handover it holds names
 exactly these cameras. If it does, it stays. If not, it looks for one
-that does in the output folder, beside the project file and beside the
+that does in the output folder -- with **next to each video file**, in
+the folders the videos lie in --, beside the project file and beside the
 handover it had; where there is none, the button goes grey. So taking a
-camera out greys the button. Putting it back makes it usable again only
-where a handover over exactly these cameras lies in the output folder or
-beside a project file that was opened: the handover the button had is
-gone by then, and nothing looks beside it any more. With **next to each
-video file** and no project opened, and after a run that left a camera
-out -- its handover never names that camera -- the button stays grey;
-press **Start** again.
+camera out greys the button, and putting it back makes it usable again:
+the program remembers which handover the button had for that list of
+cameras, and takes it back as long as it lies where the program looks
+now and names no camera the list does not hold. That is how the
+handover of a run that left a camera out comes back too: it never names
+that camera, and it is still the handover this list was run with.
 
-Picking an output folder is not such a change: choosing a folder clears
-what the button had, and nothing looks in the new one until the cameras
-in the list change. Where the button is not usable, the reason stands at
-it:
+That memory lasts while the window is open and the project stays the
+same; **Close project** clears it. A project opened afresh
+takes only a handover over exactly its cameras, so after a run that
+left a camera out its button opens grey; press **Start** again.
+
+Picking an output folder, or going back to **next to each video file**
+with **reset**, clears what the button had and looks in the new place
+at once. Where the button is not usable, the reason stands at it:
 
 - **That needs the handover file from a run, and there is none.** No run
   in this window, no project opened whose handover fits, or the cameras
@@ -72,13 +76,14 @@ before a timeline is built, with the reason on the line beginning
   the rate the timeline would be built at a guessed speed and every cut
   would sit beside the picture. Make the run again.
 
-The match over the cameras is asked on opening and again whenever the
-cameras in the list change. A camera whose **Kind** is set to intro,
-outro or **ignore this video** after a run is no camera of the list any
-more, so the handover of the run over all of them names one camera too
-many, and the button goes grey at once. Setting the Kind back makes the
-button usable again under the same condition as putting a camera back,
-above; otherwise press **Start** again for the cameras as they stand now.
+The match over the cameras is asked on opening, again whenever the
+cameras in the list change, and whenever the output folder does. A
+camera whose **Kind** is set to intro, outro or **ignore this video**
+after a run is no camera of the list any more, so the handover of the
+run over all of them names one camera too many, and the button goes grey
+at once. Setting the Kind back makes the button usable again under the
+same condition as putting a camera back, above; otherwise press
+**Start** again for the cameras as they stand now.
 
 The program asks whether Resolve answers by itself, in the background,
 at the first look at the **Resolve cut** tab. Only a no shows there: the
@@ -354,6 +359,8 @@ it. The closing note in the log says so too.
 
 Every shot gets the colour of its angle, on both timelines. The script
 sorts the colours by distinguishability, and the wide shot gets `Tan`.
+Under **Sync only** that is only a camera somebody set to **Wide shot**:
+that type asks nobody who speaks, so no camera is worked out to be one.
 More angles than colours means the row repeats, and the log says so.
 
 Each camera also gets a **colour group**, described further down under
@@ -634,15 +641,21 @@ backup copy.
   The run named it the moment it happened -- the track, the timeline,
   and what that timeline now lacks: every camera from that video track
   on, a camera's sound, or the picture or sound of the intro or outro.
+  A camera Resolve would not lay on its track at all counts the same:
+  the run says `Caution: ... not inserted` and says it again at the end.
   It built everything else without it and says it once more in its last
-  lines; the list of angles in the closing note names only the cameras
-  that got a video track. Built with **Create Resolve project**, the window then
-  ends on `Finished with errors.` instead of `Done.`; built as part of
-  a whole run (`--resolve`), only those last lines say so. An audio
-  track refused where the cameras found room on the others costs
-  nothing: the log notes it, and it is no error. Add the track in
-  Resolve by hand and lay the missing piece on it, or build the project
-  again.
+  lines, under `Caution: this project is not complete -- what Resolve
+  refused:`; the list of video tracks in the log and the list of angles
+  in the closing note name only the cameras that lie on their video
+  track. Where the sound track of the intro or outro was refused, the
+  line naming that clip ends in `, its sound track refused` -- the file
+  has sound, Resolve did not take it. Built with **Create Resolve
+  project**, or as part of a whole run (`--resolve`), the window then
+  ends on `Finished with errors.` instead of `Done.`, and a run from the
+  command line ends with an error code. An audio track refused where
+  the cameras found room on the others costs nothing: the log notes it, and it is no error. Add
+  the track in Resolve by hand and lay the missing piece on it, or build
+  the project again.
 - **A camera stands beside its place, or right at the beginning.** The
   run said so as it wrote the handover: it found nothing in that
   camera's sound, or too little to trust, and went by the timecode
@@ -663,10 +676,10 @@ backup copy.
   names other cameras than the file list holds now -- another
   production, a round before a camera was added, or a camera taken out
   of the list or set to intro, outro or **ignore this video** since.
-  Putting the camera or its Kind back brings the button back only where
-  a handover over exactly these cameras lies in the output folder or
-  beside an opened project file (*And the button follows the file list*,
-  above); otherwise press **Start** again.
+  Putting the camera or its Kind back in the same window brings back the
+  handover the button had (*And the button follows the file list*,
+  above). A project opened afresh takes only a handover over exactly its
+  cameras; otherwise press **Start** again.
 - **The output folder holds one file per shot instead of one episode.**
   Resolve refused one file per delivery, and the log says so under
   **Render job**. Set the delivery back to a single file at the render

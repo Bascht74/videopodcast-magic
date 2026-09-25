@@ -208,11 +208,35 @@ def _sample_count(path):
 
 
 def bext_time_reference(path):
-    """Return TimeReference from the bext chunk in samples, or None."""
+    """Return TimeReference from the bext chunk in samples, or None.
+
+    Samples at the file's own rate, which wav_rate names: 01:00:00 is
+    158760000 in a 44.1 kHz file and 172800000 in a 48 kHz one.
+    """
     return probe_remember("bext", path, lambda: _bext_time_reference(path))
 
 
 def _bext_time_reference(path):
+    b = _riff_chunk(path, b"bext")
+    return struct.unpack("<Q", b[338:346])[0] \
+        if b is not None and len(b) >= 346 else None
+
+
+def wav_rate(path):
+    """The sample rate a WAV's own fmt chunk names, or None."""
+    return probe_remember("wav_rate", path, lambda: _wav_rate(path))
+
+
+def _wav_rate(path):
+    """nSamplesPerSec, four bytes into the fmt chunk; 0 there is none."""
+    b = _riff_chunk(path, b"fmt ")
+    rate = struct.unpack("<I", b[4:8])[0] \
+        if b is not None and len(b) >= 8 else 0
+    return rate or None
+
+
+def _riff_chunk(path, wanted):
+    """The body of the first chunk named *wanted* in a WAV, or None."""
     try:
         f = open(path, "rb")
     except OSError:
@@ -226,9 +250,8 @@ def _bext_time_reference(path):
             if len(h) < 8:
                 return None
             cid, sz = h[:4], struct.unpack("<I", h[4:8])[0]
-            if cid == b"bext":
-                b = f.read(sz)
-                return struct.unpack("<Q", b[338:346])[0] if len(b) >= 346 else None
+            if cid == wanted:
+                return f.read(sz)
             f.seek(sz + (sz & 1), os.SEEK_CUR)
 
 DAY_S = 24 * 60 * 60
@@ -308,7 +331,9 @@ def file_timecode(path, fps=None):
     """
     tr = bext_time_reference(path)
     if tr is not None:
-        return tr / float(SR)
+        # Counted at the file's own rate: read at 48 kHz, a 44.1 kHz
+        # recorder's 01:00:00:00 lands at 00:55:07. No fmt chunk: SR.
+        return tr / float(wav_rate(path) or SR)
     d = ffprobe_json(path)
     rate = float(fps) if fps else (picture_rate(d) or 30.0)
     # The tracks before the file: a track's clock is what the camera

@@ -12,7 +12,12 @@ Dateiliste erneut. Ein Satz unter der Liste sagt, was gefunden wurde,
 und jede Zeile trägt ein Prüfzeichen ([Die Oberfläche](interface.de.md)).
 Der Zeiger auf dem Prüfzeichen oder die aufgeklappte Zeile zeigt, was
 dahintersteht. Im Wortlaut stehen die Befunde außerdem im Protokoll und
-unter **Ausgabe**: der Satz zählt sie, diese beiden nennen sie.
+unter **Ausgabe**: der Satz zählt sie, diese beiden nennen sie. Mitgezählt
+werden auch die Dateien, die die Zeitachse abweist -- jede Zeile in Rot,
+als **3 Dateien passen nicht zu den anderen**, ebenfalls in Rot --, und
+eine Datei, die allein ihr Timecode platziert, als Hinweis. Eine Datei
+auf Vorspann oder Abspann zählt nicht mit ([Die
+Oberfläche](interface.de.md), „Wie die Zeitachse gemessen wird“).
 
 ![Die Dateiliste mit den Prüfzeichen aus dem Vorflug](images/files.de.png)
 
@@ -59,7 +64,7 @@ für diese Rate keine Timeline hat, die nächste darüber, die es hat.
 Eine Kamera, für deren eigene Bildrate Resolve keine Timeline hat, wird
 trotzdem benutzt. Vorher umzurechnen ist nichts: Umgerechnet wird sie in
 die Timeline, weggelassen wird sie nicht. Die aufgeklappte Zeile sagt es
-unter **Video**, und beim Einlesen sagt es der Lauf noch einmal bei der
+unter **Bild**, und beim Einlesen sagt es der Lauf noch einmal bei der
 Datei. Jede Kamera behält ihre eigene Rate, und der Schnitt rechnet in
 ihr ([Resolve](resolve.de.md), „Kameras, die verschieden schnell
 laufen“).
@@ -270,7 +275,8 @@ so lang ist wie die mittlere Länge des übrigen Materials. Maßstab ist
 der Dreh selbst und keine aufgeschriebene Länge: Ein Jingle liegt um
 Größenordnungen unter dem, wozwischen er steht, während eine Datei, die
 zum Dreh gehört und bloß zu nichts passt, ungefähr so lang ist wie alles
-andere.
+andere. Ein Clip ganz ohne Ton wird an der Laufzeit gemessen, die seine
+Datei angibt; auch ein stummer Jingle wird also vorgeschlagen.
 
 **Vorspann** heißt, dass die Datei an den Anfang gelegt und nie
 vermessen wird ([DaVinci Resolve](resolve.de.md)), und davon gibt es

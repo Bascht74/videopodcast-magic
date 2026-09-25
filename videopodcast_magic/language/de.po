@@ -4174,9 +4174,6 @@ msgstr "%s -- wird geprüft"
 msgid "The key was not saved: %s"
 msgstr "Der Schlüssel wurde nicht gespeichert: %s"
 
-msgid "The key was not saved"
-msgstr "Der Schlüssel wurde nicht gespeichert"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr ""
 "Der Schlüsselbund ist zugesperrt. Sperr ihn auf und versuch es noch "
@@ -4418,20 +4415,6 @@ msgid ""
 msgstr ""
 "Beim Ändern sind Spuren dazugekommen (jetzt %s). So wird die Mischung\n"
 "  falsch. Bitte bei auphonic.com die Spuren ohne Datei löschen."
-
-msgid ""
-"Two cameras are one camera in the cut. Their files carry the same name, "
-"so rename one of them."
-msgstr ""
-"Zwei Kameras sind im Schnitt eine. Ihre Dateien heißen gleich, bitte eine "
-"davon umbenennen."
-
-msgid ""
-"Two cameras are one camera in the cut: %s. Their files carry the same "
-"name, so rename one of them."
-msgstr ""
-"Zwei Kameras sind im Schnitt eine: %s. Ihre Dateien heißen gleich, bitte "
-"eine davon umbenennen."
 
 msgid ""
 "Two cameras would produce the same file. The second would overwrite the "
@@ -4953,13 +4936,6 @@ msgstr ""
 "Multitrack sind mindestens zwei nötig."
 
 msgid ""
-"✕  Two cameras are one camera in the cut (%s). Their files carry the same "
-"name, so rename one of them."
-msgstr ""
-"✕  Zwei Kameras sind im Schnitt eine (%s). Ihre Dateien heißen gleich, "
-"bitte eine davon umbenennen."
-
-msgid ""
 "✕  Two cameras would produce the same file (%s). The second would "
 "overwrite the first."
 msgstr ""
@@ -5134,9 +5110,6 @@ msgstr "ohne Namen"
 
 msgid "   Caution: measurement unusable"
 msgstr "   ACHTUNG: Messung unbrauchbar"
-
-msgid "   MISSING"
-msgstr "   FEHLT"
 
 msgid "   NOT INSERTED"
 msgstr "   NICHT EINGEFÜGT"
@@ -6513,9 +6486,6 @@ msgstr "  %s lässt sich nicht einordnen: %s -- allein nach seiner Uhr gesetzt"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: Übereinstimmung des Tons %s, unter der Grenze von %s -- allein nach seiner Uhr gesetzt"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  ACHTUNG: dieses Projekt ist nicht vollständig -- Resolve hat diese Spuren zweimal abgelehnt:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Versatz:         %s   (allein aus dem Timecode -- ihr Ton konnte sie nicht einordnen, also wird nichts geprüft)"
 
@@ -6561,9 +6531,6 @@ msgstr "Presets:"
 msgid "Registry"
 msgstr "Registry"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Wird TON oder VIDEO entfernt, geht alles darunter mit."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -6602,3 +6569,53 @@ msgstr "  Resolve hat die Tonspur A%d zweimal abgelehnt -- der Timeline \"%s\" f
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve hat die Bildspur V%d zweimal abgelehnt -- der Timeline \"%s\" fehlt das Bild von %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s Versatz %s, Uhrengang nicht gemessen%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  ACHTUNG: dieses Projekt ist nicht vollständig -- was Resolve abgelehnt hat:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Uhrengang:       nicht gemessen -- ihr Ton gab zu wenige Punkte dafür her"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s Bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 Bit Gleitkomma, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", seine Tonspur abgelehnt"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Wird %s oder %s entfernt, geht alles darunter mit."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "Mono"
+
+msgid "placed with its camera"
+msgstr "mit der eigenen Kamera platziert"
+
+msgid "stereo"
+msgstr "Stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s Datei passt nicht zu den anderen"
+msgstr[1] " -- %s Dateien passen nicht zu den anderen"

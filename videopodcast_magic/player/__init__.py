@@ -1912,30 +1912,61 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                     missing = T('  (this file ends earlier)')
             return T('Window %s%s') % (as_hms(b - a), missing)
 
-        def _limit(self, text):
-            """Convert a time value into a position in this file."""
+        def _place(self, text):
+            """Where a time value falls in this file: (seconds, timecode?).
+
+            Not held to the file: before its start comes out negative,
+            past its end longer than it. Seconds are None where the value
+            cannot be placed at all -- a timecode against a file without.
+            """
             try:
                 value, absolute = parse_time_point(text, self.fps)
             except Exception:
-                return None
+                return None, False
             if value is None:
-                return None
+                return None, False
             if absolute:
                 if self.tc0 is None:
-                    return None
+                    return None, True
                 value -= self.tc0
             elif value >= 0 and self.axis_s() is not None:
                 # Relative values count from the material, not from this file.
                 value -= self.axis_s()
             elif value < 0:
                 value = self.player.duration() / 1000.0 + value
-            return int(max(0.0, value) * 1000)
+            return value, absolute
+
+        def _limit(self, text):
+            """Convert a time value into a position in this file."""
+            value = self._place(text)[0]
+            return None if value is None else int(max(0.0, value) * 1000)
 
         def jump_to(self, text):
-            ms = self._limit(text)
-            if ms is None:
+            """Jump to a time value; False where this file does not hold it.
+
+            A timecode outside the file is answered, not clamped to an
+            edge: the window then looks for the file that holds it and
+            names the point where none does, as without a timecode. The
+            margin is the one covers() allows; a length not yet known
+            judges only the front. A relative point is held to the edges.
+            """
+            value, absolute = self._place(text)
+            length = self.player.duration() / 1000.0
+            if value is None or absolute and (value < -0.05 or (
+                    length > 0 and value > length + 0.05)):
                 return False
+            ms = int(max(0.0, value) * 1000)
+            # Right after a load the jump becomes the load's target: a
+            # file still opening drops a setPosition, and seek_settle
+            # would pull the picture back to where the load aimed.
+            opening = self._target_ms is not None
+            if opening:
+                self._target_ms = ms
+                self._target_at = time.monotonic()
+                self._wanted_ms = ms   # the sound is placed inside jump()
             self.jump(ms)
+            if opening:
+                self._wanted_ms = ms   # again: spot() in jump() drops it
             return True
 
         def set_mark(self):

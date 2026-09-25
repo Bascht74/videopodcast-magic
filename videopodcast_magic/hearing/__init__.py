@@ -40,6 +40,7 @@ tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
 time = PROGRAM.time
 timecode_string = PROGRAM.timecode_string
+wav_rate = PROGRAM.wav_rate
 
 
 # Six of the eight are read further down than this piece, so a copy
@@ -487,7 +488,7 @@ def join_with_report(paths, target, keep_parts=False):
     if join_info.get("tc"):
         print(T('  %s blocks joined via timecode, start %s')
               % (number_text(join_info["blocks"], 0),
-                 timecode_string(join_info["start"] / float(SR))))
+                 timecode_string(join_info["start_s"])))
         for at_s, g in join_info.get("gaps_found", []):
             if g > 0:
                 print(T('  Gap of %s at %s -- filled with silence')
@@ -590,8 +591,12 @@ def join_audio_parts(paths, target, keep_parts=False):
             "-map", "[out]", "-c:a", "pcm_s24le", "-write_bext", "1",
             "-metadata", "time_reference=%d" % t0]
             + PROGRAM.wav_safe(target) + ["-y", target] + writes)
+        # t0 is counted at the first block's own rate, the way its
+        # recorder wrote it: read at SR, a 44.1 kHz 01:00:00:00 is 00:55:07.
+        start_s = t0 / float(wav_rate(entries[0][1]) or SR)
         return target, {"blocks": len(paths), "tc": True, "gaps_found": gaps,
-                      "start": t0, "side_by_side": side_by_side,
+                      "start": t0, "start_s": start_s,
+                      "side_by_side": side_by_side,
                       "parts": alone}
 
     # In the order they came in: without a timecode that order is the

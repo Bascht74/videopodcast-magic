@@ -2718,9 +2718,6 @@ msgstr "%s -- provjerava se"
 msgid "The key was not saved: %s"
 msgstr "Ključ nije spremljen: %s"
 
-msgid "The key was not saved"
-msgstr "Ključ nije spremljen"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Privjesak ključeva je zaključan. Otključajte ga i pokušajte ponovno."
 
@@ -2861,12 +2858,6 @@ msgstr "Zapis"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Tijekom promjene dodani su zapisi (sada %s). Time miks postaje\n  pogrešan. Izbrišite na auphonic.com zapise bez datoteke."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Dvije su kamere u rezu jedna. Njihove datoteke nose isto ime, pa jednu od njih preimenujte."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Dvije kamere su u rezu jedna kamera: %s. Njihove datoteke nose isto ime, pa preimenujte jednu od njih."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Dvije bi kamere dale istu datoteku. Druga bi prebrisala prvu."
@@ -3255,9 +3246,6 @@ msgstr "✕  %s se pojavljuje više puta. Ove se snimke spajaju u jedan zapis i 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Sve snimke nose isto ime. To daje jedan zapis -- Multitrack treba barem dva."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Dvije su kamere u rezu jedna (%s). Njihove datoteke nose isto ime, pa jednu od njih preimenujte."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dvije bi kamere dale istu datoteku (%s). Druga bi prebrisala prvu."
 
@@ -3413,9 +3401,6 @@ msgstr "bez naziva"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Oprez: mjerenje neupotrebljivo"
-
-msgid "   MISSING"
-msgstr "   NEDOSTAJE"
 
 msgid "   NOT INSERTED"
 msgstr "   NIJE UMETNUTO"
@@ -4761,9 +4746,6 @@ msgstr "  %s se ne može razvrstati: %s -- smješteno samo po vlastitom satu"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: podudaranje zvuka %s, ispod praga %s -- smješteno samo po vlastitom satu"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Oprez: ovaj projekt nije potpun -- Resolve je dvaput odbio ove zapise:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Pomak:             %s   (samo po vremenskom kodu -- po zvuku se nije moglo smjestiti, pa se ništa ne provjerava)"
 
@@ -4809,9 +4791,6 @@ msgstr "Predefinirane postavke:"
 msgid "Registry"
 msgstr "Registry"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Uklanjanje „ZVUK” ili „VIDEO” uklanja sve što je ispod."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4850,3 +4829,54 @@ msgstr "  Resolve je dvaput odbio audio zapis A%d -- na Timeline „%s” nedost
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve je dvaput odbio video zapis V%d -- na Timeline „%s” nedostaje slika (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s pomak %s, drift sata nije izmjeren%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Oprez: ovaj projekt nije potpun -- što je Resolve odbio:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Drift sata:        nije izmjeren -- njezin zvuk dao je premalo točaka za mjerenje"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit s pomičnim zarezom, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", njegov audio zapis odbijen"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Uklanjanje „%s” ili „%s” uklanja sve što je ispod."
+
+msgid "Timecode %s"
+msgstr "Vremenski kod %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "smješteno sa svojom kamerom"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s datoteka ne pristaje uz ostale"
+msgstr[1] " -- %s datoteke ne pristaju uz ostale"
+msgstr[2] " -- %s datoteka ne pristaje uz ostale"

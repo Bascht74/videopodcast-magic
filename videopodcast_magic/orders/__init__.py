@@ -622,8 +622,10 @@ def build_argument_parser():
                          "sits in front of. It is filmed, aligned and cut "
                          "to like any other, it just takes no speaker. May "
                          "be given several times. Without it the cameras "
-                         "no speaker is assigned to are the wide shots. "
-                         "(default: none, so derived)")
+                         "no speaker is assigned to are the wide shots, "
+                         "except with --project-type sync, where only a "
+                         "camera given here is one. (default: none, so "
+                         "derived)")
     ap.add_argument("--new-name", dest="new_name", action="append", nargs=2,
                     default=[], metavar=("FILE", "NAME"),
                     help="this video file is written as NAME, with the "

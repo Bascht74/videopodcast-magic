@@ -524,7 +524,10 @@ beste Alternative. Ohne Timecode oder gemessene Zeitachse behauptet das
 Programm nichts über die Grenzen; sobald die Achse da ist, sieht der
 Player noch einmal nach. **zu In-Punkt** und **zu Out-Punkt** holen sich
 ihre Datei selbst; wenn es gar keine gibt, steht eine Zeile da, warum
-nichts passiert ist.
+nichts passiert ist: **… liegt in keiner Videodatei. Steht dort ein
+Timecode, der zum Material passt?** Das gilt auch bei einer Kamera mit
+Timecode: Liegt der Punkt vor ihrem Anfang oder hinter ihrem Ende, wird
+er genannt, statt dass der Player an den nächsten Rand springt.
 
 Mit **zugeordneten Ton hören** läuft zum Bild der Ton, der zu dieser
 Kamera gehört:
@@ -533,19 +536,23 @@ Kamera gehört:
   stehen vor der Folge und hinter ihr, nicht in ihr, und deshalb gehört
   nichts von ihrer Zeitachse darunter: auch bei gesetztem Häkchen ist
   der eigene Ton der Datei zu hören. Das entscheidet sich, bevor die
-  drei folgenden überhaupt gefragt werden
+  vier folgenden überhaupt gefragt werden
 * die **aufbereitete Spur** von auphonic.com (`final_<Name>_<TC>.wav`),
   auf dem unter **Lautheit** gewählten Ziel, oder auf dem des Presets,
   wo nichts gewählt wurde, und mit BWF-Timecode
 * sonst die **Rohaufnahme** des zugeordneten Sprechers
 * beim Weitwinkel, der Kamera ohne zugeordneten Sprecher, der
   **Full-Mix**, sofern er vorliegt
+* und solange es den Mix noch nicht gibt, die eine Aufnahme, die alle
+  Stimmen trägt, wenn es genau eine solche gibt -- ein einzelner
+  Recorder, dem die Sprechernamen zugeordnet sind, ist das ganze
+  Gespräch
 
 Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
 machen kann die Oberfläche sie nicht. Der Kurzhinweis nennt, was läuft
 und in welcher Version.
 
-Welcher der drei es auch ist: ans Bild gelegt wird er über die gemessene
+Welcher der vier es auch ist: ans Bild gelegt wird er über die gemessene
 Zeitachse. Wo das Bild steht, wird an der Achse abgelesen, wo die
 Aufnahme beginnt, an derselben Achse, und der Unterschied ist die Stelle,
 auf die der Ton gesetzt wird. Nur wo für eine der beiden Dateien nichts
@@ -673,7 +680,9 @@ die der Lauf macht.
 
 Die Schnittliste sagt es mit: bei einer Kamera für alle trägt die EDL
 den Sprechernamen an Stelle des Kameranamens. Die Spalte Sprecher in
-`_cameracut.csv` steht in jedem Fall da.
+`_cameracut.csv` steht in jedem Fall da. Sind in einem Schnitt mehrere
+zu hören, nennen sie und die EDL sie in derselben alphabetischen
+Reihenfolge wie die Kameranamen weiter oben.
 
 **Eine einzige Stimme auf einer Kamera gibt keinen Schnitt.** Niemand
 übergibt, also gibt es nichts zu schneiden, und weder Schnittliste noch

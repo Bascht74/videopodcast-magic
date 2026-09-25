@@ -5,7 +5,7 @@
 # They are not in the suite and run.sh does not know them. On a machine
 # without Resolve every one of them would be red for a reason that is not
 # a fault, and a test that skipped instead would cost the skip ratchet in
-# run.sh, which may fall and never rise. So they live in resolve/ and are
+# run.sh, which may fall and never rise. So they live in resolve/live/ and are
 # started from here:
 #
 #   cd tests && bash resolve.sh              all of them
@@ -21,7 +21,7 @@
 # folder but the shared fixtures' own and a temporary one per run.
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$HERE"
-WHERE="$HERE/resolve"
+WHERE="$HERE/resolve/live"
 
 # The same interpreter the suite runs on, or the answer is about a Python
 # nobody uses. VPM_PYTHON overrides it, as in run.sh.
@@ -61,6 +61,9 @@ export VPM_NO_SPEAKER_SPLIT=1
 export VPM_NO_UPDATE_CHECK=1
 export PYTHONFAULTHANDLER=1
 export VPM_FIXTURES="${VPM_FIXTURES:-/tmp/vpm-fixtures-$(id -u)}"
+# The same lock run.sh takes on those folders: a suite starting beside
+# this run would otherwise delete a camera file while Resolve reads it.
+. "$HERE/fixture_lock.sh"
 
 RUN_TEMP=$(mktemp -d "${TMPDIR:-/tmp}/vpm_resolve_XXXXXX")
 RUN_CACHE="${TMPDIR:-/tmp}/vpm_cache_resolve_$(id -u)_$$"
@@ -83,6 +86,7 @@ clean_up() {
   # the tests passed, one was red, one threw, somebody pressed Ctrl-C --
   # and what it puts back is the project that was open at the start.
   tidy_up_resolve
+  fixtures_let_go
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
   else
@@ -96,10 +100,12 @@ trap 'exit 130' INT TERM
 # The camera files come from the shared fixtures, which are read and never
 # written. Building them here, before anything starts, keeps a test from
 # waiting on ffmpeg in the middle of a Resolve session.
+fixtures_hold
 if ! bash "$HERE/fixtures.sh"; then
   echo "fixtures could not be built -- stopping." >&2
   exit 2
 fi
+fixtures_share
 
 # Is there a Resolve to talk to at all? Asked through the program's own
 # check_resolve, so what comes back is the program's own reason and its
