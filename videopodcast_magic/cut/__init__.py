@@ -1329,15 +1329,18 @@ def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
             taken.add(camera_value.get())
     return taken
 
-def kind_on_show(kind, path, wides, said):
+def kind_on_show(kind, path, wides, said, labels=None):
     """What the Kind field shows, why, and whether it is derived.
 
     A mark is shown as it stands; where several are marked, the ones
-    after the first are told which the cut uses. A camera nobody is
-    assigned to is the wide shot, with a reason. (value, reason, derived).
+    after the first are told which the cut uses, by the name *labels*
+    gives it ({path: name}, as camera_labels): two files of one name are
+    two cameras. A camera nobody is assigned to is the wide shot, with
+    a reason. (value, reason, derived).
     """
     second = bool(wides) and len(wides) > 1 and wides[0] != path
-    first = os.path.basename(wides[0]) if wides else ""
+    first = (ByFile(labels or {}).get(wides[0])
+             or os.path.basename(wides[0]) if wides else "")
     if kind == TYPE_WIDE:
         return kind, (T('the cut uses %s') % first if second else ""), False
     # chosen_by_hand is not asked here, where wide_shot_barred does: a
