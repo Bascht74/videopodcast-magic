@@ -13,8 +13,12 @@ a machine without the script's fonts would otherwise call it cut off,
 or not, for a reason that is not in the program.
 
 First that the project came in -- a view in the window holds rows --
-and that the program had finished its work by then. Then every widget carrying text in the window -- built for real, offscreen,
-empty as it opens and again with the fixture project in it, since the
+and that the program had finished its work by then. Every sheet is then
+shown once, unmeasured, since a first look can set work going that
+writes captions, and the wait is repeated: that no thread or timer of
+the program was still at work when measured is judged too. Then every
+widget carrying text in the window -- built for real, offscreen, empty
+as it opens and again with the fixture project in it, since the
 two show different sheets -- is asked how wide its text is and how
 much room it has. The room is not guessed: a twin of the same class,
 parent, font and style sheet is given a long text, and its size hint
@@ -197,6 +201,21 @@ def measure(language):
         """Whether the program still has work open, by its own plan."""
         plan = work.get("plan")
         return plan is None or plan.busy()
+
+    def in_hand():
+        """What the program has started outside its plan and not finished.
+
+        Its threads, and the timers it has set to go off once: the cut
+        sheet works out the speakers in a thread and waits on a timer
+        before it draws the preview, and neither goes through the plan.
+        """
+        import threading
+        threads = [t.name for t in threading.enumerate()
+                   if t is not threading.main_thread() and t.is_alive()]
+        return threads + ["a %d ms timer" % t.interval()
+                          for w in app.topLevelWidgets()
+                          for t in w.findChildren(QtCore.QTimer)
+                          if t.isActive() and t.isSingleShot()]
 
     project = own_project()
     if project:
@@ -545,6 +564,23 @@ def measure(language):
                     round_now[0][(drawn(text), "tab",
                                   bar.window().windowTitle())] = short
 
+    def show_every_sheet(window):
+        """Every sheet on top once, unmeasured, and back to where it was.
+
+        The first look at a sheet can start work -- the cut sheet works
+        out the speakers, then redraws its preview -- and what that work
+        writes stood in no round that judges: shown sheet by sheet, the
+        sheet was measured before the work was done.
+        """
+        for bar in window.findChildren(QtWidgets.QTabBar):
+            was = bar.currentIndex()
+            for k in range(bar.count()):
+                bar.setCurrentIndex(k)
+                app.processEvents()
+            bar.setCurrentIndex(was)
+        app.processEvents()
+        return True
+
     def settings_sweep(window):
         """The window behind "Settings ...", which is built on the click."""
         wanted = vpm.T('Settings ...')[:8]
@@ -618,8 +654,8 @@ def measure(language):
             QtCore.QTimer.singleShot(50, look)
             return
         if step[0] == 1:
-            # Rows in, the program's plan done, and the captions as they
-            # were two looks ago. 150 looks of standstill end the wait,
+            # Rows in, the plan done, nothing else in hand, the captions as
+            # they were two looks ago. 150 looks of standstill end the wait,
             # and 60 s in all (10 and 10 s once another window has run
             # out of patience); the parent judges which it was.
             filled = views_filled(window)
@@ -631,13 +667,21 @@ def measure(language):
             work["face"] = face
             quiet[0] = quiet[0] + 1 if still else 0
             quick = bool(os.environ.get("VPM_LAYOUT_QUICK"))
-            if project and (not filled or working() or quiet[0] < 2) \
+            if project and (not filled or working() or in_hand()
+                            or quiet[0] < 2) \
                     and quiet[0] < (10 if quick else 150) \
                     and time.time() - clicked[0] < (10 if quick else 60):
                 QtCore.QTimer.singleShot(200, look)
                 return
+            # Then every sheet once, and the same wait again: what showing
+            # a sheet starts is measured with the rest, once it is done.
+            if not work.get("shown"):
+                work["shown"] = show_every_sheet(window)
+                QtCore.QTimer.singleShot(200, look)
+                return
             result["filled"] = filled
             result["busy"] = working()
+            result["in_hand"] = in_hand()
             result["settled"] = not working() and quiet[0] >= 2
             result["waited"] = round(time.time() - clicked[0], 1)
             result["still"] = quiet[0]
@@ -736,7 +780,8 @@ def one(language):
         process.kill()
         process.communicate()
         out = "the window never came back within %d s" % CHILD_LIMIT
-    if '"filled": false' in out or '"settled": false' in out:
+    if '"filled": false' in out or '"settled": false' in out \
+            or '"in_hand": ["' in out:
         not_in.append(language)
     return language, out
 
@@ -809,6 +854,13 @@ for language, out in outputs:
               "captions unchanged for %s looks of 0.2 s (2 wanted)%s"
               % (report.get("waited"), "still busy" if report.get("busy")
                  else "done", report.get("still"), cut))
+        check("%s: no thread or timer was still at work when measured"
+              % language, report.get("in_hand") == [],
+              "measured %s s after 'Open project' with %s still running, "
+              "so a caption was measured that was about to change%s"
+              % (report.get("waited"), ", ".join(report.get("in_hand")
+                                                 or ["nothing reported"]),
+                 cut))
     if not report.get("settings"):
         print("  the settings window was not reached -- not measured.")
     # The zoom row. A button that walks away as it is pressed cannot be
