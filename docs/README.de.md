@@ -211,6 +211,9 @@ der das Wort erklärt, steht vorn.
 * **Zuordnung**: siehe gehört zu
 * **zurückgelesen**: `speech`, „Was aufgehoben wird und was neu
   gerechnet wird“
+* **Zwischenspeicher**: `speech`, „Was aufgehoben wird und was neu
+  gerechnet wird“; `multitrack`, „Mehrere Dateien gleichzeitig laufen
+  lassen“
 
 ## Weitere Informationen und technische Details
 

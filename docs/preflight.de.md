@@ -34,6 +34,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Bild | Bildraten der Kameras untereinander | die Timeline bekommt die höchste davon oder die nächste Rate, die Resolve darüber hat |
 | Bild | mehrteilige Kameras: Lücke zwischen den Blöcken | wo Bild fehlt |
 | Bild | Aufnahmekurve, Farbkennung und Bildgröße der Kameras untereinander | Hinweis, der nennt, welche Kamera was trägt |
+| Bild | zwei Kameras, die eine doppelt hinzugefügte Aufnahme sind | Hinweis |
 | Ton | Abtastrate, Bittiefe, Kanäle, Länge | wird auf 48 kHz gebracht, das steht dann da |
 | Ton | Spuren, die deutlich kürzer sind als die längste | Hinweis |
 | Ton | Abtastwerte am Anschlag, je Kanal | Hinweis, nur Ganzzahlformate |
@@ -93,6 +94,15 @@ Kennungen, steht jeder Wert in einer eigenen Zeile, mit den Kameras,
 die ihn haben. Hintereinander geschrieben liefen sie über das Ende der
 Spalte hinaus, und abgeschnitten war gerade der Kameraname, den man
 suchte.
+
+**Eine doppelt hinzugefügte Aufnahme wird genannt, nicht aufgehalten.**
+Haben zwei Kameradateien dieselbe Größe und dieselbe Laufzeit und
+stimmen sie auch an Anfang und Ende überein, steht unter **ALLGEMEINE
+HINWEISE** in der Zeile **Kameras**: **`<Name>, <Name>` haben dieselbe Größe und Laufzeit --
+womöglich eine Aufnahme doppelt.** Der Lauf geht trotzdem weiter; trifft
+der Hinweis zu, nimmt man die überzählige mit **Entfernen** aus der
+Liste. Gelesen werden dafür nur Anfang und Ende jeder Datei, nie die
+ganze.
 
 ### Was der Bericht zur variablen Bildrate sagt
 

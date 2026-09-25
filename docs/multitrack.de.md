@@ -64,7 +64,8 @@ Stimmen hängen danach als eingerückte eigene Zeilen unter dieser Zeile.
 Erst eine gegebene Antwort zeigt sie: eine Aufnahme, deren Trennung
 schon gespeichert ist und für die niemand geantwortet hat, behält ein
 leeres Feld und keine Stimmzeilen. Das Gemessene geht dabei nicht
-verloren -- die Stimmen bleiben im Projekt und im Ablageordner, und
+verloren -- die Stimmen bleiben im Projekt und dreißig Tage lang im
+Ablageordner, und
 wählt man später **mehrere Sprecher**, stehen sie sofort da, mit ihren
 Namen und Kameras und ohne neue Rechnung. Die letzte Spalte sagt, wie
 weit das gekommen ist, und bietet währenddessen **Abbrechen**
@@ -513,7 +514,13 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   einen eigenen Ordner --, sperren dagegen nichts: Das Fenster hält sie
   auseinander wie die Kommandozeile. Die zweite heißt `<Name> 2`, im
   Schnitt, im vorgeschlagenen Namen unter **neue Datei heißt** und in
-  Resolve, und jede behält ihr eigenes Bild.
+  Resolve, und jede behält ihr eigenes Bild. In den Listen des Fensters
+  -- in der Spalte **Kamera** und in der Auswahl unter **gehört zu** --
+  steht die zweite als `<Name> (2)`, und wer mit der Maus darauf stehen
+  bleibt, liest den ganzen Pfad. Ein Projekt aus einer älteren Fassung
+  kannte eine Kamera nur beim Dateinamen. Öffnet man es jetzt, gehen
+  alle Zeilen, die eine der beiden nannten, an die erste Datei dieses
+  Namens; was der zweiten gehörte, muss man ihr von Hand wieder geben.
 - **Mehrere Kameras, keine Tonaufnahme, und Start bleibt gesperrt.**
   Keine Kamera steuert ihren Ton bei. Bei jeder Kamera, die zu hören
   sein soll, **Kameraton** auf **Ton verwenden** stellen; dann ist jede

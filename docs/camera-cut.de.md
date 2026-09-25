@@ -736,7 +736,8 @@ und daraus baut der Resolve-Teil.
 
 **Beim Öffnen eines Projekts nimmt das Programm diese Übergabedatei
 wieder auf**, im Ausgabeordner und neben der Projektdatei — aber nur
-eine, die **genau diese Kameras** nennt. Eine aus einer anderen
+eine, die **genau diese Kameras** nennt, die von ihrem Lauf
+ausgelassenen mitgezählt. Eine aus einer anderen
 Produktion oder aus einer früheren Runde über weniger Kameras übergeht
 es, als läge sie nicht da: ein Schnitt daraus sieht genauso aus wie ein
 frischer und ist es nicht. Passt sie, steht die Vorschau vom ersten
