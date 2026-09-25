@@ -970,11 +970,12 @@ def project_type_explained():
 
 
 def strip_choice_build(QtWidgets, bar, value, caption, choices, tip):
-    """One drop-down on the production strip, before the bar's stretch.
+    """One drop-down on the production strip, with its caption beside it.
 
     Entry 0 is the empty answer, which the value holds as "": the
     spoken language and the project type both start there. The list
-    shows the translated names and the value keeps the tag.
+    shows the translated names and the value keeps the tag. The strip
+    is a wrap_row, so caption and list go onto a new line together.
     """
     box = QtWidgets.QComboBox()
     box.addItem(T('not set'), "")
@@ -990,10 +991,7 @@ def strip_choice_build(QtWidgets, bar, value, caption, choices, tip):
     value.listen(follow_up)
     follow_up()
     speaks_as(box, caption)
-    bar.insertSpacing(bar.count() - 1, 18)
-    bar.insertWidget(bar.count() - 1, label(caption, COLOURS["quiet"]))
-    bar.insertSpacing(bar.count() - 1, 6)
-    bar.insertWidget(bar.count() - 1, hint(box, tip))
+    bar.pair(label(caption, COLOURS["quiet"]), hint(box, tip), 6)
     return box
 
 
@@ -1405,6 +1403,8 @@ speaker_name_cell = PROGRAM.speaker_name_cell
 speaks_as = PROGRAM.speaks_as
 split_cell_build = PROGRAM.split_cell_build
 split_column_fit = PROGRAM.split_column_fit
+stack_when_narrow = PROGRAM.stack_when_narrow
+wrap_row = PROGRAM.wrap_row
 
 
 #--------------------------------------------------------- The file list
@@ -2740,19 +2740,17 @@ def gui():
     place_box = QtWidgets.QGroupBox(T('Production'))
     in_layout.addWidget(place_box)
     place_position = QtWidgets.QVBoxLayout(place_box)
-    name_bar = QtWidgets.QHBoxLayout()
-    place_position.addLayout(name_bar)
-    name_bar.addWidget(label(T('Production name')))
+    # One row that breaks where the room ends: see wrap_row.
+    name_bar = wrap_row(place_position)
     _name_field = field_bind(QtWidgets.QLineEdit(), production_var, 340)
     # Duplicate names are marked red in their row; a missing production
     # name is the same fault and gets the same mark.
     late["name_field"] = _name_field
     speaks_as(_name_field, T('Production name'))
-    name_bar.addWidget(hint(
+    name_bar.pair(label(T('Production name')), hint(
         _name_field, T('Title at auphonic.com and start of the new file names.')))
     _name_field.editingFinished.connect(lambda: refresh_names())
     production_var.listen(buttons_check)
-    name_bar.addStretch(1)
 
     folder_bar = QtWidgets.QHBoxLayout()
     place_position.addLayout(folder_bar)
@@ -2802,8 +2800,8 @@ def gui():
     loudness_field_build(place_position, lufs_value)
 
     # --- sheet 2 of the settings: the assignment on the left, the viewer
-    #     on the right. Configuring and seeing belong side by side.
-    two_columns = QtWidgets.QHBoxLayout()
+    #     on the right, or under it where the room ends (stack_when_narrow).
+    two_columns = stack_when_narrow(tab2, QtWidgets.QHBoxLayout())
     assign_position_outside.addLayout(two_columns, 1)
 
     assign = QtWidgets.QGroupBox(T('Assignment: which audio track belongs '
@@ -3487,6 +3485,8 @@ def gui():
     (resolve_box, resolve_left, resolve_right,
      resolve_check_run_kick_off) = make_resolve_check(
          QtWidgets, bridge, bridge_emit, resolve_position, settings_open)
+    # The row holding its two columns is the left one's parent layout.
+    stack_when_narrow(tab3, resolve_left.parent())
 
     def resolve_sheet_chosen(*_):
         """Resolve and the speakers, on the first look at this tab.
