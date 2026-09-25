@@ -6,8 +6,9 @@ description by hand, the way a camera writes them -- so the program's
 own reader has to find the moov box and that description first. Then in
 order: the source carries the atom and ffprobe still reads it, copying
 with -c:v copy drops it, copy_mov_atoms names what it put back and the
-atom is there again, the file stays readable and decodable, and a
-second run adds nothing and leaves the atom as it stood. Last the
+atom is there again, the file stays readable and decodable, a second
+run adds nothing and leaves the atom as it stood, and a copy ffprobe
+cannot open afterwards is taken back byte for byte. Last the
 others on the list -- the older gamma and both Dolby Vision boxes --
 and the one that is deliberately not on it: a 3D box beside the one
 ffmpeg writes itself leaves a file nothing will open.
@@ -187,6 +188,31 @@ if insert(raw):
           "returned %r" % (again,))
     check("and the atom stands unchanged", still == CONTENT,
           (still or b"nothing").decode("latin1", "replace"))
+
+    # --- a file ffprobe cannot open afterwards is taken back ----------
+    # The boxes of this copy add up, so only the ffprobe question can
+    # refuse it; the stand-in answers as ffprobe does on a broken file.
+    blind = os.path.join(folder, "blind.mov")
+    subprocess.run(["ffmpeg", "-v", "error", "-i", raw, "-map", "0",
+                    "-c:v", "copy", "-c:a", "pcm_s24le", "-y", blind],
+                   check=True)
+    with open(blind, "rb") as f:
+        before = f.read()
+    names = m.copy_mov_atoms.__globals__
+    real_probe = names["ffprobe_json"]
+    names["ffprobe_json"] = lambda file_path: {}
+    try:
+        refused = m.copy_mov_atoms(raw, blind)
+    finally:
+        names["ffprobe_json"] = real_probe
+    with open(blind, "rb") as f:
+        after = f.read()
+    check("a copy ffprobe cannot open afterwards names no atom",
+          refused == [], "returned %r" % (refused,))
+    check("and the file is back byte for byte", after == before,
+          "%d bytes against %d before, %s"
+          % (len(after), len(before),
+             "same" if after == before else "different"))
 
     # --- the others on the list, and the one that is not -------------
     # gama holds the curve of older QuickTime recordings, dvcC and dvvC

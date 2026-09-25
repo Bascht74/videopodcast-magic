@@ -253,7 +253,9 @@ def find_required_tools():
         os.environ["PATH"] = here + os.pathsep + os.environ.get("PATH", "")
         missing = [tool for tool in missing if shutil.which(tool) is None]
     if missing:
-        return "missing", T('%s is missing.') % ", ".join(missing)
+        return "missing", (T('ffmpeg and ffprobe are missing.')
+                           if len(missing) > 1
+                           else T('%s is missing.') % missing[0])
     old = tools_below_floor()
     if old:
         return "old", T('Here: %s. Needed: %s or newer.') % (
