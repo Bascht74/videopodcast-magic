@@ -25,6 +25,100 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b21] - 2026-09-25
+
+### Changed
+
+- **Two camera files with the same name no longer lock Start.** The
+  window names the second one "<name> 2", as the command line does, and
+  each keeps its own picture.
+- **Under "Sync only" no camera is made the wide shot because nobody
+  speaks on it.** Only a camera marked as the wide shot is one, in the
+  window and in the handover.
+- **A camera's own sound now always stands where its camera stands**,
+  however the camera was placed; it is no longer measured a second time.
+- **A camera Resolve would not insert now ends the build with errors**,
+  like a track refused twice: the log says it again at the end, the
+  window ends on "Finished with errors", and `--resolve` ends in an
+  error code.
+- **Before the Auphonic mix exists, the wide shot in the preview plays
+  the one recording that carries every voice**, not the camera's own
+  sound.
+
+### Fixed
+
+- **Opening a project no longer damages another project's file.** A
+  second project opened in the same window, or an unnamed production's
+  file beside the one opened, used to lose its file or its production.
+- **The line under the file list no longer says "nothing to fault"
+  while a file does not fit the others.** It now counts those files.
+- **"to In point" and "to Out point" now say when a timecode lies
+  outside every video file**, also with a timecoded camera in the
+  player, instead of jumping silently to an end.
+- **A recorder file at 44.1 kHz now starts at the timecode it carries.**
+  Its start used to be read about 8 % too early.
+- **Where no clock drift was measured, the log now says "clock drift not
+  measured"** instead of a line of noughts that read like a measurement.
+- **The title bar now follows a renamed production.**
+- **The file details now show their units and headings in the chosen
+  language** -- sizes, bit depth, sample rate, frame rate, mono and
+  stereo.
+
+### Tests
+
+- **The tests now stand in folders by program piece**, `tests/cut/`,
+  `tests/ui/` and so on; the four that need a running DaVinci Resolve
+  stand in `tests/resolve/live/`.
+
+**Deutsch**
+
+### Geändert
+
+- **Zwei Kameradateien mit gleichem Namen sperren „Start“ nicht mehr.**
+  Das Fenster nennt die zweite „<Name> 2“, wie die Kommandozeile, und
+  jede behält ihr eigenes Bild.
+- **Bei „Nur synchronisieren“ wird keine Kamera zum Weitwinkel, nur weil
+  niemand auf ihr spricht.** Weitwinkel ist nur, was als solcher markiert
+  ist, im Fenster wie in der Übergabe.
+- **Der eigene Ton einer Kamera steht jetzt immer dort, wo die Kamera
+  steht**, gleich wie sie eingeordnet wurde; er wird nicht mehr ein
+  zweites Mal gemessen.
+- **Eine Kamera, die Resolve nicht einfügt, beendet den Bau jetzt mit
+  Fehlern**, wie eine zweimal abgelehnte Spur: Das Protokoll wiederholt
+  es am Ende, das Fenster sagt „Mit Fehlern beendet“, `--resolve`
+  endet mit Fehlercode.
+- **Solange es den Auphonic-Mix noch nicht gibt, spielt der Weitwinkel
+  in der Vorschau die eine Aufnahme, die alle Stimmen trägt**, nicht den
+  Ton der Kamera.
+
+### Behoben
+
+- **Ein Projekt zu öffnen, beschädigt jetzt keine andere Projektdatei.**
+  Ein zweites Projekt im selben Fenster, oder die Datei einer
+  unbenannten Produktion neben dem geöffneten, verlor bisher seine Datei
+  oder seine Produktion.
+- **Die Zeile unter der Dateiliste sagt nicht mehr „nichts zu bemängeln“,
+  während eine Datei nicht zu den anderen passt.** Sie zählt diese
+  Dateien jetzt.
+- **„zu In-Punkt“ und „zu Out-Punkt“ sagen jetzt, wenn ein Timecode in
+  keiner Videodatei liegt**, auch mit einer Kamera mit Timecode im
+  Abspieler, statt still an ein Ende zu springen.
+- **Eine Rekorderdatei mit 44,1 kHz beginnt jetzt bei dem Timecode, den
+  sie trägt.** Ihr Anfang wurde etwa 8 % zu früh gelesen.
+- **Wo kein Uhrengang gemessen wurde, sagt das Protokoll jetzt „Uhrengang
+  nicht gemessen“** statt einer Zeile aus Nullen, die wie eine Messung
+  aussah.
+- **Die Titelleiste folgt jetzt einer umbenannten Produktion.**
+- **Die Dateiangaben zeigen ihre Einheiten und Überschriften jetzt in
+  der gewählten Sprache** -- Größe, Bittiefe, Abtastrate, Bildrate, Mono
+  und Stereo.
+
+### Tests
+
+- **Die Tests stehen jetzt in Ordnern je Programmteil**, `tests/cut/`,
+  `tests/ui/` und so weiter; die vier, die ein laufendes DaVinci Resolve
+  brauchen, in `tests/resolve/live/`.
+
 ## [3.0.0b20] - 2026-09-25
 
 ### Added
