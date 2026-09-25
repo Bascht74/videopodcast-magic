@@ -8,8 +8,16 @@ cut split at the change of speaker does too; and a shot too short to
 stand, taken into its neighbour, leaves the joined shot in the same
 order. The wanted names are written out, not read off name_order.
 """
+import os
 import sys
 import time
+# tests/, where the helpers and state/ lie; this file may stand in a
+# folder under it, or in one under that.
+HERE = os.path.dirname(os.path.abspath(__file__))
+while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
+        and os.path.dirname(HERE) != HERE:
+    HERE = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
 import the_program
 
 vpm = the_program.load()

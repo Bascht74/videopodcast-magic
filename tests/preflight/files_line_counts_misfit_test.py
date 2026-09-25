@@ -17,6 +17,13 @@ import sys
 import tempfile
 import threading
 import time
+# tests/, where the helpers and state/ lie; this file may stand in a
+# folder under it, or in one under that.
+HERE = os.path.dirname(os.path.abspath(__file__))
+while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
+        and os.path.dirname(HERE) != HERE:
+    HERE = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
 import the_program
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"

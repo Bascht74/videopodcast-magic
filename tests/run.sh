@@ -230,6 +230,18 @@ if [ $# -gt 0 ]; then
     echo "no test named $t in $HERE or a folder under it -- stopping." >&2
     exit 2
   done
+  # A folder given with the name is not asked, only the name is: say so
+  # where the test lies elsewhere, and run it by its name all the same.
+  for a in "$@"; do
+    case "$a" in */*) ;; *) continue ;; esac
+    t=$(printf '%s\n' "$a" | sed 's|.*/||; s/_test\.py$//')
+    given=${a%/*}; given=${given#./}; given=${given#"$HERE"}
+    given=${given#/}; given=${given#tests}; given=${given#/}
+    lies=$(cd "$HERE" && ls */"${t}_test.py" 2>/dev/null | grep -v '^resolve/live/' \
+           | sed 's|/[^/]*$||' | head -1)
+    [ "$given" = "$lies" ] && continue
+    echo "$t lies in ${lies:-tests}/, not in $given/ -- running it by its name." >&2
+  done
   TESTS=$asked; WHOLE=0
 fi
 

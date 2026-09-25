@@ -1,34 +1,37 @@
-#
-#
-#
-#
-#
+# The counter-proof register for the Resolve tests in resolve/live/. One
+# line per check: what made that one check go red, against a DaVinci
+# Resolve really running. Five fields, tab-separated, as in
+# tests/state/counterproof:
 #
 #   test   when   the check's wording   what was broken   the red line
-# Held apart on purpose -- but until 1.9.2026 they were simply unseen.
+#
 # It is here and not in tests/state/counterproof because these four are
-# The counter-proof register for the Resolve tests. One line per check:
-# The program was never edited for any of this: a copy went into scratch,
+# a suite of their own: nothing under resolve/live/ runs in a suite
+# here, and a row of theirs over there would name no test that register
+# knows. resolve/ itself is a piece like any other; its tests run in the
+# suite, and their rows stand over there.
+#
+# Held apart on purpose -- but until 1.9.2026 they were simply unseen.
+# git listed them as resolve/x_test.py, which is where they lay then, no
+# x_test.py lay in tests/, and the way back through the last commit
+# missed them too, so they fell out of source_checks_proved_test.py
+# without a word and these seventy-four checks were held by nothing at
+# all. Section 5 of that test now reads this file and holds the four
+# against it, and takes them out of the other set by name, so that
+# mending either of those two mistakes cannot tip them into the register
+# that is not theirs. The rows stay here.
+#
 # There are no `open` rows here, and there is no ratchet. The suite's
-# VPM_SCRIPT. Where the break is in resolve_ground.py or in the test
-# a row of theirs over there would name no test that register knows.
-# a suite of their own: nothing under resolve/ runs in a suite here, and
-# checks were held by nothing at all. Section 5 of that test now reads
-# git listed them as resolve/x_test.py, no x_test.py lay in tests/, and
-# itself, that is what the fourth field says.
-# may be written by anyone; a check here can only be written by somebody
-# of source_checks_proved_test.py without a word and these seventy-four
-# other set by name, so that mending either of those two mistakes cannot
-# owes a finished row, and one without a row is red.
 # register carries a census of what is still owed, because a check there
-# running. Five fields, tab-separated, as in tests/state/counterproof:
-# the one thing and keep the red line. So every check under resolve/
-# the one thing was broken there, and the test ran against the copy with
-# the way back through the last commit missed them too, so they fell out
-# this file and holds the four against it, and takes them out of the
-# tip them into the register that is not theirs. The rows stay here.
-# what made that one check go red, against a DaVinci Resolve really
+# may be written by anyone; a check here can only be written by somebody
 # with a Resolve running, and that is the same somebody who can break
+# the one thing and keep the red line. So every check under
+# resolve/live/ owes a finished row, and one without a row is red.
+#
+# The program was never edited for any of this: a copy went into scratch,
+# the one thing was broken there, and the test ran against the copy with
+# VPM_SCRIPT. Where the break is in resolve_ground.py or in the test
+# itself, that is what the fourth field says.
 project_clips_land_right	2026-08-31	%s alone on V%d, and it is its own file	build_camera_timeline makes no video tracks for the cameras	Guest alone on V2, and it is its own file                  FAIL V2 holds [], expected one 'PresentersCam_01011855_C002.mov'
 project_clips_land_right	2026-08-31	%s goes on whole, not as a piece	build_camera_timeline sends startFrame 0 and endFrame 25 with every camera	Wide goes on whole, not as a piece                         FAIL V1 is 25 frames long, the file is 3000
 project_clips_land_right	2026-08-31	%s starts at the frame its offset says	build_camera_timeline turns the sign of the camera offset round in recordFrame	Wide starts at the frame its offset says                   FAIL V1 starts at 90350, -4.0 s from the In point is frame 90150

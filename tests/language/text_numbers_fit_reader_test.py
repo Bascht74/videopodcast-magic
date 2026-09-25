@@ -396,13 +396,13 @@ real_probe = vpm.metadata.ffprobe_json
 try:
     vpm.metadata.ffprobe_json = lambda path: probe_answer(None, 8, None)
     said = dict(vpm.metadata.audio_summary("/tmp/no-such-recording.wav")
-                ).get("Format", "")
+                ).get(vpm.T('Format'), "")
 finally:
     vpm.metadata.ffprobe_json = real_probe
 check("a rate that cannot be read is marked, not divided",
-      "? kHz" in said and "? bit" in said and "0 kHz" not in said,
+      "? kHz" in said and "? Bit" in said and "0 kHz" not in said,
       "%r -- wanted %r and %r in it and %r not"
-      % (said, "? kHz", "? bit", "0 kHz"))
+      % (said, "? kHz", "? Bit", "0 kHz"))
 
 print("\n9. German: a machine reads it, so the digits stay plain")
 # The run stays German, which is the language whose thousands mark is a

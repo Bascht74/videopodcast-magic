@@ -133,7 +133,13 @@ on_disc = set(n for n in os.listdir(images) if n.endswith(".png"))
 used = set()
 missing = []
 for folder, _, names in os.walk(ROOT):
-    if os.sep + "." in folder or "notes" in folder:
+    # Only the part below ROOT is asked: a checkout that itself lies
+    # under a dot-folder would otherwise skip every folder, and every
+    # picture would count as unused. ROOT itself is "." to relpath, and
+    # a dot-folder to the line under it, so it stands as nothing.
+    below = os.path.relpath(folder, ROOT)
+    below = "" if below == os.curdir else os.sep + below
+    if os.sep + "." in below or "notes" in below:
         continue
     for name in names:
         if not name.endswith(".md"):
