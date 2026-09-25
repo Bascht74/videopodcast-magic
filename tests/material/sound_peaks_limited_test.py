@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """The limiter holds every peak at the ceiling and backs off where it must.
 
-Two recordings of a quiet tone, normalised to -16 LUFS and mixed the way
-a run does it. In the first, three short loud stretches stand four
+Four recordings of a quiet tone, normalised to -16 LUFS and mixed the
+way a run does it. In the first, three short loud stretches stand four
 decibels over the ceiling, under the most the limiter may take: it
 takes them, the gain stays whole, and the mix peaks at the ceiling. In
-the second, three clicks would need more than that bound: the gain
-comes down until the limiter takes the bound exactly, and the ceiling
-holds all the same. Ceiling and bound are read from the program. No peak stands in the first block of a file;
-whether one there is held is the owner's question, and not asked here.
+the second, three clicks would need more than that bound: the gain comes
+down until the limiter takes the bound, and the ceiling holds all the
+same. In the third a loud stretch opens the file; in the fourth three
+begin where the limiter takes up the next piece it reads.
 """
 import os
 import sys
@@ -21,7 +21,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import contextlib, io, re, subprocess, tempfile, time, wave
+import contextlib, inspect, io, re, subprocess, tempfile, time, wave
 import numpy as np
 
 began = time.time()
@@ -144,6 +144,36 @@ check("a limiter that would take more than its bound costs gain instead",
          "said" if TOO_MUCH in said else "not said"))
 check("and the ceiling still holds", top <= CEILING + 0.05,
       "mix peaks at %.2f dBFS against at most %.2f" % (top, CEILING + 0.05))
+
+print("\n3. A loud stretch the file opens with")
+# The first block of the limiter is 256 samples; the tone's first crest
+# stands at sample 40, well inside it.
+FIRST = TONE.copy()
+FIRST[:RATE // 5] = 0.3 * np.sin(2 * np.pi * 300 * t[:RATE // 5])
+gain, curve, said, top = level("first", FIRST)
+check("a peak in the first block is held at the ceiling too",
+      top <= CEILING + 0.05,
+      "mix peaks at %.2f dBFS against at most %.2f, the loud stretch "
+      "from 0 s, the limiter %s" % (top, CEILING + 0.05,
+                                    "said" if LIMITER in said else "silent"))
+
+print("\n4. Loud stretches where the limiter reads on")
+# A precondition of the material: the limiter reads the sum in pieces of
+# a mebibyte and keeps the last block of 256 back, so a mono piece ends
+# at 262144 frames less 256. If that moves, the seams below stand wrong.
+source = inspect.getsource(vpm.limiter_curve)
+assert "read(1 << 20)" in source and "BLOCK = 256" in source
+SEAMS = [262144 * k - 256 for k in (1, 2, 3)]
+SEAMED = TONE.copy()
+for a in SEAMS:
+    SEAMED[a:a + RATE // 5] = 0.3 * np.sin(2 * np.pi * 300 *
+                                          np.arange(RATE // 5) / RATE)
+gain, curve, said, top = level("seamed", SEAMED)
+check("a peak just after the limiter reads on is held at the ceiling too",
+      top <= CEILING + 0.05,
+      "mix peaks at %.2f dBFS against at most %.2f, loud stretches from "
+      "frames %s, the limiter %s" % (top, CEILING + 0.05, SEAMS,
+                                     "said" if LIMITER in said else "silent"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

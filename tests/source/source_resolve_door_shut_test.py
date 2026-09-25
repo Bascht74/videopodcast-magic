@@ -5,7 +5,8 @@ Four sections: the doors, read out of the program and out of the test
 that listed them already; that every file of the suite was read -- the
 repository, not the folder; every call at a door held against the place
 where connect_to_resolve was replaced; and the switches that make the
-program connect in a process of its own, which no replacement reaches.
+program connect in a process of its own, which no replacement reaches,
+save in the one child named here: nailed, with Resolve bolted out.
 
 tests/resolve/live/ and the file that starts it are excepted, each by
 name: those talk to a Resolve that is really running, on purpose, and
@@ -246,8 +247,14 @@ DOORS_HERE = ("check_resolve", "print_audio_track_mapping")
 # The switches that make the program connect in a process of its own.
 # --resolve-project only carries a name and reaches nothing by itself.
 # Against a second process no replacement helps, so these are not
-# allowed at all rather than allowed once something is nailed shut.
+# allowed at all -- save in the one child below, which is that process.
 CONNECTING = ("--resolve", "--resolve-json", "--resolve-audio-tracks")
+# It asks what main() answers when Resolve cannot be reached, and it may
+# hand main() a switch only with the door nailed above it and the bolt
+# in it: the scripting module named, checked out of reach, and the
+# interface pointed at a folder that is not there.
+SWITCH_CHILD = "pipeline/run_stop_names_why_test.py"
+BOLT = ("DaVinciResolveScript", "fusionscript", "RESOLVE_SCRIPT_API")
 
 # ------------------------------------------------------- the exceptions
 # The files that open the way on purpose, each named on its own -- not a
@@ -296,6 +303,8 @@ def scan(text, path, piece, offset, found, doors, nail, depth=0):
         return False
     key = (path, piece)
     found["pieces"].add(key)
+    if all(word in text for word in BOLT):
+        found["bolted"].add(key)
     top = outermost(tree)
     for node in ast.walk(tree):
         line = getattr(node, "lineno", 0) + offset
@@ -309,9 +318,12 @@ def scan(text, path, piece, offset, found, doors, nail, depth=0):
         if (isinstance(node, ast.Constant) and isinstance(node.value, str)
                 and node.value in CONNECTING):
             found["switch"].append((key, line, node.value))
+        # A switch quoted inside a string is a child's command line too.
         if (depth < 2 and isinstance(node, ast.Constant)
                 and isinstance(node.value, str) and len(node.value) > 20
-                and any(k + "(" in node.value for k in doors)):
+                and (any(k + "(" in node.value for k in doors)
+                     or any(q + s + q in node.value for s in CONNECTING
+                            for q in "'\""))):
             if not scan(node.value, path, "the script at line %d" % line,
                         line - 1, found, doors, nail, depth + 1):
                 found["unread"].append("%s, the script at line %d"
@@ -382,7 +394,7 @@ for door in sorted(set(DOORS_HERE) - set(DOORS_THERE)):
 # ------------------------------------------------------------------ 2.
 print("\n2. Every file of the suite was read, the set-aside ones too")
 found = {"call": [], "nail": {}, "switch": [], "pieces": set(),
-         "unread": list(lost)}
+         "bolted": set(), "unread": list(lost)}
 for path in sorted(files):
     text = files[path]
     if path.endswith(".sh"):
@@ -460,11 +472,21 @@ check("every switch named here is one the program still takes",
       not gone and bool(switches), "%d of %d not among the %d the program "
       "declares: %s" % (len(gone), len(CONNECTING), len(switches),
                         quiet(", ".join(gone)) or "none"))
+
+
+def let_through(key, line):
+    """Whether a switch stands in the one child, nailed and bolted above it."""
+    return (key[0] == SWITCH_CHILD and key[1] != "the file"
+            and key in found["bolted"]
+            and any(name == NAIL and top and at < line
+                    for name, at, top in found["nail"].get(key, ())))
+
+
 carried = []
 for key, line, switch in sorted(found["switch"], key=lambda s: s[0][0]):
     # This file has to write the switches down to look for them, and
     # cannot be judged by its own rule.
-    if key[0] in ALLOWED or key[0] == ME:
+    if key[0] in ALLOWED or key[0] == ME or let_through(key, line):
         continue
     carried.append("%s:%d %s" % (key[0], line, switch))
 check("no test hands the program a switch that makes it connect",
