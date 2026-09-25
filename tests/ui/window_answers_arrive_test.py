@@ -47,6 +47,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import the_program
+from let_go import clean_up
 
 SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
@@ -59,7 +60,6 @@ os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 
 import json
-import shutil
 import tempfile
 import time
 
@@ -1054,80 +1054,6 @@ QtCore.QTimer.singleShot(1200, start)
 # A window that never comes up must not hold the suite -- and must not
 # pass either: nothing has been checked then, and the count says so.
 QtCore.QTimer.singleShot(420000, app.quit)
-
-
-def let_go_of(what):
-    """Make every player let go of what it has open in there.
-
-    Under Windows a folder with an open file cannot be deleted, so
-    every player is asked, by what it has open and under both its
-    names: the material is linked to, and the link alone lands in the
-    shared fixture. A player that never started is not stopped -- what
-    lies behind stop() waits for a lock another player holds.
-    """
-    roots = [os.path.abspath(what), os.path.realpath(what)]
-    let_go = []
-
-    def belongs(where):
-        for held in (os.path.abspath(where), os.path.realpath(where)):
-            for root in roots:
-                if held == root or held.startswith(root + os.sep):
-                    return True
-        return False
-
-    for top in app.topLevelWidgets():
-        for x in top.findChildren(QtCore.QObject):
-            if not (hasattr(x, "setSource") and hasattr(x, "source")):
-                continue
-            where = x.source()
-            if not isinstance(where, QtCore.QUrl):
-                continue
-            where = where.toLocalFile()
-            if not where or not belongs(where):
-                continue
-            state = getattr(x, "playbackState", None)
-            state = state() if state is not None else None
-            if state is not None and state != type(state).StoppedState:
-                x.stop()
-            x.setSource(QtCore.QUrl())
-            let_go.append(os.path.basename(where))
-    app.processEvents()
-    return sorted(let_go)
-
-
-def clean_up(what):
-    """Close the window, then delete the folder, waiting for the grip.
-
-    Let go, close, delete, in that order, and no ignore_errors: it
-    would swallow the one thing that can go wrong here, a folder that
-    stays because something still holds it. Letting go returns before
-    the file is free, so what is waited for is the handle and not a
-    number of milliseconds. What stays is named and does not fail.
-    """
-    print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
-    for top in app.topLevelWidgets():
-        top.close()
-    app.processEvents()
-    clock = QtCore.QElapsedTimer()
-    clock.start()
-    while True:
-        left = []
-        try:
-            shutil.rmtree(what)
-        except OSError:
-            for here, _, files in os.walk(what):
-                left += [os.path.join(here, f) for f in files]
-            left = left or ([what] if os.path.exists(what) else [])
-        if not left or clock.elapsed() > 10000:
-            break
-        app.processEvents()
-        QtCore.QThread.msleep(50)
-    if left:
-        print("  the folder stayed: %d still held after %.1f s, first %s"
-              % (len(left), clock.elapsed() / 1000.0, left[0]))
-    else:
-        print("  the folder went away with the window, after %.1f s"
-              % (clock.elapsed() / 1000.0))
 
 
 sys.argv = ["videopodcast_magic.py"]
