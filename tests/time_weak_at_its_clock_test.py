@@ -131,10 +131,13 @@ check("a camera that fits the sound and not the other cameras stands at "
 #----------------------------------------------------- 3. No vote
 
 print("\n3. The failed measurement casts no vote on where the axis hangs")
-# One honest clock and the weak camera's: the middle of two is the
-# larger, and with the failed measurement voting the whole axis moved
-# a hundred seconds to where nothing was found.
-ONE = {ROOM: 61200.0, CAM_B: 61300.0}
+# Two clocks that disagree: the sound lays the clean camera at the
+# room's start, its clock a hundred seconds before the room's. The
+# middle of those two is the larger, the room's. The weak camera is
+# set against the clean camera's clock, so a vote of its own would be
+# that clock a second time, and the middle of three moved the whole
+# axis a hundred seconds to it.
+ONE = {ROOM: 61200.0, CAM_A: 61100.0, CAM_B: 61300.0}
 data, _text = vpm.measure_time_axis(FILES, tc_of=lambda p: ONE.get(p))
 print("   %s" % places(data))
 axis = (data or {}).get("axis") or {}

@@ -7,28 +7,25 @@ the same clock line as the rest -- "+0.00 ppm (+/- 0.00), residual
 spread 0.0 ms, 0 of 0 points" -- which reads like a measurement that
 came out at nothing and is in truth no measurement at all.
 
-One run over the shared fixture, without auphonic.com and without
-speech recognition, and the log is read afterwards: which camera the
-run called the reference, what its block says about the clock, and
-what another camera's block says.
+One run over material made here, without auphonic.com and without
+speech recognition: two cameras sharing one pattern of tone bursts, the
+second rolling later, and two recordings taken out of the first. The
+log is read afterwards: which camera the run called the reference,
+what its block says about the clock, and what the block of the camera
+the sound measured says.
 
-The limit of the method: the cameras of that folder share no signal,
-so nothing here is a claim about where the axis landed -- only about
-which lines stand in whose block.
+The limit of the method: nothing here is a claim about where the axis
+landed -- only about which lines stand in whose block.
 """
 import os
 import sys
 import time
-import glob
 import shutil
 import tempfile
 import subprocess
 import the_program
 
-HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-sys.path.insert(0, HERE)
-from fixture_root import fixture
 
 vpm = the_program.load()
 vpm.set_language("en")
@@ -46,15 +43,10 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
-def finish(skipped=""):
+def finish():
     """The one way out: the count, the verdict, the return code."""
-    if skipped:
-        print("SKIPPED: " + skipped)
     print("\n%d checks in %.2f s" % (done, time.time() - began))
-    if bad:
-        print("FAIL: " + " | ".join(bad))
-    elif not skipped:
-        print("ALL OK")
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
     sys.exit(1 if bad else 0)
 
 
@@ -62,14 +54,46 @@ def finish(skipped=""):
 # ever ends the test with a line saying the run never came back.
 LONGEST = 900
 
-MEDIA = fixture("interview")
-RECORDINGS = sorted(glob.glob(os.path.join(MEDIA, "*.wav")))[:2]
-CAMERAS = sorted(glob.glob(os.path.join(MEDIA, "*.mov")))[:2]
-if len(RECORDINGS) < 2 or len(CAMERAS) < 2:
-    finish("no fixture material -- 'cd tests && bash fixtures.sh' builds "
-           "the interview folder this reads (%s)" % MEDIA)
+HOME = tempfile.mkdtemp(prefix="vpm_reference_")
+LENGTH = 2 * vpm.AXIS_MIN_WINDOW_S
+# The tone in bursts of one uneven pattern, so the sound can measure one
+# camera against the other; the second hears it from this far in. No
+# timecode on either: a clock would place a camera the sound could not,
+# and a camera its clock placed was measured against nothing.
+BURSTS = [(0.6, 1.3), (1.9, 2.1), (2.9, 3.2), (3.7, 8.9), (9.6, 10.0),
+          (10.8, 11.9), (12.3, 12.45), (13.4, 14.3), (15.1, 15.35),
+          (16.2, 17.8), (18.5, 18.65), (19.3, 20.3), (21.0, 21.4),
+          (21.9, 22.2)]
 
-OUT = tempfile.mkdtemp(prefix="vpm_reference_")
+
+def make(argv, path):
+    """Material made with ffmpeg; a precondition, not a judgement."""
+    made = subprocess.run(["ffmpeg", "-v", "error"] + argv + [path, "-y"],
+                          stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                          timeout=LONGEST)
+    assert made.returncode == 0 and os.path.exists(path), made.stdout
+    return path
+
+
+def camera(name, late):
+    """A camera whose sound is the bursts, heard from *late* seconds on."""
+    gate = "+".join("between(t+%g,%g,%g)" % (late, x, y) for x, y in BURSTS)
+    return make(["-f", "lavfi", "-i",
+                 "testsrc=size=160x90:rate=25:duration=%g" % LENGTH,
+                 "-f", "lavfi", "-i",
+                 "aevalsrc='0.5*sin(2*PI*330*t)*(%s)':s=48000:d=%g"
+                 % (gate, LENGTH), "-c:v", "libx264", "-preset",
+                 "ultrafast", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                 "-shortest"], os.path.join(HOME, name))
+
+
+CAMERAS = [camera("GuestCam_C003.mov", 0.0),
+           camera("PresenterCam_C002.mov", 2.48)]
+RECORDINGS = [make(["-i", CAMERAS[0], "-vn", "-c:a", "pcm_s16le"],
+                   os.path.join(HOME, name))
+              for name in ("TASCAM_0001.wav", "ZOOM0001.wav")]
+
+OUT = os.path.join(HOME, "out")
 print("1. One run over two recordings and two cameras")
 try:
     answer = subprocess.run(
@@ -91,13 +115,21 @@ check("the run came back and printed a log", code == 0 and len(said) > 200,
 lines = said.splitlines()
 
 
+# A camera's block runs from its heading to the next heading: another
+# camera's, or the one the run prints once every camera is done. The
+# blocks come out in the order the threads finish, so without that end
+# whichever came last would run on to the end of the log, and what a
+# block holds would change from run to run.
+PROCESSING = vpm.T('\nPROCESSING: %s').strip()
+AFTER = vpm.T('\nSAVING TRACKS').strip()
+
+
 def block_of(name):
     """The lines of the log that belong to one camera's block."""
-    head = vpm.T('\nPROCESSING: %s').strip() % name
     out, inside = [], False
     for line in lines:
-        if line.strip().startswith(vpm.T('\nPROCESSING: %s').strip() % ""):
-            inside = line.strip() == head.strip()
+        if line.strip().startswith(PROCESSING % "") or line.strip() == AFTER:
+            inside = line.strip() == PROCESSING % name
             continue
         if inside:
             out.append(line)
@@ -117,7 +149,7 @@ check("the run names one of the cameras as the reference",
       reference in [os.path.basename(v) for v in CAMERAS] and len(others) == 1,
       "%r out of %r" % (reference, [os.path.basename(v) for v in CAMERAS]))
 if not reference or not others:
-    shutil.rmtree(OUT, ignore_errors=True)
+    shutil.rmtree(HOME, ignore_errors=True)
     finish()
 
 DRIFT = vpm.T('  Clock drift:     %+.2f ppm (+/- %.2f), residual spread '
@@ -129,17 +161,22 @@ mine = block_of(reference)
 measured = [l.strip() for l in mine if l.strip().startswith(DRIFT)
             and "ppm" in l]
 check("the reference camera reports no clock measurement",
-      not measured, "%d line(s) in its %d line block: %s"
-      % (len(measured), len(mine), (measured or [""])[0][:70]))
+      not measured, "%d line(s) in the block of %s: %s"
+      % (len(measured), reference, (measured or [""])[0][:70]))
 check("and its block says instead that there was nothing to measure",
       any(l.strip() == NOTHING for l in mine),
-      "%d line(s) in its block, none of them %r" % (len(mine), NOTHING[:50]))
+      "no line %r in the block of %s" % (NOTHING[:50], reference))
 
 theirs = block_of(others[0])
-check("a camera that was measured still reports its clock",
-      any(l.strip().startswith(DRIFT) and "ppm" in l for l in theirs),
-      "%d line(s) in the %d line block of %s"
-      % (len([l for l in theirs if "ppm" in l]), len(theirs), others[0]))
+# Where the run says it placed that camera from: the camera comparison,
+# or its timecode alone, which would mean nothing was measured.
+OFFSET = vpm.T('  Offset:          %s   (from the camera comparison)') \
+    .split("%s")[0].strip()
+placed = [l.strip() for l in theirs if l.strip().startswith(OFFSET)]
+drifts = [l for l in theirs if l.strip().startswith(DRIFT) and "ppm" in l]
+check("a camera that was measured still reports its clock", bool(drifts),
+      "%d line(s) in the block of %s, its offset line %r"
+      % (len(drifts), others[0], (placed or [""])[0]))
 
-shutil.rmtree(OUT, ignore_errors=True)
+shutil.rmtree(HOME, ignore_errors=True)
 finish()

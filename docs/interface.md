@@ -78,15 +78,16 @@ Four tabs, in the order they are needed.
   cut into tracks. Synchronising takes that sound either way; the field
   does not decide it.
 
-  Where there is nothing to decide the field sets itself and greys out.
-  Nothing stands beside it saying why, so these are the cases:
+  Where there is nothing to decide the field sets itself and greys out,
+  and in place of its value it says in grey why -- in the field itself,
+  where it is looked at, not in a tooltip or another column:
 
-  - the file has no audio track,
-  - the file stays out entirely,
-  - the file is an intro or an outro,
-  - one video file carries sound and no audio recording stands beside
-    it. That sound is the only one there is, and the field stands on
-    **use internal audio**. Adding a recording gives the choice back.
+  - **no audio track**: the file has none,
+  - **the file stays out**: it is set to **ignore this video**,
+  - **a finished clip**: it is an intro or an outro,
+  - **the only sound**: one video file carries sound and no audio
+    recording stands beside it. That sound is the only one there is, and
+    the field uses it. Adding a recording gives the choice back.
 
   The same field stands at the camera on **Assignment & time window**,
   on the same value: change one and the other follows at once.
@@ -95,11 +96,15 @@ Four tabs, in the order they are needed.
   **Wide shot**, **Intro**, **Outro** or **ignore this video**. Resting
   on the field says what the entries mean. The field itself is never
   greyed as a whole -- grey over the whole box would read as "nothing to
-  be done here", and there always is.
+  be done here", and there always is. A camera on **Wide shot** says
+  **no speaker** in grey behind the value, whether somebody marked it
+  so or the program worked it out: nobody speaks on that camera.
 
   What can be barred is an entry of the list, greyed and not pickable,
-  and the reason stands on that entry: rest on it and it says why. Two
-  entries can be barred at once, each with its own sentence.
+  and the reason stands on that entry. While the list is open it stands
+  behind the entry's name, cut short where it runs long; resting on the
+  entry gives it whole. Two entries can be barred at once, each with its
+  own sentence.
 
   - A camera nobody is assigned to shows **Wide shot** although nobody
     marked it. **Content** is the barred entry while that lasts, because
@@ -116,14 +121,19 @@ Four tabs, in the order they are needed.
 
     Two things have to hold together for those two bars, and neither of
     them alone. The sound of the file has to fit the rest badly **and**
-    no timecode may place it among the others, which takes a timecode on
-    the file and one on something else in the material; a clock read
-    once says nothing. A jingle is both at once: no timecode, and
-    nothing in its sound that the room also has, and it stands red in
-    the list. A camera whose microphone heard nothing of the room is
-    only the first, and its own timecode still sets it to the frame, so
-    it keeps the choice -- and the list writes that beside it instead of
-    colouring it red.
+    no timecode may place it among the others. For a camera the sound
+    cannot place, that takes a timecode on the camera and one on a
+    camera the sound did place, and its own is set against that one --
+    the longest camera where it carries a timecode, otherwise the next
+    placed camera that does. The clock of an audio recording places no
+    camera, and a clock read once says nothing. Without such a camera
+    the camera stays out, and the file list and the log both say why.
+    A jingle is both at once: no timecode, and nothing in its sound that
+    the room also has, and it stands red in the list. A camera whose
+    microphone heard nothing of the room is only the first, as long as
+    its timecode has such a camera to be set against: that still sets
+    it to the frame, so it keeps the choice -- and the list writes that
+    beside it instead of colouring it red.
 
   Leaving the file out is never barred, and intro and outro only while
   another file holds that mark -- the entry then says which one, and
@@ -211,6 +221,11 @@ Four tabs, in the order they are needed.
   called after it. A camera picked by hand is an answer and stays
   where it was put.
 
+  A recording or a voice set to **do not use** under **belongs to** is
+  out of the mix and the transcript, so a name for it does nothing. Its
+  name field greys and says **not used** in it, in grey; what was typed
+  there stays in the field and counts again with any other answer.
+
   With more than one audio recording nothing starts by itself; the
   answer in the row starts it. Under the recordings stands **Not on
   this machine**: it switches the separation off for the whole project.
@@ -253,8 +268,9 @@ Four tabs, in the order they are needed.
   camera file. What stays is the recording's row with its timecode, the
   camera table with **Camera**, **new file name**, **Kind** and
   **Camera audio**, the player, and the box for auphonic.com -- the one
-  recording can still be processed there. **new file name** counts here
-  as on every path: the run writes the camera file under it, and the
+  recording can still be processed there. **new file name** proposes the
+  camera's own file name here, never a name made of speakers, and it
+  counts as on every path: the run writes the camera file under it, and the
   camera's track in Resolve carries it ([Multitrack](multitrack.md),
   "Setting the assignment").
 
@@ -321,11 +337,18 @@ Four tabs, in the order they are needed.
   far too small for that.
 
   Preview and run also keep the same cameras. Both ask a file the one
-  question that decides it -- has it a place at all -- so a camera whose
-  sound was not recognised but whose clock sets it among the others
-  stands in the band as well as in the finished project. The band used
-  to drop a camera the run kept, and the legend under it then counted
-  one camera fewer than what came out of Resolve.
+  question that decides it -- has it a place at all. A camera whose
+  sound was not recognised stands where its timecode says, in the band
+  as well as in the finished project, as long as a camera the sound did
+  place carries a timecode too. What the sound made of it is a guess
+  that fell short, and the timecode is not; it used to land at that
+  guess instead. The band used to drop a camera the run kept, and the legend
+  under it then counted one camera fewer than what came out of Resolve.
+
+  A camera with no sound track at all is treated the same way and no
+  longer drops off the axis without a word: it is named, stands where
+  its timecode puts it, and where it has none it is proposed for
+  **ignore this video**.
 
   Nothing has to be pressed for the speakers. They are worked out of
   the tracks by themselves, as soon as this tab is opened -- once, and
@@ -390,6 +413,12 @@ Four tabs, in the order they are needed.
   installed -- the package manager's own output, or the download,
   minute by minute. Nobody starts the program from a terminal any more,
   so this is the terminal.
+
+  **Create Resolve project** follows the file list. Take a camera out
+  and the button greys as soon as the last run's handover no longer
+  names exactly the cameras standing there, and resting on it says that
+  the handover file from a run is missing. Put the camera back and the
+  button can be pressed again.
 
 **Multitrack (one track per speaker)** has a line of its own under the
 assignment table, above the Auphonic box. It works with auphonic.com and
@@ -526,7 +555,11 @@ the file's own clock only where nothing was measured.
   assigned to that camera; without it the camera's own sound is heard.
   The recording is laid against the picture by the measurement as well,
   so the two run together even where the two devices disagree about the
-  time of day. A recording written in several blocks plays through: the
+  time of day. Until the measurement is in, the clocks lay it, and the
+  line under the picture says so in place of the time: **sound placed
+  by clock -- measurement pending**. That line follows the tick the
+  moment it is clicked, paused as well as playing. A recording written
+  in several blocks plays through: the
   block holding this moment is the one that sounds, the change at the
   boundary happens by itself, and where that recording is not due under
   the picture on screen it stays silent rather than sounding its
@@ -653,11 +686,12 @@ speaks, each written the way that language writes it -- on purpose:
 whoever is looking for a language may not read the one the window is
 standing in.
 
-**Arabic turns the window round.** Menu bar, tabs, boxes, tables and
-this settings sheet all read from right to left, the way an Arabic
-reader expects. The log keeps its own direction: a line that begins
-with a path or a timecode stays as it was written, because a run's own
-words are not a sentence in any language.
+**Arabic, Persian, Hebrew and Urdu turn the window round.** Menu bar,
+tabs, boxes, tables and this settings sheet all read from right to left,
+the way a reader of those languages expects. The log keeps its own
+direction: a line that begins with a path or a timecode stays as it
+was written, because a run's own words are not a sentence in any
+language.
 
 The choice is written down the moment it is made, and the line above
 the field says what happens next. As long as the language picked is the
@@ -692,19 +726,25 @@ way.
 The window settles its language once, while it is being built, and
 every caption in it has its words by the time it stands there.
 
-**Every language on offer says everything.** The menu bar, the tabs
-and the buttons are translated in all twelve, and so is what the
-program says while it is working -- the lines that scroll past during a
-run and the step into Resolve. The program says about 1400 different
-things, and each of the twelve answers every one. What is not
-translated shows in English rather than as a gap, so a language that
-falls behind a new text reads rather than breaks.
+**Every language on offer says everything.** The window speaks 48
+languages, English among them. The menu bar, the tabs and the buttons
+are translated in every one, and so is what the program says while it
+is working -- the lines that scroll past during a run and the step into
+Resolve. The program says about 1500 different things, and each
+language answers every one. What is not translated shows in English
+rather than as a gap, so a language that falls behind a new text reads
+rather than breaks.
+
+Apart from English and German, the texts were written by a model, and
+nobody who speaks the language has read them yet. Each of those
+catalogues says so at its top: every entry in it is a first draft.
 
 A counted thing -- "1 file" against "3 files" -- is its own kind of
 entry, because the wording changes with the number and not every
 language changes it in the same places. Every language carries those
-too, with as many wordings as it has: one in Japanese and Chinese, two
-in most, three in Russian and Ukrainian, six in Arabic.
+too, with as many wordings as it has: one in Japanese, Chinese and
+Thai, two in most, three in Russian, Polish and Czech, four in Maltese
+and Slovenian, five in Irish, six in Arabic.
 
 **Light and dark are not set here, and nowhere else either.** There is
 no such entry, in this sheet or in any menu, because the window takes
@@ -955,19 +995,30 @@ the folder in front of it, and the reader lost the half that mattered.
 
 A file whose sound was not recognised but whose timecode puts it among
 the others says **sound not recognised; placed by its timecode**. It
-lies on the axis to the frame; what is missing is only the second
-opinion, and the measurement bars nothing for it.
+lies on the axis to the frame, at the place its timecode gives and not
+where the failed match of its sound would put it; what is missing is
+only the second opinion, and the measurement bars nothing for it. A
+camera with no sound track has nothing to be heard by and is judged
+the same way: its timecode places it, set against a camera the sound
+did place that carries one too, and without that it counts as a file
+with no place, below.
 
 A file with no place at all says **does not fit the other files: sound
-not recognised, no timecode.** and stands red, and under that the note
-says what became of it: **Set to Intro; Outro is one click away.**, or
-**Left out, Intro being taken already; Outro is one click away.** Its
-sound has nothing in common with the rest of the material and no
-timecode puts it among the others, so it cannot be cut into the episode:
-in the column **Kind**, **Content** and **Wide shot** are barred for it,
-it is set to **Intro** -- or to **ignore this video** where another file
-already holds the intro -- and the note beside the file says which of
-the two, so the row and the note say the same thing.
+not recognised, no timecode.** and stands red. Where it does carry a
+timecode, but no camera the sound placed carries one to set it against,
+it says **does not fit the other files: sound not recognised, nothing to
+set its timecode against.** instead -- the timecode is there, it only
+has nothing to be measured against. Under either the note says what
+became of the file: **Set to Intro; Outro is one click away.**, **Left
+out, Intro being taken already; Outro is one click away.**, or, for a
+file on **ignore this video** while the intro is still free -- proposed
+so, as below, or set so by hand -- **Left out; Intro or Outro is one
+click away.** Its sound has nothing in common with the rest of the
+material and no timecode puts it among the others, so it cannot be cut
+into the episode: in the column **Kind**, **Content** and **Wide shot**
+are barred for it, it is set to **Intro** -- or to **ignore this video**
+where another file already holds the intro -- and the note beside the
+file says which of the two, so the row and the note say the same thing.
 That is not a proposal but a statement about the material, and it holds
 however the **Kind** got there.
 
@@ -1007,8 +1058,12 @@ nothing are told apart.
 - **A file suddenly stands on "Intro" or on "ignore this video"**: the
   measurement found no place for it. Give it a timecode that fits the
   other recordings -- that has to be set with another program -- and
-  the entries come back. Until then **Intro**, **Outro** and **ignore
-  this video** are the answers on offer -- the first two only where no
+  the entries come back. Where the file has a timecode already and no
+  camera the sound placed carries one, the file list says so --
+  **nothing to set its timecode against** -- and the log too, and it is
+  one of those cameras that needs a timecode fitting this one. Until
+  then **Intro**, **Outro** and **ignore this video** are the answers
+  on offer -- the first two only where no
   other file holds that mark; **Content** and **Wide shot** are barred,
   and no hand overrules that.
 - **The update did not go through**: the version that works stays in

@@ -522,9 +522,6 @@ msgstr "Боја"
 msgid "  Preset:  %s"
 msgstr "  Пресет:   %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve одбија још видео трака -- камера које стају: %s од %s."
-
 msgid "Preset"
 msgstr "Пресет"
 
@@ -717,9 +714,6 @@ msgstr "    Увоз није успео за %s."
 msgid "    %s could not be inserted."
 msgstr "    Убацивање није успело за %s."
 
-msgid "    %s track %d could not be created."
-msgstr "    Трака %s бр. %d није могла бити направљена."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Трака %s није могла бити направљена: %s"
 
@@ -887,9 +881,6 @@ msgstr "  Видео трака (%s), назване по говорницима
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s се појављује двапут са различитим камерама -- користи се %s"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s не може да се класификује: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s не даје звук за мерење -- постављена само по свом сату, а није нађено ништа чиме би се то проверило"
@@ -2172,17 +2163,11 @@ msgstr "јер јој није додељен ниједан говорник"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "означена као широки кадар -- не прима говорнике"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "нема говорника -- ово је широки кадар"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "ниједан говорник јој није додељен, али монтажа користи %s"
 
 msgid "the cut uses %s"
 msgstr "монтажа користи %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "ово је широки кадар -- пребачено на \"без сопствене камере\": %s"
 
 msgid "Curve and colour space are missing from the file"
 msgstr "Крива и простор боја недостају у датотеци"
@@ -2301,12 +2286,6 @@ msgstr "Ако је празно: поред сваке видео датоте�
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Настало је током снимања и сада више не може да се промени. Што су микрофони мање раздвојени, то опрезније De-Bleed на auphonic.com може да ради. Следећи пут: три пута даље од суседног микрофона него од сопствених уста, тада суседни глас лежи око %s dB ниже."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Не уклапа се нигде у материјал: нема тајмкода, а њен звук нема ништа заједничко са остатком. Широки кадар је оно на шта се монтажа ослања, па мора да лежи на временској оси."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Не уклапа се нигде у материјал, па се не може умонтирати у епизоду. Може се поставити испред ње или иза ње."
-
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s се не поклапа ни са чим у материјалу, па не може да се умонтира у епизоду: постављено као интро."
 
@@ -2359,7 +2338,7 @@ msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Модул DaVinciResolveScript не може да се учита: %s"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Једна аудио трака по особи, држана одвојено све до auphonic.com.\nРади и без тога -- али онда без de-bleed-а и нивелатора.\nПотребне су две улазне траке: засебан снимак, канал\nвишеканалног снимача, или аудио видео датотеке постављен на „користи\nаудио“. Монтажа камера не захтева ову квачицу."
+msgstr "Једна аудио трака по особи, држана одвојено све до auphonic.com.\nРади и без тога -- али онда без de-bleed-а и нивелатора.\nПотребне су две улазне траке: засебан снимак, канал\nвишеканалног снимача, или аудио видео датотеке постављен на „користи\nинтерни аудио“. Монтажа камера не захтева ову квачицу."
 
 msgid "Multitrack (one track per speaker)"
 msgstr "Multitrack (једна трака по говорнику)"
@@ -3351,9 +3330,6 @@ msgstr "Само камере"
 msgid "Curve number %d"
 msgstr "Крива број %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Уклањање АУДИО или ВИДЕО уклања све из тога."
-
 msgid "End"
 msgstr "Крај"
 
@@ -3617,18 +3593,6 @@ msgstr "Само једна трака -- за другу поставите А�
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Само једна трака, а није остао ниједан аудио камере који би се узео."
-
-msgid "the only sound there is"
-msgstr "једини звук који постоји"
-
-msgid "no audio track in this file"
-msgstr "нема аудио траке у овој датотеци"
-
-msgid "this file stays out entirely"
-msgstr "ова датотека остаје потпуно изван"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "готов клип -- само постављен, не обрађен"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ако се користе, канали измерени под овом датотеком секу се на траке, као код снимка.\nМерење се врши у сваком случају: на тој оцени се заснива ова одлука, а синхронизација узима звук без обзира на то."
@@ -4511,3 +4475,378 @@ msgstr "Овде камере именује датотека доделе, па
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Кад постоје само камере, свака датотека добија име по тракама узетим из њеног звука, па би --new-name био одбачен; изоставите --new-name."
+
+msgid "no camera of its own"
+msgstr "без сопствене камере"
+
+msgid "do not use"
+msgstr "не користити"
+
+msgid "several speakers"
+msgstr "више говорника"
+
+msgid "work without Auphonic"
+msgstr "ради без Auphonic-а"
+
+msgid "Content"
+msgstr "Садржај"
+
+msgid "Intro"
+msgstr "Интро"
+
+msgid "Wide shot"
+msgstr "Широки кадар"
+
+msgid "Outro"
+msgstr "Аутро"
+
+msgid "ignore this video"
+msgstr "занемари овај видео"
+
+msgid "do not use internal audio"
+msgstr "без интерног аудија"
+
+msgid "use internal audio"
+msgstr "користи интерни аудио"
+
+msgid "After a question"
+msgstr "После питања"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "слика прелази на одговор пре него што он почне"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Само после питања које није поставио главни говорник, када неко други одмах преузме реч и задржи је.\n\"не преурањуј\" значи без раније промене камере: слика овде прати звук као и свуда другде."
+
+msgid "Long monologue"
+msgstr "Дуги монолог"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "једна особа говори дуже од \"Широки кадар после\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"Наизменично\" памти шта је приказао последњи прекид овог монолога. Слушалац добија слику само ако се неко на његовој камери чуо у последњих 20 секунди; иначе широки кадар."
+
+msgid "Several speak at once"
+msgstr "Више њих говори истовремено"
+
+msgid "and no camera shows exactly them"
+msgstr "и ниједна камера не приказује баш њих"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Рез у такву збрку делује грозничаво."
+
+msgid "Nobody speaks"
+msgstr "Нико не говори"
+
+msgid "no voice is heard at all here"
+msgstr "овде се уопште не чује ниједан глас"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Удах усред реченице и крај мисли обоје су тишина, и програм их не разликује. Разликује их само дужина: \"Кратка празнина до\" каже колико дуга тишина сме бити да се још рачуна као удах."
+
+msgid "Recognition uncertain"
+msgstr "Несигурно препознавање"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "препознавање говорника се расплиће или оставља гомилицу"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Погађање на неколико секунди приказује погрешну особу; широки кадар је у сваком случају исправан. Овде неко говори -- где нико не говори, одлучује \"Нико не говори\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "за толико касније од звука мења се слика"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Негативна вредност ставља слику испред звука."
+
+msgid "Answer on screen earlier"
+msgstr "Одговор раније на екрану"
+
+msgid "before the question ends"
+msgstr "пре краја питања"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Нула је тамо где онај ко пита престаје, а не тамо где одговор почиње: пауза између њих припада питању. Важи само тамо где то тражи \"После питања\", а Edit Change Delay се не додаје поново."
+
+msgid "Wide shot after"
+msgstr "Широки кадар после"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "одавде се тражи добар тренутак за њега"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Мека граница пара: одавде програм чека границу реченице и тамо поставља широки кадар, а не по сату. 0 то искључује. \"Широки кадар најкасније\" је тврда граница, где се сече и без границе реченице."
+
+msgid "Wide shot at the latest"
+msgstr "Широки кадар најкасније"
+
+msgid "and here it is cut, good moment or not"
+msgstr "и овде се сече, добар тренутак или не"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Тврда граница пара: ако се од \"Широки кадар после\" није појавила ниједна граница реченице, њено место заузима најдужа пауза у говору, и у овој тачки се сече, без обзира на то шта се управо говори."
+
+msgid "Wide shot at least"
+msgstr "Широки кадар најмање"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "толико најмање траје уметнути широки кадар"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Затим траје до краја реченице. Испод пет секунди поглед делује као трзај."
+
+msgid "Wide shot at most"
+msgstr "Широки кадар највише"
+
+msgid "and at most this long"
+msgstr "и највише оволико"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Ако крај реченице лежи иза те границе, кадар се завршава на последњој граници дела реченице пре ње -- не сече се усред реченице."
+
+msgid "Minimum Edit Duration"
+msgstr "Најкраће трајање кадра"
+
+msgid "shorter shots are merged in"
+msgstr "краћи кадрови се спајају"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Краћи кадрови се спајају са следећим."
+
+msgid "Speaks at least"
+msgstr "Говори најмање"
+
+msgid "below this the camera does not follow"
+msgstr "испод тога камера не прати"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Кратко \"да\" не помера слику. Без овога блок од пола секунде повлачи камеру к себи, а најкраће трајање кадра је затим тамо држи неколико секунди."
+
+msgid "Short gap up to"
+msgstr "Кратка празнина до"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "толико дуго тишина оставља слику на миру"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Само тамо где је \"Нико не говори\" подешено на задржавање кратке празнине. Празнина до ове дужине ништа не мења, дужа прелази на широки кадар. Изнад две секунде слика почиње да стоји на некоме ко ћути дуже од пет секунди."
+
+msgid "Listener"
+msgstr "Слушалац"
+
+msgid "Alternating"
+msgstr "Наизменично"
+
+msgid "No camera change"
+msgstr "Без промене камере"
+
+msgid "Hold a short gap"
+msgstr "Задржи кратку празнину"
+
+msgid "do not go early"
+msgstr "не преурањуј"
+
+msgid "Answering speaker"
+msgstr "Онај ко одговара"
+
+msgid "English"
+msgstr "Енглески"
+
+msgid "Podcast directories, stereo"
+msgstr "Подкаст каталози, стерео"
+
+msgid "Podcast directories, mono"
+msgstr "Подкаст каталози, моно"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- само утишава, никад не појачава"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, емитовање"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 константна"
+
+msgid "reserved"
+msgstr "резервисано"
+
+msgid "unspecified"
+msgstr "није наведено"
+
+msgid "unknown"
+msgstr "непознато"
+
+msgid "French"
+msgstr "Француски"
+
+msgid "German"
+msgstr "Немачки"
+
+msgid "Dutch"
+msgstr "Холандски"
+
+msgid "Italian"
+msgstr "Италијански"
+
+msgid "Spanish"
+msgstr "Шпански"
+
+msgid "Polish"
+msgstr "Пољски"
+
+msgid "Portuguese"
+msgstr "Португалски"
+
+msgid "Russian"
+msgstr "Руски"
+
+msgid "Danish"
+msgstr "Дански"
+
+msgid "Norwegian"
+msgstr "Норвешки"
+
+msgid "Swedish"
+msgstr "Шведски"
+
+msgid "Czech"
+msgstr "Чешки"
+
+msgid "Finnish"
+msgstr "Фински"
+
+msgid "Turkish"
+msgstr "Турски"
+
+msgid "Greek"
+msgstr "Грчки"
+
+msgid "Hungarian"
+msgstr "Мађарски"
+
+msgid "Romanian"
+msgstr "Румунски"
+
+msgid "Arabic"
+msgstr "Арапски"
+
+msgid "Catalan"
+msgstr "Каталонски"
+
+msgid "Ukrainian"
+msgstr "Украјински"
+
+msgid "Chinese"
+msgstr "Кинески"
+
+msgid "Hebrew"
+msgstr "Хебрејски"
+
+msgid "Japanese"
+msgstr "Јапански"
+
+msgid "Korean"
+msgstr "Корејски"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  За претварање: у media pool-у десни клик на \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Само у једном смеру -- али ново покретање у сваком тренутку поново прави Timeline.\n  Углови:%s\n  Све остало -- избор звука, групе боја, кадрирање -- налази се у\n  приручнику, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Могући разлози:\n  1. Resolve не ради -- интерфејс одговара само док програм ради.\n  2. Preferences > System > General: спољно скриптовање је постављено на \"None\" уместо \"Local\".\n  3. Бесплатно издање: спољно скриптовање је наводно од верзије 19.1 резервисано за издање Studio. Званична изјава о томе ми није позната -- ова провера то мери уместо да то тврди."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s не може да се класификује: %s -- постављена само по свом сату"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: поклапање њеног звука је %s, испод прага од %s -- постављена само по свом сату"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Пажња: овај пројекат није потпун -- Resolve је двапут одбио ове траке:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Померај:           %s   (само из тајмкода -- њен звук није могао да је смести, па се ништа не проверава)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve је двапут одбио аудио траку A%d у Timeline-у „%s“ -- камере се постављају на постојеће аудио траке (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve је двапут одбио видео траку V%d -- у Timeline-у „%s“ недостаје: %s."
+
+msgid "  Status:      %s"
+msgstr "  Статус:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Поклапање звука за %s је преслабо да би му се веровало -- смештено само по тајмкоду."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   не уклапа се уз остале датотеке: звук није препознат,\n   нема ничега према чему би се одмерио његов тајмкод.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s се не може сместити: његов звук нема ништа заједничко са остатком материјала, а ниједна камера коју је звук сместио не носи тајмкод према коме би се одмерио тајмкод ове датотеке. Једној од њих потребан је тајмкод који се уклапа уз овај, а то се мора подесити другим програмом."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s се не поклапа ни са чим у материјалу, а ниједна камера коју је звук сместио не носи тајмкод према коме би се одмерио тајмкод ове датотеке, па не може да се умонтира у епизоду: постављено као интро."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s се не поклапа ни са чим у материјалу, а ниједна камера коју је звук сместио не носи тајмкод према коме би се одмерио тајмкод ове датотеке; интро је већ заузет: изостављено."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Тачка In"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Изостављено; %s или %s је на један клик."
+
+msgid "Out point"
+msgstr "Тачка Out"
+
+msgid "Presets:"
+msgstr "Пресети:"
+
+msgid "Registry"
+msgstr "регистар"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Уклањање АУДИО или ВИДЕО уклања и све испод."
+
+msgid "VIDEO"
+msgstr "ВИДЕО"
+
+msgid "a finished clip"
+msgstr "готов клип"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "не може да се умонтира у епизоду -- само пре или после ње"
+
+msgid "moved off the wide shot"
+msgstr "премештено са широког кадра"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ни звук ни тајмкод не стављају је на осу"
+
+msgid "no audio track"
+msgstr "нема аудио траке"
+
+msgid "no speaker"
+msgstr "без говорника"
+
+msgid "not used"
+msgstr "некоришћен"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "смештено са својом камером, по сату те камере"
+
+msgid "the file stays out"
+msgstr "датотека остаје изван"
+
+msgid "the only sound"
+msgstr "једини звук"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve је двапут одбио аудио траку A%d -- у Timeline-у „%s“ недостаје звук за %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve је двапут одбио видео траку V%d -- у Timeline-у „%s“ недостаје слика за %s."

@@ -1566,9 +1566,6 @@ msgstr "没有哪台摄像机不带说话人，所以没有全景：全景的四
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "还没有转录文本。没有它就找不到提问，也不知道句子边界，因此这四项设置不起作用。一次运行会写出它，此后这些设置即生效。"
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "它在素材中找不到位置：没有时间码，声音也与其余部分毫无共同之处。剪辑会回落到全景，因此全景必须位于时间轴上。"
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  提问：没有转录文本，因此未找到提问，也没有进行反应镜头切换。\n        转录文字是在运行中从完成的混音里\n        写出的；没有它们，此设置不起作用。"
 
@@ -1589,9 +1586,6 @@ msgstr "为什么提问设置是灰色的"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "已标记为全景——不分配说话人"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "无说话人——这是全景"
 
 msgid "the mix of all tracks"
 msgstr "所有音轨的混音"
@@ -1706,9 +1700,6 @@ msgstr "尚无已知说话人 -- 未测量、未分离，且 %s 及其子文件�
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "时间窗超出素材范围：入点在 %s，出点在 %s，素材时长为 %s。"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "这是全景 -- %s 已改为“没有自己的摄像机”"
 
 msgid "No audio tracks are assigned."
 msgstr "未分配音轨。"
@@ -2116,9 +2107,6 @@ msgstr "  注意：动态范围     仅 %s LU -- 非常窄。语音通常为 3 �
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "两个声道完全相同 -- 单声道放在了两侧"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  无法归类 %s：%s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "可能是两支麦克风 -- 相距约 %s 米%s"
@@ -3608,9 +3596,6 @@ msgstr "  Timeline %r 已存在 -- 新的名为 %r。"
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  Timeline 起点 %s 被拒绝：%s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve 不再接受更多视频轨道 -- 只容得下 %s / %s 台摄像机。"
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool 中没有文件"
 
@@ -3673,9 +3658,6 @@ msgstr "      GetAudioMapping   失败：%s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  无法创建颜色组 %r：%s"
-
-msgid "    %s track %d could not be created."
-msgstr "    无法创建类型为 %s 的轨道 %d。"
 
 msgid "ends"
 msgstr "结束"
@@ -4181,18 +4163,6 @@ msgstr "重新启动失败。请关闭窗口，并按之前的方式启动程序
 msgid "No newer version found. This one is %s."
 msgstr "没有找到更新的版本。当前是 %s。"
 
-msgid "no audio track in this file"
-msgstr "此文件中没有音轨"
-
-msgid "this file stays out entirely"
-msgstr "此文件完全不使用"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "成品片段——只放置，不处理"
-
-msgid "the only sound there is"
-msgstr "唯一的声音"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "Multitrack 需要上方表格中有两条音轨——摄像机的摄像机声音设为“使用其音频”后，就算作一条。"
 
@@ -4204,9 +4174,6 @@ msgstr "两台摄像机在剪辑中成了一台：%s。它们的文件同名，�
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "两台摄像机会生成同一个文件：%s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "它在素材中找不到位置，因此无法剪进这一期中。可以放在这一期之前或之后。"
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "使用时，此文件的声音会成为与其他一样的一条音轨——它出现在上方表格中。\n文件列表中也有同一个栏位；两者显示同一个答案。"
@@ -4234,9 +4201,6 @@ msgstr "一般说明"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "顺序无关紧要。多段录音只需第一个片段。"
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "拖放到 AUDIO 或 VIDEO 上会全部采用。"
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "auphonic.com 上的标题，也是新文件名的开头。"
@@ -4649,3 +4613,156 @@ msgstr "这里由分配文件为摄像机命名，因此 --new-name 会被丢弃
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "只有摄像机时，每个文件以从其声音中取出的音轨命名，因此 --new-name 会被丢弃；请去掉 --new-name。"
+
+msgid "work without Auphonic"
+msgstr "不使用 Auphonic"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "仅适用于并非主讲人提出的问题之后，且另一人立即接过话头并持续发言的情况。\n“不提前切换”表示不提前切换镜头：画面在这里和其他地方一样跟随声音。"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "“交替”会记住这段独白上一次被打断时显示的画面。倾听者只有在其摄像机上的人最近 20 秒内被听到过时才会获得画面；否则用全景。"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "在一片混乱中切镜头会显得慌乱。"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "句中的换气和一个想法的结束都是静默，程序无法区分它们。只有长度能区分：“短停顿最长”规定静默最长多久仍算作换气。"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "靠猜测会让错误的人在画面上停留好几秒；全景在任何情况下都不会错。这里有人在说话——无人说话之处由“无人说话”决定。"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "负值会让画面先于声音切换。"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "零点是提问者停下的地方，而不是回答开始的地方：两者之间的停顿属于提问。仅在“提问之后”要求时生效，且不会再叠加 Edit Change Delay。"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "这一对设置中的软上限：从此处起，程序等待句子边界并把全景放在那里，而不是按时钟放。0 表示关闭。“全景最迟”是硬上限，到那里即使没有句子边界也会切。"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "这一对设置中的硬上限：如果自“全景在”以来没有出现句子边界，就以最长的说话停顿代替，而到了这个时间点，无论正在说什么都会切。"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "之后它会持续到句子结束。短于五秒时，这一瞥看起来像是抽搐。"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "如果句子结尾超出此值，镜头就在此前最后一个分句边界处结束——不会在句中被切断。"
+
+msgid "Shorter shots fall into the following one."
+msgstr "更短的镜头会并入下一个镜头。"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "一声简短的“是”不会让画面切换。没有这项设置，半秒钟的一段话就会把镜头拉过去，而最短镜头时长会让它在那里停留好几秒。"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "仅当“无人说话”设为保持短暂停顿时生效。不超过此长度的停顿不改变任何东西，更长的则切到全景。此值超过两秒时，画面会开始在一个沉默的人身上停留五秒以上。"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 恒定亮度"
+
+msgid "reserved"
+msgstr "保留"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  转换方法：在 Media Pool 中右键点击 \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\"。\n  此操作不可逆 -- 但新的一次运行随时可以重建 Timeline。\n  机位：%s\n  其余一切 -- 音频选择、颜色组、取景 -- 都在\n  手册 docs/resolve.md 中。\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "可能的原因：\n  1. Resolve 没有运行 -- 脚本接口只在程序运行时才会响应。\n  2. Preferences > System > General：external scripting 被设为“None”而不是“Local”。\n  3. 免费版：据报道，自 19.1 版起 external scripting 仅限 Studio 版使用。我没有找到官方说明 -- 这项检查会实际测量，而不是直接断言。"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s 无法归类：%s -- 仅按其时钟放置"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s：其声音匹配度为 %s，低于下限 %s -- 仅按其时钟放置"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  注意：此项目不完整 -- Resolve 两次拒绝了以下轨道："
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  偏移：         %s   （仅来自其时间码 -- 其声音无法定位它，因此未做任何核对）"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve 两次拒绝了音轨 A%d（Timeline \"%s\"）-- 摄像机被放在现有的 %s 条音轨上。"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve 两次拒绝了视频轨道 V%d -- Timeline \"%s\" 缺少：%s。"
+
+msgid "  Status:      %s"
+msgstr "  状态：      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  %s 的声音匹配太弱，不可信 -- 仅按时间码放置。"
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   与其他文件不匹配：未识别出声音，\n   也没有可与其时间码对照的依据。\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "无法放置 %s：其声音与其余素材毫无共同之处，而由声音放置的摄像机中没有一台带有可供对照的时间码。其中一台需要一个与此文件相符的时间码，而这必须用其他程序设置。"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s 与素材中的任何部分都不匹配，且由声音放置的摄像机中没有一台带有可供对照的时间码，因此无法剪进本集：已设为片头。"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s 与素材中的任何部分都不匹配，且由声音放置的摄像机中没有一台带有可供对照的时间码；片头已被占用：已排除。"
+
+msgid "API Key:"
+msgstr "API Key："
+
+msgid "In point"
+msgstr "入点"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "已排除；%s 或 %s 只需点击一下。"
+
+msgid "Out point"
+msgstr "出点"
+
+msgid "Presets:"
+msgstr "预设："
+
+msgid "Registry"
+msgstr "注册表"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "移除“音频”或“视频”会一并移除其下的所有内容。"
+
+msgid "VIDEO"
+msgstr "视频"
+
+msgid "a finished clip"
+msgstr "成品片段"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "无法剪进本集 -- 只能放在前后"
+
+msgid "moved off the wide shot"
+msgstr "已移出全景"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "声音和时间码都无法将其放上时间轴"
+
+msgid "no audio track"
+msgstr "无音轨"
+
+msgid "no speaker"
+msgstr "无说话人"
+
+msgid "not used"
+msgstr "未使用"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "随其摄像机放置，按该摄像机的时钟"
+
+msgid "the file stays out"
+msgstr "文件不使用"
+
+msgid "the only sound"
+msgstr "唯一的声音"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve 两次拒绝了音轨 A%d -- Timeline \"%s\" 缺少 %s 的声音。"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve 两次拒绝了视频轨道 V%d -- Timeline \"%s\" 缺少 %s 的画面。"

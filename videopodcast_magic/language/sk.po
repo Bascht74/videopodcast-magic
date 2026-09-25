@@ -521,9 +521,6 @@ msgstr "Farba"
 msgid "  Preset:  %s"
 msgstr "  Predvoľba: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve odmieta ďalšie videostopy -- zmestí sa %s z %s kamier."
-
 msgid "Preset"
 msgstr "Predvoľba"
 
@@ -716,9 +713,6 @@ msgstr "    %s sa nepodarilo importovať."
 msgid "    %s could not be inserted."
 msgstr "    %s sa nepodarilo vložiť."
 
-msgid "    %s track %d could not be created."
-msgstr "    %s stopu %d sa nepodarilo vytvoriť."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s stopu sa nepodarilo vytvoriť: %s"
 
@@ -886,9 +880,6 @@ msgstr "  Videostopy: %s, pomenované podľa rečníkov:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s sa vyskytuje dvakrát s rôznymi kamerami -- použije sa %s"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s sa nedá zaradiť: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s nedáva žiadny merateľný zvuk -- zaradené len podľa jeho hodín a nenašlo sa nič, voči čomu to overiť"
@@ -2171,17 +2162,11 @@ msgstr "pretože jej nie je priradený žiadny rečník"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "označená ako široký záber -- neberie žiadnych rečníkov"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "žiadny rečník -- to je široký záber"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "nie je jej priradený žiadny rečník, ale strih používa %s"
 
 msgid "the cut uses %s"
 msgstr "strih používa %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "to je široký záber -- %s: presunuté na \"bez vlastnej kamery\""
 
 msgid "Curve and colour space are missing from the file"
 msgstr "V súbore chýba krivka aj farebný priestor"
@@ -2299,12 +2284,6 @@ msgstr "Ak je prázdne: vedľa každého videosúboru."
 
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Vzniklo pri nahrávaní a teraz sa to už nedá zmeniť. Čím menej sú mikrofóny oddelené, tým opatrnejšie môže De-Bleed na auphonic.com pracovať. Nabudúce: trikrát ďalej od susedného mikrofónu než od vlastných úst, potom sedí susedný hlas asi o %s dB nižšie."
-
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Nikam do materiálu nezapadá: žiadny časový kód a jej zvuk nemá so zvyškom nič spoločné. Na široký záber sa strih spolieha ako na zálohu, takže musí ležať na časovej osi."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Nikam do materiálu nezapadá, a tak ho nemožno do epizódy vstrihnúť. Možno ho umiestniť pred ňu alebo za ňu."
 
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s sa k ničomu v materiáli nehodí, a preto sa nedá vstrihnúť do epizódy: nastavené na Intro."
@@ -3350,9 +3329,6 @@ msgstr "Len kamery"
 msgid "Curve number %d"
 msgstr "Krivka číslo %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Pretiahnutím na ZVUK alebo VIDEO sa vezme všetko."
-
 msgid "End"
 msgstr "Koniec"
 
@@ -3616,18 +3592,6 @@ msgstr "Len jedna stopa -- pre druhú nastavte Zvuk kamery niektorej kamery na \
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Len jedna stopa, a žiadny zvuk kamery, ktorý by sa dal vziať, už nezostáva."
-
-msgid "the only sound there is"
-msgstr "jediný zvuk, ktorý je k dispozícii"
-
-msgid "no audio track in this file"
-msgstr "v tomto súbore nie je žiadna zvuková stopa"
-
-msgid "this file stays out entirely"
-msgstr "tento súbor zostáva úplne bokom"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "hotový klip -- len umiestnený, nespracovaný"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ak je použitý, rozdelia sa kanály zmerané pod týmto súborom na stopy, rovnako ako pri nahrávke.\nMeria sa tak či tak: na tomto výroku stojí rozhodnutie a synchronizácia si zvuk berie v každom prípade."
@@ -4510,3 +4474,378 @@ msgstr "Kamery tu pomenúva súbor priradenia, takže by --new-name bolo zahoden
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Len s kamerami sa každý súbor volá podľa stôp získaných z jeho zvuku, takže by --new-name bolo zahodené; --new-name vynechajte."
+
+msgid "no camera of its own"
+msgstr "bez vlastnej kamery"
+
+msgid "do not use"
+msgstr "nepoužiť"
+
+msgid "several speakers"
+msgstr "viac rečníkov"
+
+msgid "work without Auphonic"
+msgstr "pracovať bez Auphonic"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Široký záber"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "ignorovať toto video"
+
+msgid "do not use internal audio"
+msgstr "nepoužiť interný zvuk"
+
+msgid "use internal audio"
+msgstr "použiť interný zvuk"
+
+msgid "After a question"
+msgstr "Po otázke"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "obraz prejde na odpoveď skôr, než sa začne"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Len po otázke, ktorú nepoložil hlavný rečník, keď hneď prevezme slovo niekto iný a udrží si ho.\n\"nepredbiehať\" znamená žiadnu predčasnú zmenu kamery: obraz tu sleduje zvuk rovnako ako všade inde."
+
+msgid "Long monologue"
+msgstr "Dlhý monológ"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "jeden človek hovorí dlhšie ako \"Široký záber po\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"Striedavo\" si pamätá, čo ukázalo posledné prerušenie tohto monológu. Poslucháč dostane obraz, len keď bolo niekoho na jeho kamere počuť počas posledných 20 sekúnd; inak široký záber."
+
+msgid "Several speak at once"
+msgstr "Viacerí hovoria naraz"
+
+msgid "and no camera shows exactly them"
+msgstr "a žiadna kamera neukazuje presne ich"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Strih do takého zmätku pôsobí hekticky."
+
+msgid "Nobody speaks"
+msgstr "Nikto nehovorí"
+
+msgid "no voice is heard at all here"
+msgstr "tu nie je počuť vôbec žiadny hlas"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Nádych uprostred vety aj koniec myšlienky sú oboje ticho a program ich nerozlíši. Rozlíši ich len dĺžka: \"Krátka medzera do\" hovorí, aké dlhé smie byť ticho, aby ešte platilo za nádych."
+
+msgid "Recognition uncertain"
+msgstr "Neisté rozpoznanie"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "rozpoznávanie rečníkov sa strapká alebo zanechá hromadu zvyškov"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Hádanie ukáže na niekoľko sekúnd nesprávneho človeka; široký záber je správny v každom prípade. Tu niekto hovorí -- kde nehovorí nikto, rozhoduje \"Nikto nehovorí\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "o toľko neskôr ako zvuk sa mení obraz"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Záporná hodnota posunie obraz pred zvuk."
+
+msgid "Answer on screen earlier"
+msgstr "Odpoveď skôr v obraze"
+
+msgid "before the question ends"
+msgstr "pred koncom otázky"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Nula je tam, kde ten, kto sa pýta, prestane, nie tam, kde začne odpoveď: pauza medzi nimi patrí k otázke. Platí len tam, kde to \"Po otázke\" vyžaduje, a Edit Change Delay sa znova nepripočítava."
+
+msgid "Wide shot after"
+msgstr "Široký záber po"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "odtiaľto sa hľadá vhodná chvíľa"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Mäkká hranica dvojice: odtiaľto program čaká na hranicu vety a dá tam široký záber, nie podľa hodín. 0 ju vypne. \"Široký záber najneskôr\" je tvrdá hranica, kde sa strihá aj bez hranice vety."
+
+msgid "Wide shot at the latest"
+msgstr "Široký záber najneskôr"
+
+msgid "and here it is cut, good moment or not"
+msgstr "a tu sa strihá, vhodná chvíľa alebo nie"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Tvrdá hranica dvojice: ak od \"Široký záber po\" neprišla žiadna hranica vety, zastúpi ju najdlhšia pauza v reči, a v tomto bode sa strihá, nech sa práve hovorí čokoľvek."
+
+msgid "Wide shot at least"
+msgstr "Široký záber najmenej"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "najmenej tak dlho trvá vložený široký záber"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Potom beží do konca vety. Pod päť sekúnd pôsobí pohľad ako šklbnutie."
+
+msgid "Wide shot at most"
+msgstr "Široký záber najviac"
+
+msgid "and at most this long"
+msgstr "a najviac tak dlho"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Ak leží koniec vety až za touto hranicou, ukončí záber posledná hranica medzi vetami súvetia pred ňou -- neodsekne sa uprostred vety."
+
+msgid "Minimum Edit Duration"
+msgstr "Minimálna dĺžka záberu"
+
+msgid "shorter shots are merged in"
+msgstr "kratšie zábery sa zlúčia"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Kratšie zábery pripadnú k nasledujúcemu."
+
+msgid "Speaks at least"
+msgstr "Hovorí najmenej"
+
+msgid "below this the camera does not follow"
+msgstr "pod touto hodnotou kamera nenasleduje"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Krátke \"áno\" obrazom nepohne. Bez toho blok dlhý pol sekundy pretiahne kameru k sebe a minimálna dĺžka záberu ju tam potom drží niekoľko sekúnd."
+
+msgid "Short gap up to"
+msgstr "Krátka medzera do"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "tak dlho ticho nechá obraz na pokoji"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Len tam, kde je \"Nikto nehovorí\" nastavené na podržanie krátkej medzery. Medzera až do tejto dĺžky nič nemení, dlhšia prejde na široký záber. Nad dve sekundy začne obraz stáť na niekom mlčiacom dlhšie ako päť sekúnd."
+
+msgid "Listener"
+msgstr "Poslucháč"
+
+msgid "Alternating"
+msgstr "Striedavo"
+
+msgid "No camera change"
+msgstr "Bez zmeny kamery"
+
+msgid "Hold a short gap"
+msgstr "Podržať krátku medzeru"
+
+msgid "do not go early"
+msgstr "nepredbiehať"
+
+msgid "Answering speaker"
+msgstr "Odpovedajúci"
+
+msgid "English"
+msgstr "Angličtina"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcastové katalógy, stereo"
+
+msgid "Podcast directories, mono"
+msgstr "Podcastové katalógy, mono"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- len stišuje, nikdy nezosilňuje"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, vysielanie"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 konštantný"
+
+msgid "reserved"
+msgstr "rezervované"
+
+msgid "unspecified"
+msgstr "neurčené"
+
+msgid "unknown"
+msgstr "neznáme"
+
+msgid "French"
+msgstr "Francúzština"
+
+msgid "German"
+msgstr "Nemčina"
+
+msgid "Dutch"
+msgstr "Holandčina"
+
+msgid "Italian"
+msgstr "Taliančina"
+
+msgid "Spanish"
+msgstr "Španielčina"
+
+msgid "Polish"
+msgstr "Poľština"
+
+msgid "Portuguese"
+msgstr "Portugalčina"
+
+msgid "Russian"
+msgstr "Ruština"
+
+msgid "Danish"
+msgstr "Dánčina"
+
+msgid "Norwegian"
+msgstr "Nórčina"
+
+msgid "Swedish"
+msgstr "Švédčina"
+
+msgid "Czech"
+msgstr "Čeština"
+
+msgid "Finnish"
+msgstr "Fínčina"
+
+msgid "Turkish"
+msgstr "Turečtina"
+
+msgid "Greek"
+msgstr "Gréčtina"
+
+msgid "Hungarian"
+msgstr "Maďarčina"
+
+msgid "Romanian"
+msgstr "Rumunčina"
+
+msgid "Arabic"
+msgstr "Arabčina"
+
+msgid "Catalan"
+msgstr "Katalánčina"
+
+msgid "Ukrainian"
+msgstr "Ukrajinčina"
+
+msgid "Chinese"
+msgstr "Čínština"
+
+msgid "Hebrew"
+msgstr "Hebrejčina"
+
+msgid "Japanese"
+msgstr "Japončina"
+
+msgid "Korean"
+msgstr "Kórejčina"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Prevod: v Media Pool kliknite pravým tlačidlom na \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Len jedným smerom -- ale nový beh Timeline kedykoľvek znova postaví.\n  Uhly záberu:%s\n  Všetko ostatné -- voľba zvuku, farebné skupiny, výrez obrazu -- je v\n  príručke, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Možné príčiny:\n  1. Resolve nebeží -- rozhranie odpovedá, len keď program beží.\n  2. Preferences > System > General: externé skriptovanie je nastavené na \"None\" namiesto \"Local\".\n  3. Bezplatná edícia: externé skriptovanie je vraj od verzie 19.1 vyhradené pre edíciu Studio. Oficiálne vyjadrenie sa mi nepodarilo nájsť -- táto kontrola to meria, namiesto toho, aby to tvrdila."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s sa nedá zaradiť: %s -- zaradené len podľa vlastných hodín"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: zhoda zvuku %s, pod prahom %s -- zaradené len podľa vlastných hodín"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Pozor: tento projekt nie je úplný -- Resolve tieto stopy dvakrát odmietol:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Posun:            %s   (len podľa časového kódu -- podľa zvuku sa to umiestniť nedalo, takže sa nič nekontroluje)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve dvakrát odmietol zvukovú stopu A%d na Timeline „%s“ -- kamery sa kladú na existujúce zvukové stopy (spolu %s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve dvakrát odmietol videostopu V%d -- na Timeline „%s“ chýba: %s."
+
+msgid "  Status:      %s"
+msgstr "  Stav:        %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Zhoda zvuku je príliš slabá, aby sa jej dalo veriť: %s -- umiestnené len podľa časového kódu."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   nepasuje k ostatným súborom: zvuk nerozpoznaný,\n   nie je s čím porovnať časový kód.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s sa nedá umiestniť: zvuk nemá so zvyškom materiálu nič spoločné a žiadna kamera umiestnená podľa zvuku nenesie časový kód, s ktorým by sa dal porovnať vlastný. Jedna z nich potrebuje časový kód, ktorý zodpovedá tomuto, a ten sa musí nastaviť iným programom."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s sa k ničomu v materiáli nehodí a žiadna kamera umiestnená podľa zvuku nenesie časový kód, s ktorým by sa dal porovnať vlastný, a preto sa nedá vstrihnúť do epizódy: nastavené na Intro."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s sa k ničomu v materiáli nehodí a žiadna kamera umiestnená podľa zvuku nenesie časový kód, s ktorým by sa dal porovnať vlastný; intro je obsadené: vynechané."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Bod In"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Vynechané; %s alebo %s je na jedno kliknutie."
+
+msgid "Out point"
+msgstr "Bod Out"
+
+msgid "Presets:"
+msgstr "Predvoľby:"
+
+msgid "Registry"
+msgstr "Registry"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Odstránenie „ZVUK“ alebo „VIDEO“ odstráni všetko, čo je pod ním."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "hotový klip"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "nedá sa vstrihnúť do epizódy -- len pred ňou alebo po nej"
+
+msgid "moved off the wide shot"
+msgstr "presunuté zo širokého záberu"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ani zvuk, ani časový kód ho neumiestni na os"
+
+msgid "no audio track"
+msgstr "bez zvukovej stopy"
+
+msgid "no speaker"
+msgstr "bez rečníka"
+
+msgid "not used"
+msgstr "nepoužité"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "umiestnené so svojou kamerou, podľa hodín tejto kamery"
+
+msgid "the file stays out"
+msgstr "súbor zostáva bokom"
+
+msgid "the only sound"
+msgstr "jediný zvuk"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve dvakrát odmietol zvukovú stopu A%d -- na Timeline „%s“ chýba zvuk (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve dvakrát odmietol videostopu V%d -- na Timeline „%s“ chýba obraz (%s)."

@@ -1,0 +1,4768 @@
+# What is translated of this program's messages, in Thai.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Thai speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 24.9.2026 in two steps: a glossary first, which
+# fixed the form of address and one word for each thing, and then every
+# other text against it, three languages at a time from one sheet.
+# Every entry was read back once in full by another model, against
+# the English and those words, and 47 were put right; a third
+# refuted what was not a fault.
+#
+# Anyone who speaks Thai is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# One here: the wording does not change with the count at
+# all, and msgstr[0] is the whole of it. Thai counts with a
+# classifier after the number and leaves the noun as it is, so
+# nought, one, two and a hundred and one all read the same way.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Cut with the wide shot"
+msgstr "ตัดต่อพร้อมภาพมุมกว้าง"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "แยกการบันทึกตามเสียงพูด: เสียงพูดแต่ละเสียงได้แถวของตัวเอง พร้อมกล้องของเสียงนั้น ใช้เวลาประมาณหนึ่งนาทีต่อเสียงครึ่งชั่วโมง บนเครื่องนี้และไม่ต้องอัปโหลด"
+
+msgid ", %s without"
+msgstr ", ไม่มีกล้อง %s"
+
+msgid "no camera yet"
+msgstr "ยังไม่มีกล้อง"
+
+msgid "A newer version is out"
+msgstr "มีเวอร์ชันใหม่กว่าออกแล้ว"
+
+msgid "%s is out. This is %s."
+msgstr "เวอร์ชัน %s ออกแล้ว เวอร์ชันนี้คือ %s"
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "อัปเดตไหม? pip จะดึงมาไว้ที่ %s ข้อความจาก pip จะแสดงใต้เอาต์พุต และเวอร์ชันใหม่จะทำงานตั้งแต่การเริ่มครั้งถัดไป"
+
+msgid "pip could not be started: %s"
+msgstr "เริ่ม pip ไม่ได้: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip หยุดด้วย %s สิ่งที่ทำสำเร็จอยู่ในบรรทัดด้านบน"
+
+msgid "%s is installed. It runs from the next start."
+msgstr "ติดตั้งเวอร์ชัน %s แล้ว จะทำงานตั้งแต่การเริ่มครั้งถัดไป"
+
+msgid "There is no window to show what pip says."
+msgstr "ไม่มีหน้าต่างสำหรับแสดงข้อความจาก pip"
+
+msgid "Back to an earlier version ..."
+msgstr "ย้อนกลับไปเวอร์ชันก่อนหน้า ..."
+
+msgid "Back to an earlier version"
+msgstr "ย้อนกลับไปเวอร์ชันก่อนหน้า"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "ค้นหาเวอร์ชันก่อนหน้าไม่ได้: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "อ่านรายการเวอร์ชันก่อนหน้าไม่ได้"
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "ไม่มีเวอร์ชันก่อน %s ที่ pip ติดตั้งได้"
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "เวอร์ชันนี้คือ %s จะให้ pip ติดตั้งเวอร์ชันใดแทน?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip จะดึงมาไว้ที่ %s และข้อความจาก pip จะแสดงใต้เอาต์พุต เวอร์ชันที่เลือกที่นี่จะทำงานตั้งแต่การเริ่มครั้งถัดไป\n\nการนี้นำโปรแกรมกลับมาเท่านั้น ไม่มีอย่างอื่น สิ่งที่เวอร์ชันใหม่กว่าเขียนไว้ในการตั้งค่ายังคงอยู่ และโปรเจกต์กับไฟล์ของโปรเจกต์จะคงไว้ตามเดิม"
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "อินโทรหรือเอาต์โทรที่มีสองช่องสัญญาณคือมิกซ์สเตอริโอ -- ไม่ได้วัด"
+
+msgid "Multitrack mode"
+msgstr "โหมด Multitrack"
+
+msgid "Singletrack mode"
+msgstr "โหมด Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "ไม่มีพรีเซ็ต Multitrack ของคุณเอง -- โปรดสร้างขึ้น"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "ไม่มีพรีเซ็ต Singletrack ของคุณเอง -- โปรดสร้างขึ้น"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "ไม่มีพรีเซ็ตของคุณเอง -- โปรดสร้างที่ auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "ไม่พบพรีเซ็ต Multitrack ในบัญชี"
+
+msgid "No Singletrack preset found in the account."
+msgstr "ไม่พบพรีเซ็ต Singletrack ในบัญชี"
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "ไม่มีพรีเซ็ต Multitrack ในบัญชี มีเพียงรายการเหล่านี้: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "ไม่มีพรีเซ็ต Singletrack ในบัญชี มีเพียงรายการเหล่านี้: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r เป็นพรีเซ็ต Singletrack แต่ต้องใช้พรีเซ็ต Multitrack"
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r เป็นพรีเซ็ต Multitrack แต่ต้องใช้พรีเซ็ต Singletrack"
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "คีย์ใช้ได้ ในพรีเซ็ต %s รายการของบัญชี ไม่มีรายการใดเป็นแบบ Multitrack รายการจึงว่างอยู่"
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "คีย์ใช้ได้ ในพรีเซ็ต %s รายการของบัญชี ไม่มีรายการใดเป็นแบบ Singletrack รายการจึงว่างอยู่"
+
+msgid "fetching from auphonic.com ..."
+msgstr "กำลังดึงข้อมูลจาก auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "สิ่งที่เปลี่ยนไปตั้งแต่ %s:"
+
+msgid "Update"
+msgstr "อัปเดต"
+
+msgid "Later"
+msgstr "ภายหลัง"
+
+msgid "Go back"
+msgstr "ย้อนกลับ"
+
+msgid "Starting again did not work: %s"
+msgstr "เริ่มใหม่ไม่สำเร็จ: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "โปรดเริ่มด้วยตนเอง: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "ไม่พบเวอร์ชันที่ใหม่กว่า เวอร์ชันนี้คือ %s"
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update จะดึงมาและติดตั้งให้"
+
+msgid "The check for new versions is switched off here."
+msgstr "การตรวจหาเวอร์ชันใหม่ถูกปิดไว้ที่นี่"
+
+msgid "About Video Podcast Magic"
+msgstr "เกี่ยวกับ Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "ฟุตเทจดิบจากวิดีโอพอดแคสต์กลายเป็นตอนที่ตัดต่อแล้ว: เสียงดีจากไฟล์วิดีโอ กล้องทุกตัวบนแกนเวลาเดียวกัน การตัดต่อแรกตามผู้พูด และโปรเจกต์ DaVinci Resolve"
+
+msgid "Python %s on %s"
+msgstr "Python %s บน %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "สัญญาอนุญาต MIT, Copyright (c) 2026 Sebastian Lotz ส่งมอบตามสภาพ โดยไม่มีการรับประกันใดๆ"
+
+msgid "&File"
+msgstr "ไฟล์(&F)"
+
+msgid "&View"
+msgstr "มุมมอง(&V)"
+
+msgid "&Player"
+msgstr "เครื่องเล่น(&P)"
+
+msgid "&Help"
+msgstr "วิธีใช้(&H)"
+
+msgid "Play and pause"
+msgstr "เล่นและหยุดชั่วคราว"
+
+msgid "Fast forward"
+msgstr "กรอไปข้างหน้า"
+
+msgid "Fast forward, %s times speed"
+msgstr "กรอไปข้างหน้า ความเร็ว %s เท่า"
+
+msgid "Play forward, faster on every press"
+msgstr "เล่นไปข้างหน้า เร็วขึ้นทุกครั้งที่กด"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "เล่นไปข้างหน้า เร็วขึ้นสองเท่าทุกครั้งที่กด -- ปุ่ม L"
+
+msgid "Pause"
+msgstr "หยุดชั่วคราว"
+
+msgid "One frame back"
+msgstr "ถอยหลังหนึ่งเฟรม"
+
+msgid "One frame forward"
+msgstr "เดินหน้าหนึ่งเฟรม"
+
+msgid "One second back"
+msgstr "ถอยหลังหนึ่งวินาที"
+
+msgid "One second forward"
+msgstr "เดินหน้าหนึ่งวินาที"
+
+msgid "Ten seconds back"
+msgstr "ถอยหลังสิบวินาที"
+
+msgid "Ten seconds forward"
+msgstr "เดินหน้าสิบวินาที"
+
+msgid "The manual"
+msgstr "คู่มือ"
+
+msgid "What changed in this version"
+msgstr "สิ่งที่เปลี่ยนในเวอร์ชันนี้"
+
+msgid "Show the log of this run"
+msgstr "แสดงบันทึกของรอบการทำงานนี้"
+
+msgid "Nothing has been written yet."
+msgstr "ยังไม่มีการเขียนอะไร"
+
+msgid "Look for a newer version now"
+msgstr "ค้นหาเวอร์ชันใหม่กว่าตอนนี้"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  ไม่พบชุดใบรับรอง -- การดาวน์โหลดผ่าน HTTPS อาจล้มเหลว"
+
+msgid "  Building the speech recogniser ..."
+msgstr "  กำลังสร้างตัวรู้จำเสียงพูด ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  คอมไพเลอร์ Swift รายงาน: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  สร้างตัวรู้จำเสียงพูดแล้ว (%s s)"
+
+msgid "  The speech recognition reports: %s"
+msgstr "  การรู้จำเสียงพูดรายงาน: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  รู้จำในภาษา %s: พร้อมใน %s s, ฟังใน %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  เครื่องนี้ไม่มีการรู้จำเสียงพูด: macOS 26 มีมาให้ ไม่เช่นนั้นจะติดตั้ง faster-whisper"
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  การรู้จำเสียงพูด (%s): %s คำใน %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  การรู้จำเสียงพูด (%s): %s คำ อ่านกลับแล้ว"
+
+msgid "Separating speakers: %s"
+msgstr "กำลังแยกผู้พูด: %s"
+
+msgid "Separating ..."
+msgstr "กำลังแยก ..."
+
+msgid "Voice"
+msgstr "เสียงพูด"
+
+msgid "Stop"
+msgstr "หยุด"
+
+msgid "Stopping ..."
+msgstr "กำลังหยุด ..."
+
+msgid "Not on this machine"
+msgstr "ไม่มีบนเครื่องนี้"
+
+msgid "Reading the audio ..."
+msgstr "กำลังอ่านเสียง ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "ไม่ได้ยินอะไรในการบันทึก"
+
+msgid "Speaker separation is switched off for this project."
+msgstr "ปิดการแยกผู้พูดไว้สำหรับโปรเจกต์นี้"
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "ใครพูดเมื่อไรหาได้บนเครื่องนี้ จากการบันทึกใดก็ได้หนึ่งรายการที่ได้ยินเสียงทุกคน"
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "คงการแยกผู้พูดไว้ในสถานะปิดสำหรับโปรเจกต์นี้ การตัดต่อจะมาจากแทร็กหรือจาก auphonic.com เหมือนเดิม"
+
+msgid "The speaker separation reports: %s"
+msgstr "การแยกผู้พูดรายงาน: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "กำลังติดตั้งการแยกผู้พูดกลับคืน ..."
+
+msgid "The speaker separation is not set up."
+msgstr "ยังไม่ได้ตั้งค่าการแยกผู้พูด"
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "ไม่ได้ติดตั้งการแยกผู้พูดไว้ที่นี่ คำสั่งนี้ติดตั้งกลับคืน: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "กำลังดึงโมเดล (ประมาณ %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "กำลังดึงโมเดล (ประมาณ %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "ดึงโมเดลไม่ได้: %s"
+
+msgid "The model could not be written: %s"
+msgstr "เขียนโมเดลไม่ได้: %s"
+
+msgid "The list of model files came back empty."
+msgstr "รายการไฟล์โมเดลกลับมาว่างเปล่า"
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s ไม่ตรงกับค่าตรวจสอบ จึงไม่ได้เขียน"
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "เขียนลงโฟลเดอร์ของโปรแกรมไม่ได้: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "ไม่มีโมเดลการแยกผู้พูดอยู่ข้างโปรแกรม"
+
+msgid "The model file %s does not match its checksum."
+msgstr "ไฟล์โมเดล %s ไม่ตรงกับค่าตรวจสอบ"
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote ส่งร่องรอยกลับไปยังผู้พัฒนาทุกครั้งที่ทำงาน และเวอร์ชันนี้ไม่มีทางปิดได้ จึงไม่ได้เริ่มการแยกผู้พูด"
+
+msgid "Speakers"
+msgstr "ผู้พูด"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "ผู้ที่มีเสียงอยู่ในการบันทึกนี้ ชื่อหนึ่งชื่อหมายถึงบุคคลนั้นเพียงคนเดียว\n\"ผู้พูดหลายคน\" จะหาว่าใครพูดเมื่อไรบนเครื่องนี้และไม่ต้องอัปโหลด -- ประมาณหนึ่งนาทีต่อเสียงครึ่งชั่วโมง จากนั้นใส่ชื่อในแถวด้านล่าง"
+
+msgid "Speaker %d"
+msgstr "ผู้พูด %d"
+
+msgid "One more speaker in %s"
+msgstr "ผู้พูดเพิ่มอีกหนึ่งคนใน %s"
+
+msgid "One more speaker in"
+msgstr "ผู้พูดเพิ่มอีกหนึ่งคนใน"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "ฟังการบันทึกนั้นอีกครั้ง โดยหาผู้พูดเพิ่มจากที่พบอีกหนึ่งคน"
+
+msgid "%s:%02d min"
+msgstr "%s:%02d นาที"
+
+msgid " SEEKING"
+msgstr " กำลังค้นหา"
+
+msgid " computed"
+msgstr " แบบคำนวณ"
+
+msgid " virtual"
+msgstr " เสมือน"
+
+msgid "%s were already right"
+msgstr "%s แทร็กถูกต้องอยู่แล้ว"
+
+msgid "%s (%s files)"
+msgstr "%s (%s ไฟล์)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s ถึง %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d ถึง %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- ถ้าต่อกันด้วยตนเอง ความต่างนั้นจะกลายเป็นความเงียบในไฟล์ และไม่มีขั้นตอนใดภายหลังเอาออกได้"
+
+msgid "%s and %s more"
+msgstr "%s และอีก %s รายการ"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s และ %s ถูกตั้งเป็น %s ทั้งคู่ มีได้เพียงไฟล์เดียว -- โปรดตั้งอีกไฟล์กลับเป็นเนื้อหา"
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s และ %s มีชื่อไฟล์เดียวกัน และ Resolve ไม่ได้ระบุ\n  พาธของไฟล์ทั้งสอง โปรดเปลี่ยนชื่อไฟล์ใดไฟล์หนึ่ง"
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s เฟรมใน %s"
+
+msgid "%s reports %s"
+msgstr "%s รายงาน %s"
+
+msgid "%s speech time"
+msgstr "เวลาพูด %s"
+
+msgid "%s virtual"
+msgstr "%s เสมือน"
+
+msgid "%s, audio track %d"
+msgstr "%s, แทร็กเสียง %d"
+
+msgid "3:1 rule"
+msgstr "กฎ 3:1"
+
+msgid "Output"
+msgstr "เอาต์พุต"
+
+msgid "Access to auphonic.com"
+msgstr "การเข้าถึง auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "การเข้าถึงและการเชื่อมต่อจะถามเพียงครั้งเดียวแล้วคงไว้ คีย์จะเก็บไว้ใน %s ไม่เคยเก็บลงไฟล์"
+
+msgid "Checking files"
+msgstr "กำลังตรวจสอบไฟล์"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "งานที่ยังค้างทั้งหมด วัดเทียบกับงานที่เสร็จแล้ว งานที่ยาวจะกินพื้นที่บนแถบมากกว่างานสั้น"
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "คีย์สำหรับ auphonic.com และ Resolve ตอบสนองหรือไม่"
+
+msgid "Measuring time axis"
+msgstr "กำลังวัดแกนเวลา"
+
+msgid "Resolve answers"
+msgstr "Resolve ตอบสนอง"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve ไม่ตอบสนอง -- ดูการตั้งค่า"
+
+msgid "Settings"
+msgstr "การตั้งค่า"
+
+msgid "Settings ..."
+msgstr "การตั้งค่า ..."
+
+msgid "Two files as %s"
+msgstr "สองไฟล์เป็น %s"
+
+msgid "begins"
+msgstr "เริ่ม"
+
+msgid "done"
+msgstr "เสร็จแล้ว"
+
+msgid "ends"
+msgstr "จบ"
+
+msgid "first"
+msgstr "แรก"
+
+msgid "from %s"
+msgstr "ตั้งแต่ %s"
+
+msgid "join with Channel %d"
+msgstr "รวมกับช่องสัญญาณ %d"
+
+msgid "last"
+msgstr "สุดท้าย"
+
+msgid "rejected"
+msgstr "ถูกปฏิเสธ"
+
+msgid ","
+msgstr ","
+
+msgid "."
+msgstr "."
+
+msgid "Kind"
+msgstr "ประเภท"
+
+msgid "Speech time"
+msgstr "เวลาพูด"
+
+msgid "Share"
+msgstr "สัดส่วน"
+
+msgid "Beginning"
+msgstr "เริ่มต้น"
+
+msgid "the whole material"
+msgstr "ฟุตเทจทั้งหมด"
+
+msgid "Colour"
+msgstr "สี"
+
+msgid "  Preset:  %s"
+msgstr "  พรีเซ็ต:  %s"
+
+msgid "Preset"
+msgstr "พรีเซ็ต"
+
+msgid "Preset:"
+msgstr "พรีเซ็ต:"
+
+msgid "Start"
+msgstr "เริ่ม"
+
+msgid "Production"
+msgstr "โปรดักชัน"
+
+msgid "Target"
+msgstr "ปลายทาง"
+
+msgid "Bright."
+msgstr "ความสว่าง"
+
+msgid "Colour U"
+msgstr "สี U"
+
+msgid "Colour V"
+msgstr "สี V"
+
+msgid "Writing %s"
+msgstr "กำลังเขียน %s"
+
+msgid "  Timecode:        %s"
+msgstr "  ไทม์โค้ด:           %s"
+
+msgid "none"
+msgstr "ไม่มี"
+
+msgid "Length"
+msgstr "ความยาว"
+
+msgid "no camera of its own"
+msgstr "ไม่มีกล้องของตัวเอง"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- นั่นคือทุกคน ทุกช็อตจึงไปที่กล้องเดียวกัน"
+
+msgid "No camera of their own: %s"
+msgstr "ไม่มีกล้องของตัวเอง: %s"
+
+msgid "do not use"
+msgstr "ไม่ใช้"
+
+msgid "several speakers"
+msgstr "ผู้พูดหลายคน"
+
+msgid "this window"
+msgstr "หน้าต่างนี้"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "ชื่อไฟล์สองชื่อสำหรับช่วงเวลาเดียวกัน -- ไม่ใช้ทั้งสองชื่อ"
+
+msgid "work without Auphonic"
+msgstr "ทำงานโดยไม่ใช้ Auphonic"
+
+msgid "Content"
+msgstr "เนื้อหา"
+
+msgid "Intro"
+msgstr "อินโทร"
+
+msgid "Outro"
+msgstr "เอาต์โทร"
+
+msgid "ignore this video"
+msgstr "ข้ามวิดีโอนี้"
+
+msgid "This is not a file of this program."
+msgstr "นี่ไม่ใช่ไฟล์ของโปรแกรมนี้"
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "ไฟล์นี้เขียนโดยเวอร์ชัน %s ในรูปแบบ %d เวอร์ชันนี้เขียนรูปแบบ %d ชื่อภายในเปลี่ยนไปตั้งแต่นั้น จึงอ่านไม่ได้ โปรดตั้งค่ารอบการทำงานใหม่อีกครั้ง"
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (วัดอย่างเดียว: ไม่ได้เขียนอะไร)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (วัดอย่างเดียว: ไม่มีคีย์ API จึงหยุดที่นี่)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  ตรวจสอบเทียบกับเสียงรั่ว -- ตัวอ้างอิงคือ %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  เขียน %s ไม่ได้: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  สำหรับ %s ไม่สามารถยืนยันได้ว่าสิ่งที่ได้กลับมาตรงกับ\n  สิ่งที่อัปโหลด หยุดดีกว่าเขียนสิ่งที่ผิด"
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  ไม่มีการตัดสลับกล้องในการส่งมอบ -- ไม่มีสถิติผู้พูดก็ไม่มีการตัดสลับกล้อง\n  สร้างเฉพาะ Timeline สำหรับคลิป Multicam"
+
+msgid "\n  Nothing was changed."
+msgstr "\n  ไม่มีการเปลี่ยนแปลงใด"
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  มีกล้องเพียงตัวเดียว -- คลิป Multicam จะไม่มีประโยชน์"
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  แทร็กที่นั่นมีชื่อต่างออกไป:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  ช่วงเวลาที่กำหนดเอง:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline สำหรับคลิป Multicam: กล้องทุกตัว ไม่ตัด"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline พร้อมการตัดต่อที่เสร็จแล้ว"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: กล้องต่อเนื่องชิ้นเดียว มิกซ์อยู่ด้านล่าง"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nเสร็จแล้ว ด้านล่าง \"เปิดโฟลเดอร์ผลลัพธ์\" จะแสดงผลลัพธ์\nถ้าทุกอย่างถูกต้อง \"สร้างโปรเจกต์ Resolve\" จะสร้างโปรเจกต์จากผลลัพธ์นั้น\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nการตรวจสอบ HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nไม่ได้เลือกพรีเซ็ต: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nหยุดก่อนขั้นตอนยาวขั้นแรก ใช้ --anyway เพื่อให้ทำงานต่อไม่ว่าอย่างไร"
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Resolve อาจไม่รู้จักปริภูมิสีขาเข้า"
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               เสียง%s ที่ %s -- ตรงนั้นพบกับคำ%s"
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s แทร็ก V%d, ตั้งแต่เฟรม %d (%s s จากจุดเริ่ม), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      คลิปทั้งสองไม่ถูกตัด และซ้อนทับกับเนื้อหา\n      การเปลี่ยนภาพแบบจางซ้อนอยู่ในช่วงที่ซ้อนทับ -- ตำแหน่งที่แน่นอนเป็นการตัดสินใจของคุณใน Resolve\n      (อินเทอร์เฟซสคริปต์ของ Resolve สร้างการเปลี่ยนภาพไม่ได้)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   ล้มเหลว: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      คำเตือน: %s ตรงกันได้น้อย (%s, เกณฑ์ขั้นต่ำคือ %s) ทั้งสองอาจไม่ใช่ชุดเดียวกัน"
+
+msgid "this pair of files"
+msgstr "ไฟล์คู่นี้"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- ไม่น่าจะถูกต้อง แทร็ก\n    %-20s อยู่ที่เดิม"
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, ความคล้ายของชื่อ %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, ตัดให้อยู่ในช่วงเวลา, ความคล้ายของชื่อ %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  แต่ %s -- ไม่ใช่ทั้งช่วงเวลา (%s) และ\n    %-20s    ช่วงที่วัดทั้งหมด (%s) นี่เป็นของรอบการทำงานอื่น"
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s ไม่มีไฟล์ที่ชื่อตรงกัน"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s เลื่อนไป %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s มีอยู่แล้ว -- จึงเรนเดอร์เป็น %s แทน เพื่อให้\n%sไฟล์ส่งออกก่อนหน้ายังคงอยู่"
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (คำแนะนำของ YouTube สำหรับ %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, สองช่องสัญญาณ  (ตั้งบิตเรตจากระยะไกลไม่ได้ --\n%s%s kbit/s คือค่าที่แนะนำสำหรับสเตอริโอ)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s ถูกปฏิเสธ -- ไม่มีรูปแบบการสะกดใดได้รับการยอมรับ\n%sโปรดตั้งค่าด้วยตนเองใน Resolve ที่ Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s"
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s คงเป็น \"Same as Project\" -- โปรเจกต์ไม่ได้ระบุ\n%sเส้นโค้ง HDR ใดๆ ตรวจสอบได้ใน Resolve ที่\n%sProject Settings > Color Management > Output Color Space"
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s ลบไม่สำเร็จ"
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s ลบไม่สำเร็จ: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s ลิงก์ไม่สำเร็จ: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s การยกเลิกลิงก์ไม่มีผล -- แทร็กเสียงส่วนเกิน\n    %-24s ยังคงอยู่"
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s เก็บเสียงจาก A%d ไว้ ลบอีก %d แทร็ก"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s ลิงก์กลับไม่ได้"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s ยกเลิกลิงก์ไม่ได้: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s ไม่ได้แทรกเสียง"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s ครั้งที่กล้องที่กำหนดไม่ได้ทำงานอยู่ -- จึงมีกล้องอื่นอยู่ตรงนั้นแทน"
+
+msgid "    %s could not be imported."
+msgstr "    นำเข้า %s ไม่ได้"
+
+msgid "    %s could not be inserted."
+msgstr "    แทรก %s ไม่ได้"
+
+msgid "    %s track could not be created: %s"
+msgstr "    สร้างแทร็กประเภท %s ไม่ได้: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: แทรกภาพและเสียงแยกกัน (เสียงจาก A%d)"
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    ตั้ง --anyway ไว้: จะทำงานแม้มีประเด็นด้านบน"
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    แทร็กทั้งหมดอยู่ในตำแหน่งแล้ว -- ไม่ต้องเลื่อนอะไร"
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    ข้อควรระวัง: ไม่มี H.265 -- จะเป็น H.264 แบบแปดบิต\n             ไม่พอสำหรับ HDR การไล่ระดับสีจะเห็นเป็นแถบ"
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    ข้อควรระวัง: โปรเจกต์ตั้งไว้ที่ %s แต่ฟุตเทจเป็น %s\n             ไฟล์ส่งออกจะมีแท็กตามฟุตเทจ หากต้องการให้\n             โปรเจกต์ตรงกัน: Project Settings > Color Management >\n             Output Color Space = %s"
+
+msgid "Colour space"
+msgstr "ปริภูมิสี"
+
+msgid "already right"
+msgstr "ถูกต้องอยู่แล้ว"
+
+msgid "    Clip colours could not be set."
+msgstr "    ตั้งสีคลิปไม่ได้"
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    คลิปจากรอบการทำงานก่อนหน้ายังผูกกับ remote grades ของตัวเอง ที่หน้า\n    Color คลิกขวาที่ภาพขนาดย่อ > \"Copy Remote Grades to Local\"\n    (นำการแก้สีไปด้วย) หรือ \"Use Local Grades\" Timeline ใหม่\n    ไม่ต้องทำขั้นตอนนี้"
+
+msgid "    Codec list not readable: %s"
+msgstr "    อ่านรายการโคเดกไม่ได้: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    กลุ่มสี %-24s มีเพียง %s จาก %s คลิป"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    ตรวจสอบไขว้ไม่ได้: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    การตรวจสอบไขว้: วัดไม่ได้"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    จุดเข้า   %s   (ไทม์โค้ด %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    จุดเข้า   %s\n    จุดออก   %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    จุดออก   %s   (ไทม์โค้ด %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    จุดออกอยู่ก่อนจุดเข้า -- แบบนี้ใช้ไม่ได้"
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    กล้องตัวอ้างอิงไม่มีไทม์โค้ด แกนเวลาอิงนาฬิกาของ %s และเฟรมแรกของกล้องนั้นแสดง %s"
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    สำหรับตรวจสอบ -- Timeline เริ่มที่เฟรม %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    ตั้งรูปแบบและโคเดกไม่ได้"
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    ตั้งรูปแบบและโคเดกไม่ได้: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    อ่านรายการรูปแบบไม่ได้: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    การส่งออกเป็นไฟล์เดียวถูกปฏิเสธ; Resolve จะเขียนหนึ่งไฟล์ต่อคลิป"
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    ขอให้ส่งออกเป็นไฟล์เดียวไม่ได้: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    ความยาว  %s  (แทนที่จะเป็น %s)"
+
+msgid "    Length  %s"
+msgstr "    ความยาว  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    เวอร์ชันโลคัล: ในโหนดเอดิเตอร์ \"Group Pre-Clip\" มีผลกับ\n    กล้องทั้งตัว ส่วน \"Clip\" มีผลเฉพาะช็อตนั้นช็อตเดียว ทั้งสองอย่าง\n    ใช้ร่วมกันได้"
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    ไม่พบระดับเป้าหมายของมิเตอร์ความดัง -- โปรดตั้งค่าด้วยตนเอง:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS"
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    วัดได้ %s เฟรม/วินาที -- Resolve รู้จักเฉพาะอัตราคงที่\n    จึงใช้ %s"
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    ไม่มีคู่ที่วัดได้ -- คงไว้ตามเดิม"
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    ไม่พบการตั้งค่าสำหรับเวอร์ชัน -- โปรดตั้งค่าด้วยตนเอง:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s"
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    ตั้งค่าได้ไม่ครบทุกอย่าง Resolve รับค่าบางอย่าง\n    เฉพาะตอนที่ Timeline ยังว่างอยู่ -- โปรดเทียบกับด้านบน"
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    เข้าคิวแล้ว -- ใน Resolve เหลือเพียง \"Render All\""
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades เปิดอยู่: การแก้สีหนึ่งชุดต่อกล้องมีผลกับ\n    ทุกช็อตของกล้องนั้น -- จึงแก้ช็อตใดช็อตหนึ่ง\n    แยกต่างหากไม่ได้อีก"
+
+msgid "    Render job could not be created."
+msgstr "    สร้างงานเรนเดอร์ไม่ได้"
+
+msgid "    Render job could not be created: %s"
+msgstr "    สร้างงานเรนเดอร์ไม่ได้: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    แสดงรายการการตั้งค่าไม่ได้ -- โปรดตั้งค่าด้วยตนเอง:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s"
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    ช่วงเวลาจะยาวเพียง %s -- ไม่น่าจะตั้งใจให้เป็นแบบนี้"
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    แทร็ก %d  %-22s (ที่นี่: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    อ่าน V2 กลับมาไม่ได้: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    เปลี่ยนชื่อแทร็กวิดีโอ %d ไม่ได้"
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    ตรวจว่าไฟล์ที่เสร็จแล้วผ่านเป็น HDR หรือไม่:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    ทำไม่ได้: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (ระยะทางเสียงติดลบ -- มีบางอย่างผิดพลาด)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s จัดตำแหน่งไม่ได้: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s วัดไม่ได้: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s ออฟเซ็ต %s, การคลาดของนาฬิกา %s ppm (+/- %s), การกระจายที่เหลือ %s ms, %s จาก %s จุด"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s ออฟเซ็ต %s, การคลาดของนาฬิกา %s ppm (+/- %s), การกระจายที่เหลือ %s ms, %s จาก %s จุด%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s จาก %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  ต่อ %s บล็อกตามลำดับชื่อ (ไม่มีไทม์โค้ด -- จะไม่รู้ว่ามีช่องว่าง)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  ต่อ %s บล็อกด้วยไทม์โค้ด เริ่มต้น %s"
+
+msgid "  %s of %s files imported."
+msgstr "  นำเข้าแล้ว %s จาก %s ไฟล์"
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  ผู้พูด %s คน, %s ช็อต, สั้นสุด %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  แทร็กวิดีโอ %s แทร็ก ตั้งชื่อตามผู้พูด:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s ปรากฏสองครั้งกับกล้องต่างกัน -- ใช้ %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s ไม่มีเสียงให้วัด -- วางตามนาฬิกาของไฟล์อย่างเดียว และไม่พบสิ่งใดให้ตรวจเทียบ"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  ดึง %s มาไม่ได้: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  เขียน %s ใหม่ไม่ได้: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s ไปอยู่บนแทร็กวิดีโอ 1 -- ที่นั่นแทร็กเสียงแรกมี\n  Full-Mix และแทร็กวิดีโอ 1 จะเป็นมุมกล้อง 1"
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s ไม่มีเสียงจากกล้อง -- ถ้าไม่มีก็จัดตำแหน่งอะไรไม่ได้"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s อยู่ในโปรดักชันสองครั้ง -- ดึงมาครั้งเดียว"
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s มีอยู่แล้วและจะถูกเขียนทับ -- โปรดักชันนี้ไม่มีบันทึกว่าเป็นผู้สร้างไฟล์นี้"
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s มีอยู่จากรอบการทำงานก่อนหน้าของโปรดักชันนี้ และจะถูกแทนที่"
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s มีอัตรา %s เฟรม/วินาที ซึ่ง Resolve ไม่มี Timeline สำหรับอัตรานี้ -- จะถูกแปลง ไม่ถูกตัดออก"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s พร้อมแล้ว -- ใช้ --resolve-json ทำภายหลังได้"
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, ข้าม"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: ระบุจำนวนช่องสัญญาณไม่ได้ (%s) -- จะไม่ถูกวัด"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (วัดอย่างเดียว: ไม่ได้อัปโหลดอะไร)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  มี Timeline %r อยู่แล้ว -- อันใหม่ชื่อ %r"
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  มี Timeline ชื่อนี้อยู่แล้วและมีกล้องอื่นอยู่บนนั้น จะคงไว้;\n  อันใหม่จะสร้างไว้ข้างกันด้วยชื่อของตัวเอง"
+
+msgid "  Added: %s"
+msgstr "  เพิ่มแล้ว: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  ยกเลิกการเพิ่มอะตอมแล้ว -- %s %s"
+
+msgid "  All needed output files already exist."
+msgstr "  มีไฟล์เอาต์พุตที่ต้องการครบแล้ว"
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  ข้ามอะตอม %s: %s ไบต์มากเกินไปสำหรับอะตอมนี้"
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  เสียง: Full-Mix ชิ้นเดียวบน A1 (%s)"
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  ข้อควรระวัง: ความสว่างต่างกัน %s ขั้น -- เห็นได้ตอนสลับกล้อง"
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  ข้อควรระวัง: %s และ %s ชื่อ %s ทั้งคู่ บน Timeline\n  Resolve แจ้งเฉพาะชื่อ จึงแยกคลิปของทั้งสอง\n  ไม่ออก -- โปรดเปลี่ยนชื่อไฟล์ใดไฟล์หนึ่ง"
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  ข้อควรระวัง: ลบ %s ไม่ได้ -- Timeline ใหม่จึงมี\n  ส่วนต่อท้ายชื่อ"
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  ข้อควรระวัง: ช่วง     เพียง %s LU -- แคบมาก เสียงพูดปกติอยู่ที่ 3 ถึง 7 LU;\n                     ต่ำกว่านั้นจะฟังดูถูกบีบ โปรดตรวจว่าตั้ง เลเวลเลอร์\n                     ไว้แรงแค่ไหนที่ auphonic.com"
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  ข้อควรระวัง: โปรดักชันมีแทร็กอื่นอีก (%s) แทร็กเหล่านี้จะเข้าไปใน\n  มิกซ์ -- โปรดลบออกที่ auphonic.com"
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  ข้อควรระวัง: แทร็ก %s -- คงการตั้งค่าเดิมไว้"
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  อะตอมของกล้อง:     เพิ่มไม่ได้ (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  ข้อมูลกล้อง:         คัดลอกคีย์มา %s รายการ (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  ข้อมูลกล้อง:         ข้อควรระวัง ไฟล์ใหม่ขาดคีย์ %s จาก %s รายการ: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  ข้อมูลกล้อง:         ไฟล์ต้นทางไม่มีข้อมูลนี้"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  เพิ่มอะตอมไม่ได้: มีกล่อง 64 บิตขวางอยู่"
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  เพิ่มอะตอมไม่ได้: moov ไม่ได้อยู่ท้ายไฟล์"
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  เพิ่มอะตอมไม่ได้: ต้นทางเป็น %s ปลายทางเป็น %s"
+
+msgid "  Check:           not possible (%s)"
+msgstr "  การตรวจสอบ:       ทำไม่ได้ (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  การคลาดของนาฬิกา:  %s ppm (+/- %s), การกระจายที่เหลือ %s ms, %s จาก %s จุด"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  การคลาดของนาฬิกา:  ไม่ได้วัด -- นี่คือตัวอ้างอิงที่ใช้เทียบตัวอื่น"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  เปรียบเทียบสีไม่ได้: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  สร้างกลุ่มสี %r ไม่ได้"
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  สร้างกลุ่มสี %r ไม่ได้: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  สี:                %d/%d/%d -- เติมค่าไพรมารีจากเมทริกซ์ (ต้นทาง: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  สี:                %d/%d/%d คัดลอกมาแล้ว"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  สี:                ข้อควรระวัง ต้นทางเป็น %s ไฟล์ใหม่เป็น %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  การตรวจไขว้:       %s จาก Full-Mix, ส่วนต่าง %s ms (%s จาก %s จุด)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  การตรวจไขว้:       ทำไม่ได้ (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  แทร็กข้อมูล:         คัดลอก %s มาแล้ว"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  แทร็กข้อมูล:         ตัด %s ออก -- ffmpeg เขียนไม่ได้"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  ลบแล้ว: %s -- กำลังสร้างใหม่"
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  การคลาดตลอดความยาว: %s s = %s เฟรม  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  ใช้ผลลัพธ์ที่มีอยู่ -- ไม่ได้คำนวณ ไม่ได้จ่ายอะไร"
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  กล้องที่มีเสียงไม่ถึงสองตัว -- น้อยเกินไปสำหรับ Multitrack"
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  ขอมิกซ์ดาวน์ที่เสร็จแล้วเป็นมาตรวัด (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "ไม่ได้เริ่มตรงที่บล็อกก่อนหน้าจบ"
+
+msgid "ends before the next block starts"
+msgstr "จบก่อนบล็อกถัดไปเริ่ม"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com ยุบแทร็กเหล่านั้นเป็นช่องสัญญาณเดียว มิกซ์ยังคงมีสองช่องสัญญาณ; สิ่งที่หายไปคือ\n  ความต่างระหว่างไมโครโฟนสองตัวของแทร็กนั้น"
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  สองช่องสัญญาณ เพราะมีแทร็กหนึ่งเป็นสเตอริโอ"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  ช่องว่าง %s ที่ %s -- เติมด้วยความเงียบ"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  การซ้อนทับ %s ที่ %s -- ตรงนั้นได้ยินทั้งสอง"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  ซ้อนทับกัน -- เป็นไมโครโฟนหลายตัวพร้อมกัน ไม่ใช่บล็อกต่อเนื่องกัน"
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  แต่ละตัวยังเข้าไปในวิดีโอเป็นแทร็กของตัวเองด้วย: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  มีเพียงมิกซ์ที่เข้าไปในวิดีโอ (--no-single-tracks)"
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  มีอยู่แล้ว ด้วยกล้องชุดเดิมในลำดับเดิม -- จะไม่แตะต้อง\n  ถ้าต้องการอันใหม่ ให้ลบใน Resolve"
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  อ่านคีย์เฟรมของ %s ไม่ได้ (%s) -- สำเนาจะเริ่มที่ต้นไฟล์"
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  สร้างเส้นโค้งระดับไม่ได้ (%s) -- ไม่ใช้ลิมิตเตอร์"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  ลิมิตเตอร์:           สูงสุด %s dB เส้นโค้งเดียวกันทุกแทร็ก%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  วัดความดังไม่ได้: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  วัดความดังไม่ได้ -- คงไว้ตามเดิม"
+
+msgid "  Metrics not writable: %s"
+msgstr "  เขียนค่าชี้วัดไม่ได้: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  มิกซ์ดาวน์จาก auphonic.com: %s LUFS, พีก %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  ไม่พบ Full-Mix -- Timeline จะไม่มีเสียง"
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  ไม่มีเสียงบน Timeline -- ไม่มีอะไรต้องเก็บกวาด"
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  ไม่มีกล้องในการส่งมอบ -- ไม่มีอะไรให้สร้าง"
+
+msgid "  No clips found for colour groups."
+msgstr "  ไม่พบคลิปสำหรับกลุ่มสี"
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  ไม่เหลือช็อตให้ตัดต่อ -- Timeline จะว่างเปล่า"
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  ไม่ได้ส่งมอบ: รอบการทำงานวาง %s ไม่ได้ จึงไม่ใช่กล้องของตอนนี้"
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  ไม่มีออฟเซ็ตที่วัดได้สำหรับ %s -- วางไว้ที่จุดเริ่มของแกนเวลา"
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  ไม่พบสิ่งใดในเสียงสำหรับ %s -- วางตามไทม์โค้ดอย่างเดียว"
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: การวัดวางไว้ที่ %s s ไทม์โค้ดวางไว้ที่ %s s -- ใช้ผลการวัด"
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  จุดเริ่ม Timeline %s ถูกปฏิเสธ: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline เริ่มที่ %s ไม่ใช่ %s -- ทุกช็อตจะเลื่อนเข้าไปตามระยะนั้น"
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  จุดเริ่ม Timeline %s ไม่ได้รับการยอมรับ"
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  เริ่มต้น %s -- ทุกช็อตวางโดยอิงจุดนี้"
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  ยังไม่มี Timeline นี้ -- จึงสร้างใหม่เท่านั้น"
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  หมายเหตุ: ส่วนนี้คำนวณด้วยไฟล์ที่อัปโหลดในตอนนั้น ซึ่งมี\n  ช่วงเวลาและการจัดตำแหน่งของวันนั้น หากจุดเข้า จุดออก\n  หรือตำแหน่งที่วัดได้ต่างไปจากเดิม การตรวจสอบขากลับจะวัด\n  ส่วนต่างและเลื่อนแทร็กให้เข้าที่"
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  หมายเหตุ: ffmpeg ตัวนี้ไม่มี soxr -- ลบการคลาดของนาฬิกาได้\n  ทีละ 21 ppm เท่านั้น"
+
+msgid "  Of no consequence for the sound."
+msgstr "  ไม่มีผลต่อเสียง"
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  ออฟเซ็ต:           %s   (จากการเทียบกล้อง)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  มีเพียง %s จาก %s ช็อตอยู่บน Timeline"
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  พีก:                %s dB เหนือ %s dBTP -- ลิมิตเตอร์จะจัดการ"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  เครื่องเล่น: %s แจ้งข้อผิดพลาด -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  เครื่องเล่น: %s ค้างที่ %s แทนที่จะเป็น %s -- เลิกหลังจากลอง %s ครั้ง (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  เครื่องเล่น: สลับเอาต์พุตเสียงไปที่ %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  เครื่องเล่น: เสียงไม่เล่น (%s) -- ลองอีกครั้ง"
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  โปรดใส่ตัวเลขระหว่าง 1 ถึง %d"
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  โปรดักชันที่ auphonic.com:   %s"
+
+msgid "  Production running (%s)"
+msgstr "  โปรดักชันกำลังทำงาน (%s)"
+
+msgid "  Project %r opened."
+msgstr "  เปิดโปรเจกต์ %r แล้ว"
+
+msgid "  Project file could not be written: %s"
+msgstr "  เขียนไฟล์โปรเจกต์ไม่ได้: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  เขียนไฟล์โปรเจกต์ไม่ได้ (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  ช่วง:               %s LU (เสียงพูดปกติ 3 ถึง 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  ตัวอ้างอิง: %s (%s ยาวที่สุด)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  คงเหลือ:            %s dB ทุกแทร็ก คือ %s LUFS แทนที่จะเป็น %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve ไม่รับภาพเลย -- Timeline ว่างเปล่า จะไม่สร้าง\n  สิ่งอื่นบนนั้นอีก"
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  ผลลัพธ์: %s (%s) -- เก็บไว้ข้างไฟล์วิดีโอ\n"
+
+msgid "  Not used:  %s."
+msgstr "  ไม่ได้ใช้:  %s"
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  คำถาม: ในบทถอดความ %s ข้อ กลายเป็นช็อตปฏิกิริยา %s ข้อ"
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  คำถาม: ไม่มีบทถอดความ จึงไม่พบคำถามและไม่มีช็อตปฏิกิริยา\n            เกิดขึ้น ถ้อยคำจะถูกถอดจากมิกซ์ที่เสร็จแล้วระหว่าง\n            รอบการทำงาน ถ้าไม่มีถ้อยคำ การตั้งค่านี้จะไม่มีผล"
+
+msgid "  Settings brought to preset %r"
+msgstr "  ปรับการตั้งค่าตามพรีเซ็ต %r แล้ว"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  เริ่มต้น %s (กล้องที่เริ่มเร็วสุด) -- ไม่เช่นนั้นทุกอย่างจะอยู่ก่อนจุดเริ่ม Timeline"
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  ไม่ปรับ:             ใช้ตามไฟล์ต้นทาง -- ไม่มีเกนบนแทร็กใดและไม่มี\n                     ลิมิตเตอร์ เสียงออกไปตรงตามที่เข้ามา"
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  ผลรวมแทร็ก:         %s LUFS, พีก %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  เป้าหมาย:           %s LUFS  ->  %s dB ทุกแทร็ก"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline ได้ %s: ค่าสูงสุดในนั้น หรืออัตราถัดไปที่ Resolve\n  มีสูงกว่านั้น เมื่อแปลงขึ้น Resolve จะซ้ำเฟรม เมื่อแปลงลง\n  จะทิ้งเฟรม ทุกกล้องคงอัตราของตัวเอง และการตัดต่อนับ\n  ตามอัตรานั้น"
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  นำเข้า Full-Mix ไม่ได้"
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  แทรก Full-Mix ไม่ได้"
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  กล้องเก็บช่วงเวลาและเผื่อหัวท้ายอีกด้านละหนึ่งวินาที: เขียน %s สำหรับ %s จาก %s ที่บันทึกไว้"
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  กล้องต่าง ๆ ใกล้เคียงกัน (ความสว่างต่างกันไม่เกิน %s ขั้น)"
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  การตัดต่อเปลี่ยนไป: %s ช็อต แทนที่จะเป็น %s"
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  อ่านบันทึกของรอบการทำงานก่อนหน้าที่นี่ไม่ได้ (%s) จึงรายงานทุกอย่างที่มีอยู่แล้ว"
+
+msgid "  The cut stays as it was."
+msgstr "  การตัดต่อคงเดิม"
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  จะอัปโหลดไฟล์อีกครั้ง -- ต้องใช้เครดิต"
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  ไฟล์ในโฟลเดอร์ต้องตั้งชื่อตามผู้พูดและเป็นของ\n  รอบการทำงานนี้ ถ้าไม่มีโฟลเดอร์ จะผ่าน auphonic.com อีกครั้ง"
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool คงเดิม"
+
+msgid "  The names from there are adopted:"
+msgstr "  ใช้ชื่อจากที่นั่น:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  ที่นั่นมี %s แทร็ก ที่นี่มี %s -- ไม่ตรงกัน"
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  วางกล้องนี้ไม่ได้ -- ข้าม"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  ช่วงเวลา:          เขียน %s จาก %s เริ่มที่ %s ของกล้อง"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  เขียนไทม์โค้ด %s เป็น bext และ iXML (ตัวอ้างอิง: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  มากเกินไป:          ลิมิตเตอร์จะต้องลด %s dB การลดเกิน %s dB\n                     จะฟังดูถูกบีบ -- ลดเกน %s dB"
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  ทำบทถอดความไม่ได้ (%s) -- แต่ยังทำงานต่อ"
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: ข้าม -- ช่วงประกาศแรกหรือสุดท้าย\n  ยาวเกินไปสำหรับการทักทาย"
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: จนถึง %s และตั้งแต่ %s"
+
+msgid "  from %s, %s"
+msgstr "  จาก %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  ไม่ได้เขียน iXML สำหรับ %s: %s"
+
+msgid " at high frame rates"
+msgstr " ที่อัตราเฟรมสูง"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  เสียงเริ่มตามไทม์โค้ดที่               %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  ภาพเริ่มตามไทม์โค้ดที่                %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  ไทม์โค้ดของเสียงไม่ตรงกับภาพเลย -- อาจเป็นเพราะไม่เคยตั้งนาฬิกา จึงใช้ผลการวัด"
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  ไทม์โค้ดไม่ตรงกับสิ่งที่ได้ยิน จึงใช้ผลการวัด"
+
+msgid "%s from %s recordings"
+msgstr "%s จากการบันทึก %s ชุด"
+
+msgid "%s is missing."
+msgstr "ไม่มี %s"
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "ชื่อ %s อยู่กับผู้พูดมากกว่าหนึ่งคน -- ชื่อหนึ่งคือคนหนึ่งคน และทุกคนต้องมีชื่อของตัวเอง"
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "ชื่อ %s อยู่กับเสียงพูดมากกว่าหนึ่งเสียง ชื่อหนึ่งคือคนหนึ่งคน และการตัดต่อจะวางคนหนึ่งไว้บนกล้องตัวเดียว -- เสียงพูดสองเสียงที่ใช้ชื่อเดียวกันจะเท่ากับคนเดียวอยู่สองที่"
+
+msgid "  This machine can install it properly: %s"
+msgstr "  เครื่องนี้ติดตั้งได้อย่างถูกต้อง: %s"
+
+msgid "  Installing it: %s"
+msgstr "  การติดตั้ง: %s"
+
+msgid "  On this machine: %s"
+msgstr "  บนเครื่องนี้: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  การติดตั้ง: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s จะถูกติดตั้งลงใน Python นี้: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  ด้วยตนเอง:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "ค้นหาเวอร์ชันใหม่กว่าไม่ได้: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "ไม่มี %s ครั้งแรกจะใช้เวลาสองสามนาที"
+
+msgid "  Run that now? [Y/n] "
+msgstr "  เรียกใช้ตอนนี้เลยไหม? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  ไม่สำเร็จ: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  การคืนกลับ: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org มีบิลด์สำหรับ Windows จากนั้นต้องเพิ่มโฟลเดอร์ที่มี ffmpeg.exe ลงใน PATH หรือวางไฟล์ไว้ข้างโปรแกรมนี้"
+
+msgid "  Open the page? [Y/n] "
+msgstr "  เปิดหน้าเว็บไหม? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  เปิดหน้าเว็บไม่ได้: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "ไม่มี %s -- กำลังติดตั้ง ครั้งแรกจะใช้เวลาสองสามนาที"
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sตรวจสอบไทม์โค้ดของไฟล์เสียง"
+
+msgid ", %s not (no free picture)"
+msgstr ", อีก %s ตัวตั้งไม่ได้ (ไม่มีเฟรมว่าง)"
+
+msgid ", audio on A2"
+msgstr ", เสียงบน A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "อ่านไฟล์การกำหนดไม่ได้: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "ใช้เสียงจากกล้องไม่ได้: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "ใช้ MULTITRACK ไม่ได้\n  ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แต่พบเพียง %s\n  แทร็กหนึ่งคือการบันทึกแยกต่างหาก ช่องสัญญาณหนึ่งของเครื่องบันทึก\n  หลายช่อง หรือเสียงของกล้อง -- ซึ่งนับทันทีที่ช่อง\n  เสียงจากกล้องตั้งเป็น \"ใช้เสียงในตัว\" ถ้าไม่มีสองแทร็กแบบนี้ ก็ไม่มี\n  อะไรให้แยก และไฟล์เดียวกันจะทำงานเป็น\n  โปรดักชันธรรมดา"
+
+msgid "No preset is called %r."
+msgstr "ไม่มีพรีเซ็ตชื่อ %r"
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "ไม่มีเสียงในกล้อง -- ไม่มีอะไรให้ทำงาน"
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "มีไฟล์เสียงไฟล์เดียวและไม่มีภาพ -- ไม่มีอะไรต้องทำ"
+
+msgid "Open project ..."
+msgstr "เปิดโปรเจกต์ ..."
+
+msgid "Save project"
+msgstr "บันทึกโปรเจกต์"
+
+msgid "Close project"
+msgstr "ปิดโปรเจกต์"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "ไฟล์โปรเจกต์จะอยู่ในโฟลเดอร์เอาต์พุต แต่ยังไม่ได้เลือกโฟลเดอร์ โปรดเลือกหนึ่งโฟลเดอร์"
+
+msgid "Written:\n\n  %s"
+msgstr "เขียนแล้ว:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "ไม่ได้เขียนอะไร -- ยังไม่มีฟุตเทจ"
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nใครเป็นผู้ถาม -- เป็นข้อเสนอ ไม่มีการตั้งค่าใดจากส่วนนี้"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s เวลาพูด %s, %s จาก %s ประโยคเป็นคำถาม"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  ลำดับเชื่อถือได้ แต่ระยะห่างระหว่างกันเชื่อถือไม่ได้: วัดจากสี่ตอน ลำดับไม่เคยสลับกัน ขณะที่ระยะห่างระหว่างคนแรกกับคนสุดท้ายเปลี่ยนไปถึงสี่เท่า ต้องมีเสียงพูดหนึ่งเสียงต่อแทร็ก; ถ้าสองแทร็กมีเสียงพูดเดียวกัน จะไม่บอกอะไรเลย"
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  ใครเป็นผู้ถาม -- ไม่ระบุที่นี่: มีสองแทร็กที่มีเสียงพูดเดียวกัน คำถามจึงจะไปตกอยู่กับเครื่องบันทึกที่เปิดเสียงดังที่สุด"
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nไมโครโฟนตัวไหน -- เป็นข้อเสนอ ไม่มีการตั้งค่าใดจากส่วนนี้"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s ฟังเหมือน %-20s %s %% อยู่ในแทร็กนั้น นำแทร็กถัดไป %s จุด"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  ใช้ได้ภายใต้ข้อสมมติเดียว: หนึ่งคนหนึ่งไมโครโฟน และแต่ละตัวรับเสียงเฉพาะคนนั้น หากแทร็กซ้อนทับกันมากจนแยกไม่ออก หรือเสียงพูดสองเสียงชี้ไปที่ไมโครโฟนตัวเดียวกัน จะไม่บอกอะไรเลยแทนที่จะบอกสิ่งที่ไม่แน่นอน"
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nเสียงพูดควรชื่ออะไร -- ข้อเสนอ"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s อาจชื่อ %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s แทบไม่ได้พูดในช่วงเวลา -- ข้อเสนอ: ไม่ใช้"
+
+msgid "Guest"
+msgstr "แขกรับเชิญ"
+
+msgid "Host"
+msgstr "พิธีกร"
+
+msgid "Host %d"
+msgstr "พิธีกร %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  ใช้กับเสียงพูดที่ยังใช้ชื่อที่โปรแกรมตั้งให้เท่านั้น ชื่อที่มีคนพิมพ์ไว้จะไม่ถูกแตะต้อง บทบาทอ่านจากว่าใครถามและใครตอบ ซึ่งใช้ได้กับบทสนทนาที่มีแขกรับเชิญหนึ่งคน และเป็นข้อเสนอ ไม่ใช่การตั้งค่า"
+
+msgid "Skip this version"
+msgstr "ข้ามเวอร์ชันนี้"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "เฉพาะเวอร์ชันนี้ เวอร์ชันถัดไปจะถามอีกครั้ง และ วิธีใช้ > ค้นหาเวอร์ชันใหม่กว่าตอนนี้ ถามได้ทุกเมื่อ"
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  มี %s อยู่แล้ว -- ไม่ดึงซ้ำ"
+
+msgid "The text for %s could not be fetched."
+msgstr "ดึงข้อความสำหรับ %s ไม่ได้"
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  การตรวจสอบ:       แทร็กหนึ่งในสองแทร็กไม่อยู่ในไฟล์ที่เขียน จึงไม่ได้วัดอะไร"
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  การตรวจสอบ:       เปรียบเทียบสองแทร็กไม่ได้ (ความตรงกัน %s เกณฑ์ขั้นต่ำ %s) ข้อนี้ไม่ได้บอกอะไรเรื่องจังหวะเวลา"
+
+msgid "Project found"
+msgstr "พบโปรเจกต์"
+
+msgid "Open the project"
+msgstr "เปิดโปรเจกต์"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "ทุกอย่างจะกลับมาจากไฟล์นี้: ชื่อ การแยกผู้พูด การกำหนด ประเภท ช่วงเวลา รายการไฟล์จะถูกแทนที่ด้วยรายการในโปรเจกต์"
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "มีไฟล์โปรเจกต์อยู่กับฟุตเทจชุดนี้:\n\n  %s\n  เขียนเมื่อ %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "มีไฟล์โปรเจกต์หลายไฟล์อยู่กับฟุตเทจชุดนี้ ไฟล์ไหน?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "เปิดโปรเจกต์แล้ว\n  ข้อมูลที่ป้อนไว้กลับมาครบ ยังไม่ได้คำนวณอะไรในเซสชันนี้\n  โฟลเดอร์เอาต์พุตมีไฟล์ของรอบการทำงานล่าสุด:\n  %s\n\n  ทางเลือกสามทางจากตรงนี้:\n    • ด้านล่าง \"เปิดโฟลเดอร์ผลลัพธ์\" -- ดูไฟล์จากรอบนั้น\n    • ด้านล่าง \"สร้างโปรเจกต์ Resolve\" -- จากไฟล์ส่งมอบของรอบนั้น\n      โดยไม่ต้องคำนวณใหม่\n    • ด้านบน \"เริ่ม\" -- คำนวณทุกอย่างใหม่และเขียนทับไฟล์\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "บันทึกโปรเจกต์แล้ว\n  %s\n  เปิดรอบการทำงานนี้อีกครั้งได้ภายหลัง -- ที่มุมซ้ายบน\n  \"เปิดโปรเจกต์ ...\"\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "โหลดพรีเซ็ตไม่ได้: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "มีกล้องหลายตัวแต่ไม่มีไฟล์เสียง กล้องแต่ละตัวจะมีเสียงของตัวเอง --\nนั่นคือหน้าที่ของ --multitrack ไม่เช่นนั้นก็ทีละกล้อง"
+
+msgid "The file is NOT recognised as HDR."
+msgstr "ไฟล์นี้ไม่ได้รับการระบุว่าเป็น HDR"
+
+msgid "The file is tagged as HDR."
+msgstr "ไฟล์นี้ถูกแท็กเป็น HDR"
+
+msgid "Unknown extension, skipped: %s"
+msgstr "นามสกุลไฟล์ที่ไม่รู้จัก ข้าม: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "ควรใช้พรีเซ็ต Auphonic ใดประมวลผลไฟล์นี้?"
+
+msgid "Would write: %s"
+msgstr "จะเขียน: %s"
+
+msgid "channel count unknown"
+msgstr "ไม่ทราบจำนวนช่องสัญญาณ"
+
+msgid "is actively taken out"
+msgstr "ถูกลบออกโดยตรง"
+
+msgid "not readable"
+msgstr "อ่านไม่ได้"
+
+msgid "the default device"
+msgstr "อุปกรณ์เริ่มต้น"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: ไม่มีเสียงให้แยกออกมา (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  มีโปรเจกต์ชื่อนี้อยู่แล้ว: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  เก็บกวาดแทร็กเสียง"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  คลิปใน Media Pool"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  ใช้ไม่ได้: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  รีเฟรชรายการตัดต่อ"
+
+msgid "\n  Render job"
+msgstr "\n  งานเรนเดอร์"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  ส่วนของ Resolve หยุดทำงาน: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  หยุดแล้ว: %s"
+
+msgid "\n  Settings"
+msgstr "\n  การตั้งค่า"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  หยุดแล้ว: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  มีโปรดักชันชื่อนี้อยู่แล้ว"
+
+msgid "\n  This produces:"
+msgstr "\n  ผลที่ได้:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== รอบการทำงาน %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nประมวลผลแล้ว"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nการเปรียบเทียบสีของกล้อง"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nตรวจสอบสิ่งที่ส่งกลับมา"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nอัตราเฟรมต่างกัน: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nขนาดเฟรมต่างกัน: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nสิ้นสุดโดยไม่มีผลลัพธ์: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nเสร็จสิ้นแต่มีข้อผิดพลาด\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nกำลังวัดแกนเวลา"
+
+msgid "\nMETRICS"
+msgstr "\nค่าชี้วัด"
+
+msgid "\nMIXING"
+msgstr "\nการมิกซ์"
+
+msgid "\nNORMALISE"
+msgstr "\nการนอร์มัลไลซ์"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  ไม่มีภาพ: แทร็กจะถูกจัดตำแหน่งเทียบกันเอง"
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs ไม่มีผลที่นี่: แทร็กจะออกไปตามที่บันทึกไว้ และความดังจะถูกตั้งในที่ที่นำแทร็กไปมิกซ์"
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nมีแทร็กเดียวที่ได้ตำแหน่ง -- ไม่มีอะไรเหลือให้วางเทียบ"
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  ช่วงเวลา:             %s -- ทุกอย่างที่แทร็กใดก็ตามได้ยิน"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: ความเงียบ %s ที่ต้น และ %s ที่ท้าย"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nเมื่อรวมบล็อกแล้วเหลือแทร็กเดียว แต่ Multitrack ต้องมีหนึ่งแทร็กต่อหนึ่งเสียงพูด ในกรณีที่คนสองคนถูกนับเป็นการบันทึกเดียว --apart จะแยกบล็อกหนึ่งออกมา"
+
+msgid "RECOGNISED PLAN"
+msgstr "แผนที่ตรวจพบ"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nไม่สามารถจัดตำแหน่งแทร็กเสียงใดได้ -- ไม่มีอะไรจะวางบนแกน"
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nเสียงกับภาพมีช่วงที่ตรงกันเพียง %s และการจัดตำแหน่งพบจุดตัวอย่าง %s จุดในช่วงนั้น น้อยเกินกว่าจะวางสิ่งใดได้"
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: มิกซ์ %s รวมกัน"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nไม่มีไฟล์วิดีโอที่ใช้ได้ -- หากไม่มีเสียงจากกล้องก็ไม่มีแกนเวลาร่วม"
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nการตรวจสอบก่อนเริ่ม -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nการประมวลผล: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- ดูอย่างเดียว"
+
+msgid "\nRESULT"
+msgstr "\nผลลัพธ์"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nกำลังบันทึกแทร็ก"
+
+msgid "\nStopped: %s"
+msgstr "\nหยุดแล้ว: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nกำลังเขียนแทร็กลงบนแกน"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  เสร็จแล้ว%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        แทร็ก %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s ไม่มีไฟล์ใน Media Pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   ว่างเปล่า (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s ตั้งแต่ %s ยาว %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s ระยะทางเสียง %4s ms (%s m), ออฟเซ็ต %6s ms, การคลาด %5s ppm (%s จุด, เหลือ %s ms)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- ไม่พบสิ่งที่เหมาะสม"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    ข้อควรระวัง: %s ตรงนั้นไม่มีภาพ;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    กลุ่มสี: %s -- กำหนดคลิปครบทุกคลิปแล้ว"
+
+msgid "    Colours per angle:"
+msgstr "    สีของแต่ละมุมกล้อง:"
+
+msgid "    Cross-check:"
+msgstr "    การตรวจสอบไขว้:"
+
+msgid "    Left without picture: %s"
+msgstr "    ที่ยังไม่มีภาพ: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    ไม่พบรูปแบบ MP4 รูปแบบที่มีให้เลือก: %s"
+
+msgid "    No clips found."
+msgstr "    ไม่พบคลิป"
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    ไม่พบโคเดกที่ตรงกัน โคเดกที่มีให้เลือก: %s"
+
+msgid "    Render settings rejected."
+msgstr "    การตั้งค่าเรนเดอร์ถูกปฏิเสธ"
+
+msgid "    the measured window is therefore kept."
+msgstr "    จึงคงช่วงเวลาที่วัดได้ไว้"
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s ช็อต รวม %s s โดยไม่มีเสียงของช็อตเหล่านั้น"
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  สร้างแทร็กวิดีโอ %s แทร็ก แทร็กเสียง %s แทร็กแล้ว (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s ได้รับ %s แทร็กที่มิกซ์รวมกัน: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  แทร็กเสียง %d:       %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  อะตอมของกล้อง:     เพิ่ม %s แล้ว -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: ช่วง %s ที่ต้นและ %s ที่ท้ายไม่มีภาพ จึงถูกตัดออก"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    เริ่มที่ %s และจบที่ %s -- ช่วงที่กล้องทุกตัวเห็น"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nกำลังหยุด รอบการทำงานจะจบทันทีที่ทำได้โดยไม่ทิ้งไฟล์ที่เขียนค้างไว้ครึ่งทาง -- รอสักครู่\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "ภาพมุมกว้างยาว %s s น้อยกว่าช็อตที่สั้นที่สุด %s s -- จึงถูกรวมหายไปอีกและไม่ปรากฏเลย\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nวัดเสร็จแล้ว ไม่มีการเขียนสิ่งใด -- รอบทดลองปล่อยโฟลเดอร์ผลลัพธ์ไว้ตามเดิม\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nหยุดระหว่าง: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "ทุกอย่างหลังขั้นตอนนั้นขาดหายไป ในโฟลเดอร์มีเพียงส่วนหนึ่งของรอบการทำงาน ไม่ใช่ผลลัพธ์"
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  ช่วงเวลาร่วม:          %s ถึง %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  สร้างเมื่อ:     %s"
+
+msgid "  Error while writing: %s"
+msgstr "  ข้อผิดพลาดขณะเขียน: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  ไฟล์:    %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  ขอสองช่องสัญญาณ -- การบันทึกเป็นสเตอริโอ"
+
+msgid "  From %s"
+msgstr "  จาก %s"
+
+msgid "  In summary: %s"
+msgstr "  สรุป: %s"
+
+msgid "  In the archive: %s"
+msgstr "  ในไฟล์เก็บถาวร: %s"
+
+msgid "  Missing:     %s"
+msgstr "  ที่ขาด:        %s"
+
+msgid "  Player: %s"
+msgstr "  เครื่องเล่น: %s"
+
+msgid "  Production:  %s"
+msgstr "  โปรดักชัน:     %s"
+
+msgid "  Project %r"
+msgstr "  โปรเจกต์ %r"
+
+msgid "  Project %r created."
+msgstr "  สร้างโปรเจกต์ %r แล้ว"
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  ผลลัพธ์:             ประมาณ %s LUFS, พีก %s dBTP"
+
+msgid "  Results:"
+msgstr "  ผลลัพธ์:"
+
+msgid "  Results:     none"
+msgstr "  ผลลัพธ์:       ไม่มี"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  ใช้ไฟล์ที่มีอยู่ซ้ำ -- การคำนวณใหม่ไม่มีค่าใช้จ่าย"
+
+msgid "  Time limit: %s"
+msgstr "  เวลาจำกัด: %s"
+
+msgid "  To upload:   %s"
+msgstr "  ที่ต้องอัปโหลด:  %s"
+
+msgid "  Tracks:      %s"
+msgstr "  แทร็ก:        %s"
+
+msgid "  Tracks: %s"
+msgstr "  แทร็ก: %s"
+
+msgid "  Transcript: %s"
+msgstr "  บทถอดความ: %s"
+
+msgid "  Uploaded:"
+msgstr "  อัปโหลดแล้ว:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  ส่วนต่าง:                         %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  ส่วนต่าง:                         %s  (%s เฟรม)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  ส่วนต่าง:                         %s  (%s เฟรม) -- ตรงกัน"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  ออฟเซ็ตที่วัดได้:                    %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  ออฟเซ็ตตามไทม์โค้ด:                %s"
+
+msgid "Abort: %s"
+msgstr "หยุดกลางคัน: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "กำลังดึงเสียงจากกล้อง"
+
+msgid "FOR RESOLVE"
+msgstr "สำหรับ Resolve"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "ไม่มีไฟล์เสียง -- ใช้เสียงจากกล้อง"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "ไม่มีการบันทึกเสียงแยก -- ใช้เสียงจากกล้อง"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "การประมวลผลที่ AUPHONIC.COM (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "การประมวลผลที่ AUPHONIC.COM:"
+
+msgid "Processing failed: %s"
+msgstr "การประมวลผลล้มเหลว: %s"
+
+msgid "RESULT"
+msgstr "ผลลัพธ์"
+
+msgid "Resolve part stopped: %s"
+msgstr "ส่วนของ Resolve หยุดทำงาน: %s"
+
+msgid "Stopped: %s"
+msgstr "หยุดแล้ว: %s"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  วิธีแปลง: ใน Media Pool คลิกขวาที่ \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\"\n  ทำได้ทางเดียว -- แต่รอบการทำงานใหม่จะสร้าง Timeline ขึ้นใหม่ได้ทุกเมื่อ\n  มุมกล้อง:%s\n  เรื่องอื่นทั้งหมด -- การเลือกเสียง กลุ่มสี การจัดเฟรม -- อยู่ใน\n  คู่มือ docs/resolve.md\n"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s กล้องทุกตัวเรียงเคียงกัน -- จะกลายเป็นคลิป Multicam"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s ภาพจากการตัดสลับกล้อง เสียงต่อเนื่องเป็นชิ้นเดียว"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s กล้องต่อเนื่องเป็นชิ้นเดียว มิกซ์อยู่ด้านล่าง"
+
+msgid "   --   audio only"
+msgstr "   --   เสียงเท่านั้น"
+
+msgid "   -- not found"
+msgstr "   -- ไม่พบ"
+
+msgid "   Caution: more than one frame"
+msgstr "   ข้อควรระวัง: มากกว่าหนึ่งเฟรม"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s ออฟเซ็ต %s ms%s, ความยาว %s s, การกระจาย %s ms, %s จาก %s จุด%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (ไฟล์นี้จบเร็วกว่า)"
+
+msgid "  (this file starts later)"
+msgstr "  (ไฟล์นี้เริ่มช้ากว่า)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  ไม่มี Timeline ของ Resolve ที่ทำงานที่อัตรานี้; จะถูกแปลง"
+
+msgid "  --  this file is outside"
+msgstr "  --  ไฟล์นี้อยู่นอกช่วง"
+
+msgid "  -->  aligned"
+msgstr "  -->  จัดตำแหน่งแล้ว"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  จัดตำแหน่งแล้ว หักการคลาดของนาฬิกา %s ppm ออกแล้ว"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  การตรวจสอบ:       %s เทียบกับแทร็กกล้อง %s ms (ความตรงกัน %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  สร้างได้ด้วย \"สร้างโปรเจกต์ Resolve\" ในหน้าต่างโปรแกรม Resolve ต้องเปิดอยู่"
+
+msgid "  The handover file could not be written."
+msgstr "  ไม่สามารถเขียนไฟล์ส่งมอบได้"
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  สิ่งที่จะได้คือโปรเจกต์ การนำเข้า และ %s:"
+
+msgid " (paused)"
+msgstr " (หยุดชั่วคราว)"
+
+msgid " (playing)"
+msgstr " (กำลังเล่น)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- การตั้งจุดเข้าหรือจุดออกจะช่วยประหยัดการอัปโหลด"
+
+msgid " -- not readable"
+msgstr " -- อ่านไม่ได้"
+
+msgid " -- nothing to fault."
+msgstr " -- ไม่มีข้อบกพร่อง"
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- มีเพียงเมทริกซ์ที่ระบุว่า BT.2020"
+
+msgid " and "
+msgstr " และ "
+
+msgid " from %s files"
+msgstr " จาก %s ไฟล์"
+
+msgid " not."
+msgstr " ไม่ได้"
+
+msgid "%s blocks"
+msgstr "%s บล็อก"
+
+msgid "%s brought to the preset"
+msgstr "%s แทร็กปรับตามพรีเซ็ตแล้ว"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s ช่องสัญญาณ -- ถูกแยกเป็นแทร็ก ดูแถวด้านบน"
+
+msgid "%s checked"
+msgstr "ตรวจสอบแล้ว %s รายการ"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s จาก %s การเปรียบเทียบต่ำกว่า %s dB -- ทุกการบันทึกเทียบกับทุกการบันทึกอื่น ทั้งสองทิศทาง"
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "ไฟล์วิดีโอ %s จาก %s ไฟล์ไม่มีเส้นโค้งและปริภูมิสีในกล่อง colr%s -- น่าจะเป็นฟุตเทจ log"
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r เป็นไทม์โค้ด แต่ที่นี่ไม่มีภาพ จึงไม่มีกล้องให้นับจาก ในกรณีนี้ใช้ได้เฉพาะค่าที่นับจากจุดเริ่มของช่วงเวลา เช่น +12:30"
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r เป็นไทม์โค้ด แต่แกนเวลาไม่ได้ผูกกับนาฬิกาใด: ไม่มีไฟล์ใดที่นี่มีไทม์โค้ด รวมถึงกล้องอ้างอิง %s ด้วย ในกรณีนี้ใช้ได้เฉพาะค่าที่นับจากจุดเริ่มของช่วงเวลา เช่น +12:30"
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r ไม่ใช่พรีเซ็ต Multitrack"
+
+msgid "%r is not a number."
+msgstr "%r ไม่ใช่ตัวเลข"
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   ไม่เข้ากับไฟล์อื่น: ระบุเสียงไม่ได้, ไม่มีไทม์โค้ด\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "ตั้งเป็น %s แล้ว; %s อยู่ห่างเพียงคลิกเดียว"
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "ถูกข้าม เพราะมี %s อยู่แล้ว; %s อยู่ห่างเพียงคลิกเดียว"
+
+msgid "Its sound cannot be used."
+msgstr "ใช้เสียงของไฟล์นี้ไม่ได้"
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   ระบุเสียงไม่ได้; วางตามไทม์โค้ดของไฟล์"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   แอปไม่รู้จักรูปแบบนี้"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s บล็อก"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- จะให้ทำอย่างไรกับสิ่งนี้?\nรายละเอียดอยู่ในล็อก"
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz แทนที่จะเป็น %s kHz -- จะถูกแปลงระหว่างการประมวลผล"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "วาง %s ไม่ได้: เสียงของไฟล์ไม่มีส่วนที่ตรงกับฟุตเทจอื่นเลย และไฟล์ไม่มีไทม์โค้ด ไฟล์นี้ต้องมีไทม์โค้ดที่เข้ากับการบันทึกอื่น ซึ่งต้องตั้งด้วยโปรแกรมอื่น"
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s ไม่เข้ากับสิ่งใดในฟุตเทจและสั้นกว่าไฟล์อื่นมาก: เสนอให้เป็นอินโทร ซึ่งจะวางไว้ด้านหน้าและไม่มีการวัดเลย"
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "ตั้ง %s ไว้ แต่ที่นี่ไม่มีการปรับใดๆ: แทร็กจะออกไปตามที่บันทึกไว้ และความดังจะถูกตั้งในที่ที่นำแทร็กไปมิกซ์"
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s วางได้อีกครั้งและกลับเข้ามาในรอบการทำงานแล้ว"
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "ติดตั้ง %s ไม่ได้\nติดตั้งเอง:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s ไม่มีแทร็กเสียง"
+
+msgid "%s in %s"
+msgstr "%s ใน %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s ในไมโครโฟนของ %s: เบากว่าในไมโครโฟนของตัวเอง %s dB"
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s อยู่ใน %s -- ตอนนี้ไฟล์อยู่ในเครื่องเล่นแล้ว"
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s ไม่ได้อยู่บนแกนเวลาของตอน: จะถูกวางไว้ก่อนหรือหลังฟุตเทจ ไม่ได้ตัดแทรกเข้าไป จุดเข้าและจุดออกเป็นของส่วนที่อยู่ระหว่างกลาง"
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s ไม่อยู่ในไฟล์วิดีโอใดเลย มีไทม์โค้ดที่เข้ากับฟุตเทจอยู่ในไฟล์หรือไม่?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s ในไมโครโฟนของ %s เบากว่าเพียง %s dB"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: ยังเลื่อนตำแหน่งไม่ได้ จะทำภายหลัง (%s)"
+
+msgid "%s: not there"
+msgstr "%s: ไม่มีที่นั่น"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s) ครั้งที่ %d จากนั้นอยู่ที่ %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: ควรไปที่ %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", ไม่มีเสียง"
+
+msgid "-- only one camera"
+msgstr "-- มีกล้องเดียว"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- ข้ามไปที่เวลาโปรแกรม %s%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- ตั้งตำแหน่งแล้ว เวลาโปรแกรมเดินจาก %s ---"
+
+msgid "... or add files ..."
+msgstr "... หรือเพิ่มไฟล์ ..."
+
+msgid "/not seekable"
+msgstr "/เลื่อนตำแหน่งไม่ได้"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s ช็อต</b>, มัธยฐาน %(med)s s, สั้นสุด %(short)s s, กล้องเดียวนานสุด %(long)s s</span> เวลาพูด: <b>%(own)s %%</b> อยู่บนกล้องของผู้พูดเอง (%(own_t)s), %(wide)s %% อยู่บนภาพมุมกว้าง (%(wide_t)s), <span style='color:%(warn)s'>ที่ %(off)s %% (%(off_t)s) กล้องของผู้พูดไม่ได้ใช้งาน</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "แต่ละคู่ช่องสัญญาณจะถูกประเมินแยกกัน: เป็นแทร็กสเตอริโอหนึ่งแทร็ก หรือไมโครโฟนสองตัวจึงเป็นสองแทร็ก อินพุตที่เงียบจะถูกตัดออก แถวใต้ไฟล์บอกสิ่งที่วัดได้ และเครื่องหมายถูกมีผลเหนือกว่าค่าที่วัดได้"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "ค่าติดลบทำให้ภาพนำหน้าเสียง"
+
+msgid "Add files ..."
+msgstr "เพิ่มไฟล์ ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "การจัดตำแหน่งใช้ออฟเซ็ตที่วัดได้; ไทม์โค้ดใช้เพียงเพื่อการตรวจสอบไขว้"
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "การบันทึกทั้งหมดมีชื่อเดียวกัน -- จึงได้แทร็กเดียว"
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "ทุกแถวมีชื่อเดียวกัน -- จึงได้แทร็กเดียว แต่ Multitrack ต้องมีอย่างน้อยสองแทร็ก"
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "การกำหนด: แทร็กเสียงใดเป็นของกล้องใด"
+
+msgid "Audio"
+msgstr "เสียง"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "เสียงและวิดีโอ (%s);;ไฟล์ทั้งหมด (*)"
+
+msgid "Audio at programme time"
+msgstr "เสียงตามเวลาโปรแกรม"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic สร้างแทร็กต่างจากที่ขอ: ได้ %s แทนที่จะเป็น %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic รายงานข้อผิดพลาด: %s"
+
+msgid "Bleed"
+msgstr "เสียงรั่ว"
+
+msgid "Blocks"
+msgstr "บล็อก"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "ทั้งสองอย่างพร้อมกันไม่ได้: แทร็กที่ส่งกลับมาจะไปที่ค่าหนึ่ง ส่วนมิกซ์ของโปรแกรมเองจะไปอีกค่าหนึ่ง โปรดตั้ง --lufs %.0f หรือเปลี่ยนพรีเซ็ต"
+
+msgid "Camera"
+msgstr "กล้อง"
+
+msgid "Camera audio, %s to go ..."
+msgstr "เสียงจากกล้อง เหลืออีก %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- ตัวอย่าง  (ความยาว %s)"
+
+msgid "Why the run cannot start"
+msgstr "เหตุใดจึงเริ่มรอบการทำงานไม่ได้"
+
+msgid "Cannot start yet: %s"
+msgstr "ยังเริ่มไม่ได้: %s"
+
+msgid "Change rejected: %s"
+msgstr "การเปลี่ยนแปลงถูกปฏิเสธ: %s"
+
+msgid "Check again"
+msgstr "ตรวจสอบอีกครั้ง"
+
+msgid "Check the connection to Resolve again"
+msgstr "ตรวจสอบการเชื่อมต่อกับ Resolve อีกครั้ง"
+
+msgid "Check itself failed: %s"
+msgstr "การตรวจสอบเองล้มเหลว: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "ตรวจสอบคีย์และดึงพรีเซ็ต"
+
+msgid "Chosen"
+msgstr "เลือกแล้ว"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "นาฬิกา %7.2f%s | B1[%s] %s | B2[%s] %s | เสียง %s %s"
+
+msgid "Close"
+msgstr "ปิด"
+
+msgid "Connects to Resolve again."
+msgstr "เชื่อมต่อกับ Resolve อีกครั้ง"
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "เนื้อหา: กล้องเหมือนกล้องอื่นทั่วไป\nภาพมุมกว้าง: กล้องที่ไม่มีใครนั่งอยู่ด้านหน้า -- ไม่มีผู้พูด และการตัดต่อจะสลับมาที่กล้องนี้ในช่วงหยุดพูดและเมื่อมีคนพูดยาวคนเดียว\nอินโทรและเอาต์โทรเป็นคลิปสำเร็จรูป -- ไม่จัดตำแหน่ง ไม่ประมวลผล เพียงวางลงใน Timeline\nข้ามวิดีโอนี้: ไฟล์จะไม่ถูกใช้เลย"
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  กล้องภาพมุมกว้าง %s ตัว: การตัดต่อใช้ %s"
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  กล้องทุกตัวมีผู้พูด จึงไม่มีภาพมุมกว้าง: การตั้งค่าภาพมุมกว้างทั้งสี่และเครื่องหมายถูกสำหรับช่วงต้นและท้ายไม่มีผลที่นี่"
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "ไม่มีกล้องใดที่ไม่มีผู้พูด จึงไม่มีภาพมุมกว้าง: การตั้งค่าภาพมุมกว้างทั้งสี่และเครื่องหมายถูกสำหรับช่วงต้นและท้ายไม่มีผล โปรดตั้งประเภทของกล้องหนึ่งตัวเป็น \"ภาพมุมกว้าง\" หรือปล่อยกล้องหนึ่งตัวไว้โดยไม่มีผู้พูด"
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "วางตามเฟส ความคม %s เทียบกับค่าขั้นต่ำ %s ไม่ทราบการคลาด"
+
+msgid "placed on the bands that move"
+msgstr "วางตามย่านความถี่ที่เคลื่อนไหว"
+
+msgid "Why the wide shot settings are grey"
+msgstr "เหตุใดการตั้งค่าภาพมุมกว้างจึงเป็นสีเทา"
+
+msgid "because no speaker is assigned to it"
+msgstr "เพราะไม่ได้กำหนดผู้พูดให้"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "ทำเครื่องหมายเป็นภาพมุมกว้าง -- ไม่รับผู้พูด"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "ไม่ได้กำหนดผู้พูดให้ แต่การตัดต่อใช้ %s"
+
+msgid "the cut uses %s"
+msgstr "การตัดต่อใช้ %s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "ไฟล์ไม่มีเส้นโค้งและปริภูมิสี"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "จุดเข้าและจุดออกจะใช้ได้เมื่อกำหนดแกนเวลาแล้ว -- จากไทม์โค้ดหรือจากการวัด"
+
+msgid "In point is %s before the first frame"
+msgstr "จุดเข้าอยู่ก่อนเฟรมแรก %s"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "จุดเข้าตอนนี้คือ %s แต่ไฟล์ที่มีอยู่เป็นของ %s\n  เสียงในวิดีโอถูกตัดตามช่วงเวลาเดิม -- โปรดกดปุ่มเริ่มด้านบน\n  อีกครั้ง"
+
+msgid "Out point is %s after the last frame"
+msgstr "จุดออกอยู่หลังเฟรมสุดท้าย %s"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "จุดออกตอนนี้คือ %s; ช่วงเวลาจะยาว %s ส่วนไฟล์ที่มีอยู่\n  ยาว %s -- โปรดกดปุ่มเริ่มด้านบนอีกครั้ง"
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "ไฟล์ส่งออกมักใช้ช่วงสัญญาณแบบจำกัด ช่วงแบบเต็มไม่ผิด แต่เครื่องเล่นบางตัวตีความผิด"
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "กำหนดว่า auphonic.com จะประมวลผลเสียงอย่างไร\n\n\"%s\" จะเก็บคีย์ไว้ตามเดิมแต่ไม่ส่งไปที่นั่น\nเสียงจะถูกรวมและนอร์มัลไลซ์เท่านั้น ไม่ถูกแยก --\nและหากไม่มีแทร็กแยกก็ไม่มีการตัดสลับกล้อง"
+
+msgid "Distance to mean"
+msgstr "ระยะห่างจากค่าเฉลี่ย"
+
+msgid "Drag audio and video files here"
+msgstr "ลากไฟล์เสียงและวิดีโอมาที่นี่"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "รอบทดลอง: วัดอย่างเดียว ไม่เขียนและไม่อัปโหลดสิ่งใด"
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "ระหว่างการทักทายและการบอกลา ภาพจะยังเป็นมุมกว้าง"
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "เฟรมจะค้างนานขึ้นเล็กน้อย; ไฟล์ไม่ได้สั้นลงเพราะเหตุนี้ ซอฟต์แวร์ตัดต่อจะทำซ้ำประมาณหนึ่งเฟรมทุก %s s และภาพกับเสียงจากกล้องยังคงอยู่ด้วยกัน"
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "เฟรมจะค้างสั้นลงเล็กน้อย; ไฟล์ไม่ได้ยาวขึ้นเพราะเหตุนี้ ซอฟต์แวร์ตัดต่อจะข้ามประมาณหนึ่งเฟรมทุก %s s และภาพกับเสียงจากกล้องยังคงอยู่ด้วยกัน"
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "แปดบิตไม่พอสำหรับ HDR: ทุกการไล่สีจะเกิดแถบ และ YouTube ต้องการสิบหรือสิบสองบิต"
+
+msgid "Envelope"
+msgstr "เอนเวโลป"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s ถูกวางไว้ที่ %s ซึ่งไม่ใช่กล้องของรอบการทำงานนี้ -- แต่การตัดต่อก็ยังระบุชื่อนั้น"
+
+msgid "Envelope failed: %s"
+msgstr "เอนเวโลปล้มเหลว: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "เอนเวโลปและเสียงจากกล้องจะถูกเตรียมอยู่เบื้องหลัง"
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "ทุกแถวต้องมีชื่อ -- ที่ Auphonic ชื่อนี้จะกลายเป็น track ID"
+
+msgid "External preview -- the app does not know this format"
+msgstr "ตัวอย่างภายนอก -- แอปไม่รู้จักรูปแบบนี้"
+
+msgid "Fetching audio"
+msgstr "กำลังดึงเสียง"
+
+msgid "Fetching audio ..."
+msgstr "กำลังดึงเสียง ..."
+
+msgid "File"
+msgstr "ไฟล์"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "ที่นั่นขาดไฟล์บางส่วน -- หากไม่อัปโหลดใหม่ก็คำนวณอะไรไม่ได้\n  ด้วย --auphonic-resume upload สคริปต์จะอัปโหลดอีกครั้ง; ซึ่งใช้เครดิต"
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "สำหรับ HDR ตัวเลือกที่ใช้กันทั่วไปคือ HEVC (Main 10), AV1 หรือ VP9 Profile 2 YouTube รับ H.264 ด้วย แต่ต้องใช้บิตเรตมากกว่า"
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "สำหรับสิบบิต HEVC ต้องใช้โปรไฟล์ Main 10 ใน Resolve อยู่ใต้ Deliver ในชื่อ \"Profile\""
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps ไม่ใช่ %s ตามในไฟล์ -- ในความยาวเท่าเดิมมีเฟรมน้อยลง %s เฟรม"
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps ไม่ใช่ %s ตามในไฟล์ -- ในความยาวเท่าเดิมมีเฟรมมากขึ้น %s เฟรม"
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "ระยะห่างระหว่างเฟรมแปรผัน %s %% -- จังหวะเฟรมไม่สม่ำเสมอ"
+
+msgid "Free space there: %s"
+msgstr "พื้นที่ว่างที่นั่น: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "ช่องว่าง %s ระหว่างบล็อก %d และ %d -- กล้องหยุดบันทึก"
+
+msgid "Drag to move the position."
+msgstr "ลากเพื่อย้ายตำแหน่ง"
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR ต้องเป็น 16 ตรงนี้ (PQ ซึ่งก็คือ HDR10) หรือ 18 (HLG) ใน Resolve: Gamma tag = ST.2084 หรือ HLG ส่วน 14 ไม่ใช่เส้นโค้ง HDR แต่เป็น SDR ในปริภูมิ BT.2020"
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR ต้องเป็น 9 ตรงนี้ (BT.2020) ใน Resolve: Color space tag = Rec.2020"
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR ต้องเป็น 9 ตรงนี้ (BT.2020 แบบความสว่างไม่คงที่)"
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG อ้างอิงกับจอแสดงผล -- จึงไม่มีรายการสำหรับจอมาสเตอริง"
+
+msgid "If empty: next to each video file."
+msgstr "ถ้าว่าง: ข้างไฟล์วิดีโอแต่ละไฟล์"
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "เกิดขึ้นระหว่างการบันทึกและแก้ไขตอนนี้ไม่ได้แล้ว ยิ่งไมโครโฟนแยกกันน้อย การลบเสียงรั่วที่ auphonic.com ก็ยิ่งต้องทำงานอย่างระมัดระวัง ครั้งหน้า: ให้ห่างจากไมโครโฟนข้างเคียงเป็นสามเท่าของระยะห่างจากปากของตัวเอง แล้วเสียงพูดข้างเคียงจะเบาลงประมาณ %s dB"
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ไม่เข้ากับฟุตเทจใดเลย จึงตัดต่อเข้าไปในตอนไม่ได้: ตั้งเป็นอินโทร"
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s ก็ไม่เข้ากับฟุตเทจใดเช่นกัน และมีอินโทรแล้ว: ไม่ใช้"
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s ถูกตั้งเป็น %s อยู่แล้ว และตอนหนึ่งมีแบบนี้ได้เพียงไฟล์เดียว ตอบเป็นอย่างอื่นตรงนี้ หรือเอาเครื่องหมายออกจากไฟล์นั้นก่อน"
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "อยู่ใน logs atom ของคำอธิบายภาพ -- Resolve ใช้สิ่งนี้ระบุปริภูมิสีขาเข้า เส้นโค้งต่างกันหมายถึงปริภูมิสีขาเข้าต่างกัน"
+
+msgid "Jumps to the end of the window."
+msgstr "ข้ามไปที่ท้ายช่วงเวลา"
+
+msgid "Jumps to the start of the window."
+msgstr "ข้ามไปที่ต้นช่วงเวลา"
+
+msgid "Keychain"
+msgstr "พวงกุญแจ"
+
+msgid "Limits the de-bleed: "
+msgstr "จำกัดการลบเสียงรั่ว: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "โหลดพรีเซ็ตแล้วเลือกหนึ่งรายการ หรือเว้นคีย์ API ไว้ว่าง"
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 ถูกปฏิเสธ -- ใช้ค่าเริ่มต้นต่อไป"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "วัดอย่างเดียว -- ไม่มีการเขียนหรืออัปโหลดใดๆ"
+
+msgid "Measuring %s (%s of %s)"
+msgstr "กำลังวัด %s (%s จาก %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "วัดไม่ได้: %s"
+
+msgid "Measuring the yardstick"
+msgstr "กำลังวัดมาตรวัด"
+
+msgid "Measuring time axis ..."
+msgstr "กำลังวัดแกนเวลา ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "เสียงที่ขาดหาย %s เติมด้วยความเงียบ%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "โหลดโมดูล DaVinciResolveScript ไม่ได้: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "หนึ่งแทร็กเสียงต่อหนึ่งคน แยกกันไปจนถึง auphonic.com\nไม่มีก็ใช้ได้ -- แต่จะไม่มีการลบเสียงรั่วและเลเวลเลอร์\nต้องมีแทร็กขาเข้าสองแทร็ก: การบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึก\nหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\"\nการตัดสลับกล้องไม่ต้องใช้ช่องทำเครื่องหมายนี้"
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (หนึ่งแทร็กต่อผู้พูด)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แทร็กคือการบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึกหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\" หลายบล็อกของการบันทึกเดียวกันนับเป็นหนึ่ง แทร็กที่พักไว้ไม่นับเลย"
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "ไม่มีคีย์ API ส่ง --auphonic-api-key KEY ตั้งค่า AUPHONIC_TOKEN หรือให้หน้าต่างโปรแกรมจำไว้ครั้งเดียว คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "ไม่มีไฟล์เสียงใดมีไทม์โค้ด จุดเข้าและจุดออกนับจากจุดเริ่มของฟุตเทจ -- ส่วนตำแหน่งของไฟล์เทียบกันจะวัดเอา"
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "ยังไม่มีเสียงที่ใช้งาน -- เพิ่มการบันทึกเสียง หรือตั้งเสียงจากกล้องของไฟล์วิดีโอเป็น \"ใช้เสียงในตัว\" ในรายการไฟล์"
+
+msgid "No audio tracks are assigned."
+msgstr "ไม่มีแทร็กเสียงที่กำหนดไว้"
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "ไม่มีกล้องที่กำหนดไว้ จึงไม่มีอะไรให้ตัดสลับ"
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "ยังไม่ได้กำหนดกล้อง -- เปิด Multitrack เพื่อกำหนด"
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "เชื่อมต่อกับ Resolve ไม่ได้\n  โปรแกรมทำงานอยู่หรือไม่? ตั้ง external scripting เป็น 'Local'\n  ใน Preferences > System > General แล้วหรือไม่?"
+
+msgid "No files or project opened yet."
+msgstr "ยังไม่ได้เปิดไฟล์หรือโปรเจกต์"
+
+msgid "No files selected yet."
+msgstr "ยังไม่ได้เลือกไฟล์"
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "ป้อนข้อมูลไม่ได้ ใช้ %s %s เพื่อกำหนดว่าจะให้ทำอะไร"
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "ที่นี่ไม่มีเครื่องเล่นในตัว -- การเล่นจะทำใน ffplay ในหน้าต่างของตัวเอง"
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "ไม่ได้ระบุพรีเซ็ต และป้อนข้อมูลไม่ได้ เลือกหนึ่งรายการจากด้านบนด้วย --auphonic-preset NAME"
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "ไม่มีพรีเซ็ตเก็บไว้ในบัญชี สร้างได้ในหน้าเว็บ"
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "ไม่รู้จักผู้พูดคนใดที่นี่ -- ถ้าไม่รู้ว่าใครพูดเมื่อไรก็ไม่มีอะไรให้ตัดสลับ"
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "ยังไม่มีเสียงพูดใดมีกล้อง -- แบบนี้ทุกช็อตจะเป็นช็อตเดียวกัน"
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "ยังไม่รู้จักผู้พูด -- ยังไม่ได้วัด ยังไม่ได้แยก และไม่มีไฟล์การส่งมอบจากรอบการทำงานก่อนหน้าใน %s หรือโฟลเดอร์ย่อย"
+
+msgid "Not found again after import: %s"
+msgstr "ไม่พบอีกหลังจากนำเข้า: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "จาก ffmpeg.org แล้วใส่โฟลเดอร์ลงใน PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "ผ่านตัวจัดการแพ็กเกจ: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "ที่นี่: %s ต้องการ: %s ขึ้นไป"
+
+msgid "no answer"
+msgstr "ไม่มีคำตอบ"
+
+msgid "Nothing runs until that is put right."
+msgstr "จะไม่มีอะไรทำงานจนกว่าจะแก้ไขเรื่องนี้"
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "จะไม่มีอะไรทำงานจนกว่าจะแก้ไขเรื่องนี้ ทำได้ดังนี้: %s"
+
+msgid "Get it: %s"
+msgstr "ติดตั้ง: %s"
+
+msgid "Quit"
+msgstr "ออก"
+
+msgid "That worked."
+msgstr "สำเร็จแล้ว"
+
+msgid "Installing ffmpeg"
+msgstr "กำลังติดตั้ง ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "เริ่มโปรแกรมใหม่เพื่อให้ใช้งานได้"
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "การดึงมาใช้เวลาสองสามนาที และข้อความจากกระบวนการจะแสดงในแท็บเอาต์พุต"
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "ใช้เวลาสองสามนาที -- ตัวจัดการแพ็กเกจอาจคอมไพล์จากซอร์ส ข้อความจากกระบวนการจะแสดงที่นี่"
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "ตอนนี้กำลังคอมไพล์ ซึ่งเป็นช่วงที่นานที่สุด: หลายนาทีบนเครื่องที่เร็ว และนานกว่านั้นมากบนเครื่องที่เก่ากว่า ไม่มีอะไรค้าง -- จะมีจุดปรากฏทุกไม่กี่วินาทีตราบที่ยังทำงานอยู่"
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg พร้อมแล้ว"
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "โปรแกรมจะอ่านค่านี้ตอนเริ่มทำงาน เริ่มใหม่ได้เลยตอนนี้ หรือจะเริ่มใหม่เองภายหลังก็ได้"
+
+msgid "Start again now"
+msgstr "เริ่มใหม่ตอนนี้"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "เริ่มใหม่ไม่สำเร็จ ปิดหน้าต่างแล้วเริ่มโปรแกรมแบบที่เคยทำ"
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  ย้าย ffmpeg ที่มีอยู่ออกไปก่อน: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  ดึง ffmpeg 9.0.1 ที่คอมไพล์แล้วพร้อม soxr มาได้: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  ดึงมาเลยไหม? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  กำลังดึง ffmpeg ที่คอมไพล์แล้ว ไฟล์ใหญ่ จึงใช้เวลาสองสามนาที: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s จาก %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "ดึงบิลด์มาไม่ได้: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  แตกไฟล์บิลด์ไม่ได้: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  ในไฟล์บีบอัดมีโปรแกรม %s จากสองโปรแกรม"
+
+msgid "  It is here: %s"
+msgstr "  อยู่ที่นี่: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "ติดตั้ง Homebrew จาก brew.sh แล้วทำขั้นตอนนี้อีกครั้ง"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "ffmpeg นี้มี soxr: การคลาดของนาฬิการะหว่างกล้องออกมาเป็นขั้นละ 0.21 ppm"
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "ffmpeg นี้ไม่มี soxr: การคลาดของนาฬิการะหว่างกล้องออกมาเป็นขั้นละ 21 ppm แทนที่จะเป็น 0.21"
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "ไม่มีก็ใช้งานได้ทุกอย่าง การดึงบิลด์ที่มี soxr ใช้เวลาสองสามนาที และข้อความจากกระบวนการจะแสดงในแท็บเอาต์พุต"
+
+msgid "Carry on"
+msgstr "ดำเนินการต่อ"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "ไม่บังคับ -- ถ้าไม่มี YouTube จะใช้ค่าเริ่มต้น (Sony BVM-X300) หากต้องการค่าเหล่านี้: ใน Resolve ให้เปิด HDR10+ ใน Color Management สั่ง \"Analyze All Shots\" ในหน้า Color และติ๊ก \"Embed HDR10 Metadata\" ตอนเรนเดอร์"
+
+msgid "Not ready yet:"
+msgstr "ยังไม่พร้อม:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "ไม่มีเสียงที่ได้ยินในแทร็กเลย"
+
+msgid "One audio recording has no speaker name yet."
+msgstr "การบันทึกเสียงหนึ่งรายการยังไม่มีชื่อผู้พูด"
+
+msgid "One frame back."
+msgstr "ถอยหลังหนึ่งเฟรม"
+
+msgid "One second back."
+msgstr "ถอยหลังหนึ่งวินาที"
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "แต่ละช็อตแสดงด้วยสีของกล้อง ชี้เมาส์เพื่อดูกล้องและความยาว คลิกเพื่อข้ามไป"
+
+msgid "Only one speaker"
+msgstr "ผู้พูดคนเดียว"
+
+msgid "Open json project file"
+msgstr "เปิดไฟล์โปรเจกต์ json"
+
+msgid "Open result folder"
+msgstr "เปิดโฟลเดอร์ผลลัพธ์"
+
+msgid "Open the settings, where the key is."
+msgstr "เปิดการตั้งค่าที่มีคีย์อยู่"
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "ลำดับไม่สำคัญ สำหรับการบันทึกหลายส่วน ใช้บล็อกแรกก็พอ"
+
+msgid "Overwrite"
+msgstr "เขียนทับ"
+
+msgid "Overwrite files"
+msgstr "เขียนทับไฟล์"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "ช่องภาพ %d กำลังโหลด %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "ช่องภาพ %d ที่ %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "เล่นและหยุดชั่วคราว -- ใช้แป้นเว้นวรรคก็ได้"
+
+msgid "Play and pause."
+msgstr "เล่นและหยุดชั่วคราว"
+
+msgid "Playback not possible"
+msgstr "เล่นไม่ได้"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "กำลังเล่น %s -- แทร็กที่ประมวลผลแล้วจาก auphonic.com\nปรับถึงระดับออกอากาศแล้ว เป็นเสียงเดียวกับในการตัดสลับกล้อง"
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "กำลังเล่น %s -- การบันทึกดิบ\nเสียงเบากว่าเสียงที่ประมวลผลแล้วมาก เมื่อแทร็กจาก auphonic.com\nมาถึงแล้ว ตัวอย่างจะใช้แทร็กเหล่านั้น"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "สาเหตุที่เป็นไปได้:\n  1. Resolve ไม่ได้ทำงานอยู่ -- อินเทอร์เฟซจะตอบก็ต่อเมื่อโปรแกรมทำงานอยู่เท่านั้น\n  2. Preferences > System > General: ตั้ง external scripting เป็น \"None\" แทนที่จะเป็น \"Local\"\n  3. รุ่นฟรี: มีรายงานว่าตั้งแต่เวอร์ชัน 19.1 external scripting สงวนไว้สำหรับรุ่น Studio ไม่พบคำชี้แจงอย่างเป็นทางการ -- การตรวจสอบนี้จึงวัดเอาแทนที่จะกล่าวอ้าง"
+
+msgid "Prepare pane %d for %s"
+msgstr "เตรียมช่องภาพ %d สำหรับ %s"
+
+msgid "Preset not readable: %s"
+msgstr "อ่านพรีเซ็ตไม่ได้: %s"
+
+msgid "Preview not possible: %s"
+msgstr "แสดงตัวอย่างไม่ได้: %s"
+
+msgid "Preview running ..."
+msgstr "กำลังแสดงตัวอย่าง ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "งานเตรียม -- อ่านเสียงและคำนวณเอนเวโลป:\n"
+
+msgid "Primaries"
+msgstr "สีปฐมภูมิ"
+
+msgid "Primaries number %d"
+msgstr "สีปฐมภูมิหมายเลข %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "การประมวลผลที่ auphonic.com (ไม่บังคับ)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "การประมวลผลที่ auphonic.com ด้วย \"%s\""
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "โปรดักชันเสร็จแล้ว แต่ไม่มี ZIP ที่มีแทร็กแยกแต่ละแทร็ก"
+
+msgid "Production name"
+msgstr "ชื่อโปรดักชัน"
+
+msgid "Chosen files"
+msgstr "ไฟล์ที่เลือก"
+
+msgid "Remove the chosen file from the list"
+msgstr "นำไฟล์ที่เลือกออกจากรายการ"
+
+msgid "Project %r could not be created."
+msgstr "สร้างโปรเจกต์ %r ไม่ได้"
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "สร้างโปรเจกต์ %r ไม่ได้ ชื่อนี้อยู่ในโฟลเดอร์อื่นแล้วหรือไม่?"
+
+msgid "Project %r could not be opened."
+msgstr "เปิดโปรเจกต์ %r ไม่ได้"
+
+msgid "Puts it back next to each video file."
+msgstr "ตั้งกลับไปไว้ข้างไฟล์วิดีโอแต่ละไฟล์"
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "ย้อนกลับไม่สำเร็จ (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "กำลังอ่านแทร็กเสียงจาก %s"
+
+msgid "Resolutions"
+msgstr "ความละเอียด"
+
+msgid "Resolve running ..."
+msgstr "Resolve กำลังทำงาน ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve จะปรับขนาดตามความละเอียดของ Timeline สิ่งที่เล็กกว่าจะถูกขยายและคมชัดน้อยลง"
+
+msgid "Response was not JSON: %s"
+msgstr "การตอบกลับไม่ใช่ JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "แถวที่ทำเครื่องหมายสีแดงแสดงว่าปัญหาอยู่ตรงไหน ส่วนเครื่องหมายถูกบนแท็บหมายความว่ามีครบทุกอย่างแล้ว"
+
+msgid "Save in Keychain"
+msgstr "บันทึกในพวงกุญแจ"
+
+msgid "Save in Registry"
+msgstr "บันทึกในรีจิสทรี"
+
+msgid "Select audio and video files"
+msgstr "เลือกไฟล์เสียงและวิดีโอ"
+
+msgid "Speakers, as the run measured them"
+msgstr "ผู้พูด ตามที่รอบการทำงานวัดได้"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "ผู้พูด วัดเองจากแทร็ก"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "เริ่มช้าหรือหยุดเร็ว -- เสียงพูดนี้จึงหายไปจากมิกซ์ในบางช่วง"
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "หยุดแล้ว เลือกชื่อโปรดักชันอื่น -- แล้วจะสร้างโปรดักชันใหม่\n  -- หรือเลือกตัวเลือกอื่น"
+
+msgid "Stopped. Nothing was created."
+msgstr "หยุดแล้ว ไม่มีการสร้างสิ่งใด"
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "หยุดแล้ว ไม่มีการอัปโหลดหรือคำนวณใดๆ"
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "ใช้ตามที่เป็นอยู่ -- ไม่มีการแต่งเติมใดๆ ตรวจสอบใน Resolve ที่ Clip Attributes แท็บ Color Space: ถ้าเขียนว่า \"Project\" แสดงว่าไม่รู้จักปริภูมิสีขาเข้า และต้องตั้งเอง"
+
+msgid "Takes the position from the picture."
+msgstr "ใช้ตำแหน่งจากภาพ"
+
+msgid "Ten seconds back."
+msgstr "ถอยหลังสิบวินาที"
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "อินเทอร์เฟซของ Resolve ไม่ได้อยู่ในที่ที่คาดไว้:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "อินเทอร์เฟซของ Resolve ไม่ได้อยู่ในที่ที่ควรอยู่"
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline จะได้อัตราคงที่อัตราเดียว -- อัตราสูงสุดในนั้น หรืออัตราถัดไปที่สูงกว่าซึ่ง Resolve มี ส่วนอัตราอื่น Resolve จะแปลง และเมื่อเป็น 23.976 กับ 24 การวิเคราะห์เสียงของ Resolve มักค้างตรงนั้น"
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "การบันทึกเสียงของผู้พูดทุกคน พร้อมกล้อง\nลำดับไม่สำคัญ -- โปรแกรมจะรู้เองว่าอะไรเป็นอะไร\nสำหรับการบันทึกหลายส่วน ใช้บล็อกแรกก็พอ"
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "การตัดต่อไม่มีภาพตรงนั้น เมื่อสร้าง Timeline ช่วงนั้นจะว่างไว้ ส่วนเสียงเล่นต่อไป"
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "ผลลัพธ์ที่มีอยู่ใช้ไม่ได้: ในนั้นไม่มี %s ใช้ --auphonic-resume rerun เพื่อคำนวณใหม่ได้โดยไม่ต้องอัปโหลดอะไรเลย"
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "ในช่วง %s นี้ กฎการตัดต่อไม่เหลือช็อตไว้เลย ช็อตสั้นสุดที่สั้นลง หรือภาพมุมกว้างที่น้อยลง จะทำให้มีช็อตอีกครั้ง"
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "ที่นี่รายการยาว %s -- จัดวางอะไรในนั้นไม่ได้ สิ่งที่กำหนดความยาวคือจุดเข้าและจุดออก"
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "ช่วงเวลาอยู่นอกฟุตเทจ: จุดเข้าที่ %s จุดออกที่ %s และฟุตเทจยาว %s"
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "แทร็กแรกของพรีเซ็ตกำหนดการตั้งค่าให้แทร็กทั้งหมดของเรา ไม่อย่างนั้นแทร็กจะกลับมาโดยไม่ได้ประมวลผล สร้างแทร็กในพรีเซ็ตที่หน้าเว็บ"
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "ต้องใช้ไฟล์การส่งมอบจากรอบการทำงาน แต่ไม่มี"
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "เก็บคีย์ได้เฉพาะบน Mac และ Windows -- ในพวงกุญแจหรือรีจิสทรี คีย์จะไม่ถูกเขียนลงไฟล์"
+
+msgid "%s -- being checked"
+msgstr "%s -- กำลังตรวจสอบ"
+
+msgid "The key was not saved: %s"
+msgstr "ไม่ได้บันทึกคีย์: %s"
+
+msgid "The key was not saved"
+msgstr "ไม่ได้บันทึกคีย์"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "พวงกุญแจถูกล็อกอยู่ ปลดล็อกแล้วลองอีกครั้ง"
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "รอบนี้เป็นรอบทดสอบ และที่เก็บยังใช้ชื่อจริงอยู่ จึงไม่ได้เขียนอะไร ชี้ KEY_SERVICE, KEY_ACCOUNT หรือ REG_PATH ไปที่อื่นก่อน"
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "พวงกุญแจถูกล็อกอยู่ ปลดล็อกแล้วปุ่มนี้จะใช้งานได้"
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "พวงกุญแจไม่รับคีย์ การเข้าถึงพวงกุญแจบอกสาเหตุได้"
+
+msgid "The registry did not take the key."
+msgstr "รีจิสทรีไม่รับคีย์"
+
+msgid "Open Keychain Access"
+msgstr "เปิดการเข้าถึงพวงกุญแจ"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "เปิดแอปที่ใช้ปลดล็อกพวงกุญแจ"
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  เปิดการเข้าถึงพวงกุญแจไม่ได้: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "คีย์ที่เก็บไว้ไม่ได้รับการยอมรับ: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "คีย์จาก AUPHONIC_TOKEN ไม่ได้รับการยอมรับ: %s"
+
+msgid "What auphonic.com replied"
+msgstr "สิ่งที่ auphonic.com ตอบกลับ"
+
+msgid "There is no key."
+msgstr "ไม่มีคีย์"
+
+msgid "The key has a space or a line break at one end."
+msgstr "คีย์มีช่องว่างหรือการขึ้นบรรทัดใหม่อยู่ที่ปลายด้านหนึ่ง"
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "คีย์ถูกคั่นกลางด้วยช่องว่างหรือการขึ้นบรรทัดใหม่"
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "คีย์มีอักขระที่พิมพ์ไม่ได้"
+
+msgid "The key is then in the %s, never in a file."
+msgstr "จากนั้นคีย์จะอยู่ใน %s ไม่อยู่ในไฟล์ใดๆ"
+
+msgid "The production has no name yet."
+msgstr "โปรดักชันยังไม่มีชื่อ"
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "การบันทึกที่กำหนดให้กล้องนี้ แทนเสียงจากกล้อง"
+
+msgid "The run is still going."
+msgstr "รอบการทำงานยังดำเนินอยู่"
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "ยังไม่รู้จักผู้พูด -- จะหาจากแทร็กทันทีที่เปิดแท็บนี้ ถ้าทุกคนอยู่ในการบันทึกเดียว ให้เลือก \"ผู้พูดหลายคน\" ในช่องชื่อผู้พูด"
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "ตัวเลขสามตัวคือ สีปฐมภูมิ เส้นโค้ง และเมทริกซ์ แท็กที่ต่างกันต้องใช้ปริภูมิสีขาเข้าต่างกันใน Resolve -- ไม่อย่างนั้นกล้องหนึ่งจะดูไม่เหมือนอีกกล้อง"
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "ไม่มีการบันทึกเสียงแยก จึงใช้เสียงของกล้อง %s ตัว -- แต่ละตัวเป็นหนึ่งแทร็ก และ Auphonic จะลบเสียงรั่ว"
+
+msgid "There is no result yet."
+msgstr "ยังไม่มีผลลัพธ์"
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "ไฟล์เหล่านี้ไม่ใช่ทั้งเสียงและวิดีโอ จึงไม่นำมาใช้:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "ไม่มีไฟล์เหล่านี้:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "ไฟล์เหล่านี้มีอยู่แล้วและจะถูกเขียนใหม่:\n\n  %s\n\nตั้งใจแบบนั้นหรือไม่?"
+
+msgid "These files no longer exist:\n  "
+msgstr "ไฟล์เหล่านี้ไม่มีอยู่แล้ว:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "ชื่อเหล่านี้ซ้ำกันมากกว่าหนึ่งครั้ง:\n\n  %s\n\nการบันทึกจะถูกรวมเป็นแทร็กเดียวและเรียงต่อกันตามไทม์โค้ด ซึ่งถูกต้องหากหยุดบันทึกไว้ระหว่างนั้น"
+
+msgid "These tracks got no file: %s"
+msgstr "แทร็กเหล่านี้ไม่ได้รับไฟล์: %s"
+
+msgid "This Resolve project already exists"
+msgstr "มีโปรเจกต์ Resolve นี้อยู่แล้ว"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "สาเหตุมาจากตอนบันทึก ไม่ใช่ภายหลัง: ไมโครโฟนอยู่ใกล้กันเกินไปหรือห่างจากปากเกินไป"
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "เล่นไฟล์นี้ที่นี่ไม่ได้ และไม่มี ffplay เป็นทางสำรอง"
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "นี่ไม่ใช่ไฟล์โปรเจกต์ และในโฟลเดอร์เดียวกันก็ไม่มี\n\nสิ่งที่ค้นหาคือ %s*.json -- สคริปต์จะเขียนไฟล์นี้ลงในโฟลเดอร์เอาต์พุตตอนเริ่ม"
+
+msgid "This is what happens next"
+msgstr "สิ่งที่จะเกิดขึ้นต่อไป"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "ชื่อนี้มีคนอื่นใช้แล้ว ชื่อหนึ่งคือคนหนึ่ง และการตัดต่อจะให้คนหนึ่งอยู่กับกล้องหนึ่งตัว -- โปรดตั้งชื่อของตัวเองให้เสียงพูดนี้"
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "ชื่อนี้ซ้ำกันมากกว่าหนึ่งครั้ง การบันทึกจะกลายเป็นแทร็กเดียว -- สำหรับ Multitrack นั้น auphonic.com ต้องมีอย่างน้อยสองแทร็กที่ต่างกัน"
+
+msgid "This production already exists"
+msgstr "มีโปรดักชันนี้อยู่แล้ว"
+
+msgid "This production has no result yet."
+msgstr "โปรดักชันนี้ยังไม่มีผลลัพธ์"
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "ครบเวลาจำกัด %s แล้ว โปรดักชันยังทำงานอยู่: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "ไทม์โค้ด %s ส่วนไฟล์อื่นอยู่ที่ %s -- นาฬิกานี้ไม่ได้ตั้งไว้"
+
+msgid "Timeline %r could not be created."
+msgstr "สร้าง Timeline %r ไม่ได้"
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "ชื่อเรื่องที่ auphonic.com และส่วนต้นของชื่อไฟล์ใหม่"
+
+msgid "To the In point."
+msgstr "ไปที่จุดเข้า"
+
+msgid "To the start."
+msgstr "ไปที่จุดเริ่มต้น"
+
+msgid "Too many projects with this name."
+msgstr "มีโปรเจกต์ชื่อนี้มากเกินไป"
+
+msgid "Track"
+msgstr "แทร็ก"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "มีการเพิ่มแทร็กระหว่างการเปลี่ยนแปลง (ตอนนี้ %s) ทำให้มิกซ์\n  ผิด โปรดลบแทร็กที่ไม่มีไฟล์ที่ auphonic.com"
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "กล้องสองตัวกลายเป็นกล้องเดียวในการตัดต่อ ไฟล์ของกล้องทั้งสองมีชื่อเดียวกัน จึงต้องเปลี่ยนชื่อไฟล์หนึ่ง"
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "กล้องสองตัวกลายเป็นกล้องเดียวในการตัดต่อ: %s ไฟล์ของกล้องทั้งสองมีชื่อเดียวกัน จึงต้องเปลี่ยนชื่อไฟล์หนึ่ง"
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "กล้องสองตัวจะสร้างไฟล์เดียวกัน ไฟล์ที่สองจะเขียนทับไฟล์แรก"
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "กล้องสองตัวจะสร้างไฟล์เดียวกัน: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "กล้องสองตัวจะสร้างไฟล์ใหม่เดียวกัน โปรดตั้งชื่อให้ต่างกัน"
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "จังหวะเฟรมที่ไม่สม่ำเสมอแก้ด้วยเสียงไม่ได้ ถ้าจุดตัวอย่างกระจายตัวระหว่างการจัดตำแหน่งด้วย ให้แปลงเป็นอัตราเฟรมคงที่"
+
+msgid "Video"
+msgstr "วิดีโอ"
+
+msgid "Video 1"
+msgstr "วิดีโอ 1"
+
+msgid "Video 2"
+msgstr "วิดีโอ 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- จากฟุตเทจดิบสู่พอดแคสต์ที่ตัดต่อแล้ว"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "ระดับเสียง 100 คือดังที่สุด -- Qt ไม่รับค่าที่สูงกว่านั้น"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- พูดพร้อมกันนับเป็นสองเท่า"
+
+msgid "Wide shot at most"
+msgstr "ภาพมุมกว้างนานสุด"
+
+msgid "Wide shot at the latest"
+msgstr "ภาพมุมกว้างช้าสุด"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "ภาพมุมกว้างตอนทักทายช่วงต้นและบอกลาช่วงท้าย"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "ถ้าไม่มี เครื่องเล่นทุกตัวต้องเดา และทุกตัวเดาว่าเป็น SDR ใน Resolve ที่ Deliver > Advanced Settings ให้ตั้ง Color space tag และ Gamma tag แทนที่จะปล่อยไว้เป็น \"Same as Project\""
+
+msgid "Without processing at auphonic.com"
+msgstr "ไม่ประมวลผลที่ auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "ยังไม่มีการตัดสลับกล้อง: ต้องมีสองคน แต่ละคนมีชื่อและกล้อง\nการบันทึกแยกกันทำได้ด้วยช่องทำเครื่องหมาย Multitrack และ \"ผู้พูดหลายคน\" ในช่องชื่อผู้พูดของการบันทึกเดียวก็ทำได้เช่นกัน --\nเสียงพูดที่พบในนั้นจะได้กล้องในตารางใต้รายการการบันทึก\nอย่างไรก็ตามจะสร้างโปรเจกต์ Resolve -- กล้องทั้งหมดอยู่ในตำแหน่งที่วัดได้ พร้อมสำหรับ Multicam"
+
+msgid "Without timecode the position of the files is measured."
+msgstr "ถ้าไม่มีไทม์โค้ด จะวัดตำแหน่งของไฟล์เอา"
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "หาว่าใครพูดเมื่อไรจากแทร็กโดยตรง -- ไมโครโฟนหนึ่งตัวต่อหนึ่งคน วัดระดับเทียบกับเสียงรบกวนพื้นของไมโครโฟนนั้นเอง ถ้าทุกคนอยู่ในการบันทึกเดียว ให้เลือก \"ผู้พูดหลายคน\" ในช่องชื่อผู้พูด"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- ลดเสียงเท่านั้น ไม่เพิ่ม"
+
+msgid "a box no longer fits into its parent"
+msgstr "กล่องหนึ่งไม่พอดีกับกล่องแม่อีกต่อไป"
+
+msgid "after the device change"
+msgstr "หลังเปลี่ยนอุปกรณ์"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com ไม่ยอมรับคีย์: %s"
+
+msgid "average"
+msgstr "ค่าเฉลี่ย"
+
+msgid "belongs to"
+msgstr "เป็นของ"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "เสียงรั่วไม่ชัดเกินไป: ใช้ได้ %s จาก %s วินาที ชัดที่สุด %s จากที่ต้องการ %s"
+
+msgid "Midnight"
+msgstr "เที่ยงคืน"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s มีไทม์โค้ดจากอีกฝั่งของเที่ยงคืน -- นับเป็นคืนเดียวกัน ไม่ใช่ห่างกันหนึ่งวัน"
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "ไทม์โค้ดนับจากเที่ยงคืนและเริ่มใหม่ที่นั่น ไฟล์จะถูกวางบนแกนเดียวกันก่อนจะลบค่าใดๆ ไม่อย่างนั้นการบันทึกหลังเที่ยงคืนจะดูห่างจากการบันทึกก่อนหน้าเกือบหนึ่งวัน ถ้าบันทึกต่างวันกันจริง การจัดตำแหน่งจะผิด และควรเชื่อออฟเซ็ตที่วัดได้"
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "ช่องสัญญาณ %d ชนขีดสูงสุด: มีแซมเปิลติดกันสามตัวขึ้นไป %s ครั้ง ยาวที่สุด %s (%s ms) ครั้งแรกที่ %s"
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "นับที่นี่ทีละแซมเปิล ที่อัตราที่ไฟล์ถูกบันทึก: แซมเปิลติดกันสามตัวขึ้นไปที่ค่าสูงสุดที่รูปแบบจำนวนเต็มเก็บได้ หนึ่งหรือสองตัวเป็นการปัดเศษและไม่รายงาน สิ่งที่ถูกตัดไปตรงนั้นหายไปแล้วและไม่มีการประมวลผลใดเอากลับมาได้ -- แต่การบันทึกก็ยังเป็นการบันทึก และเรื่องนี้ไม่ได้หยุดอะไร นับเฉพาะรูปแบบจำนวนเต็ม 32 bit float ไม่มีขีดจำกัดที่ฟูลสเกล จึงไม่มีอะไรให้นับ"
+
+msgid "boxes no longer readable"
+msgstr "อ่านกล่องไม่ได้อีกต่อไป"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "อัปเดต -- ลบ Timeline ทั้งสองแล้ว\n       สร้างใหม่ Media Pool คงเดิม"
+
+msgid "cannot be read back (%s)"
+msgstr "อ่านกลับไม่ได้ (%s)"
+
+msgid "checking ..."
+msgstr "กำลังตรวจสอบ ..."
+
+msgid "complete"
+msgstr "ครบถ้วน"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "สร้างโปรเจกต์ใหม่ไว้ข้างกัน (ชื่อมีส่วนต่อท้าย)"
+
+msgid "curl ended with %d"
+msgstr "curl จบด้วย %d"
+
+msgid "did not arrive: %s"
+msgstr "ไม่มาถึง: %s"
+
+msgid "does not belong: %s"
+msgstr "ไม่เข้าชุด: %s"
+
+msgid "does not exist: %s"
+msgstr "ไม่มีอยู่: %s"
+
+msgid "does the material fit together?"
+msgstr "ฟุตเทจเข้ากันไหม?"
+
+msgid "does the preset fit the run?"
+msgstr "พรีเซ็ตเข้ากับรอบการทำงานไหม?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "ไฟล์ที่ดาวน์โหลดมีเพียง %s ไบต์"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "ช่องว่าง %s ตามไทม์โค้ด ห่างเกินไปสำหรับการบันทึกเดียว"
+
+msgid "gets audio from"
+msgstr "รับเสียงจาก"
+
+msgid "hear assigned audio"
+msgstr "ฟังเสียงที่กำหนด"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "ใช้ชื่อของเราและอัปโหลดทั้งหมดใหม่ -- ต้องใช้\n       เครดิต"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "ปล่อยไว้และวาง Timeline ใหม่ไว้ข้างกัน --\n       ของเดิมยังอยู่"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "ไม่มี -- คอนเทนเนอร์ไม่มีแท็กสี"
+
+msgid "missing: %s"
+msgstr "ขาด: %s"
+
+msgid "moov has not grown"
+msgstr "moov ไม่ได้ขยายขึ้น"
+
+msgid "moov is no longer in its place"
+msgstr "moov ไม่ได้อยู่ที่ตำแหน่งเดิมแล้ว"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov ไม่ได้จบที่ท้ายไฟล์แล้ว"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "หลายส่วน ไม่มีไทม์โค้ด -- ตรวจหาช่องว่างระหว่างส่วนไม่ได้"
+
+msgid "new file name"
+msgstr "ชื่อไฟล์ใหม่"
+
+msgid "next to each video file"
+msgstr "ข้างไฟล์วิดีโอแต่ละไฟล์"
+
+msgid "no audio data from %s"
+msgstr "ไม่มีข้อมูลเสียงจาก %s"
+
+msgid "no audio track present"
+msgstr "ไม่มีแทร็กเสียง"
+
+msgid "no audio: %s"
+msgstr "ไม่มีเสียง: %s"
+
+msgid "no download address for %s"
+msgstr "ไม่มีที่อยู่ดาวน์โหลดสำหรับ %s"
+
+msgid "no information"
+msgstr "ไม่มีข้อมูล"
+
+msgid "no information in the file"
+msgstr "ไม่มีข้อมูลในไฟล์"
+
+msgid "no match in the middle either (%s)"
+msgstr "ตรงกลางก็ไม่ตรงกันเช่นกัน (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "ไม่พบช่วงที่มีคนพูดเพียงคนเดียว -- วัดการแยกเสียงระหว่างไมโครโฟนไม่ได้"
+
+msgid "no production id in the response"
+msgstr "ไม่มี ID โปรดักชันในการตอบกลับ"
+
+msgid "no production id in the response: %s"
+msgstr "ไม่มี ID โปรดักชันในการตอบกลับ: %s"
+
+msgid "no timecode"
+msgstr "ไม่มีไทม์โค้ด"
+
+msgid "no video track"
+msgstr "ไม่มีแทร็กวิดีโอ"
+
+msgid "no video track in %s"
+msgstr "ไม่มีแทร็กวิดีโอใน %s"
+
+msgid "none switched on"
+msgstr "ไม่ได้เปิดใช้รายการใด"
+
+msgid "not checked yet"
+msgstr "ยังไม่ได้ตรวจสอบ"
+
+msgid "not in the media pool"
+msgstr "ไม่อยู่ใน Media Pool"
+
+msgid "not measurable."
+msgstr "วัดไม่ได้"
+
+msgid "not measurable: %s"
+msgstr "วัดไม่ได้: %s"
+
+msgid "not needed with HLG"
+msgstr "ไม่จำเป็นสำหรับ HLG"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "อ่านไม่ได้ (%s) -- ไม่ได้ตรวจสอบ"
+
+msgid "not readable: %s"
+msgstr "อ่านไม่ได้: %s"
+
+msgid "nothing loaded yet"
+msgstr "ยังไม่ได้โหลดอะไร"
+
+msgid "nothing selected"
+msgstr "ไม่ได้เลือกอะไร"
+
+msgid "off"
+msgstr "ปิด"
+
+msgid "one Timeline"
+msgstr "Timeline เดียว"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "ยาวเพียง %s ส่วนการบันทึกที่ยาวที่สุดยาว %s"
+
+msgid "overlap of %s per timecode"
+msgstr "ซ้อนทับ %s ตามไทม์โค้ด"
+
+msgid "per track"
+msgstr "ต่อแทร็ก"
+
+msgid "preset does not fit the run"
+msgstr "พรีเซ็ตไม่เข้ากับรอบการทำงานนี้"
+
+msgid "previous block is shorter than the rest"
+msgstr "บล็อกก่อนหน้าสั้นกว่าบล็อกอื่น"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "พบแทร็กที่ประมวลผลแล้ว -- ไม่มีการอัปโหลดใดๆ"
+
+msgid "production finished, but no output file"
+msgstr "โปรดักชันเสร็จแล้ว แต่ไม่มีไฟล์เอาต์พุต"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "คำนวณใหม่ด้วยพรีเซ็ตที่เลือก -- ไฟล์ยังอยู่\n       ที่เดิม ไม่เสียเครดิต"
+
+msgid "reset"
+msgstr "รีเซ็ต"
+
+msgid "running ..."
+msgstr "กำลังทำงาน ..."
+
+msgid "selected"
+msgstr "เลือกแล้ว"
+
+msgid "shorter shots are merged in"
+msgstr "ช็อตที่สั้นกว่าจะถูกรวมเข้าไป"
+
+msgid "stays out"
+msgstr "ไม่นำมาใช้"
+
+msgid "stored file %s"
+msgstr "ไฟล์ที่จัดเก็บไว้ %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "ใช้ผลลัพธ์ที่มีอยู่ (ไม่คำนวณ ไม่เสียเงิน)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "ใช้ชื่อจากที่นั่นแล้วทำงานต่อด้วยชื่อเหล่านั้น --\n       ไม่อัปโหลด ไม่เสียค่าใช้จ่าย"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "พรีเซ็ต Multitrack ไม่มีแทร็กที่บันทึกไว้"
+
+msgid "the finished mixdown"
+msgstr "มิกซ์ดาวน์ที่เสร็จแล้ว"
+
+msgid "the individual tracks"
+msgstr "แทร็กแยกแต่ละแทร็ก"
+
+msgid "the individual tracks, packed"
+msgstr "แทร็กแยกแต่ละแทร็ก แบบบีบอัด"
+
+msgid "the media data is no longer where it was"
+msgstr "ข้อมูลมีเดียไม่ได้อยู่ที่เดิมแล้ว"
+
+msgid "the mix of all tracks"
+msgstr "มิกซ์ของทุกแทร็ก"
+
+msgid "the mixdown as the yardstick"
+msgstr "มิกซ์ดาวน์สำหรับใช้เป็นมาตรวัด"
+
+msgid "the old moov is back in place"
+msgstr "moov เดิมกลับมาอยู่ที่เดิมแล้ว"
+
+msgid "the picture changes this much later than the sound"
+msgstr "ภาพเปลี่ยนช้ากว่าเสียงเท่านี้"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "พรีเซ็ตมาสเตอร์ที่ %s LUFS ส่วนการคำนวณใช้ %s"
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "พรีเซ็ตมาสเตอร์ที่ %s LUFS -- ใช้ค่านั้น ฝั่งโปรแกรมไม่ปรับอะไร"
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "นำมาจากไฟล์ต้นฉบับ ไม่ได้ระบุ --lufs -- ไม่มีการปรับใดๆ"
+
+msgid "the answer did not keep the floor"
+msgstr "ผู้ตอบไม่ได้พูดต่อ"
+
+msgid "the main speaker asked"
+msgstr "ผู้พูดหลักเป็นผู้ถาม"
+
+msgid "nobody answered in time"
+msgstr "ไม่มีใครตอบทันเวลา"
+
+msgid "nobody was speaking at the question"
+msgstr "ไม่มีใครพูดตอนที่มีคำถาม"
+
+msgid "asker and answerer on one camera"
+msgstr "ผู้ถามและผู้ตอบอยู่ในกล้องเดียวกัน"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "การบันทึกซ้อนทับกันเพียง %s -- น้อยเกินไปที่จะวัด"
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "การบันทึกที่สั้นที่สุดยาวเพียง %s -- น้อยเกินไปที่จะวัด"
+
+msgid "the source folder"
+msgstr "โฟลเดอร์ต้นทาง"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "เทมเพลตแทร็กไม่ได้เปิดใช้อะไรเลย -- แทร็กจะกลับมาเหมือนตอนอัปโหลดทุกประการ"
+
+msgid "the video files are tagged differently: %s"
+msgstr "ไฟล์วิดีโอมีแท็กสีต่างกัน: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "ไฟล์วิดีโอใช้เส้นโค้งการบันทึกต่างกัน: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "ไฟล์วิดีโอมีขนาดภาพต่างกัน: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "ไฟล์วิดีโอมีอัตราเฟรมต่างกัน: %s"
+
+msgid "the video track can no longer be found"
+msgstr "หาแทร็กวิดีโอไม่พบแล้ว"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "วัดแกนเวลาแล้ว -- การกระโดดตกที่จุดเดียวกัน"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "วัดแกนเวลาแล้วและผูกกับไทม์โค้ด"
+
+msgid "time axis not measurable"
+msgstr "วัดแกนเวลาไม่ได้"
+
+msgid "time axis not measurable: %s"
+msgstr "วัดแกนเวลาไม่ได้: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "มีเพียง %s วินาทีที่ %s พูดคนเดียว ต้องการ %s"
+
+msgid "too little audio to align"
+msgstr "เสียงน้อยเกินไปที่จะจัดตำแหน่ง"
+
+msgid "unspecified"
+msgstr "ไม่ระบุ"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "อัปโหลดทั้งหมดใหม่และคำนวณใหม่ -- ต้องใช้เครดิต"
+
+msgid "used directly"
+msgstr "ใช้โดยตรง"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "ภาพมุมกว้าง %s ซึ่งมีมิกซ์เป็นแทร็กเสียงแรก"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s ปรากฏมากกว่าหนึ่งครั้ง การบันทึกเหล่านี้จะถูกรวมเป็นแทร็กเดียวและเรียงต่อกันตามไทม์โค้ด -- ถูกต้องหากมีการหยุดบันทึกระหว่างทาง"
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  การบันทึกทั้งหมดใช้ชื่อเดียวกัน จึงได้แทร็กเดียว -- Multitrack ต้องมีอย่างน้อยสองแทร็ก"
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  กล้องสองตัวกลายเป็นกล้องเดียวในการตัดต่อ (%s) ไฟล์ของกล้องทั้งสองมีชื่อเดียวกัน โปรดเปลี่ยนชื่อไฟล์หนึ่ง"
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  กล้องสองตัวจะสร้างไฟล์เดียวกัน (%s) ไฟล์ที่สองจะเขียนทับไฟล์แรก"
+
+msgid "   (camera audio)"
+msgstr "   (เสียงจากกล้อง)"
+
+msgid "  Number: "
+msgstr "  หมายเลข: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", หักการคลาดของนาฬิกา %s ppm ออกแล้ว"
+
+msgid "Files && production"
+msgstr "ไฟล์ && โปรดักชัน"
+
+msgid "Assignment && time window"
+msgstr "การกำหนด && ช่วงเวลา"
+
+msgid "Resolve cut"
+msgstr "ตัดต่อใน Resolve"
+
+msgid "Camera audio"
+msgstr "เสียงจากกล้อง"
+
+msgid "Camera audio %s"
+msgstr "เสียงจากกล้อง %s"
+
+msgid "%s channels against %s"
+msgstr "%s ช่องสัญญาณ เทียบกับ %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz เทียบกับ %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: ตัดช่องสัญญาณ %s ออกมาไม่ได้ (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "ช่องสัญญาณ %d ต่ำกว่าช่องที่ดังที่สุด %s dB -- ไม่ได้ต่ออะไรไว้"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "ช่องสัญญาณ %d ที่ %s dBFS -- เหลือเพียงสัญญาณรบกวนจากตัวแปลง"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "ช่องสัญญาณ %d เงียบ -- อินพุตที่ไม่ได้ใช้"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "เมื่อเปิด ช่องสัญญาณนี้และช่องถัดไปจะรวมเป็นแทร็กสเตอริโอเดียว\nช่องถัดไปจะไม่มีช่องทำเครื่องหมายของตัวเอง -- เพราะถูกใช้ไปแล้ว\nผลการวัดอยู่ในบรรทัดข้างๆ"
+
+msgid "a track of its own"
+msgstr "แทร็กของตัวเอง"
+
+msgid "with Channel %d one stereo track"
+msgstr "รวมกับช่องสัญญาณ %d เป็นแทร็กสเตอริโอเดียว"
+
+msgid "already in another recording"
+msgstr "อยู่ในการบันทึกอื่นแล้ว"
+
+msgid "not found"
+msgstr "ไม่พบ"
+
+msgid "a recording of its own"
+msgstr "การบันทึกของตัวเอง"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "ย้ายการบันทึกนี้พร้อมทุกบล็อกไปรวมในการบันทึกอื่น\nใช้เมื่อชื่อไฟล์ไม่ให้เบาะแสใดๆ แก่การค้นหา"
+
+msgid "Cameras only"
+msgstr "กล้องเท่านั้น"
+
+msgid "Curve number %d"
+msgstr "เส้นโค้งหมายเลข %d"
+
+msgid "End"
+msgstr "สิ้นสุด"
+
+msgid "End %s"
+msgstr "สิ้นสุด %s"
+
+msgid "Error"
+msgstr "ข้อผิดพลาด"
+
+msgid "Mark In"
+msgstr "กำหนดจุดเข้า"
+
+msgid "Mark Out"
+msgstr "กำหนดจุดออก"
+
+msgid "Measure, align, process, write files."
+msgstr "วัด จัดตำแหน่ง ประมวลผล และเขียนไฟล์"
+
+msgid "Minimum Edit Duration"
+msgstr "ความยาวช็อตขั้นต่ำ"
+
+msgid "%s, seconds"
+msgstr "%s, วินาที"
+
+msgid "Names used more than once"
+msgstr "ชื่อที่ใช้ซ้ำ"
+
+msgid "One name for two voices"
+msgstr "ชื่อเดียวสำหรับเสียงพูดสองเสียง"
+
+msgid "No files given."
+msgstr "ไม่ได้ระบุไฟล์"
+
+msgid "Number %d"
+msgstr "หมายเลข %d"
+
+msgid "Preset missing"
+msgstr "ไม่มีพรีเซ็ต"
+
+msgid "Speaker"
+msgstr "ผู้พูด"
+
+msgid "Start %s"
+msgstr "เริ่มต้น %s"
+
+msgid "Take from source files"
+msgstr "ใช้ค่าจากไฟล์ต้นฉบับ"
+
+msgid "Take the camera audio"
+msgstr "ใช้เสียงจากกล้อง"
+
+msgid "Target: %s"
+msgstr "ปลายทาง: %s"
+
+msgid "Transfer"
+msgstr "การถ่ายโอน"
+
+msgid "Uploading %s tracks"
+msgstr "กำลังอัปโหลด %s แทร็ก"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;ไฟล์ JSON (*.json);;ไฟล์ทั้งหมด (*)"
+
+msgid "Wide shot after"
+msgstr "ภาพมุมกว้างหลังจาก"
+
+msgid "the voices below carry the cameras"
+msgstr "กล้องอยู่กับเสียงพูดด้านล่าง"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "วัดจากการบันทึก -- ผู้พูด %s คน ความยาว %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "จากรอบการทำงานที่เสร็จแล้ว -- ผู้พูด %s คน ความยาว %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "จากแทร็ก Auphonic ที่ประมวลผลแล้ว -- ผู้พูด %s คน ความยาว %s"
+
+msgid "no folder"
+msgstr "ไม่มีโฟลเดอร์"
+
+msgid "no text"
+msgstr "ไม่มีข้อความ"
+
+msgid "unnamed"
+msgstr "ไม่มีชื่อ"
+
+msgid "   Caution: measurement unusable"
+msgstr "   ข้อควรระวัง: การวัดใช้ไม่ได้"
+
+msgid "   MISSING"
+msgstr "   ไม่มี"
+
+msgid "   NOT INSERTED"
+msgstr "   ไม่ได้แทรก"
+
+msgid "  (container; measured %s)"
+msgstr "  (คอนเทนเนอร์; วัดได้ %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  หมายเลข (ว่าง = ยกเลิก): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com ก็ใช้เท่ากัน)"
+
+msgid " (fine: %s ms)"
+msgstr " (ละเอียด: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- หมายเหตุ %s รายการ"
+
+msgid " -- 1 note: %s"
+msgstr " -- หมายเหตุ 1 รายการ: %s"
+
+msgid " target %.2f"
+msgstr " เป้าหมาย %.2f"
+
+msgid "(wanted %s)"
+msgstr "(ต้องการ %s)"
+
+msgid ", clock drift left in"
+msgstr ", คงการคลาดของนาฬิกาไว้"
+
+msgid ", range %s LU"
+msgstr ", ช่วง %s LU"
+
+msgid "-- nothing --"
+msgstr "-- ไม่มี --"
+
+msgid "After: %s"
+msgstr "หลัง: %s"
+
+msgid "Algorithms"
+msgstr "อัลกอริทึม"
+
+msgid "Audio file %s"
+msgstr "ไฟล์เสียง %s"
+
+msgid "Audio recording"
+msgstr "การบันทึกเสียง"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic แจ้ง %s: %s"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 แบบคงที่"
+
+msgid "Before: %s"
+msgstr "ก่อน: %s"
+
+msgid "Bit depth"
+msgstr "ความลึกบิต"
+
+msgid "Building the sum"
+msgstr "กำลังสร้างผลรวม"
+
+msgid "Caution: "
+msgstr "ข้อควรระวัง: "
+
+msgid "Camera cut"
+msgstr "การตัดสลับกล้อง"
+
+msgid "%s -- preview"
+msgstr "%s -- ตัวอย่าง"
+
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+msgid "Capture curve"
+msgstr "เส้นโค้งการบันทึก"
+
+msgid "Check: %s and camera track"
+msgstr "ตรวจสอบ: %s และแทร็กกล้อง"
+
+msgid "Codec profile"
+msgstr "โปรไฟล์โคเดก"
+
+msgid "Colour tag"
+msgstr "แท็กสี"
+
+msgid "Connect"
+msgstr "เชื่อมต่อ"
+
+msgid "Connection to Resolve"
+msgstr "การเชื่อมต่อกับ Resolve"
+
+msgid "Continue"
+msgstr "ดำเนินการต่อ"
+
+msgid "Create Resolve project"
+msgstr "สร้างโปรเจกต์ Resolve"
+
+msgid "Curve"
+msgstr "เส้นโค้ง"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "จุดเข้า: %s     จุดออก: %s     ความยาว: %s"
+
+msgid "In point %s"
+msgstr "จุดเข้า %s"
+
+msgid "Out point %s"
+msgstr "จุดออก %s"
+
+msgid "Different track names"
+msgstr "ชื่อแทร็กต่างกัน"
+
+msgid "Disk space"
+msgstr "พื้นที่ดิสก์"
+
+msgid "Downloading %s"
+msgstr "กำลังดาวน์โหลด %s"
+
+msgid "Dry run"
+msgstr "รอบทดลอง"
+
+msgid "Duration %s"
+msgstr "ความยาว %s"
+
+msgid "Dynamic range"
+msgstr "ช่วงไดนามิก"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, งานออกอากาศ"
+
+msgid "File names"
+msgstr "ชื่อไฟล์"
+
+msgid "Frame rates"
+msgstr "อัตราเฟรม"
+
+msgid "GENERAL NOTES"
+msgstr "หมายเหตุทั่วไป"
+
+msgid "Given"
+msgstr "กำหนดไว้แล้ว"
+
+msgid "Go ahead"
+msgstr "เริ่มเลย"
+
+msgid "Interface:      %s%s"
+msgstr "อินเทอร์เฟซ:     %s%s"
+
+msgid "Keep it saved"
+msgstr "เก็บไว้"
+
+msgid "Library:        %s%s"
+msgstr "ไลบรารี:        %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log ตามข้อมูลกล้อง"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (สิบบิต)"
+
+msgid "Measure"
+msgstr "วัด"
+
+msgid "Measuring loudness"
+msgstr "กำลังวัดความดัง"
+
+msgid "Merge them"
+msgstr "รวมเข้าด้วยกัน"
+
+msgid "Mixing %s"
+msgstr "กำลังมิกซ์ %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack ต้องมีสองแทร็กในตารางด้านบน -- กล้องจะนับเป็นหนึ่งแทร็กเมื่อตั้งค่า เสียงจากกล้อง ของกล้องนั้นเป็น \"ใช้เสียงในตัว\""
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "มีแทร็กเดียว -- หากต้องการแทร็กที่สอง โปรดตั้งค่า เสียงจากกล้อง ของกล้องตัวหนึ่งเป็น \"ใช้เสียงในตัว\""
+
+msgid "One track only, and no camera audio left to take."
+msgstr "มีแทร็กเดียว และไม่มีเสียงจากกล้องเหลือให้ใช้"
+
+msgid "do not use internal audio"
+msgstr "ไม่ใช้เสียงในตัว"
+
+msgid "use internal audio"
+msgstr "ใช้เสียงในตัว"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "เมื่อใช้ ช่องสัญญาณที่วัดได้ใต้ไฟล์นี้จะถูกแยกเป็นแทร็ก เหมือนกับการบันทึกเสียง\nการวัดเกิดขึ้นเสมอ: ผลการวัดนั้นคือสิ่งที่ใช้ตัดสินเรื่องนี้ และการซิงก์ใช้เสียงอยู่แล้วไม่ว่าอย่างไร"
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "เมื่อใช้ เสียงของไฟล์นี้จะกลายเป็นแทร็กเหมือนแทร็กอื่น -- ปรากฏในตารางด้านบน\nช่องเดียวกันนี้อยู่ในรายการไฟล์ด้วย ทั้งสองแสดงคำตอบเดียวกัน"
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "ไม่มีเสียงให้ใช้งาน -- โปรดตั้งค่า เสียงจากกล้อง ของไฟล์วิดีโอเป็น \"ใช้เสียงในตัว\" หรือเพิ่มการบันทึกเสียง"
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack ต้องมีหลายแทร็ก"
+
+msgid "Mute."
+msgstr "ปิดเสียง"
+
+msgid "No audio file given."
+msgstr "ไม่ได้ระบุไฟล์เสียง"
+
+msgid "No project open."
+msgstr "ไม่มีโปรเจกต์ที่เปิดอยู่"
+
+msgid "Not found: %s"
+msgstr "ไม่พบ: %s"
+
+msgid "Not recognised"
+msgstr "ไม่รู้จัก"
+
+msgid "Note"
+msgstr "หมายเหตุ"
+
+msgid "Note: "
+msgstr "หมายเหตุ: "
+
+msgid "One frame forward."
+msgstr "ไปข้างหน้าหนึ่งเฟรม"
+
+msgid "One second forward."
+msgstr "ไปข้างหน้าหนึ่งวินาที"
+
+msgid "Output folder"
+msgstr "โฟลเดอร์เอาต์พุต"
+
+msgid "Choose the output folder"
+msgstr "เลือกโฟลเดอร์เอาต์พุต"
+
+msgid "Output folder back beside each video file"
+msgstr "ย้ายโฟลเดอร์เอาต์พุตกลับไปข้างไฟล์วิดีโอแต่ละไฟล์"
+
+msgid "Output folder ..."
+msgstr "โฟลเดอร์เอาต์พุต ..."
+
+msgid "Podcast directories, mono"
+msgstr "ไดเรกทอรีพอดแคสต์, โมโน"
+
+msgid "Podcast directories, stereo"
+msgstr "ไดเรกทอรีพอดแคสต์, สเตอริโอ"
+
+msgid "Preview player"
+msgstr "เครื่องเล่นตัวอย่าง"
+
+msgid "Preview player%s"
+msgstr "เครื่องเล่นตัวอย่าง%s"
+
+msgid "Processing"
+msgstr "การประมวลผล"
+
+msgid "Profile"
+msgstr "โปรไฟล์"
+
+msgid "Project"
+msgstr "โปรเจกต์"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "ตั้งแต่ตรงนี้จะเริ่มหาจังหวะที่เหมาะ"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "ขีดจำกัดแบบยืดหยุ่นของคู่นี้: ตั้งแต่ตรงนี้โปรแกรมจะรอขอบเขตประโยคแล้ววางภาพมุมกว้างไว้ตรงนั้น ไม่ใช่ตามเวลา 0 คือปิด \"ภาพมุมกว้างช้าสุด\" คือขีดจำกัดแบบตายตัว ซึ่งจะตัดแม้ไม่มีขอบเขตประโยค"
+
+msgid "and here it is cut, good moment or not"
+msgstr "และตรงนี้จะตัด ไม่ว่าจังหวะจะดีหรือไม่"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่"
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "ยังไม่มีบทถอดความ หากไม่มีจะหาคำถามไม่พบและไม่รู้ขอบเขตประโยค การตั้งค่าทั้งสี่นี้จึงไม่มีผล รอบการทำงานหนึ่งรอบจะเขียนบทถอดความ และหลังจากนั้นการตั้งค่าจะมีผล"
+
+msgid "Why the question settings are grey"
+msgstr "ทำไมการตั้งค่าคำถามจึงเป็นสีเทา"
+
+msgid "After a question"
+msgstr "หลังคำถาม"
+
+msgid "Question"
+msgstr "คำถาม"
+
+msgid "Remove"
+msgstr "นำออก"
+
+msgid "Remove all"
+msgstr "นำออกทั้งหมด"
+
+msgid "Remove from list"
+msgstr "นำออกจากรายการ"
+
+msgid "Resolve answers%s"
+msgstr "Resolve%s ตอบสนอง"
+
+msgid "Saving %s"
+msgstr "กำลังบันทึก %s"
+
+msgid "Show in Finder."
+msgstr "แสดงใน Finder"
+
+msgid "Silence"
+msgstr "ความเงียบ"
+
+msgid "Speaker name"
+msgstr "ชื่อผู้พูด"
+
+msgid "Speaker names"
+msgstr "ชื่อผู้พูด"
+
+msgid "Static metadata"
+msgstr "เมทาดาทาคงที่"
+
+msgid "Tagging"
+msgstr "การติดแท็ก"
+
+msgid "Ten seconds forward."
+msgstr "ไปข้างหน้าสิบวินาที"
+
+msgid "Timecode from %s"
+msgstr "ไทม์โค้ดเริ่มที่ %s"
+
+msgid "Track template"
+msgstr "เทมเพลตแทร็ก"
+
+msgid "Uploading %s"
+msgstr "กำลังอัปโหลด %s"
+
+msgid "Value range"
+msgstr "ช่วงค่า"
+
+msgid "What should happen with it?"
+msgstr "จะให้ทำอย่างไรกับสิ่งนี้?"
+
+msgid "Window %s%s"
+msgstr "ช่วงเวลา %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "การตัดต่อ, EDL, CSV และการส่งมอบจะคำนวณใหม่จากตัวเลขด้านบน ใครพูดเมื่อไรยังคงเป็นไปตามที่รอบการทำงานวัดไว้ Resolve ต้องเปิดทำงานอยู่"
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "หากไม่มีสองสิ่งนี้ก็ไม่มีอะไรทำงานได้ ติดตั้ง Resolve ไว้หรือยัง?"
+
+msgid "cancel"
+msgstr "ยกเลิก"
+
+msgid "cancelled"
+msgstr "ยกเลิกแล้ว"
+
+msgid "edges implausible"
+msgstr "ขอบไม่สมเหตุสมผล"
+
+msgid "fixed: "
+msgstr "แก้ไขแล้ว: "
+
+msgid "found automatically"
+msgstr "พบโดยอัตโนมัติ"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "ว่าง %s ต้องใช้ประมาณ %s (%s)"
+
+msgid "full range"
+msgstr "ช่วงเต็ม"
+
+msgid "is left in"
+msgstr "คงไว้ตามเดิม"
+
+msgid "limited (Video/TV)"
+msgstr "จำกัด (วิดีโอ/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "กำลังหาว่าใครพูดเมื่อไร ..."
+
+msgid "nothing"
+msgstr "ไม่มี"
+
+msgid "nothing to do"
+msgstr "ไม่มีอะไรต้องทำ"
+
+msgid "reserved"
+msgstr "สงวนไว้"
+
+msgid "system store"
+msgstr "ที่เก็บของระบบ"
+
+msgid "to In point"
+msgstr "ไปจุดเข้า"
+
+msgid "to Out point"
+msgstr "ไปจุดออก"
+
+msgid "too short"
+msgstr "สั้นเกินไป"
+
+msgid "two Timelines"
+msgstr "Timeline สองรายการ"
+
+msgid "unknown"
+msgstr "ไม่ทราบ"
+
+msgid "up to %s"
+msgstr "จนถึง %s"
+
+msgid "volume %.2f"
+msgstr "ระดับเสียง %.2f"
+
+msgid "while writing: %s"
+msgstr "ขณะเขียน: %s"
+
+msgid "AUDIO"
+msgstr "เสียง"
+
+msgid "Caution"
+msgstr "ข้อควรระวัง"
+
+msgid "MUTED"
+msgstr "ปิดเสียง"
+
+msgid "fixed"
+msgstr "แก้ไขแล้ว"
+
+msgid "on"
+msgstr "เปิด"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r นับจากท้าย -- ใช้ได้กับจุดออกเท่านั้น"
+
+msgid "Check"
+msgstr "การตรวจสอบ"
+
+msgid "the check itself stopped: %s"
+msgstr "การตรวจสอบเองหยุดลง: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "อ่านจุดเข้าหรือจุดออกที่นี่ไม่ได้"
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "จุดออกอยู่หลังจุดเข้าไม่ถึง 5 วินาที"
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "ยังขาดอยู่ประมาณ %s โปรดเพิ่มพื้นที่ว่างหรือเลือกโฟลเดอร์อื่นด้วย --out ส่วนไฟล์ชั่วคราวระหว่างรอบการทำงานจะไปอยู่อีกที่หนึ่ง คือในโฟลเดอร์ชั่วคราวของระบบ"
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "ค่าประมาณนี้คร่าว ๆ พื้นที่เท่านี้จึงไม่พอ โปรดเพิ่มพื้นที่ว่างหรือเลือกโฟลเดอร์อื่นด้วย --out"
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nผู้พูด -- วัดที่นี่"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nผู้พูด -- แยกตามเสียงพูด"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nผู้พูด\n  ไม่ได้ยินใครเลย -- จึงไม่มีการตัดสลับกล้องจากส่วนนี้"
+
+msgid "\nCAMERA CUT"
+msgstr "\nการตัดสลับกล้อง"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nตัดต่อพร้อมภาพมุมกว้าง"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nการตัดต่อแรกตามผู้พูด"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  ช่องสัญญาณที่มากกว่าสองช่องจะถูกส่งไปยัง auphonic.com รวมเป็นช่องเดียว: การรวมช่องจะปิดเฉพาะกับสเตอริโอเท่านั้น\n  หากต้องการให้ช่องสัญญาณแยกกัน ให้ตัดไฟล์เป็นแทร็กก่อน"
+
+msgid "First cut by speaker"
+msgstr "การตัดต่อแรกตามผู้พูด"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nบทถอดความ"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s คำ: %s %% เป็นของเสียงพูดเดียว, %s %% ของสองเสียงพูด, %s %% อยู่ในช่องว่าง"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s คำ ไม่มีชื่อ -- ไม่ได้แยกผู้พูดคนใดเลย"
+
+msgid "  %s could not be written: %s"
+msgstr "  เขียน %s ไม่ได้: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nการแยกผู้พูด"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  เคยแยกไว้แล้วครั้งหนึ่ง: อ่านผลเดิมกลับมา ไม่ได้วัดใหม่"
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  ใช้เวลาคำนวณประมาณ %s สำหรับเสียงยาว %s"
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (วัดอย่างเดียว: ไม่ได้แยกอะไร)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  แทร็กไม่ได้ถูกวัด %s จึงอยู่ในมิกซ์แต่ไม่อยู่ในการตัดต่อ: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s ยังไม่ได้วัด -- อยู่ในการตัดต่อแล้ว แต่ยังไม่อยู่ในตัวอย่างนี้"
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  จากแทร็กโดยตรง แทร็กละหนึ่งเสียงพูด: %s"
+
+msgid "  In %s, on this machine."
+msgstr "  ใน %s บนเครื่องนี้"
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  ไมโครโฟนได้ยินกันและกันชัดเกินไปจนบอกไม่ได้ว่าใครกำลังพูด การแยกผู้พูดจึงฟังไมโครโฟนทั้ง %s ตัวพร้อมกันบนเครื่องนี้"
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  สิ่งที่หน้าต่างแยกไว้จะถูกทิ้ง: หน้าต่างฟังการบันทึกเพียงชุดเดียว และไมโครโฟนได้ยินกันและกันชัดจนไม่มีตัวใดโดดเด่น -- %s dB เทียบกับ %s dB ที่ไมโครโฟนตัวเดียวต้องมีจึงจะบอกได้ว่าใครกำลังพูด"
+
+msgid "Mixing the tracks for the separation"
+msgstr "กำลังมิกซ์แทร็กสำหรับการแยกผู้พูด"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  บอกไม่ได้ว่าเสียงพูดใดเป็นของไมโครโฟนใด จึงวัดแทร็กแทน"
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s คือ %-20s ดังกว่าไมโครโฟนถัดไป %s dB เมื่อหักระดับการบันทึกออกแล้ว"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  ไม่ใช้การแยกผู้พูด: %s"
+
+msgid "  %s cannot be read: %s"
+msgstr "  อ่าน %s ไม่ได้: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s ไม่ได้เป็นส่วนหนึ่งของรอบการทำงานนี้"
+
+msgid "%s has no place on the axis"
+msgstr "%s ไม่มีตำแหน่งบนแกนเวลา"
+
+msgid "no recording named"
+msgstr "ไม่ได้ระบุการบันทึก"
+
+msgid "nothing of it falls inside the window"
+msgstr "ไม่มีส่วนใดอยู่ในช่วงเวลา"
+
+msgid "the interface"
+msgstr "หน้าต่างโปรแกรม"
+
+msgid "the separation in this run"
+msgstr "การแยกผู้พูดในรอบการทำงานนี้"
+
+msgid "Speakers, separated by voice"
+msgstr "ผู้พูดที่แยกตามเสียงพูด"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "ไม่ได้ผลเป็นการตัดต่อ -- โปรดกดเริ่มด้านบนอีกครั้ง"
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nไม่ใช้ AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  วัดเสียงรั่วแล้ว: เสียง %s ในแทร็ก %s เบากว่าเพียง %s dB -- นำออกจากการตรวจจับเสียงพูดแล้ว"
+
+msgid "  Bleed not separable: %s"
+msgstr "  แยกเสียงรั่วไม่ได้: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  ไม่พบช่วงที่มีคนพูดเพียงคนเดียว -- เสียงรั่วจึงยังอยู่ในการตรวจจับเสียงพูด"
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  ไม่ได้ยินอะไรในแทร็กเลย -- จึงไม่มีการตัดสลับกล้องจากส่วนนี้"
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  ไม่อยู่ในการตัดต่อ: %s -- ผลการแยกผู้พูดใช้แทนการบันทึกนั้น หรือไม่ได้ถูกวัด"
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  ใช้แทร็กตามที่บันทึกมา: จัดตำแหน่ง มิกซ์ และปรับให้ได้\n  ความดังเป้าหมาย ไม่มีการลบเสียงรั่ว ไม่มีเลเวลเลอร์ ไม่มีการลดเสียงรบกวน -- สิ่งเหล่านั้น\n  ต้องใช้ auphonic.com ในรอบการทำงาน"
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  ระบุทั้ง --without-auphonic และ --auphonic-done แทร็กที่เสร็จแล้วมีผลเหนือกว่า: ไม่มีอะไรต้องส่งไปที่ใดอีก"
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK ใช้ไม่ได้\n  หากไม่มีคีย์ API ก็ไม่มีอะไรจะส่งไปยัง auphonic.com\n  เมื่อใช้ --without-auphonic จะทำงานในเครื่องแทน: จัดตำแหน่ง\n  มิกซ์ และตัดต่อ แต่ไม่มีการลบเสียงรั่วและเลเวลเลอร์"
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  ข้อควรระวัง: วัดได้เพียง %s จาก %s คู่ ส่วนที่เหลือไม่พบช่วงที่มีคนพูดเพียงคนเดียว เสียงรั่วของคู่เหล่านั้นจึงยังอยู่ -- การตรวจจับผู้พูดตรงนี้เชื่อถือไม่ได้"
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "ไมโครโฟนได้ยินกันและกันดังเกือบเท่ากับผู้พูดของตัวเอง"
+
+msgid "the tracks are too much alike to separate"
+msgstr "แทร็กคล้ายกันเกินกว่าจะแยกได้"
+
+msgid "Reading the plan"
+msgstr "กำลังอ่านแผน"
+
+msgid "Audio out of the cameras"
+msgstr "เสียงจากกล้อง"
+
+msgid "Common time axis"
+msgstr "แกนเวลาร่วม"
+
+msgid "Processing at auphonic.com"
+msgstr "การประมวลผลที่ auphonic.com"
+
+msgid "Loudness"
+msgstr "ความดัง"
+
+msgid "Loudness and levels"
+msgstr "ความดังและระดับ"
+
+msgid "Loudness of the finished episode"
+msgstr "ความดังของตอนที่เสร็จแล้ว"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "ตอนที่เสร็จแล้วจะดังเท่าใด เกนเดียวกันใช้กับทุก\nแทร็ก สมดุลระหว่างผู้พูดจึงคงเดิม\n\"ใช้ค่าจากไฟล์ต้นฉบับ\" ไม่ปรับอะไรเลย: auphonic.com ยังคง\nทำตามที่พรีเซ็ตของตนกำหนด และถ้าไม่มี auphonic.com เสียง\nจะคงเดิมเหมือนในไฟล์ต้นฉบับ"
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    ไม่ได้ปรับความดัง -- ค่าเป้าหมายด้านล่างเป็นเพียงค่าที่มิเตอร์\n    ใช้เทียบในการวัด"
+
+msgid "Who speaks when"
+msgstr "ใครพูดเมื่อไร"
+
+msgid "Writing the camera files"
+msgstr "กำลังเขียนไฟล์กล้อง"
+
+msgid "Handover and result"
+msgstr "การส่งมอบและผลลัพธ์"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "แสดงมากขึ้นสองเท่า (ปุ่มลบ หรือหมุนล้อเมาส์บนแถบ)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "แสดงครึ่งเดียว รอบตำแหน่งปัจจุบัน (ปุ่มบวก หรือหมุนล้อเมาส์บนแถบ)"
+
+msgid "The whole length again (0 key)"
+msgstr "กลับไปแสดงทั้งความยาว (ปุ่ม 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  ดึงมาด้วย: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic ไม่รับการตั้งค่า: %s"
+
+msgid "      %s channels"
+msgstr "      %s ช่องสัญญาณ"
+
+msgid "measurement running ..."
+msgstr "กำลังวัด ..."
+
+msgid "      Channel %d"
+msgstr "      ช่องสัญญาณ %d"
+
+msgid "Looking at the channels"
+msgstr "กำลังตรวจดูช่องสัญญาณ"
+
+msgid "channels not readable: %s"
+msgstr "อ่านช่องสัญญาณไม่ได้: %s"
+
+msgid "unused input -- ignored"
+msgstr "อินพุตที่ไม่ได้ใช้ -- ละเว้น"
+
+msgid "uncertain -- %s"
+msgstr "ไม่แน่นอน -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "ตั้งค่าเอง -- ใช้แทนผลการวัด"
+
+msgid "Language"
+msgstr "ภาษา"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "ทั้งสองช่องเหมือนกัน -- วางโมโนไว้ทั้งสองข้าง"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "น่าจะเป็นไมโครโฟนสองตัว -- ห่างกันประมาณ %s m%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", ตรงกัน %s จาก %s ตำแหน่ง"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "น่าจะเป็นแทร็กสเตอริโอเดียว -- ไมโครโฟนทั้งสองอยู่ที่เดียวกัน"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "ระบุไม่ได้ -- มีเพียง %s จาก %s ตำแหน่งที่ทั้งสองช่องมีเสียง ต้องมี %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "ระบุไม่ได้ -- สองช่องนี้ตรงกันไม่มากไปกว่าที่แต่ละช่องตรงกับช่องข้างเคียง"
+
+msgid "not set"
+msgstr "ไม่ได้ตั้งค่า"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "ภาษาที่พูดในการบันทึก ภาษานี้จะเป็นแท็กของแทร็กเสียง\nที่เขียนออกไป และการรู้จำตรงนี้จะได้รับแจ้งให้คาดว่าจะเป็นภาษานี้\nค่าเริ่มต้นมาจากภาษาของระบบ \"%s\" จะไม่ติดแท็กให้แทร็ก\nและปล่อยให้การรู้จำหาภาษาเอง"
+
+msgid "German"
+msgstr "ภาษาเยอรมัน"
+
+msgid "English"
+msgstr "ภาษาอังกฤษ"
+
+msgid "French"
+msgstr "ภาษาฝรั่งเศส"
+
+msgid "Spanish"
+msgstr "ภาษาสเปน"
+
+msgid "Italian"
+msgstr "ภาษาอิตาลี"
+
+msgid "Dutch"
+msgstr "ภาษาดัตช์"
+
+msgid "Portuguese"
+msgstr "ภาษาโปรตุเกส"
+
+msgid "Polish"
+msgstr "ภาษาโปแลนด์"
+
+msgid "Russian"
+msgstr "ภาษารัสเซีย"
+
+msgid "Swedish"
+msgstr "ภาษาสวีเดน"
+
+msgid "Danish"
+msgstr "ภาษาเดนมาร์ก"
+
+msgid "Norwegian"
+msgstr "ภาษานอร์เวย์"
+
+msgid "Finnish"
+msgstr "ภาษาฟินแลนด์"
+
+msgid "Czech"
+msgstr "ภาษาเช็ก"
+
+msgid "Turkish"
+msgstr "ภาษาตุรกี"
+
+msgid "Greek"
+msgstr "ภาษากรีก"
+
+msgid "Hungarian"
+msgstr "ภาษาฮังการี"
+
+msgid "Romanian"
+msgstr "ภาษาโรมาเนีย"
+
+msgid "Ukrainian"
+msgstr "ภาษายูเครน"
+
+msgid "Catalan"
+msgstr "ภาษากาตาลา"
+
+msgid "Arabic"
+msgstr "ภาษาอาหรับ"
+
+msgid "Hebrew"
+msgstr "ภาษาฮีบรู"
+
+msgid "Japanese"
+msgstr "ภาษาญี่ปุ่น"
+
+msgid "Chinese"
+msgstr "ภาษาจีน"
+
+msgid "Korean"
+msgstr "ภาษาเกาหลี"
+
+msgid "Cutting out track %d of %d"
+msgstr "กำลังตัดแทร็ก %d จาก %d ออกมา"
+
+msgid "cutting failed: %s"
+msgstr "ตัดออกไม่สำเร็จ: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  กล้องเดียวสำหรับทุกคน: ตัดเป็น %s ช็อตตรงจุดที่ผู้พูดเปลี่ยน เพื่อให้ Resolve จัดกลุ่มได้"
+
+msgid "Shorter shots fall into the following one."
+msgstr "ช็อตที่สั้นกว่านี้จะรวมเข้ากับช็อตถัดไป"
+
+msgid "Speaks at least"
+msgstr "พูดอย่างน้อย"
+
+msgid "below this the camera does not follow"
+msgstr "ต่ำกว่านี้กล้องจะไม่ตาม"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "คำว่า \"ใช่\" สั้น ๆ จะไม่ทำให้ภาพเปลี่ยน หากไม่มีค่านี้ บล็อกเพียงครึ่งวินาทีก็ดึงกล้องไปได้ แล้วความยาวช็อตขั้นต่ำจะค้างภาพไว้ตรงนั้นหลายวินาที"
+
+msgid "Answer on screen earlier"
+msgstr "แสดงคำตอบก่อน"
+
+msgid "before the question ends"
+msgstr "ก่อนคำถามจบ"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "ศูนย์คือจุดที่ผู้ถามหยุดพูด ไม่ใช่จุดที่คำตอบเริ่ม: ช่วงหยุดระหว่างนั้นนับเป็นของคำถาม ใช้เฉพาะเมื่อ \"หลังคำถาม\" กำหนดไว้ และจะไม่บวก Edit Change Delay ซ้ำอีก"
+
+msgid "Wide shot at least"
+msgstr "ภาพมุมกว้างอย่างน้อย"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "ภาพมุมกว้างที่แทรกจะอยู่อย่างน้อยเท่านี้"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "จากนั้นจะยาวไปจนจบประโยค ถ้าต่ำกว่าห้าวินาที ภาพจะดูเหมือนการกระตุก"
+
+msgid "and at most this long"
+msgstr "และนานสุดเท่านี้"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "หากจุดจบของประโยคเลยค่านี้ไป ช็อตจะจบที่จุดแบ่งอนุประโยคสุดท้ายก่อนหน้านั้น -- จะไม่ถูกตัดกลางประโยค"
+
+msgid "Long monologue"
+msgstr "การพูดคนเดียวยาว"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "คนเดียวพูดเกิน \"ภาพมุมกว้างหลังจาก\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"สลับกัน\" จะจำว่าช่วงพักครั้งล่าสุดของการพูดคนเดียวนี้แสดงอะไร ผู้ฟังจะได้ขึ้นภาพก็ต่อเมื่อมีคนในกล้องนั้นพูดในช่วง 20 วินาทีที่ผ่านมา มิฉะนั้นจะเป็นภาพมุมกว้าง"
+
+msgid "Several speak at once"
+msgstr "หลายคนพูดพร้อมกัน"
+
+msgid "and no camera shows exactly them"
+msgstr "และไม่มีกล้องใดถ่ายพวกเขาพอดี"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "การตัดเข้าไปในความวุ่นวายดูลนลาน"
+
+msgid "Nobody speaks"
+msgstr "ไม่มีใครพูด"
+
+msgid "no voice is heard at all here"
+msgstr "ตรงนี้ไม่ได้ยินเสียงพูดใดเลย"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "การหายใจกลางประโยคและการจบความคิดต่างก็เป็นความเงียบ และโปรแกรมแยกทั้งสองไม่ได้ มีเพียงความยาวที่แยกได้: \"ช่องว่างสั้นไม่เกิน\" กำหนดว่าความเงียบยาวได้เท่าไรโดยยังนับเป็นการหายใจ"
+
+msgid "Short gap up to"
+msgstr "ช่องว่างสั้นไม่เกิน"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "ความเงียบยาวเท่านี้จะไม่เปลี่ยนภาพ"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "ใช้เฉพาะเมื่อตั้ง \"ไม่มีใครพูด\" ไว้ให้คงช่องว่างสั้น ช่องว่างที่ยาวไม่เกินค่านี้จะไม่เปลี่ยนอะไร ที่ยาวกว่าจะไปที่ภาพมุมกว้าง หากเกินสองวินาที ภาพจะเริ่มค้างอยู่ที่คนที่เงียบนานเกินห้าวินาที"
+
+msgid "Recognition uncertain"
+msgstr "การรู้จำไม่แน่นอน"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "การรู้จำผู้พูดกระจัดกระจายหรือเหลือกองเศษไว้"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "การเดาทำให้คนผิดขึ้นจออยู่หลายวินาที ส่วนภาพมุมกว้างถูกต้องเสมอ ตรงนี้มีคนกำลังพูด -- ถ้าไม่มีใครพูด \"ไม่มีใครพูด\" จะเป็นตัวตัดสิน"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "ภาพจะไปที่คำตอบก่อนที่คำตอบจะเริ่ม"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "เฉพาะหลังคำถามที่ไม่ใช่ของผู้พูดหลัก เมื่อมีอีกคนรับช่วงพูดต่อทันทีและพูดต่อไป\n\"ไม่ตัดก่อนเวลา\" หมายถึงไม่เปลี่ยนกล้องล่วงหน้า: ตรงนี้ภาพจะตามเสียงเหมือนที่อื่นทั้งหมด"
+
+msgid "Wide shot"
+msgstr "ภาพมุมกว้าง"
+
+msgid "Wide shot %d"
+msgstr "ภาพมุมกว้าง %d"
+
+msgid "(wide shot)"
+msgstr "(ภาพมุมกว้าง)"
+
+msgid "No speaker"
+msgstr "ไม่มีผู้พูด"
+
+msgid "Listener"
+msgstr "ผู้ฟัง"
+
+msgid "Alternating"
+msgstr "สลับกัน"
+
+msgid "No camera change"
+msgstr "ไม่เปลี่ยนกล้อง"
+
+msgid "Hold a short gap"
+msgstr "คงช่องว่างสั้น"
+
+msgid "do not go early"
+msgstr "ไม่ตัดก่อนเวลา"
+
+msgid "Answering speaker"
+msgstr "ผู้ตอบ"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  ออกจากผู้พูด %s ครั้ง เพราะมีช็อตที่ยาวเกิน %s วินาที"
+
+msgid "%s is in place."
+msgstr "เวอร์ชัน %s พร้อมแล้ว"
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "หน้าต่างนี้ยังเป็นเวอร์ชันตอนที่เริ่มเปิด สามารถเริ่มใหม่ตอนนี้แล้วเปิดขึ้นมาเป็นเวอร์ชันนั้น หรือคุณจะทำเองภายหลังก็ได้"
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "สำเนานี้ทำงานจากโฟลเดอร์ของตัวเอง pip จึงไม่มีอะไรให้อัปเดตที่นี่ คำสั่งนี้จะติดตั้งให้: %s"
+
+msgid "Language of the window"
+msgstr "ภาษาของหน้าต่าง"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "ภาษาที่เลือกที่นี่จะใช้ตั้งแต่การเริ่มครั้งถัดไป"
+
+msgid "Restart the application"
+msgstr "เริ่มแอปพลิเคชันใหม่"
+
+msgid "The work can be written to a project file first."
+msgstr "สามารถเขียนงานลงไฟล์โปรเจกต์ก่อนได้"
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "การเริ่มแอปพลิเคชันใหม่จะมีผลทันที และจะถามก่อนว่าจะทำอย่างไรกับงาน ถ้าปล่อยไว้ก็ไม่เสียอะไร -- จะมีผลในการเปิดครั้งถัดไป"
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "แอปพลิเคชันกำลังจะเริ่มใหม่ จะเขียนงานลงไฟล์โปรเจกต์ก่อนหรือไม่?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "หากเขียนไว้ หน้าต่างใหม่จะเปิดโปรเจกต์อีกครั้งและทุกอย่างอยู่ที่เดิม หากไม่ได้เขียน หน้าต่างจะเปิดขึ้นมาว่างเปล่าและต้องเพิ่มไฟล์ใหม่"
+
+msgid "Save and restart"
+msgstr "บันทึกและเริ่มใหม่"
+
+msgid "Restart without saving"
+msgstr "เริ่มใหม่โดยไม่บันทึก"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "รอบการทำงานยังดำเนินอยู่ เริ่มหน้าต่างใหม่ได้เมื่อเสร็จแล้ว"
+
+msgid "System language (%s)"
+msgstr "ภาษาของระบบ (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "สร้างทางลัดไปยังโปรแกรมนี้แล้ว: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "ไม่ได้สร้างทางลัดไปยังโปรแกรมนี้: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "เขียนไปแล้ว แต่หลังจากนั้นไม่พบ"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "โปรแกรมนี้ทำงานเป็น %s แต่แพ็กเกจที่ติดตั้งไว้ให้เป็น %s จึงโหลดไม่ได้เลยสักตัว คำสั่งนี้จะเริ่มโปรแกรมอย่างถูกต้อง: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "การส่งมอบนี้ไม่มีอัตราเฟรม จึงสร้าง Timeline จากข้อมูลนี้ไม่ได้ โปรดทำรอบการทำงานใหม่อีกครั้ง"
+
+msgid "Cut by speaker"
+msgstr "ตัดต่อตามผู้พูด"
+
+msgid "Sync only"
+msgstr "ซิงก์เท่านั้น"
+
+msgid "Project type"
+msgstr "ประเภทโปรเจกต์"
+
+msgid "No project type chosen yet."
+msgstr "ยังไม่ได้เลือกประเภทโปรเจกต์"
+
+msgid "What is this production to become?"
+msgstr "โปรดักชันนี้จะให้เป็นอะไร?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": กล้องอยู่บนแกนเวลาเดียวกัน และตัดต่อตามคนที่กำลังพูด\n\"%s\": กล้องอยู่บนแกนเวลาเดียวกัน แค่นั้น -- ไม่มีผู้พูด ไม่มีการตัดต่อ"
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "ซิงก์เท่านั้น: ไม่มีการตัดต่อ การส่งมอบมีเพียง Timeline แบบ Multicam ส่วนโปรเจกต์ Resolve สร้างจากแท็บเอาต์พุต"
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "ประเภทโปรเจกต์: ซิงก์เท่านั้น -- ไม่มีผู้พูด ไม่มีบทถอดความ ไม่มีการตัดต่อ การส่งมอบมีเพียง Timeline แบบ Multicam"
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  ซิงก์เท่านั้น: ไม่ได้ขอให้ตัดต่อตามผู้พูด\n  สร้างเพียง Timeline สำหรับคลิป Multicam"
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  แทร็กวิดีโอ %s แทร็ก ตั้งชื่อตามไฟล์กล้อง:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "ซิงก์เท่านั้นรับการบันทึกเสียงได้ชุดเดียว นี่คืออีกชุดหนึ่ง: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "ซิงก์เท่านั้น: คำนวณการส่งมอบใหม่ ไม่มีการตัดต่อให้ทำใหม่ Resolve ต้องเปิดทำงานอยู่"
+
+msgid "%s has not started yet"
+msgstr "%s ยังไม่เริ่ม"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   เล่นเสียงไม่ได้"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "วางเสียงตามนาฬิกา -- รอการวัด"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nระดับของผู้พูด"
+
+msgid "Measuring %s"
+msgstr "กำลังวัด %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s วัดไม่ได้ -- คงไว้ตามเดิม"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- ไม่มีอะไรในแทร็ก คงไว้ตามเดิม"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  มีเสียงพูดเดียว -- ไม่มีอะไรให้เทียบ"
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  ระดับร่วม:           %s LUFS ค่ามัธยฐานของเสียงพูด"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name ระบุ %s ซึ่งไม่ใช่ไฟล์กล้องของรอบการทำงานนี้"
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "ชื่อใหม่ของ %s ว่างอยู่ โปรดระบุชื่อไฟล์ธรรมดา หรือไม่ต้องใช้ --new-name"
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "ชื่อใหม่ \"%s\" ของ %s มี \"%s\" ซึ่งเป็นตัวคั่นโฟลเดอร์หรือไดรฟ์ โปรดระบุชื่อไฟล์ธรรมดา"
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "ชื่อใหม่ \"%s\" ของ %s ขึ้นต้นด้วยจุด ซึ่งจะกลายเป็นไฟล์ซ่อนหรือโฟลเดอร์ โปรดระบุชื่อไฟล์ธรรมดา"
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "กล้องสองตัวจะถูกเขียนเป็นไฟล์เดียวกัน %s: %s และ %s"
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name ให้ชื่อ %s สองชื่อ คือ \"%s\" และ \"%s\" โปรดให้ไฟล์ละหนึ่งชื่อ"
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "ไฟล์การกำหนดเป็นตัวตั้งชื่อกล้องในกรณีนี้ --new-name จึงจะถูกละทิ้ง โปรดตั้งชื่อในไฟล์นั้น หรือไม่ต้องใช้ --new-name"
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "เมื่อมีแต่กล้อง แต่ละไฟล์จะตั้งชื่อตามแทร็กที่ได้จากเสียงของไฟล์นั้น --new-name จึงจะถูกละทิ้ง โปรดไม่ต้องใช้ --new-name"
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "บนกล้อง %s ตัว"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  มี %s คำที่กลับมาโดยไม่มีเวลากำกับและถูกตัดออก"
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  การแยกผู้พูด (%s): ผู้พูด %s คน จากเสียงยาว %s"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "แยกแล้ว: ผู้พูด %s คน"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "แก้ไขเองแล้ว %s รายการ"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    เชื่อมภาพกับเสียงอีกครั้งแล้ว: %s มุมกล้อง"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  ข้อควรระวัง: ไม่ได้แทรก %s หากขาดมุมกล้องดังกล่าว\n  Timeline จะนำไปแปลงไม่ได้"
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  แทร็ก %s ยังคงเป็นสองช่องสัญญาณ"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  แทร็ก %s อัปโหลดเป็นสเตอริโอ และกลับมาเหลือแทร็กละช่องสัญญาณเดียว"
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " จากช่องสัญญาณที่ฝังในไฟล์ %s ช่อง"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "ไฟล์ถูกระบุว่าเป็น HDR พร้อมหมายเหตุ %s ข้อ"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "แทร็กเสียง %s แทร็ก"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s คลิป"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "แทร็กวิดีโอ %s แทร็ก"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix จาก %s แทร็ก, %s ช่องสัญญาณ"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      มี %s คลิปที่ยังไม่มีสี"
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> ตีความเป็นแทร็กเสียง %s แทร็ก%s"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      มุมกล้องมากกว่าสี -- มี %s สีที่ถูกใช้ซ้ำสองครั้ง"
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    นำแทร็กเสียงว่างออกแล้ว %s แทร็ก"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    ตอนนี้ V2 มี %s คลิป: %s"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  เหลือแทร็กเสียง %s แทร็ก:"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  คงแทร็กเสียงไว้ %s แทร็ก: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  ตั้งมาร์กเกอร์แล้ว %s ตัว%s"
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "มี %s ไฟล์ที่เสร็จก่อนหน้านั้นและสมบูรณ์: %s"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s ช่องสัญญาณ"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s ไฟล์"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "เหตุให้หยุด %s ข้อ"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "การบันทึก %s รายการ จาก %s ไฟล์"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s แทร็ก, %s, %s kHz, %s"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: อยู่ที่ %s (เป้าหมาย %s) หลัง %d ms, ลอง %d ครั้ง"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", มี %s ไฟล์ที่ไม่เข้ากัน"
+
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "นำไฟล์เสียง %s ไฟล์ออกจากรายการหรือไม่?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "นำไฟล์วิดีโอ %s ไฟล์ออกจากรายการหรือไม่?\n\n%s"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "การบันทึกเสียง %s รายการ"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "กล้อง %s ตัว"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "หมายเหตุ %s ข้อ"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s ข้อ"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "ไฟล์วิดีโอ %s ไฟล์"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + ส่วนต่อ %s ส่วน"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "จะได้ไฟล์วิดีโอ %s ไฟล์ ขนาดประมาณ %s ปลายทาง: %s"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  จาก %s: เสียงพูด %s เสียง"
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s ใน %s ช่วง"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s จัดประเภทไม่ได้: %s -- วางตามนาฬิกาของกล้องอย่างเดียว"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: เสียงตรงกันที่ %s ต่ำกว่าค่าขั้นต่ำ %s -- วางตามนาฬิกาของกล้องอย่างเดียว"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  ข้อควรระวัง: โปรเจกต์นี้ไม่สมบูรณ์ -- Resolve ปฏิเสธแทร็กต่อไปนี้สองครั้ง:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  ออฟเซ็ต:           %s   (จากไทม์โค้ดอย่างเดียว -- เสียงของกล้องใช้วางตำแหน่งไม่ได้ จึงไม่มีการตรวจสอบใดๆ)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve ปฏิเสธแทร็กเสียง A%d บน Timeline \"%s\" สองครั้ง -- กล้องจะถูกวางบนแทร็กเสียง %s แทร็กที่มีอยู่"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve ปฏิเสธแทร็กวิดีโอ V%d สองครั้ง -- Timeline \"%s\" ขาด: %s"
+
+msgid "  Status:      %s"
+msgstr "  สถานะ:       %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  เสียงของ %s ตรงกันน้อยเกินกว่าจะเชื่อถือได้ -- วางตามไทม์โค้ดอย่างเดียว"
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   ไม่เข้ากับไฟล์อื่น: ระบุเสียงไม่ได้,\n   ไม่มีอะไรให้เทียบไทม์โค้ดของไฟล์\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "วาง %s ไม่ได้: เสียงของไฟล์ไม่มีส่วนที่ตรงกับฟุตเทจอื่นเลย และไม่มีกล้องใดที่วางด้วยเสียงแล้วมีไทม์โค้ดให้เทียบกับไทม์โค้ดของไฟล์นี้ กล้องตัวใดตัวหนึ่งในนั้นต้องมีไทม์โค้ดที่เข้ากับไฟล์นี้ ซึ่งต้องตั้งด้วยโปรแกรมอื่น"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ไม่เข้ากับฟุตเทจใดเลย และไม่มีกล้องใดที่วางด้วยเสียงแล้วมีไทม์โค้ดให้เทียบ จึงตัดต่อเข้าไปในตอนไม่ได้: ตั้งเป็นอินโทร"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s ไม่เข้ากับฟุตเทจใดเลย และไม่มีกล้องใดที่วางด้วยเสียงแล้วมีไทม์โค้ดให้เทียบ; มีอินโทรแล้ว: ไม่ใช้"
+
+msgid "API Key:"
+msgstr "คีย์ API:"
+
+msgid "In point"
+msgstr "จุดเข้า"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "ถูกข้าม; %s หรือ %s อยู่ห่างเพียงคลิกเดียว"
+
+msgid "Out point"
+msgstr "จุดออก"
+
+msgid "Presets:"
+msgstr "พรีเซ็ต:"
+
+msgid "Registry"
+msgstr "รีจิสทรี"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "การนำ \"เสียง\" หรือ \"วิดีโอ\" ออกจะนำทุกอย่างที่อยู่ข้างใต้ออกไปด้วย"
+
+msgid "VIDEO"
+msgstr "วิดีโอ"
+
+msgid "a finished clip"
+msgstr "คลิปสำเร็จรูป"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "ตัดเข้าในตอนไม่ได้ -- ได้แค่ก่อนหรือหลัง"
+
+msgid "moved off the wide shot"
+msgstr "ย้ายออกจากภาพมุมกว้าง"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ทั้งเสียงและไทม์โค้ดวางไฟล์บนแกนไม่ได้"
+
+msgid "no audio track"
+msgstr "ไม่มีแทร็กเสียง"
+
+msgid "no speaker"
+msgstr "ไม่มีผู้พูด"
+
+msgid "not used"
+msgstr "ไม่ใช้"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "วางพร้อมกล้องต้นทาง ตามนาฬิกาของกล้องนั้น"
+
+msgid "the file stays out"
+msgstr "ไฟล์ไม่ถูกใช้"
+
+msgid "the only sound"
+msgstr "เสียงเดียวที่มี"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve ปฏิเสธแทร็กเสียง A%d สองครั้ง -- Timeline \"%s\" ขาดเสียงของ %s"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve ปฏิเสธแทร็กวิดีโอ V%d สองครั้ง -- Timeline \"%s\" ขาดภาพของ %s"

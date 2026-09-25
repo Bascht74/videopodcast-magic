@@ -520,9 +520,6 @@ msgstr "Väri"
 msgid "  Preset:  %s"
 msgstr "  Esiasetus:  %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve ei hyväksy enempää videoraitoja -- %s / %s kameraa mahtuu."
-
 msgid "Preset"
 msgstr "Esiasetus"
 
@@ -715,9 +712,6 @@ msgstr "    Leikettä %s ei voitu tuoda."
 msgid "    %s could not be inserted."
 msgstr "    Leikettä %s ei voitu lisätä."
 
-msgid "    %s track %d could not be created."
-msgstr "    %s-raitaa %d ei voitu luoda."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-raitaa ei voitu luoda: %s"
 
@@ -885,9 +879,6 @@ msgstr "  %s videoraitaa, nimetty puhujien mukaan:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s esiintyy kahdesti eri kameroilla -- käytetään %s"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  Kohdetta %s ei voi luokitella: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s ei anna mitattavaa ääntä -- sijoitettu pelkän kellonsa mukaan, eikä löytynyt mitään, mitä vasten sen voisi tarkistaa"
@@ -2170,17 +2161,11 @@ msgstr "koska sille ei ole määritetty puhujaa"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "merkitty yleiskuvaksi -- se ei ota puhujia"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "ei puhujaa -- tämä on yleiskuva"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "sille ei ole määritetty puhujaa, mutta leikkaus käyttää kameraa %s"
 
 msgid "the cut uses %s"
 msgstr "leikkaus käyttää kameraa %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "tämä on yleiskuva -- %s siirtyi kohtaan \"ei omaa kameraa\""
 
 msgid "Curve and colour space are missing from the file"
 msgstr "Käyrä ja väriavaruus puuttuvat tiedostosta"
@@ -2298,12 +2283,6 @@ msgstr "Jos tyhjä: kunkin videotiedoston viereen."
 
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Se syntyi tallennuksen aikana, eikä sitä voi enää muuttaa. Mitä vähemmän mikrofonit ovat erillään, sitä varovaisemmin auphonic.com-palvelun De-Bleed voi toimia. Ensi kerralla: kolme kertaa niin kauas naapurimikrofonista kuin omasta suusta, jolloin naapurin ääni on noin %s dB alempana."
-
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Se ei sovi mihinkään kohtaan materiaalia: ei aikakoodia, eikä sen äänellä ole mitään yhteistä muun kanssa. Yleiskuva on se, johon leikkaus palaa, joten sen on oltava aika-akselilla."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Se ei sovi mihinkään kohtaan materiaalia, joten sitä ei voi leikata jakson sisään. Sen voi sijoittaa jakson eteen tai sen jälkeen."
 
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s ei sovi mihinkään materiaalissa, joten sitä ei voi leikata jaksoon: asetettu introksi."
@@ -3347,9 +3326,6 @@ msgstr "Vain kamerat"
 msgid "Curve number %d"
 msgstr "Käyrä numero %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Kohdassa ÄÄNI tai VIDEO poistetaan kaikki."
-
 msgid "End"
 msgstr "Loppu"
 
@@ -3613,18 +3589,6 @@ msgstr "Vain yksi raita -- aseta jonkin kameran Kameran ääni arvoon \"käytä 
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Vain yksi raita, eikä kameran ääntä ole enää jäljellä otettavaksi."
-
-msgid "the only sound there is"
-msgstr "ainoa ääni, joka on olemassa"
-
-msgid "no audio track in this file"
-msgstr "tässä tiedostossa ei ole ääniraitaa"
-
-msgid "this file stays out entirely"
-msgstr "tämä tiedosto jää kokonaan pois"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "valmis leike -- vain sijoitetaan, ei käsitellä"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Jos sitä käytetään, tämän tiedoston alla mitatut kanavat jaetaan raidoiksi kuten tallenteessa.\nMittaus tehdään joka tapauksessa: siihen tulokseen päätös perustuu, ja synkronointi käyttää ääntä silti."
@@ -4467,3 +4431,378 @@ msgstr "Tässä määritystiedosto nimeää kamerat, joten --new-name jätettäi
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Pelkillä kameroilla kukin tiedosto nimetään sen äänestä otettujen raitojen mukaan, joten --new-name jätettäisiin huomiotta; jätä --new-name pois."
+
+msgid "no camera of its own"
+msgstr "ei omaa kameraa"
+
+msgid "do not use"
+msgstr "älä käytä"
+
+msgid "several speakers"
+msgstr "useita puhujia"
+
+msgid "work without Auphonic"
+msgstr "työskentele ilman Auphonicia"
+
+msgid "Content"
+msgstr "Sisältö"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Yleiskuva"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "ohita tämä video"
+
+msgid "do not use internal audio"
+msgstr "älä käytä sisäistä ääntä"
+
+msgid "use internal audio"
+msgstr "käytä sisäistä ääntä"
+
+msgid "After a question"
+msgstr "Kysymyksen jälkeen"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "kuva siirtyy vastaukseen ennen kuin se alkaa"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Vain kysymyksen jälkeen, joka ei ole pääpuhujan, kun joku muu ottaa heti puheenvuoron ja pitää sen.\n\"älä ennakoi\" tarkoittaa, ettei kameraa vaihdeta etuajassa: kuva seuraa ääntä tässäkin kuten kaikkialla muualla."
+
+msgid "Long monologue"
+msgstr "Pitkä monologi"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "yksi henkilö pitää puheenvuoroa pidempään kuin \"Yleiskuva aikaisintaan\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"Vuorotellen\" muistaa, mitä tämän monologin edellinen katko näytti. Kuuntelija saa kuvan vain, jos joku kyseisellä kameralla on kuulunut viimeisten 20 sekunnin aikana; muuten yleiskuva."
+
+msgid "Several speak at once"
+msgstr "Useampi puhuu yhtä aikaa"
+
+msgid "and no camera shows exactly them"
+msgstr "eikä mikään kamera näytä juuri heitä"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Sekamelskaan leikkaaminen näyttää hätäiseltä."
+
+msgid "Nobody speaks"
+msgstr "Kukaan ei puhu"
+
+msgid "no voice is heard at all here"
+msgstr "tässä ei kuulu yhtään puheääntä"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Hengähdys kesken lauseen ja ajatuksen loppu ovat kumpikin hiljaisuutta, eikä ohjelma erota niitä toisistaan. Vain pituus erottaa: \"Lyhyt tauko enintään\" kertoo, kuinka pitkä hiljaisuus saa olla, jotta se lasketaan vielä hengähdykseksi."
+
+msgid "Recognition uncertain"
+msgstr "Tunnistus epävarma"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "puhujantunnistus rispaantuu tai jättää jälkeensä kasan"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Arvaaminen tuo väärän henkilön kuvaan sekunneiksi; yleiskuva on oikein joka tapauksessa. Tässä joku puhuu -- missä kukaan ei puhu, ratkaisee \"Kukaan ei puhu\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "kuva vaihtuu näin paljon ääntä myöhemmin"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Negatiivisella arvolla kuva tulee ennen ääntä."
+
+msgid "Answer on screen earlier"
+msgstr "Vastaus aiemmin kuvaan"
+
+msgid "before the question ends"
+msgstr "ennen kysymyksen loppua"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Nolla on siinä, missä kysyjä lopettaa, ei siinä, missä vastaus alkaa: niiden välinen tauko kuuluu kysymykseen. Pätee vain siellä, missä \"Kysymyksen jälkeen\" sitä pyytää, eikä Edit Change Delay -arvoa lisätä uudelleen."
+
+msgid "Wide shot after"
+msgstr "Yleiskuva aikaisintaan"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "tästä eteenpäin sille etsitään hyvää hetkeä"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Parin pehmeä raja: tästä eteenpäin ohjelma odottaa lauseen rajaa ja sijoittaa yleiskuvan siihen, ei kellon mukaan. 0 poistaa sen käytöstä. \"Yleiskuva viimeistään\" on kova raja, jossa leikataan ilman lauseen rajaakin."
+
+msgid "Wide shot at the latest"
+msgstr "Yleiskuva viimeistään"
+
+msgid "and here it is cut, good moment or not"
+msgstr "ja tässä leikataan, oli hetki hyvä tai ei"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Parin kova raja: jos lauseen rajaa ei ole tullut kohdan \"Yleiskuva aikaisintaan\" jälkeen, pisin puhetauko toimii sen sijaisena, ja tässä kohdassa leikataan, puhuttiinpa mitä tahansa."
+
+msgid "Wide shot at least"
+msgstr "Yleiskuva vähintään"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "lisätty yleiskuva pysyy vähintään näin kauan"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Sen jälkeen se jatkuu lauseen loppuun. Alle viiden sekunnin vilkaisu näyttää nykäykseltä."
+
+msgid "Wide shot at most"
+msgstr "Yleiskuva enintään"
+
+msgid "and at most this long"
+msgstr "ja enintään näin kauan"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Jos lauseen loppu on tämän yli, viimeinen osalauseen raja ennen sitä päättää otoksen -- kesken lauseen ei katkaista."
+
+msgid "Minimum Edit Duration"
+msgstr "Otoksen vähimmäiskesto"
+
+msgid "shorter shots are merged in"
+msgstr "lyhyemmät otokset sulautetaan"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Lyhyemmät otokset liitetään seuraavaan."
+
+msgid "Speaks at least"
+msgstr "Puhuu vähintään"
+
+msgid "below this the camera does not follow"
+msgstr "tätä lyhyempää puhetta kamera ei seuraa"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Lyhyt \"kyllä\" ei liikuta kuvaa. Ilman tätä puolen sekunnin pätkä vetää kameran puoleensa, ja otoksen vähimmäiskesto pitää sen sitten siellä sekunteja."
+
+msgid "Short gap up to"
+msgstr "Lyhyt tauko enintään"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "näin pitkä hiljaisuus jättää kuvan rauhaan"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Vain siellä, missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli. Enintään näin pitkä tauko ei muuta mitään, pidempi siirtyy yleiskuvaan. Yli kahden sekunnin arvolla kuva alkaa viipyä vaiti olevassa yli viisi sekuntia."
+
+msgid "Listener"
+msgstr "Kuuntelija"
+
+msgid "Alternating"
+msgstr "Vuorotellen"
+
+msgid "No camera change"
+msgstr "Ei kameranvaihtoa"
+
+msgid "Hold a short gap"
+msgstr "Pidä kuva lyhyen tauon yli"
+
+msgid "do not go early"
+msgstr "älä ennakoi"
+
+msgid "Answering speaker"
+msgstr "Vastaaja"
+
+msgid "English"
+msgstr "Englanti"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcast-hakemistot, stereo"
+
+msgid "Podcast directories, mono"
+msgstr "Podcast-hakemistot, mono"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- vain hiljentää, ei koskaan vahvista"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, tv ja radio"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 vakio"
+
+msgid "reserved"
+msgstr "varattu"
+
+msgid "unspecified"
+msgstr "määrittämätön"
+
+msgid "unknown"
+msgstr "tuntematon"
+
+msgid "French"
+msgstr "Ranska"
+
+msgid "German"
+msgstr "Saksa"
+
+msgid "Dutch"
+msgstr "Hollanti"
+
+msgid "Italian"
+msgstr "Italia"
+
+msgid "Spanish"
+msgstr "Espanja"
+
+msgid "Polish"
+msgstr "Puola"
+
+msgid "Portuguese"
+msgstr "Portugali"
+
+msgid "Russian"
+msgstr "Venäjä"
+
+msgid "Danish"
+msgstr "Tanska"
+
+msgid "Norwegian"
+msgstr "Norja"
+
+msgid "Swedish"
+msgstr "Ruotsi"
+
+msgid "Czech"
+msgstr "Tšekki"
+
+msgid "Finnish"
+msgstr "Suomi"
+
+msgid "Turkish"
+msgstr "Turkki"
+
+msgid "Greek"
+msgstr "Kreikka"
+
+msgid "Hungarian"
+msgstr "Unkari"
+
+msgid "Romanian"
+msgstr "Romania"
+
+msgid "Arabic"
+msgstr "Arabia"
+
+msgid "Catalan"
+msgstr "Katalaani"
+
+msgid "Ukrainian"
+msgstr "Ukraina"
+
+msgid "Chinese"
+msgstr "Kiina"
+
+msgid "Hebrew"
+msgstr "Heprea"
+
+msgid "Japanese"
+msgstr "Japani"
+
+msgid "Korean"
+msgstr "Korea"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Muuntaminen: napsauta Media Poolissa hiiren oikealla \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Vain yhteen suuntaan -- mutta uusi ajo rakentaa Timelinen uudelleen milloin tahansa.\n  Kulmat:%s\n  Kaikki muu -- äänen valinta, väriryhmät, rajaus -- on\n  käyttöohjeessa, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Mahdollisia syitä:\n  1. Resolve ei ole käynnissä -- rajapinta vastaa vain, kun ohjelma on käynnissä.\n  2. Preferences > System > General: ulkoinen skriptaus on asetettu arvoon \"None\" eikä \"Local\".\n  3. Ilmaisversio: ulkoisen skriptauksen kerrotaan olevan versiosta 19.1 lähtien varattu Studio-versiolle. En löytänyt virallista lausuntoa -- tämä tarkistus mittaa asian sen sijaan, että väittäisi sen."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  Kohdetta %s ei voi luokitella: %s -- sijoitettu pelkän kellonsa mukaan"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: sen ääni vastaa arvolla %s, alle alarajan %s -- sijoitettu pelkän kellonsa mukaan"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Varoitus: tämä projekti ei ole kokonainen -- Resolve hylkäsi nämä raidat kahdesti:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Siirtymä:         %s   (pelkästä aikakoodista -- ääni ei pystynyt sijoittamaan sitä, joten mitään ei tarkisteta)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve hylkäsi ääniraidan A%d kahdesti Timelinella \"%s\" -- kamerat asetetaan olemassa oleville ääniraidoille (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve hylkäsi videoraidan V%d kahdesti -- Timelinesta \"%s\" puuttuu %s."
+
+msgid "  Status:      %s"
+msgstr "  Tila:        %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Äänen osuma oli liian heikko luotettavaksi: %s -- sijoitettu pelkän aikakoodin mukaan."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   ei sovi muihin tiedostoihin: ääntä ei tunnistettu,\n   ei mitään, mihin sen aikakoodia voisi verrata.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "Kohdetta %s ei voi sijoittaa: sen äänellä ei ole mitään yhteistä muun materiaalin kanssa, eikä yhdessäkään äänen perusteella sijoitetussa kamerassa ole aikakoodia, johon sen omaa voisi verrata. Jonkin niistä täytyy saada tähän sopiva aikakoodi, ja se on asetettava toisella ohjelmalla."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ei sovi mihinkään materiaalissa, eikä yhdessäkään äänen perusteella sijoitetussa kamerassa ole aikakoodia, johon sen omaa voisi verrata, joten sitä ei voi leikata jaksoon: asetettu introksi."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s ei sovi mihinkään materiaalissa, eikä yhdessäkään äänen perusteella sijoitetussa kamerassa ole aikakoodia, johon sen omaa voisi verrata; intro on jo varattu: jätetty pois."
+
+msgid "API Key:"
+msgstr "API-avain:"
+
+msgid "In point"
+msgstr "In-piste"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Jätetty pois; %s tai %s on yhden napsautuksen päässä."
+
+msgid "Out point"
+msgstr "Out-piste"
+
+msgid "Presets:"
+msgstr "Esiasetukset:"
+
+msgid "Registry"
+msgstr "Registry"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Kun poistat otsikon ÄÄNI tai VIDEO, kaikki sen alla oleva poistuu."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "valmis leike"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "ei voi leikata jaksoon -- vain ennen tai jälkeen"
+
+msgid "moved off the wide shot"
+msgstr "siirretty pois yleiskuvasta"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ei sen ääni eikä aikakoodi sijoita sitä aika-akselille"
+
+msgid "no audio track"
+msgstr "ei ääniraitaa"
+
+msgid "no speaker"
+msgstr "ei puhujaa"
+
+msgid "not used"
+msgstr "ei käytetä"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "sijoitettu kameransa mukana, sen kameran kellon mukaan"
+
+msgid "the file stays out"
+msgstr "tiedosto jätetään pois"
+
+msgid "the only sound"
+msgstr "ainoa ääni"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve hylkäsi ääniraidan A%d kahdesti -- Timelinesta \"%s\" puuttuu ääni: %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve hylkäsi videoraidan V%d kahdesti -- Timelinesta \"%s\" puuttuu kuva: %s."

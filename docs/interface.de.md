@@ -87,15 +87,17 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   dieser Ton ohnehin genommen; darüber entscheidet das Feld nicht.
 
   Wo nichts zu entscheiden ist, setzt sich das Feld selbst und ist
-  ausgegraut. Eine Begründung steht nicht daneben; das sind die Fälle:
+  ausgegraut, und an Stelle seines Werts steht grau darin, warum -- im
+  Feld selbst, wo man ohnehin hinsieht, nicht in einem Tooltip und nicht
+  in einer anderen Spalte. Vier Gründe gibt es:
 
-  - die Datei hat keine Tonspur,
-  - die Datei bleibt ganz draußen,
-  - die Datei ist ein Intro oder ein Outro,
-  - eine einzige Videodatei trägt Ton, und keine Tonaufnahme steht
-    daneben. Dieser Ton ist dann der einzige, den es gibt, und das Feld
-    steht auf **Ton verwenden**. Kommt eine Tonaufnahme dazu, ist die
-    Wahl wieder frei.
+  - **keine Tonspur**: die Datei hat keine;
+  - **bleibt draußen**: die Datei steht auf **Video ignorieren**;
+  - **fertiger Clip**: die Datei ist ein Vorspann oder ein Abspann;
+  - **einziger Ton**: eine einzige Videodatei trägt Ton, und keine
+    Tonaufnahme steht daneben. Dieser Ton ist dann der einzige, den es
+    gibt, und das Feld verwendet ihn. Kommt eine Tonaufnahme dazu, ist
+    die Wahl wieder frei.
 
   Dasselbe Feld steht auf **Zuordnung & Zeitfenster** bei der Kamera,
   auf demselben Wert: ändert man eines, folgt das andere sofort.
@@ -105,12 +107,16 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   **Video ignorieren**. Wer auf dem Feld stehen bleibt, erfährt, was die
   Einträge bedeuten. Das Feld selbst wird nie im Ganzen ausgegraut —
   Grau über dem ganzen Kasten hieße „hier ist nichts zu machen“, und zu
-  machen ist immer etwas.
+  machen ist immer etwas. Bei einer Kamera auf **Weitwinkel** steht
+  grau hinter dem Wert **kein Sprecher** -- gleich, ob jemand sie so
+  gekennzeichnet oder das Programm es ermittelt hat: Auf dieser Kamera
+  spricht niemand.
 
   Gesperrt wird ein Eintrag der Liste: er steht grau da und lässt sich
-  nicht wählen, und der Grund steht an ihm — wer darauf stehen bleibt,
-  liest ihn. Zwei Einträge können zugleich gesperrt sein, jeder mit
-  seinem eigenen Satz.
+  nicht wählen, und der Grund steht an ihm. Solange die Liste offen ist,
+  steht er hinter dem Namen des Eintrags, bei langem Satz gekürzt; wer
+  auf dem Eintrag stehen bleibt, liest ihn ganz. Zwei Einträge können
+  zugleich gesperrt sein, jeder mit seinem eigenen Satz.
 
   - Eine Kamera, der niemand zugeordnet ist, zeigt **Weitwinkel**,
     obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
@@ -128,15 +134,22 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     Vorspann schon hält, denn in einer Folge gibt es einen.
 
     Für diese beiden Sperren muss zweierlei zugleich zutreffen, keines
-    davon allein. Der Ton der Datei muss schlecht zum Rest passen **und**
-    kein Timecode darf sie zwischen die anderen einordnen, wozu ein
-    Timecode auf der Datei gehört und einer auf etwas anderem im
-    Material; eine einmal abgelesene Uhr sagt nichts. Ein Jingle ist
-    beides auf einmal: kein Timecode, und im Ton nichts, was der Raum
-    auch hat — er steht rot in der Liste. Eine Kamera, deren Mikrofon vom
-    Raum nichts gehört hat, ist nur das erste, und ihr eigener Timecode
-    setzt sie weiterhin framegenau — sie behält also die Wahl, und die
-    Liste schreibt das neben sie, statt sie rot zu färben.
+    davon allein. Der Ton der Datei muss schlecht zum Rest passen
+    **und** kein Timecode darf sie zwischen die anderen einordnen. Damit
+    ein Timecode eine Kamera einordnet, die der Ton nicht einordnen
+    kann, braucht es zwei: einen auf ihr selbst und einen auf einer
+    Kamera, die der Ton sehr wohl eingeordnet hat; an dieser wird der
+    eigene gemessen — an der längsten Kamera, wenn sie einen trägt,
+    sonst an der nächsten eingeordneten, die einen hat. Die Uhr einer
+    Tonaufnahme ordnet keine Kamera ein, und eine einmal abgelesene Uhr
+    sagt nichts. Gibt es keine solche Kamera, bleibt die Kamera draußen,
+    und Dateiliste wie Protokoll sagen, warum. Ein Jingle ist beides auf
+    einmal: kein Timecode, und im Ton nichts, was der Raum auch hat — er
+    steht rot in der Liste. Eine Kamera, deren Mikrofon vom Raum nichts
+    gehört hat, ist nur das erste, solange ihr Timecode eine solche
+    Kamera hat, an der er sich messen lässt: Dann setzt er sie weiterhin
+    framegenau — sie behält also die Wahl, und die Liste schreibt das
+    neben sie, statt sie rot zu färben.
 
   **Video ignorieren** wird nie gesperrt, **Vorspann** und **Abspann**
   nur so lange, wie eine andere Datei die Marke hält — der Eintrag nennt
@@ -231,6 +244,12 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   getippt hat, landet auf der Kamera, die nach ihr heißt. Eine von Hand
   gewählte Kamera ist eine Antwort und bleibt, wo sie hingesetzt wurde.
 
+  Steht eine Aufnahme oder eine Stimme unter **gehört zu** auf **nicht
+  verwenden**, ist sie aus der Mischung und aus dem Transkript heraus,
+  und ein Name bewirkt für sie nichts. Ihr Namensfeld wird grau, und
+  darin steht, ebenfalls grau, **ungenutzt**. Was dort getippt
+  war, bleibt im Feld stehen und gilt mit jeder anderen Antwort wieder.
+
   Bei mehr als einer Tonaufnahme läuft nichts von selbst; die Antwort in
   der Zeile startet es. Unter den Aufnahmen steht **Auf diesem Rechner
   nicht**: das schaltet die Trennung für das ganze Projekt ab.
@@ -276,7 +295,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Aufnahme mit ihrem Timecode, die Kameratabelle mit **Kamera**, **neue
   Datei heißt**, **Typ** und **Kameraton**, der Player und der Kasten
   für auphonic.com -- die eine Aufnahme kann dort weiterhin aufbereitet
-  werden. **neue Datei heißt** gilt auch hier, wie auf jedem Weg: unter
+  werden. Unter **neue Datei heißt** schlägt das Programm hier den
+  eigenen Dateinamen der Kamera vor, nie einen aus Sprechernamen
+  gebauten, und das Feld gilt auch hier, wie auf jedem Weg: unter
   diesem Namen schreibt der Lauf die Kameradatei, und die Spur der
   Kamera in Resolve trägt ihn ebenfalls ([Multitrack](multitrack.de.md),
   „Die Zuordnung setzen“).
@@ -348,12 +369,20 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   der Abstand viel zu klein.
 
   Vorschau und Lauf behalten auch dieselben Kameras. Beide stellen an
-  eine Datei die eine Frage, an der es hängt -- hat sie überhaupt einen
-  Platz --, und darum steht eine Kamera, deren Ton nicht erkannt wurde,
-  die ihre Uhr aber zwischen die anderen setzt, im Band ebenso wie im
-  fertigen Projekt. Früher ließ das Band eine Kamera weg, die der Lauf
-  behielt, und die Legende darunter zählte dann eine Kamera weniger, als
-  aus Resolve herauskam.
+  eine Datei die eine Frage, an der es hängt: hat sie überhaupt einen
+  Platz. Eine Kamera, deren Ton nicht erkannt wurde, steht an der
+  Stelle, die ihr Timecode angibt, im Band ebenso wie im fertigen
+  Projekt -- sofern auch eine Kamera, die der Ton eingeordnet hat,
+  einen Timecode trägt. Was der Ton aus ihr gemacht hat, ist eine Schätzung,
+  die nicht gereicht hat, und der Timecode ist keine; bisher landete sie
+  an dieser Schätzung. Früher ließ das Band eine Kamera weg, die der
+  Lauf behielt, und die Legende darunter zählte dann eine Kamera
+  weniger, als aus Resolve herauskam.
+
+  Eine Kamera ganz ohne Tonspur geht denselben Weg und fällt nicht mehr
+  wortlos von der Zeitachse: sie wird genannt, steht dort, wohin ihr
+  Timecode sie setzt, und hat sie keinen, wird ihr **Video ignorieren**
+  vorgeschlagen.
 
   Für die Sprecher ist nichts zu drücken. Sie werden aus den Spuren
   geholt, sobald dieser Reiter aufgeht -- einmal und kein zweites Mal:
@@ -424,6 +453,13 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Paketverwaltung von sich gibt oder wie weit der Download ist, Minute
   für Minute. Aus einem Terminal startet das Programm niemand mehr,
   also ist dies das Terminal.
+
+  **Resolve-Projekt anlegen** richtet sich nach der Dateiliste. Nimmt
+  man eine Kamera heraus, wird der Knopf grau, sobald die Übergabe des
+  letzten Laufs nicht mehr genau die Kameras nennt, die dort stehen, und
+  wer auf ihm stehen bleibt, liest, dass die Übergabedatei aus einem
+  Lauf fehlt. Legt man die Kamera wieder hinein, lässt er sich wieder
+  drücken.
 
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
 Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
@@ -566,7 +602,11 @@ nur wo nichts gemessen wurde, die eigene Uhr der Datei.
   **zugeordneten Ton hören** spielt die dieser Kamera zugeordnete
   Aufnahme; ohne das Häkchen ist der Kameraton zu hören. Auch diese
   Aufnahme wird über die Messung ans Bild gelegt, damit beide zusammen
-  laufen, selbst wenn die Uhren der zwei Geräte auseinandergehen. Eine
+  laufen, selbst wenn die Uhren der zwei Geräte auseinandergehen.
+  Solange die Messung aussteht, setzen die Uhren sie ans Bild, und die Zeile
+  unter dem Bild sagt das an Stelle der Zeit: **nach der Uhr platziert
+  -- Messung steht aus**. Diese Zeile folgt dem Häkchen, sobald es
+  angeklickt wird, bei Pause ebenso wie beim Abspielen. Eine
   Aufnahme aus mehreren Blöcken läuft dabei durch: es klingt der Block,
   der diesen Augenblick enthält, der Wechsel an der Grenze geschieht von
   selbst, und wo die Aufnahme unter dem Bild auf dem Schirm gar nicht
@@ -703,12 +743,13 @@ spricht, jede unter ihrem eigenen Namen -- mit Absicht: wer eine
 Sprache sucht, versteht die Sprache, in der das Fenster gerade steht,
 womöglich nicht.
 
-**Arabisch dreht das Fenster um.** Menüleiste, Reiter, Kästen, Tabellen
-und dieses Einstellungsblatt lesen sich von rechts nach links, so wie
-ein arabischer Leser es erwartet. Das Protokoll behält seine eigene
-Richtung: eine Zeile, die mit einem Pfad oder einem Timecode anfängt,
-steht so da, wie sie geschrieben wurde -- was ein Lauf über sich selbst
-sagt, ist kein Satz in irgendeiner Sprache.
+**Arabisch, Persisch, Hebräisch und Urdu drehen das Fenster um.**
+Menüleiste, Reiter, Kästen, Tabellen und dieses Einstellungsblatt lesen
+sich dann von rechts nach links, so wie es ein Leser dieser Sprachen
+erwartet. Das Protokoll behält seine eigene Richtung: eine Zeile, die
+mit einem Pfad oder einem Timecode anfängt, steht so da, wie sie
+geschrieben wurde -- was ein Lauf über sich selbst sagt, ist kein Satz
+in irgendeiner Sprache.
 
 Die Wahl wird sofort festgehalten, und die Zeile über dem Feld sagt,
 was als Nächstes geschieht. Solange die gewählte Sprache die ist, in
@@ -744,20 +785,27 @@ demselben Weg verloren.
 Das Fenster legt seine Sprache einmal fest, während es gebaut wird; jede
 Beschriftung darin hat ihre Wörter, sobald es dasteht.
 
-**Jede angebotene Sprache sagt alles.** Menüleiste, Reiter und
-Schalter sind in allen zwölf übersetzt, und ebenso, was das Programm
-während der Arbeit sagt -- die Zeilen, die während eines Laufs
-durchlaufen, und der Schritt nach Resolve. Das Programm sagt rund 1400
-verschiedene Dinge, und jede der zwölf hat für jedes eine Antwort. Was
-nicht übersetzt ist, erscheint auf Englisch und nicht als Lücke; eine
-Sprache, die einem neuen Text hinterherhinkt, bleibt also lesbar.
+**Jede angebotene Sprache sagt alles.** Das Fenster spricht 48
+Sprachen, Englisch mitgezählt. Menüleiste, Reiter und Schalter sind in
+jeder davon übersetzt, und ebenso, was das Programm während der Arbeit
+sagt -- die Zeilen, die während eines Laufs durchlaufen, und der
+Schritt nach Resolve. Das Programm sagt rund 1500 verschiedene Dinge,
+und jede Sprache hat für jedes eine Antwort. Was nicht übersetzt ist,
+erscheint auf Englisch und nicht als Lücke; eine Sprache, die einem
+neuen Text hinterherhinkt, bleibt also lesbar.
+
+Bis auf Englisch und Deutsch hat ein Modell die Texte geschrieben, und
+gelesen hat sie noch niemand, der die Sprache spricht. Jeder dieser
+Kataloge sagt das gleich oben: jeder Eintrag darin ist ein erster
+Entwurf.
 
 Gezählte Dinge -- „1 Datei" gegen „3 Dateien" -- sind eine eigene Art
 Eintrag, denn der Wortlaut ändert sich mit der Zahl, und nicht jede
 Sprache ändert ihn an denselben Stellen. Auch die trägt jede Sprache,
-mit so vielen Formen, wie sie kennt: eine im Japanischen und
-Chinesischen, zwei in den meisten, drei im Russischen und
-Ukrainischen, sechs im Arabischen.
+mit so vielen Formen, wie sie kennt: eine im Japanischen, Chinesischen
+und Thailändischen, zwei in den meisten, drei im Russischen, Polnischen
+und Tschechischen, vier im Maltesischen und Slowenischen, fünf im
+Irischen, sechs im Arabischen.
 
 **Hell und dunkel wird hier nicht eingestellt, und anderswo auch
 nicht.** Einen solchen Eintrag gibt es weder auf diesem Blatt noch in
@@ -1021,23 +1069,37 @@ davor aus der Spalte, und gerade die Hälfte, auf die es ankam, war fort.
 
 Eine Datei, deren Ton nicht erkannt wurde, die ihr Timecode aber zwischen
 die anderen setzt, trägt den Vermerk **Ton nicht erkannt; über den
-Timecode platziert**. Sie liegt framegenau auf der Achse; es fehlt allein
-die Gegenprobe, und die Messung sperrt für sie nichts.
+Timecode platziert**. Sie liegt framegenau auf der Achse, an der Stelle,
+die ihr Timecode angibt, und nicht dort, wohin der gescheiterte Abgleich
+ihres Tons sie legen würde; es fehlt allein die Gegenprobe, und die
+Messung sperrt für sie nichts. Eine Kamera ohne Tonspur hat nichts, woran
+man sie hören könnte, und wird ebenso beurteilt: ihr Timecode setzt sie,
+gemessen an einer Kamera, die der Ton eingeordnet hat und die ebenfalls
+einen trägt, und ohne eine solche gilt sie als Datei ohne Platz, wie
+gleich darunter.
 
 Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
 nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode.** und
-steht in Rot; darunter sagt der Vermerk, was mit ihr geschehen ist:
-**Als Vorspann eingetragen; Abspann ist einen Klick entfernt.** oder
-**Bleibt draußen, Vorspann ist schon vergeben; Abspann ist einen Klick
-entfernt.** Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
-kein Timecode ordnet sie zwischen die anderen ein; deshalb lässt sie
-sich nicht in die Folge hineinschneiden: In der Spalte **Typ** sind
-**Inhalt** und **Weitwinkel** für sie gesperrt, sie wird auf
-**Vorspann** gesetzt — auf **Video ignorieren**, wenn eine andere Datei
-den Vorspann schon hält —, und der Vermerk neben der Datei sagt,
-welches von beidem; Zeile und Vermerk sagen also dasselbe. Das ist kein
-Vorschlag, sondern eine Feststellung über das Material, und sie gilt,
-wie der **Typ** auch dorthin gekommen ist.
+steht in Rot. Trägt sie zwar einen Timecode, aber keine Kamera, die der
+Ton eingeordnet hat, einen, mit dem er sich abgleichen ließe, heißt es
+stattdessen **passt nicht zu den anderen Dateien: Ton nicht erkannt,
+nichts, womit sich der Timecode abgleichen ließe.** — der Timecode ist
+da, ihm fehlt nur das Gegenüber. Darunter sagt der Vermerk in beiden
+Fällen, was mit der Datei geschehen ist: **Als Vorspann eingetragen;
+Abspann ist einen Klick entfernt.**, **Bleibt draußen, Vorspann ist
+schon vergeben; Abspann ist einen Klick entfernt.** oder, bei einer
+Datei auf **Video ignorieren**, während der Vorspann noch frei ist — so
+vorgeschlagen wie gleich darunter oder von Hand so gesetzt —, **Bleibt
+draußen; Vorspann oder Abspann ist einen Klick entfernt.** Ihr Ton hat
+mit dem übrigen Material nichts gemeinsam, und kein Timecode ordnet sie
+zwischen die anderen ein; deshalb lässt sie sich nicht in die Folge
+hineinschneiden: In der Spalte **Typ** sind **Inhalt** und
+**Weitwinkel** für sie gesperrt, sie wird auf **Vorspann** gesetzt — auf
+**Video ignorieren**, wenn eine andere Datei den Vorspann schon hält —,
+und der Vermerk neben der Datei sagt, welches von beidem; Zeile und
+Vermerk sagen also dasselbe. Das ist kein Vorschlag, sondern eine
+Feststellung über das Material, und sie gilt, wie der **Typ** auch
+dorthin gekommen ist.
 
 War an einer solchen Datei überhaupt nichts zu messen, wird ihr
 stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag
@@ -1077,7 +1139,11 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 - **Eine Datei steht plötzlich auf „Vorspann“ oder „Video ignorieren“**:
   die Messung hat keinen Platz für sie gefunden. Ihr einen Timecode
   geben, der zum übrigen Material passt -- der muss mit einem anderen
-  Programm gesetzt werden --, dann sind die Einträge wieder da. Bis
+  Programm gesetzt werden --, dann sind die Einträge wieder da. Trägt
+  die Datei schon einen Timecode, aber keine der Kameras, die der Ton
+  eingeordnet hat, sagt die Dateiliste genau das — **nichts, womit sich
+  der Timecode abgleichen ließe** —, und das Protokoll ebenso: Dann braucht
+  eine dieser Kameras einen Timecode, der zu dieser Datei passt. Bis
   dahin stehen **Vorspann**, **Abspann** und **Video ignorieren** zur
   Wahl — die ersten beiden nur, solange keine andere Datei die Marke
   hält; **Inhalt** und **Weitwinkel** sind gesperrt, und daran ändert

@@ -23,14 +23,15 @@ YAML:
    checkout, no network -- and the commonest wrong start is found in two
    seconds.
 1. **The evidence, if it already exists.** Since 21.9.2026 a job
-   asks the API three things before the suite starts: is this commit
-   a merge, is its tree the tree of its second parent -- the pull
-   request's head -- and did every job of the suite conclude success
-   on that head. The job names are read off `tests.yml` at this
-   commit. Yes to all three and the suite below is skipped; the run
-   says `way: short -- ...` with the two commits and the six names.
-   Anything else says `way: long -- ...` with the reason, and the
-   suite runs. GitHub not answering counts as no.
+   asks the API before the suite starts: is this commit a merge, is
+   its tree the tree of its second parent -- the pull request's head
+   -- and did every job of the suite conclude success on that head;
+   since 24.9.2026 also whether the merge leaves
+   `videopodcast_magic/speakers/` alone. The job names are read off
+   `tests.yml` at this commit. Yes to all four and the suite below is
+   skipped; the run says `way: short -- ...` with the two commits and
+   the six names. Anything else says `way: long -- ...` with the
+   reason, and the suite runs. GitHub not answering counts as no.
 1b. **Otherwise the suite runs, here, on this commit.** `.github/workflows/tests.yml` is called from
    this workflow, so the six jobs are part of this run and answer for
    the commit the dispatch was started against. Red on any of them:
@@ -96,14 +97,17 @@ between -- the tree differs -- or the commit is not a merge, or a
 check is missing or red, the suite runs as before, and the line under
 the run says why.
 
-**The three questions, and how each is asked.** Two parents, off
+**The four questions, and how each is asked.** Two parents, off
 `commits/<sha>`. One tree, off the two commits' tree ids -- the same
 question as `git diff --quiet HEAD^2 HEAD`, asked without a 59.5 MiB
 checkout. Six green, off `commits/<head>/check-runs`, held against
 the job names rendered out of `tests.yml` at this commit, so a job
 added to the matrix is asked about without the workflow being touched.
 `checks: read` was added to the permissions for the third; a scope
-not named there is none.
+not named there is none. Nothing of the separation, off
+`compare/<first parent>...<sha>` -- the files the merge brings in, a
+renamed one under both its names -- held against the prefix
+`videopodcast_magic/speakers/`.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;
@@ -111,8 +115,15 @@ found later.** A push runs the everyday suite, separation off;
 separation, `voice_split_hears_two`, therefore runs for a release only
 on the long way. A check run's name does not say which of the two
 suites made it, so the evidence job cannot tell and does not pretend
-to. Whether that is worth the twelve minutes is the owner's question,
-and this paragraph is where it is kept.
+to. **The owner settled it on 24.9.2026:** the short way is given up
+where the merge touches anything under `videopodcast_magic/speakers/`,
+and the line names the file that sent it the long way. The compare API
+lists at most 300 files and says nothing about the rest, so a merge of
+300 files or more goes the long way too, and says why; an answer with
+no list of files in it counts as no answer. What stays given up is a
+change to the separation that lies outside that folder -- the test
+itself, `tests.yml`'s install of it -- and this paragraph is where
+that is kept.
 
 ## Why the archive is what it is
 

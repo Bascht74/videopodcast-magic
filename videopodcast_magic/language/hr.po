@@ -522,9 +522,6 @@ msgstr "Boja"
 msgid "  Preset:  %s"
 msgstr "  Predefinirana postavka: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve odbija daljnje video zapise -- stane %s od %s kamera."
-
 msgid "Preset"
 msgstr "Predefinirana postavka"
 
@@ -717,9 +714,6 @@ msgstr "    %s nije se mogao uvesti."
 msgid "    %s could not be inserted."
 msgstr "    %s nije se mogao umetnuti."
 
-msgid "    %s track %d could not be created."
-msgstr "    %s zapis %d nije se mogao stvoriti."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s zapis nije se mogao stvoriti: %s"
 
@@ -887,9 +881,6 @@ msgstr "  Video zapisi: %s, nazvani po govornicima:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s se pojavljuje dvaput s različitim kamerama -- koristi se %s"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s se ne može razvrstati: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s ne daje mjerljiv zvuk -- smješteno samo po njegovu satu, a nije nađeno ništa uz što bi se to provjerilo"
@@ -2172,17 +2163,11 @@ msgstr "jer joj nije dodijeljen nijedan govornik"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "označena kao široki kadar -- ne prima govornike"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "nema govornika -- ovo je široki kadar"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "nije joj dodijeljen nijedan govornik, ali rez koristi %s"
 
 msgid "the cut uses %s"
 msgstr "rez koristi %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "ovo je široki kadar -- %s: premješteno na \"bez vlastite kamere\""
 
 msgid "Curve and colour space are missing from the file"
 msgstr "U datoteci nedostaju krivulja i prostor boja"
@@ -2300,12 +2285,6 @@ msgstr "Ako je prazno: pokraj svake video datoteke."
 
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Nastalo je tijekom snimanja i sada se ne može promijeniti. Što su mikrofoni manje razdvojeni, to opreznije De-Bleed na auphonic.com mora raditi. Sljedeći put: tri puta dalje od susjednog mikrofona nego od vlastitih usta, tada susjedni glas sjedi oko %s dB niže."
-
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Nigdje se ne uklapa u materijal: nema vremenskog koda, a njezin zvuk nema ništa zajedničko s ostatkom. Na široki kadar rez se oslanja kao na rezervu, pa mora ležati na vremenskoj osi."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Ne uklapa se nigdje u materijal, pa se ne može urezati u epizodu. Može se postaviti ispred nje ili iza nje."
 
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s ne odgovara ničemu u materijalu, pa se ne može urezati u epizodu: postavljeno na Intro."
@@ -3351,9 +3330,6 @@ msgstr "Samo kamere"
 msgid "Curve number %d"
 msgstr "Krivulja broj %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Ispuštanjem na ZVUK ili VIDEO uzima se sve."
-
 msgid "End"
 msgstr "Kraj"
 
@@ -3617,18 +3593,6 @@ msgstr "Samo jedan zapis -- za drugi postavite Zvuk kamere neke kamere na \"kori
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Samo jedan zapis, a nije preostao nijedan zvuk kamere koji bi se mogao uzeti."
-
-msgid "the only sound there is"
-msgstr "jedini zvuk koji postoji"
-
-msgid "no audio track in this file"
-msgstr "u ovoj datoteci nema audio zapisa"
-
-msgid "this file stays out entirely"
-msgstr "ova datoteka ostaje potpuno izostavljena"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "gotov isječak -- samo postavljen, neobrađen"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ako se koristi, kanali izmjereni pod ovom datotekom režu se u zapise, kao kod snimke.\nMjerenje se ionako obavlja: na toj se ocjeni temelji odluka, a sinkronizacija uzima zvuk u svakom slučaju."
@@ -4511,3 +4475,378 @@ msgstr "Ovdje kamere imenuje datoteka dodjele, pa bi --new-name bio odbačen; na
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Kad su samo kamere, svaka se datoteka naziva po zapisima uzetima iz njezina zvuka, pa bi --new-name bio odbačen; izostavite --new-name."
+
+msgid "no camera of its own"
+msgstr "bez vlastite kamere"
+
+msgid "do not use"
+msgstr "ne koristiti"
+
+msgid "several speakers"
+msgstr "više govornika"
+
+msgid "work without Auphonic"
+msgstr "radi bez Auphonica"
+
+msgid "Content"
+msgstr "Sadržaj"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Široki kadar"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "zanemari ovaj video"
+
+msgid "do not use internal audio"
+msgstr "ne koristi interni zvuk"
+
+msgid "use internal audio"
+msgstr "koristi interni zvuk"
+
+msgid "After a question"
+msgstr "Nakon pitanja"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "slika prelazi na odgovor prije nego što on počne"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Samo nakon pitanja koje nije postavio glavni govornik, kad netko drugi odmah preuzme riječ i zadrži je.\n\"ne preuranjuj\" znači bez ranije promjene kamere: slika ovdje prati zvuk kao i svugdje drugdje."
+
+msgid "Long monologue"
+msgstr "Dugi monolog"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "jedna osoba govori dulje od \"Široki kadar nakon\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"Naizmjenično\" pamti što je prikazao zadnji prekid ovog monologa. Slušatelj dobiva sliku samo ako se netko na njegovoj kameri čuo u zadnjih 20 sekundi; inače široki kadar."
+
+msgid "Several speak at once"
+msgstr "Više njih govori istodobno"
+
+msgid "and no camera shows exactly them"
+msgstr "i nijedna kamera ne prikazuje baš njih"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Rezanje u takvu zbrku djeluje grozničavo."
+
+msgid "Nobody speaks"
+msgstr "Nitko ne govori"
+
+msgid "no voice is heard at all here"
+msgstr "ovdje se uopće ne čuje nijedan glas"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Udah usred rečenice i kraj misli oboje su tišina, i program ih ne razlikuje. Razlikuje ih samo duljina: \"Kratka praznina do\" kaže koliko duga tišina smije biti da se još računa kao udah."
+
+msgid "Recognition uncertain"
+msgstr "Nesigurno prepoznavanje"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "prepoznavanje govornika se para ili za sobom ostavlja hrpicu"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Pogađanje na nekoliko sekundi prikazuje pogrešnu osobu; široki kadar je u svakom slučaju ispravan. Ovdje netko govori -- gdje nitko ne govori, odlučuje \"Nitko ne govori\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "za toliko kasnije od zvuka mijenja se slika"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Negativna vrijednost stavlja sliku ispred zvuka."
+
+msgid "Answer on screen earlier"
+msgstr "Odgovor ranije na zaslonu"
+
+msgid "before the question ends"
+msgstr "prije kraja pitanja"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Nula je ondje gdje onaj tko pita prestaje, a ne ondje gdje odgovor počinje: stanka između njih pripada pitanju. Vrijedi samo ondje gdje to traži \"Nakon pitanja\", a Edit Change Delay ne dodaje se ponovno."
+
+msgid "Wide shot after"
+msgstr "Široki kadar nakon"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "odavde se traži dobar trenutak za njega"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Meka granica para: odavde program čeka granicu rečenice i ondje postavlja široki kadar, a ne po satu. 0 to isključuje. \"Široki kadar najkasnije\" je tvrda granica, gdje se reže i bez granice rečenice."
+
+msgid "Wide shot at the latest"
+msgstr "Široki kadar najkasnije"
+
+msgid "and here it is cut, good moment or not"
+msgstr "i ovdje se reže, dobar trenutak ili ne"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Tvrda granica para: ako se od \"Široki kadar nakon\" nije pojavila nijedna granica rečenice, na njezino mjesto dolazi najdulja stanka u govoru, i u ovoj se točki reže, bez obzira na to što se upravo govori."
+
+msgid "Wide shot at least"
+msgstr "Široki kadar najmanje"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "toliko najmanje traje umetnuti široki kadar"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Zatim traje do kraja rečenice. Ispod pet sekundi pogled djeluje kao trzaj."
+
+msgid "Wide shot at most"
+msgstr "Široki kadar najviše"
+
+msgid "and at most this long"
+msgstr "i najviše ovoliko"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Ako kraj rečenice leži iza te granice, kadar se završava na zadnjoj granici dijela rečenice prije nje -- ne reže se usred rečenice."
+
+msgid "Minimum Edit Duration"
+msgstr "Najkraće trajanje kadra"
+
+msgid "shorter shots are merged in"
+msgstr "kraći kadrovi se stapaju"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Kraći kadrovi stapaju se sa sljedećim."
+
+msgid "Speaks at least"
+msgstr "Govori najmanje"
+
+msgid "below this the camera does not follow"
+msgstr "ispod toga kamera ne prati"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Kratko \"da\" ne pomiče sliku. Bez ovoga blok od pola sekunde povlači kameru k sebi, a najkraće trajanje kadra zatim je ondje drži nekoliko sekundi."
+
+msgid "Short gap up to"
+msgstr "Kratka praznina do"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "toliko dugo tišina ostavlja sliku na miru"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Samo ondje gdje je \"Nitko ne govori\" postavljeno na zadržavanje kratke praznine. Praznina do ove duljine ništa ne mijenja, dulja prelazi na široki kadar. Iznad dvije sekunde slika počinje stajati na nekome tko šuti dulje od pet sekundi."
+
+msgid "Listener"
+msgstr "Slušatelj"
+
+msgid "Alternating"
+msgstr "Naizmjenično"
+
+msgid "No camera change"
+msgstr "Bez promjene kamere"
+
+msgid "Hold a short gap"
+msgstr "Zadrži kratku prazninu"
+
+msgid "do not go early"
+msgstr "ne preuranjuj"
+
+msgid "Answering speaker"
+msgstr "Onaj tko odgovara"
+
+msgid "English"
+msgstr "Engleski"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcast katalozi, stereo"
+
+msgid "Podcast directories, mono"
+msgstr "Podcast katalozi, mono"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- samo stišava, nikad ne pojačava"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, emitiranje"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 konstantna"
+
+msgid "reserved"
+msgstr "rezervirano"
+
+msgid "unspecified"
+msgstr "nije navedeno"
+
+msgid "unknown"
+msgstr "nepoznato"
+
+msgid "French"
+msgstr "Francuski"
+
+msgid "German"
+msgstr "Njemački"
+
+msgid "Dutch"
+msgstr "Nizozemski"
+
+msgid "Italian"
+msgstr "Talijanski"
+
+msgid "Spanish"
+msgstr "Španjolski"
+
+msgid "Polish"
+msgstr "Poljski"
+
+msgid "Portuguese"
+msgstr "Portugalski"
+
+msgid "Russian"
+msgstr "Ruski"
+
+msgid "Danish"
+msgstr "Danski"
+
+msgid "Norwegian"
+msgstr "Norveški"
+
+msgid "Swedish"
+msgstr "Švedski"
+
+msgid "Czech"
+msgstr "Češki"
+
+msgid "Finnish"
+msgstr "Finski"
+
+msgid "Turkish"
+msgstr "Turski"
+
+msgid "Greek"
+msgstr "Grčki"
+
+msgid "Hungarian"
+msgstr "Mađarski"
+
+msgid "Romanian"
+msgstr "Rumunjski"
+
+msgid "Arabic"
+msgstr "Arapski"
+
+msgid "Catalan"
+msgstr "Katalonski"
+
+msgid "Ukrainian"
+msgstr "Ukrajinski"
+
+msgid "Chinese"
+msgstr "Kineski"
+
+msgid "Hebrew"
+msgstr "Hebrejski"
+
+msgid "Japanese"
+msgstr "Japanski"
+
+msgid "Korean"
+msgstr "Korejski"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Za pretvorbu: u Media Pool desni klik na \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Samo u jednom smjeru -- ali novi prolaz u svakom trenutku ponovno gradi Timeline.\n  Kutovi snimanja:%s\n  Sve ostalo -- izbor zvuka, grupe boja, kadriranje -- nalazi se u\n  priručniku, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Mogući razlozi:\n  1. Resolve ne radi -- sučelje odgovara samo dok program radi.\n  2. Preferences > System > General: vanjsko skriptiranje postavljeno je na \"None\" umjesto \"Local\".\n  3. Besplatno izdanje: vanjsko skriptiranje navodno je od verzije 19.1 rezervirano za izdanje Studio. Službena izjava o tome nije mi poznata -- ova provjera to mjeri umjesto da to tvrdi."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s se ne može razvrstati: %s -- smješteno samo po vlastitom satu"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: podudaranje zvuka %s, ispod praga %s -- smješteno samo po vlastitom satu"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Oprez: ovaj projekt nije potpun -- Resolve je dvaput odbio ove zapise:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Pomak:             %s   (samo po vremenskom kodu -- po zvuku se nije moglo smjestiti, pa se ništa ne provjerava)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve je dvaput odbio audio zapis A%d na Timeline „%s” -- kamere se postavljaju na postojeće audio zapise (ukupno %s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve je dvaput odbio video zapis V%d -- na Timeline „%s” nedostaje: %s."
+
+msgid "  Status:      %s"
+msgstr "  Stanje:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Podudaranje zvuka preslabo je da bi mu se vjerovalo: %s -- smješteno samo po vremenskom kodu."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   ne pristaje uz ostale datoteke: zvuk nije prepoznat,\n   nema s čim usporediti vremenski kod.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s se ne može smjestiti: zvuk nema ništa zajedničko s ostatkom materijala, a nijedna kamera smještena po zvuku ne nosi vremenski kod s kojim bi se usporedio vlastiti. Jednoj od njih treba vremenski kod koji odgovara ovome, a to se mora postaviti drugim programom."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ne odgovara ničemu u materijalu, a nijedna kamera smještena po zvuku ne nosi vremenski kod s kojim bi se usporedio vlastiti, pa se ne može urezati u epizodu: postavljeno na Intro."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s ne odgovara ničemu u materijalu, a nijedna kamera smještena po zvuku ne nosi vremenski kod s kojim bi se usporedio vlastiti; intro je zauzet: izostavljeno."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Točka In"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Izostavljeno; %s ili %s je jedan klik dalje."
+
+msgid "Out point"
+msgstr "Točka Out"
+
+msgid "Presets:"
+msgstr "Predefinirane postavke:"
+
+msgid "Registry"
+msgstr "Registry"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Uklanjanje „ZVUK” ili „VIDEO” uklanja sve što je ispod."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "gotov isječak"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "ne može se urezati u epizodu -- samo prije ili poslije nje"
+
+msgid "moved off the wide shot"
+msgstr "maknuto sa širokog kadra"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ni zvuk ni vremenski kod ne stavljaju je na os"
+
+msgid "no audio track"
+msgstr "nema audio zapisa"
+
+msgid "no speaker"
+msgstr "bez govornika"
+
+msgid "not used"
+msgstr "ne rabi se"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "smješteno sa svojom kamerom, po satu te kamere"
+
+msgid "the file stays out"
+msgstr "datoteka ostaje izvan"
+
+msgid "the only sound"
+msgstr "jedini zvuk"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve je dvaput odbio audio zapis A%d -- na Timeline „%s” nedostaje zvuk (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve je dvaput odbio video zapis V%d -- na Timeline „%s” nedostaje slika (%s)."

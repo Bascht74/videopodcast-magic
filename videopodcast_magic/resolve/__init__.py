@@ -1487,6 +1487,47 @@ def audio_track_count(cam):
     return max(1, len(cam.get("audio_tracks") or [1]) + 1)
 
 
+def add_track(tl, kind):
+    """Ask Resolve for one more track of this kind, and once more if refused.
+
+    The owner's decision of 24.9.2026: a refused track is asked for a
+    second time, and where that is refused too the caller names what the
+    Timeline lacks and builds the rest. Twice and no more: every ask is
+    a call into Resolve, and one asked for ever makes the window look
+    frozen.
+    """
+    return bool(tl.AddTrack(kind)) or bool(tl.AddTrack(kind))
+
+
+def say_refused(refused, line):
+    """Name a track refused twice now, and keep the line for the end.
+
+    The build goes on past it, so the line would otherwise stand in the
+    middle of everything that follows; build_resolve_project says it
+    again among its closing lines.
+    """
+    print(as_warn(line))
+    if refused is not None:
+        refused.append(line)
+
+
+def refusals_closing(refused):
+    """Repeat the refused tracks at the very end, and return the code.
+
+    Not 0 where a track was refused: the window reads 0 as "Done", and
+    a Timeline lacking a camera or the intro is not done. Everything
+    else was built all the same.
+    """
+    if not refused:
+        return 0
+    print("")
+    print(as_warn(T('  Caution: this project is not complete -- Resolve '
+                    'refused these tracks twice:')))
+    for line in refused:
+        print(as_warn(line))
+    return 1
+
+
 def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     """Lay all cameras side by side, one per video track, one audio track each.
 
@@ -1497,25 +1538,45 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     is unlinked from video, all but the first audio track per camera
     deleted, empty tracks removed, and picture and audio linked again.
     Unlinking is required, or deleting a track takes its picture with it.
-    The first track holds this camera's speaker.
+    The first track holds this camera's speaker. A track Resolve refuses
+    twice is named, and the rest built without it; where that leaves a
+    camera without its picture or its sound, the line is kept in
+    d["_refused"] for the end.
     """
+    refused = d.get("_refused")
+    # The names the tracks will carry, so a refusal names what is seen.
+    labels = track_labels(cameras, d)
     set_timeline_start(tl, d.get("start_tc"))
     fps, origin = timeline_origin(d)
     while tl.GetTrackCount("video") < len(cameras):
-        # An AddTrack that refuses would otherwise be asked for ever, and
-        # every ask is a call into Resolve: the window looks frozen.
-        if not tl.AddTrack("video"):
-            print(as_warn(T('  Resolve refuses more video tracks -- '
-                            '%s of %s cameras fit.')
-                          % (number_text(tl.GetTrackCount("video"), 0),
-                             number_text(len(cameras), 0))))
+        if not add_track(tl, "video"):
+            # Tracks are numbered without gaps: every camera from this
+            # track on is missing, not only the one meant for it.
+            n = tl.GetTrackCount("video") + 1
+            say_refused(refused, T('  Resolve refused video track V%d twice '
+                                   '-- the Timeline "%s" lacks %s.')
+                        % (n, tl.GetName() or "?",
+                           ", ".join(labels[cam["track"]]
+                                     for cam in cameras[n - 1:])))
             break
+    # The cameras with a video track. One without is laid nowhere: its
+    # sound alone would become an angle with no picture.
+    placed = cameras[:tl.GetTrackCount("video")]
     # Room for the audio, side by side, or Resolve places what fits and
     # silently drops the rest. With slack: what it occupies is not known
     # in advance, and the cleanup removes empty tracks afterwards.
     needed = sum(audio_track_count(cam) for cam in cameras) + len(cameras)
+    audio_refused = 0
     while tl.GetTrackCount("audio") < needed:
-        if not tl.AddTrack("audio"):
+        if not add_track(tl, "audio"):
+            # Named now; whether it costs a camera its sound shows only once
+            # they are laid, because the room asked for has slack.
+            audio_refused = tl.GetTrackCount("audio") + 1
+            print(T('  Resolve refused audio track A%d twice on the Timeline '
+                    '"%s" -- the cameras are laid on the %s audio tracks '
+                    'there are.')
+                  % (audio_refused, tl.GetName() or "?",
+                     number_text(tl.GetTrackCount("audio"), 0)))
             break
     print(T('  %s video tracks, %s audio tracks created (%s)')
           % (number_text(tl.GetTrackCount("video"), 0),
@@ -1537,7 +1598,7 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
         print(T('  Start %s (earliest camera) -- otherwise everything '
                 'would lie before the Timeline start.') % begin)
     entry = {}
-    for i, cam in enumerate(cameras, 1):
+    for i, cam in enumerate(placed, 1):
         c = clips.get(cam["file"])
         if c is None:
             continue
@@ -1569,12 +1630,12 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
                     'from A%d).')
                   % (cam["track"], free))
     present = timeline_items_per_camera(tl, cameras)
-    absent = [cam["track"] for cam in cameras if not present.get(cam["track"])]
+    absent = [cam["track"] for cam in placed if not present.get(cam["track"])]
     if absent:
         # Resolve does not say why it inserted nothing, so note the numbers.
         print(T('    For checking -- Timeline starts at frame %d (%s):')
               % (start_frame, begin))
-        for cam in cameras:
+        for cam in placed:
             if cam["track"] not in entry:
                 print(T('      %-24s no file in the media pool') % cam["track"])
                 continue
@@ -1588,15 +1649,14 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
                             if cam["track"] in absent else ""))
             print("        %s" % clip_signature(clips.get(cam["file"])))
 
-    labels = track_labels(cameras, d)
-    for i, cam in enumerate(cameras, 1):
+    for i, cam in enumerate(placed, 1):
         if not tl.SetTrackName("video", i, labels[cam["track"]]):
             print(T('    Video track %d could not be renamed.') % i)
     print((T('  %s video tracks, named after the camera files:')
            if d.get("project_type") == "sync"
            else T('  %s video tracks, named after the speakers:'))
-          % number_text(len(cameras), 0))
-    for i, cam in enumerate(cameras, 1):
+          % number_text(len(placed), 0))
+    for i, cam in enumerate(placed, 1):
         # A track carrying the file's name: printing both says it twice.
         name = os.path.basename(cam["file"] or cam["source"])
         print("    V%-3d %s%s%s"
@@ -1611,6 +1671,26 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
                          '  Caution: %s not inserted. Without these angles '
                          'the\n  Timeline is no good for converting.')
                       % ", ".join(absent)))
+    if audio_refused:
+        # A camera that lies there without any sound is what the refused
+        # track cost; one the spare room held lost nothing.
+        heard = set()
+        for track in range(1, tl.GetTrackCount("audio") + 1):
+            for item in (tl.GetItemListInTrack("audio", track) or []):
+                try:
+                    heard.add(item.GetName() or "")
+                except Exception:
+                    continue
+        mute = [labels[cam["track"]] for cam in cameras
+                if present.get(cam["track"])
+                and os.path.basename(cam["file"] or cam["source"])
+                not in heard]
+        if mute:
+            say_refused(refused, T('  Resolve refused audio track A%d twice '
+                                   '-- the Timeline "%s" lacks the sound of '
+                                   '%s.')
+                        % (audio_refused, tl.GetName() or "?",
+                           ", ".join(mute)))
 
     if every_tracks:
         # Nothing to untangle with one camera: every audio track stays.
@@ -1625,7 +1705,7 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
               % (number_text(tl.GetTrackCount("audio"), 0),
                  ", ".join(names[:tl.GetTrackCount("audio")]) or T('unnamed')))
     else:
-        trim_audio_tracks(tl, cameras, present, labels)
+        trim_audio_tracks(tl, placed, present, labels)
     return tl
 
 
@@ -2263,18 +2343,40 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
     """Insert the two clips, after the content.
 
     The content first, or the second track they belong on does not exist.
+    A track Resolve refuses twice is named, kept in d["_refused"], and
+    what can still be placed is placed.
     """
+    refused = d.get("_refused")
     applied = []
+    lacking = set()
     # Without a second video track AppendToTimeline puts the clip nowhere.
     needs_audio = any((d.get(a) or {}).get("has_audio")
                       for a in ("intro", "outro"))
+    # What each track would carry, for the line naming a refusal.
+    carries = {
+        "video": [label_of(k) for k in (TYPE_INTRO, TYPE_OUTRO) if d.get(k)],
+        "audio": [label_of(k) for k in (TYPE_INTRO, TYPE_OUTRO)
+                  if (d.get(k) or {}).get("has_audio")]}
     for kind_track, at_least in (("video", 2), ("audio", 2 if needs_audio
                                                 else 0)):
         try:
             while at_least and tl.GetTrackCount(kind_track) < at_least:
-                if not tl.AddTrack(kind_track):
-                    print(T('    %s track %d could not be created.')
-                          % (kind_track, at_least))
+                if not add_track(tl, kind_track):
+                    lacking.add(kind_track)
+                    n = tl.GetTrackCount(kind_track) + 1
+                    # A second track nothing would lie on lacks nothing.
+                    if carries[kind_track] and kind_track == "video":
+                        say_refused(refused, T(
+                            '  Resolve refused video track V%d twice -- the '
+                            'Timeline "%s" lacks the picture of %s.')
+                            % (n, tl.GetName() or "?",
+                               ", ".join(carries["video"])))
+                    elif carries[kind_track]:
+                        say_refused(refused, T(
+                            '  Resolve refused audio track A%d twice -- the '
+                            'Timeline "%s" lacks the sound of %s.')
+                            % (n, tl.GetName() or "?",
+                               ", ".join(carries["audio"])))
                     break
         except Exception as e:
             print(T('    %s track could not be created: %s') % (kind_track, e))
@@ -2300,14 +2402,15 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
             spot = max(0, lead_in + seconds_to_frames(end - meeting_point, fps))
         item = [{"mediaPoolItem": clip, "trackIndex": 2,
                    "recordFrame": origin + spot, "mediaType": 1}]
-        if entry.get("has_audio"):
+        # Not where A2 was refused: the line below would claim it.
+        sound = bool(entry.get("has_audio")) and "audio" not in lacking
+        if sound:
             item.append({"mediaPoolItem": clip, "trackIndex": 2,
                            "recordFrame": origin + spot, "mediaType": 2})
         if not mp.AppendToTimeline(item):
             print(T('    %s could not be inserted.') % where_to)
             continue
-        applied.append((kind, where_to, spot, L, bool(entry.get("has_audio")),
-                        meeting_point))
+        applied.append((kind, where_to, spot, L, sound, meeting_point))
     if not applied:
         return
     try:
@@ -2555,6 +2658,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     """Build a Resolve project from the handover file.
 
     *source* is the path to the ..._resolve.json or its parsed contents.
+    Returns 1 where a track was refused twice, after building the rest.
     """
     d = source
     source_path = None
@@ -2603,6 +2707,11 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         print(T('  No cameras in the handover -- nothing to build.'))
         return 1
 
+    # Every track Resolve refused twice, said again at the very end. In
+    # the handover, as _source_path is: the two builders it passes through
+    # are stood in for in tests, and their arguments stay as
+    # they were.
+    d["_refused"] = []
     print(as_head("\nRESOLVE"))
     r = connect_to_resolve()
     print("  %s %s" % (r.GetProductName(), r.GetVersionString()))
@@ -2720,7 +2829,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
             if d.get("speakers") and not sync:
                 add_speaker_markers(tl, d["speakers"], d)
             p.SetCurrentTimeline(tl)
-        return 0
+        return refusals_closing(d.pop("_refused", None))
 
     print(T('\n  Timeline for the multicam clip: all cameras, uncut'))
     ordered = cameras_in_track_order(cameras)
@@ -2735,7 +2844,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         print(T(HINT_MULTICAM)
               % (name, "".join("\n    V%-3d %s" % (i, labels[cam["track"]])
                                for i, cam in enumerate(ordered, 1))))
-        return 0
+        return refusals_closing(d.pop("_refused", None))
     if find_timeline(p, "%s Multicam" % name) is not None:
         # It is there but holds other cameras. Not deleted: the multicam
         # clip made from it by hand would go with it.
@@ -2756,10 +2865,12 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         add_speaker_markers(tl2, d["speakers"], d, from_s=earliest_offset(ordered))
 
     p.SetCurrentTimeline(tl if tl is not None else tl2)
+    # An angle is a video track, and a refused one is none.
+    angles = ordered[:tl2.GetTrackCount("video")]
     print(T(HINT_MULTICAM)
           % (name, "".join("\n    V%-3d %s" % (i, labels[cam["track"]])
-                           for i, cam in enumerate(ordered, 1))))
-    return 0
+                           for i, cam in enumerate(angles, 1))))
+    return refusals_closing(d.pop("_refused", None))
 
 
 #-------------------------------------------- The box in the window

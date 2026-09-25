@@ -229,8 +229,10 @@ Phase, auf die sich zurückfallen ließe, gibt es dort nicht, also ist der
 erste Weg die ganze Messung -- und was eine Kamera gegenüber einer
 anderen erreichen muss, liegt um ein Vielfaches höher als das, was eine
 Aufnahme gegenüber einer Kamera erreichen muss. Eine Kamera, die das
-nicht erreicht und keinen passenden Timecode trägt, bleibt genauso
-draußen.
+nicht erreicht, ordnet ihr Timecode ein, gemessen an einer Kamera, die
+der Ton eingeordnet hat und die ebenfalls einen trägt -- die Uhr einer
+Tonaufnahme ordnet keine Kamera ein. Fehlt einer der beiden Timecodes,
+bleibt die Kamera genauso draußen.
 
 Eine Kamera, die zwar eine Tonspur meldet, aus der sich aber nichts
 lesen lässt -- der Ton brach nach einem Augenblick ab, oder die Spur ging
@@ -241,9 +243,11 @@ eigene Uhr zeigt. Das Protokoll nennt dann die Datei und sagt, dass sie
 keinen messbaren Ton gibt, allein nach ihrer Uhr eingeordnet ist und
 nichts da war, woran sich das prüfen ließe -- diese eine Zeile ist zu
 lesen, denn diese eine Kamera liegt dort, wohin ihre Uhr sie legt, und
-niemand hat es nachgemessen. Fehlt die Uhr -- bei ihr selbst oder bei
-der Kamera, die die Achse vorgibt -- oder passt sie zu keiner der
-anderen, bleibt die Kamera draußen und wird genannt wie oben.
+niemand hat es nachgemessen. Gemessen wird ihre Uhr an einer Kamera,
+die der Ton eingeordnet hat und die eine trägt: an der, die die Achse
+vorgibt, wenn sie eine Uhr hat, sonst an der nächsten mit Uhr. Fehlt die
+Uhr bei ihr selbst oder bei jeder Kamera, die der Ton eingeordnet hat,
+bleibt die Kamera draußen und wird genannt wie oben.
 
 ### Wie der Lauf eine Uhrzeit statt eines Zählers liest
 
@@ -348,9 +352,12 @@ nicht.
   `auphonic-tracks/`, je eine Datei.
 - **Eine Videodatei fehlt im Ergebnis.** Der Lauf konnte sie nicht
   einordnen: Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
-  sie trägt keinen Timecode. Ihr mit einem anderen Programm einen geben,
-  der zu den übrigen Aufnahmen passt, oder sie in der Spalte **Typ** der
-  Dateiliste auf **Video ignorieren** setzen, damit sie nicht mitläuft.
+  sie trägt keinen Timecode, oder keine Kamera, die der Ton eingeordnet
+  hat, trägt einen, an dem sich ihrer messen ließe. Ihr mit einem
+  anderen Programm einen Timecode geben, der zu den übrigen Aufnahmen
+  passt -- hat sie schon einen, braucht eine dieser Kameras einen, der
+  zu ihm passt --, oder sie in der Spalte **Typ** der Dateiliste auf
+  **Video ignorieren** setzen, damit sie nicht mitläuft.
   Im Fenster schlägt das Programm das von selbst vor ([Die
   Oberfläche](interface.de.md)).
 

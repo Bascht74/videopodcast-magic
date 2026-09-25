@@ -262,7 +262,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         own_now, forced_now = audio_use_now()
         state["own_cameras"] = list(own_now)
         state["forced_own"] = list(forced_now)
-        for kind, title in (("audio", T('AUDIO')), ("video", "VIDEO")):
+        for kind, title in (("audio", T('AUDIO')), ("video", T('VIDEO'))):
             own = [p for p, a in files if a == kind]
             if not own:
                 continue

@@ -4,11 +4,11 @@
 Two things must not come back as more gets written: German comments (the
 interface stays German, the code does not) and narrating comments that
 report what stood there before. Beside them stand the sizes -- lines,
-blocks, docstrings, functions -- the big definitions carrying no
-docstring at all, the except branches that only pass, and the paths put
-into shape on one side of a comparison or of a lookup while the other
-side is left raw. All of it is counted as ratchets, so the numbers may
-fall and never rise.
+blocks, docstrings, functions -- the definitions and pieces carrying no
+docstring, the except branches that only pass, and the paths put into
+shape on one side of a comparison or of a lookup while the other side
+is left raw. All of it is counted as ratchets, so the
+numbers may fall and never rise.
 
 Every piece of the program is read, not the file it starts in alone: a
 ratchet over one file falls of its own accord the day a piece moves
@@ -354,6 +354,26 @@ if held.tightened:
 for size, name, line, piece in undescribed[:8]:
     print("      %-28s %5d lines, from line %s"
           % (name[:28], size, where(piece, line)))
+
+# Below a hundred lines too, at every size, and every piece's own: a
+# docstring gone in passing lowers the counts above and reads as
+# progress. Held on the name, so a function deleted whole is no find;
+# one that loses its docstring, or arrives without one, is.
+bare = []
+for piece, tree, seen in trees:
+    if not ast.get_docstring(tree):
+        bare.append(("<module> " + piece, 1))
+    for node in ast.walk(tree):
+        if (isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
+                              ast.ClassDef))
+                and not ast.get_docstring(node)):
+            bare.append((ratchet.qualified(seen, node), node.lineno))
+held = state.places("without_docstring", ratchet.tally(bare))
+check("definitions and pieces without a docstring: %d (ratchet %d)"
+      % (len(bare), held.limit), held.ok, over(held))
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d" % (held.limit, len(bare)))
 
 # ------------------------------------------------- Exceptions swallowed
 # An except that does nothing hides the reason something did not work.

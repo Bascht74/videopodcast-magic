@@ -24,6 +24,7 @@ import importlib.util
 import io
 import os
 import re
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -214,6 +215,20 @@ def on_disk():
     # which is what makes them printable beside a line number.
     return sum(os.path.getsize(os.path.join(FOLDER, name))
                for name, _body in pieces())
+
+
+def copy_to(folder, without=()):
+    """The whole program copied into `folder`; hands back its entry file.
+
+    The folder and never the file: the catalogues lie beside it, and a
+    lone copy dies on the import -- red for the wrong reason, in a
+    counter-proof that wants red. No `__pycache__`, whose bytecode would
+    outlive a break of the same size, and no log from an earlier run.
+    `without` names more to leave behind, as `shutil.ignore_patterns`.
+    """
+    shutil.copytree(FOLDER, folder, ignore=shutil.ignore_patterns(
+        "__pycache__", "*.log", *without))
+    return os.path.join(folder, os.path.basename(SCRIPT))
 
 
 def pieces():

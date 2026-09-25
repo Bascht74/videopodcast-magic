@@ -840,13 +840,26 @@ def timecode_places_it(own, others):
     return own is not None and any(t is not None for t in others)
 
 
-def files_with_no_place(weak, clocks):
-    """Which of the badly fitting files no clock places either.
+def clock_base(own, placed):
+    """Which camera's clock places one the sound could not place.
 
-    The one reading of "it fits nowhere". Weak alone is not it -- a
-    camera whose sound says nothing is still placed by its timecode --
-    and below the floor is not it either, because a jingle lands above
-    that.
+    *placed* is [(camera, its clock)] of those the sound put on the
+    axis, the reference first; the first carrying a clock is the base,
+    never a middle of several, which one wrong clock among two carries
+    off. None where *own* is None or no placed camera has a clock.
+    """
+    if own is None:
+        return None
+    return next((w for w, t in placed if t is not None), None)
+
+
+def files_with_no_place(weak, clocks):
+    """Which of the badly fitting recordings no clock places either.
+
+    The one reading of "it fits nowhere" for a recording; a camera goes
+    by clock_base. Weak alone is not it -- a file whose sound says
+    nothing is still placed by its timecode -- and below the floor is
+    not it either, because a jingle lands above that.
     """
     return [p for p in weak
             if not timecode_places_it(

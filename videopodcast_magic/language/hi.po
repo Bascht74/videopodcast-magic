@@ -1574,9 +1574,6 @@ msgstr "कोई भी कैमरा वक्ताओं से खाल�
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "अभी कोई ट्रांसक्रिप्ट नहीं। इसके बिना न कोई प्रश्न मिलता है, न वाक्य की सीमा पता चलती है, इसलिए ये चार सेटिंग्स कुछ नहीं करतीं। एक रन इसे लिखता है, और तब से ये काम करती हैं।"
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "यह सामग्री में कहीं भी फ़िट नहीं होता: कोई टाइमकोड नहीं, और इसकी आवाज़ में बाकी से कुछ भी साझा नहीं। कट वाइड शॉट पर ही लौटता है, इसलिए उसे समय अक्ष पर होना चाहिए।"
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  प्रश्न: कोई ट्रांसक्रिप्ट नहीं, इसलिए न कोई प्रश्न मिला और न कोई रिएक्शन कट\n          हुआ। शब्द रन के दौरान तैयार मिक्स से\n          लिखे जाते हैं; उनके बिना यह सेटिंग कुछ नहीं करती।"
 
@@ -1597,9 +1594,6 @@ msgstr "प्रश्न वाली सेटिंग्स धूसर �
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "वाइड शॉट के रूप में चिह्नित -- इसमें कोई वक्ता नहीं जाता"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "कोई वक्ता नहीं -- यह वाइड शॉट है"
 
 msgid "the mix of all tracks"
 msgstr "सभी ट्रैकों का मिक्स"
@@ -1714,9 +1708,6 @@ msgstr "अभी कोई वक्ता ज्ञात नहीं -- क�
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "समय खिड़की सामग्री के बाहर है: इन पॉइंट %s पर, आउट पॉइंट %s पर, और सामग्री की अवधि %s है।"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "यह वाइड शॉट है -- %s को \"अपना कैमरा नहीं\" पर ले जाया गया"
 
 msgid "No audio tracks are assigned."
 msgstr "कोई ऑडियो ट्रैक नियत नहीं है।"
@@ -2126,9 +2117,6 @@ msgstr "  सावधान: रेंज         केवल %s LU -- बह�
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "दोनों चैनल समान -- मोनो दोनों ओर रखा गया"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s का वर्गीकरण नहीं हो सकता: %s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "संभवतः दो माइक्रोफ़ोन -- लगभग %s m दूर%s"
@@ -3618,9 +3606,6 @@ msgstr "  Timeline %r पहले से मौजूद थी -- नई क�
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  Timeline की शुरुआत %s अस्वीकार हुई: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve और वीडियो ट्रैक नहीं लेता -- %s कैमरे (%s में से) समा पाते हैं।"
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool में कोई फ़ाइल नहीं"
 
@@ -3683,9 +3668,6 @@ msgstr "      GetAudioMapping   विफल: %s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  रंग समूह %r नहीं बनाया जा सकता: %s"
-
-msgid "    %s track %d could not be created."
-msgstr "    %s प्रकार का ट्रैक %d नहीं बनाया जा सका।"
 
 msgid "ends"
 msgstr "अंत"
@@ -4191,18 +4173,6 @@ msgstr "फिर से शुरू करना काम नहीं आय
 msgid "No newer version found. This one is %s."
 msgstr "कोई नया संस्करण नहीं मिला। यह %s है।"
 
-msgid "no audio track in this file"
-msgstr "इस फ़ाइल में कोई ऑडियो ट्रैक नहीं"
-
-msgid "this file stays out entirely"
-msgstr "यह फ़ाइल पूरी तरह बाहर रहती है"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "तैयार क्लिप -- केवल रखी जाती है, संसाधित नहीं"
-
-msgid "the only sound there is"
-msgstr "एकमात्र ध्वनि जो मौजूद है"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "Multitrack को ऊपर की तालिका में दो ट्रैक चाहिए -- कैमरा तब एक गिना जाता है जब उसका कैमरा ऑडियो \"ऑडियो का उपयोग करें\" पर सेट हो।"
 
@@ -4214,9 +4184,6 @@ msgstr "कट में दो कैमरे एक ही कैमरा �
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "दो कैमरे एक ही फ़ाइल बनाएँगे: %s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "यह सामग्री में कहीं फ़िट नहीं होता, इसलिए इसे एपिसोड के भीतर नहीं काटा जा सकता। इसे उससे पहले या बाद में रखा जा सकता है।"
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "उपयोग करने पर इस फ़ाइल की ध्वनि किसी भी दूसरे जैसा एक ट्रैक बन जाती है -- यह ऊपर की तालिका में दिखती है।\nयही फ़ील्ड फ़ाइल सूची में भी है; दोनों एक ही उत्तर दिखाते हैं।"
@@ -4244,9 +4211,6 @@ msgstr "सामान्य टिप्पणियाँ"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "क्रम से कोई फ़र्क नहीं पड़ता। कई हिस्सों वाली रिकॉर्डिंग के लिए पहला खंड काफ़ी है।"
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "AUDIO या VIDEO पर छोड़ने से वह सब ले लिया जाता है।"
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "auphonic.com पर शीर्षक और नई फ़ाइलों के नामों की शुरुआत।"
@@ -4690,3 +4654,156 @@ msgstr "यहाँ कैमरों के नाम नियतन फ़�
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "केवल कैमरों के साथ हर फ़ाइल का नाम उसकी ध्वनि से लिए गए ट्रैकों पर रखा जाता है, इसलिए --new-name छोड़ दिया जाता; --new-name हटा दें।"
+
+msgid "work without Auphonic"
+msgstr "Auphonic के बिना काम करें"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "केवल ऐसे प्रश्न के बाद जो मुख्य वक्ता का नहीं है, जब कोई और तुरंत बोलना शुरू करे और बोलता रहे।\n\"पहले न जाएँ\" का अर्थ है: कैमरा पहले नहीं बदलता, चित्र यहाँ भी हर जगह की तरह ध्वनि के पीछे चलता है।"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"बारी-बारी से\" याद रखता है कि इस एकालाप को पिछली बार तोड़ते समय क्या दिखाया गया था। श्रोता को चित्र तभी मिलता है जब उस कैमरे पर पिछले 20 सेकंड में कोई सुनाई दिया हो; अन्यथा वाइड शॉट।"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "आवाज़ों की गड़बड़ में काटना हड़बड़ी भरा लगता है।"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "वाक्य के बीच की साँस और किसी विचार का अंत, दोनों चुप्पी हैं, और प्रोग्राम उन्हें अलग नहीं कर सकता। केवल लंबाई कर सकती है: \"छोटा अंतराल तक\" बताता है कि चुप्पी कितनी लंबी हो सकती है और फिर भी साँस मानी जाए।"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "अनुमान लगाने से सेकंडों तक गलत व्यक्ति परदे पर रहता है; वाइड शॉट हर हाल में सही है। यहाँ कोई बोल रहा है -- जहाँ कोई नहीं बोलता, वहाँ \"कोई नहीं बोलता\" तय करता है।"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "ऋणात्मक मान से चित्र ध्वनि से आगे चलता है।"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "शून्य वहाँ है जहाँ प्रश्न पूछने वाला रुकता है, वहाँ नहीं जहाँ उत्तर शुरू होता है: बीच का विराम प्रश्न का हिस्सा है। यह केवल वहीं लागू होता है जहाँ \"प्रश्न के बाद\" इसे माँगता है, और Edit Change Delay फिर से नहीं जोड़ा जाता।"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "इन दोनों की नरम सीमा: यहाँ से प्रोग्राम वाक्य की सीमा की प्रतीक्षा करता है और वाइड शॉट वहीं रखता है, घड़ी के अनुसार नहीं। 0 इसे बंद करता है। \"वाइड शॉट अधिकतम विलंब\" कठोर सीमा है, जहाँ वाक्य की सीमा के बिना भी काटा जाता है।"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "इन दोनों की कठोर सीमा: यदि \"वाइड शॉट के बाद\" से कोई वाक्य की सीमा नहीं आई, तो सबसे लंबा बोलने का विराम उसकी जगह लेता है, और इस बिंदु पर काटा जाता है, चाहे उस समय कुछ भी कहा जा रहा हो।"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "फिर यह वाक्य के अंत तक चलता है। पाँच सेकंड से कम में यह झलक एक झटके जैसी लगती है।"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "यदि वाक्य का अंत इस सीमा के बाद पड़ता है, तो उससे पहले की अंतिम उपवाक्य-सीमा शॉट समाप्त करती है -- वाक्य के बीच में नहीं काटा जाता।"
+
+msgid "Shorter shots fall into the following one."
+msgstr "छोटे शॉट अगले शॉट में मिल जाते हैं।"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "एक छोटा \"हाँ\" चित्र को नहीं हिलाता। इसके बिना आधे सेकंड का एक खंड कैमरे को अपनी ओर खींच लेता है, और फिर न्यूनतम शॉट अवधि उसे सेकंडों तक वहीं रोके रखती है।"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "केवल वहाँ जहाँ \"कोई नहीं बोलता\" छोटा अंतराल बनाए रखने पर सेट है। इतनी लंबाई तक का अंतराल कुछ नहीं बदलता, इससे लंबा वाइड शॉट पर जाता है। दो सेकंड से ऊपर चित्र किसी चुप व्यक्ति पर पाँच सेकंड से अधिक टिकने लगता है।"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 स्थिर"
+
+msgid "reserved"
+msgstr "आरक्षित"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  बदलने के लिए: Media Pool में \"%s Multicam\" पर राइट-क्लिक >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\"।\n  यह केवल एक दिशा में होता है -- पर नया रन Timeline को कभी भी फिर से बनाता है।\n  एंगल:%s\n  बाकी सब -- ऑडियो का चुनाव, रंग समूह, फ़्रेमिंग -- नियमावली में है,\n  docs/resolve.md।\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "संभावित कारण:\n  1. Resolve नहीं चल रहा -- स्क्रिप्टिंग इंटरफ़ेस केवल तभी उत्तर देता है जब प्रोग्राम चल रहा हो।\n  2. Preferences > System > General: external scripting \"Local\" के बजाय \"None\" पर सेट है।\n  3. मुफ़्त संस्करण: बताया जाता है कि Resolve 19.1 से external scripting केवल Studio संस्करण के लिए है। मुझे कोई आधिकारिक बयान नहीं मिला -- यह जाँच इसका दावा करने के बजाय इसे मापती है।"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s का वर्गीकरण नहीं हो सकता: %s -- केवल उसकी घड़ी से रखा गया"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: उसकी ध्वनि %s तक मेल खाती है, न्यूनतम %s से नीचे -- केवल उसकी घड़ी से रखा गया"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  सावधान: यह परियोजना पूरी नहीं है -- Resolve ने ये ट्रैक दो बार अस्वीकार किए:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  ऑफ़सेट:         %s   (केवल उसके टाइमकोड से -- उसकी ध्वनि उसे नहीं रख सकी, इसलिए कुछ जाँचा नहीं जाता)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve ने ऑडियो ट्रैक A%d को Timeline \"%s\" पर दो बार अस्वीकार किया -- कैमरे मौजूद %s ऑडियो ट्रैकों पर रखे गए हैं।"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve ने वीडियो ट्रैक V%d दो बार अस्वीकार किया -- Timeline \"%s\" में यह नहीं है: %s।"
+
+msgid "  Status:      %s"
+msgstr "  स्थिति:        %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  %s की ध्वनि इतनी कमज़ोर मेल खाई कि उस पर भरोसा नहीं -- केवल टाइमकोड से रखा गया।"
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   बाकी फ़ाइलों से मेल नहीं खाता: ध्वनि नहीं पहचानी गई,\n   उसका टाइमकोड मिलाने के लिए कुछ नहीं।\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s को रखा नहीं जा सकता: इसकी ध्वनि बाकी सामग्री से कुछ भी मेल नहीं खाती, और जिन कैमरों को ध्वनि ने रखा, उनमें से किसी में ऐसा टाइमकोड नहीं जिससे इसका अपना मिलाया जा सके। उनमें से एक को ऐसा टाइमकोड चाहिए जो इससे मेल खाए, और वह किसी दूसरे प्रोग्राम से लगाना होगा।"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s सामग्री में किसी से मेल नहीं खाता, और जिन कैमरों को ध्वनि ने रखा, उनमें से किसी में ऐसा टाइमकोड नहीं जिससे इसका अपना मिलाया जा सके, इसलिए इसे एपिसोड में काटकर नहीं डाला जा सकता: इंट्रो पर सेट किया गया।"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s सामग्री में किसी से मेल नहीं खाता, और जिन कैमरों को ध्वनि ने रखा, उनमें से किसी में ऐसा टाइमकोड नहीं जिससे इसका अपना मिलाया जा सके; इंट्रो पहले से तय है: छोड़ दिया गया।"
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "इन पॉइंट"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "बाहर रखा गया; %s या %s एक क्लिक दूर है।"
+
+msgid "Out point"
+msgstr "आउट पॉइंट"
+
+msgid "Presets:"
+msgstr "प्रीसेट:"
+
+msgid "Registry"
+msgstr "Registry"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "\"ऑडियो\" या \"वीडियो\" हटाने से उसके नीचे का सब कुछ हट जाता है।"
+
+msgid "VIDEO"
+msgstr "वीडियो"
+
+msgid "a finished clip"
+msgstr "तैयार क्लिप"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "एपिसोड में नहीं काटा जा सकता -- केवल पहले या बाद में"
+
+msgid "moved off the wide shot"
+msgstr "वाइड शॉट से हटाया गया"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "न इसकी ध्वनि, न कोई टाइमकोड इसे अक्ष पर रखता है"
+
+msgid "no audio track"
+msgstr "ऑडियो ट्रैक नहीं"
+
+msgid "no speaker"
+msgstr "वक्ता नहीं"
+
+msgid "not used"
+msgstr "अप्रयुक्त"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "अपने कैमरे के साथ, उसी कैमरे की घड़ी से रखा गया"
+
+msgid "the file stays out"
+msgstr "फ़ाइल बाहर रहती है"
+
+msgid "the only sound"
+msgstr "एकमात्र ध्वनि"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve ने ऑडियो ट्रैक A%d दो बार अस्वीकार किया -- Timeline \"%s\" में %s की ध्वनि नहीं है।"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve ने वीडियो ट्रैक V%d दो बार अस्वीकार किया -- Timeline \"%s\" में %s का चित्र नहीं है।"

@@ -1,6 +1,6 @@
 # The test suite
 
-286 tests against the program in `../videopodcast_magic/`. Every one of them stands
+303 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-286 tests. The name is the one a red line carries, and beside it the
+303 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -259,6 +259,7 @@ it is green.
 | `files_by_file_holds` | The dictionary of files finds one file under any of its names. |
 | `files_clock_links_blocks` | Blocks that carry a clock in the name instead of a counter. |
 | `files_colour_carried` | Colour tags, metadata keys and named audio tracks reach the result. |
+| `files_colour_fair` | Cameras are compared in colour like for like: one scale, each file once. |
 | `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |
 | `files_cut_without_keys` | A camera is cut to the window even where its key frames cannot be read. |
 | `files_data_track_kept` | A camera's data track is carried over only where ffmpeg writes it whole. |
@@ -316,6 +317,7 @@ it is green.
 | `time_axis_measured` | The common time axis, measured out of the sound and without a window. |
 | `time_bad_point_dropped` | One sample point in the wrong place must not tip the whole line. |
 | `time_block_holds_on` | A recording made of blocks is placed as one recording. |
+| `time_clock_beats_guess` | A camera the sound cannot place and its clock can stands at its clock. |
 | `time_clock_from_any_file` | A Timecode is counted from the axis, not from the reference's clock. |
 | `time_clock_read_at_rate` | What a file's clock says is read at that file's own rate. |
 | `time_clock_track_first` | A file's clock is read off its track before the file's own level. |
@@ -336,6 +338,7 @@ it is green.
 | `time_track_starts_late` | A track that begins after the picture is placed where the file says. |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
 | `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
+| `time_unheard_file_named` | A file the axis cannot hear is named as not fitting, never left out. |
 | `time_weak_at_its_clock` | A file the sound did not place stands at its clock, not at what failed. |
 | `time_which_way_is_said` | The run says which way put a track on the axis, and how sure it is. |
 | `time_window_is_shared` | The window is the stretch EVERY camera saw, not the one any saw. |
@@ -423,7 +426,7 @@ it is green.
 | `project_mix_by_name` | The mix is found by its own name, not by a word inside another one. |
 | `project_output_says_hdr` | The project's output colour space decides HDR, and silence is not no. |
 | `project_real_frame` | The frame of the project is one a camera really recorded. |
-| `project_refusal_heeded` | A track Resolve refuses is asked for once, and a refused video one named. |
+| `project_refusal_heeded` | A track Resolve refuses is asked twice, then named, and the rest built. |
 | `project_render_kept` | A render never writes over the delivery before it. |
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
 | `project_rerun_updates` | #60 in a whole run: build twice, update on the second pass. |
@@ -451,6 +454,7 @@ it is green.
 | `auphonic_run_delivers` | The two functions that assemble a whole production at auphonic.com. |
 | `auphonic_speech_read` | What a production writes about the audio, and in which language. |
 | `auphonic_stays_quiet` | The program says nothing to auphonic.com unless somebody asks it to. |
+| `auphonic_unsaved_said` | A key the store refuses takes its tick back and says so in the window. |
 
 ### `window_` -- the interface
 
@@ -461,12 +465,14 @@ it is green.
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
+| `window_choices_refit` | The camera cut's drop-downs hold their longest entry in any font. |
 | `window_clock_sound_said` | Until the sound is measured in, the line under the picture says so. |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
 | `window_dark_follows` | A desktop switched to dark leaves no light ground standing in the window. |
 | `window_foot_on_one_line` | The buttons in the footer stand on one line, and say why they are off. |
 | `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
+| `window_handover_follows` | The Resolve button follows the handover over the cameras in the list. |
 | `window_hears_while_split` | The words are written down while the speakers are being separated. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
 | `window_marks_come_back` | A file that fits nothing is still marked after the project is reopened. |
@@ -475,10 +481,12 @@ it is green.
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
 | `window_not_started_said` | A camera switched to before it began says so, and the moment is kept. |
 | `window_note_names_kind` | A file with no place is told what became of it, not only what is wrong. |
+| `window_note_reason_true` | The note beside a file with no place gives the reason that is true. |
 | `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
 | `window_offers_restart` | The window offers to start again when another language is chosen. |
 | `window_picture_returns` | A refused format does not outlive the attempt it was about. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
+| `window_point_named` | A jump no file can make names the point in the window's language. |
 | `window_prework_box_goes` | The box that shows the prework goes away once the prework is over. |
 | `window_project_type_set` | The project type is chosen once, and the later tabs take its shape. |
 | `window_reads_as_chosen` | The window is laid out the way the chosen language reads. |
@@ -502,8 +510,11 @@ it is green.
 | Test | Green means |
 |---|---|
 | `table_audio_asked_for` | #38 Stage 5c: what decides that a camera's sound is material. |
+| `table_back_to_one_name` | Going back from several speakers to one name leaves a fresh layout. |
 | `table_blocks_judged` | A recording of several blocks must not wait for ever to be judged. |
 | `table_camera_proposed` | The suggestion finds the speaker's camera, and never freezes it. |
+| `table_lock_says_why` | The sheet's reasons stand in grey inside the field they are about. |
+| `table_names_one_order` | Two speakers on one camera stand in one order in its file and track. |
 | `table_names_reach_camera` | A speaker's name reaches the camera row, typed or only suggested. |
 | `table_no_place_not_wide` | A file that sits nowhere is not offered as the wide shot. |
 | `table_notes_in_one_row` | Do all findings of a multi-part recording land in its row? |
@@ -512,6 +523,8 @@ it is green.
 | `table_row_per_channel` | The channel split is visible on the file page, and can be changed. |
 | `table_row_per_voice` | A separation stored in the project becomes rows -- once somebody says so. |
 | `table_stereo_splits` | A stereo file with two people on it becomes two rows to assign. |
+| `table_sync_keeps_stem` | Under Sync only every camera is offered its own file name. |
+| `table_sync_stem_shown` | Under Sync only the camera table offers a camera its own file stem. |
 | `table_tick_keeps_camera` | The Multitrack tick neither bars a camera choice nor clears one. |
 
 ### `run_` -- a whole run: command line, threads, progress, log
@@ -521,6 +534,7 @@ it is green.
 | `run_bar_never_falls` | The bar neither falls back nor stands still. |
 | `run_bar_tracks_work` | The one bar: weights, creeping, never going backwards, and its line. |
 | `run_choice_kept` | A choice made in one run is found by the next, and by nobody else. |
+| `run_clock_place_travels` | Where its clock places a camera, its own sound and handover follow. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
 | `run_dry_run_not_stopped` | A dry run short of disk space is told so and goes on; a real run stops. |
@@ -531,6 +545,7 @@ it is green.
 | `run_install_is_watched` | Installing ffmpeg shows what it is doing while it does it. |
 | `run_log_within_reach` | The log of a run is where whoever started it can get at it. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
+| `run_mute_camera_placed` | A camera with no sound but a timecode is placed by it and handed over. |
 | `run_new_name_checked` | A run refuses a --new-name it cannot follow as given, and says why. |
 | `run_no_upload_no_hint` | The run promises to save an upload only where it uploads. |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
@@ -540,6 +555,7 @@ it is green.
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_project_type_reaches` | The project type reaches the run and says what sync leaves out. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |
+| `run_rate_way_said_right` | A camera off its nominal rate is said to be off the way it really is. |
 | `run_shortcut_laid_once` | One shortcut is laid on the first start, and never a second time. |
 | `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
 | `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
@@ -568,6 +584,7 @@ it is green.
 | `text_numbers_fit_reader` | A number takes the language's form for a person, never for a machine. |
 | `text_only_texts_change` | The language machinery: catalogue, detection, switch, log colours. |
 | `text_release_ready` | What a release has to have, checked instead of remembered. |
+| `text_shown_catalogued` | Every word the window and the printed Auphonic lists show went through T(). |
 | `text_skills_listed` | Every copy of the skill table says what the skills themselves say. |
 | `text_tests_listed` | README.md lists every test with the sentence that test stands for. |
 | `text_whole_sentences` | No sentence may be glued together out of translated pieces. |
@@ -593,5 +610,17 @@ it is green.
 | `source_sections_named` | The program divides into named sections, and the ground uses none above. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
 | `source_test_names_swept` | A name a test gives Resolve is swept, or excepted by name. |
+
+### Under `resolve/` -- beside a running DaVinci Resolve
+
+Not in the suite and not in the count above: `resolve.sh`
+starts these by hand, one after another.
+
+| Test | Green means |
+|---|---|
+| `project_clips_land_right` | Every camera and every shot lands on the track and frame the cut names. |
+| `project_pool_takes_all` | Every file the run hands over is in the media pool and found again. |
+| `project_run_puts_back` | A run that never tidied up leaves nothing, and what it remembers comes back. |
+| `project_settings_arrive` | The project the run asks for is there, with the rate and size it named. |
 
 <!-- overview ends -->

@@ -11,11 +11,11 @@ of them, and this holds the written list against the folder:
   3. each row repeats that test's own first docstring line
   4. the number of tests the README names is the number there are
   5. each row stands under the heading of its own prefix
+  6. the same for the tests under resolve/, in a table of their own
 
 Nothing here is a matter of taste: whatever it finds, `python3
-overview.py` writes right again. The reading of the list and the
-writing of it live in overview.py together, so the two cannot drift
-apart.
+overview.py` writes right again, and the reading and the writing of
+the list live in overview.py together.
 """
 import io
 import os
@@ -76,7 +76,11 @@ if bad:
     stop()
 
 here = overview.statements(HERE)
-listed = dict((name, said) for _, name, said in rows)
+# The tests under resolve/ are held apart, in section 6: they are not in
+# the suite, so neither in its count nor under its headings.
+APART = overview.APART + "/"
+suite_rows = [row for row in rows if row[0] != APART]
+listed = dict((name, said) for _, name, said in suite_rows)
 
 print("\n2. It names the tests that are here, and only those")
 missing = sorted(set(here) - set(listed))
@@ -87,8 +91,8 @@ check("every row names a test that is here", not gone,
       "%d name none: %s" % (len(gone), ", ".join(gone[:4])))
 # A name twice over is invisible to both checks above: the sets match
 # and one row silently covers the other.
-seen = [name for _, name, _ in rows]
-twice = sorted(set(n for n in seen if seen.count(n) > 1))
+seen = [(under == APART, name) for under, name, _ in rows]
+twice = sorted(set(n for apart, n in seen if seen.count((apart, n)) > 1))
 check("no test stands in the list twice", not twice,
       "%d twice over: %s" % (len(twice), ", ".join(twice[:4])))
 
@@ -114,7 +118,7 @@ print("\n5. And each one under its own heading")
 # The prefix says which part of the program a red line is about, so a
 # row under the wrong heading sends the reader to the wrong place.
 elsewhere = []
-for under, name, _ in rows:
+for under, name, _ in suite_rows:
     fits = [p for p, _gloss in overview.PREFIXES if name.startswith(p)]
     wanted = fits[0] if fits else ""
     if under != wanted:
@@ -124,6 +128,28 @@ for under, name, _ in rows:
 check("every row stands under the heading of its prefix", not elsewhere,
       "%d in the wrong place -- %s"
       % (len(elsewhere), " ; ".join(elsewhere[:2])))
+
+print("\n6. And the tests under resolve/ in a table of their own")
+apart_here = overview.statements(HERE, overview.APART)
+apart_listed = dict((name, said) for under, name, said in rows
+                    if under == APART)
+# Without this the three below pass over nothing, the way section 1
+# guards sections 2 to 5.
+check("the tests under resolve/ are found at all", len(apart_here) > 0,
+      "%d found in %s" % (len(apart_here), os.path.join(HERE, APART)))
+missing = sorted(set(apart_here) - set(apart_listed))
+check("every test under resolve/ has a row in its own table", not missing,
+      "%d of %d without one: %s"
+      % (len(missing), len(apart_here), ", ".join(missing)))
+gone = sorted(set(apart_listed) - set(apart_here))
+check("every resolve/ row names a test under resolve/", not gone,
+      "%d name none: %s" % (len(gone), ", ".join(gone[:4])))
+apart = ["%s: the list says %r, the test says %r"
+         % (name, apart_listed[name][:60], apart_here[name][:60])
+         for name in sorted(set(apart_here) & set(apart_listed))
+         if apart_listed[name] != apart_here[name]]
+check("every resolve/ row repeats its test's own first line", not apart,
+      "%d differ -- %s" % (len(apart), " ; ".join(apart[:2])))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:

@@ -168,7 +168,11 @@ check("and the same indent", not indent,
 # A handful of words are the same in both languages. Anything else that
 # comes back unchanged was forgotten rather than translated.
 SAME_IN_BOTH = {
-    '  Preset:  %s', 'Preset', 'Preset:', 'Start', '  Timecode:        %s',
+    '  Preset:  %s', 'Preset', 'Preset:', 'Presets:', 'Start',
+    '  Timecode:        %s',
+    # German writes these as they are: Windows' own name for its store,
+    # the file list's heading, the key as Auphonic calls it.
+    'Registry', 'VIDEO', 'API Key:',
     # A name, two units and an arrow: nothing in it has a German.
     '  %-20s %s LUFS  ->  %s dB',
     '\n    %s  --  %s, %s',

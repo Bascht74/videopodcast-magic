@@ -301,12 +301,13 @@ def presets_for_mode(key, multitrack):
 
 
 def print_presets(key, multitrack=False):
+    """Print the account's presets for this mode, as --list-presets."""
     items = presets_for_mode(key, multitrack)
     if not items:
         print(T('No Multitrack preset found in the account.') if multitrack
               else T('No Singletrack preset found in the account.'))
         return 0
-    print("Presets:")
+    print(T('Presets:'))
     # The number in front is typed back below; %2d keeps a column.
     for i, (name, _, _) in enumerate(items, 1):
         print("  %2d  %s" % (i, name))
@@ -621,7 +622,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     access_layout = QtWidgets.QVBoxLayout(access_box)
     first_line = QtWidgets.QHBoxLayout()
     access_layout.addLayout(first_line)
-    first_line.addWidget(label("API Key:"))
+    first_line.addWidget(label(T('API Key:')))
     _key_first, state["key_from"] = api_key_source()
     key_var = Value(_key_first)
     key_entry = field_bind(QtWidgets.QLineEdit(), key_var, 280)
@@ -632,7 +633,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     if platform.system() == "Darwin":
         keep_text, keep_where = T('Save in Keychain'), T('Keychain')
     elif platform.system() == "Windows":
-        keep_text, keep_where = T('Save in Registry'), "Registry"
+        keep_text, keep_where = T('Save in Registry'), T('Registry')
     else:
         keep_text, keep_where = T('Keep it saved'), T('system store')
     keep_button = checkbox_bind(QtWidgets.QCheckBox(keep_text), remember)
@@ -793,16 +794,19 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
         # A store that refuses must show, or the button goes green over a
         # key that is gone at the next start. The key that goes in is the
         # one that was checked, never the field read a second time.
+        unsaved = ""
         if remember.get() and not store_api_key(
                 (checked or key_var.get()).strip()):
             PROGRAM.tick_off_quietly(keep_button, remember)
-            key_note_show(T('The key was not saved: %s')
-                          % key_store_trouble())
+            unsaved = T('The key was not saved: %s') % key_store_trouble()
+            key_note_show(unsaved)
         button_green(True)
         presets_filter()
         note, fitting = preset_mode_note(preset_list, multitrack.get())
         if note:
-            key_note_show(note)
+            # A refusal above stays in front: the line shows both, not
+            # only the last sentence said to it.
+            key_note_show(unsaved + '\n' + note if unsaved else note)
         if open_after and fitting:
             preset_box.showPopup()
 
@@ -1152,7 +1156,7 @@ def print_production(p):
     uploaded = [(x.get("id"), x.get("input_file")) for x in tracks]
     done = [f.get("filename") for f in (p.get("output_files") or [])
               if f.get("download_url")]
-    print("  Status:      %s" % (p.get("status_string") or "?"))
+    print(T('  Status:      %s') % (p.get("status_string") or "?"))
     print(T('  Created:     %s') % (p.get("creation_time") or "?")[:19].replace(
         "T", " "))
     if uploaded:

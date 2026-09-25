@@ -165,6 +165,9 @@ die Sprache nicht sagt, wer zu zeigen ist:
 * **Erkennung unsicher**: **Weitwinkel** (auf der Kommandozeile
   `--on-uncertain`)
 
+Alle fünf sind gleich breit, und zwar so breit, wie ihr längster Eintrag
+es verlangt; abgeschnitten wird keiner.
+
 **Langer Monolog**, **Mehrere reden zugleich** und **Erkennung
 unsicher** nehmen dieselben vier Werte: **Weitwinkel**, **Zuhörer**,
 **Abwechselnd** und **Kein Kamerawechsel**. **Niemand redet** hat drei
@@ -220,8 +223,10 @@ mindestens**, **Weitwinkel höchstens** und das Häkchen für die Ränder.
 In **Langer Monolog**, **Mehrere reden zugleich** und **Erkennung
 unsicher** wird der Eintrag **Weitwinkel** mit ihnen grau und lässt sich
 nicht mehr wählen. Er bleibt aber in der Liste, statt daraus zu
-verschwinden, und wer darauf zeigt, erfährt den Grund: die Antwort auf
-„warum kann ich das nicht wählen“ gehört dorthin, wo die Frage aufkommt.
+verschwinden. Solange die Liste offen ist, steht der Grund hinter dem
+Eintrag, gekürzt, wo er lang wird, und wer darauf zeigt, liest ihn ganz:
+die Antwort auf „warum kann ich das nicht wählen“ gehört dorthin, wo die
+Frage aufkommt.
 
 **Niemand redet** behält den Eintrag und bleibt offen. Eine Stille muss
 irgendetwas zeigen, und wo keine Kamera frei ist, nimmt der Schnitt eine
@@ -419,8 +424,12 @@ es. Also trägt ein Eintrag:
 * den Sprecher dieser Kamera, mit Namen;
 * alle Namen mit Pluszeichen verbunden, wenn mehrere auf derselben
   Kamera sind — `41 × Sprecher 1 + Sprecher 2  14 %  (9:37 Min)`;
-  keiner fällt weg und keiner wird gekürzt;
-* **Weitwinkel** für die Kamera, die als solcher dient;
+  keiner fällt weg und keiner wird gekürzt. Die Namen stehen
+  alphabetisch, gleich in welcher Reihenfolge die Zeilen der Zuordnung
+  sie nennen — so wie auch im Dateinamen der Kamera, in ihrer
+  Resolve-Spur und unter **bekommt Audio von**;
+* **Weitwinkel** für die Kamera, die als solcher dient, und wo es
+  mehrere gibt, mit Nummer: **Weitwinkel 1**;
 * den Kurznamen der Kamera, wenn ihr niemand zugeordnet ist und sie
   nicht der Weitwinkel ist, denn sie Weitwinkel zu nennen wäre eine
   Behauptung und keine Ablesung;
@@ -549,6 +558,12 @@ angehalten statt auf gut Glück gespielt: die Aufnahme bleibt geladen und
 stumm, und das Protokoll nennt sie, das Bild darüber und den Grund --
 hier ist sie noch nicht dran.
 
+Haben die Uhren den Ton gelegt, sagt es die Zeile unter dem Bild in
+ihrer Mitte, dort, wo sonst die Position steht: **nach der Uhr platziert
+-- Messung steht aus**. Die Position kehrt mit der Messung zurück. Setzt
+oder löst man das Häkchen **zugeordneten Ton hören**, folgt die Zeile
+sofort, auch wenn das Bild gerade angehalten ist.
+
 **Eine Aufnahme aus mehreren Blöcken läuft durch.** Ein Recorder teilt
 eine lange Aufnahme in zwei oder drei Dateien, und der Player nimmt den
 Block, in den der Augenblick auf dem Schirm fällt; an der Grenze schaltet
@@ -562,6 +577,8 @@ Holt man eine andere Kamera in diesen Player, bleibt der Augenblick
 stehen und nicht der Abstand zum Dateianfang: die neue Datei öffnet dort,
 wo die alte im Geschehen stand, denn Kameras fangen zu verschiedenen
 Zeiten an. Auch das kommt aus der Messung, mit den Uhren als Rückfall.
+Hatte die neue Kamera in diesem Augenblick noch gar nicht angefangen,
+sagt es die Zeile unter dem Bild: **<Datei> hat noch nicht begonnen**.
 Und ein Bild, das lief, läuft in der neuen Datei weiter -- die Kamera zu
 wechseln, während man zusieht, heißt vergleichen.
 
@@ -717,6 +734,12 @@ frischer und ist es nicht. Passt sie, steht die Vorschau vom ersten
 Augenblick an auf den Zahlen des Laufs, und **Resolve-Projekt anlegen**
 lässt sich drücken, ohne noch einmal etwas laufen zu lassen.
 
+Dasselbe gilt während der Arbeit. Nimmt man eine Kamera aus der
+Dateiliste, nennt die Übergabe des letzten Laufs nicht mehr genau diese
+Kameras: die Vorschau rechnet wieder mit dem, was das Fenster selbst
+ermittelt, und **Resolve-Projekt anlegen** wird grau. Legt man die
+Kamera zurück, sind Übergabe und Knopf wieder da.
+
 ### Wie das Programm den Weitwinkel setzt
 
 Ein Weitwinkel kommt nicht nach der Uhr. Jenseits von **Weitwinkel
@@ -769,7 +792,11 @@ selbst.
 
 **Der Farbvergleich** misst an fünf Stellen jeder Kameradatei Helligkeit
 und Farblage, verglichen gegen den Mittelwert aller Kameras statt gegen
-eine Vorgabe. Ab etwa zwölf Stufen steht eine Warnung dabei. Beide
+eine Vorgabe. Gelesen wird jede Kamera auf der 8-Bit-Skala, gleich mit
+welcher Tiefe sie aufzeichnet: eine 10- oder 12-Bit-Kamera neben einer
+mit 8 Bit wird also mit gleichem Maß gemessen, und aus der Tiefe allein
+entsteht keine Warnung. Liegt die Helligkeit einer Kamera mehr als zwölf
+Stufen neben dem Mittel, steht eine Warnung dabei. Beide
 Messungen zusammen dauern bei langen Aufnahmen ein paar Minuten: die
 Lautheitsmessung läuft je Spur zweimal durch.
 
