@@ -25,7 +25,12 @@ that falls back to its own key has to be handed only keys that stand in
 the table, so the fallback is never what is said. The limit: a table
 changed under another name it was given, a table reached through
 getattr(), and T() reached through getattr() by a name not written
-out, are not seen.
+out, are not seen. Nor are three shapes read for what they are: a text
+handed on through a @staticmethod, whose arguments are counted as if it
+took self, so another argument is traced; an attribute of any object
+that carries a table's name, which is taken for the table itself; and a
+name T() reads in a class body, which is looked up in the module around
+it.
 
 The sections: what the program says as literals; what reaches T()
 through a table, and that those tables stand, written out and never

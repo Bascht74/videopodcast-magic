@@ -47,6 +47,7 @@ os.makedirs(D)
 
 
 def made(name, source, pix_fmt):
+    """Two seconds of an ffmpeg source written at this depth; its path."""
     path = os.path.join(D, name)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
                     source + "size=160x90:rate=25:duration=2", "-c:v",
@@ -62,6 +63,7 @@ GREY = made("Close8.mkv", "color=c=0x202020:", "yuv420p")
 
 
 def level(path, key):
+    """One value the program measures in the picture, -1 where none came."""
     got = vpm.measure_picture_levels(path) or {}
     return float(got.get(key, -1.0))
 
