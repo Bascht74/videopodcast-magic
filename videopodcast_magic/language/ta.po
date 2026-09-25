@@ -4099,9 +4099,6 @@ msgstr "உறுதியில்லை -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "கைமுறையாக அமைக்கப்பட்டது -- அளவீட்டை மீறுகிறது"
 
-msgid "Language"
-msgstr "மொழி"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "இரு சேனல்களும் ஒன்றே -- மோனோ இரு பக்கங்களிலும் வைக்கப்பட்டது"
 
@@ -4886,3 +4883,6 @@ msgstr "\n  இறக்குமதி"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "ஆடியோ மொழி"

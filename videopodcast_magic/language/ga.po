@@ -4105,9 +4105,6 @@ msgstr "éiginnte -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "socraithe de láimh -- sáraíonn sé an tomhas"
 
-msgid "Language"
-msgstr "Teanga"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "an dá chainéal comhionann -- mona curtha ar an dá thaobh"
 
@@ -5021,3 +5018,6 @@ msgstr "\n  Iompórtáil"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Teanga na fuaime"

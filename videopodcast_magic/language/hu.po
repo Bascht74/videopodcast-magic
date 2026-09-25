@@ -4009,9 +4009,6 @@ msgstr "bizonytalan -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "kézzel beállítva -- felülbírálja a mérést"
 
-msgid "Language"
-msgstr "Nyelv"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "a két csatorna azonos -- mono mindkét oldalon"
 
@@ -4885,3 +4882,6 @@ msgstr "\n  Importálás"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "A hang nyelve"

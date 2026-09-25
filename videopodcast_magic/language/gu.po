@@ -4100,9 +4100,6 @@ msgstr "અનિશ્ચિત -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "જાતે સેટ -- માપને બદલે આ જ લાગુ"
 
-msgid "Language"
-msgstr "ભાષા"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "બંને ચૅનલ સમાન -- મોનો બંને બાજુ મૂક્યો"
 
@@ -4887,3 +4884,6 @@ msgstr "\n  ઇમ્પોર્ટ"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "ધ્વનિની ભાષા"

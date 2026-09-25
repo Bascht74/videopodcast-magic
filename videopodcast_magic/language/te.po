@@ -4100,9 +4100,6 @@ msgstr "అనిశ్చితం -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "చేతితో సెట్ చేయబడింది -- కొలతను అధిగమిస్తుంది"
 
-msgid "Language"
-msgstr "భాష"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "రెండు ఛానళ్లూ ఒకేలా ఉన్నాయి -- మోనో రెండు వైపులా ఉంచబడింది"
 
@@ -4887,3 +4884,6 @@ msgstr "\n  ఇంపోర్ట్"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "ఆడియో భాష"

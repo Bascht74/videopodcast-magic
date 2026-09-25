@@ -4102,9 +4102,6 @@ msgstr "inċert -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "issettjat bl-idejn -- jegħleb il-kejl"
 
-msgid "Language"
-msgstr "Lingwa"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "iż-żewġ kanali identiċi -- mono mqiegħed fuq iż-żewġ naħat"
 
@@ -4975,3 +4972,6 @@ msgstr "\n  Importazzjoni"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Lingwa tal-ħoss"

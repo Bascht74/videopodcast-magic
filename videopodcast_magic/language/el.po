@@ -4007,9 +4007,6 @@ msgstr "αβέβαιο -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "ορίστηκε χειροκίνητα -- υπερισχύει της μέτρησης"
 
-msgid "Language"
-msgstr "Γλώσσα"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "και τα δύο κανάλια πανομοιότυπα -- μονοφωνικό και στις δύο πλευρές"
 
@@ -4883,3 +4880,6 @@ msgstr "\n  Εισαγωγή"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Γλώσσα του ήχου"
