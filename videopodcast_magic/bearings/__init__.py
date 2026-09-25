@@ -265,12 +265,14 @@ def handover_over_this_material(d, ours):
     One lying in a result folder may be days old or from another
     production, and looks exactly like a fresh one. A camera too few is
     as wrong as one too many, so the two lists have to be the same list.
+    A camera the run refused counts as named: it saw it.
     """
     mine = set(path_key(p) for p in ours or () if p)
     theirs = set(path_key(c.get("source") or c.get("camera") or "")
                  for c in (d.get("cameras") or [])
                  if (c.get("source") or c.get("camera")))
-    return bool(theirs) and theirs == mine
+    refused = set(path_key(p) for p in (d.get("refused") or []) if p)
+    return bool(theirs) and theirs <= mine and not (mine - theirs - refused)
 
 
 def find_handover_file(*places, deeper=False, ours=None):
