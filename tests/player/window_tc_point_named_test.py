@@ -2,8 +2,8 @@
 """A point outside a timecoded camera is named, never jumped past.
 
 Two cameras, 12 s each, on 10:00:00:00 and 11:00:00:00; the In point a
-minute before the first, the Out point ten hours past both. Sections:
-the sheet comes up with both jump buttons live, the first camera in the
+minute before the first, the Out point ten hours past both. Sections,
+once the time axis is in: both jump buttons live, the first camera in the
 player on its clock; "to In point" and "to Out point" say no file holds
 the point and leave the player where it stood; an In point six seconds
 in is jumped to, silently; one five seconds into the second camera,
@@ -267,8 +267,9 @@ def judge():
     wanted = vpm.T('In point %s') % "11:00:05:00"
     check("the In point marked in the second camera reads its clock",
           p.cut_left.text() == wanted,
-          "reads %r, wanted %r; B stood %r after %.1f s"
-          % (p.cut_left.text(), wanted, marked_at[1], marked_at[2]))
+          "reads %r, wanted %r; B stood %r after %.1f s; time axis %r"
+          % (p.cut_left.text(), wanted, marked_at[1], marked_at[2],
+             axis_line()))
     check("the first camera is back at 3 s with its length known",
           back[0], "read (file, length, position, slider) %r after %.1f s"
           % (back[1], back[2]))
@@ -293,7 +294,27 @@ def judge():
           "after %.1f s" % (sound[1], sound[2]))
 
 
-state = {"round": 0, "widths": None, "still": 0}
+MEASURING = vpm.T('Measuring time axis ...')
+# What the line beside the time axis says once the measurement is in,
+# whichever way it went: the start of each is enough.
+AXIS_SAID = (vpm.T('time axis measured and tied to the timecode'),
+             vpm.T('time axis measured -- jumps land at the same point'),
+             vpm.T('time axis not measurable'))
+
+
+def axis_line():
+    """The line beside the time axis, or "" while none says anything."""
+    for label in win().findChildren(QtWidgets.QLabel):
+        text = label.text()
+        if text == MEASURING or text.startswith(AXIS_SAID):
+            return text
+    return ""
+
+
+state = {"round": 0, "widths": None, "still": 0, "quiet": 0}
+# How long the measurement may take before the judgement goes ahead
+# without it: under the 120 s brake, with room for the judging after.
+MEASURE_S = 50.0
 
 
 def to_sheet():
@@ -320,13 +341,35 @@ def step():
     now = None if to_in is None or not to_in.isEnabled() else [
         w.width() for w in win().findChildren(QtWidgets.QPushButton)
         if w.isVisible()]
-    # Settled: the button is live and the widths held for five turns.
+    line = axis_line()
+    measured = line.startswith(AXIS_SAID)
+    # Settled: the button is live, the widths held for five turns, and
+    # the time axis is in. Arriving later it takes the player back to
+    # the camera holding the In point -- a second late gives exactly the
+    # Windows line. Twenty quiet seconds end it; measuring has its own.
     state["still"] = state["still"] + 1 if (
         now and now == state["widths"]) else 0
-    state["widths"] = now
-    if state["still"] < 5 and state["round"] < 240:
+    moved = now != state["widths"] or line != state.get("line")
+    state["quiet"] = 0 if moved else state["quiet"] + 1
+    if line != MEASURING:
+        state["measuring"] = None
+    elif state.get("measuring") is None:
+        state["measuring"] = time.monotonic()
+    busy = state.get("measuring") is not None
+    measuring_for = time.monotonic() - state["measuring"] if busy else 0.0
+    state["widths"], state["line"] = now, line
+    if (state["still"] < 5 or not measured) and (
+            measuring_for < MEASURE_S if busy else state["quiet"] < 100):
         QtCore.QTimer.singleShot(200, step)
         return
+    if state["still"] < 5 or not measured:
+        # Given up into the judgement, and red: what never came is named.
+        why = ("the time axis still measuring after %.0f s" % measuring_for
+               if busy else "%d quiet turns" % state["quiet"])
+        print("      gave up waiting for the sheet to settle: %s, widths "
+              "held %d, time axis %r" % (why, state["still"], line))
+        bad.append("the sheet never settled: %s, widths held %d, time "
+                   "axis %r" % (why, state["still"], line))
     try:
         judge()
     except Exception:
