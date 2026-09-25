@@ -398,7 +398,8 @@ def _verify_mov_after_edit(file_path, moov_pos, moov_old_size, above_before_valu
     """Verify the file survived the edit. An empty result means it did.
 
     Against the state before: the same top level boxes at the same
-    offsets, moov still last and reaching the end of the file.
+    offsets, moov still last and reaching the end of the file. Then
+    ffprobe, which has to find streams in it.
     """
     try:
         total = os.path.getsize(file_path)
@@ -435,6 +436,10 @@ def _verify_mov_after_edit(file_path, moov_pos, moov_old_size, above_before_valu
             kind_size = struct.unpack(">I", moov[kind_i:kind_i + 4])[0]
             if not (i + head <= kind_i and kind_i + kind_size <= i + size):
                 return T('a box no longer fits into its parent')
+        # Boxes that add up are not yet a file a player opens. Size and
+        # time have changed, so this is asked afresh, not read back.
+        if not ffprobe_json(file_path).get("streams"):
+            return T('ffprobe no longer opens the file')
     except Exception as e:
         return T('cannot be read back (%s)') % str(e)[:60]
     return ""
