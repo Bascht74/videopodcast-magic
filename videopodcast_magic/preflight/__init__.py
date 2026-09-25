@@ -510,7 +510,49 @@ def compare_cameras(data):
             % ", ".join("%dx%d" % g for g in sizes),
             T('Resolve scales to the Timeline resolution. Anything smaller '
               'is scaled up and gets softer.')))
+    # One recording added twice: said, never stopped. Size and length
+    # only pick the candidates -- a codec that writes every frame at one
+    # size gives two recordings of one length the same bytes count -- so
+    # the ends of the files decide, and only those are read.
+    alike = {}
+    for d in data:
+        try:
+            alike.setdefault((os.path.getsize(d["path"]),
+                              round(float(d.get("duration") or 0), 2)),
+                             []).append(d)
+        except (OSError, KeyError, TypeError, ValueError):
+            continue
+    for group in alike.values():
+        twins = {}
+        for d in group if len(group) > 1 else ():
+            try:
+                twins.setdefault(file_ends(d["path"]), []).append(d["name"])
+            except (OSError, KeyError):
+                continue
+        for names in twins.values():
+            if len(names) > 1:
+                out.append(Finding(
+                    "hint", T('Cameras'),
+                    T('%s have the same size and running time -- possibly '
+                      'one recording twice.') % ", ".join(names)))
     return out
+
+
+def file_ends(path, span=1 << 20):
+    """The first and last MiB of a file, as one digest.
+
+    Two recordings differ in their first frames and in the index at the
+    end even where every frame has the same size; reading the whole of
+    a camera file would cost as long as copying it. A file under two
+    MiB is read whole.
+    """
+    import hashlib
+    digest = hashlib.sha1()
+    with open(path, "rb") as f:
+        digest.update(f.read(span))
+        f.seek(max(span, os.fstat(f.fileno()).st_size - span))
+        digest.update(f.read(span))
+    return digest.hexdigest()
 
 
 def find_camera_gaps(video_paths):
@@ -1178,8 +1220,9 @@ def lufs_does_nothing(args, videos):
 
     Several voices and no picture: the tracks leave as recorded, a gain
     per track being what would put the voices out of balance, and that
-    balance is what the path exists to keep. The number still travels to
-    auphonic.com, which masters the mix, so a key puts it back in force.
+    balance is what the path exists to keep. With a key the preset masters
+    the mix, and check_preset holds its target to --lufs before anything
+    is uploaded; the number itself never travels to auphonic.com.
     """
     return (not videos and bool(getattr(args, "multitrack", False))
             and getattr(args, "lufs", None) is not None
