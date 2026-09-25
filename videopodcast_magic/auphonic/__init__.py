@@ -943,10 +943,6 @@ def run_single_production(audio, preset, presetname, key, target_folder,
     wishes_then_start(key, uuid, stereo)
     print(T('  Production running (%s)') % uuid)
 
-    started = time.time()
-    last, horizon = None, 150.0        # a guess: two and a half minutes,
-                                       # doubling from there
-    end = started + wait_s
     # The same waiting the multitrack production does, in one function.
     p = wait_for_production(key, uuid, wait_s)
 
