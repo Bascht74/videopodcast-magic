@@ -4,7 +4,8 @@ Three independent claims. The length counts from the In point to the
 Out point and not from where the file starts; the older file-relative
 arithmetic stands beside it to show how far the two differ. An intro,
 an outro or an ignored file can carry no boundary, with a reason that
-names the file, because a barred button without one reads as a fault;
+names the file as the window does -- the second of two files of one
+name by its label -- because a barred button without one reads as a fault;
 an empty player bars nothing, and a file nobody has classified yet
 counts as content. And where a Timecode is refused, the refusal names
 the situation it is really in and says what does work instead, in the
@@ -115,6 +116,14 @@ said = reason_for("Fehlstart.mov", m.TYPE_IGNORED)
 check("a file marked not to be used is barred too, and named",
       "Fehlstart.mov" in said,
       "wanted a reason naming Fehlstart.mov, got %r" % said)
+# Two cards give two files C0003.MP4, and the window calls the second
+# "C0003.MP4 (2)": by its bare name the reason would name the first.
+PAIR = ["/tmp/CardA/C0003.MP4", "/tmp/CardB/C0003.MP4"]
+said = m.not_on_the_axis(PAIR[1], {}, {"kind:" + PAIR[1]: m.TYPE_INTRO},
+                         m.camera_labels(PAIR))
+check("of a pair the reason names the second by the window's label",
+      said.startswith("C0003.MP4 (2) "),
+      "wanted a reason starting 'C0003.MP4 (2) ', got %r" % said[:60])
 # Nothing in the player bars nothing: the four buttons are then held by
 # the axis alone, which is the older rule and still the one that counts.
 said = m.not_on_the_axis(None, {}, {})
