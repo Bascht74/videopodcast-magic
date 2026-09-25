@@ -238,7 +238,8 @@ check("and the tracks in its file follow them, the mix's label first",
       "rc %s, stood still %s, the file holds %s" % (code, stuck, held))
 track = re.escape(vpm.T("        Track %d: %s").strip()).replace(
     re.escape("%d"), r"\d+").replace(re.escape("%s"), "(.*)")
-preview = re.findall(track, said)[:4]
+# Windows ends each printed line in \r\n, and (.*) would keep the \r.
+preview = [p.rstrip("\r") for p in re.findall(track, said)[:4]]
 # The preview says ? for a track nobody named, the file its file name;
 # either stands where the file has it.
 check("and the plan's preview lists them in the file's order",
