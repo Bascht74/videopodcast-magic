@@ -90,6 +90,49 @@ check("out of a project file", from_project == heard,
 from_nothing = vpm.read_separation_file(os.path.join(D, "nothing.json"))
 check("a file without one gives nothing", from_nothing == {},
       "read %s, wanted nothing" % (from_nothing,))
+# A project file keeps the fingerprint of the recording it separated.
+# Named with --speakers-from it is held to it: one written before the
+# recording changed would cut by voices that are not in it any more.
+REC = os.path.join(D, "room.wav")
+with open(REC, "wb") as f:
+    f.write(b"\0" * 4000)
+_path, MTIME, SIZE = vpm.file_fingerprint(REC)
+
+
+class FromFile(object):
+    """What separation_for_run asks of a run given --speakers-from."""
+    no_speakers_local = True
+    dry_run = False
+
+    def __init__(self, mtime):
+        self.speakers_from = os.path.join(D, "then_%d.json" % mtime)
+        with open(self.speakers_from, "w", encoding="utf-8") as f:
+            json.dump({"files": [], "speakers": dict(
+                heard, source=REC, mtime=mtime, size=SIZE)}, f)
+
+
+def taken(mtime):
+    """The voices a run takes out of that file, and what it said."""
+    import contextlib, io
+    said = io.StringIO()
+    with contextlib.redirect_stdout(said):
+        out, _where = vpm.separation_for_run(
+            FromFile(mtime), [], {REC: (0.0, 1.0, {})}, 0.0, 60.0)
+    return [name for name, _parts in out], said.getvalue()
+
+
+names, _said = taken(MTIME)
+check("a separation of the recording as it is is taken from the file",
+      names == ["Host"], "took %s, wanted ['Host']" % (names,))
+names, said = taken(MTIME - 100)
+check("one of a recording changed since is not",
+      names == [], "took %s, wanted none -- the file says mtime %d, the "
+      "recording has %d" % (names, MTIME - 100, MTIME))
+refused = vpm.T('  %s holds a separation of a recording that has changed '
+                'or gone since, or of another model -- it is not used.') \
+    % ("then_%d.json" % (MTIME - 100))
+check("and the log says why", refused in said,
+      "wanted %r, the log says %r" % (refused, said.strip()[-200:]))
 
 print("\n3. Onto the axis of the run")
 # The recording sits two seconds behind the reference camera, and the

@@ -339,8 +339,15 @@ def _block_levels(data, rate, block=1.0):
     return level, np.array(speech)
 
 
-def _windows_for_pair(level, speech, i, j, loud=10.0, faint=6.0,
-                       at_most=14):
+# One voice alone: its own track within ALONE_LOUD_DB of its speech
+# level, every other track more than OTHERS_FAINT_DB below its own. The
+# speaker separation asks the same. Set, not measured.
+ALONE_LOUD_DB = 10.0
+OTHERS_FAINT_DB = 6.0
+
+
+def _windows_for_pair(level, speech, i, j, loud=ALONE_LOUD_DB,
+                      faint=OTHERS_FAINT_DB, at_most=14):
     """Return the blocks in which i speaks and j does not.
 
     Each track is measured against its *own* speech level, not against the
