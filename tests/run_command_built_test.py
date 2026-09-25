@@ -7,16 +7,17 @@ cameras and the tracks; and what cannot be run is refused with a title
 a person can read, while a merely doubtful case becomes a question.
 Two sections hold the window to calling this and keeping no
 assembly of its own, since two builders of one command line drift
-apart. The window is gui() and every make_* function beside it, and
-those are collected out of the program rather than listed here. The
-last section is the camera's name where no plan carries it: it goes
-as a switch pair the run's parser reads back, under Sync only too,
-and two cameras of one name, case aside, are refused on that path."""
+apart. The window is gui() and every make_* function beside it,
+collected out of the program rather than listed here, and held against
+a plain search for their definitions. The last section is the camera's
+name where no plan carries it: it goes as a switch pair the run's
+parser reads back, under Sync only too, and two cameras of one name,
+case aside, are refused on that path."""
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import sys, time
+import re, sys, time
 began = time.time()
 vpm = the_program.load()
 
@@ -404,6 +405,17 @@ window = window_pieces()
 source = "\n".join(body for _where, body in window)
 print("    %d pieces of the window read: gui() and every make_*"
       % len(window))
+# A second road to the same text, with no number to keep: a collector
+# that loses single pieces stays green on every word search below.
+named = ["%s:%s" % (where, m.group(1))
+         for where, body in the_program.pieces()
+         for m in re.finditer(r"^[ \t]*def (make_\w+|gui)\(", body, re.M)]
+read = set(where for where, _body in window)
+unread = [n for n in named if n not in read]
+check("every def make_* the program's text names was read",
+      bool(named) and not unread,
+      "16. the text defines %d, the collector read %d; unread: %s"
+      % (len(named), len(window), unread[:4] or "none"))
 check("call present", "run_argv(values, assign_file)" in source,
         "16. over %d pieces of the window run_argv is named in %s, wanted "
         "one reading run_argv(values, assign_file)"
