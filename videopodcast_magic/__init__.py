@@ -239,6 +239,7 @@ stowage = beside("stowage", program=PROGRAM)
 take_from(stowage)
 
 cache_folder = stowage.cache_folder
+clean_kept_stores = stowage.clean_kept_stores
 
 
 logbook = beside("logbook", program=PROGRAM)
@@ -405,6 +406,7 @@ def main():
     clean_envelope_cache()
     clean_probe_cache()
     clean_preflight_cache()
+    clean_kept_stores()
     # --lang alone is not a job: it only picks the language, so the window
     # still opens. Anything else on the command line means a run.
     rest = list(sys.argv[1:])
@@ -454,11 +456,7 @@ def main():
     args.production = ""
     args.resolve_project = getattr(args, "resolve_project", None)
     if getattr(args, "hdr_check", None):
-        try:
-            return check_hdr(args.hdr_check)
-        except Exception as e:
-            print(T('Stopped: %s') % e)
-            return 1
+        return check_hdr(args.hdr_check)
     if getattr(args, "resolve_audio_tracks", False):
         try:
             return print_audio_track_mapping()
