@@ -16,14 +16,14 @@ PROGRAM = PROGRAM
 # below, and apply_time_window, choose_zero_point and cells_laid_out,
 # whose files are read after this one.
 
-# Ten more are read as PROGRAM.<name> at the place they are used: their
-# files are read after this one. Out of cut/: as_minutes,
+# Eight more are read as PROGRAM.<name> at the place they are used:
+# their files are read after this one. Out of cut/: as_minutes,
 # camera_after_a_mark, wide_bar_of. Out of fittings/, which the window
 # reads: mark_red, voice_row_cells.
 
-# The last five are the window's own and can never be head lines here,
-# because ui/ is the last piece read: SpeakerName, camera_tracks_of,
-# camera_tracks_clashing, choices_shut, queue_once.
+# The last three are the window's own and can never be head lines here,
+# because ui/ is the last piece read: SpeakerName, choices_shut,
+# queue_once.
 
 ByFile = PROGRAM.ByFile
 CATALOGUE = PROGRAM.CATALOGUE
@@ -1246,6 +1246,9 @@ def weak_decision(kind, intro_free=False):
     if kind == TYPE_INTRO:
         return T('Set to %s; %s is one click away.') \
             % (label_of(TYPE_INTRO), label_of(TYPE_OUTRO))
+    if kind == TYPE_OUTRO:
+        return T('Set to %s; %s is one click away.') \
+            % (label_of(TYPE_OUTRO), label_of(TYPE_INTRO))
     if kind == TYPE_IGNORED and intro_free:
         return T('Left out; %s or %s is one click away.') \
             % (label_of(TYPE_INTRO), label_of(TYPE_OUTRO))
@@ -3465,35 +3468,18 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
         folded = [n.lower() for n in outputs]
         duplicate_video = set(n for n in outputs
                               if n and folded.count(n.lower()) > 1)
-        same_name = set(PROGRAM.camera_tracks_clashing(camera_lines))
-        track_of = dict(PROGRAM.camera_tracks_of(camera_lines))
-        for field, (p, value, _k, _n) in zip(video_fields, camera_lines):
+        for field, (_p, value, _k, _n) in zip(video_fields, camera_lines):
             n = value.get().strip()
-            # The file name first: of the two it is the one this field
-            # can put right.
-            same_file = bool(n) and n in duplicate_video
             PROGRAM.mark_red(
-                field,
-                same_file or track_of.get(p) in same_name,
+                field, bool(n) and n in duplicate_video,
                 T('Two cameras would produce the same file. '
-                  'The second would overwrite the first.')
-                if same_file else
-                T('Two cameras are one camera in the cut. Their '
-                  'files carry the same name, so rename one of '
-                  'them.'))
+                  'The second would overwrite the first.'))
         if video_reason is not None:
             if duplicate_video:
                 video_reason.setText(
                     T('✕  Two cameras would produce the same file '
                       '(%s). The second would overwrite the first.')
                     % ", ".join(sorted(duplicate_video)))
-                video_reason.setVisible(True)
-            elif same_name:
-                video_reason.setText(
-                    T('✕  Two cameras are one camera in the cut (%s). '
-                      'Their files carry the same name, so rename one '
-                      'of them.')
-                    % ", ".join(sorted(same_name)))
                 video_reason.setVisible(True)
             else:
                 video_reason.setVisible(False)

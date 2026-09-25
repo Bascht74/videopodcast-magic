@@ -105,6 +105,7 @@ make_resolve_check = PROGRAM.make_resolve_check
 make_speaker_split = PROGRAM.make_speaker_split
 make_time_axis = PROGRAM.make_time_axis
 make_update_sink = PROGRAM.make_update_sink
+name_apart = PROGRAM.name_apart
 not_on_the_axis = PROGRAM.not_on_the_axis
 number_text = PROGRAM.number_text
 open_in_file_manager = PROGRAM.open_in_file_manager
@@ -517,25 +518,25 @@ def camera_tracks_of(camera_lines):
 
     Guessing drops the take number, which is what tells the cameras of
     one rig apart, so where two guesses fall together the whole stem
-    stands for both. Two files of one name stay one name: nothing in
-    them tells the cameras apart.
+    stands for both. Two files of one name are told apart as the run
+    tells them, the second "<name> 2": the cut keys a camera by it.
     """
     files = [p for p, _v, _k, _n in camera_lines or ()]
     guessed = [guess_camera_name(p) for p in files]
-    return [(p, os.path.splitext(os.path.basename(p))[0]
-             if guessed.count(n) > 1 else n)
+    taken = set()
+    return [(p, name_apart(os.path.splitext(os.path.basename(p))[0]
+                           if guessed.count(n) > 1 else n, taken))
             for p, n in zip(files, guessed)]
 
 
-def camera_tracks_clashing(camera_lines):
-    """Names that more than one camera would carry in the cut.
+def offered_apart(kept, offered):
+    """Whether *kept* is one of the *offered* names, or one told apart.
 
-    The cut keys a camera by that name: its colour, its legend line
-    and which file plays. Two under one name are one camera, and only
-    the last of them is ever seen.
+    Two cameras offered one name get it as the run gives it, the second
+    with " 2" hung on; that name was never typed either.
     """
-    names = [t for _p, t in camera_tracks_of(camera_lines)]
-    return sorted(set(n for n in names if n and names.count(n) > 1))
+    head, _gap, number = kept.rpartition(" ")
+    return kept in offered or (number.isdigit() and head in offered)
 
 
 def missing_conditions(files, production, multitrack, assign_lines,
@@ -583,12 +584,6 @@ def missing_conditions(files, production, multitrack, assign_lines,
         pending[11] = T('No sound to work with -- set a video file\'s '
                         'Camera audio to "use internal audio", or add an '
                         'audio recording.')
-    # Before the file names below, so the one with a field to type wins.
-    same_name = camera_tracks_clashing(camera_lines)
-    if same_name:
-        pending[22] = (T('Two cameras are one camera in the cut: %s. Their '
-                         'files carry the same name, so rename one of '
-                         'them.') % ", ".join(same_name))
     # Without case, as the run and the disks of macOS and Windows compare.
     outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
     folded = [n.lower() for n in outputs]
@@ -850,7 +845,33 @@ transport = menus.transport
 
 
 #--------------------------------------------------------- The title bar
-# What stands in the title bar of the window, and nothing else.
+# What stands in the title bar of the window, and the one move that
+# changes it: the project file following the production's new name.
+
+
+def project_file_follows(state, fresh, retitle):
+    """Move the project file to *fresh*, where its name and folder say.
+
+    It is named after the production and lives in the output folder,
+    and both can change: moved rather than written a second time. The
+    title bar names the open project's file, so where that very file
+    moved *retitle* is handed the new title; where nothing moved, the
+    bar keeps naming the file that is on the disk.
+    """
+    old, moved = state.get("project_last"), False
+    if fresh and old and os.path.abspath(old) != os.path.abspath(fresh):
+        try:
+            if os.path.isfile(old):
+                os.replace(old, fresh)
+                moved = True
+        except OSError:
+            return
+    if fresh:
+        state["project_last"] = fresh
+    opened = state.get("project_from")
+    if moved and opened and os.path.abspath(opened) == os.path.abspath(old):
+        state["project_from"] = fresh
+        retitle(window_title(fresh))
 
 
 def window_title(project=""):
@@ -1053,8 +1074,8 @@ def file_bar_build(QtWidgets, sheet, file_list):
     # beside it says so, read out it does not.
     speaks_as(remove_button, T('Remove the chosen file from the list'))
     bar.addWidget(hint(remove_button,
-                       T('Removing AUDIO or VIDEO takes everything under '
-                         'it.')))
+                       T('Removing %s or %s takes everything under it.')
+                       % (T('AUDIO'), T('VIDEO'))))
     bar.addStretch(1)
     return bar_env_curve, add_button, remove_button
 
@@ -1092,20 +1113,36 @@ def resolve_button_say(state, env_curve, button):
                    what_for)
 
 
-def handover_follows(state, cameras):
+def handover_cameras_of(file_path):
+    """The cameras a handover file names, as path keys; empty if unread."""
+    try:
+        with open(file_path or "", encoding="utf-8") as f:
+            d = PROGRAM.json.load(f)
+    except (OSError, ValueError):
+        return set()
+    return set(path_key(c.get("source") or c.get("camera"))
+               for c in (d.get("cameras") or [])
+               if c.get("source") or c.get("camera"))
+
+
+def handover_follows(state, cameras, again=False):
     """Take up the handover over the cameras the table holds now.
 
-    Asked again only when the cameras changed, never on every rebuild:
-    the run's own handover leaves out a camera it refused, and that one
-    must not be dropped for a name typed or a speaker found. One naming
-    other cameras goes; where one over these lies in the output folder,
-    the project's or beside the last, it comes back, and the button says.
+    Asked when the cameras changed, or *again* when the output folder
+    did, never on every rebuild: the run's own handover leaves out a
+    camera it refused, and is kept for a name typed. Else one over
+    exactly these, from the output folder -- beside the videos without
+    one -- the project's or beside the last; failing that, what the
+    button offered this list before, lying there and naming no other.
     """
     now = sorted(path_key(p) for p in cameras)
-    if state.get("handover_cameras") == now:
+    before, js = state.get("handover_cameras"), state.get("resolve_json")
+    if before == now and not again:
         return
     state["handover_cameras"] = now
-    js = state.get("resolve_json")
+    offered = state.setdefault("handover_offered", {})
+    if js and before is not None and before != now:
+        offered[tuple(before)] = js
     try:
         with open(js or "", encoding="utf-8") as f:
             kept = PROGRAM.handover_over_this_material(PROGRAM.json.load(f),
@@ -1115,10 +1152,20 @@ def handover_follows(state, cameras):
     if not kept:
         out_folder, project = state.get("out_folder"), state.get(
             "project_from")
+        out = out_folder.get() if out_folder else ""
+        places = [out, os.path.dirname(project) if project else "",
+                  os.path.dirname(js) if js else ""] + ([] if out else sorted(
+                      set(os.path.dirname(os.path.abspath(p))
+                          for p in cameras)))
+        back = offered.get(tuple(now))
+        # Remembered, not searched for: only where the search looks now,
+        # or another production's folder hands its handover over.
+        named = handover_cameras_of(back) if back and os.path.dirname(
+            os.path.abspath(back)) in [os.path.abspath(p)
+                                       for p in places if p] else set()
         state["resolve_json"] = PROGRAM.find_handover_file(
-            out_folder.get() if out_folder else "",
-            os.path.dirname(project) if project else "",
-            os.path.dirname(js) if js else "", ours=list(cameras))
+            *places, ours=list(cameras)) or (
+                back if named and named <= set(now) else None)
     (state.get("resolve_button_check") or (lambda: None))()
 
 
@@ -2031,6 +2078,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             return
 
     state["kinds_refresh"] = kinds_refresh
+    offered_now = set()
     for row, b in enumerate(videos):
         short = os.path.basename(b)
         table_video.insertRow(row)
@@ -2066,14 +2114,19 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         if used:
             own += mine or [own_audio_name]
         multitrack_now = bool(state["multitrack"].get()) and not sync_only
-        suggestion = camera_name_suggestion(production_var.get(), short,
-                                            own, multitrack_now, sync_only)
-        suggestions[b] = suggestion
         # A kept name the table offered itself was never typed -- a
         # project file saves every field -- so it follows the table.
         kept = remembered.get("video:" + b) or ""
-        if kept in camera_names_offered(production_var.get(), short, own):
+        if offered_apart(kept, camera_names_offered(production_var.get(),
+                                                    short, own)):
             kept = ""
+        # Told apart from the names the rows above carry, as the run does.
+        suggestion = name_apart(camera_name_suggestion(
+            production_var.get(), short, own, multitrack_now, sync_only),
+            set(offered_now) if kept else offered_now)
+        if kept:
+            offered_now.add(kept.lower())
+        suggestions[b] = suggestion
         name_value = Value(kept or suggestion)
         name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
         speaks_as(name_entry, T('new file name'), short)
@@ -2729,13 +2782,15 @@ def gui():
         out_folder.set(d)
         folder_show()
         state["resolve_json"] = None
-        resolve_button_check()
+        handover_follows(state, [c[0] for c in camera_lines], True)
         preview_compute()
         finished_tracks_check()
 
     def folder_delete():
         out_folder.set("")
         folder_show()
+        state["resolve_json"] = None
+        handover_follows(state, [c[0] for c in camera_lines], True)
 
     # --- how loud the finished episode is. Why it stands here and what
     #     the entries mean is in loudness_field_build.
@@ -3029,23 +3084,8 @@ def gui():
         return tc_cache[a]
 
     def project_move():
-        """Move the project file after a rename or a new output folder.
-
-        It is named after the production and lives in the output folder,
-        and both can change. Moved rather than created a second time.
-        """
-        fresh = axis_file()
-        old = state.get("project_last")
-        if not fresh or not old or os.path.abspath(old) == os.path.abspath(fresh):
-            if fresh:
-                state["project_last"] = fresh
-            return
-        try:
-            if os.path.isfile(old):
-                os.replace(old, fresh)
-        except OSError:
-            return
-        state["project_last"] = fresh
+        """Move the project file after a rename or a new output folder."""
+        project_file_follows(state, axis_file(), window.setWindowTitle)
 
     def project_collect(file_path):
         """Read the project file, earlier locations included."""
