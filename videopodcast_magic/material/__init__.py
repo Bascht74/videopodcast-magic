@@ -32,7 +32,7 @@ as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 bext_time_reference = PROGRAM.bext_time_reference
-cannot_be_placed = PROGRAM.cannot_be_placed
+clock_base = PROGRAM.clock_base
 colour_arguments = PROGRAM.colour_arguments
 data_track_maps = PROGRAM.data_track_maps
 datetime = PROGRAM.datetime
@@ -2706,32 +2706,46 @@ def envelope_heard(path):
         return None
 
 
-def place_camera_by_clock(v, position, clocks, reference):
-    """Place a camera that gives no sound, by its clock, and say so.
+def no_base_message(name):
+    """Say that a file has a clock but nothing placed to set it against."""
+    return T('%s cannot be placed: its sound has nothing in common with '
+             'the rest of the material, and no camera the sound placed '
+             'carries a timecode to set its own against. One of those '
+             'needs a timecode that fits this one, and that has to be set '
+             'with another program.') % name
 
-    The offset is the reference clock less this camera's own, so both
-    ends come from the one reckoning. Where either clock is missing there
-    is nothing to place it with, and it is refused rather than laid down.
+
+def place_camera_by_clock(v, position, clocks, said, quality=None):
+    """Place a camera the sound cannot place, by its clock, and say why.
+
+    *said* is the line naming what the sound failed at, *quality* how
+    far it matched, where it was measured. The base is the one clock_base
+    picks among the cameras the sound placed: its offset plus its clock
+    less this one's. With no clock here, or none on a camera the sound
+    placed, it is refused.
     """
-    own, base = clocks.get(v), clocks.get(reference)
-    st = {"points": 0, "unplaceable": True, "by_clock_only": True}
-    if own is None or base is None or cannot_be_placed(
-            st, own, [t for w, t in clocks.items() if w != v]):
-        print(as_bad("  " + no_place_message(os.path.basename(v))))
+    own, name = clocks.get(v), os.path.basename(v)
+    w = clock_base(own, [(c, clocks.get(c)) for c, (_a, _b, st_c)
+                         in position.items() if not st_c.get("by_clock_only")])
+    if w is None:
+        print(as_bad("  " + (no_place_message(name) if own is None
+                             else no_base_message(name))))
         return
-    print(T('  %s gives no sound to measure -- placed by its clock '
-            'alone, and nothing was found to check it against')
-          % os.path.basename(v))
-    position[v] = (base - own, 1.0, st)
+    print(said)
+    st = {"points": 0, "unplaceable": True, "by_clock_only": True}
+    if quality is not None:
+        st["quality"] = quality
+    position[v] = (position[w][0] + clocks[w] - own, 1.0, st)
 
 
 def align_cameras(videos):
     """Put all cameras on the time axis of the longest one.
 
     The longest covers the widest range and offers the most sample
-    points. A camera matching nothing and carrying no timecode is left
-    out: one laid down at a guess is worse than a missing one, which the
-    log names. Returns (reference, {path: (a, b, count)}).
+    points. A camera the sound cannot place stands where its clock says,
+    and one with no clock to place it is left out: one laid down at a
+    guess is worse than a missing one, which the log names. Returns
+    (reference, {path: (a, b, count)}).
     """
     heard = dict((v, envelope_heard(v)) for v, _info in videos)
     # The reference has to be one there is something to measure against,
@@ -2742,12 +2756,19 @@ def align_cameras(videos):
     position = {ref_clip[0]: (0.0, 1.0, {"points": 0})}
     env_ref = heard[ref_clip[0]]
     clocks = dict((v, timecode_seconds(i)) for v, i in videos)
+    # Laid down after every camera the sound places, whose clocks they
+    # are set against: (path, the line saying why the sound did not,
+    # how far it matched where it was measured).
+    by_clock = []
     for v, info in videos:
         if v == ref_clip[0]:
             continue
         env = heard[v]
         if env is None or env_ref is None:
-            place_camera_by_clock(v, position, clocks, ref_clip[0])
+            by_clock.append((v, T(
+                '  %s gives no sound to measure -- placed by its clock '
+                'alone, and nothing was found to check it against')
+                % os.path.basename(v), None))
             continue
         # Sample more densely than for audio against video: two cameras
         # often overlap only partly. Every 30 seconds instead of every
@@ -2759,8 +2780,10 @@ def align_cameras(videos):
                                           distance_s=30.0,
                                           warn=os.path.basename(v))
         except Exception as e:
-            print(T('  %s cannot be classified: %s')
-                  % (os.path.basename(v), e))
+            # Not measured is not placed: the clock is asked as for any.
+            by_clock.append((v, T('  %s cannot be classified: %s -- placed '
+                                  'by its clock alone')
+                             % (os.path.basename(v), e), None))
             continue
         # There is no phase way between two cameras, so the envelopes are
         # the whole measurement and the floor is higher than anywhere
@@ -2768,11 +2791,18 @@ def align_cameras(videos):
         if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
                 and not fit_places_it(st)):
             st["unplaceable"] = True
-        if cannot_be_placed(st, clocks.get(v),
-                            [t for w, t in clocks.items() if w != v]):
-            print(as_bad("  " + no_place_message(os.path.basename(v))))
+        if st.get("unplaceable"):
+            # What the sound failed at is a guess and the clock is not:
+            # where a clock places the camera it stands there.
+            by_clock.append((v, T(
+                '  %s: its sound matches by %s, under the floor of %s -- '
+                'placed by its clock alone')
+                % (os.path.basename(v), number_text(st.get("quality", 0.0), 3),
+                   number_text(CAMERA_MATCH_ENOUGH, 2)), st.get("quality")))
             continue
         position[v] = (a, b, st)
+    for v, said, quality in by_clock:
+        place_camera_by_clock(v, position, clocks, said, quality)
     return ref_clip, position
 
 
