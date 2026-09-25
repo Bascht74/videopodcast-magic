@@ -102,6 +102,10 @@ export VPM_NO_UPDATE_CHECK=1
 # it was when the ground gave way -- to stderr, which is kept with the
 # rest of the test's output.
 export PYTHONFAULTHANDLER=1
+# And what a test prints reaches its output when it is printed. A test
+# killed at the time limit otherwise dies with its lines still in
+# Python's buffer, and the report says "the test printed nothing".
+export PYTHONUNBUFFERED=1
 # As many at a time as the machine has cores, and one more: most of a
 # test is Python starting up and ffmpeg waiting on the disc, so there is
 # room beside the processors.
@@ -332,6 +336,15 @@ crash_block() {
   [ -n "$at" ] && echo "$1" | tail -n +"$at"
 }
 
+# A crash named as one: its code, and whether the test had already printed
+# its closing line -- then Python fell on its way out, not in a check.
+# Windows' access violation arrives here as 139: a shell's return code
+# has eight bits, so 3221225477 could only ever read 5.
+crash_said() {
+  printf 'rc=%s' "$1"
+  echo "$2" | grep -qE '^[0-9]+ checks in ' && printf ', after its last line'
+}
+
 # Where a test lies, from its name: in this folder or in one under it,
 # left in $file. A glob and not a search, and no $(...) around it: on the
 # Windows builder every process started is what a run pays for.
@@ -369,7 +382,7 @@ run_one() {
     if [ -z "$fell_first" ]; then
       # Kept, not just counted: a bare "it crashed once" does not let
       # the reader tell a known crash from something new.
-      fell_first="rc=$rc"
+      fell_first=$(crash_said "$rc" "$out")
       fell_text=$(crash_block "$out" | head -30)
       [ -z "$fell_text" ] && fell_text=$(echo "$out" \
         | grep -v "^[[:space:]]*\$" | tail -6)
@@ -425,6 +438,9 @@ $short"
       # a polite TERM was not enough and it had to go further.
       if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
         echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
+      elif [ $rc -gt 128 ]; then
+        # Right under the name, where wobbly.sh looks for it.
+        echo "      crashed ($(crash_said "$rc" "$out")), go $try of $TRIES"
       fi
       # What the report shows, best first: the line a test sums itself up
       # in, then failed checks and tracebacks, then a real error message,
@@ -519,7 +535,7 @@ $short"
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
     "$( [ -s "$STARTS/$t" ] && wc -l < "$STARTS/$t" | tr -d ' ' || echo 0)"
 }
-export -f run_one crash_block test_file
+export -f run_one crash_block crash_said test_file
 export OUT HERE LIMIT TOTAL TRIES PY
 
 # A test that measures real time cannot share the machine. Playing a
