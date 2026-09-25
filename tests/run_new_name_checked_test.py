@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """A run refuses a --new-name it cannot follow as given, and says why.
 
-Dry runs on the interview fixture, all but the last refused. In order:
-the fixture holds its cameras; two cameras given one name, two names
-differing only in case, and a name equal to another camera's stem are
-refused with both files named; a name with a separator or drive colon
-is refused naming it, one beginning with a dot and an empty one with
-the reason; a file that is no camera of the run by name; one file given
-two names with both; names beside assigned cameras, and for cameras
-alone named by their tracks, with the reason; two distinct names pass.
+Dry runs on the interview fixture. In order: the fixture holds its
+cameras; two cameras given one name, two names differing only in case,
+and a name equal to another camera's stem are refused with both files
+named; a name with a separator or drive colon is refused naming it, one
+beginning with a dot and an empty one with the reason; a file that is
+no camera of the run by name, one file given two names with both; names
+beside assigned cameras, and for cameras alone, with the reason. Two
+distinct names pass, alone and beside a --speakers-from file, read too.
 """
 import os
 import the_program
@@ -209,5 +209,34 @@ check("two distinct names still pass into the plan",
       code == 0 and all(w in planned for w in wanted),
       "rc %s, wanted 0; planned %s, wanted %s among them; refusals %s%s"
       % (code, planned[-3:], wanted, aborts(said), stood))
+
+print("\n8. Beside a separation file")
+# It carries voices and the camera each sits on, and no camera names:
+# the window sends it beside --new-name, and neither pushes out the other.
+VOICES = os.path.join(HELD, "voices.json")
+with open(VOICES, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "created_by": "test",
+               "speakers_of": {"source": SOUND[0],
+                               "segments": [["A", 0.0, 5.0],
+                                            ["B", 5.0, 10.0]],
+                               "names": {"A": "Guest", "B": "Presenter"}},
+               "voices_of": {"Guest": GUEST, "Presenter": HOST}}, f)
+code, said, stood = dry_run([(GUEST, "Guest"), (HOST, "Presenter")], FILES,
+                            ["--speakers-from", VOICES])
+planned = [line.split() for line in said.splitlines() if "  ->  " in line]
+check("names beside a separation file are not refused, and kept",
+      code == 0 and all(w in planned for w in wanted),
+      "rc %s, wanted 0; planned %s, wanted %s among them; refusals %s%s"
+      % (code, planned[-3:], wanted, aborts(said), stood))
+lines = [line.strip() for line in said.splitlines()]
+head = vpm.T('\nSPEAKERS -- SEPARATED BY VOICE').strip()
+after = lines[lines.index(head) + 1:] if head in lines else []
+voices = sorted(line.split()[0] for line in after[:after.index("")]
+                if line) if "" in after else []
+check("and the separation it names is read beside them",
+      voices == ["Guest", "Presenter"],
+      "voices read %s, wanted ['Guest', 'Presenter']; %s" % (
+          voices, "the voices head was printed" if head in lines
+          else "no voices head in the output"))
 
 stop()

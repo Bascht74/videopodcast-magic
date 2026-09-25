@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 """A speaker's name reaches the camera row, typed or only suggested.
 
-The name field starts empty with the guess from the file name standing
-in it in grey, and a placeholder is not a value. Everything that read
-the field alone therefore saw nothing: the camera column said "?"
-where the name was plainly on the screen, and the camera's new file
-name -- which travels to Resolve -- was built without it.
-
-The sections: the cell that says where a camera gets its audio from,
-and the file name the camera is offered. What this cannot show is that
-the window really hands these fields in; that is one call at each of
-the two places.
+The name field starts empty with the guess standing in it in grey, and
+a placeholder is not a value: what reads the field has to read the
+guess too. The sections: the cell that says where a camera gets its
+audio from, its names sorted as the file name sorts them, lower case
+and umlauts too, a marked wide shot's as any other's; and the file name
+the camera is offered. What this cannot show is that the window really
+hands these fields in; that is one call at each of the two places.
 """
 import os
 import sys
@@ -57,12 +54,31 @@ check("and so does a name that is only offered in grey",
 three = vpm.camera_gets_from(
     CAMERA, NOWHERE,
     [field("", "Guest"), field("Presenter"), field("", "CoPresenter")])
-check("three of them come out in the order the rows stand in",
-      three == "Guest, Presenter, CoPresenter",
-      "%r against 'Guest, Presenter, CoPresenter'" % three)
+# In the rows Guest, Presenter, CoPresenter: sorted is another order,
+# so a cell that keeps the rows' order cannot pass by chance.
+check("three of them come out sorted, as in the camera's file name",
+      three == "CoPresenter, Guest, Presenter",
+      "%r against 'CoPresenter, Guest, Presenter'" % three)
+# Plain sorting puts Bob before anna, and the O with an umlaut after
+# Paul, where a reader does not look for it.
+UMLAUT = "\u00d6zlem"
+READ = "anna, Bob, %s, Paul" % UMLAUT
+mixed = vpm.camera_gets_from(
+    CAMERA, NOWHERE, [field("Paul"), field("", UMLAUT), field("anna"),
+                      field("", "Bob")])
+check("and lower case and an umlaut stand where a reader expects them",
+      mixed == READ, "%r against %r" % (mixed, READ))
 nameless = vpm.camera_gets_from(CAMERA, NOWHERE, [field("", "")])
 check("a row with no name at all is still the one that says ?",
       nameless == "?", "%r against '?'" % nameless)
+# Why nobody speaks on a marked wide shot stands grey in its own
+# fields; this cell says what the camera gets, as for a derived one.
+MARKED = vpm.wide_bar_of([CAMERA], [CAMERA], True, {})
+vpm.camera_after_a_mark("audio:Guest", CAMERA, MARKED, "Guest")
+wide = vpm.camera_gets_from(CAMERA, MARKED, [])
+check("a marked wide shot says what it gets, like any other camera",
+      wide == vpm.T("the mix of all tracks"),
+      "%r against %r" % (wide, vpm.T("the mix of all tracks")))
 
 print("\n2. The file name the camera is offered")
 # A speaker who is not in the camera's own name: "Guest" on GuestCam
