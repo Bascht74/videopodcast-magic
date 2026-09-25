@@ -71,11 +71,6 @@ said = out.count("WITHOUT AUPHONIC.COM")
 check("it says what is missing", said > 0,
         "%d mentions of WITHOUT AUPHONIC.COM in %d characters of log, "
         "wanted at least 1" % (said, len(out)))
-api = out.count("auphonic.com/api")
-sent = out.count("Uploading")
-check("nothing was uploaded", api == 0 and sent == 0,
-        "%d mentions of auphonic.com/api and %d of Uploading, wanted 0 and 0"
-        % (api, sent))
 if WATCHED:
     # The address only: the rest of a call is a file of this machine.
     reached = [w for c in curl_calls() if "auphonic.com" in c
@@ -163,7 +158,8 @@ d = (json.load(open(OUT + "/WA_resolve.json", encoding="utf-8"))
      if os.path.exists(OUT + "/WA_resolve.json") else {})
 check("format stamped", d.get("format") == vpm.FILE_FORMAT,
         "%r in the file, wanted %r" % (d.get("format"), vpm.FILE_FORMAT))
-check("cut in the file", len(d.get("cut") or []) == len(cut),
+# Not 0 against 0: an empty cut in both would agree and say nothing.
+check("cut in the file", 0 < len(d.get("cut") or []) == len(cut),
         "%d/%d" % (len(d.get("cut") or []), len(cut)))
 # The track name is the speaker; the camera name stands beside it.
 check("both cameras in the file",

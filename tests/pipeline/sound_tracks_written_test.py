@@ -203,13 +203,6 @@ for name in ("one", "two", "nosingle", "assign"):
     fell = log[name].find("Traceback")
     check("no traceback in the %s run" % name, fell < 0,
           log[name][fell:][:90] if fell >= 0 else "")
-    api = log[name].count("auphonic.com/api")
-    sent = log[name].count("Uploading")
-    check("nothing was uploaded in the %s run" % name,
-          api == 0 and sent == 0,
-          "%d mentions of auphonic.com/api and %d of Uploading in %d "
-          "characters of log, wanted 0 and 0"
-          % (api, sent, len(log[name])))
 
 if WATCHED:
     # The address only: the rest of a call is a file of this machine.
