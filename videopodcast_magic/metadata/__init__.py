@@ -667,21 +667,6 @@ def video_summary(file_path, info):
     return lines
 
 
-def print_key_values(lines, indent="  "):
-    # The column follows the longest label, so it holds in every language.
-    width = max([len(k) for k, _ in lines] or [9]) + 1
-    for k, value in lines:
-        print("%s%-*s %s" % (indent, width, k + ":", value))
-
-
-def print_audio_details(file_path, indent="  "):
-    print_key_values(audio_summary(file_path), indent)
-
-
-def print_video_details(file_path, info, indent="  "):
-    print_key_values(video_summary(file_path, info), indent)
-
-
 def open_in_file_manager(file_path):
     """Show a folder in Finder, Explorer or the desktop file manager."""
     folder = file_path if os.path.isdir(file_path) else os.path.dirname(file_path)

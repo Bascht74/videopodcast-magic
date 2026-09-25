@@ -200,17 +200,6 @@ RESOLVE_FRAME_RATES = (16.0, 18.0, 23.976, 24.0, 25.0, 29.97, 30.0, 47.952,
 FRAME_RATE_TOLERANCE = 0.01
 
 
-def nearest_known_frame_rate(fps):
-    """Round a frame rate to one Resolve knows.
-
-    ffprobe measures averaged values Resolve rejects, so it is decided
-    here. Whether it is a Resolve rate at all is known_frame_rate.
-    """
-    if not fps:
-        return 30.0
-    return min(RESOLVE_FRAME_RATES, key=lambda r: abs(r - fps))
-
-
 def known_frame_rate(fps):
     """The Resolve rate this one is, allowing for a measured reading.
 
