@@ -2718,9 +2718,6 @@ msgstr "%s -- se verifică"
 msgid "The key was not saved: %s"
 msgstr "Cheia nu a fost salvată: %s"
 
-msgid "The key was not saved"
-msgstr "Cheia nu a fost salvată"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Portcheiul este blocat. Deblocați-l și încercați din nou."
 
@@ -2861,12 +2858,6 @@ msgstr "Pistă"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "S-au adăugat piste în timpul modificării (acum %s). Asta face mixul\n  greșit. Ștergeți pe auphonic.com pistele fără fișier."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Două camere sunt o singură cameră în montaj. Fișierele lor poartă același nume, deci redenumiți unul dintre ele."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Două camere sunt una singură în montaj: %s. Fișierele lor poartă același nume, așa că redenumiți unul dintre ele."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Două camere ar produce același fișier. A doua l-ar suprascrie pe primul."
@@ -3255,9 +3246,6 @@ msgstr "✕  %s apare de mai multe ori. Aceste înregistrări sunt comasate înt
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Toate înregistrările poartă același nume. Asta dă o singură pistă -- Multitrack are nevoie de cel puțin două."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Două camere sunt o singură cameră în montaj (%s). Fișierele lor poartă același nume, deci redenumiți unul dintre ele."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Două camere ar produce același fișier (%s). A doua l-ar suprascrie pe primul."
 
@@ -3413,9 +3401,6 @@ msgstr "fără nume"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Atenție: măsurare inutilizabilă"
-
-msgid "   MISSING"
-msgstr "   LIPSEȘTE"
 
 msgid "   NOT INSERTED"
 msgstr "   NEINSERAT"
@@ -4761,9 +4746,6 @@ msgstr "  %s nu se poate clasifica: %s -- plasată doar după ceasul ei"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: potrivirea sunetului este %s, sub pragul de %s -- plasată doar după ceasul ei"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Atenție: acest proiect nu este complet -- Resolve a refuzat de două ori aceste piste:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Decalaj:            %s   (doar din timecode -- sunetul ei nu a putut-o plasa, deci nu se verifică nimic)"
 
@@ -4809,9 +4791,6 @@ msgstr "Presetări:"
 msgid "Registry"
 msgstr "Registru"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Eliminarea AUDIO sau VIDEO elimină tot ce se află dedesubt."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4850,3 +4829,54 @@ msgstr "  Resolve a refuzat de două ori pista audio A%d -- în Timeline „%s�
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve a refuzat de două ori pista video V%d -- în Timeline „%s” lipsește imaginea pentru %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s decalaj %s, deriva ceasului nemăsurată%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Atenție: acest proiect nu este complet -- ce a refuzat Resolve:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Deriva ceasului:    nemăsurată -- sunetul ei a dat prea puține puncte pentru o măsurare"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit virgulă mobilă, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", pista audio a fost refuzată"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Dacă eliminați rândul %s sau %s, se elimină și tot ce se află sub el."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "plasat împreună cu camera sa"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s fișier nu se potrivește cu celelalte"
+msgstr[1] " -- %s fișiere nu se potrivesc cu celelalte"
+msgstr[2] " -- %s de fișiere nu se potrivesc cu celelalte"

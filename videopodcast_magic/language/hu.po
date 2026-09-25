@@ -2716,9 +2716,6 @@ msgstr "%s -- ellenőrzés alatt"
 msgid "The key was not saved: %s"
 msgstr "A kulcs nem lett mentve: %s"
 
-msgid "The key was not saved"
-msgstr "A kulcs nem lett mentve"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "A kulcskarika zárolva van. Oldja fel, és próbálja újra."
 
@@ -2859,12 +2856,6 @@ msgstr "Sáv"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "A módosítás közben sávok kerültek hozzá (most %s). Ettől a keverés\n  hibás lesz. Törölje az auphonic.com-on a fájl nélküli sávokat."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Két kamera egy kamera a vágásban. A fájljaik ugyanazt a nevet viselik, ezért nevezze át az egyiket."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Két kamera egy kamerának számít a vágásban: %s. A fájljaik ugyanazt a nevet viselik, ezért nevezze át az egyiket."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Két kamera ugyanazt a fájlt adná. A második felülírná az elsőt."
@@ -3253,9 +3244,6 @@ msgstr "✕  %s többször szerepel. Ezek a felvételek egy sávvá lesznek öss
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Minden felvétel ugyanazt a nevet viseli. Ez egy sávot ad -- a Multitrackhez legalább kettő kell."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Két kamera egy kamera a vágásban (%s). A fájljaik ugyanazt a nevet viselik, ezért nevezze át az egyiket."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Két kamera ugyanazt a fájlt adná (%s). A második felülírná az elsőt."
 
@@ -3411,9 +3399,6 @@ msgstr "névtelen"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Figyelem: a mérés használhatatlan"
-
-msgid "   MISSING"
-msgstr "   HIÁNYZIK"
 
 msgid "   NOT INSERTED"
 msgstr "   NINCS BEILLESZTVE"
@@ -4719,9 +4704,6 @@ msgstr "  %s nem sorolható be: %s -- csak az órája alapján került a helyér
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: a hang egyezése %s, a(z) %s küszöb alatt -- csak az órája alapján került a helyére"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Figyelem: ez a projekt nem teljes -- a Resolve kétszer is elutasította ezeket a sávokat:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Eltolás:       %s   (csak a timecode-ja alapján -- a hangja alapján nem volt elhelyezhető, így semmi sincs ellenőrizve)"
 
@@ -4767,9 +4749,6 @@ msgstr "Előbeállítások:"
 msgid "Registry"
 msgstr "beállításjegyzék"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "A HANG vagy a VIDEÓ eltávolítása mindent eltávolít, ami alatta van."
-
 msgid "VIDEO"
 msgstr "VIDEÓ"
 
@@ -4808,3 +4787,53 @@ msgstr "  A Resolve kétszer is elutasította az A%d hangsávot -- a(z) „%s”
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  A Resolve kétszer is elutasította a V%d videósávot -- a(z) „%s” Timeline-ból hiányzik %s képe."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s eltolás %s, órasodródás nincs mérve%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Figyelem: ez a projekt nem teljes -- amit a Resolve elutasított:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Órasodródás:   nincs mérve -- a hangja túl kevés mérési pontot adott ehhez"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bites lebegőpontos, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", a hangsávja elutasítva"
+
+msgid "Format"
+msgstr "Formátum"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "A(z) %s vagy a(z) %s sor eltávolítása az alatta lévő összes elemet is eltávolítja."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "a kamerájával együtt elhelyezve"
+
+msgid "stereo"
+msgstr "sztereó"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s fájl nem illik a többihez"
+msgstr[1] " -- %s fájl nem illik a többihez"

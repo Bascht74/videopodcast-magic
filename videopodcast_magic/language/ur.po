@@ -2740,9 +2740,6 @@ msgstr "%s -- جانچ جاری ہے"
 msgid "The key was not saved: %s"
 msgstr "کلید محفوظ نہیں ہوئی: %s"
 
-msgid "The key was not saved"
-msgstr "کلید محفوظ نہیں ہوئی"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain مقفل ہے۔ اسے اَن لاک کریں اور دوبارہ کوشش کریں۔"
 
@@ -2883,12 +2880,6 @@ msgstr "ٹریک"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "تبدیلی کے دوران ٹریک شامل ہو گئے (اب %s)۔ اس سے مکس\n  غلط ہو جاتا ہے۔ براہ کرم auphonic.com پر بغیر فائل والے ٹریک حذف کریں۔"
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "کٹ میں دو کیمرے ایک کیمرا بن گئے ہیں۔ ان کی فائلوں کا نام ایک ہی ہے، اس لیے ان میں سے ایک کا نام بدلیں۔"
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "کٹ میں دو کیمرے ایک کیمرا بن گئے ہیں: %s۔ ان کی فائلوں کا نام ایک ہی ہے، اس لیے ان میں سے ایک کا نام بدلیں۔"
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "دو کیمرے ایک ہی فائل بناتے۔ دوسرا کیمرا پہلے والی فائل کو اوور رائٹ کر دیتا۔"
@@ -3295,9 +3286,6 @@ msgstr "✕  ایک سے زیادہ بار آنے والا نام: %s۔ یہ ر�
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  تمام ریکارڈنگز کا نام ایک ہی ہے۔ اس سے ایک ٹریک بنتا ہے -- Multitrack کو کم از کم دو درکار ہیں۔"
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  کٹ میں دو کیمرے ایک ہی کیمرا ہیں (%s)۔ ان کی فائلوں کا نام ایک ہی ہے، اس لیے ان میں سے ایک کا نام بدلیں۔"
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  دو کیمرے ایک ہی فائل بنائیں گے (%s)۔ دوسرا پہلے کو اوور رائٹ کر دے گا۔"
 
@@ -3459,9 +3447,6 @@ msgstr "بے نام"
 
 msgid "   Caution: measurement unusable"
 msgstr "   احتیاط: پیمائش ناقابلِ استعمال"
-
-msgid "   MISSING"
-msgstr "   غائب"
 
 msgid "   NOT INSERTED"
 msgstr "   شامل نہیں کیا گیا"
@@ -4720,9 +4705,6 @@ msgstr "  %s کی درجہ بندی نہیں ہو سکتی: %s -- صرف اس ک
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: اس کا آڈیو %s کی حد تک میل کھاتا ہے، کم از کم حد %s سے نیچے -- صرف اس کی گھڑی کے مطابق جگہ دی گئی"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  احتیاط: یہ پروجیکٹ مکمل نہیں -- Resolve نے یہ ٹریک دو بار مسترد کیے:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  آفسیٹ:           %s   (صرف اس کے ٹائم کوڈ سے -- اس کا آڈیو اسے جگہ نہیں دے سکا، اس لیے کچھ جانچا نہیں جاتا)"
 
@@ -4768,9 +4750,6 @@ msgstr "پری سیٹ:"
 msgid "Registry"
 msgstr "رجسٹری"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "\"آڈیو\" یا \"ویڈیو\" ہٹانے سے اس کے نیچے کی ہر چیز ہٹ جاتی ہے۔"
-
 msgid "VIDEO"
 msgstr "ویڈیو"
 
@@ -4809,3 +4788,53 @@ msgstr "  Resolve نے آڈیو ٹریک A%d دو بار مسترد کیا -- Ti
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve نے ویڈیو ٹریک V%d دو بار مسترد کیا -- Timeline \"%s\" میں %s کی تصویر موجود نہیں۔"
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s آفسیٹ %s، گھڑی کا انحراف ناپا نہیں گیا%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  احتیاط: یہ پروجیکٹ مکمل نہیں -- Resolve نے جو مسترد کیا:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  گھڑی کا انحراف:  ناپا نہیں گیا -- اس کے آڈیو کے کارآمد نقاط اس کے لیے بہت کم تھے"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s، %s بٹ، %s kHz، %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s، %sx%s، %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s، 32 بٹ فلوٹنگ پوائنٹ، %s kHz، %s"
+
+msgid ", its sound track refused"
+msgstr "، اس کا آڈیو ٹریک مسترد ہوا"
+
+msgid "Format"
+msgstr "فارمیٹ"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "\"%s\" یا \"%s\" ہٹانے سے اس کے نیچے کی ہر چیز ہٹ جاتی ہے۔"
+
+msgid "Timecode %s"
+msgstr "ٹائم کوڈ %s"
+
+msgid "mono"
+msgstr "مونو"
+
+msgid "placed with its camera"
+msgstr "اپنے کیمرے کے ساتھ رکھا گیا"
+
+msgid "stereo"
+msgstr "اسٹیریو"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s فائل باقیوں سے میل نہیں کھاتی"
+msgstr[1] " -- %s فائلیں باقیوں سے میل نہیں کھاتیں"

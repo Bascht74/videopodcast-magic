@@ -2741,9 +2741,6 @@ msgstr "%s -- sedang diperiksa"
 msgid "The key was not saved: %s"
 msgstr "Kunci tidak disimpan: %s"
 
-msgid "The key was not saved"
-msgstr "Kunci tidak disimpan"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain terkunci. Buka kuncinya lalu coba lagi."
 
@@ -2884,12 +2881,6 @@ msgstr "Trek"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Trek bertambah saat mengubah (sekarang %s). Itu membuat campuran\n  salah. Silakan hapus trek tanpa file di auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Dua kamera menjadi satu kamera dalam potongan. File-filenya bernama sama, jadi ganti nama salah satunya."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Dua kamera menjadi satu kamera dalam potongan: %s. File-filenya bernama sama, jadi ganti nama salah satunya."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Dua kamera akan menghasilkan file yang sama. Yang kedua akan menimpa yang pertama."
@@ -3296,9 +3287,6 @@ msgstr "✕  %s muncul lebih dari sekali. Rekaman-rekaman ini digabungkan menjad
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Semua rekaman memakai nama yang sama. Itu menghasilkan satu trek -- Multitrack memerlukan paling sedikit dua."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Dua kamera menjadi satu kamera dalam potongan (%s). File-filenya memakai nama yang sama, jadi ganti nama salah satunya."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dua kamera akan menghasilkan file yang sama (%s). Yang kedua akan menimpa yang pertama."
 
@@ -3460,9 +3448,6 @@ msgstr "tanpa nama"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Perhatian: pengukuran tidak dapat dipakai"
-
-msgid "   MISSING"
-msgstr "   HILANG"
 
 msgid "   NOT INSERTED"
 msgstr "   TIDAK DISISIPKAN"
@@ -4679,9 +4664,6 @@ msgstr "  %s tidak dapat diklasifikasikan: %s -- ditempatkan hanya menurut jamny
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: audionya cocok sebesar %s, di bawah ambang %s -- ditempatkan hanya menurut jamnya"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Perhatian: proyek ini tidak lengkap -- Resolve menolak trek berikut dua kali:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Selisih:          %s   (hanya dari timecode-nya -- audionya tak dapat menempatkannya, jadi tidak ada yang diperiksa)"
 
@@ -4727,9 +4709,6 @@ msgstr "Preset:"
 msgid "Registry"
 msgstr "Registry"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Menghapus AUDIO atau VIDEO ikut menghapus semua yang ada di bawahnya."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4768,3 +4747,52 @@ msgstr "  Resolve menolak trek audio A%d dua kali -- Timeline \"%s\" tidak memil
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve menolak trek video V%d dua kali -- Timeline \"%s\" tidak memiliki gambar dari %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s selisih %s, penyimpangan jam tidak diukur%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Perhatian: proyek ini tidak lengkap -- yang ditolak Resolve:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Penyimpangan jam: tidak diukur -- suaranya memberi terlalu sedikit titik untuk pengukuran"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit float, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", trek audionya ditolak"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Menghapus %s atau %s ikut menghapus semua yang ada di bawahnya."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "ditempatkan bersama kameranya"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s file tidak cocok dengan yang lain"
