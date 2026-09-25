@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """A key the store refuses takes its tick back and says so in the window.
 
-The sections, as the test prints them: the window as it starts; the store
-refuses the key that was checked -- the tick goes back, the key it held
-stays, and the sentence stands under the field and on the sheet; the
-store refuses it over presets that fit only the other mode -- the tick on
-again first, then the refusal and the note both, the refusal in front;
-and a key not kept over the same presets -- the note alone, nothing above
-it. The store is stood in and never writes; nothing goes to auphonic.com.
+The sections, as the test prints them: the window as it starts; the
+refused checked key -- the tick back, the stored key kept, the sentence
+under the field and on the sheet; the refusal over presets fitting only
+the other mode -- the tick on again, refusal and note both, the refusal
+in front; a key not kept there -- the note alone; the tick set by hand
+over the refusing store -- the key handed on, no box, the sentence on the
+key's line. Every box is answered at once and counted; the store is stood
+in and never writes, and nothing goes to auphonic.com.
 """
 import os
 import sys
@@ -103,8 +104,25 @@ vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True),
                                 ("Podcast_Single", "u2", False)]
 vpm.update_offer = lambda *a, **k: None
 # A box that would wait for a click is answered at once, so a fault that
-# opens one ends in a red line instead of a run that hangs.
-QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Rejected
+# opens one ends in a red line instead of a run that hangs -- and counted
+# by its title. A QMessageBox inherits this exec; its four ready-made
+# boxes are C++ and do not, so they are answered here as well.
+boxes = []
+
+
+def box_answered(self, *_args):
+    boxes.append(str(self.windowTitle()))
+    return QtWidgets.QDialog.Rejected
+
+
+def ready_box_answered(*args, **_kw):
+    boxes.append(str(args[1]) if len(args) > 1 else "?")
+    return QtWidgets.QMessageBox.Cancel
+
+
+QtWidgets.QDialog.exec = box_answered
+for _kind in ("information", "warning", "critical", "question"):
+    setattr(QtWidgets.QMessageBox, _kind, staticmethod(ready_box_answered))
 
 
 def drawn(text):
@@ -219,6 +237,7 @@ def drive():
     head = unfitting(field, connect, tick, want)
     if head is not None:
         nothing_refused(field, connect, tick, head)
+    ticked_by_hand(field, tick, want)
     reached.append(True)
 
 
@@ -305,6 +324,35 @@ def nothing_refused(field, connect, tick, head):
                               len(puts) - before,
                               "%.2f" % took if took else took, len(said),
                               [t[:30] for t in said]))
+
+
+def ticked_by_hand(field, tick, want):
+    """The tick set by hand, the store refusing: no box, the key's line."""
+    print("\n5. The tick set by hand, the store refusing")
+    typed = field.text()
+    was_on = tick.isChecked()
+    before, boxes_before = len(puts), len(boxes)
+    tick.click()
+    app.processEvents()
+    check("the tick set by hand hands the typed key to the store",
+          not was_on and puts[before:] == [typed],
+          "tick %s before the click, %d save(s) asked, the last with %d "
+          "chars, wanted 1 with %d" % ("on" if was_on else "off",
+                                        len(puts) - before,
+                                        len(puts[-1] if puts else ""),
+                                        len(typed)))
+    opened = boxes[boxes_before:]
+    check("a tick the store refuses opens no box",
+          opened == [],
+          "%d box(es) opened, titled %s" % (len(opened), opened))
+    said = [(w.objectName(), drawn(w.text()), w.isHidden())
+            for w in notes()]
+    shown = sorted(n for n, t, h in said if t == want and not h)
+    check("and the key's line says the key was not saved",
+          shown == ["key_note", "key_note_settings"],
+          "shown in %s of %d lines, wanted key_note and "
+          "key_note_settings; they say %s"
+          % (shown, len(said), [t[:40] for _n, t, _h in said]))
 
 
 def drive_and_quit():
