@@ -893,7 +893,8 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
         short = os.path.basename(cam.get("file") or "")
         # The camera audio arrives through the assignment already, and
         # sorted, because write_handover builds the same list by name.
-        who = sorted(n for n, target in assignment.items() if target == short)
+        who = sorted((n for n, target in assignment.items()
+                      if target == short), key=name_order)
         out.append({"track": cam.get("track"), "file": cam.get("file"),
                      "speakers": who,
                      "start_s": cam.get("start_s"),
@@ -1187,15 +1188,14 @@ def wide_shot_barred(path, value, placeless):
     the time axis. *placeless* are the paths the measurement placed
     nowhere; empty or None bars nothing. A Kind somebody picked is
     barred too: this is a fact about the material, not a suggestion.
+    One clause, for an open list cuts it at sixty; and true of a file
+    whose timecode has nothing to be set against as of one with none.
     """
     if not placeless:
         return ""
     if path_key(path) not in set(path_key(p) for p in placeless):
         return ""
-    return T('It fits nowhere in the material: no timecode, and its '
-             'sound has nothing in common with the rest. The wide shot '
-             'is what the cut falls back on, so it has to lie on the '
-             'time axis.')
+    return T('neither its sound nor a timecode puts it on the axis')
 
 def wide_bar_of(targets, wides, said, aside):
     """What a wide shot mark bars, and where what it displaces is kept.
@@ -1235,6 +1235,18 @@ def camera_after_a_mark(api_key, old_camera, wide, who):
             return kept
     return old_camera
 
+def name_order(name):
+    """The key several speakers on one camera are sorted by.
+
+    Alphabetical as a person reads it: "anna" beside "Anna", and a name
+    opening on an O with an umlaut among the O, not after Z where plain
+    sorting puts both. The name itself last: two spellings, one order.
+    """
+    import unicodedata
+    folded = unicodedata.normalize("NFKD", name.casefold())
+    return ("".join(c for c in folded if not unicodedata.combining(c)),
+            folded, name)
+
 def speaker_names_of(values):
     """The names a set of speaker fields really works under.
 
@@ -1248,28 +1260,52 @@ def speaker_names_of(values):
 def camera_gets_from(short, wide, names):
     """What the camera table says this camera gets its audio from.
 
-    A wide shot takes no speakers, so the question has an answer of its
-    own here -- one that says why. Any assigned before the mark are named.
+    What it really gets, a marked wide shot as much as a derived one:
+    why nobody speaks on it stands grey in its fields, not here. *short*
+    and *wide* are no longer read. The speakers stand sorted, as in the
+    camera's file name and track.
     """
-    if short in wide["barred"]:
-        if wide["pushed"].get(short):
-            return T('this is the wide shot -- %s moved to "no camera '
-                     'of its own"') % ", ".join(wide["pushed"][short])
-        return T('no speaker -- this is the wide shot')
-    return (", ".join(v.get() or "?" for v in names)
+    return (", ".join(sorted((v.get() or "?" for v in names),
+                             key=name_order))
             if names else T('the mix of all tracks'))
 
-def camera_name_suggestion(production, camera, values, multitrack=True):
+def camera_name_suggestion(production, camera, values, multitrack=True,
+                           sync=False):
     """The file name a camera is offered, out of the speakers on it.
 
-    A speaker whose name is only suggested belongs in the camera's
-    file name too, and that name travels to Resolve. A camera nobody is
-    on carries the full mix under Multitrack; without it, its own stem.
+    A speaker whose name is only suggested belongs in the camera's file
+    name too, and that name travels to Resolve; sorted, as the handover
+    sorts them. A camera nobody is on carries the full mix under
+    Multitrack; without it, its own stem. Sync only knows nobody: there
+    every camera keeps its own stem, whatever its rows or its sound say.
     """
-    if not multitrack and not speaker_names_of(values):
+    if sync:
+        return camera_name_of(production, camera, [], False)
+    return camera_name_of(production, camera,
+                          sorted(speaker_names_of(values), key=name_order),
+                          multitrack)
+
+def camera_name_of(production, camera, names, multitrack):
+    """A camera's file name out of these speaker names, in this order."""
+    if not multitrack and not names:
         return os.path.splitext(os.path.basename(camera))[0]
     return camera_output_name(production, camera,
-                              speaker_names_of(values) or ["Audio-Full-Mix"])
+                              names or ["Audio-Full-Mix"])
+
+def camera_names_offered(production, camera, values):
+    """Every name the table can have offered this camera by itself.
+
+    Both ticks of Multitrack, and the speakers in the order of the rows,
+    plainly sorted and by name_order: a project file keeps every field,
+    and a name the table wrote there in an order it once used was never
+    typed. And the camera's own stem, which Sync only offers.
+    """
+    names = speaker_names_of(values)
+    offered = set(camera_name_of(production, camera, order, tick)
+                  for order in (names, sorted(names),
+                                sorted(names, key=name_order))
+                  for tick in (True, False))
+    return offered | {camera_name_of(production, camera, [], False)}
 
 def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
     """Which cameras a speaker is assigned to, by file name.
@@ -1411,8 +1447,8 @@ def wide_marks_applied(d, wide_names, speakers_on=None, marked=False):
         if speakers_on:
             # Who sits in front of this camera. An empty assignment says
             # nothing rather than "nobody", or the file's own answer goes.
-            who = sorted(n for n, cam in speakers_on.items()
-                         if stem_of(cam) == stem)
+            who = sorted((n for n, cam in speakers_on.items()
+                          if stem_of(cam) == stem), key=name_order)
         here = stem in want
         # Both answers, the way write_handover writes them: the cut goes
         # by "wide_marked", the colour and the mix source by "wide".
@@ -2380,16 +2416,17 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
         args, tracks, cameras, videos, tmpdir, gain, position, t0,
         ref_clip, t1, curve, segment_list=segment_list)
 
-def camera_place(files, zero, measured, fps=30.0):
+def camera_place(files, zero, measured, fps=30.0, clocked=False):
     """Where a camera's picture sits, and what put it there.
 
     "Position in the file is programme time minus this." Returns the
-    place and "measured", "clock" or "nowhere"; a clock only where
-    nothing was measured. *files* are asked in turn, rendered first --
-    not every ffmpeg carries a timecode. *fps*: 30 not 25 is 0.08 s out.
+    place and "measured", "clock" or "nowhere"; a clock where nothing
+    was measured, or where *clocked* says the run placed it by its clock
+    alone. *files* are asked in turn, rendered first -- not every ffmpeg
+    carries a timecode. *fps*: 30 not 25 is 0.08 s out.
     """
     if measured is not None:
-        return float(measured), "measured"
+        return float(measured), "clock" if clocked else "measured"
     if isinstance(files, str):
         files = (files,)
     for file in files:
@@ -2406,13 +2443,16 @@ def camera_place(files, zero, measured, fps=30.0):
 def write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results=None, cut=None, segment_list=None,
                       length=0.0, track_names=None, single_files=None,
-                      offsets=None, lengths=None, words=(), unplaceable=()):
+                      offsets=None, lengths=None, words=(), unplaceable=(),
+                      clocked=()):
     """Write everything Resolve needs: the handover file and instructions.
 
     The Resolve scripting interface has no multicam: the word does not
     appear once in the bundled README (version 21), and the manual lists
     the conversion only as a menu command. Project, import, timeline,
     track names and markers can be driven; the last step stays manual.
+    *clocked*: {camera: how well its sound matched} for the cameras the
+    run placed by their clock alone, None where nothing was heard.
     """
     if not cameras:
         return
@@ -2458,8 +2498,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     items = []
     unmeasured = []
     by_clock = []
+    too_weak = []
     left_out = []
     nowhere = FileSet(unplaceable or ())
+    by_its_clock = ByFile(clocked or {})
     for cam in cameras:
         v = os.path.abspath(cam["video"])
         if v in nowhere:
@@ -2471,7 +2513,8 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # under two names. Sync only knows nobody: every camera is plain,
         # whatever an assignment says, and the track keeps the camera's
         # name -- the window's or --new-name's, else the file's stem.
-        who = [] if sync_only(args) else sorted(speaker_of.get(v) or [])
+        who = [] if sync_only(args) else sorted(speaker_of.get(v) or [],
+                                                key=name_order)
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
@@ -2482,9 +2525,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # A 0.0 here would be a lie nothing can read back: it looks like
         # a camera measured at the start of the axis.
         where, how = camera_place((file, v), tc_start, shift,
-                                   rate_of.get(v) or fps)
+                                   rate_of.get(v) or fps, v in by_its_clock)
         if how == "clock":
-            by_clock.append(cam["name"])
+            (too_weak if by_its_clock.get(v) is not None
+             else by_clock).append(cam["name"])
         elif how == "nowhere":
             unmeasured.append(cam["name"])
         elif how == "measured" and tc_start is not None:
@@ -2537,6 +2581,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     if by_clock:
         print(as_warn(T('  Nothing was found in the sound for %s -- placed '
                         'by the timecode alone.') % ", ".join(by_clock)))
+    if too_weak:
+        print(as_warn(T('  The sound of %s matched too weakly to trust -- '
+                        'placed by the timecode alone.')
+                      % ", ".join(too_weak)))
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))

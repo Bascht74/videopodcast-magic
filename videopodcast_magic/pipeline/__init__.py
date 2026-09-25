@@ -82,6 +82,7 @@ log_curve_from_atom = PROGRAM.log_curve_from_atom
 lufs_does_nothing = PROGRAM.lufs_does_nothing
 mix_tracks = PROGRAM.mix_tracks
 mix_width = PROGRAM.mix_width
+name_order = PROGRAM.name_order
 no_place_message = PROGRAM.no_place_message
 normalise_loudness = PROGRAM.normalise_loudness
 number_text = PROGRAM.number_text
@@ -291,6 +292,22 @@ def camera_audio_tracks(audio, name, folder):
     return out
 
 
+def name_apart(name, taken):
+    """*name*, or with 2, 3 ... hung on where it is taken; then taken too.
+
+    The name is an identifier: it goes to Auphonic as the track id, into
+    the written file's name and the handover's track. Plain digits, or
+    the three would not match; and "Cam" takes "cam", as a disc that
+    does not tell case apart holds one file for both.
+    """
+    wanted, count = name, 2
+    while name.lower() in taken:
+        name = "%s %d" % (wanted, count)
+        count += 1
+    taken.add(name.lower())
+    return name
+
+
 def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
     """Use each video file's own audio as a track.
 
@@ -315,14 +332,7 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
             if name.startswith(prefix):
                 name = name[len(prefix):]
                 break
-        reason, cam = name, 2
-        while name in taken:
-            # Part of the name, and the name is the identifier: it goes
-            # to Auphonic as the track id and into the file name below.
-            # Plain digits, or the two would not match.
-            name = "%s %d" % (reason, cam)
-            cam += 1
-        taken.add(name)
+        name = name_apart(name, taken)
         target = os.path.join(tmpdir, "cameraaudio_%s.wav" % safe_filename(name))
         show_progress(T('Camera audio %s') % name, (i - 1) / float(
             len(video_paths)))
@@ -585,8 +595,9 @@ def names_given(args, video_paths):
     Before anything is written: a plain file name, for a camera of the
     run, one name per file, and no two cameras in one file -- without
     case, as the writer and the disks compare; the window asks that
-    too, a command line never passes it. Shared stems without a name
-    stay the writer's.
+    too, a command line never passes it. Two cameras sharing a stem and
+    given no name pass: where the run names cameras after their files,
+    name_apart tells them apart with a number.
     """
     cameras = {path_key(p): p for p in video_paths}
     called = {}
@@ -643,6 +654,52 @@ def names_have_no_place(called, cameras, plan, audio_paths):
     return ""
 
 
+def track_name_of(e):
+    """The name a track carries: its own, its speaker's, else its file's.
+
+    One answer for a plan's entry and for the track made of it, so the
+    plan's preview and the writer sort a camera's tracks by one key --
+    a track nobody named included, which carries its first file's name.
+    """
+    blocks = e.get("blocks") or [e.get("audio") or ""]
+    return (e.get("name") or e.get("speakers")
+            or os.path.basename(blocks[0]))
+
+
+def tracks_per_camera(entries):
+    """What each camera carries, {camera: [entry, ...]}, in name order.
+
+    The one order for several names on one camera, set here: the name
+    the command line gives a camera, the mix's label, the tracks under
+    it and the log lines all come out of this, track_name_of sorted by
+    name_order as the window's file name and the Resolve track sort
+    them. An entry with no camera belongs to none and is left out.
+    """
+    out = ByFile()
+    for e in entries:
+        if e.get("camera"):
+            out.setdefault(e["camera"], []).append(e)
+    for own in out.values():
+        own.sort(key=lambda e: name_order(track_name_of(e)))
+    return out
+
+
+def cameras_named_by_tracks(plan, sync=False):
+    """One entry per camera, named after the tracks taken from its sound.
+
+    Not one per track: a camera whose two channels carry two microphones
+    is still one camera and writes one file, and both names go into it.
+    Sync only knows nobody: there a camera keeps its own stem, and two
+    cameras with one stem are told apart the way the plan tells them.
+    """
+    taken = set()
+    return [{"video": v,
+             "name": (name_apart(os.path.splitext(os.path.basename(v))[0],
+                                 taken) if sync
+                      else "+".join(track_name_of(e) for e in own))}
+            for v, own in tracks_per_camera(plan).items()]
+
+
 def show_multitrack_plan(args, audio_paths, video_paths):
     """Show the detected plan without doing anything yet."""
     step_begin("plan")
@@ -683,6 +740,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     if complaint:
         print(as_bad(T('Abort: %s') % complaint))
         return 1
+    named_here = not cameras
     print(as_head(T('RECOGNISED PLAN')))
     if title:
         print(T('  Production at auphonic.com:   %s') % title)
@@ -721,24 +779,20 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             if stop is not None:
                 return stop
         if not cameras:
-            # One entry per camera, not per track: a camera whose two
-            # channels carry two microphones is still one camera and
-            # still writes one file. Both names go into that file name.
-            who = ByFile()
-            for e in plan:
-                who.setdefault(e["camera"], []).append(
-                    e["speakers"])
-            cameras = [{"video": v, "name": "+".join(names)}
-                       for v, names in who.items()]
-    if not cameras and video_paths:
-        # No assignment file and no names from the plan: one entry per
-        # video file, named as --new-name says or after the file, for the
-        # written file and the handover's track alike. The ending is hung
-        # on where every target name is settled.
-        cameras = [{"video": os.path.abspath(path),
-                    "name": called.get(path_key(path))
-                    or os.path.splitext(os.path.basename(path))[0]}
-                   for path in video_paths]
+            cameras = cameras_named_by_tracks(plan, sync_only(args))
+    if named_here and video_paths:
+        # One entry per video file nothing has named yet -- every file, or
+        # a mute one no track names: as --new-name says or after the stem
+        # it is written under; equal names told apart, or two handover
+        # tracks point at one written file. The ending is hung on later.
+        taken = {cam["name"].lower() for cam in cameras}
+        have = {path_key(cam["video"]) for cam in cameras}
+        cameras = cameras + [
+            {"video": os.path.abspath(path),
+             "name": name_apart(
+                 called.get(path_key(path))
+                 or os.path.splitext(os.path.basename(path))[0], taken)}
+            for path in video_paths if path_key(path) not in have]
     plan = merge_plan_entries(plan)
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
@@ -751,11 +805,10 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                  + ("  (+%s)" % number_text(len(blocks) - 1, 0)
                     if len(blocks) > 1 else ""),
                  as_hms(total), "  ->  " + target))
-    combined = {}
-    for e in plan:
-        combined.setdefault(e.get("camera") or "", []).append(
-            e.get("speakers") or "?")
-    multiple = {cam: v for cam, v in combined.items() if len(v) > 1 and cam}
+    combined = ByFile(
+        (cam, [e.get("speakers") or "?" for e in own])
+        for cam, own in tracks_per_camera(plan).items())
+    multiple = {cam: v for cam, v in combined.items() if len(v) > 1}
     for cam, v in multiple.items():
         print(T('  %s gets %s tracks mixed together: %s')
               % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
@@ -809,7 +862,7 @@ def join_the_plan(plan, tmpdir):
     made = []
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
-        name = e.get("speakers") or os.path.basename(blocks[0])
+        name = track_name_of(e)
         if len(blocks) > 1:
             source, join_info = join_with_report(
                 blocks, os.path.join(tmpdir,
@@ -1113,7 +1166,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         except Exception as e:
             print(T('  %s: %s, skipped') % (os.path.basename(v), e))
             continue
-        if not info["audio"]:
+        # A camera with no sound but a clock goes on: align_cameras
+        # places it by that clock. With neither, nothing can place it.
+        if not info["audio"] and timecode_seconds(info) is None:
             print(T('  %s has no camera sound -- without it nothing can be '
                     'aligned') % os.path.basename(v))
             continue
@@ -1126,6 +1181,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                   % (os.path.basename(v),
                      number_text(file_frame_rate(info), 3)))
         videos.append((v, info))
+    if not any(i["audio"] for _v, i in videos):
+        # Clocks alone are no axis: the tracks are laid against sound.
+        videos = []
     if videos and not getattr(args, "production", ""):
         # The same name the ordinary path gives a production: the folder
         # the material sits in. Without it two jobs from two shoots
@@ -1207,22 +1265,32 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     # refused rather than laid down somewhere -- laid down somewhere it
     # looks exactly like one that fits.
     camera_clocks = [timecode_seconds(i) for _v, i in videos]
+    placed = ByFile(position)
     for e, made in zip(plan, joined):
         blocks, name = made["blocks"], made["name"]
         source, hint = made["source"], made["hint"]
-        try:
-            a, b, st = align_audio_to_video(source, ref_clip[0],
-                                  sample_points=int(max(20, min(120,
-                                      ref_clip[1]["duration"] / 30.0))),
-                                  distance_s=30.0)
-        except Exception as ex:
-            print(T('  %-20s cannot be aligned: %s') % (name, ex))
-            continue
-        hint = which_way_placed(st, hint)
-        if cannot_be_placed(st, file_timecode(blocks[0]) if blocks else None,
-                            camera_clocks):
-            print(as_bad("  " + no_place_message(name)))
-            continue
+        # A camera's own sound runs on its camera's clock: where that
+        # clock placed the camera, the track stands with it. Measured
+        # again, a steady tone lands wherever the phase finds a peak.
+        own = placed.get(e["from_camera"]) if e.get("from_camera") else None
+        if own is not None and own[2].get("by_clock_only"):
+            a, b, st = own[0], own[1], dict(own[2])
+            hint = (hint + ", " if hint else "") + T(
+                "placed with its camera, by that camera's clock")
+        else:
+            try:
+                a, b, st = align_audio_to_video(
+                    source, ref_clip[0], sample_points=int(max(20, min(
+                        120, ref_clip[1]["duration"] / 30.0))),
+                    distance_s=30.0)
+            except Exception as ex:
+                print(T('  %-20s cannot be aligned: %s') % (name, ex))
+                continue
+            hint = which_way_placed(st, hint)
+            if cannot_be_placed(st, file_timecode(blocks[0]) if blocks
+                                else None, camera_clocks):
+                print(as_bad("  " + no_place_message(name)))
+                continue
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
                        # Which recording the sound came out of, kept
@@ -1568,12 +1636,14 @@ def check_written_file(target, items, n_camera, args, fps):
     print(as_warn(line) if off else line)
 
 
-def finish_camera_file(source, info, target, items, args, fps):
+def finish_camera_file(source, info, target, items, args, fps,
+                       measured=True):
     """Everything that happens to a camera file once it is written.
 
     The colour, the camera's own QuickTime keys, its metadata, and the
-    measurement of whether the new audio sits on the picture. Four
-    things in a fixed order, the same on both paths.
+    measurement of whether the new audio sits on the picture -- not
+    where *measured* is False: a camera its clock placed had no sound
+    worth measuring. Four things in a fixed order.
     """
     check_colour_survived(source, target)
     # ffmpeg drops what it does not know. For iPhone recordings "logs"
@@ -1590,7 +1660,8 @@ def finish_camera_file(source, info, target, items, args, fps):
                  log_curve_from_atom(_logs_atom_text(target)) or T('no text')))
     check_camera_metadata(source, target)
     check_data_tracks(source, target)
-    check_written_file(target, items, len(info["audio"]), args, fps)
+    if measured:
+        check_written_file(target, items, len(info["audio"]), args, fps)
 
 
 def written_before_here(folder, production):
@@ -1655,10 +1726,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         step_begin("speakers")
         segment_list = speakers_for_the_cut(args, tracks)
     names_every = [track["name"] for track in tracks]
-    after_camera = ByFile()
-    for track in tracks:
-        if track.get("camera"):
-            after_camera.setdefault(track["camera"], []).append(track)
+    after_camera = ByFile(tracks_per_camera(tracks))
 
     track_names = ByFile()    # output file -> names of its audio tracks
     offsets = ByFile()        # output file -> measured offset in seconds
@@ -1833,17 +1901,22 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         check = next((p for n, p in items
                       if n.startswith(MIX_TRACK_NAME)),
                      items[0][1])
+        clocked = bool(st.get("by_clock_only"))
+        a2, st2, deviation = None, {}, None
         try:
-            HOP, rate = 5.0, 4000
-            env_video = video_envelope(v, HOP, rate)
-            env_audio = envelope(decode_audio(check, rate=rate), HOP, rate)
-            density = int(max(20, min(120, info["duration"] / 30.0)))
-            a2, b2, st2 = align_envelopes(env_video, env_audio, HOP,
-                                             sample_points=density,
-                                             distance_s=30.0,
-                                             points_off="audio",
-                                             warn=os.path.basename(check))
-            deviation = a2 - a
+            # A camera its clock placed: its sound was already found
+            # unusable, and measured again it gives a number meaning nothing.
+            if not clocked:
+                HOP, rate = 5.0, 4000
+                env_video = video_envelope(v, HOP, rate)
+                env_audio = envelope(decode_audio(check, rate=rate), HOP, rate)
+                density = int(max(20, min(120, info["duration"] / 30.0)))
+                a2, b2, st2 = align_envelopes(env_video, env_audio, HOP,
+                                                 sample_points=density,
+                                                 distance_s=30.0,
+                                                 points_off="audio",
+                                                 warn=os.path.basename(check))
+                deviation = a2 - a
         except Exception as e:
             a2, st2, deviation = None, {}, None
             print(T('  Cross-check:     not possible (%s)') % e)
@@ -1854,7 +1927,13 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         drift = (not args.no_drift
                  and abs(total) > 4 * uncertainty and abs(total) > threshold
                  and abs(st.get("ppm", 0.0)) < 500 and info["duration"] >= 120)
-        print(T('  Offset:          %s   (from the camera comparison)') % as_hms(a))
+        if clocked:
+            print(T('  Offset:          %s   (from its timecode alone -- '
+                    'its sound could not place it, so nothing is checked)')
+                  % as_hms(a))
+        else:
+            print(T('  Offset:          %s   (from the camera comparison)')
+                  % as_hms(a))
         if a2 is not None:
             serious = abs(deviation) > 1.0 / fps
             print(T('  Cross-check:     %s from the Full-Mix, deviation '
@@ -1864,14 +1943,14 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                      number_text(st2.get("points", 0), 0),
                      number_text(st2.get("candidates", 0), 0),
                      T('   Caution: more than one frame') if serious else ""))
-        # The reference camera is what the others were measured
-        # against, so there is nothing here that was measured. The line
-        # of noughts it used to print -- "+0.00 ppm (+/- 0.00), 0 of 0
-        # points" -- read like a measurement and was none.
+        # The reference camera is what the others were measured against,
+        # and a camera its clock placed was measured against nothing: the
+        # noughts both used to print -- "+0.00 ppm (+/- 0.00), 0 of 0
+        # points" -- read like a measurement and were none.
         if ref_clip and path_key(ref_clip[0]) == path_key(v):
             print(T('  Clock drift:     nothing measured -- this is the '
                     'reference the others are held against'))
-        else:
+        elif not clocked:
             print(T('  Clock drift:     %s ppm (+/- %s), residual spread '
                     '%s ms, %s of %s points')
                   % (number_text((b - 1.0) * 1e6, 2, plus=True),
@@ -1923,7 +2002,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                     'camera') % (as_hms(keep_s), as_hms(info["duration"]),
                                  as_hms(cut_at)))
         share.segment(0.85, 1.0)
-        finish_camera_file(v, info, target, items, args, fps)
+        finish_camera_file(v, info, target, items, args, fps,
+                           measured=not clocked)
         return target, track_names, a, (keep_s or info["duration"])
 
     # The expensive part is the cross-check, and that only computes. ffmpeg
@@ -2097,6 +2177,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                       single_files, offsets, lengths, words=heard_words(),
                       unplaceable=[cam["video"] for cam in cameras
                                    if path_key(cam["video"])
-                                   not in placed_cameras])
+                                   not in placed_cameras],
+                      clocked={v: st.get("quality")
+                               for v, (_a, _b, st) in (position or {}).items()
+                               if st.get("by_clock_only")})
     shutil.rmtree(tmpdir, ignore_errors=True)
     return 1 if error else 0
