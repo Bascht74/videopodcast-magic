@@ -25,6 +25,63 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b24] - 2026-09-25
+
+### Changed
+
+- **The field for the language spoken in the recording is now called
+  "Language of the sound"**, so it can no longer be taken for the
+  language of the window.
+- **Three more sentences now name the second of two camera files of one
+  name "C0003.MP4 (2)"**: the note on who holds Intro or Outro, the hint
+  beside the greyed In and Out buttons, and the refusal of two files set
+  to Intro.
+
+### Fixed
+
+- **A recording split into timecoded blocks at 44.1 or 96 kHz is now
+  joined whole.** Two 96 kHz blocks used to come out a quarter short,
+  with a gap reported that was not there.
+
+### Tests
+
+- **A real run's Resolve handover is now checked on material like a real
+  production**: two frame rates, one camera in 10 bit, cameras nobody
+  speaks on.
+
+### Documentation
+
+- **The manual now shows the "Output" tab** as a dry run leaves it.
+
+**Deutsch**
+
+### Geändert
+
+- **Das Feld für die Sprache, die in der Aufnahme gesprochen wird, heißt
+  jetzt „Sprache im Ton“**, damit es niemand mehr für die Sprache des
+  Fensters hält.
+- **Drei weitere Sätze nennen die zweite von zwei gleichnamigen
+  Kameradateien jetzt „C0003.MP4 (2)“**: der Hinweis, wer Intro oder
+  Outro belegt, der Hinweis neben den ausgegrauten In- und Out-Knöpfen und
+  die Ablehnung zweier Dateien, die beide auf Intro stehen.
+
+### Behoben
+
+- **Eine Aufnahme in Timecode-Blöcken mit 44,1 oder 96 kHz wird jetzt ganz
+  zusammengefügt.** Zwei 96-kHz-Blöcke kamen vorher ein Viertel zu kurz
+  heraus, mit einer gemeldeten Lücke, die es nicht gab.
+
+### Tests
+
+- **Die Resolve-Übergabe eines echten Laufs wird jetzt an Material wie
+  aus einer echten Produktion geprüft**: zwei Bildraten, eine Kamera in
+  10 Bit, Kameras, auf denen niemand spricht.
+
+### Dokumentation
+
+- **Das Handbuch zeigt jetzt den Reiter „Ausgabe“**, wie ein Probelauf ihn
+  hinterlässt.
+
 ## [3.0.0b23] - 2026-09-25
 
 ### Changed
