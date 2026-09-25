@@ -25,30 +25,30 @@ What is in them, largest first, every folder of the program on the list
 and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4013** -- the window and everything it shows, asks or offers,
+* `ui/` **4333** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `speakers/` **3683** -- who speaks and when: the separation itself,
+* `speakers/` **3710** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `player/` **3103** -- the moving picture: the player, the cut band,
+* `player/` **3112** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **2958** -- who is on camera when, and what carries it out
+* `cut/` **3006** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2863** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2974** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2823** -- channels, chains, continuation files, what a
+* `material/` **2853** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
-* `pipeline/` **2102** -- the chain the recordings run until the camera
+* `pipeline/` **2185** -- the chain the recordings run until the camera
   files are written
-* `bearings/` **1916** -- where each file and each voice sits, and how
+* `bearings/` **1977** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `auphonic/` **1657** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1661** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1589** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -57,9 +57,9 @@ figure of the day is that command, not this paragraph**:
   from it
 * `setup/` **1089** -- finding ffmpeg, installing a missing module,
   keeping the key
-* `hearing/` **1040** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1053** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1028** -- helpers that shape what the window shows and
+* `fittings/` **1030** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
@@ -71,7 +71,7 @@ figure of the day is that command, not this paragraph**:
   one in place, and what the window offers of all three
 * `herald/` **615** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **584** -- the program's own project file: writing
+* `project/` **585** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **510** -- the list of chosen files: the tree it is
@@ -84,7 +84,7 @@ figure of the day is that command, not this paragraph**:
 * `tables/` **348** -- the tables and trees the window builds
 * `running/` **357** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
-* `language/` **346** -- a .po file per language and the reader that
+* `language/` **365** -- a .po file per language and the reader that
   looks one up
 * `timecode/` **324** -- timecode strings, frame rates, the clock a file
   carries
