@@ -57,6 +57,23 @@ Ton liegt. Der Uhrengang bleibt unbekannt, und auf diesem Weg rechnet ihn
 das Programm nicht heraus. Auch diese Zeile ist gekennzeichnet: `per
 Phase platziert`.
 
+Die Kameras untereinander setzt das Programm über ihre eigenen
+Mikrofone an, jede an der längsten von ihnen -- aber nur mit dem ersten
+Vergleich. Zwischen zwei Kameras gibt es keinen zweiten und dritten Weg,
+also verlangt das Programm dort mehr Übereinstimmung, bevor es sie
+gelten lässt. Reicht der Ton einer Kamera dafür nicht, ist ihr Timecode
+der zweite Weg, und sie steht dort, wo er sagt. Gerechnet wird von einer
+Kamera aus, die über ihren Ton schon platziert ist und ebenfalls einen
+Timecode trägt; das geht also nur auf, wenn beide Uhren auf dieselbe
+Zeit gestellt waren. Das Protokoll nennt die Kamera und sagt, warum ihr
+Ton nicht reichte: wie weit die Übereinstimmung unter der verlangten
+blieb, oder dass die Kamera gar keinen messbaren Ton gab. Eine Kamera,
+die weder das eine noch das andere hat -- keinen Ton, an dem sich etwas
+messen ließe, und keinen passenden Timecode --, wird nicht auf Verdacht
+irgendwo hingelegt: Das Protokoll nennt sie und lässt sie weg, und wo
+das Fenster das schon sieht, schlägt es für sie **Video ignorieren**
+vor, oder **Vorspann**, wenn die Datei weit kürzer ist als der Rest.
+
 ## Was herauskommt
 
 Je Kamera eine neue Videodatei. Das Bild wird umkopiert, nicht neu

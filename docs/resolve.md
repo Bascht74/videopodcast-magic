@@ -29,13 +29,29 @@ out of it looks exactly like a fresh one and is not. So a project can be
 opened and **Create Resolve project** pressed without running anything
 again.
 
-Nothing else hands one over. Dropping files in and picking an output
-folder that already holds a handover does not: choosing a folder clears
-what the button had, and nothing looks in it. Where the button is not
-usable, the reason stands at it:
+**And the button follows the file list.** Whenever the cameras in the
+list change -- a file taken out with **Remove**, put back with **Add
+files ...**, or its **Kind** set to intro, outro or **ignore this
+video** -- the program asks again whether the handover it holds names
+exactly these cameras. If it does, it stays. If not, it looks for one
+that does in the output folder, beside the project file and beside the
+handover it had; where there is none, the button goes grey. So taking a
+camera out greys the button. Putting it back makes it usable again only
+where a handover over exactly these cameras lies in the output folder or
+beside a project file that was opened: the handover the button had is
+gone by then, and nothing looks beside it any more. With **next to each
+video file** and no project opened, and after a run that left a camera
+out -- its handover never names that camera -- the button stays grey;
+press **Start** again.
+
+Picking an output folder is not such a change: choosing a folder clears
+what the button had, and nothing looks in the new one until the cameras
+in the list change. Where the button is not usable, the reason stands at
+it:
 
 - **That needs the handover file from a run, and there is none.** No run
-  in this window, and no project opened whose handover fits. Press
+  in this window, no project opened whose handover fits, or the cameras
+  in the list are no longer the ones the handover names. Press
   **Start**.
 - **The Resolve interface is not where it should be.** Resolve is not
   installed where the program looks; the box **Connection to Resolve**
@@ -56,13 +72,13 @@ before a timeline is built, with the reason on the line beginning
   the rate the timeline would be built at a guessed speed and every cut
   would sit beside the picture. Make the run again.
 
-The match over the cameras is asked on opening, and only there. A camera
-whose **Kind** is changed to intro, outro or **ignore this video** after
-a run therefore costs nothing straight away -- the button keeps working
-on the handover of the run over all of them. It costs it the next time
-the project is opened: the file then names one camera more than the
-project holds, and is passed over. Press **Start** again for the cameras
-as they stand now.
+The match over the cameras is asked on opening and again whenever the
+cameras in the list change. A camera whose **Kind** is set to intro,
+outro or **ignore this video** after a run is no camera of the list any
+more, so the handover of the run over all of them names one camera too
+many, and the button goes grey at once. Setting the Kind back makes the
+button usable again under the same condition as putting a camera back,
+above; otherwise press **Start** again for the cameras as they stand now.
 
 The program asks whether Resolve answers by itself, in the background,
 at the first look at the **Resolve cut** tab. Only a no shows there: the
@@ -141,7 +157,8 @@ the wide shot first. The log says how often. With several cameras the
 timeline carries no markers.
 
 **… Multicam**: all cameras side by side, one per video track, each as
-long as its own file and **uncut**, at its measured place. Track names = speakers, a
+long as its own file and **uncut**, at its measured place. Track names = speakers,
+several on one camera joined by a plus and in alphabetical order; a
 camera without a speaker is called `Wide shot` (`Wide shot 1`, `Wide
 shot 2` where two), as the window labels it, and the speaker names stand
 as markers. Where nobody was heard, and with **Sync only**, every track
@@ -163,16 +180,24 @@ admits it -- a camera set to the wrong hour carries that hour into the
 timeline. Even where somebody did put every camera on one clock, the
 clocks are still a frame or two apart.
 
-**The clock is the fallback, and only that.** Where nothing could be
-found in a camera's sound, its own timecode places it; where it has no
-timecode either, it lands at the start of the axis. Both are said out
-loud while the handover is written, by name:
+**The clock is the fallback, and only that.** Where a camera's sound
+gives nothing to measure, or matches the rest too weakly to be trusted,
+its own timecode places it -- set against a camera the sound did place
+and that carries a timecode too. The run says so as it lines the
+cameras up, and where there was a match it names how far it reached and
+the floor it fell under. Where the camera has no timecode, or no camera
+the sound placed carries one to set it against, nothing places it, and
+it is left out (*A file that fits nowhere*, below). What was placed
+without a measurement is said out loud once more while the handover is
+written, by name, and the two reasons get a line each:
 
 - *Nothing was found in the sound for `WideCam` -- placed by the
   timecode alone.*
+- *The sound of `WideCam` matched too weakly to trust -- placed by the
+  timecode alone.*
 - *No measured offset for `WideCam` -- placed at the start of the axis.*
 
-The first is worth a look. The second always is: a camera at the start
+The first two are worth a look. The last always is: a camera at the start
 of the axis is a camera nobody placed, and it looks exactly like one
 that begins with the episode.
 
@@ -243,9 +268,21 @@ only where the cameras ran at different speeds.
 
 Only cameras the run could place on the common time axis go into the
 handover file. Where the sound of a video has nothing in common with the
-rest of the material and no timecode places it either, the run leaves it
-out, and while writing it names what it left out and why: nothing places
-it, so it is no camera of this episode.
+rest of the material and no timecode places it either -- it carries
+none, or no camera the sound placed carries one to set it against -- the
+run leaves it out, and while writing it names what it left out and why:
+nothing places it, so it is no camera of this episode. In the window,
+the measurement of the time axis already takes such a file off
+**Content** and **Wide shot** and puts it on **Intro** or on **ignore
+this video**. For a camera the sound cannot place, the window goes by
+the run's rule: its timecode is set against a camera the sound did place
+that carries one. One case still differs: where a longer audio recording
+lies beside the cameras and a camera fits the other cameras but not that
+recording, the run places the camera by its sound, while the window may
+go by the recorder's clock. A file whose timecode has nothing to be set
+against says so in the file list -- **nothing to set its timecode
+against** -- rather than **no timecode**; [The interface](interface.md)
+says which of the two entries a file lands on, and when.
 
 Leaving it out is the point. Nothing was rendered for such a file, and
 it would carry the mark of the wide shot: the wide shot is whoever
@@ -253,11 +290,12 @@ has no speaker assigned, and nobody is assigned to a file that fits
 nowhere. Handed over, a short jingle would stand as the wide shot of a
 whole episode.
 
-A file the run could only not measure is another case. That one is
-handed over, and the warning names it: its place then comes from its own
-timecode, and without one it lands at the start of the axis. Both lines
-stand under *Where each camera sits* above, and both are worth looking
-at.
+A file whose sound gives nothing to measure -- no sound track, or one
+that broke off -- goes the same way as one whose sound matches too
+weakly: its timecode places it where it can, and it is handed over with
+a warning that names it; where nothing places it, it is left out. The
+lines stand under *Where each camera sits* above, and they are worth
+looking at.
 
 ### One camera
 
@@ -591,10 +629,28 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
+- **The last lines of the run say the project is not complete.**
+  Resolve refused a track, was asked a second time, and refused again.
+  The run named it the moment it happened -- the track, the timeline,
+  and what that timeline now lacks: every camera from that video track
+  on, a camera's sound, or the picture or sound of the intro or outro.
+  It built everything else without it and says it once more in its last
+  lines; the list of angles in the closing note names only the cameras
+  that got a video track. Built with **Create Resolve project**, the window then
+  ends on `Finished with errors.` instead of `Done.`; built as part of
+  a whole run (`--resolve`), only those last lines say so. An audio
+  track refused where the cameras found room on the others costs
+  nothing: the log notes it, and it is no error. Add the track in
+  Resolve by hand and lay the missing piece on it, or build the project
+  again.
 - **A camera stands beside its place, or right at the beginning.** The
   run said so as it wrote the handover: it found nothing in that
-  camera's sound and went by the timecode alone, or it had neither and
-  put the camera at the start of the axis. The camera's name stands in
+  camera's sound, or too little to trust, and went by the timecode
+  alone -- or it had no measured place for the camera at all and no
+  timecode, and put it at the start of the axis. (A camera whose sound
+  matches too weakly and that has no timecode, or none that a camera the
+  sound placed can be set against, is not put there; it is left out,
+  see *A file that fits nowhere*.) The camera's name stands in
   that line, and `placed_by` in the handover file says the same. Move
   the camera in Resolve, or give the file a timecode that fits the rest
   and run again.
@@ -603,10 +659,14 @@ backup copy.
   The log says which start was asked for and which one the timeline
   answers with. Set it by hand on the timeline in Resolve, or build the
   project again.
-- **The button is grey right after a project was opened, and there is a
-  handover in the folder.** It names other cameras than the project
-  holds -- another production, or a round before a camera was added or
-  set to intro. Press **Start** again.
+- **The button is grey, and there is a handover in the folder.** It
+  names other cameras than the file list holds now -- another
+  production, a round before a camera was added, or a camera taken out
+  of the list or set to intro, outro or **ignore this video** since.
+  Putting the camera or its Kind back brings the button back only where
+  a handover over exactly these cameras lies in the output folder or
+  beside an opened project file (*And the button follows the file list*,
+  above); otherwise press **Start** again.
 - **The output folder holds one file per shot instead of one episode.**
   Resolve refused one file per delivery, and the log says so under
   **Render job**. Set the delivery back to a single file at the render

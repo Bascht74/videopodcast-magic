@@ -218,7 +218,10 @@ Between two cameras it stays at the one way and the clock. There is no
 phase to fall back on there, so the first way is the whole measurement,
 and what one camera has to reach against another is many times what a
 recording has to reach against a camera. A camera that does not reach it
-and carries no fitting timecode stays out in the same way.
+is placed by its timecode, set against a camera the sound did place that
+carries one too -- the clock of an audio recording places no camera.
+Where either of the two timecodes is missing, it stays out in the same
+way.
 
 A camera that reports a sound track but gives nothing readable out of
 it -- the sound broke off after a moment, or the track was lost in a
@@ -228,9 +231,11 @@ against, and the one that gives nothing is laid where its own clock puts
 it: the log names the file and says that it gives no sound to measure,
 that it was placed by its clock alone, and that nothing was found to
 check that against. That line is worth reading, because this one camera
-lies where its clock says and nobody checked it. Where the clock is
-missing -- on it or on the camera that sets the axis -- or fits none of
-the others, the camera stays out and is named, as above.
+lies where its clock says and nobody checked it. Its clock is set against
+a camera the sound placed that carries one -- the one that sets the axis
+where it has a clock, otherwise the next that does. Where the clock is
+missing on it, or on every camera the sound placed, the camera stays out
+and is named, as above.
 
 ### How the run reads a clock instead of a counter
 
@@ -331,11 +336,14 @@ exist.
   camera's own sound go in. The recordings themselves are in
   `auphonic-tracks/`, one file each.
 - **A video file is missing from the result.** The run could not place
-  it: its sound has nothing in common with the rest of the material and
-  it carries no timecode. Give it one that fits the other recordings,
-  with another program, or set it to **ignore this video** in the column
-  **Kind** of the file list so it does not take part. In the window the
-  program proposes that by itself ([The interface](interface.md)).
+  it: its sound has nothing in common with the rest of the material, and
+  it carries no timecode, or no camera the sound placed carries one to
+  set its own against. Give it a timecode that fits the other
+  recordings, with another program -- where it has one already, one of
+  those cameras needs a timecode fitting it -- or set it to **ignore
+  this video** in the column **Kind** of the file list so it does not
+  take part. In the window the program proposes that by itself
+  ([The interface](interface.md)).
 
 The video now holds the finished mix and the camera's own sound, and the
 recordings lie beside it as files. What auphonic.com does to the mix is
