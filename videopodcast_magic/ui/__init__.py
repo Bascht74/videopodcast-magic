@@ -1393,6 +1393,7 @@ mac_menu_name = PROGRAM.mac_menu_name
 make_footer = PROGRAM.make_footer
 mark_red = PROGRAM.mark_red
 more_speakers_row = PROGRAM.more_speakers_row
+path_label = PROGRAM.path_label
 qt_own_words = PROGRAM.qt_own_words
 say_dialog = PROGRAM.say_dialog
 speaker_name_cell = PROGRAM.speaker_name_cell
@@ -2766,7 +2767,7 @@ def gui():
     folder_bar.addWidget(hint(
         folder_button, T('If empty: next to each video file.')))
     speaks_as(folder_button, T('Choose the output folder'))
-    folder_label = label(T('next to each video file'), COLOURS["quiet"])
+    folder_label = path_label(T('next to each video file'), COLOURS["quiet"])
     speaks_as(folder_label, T('Output folder'))
     folder_bar.addWidget(folder_label)
     reset = QtWidgets.QPushButton(T('reset'))
@@ -2779,7 +2780,7 @@ def gui():
 
     def folder_show():
         d = out_folder.get()
-        folder_label.setText(d if d else T('next to each video file'))
+        folder_label.say(d if d else T('next to each video file'))
         reset.setVisible(bool(d))
 
     def folder_pick():
