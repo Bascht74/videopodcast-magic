@@ -182,7 +182,7 @@ def extract_audio_from_video(file_path, tmpdir):
             # by the editor, never by a person: plain digits.
             command += ["-metadata",
                        "time_reference=%d" % int(round(t0 * SR))]
-            print("  Timecode %s" % info["tc"])
+            print("  " + T('Timecode %s') % info["tc"])
         except Exception:
             pass
     show_progress(T('Camera audio'), 0.0)

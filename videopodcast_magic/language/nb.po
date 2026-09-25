@@ -1906,9 +1906,6 @@ msgstr " (spiller)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- et inn- eller ut-punkt sparer opplastingen"
 
-msgid " -- not readable"
-msgstr " -- ikke lesbart"
-
 msgid " -- nothing to fault."
 msgstr " -- ingenting å utsette."
 
@@ -4841,3 +4838,48 @@ msgstr "ffmpeg og ffprobe mangler."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s inneholder en talerseparering av et opptak som siden er endret eller borte, eller fra en annen modell -- den brukes ikke."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bit, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 bit flyttall, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matrise %s"
+
+msgid "%d bit"
+msgstr "%d bit"
+
+msgid "%d bit -- not readable"
+msgstr "%d bit -- ikke lesbar"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Programvare %s"
+
+msgid "colr box"
+msgstr "colr-boks"
+
+msgid "Codec"
+msgstr "Kodek"
+
+msgid "Bitrate"
+msgstr "Bitrate"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINES"
+
+msgid "\n  Import"
+msgstr "\n  Import"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

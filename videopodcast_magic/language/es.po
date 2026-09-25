@@ -2358,9 +2358,6 @@ msgstr " -- 1 nota: %s"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- un punto de entrada o de salida ahorra la subida"
 
-msgid " -- not readable"
-msgstr " -- no legible"
-
 msgid " -- nothing to fault."
 msgstr " -- nada que objetar."
 
@@ -4840,3 +4837,48 @@ msgstr "ffmpeg y ffprobe faltan."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s contiene una separación de hablantes de una grabación que ha cambiado o ya no existe desde entonces, o de otro modelo -- no se usa."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bits, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, coma flotante de 32 bits, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matriz %s"
+
+msgid "%d bit"
+msgstr "%d bits"
+
+msgid "%d bit -- not readable"
+msgstr "%d bits -- no legible"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Software %s"
+
+msgid "colr box"
+msgstr "caja colr"
+
+msgid "Codec"
+msgstr "Códec"
+
+msgid "Bitrate"
+msgstr "Tasa de bits"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINES"
+
+msgid "\n  Import"
+msgstr "\n  Importación"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

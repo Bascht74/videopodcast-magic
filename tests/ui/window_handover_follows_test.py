@@ -63,6 +63,7 @@ os.makedirs(run_folder)
 
 
 def tone(name, hz=300.0):
+    """A mono sine of SEC seconds written as a WAV file; its path."""
     path = os.path.join(folder, name)
     t = np.arange(SEC * RATE) / float(RATE)
     with wave.open(path, "wb") as f:
@@ -75,6 +76,7 @@ def tone(name, hz=300.0):
 
 
 def clip(name):
+    """A small camera file of SEC seconds, picture and sound; its path."""
     path = os.path.join(folder, name)
     subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
                     "testsrc=size=160x90:rate=25:duration=%d" % SEC,
@@ -94,6 +96,7 @@ HANDOVER = os.path.join(run_folder, "Episode_resolve.json")
 
 
 def a_camera(source, name, speakers, wide):
+    """One camera as a handover writes it, over the whole length."""
     return {"file": source, "source": source, "camera": name,
             "track": name, "speakers": speakers, "audio_tracks": [],
             "offset": 0.0, "duration": LENGTH, "fps": 25.0,
@@ -137,6 +140,7 @@ _really_find = vpm.find_handover_file
 
 
 def _watched(*places, **kw):
+    """The real search for a handover, each answer kept in found."""
     got = _really_find(*places, **kw)
     found.append(got)
     return got
@@ -152,12 +156,14 @@ def same(a, b):
 
 
 def win():
+    """The program's main window, or None while it is not up."""
     for x in app.topLevelWidgets():
         if "Video Podcast Magic" in x.windowTitle():
             return x
 
 
 def button(word):
+    """The window's button whose caption begins with word, or None."""
     for w in win().findChildren(QtWidgets.QPushButton):
         if w.text().strip().startswith(word):
             return w
@@ -220,6 +226,15 @@ def waited_for(what, ok):
 
 
 def step():
+    """The pass in four steps, one per timer tick, the step count in n.
+
+    First the project is opened. Second, once the button is usable,
+    whether the handover taken up is the run's own, and the leaving
+    camera is taken out of the list. Third, once it is gone, whether the
+    button is grey, and the camera is added again. Fourth, whether it
+    is back in the list with the button and the same handover. A step
+    whose window has not caught up raises NotYet and is asked again.
+    """
     i = n[0]
     try:
         if i == 0:

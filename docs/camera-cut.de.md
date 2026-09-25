@@ -251,6 +251,10 @@ Die Zeile nennt auch die beiden Auswege; einer von beiden genügt:
 Mehrere Weitwinkel nebeneinander sind auf beiden Wegen erlaubt. Der
 Schnitt nimmt einen davon, und das Protokoll sagt, wie viele es sind und
 welchen es genommen hat, statt im Stillen eine Mehrheit auszurechnen.
+Auch das Fenster sagt es, und zwar in der Liste des Feldes **Typ** bei
+jedem weiteren Weitwinkel: Dort steht **der Schnitt nimmt** und dahinter
+die Kamera, mit dem Namen, den das Fenster ihr gibt. Heißen zwei Dateien
+`C0003.MP4`, trägt die zweite dort den Namen `C0003.MP4 (2)`.
 
 Eine Zahl, die schon in einem grau gewordenen Feld steht, bleibt
 erhalten, und der Lauf richtet sich ebenso wenig nach ihr: ohne

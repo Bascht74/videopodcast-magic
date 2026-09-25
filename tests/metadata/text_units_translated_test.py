@@ -2,13 +2,15 @@
 """A file's details say their units and headings in the reader's language.
 
 First the details the file list shows under two sound files and a camera
-file, in German: bit depth, channel words, picture heading. Then the
-same under a catalogue of the test's own that marks every text it hands
-out, asked for a word outside every mark -- a unit glued on beside a
-number, kHz, MB and fps among them. Limits: the list itself is not
-opened; its colour and camera rows are resolve/'s and left out; and a
-word handed into a text as a value sits inside that text's marks, which
-is why the channel words are asked in German.
+file, in German: bit depth, channel words, picture heading, and the bit
+depth in the colour row. Then the same under a catalogue of the test's
+own that marks every text it hands out, asked for a word outside every
+mark -- a unit glued on beside a number, kHz, MB and fps among them --
+and the preflight's lines on the two sound files with them. Limits: the
+list itself is not opened; the colour row's names and the camera row
+come out of the file and are left out of the marks; and a word handed
+into a text as a value sits inside that text's marks, which is why the
+channel words are asked in German.
 """
 import os
 import re
@@ -112,6 +114,10 @@ try:
           "Bild" in headings and "Video" not in headings,
           "the rows are headed %r -- wanted %r among them and %r not"
           % (headings, "Bild", "Video"))
+    said = dict(camera).get(vpm.T('Colour'), "")
+    check("the camera file's colour row says its bit depth in German",
+          "8 Bit" in said and "8 bit" not in said,
+          "%r -- wanted %r in it and %r not" % (said, "8 Bit", "8 bit"))
 
     print("\n2. Every word in them comes out of the catalogue")
 
@@ -159,6 +165,15 @@ try:
           "language %r; %d of %d rows asked, %d carry a word no text "
           "holds: %s" % (taken, len(own), len(camera), len(left),
                          "; ".join(left)[:300]))
+    # Only the text: the field beside it is the file's own name.
+    lines = [("", x.text) for p in (DEEP, FLOAT)
+             for x in vpm.check_audio_file(p)[0]]
+    left = glued(lines)
+    check("no word the preflight says about a sound file is set outside "
+          "the catalogue",
+          len(lines) >= 2 and not left,
+          "language %r; %d lines asked, %d carry a word no text holds: %s"
+          % (taken, len(lines), len(left), "; ".join(left)[:300]))
 except Exception:
     import traceback
     traceback.print_exc()

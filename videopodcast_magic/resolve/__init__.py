@@ -595,7 +595,7 @@ def colour_text(file_path, v, tags):
         # Where the matrix says the same as the primaries, once is enough.
         if (mat and mat != 2
                 and MATRIX_NAMES.get(mat) != PRIMARIES_NAMES.get(prim)):
-            parts.append("Matrix %s"
+            parts.append(T('Matrix %s')
                          % MATRIX_NAMES.get(mat, T('Number %d') % mat))
         if not parts:
             parts.append(T('Curve and colour space are missing from the file'))
@@ -611,7 +611,7 @@ def colour_text(file_path, v, tags):
                 parts.append(str(v[api_key]))
     n = bit_depth(v)
     if n:
-        parts.append("%d bit" % n)
+        parts.append(T('%d bit') % n)
     source_text = _log_in_colour_tags(tags)
     if source_text and not hdr:
         parts.append(T('Log according to camera data'))
@@ -637,7 +637,7 @@ def camera_text(tags):
     # Some cameras put their own name in "encoder" and in no other key.
     software = d.get("software") or d.get("firmware") or d.get("encoder") or ""
     if device and software:
-        return "%s  --  Software %s" % (device, software)
+        return T('%s  --  Software %s') % (device, software)
     return device or software or T('no information in the file')
 
 
@@ -689,7 +689,7 @@ def hdr_findings(file_path):
     values = mov_colour_tags(file_path)
     if not values:
         out.append(Finding(
-            "abort", "colr box",
+            "abort", T('colr box'),
             T('missing -- the container carries no colour tagging'),
             T('Without it every player has to guess, and all guess SDR. In '
               'Resolve under Deliver > Advanced Settings set the Color '
@@ -733,7 +733,8 @@ def hdr_findings(file_path):
     depth = bit_depth(track)
     out.append(Finding(
         "good" if depth >= 10 else "abort", T('Bit depth'),
-        "%d bit%s" % (depth, "" if depth else T(' -- not readable')),
+        T('%d bit') % depth if depth
+        else T('%d bit -- not readable') % depth,
         "" if depth >= 10 else
         T('Eight bits are not enough for HDR: every gradient bands, and '
           'YouTube requires ten or twelve.')))
@@ -748,7 +749,7 @@ def hdr_findings(file_path):
               'sits under Deliver as "Profile".')))
     elif codec:
         out.append(Finding(
-            "hint" if depth < 10 else "good", "Codec",
+            "hint" if depth < 10 else "good", T('Codec'),
             "%s %s" % (codec.upper(), profile),
             T('For HDR the usual choice is HEVC (Main 10), AV1 or VP9 '
               'Profile 2. YouTube takes H.264 too, but it needs more '
@@ -1189,11 +1190,12 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
                     'tag %s.')
                   % (T('Tagging'), " " * 28, " " * 28,
                      "ST.2084" if kind == "pq" else "HLG"))
-    print("    %-22s %s / %s" % ("Format", fname or format_id,
+    print("    %-22s %s / %s" % (T('Format'), fname or format_id,
                                  cname or codec_id))
-    print("    %-22s %dx%d, %g fps" % (T('Video'), width, height, fps))
+    print(T('    %-22s %dx%d, %s fps') % (T('Video'), width, height,
+                                         number_text(fps, None)))
     print(T('    %-22s %s kbit/s  (YouTube recommendation for %s%s)')
-          % ("Bitrate", number_text(bitrate, 0),
+          % (T('Bitrate'), number_text(bitrate, 0),
              "HDR" if hdr else "SDR", T(' at high frame rates') if fps > 30.5
              else ""))
     # The interface has no key for the audio bitrate, so it is written down.
@@ -1971,7 +1973,7 @@ def print_audio_track_mapping():
     if not seen:
         print(T('    No clips found.'))
 
-    print("\n  TIMELINES")
+    print(T('\n  TIMELINES'))
     for i in range(1, (p.GetTimelineCount() or 0) + 1):
         tl = p.GetTimelineByIndex(i)
         if tl is None:
@@ -2764,7 +2766,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
                 'along) or "Use Local Grades". New Timelines\n    do not '
                 'need this.'))
 
-    print("\n  Import")
+    print(T('\n  Import'))
     mp = p.GetMediaPool()
     # The mix as its own file, so no audio track has to be guessed.
     mix = mix_file_from_handover(d)

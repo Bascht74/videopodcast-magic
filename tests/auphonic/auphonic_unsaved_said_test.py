@@ -81,11 +81,13 @@ deletes = []
 
 
 def store_refuses(key):
+    """The store's save: the key handed in is counted, and refused."""
     puts.append(key)
     return False
 
 
 def delete_stand_in():
+    """The store's delete: empties it, and says whether it held a key."""
     deletes.append(held[0])
     gone, held[0] = bool(held[0]), ""
     return gone
@@ -111,11 +113,13 @@ boxes = []
 
 
 def box_answered(self, *_args):
+    """A dialog that would wait: its title counted, turned down at once."""
     boxes.append(str(self.windowTitle()))
     return QtWidgets.QDialog.Rejected
 
 
 def ready_box_answered(*args, **_kw):
+    """A ready-made box: its title counted, and cancelled at once."""
     boxes.append(str(args[1]) if len(args) > 1 else "?")
     return QtWidgets.QMessageBox.Cancel
 
@@ -132,10 +136,12 @@ def drawn(text):
 
 
 def among(kind):
+    """Every widget of this kind the application holds now."""
     return [w for w in app.allWidgets() if isinstance(w, kind)]
 
 
 def key_field():
+    """The field the key is typed into, known by hiding what it holds."""
     for w in among(QtWidgets.QLineEdit):
         if w.echoMode() == QtWidgets.QLineEdit.Password:
             return w
@@ -143,6 +149,7 @@ def key_field():
 
 
 def connect_button():
+    """The button that checks the key, found by its caption."""
     for b in among(QtWidgets.QPushButton):
         if drawn(b.text()).strip() == vpm.T('Connect'):
             return b
@@ -150,6 +157,7 @@ def connect_button():
 
 
 def keep_box():
+    """The tick that keeps the key, found by any of its three captions."""
     said = {vpm.T('Save in Keychain'), vpm.T('Save in Registry'),
             vpm.T('Keep it saved')}
     for b in among(QtWidgets.QCheckBox):
@@ -186,6 +194,15 @@ def waited_for(condition, why):
 
 
 def drive():
+    """The sections in print order; none past the first without the window.
+
+    First the window as it starts -- field, button and tick up, the tick
+    on; then a key typed and checked against the refusing store -- the
+    save asked, the tick back, the stored key kept, the sentence in both
+    places. After that unfitting, nothing_refused and ticked_by_hand
+    take the third to fifth sections, the fourth only where the third
+    gave back what the note begins with.
+    """
     print("1. The window as it starts")
     took = waited_for(lambda: key_field() and connect_button()
                       and keep_box(), "the key field, button and tick")

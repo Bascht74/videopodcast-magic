@@ -570,7 +570,7 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         for j in range(i + 1, len(tracks)):
             found = solve_pair_offsets(measurements2, i, j)
             if found:
-                parts.append("%s/%s %s ms %s ppm"
+                parts.append(T('%s/%s %s ms %s ppm')
                              % (tracks[i]["name"], tracks[j]["name"],
                                 number_text(found[1], 1, plus=True),
                                 number_text(found[2], 1, plus=True)))

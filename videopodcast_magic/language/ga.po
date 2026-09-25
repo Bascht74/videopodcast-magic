@@ -1942,9 +1942,6 @@ msgstr " (ag seinm)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- sábhálann pointe isteach nó amach an uaslódáil"
 
-msgid " -- not readable"
-msgstr " -- doléite"
-
 msgid " -- nothing to fault."
 msgstr " -- gan locht ar bith."
 
@@ -4979,3 +4976,48 @@ msgstr "Tá ffmpeg agus ffprobe ar iarraidh."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s: tá scaradh cainteoirí ann ó thaifeadadh a d'athraigh nó atá imithe ó shin, nó ó shamhail eile -- ní úsáidtear é."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s giotán, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, snámhphointe 32 giotán, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Maitrís %s"
+
+msgid "%d bit"
+msgstr "%d giotán"
+
+msgid "%d bit -- not readable"
+msgstr "%d giotán -- doléite"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Bogearraí %s"
+
+msgid "colr box"
+msgstr "bosca colr"
+
+msgid "Codec"
+msgstr "Codec"
+
+msgid "Bitrate"
+msgstr "Ráta giotán"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINES"
+
+msgid "\n  Import"
+msgstr "\n  Iompórtáil"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

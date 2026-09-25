@@ -1,6 +1,6 @@
 # The test suite
 
-330 tests against the program in `../videopodcast_magic/`. Every one of them stands
+331 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -246,7 +246,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-330 tests. The name is the one a red line carries, and beside it the
+331 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -427,6 +427,7 @@ it is green.
 | `project_amounts_grouped` | Resolve's report writes amounts as the language does, addresses not. |
 | `project_audio_counted` | A camera's audio tracks are counted in its file, timecode not among them. |
 | `project_cameras_land` | Every camera reaches the timeline on picture and sound tracks of its own. |
+| `project_close_forgets` | Closing a project forgets the handovers remembered for its cameras. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
 | `project_errors_reach_run` | A --resolve run whose Resolve build refused a track ends in 1, not 0. |
 | `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
@@ -670,7 +671,7 @@ the source, the texts and the documents as a whole.
 | `player/` | `cut_box_fits_the_picture`, `cut_note_moves_no_shot`, `cut_note_says_who_speaks`, `cut_player_in_sync`, `cut_player_jump_lands`, `cut_player_right_file`, `cut_player_speeds_up`, `window_blocks_placed`, `window_clock_sound_said`, `window_cut_colours`, `window_no_full_screen`, `window_not_started_said`, `window_notes_break_up`, `window_picture_returns`, `window_sound_fault_named`, `window_tc_point_named`, `window_zoom_stays_in` |
 | `preflight/` | `auphonic_preset_fits`, `files_lengths_summed`, `files_line_counts_misfit`, `files_set_aside_skipped`, `files_sync_one_recording`, `files_twin_cameras_named`, `run_dry_run_not_stopped`, `run_findings_reach_both`, `run_odd_clock_named`, `run_rate_way_said_right`, `run_space_has_margin`, `sound_bleed_reported`, `table_notes_in_one_row`, `window_size_as_run` |
 | `prework/` | `window_prework_box_goes` |
-| `project/` | `files_project_first`, `files_project_offered`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `window_restart_carries` |
+| `project/` | `files_project_first`, `files_project_offered`, `project_close_forgets`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `window_restart_carries` |
 | `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `cut_own_rate_counted`, `cut_wide_colour_apart`, `files_hdr_complete`, `files_named_as_written`, `project_amounts_grouped`, `project_audio_counted`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_markers_placed`, `project_mix_by_name`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_top_rate_wins`, `project_two_stay_two`, `project_two_timelines_go` |
 | `running/` | `window_overwrite_asked`, `window_start_runs` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_kept`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_install_is_watched` |
