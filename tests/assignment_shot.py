@@ -414,6 +414,21 @@ def step():
                 under = sum(1 for d, _c in rows if d)
                 print("Tree rows: %d, of them %d under a recording"
                       % (len(rows), under))
+                # The project gives the recordings cameras. Each of them
+                # standing on "no camera" is the assignment coming back
+                # empty, which a picture shows prettier than it is.
+                belongs = vpm.T('belongs to')
+                nowhere = vpm.label_of(vpm.MIX_ONLY)
+                c = tree[0].index(belongs) if belongs in tree[0] else None
+                if c is None:
+                    fail("the tree has no %r column" % belongs)
+                given = [cells[c] for _d, cells in rows
+                         if c is not None and cells[c].strip()]
+                if c is not None and rows and not given:
+                    fail("the %r column is empty in every row" % belongs)
+                if given and all(g == nowhere for g in given):
+                    fail("every one of %d recordings stands on %r -- the "
+                         "assignment came back empty" % (len(given), nowhere))
             if cameras is None:
                 fail("no list on this sheet has a %r column -- the "
                      "camera table is not in the picture. Columns "

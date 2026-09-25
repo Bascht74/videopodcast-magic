@@ -21,7 +21,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import sys, time
+import shutil, sys, tempfile, time
 vpm = the_program.load()
 
 began = time.time()
@@ -36,21 +36,20 @@ def check(name, ok, extra=""):
     if not ok:
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
-D = "/tmp/axis"
+# A folder of this run's own: a fixed one outlives the run, is shared
+# with whoever else runs it, and hands its material to the next run.
+D = tempfile.mkdtemp(prefix="axis_")
 A, B, C = D + "/A.wav", D + "/B.wav", D + "/C.wav"
 FOREIGN = D + "/foreign.wav"
 
 def build_material():
     """Three excerpts of the same event, plus a file that does not fit.
 
-    Built here when needed -- a test that hangs on material from an
+    Built here every run -- a test that hangs on material from an
     earlier run reports an error at some point that does not exist.
     """
-    import os, wave
+    import wave
     import numpy as np
-    if all(os.path.exists(x) for x in (A, B, C, FOREIGN)):
-        return
-    os.makedirs(D, exist_ok=True)
     r, n = 48000, 45 * 48000
     rng = np.random.default_rng(7)
     x = (rng.standard_normal(n) * 0.004).astype(np.float32)
@@ -253,6 +252,7 @@ check("a project file written before the verdict was kept opens as it did",
         % (vpm.axis_still_valid({"timeline": before}, [A, B]) is not None,
            vpm.axis_still_valid({"timeline": before}, [A, B, FOREIGN])))
 
+shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

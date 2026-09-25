@@ -100,9 +100,11 @@ check("without separation the result is unusable",
         str(plain_s))
 check("with separation almost nothing lands in the other turn",
         wrong_share(apart) < 5.0, "%.0f %%" % wrong_share(apart))
-for n in ("Host", "Guest"):
-    got = speech_seconds(apart)[n]
-    check("%s keeps their own 30 s" % n, 24.0 <= got <= 33.0, str(got))
+got = speech_seconds(apart)
+check("the host keeps their own 30 s", 24.0 <= got["Host"] <= 33.0,
+      "%.1f s against the 30 s built" % got["Host"])
+check("the guest keeps their own 30 s", 24.0 <= got["Guest"] <= 33.0,
+      "%.1f s against the 30 s built" % got["Guest"])
 
 print("\n2. And the cut follows from it")
 camera_of = {"Host": "CamHost", "Guest": "CamGuest"}
