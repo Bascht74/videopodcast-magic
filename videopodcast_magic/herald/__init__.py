@@ -606,9 +606,10 @@ def redirect_console():
     # Where the old log cannot be renamed -- on Windows while another
     # copy holds it open -- this run follows it in the same file rather
     # than going unwritten, and the lines moved above follow its head.
+    # An empty one is not renamed: it would put nothing over the kept one.
     mode = "w"
     try:
-        if os.path.exists(file_path):
+        if os.path.exists(file_path) and os.path.getsize(file_path):
             os.replace(file_path, before_value)
     except OSError:
         mode = "a"
