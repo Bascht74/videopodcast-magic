@@ -109,6 +109,7 @@ files_twin_cameras_named	4
 project_amounts_grouped	3
 project_audio_counted	3
 project_cameras_land	23
+project_close_forgets	2
 project_each_track_set	5
 project_errors_reach_run	4
 project_every_offset	11
@@ -201,7 +202,7 @@ sound_silent_no_pair	3
 sound_speakers_matched	9
 sound_stereo_kept	28
 sound_tracks_written	28
-source_checks_proved	22
+source_checks_proved	23
 source_floor_needs_main	17
 source_imported_is_whole	5
 source_limits_hold	17
@@ -228,7 +229,7 @@ table_names_one_order	11
 table_names_reach_camera	10
 table_no_place_not_wide	25
 table_notes_in_one_row	6
-table_one_entry_greyed	41
+table_one_entry_greyed	44
 table_pair_named_alike	5
 table_pair_seats_apart	10
 table_recording_shown	15
@@ -251,7 +252,7 @@ text_release_ready	36
 text_shown_catalogued	11
 text_skills_listed	12
 text_tests_listed	15
-text_units_translated	7
+text_units_translated	9
 text_whole_sentences	5
 time_all_ways_agree	151
 time_axis_keys_agree	13
@@ -316,7 +317,7 @@ window_amounts_grouped	10
 window_answers_arrive	39
 window_axis_asks_again	2
 window_blocks_placed	6
-window_captions_fit	432
+window_captions_fit	480
 window_choices_refit	4
 window_clock_sound_said	7
 window_cut_colours	8
@@ -347,7 +348,7 @@ window_reads_as_chosen	15
 window_restart_carries	17
 window_run_handover_kept	8
 window_setup_kept_apart	19
-window_sheets_fit	14
+window_sheets_fit	28
 window_size_as_run	6
 window_sound_fault_named	5
 window_speaker_cell_fits	16
