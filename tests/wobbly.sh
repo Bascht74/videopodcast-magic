@@ -16,7 +16,8 @@
 # Two shapes are counted apart, because they are two faults. "beside"
 # is a test that lost against its neighbours and won alone: contention.
 # "crashed" is a test that died and came back: a return code above 128
-# is a signal, and the number says which.
+# is a signal, and the number says which. "at exit" behind it says the
+# test had printed its closing line first, so Python fell on its way out.
 #
 #   bash wobbly.sh              read the runs not yet read, then report
 #   bash wobbly.sh 40           look that far back (default 20)
@@ -141,11 +142,30 @@ while IFS=$'\t' read -r id when tries; do
       # A signal is anything over 128, and the number says which one.
       # Below that it is an ordinary failure, and calling that a crash
       # is what sent an earlier reading of this file down a false path.
-      if (match(line, /[0-9]+\/[0-9]+ +[a-z0-9_]+ +RED \(rc=[0-9]+\)/)) {
+      # The number Windows itself gives an access violation is taken as
+      # well, should a log ever carry it; run.sh hands on eight bits, 139.
+      if (match(line, /[0-9]+\/[0-9]+ +[a-z0-9_]+ +RED \(rc=-?[0-9]+\)/)) {
         hit = substr(line, RSTART, RLENGTH)
         split(hit, w, /[ \t]+/)
         rc = hit; sub(/.*rc=/, "", rc); sub(/\).*/, "", rc)
-        fell[job "\t" w[2]] = (rc + 0 > 128 ? "crashed rc=" rc : "beside rc=" rc)
+        fell[job "\t" w[2]] = (rc + 0 > 128 || rc == "3221225477" \
+          || rc == "-1073741819" ? "crashed rc=" rc : "beside rc=" rc)
+      }
+      # A crash that came back green never had a RED progress line, and
+      # was written "unknown". Its account stands under its name in the
+      # closing summary: "  name  ok" at two blanks, then "crashed (rc=139,
+      # after its last line)" -- the second half meaning it fell on exit.
+      text = $3
+      sub(/^[0-9-]+T[0-9:.]+Z /, "", text); sub(/\r$/, "", text)
+      if (match(text, /^  [a-z0-9_]+ +(ok|RED \(rc=-?[0-9]+\))$/)) {
+        split(text, w, / +/)
+        under[job] = w[2]
+      } else if ((job in under) \
+                 && match(text, /crashed \(rc=-?[0-9]+(, after its last line)?\)/)) {
+        hit = substr(text, RSTART, RLENGTH)
+        rc = hit; sub(/.*rc=/, "", rc); sub(/[,)].*/, "", rc)
+        how[job "\t" under[job]] = "crashed rc=" rc \
+          (hit ~ /after its last line/ ? " at exit" : "")
       }
     }
     END {
@@ -158,7 +178,7 @@ while IFS=$'\t' read -r id when tries; do
       for (k in seen) {
         split(k, part, "\t")
         printf "%s\t%s\t%s\t%s\t%s\n", id, day, part[1], part[2],
-               (k in fell ? fell[k] : "unknown")
+               ((k in how) ? how[k] : ((k in fell) ? fell[k] : "unknown"))
       }
     }' "$log" > "$found"
   if [ -s "$found" ]; then
