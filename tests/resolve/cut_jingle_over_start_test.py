@@ -6,6 +6,8 @@ second picture track, its sound carrying under the first words. The
 content moves back far enough for the jingle to finish speaking and no
 further, or the timeline starts with a hole. Where the first word comes
 late enough by itself, nothing moves and the jingle goes into the run-up.
+The second tracks it lies on are asked for, as Resolve makes a timeline
+with one of each and lays nothing on a track that is not there.
 """
 import os
 import sys
@@ -18,7 +20,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import sys, time
+import math, sys, time
 vpm = the_program.load()
 FPS = 30.0
 began = time.time()
@@ -56,8 +58,17 @@ class Item(object):
 
 
 class TL(object):
+    """A timeline as Resolve makes one: one video and one audio track."""
     def __init__(self, mp=None):
         self.mp = mp
+        self.tracks = {"video": 1, "audio": 1}
+
+    def GetTrackCount(self, kind):
+        return self.tracks[kind]
+
+    def AddTrack(self, kind, *rest):
+        self.tracks[kind] += 1
+        return True
 
     def SetStartTimecode(self, tc):
         return True
@@ -73,12 +84,25 @@ class TL(object):
 
 
 class MP(object):
+    """Lays an item only on a track the timeline has, as Resolve does."""
     def __init__(self):
         self.item = []
+        self.asked = []
+        self.tl = None
 
     def AppendToTimeline(self, items):
-        self.item += items
-        return items
+        self.asked += items
+        kinds = {1: "video", 2: "audio"}
+        laid = [x for x in items if x["trackIndex"]
+                <= self.tl.GetTrackCount(kinds[x["mediaType"]])]
+        self.item += laid
+        return laid
+
+
+# How many video and audio tracks the last timeline built ended with,
+# and every item it asked for, laid or not, in the shape of `where`.
+TRACKS = []
+ASKED = []
 
 
 def run(intro_len, word0, outro_len=None, word1=100.0, audio=True,
@@ -107,28 +131,45 @@ def run(intro_len, word0, outro_len=None, word1=100.0, audio=True,
              "/o.mov": Clip("o"), "mix.wav": Clip("mix")}
     mp = MP()
     tl = TL(mp)
+    mp.tl = tl
     fps, origin = vpm.timeline_origin(d)
     lead_in = vpm.lead_in_offset(mp, tl, d, clips, fps, origin)
     vpm.build_cut_timeline(mp, tl,
                            [{"start": 0.0, "end": 120.0, "camera": "C"}],
                            cameras, clips, d, ("mix.wav", "Test"), lead_in)
     vpm.insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in)
-    where = [(x["trackIndex"], {1: "video", 2: "audio"}[x["mediaType"]],
-              x["mediaPoolItem"].GetName(),
-              (x["recordFrame"] - origin) / fps) for x in mp.item]
-    return lead_in / fps, where
+    TRACKS[:] = [tl.GetTrackCount("video"), tl.GetTrackCount("audio")]
+    ASKED[:] = spots(mp.asked, origin)
+    return lead_in / fps, spots(mp.item, origin)
+
+
+def spots(items, origin):
+    """Each item as (track, "video" or "audio", clip name, start in s)."""
+    return [(x["trackIndex"], {1: "video", 2: "audio"}[x["mediaType"]],
+             x["mediaPoolItem"].GetName(), (x["recordFrame"] - origin) / FPS)
+            for x in items]
 
 
 def at(where, track, kind, name):
+    """Where the clip starts on that track, in seconds; NaN where it is not.
+
+    Not None: a sum or a comparison with it would end the test in a
+    traceback, where NaN turns every judgement on it red and goes on.
+    """
     for t, k, n, start in where:
         if t == track and k == kind and n.startswith(name):
             return start
-    return None
+    return float("nan")
 
 
 print()
 print("1. A jingle whose sound runs to 8 s, first word at 3 s")
 lead, where = run(10.0, 3.0, audio_until=8.0)
+# First: without the tracks nothing below has anywhere to lie.
+check("the jingle's second picture and sound tracks are asked for",
+      TRACKS == [2, 2],
+      "the timeline ends with %r video and audio tracks against [2, 2]"
+      % (TRACKS,))
 check("the content moves back by five seconds", abs(lead - 5.0) < 0.01,
       "%.2f s" % lead)
 check("so the first word falls at 8 s, where the jingle stops",
@@ -175,8 +216,10 @@ check("and it is inside the timeline",
 print("\n4. A jingle without sound")
 lead, where = run(10.0, 3.0, audio=False)
 check("the content still moves out of the way", lead > 0, "%.2f s" % lead)
+# Asked, not laid: without its sound the jingle gets no second audio
+# track, and nothing is laid on a track that is not there.
 check("but only the picture is laid in",
-      at(where, 2, "audio", "i") is None, str(where))
+      math.isnan(at(ASKED, 2, "audio", "i")), "asked for %s" % (ASKED,))
 check("the jingle starts the timeline", at(where, 2, "video", "i") == 0.0,
       "at %s s, wanted 0.00" % (at(where, 2, "video", "i"),))
 
