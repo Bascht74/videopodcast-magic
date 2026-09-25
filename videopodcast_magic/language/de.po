@@ -2899,9 +2899,6 @@ msgstr " (läuft)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- ein In- oder Out-Punkt spart das Hochladen"
 
-msgid " -- not readable"
-msgstr " -- nicht lesbar"
-
 msgid " -- nothing to fault."
 msgstr " -- nichts zu bemängeln."
 
@@ -6625,3 +6622,48 @@ msgstr "ffmpeg und ffprobe fehlen."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s enthält eine Sprechertrennung einer Aufnahme, die sich seitdem geändert hat oder nicht mehr da ist, oder eines anderen Modells -- sie wird nicht verwendet."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s Bit, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 Bit Gleitkomma, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matrix %s"
+
+msgid "%d bit"
+msgstr "%d Bit"
+
+msgid "%d bit -- not readable"
+msgstr "%d Bit -- nicht lesbar"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Software %s"
+
+msgid "colr box"
+msgstr "colr-Box"
+
+msgid "Codec"
+msgstr "Codec"
+
+msgid "Bitrate"
+msgstr "Bitrate"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINES"
+
+msgid "\n  Import"
+msgstr "\n  Import"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

@@ -3589,9 +3589,6 @@ msgstr "limitato (Video/TV)"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Per la consegna si usa di solito l’intervallo limitato. Completo non è sbagliato, ma alcuni lettori lo interpretano male."
 
-msgid " -- not readable"
-msgstr " -- non leggibile"
-
 msgid "missing: %s"
 msgstr "mancano: %s"
 
@@ -4858,3 +4855,48 @@ msgstr "Mancano: ffmpeg e ffprobe."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s contiene una separazione dei parlanti di una registrazione che nel frattempo è cambiata o non c’è più, oppure di un altro modello -- non viene usata."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bit, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, float a 32 bit, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matrice %s"
+
+msgid "%d bit"
+msgstr "%d bit"
+
+msgid "%d bit -- not readable"
+msgstr "%d bit -- non leggibile"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Software %s"
+
+msgid "colr box"
+msgstr "box colr"
+
+msgid "Codec"
+msgstr "Codec"
+
+msgid "Bitrate"
+msgstr "Bitrate"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINE"
+
+msgid "\n  Import"
+msgstr "\n  Importazione"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"
