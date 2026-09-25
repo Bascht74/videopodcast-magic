@@ -2457,7 +2457,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     run placed by their clock alone, None where nothing was heard.
     """
     if not cameras:
-        return
+        return 0
     fps = timeline_frame_rate(args, videos, ref_clip)
     stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     # The written file carries the ending the run hangs on; the camera
@@ -2699,14 +2699,16 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             if os.path.exists(p):
                 print("  %s" % p)
     if js and getattr(args, "resolve", False):
+        # The build's code goes up to whoever called this step; a track
+        # Resolve refused twice is not a finished build.
         try:
-            build_resolve_project(handover, args.resolve_project,
-                          log=stem + "_resolve_log.txt",
-                          )
+            return build_resolve_project(handover, args.resolve_project,
+                                         log=stem + "_resolve_log.txt")
         except Exception as e:
             print(T('\n  Resolve part stopped: %s') % e)
             print(T('  %s is ready -- with --resolve-json it can be done '
                     'later.') % os.path.basename(js))
+    return 0
 
 def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                            tc_start, ref_clip, length, words=(),
