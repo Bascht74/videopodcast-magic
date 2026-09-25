@@ -608,13 +608,16 @@ def check_audio_file(file_path):
     rate = int(a.get("sample_rate") or 0)
     channels = int(a.get("channels") or 0)
     depth = a.get("bits_per_raw_sample") or a.get("bits_per_sample") or "?"
-    if str(a.get("sample_fmt", "")).startswith("flt"):
-        depth = "32f"
     duration = float(d.get("format", {}).get("duration") or 0.0)
-    out = [Finding("good", name[:24], "%s kHz, %s bit, %s, %s"
-                   % (number_text(rate / 1000.0, None), depth,
-                      channel_text(channels),
-                      as_hms(duration)))]
+    khz = number_text(rate / 1000.0, None)
+    # Float is a word and not a number, so it has a wording of its own.
+    if str(a.get("sample_fmt", "")).startswith("flt"):
+        said = T('%s kHz, 32 bit float, %s, %s') % (
+            khz, channel_text(channels), as_hms(duration))
+    else:
+        said = T('%s kHz, %s bit, %s, %s') % (
+            khz, depth, channel_text(channels), as_hms(duration))
+    out = [Finding("good", name[:24], said)]
     if rate and rate != SR:
         out.append(Finding(
             "fixed", "",
@@ -1093,7 +1096,7 @@ def loudness_choices():
     number -- nothing of ours adjusts. The caption goes through
     as_written, its minus sign being the difference between -16 and 16.
     """
-    out = [(target, as_written("%.0f LUFS (%s)" % (target, T(what_for))))
+    out = [(target, as_written(T('%.0f LUFS (%s)') % (target, T(what_for))))
            for target, what_for in PLATFORMS.values()]
     out.append((None, T('Take from source files')))
     return out
@@ -1187,7 +1190,7 @@ def loudness_field_build(into, value):
             # A value nobody can pick here, out of a project file or a
             # run with its own --lufs. Added rather than replaced:
             # opening a project must not change what it was set to.
-            box.addItem("%.0f LUFS" % value.get(), value.get())
+            box.addItem(T('%.0f LUFS') % value.get(), value.get())
             i = box.count() - 1
         if box.currentIndex() != i:
             box.setCurrentIndex(i)
@@ -1242,8 +1245,8 @@ def check_loudness_target(args, videos=()):
                        T('taken from the source files, no --lufs given -- '
                          'nothing is adjusted'))]
     near = [n for n, (lufs, _) in PLATFORMS.items() if abs(lufs - args.lufs) < 0.05]
-    text = "%.0f LUFS%s" % (args.lufs,
-                            "  (%s)" % T(PLATFORMS[near[0]][1]) if near else "")
+    text = (T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
+            if near else T('%.0f LUFS') % args.lufs)
     if lufs_does_nothing(args, videos):
         return [Finding("good", T('Loudness'),
                        T('%s is set, and nothing is adjusted here: the '
