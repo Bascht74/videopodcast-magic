@@ -72,6 +72,14 @@ state = {}
 
 
 def step():
+    """The pass in two steps, one per timer tick, the step count in n.
+
+    First, once the camera cut shows its drop-downs, whether they are
+    there and each holds its longest entry as built, and then the font
+    set half as large again through the style sheet. Second, once the
+    widths have stood still, whether each still holds its longest
+    entry and all still share one width; then the window is shut.
+    """
     i = n[0]
     if i == 0:
         if len(boxes()) < 2:

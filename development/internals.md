@@ -25,7 +25,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4377** -- the window and everything it shows, asks or offers,
+* `ui/` **4378** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3735** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -35,10 +35,10 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3153** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3026** -- who is on camera when, and what carries it out
+* `cut/` **3029** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2981** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2983** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2858** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   stored handover and a file name read as
 * `auphonic/` **1660** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1693** -- whether the material fits together before the
+* `preflight/` **1696** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `speech/` **1106** -- what is said and when, and what is written down
@@ -59,7 +59,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key
 * `hearing/` **966** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1095** -- helpers that shape what the window shows and
+* `fittings/` **1266** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down

@@ -31,6 +31,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import math
 import the_program
+from let_go import let_go_of, clean_up
 
 SCRIPT = the_program.SCRIPT
 import json
@@ -1025,79 +1026,6 @@ def bait_look():
           "%s, wanted %s" % (zero, OWN_ZERO))
     check("and the file is still lying there, ignored rather than eaten",
           os.path.exists(foreign_handover), foreign_handover)
-
-
-def let_go_of(what):
-    """Make every player let go of what it has open there.
-
-    A held file can still be moved under macOS and Linux, under Windows
-    it cannot, so nothing is moved before the players have let go.
-    Asked of every player by what it has open rather than by which one
-    it is, so a second holder does not go unnoticed. A player that
-    never started is not stopped: what lies behind stop() is built on
-    first use, and that building waits for a lock another player holds
-    while starting up, so the window never comes back.
-    """
-    what = os.path.realpath(what)
-    let_go = []
-    for top in app.topLevelWidgets():
-        for x in top.findChildren(QtCore.QObject):
-            if not (hasattr(x, "setSource") and hasattr(x, "source")):
-                continue
-            where = x.source()
-            if not isinstance(where, QtCore.QUrl):
-                continue
-            where = where.toLocalFile()
-            if not where:
-                continue
-            held = os.path.realpath(where)
-            if held != what and not held.startswith(what + os.sep):
-                continue
-            state = getattr(x, "playbackState", None)
-            state = state() if state is not None else None
-            if state is not None and state != type(state).StoppedState:
-                x.stop()
-            x.setSource(QtCore.QUrl())
-            let_go.append(os.path.basename(where))
-    app.processEvents()
-    return sorted(let_go)
-
-
-def clean_up(what):
-    """Close the window, then delete the folder, waiting for the grip.
-
-    gui() comes back with the window still standing: let go, close,
-    delete, in that order, and no ignore_errors -- it would swallow the
-    one thing that can go wrong here. Letting go returns before the file
-    is free, the backend closes the handle in a thread of its own, and
-    on Windows a held file cannot be deleted, so the handle is waited
-    for up to ten seconds. What is left after that is named rather than
-    turned red.
-    """
-    print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
-    for top in app.topLevelWidgets():
-        top.close()
-    app.processEvents()
-    clock = QtCore.QElapsedTimer()
-    clock.start()
-    while True:
-        left = []
-        try:
-            shutil.rmtree(what)
-        except OSError:
-            for here, _, files in os.walk(what):
-                left += [os.path.join(here, f) for f in files]
-            left = left or ([what] if os.path.exists(what) else [])
-        if not left or clock.elapsed() > 10000:
-            break
-        app.processEvents()
-        QtCore.QThread.msleep(50)
-    if left:
-        print("  the folder stayed: %d still held after %.1f s, first %s"
-              % (len(left), clock.elapsed() / 1000.0, left[0]))
-    else:
-        print("  the folder went away with the window, after %.1f s"
-              % (clock.elapsed() / 1000.0))
 
 
 def take_his_track_away():

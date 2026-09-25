@@ -477,10 +477,11 @@ masters to ([Preflight](preflight.md)).
   of its own -- lock nothing: the window tells them apart as the command
   line does. The second is `<name> 2` in the cut, in the **new file
   name** offered to it and in Resolve, and each keeps its own picture.
-  In the window's own lists -- the column **Camera** and the choice
-  under **belongs to** -- the second stands as `<name> (2)`, and resting
-  on it shows the whole path. A project saved by an older version knew
-  a camera by its file name alone: opened now, every row that named one
+  In what the window itself shows -- the column **Camera**, the choice
+  under **belongs to** and the note at a second wide shot -- the second
+  stands as `<name> (2)`, and resting on it shows the whole path. A
+  project saved by an older version knew a camera by its file name
+  alone: opened now, every row that named one
   of the two goes to the first file of that name, so the rows meant for
   the second have to be pointed at it again.
 - **Several cameras, no audio recording, and Start stays locked.** No

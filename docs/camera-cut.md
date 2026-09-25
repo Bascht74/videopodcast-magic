@@ -236,7 +236,10 @@ The line also names the two ways out, and either does:
 
 Several wide shots at once are allowed either way. The cut takes one of
 them, and the log says how many there are and which one it took, rather
-than working a majority out in silence.
+than working a majority out in silence. The window says so as well, in
+the list of the **Kind** field of every wide shot after the first:
+**the cut uses** and the camera, named as the window names it -- of two
+files called `C0003.MP4` the second is `C0003.MP4 (2)`.
 
 A number already in a grey field is kept, and the run does not act on it
 either: without a wide shot **Wide shot after** counts as 0, the tick as

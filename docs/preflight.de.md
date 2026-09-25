@@ -259,9 +259,11 @@ Millisekunden und wo die erste liegt. Der Hinweis hält nichts auf: eine
 Das Programm zählt nur bei Ganzzahlformaten. Ein Ganzzahlformat hat bei
 Vollausschlag einen Anschlag, und was darüber lag, ist nie in die Datei
 gekommen. Gleitkomma hat keinen Anschlag, und 0 dBFS ist dort eine Marke
-auf der Skala, keine Wand. Bei 16 und 24 Bit kommt am Anschlag dasselbe
-heraus; [What was measured](../development/measurements.md) (englisch)
-zeigt dieselbe übersteuerte Quelle in allen drei Formaten.
+auf der Skala, keine Wand. Eine Gleitkomma-Aufnahme erkennt man an
+ihrer Zeile im Bericht: Dort steht `32 Bit Gleitkomma`, wo bei den
+anderen nur die Bittiefe als Zahl steht. Bei 16 und 24 Bit kommt am
+Anschlag dasselbe heraus;
+[What was measured](../development/measurements.md) (englisch) zeigt dieselbe übersteuerte Quelle in allen drei Formaten.
 
 Ohne die Zählung bleibt ein übersteuerter Kanal unsichtbar. Das Programm
 misst den Master als Summe, und der Limiter zieht ihn unter −1 dBTP. Ein
