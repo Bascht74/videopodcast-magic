@@ -5990,9 +5990,6 @@ msgstr "unsicher -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "manuell gesetzt -- übersteuert die Messung"
 
-msgid "Language"
-msgstr "Sprache"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "beide Kanäle identisch -- Mono auf beide Seiten gelegt"
 
@@ -6667,3 +6664,6 @@ msgstr "\n  Import"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Sprache im Ton"

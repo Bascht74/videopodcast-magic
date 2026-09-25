@@ -4007,9 +4007,6 @@ msgstr "epävarma -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "asetettu käsin -- ohittaa mittauksen"
 
-msgid "Language"
-msgstr "Kieli"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "molemmat kanavat identtiset -- mono molemmilla puolilla"
 
@@ -4883,3 +4880,6 @@ msgstr "\n  Tuonti"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Äänen kieli"

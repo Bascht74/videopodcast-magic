@@ -852,9 +852,6 @@ msgstr "未使用的输入——已忽略"
 msgid "uncertain -- %s"
 msgstr "不确定 —— %s"
 
-msgid "Language"
-msgstr "语言"
-
 msgid "not set"
 msgstr "未设置"
 
@@ -4842,3 +4839,6 @@ msgstr "\n  导入"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "声音语言"

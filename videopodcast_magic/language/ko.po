@@ -4005,9 +4005,6 @@ msgstr "불확실 -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "수동 설정 -- 측정값보다 우선"
 
-msgid "Language"
-msgstr "언어"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "두 채널이 동일함 -- 양쪽에 모노를 넣은 것"
 
@@ -4840,3 +4837,6 @@ msgstr "\n  가져오기"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "오디오 언어"

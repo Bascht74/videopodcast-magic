@@ -858,9 +858,6 @@ msgstr "entrada sin usar -- ignorada"
 msgid "uncertain -- %s"
 msgstr "incierto -- %s"
 
-msgid "Language"
-msgstr "Idioma"
-
 msgid "not set"
 msgstr "sin definir"
 
@@ -4882,3 +4879,6 @@ msgstr "\n  Importación"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Idioma del sonido"

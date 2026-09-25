@@ -4005,9 +4005,6 @@ msgstr "không chắc -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "đặt thủ công -- ghi đè kết quả đo"
 
-msgid "Language"
-msgstr "Ngôn ngữ"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "hai kênh giống hệt nhau -- mono đặt ở cả hai bên"
 
@@ -4840,3 +4837,6 @@ msgstr "\n  Nhập"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Ngôn ngữ của âm thanh"

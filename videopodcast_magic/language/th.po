@@ -4098,9 +4098,6 @@ msgstr "ไม่แน่นอน -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "ตั้งค่าเอง -- ใช้แทนผลการวัด"
 
-msgid "Language"
-msgstr "ภาษา"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "ทั้งสองช่องเหมือนกัน -- วางโมโนไว้ทั้งสองข้าง"
 
@@ -4842,3 +4839,6 @@ msgstr "\n  การนำเข้า"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "ภาษาของเสียง"

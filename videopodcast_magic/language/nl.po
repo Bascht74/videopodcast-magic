@@ -4007,9 +4007,6 @@ msgstr "onzeker -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "met de hand ingesteld -- gaat boven de meting"
 
-msgid "Language"
-msgstr "Taal"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "beide kanalen identiek -- mono op beide kanten gelegd"
 
@@ -4883,3 +4880,6 @@ msgstr "\n  Import"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Taal van het geluid"

@@ -852,9 +852,6 @@ msgstr "未使用の入力 -- 無視しました"
 msgid "uncertain -- %s"
 msgstr "不確実 -- %s"
 
-msgid "Language"
-msgstr "言語"
-
 msgid "not set"
 msgstr "未設定"
 
@@ -4842,3 +4839,6 @@ msgstr "\n  読み込み"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "音声の言語"

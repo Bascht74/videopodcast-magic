@@ -4103,9 +4103,6 @@ msgstr "negotovo -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "nastavljeno ročno -- preglasi meritev"
 
-msgid "Language"
-msgstr "Jezik"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "oba kanala enaka -- mono na obeh straneh"
 
@@ -4976,3 +4973,6 @@ msgstr "\n  Uvoz"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Jezik zvoka"

@@ -4099,9 +4099,6 @@ msgstr "לא ודאי -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "הוגדר ידנית -- גובר על המדידה"
 
-msgid "Language"
-msgstr "שפה"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "שני הערוצים זהים -- מונו הונח בשני הצדדים"
 
@@ -4886,3 +4883,6 @@ msgstr "\n  ייבוא"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "שפת השמע"

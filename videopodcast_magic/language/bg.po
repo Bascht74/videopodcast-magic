@@ -4101,9 +4101,6 @@ msgstr "несигурно -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "зададено ръчно -- замества измерването"
 
-msgid "Language"
-msgstr "Език"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "двата канала са еднакви -- моно, поставено от двете страни"
 
@@ -4888,3 +4885,6 @@ msgstr "\n  Импортиране"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s мс %s ppm"
+
+msgid "Language of the sound"
+msgstr "Език на звука"

@@ -4101,9 +4101,6 @@ msgstr "nav droši -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "iestatīts manuāli -- aizstāj mērījumu"
 
-msgid "Language"
-msgstr "Valoda"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "abi kanāli identiski -- mono novietots abās pusēs"
 
@@ -4931,3 +4928,6 @@ msgstr "\n  Importēšana"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "Skaņas valoda"

@@ -4099,9 +4099,6 @@ msgstr "نامطمئن -- %s"
 msgid "set by hand -- overrides the measurement"
 msgstr "دستی تنظیم شده -- بر اندازه‌گیری مقدم است"
 
-msgid "Language"
-msgstr "زبان"
-
 msgid "both channels identical -- mono laid on both sides"
 msgstr "هر دو کانال یکسان -- مونو روی هر دو طرف گذاشته شد"
 
@@ -4886,3 +4883,6 @@ msgstr "\n  وارد کردن"
 
 msgid "%s/%s %s ms %s ppm"
 msgstr "%s/%s %s ms %s ppm"
+
+msgid "Language of the sound"
+msgstr "زبان صدا"
