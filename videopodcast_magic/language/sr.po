@@ -3036,9 +3036,6 @@ msgstr "нема података"
 msgid "no information in the file"
 msgstr "нема података у датотеци"
 
-msgid "no match in the middle either (%s)"
-msgstr "нема поклапања ни у средини (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "није нађено место где говори тачно једна особа -- раздвајање не може да се измери."
 
@@ -3717,9 +3714,6 @@ msgstr "откажи"
 msgid "cancelled"
 msgstr "отказано"
 
-msgid "edges implausible"
-msgstr "ивице неуверљиве"
-
 msgid "fixed: "
 msgstr "исправљено: "
 
@@ -3755,9 +3749,6 @@ msgstr "на тачку In"
 
 msgid "to Out point"
 msgstr "на тачку Out"
-
-msgid "too short"
-msgstr "прекратко"
 
 msgid "two Timelines"
 msgstr "два Timeline-а"
@@ -4880,3 +4871,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s датотека се не уклапа са осталима"
 msgstr[1] " -- %s датотеке се не уклапају са осталима"
 msgstr[2] " -- %s датотека се не уклапа са осталима"
+
+msgid "Cameras"
+msgstr "Камере"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Иста величина и трајање: %s -- можда је исти снимак двапут."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe више не отвара датотеку"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg и ffprobe недостају."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s садржи раздвајање говорника за снимак који се од тада променио или више не постоји, или из другог модела -- не користи се."

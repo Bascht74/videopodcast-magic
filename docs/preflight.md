@@ -33,6 +33,7 @@ The report holds for both modes.
 | Picture | frame rates of the cameras against each other | the timeline gets the highest of them, or the next rate Resolve has above it |
 | Picture | multi-part cameras: gap between the blocks | where picture is missing |
 | Picture | recording curve, colour tag and picture size of the cameras against each other | note naming which camera carries what |
+| Picture | two cameras that are one recording added twice | note |
 | Sound | sample rate, bit depth, channels, length | brought to 48 kHz, and it says so |
 | Sound | tracks much shorter than the longest | note |
 | Sound | samples on the stop, per channel | note, integer formats only |
@@ -86,6 +87,15 @@ Where several cameras carry different curves or different tags, each
 value stands on a line of its own with the cameras that have it.
 Written one after another they ran past the end of the column, and what
 was cut off was the camera name the reader was looking for.
+
+**One recording added twice is named, never stopped.** Two camera
+files with the same size and the same running time, which also begin
+and end alike, get a note under **GENERAL NOTES**, on a line headed
+**Cameras**: **`<name>, <name>`
+have the same size and running time -- possibly one recording twice.**
+The run goes on all the same; where the note is right, take the one too
+many out with **Remove**. Only the beginning and the end of each file
+are read for it, never the whole.
 
 ### What the report says about a variable frame rate
 

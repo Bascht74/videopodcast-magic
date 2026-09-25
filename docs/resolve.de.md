@@ -24,7 +24,8 @@ ist ein Lauf in diesem Fenster: was er geschrieben hat, ist dieses
 Material und nichts anderes, und der Knopf ist bedienbar, sobald der
 Lauf durch ist. Das andere ist **Projekt öffnen ...** — dabei sucht das
 Programm im Ausgabeordner und neben der Projektdatei und nimmt nur eine,
-die **genau die Kameras dieses Projekts** nennt. Eine aus einer anderen
+die **genau die Kameras dieses Projekts** nennt, wobei die Kameras
+mitzählen, die ihr Lauf ausgelassen hat. Eine aus einer anderen
 Produktion oder aus einer Runde über weniger Kameras übergeht es, als
 läge sie nicht da: ein Schnitt daraus sieht genauso aus wie ein frischer
 und ist es nicht. Ein Projekt lässt sich also öffnen und
@@ -49,10 +50,14 @@ der eine Kamera draußen gelassen hat: Diese Kamera nennt sie nie, und
 doch ist sie die Übergabe, mit der diese Liste gelaufen ist.
 
 Dieses Gedächtnis hält, solange das Fenster offen ist und das Projekt
-dasselbe bleibt; **Projekt schließen** löscht es. Ein neu
-geöffnetes Projekt nimmt nur eine Übergabe, die genau seine Kameras
-nennt; hat sein Lauf eine Kamera draußen gelassen, öffnet es also mit
-grauem Knopf, und es braucht noch einmal **Start**.
+dasselbe bleibt; **Projekt schließen** löscht es. Ein neu geöffnetes
+Projekt braucht es nicht: Die Übergabe führt auch die Kameras auf, die
+ihr Lauf draußen gelassen hat, und die gelten als genannt. Nach einem
+solchen Lauf steht der Knopf also gleich wieder bereit. Grau bleibt er,
+wenn nach dem Lauf eine Kamera in die Liste gekommen ist -- die hat der
+Lauf nie gesehen. Eine Übergabe aus einer älteren Fassung führt das
+Ausgelassene nicht auf; dann öffnet das Projekt mit grauem Knopf, und
+ein weiteres **Start** bringt es in Ordnung.
 
 Wer einen Ausgabeordner wählt oder mit **zurücksetzen** zu **neben der
 jeweiligen Videodatei** zurückkehrt, nimmt dem Knopf, was er hatte, und
@@ -529,7 +534,10 @@ Aufnahmekurve als Kennung steht, etwa
 Log erkennt — im `colr`-Block steht davon nichts. ffmpeg kann das Atom
 nicht erhalten, deshalb trägt das Script es nach dem Schreiben selbst
 nach, Byte für Byte aus der Quelle. Danach liest es nach, ob die Datei
-noch heil ist.
+noch heil ist: ob die Blöcke stehen, wo sie standen, und ob ffprobe sie
+noch öffnet. Ist sie es nicht, nimmt es das Atom wieder heraus, und im
+Protokoll steht `Atome nachtragen zurückgenommen` samt Grund -- etwa
+`ffprobe öffnet die Datei nicht mehr`.
 
 Im Protokoll steht danach unter **Kameraatome**, ob das Atom nachgetragen
 wurde und welche Kurve es nennt. In der Dateiliste steht die Kurve in der

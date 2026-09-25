@@ -3068,9 +3068,6 @@ msgstr "કોઈ માહિતી નથી"
 msgid "no information in the file"
 msgstr "ફાઇલમાં કોઈ માહિતી નથી"
 
-msgid "no match in the middle either (%s)"
-msgstr "વચ્ચે પણ કોઈ મેળ નથી (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "એવી કોઈ જગ્યા મળી નથી જ્યાં બરાબર એક જ વ્યક્તિ બોલે -- વિભાજન માપી શકાતું નથી."
 
@@ -3800,9 +3797,6 @@ msgstr "રદ કરો"
 msgid "cancelled"
 msgstr "રદ કર્યું"
 
-msgid "edges implausible"
-msgstr "કિનારીઓ વિશ્વસનીય નથી"
-
 msgid "fixed: "
 msgstr "સુધાર્યું: "
 
@@ -3841,9 +3835,6 @@ msgstr "ઇન પૉઇન્ટ તરફ"
 
 msgid "to Out point"
 msgstr "આઉટ પૉઇન્ટ તરફ"
-
-msgid "too short"
-msgstr "લંબાઈ ખૂબ ઓછી"
 
 msgid "two Timelines"
 msgstr "બે Timeline"
@@ -4839,3 +4830,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s ફાઇલ બાકીની સાથે બંધબેસતી નથી"
 msgstr[1] " -- %s ફાઇલો બાકીની સાથે બંધબેસતી નથી"
+
+msgid "Cameras"
+msgstr "કૅમેરા"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s નાં કદ અને અવધિ સરખાં છે -- કદાચ એક જ રેકોર્ડિંગ બે વાર."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe હવે ફાઇલ ખોલી શકતું નથી"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ઉપલબ્ધ નથી: ffmpeg અને ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s માં એવા રેકોર્ડિંગનું વક્તા-વિભાજન છે જે ત્યારથી બદલાઈ ગયું છે અથવા હવે નથી, અથવા બીજા મૉડલનું -- તે વપરાતું નથી."

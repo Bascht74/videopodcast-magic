@@ -3034,9 +3034,6 @@ msgstr "কোনো তথ্য নেই"
 msgid "no information in the file"
 msgstr "ফাইলে কোনো তথ্য নেই"
 
-msgid "no match in the middle either (%s)"
-msgstr "মাঝখানেও কোনো মিল নেই (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "এমন কোনো জায়গা পাওয়া যায়নি যেখানে ঠিক একজন কথা বলে -- পৃথকীকরণ মাপা যায় না।"
 
@@ -3715,9 +3712,6 @@ msgstr "বাতিল"
 msgid "cancelled"
 msgstr "বাতিল করা হয়েছে"
 
-msgid "edges implausible"
-msgstr "প্রান্তগুলো অবিশ্বাস্য"
-
 msgid "fixed: "
 msgstr "ঠিক করা হয়েছে: "
 
@@ -3753,9 +3747,6 @@ msgstr "ইন পয়েন্টে যান"
 
 msgid "to Out point"
 msgstr "আউট পয়েন্টে যান"
-
-msgid "too short"
-msgstr "খুব ছোট"
 
 msgid "two Timelines"
 msgstr "দুটি Timeline"
@@ -4837,3 +4828,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %sটি ফাইল অন্যগুলোর সঙ্গে মেলে না"
 msgstr[1] " -- %sটি ফাইল অন্যগুলোর সঙ্গে মেলে না"
+
+msgid "Cameras"
+msgstr "ক্যামেরা"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "একই আকার ও চলার সময়: %s -- সম্ভবত একই রেকর্ডিং দুবার।"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe আর ফাইলটি খোলে না"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg ও ffprobe নেই।"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s-এ এমন একটি রেকর্ডিংয়ের বক্তা পৃথকীকরণ আছে যা তারপর বদলে গেছে বা আর নেই, অথবা অন্য একটি মডেলের -- এটি ব্যবহার করা হয় না।"

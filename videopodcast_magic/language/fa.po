@@ -3067,9 +3067,6 @@ msgstr "بدون اطلاعات"
 msgid "no information in the file"
 msgstr "اطلاعاتی در فایل نیست"
 
-msgid "no match in the middle either (%s)"
-msgstr "در میانه هم تطابقی نیست (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "جایی پیدا نشد که دقیقاً یک نفر صحبت کند -- تفکیک قابل اندازه‌گیری نیست."
 
@@ -3799,9 +3796,6 @@ msgstr "لغو"
 msgid "cancelled"
 msgstr "لغو شد"
 
-msgid "edges implausible"
-msgstr "مرزها باورپذیر نیستند"
-
 msgid "fixed: "
 msgstr "اصلاح شد: "
 
@@ -3840,9 +3834,6 @@ msgstr "به نقطه ورود"
 
 msgid "to Out point"
 msgstr "به نقطه خروج"
-
-msgid "too short"
-msgstr "بسیار کوتاه"
 
 msgid "two Timelines"
 msgstr "دو Timeline"
@@ -4838,3 +4829,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s فایل با بقیه مطابقت ندارد"
 msgstr[1] " -- %s فایل با بقیه مطابقت ندارد"
+
+msgid "Cameras"
+msgstr "دوربین‌ها"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s اندازه و مدت یکسانی دارند -- شاید یک ضبط دو بار آمده است."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe دیگر فایل را باز نمی‌کند"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg و ffprobe موجود نیستند."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s تفکیک گوینده‌ی ضبطی را دارد که از آن زمان تغییر کرده یا دیگر نیست، یا از مدلی دیگر است -- استفاده نمی‌شود."

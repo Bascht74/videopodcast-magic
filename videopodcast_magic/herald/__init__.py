@@ -560,7 +560,8 @@ def redirect_console():
     """Redirect everything that would go to the terminal into a file.
 
     Not only our own messages: the descriptors themselves are redirected,
-    so what Qt and ffmpeg write underneath Python comes along too.
+    so what Qt and ffmpeg write underneath Python comes along too. What
+    this run wrote into the log before it moves along into the new one.
     """
     file_path = log_path()
     if not file_path:
@@ -568,13 +569,31 @@ def redirect_console():
     # The aside handle may already stand open on the file about to be
     # renamed -- the tool check runs a process before this. Left alone,
     # the whole run's aside lines land in the previous run's log.
+    begun = None
     while _LOG_ASIDE:
         kept = _LOG_ASIDE.pop()
         try:
             if kept is not None:
+                if getattr(kept, "began_at", None) is not None:
+                    begun = (kept.began_at, os.fstat(kept.fileno()))
                 kept.close()
         except Exception:
             kept = None
+    # What this run wrote aside before now belongs to this run: it is cut
+    # off the old log and written again after the head -- but only off
+    # the file the aside handle wrote, not off a log another copy has put
+    # in its place since, which would be cut short or padded with zeros.
+    moved = ""
+    if begun is not None:
+        try:
+            with open(file_path, "r+b") as last:
+                if os.path.samestat(os.fstat(last.fileno()), begun[1]):
+                    last.seek(begun[0])
+                    moved = last.read().decode("utf-8", "replace")
+                    last.truncate(begun[0])
+            moved = moved.replace("\r\n", "\n")
+        except OSError:
+            moved = ""
     # The backup is called ..._1.log rather than ....log.1 --
     # otherwise Finder does not know the extension and will not open it.
     before_value = os.path.splitext(file_path)[0] + "_1.log"
@@ -584,10 +603,18 @@ def redirect_console():
             os.unlink(old)          # from older versions
     except OSError:
         pass
+    # Where the old log cannot be renamed -- on Windows while another
+    # copy holds it open -- this run follows it in the same file rather
+    # than going unwritten, and the lines moved above follow its head.
+    # An empty one is not renamed: it would put nothing over the kept one.
+    mode = "w"
     try:
-        if os.path.exists(file_path):
+        if os.path.exists(file_path) and os.path.getsize(file_path):
             os.replace(file_path, before_value)
-        file = open(file_path, "w", buffering=1, encoding="utf-8",
+    except OSError:
+        mode = "a"
+    try:
+        file = open(file_path, mode, buffering=1, encoding="utf-8",
                      errors="replace")
         # Header: version, time, machine -- and which copy of the script
         # this was. Several runnable copies of one version are normal
@@ -598,6 +625,7 @@ def redirect_console():
                        platform.system(), platform.release(),
                        platform.machine(), PROGRAM.python_note(),
                        running_from()))
+        file.write(moved)
         os.dup2(file.fileno(), 1)
         os.dup2(file.fileno(), 2)
         # The aside lines go through this same handle from now on: two

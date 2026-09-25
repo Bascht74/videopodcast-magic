@@ -47,7 +47,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   Der Ausgabeordner wird nicht geraten. Solange keiner gewählt ist und
   kein Projekt sagt, wohin es geht, steht an seiner Stelle **neben der
-  jeweiligen Videodatei**, und genau dorthin geht das Ergebnis. Steht
+  jeweiligen Videodatei**, und genau dorthin geht das Ergebnis. Ist ein
+  Ordner zu lang für die Zeile, wird er in der Mitte gekürzt; wer mit
+  der Maus darauf stehen bleibt, sieht ihn ganz. Steht
   dort ein Ordner, erscheint daneben **zurücksetzen** und legt das
   Ergebnis wieder neben die jeweilige Videodatei. Ein Original wird
   dabei nie getroffen: jede Kameradatei, die der Lauf schreibt, trägt
@@ -440,7 +442,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   wird im Reiter „Ausgabe“ angelegt.** Der Kasten mit den Werten für
   den Schnitt, der Kasten **Sprecher** und die Vorschau stehen
   ausgegraut darunter, gemessen wird darin nichts, und beim Öffnen des
-  Reiters werden keine Sprecher geholt. Auf **Ausgabe** sagt der
+  Reiters werden keine Sprecher geholt. Die Zeile oben in der Vorschau
+  und die unter den Einstellungen zum Weitwinkel bleiben leer: Auch
+  ausgegraut redeten sie noch von Sprechern und einem Weitwinkel, und
+  beides gibt es bei diesem Typ nicht. Auf **Ausgabe** sagt der
   Hinweis am Knopf **Resolve-Projekt anlegen**, was der Knopf bei
   diesem Typ baut. Die Zeile über Resolve tut, was sie
   immer tut: ob Resolve antwortet, wird beim ersten Blick auf diesen
@@ -465,8 +470,12 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Lauf fehlt. Legt man die Kamera wieder hinein, lässt er sich wieder
   drücken -- auch nach einem Lauf, der eine Kamera draußen gelassen hat:
   Das Fenster nimmt die Übergabe zurück, die der Knopf zu dieser Liste
-  hatte. Wer einen anderen Ausgabeordner wählt oder zu **neben der
-  jeweiligen Videodatei** zurückkehrt, lässt das Programm sofort am
+  hatte. Weil die Übergabe auch die Kameras nennt, die ihr Lauf
+  ausgelassen hat, steht der Knopf auch dann wieder bereit, wenn das
+  Projekt inzwischen geschlossen und neu geöffnet wurde; eine Kamera,
+  die erst nach diesem Lauf dazukam, lässt ihn grau. Wer einen anderen
+  Ausgabeordner wählt oder zu **neben der jeweiligen Videodatei**
+  zurückkehrt, lässt das Programm sofort am
   neuen Ort nach einer Übergabe suchen ([Resolve](resolve.de.md) sagt,
   wo es sucht).
 
@@ -627,7 +636,9 @@ nur wo nichts gemessen wurde, die eigene Uhr der Datei.
   Streifen zeigt das Fenster, und beim Ziehen laufen nur die Zahlen mit.
   Solange die Zeitachse fehlt, sind sie gesperrt.
 - Formate, die der Rechner nicht abspielen kann (MXF, R3D, manche
-  ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
+  ProRes-Spielarten), bekommen einen Knopf für `ffplay`, **Externe
+  Vorschau -- Format kennt die App nicht** -- auch dann, wenn das System
+  keinen Fehler nennt und die Datei bloß als nicht zu öffnen meldet.
 
 Die Ausgabe landet zusätzlich in `videopodcast-magic.log`, und wo diese
 Datei liegt, hängt davon ab, wie das Programm auf den Rechner gekommen
@@ -648,9 +659,14 @@ mehrere Kopien des Programms teilen sich ein Protokoll, und ohne diese
 Zeile ist später nicht zu sagen, welche davon was geschrieben hat. Jeder
 Start des Programms beginnt die Datei neu und hebt die vorige als
 `videopodcast-magic_1.log` auf; eine Datei hält also eine ganze Sitzung
-mit allen Läufen darin. Auch was Qt und ffmpeg an Python vorbei
-ausgeben, steht darin. Ebenso schreiben die beiden Player mit, auf Zeilen
-mit dem Vorsatz **[GUI]**: was geladen, gespielt und angehalten wurde,
+mit allen Läufen darin, und zwar von der ersten Zeile an -- auch das,
+was ein Start schon vermerkt, bevor das Fenster steht. Ein leeres
+Protokoll verdrängt das aufbewahrte nicht; `videopodcast-magic_1.log`
+bleibt dann, wie es war. Lässt sich die vorige Datei nicht umbenennen
+-- unter Windows, solange eine andere Kopie des Programms sie offen
+hält --, schreibt der neue Start in derselben Datei hinter ihr weiter.
+Auch was Qt und ffmpeg an Python vorbei ausgeben, steht darin. Ebenso schreiben die beiden Player mit, auf Zeilen
+mit dem Vorsatz `[GUI]`: was geladen, gespielt und angehalten wurde,
 welcher Ton an welches Bild gelegt wurde -- bei einer Aufnahme aus
 mehreren Blöcken mit dem Block, der gerade läuft, und mit einem Wort
 dort, wo diese Aufnahme unter diesem Bild nicht dran ist und deshalb
@@ -658,7 +674,7 @@ still bleibt -- und, bei jedem Start und jedem Halt des
 Schnitt-Players, welche Kamera er dabei zeigte. Genau das ist der Teil,
 den man einer Beschwerde über die Vorschau mitschickt.
 
-Zeilen mit dem Vorsatz **[EXT]** halten jeden Aufruf eines fremden
+Zeilen mit dem Vorsatz `[EXT]` halten jeden Aufruf eines fremden
 Programms fest -- ffmpeg und ffprobe -- mit dem Werkzeug, der Datei, um
 die es ging, und der Dauer des Aufrufs; Spracherkennung und
 Sprechertrennung stehen mit darunter, denn dort verbringt ein Lauf seine
@@ -667,17 +683,17 @@ das anstelle des Aufrufs: von außen sieht eine einmal gelesene Datei
 genauso aus wie eine viermal gelesene. Gleiche Aufrufe unmittelbar
 hintereinander stehen als eine Zeile, mit der Anzahl und der Gesamtdauer
 -- die feine Messung fragt neun Stücke aus zwei Dateien ab. Eine Zeile
-mit dem Vorsatz **[ENV]** sagt zu jeder Lautstärkekurve, die das
+mit dem Vorsatz `[ENV]` sagt zu jeder Lautstärkekurve, die das
 Programm für die Zeitachse aus einer Datei zieht, ob sie aus dem
 Speicher kam oder neu von der Datei gelesen werden musste; bei einer
 großen Datei ist das der Unterschied zwischen Minuten und nichts. Und
 was das Fenster rot zeigt, steht mit der Uhrzeit darin, unter dem
-Vorsatz **[BAD]**: ein Warnfenster, eine rote Zeile unter einem Kasten,
+Vorsatz `[BAD]`: ein Warnfenster, eine rote Zeile unter einem Kasten,
 eine rote Marke an einer Zeile der Dateiliste -- eine rote Marke ist
 weg, sobald die Zeile neu gezeichnet wird, und die Beschwerde darüber
 kommt Stunden später.
 
-Eine Zeile mit dem Vorsatz **[TIME]** sagt, wie weit in den Start
+Eine Zeile mit dem Vorsatz `[TIME]` sagt, wie weit in den Start
 hinein jeder Schritt erreicht war -- gezählt ab der Sekunde, in der
 das Symbol angeklickt wurde, wo das Programm so gestartet wurde, und
 sonst ab dem Augenblick, in dem es zu laufen begann. Ein Start, der
@@ -1181,7 +1197,7 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 - **Beim Nachfragen mitschicken**: die Version aus `--version`, das
   Betriebssystem, `videopodcast-magic.log` und was man vorhatte, vor
   den Einzelheiten des Fehlers. Beide Player schreiben in dieses
-  Protokoll, was sie getan haben, jede Zeile mit dem Vorsatz **[GUI]**
+  Protokoll, was sie getan haben, jede Zeile mit dem Vorsatz `[GUI]`
   und mit der Uhrzeit: welche Datei geladen wurde und an welcher Stelle,
   jedes Abspielen und jede Pause, welche Aufnahme ans Bild gelegt wurde,
   aus welcher der beiden Zeitrechnungen das kam und was dabei
@@ -1194,8 +1210,8 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   bei jedem Bild dazwischen. Ton, der gegen das falsche Bild läuft,
   lässt sich an diesen Zeilen hinterher ablesen; ohne sie lässt er sich
   nur beschreiben. Daneben stehen die Aufrufe von ffmpeg und ffprobe mit
-  ihren Zeiten, mit dem Vorsatz **[EXT]**, und jede rote Meldung, die
-  das Fenster gezeigt hat, mit dem Vorsatz **[BAD]** und mit der Uhrzeit
+  ihren Zeiten, mit dem Vorsatz `[EXT]`, und jede rote Meldung, die
+  das Fenster gezeigt hat, mit dem Vorsatz `[BAD]` und mit der Uhrzeit
   -- eine rote Marke, über die längst neu gezeichnet wurde, findet man
   dort wieder, statt sie erinnern zu müssen.
 

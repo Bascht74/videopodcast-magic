@@ -8,7 +8,7 @@ nothing needs, one granted when asked again, picture and sound together,
 the intro's sound beside a kept multicam timeline, what the window then
 says, a camera not inserted, and an intro with no sound. A track is
 asked for twice, the code is 1 where something lacks and 0 where not,
-and the closing lines list only what was laid.
+and audio room and the closing lines go only to what was laid.
 """
 import os
 import sys
@@ -331,15 +331,21 @@ check("a video track refused twice names the camera it lacks",
       "the line after the refusal, against one saying refused and %r: %r"
       % (WORDS, first))
 tl = tls[-1] if tls else None
-# Four audio tracks wanted and one there: three asked for. The empty
-# ones are cleared away afterwards, so the asking is what is counted.
+# Room for W_C001 alone, its track and one spare, and one there: one
+# asked for. The empty ones are cleared away afterwards, so the asking
+# is what is counted. The spare is pinned with it: other slack moves
+# this 1 without the refused camera being given room.
 audio = tl.calls["audio"] if tl else 0
 laid = on_track(tl, "video", 1) if tl else []
 check("a video track refused twice leaves the rest built",
-      not isinstance(code, Exception) and audio == 3
+      not isinstance(code, Exception) and audio >= 1
       and laid == ["W_C001.mov"],
-      "%d audio tracks asked for against 3, V1 holds %r against "
+      "%d audio tracks asked for against at least 1, V1 holds %r against "
       "['W_C001.mov'], the build %s" % (audio, laid, ended(code)))
+check("a camera refused its track is given no audio room",
+      audio == 1,
+      "%d audio tracks asked for against 1, room for W_C001 alone"
+      % audio)
 check("a video track refused twice is named again at the end",
       bool(naming("\n".join(last_two(said)), WORDS)),
       "the last two lines, against one saying refused and %r: %r"

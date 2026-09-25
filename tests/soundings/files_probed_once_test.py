@@ -19,8 +19,9 @@ into a folder of its own, which is known by what it holds and not by
 its name, and two separations in the window, each keeping its own
 words instead of sending the other back to the recogniser, and neither
 started a second time while it is still being written down. Last, what
-the store lets go of by age, and a listener or a check whose recipe
-changed, which reads nothing old back.
+the store lets go of -- measurements, words and separations by age, a
+recogniser build once a newer one stands beside it -- and a listener or
+a check whose recipe changed, which reads nothing old back.
 """
 import os
 import sys
@@ -629,6 +630,42 @@ check("a measurement untouched for longer than the limit is let go",
       "%s is still there" % os.path.basename(stale))
 check("and one from this month is kept", os.path.exists(fresh),
       "%s went with it" % os.path.basename(fresh))
+
+# The words and the separations go by age as well. The recogniser does
+# not: the build a run uses stays however old it is, and only the builds
+# beside it go. Named by a hash, so the newest sorts between the others.
+old_words = vpm.words_cache_file("c" * 16)
+old_voices = vpm.speaker_cache_file("d" * 16)
+built = vpm.cache_folder("speech")
+first, newest, last = (os.path.join(built, "recogniser_00000000000%d" % n)
+                       for n in (1, 2, 3))
+under_way = os.path.join(built, "tmp_under_way.swift")
+for path, days in ((old_words, 40), (old_voices, 40), (first, 50),
+                   (newest, 40), (last, 55), (under_way, 60)):
+    with open(path, "w") as fh:
+        fh.write("{}")
+    os.utime(path, (time.time() - days * 86400,) * 2)
+vpm.clean_kept_stores()
+check("written-down words untouched for longer than the limit are let go",
+      not os.path.exists(old_words),
+      "%s is still there" % os.path.basename(old_words))
+check("a separation untouched for longer than the limit is let go",
+      not os.path.exists(old_voices),
+      "%s is still there" % os.path.basename(old_voices))
+check("a recogniser build beside a newer one is let go",
+      not os.path.exists(first) and not os.path.exists(last),
+      "%s are still there" % sorted(os.listdir(built)))
+check("and the newest build is kept however old it is",
+      os.path.exists(newest),
+      "%s went, %s left" % (os.path.basename(newest),
+                            sorted(os.listdir(built))))
+check("and a build another copy is still making is left alone",
+      os.path.exists(under_way),
+      "%s went, %s left" % (os.path.basename(under_way),
+                            sorted(os.listdir(built))))
+for kept_store in (vpm.cache_folder("speakers"), built):
+    if kept_store:                      # inside this test's own cache
+        shutil.rmtree(kept_store, ignore_errors=True)
 
 print("\n12. A changed recipe reads nothing old")
 # Both stores are keyed on the way the answer is worked out as well as

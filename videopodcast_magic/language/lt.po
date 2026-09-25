@@ -3069,9 +3069,6 @@ msgstr "nėra informacijos"
 msgid "no information in the file"
 msgstr "faile nėra informacijos"
 
-msgid "no match in the middle either (%s)"
-msgstr "ir viduryje nėra atitikties (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nerasta vietos, kur kalbėtų lygiai vienas žmogus -- atskyrimo išmatuoti neįmanoma."
 
@@ -3801,9 +3798,6 @@ msgstr "atšaukti"
 msgid "cancelled"
 msgstr "atšaukta"
 
-msgid "edges implausible"
-msgstr "kraštai neįtikimi"
-
 msgid "fixed: "
 msgstr "ištaisyta: "
 
@@ -3842,9 +3836,6 @@ msgstr "į pradžios tašką"
 
 msgid "to Out point"
 msgstr "į pabaigos tašką"
-
-msgid "too short"
-msgstr "per trumpas"
 
 msgid "two Timelines"
 msgstr "du Timeline"
@@ -4883,3 +4874,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s failas netinka prie kitų"
 msgstr[1] " -- %s failai netinka prie kitų"
 msgstr[2] " -- %s failų netinka prie kitų"
+
+msgid "Cameras"
+msgstr "Kameros"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Vienodas dydis ir trukmė: %s -- galbūt tas pats įrašas du kartus."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe nebeatidaro failo"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Trūksta: ffmpeg ir ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  Faile %s yra kalbėtojų atskyrimas įrašo, kuris nuo to laiko pasikeitė ar dingo, arba kito modelio -- jis nenaudojamas."

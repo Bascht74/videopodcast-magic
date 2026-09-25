@@ -3068,9 +3068,6 @@ msgstr "माहिती नाही"
 msgid "no information in the file"
 msgstr "फाइलमध्ये माहिती नाही"
 
-msgid "no match in the middle either (%s)"
-msgstr "मध्यभागीही जुळणी नाही (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "नेमकी एकच व्यक्ती बोलते अशी जागा सापडली नाही -- विभाजन मोजता येत नाही."
 
@@ -3800,9 +3797,6 @@ msgstr "रद्द करा"
 msgid "cancelled"
 msgstr "रद्द केले"
 
-msgid "edges implausible"
-msgstr "कडा पटण्याजोग्या नाहीत"
-
 msgid "fixed: "
 msgstr "दुरुस्त केले: "
 
@@ -3841,9 +3835,6 @@ msgstr "इन पॉइंटकडे"
 
 msgid "to Out point"
 msgstr "आउट पॉइंटकडे"
-
-msgid "too short"
-msgstr "खूप लहान"
 
 msgid "two Timelines"
 msgstr "दोन Timeline"
@@ -4839,3 +4830,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s फाइल इतरांशी जुळत नाही"
 msgstr[1] " -- %s फाइली इतरांशी जुळत नाहीत"
+
+msgid "Cameras"
+msgstr "कॅमेरे"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "समान आकार आणि कालावधी: %s -- कदाचित एकच रेकॉर्डिंग दोनदा."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe आता फाइल उघडत नाही"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "उपलब्ध नाहीत: ffmpeg आणि ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s मध्ये अशा रेकॉर्डिंगचे वक्ता-विभाजन आहे जे तेव्हापासून बदलले आहे किंवा आता नाही, किंवा दुसऱ्या मॉडेलचे -- ते वापरले जात नाही."

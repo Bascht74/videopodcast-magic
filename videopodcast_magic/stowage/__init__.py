@@ -64,6 +64,43 @@ def clean_old_files(folder, days=30):
             continue
 
 
+def keep_newest_build(folder, prefix):
+    """Discard every file under *prefix* but the one written last.
+
+    Each build is named after what it was built from, so a program or
+    compiler that changed leaves the old one behind, never used again;
+    so does the note that a build was refused. The newest is the current
+    one: a new build is only made when the current one is missing. What
+    lacks the prefix -- a build under way in another copy -- stays.
+    """
+    try:
+        names = [n for n in os.listdir(folder or "") if n.startswith(prefix)]
+        ages = dict((n, os.path.getmtime(os.path.join(folder, n)))
+                    for n in names)
+    except OSError:
+        return
+    newest = max(names, key=lambda n: ages[n], default=None)
+    for name in names:
+        if name != newest:
+            try:
+                os.unlink(os.path.join(folder, name))
+            except OSError:
+                continue
+
+
+def clean_kept_stores(days=30):
+    """Let the stores of words, voices and recognisers go again.
+
+    Words and separations by age, like every other store: the project
+    file carries its separation itself. The speech recogniser not by
+    age -- it is used on every run that listens -- but its old builds
+    beside the current one.
+    """
+    clean_old_files(cache_folder("words"), days)
+    clean_old_files(cache_folder("speakers"), days)
+    keep_newest_build(cache_folder("speech"), "recogniser_")
+
+
 def write_beside_then_move(file_path, data):
     """Write bytes so that no half-written file is ever read.
 

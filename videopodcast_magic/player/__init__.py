@@ -227,11 +227,11 @@ def make_drop_area(QtCore, QtGui, QtWidgets):
             small.setStyleSheet("color: %s;" % colours["quiet"])
             position.addWidget(small)
             button = QtWidgets.QPushButton(T('... or add files ...'))
-            button.setFixedWidth(220)
+            button.setMinimumWidth(220)
             button.clicked.connect(lambda: pick())
             # Only here: once files are in the list it would overwrite them.
             button2 = QtWidgets.QPushButton(T('Open project ...'))
-            button2.setFixedWidth(220)
+            button2.setMinimumWidth(220)
             button2.clicked.connect(lambda: project())
             row = QtWidgets.QHBoxLayout()
             row.addStretch(1)
@@ -2029,8 +2029,17 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """Enable seeking once the file is open.
 
             setSource works in the background; a setPosition before that goes
-            nowhere, and without a nudge the surface stays black.
+            nowhere, and without a nudge the surface stays black. A file
+            that cannot be opened is refused here as well as on the error.
             """
+            if status == QtMultimedia.QMediaPlayer.InvalidMedia:
+                # A refusal some platforms report only as the state: said
+                # all the same. on_error says it once per file and error.
+                error = self.player.error()
+                self.on_error(QtMultimedia.QMediaPlayer.FormatError
+                              if error == QtMultimedia.QMediaPlayer.NoError
+                              else error)
+                return
             pending = (QtMultimedia.QMediaPlayer.LoadedMedia,
                      QtMultimedia.QMediaPlayer.BufferedMedia)
             if status not in pending:
@@ -2921,14 +2930,15 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         videos = player_candidates()
         if not videos:
             return None
-        taken = set(cv.get() for _r, _nv, cv in assign_lines)
+        taken = set(path_key(cv.get()) for _r, _nv, cv in assign_lines
+                    if cv.get() not in (MIX_ONLY, IGNORE_AUDIO))
 
         def hit(file_path):
             return sum(1 for t in (start_var.get(), end_var.get())
                        if covers(file_path, t) is True)
 
         def quality(file_path):
-            free = 0 if os.path.basename(file_path) in taken else 1
+            free = 0 if path_key(file_path) in taken else 1
             span = picture_span(file_path)
             return (hit(file_path), free, (span or {}).get("duration") or 0.0)
 
@@ -3107,8 +3117,8 @@ def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
         taken = set()
         for _chain, _nv, cv in assign_lines:
             if cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                taken.add(cv.get())
-        free = [b for b in videos if os.path.basename(b) not in taken]
+                taken.add(path_key(cv.get()))
+        free = [b for b in videos if path_key(b) not in taken]
         return (free or videos)[0]
 
     return cut_band, cut_player, band_show, preview_file

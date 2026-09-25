@@ -3068,9 +3068,6 @@ msgstr "teave puudub"
 msgid "no information in the file"
 msgstr "failis pole teavet"
 
-msgid "no match in the middle either (%s)"
-msgstr "ka keskel pole sobivust (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ei leitud kohta, kus räägib täpselt üks inimene -- eristamist ei saa mõõta."
 
@@ -3800,9 +3797,6 @@ msgstr "loobu"
 msgid "cancelled"
 msgstr "tühistatud"
 
-msgid "edges implausible"
-msgstr "servad ebausutavad"
-
 msgid "fixed: "
 msgstr "parandatud: "
 
@@ -3841,9 +3835,6 @@ msgstr "algpunkti"
 
 msgid "to Out point"
 msgstr "lõpp-punkti"
-
-msgid "too short"
-msgstr "liiga lühike"
 
 msgid "two Timelines"
 msgstr "kaks Timeline'i"
@@ -4839,3 +4830,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s fail ei sobi teistega"
 msgstr[1] " -- %s faili ei sobi teistega"
+
+msgid "Cameras"
+msgstr "Kaamerad"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s on sama suuruse ja kestusega -- võib-olla üks salvestis kaks korda."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe ei ava faili enam"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Puudu: ffmpeg ja ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s sisaldab kõnelejate eristamist salvestisest, mis on vahepeal muutunud või kadunud, või teise mudeli tehtud eristamist -- seda ei kasutata."

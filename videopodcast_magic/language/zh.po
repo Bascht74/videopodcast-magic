@@ -786,9 +786,6 @@ msgstr "跳到入点"
 msgid "to Out point"
 msgstr "跳到出点"
 
-msgid "too short"
-msgstr "太短"
-
 msgid "unknown"
 msgstr "未知"
 
@@ -1898,9 +1895,6 @@ msgstr "  它们相互重叠 -- 是同时录音的多支麦克风，而不是先
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s 个片段已按名称顺序拼接（无时间码 -- 无法识别间隙）"
 
-msgid "edges implausible"
-msgstr "边缘不可信"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "按相位放置，锐度 %s，下限 %s，漂移未知"
 
@@ -1912,9 +1906,6 @@ msgstr "未从 %s 获得音频数据"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  只有混音进入视频 (--no-single-tracks)。"
-
-msgid "no match in the middle either (%s)"
-msgstr "中间也没有匹配 (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      警告：%s 匹配较弱（%s，下限为 %s）。两者可能并不相配。"
@@ -4794,3 +4785,18 @@ msgstr "立体声"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s 个文件与其他文件不匹配"
+
+msgid "Cameras"
+msgstr "摄像机"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s 的大小和时长相同 -- 可能是同一段录音重复了两次。"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe 已无法打开该文件"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "缺少 ffmpeg 和 ffprobe。"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s 中的说话人分离属于一段此后已更改或已不存在的录音，或属于另一个模型 -- 不予使用。"

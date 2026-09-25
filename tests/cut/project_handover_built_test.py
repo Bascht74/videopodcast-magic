@@ -358,6 +358,15 @@ check("the marked camera carries wide_marked",
         "%s against [True, False, False] for %s"
         % ([cam.get("wide_marked") for cam in marked["cameras"]],
            [cam["track"] for cam in marked["cameras"]]))
+# The colour and the mix source go by "wide": a mark keeps it there
+# with people at the camera. The window cannot hand this over -- a mark
+# moves whoever sat there off -- so it is asked of the function here.
+check("a marked wide shot stays the wide shot with a speaker on it",
+        marked["cameras"][0]["wide"] is True,
+        "%s for %s, who sit there %s; wanted the first True"
+        % ([cam["wide"] for cam in marked["cameras"]],
+           [cam["track"] for cam in marked["cameras"]],
+           [cam["speakers"] for cam in marked["cameras"]]))
 said = vpm.cut_statistics(marked)
 check("and the cut holds it for the wide shot",
         said["wide_shots"] == ["Presenter + CoPresenter"],
@@ -394,6 +403,20 @@ check("without a source the file answers",
         at["Presenter + CoPresenter"] == ["CoPresenter", "Presenter"]
         and at["Guest"] == ["Guest"],
         "%s against ['CoPresenter', 'Presenter'] and ['Guest']" % (at,))
+
+# Two cards, one file name: the window answers with the path, and the
+# stem alone would seat Host at both.
+PAIR = dict(RUN, cameras=[
+    {"track": "C0003", "file": "/r/C0003.mov", "source": "/CardA/C0003.MP4",
+     "speakers": [], "wide_marked": False, "wide": True},
+    {"track": "C0003 2", "file": "/r/C0003 2.mov",
+     "source": "/CardB/C0003.MP4", "speakers": [], "wide_marked": False,
+     "wide": True}])
+apart = vpm.wide_marks_applied(PAIR, [], {"Host": "/CardB/C0003.MP4"}, False)
+at = [(cam["track"], cam["speakers"]) for cam in apart["cameras"]]
+check("of two cameras of one file name, only the one picked is sat at",
+        at == [("C0003", []), ("C0003 2", ["Host"])],
+        "%s against [('C0003', []), ('C0003 2', ['Host'])]" % (at,))
 
 print("\n13. Cameras whose file is not there yet")
 # The preview is built from data alone, so a camera whose file has not

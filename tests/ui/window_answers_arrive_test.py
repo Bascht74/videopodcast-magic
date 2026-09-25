@@ -219,10 +219,17 @@ def picture_of(d):
                         for c in (d.get("cameras") or [])]}
 
 
+def by_name(camera):
+    """A camera as the window hands it on -- its path -- by file name."""
+    return os.path.basename(camera) if os.path.isabs(str(camera)) \
+        else camera
+
+
 def wide_spy(d, wide_names, speakers_on=None, marked=False):
     last_wide.clear()
-    last_wide.update({"names": sorted(wide_names or []),
-                      "on": dict(speakers_on or {}),
+    last_wide.update({"names": sorted(by_name(n) for n in wide_names or []),
+                      "on": dict((k, by_name(v))
+                                 for k, v in (speakers_on or {}).items()),
                       "marked": bool(marked)})
     return _real_wide(d, wide_names, speakers_on, marked)
 
@@ -711,7 +718,7 @@ def content_arrived(rec, _all):
 
 # 2. a speaker's camera
 def move_host():
-    pick(camera_box_of(voiced_row(), 0), WIDE)
+    pick(camera_box_of(voiced_row(), 0), os.path.join(FOLDER, WIDE))
 
 
 def host_moved(rec, _all):
@@ -736,7 +743,7 @@ def host_moved(rec, _all):
 
 
 def move_host_back():
-    pick(camera_box_of(voiced_row(), 0), HOSTS)
+    pick(camera_box_of(voiced_row(), 0), os.path.join(FOLDER, HOSTS))
 
 
 def host_back(rec, _all):
@@ -748,7 +755,7 @@ def host_back(rec, _all):
 
 # 3. a name typed into a track
 def name_the_plain_track():
-    pick(camera_box_of(plain_row()), GUESTS)
+    pick(camera_box_of(plain_row()), os.path.join(FOLDER, GUESTS))
     type_in(name_field_of(plain_row()), "Sidekick")
 
 

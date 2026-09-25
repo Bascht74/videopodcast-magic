@@ -10,16 +10,16 @@ order: 70
 
 **A version is not a tag, and the tag comes last.** Evidence before the
 mark: a tag whose attachment does not match what was tested is worse
-than no tag. Five things belong to a version, and the tag is none of
+than no tag. Six things belong to a version, and the tag is none of
 them -- it is what follows once they hold. **Since 4.9.2026 nobody sets
 that tag by hand:** one word starts `.github/workflows/publish.yml`, and
-it does the mechanics. **It cannot check the five things.** Those are
+it does the mechanics. **It cannot check the six things.** Those are
 the whole of this document, and they are still yours. How the workflow
 does its part and where it stops is
 `.claude/skills/freigabe/mechanics.md` -- read that one when a run
 stopped somewhere, or when a command in it is being changed.
 
-## The five things
+## The six things
 
 1. **The tests are green on all six builder jobs.** Not here on this
    Mac -- there. That is the evidence the tag later stands on.
@@ -107,6 +107,18 @@ stopped somewhere, or when a command in it is being changed.
    (`80f46d5`, 1.9.2026) -- and what was supposed to have caught it was
    a line in a report. A report nobody grades holds nothing.
 
+6. **The Resolve tests have run, or the report says why not.**
+   `tests/resolve.sh` starts the tests under `tests/resolve/live/`, the
+   only ones that talk to a DaVinci Resolve really running. No builder
+   has one, so the owner runs them -- on the owner's Mac, with Resolve
+   open -- and nobody else starts them: not a strand, not a script.
+   **This one point does not block.** One line goes into the release
+   report either way, `resolve.sh: green`, or `resolve.sh: not run,
+   because ...` with the reason, and then the release goes on. **A blank
+   line is still no answer.** Until 25.9.2026, when the owner decided
+   it, the point stood nowhere: `resolve.sh` came up here only as a file
+   once forgotten while staging, never as a step.
+
 ## The workflow takes the handgrips, not the judgement
 
 **The workflow takes the handgrips, not the judgement: it can see that
@@ -116,17 +128,17 @@ version's program, a picture run that was never made, or an open list
 that has drifted two releases -- so a run that ends in a release proves
 that the mechanics held, and never that the version was ready.**
 
-The five things above stand exactly as they stood. What has moved is
+The six things above stand exactly as they stood. What has moved is
 only that "the tag comes last" now happens inside a machine, four
 minutes after the word, with nobody watching. **That is the danger of
 this change**: a run that goes through green from end to end leaves the
 feeling that everything was seen to. Six checks were seen to. The other
-five are yours, they are the ones nobody will ask you about, and the
+five things are yours, they are the ones nobody will ask you about, and the
 workflow will happily hang a tag on a version whose manual is a version
 behind.
 
-So the word is said when 1 to 5 hold, and not when the suite is green.
-Green is one of the five.
+So the word is said when 1 to 5 hold and 6 is answered, and not when the
+suite is green. Green is one of the six.
 
 **Nothing is tagged by hand and nothing is published by hand any more**
 -- no `git tag`, no `git push origin v...`, no `gh release create`. A
@@ -391,7 +403,8 @@ without it, is in the `ci` skill.
 
 **Work no user notices.** A renamed test, a tidied function, a sharper
 comment hold up no release -- and they do not go in a changelog either.
-A release is held up by the five things and by nothing else.
+A release is held up by the first five things and by nothing else; the
+sixth is answered in the report, and "not run, because ..." answers it.
 
 ## Before it counts as done
 
@@ -401,6 +414,8 @@ A release is held up by the five things and by nothing else.
 4. What the manual pass turned up: a test, or its shape an entry on the list?
 5. Do the pictures show the program as it is now?
 6. The three lines of the release report written down, none of them blank?
+6b. `resolve.sh` run by the owner with Resolve open -- or the line "not
+    run, because ..." in the report, with the reason?
 7. The number set in the program and the four documents that carry it?
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
@@ -412,5 +427,6 @@ A release is held up by the five things and by nothing else.
 14. `build/` cleared, the wheel built and diffed, and cleared up again after?
 15. One commit and one push, with nothing added after it?
 16. A title: English, the half sentence only, no number in it, not empty?
-17. Do all five things hold -- not only the green suite, which is one of them?
+17. Do the first five things hold and is the sixth answered -- not only
+    the green suite, which is one of them?
 18. Only then is the word said.

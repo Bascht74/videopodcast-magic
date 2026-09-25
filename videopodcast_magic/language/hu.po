@@ -3034,9 +3034,6 @@ msgstr "nincs információ"
 msgid "no information in the file"
 msgstr "nincs információ a fájlban"
 
-msgid "no match in the middle either (%s)"
-msgstr "középen sincs egyezés (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nem található olyan hely, ahol pontosan egy személy beszél -- a szétválasztás nem mérhető."
 
@@ -3715,9 +3712,6 @@ msgstr "mégse"
 msgid "cancelled"
 msgstr "megszakítva"
 
-msgid "edges implausible"
-msgstr "a szélek nem hihetőek"
-
 msgid "fixed: "
 msgstr "javítva: "
 
@@ -3753,9 +3747,6 @@ msgstr "az In pontra"
 
 msgid "to Out point"
 msgstr "az Out pontra"
-
-msgid "too short"
-msgstr "túl rövid"
 
 msgid "two Timelines"
 msgstr "két Timeline"
@@ -4837,3 +4828,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s fájl nem illik a többihez"
 msgstr[1] " -- %s fájl nem illik a többihez"
+
+msgid "Cameras"
+msgstr "Kamerák"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Azonos méret és futásidő: %s -- lehet, hogy ugyanaz a felvétel kétszer."
+
+msgid "ffprobe no longer opens the file"
+msgstr "az ffprobe már nem nyitja meg a fájlt"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg és ffprobe hiányzik."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s a beszélők szétválasztását tartalmazza egy azóta megváltozott vagy eltűnt felvételhez, vagy egy másik modelltől -- nincs felhasználva."

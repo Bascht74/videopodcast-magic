@@ -54,6 +54,8 @@ explains the word comes first.
   rule"; `camera-cut`, "Measuring the speakers without Auphonic"
 * **block**: `simple-path`, "What goes into the video beside the mix";
   `simple-path`, "Putting blocks together by hand"
+* **cache**: `speech`, "What is kept, and what is worked out again";
+  `multitrack`, "Running several files at once"
 * **camera audio**: `multitrack`, "Making camera sound a track";
   `simple-path`, "What comes back for each video file";
   `interface`, "The four tabs"

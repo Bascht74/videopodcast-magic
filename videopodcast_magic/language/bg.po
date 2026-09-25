@@ -3069,9 +3069,6 @@ msgstr "няма информация"
 msgid "no information in the file"
 msgstr "няма информация във файла"
 
-msgid "no match in the middle either (%s)"
-msgstr "и в средата няма съвпадение (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "не е намерено място, където говори точно един човек -- разделянето не може да се измери."
 
@@ -3801,9 +3798,6 @@ msgstr "отказ"
 msgid "cancelled"
 msgstr "отменено"
 
-msgid "edges implausible"
-msgstr "неправдоподобни краища"
-
 msgid "fixed: "
 msgstr "поправено: "
 
@@ -3842,9 +3836,6 @@ msgstr "към входната точка"
 
 msgid "to Out point"
 msgstr "към изходната точка"
-
-msgid "too short"
-msgstr "твърде кратко"
 
 msgid "two Timelines"
 msgstr "две Timeline"
@@ -4840,3 +4831,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s файл не пасва на останалите"
 msgstr[1] " -- %s файла не пасват на останалите"
+
+msgid "Cameras"
+msgstr "Камери"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Еднакъв размер и продължителност: %s -- възможно е да е един и същ запис два пъти."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe вече не отваря файла"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Липсват: ffmpeg и ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s съдържа разделяне на говорещите за запис, който оттогава е променен или вече го няма, или от друг модел -- не се използва."

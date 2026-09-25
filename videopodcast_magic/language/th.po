@@ -3066,9 +3066,6 @@ msgstr "ไม่มีข้อมูล"
 msgid "no information in the file"
 msgstr "ไม่มีข้อมูลในไฟล์"
 
-msgid "no match in the middle either (%s)"
-msgstr "ตรงกลางก็ไม่ตรงกันเช่นกัน (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ไม่พบช่วงที่มีคนพูดเพียงคนเดียว -- วัดการแยกเสียงระหว่างไมโครโฟนไม่ได้"
 
@@ -3798,9 +3795,6 @@ msgstr "ยกเลิก"
 msgid "cancelled"
 msgstr "ยกเลิกแล้ว"
 
-msgid "edges implausible"
-msgstr "ขอบไม่สมเหตุสมผล"
-
 msgid "fixed: "
 msgstr "แก้ไขแล้ว: "
 
@@ -3839,9 +3833,6 @@ msgstr "ไปจุดเข้า"
 
 msgid "to Out point"
 msgstr "ไปจุดออก"
-
-msgid "too short"
-msgstr "สั้นเกินไป"
 
 msgid "two Timelines"
 msgstr "Timeline สองรายการ"
@@ -4794,3 +4785,18 @@ msgstr "สเตอริโอ"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s ไฟล์ไม่เข้ากับไฟล์อื่น"
+
+msgid "Cameras"
+msgstr "กล้อง"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s มีขนาดและความยาวเท่ากัน -- อาจเป็นการบันทึกเดียวกันซ้ำสองครั้ง"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe เปิดไฟล์ไม่ได้อีกต่อไป"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ไม่มี ffmpeg และ ffprobe"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s มีผลการแยกผู้พูดของการบันทึกที่เปลี่ยนไปหรือไม่มีอยู่แล้วตั้งแต่นั้น หรือของโมเดลอื่น -- จึงไม่ใช้"

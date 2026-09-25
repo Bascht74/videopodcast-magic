@@ -3030,9 +3030,6 @@ msgstr "không có thông tin"
 msgid "no information in the file"
 msgstr "không có thông tin trong tệp"
 
-msgid "no match in the middle either (%s)"
-msgstr "ở giữa cũng không khớp (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "không tìm thấy chỗ nào chỉ có đúng một người nói -- không đo được độ tách."
 
@@ -3711,9 +3708,6 @@ msgstr "hủy"
 msgid "cancelled"
 msgstr "đã hủy"
 
-msgid "edges implausible"
-msgstr "các biên không hợp lý"
-
 msgid "fixed: "
 msgstr "đã sửa: "
 
@@ -3749,9 +3743,6 @@ msgstr "đến điểm vào"
 
 msgid "to Out point"
 msgstr "đến điểm ra"
-
-msgid "too short"
-msgstr "quá ngắn"
 
 msgid "two Timelines"
 msgstr "hai Timeline"
@@ -4792,3 +4783,18 @@ msgstr "stereo"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s tệp không khớp với các tệp khác"
+
+msgid "Cameras"
+msgstr "Máy quay"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s có cùng kích thước và thời lượng -- có thể là một bản ghi bị lặp hai lần."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe không còn mở được tệp"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Thiếu ffmpeg và ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s chứa phần tách giọng người nói của một bản ghi đã thay đổi hoặc không còn nữa từ đó, hoặc của một mô hình khác -- không được dùng."

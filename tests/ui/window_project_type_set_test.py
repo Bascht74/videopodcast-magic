@@ -7,7 +7,8 @@ grey and the footer says so; the first look at the assignment tab asks
 once through the hook a test answers, a look that chose nothing is not
 asked again, a new production asks afresh and the answer lands in the
 field; sync only hides the speaker name column and the Multitrack line
-and greys the cut tab under one sentence -- and with the speakers go
+and greys the cut tab under one sentence, its preview and wide shot
+note standing empty -- and with the speakers go
 "belongs to" and the camera's audio source, while the new file name
 stays, since it names the file on every path, and a camera nobody is
 on is offered its own stem there; back on cut it all returns, and the
@@ -273,6 +274,39 @@ def sync_sentence():
             return w
 
 
+def preview_words():
+    """The preview's own sentence: the one rich-text label that wraps."""
+    for w in preview_group().findChildren(QtWidgets.QLabel):
+        if w.textFormat() == QtCore.Qt.RichText and w.wordWrap():
+            return w.text()
+    return "(no such label in the preview box)"
+
+
+def wide_note_words():
+    """The line under the wide shot settings saying why they are grey."""
+    for w in win().findChildren(QtWidgets.QLabel):
+        if w.objectName() == "wide_note":
+            return w.text()
+    return "(no wide shot note)"
+
+
+def preview_ran(limit=30.0):
+    """Let the preview's timer run out; what was waited, for the line.
+
+    The preview is written 400 ms after a change, by a timer of its
+    own -- the one single shot of that interval. Judged either way.
+    """
+    timers = [t for t in win().findChildren(QtCore.QTimer)
+              if t.isSingleShot() and t.interval() == 400]
+    clock = time.time()
+    while any(t.isActive() for t in timers) \
+            and time.time() - clock < limit:
+        app.processEvents()
+        QtCore.QThread.msleep(20)
+    return "%d preview timer(s), one still running: %r, after %.1f s" % (
+        len(timers), any(t.isActive() for t in timers), time.time() - clock)
+
+
 def project_files():
     return sorted(n for n in os.listdir(out_folder)
                   if n.startswith(vpm.PROJECT_PREFIX) and n.endswith(".json"))
@@ -414,6 +448,14 @@ def step():
                   and not preview_group().isEnabled(),
                   "enabled %r" % (preview_group() is not None
                                   and preview_group().isEnabled()))
+            waited_for = preview_ran()
+            check("under sync only the preview promises no speakers",
+                  preview_words() == "",
+                  "the preview says %r; %s"
+                  % (preview_words()[:90], waited_for))
+            check("nor does the wide shot note ask for a wide shot",
+                  wide_note_words() == "",
+                  "the note says %r" % wide_note_words()[:90])
             print("\n5. Back on cut everything returns")
             tab_to(0)
             pick(type_box(), "cut")
@@ -431,6 +473,11 @@ def step():
             check("the Multitrack line is back",
                   not multitrack_line().isHidden(),
                   "hidden %r" % multitrack_line().isHidden())
+            waited_for = preview_ran()
+            check("and the preview speaks again",
+                  preview_words() != "",
+                  "the preview says %r; %s"
+                  % (preview_words()[:90], waited_for))
             t = camera_table()
             [t.cellWidget(r, 1) for r in range(t.rowCount())
              if t.item(r, 0).text() == "C_camera.mov"][0].setText(

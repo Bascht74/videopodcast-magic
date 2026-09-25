@@ -45,7 +45,7 @@ hint. Without a key the multitrack run stops there.*
 | `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Careful, ffmpeg drops `deu` silently (none) |
 | `--speech-language-camera CODE` | the same for the camera track (none: that is what tells the two apart in the QuickTime audio menu) |
 | `--speakers-local FILE` | take that recording apart by voice on this machine, and cut by the result (the recording the run picks itself) |
-| `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one (none) |
+| `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one; not used where its recording has changed since or it came from another model (none) |
 | `--speakers-count NUMBER` | how many people `--speakers-local` should find (work it out) |
 | `--no-speakers-local` | never take a recording apart by voice in this run (off) |
 | `--no-speech-recognition` | do not write down what is said; the cut then has no sentence boundaries (off)  `[multitrack only]` |

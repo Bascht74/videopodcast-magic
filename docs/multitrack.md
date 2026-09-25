@@ -62,7 +62,8 @@ several, and the voices found then hang under that row as indented rows
 of their own. Only an answer given shows them: a recording whose
 separation is stored already and that nobody has answered for keeps an
 empty field and no voice rows. Nothing measured is lost -- the voices
-stay in the project and in the cache folder, and picking **several
+stay in the project, and for thirty days in the cache folder, and
+picking **several
 speakers** later brings them up at once, with their names and cameras
 and without computing again. The last column says how far that got and
 offers **Stop** while it runs ([Speech recognition and speaker
@@ -476,6 +477,12 @@ masters to ([Preflight](preflight.md)).
   of its own -- lock nothing: the window tells them apart as the command
   line does. The second is `<name> 2` in the cut, in the **new file
   name** offered to it and in Resolve, and each keeps its own picture.
+  In the window's own lists -- the column **Camera** and the choice
+  under **belongs to** -- the second stands as `<name> (2)`, and resting
+  on it shows the whole path. A project saved by an older version knew
+  a camera by its file name alone: opened now, every row that named one
+  of the two goes to the first file of that name, so the rows meant for
+  the second have to be pointed at it again.
 - **Several cameras, no audio recording, and Start stays locked.** No
   camera is contributing its sound. Set **Camera audio** to **use
   internal audio** at every camera that is to be heard; each one is then

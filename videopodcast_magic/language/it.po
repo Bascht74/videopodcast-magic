@@ -807,9 +807,6 @@ msgstr "al punto di ingresso"
 msgid "to Out point"
 msgstr "al punto di uscita"
 
-msgid "too short"
-msgstr "troppo breve"
-
 msgid "unknown"
 msgstr "sconosciuto"
 
@@ -1924,9 +1921,6 @@ msgstr "  Si sovrappongono -- più microfoni insieme, non blocchi in fila."
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s blocchi uniti in ordine di nome (nessun timecode -- le lacune non sarebbero riconoscibili)"
 
-msgid "edges implausible"
-msgstr "bordi non plausibili"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "collocato per fase, nitidezza %s contro una soglia di %s, deriva sconosciuta"
 
@@ -1938,9 +1932,6 @@ msgstr "nessun dato audio da %s"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  Nel video va solo il mix (--no-single-tracks)."
-
-msgid "no match in the middle either (%s)"
-msgstr "nessuna corrispondenza neanche nel mezzo (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      ATTENZIONE: corrispondenza debole per %s (%s, la soglia è %s). I due potrebbero non appartenersi."
@@ -4852,3 +4843,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s file non si accorda con gli altri"
 msgstr[1] " -- %s file non si accordano con gli altri"
+
+msgid "Cameras"
+msgstr "Telecamere"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s hanno la stessa dimensione e la stessa durata -- forse la stessa registrazione due volte."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe non apre più il file"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Mancano: ffmpeg e ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s contiene una separazione dei parlanti di una registrazione che nel frattempo è cambiata o non c’è più, oppure di un altro modello -- non viene usata."

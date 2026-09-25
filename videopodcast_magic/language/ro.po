@@ -3036,9 +3036,6 @@ msgstr "nicio informație"
 msgid "no information in the file"
 msgstr "nicio informație în fișier"
 
-msgid "no match in the middle either (%s)"
-msgstr "nicio potrivire nici la mijloc (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nu s-a găsit niciun loc în care vorbește exact o persoană -- separarea nu poate fi măsurată."
 
@@ -3717,9 +3714,6 @@ msgstr "anulare"
 msgid "cancelled"
 msgstr "anulat"
 
-msgid "edges implausible"
-msgstr "margini neplauzibile"
-
 msgid "fixed: "
 msgstr "remediat: "
 
@@ -3755,9 +3749,6 @@ msgstr "la punctul In"
 
 msgid "to Out point"
 msgstr "la punctul Out"
-
-msgid "too short"
-msgstr "prea scurt"
 
 msgid "two Timelines"
 msgstr "două Timeline-uri"
@@ -4880,3 +4871,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s fișier nu se potrivește cu celelalte"
 msgstr[1] " -- %s fișiere nu se potrivesc cu celelalte"
 msgstr[2] " -- %s de fișiere nu se potrivesc cu celelalte"
+
+msgid "Cameras"
+msgstr "Camere"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Aceeași dimensiune și durată: %s -- posibil aceeași înregistrare de două ori."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe nu mai deschide fișierul"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg și ffprobe lipsesc."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s conține o separare a vorbitorilor pentru o înregistrare care s-a schimbat sau a dispărut între timp, ori de la alt model -- nu este folosită."

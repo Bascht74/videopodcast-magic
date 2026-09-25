@@ -5,8 +5,10 @@ The run refuses a camera it cannot place, so its handover names two of
 the three cameras in the list. Taking one out and putting it back must
 not lose it: no search finds it, since it names these cameras less one.
 In order: the run's handover taken up, a camera out, the camera back,
-one naming a camera the list does not hold never given back to it, and
-none given back from a folder the search no longer looks in.
+one naming a camera the list does not hold never given back to it,
+none given back from a folder the search no longer looks in, and one
+naming its refused camera standing with that camera out or in, but not
+once a camera is added that the run never saw.
 The window's own functions, the run loop included, without a window.
 """
 import io
@@ -134,6 +136,35 @@ check("a handover from a folder no longer searched stays away",
       taken() is None,
       "the button offers %r with the output folder moved, wanted None"
       % taken())
+
+print("\n6. A handover that names the camera its run refused")
+# Nothing remembered, as after opening the project afresh: only the
+# rule over the file itself can answer.
+REFUSING = os.path.join(elsewhere, "Refusing_resolve.json")
+with open(REFUSING, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "created_by": "test",
+               "production": "Refusing", "fps": 25, "length_s": 60.0,
+               "cameras": [{"source": A, "file": A, "track": "Presenter"},
+                           {"source": B, "file": B, "track": "Guest"}],
+               "refused": [C], "cut": [], "speakers": [],
+               "audio_files": {}, "words": []}, f)
+state.update(handover_offered={}, resolve_json=None, handover_cameras=None)
+ui.handover_follows(state, [A, B])
+check("with the refused camera taken out the handover still stands",
+      taken() == "Refusing_resolve.json",
+      "the button offers %r for A and B, wanted 'Refusing_resolve.json'"
+      % taken())
+ui.handover_follows(state, [A, B, C])
+check("with the refused camera in the list the handover stands too",
+      taken() == "Refusing_resolve.json",
+      "the button offers %r for A, B and C, wanted 'Refusing_resolve.json'"
+      % taken())
+D = os.path.join(folder, "D_Second.mov")
+open(D, "wb").close()
+ui.handover_follows(state, [A, B, C, D])
+check("a camera added after the run keeps the handover away",
+      taken() is None,
+      "the button offers %r for A, B, C and D, wanted None" % taken())
 
 shutil.rmtree(folder, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

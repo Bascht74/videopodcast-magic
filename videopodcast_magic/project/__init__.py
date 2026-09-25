@@ -535,6 +535,8 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                                    else value)
         voice_keys_carry_source(remembered,
                                 state.get("speakers_source") or "")
+        PROGRAM.cameras_carry_path(remembered,
+                                   [p for p, a in present if a == "video"])
         if d.get("multitrack"):
             multitrack.set(True)
         preset_list_bring(state, presets_wanted_now, presets_filter)

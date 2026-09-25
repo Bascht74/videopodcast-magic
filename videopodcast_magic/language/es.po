@@ -789,9 +789,6 @@ msgstr "a la entrada"
 msgid "to Out point"
 msgstr "a la salida"
 
-msgid "too short"
-msgstr "demasiado corto"
-
 msgid "unknown"
 msgstr "desconocido"
 
@@ -3979,9 +3976,6 @@ msgstr "¿encaja el ajuste preestablecido con la ejecución?"
 msgid "downloaded file is only %s bytes"
 msgstr "el archivo descargado tiene solo %s bytes"
 
-msgid "edges implausible"
-msgstr "flancos inverosímiles"
-
 msgid "ends"
 msgstr "acaba"
 
@@ -4101,9 +4095,6 @@ msgstr "sin datos"
 
 msgid "no information in the file"
 msgstr "sin datos en el archivo"
-
-msgid "no match in the middle either (%s)"
-msgstr "tampoco hay coincidencia en el medio (%s)"
 
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "no se ha encontrado ningún punto en el que hable exactamente una persona -- la separación no se puede medir."
@@ -4834,3 +4825,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s archivo no encaja con los demás"
 msgstr[1] " -- %s archivos no encajan con los demás"
+
+msgid "Cameras"
+msgstr "Cámaras"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s tienen el mismo tamaño y la misma duración -- quizá la misma grabación dos veces."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe ya no abre el archivo"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg y ffprobe faltan."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s contiene una separación de hablantes de una grabación que ha cambiado o ya no existe desde entonces, o de otro modelo -- no se usa."

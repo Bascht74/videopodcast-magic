@@ -3068,9 +3068,6 @@ msgstr "tidak ada informasi"
 msgid "no information in the file"
 msgstr "tidak ada informasi di dalam file"
 
-msgid "no match in the middle either (%s)"
-msgstr "juga tidak ada kecocokan di bagian tengah (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "tidak ditemukan bagian tempat tepat satu orang berbicara -- pemisahan tidak dapat diukur."
 
@@ -3800,9 +3797,6 @@ msgstr "batal"
 msgid "cancelled"
 msgstr "dibatalkan"
 
-msgid "edges implausible"
-msgstr "tepi tidak masuk akal"
-
 msgid "fixed: "
 msgstr "diperbaiki: "
 
@@ -3841,9 +3835,6 @@ msgstr "ke titik masuk"
 
 msgid "to Out point"
 msgstr "ke titik keluar"
-
-msgid "too short"
-msgstr "terlalu pendek"
 
 msgid "two Timelines"
 msgstr "dua Timeline"
@@ -4796,3 +4787,18 @@ msgstr "stereo"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s file tidak cocok dengan yang lain"
+
+msgid "Cameras"
+msgstr "Kamera"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s memiliki ukuran dan durasi yang sama -- mungkin satu rekaman dua kali."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe tidak lagi dapat membuka file"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg dan ffprobe tidak ada."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s berisi pemisahan pembicara dari rekaman yang sejak itu berubah atau hilang, atau dari model lain -- tidak digunakan."

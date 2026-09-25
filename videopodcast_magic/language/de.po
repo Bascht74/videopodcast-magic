@@ -4688,9 +4688,6 @@ msgstr "keine Angaben"
 msgid "no information in the file"
 msgstr "keine Angaben in der Datei"
 
-msgid "no match in the middle either (%s)"
-msgstr "auch in der Mitte keine Übereinstimmung (%s)"
-
 msgid ""
 "no place found where exactly one person speaks -- the separation cannot "
 "be measured."
@@ -5513,9 +5510,6 @@ msgstr "abbrechen"
 msgid "cancelled"
 msgstr "abgebrochen"
 
-msgid "edges implausible"
-msgstr "Kanten unplausibel"
-
 msgid "fixed: "
 msgstr "behoben: "
 
@@ -5554,9 +5548,6 @@ msgstr "zu In-Punkt"
 
 msgid "to Out point"
 msgstr "zu Out-Punkt"
-
-msgid "too short"
-msgstr "zu kurz"
 
 msgid "two Timelines"
 msgstr "zwei Timelines"
@@ -6619,3 +6610,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s Datei passt nicht zu den anderen"
 msgstr[1] " -- %s Dateien passen nicht zu den anderen"
+
+msgid "Cameras"
+msgstr "Kameras"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s haben dieselbe Größe und Laufzeit -- womöglich eine Aufnahme doppelt."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe öffnet die Datei nicht mehr"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg und ffprobe fehlen."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s enthält eine Sprechertrennung einer Aufnahme, die sich seitdem geändert hat oder nicht mehr da ist, oder eines anderen Modells -- sie wird nicht verwendet."
