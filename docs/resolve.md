@@ -23,9 +23,10 @@ this window: what it wrote is this material by definition, and the
 button is live the moment the run is done. The other is **Open project
 ...**, which looks for one in the output folder and beside the project
 file -- and takes it only where it names **exactly the cameras this
-project holds**. A handover out of another production, or out of a round
-over fewer cameras, is passed over as if it were not there: a cut built
-out of it looks exactly like a fresh one and is not. So a project can be
+project holds**, those its run left out counted in. A handover out of
+another production, or out of a round over fewer cameras, is passed
+over as if it were not there: a cut built out of it looks exactly like
+a fresh one and is not. So a project can be
 opened and **Create Resolve project** pressed without running anything
 again.
 
@@ -45,9 +46,13 @@ handover of a run that left a camera out comes back too: it never names
 that camera, and it is still the handover this list was run with.
 
 That memory lasts while the window is open and the project stays the
-same; **Close project** clears it. A project opened afresh
-takes only a handover over exactly its cameras, so after a run that
-left a camera out its button opens grey; press **Start** again.
+same; **Close project** clears it. A project opened afresh does not
+need it: the handover also lists the cameras its run left out, and
+those count as named, so after such a run the button is there again
+from the start. A camera added to the list after that run keeps it
+grey -- the run never saw it. A handover written by an older version
+does not list what its run left out; there the button opens grey, and
+**Start** once more puts it right.
 
 Picking an output folder, or going back to **next to each video file**
 with **reset**, clears what the button had and looks in the new place
@@ -482,7 +487,10 @@ curve, for instance `com.apple.apple-wide-gamut.apple-log`. **That** is
 what Resolve recognises Apple Log by; the `colr` box says nothing about
 it. ffmpeg cannot keep the atom, so the script adds it itself after
 writing, byte for byte from the source. Afterwards it reads back whether
-the file is still sound.
+the file is still sound: the boxes where they stood, and ffprobe still
+able to open it. Where it is not, the atom is taken out again, and the
+log says `Adding atoms taken back` and why -- for instance `ffprobe no
+longer opens the file`.
 
 The log then says under **Camera atoms** whether the atom was added and
 which curve it names. In the file list the curve stands in the **Colour**

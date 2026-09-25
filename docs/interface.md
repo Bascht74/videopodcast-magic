@@ -43,8 +43,10 @@ Four tabs, in the order they are needed.
 
   The output folder is not guessed. Until one is chosen, or a project
   says where it goes, the strip reads **next to each video file**, and
-  that is where the result lands. Once a folder stands there, **reset**
-  appears beside it and puts the result back next to each video file.
+  that is where the result lands. A folder too long for the strip is
+  shortened in the middle, and resting on it shows it whole. Once a
+  folder stands there, **reset** appears beside it and puts the result
+  back next to each video file.
   An original is never hit doing that: every camera file the run writes
   carries `_audio` at the end of its name.
   The production name is suggested from the folder the material lies
@@ -402,9 +404,12 @@ Four tabs, in the order they are needed.
   multicam timeline alone; the Resolve project is created from the
   Output tab.** The box with the cut values, the box **Speaker** and
   the preview stand under it greyed, nothing in them is measured, and
-  no speakers are worked out when the tab is opened. On **Output** the
-  tooltip on **Create Resolve project** says what the button builds
-  under this type. The line about
+  no speakers are worked out when the tab is opened. The line at the
+  top of the preview and the one under the wide shot settings stand
+  empty: greyed, they would still speak of speakers and a wide shot,
+  and this type has neither. On **Output** the tooltip on **Create
+  Resolve project** says what the button builds under this type. The
+  line about
   Resolve does what it always does: whether Resolve answers is asked
   on the first look at this tab, in either type.
 - **Output**: appears as soon as something runs, in the same colours as
@@ -425,6 +430,9 @@ Four tabs, in the order they are needed.
   the handover file from a run is missing. Put the camera back and the
   button can be pressed again -- also after a run that left a camera
   out: the window takes back the handover the button had for that list.
+  The handover names the cameras its run left out as well, so the
+  button is there again after the project has been closed and opened;
+  a camera added after that run keeps it grey.
   Choosing another output folder, or going back to **next to each video
   file**, looks for a handover in the new place at once
   ([Resolve](resolve.md) says where it looks).
@@ -579,7 +587,9 @@ the file's own clock only where nothing was measured.
   shows the window, and dragging the rail moves only the numbers. Until
   the time axis stands they are locked.
 - Formats the machine cannot play (MXF, R3D, some ProRes variants) get a
-  button for `ffplay`.
+  button for `ffplay`, **External preview -- the app does not know this
+  format** -- also where the system names no fault and only reports
+  the file as one it cannot open.
 
 The output also goes to `videopodcast-magic.log`, and where that file
 lies depends on how the program came onto the machine. A copy running
@@ -598,16 +608,21 @@ under it the path the program was started from -- several copies of the
 program share one log, and without that line nobody can tell later which
 of them wrote what. Every start of the program begins the file again and
 keeps the one before as `videopodcast-magic_1.log`, so one file holds a
-whole session and every run in it. What Qt and ffmpeg write past Python
-is in there too. The two players write into it as well, on lines marked
-**[GUI]**: what was loaded, played and paused, which sound was laid
+whole session and every run in it, from its first line on -- including
+what a start notes before the window is up. An empty log does not take
+the place of the kept one: `videopodcast-magic_1.log` then stays as it
+was. Where the file before cannot be renamed -- on Windows, while
+another copy of the program holds it open -- the new start writes on
+after it in the same file. What Qt and ffmpeg write past Python is in
+there too. The two players write into it as well, on lines marked
+`[GUI]`: what was loaded, played and paused, which sound was laid
 against which picture -- naming, for a recording written in several
 blocks, the block that is playing, and saying where that recording was
 not due under this picture and stayed silent on purpose -- and, at every
 start and every stop of the cut player, which camera it was showing.
 That is the part to send along with a complaint about the preview.
 
-Lines marked **[EXT]** hold every call to a program outside this one --
+Lines marked `[EXT]` hold every call to a program outside this one --
 ffmpeg and ffprobe -- with the tool, the file it was about and how long
 it took; speech recognition and speaker separation stand among them,
 because that is where a run spends its minutes. Where no measurement was
@@ -615,16 +630,16 @@ needed because one was already there, that stands in place of the call:
 from outside, a file read once looks exactly like one read four times.
 The same call several times in a row stands as one line, with the count
 and the total -- the fine measurement asks for nine stretches out of two
-files. A line marked **[ENV]** says, for each loudness curve the program
+files. A line marked `[ENV]` says, for each loudness curve the program
 draws out of a file for the time axis, whether it came out of the store
 or had to be read off the file again; on a large file that is the
 difference between minutes and nothing. And what the window shows in red
-is in there with the time of day, under **[BAD]**: a warning window, a
+is in there with the time of day, under `[BAD]`: a warning window, a
 red line under a box, a red mark on a row of the file list -- a red mark
 is gone as soon as the row is drawn again, and the complaint about it
 arrives hours later.
 
-A line marked **[TIME]** says how far into the start each step
+A line marked `[TIME]` says how far into the start each step
 was reached -- counted from the second the icon was clicked, where the
 program was started that way, and otherwise from the moment it began
 to run. A start that takes twenty seconds can be read afterwards instead
@@ -1096,7 +1111,7 @@ nothing are told apart.
 - **Asking for help**: send the version from `--version`, the operating
   system, `videopodcast-magic.log` and what you were trying to do, before
   the details of the fault. Both players write down in that log what they
-  did, every line marked **[GUI]** and carrying the time of day: which
+  did, every line marked `[GUI]` and carrying the time of day: which
   file was loaded and at what point, every play and every pause, which
   recording was laid against the picture, out of which of the two
   reckonings that came and what the sum was. A recording written in
@@ -1107,8 +1122,8 @@ nothing are told apart.
   showing at each start and each stop, not on every frame between them.
   Sound running against the wrong picture can be read off those lines
   afterwards; without them it can only be described. Beside them stand
-  the calls to ffmpeg and ffprobe with their times, marked **[EXT]**,
-  and every red message the window showed, marked **[BAD]** and with the
+  the calls to ffmpeg and ffprobe with their times, marked `[EXT]`,
+  and every red message the window showed, marked `[BAD]` and with the
   time of day -- a red mark that has since been drawn over is found
   again there instead of being remembered.
 
