@@ -173,7 +173,10 @@ theirs = block_of(others[0])
 OFFSET = vpm.T('  Offset:          %s   (from the camera comparison)') \
     .split("%s")[0].strip()
 placed = [l.strip() for l in theirs if l.strip().startswith(OFFSET)]
-drifts = [l for l in theirs if l.strip().startswith(DRIFT) and "ppm" in l]
+# Its clock line, a drift or "not measured" where the sound placed it on
+# too few points -- anything but the reference's.
+drifts = [l for l in theirs if l.strip().startswith(DRIFT)
+          and l.strip() != NOTHING]
 check("a camera that was measured still reports its clock", bool(drifts),
       "%d line(s) in the block of %s, its offset line %r"
       % (len(drifts), others[0], (placed or [""])[0]))

@@ -3634,8 +3634,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
                 [nv.get() for _k, nv, _c in voice_lines]))
             picked, worked_out = camera_row_cameras(
                 PROGRAM.camera_after_a_mark(
-                    "voice:" + key, remembered.get("voice:" + key), wide,
-                    name_value.get().strip() or label),
+                    "voice:" + key, remembered.get("voice:" + key), wide),
                 wide["pickable"], name_value.get(), videos)
             camera_value = Value(MIX_ONLY if picked in barred else picked)
             camera_value.derived = worked_out
