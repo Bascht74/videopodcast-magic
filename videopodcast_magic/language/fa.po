@@ -1,0 +1,4811 @@
+# What is translated of this program's messages, in Persian.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Persian speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 24.9.2026 in two steps: a glossary first, which
+# fixed the form of address and one word for each thing, and then every
+# text against it, three languages at a time from one sheet. Every entry
+# was read back once in full by another model, against the English and
+# those words, and 50 were put right; a third refuted what was not
+# a fault.
+#
+# Anyone who speaks Persian is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is nought or one, [1] from two
+# up. Persian keeps a noun after a number in the singular, and a
+# thing that is counted mostly keeps its verb singular too, so the
+# two wordings often read alike; that is Persian, not a copied line.
+# Where people are counted, the verb in [1] is plural.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "برش با نمای باز"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "ضبط را بر اساس صدا جدا می‌کند: هر صدا ردیف جداگانه‌ای می‌گیرد و دوربینش در همان ردیف است. حدود یک دقیقه برای نیم ساعت صدا، روی همین رایانه و بدون بارگذاری."
+
+msgid ", %s without"
+msgstr "، %s بدون دوربین"
+
+msgid "no camera yet"
+msgstr "هنوز دوربینی نیست"
+
+msgid "A newer version is out"
+msgstr "نسخه جدیدتری منتشر شده است"
+
+msgid "%s is out. This is %s."
+msgstr "نسخه %s منتشر شده است. این نسخه %s است."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "به‌روزرسانی شود؟ pip آن را در %s می‌آورد. پیام‌های pip در زبانه خروجی نمایش داده می‌شود و نسخه جدید از راه‌اندازی بعدی اجرا می‌شود."
+
+msgid "pip could not be started: %s"
+msgstr "pip اجرا نشد: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip با %s متوقف شد. آنچه انجام داد در سطرهای بالا آمده است."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "%s نصب شد. از راه‌اندازی بعدی اجرا می‌شود."
+
+msgid "There is no window to show what pip says."
+msgstr "پنجره‌ای برای نمایش پیام‌های pip وجود ندارد."
+
+msgid "Back to an earlier version ..."
+msgstr "بازگشت به نسخه قبلی ..."
+
+msgid "Back to an earlier version"
+msgstr "بازگشت به نسخه قبلی"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "جست‌وجوی نسخه‌های قبلی ممکن نشد: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "فهرست نسخه‌های قبلی خوانده نشد."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "نسخه‌ای قدیمی‌تر از %s که pip بتواند نصب کند منتشر نشده است."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "این نسخه %s است. pip کدام نسخه را جای آن بگذارد؟"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip آن را در %s می‌آورد و پیام‌های pip در زبانه خروجی نمایش داده می‌شود. نسخه‌ای که اینجا انتخاب شود از راه‌اندازی بعدی اجرا می‌شود.\n\nفقط برنامه برمی‌گردد و نه چیز دیگری. آنچه نسخه جدیدتر در تنظیمات نوشته است باقی می‌ماند و پروژه‌ها و فایل‌هایشان همان‌طور که هستند می‌مانند."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "مقدمه یا پایان‌بندی دوکاناله یک میکس استریو است -- اندازه‌گیری نشد"
+
+msgid "Multitrack mode"
+msgstr "حالت Multitrack"
+
+msgid "Singletrack mode"
+msgstr "حالت Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "پیش‌تنظیم Multitrack شخصی ندارید -- یکی بسازید"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "پیش‌تنظیم Singletrack شخصی ندارید -- یکی بسازید"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "پیش‌تنظیم شخصی ندارید -- در auphonic.com یکی بسازید"
+
+msgid "No Multitrack preset found in the account."
+msgstr "هیچ پیش‌تنظیم Multitrack در حساب پیدا نشد."
+
+msgid "No Singletrack preset found in the account."
+msgstr "هیچ پیش‌تنظیم Singletrack در حساب پیدا نشد."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "هیچ پیش‌تنظیم Multitrack در حساب نیست. فقط این‌ها هست: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "هیچ پیش‌تنظیم Singletrack در حساب نیست. فقط این‌ها هست: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r یک پیش‌تنظیم Singletrack است، ولی پیش‌تنظیم Multitrack لازم است."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r یک پیش‌تنظیم Multitrack است، ولی پیش‌تنظیم Singletrack لازم است."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "کلید معتبر است. از %s پیش‌تنظیم حساب، هیچ‌کدام Multitrack نیست؛ بنابراین فهرست خالی می‌ماند."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "کلید معتبر است. از %s پیش‌تنظیم حساب، هیچ‌کدام Singletrack نیست؛ بنابراین فهرست خالی می‌ماند."
+
+msgid "fetching from auphonic.com ..."
+msgstr "در حال دریافت از auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "تغییرات از %s به بعد:"
+
+msgid "Update"
+msgstr "به‌روزرسانی"
+
+msgid "Later"
+msgstr "بعداً"
+
+msgid "Go back"
+msgstr "بازگشت"
+
+msgid "Starting again did not work: %s"
+msgstr "راه‌اندازی دوباره انجام نشد: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "آن را دستی اجرا کنید: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "نسخه جدیدتری پیدا نشد. این نسخه %s است."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update آن را دریافت و جایگزین می‌کند."
+
+msgid "The check for new versions is switched off here."
+msgstr "بررسی نسخه‌های جدید اینجا خاموش است."
+
+msgid "About Video Podcast Magic"
+msgstr "درباره Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "مواد خام یک ویدیوپادکست به یک قسمت تدوین‌شده تبدیل می‌شود: صدای خوب از فایل‌های ویدیویی، دوربین‌ها روی یک محور زمانی، نخستین برش بر اساس گوینده و یک پروژه DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s روی %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "مجوز MIT، Copyright (c) 2026 Sebastian Lotz. همان‌گونه که هست و بدون هیچ‌گونه ضمانتی ارائه می‌شود."
+
+msgid "&File"
+msgstr "&فایل"
+
+msgid "&View"
+msgstr "&نمایش"
+
+msgid "&Player"
+msgstr "&پخش‌کننده"
+
+msgid "&Help"
+msgstr "&راهنما"
+
+msgid "Play and pause"
+msgstr "پخش و مکث"
+
+msgid "Fast forward"
+msgstr "پیش‌روی سریع"
+
+msgid "Fast forward, %s times speed"
+msgstr "پیش‌روی سریع، سرعت %s برابر"
+
+msgid "Play forward, faster on every press"
+msgstr "پخش رو به جلو، با هر فشار سریع‌تر"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "پخش رو به جلو، با هر فشار دو برابر سریع‌تر -- کلید L."
+
+msgid "Pause"
+msgstr "مکث"
+
+msgid "One frame back"
+msgstr "یک فریم به عقب"
+
+msgid "One frame forward"
+msgstr "یک فریم به جلو"
+
+msgid "One second back"
+msgstr "یک ثانیه به عقب"
+
+msgid "One second forward"
+msgstr "یک ثانیه به جلو"
+
+msgid "Ten seconds back"
+msgstr "ده ثانیه به عقب"
+
+msgid "Ten seconds forward"
+msgstr "ده ثانیه به جلو"
+
+msgid "The manual"
+msgstr "دفترچه راهنما"
+
+msgid "What changed in this version"
+msgstr "تغییرات این نسخه"
+
+msgid "Show the log of this run"
+msgstr "نمایش گزارش این اجرا"
+
+msgid "Nothing has been written yet."
+msgstr "هنوز چیزی نوشته نشده است."
+
+msgid "Look for a newer version now"
+msgstr "جست‌وجوی نسخه جدیدتر همین حالا"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  بسته گواهی پیدا نشد -- بارگیری از طریق HTTPS ممکن است ناموفق باشد."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  بازشناس گفتار ساخته می‌شود ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  کامپایلر Swift گزارش می‌دهد: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  بازشناس گفتار ساخته شد (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  بازشناسی گفتار گزارش می‌دهد: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  بازشناسی در %s: آماده در %s s، شنیده‌شده در %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  روی این رایانه بازشناسی گفتار نیست: macOS 26 یکی همراه دارد، وگرنه faster-whisper نصب می‌شود."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  بازشناسی گفتار (%s): %s واژه در %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  بازشناسی گفتار (%s): %s واژه، بازخوانی‌شده"
+
+msgid "Separating speakers: %s"
+msgstr "تفکیک گوینده: %s"
+
+msgid "Separating ..."
+msgstr "در حال تفکیک ..."
+
+msgid "Voice"
+msgstr "صدا"
+
+msgid "Stop"
+msgstr "توقف"
+
+msgid "Stopping ..."
+msgstr "در حال توقف ..."
+
+msgid "Not on this machine"
+msgstr "نه روی این رایانه"
+
+msgid "Reading the audio ..."
+msgstr "در حال خواندن صدا ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "در ضبط هیچ صدایی شنیده نشد."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "تفکیک گوینده برای این پروژه خاموش است."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "اینکه چه کسی کی صحبت می‌کند را می‌توان روی همین رایانه تشخیص داد، از هر ضبطی که صدای همه در آن شنیده شود."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "تفکیک را برای این پروژه خاموش نگه می‌دارد. برش آنگاه مانند قبل از ترک‌ها یا از auphonic.com می‌آید."
+
+msgid "The speaker separation reports: %s"
+msgstr "تفکیک گوینده گزارش می‌دهد: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "در حال بازگرداندن تفکیک گوینده ..."
+
+msgid "The speaker separation is not set up."
+msgstr "تفکیک گوینده راه‌اندازی نشده است."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "تفکیک گوینده اینجا نصب نیست. این دستور آن را برمی‌گرداند: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "در حال دریافت مدل (حدود %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "در حال دریافت مدل (حدود %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "مدل دریافت نشد: %s"
+
+msgid "The model could not be written: %s"
+msgstr "مدل نوشته نشد: %s"
+
+msgid "The list of model files came back empty."
+msgstr "فهرست فایل‌های مدل خالی برگشت."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s با چک‌سام خود مطابقت ندارد و نوشته نشد."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "در پوشه برنامه نمی‌توان نوشت: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "مدل تفکیک گوینده کنار برنامه نیست."
+
+msgid "The model file %s does not match its checksum."
+msgstr "فایل مدل %s با چک‌سام خود مطابقت ندارد."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote در هر اجرا ردی از آن را به سرور خود می‌فرستد و این نسخه راهی برای خاموش کردن آن ندارد، بنابراین تفکیک شروع نشد."
+
+msgid "Speakers"
+msgstr "گویندگان"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "چه کسی در این ضبط شنیده می‌شود. یک نام یعنی همان یک نفر.\n«چند گوینده» روی همین رایانه و بدون بارگذاری تشخیص می‌دهد چه کسی کی صحبت می‌کند -- حدود یک دقیقه برای نیم ساعت صدا. سپس نام‌ها در ردیف‌های زیر وارد می‌شوند."
+
+msgid "Speaker %d"
+msgstr "گوینده %d"
+
+msgid "One more speaker in %s"
+msgstr "یک گوینده بیشتر در %s"
+
+msgid "One more speaker in"
+msgstr "یک گوینده بیشتر در"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "آن ضبط را دوباره گوش می‌دهد و به دنبال یک گوینده بیشتر از آنچه پیدا شد می‌گردد."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d دقیقه"
+
+msgid " SEEKING"
+msgstr " در حال جست‌وجو"
+
+msgid " computed"
+msgstr " محاسبه‌شده"
+
+msgid " virtual"
+msgstr " مجازی"
+
+msgid "%s were already right"
+msgstr "%s از قبل درست بودند"
+
+msgid "%s (%s files)"
+msgstr "%s (%s فایل)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (از %s تا %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- از %d:%02d تا %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- اگر دستی به هم وصل شوند، این اختلاف به‌صورت سکوت وارد فایل می‌شود و هیچ مرحله بعدی آن را حذف نمی‌کند."
+
+msgid "%s and %s more"
+msgstr "%s و %s مورد دیگر"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s و %s هر دو روی %s تنظیم شده‌اند. فقط یک فایل می‌تواند چنین باشد -- لطفاً دیگری را به محتوا برگردانید."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s و %s نام فایل یکسانی دارند و Resolve مسیری برای آن‌ها\n  گزارش نمی‌کند. نام یکی از آن دو را تغییر دهید."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s، %dx%d، %s فریم در %s"
+
+msgid "%s reports %s"
+msgstr "گزارش %s: %s"
+
+msgid "%s speech time"
+msgstr "%s زمان صحبت"
+
+msgid "%s virtual"
+msgstr "%s مجازی"
+
+msgid "%s, audio track %d"
+msgstr "%s، ترک صوتی %d"
+
+msgid "3:1 rule"
+msgstr "قاعده 3:1"
+
+msgid "Output"
+msgstr "خروجی"
+
+msgid "Access to auphonic.com"
+msgstr "دسترسی به auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "دسترسی و اتصال یک بار پرسیده می‌شوند و سپس می‌مانند. کلید در %s ذخیره می‌شود و هرگز در فایل ذخیره نمی‌شود."
+
+msgid "Checking files"
+msgstr "بررسی فایل‌ها"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "همه کارهای باقی‌مانده، در مقایسه با آنچه انجام شده است. کارهای طولانی سهم بیشتری از نوار را نسبت به کارهای کوتاه می‌گیرند."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "کلید auphonic.com و اینکه آیا Resolve پاسخ می‌دهد."
+
+msgid "Measuring time axis"
+msgstr "اندازه‌گیری محور زمانی"
+
+msgid "Resolve answers"
+msgstr "Resolve پاسخ می‌دهد"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve پاسخ نمی‌دهد -- تنظیمات را ببینید"
+
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "Settings ..."
+msgstr "تنظیمات ..."
+
+msgid "Two files as %s"
+msgstr "دو فایل به‌عنوان %s"
+
+msgid "begins"
+msgstr "آغاز می‌شود"
+
+msgid "done"
+msgstr "انجام شد"
+
+msgid "ends"
+msgstr "پایان می‌یابد"
+
+msgid "first"
+msgstr "نخستین"
+
+msgid "from %s"
+msgstr "از %s"
+
+msgid "join with Channel %d"
+msgstr "پیوستن به کانال %d"
+
+msgid "last"
+msgstr "آخرین"
+
+msgid "rejected"
+msgstr "رد شد"
+
+msgid ","
+msgstr ","
+
+msgid "."
+msgstr "."
+
+msgid "Kind"
+msgstr "نوع"
+
+msgid "Speech time"
+msgstr "زمان صحبت"
+
+msgid "Share"
+msgstr "سهم"
+
+msgid "Beginning"
+msgstr "آغاز"
+
+msgid "the whole material"
+msgstr "کل مواد"
+
+msgid "Colour"
+msgstr "رنگ"
+
+msgid "  Preset:  %s"
+msgstr "  پیش‌تنظیم:  %s"
+
+msgid "Preset"
+msgstr "پیش‌تنظیم"
+
+msgid "Preset:"
+msgstr "پیش‌تنظیم:"
+
+msgid "Start"
+msgstr "شروع"
+
+msgid "Production"
+msgstr "تولید"
+
+msgid "Target"
+msgstr "مقصد"
+
+msgid "Bright."
+msgstr "روشنایی"
+
+msgid "Colour U"
+msgstr "رنگ U"
+
+msgid "Colour V"
+msgstr "رنگ V"
+
+msgid "Writing %s"
+msgstr "در حال نوشتن %s"
+
+msgid "  Timecode:        %s"
+msgstr "  تایم‌کد:          %s"
+
+msgid "none"
+msgstr "هیچ"
+
+msgid "Length"
+msgstr "مدت"
+
+msgid "no camera of its own"
+msgstr "بدون دوربین اختصاصی"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- این یعنی همه، پس هر نما به همان یک دوربین می‌رود."
+
+msgid "No camera of their own: %s"
+msgstr "بدون دوربین اختصاصی: %s"
+
+msgid "do not use"
+msgstr "استفاده نشود"
+
+msgid "several speakers"
+msgstr "چند گوینده"
+
+msgid "this window"
+msgstr "این پنجره"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "دو نام فایل برای یک لحظه -- هیچ‌کدام برداشته نمی‌شود"
+
+msgid "work without Auphonic"
+msgstr "کار بدون Auphonic"
+
+msgid "Content"
+msgstr "محتوا"
+
+msgid "Intro"
+msgstr "مقدمه"
+
+msgid "Outro"
+msgstr "پایان‌بندی"
+
+msgid "ignore this video"
+msgstr "نادیده گرفتن این ویدیو"
+
+msgid "This is not a file of this program."
+msgstr "این فایل متعلق به این برنامه نیست."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "این فایل با نسخه %s در قالب %d نوشته شده است؛ این نسخه قالب %d را می‌نویسد. نام‌های درون آن از آن زمان تغییر کرده‌اند، بنابراین خوانده نمی‌شود. لطفاً اجرا را دوباره تنظیم کنید."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (فقط اندازه‌گیری: چیزی نوشته نشد)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (فقط اندازه‌گیری: بدون کلید API همین‌جا متوقف می‌شود)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  بررسی در برابر نشت صدا -- مرجع %s است:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  نوشتن %s ممکن نشد: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  برای %s معلوم نشد که آیا آنچه برگشت با\n  بارگذاری مطابقت دارد یا نه. توقف بهتر از نوشتن چیزی نادرست است."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  در فایل تحویل برش دوربین نیست -- بدون آمار گویندگان برش دوربینی وجود ندارد.\n  فقط Timeline برای کلیپ Multicam ساخته می‌شود."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  چیزی تغییر نکرد."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  فقط یک دوربین -- کلیپ Multicam بی‌معنا است."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  نام ترک‌ها آنجا فرق دارد:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  بازه زمانی دستی:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline برای کلیپ Multicam: همه دوربین‌ها، بدون برش"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline با برش نهایی"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: دوربین یکپارچه، میکس زیر آن"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nتمام شد. پایین، «باز کردن پوشه نتایج» نتیجه را نشان می‌دهد.\nاگر همه‌چیز درست است، «ساخت پروژه Resolve» پروژه را از آن می‌سازد.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nبررسی HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nپیش‌تنظیمی انتخاب نشده است: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nپیش از نخستین مرحله طولانی متوقف شد. با --anyway در هر حال اجرا می‌شود."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   در این صورت ممکن است Resolve فضای رنگ ورودی را تشخیص ندهد."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               صدا %s، در %s -- آنجا به %s واژه می‌رسد."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s ترک V%d، از فریم %d (%s s تا آغاز)، %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      هر دو کلیپ بدون برش می‌مانند؛ با محتوا هم‌پوشانی دارند.\n      محوشدگی در این هم‌پوشانی قرار می‌گیرد -- جای دقیقش را خودتان در Resolve تعیین می‌کنید.\n      (رابط اسکریپت‌نویسی Resolve نمی‌تواند ترنزیشن بسازد.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   ناموفق: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      هشدار: تطابق ضعیف برای %s (%s، کف %s است). ممکن است این دو به هم تعلق نداشته باشند."
+
+msgid "this pair of files"
+msgstr "این جفت فایل"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- این نمی‌تواند درست باشد، ترک\n    %-20s سر جای خود می‌ماند."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s، شباهت نام %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s، بریده‌شده به بازه زمانی، شباهت نام %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  اما %s -- نه بازه زمانی (%s) و نه\n    %-20s    کل محدوده اندازه‌گیری‌شده (%s). این به اجرای دیگری تعلق دارد."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s فایلی با نام مطابق نیست"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s به اندازه %s ms جابه‌جا شد%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s از قبل وجود دارد -- به‌جای آن در %s رندر شد تا\n%sخروجی رندر قبلی باقی بماند."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (توصیه YouTube برای %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC، %s kHz، دوکاناله  (نرخ بیت از راه دور تنظیم‌شدنی نیست --\n%s%s kbit/s برای استریو توصیه می‌شود)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s رد شد -- هیچ نگارشی پذیرفته نشد.\n%sدر Resolve زیر Deliver > Advanced Settings دستی\n%sتنظیم کنید: Color space tag Rec.2020، Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s روی «Same as Project» می‌ماند -- پروژه منحنی\n%sHDR را مشخص نمی‌کند. برای بررسی در Resolve زیر\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s حذف ناموفق بود."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s حذف ناموفق بود: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s پیوند دادن ناموفق بود: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s جداسازی پیوند اثری نداشت -- ترک‌های صوتی اضافی\n    %-24s سر جای خود می‌مانند."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s صدای A%d نگه داشته شد، %d مورد دیگر حذف شد"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s دوباره پیوند داده نشد"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s پیوندش جدا نشد: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s صدایی درج نشد"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s بار دوربین موردنظر در حال ضبط نبود -- دوربین دیگری آنجاست."
+
+msgid "    %s could not be imported."
+msgstr "    %s وارد نشد."
+
+msgid "    %s could not be inserted."
+msgstr "    %s درج نشد."
+
+msgid "    %s track could not be created: %s"
+msgstr "    ترک نوع %s ساخته نشد: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: تصویر و صدا جداگانه درج شدند (صدا از A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway تعیین شده است: با وجود موارد بالا اجرا می‌شود."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    همه ترک‌ها سر جایشان هستند -- چیزی برای جابه‌جایی نیست."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    احتیاط: H.265 در دسترس نیست -- H.264 با هشت بیت خواهد بود.\n             برای HDR کم است؛ در گرادیان‌ها نوارنوار شدن دیده می‌شود."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    احتیاط: پروژه روی %s است، مواد %s است.\n             خروجی رندر برچسب‌های مواد را دارد. برای همراه کردن\n             پروژه: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "فضای رنگ"
+
+msgid "already right"
+msgstr "از قبل درست"
+
+msgid "    Clip colours could not be set."
+msgstr "    رنگ کلیپ‌ها تنظیم نشد."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    کلیپ‌های یک اجرای قبلی هنوز به Remote Grades خود وابسته‌اند. در\n    Color page روی یک تصویر کوچک راست‌کلیک > «Copy Remote Grades to Local»\n    (اصلاح رنگ را همراه می‌برد) یا «Use Local Grades». Timelineهای جدید\n    به این نیازی ندارند."
+
+msgid "    Codec list not readable: %s"
+msgstr "    فهرست کدک‌ها خوانا نیست: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    گروه رنگ %-24s فقط %s کلیپ از %s"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    بررسی متقابل ممکن نیست: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    بررسی متقابل: غیرقابل اندازه‌گیری"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    نقطه ورود  %s   (تایم‌کد %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    نقطه ورود  %s\n    نقطه خروج  %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    نقطه خروج  %s   (تایم‌کد %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    نقطه خروج پیش از نقطه ورود است -- این‌طور نمی‌شود."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    دوربین مرجع تایم‌کد ندارد. محور به ساعت %s وابسته است و نخستین فریم آن %s را نشان می‌دهد."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    برای بررسی -- Timeline از فریم %d (%s) شروع می‌شود:"
+
+msgid "    Format and codec could not be set."
+msgstr "    قالب و کدک تنظیم نشد."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    قالب و کدک تنظیم نشد: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    فهرست قالب‌ها خوانا نیست: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    یک فایل برای هر خروجی رندر پذیرفته نشد؛ Resolve برای هر کلیپ یک فایل می‌نویسد."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    درخواست یک فایل برای هر خروجی رندر ممکن نشد: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    مدت  %s  (به جای %s)"
+
+msgid "    Length  %s"
+msgstr "    مدت  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    نسخه‌های محلی: در ویرایشگر نود، «Group Pre-Clip» برای کل\n    دوربین اعمال می‌شود و «Clip» فقط برای همان یک برش. این دو\n    یکدیگر را نفی نمی‌کنند."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    سطح هدف سنج بلندی صدا پیدا نشد -- لطفاً آن را دستی تنظیم کنید:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    %s فریم بر ثانیه اندازه‌گیری شد -- Resolve فقط نرخ‌های ثابت را می‌شناسد،\n    %s به کار می‌رود."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    هیچ جفتی قابل اندازه‌گیری نیست -- همان‌طور که هست می‌ماند."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    تنظیمی برای نسخه‌ها پیدا نشد -- لطفاً دستی تنظیم کنید:\n    Project Settings > General Options > Color > «Use local version for new clips» %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    همه چیز تنظیم نشد. Resolve برخی مقادیر را فقط\n    تا وقتی Timeline هنوز خالی است می‌پذیرد -- لطفاً با بالا مقایسه کنید."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    در صف قرار گرفت -- در Resolve فقط «Render All» مانده است."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote Grades فعال است: یک اصلاح رنگ برای هر دوربین بر همه\n    برش‌های آن اعمال می‌شود -- دیگر نمی‌توان یک برش را به‌تنهایی\n    اصلاح کرد."
+
+msgid "    Render job could not be created."
+msgstr "    کار رندر ساخته نشد."
+
+msgid "    Render job could not be created: %s"
+msgstr "    کار رندر ساخته نشد: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    فهرست تنظیمات در دسترس نیست -- لطفاً دستی تنظیم کنید:\n    Project Settings > General Options > Color > «Use local version for new clips» %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    بازه زمانی فقط %s می‌شد -- این نمی‌تواند منظور باشد."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    ترک %d  %-22s (اینجا: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 دوباره خوانده نشد: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    نام ترک ویدیویی %d تغییر نکرد."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    آیا فایل نهایی به‌عنوان HDR پذیرفته می‌شود:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    ممکن نیست: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (مسیر صدا منفی است -- چیزی درست نیست)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s قابل هم‌ترازی نیست: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s قابل اندازه‌گیری نیست: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s آفست %s، رانش ساعت %s ppm (+/- %s)، پراکندگی باقی‌مانده %s ms، %s از %s نقطه"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s آفست %s، رانش ساعت %s ppm (+/- %s)، پراکندگی باقی‌مانده %s ms، %s از %s نقطه%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s از %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s بلوک به ترتیب نام به هم پیوستند (بدون تایم‌کد -- فاصله‌ها قابل تشخیص نمی‌بودند)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s بلوک با تایم‌کد به هم پیوستند، شروع %s"
+
+msgid "  %s of %s files imported."
+msgstr "  %s از %s فایل وارد شد."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s گوینده، %s نما، کوتاه‌ترین %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s ترک ویدیویی، به نام گویندگان:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s دو بار با دوربین‌های مختلف آمده است -- %s به کار می‌رود"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s صدایی برای اندازه‌گیری ندارد -- فقط با ساعت خودش جای‌گذاری شد، و چیزی برای سنجیدن آن پیدا نشد"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s دریافت نشد: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s بازنویسی نشد: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s روی ترک ویدیویی 1 می‌رود -- آنجا نخستین ترک صوتی\n  Full-Mix را دارد و ترک ویدیویی 1 زاویه 1 می‌شود."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s صدای دوربین ندارد -- بدون آن هیچ چیز هم‌تراز نمی‌شود"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s دو بار در تولید هست -- یک بار دریافت شد."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s از قبل وجود دارد و بازنویسی می‌شود -- این تولید سابقه‌ای از ساختن آن ندارد."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s از اجرای قبلی این تولید وجود دارد و جایگزین می‌شود."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s با %s فریم بر ثانیه اجرا می‌شود، نرخی که Resolve برای آن Timeline ندارد -- تبدیل می‌شود، کنار گذاشته نمی‌شود"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s آماده است -- با --resolve-json می‌توان این کار را بعداً انجام داد."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s، رد شد"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: تعداد کانال‌های آن مشخص نمی‌شود (%s) -- اندازه‌گیری نمی‌شود"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (فقط اندازه‌گیری: چیزی بارگذاری نشد)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  یک Timeline با نام %r از قبل وجود داشت -- نام Timeline تازه %r است."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  یک Timeline با این نام و با دوربین‌های دیگر وجود دارد. باقی می‌ماند؛\n  Timeline تازه کنار آن با نامی جداگانه ساخته می‌شود."
+
+msgid "  Added: %s"
+msgstr "  افزوده شدند: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  افزودن اتم‌ها برگردانده شد -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  همه فایل‌های خروجی لازم از قبل وجود دارند."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  اتم %s رد شد: %s بایت برای آن زیاد است."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  صدا: Full-Mix یکپارچه روی A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  احتیاط: %s پله اختلاف روشنایی -- هنگام تعویض دوربین دیده می‌شود."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  احتیاط: %s و %s هر دو %s نام دارند. روی Timeline\n  Resolve فقط نام را گزارش می‌کند، پس کلیپ‌هایشان از هم\n  تشخیص داده نمی‌شوند -- نام یکی از دو فایل را تغییر دهید."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  احتیاط: %s حذف نشد -- بنابراین Timeline تازه\n  پسوندی به نامش می‌گیرد."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  احتیاط: دامنه      فقط %s LU -- بسیار تنگ. گفتار معمولاً 3 تا 7 LU است؛\n                     کمتر از آن فشرده به گوش می‌رسد. بررسی کنید Leveler در auphonic.com\n                     چقدر قوی تنظیم شده است."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  احتیاط: تولید ترک‌های دیگری هم دارد (%s). آن‌ها وارد\n  میکس می‌شوند -- لطفاً آن‌ها را در auphonic.com حذف کنید."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  احتیاط: ترک %s -- تنظیمات خود را نگه می‌دارد."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  اتم‌های دوربین:   افزوده نمی‌شوند (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  داده‌های دوربین:  %s کلید منتقل شد (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  داده‌های دوربین:  احتیاط، %s از %s کلید در فایل تازه نیست: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  داده‌های دوربین:  منبع هیچ داده‌ای ندارد"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  افزودن اتم‌ها ممکن نیست: یک باکس 64 بیتی مانع است."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  افزودن اتم‌ها ممکن نیست: moov در انتها نیست."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  افزودن اتم‌ها ممکن نیست: منبع %s است و مقصد %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  بررسی:           ممکن نیست (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  رانش ساعت:       %s ppm (+/- %s)، پراکندگی باقی‌مانده %s ms، %s از %s نقطه"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  رانش ساعت:       چیزی اندازه‌گیری نشد -- این مرجعی است که بقیه با آن سنجیده می‌شوند"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  مقایسه رنگ ممکن نیست: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  گروه رنگ %r ساخته نمی‌شود."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  گروه رنگ %r ساخته نمی‌شود: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  رنگ:             %d/%d/%d -- رنگ‌های اصلی از ماتریس تکمیل شد (منبع: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  رنگ:             %d/%d/%d منتقل شد"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  رنگ:             احتیاط، در منبع %s، در فایل تازه %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  بررسی متقابل:    %s از Full-Mix، انحراف %s ms (%s از %s نقطه)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  بررسی متقابل:    ممکن نیست (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  ترک‌های داده:     %s منتقل شد"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  ترک‌های داده:     %s کنار گذاشته شد -- ffmpeg نمی‌تواند آن را بنویسد"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  حذف شد: %s -- اکنون دوباره ساخته می‌شود."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  رانش در طول مدت ضبط: %s s = %s فریم  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  نتیجه موجود پذیرفته شد -- نه چیزی محاسبه شد، نه هزینه‌ای پرداخت شد."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  کمتر از دو دوربین با صدا -- برای Multitrack کافی نیست."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  میکس نهایی آماده به‌عنوان معیار درخواست شد (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "از جایی که بلوک قبلی تمام می‌شود شروع نمی‌شود"
+
+msgid "ends before the next block starts"
+msgstr "پیش از شروع بلوک بعدی تمام می‌شود"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com آن‌ها را ادغام کرد. میکس دو کانال را نگه می‌دارد؛ آنچه از دست رفته\n  تفاوت میان دو میکروفون آن ترک است."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  دو کانال، چون یک ترک استریو است"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  فاصله %s در %s -- با سکوت پر شد"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  هم‌پوشانی %s در %s -- آنجا هر دو شنیده می‌شوند"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  هم‌پوشانی دارند -- چند میکروفون هم‌زمان، نه بلوک‌هایی پشت سر هم."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  هر کدام به‌عنوان ترکی جداگانه به ویدیو هم می‌رود: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  فقط میکس به ویدیو می‌رود (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  از قبل وجود دارد، با همان دوربین‌ها به همان ترتیب -- دست‌نخورده\n  می‌ماند. هر که Timeline تازه می‌خواهد، آن را در Resolve حذف کند."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  فریم‌های کلیدی %s خوانده نمی‌شوند (%s) -- کپی از ابتدای فایل شروع می‌شود."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  منحنی سطح ممکن نیست (%s) -- بدون محدودکننده"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  محدودکننده:        حداکثر %s dB، همان منحنی روی هر ترک%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  بلندی صدا قابل اندازه‌گیری نیست: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  بلندی صدا قابل اندازه‌گیری نیست -- همان‌طور که هست می‌ماند."
+
+msgid "  Metrics not writable: %s"
+msgstr "  داده‌های سنجش نوشته نشد: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  میکس نهایی از auphonic.com: %s LUFS، قله %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  هیچ Full-Mix پیدا نشد -- Timeline بی‌صدا می‌ماند."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  روی Timeline صدایی نیست -- چیزی برای پاک‌سازی نیست."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  در فایل تحویل دوربینی نیست -- چیزی برای ساختن نیست."
+
+msgid "  No clips found for colour groups."
+msgstr "  کلیپی برای گروه‌های رنگ پیدا نشد."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  برشی باقی نماند -- Timeline خالی می‌ماند."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  تحویل داده نشد: اجرا نتوانست %s را جای‌گذاری کند، پس دوربینی از این قسمت نیست."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  برای %s آفست اندازه‌گیری‌شده‌ای نیست -- در ابتدای محور قرار گرفت."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  در صدای %s چیزی پیدا نشد -- فقط بر اساس تایم‌کد جای‌گذاری شد."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: اندازه‌گیری آن را در %s s قرار می‌دهد، تایم‌کد در %s s -- اندازه‌گیری به کار می‌رود."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  شروع Timeline در %s رد شد: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline در %s شروع می‌شود، نه در %s -- هر نما به همان اندازه جلوتر قرار می‌گیرد."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  شروع Timeline در %s پذیرفته نشد."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  شروع %s -- هر نما نسبت به آن جای‌گذاری می‌شود."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  چنین Timelineای هنوز وجود نداشت -- فقط ساخته می‌شود."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  یادداشت: این محاسبه با فایل‌هایی است که آن زمان بارگذاری شدند. آن‌ها\n  بازه زمانی و هم‌ترازی همان روز را دارند. هرجا نقطه ورود، نقطه خروج\n  یا موقعیت اندازه‌گیری‌شده اکنون فرق کند، بررسی بازگشت\n  تفاوت را اندازه می‌گیرد و ترک‌ها را سر جایشان می‌برد."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  یادداشت: این ffmpeg فاقد soxr است -- رانش ساعت را فقط می‌توان\n  در پله‌های 21 ppm حذف کرد."
+
+msgid "  Of no consequence for the sound."
+msgstr "  تأثیری بر صدا ندارد."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  آفست:            %s   (از مقایسه دوربین‌ها)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  فقط %s از %s نما روی Timeline هستند."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  قله‌ها:             %s dB بالای %s dBTP -- محدودکننده آن‌ها را مهار می‌کند"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  پخش‌کننده: %s خطا گزارش می‌دهد -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  پخش‌کننده: %s در %s می‌ماند به جای %s -- پس از %s تلاش رها شد (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  پخش‌کننده: خروجی صدا به %s تغییر می‌کند"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  پخش‌کننده: صدا پخش نمی‌شود (%s) -- یک تلاش دیگر."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  لطفاً عددی بین 1 و %d وارد کنید."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  تولید در auphonic.com:        %s"
+
+msgid "  Production running (%s)"
+msgstr "  تولید در حال اجراست (%s)"
+
+msgid "  Project %r opened."
+msgstr "  پروژه %r باز شد."
+
+msgid "  Project file could not be written: %s"
+msgstr "  فایل پروژه نوشته نشد: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  فایل پروژه قابل نوشتن نیست (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  دامنه:             %s LU (گفتار معمولاً 3 تا 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  مرجع: %s (%s، طولانی‌ترین مدت)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  باقی‌مانده:         %s dB روی هر ترک، یعنی %s LUFS به جای %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve هیچ تصویری نپذیرفت -- Timeline خالی است. چیز دیگری\n  روی آن ساخته نمی‌شود."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  نتیجه: %s (%s) -- کنار فایل ویدیویی می‌ماند\n"
+
+msgid "  Not used:  %s."
+msgstr "  استفاده نشد:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  پرسش:     %s در رونوشت، %s به برش واکنش تبدیل شد."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  پرسش:     بدون رونوشت، پس پرسشی پیدا نشد و برش واکنشی\n            رخ نداد. واژه‌ها در طول اجرا از میکس نهایی نوشته\n            می‌شوند؛ بدون آن‌ها این تنظیم کاری نمی‌کند."
+
+msgid "  Settings brought to preset %r"
+msgstr "  تنظیمات مطابق پیش‌تنظیم %r شد"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  شروع %s (زودترین دوربین) -- وگرنه همه چیز پیش از شروع Timeline می‌افتاد."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  بدون تنظیم:        از فایل‌های منبع گرفته شد -- بدون گین روی هیچ ترکی و بدون\n                     محدودکننده. صدا دقیقاً همان‌طور که آمد بیرون می‌رود."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  مجموع ترک‌ها:       %s LUFS، قله %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  هدف:               %s LUFS  ->  %s dB روی هر ترک"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline نرخ %s را می‌گیرد: بالاترینِ آن‌ها، یا نرخ بعدی‌ای که Resolve\n  بالاتر از آن دارد. در تبدیل رو به بالا Resolve فریم‌ها را تکرار می‌کند و رو به پایین\n  آن‌ها را دور می‌ریزد. هر دوربین نرخ خودش را نگه می‌دارد و برش\n  با همان نرخ می‌شمارد."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix وارد نشد."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix درج نشد."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  دوربین‌ها بازه زمانی و یک ثانیه در هر سر را دارند: %s نوشته شد برای %s از %s ضبط‌شده."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  دوربین‌ها به هم نزدیک‌اند (حداکثر %s پله روشنایی)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  برش تغییر کرده است: %s نما به جای %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  سابقه اجراهای قبلی اینجا خوانده نمی‌شود (%s)، پس هر آنچه از قبل هست گزارش می‌شود."
+
+msgid "  The cut stays as it was."
+msgstr "  برش همان‌طور که بود می‌ماند."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  فایل‌ها دوباره بارگذاری می‌شوند -- این کار اعتبار مصرف می‌کند."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  فایل‌های پوشه باید به نام گویندگان باشند و به همین اجرا\n  تعلق داشته باشند. بدون پوشه، کار دوباره از auphonic.com می‌گذرد."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool همان‌طور که هست می‌ماند."
+
+msgid "  The names from there are adopted:"
+msgstr "  نام‌های آنجا پذیرفته شد:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  آنجا %s ترک هست و اینجا %s -- جور نیست."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  این دوربین جای‌گذاری نشد -- رد شد"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  بازه زمانی:      %s از %s نوشته شد، از %s دوربین"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  تایم‌کد %s به‌صورت bext و iXML نوشته شد (مرجع: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  بیش از حد:         محدودکننده باید %s dB کم می‌کرد. بیش از %s dB\n                     فشرده به گوش می‌رسد -- %s dB گین کمتر."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  ثبت گزارش ممکن نیست (%s) -- اجرا با این حال ادامه می‌یابد."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  نمای باز در دو سر: رد شد -- نخستین یا آخرین اعلام\n  برای یک خوشامد بیش از حد طولانی می‌بود."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  نمای باز در دو سر: تا %s و از %s"
+
+msgid "  from %s, %s"
+msgstr "  از %s، %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML برای %s نوشته نشد: %s"
+
+msgid " at high frame rates"
+msgstr " در نرخ فریم بالا"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  آغاز صدا بر اساس تایم‌کد:       %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  آغاز تصویر بر اساس تایم‌کد:     %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  تایم‌کد صدا اصلاً با تصویر جور نیست -- احتمالاً ساعتی که هرگز تنظیم نشده است. اندازه‌گیری به کار می‌رود."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  تایم‌کد با آنچه شنیده می‌شود جور نیست. اندازه‌گیری به کار می‌رود."
+
+msgid "%s from %s recordings"
+msgstr "%s از %s ضبط"
+
+msgid "%s is missing."
+msgstr "%s موجود نیست."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s روی بیش از یک گوینده است -- هر نام یک شخص است و هر شخص نام خودش را لازم دارد."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s روی بیش از یک صدا آمده است. هر نام یک شخص است و برش هر شخص را روی یک دوربین می‌گذارد -- دو صدا با یک نام یعنی یک شخص در دو جا."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  این رایانه می‌تواند آن را به‌درستی نصب کند: %s"
+
+msgid "  Installing it: %s"
+msgstr "  در حال نصب: %s"
+
+msgid "  On this machine: %s"
+msgstr "  روی این رایانه: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  در حال نصب: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s در این Python نصب می‌شود: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  دستی:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "جست‌وجوی نسخه جدیدتر ممکن نشد: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s موجود نیست. بار اول چند دقیقه طول می‌کشد."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  همین حالا اجرا شود؟ [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  نتیجه نداد: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  در حال بازگرداندن: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org نسخه‌های ساخته‌شده برای Windows دارد. سپس پوشه حاوی ffmpeg.exe باید به PATH افزوده شود، یا فایل‌ها کنار این برنامه قرار گیرند."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  صفحه باز شود؟ [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  صفحه باز نشد: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s موجود نیست -- در حال نصب. بار اول چند دقیقه طول می‌کشد."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sبررسی تایم‌کد فایل صوتی"
+
+msgid ", %s not (no free picture)"
+msgstr "، %s نه (فریم آزادی نبود)"
+
+msgid ", audio on A2"
+msgstr "، صدا روی A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "فایل تخصیص خوانا نیست: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "صدای دوربین قابل استفاده نیست: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "Multitrack ممکن نیست\n  دست‌کم دو ترک ورودی لازم است و فقط %s پیدا شد.\n  یک ترک یعنی یک ضبط جداگانه، یک کانال از یک ضبط‌کننده\n  چندکاناله، یا صدای یک دوربین -- که از وقتی به حساب می‌آید که\n  صدای دوربین آن «استفاده از صدای داخلی» باشد. بدون دو تا از آن‌ها\n  چیزی برای جداسازی نیست و همان فایل به‌صورت یک\n  تولید معمولی پردازش می‌شود."
+
+msgid "No preset is called %r."
+msgstr "هیچ پیش‌تنظیمی با نام %r وجود ندارد."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "دوربین‌ها صدا ندارند -- چیزی برای کار نیست."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "فقط یک فایل صوتی و بدون تصویر -- کاری برای انجام نیست."
+
+msgid "Open project ..."
+msgstr "باز کردن پروژه ..."
+
+msgid "Save project"
+msgstr "ذخیره پروژه"
+
+msgid "Close project"
+msgstr "بستن پروژه"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "فایل پروژه در پوشه خروجی قرار می‌گیرد و هنوز پوشه‌ای انتخاب نشده است. لطفاً یکی انتخاب کنید."
+
+msgid "Written:\n\n  %s"
+msgstr "نوشته شد:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "چیزی نوشته نشد -- هنوز موادی وجود ندارد."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nچه کسی می‌پرسد -- یک پیشنهاد، و چیزی از روی آن تنظیم نمی‌شود"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s صحبت، %s از %s جمله پرسشی"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  ترتیب قابل اتکاست، فاصله میان آن‌ها نه: در چهار قسمت اندازه‌گیری‌شده ترتیب هرگز وارونه نشد، در حالی که فاصله میان نخستین و آخرین چهار برابر تغییر کرد. این به یک صدا در هر ترک نیاز دارد؛ جایی که دو ترک گفتار یکسانی دارند، اصلاً چیزی گفته نمی‌شود."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  چه کسی می‌پرسد -- اینجا گفته نمی‌شود: دو ترک گفتار یکسانی دارند، پس پرسش‌ها به هر ضبط‌کننده‌ای می‌رسید که بلندتر از همه تنظیم شده بود."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nکدام میکروفون -- یک پیشنهاد، و چیزی از روی آن تنظیم نمی‌شود"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s شبیه %-20s %s %% از آن درون همان ترک، %s امتیاز جلوتر از بعدی"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  این فقط با یک فرض درست است: برای هر نفر یک میکروفون، و هر میکروفون فقط همان نفر را داشته باشد. جایی که ترک‌ها آن‌قدر هم‌پوشانی دارند که از هم تشخیص داده نمی‌شوند، یا دو صدا به یک میکروفون اشاره می‌کنند، به جای چیزی نامطمئن اصلاً چیزی گفته نمی‌شود."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nصداها چه نامی می‌توانند داشته باشند -- یک پیشنهاد"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s نام پیشنهادی: %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s در بازه زمانی تقریباً صحبت نمی‌کند -- پیشنهاد: «استفاده نشود»."
+
+msgid "Guest"
+msgstr "مهمان"
+
+msgid "Host"
+msgstr "میزبان"
+
+msgid "Host %d"
+msgstr "میزبان %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  فقط برای صداهایی که هنوز نامی را دارند که برنامه به آن‌ها داده است؛ نامی که کسی تایپ کرده هرگز دست نمی‌خورد. نقش‌ها از اینکه چه کسی می‌پرسد و چه کسی پاسخ می‌دهد خوانده می‌شوند، که برای گفتگویی با یک مهمان درست است و یک پیشنهاد است، نه یک تنظیم."
+
+msgid "Skip this version"
+msgstr "رد کردن این نسخه"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "فقط همین یکی. نسخه بعدی دوباره می‌پرسد، و «راهنما > جست‌وجوی نسخه جدیدتر همین حالا» هر زمان می‌پرسد."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s از قبل هست -- دو بار دریافت نشد"
+
+msgid "The text for %s could not be fetched."
+msgstr "متن مربوط به %s دریافت نشد."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  بررسی:           یکی از دو ترک در فایل نوشته‌شده نیست، پس چیزی اندازه‌گیری نشد."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  بررسی:           دو ترک قابل مقایسه نیستند (تطابق %s، کف %s است). این چیزی درباره زمان‌بندی نمی‌گوید."
+
+msgid "Project found"
+msgstr "پروژه پیدا شد"
+
+msgid "Open the project"
+msgstr "باز کردن پروژه"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "همه چیز از آن بازمی‌گردد: نام‌ها، تفکیک، تخصیص، نوع‌ها، بازه زمانی. فهرست فایل‌ها با فهرستی که در پروژه است جایگزین می‌شود."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "کنار این مواد یک فایل پروژه هست:\n\n  %s\n  نوشته‌شده در %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "کنار این مواد چند فایل پروژه هست. کدام؟\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "پروژه باز شد\n  همه ورودی‌ها برگشتند، در این جلسه چیزی محاسبه نشده است.\n  پوشه خروجی فایل‌های آخرین اجرا را دارد:\n  %s\n\n  سه راه از اینجا:\n    • پایین «باز کردن پوشه نتایج» -- دیدن فایل‌های آن اجرا،\n    • پایین «ساخت پروژه Resolve» -- از فایل تحویل آن اجرا،\n      بی‌آنکه چیزی دوباره محاسبه شود،\n    • بالا «شروع» -- محاسبه دوباره همه چیز و بازنویسی فایل‌ها.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "پروژه ذخیره شد\n  %s\n  این اجرا را می‌توان بعداً دوباره باز کرد -- بالا در منوی فایل\n  «باز کردن پروژه ...»\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "پیش‌تنظیم‌ها دریافت نشدند: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "چند دوربین اما بدون فایل صوتی. هر دوربین صدای خودش را خواهد داشت --\n--multitrack برای همین است. وگرنه یک دوربین پس از دیگری."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "فایل به‌عنوان HDR شناخته نمی‌شود."
+
+msgid "The file is tagged as HDR."
+msgstr "فایل برچسب HDR دارد."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "پسوند ناشناخته، رد شد: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "کدام پیش‌تنظیم Auphonic این فایل را پردازش کند؟"
+
+msgid "Would write: %s"
+msgstr "نوشته می‌شد: %s"
+
+msgid "channel count unknown"
+msgstr "تعداد کانال نامعلوم"
+
+msgid "is actively taken out"
+msgstr "فعالانه حذف می‌شود"
+
+msgid "not readable"
+msgstr "ناخوانا"
+
+msgid "the default device"
+msgstr "دستگاه پیش‌فرض"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s، %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: صدایی برای استخراج نیست (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  پروژه‌ای با این نام از قبل وجود دارد: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  پاک‌سازی ترک‌های صوتی"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  کلیپ‌ها در Media Pool"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  غیرقابل استفاده: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  به‌روزرسانی فهرست برش‌ها"
+
+msgid "\n  Render job"
+msgstr "\n  کار رندر"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  بخش Resolve متوقف شد: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  متوقف شد: %s"
+
+msgid "\n  Settings"
+msgstr "\n  تنظیمات"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  متوقف شد: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  تولیدی با این نام از قبل وجود دارد"
+
+msgid "\n  This produces:"
+msgstr "\n  حاصل این کار:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== اجرای %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nاز قبل پردازش‌شده"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nمقایسه رنگ دوربین‌ها"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nبررسی آنچه بازگشت"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nنرخ فریم متفاوت: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nاندازه فریم متفاوت: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nبدون نتیجه پایان یافت: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nبا خطا به پایان رسید.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nاندازه‌گیری محور زمانی"
+
+msgid "\nMETRICS"
+msgstr "\nشاخص‌ها"
+
+msgid "\nMIXING"
+msgstr "\nمیکس"
+
+msgid "\nNORMALISE"
+msgstr "\nنرمال‌سازی"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  بدون تصویر: ترک‌ها با یکدیگر هم‌تراز می‌شوند."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  گزینه --lufs اینجا اثری ندارد: ترک‌ها همان‌طور که ضبط شده‌اند خارج می‌شوند، و بلندی صدا جایی تنظیم می‌شود که میکس می‌شوند."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nفقط یک ترک جای خود را پیدا کرد -- چیزی باقی نمانده که با آن هم‌تراز شود."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  بازه زمانی:          %s -- هر آنچه هر ترکی شنیده است"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: سکوت به مدت %s در ابتدا و %s در انتها"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nپس از پیوستن بلوک‌ها فقط یک ترک باقی می‌ماند، و Multitrack برای هر صدا یک ترک لازم دارد. جایی که دو نفر به‌عنوان یک ضبط در نظر گرفته شده‌اند، --apart یک بلوک را بیرون از آن نگه می‌دارد."
+
+msgid "RECOGNISED PLAN"
+msgstr "طرح شناسایی‌شده"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nهیچ ترک صوتی هم‌تراز نشد -- چیزی برای قرار دادن روی محور نیست."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nصدا و تصویر فقط %s اشتراک دارند، و هم‌ترازی در آن %s نقطه نمونه یافت. این برای قرار دادن چیزی روی آن بسیار کم است."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s، با هم میکس‌شده"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nهیچ فایل ویدیویی قابل استفاده‌ای نیست -- بدون صدای دوربین محور زمانی مشترکی وجود ندارد."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nبررسی پیش از اجرا -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nپردازش: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nResolve -- فقط بررسی"
+
+msgid "\nRESULT"
+msgstr "\nنتیجه"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nذخیره ترک‌ها"
+
+msgid "\nStopped: %s"
+msgstr "\nمتوقف شد: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nنوشتن ترک‌ها روی محور"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  تمام شد%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        ترک %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s هیچ فایلی در Media Pool نیست"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   خالی (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s از %s، به طول %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s مسیر صدا %4s ms (%s m)، آفست %6s ms، رانش %5s ppm (%s نقطه، %s ms باقی‌مانده)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- چیز مناسبی پیدا نشد"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    احتیاط: %s. آنجا تصویری نیست؛"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    گروه‌های رنگ: %s -- همه کلیپ‌ها تخصیص یافتند"
+
+msgid "    Colours per angle:"
+msgstr "    رنگ‌ها برای هر زاویه:"
+
+msgid "    Cross-check:"
+msgstr "    بررسی متقابل:"
+
+msgid "    Left without picture: %s"
+msgstr "    بی‌تصویر مانده: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    هیچ قالب MP4 پیدا نشد. موجود: %s"
+
+msgid "    No clips found."
+msgstr "    هیچ کلیپی پیدا نشد."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    هیچ کدک مناسبی پیدا نشد. موجود: %s"
+
+msgid "    Render settings rejected."
+msgstr "    تنظیمات رندر پذیرفته نشد."
+
+msgid "    the measured window is therefore kept."
+msgstr "    بنابراین بازه زمانی اندازه‌گیری‌شده حفظ می‌شود."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s نما، در مجموع %s s، بدون صدایشان."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  %s ترک ویدیویی، %s ترک صوتی ساخته شد (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  برای %s، %s ترک با هم میکس می‌شوند: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  ترک صوتی %d:      %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  اتم‌های دوربین:   %s افزوده شد -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s در ابتدا و %s در انتها تصویر ندارند و کنار گذاشته می‌شوند"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    با %s شروع می‌شود و با %s پایان می‌یابد -- بازه‌ای که همه دوربین‌ها دیده‌اند"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nدر حال توقف. اجرا به محض اینکه بتواند بدون نیمه‌کاره گذاشتن فایلی تمام شود، پایان می‌یابد -- لحظه‌ای صبر کنید.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "نمای باز %s s طول می‌کشد، کمتر از کوتاه‌ترین نما با %s s -- پس دوباره ادغام می‌شود و هرگز دیده نمی‌شود.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nاندازه‌گیری انجام شد. چیزی نوشته نشد -- اجرای آزمایشی پوشه نتایج را همان‌طور که بود باقی می‌گذارد.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nتوقف در مرحله: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "هر آنچه پس از آن مرحله است وجود ندارد. پوشه بخشی از یک اجرا را دارد، نه یک نتیجه."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  بازه زمانی مشترک:    %s تا %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  ساخته شد:       %s"
+
+msgid "  Error while writing: %s"
+msgstr "  خطا هنگام نوشتن: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  فایل:      %s (%s، %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  دو کانال درخواست شد -- ضبط استریو است"
+
+msgid "  From %s"
+msgstr "  از %s"
+
+msgid "  In summary: %s"
+msgstr "  در مجموع: %s"
+
+msgid "  In the archive: %s"
+msgstr "  در بایگانی: %s"
+
+msgid "  Missing:     %s"
+msgstr "  ناموجود:        %s"
+
+msgid "  Player: %s"
+msgstr "  پخش‌کننده: %s"
+
+msgid "  Production:  %s"
+msgstr "  تولید:          %s"
+
+msgid "  Project %r"
+msgstr "  پروژه %r"
+
+msgid "  Project %r created."
+msgstr "  پروژه %r ساخته شد."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  نتیجه:             حدود %s LUFS، قله %s dBTP"
+
+msgid "  Results:"
+msgstr "  نتایج:"
+
+msgid "  Results:     none"
+msgstr "  نتایج:          هیچ"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  فایل‌های موجود دوباره استفاده می‌شوند -- محاسبه دوباره هزینه‌ای ندارد."
+
+msgid "  Time limit: %s"
+msgstr "  محدودیت زمانی: %s"
+
+msgid "  To upload:   %s"
+msgstr "  برای بارگذاری:  %s"
+
+msgid "  Tracks:      %s"
+msgstr "  ترک‌ها:          %s"
+
+msgid "  Tracks: %s"
+msgstr "  ترک‌ها: %s"
+
+msgid "  Transcript: %s"
+msgstr "  گزارش: %s"
+
+msgid "  Uploaded:"
+msgstr "  بارگذاری‌شده:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  انحراف:                         %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  انحراف:                         %s  (%s فریم)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  انحراف:                         %s  (%s فریم) -- مطابقت دارد"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  آفست اندازه‌گیری‌شده:             %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  آفست بر اساس تایم‌کد:            %s"
+
+msgid "Abort: %s"
+msgstr "قطع شد: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "استخراج صدای دوربین"
+
+msgid "FOR RESOLVE"
+msgstr "برای Resolve"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "بدون فایل صوتی -- استفاده از صدای دوربین"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "بدون ضبط صوتی جداگانه -- استفاده از صدای دوربین"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "پردازش در auphonic.com (Multitrack):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "پردازش در auphonic.com:"
+
+msgid "Processing failed: %s"
+msgstr "پردازش ناموفق بود: %s"
+
+msgid "RESULT"
+msgstr "نتیجه"
+
+msgid "Resolve part stopped: %s"
+msgstr "بخش Resolve متوقف شد: %s"
+
+msgid "Stopped: %s"
+msgstr "متوقف شد: %s"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  برای تبدیل: در Media Pool روی «%s Multicam» راست‌کلیک کنید >\n  «Convert Timeline to Multicam Clip» > «Use Source Audio Channels».\n  این تبدیل برگشت‌پذیر نیست -- اما یک اجرای جدید هر زمان Timeline را دوباره می‌سازد.\n  زاویه‌ها:%s\n  باقی موارد -- انتخاب صدا، گروه‌های رنگ، کادربندی -- در\n  دفترچه راهنما آمده است، docs/resolve.md.\n"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s همه دوربین‌ها کنار هم -- کلیپ Multicam از آن ساخته می‌شود"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s تصویر از برش دوربین، صدا یکپارچه"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s دوربین یکپارچه، میکس در زیر آن"
+
+msgid "   --   audio only"
+msgstr "   --   فقط صدا"
+
+msgid "   -- not found"
+msgstr "   -- پیدا نشد"
+
+msgid "   Caution: more than one frame"
+msgstr "   احتیاط: بیش از یک فریم"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s آفست %s ms%s، طول %s s، پراکندگی %s ms، %s از %s نقطه%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (این فایل زودتر تمام می‌شود)"
+
+msgid "  (this file starts later)"
+msgstr "  (این فایل دیرتر شروع می‌شود)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  هیچ Timeline در Resolve با این نرخ کار نمی‌کند؛ تبدیل می‌شود"
+
+msgid "  --  this file is outside"
+msgstr "  --  این فایل بیرون از بازه است"
+
+msgid "  -->  aligned"
+msgstr "  -->  هم‌تراز شد"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  هم‌تراز شد، رانش ساعت %s ppm حذف شد"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  بررسی:           %s در برابر ترک دوربین %s ms (تطابق %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  آن را با «ساخت پروژه Resolve» در رابط کاربری بسازید. Resolve باید در حال اجرا باشد."
+
+msgid "  The handover file could not be written."
+msgstr "  فایل تحویل نوشته نشد."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  حاصل این کار پروژه، درون‌ریزی و %s است:"
+
+msgid " (paused)"
+msgstr " (مکث)"
+
+msgid " (playing)"
+msgstr " (در حال پخش)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- با نقطه ورود یا خروج، بارگذاری کمتر می‌شود"
+
+msgid " -- not readable"
+msgstr " -- قابل خواندن نیست"
+
+msgid " -- nothing to fault."
+msgstr " -- ایرادی نیست."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- فقط ماتریس BT.2020 را نشان می‌دهد"
+
+msgid " and "
+msgstr " و "
+
+msgid " from %s files"
+msgstr " از %s فایل"
+
+msgid " not."
+msgstr " -- خیر."
+
+msgid "%s blocks"
+msgstr "%s بلوک"
+
+msgid "%s brought to the preset"
+msgstr "مطابق پیش‌تنظیم شد: %s"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s کانال -- به ترک‌ها تقسیم می‌شوند، ردیف‌های بالا را ببینید."
+
+msgid "%s checked"
+msgstr "%s مورد بررسی شد"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s از %s مقایسه زیر %s dB است -- هر ضبط در برابر هر ضبط دیگر، در هر دو جهت."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s از %s فایل ویدیویی در باکس colr هیچ منحنی و فضای رنگی ندارند%s -- احتمالاً فوتیج Log."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r یک تایم‌کد است، اما اینجا تصویری نیست و بنابراین دوربینی نیست که از آن شمرده شود. در این حالت فقط مقداری از ابتدای بازه زمانی کار می‌کند، مثلاً +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r یک تایم‌کد است، اما محور زمانی به هیچ ساعتی وابسته نیست: هیچ فایلی در اینجا تایم‌کد ندارد، از جمله دوربین مرجع %s. در این حالت فقط مقداری از ابتدای بازه زمانی کار می‌کند، مثلاً +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r یک پیش‌تنظیم Multitrack نیست"
+
+msgid "%r is not a number."
+msgstr "%r عدد نیست."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   با فایل‌های دیگر جور نیست: صدا شناسایی نشد، تایم‌کد ندارد.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "روی %s تنظیم شد؛ %s با یک کلیک در دسترس است."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "کنار گذاشته شد، چون %s از قبل گرفته شده است؛ %s با یک کلیک در دسترس است."
+
+msgid "Its sound cannot be used."
+msgstr "صدای آن قابل استفاده نیست."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   صدا شناسایی نشد؛ بر اساس تایم‌کد آن جای‌گذاری شد"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   برنامه این قالب را نمی‌شناسد"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s بلوک"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- با آن چه باید کرد؟\nجزئیات در گزارش آمده است."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz به جای %s kHz -- هنگام پردازش تبدیل می‌شود."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s قابل جای‌گذاری نیست: صدای آن هیچ اشتراکی با بقیه مواد ندارد، و فایل تایم‌کد ندارد. به تایم‌کدی نیاز دارد که با ضبط‌های دیگر جور باشد، و آن باید با برنامه دیگری تنظیم شود."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s با هیچ بخشی از مواد جور نیست و بسیار کوتاه‌تر از بقیه است: به‌عنوان مقدمه پیشنهاد شد، که در ابتدا قرار می‌گیرد و هرگز اندازه‌گیری نمی‌شود."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s تنظیم شده و اینجا چیزی تغییر نمی‌کند: ترک‌ها همان‌طور که ضبط شده‌اند خارج می‌شوند، و بلندی صدا جایی تنظیم می‌شود که میکس می‌شوند."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s دوباره قابل جای‌گذاری است و به اجرا بازگشت."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s نصب نشد.\nبه‌صورت دستی:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s ترک صوتی ندارد."
+
+msgid "%s in %s"
+msgstr "%s در %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s در میکروفون %s: %s dB آرام‌تر از میکروفون خودش."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s در %s است -- فایل اکنون در پخش‌کننده است."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s روی محور قسمت نیست: پیش از مواد یا پس از آن قرار می‌گیرد، نه درون آن. نقطه ورود و نقطه خروج به آنچه در میان است تعلق دارند."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s در هیچ‌یک از فایل‌های ویدیویی نیست. آیا تایم‌کدی هست که با مواد جور باشد؟"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s در میکروفون %s فقط %s dB آرام‌تر"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: هنوز امکان جابه‌جایی نیست، بعداً انجام می‌شود (%s)"
+
+msgid "%s: not there"
+msgstr "%s: آنجا وجود ندارد"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s)، تلاش %d، سپس در %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: باید به %s%s برود -- %s"
+
+msgid ", no audio"
+msgstr "، بدون صدا"
+
+msgid "-- only one camera"
+msgstr "-- فقط یک دوربین"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- پرش به زمان برنامه %s%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- نقطه تنظیم شد، زمان برنامه از %s ---"
+
+msgid "... or add files ..."
+msgstr "... یا افزودن فایل ..."
+
+msgid "/not seekable"
+msgstr "/بدون جابه‌جایی"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s نما</b>، میانه %(med)s s، کوتاه‌ترین %(short)s s، طولانی‌ترین روی یک دوربین %(long)s s</span>. زمان صحبت: <b>%(own)s %%</b> روی دوربین خود گوینده (%(own_t)s)، %(wide)s %% روی نمای باز (%(wide_t)s)، <span style='color:%(warn)s'>در %(off)s %% (%(off_t)s) دوربین گوینده فعال نیست</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "هر جفت کانال جداگانه سنجیده می‌شود: یک ترک استریو، یا دو میکروفون و در نتیجه دو ترک. ورودی‌های بی‌صدا حذف می‌شوند. ردیف‌های زیر فایل می‌گویند چه چیزی اندازه‌گیری شد، و تیک بر آن مقدم است."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "مقدار منفی تصویر را جلوتر از صدا قرار می‌دهد."
+
+msgid "Add files ..."
+msgstr "افزودن فایل ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "هم‌ترازی بر اساس آفست اندازه‌گیری‌شده است؛ تایم‌کد فقط برای بررسی متقابل است."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "همه ضبط‌ها نام یکسانی دارند -- از آن فقط یک ترک ساخته می‌شود."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "همه ردیف‌ها نام یکسانی دارند -- از آن فقط یک ترک ساخته می‌شود، و Multitrack دست‌کم دو ترک لازم دارد."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "تخصیص: کدام ترک صوتی متعلق به کدام دوربین است"
+
+msgid "Audio"
+msgstr "صدا"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "صدا و ویدیو (%s);;همه فایل‌ها (*)"
+
+msgid "Audio at programme time"
+msgstr "صدا در زمان برنامه"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic ترک‌هایی متفاوت با درخواست ساخت: %s به جای %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic خطا گزارش می‌دهد: %s"
+
+msgid "Bleed"
+msgstr "نشت صدا"
+
+msgid "Blocks"
+msgstr "بلوک‌ها"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "هر دو با هم ممکن نیست: ترک‌های بازگشتی به یک مقدار می‌رسیدند و میکس خود ما به مقدار دیگر. یا --lufs %.0f را تنظیم کنید یا پیش‌تنظیم را تغییر دهید."
+
+msgid "Camera"
+msgstr "دوربین"
+
+msgid "Camera audio, %s to go ..."
+msgstr "صدای دوربین، %s مانده ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- پیش‌نمایش  (طول %s)"
+
+msgid "Why the run cannot start"
+msgstr "چرا اجرا نمی‌تواند شروع شود"
+
+msgid "Cannot start yet: %s"
+msgstr "هنوز نمی‌توان شروع کرد: %s"
+
+msgid "Change rejected: %s"
+msgstr "تغییر پذیرفته نشد: %s"
+
+msgid "Check again"
+msgstr "بررسی دوباره"
+
+msgid "Check the connection to Resolve again"
+msgstr "بررسی دوباره اتصال به Resolve"
+
+msgid "Check itself failed: %s"
+msgstr "خود بررسی ناموفق بود: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "کلید را بررسی کنید و پیش‌تنظیم‌ها را دریافت کنید."
+
+msgid "Chosen"
+msgstr "انتخاب‌شده"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "ساعت %7.2f%s | B1[%s] %s | B2[%s] %s | صدا %s %s"
+
+msgid "Close"
+msgstr "بستن"
+
+msgid "Connects to Resolve again."
+msgstr "دوباره به Resolve وصل می‌شود."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "محتوا: دوربینی مانند هر دوربین دیگر.\nنمای باز: دوربینی که کسی جلوی آن نمی‌نشیند -- گوینده‌ای نمی‌گیرد، و برش در وقفه و در تک‌گویی طولانی به آن می‌رود.\nمقدمه و پایان‌بندی کلیپ‌های آماده‌اند -- نه هم‌تراز می‌شوند و نه پردازش، فقط در Timeline قرار می‌گیرند.\nنادیده گرفتن این ویدیو: فایل کاملاً کنار می‌ماند."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s نمای باز: برش از %s استفاده می‌کند."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  هر دوربین یک گوینده دارد، پس نمای بازی وجود ندارد: چهار تنظیم نمای باز و تیک لبه‌ها اینجا اثری ندارند."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "هیچ دوربینی بدون گوینده نیست، پس نمای بازی وجود ندارد: چهار تنظیم نمای باز و تیک لبه‌ها اثری ندارند. «نوع» یک دوربین را روی «نمای باز» بگذارید، یا یکی را بدون گوینده رها کنید."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "بر اساس فاز جای‌گذاری شد، وضوح %s در برابر کف %s، رانش نامعلوم"
+
+msgid "placed on the bands that move"
+msgstr "بر اساس باندهای فرکانسی متغیر جای‌گذاری شد"
+
+msgid "Why the wide shot settings are grey"
+msgstr "چرا تنظیمات نمای باز خاکستری است"
+
+msgid "because no speaker is assigned to it"
+msgstr "چون هیچ گوینده‌ای به آن تخصیص داده نشده"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "به‌عنوان نمای باز علامت خورده -- گوینده‌ای نمی‌گیرد"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "هیچ گوینده‌ای به آن تخصیص داده نشده، اما برش از %s استفاده می‌کند"
+
+msgid "the cut uses %s"
+msgstr "برش از %s استفاده می‌کند"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "منحنی و فضای رنگ در فایل وجود ندارد"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "نقطه ورود و نقطه خروج زمانی در دسترس‌اند که محور زمانی مشخص شود -- از تایم‌کد یا با اندازه‌گیری."
+
+msgid "In point is %s before the first frame"
+msgstr "نقطه ورود %s پیش از نخستین فریم است"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "نقطه ورود اکنون %s است، اما فایل‌های موجود متعلق به %s هستند.\n  صدای ویدیوها بر اساس بازه زمانی قبلی بریده شده است -- دوباره\n  «شروع» را در بالا بزنید."
+
+msgid "Out point is %s after the last frame"
+msgstr "نقطه خروج %s پس از آخرین فریم است"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "نقطه خروج اکنون %s است؛ بازه زمانی %s طول خواهد داشت، فایل‌های\n  موجود %s طول دارند -- دوباره «شروع» را در بالا بزنید."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "برای خروجی رندر معمولاً دامنه محدود انتخاب می‌شود. دامنه کامل اشتباه نیست، اما برخی پخش‌کننده‌ها آن را نادرست می‌خوانند."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "تعیین می‌کند auphonic.com صدا را چگونه پردازش کند.\n\n«%s» کلید را سر جایش نگه می‌دارد و باز هم به آنجا نمی‌رود.\nدر این صورت صدا فقط ادغام و نرمال می‌شود، نه تفکیک --\nو بدون ترک‌های جداگانه برش دوربینی وجود ندارد."
+
+msgid "Distance to mean"
+msgstr "فاصله تا میانگین"
+
+msgid "Drag audio and video files here"
+msgstr "فایل‌های صوتی و ویدیویی را اینجا بکشید"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "اجرای آزمایشی: فقط اندازه‌گیری، بدون نوشتن و بدون بارگذاری."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "هنگام خوشامدگویی و خداحافظی تصویر باز می‌ماند."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "فریم‌ها کمی بیشتر می‌مانند؛ فایل از این بابت کوتاه‌تر نمی‌شود. نرم‌افزار تدوین تقریباً هر %s s یک فریم را تکرار می‌کند، و تصویر و صدای دوربین با هم می‌مانند."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "فریم‌ها کمی کوتاه‌تر می‌مانند؛ فایل از این بابت بلندتر نمی‌شود. نرم‌افزار تدوین تقریباً هر %s s یک فریم را حذف می‌کند، و تصویر و صدای دوربین با هم می‌مانند."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "هشت بیت برای HDR کافی نیست: در هر گرادیان نوار ایجاد می‌شود، و YouTube ده یا دوازده بیت می‌خواهد."
+
+msgid "Envelope"
+msgstr "پوش"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s روی %s قرار گرفته، که دوربینی از این اجرا نیست -- با این حال برش نام آن را می‌آورد."
+
+msgid "Envelope failed: %s"
+msgstr "پوش ناموفق بود: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "پوش‌ها و صدای دوربین در پس‌زمینه آماده می‌شوند."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "هر ردیف به یک نام نیاز دارد -- در Auphonic به track ID تبدیل می‌شود."
+
+msgid "External preview -- the app does not know this format"
+msgstr "پیش‌نمایش خارجی -- برنامه این قالب را نمی‌شناسد"
+
+msgid "Fetching audio"
+msgstr "دریافت صدا"
+
+msgid "Fetching audio ..."
+msgstr "دریافت صدا ..."
+
+msgid "File"
+msgstr "فایل"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "آنجا فایل‌هایی وجود ندارد -- بدون بارگذاری دوباره چیزی قابل محاسبه نیست.\n  با --auphonic-resume upload اسکریپت دوباره بارگذاری می‌کند؛ این کار اعتبار مصرف می‌کند."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "برای HDR انتخاب رایج HEVC (Main 10)، AV1 یا VP9 Profile 2 است. YouTube فرمت H.264 را هم می‌پذیرد، اما نرخ بیت بیشتری لازم دارد."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "برای ده بیت، HEVC به پروفایل Main 10 نیاز دارد. در Resolve این گزینه زیر Deliver با نام «Profile» است."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps، نه %s موجود در فایل -- %s فریم کمتر در همان طول."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps، نه %s موجود در فایل -- %s فریم بیشتر در همان طول."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "فاصله فریم‌ها %s %% نوسان دارد -- زمان‌بندی فریم‌ها نامنظم است."
+
+msgid "Free space there: %s"
+msgstr "فضای خالی آنجا: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "فاصله %s بین بلوک %d و %d -- دوربین متوقف شده بود."
+
+msgid "Drag to move the position."
+msgstr "برای جابه‌جا کردن موقعیت بکشید."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR در اینجا به 16 (PQ، یعنی HDR10) یا 18 (HLG) نیاز دارد. در Resolve: Gamma tag = ST.2084 یا HLG. مقدار 14 منحنی HDR نیست، بلکه SDR در فضای رنگ BT.2020 است."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR در اینجا به 9 (BT.2020) نیاز دارد. در Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR در اینجا به 9 (BT.2020، درخشندگی غیرثابت) نیاز دارد."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG وابسته به نمایشگر (display-referred) است -- هیچ مدخلی برای نمایشگر مسترینگ ندارد."
+
+msgid "If empty: next to each video file."
+msgstr "اگر خالی باشد: کنار هر فایل ویدیویی."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "این در هنگام ضبط پدید آمده و اکنون تغییرپذیر نیست. هرچه میکروفون‌ها کمتر از هم جدا باشند، De-Bleed در auphonic.com باید با احتیاط بیشتری کار کند. دفعه بعد: فاصله از میکروفون کناری سه برابر فاصله از دهان خودتان باشد؛ آن‌گاه صدای کناری حدود %s dB پایین‌تر می‌نشیند."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s با هیچ بخشی از مواد جور نیست، پس نمی‌توان آن را در قسمت برش داد: به‌عنوان مقدمه تنظیم شد."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s نیز با هیچ بخشی از مواد جور نیست و مقدمه از پیش گرفته شده است: کنار گذاشته شد."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s از پیش به‌عنوان %s تنظیم شده است و هر قسمت فقط یکی از آن دارد. اینجا پاسخ دیگری بدهید، یا نخست علامت آن فایل را بردارید."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "این در اتم logs از توصیف تصویر است -- Resolve فضای رنگ ورودی را از همین تشخیص می‌دهد. منحنی‌های متفاوت یعنی فضاهای رنگ ورودی متفاوت."
+
+msgid "Jumps to the end of the window."
+msgstr "به پایان بازه زمانی می‌رود."
+
+msgid "Jumps to the start of the window."
+msgstr "به آغاز بازه زمانی می‌رود."
+
+msgid "Keychain"
+msgstr "Keychain"
+
+msgid "Limits the de-bleed: "
+msgstr "De-Bleed را محدود می‌کند: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "پیش‌تنظیم‌ها را دریافت کنید و یکی را برگزینید، یا کلید API را خالی بگذارید."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 پذیرفته نشد -- پیش‌فرض می‌ماند"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "فقط اندازه‌گیری -- چیزی نوشته یا بارگذاری نمی‌شود."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "اندازه‌گیری %s (%s از %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "اندازه‌گیری ممکن نیست: %s"
+
+msgid "Measuring the yardstick"
+msgstr "اندازه‌گیری معیار"
+
+msgid "Measuring time axis ..."
+msgstr "اندازه‌گیری محور زمانی ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "صدای ناموجود %s با سکوت پر شد%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "ماژول DaVinciResolveScript بارگذاری نمی‌شود: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "یک ترک صوتی برای هر نفر، که تا auphonic.com جدا می‌ماند.\nبدون آن هم کار می‌کند -- آن‌گاه بدون De-Bleed و Leveler.\nبه دو ترک ورودی نیاز دارد: یک ضبط جداگانه، یک کانال از یک ضبط‌کننده\nچندکاناله، یا صدای فایل ویدیویی‌ای که روی «استفاده از صدای داخلی»\nتنظیم شده است. برش دوربین به این تیک نیازی ندارد."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (یک ترک برای هر گوینده)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack دست‌کم به دو ترک ورودی نیاز دارد. هر ترک یا یک ضبط جداگانه است، یا یک کانال از ضبط‌کننده چندکاناله، یا صدای فایل ویدیویی‌ای که روی «استفاده از صدای داخلی» تنظیم شده باشد. چند بلوک از یک ضبط یکی شمرده می‌شوند و ترک‌های کنارگذاشته اصلاً شمرده نمی‌شوند."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "کلید API وجود ندارد. --auphonic-api-key KEY را بدهید، AUPHONIC_TOKEN را تنظیم کنید، یا یک‌بار آن را در رابط کاربری ذخیره کنید. کلید در تنظیمات حساب Auphonic است."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "هیچ فایل صوتی‌ای تایم‌کد ندارد. نقطه ورود و نقطه خروج از آغاز مواد شمرده می‌شوند -- جایگاه فایل‌ها نسبت به یکدیگر اندازه‌گیری می‌شود."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "هنوز هیچ صدایی به کار نرفته است -- یک ضبط صوتی بیفزایید، یا در فهرست فایل‌ها صدای دوربین یک فایل ویدیویی را روی «استفاده از صدای داخلی» بگذارید."
+
+msgid "No audio tracks are assigned."
+msgstr "هیچ ترک صوتی‌ای تخصیص داده نشده است."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "هیچ دوربینی تخصیص داده نشده است، پس چیزی برای برش زدن میان دوربین‌ها نیست."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "هنوز دوربینی تخصیص داده نشده -- برای این کار Multitrack را روشن کنید."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "ارتباطی با Resolve برقرار نیست.\n  آیا برنامه در حال اجراست؟ آیا external scripting در\n  Preferences > System > General روی «Local» تنظیم شده است؟"
+
+msgid "No files or project opened yet."
+msgstr "هنوز هیچ فایل یا پروژه‌ای باز نشده است."
+
+msgid "No files selected yet."
+msgstr "هنوز هیچ فایلی انتخاب نشده است."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "ورودی ممکن نیست. با %s %s تعیین کنید چه باید بشود."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "اینجا پخش‌کننده‌ای تعبیه نشده است -- پخش در ffplay و در پنجره خودش انجام می‌شود."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "هیچ پیش‌تنظیمی داده نشده و ورودی ممکن نیست. یکی از موارد بالا را با --auphonic-preset NAME برگزینید."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "هیچ پیش‌تنظیمی در حساب ذخیره نشده است. می‌توان در رابط وب یکی ساخت."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "اینجا هیچ گوینده‌ای شناخته نیست -- بی آنکه معلوم باشد چه کسی کی صحبت می‌کند، چیزی برای برش نیست."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "هنوز هیچ صدایی دوربین ندارد -- با این وضع همه نماها یک نما می‌شدند."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "هنوز هیچ گوینده‌ای شناخته نیست -- چیزی اندازه‌گیری نشده، چیزی تفکیک نشده، و فایل تحویل یک اجرای پیشین هم در %s یا زیرپوشه‌هایش نیست."
+
+msgid "Not found again after import: %s"
+msgstr "پس از وارد کردن دوباره پیدا نشد: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "از ffmpeg.org، و پوشه را به PATH بیفزایید"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "از راه مدیر بسته: apt install ffmpeg، dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "اینجا: %s. لازم: %s یا جدیدتر."
+
+msgid "no answer"
+msgstr "بدون پاسخ"
+
+msgid "Nothing runs until that is put right."
+msgstr "تا این درست نشود، هیچ چیز اجرا نمی‌شود."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "تا این درست نشود، هیچ چیز اجرا نمی‌شود. راهش: %s"
+
+msgid "Get it: %s"
+msgstr "دریافت: %s"
+
+msgid "Quit"
+msgstr "خروج"
+
+msgid "That worked."
+msgstr "انجام شد."
+
+msgid "Installing ffmpeg"
+msgstr "نصب ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "برای به کار گرفتن آن، برنامه را دوباره اجرا کنید."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "دریافت آن چند دقیقه طول می‌کشد و آنچه می‌گوید در زبانه خروجی نمایش داده می‌شود."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "این چند دقیقه طول می‌کشد -- ممکن است مدیر بسته از کد منبع بسازد. آنچه می‌گوید اینجا نمایش داده می‌شود."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "اکنون کامپایل می‌شود و این بخش طولانی کار است: روی رایانه سریع چند دقیقه و روی رایانه قدیمی‌تر خیلی بیشتر. چیزی گیر نکرده است -- تا وقتی کار ادامه دارد، هر چند ثانیه یک نقطه ظاهر می‌شود."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg آماده است."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "برنامه هنگام شروع آن را می‌خواند. اکنون می‌تواند دوباره شروع شود، یا بعداً خودتان این کار را بکنید."
+
+msgid "Start again now"
+msgstr "شروع دوباره"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "شروع دوباره انجام نشد. پنجره را ببندید و برنامه را همان‌طور که پیش‌تر اجرا می‌کردید، اجرا کنید."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  نخست ffmpeg موجود کنار گذاشته می‌شود: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  یک ffmpeg 9.0.1 ساخته‌شده با soxr را می‌توان دریافت کرد: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  اکنون دریافت شود؟ [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  در حال دریافت ffmpeg ساخته‌شده. حجمش زیاد است، پس چند دقیقه طول می‌کشد: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s از %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "نسخه ساخته‌شده دریافت نشد: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  نسخه ساخته‌شده از حالت فشرده خارج نشد: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  بایگانی %s تا از دو برنامه را در خود داشت."
+
+msgid "  It is here: %s"
+msgstr "  اینجاست: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "Homebrew را از brew.sh نصب کنید، سپس دوباره همین"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "این ffmpeg دارای soxr است: رانش ساعت میان دوربین‌ها با گام‌های 0.21 ppm به دست می‌آید."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "این ffmpeg فاقد soxr است: رانش ساعت میان دوربین‌ها به‌جای 0.21 با گام‌های 21 ppm به دست می‌آید."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "همه چیز بدون آن هم کار می‌کند. دریافت نسخه‌ای که آن را دارد چند دقیقه طول می‌کشد و آنچه می‌گوید در زبانه خروجی نمایش داده می‌شود."
+
+msgid "Carry on"
+msgstr "ادامه"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "الزامی نیست -- در این صورت YouTube مقادیر پیش‌فرض را به کار می‌برد (Sony BVM-X300). برای داشتن آن‌ها: در Resolve زیر Color Management گزینه HDR10+ را روشن کنید، در Color page فرمان «Analyze All Shots» را اجرا کنید و هنگام رندر «Embed HDR10 Metadata» را تیک بزنید."
+
+msgid "Not ready yet:"
+msgstr "هنوز آماده نیست:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "در ترک‌ها چیزی شنیده نشد."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "یک ضبط صوتی هنوز نام گوینده ندارد."
+
+msgid "One frame back."
+msgstr "یک فریم به عقب."
+
+msgid "One second back."
+msgstr "یک ثانیه به عقب."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "هر نما به رنگ دوربینش. برای دیدن دوربین و مدت، نشانگر را روی آن نگه دارید؛ برای پرش کلیک کنید."
+
+msgid "Only one speaker"
+msgstr "فقط یک گوینده"
+
+msgid "Open json project file"
+msgstr "باز کردن فایل پروژه json"
+
+msgid "Open result folder"
+msgstr "باز کردن پوشه نتایج"
+
+msgid "Open the settings, where the key is."
+msgstr "تنظیمات را، که کلید در آن است، باز کنید."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "ترتیب مهم نیست. برای ضبط چندبخشی، بلوک نخست کافی است."
+
+msgid "Overwrite"
+msgstr "بازنویسی"
+
+msgid "Overwrite files"
+msgstr "بازنویسی فایل‌ها"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "قاب %d در حال بارگذاری %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "قاب %d روی %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "پخش و مکث -- کلید فاصله هم کار می‌کند."
+
+msgid "Play and pause."
+msgstr "پخش و مکث."
+
+msgid "Playback not possible"
+msgstr "پخش ممکن نیست"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "در حال پخش %s -- ترک پردازش‌شده از auphonic.com،\nرسیده به سطح پخش همگانی. همان صدایی که در برش دوربین است."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "در حال پخش %s -- ضبط خام.\nصدایش بسیار آرام‌تر از صدای پردازش‌شده است؛ همین که ترک‌های auphonic.com\nبرسند، پیش‌نمایش از آن‌ها استفاده می‌کند."
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "علت‌های ممکن:\n  1. Resolve در حال اجرا نیست -- رابط فقط هنگامی پاسخ می‌دهد که برنامه در حال اجرا باشد.\n  2. Preferences > System > General: گزینه external scripting به‌جای «Local» روی «None» تنظیم شده است.\n  3. نسخه رایگان: گفته می‌شود external scripting از نسخه 19.1 به بعد مخصوص نسخه Studio است. من بیانیه رسمی‌ای نیافتم -- این بررسی به‌جای ادعا، آن را اندازه‌گیری می‌کند."
+
+msgid "Prepare pane %d for %s"
+msgstr "آماده‌سازی قاب %d برای %s"
+
+msgid "Preset not readable: %s"
+msgstr "پیش‌تنظیم خوانا نیست: %s"
+
+msgid "Preview not possible: %s"
+msgstr "پیش‌نمایش ممکن نیست: %s"
+
+msgid "Preview running ..."
+msgstr "پیش‌نمایش در حال اجرا ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "کار مقدماتی -- خواندن صدا و محاسبه پوش‌ها:\n"
+
+msgid "Primaries"
+msgstr "رنگ‌های اصلی"
+
+msgid "Primaries number %d"
+msgstr "رنگ‌های اصلی شماره %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "پردازش در auphonic.com (اختیاری)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "پردازش در auphonic.com با «%s»"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "تولید به پایان رسید، اما ZIP ترک‌های جداگانه در کار نیست"
+
+msgid "Production name"
+msgstr "نام تولید"
+
+msgid "Chosen files"
+msgstr "فایل‌های انتخاب‌شده"
+
+msgid "Remove the chosen file from the list"
+msgstr "حذف فایل انتخاب‌شده از فهرست"
+
+msgid "Project %r could not be created."
+msgstr "پروژه %r ساخته نشد."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "پروژه %r ساخته نشد. آیا این نام از پیش در پوشه دیگری هست؟"
+
+msgid "Project %r could not be opened."
+msgstr "پروژه %r باز نشد."
+
+msgid "Puts it back next to each video file."
+msgstr "آن را دوباره کنار هر فایل ویدیویی می‌گذارد."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "بازگردانی ناموفق بود (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "خواندن ترک صوتی از %s"
+
+msgid "Resolutions"
+msgstr "وضوح تصویر"
+
+msgid "Resolve running ..."
+msgstr "Resolve در حال اجرا ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve همه چیز را به وضوح Timeline مقیاس‌بندی می‌کند. هر چه کوچک‌تر باشد بزرگ‌نمایی می‌شود و نرم‌تر می‌شود."
+
+msgid "Response was not JSON: %s"
+msgstr "پاسخ JSON نبود: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "ردیف‌های قرمز نشان می‌دهند مشکل کجاست؛ تیک روی زبانه یعنی همه چیز سر جایش است."
+
+msgid "Save in Keychain"
+msgstr "ذخیره در Keychain"
+
+msgid "Save in Registry"
+msgstr "ذخیره در رجیستری"
+
+msgid "Select audio and video files"
+msgstr "انتخاب فایل‌های صوتی و ویدیویی"
+
+msgid "Speakers, as the run measured them"
+msgstr "گویندگان، طبق اندازه‌گیری اجرا"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "گویندگان، اندازه‌گیری‌شده از خود ترک‌ها"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "دیر شروع شده یا زود متوقف شده -- در این صورت این صدا در جاهایی از میکس غایب است."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "متوقف شد. نام تولید دیگری برگزینید -- آن‌گاه تولید تازه‌ای\n  ساخته می‌شود -- یا یکی از گزینه‌های دیگر را انتخاب کنید."
+
+msgid "Stopped. Nothing was created."
+msgstr "متوقف شد. چیزی ساخته نشد."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "متوقف شد. چیزی بارگذاری نشد و چیزی محاسبه نشد."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "همان‌گونه که هست به کار می‌رود -- چیزی از خود ساخته نمی‌شود. در Resolve زیر Clip Attributes، زبانه Color Space را ببینید: اگر آنجا «Project» نوشته شده باشد، فضای رنگ ورودی تشخیص داده نشده و باید دستی تنظیم شود."
+
+msgid "Takes the position from the picture."
+msgstr "موقعیت را از تصویر می‌گیرد."
+
+msgid "Ten seconds back."
+msgstr "ده ثانیه به عقب."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "رابط Resolve جایی که انتظارش را دارم نیست:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "رابط Resolve جایی که باید باشد نیست."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline یک نرخ فریم ثابت می‌گیرد -- بالاترین آن‌ها، یا نرخ بعدی‌ای که Resolve بالاتر از آن دارد. Resolve بقیه را تبدیل می‌کند؛ با 23.976 در برابر 24 تحلیل صدای آن معمولاً همین‌جا گیر می‌کند."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "ضبط صوتی هر گوینده، به‌علاوه دوربین‌ها.\nترتیب مهم نیست -- برنامه تشخیص می‌دهد کدام چیست.\nبرای ضبط چندبخشی، بلوک نخست کافی است."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "برش در آنجا تصویری ندارد. هنگام ساختن Timeline آن نقطه خالی می‌ماند و صدا ادامه می‌یابد."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "نتیجه موجود قابل استفاده نیست: %s در آن نیست. با --auphonic-resume rerun می‌توان آن را بدون بارگذاری چیزی دوباره محاسبه کرد."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "قواعد برش در این مدت %s هیچ نمایی باقی نمی‌گذارند. حداقل مدت نمای کوتاه‌تر، یا نمای باز کمتر، دوباره نمایی پدید می‌آورد."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "قسمت در اینجا %s طول دارد -- در این مدت چیزی نمی‌توان چید. نقطه ورود و نقطه خروج آن را تعیین می‌کنند."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "بازه زمانی بیرون از مواد است: نقطه ورود در %s، نقطه خروج در %s، و مواد %s طول دارد."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "نخستین ترک پیش‌تنظیم، تنظیمات همه ترک‌های ما را تعیین می‌کند. وگرنه آن‌ها پردازش‌نشده برمی‌گردند. در رابط وب یک ترک در پیش‌تنظیم بسازید."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "برای این کار فایل تحویل یک اجرا لازم است، و چنین فایلی نیست."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "کلید فقط در Mac و Windows ذخیره می‌شود -- در Keychain یا رجیستری. در هیچ فایلی نوشته نمی‌شود."
+
+msgid "%s -- being checked"
+msgstr "%s -- در حال بررسی"
+
+msgid "The key was not saved: %s"
+msgstr "کلید ذخیره نشد: %s"
+
+msgid "The key was not saved"
+msgstr "کلید ذخیره نشد"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Keychain قفل است. قفل آن را باز کنید و دوباره تلاش کنید."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "این اجرا یک اجرای تست است و مخزن هنوز نام واقعی‌اش را دارد، پس چیزی نوشته نشد. نخست KEY_SERVICE، KEY_ACCOUNT یا REG_PATH را به جای دیگری ارجاع دهید."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Keychain قفل است. قفلش را باز کنید تا این دکمه فعال شود."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Keychain کلید را نپذیرفت. Keychain Access می‌تواند علتش را بگوید."
+
+msgid "The registry did not take the key."
+msgstr "رجیستری کلید را نپذیرفت."
+
+msgid "Open Keychain Access"
+msgstr "باز کردن Keychain Access"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "برنامه‌ای را باز می‌کند که قفل Keychain را باز می‌کند."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Keychain Access باز نشد: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "کلید ذخیره‌شده پذیرفته نمی‌شود: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "کلید AUPHONIC_TOKEN پذیرفته نمی‌شود: %s"
+
+msgid "What auphonic.com replied"
+msgstr "پاسخ auphonic.com"
+
+msgid "There is no key."
+msgstr "کلیدی وجود ندارد."
+
+msgid "The key has a space or a line break at one end."
+msgstr "کلید در یکی از دو سرش فاصله یا شکست سطر دارد."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "کلید در میانه با یک فاصله یا شکست سطر بریده شده است."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "کلید نویسه‌ای دارد که نمی‌توان تایپش کرد."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "آن‌گاه کلید در %s است، هرگز در یک فایل نیست."
+
+msgid "The production has no name yet."
+msgstr "تولید هنوز نامی ندارد."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "ضبطی که به این دوربین تخصیص داده شده، به‌جای صدای دوربین."
+
+msgid "The run is still going."
+msgstr "اجرا هنوز ادامه دارد."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "هنوز هیچ گوینده‌ای شناخته نیست -- به محض باز شدن این زبانه، از روی ترک‌ها تشخیص داده می‌شوند. جایی که همه روی یک ضبط هستند، «چند گوینده» در فیلد نام گوینده راه‌حل است."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "این سه عدد رنگ‌های اصلی، منحنی و ماتریس هستند. برچسب‌های متفاوت در Resolve فضاهای رنگ ورودی متفاوت لازم دارند -- وگرنه یک دوربین با دیگری فرق می‌کند."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "هیچ ضبط صوتی جداگانه‌ای نیست. در این صورت صدای %s دوربین به کار می‌رود -- هر کدام یک ترک می‌شود و Auphonic نشت صدا را حذف می‌کند."
+
+msgid "There is no result yet."
+msgstr "هنوز نتیجه‌ای نیست."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "این فایل‌ها نه صوتی‌اند و نه ویدیویی، و کنار می‌مانند:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "این فایل‌ها وجود ندارند:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "این فایل‌ها از پیش وجود دارند و دوباره نوشته می‌شوند:\n\n  %s\n\nآیا همین منظور است؟"
+
+msgid "These files no longer exist:\n  "
+msgstr "این فایل‌ها دیگر وجود ندارند:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "این نام‌ها بیش از یک بار آمده‌اند:\n\n  %s\n\nضبط‌ها در یک ترک ادغام می‌شوند و بر پایه تایم‌کدشان پشت سر هم چیده می‌شوند. اگر ضبط در این میان متوقف شده بود، این درست است."
+
+msgid "These tracks got no file: %s"
+msgstr "این ترک‌ها فایلی نگرفتند: %s"
+
+msgid "This Resolve project already exists"
+msgstr "این پروژه Resolve از پیش وجود دارد"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "این از خود ضبط می‌آید، نه از مراحل بعدی: میکروفون‌ها بیش از حد به هم نزدیک‌اند یا بیش از حد از دهان دور."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "این فایل اینجا پخش نمی‌شود و ffplay هم به‌عنوان جایگزین در دسترس نیست."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "این فایل پروژه نیست، و در همان پوشه هم فایل پروژه‌ای نیست.\n\nجست‌وجو برای %s*.json است -- اسکریپت آن را هنگام شروع در پوشه خروجی می‌نویسد."
+
+msgid "This is what happens next"
+msgstr "آنچه در ادامه رخ می‌دهد"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "این نام از پیش به کس دیگری داده شده است. هر نام یک نفر است و برش هر نفر را روی یک دوربین می‌گذارد -- لطفاً به این صدا نام خودش را بدهید."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "این نام بیش از یک بار آمده است. ضبط‌ها یک ترک می‌شدند -- auphonic.com برای Multitrack دست‌کم به دو ترک متفاوت نیاز دارد."
+
+msgid "This production already exists"
+msgstr "این تولید از پیش وجود دارد"
+
+msgid "This production has no result yet."
+msgstr "این تولید هنوز نتیجه‌ای ندارد."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "مهلت %s به پایان رسید، تولید هنوز در جریان است: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "تایم‌کد %s، فایل‌های دیگر در %s هستند -- این ساعت تنظیم نشده بود."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r ساخته نشد."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "عنوان در auphonic.com و آغاز نام فایل‌های تازه."
+
+msgid "To the In point."
+msgstr "به نقطه ورود."
+
+msgid "To the start."
+msgstr "به آغاز."
+
+msgid "Too many projects with this name."
+msgstr "تعداد پروژه‌هایی با این نام بیش از حد است."
+
+msgid "Track"
+msgstr "ترک"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "هنگام تغییر، ترک‌هایی افزوده شد (اکنون %s). این کار میکس را\n  نادرست می‌کند. لطفاً ترک‌های بدون فایل را در auphonic.com حذف کنید."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "در برش، دو دوربین یک دوربین شده‌اند. فایل‌هایشان هم‌نام‌اند، پس نام یکی از آن‌ها را تغییر دهید."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "در برش، دو دوربین یک دوربین شده‌اند: %s. فایل‌هایشان هم‌نام‌اند، پس نام یکی از آن‌ها را تغییر دهید."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "دو دوربین یک فایل یکسان می‌ساختند. دومی روی اولی بازنویسی می‌شد."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "دو دوربین یک فایل یکسان می‌ساختند: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "دو دوربین یک فایل تازه یکسان می‌ساختند. لطفاً نام‌های متفاوت بدهید."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "زمان‌بندی ناهموار فریم‌ها را نمی‌توان از راه صدا یکنواخت کرد. اگر نقاط نمونه هنگام هم‌ترازسازی هم پراکنده شوند، به نرخ فریم ثابت تبدیل کنید."
+
+msgid "Video"
+msgstr "ویدیو"
+
+msgid "Video 1"
+msgstr "ویدیو 1"
+
+msgid "Video 2"
+msgstr "ویدیو 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- مواد خام به پادکستی تدوین‌شده تبدیل می‌شود"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "حجم صدا. 100 بلندترین مقدار است -- Qt بالاتر از آن را نمی‌پذیرد."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- صحبت هم‌زمان دو بار شمرده می‌شود"
+
+msgid "Wide shot at most"
+msgstr "نمای باز حداکثر"
+
+msgid "Wide shot at the latest"
+msgstr "حداکثر تأخیر نمای باز"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "نمای باز برای خوشامد در آغاز و خداحافظی در پایان"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "بدون آن هر پخش‌کننده‌ای باید حدس بزند، و همه SDR را حدس می‌زنند. در Resolve زیر Deliver > Advanced Settings مقدار Color space tag و Gamma tag را تنظیم کنید، به‌جای اینکه روی «Same as Project» بمانند."
+
+msgid "Without processing at auphonic.com"
+msgstr "بدون پردازش در auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "هنوز برش دوربین وجود ندارد: به دو نفر نیاز دارد که هر کدام نام و دوربین داشته باشند.\nضبط‌های جداگانه با تیک Multitrack این را فراهم می‌کنند، و «چند گوینده» در فیلد نام گوینده یک ضبط نیز --\nصداهایی که آنجا یافت می‌شوند، دوربینشان را در جدول زیر ضبط‌ها می‌گیرند.\nپروژه Resolve به هر حال ساخته می‌شود -- همه دوربین‌ها در جای اندازه‌گیری‌شده‌شان، آماده برای Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "بدون تایم‌کد، جایگاه فایل‌ها اندازه‌گیری می‌شود."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "از خود ترک‌ها تشخیص می‌دهد چه کسی کی صحبت می‌کند -- یک میکروفون برای هر نفر، سطح در برابر کف نویز خودش. جایی که همه روی یک ضبط هستند، «چند گوینده» در فیلد نام گوینده راه‌حل است."
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- فقط پایین می‌آورد، هرگز بالا نمی‌برد"
+
+msgid "a box no longer fits into its parent"
+msgstr "یک باکس دیگر در باکس والدش جا نمی‌شود"
+
+msgid "after the device change"
+msgstr "پس از تغییر دستگاه"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com کلید را نمی‌پذیرد: %s"
+
+msgid "average"
+msgstr "میانگین"
+
+msgid "belongs to"
+msgstr "متعلق به"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "نشت صدا بیش از حد نامشخص: %s از %s ثانیه قابل استفاده، واضح‌ترین %s از %s لازم"
+
+msgid "Midnight"
+msgstr "نیمه‌شب"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s: تایم‌کد از آن سوی نیمه‌شب -- یک شب حساب شد، نه یک روز فاصله."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "تایم‌کد از نیمه‌شب می‌شمارد و همان‌جا از نو آغاز می‌شود. فایل‌ها پیش از هر تفریقی روی یک محور گذاشته می‌شوند، وگرنه ضبط پس از نیمه‌شب تقریباً یک روز دورتر از ضبط پیشین به نظر می‌رسد. اگر این‌ها واقعاً در روزهای مختلف ضبط شده باشند، هم‌ترازسازی نادرست است و باید به آفست اندازه‌گیری‌شده اعتماد کرد."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "کانال %d به سقف خورده است: %s بار سه نمونه یا بیشتر پشت سر هم، طولانی‌ترین %s (%s ms)، نخستین در %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "اینجا نمونه به نمونه و با همان نرخی که فایل ضبط شده شمرده شد: سه نمونه یا بیشتر پشت سر هم روی بالاترین مقداری که یک قالب عدد صحیح می‌تواند نگه دارد. یک یا دو نمونه گردکردن است و گزارش نمی‌شود. آنچه آنجا بریده شده از دست رفته و هیچ پردازشی آن را برنمی‌گرداند -- اما ضبط همچنان ضبط است و این چیزی را متوقف نمی‌کند. فقط قالب‌های عدد صحیح شمرده می‌شوند. 32 bit float در مقیاس کامل سقفی ندارد، پس آنجا چیزی برای شمردن نیست."
+
+msgid "boxes no longer readable"
+msgstr "باکس‌ها دیگر خوانا نیستند"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "به‌روزرسانی -- هر دو Timeline حذف و\n       از نو ساخته می‌شوند، Media Pool همان‌طور که هست می‌ماند"
+
+msgid "cannot be read back (%s)"
+msgstr "بازخوانی ممکن نیست (%s)"
+
+msgid "checking ..."
+msgstr "در حال بررسی ..."
+
+msgid "complete"
+msgstr "کامل"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "ساخت یک پروژه تازه در کنار آن (نام با پسوند)"
+
+msgid "curl ended with %d"
+msgstr "curl با %d پایان یافت"
+
+msgid "did not arrive: %s"
+msgstr "نرسید: %s"
+
+msgid "does not belong: %s"
+msgstr "تعلق ندارد: %s"
+
+msgid "does not exist: %s"
+msgstr "وجود ندارد: %s"
+
+msgid "does the material fit together?"
+msgstr "آیا مواد با هم جور است؟"
+
+msgid "does the preset fit the run?"
+msgstr "آیا پیش‌تنظیم با اجرا جور است؟"
+
+msgid "downloaded file is only %s bytes"
+msgstr "فایل بارگیری‌شده فقط %s بایت است"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "فاصله %s بر پایه تایم‌کد، برای یک ضبط بیش از حد دور"
+
+msgid "gets audio from"
+msgstr "منبع صدا"
+
+msgid "hear assigned audio"
+msgstr "شنیدن صدای تخصیص‌یافته"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "حفظ نام‌های ما و بارگذاری دوباره همه چیز -- این کار\n       اعتبار مصرف می‌کند"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "دست نزدن و گذاشتن Timeline‌های تازه در کنار آن‌ها --\n       Timeline‌های موجود می‌مانند"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "ناموجود -- کانتینر برچسب رنگی ندارد"
+
+msgid "missing: %s"
+msgstr "ناموجود: %s"
+
+msgid "moov has not grown"
+msgstr "moov بزرگ‌تر نشده است"
+
+msgid "moov is no longer in its place"
+msgstr "moov دیگر در جای خود نیست"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov دیگر در انتهای فایل تمام نمی‌شود"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "چندبخشی، بدون تایم‌کد -- فاصله‌های میان بخش‌ها قابل تشخیص نیست."
+
+msgid "new file name"
+msgstr "نام فایل جدید"
+
+msgid "next to each video file"
+msgstr "کنار هر فایل ویدیویی"
+
+msgid "no audio data from %s"
+msgstr "هیچ داده صوتی از %s به دست نیامد"
+
+msgid "no audio track present"
+msgstr "ترک صوتی وجود ندارد"
+
+msgid "no audio: %s"
+msgstr "بدون صدا: %s"
+
+msgid "no download address for %s"
+msgstr "نشانی بارگیری برای %s وجود ندارد"
+
+msgid "no information"
+msgstr "بدون اطلاعات"
+
+msgid "no information in the file"
+msgstr "اطلاعاتی در فایل نیست"
+
+msgid "no match in the middle either (%s)"
+msgstr "در میانه هم تطابقی نیست (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "جایی پیدا نشد که دقیقاً یک نفر صحبت کند -- تفکیک قابل اندازه‌گیری نیست."
+
+msgid "no production id in the response"
+msgstr "شناسه تولید در پاسخ نیست"
+
+msgid "no production id in the response: %s"
+msgstr "شناسه تولید در پاسخ نیست: %s"
+
+msgid "no timecode"
+msgstr "بدون تایم‌کد"
+
+msgid "no video track"
+msgstr "بدون ترک ویدیویی"
+
+msgid "no video track in %s"
+msgstr "ترک ویدیویی در %s نیست"
+
+msgid "none switched on"
+msgstr "هیچ‌کدام روشن نیست"
+
+msgid "not checked yet"
+msgstr "هنوز بررسی نشده"
+
+msgid "not in the media pool"
+msgstr "در Media Pool نیست"
+
+msgid "not measurable."
+msgstr "قابل اندازه‌گیری نیست."
+
+msgid "not measurable: %s"
+msgstr "قابل اندازه‌گیری نیست: %s"
+
+msgid "not needed with HLG"
+msgstr "با HLG لازم نیست"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "خوانده نشد (%s) -- بررسی نشد."
+
+msgid "not readable: %s"
+msgstr "خوانده نشد: %s"
+
+msgid "nothing loaded yet"
+msgstr "هنوز چیزی باز نشده"
+
+msgid "nothing selected"
+msgstr "چیزی انتخاب نشده"
+
+msgid "off"
+msgstr "خاموش"
+
+msgid "one Timeline"
+msgstr "یک Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "فقط %s طول دارد، طولانی‌ترین ضبط %s است."
+
+msgid "overlap of %s per timecode"
+msgstr "هم‌پوشانی %s طبق تایم‌کد"
+
+msgid "per track"
+msgstr "برای هر ترک"
+
+msgid "preset does not fit the run"
+msgstr "پیش‌تنظیم با این اجرا جور نیست"
+
+msgid "previous block is shorter than the rest"
+msgstr "بلوک قبلی از بقیه کوتاه‌تر است"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "ترک‌های پردازش‌شده پیدا شد -- چیزی بارگذاری نمی‌شود"
+
+msgid "production finished, but no output file"
+msgstr "تولید تمام شد، اما فایل خروجی ندارد"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "محاسبه دوباره با پیش‌تنظیم انتخاب‌شده -- فایل‌ها\n       همان‌جا که هستند می‌مانند، اعتباری مصرف نمی‌شود"
+
+msgid "reset"
+msgstr "بازنشانی"
+
+msgid "running ..."
+msgstr "در حال اجرا ..."
+
+msgid "selected"
+msgstr "انتخاب‌شده"
+
+msgid "shorter shots are merged in"
+msgstr "نماهای کوتاه‌تر ادغام می‌شوند"
+
+msgid "stays out"
+msgstr "کنار می‌ماند"
+
+msgid "stored file %s"
+msgstr "فایل ذخیره‌شده %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "استفاده از نتیجه موجود (بدون محاسبه، بدون پرداخت)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "برداشتن نام‌ها از آنجا و ادامه با آن‌ها --\n       بدون بارگذاری، بدون هزینه"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "پیش‌تنظیم Multitrack هیچ ترکی ذخیره نکرده است."
+
+msgid "the finished mixdown"
+msgstr "میکس نهایی آماده"
+
+msgid "the individual tracks"
+msgstr "ترک‌های جداگانه"
+
+msgid "the individual tracks, packed"
+msgstr "ترک‌های جداگانه، فشرده‌شده"
+
+msgid "the media data is no longer where it was"
+msgstr "داده‌های رسانه دیگر جایی که بودند نیستند"
+
+msgid "the mix of all tracks"
+msgstr "میکس همه ترک‌ها"
+
+msgid "the mixdown as the yardstick"
+msgstr "میکس نهایی به‌عنوان معیار"
+
+msgid "the old moov is back in place"
+msgstr "moov قدیمی دوباره سر جایش است"
+
+msgid "the picture changes this much later than the sound"
+msgstr "تصویر این مقدار دیرتر از صدا عوض می‌شود"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "پیش‌تنظیم روی %s LUFS مسترینگ می‌کند، محاسبه با %s انجام می‌شود."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "پیش‌تنظیم روی %s LUFS مسترینگ می‌کند -- همین معتبر است، از طرف ما چیزی تنظیم نمی‌شود."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "برگرفته از فایل‌های منبع، --lufs داده نشده -- چیزی تنظیم نمی‌شود"
+
+msgid "the answer did not keep the floor"
+msgstr "پاسخ ادامه نیافت"
+
+msgid "the main speaker asked"
+msgstr "گوینده اصلی پرسید"
+
+msgid "nobody answered in time"
+msgstr "کسی به‌موقع پاسخ نداد"
+
+msgid "nobody was speaking at the question"
+msgstr "هنگام پرسش کسی صحبت نمی‌کرد"
+
+msgid "asker and answerer on one camera"
+msgstr "پرسشگر و پاسخ‌دهنده روی یک دوربین"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "ضبط‌ها فقط %s هم‌پوشانی دارند -- برای اندازه‌گیری خیلی کم است."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "کوتاه‌ترین ضبط فقط %s است -- برای اندازه‌گیری خیلی کم است."
+
+msgid "the source folder"
+msgstr "پوشه منبع"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "در الگوی ترک هیچ چیزی روشن نیست -- ترک‌ها دقیقاً همان‌طور که بارگذاری شدند برمی‌گردند."
+
+msgid "the video files are tagged differently: %s"
+msgstr "فایل‌های ویدیویی برچسب‌های متفاوتی دارند: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "فایل‌های ویدیویی منحنی‌های ضبط متفاوتی دارند: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "فایل‌های ویدیویی اندازه تصویر متفاوتی دارند: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "فایل‌های ویدیویی با نرخ فریم متفاوت اجرا می‌شوند: %s"
+
+msgid "the video track can no longer be found"
+msgstr "ترک ویدیویی دیگر پیدا نمی‌شود"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "محور زمانی اندازه‌گیری شد -- پرش‌ها به همان نقطه می‌رسند"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "محور زمانی اندازه‌گیری شد و به تایم‌کد متصل شد"
+
+msgid "time axis not measurable"
+msgstr "محور زمانی قابل اندازه‌گیری نیست"
+
+msgid "time axis not measurable: %s"
+msgstr "محور زمانی قابل اندازه‌گیری نیست: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "فقط %s ثانیه که %s به‌تنهایی صحبت می‌کند، %s لازم است"
+
+msgid "too little audio to align"
+msgstr "صدا برای هم‌ترازی بسیار کم است"
+
+msgid "unspecified"
+msgstr "نامشخص"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "بارگذاری دوباره همه چیز و محاسبه دوباره -- این کار اعتبار مصرف می‌کند"
+
+msgid "used directly"
+msgstr "مستقیم استفاده می‌شود"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "نمای باز %s، میکس نخستین ترک صوتی آن است"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  %s بیش از یک بار آمده است. این ضبط‌ها در یک ترک ادغام می‌شوند و بر اساس تایم‌کدشان پشت سر هم قرار می‌گیرند -- درست است اگر ضبط در این میان متوقف شده باشد."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  همه ضبط‌ها یک نام دارند. این یک ترک می‌سازد -- Multitrack دست‌کم به دو ترک نیاز دارد."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  دو دوربین در برش یک دوربین هستند (%s). فایل‌هایشان هم‌نام‌اند، پس نام یکی از آن‌ها را تغییر دهید."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  دو دوربین یک فایل یکسان می‌سازند (%s). دومی روی اولی بازنویسی می‌کند."
+
+msgid "   (camera audio)"
+msgstr "   (صدای دوربین)"
+
+msgid "  Number: "
+msgstr "  شماره: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr "، رانش ساعت %s ppm حذف شد"
+
+msgid "Files && production"
+msgstr "فایل‌ها && تولید"
+
+msgid "Assignment && time window"
+msgstr "تخصیص && بازه زمانی"
+
+msgid "Resolve cut"
+msgstr "برش Resolve"
+
+msgid "Camera audio"
+msgstr "صدای دوربین"
+
+msgid "Camera audio %s"
+msgstr "صدای دوربین %s"
+
+msgid "%s channels against %s"
+msgstr "%s کانال در برابر %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz در برابر %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: کانال %s قابل جدا کردن نیست (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "کانال %d به اندازه %s dB پایین‌تر از بلندترین است -- چیزی وصل نیست"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "کانال %d روی %s dBFS -- فقط نویز مبدل مانده است"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "کانال %d ساکت است -- ورودی بی‌استفاده"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "روشن بودن، این کانال و کانال بعدی را یک ترک استریو می‌کند.\nآنگاه کانال بعدی تیک جداگانه‌ای ندارد -- از قبل گرفته شده است.\nآنچه اندازه‌گیری شد در سطر کنار آن آمده است."
+
+msgid "a track of its own"
+msgstr "ترک جداگانه"
+
+msgid "with Channel %d one stereo track"
+msgstr "با کانال %d یک ترک استریو"
+
+msgid "already in another recording"
+msgstr "از قبل در ضبط دیگری است"
+
+msgid "not found"
+msgstr "پیدا نشد"
+
+msgid "a recording of its own"
+msgstr "ضبط جداگانه"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "این ضبط را با همه بلوک‌هایش در ضبط دیگری قرار می‌دهد.\nبرای جایی است که نام فایل‌ها سرنخی به جست‌وجو نمی‌دهند."
+
+msgid "Cameras only"
+msgstr "فقط دوربین‌ها"
+
+msgid "Curve number %d"
+msgstr "منحنی شماره %d"
+
+msgid "End"
+msgstr "پایان"
+
+msgid "End %s"
+msgstr "پایان %s"
+
+msgid "Error"
+msgstr "خطا"
+
+msgid "Mark In"
+msgstr "علامت ورود"
+
+msgid "Mark Out"
+msgstr "علامت خروج"
+
+msgid "Measure, align, process, write files."
+msgstr "اندازه‌گیری، هم‌ترازی، پردازش، نوشتن فایل‌ها."
+
+msgid "Minimum Edit Duration"
+msgstr "حداقل مدت نما"
+
+msgid "%s, seconds"
+msgstr "%s، ثانیه"
+
+msgid "Names used more than once"
+msgstr "نام‌های تکراری"
+
+msgid "One name for two voices"
+msgstr "یک نام برای دو صدا"
+
+msgid "No files given."
+msgstr "هیچ فایلی داده نشده است."
+
+msgid "Number %d"
+msgstr "شماره %d"
+
+msgid "Preset missing"
+msgstr "پیش‌تنظیم موجود نیست"
+
+msgid "Speaker"
+msgstr "گوینده"
+
+msgid "Start %s"
+msgstr "آغاز %s"
+
+msgid "Take from source files"
+msgstr "برگرفته از فایل‌های منبع"
+
+msgid "Take the camera audio"
+msgstr "استفاده از صدای دوربین"
+
+msgid "Target: %s"
+msgstr "مقصد: %s"
+
+msgid "Transfer"
+msgstr "انتقال"
+
+msgid "Uploading %s tracks"
+msgstr "در حال بارگذاری %s ترک"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;فایل‌های JSON (*.json);;همه فایل‌ها (*)"
+
+msgid "Wide shot after"
+msgstr "نمای باز پس از این مدت"
+
+msgid "the voices below carry the cameras"
+msgstr "صداهای زیرین دوربین‌ها را در اختیار دارند"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "اندازه‌گیری‌شده از ضبط‌ها -- %s گوینده، %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "از اجرای تمام‌شده -- %s گوینده، %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "از ترک‌های پردازش‌شده Auphonic -- %s گوینده، %s"
+
+msgid "no folder"
+msgstr "هیچ پوشه‌ای"
+
+msgid "no text"
+msgstr "بدون متن"
+
+msgid "unnamed"
+msgstr "بی‌نام"
+
+msgid "   Caution: measurement unusable"
+msgstr "   احتیاط: اندازه‌گیری قابل استفاده نیست"
+
+msgid "   MISSING"
+msgstr "   ناموجود"
+
+msgid "   NOT INSERTED"
+msgstr "   درج نشد"
+
+msgid "  (container; measured %s)"
+msgstr "  (کانتینر؛ اندازه‌گیری‌شده %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  شماره (خالی = لغو): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com هم همین مقدار کم می‌کند)"
+
+msgid " (fine: %s ms)"
+msgstr " (دقیق: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- %s یادداشت"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 یادداشت: %s"
+
+msgid " target %.2f"
+msgstr " هدف %.2f"
+
+msgid "(wanted %s)"
+msgstr "(مطلوب %s)"
+
+msgid ", clock drift left in"
+msgstr "، رانش ساعت باقی ماند"
+
+msgid ", range %s LU"
+msgstr "، دامنه %s LU"
+
+msgid "-- nothing --"
+msgstr "-- هیچ --"
+
+msgid "After: %s"
+msgstr "بعد: %s"
+
+msgid "Algorithms"
+msgstr "الگوریتم‌ها"
+
+msgid "Audio file %s"
+msgstr "فایل صوتی %s"
+
+msgid "Audio recording"
+msgstr "ضبط صوتی"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic کد %s را گزارش می‌دهد: %s"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 ثابت"
+
+msgid "Before: %s"
+msgstr "قبل: %s"
+
+msgid "Bit depth"
+msgstr "عمق بیت"
+
+msgid "Building the sum"
+msgstr "ساخت مجموع"
+
+msgid "Caution: "
+msgstr "احتیاط: "
+
+msgid "Camera cut"
+msgstr "برش دوربین"
+
+msgid "%s -- preview"
+msgstr "%s -- پیش‌نمایش"
+
+msgid "Cancel"
+msgstr "لغو"
+
+msgid "Capture curve"
+msgstr "منحنی ضبط"
+
+msgid "Check: %s and camera track"
+msgstr "بررسی: %s و ترک دوربین"
+
+msgid "Codec profile"
+msgstr "پروفایل کدک"
+
+msgid "Colour tag"
+msgstr "برچسب رنگ"
+
+msgid "Connect"
+msgstr "اتصال"
+
+msgid "Connection to Resolve"
+msgstr "اتصال به Resolve"
+
+msgid "Continue"
+msgstr "ادامه"
+
+msgid "Create Resolve project"
+msgstr "ساخت پروژه Resolve"
+
+msgid "Curve"
+msgstr "منحنی"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "نقطه ورود: %s     نقطه خروج: %s     مدت: %s"
+
+msgid "In point %s"
+msgstr "نقطه ورود %s"
+
+msgid "Out point %s"
+msgstr "نقطه خروج %s"
+
+msgid "Different track names"
+msgstr "نام‌های متفاوت ترک"
+
+msgid "Disk space"
+msgstr "فضای دیسک"
+
+msgid "Downloading %s"
+msgstr "در حال بارگیری %s"
+
+msgid "Dry run"
+msgstr "اجرای آزمایشی"
+
+msgid "Duration %s"
+msgstr "مدت %s"
+
+msgid "Dynamic range"
+msgstr "محدوده دینامیکی"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128، پخش همگانی"
+
+msgid "File names"
+msgstr "نام فایل‌ها"
+
+msgid "Frame rates"
+msgstr "نرخ فریم"
+
+msgid "GENERAL NOTES"
+msgstr "یادداشت‌های کلی"
+
+msgid "Given"
+msgstr "از پیش تعیین‌شده"
+
+msgid "Go ahead"
+msgstr "شروع کار"
+
+msgid "Interface:      %s%s"
+msgstr "رابط:           %s%s"
+
+msgid "Keep it saved"
+msgstr "ذخیره بماند"
+
+msgid "Library:        %s%s"
+msgstr "کتابخانه:       %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log بر اساس داده‌های دوربین"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (ده بیتی)"
+
+msgid "Measure"
+msgstr "اندازه‌گیری"
+
+msgid "Measuring loudness"
+msgstr "اندازه‌گیری بلندی صدا"
+
+msgid "Merge them"
+msgstr "ادغام"
+
+msgid "Mixing %s"
+msgstr "در حال میکس %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack به دو ترک در جدول بالا نیاز دارد -- یک دوربین از زمانی یک ترک به شمار می‌آید که صدای دوربین آن روی «استفاده از صدای داخلی» تنظیم شده باشد."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "فقط یک ترک -- برای ترک دوم، صدای دوربینِ یکی از دوربین‌ها را روی «استفاده از صدای داخلی» بگذارید."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "فقط یک ترک، و صدای دوربینی برای برداشتن باقی نمانده است."
+
+msgid "do not use internal audio"
+msgstr "بدون صدای داخلی"
+
+msgid "use internal audio"
+msgstr "استفاده از صدای داخلی"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "در صورت استفاده، کانال‌هایی که زیر این فایل اندازه‌گیری شده‌اند، مانند یک ضبط، به ترک‌ها بریده می‌شوند.\nاندازه‌گیری در هر حال انجام می‌شود: همین نتیجه مبنای این تصمیم است، و همگام‌سازی در هر صورت از صدا استفاده می‌کند."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "در صورت استفاده، صدای این فایل مانند هر ترک دیگری یک ترک می‌شود -- در جدول بالا نمایش داده می‌شود.\nهمین فیلد در فهرست فایل‌ها هم هست؛ هر دو یک پاسخ را نشان می‌دهند."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "صدایی برای کار وجود ندارد -- صدای دوربینِ یک فایل ویدیویی را روی «استفاده از صدای داخلی» بگذارید، یا یک ضبط صوتی اضافه کنید."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack به چند ترک نیاز دارد"
+
+msgid "Mute."
+msgstr "بی‌صدا کردن."
+
+msgid "No audio file given."
+msgstr "هیچ فایل صوتی داده نشده است."
+
+msgid "No project open."
+msgstr "هیچ پروژه‌ای باز نیست."
+
+msgid "Not found: %s"
+msgstr "پیدا نشد: %s"
+
+msgid "Not recognised"
+msgstr "شناسایی نشد"
+
+msgid "Note"
+msgstr "یادداشت"
+
+msgid "Note: "
+msgstr "یادداشت: "
+
+msgid "One frame forward."
+msgstr "یک فریم جلو."
+
+msgid "One second forward."
+msgstr "یک ثانیه جلو."
+
+msgid "Output folder"
+msgstr "پوشه خروجی"
+
+msgid "Choose the output folder"
+msgstr "انتخاب پوشه خروجی"
+
+msgid "Output folder back beside each video file"
+msgstr "پوشه خروجی دوباره کنار هر فایل ویدیویی"
+
+msgid "Output folder ..."
+msgstr "پوشه خروجی ..."
+
+msgid "Podcast directories, mono"
+msgstr "فهرست‌های پادکست، مونو"
+
+msgid "Podcast directories, stereo"
+msgstr "فهرست‌های پادکست، استریو"
+
+msgid "Preview player"
+msgstr "پخش‌کننده پیش‌نمایش"
+
+msgid "Preview player%s"
+msgstr "پخش‌کننده پیش‌نمایش%s"
+
+msgid "Processing"
+msgstr "پردازش"
+
+msgid "Profile"
+msgstr "پروفایل"
+
+msgid "Project"
+msgstr "پروژه"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "از اینجا لحظه مناسبی برای آن جست‌وجو می‌شود"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "حد نرمِ این دو: از اینجا برنامه منتظر پایان یک جمله می‌ماند و نمای باز را همان‌جا می‌گذارد، نه بر اساس ساعت. 0 آن را خاموش می‌کند. «حداکثر تأخیر نمای باز» حد سخت است، جایی که بدون پایان جمله هم برش می‌خورد."
+
+msgid "and here it is cut, good moment or not"
+msgstr "و اینجا برش می‌خورد، لحظه مناسب باشد یا نه"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "حد سختِ این دو: اگر از «نمای باز پس از این مدت» به بعد هیچ پایان جمله‌ای پیش نیامده باشد، طولانی‌ترین وقفه گفتار جای آن را می‌گیرد، و در این نقطه برش می‌خورد، هر چه در حال گفته شدن باشد."
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "هنوز رونوشتی وجود ندارد. بدون آن هیچ پرسشی پیدا نمی‌شود و هیچ پایان جمله‌ای شناخته نیست، پس این چهار تنظیم کاری نمی‌کنند. یک اجرا آن را می‌نویسد و از آن پس کار می‌کنند."
+
+msgid "Why the question settings are grey"
+msgstr "چرا تنظیمات پرسش خاکستری‌اند"
+
+msgid "After a question"
+msgstr "پس از پرسش"
+
+msgid "Question"
+msgstr "پرسش"
+
+msgid "Remove"
+msgstr "حذف"
+
+msgid "Remove all"
+msgstr "حذف همه"
+
+msgid "Remove from list"
+msgstr "حذف از فهرست"
+
+msgid "Resolve answers%s"
+msgstr "پاسخ از Resolve%s"
+
+msgid "Saving %s"
+msgstr "در حال ذخیره %s"
+
+msgid "Show in Finder."
+msgstr "نمایش در Finder."
+
+msgid "Silence"
+msgstr "سکوت"
+
+msgid "Speaker name"
+msgstr "نام گوینده"
+
+msgid "Speaker names"
+msgstr "نام گویندگان"
+
+msgid "Static metadata"
+msgstr "فراداده ایستا"
+
+msgid "Tagging"
+msgstr "برچسب‌گذاری"
+
+msgid "Ten seconds forward."
+msgstr "ده ثانیه جلو."
+
+msgid "Timecode from %s"
+msgstr "تایم‌کد از %s"
+
+msgid "Track template"
+msgstr "الگوی ترک"
+
+msgid "Uploading %s"
+msgstr "در حال بارگذاری %s"
+
+msgid "Value range"
+msgstr "دامنه مقادیر"
+
+msgid "What should happen with it?"
+msgstr "با آن چه باید کرد؟"
+
+msgid "Window %s%s"
+msgstr "بازه زمانی %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "برش، EDL، CSV و فایل تحویل دوباره از اعداد بالا به دست می‌آیند. اینکه چه کسی کی صحبت می‌کند همان‌طور می‌ماند که اجرا اندازه گرفت. Resolve باید در حال اجرا باشد."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "بدون این دو هیچ چیز کار نمی‌کند. آیا Resolve نصب است؟"
+
+msgid "cancel"
+msgstr "لغو"
+
+msgid "cancelled"
+msgstr "لغو شد"
+
+msgid "edges implausible"
+msgstr "مرزها باورپذیر نیستند"
+
+msgid "fixed: "
+msgstr "اصلاح شد: "
+
+msgid "found automatically"
+msgstr "به‌طور خودکار پیدا شد"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "آزاد %s، حدود %s لازم (%s)"
+
+msgid "full range"
+msgstr "دامنه کامل"
+
+msgid "is left in"
+msgstr "باقی گذاشته می‌شود"
+
+msgid "limited (Video/TV)"
+msgstr "محدود (ویدیو/تلویزیون)"
+
+msgid "working out who speaks when ..."
+msgstr "در حال تشخیص اینکه چه کسی کی صحبت می‌کند ..."
+
+msgid "nothing"
+msgstr "هیچ"
+
+msgid "nothing to do"
+msgstr "کاری برای انجام نیست"
+
+msgid "reserved"
+msgstr "رزروشده"
+
+msgid "system store"
+msgstr "مخزن سیستم"
+
+msgid "to In point"
+msgstr "به نقطه ورود"
+
+msgid "to Out point"
+msgstr "به نقطه خروج"
+
+msgid "too short"
+msgstr "بسیار کوتاه"
+
+msgid "two Timelines"
+msgstr "دو Timeline"
+
+msgid "unknown"
+msgstr "نامعلوم"
+
+msgid "up to %s"
+msgstr "تا %s"
+
+msgid "volume %.2f"
+msgstr "حجم صدا %.2f"
+
+msgid "while writing: %s"
+msgstr "هنگام نوشتن: %s"
+
+msgid "AUDIO"
+msgstr "صدا"
+
+msgid "Caution"
+msgstr "احتیاط"
+
+msgid "MUTED"
+msgstr "بی‌صدا"
+
+msgid "fixed"
+msgstr "اصلاح شد"
+
+msgid "on"
+msgstr "روشن"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r از انتها شمرده می‌شود -- این فقط برای نقطه خروج کار می‌کند."
+
+msgid "Check"
+msgstr "بررسی"
+
+msgid "the check itself stopped: %s"
+msgstr "خود بررسی متوقف شد: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "نقطه ورود یا نقطه خروج در اینجا خوانده نمی‌شود."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "نقطه خروج کمتر از 5 ثانیه پس از نقطه ورود است."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "حدود %s کم است. فضا را آزاد کنید یا با --out پوشه دیگری انتخاب کنید. فایل‌های موقت در طول اجرا باز هم جای دیگری می‌روند، به پوشه موقت سیستم."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "این برآورد تقریبی است، پس این فضا کافی نیست. فضا را آزاد کنید یا با --out پوشه دیگری انتخاب کنید."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nگویندگان -- اندازه‌گیری‌شده در اینجا"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nگویندگان -- تفکیک‌شده بر اساس صدا"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nگویندگان\n  صدای هیچ کس شنیده نشد -- از این، برش دوربینی ساخته نمی‌شود."
+
+msgid "\nCAMERA CUT"
+msgstr "\nبرش دوربین"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nبرش با نمای باز"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nنخستین برش بر اساس گوینده"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  بیش از دو کانال به‌صورت یکی به auphonic.com می‌روند: ادغام فقط برای استریو خاموش می‌شود.\n  جایی که کانال‌ها باید جدا بمانند، ابتدا فایل را به ترک‌ها برش دهید."
+
+msgid "First cut by speaker"
+msgstr "نخستین برش بر اساس گوینده"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nرونوشت"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s واژه: %s %% به یک صدا، %s %% به دو صدا، %s %% در وقفه"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s واژه، بدون نام -- هیچ کس تفکیک نشد"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s نوشته نشد: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nتفکیک گوینده"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  پیش‌تر یک بار تفکیک شده: بازخوانی شد، دوباره اندازه‌گیری نشد."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  حدود %s محاسبه برای %s صدا."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (فقط اندازه‌گیری: چیزی تفکیک نشد)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  ترک‌ها اندازه‌گیری نشدند، پس این‌ها در میکس هستند و نه در برش: %s؛ علت: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "هنوز اندازه‌گیری نشده: %s -- در برش هست، هنوز در این پیش‌نمایش نه."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  از خود ترک‌ها، یک صدا برای هر ترک: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  در %s، روی همین رایانه."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  میکروفون‌ها صدای یکدیگر را آن‌قدر خوب می‌شنوند که نمی‌توان گفت چه کسی صحبت می‌کند، پس تفکیک به هر %s میکروفون هم‌زمان گوش می‌دهد، روی همین رایانه."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  آنچه پنجره تفکیک کرده بود کنار گذاشته شد: فقط به یک ضبط گوش داده بود، و میکروفون‌ها صدای یکدیگر را آن‌قدر خوب می‌شنوند که هیچ‌کدام متمایز نمی‌شود -- %s dB در برابر %s dB که یکی از آن‌ها به‌تنهایی برای گفتن اینکه چه کسی صحبت می‌کند لازم دارد."
+
+msgid "Mixing the tracks for the separation"
+msgstr "میکس ترک‌ها برای تفکیک"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  نمی‌شد گفت کدام صدا از آنِ کدام میکروفون است، پس به‌جای آن ترک‌ها اندازه‌گیری می‌شوند."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s همان %-20s است، %s dB جلوتر از میکروفون بعدی، با کسر سطح ضبط"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  تفکیک گوینده به کار نمی‌رود: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s خوانده نمی‌شود: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s بخشی از این اجرا نیست"
+
+msgid "%s has no place on the axis"
+msgstr "%s جایی روی محور ندارد"
+
+msgid "no recording named"
+msgstr "هیچ ضبطی نام برده نشد"
+
+msgid "nothing of it falls inside the window"
+msgstr "هیچ بخشی از آن درون بازه زمانی نیست"
+
+msgid "the interface"
+msgstr "رابط کاربری"
+
+msgid "the separation in this run"
+msgstr "تفکیک این اجرا"
+
+msgid "Speakers, separated by voice"
+msgstr "گویندگان، تفکیک‌شده بر اساس صدا"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "از این، برشی ساخته نشد -- دوباره «شروع» را در بالا بزنید."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nبدون auphonic.com"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  نشت صدا اندازه‌گیری شد، %s در %s فقط %s dB آرام‌تر -- از تشخیص گفتار حذف شد"
+
+msgid "  Bleed not separable: %s"
+msgstr "  نشت صدا تفکیک‌پذیر نیست: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  لحظه‌ای پیدا نشد که دقیقاً یک نفر صحبت کند -- نشت صدا در تشخیص گفتار می‌ماند."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  در ترک‌ها چیزی شنیده نشد -- از این، برش دوربینی ساخته نمی‌شود."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  در برش نیست: %s -- یا تفکیک به‌جای ضبط سخن می‌گوید، یا اندازه‌گیری نشده است."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  ترک‌ها همان‌طور که ضبط شده‌اند به کار می‌روند: هم‌تراز، میکس و به\n  بلندی صدای هدف رسانده می‌شوند. بدون De-Bleed، بدون Leveler، بدون حذف نویز -- برای\n  این‌ها اجرا به auphonic.com نیاز دارد."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  هر دو --without-auphonic و --auphonic-done داده شدند. اولویت با ترک‌های آماده است: چیزی برای فرستادن به جایی نمانده است."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "Multitrack ممکن نیست\n  بدون کلید API چیزی برای فرستادن به auphonic.com وجود ندارد.\n  با --without-auphonic به‌جای آن به‌صورت محلی اجرا می‌شود: هم‌تراز،\n  میکس‌شده و برش‌خورده، اما بدون De-Bleed و Leveler."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  احتیاط: فقط %s جفت از %s جفت قابل اندازه‌گیری است. برای بقیه لحظه‌ای پیدا نشد که دقیقاً یک نفر صحبت کند، پس نشت صدای آن‌ها باقی می‌ماند -- تشخیص گوینده در اینجا قابل اعتماد نیست."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "میکروفون‌ها صدای یکدیگر را تقریباً به بلندی گوینده خودشان می‌شنوند"
+
+msgid "the tracks are too much alike to separate"
+msgstr "ترک‌ها بیش از حد شبیه هم‌اند و تفکیک نمی‌شوند"
+
+msgid "Reading the plan"
+msgstr "خواندن برنامه"
+
+msgid "Audio out of the cameras"
+msgstr "صدای دوربین‌ها"
+
+msgid "Common time axis"
+msgstr "محور زمانی مشترک"
+
+msgid "Processing at auphonic.com"
+msgstr "پردازش در auphonic.com"
+
+msgid "Loudness"
+msgstr "بلندی صدا"
+
+msgid "Loudness and levels"
+msgstr "بلندی صدا و سطح‌ها"
+
+msgid "Loudness of the finished episode"
+msgstr "بلندی صدای قسمت نهایی"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "بلندی صدای قسمت نهایی چقدر باشد. همان گین روی هر\nترک اعمال می‌شود، پس تعادل میان گویندگان حفظ می‌شود.\n«برگرفته از فایل‌های منبع» هیچ چیزی را تنظیم نمی‌کند: auphonic.com همان\nکاری را می‌کند که پیش‌تنظیمش می‌گوید، و بدون auphonic.com صدا\nهمان‌طور می‌ماند که در فایل‌های منبع است."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    بلندی صدا تنظیم نشد -- هدف زیر فقط مبنایی است که سنج\n    با آن اندازه می‌گیرد."
+
+msgid "Who speaks when"
+msgstr "چه کسی کی صحبت می‌کند"
+
+msgid "Writing the camera files"
+msgstr "نوشتن فایل‌های دوربین"
+
+msgid "Handover and result"
+msgstr "تحویل و نتیجه"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "نمایش دو برابر (کلید منها، یا چرخ روی نوار)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "نمایش نصف، حول موقعیت فعلی (کلید به‌علاوه، یا چرخ روی نوار)"
+
+msgid "The whole length again (0 key)"
+msgstr "دوباره کل طول (کلید 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  این هم دریافت شد: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic تنظیمات را نمی‌پذیرد: %s"
+
+msgid "      %s channels"
+msgstr "      %s کانال"
+
+msgid "measurement running ..."
+msgstr "اندازه‌گیری در جریان است ..."
+
+msgid "      Channel %d"
+msgstr "      کانال %d"
+
+msgid "Looking at the channels"
+msgstr "بررسی کانال‌ها"
+
+msgid "channels not readable: %s"
+msgstr "کانال‌ها خوانده نشدند: %s"
+
+msgid "unused input -- ignored"
+msgstr "ورودی بی‌استفاده -- نادیده گرفته شد"
+
+msgid "uncertain -- %s"
+msgstr "نامطمئن -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "دستی تنظیم شده -- بر اندازه‌گیری مقدم است"
+
+msgid "Language"
+msgstr "زبان"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "هر دو کانال یکسان -- مونو روی هر دو طرف گذاشته شد"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "احتمالاً دو میکروفون -- با فاصله حدود %s m%s"
+
+msgid ", agreed at %s of %s places"
+msgstr "، توافق در %s از %s نقطه"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "احتمالاً یک ترک استریو -- هر دو میکروفون در یک مکان"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "قابل تشخیص نیست -- فقط %s از %s نقطه که هر دو کانال در آن صدا دارند، %s لازم است"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "قابل تشخیص نیست -- این دو با هم بهتر از هر کدام با کانال کناری‌اش هماهنگ نیستند"
+
+msgid "not set"
+msgstr "تعیین‌نشده"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "زبانی که در ضبط صحبت شده است. این زبان برچسب ترک صوتی\nنوشته‌شده می‌شود، و به بازشناسی گفتار در اینجا گفته می‌شود که انتظارش را داشته باشد.\nپیش‌فرض از زبان سیستم. «%s» ترک را بدون برچسب می‌گذارد\nو می‌گذارد بازشناسی گفتار خودش زبان را پیدا کند."
+
+msgid "German"
+msgstr "آلمانی"
+
+msgid "English"
+msgstr "انگلیسی"
+
+msgid "French"
+msgstr "فرانسوی"
+
+msgid "Spanish"
+msgstr "اسپانیایی"
+
+msgid "Italian"
+msgstr "ایتالیایی"
+
+msgid "Dutch"
+msgstr "هلندی"
+
+msgid "Portuguese"
+msgstr "پرتغالی"
+
+msgid "Polish"
+msgstr "لهستانی"
+
+msgid "Russian"
+msgstr "روسی"
+
+msgid "Swedish"
+msgstr "سوئدی"
+
+msgid "Danish"
+msgstr "دانمارکی"
+
+msgid "Norwegian"
+msgstr "نروژی"
+
+msgid "Finnish"
+msgstr "فنلاندی"
+
+msgid "Czech"
+msgstr "چکی"
+
+msgid "Turkish"
+msgstr "ترکی"
+
+msgid "Greek"
+msgstr "یونانی"
+
+msgid "Hungarian"
+msgstr "مجاری"
+
+msgid "Romanian"
+msgstr "رومانیایی"
+
+msgid "Ukrainian"
+msgstr "اوکراینی"
+
+msgid "Catalan"
+msgstr "کاتالان"
+
+msgid "Arabic"
+msgstr "عربی"
+
+msgid "Hebrew"
+msgstr "عبری"
+
+msgid "Japanese"
+msgstr "ژاپنی"
+
+msgid "Chinese"
+msgstr "چینی"
+
+msgid "Korean"
+msgstr "کره‌ای"
+
+msgid "Cutting out track %d of %d"
+msgstr "برش ترک %d از %d"
+
+msgid "cutting failed: %s"
+msgstr "برش ناموفق بود: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  یک دوربین برای همه: در تغییر گوینده به %s نما برش خورد، تا Resolve بتواند آن‌ها را گروه کند."
+
+msgid "Shorter shots fall into the following one."
+msgstr "نماهای کوتاه‌تر در نمای بعدی ادغام می‌شوند."
+
+msgid "Speaks at least"
+msgstr "دست‌کم صحبت"
+
+msgid "below this the camera does not follow"
+msgstr "کمتر از این، دوربین دنبال نمی‌کند"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "یک «بله»ی کوتاه تصویر را جابه‌جا نمی‌کند. بدون این، یک بلوک نیم‌ثانیه‌ای دوربین را به سوی خود می‌کشد، و سپس حداقل مدت نما آن را چند ثانیه همان‌جا نگه می‌دارد."
+
+msgid "Answer on screen earlier"
+msgstr "پاسخ زودتر در تصویر"
+
+msgid "before the question ends"
+msgstr "پیش از پایان پرسش"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "صفر جایی است که پرسشگر ساکت می‌شود، نه جایی که پاسخ آغاز می‌شود: مکث میان آن دو به پرسش تعلق دارد. فقط جایی اعمال می‌شود که «پس از پرسش» آن را بخواهد، و Edit Change Delay دوباره افزوده نمی‌شود."
+
+msgid "Wide shot at least"
+msgstr "نمای باز دست‌کم"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "نمای باز درج‌شده دست‌کم این مدت می‌ماند"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "سپس تا پایان جمله ادامه می‌یابد. کمتر از پنج ثانیه، این نگاه مثل یک پرش به نظر می‌رسد."
+
+msgid "and at most this long"
+msgstr "و حداکثر این مدت"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "جایی که پایان جمله فراتر از آن باشد، آخرین مرز بند پیش از آن نما را پایان می‌دهد -- وسط جمله قطع نمی‌شود."
+
+msgid "Long monologue"
+msgstr "تک‌گویی طولانی"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "یک نفر بیش از «نمای باز پس از این مدت» رشته سخن را در دست دارد"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "«به‌تناوب» به خاطر می‌سپارد که آخرین قطع این تک‌گویی چه چیزی نشان داد. شنونده تنها وقتی تصویر را می‌گیرد که کسی روی آن دوربین در 20 ثانیه گذشته شنیده شده باشد؛ وگرنه نمای باز."
+
+msgid "Several speak at once"
+msgstr "چند نفر هم‌زمان صحبت می‌کنند"
+
+msgid "and no camera shows exactly them"
+msgstr "و هیچ دوربینی دقیقاً همان‌ها را نشان نمی‌دهد"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "برش زدن در میان همهمه آشفته به نظر می‌رسد."
+
+msgid "Nobody speaks"
+msgstr "کسی صحبت نمی‌کند"
+
+msgid "no voice is heard at all here"
+msgstr "اینجا هیچ صدایی شنیده نمی‌شود"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "نفسی در میانه جمله و پایان یک فکر هر دو سکوت‌اند، و برنامه نمی‌تواند آن‌ها را از هم تشخیص دهد. فقط طول می‌تواند: «وقفه کوتاه تا» می‌گوید سکوت چقدر می‌تواند طول بکشد و هنوز نفس به شمار آید."
+
+msgid "Short gap up to"
+msgstr "وقفه کوتاه تا"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "سکوتی به این طول به تصویر دست نمی‌زند"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "فقط جایی که «کسی صحبت نمی‌کند» روی حفظ وقفه کوتاه تنظیم شده باشد. وقفه‌ای تا این طول چیزی را تغییر نمی‌دهد، وقفه بلندتر به نمای باز می‌رود. بالاتر از دو ثانیه، تصویر شروع می‌کند بیش از پنج ثانیه روی کسی که ساکت است بماند."
+
+msgid "Recognition uncertain"
+msgstr "تشخیص نامطمئن"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "تشخیص گوینده از هم می‌پاشد یا انبوهی به جا می‌گذارد"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "حدس زدن چند ثانیه آدم اشتباهی را روی صفحه می‌آورد؛ نمای باز در هر حالتی درست است. اینجا کسی صحبت می‌کند -- جایی که کسی صحبت نمی‌کند، «کسی صحبت نمی‌کند» تصمیم می‌گیرد."
+
+msgid "the picture goes to the answer before it starts"
+msgstr "تصویر پیش از آغاز پاسخ به آن می‌رود"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "فقط پس از پرسشی که مال گوینده اصلی نیست، وقتی کس دیگری بی‌درنگ رشته سخن را به دست می‌گیرد و نگه می‌دارد.\n«بدون پیش‌دستی» یعنی بدون تغییر زودهنگام دوربین: تصویر اینجا هم مثل هر جای دیگر صدا را دنبال می‌کند."
+
+msgid "Wide shot"
+msgstr "نمای باز"
+
+msgid "Wide shot %d"
+msgstr "نمای باز %d"
+
+msgid "(wide shot)"
+msgstr "(نمای باز)"
+
+msgid "No speaker"
+msgstr "بدون گوینده"
+
+msgid "Listener"
+msgstr "شنونده"
+
+msgid "Alternating"
+msgstr "به‌تناوب"
+
+msgid "No camera change"
+msgstr "بدون تغییر دوربین"
+
+msgid "Hold a short gap"
+msgstr "حفظ وقفه کوتاه"
+
+msgid "do not go early"
+msgstr "بدون پیش‌دستی"
+
+msgid "Answering speaker"
+msgstr "گوینده پاسخ‌دهنده"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s بار دور از گوینده، چون یک نما بیش از %s s طول کشید"
+
+msgid "%s is in place."
+msgstr "نسخه %s نصب شده است."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "این پنجره هنوز همان نسخه‌ای است که با آن شروع شد. می‌تواند اکنون دوباره شروع شود و با نسخه جدید باز شود، یا می‌توانید بعداً خودتان این کار را بکنید."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "این نسخه از پوشه‌ای جداگانه اجرا می‌شود، پس pip اینجا چیزی برای به‌روزرسانی ندارد. این دستور آن را نصب می‌کند: %s"
+
+msgid "Language of the window"
+msgstr "زبان پنجره"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "زبانی که اینجا انتخاب شود از راه‌اندازی بعدی به کار می‌رود."
+
+msgid "Restart the application"
+msgstr "راه‌اندازی دوباره برنامه"
+
+msgid "The work can be written to a project file first."
+msgstr "کار را می‌توان ابتدا در یک فایل پروژه نوشت."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "راه‌اندازی دوباره برنامه زبان جدید را فوراً می‌آورد، و پیش از آن می‌پرسد با کار چه شود. رها کردنش هزینه‌ای ندارد -- زبان در راه‌اندازی بعدی می‌آید."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "برنامه در آستانه راه‌اندازی دوباره است. آیا کار ابتدا در یک فایل پروژه نوشته شود؟"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "اگر نوشته شود، پنجره جدید پروژه را دوباره باز می‌کند و همه چیز همان‌جا است که بود. اگر نوشته نشود، خالی باز می‌شود و فایل‌ها باید از نو افزوده شوند."
+
+msgid "Save and restart"
+msgstr "ذخیره و راه‌اندازی دوباره"
+
+msgid "Restart without saving"
+msgstr "راه‌اندازی دوباره بدون ذخیره"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "اجرا هنوز در جریان است. پس از پایان آن می‌توان پنجره را دوباره راه‌اندازی کرد."
+
+msgid "System language (%s)"
+msgstr "زبان سیستم (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "یک میان‌بر به این برنامه ساخته شد: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "هیچ میان‌بری به این برنامه ساخته نشد: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "نوشته شد و پس از آن وجود نداشت"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "این برنامه به‌صورت %s اجرا می‌شود و بسته‌های نصب‌شده برای آن %s هستند، پس هیچ‌کدام بارگذاری نمی‌شوند. این دستور آن را درست اجرا می‌کند: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "این فایل تحویل نرخ فریم ندارد، پس نمی‌توان Timeline را از آن ساخت. لطفاً اجرا را دوباره انجام دهید."
+
+msgid "Cut by speaker"
+msgstr "برش بر اساس گوینده"
+
+msgid "Sync only"
+msgstr "فقط همگام‌سازی"
+
+msgid "Project type"
+msgstr "نوع پروژه"
+
+msgid "No project type chosen yet."
+msgstr "هنوز نوع پروژه‌ای انتخاب نشده است."
+
+msgid "What is this production to become?"
+msgstr "این تولید قرار است چه شود؟"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "«%s»: دوربین‌ها روی یک محور زمانی و برشی بر اساس اینکه چه کسی صحبت می‌کند.\n«%s»: دوربین‌ها روی یک محور زمانی، نه بیشتر -- بدون گوینده، بدون برش."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "فقط همگام‌سازی: بدون برش. فایل تحویل تنها Timeline مربوط به Multicam را دارد؛ پروژه Resolve از زبانه «خروجی» ساخته می‌شود."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "نوع پروژه: فقط همگام‌سازی -- بدون گوینده، بدون رونوشت، بدون برش؛ فایل تحویل تنها Timeline مربوط به Multicam را دارد."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  فقط همگام‌سازی: برشی بر اساس گوینده خواسته نشد.\n  فقط Timeline برای کلیپ Multicam ساخته می‌شود."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s ترک ویدیویی، با نام فایل‌های دوربین:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "فقط همگام‌سازی تنها یک ضبط صوتی می‌گیرد؛ این یکی اضافه است: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "فقط همگام‌سازی: فایل تحویل دوباره محاسبه می‌شود؛ برشی برای انجام دوباره نیست. Resolve باید در حال اجرا باشد."
+
+msgid "%s has not started yet"
+msgstr "%s هنوز شروع نشده است"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   صدا پخش نمی‌شود"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "صدا بر اساس ساعت جای‌گذاری شد -- اندازه‌گیری در انتظار"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nسطح گویندگان"
+
+msgid "Measuring %s"
+msgstr "اندازه‌گیری %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s قابل اندازه‌گیری نیست -- همان‌طور که هست ماند"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- چیزی رویش نیست، همان‌طور که هست ماند"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  فقط یک صدا -- چیزی برای هم‌سطح کردن با آن نیست."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  سطح مشترک:         %s LUFS، میانه صداها"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name به %s اشاره می‌کند که جزو فایل‌های دوربین این اجرا نیست."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "نام جدید برای %s خالی است؛ یک نام فایل ساده بدهید یا --new-name را حذف کنید."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "نام جدید «%s» برای %s شامل «%s» است، که جداکننده پوشه یا درایو است؛ یک نام فایل ساده بدهید."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "نام جدید «%s» برای %s با نقطه شروع می‌شود، که فایل پنهان یا پوشه می‌سازد؛ یک نام فایل ساده بدهید."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "دو دوربین به‌صورت یک فایل نوشته می‌شدند، %s: %s و %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name به %s دو نام می‌دهد، «%s» و «%s»؛ به هر فایل یک نام بدهید."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "اینجا فایل تخصیص نام دوربین‌ها را تعیین می‌کند، پس --new-name کنار گذاشته می‌شد؛ نام‌ها را همان‌جا بدهید یا --new-name را حذف کنید."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "وقتی فقط دوربین‌ها هستند، هر فایل به نام ترک‌هایی نام‌گذاری می‌شود که از صدای خودش گرفته شده‌اند، پس --new-name کنار گذاشته می‌شد؛ --new-name را حذف کنید."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "روی %s دوربین"
+msgstr[1] "روی %s دوربین"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s واژه بدون زمان برگشت و کنار گذاشته شد."
+msgstr[1] "  %s واژه بدون زمان برگشت و کنار گذاشته شد."
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  تفکیک گوینده (%s): %s گوینده از %s صدا"
+msgstr[1] "  تفکیک گوینده (%s): %s گوینده از %s صدا"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "تفکیک‌شده: %s گوینده"
+msgstr[1] "تفکیک‌شده: %s گوینده"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s مورد خودبه‌خود رفع شد"
+msgstr[1] "%s مورد خودبه‌خود رفع شد"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    تصویر و صدا دوباره پیوند خوردند: %s زاویه"
+msgstr[1] "    تصویر و صدا دوباره پیوند خوردند: %s زاویه"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  احتیاط: زاویه %s درج نشد. بدون این زاویه\n  Timeline برای تبدیل به کار نمی‌آید."
+msgstr[1] "  احتیاط: زاویه‌های %s درج نشدند. بدون این زاویه‌ها\n  Timeline برای تبدیل به کار نمی‌آید."
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  ترک %s در دو کانال می‌ماند"
+msgstr[1] "  ترک‌های %s در دو کانال می‌مانند"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  ترک %s به‌صورت استریو بارگذاری شد و تک‌کاناله برگشت."
+msgstr[1] "  ترک‌های %s به‌صورت استریو بارگذاری شدند و هر کدام تک‌کاناله برگشت."
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " (از %s کانال تعبیه‌شده)"
+msgstr[1] " (از %s کانال تعبیه‌شده)"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "فایل برچسب HDR دارد، با %s یادداشت."
+msgstr[1] "فایل برچسب HDR دارد، با %s یادداشت."
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s ترک صوتی"
+msgstr[1] "%s ترک صوتی"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s کلیپ"
+msgstr[1] "%s کلیپ"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s ترک ویدیویی"
+msgstr[1] "%s ترک ویدیویی"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix از %s ترک، %s کانال"
+msgstr[1] "  Full-Mix از %s ترک، %s کانال"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s کلیپ بدون رنگ ماند."
+msgstr[1] "      %s کلیپ بدون رنگ ماند."
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> به‌عنوان %s ترک صوتی خوانده شد%s"
+msgstr[1] "      --> به‌عنوان %s ترک صوتی خوانده شد%s"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      زاویه‌ها بیشتر از رنگ‌هاست -- %s رنگ دو بار آمده است."
+msgstr[1] "      زاویه‌ها بیشتر از رنگ‌هاست -- %s رنگ دو بار آمده است."
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s ترک صوتی خالی حذف شد"
+msgstr[1] "    %s ترک صوتی خالی حذف شد"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    V2 اکنون %s کلیپ دارد: %s"
+msgstr[1] "    V2 اکنون %s کلیپ دارد: %s"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s ترک صوتی باقی مانده است:"
+msgstr[1] "  %s ترک صوتی باقی مانده است:"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s ترک صوتی می‌ماند: %s"
+msgstr[1] "  %s ترک صوتی می‌ماند: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s نشانگر گذاشته شد%s."
+msgstr[1] "  %s نشانگر گذاشته شد%s."
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s فایل پیش از آن تمام شده بود و کامل است: %s"
+msgstr[1] "%s فایل پیش از آن تمام شده بود و کامل است: %s"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s کانال"
+msgstr[1] "%s کانال"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s فایل"
+msgstr[1] "%s فایل"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s دلیل برای توقف"
+msgstr[1] "%s دلیل برای توقف"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s ضبط از %s فایل"
+msgstr[1] "%s ضبط از %s فایل"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s ترک، %s، %s kHz، %s"
+msgstr[1] "%s ترک، %s، %s kHz، %s"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: در %s قرار دارد (هدف %s) پس از %d ms، %d تلاش"
+msgstr[1] "%s: در %s قرار دارد (هدف %s) پس از %d ms، %d تلاش"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] "، %s فایل مطابقت ندارد"
+msgstr[1] "، %s فایل مطابقت ندارد"
+
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "%s فایل صوتی از فهرست حذف شود؟\n\n%s"
+msgstr[1] "همه %s فایل صوتی از فهرست حذف شوند؟\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "%s فایل ویدیویی از فهرست حذف شود؟\n\n%s"
+msgstr[1] "همه %s فایل ویدیویی از فهرست حذف شوند؟\n\n%s"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s ضبط صوتی"
+msgstr[1] "%s ضبط صوتی"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s دوربین"
+msgstr[1] "%s دوربین"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s یادداشت"
+msgstr[1] "%s یادداشت"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s مورد"
+msgstr[1] "%s مورد"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s فایل ویدیویی"
+msgstr[1] "%s فایل ویدیویی"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s ادامه"
+msgstr[1] "%s  + %s ادامه"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "این کار %s فایل ویدیویی می‌سازد، حدود %s. مقصد: %s"
+msgstr[1] "این کار %s فایل ویدیویی می‌سازد، حدود %s. مقصد: %s"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  از %s: %s صدا."
+msgstr[1] "  از %s: %s صدا."
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s در %s بخش"
+msgstr[1] "  %-20s %s در %s بخش"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s قابل دسته‌بندی نیست: %s -- فقط با ساعت خودش جای‌گذاری شد"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: صدای آن با میزان %s تطبیق دارد، زیر کف %s -- فقط با ساعت خودش جای‌گذاری شد"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  احتیاط: این پروژه کامل نیست -- Resolve این ترک‌ها را دو بار رد کرد:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  آفست:            %s   (فقط از تایم‌کد خودش -- صدایش نتوانست آن را جای‌گذاری کند، پس چیزی بررسی نمی‌شود)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve ترک صوتی A%d را دو بار در Timeline «%s» رد کرد -- دوربین‌ها روی %s ترک صوتی موجود قرار گرفتند."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve ترک ویدیویی V%d را دو بار رد کرد -- Timeline «%s» فاقد %s است."
+
+msgid "  Status:      %s"
+msgstr "  وضعیت:          %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  صدای %s ضعیف‌تر از آن تطبیق یافت که بتوان به آن اعتماد کرد -- فقط بر اساس تایم‌کد جای‌گذاری شد."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   با فایل‌های دیگر جور نیست: صدا شناسایی نشد،\n   چیزی نیست که تایم‌کد آن با آن سنجیده شود.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s قابل جای‌گذاری نیست: صدای آن هیچ اشتراکی با بقیه مواد ندارد، و هیچ دوربینی که صدا جای‌گذاری کرده تایم‌کدی ندارد که تایم‌کد این فایل با آن سنجیده شود. یکی از آن دوربین‌ها به تایم‌کدی نیاز دارد که با این یکی جور باشد، و آن باید با برنامه دیگری تنظیم شود."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s با هیچ بخشی از مواد جور نیست، و هیچ دوربینی که صدا جای‌گذاری کرده تایم‌کدی ندارد که تایم‌کد این فایل با آن سنجیده شود، پس نمی‌توان آن را در قسمت برش داد: به‌عنوان مقدمه تنظیم شد."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s با هیچ بخشی از مواد جور نیست، و هیچ دوربینی که صدا جای‌گذاری کرده تایم‌کدی ندارد که تایم‌کد این فایل با آن سنجیده شود؛ مقدمه از پیش گرفته شده است: کنار گذاشته شد."
+
+msgid "API Key:"
+msgstr "کلید API:"
+
+msgid "In point"
+msgstr "نقطه ورود"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "کنار گذاشته شد؛ %s یا %s با یک کلیک در دسترس است."
+
+msgid "Out point"
+msgstr "نقطه خروج"
+
+msgid "Presets:"
+msgstr "پیش‌تنظیم‌ها:"
+
+msgid "Registry"
+msgstr "رجیستری"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "حذف «صدا» یا «ویدیو» هرچه زیر آن است را هم حذف می‌کند."
+
+msgid "VIDEO"
+msgstr "ویدیو"
+
+msgid "a finished clip"
+msgstr "کلیپ آماده"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "در قسمت برش نمی‌خورد -- فقط پیش یا پس از آن"
+
+msgid "moved off the wide shot"
+msgstr "از نمای باز برداشته شد"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "نه صدایش و نه تایم‌کدی آن را روی محور می‌گذارد"
+
+msgid "no audio track"
+msgstr "بدون ترک صوتی"
+
+msgid "no speaker"
+msgstr "بدون گوینده"
+
+msgid "not used"
+msgstr "بی‌استفاده"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "با دوربین خودش جای‌گذاری شد، بر اساس ساعت همان دوربین"
+
+msgid "the file stays out"
+msgstr "فایل کنار می‌ماند"
+
+msgid "the only sound"
+msgstr "تنها صدا"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve ترک صوتی A%d را دو بار رد کرد -- Timeline «%s» فاقد صدای %s است."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve ترک ویدیویی V%d را دو بار رد کرد -- Timeline «%s» فاقد تصویر %s است."

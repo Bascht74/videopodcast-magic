@@ -609,9 +609,6 @@ msgstr "Farbe"
 msgid "  Preset:  %s"
 msgstr "  Preset:  %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve nimmt keine weiteren Videospuren -- %s von %s Kameras passen."
-
 msgid "Preset"
 msgstr "Preset"
 
@@ -960,9 +957,6 @@ msgstr "    %s ließ sich nicht importieren."
 msgid "    %s could not be inserted."
 msgstr "    %s ließ sich nicht einfügen."
 
-msgid "    %s track %d could not be created."
-msgstr "    %s-Spur %d ließ sich nicht anlegen."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s-Spur ließ sich nicht anlegen: %s"
 
@@ -1226,9 +1220,6 @@ msgstr "  %s Bildspuren, benannt nach den Sprechern:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s steht zweimal mit verschiedenen Kameras -- genommen wird %s"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s lässt sich nicht einordnen: %s"
 
 msgid ""
 "  %s gives no sound to measure -- placed by its clock alone, and nothing "
@@ -3319,17 +3310,11 @@ msgstr "weil ihr kein Sprecher zugeordnet ist"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "als Weitwinkel gekennzeichnet -- sie nimmt keine Sprecher"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "kein Sprecher -- das ist der Weitwinkel"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "ihr ist kein Sprecher zugeordnet, aber der Schnitt nimmt %s"
 
 msgid "the cut uses %s"
 msgstr "der Schnitt nimmt %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "das ist der Weitwinkel -- %s ist auf \"ohne eigene Kamera\" gewechselt"
 
 msgid "Curve and colour space are missing from the file"
 msgstr "Kurve und Farbraum fehlen in der Datei"
@@ -3530,22 +3515,6 @@ msgstr ""
 "vorsichtiger, je weniger die Mikrofone getrennt sind. Für das nächste "
 "Mal: zum Nachbarmikrofon dreimal so weit wie zum eigenen Mund, dann liegt "
 "die Nachbarstimme rund %s dB tiefer."
-
-msgid ""
-"It fits nowhere in the material: no timecode, and its sound has nothing "
-"in common with the rest. The wide shot is what the cut falls back on, so "
-"it has to lie on the time axis."
-msgstr ""
-"Sie passt nirgends ins Material: kein Timecode, und ihr Ton hat mit dem "
-"Rest nichts gemeinsam. Auf den Weitwinkel fällt der Schnitt zurück, also "
-"muss er auf der Zeitachse liegen."
-
-msgid ""
-"It fits nowhere in the material, so it cannot be cut into the episode. It "
-"can be set in front of it or after it."
-msgstr ""
-"Sie passt nirgends ins Material und kann darum nicht in die Folge "
-"hineingeschnitten werden. Davor oder danach setzen geht."
 
 msgid ""
 "%s fits nothing in the material, so it cannot be cut into the episode: "
@@ -5076,9 +5045,6 @@ msgstr "Nur Kameras"
 msgid "Curve number %d"
 msgstr "Kurve Nummer %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Auf TON oder VIDEO geht alles davon."
-
 msgid "End"
 msgstr "Ende"
 
@@ -5363,23 +5329,11 @@ msgstr ""
 msgid "One track only, and no camera audio left to take."
 msgstr "Nur eine Spur, und es ist kein Kameraton mehr übrig."
 
-msgid "the only sound there is"
-msgstr "der einzige Ton, den es gibt"
-
 msgid "do not use internal audio"
 msgstr "Ton nicht verwenden"
 
 msgid "use internal audio"
 msgstr "Ton verwenden"
-
-msgid "no audio track in this file"
-msgstr "keine Tonspur in dieser Datei"
-
-msgid "this file stays out entirely"
-msgstr "diese Datei bleibt ganz draußen"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "fertiger Clip -- wird nur platziert, nicht verarbeitet"
 
 msgid ""
 "Used, the channels measured under this file are cut into tracks, the way "
@@ -6237,8 +6191,8 @@ msgid ""
 msgstr ""
 "Der Nullpunkt liegt dort, wo der Fragende aufhört, nicht dort, wo die "
 "Antwort anfängt: die Pause dazwischen gehört zur Frage. Gilt nur, wo "
-"„Nach einer Frage“ es verlangt, und die Bildverzögerung kommt nicht noch "
-"einmal dazu."
+"„Nach einer Frage“ es verlangt, und die Verzögerung aus „Edit Change "
+"Delay“ kommt nicht noch einmal dazu."
 
 msgid "Wide shot at least"
 msgstr "Weitwinkel mindestens"
@@ -6552,3 +6506,99 @@ msgstr "Die Zuordnungsdatei benennt hier die Kameras, also würde --new-name üb
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Nur mit Kameras heißt jede Datei nach den Spuren, die aus ihrem Ton genommen werden, also würde --new-name übergangen; --new-name weglassen."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s lässt sich nicht einordnen: %s -- allein nach seiner Uhr gesetzt"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: Übereinstimmung des Tons %s, unter der Grenze von %s -- allein nach seiner Uhr gesetzt"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  ACHTUNG: dieses Projekt ist nicht vollständig -- Resolve hat diese Spuren zweimal abgelehnt:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Versatz:         %s   (allein aus dem Timecode -- ihr Ton konnte sie nicht einordnen, also wird nichts geprüft)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve hat die Tonspur A%d der Timeline \"%s\" zweimal abgelehnt -- die Kameras werden auf die %s vorhandenen Tonspuren gelegt."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve hat die Bildspur V%d zweimal abgelehnt -- der Timeline \"%s\" fehlt: %s."
+
+msgid "  Status:      %s"
+msgstr "  Stand:       %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Der Ton von %s stimmte zu schwach überein, um ihm zu trauen -- allein nach Timecode gesetzt."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   passt nicht zu den anderen Dateien: Ton nicht erkannt,\n   nichts, womit sich der Timecode abgleichen ließe.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s lässt sich nicht einordnen: Der Ton hat mit dem übrigen Material nichts gemeinsam, und keine Kamera, die über den Ton eingeordnet wurde, trägt einen Timecode, mit dem sich der eigene abgleichen ließe. Eine dieser Kameras braucht einen Timecode, der zu dem dieser Datei passt, und der muss mit einem anderen Programm gesetzt werden."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s passt zu nichts im Material, und keine Kamera, die über den Ton eingeordnet wurde, trägt einen Timecode, mit dem sich der eigene abgleichen ließe; die Datei kann darum nicht in die Folge hineingeschnitten werden: auf Vorspann gesetzt."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s passt zu nichts im Material, und keine Kamera, die über den Ton eingeordnet wurde, trägt einen Timecode, mit dem sich der eigene abgleichen ließe; der Vorspann ist vergeben: bleibt draußen."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "In-Punkt"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Bleibt draußen; %s oder %s ist einen Klick entfernt."
+
+msgid "Out point"
+msgstr "Out-Punkt"
+
+msgid "Presets:"
+msgstr "Presets:"
+
+msgid "Registry"
+msgstr "Registry"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Wird TON oder VIDEO entfernt, geht alles darunter mit."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "fertiger Clip"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "nicht in die Folge -- nur davor oder danach"
+
+msgid "moved off the wide shot"
+msgstr "vom Weitwinkel genommen"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "weder Ton noch Timecode legt sie auf die Achse"
+
+msgid "no audio track"
+msgstr "keine Tonspur"
+
+msgid "no speaker"
+msgstr "kein Sprecher"
+
+msgid "not used"
+msgstr "ungenutzt"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "mit der eigenen Kamera platziert, nach deren Uhr"
+
+msgid "the file stays out"
+msgstr "bleibt draußen"
+
+msgid "the only sound"
+msgstr "einziger Ton"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve hat die Tonspur A%d zweimal abgelehnt -- der Timeline \"%s\" fehlt der Ton von %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve hat die Bildspur V%d zweimal abgelehnt -- der Timeline \"%s\" fehlt das Bild von %s."

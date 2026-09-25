@@ -520,9 +520,6 @@ msgstr "Χρώμα"
 msgid "  Preset:  %s"
 msgstr "  Προρύθμιση: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Το Resolve αρνείται περισσότερα κομμάτια βίντεο -- χωρούν %s από %s κάμερες."
-
 msgid "Preset"
 msgstr "Προρύθμιση"
 
@@ -715,9 +712,6 @@ msgstr "    %s δεν μπόρεσε να εισαχθεί."
 msgid "    %s could not be inserted."
 msgstr "    %s δεν μπόρεσε να τοποθετηθεί."
 
-msgid "    %s track %d could not be created."
-msgstr "    Το κομμάτι %s αρ. %d δεν μπόρεσε να δημιουργηθεί."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Το κομμάτι %s δεν μπόρεσε να δημιουργηθεί: %s"
 
@@ -885,9 +879,6 @@ msgstr "  %s κομμάτια βίντεο, με τα ονόματα των ομ
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s εμφανίζεται δύο φορές με διαφορετικές κάμερες -- χρησιμοποιείται %s"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s δεν μπορεί να ταξινομηθεί: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s δεν δίνει ήχο για μέτρηση -- τοποθετήθηκε μόνο με βάση το ρολόι της, και δεν βρέθηκε τίποτα για να ελεγχθεί"
@@ -2170,17 +2161,11 @@ msgstr "επειδή δεν της έχει αντιστοιχιστεί ομι�
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "σημειωμένη ως γενικό πλάνο -- δεν δέχεται ομιλητές"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "κανένας ομιλητής -- αυτό είναι το γενικό πλάνο"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "δεν της έχει αντιστοιχιστεί ομιλητής, αλλά το μοντάζ χρησιμοποιεί %s"
 
 msgid "the cut uses %s"
 msgstr "το μοντάζ χρησιμοποιεί %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "αυτό είναι το γενικό πλάνο -- μεταφορά σε \"χωρίς δική του κάμερα\": %s"
 
 msgid "Curve and colour space are missing from the file"
 msgstr "Η καμπύλη και ο χρωματικός χώρος λείπουν από το αρχείο"
@@ -2299,12 +2284,6 @@ msgstr "Αν είναι κενό: δίπλα σε κάθε αρχείο βίντ
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Προέκυψε κατά την ηχογράφηση και δεν αλλάζει πια. Όσο λιγότερο διαχωρισμένα είναι τα μικρόφωνα, τόσο πιο προσεκτικά μπορεί να δουλέψει το De-Bleed στο auphonic.com. Την επόμενη φορά: τρεις φορές πιο μακριά από το διπλανό μικρόφωνο απ’ ό,τι από το δικό σας στόμα, τότε η διπλανή φωνή κάθεται περίπου %s dB χαμηλότερα."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Δεν ταιριάζει πουθενά στο υλικό: χωρίς timecode, και ο ήχος της δεν έχει τίποτα κοινό με τα υπόλοιπα. Το γενικό πλάνο είναι εκεί όπου καταφεύγει το μοντάζ, οπότε πρέπει να βρίσκεται στον άξονα χρόνου."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Δεν ταιριάζει πουθενά στο υλικό, οπότε δεν μπορεί να μονταριστεί μέσα στο επεισόδιο. Μπορεί να τοποθετηθεί πριν ή μετά από αυτό."
-
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "Το %s δεν ταιριάζει με τίποτα στο υλικό, οπότε δεν μπορεί να μονταριστεί στο επεισόδιο: ορίστηκε ως Intro."
 
@@ -2357,7 +2336,7 @@ msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "Η μονάδα DaVinciResolveScript δεν μπορεί να φορτωθεί: %s"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Ένα κομμάτι ήχου ανά πρόσωπο, χωριστά μέχρι το auphonic.com.\nΛειτουργεί και χωρίς αυτό -- τότε όμως χωρίς de-bleed και ισοσταθμιστή.\nΧρειάζεται δύο κομμάτια εισόδου: μια δική του ηχογράφηση, ένα κανάλι\nπολυκάναλης συσκευής εγγραφής, ή τον ήχο ενός αρχείου βίντεο ορισμένο σε\n«χρήση του ήχου». Το μοντάζ καμερών δεν χρειάζεται αυτό το τικ."
+msgstr "Ένα κομμάτι ήχου ανά πρόσωπο, χωριστά μέχρι το auphonic.com.\nΛειτουργεί και χωρίς αυτό -- τότε όμως χωρίς de-bleed και ισοσταθμιστή.\nΧρειάζεται δύο κομμάτια εισόδου: μια δική του ηχογράφηση, ένα κανάλι\nπολυκάναλης συσκευής εγγραφής, ή τον ήχο ενός αρχείου βίντεο ορισμένο σε\n«χρήση εσωτερικού ήχου». Το μοντάζ καμερών δεν χρειάζεται αυτό το τικ."
 
 msgid "Multitrack (one track per speaker)"
 msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
@@ -3347,9 +3326,6 @@ msgstr "Μόνο κάμερες"
 msgid "Curve number %d"
 msgstr "Καμπύλη αριθμός %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Η αφαίρεση του ΗΧΟΣ ή του ΒΙΝΤΕΟ αφαιρεί όλα όσα περιέχουν."
-
 msgid "End"
 msgstr "Τέλος"
 
@@ -3613,18 +3589,6 @@ msgstr "Μόνο ένα κομμάτι -- για δεύτερο, ορίστε τ
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Μόνο ένα κομμάτι, και δεν έχει μείνει ήχος κάμερας για χρήση."
-
-msgid "the only sound there is"
-msgstr "ο μόνος ήχος που υπάρχει"
-
-msgid "no audio track in this file"
-msgstr "κανένα κομμάτι ήχου σε αυτό το αρχείο"
-
-msgid "this file stays out entirely"
-msgstr "αυτό το αρχείο μένει εντελώς απ’ έξω"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "ένα έτοιμο κλιπ -- μόνο τοποθετείται, δεν επεξεργάζεται"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Αν χρησιμοποιηθούν, τα κανάλια που μετρήθηκαν κάτω από αυτό το αρχείο χωρίζονται σε κομμάτια, όπως σε μια ηχογράφηση.\nΗ μέτρηση γίνεται ούτως ή άλλως: σε εκείνη την κρίση βασίζεται αυτή η απόφαση, και ο συγχρονισμός παίρνει τον ήχο σε κάθε περίπτωση."
@@ -4467,3 +4431,378 @@ msgstr "Εδώ τις κάμερες τις ονομάζει το αρχείο �
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Με μόνο κάμερες, κάθε αρχείο παίρνει το όνομά του από τα κομμάτια που λαμβάνονται από τον ήχο του, οπότε το --new-name θα απορριπτόταν· παραλείψτε το --new-name."
+
+msgid "no camera of its own"
+msgstr "χωρίς δική του κάμερα"
+
+msgid "do not use"
+msgstr "να μη χρησιμοποιηθεί"
+
+msgid "several speakers"
+msgstr "περισσότεροι ομιλητές"
+
+msgid "work without Auphonic"
+msgstr "εργασία χωρίς Auphonic"
+
+msgid "Content"
+msgstr "Περιεχόμενο"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Γενικό πλάνο"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "αγνόηση βίντεο"
+
+msgid "do not use internal audio"
+msgstr "χωρίς εσωτερικό ήχο"
+
+msgid "use internal audio"
+msgstr "χρήση εσωτερικού ήχου"
+
+msgid "After a question"
+msgstr "Μετά από ερώτηση"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "η εικόνα πηγαίνει στην απάντηση πριν αυτή αρχίσει"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Μόνο μετά από ερώτηση που δεν είναι του κύριου ομιλητή, όταν κάποιος άλλος παίρνει αμέσως τον λόγο και τον κρατά.\n\"όχι νωρίτερα\" σημαίνει ότι δεν γίνεται πρόωρη αλλαγή κάμερας: η εικόνα ακολουθεί τον ήχο και εδώ, όπως παντού αλλού."
+
+msgid "Long monologue"
+msgstr "Μακρύς μονόλογος"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "ένα άτομο κρατά τον λόγο πέρα από το \"Γενικό πλάνο μετά από\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "Το \"Εναλλάξ\" θυμάται τι έδειξε η τελευταία διακοπή αυτού του μονολόγου. Ο ακροατής παίρνει την εικόνα μόνο όταν κάποιος σε εκείνη την κάμερα ακούστηκε τα τελευταία 20 δευτερόλεπτα· αλλιώς το γενικό πλάνο."
+
+msgid "Several speak at once"
+msgstr "Πολλοί μιλούν ταυτόχρονα"
+
+msgid "and no camera shows exactly them"
+msgstr "και καμία κάμερα δεν δείχνει ακριβώς αυτούς"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Οι κοπές μέσα σε ένα μπέρδεμα φαίνονται φρενήρεις."
+
+msgid "Nobody speaks"
+msgstr "Κανείς δεν μιλάει"
+
+msgid "no voice is heard at all here"
+msgstr "εδώ δεν ακούγεται καμία φωνή"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Μια ανάσα στη μέση μιας πρότασης και το τέλος μιας σκέψης είναι και τα δύο σιωπή, και το πρόγραμμα δεν μπορεί να τα ξεχωρίσει. Μόνο η διάρκεια μπορεί: το \"Σύντομη παύση έως\" λέει πόσο μπορεί να διαρκεί μια σιωπή και να μετράει ακόμη ως ανάσα."
+
+msgid "Recognition uncertain"
+msgstr "Αβέβαιη αναγνώριση"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "η αναγνώριση ομιλητών ξεφτίζει ή αφήνει πίσω έναν σωρό"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Η εικασία βάζει τον λάθος άνθρωπο στην οθόνη για δευτερόλεπτα· το γενικό πλάνο είναι σωστό σε κάθε περίπτωση. Εδώ κάποιος μιλάει -- όπου δεν μιλάει κανείς, αποφασίζει το \"Κανείς δεν μιλάει\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "η εικόνα αλλάζει τόσο αργότερα από τον ήχο"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Μια αρνητική τιμή κάνει την εικόνα να προηγείται του ήχου."
+
+msgid "Answer on screen earlier"
+msgstr "Απάντηση νωρίτερα στην οθόνη"
+
+msgid "before the question ends"
+msgstr "πριν τελειώσει η ερώτηση"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Το μηδέν είναι εκεί όπου σταματά αυτός που ρωτά, όχι εκεί όπου αρχίζει η απάντηση: η παύση ανάμεσά τους ανήκει στην ερώτηση. Ισχύει μόνο όπου το ζητά το \"Μετά από ερώτηση\", και το Edit Change Delay δεν προστίθεται ξανά."
+
+msgid "Wide shot after"
+msgstr "Γενικό πλάνο μετά από"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "από εδώ και πέρα αναζητείται μια καλή στιγμή γι’ αυτό"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Το μαλακό όριο του ζεύγους: από εδώ το πρόγραμμα περιμένει ένα όριο πρότασης και βάζει εκεί το γενικό πλάνο, όχι με το ρολόι. Το 0 το απενεργοποιεί. Το \"Γενικό πλάνο το αργότερο\" είναι το σκληρό όριο, όπου κόβει και χωρίς όριο πρότασης."
+
+msgid "Wide shot at the latest"
+msgstr "Γενικό πλάνο το αργότερο"
+
+msgid "and here it is cut, good moment or not"
+msgstr "και εδώ κόβει, καλή στιγμή ή όχι"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Το σκληρό όριο του ζεύγους: όπου δεν έχει εμφανιστεί όριο πρότασης από το \"Γενικό πλάνο μετά από\", η μεγαλύτερη παύση ομιλίας παίρνει τη θέση του, και σε αυτό το σημείο γίνεται η κοπή, ό,τι κι αν λέγεται."
+
+msgid "Wide shot at least"
+msgstr "Γενικό πλάνο τουλάχιστον"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "τουλάχιστον τόσο διαρκεί το παρεμβαλλόμενο γενικό πλάνο"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Έπειτα συνεχίζει ως το τέλος της πρότασης. Κάτω από πέντε δευτερόλεπτα η ματιά μοιάζει με σπασμό."
+
+msgid "Wide shot at most"
+msgstr "Γενικό πλάνο το πολύ"
+
+msgid "and at most this long"
+msgstr "και το πολύ τόσο"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Όπου το τέλος της πρότασης βρίσκεται πέρα από αυτό, το τελευταίο όριο φράσης πριν από αυτό κλείνει το πλάνο -- δεν κόβεται στη μέση της πρότασης."
+
+msgid "Minimum Edit Duration"
+msgstr "Ελάχιστη διάρκεια πλάνου"
+
+msgid "shorter shots are merged in"
+msgstr "τα συντομότερα πλάνα συγχωνεύονται"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Τα συντομότερα πλάνα ενσωματώνονται στο επόμενο."
+
+msgid "Speaks at least"
+msgstr "Μιλάει τουλάχιστον"
+
+msgid "below this the camera does not follow"
+msgstr "κάτω από αυτό η κάμερα δεν ακολουθεί"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Ένα σύντομο \"ναι\" δεν μετακινεί την εικόνα. Χωρίς αυτό, ένα μπλοκ μισού δευτερολέπτου τραβάει την κάμερα, και η ελάχιστη διάρκεια πλάνου την κρατά έπειτα εκεί για δευτερόλεπτα."
+
+msgid "Short gap up to"
+msgstr "Σύντομη παύση έως"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "τόσο μεγάλη σιωπή αφήνει την εικόνα ήσυχη"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Μόνο όπου το \"Κανείς δεν μιλάει\" είναι ρυθμισμένο σε κράτημα σύντομης παύσης. Μια παύση έως τόσο δεν αλλάζει τίποτα, μια μεγαλύτερη πηγαίνει στο γενικό πλάνο. Πάνω από δύο δευτερόλεπτα η εικόνα αρχίζει να μένει σε κάποιον σιωπηλό για πάνω από πέντε δευτερόλεπτα."
+
+msgid "Listener"
+msgstr "Ακροατής"
+
+msgid "Alternating"
+msgstr "Εναλλάξ"
+
+msgid "No camera change"
+msgstr "Χωρίς αλλαγή κάμερας"
+
+msgid "Hold a short gap"
+msgstr "Κράτημα σύντομης παύσης"
+
+msgid "do not go early"
+msgstr "όχι νωρίτερα"
+
+msgid "Answering speaker"
+msgstr "Αυτός που απαντά"
+
+msgid "English"
+msgstr "Αγγλικά"
+
+msgid "Podcast directories, stereo"
+msgstr "Κατάλογοι podcast, στερεοφωνικό"
+
+msgid "Podcast directories, mono"
+msgstr "Κατάλογοι podcast, μονοφωνικό"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- μόνο χαμηλώνει, ποτέ δεν δυναμώνει"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, ραδιοτηλεόραση"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 σταθερό"
+
+msgid "reserved"
+msgstr "δεσμευμένο"
+
+msgid "unspecified"
+msgstr "απροσδιόριστο"
+
+msgid "unknown"
+msgstr "άγνωστο"
+
+msgid "French"
+msgstr "Γαλλικά"
+
+msgid "German"
+msgstr "Γερμανικά"
+
+msgid "Dutch"
+msgstr "Ολλανδικά"
+
+msgid "Italian"
+msgstr "Ιταλικά"
+
+msgid "Spanish"
+msgstr "Ισπανικά"
+
+msgid "Polish"
+msgstr "Πολωνικά"
+
+msgid "Portuguese"
+msgstr "Πορτογαλικά"
+
+msgid "Russian"
+msgstr "Ρωσικά"
+
+msgid "Danish"
+msgstr "Δανικά"
+
+msgid "Norwegian"
+msgstr "Νορβηγικά"
+
+msgid "Swedish"
+msgstr "Σουηδικά"
+
+msgid "Czech"
+msgstr "Τσεχικά"
+
+msgid "Finnish"
+msgstr "Φινλανδικά"
+
+msgid "Turkish"
+msgstr "Τουρκικά"
+
+msgid "Greek"
+msgstr "Ελληνικά"
+
+msgid "Hungarian"
+msgstr "Ουγγρικά"
+
+msgid "Romanian"
+msgstr "Ρουμανικά"
+
+msgid "Arabic"
+msgstr "Αραβικά"
+
+msgid "Catalan"
+msgstr "Καταλανικά"
+
+msgid "Ukrainian"
+msgstr "Ουκρανικά"
+
+msgid "Chinese"
+msgstr "Κινεζικά"
+
+msgid "Hebrew"
+msgstr "Εβραϊκά"
+
+msgid "Japanese"
+msgstr "Ιαπωνικά"
+
+msgid "Korean"
+msgstr "Κορεατικά"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Για μετατροπή: στο media pool δεξί κλικ στο \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Μόνο προς μία κατεύθυνση -- αλλά μια νέα εκτέλεση ξαναχτίζει το Timeline οποτεδήποτε.\n  Γωνίες:%s\n  Όλα τα υπόλοιπα -- επιλογή ήχου, χρωματικές ομάδες, κάδρο -- βρίσκονται στο\n  εγχειρίδιο, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Πιθανοί λόγοι:\n  1. Το Resolve δεν εκτελείται -- η διεπαφή απαντά μόνο όσο εκτελείται το πρόγραμμα.\n  2. Preferences > System > General: το εξωτερικό scripting είναι ρυθμισμένο σε \"None\" αντί για \"Local\".\n  3. Δωρεάν έκδοση: αναφέρεται ότι από την έκδοση 19.1 το εξωτερικό scripting προορίζεται μόνο για την έκδοση Studio. Δεν βρήκα επίσημη δήλωση -- αυτός ο έλεγχος το μετρά αντί να το ισχυρίζεται."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s δεν μπορεί να ταξινομηθεί: %s -- τοποθετήθηκε μόνο με βάση το ρολόι της"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: ο ήχος της ταιριάζει κατά %s, κάτω από το κατώφλι του %s -- τοποθετήθηκε μόνο με βάση το ρολόι της"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Προσοχή: αυτό το έργο δεν είναι πλήρες -- το Resolve αρνήθηκε δύο φορές αυτά τα κομμάτια:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Μετατόπιση:         %s   (μόνο από το timecode της -- ο ήχος της δεν μπόρεσε να την τοποθετήσει, οπότε τίποτα δεν ελέγχεται)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι ήχου A%d στο Timeline «%s» -- οι κάμερες τοποθετούνται στα υπάρχοντα κομμάτια ήχου (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι βίντεο V%d -- από το Timeline «%s» λείπει: %s."
+
+msgid "  Status:      %s"
+msgstr "  Κατάσταση:    %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Η αντιστοιχία ήχου είναι πολύ αδύναμη για να είναι αξιόπιστη: %s -- τοποθετήθηκε μόνο με το timecode."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   δεν ταιριάζει με τα άλλα αρχεία: ήχος μη αναγνωρισμένος,\n   τίποτα με το οποίο να συγκριθεί το timecode του.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "Το %s δεν μπορεί να τοποθετηθεί: ο ήχος του δεν έχει τίποτα κοινό με το υπόλοιπο υλικό, και καμία κάμερα που τοποθέτησε ο ήχος δεν φέρει timecode με το οποίο να συγκριθεί το δικό του. Μία από αυτές χρειάζεται ένα timecode που να ταιριάζει με αυτό, και αυτό πρέπει να οριστεί με άλλο πρόγραμμα."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "Το %s δεν ταιριάζει με τίποτα στο υλικό, και καμία κάμερα που τοποθέτησε ο ήχος δεν φέρει timecode με το οποίο να συγκριθεί το δικό του, οπότε δεν μπορεί να μονταριστεί στο επεισόδιο: ορίστηκε ως Intro."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "Το %s δεν ταιριάζει με τίποτα στο υλικό, και καμία κάμερα που τοποθέτησε ο ήχος δεν φέρει timecode με το οποίο να συγκριθεί το δικό του· το Intro είναι ήδη πιασμένο: μένει απ' έξω."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "σημείο In"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Έμεινε απέξω· το %s ή το %s είναι ένα κλικ μακριά."
+
+msgid "Out point"
+msgstr "σημείο Out"
+
+msgid "Presets:"
+msgstr "Προρυθμίσεις:"
+
+msgid "Registry"
+msgstr "Μητρώο"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Η αφαίρεση του ΗΧΟΣ ή του ΒΙΝΤΕΟ αφαιρεί ό,τι βρίσκεται από κάτω."
+
+msgid "VIDEO"
+msgstr "ΒΙΝΤΕΟ"
+
+msgid "a finished clip"
+msgstr "έτοιμο κλιπ"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "δεν μονταρίζεται στο επεισόδιο -- μόνο πριν ή μετά από αυτό"
+
+msgid "moved off the wide shot"
+msgstr "βγήκε από το γενικό πλάνο"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ούτε ο ήχος ούτε κάποιο timecode το τοποθετεί στον άξονα"
+
+msgid "no audio track"
+msgstr "χωρίς κομμάτι ήχου"
+
+msgid "no speaker"
+msgstr "χωρίς ομιλητή"
+
+msgid "not used"
+msgstr "ανενεργό"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "τοποθετήθηκε μαζί με την κάμερά του, με βάση το ρολόι εκείνης της κάμερας"
+
+msgid "the file stays out"
+msgstr "το αρχείο μένει απ’ έξω"
+
+msgid "the only sound"
+msgstr "ο μόνος ήχος"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι ήχου A%d -- από το Timeline «%s» λείπει ο ήχος (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Το Resolve αρνήθηκε δύο φορές το κομμάτι βίντεο V%d -- από το Timeline «%s» λείπει η εικόνα (%s)."

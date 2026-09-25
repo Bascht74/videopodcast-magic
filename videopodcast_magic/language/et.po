@@ -1,0 +1,4812 @@
+# What is translated of this program's messages, in Estonian.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Estonian speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 24.9.2026 in two steps: a glossary first, which
+# fixed the form of address and one word for each thing, and then every
+# text against it, three languages at a time from one sheet. Every
+# entry was read back once in full by another model, against the
+# English and those words, and 33 were put right; a third
+# refuted what was not a fault.
+#
+# Anyone who speaks Estonian is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else, nought
+# included -- so 1 takes the first, and 0, 2, 3, 5, 11, 21 and 101
+# the second; 21 is not singular in Estonian. The counted word stays
+# singular after every number, so where it stands in a case other than
+# the nominative the two wordings often read alike (1 kaameral,
+# 5 kaameral); that is Estonian, not a copied line.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Montaaž üldplaaniga"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "Jaotab salvestise häälte kaupa: iga hääl saab oma rea ja sinna oma kaamera. Umbes minut poole tunni heli kohta, selles arvutis ja ilma üleslaadimiseta."
+
+msgid ", %s without"
+msgstr ", ilma kaamerata: %s"
+
+msgid "no camera yet"
+msgstr "kaamerat veel pole"
+
+msgid "A newer version is out"
+msgstr "Saadaval on uuem versioon"
+
+msgid "%s is out. This is %s."
+msgstr "Saadaval on %s. Praegu töötab %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "Kas uuendada? pip laadib selle alla asukohta %s. Mida pip ütleb, ilmub vahekaardile „Väljund“, ja uus versioon töötab järgmisest käivitusest."
+
+msgid "pip could not be started: %s"
+msgstr "pip-i ei õnnestunud käivitada: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip lõpetas koodiga %s. Mida see jõudis teha, on näha ülalolevatel ridadel."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "Versioon %s on paigaldatud. See töötab järgmisest käivitusest."
+
+msgid "There is no window to show what pip says."
+msgstr "Pole akent, kus näidata, mida pip ütleb."
+
+msgid "Back to an earlier version ..."
+msgstr "Tagasi varasemale versioonile ..."
+
+msgid "Back to an earlier version"
+msgstr "Tagasi varasemale versioonile"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Varasemaid versioone ei õnnestunud otsida: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Varasemate versioonide loendit ei õnnestunud lugeda."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Pole ühtegi versioonist %s varasemat versiooni, mida pip saaks paigaldada."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Praegu töötab %s. Millise versiooni peaks pip selle asemele panema?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip laadib selle alla asukohta %s ja mida pip ütleb, ilmub vahekaardile „Väljund“. Siin valitud versioon töötab järgmisest käivitusest.\n\nTagasi tuleb programm ja mitte midagi muud. Mida uuem versioon seadetesse kirjutas, jääb kirjutatuks, ning projektid ja nende failid jäävad nii, nagu nad on."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "kahe kanaliga intro või outro on stereomiks -- mõõtmata"
+
+msgid "Multitrack mode"
+msgstr "Multitrack-režiim"
+
+msgid "Singletrack mode"
+msgstr "Singletrack-režiim"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "Oma Multitrack-eelseadistust pole -- loo see"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "Oma Singletrack-eelseadistust pole -- loo see"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "Oma eelseadistust pole -- loo see auphonic.com-is"
+
+msgid "No Multitrack preset found in the account."
+msgstr "Kontolt ei leitud Multitrack-eelseadistust."
+
+msgid "No Singletrack preset found in the account."
+msgstr "Kontolt ei leitud Singletrack-eelseadistust."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "Kontol pole Multitrack-eelseadistust. On ainult need: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "Kontol pole Singletrack-eelseadistust. On ainult need: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r on Singletrack-eelseadistus, aga vaja on Multitrack-eelseadistust."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r on Multitrack-eelseadistus, aga vaja on Singletrack-eelseadistust."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "Võti sobib. Kontol olevatest eelseadistustest (%s) pole ükski Multitrack, seega jääb loend tühjaks."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "Võti sobib. Kontol olevatest eelseadistustest (%s) pole ükski Singletrack, seega jääb loend tühjaks."
+
+msgid "fetching from auphonic.com ..."
+msgstr "laaditakse auphonic.com-ist alla ..."
+
+msgid "What changed since %s:"
+msgstr "Mis on muutunud alates versioonist %s:"
+
+msgid "Update"
+msgstr "Uuenda"
+
+msgid "Later"
+msgstr "Hiljem"
+
+msgid "Go back"
+msgstr "Mine tagasi"
+
+msgid "Starting again did not work: %s"
+msgstr "Uuesti käivitamine ebaõnnestus: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "Käivita see käsitsi: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "Uuemat versiooni ei leitud. See versioon on %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update laadib selle alla ja paigaldab."
+
+msgid "The check for new versions is switched off here."
+msgstr "Uute versioonide kontroll on siin välja lülitatud."
+
+msgid "About Video Podcast Magic"
+msgstr "Teave: Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "Videotaskuhäälingu toormaterjalist saab monteeritud episood: hea heli videofailidest, kaamerad ühel ajateljel, esimene montaaž kõneleja järgi ja DaVinci Resolve'i projekt."
+
+msgid "Python %s on %s"
+msgstr "Python %s, süsteem %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "MIT-litsents, Copyright (c) 2026 Sebastian Lotz. Antakse üle sellisena, nagu see on, ilma igasuguse garantiita."
+
+msgid "&File"
+msgstr "&Fail"
+
+msgid "&View"
+msgstr "&Vaade"
+
+msgid "&Player"
+msgstr "&Mängija"
+
+msgid "&Help"
+msgstr "&Abi"
+
+msgid "Play and pause"
+msgstr "Esita ja peata"
+
+msgid "Fast forward"
+msgstr "Kiiresti edasi"
+
+msgid "Fast forward, %s times speed"
+msgstr "Kiiresti edasi, %s× kiirusega"
+
+msgid "Play forward, faster on every press"
+msgstr "Esita edasi, iga vajutusega kiiremini"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "Esita edasi, iga vajutusega kaks korda kiiremini -- klahv L."
+
+msgid "Pause"
+msgstr "Paus"
+
+msgid "One frame back"
+msgstr "Üks kaader tagasi"
+
+msgid "One frame forward"
+msgstr "Üks kaader edasi"
+
+msgid "One second back"
+msgstr "Üks sekund tagasi"
+
+msgid "One second forward"
+msgstr "Üks sekund edasi"
+
+msgid "Ten seconds back"
+msgstr "Kümme sekundit tagasi"
+
+msgid "Ten seconds forward"
+msgstr "Kümme sekundit edasi"
+
+msgid "The manual"
+msgstr "Kasutusjuhend"
+
+msgid "What changed in this version"
+msgstr "Mis selles versioonis muutus"
+
+msgid "Show the log of this run"
+msgstr "Näita selle käituse logi"
+
+msgid "Nothing has been written yet."
+msgstr "Midagi pole veel kirjutatud."
+
+msgid "Look for a newer version now"
+msgstr "Otsi uuemat versiooni kohe"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  Sertifikaadikimpu ei leitud -- allalaadimine HTTPS-i kaudu võib ebaõnnestuda."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  Kõnetuvasti ehitamine ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Swifti kompilaator teatab: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  Kõnetuvasti on valmis (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  Kõnetuvastus teatab: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  Tuvastatud keeles %s: valmis %s s jooksul, kuulatud %s s jooksul"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  Selles arvutis pole kõnetuvastust: macOS 26 toob selle kaasa, muidu paigaldatakse faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  Kõnetuvastus (%s): %s sõna %s s jooksul"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  Kõnetuvastus (%s): %s sõna, loetud tagasi"
+
+msgid "Separating speakers: %s"
+msgstr "Kõnelejate eristamine: %s"
+
+msgid "Separating ..."
+msgstr "Eristamine ..."
+
+msgid "Voice"
+msgstr "Hääl"
+
+msgid "Stop"
+msgstr "Peata"
+
+msgid "Stopping ..."
+msgstr "Peatamine ..."
+
+msgid "Not on this machine"
+msgstr "Mitte selles arvutis"
+
+msgid "Reading the audio ..."
+msgstr "Heli lugemine ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "Salvestisel polnud midagi kuulda."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "Kõnelejate eristamine on selles projektis välja lülitatud."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "Kes millal räägib, saab selles arvutis välja selgitada ükskõik millisest salvestisest, millel on kõik kuulda."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "Jätab eristamise selles projektis välja lülitatuks. Montaaž tuleb siis nagu varemgi radadelt või auphonic.com-ist."
+
+msgid "The speaker separation reports: %s"
+msgstr "Kõnelejate eristamine teatab: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "Kõnelejate eristamise taastamine ..."
+
+msgid "The speaker separation is not set up."
+msgstr "Kõnelejate eristamine pole seadistatud."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "Kõnelejate eristamine pole siia paigaldatud. Nii saab selle taastada: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Mudeli allalaadimine (umbes %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Mudeli allalaadimine (umbes %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "Mudelit ei õnnestunud alla laadida: %s"
+
+msgid "The model could not be written: %s"
+msgstr "Mudelit ei õnnestunud kirjutada: %s"
+
+msgid "The list of model files came back empty."
+msgstr "Mudelifailide loend tuli tagasi tühjana."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "Fail %s ei vasta oma kontrollsummale ja seda ei kirjutatud."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "Programmi kausta ei saa kirjutada: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "Kõnelejate eristamise mudelit pole programmi kõrval."
+
+msgid "The model file %s does not match its checksum."
+msgstr "Mudelifail %s ei vasta oma kontrollsummale."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote saadab igal käitusel telemeetriaandmeid ja see versioon ei võimalda seda välja lülitada, seega eristamist ei alustatud."
+
+msgid "Speakers"
+msgstr "Kõnelejad"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "Kes on sellel salvestisel kuulda. Nimi tähendab, et see on see üks inimene.\n„mitu kõnelejat“ selgitab selles arvutis ja ilma üleslaadimiseta välja, kes millal räägib -- umbes minut poole tunni heli kohta. Nimed lähevad siis allolevatele ridadele."
+
+msgid "Speaker %d"
+msgstr "Kõneleja %d"
+
+msgid "One more speaker in %s"
+msgstr "Veel üks kõneleja failis %s"
+
+msgid "One more speaker in"
+msgstr "Veel üks kõneleja failis"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "Kuulab selle salvestise uuesti läbi, otsides ühe kõneleja rohkem, kui leiti."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
+
+msgid " SEEKING"
+msgstr " OTSIB"
+
+msgid " computed"
+msgstr " arvutatud"
+
+msgid " virtual"
+msgstr " virtuaalne"
+
+msgid "%s were already right"
+msgstr "juba korras: %s"
+
+msgid "%s (%s files)"
+msgstr "%s (faile: %s)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s kuni %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d kuni %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- käsitsi ühendades läheb see erinevus faili vaikusena ja miski hiljem seda enam välja ei võta."
+
+msgid "%s and %s more"
+msgstr "%s ja veel %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "Failid %s ja %s on mõlemad seatud: %s. Selline saab olla ainult üks fail -- palun sea teine tagasi valikule „Sisu“."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s ja %s kannavad sama failinime ning Resolve ei anna nende\n  failiteed. Nimeta üks kahest failist ümber."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s kaadrit/s -- %s, %dx%d, %s kaadrit %s jooksul"
+
+msgid "%s reports %s"
+msgstr "%s teatab: %s"
+
+msgid "%s speech time"
+msgstr "%s kõneaega"
+
+msgid "%s virtual"
+msgstr "%s virtuaalne"
+
+msgid "%s, audio track %d"
+msgstr "%s, helirada %d"
+
+msgid "3:1 rule"
+msgstr "3:1 reegel"
+
+msgid "Output"
+msgstr "Väljund"
+
+msgid "Access to auphonic.com"
+msgstr "Juurdepääs auphonic.com-ile"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Juurdepääsu ja ühendust küsitakse üks kord ning need jäävad alles. Võti läheb siia: %s, mitte kunagi faili."
+
+msgid "Checking files"
+msgstr "Failide kontrollimine"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "Kõik, mis on veel ees, võrrelduna tehtuga. Pikad tööd võtavad ribast rohkem ruumi kui lühikesed."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "Võti auphonic.com-i jaoks ja kas Resolve vastab."
+
+msgid "Measuring time axis"
+msgstr "Ajatelje mõõtmine"
+
+msgid "Resolve answers"
+msgstr "Resolve vastab"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve ei vasta -- vt „Seaded“"
+
+msgid "Settings"
+msgstr "Seaded"
+
+msgid "Settings ..."
+msgstr "Seaded ..."
+
+msgid "Two files as %s"
+msgstr "Kaks faili: %s"
+
+msgid "begins"
+msgstr "algab"
+
+msgid "done"
+msgstr "valmis"
+
+msgid "ends"
+msgstr "lõpeb"
+
+msgid "first"
+msgstr "esimese"
+
+msgid "from %s"
+msgstr "alates %s"
+
+msgid "join with Channel %d"
+msgstr "ühenda kanaliga %d"
+
+msgid "last"
+msgstr "viimase"
+
+msgid "rejected"
+msgstr "tagasi lükatud"
+
+msgid ","
+msgstr " "
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Liik"
+
+msgid "Speech time"
+msgstr "Kõneaeg"
+
+msgid "Share"
+msgstr "Osakaal"
+
+msgid "Beginning"
+msgstr "Algus"
+
+msgid "the whole material"
+msgstr "kogu materjal"
+
+msgid "Colour"
+msgstr "Värv"
+
+msgid "  Preset:  %s"
+msgstr "  Eelseadistus:  %s"
+
+msgid "Preset"
+msgstr "Eelseadistus"
+
+msgid "Preset:"
+msgstr "Eelseadistus:"
+
+msgid "Start"
+msgstr "Käivita"
+
+msgid "Production"
+msgstr "Produktsioon"
+
+msgid "Target"
+msgstr "Sihtkoht"
+
+msgid "Bright."
+msgstr "Heledus"
+
+msgid "Colour U"
+msgstr "Värv U"
+
+msgid "Colour V"
+msgstr "Värv V"
+
+msgid "Writing %s"
+msgstr "Kirjutamine: %s"
+
+msgid "  Timecode:        %s"
+msgstr "  Ajakood:         %s"
+
+msgid "none"
+msgstr "puuduvad"
+
+msgid "Length"
+msgstr "Kestus"
+
+msgid "no camera of its own"
+msgstr "oma kaamerata"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- need on kõik, seega läheb iga võte samale kaamerale."
+
+msgid "No camera of their own: %s"
+msgstr "Oma kaamerata: %s"
+
+msgid "do not use"
+msgstr "ära kasuta"
+
+msgid "several speakers"
+msgstr "mitu kõnelejat"
+
+msgid "this window"
+msgstr "see aken"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "kaks failinime sama hetke jaoks -- kumbagi ei kasutata"
+
+msgid "work without Auphonic"
+msgstr "tööta ilma Auphonicuta"
+
+msgid "Content"
+msgstr "Sisu"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "eira seda videot"
+
+msgid "This is not a file of this program."
+msgstr "See pole selle programmi fail."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "Selle faili kirjutas versioon %s vormingus %d; see versioon kirjutab vormingus %d. Nimed selles on vahepeal muutunud, seega ei saa seda lugeda. Palun seadista käitus uuesti."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (ainult mõõtmine: midagi ei kirjutatud)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (ainult mõõtmine: ilma API-võtmeta peatub see siin)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  Kontroll ülekostmise põhjal -- võrdlusrada on %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  Faili %s ei õnnestunud kirjutada: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  Ei õnnestunud kindlaks teha, kas tagastus vastab üleslaaditule: %s.\n  Parem peatuda kui kirjutada midagi valesti."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Üleandmises pole kaameramontaaži -- ilma kõnelejate statistikata seda pole.\n  Luuakse ainult multicam-klipi Timeline."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  Midagi ei muudetud."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  Ainult üks kaamera -- multicam-klipp oleks mõttetu."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  Seal on radade nimed teistsugused:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  Ajaaken käsitsi:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Multicam-klipi Timeline: kõik kaamerad, lõikamata"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline valmis montaažiga"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: kaamera ühes tükis, miks selle all"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nValmis. All näitab „Ava tulemuste kaust“ tulemust.\nKui kõik on õige, loob „Loo Resolve'i projekt“ sellest projekti.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nHDR-KONTROLL  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nEelseadistust pole valitud: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nPeatatud enne esimest pikka sammu. --anyway abil jätkub see igal juhul."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   Siis ei pruugi Resolve sisendi värviruumi ära tunda."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               Heli %s kohas %s -- seal kohtub see %s sõnaga."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s rada V%d, alates kaadrist %d (%s s alguseni), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      Mõlemad klipid jäävad kärpimata; need kattuvad sisuga.\n      Sujuv üleminek on kattuvuses -- kus täpselt, otsustad sina Resolve'is.\n      (Resolve'i skriptiliides ei saa üleminekuid luua.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   ebaõnnestub: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      HOIATUS: %s -- nõrk sobivus (%s, lävi on %s). Need kaks ei pruugi kokku kuuluda."
+
+msgid "this pair of files"
+msgstr "see failipaar"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- see ei saa õige olla, rada\n    %-20s jääb paigale."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, nimede sarnasus %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, kärbitud ajaaknani, nimede sarnasus %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  AGA %s -- ei ajaaken (%s) ega\n    %-20s    kogu mõõdetud vahemik (%s). See kuulub teise käitusse."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s sobiva nimega faili pole"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s nihutatud %s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s on juba olemas -- selle asemel renderdatakse faili %s, nii et\n%svarasem väljastusfail jääb alles."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (YouTube'i soovitus: %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, kahekanaliline  (bitikiirust ei saa kaugelt seada --\n%s%s kbit/s on stereo jaoks soovitatav)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s tagasi lükatud -- ühtki kirjapilti ei aktsepteeritud.\n%sSea käsitsi Resolve'is jaotises\n%sDeliver > Advanced Settings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s jääb väärtusele „Same as Project“ -- projekt ei määra\n%sHDR-kõverat. Kontrolli Resolve'is:\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s Kustutamine ebaõnnestus."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s Kustutamine ebaõnnestus: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s Linkimine ebaõnnestus: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s Lahtilinkimine ei mõjunud -- üleliigsed helirajad\n    %-24s jäävad alles."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s heli rajalt A%d jäeti alles, veel kustutati %d"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s ei õnnestunud uuesti linkida"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s ei õnnestunud lahti linkida: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s heli ei lisatud"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s× ei filminud ettenähtud kaamera -- seal on teine."
+
+msgid "    %s could not be imported."
+msgstr "    %s: importimine ebaõnnestus."
+
+msgid "    %s could not be inserted."
+msgstr "    %s: lisamine ebaõnnestus."
+
+msgid "    %s track could not be created: %s"
+msgstr "    Rada ei õnnestunud luua (%s): %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: pilt ja heli lisati eraldi (heli rajalt A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway on seatud: käitus jätkub vaatamata ülalolevatele punktidele."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    Kõik rajad on paigas -- pole midagi nihutada."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    Tähelepanu: H.265 pole saadaval -- tuleb H.264 kaheksa bitiga.\n             HDR-i jaoks liiga vähe; üleminekutes tekivad triibud."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    Tähelepanu: projekt on seatud väärtusele %s, materjal on %s.\n             Väljastusfail kannab materjali silte. Projekti\n             kohandamiseks: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "Värviruum"
+
+msgid "already right"
+msgstr "juba õige"
+
+msgid "    Clip colours could not be set."
+msgstr "    Klippide värve ei õnnestunud seada."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    Varasema käituse klipid on endiselt seotud oma remote grades'iga. Lehel\n    Color paremklõpsa pisipildil > „Copy Remote Grades to Local“\n    (võtab korrektsiooni kaasa) või „Use Local Grades“. Uute Timeline'ide\n    puhul pole seda vaja."
+
+msgid "    Codec list not readable: %s"
+msgstr "    Koodekite loendit ei saa lugeda: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    Värvirühm %-24s ainult %s, klippe kokku %s"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    Ristkontroll pole võimalik: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    Ristkontroll: pole mõõdetav"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    Algpunkt    %s   (ajakood %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    Algpunkt    %s\n    Lõpp-punkt  %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    Lõpp-punkt  %s   (ajakood %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    Lõpp-punkt on enne algpunkti -- nii ei saa."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    Võrdluskaameral pole ajakoodi. Telg tugineb kellale: %s, ja võrdluskaamera esimene kaader näitab %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    Kontrolliks -- Timeline algab kaadrist %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    Vormingut ja koodekit ei õnnestunud seada."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    Vormingut ja koodekit ei õnnestunud seada: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    Vormingute loendit ei saa lugeda: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    Ühe väljastusfaili soov lükati tagasi; Resolve kirjutab iga klipi jaoks eraldi faili."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    Ühte väljastusfaili ei õnnestunud nõuda: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    Kestus  %s  (%s asemel)"
+
+msgid "    Length  %s"
+msgstr "    Kestus  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    Kohalikud versioonid: Node Editoris kehtib „Group Pre-Clip“\n    kogu kaamerale, „Clip“ ainult ühele lõigule. Üks ei välista\n    teist."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    Valjusmõõturi sihttaset ei leitud -- määra see käsitsi:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    Mõõdetud %s kaadrit/s -- Resolve tunneb ainult fikseeritud sagedusi,\n    kasutatakse %s."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    Ükski paar pole mõõdetav -- jääb nii, nagu on."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Versioonide seadet ei leitud -- määra käsitsi:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    Kõike ei õnnestunud määrata. Mõned väärtused võtab Resolve vastu ainult\n    siis, kui Timeline on veel tühi -- võrdle ülalolevaga."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    Järjekorda lisatud -- Resolve'is jääb üle ainult „Render All“."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades on sees: üks värvikorrektsioon kaamera kohta kehtib\n    kõigile selle lõikudele -- üksikut lõiku ei saa siis enam\n    eraldi korrigeerida."
+
+msgid "    Render job could not be created."
+msgstr "    Renderdustööd ei õnnestunud luua."
+
+msgid "    Render job could not be created: %s"
+msgstr "    Renderdustööd ei õnnestunud luua: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    Seadeid ei saa loetleda -- määra käsitsi:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    Ajaaken oleks ainult %s pikk -- see ei saa olla nii mõeldud."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    Rada %d  %-22s (siin: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 tagasilugemine ei õnnestunud: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    Videorada %d ei õnnestunud ümber nimetada."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    Kas valmis fail läheb HDR-ina läbi:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    pole võimalik: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (helitee negatiivne -- midagi on valesti)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s ei saa joondada: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s pole mõõdetav: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s nihe %s, kella triiv %s ppm (+/- %s), jääkhajuvus %s ms, %s/%s punktist"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s nihe %s, kella triiv %s ppm (+/- %s), jääkhajuvus %s ms, %s/%s punktist%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s allikas: %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  Plokke nimede järjekorras ühendatud: %s (ajakoodi pole -- lünki ei oleks näha)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  Plokke ajakoodi järgi ühendatud: %s, algus %s"
+
+msgid "  %s of %s files imported."
+msgstr "  Imporditud faile: %s/%s."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  Kõnelejaid: %s, võtteid: %s, lühim %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  Videorajad (%s), nimetatud kõnelejate järgi:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s esineb kaks korda eri kaameratega -- kasutatakse: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  Failist %s ei saa mõõdetavat heli -- paigutatud ainult selle kella järgi, ja polnud midagi, millega seda kontrollida"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  Faili %s ei õnnestunud alla laadida: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  Faili %s ei õnnestunud ümber kirjutada: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  Kaamera %s läheb videorajale 1 -- seal kannab esimene helirada\n  Full-Mixi ja videorajast 1 saab vaatenurk 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  Failis %s pole kaamera heli -- ilma selleta ei saa midagi joondada"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  Fail %s on produktsioonis kaks korda -- alla laaditud üks kord."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  Fail %s on juba olemas ja kirjutatakse üle -- selles produktsioonis pole märget, et see on selle loonud."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  Fail %s on alles selle produktsiooni varasemast käitusest ja asendatakse."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  Fail %s jookseb %s kaadrit/s, sellise sagedusega Timeline'i Resolve'il pole -- see teisendatakse, mitte ei jäeta välja"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  Fail %s on valmis -- --resolve-json abil saab selle hiljem teha."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, vahele jäetud"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: kanalite arvu ei saa kindlaks teha (%s) -- ei mõõdeta"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (ainult mõõtmine: midagi ei laaditud üles)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Timeline %r oli juba olemas -- uus on nimega %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  Selle nimega Timeline on olemas, sellel on teised kaamerad. See jääb;\n  uus luuakse selle kõrvale oma nimega."
+
+msgid "  Added: %s"
+msgstr "  Lisatud: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  Aatomite lisamine võeti tagasi -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  Kõik vajalikud väljundfailid on juba olemas."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  Aatom %s jäeti vahele: %s baiti on selle jaoks liiga palju."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  Heli: Full-Mix ühes tükis rajal A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  Tähelepanu: heleduse erinevuse astmeid: %s -- ümberlülitamisel nähtav."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  Tähelepanu: failid %s ja %s on mõlemad nimega %s. Timeline'il\n  näitab Resolve ainult nime, seega ei saa nende klippe\n  eristada -- nimeta üks kahest failist ümber."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  Tähelepanu: ei õnnestunud kustutada: %s -- seetõttu saab uue Timeline'i\n  nimi lisandi."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  Tähelepanu: vahemik ainult %s LU -- väga kitsas. Kõnel on tavaliselt 3 kuni 7 LU;\n                     sellest allpool kõlab see kokkusurutult. Kontrolli, kui tugevaks on Leveler\n                     auphonic.com-is seatud."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  Tähelepanu: produktsioonis on veel radu (%s). Need lähevad\n  miksi -- kustuta need auphonic.com-is."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  Tähelepanu: rada %s -- see säilitab oma seaded."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  Kaamera aatomid: ei saa lisada (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  Kaamera andmed:  üle võetud võtmeid: %s (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  Kaamera andmed:  Tähelepanu, uues failis puuduvad võtmed (%s/%s): %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  Kaamera andmed:  allikas neid ei sisalda"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  Aatomeid ei saa lisada: ees on 64-bitine box."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  Aatomeid ei saa lisada: moov pole lõpus."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  Aatomeid ei saa lisada: allikas on %s, sihtfail %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  Kontroll:        pole võimalik (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  Kella triiv:     %s ppm (+/- %s), jääkhajuvus %s ms, %s/%s punktist"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  Kella triiv:     midagi ei mõõdetud -- see on võrdluskaamera, millega teisi võrreldakse"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  Värvide võrdlus pole võimalik: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  Värvirühma %r ei saa luua."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  Värvirühma %r ei saa luua: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  Värv:            %d/%d/%d -- põhivärvid täiendatud maatriksist (allikas: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  Värv:            %d/%d/%d üle võetud"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  Värv:            Tähelepanu, allikas %s, uues failis %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  Ristkontroll:    %s Full-Mixist, kõrvalekalle %s ms (%s/%s punktist)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  Ristkontroll:    pole võimalik (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  Andmerajad:      üle võetud: %s"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  Andmerajad:      välja jäetud: %s -- ffmpeg ei saa seda kirjutada"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  Kustutatud: %s -- luuakse kohe uuesti."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  Triiv kogu kestuse jooksul: %s s = %s kaadrit  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  Olemasolev tulemus võetakse üle -- midagi ei arvutatud, midagi ei makstud."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  Heliga kaameraid on vähem kui kaks -- Multitracki jaoks liiga vähe."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  Valmis lõppmiks tellitud mõõdupuuks (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "ei alga seal, kus eelmine plokk lõpeb"
+
+msgid "ends before the next block starts"
+msgstr "lõpeb enne järgmise ploki algust"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com liitis need kokku. Miks jääb kahekanaliliseks; kadunud on\n  selle raja kahe mikrofoni vaheline erinevus."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  Kaks kanalit, sest üks rada on stereo"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  Lünk pikkusega %s kohas %s -- täidetud vaikusega"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  Kattuvus pikkusega %s kohas %s -- seal kõlavad mõlemad"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  Need kattuvad -- mitu mikrofoni korraga, mitte plokid üksteise järel."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  Igaüks läheb videosse ka eraldi rajana: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  Videosse läheb ainult miks (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  See on juba olemas, samade kaameratega samas järjekorras -- see jääb\n  puutumata. Kui tahad uut, kustuta see Resolve'is."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  Faili %s võtmekaadreid ei saa lugeda (%s) -- koopia algab faili algusest."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  Tasemekõver pole võimalik (%s) -- ilma limiitrita"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  Limiiter:          kuni %s dB, sama kõver igal rajal%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  Valjus pole mõõdetav: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  Valjus pole mõõdetav -- jääb nii, nagu on."
+
+msgid "  Metrics not writable: %s"
+msgstr "  Mõõdikuid ei saa kirjutada: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  Lõppmiks auphonic.com-ist: %s LUFS, tipp %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Full-Mixi ei leitud -- Timeline jääb hääletuks."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Timeline'il pole heli -- pole midagi koristada."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  Üleandmises pole kaameraid -- pole midagi ehitada."
+
+msgid "  No clips found for colour groups."
+msgstr "  Värvirühmade jaoks klippe ei leitud."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  Ühtegi lõiku ei jäänud -- Timeline jääb tühjaks."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  Üle andmata: käitusel ei õnnestunud paigutada: %s, seega pole see selle episoodi kaamera."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  Mõõdetud nihe puudub: %s -- paigutatud ajatelje algusesse."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  Helist ei leitud midagi: %s -- paigutatud ainult ajakoodi järgi."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: mõõtmise järgi %s s, ajakoodi järgi %s s -- kasutatakse mõõtmist."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Timeline'i algus %s lükati tagasi: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline algab kohast %s, mitte %s -- iga võte on sama palju edasi nihkunud."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Timeline'i algust %s ei võetud vastu."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  Algus %s -- iga võte paigutatakse selle suhtes."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Sellist Timeline'i veel polnud -- see ainult luuakse."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  Märkus: arvutatakse tollal üles laaditud failidega. Neis on\n  tolle päeva ajaaken ja joondus. Kui algpunkt, lõpp-punkt\n  või mõõdetud asukoht on nüüd teistsugused, mõõdab tagastuskontroll\n  erinevuse ja nihutab rajad paika."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  Märkus: sellel ffmpeg'il pole soxr-i -- kella triivi saab eemaldada ainult\n  21 ppm sammudega."
+
+msgid "  Of no consequence for the sound."
+msgstr "  Helile pole sellel tähtsust."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  Nihe:            %s   (kaamerate võrdlusest)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Timeline'il on ainult %s/%s võttest."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  Tipud:             %s dB üle %s dBTP -- limiiter püüab need kinni"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  Mängija: %s teatab veast -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  Mängija: %s jääb kohale %s, mitte %s -- loobuti pärast katseid: %s (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  Mängija: heliväljund vahetub, uus seade: %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  Mängija: heli ei mängi (%s) -- veel üks katse."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  Sisesta arv vahemikus 1 kuni %d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  Produktsioon auphonic.com-is:   %s"
+
+msgid "  Production running (%s)"
+msgstr "  Produktsioon käib (%s)"
+
+msgid "  Project %r opened."
+msgstr "  Projekt %r avatud."
+
+msgid "  Project file could not be written: %s"
+msgstr "  Projektifaili ei õnnestunud kirjutada: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  Projektifaili ei saa kirjutada (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  Vahemik:           %s LU (kõnel tavaliselt 3 kuni 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  Võrdlus: %s (%s, pikim kestus)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  Jääb:              %s dB igal rajal, see on %s LUFS %s asemel"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve ei võtnud ühtegi pilti vastu -- Timeline on tühi. Selle peale\n  ei ehitata midagi rohkem."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  Tulemus: %s (%s) -- jääb videofaili kõrvale\n"
+
+msgid "  Not used:  %s."
+msgstr "  Kasutamata:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  Küsimused: transkriptsioonis %s, neist said reaktsioonivõtteks %s."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  Küsimused: transkriptsiooni pole, seega ei leitud ühtegi küsimust ega tehtud\n            reaktsioonivõtet. Sõnad kirjutatakse käituse ajal valmis miksist\n            üles; ilma nendeta ei tee see seade midagi."
+
+msgid "  Settings brought to preset %r"
+msgstr "  Seaded viiakse eelseadistuse %r järgi"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  Algus %s (varaseim kaamera) -- muidu jääks kõik Timeline'i algusest ettepoole."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  Kohandamata:       võetud lähtefailidest -- ühelgi rajal pole võimendust ega\n                     limiitrit. Heli läheb välja täpselt sellisena, nagu sisse tuli."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  Radade summa:      %s LUFS, tipp %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  Siht:              %s LUFS  ->  %s dB igal rajal"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline saab %s: neist suurima või järgmise sageduse, mis Resolve'il\n  on sellest kõrgem. Üles teisendades kordab Resolve kaadreid, alla\n  teisendades viskab neid ära. Iga kaamera säilitab oma sageduse ja montaaž\n  arvestab selles."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mixi ei õnnestunud importida."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mixi ei õnnestunud lisada."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  Kaamerates on ajaaken ja sekund kummaski otsas: kirjutatud %s, see katab %s kokku salvestatud %s-st."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  Kaamerad on üksteisele lähedal (heleduse astmete erinevus kuni %s)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  Montaaž on muutunud: võtteid %s, mitte %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  Varasemate käituste kirjet siin ei saa lugeda (%s), seega teatatakse kõigest, mis juba olemas on."
+
+msgid "  The cut stays as it was."
+msgstr "  Montaaž jääb samaks."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  Failid laaditakse uuesti üles -- see maksab krediiti."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  Kausta failid peavad olema nimetatud kõnelejate järgi ja kuuluma\n  sellesse käitusse. Ilma kaustata läheb see uuesti läbi auphonic.com-i."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool jääb nii, nagu on."
+
+msgid "  The names from there are adopted:"
+msgstr "  Sealsed nimed võetakse üle:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  Seal on radu %s, siin %s -- see ei klapi."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  Seda kaamerat ei õnnestunud paigutada -- vahele jäetud"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  Ajaaken:         kirjutatud %s/%s, alates kaamera ajast %s"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  Ajakood %s kirjutatud bext- ja iXML-ina (võrdlus: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  Liiga palju:       limiiter peaks eemaldama %s dB. Üle %s dB\n                     kõlab kokkusurutult -- %s dB vähem võimendust."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  Transkriptsioon pole võimalik (%s) -- käitus jätkub."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  Üldplaan servades: vahele jäetud -- esimene või viimane teadaanne\n  oleks tervituseks liiga pikk."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  Üldplaan servades: kuni %s ja alates %s"
+
+msgid "  from %s, %s"
+msgstr "  failist %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  Faili %s iXML jäi kirjutamata: %s"
+
+msgid " at high frame rates"
+msgstr " kõrge kaadrisageduse korral"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  Heli algus ajakoodi järgi       %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  Pildi algus ajakoodi järgi      %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  Heli ajakood ei sobi pildiga üldse -- tõenäoliselt pole kella kunagi seatud. Kasutatakse mõõtmist."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  Ajakood ei sobi kuuldavaga. Kasutatakse mõõtmist."
+
+msgid "%s from %s recordings"
+msgstr "%s (salvestisi: %s)"
+
+msgid "%s is missing."
+msgstr "Puudu: %s."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "Rohkem kui ühel kõnelejal on nimi: %s -- nimi on isik ja igal isikul peab olema oma nimi."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "Rohkem kui ühel häälel on nimi: %s. Nimi on isik ja montaaž paneb isiku ühele kaamerale -- kaks sama nimega häält oleksid üks isik kahes kohas."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  See arvuti saab selle korralikult paigaldada: %s"
+
+msgid "  Installing it: %s"
+msgstr "  Paigaldamine: %s"
+
+msgid "  On this machine: %s"
+msgstr "  Selles arvutis: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  Paigaldamine: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s paigaldataks sellesse Pythonisse: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  Käsitsi:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "Uuemat versiooni ei õnnestunud otsida: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "Puudu: %s. Esimesel korral võtab see mõne minuti."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  Kas käivitada kohe? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  See ei õnnestunud: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  Taastamine: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org-is on Windowsi jaoks valmisversioonid. Kaust ffmpeg.exe-ga tuleb siis lisada PATH-i või failid panna selle programmi kõrvale."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  Kas avada leht? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  Lehte ei õnnestunud avada: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "Puudu: %s -- paigaldatakse. Esimesel korral võtab see mõne minuti."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sHelifaili ajakoodi kontroll"
+
+msgid ", %s not (no free picture)"
+msgstr ", ei õnnestunud: %s (vaba kaadrit pole)"
+
+msgid ", audio on A2"
+msgstr ", heli rajal A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "Määramisfaili ei saa lugeda: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "Kaamera heli pole kasutatav: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK POLE VÕIMALIK\n  Vaja on vähemalt kahte sisendrada, leiti ainult: %s.\n  Rada on eraldi salvestis, mitmekanalilise salvesti kanal\n  või kaamera heli -- see loeb, kui selle väljal\n  „Kaamera heli“ on „kasuta sisemist heli“. Ilma kahe sellise rajata\n  pole midagi lahti siduda ja sama fail läheb läbi kui\n  tavaline produktsioon."
+
+msgid "No preset is called %r."
+msgstr "Eelseadistust nimega %r pole."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "Kaamerates pole heli -- pole millega töötada."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "Ainult üks helifail ja pilti pole -- pole midagi teha."
+
+msgid "Open project ..."
+msgstr "Ava projekt ..."
+
+msgid "Save project"
+msgstr "Salvesta projekt"
+
+msgid "Close project"
+msgstr "Sulge projekt"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "Projektifail läheb väljundkausta, aga seda pole veel valitud. Vali see."
+
+msgid "Written:\n\n  %s"
+msgstr "Kirjutatud:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "Midagi ei kirjutatud -- materjali pole veel."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nKES KÜSIB -- ettepanek, selle põhjal ei seadistata midagi"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s räägib %s, küsimusi: %s/%s lausest"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  Järjekord peab paika, vahemaa nende vahel mitte: nelja episoodi peal mõõdetuna ei pöördunud see kunagi ümber, samal ajal kui esimese ja viimase vahe muutus neljakordselt. See eeldab üht häält raja kohta; kus kaks neist kannavad sama kõnet, ei öelda üldse midagi."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  Kes küsib -- siin ei öelda: kaks rada kannavad sama kõnet, seega läheksid küsimused sellele salvestile, mis oli kõige valjemaks keeratud."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nMILLINE MIKROFON -- ettepanek, selle põhjal ei seadistata midagi"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s kõlab nagu %-20s %s %% sellest selles rajas, %s punkti järgmisest eespool"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  See kehtib ühe eeldusega: üks mikrofon inimese kohta ja igaüks neist kannab ainult seda inimest. Kus rajad kattuvad eristamiseks liiga palju või kaks häält osutavad samale mikrofonile, ei öelda pigem midagi kui midagi ebakindlat."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nKUIDAS HÄÄLI VÕIKS NIMETADA -- ettepanek"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s võiks olla nimega %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s ajaaknas peaaegu ei räägi -- ettepanek: ära kasuta."
+
+msgid "Guest"
+msgstr "Külaline"
+
+msgid "Host"
+msgstr "Saatejuht"
+
+msgid "Host %d"
+msgstr "Saatejuht %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  Ainult häältele, millel on veel programmi antud nimi; kellegi sisestatud nime ei puututa kunagi. Rollid loetakse sellest, kes küsib ja kes vastab; see kehtib ühe külalisega vestluse kohta ning on ettepanek, mitte seade."
+
+msgid "Skip this version"
+msgstr "Jäta see versioon vahele"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "Ainult see. Järgmine väljalase küsib uuesti ja Abi > Otsi uuemat versiooni kohe küsib igal ajal."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  Fail %s on juba olemas -- teist korda alla ei laadita"
+
+msgid "The text for %s could not be fetched."
+msgstr "Versiooni %s teksti ei õnnestunud alla laadida."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  Kontroll:        üht kahest rajast pole kirjutatud failis, seega ei mõõdetud midagi."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  Kontroll:        kaht rada ei saa võrrelda (sobivus %s, lävi on %s). See ei ütle ajastuse kohta midagi."
+
+msgid "Project found"
+msgstr "Projekt leitud"
+
+msgid "Open the project"
+msgstr "Ava projekt"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "Sellest tuleb kõik tagasi: nimed, eristamine, määramine, liigid, ajaaken. Failide loend asendatakse projektis olevaga."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "Selle materjali juures on projektifail:\n\n  %s\n  kirjutatud %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "Selle materjali juures on mitu projektifaili. Milline?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "PROJEKT AVATUD\n  Kõik sisestused on tagasi, selles seansis pole veel midagi arvutatud.\n  Väljundkaustas on viimase käituse failid:\n  %s\n\n  Siit edasi on kolm teed:\n    • all „Ava tulemuste kaust“ -- vaata selle käituse faile,\n    • all „Loo Resolve'i projekt“ -- selle käituse üleandmisfailist,\n      midagi uuesti arvutamata,\n    • üleval „Käivita“ -- arvuta kõik uuesti ja kirjuta failid üle.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "PROJEKT SALVESTATUD\n  %s\n  Selle käituse saab hiljem uuesti avada -- üleval vasakul\n  „Ava projekt ...“\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "Eelseadistusi ei õnnestunud laadida: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "Mitu kaamerat, aga helifaili pole. Igal kaameral oleks oma heli --\nselleks on --multitrack. Muidu üks kaamera teise järel."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "Faili EI tuvastata HDR-ina."
+
+msgid "The file is tagged as HDR."
+msgstr "Fail on märgitud HDR-ina."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "Tundmatu laiend, vahele jäetud: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "Millise Auphonicu eelseadistusega seda faili töödelda?"
+
+msgid "Would write: %s"
+msgstr "Kirjutataks: %s"
+
+msgid "channel count unknown"
+msgstr "kanalite arv teadmata"
+
+msgid "is actively taken out"
+msgstr "eemaldatakse aktiivselt"
+
+msgid "not readable"
+msgstr "pole loetav"
+
+msgid "the default device"
+msgstr "vaikeseade"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: pole heli, mida eraldada (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  SELLE NIMEGA PROJEKT ON JUBA OLEMAS: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  HELIRADADE KORRASTAMINE"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  MEDIA POOLI KLIPID"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  Kasutuskõlbmatud: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  MONTAAŽILOENDI VÄRSKENDAMINE"
+
+msgid "\n  Render job"
+msgstr "\n  Renderdustöö"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Resolve'i osa peatatud: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  PEATATUD: %s"
+
+msgid "\n  Settings"
+msgstr "\n  Seaded"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  Peatatud: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  SELLE NIMEGA PRODUKTSIOON ON JUBA OLEMAS"
+
+msgid "\n  This produces:"
+msgstr "\n  Sellest tekib:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== Käitus %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nJUBA TÖÖDELDUD"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nKAAMERATE VÄRVIDE VÕRDLUS"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nTAGASTATUD RADADE KONTROLL"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nERINEVAD KAADRISAGEDUSED: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nERINEVAD KAADRISUURUSED: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nLõppes tulemuseta: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nLõpetatud vigadega.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nAJATELJE MÕÕTMINE"
+
+msgid "\nMETRICS"
+msgstr "\nNÄITAJAD"
+
+msgid "\nMIXING"
+msgstr "\nMIKSIMINE"
+
+msgid "\nNORMALISE"
+msgstr "\nNORMALISEERIMINE"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  Pilti pole: rajad joondatakse üksteise vastu."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs ei tee siin midagi: rajad lähevad välja nii, nagu need salvestati, ja valjus seatakse seal, kus neid miksitakse."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nKoha leidis ainult üks rada -- pole enam midagi, mille vastu seda joondada."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  Aken:                %s -- kõik, mida mõni rada kuulis"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: vaikus %s alguses ja %s lõpus"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nPärast plokkide ühendamist jääb alles ainult üks rada, kuid Multitrack vajab ühte iga hääle kohta. Kus kaks inimest peeti üheks salvestiseks, hoiab --apart ühe ploki sellest väljas."
+
+msgid "RECOGNISED PLAN"
+msgstr "TUVASTATUD PLAAN"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nÜhtegi helirada ei õnnestunud joondada -- teljele pole midagi panna."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nHelil ja pildil on ühist ainult %s ning joondamine leidis sellest mõõtepunkte: %s. Sellest on liiga vähe, et midagi paigutada."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s kokku miksitud"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nKasutatavat videofaili pole -- ilma kaamera helita pole ühist ajatelge."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nEELKONTROLL -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nTÖÖTLUS: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- AINULT ÜLEVAATUS"
+
+msgid "\nRESULT"
+msgstr "\nTULEMUS"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nRADADE SALVESTAMINE"
+
+msgid "\nStopped: %s"
+msgstr "\nPeatatud: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nRADADE KIRJUTAMINE TELJELE"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  valmis%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        Rada %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s Media Poolis pole faili"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   tühi (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s alates %s, kestus %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s helitee %4s ms (%s m), nihe %6s ms, triiv %5s ppm (%s punkti, jääk %s ms)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- midagi sobivat ei leitud"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    Tähelepanu: %s. Seal pole pilti;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    Värvirühmad: %s -- kõik klipid määratud"
+
+msgid "    Colours per angle:"
+msgstr "    Värvid vaatenurkade kaupa:"
+
+msgid "    Cross-check:"
+msgstr "    Ristkontroll:"
+
+msgid "    Left without picture: %s"
+msgstr "    Jäi pildita: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    MP4-vormingut ei leitud. Saadaval: %s"
+
+msgid "    No clips found."
+msgstr "    Klippe ei leitud."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    Sobivat koodekit ei leitud. Saadaval: %s"
+
+msgid "    Render settings rejected."
+msgstr "    Renderdusseaded lükati tagasi."
+
+msgid "    the measured window is therefore kept."
+msgstr "    seetõttu jääb alles mõõdetud aken."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s võtet, kokku %s s, ilma nende helita."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  Loodud %s videorada ja %s helirada (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s saab %s kokku miksitud rada: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  Helirada %d:      %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  Kaamera aatomid: lisatud %s -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: %s alguses ja %s lõpus pole pilti ning jäetakse välja"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    see algab kaameraga %s ja lõpeb kaameraga %s -- vahemik, mida nägi iga kaamera"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nPeatamine. Käitus lõpeb niipea, kui saab seda teha poolikult kirjutatud faili jätmata -- üks hetk.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "Üldplaan kestab %s s, vähem kui lühim võte (%s s) -- seetõttu liidetakse see taas naabritega ja see ei ilmu kunagi.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nMõõdetud. Midagi ei kirjutatud -- proovikäitus jätab tulemuste kausta endiseks.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nPeatatud sammul: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "Kõik pärast seda sammu puudub. Kaustas on käituse osa, mitte tulemus."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  Ühine aken:          %s kuni %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  Loodud:      %s"
+
+msgid "  Error while writing: %s"
+msgstr "  Viga kirjutamisel: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  Fail:           %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  Nõutud kaks kanalit -- salvestis on stereo"
+
+msgid "  From %s"
+msgstr "  Kaustast %s"
+
+msgid "  In summary: %s"
+msgstr "  Kokkuvõttes: %s"
+
+msgid "  In the archive: %s"
+msgstr "  Arhiivis: %s"
+
+msgid "  Missing:     %s"
+msgstr "  Puudu:       %s"
+
+msgid "  Player: %s"
+msgstr "  Mängija: %s"
+
+msgid "  Production:  %s"
+msgstr "  Produktsioon: %s"
+
+msgid "  Project %r"
+msgstr "  Projekt %r"
+
+msgid "  Project %r created."
+msgstr "  Projekt %r loodud."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  Tulemus:           umbes %s LUFS, tipp %s dBTP"
+
+msgid "  Results:"
+msgstr "  Tulemused:"
+
+msgid "  Results:     none"
+msgstr "  Tulemused:   puuduvad"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  Olemasolevaid faile kasutatakse uuesti -- ümberarvutamine ei maksa midagi."
+
+msgid "  Time limit: %s"
+msgstr "  Ajapiirang: %s"
+
+msgid "  To upload:   %s"
+msgstr "  Üles laadida: %s"
+
+msgid "  Tracks:      %s"
+msgstr "  Rajad:        %s"
+
+msgid "  Tracks: %s"
+msgstr "  Rajad: %s"
+
+msgid "  Transcript: %s"
+msgstr "  Transkriptsioon: %s"
+
+msgid "  Uploaded:"
+msgstr "  Üles laaditud:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  Kõrvalekalle:                   %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  Kõrvalekalle:                   %s  (%s kaadrit)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  Kõrvalekalle:                   %s  (%s kaadrit) -- sobib"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  Mõõdetud nihe:                  %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  Nihe ajakoodi järgi:            %s"
+
+msgid "Abort: %s"
+msgstr "Katkestatud: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "KAAMERA HELI ERALDAMINE"
+
+msgid "FOR RESOLVE"
+msgstr "RESOLVE'I JAOKS"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "HELIFAILI POLE -- KASUTATAKSE KAAMERA HELI"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "ERALDI HELISALVESTISI POLE -- KASUTATAKSE KAAMERA HELI"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "TÖÖTLUS AUPHONIC.COM-IS (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "TÖÖTLUS AUPHONIC.COM-IS:"
+
+msgid "Processing failed: %s"
+msgstr "Töötlus ebaõnnestus: %s"
+
+msgid "RESULT"
+msgstr "TULEMUS"
+
+msgid "Resolve part stopped: %s"
+msgstr "Resolve'i osa peatatud: %s"
+
+msgid "Stopped: %s"
+msgstr "Peatatud: %s"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Teisendamiseks: paremklõpsa Media Poolis „%s Multicam“ >\n  „Convert Timeline to Multicam Clip“ > „Use Source Audio Channels“.\n  Ainult ühes suunas -- kuid uus käitus ehitab Timeline'i igal ajal uuesti.\n  Vaatenurgad:%s\n  Kõik muu -- heli valik, värvirühmad, kadreering -- on\n  kasutusjuhendis, docs/resolve.md.\n"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s kõik kaamerad kõrvuti -- sellest saab multicam-klipp"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s pilt kaameramontaažist, heli ühes tükis"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s kaamera ühes tükis, miks selle all"
+
+msgid "   --   audio only"
+msgstr "   --   ainult heli"
+
+msgid "   -- not found"
+msgstr "   -- ei leitud"
+
+msgid "   Caution: more than one frame"
+msgstr "   Tähelepanu: rohkem kui üks kaader"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s nihe %s ms%s, kestus %s s, hajuvus %s ms, punkte %s/%s%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (see fail lõpeb varem)"
+
+msgid "  (this file starts later)"
+msgstr "  (see fail algab hiljem)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  ükski Resolve'i Timeline ei tööta selle sagedusega; see teisendatakse"
+
+msgid "  --  this file is outside"
+msgstr "  --  see fail jääb aknast välja"
+
+msgid "  -->  aligned"
+msgstr "  -->  joondatud"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  joondatud, kella triiv %s ppm eemaldatud"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  Kontroll:        %s kaamera raja suhtes %s ms (sobivus %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  Loo see liideses nupuga „Loo Resolve'i projekt“. Resolve peab töötama."
+
+msgid "  The handover file could not be written."
+msgstr "  Üleandmisfaili ei õnnestunud kirjutada."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  Sellest tekivad projekt, import ja %s:"
+
+msgid " (paused)"
+msgstr " (pausil)"
+
+msgid " (playing)"
+msgstr " (mängib)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- alg- või lõpp-punkt säästab üleslaadimist"
+
+msgid " -- not readable"
+msgstr " -- pole loetav"
+
+msgid " -- nothing to fault."
+msgstr " -- midagi ette heita pole."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- ainult maatriks ütleb BT.2020"
+
+msgid " and "
+msgstr " ja "
+
+msgid " from %s files"
+msgstr " %s failist"
+
+msgid " not."
+msgstr " -- ei."
+
+msgid "%s blocks"
+msgstr "%s plokki"
+
+msgid "%s brought to the preset"
+msgstr "eelseadistusele viidud: %s"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s kanalit -- jagatakse radadeks, vt ülemisi ridu."
+
+msgid "%s checked"
+msgstr "kontrollitud: %s"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s võrdlust %s-st jääb alla %s dB -- iga salvestis iga teise vastu, mõlemas suunas."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s videofaili %s-st ei kanna colr-kastis kõverat ega värviruumi%s -- tõenäoliselt log-materjal."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r on ajakood, kuid siin pole pilti ega seega kaamerat, mille järgi seda lugeda. Siis sobib ainult väärtus akna algusest, näiteks +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r on ajakood, kuid ajatelg ei ole seotud ühegi kellaga: ühelgi siinsel failil pole ajakoodi, ka võrdluskaameral %s mitte. Siis sobib ainult väärtus akna algusest, näiteks +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r ei ole Multitrack-eelseadistus"
+
+msgid "%r is not a number."
+msgstr "%r ei ole arv."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   ei sobi teiste failidega: heli ei tuvastatud, ajakoodi pole.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Määratud: %s; %s on ühe klõpsu kaugusel."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Välja jäetud, sest %s on juba võetud; %s on ühe klõpsu kaugusel."
+
+msgid "Its sound cannot be used."
+msgstr "Selle heli ei saa kasutada."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   heli ei tuvastatud; paigutatud ajakoodi järgi"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   rakendus ei tunne seda vormingut"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s plokki"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- mida sellega teha?\nÜksikasjad on logis."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz, mitte %s kHz -- teisendatakse töötluse käigus."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s ei saa paigutada: selle helil pole ülejäänud materjaliga midagi ühist ja failil pole ajakoodi. See vajab ajakoodi, mis sobib teiste salvestistega, ja see tuleb seada mõne teise programmiga."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s ei sobi materjalis millegagi ja on ülejäänust palju lühem: pakutud introks, mis pannakse algusesse ja mida kunagi ei mõõdeta."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "Seatud on %s ja siin ei kohandata midagi: rajad lähevad välja nii, nagu need salvestati, ja valjus seatakse seal, kus neid miksitakse."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s saab jälle paigutada ja on tagasi käituses."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "%s paigaldamine ebaõnnestus.\nKäsitsi:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "Failil %s pole helirada."
+
+msgid "%s in %s"
+msgstr "%s: %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s kõneleja %s mikrofonis: %s dB vaiksem kui omas."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s on failis %s -- fail on nüüd mängijas."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s ei ole episoodi teljel: see pannakse materjali ette või järele, mitte ei lõigata sisse. Algpunkt ja lõpp-punkt kuuluvad sellele, mis jääb vahele."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s ei ole üheski videofailis. Kas on olemas materjaliga sobiv ajakood?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s kõneleja %s mikrofonis ainult %s dB vaiksem"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: veel ei saa kerida, tehakse hiljem (%s)"
+
+msgid "%s: not there"
+msgstr "%s: seal pole"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), katse %d, seejärel kohal %s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: peab minema kohale %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", ilma helita"
+
+msgid "-- only one camera"
+msgstr "-- ainult üks kaamera"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- hüpe programmiajale %s%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- punkt paigas, programmiaeg alates %s ---"
+
+msgid "... or add files ..."
+msgstr "... või lisa faile ..."
+
+msgid "/not seekable"
+msgstr "/pole keritav"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s võtet</b>, mediaan %(med)s s, lühim %(short)s s, pikim kaamera %(long)s s</span>. Kõneaeg: <b>%(own)s %%</b> oma kaameral (%(own_t)s), %(wide)s %% üldplaanil (%(wide_t)s), <span style='color:%(warn)s'>%(off)s %% ajast (%(off_t)s) ei ole kõneleja kaamera aktiivne</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "Iga kanalipaari hinnatakse eraldi: üks stereorada või kaks mikrofoni ja seega kaks rada. Vaiksed sisendid jäävad välja. Faili all olevad read näitavad, mida mõõdeti, ja linnuke kaalub selle üle."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Negatiivse väärtuse korral on pilt helist ees."
+
+msgid "Add files ..."
+msgstr "Lisa faile ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "Joondamine käib mõõdetud nihke järgi; ajakood on ainult ristkontrolliks."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "Kõigil salvestistel on sama nimi -- sellest tuleb üksainus rada."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "Kõigil ridadel on sama nimi -- sellest tuleb üksainus rada, kuid Multitrack vajab vähemalt kahte."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Määramine: milline helirada millisele kaamerale"
+
+msgid "Audio"
+msgstr "Heli"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "Heli ja video (%s);;Kõik failid (*)"
+
+msgid "Audio at programme time"
+msgstr "Heli programmiajal"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic lõi teised rajad, kui nõuti: %s, mitte %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic teatab veast: %s"
+
+msgid "Bleed"
+msgstr "Ülekostmine"
+
+msgid "Blocks"
+msgstr "Plokid"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "Mõlemat korraga ei saa: tagasi tulevad rajad saaksid ühe väärtuse, meie oma miks teise. Kas sea --lufs %.0f või muuda eelseadistust."
+
+msgid "Camera"
+msgstr "Kaamera"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Kaamera heli, jäänud %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- eelvaade  (kestus %s)"
+
+msgid "Why the run cannot start"
+msgstr "Miks käitust ei saa alustada"
+
+msgid "Cannot start yet: %s"
+msgstr "Veel ei saa alustada: %s"
+
+msgid "Change rejected: %s"
+msgstr "Muudatus lükati tagasi: %s"
+
+msgid "Check again"
+msgstr "Kontrolli uuesti"
+
+msgid "Check the connection to Resolve again"
+msgstr "Kontrolli ühendust Resolve'iga uuesti"
+
+msgid "Check itself failed: %s"
+msgstr "Kontroll ise ebaõnnestus: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "Kontrolli võtit ja laadi eelseadistused alla."
+
+msgid "Chosen"
+msgstr "Valitud"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "Kell %7.2f%s | B1[%s] %s | B2[%s] %s | Heli %s %s"
+
+msgid "Close"
+msgstr "Sulge"
+
+msgid "Connects to Resolve again."
+msgstr "Ühendub Resolve'iga uuesti."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "Sisu: kaamera nagu iga teine.\nÜldplaan: kaamera, mille ees keegi ei istu -- sellele ei määrata kõnelejat ja montaaž läheb sellele pausi ajal ja pika monoloogi ajal.\nIntro ja outro on valmis klipid -- neid ei joondata ega töödelda, vaid ainult paigutatakse Timeline'i.\nEira seda videot: fail jääb täiesti välja."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s üldplaani: montaažis kasutatakse %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  Igal kaameral on kõneleja, seega üldplaani pole: neli üldplaani seadet ja servade linnuke ei tee siin midagi."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "Ükski kaamera pole kõnelejatest vaba, seega üldplaani pole: neli üldplaani seadet ja servade linnuke ei tee midagi. Määra mõnele kaamerale väljal „Liik“ väärtus „Üldplaan“ või jäta üks kaamera kõnelejata."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "paigutatud faasi järgi, teravus %s läve %s juures, triiv teadmata"
+
+msgid "placed on the bands that move"
+msgstr "paigutatud liikuvate sagedusribade järgi"
+
+msgid "Why the wide shot settings are grey"
+msgstr "Miks üldplaani seaded on hallid"
+
+msgid "because no speaker is assigned to it"
+msgstr "sest sellele pole kõnelejat määratud"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "märgitud üldplaaniks -- sellele ei määrata kõnelejaid"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "sellele pole kõnelejat määratud, kuid montaažis kasutatakse: %s"
+
+msgid "the cut uses %s"
+msgstr "montaažis kasutatakse: %s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "Failist puuduvad kõver ja värviruum"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "Algpunkt ja lõpp-punkt on saadaval, kui ajatelg on paigas -- ajakoodist või mõõdetuna."
+
+msgid "In point is %s before the first frame"
+msgstr "Algpunkt on %s enne esimest kaadrit"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "Algpunkt on nüüd %s, kuid olemasolevad failid kuuluvad %s juurde.\n  Videote heli on lõigatud vana akna järgi -- vajuta uuesti ülal\n  „Käivita“."
+
+msgid "Out point is %s after the last frame"
+msgstr "Lõpp-punkt on %s pärast viimast kaadrit"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "Lõpp-punkt on nüüd %s; aken oleks %s pikk, olemasolevad\n  failid on %s -- vajuta uuesti ülal „Käivita“."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "Väljastusfailis kasutatakse tavaliselt piiratud vahemikku. Täisvahemik pole viga, kuid mõni mängija tõlgendab seda valesti."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "Määrab, kuidas auphonic.com heli töötleb.\n\n„%s“ jätab võtme alles, kuid ei pöördu ikkagi sinna.\nHeli ainult liidetakse ja normaliseeritakse, mitte ei eraldata --\nja ilma eraldi radadeta pole kaameramontaaži."
+
+msgid "Distance to mean"
+msgstr "Kaugus keskmisest"
+
+msgid "Drag audio and video files here"
+msgstr "Lohista heli- ja videofailid siia"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "Proovikäitus: ainult mõõdetakse, midagi ei kirjutata, midagi ei laadita üles."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "Tervitamise ja hüvastijätu ajal jääb pilt üldplaanile."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "Kaadrid seisavad veidi kauem; fail ei muutu selle võrra lühemaks. Montaažiprogramm kordab umbes iga %s s järel ühe kaadri ning pilt ja kaamera heli jäävad kokku."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "Kaadrid seisavad veidi lühemalt; fail ei muutu selle võrra pikemaks. Montaažiprogramm jätab umbes iga %s s järel ühe kaadri vahele ning pilt ja kaamera heli jäävad kokku."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "HDR-i jaoks ei piisa kaheksast bitist: igas üleminekus tekivad triibud ning YouTube nõuab kümmet või kaheteistkümmet."
+
+msgid "Envelope"
+msgstr "Mähiskõver"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s on paigutatud kaamerale %s, mis ei ole selle käituse kaamera -- montaaž nimetab seda siiski."
+
+msgid "Envelope failed: %s"
+msgstr "Mähiskõver ebaõnnestus: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "Mähiskõverad ja kaamera heli valmistatakse ette taustal."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "Igal real peab olema nimi -- Auphonicus saab sellest track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "Väline eelvaade -- rakendus ei tunne seda vormingut"
+
+msgid "Fetching audio"
+msgstr "Heli hankimine"
+
+msgid "Fetching audio ..."
+msgstr "Heli hankimine ..."
+
+msgid "File"
+msgstr "Fail"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "Seal puuduvad failid -- ilma uue üleslaadimiseta ei saa midagi arvutada.\n  --auphonic-resume upload abil laadib skript uuesti üles; see maksab krediiti."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "HDR-i puhul on tavaline valik HEVC (Main 10), AV1 või VP9 Profile 2. YouTube võtab vastu ka H.264, kuid see vajab suuremat bitikiirust."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "Kümne biti jaoks vajab HEVC profiili Main 10. Resolve'is on see Deliver all nimega „Profile“."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s kaadrit/s, mitte faili %s -- sama pikkuse juures vähem kaadreid: %s."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s kaadrit/s, mitte faili %s -- sama pikkuse juures rohkem kaadreid: %s."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "Kaadrite vahed kõiguvad %s %% -- kaadrite ajastus on ebaühtlane."
+
+msgid "Free space there: %s"
+msgstr "Vaba ruumi seal: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "Lünk %s ploki %d ja %d vahel -- kaamera peatus."
+
+msgid "Drag to move the position."
+msgstr "Lohista, et asukohta muuta."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR vajab siin väärtust 16 (PQ ehk HDR10) või 18 (HLG). Resolve'is: Gamma tag = ST.2084 või HLG. 14 pole HDR-kõver, vaid SDR BT.2020 ruumis."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR vajab siin väärtust 9 (BT.2020). Resolve'is: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR vajab siin väärtust 9 (BT.2020, mittekonstantne heledus)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG on ekraanipõhine -- mastering-kuvari kohta sellel kirjet pole."
+
+msgid "If empty: next to each video file."
+msgstr "Kui tühi: iga videofaili kõrvale."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "See tekkis salvestamisel ja seda ei saa enam muuta. Mida vähem on mikrofonid eraldatud, seda ettevaatlikumalt saab De-Bleed auphonic.com-is töötada. Järgmisel korral: naabermikrofonist kolm korda kaugemal kui oma suust, siis on naaberhääl umbes %s dB vaiksem."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ei sobi materjalis millegagi, seega ei saa seda episoodi sisse monteerida: määratud introks."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s ei sobi samuti materjalis millegagi ja intro on juba võetud: jäetakse välja."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s on juba määratud kui %s ja episoodis on seda vaid üks. Vasta siin teisiti või eemalda enne selle faili märge."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "See on pildikirjelduse logs-aatomis -- selle järgi tunneb Resolve ära sisendi värviruumi. Erinevad kõverad tähendavad erinevaid sisendi värviruume."
+
+msgid "Jumps to the end of the window."
+msgstr "Hüppab ajaakna lõppu."
+
+msgid "Jumps to the start of the window."
+msgstr "Hüppab ajaakna algusesse."
+
+msgid "Keychain"
+msgstr "Keychain"
+
+msgid "Limits the de-bleed: "
+msgstr "Piirab De-Bleedi: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "Laadi eelseadistused ja vali üks või jäta API-võti tühjaks."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 lükati tagasi -- jääb vaikeväärtus"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "Ainult mõõda -- midagi ei kirjutata ega laadita üles."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "Mõõtmine: %s (%s/%s)"
+
+msgid "Measuring not possible: %s"
+msgstr "Mõõtmine pole võimalik: %s"
+
+msgid "Measuring the yardstick"
+msgstr "Mõõdupuu mõõtmine"
+
+msgid "Measuring time axis ..."
+msgstr "Ajatelje mõõtmine ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "Puuduv heli %s täideti vaikusega%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "Moodulit DaVinciResolveScript ei saa laadida: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "Üks helirada inimese kohta, eraldi kuni auphonic.com-ini.\nTöötab ka ilma -- siis ilma De-Bleedi ja Levelerita.\nVaja on kaht sisendrada: eraldi salvestist, mitmekanalilise\nsalvesti kanalit või videofaili heli, mille valik on\n„kasuta sisemist heli“. Kaameramontaaž seda linnukest ei vaja."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (iga kõneleja oma rada)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack vajab vähemalt kaht sisendrada. Rada on eraldi salvestis, mitmekanalilise salvesti kanal või videofaili heli, mille valik on „kasuta sisemist heli“. Sama salvestise mitu plokki loetakse üheks, kõrvale pandud radu ei loeta üldse."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API-võtit pole. Anna --auphonic-api-key VÕTI, sea AUPHONIC_TOKEN või lase see üks kord liideses meelde jätta. Võti on Auphonicu konto seadetes."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "Ühelgi helifailil pole ajakoodi. Algpunkt ja lõpp-punkt loetakse materjali algusest -- failide asend üksteise suhtes on mõõdetud."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "Ühtki heli pole veel kasutusel -- lisa helisalvestis või vali faililoendis videofaili väljal Kaamera heli „kasuta sisemist heli“."
+
+msgid "No audio tracks are assigned."
+msgstr "Ühtki helirada pole määratud."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "Ühtki kaamerat pole määratud, seega pole midagi, mille vahel monteerida."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "Kaameraid pole veel määratud -- selleks lülita Multitrack sisse."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Ühendus Resolve'iga puudub.\n  Kas programm töötab? Kas External scripting on seatud väärtusele 'Local'\n  jaotises Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "Ühtki faili ega projekti pole veel avatud."
+
+msgid "No files selected yet."
+msgstr "Ühtki faili pole veel valitud."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "Sisestus pole võimalik. Määra %s %s abil, mis peab juhtuma."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "Sisseehitatud mängijat siin pole -- esitus käib ffplay'ga eraldi aknas."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "Eelseadistust pole antud, sisestus pole võimalik. Vali üks ülaltoodutest --auphonic-preset NIMI abil."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "Kontole pole ühtki eelseadistust salvestatud. Selle saab luua veebiliideses."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "Siin pole ühtki kõnelejat teada -- teadmata, kes millal räägib, pole midagi, mille vahel monteerida."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "Ühelgi häälel pole veel kaamerat -- siis oleks iga võte sama."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "Kõnelejaid pole veel teada -- midagi pole mõõdetud ega eristatud ning kaustas %s või selle alamkaustades pole varasema käituse üleandmisfaili."
+
+msgid "Not found again after import: %s"
+msgstr "Pärast importi ei leitud uuesti: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "saidilt ffmpeg.org ja kaust PATH-i"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "paketihalduriga: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "Siin: %s. Vaja: %s või uuem."
+
+msgid "no answer"
+msgstr "vastust pole"
+
+msgid "Nothing runs until that is put right."
+msgstr "Kuni see pole korda tehtud, ei tööta midagi."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "Kuni see pole korda tehtud, ei tööta midagi. Nii saab: %s"
+
+msgid "Get it: %s"
+msgstr "Hangi: %s"
+
+msgid "Quit"
+msgstr "Välju"
+
+msgid "That worked."
+msgstr "See õnnestus."
+
+msgid "Installing ffmpeg"
+msgstr "ffmpeg paigaldamine"
+
+msgid "Start the program again to pick it up."
+msgstr "Käivita programm uuesti, et see seda arvestaks."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "Hankimine võtab mõne minuti ja teated ilmuvad vahekaardile „Väljund“."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "See võtab mõne minuti -- paketihaldur võib lähtekoodist ehitada. Selle teated ilmuvad siia."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "Nüüd kompileeritakse ja see on pikk osa: kiirel arvutil minutid, vanemal tunduvalt kauem. Midagi pole kinni jäänud -- kuni töö käib, ilmub iga paari sekundi järel punkt."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg on paigaldatud."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "Programm loeb seda käivitumisel. See võib kohe uuesti käivituda või teed seda hiljem ise."
+
+msgid "Start again now"
+msgstr "Käivita kohe uuesti"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "Uuesti käivitamine ei õnnestunud. Sulge aken ja käivita programm nagu varem."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  Kõigepealt nihutatakse olemasolev ffmpeg eest ära: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  Saab alla laadida valmis ffmpeg 9.0.1 koos soxr-iga: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  Kas laadida kohe alla? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  Laaditakse alla valmis ffmpeg. See on suur, seega võtab see mõne minuti: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s / %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "Valmisehitust ei õnnestunud alla laadida: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  Valmisehitust ei õnnestunud lahti pakkida: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  Arhiivis oli kahest programmist %s."
+
+msgid "  It is here: %s"
+msgstr "  See on siin: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "paigalda Homebrew saidilt brew.sh, siis käivita see uuesti"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "Sellel ffmpeg'il on soxr: kaamerate kella triiv tasandatakse 0,21 ppm sammuga."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "Sellel ffmpeg'il pole soxr-i: kaamerate kella triiv tasandatakse 21 ppm sammuga, mitte 0,21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "Kõik töötab ka ilma selleta. Seda sisaldava ehituse hankimine võtab mõne minuti ja teated ilmuvad vahekaardile „Väljund“."
+
+msgid "Carry on"
+msgstr "Jätka"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "Pole kohustuslik -- siis rakendab YouTube vaikeväärtused (Sony BVM-X300). Nende saamiseks: lülita Resolve'is jaotises Color Management sisse HDR10+, käivita lehel Color „Analyze All Shots“ ja märgi renderdamisel „Embed HDR10 Metadata“."
+
+msgid "Not ready yet:"
+msgstr "Veel pole valmis:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "Radadel polnud midagi kuulda."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "Ühel helisalvestisel pole veel kõneleja nime."
+
+msgid "One frame back."
+msgstr "Üks kaader tagasi."
+
+msgid "One second back."
+msgstr "Üks sekund tagasi."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "Iga võte oma kaamera värviga. Hõljuta kursorit kaamera ja kestuse nägemiseks, klõpsa hüppamiseks."
+
+msgid "Only one speaker"
+msgstr "Ainult üks kõneleja"
+
+msgid "Open json project file"
+msgstr "Ava json-projektifail"
+
+msgid "Open result folder"
+msgstr "Ava tulemuste kaust"
+
+msgid "Open the settings, where the key is."
+msgstr "Ava seaded, kus võti asub."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "Järjekord pole oluline. Mitmeosalise salvestise puhul piisab esimesest plokist."
+
+msgid "Overwrite"
+msgstr "Kirjuta üle"
+
+msgid "Overwrite files"
+msgstr "Failide ülekirjutamine"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "Paan %d laadib: %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "Paan %d näitab: %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "Esita ja peata -- ka tühikuklahv töötab."
+
+msgid "Play and pause."
+msgstr "Esita ja peata."
+
+msgid "Playback not possible"
+msgstr "Esitamine pole võimalik"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "Mängib: %s -- töödeldud rada auphonic.com-ist,\nviidud eetritasemele. Sama heli mis kaameramontaažis."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "Mängib: %s -- töötlemata salvestis.\nSee on töödeldud helist palju vaiksem; kui radad auphonic.com-ist on olemas,\nkasutab eelvaade neid."
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Võimalikud põhjused:\n  1. Resolve ei tööta -- liides vastab ainult siis, kui programm töötab.\n  2. Preferences > System > General: External scripting on seatud väärtusele „None“, mitte „Local“.\n  3. Tasuta versioon: väidetavalt on väline skriptimine alates versioonist 19.1 ainult Studio versioonile. Ametlikku teadet ma ei leidnud -- see kontroll mõõdab seda, selle asemel et väita."
+
+msgid "Prepare pane %d for %s"
+msgstr "Valmista paan %d ette: %s"
+
+msgid "Preset not readable: %s"
+msgstr "Eelseadistust ei saa lugeda: %s"
+
+msgid "Preview not possible: %s"
+msgstr "Eelvaade pole võimalik: %s"
+
+msgid "Preview running ..."
+msgstr "Eelvaade käib ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Eeltöö -- heli lugemine ja mähiskõverate arvutamine:\n"
+
+msgid "Primaries"
+msgstr "Põhivärvid"
+
+msgid "Primaries number %d"
+msgstr "Põhivärvid, number %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Töötlus auphonic.com-is (valikuline)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "Töötlus auphonic.com-is („%s“)"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "Produktsioon valmis, kuid üksikradadega ZIP-i pole"
+
+msgid "Production name"
+msgstr "Produktsiooni nimi"
+
+msgid "Chosen files"
+msgstr "Valitud failid"
+
+msgid "Remove the chosen file from the list"
+msgstr "Eemalda valitud fail loendist"
+
+msgid "Project %r could not be created."
+msgstr "Projekti %r ei õnnestunud luua."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "Projekti %r ei õnnestunud luua. Kas see nimi on juba teises kaustas?"
+
+msgid "Project %r could not be opened."
+msgstr "Projekti %r ei õnnestunud avada."
+
+msgid "Puts it back next to each video file."
+msgstr "Paneb selle tagasi iga videofaili kõrvale."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "TAGASIVÕTMINE EBAÕNNESTUS (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "Helirada loetakse failist %s"
+
+msgid "Resolutions"
+msgstr "Eraldusvõimed"
+
+msgid "Resolve running ..."
+msgstr "Resolve töötab ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve skaleerib Timeline'i eraldusvõimele. Kõik väiksem skaleeritakse üles ja muutub pehmemaks."
+
+msgid "Response was not JSON: %s"
+msgstr "Vastus polnud JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "Punaselt märgitud read näitavad, kus probleem on; linnuke vahekaardil tähendab, et kõik on olemas."
+
+msgid "Save in Keychain"
+msgstr "Salvesta Keychaini"
+
+msgid "Save in Registry"
+msgstr "Salvesta registrisse"
+
+msgid "Select audio and video files"
+msgstr "Vali heli- ja videofailid"
+
+msgid "Speakers, as the run measured them"
+msgstr "Kõnelejad, nagu käitus need mõõtis"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Kõnelejad, radadest ise mõõdetud"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "Alustati hilja või peatati vara -- siis puudub see hääl miksist kohati."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "Peatatud. Vali teine produktsiooni nimi -- siis luuakse uus\n  produktsioon -- või mõni muu valik."
+
+msgid "Stopped. Nothing was created."
+msgstr "Peatatud. Midagi ei loodud."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "Peatatud. Midagi ei laaditud üles ega arvutatud."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "Kasutatakse nii, nagu on -- midagi ei mõelda välja. Kontrolli Resolve'is jaotises Clip Attributes, vahekaardil Color Space: kui seal on „Project“, pole sisendi värviruumi ära tuntud ja see tuleb käsitsi määrata."
+
+msgid "Takes the position from the picture."
+msgstr "Võtab asukoha pildilt."
+
+msgid "Ten seconds back."
+msgstr "Kümme sekundit tagasi."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Resolve'i liides pole seal, kus ma seda ootan:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Resolve'i liides pole seal, kus see peaks olema."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline saab ühe fikseeritud sageduse -- neist suurima või järgmise, mis Resolve'il sellest kõrgemal on. Teised teisendab see ise; 23,976 vs 24 puhul kipub just seal selle helianalüüs kinni jääma."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "Iga kõneleja helisalvestis, lisaks kaamerad.\nJärjekord pole oluline -- programm tunneb ära, mis on mis.\nMitmeosalise salvestise puhul piisab esimesest plokist."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "Montaažis pole seal pilti. Timeline'i ehitamisel jääb see koht tühjaks, heli jookseb edasi."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "Olemasolev tulemus pole kasutatav: seal puudub: %s. --auphonic-resume rerun abil saab selle uuesti arvutada ilma midagi üles laadimata."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "Montaažireeglid ei jäta selle aja (%s) jooksul ühtki võtet alles. Lühem lühim võte või vähem üldplaani annab jälle ühe."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "Saade on siin %s pikk -- sinna ei saa midagi paigutada. Selle määravad algpunkt ja lõpp-punkt."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "Ajaaken on väljaspool materjali: algpunkt kohal %s, lõpp-punkt kohal %s ja materjal kestab %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "Eelseadistuse esimene rada määrab kõigi meie radade seaded. Muidu tulevad need töötlemata tagasi. Loo veebiliideses eelseadistusse rada."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "Selleks on vaja käituse üleandmisfaili, aga seda pole."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "Võtit saab hoida ainult Macis ja Windowsis -- Keychainis või registris. Faili see ei lähe."
+
+msgid "%s -- being checked"
+msgstr "%s -- kontrollitakse"
+
+msgid "The key was not saved: %s"
+msgstr "Võtit ei salvestatud: %s"
+
+msgid "The key was not saved"
+msgstr "Võtit ei salvestatud"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Keychain on lukus. Ava see lukust ja proovi uuesti."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "See käitus on testkäitus ja hoidlal on endiselt tema päris nimi, seega ei kirjutatud midagi. Suuna KEY_SERVICE, KEY_ACCOUNT või REG_PATH esmalt mujale."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Keychain on lukus. Ava see lukust ja see nupp ärkab."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Keychain ei võtnud võtit vastu. Keychain Access oskab öelda, miks."
+
+msgid "The registry did not take the key."
+msgstr "Register ei võtnud võtit vastu."
+
+msgid "Open Keychain Access"
+msgstr "Ava Keychain Access"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Avab rakenduse, mis Keychaini lukust avab."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Keychain Accessi ei õnnestunud avada: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "Salvestatud võtit ei aktsepteerita: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "AUPHONIC_TOKEN-i võtit ei aktsepteerita: %s"
+
+msgid "What auphonic.com replied"
+msgstr "Mida auphonic.com vastas"
+
+msgid "There is no key."
+msgstr "Võtit pole."
+
+msgid "The key has a space or a line break at one end."
+msgstr "Võtme ühes otsas on tühik või reavahetus."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "Võti on keskelt tühiku või reavahetusega katkestatud."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "Võtmes on märk, mida ei saa klaviatuurilt sisestada."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "Siis on võti siin: %s, mitte kunagi failis."
+
+msgid "The production has no name yet."
+msgstr "Produktsioonil pole veel nime."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "Sellele kaamerale määratud salvestis kaamera heli asemel."
+
+msgid "The run is still going."
+msgstr "Käitus alles käib."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Kõnelejaid pole veel teada -- need tuvastatakse radadest kohe, kui see vahekaart avatakse. Kui kõik on ühel salvestisel, on lahendus „mitu kõnelejat“ väljal „Kõneleja nimi“."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "Kolm arvu on põhivärvid, kõver ja maatriks. Erinevad sildid vajavad Resolve'is erinevaid sisendi värviruume -- muidu näeb üks kaamera teisest erinev välja."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "Eraldi helisalvestisi pole. Siis kasutatakse kaamerate heli (%s) -- igaüks muutub rajaks ja Auphonic eemaldab ülekostmise."
+
+msgid "There is no result yet."
+msgstr "Tulemust veel pole."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "Need failid pole heli ega video ja jäävad välja:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "Neid faile pole olemas:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "Need failid on juba olemas ja kirjutatakse uuesti:\n\n  %s\n\nKas nii on mõeldud?"
+
+msgid "These files no longer exist:\n  "
+msgstr "Neid faile pole enam:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "Need nimed esinevad mitu korda:\n\n  %s\n\nSalvestised liidetakse üheks rajaks ja pannakse ajakoodi järgi üksteise järele. See on õige, kui salvestamine vahepeal peatati."
+
+msgid "These tracks got no file: %s"
+msgstr "Need rajad ei saanud faili: %s"
+
+msgid "This Resolve project already exists"
+msgstr "See Resolve'i projekt on juba olemas"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "See tuleb salvestamisest, mitte hiljem: mikrofonid on üksteisele liiga lähedal või suust liiga kaugel."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "Seda faili ei saa siin esitada ja varuvariandina ffplay puudub."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "See pole projektifail ja samas kaustas pole ka ühtki.\n\nOtsitakse %s*.json -- skript kirjutab selle käivitamisel väljundkausta."
+
+msgid "This is what happens next"
+msgstr "Järgmiseks juhtub see"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "See nimi on juba kellelgi teisel. Nimi on isik ja montaaž paneb isiku ühele kaamerale -- palun anna sellele häälele oma nimi."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "See nimi esineb mitu korda. Salvestised muutuksid üheks rajaks -- Multitrack-režiimiks vajab auphonic.com vähemalt kaht erinevat."
+
+msgid "This production already exists"
+msgstr "See produktsioon on juba olemas"
+
+msgid "This production has no result yet."
+msgstr "Sellel produktsioonil pole veel tulemust."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "Ajapiirang %s on käes, produktsioon veel käib: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "Ajakood %s, ülejäänud failid on kohal %s -- see kell polnud seadistatud."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline'i %r ei õnnestunud luua."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "Pealkiri auphonic.com-is ja uute failinimede algus."
+
+msgid "To the In point."
+msgstr "Algpunkti."
+
+msgid "To the start."
+msgstr "Algusesse."
+
+msgid "Too many projects with this name."
+msgstr "Selle nimega projekte on liiga palju."
+
+msgid "Track"
+msgstr "Rada"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "Muutmisel lisandus radu (nüüd %s). See teeb miksi\n  valeks. Palun kustuta auphonic.com-is failita rajad."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "Kaks kaamerat on montaažis üks kaamera. Nende failidel on sama nimi, seega nimeta üks neist ümber."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "Kaks kaamerat on montaažis üks kaamera: %s. Nende failidel on sama nimi, seega nimeta üks neist ümber."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "Kaks kaamerat annaksid sama faili. Teine kirjutaks esimese üle."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "Kaks kaamerat annaksid sama faili: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "Kaks kaamerat annaksid sama uue faili. Palun anna erinevad nimed."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "Ebaühtlast kaadriajastust ei saa heli kaudu tasandada. Kui joondamisel hajuvad ka mõõtepunktid, teisenda fikseeritud kaadrisagedusele."
+
+msgid "Video"
+msgstr "Video"
+
+msgid "Video 1"
+msgstr "Video 1"
+
+msgid "Video 2"
+msgstr "Video 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- toormaterjalist saab monteeritud taskuhääling"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "Helitugevus. 100 on nii vali kui võimalik -- üle selle Qt midagi ei võta."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- samaegne rääkimine loetakse kahekordselt"
+
+msgid "Wide shot at most"
+msgstr "Üldplaan kuni"
+
+msgid "Wide shot at the latest"
+msgstr "Üldplaan hiljemalt"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Üldplaan tervituseks alguses ja hüvastijätuks lõpus"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "Ilma selleta peab iga mängija ära arvama ja kõik arvavad SDR. Määra Resolve'is jaotises Deliver > Advanced Settings Color space tag ja Gamma tag, selle asemel et jätta need väärtusele „Same as Project“."
+
+msgid "Without processing at auphonic.com"
+msgstr "Ilma töötluseta auphonic.com-is"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "Kaameramontaaži veel pole: vaja on kaht inimest, kummalgi nimi ja kaamera.\nEraldi salvestised võimaldavad seda Multitrack-linnukesega, samuti „mitu kõnelejat“ ühe salvestise väljal „Kõneleja nimi“ --\nseal leitud hääled saavad oma kaamera salvestiste all olevas tabelis.\nResolve'i projekt luuakse igal juhul -- kõik kaamerad oma mõõdetud kohtadel, valmis Multicami jaoks."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "Ajakoodita mõõdetakse failide asend."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "Tuvastab radadest endist, kes millal räägib -- üks mikrofon inimese kohta, tase oma mürataseme suhtes. Kui kõik on ühel salvestisel, on lahendus „mitu kõnelejat“ väljal „Kõneleja nimi“."
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- ainult vähendab, ei suurenda kunagi"
+
+msgid "a box no longer fits into its parent"
+msgstr "box ei mahu enam oma vanemasse"
+
+msgid "after the device change"
+msgstr "pärast seadme vahetust"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com ei aktsepteeri võtit: %s"
+
+msgid "average"
+msgstr "keskmiselt"
+
+msgid "belongs to"
+msgstr "kuulub"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "ülekostmine liiga ebaselge: kasutatav %s/%s s, teravaim %s, vaja %s"
+
+msgid "Midnight"
+msgstr "Kesköö"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s kannab ajakoodi teiselt poolt keskööd -- loetakse üheks ööks, mitte ööpäevaseks vaheks."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "Ajakood loeb keskööst ja algab seal otsast peale. Failid pannakse ühele teljele enne, kui midagi lahutatakse, muidu näib kesköö järgne salvestis eelmisest peaaegu päeva kaugusel. Kui need tõesti salvestati eri päevadel, on joondamine vale ja usaldada tuleb mõõdetud nihet."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "Kanal %d on piiril: kolm või enam järjestikust näitu, juhtumeid %s, pikim %s (%s ms), esimene kohal %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "Loetud siin, näit näidu haaval, sagedusel, millega fail salvestati: kolme või enama näidu jada kõrgeimal väärtusel, mida täisarvuvorming mahutada suudab. Üks või kaks on ümardus ja neist ei teatata. Mis seal ära lõigati, on kadunud, ja ükski töötlus ei too seda tagasi -- aga salvestis jääb salvestiseks ja see ei peata midagi. Loetakse ainult täisarvuvorminguid. 32 bit float'il pole täisskaalal piiri, seega pole seal midagi lugeda."
+
+msgid "boxes no longer readable"
+msgstr "boxe ei saa enam lugeda"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "uuenda -- mõlemad Timeline'id kustutatakse ja\n       ehitatakse uuesti, Media Pool jääb nagu on"
+
+msgid "cannot be read back (%s)"
+msgstr "ei saa tagasi lugeda (%s)"
+
+msgid "checking ..."
+msgstr "kontrollimine ..."
+
+msgid "complete"
+msgstr "täielik"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "loo kõrvale uus projekt (nimi lisaga)"
+
+msgid "curl ended with %d"
+msgstr "curl lõppes koodiga %d"
+
+msgid "did not arrive: %s"
+msgstr "ei jõudnud kohale: %s"
+
+msgid "does not belong: %s"
+msgstr "ei kuulu: %s"
+
+msgid "does not exist: %s"
+msgstr "pole olemas: %s"
+
+msgid "does the material fit together?"
+msgstr "kas materjal sobib kokku?"
+
+msgid "does the preset fit the run?"
+msgstr "kas eelseadistus sobib käitusega?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "allalaaditud fail on ainult %s B"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "ajakoodi järgi %s vahe, ühe salvestise jaoks liiga suur"
+
+msgid "gets audio from"
+msgstr "heli allikas"
+
+msgid "hear assigned audio"
+msgstr "kuula määratud heli"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "jäta meie nimed alles ja laadi kõik uuesti üles -- see maksab\n       krediiti"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "jäta nii ja pane uued Timeline'id kõrvale --\n       olemasolevad jäävad"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "puudub -- konteineris pole värvimärgistust"
+
+msgid "missing: %s"
+msgstr "puudub: %s"
+
+msgid "moov has not grown"
+msgstr "moov ei ole kasvanud"
+
+msgid "moov is no longer in its place"
+msgstr "moov pole enam oma kohal"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov ei lõpe enam faili lõpus"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "mitmeosaline, ajakoodita -- vahepealseid lünki ei saa tuvastada."
+
+msgid "new file name"
+msgstr "uus failinimi"
+
+msgid "next to each video file"
+msgstr "iga videofaili kõrval"
+
+msgid "no audio data from %s"
+msgstr "failist %s pole heliandmeid"
+
+msgid "no audio track present"
+msgstr "helirada puudub"
+
+msgid "no audio: %s"
+msgstr "heli puudub: %s"
+
+msgid "no download address for %s"
+msgstr "allalaadimisaadress puudub: %s"
+
+msgid "no information"
+msgstr "teave puudub"
+
+msgid "no information in the file"
+msgstr "failis pole teavet"
+
+msgid "no match in the middle either (%s)"
+msgstr "ka keskel pole sobivust (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "ei leitud kohta, kus räägib täpselt üks inimene -- eristamist ei saa mõõta."
+
+msgid "no production id in the response"
+msgstr "vastuses puudub produktsiooni ID"
+
+msgid "no production id in the response: %s"
+msgstr "vastuses puudub produktsiooni ID: %s"
+
+msgid "no timecode"
+msgstr "ajakood puudub"
+
+msgid "no video track"
+msgstr "videorada puudub"
+
+msgid "no video track in %s"
+msgstr "failis %s pole videorada"
+
+msgid "none switched on"
+msgstr "ükski pole sisse lülitatud"
+
+msgid "not checked yet"
+msgstr "veel kontrollimata"
+
+msgid "not in the media pool"
+msgstr "pole Media Poolis"
+
+msgid "not measurable."
+msgstr "pole mõõdetav."
+
+msgid "not measurable: %s"
+msgstr "pole mõõdetav: %s"
+
+msgid "not needed with HLG"
+msgstr "HLG puhul pole vaja"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "pole loetav (%s) -- kontrollimata."
+
+msgid "not readable: %s"
+msgstr "pole loetav: %s"
+
+msgid "nothing loaded yet"
+msgstr "veel pole midagi laaditud"
+
+msgid "nothing selected"
+msgstr "midagi pole valitud"
+
+msgid "off"
+msgstr "väljas"
+
+msgid "one Timeline"
+msgstr "üks Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "kestus vaid %s, pikim salvestis on %s."
+
+msgid "overlap of %s per timecode"
+msgstr "kattuvus %s ajakoodi järgi"
+
+msgid "per track"
+msgstr "iga raja kohta"
+
+msgid "preset does not fit the run"
+msgstr "eelseadistus ei sobi käitusega"
+
+msgid "previous block is shorter than the rest"
+msgstr "eelmine plokk on teistest lühem"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "leiti töödeldud rajad -- midagi üles ei laadita"
+
+msgid "production finished, but no output file"
+msgstr "produktsioon on valmis, kuid väljundfail puudub"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "arvuta valitud eelseadistusega uuesti -- failid jäävad\n       oma kohale, krediiti ei kulu"
+
+msgid "reset"
+msgstr "lähtesta"
+
+msgid "running ..."
+msgstr "käib ..."
+
+msgid "selected"
+msgstr "valitud"
+
+msgid "shorter shots are merged in"
+msgstr "lühemad võtted liidetakse"
+
+msgid "stays out"
+msgstr "jääb välja"
+
+msgid "stored file %s"
+msgstr "salvestatud fail %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "võta olemasolev tulemus (midagi ei arvutata, midagi ei maksta)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "võta nimed sealt ja jätka nendega --\n       üleslaadimiseta, ei maksa midagi"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "Multitrack-eelseadistusse pole ühtegi rada salvestatud."
+
+msgid "the finished mixdown"
+msgstr "valmis lõppmiks"
+
+msgid "the individual tracks"
+msgstr "üksikrajad"
+
+msgid "the individual tracks, packed"
+msgstr "üksikrajad, pakitud"
+
+msgid "the media data is no longer where it was"
+msgstr "meediaandmed pole enam seal, kus need olid"
+
+msgid "the mix of all tracks"
+msgstr "kõigi radade miks"
+
+msgid "the mixdown as the yardstick"
+msgstr "lõppmiks mõõdupuuna"
+
+msgid "the old moov is back in place"
+msgstr "vana moov on jälle oma kohal"
+
+msgid "the picture changes this much later than the sound"
+msgstr "pilt vahetub nii palju hiljem kui heli"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "eelseadistuse siht on %s LUFS, arvutuses kasutatakse %s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "eelseadistuse siht on %s LUFS -- see kehtib, meie poolt midagi ei korrigeerita."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "võetud lähtefailidest, --lufs pole antud -- midagi ei korrigeerita"
+
+msgid "the answer did not keep the floor"
+msgstr "vastus ei püsinud"
+
+msgid "the main speaker asked"
+msgstr "küsis peamine kõneleja"
+
+msgid "nobody answered in time"
+msgstr "keegi ei vastanud õigel ajal"
+
+msgid "nobody was speaking at the question"
+msgstr "küsimuse ajal ei rääkinud keegi"
+
+msgid "asker and answerer on one camera"
+msgstr "küsija ja vastaja ühes kaameras"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "salvestised kattuvad vaid %s -- mõõtmiseks liiga vähe."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "lühim salvestis on vaid %s -- mõõtmiseks liiga vähe."
+
+msgid "the source folder"
+msgstr "lähtekaust"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "radade mallis pole midagi sisse lülitatud -- rajad tuleksid tagasi täpselt sellisena, nagu need üles laaditi."
+
+msgid "the video files are tagged differently: %s"
+msgstr "videofailid on erinevalt märgistatud: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "videofailidel on erinevad salvestuskõverad: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "videofailidel on erinevad pildisuurused: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "videofailidel on erinevad kaadrisagedused: %s"
+
+msgid "the video track can no longer be found"
+msgstr "videorada ei leita enam"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "ajatelg mõõdetud -- hüpped jõuavad samasse kohta"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "ajatelg mõõdetud ja ajakoodiga seotud"
+
+msgid "time axis not measurable"
+msgstr "ajatelg pole mõõdetav"
+
+msgid "time axis not measurable: %s"
+msgstr "ajatelg pole mõõdetav: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "vaid %s s, kus %s räägib üksi, vaja %s"
+
+msgid "too little audio to align"
+msgstr "joondamiseks liiga vähe heli"
+
+msgid "unspecified"
+msgstr "määramata"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "laadi kõik uuesti üles ja arvuta uuesti -- see maksab krediiti"
+
+msgid "used directly"
+msgstr "kasutatakse otse"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "üldplaan %s, miks on selle esimene helirada"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  Rohkem kui üks kord esineb: %s. Need salvestised liidetakse üheks rajaks ja pannakse ajakoodi järgi üksteise järele -- õige, kui salvestamine vahepeal peatati."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  Kõigil salvestistel on sama nimi. Sellest tuleb üks rada -- Multitrack vajab vähemalt kahte."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  Kaks kaamerat on montaažis üks kaamera (%s). Nende failidel on sama nimi, seega nimeta üks neist ümber."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  Kaks kaamerat annaksid sama faili (%s). Teine kirjutaks esimese üle."
+
+msgid "   (camera audio)"
+msgstr "   (kaamera heli)"
+
+msgid "  Number: "
+msgstr "  Number: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", kella triiv %s ppm eemaldatud"
+
+msgid "Files && production"
+msgstr "Failid && produktsioon"
+
+msgid "Assignment && time window"
+msgstr "Määramine && ajaaken"
+
+msgid "Resolve cut"
+msgstr "Resolve'i montaaž"
+
+msgid "Camera audio"
+msgstr "Kaamera heli"
+
+msgid "Camera audio %s"
+msgstr "Kaamera heli %s"
+
+msgid "%s channels against %s"
+msgstr "kanalite arv: %s vs. %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz vs. %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: kanalit %s ei saa välja lõigata (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "Kanal %d on %s dB valjeimast madalamal -- midagi pole ühendatud"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "Kanal %d tasemel %s dBFS -- alles on vaid muunduri müra"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "Kanal %d on vaikne -- kasutamata sisend"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "Sees olles teeb sellest ja järgmisest kanalist ühe stereoraja.\nJärgmisel pole siis oma linnukest -- see on juba hõivatud.\nMõõdetu on kõrvalolevas reas."
+
+msgid "a track of its own"
+msgstr "eraldi rada"
+
+msgid "with Channel %d one stereo track"
+msgstr "kanaliga %d üks stereorada"
+
+msgid "already in another recording"
+msgstr "juba teises salvestises"
+
+msgid "not found"
+msgstr "ei leitud"
+
+msgid "a recording of its own"
+msgstr "eraldi salvestis"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "Paneb selle salvestise koos kõigi selle plokkidega teise sisse.\nKasuta seda, kui failinimedest pole otsingule abi."
+
+msgid "Cameras only"
+msgstr "Ainult kaamerad"
+
+msgid "Curve number %d"
+msgstr "Kõvera number %d"
+
+msgid "End"
+msgstr "Lõpp"
+
+msgid "End %s"
+msgstr "Lõpp %s"
+
+msgid "Error"
+msgstr "Viga"
+
+msgid "Mark In"
+msgstr "Märgi algus"
+
+msgid "Mark Out"
+msgstr "Märgi lõpp"
+
+msgid "Measure, align, process, write files."
+msgstr "Mõõtmine, joondamine, töötlemine, failide kirjutamine."
+
+msgid "Minimum Edit Duration"
+msgstr "Võtte miinimumkestus"
+
+msgid "%s, seconds"
+msgstr "%s, sekundites"
+
+msgid "Names used more than once"
+msgstr "Korduvad nimed"
+
+msgid "One name for two voices"
+msgstr "Üks nimi kahele häälele"
+
+msgid "No files given."
+msgstr "Faile pole antud."
+
+msgid "Number %d"
+msgstr "Number %d"
+
+msgid "Preset missing"
+msgstr "Eelseadistus puudub"
+
+msgid "Speaker"
+msgstr "Kõneleja"
+
+msgid "Start %s"
+msgstr "Algus %s"
+
+msgid "Take from source files"
+msgstr "Võta lähtefailidest"
+
+msgid "Take the camera audio"
+msgstr "Võta kaamerate heli"
+
+msgid "Target: %s"
+msgstr "Sihtkoht: %s"
+
+msgid "Transfer"
+msgstr "Edastus"
+
+msgid "Uploading %s tracks"
+msgstr "Radade üleslaadimine: %s"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;JSON-failid (*.json);;Kõik failid (*)"
+
+msgid "Wide shot after"
+msgstr "Üldplaan kõige varem"
+
+msgid "the voices below carry the cameras"
+msgstr "kaamerad määravad allpool olevad hääled"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "mõõdetud salvestistest -- kõnelejaid: %s, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "lõpetatud käitusest -- kõnelejaid: %s, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "töödeldud Auphonicu radadest -- kõnelejaid: %s, %s"
+
+msgid "no folder"
+msgstr "(kaust puudub)"
+
+msgid "no text"
+msgstr "tekstita"
+
+msgid "unnamed"
+msgstr "nimeta"
+
+msgid "   Caution: measurement unusable"
+msgstr "   Tähelepanu: mõõtmine pole kasutatav"
+
+msgid "   MISSING"
+msgstr "   PUUDUB"
+
+msgid "   NOT INSERTED"
+msgstr "   LISAMATA"
+
+msgid "  (container; measured %s)"
+msgstr "  (konteiner; mõõdetud %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  Number (tühi = loobu): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com võtab sama palju maha)"
+
+msgid " (fine: %s ms)"
+msgstr " (täpselt: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- märkusi: %s"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 märkus: %s"
+
+msgid " target %.2f"
+msgstr " siht %.2f"
+
+msgid "(wanted %s)"
+msgstr "(soovitud %s)"
+
+msgid ", clock drift left in"
+msgstr ", kella triiv jäeti alles"
+
+msgid ", range %s LU"
+msgstr ", vahemik %s LU"
+
+msgid "-- nothing --"
+msgstr "-- mitte midagi --"
+
+msgid "After: %s"
+msgstr "Pärast: %s"
+
+msgid "Algorithms"
+msgstr "Algoritmid"
+
+msgid "Audio file %s"
+msgstr "Helifail %s"
+
+msgid "Audio recording"
+msgstr "Helisalvestis"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic teatab %s: %s"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 konstantne"
+
+msgid "Before: %s"
+msgstr "Enne: %s"
+
+msgid "Bit depth"
+msgstr "Bitisügavus"
+
+msgid "Building the sum"
+msgstr "Summa moodustamine"
+
+msgid "Caution: "
+msgstr "Tähelepanu: "
+
+msgid "Camera cut"
+msgstr "Kaameramontaaž"
+
+msgid "%s -- preview"
+msgstr "%s -- eelvaade"
+
+msgid "Cancel"
+msgstr "Loobu"
+
+msgid "Capture curve"
+msgstr "Salvestuskõver"
+
+msgid "Check: %s and camera track"
+msgstr "Kontroll: %s ja kaamera rada"
+
+msgid "Codec profile"
+msgstr "Koodeki profiil"
+
+msgid "Colour tag"
+msgstr "Värvisilt"
+
+msgid "Connect"
+msgstr "Ühenda"
+
+msgid "Connection to Resolve"
+msgstr "Ühendus Resolve'iga"
+
+msgid "Continue"
+msgstr "Jätka"
+
+msgid "Create Resolve project"
+msgstr "Loo Resolve'i projekt"
+
+msgid "Curve"
+msgstr "Kõver"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "Algpunkt: %s     Lõpp-punkt: %s     Kestus: %s"
+
+msgid "In point %s"
+msgstr "Algpunkt %s"
+
+msgid "Out point %s"
+msgstr "Lõpp-punkt %s"
+
+msgid "Different track names"
+msgstr "Erinevad rajanimed"
+
+msgid "Disk space"
+msgstr "Kettaruum"
+
+msgid "Downloading %s"
+msgstr "Allalaadimine: %s"
+
+msgid "Dry run"
+msgstr "Proovikäitus"
+
+msgid "Duration %s"
+msgstr "Kestus %s"
+
+msgid "Dynamic range"
+msgstr "Dünaamikaulatus"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, ringhääling"
+
+msgid "File names"
+msgstr "Failinimed"
+
+msgid "Frame rates"
+msgstr "Kaadrisagedused"
+
+msgid "GENERAL NOTES"
+msgstr "ÜLDMÄRKUSED"
+
+msgid "Given"
+msgstr "Antud"
+
+msgid "Go ahead"
+msgstr "Alusta"
+
+msgid "Interface:      %s%s"
+msgstr "Liides:         %s%s"
+
+msgid "Keep it saved"
+msgstr "Hoia salvestatuna"
+
+msgid "Library:        %s%s"
+msgstr "Teek:           %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log kaamera andmete järgi"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (kümme bitti)"
+
+msgid "Measure"
+msgstr "Mõõda"
+
+msgid "Measuring loudness"
+msgstr "Valjuse mõõtmine"
+
+msgid "Merge them"
+msgstr "Liida kokku"
+
+msgid "Mixing %s"
+msgstr "Miksimine: %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack vajab ülalolevas tabelis kahte rada -- kaamera läheb arvesse, kui selle väljal Kaamera heli on valitud „kasuta sisemist heli“."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "Ainult üks rada -- teise jaoks vali mõne kaamera väljal Kaamera heli „kasuta sisemist heli“."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "Ainult üks rada ja kaamera heli, mida võtta, pole enam alles."
+
+msgid "do not use internal audio"
+msgstr "ära kasuta sisemist heli"
+
+msgid "use internal audio"
+msgstr "kasuta sisemist heli"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "Kasutamisel jagatakse selle faili all mõõdetud kanalid radadeks, nagu salvestise puhul.\nMõõdetakse igal juhul: selle hinnangu põhjal otsustatakse, ja sünkroonimiseks võetakse heli niikuinii."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "Kasutamisel saab selle faili helist rada nagu iga teine -- see ilmub ülalolevasse tabelisse.\nSama väli on failide loendis; mõlemad näitavad sama vastust."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "Pole heli, millega töötada -- vali videofaili väljal Kaamera heli „kasuta sisemist heli“ või lisa helisalvestis."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack vajab mitut rada"
+
+msgid "Mute."
+msgstr "Vaigista."
+
+msgid "No audio file given."
+msgstr "Helifaili pole antud."
+
+msgid "No project open."
+msgstr "Ühtegi projekti pole avatud."
+
+msgid "Not found: %s"
+msgstr "Ei leitud: %s"
+
+msgid "Not recognised"
+msgstr "Ei tuvastatud"
+
+msgid "Note"
+msgstr "Märkus"
+
+msgid "Note: "
+msgstr "Märkus: "
+
+msgid "One frame forward."
+msgstr "Üks kaader edasi."
+
+msgid "One second forward."
+msgstr "Üks sekund edasi."
+
+msgid "Output folder"
+msgstr "Väljundkaust"
+
+msgid "Choose the output folder"
+msgstr "Vali väljundkaust"
+
+msgid "Output folder back beside each video file"
+msgstr "Väljundkaust tagasi iga videofaili kõrvale"
+
+msgid "Output folder ..."
+msgstr "Väljundkaust ..."
+
+msgid "Podcast directories, mono"
+msgstr "Taskuhäälingu kataloogid, mono"
+
+msgid "Podcast directories, stereo"
+msgstr "Taskuhäälingu kataloogid, stereo"
+
+msgid "Preview player"
+msgstr "Eelvaatemängija"
+
+msgid "Preview player%s"
+msgstr "Eelvaatemängija%s"
+
+msgid "Processing"
+msgstr "Töötlus"
+
+msgid "Profile"
+msgstr "Profiil"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "siit alates otsitakse sobivat hetke"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Paari pehme piir: siit alates ootab programm lausepiiri ja paneb üldplaani sinna, mitte kella järgi. 0 lülitab selle välja. „Üldplaan hiljemalt“ on range piir, kus lõigatakse ka ilma lausepiirita."
+
+msgid "and here it is cut, good moment or not"
+msgstr "ja siin lõigatakse, olgu hetk sobiv või mitte"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Paari range piir: kui alates „Üldplaan kõige varem“ pole lausepiiri tulnud, asendab seda pikim kõnepaus, ja siin lõigatakse, olenemata sellest, mida parajasti öeldakse."
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "Transkriptsiooni veel pole. Ilma selleta ei leita ühtegi küsimust ega teata ühtegi lausepiiri, nii et need neli seadet ei tee midagi. Käitus kirjutab selle ja sellest peale need toimivad."
+
+msgid "Why the question settings are grey"
+msgstr "Miks küsimuse seaded on hallid"
+
+msgid "After a question"
+msgstr "Pärast küsimust"
+
+msgid "Question"
+msgstr "Küsimus"
+
+msgid "Remove"
+msgstr "Eemalda"
+
+msgid "Remove all"
+msgstr "Eemalda kõik"
+
+msgid "Remove from list"
+msgstr "Eemalda loendist"
+
+msgid "Resolve answers%s"
+msgstr "Resolve vastab%s"
+
+msgid "Saving %s"
+msgstr "Salvestamine: %s"
+
+msgid "Show in Finder."
+msgstr "Näita Finderis."
+
+msgid "Silence"
+msgstr "Vaikus"
+
+msgid "Speaker name"
+msgstr "Kõneleja nimi"
+
+msgid "Speaker names"
+msgstr "Kõnelejate nimed"
+
+msgid "Static metadata"
+msgstr "Staatilised metaandmed"
+
+msgid "Tagging"
+msgstr "Märgistamine"
+
+msgid "Ten seconds forward."
+msgstr "Kümme sekundit edasi."
+
+msgid "Timecode from %s"
+msgstr "Ajakood alates %s"
+
+msgid "Track template"
+msgstr "Radade mall"
+
+msgid "Uploading %s"
+msgstr "Üleslaadimine: %s"
+
+msgid "Value range"
+msgstr "Väärtusvahemik"
+
+msgid "What should happen with it?"
+msgstr "Mida sellega teha?"
+
+msgid "Window %s%s"
+msgstr "Ajaaken %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "Montaaž, EDL, CSV ja üleandmine arvutatakse ülaltoodud arvude põhjal uuesti. Kes millal räägib, jääb nii, nagu käitus selle mõõtis. Resolve peab töötama."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "Ilma nende kaheta ei tööta miski. Kas Resolve on paigaldatud?"
+
+msgid "cancel"
+msgstr "loobu"
+
+msgid "cancelled"
+msgstr "tühistatud"
+
+msgid "edges implausible"
+msgstr "servad ebausutavad"
+
+msgid "fixed: "
+msgstr "parandatud: "
+
+msgid "found automatically"
+msgstr "leitud automaatselt"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "vaba %s, vaja umbes %s (%s)"
+
+msgid "full range"
+msgstr "täisvahemik"
+
+msgid "is left in"
+msgstr "jäetakse alles"
+
+msgid "limited (Video/TV)"
+msgstr "piiratud (Video/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "tuvastatakse, kes millal räägib ..."
+
+msgid "nothing"
+msgstr "mitte midagi"
+
+msgid "nothing to do"
+msgstr "pole midagi teha"
+
+msgid "reserved"
+msgstr "reserveeritud"
+
+msgid "system store"
+msgstr "süsteemi hoidla"
+
+msgid "to In point"
+msgstr "algpunkti"
+
+msgid "to Out point"
+msgstr "lõpp-punkti"
+
+msgid "too short"
+msgstr "liiga lühike"
+
+msgid "two Timelines"
+msgstr "kaks Timeline'i"
+
+msgid "unknown"
+msgstr "tundmatu"
+
+msgid "up to %s"
+msgstr "kuni %s"
+
+msgid "volume %.2f"
+msgstr "helitugevus %.2f"
+
+msgid "while writing: %s"
+msgstr "kirjutamisel: %s"
+
+msgid "AUDIO"
+msgstr "HELI"
+
+msgid "Caution"
+msgstr "Tähelepanu"
+
+msgid "MUTED"
+msgstr "VAIGISTATUD"
+
+msgid "fixed"
+msgstr "parandatud"
+
+msgid "on"
+msgstr "sees"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "Väärtust %r loetakse lõpust -- see sobib ainult lõpp-punktile."
+
+msgid "Check"
+msgstr "Kontroll"
+
+msgid "the check itself stopped: %s"
+msgstr "kontroll ise peatus: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "Algpunkti või lõpp-punkti ei saa siin lugeda."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "Lõpp-punkt on vähem kui 5 sekundit pärast algpunkti."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "Puudu on umbes %s. Vabasta ruumi või vali --out abil teine kaust. Ajutised failid lähevad käituse ajal veel kuhugi mujale, süsteemi ajutiste failide kausta."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "Hinnang on ligikaudne, seega sellest ruumist ei piisa. Vabasta ruumi või vali --out abil teine kaust."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nKÕNELEJAD -- SIIN MÕÕDETUD"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nKÕNELEJAD -- HÄÄLE JÄRGI ERISTATUD"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nKÕNELEJAD\n  Kedagi ei olnud kuulda -- sellest kaameramontaaži ei tule."
+
+msgid "\nCAMERA CUT"
+msgstr "\nKAAMERAMONTAAŽ"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nMONTAAŽ ÜLDPLAANIGA"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nESIMENE MONTAAŽ KÕNELEJA JÄRGI"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  Rohkem kui kaks kanalit läheb auphonic.com-i ühena: kokkuliitmine lülitatakse välja ainult stereo puhul.\n  Kui kanalid peavad eraldi jääma, lõika fail enne radadeks."
+
+msgid "First cut by speaker"
+msgstr "Esimene montaaž kõneleja järgi"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nTRANSKRIPTSIOON"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s sõna: %s %% ühele häälele, %s %% kahele, %s %% pausis"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s sõna, nimedeta -- kedagi ei eristatud"
+
+msgid "  %s could not be written: %s"
+msgstr "  Faili %s ei saanud kirjutada: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nKÕNELEJATE ERISTAMINE"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  Juba varem eristatud: loeti tagasi, uuesti ei mõõdetud."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  Arvutamist umbes %s, heli %s."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (ainult mõõtmine: midagi ei eristatud)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  Radu ei mõõdetud, seega %s on miksis, aga mitte montaažis: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "%s: veel mõõtmata -- montaažis on, selles eelvaates veel mitte."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  Radadest endist, üks hääl raja kohta: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  Failis %s, selles arvutis."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  Mikrofonid kuulevad üksteist liiga hästi, et öelda, kes räägib, seega kuulab eristamine kõiki %s mikrofoni korraga, selles arvutis."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  See, mille aken eristas, jäetakse kõrvale: see kuulas üht salvestist ja mikrofonid kuulevad üksteist nii hästi, et ükski neist ei eristu -- %s dB, samas kui ühel neist on vaja %s dB, et öelda, kes räägib."
+
+msgid "Mixing the tracks for the separation"
+msgstr "Radade miksimine eristamiseks"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  Ei õnnestunud öelda, milline hääl millisele mikrofonile kuulub, seega mõõdetakse selle asemel radu."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s on %-20s %s dB järgmisest mikrofonist ees, salvestustase maha arvatud"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  Kõnelejate eristamist ei kasutata: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s pole loetav: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s ei kuulu sellesse käitusse"
+
+msgid "%s has no place on the axis"
+msgstr "failil %s pole ajateljel kohta"
+
+msgid "no recording named"
+msgstr "ühtegi salvestist pole nimetatud"
+
+msgid "nothing of it falls inside the window"
+msgstr "midagi sellest ei jää ajaakna sisse"
+
+msgid "the interface"
+msgstr "kasutajaliides"
+
+msgid "the separation in this run"
+msgstr "eristamine selles käituses"
+
+msgid "Speakers, separated by voice"
+msgstr "Kõnelejad, hääle järgi eristatud"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "Sellest montaaži ei tulnud -- vajuta üleval uuesti „Käivita“."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nILMA AUPHONIC.COM-ITA"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  Ülekostmine mõõdetud: %s rajal %s ainult %s dB vaiksemalt -- kõne tuvastamisest välja arvatud"
+
+msgid "  Bleed not separable: %s"
+msgstr "  Ülekostmist ei saa eraldada: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  Ei leitud hetke, mil räägib täpselt üks inimene -- ülekostmine jääb kõne tuvastamisse."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  Radadel ei olnud midagi kuulda -- sellest kaameramontaaži ei tule."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  Montaažist puudu: %s -- salvestise eest räägib eristamine või seda ei mõõdetud."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  Radu kasutatakse nii, nagu need salvestati: joondatud, miksitud ja\n  viidud sihtvaljuseni. Pole De-Bleedi, Leveleri ega müra eemaldamist --\n  selleks vajab käitus auphonic.com-i."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  Anti nii --without-auphonic kui ka --auphonic-done. Valmis rajad võidavad: kuhugi pole enam midagi saata."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK POLE VÕIMALIK\n  Ilma API-võtmeta pole auphonic.com-i midagi saata.\n  --without-auphonic abil töötab see hoopis kohapeal: joondatud,\n  miksitud ja lõigatud, kuid ilma De-Bleedi ja Levelerita."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  Tähelepanu: mõõdetavad on ainult %s paari %s-st. Ülejäänute jaoks ei leitud hetke, mil räägib täpselt üks inimene, seega jääb nende ülekostmine alles -- kõnelejate tuvastamine pole siin usaldusväärne."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "mikrofonid kuulevad üksteist peaaegu sama valjult kui oma kõnelejat"
+
+msgid "the tracks are too much alike to separate"
+msgstr "rajad on eristamiseks liiga sarnased"
+
+msgid "Reading the plan"
+msgstr "Plaani lugemine"
+
+msgid "Audio out of the cameras"
+msgstr "Heli kaameratest"
+
+msgid "Common time axis"
+msgstr "Ühine ajatelg"
+
+msgid "Processing at auphonic.com"
+msgstr "Töötlus auphonic.com-is"
+
+msgid "Loudness"
+msgstr "Valjus"
+
+msgid "Loudness and levels"
+msgstr "Valjus ja tasemed"
+
+msgid "Loudness of the finished episode"
+msgstr "Valmis episoodi valjus"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "Kui valjuks valmis episood tehakse. Iga raja peale läheb sama\nvõimendus, nii et kõnelejate omavaheline tasakaal säilib.\n„Võta lähtefailidest“ ei muuda midagi: auphonic.com teeb\nedasi seda, mida ütleb tema eelseadistus, ja ilma auphonic.com-ita jääb heli\nselliseks, nagu see on lähtefailides."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    Valjust ei kohandatud -- allolev siht on vaid see, mille vastu\n    mõõdik mõõdab."
+
+msgid "Who speaks when"
+msgstr "Kes millal räägib"
+
+msgid "Writing the camera files"
+msgstr "Kaamerafailide kirjutamine"
+
+msgid "Handover and result"
+msgstr "Üleandmine ja tulemus"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "Näita kaks korda rohkem (miinusklahv või hiireratas riba kohal)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "Näita poole vähem, praeguse koha ümber (plussklahv või hiireratas riba kohal)"
+
+msgid "The whole length again (0 key)"
+msgstr "Jälle kogu pikkus (klahv 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  Alla laaditud ka: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic ei võta seadeid vastu: %s"
+
+msgid "      %s channels"
+msgstr "      Kanaleid: %s"
+
+msgid "measurement running ..."
+msgstr "mõõtmine käib ..."
+
+msgid "      Channel %d"
+msgstr "      Kanal %d"
+
+msgid "Looking at the channels"
+msgstr "Kanalite uurimine"
+
+msgid "channels not readable: %s"
+msgstr "kanaleid ei saa lugeda: %s"
+
+msgid "unused input -- ignored"
+msgstr "kasutamata sisend -- eiratud"
+
+msgid "uncertain -- %s"
+msgstr "ebakindel -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "käsitsi määratud -- asendab mõõtmise"
+
+msgid "Language"
+msgstr "Keel"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "mõlemad kanalid identsed -- mono pandud mõlemale poolele"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "tõenäoliselt kaks mikrofoni -- umbes %s m vahega%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", ühtis %s kohas %s-st"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "tõenäoliselt üks stereorada -- mõlemad mikrofonid samas kohas"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "pole äratuntav -- ainult %s kohta %s-st, kus mõlemas kanalis on heli, vaja %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "pole äratuntav -- need kaks ei ühti paremini kui kumbki kõrvalkanaliga"
+
+msgid "not set"
+msgstr "määramata"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "Salvestises räägitav keel. Sellest saab kirjutatud heliraja\nmärgis ja tuvastusele öeldakse siin, et seda oodata.\nEelvalitud süsteemi keele järgi. „%s“ jätab raja märgistamata\nja laseb tuvastusel keele ise välja selgitada."
+
+msgid "German"
+msgstr "Saksa"
+
+msgid "English"
+msgstr "Inglise"
+
+msgid "French"
+msgstr "Prantsuse"
+
+msgid "Spanish"
+msgstr "Hispaania"
+
+msgid "Italian"
+msgstr "Itaalia"
+
+msgid "Dutch"
+msgstr "Hollandi"
+
+msgid "Portuguese"
+msgstr "Portugali"
+
+msgid "Polish"
+msgstr "Poola"
+
+msgid "Russian"
+msgstr "Vene"
+
+msgid "Swedish"
+msgstr "Rootsi"
+
+msgid "Danish"
+msgstr "Taani"
+
+msgid "Norwegian"
+msgstr "Norra"
+
+msgid "Finnish"
+msgstr "Soome"
+
+msgid "Czech"
+msgstr "Tšehhi"
+
+msgid "Turkish"
+msgstr "Türgi"
+
+msgid "Greek"
+msgstr "Kreeka"
+
+msgid "Hungarian"
+msgstr "Ungari"
+
+msgid "Romanian"
+msgstr "Rumeenia"
+
+msgid "Ukrainian"
+msgstr "Ukraina"
+
+msgid "Catalan"
+msgstr "Katalaani"
+
+msgid "Arabic"
+msgstr "Araabia"
+
+msgid "Hebrew"
+msgstr "Heebrea"
+
+msgid "Japanese"
+msgstr "Jaapani"
+
+msgid "Chinese"
+msgstr "Hiina"
+
+msgid "Korean"
+msgstr "Korea"
+
+msgid "Cutting out track %d of %d"
+msgstr "Raja %d väljalõikamine (kokku %d)"
+
+msgid "cutting failed: %s"
+msgstr "väljalõikamine ebaõnnestus: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  Üks kaamera kõigile: kõneleja vahetumisel lõigatud %s võtteks, et Resolve saaks need rühmitada."
+
+msgid "Shorter shots fall into the following one."
+msgstr "Lühemad võtted liidetakse järgmisega."
+
+msgid "Speaks at least"
+msgstr "Räägib vähemalt"
+
+msgid "below this the camera does not follow"
+msgstr "lühema puhul kaamera ei järgne"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Lühike „jah“ pilti ei liiguta. Ilma selleta tõmbaks poolesekundiline plokk kaamera enda poole ja võtte miinimumkestus hoiaks seda seal siis sekundeid."
+
+msgid "Answer on screen earlier"
+msgstr "Vastus ekraanil varem"
+
+msgid "before the question ends"
+msgstr "enne küsimuse lõppu"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Null on seal, kus küsija lõpetab, mitte seal, kus vastus algab: nendevaheline paus kuulub küsimuse juurde. Kehtib ainult seal, kus „Pärast küsimust“ seda nõuab, ja Edit Change Delay'd ei liideta uuesti."
+
+msgid "Wide shot at least"
+msgstr "Üldplaan vähemalt"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "nii kaua kestab lisatud üldplaan vähemalt"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Seejärel kestab see lause lõpuni. Alla viie sekundi mõjub pilk tõmblusena."
+
+msgid "and at most this long"
+msgstr "ja kõige rohkem nii kaua"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Kui lause lõpp jääb sellest kaugemale, lõpetab võtte viimane osalause piir enne seda -- võtet ei katkestata keset lauset."
+
+msgid "Long monologue"
+msgstr "Pikk monoloog"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "üks räägib kauem kui „Üldplaan kõige varem“"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "„Vaheldumisi“ jätab meelde, mida näitas selle monoloogi viimane katkestus. Kuulaja saab pildi ainult siis, kui selles kaameras oli viimase 20 sekundi jooksul kedagi kuulda; muidu üldplaan."
+
+msgid "Several speak at once"
+msgstr "Mitu räägib korraga"
+
+msgid "and no camera shows exactly them"
+msgstr "ja ükski kaamera ei näita täpselt neid"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Segadusse lõikamine mõjub närviliselt."
+
+msgid "Nobody speaks"
+msgstr "Keegi ei räägi"
+
+msgid "no voice is heard at all here"
+msgstr "siin pole ühtki häält kuulda"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Hingetõmme keset lauset ja mõtte lõpp on mõlemad vaikus ning programm ei erista neid. Eristab ainult pikkus: „Lühike paus kuni“ ütleb, kui pikk võib vaikus olla, et seda veel hingetõmbeks lugeda."
+
+msgid "Short gap up to"
+msgstr "Lühike paus kuni"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "nii kaua ei muuda vaikus pilti"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Ainult seal, kus „Keegi ei räägi“ on seatud lühikest pausi ära ootama. Kuni nii pikk paus ei muuda midagi, pikem viib üldplaanile. Üle kahe sekundi hakkab pilt üle viie sekundi vaikivat inimest näitama."
+
+msgid "Recognition uncertain"
+msgstr "Tuvastus ebakindel"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "kõnelejate tuvastus hargneb või jätab hunniku maha"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Arvamine näitab sekundite kaupa valet inimest; üldplaan sobib igal juhul. Siin keegi räägib -- kus keegi ei räägi, otsustab „Keegi ei räägi“."
+
+msgid "the picture goes to the answer before it starts"
+msgstr "pilt läheb vastusele enne, kui see algab"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Ainult pärast küsimust, mis ei tule põhikõnelejalt, kui keegi teine kohe sõna võtab ja seda hoiab.\n„ära vaheta varem“ tähendab, et kaamerat varem ei vahetata: pilt järgib siin heli nagu kõikjal mujal."
+
+msgid "Wide shot"
+msgstr "Üldplaan"
+
+msgid "Wide shot %d"
+msgstr "Üldplaan %d"
+
+msgid "(wide shot)"
+msgstr "(üldplaan)"
+
+msgid "No speaker"
+msgstr "Kõneleja puudub"
+
+msgid "Listener"
+msgstr "Kuulaja"
+
+msgid "Alternating"
+msgstr "Vaheldumisi"
+
+msgid "No camera change"
+msgstr "Kaamera ei vahetu"
+
+msgid "Hold a short gap"
+msgstr "Oota lühike paus ära"
+
+msgid "do not go early"
+msgstr "ära vaheta varem"
+
+msgid "Answering speaker"
+msgstr "Vastaja"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s× kõnelejast eemale, sest võte kestis kauem kui %s s"
+
+msgid "%s is in place."
+msgstr "Versioon %s on paigaldatud."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "See aken on endiselt see versioon, millega see käivitati. See saab nüüd uuesti käivituda ja avaneda selle versioonina või saad sa seda hiljem ise teha."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "See koopia töötab omaette kaustast, seega pip-il pole siin midagi uuendada. Selle paigaldab: %s"
+
+msgid "Language of the window"
+msgstr "Akna keel"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Siin valitud keel kehtib järgmisest käivitusest."
+
+msgid "Restart the application"
+msgstr "Taaskäivita rakendus"
+
+msgid "The work can be written to a project file first."
+msgstr "Töö saab enne projektifaili kirjutada."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "Rakenduse taaskäivitamine toob selle kohe ja küsib enne, mida tööga teha. Kui jätad selle nii, ei kaota sa midagi -- see tuleb järgmisel käivitusel."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "Rakendus käivitub kohe uuesti. Kas kirjutada töö enne projektifaili?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "Kui kirjutad, avab uus aken projekti uuesti ja kõik on seal, kus oli. Kui ei kirjuta, avaneb see tühjana ja failid tuleb uuesti lisada."
+
+msgid "Save and restart"
+msgstr "Salvesta ja taaskäivita"
+
+msgid "Restart without saving"
+msgstr "Taaskäivita salvestamata"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "Käitus alles käib. Akna saab uuesti käivitada, kui see on lõppenud."
+
+msgid "System language (%s)"
+msgstr "Süsteemi keel (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Selle programmi otsetee loodi: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Selle programmi otseteed ei loodud: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "see kirjutati, kuid pärast seda seda polnud"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "See programm töötab kui %s ja selle jaoks paigaldatud paketid on %s, seega ühtegi neist ei saa laadida. Nii käivitub see õigesti: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "Selles üleandmises pole kaadrisagedust, seega ei saa sellest Timeline'i ehitada. Palun tee käitus uuesti."
+
+msgid "Cut by speaker"
+msgstr "Montaaž kõneleja järgi"
+
+msgid "Sync only"
+msgstr "Ainult sünkroonimine"
+
+msgid "Project type"
+msgstr "Projekti tüüp"
+
+msgid "No project type chosen yet."
+msgstr "Projekti tüüpi pole veel valitud."
+
+msgid "What is this production to become?"
+msgstr "Milleks peab see produktsioon saama?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "„%s“: kaamerad ühel ajateljel ja montaaž selle järgi, kes räägib.\n„%s“: kaamerad ühel ajateljel, mitte midagi enamat -- ei kõnelejaid ega montaaži."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "Ainult sünkroonimine: montaažita. Üleandmises on ainult multicam-Timeline; Resolve'i projekt luuakse vahekaardil „Väljund“."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "Projekti tüüp: Ainult sünkroonimine -- ilma kõnelejate, transkriptsiooni ja montaažita; üleandmises on ainult multicam-Timeline."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  Ainult sünkroonimine: montaaži kõneleja järgi ei tellitud.\n  Luuakse ainult multicam-klipi Timeline."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s videorada, nimetatud kaamerafailide järgi:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "Ainult sünkroonimine võtab ühe helisalvestise; see on veel üks: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "Ainult sünkroonimine: üleandmine arvutatakse uuesti; montaaži, mida uuesti teha, pole. Resolve peab töötama."
+
+msgid "%s has not started yet"
+msgstr "%s pole veel alanud"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   heli ei saa esitada"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "heli paigutatud kella järgi -- mõõtmine ootel"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nKÕNELEJATE TASEMED"
+
+msgid "Measuring %s"
+msgstr "Mõõtmine: %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s pole mõõdetav -- jäetakse nii, nagu on"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- sellel pole midagi, jäetakse nii, nagu on"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  Ainult üks hääl -- pole millegagi võrrelda."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  Ühine tase:        %s LUFS, häälte mediaan"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name nimetab %s, kuid see pole ükski selle käituse kaamerafailidest."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "Uus nimi failile %s on tühi; anna lihtne failinimi või jäta --new-name ära."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "Uus nimi „%s“ failile %s sisaldab märki „%s“, mis eraldab kaustu või kettaid; anna lihtne failinimi."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "Uus nimi „%s“ failile %s algab punktiga, mis teeb sellest peidetud faili või kausta; anna lihtne failinimi."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "Kaks kaamerat kirjutataks ühe failina, %s: %s ja %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name annab failile %s kaks nime, „%s“ ja „%s“; anna igale failile üks."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "Määramisfail annab siin kaameratele nimed, seega --new-name jäetaks kõrvale; anna nimed seal või jäta --new-name ära."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "Valikuga „Ainult kaamerad“ nimetatakse iga fail tema helist võetud radade järgi, seega --new-name jäetaks kõrvale; jäta --new-name ära."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "%s kaameral"
+msgstr[1] "%s kaameral"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s sõna tuli tagasi ilma ajata ja jäeti välja."
+msgstr[1] "  %s sõna tulid tagasi ilma ajata ja jäeti välja."
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  Kõnelejate eristamine (%s): %s kõneleja %s helist"
+msgstr[1] "  Kõnelejate eristamine (%s): %s kõnelejat %s helist"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "Eristatud: %s kõneleja"
+msgstr[1] "Eristatud: %s kõnelejat"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s parandatud automaatselt"
+msgstr[1] "%s parandatud automaatselt"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    Pilt ja heli uuesti seotud: %s vaatenurk"
+msgstr[1] "    Pilt ja heli uuesti seotud: %s vaatenurka"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  Tähelepanu: vaatenurka %s ei lisatud. Ilma selle vaatenurgata\n  ei sobi Timeline teisendamiseks."
+msgstr[1] "  Tähelepanu: vaatenurki %s ei lisatud. Ilma nende vaatenurkadeta\n  ei sobi Timeline teisendamiseks."
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  Rada %s jääb kahe kanaliga"
+msgstr[1] "  Rajad %s jäävad kahe kanaliga"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  Rada %s laaditi üles stereona ja tuli tagasi ühe kanaliga."
+msgstr[1] "  Rajad %s laaditi üles stereona ja igaüks tuli tagasi ühe kanaliga."
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " %s manustatud kanalist"
+msgstr[1] " %s manustatud kanalist"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "Fail on märgitud HDR-iks, %s märkusega."
+msgstr[1] "Fail on märgitud HDR-iks, %s märkusega."
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s helirada"
+msgstr[1] "%s helirada"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s klipp"
+msgstr[1] "%s klippi"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s videorada"
+msgstr[1] "%s videorada"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix %s rajast, %s kanal"
+msgstr[1] "  Full-Mix %s rajast, %s kanalit"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s klipp jäi värvita."
+msgstr[1] "      %s klippi jäi värvita."
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> tõlgendatud kui %s helirada%s"
+msgstr[1] "      --> tõlgendatud kui %s helirada%s"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      Vaatenurki on rohkem kui värve -- %s värv esineb kaks korda."
+msgstr[1] "      Vaatenurki on rohkem kui värve -- %s värvi esineb kaks korda."
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s tühi helirada eemaldatud"
+msgstr[1] "    %s tühja helirada eemaldatud"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    V2 rajal on nüüd %s klipp: %s"
+msgstr[1] "    V2 rajal on nüüd %s klippi: %s"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s helirada jääb alles:"
+msgstr[1] "  %s helirada jäävad alles:"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s helirada jääb alles: %s"
+msgstr[1] "  %s helirada jäävad alles: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s marker seatud%s."
+msgstr[1] "  %s markerit seatud%s."
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s fail valmis enne seda ja on terviklik: %s"
+msgstr[1] "%s faili valmisid enne seda ja on terviklikud: %s"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s kanal"
+msgstr[1] "%s kanalit"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s fail"
+msgstr[1] "%s faili"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s põhjus peatumiseks"
+msgstr[1] "%s põhjust peatumiseks"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s salvestis %s failist"
+msgstr[1] "%s salvestist %s failist"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s rada, %s, %s kHz, %s"
+msgstr[1] "%s rada, %s, %s kHz, %s"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: on kohal %s (siht %s) %d ms pärast, %d katse"
+msgstr[1] "%s: on kohal %s (siht %s) %d ms pärast, %d katset"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s fail ei sobi"
+msgstr[1] ", %s faili ei sobi"
+
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "Kas eemaldada %s helifail loendist?\n\n%s"
+msgstr[1] "Kas eemaldada kõik %s helifaili loendist?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "Kas eemaldada %s videofail loendist?\n\n%s"
+msgstr[1] "Kas eemaldada kõik %s videofaili loendist?\n\n%s"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s helisalvestis"
+msgstr[1] "%s helisalvestist"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s kaamera"
+msgstr[1] "%s kaamerat"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s märkus"
+msgstr[1] "%s märkust"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s punkt"
+msgstr[1] "%s punkti"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s videofail"
+msgstr[1] "%s videofaili"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s jätk"
+msgstr[1] "%s  + %s jätku"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "Tekib %s videofail, umbes %s. Sihtkoht: %s"
+msgstr[1] "Tekib %s videofaili, umbes %s. Sihtkoht: %s"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  Allikas: %s -- %s hääl."
+msgstr[1] "  Allikas: %s -- %s häält."
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s, %s osas"
+msgstr[1] "  %-20s %s, %s osas"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  Faili %s ei saa liigitada: %s -- paigutatud ainult selle kella järgi"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: heli sobib määraga %s, alla läve %s -- paigutatud ainult selle kella järgi"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Tähelepanu: see projekt pole täielik -- Resolve keeldus neist radadest kaks korda:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Nihe:            %s   (ainult ajakoodist -- heli ei suutnud seda paigutada, seega midagi ei kontrollita)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve keeldus helirajast A%d kaks korda Timeline'il \"%s\" -- kaamerad pannakse olemasolevatele heliradadele (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve keeldus videorajast V%d kaks korda -- Timeline'il \"%s\" puudub %s."
+
+msgid "  Status:      %s"
+msgstr "  Olek:        %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Heli sobivus oli usaldamiseks liiga nõrk: %s -- paigutatud ainult ajakoodi järgi."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   ei sobi teiste failidega: heli ei tuvastatud,\n   pole midagi, millega ajakoodi võrrelda.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s ei saa paigutada: selle helil pole ülejäänud materjaliga midagi ühist ja ühelgi heli järgi paigutatud kaameral pole ajakoodi, millega selle oma võrrelda. Üks neist vajab ajakoodi, mis sobib selle omaga, ja see tuleb seada mõne teise programmiga."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ei sobi materjalis millegagi ja ühelgi heli järgi paigutatud kaameral pole ajakoodi, millega selle oma võrrelda, seega ei saa seda episoodi sisse monteerida: määratud introks."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s ei sobi materjalis millegagi ja ühelgi heli järgi paigutatud kaameral pole ajakoodi, millega selle oma võrrelda; intro on juba võetud: jäetakse välja."
+
+msgid "API Key:"
+msgstr "API-võti:"
+
+msgid "In point"
+msgstr "Algpunkt"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Välja jäetud; %s või %s on ühe klõpsu kaugusel."
+
+msgid "Out point"
+msgstr "Lõpp-punkt"
+
+msgid "Presets:"
+msgstr "Eelseadistused:"
+
+msgid "Registry"
+msgstr "register"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Pealkirja HELI või VIDEO eemaldamine eemaldab kõik selle all oleva."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "valmis klipp"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "ei saa episoodi sisse monteerida -- ainult enne või pärast"
+
+msgid "moved off the wide shot"
+msgstr "üldplaanilt eemaldatud"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ei selle heli ega ajakood paiguta seda ajateljele"
+
+msgid "no audio track"
+msgstr "helirada puudub"
+
+msgid "no speaker"
+msgstr "kõnelejata"
+
+msgid "not used"
+msgstr "kasutamata"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "paigutatud koos oma kaameraga, selle kaamera kella järgi"
+
+msgid "the file stays out"
+msgstr "fail jääb välja"
+
+msgid "the only sound"
+msgstr "ainus heli"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve keeldus helirajast A%d kaks korda -- Timeline'il \"%s\" puudub heli: %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve keeldus videorajast V%d kaks korda -- Timeline'il \"%s\" puudub pilt: %s."
