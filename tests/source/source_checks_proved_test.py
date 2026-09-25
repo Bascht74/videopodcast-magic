@@ -437,13 +437,14 @@ print("\n3. Every row belongs to a check that is here")
 # lies about would make every such machine red for what is not a fault.
 #
 # The Resolve tests are taken out of this set by name, and section 5
-# holds them against their own register. By name and not by accident:
-# until now they fell out of their own accord, because git lists them
-# as `resolve/x_test.py`, no `x_test.py` lies here, and the way back
-# through the last commit misses them too. Two mistakes cancelling --
-# and mending either one would have dropped seventy-four proved checks
-# into the register that is not theirs, all as fresh debts, and sent
-# this ratchet up in one step.
+# holds them against their own register. They lie in resolve/live/, two
+# folders down, and the suite's own list reaches one folder down and
+# leaves that one out by name -- tests/resolve/ itself is a piece like
+# any other, and its tests are the suite's. By name here as well, and
+# not by that list alone: once they fell out of it by accident, two
+# mistakes cancelling, and mending either would have dropped
+# seventy-four proved checks into the register that is not theirs, all
+# as fresh debts, and sent this ratchet up in one step.
 resolve_tests = {}
 if os.path.isdir(RESOLVE):
     resolve_tests = dict((name, judgements(source)) for name, source

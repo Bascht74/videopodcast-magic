@@ -11,8 +11,8 @@ One run over material made here, without auphonic.com and without
 speech recognition: two cameras sharing one pattern of tone bursts, the
 second rolling later, and two recordings taken out of the first. The
 log is read afterwards: which camera the run called the reference,
-what its block says about the clock, and what the block of the camera
-the sound measured says.
+what its block says about the clock, and whether the block of the
+camera the sound placed says anything about its clock.
 
 The limit of the method: nothing here is a claim about where the axis
 landed -- only about which lines stand in whose block.
@@ -181,10 +181,14 @@ OFFSET = vpm.T('  Offset:          %s   (from the camera comparison)') \
     .split("%s")[0].strip()
 placed = [l.strip() for l in theirs if l.strip().startswith(OFFSET)]
 # Its clock line, a drift or "not measured" where the sound placed it on
-# too few points -- anything but the reference's.
+# too few points -- anything but the reference's. Material this short
+# gives the second: at 20 s the line says too few points, and a drift
+# over 23 of 40 points came only at 60 s. A drift really measured is
+# run_no_drift_noughts's to ask.
 drifts = [l for l in theirs if l.strip().startswith(DRIFT)
           and l.strip() != NOTHING]
-check("a camera that was measured still reports its clock", bool(drifts),
+check("a camera the sound placed still says something about its clock",
+      bool(drifts),
       "%d line(s) in the block of %s, its offset line %r"
       % (len(drifts), others[0], (placed or [""])[0]))
 

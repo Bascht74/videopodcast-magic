@@ -7,7 +7,7 @@ finds it -- to Intro, or out of the run where the intro is taken. The
 note beside the file said none of that: it complained, the row beside
 it said Intro, and the two read as contradicting each other.
 
-Sections: what the note says for each of the two decisions and for a
+Sections: what the note says for Intro, Outro and left out, and for a
 file nobody has decided about; that the note is written out of the
 Kind field the window really holds, rather than out of a value passed
 in beside it; and that the colour follows the decision too -- the
@@ -19,6 +19,7 @@ this measures the sentence and not one language's spelling of it.
 """
 import os
 import sys
+import time
 # tests/, where the helpers and state/ lie; this file may stand in a
 # folder under it, or in one under that.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +27,6 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-import time
 import the_program
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
@@ -61,6 +61,14 @@ check("a file set to Intro is told so, beside the complaint",
       INTRO in to_intro and OUTRO in to_intro,
       "it says %r, wanted %r and %r in it"
       % (to_intro.splitlines()[-1], INTRO, OUTRO))
+
+to_outro = vpm.weak_note(PATH, True, vpm.TYPE_OUTRO)
+check("a file set to Outro is told so, as one set to Intro is",
+      to_outro.splitlines()[-1].strip()
+      == vpm.T('Set to %s; %s is one click away.') % (OUTRO, INTRO),
+      "it says %r, wanted %r" % (to_outro.splitlines()[-1].strip(),
+                                 vpm.T('Set to %s; %s is one click away.')
+                                 % (OUTRO, INTRO)))
 
 left_out = vpm.weak_note(PATH, True, vpm.TYPE_IGNORED)
 check("one left out because the intro was taken is told that instead",

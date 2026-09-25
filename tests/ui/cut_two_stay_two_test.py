@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 """Two cameras never become one camera in the cut.
 
-The cut keys a camera by its name, so two of one name are one: one
+The cut keys a camera by its name, so two of one name would be one: one
 colour, one line in the legend, and only the last file plays. In
-order: the names handed out, what still falls together, and what the
-window shows then -- the start held back, red on the row, the line
-under the table, and the file name keeping precedence over both.
+order: the names handed out; two files of one name told apart by a
+number, as the run tells them; and where two cameras are given one new
+file name, the start held back, red on the row and the line under the
+table -- and none of it for two files of one name named apart.
 """
 import os
 import sys
+import time
 # tests/, where the helpers and state/ lie; this file may stand in a
 # folder under it, or in one under that.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,7 +18,6 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-import time
 import the_program
 
 SCRIPT = the_program.SCRIPT
@@ -57,7 +58,7 @@ RIG = rows(("/m/Studio_Camera_A001.mp4", "Ep12_Studio_Anna_Camera_A001"),
 # there is nothing in either of them that says which camera it was.
 SAME = rows(("/a/C0001.MP4", "Ep12_C0001_Anna"),
             ("/b/C0001.MP4", "Ep12_C0001_Bernd"))
-# Both wrong at once: one name for the files and one for the new file.
+# One name for the files, and one new file name typed for both.
 BOTH = rows(("/a/C0001.MP4", "Ep12_C0001"),
             ("/b/C0001.MP4", "Ep12_C0001"))
 APART = rows(("/m/Podcast_Wide.mp4", "Ep12_Podcast_Wide"),
@@ -83,16 +84,12 @@ check("of three cameras only the two that fell together are lengthened",
                                  "Wide"],
       "the three names are %s" % [t for _p, t in three])
 
-print("\n2. What no name off a file name can tell apart")
-check("two files of one name in two folders still fall together",
-      vpm.camera_tracks_clashing(SAME) == ["C0001"],
-      "reported %s off %s" % (vpm.camera_tracks_clashing(SAME),
-                              [p for p, _v, _k, _n in SAME]))
-check("and one rig in one folder is not reported as falling together",
-      vpm.camera_tracks_clashing(RIG) == [],
-      "reported %s off %s" % (vpm.camera_tracks_clashing(RIG),
-                              [os.path.basename(p)
-                               for p, _v, _k, _n in RIG]))
+print("\n2. Two files of one name")
+paired = [t for _p, t in vpm.camera_tracks_of(SAME)]
+check("two files of one name in two folders are told apart by a number",
+      paired == ["C0001", "C0001 2"],
+      "the cut names them %r off %s, wanted ['C0001', 'C0001 2']"
+      % (paired, [p for p, _v, _k, _n in SAME]))
 
 
 def held_back(camera_lines):
@@ -103,23 +100,16 @@ def held_back(camera_lines):
         camera_lines).get(22)
 
 
-print("\n3. The window holds the run back")
-WANTED = vpm.T('Two cameras are one camera in the cut: %s. Their files '
-               'carry the same name, so rename one of them.') % "C0001"
-check("the start is held back, and the reason names the camera",
-      held_back(SAME) == WANTED,
-      "the sheet says %r" % (held_back(SAME),))
-check("and it lets go once the two files carry two names",
-      held_back(RIG) is None,
-      "the sheet says %r" % (held_back(RIG),))
-check("the file name has the last word where both are wrong",
+print("\n3. Two cameras given one new file name")
+check("two cameras given one new file name hold the start back",
       held_back(BOTH) == vpm.T('Two cameras would produce the same file: %s')
       % "Ep12_C0001",
       "the sheet says %r" % (held_back(BOTH),))
+check("and it lets go once the two carry two names",
+      held_back(RIG) is None,
+      "the sheet says %r" % (held_back(RIG),))
 
 print("\n4. The camera's own row says which one")
-IN_THE_CUT = vpm.T('Two cameras are one camera in the cut. Their files '
-                   'carry the same name, so rename one of them.')
 ONE_FILE = vpm.T('Two cameras would produce the same file. The second '
                  'would overwrite the first.')
 # Qt deletes a widget with its parent, so the parents outlive the call
@@ -148,29 +138,28 @@ def marked(camera_lines):
     return fields, line, line.isVisibleTo(sheet)
 
 
-fields, line, shown = marked(SAME)
-check("the field of a camera that cannot be told apart is marked red",
-      all("border" in (f.styleSheet() or "") for f in fields),
-      "the style sheets are %s" % [f.styleSheet() for f in fields])
-check("and the reason on it is the one about the cut",
-      [f.toolTip() for f in fields] == [IN_THE_CUT, IN_THE_CUT],
-      "the hints are %s" % [f.toolTip()[:40] for f in fields])
-check("the line under the table stands and names the camera",
+fields, line, shown = marked(BOTH)
+check("both fields of one new file name are marked red with why",
+      all("border" in (f.styleSheet() or "") for f in fields)
+      and [f.toolTip() for f in fields] == [ONE_FILE, ONE_FILE],
+      "the style sheets are %s, the hints %s"
+      % ([f.styleSheet() for f in fields],
+         [f.toolTip()[:40] for f in fields]))
+check("the line under the table stands and names the file",
       shown and line.text() == vpm.T(
-          '✕  Two cameras are one camera in the cut (%s). Their files '
-          'carry the same name, so rename one of them.') % "C0001",
+          '✕  Two cameras would produce the same file (%s). The second '
+          'would overwrite the first.') % "Ep12_C0001",
       "visible %r, saying %r" % (shown, line.text()))
+fields, line, shown = marked(SAME)
+check("two files of one name with two new names are not marked",
+      not any("border" in (f.styleSheet() or "") for f in fields)
+      and not shown,
+      "the style sheets are %s, the line visible %r saying %r"
+      % ([f.styleSheet() for f in fields], shown, line.text()))
 fields, line, shown = marked(RIG)
 check("a camera whose name is its own is not marked",
       not any("border" in (f.styleSheet() or "") for f in fields),
       "the style sheets are %s" % [f.styleSheet() for f in fields])
-check("and the line goes once the two files carry two names",
-      not shown and not line.text(),
-      "visible %r, saying %r" % (shown, line.text()))
-fields, line, shown = marked(BOTH)
-check("where both are wrong the row says the one that can be typed away",
-      [f.toolTip() for f in fields] == [ONE_FILE, ONE_FILE],
-      "the hints are %s" % [f.toolTip()[:40] for f in fields])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
