@@ -259,6 +259,15 @@ oberen Tabelle, mit ihrem Sprechernamen. Sie zählt wie jede andere Spur:
 aufbereitet, im Full-Mix, in der Sprechzeit für den Kameraschnitt
 mitgezählt und als erste Tonspur ihrer eigenen Kamera.
 
+In einem Punkt allerdings nicht: Auf die Zeitachse wird sie nicht für
+sich gemessen. Es ist der Ton der Kamera selbst, also steht er, wo die
+Kamera steht, gleich auf welchem Weg sie ihren Platz bekommen hat --
+über ihren Ton oder über ihren Timecode. Im Block `ZEITACHSE MESSEN`
+des Protokolls sagt ihre Zeile das: `mit der eigenen Kamera platziert`,
+oder `mit der eigenen Kamera platziert, nach deren Uhr`. Nur wenn die
+Kamera selbst keinen Platz bekommen hat, wird ihr Ton gemessen wie jede
+andere Spur.
+
 „Wie jede andere Spur“ schließt die Kanäle ein. Das Feld bewahrt nur
 den Ton; dieselbe Messung wie bei einer Recorder-Datei entscheidet, was
 daraus wird.
@@ -372,12 +381,18 @@ Kamera nicht lesen, sagt das Programm es und lässt den Anfang dieser
 Kamera stehen.
 
 Im selben Block meldet jede Kamera ihren Versatz und ihren Uhrengang.
-Eine meldet keinen: **Uhrengang: nichts gemessen -- das ist die
-Referenz, gegen die die anderen gehalten werden**. Es ist die längste
-Kamera, die, gegen die alle anderen gemessen wurden, und an ihr hat
-also keine Messung etwas ergeben. Früher stand dort eine Reihe Nullen
--- null ppm, null von null Punkten --, die aussah wie eine Messung und
-keine war.
+Wo keine Messung einen Uhrengang ergeben hat, steht statt einer Zahl,
+dass keiner gemessen ist. Die Referenz sagt `Uhrengang: nichts gemessen
+-- das ist die Referenz, gegen die die anderen gehalten werden`: Es ist
+die längste Kamera, die, gegen die alle anderen gemessen wurden, und an
+ihr hat also keine Messung etwas ergeben. Hat der Ton eine Kamera zwar
+platziert, aber auf zu wenigen Punkten, um daraus einen Gang zu
+bestimmen, heißt es `Uhrengang: nicht gemessen -- sein Ton gab zu
+wenige Messpunkte dafür her`. Und im Block `ZEITACHSE MESSEN` steht bei
+einer solchen Kamera, bei einer, die ihr Timecode platziert hat, und
+bei einer Tonspur ohne eigene Messung `Uhrengang nicht gemessen`. Früher
+stand an all diesen Stellen eine Reihe Nullen -- null ppm, null
+Punkte --, die aussah wie eine Messung und keine war.
 
 Wer mehr braucht, als das Fenster hergibt, setzt **In markieren** und
 **Out markieren** weiter auseinander und lässt noch einmal laufen. Einen
@@ -488,24 +503,17 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   ([Die Oberfläche](interface.de.md)).
 - **In markieren und Out markieren bleiben gesperrt.** Die gemeinsame
   Zeitachse steht noch nicht. Den Balken unter den Tabellen abwarten.
-- **Zwei Kameras, deren Dateien gleich heißen, und Start bleibt
-  gesperrt.** Zwei Kameras desselben Herstellers schreiben oft dieselben
-  Dateinamen, jede in einen eigenen Ordner. Dann werden beide Felder
-  **neue Datei heißt** rot, und unter der Kameratabelle wie unter
-  **Start** steht **Zwei Kameras sind im Schnitt eine … Ihre Dateien
-  heißen gleich, bitte eine davon umbenennen**: das Fenster hält Kameras
-  an ihren Dateinamen auseinander. Wird eine der Dateien außerhalb des
-  Programms umbenannt, ist das vorbei, und beide Kameras bleiben; bekommt
-  eine von ihnen einen anderen **Typ** oder fliegt sie aus der Liste,
-  ist es auch vorbei, aber diese Kamera fehlt dann im Schnitt. Wird
-  beiden derselbe Dateiname vorgeschlagen -- bei **Nur synchronisieren**
-  immer, im Schnitt dann, wenn auf keiner von beiden jemand ist --,
-  steht unter der Kameratabelle zuerst **Zwei Kameras sollen dieselbe
-  Datei ergeben**. Ein eigener Name in einem der beiden Felder räumt
-  das ab, danach bleibt die andere Zeile stehen. Auf
-  der Kommandozeile hält der Lauf die beiden selbst auseinander: die
-  zweite wird als `<Name> 2` geschrieben und an Resolve übergeben, und
-  jede behält ihr eigenes Bild.
+- **Zwei Kameras sollen dieselbe Datei ergeben, und Start bleibt
+  gesperrt.** In zwei Feldern **neue Datei heißt** steht derselbe Name,
+  beide werden rot, unter der Kameratabelle steht **Zwei Kameras
+  sollen dieselbe Datei ergeben** und unter **Start** **Zwei Kameras
+  ergäben dieselbe Datei**. Einem der beiden einen eigenen Namen geben.
+  Zwei Kameras, deren Dateien bloß gleich heißen -- zwei Geräte
+  desselben Herstellers schreiben oft dieselben Dateinamen, jedes in
+  einen eigenen Ordner --, sperren dagegen nichts: Das Fenster hält sie
+  auseinander wie die Kommandozeile. Die zweite heißt `<Name> 2`, im
+  Schnitt, im vorgeschlagenen Namen unter **neue Datei heißt** und in
+  Resolve, und jede behält ihr eigenes Bild.
 - **Mehrere Kameras, keine Tonaufnahme, und Start bleibt gesperrt.**
   Keine Kamera steuert ihren Ton bei. Bei jeder Kamera, die zu hören
   sein soll, **Kameraton** auf **Ton verwenden** stellen; dann ist jede

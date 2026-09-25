@@ -55,10 +55,12 @@ that program's input, not as an argument, so the key does not stand in
 the process list on that way either. The program reads it back to see
 that it arrived. There is no second way round: handing it over as an
 argument would put it where everybody on the machine can read it, so
-where the Keychain does not take it, nothing is stored and a line says
-why. The tick comes off again with it, so it never stands there green
-over a key that is gone at the next start. The Windows Registry path has
-no such question.
+where the Keychain does not take it, nothing is stored and the line
+under the key field says why: **The key was not saved: …** -- whether the
+tick was set by hand or the key came with **Connect**. No box has to be
+clicked away first. The tick comes off again with it, so it never
+stands there green over a key that is gone at the next start. The
+Windows Registry path has no such question.
 
 What is stored is the key that was checked, and not what stands in the
 field when the answer comes back. Pasting a second key while the first

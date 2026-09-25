@@ -20,7 +20,9 @@ Four tabs, in the order they are needed.
   **Open project ...** stands on the drop area and under **File**. An
   open project takes new files at any time, and its name stands in the
   title bar, so a window with a project open and one without are not
-  the same picture.
+  the same picture. The project file is named after the production and
+  moves along when the production is renamed; the title bar then names
+  it under its new name.
 
   Where a project file lies with the material, the program offers it as
   the files come in, and before it measures any of them: one found and
@@ -109,7 +111,10 @@ Four tabs, in the order they are needed.
   - A camera nobody is assigned to shows **Wide shot** although nobody
     marked it. **Content** is the barred entry while that lasts, because
     no speaker is assigned to it. Give that camera a speaker, or set the
-    **Kind** yourself, and the entry frees itself.
+    **Kind** yourself, and the entry frees itself. Under **Sync only**
+    nobody is asked who speaks, so no camera is worked out to be the
+    wide shot there: only a camera somebody sets to **Wide shot** is
+    one.
   - A file the measurement could place nowhere is neither content nor
     the wide shot, and both entries are barred for it. Content is cut
     into the episode, and there is nowhere to cut this file in. The
@@ -418,7 +423,11 @@ Four tabs, in the order they are needed.
   and the button greys as soon as the last run's handover no longer
   names exactly the cameras standing there, and resting on it says that
   the handover file from a run is missing. Put the camera back and the
-  button can be pressed again.
+  button can be pressed again -- also after a run that left a camera
+  out: the window takes back the handover the button had for that list.
+  Choosing another output folder, or going back to **next to each video
+  file**, looks for a handover in the new place at once
+  ([Resolve](resolve.md) says where it looks).
 
 **Multitrack (one track per speaker)** has a line of its own under the
 assignment table, above the Auphonic box. It works with auphonic.com and
@@ -1004,23 +1013,33 @@ did place that carries one too, and without that it counts as a file
 with no place, below.
 
 A file with no place at all says **does not fit the other files: sound
-not recognised, no timecode.** and stands red. Where it does carry a
-timecode, but no camera the sound placed carries one to set it against,
-it says **does not fit the other files: sound not recognised, nothing to
-set its timecode against.** instead -- the timecode is there, it only
-has nothing to be measured against. Under either the note says what
-became of the file: **Set to Intro; Outro is one click away.**, **Left
-out, Intro being taken already; Outro is one click away.**, or, for a
-file on **ignore this video** while the intro is still free -- proposed
-so, as below, or set so by hand -- **Left out; Intro or Outro is one
-click away.** Its sound has nothing in common with the rest of the
-material and no timecode puts it among the others, so it cannot be cut
-into the episode: in the column **Kind**, **Content** and **Wide shot**
-are barred for it, it is set to **Intro** -- or to **ignore this video**
-where another file already holds the intro -- and the note beside the
-file says which of the two, so the row and the note say the same thing.
-That is not a proposal but a statement about the material, and it holds
-however the **Kind** got there.
+not recognised, no timecode.** and stands red -- unless it is set to
+Intro or Outro, where the row already says what became of it. Where it
+does carry a timecode, but no camera the sound placed carries one to set
+it against, it says **does not fit the other files: sound not
+recognised, nothing to set its timecode against.** instead -- the
+timecode is there, it only has nothing to be measured against. Under
+either the note says what became of the file: **Set to Intro; Outro is
+one click away.**, **Set to Outro; Intro is one click away.** for one
+set to the outro by hand, **Left out, Intro being taken already; Outro
+is one click away.**, or, for a file on **ignore this video** while the
+intro is still free -- proposed so, as below, or set so by hand --
+**Left out; Intro or Outro is one click away.** Its sound has nothing in
+common with the rest of the material and no timecode puts it among the
+others, so it cannot be cut into the episode: in the column **Kind**,
+**Content** and **Wide shot** are barred for it, it is set to **Intro**
+-- or to **ignore this video** where another file already holds the
+intro -- and the note beside the file says which of the two, so the row
+and the note say the same thing. That is not a proposal but a statement
+about the material, and it holds however the **Kind** got there.
+
+The line under the list counts these files too. Every row that stands in
+red -- a recording with no place, or a video with no place left out on
+**ignore this video** -- counts there, in red as well: **3 files do not
+fit the others**, in place of the notes or of nothing to fault; only a
+finding that stops the run comes before it. A file set to Intro or Outro
+is not red and is not counted; one placed by its timecode alone counts
+as a note.
 
 Where nothing whatever could be measured of such a file, **ignore this
 video** is proposed for it instead. That is a proposal, like the ones
