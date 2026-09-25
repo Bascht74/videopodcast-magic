@@ -138,9 +138,13 @@ def log_aside(text):
     if not _LOG_ASIDE:
         try:
             where = log_path()
-            _LOG_ASIDE.append(open(where, "a", buffering=1,
-                                   encoding="utf-8", errors="replace")
-                              if where else None)
+            kept = (open(where, "a", buffering=1, encoding="utf-8",
+                         errors="replace") if where else None)
+            if kept is not None:
+                # Where this run's lines begin in the last run's log: the
+                # redirect takes them from here into this run's own.
+                kept.began_at = kept.tell()
+            _LOG_ASIDE.append(kept)
         except Exception:
             _LOG_ASIDE.append(None)
     if _LOG_ASIDE[0] is None:

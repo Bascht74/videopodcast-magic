@@ -234,12 +234,39 @@ def standstill():
     """One round of waiting. True when nothing has moved for 21 of them."""
     waited[0] += 1
     now = pulse()
-    if now != moved[0]:
+    # A measurement the window says is running is not standing still;
+    # one that never ends is caught by the pass's own deadline.
+    if now != moved[0] or measuring():
         moved[0] = now
         patience[0] = 0
         return False
     patience[0] += 1
     return patience[0] > 20
+
+
+def measuring():
+    """The window says the time axis is being measured right now."""
+    said = vpm.T('Measuring time axis ...')
+    return any(w.text().startswith(said)
+               for w in win().findChildren(QtWidgets.QLabel))
+
+
+def axis_written():
+    """The project files in the output folder that hold a measured axis.
+
+    The measurement writes the file the moment it is done, and on a
+    slow machine that is after the first fields are typed -- then the
+    early file holds the typing and closing has nothing new to write.
+    """
+    names = []
+    for f in project_files():
+        try:
+            with open(os.path.join(out_folder, f), encoding="utf-8") as h:
+                if json.load(h).get("timeline"):
+                    names.append(f)
+        except (OSError, ValueError):
+            pass
+    return names
 
 
 def on_again():
@@ -296,6 +323,22 @@ def step():
             needed("the output folder button",
                    button("Output folder")).click()
         elif i == 2:
+            # Nothing is typed before the measured axis stands in the
+            # file: what it writes is the "before" closing is held to.
+            early = axis_written()
+            if not early and not standstill():
+                QtCore.QTimer.singleShot(500, step)
+                return
+            check("one project file stands there before the window closes",
+                  len(early) == 1 and len(project_files()) == 1,
+                  "%d project files, %d holding the time axis, against 1 "
+                  "after %d rounds; the folder holds %s"
+                  % (len(project_files()), len(early), waited[0],
+                     sorted(os.listdir(out_folder))))
+            if early:
+                found["early"] = early
+                found["early_text"] = open(
+                    os.path.join(out_folder, early[0])).read()
             shown = vpm_files()
             here = [os.path.basename(p) for p in ALL
                     if os.path.basename(p) in shown]
@@ -391,20 +434,6 @@ def step():
                   % (WANTED["speaker"],
                      None if said is None else said.text()))
         elif i == 4:
-            # The file is written once as soon as the axis is measured,
-            # before anybody has typed anything. If closing does not
-            # write it again, everything typed since is lost -- so what
-            # stands there now is read first, and it is the one file the
-            # program promises rather than one of several.
-            early = project_files()
-            check("one project file stands there before the window closes",
-                  len(early) == 1,
-                  "%d project files against 1; the folder holds %s"
-                  % (len(early), sorted(os.listdir(out_folder))))
-            if early:
-                found["early"] = early
-                found["early_text"] = open(
-                    os.path.join(out_folder, early[0])).read()
             # The program hangs its writing on the application quitting,
             # and this test has to stay alive to read the file back, so
             # it emits that signal instead of really quitting.

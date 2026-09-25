@@ -6,9 +6,10 @@ copy writes where the platform keeps logs and never into the folder
 pip owns; VPM_LOGS moves the whole of it; one folder spelled two ways
 is still the folder pip owns; a start without switches says nothing in
 front of its window while a start that only reads the switches still
-answers; that the file the menu opens is the one this run writes into
-and not the copy kept from the run before; and that the Help menu
-offers it.
+answers; that the menu opens the log this run writes, its lines from
+before the redirect included, while the last run's log, or one another
+copy put there meanwhile, is kept as it was -- or, where it cannot be
+renamed, followed by this run in one file; and the Help menu offers it.
 
 The installed case is rebuilt, not installed: a throwaway environment
 is made and the module files are copied into the folder pip would put
@@ -266,29 +267,119 @@ print("\n5. The log the menu opens is the one this run writes")
 # folder of whoever started the run.
 kept_folder = os.path.join(work, "rotated")
 os.makedirs(kept_folder, exist_ok=True)
-ASIDE = ("import sys;sys.path.insert(0, %r);"
-         "import os;import the_program;vpm = the_program.load();"
-         "vpm.log_path = lambda: os.path.join(%r, 'videopodcast-magic.log');"
-         "vpm.log_aside('BEFORE-THE-REDIRECT');"
-         "vpm.redirect_console();"
-         "vpm.log_aside('AFTER-THE-REDIRECT')") % (HERE, kept_folder)
-code, _said, went_wrong = ask(sys.executable, ASIDE, dict(os.environ))
+# The log of the run before stands there already, as it does on every
+# start but the first; this run's own lines have to leave it untouched.
+LAST_RUN = "Video Podcast Magic 0.0   LAST-RUN\n\nLAST-RUN-LINE\n"
+HEAD = "Video Podcast Magic %s " % vpm.VERSION
+ASIDE = ("import sys\nsys.path.insert(0, %r)\n"
+         "import os\nimport the_program\nvpm = the_program.load()\n"
+         "vpm.log_path = lambda: os.path.join(%r, 'videopodcast-magic.log')\n"
+         "%s"
+         "vpm.log_aside('BEFORE-THE-REDIRECT')\n"
+         "vpm.redirect_console()\n"
+         "print('CONSOLE-AFTER', flush=True)\n"
+         "vpm.log_aside('AFTER-THE-REDIRECT')\n")
 
 
-def held(name):
-    where = os.path.join(kept_folder, name)
-    return (io.open(where, encoding="utf-8").read()
+def held(folder, name):
+    where = os.path.join(folder, name)
+    return (io.open(where, encoding="utf-8", newline="").read()
             if os.path.isfile(where) else "")
 
 
-now, before = held("videopodcast-magic.log"), held("videopodcast-magic_1.log")
+def shown(text):
+    """A log as a failure line quotes it: the head names the program's
+    folder, and a line that travels names no folder of this machine."""
+    return text.replace(BESIDE, "<program>")[:200]
+
+
+with io.open(os.path.join(kept_folder, "videopodcast-magic.log"), "w",
+             encoding="utf-8", newline="") as fh:
+    fh.write(LAST_RUN)
+code, _said, went_wrong = ask(sys.executable,
+                              ASIDE % (HERE, kept_folder, ""),
+                              dict(os.environ))
+now = held(kept_folder, "videopodcast-magic.log")
+before = held(kept_folder, "videopodcast-magic_1.log")
 check("what is written after the redirect stands in this run's log",
       code == 0 and "AFTER-THE-REDIRECT" in now,
       "code %d, %d characters in the log, wrong %r"
       % (code, len(now), went_wrong[-120:]))
-check("and what was written before it stands in the kept one",
-      "BEFORE-THE-REDIRECT" in before and "BEFORE-THE-REDIRECT" not in now,
-      "%d characters kept, %d in the new log" % (len(before), len(now)))
+check("and what was written before it stands there after the head",
+      now.find(HEAD) == 0 and now.find("BEFORE-THE-REDIRECT") > 0,
+      "head at %d, the early line at %d of %d characters: %r"
+      % (now.find(HEAD), now.find("BEFORE-THE-REDIRECT"), len(now),
+         shown(now)))
+check("and the log of the run before is kept as that run left it",
+      before == LAST_RUN,
+      "%d characters kept against %d: %r" % (len(before), len(LAST_RUN),
+                                             shown(before)))
+
+# Renaming a log another copy holds open fails on Windows. Made to fail
+# here, where it would not: the run must still be written, after the
+# last one in the same file, and its early line after its own head.
+held_open = os.path.join(work, "held_open")
+os.makedirs(held_open, exist_ok=True)
+with io.open(os.path.join(held_open, "videopodcast-magic.log"), "w",
+             encoding="utf-8", newline="") as fh:
+    fh.write(LAST_RUN)
+REFUSE = ("def refused(*a, **k):\n"
+          "    raise PermissionError(13, 'held open')\n"
+          "vpm.os.replace = refused\n")
+code, _said, went_wrong = ask(sys.executable,
+                              ASIDE % (HERE, held_open, REFUSE),
+                              dict(os.environ))
+same = held(held_open, "videopodcast-magic.log")
+order = [same.find(x) for x in (LAST_RUN, HEAD, "BEFORE-THE-REDIRECT",
+                                "CONSOLE-AFTER", "AFTER-THE-REDIRECT")]
+check("a log that cannot be renamed is followed by this run in one file",
+      code == 0 and same.startswith(LAST_RUN)
+      and -1 not in order and order == sorted(order)
+      and same.count("BEFORE-THE-REDIRECT") == 1
+      and not os.path.exists(os.path.join(held_open,
+                                          "videopodcast-magic_1.log")),
+      "code %d, at %s for last run, head, early line, console, aside;"
+      " %d characters: %r; wrong %r"
+      % (code, order, len(same), shown(same), went_wrong[-120:]))
+
+# Another copy renames the shared log and starts its own between this
+# run's first aside line and its redirect. Its new log is not the file
+# those lines went into, so nothing may be cut off it or added to it.
+other_folder = os.path.join(work, "other_copy")
+os.makedirs(other_folder, exist_ok=True)
+with io.open(os.path.join(other_folder, "videopodcast-magic.log"), "w",
+             encoding="utf-8", newline="") as fh:
+    fh.write(LAST_RUN)
+OTHER = "OTHER-COPY-HEAD\n"
+ROTATE = ("first = vpm.log_aside\n"
+          "def aside(text):\n"
+          "    first(text)\n"
+          "    if text != 'BEFORE-THE-REDIRECT':\n"
+          "        return\n"
+          "    where = vpm.log_path()\n"
+          "    try:\n"
+          "        os.replace(where, where[:-4] + '_1.log')\n"
+          "    except OSError:\n"
+          "        sys.exit(3)\n"
+          "    with open(where, 'w', newline='') as fh:\n"
+          "        fh.write(%r)\n"
+          "vpm.log_aside = aside\n") % OTHER
+code, _said, went_wrong = ask(sys.executable,
+                              ASIDE % (HERE, other_folder, ROTATE),
+                              dict(os.environ))
+if code == 3:
+    print("  LEFT OUT a log another copy put in place is left as it was"
+          " -- this system refuses to rename a log a handle holds open,"
+          " so no other copy can put one there")
+else:
+    theirs = held(other_folder, "videopodcast-magic_1.log")
+    ours = held(other_folder, "videopodcast-magic.log")
+    check("a log another copy put in place meanwhile is left as it was",
+          code == 0 and theirs == OTHER and ours.find(HEAD) == 0
+          and "OTHER-COPY" not in ours and "\0" not in ours,
+          "code %d; theirs %d characters against %d: %r; ours %d: %r;"
+          " wrong %r" % (code, len(theirs), len(OTHER), shown(theirs),
+                         len(ours), shown(ours), went_wrong[-120:]))
 
 print("\n6. The window offers the way to the log")
 window = QtWidgets.QWidget()
