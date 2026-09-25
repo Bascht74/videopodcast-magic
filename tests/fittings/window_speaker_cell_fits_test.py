@@ -9,9 +9,9 @@ in afterwards was cut off at the top and at the right.
 Sections: the column is wide enough for the two captions that must not
 wrap; a row grows to a text that wraps and comes back down when the
 cell is emptied; everything the cell can show, up to the longest report
-a separation can hand it, is readable in both languages; the same again
+a separation can hand it, is readable in every language; the same again
 in a font drawn as wide as the widest we build for; at the narrowest
-window the program allows, in either language and across the fonts we
+window the program allows, in every language and across the fonts we
 build for, the name field keeps a width somebody can type in and the
 column carrying the button can be brought fully into view; and a
 recording whose voices hang under it stays open while its cell is
@@ -65,6 +65,13 @@ def check(name, ok, extra=""):
 NARROWEST = int(re.search(r"window\.setMinimumSize\((\d+),",
                           the_program.whole()).group(1))
 PATH = "/tmp/Presenter_2026-09-04.wav"
+# Every language the window offers, read off the catalogues beside the
+# program: written down here, the list stops at the languages there were
+# that day, and the next one is offered unmeasured.
+LANGUAGES = ("en",) + tuple(sorted(
+    os.path.splitext(p)[0]
+    for p in os.listdir(os.path.join(os.path.dirname(SCRIPT), "language"))
+    if p.endswith(".po")))
 # The same nominal font is drawn 1.89 times as wide on Windows as on
 # this Mac -- measured on the builder over both languages, and written
 # down beside WIDE_FONT in the program. A stretched font is that
@@ -161,6 +168,33 @@ def needs(mark):
         QtCore.Qt.TextWordWrap, mark.text()).height()
 
 
+def one_line(mark):
+    """The height of the label's text on one line, in the faces drawing it.
+
+    Not the font's own line height: a script the font lacks is drawn in
+    another face, and one line of Arabic stands 30 px tall where the
+    interface font's line is 15 -- measured here, over every language.
+    A line break written into the text is taken out: that is two lines.
+    """
+    from PySide6 import QtCore
+    return mark.fontMetrics().boundingRect(
+        QtCore.QRect(0, 0, 100000, 0), QtCore.Qt.TextWordWrap,
+        mark.text().replace("\n", " ")).height()
+
+
+def named(rows, form):
+    """For the line: the languages over, or the one nearest its edge.
+
+    A line naming every language would bury the one that fell, so the
+    ones over are named -- and where none is, the closest, so a line
+    that passes still says how near it came.
+    """
+    over = [r for r in rows if r[1] > 0]
+    shown = over or sorted(rows, key=lambda r: -r[1])[:1]
+    return "%d of %d over; %s" % (len(over), len(rows),
+                                  ", ".join(form % r for r in shown))
+
+
 def missing_caption():
     return vpm.T('The speaker separation is not set up.')
 
@@ -214,10 +248,10 @@ check("and the row comes back down when the cell is emptied",
       % (back_row, empty_row))
 holder.deleteLater()
 
-print("\n3. Everything the cell can show is readable, both languages")
+print("\n3. Everything the cell can show is readable, every language")
 over = {"missing": [], "running": [], "counted": [], "reported": [],
         "button": [], "asked": []}
-for language in ("en", "de"):
+for language in LANGUAGES:
     vpm.set_language(language)
     holder, tree, cells, nodes = sheet(NARROWEST)
     _path, button, mark, _item = cells[0]
@@ -226,14 +260,14 @@ for language in ("en", "de"):
                             mark.height()))
     written(cells, busy=True)
     over["running"].append((language,
-                            needs(mark) - mark.fontMetrics().height(),
+                            needs(mark) - one_line(mark),
                             mark.width(), needs(mark)))
     over["button"].append((language,
                            button.sizeHint().width() - button.width(),
                            button.width(), button.sizeHint().width()))
     written(cells, found=2)
     over["counted"].append((language,
-                            needs(mark) - mark.fontMetrics().height(),
+                            needs(mark) - one_line(mark),
                             mark.width(), needs(mark)))
     written(cells, reported_caption())
     over["reported"].append((language, unreadable(mark), mark.width(),
@@ -243,37 +277,30 @@ for language in ("en", "de"):
     holder.deleteLater()
 check("the sentence saying it is not set up is readable in full",
       all(x[1] <= 0 for x in over["missing"]),
-      "short by %s"
-      % ["%s: %d px over in a label %dx%d" % x for x in over["missing"]])
+      named(over["missing"], "%s: %d px over in a label %dx%d"))
 check("the running caption stands on one line beside its button",
       all(x[1] <= 0 for x in over["running"]),
-      "over one line by %s"
-      % ["%s: %d px, %d px wide, %d px of text" % x
-         for x in over["running"]])
+      named(over["running"], "%s: %d px over one line, %d px wide, "
+                             "%d px of text"))
 check("a finished count of speakers stands on one line",
       all(x[1] <= 0 for x in over["counted"]),
-      "over one line by %s"
-      % ["%s: %d px, %d px wide, %d px of text" % x
-         for x in over["counted"]])
+      named(over["counted"], "%s: %d px over one line, %d px wide, "
+                             "%d px of text"))
 check("a long reason from the separation is readable in full",
       all(x[1] <= 0 for x in over["reported"]),
-      "short by %s"
-      % ["%s: %d px over in a label %dx%d" % x for x in over["reported"]])
+      named(over["reported"], "%s: %d px over in a label %dx%d"))
 check("the height a cell asks for is measured, not left to a guess",
       all(x[1] <= 0 for x in over["asked"]),
-      "short by %s"
-      % ["%s: %d px, asked for %d of %d needed" % x
-         for x in over["asked"]])
+      named(over["asked"], "%s: %d px short, asked for %d of %d needed"))
 check("the button keeps its whole caption while a separation runs",
       all(x[1] <= 0 for x in over["button"]),
-      "short by %s"
-      % ["%s: %d px missing, %d px of %d" % x for x in over["button"]])
+      named(over["button"], "%s: %d px missing, %d px of %d"))
 
 print("\n4. And in a font drawn as wide as the widest we build for")
 was_font = in_a_wider_font(WIDER)
 far = {"reported": [], "missing": [], "running": []}
 try:
-    for language in ("en", "de"):
+    for language in LANGUAGES:
         vpm.set_language(language)
         holder, tree, cells, nodes = sheet(NARROWEST)
         _path, button, mark, _item = cells[0]
@@ -285,27 +312,25 @@ try:
                                mark.height()))
         written(cells, busy=True)
         far["running"].append((language,
-                               needs(mark) - mark.fontMetrics().height(),
+                               needs(mark) - one_line(mark),
                                mark.width(), needs(mark)))
         holder.deleteLater()
 finally:
     QtWidgets.QApplication.setFont(was_font)
 check("a long reason is readable in the widest font we build for",
       all(x[1] <= 0 for x in far["reported"]),
-      "in a font %d%% as wide, short by %s" % (WIDER,
-      ["%s: %d px over in a label %dx%d" % x for x in far["reported"]]))
+      "in a font %d%% as wide, %s" % (WIDER, named(
+          far["reported"], "%s: %d px over in a label %dx%d")))
 check("so is the sentence saying it is not set up, in that font",
       all(x[1] <= 0 for x in far["missing"]),
-      "short by %s"
-      % ["%s: %d px over in a label %dx%d" % x for x in far["missing"]])
+      named(far["missing"], "%s: %d px over in a label %dx%d"))
 check("and the running caption still on one line, in that font",
       all(x[1] <= 0 for x in far["running"]),
-      "over one line by %s"
-      % ["%s: %d px, %d px wide, %d px of text" % x
-         for x in far["running"]])
+      named(far["running"], "%s: %d px over one line, %d px wide, "
+                            "%d px of text"))
 
 print("\n5. Nothing is squeezed away or put out of reach")
-# Both languages, because which of them asks the column for more room
+# Every language, because which of them asks the column for more room
 # is not fixed: it is measured from two captions that must not wrap,
 # and shortening one German caption made English the wider of the two.
 #
@@ -327,7 +352,7 @@ try:
     # the Windows builder sits.
     for how_wide in (100, 120, 136, 160, WIDER):
         in_a_wider_font(how_wide)
-        for language in ("de", "en"):
+        for language in LANGUAGES:
             vpm.set_language(language)
             holder, tree, cells, nodes = sheet(NARROWEST)
             written(cells, missing_caption())
@@ -346,19 +371,23 @@ try:
             holder.deleteLater()
 finally:
     QtWidgets.QApplication.setFont(was_font)
+# For the lines only: how far each window is out, in the order named().
+out_of_view = [(x[0], max(-x[1], x[1] + x[2] - x[3]), x[2], x[1], x[3])
+               for x in narrow]
+name_short = [(x[0], vpm.NAME_COLUMN_LEAST - x[4], x[4]) for x in narrow]
 check("the column carrying the button can be brought fully into view",
       all(0 <= left and left + wide <= room
           for _l, left, wide, room, _n in narrow),
       "scrolled the whole way over, at the narrowest window of %d px; %s"
-      % (NARROWEST, ", ".join(
-          "%s: the Speakers column %d px wide sits at %d in a viewport "
-          "%d px wide" % (x[0], x[2], x[1], x[3]) for x in narrow)))
+      % (NARROWEST, named(out_of_view, "%s: %d px out of view, the "
+                          "Speakers column %d px wide at %d in a viewport "
+                          "%d px wide")))
 check("the field a name is typed into keeps its least width",
       all(name >= vpm.NAME_COLUMN_LEAST
           for _l, _w, _r, _b, name in narrow),
       "at least %d px wanted; %s"
       % (vpm.NAME_COLUMN_LEAST,
-         ", ".join("%s: %d px" % (x[0], x[4]) for x in narrow)))
+         named(name_short, "%s: %d px under, %d px wide")))
 
 print("\n6. A recording that is open stays open while its cell is written")
 # The voices hang under their recording, and the height of a row is put
