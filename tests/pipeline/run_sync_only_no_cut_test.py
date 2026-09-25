@@ -8,8 +8,9 @@ program. The sections: the run goes through and says at the top what it
 is; the folder holds a camera file per camera, the metrics and the
 handover, and no cut list, no speaker list, no transcript; the handover
 carries the project type, empty cut, speakers and words, and every
-camera plain, its track named after the file or as the line named it;
-the log holds no speaker statistics and the metrics no speech time.
+camera plain and no wide shot, its track named after the file or as
+the line named it; the log holds no speaker statistics and the
+metrics no speech time.
 
 The limit of the method: the microphone and the cameras of that folder
 share no signal, so nothing here says where the axis landed.
@@ -216,10 +217,10 @@ check("it knows a camera for every camera file the run wrote",
       "%d in the handover against %d in the folder"
       % (len(cameras), len(written)))
 named = [(c.get("camera"), c.get("speakers"), c.get("wide"))
-         for c in cameras if c.get("speakers") or not c.get("wide")]
-check("every camera is a plain camera, nobody on it",
+         for c in cameras if c.get("speakers") or c.get("wide")]
+check("every camera is a plain camera: nobody on it, and no wide shot",
       bool(cameras) and not named,
-      "%d of %d carry a name or are not wide: %s"
+      "%d of %d carry a name or are the wide shot: %s"
       % (len(named), len(cameras), named[:3]))
 STEMS = sorted(os.path.splitext(os.path.basename(p))[0] for p in CAMERAS
                if p != NAMED_CAM)
