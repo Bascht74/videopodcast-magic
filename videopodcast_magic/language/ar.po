@@ -5019,3 +5019,18 @@ msgstr[2] " -- ملفان %s لا يتوافقان مع البقية"
 msgstr[3] " -- %s ملفاتٍ لا تتوافق مع البقية"
 msgstr[4] " -- %s ملفًا لا يتوافق مع البقية"
 msgstr[5] " -- %s ملف لا يتوافق مع البقية"
+
+msgid "Cameras"
+msgstr "الكاميرات"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s لها الحجم نفسه والمدة نفسها -- ربما التسجيل نفسه مرتين."
+
+msgid "ffprobe no longer opens the file"
+msgstr "لم يعد ffprobe يفتح الملف"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg و ffprobe مفقودان."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s يحوي فصل المتحدثين لتسجيلٍ تغيّر منذ ذلك الحين أو لم يعد موجودًا، أو من نموذج آخر -- لا يُستخدم."

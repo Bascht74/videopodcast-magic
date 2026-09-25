@@ -4794,3 +4794,18 @@ msgstr "立体声"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s 个文件与其他文件不匹配"
+
+msgid "Cameras"
+msgstr "摄像机"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s 的大小和时长相同 -- 可能是同一段录音重复了两次。"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe 已无法打开该文件"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "缺少 ffmpeg 和 ffprobe。"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s 中的说话人分离属于一段此后已更改或已不存在的录音，或属于另一个模型 -- 不予使用。"

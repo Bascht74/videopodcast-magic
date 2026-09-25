@@ -4835,3 +4835,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s tiedosto ei sovi muihin"
 msgstr[1] " -- %s tiedostoa ei sovi muihin"
+
+msgid "Cameras"
+msgstr "Kamerat"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s ovat samankokoisia ja yhtä pitkiä -- mahdollisesti sama tallenne kahdesti."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe ei enää avaa tiedostoa"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg ja ffprobe puuttuvat."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s sisältää puhujien erottelun tallenteesta, joka on sittemmin muuttunut tai kadonnut, tai toisen mallin tekemän -- sitä ei käytetä."

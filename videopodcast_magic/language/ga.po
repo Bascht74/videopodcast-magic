@@ -4973,3 +4973,18 @@ msgstr[1] " -- ní oireann %s chomhad do na cinn eile"
 msgstr[2] " -- ní oireann %s chomhad do na cinn eile"
 msgstr[3] " -- ní oireann %s gcomhad do na cinn eile"
 msgstr[4] " -- ní oireann %s comhad do na cinn eile"
+
+msgid "Cameras"
+msgstr "Ceamaraí"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Tá an méid céanna agus an fad céanna ag %s -- b'fhéidir an taifeadadh céanna faoi dhó."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ní osclaíonn ffprobe an comhad a thuilleadh"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Tá ffmpeg agus ffprobe ar iarraidh."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s: tá scaradh cainteoirí ann ó thaifeadadh a d'athraigh nó atá imithe ó shin, nó ó shamhail eile -- ní úsáidtear é."

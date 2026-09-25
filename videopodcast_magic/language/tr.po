@@ -4848,3 +4848,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s dosya diğerlerine uymuyor"
 msgstr[1] " -- %s dosya diğerlerine uymuyor"
+
+msgid "Cameras"
+msgstr "Kameralar"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "Aynı boyut ve süre: %s -- belki aynı kayıt iki kez."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe dosyayı artık açamıyor"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "Eksik: ffmpeg ve ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s, o zamandan beri değişmiş ya da artık bulunmayan bir kaydın veya başka bir modelin konuşmacı ayrımını içeriyor -- kullanılmıyor."

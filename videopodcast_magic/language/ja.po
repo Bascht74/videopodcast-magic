@@ -4794,3 +4794,18 @@ msgstr "ステレオ"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- ファイル %s 個が他のファイルと合いません"
+
+msgid "Cameras"
+msgstr "カメラ"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s はサイズと長さが同じです -- 同じ録音が二重に入っている可能性があります。"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe でファイルを開けなくなりました"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg と ffprobe がありません。"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s の話者分離は、その後変わったかなくなった録音のもの、または別のモデルのものです -- 使いません。"
