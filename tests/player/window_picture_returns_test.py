@@ -7,12 +7,13 @@ to the attempt: it stood on beside a picture running again, and a file
 loaded afterwards had nowhere to appear at all -- the sound came and
 nothing was to be seen.
 
-Two grounds, one claim. A refusal handed to the player while a file
+Three grounds, one claim. A refusal handed to the player while a file
 plays, and a file the app really cannot open followed by one it can.
 What is asked is only that a picture is on show and that nothing says
 "refused" any more -- never which page shows it, and never that a
 refusal hides anything in the first place. A refusal counts whether Qt
-signals it or only reports the InvalidMedia state.
+signals it or only reports the InvalidMedia state; the third ground
+takes the signal away, and the refusal is still offered and said.
 """
 import os
 import sys
@@ -127,6 +128,9 @@ PLAYS = os.path.join(FOLDER, "WideCam_A001.mp4")
 shutil.copy2(os.path.join(fixture("playertest"), "a.mp4"), PLAYS)
 REFUSED = os.path.join(FOLDER, "Guest_B002.mp4")
 with open(REFUSED, "wb") as f:
+    f.write(os.urandom(20000))
+ODD = os.path.join(FOLDER, "Presenter_C003.mp4")
+with open(ODD, "wb") as f:
     f.write(os.urandom(20000))
 
 state = {"in_point": None, "out_point": None, "axis": {}}
@@ -265,6 +269,29 @@ try:
     check("and the picture is still there while that file plays", up,
           "page %r up %s, position %d ms, %d pictures more"
           % (name, up, player.player.position(), len(pictures) - was))
+
+    print("\n3. A refusal Qt only reports as a state")
+    # The error signal taken away from the preview, so only the state
+    # is left to say it: what some platforms send. A new name, or the
+    # refusal of section 2 counts as said already.
+    player.player.errorOccurred.disconnect(player.on_error)
+    try:
+        player.load(ODD)
+        took = waited_for(
+            lambda: player.player.mediaStatus() == INVALID,
+            "the state to say the file cannot be opened", status)
+        app.processEvents()
+        check("a refusal reported only as a state offers the other player",
+              player.extern.isVisible(),
+              "button up %s, status %r, error %r after %s"
+              % (player.extern.isVisible(), player.player.mediaStatus(),
+                 player.player.error(), took))
+        check("and the line above the picture says the format is unknown",
+              REFUSED_SAYS in said_now(),
+              "the line says %r, status %r after %s"
+              % (said_now()[:60], player.player.mediaStatus(), took))
+    finally:
+        player.player.errorOccurred.connect(player.on_error)
 finally:
     try:
         player.player.stop()

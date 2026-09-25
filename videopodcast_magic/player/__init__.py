@@ -2029,8 +2029,17 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """Enable seeking once the file is open.
 
             setSource works in the background; a setPosition before that goes
-            nowhere, and without a nudge the surface stays black.
+            nowhere, and without a nudge the surface stays black. A file
+            that cannot be opened is refused here as well as on the error.
             """
+            if status == QtMultimedia.QMediaPlayer.InvalidMedia:
+                # A refusal some platforms report only as the state: said
+                # all the same. on_error says it once per file and error.
+                error = self.player.error()
+                self.on_error(QtMultimedia.QMediaPlayer.FormatError
+                              if error == QtMultimedia.QMediaPlayer.NoError
+                              else error)
+                return
             pending = (QtMultimedia.QMediaPlayer.LoadedMedia,
                      QtMultimedia.QMediaPlayer.BufferedMedia)
             if status not in pending:
