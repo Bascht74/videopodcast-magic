@@ -45,7 +45,7 @@ that twice in one day.
 | when this is about to happen | read first |
 |---|---|
 | a task touches more than one file | `strang` |
-| anything inside a `tests/*_test.py` changes -- also one line, also when no judgement changes | `test-neu` |
+| anything inside a `*_test.py` under `tests/` changes -- also one line, also when no judgement changes | `test-neu` |
 | a test is red, wobbling, or green and not to be trusted | `test-rot` |
 | a check was written or changed and is green | `gegenbeweis` |
 | a commit message is about to be written | `commit` |
@@ -82,6 +82,12 @@ between two commits: those belong in `docs/notes/`, or in a command.
   folder, not imported from it** -- `development/internals.md`.
 * **Copy the folder, never the file in it.** A lone `__init__.py` stops
   during the import on the catalogue beside it.
+* `tests/` is the suite, **each test in the folder named after the piece
+  whose logic it checks** -- `tests/cut/`, `tests/ui/` -- and `run.sh`
+  finds it by its name alone. One is no piece: `tests/source/` reads
+  the source as a whole. `tests/resolve/live/` is apart: those tests
+  want a Resolve running, and `resolve.sh` starts them. `tests/samples/`
+  holds checked-in material, and no test.
 * `docs/` is the manual: `docs/name.md` and `docs/name.de.md`. Changing
   one means changing both.
 * `development/` is looked things up in, not worked through:

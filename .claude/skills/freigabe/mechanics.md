@@ -180,7 +180,7 @@ a Mac and on Windows with nothing installed, because the source archive
 beside it on the same page is one too, and because the release workflow
 opens it with Python's own `zipfile` and needs nothing fetched to do
 it. Always `videopodcast_magic.zip`, never the version in the name:
-`.github/workflows/release.yml` and `tests/text_release_ready_test.py`
+`.github/workflows/release.yml` and `tests/source/text_release_ready_test.py`
 name it letter for letter, the way `SHA256SUMS.txt` is named, and a
 name built out of the tag would have to be built the same way in three
 places.

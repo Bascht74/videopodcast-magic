@@ -359,7 +359,7 @@ def curl(url, *more):
     A Python from python.org verifies against a certificate store macOS
     never gives it -- measured 4.9.2026, urlretrieve here died on
     CERTIFICATE_VERIFY_FAILED against raw.githubusercontent.com. curl
-    carries its own. tests/text_release_ready_test.py fetches the same
+    carries its own. tests/source/text_release_ready_test.py fetches the same
     way and says the same thing.
     """
     return subprocess.run(["curl", "-fsSL", url] + list(more),

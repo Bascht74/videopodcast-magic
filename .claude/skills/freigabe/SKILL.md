@@ -161,8 +161,9 @@ moment the command is run.
 `videopodcast_magic/__init__.py`. The same number stands as the topmost
 numbered section in `CHANGELOG.md`, and as `**Version ....**` in
 `README.md`, `README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
-`tests/text_release_ready_test.py` holds those six against each other,
-and the workflow's first question is whether that test was green here.
+`tests/source/text_release_ready_test.py` holds those six against each
+other, and the workflow's first question is whether that test was green
+here.
 
 **A seventh place, and no test reaches it: `version = "..."` in
 `pyproject.toml`.** It is what pip hands somebody who installs rather
@@ -400,7 +401,8 @@ A release is held up by the five things and by nothing else.
 7. The number set in the program and the four documents that carry it?
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
-10. `tests/text_release_ready_test.py` green here, and the whole suite with it?
+10. `tests/source/text_release_ready_test.py` green here, and the whole
+    suite with it?
 11. The builder's times fetched and looked at?
 12. `git status --short` empty, or every line in it explained out loud?
 13. `git stash list` free of this work?

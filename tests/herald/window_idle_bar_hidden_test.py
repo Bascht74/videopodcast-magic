@@ -1,0 +1,131 @@
+# -*- coding: utf-8 -*-
+"""The one bar in the footer: does it come, rise, and go again?"""
+import os
+import sys
+# tests/, where the helpers and state/ lie; this file may stand in a
+# folder under it, or in one under that.
+HERE = os.path.dirname(os.path.abspath(__file__))
+while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
+        and os.path.dirname(HERE) != HERE:
+    HERE = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+import the_program
+SCRIPT = the_program.SCRIPT
+import sys, tempfile, time
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+# A cache of its own, and an empty one. There is nothing to show where
+# there is nothing to do: with what was measured kept between runs, a
+# second run over the same material is instant and the bar never comes.
+os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_footer_cache_")
+from PySide6 import QtWidgets, QtCore
+app = QtWidgets.QApplication(sys.argv[:1])
+vpm = the_program.load()
+vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True)]
+vpm.load_api_key = lambda: ""
+sys.path.insert(0, HERE)
+from fixture_project import fixture_project
+began = time.time()
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+PROJECT, MEDIA = fixture_project("footerbar")
+if PROJECT is None:
+    print("SKIPPED: no test project -- point VPM_MEDIA at a folder "
+          "holding videopodcast-magic_Interview_2.json (looked in %s)" % MEDIA)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
+QtWidgets.QFileDialog.getOpenFileName = staticmethod(
+    lambda *a, **k: (PROJECT, ""))
+
+def win():
+    for x in app.topLevelWidgets():
+        if "Video Podcast Magic" in x.windowTitle():
+            return x
+
+def bar():
+    """The footer bar: the only one that counts in thousandths.
+
+    Told apart by its range, not its size: looks change, 0..1000 does not.
+    """
+    for w in win().findChildren(QtWidgets.QProgressBar):
+        if w.maximum() == 1000:
+            return w
+
+seen = {"shown": 0, "values": [], "captions": set(), "hidden_again": False}
+n = [0]
+
+def watch():
+    b = bar()
+    if b is None:
+        return
+    if b.isVisible():
+        seen["shown"] += 1
+        seen["values"].append(b.value())
+    elif seen["shown"]:
+        seen["hidden_again"] = True
+
+def step():
+    i = n[0]; n[0] += 1
+    try:
+        if i == 0:
+            win().show(); win().resize(1400, 900); app.processEvents()
+        elif i == 1:
+            b = bar()
+            bars = win().findChildren(QtWidgets.QProgressBar)
+            check("a bar is there", b is not None,
+                  "the bars in the window count to %s; the footer's counts "
+                  "to 1000" % ([w.maximum() for w in bars][:6],))
+            check("and it is out of the way while nothing runs",
+                  b is not None and not b.isVisible(),
+                  "bar found %s, visible %s, value %s"
+                  % (b is not None, b is not None and b.isVisible(),
+                     b.value() if b is not None else "-"))
+            clock = QtCore.QTimer(win())
+            clock.timeout.connect(watch)
+            clock.start(100)
+            state["clock"] = clock
+            button = None
+            for w in win().findChildren(QtWidgets.QPushButton):
+                if w.text().strip().startswith("Open project"):
+                    button = w
+            button.click()
+        elif i >= 3 and (not vpm_busy() or i > 40):
+            state["clock"].stop()
+            values = seen["values"]
+            check("the bar showed itself", seen["shown"] > 0, seen["shown"])
+            check("it only ever went forwards",
+                  all(b >= a for a, b in zip(values, values[1:])),
+                  str(values[:14]))
+            check("it got past the start", max(values or [0]) > 0,
+                  max(values or [0]))
+            check("it reached the end", max(values or [0]) >= 1000,
+                  max(values or [0]))
+            app.quit(); return
+    except Exception:
+        import traceback; traceback.print_exc(); app.quit(); return
+    QtCore.QTimer.singleShot(1000, step)
+
+state = {}
+
+def vpm_busy():
+    """Still working, as the window itself sees it."""
+    b = bar()
+    return b is not None and b.isVisible()
+
+QtCore.QTimer.singleShot(600, step)
+QtCore.QTimer.singleShot(120000, app.quit)
+sys.argv = ["videopodcast_magic.py"]
+vpm.gui()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

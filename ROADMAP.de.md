@@ -134,10 +134,14 @@ kann das nicht bestätigen. Und der Fall, den keine Attrappe je gezeigt
 hat: ein Resolve, das nein sagt.
 
 **Die Tests ziehen in Ordner wie die Stücke, die sie prüfen.** Das
-Programm ist in Stücke geteilt, jedes in einem eigenen Ordner. Bis auf vier
-stehen die Tests noch nebeneinander in einem, weit über zweihundert. Wenn sie
-folgen, stehen ein Stück und seine Prüfungen an einer Stelle, und wer
-ein Stück ändert, findet seine Tests daneben.
+Programm ist in Stücke geteilt, jedes in einem eigenen Ordner, und die
+meisten Tests liegen jetzt im Ordner des Stücks, das sie prüfen -- wer
+ein Stück ändert, findet seine Tests daneben. Die letzten warteten,
+weil der Ordner, den ihr Stück ihnen gäbe, schon etwas anderes
+bedeutete; die Tests, die ein laufendes Resolve brauchen, sind nach
+`tests/resolve/live/` weitergezogen, das Material, auf dem die Suite
+aufbaut, nach `tests/samples/`, und jetzt liegt jeder Test in einem
+Ordner.
 
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Beide stellen dieselbe Frage — kommt eine Stereo-Aufnahme

@@ -8,20 +8,22 @@ holds when it is green.
 bash run.sh              # all of them, several at a time
 WORKERS=1 bash run.sh    # one after another, easier to read
 bash run.sh voice_turns_found time_offset_found   # only those, named
-python3 voice_turns_found_test.py                 # a single one, by hand
+python3 speakers/voice_turns_found_test.py        # a single one, by hand
 bash resolve.sh          # the ones that need a running DaVinci Resolve
 ```
 
-`resolve.sh` runs what lies under `resolve/`. Those talk to a DaVinci
+`resolve.sh` runs what lies under `resolve/live/`. Those talk to a DaVinci
 Resolve really running on this machine, so they are not in the suite and
 not on the builder: without Resolve every one of them would be red for a
 reason that is not a fault. They work in a project of their own, put the
 project that was open back, and delete their own again. Their
-counter-proofs live in `resolve/counterproof`, for the same reason: the
-register reads the folder above, and a row there would belong to no test.
+counter-proofs live in `resolve/live/counterproof`, for the same reason:
+the register reads the suite's folders, and a row there would belong to
+no test. The tests in `resolve/` itself are the suite's: they check the
+piece `resolve/` and need no Resolve running.
 `run.sh` ends every run by naming them -- how many there are, that they
 did not run here, and the command that starts them -- and where git says
-something under `resolve/` or in `resolve.sh` has been worked on, the
+something under `resolve/live/` or in `resolve.sh` has been worked on, the
 line says that too. The count comes out of the folder, so a fifth test
 is named without anybody editing a number. On the builder the line is
 not printed at all.
@@ -34,7 +36,7 @@ German output and it goes red for the wrong reason. `run.sh` exports
 on its own has to carry them:
 
 ```bash
-LANG=C LC_ALL=C LANGUAGE=en python3 voice_turns_found_test.py
+LANG=C LC_ALL=C LANGUAGE=en python3 speakers/voice_turns_found_test.py
 ```
 
 A test started by hand stays silent: every test that builds a player
@@ -43,7 +45,7 @@ next to it, and `run.sh` sets the variable for the whole run anyway.
 The program reads it with `bool()`, so any value silences the player,
 `0` included, and `env -u VPM_SILENT` does not help -- the test would
 set it again. Sound comes back with an empty value:
-`VPM_SILENT= python3 cut_player_jump_lands_test.py`.
+`VPM_SILENT= python3 player/cut_player_jump_lands_test.py`.
 
 A test counts as green when it returns 0 and prints neither a traceback
 nor `FAIL`. A test that finds nothing to work on prints `SKIPPED:` and is
@@ -84,7 +86,7 @@ root, and `fixture_root.py` tells the Python side where it is.
 | `playertest` | a minute of picture and sound, enough for a cut of five shots |
 | `interview` | a whole small production: three recordings, three cameras, a project file |
 | `mixer` | one file with eight channels, one case on each |
-| `twovoices` | two synthetic voices taking turns, for the speaker separation. Spoken on a Mac and written back into `tests/material/twovoices/`, read from there everywhere else -- `say(1)` is macOS's alone |
+| `twovoices` | two synthetic voices taking turns, for the speaker separation. Spoken on a Mac and checked in under `tests/samples/twovoices/`, read from there everywhere else -- `say(1)` is macOS's alone |
 
 A finished folder carries a `.built` marker, and the marker may name the
 recipe that wrote it: a folder built by an older `fixtures.sh` is then
@@ -611,7 +613,50 @@ it is green.
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
 | `source_test_names_swept` | A name a test gives Resolve is swept, or excepted by name. |
 
-### Under `resolve/` -- beside a running DaVinci Resolve
+### By folder -- the piece each test checks
+
+A test lies in the folder named after the piece of the
+program under `videopodcast_magic/` whose logic it checks;
+`bash run.sh <name>` finds it there by its name alone.
+`source/` is no piece: it holds the tests that read
+the source, the texts and the documents as a whole.
+
+| Folder | Tests |
+|---|---|
+| `auphonic/` | `auphonic_key_answer_fits`, `auphonic_key_out_of_view`, `auphonic_may_be_skipped`, `auphonic_mono_not_stereo`, `auphonic_none_chosen`, `auphonic_run_delivers`, `auphonic_stays_quiet`, `auphonic_unsaved_said`, `project_each_track_set` |
+| `bearings/` | `files_colour_fair`, `files_intro_proposed`, `files_named_by_folder`, `run_prework_listed`, `sound_camera_counts`, `table_camera_proposed`, `time_axis_keys_agree`, `time_axis_measured`, `time_block_holds_on`, `time_clock_beats_guess`, `time_fit_reports`, `time_offset_found`, `time_tracks_sit_together`, `time_unheard_file_named`, `time_weak_at_its_clock`, `window_axis_asks_again`, `window_marks_come_back` |
+| `cut/` | `cut_both_are_shown`, `cut_edl_says_drop_frame`, `cut_list_rebuilt`, `cut_no_wide_silences`, `cut_one_camera_marks`, `cut_opening_wide_holds`, `cut_preview_is_the_run`, `cut_rebuild_keeps_all`, `cut_right_camera`, `cut_rules_hold`, `cut_speech_time_fits`, `cut_voice_on_its_camera`, `cut_wide_not_on_speech`, `project_every_offset`, `project_handover_built`, `project_real_frame`, `run_metrics_add_up`, `table_names_one_order`, `table_names_reach_camera`, `table_no_place_not_wide`, `table_sync_keeps_stem`, `time_measured_place_wins`, `time_zero_at_in_point`, `window_grey_opens_again` |
+| `desktop/` | `run_shortcut_laid_once`, `run_starter_arch_fits` |
+| `filelist/` | `files_block_out_and_back` |
+| `filing/` | `files_by_file_holds` |
+| `fittings/` | `table_recording_shown`, `window_choices_refit`, `window_foot_on_one_line`, `window_speaker_cell_fits` |
+| `hearing/` | `files_curve_kept_once`, `sound_check_reads_once`, `sound_each_gets_a_track`, `sound_join_order`, `time_bad_point_dropped`, `time_guess_refused`, `time_second_try_places`, `time_track_starts_late`, `time_which_way_is_said` |
+| `herald/` | `run_bar_never_falls`, `run_bar_tracks_work`, `run_which_script`, `window_idle_bar_hidden`, `window_stages_named` |
+| `language/` | `text_german_arrives`, `text_lang_settled_first`, `text_languages_covered`, `text_no_german_left`, `text_numbers_fit_reader`, `text_only_texts_change`, `text_shown_catalogued`, `text_whole_sentences`, `window_reads_as_chosen` |
+| `livery/` | `window_dark_follows` |
+| `logbook/` | `run_log_within_reach`, `run_outside_seen` |
+| `material/` | `files_block_stays_apart`, `files_blocks_join_exact`, `files_clock_links_blocks`, `files_cut_without_keys`, `files_joined_by_hand`, `files_left_out_named`, `files_old_file_refused`, `files_only_window_kept`, `files_order_kept`, `files_split_found_again`, `run_clock_place_travels`, `run_mute_camera_placed`, `run_threads_keep_order`, `sound_all_blocks_count`, `sound_any_count_judged`, `sound_both_sides_alike`, `sound_camera_judged_too`, `sound_channels_split`, `sound_clipping_counted`, `sound_delay_decides`, `sound_hush_reason`, `sound_loudest_block`, `sound_mix_hits_target`, `sound_mix_says_the_name`, `sound_one_pass_agrees`, `sound_silent_no_pair`, `sound_speakers_matched`, `sound_stereo_kept`, `table_blocks_judged`, `table_row_per_channel`, `table_stereo_splits`, `time_drift_taken_out` |
+| `menus/` | `window_menu_greys_along`, `window_play_follows_tab`, `window_view_reaches_tabs` |
+| `metadata/` | `files_atom_travels`, `files_colour_carried`, `files_data_track_kept`, `files_foreign_untouched` |
+| `orders/` | `run_command_built`, `run_project_type_reaches`, `run_switch_changes_it`, `run_switch_has_effect`, `run_three_ways_agree` |
+| `pipeline/` | `run_new_name_checked`, `run_no_upload_no_hint`, `run_overwrite_is_said`, `run_promise_is_written`, `run_simple_path_agrees`, `run_stays_local`, `run_stop_names_why`, `run_sync_only_no_cut`, `sound_camera_own_used`, `sound_tracks_written`, `time_clock_from_any_file`, `time_length_names_change`, `time_one_track_aligned`, `time_point_pulled_back`, `time_reference_silent`, `time_sound_stays_put`, `time_tracks_alone`, `time_window_is_shared` |
+| `player/` | `cut_box_fits_the_picture`, `cut_note_moves_no_shot`, `cut_note_says_who_speaks`, `cut_player_in_sync`, `cut_player_jump_lands`, `cut_player_right_file`, `cut_player_speeds_up`, `window_clock_sound_said`, `window_cut_colours`, `window_no_full_screen`, `window_not_started_said`, `window_notes_break_up`, `window_picture_returns`, `window_sound_fault_named`, `window_zoom_stays_in` |
+| `preflight/` | `auphonic_preset_fits`, `files_lengths_summed`, `files_set_aside_skipped`, `files_sync_one_recording`, `run_dry_run_not_stopped`, `run_findings_reach_both`, `run_odd_clock_named`, `run_rate_way_said_right`, `run_space_has_margin`, `sound_bleed_reported`, `table_notes_in_one_row`, `window_size_as_run` |
+| `prework/` | `window_prework_box_goes` |
+| `project/` | `files_project_first`, `files_project_offered`, `project_keeps_answers`, `project_run_comes_back`, `project_settings_return`, `window_restart_carries` |
+| `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `cut_own_rate_counted`, `cut_wide_colour_apart`, `files_hdr_complete`, `files_named_as_written`, `project_amounts_grouped`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_mix_by_name`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_top_rate_wins`, `project_two_stay_two`, `project_two_timelines_go` |
+| `running/` | `window_start_runs` |
+| `setup/` | `auphonic_key_by_pipe`, `auphonic_key_kept`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_install_is_watched` |
+| `soundings/` | `files_probed_once` |
+| `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_imported_is_whole`, `source_limits_hold`, `source_material_stays`, `source_names_stay_fresh`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_piece_list_holds`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_ready`, `text_skills_listed`, `text_tests_listed` |
+| `speakers/` | `cut_amounts_grouped`, `cut_own_mic_own_camera`, `run_dry_reports_voices`, `table_back_to_one_name`, `table_row_per_voice`, `voice_answer_kept`, `voice_bleed_gone_first`, `voice_both_splits_stand`, `voice_both_ways_agree`, `voice_close_mics_mixed`, `voice_counts_grouped`, `voice_failed_read_named`, `voice_mhm_is_speech`, `voice_mic_reaches_cut`, `voice_name_is_one_person`, `voice_names_when_sure`, `voice_questions_rank`, `voice_raw_times_kept`, `voice_reason_reaches_log`, `voice_source_travels`, `voice_split_hears_two`, `voice_split_mends_itself`, `voice_split_names_fault`, `voice_tracks_read_once`, `voice_turns_found`, `window_amounts_grouped`, `window_hears_while_split`, `window_note_names_kind`, `window_note_reason_true`, `window_speakers_as_run` |
+| `speech/` | `voice_amounts_grouped`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_words_intact` |
+| `stowage/` | `run_choice_kept` |
+| `timecode/` | `time_all_ways_agree`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_over_midnight` |
+| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `window_all_come_up`, `window_answers_arrive`, `window_captions_fit`, `window_grey_says_why`, `window_handover_follows`, `window_marks_take_spot`, `window_offers_restart`, `window_point_named`, `window_project_type_set`, `window_setup_kept_apart`, `window_sheets_fit`, `window_stands_still`, `window_symbol_from_file`, `window_voice_audio_heard` |
+| `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
+
+### Under `resolve/live/` -- beside a running DaVinci Resolve
 
 Not in the suite and not in the count above: `resolve.sh`
 starts these by hand, one after another.
