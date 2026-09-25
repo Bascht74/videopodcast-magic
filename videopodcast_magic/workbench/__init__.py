@@ -110,7 +110,7 @@ def channel_text(count):
         count = int(count)
     except (TypeError, ValueError):
         return T('channel count unknown')
-    return {1: "mono", 2: "stereo"}.get(
+    return {1: T('mono'), 2: T('stereo')}.get(
         count, TN(count, '%s channel', '%s channels') % number_text(count, 0))
 
 
