@@ -25,6 +25,128 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b20] - 2026-09-25
+
+### Added
+
+- **The window and the log now speak 48 languages.** Nineteen are new,
+  from Bosnian to Urdu, under "Language" and as `--lang`. In Persian,
+  Hebrew and Urdu the window reads from right to left, as in Arabic.
+
+### Changed
+
+- **A camera its sound cannot place now stands where its timecode says**,
+  set against a camera the sound did place. It used to land at a guess
+  from the sound, in one measured case three seconds off. Without one it
+  stays out, and the program says why.
+- **Several speakers on one camera now stand in alphabetical order
+  everywhere**, capitals and accents aside: in the file name, the
+  Resolve track, "gets audio from" and inside the file. An older project
+  shows and writes them in the new order.
+- **Under "Sync only" a camera is proposed its own file name** as its
+  "new file name", never a name made from speakers.
+- **A locked field now says why, in grey, inside itself** -- "no
+  speaker" in the Kind of a wide shot, "no audio track" in a locked
+  "Camera audio", "not used" in the name of an unused recording. It used
+  to stand in a tooltip or another column.
+- **When Resolve refuses a track, the program asks a second time.**
+  Refused again, the log names the track and what the Timeline lacks,
+  the rest is built, and "Create Resolve project" ends on "Finished with
+  errors" instead of "Done".
+- **"Create Resolve project" follows the file list.** Taking a camera
+  out greys it when the last handover no longer names exactly these
+  cameras; putting it back makes it usable again, where that handover
+  lies in the output folder or beside the project.
+
+### Fixed
+
+- **A camera with no sound track no longer drops out without a word.**
+  It is named and placed by its timecode where it has one -- in the
+  preview and now in the run too, which used to leave it out of the
+  Resolve handover.
+- **The handover no longer says "Nothing was found in the sound" of a
+  camera whose sound matched, only too weakly.** It now says which of
+  the two it was.
+- **The colour comparison no longer warns about a 10- or 12-bit camera
+  beside an 8-bit one.** Every camera is now read on the 8-bit scale.
+- **A file left out while no Intro is set is no longer told that the
+  Intro is taken.** It now reads that Intro or Outro is one click away.
+- **When the key could not be saved and no preset fits the mode, both
+  sentences now stay in the settings.** The note about the presets used
+  to replace the one about the key.
+- **The line under the preview picture now follows "hear assigned
+  audio" at once**, also while paused. It kept its old text until the
+  picture moved.
+- **The drop-downs of the camera cut now share one width, that of
+  their longest entry.** "Answering speaker" was cut off.
+- **"In point", "Out point", "VIDEO", "Registry", "Status" and
+  "Presets:" are now translated.** They stood in English in every
+  language.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Fenster und Protokoll sprechen jetzt 48 Sprachen.** Neunzehn sind
+  neu, von Bosnisch bis Urdu, unter „Sprache“ und als `--lang`. Auf
+  Persisch, Hebräisch und Urdu läuft das Fenster von rechts nach links,
+  wie auf Arabisch.
+
+### Geändert
+
+- **Eine Kamera, die ihr Ton nicht einordnen kann, steht jetzt dort, wo
+  ihr Timecode sagt**, gemessen an einer vom Ton eingeordneten Kamera.
+  Bisher lag sie an einer Schätzung, einmal drei Sekunden daneben. Ohne
+  eine solche bleibt sie draußen, und das Programm sagt warum.
+- **Mehrere Sprecher auf einer Kamera stehen jetzt überall
+  alphabetisch**, ohne Blick auf Groß- und Kleinschreibung oder Akzente:
+  im Dateinamen, in der Resolve-Spur, in „bekommt Audio von“ und in der
+  Datei. Ein älteres Projekt zeigt und schreibt sie in der neuen
+  Reihenfolge.
+- **Bei „Nur synchronisieren“ bekommt eine Kamera ihren eigenen
+  Dateinamen** als „neue Datei heißt“ vorgeschlagen, nie einen Namen aus
+  Sprechern.
+- **Ein gesperrtes Feld sagt jetzt grau in sich selbst, warum** -- „kein
+  Sprecher“ im „Typ“ eines Weitwinkels, „keine Tonspur“ in einem
+  gesperrten „Kameraton“, „ungenutzt“ im Namen einer ungenutzten
+  Aufnahme. Bisher stand das im Tooltip oder in einer anderen Spalte.
+- **Lehnt Resolve eine Spur ab, fragt das Programm ein zweites Mal.**
+  Lehnt Resolve wieder ab, nennt das Protokoll die Spur und was der
+  Timeline fehlt, der Rest wird gebaut, und „Resolve-Projekt anlegen“
+  endet mit „Mit Fehlern beendet“ statt „Fertig“.
+- **„Resolve-Projekt anlegen“ folgt der Dateiliste.** Nimmt man eine
+  Kamera heraus, wird der Knopf grau, sobald die letzte Übergabe nicht
+  mehr genau diese Kameras nennt; legt man sie zurück, ist er wieder
+  benutzbar, wo diese Übergabe im Ausgabeordner oder neben der
+  Projektdatei liegt.
+
+### Behoben
+
+- **Eine Kamera ohne Tonspur fällt nicht mehr wortlos heraus.** Sie wird
+  genannt und nach ihrem Timecode gelegt, wo sie einen hat -- in der
+  Vorschau und jetzt auch im Lauf, der sie bisher nicht an Resolve
+  übergab.
+- **Die Übergabe sagt nicht mehr „im Ton nichts gefunden“ über eine
+  Kamera, deren Ton passte, nur zu schwach.** Sie sagt jetzt, welcher
+  der beiden Fälle es war.
+- **Der Farbvergleich warnt nicht mehr vor einer 10- oder 12-Bit-Kamera
+  neben einer 8-Bit-Kamera.** Jede Kamera wird jetzt auf der
+  8-Bit-Skala gelesen.
+- **Eine Datei, die draußen bleibt, während kein Intro gesetzt ist,
+  hört nicht mehr, das Intro sei vergeben.** Sie liest jetzt, dass Intro
+  oder Outro einen Klick entfernt sind.
+- **Ließ sich der Schlüssel nicht speichern und passt kein Preset zum
+  Modus, bleiben in den Einstellungen jetzt beide Sätze stehen.** Der
+  Hinweis zu den Presets ersetzte bisher den zum Schlüssel.
+- **Die Zeile unter dem Vorschaubild folgt „zugeordneten Ton hören“
+  jetzt sofort**, auch bei Pause. Sie behielt ihren alten Text, bis sich das
+  Bild bewegte.
+- **Die Auswahllisten des Kameraschnitts sind jetzt gleich breit, so
+  breit wie ihr längster Eintrag.** „Antwortender“ war abgeschnitten.
+- **Die Wörter für In- und Out-Punkt, die Überschrift „VIDEO“,
+  „Registry“, „Status“ und „Presets:“ werden jetzt übersetzt.** Sie
+  standen in jeder Sprache englisch.
+
 ## [3.0.0b19] - 2026-09-24
 
 ### Added
