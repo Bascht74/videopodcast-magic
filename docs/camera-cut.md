@@ -156,6 +156,9 @@ speech does not say whom to show:
 * **Recognition uncertain**: **Wide shot** (on the command line
   `--on-uncertain`)
 
+The five stand at one width, the one their longest entry asks for, so no
+entry is cut off.
+
 **Long monologue**, **Several speak at once** and **Recognition
 uncertain** take the same four values: **Wide shot**, **Listener**,
 **Alternating** and **No camera change**. **Nobody speaks** takes three
@@ -208,8 +211,10 @@ latest**, **Wide shot at least**, **Wide shot at most** and the tick for
 the edges. In **Long monologue**, **Several speak at once** and
 **Recognition uncertain** the entry **Wide shot** goes grey with them
 and cannot be picked. It stays in the list rather than vanishing from
-it, and pointing at it says why -- the answer to "why can I not choose
-this" belongs where the question is asked.
+it. While the list is open the entry carries the reason after its name,
+cut short where it runs long, and pointing at it gives the whole of it
+-- the answer to "why can I not choose this" belongs where the question
+is asked.
 
 **Nobody speaks** keeps the entry and stays open. A silence has to show
 something, and where no camera is free the cut takes one of the cameras
@@ -394,8 +399,11 @@ entry carries:
 * the speaker on that camera, by name;
 * every name joined with a plus where several share one camera --
   `41 × Speaker 1 + Speaker 2  14 %  (9:37 min)`; none is dropped and
-  none is shortened;
-* **Wide shot** for the camera serving as that;
+  none is shortened. The names stand in alphabetical order, whatever
+  order the assignment rows are in -- the same order as in the camera's
+  file name, its Resolve track and **gets audio from**;
+* **Wide shot** for the camera serving as that, numbered -- **Wide shot
+  1** -- where there are several;
 * the camera's short name where nobody is assigned to it and it is not
   the wide shot, because calling it the wide shot would be a claim and
   not a reading;
@@ -519,6 +527,12 @@ screen, the sound is held rather than played at a guess: the recording
 stays loaded and silent, and the log says which recording, under which
 picture, and that it is not due there.
 
+Where the clocks placed the sound, the middle of the line under the
+picture says so in place of the position -- **sound placed by clock --
+measurement pending** -- and the position comes back with the
+measurement. The line follows the tick **hear assigned audio** at once,
+also while the picture stands paused.
+
 **A recording written in several blocks plays through.** A recorder
 splits a long take into two or three files, and the player takes the
 block the moment on screen falls into, switching at the boundary. Before
@@ -530,7 +544,9 @@ put it there.
 Fetching another camera into this player keeps the moment, not the
 offset from the file start: the new file opens where the old one stood in
 the events, because cameras begin at different times. That too comes off
-the measurement, with the clocks as the fallback. And a picture that was
+the measurement, with the clocks as the fallback. Where the new camera
+had not begun yet at that moment, the line under the picture says so:
+**<file> has not started yet**. And a picture that was
 running goes on running in the new file -- switching cameras while
 watching is comparing them.
 
@@ -681,6 +697,12 @@ fits, the preview stands on the run's numbers from the first moment and
 **Create Resolve project** can be pressed without running anything
 again.
 
+The same holds while you work. Take a camera out of the file list, and
+the last run's handover no longer names exactly these cameras: the
+preview goes back to what the window works out for itself, and **Create
+Resolve project** turns grey. Put the camera back, and the handover and
+the button return with it.
+
 ### How the program places the wide shot
 
 A wide shot does not come by the clock. Past **Wide shot after** it
@@ -728,7 +750,11 @@ numbers by hand. LibreOffice asks for both by itself.
 
 **The colour comparison** measures brightness and colour position at five
 spots in each camera file, against the mean of all cameras rather than
-against a target. From about twelve steps a warning comes with it. Both
+against a target. Every camera is read on the 8-bit scale, whatever
+depth it records in: a 10- or 12-bit camera beside an 8-bit one is
+compared like with like, and no warning comes of the depth alone. Where a
+camera's brightness lies more than twelve steps off the mean, a warning
+comes with it. Both
 measurements together take a few minutes on long recordings: the
 loudness measurement runs through each track twice.
 
