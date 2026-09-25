@@ -16,7 +16,6 @@ the place of and walks it out to a wall clock time every way there is:
 
     start_s plus programme time                   (handover)
     start_tc plus programme time                  (handover, the other field)
-    the cut entry that begins there               (cut list)
     the entry in _cameracut.edl                   (Resolve, as an EDL)
     the row in _cameracut.csv                     (the same, as a table)
     the row in _speakers.csv / .edl               (speech moments)
@@ -471,8 +470,8 @@ def agree(tag, heading, ways):
     # frame apart each are two frames apart at the ends. Where fewer
     # than two were reachable there is no spread to measure and the line
     # falls on the count instead -- there used to be a judgement of its
-    # own for that, and it could not fall: two of the nine ways below are
-    # the same expression written twice, so two of them are always there.
+    # own for that, and it could not fall: the handover's two fields
+    # always answer, so every shot below has two ways to begin with.
     low = min([v for _n, v in have] or [0.0])
     high = max([v for _n, v in have] or [0.0])
     ok = len(have) >= 2 and (high - low) <= FRAME * 1.001
@@ -527,8 +526,7 @@ def walk_every_way(r):
     # cannot say so: it measures how far the answers lie apart, and a
     # way that gave no answer is not in that spread. Measured: a zero
     # moved by 125 frames left four of the five files five seconds
-    # wrong, and the count of ways fell from nine to seven without a
-    # word.
+    # wrong, and the count of ways fell by two without a word.
     lost = []
 
     for e in moments:
@@ -538,7 +536,6 @@ def walk_every_way(r):
         ways = [
             ("handover start_s + t", r.start_s + t),
             ("handover start_tc + t", r.clock(d["start_tc"]) + t),
-            ("cut entry", r.start_s + t),
             ("cameracut.edl", r.edl_row_at(r.cut_edl, r.start_s + t)),
             ("cameracut.csv",
              r.csv_row_at(r.cut_csv, "Start TC", r.start_s + t)),
