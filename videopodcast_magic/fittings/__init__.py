@@ -353,13 +353,15 @@ def voice_row_cells(name_value, camera_value, targets, caption):
     def name_useful():
         """Grey the name out where it cannot do anything.
 
-        A voice set to "do not use" is out of the mix and out of the
-        transcript, so a name for it has no effect. Greyed, not
-        emptied: switching back must not cost the typing. Only "do not
-        use" -- with "no camera of its own" the name still works. The
-        row stays selectable, which is what plays the voice.
+        A voice set to "do not use" is out of the mix and the
+        transcript, so its name has no effect; the field says so in
+        grey, as a recording's does. Only "do not use" -- with "no
+        camera of its own" the name still works. The row stays
+        selectable, which is what plays the voice.
         """
-        field.setEnabled(camera_value.get() != IGNORE_AUDIO)
+        PROGRAM.name_shut(field, camera_value.get() == IGNORE_AUDIO,
+                          getattr(name_value, "suggested", ""),
+                          COLOURS["quiet"])
 
     camera_value.listen(name_useful)
     name_useful()

@@ -269,8 +269,14 @@ check("saved and restarted, the same sheets stand, in the new language",
       len(SAVED.get("tabs") or []) == len(BEFORE.get("tabs") or [])
       and SAVED.get("tabs") != BEFORE.get("tabs"),
       "%s against %s" % (BEFORE.get("tabs"), SAVED.get("tabs")))
+# The shot laid a production name of its own into the file before the
+# first restart (the last field of each reading), because a save writes
+# the very bytes the time axis wrote when it came: only the window's own
+# name standing in its place shows that the save wrote.
 check("saving really writes the work into the project file",
-      bool(SAVED.get("file")) and SAVED.get("file") != BEFORE.get("file"),
+      bool((BEFORE.get("file") or [None] * 4)[3])
+      and (SAVED.get("file") or [None] * 4)[3]
+      not in (None, (BEFORE.get("file") or [None] * 4)[3]),
       "%s against %s" % (BEFORE.get("file"), SAVED.get("file")))
 check("only one window is on the screen once the new one stands",
       SAVED.get("visible") == 1,
