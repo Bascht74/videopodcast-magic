@@ -1405,11 +1405,43 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
 # that a finding and the row it lands in are changed in one place.
 
 
-def preflight_sentence(findings, audio_file_list, recordings, videos_n):
+def rows_off_the_axis(nodes, state):
+    """Which rows of the file list say they do not fit the time axis.
+
+    Read off what the rows are drawn from -- the measurement's "weak"
+    and "no_place" and each row's Kind -- and judged by the ink the row
+    gets, one answer per row, so three blocks are one recording. Returns
+    two lists of file names: refused in red, placed by the clock alone.
+    """
+    weak = state.get("weak") or ()
+    nowhere = state.get("no_place") or ()
+    rows = {}
+    for p, node in (nodes or {}).items():
+        rows.setdefault(id(node), []).append(p)
+    refused, by_clock = [], []
+    for paths in rows.values():
+        out = [p for p in paths if path_key(p) in nowhere]
+        odd = out + [p for p in paths if path_key(p) in weak]
+        if not odd:
+            continue
+        # The row's own ink, asked of the piece that draws it; that
+        # piece is read after this one, so it is asked by name here.
+        ink = PROGRAM.weak_colour(True, bool(out), PROGRAM.weak_kind(
+            state.get("clip_kinds"), odd[0]))
+        if ink == COLOURS["error"]:
+            refused.append(os.path.basename(odd[0]))
+        elif ink == COLOURS["warning"]:
+            by_clock.append(os.path.basename(odd[0]))
+    return sorted(refused), sorted(by_clock)
+
+
+def preflight_sentence(findings, audio_file_list, recordings, videos_n,
+                       refused=(), by_clock=()):
     """The line under the file list: what is there, and what is wrong.
 
-    Here because the findings are its subject, and it reaches into
-    nothing else. Returns the line and the colour it is written in.
+    The findings of the check, and the rows the time axis marked: a
+    file *refused* is a fault as its red row says, one placed *by_clock*
+    alone a note. Returns the line and the colour it is written in.
     """
     recordings = recordings or audio_file_list
     parts = []
@@ -1430,11 +1462,23 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n):
     hints = [b for b in counts if b.kind == "hint"]
     if serious:
         return sentence + " -- %s" % serious[0].text, COLOURS["error"]
-    if len(hints) == 1:
+    if refused:
+        return (sentence + TN(len(refused),
+                              ' -- %s file does not fit the others',
+                              ' -- %s files do not fit the others')
+                % number_text(len(refused), 0), COLOURS["error"])
+    notes = len(hints) + len(by_clock)
+    if notes == 1 and hints:
         return (sentence + T(' -- 1 note: %s') % hints[0].text[:110],
                 COLOURS["warning"])
-    if hints:
-        return (sentence + T(' -- %s notes') % number_text(len(hints), 0),
+    if notes == 1:
+        # The row's own words, on one line: one text, not two.
+        said = T('%s\n   sound not recognised; placed by its timecode')
+        return (sentence + T(' -- 1 note: %s') % (
+            said.replace('\n   ', ': ', 1) % by_clock[0]),
+            COLOURS["warning"])
+    if notes:
+        return (sentence + T(' -- %s notes') % number_text(notes, 0),
                 COLOURS["warning"])
     return sentence + T(' -- nothing to fault.'), COLOURS["quiet"]
 
@@ -1478,14 +1522,30 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
             set_mark(node, worst.kind, worst.text)
             append_findings(node, its_findings)
         show_overall(general)
-        # The sentence below: what is there, and whether anything speaks
-        # against it.
+        state["preflight_waiting"] = False
+        sentence_again()
+
+    def sentence_again():
+        """Write the line under the list from the check and the time axis.
+
+        What is there, and whether anything speaks against it. The two
+        answer apart and either can land last, so whichever lands says
+        it again; while the check still runs, its own line stands.
+        """
+        if not files or state.get("preflight_waiting"):
+            return
+        refused, by_clock = rows_off_the_axis(lines_node, state)
         sentence, colour_line = preflight_sentence(
-            findings, len([1 for _p, a in files if a == "audio"]),
+            state.get("preflight_findings") or [],
+            len([1 for _p, a in files if a == "audio"]),
             state.get("audio_recordings"),
-            len([1 for _p, a in files if a == "video"]))
+            len([1 for _p, a in files if a == "video"]), refused, by_clock)
         preflight_line.setText(sentence)
         preflight_line.setStyleSheet("color: %s;" % colour_line)
+
+    # For the file list, which says it again whenever a row is painted:
+    # the time axis lands after the check as often as not.
+    state["preflight_sentence_again"] = sentence_again
 
     def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
                          set_aside=(), apart=(), together=(),
@@ -1530,6 +1590,7 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
         label_run = state.get("preflight_run", 0) + 1
         state["preflight_run"] = label_run
         plan.begin("check", T('Checking files'), 2.0)
+        state["preflight_waiting"] = True
         preflight_line.setText(T('checking ...'))
         preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
         # Crosstalk is a question about per-speaker tracks. Without
