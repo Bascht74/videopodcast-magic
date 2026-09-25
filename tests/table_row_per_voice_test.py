@@ -14,13 +14,15 @@ from the separation. The view itself is asked through
 QAbstractItemModel, so a change of widget class does not rewrite it.
 
 Two windows: a project carrying three voices and one carrying none,
-both arranged so that no separation can start.
+both arranged so that no separation can start. Each is watched from
+outside: one that stands still is stopped and named by its step, and so
+is one that ends but leaves a process of its own holding its output.
 """
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import json, re, subprocess, sys, tempfile, time, wave
+import json, re, signal, subprocess, sys, tempfile, threading, time, wave
 
 # One clock for both processes: the child runs this file from the top
 # as well, and stops in look() before the parent's own part.
@@ -404,6 +406,7 @@ def look(case, media):
     done = [False]
 
     def open_project():
+        """Open the project through its button, as a person would."""
         win().show()
         win().resize(1400, 900)
         app.processEvents()
@@ -469,6 +472,7 @@ def look(case, media):
               str(separations))
 
     def say_several():
+        """Answer the name field with several people."""
         pick_several(name_field_of(sheet(), room))
 
     def voices_look():
@@ -539,6 +543,7 @@ def look(case, media):
               % (len(running), running))
 
     def say_one_name():
+        """Type one name into the field that asked for several."""
         type_into(name_field_of(sheet(), room), ALONE)
 
     def alone_look():
@@ -645,6 +650,7 @@ def look(case, media):
               str(separations))
 
     def name_it():
+        """Type one name where nothing was listened to."""
         type_into(name_field_of(sheet(), room), ALONE)
 
     def asked_look():
@@ -674,6 +680,8 @@ def look(case, media):
             [open_project, wait_for_sheet, empty_look, name_it,
              asked_look])
 
+    began_step = [None]
+
     def stop_now():
         """Nothing more to ask. The verdict stands at the end of look()."""
         done[0] = True
@@ -683,6 +691,11 @@ def look(case, media):
         if not plan:
             stop_now()
             return
+        # The parent's only sign of life: one line as each step starts.
+        if plan[0] is not began_step[0]:
+            began_step[0] = plan[0]
+            print("  now: %s -- %s" % (plan[0].__name__, (
+                plan[0].__doc__ or "no docstring").strip().split("\n")[0]))
         try:
             answer = plan[0]()
         except Exception:
@@ -699,9 +712,9 @@ def look(case, media):
         QtCore.QTimer.singleShot(250 if answer == AGAIN else 400, step)
 
     QtCore.QTimer.singleShot(300, step)
-    # A window that never gets there must not hold the suite -- there is
-    # no timeout(1) on this machine -- and must not pass either.
-    QtCore.QTimer.singleShot(150000, app.quit)
+    # No brake in here: a Qt loop that blocks holds its own timers with
+    # it. The parent reads the "now:" lines and stops a window whose
+    # lines stand still.
     vpm.gui()
     if not done[0]:
         print("  the window never got as far as the checks   FAIL")
@@ -752,28 +765,160 @@ material(media)
 # instead of passing.
 done = 0
 bad = []
+# Seconds a window may print nothing. Both windows standing still stay
+# under run.sh's 300 s, so the line below is read and not a bare kill.
+STILL = 90
+# Why a window had to be stopped: it stood still, or it ended and left a
+# process of its own holding its output.
+STOOD, HELD = "stood still", "held its output"
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+def stop(child):
+    """The window and whatever it started: it runs in a session of its own."""
+    try:
+        os.killpg(child.pid, signal.SIGKILL)
+    except (AttributeError, OSError):
+        child.kill()
+
+
+# Holds the one end of a pipe only this process writes to. However this
+# process ends, the pipe then reads empty, and the window's session goes
+# with it; told "done", the guard leaves without a kill.
+GUARD = ("import os, signal, sys\n"
+         "if not sys.stdin.buffer.read():\n"
+         "    try:\n"
+         "        os.killpg(int(sys.argv[1]), signal.SIGKILL)\n"
+         "    except OSError:\n"
+         "        pass\n")
+
+
+def tie(child):
+    """A guard, in a session of its own, that ends the window with this test.
+
+    The window's session is out of reach of what ends this process -- a
+    time limit sent to its group, a Ctrl-C -- so without the guard the
+    window and what it started would stay behind. Where there are no
+    sessions to end, on Windows, there is no guard either.
+    """
+    if not hasattr(os, "killpg"):
+        return None
+    theirs, ours = os.pipe()
+    guard = subprocess.Popen(
+        [sys.executable, "-c", GUARD, str(child.pid)], stdin=theirs,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        start_new_session=True)
+    os.close(theirs)
+    return guard, ours
+
+
+def untie(tied):
+    """The window is over: its guard is told so, and waited for a while."""
+    if tied is None:
+        return
+    guard, ours = tied
+    try:
+        os.write(ours, b"done")
+    except BrokenPipeError:
+        pass
+    os.close(ours)
+    try:
+        guard.wait(10)
+    except subprocess.TimeoutExpired:
+        guard.kill()
+
+
+def watch(child):
+    """Its lines, and whether and why it had to be stopped.
+
+    Standstill, not a deadline: a slow machine that is still moving is
+    let be. Watched from here, because a blocked Qt loop stops every
+    timer and thread inside the window along with it. No wait in here
+    is unbounded, the reader dying included, so a process the window
+    started cannot hold it.
+    """
+    lines, heard, lost = [], [time.time()], []
+
+    def read():
+        """Every line the window prints, and when the last one came."""
+        try:
+            for line in child.stdout:
+                lines.append(line.rstrip("\n"))
+                heard[0] = time.time()
+        except Exception as e:
+            lost.append("after %d lines: %s: %s"
+                        % (len(lines), type(e).__name__, e))
+
+    reader = threading.Thread(target=read, daemon=True)
+    reader.start()
+    kind, why = "", ""
+    while True:
+        try:
+            child.wait(1)
+        except subprocess.TimeoutExpired:
+            if time.time() - heard[0] <= STILL:
+                continue
+            stop(child)
+            steps = [x.strip() for x in lines if x.startswith("  now: ")]
+            kind, why = STOOD, "stood still %d s after %s" % (
+                STILL, repr(steps[-1]) if steps else
+                "no step at all: gui() never came to the first")
+            break
+        reader.join(5)
+        if reader.is_alive():
+            stop(child)
+            kind, why = HELD, ("ended, but a process it started still "
+                               "held its output 5 s later")
+        break
+    try:
+        child.wait(10)
+    except subprocess.TimeoutExpired:
+        why += "; it had not ended 10 s after the stop"
+    reader.join(5)
+    if reader.is_alive():
+        why += "; its output stayed open after the stop"
+    return list(lines), kind, why, lost
+
+
+stopped = {STOOD: [], HELD: []}
 for name, what in CASES:
     print("\n%s:" % what)
     child = subprocess.Popen(
         [sys.executable, os.path.abspath(__file__)],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+        errors="replace", start_new_session=True,
         env=dict(os.environ, VPM_VOICES_CASE=name,
                  VPM_VOICES_MEDIA=media, LANG="C", LC_ALL="C",
-                 LANGUAGE="en", QT_QPA_PLATFORM="offscreen"), cwd=HERE)
-    try:
-        out, _ = child.communicate(timeout=420)
-    except subprocess.TimeoutExpired:
-        child.kill()
-        out, _ = child.communicate()
-        out = (out or "") + "\nthe window never came back"
-    for line in (out or "").rstrip().split("\n"):
+                 LANGUAGE="en", QT_QPA_PLATFORM="offscreen",
+                 PYTHONUNBUFFERED="1"), cwd=HERE)
+    tied = tie(child)
+    out, kind, why, lost = watch(child)
+    untie(tied)
+    if kind:
+        stopped[kind].append("the window on %s %s" % (what, why))
+    if lost:
+        bad.append("%s: its output could not be read %s" % (name, lost[0]))
+    for line in out:
         print(line[:160])
         head = line.split(" checks in ")[0]
         if " checks in " in line and head.isdigit():
             done += int(head)
-    if child.returncode != 0:
+    if child.returncode != 0 and not kind:
         bad.append(name)
 
+check("no window stood still until it was stopped",
+      not stopped[STOOD],
+      "; ".join(stopped[STOOD]) or "neither stood still")
+check("no window left a process behind holding its output",
+      not stopped[HELD],
+      "; ".join(stopped[HELD]) or "neither left one")
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

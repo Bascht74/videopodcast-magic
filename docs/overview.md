@@ -54,6 +54,21 @@ room and a second microphone. The phase answers where the audio sits. How
 fast the clocks run stays unknown, so the program takes no drift out on
 this path. The log marks that line too: `placed by phase`.
 
+Cameras are set against each other by their own microphones, each
+against the longest of them, but only with the first comparison: between
+two cameras there is no second or third way, so the program asks more
+of the match before it lets it count. Where a camera's sound falls short
+of that, its timecode is the second way, and the camera stands where its
+timecode says -- counted from a camera the sound has placed and that
+carries a timecode too, so this holds only where both clocks were set to
+the same time. The log names the camera and says why its sound was not
+enough: how far the match fell short, or that the camera gave no sound
+to measure at all. A camera with neither -- no sound to go by and no
+timecode that fits -- is not laid down at a guess: the log names it and
+leaves it out, and where the window sees that already, it proposes
+**ignore this video** for it, or **Intro** where the file is far shorter
+than the rest.
+
 ## What comes out
 
 One new video file per camera. The program copies the picture instead of

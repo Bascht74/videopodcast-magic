@@ -1621,9 +1621,6 @@ msgstr "لا توجد كاميرا خالية من المتحدثين، لذا �
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "لا يوجد نص مفرغ بعد. بدونه لا يُعثر على سؤال ولا تُعرف حدود الجمل، لذا لا تفعل هذه الإعدادات الأربعة شيئًا. يكتبه التشغيل، ومن بعدها تعمل."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "لا تتطابق مع أي موضع في المادة: لا كود زمني، وصوتها لا يشترك في شيء مع الباقي. اللقطة الواسعة هي ما يرجع إليه المونتاج، لذا يجب أن تقع على محور الزمن."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  السؤال: لا نص مفرغ، لذا لم يُعثر على سؤال ولم يحدث قطع ردّ فعل.\n          تُدوَّن الكلمات من المزج النهائي أثناء\n          التشغيل؛ وبدونها لا يفعل الإعداد شيئًا."
 
@@ -1644,9 +1641,6 @@ msgstr "لماذا إعدادات السؤال رمادية"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "مُعلَّمة كلقطة واسعة -- لا تأخذ متحدثين"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "لا متحدث -- هذه هي اللقطة الواسعة"
 
 msgid "the mix of all tracks"
 msgstr "مزج كل المسارات"
@@ -1761,9 +1755,6 @@ msgstr "لا متحدثين معروفين بعد -- لم يُقس شيء ولم
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "النافذة الزمنية خارج المادة: نقطة البداية عند %s، ونقطة النهاية عند %s، ومدة المادة %s."
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "هذه هي اللقطة الواسعة -- انتقل %s إلى \"بلا كاميرا خاصة\""
 
 msgid "No audio tracks are assigned."
 msgstr "لم تُسند أي مسارات صوتية."
@@ -2181,9 +2172,6 @@ msgstr "  تنبيه: النطاق      %s LU فقط -- ضيق جدًا. الك�
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "القناتان متطابقتان -- أحادي موضوع على الجانبين"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  لا يمكن تصنيف %s: %s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "على الأرجح ميكروفونان -- بينهما نحو %s م%s"
@@ -3673,9 +3661,6 @@ msgstr "  كانت هناك Timeline باسم %r بالفعل -- الجديدة 
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  رُفض بدء الـ Timeline عند %s: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  يرفض Resolve مزيدًا من مسارات الفيديو -- %s من %s كاميرا تتسع."
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s لا ملف في Media Pool"
 
@@ -3738,9 +3723,6 @@ msgstr "      GetAudioMapping   يفشل: %s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  لا يمكن إنشاء مجموعة الألوان %r: %s"
-
-msgid "    %s track %d could not be created."
-msgstr "    تعذّر إنشاء مسار من نوع %s رقم %d."
 
 msgid "ends"
 msgstr "ينتهي"
@@ -4246,18 +4228,6 @@ msgstr "لم تنجح إعادة التشغيل. أغلق النافذة وشغ�
 msgid "No newer version found. This one is %s."
 msgstr "لم يُعثر على إصدار أحدث. هذا الإصدار هو %s."
 
-msgid "no audio track in this file"
-msgstr "لا يوجد مسار صوتي في هذا الملف"
-
-msgid "this file stays out entirely"
-msgstr "يبقى هذا الملف خارجًا تمامًا"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "مقطع جاهز -- يوضع فقط، دون معالجة"
-
-msgid "the only sound there is"
-msgstr "الصوت الوحيد الموجود"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "يحتاج Multitrack إلى مسارين في الجدول أعلاه -- وتُحسب الكاميرا مسارًا متى ضُبط صوت الكاميرا فيها على \"استخدام الصوت\"."
 
@@ -4269,9 +4239,6 @@ msgstr "كاميرتان تصبحان كاميرا واحدة في المونت�
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "كاميرتان ستُنتجان الملف نفسه: %s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "لا يناسب أي موضع في المادة، لذا لا يمكن إدخاله في الحلقة بالمونتاج. يمكن وضعه قبلها أو بعدها."
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "عند استخدامه يصبح صوت هذا الملف مسارًا مثل أي مسار آخر -- ويظهر في الجدول أعلاه.\nالحقل نفسه موجود في قائمة الملفات؛ وكلاهما يعرض الإجابة نفسها."
@@ -4299,9 +4266,6 @@ msgstr "ملاحظات عامة"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "الترتيب لا يهم. للتسجيل متعدد الأجزاء تكفي الكتلة الأولى."
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "الإفلات على AUDIO أو VIDEO يأخذها كلها."
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "العنوان على auphonic.com وبداية أسماء الملفات الجديدة."
@@ -4869,3 +4833,156 @@ msgstr "ملف الإسناد يسمّي الكاميرات هنا، لذا سي
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "مع الكاميرات فقط، يُسمّى كل ملف بأسماء المسارات المأخوذة من صوته، لذا سيُهمَل --new-name؛ احذف --new-name."
+
+msgid "work without Auphonic"
+msgstr "العمل بدون Auphonic"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "فقط بعد سؤال لا يطرحه المتحدث الرئيسي، حين يتولى شخص آخر الكلام فورًا ويحتفظ به.\n\"لا تنتقل مبكرًا\" تعني عدم تغيير الكاميرا مبكرًا: الصورة تتبع الصوت هنا كما في كل مكان آخر."
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"بالتناوب\" يتذكر ما أظهره آخر كسر لهذا المونولوج. لا يحصل المستمع على الصورة إلا إذا سُمع أحد على تلك الكاميرا خلال آخر 20 ثانية؛ وإلا فاللقطة الواسعة."
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "القطع وسط تداخل الأصوات يبدو محمومًا."
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "النَّفَس في منتصف الجملة ونهاية الفكرة كلاهما صمت، ولا يستطيع البرنامج التمييز بينهما. الطول وحده يستطيع ذلك: \"فجوة قصيرة حتى\" يحدد كم يمكن أن يطول الصمت ويظل يُحسب نَفَسًا."
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "التخمين يضع الشخص الخطأ على الشاشة لثوانٍ؛ اللقطة الواسعة صحيحة في كل الأحوال. هنا يتكلم أحد -- وحيث لا يتكلم أحد، يقرر \"لا أحد يتكلم\"."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "القيمة السالبة تجعل الصورة تسبق الصوت."
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "الصفر هو حيث يتوقف السائل، لا حيث تبدأ الإجابة: الوقفة بينهما تنتمي إلى السؤال. يسري فقط حيث يطلبه \"بعد سؤال\"، ولا يُضاف Edit Change Delay مرة أخرى."
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "الحد المرن للإعدادين: من هنا ينتظر البرنامج حدّ جملة ويضع اللقطة الواسعة عنده، لا وفق الساعة. 0 يوقفه. \"اللقطة الواسعة على أبعد تقدير\" هو الحد الصارم، حيث يتم القطع من دونه."
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "الحد الصارم للإعدادين: إذا لم يظهر أي حدّ جملة منذ \"اللقطة الواسعة بعد\"، تحل أطول وقفة كلام محله، وعند هذه النقطة يتم القطع أيًّا كان ما يُقال."
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "ثم تستمر حتى نهاية الجملة. تحت خمس ثوانٍ تبدو النظرة كارتعاشة."
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "إذا كانت نهاية الجملة تقع بعد هذا الحد، فإن آخر فاصل بين أجزاء الجملة قبله ينهي اللقطة -- فلا تُقطع في منتصف الجملة."
+
+msgid "Shorter shots fall into the following one."
+msgstr "اللقطات الأقصر تندمج في اللقطة التالية."
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "\"نعم\" قصيرة لا تحرك الصورة. بدون ذلك تسحب كتلة من نصف ثانية الكاميرا إليها، ثم تبقيها أدنى مدة للقطة هناك لثوانٍ."
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "فقط حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإبقاء على فجوة قصيرة. الفجوة حتى هذا الطول لا تغيّر شيئًا، والأطول تنتقل إلى اللقطة الواسعة. فوق ثانيتين تبدأ الصورة بالبقاء أكثر من خمس ثوانٍ على شخص صامت."
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 ثابت"
+
+msgid "reserved"
+msgstr "محجوز"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  للتحويل: في Media Pool انقر بالزر الأيمن على \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  في اتجاه واحد فقط -- لكن تشغيلًا جديدًا يعيد بناء الـTimeline في أي وقت.\n  الزوايا:%s\n  كل ما عدا ذلك -- اختيار الصوت، مجموعات الألوان، التأطير -- موجود في\n  الدليل، docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "أسباب محتملة:\n  1. Resolve لا يعمل -- واجهة البرمجة النصية لا تستجيب إلا أثناء تشغيل البرنامج.\n  2. Preferences > System > General: external scripting مضبوط على \"None\" بدلًا من \"Local\".\n  3. الإصدار المجاني: يُقال إن external scripting مقصور على إصدار Studio منذ الإصدار 19.1. لم أجد أي بيان رسمي -- هذا الفحص يقيسه بدلًا من أن يدّعيه."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  لا يمكن تصنيف %s: %s -- وُضع بساعته وحدها"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: يتطابق صوته بدرجة %s، تحت الحد الأدنى %s -- وُضع بساعته وحدها"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  تنبيه: هذا المشروع غير مكتمل -- رفض Resolve هذه المسارات مرتين:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  الإزاحة:          %s   (من كودها الزمني وحده -- لم يستطع صوتها تحديد موضعها، لذا لا يُفحص شيء)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  رفض Resolve المسار الصوتي A%d مرتين في الـ Timeline «%s» -- وُضعت الكاميرات على المسارات الصوتية الموجودة وعددها %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  رفض Resolve مسار الفيديو V%d مرتين -- تفتقر الـ Timeline «%s» إلى %s."
+
+msgid "  Status:      %s"
+msgstr "  الحالة:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  تطابق صوت %s أضعف من أن يُوثق به -- وُضع بالكود الزمني وحده."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   لا يلائم الملفات الأخرى: لم يُتعرَّف على الصوت،\n   ولا يوجد ما يُقاس عليه كوده الزمني.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "لا يمكن وضع %s: صوته لا يشترك في شيء مع باقي المادة، ولا تحمل أي كاميرا وضعها الصوت كودًا زمنيًا يُقاس عليه كوده. تحتاج إحدى هذه الكاميرات إلى كود زمني يناسب هذا الملف، ويجب ضبطه ببرنامج آخر."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s لا يطابق شيئًا في المادة، ولا تحمل أي كاميرا وضعها الصوت كودًا زمنيًا يُقاس عليه كوده، لذا لا يمكن قطعه داخل الحلقة: ضُبط على المقدمة."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s لا يطابق شيئًا في المادة، ولا تحمل أي كاميرا وضعها الصوت كودًا زمنيًا يُقاس عليه كوده؛ والمقدمة مشغولة: تُرك خارجًا."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "نقطة البداية"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "مستبعد؛ %s أو %s على بُعد نقرة واحدة."
+
+msgid "Out point"
+msgstr "نقطة النهاية"
+
+msgid "Presets:"
+msgstr "الإعدادات المسبقة:"
+
+msgid "Registry"
+msgstr "السجل (Registry)"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "إزالة «صوت» أو «فيديو» تزيل كل ما تحته."
+
+msgid "VIDEO"
+msgstr "فيديو"
+
+msgid "a finished clip"
+msgstr "مقطع جاهز"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "لا يُقطع داخل الحلقة -- قبلها أو بعدها فقط"
+
+msgid "moved off the wide shot"
+msgstr "نُقل من اللقطة الواسعة"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "لا صوته ولا كود زمني يضعه على المحور"
+
+msgid "no audio track"
+msgstr "بلا مسار صوتي"
+
+msgid "no speaker"
+msgstr "بلا متحدث"
+
+msgid "not used"
+msgstr "غير مستخدم"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "وُضع مع كاميرته، حسب ساعة تلك الكاميرا"
+
+msgid "the file stays out"
+msgstr "الملف يبقى خارجًا"
+
+msgid "the only sound"
+msgstr "الصوت الوحيد"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  رفض Resolve المسار الصوتي A%d مرتين -- تفتقر الـ Timeline «%s» إلى صوت %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  رفض Resolve مسار الفيديو V%d مرتين -- تفتقر الـ Timeline «%s» إلى صورة %s."

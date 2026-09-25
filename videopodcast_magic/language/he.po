@@ -1,0 +1,4811 @@
+# What is translated of this program's messages, in Hebrew.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Hebrew speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 24.9.2026 in two steps: a glossary first, which
+# fixed the form of address and one word for each thing, and then every
+# text against it, three languages at a time from one sheet. Every entry
+# was read back once in full by another model, against the English and
+# those words, and 35 were put right; a third refuted what was not
+# a fault.
+#
+# Anyone who speaks Hebrew is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else, nought
+# included. The noun takes its plural and the verb and adjective
+# follow it, so the two wordings nearly always differ; where a word
+# is the same in both numbers they read alike, and that is Hebrew,
+# not a copied line.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "חיתוך עם שוט רחב"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "מפריד את ההקלטה לפי קול: כל קול מקבל שורה משלו, ובה המצלמה שלו. כדקה אחת לכל חצי שעה של שמע, במחשב הזה וללא העלאה."
+
+msgid ", %s without"
+msgstr ", %s ללא מצלמה"
+
+msgid "no camera yet"
+msgstr "עדיין אין מצלמה"
+
+msgid "A newer version is out"
+msgstr "גרסה חדשה יותר זמינה"
+
+msgid "%s is out. This is %s."
+msgstr "גרסה %s זמינה. הגרסה הזו היא %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "לעדכן? pip מוריד אותה אל %s. מה ש-pip אומר מופיע בכרטיסייה \"פלט\", והגרסה החדשה פועלת מההפעלה הבאה."
+
+msgid "pip could not be started: %s"
+msgstr "לא ניתן היה להפעיל את pip: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip נעצר עם %s. מה שהספיק מופיע בשורות שלמעלה."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "ההתקנה של %s הושלמה. הגרסה תפעל מההפעלה הבאה."
+
+msgid "There is no window to show what pip says."
+msgstr "אין חלון שיציג את מה ש-pip אומר."
+
+msgid "Back to an earlier version ..."
+msgstr "חזרה לגרסה קודמת ..."
+
+msgid "Back to an earlier version"
+msgstr "חזרה לגרסה קודמת"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "לא ניתן היה לחפש גרסאות קודמות: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "לא ניתן היה לקרוא את רשימת הגרסאות הקודמות."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "אין גרסה מוקדמת מ-%s ש-pip יכול להתקין."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "זו גרסה %s. איזו גרסה pip יתקין במקומה?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip מוריד אותה אל %s, ומה ש-pip אומר מופיע בכרטיסייה \"פלט\". הגרסה שנבחרת כאן פועלת מההפעלה הבאה.\n\nרק התוכנה חוזרת, ותו לא. מה שגרסה חדשה יותר כתבה בהגדרות נשאר כתוב, והפרויקטים והקבצים שלהם נשארים כפי שהם."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "פתיח או סיום עם שני ערוצים הוא מיקס סטריאו -- לא נמדד"
+
+msgid "Multitrack mode"
+msgstr "מצב Multitrack"
+
+msgid "Singletrack mode"
+msgstr "מצב Singletrack"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "אין פריסט Multitrack משלך -- יש ליצור אחד"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "אין פריסט Singletrack משלך -- יש ליצור אחד"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "אין פריסט משלך -- יש ליצור אחד ב-auphonic.com"
+
+msgid "No Multitrack preset found in the account."
+msgstr "לא נמצא פריסט Multitrack בחשבון."
+
+msgid "No Singletrack preset found in the account."
+msgstr "לא נמצא פריסט Singletrack בחשבון."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "אין פריסט Multitrack בחשבון. יש רק את אלה: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "אין פריסט Singletrack בחשבון. יש רק את אלה: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r הוא פריסט Singletrack, ונדרש פריסט Multitrack."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r הוא פריסט Multitrack, ונדרש פריסט Singletrack."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "המפתח תקין. מתוך %s הפריסטים בחשבון אף אחד אינו Multitrack, ולכן הרשימה נשארת ריקה."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "המפתח תקין. מתוך %s הפריסטים בחשבון אף אחד אינו Singletrack, ולכן הרשימה נשארת ריקה."
+
+msgid "fetching from auphonic.com ..."
+msgstr "טעינה מ-auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "מה השתנה מאז %s:"
+
+msgid "Update"
+msgstr "עדכון"
+
+msgid "Later"
+msgstr "אחר כך"
+
+msgid "Go back"
+msgstr "חזרה"
+
+msgid "Starting again did not work: %s"
+msgstr "ההפעלה מחדש לא הצליחה: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "יש להפעיל ידנית: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "לא נמצאה גרסה חדשה יותר. זו גרסה %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update מוריד אותה ומתקין אותה במקומה."
+
+msgid "The check for new versions is switched off here."
+msgstr "הבדיקה לגרסאות חדשות כבויה כאן."
+
+msgid "About Video Podcast Magic"
+msgstr "אודות Video Podcast Magic"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "חומר גלם מפודקאסט וידאו הופך לפרק ערוך: השמע הטוב מתוך קובצי הווידאו, המצלמות על ציר זמן אחד, חיתוך ראשון לפי דובר, ופרויקט DaVinci Resolve."
+
+msgid "Python %s on %s"
+msgstr "Python %s על %s"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "רישיון MIT, Copyright (c) 2026 Sebastian Lotz. נמסר כפי שהוא, ללא אחריות מכל סוג."
+
+msgid "&File"
+msgstr "&קובץ"
+
+msgid "&View"
+msgstr "&תצוגה"
+
+msgid "&Player"
+msgstr "&נגן"
+
+msgid "&Help"
+msgstr "&עזרה"
+
+msgid "Play and pause"
+msgstr "הפעלה והשהיה"
+
+msgid "Fast forward"
+msgstr "ניגון מהיר קדימה"
+
+msgid "Fast forward, %s times speed"
+msgstr "ניגון מהיר קדימה, מהירות פי %s"
+
+msgid "Play forward, faster on every press"
+msgstr "ניגון קדימה, מהיר יותר בכל לחיצה"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "ניגון קדימה, פי שניים מהר יותר בכל לחיצה -- המקש L."
+
+msgid "Pause"
+msgstr "השהיה"
+
+msgid "One frame back"
+msgstr "פריים אחד אחורה"
+
+msgid "One frame forward"
+msgstr "פריים אחד קדימה"
+
+msgid "One second back"
+msgstr "שנייה אחת אחורה"
+
+msgid "One second forward"
+msgstr "שנייה אחת קדימה"
+
+msgid "Ten seconds back"
+msgstr "עשר שניות אחורה"
+
+msgid "Ten seconds forward"
+msgstr "עשר שניות קדימה"
+
+msgid "The manual"
+msgstr "המדריך"
+
+msgid "What changed in this version"
+msgstr "מה השתנה בגרסה הזו"
+
+msgid "Show the log of this run"
+msgstr "הצגת היומן של ההרצה הזו"
+
+msgid "Nothing has been written yet."
+msgstr "עדיין לא נכתב דבר."
+
+msgid "Look for a newer version now"
+msgstr "חיפוש גרסה חדשה יותר עכשיו"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  לא נמצאה חבילת אישורים -- הורדה ב-HTTPS עלולה להיכשל."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  בניית מזהה הדיבור ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  מהדר Swift מדווח: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  מזהה הדיבור נבנה (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  זיהוי הדיבור מדווח: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  זוהה ב-%s: מוכן תוך %s s, נשמע תוך %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  אין זיהוי דיבור במחשב הזה: macOS 26 כולל זיהוי כזה, ואחרת מותקן faster-whisper."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  זיהוי דיבור (%s): %s מילים תוך %s s"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  זיהוי דיבור (%s): %s מילים, נקראו מחדש"
+
+msgid "Separating speakers: %s"
+msgstr "הפרדת דוברים: %s"
+
+msgid "Separating ..."
+msgstr "הפרדה ..."
+
+msgid "Voice"
+msgstr "קול"
+
+msgid "Stop"
+msgstr "עצירה"
+
+msgid "Stopping ..."
+msgstr "עצירה ..."
+
+msgid "Not on this machine"
+msgstr "לא במחשב הזה"
+
+msgid "Reading the audio ..."
+msgstr "קריאת השמע ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "לא נשמע דבר בהקלטה."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "הפרדת דוברים כבויה בפרויקט הזה."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "אפשר לזהות במחשב הזה מי מדבר ומתי, מכל הקלטה אחת שבה כולם נשמעים."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "משאיר את ההפרדה כבויה בפרויקט הזה. החיתוך מגיע אז מהרצועות או מ-auphonic.com, כמו קודם."
+
+msgid "The speaker separation reports: %s"
+msgstr "הפרדת הדוברים מדווחת: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "החזרת הפרדת הדוברים ..."
+
+msgid "The speaker separation is not set up."
+msgstr "הפרדת הדוברים לא הוגדרה."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "הפרדת הדוברים אינה מותקנת כאן. זה מחזיר אותה: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "הורדת המודל (כ-%s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "הורדת המודל (כ-%s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "לא ניתן היה להוריד את המודל: %s"
+
+msgid "The model could not be written: %s"
+msgstr "לא ניתן היה לכתוב את המודל: %s"
+
+msgid "The list of model files came back empty."
+msgstr "רשימת קובצי המודל חזרה ריקה."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "הקובץ %s אינו תואם לסכום הביקורת שלו ולא נכתב."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "לא ניתן לכתוב לתיקיית התוכנה: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "מודל הפרדת הדוברים אינו נמצא לצד התוכנה."
+
+msgid "The model file %s does not match its checksum."
+msgstr "קובץ המודל %s אינו תואם לסכום הביקורת שלו."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote שולח עקבות הביתה בכל הרצה, והגרסה הזו אינה מציעה דרך לכבות זאת, ולכן ההפרדה לא הופעלה."
+
+msgid "Speakers"
+msgstr "דוברים"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "מי נשמע בהקלטה הזו. שם פירושו שזה אותו אדם אחד.\n\"כמה דוברים\" מזהה מי מדבר ומתי, במחשב הזה וללא העלאה -- כדקה אחת לכל חצי שעה של שמע. השמות נכנסים אז לשורות שמתחת."
+
+msgid "Speaker %d"
+msgstr "דובר %d"
+
+msgid "One more speaker in %s"
+msgstr "דובר נוסף ב-%s"
+
+msgid "One more speaker in"
+msgstr "דובר נוסף בתוך"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "מאזין שוב להקלטה הזו ומחפש דובר אחד יותר ממה שנמצא."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d דק׳"
+
+msgid " SEEKING"
+msgstr " בחיפוש"
+
+msgid " computed"
+msgstr " מחושב"
+
+msgid " virtual"
+msgstr " וירטואלי"
+
+msgid "%s were already right"
+msgstr "%s כבר היו תקינות"
+
+msgid "%s (%s files)"
+msgstr "%s (%s קבצים)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (מ-%s עד %s)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- מ-%d:%02d עד %d:%02d (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- בחיבור ידני ההפרש נכנס לקובץ כשקט, ושום דבר בהמשך לא מוציא אותו."
+
+msgid "%s and %s more"
+msgstr "%s ועוד %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s ו-%s מוגדרים שניהם כ-%s. רק קובץ אחד יכול להיות כזה -- נא להחזיר את השני לתוכן."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "ל-%s ול-%s יש אותו שם קובץ, ו-Resolve אינו מדווח על\n  נתיב עבורם. יש לשנות את שמו של אחד מהשניים."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s פריימים ב-%s"
+
+msgid "%s reports %s"
+msgstr "דיווח מ-%s: %s"
+
+msgid "%s speech time"
+msgstr "%s זמן דיבור"
+
+msgid "%s virtual"
+msgstr "%s וירטואלי"
+
+msgid "%s, audio track %d"
+msgstr "%s, רצועת שמע %d"
+
+msgid "3:1 rule"
+msgstr "כלל 3:1"
+
+msgid "Output"
+msgstr "פלט"
+
+msgid "Access to auphonic.com"
+msgstr "גישה ל-auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "הגישה והחיבור נשאלים פעם אחת ונשארים. המפתח אף פעם לא נשמר בקובץ, אלא כאן: %s."
+
+msgid "Checking files"
+msgstr "בדיקת קבצים"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "כל מה שעדיין נותר, ביחס למה שכבר נעשה. עבודות ארוכות תופסות חלק גדול יותר מהפס מאשר קצרות."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "מפתח ל-auphonic.com, והאם Resolve עונה."
+
+msgid "Measuring time axis"
+msgstr "מדידת ציר הזמן"
+
+msgid "Resolve answers"
+msgstr "Resolve עונה"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve אינו עונה -- יש לבדוק בהגדרות"
+
+msgid "Settings"
+msgstr "הגדרות"
+
+msgid "Settings ..."
+msgstr "הגדרות ..."
+
+msgid "Two files as %s"
+msgstr "שני קבצים בתור %s"
+
+msgid "begins"
+msgstr "מתחיל"
+
+msgid "done"
+msgstr "הסתיים"
+
+msgid "ends"
+msgstr "מסתיים"
+
+msgid "first"
+msgstr "הראשונה"
+
+msgid "from %s"
+msgstr "החל מ-%s"
+
+msgid "join with Channel %d"
+msgstr "צירוף לערוץ %d"
+
+msgid "last"
+msgstr "האחרונה"
+
+msgid "rejected"
+msgstr "נדחה"
+
+msgid ","
+msgstr ","
+
+msgid "."
+msgstr "."
+
+msgid "Kind"
+msgstr "סוג"
+
+msgid "Speech time"
+msgstr "זמן דיבור"
+
+msgid "Share"
+msgstr "חלק"
+
+msgid "Beginning"
+msgstr "ההתחלה"
+
+msgid "the whole material"
+msgstr "כל החומר"
+
+msgid "Colour"
+msgstr "צבע"
+
+msgid "  Preset:  %s"
+msgstr "  פריסט:  %s"
+
+msgid "Preset"
+msgstr "פריסט"
+
+msgid "Preset:"
+msgstr "פריסט:"
+
+msgid "Start"
+msgstr "התחלה"
+
+msgid "Production"
+msgstr "הפקה"
+
+msgid "Target"
+msgstr "יעד"
+
+msgid "Bright."
+msgstr "בהירות"
+
+msgid "Colour U"
+msgstr "צבע U"
+
+msgid "Colour V"
+msgstr "צבע V"
+
+msgid "Writing %s"
+msgstr "כתיבת %s"
+
+msgid "  Timecode:        %s"
+msgstr "  קוד זמן:         %s"
+
+msgid "none"
+msgstr "אין"
+
+msgid "Length"
+msgstr "אורך"
+
+msgid "no camera of its own"
+msgstr "ללא מצלמה ייעודית"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- אלה כולם, ולכן כל שוט הולך לאותה מצלמה."
+
+msgid "No camera of their own: %s"
+msgstr "ללא מצלמה ייעודית: %s"
+
+msgid "do not use"
+msgstr "לא בשימוש"
+
+msgid "several speakers"
+msgstr "כמה דוברים"
+
+msgid "this window"
+msgstr "החלון הזה"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "שני שמות קבצים לאותו רגע -- אף אחד מהם לא נלקח"
+
+msgid "work without Auphonic"
+msgstr "עבודה ללא Auphonic"
+
+msgid "Content"
+msgstr "תוכן"
+
+msgid "Intro"
+msgstr "פתיח"
+
+msgid "Outro"
+msgstr "סיום"
+
+msgid "ignore this video"
+msgstr "התעלמות מהווידאו הזה"
+
+msgid "This is not a file of this program."
+msgstr "זה אינו קובץ של התוכנה הזו."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "הקובץ הזה נכתב בגרסה %s בפורמט %d; הגרסה הזו כותבת פורמט %d. השמות שבתוכו השתנו מאז, ולכן לא ניתן לקרוא אותו. נא להגדיר את ההרצה מחדש."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (מדידה בלבד: לא נכתב דבר)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (מדידה בלבד: ללא מפתח API זה נעצר כאן)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  בדיקה מול הזליגה -- הייחוס הוא %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  לא ניתן היה לכתוב את %s: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  עבור %s לא ניתן היה לקבוע אם מה שחזר תואם\n  להעלאה. עדיף לעצור מאשר לכתוב משהו שגוי."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  אין חיתוך מצלמות בקובץ המסירה -- בלי סטטיסטיקת דוברים אין חיתוך כזה.\n  נבנה רק ה-Timeline לקליפ ה-Multicam."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  דבר לא שונה."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  מצלמה אחת בלבד -- קליפ Multicam יהיה חסר טעם."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  לרצועות יש שם שמות אחרים:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  חלון זמן ידני:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Timeline לקליפ ה-Multicam: כל המצלמות, ללא חיתוך"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  Timeline עם החיתוך הגמור"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: המצלמה ברצף אחד, המיקס מתחת"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nהסתיים. למטה, \"פתיחת תיקיית התוצאות\" מציג את התוצאה.\nאם הכול תקין, \"יצירת פרויקט Resolve\" בונה ממנה את הפרויקט.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nבדיקת HDR  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nלא נבחר פריסט: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nנעצר לפני השלב הארוך הראשון. עם --anyway זה רץ בכל זאת."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   ייתכן ש-Resolve לא יזהה אז את מרחב הצבע של הקלט."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               השמע %s ב-%s -- שם הוא פוגש את המילה %s."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s רצועה V%d, מפריים %d (%s s עד ההתחלה), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      שני הקליפים נשארים ללא חיתוך; הם חופפים לתוכן.\n      המעבר ההדרגתי נמצא בחפיפה -- היכן בדיוק, מחליטים ב-Resolve.\n      (ממשק הסקריפטים של Resolve אינו יכול ליצור מעברים.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   נכשל: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      אזהרה: התאמה חלשה עבור %s (%s, הסף הוא %s). ייתכן שהשניים אינם שייכים זה לזה."
+
+msgid "this pair of files"
+msgstr "זוג הקבצים הזה"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- זה לא ייתכן, הרצועה\n    %-20s נשארת במקומה."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, דמיון שמות %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, נחתך לחלון הזמן, דמיון שמות %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  אבל %s -- לא חלון הזמן (%s) וגם לא\n    %-20s    כל הטווח שנמדד (%s). זה שייך להרצה אחרת."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s אין קובץ עם שם תואם"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s הוזז ב-%s ms%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s כבר קיים -- במקום זאת רונדר אל %s, כך\n%sשקובץ היצוא הקודם נשאר."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (המלצת YouTube עבור %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, שני ערוצים  (לא ניתן לקבוע את קצב הסיביות מרחוק --\n%s%s kbit/s הם ההמלצה לסטריאו)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s נדחה -- אף כתיב לא התקבל.\n%sיש להגדיר ידנית ב-Resolve תחת Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s נשאר על \"Same as Project\" -- הפרויקט אינו מציין\n%sעקומת HDR. לבדיקה ב-Resolve תחת\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s המחיקה נכשלה."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s המחיקה נכשלה: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s הקישור נכשל: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s ביטול הקישור לא השפיע -- רצועות השמע העודפות\n    %-24s נשארות במקומן."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s השמע מ-A%d נשמר, עוד %d נמחקו"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s לא ניתן היה לקשר מחדש"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s לא ניתן היה לבטל את הקישור: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s לא הוכנס שמע"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    המצלמה המיועדת לא פעלה (פעמים: %s) -- יש שם מצלמה אחרת."
+
+msgid "    %s could not be imported."
+msgstr "    לא ניתן היה לייבא את %s."
+
+msgid "    %s could not be inserted."
+msgstr "    לא ניתן היה להכניס את %s."
+
+msgid "    %s track could not be created: %s"
+msgstr "    רצועה מסוג %s לא נוצרה: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: התמונה והשמע הוכנסו בנפרד (השמע מ-A%d)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway הוגדר: זה רץ למרות הנקודות שלמעלה."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    כל הרצועות במקומן -- אין מה להזיז."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    זהירות: אין H.265 זמין -- זה יהיה H.264 עם שמונה סיביות.\n             מעט מדי ל-HDR; במעברי הצבע יופיעו פסים."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    זהירות: הפרויקט מוגדר ל-%s, החומר הוא %s.\n             קובץ היצוא נושא את התגיות של החומר. כדי להתאים את\n             הפרויקט: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "מרחב צבע"
+
+msgid "already right"
+msgstr "כבר תקין"
+
+msgid "    Clip colours could not be set."
+msgstr "    לא ניתן היה להגדיר את צבעי הקליפים."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    קליפים מהרצה קודמת עדיין קשורים ל-Remote Grades שלהם.\n    ב-Color page יש ללחוץ לחיצה ימנית על תמונה ממוזערת > \"Copy Remote Grades to Local\"\n    (לוקח איתו את התיקון) או \"Use Local Grades\". Timelines חדשים\n    אינם צריכים זאת."
+
+msgid "    Codec list not readable: %s"
+msgstr "    לא ניתן לקרוא את רשימת הקודקים: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    קבוצת צבע %-24s רק %s מתוך %s קליפים"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    בדיקה צולבת אינה אפשרית: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    בדיקה צולבת: לא ניתן למדידה"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    נקודת כניסה  %s   (קוד זמן %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    נקודת כניסה  %s\n    נקודת יציאה  %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    נקודת יציאה  %s   (קוד זמן %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    נקודת היציאה נמצאת לפני נקודת הכניסה -- זה לא עובד."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    למצלמת הייחוס אין קוד זמן. הציר תלוי בשעון של %s, והפריים הראשון שלו מראה %s."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    לבדיקה -- ה-Timeline מתחיל בפריים %d (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    לא ניתן היה להגדיר את הפורמט והקודק."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    לא ניתן היה להגדיר את הפורמט והקודק: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    לא ניתן לקרוא את רשימת הפורמטים: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    האפשרות של קובץ אחד לכל יצוא נדחתה; Resolve יכתוב קובץ נפרד לכל קליפ."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    לא ניתן היה לבקש קובץ אחד לכל יצוא: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    אורך  %s  (במקום %s)"
+
+msgid "    Length  %s"
+msgstr "    אורך  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    גרסאות מקומיות: בעורך הנודים \"Group Pre-Clip\" חל על המצלמה\n    כולה, \"Clip\" רק על החיתוך האחד. האחד אינו שולל\n    את השני."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    רמת היעד של מד העוצמה הנתפסת לא נמצאה -- נא להגדיר ידנית:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    נמדדו %s פריימים לשנייה -- Resolve מכיר רק קצבים קבועים,\n    ייעשה שימוש ב-%s."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    אף זוג אינו ניתן למדידה -- הכול נשאר כפי שהוא."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    לא נמצאה הגדרה לגרסאות -- נא להגדיר ידנית:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    לא ניתן היה להגדיר הכול. Resolve מקבל ערכים מסוימים רק\n    כל עוד ה-Timeline עדיין ריק -- נא להשוות למעלה."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    נוסף לתור -- ב-Resolve נותר רק \"Render All\"."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote Grades פעיל: תיקון צבע אחד לכל מצלמה חל\n    על כל החיתוכים שלה -- אז אי אפשר עוד לתקן חיתוך בודד\n    בנפרד."
+
+msgid "    Render job could not be created."
+msgstr "    לא ניתן היה ליצור משימת רינדור."
+
+msgid "    Render job could not be created: %s"
+msgstr "    לא ניתן היה ליצור משימת רינדור: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    לא ניתן לקבל את רשימת ההגדרות -- נא להגדיר ידנית:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    חלון הזמן היה באורך %s בלבד -- זו לא יכולה להיות הכוונה."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    רצועה %d  %-22s (כאן: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    לא ניתן היה לקרוא בחזרה את V2: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    לא ניתן היה לשנות את השם של רצועת הווידאו %d."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    האם הקובץ המוגמר עובר כ-HDR:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    לא אפשרי: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (נתיב הצליל שלילי -- משהו לא תקין)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s לא ניתן ליישור: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s לא ניתן למדידה: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s היסט %s, סחיפת שעון %s ppm (+/- %s), פיזור שיורי %s ms, %s מתוך %s נקודות"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s היסט %s, סחיפת שעון %s ppm (+/- %s), פיזור שיורי %s ms, %s מתוך %s נקודות%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s מקור: %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s מקטעים חוברו לפי סדר השמות (אין קוד זמן -- לא היה אפשר לזהות פערים)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s מקטעים חוברו לפי קוד זמן, התחלה %s"
+
+msgid "  %s of %s files imported."
+msgstr "  יובאו %s מתוך %s קבצים."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s דוברים, %s שוטים, הקצר ביותר %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s רצועות וידאו, בשמות הדוברים:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s: פעמיים, עם מצלמות שונות -- בשימוש: %s"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s: אין שמע למדידה -- המיקום לפי השעון שלו בלבד, ולא נמצא דבר לבדוק מולו"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  לא ניתן היה להוריד את %s: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  לא ניתן היה לכתוב מחדש את %s: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s: לרצועת וידאו 1 -- שם רצועת השמע הראשונה נושאת את\n  ה-Full-Mix, ורצועת וידאו 1 הופכת לזווית 1."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s: אין שמע מצלמה -- בלעדיו אי אפשר ליישר דבר"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s מופיע פעמיים בהפקה -- הורד פעם אחת."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s כבר קיים ונכתב מחדש -- אין להפקה הזו תיעוד שהיא יצרה אותו."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s קיים מהרצה קודמת של ההפקה הזו ומוחלף."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s: %s פריימים לשנייה, קצב שאין לו Timeline ב-Resolve -- מומר ולא מושמט"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s מוכן -- עם --resolve-json אפשר לעשות זאת מאוחר יותר."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, דולג"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: לא ניתן לקבוע כמה ערוצים יש בו (%s) -- הוא לא נמדד"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (מדידה בלבד: לא הועלה דבר)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  Timeline בשם %r כבר היה קיים -- החדש נקרא %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  קיים Timeline בשם הזה ועליו מצלמות אחרות. הוא נשאר;\n  החדש נבנה לצדו בשם משלו."
+
+msgid "  Added: %s"
+msgstr "  נוספו: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  הוספת האטומים בוטלה -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  כל קובצי הפלט הדרושים כבר קיימים."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  האטום %s דולג: %s בתים הם יותר מדי עבורו."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  שמע: Full-Mix ברצף אחד על A1 (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  זהירות: הפרש בהירות של %s דרגות -- נראה בעת המעבר בין מצלמות."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  זהירות: %s ו-%s נקראים שניהם %s. ב-Timeline\n  Resolve מציין רק את השם, ולכן אי אפשר להבחין בין\n  הקליפים שלהם -- יש לשנות את השם של אחד משני הקבצים."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  זהירות: לא ניתן היה למחוק את %s -- לכן ה-Timeline החדש מקבל\n  תוספת לשמו."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  זהירות: טווח       רק %s LU -- צר מאוד. בדיבור בדרך כלל 3 עד 7 LU;\n                     מתחת לזה הצליל נשמע דחוס. יש לבדוק כמה חזק מוגדר ה-Leveler\n                     ב-auphonic.com."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  זהירות: בהפקה יש רצועות נוספות (%s). הן נכנסות\n  למיקס -- נא למחוק אותן ב-auphonic.com."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  זהירות: רצועה %s -- ההגדרות שלה נשמרות."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  אטומי מצלמה:     לא ניתן להוסיף (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  נתוני מצלמה:     הועברו %s מפתחות (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  נתוני מצלמה:     זהירות, %s מתוך %s מפתחות חסרים בקובץ החדש: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  נתוני מצלמה:     במקור אין כאלה"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  לא ניתן להוסיף אטומים: תיבת 64 ביט חוסמת את הדרך."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  לא ניתן להוסיף אטומים: moov אינו בסוף."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  לא ניתן להוסיף אטומים: המקור הוא %s, היעד %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  בדיקה:           לא אפשרית (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  סחיפת שעון:      %s ppm (+/- %s), פיזור שיורי %s ms, %s מתוך %s נקודות"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  סחיפת שעון:      לא נמדד דבר -- זה הייחוס שמולו נמדדים האחרים"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  השוואת צבעים אינה אפשרית: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  לא ניתן ליצור את קבוצת הצבע %r."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  לא ניתן ליצור את קבוצת הצבע %r: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  צבע:             %d/%d/%d -- צבעי היסוד הושלמו מתוך המטריצה (מקור: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  צבע:             %d/%d/%d הועבר"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  צבע:             זהירות, במקור %s, בקובץ החדש %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  בדיקה צולבת:     %s לפי ה-Full-Mix, סטייה %s ms (%s מתוך %s נקודות)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  בדיקה צולבת:     לא אפשרית (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  רצועות נתונים:   %s הועברו"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  רצועות נתונים:   %s הושמטו -- ffmpeg לא יכול לכתוב אותן"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  נמחק: %s -- נבנה מחדש כעת."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  סחיפה לאורך זמן הריצה: %s s = %s פריימים  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  נעשה שימוש בתוצאה הקיימת -- לא חושב דבר, לא שולם דבר."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  פחות משתי מצלמות עם שמע -- מעט מדי ל-Multitrack."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  מיקס סופי מוגמר התבקש כאמת מידה (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "אינו מתחיל היכן שהמקטע הקודם מסתיים"
+
+msgid "ends before the next block starts"
+msgstr "מסתיים לפני שהמקטע הבא מתחיל"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com מיזג אותם. המיקס שומר על שני הערוצים; מה שאבד הוא\n  ההבדל בין שני המיקרופונים של אותה רצועה."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  שני ערוצים, כי רצועה אחת היא סטריאו"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  פער של %s ב-%s -- מולא בשקט"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  חפיפה של %s ב-%s -- שם שניהם נשמעים"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  הם חופפים -- כמה מיקרופונים בו-זמנית, לא מקטעים ברצף."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  כל אחד נכנס גם לווידאו כרצועה נפרדת: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  רק המיקס נכנס לווידאו (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  הוא כבר קיים, עם אותן מצלמות באותו סדר -- הוא נשאר\n  ללא שינוי. כדי לקבל חדש, יש למחוק אותו ב-Resolve."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  לא ניתן לקרוא את פריימי המפתח של %s (%s) -- ההעתקה מתחילה בתחילת הקובץ."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  עקומת רמות אינה אפשרית (%s) -- ללא מגביל"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  מגביל:             לכל היותר %s dB, אותה עקומה בכל רצועה%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  העוצמה הנתפסת אינה ניתנת למדידה: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  העוצמה הנתפסת אינה ניתנת למדידה -- היא נשארת כפי שהיא."
+
+msgid "  Metrics not writable: %s"
+msgstr "  לא ניתן לכתוב את המדדים: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  מיקס סופי מ-auphonic.com: %s LUFS, שיא %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  לא נמצא Full-Mix -- ה-Timeline נשאר שקט."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  אין שמע ב-Timeline -- אין מה לנקות."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  אין מצלמות בקובץ המסירה -- אין מה לבנות."
+
+msgid "  No clips found for colour groups."
+msgstr "  לא נמצאו קליפים לקבוצות צבע."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  לא נותר חיתוך -- ה-Timeline נשאר ריק."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  לא נמסר: ההרצה לא הצליחה למקם את %s, ולכן זו אינה מצלמה של הפרק הזה."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  אין היסט מדוד עבור %s -- המיקום בתחילת הציר."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  לא נמצא דבר בשמע של %s -- המיקום לפי קוד הזמן בלבד."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: לפי המדידה %s s, לפי קוד הזמן %s s -- נעשה שימוש במדידה."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  התחלת ה-Timeline ב-%s נדחתה: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  ה-Timeline מתחיל ב-%s, לא ב-%s -- כל שוט מוזז באותה מידה פנימה."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  התחלת ה-Timeline ב-%s לא התקבלה."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  התחלה %s -- כל שוט ממוקם ביחס אליה."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  Timeline כזה עוד לא היה קיים -- הוא רק נבנה."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  הערה: החישוב נעשה עם הקבצים שהועלו אז. הם נושאים\n  את חלון הזמן ואת היישור של אותו יום. היכן שנקודת הכניסה, נקודת היציאה\n  או המיקום הנמדד שונים כעת, בדיקת החזרה מודדת את\n  ההפרש ומזיזה את הרצועות למקומן."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  הערה: ל-ffmpeg הזה אין soxr -- ניתן להסיר סחיפת שעון רק\n  בצעדים של 21 ppm."
+
+msgid "  Of no consequence for the sound."
+msgstr "  אין לכך השפעה על השמע."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  היסט:            %s   (מהשוואת המצלמות)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  רק %s מתוך %s שוטים נמצאים ב-Timeline."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  שיאים:             %s dB מעל %s dBTP -- המגביל תופס אותם"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  נגן: %s מדווח על שגיאה -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  נגן: %s -- מיקום %s במקום %s -- ויתור אחרי %s ניסיונות (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  נגן: פלט השמע עובר אל %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  נגן: השמע לא פועל (%s) -- ניסיון נוסף."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  נא להזין מספר בין 1 ל-%d."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  הפקה ב-auphonic.com:          %s"
+
+msgid "  Production running (%s)"
+msgstr "  ההפקה פועלת (%s)"
+
+msgid "  Project %r opened."
+msgstr "  הפרויקט %r נפתח."
+
+msgid "  Project file could not be written: %s"
+msgstr "  לא ניתן היה לכתוב את קובץ הפרויקט: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  קובץ הפרויקט אינו ניתן לכתיבה (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  טווח:              %s LU (בדיבור בדרך כלל 3 עד 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  ייחוס: %s (%s, זמן הריצה הארוך ביותר)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  נותר:              %s dB בכל רצועה, כלומר %s LUFS במקום %s"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve לא קיבל שום תמונה -- ה-Timeline ריק. שום דבר\n  נוסף לא נבנה עליו."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  תוצאה: %s (%s) -- נשארת ליד קובץ הווידאו\n"
+
+msgid "  Not used:  %s."
+msgstr "  לא בשימוש:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  שאלה:     %s בתמלול, %s הפכו לחיתוך תגובה."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  שאלה:     אין תמלול, ולכן לא נמצאה שאלה ולא\n            נעשה חיתוך תגובה. המילים נכתבות מתוך המיקס המוגמר במהלך\n            ההרצה; בלעדיהן ההגדרה הזו לא עושה דבר."
+
+msgid "  Settings brought to preset %r"
+msgstr "  ההגדרות הותאמו לפריסט %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  התחלה %s (המצלמה המוקדמת ביותר) -- אחרת הכול היה לפני תחילת ה-Timeline."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  ללא התאמה:         נלקח מקובצי המקור -- ללא הגברה באף רצועה וללא\n                     מגביל. השמע יוצא בדיוק כפי שנכנס."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  סכום הרצועות:      %s LUFS, שיא %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  יעד:               %s LUFS  ->  %s dB בכל רצועה"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  ה-Timeline מקבל %s: הגבוה מביניהם, או הקצב הבא ש-Resolve\n  מכיר מעליו. בהמרה כלפי מעלה Resolve חוזר על פריימים, כלפי מטה הוא\n  משליך אותם. כל מצלמה שומרת על הקצב שלה, והחיתוך סופר\n  בקצב הזה."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  לא ניתן היה לייבא את ה-Full-Mix."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  לא ניתן היה להכניס את ה-Full-Mix."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  המצלמות נושאות את חלון הזמן ושנייה בכל קצה: נכתבו %s עבור %s מתוך %s שהוקלטו."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  המצלמות קרובות זו לזו (לכל היותר %s דרגות בהירות)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  החיתוך השתנה: %s שוטים במקום %s."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  לא ניתן לקרוא כאן את תיעוד ההרצות הקודמות (%s), ולכן מדווח כל מה שכבר קיים."
+
+msgid "  The cut stays as it was."
+msgstr "  החיתוך נשאר כפי שהיה."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  הקבצים מועלים שוב -- זה עולה קרדיט."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  הקבצים בתיקייה חייבים להיקרא בשמות הדוברים ולהשתייך\n  להרצה הזו. בלי התיקייה זה עובר שוב דרך auphonic.com."
+
+msgid "  The media pool stays as it is."
+msgstr "  ה-Media Pool נשאר כפי שהוא."
+
+msgid "  The names from there are adopted:"
+msgstr "  השמות משם אומצו:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  שם יש %s רצועות וכאן %s -- זה לא תואם."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  לא ניתן היה למקם את המצלמה הזו -- דולגה"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  חלון זמן:        נכתבו %s מתוך %s, החל מ-%s של המצלמה"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  קוד הזמן %s נכתב כ-bext ו-iXML (ייחוס: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  יותר מדי:          המגביל היה צריך להוריד %s dB. יותר מ-%s dB\n                     נשמע דחוס -- %s dB פחות הגברה."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  תמלול אינו אפשרי (%s) -- ההרצה ממשיכה בכל זאת."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  שוט רחב בקצוות: דולג -- ההכרזה הראשונה או האחרונה\n  הייתה ארוכה מדי לברכה."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  שוט רחב בקצוות: עד %s ומ-%s"
+
+msgid "  from %s, %s"
+msgstr "  מתוך %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  iXML עבור %s לא נכתב: %s"
+
+msgid " at high frame rates"
+msgstr " בקצבי פריימים גבוהים"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  תחילת השמע לפי קוד הזמן:        %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  תחילת התמונה לפי קוד הזמן:      %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  קוד הזמן של השמע אינו מתאים לתמונה כלל -- כנראה שעון שמעולם לא כוון. נעשה שימוש במדידה."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  קוד הזמן אינו מתאים למה שנשמע. נעשה שימוש במדידה."
+
+msgid "%s from %s recordings"
+msgstr "%s מ-%s הקלטות"
+
+msgid "%s is missing."
+msgstr "חסר: %s."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "שם על יותר מדובר אחד: %s -- שם הוא אדם, ולכל אדם נדרש שם משלו."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "שם על יותר מקול אחד: %s. שם הוא אדם, והחיתוך מציב אדם על מצלמה אחת -- שני קולות באותו שם היו אדם אחד בשני מקומות."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  המחשב הזה יכול להתקין אותו כראוי: %s"
+
+msgid "  Installing it: %s"
+msgstr "  התקנה: %s"
+
+msgid "  On this machine: %s"
+msgstr "  במחשב הזה: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  התקנה: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s יותקן ב-Python הזה: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  ידנית:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "לא ניתן היה לחפש גרסה חדשה יותר: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "חסר: %s. בפעם הראשונה זה לוקח כמה דקות."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  להריץ את זה עכשיו? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  זה לא הצליח: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  החזרה: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ב-ffmpeg.org יש גרסאות בנויות ל-Windows. אחר כך יש להוסיף את התיקייה עם ffmpeg.exe ל-PATH, או לשים את הקבצים ליד התוכנה הזו."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  לפתוח את הדף? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  לא ניתן היה לפתוח את הדף: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "חסר: %s -- מתבצעת התקנה. בפעם הראשונה זה לוקח כמה דקות."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sבדיקת קוד הזמן של קובץ השמע"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s לא (אין פריים פנוי)"
+
+msgid ", audio on A2"
+msgstr ", שמע ב-A2"
+
+msgid "Assignment file not readable: %s"
+msgstr "לא ניתן לקרוא את קובץ השיוך: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "שמע המצלמה אינו שמיש: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK אינו אפשרי\n  נדרשות לפחות שתי רצועות קלט, ונמצאה רק %s.\n  רצועה היא הקלטה נפרדת, ערוץ של מקליט\n  רב-ערוצי, או השמע של מצלמה -- שנספר ברגע שבשדה\n  שמע המצלמה שלה נבחר \"שימוש בשמע הפנימי\". בלי שתיים כאלה\n  אין מה להפריד, ואותו קובץ עובר\n  כהפקה רגילה."
+
+msgid "No preset is called %r."
+msgstr "אין פריסט בשם %r."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "אין שמע במצלמות -- אין עם מה לעבוד."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "רק קובץ שמע אחד וללא תמונה -- אין מה לעשות."
+
+msgid "Open project ..."
+msgstr "פתיחת פרויקט ..."
+
+msgid "Save project"
+msgstr "שמירת הפרויקט"
+
+msgid "Close project"
+msgstr "סגירת הפרויקט"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "קובץ הפרויקט נשמר בתיקיית הפלט, ועדיין לא נבחרה תיקייה. נא לבחור אחת."
+
+msgid "Written:\n\n  %s"
+msgstr "נכתב:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "לא נכתב דבר -- עדיין אין חומר."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nמי שואל -- הצעה, ושום דבר לא נקבע לפיה"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s %s דיבור, %s מתוך %s משפטים הם שאלות"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  הסדר אמין, המרחק ביניהם לא: במדידה על פני ארבעה פרקים הסדר מעולם לא התהפך, בעוד שהמרחק בין הראשון לאחרון השתנה פי ארבעה. נדרש קול אחד לכל רצועה; היכן ששתיים מהן נושאות את אותו דיבור, לא נאמר דבר כלל."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  מי שואל -- לא נאמר כאן: שתיים מהרצועות נושאות את אותו דיבור, ולכן השאלות היו נזקפות למקליט שהוגבר הכי חזק."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nאיזה מיקרופון -- הצעה, ושום דבר לא נקבע לפיה"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s נשמע כמו %-20s %s %% ממנו בתוך אותה רצועה, %s נקודות לפני הבא"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  זה תקף בהנחה אחת: מיקרופון אחד לכל אדם, וכל מיקרופון נושא רק את אותו אדם. היכן שהרצועות חופפות יותר מדי מכדי שאפשר יהיה להבחין ביניהן, או ששני קולות מצביעים על אותו מיקרופון, לא נאמר דבר כלל במקום משהו לא ודאי."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nאיך אפשר לקרוא לקולות -- הצעה"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s שם אפשרי: %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s: כמעט אין דיבור בתוך חלון הזמן -- הצעה: \"לא בשימוש\"."
+
+msgid "Guest"
+msgstr "אורח"
+
+msgid "Host"
+msgstr "מנחה"
+
+msgid "Host %d"
+msgstr "מנחה %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  רק לקולות שעדיין נושאים את השם שהתוכנה נתנה להם; שם שמישהו הקליד לעולם אינו משתנה. התפקידים נקבעים לפי מי שואל ומי עונה, מה שתקף לשיחה עם אורח אחד, וזו הצעה, לא הגדרה."
+
+msgid "Skip this version"
+msgstr "דילוג על גרסה זו"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "רק את זו. הגרסה הבאה תשאל שוב, ו\"עזרה > חיפוש גרסה חדשה יותר עכשיו\" שואל בכל עת."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s כבר קיים -- לא הורד פעמיים"
+
+msgid "The text for %s could not be fetched."
+msgstr "לא ניתן היה לקבל את הטקסט עבור %s."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  בדיקה:           אחת משתי הרצועות אינה בקובץ שנכתב, ולכן לא נמדד דבר."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  בדיקה:           לא ניתן להשוות את שתי הרצועות (התאמה %s, הרף הוא %s). אין בכך דבר על התזמון."
+
+msgid "Project found"
+msgstr "נמצא פרויקט"
+
+msgid "Open the project"
+msgstr "פתיחת הפרויקט"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "הכול חוזר ממנו: שמות, הפרדה, שיוך, סוגים, חלון הזמן. רשימת הקבצים מוחלפת ברשימה שבפרויקט."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "ליד החומר הזה נמצא קובץ פרויקט:\n\n  %s\n  נכתב %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "ליד החומר הזה נמצאים כמה קובצי פרויקט. איזה מהם?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "הפרויקט נפתח\n  כל הערכים חזרו, דבר לא חושב בהפעלה הזו.\n  תיקיית הפלט מכילה את הקבצים של ההרצה האחרונה:\n  %s\n\n  שלוש דרכים מכאן:\n    • למטה \"פתיחת תיקיית התוצאות\" -- צפייה בקבצים של אותה הרצה,\n    • למטה \"יצירת פרויקט Resolve\" -- מקובץ המסירה של אותה הרצה,\n      בלי לחשב דבר מחדש,\n    • למעלה \"התחלה\" -- חישוב הכול מחדש ודריסת הקבצים.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "הפרויקט נשמר\n  %s\n  אפשר לפתוח את ההרצה הזו שוב מאוחר יותר -- למעלה בתפריט קובץ\n  \"פתיחת פרויקט ...\"\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "לא ניתן היה לטעון את הפריסטים: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "כמה מצלמות אך אין קובץ שמע. לכל מצלמה יהיה שמע משלה --\nלשם כך נועד --multitrack. אחרת מצלמה אחרי מצלמה."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "הקובץ אינו מזוהה כ-HDR."
+
+msgid "The file is tagged as HDR."
+msgstr "הקובץ מסומן כ-HDR."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "סיומת לא מוכרת, דולג: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "איזה פריסט Auphonic יעבד את הקובץ הזה?"
+
+msgid "Would write: %s"
+msgstr "היה נכתב: %s"
+
+msgid "channel count unknown"
+msgstr "מספר ערוצים לא ידוע"
+
+msgid "is actively taken out"
+msgstr "מוסרת באופן פעיל"
+
+msgid "not readable"
+msgstr "לא ניתן לקריאה"
+
+msgid "the default device"
+msgstr "התקן ברירת המחדל"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: אין שמע לחילוץ (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  פרויקט בשם הזה כבר קיים: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  ניקוי רצועות שמע"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  קליפים ב-Media Pool"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  לא ניתן לשימוש: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  רענון רשימת החיתוכים"
+
+msgid "\n  Render job"
+msgstr "\n  משימת רינדור"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  החלק של Resolve הופסק: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  הופסק: %s"
+
+msgid "\n  Settings"
+msgstr "\n  הגדרות"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  הופסק: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  כבר קיימת הפקה בשם הזה"
+
+msgid "\n  This produces:"
+msgstr "\n  מכך נוצרים:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== הרצה %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nכבר מעובד"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nהשוואת צבעי המצלמות"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nבדיקת מה שחזר"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nקצבי פריימים שונים: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nגדלי פריים שונים: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nהסתיים ללא תוצאה: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nהסתיים עם שגיאות.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nמדידת ציר הזמן"
+
+msgid "\nMETRICS"
+msgstr "\nמדדים"
+
+msgid "\nMIXING"
+msgstr "\nמיקס"
+
+msgid "\nNORMALISE"
+msgstr "\nנרמול"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  אין תמונה: הרצועות מיושרות זו מול זו."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  האפשרות --lufs לא משפיעה כאן: הרצועות יוצאות כפי שהוקלטו, והעוצמה הנתפסת נקבעת במקום שבו הן ממוקסות."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nרק רצועה אחת מצאה מקום -- לא נשאר דבר ליישר אותה מולו."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  חלון זמן:            %s -- כל מה שרצועה כלשהי שמעה"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: שקט של %s בהתחלה ושל %s בסוף"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nאחרי צירוף המקטעים נשארת רק רצועה אחת, ו-Multitrack צריך רצועה אחת לכל קול. במקום שבו שני אנשים נחשבו להקלטה אחת, האפשרות --apart מוציאה ממנה מקטע."
+
+msgid "RECOGNISED PLAN"
+msgstr "התוכנית שזוהתה"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nלא ניתן היה ליישר אף רצועת שמע -- אין מה להציב על הציר."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nלשמע ולתמונה יש במשותף רק %s, והיישור מצא בהם %s נקודות דגימה. זה מעט מדי כדי להציב עליו דבר."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: מיקס משותף של %s"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nאין קובץ וידאו שמיש -- בלי שמע המצלמה אין ציר זמן משותף."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nבדיקה מקדימה -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nעיבוד: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- בדיקה בלבד"
+
+msgid "\nRESULT"
+msgstr "\nתוצאה"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nשמירת הרצועות"
+
+msgid "\nStopped: %s"
+msgstr "\nהופסק: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nכתיבת הרצועות על הציר"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  הסתיים%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        רצועה %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s אין קובץ ב-Media Pool"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   ריק (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s מ-%s, באורך %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s מסלול הצליל %4s ms (%s m), היסט %6s ms, סחיפה %5s ppm (%s נקודות, %s ms שארית)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- לא נמצא דבר מתאים"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    זהירות: %s. אין שם תמונה;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    קבוצות צבע: %s -- כל הקליפים שויכו"
+
+msgid "    Colours per angle:"
+msgstr "    צבעים לפי זווית:"
+
+msgid "    Cross-check:"
+msgstr "    בדיקה צולבת:"
+
+msgid "    Left without picture: %s"
+msgstr "    נותרו ללא תמונה: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    לא נמצא פורמט MP4. זמינים: %s"
+
+msgid "    No clips found."
+msgstr "    לא נמצאו קליפים."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    לא נמצא קודק מתאים. זמינים: %s"
+
+msgid "    Render settings rejected."
+msgstr "    הגדרות הרינדור נדחו."
+
+msgid "    the measured window is therefore kept."
+msgstr "    לכן נשמר חלון הזמן שנמדד."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s שוטים, %s s בסך הכול, ללא השמע שלהם."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  נוצרו %s רצועות וידאו, %s רצועות שמע (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  ל-%s ממוקסות יחד %s רצועות: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  רצועת שמע %d:     %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  אטומי מצלמה:     נוספו %s -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: ל-%s בהתחלה ול-%s בסוף אין תמונה, והם מושמטים"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    הוא מתחיל ב-%s ומסתיים ב-%s -- הקטע שכל מצלמה ראתה"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nמתבצעת עצירה. ההרצה תסתיים ברגע שתוכל לעשות זאת בלי להשאיר קובץ כתוב למחצה -- רגע אחד.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "השוט הרחב נמשך %s s, פחות מהשוט הקצר ביותר של %s s -- לכן הוא מתמזג שוב ואינו מופיע לעולם.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nנמדד. דבר לא נכתב -- הרצת ניסיון משאירה את תיקיית התוצאות כפי שהייתה.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nהופסק במהלך: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "כל מה שאחרי השלב הזה חסר. בתיקייה יש חלק מהרצה, לא תוצאה."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  חלון זמן משותף:      %s עד %s (%s)"
+
+msgid "  Created:     %s"
+msgstr "  נוצר:        %s"
+
+msgid "  Error while writing: %s"
+msgstr "  שגיאה בעת הכתיבה: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  קובץ:    %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  התבקשו שני ערוצים -- ההקלטה בסטריאו"
+
+msgid "  From %s"
+msgstr "  מתוך %s"
+
+msgid "  In summary: %s"
+msgstr "  בסיכום: %s"
+
+msgid "  In the archive: %s"
+msgstr "  בארכיון: %s"
+
+msgid "  Missing:     %s"
+msgstr "  חסר:         %s"
+
+msgid "  Player: %s"
+msgstr "  נגן: %s"
+
+msgid "  Production:  %s"
+msgstr "  הפקה:        %s"
+
+msgid "  Project %r"
+msgstr "  פרויקט %r"
+
+msgid "  Project %r created."
+msgstr "  הפרויקט %r נוצר."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  תוצאה:             בערך %s LUFS, שיא %s dBTP"
+
+msgid "  Results:"
+msgstr "  תוצאות:"
+
+msgid "  Results:     none"
+msgstr "  תוצאות:      אין"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  נעשה שימוש חוזר בקבצים הקיימים -- חישוב מחדש אינו עולה דבר."
+
+msgid "  Time limit: %s"
+msgstr "  מגבלת זמן: %s"
+
+msgid "  To upload:   %s"
+msgstr "  להעלאה:      %s"
+
+msgid "  Tracks:      %s"
+msgstr "  רצועות:      %s"
+
+msgid "  Tracks: %s"
+msgstr "  רצועות: %s"
+
+msgid "  Transcript: %s"
+msgstr "  יומן: %s"
+
+msgid "  Uploaded:"
+msgstr "  הועלו:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  סטייה:                          %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  סטייה:                          %s  (%s פריימים)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  סטייה:                          %s  (%s פריימים) -- מתאים"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  היסט שנמדד:                     %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  היסט לפי קוד זמן:               %s"
+
+msgid "Abort: %s"
+msgstr "הופסק: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "חילוץ שמע המצלמה"
+
+msgid "FOR RESOLVE"
+msgstr "עבור Resolve"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "אין קובץ שמע -- נעשה שימוש בשמע המצלמה"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "אין הקלטות שמע נפרדות -- נעשה שימוש בשמע המצלמה"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "עיבוד ב-auphonic.com (Multitrack):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "עיבוד ב-auphonic.com:"
+
+msgid "Processing failed: %s"
+msgstr "העיבוד נכשל: %s"
+
+msgid "RESULT"
+msgstr "תוצאה"
+
+msgid "Resolve part stopped: %s"
+msgstr "החלק של Resolve הופסק: %s"
+
+msgid "Stopped: %s"
+msgstr "הופסק: %s"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  להמרה: ב-Media Pool יש ללחוץ לחיצה ימנית על \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  בכיוון אחד בלבד -- אבל הרצה חדשה בונה את ה-Timeline מחדש בכל עת.\n  זוויות:%s\n  כל השאר -- בחירת השמע, קבוצות הצבע, המסגור -- נמצא\n  במדריך, docs/resolve.md.\n"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s כל המצלמות זו לצד זו -- ממנו נוצר קליפ ה-Multicam"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s תמונה מחיתוך המצלמות, שמע ברצף אחד"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s המצלמה ברצף אחד, המיקס מתחתיה"
+
+msgid "   --   audio only"
+msgstr "   --   שמע בלבד"
+
+msgid "   -- not found"
+msgstr "   -- לא נמצא"
+
+msgid "   Caution: more than one frame"
+msgstr "   זהירות: יותר מפריים אחד"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s היסט %s ms%s, אורך %s s, פיזור %s ms, %s מתוך %s נקודות%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (הקובץ הזה מסתיים מוקדם יותר)"
+
+msgid "  (this file starts later)"
+msgstr "  (הקובץ הזה מתחיל מאוחר יותר)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  אין Timeline של Resolve שרץ בקצב הזה; מתבצעת המרה"
+
+msgid "  --  this file is outside"
+msgstr "  --  הקובץ הזה מחוץ לטווח"
+
+msgid "  -->  aligned"
+msgstr "  -->  יושר"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  יושר, סחיפת שעון של %s ppm נוכתה"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  בדיקה:           %s מול רצועת המצלמה %s ms (התאמה %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  יש ליצור אותו באמצעות \"יצירת פרויקט Resolve\" בממשק. Resolve צריך לפעול."
+
+msgid "  The handover file could not be written."
+msgstr "  לא ניתן היה לכתוב את קובץ המסירה."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  מכך נוצרים הפרויקט, הייבוא וכן %s:"
+
+msgid " (paused)"
+msgstr " (מושהה)"
+
+msgid " (playing)"
+msgstr " (מתנגן)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- נקודת כניסה או יציאה חוסכת את ההעלאה"
+
+msgid " -- not readable"
+msgstr " -- לא ניתן לקריאה"
+
+msgid " -- nothing to fault."
+msgstr " -- אין מה להעיר."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- רק המטריצה מציינת BT.2020"
+
+msgid " and "
+msgstr " וכן "
+
+msgid " from %s files"
+msgstr " מתוך %s קבצים"
+
+msgid " not."
+msgstr " -- לא."
+
+msgid "%s blocks"
+msgstr "%s מקטעים"
+
+msgid "%s brought to the preset"
+msgstr "הותאמו לפריסט: %s"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s ערוצים -- מפוצלים לרצועות, כמפורט בשורות למעלה."
+
+msgid "%s checked"
+msgstr "נבדקו: %s"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s מתוך %s השוואות נמוכות מ-%s dB -- כל הקלטה מול כל הקלטה אחרת, בשני הכיוונים."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s מתוך %s קובצי וידאו אינם נושאים עקומה ומרחב צבע בתיבת colr%s -- כנראה חומר Log."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r הוא קוד זמן, אבל אין כאן תמונה ולכן אין מצלמה שממנה אפשר לספור אותו. במקרה כזה עובד רק ערך מתחילת חלון הזמן, למשל +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r הוא קוד זמן, אבל ציר הזמן אינו תלוי באף שעון: אף קובץ כאן אינו נושא קוד זמן, כולל מצלמת הייחוס %s. במקרה כזה עובד רק ערך מתחילת חלון הזמן, למשל +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r אינו פריסט Multitrack"
+
+msgid "%r is not a number."
+msgstr "%r אינו מספר."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   אינו מתאים לשאר הקבצים: השמע לא זוהה, אין קוד זמן.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "הוגדר כ-%s; %s במרחק לחיצה אחת."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "הושמט, כי %s כבר תפוס; %s במרחק לחיצה אחת."
+
+msgid "Its sound cannot be used."
+msgstr "לא ניתן להשתמש בשמע שלו."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   השמע לא זוהה; מוקם לפי קוד הזמן שלו"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   האפליקציה אינה מכירה את הפורמט הזה"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s מקטעים"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- מה לעשות בזה?\nהפרטים ביומן."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz במקום %s kHz -- מומר במהלך העיבוד."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "לא ניתן למקם את %s: לשמע שלו אין דבר משותף עם שאר החומר, והקובץ אינו נושא קוד זמן. נדרש לו קוד זמן שמתאים להקלטות האחרות, ואותו יש להגדיר בתוכנה אחרת."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s אינו מתאים לשום דבר בחומר וקצר בהרבה מהשאר: הוצע כפתיח, שמוצב בהתחלה ולעולם אינו נמדד."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "הוגדר %s, וכאן לא מותאם דבר: הרצועות יוצאות כפי שהוקלטו, והעוצמה הנתפסת נקבעת במקום שבו הן ממוקסות."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "ניתן שוב למקם את %s, והוא חזר להרצה."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "לא ניתן היה להתקין את %s.\nידנית:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "ל-%s אין רצועת שמע."
+
+msgid "%s in %s"
+msgstr "%s ב-%s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s במיקרופון של %s: חלש יותר ב-%s dB מאשר במיקרופון הייעודי."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s: ב-%s -- הקובץ נמצא עכשיו בנגן."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s אינו על ציר הפרק: הוא מוצב לפני החומר או אחריו, ולא נחתך לתוכו. נקודת הכניסה ונקודת היציאה שייכות למה שביניהם."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s: לא נמצא באף אחד מקובצי הווידאו. האם יש קוד זמן שמתאים לחומר?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s במיקרופון של %s חלש יותר ב-%s dB בלבד"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: עדיין לא ניתן להזיז מיקום, יבוצע בהמשך (%s)"
+
+msgid "%s: not there"
+msgstr "%s: לא קיים שם"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), ניסיון %d, לאחר מכן ב-%s"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: אמור לעבור ל-%s%s -- %s"
+
+msgid ", no audio"
+msgstr ", ללא שמע"
+
+msgid "-- only one camera"
+msgstr "-- מצלמה אחת בלבד"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- קפיצה לזמן התוכנית %s%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- הנקודה נקבעה, זמן התוכנית מ-%s ---"
+
+msgid "... or add files ..."
+msgstr "... או הוספת קבצים ..."
+
+msgid "/not seekable"
+msgstr "/ללא הזזת מיקום"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s שוטים</b>, חציון %(med)s s, הקצר ביותר %(short)s s, הארוך ביותר במצלמה אחת %(long)s s</span>. זמן דיבור: <b>%(own)s %%</b> במצלמה של הדובר עצמו (%(own_t)s), %(wide)s %% בשוט הרחב (%(wide_t)s), <span style='color:%(warn)s'>ב-%(off)s %% (%(off_t)s) מצלמת הדובר אינה פעילה</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "כל זוג ערוצים נשפט בנפרד: רצועת סטריאו אחת, או שני מיקרופונים ולכן שתי רצועות. כניסות שקטות נשמטות. השורות שמתחת לקובץ מציינות מה נמדד, והסימון גובר על כך."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "ערך שלילי מקדים את התמונה לשמע."
+
+msgid "Add files ..."
+msgstr "הוספת קבצים ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "היישור נעשה לפי ההיסט שנמדד; קוד הזמן משמש רק לבדיקה צולבת."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "לכל ההקלטות אותו שם -- כך נוצרת רצועה אחת בלבד."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "לכל השורות אותו שם -- כך נוצרת רצועה אחת בלבד, ו-Multitrack צריך לפחות שתיים."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "שיוך: איזו רצועת שמע שייכת לאיזו מצלמה"
+
+msgid "Audio"
+msgstr "שמע"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "שמע ווידאו (%s);;כל הקבצים (*)"
+
+msgid "Audio at programme time"
+msgstr "שמע בזמן התוכנית"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic יצר רצועות שונות מהמבוקש: %s במקום %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic מדווח על שגיאה: %s"
+
+msgid "Bleed"
+msgstr "זליגה"
+
+msgid "Blocks"
+msgstr "מקטעים"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "שניהם יחד לא אפשרי: הרצועות החוזרות היו מגיעות לערך אחד, והמיקס שלנו לערך האחר. יש להגדיר --lufs %.0f או לשנות את הפריסט."
+
+msgid "Camera"
+msgstr "מצלמה"
+
+msgid "Camera audio, %s to go ..."
+msgstr "שמע המצלמה, עוד %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- תצוגה מקדימה  (אורך %s)"
+
+msgid "Why the run cannot start"
+msgstr "למה ההרצה לא יכולה להתחיל"
+
+msgid "Cannot start yet: %s"
+msgstr "עדיין לא ניתן להתחיל: %s"
+
+msgid "Change rejected: %s"
+msgstr "השינוי נדחה: %s"
+
+msgid "Check again"
+msgstr "בדיקה חוזרת"
+
+msgid "Check the connection to Resolve again"
+msgstr "בדיקה חוזרת של החיבור ל-Resolve"
+
+msgid "Check itself failed: %s"
+msgstr "הבדיקה עצמה נכשלה: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "יש לבדוק את המפתח ולהביא את הפריסטים."
+
+msgid "Chosen"
+msgstr "נבחר"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "שעון %7.2f%s | B1[%s] %s | B2[%s] %s | שמע %s %s"
+
+msgid "Close"
+msgstr "סגירה"
+
+msgid "Connects to Resolve again."
+msgstr "מתחבר שוב ל-Resolve."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "תוכן: מצלמה ככל מצלמה אחרת.\nשוט רחב: מצלמה שאיש אינו יושב מולה -- היא אינה מקבלת דובר, והחיתוך עובר אליה בהפסקה ובמונולוג ארוך.\nפתיח וסיום הם קליפים מוכנים -- לא מיושרים, לא מעובדים, רק מוצבים ב-Timeline.\nהתעלמות מהווידאו הזה: הקובץ נשאר בחוץ לגמרי."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s שוטים רחבים: החיתוך משתמש ב-%s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  בכל מצלמה יש דובר, ולכן אין שוט רחב: ארבע הגדרות השוט הרחב והסימון של הקצוות אינם משפיעים כאן."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "אין מצלמה ללא דוברים, ולכן אין שוט רחב: ארבע הגדרות השוט הרחב והסימון של הקצוות אינם משפיעים. יש להגדיר למצלמה את הסוג \"שוט רחב\", או להשאיר אחת ללא דובר."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "מוקם לפי פאזה, חדות %s מול סף של %s, סחיפה לא ידועה"
+
+msgid "placed on the bands that move"
+msgstr "מוקם לפי פסי התדר שנעים"
+
+msgid "Why the wide shot settings are grey"
+msgstr "למה הגדרות השוט הרחב אפורות"
+
+msgid "because no speaker is assigned to it"
+msgstr "כי לא שויך אליה דובר"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "מסומנת כשוט הרחב -- היא אינה מקבלת דוברים"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "לא שויך אליה דובר, אבל החיתוך משתמש ב-%s"
+
+msgid "the cut uses %s"
+msgstr "החיתוך משתמש ב-%s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "העקומה ומרחב הצבע חסרים בקובץ"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "נקודת כניסה ונקודת יציאה זמינות ברגע שציר הזמן נקבע -- מקוד הזמן או ממדידה."
+
+msgid "In point is %s before the first frame"
+msgstr "נקודת הכניסה נמצאת %s לפני הפריים הראשון"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "נקודת הכניסה היא עכשיו %s, אבל הקבצים הקיימים שייכים ל-%s.\n  השמע בסרטונים נחתך לפי חלון הזמן הקודם -- יש ללחוץ שוב\n  על \"התחלה\" למעלה."
+
+msgid "Out point is %s after the last frame"
+msgstr "נקודת היציאה נמצאת %s אחרי הפריים האחרון"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "נקודת היציאה היא עכשיו %s; חלון הזמן יהיה באורך %s, הקבצים\n  הקיימים באורך %s -- יש ללחוץ שוב על \"התחלה\" למעלה."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "ביצוא נהוג לבחור בטווח המוגבל. טווח מלא אינו שגוי, אבל חלק מהנגנים מפרשים אותו לא נכון."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "קובע איך auphonic.com מעבד את השמע.\n\n\"%s\" משאיר את המפתח במקומו ובכל זאת לא פונה לשם.\nאז השמע רק מאוחד ומנורמל, לא מופרד --\nובלי רצועות נפרדות אין חיתוך מצלמות."
+
+msgid "Distance to mean"
+msgstr "מרחק מהממוצע"
+
+msgid "Drag audio and video files here"
+msgstr "יש לגרור לכאן קובצי שמע ווידאו"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "הרצת ניסיון: מדידה בלבד, דבר לא נכתב, דבר לא מועלה."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "בזמן הברכה והפרידה התמונה נשארת רחבה."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "הפריימים מוצגים מעט יותר זמן; הקובץ אינו מתקצר בגלל זה. תוכנת עריכה חוזרת על פריים אחד בערך כל %s s, והתמונה ושמע המצלמה נשארים יחד."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "הפריימים מוצגים מעט פחות זמן; הקובץ אינו מתארך בגלל זה. תוכנת עריכה משמיטה פריים אחד בערך כל %s s, והתמונה ושמע המצלמה נשארים יחד."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "שמונה סיביות אינן מספיקות ל-HDR: בכל מעבר צבע נוצרים פסים, ו-YouTube דורש עשר או שתים-עשרה."
+
+msgid "Envelope"
+msgstr "מעטפת"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  השיוך של %s: %s, שאינה מצלמה של ההרצה הזאת -- החיתוך מזכיר אותה בכל זאת."
+
+msgid "Envelope failed: %s"
+msgstr "המעטפת נכשלה: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "המעטפות ושמע המצלמה מוכנים ברקע."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "כל שורה צריכה שם -- ב-Auphonic הוא הופך ל-track ID."
+
+msgid "External preview -- the app does not know this format"
+msgstr "תצוגה מקדימה חיצונית -- האפליקציה אינה מכירה את הפורמט הזה"
+
+msgid "Fetching audio"
+msgstr "טעינת שמע"
+
+msgid "Fetching audio ..."
+msgstr "טעינת שמע ..."
+
+msgid "File"
+msgstr "קובץ"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "חסרים שם קבצים -- בלי העלאה חדשה אי אפשר לחשב דבר.\n  עם --auphonic-resume upload הסקריפט מעלה שוב; זה עולה קרדיט."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "ל-HDR הבחירה הרגילה היא HEVC (Main 10), AV1 או VP9 Profile 2. YouTube מקבל גם H.264, אבל הוא דורש קצב סיביות גבוה יותר."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "לעשר סיביות HEVC צריך את הפרופיל Main 10. ב-Resolve הוא נמצא תחת Deliver בשם \"Profile\"."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, ולא %s שבקובץ -- %s פריימים פחות באותו אורך."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, ולא %s שבקובץ -- %s פריימים יותר באותו אורך."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "המרווח בין הפריימים משתנה ב-%s %% -- תזמון הפריימים אינו אחיד."
+
+msgid "Free space there: %s"
+msgstr "מקום פנוי שם: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "פער של %s בין מקטע %d ל-%d -- המצלמה נעצרה."
+
+msgid "Drag to move the position."
+msgstr "יש לגרור כדי להזיז את המיקום."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "ל-HDR נדרש כאן 16 (PQ, כלומר HDR10) או 18 (HLG). ב-Resolve: Gamma tag = ST.2084 או HLG. הערך 14 אינו עקומת HDR אלא SDR במרחב הצבע BT.2020."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "ל-HDR נדרש כאן 9 (BT.2020). ב-Resolve: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "ל-HDR נדרש כאן 9 (BT.2020, בהירות לא קבועה)."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG מבוסס תצוגה (display-referred) -- אין בו רשומה עבור צג המאסטרינג."
+
+msgid "If empty: next to each video file."
+msgstr "אם ריק: ליד כל קובץ וידאו."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "זה נוצר בזמן ההקלטה ואי אפשר לשנות זאת עכשיו. ככל שהמיקרופונים מופרדים פחות, כך De-Bleed ב-auphonic.com יכול לפעול רק בזהירות רבה יותר. בפעם הבאה: מרחק מהמיקרופון השכן פי שלושה מהמרחק מהפה שלך, ואז הקול השכן נמוך בכ-%s dB."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "אין בחומר שום התאמה עבור %s, ולכן אי אפשר לשלב אותו בפרק: הוגדר כפתיח."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "גם עבור %s אין בחומר שום התאמה, והפתיח כבר תפוס: הושמט."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "הקובץ %s כבר מוגדר כ%s, ולפרק יש רק אחד כזה. יש לענות כאן אחרת, או להסיר קודם את הסימון מהקובץ ההוא."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "זה נמצא באטום logs של תיאור התמונה -- כך Resolve מזהה את מרחב הצבע של הקלט. עקומות שונות פירושן מרחבי צבע קלט שונים."
+
+msgid "Jumps to the end of the window."
+msgstr "קפיצה לסוף חלון הזמן."
+
+msgid "Jumps to the start of the window."
+msgstr "קפיצה לתחילת חלון הזמן."
+
+msgid "Keychain"
+msgstr "מחזיק המפתחות"
+
+msgid "Limits the de-bleed: "
+msgstr "מגביל את ה-De-Bleed: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "יש לטעון את הפריסטים ולבחור אחד, או להשאיר את מפתח ה-API ריק."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 נדחה -- ברירת המחדל נשארת"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "מדידה בלבד -- דבר לא נכתב ולא מועלה."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "מדידת %s (%s מתוך %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "המדידה אינה אפשרית: %s"
+
+msgid "Measuring the yardstick"
+msgstr "מדידת אמת המידה"
+
+msgid "Measuring time axis ..."
+msgstr "מדידת ציר הזמן ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "שמע חסר %s מולא בשקט%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "לא ניתן לטעון את המודול DaVinciResolveScript: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "רצועת שמע אחת לכל אדם, נפרדת לאורך כל הדרך עד auphonic.com.\nאפשר גם בלי זה -- ואז ללא De-Bleed ו-Leveler.\nנדרשות שתי רצועות קלט: הקלטה נפרדת, ערוץ של מקליט\nרב-ערוצי, או השמע של קובץ וידאו שהוגדר ל\"שימוש בשמע הפנימי\".\nחיתוך המצלמות אינו זקוק לסימון הזה."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (רצועה אחת לכל דובר)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה היא הקלטה נפרדת, ערוץ של מקליט רב-ערוצי, או השמע של קובץ וידאו שהוגדר ל\"שימוש בשמע הפנימי\". כמה מקטעים של אותה הקלטה נספרים כאחד, ורצועות שהועברו הצידה אינן נספרות כלל."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "אין מפתח API. יש להעביר --auphonic-api-key KEY, להגדיר AUPHONIC_TOKEN או לשמור אותו פעם אחת בממשק. המפתח נמצא בהגדרות החשבון ב-Auphonic."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "לאף קובץ שמע אין קוד זמן. נקודת הכניסה ונקודת היציאה נספרות מתחילת החומר -- מיקום הקבצים זה ביחס לזה נמדד."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "עדיין אין שמע בשימוש -- יש להוסיף הקלטת שמע, או להגדיר ברשימת הקבצים את שמע המצלמה של קובץ וידאו ל\"שימוש בשמע הפנימי\"."
+
+msgid "No audio tracks are assigned."
+msgstr "לא שויכו רצועות שמע."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "לא שויכה אף מצלמה, ולכן אין בין מה לחתוך."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "עדיין לא שויכו מצלמות -- לשם כך יש להפעיל את Multitrack."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "אין חיבור ל-Resolve.\n  האם התוכנה פועלת? האם external scripting מוגדר ל-'Local'\n  תחת Preferences > System > General?"
+
+msgid "No files or project opened yet."
+msgstr "עדיין לא נפתחו קבצים או פרויקט."
+
+msgid "No files selected yet."
+msgstr "עדיין לא נבחרו קבצים."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "אין אפשרות לקלט. יש להשתמש ב-%s %s כדי לקבוע מה יקרה."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "אין כאן נגן מובנה -- הניגון מתבצע ב-ffplay, בחלון משלו."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "לא צוין פריסט, ואין אפשרות לקלט. יש לבחור אחד מאלה שלמעלה עם --auphonic-preset NAME."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "אין פריסטים שמורים בחשבון. אפשר ליצור אחד בממשק האינטרנט."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "לא ידוע כאן אף דובר -- בלי לדעת מי מדבר ומתי, אין בין מה לחתוך."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "לאף קול עדיין אין מצלמה -- כך כל שוט היה אותו שוט."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "עדיין לא ידועים דוברים -- דבר לא נמדד, דבר לא הופרד, ואין קובץ מסירה של הרצה קודמת ב-%s או בתיקיות המשנה שלה."
+
+msgid "Not found again after import: %s"
+msgstr "לא נמצא שוב אחרי הייבוא: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "מ-ffmpeg.org, ואת התיקייה ל-PATH"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "דרך מנהל החבילות: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "כאן: %s. נדרש: %s ומעלה."
+
+msgid "no answer"
+msgstr "אין תשובה"
+
+msgid "Nothing runs until that is put right."
+msgstr "דבר לא ירוץ עד שזה יתוקן."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "דבר לא ירוץ עד שזה יתוקן. הדרך: %s"
+
+msgid "Get it: %s"
+msgstr "הורדה: %s"
+
+msgid "Quit"
+msgstr "יציאה"
+
+msgid "That worked."
+msgstr "זה הצליח."
+
+msgid "Installing ffmpeg"
+msgstr "התקנת ffmpeg"
+
+msgid "Start the program again to pick it up."
+msgstr "יש להפעיל את התוכנה מחדש כדי שתשתמש בו."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "ההורדה נמשכת כמה דקות, ומה שמתקבל ממנה מופיע בכרטיסייה \"פלט\"."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "זה נמשך כמה דקות -- ייתכן שמנהל החבילות יבנה מקוד המקור. מה שהוא מדווח מופיע כאן."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "עכשיו מתבצע הידור, וזה החלק הארוך: דקות במחשב מהיר, והרבה יותר במחשב ישן. שום דבר לא תקוע -- כל כמה שניות מופיעה נקודה, כל עוד העבודה נמשכת."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg מותקן."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "התוכנה קוראת אותו בעת ההפעלה. אפשר להפעיל אותה מחדש עכשיו, או להפעיל אותה ידנית מאוחר יותר."
+
+msgid "Start again now"
+msgstr "הפעלה מחדש כעת"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "ההפעלה מחדש לא הצליחה. יש לסגור את החלון ולהפעיל את התוכנה כמו קודם."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  תחילה מזיזים הצידה את ה-ffmpeg הקיים: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  אפשר להוריד ffmpeg 9.0.1 בנוי עם soxr: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  להוריד עכשיו? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  הורדת ffmpeg בנוי. הוא גדול, ולכן זה נמשך כמה דקות: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s מתוך %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "לא ניתן היה להוריד את הגרסה הבנויה: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  לא ניתן היה לחלץ את הגרסה הבנויה: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  בארכיון היו %s משתי התוכנות."
+
+msgid "  It is here: %s"
+msgstr "  הוא נמצא כאן: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "להתקין את Homebrew מ-brew.sh, ואז שוב את זה"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "ל-ffmpeg הזה יש soxr: סחיפת השעון בין המצלמות יוצאת בצעדים של 0.21 ppm."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "ל-ffmpeg הזה אין soxr: סחיפת השעון בין המצלמות יוצאת בצעדים של 21 ppm במקום 0.21."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "הכול עובד גם בלעדיו. הורדת גרסה שיש בה soxr נמשכת כמה דקות, ומה שמתקבל ממנה מופיע בכרטיסייה \"פלט\"."
+
+msgid "Carry on"
+msgstr "המשך"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "לא חובה -- אז YouTube מחיל ערכי ברירת מחדל (Sony BVM-X300). כדי לקבל אותם: ב-Resolve יש להפעיל HDR10+ תחת Color Management, להריץ \"Analyze All Shots\" ב-Color page ולסמן \"Embed HDR10 Metadata\" בעת הרינדור."
+
+msgid "Not ready yet:"
+msgstr "עדיין לא מוכן:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "לא נשמע דבר ברצועות."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "להקלטת שמע אחת עדיין אין שם דובר."
+
+msgid "One frame back."
+msgstr "פריים אחד אחורה."
+
+msgid "One second back."
+msgstr "שנייה אחת אחורה."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "כל שוט בצבע המצלמה שלו. ריחוף מציג מצלמה ומשך, לחיצה קופצת אליו."
+
+msgid "Only one speaker"
+msgstr "דובר אחד בלבד"
+
+msgid "Open json project file"
+msgstr "פתיחת קובץ פרויקט json"
+
+msgid "Open result folder"
+msgstr "פתיחת תיקיית התוצאות"
+
+msgid "Open the settings, where the key is."
+msgstr "פתיחת ההגדרות, שבהן נמצא המפתח."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "הסדר לא משנה. בהקלטה מרובת חלקים די במקטע הראשון."
+
+msgid "Overwrite"
+msgstr "דריסה"
+
+msgid "Overwrite files"
+msgstr "דריסת קבצים"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "חלונית %d טוענת את %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "חלונית %d על %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "הפעלה והשהיה -- גם מקש הרווח עובד."
+
+msgid "Play and pause."
+msgstr "הפעלה והשהיה."
+
+msgid "Playback not possible"
+msgstr "הניגון אינו אפשרי"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "מתנגן: %s -- הרצועה המעובדת מ-auphonic.com,\nמובאת לרמת שידור. אותו שמע כמו בחיתוך המצלמות."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "מתנגן: %s -- ההקלטה הגולמית.\nהיא שקטה בהרבה מהשמע המעובד; ברגע שהרצועות מ-auphonic.com\nיגיעו, התצוגה המקדימה תשתמש בהן."
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "סיבות אפשריות:\n  1. Resolve אינו פועל -- הממשק עונה רק בזמן שהתוכנה פועלת.\n  2. Preferences > System > General: external scripting מוגדר ל-\"None\" במקום \"Local\".\n  3. גרסה חינמית: לפי דיווחים, external scripting שמור לגרסת Studio מאז גרסה 19.1. לא מצאתי הצהרה רשמית -- הבדיקה הזו מודדת זאת במקום לטעון זאת."
+
+msgid "Prepare pane %d for %s"
+msgstr "הכנת חלונית %d עבור %s"
+
+msgid "Preset not readable: %s"
+msgstr "לא ניתן לקרוא את הפריסט: %s"
+
+msgid "Preview not possible: %s"
+msgstr "התצוגה המקדימה אינה אפשרית: %s"
+
+msgid "Preview running ..."
+msgstr "התצוגה המקדימה פועלת ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "עבודה מקדימה -- קריאת השמע וחישוב מעטפות:\n"
+
+msgid "Primaries"
+msgstr "צבעי יסוד"
+
+msgid "Primaries number %d"
+msgstr "צבעי יסוד מספר %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "עיבוד ב-auphonic.com (רשות)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "עיבוד ב-auphonic.com עם \"%s\""
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "ההפקה הסתיימה, אבל אין ZIP עם הרצועות הנפרדות"
+
+msgid "Production name"
+msgstr "שם ההפקה"
+
+msgid "Chosen files"
+msgstr "קבצים שנבחרו"
+
+msgid "Remove the chosen file from the list"
+msgstr "הסרת הקובץ שנבחר מהרשימה"
+
+msgid "Project %r could not be created."
+msgstr "לא ניתן היה ליצור את הפרויקט %r."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "לא ניתן היה ליצור את הפרויקט %r. האם השם כבר קיים בתיקייה אחרת?"
+
+msgid "Project %r could not be opened."
+msgstr "לא ניתן היה לפתוח את הפרויקט %r."
+
+msgid "Puts it back next to each video file."
+msgstr "מחזיר את מיקום הפלט לצד כל קובץ וידאו."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "השחזור נכשל (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "קריאת רצועת שמע מתוך %s"
+
+msgid "Resolutions"
+msgstr "רזולוציות"
+
+msgid "Resolve running ..."
+msgstr "Resolve פועל ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve משנה את קנה המידה לרזולוציית ה-Timeline. כל דבר קטן יותר מוגדל ונעשה רך יותר."
+
+msgid "Response was not JSON: %s"
+msgstr "התגובה לא הייתה JSON: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "שורות המסומנות באדום מראות היכן הבעיה; סימן וי על הכרטיסייה פירושו שהכול קיים."
+
+msgid "Save in Keychain"
+msgstr "שמירה במחזיק המפתחות"
+
+msgid "Save in Registry"
+msgstr "שמירה ברישום"
+
+msgid "Select audio and video files"
+msgstr "בחירת קובצי שמע ווידאו"
+
+msgid "Speakers, as the run measured them"
+msgstr "דוברים, כפי שההרצה מדדה אותם"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "דוברים, כפי שנמדדו ישירות מהרצועות"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "ההקלטה התחילה מאוחר או נעצרה מוקדם -- אז הקול הזה חסר במיקס בחלק מהמקומות."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "נעצר. יש לבחור שם הפקה אחר -- ואז נוצרת הפקה\n  חדשה -- או לבחור באחת האפשרויות האחרות."
+
+msgid "Stopped. Nothing was created."
+msgstr "נעצר. דבר לא נוצר."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "נעצר. דבר לא הועלה ודבר לא חושב."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "משמש כפי שהוא -- דבר אינו מומצא. יש לבדוק ב-Resolve תחת Clip Attributes, בכרטיסייה Color Space: אם כתוב שם \"Project\", מרחב הצבע של הקלט לא זוהה ויש להגדיר אותו ידנית."
+
+msgid "Takes the position from the picture."
+msgstr "לוקח את המיקום מהתמונה."
+
+msgid "Ten seconds back."
+msgstr "עשר שניות אחורה."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "ממשק Resolve אינו במקום שבו אני מצפה לו:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "ממשק Resolve אינו במקום שבו הוא אמור להיות."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "ה-Timeline מקבל קצב קבוע אחד -- הגבוה מביניהם, או הקצב הבא ש-Resolve מציע מעליו. Resolve ממיר את האחרים; ב-23.976 מול 24 ניתוח השמע שלו נוטה להיתקע בדיוק שם."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "הקלטת השמע של כל דובר, ובנוסף המצלמות.\nהסדר לא משנה -- התוכנה מזהה מה הוא מה.\nבהקלטה מרובת חלקים די במקטע הראשון."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "לחיתוך אין שם תמונה. כשה-Timeline נבנה המקום נשאר ריק, והשמע ממשיך."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "התוצאה הקיימת אינה שמישה: חסר בה %s. עם --auphonic-resume rerun אפשר לחשב אותה מחדש בלי להעלות דבר."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "כללי החיתוך אינם משאירים אף שוט בפרק הזמן הזה של %s. משך שוט מינימלי קצר יותר, או פחות שוט רחב, יחזירו שוט."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "התוכנית כאן באורך %s -- אי אפשר לפרוס בזה דבר. נקודת הכניסה ונקודת היציאה הן שקובעות את האורך."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "חלון הזמן נמצא מחוץ לחומר: נקודת הכניסה ב-%s, נקודת היציאה ב-%s, והחומר נמשך %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "הרצועה הראשונה בפריסט קובעת את ההגדרות לכל הרצועות שלנו. אחרת הן חוזרות לא מעובדות. יש ליצור רצועה בפריסט בממשק האינטרנט."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "לשם כך נדרש קובץ המסירה של הרצה, ואין כזה."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "אפשר לשמור את המפתח רק ב-Mac וב-Windows -- במחזיק המפתחות או ברישום. הוא לא נכתב לקובץ."
+
+msgid "%s -- being checked"
+msgstr "%s -- בבדיקה"
+
+msgid "The key was not saved: %s"
+msgstr "המפתח לא נשמר: %s"
+
+msgid "The key was not saved"
+msgstr "המפתח לא נשמר"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "מחזיק המפתחות נעול. יש לבטל את נעילתו ולנסות שוב."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "ההרצה הזו היא הרצת בדיקה, ומאגר האחסון עדיין נושא את שמו האמיתי, ולכן דבר לא נכתב. יש להפנות קודם את KEY_SERVICE, KEY_ACCOUNT או REG_PATH למקום אחר."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "מחזיק המפתחות נעול. לאחר ביטול הנעילה הכפתור הזה יתעורר."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "מחזיק המפתחות לא קיבל את המפתח. גישה למחזיק מפתחות יכולה לומר מדוע."
+
+msgid "The registry did not take the key."
+msgstr "הרישום לא קיבל את המפתח."
+
+msgid "Open Keychain Access"
+msgstr "פתיחת גישה למחזיק מפתחות"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "פותח את היישום שמבטל את נעילת מחזיק המפתחות."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  לא ניתן היה לפתוח את גישה למחזיק מפתחות: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "המפתח השמור אינו מתקבל: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "המפתח מ-AUPHONIC_TOKEN אינו מתקבל: %s"
+
+msgid "What auphonic.com replied"
+msgstr "מה ש-auphonic.com השיב"
+
+msgid "There is no key."
+msgstr "אין מפתח."
+
+msgid "The key has a space or a line break at one end."
+msgstr "במפתח יש רווח או מעבר שורה באחד הקצוות."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "המפתח נקטע באמצע ברווח או במעבר שורה."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "במפתח יש תו שאי אפשר להקליד."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "המפתח נשמר אז כאן: %s, ולעולם לא בקובץ."
+
+msgid "The production has no name yet."
+msgstr "להפקה עדיין אין שם."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "ההקלטה ששויכה למצלמה הזו, במקום שמע המצלמה."
+
+msgid "The run is still going."
+msgstr "ההרצה עדיין נמשכת."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "עדיין לא ידועים דוברים -- הם מזוהים מתוך הרצועות מיד כשהכרטיסייה הזו נפתחת. כשכולם באותה הקלטה, הדרך היא \"כמה דוברים\" בשדה שם הדובר."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "שלושת המספרים הם צבעי יסוד, עקומה ומטריצה. תגים שונים דורשים ב-Resolve מרחבי צבע קלט שונים -- אחרת מצלמה אחת נראית שונה מהאחרת."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "אין הקלטות שמע נפרדות. אז נעשה שימוש בשמע של %s המצלמות -- כל אחת הופכת לרצועה, ו-Auphonic מסיר את הזליגה."
+
+msgid "There is no result yet."
+msgstr "עדיין אין תוצאה."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "הקבצים האלה אינם שמע ואינם וידאו, ולכן נשארים בחוץ:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "הקבצים האלה אינם קיימים:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "הקבצים האלה כבר קיימים וייכתבו מחדש:\n\n  %s\n\nהאם זו הכוונה?"
+
+msgid "These files no longer exist:\n  "
+msgstr "הקבצים האלה כבר אינם קיימים:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "השמות האלה מופיעים יותר מפעם אחת:\n\n  %s\n\nההקלטות מאוחדות לרצועה אחת ומוצבות זו אחר זו לפי קוד הזמן שלהן. זה נכון אם ההקלטה נעצרה באמצע."
+
+msgid "These tracks got no file: %s"
+msgstr "הרצועות האלה לא קיבלו קובץ: %s"
+
+msgid "This Resolve project already exists"
+msgstr "פרויקט Resolve הזה כבר קיים"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "זה נובע מההקלטה, לא ממה שבא אחריה: המיקרופונים קרובים מדי זה לזה או רחוקים מדי מהפה."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "אי אפשר לנגן את הקובץ הזה כאן, ו-ffplay כחלופה חסר."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "זה אינו קובץ פרויקט, וגם אין כזה באותה תיקייה.\n\nהחיפוש הוא אחר %s*.json -- הסקריפט כותב אותו לתיקיית הפלט בעת ההתחלה."
+
+msgid "This is what happens next"
+msgstr "זה מה שיקרה עכשיו"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "השם הזה כבר שייך למישהו אחר. שם הוא אדם, והחיתוך מציב אדם על מצלמה אחת -- נא לתת לקול הזה שם משלו."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "השם הזה מופיע יותר מפעם אחת. ההקלטות היו הופכות לרצועה אחת -- ל-Multitrack נדרשות ל-auphonic.com לפחות שתי רצועות שונות."
+
+msgid "This production already exists"
+msgstr "ההפקה הזו כבר קיימת"
+
+msgid "This production has no result yet."
+msgstr "להפקה הזו עדיין אין תוצאה."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "הגיעה מגבלת הזמן של %s, ההפקה עדיין רצה: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "קוד זמן %s, הקבצים האחרים ב-%s -- השעון הזה לא כוון."
+
+msgid "Timeline %r could not be created."
+msgstr "לא ניתן היה ליצור את ה-Timeline %r."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "הכותרת ב-auphonic.com ותחילת שמות הקבצים החדשים."
+
+msgid "To the In point."
+msgstr "אל נקודת הכניסה."
+
+msgid "To the start."
+msgstr "אל ההתחלה."
+
+msgid "Too many projects with this name."
+msgstr "יותר מדי פרויקטים בשם הזה."
+
+msgid "Track"
+msgstr "רצועה"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "בזמן השינוי נוספו רצועות (כעת %s). זה משבש את\n  המיקס. נא למחוק ב-auphonic.com את הרצועות שאין להן קובץ."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "בחיתוך שתי מצלמות הן מצלמה אחת. לקבצים שלהן אותו שם, ולכן יש לשנות את שמו של אחד מהם."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "בחיתוך שתי מצלמות הן מצלמה אחת: %s. לקבצים שלהן אותו שם, ולכן יש לשנות את שמו של אחד מהם."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "שתי מצלמות היו מפיקות אותו קובץ. השני היה דורס את הראשון."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "שתי מצלמות היו מפיקות אותו קובץ: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "שתי מצלמות היו מפיקות אותו קובץ חדש. נא לתת שמות שונים."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "תזמון פריימים לא אחיד אי אפשר ליישר דרך השמע. אם גם נקודות הדגימה מתפזרות בזמן היישור, יש להמיר לקצב פריימים קבוע."
+
+msgid "Video"
+msgstr "וידאו"
+
+msgid "Video 1"
+msgstr "וידאו 1"
+
+msgid "Video 2"
+msgstr "וידאו 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- מחומר גולמי לפודקאסט ערוך"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "עוצמת שמע. 100 הוא המקסימום -- Qt אינו מקבל דבר מעבר לכך."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- דיבור בו-זמני נספר פעמיים"
+
+msgid "Wide shot at most"
+msgstr "שוט רחב לכל היותר"
+
+msgid "Wide shot at the latest"
+msgstr "שוט רחב לכל המאוחר"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "שוט רחב לברכה בהתחלה ולפרידה בסוף"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "בלעדיו כל נגן צריך לנחש, וכולם מנחשים SDR. ב-Resolve, תחת Deliver > Advanced Settings, יש להגדיר את Color space tag ואת Gamma tag במקום להשאיר אותם על \"Same as Project\"."
+
+msgid "Without processing at auphonic.com"
+msgstr "ללא עיבוד ב-auphonic.com"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "עדיין אין חיתוך מצלמות: נדרשים שני אנשים, לכל אחד שם ומצלמה.\nהקלטות נפרדות מספקות זאת עם סימון Multitrack, וכך גם \"כמה דוברים\" בשדה שם הדובר של הקלטה אחת --\nהקולות שנמצאים שם מקבלים את המצלמה שלהם בטבלה שמתחת להקלטות.\nפרויקט Resolve נוצר בכל מקרה -- כל המצלמות במקומות שנמדדו להן, מוכנות ל-Multicam."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "ללא קוד זמן, מיקום הקבצים נמדד."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "מזהה מי מדבר ומתי מתוך הרצועות עצמן -- מיקרופון אחד לכל אדם, רמה מול רצפת הרעש שלו. כשכולם באותה הקלטה, הדרך היא \"כמה דוברים\" בשדה שם הדובר."
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- רק מנמיך, לעולם לא מגביר"
+
+msgid "a box no longer fits into its parent"
+msgstr "תיבה כבר אינה נכנסת בתוך תיבת האב שלה"
+
+msgid "after the device change"
+msgstr "אחרי החלפת ההתקן"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com אינו מקבל את המפתח: %s"
+
+msgid "average"
+msgstr "ממוצע"
+
+msgid "belongs to"
+msgstr "שייך ל"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "הזליגה מטושטשת מדי: %s מתוך %s שניות שמישות, החדה ביותר %s מתוך %s הנדרשים"
+
+msgid "Midnight"
+msgstr "חצות"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "%s: קוד זמן מהצד השני של חצות -- נספר כלילה אחת, לא כהפרש של יום."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "קוד זמן נספר מחצות ומתחיל שם מחדש. הקבצים מוצבים על ציר אחד לפני שמחסרים דבר, אחרת ההקלטה שאחרי חצות נראית רחוקה כמעט יום מזו שלפניה. אם הן אכן הוקלטו בימים שונים, היישור שגוי, ויש לסמוך על ההיסט שנמדד."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "ערוץ %d נוגע בתקרה: %s פעמים שלוש דגימות או יותר ברצף, הארוך ביותר %s (%s ms), הראשון ב-%s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "נספר כאן דגימה אחר דגימה, בקצב שבו הקובץ הוקלט: רצף של שלוש דגימות או יותר על הערך הגבוה ביותר שפורמט שלמים יכול להכיל. אחת או שתיים הן עיגול ואינן מדווחות. מה שנחתך שם אבד, ושום עיבוד לא יחזיר אותו -- אבל ההקלטה היא עדיין ההקלטה, וזה לא מעכב דבר. רק פורמטים של שלמים נספרים. ל-32 bit float אין תקרה בסקאלה המלאה, ולכן אין שם מה לספור."
+
+msgid "boxes no longer readable"
+msgstr "התיבות כבר אינן קריאות"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "עדכון -- שני ה-Timelines נמחקים\n       ונבנים מחדש, ה-Media Pool נשאר כפי שהוא"
+
+msgid "cannot be read back (%s)"
+msgstr "לא ניתן לקרוא בחזרה (%s)"
+
+msgid "checking ..."
+msgstr "בבדיקה ..."
+
+msgid "complete"
+msgstr "שלם"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "יצירת פרויקט חדש לצדו (שם עם סיומת)"
+
+msgid "curl ended with %d"
+msgstr "curl הסתיים עם %d"
+
+msgid "did not arrive: %s"
+msgstr "לא הגיע: %s"
+
+msgid "does not belong: %s"
+msgstr "לא שייך: %s"
+
+msgid "does not exist: %s"
+msgstr "לא קיים: %s"
+
+msgid "does the material fit together?"
+msgstr "האם חלקי החומר מתאימים זה לזה?"
+
+msgid "does the preset fit the run?"
+msgstr "האם הפריסט מתאים להרצה?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "הקובץ שהורד הוא רק %s בתים"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "פער של %s לפי קוד הזמן, רחוק מדי להקלטה אחת"
+
+msgid "gets audio from"
+msgstr "מקור השמע"
+
+msgid "hear assigned audio"
+msgstr "השמעת השמע המשויך"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "שמירת השמות שלנו והעלאת הכול מחדש -- זה עולה\n       קרדיט"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "השארה והוספת ה-Timelines החדשים לצידם --\n       הקיימים נשארים"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "חסר -- המכל אינו נושא תיוג צבע"
+
+msgid "missing: %s"
+msgstr "חסר: %s"
+
+msgid "moov has not grown"
+msgstr "moov לא גדל"
+
+msgid "moov is no longer in its place"
+msgstr "moov כבר לא במקומו"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov כבר לא מסתיים בסוף הקובץ"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "בכמה חלקים, ללא קוד זמן -- לא ניתן לזהות פערים ביניהם."
+
+msgid "new file name"
+msgstr "שם קובץ חדש"
+
+msgid "next to each video file"
+msgstr "לצד כל קובץ וידאו"
+
+msgid "no audio data from %s"
+msgstr "אין נתוני שמע מ-%s"
+
+msgid "no audio track present"
+msgstr "אין רצועת שמע"
+
+msgid "no audio: %s"
+msgstr "אין שמע: %s"
+
+msgid "no download address for %s"
+msgstr "אין כתובת הורדה עבור %s"
+
+msgid "no information"
+msgstr "אין מידע"
+
+msgid "no information in the file"
+msgstr "אין מידע בקובץ"
+
+msgid "no match in the middle either (%s)"
+msgstr "גם באמצע אין התאמה (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "לא נמצא מקום שבו מדבר בדיוק אדם אחד -- לא ניתן למדוד את ההפרדה."
+
+msgid "no production id in the response"
+msgstr "אין מזהה הפקה בתשובה"
+
+msgid "no production id in the response: %s"
+msgstr "אין מזהה הפקה בתשובה: %s"
+
+msgid "no timecode"
+msgstr "ללא קוד זמן"
+
+msgid "no video track"
+msgstr "אין רצועת וידאו"
+
+msgid "no video track in %s"
+msgstr "אין רצועת וידאו ב-%s"
+
+msgid "none switched on"
+msgstr "אף אחד לא מופעל"
+
+msgid "not checked yet"
+msgstr "טרם נבדק"
+
+msgid "not in the media pool"
+msgstr "לא ב-Media Pool"
+
+msgid "not measurable."
+msgstr "לא ניתן למדידה."
+
+msgid "not measurable: %s"
+msgstr "לא ניתן למדידה: %s"
+
+msgid "not needed with HLG"
+msgstr "לא נחוץ עם HLG"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "לא ניתן לקריאה (%s) -- לא נבדק."
+
+msgid "not readable: %s"
+msgstr "לא ניתן לקריאה: %s"
+
+msgid "nothing loaded yet"
+msgstr "עדיין לא נטען דבר"
+
+msgid "nothing selected"
+msgstr "לא נבחר דבר"
+
+msgid "off"
+msgstr "כבוי"
+
+msgid "one Timeline"
+msgstr "Timeline אחד"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "אורך של %s בלבד, להקלטה הארוכה ביותר יש %s."
+
+msgid "overlap of %s per timecode"
+msgstr "חפיפה של %s לפי קוד הזמן"
+
+msgid "per track"
+msgstr "לכל רצועה"
+
+msgid "preset does not fit the run"
+msgstr "הפריסט אינו מתאים להרצה"
+
+msgid "previous block is shorter than the rest"
+msgstr "המקטע הקודם קצר מהשאר"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "נמצאו רצועות מעובדות -- שום דבר לא מועלה"
+
+msgid "production finished, but no output file"
+msgstr "ההפקה הסתיימה, אך אין קובץ פלט"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "חישוב מחדש עם הפריסט שנבחר -- הקבצים נשארים\n       במקומם, ללא עלות בקרדיט"
+
+msgid "reset"
+msgstr "איפוס"
+
+msgid "running ..."
+msgstr "בהרצה ..."
+
+msgid "selected"
+msgstr "נבחר"
+
+msgid "shorter shots are merged in"
+msgstr "שוטים קצרים יותר מתמזגים"
+
+msgid "stays out"
+msgstr "נשאר בחוץ"
+
+msgid "stored file %s"
+msgstr "קובץ שמור %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "שימוש בתוצאה הקיימת (בלי חישוב, בלי תשלום)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "לקיחת השמות משם והמשך איתם --\n       ללא העלאה, ללא עלות"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "בפריסט ה-Multitrack לא שמורה אף רצועה."
+
+msgid "the finished mixdown"
+msgstr "המיקס הסופי המוכן"
+
+msgid "the individual tracks"
+msgstr "הרצועות הנפרדות"
+
+msgid "the individual tracks, packed"
+msgstr "הרצועות הנפרדות, ארוזות"
+
+msgid "the media data is no longer where it was"
+msgstr "נתוני המדיה כבר לא נמצאים היכן שהיו"
+
+msgid "the mix of all tracks"
+msgstr "המיקס של כל הרצועות"
+
+msgid "the mixdown as the yardstick"
+msgstr "המיקס הסופי כאמת מידה"
+
+msgid "the old moov is back in place"
+msgstr "ה-moov הישן חזר למקומו"
+
+msgid "the picture changes this much later than the sound"
+msgstr "התמונה מתחלפת באיחור זה אחרי השמע"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "הפריסט עושה מאסטרינג ל-%s LUFS, החישוב משתמש ב-%s."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "הפריסט עושה מאסטרינג ל-%s LUFS -- זה נשאר, מצדנו דבר אינו מכוונן."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "נלקח מקובצי המקור, לא ניתן --lufs -- דבר אינו מכוונן"
+
+msgid "the answer did not keep the floor"
+msgstr "התשובה לא נמשכה"
+
+msgid "the main speaker asked"
+msgstr "הדובר הראשי שאל"
+
+msgid "nobody answered in time"
+msgstr "איש לא ענה בזמן"
+
+msgid "nobody was speaking at the question"
+msgstr "בזמן השאלה איש לא דיבר"
+
+msgid "asker and answerer on one camera"
+msgstr "השואל והמשיב על אותה מצלמה"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "ההקלטות חופפות רק %s -- מעט מדי למדידה."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "להקלטה הקצרה ביותר יש רק %s -- מעט מדי למדידה."
+
+msgid "the source folder"
+msgstr "תיקיית המקור"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "בתבנית הרצועות לא מופעל דבר -- הרצועות יחזרו בדיוק כפי שהועלו."
+
+msgid "the video files are tagged differently: %s"
+msgstr "קובצי הווידאו מתויגים באופן שונה: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "לקובצי הווידאו עקומות צילום שונות: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "לקובצי הווידאו גדלי תמונה שונים: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "קובצי הווידאו רצים בקצבי פריימים שונים: %s"
+
+msgid "the video track can no longer be found"
+msgstr "רצועת הווידאו כבר לא נמצאת"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "ציר הזמן נמדד -- קפיצות נוחתות באותה נקודה"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "ציר הזמן נמדד וקושר לקוד הזמן"
+
+msgid "time axis not measurable"
+msgstr "לא ניתן למדוד את ציר הזמן"
+
+msgid "time axis not measurable: %s"
+msgstr "לא ניתן למדוד את ציר הזמן: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "רק %s שניות של דיבור לבד (%s), נדרש %s"
+
+msgid "too little audio to align"
+msgstr "מעט מדי שמע ליישור"
+
+msgid "unspecified"
+msgstr "לא צוין"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "העלאת הכול מחדש וחישוב מחדש -- זה עולה קרדיט"
+
+msgid "used directly"
+msgstr "בשימוש ישיר"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "שוט רחב %s, המיקס הוא רצועת השמע הראשונה שלו"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  השם מופיע יותר מפעם אחת: %s. ההקלטות האלה מאוחדות לרצועה אחת ומוצבות ברצף לפי קוד הזמן שלהן -- נכון אם ההקלטה נעצרה בינתיים."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  לכל ההקלטות אותו שם. מכך נוצרת רצועה אחת -- Multitrack דורש לפחות שתיים."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  שתי מצלמות הן מצלמה אחת בחיתוך (%s). לקבצים שלהן אותו שם, לכן יש לשנות את שם אחת מהן."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  שתי מצלמות היו יוצרות את אותו קובץ (%s). השנייה הייתה דורסת את הראשונה."
+
+msgid "   (camera audio)"
+msgstr "   (שמע המצלמה)"
+
+msgid "  Number: "
+msgstr "  מספר: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", סחיפת שעון של %s ppm הוסרה"
+
+msgid "Files && production"
+msgstr "קבצים && הפקה"
+
+msgid "Assignment && time window"
+msgstr "שיוך && חלון זמן"
+
+msgid "Resolve cut"
+msgstr "חיתוך Resolve"
+
+msgid "Camera audio"
+msgstr "שמע המצלמה"
+
+msgid "Camera audio %s"
+msgstr "שמע המצלמה %s"
+
+msgid "%s channels against %s"
+msgstr "%s ערוצים לעומת %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz לעומת %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: לא ניתן לחלץ את ערוץ %s (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "ערוץ %d נמוך ב-%s dB מהחזק ביותר -- שום דבר לא מחובר"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "ערוץ %d ב-%s dBFS -- נותר רק רעש הממיר"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "ערוץ %d שקט -- כניסה לא בשימוש"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "הפעלה הופכת את הערוץ הזה ואת הבא לרצועת סטריאו אחת.\nלבא אין אז תיבת סימון משלו -- הוא כבר תפוס.\nמה שנמדד מופיע בשורה שלצדו."
+
+msgid "a track of its own"
+msgstr "רצועה נפרדת"
+
+msgid "with Channel %d one stereo track"
+msgstr "רצועת סטריאו אחת עם ערוץ %d"
+
+msgid "already in another recording"
+msgstr "כבר בהקלטה אחרת"
+
+msgid "not found"
+msgstr "לא נמצא"
+
+msgid "a recording of its own"
+msgstr "הקלטה נפרדת"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "מכניס את ההקלטה הזו להקלטה אחרת, עם כל המקטעים שלה.\nלשימוש כאשר שמות הקבצים אינם נותנים לחיפוש במה להיאחז."
+
+msgid "Cameras only"
+msgstr "מצלמות בלבד"
+
+msgid "Curve number %d"
+msgstr "עקומה מספר %d"
+
+msgid "End"
+msgstr "סוף"
+
+msgid "End %s"
+msgstr "סוף %s"
+
+msgid "Error"
+msgstr "שגיאה"
+
+msgid "Mark In"
+msgstr "סימון כניסה"
+
+msgid "Mark Out"
+msgstr "סימון יציאה"
+
+msgid "Measure, align, process, write files."
+msgstr "מדידה, יישור, עיבוד, כתיבת קבצים."
+
+msgid "Minimum Edit Duration"
+msgstr "משך שוט מינימלי"
+
+msgid "%s, seconds"
+msgstr "%s, שניות"
+
+msgid "Names used more than once"
+msgstr "שמות כפולים"
+
+msgid "One name for two voices"
+msgstr "שם אחד לשני קולות"
+
+msgid "No files given."
+msgstr "לא צוינו קבצים."
+
+msgid "Number %d"
+msgstr "מספר %d"
+
+msgid "Preset missing"
+msgstr "חסר פריסט"
+
+msgid "Speaker"
+msgstr "דובר"
+
+msgid "Start %s"
+msgstr "התחלה %s"
+
+msgid "Take from source files"
+msgstr "לפי קובצי המקור"
+
+msgid "Take the camera audio"
+msgstr "שימוש בשמע המצלמה"
+
+msgid "Target: %s"
+msgstr "יעד: %s"
+
+msgid "Transfer"
+msgstr "העברה"
+
+msgid "Uploading %s tracks"
+msgstr "העלאת %s רצועות"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;קובצי JSON (*.json);;כל הקבצים (*)"
+
+msgid "Wide shot after"
+msgstr "שוט רחב אחרי"
+
+msgid "the voices below carry the cameras"
+msgstr "הקולות שמתחת נושאים את המצלמות"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "נמדד מההקלטות -- %s דוברים, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "מההרצה שהסתיימה -- %s דוברים, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "מרצועות Auphonic המעובדות -- %s דוברים, %s"
+
+msgid "no folder"
+msgstr "(אין תיקייה)"
+
+msgid "no text"
+msgstr "ללא טקסט"
+
+msgid "unnamed"
+msgstr "ללא שם"
+
+msgid "   Caution: measurement unusable"
+msgstr "   זהירות: המדידה אינה שמישה"
+
+msgid "   MISSING"
+msgstr "   חסר"
+
+msgid "   NOT INSERTED"
+msgstr "   לא הוכנס"
+
+msgid "  (container; measured %s)"
+msgstr "  (קונטיינר; נמדד %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  מספר (ריק = ביטול): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (גם auphonic.com מוריד אותה כמות)"
+
+msgid " (fine: %s ms)"
+msgstr " (מדויק: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- %s הערות"
+
+msgid " -- 1 note: %s"
+msgstr " -- הערה אחת: %s"
+
+msgid " target %.2f"
+msgstr " יעד %.2f"
+
+msgid "(wanted %s)"
+msgstr "(מבוקש %s)"
+
+msgid ", clock drift left in"
+msgstr ", סחיפת השעון נשארה"
+
+msgid ", range %s LU"
+msgstr ", טווח %s LU"
+
+msgid "-- nothing --"
+msgstr "-- כלום --"
+
+msgid "After: %s"
+msgstr "אחרי: %s"
+
+msgid "Algorithms"
+msgstr "אלגוריתמים"
+
+msgid "Audio file %s"
+msgstr "קובץ שמע %s"
+
+msgid "Audio recording"
+msgstr "הקלטת שמע"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic מדווח %s: %s"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 קבוע"
+
+msgid "Before: %s"
+msgstr "לפני: %s"
+
+msgid "Bit depth"
+msgstr "עומק סיביות"
+
+msgid "Building the sum"
+msgstr "בניית הסכום"
+
+msgid "Caution: "
+msgstr "זהירות: "
+
+msgid "Camera cut"
+msgstr "חיתוך מצלמות"
+
+msgid "%s -- preview"
+msgstr "%s -- תצוגה מקדימה"
+
+msgid "Cancel"
+msgstr "ביטול"
+
+msgid "Capture curve"
+msgstr "עקומת צילום"
+
+msgid "Check: %s and camera track"
+msgstr "בדיקה: %s ורצועת המצלמה"
+
+msgid "Codec profile"
+msgstr "פרופיל קודק"
+
+msgid "Colour tag"
+msgstr "תיוג צבע"
+
+msgid "Connect"
+msgstr "התחברות"
+
+msgid "Connection to Resolve"
+msgstr "חיבור ל-Resolve"
+
+msgid "Continue"
+msgstr "המשך"
+
+msgid "Create Resolve project"
+msgstr "יצירת פרויקט Resolve"
+
+msgid "Curve"
+msgstr "עקומה"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "נקודת כניסה: %s     נקודת יציאה: %s     משך: %s"
+
+msgid "In point %s"
+msgstr "נקודת כניסה %s"
+
+msgid "Out point %s"
+msgstr "נקודת יציאה %s"
+
+msgid "Different track names"
+msgstr "שמות רצועה שונים"
+
+msgid "Disk space"
+msgstr "שטח דיסק"
+
+msgid "Downloading %s"
+msgstr "הורדת %s"
+
+msgid "Dry run"
+msgstr "הרצת ניסיון"
+
+msgid "Duration %s"
+msgstr "משך %s"
+
+msgid "Dynamic range"
+msgstr "טווח דינמי"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, שידור"
+
+msgid "File names"
+msgstr "שמות קבצים"
+
+msgid "Frame rates"
+msgstr "קצבי פריימים"
+
+msgid "GENERAL NOTES"
+msgstr "הערות כלליות"
+
+msgid "Given"
+msgstr "מוגדר מראש"
+
+msgid "Go ahead"
+msgstr "קדימה"
+
+msgid "Interface:      %s%s"
+msgstr "ממשק:           %s%s"
+
+msgid "Keep it saved"
+msgstr "שמירה קבועה"
+
+msgid "Library:        %s%s"
+msgstr "ספרייה:         %s%s"
+
+msgid "Log according to camera data"
+msgstr "Log לפי נתוני המצלמה"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (עשר סיביות)"
+
+msgid "Measure"
+msgstr "מדידה"
+
+msgid "Measuring loudness"
+msgstr "מדידת עוצמה נתפסת"
+
+msgid "Merge them"
+msgstr "מיזוג"
+
+msgid "Mixing %s"
+msgstr "מיקס של %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack דורש שתי רצועות בטבלה שלמעלה -- מצלמה נספרת כרצועה אחת ברגע ששמע המצלמה שלה מוגדר ל\"שימוש בשמע הפנימי\"."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "רצועה אחת בלבד -- לרצועה שנייה יש להגדיר את שמע המצלמה של אחת המצלמות ל\"שימוש בשמע הפנימי\"."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "רצועה אחת בלבד, ולא נותר שמע מצלמה לשימוש."
+
+msgid "do not use internal audio"
+msgstr "ללא השמע הפנימי"
+
+msgid "use internal audio"
+msgstr "שימוש בשמע הפנימי"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "בשימוש, הערוצים שנמדדו תחת הקובץ הזה נחתכים לרצועות, כמו בהקלטה.\nהמדידה מתבצעת בכל מקרה: על פי תוצאתה מתקבלת ההחלטה, והסנכרון לוקח את השמע בכל מקרה."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "בשימוש, השמע של הקובץ הזה הופך לרצועה ככל רצועה אחרת -- הוא מופיע בטבלה שלמעלה.\nאותו שדה מופיע ברשימת הקבצים; שניהם מציגים את אותה תשובה."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "אין שמע לעבוד איתו -- יש להגדיר את שמע המצלמה של קובץ וידאו ל\"שימוש בשמע הפנימי\", או להוסיף הקלטת שמע."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack דורש כמה רצועות"
+
+msgid "Mute."
+msgstr "השתקה."
+
+msgid "No audio file given."
+msgstr "לא צוין קובץ שמע."
+
+msgid "No project open."
+msgstr "אין פרויקט פתוח."
+
+msgid "Not found: %s"
+msgstr "לא נמצא: %s"
+
+msgid "Not recognised"
+msgstr "לא זוהה"
+
+msgid "Note"
+msgstr "הערה"
+
+msgid "Note: "
+msgstr "הערה: "
+
+msgid "One frame forward."
+msgstr "פריים אחד קדימה."
+
+msgid "One second forward."
+msgstr "שנייה אחת קדימה."
+
+msgid "Output folder"
+msgstr "תיקיית פלט"
+
+msgid "Choose the output folder"
+msgstr "בחירת תיקיית פלט"
+
+msgid "Output folder back beside each video file"
+msgstr "תיקיית הפלט חוזרת לצד כל קובץ וידאו"
+
+msgid "Output folder ..."
+msgstr "תיקיית פלט ..."
+
+msgid "Podcast directories, mono"
+msgstr "מדריכי פודקאסטים, מונו"
+
+msgid "Podcast directories, stereo"
+msgstr "מדריכי פודקאסטים, סטריאו"
+
+msgid "Preview player"
+msgstr "נגן תצוגה מקדימה"
+
+msgid "Preview player%s"
+msgstr "נגן תצוגה מקדימה%s"
+
+msgid "Processing"
+msgstr "עיבוד"
+
+msgid "Profile"
+msgstr "פרופיל"
+
+msgid "Project"
+msgstr "פרויקט"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "מכאן מחפשים לו רגע מתאים"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "הגבול הרך של הזוג: מכאן התוכנה ממתינה לסוף משפט ומציבה שם את השוט הרחב, לא לפי השעון. 0 מכבה זאת. \"שוט רחב לכל המאוחר\" הוא הגבול הקשיח, שבו נחתך גם בלי סוף משפט."
+
+msgid "and here it is cut, good moment or not"
+msgstr "וכאן נחתך, רגע מתאים או לא"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "הגבול הקשיח של הזוג: אם מאז \"שוט רחב אחרי\" לא הופיע סוף משפט, ההפסקה הארוכה ביותר בדיבור באה במקומו, ובנקודה זו נחתך, יהיה הנאמר אשר יהיה."
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "אין עדיין תמלול. בלעדיו לא נמצאת שום שאלה ולא ידוע שום סוף משפט, ולכן ארבע ההגדרות האלה אינן עושות דבר. הרצה כותבת אותו, ומאז הן פועלות."
+
+msgid "Why the question settings are grey"
+msgstr "למה הגדרות השאלה אפורות"
+
+msgid "After a question"
+msgstr "אחרי שאלה"
+
+msgid "Question"
+msgstr "שאלה"
+
+msgid "Remove"
+msgstr "הסרה"
+
+msgid "Remove all"
+msgstr "הסרת הכול"
+
+msgid "Remove from list"
+msgstr "הסרה מהרשימה"
+
+msgid "Resolve answers%s"
+msgstr "תשובה מ-Resolve%s"
+
+msgid "Saving %s"
+msgstr "שמירת %s"
+
+msgid "Show in Finder."
+msgstr "הצגה ב-Finder."
+
+msgid "Silence"
+msgstr "שקט"
+
+msgid "Speaker name"
+msgstr "שם הדובר"
+
+msgid "Speaker names"
+msgstr "שמות הדוברים"
+
+msgid "Static metadata"
+msgstr "מטא-נתונים סטטיים"
+
+msgid "Tagging"
+msgstr "תיוג"
+
+msgid "Ten seconds forward."
+msgstr "עשר שניות קדימה."
+
+msgid "Timecode from %s"
+msgstr "קוד זמן מ-%s"
+
+msgid "Track template"
+msgstr "תבנית רצועות"
+
+msgid "Uploading %s"
+msgstr "העלאת %s"
+
+msgid "Value range"
+msgstr "טווח ערכים"
+
+msgid "What should happen with it?"
+msgstr "מה לעשות עם זה?"
+
+msgid "Window %s%s"
+msgstr "חלון זמן %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "החיתוך, ה-EDL, ה-CSV וקובץ המסירה מחושבים מחדש מהמספרים שלמעלה. מי מדבר ומתי נשאר כפי שההרצה מדדה. Resolve צריך לפעול."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "בלי שני אלה שום דבר לא עובד. האם Resolve מותקן?"
+
+msgid "cancel"
+msgstr "ביטול"
+
+msgid "cancelled"
+msgstr "בוטל"
+
+msgid "edges implausible"
+msgstr "קצוות לא סבירים"
+
+msgid "fixed: "
+msgstr "תוקן: "
+
+msgid "found automatically"
+msgstr "נמצא אוטומטית"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "פנויים %s, נדרשים כ-%s (%s)"
+
+msgid "full range"
+msgstr "טווח מלא"
+
+msgid "is left in"
+msgstr "נשארת"
+
+msgid "limited (Video/TV)"
+msgstr "מוגבל (וידאו/טלוויזיה)"
+
+msgid "working out who speaks when ..."
+msgstr "מזהה מי מדבר ומתי ..."
+
+msgid "nothing"
+msgstr "כלום"
+
+msgid "nothing to do"
+msgstr "אין מה לעשות"
+
+msgid "reserved"
+msgstr "שמור"
+
+msgid "system store"
+msgstr "מאגר המערכת"
+
+msgid "to In point"
+msgstr "לנקודת הכניסה"
+
+msgid "to Out point"
+msgstr "לנקודת היציאה"
+
+msgid "too short"
+msgstr "קצר מדי"
+
+msgid "two Timelines"
+msgstr "שני Timelines"
+
+msgid "unknown"
+msgstr "לא ידוע"
+
+msgid "up to %s"
+msgstr "עד %s"
+
+msgid "volume %.2f"
+msgstr "עוצמת שמע %.2f"
+
+msgid "while writing: %s"
+msgstr "בעת הכתיבה: %s"
+
+msgid "AUDIO"
+msgstr "שמע"
+
+msgid "Caution"
+msgstr "זהירות"
+
+msgid "MUTED"
+msgstr "מושתק"
+
+msgid "fixed"
+msgstr "תוקן"
+
+msgid "on"
+msgstr "מופעל"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r נספר מהסוף -- זה עובד רק בנקודת היציאה."
+
+msgid "Check"
+msgstr "בדיקה"
+
+msgid "the check itself stopped: %s"
+msgstr "הבדיקה עצמה נעצרה: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "לא ניתן לקרוא כאן את נקודת הכניסה או את נקודת היציאה."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "נקודת היציאה נמצאת פחות מ-5 שניות אחרי נקודת הכניסה."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "חסרים כ-%s. יש לפנות מקום או לבחור תיקייה אחרת עם --out. הקבצים הזמניים במהלך ההרצה הולכים שוב למקום אחר, לתיקייה הזמנית של המערכת."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "ההערכה גסה, ולכן המקום הזה אינו מספיק. יש לפנות מקום או לבחור תיקייה אחרת עם --out."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nדוברים -- נמדדו כאן"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nדוברים -- הופרדו לפי קול"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nדוברים\n  אף אחד לא נשמע -- מכאן לא נוצר חיתוך מצלמות."
+
+msgid "\nCAMERA CUT"
+msgstr "\nחיתוך מצלמות"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nחיתוך עם השוט הרחב"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nחיתוך ראשון לפי דובר"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  יותר משני ערוצים נשלחים ל-auphonic.com כערוץ אחד: הקיפול מבוטל רק לסטריאו.\n  היכן שהערוצים אמורים להישאר נפרדים, יש לחתוך קודם את הקובץ לרצועות."
+
+msgid "First cut by speaker"
+msgstr "חיתוך ראשון לפי דובר"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nתמלול"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s מילים: %s %% לקול אחד, %s %% לשניים, %s %% בהפסקה"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s מילים, ללא שמות -- אף אחד לא הופרד"
+
+msgid "  %s could not be written: %s"
+msgstr "  לא ניתן היה לכתוב את %s: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nהפרדת דוברים"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  כבר הופרד פעם אחת: נקרא מחדש, לא נמדד שוב."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  כ-%s של חישוב עבור %s של שמע."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (מדידה בלבד: שום דבר לא הופרד)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  הרצועות לא נמדדו, ולכן אלה נמצאות במיקס ולא בחיתוך: %s; סיבה: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "עדיין ללא מדידה: %s -- כלול בחיתוך, עדיין לא בתצוגה המקדימה הזו."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  מהרצועות עצמן, קול אחד לכל רצועה: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  ב-%s, במחשב הזה."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  המיקרופונים שומעים זה את זה טוב מדי כדי לומר מי מדבר, ולכן ההפרדה מאזינה לכל %s המיקרופונים בבת אחת, במחשב הזה."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  מה שהחלון הפריד נזנח: הוא האזין להקלטה אחת, והמיקרופונים שומעים זה את זה כל כך טוב שאף אחד מהם אינו בולט -- %s dB לעומת %s dB שאחד מהם לבדו צריך כדי לומר מי מדבר."
+
+msgid "Mixing the tracks for the separation"
+msgstr "מיקס הרצועות לצורך ההפרדה"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  לא ניתן היה לקבוע איזה קול שייך לאיזה מיקרופון, ולכן במקום זאת נמדדות הרצועות."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s הוא %-20s, %s dB לפני המיקרופון הבא, בניכוי רמת ההקלטה"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  הפרדת הדוברים אינה בשימוש: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  לא ניתן לקרוא את %s: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s אינו חלק מההרצה הזו"
+
+msgid "%s has no place on the axis"
+msgstr "ל-%s אין מקום על הציר"
+
+msgid "no recording named"
+msgstr "לא צוינה הקלטה"
+
+msgid "nothing of it falls inside the window"
+msgstr "שום חלק ממנה אינו נופל בתוך חלון הזמן"
+
+msgid "the interface"
+msgstr "הממשק"
+
+msgid "the separation in this run"
+msgstr "ההפרדה בהרצה הזו"
+
+msgid "Speakers, separated by voice"
+msgstr "דוברים, מופרדים לפי קול"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "מכאן לא נוצר חיתוך -- יש ללחוץ שוב על \"התחלה\" למעלה."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nללא AUPHONIC.COM"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  נמדדה זליגה: %s ב-%s, רק %s dB פחות -- הוצאה מזיהוי הדיבור"
+
+msgid "  Bleed not separable: %s"
+msgstr "  לא ניתן להפריד את הזליגה: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  לא נמצא רגע שבו מדבר בדיוק אדם אחד -- הזליגה נשארת בזיהוי הדיבור."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  שום דבר לא נשמע ברצועות -- מכאן לא נוצר חיתוך מצלמות."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  לא בחיתוך: %s -- הפרדה מייצגת את ההקלטה, או שלא בוצעה מדידה."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  הרצועות משמשות כפי שהוקלטו: מיושרות, ממוקסות ומובאות לעוצמת\n  היעד הנתפסת. ללא De-Bleed, ללא Leveler, ללא הסרת רעש -- לשם\n  כך ההרצה זקוקה ל-auphonic.com."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  ניתנו גם --without-auphonic וגם --auphonic-done. הרצועות המוכנות גוברות: לא נשאר דבר לשלוח לשום מקום."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK אינו אפשרי\n  ללא מפתח API אין מה לשלוח ל-auphonic.com.\n  עם --without-auphonic זה רץ במקום זאת באופן מקומי: מיושר,\n  ממוקס וחתוך, אך ללא De-Bleed ו-Leveler."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  זהירות: רק %s מתוך %s זוגות ניתנים למדידה. לשאר לא נמצא רגע שבו מדבר בדיוק אדם אחד, ולכן הזליגה שלהם נשארת -- זיהוי הדוברים אינו אמין כאן."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "המיקרופונים שומעים זה את זה כמעט בעוצמה של הדובר שלהם"
+
+msgid "the tracks are too much alike to separate"
+msgstr "הרצועות דומות מדי זו לזו מכדי להפריד ביניהן"
+
+msgid "Reading the plan"
+msgstr "קריאת התוכנית"
+
+msgid "Audio out of the cameras"
+msgstr "שמע מהמצלמות"
+
+msgid "Common time axis"
+msgstr "ציר זמן משותף"
+
+msgid "Processing at auphonic.com"
+msgstr "עיבוד ב-auphonic.com"
+
+msgid "Loudness"
+msgstr "עוצמה נתפסת"
+
+msgid "Loudness and levels"
+msgstr "עוצמה נתפסת ורמות"
+
+msgid "Loudness of the finished episode"
+msgstr "העוצמה הנתפסת של הפרק המוגמר"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "כמה חזק ייעשה הפרק המוגמר. אותה הגברה חלה על כל\nרצועה, כך שהאיזון בין הדוברים נשמר.\n\"לפי קובצי המקור\" אינו משנה דבר: auphonic.com ממשיך\nלעשות מה שהפריסט שלו אומר, ובלי auphonic.com השמע\nנשאר כפי שהוא בקובצי המקור."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    העוצמה הנתפסת לא כווננה -- היעד שלהלן הוא רק מה שהמד\n    מודד מולו."
+
+msgid "Who speaks when"
+msgstr "מי מדבר ומתי"
+
+msgid "Writing the camera files"
+msgstr "כתיבת קובצי המצלמה"
+
+msgid "Handover and result"
+msgstr "מסירה ותוצאה"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "הצגת פי שניים (מקש מינוס, או הגלגלת מעל הפס)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "הצגת חצי, סביב המיקום הנוכחי (מקש פלוס, או הגלגלת מעל הפס)"
+
+msgid "The whole length again (0 key)"
+msgstr "שוב כל האורך (מקש 0)"
+
+msgid "  Also fetched: %s"
+msgstr "  הורד גם: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic אינו מקבל את ההגדרות: %s"
+
+msgid "      %s channels"
+msgstr "      %s ערוצים"
+
+msgid "measurement running ..."
+msgstr "מדידה מתבצעת ..."
+
+msgid "      Channel %d"
+msgstr "      ערוץ %d"
+
+msgid "Looking at the channels"
+msgstr "בחינת הערוצים"
+
+msgid "channels not readable: %s"
+msgstr "לא ניתן לקרוא את הערוצים: %s"
+
+msgid "unused input -- ignored"
+msgstr "קלט שאינו בשימוש -- לא נלקח בחשבון"
+
+msgid "uncertain -- %s"
+msgstr "לא ודאי -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "הוגדר ידנית -- גובר על המדידה"
+
+msgid "Language"
+msgstr "שפה"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "שני הערוצים זהים -- מונו הונח בשני הצדדים"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "כנראה שני מיקרופונים -- במרחק של כ-%s m%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", הסכמה ב-%s מתוך %s מקומות"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "כנראה רצועת סטריאו אחת -- שני המיקרופונים באותו מקום"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "לא ניתן לזהות -- רק %s מתוך %s מקומות שבהם בשני הערוצים יש שמע, נדרשים %s"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "לא ניתן לזהות -- שני אלה אינם מתאימים זה לזה יותר משכל אחד מהם מתאים לערוץ שלצדו"
+
+msgid "not set"
+msgstr "ללא הגדרה"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "השפה המדוברת בהקלטה. היא הופכת לתג של רצועת\nהשמע שנכתבת, והזיהוי כאן מונחה לצפות לה.\nמוגדרת מראש לפי שפת המערכת. \"%s\" משאיר את הרצועה ללא תג\nומניח לזיהוי לגלות את השפה בעצמו."
+
+msgid "German"
+msgstr "גרמנית"
+
+msgid "English"
+msgstr "אנגלית"
+
+msgid "French"
+msgstr "צרפתית"
+
+msgid "Spanish"
+msgstr "ספרדית"
+
+msgid "Italian"
+msgstr "איטלקית"
+
+msgid "Dutch"
+msgstr "הולנדית"
+
+msgid "Portuguese"
+msgstr "פורטוגזית"
+
+msgid "Polish"
+msgstr "פולנית"
+
+msgid "Russian"
+msgstr "רוסית"
+
+msgid "Swedish"
+msgstr "שוודית"
+
+msgid "Danish"
+msgstr "דנית"
+
+msgid "Norwegian"
+msgstr "נורווגית"
+
+msgid "Finnish"
+msgstr "פינית"
+
+msgid "Czech"
+msgstr "צ'כית"
+
+msgid "Turkish"
+msgstr "טורקית"
+
+msgid "Greek"
+msgstr "יוונית"
+
+msgid "Hungarian"
+msgstr "הונגרית"
+
+msgid "Romanian"
+msgstr "רומנית"
+
+msgid "Ukrainian"
+msgstr "אוקראינית"
+
+msgid "Catalan"
+msgstr "קטלאנית"
+
+msgid "Arabic"
+msgstr "ערבית"
+
+msgid "Hebrew"
+msgstr "עברית"
+
+msgid "Japanese"
+msgstr "יפנית"
+
+msgid "Chinese"
+msgstr "סינית"
+
+msgid "Korean"
+msgstr "קוריאנית"
+
+msgid "Cutting out track %d of %d"
+msgstr "חיתוך רצועה %d מתוך %d"
+
+msgid "cutting failed: %s"
+msgstr "החיתוך נכשל: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  מצלמה אחת לכולם: חיתוך ל-%s שוטים בהחלפת דובר, כדי ש-Resolve יוכל לקבץ אותם."
+
+msgid "Shorter shots fall into the following one."
+msgstr "שוטים קצרים יותר מתמזגים בשוט שאחריהם."
+
+msgid "Speaks at least"
+msgstr "משך דיבור מינימלי"
+
+msgid "below this the camera does not follow"
+msgstr "מתחת לזה המצלמה לא עוקבת"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "\"כן\" קצר אינו מזיז את התמונה. בלי זה, מקטע של חצי שנייה מושך אליו את המצלמה, ואז משך השוט המינימלי מחזיק אותה שם למשך שניות."
+
+msgid "Answer on screen earlier"
+msgstr "התשובה על המסך מוקדם יותר"
+
+msgid "before the question ends"
+msgstr "לפני שהשאלה מסתיימת"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "אפס הוא המקום שבו השואל מפסיק, לא המקום שבו התשובה מתחילה: ההפסקה ביניהם שייכת לשאלה. חל רק היכן ש\"אחרי שאלה\" מבקש זאת, וה-Edit Change Delay אינו מתווסף שוב."
+
+msgid "Wide shot at least"
+msgstr "שוט רחב לפחות"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "השוט הרחב שנוסף נשאר לפחות משך זמן זה"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "אחר כך הוא נמשך עד סוף המשפט. מתחת לחמש שניות המבט נראה כמו עווית."
+
+msgid "and at most this long"
+msgstr "ולכל היותר משך זמן זה"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "היכן שסוף המשפט נמצא מעבר לכך, גבול הפסוקית האחרון שלפניו מסיים את השוט -- הוא אינו נקטע באמצע משפט."
+
+msgid "Long monologue"
+msgstr "מונולוג ארוך"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "אדם אחד מחזיק בדיבור מעבר ל\"שוט רחב אחרי\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"לסירוגין\" זוכר מה הראתה הקטיעה האחרונה של המונולוג הזה. המאזין מקבל את התמונה רק כשמישהו במצלמה ההיא נשמע ב-20 השניות האחרונות; אחרת השוט הרחב."
+
+msgid "Several speak at once"
+msgstr "כמה מדברים בו-זמנית"
+
+msgid "and no camera shows exactly them"
+msgstr "ואף מצלמה לא מראה בדיוק אותם"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "חיתוך לתוך בליל נראה קדחתני."
+
+msgid "Nobody speaks"
+msgstr "אף אחד לא מדבר"
+
+msgid "no voice is heard at all here"
+msgstr "כאן לא נשמע שום קול"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "נשימה באמצע משפט וסוף של מחשבה הם שניהם שקט, והתוכנה אינה יכולה להבחין ביניהם. רק האורך יכול: \"הפסקה קצרה עד\" קובע כמה ארוך יכול להיות שקט ועדיין להיחשב נשימה."
+
+msgid "Short gap up to"
+msgstr "הפסקה קצרה עד"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "שקט באורך כזה אינו נוגע בתמונה"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "רק היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על הפסקה קצרה. הפסקה עד אורך זה אינה משנה דבר, הפסקה ארוכה יותר עוברת לשוט הרחב. מעל שתי שניות התמונה מתחילה לעמוד על מישהו שותק במשך יותר מחמש שניות."
+
+msgid "Recognition uncertain"
+msgstr "זיהוי לא ודאי"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "זיהוי הדוברים מתפורר או משאיר ערימה אחריו"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "ניחוש מעלה את האדם הלא נכון למסך למשך שניות; השוט הרחב נכון בכל מקרה. כאן מישהו מדבר -- היכן שאף אחד לא מדבר, \"אף אחד לא מדבר\" מכריע."
+
+msgid "the picture goes to the answer before it starts"
+msgstr "התמונה עוברת לתשובה לפני שהיא מתחילה"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "רק אחרי שאלה שאינה של הדובר הראשי, כשמישהו אחר לוקח מיד את רשות הדיבור ומחזיק בה.\n\"לא להקדים\" פירושו ללא החלפת מצלמה מוקדמת: התמונה עוקבת כאן אחרי השמע כמו בכל מקום אחר."
+
+msgid "Wide shot"
+msgstr "שוט רחב"
+
+msgid "Wide shot %d"
+msgstr "שוט רחב %d"
+
+msgid "(wide shot)"
+msgstr "(שוט רחב)"
+
+msgid "No speaker"
+msgstr "ללא דובר"
+
+msgid "Listener"
+msgstr "מאזין"
+
+msgid "Alternating"
+msgstr "לסירוגין"
+
+msgid "No camera change"
+msgstr "ללא החלפת מצלמה"
+
+msgid "Hold a short gap"
+msgstr "שמירה על הפסקה קצרה"
+
+msgid "do not go early"
+msgstr "לא להקדים"
+
+msgid "Answering speaker"
+msgstr "הדובר המשיב"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s פעמים הרחק מהדובר, כי שוט נמשך יותר מ-%s s"
+
+msgid "%s is in place."
+msgstr "גרסה %s הותקנה."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "החלון הזה הוא עדיין הגרסה שבה הוא התחיל. הוא יכול להתחיל מחדש עכשיו ולעלות בגרסה החדשה, או שניתן לעשות זאת ידנית מאוחר יותר."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "העותק הזה רץ מתיקייה משלו, ולכן ל-pip אין כאן מה לעדכן. כך מתקינים אותו: %s"
+
+msgid "Language of the window"
+msgstr "שפת החלון"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "שפה שנבחרת כאן תיכנס לתוקף בהפעלה הבאה."
+
+msgid "Restart the application"
+msgstr "הפעלה מחדש של היישום"
+
+msgid "The work can be written to a project file first."
+msgstr "אפשר לכתוב קודם את העבודה לקובץ פרויקט."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "הפעלה מחדש של היישום מביאה אותה מיד, ושואלת קודם מה ייעשה בעבודה. השארת המצב כמו שהוא אינה עולה דבר -- היא תגיע בהפעלה הבאה."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "היישום עומד להתחיל מחדש. לכתוב קודם את העבודה לקובץ פרויקט?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "אם תיכתב, החלון החדש יפתח שוב את הפרויקט והכול יעמוד במקומו. אם לא, הוא ייפתח ריק ויהיה צורך להוסיף את הקבצים מחדש."
+
+msgid "Save and restart"
+msgstr "שמירה והפעלה מחדש"
+
+msgid "Restart without saving"
+msgstr "הפעלה מחדש ללא שמירה"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "ההרצה עדיין פועלת. אפשר להפעיל מחדש את החלון כשהיא תסתיים."
+
+msgid "System language (%s)"
+msgstr "שפת המערכת (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "נוצר קיצור דרך לתוכנה הזו: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "לא נוצר קיצור דרך לתוכנה הזו: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "הוא נכתב ולא היה קיים לאחר מכן"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "התוכנה הזו רצה כ-%s והחבילות שהותקנו עבורה הן %s, ולכן אף אחת מהן אינה ניתנת לטעינה. כך מפעילים אותה נכון: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "קובץ המסירה הזה אינו כולל קצב פריימים, ולכן לא ניתן לבנות ממנו את ה-Timeline. נא לבצע את ההרצה שוב."
+
+msgid "Cut by speaker"
+msgstr "חיתוך לפי דובר"
+
+msgid "Sync only"
+msgstr "סנכרון בלבד"
+
+msgid "Project type"
+msgstr "סוג הפרויקט"
+
+msgid "No project type chosen yet."
+msgstr "עדיין לא נבחר סוג פרויקט."
+
+msgid "What is this production to become?"
+msgstr "מה ההפקה הזו אמורה להיות?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": המצלמות על ציר זמן אחד וחיתוך לפי מי שמדבר.\n\"%s\": המצלמות על ציר זמן אחד, לא יותר -- ללא דוברים, ללא חיתוך."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "סנכרון בלבד: ללא חיתוך. קובץ המסירה כולל את ה-Timeline של ה-Multicam בלבד; פרויקט ה-Resolve נוצר מהכרטיסייה \"פלט\"."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "סוג הפרויקט: סנכרון בלבד -- ללא דוברים, ללא תמלול, ללא חיתוך; קובץ המסירה כולל את ה-Timeline של ה-Multicam בלבד."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  סנכרון בלבד: לא התבקש חיתוך לפי דובר.\n  נבנה רק ה-Timeline עבור קליפ ה-Multicam."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s רצועות וידאו, בשמות קובצי המצלמה:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "סנכרון בלבד מקבל הקלטת שמע אחת בלבד; זו הקלטה נוספת: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "סנכרון בלבד: קובץ המסירה מחושב מחדש; אין חיתוך לבצע מחדש. Resolve צריך לפעול."
+
+msgid "%s has not started yet"
+msgstr "%s עדיין לא התחיל"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   לא ניתן לנגן את השמע"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "השמע מוקם לפי השעון -- המדידה ממתינה"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nרמות הדוברים"
+
+msgid "Measuring %s"
+msgstr "מדידת %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s לא ניתן למדידה -- ללא שינוי"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- אין בה דבר, ללא שינוי"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  קול אחד בלבד -- אין מול מה להתאים אותו."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  רמה משותפת:        %s LUFS, החציון של הקולות"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name מציין את %s, שאינו אחד מקובצי המצלמה של ההרצה הזו."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "השם החדש עבור %s ריק; יש לתת שם קובץ פשוט או להשמיט את --new-name."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "השם החדש \"%s\" עבור %s מכיל \"%s\", מפריד של תיקייה או כונן; יש לתת שם קובץ פשוט."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "השם החדש \"%s\" עבור %s מתחיל בנקודה, מה שיוצר קובץ מוסתר או תיקייה; יש לתת שם קובץ פשוט."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "שתי מצלמות היו נכתבות כקובץ אחד, %s: %s ו-%s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name נותן ל-%s שני שמות, \"%s\" ו-\"%s\"; יש לתת לכל קובץ שם אחד."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "כאן קובץ השיוך נותן את שמות המצלמות, ולכן --new-name היה נזנח; יש לתת את השמות שם או להשמיט את --new-name."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "כשיש מצלמות בלבד, כל קובץ נקרא על שם הרצועות שנלקחו מהשמע שלו, ולכן --new-name היה נזנח; יש להשמיט את --new-name."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "ב-%s מצלמה"
+msgstr[1] "ב-%s מצלמות"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s מילה חזרה ללא זמן והושמטה."
+msgstr[1] "  %s מילים חזרו ללא זמן והושמטו."
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  הפרדת דוברים (%s): %s דובר מתוך %s של שמע"
+msgstr[1] "  הפרדת דוברים (%s): %s דוברים מתוך %s של שמע"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "הפרדה: %s דובר"
+msgstr[1] "הפרדה: %s דוברים"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s תוקן מעצמו"
+msgstr[1] "%s תוקנו מעצמם"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    התמונה והשמע קושרו מחדש: %s זווית"
+msgstr[1] "    התמונה והשמע קושרו מחדש: %s זוויות"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  זהירות: הזווית %s לא הוכנסה. ללא הזווית הזו\n  ה-Timeline אינו מתאים להמרה."
+msgstr[1] "  זהירות: הזוויות %s לא הוכנסו. ללא הזוויות האלה\n  ה-Timeline אינו מתאים להמרה."
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  הרצועה %s נשארת בשני ערוצים"
+msgstr[1] "  הרצועות %s נשארות בשני ערוצים"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  הרצועה %s הועלתה בסטריאו וחזרה בערוץ אחד."
+msgstr[1] "  הרצועות %s הועלו בסטריאו וחזרו כל אחת בערוץ אחד."
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " (מתוך %s ערוץ מוטמע)"
+msgstr[1] " (מתוך %s ערוצים מוטמעים)"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "הקובץ מסומן כ-HDR, עם %s הערה."
+msgstr[1] "הקובץ מסומן כ-HDR, עם %s הערות."
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s רצועת שמע"
+msgstr[1] "%s רצועות שמע"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s קליפ"
+msgstr[1] "%s קליפים"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s רצועת וידאו"
+msgstr[1] "%s רצועות וידאו"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  Full-Mix מ-%s רצועות, %s ערוץ"
+msgstr[1] "  Full-Mix מ-%s רצועות, %s ערוצים"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s קליפ נותר ללא צבע."
+msgstr[1] "      %s קליפים נותרו ללא צבע."
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> פוענח כ-%s רצועת שמע%s"
+msgstr[1] "      --> פוענח כ-%s רצועות שמע%s"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      יותר זוויות מצבעים -- %s צבע מופיע פעמיים."
+msgstr[1] "      יותר זוויות מצבעים -- %s צבעים מופיעים פעמיים."
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s רצועת שמע ריקה הוסרה"
+msgstr[1] "    %s רצועות שמע ריקות הוסרו"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    ב-V2 יש כעת %s קליפ: %s"
+msgstr[1] "    ב-V2 יש כעת %s קליפים: %s"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  נותרה %s רצועת שמע:"
+msgstr[1] "  נותרו %s רצועות שמע:"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s רצועת שמע נשארת: %s"
+msgstr[1] "  %s רצועות שמע נשארות: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  הוצב %s סמן%s."
+msgstr[1] "  הוצבו %s סמנים%s."
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s קובץ הושלם לפני כן והוא שלם: %s"
+msgstr[1] "%s קבצים הושלמו לפני כן והם שלמים: %s"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s ערוץ"
+msgstr[1] "%s ערוצים"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s קובץ"
+msgstr[1] "%s קבצים"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "%s סיבה לעצירה"
+msgstr[1] "%s סיבות לעצירה"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s הקלטה מתוך %s קבצים"
+msgstr[1] "%s הקלטות מתוך %s קבצים"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s רצועה, %s, %s kHz, %s"
+msgstr[1] "%s רצועות, %s, %s kHz, %s"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: נמצא ב-%s (יעד %s) אחרי %d ms, %d ניסיון"
+msgstr[1] "%s: נמצא ב-%s (יעד %s) אחרי %d ms, %d ניסיונות"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s קובץ אינו מתאים"
+msgstr[1] ", %s קבצים אינם מתאימים"
+
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "להסיר %s קובץ שמע מהרשימה?\n\n%s"
+msgstr[1] "להסיר את כל %s קובצי השמע מהרשימה?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "להסיר %s קובץ וידאו מהרשימה?\n\n%s"
+msgstr[1] "להסיר את כל %s קובצי הווידאו מהרשימה?\n\n%s"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s הקלטת שמע"
+msgstr[1] "%s הקלטות שמע"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s מצלמה"
+msgstr[1] "%s מצלמות"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s הערה"
+msgstr[1] "%s הערות"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s נקודה"
+msgstr[1] "%s נקודות"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s קובץ וידאו"
+msgstr[1] "%s קובצי וידאו"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s המשך"
+msgstr[1] "%s  + %s המשכים"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "ייווצר %s קובץ וידאו, כ-%s. יעד: %s"
+msgstr[1] "ייווצרו %s קובצי וידאו, כ-%s. יעד: %s"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  מתוך %s: %s קול."
+msgstr[1] "  מתוך %s: %s קולות."
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s ב-%s קטע"
+msgstr[1] "  %-20s %s ב-%s קטעים"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  לא ניתן לסווג את %s: %s -- המיקום לפי השעון שלו בלבד"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: השמע שלו מתאים ברמה %s, מתחת לסף של %s -- המיקום לפי השעון שלו בלבד"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  זהירות: הפרויקט הזה אינו שלם -- Resolve דחה את הרצועות האלה פעמיים:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  היסט:            %s   (מקוד הזמן שלה בלבד -- השמע שלה לא הצליח למקם אותה, ולכן דבר אינו נבדק)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve דחה את רצועת השמע A%d פעמיים ב-Timeline \"%s\" -- המצלמות מונחות על %s רצועות השמע הקיימות."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve דחה את רצועת הווידאו V%d פעמיים -- ל-Timeline \"%s\" חסר: %s."
+
+msgid "  Status:      %s"
+msgstr "  מצב:         %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  השמע של %s התאים חלש מכדי לסמוך עליו -- המיקום לפי קוד הזמן בלבד."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   אינו מתאים לשאר הקבצים: השמע לא זוהה,\n   אין מול מה למדוד את קוד הזמן שלו.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "לא ניתן למקם את %s: לשמע שלו אין דבר משותף עם שאר החומר, ואף מצלמה שהשמע מיקם אינה נושאת קוד זמן שמולו אפשר למדוד את שלו. אחת מהן צריכה קוד זמן שמתאים לזה, ואותו יש להגדיר בתוכנה אחרת."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "אין בחומר שום התאמה עבור %s, ואף מצלמה שהשמע מיקם אינה נושאת קוד זמן שמולו אפשר למדוד את שלו, ולכן אי אפשר לשלב אותו בפרק: הוגדר כפתיח."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "אין בחומר שום התאמה עבור %s, ואף מצלמה שהשמע מיקם אינה נושאת קוד זמן שמולו אפשר למדוד את שלו; הפתיח כבר תפוס: הושמט."
+
+msgid "API Key:"
+msgstr "מפתח API:"
+
+msgid "In point"
+msgstr "נקודת כניסה"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "הושמט; %s או %s במרחק לחיצה אחת."
+
+msgid "Out point"
+msgstr "נקודת יציאה"
+
+msgid "Presets:"
+msgstr "פריסטים:"
+
+msgid "Registry"
+msgstr "רישום"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "הסרת \"שמע\" או \"וידאו\" מסירה את כל מה שמתחתיו."
+
+msgid "VIDEO"
+msgstr "וידאו"
+
+msgid "a finished clip"
+msgstr "קליפ מוכן"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "לא ניתן לשלב בפרק -- רק לפניו או אחריו"
+
+msgid "moved off the wide shot"
+msgstr "הוזז מהשוט הרחב"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "לא השמע שלו ולא קוד זמן מציבים אותו על הציר"
+
+msgid "no audio track"
+msgstr "אין רצועת שמע"
+
+msgid "no speaker"
+msgstr "אין דובר"
+
+msgid "not used"
+msgstr "לא בשימוש"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "מוקם עם המצלמה שלו, לפי השעון של אותה מצלמה"
+
+msgid "the file stays out"
+msgstr "הקובץ נשאר בחוץ"
+
+msgid "the only sound"
+msgstr "השמע היחיד"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve דחה את רצועת השמע A%d פעמיים -- ל-Timeline \"%s\" חסר השמע של %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve דחה את רצועת הווידאו V%d פעמיים -- ל-Timeline \"%s\" חסרה התמונה של %s."

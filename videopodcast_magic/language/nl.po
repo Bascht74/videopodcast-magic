@@ -520,9 +520,6 @@ msgstr "Kleur"
 msgid "  Preset:  %s"
 msgstr "  Voorinstelling:  %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve weigert meer videosporen -- %s van %s camera's passen."
-
 msgid "Preset"
 msgstr "Voorinstelling"
 
@@ -715,9 +712,6 @@ msgstr "    %s kon niet worden geïmporteerd."
 msgid "    %s could not be inserted."
 msgstr "    %s kon niet worden ingevoegd."
 
-msgid "    %s track %d could not be created."
-msgstr "    Spoor van het type %s nr. %d kon niet worden aangemaakt."
-
 msgid "    %s track could not be created: %s"
 msgstr "    Spoor van het type %s kon niet worden aangemaakt: %s"
 
@@ -885,9 +879,6 @@ msgstr "  %s videosporen, genoemd naar de sprekers:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s komt twee keer voor met verschillende camera's -- %s wordt gebruikt"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s kan niet worden ingedeeld: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s geeft geen meetbaar geluid -- alleen op zijn klok geplaatst, en er is niets gevonden om het mee te controleren"
@@ -2170,17 +2161,11 @@ msgstr "omdat er geen spreker aan is toegewezen"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "gemarkeerd als totaalshot -- ze krijgt geen sprekers"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "geen spreker -- dit is het totaalshot"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "er is geen spreker aan toegewezen, maar de montage gebruikt %s"
 
 msgid "the cut uses %s"
 msgstr "de montage gebruikt %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "dit is het totaalshot -- %s is verplaatst naar \"geen eigen camera\""
 
 msgid "Curve and colour space are missing from the file"
 msgstr "Curve en kleurruimte ontbreken in het bestand"
@@ -2299,12 +2284,6 @@ msgstr "Indien leeg: naast elk videobestand."
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Het is bij de opname ontstaan en valt nu niet meer te veranderen. Hoe minder de microfoons gescheiden zijn, hoe voorzichtiger De-Bleed bij auphonic.com kan werken. Volgende keer: drie keer zo ver van de naburige microfoon als van je eigen mond, dan ligt de naburige stem ongeveer %s dB lager."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Ze past nergens in het materiaal: geen timecode, en het geluid heeft niets gemeen met de rest. Op het totaalshot valt de montage terug, dus het moet op de tijdas liggen."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Het past nergens in het materiaal en kan dus niet in de aflevering worden gemonteerd. Ervoor of erna plaatsen kan wel."
-
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s past bij niets in het materiaal en kan dus niet in de aflevering worden gemonteerd: ingesteld als intro."
 
@@ -2363,7 +2342,7 @@ msgid "Multitrack (one track per speaker)"
 msgstr "Multitrack (één spoor per spreker)"
 
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
-msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"interne audio gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
+msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"intern geluid gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
 
 msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
 msgstr "Geen API-sleutel. Geef --auphonic-api-key SLEUTEL op, stel AUPHONIC_TOKEN in of laat hem één keer onthouden in de interface. De sleutel staat in de accountinstellingen van Auphonic."
@@ -3347,9 +3326,6 @@ msgstr "Alleen camera's"
 msgid "Curve number %d"
 msgstr "Curve nummer %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "AUDIO of VIDEO verwijderen haalt alles daarvan weg."
-
 msgid "End"
 msgstr "Einde"
 
@@ -3613,18 +3589,6 @@ msgstr "Maar één spoor -- zet voor een tweede het Camerageluid van een camera 
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Maar één spoor, en er is geen camerageluid meer over om te nemen."
-
-msgid "the only sound there is"
-msgstr "het enige geluid dat er is"
-
-msgid "no audio track in this file"
-msgstr "geen audiospoor in dit bestand"
-
-msgid "this file stays out entirely"
-msgstr "dit bestand blijft volledig buiten beschouwing"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "een kant-en-klare clip -- alleen geplaatst, niet bewerkt"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Wordt het gebruikt, dan worden de onder dit bestand gemeten kanalen in sporen opgedeeld, zoals bij een opname.\nGemeten wordt er hoe dan ook: dat oordeel is de basis voor deze keuze, en synchroniseren gebruikt het geluid sowieso."
@@ -4467,3 +4431,378 @@ msgstr "Hier geeft het toewijzingsbestand de camera's hun namen, dus --new-name 
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Met alleen camera's wordt elk bestand genoemd naar de sporen uit zijn geluid, dus --new-name zou vervallen; laat --new-name weg."
+
+msgid "no camera of its own"
+msgstr "geen eigen camera"
+
+msgid "do not use"
+msgstr "niet gebruiken"
+
+msgid "several speakers"
+msgstr "meerdere sprekers"
+
+msgid "work without Auphonic"
+msgstr "zonder Auphonic werken"
+
+msgid "Content"
+msgstr "Inhoud"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Totaalshot"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "video negeren"
+
+msgid "do not use internal audio"
+msgstr "geen intern geluid"
+
+msgid "use internal audio"
+msgstr "intern geluid gebruiken"
+
+msgid "After a question"
+msgstr "Na een vraag"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "het beeld gaat naar het antwoord voordat het begint"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Alleen na een vraag die niet van de hoofdspreker komt, wanneer meteen iemand anders overneemt en het woord houdt.\n\"niet vervroegen\" betekent geen vervroegde camerawissel: het beeld volgt hier het geluid, net als overal elders."
+
+msgid "Long monologue"
+msgstr "Lange monoloog"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "één persoon houdt het woord langer dan \"Totaalshot na\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"Afwisselend\" onthoudt wat de vorige onderbreking van deze monoloog liet zien. De luisteraar krijgt het beeld alleen als iemand op die camera in de laatste 20 seconden te horen was; anders het totaalshot."
+
+msgid "Several speak at once"
+msgstr "Meerderen spreken tegelijk"
+
+msgid "and no camera shows exactly them"
+msgstr "en geen camera laat precies hen zien"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "In een warboel knippen oogt hectisch."
+
+msgid "Nobody speaks"
+msgstr "Niemand spreekt"
+
+msgid "no voice is heard at all here"
+msgstr "hier is helemaal geen stem te horen"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Een ademhaling midden in een zin en het einde van een gedachte zijn allebei stilte, en het programma kan ze niet uit elkaar houden. Alleen de lengte kan dat: \"Korte pauze tot\" zegt hoe lang een stilte mag zijn om nog als ademhaling te gelden."
+
+msgid "Recognition uncertain"
+msgstr "Herkenning onzeker"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "de sprekerherkenning rafelt uit of laat een hoopje achter"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Gokken zet seconden lang de verkeerde persoon in beeld; het totaalshot klopt in elk geval. Hier spreekt iemand -- waar niemand spreekt, beslist \"Niemand spreekt\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "zoveel later dan het geluid wisselt het beeld"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Een negatieve waarde laat het beeld voor het geluid uit lopen."
+
+msgid "Answer on screen earlier"
+msgstr "Antwoord eerder in beeld"
+
+msgid "before the question ends"
+msgstr "voordat de vraag eindigt"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Nul ligt waar de vrager stopt, niet waar het antwoord begint: de pauze ertussen hoort bij de vraag. Geldt alleen waar \"Na een vraag\" erom vraagt, en de Edit Change Delay komt er niet nog eens bij."
+
+msgid "Wide shot after"
+msgstr "Totaalshot na"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "vanaf hier wordt er een goed moment voor gezocht"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "De zachte grens van het paar: vanaf hier wacht het programma op een zinsgrens en zet het totaalshot daar, niet op de klok. 0 zet het uit. \"Totaalshot uiterlijk\" is de harde grens, waar zonder zinsgrens wordt geknipt."
+
+msgid "Wide shot at the latest"
+msgstr "Totaalshot uiterlijk"
+
+msgid "and here it is cut, good moment or not"
+msgstr "en hier wordt geknipt, goed moment of niet"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "De harde grens van het paar: is er sinds \"Totaalshot na\" geen zinsgrens gekomen, dan neemt de langste spreekpauze die plaats in, en op dit punt wordt geknipt, wat er ook gezegd wordt."
+
+msgid "Wide shot at least"
+msgstr "Totaalshot minstens"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "zo lang staat het ingevoegde totaalshot minstens"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Daarna loopt het door tot het einde van de zin. Onder vijf seconden oogt de blik als een zenuwtrek."
+
+msgid "Wide shot at most"
+msgstr "Totaalshot hoogstens"
+
+msgid "and at most this long"
+msgstr "en hoogstens zo lang"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Ligt het einde van de zin daarna, dan beëindigt de laatste grens tussen zinsdelen daarvoor het shot -- er wordt niet midden in een zin afgebroken."
+
+msgid "Minimum Edit Duration"
+msgstr "Minimale shotduur"
+
+msgid "shorter shots are merged in"
+msgstr "kortere shots worden samengevoegd"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Kortere shots gaan op in het volgende."
+
+msgid "Speaks at least"
+msgstr "Spreekt minstens"
+
+msgid "below this the camera does not follow"
+msgstr "daaronder volgt de camera niet"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Een kort \"ja\" verplaatst het beeld niet. Zonder dit trekt een blok van een halve seconde de camera erheen, en de minimale shotduur houdt hem daar dan seconden lang vast."
+
+msgid "Short gap up to"
+msgstr "Korte pauze tot"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "zo lang laat een stilte het beeld met rust"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Alleen waar \"Niemand spreekt\" op korte pauze aanhouden staat. Een pauze tot deze lengte verandert niets, een langere gaat naar het totaalshot. Boven twee seconden begint het beeld langer dan vijf seconden op iemand te staan die zwijgt."
+
+msgid "Listener"
+msgstr "Luisteraar"
+
+msgid "Alternating"
+msgstr "Afwisselend"
+
+msgid "No camera change"
+msgstr "Geen camerawissel"
+
+msgid "Hold a short gap"
+msgstr "Korte pauze aanhouden"
+
+msgid "do not go early"
+msgstr "niet vervroegen"
+
+msgid "Answering speaker"
+msgstr "Wie antwoordt"
+
+msgid "English"
+msgstr "Engels"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcastplatforms, stereo"
+
+msgid "Podcast directories, mono"
+msgstr "Podcastplatforms, mono"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- zet alleen zachter, nooit harder"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, omroep"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 constant"
+
+msgid "reserved"
+msgstr "gereserveerd"
+
+msgid "unspecified"
+msgstr "niet gespecificeerd"
+
+msgid "unknown"
+msgstr "onbekend"
+
+msgid "French"
+msgstr "Frans"
+
+msgid "German"
+msgstr "Duits"
+
+msgid "Dutch"
+msgstr "Nederlands"
+
+msgid "Italian"
+msgstr "Italiaans"
+
+msgid "Spanish"
+msgstr "Spaans"
+
+msgid "Polish"
+msgstr "Pools"
+
+msgid "Portuguese"
+msgstr "Portugees"
+
+msgid "Russian"
+msgstr "Russisch"
+
+msgid "Danish"
+msgstr "Deens"
+
+msgid "Norwegian"
+msgstr "Noors"
+
+msgid "Swedish"
+msgstr "Zweeds"
+
+msgid "Czech"
+msgstr "Tsjechisch"
+
+msgid "Finnish"
+msgstr "Fins"
+
+msgid "Turkish"
+msgstr "Turks"
+
+msgid "Greek"
+msgstr "Grieks"
+
+msgid "Hungarian"
+msgstr "Hongaars"
+
+msgid "Romanian"
+msgstr "Roemeens"
+
+msgid "Arabic"
+msgstr "Arabisch"
+
+msgid "Catalan"
+msgstr "Catalaans"
+
+msgid "Ukrainian"
+msgstr "Oekraïens"
+
+msgid "Chinese"
+msgstr "Chinees"
+
+msgid "Hebrew"
+msgstr "Hebreeuws"
+
+msgid "Japanese"
+msgstr "Japans"
+
+msgid "Korean"
+msgstr "Koreaans"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Omzetten: klik in de Media Pool met rechts op \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Onomkeerbaar -- maar een nieuwe run bouwt de Timeline op elk moment opnieuw.\n  Camerahoeken:%s\n  Al het andere -- geluidskeuze, kleurgroepen, kadrering -- staat in de\n  handleiding, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Mogelijke oorzaken:\n  1. Resolve draait niet -- de interface antwoordt alleen zolang het programma draait.\n  2. Preferences > System > General: external scripting staat op \"None\" in plaats van \"Local\".\n  3. Gratis editie: external scripting is naar verluidt sinds versie 19.1 voorbehouden aan de Studio-editie. Ik heb geen officiële verklaring gevonden -- deze controle meet het in plaats van het te beweren."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s kan niet worden ingedeeld: %s -- alleen op zijn klok geplaatst"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: het geluid komt overeen met %s, onder de ondergrens van %s -- alleen op zijn klok geplaatst"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Let op: dit project is niet volledig -- Resolve weigerde deze sporen twee keer:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Offset:         %s   (alleen uit de timecode -- het geluid kon het niet plaatsen, dus er wordt niets gecontroleerd)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve weigerde audiospoor A%d twee keer op de Timeline \"%s\" -- de camera's worden op de %s bestaande audiosporen gelegd."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve weigerde videospoor V%d twee keer -- de Timeline \"%s\" mist %s."
+
+msgid "  Status:      %s"
+msgstr "  Status:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Het geluid van %s kwam te zwak overeen om erop te vertrouwen -- alleen op de timecode geplaatst."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   past niet bij de andere bestanden: geluid niet herkend,\n   niets om de timecode tegen af te zetten.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s kan niet worden geplaatst: het geluid heeft niets gemeen met de rest van het materiaal, en geen enkele camera die het geluid heeft geplaatst heeft een timecode om de eigen timecode tegen af te zetten. Een daarvan heeft een timecode nodig die bij deze past, en die moet met een ander programma worden ingesteld."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s past bij niets in het materiaal, en geen enkele camera die het geluid heeft geplaatst heeft een timecode om de eigen timecode tegen af te zetten, dus het kan niet in de aflevering worden gemonteerd: ingesteld als intro."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s past bij niets in het materiaal, en geen enkele camera die het geluid heeft geplaatst heeft een timecode om de eigen timecode tegen af te zetten; de intro is al bezet: weggelaten."
+
+msgid "API Key:"
+msgstr "API-sleutel:"
+
+msgid "In point"
+msgstr "Het In-punt"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Buiten gelaten; %s of %s is één klik verwijderd."
+
+msgid "Out point"
+msgstr "Het Uit-punt"
+
+msgid "Presets:"
+msgstr "Voorinstellingen:"
+
+msgid "Registry"
+msgstr "register"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "GELUID of VIDEO verwijderen neemt alles eronder mee."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "kant-en-klare clip"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "niet in de aflevering te monteren -- alleen ervoor of erna"
+
+msgid "moved off the wide shot"
+msgstr "van het totaalshot gehaald"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "noch het geluid noch een timecode plaatst het op de tijdas"
+
+msgid "no audio track"
+msgstr "geen audiospoor"
+
+msgid "no speaker"
+msgstr "geen spreker"
+
+msgid "not used"
+msgstr "ongebruikt"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "geplaatst met zijn camera, op de klok van die camera"
+
+msgid "the file stays out"
+msgstr "bestand blijft buiten"
+
+msgid "the only sound"
+msgstr "het enige geluid"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve weigerde audiospoor A%d twee keer -- de Timeline \"%s\" mist het geluid van %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve weigerde videospoor V%d twee keer -- de Timeline \"%s\" mist het beeld van %s."

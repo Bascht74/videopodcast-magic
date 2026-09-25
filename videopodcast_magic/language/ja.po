@@ -1566,9 +1566,6 @@ msgstr "話者のいないカメラがないため、引き画がありません
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "まだ文字起こしがありません。文字起こしがないと質問も文の区切りも見つからないため、この 4 つの設定は効果がありません。実行時に書き出され、それ以降は有効になります。"
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "素材のどこにも合いません：タイムコードがなく、音声もほかと共通点がありません。カットは引き画に戻るので、引き画は時間軸上になければなりません。"
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  質問：文字起こしがないため、質問は見つからず、リアクションカットも\n        行われませんでした。言葉は実行中に完成したミックスから\n        書き起こされます。それがなければこの設定は効果がありません。"
 
@@ -1589,9 +1586,6 @@ msgstr "質問の設定がグレーになっている理由"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "引き画として指定 -- 話者は割り当てられません"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "話者なし -- これは引き画です"
 
 msgid "the mix of all tracks"
 msgstr "全トラックのミックス"
@@ -1706,9 +1700,6 @@ msgstr "まだ話者が分かっていません -- 何も測定・分離され�
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "時間枠が素材の外にあります: イン点 %s、アウト点 %s、素材の長さは %s です。"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "これは引き画です -- %s は「専用カメラなし」に移りました"
 
 msgid "No audio tracks are assigned."
 msgstr "音声トラックが割り当てられていません。"
@@ -2116,9 +2107,6 @@ msgstr "  注意: レンジ       わずか %s LU -- 非常に狭い。話し声
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "両チャンネルが同一 -- モノラルを左右に配置したもの"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s を分類できません: %s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "おそらくマイク 2 本 -- 約 %s m 離れています%s"
@@ -3608,9 +3596,6 @@ msgstr "  Timeline %r は既にありました -- 新しいものの名前は %r
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  Timeline の開始 %s は拒否されました: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve はこれ以上映像トラックを追加できません -- 収まるのは %s / %s 台のカメラです。"
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool にファイルがありません"
 
@@ -3673,9 +3658,6 @@ msgstr "      GetAudioMapping   失敗: %s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  カラーグループ %r を作成できません: %s"
-
-msgid "    %s track %d could not be created."
-msgstr "    種類 %s のトラック %d を作成できませんでした。"
 
 msgid "ends"
 msgstr "終わり"
@@ -4181,18 +4163,6 @@ msgstr "再起動できませんでした。ウィンドウを閉じ、前と同
 msgid "No newer version found. This one is %s."
 msgstr "新しいバージョンは見つかりませんでした。これは %s です。"
 
-msgid "no audio track in this file"
-msgstr "このファイルには音声トラックがありません"
-
-msgid "this file stays out entirely"
-msgstr "このファイルはまったく使いません"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "完成したクリップ -- 置くだけで処理しません"
-
-msgid "the only sound there is"
-msgstr "ここにある唯一の音声"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "Multitrack には上の表に2つのトラックが必要です -- カメラは、カメラ音声を「音声を使う」にすると1つに数えられます。"
 
@@ -4204,9 +4174,6 @@ msgstr "カットの中で2台のカメラが1台になります: %s。ファイ
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "2台のカメラが同じファイルを作ることになります: %s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "素材のどこにも合わないため、エピソードの中に編集で入れることはできません。前か後ろに置くことはできます。"
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "使う場合、このファイルの音声はほかと同じ1本のトラックになり、上の表に表示されます。\n同じ欄がファイルリストにもあり、どちらも同じ答えを示します。"
@@ -4234,9 +4201,6 @@ msgstr "全般的な注意"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "順番は関係ありません。複数に分かれた録音では最初のブロックだけで十分です。"
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "AUDIO または VIDEO にドロップすると、すべて取り込みます。"
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "auphonic.com でのタイトルと、新しいファイル名の先頭。"
@@ -4649,3 +4613,156 @@ msgstr "ここでは割り当てファイルがカメラに名前を付けるた
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "カメラだけの場合、各ファイルはその音声から取り出したトラックにちなんで名付けられるため、--new-name は無視されることになります。--new-name を省いてください。"
+
+msgid "work without Auphonic"
+msgstr "Auphonic なしで作業"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "メインの話者以外からの質問のあと、別の人がすぐに話し始めて話し続ける場合だけです。\n「早めに切り替えない」は、カメラを早めに切り替えないという意味です。ここでも他と同じく、画は音に従います。"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "「交互」は、この独話を前回崩したときに何を映したかを覚えています。聞き手が映るのは、そのカメラで直近 20 秒以内に誰かの声が聞こえた場合だけで、それ以外は引き画です。"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "入り乱れた場面に切り込むと慌ただしく見えます。"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "文の途中の息継ぎも考えの終わりも、どちらも無音で、プログラムには区別できません。区別できるのは長さだけです。「短い間は最大」は、無音がどのくらいの長さまで息継ぎとみなされるかを決めます。"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "推測すると、数秒間違った人が映ります。引き画ならどの場合でも正しいです。ここでは誰かが話しています -- 誰も話していないところは「誰も話さない」が決めます。"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "負の値にすると、画が音より先に切り替わります。"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "ゼロは質問者が話し終える位置で、応答が始まる位置ではありません。その間の沈黙は質問に属します。「質問のあと」が求める場合にだけ適用され、Edit Change Delay は重ねて加算されません。"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "この 2 つの設定の緩い上限です。ここからプログラムは文の区切りを待ち、時計どおりではなく、そこに引き画を置きます。0 で無効になります。「引き画は遅くとも」が厳しい上限で、そこでは文の区切りがなくてもカットします。"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "この 2 つの設定の厳しい上限です。「引き画は」以降に文の区切りが現れなかった場合は、最も長い発話の切れ目がその代わりになり、この時点で、何が話されていてもカットします。"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "そのあと文の終わりまで続きます。5 秒未満では、その一瞥がひきつりのように見えます。"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "文の終わりがそれより後にある場合は、その手前の最後の節の区切りでショットを終えます -- 文の途中で切られることはありません。"
+
+msgid "Shorter shots fall into the following one."
+msgstr "これより短いショットは次のショットに統合されます。"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "短い「はい」では画は動きません。これがないと、0.5 秒のブロックがカメラを引き寄せ、さらに最短ショット長がそこに数秒間とどめてしまいます。"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "「誰も話さない」が短い間を保つ設定になっている場合だけです。この長さまでの間は何も変えず、それより長い間は引き画に切り替わります。2 秒を超えると、黙っている人に画が 5 秒以上とどまり始めます。"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 定輝度"
+
+msgid "reserved"
+msgstr "予約済み"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  変換するには: Media Pool で \"%s Multicam\" を右クリック >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\"。\n  一方向のみです -- ただし新しい実行でいつでも Timeline を作り直せます。\n  アングル:%s\n  そのほか -- 音声の選択、カラーグループ、フレーミング -- はすべて\n  マニュアル docs/resolve.md にあります。\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "考えられる理由:\n  1. Resolve が起動していません -- スクリプトインターフェースはプログラムの起動中にしか応答しません。\n  2. Preferences > System > General: external scripting が \"Local\" ではなく \"None\" になっています。\n  3. 無料版: バージョン 19.1 以降、external scripting は Studio 版に限られていると報告されています。公式の発表は見つかりませんでした -- このチェックは断定する代わりに実測します。"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s を分類できません: %s -- 内蔵時計だけで配置しました"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: 音声の一致度は %s で、下限 %s を下回ります -- 内蔵時計だけで配置しました"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  注意: このプロジェクトは完全ではありません -- Resolve が次のトラックを二度拒否しました:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  オフセット：      %s   （タイムコードのみから -- 音声では配置できなかったため、何も照合していません）"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve が音声トラック A%d を二度拒否しました（Timeline \"%s\"）-- カメラは既存の %s 本の音声トラックに配置されます。"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve が映像トラック V%d を二度拒否しました -- Timeline \"%s\" に欠けているもの: %s。"
+
+msgid "  Status:      %s"
+msgstr "  状態：            %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  %s の音声は一致が弱すぎて信頼できません -- タイムコードだけで配置しました。"
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   他のファイルと合いません: 音声を認識できず、\n   タイムコードを照合する相手もありません。\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s を配置できません: その音声は他の素材と共通点がなく、音声で配置されたカメラのどれにも照合できるタイムコードがありません。そのうちの1台に、このファイルに合うタイムコードが必要で、それは別のプログラムで設定する必要があります。"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s は素材のどこにも合わず、音声で配置されたカメラのどれにも照合できるタイムコードがないため、エピソードに挿入できません：イントロに設定しました。"
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s は素材のどこにも合わず、音声で配置されたカメラのどれにも照合できるタイムコードがありません。イントロはすでに埋まっています：除外しました。"
+
+msgid "API Key:"
+msgstr "API Key："
+
+msgid "In point"
+msgstr "イン点"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "除外しました。%s または %s はワンクリックで選べます。"
+
+msgid "Out point"
+msgstr "アウト点"
+
+msgid "Presets:"
+msgstr "プリセット："
+
+msgid "Registry"
+msgstr "レジストリ"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "「音声」または「映像」を削除すると、その下のものもすべて削除されます。"
+
+msgid "VIDEO"
+msgstr "映像"
+
+msgid "a finished clip"
+msgstr "完成クリップ"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "エピソードに挿入不可 -- 前後にのみ"
+
+msgid "moved off the wide shot"
+msgstr "引き画から外れた"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "音声でもタイムコードでも軸に置けません"
+
+msgid "no audio track"
+msgstr "音声トラックなし"
+
+msgid "no speaker"
+msgstr "話者なし"
+
+msgid "not used"
+msgstr "未使用"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "元のカメラとともに、そのカメラの時計で配置"
+
+msgid "the file stays out"
+msgstr "ファイルは除外"
+
+msgid "the only sound"
+msgstr "唯一の音声"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve が音声トラック A%d を二度拒否しました -- Timeline \"%s\" には %s の音声が欠けています。"
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve が映像トラック V%d を二度拒否しました -- Timeline \"%s\" には %s の映像が欠けています。"

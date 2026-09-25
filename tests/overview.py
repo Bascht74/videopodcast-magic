@@ -53,6 +53,10 @@ ROW = "| `%s` | %s |"
 ROW_READ = re.compile(r"^\| `([a-z0-9_]+)` \| (.*?) \|$")
 HEAD_READ = re.compile(r"^### `([a-z]+_)`")
 NO_PREFIX_HEAD = "### Under none of the twelve"
+# The tests under resolve/ are not in the suite and not in its count;
+# they stand in a table of their own, under this heading.
+APART = "resolve"
+APART_HEAD = "### Under `resolve/`"
 COUNT_READ = re.compile(r"(?<![0-9])([0-9]+) tests(?![A-Za-z])")
 
 
@@ -72,22 +76,23 @@ def first_line_of(text):
     return doc.split("\n")[0].strip()
 
 
-def test_sources(folder=HERE):
+def test_sources(folder=HERE, below=""):
     """Every test of this repository, by name, with its text.
 
     The repository is asked, not the folder. The builder moves the tests
     a machine cannot run out of the way before the suite starts -- the
     Windows key store on a Mac, the speech model where there is none --
-    so the folder there is never the whole suite. Counting what lies
-    about would make every such machine red for a reason that is not a
-    fault.
+    so the folder there is never the whole suite, and counting it would
+    make every such machine red for a reason that is not a fault.
 
     A file that is there is read from there, so uncommitted work counts;
     only one that was moved aside is read out of the last commit.
-    Without git, the folder is all there is and has to do.
+    Without git, the folder has to do. `below` names a folder under it,
+    and a test there is that folder's and not this one's.
     """
+    where = os.path.join(folder, below)
     here = {}
-    for name in os.listdir(folder):
+    for name in (os.listdir(where) if os.path.isdir(where) else ()):
         if name.endswith("_test.py"):
             here[name] = None
 
@@ -103,24 +108,25 @@ def test_sources(folder=HERE):
     listed = git("ls-files", "--", "*_test.py")
     if listed is not None:
         for line in listed.splitlines():
-            name = os.path.basename(line.strip())
-            if name.endswith("_test.py"):
+            parent, _, name = line.strip().rpartition("/")
+            if parent == below and name.endswith("_test.py"):
                 here.setdefault(name, None)
 
     out = {}
     for name in sorted(here):
-        path = os.path.join(folder, name)
+        path = os.path.join(where, name)
         if os.path.exists(path):
             out[name[:-len("_test.py")]] = io.open(
                 path, encoding="utf-8").read()
         else:
-            text = git("show", "HEAD:./" + name)
+            text = git("show", "HEAD:./" + "/".join(
+                piece for piece in (below, name) if piece))
             if text is not None:
                 out[name[:-len("_test.py")]] = text
     return out
 
 
-def statements(folder=HERE):
+def statements(folder=HERE, below=""):
     """Every test: its name, and what green means.
 
     The name is the one run.sh prints and the one a red line carries,
@@ -128,7 +134,7 @@ def statements(folder=HERE):
     after a failure has in front of them.
     """
     return dict((name, first_line_of(text))
-                for name, text in test_sources(folder).items())
+                for name, text in test_sources(folder, below).items())
 
 
 def grouped(rows):
@@ -157,8 +163,12 @@ def unescape(text):
     return text.replace("\\|", "|")
 
 
-def rendered(rows):
-    """The whole block, markers included, ready to stand in the README."""
+def rendered(rows, apart=None):
+    """The whole block, markers included, ready to stand in the README.
+
+    `apart` are the tests under resolve/, by name as resolve.sh takes
+    them. Their table carries no count: the one above is the suite's.
+    """
     groups, loose = grouped(rows)
     out = [BEGIN, ""]
     out.append("%d tests. The name is the one a red line carries, and beside"
@@ -178,6 +188,13 @@ def rendered(rows):
                 "| Test | Green means |", "|---|---|"]
         for name in loose:
             out.append(ROW % (name, escape(rows[name])))
+    if apart:
+        out += ["", APART_HEAD + " -- beside a running DaVinci Resolve", "",
+                "Not in the suite and not in the count above: `resolve.sh`",
+                "starts these by hand, one after another.", "",
+                "| Test | Green means |", "|---|---|"]
+        for name in sorted(apart):
+            out.append(ROW % (name, escape(apart[name])))
     out += ["", END]
     return "\n".join(out) + "\n"
 
@@ -205,6 +222,8 @@ def rows_in(text):
             under = head.group(1)
         elif line.startswith(NO_PREFIX_HEAD):
             under = ""
+        elif line.startswith(APART_HEAD):
+            under = APART + "/"
         row = ROW_READ.match(line)
         if row:
             out.append((under, row.group(1), unescape(row.group(2))))
@@ -227,7 +246,7 @@ def spliced(text, block):
 
 def main(argv):
     rows = statements()
-    block = rendered(rows)
+    block = rendered(rows, statements(HERE, APART))
     if "--show" in argv:
         sys.stdout.write(block)
         return 0

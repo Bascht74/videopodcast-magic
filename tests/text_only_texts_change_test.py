@@ -17,6 +17,10 @@ translated as early as import time, when no language has been chosen
 yet; and the marker that gives a log line its colour never reaches a
 written file.
 
+A catalogue is read forgivingly, and an entry with a key and an empty
+translation is left out on the way in, so that its label stays English
+instead of vanishing: kept, T() would hand back the empty string.
+
 How a count picks a wording is asked of the catalogue, not of the
 program: a PO header carries its language's own rule, and the last
 section reads real rules -- German, French, Japanese, Russian, Arabic
@@ -947,6 +951,7 @@ io.open(_po, "w", encoding="utf-8").write(
     'msgid ""\nmsgstr ""\n"Plural-Forms: %s\\n"\n\n'
     'msgid "%%d clip"\nmsgid_plural "%%d clips"\n'
     'msgstr[0] "one"\nmsgstr[1] "few"\nmsgstr[2] "many"\n\n'
+    'msgid "Blank"\nmsgstr ""\n\n'
     'msgid "Content"\nmsgstr "plain"\n' % RU_RULE)
 _texts, _forms, _header = vpm.language.read_po(_po)
 check("an entry with msgid_plural is read into its wordings, in order",
@@ -956,6 +961,12 @@ check("a plural entry is no ordinary text, and the ordinary ones still "
       "arrive", "%d clip" not in _texts and _texts.get("Content") == "plain",
       "%d ordinary entries, plural among them: %s"
       % (len(_texts), "%d clip" in _texts))
+# Kept, the empty string would be the answer T() gives, and the label
+# would vanish. The entry beside it has to arrive, or this is blind.
+check("an entry with an empty msgstr is left out of the texts",
+      "Blank" not in _texts and _texts.get("Content") == "plain",
+      "'Blank' read as %r, 'Content' as %r -- wanted no 'Blank' and "
+      "'plain'" % (_texts.get("Blank"), _texts.get("Content")))
 
 _bare = os.path.join(_folder, "qb.po")
 io.open(_bare, "w", encoding="utf-8").write(

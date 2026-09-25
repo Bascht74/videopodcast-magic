@@ -412,6 +412,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                      "axis_asking", "axis_marks"):
             state.pop(name, None)
         state["weak"], state["no_place"] = set(), set()
+        state["clock_alone"] = set()
         # The timecode belonged to the material that has just gone; left
         # standing, the menu went on offering marks on an empty window.
         state["tc_there"] = False

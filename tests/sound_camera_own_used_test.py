@@ -197,14 +197,10 @@ HOME = tempfile.mkdtemp(prefix="vpm_camown_")
 LENGTH = 2 * vpm.AXIS_MIN_WINDOW_S
 
 
-# Each camera's tone sounds only in bursts, and the bursts are one pattern
-# in the room's time, which each camera hears from its own start: of
-# different lengths at uneven spacing, so no shift but the true one lays
-# the two loudness curves over each other. A steady tone has no curve at
-# all, and then the cameras are placed by a guess that numerical noise
-# decides -- on the builders one that left under 8 s in common. The long
-# burst holds the stretch the tone is counted over, in every file and on
-# the axis.
+# Each camera's tone sounds in bursts of one uneven pattern in the room's
+# time, heard from each camera's own start, so the sound itself places
+# them; a steady tone would leave that to their clocks. The long burst
+# holds the stretch the tone is counted over, in every file and the axis.
 LATE = 2.48
 BURSTS = [(0.6, 1.3), (1.9, 2.1), (2.9, 3.2), (3.7, 8.9), (9.6, 10.0),
           (10.8, 11.9), (12.3, 12.45), (13.4, 14.3), (15.1, 15.35),

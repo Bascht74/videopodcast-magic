@@ -221,8 +221,12 @@ its head, and the six check runs of `8a58ea4` all concluded success.
 **One thing the short way does not give you:** the pull request's run
 is the everyday suite, separation off, and only the workflow's own run
 turns it on -- so `voice_split_hears_two` runs for a release only on
-the long way. How the three questions are asked, and where that
-difference is kept, is `.claude/skills/freigabe/mechanics.md`.
+the long way. **Since 24.9.2026 the owner's answer to that is a fourth
+question:** the short way is taken only where the merge touches nothing
+under `videopodcast_magic/speakers/`. A pull request that changed the
+separation goes the long way, and the line names the file that sent it
+there. How the four questions are asked, and where that difference is
+kept, is `.claude/skills/freigabe/mechanics.md`.
 
 **Before the word, count what is left over.** The commonest way to break
 the one-run rule is not impatience, it is a file forgotten while

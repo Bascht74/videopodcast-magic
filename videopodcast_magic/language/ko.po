@@ -520,9 +520,6 @@ msgstr "색상"
 msgid "  Preset:  %s"
 msgstr "  프리셋:  %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve가 비디오 트랙을 더 받지 않습니다 -- 카메라 %s/%s대가 들어갑니다."
-
 msgid "Preset"
 msgstr "프리셋"
 
@@ -715,9 +712,6 @@ msgstr "    %s을(를) 가져올 수 없습니다."
 msgid "    %s could not be inserted."
 msgstr "    %s을(를) 삽입할 수 없습니다."
 
-msgid "    %s track %d could not be created."
-msgstr "    %s 유형 트랙 %d을(를) 만들 수 없습니다."
-
 msgid "    %s track could not be created: %s"
 msgstr "    %s 유형 트랙을 만들 수 없습니다: %s"
 
@@ -885,9 +879,6 @@ msgstr "  비디오 트랙 %s개, 화자 이름으로:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s이(가) 서로 다른 카메라로 두 번 나옵니다 -- %s을(를) 사용합니다"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s을(를) 분류할 수 없습니다: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s에는 측정할 소리가 없습니다 -- 자체 시계만으로 배치했으며, 대조할 대상을 찾지 못했습니다"
@@ -2170,17 +2161,11 @@ msgstr "할당된 화자가 없기 때문"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "와이드 샷으로 지정됨 -- 화자를 받지 않습니다"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "화자 없음 -- 이것은 와이드 샷입니다"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "할당된 화자가 없지만 편집에는 %s이(가) 사용됩니다"
 
 msgid "the cut uses %s"
 msgstr "편집에는 %s이(가) 사용됩니다"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "이것은 와이드 샷입니다 -- %s은(는) \"전용 카메라 없음\"으로 옮겨졌습니다"
 
 msgid "Curve and colour space are missing from the file"
 msgstr "파일에 커브와 색 공간 정보가 없습니다"
@@ -2298,12 +2283,6 @@ msgstr "비워 두면: 각 비디오 파일 옆."
 
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "녹음할 때 생긴 것이라 이제는 바꿀 수 없습니다. 마이크가 덜 분리될수록 auphonic.com의 De-Bleed는 더 조심스럽게 작동합니다. 다음에는: 옆 마이크와의 거리를 자기 입과의 거리의 세 배로 두세요. 그러면 옆 목소리가 약 %s dB 낮아집니다."
-
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "소재 어디에도 맞지 않습니다: 타임코드가 없고, 소리도 나머지와 공통점이 없습니다. 편집은 와이드 샷으로 되돌아가므로 와이드 샷은 시간 축 위에 있어야 합니다."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "소재 어디에도 맞지 않아 에피소드 안에 편집해 넣을 수 없습니다. 앞이나 뒤에 둘 수는 있습니다."
 
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s은(는) 소재의 어떤 것과도 맞지 않아 에피소드 안에 편집해 넣을 수 없습니다: 인트로로 설정했습니다."
@@ -3345,9 +3324,6 @@ msgstr "카메라만"
 msgid "Curve number %d"
 msgstr "커브 번호 %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "오디오 또는 비디오를 제거하면 그 안의 전부가 제거됩니다."
-
 msgid "End"
 msgstr "끝"
 
@@ -3611,18 +3587,6 @@ msgstr "트랙이 하나뿐입니다 -- 두 번째 트랙을 위해 카메라 �
 
 msgid "One track only, and no camera audio left to take."
 msgstr "트랙이 하나뿐이며, 더 사용할 카메라 오디오가 없습니다."
-
-msgid "the only sound there is"
-msgstr "유일한 소리"
-
-msgid "no audio track in this file"
-msgstr "이 파일에 오디오 트랙이 없음"
-
-msgid "this file stays out entirely"
-msgstr "이 파일은 완전히 제외됨"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "완성된 클립 -- 배치만 하고 처리하지 않음"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "사용하면 이 파일 아래에서 측정된 채널이 녹음과 마찬가지로 트랙으로 나뉩니다.\n측정은 어느 경우든 이루어집니다: 그 판정을 근거로 결정하며, 동기화에는 소리를 어차피 사용합니다."
@@ -4425,3 +4389,378 @@ msgstr "여기서는 할당 파일이 카메라 이름을 정하므로 --new-nam
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "카메라만 있으면 각 파일은 그 소리에서 가져온 트랙의 이름을 따르므로 --new-name은 버려집니다. --new-name을 빼세요."
+
+msgid "no camera of its own"
+msgstr "전용 카메라 없음"
+
+msgid "do not use"
+msgstr "사용하지 않음"
+
+msgid "several speakers"
+msgstr "여러 화자"
+
+msgid "work without Auphonic"
+msgstr "Auphonic 없이 작업"
+
+msgid "Content"
+msgstr "콘텐츠"
+
+msgid "Intro"
+msgstr "인트로"
+
+msgid "Wide shot"
+msgstr "와이드 샷"
+
+msgid "Outro"
+msgstr "아웃트로"
+
+msgid "ignore this video"
+msgstr "이 비디오 무시"
+
+msgid "do not use internal audio"
+msgstr "내장 오디오 사용 안 함"
+
+msgid "use internal audio"
+msgstr "내장 오디오 사용"
+
+msgid "After a question"
+msgstr "질문 후"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "답변이 시작되기 전에 화면이 답변자에게 넘어감"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "주 화자가 아닌 사람의 질문 뒤에, 다른 사람이 곧바로 이어받아 계속 말할 때만 적용됩니다.\n\"미리 전환하지 않음\"은 카메라를 미리 바꾸지 않는다는 뜻입니다: 여기서도 다른 모든 곳과 마찬가지로 화면이 소리를 따라갑니다."
+
+msgid "Long monologue"
+msgstr "긴 독백"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "한 사람이 \"와이드 샷까지\"를 넘겨 계속 말함"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"번갈아\"는 이 독백을 마지막으로 끊었을 때 무엇을 보여 주었는지 기억합니다. 청자는 그 카메라에 잡힌 누군가의 목소리가 최근 20초 안에 들렸을 때만 화면에 나오고, 그렇지 않으면 와이드 샷입니다."
+
+msgid "Several speak at once"
+msgstr "여럿이 동시에 말함"
+
+msgid "and no camera shows exactly them"
+msgstr "정확히 그 사람들을 보여 주는 카메라가 없음"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "뒤엉킨 말소리 속으로 편집하면 정신없어 보입니다."
+
+msgid "Nobody speaks"
+msgstr "아무도 말하지 않음"
+
+msgid "no voice is heard at all here"
+msgstr "여기서는 어떤 목소리도 들리지 않음"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "문장 중간의 숨 고르기와 생각의 끝은 둘 다 침묵이며, 프로그램은 둘을 구별하지 못합니다. 길이만이 구별합니다: \"짧은 공백 최대\"는 침묵이 얼마나 길어도 여전히 숨 고르기로 치는지를 정합니다."
+
+msgid "Recognition uncertain"
+msgstr "인식 불확실"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "화자 인식이 흐트러지거나 뭉텅이를 남김"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "추측하면 몇 초 동안 엉뚱한 사람이 화면에 나옵니다. 와이드 샷은 어떤 경우에도 맞습니다. 여기서는 누군가 말하고 있습니다 -- 아무도 말하지 않는 곳은 \"아무도 말하지 않음\"이 정합니다."
+
+msgid "the picture changes this much later than the sound"
+msgstr "화면이 소리보다 이만큼 늦게 바뀜"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "음수 값이면 화면이 소리보다 앞섭니다."
+
+msgid "Answer on screen earlier"
+msgstr "답변을 더 일찍 화면에"
+
+msgid "before the question ends"
+msgstr "질문이 끝나기 전"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "0은 질문자가 말을 멈추는 지점이지, 답변이 시작되는 지점이 아닙니다: 그 사이의 쉼은 질문에 속합니다. \"질문 후\"가 요구하는 경우에만 적용되며, Edit Change Delay는 다시 더해지지 않습니다."
+
+msgid "Wide shot after"
+msgstr "와이드 샷까지"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "여기서부터 알맞은 순간을 찾음"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "두 설정 중 느슨한 한계: 여기서부터 프로그램은 문장 경계를 기다렸다가 시계가 아니라 그 지점에 와이드 샷을 넣습니다. 0이면 꺼집니다. \"와이드 샷 늦어도\"는 엄격한 한계로, 문장 경계 없이도 전환합니다."
+
+msgid "Wide shot at the latest"
+msgstr "와이드 샷 늦어도"
+
+msgid "and here it is cut, good moment or not"
+msgstr "여기서는 좋은 순간이든 아니든 전환함"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "두 설정 중 엄격한 한계: \"와이드 샷까지\" 이후 문장 경계가 나오지 않았다면 가장 긴 말 사이의 쉼이 그 역할을 대신하고, 이 지점에서는 무슨 말을 하고 있든 전환합니다."
+
+msgid "Wide shot at least"
+msgstr "와이드 샷 최소"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "끼워 넣은 와이드 샷이 최소한 이만큼 유지됨"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "그 후 문장 끝까지 이어집니다. 5초 미만이면 화면이 움찔하는 것처럼 보입니다."
+
+msgid "Wide shot at most"
+msgstr "와이드 샷 최대"
+
+msgid "and at most this long"
+msgstr "그리고 최대 이만큼"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "문장 끝이 이보다 뒤에 있으면 그 앞의 마지막 절 경계에서 샷을 끝냅니다 -- 문장 중간에서 자르지 않습니다."
+
+msgid "Minimum Edit Duration"
+msgstr "최소 샷 길이"
+
+msgid "shorter shots are merged in"
+msgstr "더 짧은 샷은 합쳐짐"
+
+msgid "Shorter shots fall into the following one."
+msgstr "더 짧은 샷은 다음 샷에 합쳐집니다."
+
+msgid "Speaks at least"
+msgstr "최소 발화"
+
+msgid "below this the camera does not follow"
+msgstr "이보다 짧으면 카메라가 따라가지 않음"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "짧은 \"네\" 한마디로는 화면이 움직이지 않습니다. 이 설정이 없으면 0.5초짜리 블록이 카메라를 끌어오고, 그러면 최소 샷 길이가 카메라를 몇 초 동안 그곳에 붙잡아 둡니다."
+
+msgid "Short gap up to"
+msgstr "짧은 공백 최대"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "이만큼의 침묵은 화면을 그대로 둠"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "\"아무도 말하지 않음\"이 짧은 공백 유지로 설정된 경우에만 적용됩니다. 이 길이까지의 공백은 아무것도 바꾸지 않고, 더 긴 공백은 와이드 샷으로 넘어갑니다. 2초를 넘기면 화면이 말없는 사람에게 5초 넘게 머무는 경우가 생기기 시작합니다."
+
+msgid "Listener"
+msgstr "청자"
+
+msgid "Alternating"
+msgstr "번갈아"
+
+msgid "No camera change"
+msgstr "카메라 전환 없음"
+
+msgid "Hold a short gap"
+msgstr "짧은 공백 유지"
+
+msgid "do not go early"
+msgstr "미리 전환하지 않음"
+
+msgid "Answering speaker"
+msgstr "답변자"
+
+msgid "English"
+msgstr "영어"
+
+msgid "Podcast directories, stereo"
+msgstr "팟캐스트 플랫폼, 스테레오"
+
+msgid "Podcast directories, mono"
+msgstr "팟캐스트 플랫폼, 모노"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- 낮추기만 하고 올리지 않음"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, 방송"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 고정"
+
+msgid "reserved"
+msgstr "예약됨"
+
+msgid "unspecified"
+msgstr "지정되지 않음"
+
+msgid "unknown"
+msgstr "알 수 없음"
+
+msgid "French"
+msgstr "프랑스어"
+
+msgid "German"
+msgstr "독일어"
+
+msgid "Dutch"
+msgstr "네덜란드어"
+
+msgid "Italian"
+msgstr "이탈리아어"
+
+msgid "Spanish"
+msgstr "스페인어"
+
+msgid "Polish"
+msgstr "폴란드어"
+
+msgid "Portuguese"
+msgstr "포르투갈어"
+
+msgid "Russian"
+msgstr "러시아어"
+
+msgid "Danish"
+msgstr "덴마크어"
+
+msgid "Norwegian"
+msgstr "노르웨이어"
+
+msgid "Swedish"
+msgstr "스웨덴어"
+
+msgid "Czech"
+msgstr "체코어"
+
+msgid "Finnish"
+msgstr "핀란드어"
+
+msgid "Turkish"
+msgstr "튀르키예어"
+
+msgid "Greek"
+msgstr "그리스어"
+
+msgid "Hungarian"
+msgstr "헝가리어"
+
+msgid "Romanian"
+msgstr "루마니아어"
+
+msgid "Arabic"
+msgstr "아랍어"
+
+msgid "Catalan"
+msgstr "카탈루냐어"
+
+msgid "Ukrainian"
+msgstr "우크라이나어"
+
+msgid "Chinese"
+msgstr "중국어"
+
+msgid "Hebrew"
+msgstr "히브리어"
+
+msgid "Japanese"
+msgstr "일본어"
+
+msgid "Korean"
+msgstr "한국어"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  변환하려면: Media Pool에서 \"%s Multicam\"을 오른쪽 클릭 >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  되돌릴 수 없습니다 -- 하지만 새로 실행하면 언제든 Timeline을 다시 만듭니다.\n  앵글:%s\n  그 밖의 모든 것 -- 오디오 선택, 색상 그룹, 프레이밍 -- 은\n  설명서 docs/resolve.md에 있습니다.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "가능한 원인:\n  1. Resolve가 실행 중이 아닙니다 -- 인터페이스는 프로그램이 실행되는 동안에만 응답합니다.\n  2. Preferences > System > General: external scripting이 \"Local\" 대신 \"None\"으로 설정되어 있습니다.\n  3. 무료 버전: 버전 19.1부터 external scripting은 Studio 버전 전용이라고 알려져 있습니다. 공식 발표는 찾지 못했습니다 -- 이 검사는 단정하는 대신 직접 측정합니다."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s을(를) 분류할 수 없습니다: %s -- 자체 시계만으로 배치했습니다"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: 소리 일치도 %s, 하한 %s 미만 -- 자체 시계만으로 배치했습니다"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  주의: 이 프로젝트는 완전하지 않습니다 -- Resolve가 다음 트랙을 두 번 거부했습니다:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  오프셋:         %s   (타임코드만으로 -- 소리로 위치를 정하지 못해 아무것도 확인하지 않았습니다)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve가 오디오 트랙 A%d을(를) 두 번 거부했습니다(Timeline \"%s\") -- 카메라는 현재 있는 %s개의 오디오 트랙에 배치됩니다."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve가 비디오 트랙 V%d을(를) 두 번 거부했습니다 -- Timeline \"%s\"에 빠진 것: %s."
+
+msgid "  Status:      %s"
+msgstr "  상태:  %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  %s의 소리가 너무 약하게 일치해 믿을 수 없습니다 -- 타임코드만으로 배치했습니다."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   다른 파일과 맞지 않습니다: 소리를 인식하지 못했고,\n   타임코드를 대조할 대상도 없습니다.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s을(를) 배치할 수 없습니다: 소리가 나머지 소재와 공통점이 없고, 소리로 배치된 카메라 중 대조할 타임코드를 가진 카메라가 없습니다. 그중 하나에 이 파일과 맞는 타임코드가 필요하며, 이는 다른 프로그램으로 설정해야 합니다."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s은(는) 소재의 어떤 것과도 맞지 않고, 소리로 배치된 카메라 중 대조할 타임코드를 가진 카메라가 없어 에피소드 안에 편집해 넣을 수 없습니다: 인트로로 설정했습니다."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s은(는) 소재의 어떤 것과도 맞지 않고, 소리로 배치된 카메라 중 대조할 타임코드를 가진 카메라가 없습니다. 인트로는 이미 정해져 있습니다: 제외했습니다."
+
+msgid "API Key:"
+msgstr "API 키:"
+
+msgid "In point"
+msgstr "인 포인트"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "제외됨; %s 또는 %s은(는) 클릭 한 번이면 됩니다."
+
+msgid "Out point"
+msgstr "아웃 포인트"
+
+msgid "Presets:"
+msgstr "프리셋:"
+
+msgid "Registry"
+msgstr "레지스트리"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "\"오디오\" 또는 \"비디오\"를 제거하면 그 아래의 모든 항목이 함께 제거됩니다."
+
+msgid "VIDEO"
+msgstr "비디오"
+
+msgid "a finished clip"
+msgstr "완성된 클립"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "에피소드에 넣을 수 없음 -- 앞이나 뒤에만"
+
+msgid "moved off the wide shot"
+msgstr "와이드 샷에서 빠짐"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "소리로도 타임코드로도 축에 놓을 수 없음"
+
+msgid "no audio track"
+msgstr "오디오 트랙 없음"
+
+msgid "no speaker"
+msgstr "화자 없음"
+
+msgid "not used"
+msgstr "사용 안 함"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "자기 카메라와 함께, 그 카메라의 시계로 배치함"
+
+msgid "the file stays out"
+msgstr "파일 제외됨"
+
+msgid "the only sound"
+msgstr "유일한 소리"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve가 오디오 트랙 A%d을(를) 두 번 거부했습니다 -- Timeline \"%s\"에 %s의 소리가 빠져 있습니다."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve가 비디오 트랙 V%d을(를) 두 번 거부했습니다 -- Timeline \"%s\"에 %s의 영상이 빠져 있습니다."

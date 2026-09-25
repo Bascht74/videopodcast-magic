@@ -520,9 +520,6 @@ msgstr "Farve"
 msgid "  Preset:  %s"
 msgstr "  Forudindstilling:  %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve afviser flere videospor -- %s af %s kameraer er der plads til."
-
 msgid "Preset"
 msgstr "Forudindstilling"
 
@@ -563,7 +560,7 @@ msgid "   -- that is everybody, so every shot goes to the same camera."
 msgstr "   -- det er alle, så hvert klip går til det samme kamera."
 
 msgid "No camera of their own: %s"
-msgstr "Ingen egen kamera: %s"
+msgstr "Intet eget kamera: %s"
 
 msgid "this window"
 msgstr "dette vindue"
@@ -714,9 +711,6 @@ msgstr "    %s kunne ikke importeres."
 
 msgid "    %s could not be inserted."
 msgstr "    %s kunne ikke indsættes."
-
-msgid "    %s track %d could not be created."
-msgstr "    %s-spor %d kunne ikke oprettes."
 
 msgid "    %s track could not be created: %s"
 msgstr "    %s-spor kunne ikke oprettes: %s"
@@ -885,9 +879,6 @@ msgstr "  %s videospor, navngivet efter talerne:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s står to gange med forskellige kameraer -- %s bruges"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s kan ikke klassificeres: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s giver ingen lyd at måle -- placeret alene efter sit ur, og der var intet at tjekke det mod"
@@ -2170,17 +2161,11 @@ msgstr "fordi ingen taler er tildelt det"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "markeret som oversigtsbillede -- det tager ingen talere"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "ingen taler -- dette er oversigtsbilledet"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "ingen taler er tildelt det, men klipningen bruger %s"
 
 msgid "the cut uses %s"
 msgstr "klipningen bruger %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "dette er oversigtsbilledet -- %s er flyttet til \"ingen egen kamera\""
 
 msgid "Curve and colour space are missing from the file"
 msgstr "Kurve og farverum mangler i filen"
@@ -2298,12 +2283,6 @@ msgstr "Hvis tomt: ved siden af hver videofil."
 
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "Det opstod under optagelsen og kan ikke ændres nu. Jo mindre mikrofonerne er adskilt, desto mere forsigtigt må De-Bleed hos auphonic.com arbejde. Næste gang: tre gange så langt til nabomikrofonen som til din egen mund, så ligger nabostemmen omkring %s dB lavere."
-
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Det passer ingen steder i materialet: ingen tidskode, og dets lyd har intet til fælles med resten. Oversigtsbilledet er det, klipningen falder tilbage på, så det skal ligge på tidsaksen."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Det passer ingen steder i materialet og kan derfor ikke klippes ind i afsnittet. Det kan sættes foran eller efter."
 
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s passer ikke til noget i materialet og kan derfor ikke klippes ind i afsnittet: sat til Intro."
@@ -3347,9 +3326,6 @@ msgstr "Kun kameraer"
 msgid "Curve number %d"
 msgstr "Kurve nummer %d"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "På LYD eller VIDEO fjernes det hele."
-
 msgid "End"
 msgstr "Slutningen"
 
@@ -3613,18 +3589,6 @@ msgstr "Kun ét spor -- sæt Kameralyd for et kamera til \"brug intern lyd\" for
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Kun ét spor, og ingen kameralyd tilbage at tage."
-
-msgid "the only sound there is"
-msgstr "den eneste lyd, der findes"
-
-msgid "no audio track in this file"
-msgstr "intet lydspor i denne fil"
-
-msgid "this file stays out entirely"
-msgstr "denne fil holdes helt udenfor"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "et færdigt klip -- placeres kun, behandles ikke"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Bruges den, deles de kanaler, der er målt under denne fil, op i spor, som for en optagelse.\nMålingen sker under alle omstændigheder: den dom er grundlaget for beslutningen, og synkroniseringen tager lyden uanset."
@@ -4467,3 +4431,378 @@ msgstr "Her navngiver tildelingsfilen kameraerne, så --new-name ville falde bor
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Med kun kameraer navngives hver fil efter de spor, der tages fra dens lyd, så --new-name ville falde bort; udelad --new-name."
+
+msgid "no camera of its own"
+msgstr "intet eget kamera"
+
+msgid "do not use"
+msgstr "brug ikke"
+
+msgid "several speakers"
+msgstr "flere talere"
+
+msgid "work without Auphonic"
+msgstr "arbejde uden Auphonic"
+
+msgid "Content"
+msgstr "Indhold"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Oversigtsbillede"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "ignorer video"
+
+msgid "do not use internal audio"
+msgstr "brug ikke intern lyd"
+
+msgid "use internal audio"
+msgstr "brug intern lyd"
+
+msgid "After a question"
+msgstr "Efter et spørgsmål"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "billedet går til svaret, før det begynder"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Kun efter et spørgsmål, der ikke kommer fra hovedtaleren, når en anden straks tager over og beholder ordet.\n\"ikke før tid\" betyder intet kameraskift før tid: billedet følger lyden her, som det gør alle andre steder."
+
+msgid "Long monologue"
+msgstr "Lang monolog"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "én person beholder ordet ud over \"Oversigtsbillede efter\""
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"Skiftevis\" husker, hvad den sidste afbrydelse af denne monolog viste. Lytteren får kun billedet, når nogen på det kamera har været hørt inden for de sidste 20 sekunder; ellers oversigtsbilledet."
+
+msgid "Several speak at once"
+msgstr "Flere taler samtidig"
+
+msgid "and no camera shows exactly them"
+msgstr "og intet kamera viser præcis dem"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "At klippe ind i et virvar virker hektisk."
+
+msgid "Nobody speaks"
+msgstr "Ingen taler"
+
+msgid "no voice is heard at all here"
+msgstr "her høres der slet ingen stemme"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "En vejrtrækning midt i en sætning og slutningen på en tanke er begge stilhed, og programmet kan ikke skelne dem fra hinanden. Kun længden kan: \"Kort pause op til\" siger, hvor lang en stilhed må være og stadig tælle som en vejrtrækning."
+
+msgid "Recognition uncertain"
+msgstr "Genkendelse usikker"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "talergenkendelsen trævler op eller efterlader en bunke"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Gætteri viser den forkerte person i flere sekunder; oversigtsbilledet er rigtigt under alle omstændigheder. Her taler nogen -- hvor ingen taler, afgør \"Ingen taler\"."
+
+msgid "the picture changes this much later than the sound"
+msgstr "så meget senere end lyden skifter billedet"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "En negativ værdi får billedet til at komme før lyden."
+
+msgid "Answer on screen earlier"
+msgstr "Svar tidligere i billedet"
+
+msgid "before the question ends"
+msgstr "før spørgsmålet slutter"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Nul er dér, hvor spørgeren holder op, ikke hvor svaret begynder: pausen imellem hører til spørgsmålet. Gælder kun, hvor \"Efter et spørgsmål\" beder om det, og Edit Change Delay lægges ikke til igen."
+
+msgid "Wide shot after"
+msgstr "Oversigtsbillede efter"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "herfra søges et godt øjeblik til det"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "Den bløde grænse af de to: herfra venter programmet på en sætningsgrænse og lægger oversigtsbilledet dér, ikke efter uret. 0 slår det fra. \"Oversigtsbillede senest\" er den hårde grænse, hvor der klippes uden en."
+
+msgid "Wide shot at the latest"
+msgstr "Oversigtsbillede senest"
+
+msgid "and here it is cut, good moment or not"
+msgstr "og her klippes der, godt øjeblik eller ej"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Den hårde grænse af de to: er der ikke kommet nogen sætningsgrænse siden \"Oversigtsbillede efter\", træder den længste talepause i stedet, og på dette punkt klippes der, uanset hvad der bliver sagt."
+
+msgid "Wide shot at least"
+msgstr "Oversigtsbillede mindst"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "så længe står det indskudte oversigtsbillede mindst"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Derefter løber det til sætningens slutning. Under fem sekunder virker blikket som et spjæt."
+
+msgid "Wide shot at most"
+msgstr "Oversigtsbillede højst"
+
+msgid "and at most this long"
+msgstr "og højst så længe"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Ligger sætningens slutning efter det, er det den sidste grænse mellem sætningsdele inden da, der afslutter klippet -- der klippes ikke af midt i en sætning."
+
+msgid "Minimum Edit Duration"
+msgstr "Mindste kliplængde"
+
+msgid "shorter shots are merged in"
+msgstr "kortere klip slås sammen"
+
+msgid "Shorter shots fall into the following one."
+msgstr "Kortere klip går op i det følgende."
+
+msgid "Speaks at least"
+msgstr "Taler mindst"
+
+msgid "below this the camera does not follow"
+msgstr "derunder følger kameraet ikke"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Et kort \"ja\" flytter ikke billedet. Uden dette trækker en blok på et halvt sekund kameraet over, og den mindste kliplængde holder det så der i flere sekunder."
+
+msgid "Short gap up to"
+msgstr "Kort pause op til"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "så længe lader en stilhed billedet være"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kun hvor \"Ingen taler\" er sat til at holde en kort pause. En pause op til denne længde ændrer intet, en længere går til oversigtsbilledet. Over to sekunder begynder billedet at blive stående på en, der tier, i mere end fem sekunder."
+
+msgid "Listener"
+msgstr "Lytter"
+
+msgid "Alternating"
+msgstr "Skiftevis"
+
+msgid "No camera change"
+msgstr "Intet kameraskift"
+
+msgid "Hold a short gap"
+msgstr "Hold kort pause"
+
+msgid "do not go early"
+msgstr "ikke før tid"
+
+msgid "Answering speaker"
+msgstr "Den, der svarer"
+
+msgid "English"
+msgstr "Engelsk"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcastkataloger, stereo"
+
+msgid "Podcast directories, mono"
+msgstr "Podcastkataloger, mono"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- skruer kun ned, aldrig op"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, radio og tv"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 konstant"
+
+msgid "reserved"
+msgstr "reserveret"
+
+msgid "unspecified"
+msgstr "ikke angivet"
+
+msgid "unknown"
+msgstr "ukendt"
+
+msgid "French"
+msgstr "Fransk"
+
+msgid "German"
+msgstr "Tysk"
+
+msgid "Dutch"
+msgstr "Nederlandsk"
+
+msgid "Italian"
+msgstr "Italiensk"
+
+msgid "Spanish"
+msgstr "Spansk"
+
+msgid "Polish"
+msgstr "Polsk"
+
+msgid "Portuguese"
+msgstr "Portugisisk"
+
+msgid "Russian"
+msgstr "Russisk"
+
+msgid "Danish"
+msgstr "Dansk"
+
+msgid "Norwegian"
+msgstr "Norsk"
+
+msgid "Swedish"
+msgstr "Svensk"
+
+msgid "Czech"
+msgstr "Tjekkisk"
+
+msgid "Finnish"
+msgstr "Finsk"
+
+msgid "Turkish"
+msgstr "Tyrkisk"
+
+msgid "Greek"
+msgstr "Græsk"
+
+msgid "Hungarian"
+msgstr "Ungarsk"
+
+msgid "Romanian"
+msgstr "Rumænsk"
+
+msgid "Arabic"
+msgstr "Arabisk"
+
+msgid "Catalan"
+msgstr "Catalansk"
+
+msgid "Ukrainian"
+msgstr "Ukrainsk"
+
+msgid "Chinese"
+msgstr "Kinesisk"
+
+msgid "Hebrew"
+msgstr "Hebraisk"
+
+msgid "Japanese"
+msgstr "Japansk"
+
+msgid "Korean"
+msgstr "Koreansk"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Sådan konverteres: højreklik i Media Pool på \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Kun den ene vej -- men en ny kørsel bygger Timeline igen når som helst.\n  Vinkler:%s\n  Alt andet -- lydvalg, farvegrupper, billedudsnit -- står i\n  håndbogen, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Mulige årsager:\n  1. Resolve kører ikke -- grænsefladen svarer kun, mens programmet kører.\n  2. Preferences > System > General: ekstern scripting er sat til \"None\" i stedet for \"Local\".\n  3. Gratisudgave: ekstern scripting er efter sigende forbeholdt Studio-udgaven siden version 19.1. Jeg har ikke fundet nogen officiel udtalelse -- dette tjek måler det i stedet for at påstå det."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s kan ikke klassificeres: %s -- placeret alene efter sit ur"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: lyden passer med %s, under bunden på %s -- placeret alene efter sit ur"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Advarsel: dette projekt er ikke komplet -- Resolve afviste disse spor to gange:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Forskydning:     %s   (alene fra dens tidskode -- dens lyd kunne ikke placere den, så intet kontrolleres)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve afviste lydspor A%d to gange på Timeline \"%s\" -- kameraerne lægges på de %s lydspor, der er."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve afviste videospor V%d to gange -- Timeline \"%s\" mangler %s."
+
+msgid "  Status:      %s"
+msgstr "  Status:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Lyden fra %s passede for svagt til at stole på -- placeret alene efter tidskoden."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   passer ikke til de andre filer: lyd ikke genkendt,\n   intet at måle dens tidskode imod.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s kan ikke placeres: dens lyd har intet til fælles med resten af materialet, og intet kamera, som lyden har placeret, bærer en tidskode at måle dens egen imod. Et af dem har brug for en tidskode, der passer til denne, og den skal sættes med et andet program."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s passer ikke til noget i materialet, og intet kamera, som lyden har placeret, bærer en tidskode at måle dens egen imod, så den kan ikke klippes ind i afsnittet: sat til Intro."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s passer ikke til noget i materialet, og intet kamera, som lyden har placeret, bærer en tidskode at måle dens egen imod; introen er optaget: holdes udenfor."
+
+msgid "API Key:"
+msgstr "API-nøgle:"
+
+msgid "In point"
+msgstr "Ind-punktet"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Udeladt; %s eller %s er ét klik væk."
+
+msgid "Out point"
+msgstr "Ud-punktet"
+
+msgid "Presets:"
+msgstr "Forudindstillinger:"
+
+msgid "Registry"
+msgstr "Registry"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Fjernes LYD eller VIDEO, fjernes alt derunder."
+
+msgid "VIDEO"
+msgstr "VIDEO"
+
+msgid "a finished clip"
+msgstr "færdigt klip"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "kan ikke klippes ind i afsnittet -- kun før eller efter"
+
+msgid "moved off the wide shot"
+msgstr "flyttet fra oversigtsbilledet"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "hverken dens lyd eller en tidskode placerer den på tidsaksen"
+
+msgid "no audio track"
+msgstr "intet lydspor"
+
+msgid "no speaker"
+msgstr "ingen taler"
+
+msgid "not used"
+msgstr "ikke brugt"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "placeret med sit kamera, efter det kameras ur"
+
+msgid "the file stays out"
+msgstr "filen holdes udenfor"
+
+msgid "the only sound"
+msgstr "den eneste lyd"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve afviste lydspor A%d to gange -- Timeline \"%s\" mangler lyden fra %s."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve afviste videospor V%d to gange -- Timeline \"%s\" mangler billedet fra %s."

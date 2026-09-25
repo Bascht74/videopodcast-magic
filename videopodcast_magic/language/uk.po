@@ -1600,9 +1600,6 @@ msgstr "Жодна камера не вільна від мовців, тож з
 msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
 msgstr "Транскрипту ще немає. Без нього не знайдеться жодне запитання й не відома жодна межа речення, тож ці чотири налаштування нічого не дають. Запуск його запише, і відтоді вони працюють."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Вона ніде не вписується в матеріал: немає таймкоду, і її звук не має нічого спільного з рештою. На загальний план монтаж відступає, тож він мусить лежати на осі часу."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Питання: транскрипту немає, тож питань не знайдено й план реакції\n           не вставлено. Слова записуються з готового міксу під час\n           запуску; без них налаштування нічого не дає."
 
@@ -1623,9 +1620,6 @@ msgstr "Чому налаштування запитання сірі"
 
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "позначена як загальний план -- мовців не бере"
-
-msgid "no speaker -- this is the wide shot"
-msgstr "без мовця -- це загальний план"
 
 msgid "the mix of all tracks"
 msgstr "мікс усіх доріжок"
@@ -1740,9 +1734,6 @@ msgstr "Мовці ще невідомі -- нічого не виміряно, 
 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "Часове вікно лежить поза матеріалом: точка входу на %s, точка виходу на %s, а матеріал триває %s."
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "це загальний план -- %s перейшов на \"без власної камери\""
 
 msgid "No audio tracks are assigned."
 msgstr "Жодної звукової доріжки не призначено."
@@ -2154,9 +2145,6 @@ msgstr "  Увага: діапазон    лише %s LU -- дуже вузьк�
 
 msgid "both channels identical -- mono laid on both sides"
 msgstr "обидва канали однакові -- моно покладено на обидва боки"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s не вдається класифікувати: %s"
 
 msgid "probably two microphones -- about %s m apart%s"
 msgstr "імовірно два мікрофони -- приблизно %s м один від одного%s"
@@ -3646,9 +3634,6 @@ msgstr "  Timeline %r вже існувала -- нова називається
 msgid "  The Timeline start %s was refused: %s"
 msgstr "  Початок Timeline %s відхилено: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  Resolve не приймає більше відеодоріжок -- вміщається %s з %s камер."
-
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s немає файлу в Media Pool"
 
@@ -3711,9 +3696,6 @@ msgstr "      GetAudioMapping   не працює: %s"
 
 msgid "  Colour group %r cannot be created: %s"
 msgstr "  Не вдається створити групу кольору %r: %s"
-
-msgid "    %s track %d could not be created."
-msgstr "    Не вдалося створити доріжку типу «%s» №%d."
 
 msgid "ends"
 msgstr "закінчується"
@@ -4219,18 +4201,6 @@ msgstr "Перезапуск не вдався. Закрийте вікно й �
 msgid "No newer version found. This one is %s."
 msgstr "Новішої версії не знайдено. Ця версія -- %s."
 
-msgid "no audio track in this file"
-msgstr "у цьому файлі немає звукової доріжки"
-
-msgid "this file stays out entirely"
-msgstr "цей файл повністю залишається осторонь"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "готовий кліп -- лише розміщується, не обробляється"
-
-msgid "the only sound there is"
-msgstr "єдиний звук, який є"
-
 msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
 msgstr "Multitrack потребує двох доріжок у таблиці вище -- камера рахується як одна, щойно її Звук камери встановлено на \"використовувати звук\"."
 
@@ -4242,9 +4212,6 @@ msgstr "Дві камери в монтажі є однією: %s. Їхні фа
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "Дві камери дали б той самий файл: %s"
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Воно ніде не вписується в матеріал, тож його не можна вмонтувати в епізод. Його можна поставити перед ним або після нього."
 
 msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
 msgstr "Якщо його використано, звук цього файлу стає доріжкою, як будь-яка інша -- вона з'являється в таблиці вище.\nТе саме поле є у списку файлів; обидва показують одну відповідь."
@@ -4272,9 +4239,6 @@ msgstr "ЗАГАЛЬНІ ПРИМІТКИ"
 
 msgid "Order does not matter. For a multi-part recording the first block is enough."
 msgstr "Порядок не має значення. Для запису з кількох частин досить першого блоку."
-
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "Перетягування на ЗВУК або ВІДЕО бере все."
 
 msgid "Title at auphonic.com and start of the new file names."
 msgstr "Назва на auphonic.com і початок нових назв файлів."
@@ -4749,3 +4713,156 @@ msgstr "Тут камери називає файл призначення, то
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Коли є лише камери, кожен файл називається за доріжками, взятими з його звуку, тож --new-name було б відкинуто; приберіть --new-name."
+
+msgid "work without Auphonic"
+msgstr "працювати без Auphonic"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Лише після запитання, яке ставить не головний мовець, коли одразу вступає хтось інший і втримує слово.\n«не переходити раніше» означає: жодної завчасної зміни камери, картинка йде за звуком тут так само, як і скрізь."
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "«Поперемінно» запам'ятовує, що показало останнє переривання цього монологу. Слухач отримує картинку, лише якщо на його камері когось було чути за останні 20 секунд; інакше -- загальний план."
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Монтаж посеред плутанини виглядає метушливо."
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Вдих посеред речення і кінець думки -- це однаково тиша, і програма їх не розрізняє. Розрізняє лише тривалість: «Коротка пауза до» задає, якою довгою може бути тиша, щоб іще вважатися вдихом."
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "Вгадування на секунди виводить у кадр не ту людину; загальний план правильний у будь-якому разі. Тут хтось говорить -- де не говорить ніхто, вирішує «Ніхто не говорить»."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "За від'ємного значення картинка випереджає звук."
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "Нуль -- там, де той, хто питає, замовкає, а не там, де починається відповідь: пауза між ними належить до запитання. Діє лише там, де цього вимагає «Після запитання», і Edit Change Delay вдруге не додається."
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "М'яка межа пари: звідси програма чекає на межу речення і ставить загальний план туди, а не за годинником. 0 вимикає. «Загальний план не пізніше» -- жорстка межа, там ріжеться і без межі речення."
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "Жорстка межа пари: якщо після «Загальний план після» не трапилося жодної межі речення, її замінює найдовша пауза в мовленні, і в цій точці ріжеться, хоч би що саме говорилося."
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Потім він триває до кінця речення. Коротший за п'ять секунд, такий погляд виглядає як смикання."
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Якщо кінець речення лежить далі, план закінчується на останній межі частини речення перед цим значенням -- посеред речення не обривається."
+
+msgid "Shorter shots fall into the following one."
+msgstr "Коротші плани вливаються в наступний."
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Коротке «так» не зрушує картинку. Без цього фрагмент мовлення в пів секунди перетягує камеру, і мінімальна довжина плану тримає її там секундами."
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Лише там, де для «Ніхто не говорить» вибрано тримати коротку паузу. Пауза до цієї довжини нічого не змінює, довша переходить на загальний план. Понад дві секунди картинка починає стояти на тому, хто мовчить, довше за п'ять секунд."
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 з постійною яскравістю"
+
+msgid "reserved"
+msgstr "зарезервовано"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Щоб перетворити: у Media Pool клацніть правою кнопкою на \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Лише в один бік -- але новий запуск будь-коли заново будує Timeline.\n  Ракурси:%s\n  Усе інше -- вибір звуку, колірні групи, кадрування -- є в\n  посібнику, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Можливі причини:\n  1. Resolve не запущено -- інтерфейс скриптів відповідає, лише поки програма працює.\n  2. Preferences > System > General: зовнішній скриптинг стоїть на «None» замість «Local».\n  3. Безкоштовна редакція: за повідомленнями, зовнішній скриптинг починаючи з версії 19.1 доступний лише в редакції Studio. Офіційної заяви я не знайшов -- ця перевірка це вимірює, а не стверджує."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s не вдається класифікувати: %s -- розміщено лише за власним годинником"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: збіг звуку %s, нижче порогу %s -- розміщено лише за власним годинником"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Увага: цей проєкт не завершений -- Resolve двічі відхилив ці доріжки:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Зсув:                %s   (лише за таймкодом -- за звуком розмістити не вдалося, тож нічого не перевіряється)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve двічі відхилив звукову доріжку A%d у Timeline «%s» -- камери кладуться на наявні звукові доріжки (усього %s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve двічі відхилив відеодоріжку V%d -- у Timeline «%s» бракує: %s."
+
+msgid "  Status:      %s"
+msgstr "  Статус:      %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  Збіг звуку надто слабкий, щоб йому довіряти: %s -- розміщено лише за таймкодом."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   не пасує до інших файлів: звук не розпізнано,\n   і немає з чим звірити таймкод.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s не вдається розмістити: його звук не має нічого спільного з рештою матеріалу, а жодна камера, розміщена за звуком, не має таймкоду, з яким можна було б звірити власний. Одній із них потрібен таймкод, що пасує до цього, і його треба задати іншою програмою."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s ні з чим у матеріалі не збігається, а жодна камера, розміщена за звуком, не має таймкоду, з яким можна було б звірити власний, тож його не можна вмонтувати в епізод: встановлено як Заставка."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s ні з чим у матеріалі не збігається, а жодна камера, розміщена за звуком, не має таймкоду, з яким можна було б звірити власний; заставку вже зайнято: залишено поза монтажем."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Точка входу"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Пропущено; %s або %s -- за один клік."
+
+msgid "Out point"
+msgstr "Точка виходу"
+
+msgid "Presets:"
+msgstr "Пресети:"
+
+msgid "Registry"
+msgstr "Реєстр"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "Вилучення «ЗВУК» або «ВІДЕО» прибирає все, що під ним."
+
+msgid "VIDEO"
+msgstr "ВІДЕО"
+
+msgid "a finished clip"
+msgstr "готовий кліп"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "не можна вмонтувати в епізод -- лише перед ним або після нього"
+
+msgid "moved off the wide shot"
+msgstr "знято з загального плану"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "ні звук, ні таймкод не ставлять його на вісь"
+
+msgid "no audio track"
+msgstr "немає аудіодоріжки"
+
+msgid "no speaker"
+msgstr "без мовця"
+
+msgid "not used"
+msgstr "вимкнено"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "розміщено разом зі своєю камерою, за годинником цієї камери"
+
+msgid "the file stays out"
+msgstr "файл лишається осторонь"
+
+msgid "the only sound"
+msgstr "єдиний звук"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve двічі відхилив звукову доріжку A%d -- у Timeline «%s» бракує звуку (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve двічі відхилив відеодоріжку V%d -- у Timeline «%s» бракує зображення (%s)."

@@ -4,10 +4,10 @@
 The wide shot is the camera that runs through and steps in wherever no
 other one fits, so it has to lie on the time axis. A jingle does not:
 no timecode, and no sound in common with the rest. In order: the barred
-entry with its reason on it, the file that has a place and keeps the
-choice, what a hand and a missing measurement leave alone, the
-derivation, which stops picking such a file, and last that every table
-builds the field in the one place where the bar is hung.
+entry with its reason on it, whole in the open list, the file that has
+a place and keeps the choice, what a hand and a missing measurement
+leave alone, the derivation, which stops picking such a file, and last
+that every table builds the field in the one place where the bar is hung.
 """
 import os
 import sys
@@ -80,6 +80,10 @@ check("it is refused the wide shot, and a sentence says why",
       bool(why_wide), "the reason is %r" % why_wide)
 check("the sentence names both halves of what it is missing",
       "timecode" in why_wide and "sound" in why_wide, repr(why_wide))
+# A file can carry a timecode with nothing to set it against, and the
+# same sentence stands on it.
+check("and it does not say the file has no timecode",
+      "no timecode" not in why_wide, repr(why_wide))
 lost_cell, box = vpm.clip_kind_cell(os.path.basename(LOST),
                                     kind.get(), "", QUIET, False,
                                     why_wide)
@@ -94,6 +98,14 @@ check("each of the two carries its own reason",
       and "cut into the episode" in says_at(box, vpm.TYPE_CONTENT),
       "the wide shot says %r, Content says %r"
       % (says_at(box, vpm.TYPE_WIDE), says_at(box, vpm.TYPE_CONTENT)))
+# Opened, the list writes the reason after the entry and cuts what
+# does not fit: the reason has to come through whole.
+vpm.entries_captions(box, True)
+opened = box.itemText(list(vpm.CLIP_TYPES).index(vpm.TYPE_WIDE))
+vpm.entries_captions(box, False)
+check("and the open list shows that sentence whole",
+      opened.endswith(": " + why_wide),
+      "the open list says %r for %r" % (opened, why_wide))
 check("intro, outro and ignore stay open",
       set(v for v, shut, _i in entries(box) if not shut)
       == {vpm.TYPE_INTRO, vpm.TYPE_OUTRO, vpm.TYPE_IGNORED},

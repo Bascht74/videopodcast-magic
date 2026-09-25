@@ -31,13 +31,31 @@ und ist es nicht. Ein Projekt lässt sich also öffnen und
 **Resolve-Projekt anlegen** drücken, ohne noch einmal etwas laufen zu
 lassen.
 
-Sonst gibt nichts eine her. Dateien hineinziehen und einen
-Ausgabeordner wählen, in dem schon eine liegt, genügt nicht: das Wählen
-des Ordners nimmt dem Knopf, was er hatte, und niemand sieht dort nach.
-Wo der Knopf nicht bedienbar ist, steht der Grund an ihm:
+**Und der Knopf folgt der Dateiliste.** Sobald sich die Kameras in der
+Liste ändern -- eine Datei mit **Entfernen** herausgenommen, mit
+**Dateien hinzufügen ...** wieder hineingelegt oder ihr **Typ** auf
+Vorspann, Abspann oder **Video ignorieren** gestellt --, fragt das
+Programm neu, ob die Übergabe, die es hält, noch genau diese Kameras
+nennt. Tut sie es, bleibt sie. Wenn nicht, sucht es eine, die es tut: im
+Ausgabeordner, neben der Projektdatei und neben der bisherigen Übergabe.
+Findet sich keine, wird der Knopf grau. Wer eine Kamera herausnimmt,
+macht den Knopf also grau. Wer sie wieder hineinlegt, macht ihn nur dann
+wieder bedienbar, wenn eine Übergabe über genau diese Kameras im
+Ausgabeordner oder neben einer geöffneten Projektdatei liegt: Die
+Übergabe, die der Knopf hatte, ist dann schon weg, und neben ihr sieht
+niemand mehr nach. Mit **neben der jeweiligen Videodatei** und ohne
+geöffnetes Projekt, und nach einem Lauf, der eine Kamera draußen
+gelassen hat -- seine Übergabe nennt diese Kamera nie --, bleibt der
+Knopf grau; dann noch einmal **Start** drücken.
+
+Einen Ausgabeordner zu wählen ist keine solche Änderung: das Wählen
+nimmt dem Knopf, was er hatte, und im neuen Ordner sieht niemand nach,
+bis sich die Kameras in der Liste ändern. Wo der Knopf nicht bedienbar
+ist, steht der Grund an ihm:
 
 - **Dafür fehlt die Übergabedatei aus einem Lauf.** Kein Lauf in diesem
-  Fenster, und kein geöffnetes Projekt, dessen Übergabe passt. Auf
+  Fenster, kein geöffnetes Projekt, dessen Übergabe passt, oder die
+  Kameras in der Liste sind nicht mehr die, die die Übergabe nennt. Auf
   **Start** drücken.
 - **Die Resolve-Schnittstelle liegt nicht da, wo sie sein müsste.**
   Resolve ist nicht dort installiert, wo das Programm nachsieht; der
@@ -59,13 +77,15 @@ Zeile, die mit *Abbruch* beginnt:
   Rate entstünde die Zeitleiste mit einer geratenen Geschwindigkeit, und
   jeder Schnitt säße neben dem Bild. Den Lauf noch einmal machen.
 
-Der Abgleich über die Kameras wird beim Öffnen gefragt und nur dort.
-Wird der **Typ** einer Kamera nach einem Lauf auf Vorspann, Abspann oder
-**Video ignorieren** gestellt, kostet das also sofort nichts — der Knopf
-arbeitet weiter auf der Übergabe des Laufs über alle. Es kostet sie beim
-nächsten Öffnen des Projekts: die Datei nennt dann eine Kamera mehr, als
-das Projekt hat, und wird übergangen. Dann noch einmal **Start**
-drücken, für die Kameras, wie sie jetzt stehen.
+Den Abgleich über die Kameras macht das Programm beim Öffnen und
+jedes Mal, wenn sich die Kameras in der Liste ändern. Wird der **Typ**
+einer Kamera nach einem Lauf auf Vorspann, Abspann oder **Video
+ignorieren** gestellt, gehört sie nicht mehr zu den Kameras der Liste;
+die Übergabe des Laufs über alle nennt dann eine zu viel, und der Knopf
+wird sofort grau. Stellt man den Typ zurück, wird der Knopf unter
+derselben Bedingung wieder bedienbar wie beim Zurücklegen einer Kamera,
+weiter oben; sonst noch einmal **Start** drücken, für die Kameras, wie
+sie jetzt stehen.
 
 Das Programm fragt beim ersten Blick auf den Reiter **Resolve-Schnitt**
 von selbst nach, im Hintergrund, ob Resolve antwortet. Dort erscheint
@@ -152,7 +172,8 @@ Marker.
 **… Multicam**: alle Kameras nebeneinander, eine je Bildspur, jede so
 lang wie ihre eigene Datei und **ohne Schnitte**, an ihrer gemessenen
 Stelle. Die
-Spurnamen sind die Sprecher, eine Kamera ohne Sprecher heißt
+Spurnamen sind die Sprecher -- mehrere auf einer Kamera mit Plus
+verbunden und alphabetisch geordnet --, eine Kamera ohne Sprecher heißt
 `Weitwinkel` (`Weitwinkel 1`, `Weitwinkel 2` bei zweien), so wie das
 Fenster sie beschriftet, und die Sprechernamen stehen als Marker. Wo
 niemand gehört wurde, und bei **Nur synchronisieren**, trägt jede Spur,
@@ -176,16 +197,27 @@ Kamera, die auf der falschen Stunde steht, bringt diese Stunde in die
 Timeline mit. Und selbst wenn wirklich jemand alle Kameras auf dieselbe
 Uhr gestellt hat, gehen die Uhren noch ein, zwei Bilder auseinander.
 
-**Die Uhr ist der Rückfall, mehr nicht.** War im Ton einer Kamera nichts
-zu finden, setzt ihr eigener Timecode sie; hat sie auch den nicht,
-landet sie am Anfang der Achse. Beides sagt der Lauf beim Schreiben der
-Übergabedatei ausdrücklich, mit Namen:
+**Die Uhr ist der Rückfall, mehr nicht.** Gibt der Ton einer Kamera
+nichts zum Messen her, oder passt er zu schwach zum übrigen, als dass
+man ihm trauen könnte, dann setzt ihr eigener Timecode sie -- gemessen
+an einer Kamera, die der Ton sehr wohl platziert hat und die ebenfalls
+einen Timecode trägt. Das sagt der Lauf schon, wenn er die Kameras
+ausrichtet, und wo es eine Übereinstimmung gab, nennt er, wie weit sie
+reichte und unter welcher Schwelle sie blieb. Hat die Kamera keinen
+Timecode, oder trägt keine der vom Ton platzierten Kameras einen, gegen
+den sich ihrer halten ließe, dann platziert sie nichts, und sie bleibt
+draußen (*Eine Datei, die nirgends hinpasst*, weiter unten). Was ohne
+Messung seinen Platz bekam, sagt der Lauf beim Schreiben der
+Übergabedatei noch einmal ausdrücklich, mit Namen, und jeder der beiden
+Gründe bekommt seine eigene Zeile:
 
 - *Im Ton war für `WideCam` nichts zu finden -- allein nach Timecode
   gesetzt.*
+- *Der Ton von `WideCam` stimmte zu schwach überein, um ihm zu
+  trauen -- allein nach Timecode gesetzt.*
 - *Kein gemessener Versatz für `WideCam` -- liegt am Anfang der Achse.*
 
-Beim ersten lohnt ein Blick. Beim zweiten immer: eine Kamera am Anfang
+Bei den ersten beiden lohnt ein Blick. Beim letzten immer: eine Kamera am Anfang
 der Achse ist eine, die niemand platziert hat, und sie sieht genauso aus
 wie eine, die mit der Folge beginnt.
 
@@ -264,9 +296,24 @@ Kameras verschieden schnell liefen.
 In die Übergabedatei kommen nur die Kameras, die der Lauf auf der
 gemeinsamen Zeitachse unterbringen konnte. Hat der Ton eines Videos mit
 dem übrigen Material nichts gemeinsam, und ordnet auch kein Timecode es
-ein, dann lässt der Lauf es weg und sagt beim Schreiben, was er
-weggelassen hat und warum: Nichts platziert es, also ist es keine Kamera
-dieser Folge.
+ein -- weil es keinen trägt, oder weil keine vom Ton platzierte Kamera
+einen hat, gegen den sich seiner halten ließe --, dann lässt der Lauf es
+weg und sagt beim Schreiben, was er weggelassen hat und warum: Nichts
+platziert es, also ist es keine Kamera dieser Folge. Im Fenster nimmt
+schon das Ausmessen der Zeitachse eine solche Datei von **Inhalt** und
+**Weitwinkel** herunter und setzt sie auf **Vorspann** oder auf **Video
+ignorieren**. Bei einer Kamera, die der Ton nicht platzieren kann, hält
+sich das Fenster an die Regel des Laufs: Ihr Timecode wird mit dem einer
+Kamera abgeglichen, die der Ton platziert hat und die einen trägt. Ein
+Fall weicht noch ab: Liegt neben den Kameras eine längere Tonaufnahme,
+und passt eine Kamera zu den anderen Kameras, nicht aber zu dieser
+Aufnahme, dann setzt der Lauf die Kamera nach ihrem Ton, das Fenster
+unter Umständen nach der Uhr des Rekorders. Hat der Timecode einer Datei
+nichts,
+womit er sich abgleichen ließe, sagt die Dateiliste genau das --
+**nichts, womit sich der Timecode abgleichen ließe** -- und nicht **kein
+Timecode**; auf welchem der beiden Einträge eine Datei landet und wann,
+steht in [Die Oberfläche](interface.de.md).
 
 Das Weglassen hat seinen Grund. Für eine solche Datei ist nichts
 aufbereitet worden, und sie trüge die Marke des Weitwinkels: Als Weitwinkel
@@ -274,11 +321,12 @@ gilt, wem kein Sprecher zugeordnet ist, und einer Datei, die nirgends
 hinpasst, ist niemand zugeordnet. Übergeben stünde ein kurzer Jingle als
 Weitwinkel einer ganzen Folge.
 
-Eine Datei, die der Lauf bloß nicht vermessen konnte, ist ein anderer
-Fall. Sie wird übergeben, und die Warnung nennt sie: wo sie liegt, sagt
-dann ihr eigener Timecode, und hat sie keinen, landet sie am Anfang der
-Achse. Beide Zeilen stehen oben unter *Wo jede Kamera sitzt*, und beide
-sind einen Blick wert.
+Einer Datei, deren Ton nichts zum Messen hergibt -- sie hat keine
+Tonspur, oder der Ton ist abgerissen --, geht es wie einer, deren Ton zu
+schwach passt: wo ihr Timecode sie setzen kann, setzt er sie, und sie
+wird mit einer Warnung übergeben, die sie nennt; wo nichts sie
+platziert, bleibt sie draußen. Die Zeilen dazu stehen oben unter *Wo
+jede Kamera sitzt*, und ein Blick auf sie lohnt sich.
 
 ### Eine Kamera
 
@@ -632,10 +680,30 @@ keine Sicherungskopie an.
   Schreiben nennt er sie. Der Datei einen Timecode geben, der zu
   den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
   sie von Hand nach Resolve holen.
+- **Die letzten Zeilen des Laufs sagen, das Projekt sei nicht
+  vollständig.** Resolve hat eine Spur abgelehnt, ist ein zweites Mal
+  gefragt worden und hat wieder abgelehnt. Der Lauf hat es gesagt, als
+  es geschah -- welche Spur, welche Timeline und was dieser Timeline nun
+  fehlt: jede Kamera ab dieser Bildspur, der Ton einer Kamera, oder Bild
+  oder Ton von Vorspann oder Abspann. Alles andere hat er ohne sie
+  gebaut, und in seinen letzten Zeilen sagt er es noch einmal; die
+  Perspektiven im Schlusshinweis nennen nur die Kameras, die eine
+  Bildspur bekommen haben. Mit **Resolve-Projekt anlegen** gebaut, endet das
+  Fenster dann mit `Mit Fehlern beendet.` statt mit `Fertig.`; als
+  Teil eines ganzen Laufs (`--resolve`) sagen es nur diese letzten
+  Zeilen. Eine abgelehnte Tonspur, ohne die die Kameras auf den übrigen
+  Platz fanden, kostet nichts: das Protokoll vermerkt sie, ein Fehler
+  ist sie nicht. Die Spur in Resolve von Hand anlegen und das fehlende
+  Stück darauflegen, oder das Projekt noch einmal bauen lassen.
 - **Eine Kamera steht neben ihrem Platz oder gleich ganz am Anfang.**
   Der Lauf hat es beim Schreiben der Übergabedatei gesagt: im Ton dieser
-  Kamera war nichts zu finden, also ging er allein nach dem Timecode --
-  oder er hatte beides nicht und hat sie an den Anfang der Achse gelegt.
+  Kamera war nichts zu finden oder zu wenig, um ihm zu trauen, also ging
+  er allein nach dem Timecode -- oder er hatte für die Kamera gar keinen
+  gemessenen Platz und keinen Timecode und hat sie an den Anfang der
+  Achse gelegt. (Eine Kamera, deren Ton zu schwach passt und die keinen
+  Timecode hat -- oder keinen, der sich an einer vom Ton platzierten
+  Kamera messen ließe --, landet nicht dort; sie bleibt draußen, siehe
+  *Eine Datei, die nirgends hinpasst*.)
   Der Name der Kamera steht in dieser Zeile, und `placed_by` in der
   Übergabedatei sagt dasselbe. Die Kamera in Resolve verschieben, oder
   der Datei einen Timecode geben, der zum übrigen Material passt, und
@@ -645,10 +713,15 @@ keine Sicherungskopie an.
   den der Lauf gesetzt hat. Das Protokoll nennt den gewünschten Anfang
   und den, den die Timeline meldet. In Resolve von Hand an der Timeline
   setzen, oder das Projekt noch einmal bauen lassen.
-- **Der Knopf ist gleich nach dem Öffnen eines Projekts grau, und im
-  Ordner liegt eine Übergabedatei.** Sie nennt andere Kameras, als das
-  Projekt hat -- eine andere Produktion, oder eine Runde, bevor eine
-  Kamera dazukam oder auf Vorspann gestellt wurde. Noch einmal **Start**
+- **Der Knopf ist grau, und im Ordner liegt eine Übergabedatei.** Sie
+  nennt andere Kameras, als jetzt in der Dateiliste stehen -- eine
+  andere Produktion, eine Runde, bevor eine Kamera dazukam, oder eine
+  Kamera ist seither aus der Liste genommen oder auf Vorspann, Abspann
+  oder **Video ignorieren** gestellt worden. Wer die Kamera wieder in
+  die Liste legt oder ihren Typ zurückstellt, macht den Knopf nur dann
+  wieder bedienbar, wenn eine Übergabe über genau diese Kameras im
+  Ausgabeordner oder neben einer geöffneten Projektdatei liegt (*Und der
+  Knopf folgt der Dateiliste*, oben); sonst noch einmal **Start**
   drücken.
 - **Im Ausgabeordner liegt je Einstellung eine Datei statt einer
   Folge.** Resolve hat eine Datei je Ausgabe abgelehnt, und das

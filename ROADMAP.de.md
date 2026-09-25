@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b19 durchgegangen worden.
+zuletzt für 3.0.0b20 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b19.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b20.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse

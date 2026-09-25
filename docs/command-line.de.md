@@ -19,7 +19,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 
 | Schalter | Wirkung |
 |---|---|
-| `--lang KÜRZEL` | Sprache der Meldungen: `ar`, `bn`, `cs`, `da`, `de`, `el`, `en`, `es`, `fi`, `fr`, `hi`, `hr`, `hu`, `it`, `ja`, `ko`, `nb`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sr`, `sv`, `tr`, `uk`, `vi`, `zh` (Systemsprache) |
+| `--lang KÜRZEL` | Sprache der Meldungen: `ar`, `bg`, `bn`, `bs`, `cs`, `da`, `de`, `el`, `en`, `es`, `et`, `fa`, `fi`, `fr`, `ga`, `gu`, `he`, `hi`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `mr`, `mt`, `nb`, `nl`, `pa`, `pl`, `pt`, `ro`, `ru`, `sk`, `sl`, `sr`, `sv`, `sw`, `ta`, `te`, `th`, `tr`, `uk`, `ur`, `vi`, `zh` (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--project-type WAS` | wofür der Lauf da ist: `cut` legt die Kameras auf eine Zeitachse und schneidet nach Sprecher, im Fenster „Schnitt nach Sprecher“; `sync` legt nur den Ton auf jede Kamera und baut die Multicam-Timeline, „Nur synchronisieren“ -- ohne Sprecher, ohne Spracherkennung, ohne Transkript, ohne Schnittlisten (`cut`) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |

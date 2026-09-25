@@ -522,9 +522,6 @@ msgstr "Szín"
 msgid "  Preset:  %s"
 msgstr "  Előbeállítás: %s"
 
-msgid "  Resolve refuses more video tracks -- %s of %s cameras fit."
-msgstr "  A Resolve nem enged több videósávot -- %s / %s kamera fér el."
-
 msgid "Preset"
 msgstr "Előbeállítás"
 
@@ -717,9 +714,6 @@ msgstr "    %s nem importálható."
 msgid "    %s could not be inserted."
 msgstr "    %s nem illeszthető be."
 
-msgid "    %s track %d could not be created."
-msgstr "    A(z) %s sáv (%d.) nem hozható létre."
-
 msgid "    %s track could not be created: %s"
 msgstr "    A(z) %s sáv nem hozható létre: %s"
 
@@ -887,9 +881,6 @@ msgstr "  %s videósáv, a beszélők nevével:"
 
 msgid "  %s appears twice with different cameras -- %s is used"
 msgstr "  %s kétszer szerepel különböző kamerákkal -- %s kerül felhasználásra"
-
-msgid "  %s cannot be classified: %s"
-msgstr "  %s nem sorolható be: %s"
 
 msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
 msgstr "  %s nem ad mérhető hangot -- csak az órája alapján került a helyére, és nem volt mihez ellenőrizni"
@@ -2146,7 +2137,7 @@ msgid "Connects to Resolve again."
 msgstr "Újra kapcsolódik a Resolve-hoz."
 
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
-msgstr "Tartalom: egy kamera, mint bármelyik másik.\nTotál: egy kamera, amely előtt senki sem ül -- nem kap beszélőt, és a vágás szünetben és hosszú monológban erre vált.\nAz intro és az outro kész klipek -- nincsenek igazítva, nincsenek feldolgozva, csak a Timeline-ba kerülnek.\nVideó figyelmen kívül hagyása: a fájl teljesen kimarad."
+msgstr "Tartalom: egy kamera, mint bármelyik másik.\nTotál: egy kamera, amely előtt senki sem ül -- nem kap beszélőt, és a vágás szünetben és hosszú monológban erre vált.\nAz intro és az outro kész klipek -- nincsenek igazítva, nincsenek feldolgozva, csak a Timeline-ba kerülnek.\nVideó mellőzése: a fájl teljesen kimarad."
 
 msgid "  %s wide shots: the cut uses %s."
 msgstr "  %s totál: a vágás ezt használja: %s."
@@ -2172,17 +2163,11 @@ msgstr "mert nincs hozzárendelve beszélő"
 msgid "marked as the wide shot -- it takes no speakers"
 msgstr "totálként megjelölve -- nem fogad beszélőket"
 
-msgid "no speaker -- this is the wide shot"
-msgstr "nincs beszélő -- ez a totál"
-
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "nincs hozzárendelve beszélő, de a vágás ezt használja: %s"
 
 msgid "the cut uses %s"
 msgstr "a vágás ezt használja: %s"
-
-msgid "this is the wide shot -- %s moved to \"no camera of its own\""
-msgstr "ez a totál -- %s átkerült ide: \"saját kamera nélkül\""
 
 msgid "Curve and colour space are missing from the file"
 msgstr "A görbe és a színtér hiányzik a fájlból"
@@ -2301,12 +2286,6 @@ msgstr "Ha üres: minden videófájl mellett."
 msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
 msgstr "A felvétel során keletkezett, és most már nem változtatható. Minél kevésbé vannak szétválasztva a mikrofonok, annál óvatosabban dolgozhat az auphonic.com De-Bleed funkciója. Legközelebb: háromszor olyan messze a szomszéd mikrofontól, mint a saját szájtól, akkor a szomszéd hang körülbelül %s dB-lel lejjebb ül."
 
-msgid "It fits nowhere in the material: no timecode, and its sound has nothing in common with the rest. The wide shot is what the cut falls back on, so it has to lie on the time axis."
-msgstr "Sehová sem illik az anyagban: nincs timecode, és a hangjának semmi köze a többihez. A totálra esik vissza a vágás, ezért az időtengelyen kell lennie."
-
-msgid "It fits nowhere in the material, so it cannot be cut into the episode. It can be set in front of it or after it."
-msgstr "Sehová sem illik az anyagban, ezért nem vágható bele az epizódba. Elé vagy mögé tehető."
-
 msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
 msgstr "%s semmihez sem illik az anyagban, így nem vágható bele az epizódba: intróra állítva."
 
@@ -2359,7 +2338,7 @@ msgid "Module DaVinciResolveScript cannot be loaded: %s"
 msgstr "A DaVinciResolveScript modul nem tölthető be: %s"
 
 msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
-msgstr "Személyenként egy hangsáv, egészen az auphonic.com-ig külön tartva.\nEnélkül is működik -- akkor viszont de-bleed és szintkiegyenlítő nélkül.\nKét bemeneti sáv kell hozzá: egy saját felvétel, egy többcsatornás\nfelvevő egy csatornája, vagy egy „hang használata” értékre állított\nvideófájl hangja. A kameravágásnak nincs szüksége erre a pipára."
+msgstr "Személyenként egy hangsáv, egészen az auphonic.com-ig külön tartva.\nEnélkül is működik -- akkor viszont de-bleed és szintkiegyenlítő nélkül.\nKét bemeneti sáv kell hozzá: egy saját felvétel, egy többcsatornás\nfelvevő egy csatornája, vagy egy „belső hang használata” értékre állított\nvideófájl hangja. A kameravágásnak nincs szüksége erre a pipára."
 
 msgid "Multitrack (one track per speaker)"
 msgstr "Multitrack (beszélőnként egy sáv)"
@@ -3349,9 +3328,6 @@ msgstr "Csak kamerák"
 msgid "Curve number %d"
 msgstr "%d. számú görbe"
 
-msgid "Dropping AUDIO or VIDEO takes all of it."
-msgstr "A HANG vagy a VIDEÓ eltávolítása mindent eltávolít, ami alatta van."
-
 msgid "End"
 msgstr "Vége"
 
@@ -3615,18 +3591,6 @@ msgstr "Csak egy sáv -- egy másodikhoz állítsa egy kamera Kamerahang mezőj�
 
 msgid "One track only, and no camera audio left to take."
 msgstr "Csak egy sáv, és nem maradt több felhasználható kamerahang."
-
-msgid "the only sound there is"
-msgstr "az egyetlen hang, ami van"
-
-msgid "no audio track in this file"
-msgstr "nincs hangsáv ebben a fájlban"
-
-msgid "this file stays out entirely"
-msgstr "ez a fájl teljesen kimarad"
-
-msgid "a finished clip -- only placed, not processed"
-msgstr "kész klip -- csak elhelyezve, nem feldolgozva"
 
 msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
 msgstr "Ha használatban van, a fájl alatt mért csatornák sávokra lesznek bontva, ahogy egy felvételnél.\nA mérés mindenképp megtörténik: azon az ítéleten alapul ez a döntés, és a szinkronizálás a hangot mindenképp felhasználja."
@@ -4469,3 +4433,378 @@ msgstr "Itt a hozzárendelési fájl nevezi meg a kamerákat, így a --new-name 
 
 msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
 msgstr "Csak kamerákkal minden fájl a hangjából vett sávokról kapja a nevét, így a --new-name elveszne; hagyja el a --new-name kapcsolót."
+
+msgid "no camera of its own"
+msgstr "saját kamera nélkül"
+
+msgid "do not use"
+msgstr "ne használja"
+
+msgid "several speakers"
+msgstr "több beszélő"
+
+msgid "work without Auphonic"
+msgstr "munka Auphonic nélkül"
+
+msgid "Content"
+msgstr "Tartalom"
+
+msgid "Intro"
+msgstr "Intro"
+
+msgid "Wide shot"
+msgstr "Totál"
+
+msgid "Outro"
+msgstr "Outro"
+
+msgid "ignore this video"
+msgstr "videó mellőzése"
+
+msgid "do not use internal audio"
+msgstr "belső hang mellőzése"
+
+msgid "use internal audio"
+msgstr "belső hang használata"
+
+msgid "After a question"
+msgstr "Kérdés után"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "a kép a válaszra vált, mielőtt az elkezdődne"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "Csak olyan kérdés után, amely nem a fő beszélőtől jön, ha azonnal valaki más veszi át a szót, és meg is tartja.\n\"ne hozza előre\" azt jelenti: nincs előrehozott kameraváltás, a kép itt is a hangot követi, mint mindenhol máshol."
+
+msgid "Long monologue"
+msgstr "Hosszú monológ"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "egy személy a \"Totál ennyi után\" értéken túl is tartja a szót"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "A \"Váltakozva\" megjegyzi, mit mutatott e monológ legutóbbi megszakítása. A hallgató csak akkor kapja a képet, ha az ő kameráján az utolsó 20 másodpercben hallatszott valaki; különben a totál."
+
+msgid "Several speak at once"
+msgstr "Többen beszélnek egyszerre"
+
+msgid "and no camera shows exactly them"
+msgstr "és egyetlen kamera sem pontosan őket mutatja"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "Egy zűrzavarba bevágni kapkodónak hat."
+
+msgid "Nobody speaks"
+msgstr "Senki sem beszél"
+
+msgid "no voice is heard at all here"
+msgstr "itt senkinek a hangja nem hallható"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "Egy levegővétel a mondat közepén és egy gondolat vége egyaránt csend, és a program nem tudja megkülönböztetni őket. Csak a hosszuk: a \"Rövid szünet legfeljebb\" megmondja, milyen hosszú lehet egy csend ahhoz, hogy még levegővételnek számítson."
+
+msgid "Recognition uncertain"
+msgstr "Bizonytalan felismerés"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "a beszélőfelismerés szétfoszlik, vagy egy kupacot hagy maga után"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "A találgatás másodpercekre a rossz személyt teszi képre; a totál minden esetben helyes. Itt valaki beszél -- ahol senki, ott a \"Senki sem beszél\" dönt."
+
+msgid "the picture changes this much later than the sound"
+msgstr "a kép ennyivel később vált, mint a hang"
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "Negatív értéknél a kép megelőzi a hangot."
+
+msgid "Answer on screen earlier"
+msgstr "Válasz korábban a képen"
+
+msgid "before the question ends"
+msgstr "a kérdés vége előtt"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "A nulla ott van, ahol a kérdező abbahagyja, nem ott, ahol a válasz kezdődik: a köztük lévő szünet a kérdéshez tartozik. Csak ott érvényes, ahol a \"Kérdés után\" ezt kéri, és az Edit Change Delay nem adódik hozzá még egyszer."
+
+msgid "Wide shot after"
+msgstr "Totál ennyi után"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "innentől jó pillanatot keres hozzá"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "A pár puha határa: innentől a program mondathatárra vár, és oda teszi a totált, nem az óra szerint. A 0 kikapcsolja. A \"Totál legkésőbb\" a kemény határ, ahol mondathatár nélkül is vág."
+
+msgid "Wide shot at the latest"
+msgstr "Totál legkésőbb"
+
+msgid "and here it is cut, good moment or not"
+msgstr "és itt vág, akár jó a pillanat, akár nem"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "A pár kemény határa: ha a \"Totál ennyi után\" óta nem jött mondathatár, a leghosszabb beszédszünet lép a helyére, és ezen a ponton megtörténik a vágás, bármi hangzik is el éppen."
+
+msgid "Wide shot at least"
+msgstr "Totál legalább"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "legalább ennyi ideig áll a beszúrt totál"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "Utána a mondat végéig tart. Öt másodperc alatt a pillantás rándulásnak hat."
+
+msgid "Wide shot at most"
+msgstr "Totál legfeljebb"
+
+msgid "and at most this long"
+msgstr "és legfeljebb ennyi ideig"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "Ha a mondat vége ezen túl esik, az előtte lévő utolsó tagmondathatár zárja le a snittet -- mondat közepén nem vág el."
+
+msgid "Minimum Edit Duration"
+msgstr "Minimális snitthossz"
+
+msgid "shorter shots are merged in"
+msgstr "a rövidebb snittek beolvadnak"
+
+msgid "Shorter shots fall into the following one."
+msgstr "A rövidebb snittek a következőbe olvadnak."
+
+msgid "Speaks at least"
+msgstr "Legalább ennyit beszél"
+
+msgid "below this the camera does not follow"
+msgstr "ez alatt a kamera nem követi"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "Egy rövid \"igen\" nem mozdítja a képet. Enélkül egy félmásodperces blokk is átrántja a kamerát, és a minimális snitthossz aztán másodpercekig ott tartja."
+
+msgid "Short gap up to"
+msgstr "Rövid szünet legfeljebb"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "ilyen hosszú csend békén hagyja a képet"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Csak ott, ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva. Egy legfeljebb ilyen hosszú szünet semmit sem változtat, egy hosszabb a totálra vált. Két másodperc fölött a kép kezd öt másodpercnél tovább valakin állni, aki hallgat."
+
+msgid "Listener"
+msgstr "Hallgató"
+
+msgid "Alternating"
+msgstr "Váltakozva"
+
+msgid "No camera change"
+msgstr "Nincs kameraváltás"
+
+msgid "Hold a short gap"
+msgstr "Rövid szünet kivárása"
+
+msgid "do not go early"
+msgstr "ne hozza előre"
+
+msgid "Answering speaker"
+msgstr "Válaszoló"
+
+msgid "English"
+msgstr "Angol"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcastkatalógusok, sztereó"
+
+msgid "Podcast directories, mono"
+msgstr "Podcastkatalógusok, mono"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- csak lehalkít, sosem hangosít"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, műsorszórás"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 állandó"
+
+msgid "reserved"
+msgstr "fenntartott"
+
+msgid "unspecified"
+msgstr "nincs megadva"
+
+msgid "unknown"
+msgstr "ismeretlen"
+
+msgid "French"
+msgstr "Francia"
+
+msgid "German"
+msgstr "Német"
+
+msgid "Dutch"
+msgstr "Holland"
+
+msgid "Italian"
+msgstr "Olasz"
+
+msgid "Spanish"
+msgstr "Spanyol"
+
+msgid "Polish"
+msgstr "Lengyel"
+
+msgid "Portuguese"
+msgstr "Portugál"
+
+msgid "Russian"
+msgstr "Orosz"
+
+msgid "Danish"
+msgstr "Dán"
+
+msgid "Norwegian"
+msgstr "Norvég"
+
+msgid "Swedish"
+msgstr "Svéd"
+
+msgid "Czech"
+msgstr "Cseh"
+
+msgid "Finnish"
+msgstr "Finn"
+
+msgid "Turkish"
+msgstr "Török"
+
+msgid "Greek"
+msgstr "Görög"
+
+msgid "Hungarian"
+msgstr "Magyar"
+
+msgid "Romanian"
+msgstr "Román"
+
+msgid "Arabic"
+msgstr "Arab"
+
+msgid "Catalan"
+msgstr "Katalán"
+
+msgid "Ukrainian"
+msgstr "Ukrán"
+
+msgid "Chinese"
+msgstr "Kínai"
+
+msgid "Hebrew"
+msgstr "Héber"
+
+msgid "Japanese"
+msgstr "Japán"
+
+msgid "Korean"
+msgstr "Koreai"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  Átalakítás: a media poolban jobb kattintás a \"%s Multicam\" elemre >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  Csak egy irányba megy -- de egy új futás bármikor újraépíti a Timeline-t.\n  Kameraállások:%s\n  Minden más -- hangválasztás, színcsoportok, képkivágás -- a\n  kézikönyvben van, docs/resolve.md.\n"
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "Lehetséges okok:\n  1. A Resolve nem fut -- a szkriptfelület csak futó program mellett válaszol.\n  2. Preferences > System > General: a külső szkriptelés \"None\" értéken áll \"Local\" helyett.\n  3. Ingyenes kiadás: a jelentések szerint a külső szkriptelés a 19.1-es verzió óta a Studio kiadásnak van fenntartva. Hivatalos nyilatkozatot nem találtam -- ez az ellenőrzés méri, ahelyett hogy állítaná."
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s nem sorolható be: %s -- csak az órája alapján került a helyére"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: a hang egyezése %s, a(z) %s küszöb alatt -- csak az órája alapján került a helyére"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  Figyelem: ez a projekt nem teljes -- a Resolve kétszer is elutasította ezeket a sávokat:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  Eltolás:       %s   (csak a timecode-ja alapján -- a hangja alapján nem volt elhelyezhető, így semmi sincs ellenőrizve)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  A Resolve kétszer is elutasította az A%d hangsávot a(z) „%s” Timeline-ban -- a kamerák a meglévő hangsávokra kerülnek (%s)."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  A Resolve kétszer is elutasította a V%d videósávot -- a(z) „%s” Timeline-ból hiányzik: %s."
+
+msgid "  Status:      %s"
+msgstr "  Állapot:     %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  A hang túl gyengén egyezik, nem megbízható ehhez: %s -- csak a timecode alapján elhelyezve."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   nem illik a többi fájlhoz: a hang nem felismert,\n   nincs mihez igazítani a timecode-ját.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s nem helyezhető el: a hangjának semmi köze az anyag többi részéhez, és a hang alapján elhelyezett kamerák egyike sem hordoz olyan timecode-ot, amelyhez a sajátját igazítani lehetne. Ezek egyikének olyan timecode kell, amely illik ehhez, és azt egy másik programmal kell beállítani."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s semmihez sem illik az anyagban, és a hang alapján elhelyezett kamerák egyike sem hordoz olyan timecode-ot, amelyhez a sajátját igazítani lehetne, így nem vágható bele az epizódba: intróra állítva."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s semmihez sem illik az anyagban, és a hang alapján elhelyezett kamerák egyike sem hordoz olyan timecode-ot, amelyhez a sajátját igazítani lehetne; az intró már foglalt: kimarad."
+
+msgid "API Key:"
+msgstr "API Key:"
+
+msgid "In point"
+msgstr "Az In pont"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "Kimaradt; %s vagy %s egy kattintásra van."
+
+msgid "Out point"
+msgstr "Az Out pont"
+
+msgid "Presets:"
+msgstr "Előbeállítások:"
+
+msgid "Registry"
+msgstr "beállításjegyzék"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "A HANG vagy a VIDEÓ eltávolítása mindent eltávolít, ami alatta van."
+
+msgid "VIDEO"
+msgstr "VIDEÓ"
+
+msgid "a finished clip"
+msgstr "kész klip"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "nem vágható bele az epizódba -- csak elé vagy mögé"
+
+msgid "moved off the wide shot"
+msgstr "lekerült a totálról"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "sem a hangja, sem timecode nem teszi a tengelyre"
+
+msgid "no audio track"
+msgstr "nincs hangsáv"
+
+msgid "no speaker"
+msgstr "nincs beszélő"
+
+msgid "not used"
+msgstr "kihagyva"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "a kamerájával együtt elhelyezve, annak a kamerának az órája szerint"
+
+msgid "the file stays out"
+msgstr "a fájl kimarad"
+
+msgid "the only sound"
+msgstr "az egyetlen hang"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  A Resolve kétszer is elutasította az A%d hangsávot -- a(z) „%s” Timeline-ból hiányzik %s hangja."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  A Resolve kétszer is elutasította a V%d videósávot -- a(z) „%s” Timeline-ból hiányzik %s képe."

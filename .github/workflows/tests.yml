@@ -879,6 +879,12 @@ jobs:
                  the reason window_captions_fit leaves its font judgement
                  out there): the widths it would measure are not the ones
                  a user sees. macOS and Linux run it."
+              aside table_lock_says_why \
+                "it counts the grey pixels a locked field draws and
+                 holds the reason's width against the field's, and
+                 windowless Windows sees no system fonts (QTBUG-142818):
+                 neither the ink nor the widths are the ones a user sees.
+                 macOS and Linux run it."
               ;;
             macOS)
               aside voice_words_intact \

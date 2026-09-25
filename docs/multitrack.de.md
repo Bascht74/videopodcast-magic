@@ -41,9 +41,10 @@ ab ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
 Alles kommt auf eine gemeinsame Zeitachse, Uhrengang eingerechnet. Das
 Fenster kommt allein aus den Kameras, und wo es gar keine gibt, aus den
-Spuren selbst; Lücken darin füllt das Programm mit Stille. Zeilen mit demselben Sprechernamen werden zu einer Spur
-zusammengefasst und über ihren Timecode hintereinandergelegt. Eine
-Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
+Spuren selbst; Lücken darin füllt das Programm mit Stille. Zeilen mit
+demselben Sprechernamen werden zu einer Spur zusammengefasst und über
+ihren Timecode hintereinandergelegt. Eine Aufnahme, die zwischendurch
+gestoppt wurde, kommt am Stück zurück.
 
 ### Die Zuordnung setzen
 
@@ -75,8 +76,9 @@ listet die Kameras, danach zwei Sonderfälle:
 
 - **ohne eigene Kamera**: im Full-Mix, aber bei niemandem die erste
   Spur. Für jemanden, der zu hören, aber nicht zu sehen ist.
-- **nicht verwenden**: bleibt ganz außen vor, der Sprechername wird
-  grau. Für eine Aufnahme, deren Video noch fehlt.
+- **nicht verwenden**: bleibt ganz außen vor; der Sprechername wird
+  grau, und im Feld steht **ungenutzt**. Für eine Aufnahme, deren Video
+  noch fehlt.
 
 Das Auswahlfeld steht mit dem Häkchen **Multitrack** da und ohne es: zu
 welcher Kamera eine Aufnahme gehört, ist so oder so dieselbe Frage, und
@@ -117,26 +119,46 @@ heißt**, **bekommt Audio von**, **Typ** und **Kameraton**. Die beiden
 letzten stehen auch in der Dateiliste, auf demselben Wert, und sie
 stehen hier ein zweites Mal, weil der Player hier ist: dass ein Clip in
 Wahrheit ein Abspann ist, fällt beim Ansehen auf. Ein Klick auf eine
-Zeile holt die Datei in den Player.
+Zeile holt die Datei in den Player. Bei **Nur synchronisieren** fehlt
+die Spalte **bekommt Audio von**: zugeordnet wird dort niemand, sie
+hätte also nichts zu sagen.
 
 **neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird --
 mit Häkchen wie ohne, und auch bei **Nur synchronisieren**: unter
-diesem Namen schreibt der Lauf die Kameradatei, und die Spur der Kamera
-in Resolve trägt ihn ebenfalls. Bis jemand darüberschreibt, ist es ein
-Vorschlag, gebaut aus der Kamera und den Sprechern. Steht auf einer
-Kamera kein Sprechername -- kein Sprecher, und ihr eigener Ton nicht als
-Spur behalten --, tritt mit Häkchen `Audio-Full-Mix` an seine Stelle:
-diese Kamera trägt den ganzen Ton. Ohne Häkchen, und damit auch bei
-**Nur synchronisieren**, bekommt so eine Kamera ihren eigenen
-Dateinamen vorgeschlagen: `CAM_B.mov` bekommt `CAM_B`, den Namen, unter
-dem sie bisher geschrieben wurde. Der Produktionsname gehört nicht dazu: das Ergebnis
-liegt in aller Regel neben dem Material, und in einem Ordner, in dem
-jede Datei mit demselben Wort beginnt, sagt dieses Wort niemandem
-etwas. Zählt die Kamera ihre Dateien mit einer Nummer durch, stehen die
-Sprecher vor dieser Nummer und der Name der Kamera vor ihnen -- vorn
-bleibt also lesbar, welche Kamera es war. Gibt es keine solche Nummer,
-bleibt der Kameraname ganz und die Sprecher folgen ihm; und heißt die
-Kamera ohnehin schon nach ihnen, werden sie kein zweites Mal genannt.
+diesem Namen schreibt der Lauf die Kameradatei. Bis jemand
+darüberschreibt, ist es ein Vorschlag. Bei einem Projekt mit Schnitt
+nach Sprecher setzt er sich aus der Kamera und den Sprechern auf ihr
+zusammen, und mehrere Sprecher stehen alphabetisch, mit Plus verbunden
+-- gleich, wer in der Tabelle weiter oben steht: `CamB_0001.mov` mit
+Presenter und Guest bekommt `CamB_Guest+Presenter_0001` vorgeschlagen.
+Zählt die Kamera ihre Dateien wie hier mit einer Nummer durch, stehen
+die Sprecher vor dieser Nummer und der Name der Kamera vor ihnen --
+vorn bleibt also lesbar, welche Kamera es war. Gibt es keine solche
+Nummer, bleibt der Kameraname ganz und die Sprecher folgen ihm; und
+heißt die Kamera ohnehin schon nach ihnen, werden sie kein zweites Mal
+genannt. Der Produktionsname gehört nicht dazu: das Ergebnis liegt in
+aller Regel neben dem Material, und in einem Ordner, in dem jede Datei
+mit demselben Wort beginnt, sagt dieses Wort niemandem etwas.
+
+Steht auf einer Kamera kein Sprechername -- kein Sprecher, und ihr
+eigener Ton nicht als Spur behalten --, tritt mit Häkchen
+`Audio-Full-Mix` an die Stelle der Sprecher: diese Kamera trägt den
+ganzen Ton. Ohne Häkchen bekommt sie ihren eigenen Dateinamen
+vorgeschlagen, `CAM_B.mov` also `CAM_B`. Bei **Nur synchronisieren**
+bekommt jede Kamera ihren eigenen Dateinamen vorgeschlagen, gleich wer
+auf ihr stehen mag: dieser Typ fragt niemanden, wer spricht, und so
+gibt es niemanden, nach dem sie heißen könnte.
+
+Die Videospur der Kamera in Resolve heißt nach den Sprechern, in
+derselben Reihenfolge -- `Guest + Presenter`; eine Kamera, auf der
+niemand spricht, heißt `Weitwinkel`. Bei **Nur synchronisieren**, und in
+einem Projekt, in dem überhaupt niemand zu hören war, trägt jede Spur
+stattdessen den Namen aus **neue Datei heißt**
+([DaVinci Resolve](resolve.de.md)).
+Ein Projekt aus einer früheren Version, das die Sprecher noch in der
+Reihenfolge der Zeilen hatte, zeigt die neue Reihenfolge, sobald es
+geöffnet wird: ein Name, den die Tabelle selbst vorgeschlagen hatte,
+folgt der Tabelle, und nur ein getippter bleibt, wie er war.
 
 An die geschriebene Datei kommt darüber hinaus die Endung `_audio`. Sie
 ist kein Schmuck: ohne sie kann der Name genau der Name der Kameradatei
@@ -154,11 +176,18 @@ der Moment, ihn abzubrechen, wenn diese Datei gebraucht wird. Wer
 dasselbe Material für eine zweite Produktion durchlaufen lässt, gibt
 ihr besser einen eigenen Ausgabeordner.
 
-**bekommt Audio von** daneben nennt dieselben Sprecher. Eine Kamera, der niemand zugeordnet
-ist, sagt dort **den Mix aus allen Spuren**, und der
-Weitwinkel sagt **kein Sprecher -- das ist der Weitwinkel** -- oder
-nennt den, der ihm vorher zugeordnet war und auf **ohne eigene Kamera**
-gewechselt ist.
+**bekommt Audio von** daneben nennt dieselben Sprecher, in derselben
+Reihenfolge. Eine Kamera, der niemand zugeordnet ist, sagt dort **den
+Mix aus allen Spuren**, und solange keine Kamera als Weitwinkel
+gekennzeichnet ist, steht ihr **Typ** auf **Weitwinkel**. Auch eine als
+Weitwinkel gekennzeichnete Kamera sagt dort schlicht, was sie bekommt:
+Wer ihr vorher zugeordnet war, wechselt auf **ohne eigene Kamera**, es
+bleibt also niemand auf ihr, und sie bekommt ebenfalls **den Mix aus
+allen Spuren**. Warum auf ihr niemand spricht, steht nicht dort, sondern
+in den Feldern, die es betrifft: Bei jedem Weitwinkel, gekennzeichnet
+oder erschlossen, steht im **Typ** grau **kein Sprecher**, und bei einer
+Aufnahme, die von ihm weggenommen wurde, steht grau **vom Weitwinkel
+genommen** in ihrem **gehört zu**.
 
 **Ein nur vorgeschlagener Name zählt überall mit.** Das Namensfeld
 einer Aufnahme steht leer da, mit dem aus dem Dateinamen geratenen
@@ -214,12 +243,16 @@ beim Material; was erst beim Hören auffällt, wird dort geändert, wo es
 zu hören ist.
 
 Ein Fall entscheidet sich selbst: genau eine Videodatei mit Ton und
-keine Tonaufnahme daneben. Dann ist dieser Ton der einzige, den es gibt,
-und das Feld steht auf **Ton verwenden** und lässt sich nicht ändern.
-Eine Begründung steht nicht daneben: ein Feld, das zu ist, sagt schon
-dadurch, dass hier nichts mehr zu beantworten ist. Es ist hergeleitet,
-nicht gespeichert -- kommt eine Tonaufnahme dazu, ist es wieder eine
-Frage ([Der einfache Weg](simple-path.de.md)).
+keine Tonaufnahme daneben. Dann ist dieser Ton der einzige, den es gibt:
+er wird verwendet, und das Feld ist gesperrt; wo sonst sein Wert stünde,
+steht grau **einziger Ton**. Das ist hergeleitet, nicht
+gespeichert -- kommt eine Tonaufnahme dazu, ist es wieder eine Frage
+([Der einfache Weg](simple-path.de.md)).
+
+In drei weiteren Fällen ist das Feld gesperrt, und jedes Mal steht der
+Grund auf dieselbe Weise darin: **keine Tonspur** bei einer Videodatei,
+die keine hat; **fertiger Clip** bei Vorspann und Abspann; und **bleibt
+draußen** bei einer Datei auf **Video ignorieren**.
 
 Auf **Ton verwenden** gestellt, bekommt die Kamera eine Zeile in der
 oberen Tabelle, mit ihrem Sprechernamen. Sie zählt wie jede andere Spur:
@@ -353,10 +386,11 @@ eigenen Schalter dafür gibt es nicht.
 ### Was in die Kameradateien kommt
 
 Erste Tonspur jeder Kameradatei ist der Mix genau der Sprecher in diesem
-Bild: `Mix <A> + <B>`. Bei nur einem Sprecher ist es sein Name. Danach
-dieselben Sprecher einzeln, dann `Full-Mix`, zuletzt
-`Camera Original`. Früher stand die Gesamtmischung im Laufplan mit ihren
-Zutaten in Klammern dahinter; jetzt steht dort der bloße Name
+Bild: `Mix <A> + <B>`, die Namen alphabetisch wie im Dateinamen. Bei
+nur einem Sprecher ist es sein Name. Danach dieselben Sprecher einzeln,
+in derselben Reihenfolge, dann `Full-Mix`, zuletzt `Camera Original`.
+Früher stand die Gesamtmischung im Laufplan mit ihren Zutaten in
+Klammern dahinter; jetzt steht dort der bloße Name
 `Full-Mix`, derselbe, den die geschriebene Spur trägt und den sie auch
 in Resolve hat. Die Lautheit wird über die Summe bestimmt und auf
 alle Spuren gleich angewendet, damit die Verhältnisse bleiben. Welches
@@ -425,9 +459,10 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   den Grund.
 - **Eine Zeile ist vermerkt, und der Vermerk ist nicht rot.** Unter dem
   Namen steht **Ton nicht erkannt; über den Timecode platziert**. Zu tun
-  ist nichts: Der Ton dieser Datei wurde nicht erkannt, ihre Uhr setzt
-  sie aber framegenau zwischen die anderen, und einer der beiden Wege zu
-  einem Platz genügt. Die Datei liegt auf der Achse und geht in den Lauf.
+  ist nichts: Der Ton dieser Datei wurde nicht erkannt, oder sie hat
+  keinen, ihre Uhr setzt sie aber framegenau zwischen die anderen, und
+  einer der beiden Wege zu einem Platz genügt. Die Datei liegt auf der
+  Achse und geht in den Lauf.
   Ist es eine Kamera, nennt der Lauf sie beim Schreiben der
   Übergabedatei noch einmal -- allein nach Timecode gesetzt
   ([DaVinci Resolve](resolve.de.md), „Wo jede Kamera sitzt“).
@@ -438,16 +473,39 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   mit **Entfernen** aus der Liste nehmen.
 - **Eine Zeile steht von selbst auf Video ignorieren.** Diese Datei hat
   überhaupt keinen Platz: Ihr Ton hat mit dem übrigen Material nichts
-  gemeinsam, und einen Timecode trägt sie auch nicht. Das Programm
-  schlägt vor, sie wegzulassen, statt sie auf gut Glück irgendwohin zu
-  legen; das Protokoll nennt die Datei. Sie braucht einen Timecode, der
-  zu den anderen Aufnahmen passt -- den muss ein anderes Programm setzen
-  --, oder der Vorschlag bleibt stehen. Eine von Hand gegebene Antwort
+  gemeinsam -- oder sie hat gar keine Tonspur, und ihr **Kameraton**
+  sagt **keine Tonspur** --, und auch kein Timecode ordnet sie ein: Sie
+  trägt keinen, oder keine Kamera, die der Ton eingeordnet hat, trägt
+  einen, mit dem sich ihrer abgleichen ließe. Das Programm schlägt vor,
+  sie wegzulassen, statt sie auf gut Glück irgendwohin zu legen; das
+  Protokoll nennt die Datei und sagt, welcher der beiden Fälle es ist.
+  Sie braucht einen Timecode, der zu den anderen Aufnahmen passt -- den
+  muss ein anderes Programm setzen; hat sie schon einen, braucht eine
+  jener Kameras einen, der zu ihm passt --, oder der Vorschlag bleibt
+  stehen. Eine von Hand gegebene Antwort
   entscheidet die Zeile endgültig; lässt sich die Datei wieder
   einordnen, bekommt sie ihren alten **Typ** zurück
   ([Die Oberfläche](interface.de.md)).
 - **In markieren und Out markieren bleiben gesperrt.** Die gemeinsame
   Zeitachse steht noch nicht. Den Balken unter den Tabellen abwarten.
+- **Zwei Kameras, deren Dateien gleich heißen, und Start bleibt
+  gesperrt.** Zwei Kameras desselben Herstellers schreiben oft dieselben
+  Dateinamen, jede in einen eigenen Ordner. Dann werden beide Felder
+  **neue Datei heißt** rot, und unter der Kameratabelle wie unter
+  **Start** steht **Zwei Kameras sind im Schnitt eine … Ihre Dateien
+  heißen gleich, bitte eine davon umbenennen**: das Fenster hält Kameras
+  an ihren Dateinamen auseinander. Wird eine der Dateien außerhalb des
+  Programms umbenannt, ist das vorbei, und beide Kameras bleiben; bekommt
+  eine von ihnen einen anderen **Typ** oder fliegt sie aus der Liste,
+  ist es auch vorbei, aber diese Kamera fehlt dann im Schnitt. Wird
+  beiden derselbe Dateiname vorgeschlagen -- bei **Nur synchronisieren**
+  immer, im Schnitt dann, wenn auf keiner von beiden jemand ist --,
+  steht unter der Kameratabelle zuerst **Zwei Kameras sollen dieselbe
+  Datei ergeben**. Ein eigener Name in einem der beiden Felder räumt
+  das ab, danach bleibt die andere Zeile stehen. Auf
+  der Kommandozeile hält der Lauf die beiden selbst auseinander: die
+  zweite wird als `<Name> 2` geschrieben und an Resolve übergeben, und
+  jede behält ihr eigenes Bild.
 - **Mehrere Kameras, keine Tonaufnahme, und Start bleibt gesperrt.**
   Keine Kamera steuert ihren Ton bei. Bei jeder Kamera, die zu hören
   sein soll, **Kameraton** auf **Ton verwenden** stellen; dann ist jede

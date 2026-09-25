@@ -1,0 +1,4812 @@
+# What is translated of this program's messages, in Telugu.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# All of the program's texts stand here -- the captions the window
+# carries and the report that runs beside them, Resolve included. Every
+# text that is not in this file appears in English: T() gives back the
+# key it was handed when it finds no entry, so what is missing reads
+# rather than breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Telugu speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# They were written on 24.9.2026 in two steps: a glossary first, which
+# fixed the form of address and one word for each thing, and then every
+# other text against it, three languages at a time from one sheet.
+# Every entry was read back once in full by another model, against
+# the English and those words, and 77 were put right; a third
+# refuted what was not a fault.
+#
+# Anyone who speaks Telugu is welcome to improve this file, and one
+# entry at a time is enough -- nothing else has to be understood. Find
+# the entry by its English msgid, change only the msgstr under it, and
+# leave the msgid exactly as it stands: it is the key the program looks
+# the text up by, and a changed msgid loses the entry rather than
+# correcting it.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else, nought
+# included, and 21 and 101 with it -- only one itself takes [0].
+# A noun after any other count mostly takes its plural ending, so
+# the two wordings usually differ; where the counted word does not
+# change -- a unit, or a word that stands as a label -- they read
+# alike, and that is Telugu, not a copied line.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# Neither English wording has an ordinary entry of its own beside
+# such a group: the singular would be the same msgid twice, and the
+# plural is never asked for on its own -- the program asks the group
+# by its singular at every count. Where the rule cannot be read at
+# all, a counted thing comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "వైడ్ షాట్‌తో కట్"
+
+msgid "Separates the recording by voice: every voice gets a row of its own, and its camera in it. About one minute for half an hour of audio, on this machine and without an upload."
+msgstr "రికార్డింగ్‌ను స్వరాల వారీగా విభజిస్తుంది: ప్రతి స్వరానికి సొంత వరుస, అందులో దాని కెమెరా. అరగంట ఆడియోకు సుమారు ఒక నిమిషం, ఈ కంప్యూటర్‌లోనే, అప్‌లోడ్ లేకుండా."
+
+msgid ", %s without"
+msgstr ", కెమెరా లేనివి %s"
+
+msgid "no camera yet"
+msgstr "ఇంకా కెమెరా లేదు"
+
+msgid "A newer version is out"
+msgstr "కొత్త వెర్షన్ వచ్చింది"
+
+msgid "%s is out. This is %s."
+msgstr "వెర్షన్ %s వచ్చింది. ఇక్కడ నడుస్తున్నది %s."
+
+msgid "Update? pip fetches it into %s. What pip says appears under Output, and the new version runs from the next start."
+msgstr "అప్‌డేట్ చేయాలా? pip దీన్ని ఇక్కడికి తెస్తుంది: %s. pip చెప్పేది అవుట్‌పుట్ ట్యాబ్‌లో కనిపిస్తుంది, కొత్త వెర్షన్ తదుపరి ప్రారంభం నుండి నడుస్తుంది."
+
+msgid "pip could not be started: %s"
+msgstr "pip ప్రారంభం కాలేదు: %s"
+
+msgid "pip stopped with %s. What it managed stands in the lines above."
+msgstr "pip ఆగిపోయింది (%s). అది చేయగలిగినది పై పంక్తుల్లో ఉంది."
+
+msgid "%s is installed. It runs from the next start."
+msgstr "వెర్షన్ %s ఇన్‌స్టాల్ అయింది. తదుపరి ప్రారంభం నుండి ఇది నడుస్తుంది."
+
+msgid "There is no window to show what pip says."
+msgstr "pip చెప్పేది చూపడానికి విండో లేదు."
+
+msgid "Back to an earlier version ..."
+msgstr "మునుపటి వెర్షన్‌కు తిరిగి ..."
+
+msgid "Back to an earlier version"
+msgstr "మునుపటి వెర్షన్‌కు తిరిగి"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "మునుపటి వెర్షన్ల కోసం వెతకడం సాధ్యం కాలేదు: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "మునుపటి వెర్షన్ల జాబితాను చదవడం సాధ్యం కాలేదు."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "pip ఇన్‌స్టాల్ చేయగల, వెర్షన్ %s కంటే పాత వెర్షన్ ఏదీ లేదు."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "ఇక్కడ నడుస్తున్నది %s. దాని స్థానంలో pip ఏ వెర్షన్‌ను పెట్టాలి?"
+
+msgid "pip fetches it into %s, and what pip says appears under Output. The version chosen here runs from the next start.\n\nIt brings the program back and nothing else. What a newer version wrote into the settings stays written, and projects and their files are left as they are."
+msgstr "pip దీన్ని ఇక్కడికి తెస్తుంది: %s. pip చెప్పేది అవుట్‌పుట్ ట్యాబ్‌లో కనిపిస్తుంది. ఇక్కడ ఎంచుకున్న వెర్షన్ తదుపరి ప్రారంభం నుండి నడుస్తుంది.\n\nఇది ప్రోగ్రామ్‌ను మాత్రమే వెనక్కి తెస్తుంది, ఇంకేమీ కాదు. కొత్త వెర్షన్ సెట్టింగ్‌లలో రాసినది అలాగే ఉంటుంది, ప్రాజెక్ట్‌లు, వాటి ఫైళ్లు ఉన్నట్టే ఉంటాయి."
+
+msgid "an intro or outro with two channels is a stereo mix -- not measured"
+msgstr "రెండు ఛానళ్లు ఉన్న ఇంట్రో లేదా అవుట్రో స్టీరియో మిక్స్ -- కొలవలేదు"
+
+msgid "Multitrack mode"
+msgstr "Multitrack మోడ్"
+
+msgid "Singletrack mode"
+msgstr "Singletrack మోడ్"
+
+msgid "No Multitrack preset of your own -- create one"
+msgstr "మీ సొంత Multitrack ప్రీసెట్ లేదు -- ఒకటి సృష్టించండి"
+
+msgid "No Singletrack preset of your own -- create one"
+msgstr "మీ సొంత Singletrack ప్రీసెట్ లేదు -- ఒకటి సృష్టించండి"
+
+msgid "No preset of your own -- create one on auphonic.com"
+msgstr "మీ సొంత ప్రీసెట్ లేదు -- auphonic.com లో ఒకటి సృష్టించండి"
+
+msgid "No Multitrack preset found in the account."
+msgstr "ఖాతాలో Multitrack ప్రీసెట్ ఏదీ కనబడలేదు."
+
+msgid "No Singletrack preset found in the account."
+msgstr "ఖాతాలో Singletrack ప్రీసెట్ ఏదీ కనబడలేదు."
+
+msgid "No Multitrack preset in the account. Only these: %s"
+msgstr "ఖాతాలో Multitrack ప్రీసెట్ లేదు. ఉన్నవి ఇవి మాత్రమే: %s"
+
+msgid "No Singletrack preset in the account. Only these: %s"
+msgstr "ఖాతాలో Singletrack ప్రీసెట్ లేదు. ఉన్నవి ఇవి మాత్రమే: %s"
+
+msgid "%r is a Singletrack preset, and a Multitrack one is needed."
+msgstr "%r ఒక Singletrack ప్రీసెట్, కానీ Multitrack ప్రీసెట్ కావాలి."
+
+msgid "%r is a Multitrack preset, and a Singletrack one is needed."
+msgstr "%r ఒక Multitrack ప్రీసెట్, కానీ Singletrack ప్రీసెట్ కావాలి."
+
+msgid "The key is good. Of the %s presets in the account none is a Multitrack one, so the list stays empty."
+msgstr "కీ సరైనదే. ఖాతాలోని %s ప్రీసెట్‌లలో ఏదీ Multitrack కాదు, కాబట్టి జాబితా ఖాళీగా ఉంటుంది."
+
+msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
+msgstr "కీ సరైనదే. ఖాతాలోని %s ప్రీసెట్‌లలో ఏదీ Singletrack కాదు, కాబట్టి జాబితా ఖాళీగా ఉంటుంది."
+
+msgid "fetching from auphonic.com ..."
+msgstr "auphonic.com నుండి తెస్తోంది ..."
+
+msgid "What changed since %s:"
+msgstr "%s నుండి ఏమి మారింది:"
+
+msgid "Update"
+msgstr "అప్‌డేట్ చేయి"
+
+msgid "Later"
+msgstr "తర్వాత"
+
+msgid "Go back"
+msgstr "వెనక్కి వెళ్లు"
+
+msgid "Starting again did not work: %s"
+msgstr "మళ్లీ ప్రారంభించడం పని చేయలేదు: %s"
+
+msgid "Start it by hand: %s %s"
+msgstr "చేతితో ప్రారంభించండి: %s %s"
+
+msgid "No newer version found. This one is %s."
+msgstr "కొత్త వెర్షన్ ఏదీ కనబడలేదు. ఇక్కడ నడుస్తున్నది %s."
+
+msgid "--update fetches it and puts it in place."
+msgstr "--update దీన్ని తెచ్చి దాని స్థానంలో ఉంచుతుంది."
+
+msgid "The check for new versions is switched off here."
+msgstr "కొత్త వెర్షన్ల తనిఖీ ఇక్కడ ఆఫ్ చేయబడింది."
+
+msgid "About Video Podcast Magic"
+msgstr "Video Podcast Magic గురించి"
+
+msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
+msgstr "వీడియో పాడ్‌కాస్ట్ ముడి మెటీరియల్ ఎడిట్ చేసిన ఎపిసోడ్‌గా మారుతుంది: వీడియో ఫైళ్ల నుండి మంచి ఆడియో, ఒకే సమయ అక్షంపై కెమెరాలు, వక్తల వారీగా మొదటి కట్, ఇంకా ఒక DaVinci Resolve ప్రాజెక్ట్."
+
+msgid "Python %s on %s"
+msgstr "Python %s (%s)"
+
+msgid "MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it is, without warranty of any kind."
+msgstr "MIT లైసెన్స్, Copyright (c) 2026 Sebastian Lotz. ఉన్నది ఉన్నట్లుగా అందించబడింది, ఎలాంటి వారంటీ లేకుండా."
+
+msgid "&File"
+msgstr "ఫైల్(&F)"
+
+msgid "&View"
+msgstr "వీక్షణ(&V)"
+
+msgid "&Player"
+msgstr "ప్లేయర్(&P)"
+
+msgid "&Help"
+msgstr "సహాయం(&H)"
+
+msgid "Play and pause"
+msgstr "ప్లే మరియు పాజ్"
+
+msgid "Fast forward"
+msgstr "వేగంగా ముందుకు"
+
+msgid "Fast forward, %s times speed"
+msgstr "వేగంగా ముందుకు, %s రెట్ల వేగం"
+
+msgid "Play forward, faster on every press"
+msgstr "ముందుకు ప్లే, నొక్కిన ప్రతిసారీ మరింత వేగంగా"
+
+msgid "Play forward, twice as fast on every press -- the L key."
+msgstr "ముందుకు ప్లే, నొక్కిన ప్రతిసారీ రెట్టింపు వేగం -- L కీ."
+
+msgid "Pause"
+msgstr "పాజ్"
+
+msgid "One frame back"
+msgstr "ఒక ఫ్రేమ్ వెనక్కి"
+
+msgid "One frame forward"
+msgstr "ఒక ఫ్రేమ్ ముందుకు"
+
+msgid "One second back"
+msgstr "ఒక సెకను వెనక్కి"
+
+msgid "One second forward"
+msgstr "ఒక సెకను ముందుకు"
+
+msgid "Ten seconds back"
+msgstr "పది సెకన్లు వెనక్కి"
+
+msgid "Ten seconds forward"
+msgstr "పది సెకన్లు ముందుకు"
+
+msgid "The manual"
+msgstr "మాన్యువల్"
+
+msgid "What changed in this version"
+msgstr "ఈ వెర్షన్‌లో ఏమి మారింది"
+
+msgid "Show the log of this run"
+msgstr "ఈ రన్ లాగ్ చూపించు"
+
+msgid "Nothing has been written yet."
+msgstr "ఇంకా ఏమీ రాయబడలేదు."
+
+msgid "Look for a newer version now"
+msgstr "ఇప్పుడే కొత్త వెర్షన్ కోసం వెతుకు"
+
+msgid "  No certificate bundle found -- an HTTPS download may fail."
+msgstr "  సర్టిఫికేట్ బండిల్ కనబడలేదు -- HTTPS డౌన్‌లోడ్ విఫలం కావచ్చు."
+
+msgid "  Building the speech recogniser ..."
+msgstr "  ప్రసంగ గుర్తింపు సాధనాన్ని నిర్మిస్తోంది ..."
+
+msgid "  The Swift compiler reports: %s"
+msgstr "  Swift కంపైలర్ నివేదిక: %s"
+
+msgid "  The speech recogniser is built (%s s)."
+msgstr "  ప్రసంగ గుర్తింపు సాధనం సిద్ధమైంది (%s s)."
+
+msgid "  The speech recognition reports: %s"
+msgstr "  ప్రసంగ గుర్తింపు నివేదిక: %s"
+
+msgid "  Recognised in %s: ready in %s s, heard in %s s"
+msgstr "  గుర్తింపు (%s): సిద్ధం కావడానికి %s s, వినడానికి %s s"
+
+msgid "  No speech recognition on this machine: macOS 26 brings one, otherwise faster-whisper is installed."
+msgstr "  ఈ కంప్యూటర్‌లో ప్రసంగ గుర్తింపు లేదు: macOS 26 దానితో వస్తుంది, లేకపోతే faster-whisper ఇన్‌స్టాల్ అవుతుంది."
+
+msgid "  Speech recognition (%s): %s words in %s s"
+msgstr "  ప్రసంగ గుర్తింపు (%s): %s పదాలు, %s s లో"
+
+msgid "  Speech recognition (%s): %s words, read back"
+msgstr "  ప్రసంగ గుర్తింపు (%s): %s పదాలు, తిరిగి చదవబడ్డాయి"
+
+msgid "Separating speakers: %s"
+msgstr "వక్తలను విభజిస్తోంది: %s"
+
+msgid "Separating ..."
+msgstr "విభజిస్తోంది ..."
+
+msgid "Voice"
+msgstr "స్వరం"
+
+msgid "Stop"
+msgstr "ఆపు"
+
+msgid "Stopping ..."
+msgstr "ఆపుతోంది ..."
+
+msgid "Not on this machine"
+msgstr "ఈ కంప్యూటర్‌లో లేదు"
+
+msgid "Reading the audio ..."
+msgstr "ఆడియోను చదువుతోంది ..."
+
+msgid "Nothing was audible in the recording."
+msgstr "రికార్డింగ్‌లో ఏమీ వినబడలేదు."
+
+msgid "Speaker separation is switched off for this project."
+msgstr "ఈ ప్రాజెక్ట్‌కు వక్తల విభజన ఆఫ్ చేయబడింది."
+
+msgid "Who speaks when can be worked out on this machine, from any one recording everybody is audible on."
+msgstr "ఎవరు ఎప్పుడు మాట్లాడతారో ఈ కంప్యూటర్‌లోనే కనుగొనవచ్చు, అందరూ వినిపించే ఏదైనా ఒక రికార్డింగ్ నుండి."
+
+msgid "Leaves the separation switched off for this project. The cut then comes from the tracks or from auphonic.com, as before."
+msgstr "ఈ ప్రాజెక్ట్‌కు విభజనను ఆఫ్‌లోనే ఉంచుతుంది. అప్పుడు కట్ మునుపటిలాగే ట్రాక్‌ల నుండి లేదా auphonic.com నుండి వస్తుంది."
+
+msgid "The speaker separation reports: %s"
+msgstr "వక్తల విభజన నివేదిక: %s"
+
+msgid "Putting the speaker separation back ..."
+msgstr "వక్తల విభజనను తిరిగి ఏర్పాటు చేస్తోంది ..."
+
+msgid "The speaker separation is not set up."
+msgstr "వక్తల విభజన ఏర్పాటు కాలేదు."
+
+msgid "The speaker separation is not installed here. This puts it back: %s"
+msgstr "వక్తల విభజన ఇక్కడ ఇన్‌స్టాల్ కాలేదు. దీన్ని తిరిగి తెచ్చేది: %s"
+
+msgid "Fetching the model (about %s MB) ..."
+msgstr "మోడల్‌ను తెస్తోంది (సుమారు %s MB) ..."
+
+msgid "Fetching the model (about %s MB): %s"
+msgstr "మోడల్‌ను తెస్తోంది (సుమారు %s MB): %s"
+
+msgid "The model could not be fetched: %s"
+msgstr "మోడల్‌ను తీసుకురావడం సాధ్యం కాలేదు: %s"
+
+msgid "The model could not be written: %s"
+msgstr "మోడల్‌ను రాయడం సాధ్యం కాలేదు: %s"
+
+msgid "The list of model files came back empty."
+msgstr "మోడల్ ఫైళ్ల జాబితా ఖాళీగా వచ్చింది."
+
+msgid "%s does not match its checksum and was not written."
+msgstr "%s ఫైల్ దాని చెక్‌సమ్‌తో సరిపోలలేదు, అందుకే రాయబడలేదు."
+
+msgid "The folder of the program cannot be written to: %s"
+msgstr "ప్రోగ్రామ్ ఫోల్డర్‌లో రాయడం సాధ్యం కాదు: %s"
+
+msgid "The speaker separation model is not beside the program."
+msgstr "వక్తల విభజన మోడల్ ప్రోగ్రామ్ పక్కన లేదు."
+
+msgid "The model file %s does not match its checksum."
+msgstr "మోడల్ ఫైల్ %s దాని చెక్‌సమ్‌తో సరిపోలలేదు."
+
+msgid "pyannote sends a trace home on every run and this version offers no way to switch it off, so the separation was not started."
+msgstr "pyannote ప్రతి రన్‌లో ఒక జాడను తన సర్వర్‌కు పంపుతుంది, ఈ వెర్షన్‌లో దాన్ని ఆపే మార్గం లేదు, అందుకే విభజన ప్రారంభించబడలేదు."
+
+msgid "Speakers"
+msgstr "వక్తలు"
+
+msgid "Who is to be heard on this recording. A name means it is that one person.\n\"several speakers\" works out who speaks when, on this machine and without an upload -- about one minute for half an hour of audio. The names then go in the rows underneath."
+msgstr "ఈ రికార్డింగ్‌లో ఎవరు వినిపిస్తారు. ఒక పేరు అంటే ఆ ఒక్క వ్యక్తే.\n\"అనేక వక్తలు\" ఎవరు ఎప్పుడు మాట్లాడతారో ఈ కంప్యూటర్‌లోనే, అప్‌లోడ్ లేకుండా కనుగొంటుంది -- అరగంట ఆడియోకు సుమారు ఒక నిమిషం. తర్వాత పేర్లు కింది వరుసల్లో వస్తాయి."
+
+msgid "Speaker %d"
+msgstr "వక్త %d"
+
+msgid "One more speaker in %s"
+msgstr "%s ఫైల్‌లో మరొక వక్త"
+
+msgid "One more speaker in"
+msgstr "మరొక వక్త, ఫైల్:"
+
+msgid "Listens to that recording again, looking for one speaker more than was found."
+msgstr "ఆ రికార్డింగ్‌ను మళ్లీ వింటుంది, కనుగొన్న దానికంటే ఒక వక్త ఎక్కువగా వెతుకుతూ."
+
+msgid "%s:%02d min"
+msgstr "%s:%02d నిమి"
+
+msgid " SEEKING"
+msgstr " వెతుకుతోంది"
+
+msgid " computed"
+msgstr " లెక్కించినది"
+
+msgid " virtual"
+msgstr " వర్చువల్"
+
+msgid "%s were already right"
+msgstr "%s ఇప్పటికే సరిగ్గా ఉన్నాయి"
+
+msgid "%s (%s files)"
+msgstr "%s (%s ఫైళ్లు)"
+
+msgid "%s (%s to %s)"
+msgstr "%s (%s నుండి %s వరకు)"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d నుండి %d:%02d వరకు (%s s)"
+
+msgid "%s -- joined by hand that difference goes into the file as silence, and nothing later takes it out."
+msgstr "%s -- చేతితో కలిపితే ఆ తేడా ఫైల్‌లో నిశ్శబ్దంగా చేరుతుంది, తర్వాత ఏదీ దాన్ని తీసివేయదు."
+
+msgid "%s and %s more"
+msgstr "%s, మరో %s"
+
+msgid "%s and %s are both set to %s. Only one file can be that -- please set the other one back to content."
+msgstr "%s, %s రెండింటికీ సెట్ చేసినది: %s. ఒక్క ఫైలే అలా ఉండగలదు -- దయచేసి మరొకదాన్ని తిరిగి కంటెంట్‌గా సెట్ చేయండి."
+
+msgid "%s and %s carry the same file name, and Resolve reports no\n  path for them. Rename one of the two."
+msgstr "%s, %s ఒకే ఫైల్ పేరు కలిగి ఉన్నాయి, Resolve వాటికి ఏ\n  పాత్‌నూ చెప్పడం లేదు. రెండింటిలో ఒకదాని పేరు మార్చండి."
+
+msgid "%s fps -- %s, %dx%d, %s frames in %s"
+msgstr "%s fps -- %s, %dx%d, %s ఫ్రేమ్‌లు, నిడివి %s"
+
+msgid "%s reports %s"
+msgstr "%s నివేదిక: %s"
+
+msgid "%s speech time"
+msgstr "%s మాట్లాడిన సమయం"
+
+msgid "%s virtual"
+msgstr "%s వర్చువల్"
+
+msgid "%s, audio track %d"
+msgstr "%s, ఆడియో ట్రాక్ %d"
+
+msgid "3:1 rule"
+msgstr "3:1 నియమం"
+
+msgid "Output"
+msgstr "అవుట్‌పుట్"
+
+msgid "Access to auphonic.com"
+msgstr "auphonic.com యాక్సెస్"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "యాక్సెస్, కనెక్షన్ ఒకసారి అడగబడతాయి, ఆ తర్వాత అలాగే ఉంటాయి. కీ ఎప్పుడూ ఫైల్‌లోకి వెళ్లదు, ఇక్కడికి వెళ్తుంది: %s."
+
+msgid "Checking files"
+msgstr "ఫైళ్లను తనిఖీ చేస్తోంది"
+
+msgid "Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones."
+msgstr "ఇంకా మిగిలి ఉన్నదంతా, పూర్తయిన దానితో పోల్చి కొలిచినది. పొడవైన పనులు చిన్నవాటి కంటే బార్‌లో ఎక్కువ భాగం తీసుకుంటాయి."
+
+msgid "Key for auphonic.com, and whether Resolve answers."
+msgstr "auphonic.com కోసం కీ, ఇంకా Resolve స్పందిస్తుందా అనేది."
+
+msgid "Measuring time axis"
+msgstr "సమయ అక్షాన్ని కొలుస్తోంది"
+
+msgid "Resolve answers"
+msgstr "Resolve స్పందిస్తోంది"
+
+msgid "Resolve does not answer -- see Settings"
+msgstr "Resolve స్పందించడం లేదు -- సెట్టింగ్‌లు చూడండి"
+
+msgid "Settings"
+msgstr "సెట్టింగ్‌లు"
+
+msgid "Settings ..."
+msgstr "సెట్టింగ్‌లు ..."
+
+msgid "Two files as %s"
+msgstr "రెండు ఫైళ్లు: %s"
+
+msgid "begins"
+msgstr "ప్రారంభమవుతుంది"
+
+msgid "done"
+msgstr "పూర్తయింది"
+
+msgid "ends"
+msgstr "ముగుస్తుంది"
+
+msgid "first"
+msgstr "మొదటి"
+
+msgid "from %s"
+msgstr "%s నుండి"
+
+msgid "join with Channel %d"
+msgstr "ఛానల్ %d తో కలుపు"
+
+msgid "last"
+msgstr "చివరి"
+
+msgid "rejected"
+msgstr "తిరస్కరించబడింది"
+
+msgid ","
+msgstr ","
+
+msgid "."
+msgstr "."
+
+msgid "Kind"
+msgstr "రకం"
+
+msgid "Speech time"
+msgstr "మాట్లాడిన సమయం"
+
+msgid "Share"
+msgstr "వాటా"
+
+msgid "Beginning"
+msgstr "ప్రారంభం"
+
+msgid "the whole material"
+msgstr "మొత్తం మెటీరియల్"
+
+msgid "Colour"
+msgstr "రంగు"
+
+msgid "  Preset:  %s"
+msgstr "  ప్రీసెట్:  %s"
+
+msgid "Preset"
+msgstr "ప్రీసెట్"
+
+msgid "Preset:"
+msgstr "ప్రీసెట్:"
+
+msgid "Start"
+msgstr "ప్రారంభించు"
+
+msgid "Production"
+msgstr "ప్రొడక్షన్"
+
+msgid "Target"
+msgstr "గమ్యం"
+
+msgid "Bright."
+msgstr "ప్రకాశం"
+
+msgid "Colour U"
+msgstr "రంగు U"
+
+msgid "Colour V"
+msgstr "రంగు V"
+
+msgid "Writing %s"
+msgstr "రాస్తోంది: %s"
+
+msgid "  Timecode:        %s"
+msgstr "  టైమ్‌కోడ్:        %s"
+
+msgid "none"
+msgstr "ఏదీ లేదు"
+
+msgid "Length"
+msgstr "నిడివి"
+
+msgid "no camera of its own"
+msgstr "సొంత కెమెరా లేదు"
+
+msgid "   -- that is everybody, so every shot goes to the same camera."
+msgstr "   -- అది అందరూ, కాబట్టి ప్రతి షాట్ ఒకే కెమెరాకు వెళ్తుంది."
+
+msgid "No camera of their own: %s"
+msgstr "సొంత కెమెరా లేనివారు: %s"
+
+msgid "do not use"
+msgstr "వాడవద్దు"
+
+msgid "several speakers"
+msgstr "అనేక వక్తలు"
+
+msgid "this window"
+msgstr "ఈ విండో"
+
+msgid "two file names for the same moment -- neither of them is taken"
+msgstr "ఒకే క్షణానికి రెండు ఫైల్ పేర్లు -- వాటిలో ఏదీ తీసుకోబడదు"
+
+msgid "work without Auphonic"
+msgstr "Auphonic లేకుండా పని చేయి"
+
+msgid "Content"
+msgstr "కంటెంట్"
+
+msgid "Intro"
+msgstr "ఇంట్రో"
+
+msgid "Outro"
+msgstr "అవుట్రో"
+
+msgid "ignore this video"
+msgstr "ఈ వీడియోను విస్మరించు"
+
+msgid "This is not a file of this program."
+msgstr "ఇది ఈ ప్రోగ్రామ్ ఫైల్ కాదు."
+
+msgid "This file was written by version %s in format %d; this one writes format %d. The names inside have changed since, so it cannot be read. Please set the run up again."
+msgstr "ఈ ఫైల్‌ను వెర్షన్ %s, ఫార్మాట్ %d లో రాసింది; ఈ వెర్షన్ ఫార్మాట్ %d రాస్తుంది. అప్పటి నుండి లోపలి పేర్లు మారాయి, కాబట్టి దీన్ని చదవడం సాధ్యం కాదు. దయచేసి రన్‌ను మళ్లీ సెట్ చేయండి."
+
+msgid "\n  (measuring only: nothing written)"
+msgstr "\n  (కొలత మాత్రమే: ఏమీ రాయలేదు)"
+
+msgid "\n  (measuring only: without an API key it stops here)"
+msgstr "\n  (కొలత మాత్రమే: API కీ లేకుండా ఇక్కడే ఆగుతుంది)"
+
+msgid "\n  Check against the bleed -- reference is %s:"
+msgstr "\n  బ్లీడ్‌పై తనిఖీ -- ఆధారం %s:"
+
+msgid "\n  Could not write %s: %s"
+msgstr "\n  %s రాయడం సాధ్యం కాలేదు: %s"
+
+msgid "\n  For %s it could not be established whether the return matches the\n  upload. Better to stop than to write something wrong."
+msgstr "\n  %s కోసం తిరిగి వచ్చినది అప్‌లోడ్ చేసినదానితో సరిపోతుందో లేదో\n  నిర్ధారించడం సాధ్యం కాలేదు. తప్పుగా రాయడం కంటే ఆపడమే మేలు."
+
+msgid "\n  No camera cut in the handover -- without speaker statistics there is none.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  అప్పగింతలో కెమెరా కట్ లేదు -- వక్తల గణాంకాలు లేకుండా అది ఉండదు.\n  Multicam క్లిప్ కోసం Timeline మాత్రమే నిర్మించబడుతుంది."
+
+msgid "\n  Nothing was changed."
+msgstr "\n  ఏమీ మార్చబడలేదు."
+
+msgid "\n  Only one camera -- a multicam clip would be pointless."
+msgstr "\n  ఒకే కెమెరా -- Multicam క్లిప్ వల్ల ప్రయోజనం లేదు."
+
+msgid "\n  The tracks are named differently there:"
+msgstr "\n  అక్కడ ట్రాక్‌ల పేర్లు వేరుగా ఉన్నాయి:"
+
+msgid "\n  Time window by hand:"
+msgstr "\n  చేతితో సమయ పరిధి:"
+
+msgid "\n  Timeline for the multicam clip: all cameras, uncut"
+msgstr "\n  Multicam క్లిప్ కోసం Timeline: అన్ని కెమెరాలు, కట్ లేకుండా"
+
+msgid "\n  Timeline with the finished cut"
+msgstr "\n  పూర్తయిన కట్‌తో Timeline"
+
+msgid "\n  Timeline: the camera in one piece, the mix below"
+msgstr "\n  Timeline: కెమెరా ఒకే ముక్కగా, కింద మిక్స్"
+
+msgid "\nDone. Below, \"Open result folder\" shows the result.\nIf all is right, \"Create Resolve project\" builds the project from it.\n"
+msgstr "\nపూర్తయింది. కింద, \"ఫలితాల ఫోల్డర్ తెరువు\" ఫలితాన్ని చూపిస్తుంది.\nఅంతా సరిగ్గా ఉంటే, \"Resolve ప్రాజెక్ట్ సృష్టించు\" దాని నుండి ప్రాజెక్ట్‌ను నిర్మిస్తుంది.\n"
+
+msgid "\nHDR CHECK  %s"
+msgstr "\nHDR తనిఖీ  %s"
+
+msgid "\nNo preset chosen: %s"
+msgstr "\nప్రీసెట్ ఎంచుకోలేదు: %s"
+
+msgid "\nStopped before the first long step. With --anyway it runs regardless."
+msgstr "\nమొదటి పొడవైన దశకు ముందే ఆగింది. --anyway తో అయినా నడుస్తుంది."
+
+msgid "                   Resolve may then not recognise the input colour space."
+msgstr "                   అప్పుడు Resolve ఇన్‌పుట్ కలర్ స్పేస్‌ను గుర్తించకపోవచ్చు."
+
+msgid "               Audio %s at %s -- there it meets the %s word."
+msgstr "               ఆడియో %s: %s -- అక్కడ అది %s పదాన్ని కలుస్తుంది."
+
+msgid "      %-24s track V%d, from frame %d (%s s to the start), %s%s"
+msgstr "      %-24s ట్రాక్ V%d, ఫ్రేమ్ %d నుండి (ప్రారంభానికి %s s), %s%s"
+
+msgid "      Both clips stay uncut; they overlap the content.\n      The dissolve sits in the overlap -- exactly where is your decision in Resolve.\n      (The Resolve scripting interface cannot create transitions.)"
+msgstr "      రెండు క్లిప్‌లూ కత్తిరించకుండా ఉంటాయి; అవి కంటెంట్‌పై అతివ్యాప్తి చెందుతాయి.\n      డిసాల్వ్ అతివ్యాప్తిలో ఉంటుంది -- సరిగ్గా ఎక్కడ అనేది Resolve లో మీ నిర్ణయం.\n      (Resolve స్క్రిప్టింగ్ ఇంటర్‌ఫేస్ ట్రాన్సిషన్‌లను సృష్టించలేదు.)"
+
+msgid "      GetAudioMapping   fails: %s"
+msgstr "      GetAudioMapping   విఫలం: %s"
+
+msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
+msgstr "      హెచ్చరిక: బలహీనమైన సరిపోలిక, %s (%s, కనిష్ఠ పరిమితి %s). ఈ రెండూ ఒకదానికొకటి చెందకపోవచ్చు."
+
+msgid "this pair of files"
+msgstr "ఈ ఫైళ్ల జంట"
+
+msgid "    %-20s %s ms / %s ppm -- that cannot be right, track\n    %-20s stays where it is."
+msgstr "    %-20s %s ms / %s ppm -- అది సరైనది కాదు, ట్రాక్\n    %-20s ఉన్నచోటే ఉంటుంది."
+
+msgid "    %-20s <- %s  (%s, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, పేరు పోలిక %s)"
+
+msgid "    %-20s <- %s  (%s, trimmed to the time window, name similarity %s)"
+msgstr "    %-20s <- %s  (%s, సమయ పరిధికి కత్తిరించబడింది, పేరు పోలిక %s)"
+
+msgid "    %-20s <- %s  BUT %s -- neither the time window (%s) nor the\n    %-20s    whole measured range (%s). This belongs to another run."
+msgstr "    %-20s <- %s  కానీ %s -- సమయ పరిధి (%s) కాదు,\n    %-20s    మొత్తం కొలిచిన పరిధి (%s) కూడా కాదు. ఇది వేరే రన్‌కు చెందినది."
+
+msgid "    %-20s no file with a matching name"
+msgstr "    %-20s సరిపోయే పేరుతో ఫైల్ లేదు"
+
+msgid "    %-20s shifted by %s ms%s"
+msgstr "    %-20s %s ms జరపబడింది%s"
+
+msgid "    %-22s %s exists already -- rendered to %s instead, so the\n%searlier delivery stays."
+msgstr "    %-22s %s ఇప్పటికే ఉంది -- బదులుగా %s పేరుతో రెండర్ అవుతుంది, కాబట్టి\n%sమునుపటి డెలివరీ అలాగే ఉంటుంది."
+
+msgid "    %-22s %s kbit/s  (YouTube recommendation for %s%s)"
+msgstr "    %-22s %s kbit/s  (YouTube సిఫార్సు: %s%s)"
+
+msgid "    %-22s AAC, %s kHz, two channel  (bitrate cannot be set remotely --\n%s%s kbit/s are the recommendation for stereo)"
+msgstr "    %-22s AAC, %s kHz, రెండు ఛానళ్లు  (బిట్‌రేట్‌ను రిమోట్‌గా సెట్ చేయడం సాధ్యం కాదు --\n%s%s kbit/s స్టీరియోకు సిఫార్సు)"
+
+msgid "    %-22s rejected -- no spelling was accepted.\n%sSet by hand in Resolve under Deliver > Advanced\n%sSettings: Color space tag Rec.2020, Gamma tag %s."
+msgstr "    %-22s తిరస్కరించబడింది -- ఏ రాత రూపమూ అంగీకరించబడలేదు.\n%sResolve లో Deliver > Advanced Settings కింద చేతితో\n%sసెట్ చేయండి: Color space tag Rec.2020, Gamma tag %s."
+
+msgid "    %-22s stays at \"Same as Project\" -- the project names\n%sno HDR curve. To check in Resolve under\n%sProject Settings > Color Management > Output Color Space."
+msgstr "    %-22s \"Same as Project\" వద్దే ఉంటుంది -- ప్రాజెక్ట్ ఏ HDR\n%sకర్వ్‌నూ పేర్కొనలేదు. Resolve లో దీన్ని ఇక్కడ తనిఖీ చేయండి:\n%sProject Settings > Color Management > Output Color Space."
+
+msgid "    %-24s Deleting failed."
+msgstr "    %-24s తొలగించడం విఫలమైంది."
+
+msgid "    %-24s Deleting failed: %s"
+msgstr "    %-24s తొలగించడం విఫలమైంది: %s"
+
+msgid "    %-24s Linking failed: %s"
+msgstr "    %-24s లింక్ చేయడం విఫలమైంది: %s"
+
+msgid "    %-24s Unlinking had no effect -- the surplus audio tracks\n    %-24s stay in place."
+msgstr "    %-24s లింక్ తొలగింపు పని చేయలేదు -- అదనపు ఆడియో ట్రాక్‌లు\n    %-24s అలాగే ఉంటాయి."
+
+msgid "    %-24s audio from A%d kept, %d more deleted"
+msgstr "    %-24s A%d నుండి ఆడియో ఉంచబడింది, మరో %d తొలగించబడ్డాయి"
+
+msgid "    %-24s could not be linked again"
+msgstr "    %-24s మళ్లీ లింక్ చేయడం సాధ్యం కాలేదు"
+
+msgid "    %-24s could not be unlinked: %s"
+msgstr "    %-24s లింక్ తొలగించడం సాధ్యం కాలేదు: %s"
+
+msgid "    %-24s no audio inserted"
+msgstr "    %-24s ఆడియో చేర్చబడలేదు"
+
+msgid "    %sx the intended camera was not running -- a different one is there."
+msgstr "    %s సార్లు ఉద్దేశించిన కెమెరా నడవలేదు -- అక్కడ వేరే కెమెరా ఉంది."
+
+msgid "    %s could not be imported."
+msgstr "    %s ఇంపోర్ట్ చేయడం సాధ్యం కాలేదు."
+
+msgid "    %s could not be inserted."
+msgstr "    %s చేర్చడం సాధ్యం కాలేదు."
+
+msgid "    %s track could not be created: %s"
+msgstr "    %s రకం ట్రాక్ సృష్టించడం సాధ్యం కాలేదు: %s"
+
+msgid "    %s: picture and audio inserted separately (audio from A%d)."
+msgstr "    %s: చిత్రం, ఆడియో వేర్వేరుగా చేర్చబడ్డాయి (ఆడియో A%d నుండి)."
+
+msgid "    --anyway is set: it runs despite the points above."
+msgstr "    --anyway సెట్ చేయబడింది: పై అంశాలు ఉన్నప్పటికీ ఇది నడుస్తుంది."
+
+msgid "    All tracks are in place -- nothing to move."
+msgstr "    అన్ని ట్రాక్‌లు సరైన స్థానంలో ఉన్నాయి -- జరపాల్సింది ఏమీ లేదు."
+
+msgid "    Caution: no H.265 available -- it will be H.264 with eight bits.\n             Too little for HDR; gradients will show banding."
+msgstr "    జాగ్రత్త: H.265 అందుబాటులో లేదు -- ఇది ఎనిమిది బిట్‌లతో H.264 అవుతుంది.\n             HDR కు ఇది సరిపోదు; గ్రేడియెంట్లలో బ్యాండింగ్ కనిపిస్తుంది."
+
+msgid "    Caution: the project stands at %s, the material is %s.\n             The delivery carries the tags of the material. To bring the\n             project along: Project Settings > Color Management >\n             Output Color Space = %s."
+msgstr "    జాగ్రత్త: ప్రాజెక్ట్ సెట్టింగ్ %s, మెటీరియల్ %s.\n             డెలివరీ మెటీరియల్ ట్యాగ్‌లను కలిగి ఉంటుంది. ప్రాజెక్ట్‌ను కూడా\n             సరిపోల్చడానికి: Project Settings > Color Management >\n             Output Color Space = %s."
+
+msgid "Colour space"
+msgstr "కలర్ స్పేస్"
+
+msgid "already right"
+msgstr "ఇప్పటికే సరిగ్గా ఉంది"
+
+msgid "    Clip colours could not be set."
+msgstr "    క్లిప్ రంగులను సెట్ చేయడం సాధ్యం కాలేదు."
+
+msgid "    Clips from an earlier run are still tied to their remote grades. On the\n    colour page right-click a thumbnail > \"Copy Remote Grades to Local\"\n    (takes the correction along) or \"Use Local Grades\". New Timelines\n    do not need this."
+msgstr "    మునుపటి రన్‌లోని క్లిప్‌లు ఇంకా వాటి remote grades కు కట్టుబడి ఉన్నాయి.\n    Color పేజీలో ఒక థంబ్‌నెయిల్‌పై రైట్-క్లిక్ > \"Copy Remote Grades to Local\"\n    (కరెక్షన్‌ను కూడా తీసుకెళ్తుంది) లేదా \"Use Local Grades\". కొత్త Timelineలకు\n    ఇది అవసరం లేదు."
+
+msgid "    Codec list not readable: %s"
+msgstr "    కోడెక్ జాబితాను చదవడం సాధ్యం కాలేదు: %s"
+
+msgid "    Colour group %-24s only %s of %s clips"
+msgstr "    రంగు సమూహం %-24s %s మాత్రమే, మొత్తం %s క్లిప్‌లలో"
+
+msgid "    Cross-check not possible: %s"
+msgstr "    అడ్డ తనిఖీ సాధ్యం కాదు: %s"
+
+msgid "    Cross-check: not measurable"
+msgstr "    అడ్డ తనిఖీ: కొలవలేనిది"
+
+msgid "    In point   %s   (Timecode %s)"
+msgstr "    ఇన్ పాయింట్    %s   (టైమ్‌కోడ్ %s)"
+
+msgid "    In point   %s\n    Out point  %s"
+msgstr "    ఇన్ పాయింట్    %s\n    అవుట్ పాయింట్  %s"
+
+msgid "    Out point  %s   (Timecode %s)"
+msgstr "    అవుట్ పాయింట్  %s   (టైమ్‌కోడ్ %s)"
+
+msgid "    Out point lies before In point -- that does not work."
+msgstr "    అవుట్ పాయింట్ ఇన్ పాయింట్ కంటే ముందు ఉంది -- అలా కుదరదు."
+
+msgid "    The reference camera carries no Timecode. The axis hangs on the clock of %s, and its first frame reads %s."
+msgstr "    ఆధార కెమెరాలో టైమ్‌కోడ్ లేదు. అక్షం %s గడియారంపై ఆధారపడుతుంది, దాని మొదటి ఫ్రేమ్ %s చూపుతుంది."
+
+msgid "    For checking -- Timeline starts at frame %d (%s):"
+msgstr "    తనిఖీ కోసం -- Timeline ఫ్రేమ్ %d వద్ద ప్రారంభమవుతుంది (%s):"
+
+msgid "    Format and codec could not be set."
+msgstr "    ఫార్మాట్, కోడెక్ సెట్ చేయడం సాధ్యం కాలేదు."
+
+msgid "    Format and codec could not be set: %s"
+msgstr "    ఫార్మాట్, కోడెక్ సెట్ చేయడం సాధ్యం కాలేదు: %s"
+
+msgid "    Format list not readable: %s"
+msgstr "    ఫార్మాట్ జాబితాను చదవడం సాధ్యం కాలేదు: %s"
+
+msgid "    One file per delivery was refused; Resolve will write one file per clip."
+msgstr "    ప్రతి డెలివరీకి ఒక ఫైల్ అనేది తిరస్కరించబడింది; Resolve ప్రతి క్లిప్‌కు ఒక ఫైల్ రాస్తుంది."
+
+msgid "    One file per delivery could not be asked for: %s"
+msgstr "    ప్రతి డెలివరీకి ఒక ఫైల్ అని అడగడం సాధ్యం కాలేదు: %s"
+
+msgid "    Length  %s  (instead of %s)"
+msgstr "    నిడివి  %s  (%s కాకుండా)"
+
+msgid "    Length  %s"
+msgstr "    నిడివి  %s"
+
+msgid "    Local versions: in the node editor \"Group Pre-Clip\" applies to the\n    whole camera, \"Clip\" only to the one cut. One does not exclude\n    the other."
+msgstr "    లోకల్ వెర్షన్‌లు: నోడ్ ఎడిటర్‌లో \"Group Pre-Clip\" మొత్తం\n    కెమెరాకు వర్తిస్తుంది, \"Clip\" ఆ ఒక్క కట్‌కు మాత్రమే. ఒకటి మరొకదాన్ని\n    మినహాయించదు."
+
+msgid "    Loudness meter target level not found -- please set it by hand:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+msgstr "    లౌడ్‌నెస్ మీటర్ లక్ష్య స్థాయి కనబడలేదు -- దయచేసి చేతితో సెట్ చేయండి:\n    Project Settings > Fairlight > Target Loudness Level %s LUFS."
+
+msgid "    Measured %s frames/s -- Resolve only knows fixed rates,\n    %s is used."
+msgstr "    కొలిచినది %s ఫ్రేమ్‌లు/సెకను -- Resolve స్థిర రేట్లను మాత్రమే గుర్తిస్తుంది,\n    %s వాడబడుతుంది."
+
+msgid "    No pair measurable -- it stays as it is."
+msgstr "    కొలవదగిన జత ఏదీ లేదు -- ఉన్నది ఉన్నట్లే ఉంటుంది."
+
+msgid "    No setting for the versions found -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    వెర్షన్ల కోసం సెట్టింగ్ కనబడలేదు -- దయచేసి చేతితో సెట్ చేయండి:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    Not everything could be set. Resolve takes some values only\n    while the Timeline is still empty -- please compare above."
+msgstr "    అన్నీ సెట్ చేయడం సాధ్యం కాలేదు. కొన్ని విలువలను Resolve, Timeline\n    ఇంకా ఖాళీగా ఉన్నప్పుడు మాత్రమే తీసుకుంటుంది -- దయచేసి పైన పోల్చి చూడండి."
+
+msgid "    Queued -- in Resolve only \"Render All\" is left."
+msgstr "    క్యూలో చేర్చబడింది -- Resolve లో ఇక \"Render All\" మాత్రమే మిగిలింది."
+
+msgid "    Remote grades are on: one colour correction per camera applies\n    to all its cuts -- a single cut can then no longer be corrected\n    on its own."
+msgstr "    Remote grades ఆన్‌లో ఉన్నాయి: ప్రతి కెమెరాకు ఒక రంగు సవరణ దాని\n    అన్ని కట్‌లకు వర్తిస్తుంది -- అప్పుడు ఒక్క కట్‌ను విడిగా\n    సరిచేయడం ఇక సాధ్యం కాదు."
+
+msgid "    Render job could not be created."
+msgstr "    రెండర్ జాబ్‌ను సృష్టించడం సాధ్యం కాలేదు."
+
+msgid "    Render job could not be created: %s"
+msgstr "    రెండర్ జాబ్‌ను సృష్టించడం సాధ్యం కాలేదు: %s"
+
+msgid "    Settings not listable -- please set by hand:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+msgstr "    సెట్టింగ్‌ల జాబితా అందుబాటులో లేదు -- దయచేసి చేతితో సెట్ చేయండి:\n    Project Settings > General Options > Color > 'Use local version for new clips' %s."
+
+msgid "    The window would be only %s long -- that cannot be intended."
+msgstr "    సమయ పరిధి కేవలం %s నిడివి మాత్రమే ఉంటుంది -- ఇది ఉద్దేశపూర్వకం అయి ఉండదు."
+
+msgid "    Track %d  %-22s (here: %s)"
+msgstr "    ట్రాక్ %d  %-22s (ఇక్కడ: %s)"
+
+msgid "    V2 could not be read back: %s"
+msgstr "    V2 ను తిరిగి చదవడం సాధ్యం కాలేదు: %s"
+
+msgid "    Video track %d could not be renamed."
+msgstr "    వీడియో ట్రాక్ %d పేరు మార్చడం సాధ్యం కాలేదు."
+
+msgid "    Whether the finished file passes as HDR:\n      videopodcast-magic --hdr-check %s"
+msgstr "    పూర్తయిన ఫైల్ HDR గా గుర్తింపు పొందుతుందో లేదో:\n      videopodcast-magic --hdr-check %s"
+
+msgid "    not possible: %s"
+msgstr "    సాధ్యం కాదు: %s"
+
+msgid "   (sound path negative -- something is wrong)"
+msgstr "   (ధ్వని మార్గం రుణాత్మకం -- ఏదో తప్పు ఉంది)"
+
+msgid "  %-20s cannot be aligned: %s"
+msgstr "  %-20s సమలేఖనం చేయడం సాధ్యం కాదు: %s"
+
+msgid "  %-20s not measurable: %s"
+msgstr "  %-20s కొలవడం సాధ్యం కాదు: %s"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  %-20s ఆఫ్‌సెట్ %s, గడియార విచలనం %s ppm (+/- %s), మిగిలిన వ్యాప్తి %s ms, %s / %s బిందువులు"
+
+msgid "  %-20s offset %s, clock drift %s ppm (+/- %s), residual spread %s ms, %s of %s points%s"
+msgstr "  %-20s ఆఫ్‌సెట్ %s, గడియార విచలనం %s ppm (+/- %s), మిగిలిన వ్యాప్తి %s ms, %s / %s బిందువులు%s"
+
+msgid "  %-24s from %s"
+msgstr "  %-24s మూలం: %s"
+
+msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
+msgstr "  %s బ్లాక్‌లు పేరు క్రమంలో జోడించబడ్డాయి (టైమ్‌కోడ్ లేదు -- ఖాళీలను గుర్తించలేము)"
+
+msgid "  %s blocks joined via timecode, start %s"
+msgstr "  %s బ్లాక్‌లు టైమ్‌కోడ్ ద్వారా జోడించబడ్డాయి, ప్రారంభం %s"
+
+msgid "  %s of %s files imported."
+msgstr "  %s / %s ఫైళ్లు ఇంపోర్ట్ చేయబడ్డాయి."
+
+msgid "  %s speakers, %s shots, shortest %s s"
+msgstr "  %s వక్తలు, %s షాట్‌లు, అతి చిన్నది %s s"
+
+msgid "  %s video tracks, named after the speakers:"
+msgstr "  %s వీడియో ట్రాక్‌లు, వక్తల పేర్లతో:"
+
+msgid "  %s appears twice with different cameras -- %s is used"
+msgstr "  %s అనే పేరు వేర్వేరు కెమెరాలతో రెండుసార్లు ఉంది -- %s వాడబడుతుంది"
+
+msgid "  %s gives no sound to measure -- placed by its clock alone, and nothing was found to check it against"
+msgstr "  %s ఫైల్‌లో కొలవదగిన ఆడియో లేదు -- దాని గడియారం ఆధారంగా మాత్రమే ఉంచబడింది, దాన్ని సరిచూడడానికి ఏదీ దొరకలేదు"
+
+msgid "  %s could not be fetched: %s"
+msgstr "  %s ఫైల్‌ను తెచ్చుకోవడం సాధ్యం కాలేదు: %s"
+
+msgid "  %s could not be rewritten: %s"
+msgstr "  %s ఫైల్‌ను తిరిగి రాయడం సాధ్యం కాలేదు: %s"
+
+msgid "  %s goes on video track 1 -- there the first audio track carries the\n  Full-Mix, and video track 1 becomes angle 1."
+msgstr "  %s వీడియో ట్రాక్ 1 పైకి వెళ్తుంది -- అక్కడ మొదటి ఆడియో ట్రాక్‌లో\n  Full-Mix ఉంటుంది, వీడియో ట్రాక్ 1 యాంగిల్ 1 అవుతుంది."
+
+msgid "  %s has no camera sound -- without it nothing can be aligned"
+msgstr "  %s ఫైల్‌లో కెమెరా ఆడియో లేదు -- అది లేకుండా ఏదీ సమలేఖనం చేయలేము"
+
+msgid "  %s is in the production twice -- fetched once."
+msgstr "  %s ప్రొడక్షన్‌లో రెండుసార్లు ఉంది -- ఒకసారి మాత్రమే తెచ్చుకోబడింది."
+
+msgid "  %s is already there and is written over -- this production has no record of making it."
+msgstr "  %s ఇప్పటికే ఉంది, దానిపై తిరిగి రాయబడుతుంది -- దీన్ని ఈ ప్రొడక్షన్ సృష్టించినట్లు ఎలాంటి నమోదు లేదు."
+
+msgid "  %s is there from an earlier run of this production and is replaced."
+msgstr "  %s ఈ ప్రొడక్షన్ యొక్క మునుపటి రన్ నుండి ఉంది, అది భర్తీ చేయబడుతుంది."
+
+msgid "  %s runs at %s frames/s, a rate Resolve has no Timeline for -- it is converted, not left out"
+msgstr "  %s: %s ఫ్రేమ్‌లు/సెకను, ఈ రేట్‌కు Resolve లో Timeline లేదు -- ఇది మార్చబడుతుంది, వదిలివేయబడదు"
+
+msgid "  %s is ready -- with --resolve-json it can be done later."
+msgstr "  %s సిద్ధంగా ఉంది -- --resolve-json తో దీన్ని తర్వాత చేయవచ్చు."
+
+msgid "  %s: %s, skipped"
+msgstr "  %s: %s, వదిలివేయబడింది"
+
+msgid "  %s: how many channels it has cannot be determined (%s) -- it is not measured"
+msgstr "  %s: దీనిలో ఎన్ని ఛానళ్లు ఉన్నాయో నిర్ణయించలేము (%s) -- ఇది కొలవబడదు"
+
+msgid "  (measuring only: nothing uploaded)\n"
+msgstr "  (కొలత మాత్రమే: ఏదీ అప్‌లోడ్ చేయలేదు)\n"
+
+msgid "  A Timeline %r existed already -- the new one is called %r."
+msgstr "  %r అనే Timeline ఇప్పటికే ఉంది -- కొత్తదాని పేరు %r."
+
+msgid "  A Timeline of this name is there with other cameras on it. It stays;\n  the new one is built beside it under a name of its own."
+msgstr "  ఈ పేరుతో ఒక Timeline ఉంది, దానిపై వేరే కెమెరాలు ఉన్నాయి. అది అలాగే ఉంటుంది;\n  కొత్తది దాని పక్కన సొంత పేరుతో నిర్మించబడుతుంది."
+
+msgid "  Added: %s"
+msgstr "  జోడించబడినవి: %s"
+
+msgid "  Adding atoms taken back -- %s. %s"
+msgstr "  ఆటమ్‌ల జోడింపు వెనక్కి తీసుకోబడింది -- %s. %s"
+
+msgid "  All needed output files already exist."
+msgstr "  అవసరమైన అన్ని అవుట్‌పుట్ ఫైళ్లు ఇప్పటికే ఉన్నాయి."
+
+msgid "  Atom %s skipped: %s bytes are too much for it."
+msgstr "  ఆటమ్ %s వదిలివేయబడింది: దానికి %s బైట్‌లు చాలా ఎక్కువ."
+
+msgid "  Audio: Full-Mix in one piece on A1 (%s)."
+msgstr "  ఆడియో: Full-Mix ఒకే ముక్కగా A1 పై (%s)."
+
+msgid "  Caution: %s steps of brightness difference -- visible when switching."
+msgstr "  జాగ్రత్త: %s దశల ప్రకాశ తేడా -- మారేటప్పుడు కనిపిస్తుంది."
+
+msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
+msgstr "  జాగ్రత్త: %s, %s రెండింటి పేరూ %s. Timeline పై\n  Resolve పేరును మాత్రమే చెబుతుంది, కాబట్టి వాటి క్లిప్‌లను వేరు\n  చేయలేము -- రెండు ఫైళ్లలో ఒకదాని పేరు మార్చండి."
+
+msgid "  Caution: %s could not be deleted -- the new Timeline therefore gets\n  an addition to its name."
+msgstr "  జాగ్రత్త: తొలగించడం సాధ్యం కాలేదు: %s -- అందుకే కొత్త Timeline\n  పేరుకు ఒక అదనపు భాగం చేరుతుంది."
+
+msgid "  Caution: range      only %s LU -- very tight. Speech is usually 3 to 7 LU;\n                     below that it sounds squashed. Check how strongly the leveler\n                     is set at auphonic.com."
+msgstr "  జాగ్రత్త: పరిధి         కేవలం %s LU -- చాలా ఇరుకు. ప్రసంగం సాధారణంగా 3 నుండి 7 LU;\n                     అంతకంటే తక్కువైతే నలిగినట్లు వినిపిస్తుంది. auphonic.com లో లెవెలర్\n                     ఎంత బలంగా సెట్ చేయబడిందో తనిఖీ చేయండి."
+
+msgid "  Caution: the production holds further tracks (%s). They go into the\n  mix -- please delete them at auphonic.com."
+msgstr "  జాగ్రత్త: ప్రొడక్షన్‌లో మరిన్ని ట్రాక్‌లు ఉన్నాయి (%s). అవి\n  మిక్స్‌లోకి వెళ్తాయి -- దయచేసి వాటిని auphonic.com లో తొలగించండి."
+
+msgid "  Caution: track %s -- it keeps its settings."
+msgstr "  జాగ్రత్త: ట్రాక్ %s -- దాని సెట్టింగ్‌లు అలాగే ఉంటాయి."
+
+msgid "  Camera atoms:    cannot be added (%s)"
+msgstr "  కెమెరా ఆటమ్‌లు:       జోడించడం సాధ్యం కాదు (%s)"
+
+msgid "  Camera data:     %s keys carried over (%s)"
+msgstr "  కెమెరా డేటా:          %s కీలు తీసుకురాబడ్డాయి (%s)"
+
+msgid "  Camera data:     Caution, %s of %s keys are missing in the new file: %s"
+msgstr "  కెమెరా డేటా:          జాగ్రత్త, కొత్త ఫైల్‌లో %s / %s కీలు లేవు: %s"
+
+msgid "  Camera data:     the source carries none"
+msgstr "  కెమెరా డేటా:          మూల ఫైల్‌లో ఏదీ లేదు"
+
+msgid "  Cannot add atoms: a 64 bit box is in the way."
+msgstr "  ఆటమ్‌లను జోడించలేము: ఒక 64 బిట్ బాక్స్ అడ్డుగా ఉంది."
+
+msgid "  Cannot add atoms: moov is not at the end."
+msgstr "  ఆటమ్‌లను జోడించలేము: moov చివరలో లేదు."
+
+msgid "  Cannot add atoms: the source is %s, the target %s."
+msgstr "  ఆటమ్‌లను జోడించలేము: మూలం %s, లక్ష్యం %s."
+
+msgid "  Check:           not possible (%s)"
+msgstr "  తనిఖీ:             సాధ్యం కాదు (%s)"
+
+msgid "  Clock drift:     %s ppm (+/- %s), residual spread %s ms, %s of %s points"
+msgstr "  గడియార విచలనం:      %s ppm (+/- %s), మిగిలిన వ్యాప్తి %s ms, %s / %s బిందువులు"
+
+msgid "  Clock drift:     nothing measured -- this is the reference the others are held against"
+msgstr "  గడియార విచలనం:      ఏదీ కొలవబడలేదు -- ఇదే ఆధారం, మిగతావి దీనితో పోల్చబడతాయి"
+
+msgid "  Colour comparison not possible: %s"
+msgstr "  రంగు పోలిక సాధ్యం కాదు: %s"
+
+msgid "  Colour group %r cannot be created."
+msgstr "  %r రంగు సమూహాన్ని సృష్టించలేము."
+
+msgid "  Colour group %r cannot be created: %s"
+msgstr "  %r రంగు సమూహాన్ని సృష్టించలేము: %s"
+
+msgid "  Colour:          %d/%d/%d -- primaries filled in from the matrix (source: %d)"
+msgstr "  రంగు:            %d/%d/%d -- ప్రైమరీలు మ్యాట్రిక్స్ నుండి నింపబడ్డాయి (మూలం: %d)"
+
+msgid "  Colour:          %d/%d/%d carried over"
+msgstr "  రంగు:            %d/%d/%d తీసుకురాబడింది"
+
+msgid "  Colour:          Caution, %s in the source, %s in the new file"
+msgstr "  రంగు:            జాగ్రత్త, మూలంలో %s, కొత్త ఫైల్‌లో %s"
+
+msgid "  Cross-check:     %s from the Full-Mix, deviation %s ms (%s of %s points)%s"
+msgstr "  పరస్పర తనిఖీ:       Full-Mix నుండి %s, తేడా %s ms (%s / %s బిందువులు)%s"
+
+msgid "  Cross-check:     not possible (%s)"
+msgstr "  పరస్పర తనిఖీ:       సాధ్యం కాదు (%s)"
+
+msgid "  Data tracks:     %s carried over"
+msgstr "  డేటా ట్రాక్‌లు:        %s తీసుకురాబడ్డాయి"
+
+msgid "  Data tracks:     %s left out -- ffmpeg cannot write it"
+msgstr "  డేటా ట్రాక్‌లు:        %s వదిలివేయబడింది -- ffmpeg దాన్ని రాయజాలదు"
+
+msgid "  Deleted: %s -- being rebuilt now."
+msgstr "  తొలగించబడింది: %s -- ఇప్పుడు మళ్లీ నిర్మించబడుతోంది."
+
+msgid "  Drift over the running time: %s s = %s frames  -->  %s"
+msgstr "  మొత్తం నిడివిపై విచలనం: %s s = %s ఫ్రేమ్‌లు  -->  %s"
+
+msgid "  Existing result adopted -- nothing computed, nothing paid."
+msgstr "  ఉన్న ఫలితం స్వీకరించబడింది -- ఏదీ లెక్కించలేదు, ఏదీ చెల్లించలేదు."
+
+msgid "  Fewer than two cameras with sound -- too few for Multitrack."
+msgstr "  ఆడియో ఉన్న కెమెరాలు రెండు కంటే తక్కువ -- Multitrack కు సరిపోవు."
+
+msgid "  Finished mixdown requested as the yardstick (%s)"
+msgstr "  పూర్తయిన మిక్స్‌డౌన్ కొలమానంగా అభ్యర్థించబడింది (%s)"
+
+msgid "does not start where the block before it ends"
+msgstr "ముందటి బ్లాక్ ముగిసిన చోట ప్రారంభం కాదు"
+
+msgid "ends before the next block starts"
+msgstr "తదుపరి బ్లాక్ ప్రారంభం కాకముందే ముగుస్తుంది"
+
+msgid "  auphonic.com folded them. The mix keeps the two channels; what is gone is the\n  difference between the two microphones of that track."
+msgstr "  auphonic.com వాటిని ఒకే ఛానల్‌గా కుదించింది. మిక్స్ రెండు ఛానళ్లను ఉంచుతుంది; పోయినది\n  ఆ ట్రాక్‌లోని రెండు మైక్రోఫోన్‌ల మధ్య తేడా."
+
+msgid "  Two channels, because one track is stereo"
+msgstr "  రెండు ఛానళ్లు, ఎందుకంటే ఒక ట్రాక్ స్టీరియో"
+
+msgid "  Gap of %s at %s -- filled with silence"
+msgstr "  %s ఖాళీ, %s వద్ద -- నిశ్శబ్దంతో నింపబడింది"
+
+msgid "  Overlap of %s at %s -- both sound there"
+msgstr "  %s అతివ్యాప్తి, %s వద్ద -- అక్కడ రెండూ వినిపిస్తాయి"
+
+msgid "  They overlap -- several microphones at once, not blocks in a row."
+msgstr "  అవి అతివ్యాప్తి చెందుతాయి -- ఒకేసారి అనేక మైక్రోఫోన్‌లు, వరుస బ్లాక్‌లు కాదు."
+
+msgid "  Each one also goes into the video as a track of its own: %s"
+msgstr "  ప్రతి ఒక్కటి వీడియోలోకి సొంత ట్రాక్‌గా కూడా వెళ్తుంది: %s"
+
+msgid "  Only the mix goes into the video (--no-single-tracks)."
+msgstr "  వీడియోలోకి మిక్స్ మాత్రమే వెళ్తుంది (--no-single-tracks)."
+
+msgid "  It already exists, with the same cameras in the same order -- it stays\n  untouched. Whoever wants a new one deletes it in Resolve."
+msgstr "  అది ఇప్పటికే ఉంది, అవే కెమెరాలతో అదే క్రమంలో -- అది అలాగే\n  ఉంటుంది. కొత్తది కావాలంటే Resolve లో దాన్ని తొలగించండి."
+
+msgid "  Key frames of %s cannot be read (%s) -- the copy starts at the beginning of the file."
+msgstr "  %s ఫైల్ కీ ఫ్రేమ్‌లను చదవలేము (%s) -- కాపీ ఫైల్ ప్రారంభం నుండి మొదలవుతుంది."
+
+msgid "  Level curve not possible (%s) -- without limiter"
+msgstr "  స్థాయి వక్రరేఖ సాధ్యం కాదు (%s) -- లిమిటర్ లేకుండా"
+
+msgid "  Limiter:           at most %s dB, the same curve on every track%s"
+msgstr "  లిమిటర్:              గరిష్ఠంగా %s dB, ప్రతి ట్రాక్‌పై అదే వక్రరేఖ%s"
+
+msgid "  Loudness not measurable: %s"
+msgstr "  లౌడ్‌నెస్ కొలవడం సాధ్యం కాదు: %s"
+
+msgid "  Loudness not measurable -- it stays as it is."
+msgstr "  లౌడ్‌నెస్ కొలవడం సాధ్యం కాదు -- ఉన్నది ఉన్నట్లే ఉంటుంది."
+
+msgid "  Metrics not writable: %s"
+msgstr "  మెట్రిక్స్ రాయడం సాధ్యం కాదు: %s"
+
+msgid "  Mixdown from auphonic.com: %s LUFS, peak %s dBTP (%s)"
+msgstr "  auphonic.com నుండి మిక్స్‌డౌన్: %s LUFS, పీక్ %s dBTP (%s)"
+
+msgid "  No Full-Mix found -- the Timeline stays silent."
+msgstr "  Full-Mix కనబడలేదు -- Timeline నిశ్శబ్దంగా ఉంటుంది."
+
+msgid "  No audio on the Timeline -- nothing to clean up."
+msgstr "  Timeline పై ఆడియో లేదు -- శుభ్రం చేయడానికి ఏమీ లేదు."
+
+msgid "  No cameras in the handover -- nothing to build."
+msgstr "  అప్పగింతలో కెమెరాలు లేవు -- నిర్మించడానికి ఏమీ లేదు."
+
+msgid "  No clips found for colour groups."
+msgstr "  రంగు సమూహాల కోసం క్లిప్‌లు కనబడలేదు."
+
+msgid "  No cut left -- the Timeline stays empty."
+msgstr "  ఏ కట్ మిగలలేదు -- Timeline ఖాళీగా ఉంటుంది."
+
+msgid "  Not handed over: the run could not place %s, so it is no camera of this episode."
+msgstr "  అప్పగించబడలేదు: %s -- రన్ దీన్ని ఉంచలేకపోయింది, కాబట్టి ఇది ఈ ఎపిసోడ్ కెమెరా కాదు."
+
+msgid "  No measured offset for %s -- placed at the start of the axis."
+msgstr "  కొలిచిన ఆఫ్‌సెట్ లేదు: %s -- సమయ అక్షం ప్రారంభంలో ఉంచబడింది."
+
+msgid "  Nothing was found in the sound for %s -- placed by the timecode alone."
+msgstr "  ఆడియోలో ఏదీ దొరకలేదు: %s -- టైమ్‌కోడ్ ఆధారంగా మాత్రమే ఉంచబడింది."
+
+msgid "  %s: the measurement puts it at %s s, the timecode at %s s -- the measurement is used."
+msgstr "  %s: కొలత దీన్ని %s s వద్ద ఉంచుతుంది, టైమ్‌కోడ్ %s s వద్ద -- కొలత వాడబడుతుంది."
+
+msgid "  The Timeline start %s was refused: %s"
+msgstr "  Timeline ప్రారంభం %s తిరస్కరించబడింది: %s"
+
+msgid "  The Timeline starts at %s, not at %s -- every shot sits that much further in."
+msgstr "  Timeline %s వద్ద ప్రారంభమవుతుంది, %s వద్ద కాదు -- ప్రతి షాట్ అంత మేరకు లోపలికి జరుగుతుంది."
+
+msgid "  The Timeline start %s was not accepted."
+msgstr "  Timeline ప్రారంభం %s అంగీకరించబడలేదు."
+
+msgid "  Start %s -- every shot is placed against it."
+msgstr "  ప్రారంభం %s -- ప్రతి షాట్ దీనికి సాపేక్షంగా ఉంచబడుతుంది."
+
+msgid "  No such Timeline existed yet -- it is only built."
+msgstr "  అలాంటి Timeline ఇంకా లేదు -- ఇప్పుడు కొత్తగా నిర్మించబడుతుంది."
+
+msgid "  Note: this computes with the files uploaded at the time. They carry\n  the time window and the alignment of that day. Where the In point, the Out point\n  or the measured position differ now, the return check measures the\n  difference and moves the tracks into place."
+msgstr "  గమనిక: ఇది ఆ సమయంలో అప్‌లోడ్ చేసిన ఫైళ్లతో లెక్కిస్తుంది. వాటిలో\n  ఆ రోజు సమయ పరిధి, సమలేఖనం ఉంటాయి. ఇన్ పాయింట్, అవుట్ పాయింట్\n  లేదా కొలిచిన స్థానం ఇప్పుడు భిన్నంగా ఉంటే, తిరుగు తనిఖీ ఆ\n  తేడాను కొలిచి ట్రాక్‌లను సరైన స్థానానికి జరుపుతుంది."
+
+msgid "  Note: this ffmpeg has no soxr -- clock drift can only be taken out in\n  steps of 21 ppm."
+msgstr "  గమనిక: ఈ ffmpeg లో soxr లేదు -- గడియార విచలనాన్ని 21 ppm\n  దశలలో మాత్రమే తొలగించవచ్చు."
+
+msgid "  Of no consequence for the sound."
+msgstr "  ఆడియోపై దీని ప్రభావం లేదు."
+
+msgid "  Offset:          %s   (from the camera comparison)"
+msgstr "  ఆఫ్‌సెట్:            %s   (కెమెరా పోలిక నుండి)"
+
+msgid "  Only %s of %s shots are on the Timeline."
+msgstr "  Timeline పై %s / %s షాట్‌లు మాత్రమే ఉన్నాయి."
+
+msgid "  Peaks:             %s dB above %s dBTP -- the limiter catches them"
+msgstr "  పీక్‌లు:              %s dB, %s dBTP పైన -- లిమిటర్ వాటిని పట్టుకుంటుంది"
+
+msgid "  Player: %s reports an error -- %s"
+msgstr "  ప్లేయర్: %s లోపాన్ని నివేదిస్తోంది -- %s"
+
+msgid "  Player: %s stays at %s instead of %s -- given up after %s attempts (%s)"
+msgstr "  ప్లేయర్: %s -- %s వద్దే ఉంది, %s కాదు -- %s ప్రయత్నాల తర్వాత విరమించబడింది (%s)"
+
+msgid "  Player: audio output switches to %s"
+msgstr "  ప్లేయర్: ఆడియో అవుట్‌పుట్ దీనికి మారుతుంది: %s"
+
+msgid "  Player: the audio is not running (%s) -- one more attempt."
+msgstr "  ప్లేయర్: ఆడియో నడవడం లేదు (%s) -- మరోసారి ప్రయత్నం."
+
+msgid "  Please give a number between 1 and %d."
+msgstr "  దయచేసి 1 నుండి %d మధ్య ఒక సంఖ్య ఇవ్వండి."
+
+msgid "  Production at auphonic.com:   %s"
+msgstr "  auphonic.com లో ప్రొడక్షన్:   %s"
+
+msgid "  Production running (%s)"
+msgstr "  ప్రొడక్షన్ నడుస్తోంది (%s)"
+
+msgid "  Project %r opened."
+msgstr "  ప్రాజెక్ట్ %r తెరవబడింది."
+
+msgid "  Project file could not be written: %s"
+msgstr "  ప్రాజెక్ట్ ఫైల్‌ను రాయడం సాధ్యం కాలేదు: %s"
+
+msgid "  Project file not writable (%s)\n"
+msgstr "  ప్రాజెక్ట్ ఫైల్ రాయడం సాధ్యం కాదు (%s)\n"
+
+msgid "  Range:             %s LU (speech is usually 3 to 7 LU)"
+msgstr "  పరిధి:               %s LU (ప్రసంగం సాధారణంగా 3 నుండి 7 LU)"
+
+msgid "  Reference: %s (%s, longest running time)"
+msgstr "  ఆధారం: %s (%s, అత్యధిక నిడివి)"
+
+msgid "  Remains:           %s dB on every track, that is %s LUFS instead of %s"
+msgstr "  మిగిలేది:              ప్రతి ట్రాక్‌పై %s dB, అంటే %s LUFS, %s కు బదులుగా"
+
+msgid "  Resolve took no picture at all -- the Timeline is empty. Nothing\n  else is built on it."
+msgstr "  Resolve ఏ చిత్రాన్నీ తీసుకోలేదు -- Timeline ఖాళీగా ఉంది. దానిపై\n  ఇంకేమీ నిర్మించబడదు."
+
+msgid "  Result: %s (%s) -- stays next to the video file\n"
+msgstr "  ఫలితం: %s (%s) -- వీడియో ఫైల్ పక్కనే ఉంటుంది\n"
+
+msgid "  Not used:  %s."
+msgstr "  వాడలేదు:  %s."
+
+msgid "  Question: %s in the transcript, %s became a reaction cut."
+msgstr "  ప్రశ్న: ట్రాన్స్‌క్రిప్ట్‌లో %s, ప్రతిస్పందన కట్‌గా మారినవి %s."
+
+msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
+msgstr "  ప్రశ్న: ట్రాన్స్‌క్రిప్ట్ లేదు, కాబట్టి ఏ ప్రశ్నా దొరకలేదు, ఏ ప్రతిస్పందన కట్\n            జరగలేదు. రన్ సమయంలో పూర్తయిన మిక్స్ నుండి పదాలు\n            రాయబడతాయి; అవి లేకుండా ఈ సెట్టింగ్ ఏమీ చేయదు."
+
+msgid "  Settings brought to preset %r"
+msgstr "  సెట్టింగ్‌లు ఈ ప్రీసెట్‌కు అనుగుణంగా మార్చబడ్డాయి: %r"
+
+msgid "  Start %s (earliest camera) -- otherwise everything would lie before the Timeline start."
+msgstr "  ప్రారంభం %s (అత్యంత ముందటి కెమెరా) -- లేకపోతే అంతా Timeline ప్రారంభానికి ముందే పడుతుంది."
+
+msgid "  Not adjusted:      taken from the source files -- no gain on any track and no\n                     limiter. The sound leaves exactly as it came in."
+msgstr "  సర్దుబాటు లేదు:       మూల ఫైళ్ల నుండి తీసుకోబడింది -- ఏ ట్రాక్‌పైనా గెయిన్ లేదు, లిమిటర్\n                     కూడా లేదు. ఆడియో వచ్చినట్లే బయటకు వెళ్తుంది."
+
+msgid "  Sum of tracks:     %s LUFS, peak %s dBTP%s"
+msgstr "  ట్రాక్‌ల మొత్తం:         %s LUFS, పీక్ %s dBTP%s"
+
+msgid "  Target:            %s LUFS  ->  %s dB on every track"
+msgstr "  లక్ష్యం:             %s LUFS  ->  ప్రతి ట్రాక్‌పై %s dB"
+
+msgid "  The Timeline gets %s: the highest of them, or the next rate Resolve\n  has above it. Converted upwards Resolve repeats frames, downwards it\n  throws them away. Every camera keeps its own rate, and the cut counts\n  in that one."
+msgstr "  Timeline కు %s వస్తుంది: వాటిలో అత్యధికం, లేదా దానికంటే పైన Resolve\n  వద్ద ఉన్న తదుపరి రేట్. పైకి మార్చేటప్పుడు Resolve ఫ్రేమ్‌లను పునరావృతం చేస్తుంది, కిందకు\n  మార్చేటప్పుడు వాటిని వదిలేస్తుంది. ప్రతి కెమెరా తన సొంత రేట్‌ను ఉంచుకుంటుంది, కట్\n  ఆ రేట్‌లోనే లెక్కిస్తుంది."
+
+msgid "  The Full-Mix could not be imported."
+msgstr "  Full-Mix ను ఇంపోర్ట్ చేయడం సాధ్యం కాలేదు."
+
+msgid "  The Full-Mix could not be inserted."
+msgstr "  Full-Mix ను చేర్చడం సాధ్యం కాలేదు."
+
+msgid "  The cameras carry the time window and a second at each end: %s written for %s of the %s recorded."
+msgstr "  కెమెరాలలో సమయ పరిధి, ప్రతి చివర ఒక సెకను ఉంటాయి: %s రాయబడింది, %s నిడివికి (రికార్డ్ అయినది %s)."
+
+msgid "  The cameras lie close together (at most %s steps of brightness)."
+msgstr "  కెమెరాలు దగ్గరగా ఉన్నాయి (గరిష్ఠంగా %s దశల ప్రకాశ తేడా)."
+
+msgid "  The cut has changed: %s shots instead of %s."
+msgstr "  కట్ మారింది: %s షాట్‌లు, %s కు బదులుగా."
+
+msgid "  The record of earlier runs here cannot be read (%s), so everything already in place is reported."
+msgstr "  ఇక్కడి మునుపటి రన్‌ల నమోదును చదవలేము (%s), కాబట్టి ఇప్పటికే ఉన్న ప్రతిదీ నివేదించబడుతుంది."
+
+msgid "  The cut stays as it was."
+msgstr "  కట్ ఉన్నట్లే ఉంటుంది."
+
+msgid "  The files are uploaded again -- this costs credit."
+msgstr "  ఫైళ్లు మళ్లీ అప్‌లోడ్ చేయబడతాయి -- దీనికి క్రెడిట్ ఖర్చవుతుంది."
+
+msgid "  The files in the folder must be named after the speakers and belong\n  to this run. Without the folder it goes through auphonic.com again."
+msgstr "  ఫోల్డర్‌లోని ఫైళ్లకు వక్తల పేర్లు ఉండాలి, అవి ఈ రన్‌కు\n  చెందినవై ఉండాలి. ఫోల్డర్ లేకుండా ఇది మళ్లీ auphonic.com ద్వారా వెళ్తుంది."
+
+msgid "  The media pool stays as it is."
+msgstr "  Media Pool ఉన్నట్లే ఉంటుంది."
+
+msgid "  The names from there are adopted:"
+msgstr "  అక్కడి పేర్లు స్వీకరించబడ్డాయి:"
+
+msgid "  There are %s tracks there and %s here -- that does not match."
+msgstr "  అక్కడ %s ట్రాక్‌లు, ఇక్కడ %s -- ఇవి సరిపోలడం లేదు."
+
+msgid "  This camera could not be placed -- skipped"
+msgstr "  ఈ కెమెరాను ఉంచడం సాధ్యం కాలేదు -- వదిలివేయబడింది"
+
+msgid "  Time window:     %s of %s written, from %s of the camera"
+msgstr "  సమయ పరిధి:         %s / %s రాయబడింది, కెమెరా యొక్క %s నుండి"
+
+msgid "  Timecode %s written as bext and iXML (reference: %s)"
+msgstr "  టైమ్‌కోడ్ %s bext, iXML గా రాయబడింది (ఆధారం: %s)"
+
+msgid "  Too much:          the limiter would have to take %s dB away. More than %s dB\n                     sounds squashed -- %s dB less gain."
+msgstr "  చాలా ఎక్కువ:          లిమిటర్ %s dB తీసివేయాల్సి వస్తుంది. %s dB కంటే ఎక్కువైతే\n                     నలిగినట్లు వినిపిస్తుంది -- %s dB తక్కువ గెయిన్."
+
+msgid "  Transcript not possible (%s) -- it runs anyway."
+msgstr "  ట్రాన్స్‌క్రిప్ట్ సాధ్యం కాదు (%s) -- అయినా రన్ కొనసాగుతుంది."
+
+msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
+msgstr "  అంచుల వద్ద వైడ్ షాట్: వదిలివేయబడింది -- మొదటి లేదా చివరి ప్రకటన\n  పలకరింపుకు చాలా పొడవుగా ఉంటుంది."
+
+msgid "  Wide shot at the edges: until %s and from %s"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: %s వరకు, %s నుండి"
+
+msgid "  from %s, %s"
+msgstr "  మూలం: %s, %s"
+
+msgid "  iXML for %s not written: %s"
+msgstr "  %s ఫైల్‌కు iXML రాయబడలేదు: %s"
+
+msgid " at high frame rates"
+msgstr " అధిక ఫ్రేమ్ రేట్‌లలో"
+
+msgid "%s  Audio starts per timecode at    %s"
+msgstr "%s  టైమ్‌కోడ్ ప్రకారం ఆడియో ప్రారంభం           %s"
+
+msgid "%s  Picture starts per timecode at  %s"
+msgstr "%s  టైమ్‌కోడ్ ప్రకారం చిత్రం ప్రారంభం          %s"
+
+msgid "%s  The audio timecode does not fit the picture at all -- probably a clock never set. The measurement is used."
+msgstr "%s  ఆడియో టైమ్‌కోడ్ చిత్రానికి అస్సలు సరిపోవడం లేదు -- బహుశా గడియారం ఎప్పుడూ సెట్ చేయలేదు. కొలత వాడబడుతుంది."
+
+msgid "%s  The timecode does not fit what is heard. The measurement is used."
+msgstr "%s  టైమ్‌కోడ్ వినిపించేదానికి సరిపోవడం లేదు. కొలత వాడబడుతుంది."
+
+msgid "%s from %s recordings"
+msgstr "%s: %s రికార్డింగ్‌ల నుండి"
+
+msgid "%s is missing."
+msgstr "%s లేదు."
+
+msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
+msgstr "%s అనే పేరు ఒకటి కంటే ఎక్కువ వక్తలపై ఉంది -- ఒక పేరు ఒక వ్యక్తి, ప్రతి వ్యక్తికీ సొంత పేరు కావాలి."
+
+msgid "%s stands on more than one voice. A name is a person, and the cut puts a person on one camera -- two voices of one name would be one person in two places."
+msgstr "%s అనే పేరు ఒకటి కంటే ఎక్కువ స్వరాలపై ఉంది. ఒక పేరు ఒక వ్యక్తి, కట్ ఒక వ్యక్తిని ఒక కెమెరాపై ఉంచుతుంది -- ఒకే పేరుతో రెండు స్వరాలు అంటే ఒకే వ్యక్తి రెండు చోట్ల ఉన్నట్లు."
+
+msgid "  This machine can install it properly: %s"
+msgstr "  ఈ కంప్యూటర్ దీన్ని సరిగ్గా ఇన్‌స్టాల్ చేయగలదు: %s"
+
+msgid "  Installing it: %s"
+msgstr "  ఇన్‌స్టాల్ చేయడం: %s"
+
+msgid "  On this machine: %s"
+msgstr "  ఈ కంప్యూటర్‌లో: %s"
+
+msgid "  Installing it: pip install %s"
+msgstr "  ఇన్‌స్టాల్ చేయడం: pip install %s"
+
+msgid "  %s would be installed into this Python: %s"
+msgstr "  %s ఈ Python లో ఇన్‌స్టాల్ అవుతుంది: %s"
+
+msgid "  By hand:  %s -m pip install %s"
+msgstr "  చేతితో:  %s -m pip install %s"
+
+msgid "Could not look for a newer version: %s"
+msgstr "కొత్త వెర్షన్ కోసం వెతకడం సాధ్యం కాలేదు: %s"
+
+msgid "%s is missing. The first time it takes a few minutes."
+msgstr "%s లేదు. మొదటిసారి కొన్ని నిమిషాలు పడుతుంది."
+
+msgid "  Run that now? [Y/n] "
+msgstr "  దీన్ని ఇప్పుడు నడపాలా? [Y/n] "
+
+msgid "  That did not work: %s"
+msgstr "  అది పని చేయలేదు: %s"
+
+msgid "  Putting it back: %s"
+msgstr "  తిరిగి పెట్టడం: %s"
+
+msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
+msgstr "  ffmpeg.org లో Windows కోసం బిల్డ్‌లు ఉన్నాయి. తర్వాత ffmpeg.exe ఉన్న ఫోల్డర్‌ను PATH లో చేర్చాలి, లేదా ఆ ఫైళ్లను ఈ ప్రోగ్రామ్ పక్కన ఉంచాలి."
+
+msgid "  Open the page? [Y/n] "
+msgstr "  పేజీని తెరవాలా? [Y/n] "
+
+msgid "  The page could not be opened: %s"
+msgstr "  పేజీని తెరవడం సాధ్యం కాలేదు: %s"
+
+msgid "%s is missing -- installing it. The first time takes a few minutes."
+msgstr "%s లేదు -- ఇన్‌స్టాల్ చేస్తోంది. మొదటిసారి కొన్ని నిమిషాలు పడుతుంది."
+
+msgid "%sTimecode check of the audio file"
+msgstr "%sఆడియో ఫైల్ టైమ్‌కోడ్ తనిఖీ"
+
+msgid ", %s not (no free picture)"
+msgstr ", %s సెట్ కాలేదు (ఖాళీ ఫ్రేమ్ లేదు)"
+
+msgid ", audio on A2"
+msgstr ", ఆడియో A2 పై"
+
+msgid "Assignment file not readable: %s"
+msgstr "కేటాయింపు ఫైల్ చదవడం సాధ్యం కాదు: %s"
+
+msgid "Camera audio not usable: %s"
+msgstr "కెమెరా ఆడియో ఉపయోగించలేము: %s"
+
+msgid "MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and only %s was found.\n  A track is a recording of its own, a channel of a multichannel\n  recorder, or the audio of a camera -- that counts as soon as its\n  Camera audio says \"use internal audio\". Without two of them there\n  is nothing to decouple, and the same file runs through as an\n  ordinary production."
+msgstr "MULTITRACK సాధ్యం కాదు\n  కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు అవసరం, కానీ %s మాత్రమే దొరికింది.\n  ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక\n  ఛానల్, లేదా ఒక కెమెరా ఆడియో -- దాని కెమెరా ఆడియో \"అంతర్గత ఆడియో వాడు\"\n  అని ఉన్న వెంటనే అది లెక్కలోకి వస్తుంది. అలాంటివి రెండు లేకపోతే విడదీయడానికి\n  ఏమీ ఉండదు, అదే ఫైల్ ఒక సాధారణ ప్రొడక్షన్‌గా\n  నడుస్తుంది."
+
+msgid "No preset is called %r."
+msgstr "%r అనే ప్రీసెట్ లేదు."
+
+msgid "No sound in the cameras -- nothing to work with."
+msgstr "కెమెరాలలో ఆడియో లేదు -- పని చేయడానికి ఏమీ లేదు."
+
+msgid "Only one audio file and no picture -- nothing to do."
+msgstr "ఒకే ఆడియో ఫైల్, చిత్రం లేదు -- చేయడానికి ఏమీ లేదు."
+
+msgid "Open project ..."
+msgstr "ప్రాజెక్ట్ తెరువు ..."
+
+msgid "Save project"
+msgstr "ప్రాజెక్ట్ సేవ్ చేయి"
+
+msgid "Close project"
+msgstr "ప్రాజెక్ట్ మూసివేయి"
+
+msgid "The project file goes into the output folder, and none is chosen yet. Please choose one."
+msgstr "ప్రాజెక్ట్ ఫైల్ అవుట్‌పుట్ ఫోల్డర్‌లోకి వెళ్తుంది, కానీ ఇంకా ఏదీ ఎంచుకోలేదు. దయచేసి ఒకటి ఎంచుకోండి."
+
+msgid "Written:\n\n  %s"
+msgstr "రాయబడింది:\n\n  %s"
+
+msgid "Nothing was written -- there is no material yet."
+msgstr "ఏదీ రాయబడలేదు -- ఇంకా మెటీరియల్ లేదు."
+
+msgid "\nWHO ASKS -- a proposal, and nothing is set from it"
+msgstr "\nఎవరు అడుగుతారు -- ఇది ఒక సూచన, దీని నుండి ఏదీ సెట్ చేయబడదు"
+
+msgid "  %-20s %s speaking, %s of %s sentences a question"
+msgstr "  %-20s మాట్లాడిన సమయం %s, %s / %s వాక్యాలు ప్రశ్నలు"
+
+msgid "  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all."
+msgstr "  క్రమం నమ్మదగినది, వాటి మధ్య దూరం కాదు: నాలుగు ఎపిసోడ్‌లలో కొలిచినప్పుడు క్రమం ఎప్పుడూ తిరగబడలేదు, కానీ మొదటి, చివరి వారి మధ్య దూరం నాలుగు రెట్లు మారింది. దీనికి ప్రతి ట్రాక్‌కు ఒక స్వరం కావాలి; రెండు ట్రాక్‌లలో ఒకే ప్రసంగం ఉంటే ఏమీ చెప్పబడదు."
+
+msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
+msgstr "  ఎవరు అడుగుతారు -- ఇక్కడ చెప్పబడదు: రెండు ట్రాక్‌లలో ఒకే ప్రసంగం ఉంది, కాబట్టి ప్రశ్నలు ఏ రికార్డర్ ఎక్కువ బిగ్గరగా సెట్ చేయబడిందో దానికే వెళ్తాయి."
+
+msgid "\nWHICH MICROPHONE -- a proposal, and nothing is set from it"
+msgstr "\nఏ మైక్రోఫోన్ -- ఇది ఒక సూచన, దీని నుండి ఏదీ సెట్ చేయబడదు"
+
+msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
+msgstr "  %-20s పోలిక: %-20s దానిలో %s %% ఆ ట్రాక్ లోపల, తదుపరిదానికంటే %s పాయింట్లు ముందు"
+
+msgid "  It holds under one assumption: one microphone per person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain."
+msgstr "  ఇది ఒక ఊహపై మాత్రమే నిలుస్తుంది: ప్రతి వ్యక్తికి ఒక మైక్రోఫోన్, ప్రతి మైక్రోఫోన్‌లో ఆ వ్యక్తి మాత్రమే. ట్రాక్‌లు వేరు చేయలేనంతగా అతివ్యాప్తి చెందితే, లేదా రెండు స్వరాలు ఒకే మైక్రోఫోన్‌ను సూచిస్తే, అనిశ్చితమైనది చెప్పడం కంటే అసలు ఏమీ చెప్పబడదు."
+
+msgid "\nWHAT THE VOICES COULD BE CALLED -- a proposal"
+msgstr "\nస్వరాలకు ఏ పేర్లు పెట్టవచ్చు -- ఒక సూచన"
+
+msgid "  %-20s could be called %s"
+msgstr "  %-20s పేరు ఇలా ఉండవచ్చు: %s"
+
+msgid "  %s hardly speaks inside the time window -- proposed: do not use."
+msgstr "  %s సమయ పరిధిలో దాదాపు మాట్లాడరు -- సూచన: ఉపయోగించవద్దు."
+
+msgid "Guest"
+msgstr "అతిథి"
+
+msgid "Host"
+msgstr "హోస్ట్"
+
+msgid "Host %d"
+msgstr "హోస్ట్ %d"
+
+msgid "  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting."
+msgstr "  ప్రోగ్రామ్ ఇచ్చిన పేరు ఇంకా ఉన్న స్వరాలకు మాత్రమే; ఎవరైనా టైప్ చేసిన పేరును ఎప్పుడూ ముట్టుకోదు. పాత్రలు ఎవరు అడుగుతారు, ఎవరు సమాధానమిస్తారు అనే దాని నుండి గుర్తించబడతాయి; ఇది ఒక అతిథితో సంభాషణకు వర్తిస్తుంది, ఇది ఒక సూచన మాత్రమే, సెట్టింగ్ కాదు."
+
+msgid "Skip this version"
+msgstr "ఈ వెర్షన్‌ను దాటవేయి"
+
+msgid "Only this one. The next release asks again, and Help > Look for a newer version now asks at any time."
+msgstr "ఇది ఒక్కటే. తదుపరి విడుదల మళ్లీ అడుగుతుంది, సహాయం > ఇప్పుడే కొత్త వెర్షన్ కోసం వెతుకు ఎప్పుడైనా అడుగుతుంది."
+
+msgid "  %s is there already -- not fetched twice"
+msgstr "  %s ఇప్పటికే ఉంది -- రెండోసారి తెచ్చుకోబడదు"
+
+msgid "The text for %s could not be fetched."
+msgstr "%s వెర్షన్ కోసం పాఠ్యాన్ని తెచ్చుకోవడం సాధ్యం కాలేదు."
+
+msgid "  Check:           one of the two tracks is not in the written file, so nothing was measured."
+msgstr "  తనిఖీ:             రెండు ట్రాక్‌లలో ఒకటి రాసిన ఫైల్‌లో లేదు, కాబట్టి ఏదీ కొలవబడలేదు."
+
+msgid "  Check:           the two tracks cannot be compared (match %s, %s is the floor). This says nothing about the timing."
+msgstr "  తనిఖీ:             రెండు ట్రాక్‌లను పోల్చలేము (సరిపోలిక %s, కనిష్ఠం %s). ఇది టైమింగ్ గురించి ఏమీ చెప్పదు."
+
+msgid "Project found"
+msgstr "ప్రాజెక్ట్ దొరికింది"
+
+msgid "Open the project"
+msgstr "ప్రాజెక్ట్ తెరువు"
+
+msgid "Everything comes back from it: names, separation, assignment, types, the time window. The list of files is replaced by the one the project holds."
+msgstr "దీని నుండి అన్నీ తిరిగి వస్తాయి: పేర్లు, వక్తల విభజన, కేటాయింపు, రకాలు, సమయ పరిధి. ఫైళ్ల జాబితా ప్రాజెక్ట్‌లో ఉన్న జాబితాతో భర్తీ చేయబడుతుంది."
+
+msgid "A project file lies with this material:\n\n  %s\n  written %s\n\n%s"
+msgstr "ఈ మెటీరియల్‌తో ఒక ప్రాజెక్ట్ ఫైల్ ఉంది:\n\n  %s\n  రాసిన సమయం %s\n\n%s"
+
+msgid "Several project files lie with this material. Which one?\n\n%s"
+msgstr "ఈ మెటీరియల్‌తో అనేక ప్రాజెక్ట్ ఫైళ్లు ఉన్నాయి. ఏది?\n\n%s"
+
+msgid "PROJECT OPENED\n  All entries are back, nothing has been computed in this session.\n  The output folder holds the files of the last run:\n  %s\n\n  Three ways from here:\n    • below \"Open result folder\" -- look at the files from that run,\n    • below \"Create Resolve project\" -- from that run's handover file,\n      without computing anything again,\n    • above \"Start\" -- compute everything again and overwrite the files.\n"
+msgstr "ప్రాజెక్ట్ తెరవబడింది\n  అన్ని ఎంట్రీలు తిరిగి వచ్చాయి, ఈ సెషన్‌లో ఏదీ లెక్కించబడలేదు.\n  అవుట్‌పుట్ ఫోల్డర్‌లో చివరి రన్ ఫైళ్లు ఉన్నాయి:\n  %s\n\n  ఇక్కడి నుండి మూడు మార్గాలు:\n    • కింద \"ఫలితాల ఫోల్డర్ తెరువు\" -- ఆ రన్ ఫైళ్లను చూడండి,\n    • కింద \"Resolve ప్రాజెక్ట్ సృష్టించు\" -- ఆ రన్ అప్పగింత ఫైల్ నుండి,\n      మళ్లీ ఏదీ లెక్కించకుండా,\n    • పైన \"ప్రారంభించు\" -- అన్నీ మళ్లీ లెక్కించి ఫైళ్లపై తిరిగి రాయండి.\n"
+
+msgid "PROJECT SAVED\n  %s\n  This run can be opened again later -- top left\n  \"Open project ...\"\n\n"
+msgstr "ప్రాజెక్ట్ సేవ్ చేయబడింది\n  %s\n  ఈ రన్‌ను తర్వాత మళ్లీ తెరవవచ్చు -- ఎగువ ఎడమవైపు\n  \"ప్రాజెక్ట్ తెరువు ...\"\n\n"
+
+msgid "Presets could not be loaded: %s"
+msgstr "ప్రీసెట్‌లను లోడ్ చేయడం సాధ్యం కాలేదు: %s"
+
+msgid "Several cameras but no audio file. Each camera would have its own audio --\nthat is what --multitrack is for. Otherwise one camera after another."
+msgstr "అనేక కెమెరాలు ఉన్నాయి కానీ ఆడియో ఫైల్ లేదు. ప్రతి కెమెరాకు దాని సొంత ఆడియో ఉంటుంది --\nదాని కోసమే --multitrack. లేకపోతే ఒక కెమెరా తర్వాత మరొకటి."
+
+msgid "The file is NOT recognised as HDR."
+msgstr "ఈ ఫైల్ HDR గా గుర్తించబడలేదు."
+
+msgid "The file is tagged as HDR."
+msgstr "ఈ ఫైల్‌కు HDR ట్యాగ్ ఉంది."
+
+msgid "Unknown extension, skipped: %s"
+msgstr "తెలియని ఎక్స్‌టెన్షన్, వదిలివేయబడింది: %s"
+
+msgid "Which Auphonic preset should process this file?"
+msgstr "ఈ ఫైల్‌ను ఏ Auphonic ప్రీసెట్ ప్రాసెస్ చేయాలి?"
+
+msgid "Would write: %s"
+msgstr "రాయబోయేది: %s"
+
+msgid "channel count unknown"
+msgstr "ఛానళ్ల సంఖ్య తెలియదు"
+
+msgid "is actively taken out"
+msgstr "క్రియాశీలంగా తొలగించబడుతుంది"
+
+msgid "not readable"
+msgstr "చదవలేనిది"
+
+msgid "the default device"
+msgstr "డిఫాల్ట్ పరికరం"
+
+msgid "\n    %s  --  %s, %s"
+msgstr "\n    %s  --  %s, %s"
+
+msgid "\n  %s: no audio to extract (%s)"
+msgstr "\n  %s: వెలికితీయడానికి ఆడియో లేదు (%s)"
+
+msgid "\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r"
+msgstr "\n  ఈ పేరుతో ఒక ప్రాజెక్ట్ ఇప్పటికే ఉంది: %r"
+
+msgid "\n  CLEAN UP AUDIO TRACKS"
+msgstr "\n  ఆడియో ట్రాక్‌లను శుభ్రపరచడం"
+
+msgid "\n  CLIPS IN THE MEDIA POOL"
+msgstr "\n  Media Pool లోని క్లిప్‌లు"
+
+msgid "\n  Not usable: %s"
+msgstr "\n  ఉపయోగించలేనివి: %s"
+
+msgid "\n  REFRESH THE CUT LIST"
+msgstr "\n  కట్ జాబితాను నవీకరించడం"
+
+msgid "\n  Render job"
+msgstr "\n  రెండర్ జాబ్"
+
+msgid "\n  Resolve part stopped: %s"
+msgstr "\n  Resolve భాగం ఆగిపోయింది: %s"
+
+msgid "\n  STOPPED: %s"
+msgstr "\n  ఆపివేయబడింది: %s"
+
+msgid "\n  Settings"
+msgstr "\n  సెట్టింగ్‌లు"
+
+msgid "\n  Stopped: %s"
+msgstr "\n  ఆపివేయబడింది: %s"
+
+msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
+msgstr "\n  ఈ పేరుతో ఇప్పటికే ఒక ప్రొడక్షన్ ఉంది"
+
+msgid "\n  This produces:"
+msgstr "\n  దీని నుండి ఏర్పడేవి:"
+
+msgid "\n=== Run %s ===\n\n"
+msgstr "\n=== రన్ %s ===\n\n"
+
+msgid "\nALREADY PROCESSED"
+msgstr "\nఇప్పటికే ప్రాసెస్ చేయబడింది"
+
+msgid "\nCAMERA COLOUR COMPARISON"
+msgstr "\nకెమెరాల రంగు పోలిక"
+
+msgid "\nCHECK THE RETURN"
+msgstr "\nతిరిగి వచ్చినదాన్ని తనిఖీ చేయడం"
+
+msgid "\nDIFFERENT FRAME RATES: %s"
+msgstr "\nవేర్వేరు ఫ్రేమ్ రేట్లు: %s"
+
+msgid "\nDIFFERENT FRAME SIZES: %s"
+msgstr "\nవేర్వేరు ఫ్రేమ్ పరిమాణాలు: %s"
+
+msgid "\nEnded without a result: %s"
+msgstr "\nఫలితం లేకుండా ముగిసింది: %s"
+
+msgid "\nFinished with errors.\n"
+msgstr "\nలోపాలతో ముగిసింది.\n"
+
+msgid "\nMEASURING THE TIME AXIS"
+msgstr "\nసమయ అక్షాన్ని కొలుస్తోంది"
+
+msgid "\nMETRICS"
+msgstr "\nగణాంకాలు"
+
+msgid "\nMIXING"
+msgstr "\nమిక్సింగ్"
+
+msgid "\nNORMALISE"
+msgstr "\nనార్మలైజ్ చేయడం"
+
+msgid "  No picture: the tracks are laid against each other."
+msgstr "  చిత్రం లేదు: ట్రాక్‌లను ఒకదానికొకటి సమలేఖనం చేస్తారు."
+
+msgid "  --lufs does nothing here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "  --lufs ఇక్కడ ఏమీ చేయదు: ట్రాక్‌లు రికార్డ్ అయినట్లే బయటకు వెళ్తాయి, లౌడ్‌నెస్ వాటిని మిక్స్ చేసే చోట సెట్ అవుతుంది."
+
+msgid "\nOnly one track found a place -- there is nothing left to lay it against."
+msgstr "\nఒక ట్రాక్‌కు మాత్రమే స్థానం దొరికింది -- దానిని పోల్చి అమర్చడానికి ఇంకేమీ మిగల్లేదు."
+
+msgid "  Window:              %s -- everything any track heard"
+msgstr "  సమయ పరిధి:             %s -- ఏ ట్రాక్ విన్నదైనా మొత్తం"
+
+msgid "    %s: silence for %s at the front and %s at the back"
+msgstr "    %s: ప్రారంభంలో %s, చివరలో %s నిశ్శబ్దం"
+
+msgid "\nOnly one track is left once the blocks are joined, and multitrack needs one per voice. Where two people were taken for one recording, --apart keeps a block out of it."
+msgstr "\nబ్లాక్‌లను కలిపాక ఒకే ట్రాక్ మిగిలింది, కానీ Multitrack కోసం ప్రతి స్వరానికి ఒక ట్రాక్ అవసరం. ఇద్దరు వ్యక్తులను ఒకే రికార్డింగ్‌గా పొరబడిన చోట, --apart ఒక బ్లాక్‌ను దాని నుండి వేరుగా ఉంచుతుంది."
+
+msgid "RECOGNISED PLAN"
+msgstr "గుర్తించిన ప్రణాళిక"
+
+msgid "\nNo audio track could be aligned -- there is nothing to put on the axis."
+msgstr "\nఏ ఆడియో ట్రాక్‌నూ సమలేఖనం చేయడం సాధ్యం కాలేదు -- అక్షంపై ఉంచడానికి ఏమీ లేదు."
+
+msgid "\nSound and picture have only %s in common, and the alignment found %s sample points in it. That is too little to place anything on."
+msgstr "\nఆడియో, చిత్రం మధ్య ఉమ్మడిగా ఉన్నది %s మాత్రమే, అందులో సమలేఖనం %s నమూనా బిందువులను కనుగొంది. దేనినైనా దానిపై ఉంచడానికి అది చాలా తక్కువ."
+
+msgid "  %s: %s mixed together"
+msgstr "  %s: %s కలిపి మిక్స్ చేయబడ్డాయి"
+
+msgid "\nNo usable video file -- without camera audio there is no common time axis."
+msgstr "\nఉపయోగించదగిన వీడియో ఫైల్ లేదు -- కెమెరా ఆడియో లేకుండా ఉమ్మడి సమయ అక్షం ఉండదు."
+
+msgid "\nPREFLIGHT -- %s"
+msgstr "\nముందస్తు తనిఖీ -- %s"
+
+msgid "\nPROCESSING: %s"
+msgstr "\nప్రాసెసింగ్: %s"
+
+msgid "\nRESOLVE -- INSPECT ONLY"
+msgstr "\nRESOLVE -- చూడటం మాత్రమే"
+
+msgid "\nRESULT"
+msgstr "\nఫలితం"
+
+msgid "\nSAVING TRACKS"
+msgstr "\nట్రాక్‌లను సేవ్ చేస్తోంది"
+
+msgid "\nStopped: %s"
+msgstr "\nఆపివేయబడింది: %s"
+
+msgid "\nWRITING TRACKS TO THE AXIS"
+msgstr "\nట్రాక్‌లను అక్షంపై రాస్తోంది"
+
+msgid "\r  [%-30s] 100 %%  %s  done%s\n"
+msgstr "\r  [%-30s] 100 %%  %s  పూర్తయింది%s\n"
+
+msgid "        Track %d: %s"
+msgstr "        ట్రాక్ %d: %s"
+
+msgid "      %-24s no file in the media pool"
+msgstr "      %-24s Media Pool లో ఫైల్ లేదు"
+
+msgid "      GetAudioMapping   empty (%r)"
+msgstr "      GetAudioMapping   ఖాళీ (%r)"
+
+msgid "    %-10s from %s, %s long%s"
+msgstr "    %-10s %s నుండి, నిడివి %s%s"
+
+msgid "    %-14s <-> %-14s sound path %4s ms (%s m), offset %6s ms, drift %5s ppm (%s points, %s ms left over)%s"
+msgstr "    %-14s <-> %-14s ధ్వని మార్గం %4s ms (%s m), ఆఫ్‌సెట్ %6s ms, విచలనం %5s ppm (%s బిందువులు, %s ms మిగిలింది)%s"
+
+msgid "    %-20s <- nothing suitable found"
+msgstr "    %-20s <- సరిపోయేది ఏదీ దొరకలేదు"
+
+msgid "    Careful: %s. There is no picture there;"
+msgstr "    జాగ్రత్త: %s. అక్కడ చిత్రం లేదు;"
+
+msgid "    Colour groups: %s -- all clips assigned"
+msgstr "    రంగు సమూహాలు: %s -- అన్ని క్లిప్‌లు కేటాయించబడ్డాయి"
+
+msgid "    Colours per angle:"
+msgstr "    ప్రతి యాంగిల్‌కు రంగులు:"
+
+msgid "    Cross-check:"
+msgstr "    అడ్డ తనిఖీ:"
+
+msgid "    Left without picture: %s"
+msgstr "    చిత్రం లేకుండా మిగిలినవి: %s"
+
+msgid "    No MP4 format found. Available: %s"
+msgstr "    MP4 ఫార్మాట్ దొరకలేదు. అందుబాటులో ఉన్నవి: %s"
+
+msgid "    No clips found."
+msgstr "    క్లిప్‌లు ఏవీ దొరకలేదు."
+
+msgid "    No matching codec found. Available: %s"
+msgstr "    సరిపోయే కోడెక్ దొరకలేదు. అందుబాటులో ఉన్నవి: %s"
+
+msgid "    Render settings rejected."
+msgstr "    రెండర్ సెట్టింగ్‌లు తిరస్కరించబడ్డాయి."
+
+msgid "    the measured window is therefore kept."
+msgstr "    అందువల్ల కొలిచిన సమయ పరిధే ఉంచబడుతుంది."
+
+msgid "  %s shots, %s s in total, without their audio."
+msgstr "  %s షాట్‌లు, మొత్తం %s s, వాటి ఆడియో లేకుండా."
+
+msgid "  %s video tracks, %s audio tracks created (%s)"
+msgstr "  %s వీడియో ట్రాక్‌లు, %s ఆడియో ట్రాక్‌లు సృష్టించబడ్డాయి (%s)"
+
+msgid "  %s gets %s tracks mixed together: %s"
+msgstr "  %s ఫైల్‌కు %s ట్రాక్‌లు కలిపి మిక్స్ అవుతాయి: %s"
+
+msgid "  Audio track %d:   %s"
+msgstr "  ఆడియో ట్రాక్ %d:       %s"
+
+msgid "  Camera atoms:    %s added -- %s"
+msgstr "  కెమెరా ఆటమ్‌లు:       %s జోడించబడ్డాయి -- %s"
+
+msgid "    %s: %s at the front and %s at the back have no picture and are left out"
+msgstr "    %s: ప్రారంభంలో %s, చివరలో %s చిత్రం లేనందున వదిలివేయబడతాయి"
+
+msgid "    it begins with %s and ends with %s -- the stretch every camera saw"
+msgstr "    ప్రారంభం: %s, ముగింపు: %s -- ప్రతి కెమెరా చూసిన భాగం"
+
+msgid "\nStopping. The run ends as soon as it can do so without leaving a file half written -- one moment.\n"
+msgstr "\nఆపుతోంది. ఏ ఫైల్‌నూ సగం రాసి వదలకుండా వీలైనంత త్వరగా రన్ ముగుస్తుంది -- ఒక్క క్షణం.\n"
+
+msgid "The wide shot holds %s s, less than the shortest shot of %s s -- so it is merged away again and never appears.\n"
+msgstr "వైడ్ షాట్ %s s ఉంటుంది, అది కనీస షాట్ నిడివి %s s కన్నా తక్కువ -- అందుకే అది మళ్లీ కలిసిపోయి ఎప్పటికీ కనిపించదు.\n"
+
+msgid "\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n"
+msgstr "\nకొలత పూర్తయింది. ఏమీ రాయబడలేదు -- ట్రయల్ రన్ ఫలితాల ఫోల్డర్‌ను ఉన్నట్లే వదిలేస్తుంది.\n"
+
+msgid "\nStopped during: %s"
+msgstr "\nఈ దశలో ఆగిపోయింది: %s"
+
+msgid "Everything after that step is missing. The folder holds a part of a run, not a result."
+msgstr "ఆ దశ తర్వాతిదంతా లేదు. ఫోల్డర్‌లో ఉన్నది రన్‌లో ఒక భాగం, ఫలితం కాదు."
+
+msgid "  Common window:       %s to %s (%s)"
+msgstr "  ఉమ్మడి సమయ పరిధి:        %s నుండి %s వరకు (%s)"
+
+msgid "  Created:     %s"
+msgstr "  సృష్టి సమయం:    %s"
+
+msgid "  Error while writing: %s"
+msgstr "  రాస్తున్నప్పుడు లోపం: %s"
+
+msgid "  File:    %s (%s, %s)"
+msgstr "  ఫైల్:    %s (%s, %s)"
+
+msgid "  Two channels requested -- the recording is stereo"
+msgstr "  రెండు ఛానళ్లు కోరబడ్డాయి -- రికార్డింగ్ స్టీరియో"
+
+msgid "  From %s"
+msgstr "  మూలం: %s"
+
+msgid "  In summary: %s"
+msgstr "  సారాంశం: %s"
+
+msgid "  In the archive: %s"
+msgstr "  ఆర్కైవ్‌లో: %s"
+
+msgid "  Missing:     %s"
+msgstr "  లేనివి:          %s"
+
+msgid "  Player: %s"
+msgstr "  ప్లేయర్: %s"
+
+msgid "  Production:  %s"
+msgstr "  ప్రొడక్షన్:       %s"
+
+msgid "  Project %r"
+msgstr "  ప్రాజెక్ట్ %r"
+
+msgid "  Project %r created."
+msgstr "  ప్రాజెక్ట్ %r సృష్టించబడింది."
+
+msgid "  Result:            about %s LUFS, peak %s dBTP"
+msgstr "  ఫలితం:              సుమారు %s LUFS, పీక్ %s dBTP"
+
+msgid "  Results:"
+msgstr "  ఫలితాలు:"
+
+msgid "  Results:     none"
+msgstr "  ఫలితాలు:        ఏవీ లేవు"
+
+msgid "  The existing files are reused -- recomputing costs nothing."
+msgstr "  ఉన్న ఫైళ్లు మళ్లీ వాడబడతాయి -- మళ్లీ లెక్కించడానికి ఏ ఖర్చూ లేదు."
+
+msgid "  Time limit: %s"
+msgstr "  సమయ పరిమితి: %s"
+
+msgid "  To upload:   %s"
+msgstr "  అప్‌లోడ్ చేయాల్సినది:  %s"
+
+msgid "  Tracks:      %s"
+msgstr "  ట్రాక్‌లు:        %s"
+
+msgid "  Tracks: %s"
+msgstr "  ట్రాక్‌లు: %s"
+
+msgid "  Transcript: %s"
+msgstr "  ట్రాన్స్‌క్రిప్ట్: %s"
+
+msgid "  Uploaded:"
+msgstr "  అప్‌లోడ్ అయినవి:"
+
+msgid "%s  Deviation:                      %s"
+msgstr "%s  వ్యత్యాసం:                         %s"
+
+msgid "%s  Deviation:                      %s  (%s frames)"
+msgstr "%s  వ్యత్యాసం:                         %s  (%s ఫ్రేమ్‌లు)"
+
+msgid "%s  Deviation:                      %s  (%s frames) -- fits"
+msgstr "%s  వ్యత్యాసం:                         %s  (%s ఫ్రేమ్‌లు) -- సరిపోతుంది"
+
+msgid "%s  Offset measured:                %s"
+msgstr "%s  కొలిచిన ఆఫ్‌సెట్:                      %s"
+
+msgid "%s  Offset per timecode:            %s"
+msgstr "%s  టైమ్‌కోడ్ ప్రకారం ఆఫ్‌సెట్:                %s"
+
+msgid "Abort: %s"
+msgstr "నిలిపివేత: %s"
+
+msgid "EXTRACTING CAMERA AUDIO"
+msgstr "కెమెరా ఆడియోను వెలికితీస్తోంది"
+
+msgid "FOR RESOLVE"
+msgstr "Resolve కోసం"
+
+msgid "NO AUDIO FILE -- USING THE CAMERA AUDIO"
+msgstr "ఆడియో ఫైల్ లేదు -- కెమెరా ఆడియోను వాడుతోంది"
+
+msgid "NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO"
+msgstr "వేర్వేరు ఆడియో రికార్డింగ్‌లు లేవు -- కెమెరా ఆడియోను వాడుతోంది"
+
+msgid "PROCESSING AT AUPHONIC.COM (MULTITRACK):"
+msgstr "AUPHONIC.COM లో ప్రాసెసింగ్ (MULTITRACK):"
+
+msgid "PROCESSING AT AUPHONIC.COM:"
+msgstr "AUPHONIC.COM లో ప్రాసెసింగ్:"
+
+msgid "Processing failed: %s"
+msgstr "ప్రాసెసింగ్ విఫలమైంది: %s"
+
+msgid "RESULT"
+msgstr "ఫలితం"
+
+msgid "Resolve part stopped: %s"
+msgstr "Resolve భాగం ఆగిపోయింది: %s"
+
+msgid "Stopped: %s"
+msgstr "ఆపివేయబడింది: %s"
+
+msgid "\n  To convert: in the media pool right-click \"%s Multicam\" >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  One way only -- but a new run rebuilds the Timeline at any time.\n  Angles:%s\n  Everything else -- audio choice, colour groups, framing -- is in the\n  manual, docs/resolve.md.\n"
+msgstr "\n  మార్చడానికి: Media Pool లో \"%s Multicam\" పై రైట్-క్లిక్ చేయండి >\n  \"Convert Timeline to Multicam Clip\" > \"Use Source Audio Channels\".\n  ఇది ఒకే దిశలో జరుగుతుంది -- కానీ కొత్త రన్ Timeline ను ఎప్పుడైనా మళ్లీ నిర్మిస్తుంది.\n  యాంగిల్‌లు:%s\n  మిగతా అంతా -- ఆడియో ఎంపిక, రంగు సమూహాలు, ఫ్రేమింగ్ -- మాన్యువల్‌లో ఉంది,\n  docs/resolve.md.\n"
+
+msgid "    %-26s all cameras side by side -- becomes the multicam clip"
+msgstr "    %-26s అన్ని కెమెరాలు పక్కపక్కనే -- ఇదే Multicam క్లిప్ అవుతుంది"
+
+msgid "    %-26s picture from the camera cut, audio in one piece"
+msgstr "    %-26s చిత్రం కెమెరా కట్ నుండి, ఆడియో ఒకే ముక్కగా"
+
+msgid "    %-26s the camera in one piece, the mix below"
+msgstr "    %-26s కెమెరా ఒకే ముక్కగా, కింద మిక్స్"
+
+msgid "   --   audio only"
+msgstr "   --   ఆడియో మాత్రమే"
+
+msgid "   -- not found"
+msgstr "   -- దొరకలేదు"
+
+msgid "   Caution: more than one frame"
+msgstr "   జాగ్రత్త: ఒక ఫ్రేమ్ కంటే ఎక్కువ"
+
+msgid "  %-20s offset %s ms%s, length %s s, spread %s ms, %s of %s points%s%s"
+msgstr "  %-20s ఆఫ్‌సెట్ %s ms%s, నిడివి %s s, విస్తరణ %s ms, %s/%s బిందువులు%s%s"
+
+msgid "  (this file ends earlier)"
+msgstr "  (ఈ ఫైల్ ముందుగానే ముగుస్తుంది)"
+
+msgid "  (this file starts later)"
+msgstr "  (ఈ ఫైల్ ఆలస్యంగా మొదలవుతుంది)"
+
+msgid "  --  no Resolve Timeline runs at this rate; it is converted"
+msgstr "  --  ఈ రేటుతో ఏ Resolve Timeline నడవదు; ఇది మార్చబడుతుంది"
+
+msgid "  --  this file is outside"
+msgstr "  --  ఈ ఫైల్ బయట ఉంది"
+
+msgid "  -->  aligned"
+msgstr "  -->  సమలేఖనం చేయబడింది"
+
+msgid "  -->  aligned, clock drift %s ppm taken out"
+msgstr "  -->  సమలేఖనం చేయబడింది, గడియార విచలనం %s ppm తొలగించబడింది"
+
+msgid "  Check:           %s against the camera track %s ms (match %s)%s"
+msgstr "  తనిఖీ:             %s, కెమెరా ట్రాక్‌తో పోలిస్తే %s ms (సరిపోలిక %s)%s"
+
+msgid "  Create it with \"Create Resolve project\" in the interface. Resolve must be running."
+msgstr "  ఇంటర్‌ఫేస్‌లో \"Resolve ప్రాజెక్ట్ సృష్టించు\" తో దీన్ని సృష్టించండి. Resolve నడుస్తూ ఉండాలి."
+
+msgid "  The handover file could not be written."
+msgstr "  అప్పగింత ఫైల్‌ను రాయడం సాధ్యం కాలేదు."
+
+msgid "  This produces the project, the import and %s:"
+msgstr "  దీని నుండి ప్రాజెక్ట్, ఇంపోర్ట్, ఇంకా %s ఏర్పడతాయి:"
+
+msgid " (paused)"
+msgstr " (ఆగి ఉంది)"
+
+msgid " (playing)"
+msgstr " (ప్లే అవుతోంది)"
+
+msgid " -- an In or Out point saves the upload"
+msgstr " -- ఇన్ లేదా అవుట్ పాయింట్ పెడితే దీన్ని అప్‌లోడ్ చేయాల్సిన అవసరం తప్పుతుంది"
+
+msgid " -- not readable"
+msgstr " -- చదవడం సాధ్యం కాదు"
+
+msgid " -- nothing to fault."
+msgstr " -- లోపాలేమీ లేవు."
+
+msgid " -- only the matrix says BT.2020"
+msgstr " -- మ్యాట్రిక్స్ మాత్రమే BT.2020 అని చెబుతోంది"
+
+msgid " and "
+msgstr " మరియు "
+
+msgid " from %s files"
+msgstr " %s ఫైళ్ల నుండి"
+
+msgid " not."
+msgstr " లేదు."
+
+msgid "%s blocks"
+msgstr "%s బ్లాక్‌లు"
+
+msgid "%s brought to the preset"
+msgstr "%s ప్రీసెట్‌కు అనుగుణంగా మార్చబడ్డాయి"
+
+msgid "%s channels -- cut into tracks, see the rows above."
+msgstr "%s ఛానళ్లు -- ట్రాక్‌లుగా విభజించబడతాయి, పై వరుసలు చూడండి."
+
+msgid "%s checked"
+msgstr "%s తనిఖీ చేయబడ్డాయి"
+
+msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
+msgstr "%s పోలికలు (మొత్తం %s లో) %s dB కన్నా తక్కువ -- ప్రతి రికార్డింగ్‌ను మిగతా ప్రతిదానితో, రెండు దిశల్లోనూ."
+
+msgid "%s of %s video files carry no curve and no colour space in the colr box%s -- probably log material."
+msgstr "%s ఫైళ్లు (మొత్తం %s వీడియో ఫైళ్లలో) colr బాక్స్‌లో కర్వ్ గానీ కలర్ స్పేస్ గానీ కలిగి లేవు%s -- బహుశా log మెటీరియల్."
+
+msgid "%r is a Timecode, but there is no picture here and so no camera to count it from. Then only a value from the window start works, such as +12:30."
+msgstr "%r ఒక టైమ్‌కోడ్, కానీ ఇక్కడ చిత్రం లేదు, కాబట్టి దానిని లెక్కించడానికి ఆధారమైన కెమెరా కూడా లేదు. అప్పుడు సమయ పరిధి ప్రారంభం నుండి ఇచ్చే విలువ మాత్రమే పనిచేస్తుంది, ఉదాహరణకు +12:30."
+
+msgid "%r is a Timecode, but the time axis hangs on no clock: no file here carries one, the reference camera %s included. Then only a value from the window start works, such as +12:30."
+msgstr "%r ఒక టైమ్‌కోడ్, కానీ సమయ అక్షం ఏ గడియారానికీ కట్టబడలేదు: ఇక్కడ ఏ ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు, ఆధార కెమెరా %s కూడా అంతే. అప్పుడు సమయ పరిధి ప్రారంభం నుండి ఇచ్చే విలువ మాత్రమే పనిచేస్తుంది, ఉదాహరణకు +12:30."
+
+msgid "%r is not a Multitrack preset"
+msgstr "%r ఒక Multitrack ప్రీసెట్ కాదు"
+
+msgid "%r is not a number."
+msgstr "%r ఒక సంఖ్య కాదు."
+
+msgid "%s\n   does not fit the other files: sound not recognised, no timecode.\n   %s"
+msgstr "%s\n   ఇతర ఫైళ్లకు సరిపోదు: ఆడియో గుర్తించబడలేదు, టైమ్‌కోడ్ లేదు.\n   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "సెట్ చేయబడింది: %s; %s ఒక్క క్లిక్ దూరంలో ఉంది."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "వదిలివేయబడింది, ఎందుకంటే %s ఇప్పటికే తీసుకోబడింది; %s ఒక్క క్లిక్ దూరంలో ఉంది."
+
+msgid "Its sound cannot be used."
+msgstr "దీని ఆడియో ఉపయోగపడదు."
+
+msgid "%s\n   sound not recognised; placed by its timecode"
+msgstr "%s\n   ఆడియో గుర్తించబడలేదు; దాని టైమ్‌కోడ్ ఆధారంగా ఉంచబడింది"
+
+msgid "%s   --   the app does not know this format"
+msgstr "%s   --   ఈ ఫార్మాట్ యాప్‌కు తెలియదు"
+
+msgid "%s  (%s)  --  %s  --  %s blocks"
+msgstr "%s  (%s)  --  %s  --  %s బ్లాక్‌లు"
+
+msgid "%s -- what should happen with it?\nThe details are in the log."
+msgstr "%s -- దీనితో ఏం చేయాలి?\nవివరాలు లాగ్‌లో ఉన్నాయి."
+
+msgid "%s kHz instead of %s kHz -- converted during processing."
+msgstr "%s kHz ఉంది, %s kHz కాదు -- ప్రాసెసింగ్ సమయంలో మార్చబడుతుంది."
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and the file carries no timecode. It needs one that fits the other recordings, and that has to be set with another program."
+msgstr "%s ఫైల్‌ను ఎక్కడా ఉంచలేము: దీని ఆడియోకు మిగతా మెటీరియల్‌తో ఉమ్మడి ఏమీ లేదు, ఫైల్‌లో టైమ్‌కోడ్ కూడా లేదు. ఇతర రికార్డింగ్‌లకు సరిపోయే టైమ్‌కోడ్ దీనికి కావాలి, దాన్ని వేరే ప్రోగ్రామ్‌తో సెట్ చేయాలి."
+
+msgid "%s fits nothing in the material and is far shorter than the rest: proposed as the intro, which is put at the front and never measured."
+msgstr "%s ఫైల్ మెటీరియల్‌లో దేనికీ సరిపోదు, మిగతావాటి కంటే చాలా చిన్నది: ఇంట్రోగా సూచించబడింది, ఇంట్రో ముందు ఉంచబడుతుంది, ఎప్పుడూ కొలవబడదు."
+
+msgid "%s is set, and nothing is adjusted here: the tracks leave as they were recorded, and the loudness is set where they are mixed."
+msgstr "%s సెట్ చేయబడింది, కానీ ఇక్కడ ఏదీ సర్దుబాటు చేయబడదు: ట్రాక్‌లు రికార్డ్ అయినట్లే బయటకు వెళ్తాయి, లౌడ్‌నెస్ వాటిని మిక్స్ చేసే చోట సెట్ అవుతుంది."
+
+msgid "%s can be placed again and is back in the run."
+msgstr "%s ఫైల్‌ను మళ్లీ ఉంచవచ్చు, అది తిరిగి రన్‌లో ఉంది."
+
+msgid "%s could not be installed.\nBy hand:  %s -m pip install %s"
+msgstr "ఇన్‌స్టాల్ చేయడం సాధ్యం కాలేదు: %s.\nచేతితో:  %s -m pip install %s"
+
+msgid "%s has no audio track."
+msgstr "%s ఫైల్‌లో ఆడియో ట్రాక్ లేదు."
+
+msgid "%s in %s"
+msgstr "%s, వీటిలో: %s"
+
+msgid "%s in %s's microphone: %s dB quieter than in their own."
+msgstr "%s, %s మైక్రోఫోన్‌లో: సొంత మైక్రోఫోన్‌లో కంటే %s dB తక్కువ."
+
+msgid "%s is in %s -- the file is now in the player."
+msgstr "%s ఈ ఫైల్‌లో ఉంది: %s -- ఫైల్ ఇప్పుడు ప్లేయర్‌లో ఉంది."
+
+msgid "%s is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between."
+msgstr "%s ఫైల్ ఎపిసోడ్ సమయ అక్షంపై లేదు: ఇది మెటీరియల్ ముందు లేదా తర్వాత ఉంచబడుతుంది, లోపల కట్ చేయబడదు. ఇన్ పాయింట్, అవుట్ పాయింట్ మధ్యలో ఉన్నదానికే చెందుతాయి."
+
+msgid "%s is in none of the video files. Is there a timecode that fits the material?"
+msgstr "%s ఏ వీడియో ఫైల్‌లోనూ లేదు. మెటీరియల్‌కు సరిపోయే టైమ్‌కోడ్ అక్కడ ఉందా?"
+
+msgid "%s%s in %s's microphone only %s dB quieter"
+msgstr "%s%s, %s మైక్రోఫోన్‌లో కేవలం %s dB తక్కువ"
+
+msgid "%s: not seekable yet, will follow (%s)"
+msgstr "%s: ఇంకా స్థానం మార్చలేము, తర్వాత జరుగుతుంది (%s)"
+
+msgid "%s: not there"
+msgstr "%s: అక్కడ లేదు"
+
+msgid "%s: setPosition(%s), attempt %d, then at %s"
+msgstr "%s: setPosition(%s), ప్రయత్నం %d, ఆ తర్వాత %s వద్ద"
+
+msgid "%s: should go to %s%s -- %s"
+msgstr "%s: వెళ్లవలసిన స్థానం %s%s -- %s"
+
+msgid ", no audio"
+msgstr ", ఆడియో లేదు"
+
+msgid "-- only one camera"
+msgstr "-- ఒకే కెమెరా"
+
+msgid "--- jump to %s programme time%s ---"
+msgstr "--- జంప్: ప్రోగ్రామ్ సమయం %s%s ---"
+
+msgid "--- point set, programme time runs from %s ---"
+msgstr "--- స్థానం సెట్ అయింది, ప్రోగ్రామ్ సమయం %s నుండి నడుస్తుంది ---"
+
+msgid "... or add files ..."
+msgstr "... లేదా ఫైళ్లను జోడించు ..."
+
+msgid "/not seekable"
+msgstr "/స్థానం మార్చలేము"
+
+msgid "<span style='color:%(t)s'><b>%(n)s shots</b>, median %(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), %(wide)s %% on the wide shot (%(wide_t)s), <span style='color:%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not active</span>"
+msgstr "<span style='color:%(t)s'><b>%(n)s షాట్‌లు</b>, మధ్యగతం %(med)s s, అతి చిన్నది %(short)s s, ఒక కెమెరాపై అతి పొడవైనది %(long)s s</span>. మాట్లాడిన సమయం: <b>%(own)s %%</b> వక్త సొంత కెమెరాపై (%(own_t)s), %(wide)s %% వైడ్ షాట్‌పై (%(wide_t)s), <span style='color:%(warn)s'>%(off)s %% (%(off_t)s) సమయం వక్త కెమెరా సక్రియంగా లేదు</span>"
+
+msgid "Every pair of channels is judged on its own: one stereo track, or two microphones and therefore two tracks. Silent inputs drop out. The rows under the file say what was measured, and the tick overrules it."
+msgstr "ప్రతి ఛానల్ జతను విడిగా అంచనా వేస్తారు: ఒక స్టీరియో ట్రాక్, లేదా రెండు మైక్రోఫోన్‌లు, అంటే రెండు ట్రాక్‌లు. నిశ్శబ్ద ఇన్‌పుట్‌లు తొలగిపోతాయి. ఫైల్ కింది వరుసలు ఏమి కొలవబడిందో చెబుతాయి, టిక్ దానిని అధిగమిస్తుంది."
+
+msgid "A negative value makes the picture lead the sound."
+msgstr "రుణాత్మక విలువ చిత్రాన్ని ఆడియో కంటే ముందుకు నడిపిస్తుంది."
+
+msgid "Add files ..."
+msgstr "ఫైళ్లను జోడించు ..."
+
+msgid "Alignment goes by the measured offset; the timecode is only the cross-check."
+msgstr "సమలేఖనం కొలిచిన ఆఫ్‌సెట్ ఆధారంగా జరుగుతుంది; టైమ్‌కోడ్ కేవలం అడ్డ తనిఖీ మాత్రమే."
+
+msgid "All recordings carry the same name -- that makes a single track."
+msgstr "అన్ని రికార్డింగ్‌లకు ఒకే పేరు ఉంది -- దాంతో ఒకే ట్రాక్ ఏర్పడుతుంది."
+
+msgid "All rows carry the same name -- that makes a single track, and Multitrack needs at least two."
+msgstr "అన్ని వరుసలకు ఒకే పేరు ఉంది -- దాంతో ఒకే ట్రాక్ ఏర్పడుతుంది, కానీ Multitrack కు కనీసం రెండు కావాలి."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "కేటాయింపు: ఏ ఆడియో ట్రాక్ ఏ కెమెరాకు చెందుతుంది"
+
+msgid "Audio"
+msgstr "ఆడియో"
+
+msgid "Audio and video (%s);;All files (*)"
+msgstr "ఆడియో మరియు వీడియో (%s);;అన్ని ఫైళ్లు (*)"
+
+msgid "Audio at programme time"
+msgstr "ప్రోగ్రామ్ సమయంలో ఆడియో"
+
+msgid "Auphonic created different tracks than requested: %s instead of %s"
+msgstr "Auphonic కోరిన వాటికి భిన్నమైన ట్రాక్‌లను సృష్టించింది: వచ్చినవి %s, కోరినవి %s"
+
+msgid "Auphonic reports an error: %s"
+msgstr "Auphonic లోపాన్ని నివేదిస్తోంది: %s"
+
+msgid "Bleed"
+msgstr "బ్లీడ్"
+
+msgid "Blocks"
+msgstr "బ్లాక్‌లు"
+
+msgid "Both at once does not work: the returning tracks would go to one value, our own mix to the other. Either set --lufs %.0f or change the preset."
+msgstr "రెండూ ఒకేసారి పనిచేయవు: తిరిగి వచ్చే ట్రాక్‌లు ఒక విలువకు, ఈ ప్రోగ్రామ్ సొంత మిక్స్ మరో విలువకు వెళ్తాయి. --lufs %.0f సెట్ చేయండి లేదా ప్రీసెట్‌ను మార్చండి."
+
+msgid "Camera"
+msgstr "కెమెరా"
+
+msgid "Camera audio, %s to go ..."
+msgstr "కెమెరా ఆడియో, ఇంకా %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- ప్రివ్యూ  (నిడివి %s)"
+
+msgid "Why the run cannot start"
+msgstr "రన్ ఎందుకు మొదలవదు"
+
+msgid "Cannot start yet: %s"
+msgstr "ఇంకా ప్రారంభం సాధ్యం కాదు: %s"
+
+msgid "Change rejected: %s"
+msgstr "మార్పు తిరస్కరించబడింది: %s"
+
+msgid "Check again"
+msgstr "మళ్లీ తనిఖీ చేయి"
+
+msgid "Check the connection to Resolve again"
+msgstr "Resolve తో కనెక్షన్‌ను మళ్లీ తనిఖీ చేయి"
+
+msgid "Check itself failed: %s"
+msgstr "తనిఖీయే విఫలమైంది: %s"
+
+msgid "Check the key and fetch Presets."
+msgstr "కీని తనిఖీ చేసి ప్రీసెట్‌లను తెచ్చుకోండి."
+
+msgid "Chosen"
+msgstr "ఎంచుకున్నది"
+
+msgid "Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s"
+msgstr "గడియారం %7.2f%s | B1[%s] %s | B2[%s] %s | ఆడియో %s %s"
+
+msgid "Close"
+msgstr "మూసివేయి"
+
+msgid "Connects to Resolve again."
+msgstr "Resolve కు మళ్లీ కనెక్ట్ అవుతుంది."
+
+msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
+msgstr "కంటెంట్: మిగతా వాటిలాగే ఒక కెమెరా.\nవైడ్ షాట్: ఎవరూ ముందు కూర్చోని కెమెరా -- దీనికి వక్త ఉండరు, విరామంలోనూ ఒక్కరే ఎక్కువసేపు మాట్లాడినప్పుడూ కట్ దీనికి వెళ్తుంది.\nఇంట్రో, అవుట్రో పూర్తయిన క్లిప్‌లు -- సమలేఖనం చేయబడవు, ప్రాసెస్ చేయబడవు, Timeline లో ఉంచబడతాయి మాత్రమే.\nఈ వీడియోను విస్మరించు: ఫైల్ పూర్తిగా బయటే ఉంటుంది."
+
+msgid "  %s wide shots: the cut uses %s."
+msgstr "  %s వైడ్ షాట్‌లు: కట్ వాడేది %s."
+
+msgid "  Every camera carries a speaker, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing here."
+msgstr "  ప్రతి కెమెరాకు ఒక వక్త ఉన్నారు, కాబట్టి వైడ్ షాట్ లేదు: నాలుగు వైడ్ షాట్ సెట్టింగ్‌లు, అంచుల టిక్ ఇక్కడ ఏమీ చేయవు."
+
+msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
+msgstr "వక్తలు లేని కెమెరా ఏదీ లేదు, కాబట్టి వైడ్ షాట్ లేదు: నాలుగు వైడ్ షాట్ సెట్టింగ్‌లు, అంచుల టిక్ ఏమీ చేయవు. ఒక కెమెరాకు రకం \"వైడ్ షాట్\" ఇవ్వండి, లేదా ఒక కెమెరాను వక్త లేకుండా వదిలేయండి."
+
+msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
+msgstr "ఫేజ్ ఆధారంగా ఉంచబడింది, పదును %s (కనిష్ఠ స్థాయి %s), విచలనం తెలియదు"
+
+msgid "placed on the bands that move"
+msgstr "కదిలే ఫ్రీక్వెన్సీ బ్యాండ్‌ల ఆధారంగా ఉంచబడింది"
+
+msgid "Why the wide shot settings are grey"
+msgstr "వైడ్ షాట్ సెట్టింగ్‌లు ఎందుకు బూడిద రంగులో ఉన్నాయి"
+
+msgid "because no speaker is assigned to it"
+msgstr "ఎందుకంటే దీనికి ఏ వక్తా కేటాయించబడలేదు"
+
+msgid "marked as the wide shot -- it takes no speakers"
+msgstr "వైడ్ షాట్‌గా గుర్తించబడింది -- దీనికి వక్తలు ఉండరు"
+
+msgid "no speaker is assigned to it, but the cut uses %s"
+msgstr "దీనికి ఏ వక్తా కేటాయించబడలేదు, కానీ కట్ వాడేది %s"
+
+msgid "the cut uses %s"
+msgstr "కట్ వాడేది %s"
+
+msgid "Curve and colour space are missing from the file"
+msgstr "ఫైల్‌లో కర్వ్, కలర్ స్పేస్ లేవు"
+
+msgid "In point and Out point are available once the time axis is set -- from the timecode or measured."
+msgstr "సమయ అక్షం స్థిరపడిన తర్వాత ఇన్ పాయింట్, అవుట్ పాయింట్ అందుబాటులోకి వస్తాయి -- టైమ్‌కోడ్ నుండి లేదా కొలత ద్వారా."
+
+msgid "In point is %s before the first frame"
+msgstr "ఇన్ పాయింట్ మొదటి ఫ్రేమ్‌కు %s ముందు ఉంది"
+
+msgid "In point is now %s, but the existing files belong to %s.\n  The audio in the videos is cut to the old window -- press Start\n  above again."
+msgstr "ఇన్ పాయింట్ ఇప్పుడు %s, కానీ ఉన్న ఫైళ్లు %s కి చెందినవి.\n  వీడియోల్లోని ఆడియో పాత సమయ పరిధికి కత్తిరించబడింది -- పైన ఉన్న ప్రారంభ\n  బటన్‌ను మళ్లీ నొక్కండి."
+
+msgid "Out point is %s after the last frame"
+msgstr "అవుట్ పాయింట్ చివరి ఫ్రేమ్‌కు %s తర్వాత ఉంది"
+
+msgid "Out point is now %s; the window would be %s long, the existing\n  files are %s -- press Start above again."
+msgstr "అవుట్ పాయింట్ ఇప్పుడు %s; సమయ పరిధి నిడివి %s అవుతుంది, ఉన్న\n  ఫైళ్ల నిడివి %s -- పైన ఉన్న ప్రారంభ బటన్‌ను మళ్లీ నొక్కండి."
+
+msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
+msgstr "డెలివరీకి సాధారణంగా పరిమిత పరిధి వాడతారు. పూర్తి పరిధి తప్పు కాదు, కానీ కొన్ని ప్లేయర్‌లు దాన్ని తప్పుగా అర్థం చేసుకుంటాయి."
+
+msgid "Determines how auphonic.com processes the audio.\n\n\"%s\" leaves the key in place and still does not go there.\nThe audio is then only merged and normalised, not unmixed --\nand without separate tracks there is no camera cut."
+msgstr "auphonic.com ఆడియోను ఎలా ప్రాసెస్ చేయాలో ఇది నిర్ణయిస్తుంది.\n\n\"%s\" కీని అలాగే ఉంచుతుంది, అయినా అక్కడికి వెళ్లదు.\nఅప్పుడు ఆడియో కేవలం కలపబడి నార్మలైజ్ చేయబడుతుంది, విడదీయబడదు --\nవేర్వేరు ట్రాక్‌లు లేకుండా కెమెరా కట్ ఉండదు."
+
+msgid "Distance to mean"
+msgstr "సగటు నుండి దూరం"
+
+msgid "Drag audio and video files here"
+msgstr "ఆడియో, వీడియో ఫైళ్లను ఇక్కడికి లాగండి"
+
+msgid "Dry run: only measuring, nothing written, nothing uploaded."
+msgstr "ట్రయల్ రన్: కొలత మాత్రమే, ఏమీ రాయబడదు, ఏమీ అప్‌లోడ్ చేయబడదు."
+
+msgid "During greeting and farewell the picture stays wide."
+msgstr "స్వాగతం, వీడ్కోలు సమయంలో చిత్రం వైడ్‌గానే ఉంటుంది."
+
+msgid "The frames stand a little longer; the file is not any shorter for it. Editing software repeats about one frame every %s s, and picture and camera audio stay together."
+msgstr "ఫ్రేమ్‌లు కొంచెం ఎక్కువసేపు నిలుస్తాయి; దాని వల్ల ఫైల్ చిన్నదిగా మారదు. ఎడిటింగ్ సాఫ్ట్‌వేర్ సుమారు ప్రతి %s s కి ఒక ఫ్రేమ్‌ను పునరావృతం చేస్తుంది, చిత్రం, కెమెరా ఆడియో కలిసే ఉంటాయి."
+
+msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
+msgstr "ఫ్రేమ్‌లు కొంచెం తక్కువసేపు నిలుస్తాయి; దాని వల్ల ఫైల్ పొడవుగా మారదు. ఎడిటింగ్ సాఫ్ట్‌వేర్ సుమారు ప్రతి %s s కి ఒక ఫ్రేమ్‌ను వదిలేస్తుంది, చిత్రం, కెమెరా ఆడియో కలిసే ఉంటాయి."
+
+msgid "Eight bits are not enough for HDR: every gradient bands, and YouTube requires ten or twelve."
+msgstr "HDR కి ఎనిమిది బిట్‌లు సరిపోవు: ప్రతి గ్రేడియంట్‌లో పట్టీలు ఏర్పడతాయి, YouTube పది లేదా పన్నెండు కోరుతుంది."
+
+msgid "Envelope"
+msgstr "ఎన్వలప్"
+
+msgid "  %s is placed on %s, which is no camera of this run -- the cut names it all the same."
+msgstr "  %s ఈ ఫైల్‌పై ఉంచబడ్డారు: %s, ఇది ఈ రన్‌లోని కెమెరా కాదు -- అయినా కట్ దాని పేరును చూపుతుంది."
+
+msgid "Envelope failed: %s"
+msgstr "ఎన్వలప్ విఫలమైంది: %s"
+
+msgid "Envelopes and camera audio are prepared in the background."
+msgstr "ఎన్వలప్‌లు, కెమెరా ఆడియో నేపథ్యంలో సిద్ధం చేయబడుతున్నాయి."
+
+msgid "Every row needs a name -- at Auphonic it becomes the track ID."
+msgstr "ప్రతి వరుసకు ఒక పేరు కావాలి -- Auphonic లో అది track ID అవుతుంది."
+
+msgid "External preview -- the app does not know this format"
+msgstr "బాహ్య ప్రివ్యూ -- ఈ ఫార్మాట్ యాప్‌కు తెలియదు"
+
+msgid "Fetching audio"
+msgstr "ఆడియోను తెస్తోంది"
+
+msgid "Fetching audio ..."
+msgstr "ఆడియోను తెస్తోంది ..."
+
+msgid "File"
+msgstr "ఫైల్"
+
+msgid "Files are missing there -- without a new upload nothing can be computed.\n  With --auphonic-resume upload the script uploads again; this costs credit."
+msgstr "అక్కడ కొన్ని ఫైళ్లు లేవు -- కొత్త అప్‌లోడ్ లేకుండా ఏమీ లెక్కించడం సాధ్యం కాదు.\n  --auphonic-resume upload తో స్క్రిప్ట్ మళ్లీ అప్‌లోడ్ చేస్తుంది; దీనికి క్రెడిట్ ఖర్చవుతుంది."
+
+msgid "For HDR the usual choice is HEVC (Main 10), AV1 or VP9 Profile 2. YouTube takes H.264 too, but it needs more bitrate."
+msgstr "HDR కి సాధారణ ఎంపిక HEVC (Main 10), AV1 లేదా VP9 Profile 2. YouTube H.264 ను కూడా స్వీకరిస్తుంది, కానీ దానికి ఎక్కువ బిట్‌రేట్ కావాలి."
+
+msgid "For ten bits HEVC needs the Main 10 profile. In Resolve it sits under Deliver as \"Profile\"."
+msgstr "పది బిట్‌ల కోసం HEVC కి Main 10 ప్రొఫైల్ కావాలి. Resolve లో ఇది Deliver కింద \"Profile\" గా ఉంటుంది."
+
+msgid "%s fps, not the %s in the file -- %s fewer frames in the same length."
+msgstr "%s fps, ఫైల్‌లోని %s కాదు -- అదే నిడివిలో %s ఫ్రేమ్‌లు తక్కువ."
+
+msgid "%s fps, not the %s in the file -- %s more frames in the same length."
+msgstr "%s fps, ఫైల్‌లోని %s కాదు -- అదే నిడివిలో %s ఫ్రేమ్‌లు ఎక్కువ."
+
+msgid "Frame spacing varies by %s %% -- the frame timing is uneven."
+msgstr "ఫ్రేమ్‌ల మధ్య అంతరం %s %% మారుతుంది -- ఫ్రేమ్ సమయం అసమానంగా ఉంది."
+
+msgid "Free space there: %s"
+msgstr "అక్కడ ఖాళీ స్థలం: %s"
+
+msgid "Gap of %s between block %d and %d -- the camera stopped."
+msgstr "%s ఖాళీ, బ్లాక్ %d మరియు %d మధ్య -- కెమెరా ఆగిపోయింది."
+
+msgid "Drag to move the position."
+msgstr "స్థానాన్ని మార్చడానికి లాగండి."
+
+msgid "HDR needs 16 here (PQ, that is HDR10) or 18 (HLG). In Resolve: Gamma tag = ST.2084 or HLG. 14 is not an HDR curve but SDR in the BT.2020 space."
+msgstr "HDR కు ఇక్కడ 16 (PQ, అంటే HDR10) లేదా 18 (HLG) ఉండాలి. Resolve లో: Gamma tag = ST.2084 లేదా HLG. 14 HDR కర్వ్ కాదు, BT.2020 స్పేస్‌లోని SDR."
+
+msgid "HDR needs 9 here (BT.2020). In Resolve: Color space tag = Rec.2020."
+msgstr "HDR కు ఇక్కడ 9 (BT.2020) ఉండాలి. Resolve లో: Color space tag = Rec.2020."
+
+msgid "HDR needs 9 here (BT.2020, non-constant luminance)."
+msgstr "HDR కు ఇక్కడ 9 (BT.2020, స్థిరం కాని ప్రకాశం) ఉండాలి."
+
+msgid "HLG is display-referred -- it has no entry for the mastering display."
+msgstr "HLG డిస్‌ప్లే ఆధారితం -- దీనిలో మాస్టరింగ్ డిస్‌ప్లే కోసం ఎంట్రీ ఉండదు."
+
+msgid "If empty: next to each video file."
+msgstr "ఖాళీగా ఉంటే: ప్రతి వీడియో ఫైల్ పక్కన."
+
+msgid "It arose during the recording and cannot be changed now. The less the microphones are separated, the more cautiously De-Bleed at auphonic.com can work. Next time: three times as far from the neighbouring microphone as from your own mouth, then the neighbouring voice sits about %s dB lower."
+msgstr "ఇది రికార్డింగ్ సమయంలోనే ఏర్పడింది, ఇప్పుడు మార్చలేము. మైక్రోఫోన్‌లు ఎంత తక్కువగా వేరుపడి ఉంటే, auphonic.com లో బ్లీడ్ తొలగింపు అంత జాగ్రత్తగా మాత్రమే పనిచేయగలదు. తదుపరిసారి: పక్క మైక్రోఫోన్ నుండి, మీ సొంత నోటి నుండి ఉన్న దూరానికి మూడు రెట్లు దూరంగా ఉండండి; అప్పుడు పక్క స్వరం సుమారు %s dB తక్కువగా ఉంటుంది."
+
+msgid "%s fits nothing in the material, so it cannot be cut into the episode: set to Intro."
+msgstr "%s మెటీరియల్‌లో దేనికీ సరిపోదు, కాబట్టి ఎపిసోడ్‌లోకి కట్ చేయలేము: ఇంట్రోగా సెట్ చేయబడింది."
+
+msgid "%s fits nothing in the material either, and the intro is taken: left out."
+msgstr "%s కూడా మెటీరియల్‌లో దేనికీ సరిపోదు, ఇంట్రో ఇప్పటికే ఉంది: వదిలివేయబడింది."
+
+msgid "%s is already set as %s, and an episode has one of those. Answer differently here, or take the mark off that file first."
+msgstr "%s ఫైల్ ఇప్పటికే ఇలా సెట్ చేయబడింది: %s. ఒక ఎపిసోడ్‌కు అలాంటిది ఒక్కటే ఉంటుంది. ఇక్కడ వేరే సమాధానం ఇవ్వండి, లేదా ముందుగా ఆ ఫైల్ నుండి గుర్తును తీసివేయండి."
+
+msgid "It is in the logs atom of the picture description -- that is how Resolve recognises the input colour space. Different curves mean different input colour spaces."
+msgstr "ఇది చిత్ర వివరణలోని logs atom లో ఉంటుంది -- దాని ద్వారానే Resolve ఇన్‌పుట్ కలర్ స్పేస్‌ను గుర్తిస్తుంది. వేర్వేరు కర్వ్‌లు అంటే వేర్వేరు ఇన్‌పుట్ కలర్ స్పేస్‌లు."
+
+msgid "Jumps to the end of the window."
+msgstr "సమయ పరిధి చివరికి వెళ్తుంది."
+
+msgid "Jumps to the start of the window."
+msgstr "సమయ పరిధి ప్రారంభానికి వెళ్తుంది."
+
+msgid "Keychain"
+msgstr "Keychain"
+
+msgid "Limits the de-bleed: "
+msgstr "బ్లీడ్ తొలగింపును పరిమితం చేస్తుంది: "
+
+msgid "Load Presets and pick one, or leave the API Key empty."
+msgstr "ప్రీసెట్‌లను లోడ్ చేసి ఒకదాన్ని ఎంచుకోండి, లేదా API కీని ఖాళీగా వదిలేయండి."
+
+msgid "Main10 rejected -- the default stays"
+msgstr "Main10 తిరస్కరించబడింది -- డిఫాల్ట్ అలాగే ఉంటుంది"
+
+msgid "Measure only -- nothing is written or uploaded."
+msgstr "కొలత మాత్రమే -- ఏదీ రాయబడదు, అప్‌లోడ్ చేయబడదు."
+
+msgid "Measuring %s (%s of %s)"
+msgstr "కొలుస్తోంది: %s (%s, మొత్తం %s)"
+
+msgid "Measuring not possible: %s"
+msgstr "కొలవడం సాధ్యం కాదు: %s"
+
+msgid "Measuring the yardstick"
+msgstr "కొలమానాన్ని కొలుస్తోంది"
+
+msgid "Measuring time axis ..."
+msgstr "సమయ అక్షాన్ని కొలుస్తోంది ..."
+
+msgid "Missing audio %s filled with silence%s"
+msgstr "లేని ఆడియో %s నిశ్శబ్దంతో నింపబడింది%s"
+
+msgid "Module DaVinciResolveScript cannot be loaded: %s"
+msgstr "DaVinciResolveScript మాడ్యూల్ లోడ్ కాదు: %s"
+
+msgid "One audio track per person, kept apart all the way to auphonic.com.\nWorks without it as well -- then without de-bleed and leveler.\nIt needs two input tracks: a recording of its own, a channel of a\nmultichannel recorder, or the audio of a video file set to \"use\nthe audio\". The camera cut does not need this tick."
+msgstr "ప్రతి వ్యక్తికి ఒక ఆడియో ట్రాక్, auphonic.com వరకు వేరువేరుగా.\nఇది లేకుండా కూడా పనిచేస్తుంది -- అప్పుడు బ్లీడ్ తొలగింపు, లెవెలర్ లేకుండా.\nదీనికి రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి: సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని\nఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో.\nకెమెరా కట్‌కు ఈ టిక్ అవసరం లేదు."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multitrack (ప్రతి వక్తకు ఒక ట్రాక్)"
+
+msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
+msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి. ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో. ఒకే రికార్డింగ్‌లోని అనేక బ్లాక్‌లు ఒకటిగా లెక్కించబడతాయి, పక్కన పెట్టిన ట్రాక్‌లు అసలు లెక్కించబడవు."
+
+msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API కీ లేదు. --auphonic-api-key KEY ఇవ్వండి, AUPHONIC_TOKEN సెట్ చేయండి, లేదా ఇంటర్‌ఫేస్‌లో ఒకసారి గుర్తుంచుకునేలా చేయండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
+
+msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
+msgstr "ఏ ఆడియో ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు. ఇన్ పాయింట్, అవుట్ పాయింట్ మెటీరియల్ ప్రారంభం నుండి లెక్కించబడతాయి -- ఫైళ్ల పరస్పర స్థానం కొలవబడుతుంది."
+
+msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
+msgstr "ఇంకా ఏ ఆడియో వాడుకలో లేదు -- ఒక ఆడియో రికార్డింగ్ జోడించండి, లేదా ఫైల్ జాబితాలో ఒక వీడియో ఫైల్ కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
+
+msgid "No audio tracks are assigned."
+msgstr "ఏ ఆడియో ట్రాక్‌లూ కేటాయించబడలేదు."
+
+msgid "No camera is assigned, so there is nothing to cut between."
+msgstr "ఏ కెమెరా కేటాయించబడలేదు, కాబట్టి మార్చి కట్ చేయడానికి ఏమీ లేదు."
+
+msgid "No cameras assigned yet -- switch Multitrack on to do that."
+msgstr "ఇంకా ఏ కెమెరాలూ కేటాయించబడలేదు -- అందుకు Multitrack ఆన్ చేయండి."
+
+msgid "No connection to Resolve.\n  Is the program running? Is external scripting set to 'Local'\n  under Preferences > System > General?"
+msgstr "Resolve తో కనెక్షన్ లేదు.\n  ప్రోగ్రామ్ నడుస్తోందా? Preferences > System > General కింద external scripting\n  'Local' అని సెట్ చేయబడిందా?"
+
+msgid "No files or project opened yet."
+msgstr "ఇంకా ఫైళ్లు గానీ ప్రాజెక్ట్ గానీ తెరవలేదు."
+
+msgid "No files selected yet."
+msgstr "ఇంకా ఫైళ్లు ఎంచుకోలేదు."
+
+msgid "No input possible. Use %s %s to set what should happen."
+msgstr "ఇన్‌పుట్ సాధ్యం కాదు. ఏమి జరగాలో సెట్ చేయడానికి %s %s వాడండి."
+
+msgid "No player is built in here -- playback runs in ffplay in its own window."
+msgstr "ఇక్కడ అంతర్నిర్మిత ప్లేయర్ లేదు -- ప్లేబ్యాక్ ffplay లో దాని సొంత విండోలో నడుస్తుంది."
+
+msgid "No preset given, no input possible. Choose one of the above with --auphonic-preset NAME."
+msgstr "ప్రీసెట్ ఇవ్వలేదు, ఇన్‌పుట్ సాధ్యం కాదు. పైవాటిలో ఒకదాన్ని --auphonic-preset NAME ద్వారా ఎంచుకోండి."
+
+msgid "No presets stored in the account. One can be created in the web interface."
+msgstr "ఖాతాలో ఏ ప్రీసెట్‌లూ లేవు. వెబ్ ఇంటర్‌ఫేస్‌లో ఒకటి సృష్టించవచ్చు."
+
+msgid "No speaker is known here -- without who speaks when there is nothing to cut between."
+msgstr "ఇక్కడ ఏ వక్తా తెలియదు -- ఎవరు ఎప్పుడు మాట్లాడతారో తెలియకుండా మార్చి కట్ చేయడానికి ఏమీ లేదు."
+
+msgid "No voice has a camera yet -- with that every shot would be the same one."
+msgstr "ఇంకా ఏ స్వరానికీ కెమెరా లేదు -- ఇలా అయితే ప్రతి షాట్ ఒకటే అవుతుంది."
+
+msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
+msgstr "ఇంకా వక్తలు తెలియదు -- ఏదీ కొలవలేదు, ఏదీ వేరు చేయలేదు, ఈ ఫోల్డర్‌లో గానీ దాని ఉప ఫోల్డర్‌లలో గానీ పాత రన్ యొక్క అప్పగింత ఫైల్ లేదు: %s"
+
+msgid "Not found again after import: %s"
+msgstr "ఇంపోర్ట్ తర్వాత మళ్లీ కనబడలేదు: %s"
+
+msgid "from ffmpeg.org, and the folder into PATH"
+msgstr "ffmpeg.org నుండి, ఆపై ఫోల్డర్‌ను PATH లోకి"
+
+msgid "over the package manager: apt install ffmpeg, dnf install ffmpeg"
+msgstr "ప్యాకేజ్ మేనేజర్ ద్వారా: apt install ffmpeg, dnf install ffmpeg"
+
+msgid "Here: %s. Needed: %s or newer."
+msgstr "ఇక్కడ: %s. కావలసింది: %s లేదా కొత్తది."
+
+msgid "no answer"
+msgstr "సమాధానం లేదు"
+
+msgid "Nothing runs until that is put right."
+msgstr "అది సరిచేసే వరకు ఏదీ నడవదు."
+
+msgid "Nothing runs until that is put right. This way: %s"
+msgstr "అది సరిచేసే వరకు ఏదీ నడవదు. ఇలా: %s"
+
+msgid "Get it: %s"
+msgstr "పొందు: %s"
+
+msgid "Quit"
+msgstr "నిష్క్రమించు"
+
+msgid "That worked."
+msgstr "అది పనిచేసింది."
+
+msgid "Installing ffmpeg"
+msgstr "ffmpeg ఇన్‌స్టాల్ అవుతోంది"
+
+msgid "Start the program again to pick it up."
+msgstr "దాన్ని వాడుకోవడానికి ప్రోగ్రామ్‌ను మళ్లీ ప్రారంభించండి."
+
+msgid "Getting it takes a few minutes, and what it says appears under Output."
+msgstr "దాన్ని పొందడానికి కొన్ని నిమిషాలు పడుతుంది, అది చెప్పేది అవుట్‌పుట్ ట్యాబ్‌లో కనిపిస్తుంది."
+
+msgid "This takes a few minutes -- a package manager may build from source. What it says appears here."
+msgstr "దీనికి కొన్ని నిమిషాలు పడుతుంది -- ప్యాకేజ్ మేనేజర్ సోర్స్ నుండి బిల్డ్ చేయవచ్చు. అది చెప్పేది ఇక్కడ కనిపిస్తుంది."
+
+msgid "Now it is being compiled, and that is the long part: minutes on a fast machine and a good deal longer on an older one. Nothing is stuck -- a dot appears every few seconds for as long as it works."
+msgstr "ఇప్పుడు కంపైల్ అవుతోంది, ఇదే ఎక్కువ సమయం పట్టే భాగం: వేగవంతమైన కంప్యూటర్‌లో కొన్ని నిమిషాలు, పాతదానిలో ఇంకా చాలా ఎక్కువ. ఏదీ ఆగిపోలేదు -- పని జరుగుతున్నంత సేపు కొన్ని సెకన్లకు ఒక చుక్క కనిపిస్తుంది."
+
+msgid "ffmpeg is in place."
+msgstr "ffmpeg సిద్ధంగా ఉంది."
+
+msgid "The program reads it when it starts. It can start again now, or you can do that yourself later."
+msgstr "ప్రోగ్రామ్ ప్రారంభమయ్యేటప్పుడు దాన్ని చదువుతుంది. అది ఇప్పుడే మళ్లీ ప్రారంభం కావచ్చు, లేదా తర్వాత మీరే చేయవచ్చు."
+
+msgid "Start again now"
+msgstr "ఇప్పుడే మళ్లీ ప్రారంభించు"
+
+msgid "Starting again did not work. Close the window and start the program the way you did before."
+msgstr "మళ్లీ ప్రారంభం కాలేదు. విండోను మూసివేసి, ముందు చేసిన విధంగానే ప్రోగ్రామ్‌ను ప్రారంభించండి."
+
+msgid "  Taking the ffmpeg that is there out of the way first: %s"
+msgstr "  ముందుగా ఇప్పటికే ఉన్న ffmpeg ను పక్కకు జరుపుతోంది: %s"
+
+msgid "  A built ffmpeg 9.0.1 with soxr can be fetched: %s"
+msgstr "  soxr ఉన్న బిల్డ్ చేసిన ffmpeg 9.0.1 ను పొందవచ్చు: %s"
+
+msgid "  Fetch it now? [Y/n] "
+msgstr "  ఇప్పుడే పొందాలా? [Y/n] "
+
+msgid "  Fetching a built ffmpeg. It is a big one, so this takes a few minutes: %s"
+msgstr "  బిల్డ్ చేసిన ffmpeg ను పొందుతోంది. ఇది పెద్దది, కాబట్టి కొన్ని నిమిషాలు పడుతుంది: %s"
+
+msgid "  %s of %s MB"
+msgstr "  %s / %s MB"
+
+msgid "The build could not be fetched: %s"
+msgstr "బిల్డ్‌ను పొందలేకపోయింది: %s"
+
+msgid "  The build could not be unpacked: %s"
+msgstr "  బిల్డ్‌ను అన్‌ప్యాక్ చేయలేకపోయింది: %s"
+
+msgid "  The archive held %s of the two programs."
+msgstr "  ఆర్కైవ్‌లో రెండు ప్రోగ్రామ్‌లలో %s ఉన్నాయి."
+
+msgid "  It is here: %s"
+msgstr "  ఇది ఇక్కడ ఉంది: %s"
+
+msgid "install Homebrew from brew.sh, then this again"
+msgstr "brew.sh నుండి Homebrew ఇన్‌స్టాల్ చేసి, ఆపై ఇది మళ్లీ"
+
+msgid "This ffmpeg has soxr: the clock drift between cameras comes out in steps of 0.21 ppm."
+msgstr "ఈ ffmpeg లో soxr ఉంది: కెమెరాల మధ్య గడియార విచలనం 0.21 ppm దశలలో వస్తుంది."
+
+msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
+msgstr "ఈ ffmpeg లో soxr లేదు: కెమెరాల మధ్య గడియార విచలనం 0.21 కి బదులు 21 ppm దశలలో వస్తుంది."
+
+msgid "Everything works without it. Getting a build that has it takes a few minutes, and what it says appears under Output."
+msgstr "అది లేకుండా కూడా అంతా పనిచేస్తుంది. అది ఉన్న బిల్డ్‌ను పొందడానికి కొన్ని నిమిషాలు పడుతుంది, అది చెప్పేది అవుట్‌పుట్ ట్యాబ్‌లో కనిపిస్తుంది."
+
+msgid "Carry on"
+msgstr "కొనసాగించు"
+
+msgid "Not mandatory -- YouTube then applies default values (Sony BVM-X300). To get them: in Resolve switch on HDR10+ under Color Management, run \"Analyze All Shots\" on the Color page and tick \"Embed HDR10 Metadata\" when rendering."
+msgstr "తప్పనిసరి కాదు -- అప్పుడు YouTube డిఫాల్ట్ విలువలను (Sony BVM-X300) వాడుతుంది. వాటిని పొందడానికి: Resolve లో Color Management కింద HDR10+ ఆన్ చేసి, Color పేజీలో \"Analyze All Shots\" నడిపి, రెండర్ చేసేటప్పుడు \"Embed HDR10 Metadata\" టిక్ చేయండి."
+
+msgid "Not ready yet:"
+msgstr "ఇంకా సిద్ధంగా లేదు:"
+
+msgid "Nothing was audible in the tracks."
+msgstr "ట్రాక్‌లలో ఏమీ వినిపించలేదు."
+
+msgid "One audio recording has no speaker name yet."
+msgstr "ఒక ఆడియో రికార్డింగ్‌కు ఇంకా వక్త పేరు లేదు."
+
+msgid "One frame back."
+msgstr "ఒక ఫ్రేమ్ వెనక్కి."
+
+msgid "One second back."
+msgstr "ఒక సెకను వెనక్కి."
+
+msgid "Each shot in the colour of its camera. Hover for camera and duration, click to jump."
+msgstr "ప్రతి షాట్ దాని కెమెరా రంగులో. కెమెరా, నిడివి కోసం మౌస్ ఉంచండి, వెళ్లడానికి క్లిక్ చేయండి."
+
+msgid "Only one speaker"
+msgstr "ఒక్క వక్త మాత్రమే"
+
+msgid "Open json project file"
+msgstr "json ప్రాజెక్ట్ ఫైల్ తెరువు"
+
+msgid "Open result folder"
+msgstr "ఫలితాల ఫోల్డర్ తెరువు"
+
+msgid "Open the settings, where the key is."
+msgstr "కీ ఉన్న సెట్టింగ్‌లను తెరవండి."
+
+msgid "Order does not matter. For a multi-part recording the first block is enough."
+msgstr "క్రమం ముఖ్యం కాదు. అనేక భాగాల రికార్డింగ్‌కు మొదటి బ్లాక్ చాలు."
+
+msgid "Overwrite"
+msgstr "ఓవర్‌రైట్ చేయి"
+
+msgid "Overwrite files"
+msgstr "ఫైళ్లను ఓవర్‌రైట్ చేయి"
+
+msgid "Pane %d loads %s (%s)"
+msgstr "ప్యానెల్ %d లోడ్ చేస్తోంది: %s (%s)"
+
+msgid "Pane %d on %s"
+msgstr "ప్యానెల్ %d ఇప్పుడు: %s"
+
+msgid "Play and pause -- the space bar works too."
+msgstr "ప్లే, పాజ్ -- స్పేస్ బార్ కూడా పనిచేస్తుంది."
+
+msgid "Play and pause."
+msgstr "ప్లే, పాజ్."
+
+msgid "Playback not possible"
+msgstr "ప్లేబ్యాక్ సాధ్యం కాదు"
+
+msgid "Playing %s -- the processed track from auphonic.com,\nbrought to broadcast level. The same audio as in the camera cut."
+msgstr "ప్లే అవుతోంది: %s -- auphonic.com నుండి ప్రాసెస్ చేసిన ట్రాక్,\nప్రసార స్థాయికి తీసుకురాబడింది. కెమెరా కట్‌లో ఉన్న అదే ఆడియో."
+
+msgid "Playing %s -- the raw recording.\nIt is much quieter than the processed audio; once the tracks from auphonic.com\nare there, the preview takes those."
+msgstr "ప్లే అవుతోంది: %s -- ముడి రికార్డింగ్.\nఇది ప్రాసెస్ చేసిన ఆడియో కంటే చాలా తక్కువ శబ్దంతో ఉంటుంది; auphonic.com నుండి ట్రాక్‌లు\nవచ్చాక, ప్రివ్యూ వాటినే వాడుతుంది."
+
+msgid "Possible reasons:\n  1. Resolve is not running -- the interface answers only while the program runs.\n  2. Preferences > System > General: external scripting is set to \"None\" instead of \"Local\".\n  3. Free edition: external scripting is reported to be reserved for the Studio edition since version 19.1. I found no official statement -- this check measures it instead of claiming it."
+msgstr "సాధ్యమైన కారణాలు:\n  1. Resolve నడవడం లేదు -- ప్రోగ్రామ్ నడుస్తున్నప్పుడు మాత్రమే ఇంటర్‌ఫేస్ సమాధానం ఇస్తుంది.\n  2. Preferences > System > General: external scripting \"Local\"కు బదులు \"None\"గా సెట్ చేయబడింది.\n  3. ఉచిత ఎడిషన్: వెర్షన్ 19.1 నుండి external scripting Studio ఎడిషన్‌కు మాత్రమే అని నివేదికలు చెబుతున్నాయి. నాకు అధికారిక ప్రకటన దొరకలేదు -- ఈ తనిఖీ దాన్ని చెప్పడానికి బదులు కొలుస్తుంది."
+
+msgid "Prepare pane %d for %s"
+msgstr "ప్యానెల్ %d సిద్ధమవుతోంది: %s"
+
+msgid "Preset not readable: %s"
+msgstr "ప్రీసెట్ చదవలేము: %s"
+
+msgid "Preview not possible: %s"
+msgstr "ప్రివ్యూ సాధ్యం కాదు: %s"
+
+msgid "Preview running ..."
+msgstr "ప్రివ్యూ నడుస్తోంది ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "ముందస్తు పని -- ఆడియో చదివి ఎన్వలప్‌లు లెక్కించడం:\n"
+
+msgid "Primaries"
+msgstr "ప్రాథమిక రంగులు"
+
+msgid "Primaries number %d"
+msgstr "ప్రాథమిక రంగుల కోడ్ సంఖ్య %d"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "auphonic.com లో ప్రాసెసింగ్ (ఐచ్ఛికం)"
+
+msgid "Processing at auphonic.com with \"%s\""
+msgstr "\"%s\" తో auphonic.com లో ప్రాసెసింగ్"
+
+msgid "Production finished, but no ZIP with the individual tracks"
+msgstr "ప్రొడక్షన్ పూర్తయింది, కానీ వేర్వేరు ట్రాక్‌లతో ZIP లేదు"
+
+msgid "Production name"
+msgstr "ప్రొడక్షన్ పేరు"
+
+msgid "Chosen files"
+msgstr "ఎంచుకున్న ఫైళ్లు"
+
+msgid "Remove the chosen file from the list"
+msgstr "ఎంచుకున్న ఫైల్‌ను జాబితా నుండి తీసివేయి"
+
+msgid "Project %r could not be created."
+msgstr "ప్రాజెక్ట్ %r సృష్టించబడలేదు."
+
+msgid "Project %r could not be created. Is the name already in another folder?"
+msgstr "ప్రాజెక్ట్ %r సృష్టించబడలేదు. ఆ పేరు ఇప్పటికే మరో ఫోల్డర్‌లో ఉందా?"
+
+msgid "Project %r could not be opened."
+msgstr "ప్రాజెక్ట్ %r తెరవబడలేదు."
+
+msgid "Puts it back next to each video file."
+msgstr "దాన్ని మళ్లీ ప్రతి వీడియో ఫైల్ పక్కనకు తెస్తుంది."
+
+msgid "ROLLBACK FAILED (%s)"
+msgstr "రోల్‌బ్యాక్ విఫలమైంది (%s)"
+
+msgid "Reading audio track from %s"
+msgstr "ఆడియో ట్రాక్‌ను చదువుతోంది: %s"
+
+msgid "Resolutions"
+msgstr "రిజల్యూషన్‌లు"
+
+msgid "Resolve running ..."
+msgstr "Resolve నడుస్తోంది ..."
+
+msgid "Resolve scales to the Timeline resolution. Anything smaller is scaled up and gets softer."
+msgstr "Resolve Timeline రిజల్యూషన్‌కు స్కేల్ చేస్తుంది. అంతకంటే చిన్నది పెద్దది చేయబడి పదును తగ్గుతుంది."
+
+msgid "Response was not JSON: %s"
+msgstr "సమాధానం JSON కాదు: %s"
+
+msgid "Rows marked red show where the problem is; a tick on the tab means everything is there."
+msgstr "ఎరుపుగా గుర్తించిన వరుసలు సమస్య ఎక్కడ ఉందో చూపిస్తాయి; ట్యాబ్‌పై టిక్ ఉంటే అక్కడ అన్నీ ఉన్నాయని అర్థం."
+
+msgid "Save in Keychain"
+msgstr "Keychain లో సేవ్ చేయి"
+
+msgid "Save in Registry"
+msgstr "రిజిస్ట్రీలో సేవ్ చేయి"
+
+msgid "Select audio and video files"
+msgstr "ఆడియో, వీడియో ఫైళ్లను ఎంచుకోండి"
+
+msgid "Speakers, as the run measured them"
+msgstr "వక్తలు, రన్ కొలిచినట్లుగా"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "వక్తలు, ట్రాక్‌ల నుండి స్వయంగా కొలిచినవి"
+
+msgid "Started late or stopped early -- this voice is then missing from the mix in places."
+msgstr "ఆలస్యంగా ప్రారంభమైంది లేదా ముందుగానే ఆగిపోయింది -- అప్పుడు ఈ స్వరం మిక్స్‌లో కొన్ని చోట్ల ఉండదు."
+
+msgid "Stopped. Choose another production name -- then a new production\n  is created -- or pick one of the other options."
+msgstr "ఆపివేయబడింది. వేరే ప్రొడక్షన్ పేరు ఎంచుకోండి -- అప్పుడు కొత్త ప్రొడక్షన్\n  సృష్టించబడుతుంది -- లేదా ఇతర ఎంపికలలో ఒకదాన్ని ఎంచుకోండి."
+
+msgid "Stopped. Nothing was created."
+msgstr "ఆపివేయబడింది. ఏదీ సృష్టించబడలేదు."
+
+msgid "Stopped. Nothing was uploaded and nothing computed."
+msgstr "ఆపివేయబడింది. ఏదీ అప్‌లోడ్ చేయబడలేదు, ఏదీ లెక్కించబడలేదు."
+
+msgid "Used as it stands -- nothing is invented. Check in Resolve under Clip Attributes, tab Color Space: if it says \"Project\" there, the input colour space was not recognised and has to be set by hand."
+msgstr "ఉన్నది ఉన్నట్లుగా వాడబడుతుంది -- ఏదీ కల్పించబడదు. Resolve లో Clip Attributes, Color Space ట్యాబ్ కింద తనిఖీ చేయండి: అక్కడ \"Project\" అని ఉంటే, ఇన్‌పుట్ కలర్ స్పేస్ గుర్తించబడలేదు, దాన్ని చేతితో సెట్ చేయాలి."
+
+msgid "Takes the position from the picture."
+msgstr "స్థానాన్ని చిత్రం నుండి తీసుకుంటుంది."
+
+msgid "Ten seconds back."
+msgstr "పది సెకన్లు వెనక్కి."
+
+msgid "The Resolve interface is not where I expect it:\n  %s\n  %s"
+msgstr "Resolve ఇంటర్‌ఫేస్ నేను ఆశించిన చోట లేదు:\n  %s\n  %s"
+
+msgid "The Resolve interface is not where it should be."
+msgstr "Resolve ఇంటర్‌ఫేస్ ఉండవలసిన చోట లేదు."
+
+msgid "The Timeline gets one fixed rate -- the highest of them, or the next rate Resolve has above it. It converts the others; with 23.976 against 24 that is where its audio analysis tends to stall."
+msgstr "Timeline కు ఒకే స్థిర రేట్ ఉంటుంది -- వాటిలో అత్యధికమైనది, లేదా దానికంటే పైన Resolve లో ఉన్న తదుపరి రేట్. మిగతావాటిని అది మారుస్తుంది; 23.976, 24 ఎదురెదురుగా ఉన్నప్పుడు దాని ఆడియో విశ్లేషణ తరచుగా అక్కడే నిలిచిపోతుంది."
+
+msgid "The audio recording of every speaker, plus the cameras.\nThe order does not matter -- the program recognises what is what.\nFor a multi-part recording the first block is enough."
+msgstr "ప్రతి వక్త ఆడియో రికార్డింగ్, దానితో పాటు కెమెరాలు.\nక్రమం ముఖ్యం కాదు -- ఏది ఏమిటో ప్రోగ్రామ్ గుర్తిస్తుంది.\nఅనేక భాగాల రికార్డింగ్‌కు మొదటి బ్లాక్ చాలు."
+
+msgid "The cut has no picture there. When the Timeline is built the spot stays empty, the audio runs on."
+msgstr "అక్కడ కట్‌లో చిత్రం లేదు. Timeline నిర్మించినప్పుడు ఆ చోటు ఖాళీగా ఉంటుంది, ఆడియో కొనసాగుతుంది."
+
+msgid "The existing result is unusable: %s is missing there. With --auphonic-resume rerun it can be recomputed without uploading anything."
+msgstr "ఉన్న ఫలితం వాడలేనిది: అందులో ఇది లేదు: %s. --auphonic-resume rerun తో ఏదీ అప్‌లోడ్ చేయకుండా దాన్ని మళ్లీ లెక్కించవచ్చు."
+
+msgid "The cut rules leave no shot standing in these %s. A shorter shortest shot, or less wide shot, gives one again."
+msgstr "ఈ %s నిడివిలో కట్ నియమాలు ఏ షాట్‌నూ మిగల్చవు. తక్కువ కనీస షాట్ నిడివి, లేదా తక్కువ వైడ్ షాట్, మళ్లీ ఒక షాట్ ఇస్తుంది."
+
+msgid "The programme is %s long here -- nothing can be laid out in that. In point and Out point are what set it."
+msgstr "ఇక్కడ కార్యక్రమం నిడివి %s -- అందులో ఏదీ అమర్చలేము. దాన్ని నిర్ణయించేవి ఇన్ పాయింట్, అవుట్ పాయింట్."
+
+msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
+msgstr "సమయ పరిధి మెటీరియల్ బయట ఉంది: ఇన్ పాయింట్: %s, అవుట్ పాయింట్: %s, మెటీరియల్ నిడివి: %s."
+
+msgid "The first preset track sets the settings for all our tracks. Otherwise they come back unprocessed. Create a track in the preset in the web interface."
+msgstr "ప్రీసెట్‌లోని మొదటి ట్రాక్ మన అన్ని ట్రాక్‌లకు సెట్టింగ్‌లను నిర్ణయిస్తుంది. లేకపోతే అవి ప్రాసెస్ కాకుండా తిరిగి వస్తాయి. వెబ్ ఇంటర్‌ఫేస్‌లో ప్రీసెట్‌లో ఒక ట్రాక్ సృష్టించండి."
+
+msgid "That needs the handover file from a run, and there is none."
+msgstr "దానికి ఒక రన్ నుండి అప్పగింత ఫైల్ కావాలి, అది లేదు."
+
+msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
+msgstr "కీని Mac, Windows లో మాత్రమే నిల్వ చేయవచ్చు -- Keychain లో లేదా రిజిస్ట్రీలో. అది ఫైల్‌లోకి వెళ్లదు."
+
+msgid "%s -- being checked"
+msgstr "%s -- తనిఖీ అవుతోంది"
+
+msgid "The key was not saved: %s"
+msgstr "కీ సేవ్ కాలేదు: %s"
+
+msgid "The key was not saved"
+msgstr "కీ సేవ్ కాలేదు"
+
+msgid "The keychain is locked. Unlock it and try again."
+msgstr "Keychain లాక్ అయి ఉంది. దాన్ని అన్‌లాక్ చేసి మళ్లీ ప్రయత్నించండి."
+
+msgid "This run is a test run and the store still carries its real name, so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else first."
+msgstr "ఈ రన్ ఒక టెస్ట్ రన్, నిల్వకు ఇంకా దాని అసలు పేరే ఉంది, కాబట్టి ఏదీ రాయబడలేదు. ముందుగా KEY_SERVICE, KEY_ACCOUNT లేదా REG_PATH ను వేరే చోటుకు మళ్లించండి."
+
+msgid "The keychain is locked. Unlock it and this button wakes up."
+msgstr "Keychain లాక్ అయి ఉంది. దాన్ని అన్‌లాక్ చేస్తే ఈ బటన్ పనిచేస్తుంది."
+
+msgid "The keychain did not take the key. Keychain Access can say why."
+msgstr "Keychain కీని తీసుకోలేదు. ఎందుకో Keychain Access చెప్పగలదు."
+
+msgid "The registry did not take the key."
+msgstr "రిజిస్ట్రీ కీని తీసుకోలేదు."
+
+msgid "Open Keychain Access"
+msgstr "Keychain Access తెరువు"
+
+msgid "Opens the app that unlocks the keychain."
+msgstr "Keychain ను అన్‌లాక్ చేసే యాప్‌ను తెరుస్తుంది."
+
+msgid "  Keychain Access could not be opened: %s"
+msgstr "  Keychain Access తెరవబడలేదు: %s"
+
+msgid "The stored key is not accepted: %s"
+msgstr "నిల్వ చేసిన కీ అంగీకరించబడలేదు: %s"
+
+msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
+msgstr "AUPHONIC_TOKEN నుండి వచ్చిన కీ అంగీకరించబడలేదు: %s"
+
+msgid "What auphonic.com replied"
+msgstr "auphonic.com ఇచ్చిన సమాధానం"
+
+msgid "There is no key."
+msgstr "కీ లేదు."
+
+msgid "The key has a space or a line break at one end."
+msgstr "కీకి ఒక చివరన స్పేస్ లేదా లైన్ బ్రేక్ ఉంది."
+
+msgid "The key is broken in the middle by a space or a line break."
+msgstr "కీ మధ్యలో స్పేస్ లేదా లైన్ బ్రేక్‌తో విరిగిపోయింది."
+
+msgid "The key has a character in it that cannot be typed."
+msgstr "కీలో టైప్ చేయలేని అక్షరం ఉంది."
+
+msgid "The key is then in the %s, never in a file."
+msgstr "అప్పుడు కీ ఫైల్‌లో కాదు, ఇక్కడ ఉంటుంది: %s."
+
+msgid "The production has no name yet."
+msgstr "ప్రొడక్షన్‌కు ఇంకా పేరు లేదు."
+
+msgid "The recording assigned to this camera instead of the camera audio."
+msgstr "కెమెరా ఆడియోకు బదులు ఈ కెమెరాకు కేటాయించిన రికార్డింగ్."
+
+msgid "The run is still going."
+msgstr "రన్ ఇంకా కొనసాగుతోంది."
+
+msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "ఇంకా వక్తలు తెలియదు -- ఈ ట్యాబ్ తెరిచిన వెంటనే వారు ట్రాక్‌ల నుండి గుర్తించబడతారు. అందరూ ఒకే రికార్డింగ్‌లో ఉంటే, వక్త పేరు ఫీల్డ్‌లో \"అనేక వక్తలు\" ఎంచుకోవడమే మార్గం."
+
+msgid "The three numbers are primaries, curve and matrix. Different tags need different input colour spaces in Resolve -- otherwise one camera looks unlike the other."
+msgstr "మూడు సంఖ్యలు: ప్రాథమిక రంగులు, కర్వ్, మ్యాట్రిక్స్. వేర్వేరు ట్యాగ్‌లకు Resolve లో వేర్వేరు ఇన్‌పుట్ కలర్ స్పేస్‌లు కావాలి -- లేకపోతే ఒక కెమెరా మరొకదానిలా కనిపించదు."
+
+msgid "There are no separate audio recordings. Then the audio of the %s cameras is used -- each becomes a track, and Auphonic removes the bleed."
+msgstr "వేరువేరు ఆడియో రికార్డింగ్‌లు లేవు. అప్పుడు %s కెమెరాల ఆడియో వాడబడుతుంది -- ప్రతిదీ ఒక ట్రాక్ అవుతుంది, Auphonic బ్లీడ్‌ను తొలగిస్తుంది."
+
+msgid "There is no result yet."
+msgstr "ఇంకా ఫలితం లేదు."
+
+msgid "These files are neither audio nor video and stay out:\n\n  %s"
+msgstr "ఈ ఫైళ్లు ఆడియో కాదు, వీడియో కాదు, కాబట్టి బయటే ఉంటాయి:\n\n  %s"
+
+msgid "These files do not exist:\n  "
+msgstr "ఈ ఫైళ్లు లేవు:\n  "
+
+msgid "These files exist already and will be written again:\n\n  %s\n\nIs that intended?"
+msgstr "ఈ ఫైళ్లు ఇప్పటికే ఉన్నాయి, మళ్లీ రాయబడతాయి:\n\n  %s\n\nఅది ఉద్దేశపూర్వకమేనా?"
+
+msgid "These files no longer exist:\n  "
+msgstr "ఈ ఫైళ్లు ఇక లేవు:\n  "
+
+msgid "These names occur more than once:\n\n  %s\n\nThe recordings are merged into one track and laid end to end by their timecode. That is right if recording was stopped in between."
+msgstr "ఈ పేర్లు ఒకటి కంటే ఎక్కువ సార్లు ఉన్నాయి:\n\n  %s\n\nరికార్డింగ్‌లు ఒకే ట్రాక్‌గా కలపబడి, వాటి టైమ్‌కోడ్ ప్రకారం ఒకదాని తర్వాత ఒకటి ఉంచబడతాయి. మధ్యలో రికార్డింగ్ ఆపివేసి ఉంటే అది సరైనదే."
+
+msgid "These tracks got no file: %s"
+msgstr "ఈ ట్రాక్‌లకు ఫైల్ రాలేదు: %s"
+
+msgid "This Resolve project already exists"
+msgstr "ఈ Resolve ప్రాజెక్ట్ ఇప్పటికే ఉంది"
+
+msgid "This comes from the recording, not afterwards: the microphones sit too close together or too far from the mouth."
+msgstr "ఇది రికార్డింగ్ నుండే వస్తుంది, తర్వాత కాదు: మైక్రోఫోన్‌లు ఒకదానికొకటి చాలా దగ్గరగా లేదా నోటి నుండి చాలా దూరంగా ఉన్నాయి."
+
+msgid "This file cannot be played here, and ffplay is missing as a fallback."
+msgstr "ఈ ఫైల్‌ను ఇక్కడ ప్లే చేయలేము, ప్రత్యామ్నాయంగా ffplay కూడా లేదు."
+
+msgid "This is not a project file, and there is none in the same folder.\n\nThe search is for %s*.json -- the script writes it into the output folder at start."
+msgstr "ఇది ప్రాజెక్ట్ ఫైల్ కాదు, అదే ఫోల్డర్‌లో కూడా ఏదీ లేదు.\n\nవెతుకుతున్నది %s*.json -- స్క్రిప్ట్ ప్రారంభంలో దాన్ని అవుట్‌పుట్ ఫోల్డర్‌లో రాస్తుంది."
+
+msgid "This is what happens next"
+msgstr "తర్వాత జరిగేది ఇది"
+
+msgid "This name is on somebody else already. A name is a person, and the cut puts a person on one camera -- please give this voice its own."
+msgstr "ఈ పేరు ఇప్పటికే వేరొకరికి ఉంది. ఒక పేరు ఒక వ్యక్తి, కట్ ఒక వ్యక్తిని ఒక కెమెరాపై ఉంచుతుంది -- దయచేసి ఈ స్వరానికి దాని సొంత పేరు ఇవ్వండి."
+
+msgid "This name occurs more than once. The recordings would become one track -- for Multitrack auphonic.com needs at least two different ones."
+msgstr "ఈ పేరు ఒకటి కంటే ఎక్కువ సార్లు ఉంది. రికార్డింగ్‌లు ఒకే ట్రాక్ అవుతాయి -- Multitrack కోసం auphonic.com కు కనీసం రెండు వేర్వేరు ట్రాక్‌లు కావాలి."
+
+msgid "This production already exists"
+msgstr "ఈ ప్రొడక్షన్ ఇప్పటికే ఉంది"
+
+msgid "This production has no result yet."
+msgstr "ఈ ప్రొడక్షన్‌కు ఇంకా ఫలితం లేదు."
+
+msgid "Time limit of %s reached, production still running: %s/engine/status/%s"
+msgstr "సమయ పరిమితి %s ముగిసింది, ప్రొడక్షన్ ఇంకా నడుస్తోంది: %s/engine/status/%s"
+
+msgid "Timecode %s, the other files are at %s -- this clock was not set."
+msgstr "టైమ్‌కోడ్ %s, ఇతర ఫైళ్లు %s వద్ద ఉన్నాయి -- ఈ గడియారం సెట్ చేయబడలేదు."
+
+msgid "Timeline %r could not be created."
+msgstr "Timeline %r సృష్టించబడలేదు."
+
+msgid "Title at auphonic.com and start of the new file names."
+msgstr "auphonic.com లో శీర్షిక, కొత్త ఫైల్ పేర్ల ప్రారంభం."
+
+msgid "To the In point."
+msgstr "ఇన్ పాయింట్‌కు."
+
+msgid "To the start."
+msgstr "ప్రారంభానికి."
+
+msgid "Too many projects with this name."
+msgstr "ఈ పేరుతో చాలా ఎక్కువ ప్రాజెక్ట్‌లు ఉన్నాయి."
+
+msgid "Track"
+msgstr "ట్రాక్"
+
+msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
+msgstr "మార్చేటప్పుడు ట్రాక్‌లు జోడించబడ్డాయి (ఇప్పుడు %s). దాంతో మిక్స్\n  తప్పవుతుంది. దయచేసి auphonic.com లో ఫైల్ లేని ట్రాక్‌లను తొలగించండి."
+
+msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
+msgstr "కట్‌లో రెండు కెమెరాలు ఒకే కెమెరాగా మారాయి. వాటి ఫైళ్లకు ఒకే పేరు ఉంది, కాబట్టి వాటిలో ఒకదాని పేరు మార్చండి."
+
+msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
+msgstr "కట్‌లో రెండు కెమెరాలు ఒకే కెమెరాగా మారాయి: %s. వాటి ఫైళ్లకు ఒకే పేరు ఉంది, కాబట్టి వాటిలో ఒకదాని పేరు మార్చండి."
+
+msgid "Two cameras would produce the same file. The second would overwrite the first."
+msgstr "రెండు కెమెరాలు ఒకే ఫైల్‌ను సృష్టిస్తాయి. రెండోది మొదటిదాన్ని ఓవర్‌రైట్ చేస్తుంది."
+
+msgid "Two cameras would produce the same file: %s"
+msgstr "రెండు కెమెరాలు ఒకే ఫైల్‌ను సృష్టిస్తాయి: %s"
+
+msgid "Two cameras would produce the same new file. Please give different names."
+msgstr "రెండు కెమెరాలు ఒకే కొత్త ఫైల్‌ను సృష్టిస్తాయి. దయచేసి వేర్వేరు పేర్లు ఇవ్వండి."
+
+msgid "Uneven frame timing cannot be evened out through the audio. If the sample points spread during alignment as well, convert to a fixed frame rate."
+msgstr "అసమాన ఫ్రేమ్ టైమింగ్‌ను ఆడియో ద్వారా సరిచేయలేము. సమలేఖనం సమయంలో నమూనా బిందువులు కూడా చెదిరితే, స్థిర ఫ్రేమ్ రేట్‌కు మార్చండి."
+
+msgid "Video"
+msgstr "వీడియో"
+
+msgid "Video 1"
+msgstr "వీడియో 1"
+
+msgid "Video 2"
+msgstr "వీడియో 2"
+
+msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
+msgstr "Video Podcast Magic %s -- ముడి మెటీరియల్ ఎడిట్ చేసిన పాడ్‌కాస్ట్‌గా మారుతుంది"
+
+msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
+msgstr "వాల్యూమ్. 100 అత్యధికం -- Qt దానికంటే పైది ఏదీ తీసుకోదు."
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- ఒకేసారి మాట్లాడితే రెండుసార్లు లెక్కించబడుతుంది"
+
+msgid "Wide shot at most"
+msgstr "వైడ్ షాట్ గరిష్ఠం"
+
+msgid "Wide shot at the latest"
+msgstr "వైడ్ షాట్ అత్యంత ఆలస్యంగా"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "ప్రారంభంలో స్వాగతానికి, చివరలో వీడ్కోలుకు వైడ్ షాట్"
+
+msgid "Without it every player has to guess, and all guess SDR. In Resolve under Deliver > Advanced Settings set the Color space tag and the Gamma tag instead of leaving them at \"Same as Project\"."
+msgstr "అది లేకుండా ప్రతి ప్లేయర్ ఊహించాలి, అన్నీ SDR అని ఊహిస్తాయి. Resolve లో Deliver > Advanced Settings కింద Color space tag, Gamma tagలను \"Same as Project\" వద్ద వదిలేయకుండా సెట్ చేయండి."
+
+msgid "Without processing at auphonic.com"
+msgstr "auphonic.com లో ప్రాసెసింగ్ లేకుండా"
+
+msgid "There is no camera cut yet: it needs two people, each with a name and a camera.\nSeparate recordings give that with the Multitrack tick, and so does \"several speakers\" in the Speaker name field of one recording --\nthe voices found there get their camera in the table under the recordings.\nA Resolve project is created anyway -- all cameras at their measured places, ready for Multicam."
+msgstr "ఇంకా కెమెరా కట్ లేదు: దానికి ఇద్దరు వ్యక్తులు కావాలి, ప్రతి ఒక్కరికీ ఒక పేరు, ఒక కెమెరా.\nవేరువేరు రికార్డింగ్‌లు Multitrack టిక్‌తో అది ఇస్తాయి, ఒక రికార్డింగ్ యొక్క వక్త పేరు ఫీల్డ్‌లో \"అనేక వక్తలు\" కూడా ఇస్తుంది --\nఅక్కడ కనుగొన్న స్వరాలకు రికార్డింగ్‌ల కింద ఉన్న పట్టికలో కెమెరా ఇవ్వబడుతుంది.\nఏమైనా Resolve ప్రాజెక్ట్ సృష్టించబడుతుంది -- అన్ని కెమెరాలు వాటి కొలిచిన స్థానాల్లో, Multicam కోసం సిద్ధంగా."
+
+msgid "Without timecode the position of the files is measured."
+msgstr "టైమ్‌కోడ్ లేకుండా ఫైళ్ల స్థానం కొలవబడుతుంది."
+
+msgid "Works out who speaks when from the tracks themselves -- one microphone per person, level against its own noise floor. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
+msgstr "ఎవరు ఎప్పుడు మాట్లాడతారో ట్రాక్‌ల నుండే గుర్తిస్తుంది -- ప్రతి వ్యక్తికి ఒక మైక్రోఫోన్, దాని సొంత నాయిస్ ఫ్లోర్‌తో పోల్చిన స్థాయి. అందరూ ఒకే రికార్డింగ్‌లో ఉంటే, వక్త పేరు ఫీల్డ్‌లో \"అనేక వక్తలు\" ఎంచుకోవడమే మార్గం."
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- తగ్గిస్తుంది మాత్రమే, పెంచదు"
+
+msgid "a box no longer fits into its parent"
+msgstr "ఒక బాక్స్ ఇక దాని పేరెంట్‌లో సరిపోదు"
+
+msgid "after the device change"
+msgstr "పరికరం మారిన తర్వాత"
+
+msgid "auphonic.com does not accept the key: %s"
+msgstr "auphonic.com కీని అంగీకరించదు: %s"
+
+msgid "average"
+msgstr "సగటు"
+
+msgid "belongs to"
+msgstr "చెందినది"
+
+msgid "bleed too indistinct: %s of %s seconds usable, sharpest %s of %s needed"
+msgstr "బ్లీడ్ చాలా అస్పష్టం: %s / %s సెకన్లు వాడదగినవి, పదునైనది %s, కావలసింది %s"
+
+msgid "Midnight"
+msgstr "అర్ధరాత్రి"
+
+msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
+msgstr "అర్ధరాత్రి అవతలి వైపు నుండి టైమ్‌కోడ్ ఉంది: %s -- ఒకే రాత్రిగా లెక్కించబడింది, ఒక రోజు తేడాగా కాదు."
+
+msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
+msgstr "టైమ్‌కోడ్ అర్ధరాత్రి నుండి లెక్కిస్తుంది, అక్కడే మళ్లీ మొదలవుతుంది. ఏదైనా తీసివేయడానికి ముందు ఫైళ్లు ఒకే అక్షంపై ఉంచబడతాయి, లేకపోతే అర్ధరాత్రి తర్వాతి రికార్డింగ్ ముందుదాని నుండి దాదాపు ఒక రోజు దూరంలో ఉన్నట్లు కనిపిస్తుంది. ఇవి నిజంగా వేర్వేరు రోజుల్లో రికార్డ్ చేయబడి ఉంటే, సమలేఖనం తప్పు, కొలిచిన ఆఫ్‌సెట్‌నే నమ్మాలి."
+
+msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
+msgstr "ఛానల్ %d గరిష్ఠ పరిమితిని తాకుతోంది: వరుసగా మూడు లేదా అంతకంటే ఎక్కువ శాంపిల్‌లు %s సార్లు, అత్యంత పొడవైనది %s (%s ms), మొదటిది: %s."
+
+msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
+msgstr "ఇక్కడ లెక్కించబడింది, శాంపిల్ వారీగా, ఫైల్ రికార్డ్ చేయబడిన రేట్‌లో: పూర్ణాంక ఫార్మాట్ పట్టుకోగల అత్యధిక విలువపై వరుసగా మూడు లేదా అంతకంటే ఎక్కువ శాంపిల్‌లు. ఒకటి లేదా రెండు రౌండింగ్ మాత్రమే, అవి నివేదించబడవు. అక్కడ కత్తిరించబడినది పోయింది, ఏ ప్రాసెసింగ్ దాన్ని తిరిగి తేదు -- కానీ రికార్డింగ్ రికార్డింగ్‌గానే ఉంటుంది, ఇది దేనినీ ఆపదు. పూర్ణాంక ఫార్మాట్‌లను మాత్రమే లెక్కిస్తారు. 32 bit float కు పూర్తి స్కేల్ వద్ద పరిమితి లేదు, కాబట్టి అక్కడ లెక్కించడానికి ఏమీ లేదు."
+
+msgid "boxes no longer readable"
+msgstr "బాక్స్‌లు ఇక చదవలేనివి"
+
+msgid "bring up to date -- both Timelines are deleted and\n       rebuilt, the media pool stays as it is"
+msgstr "తాజాగా చేయి -- రెండు Timelineలు తొలగించబడి\n       మళ్లీ నిర్మించబడతాయి, Media Pool అలాగే ఉంటుంది"
+
+msgid "cannot be read back (%s)"
+msgstr "తిరిగి చదవలేము (%s)"
+
+msgid "checking ..."
+msgstr "తనిఖీ అవుతోంది ..."
+
+msgid "complete"
+msgstr "పూర్తి"
+
+msgid "create a new project alongside (name with suffix)"
+msgstr "పక్కనే కొత్త ప్రాజెక్ట్ సృష్టించు (పేరుకు ప్రత్యయంతో)"
+
+msgid "curl ended with %d"
+msgstr "curl %d తో ముగిసింది"
+
+msgid "did not arrive: %s"
+msgstr "రాలేదు: %s"
+
+msgid "does not belong: %s"
+msgstr "చెందదు: %s"
+
+msgid "does not exist: %s"
+msgstr "లేదు: %s"
+
+msgid "does the material fit together?"
+msgstr "మెటీరియల్ ఒకదానితో ఒకటి సరిపోతుందా?"
+
+msgid "does the preset fit the run?"
+msgstr "ప్రీసెట్ రన్‌కు సరిపోతుందా?"
+
+msgid "downloaded file is only %s bytes"
+msgstr "డౌన్‌లోడ్ చేసిన ఫైల్ కేవలం %s బైట్‌లు"
+
+msgid "gap of %s per timecode, too far apart for one recording"
+msgstr "టైమ్‌కోడ్ ప్రకారం %s ఖాళీ, ఒకే రికార్డింగ్‌కు చాలా దూరం"
+
+msgid "gets audio from"
+msgstr "ఆడియో మూలం"
+
+msgid "hear assigned audio"
+msgstr "కేటాయించిన ఆడియో విను"
+
+msgid "keep our names and upload everything again -- this costs\n       credit"
+msgstr "మన పేర్లను ఉంచి అన్నీ మళ్లీ అప్‌లోడ్ చేయి -- దీనికి\n       క్రెడిట్ ఖర్చవుతుంది"
+
+msgid "leave it and put the new Timelines alongside --\n       the existing ones stay"
+msgstr "అలాగే వదిలేసి కొత్త Timelineలను పక్కనే ఉంచు --\n       ఉన్నవి అలాగే ఉంటాయి"
+
+msgid "missing -- the container carries no colour tagging"
+msgstr "లేదు -- కంటైనర్‌లో రంగు ట్యాగింగ్ లేదు"
+
+msgid "missing: %s"
+msgstr "లేదు: %s"
+
+msgid "moov has not grown"
+msgstr "moov పెరగలేదు"
+
+msgid "moov is no longer in its place"
+msgstr "moov ఇకపై తన స్థానంలో లేదు"
+
+msgid "moov no longer ends at the end of the file"
+msgstr "moov ఇకపై ఫైల్ చివరలో ముగియదు"
+
+msgid "multi-part, no timecode -- gaps in between cannot be detected."
+msgstr "అనేక భాగాలు, టైమ్‌కోడ్ లేదు -- మధ్యలోని ఖాళీలను గుర్తించలేము."
+
+msgid "new file name"
+msgstr "కొత్త ఫైల్ పేరు"
+
+msgid "next to each video file"
+msgstr "ప్రతి వీడియో ఫైల్ పక్కన"
+
+msgid "no audio data from %s"
+msgstr "%s ఫైల్ నుండి ఆడియో డేటా లేదు"
+
+msgid "no audio track present"
+msgstr "ఆడియో ట్రాక్ లేదు"
+
+msgid "no audio: %s"
+msgstr "ఆడియో లేదు: %s"
+
+msgid "no download address for %s"
+msgstr "%s ఫైల్‌కు డౌన్‌లోడ్ చిరునామా లేదు"
+
+msgid "no information"
+msgstr "సమాచారం లేదు"
+
+msgid "no information in the file"
+msgstr "ఫైల్‌లో సమాచారం లేదు"
+
+msgid "no match in the middle either (%s)"
+msgstr "మధ్యలో కూడా సరిపోలిక లేదు (%s)"
+
+msgid "no place found where exactly one person speaks -- the separation cannot be measured."
+msgstr "సరిగ్గా ఒక్కరే మాట్లాడే చోటు కనిపించలేదు -- మైక్రోఫోన్‌ల మధ్య వేర్పాటును కొలవలేము."
+
+msgid "no production id in the response"
+msgstr "స్పందనలో ప్రొడక్షన్ ID లేదు"
+
+msgid "no production id in the response: %s"
+msgstr "స్పందనలో ప్రొడక్షన్ ID లేదు: %s"
+
+msgid "no timecode"
+msgstr "టైమ్‌కోడ్ లేదు"
+
+msgid "no video track"
+msgstr "వీడియో ట్రాక్ లేదు"
+
+msgid "no video track in %s"
+msgstr "%s ఫైల్‌లో వీడియో ట్రాక్ లేదు"
+
+msgid "none switched on"
+msgstr "ఏదీ ఆన్ చేయలేదు"
+
+msgid "not checked yet"
+msgstr "ఇంకా తనిఖీ చేయలేదు"
+
+msgid "not in the media pool"
+msgstr "Media Pool లో లేదు"
+
+msgid "not measurable."
+msgstr "కొలవలేము."
+
+msgid "not measurable: %s"
+msgstr "కొలవలేము: %s"
+
+msgid "not needed with HLG"
+msgstr "HLG తో అవసరం లేదు"
+
+msgid "not readable (%s) -- unchecked."
+msgstr "చదవలేము (%s) -- తనిఖీ చేయలేదు."
+
+msgid "not readable: %s"
+msgstr "చదవలేము: %s"
+
+msgid "nothing loaded yet"
+msgstr "ఇంకా ఏదీ లోడ్ కాలేదు"
+
+msgid "nothing selected"
+msgstr "ఏదీ ఎంచుకోలేదు"
+
+msgid "off"
+msgstr "ఆఫ్"
+
+msgid "one Timeline"
+msgstr "ఒక Timeline"
+
+msgid "only %s long, the longest recording has %s."
+msgstr "నిడివి %s మాత్రమే, అన్నిటికంటే పొడవైన రికార్డింగ్ నిడివి %s."
+
+msgid "overlap of %s per timecode"
+msgstr "టైమ్‌కోడ్ ప్రకారం %s అతివ్యాప్తి"
+
+msgid "per track"
+msgstr "ప్రతి ట్రాక్‌కు"
+
+msgid "preset does not fit the run"
+msgstr "ప్రీసెట్ ఈ రన్‌కు సరిపోదు"
+
+msgid "previous block is shorter than the rest"
+msgstr "మునుపటి బ్లాక్ మిగతావాటి కంటే చిన్నది"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "ప్రాసెస్ చేసిన ట్రాక్‌లు దొరికాయి -- ఏదీ అప్‌లోడ్ కాదు"
+
+msgid "production finished, but no output file"
+msgstr "ప్రొడక్షన్ పూర్తయింది, కానీ అవుట్‌పుట్ ఫైల్ లేదు"
+
+msgid "recompute with the chosen preset -- the files stay\n       where they are, costs no credit"
+msgstr "ఎంచుకున్న ప్రీసెట్‌తో మళ్లీ లెక్కించు -- ఫైళ్లు\n       ఉన్న చోటే ఉంటాయి, క్రెడిట్ ఖర్చు కాదు"
+
+msgid "reset"
+msgstr "రీసెట్ చేయి"
+
+msgid "running ..."
+msgstr "నడుస్తోంది ..."
+
+msgid "selected"
+msgstr "ఎంచుకున్నది"
+
+msgid "shorter shots are merged in"
+msgstr "చిన్న షాట్‌లు కలిపివేయబడతాయి"
+
+msgid "stays out"
+msgstr "బయటే ఉంటుంది"
+
+msgid "stored file %s"
+msgstr "నిల్వ చేసిన ఫైల్ %s"
+
+msgid "take the existing result (nothing computed, nothing paid)"
+msgstr "ఉన్న ఫలితాన్ని తీసుకో (లెక్కింపు లేదు, చెల్లింపు లేదు)"
+
+msgid "take the names from there and carry on with them --\n       no upload, costs nothing"
+msgstr "అక్కడి పేర్లను తీసుకుని వాటితో కొనసాగించు --\n       అప్‌లోడ్ లేదు, ఖర్చు లేదు"
+
+msgid "the Multitrack preset has no track stored."
+msgstr "Multitrack ప్రీసెట్‌లో ఏ ట్రాక్ నిల్వ లేదు."
+
+msgid "the finished mixdown"
+msgstr "పూర్తయిన మిక్స్‌డౌన్"
+
+msgid "the individual tracks"
+msgstr "విడి ట్రాక్‌లు"
+
+msgid "the individual tracks, packed"
+msgstr "విడి ట్రాక్‌లు, ప్యాక్ చేసినవి"
+
+msgid "the media data is no longer where it was"
+msgstr "మీడియా డేటా ఇకపై పాత చోటులో లేదు"
+
+msgid "the mix of all tracks"
+msgstr "అన్ని ట్రాక్‌ల మిక్స్"
+
+msgid "the mixdown as the yardstick"
+msgstr "కొలమానంగా మిక్స్‌డౌన్"
+
+msgid "the old moov is back in place"
+msgstr "పాత moov మళ్లీ తన స్థానంలో ఉంది"
+
+msgid "the picture changes this much later than the sound"
+msgstr "చిత్రం ఆడియో కంటే ఇంత ఆలస్యంగా మారుతుంది"
+
+msgid "the preset masters to %s LUFS, the calculation uses %s."
+msgstr "ప్రీసెట్ %s LUFS కు మాస్టర్ చేస్తుంది, లెక్కింపు %s తో జరుగుతుంది."
+
+msgid "the preset masters to %s LUFS -- that stands, nothing of ours adjusts."
+msgstr "ప్రీసెట్ %s LUFS కు మాస్టర్ చేస్తుంది -- అదే వర్తిస్తుంది, ప్రోగ్రామ్ వైపు నుండి ఏదీ సర్దుబాటు కాదు."
+
+msgid "taken from the source files, no --lufs given -- nothing is adjusted"
+msgstr "మూల ఫైళ్ల నుండి తీసుకున్నది, --lufs ఇవ్వలేదు -- ఏదీ సర్దుబాటు కాదు"
+
+msgid "the answer did not keep the floor"
+msgstr "సమాధానం మాట్లాడే వంతును నిలుపుకోలేదు"
+
+msgid "the main speaker asked"
+msgstr "ప్రధాన వక్త అడిగారు"
+
+msgid "nobody answered in time"
+msgstr "సమయానికి ఎవరూ సమాధానం ఇవ్వలేదు"
+
+msgid "nobody was speaking at the question"
+msgstr "ప్రశ్న సమయంలో ఎవరూ మాట్లాడలేదు"
+
+msgid "asker and answerer on one camera"
+msgstr "అడిగినవారు, సమాధానమిచ్చినవారు ఒకే కెమెరాలో"
+
+msgid "the recordings overlap only %s -- too little to measure."
+msgstr "రికార్డింగ్‌లు %s మాత్రమే అతివ్యాప్తి చెందుతాయి -- కొలవడానికి చాలా తక్కువ."
+
+msgid "the shortest recording has only %s -- too little to measure."
+msgstr "అతి చిన్న రికార్డింగ్ నిడివి %s మాత్రమే -- కొలవడానికి చాలా తక్కువ."
+
+msgid "the source folder"
+msgstr "మూల ఫోల్డర్"
+
+msgid "the track template has nothing switched on -- the tracks would come back exactly as uploaded."
+msgstr "ట్రాక్ టెంప్లేట్‌లో ఏదీ ఆన్ చేయలేదు -- ట్రాక్‌లు అప్‌లోడ్ చేసినట్లే యథాతథంగా తిరిగి వస్తాయి."
+
+msgid "the video files are tagged differently: %s"
+msgstr "వీడియో ఫైళ్లకు వేర్వేరు రంగు ట్యాగ్‌లు ఉన్నాయి: %s"
+
+msgid "the video files carry different recording curves: %s"
+msgstr "వీడియో ఫైళ్లలో వేర్వేరు రికార్డింగ్ కర్వ్‌లు ఉన్నాయి: %s"
+
+msgid "the video files have different picture sizes: %s"
+msgstr "వీడియో ఫైళ్లకు వేర్వేరు చిత్ర పరిమాణాలు ఉన్నాయి: %s"
+
+msgid "the video files run at different rates: %s"
+msgstr "వీడియో ఫైళ్లు వేర్వేరు ఫ్రేమ్ రేట్లలో నడుస్తాయి: %s"
+
+msgid "the video track can no longer be found"
+msgstr "వీడియో ట్రాక్ ఇకపై కనిపించడం లేదు"
+
+msgid "time axis measured -- jumps land at the same point"
+msgstr "సమయ అక్షం కొలవబడింది -- జంప్‌లు ఒకే చోట పడతాయి"
+
+msgid "time axis measured and tied to the timecode"
+msgstr "సమయ అక్షం కొలవబడి టైమ్‌కోడ్‌కు జోడించబడింది"
+
+msgid "time axis not measurable"
+msgstr "సమయ అక్షాన్ని కొలవలేము"
+
+msgid "time axis not measurable: %s"
+msgstr "సమయ అక్షాన్ని కొలవలేము: %s"
+
+msgid "only %s seconds where %s speaks alone, %s needed"
+msgstr "%s సెకన్లు మాత్రమే, అందులో %s ఒక్కరే మాట్లాడతారు; %s అవసరం"
+
+msgid "too little audio to align"
+msgstr "సమలేఖనానికి ఆడియో చాలా తక్కువ"
+
+msgid "unspecified"
+msgstr "పేర్కొనలేదు"
+
+msgid "upload everything again and recompute -- this costs credit"
+msgstr "అన్నీ మళ్లీ అప్‌లోడ్ చేసి మళ్లీ లెక్కించు -- దీనికి క్రెడిట్ ఖర్చవుతుంది"
+
+msgid "used directly"
+msgstr "నేరుగా వాడబడుతుంది"
+
+msgid "wide shot %s, the mix is its first audio track"
+msgstr "వైడ్ షాట్ %s, దాని మొదటి ఆడియో ట్రాక్ మిక్స్"
+
+msgid "✕  %s occurs more than once. These recordings are merged into one track and placed in sequence by their timecode -- correct if recording was stopped in between."
+msgstr "✕  ఒకటి కంటే ఎక్కువసార్లు ఉంది: %s. ఈ రికార్డింగ్‌లు ఒకే ట్రాక్‌గా కలిపి, వాటి టైమ్‌కోడ్ క్రమంలో ఒకదాని తర్వాత ఒకటి ఉంచబడతాయి -- మధ్యలో రికార్డింగ్ ఆపివేసి ఉంటే ఇది సరైనదే."
+
+msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
+msgstr "✕  అన్ని రికార్డింగ్‌లకు ఒకే పేరు ఉంది. దాంతో ఒకే ట్రాక్ వస్తుంది -- Multitrack కు కనీసం రెండు కావాలి."
+
+msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
+msgstr "✕  కట్‌లో రెండు కెమెరాలు ఒకే కెమెరా అవుతాయి (%s). వాటి ఫైళ్లకు ఒకే పేరు ఉంది, కాబట్టి వాటిలో ఒకదాని పేరు మార్చండి."
+
+msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
+msgstr "✕  రెండు కెమెరాలు ఒకే ఫైల్‌ను సృష్టిస్తాయి (%s). రెండోది మొదటిదాన్ని ఓవర్‌రైట్ చేస్తుంది."
+
+msgid "   (camera audio)"
+msgstr "   (కెమెరా ఆడియో)"
+
+msgid "  Number: "
+msgstr "  సంఖ్య: "
+
+msgid ", clock drift %s ppm taken out"
+msgstr ", గడియార విచలనం %s ppm తొలగించబడింది"
+
+msgid "Files && production"
+msgstr "ఫైళ్లు && ప్రొడక్షన్"
+
+msgid "Assignment && time window"
+msgstr "కేటాయింపు && సమయ పరిధి"
+
+msgid "Resolve cut"
+msgstr "Resolve కట్"
+
+msgid "Camera audio"
+msgstr "కెమెరా ఆడియో"
+
+msgid "Camera audio %s"
+msgstr "కెమెరా ఆడియో %s"
+
+msgid "%s channels against %s"
+msgstr "%s ఛానళ్లు, మరొకదానిలో %s"
+
+msgid "%s kHz against %s kHz"
+msgstr "%s kHz, మరొకదానిలో %s kHz"
+
+msgid "  %s: channel %s cannot be cut out (%s)"
+msgstr "  %s: ఛానల్ %s వేరు చేయడం సాధ్యం కాదు (%s)"
+
+msgid "Channel %d is %s dB under the loudest -- nothing plugged in"
+msgstr "ఛానల్ %d అత్యంత బిగ్గరగా ఉన్నదాని కంటే %s dB తక్కువ -- ఏదీ కనెక్ట్ కాలేదు"
+
+msgid "Channel %d at %s dBFS -- only converter noise left"
+msgstr "ఛానల్ %d %s dBFS వద్ద -- కన్వర్టర్ శబ్దం మాత్రమే మిగిలింది"
+
+msgid "Channel %d is silent -- unused input"
+msgstr "ఛానల్ %d నిశ్శబ్దంగా ఉంది -- వాడని ఇన్‌పుట్"
+
+msgid "On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it."
+msgstr "ఆన్ చేస్తే ఈ ఛానల్, తర్వాతి ఛానల్ కలిసి ఒక స్టీరియో ట్రాక్ అవుతాయి.\nఅప్పుడు తర్వాతి ఛానల్‌కు సొంత టిక్ ఉండదు -- అది ఇప్పటికే తీసుకోబడింది.\nకొలిచినది పక్కనే ఉన్న పంక్తిలో ఉంది."
+
+msgid "a track of its own"
+msgstr "సొంత ట్రాక్"
+
+msgid "with Channel %d one stereo track"
+msgstr "ఛానల్ %d తో కలిపి ఒక స్టీరియో ట్రాక్"
+
+msgid "already in another recording"
+msgstr "ఇప్పటికే మరో రికార్డింగ్‌లో ఉంది"
+
+msgid "not found"
+msgstr "కనిపించలేదు"
+
+msgid "a recording of its own"
+msgstr "సొంత రికార్డింగ్"
+
+msgid "Puts this recording into another one, with every block it has.\nUse it where the file names give the search nothing to go on."
+msgstr "ఈ రికార్డింగ్‌ను దాని అన్ని బ్లాక్‌లతో సహా మరో రికార్డింగ్‌లో ఉంచుతుంది.\nఫైల్ పేర్ల నుండి శోధనకు ఏ ఆధారమూ దొరకనప్పుడు దీన్ని వాడండి."
+
+msgid "Cameras only"
+msgstr "కెమెరాలు మాత్రమే"
+
+msgid "Curve number %d"
+msgstr "కర్వ్ సంఖ్య %d"
+
+msgid "End"
+msgstr "ముగింపు"
+
+msgid "End %s"
+msgstr "ముగింపు %s"
+
+msgid "Error"
+msgstr "లోపం"
+
+msgid "Mark In"
+msgstr "ఇన్ గుర్తించు"
+
+msgid "Mark Out"
+msgstr "అవుట్ గుర్తించు"
+
+msgid "Measure, align, process, write files."
+msgstr "కొలవడం, సమలేఖనం, ప్రాసెసింగ్, ఫైళ్లు రాయడం."
+
+msgid "Minimum Edit Duration"
+msgstr "కనీస షాట్ నిడివి"
+
+msgid "%s, seconds"
+msgstr "%s, సెకన్లు"
+
+msgid "Names used more than once"
+msgstr "ఒకటి కంటే ఎక్కువసార్లు వాడిన పేర్లు"
+
+msgid "One name for two voices"
+msgstr "రెండు స్వరాలకు ఒకే పేరు"
+
+msgid "No files given."
+msgstr "ఫైళ్లు ఇవ్వలేదు."
+
+msgid "Number %d"
+msgstr "సంఖ్య %d"
+
+msgid "Preset missing"
+msgstr "ప్రీసెట్ లేదు"
+
+msgid "Speaker"
+msgstr "వక్త"
+
+msgid "Start %s"
+msgstr "ప్రారంభం %s"
+
+msgid "Take from source files"
+msgstr "మూల ఫైళ్ల నుండి తీసుకో"
+
+msgid "Take the camera audio"
+msgstr "కెమెరా ఆడియో తీసుకో"
+
+msgid "Target: %s"
+msgstr "గమ్యం: %s"
+
+msgid "Transfer"
+msgstr "బదిలీ"
+
+msgid "Uploading %s tracks"
+msgstr "%s ట్రాక్‌లు అప్‌లోడ్ అవుతున్నాయి"
+
+msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
+msgstr "Video Podcast Magic (%s*.json);;JSON ఫైళ్లు (*.json);;అన్ని ఫైళ్లు (*)"
+
+msgid "Wide shot after"
+msgstr "వైడ్ షాట్ ఇంత తర్వాత"
+
+msgid "the voices below carry the cameras"
+msgstr "కెమెరాలు కింది స్వరాలకు చెందుతాయి"
+
+msgid "measured from the recordings -- %s speakers, %s"
+msgstr "రికార్డింగ్‌ల నుండి కొలిచినది -- %s వక్తలు, %s"
+
+msgid "from the finished run -- %s speakers, %s"
+msgstr "పూర్తయిన రన్ నుండి -- %s వక్తలు, %s"
+
+msgid "from the processed Auphonic tracks -- %s speakers, %s"
+msgstr "ప్రాసెస్ చేసిన Auphonic ట్రాక్‌ల నుండి -- %s వక్తలు, %s"
+
+msgid "no folder"
+msgstr "ఏ ఫోల్డర్ లేదు"
+
+msgid "no text"
+msgstr "పాఠ్యం లేదు"
+
+msgid "unnamed"
+msgstr "పేరు లేదు"
+
+msgid "   Caution: measurement unusable"
+msgstr "   జాగ్రత్త: కొలత ఉపయోగపడదు"
+
+msgid "   MISSING"
+msgstr "   లేదు"
+
+msgid "   NOT INSERTED"
+msgstr "   చేర్చలేదు"
+
+msgid "  (container; measured %s)"
+msgstr "  (కంటెయినర్; కొలిచినది %s)"
+
+msgid "  Number (empty = cancel): "
+msgstr "  సంఖ్య (ఖాళీ = రద్దు): "
+
+msgid " (auphonic.com takes the same amount)"
+msgstr " (auphonic.com కూడా అంతే తీసుకుంటుంది)"
+
+msgid " (fine: %s ms)"
+msgstr " (సూక్ష్మం: %s ms)"
+
+msgid " -- %s notes"
+msgstr " -- %s గమనికలు"
+
+msgid " -- 1 note: %s"
+msgstr " -- 1 గమనిక: %s"
+
+msgid " target %.2f"
+msgstr " లక్ష్యం %.2f"
+
+msgid "(wanted %s)"
+msgstr "(కావలసింది %s)"
+
+msgid ", clock drift left in"
+msgstr ", గడియార విచలనం అలాగే ఉంచబడింది"
+
+msgid ", range %s LU"
+msgstr ", పరిధి %s LU"
+
+msgid "-- nothing --"
+msgstr "-- ఏదీ లేదు --"
+
+msgid "After: %s"
+msgstr "తర్వాత: %s"
+
+msgid "Algorithms"
+msgstr "అల్గారిథమ్‌లు"
+
+msgid "Audio file %s"
+msgstr "ఆడియో ఫైల్ %s"
+
+msgid "Audio recording"
+msgstr "ఆడియో రికార్డింగ్"
+
+msgid "Auphonic reports %s: %s"
+msgstr "Auphonic నివేదిక %s: %s"
+
+msgid "BT.2020 constant"
+msgstr "BT.2020 స్థిరమైన"
+
+msgid "Before: %s"
+msgstr "ముందు: %s"
+
+msgid "Bit depth"
+msgstr "బిట్ డెప్త్"
+
+msgid "Building the sum"
+msgstr "మొత్తం రూపొందిస్తోంది"
+
+msgid "Caution: "
+msgstr "జాగ్రత్త: "
+
+msgid "Camera cut"
+msgstr "కెమెరా కట్"
+
+msgid "%s -- preview"
+msgstr "%s -- ప్రివ్యూ"
+
+msgid "Cancel"
+msgstr "రద్దు చేయి"
+
+msgid "Capture curve"
+msgstr "రికార్డింగ్ కర్వ్"
+
+msgid "Check: %s and camera track"
+msgstr "తనిఖీ: %s, కెమెరా ట్రాక్"
+
+msgid "Codec profile"
+msgstr "కోడెక్ ప్రొఫైల్"
+
+msgid "Colour tag"
+msgstr "రంగు ట్యాగ్"
+
+msgid "Connect"
+msgstr "కనెక్ట్ చేయి"
+
+msgid "Connection to Resolve"
+msgstr "Resolve తో కనెక్షన్"
+
+msgid "Continue"
+msgstr "కొనసాగించు"
+
+msgid "Create Resolve project"
+msgstr "Resolve ప్రాజెక్ట్ సృష్టించు"
+
+msgid "Curve"
+msgstr "కర్వ్"
+
+msgid "In point: %s     Out point: %s     Duration: %s"
+msgstr "ఇన్ పాయింట్: %s     అవుట్ పాయింట్: %s     నిడివి: %s"
+
+msgid "In point %s"
+msgstr "ఇన్ పాయింట్ %s"
+
+msgid "Out point %s"
+msgstr "అవుట్ పాయింట్ %s"
+
+msgid "Different track names"
+msgstr "వేర్వేరు ట్రాక్ పేర్లు"
+
+msgid "Disk space"
+msgstr "డిస్క్ స్థలం"
+
+msgid "Downloading %s"
+msgstr "%s డౌన్‌లోడ్ అవుతోంది"
+
+msgid "Dry run"
+msgstr "ట్రయల్ రన్"
+
+msgid "Duration %s"
+msgstr "నిడివి %s"
+
+msgid "Dynamic range"
+msgstr "డైనమిక్ రేంజ్"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, ప్రసారం"
+
+msgid "File names"
+msgstr "ఫైల్ పేర్లు"
+
+msgid "Frame rates"
+msgstr "ఫ్రేమ్ రేట్లు"
+
+msgid "GENERAL NOTES"
+msgstr "సాధారణ గమనికలు"
+
+msgid "Given"
+msgstr "ముందే ఇచ్చినది"
+
+msgid "Go ahead"
+msgstr "ప్రారంభించు"
+
+msgid "Interface:      %s%s"
+msgstr "ఇంటర్‌ఫేస్:     %s%s"
+
+msgid "Keep it saved"
+msgstr "సేవ్ చేసి ఉంచు"
+
+msgid "Library:        %s%s"
+msgstr "లైబ్రరీ:        %s%s"
+
+msgid "Log according to camera data"
+msgstr "కెమెరా డేటా ప్రకారం Log"
+
+msgid "Main10 (ten bit)"
+msgstr "Main10 (పది బిట్)"
+
+msgid "Measure"
+msgstr "కొలువు"
+
+msgid "Measuring loudness"
+msgstr "లౌడ్‌నెస్ కొలుస్తోంది"
+
+msgid "Merge them"
+msgstr "వాటిని కలుపు"
+
+msgid "Mixing %s"
+msgstr "మిక్స్ చేస్తోంది: %s"
+
+msgid "Multitrack needs two tracks in the table above -- a camera counts as one once its Camera audio is set to \"use internal audio\"."
+msgstr "Multitrack కు పై పట్టికలో రెండు ట్రాక్‌లు కావాలి -- ఒక కెమెరా యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వెంటనే అది ఒకటిగా లెక్కించబడుతుంది."
+
+msgid "One track only -- set a camera's Camera audio to \"use internal audio\" for a second."
+msgstr "ఒకే ట్రాక్ -- రెండోదాని కోసం ఒక కెమెరా యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి."
+
+msgid "One track only, and no camera audio left to take."
+msgstr "ఒకే ట్రాక్, తీసుకోవడానికి కెమెరా ఆడియో ఏదీ మిగలలేదు."
+
+msgid "do not use internal audio"
+msgstr "అంతర్గత ఆడియో వద్దు"
+
+msgid "use internal audio"
+msgstr "అంతర్గత ఆడియో వాడు"
+
+msgid "Used, the channels measured under this file are cut into tracks, the way a recording is.\nMeasuring happens either way: that verdict is what this is decided on, and synchronising takes the sound regardless."
+msgstr "వాడితే, ఈ ఫైల్ కింద కొలిచిన ఛానళ్లు ఒక రికార్డింగ్ లాగే ట్రాక్‌లుగా విభజించబడతాయి.\nకొలత ఎలాగూ జరుగుతుంది: ఆ తీర్పు ఆధారంగానే ఇది నిర్ణయించబడుతుంది, సింక్ చేయడానికి ఆడియో ఎలాగైనా తీసుకోబడుతుంది."
+
+msgid "Used, the sound of this file becomes a track like any other -- it appears in the table above.\nThe same field stands in the file list; both show the one answer."
+msgstr "వాడితే, ఈ ఫైల్ ఆడియో మిగతా వాటిలాగే ఒక ట్రాక్ అవుతుంది -- అది పై పట్టికలో కనిపిస్తుంది.\nఇదే ఫీల్డ్ ఫైల్ జాబితాలోనూ ఉంది; రెండూ ఒకే సమాధానాన్ని చూపుతాయి."
+
+msgid "No sound to work with -- set a video file's Camera audio to \"use internal audio\", or add an audio recording."
+msgstr "పని చేయడానికి ఆడియో లేదు -- ఒక వీడియో ఫైల్ యొక్క కెమెరా ఆడియోను \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేయండి, లేదా ఒక ఆడియో రికార్డింగ్ జోడించండి."
+
+msgid "Multitrack needs several tracks"
+msgstr "Multitrack కు అనేక ట్రాక్‌లు కావాలి"
+
+msgid "Mute."
+msgstr "మ్యూట్ చేయి."
+
+msgid "No audio file given."
+msgstr "ఆడియో ఫైల్ ఇవ్వలేదు."
+
+msgid "No project open."
+msgstr "ఏ ప్రాజెక్ట్ తెరిచి లేదు."
+
+msgid "Not found: %s"
+msgstr "కనిపించలేదు: %s"
+
+msgid "Not recognised"
+msgstr "గుర్తించలేదు"
+
+msgid "Note"
+msgstr "గమనిక"
+
+msgid "Note: "
+msgstr "గమనిక: "
+
+msgid "One frame forward."
+msgstr "ఒక ఫ్రేమ్ ముందుకు."
+
+msgid "One second forward."
+msgstr "ఒక సెకను ముందుకు."
+
+msgid "Output folder"
+msgstr "అవుట్‌పుట్ ఫోల్డర్"
+
+msgid "Choose the output folder"
+msgstr "అవుట్‌పుట్ ఫోల్డర్ ఎంచుకో"
+
+msgid "Output folder back beside each video file"
+msgstr "అవుట్‌పుట్ ఫోల్డర్ మళ్లీ ప్రతి వీడియో ఫైల్ పక్కన"
+
+msgid "Output folder ..."
+msgstr "అవుట్‌పుట్ ఫోల్డర్ ..."
+
+msgid "Podcast directories, mono"
+msgstr "పాడ్‌కాస్ట్ డైరెక్టరీలు, మోనో"
+
+msgid "Podcast directories, stereo"
+msgstr "పాడ్‌కాస్ట్ డైరెక్టరీలు, స్టీరియో"
+
+msgid "Preview player"
+msgstr "ప్రివ్యూ ప్లేయర్"
+
+msgid "Preview player%s"
+msgstr "ప్రివ్యూ ప్లేయర్%s"
+
+msgid "Processing"
+msgstr "ప్రాసెసింగ్"
+
+msgid "Profile"
+msgstr "ప్రొఫైల్"
+
+msgid "Project"
+msgstr "ప్రాజెక్ట్"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "ఇక్కడి నుండి దానికి తగిన క్షణం వెతకబడుతుంది"
+
+msgid "The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. \"Wide shot at the latest\" is the hard limit, where it cuts without one."
+msgstr "ఈ జంటలోని మృదువైన పరిమితి: ఇక్కడి నుండి ప్రోగ్రామ్ ఒక వాక్య సరిహద్దు కోసం ఎదురుచూసి, వైడ్ షాట్‌ను గడియారం ప్రకారం కాకుండా అక్కడ ఉంచుతుంది. 0 దీన్ని ఆఫ్ చేస్తుంది. \"వైడ్ షాట్ అత్యంత ఆలస్యంగా\" కఠిన పరిమితి, అక్కడ వాక్య సరిహద్దు లేకుండానే కట్ చేస్తుంది."
+
+msgid "and here it is cut, good moment or not"
+msgstr "మరియు ఇక్కడ కట్ అవుతుంది, మంచి క్షణమైనా కాకపోయినా"
+
+msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
+msgstr "ఈ జంటలోని కఠిన పరిమితి: \"వైడ్ షాట్ ఇంత తర్వాత\" నుండి ఏ వాక్య సరిహద్దూ రాకపోతే, అన్నిటికంటే పొడవైన మాటల విరామం దాని స్థానంలో నిలుస్తుంది, మరియు ఈ బిందువు వద్ద ఏం మాట్లాడుతున్నా కట్ జరుగుతుంది."
+
+msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
+msgstr "ఇంకా ట్రాన్స్‌క్రిప్ట్ లేదు. అది లేకుండా ఏ ప్రశ్నా దొరకదు, ఏ వాక్య సరిహద్దూ తెలియదు, కాబట్టి ఈ నాలుగు సెట్టింగ్‌లు ఏమీ చేయవు. ఒక రన్ దాన్ని రాస్తుంది, అప్పటి నుండి అవి పనిచేస్తాయి."
+
+msgid "Why the question settings are grey"
+msgstr "ప్రశ్న సెట్టింగ్‌లు ఎందుకు బూడిద రంగులో ఉన్నాయి"
+
+msgid "After a question"
+msgstr "ప్రశ్న తర్వాత"
+
+msgid "Question"
+msgstr "ప్రశ్న"
+
+msgid "Remove"
+msgstr "తీసివేయి"
+
+msgid "Remove all"
+msgstr "అన్నీ తీసివేయి"
+
+msgid "Remove from list"
+msgstr "జాబితా నుండి తీసివేయి"
+
+msgid "Resolve answers%s"
+msgstr "Resolve స్పందన%s"
+
+msgid "Saving %s"
+msgstr "%s సేవ్ అవుతోంది"
+
+msgid "Show in Finder."
+msgstr "Finder లో చూపించు."
+
+msgid "Silence"
+msgstr "నిశ్శబ్దం"
+
+msgid "Speaker name"
+msgstr "వక్త పేరు"
+
+msgid "Speaker names"
+msgstr "వక్తల పేర్లు"
+
+msgid "Static metadata"
+msgstr "స్థిర మెటాడేటా"
+
+msgid "Tagging"
+msgstr "ట్యాగింగ్"
+
+msgid "Ten seconds forward."
+msgstr "పది సెకన్లు ముందుకు."
+
+msgid "Timecode from %s"
+msgstr "టైమ్‌కోడ్ %s నుండి"
+
+msgid "Track template"
+msgstr "ట్రాక్ టెంప్లేట్"
+
+msgid "Uploading %s"
+msgstr "అప్‌లోడ్ అవుతోంది: %s"
+
+msgid "Value range"
+msgstr "విలువల పరిధి"
+
+msgid "What should happen with it?"
+msgstr "దీనితో ఏం చేయాలి?"
+
+msgid "Window %s%s"
+msgstr "సమయ పరిధి %s%s"
+
+msgid "Cut, EDL, CSV and the handover are worked out again from the numbers above. Who speaks when stays as the run measured it. Resolve must be running."
+msgstr "పై సంఖ్యల నుండి కట్, EDL, CSV మరియు అప్పగింత మళ్లీ లెక్కించబడతాయి. ఎవరు ఎప్పుడు మాట్లాడతారు అనేది రన్ కొలిచినట్లే ఉంటుంది. Resolve నడుస్తూ ఉండాలి."
+
+msgid "Without these two nothing works. Is Resolve installed?"
+msgstr "ఈ రెండూ లేకుండా ఏదీ పనిచేయదు. Resolve ఇన్‌స్టాల్ చేయబడిందా?"
+
+msgid "cancel"
+msgstr "రద్దు చేయి"
+
+msgid "cancelled"
+msgstr "రద్దు చేయబడింది"
+
+msgid "edges implausible"
+msgstr "అంచులు నమ్మదగినవిగా లేవు"
+
+msgid "fixed: "
+msgstr "సరిచేయబడింది: "
+
+msgid "found automatically"
+msgstr "స్వయంచాలకంగా కనుగొనబడింది"
+
+msgid "free %s, about %s needed (%s)"
+msgstr "ఖాళీ %s, సుమారు %s అవసరం (%s)"
+
+msgid "full range"
+msgstr "పూర్తి పరిధి"
+
+msgid "is left in"
+msgstr "అలాగే ఉంచబడుతుంది"
+
+msgid "limited (Video/TV)"
+msgstr "పరిమిత (వీడియో/TV)"
+
+msgid "working out who speaks when ..."
+msgstr "ఎవరు ఎప్పుడు మాట్లాడతారో నిర్ణయిస్తోంది ..."
+
+msgid "nothing"
+msgstr "ఏమీ లేదు"
+
+msgid "nothing to do"
+msgstr "చేయాల్సింది ఏమీ లేదు"
+
+msgid "reserved"
+msgstr "రిజర్వ్ చేయబడింది"
+
+msgid "system store"
+msgstr "సిస్టమ్ నిల్వ"
+
+msgid "to In point"
+msgstr "ఇన్ పాయింట్‌కు"
+
+msgid "to Out point"
+msgstr "అవుట్ పాయింట్‌కు"
+
+msgid "too short"
+msgstr "చాలా చిన్నది"
+
+msgid "two Timelines"
+msgstr "రెండు Timelineలు"
+
+msgid "unknown"
+msgstr "తెలియదు"
+
+msgid "up to %s"
+msgstr "%s వరకు"
+
+msgid "volume %.2f"
+msgstr "వాల్యూమ్ %.2f"
+
+msgid "while writing: %s"
+msgstr "రాసేటప్పుడు: %s"
+
+msgid "AUDIO"
+msgstr "ఆడియో"
+
+msgid "Caution"
+msgstr "జాగ్రత్త"
+
+msgid "MUTED"
+msgstr "మ్యూట్"
+
+msgid "fixed"
+msgstr "సరిచేయబడింది"
+
+msgid "on"
+msgstr "ఆన్"
+
+msgid "%r counts from the end -- that only works for Out point."
+msgstr "%r ముగింపు నుండి లెక్కిస్తుంది -- ఇది అవుట్ పాయింట్‌కు మాత్రమే పనిచేస్తుంది."
+
+msgid "Check"
+msgstr "తనిఖీ"
+
+msgid "the check itself stopped: %s"
+msgstr "తనిఖీయే ఆగిపోయింది: %s"
+
+msgid "In point or Out point cannot be read here."
+msgstr "ఇన్ పాయింట్ లేదా అవుట్ పాయింట్‌ను ఇక్కడ చదవలేము."
+
+msgid "Out point lies less than 5 seconds after In point."
+msgstr "అవుట్ పాయింట్ ఇన్ పాయింట్ తర్వాత 5 సెకన్ల కంటే తక్కువ దూరంలో ఉంది."
+
+msgid "About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder."
+msgstr "సుమారు %s తక్కువగా ఉంది. స్థలం ఖాళీ చేయండి లేదా --out తో వేరే ఫోల్డర్ ఎంచుకోండి. రన్ సమయంలో తాత్కాలిక ఫైళ్లు మళ్లీ వేరే చోటికి, సిస్టమ్ తాత్కాలిక ఫోల్డర్‌లోకి వెళ్తాయి."
+
+msgid "The estimate is rough, so this is not room enough. Free up space or choose another folder with --out."
+msgstr "అంచనా స్థూలమైనది, కాబట్టి ఈ స్థలం సరిపోదు. స్థలం ఖాళీ చేయండి లేదా --out తో వేరే ఫోల్డర్ ఎంచుకోండి."
+
+msgid "\nSPEAKERS -- MEASURED HERE"
+msgstr "\nవక్తలు -- ఇక్కడ కొలిచినవి"
+
+msgid "\nSPEAKERS -- SEPARATED BY VOICE"
+msgstr "\nవక్తలు -- స్వరాల వారీగా వేరుచేయబడినవి"
+
+msgid "\nSPEAKERS\n  Nobody was heard -- no camera cut from this."
+msgstr "\nవక్తలు\n  ఎవరి స్వరమూ వినబడలేదు -- దీని నుండి కెమెరా కట్ రాదు."
+
+msgid "\nCAMERA CUT"
+msgstr "\nకెమెరా కట్"
+
+msgid "\nCUT WITH THE WIDE SHOT"
+msgstr "\nవైడ్ షాట్‌తో కట్"
+
+msgid "\nFIRST CUT BY SPEAKER"
+msgstr "\nవక్తల వారీగా మొదటి కట్"
+
+msgid "  More than two channels go to auphonic.com as one: the fold is only switched off for stereo.\n  Where the channels are meant to stay apart, cut the file into tracks first."
+msgstr "  రెండు కంటే ఎక్కువ ఛానళ్లు auphonic.com కు ఒకటిగా వెళ్తాయి: ఛానళ్లను ఒకటిగా కలపడం స్టీరియోకు మాత్రమే ఆపివేయబడుతుంది.\n  ఛానళ్లు వేరుగా ఉండాల్సిన చోట, ముందుగా ఫైల్‌ను ట్రాక్‌లుగా విభజించండి."
+
+msgid "First cut by speaker"
+msgstr "వక్తల వారీగా మొదటి కట్"
+
+msgid "\nTRANSCRIPT"
+msgstr "\nట్రాన్స్‌క్రిప్ట్"
+
+msgid "  %s words: %s %% to one voice, %s %% to two, %s %% in a gap"
+msgstr "  %s పదాలు: %s %% ఒక స్వరానికి, %s %% రెండు స్వరాలకు, %s %% ఖాళీలో"
+
+msgid "  %s words, without names -- nobody was separated"
+msgstr "  %s పదాలు, పేర్లు లేకుండా -- ఎవరినీ వేరుచేయలేదు"
+
+msgid "  %s could not be written: %s"
+msgstr "  %s ఫైల్‌ను రాయలేకపోయింది: %s"
+
+msgid "\nSEPARATING THE SPEAKERS"
+msgstr "\nవక్తల విభజన"
+
+msgid "  Separated once already: read back, not measured again."
+msgstr "  ఇప్పటికే ఒకసారి వేరుచేయబడింది: మళ్లీ చదవబడింది, మళ్లీ కొలవలేదు."
+
+msgid "  About %s of computing for %s of audio."
+msgstr "  సుమారు %s గణన సమయం, %s ఆడియో కోసం."
+
+msgid "  (measuring only: nothing separated)"
+msgstr "  (కొలత మాత్రమే: ఏదీ వేరుచేయలేదు)"
+
+msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
+msgstr "  ట్రాక్‌లు కొలవబడలేదు, కాబట్టి మిక్స్‌లో ఉండి కట్‌లో లేనివి: %s -- కారణం: %s"
+
+msgid "%s not measured yet -- in the cut, not yet in this preview."
+msgstr "ఇంకా కొలవనివి: %s -- కట్‌లో ఉన్నాయి, ఈ ప్రివ్యూలో ఇంకా లేవు."
+
+msgid "  From the tracks themselves, one voice per track: %s."
+msgstr "  ట్రాక్‌ల నుండే, ఒక్కో ట్రాక్‌కు ఒక స్వరం: %s."
+
+msgid "  In %s, on this machine."
+msgstr "  %s ఫైల్‌లో, ఈ కంప్యూటర్‌లో."
+
+msgid "  The microphones hear each other too well to say who is speaking, so the separation listens to all %s of them at once, on this machine."
+msgstr "  మైక్రోఫోన్‌లు ఒకదానినొకటి చాలా బాగా వింటున్నందున ఎవరు మాట్లాడుతున్నారో చెప్పలేము, కాబట్టి విభజన మొత్తం %s మైక్రోఫోన్‌లనూ ఒకేసారి, ఈ కంప్యూటర్‌లో వింటుంది."
+
+msgid "  What the window took apart is dropped: it listened to one recording, and the microphones hear each other so well that none of them stands out -- %s dB against the %s dB one of them alone needs to say who is speaking."
+msgstr "  విండో వేరుచేసినది వదిలివేయబడుతుంది: అది ఒకే రికార్డింగ్‌ను విన్నది, మైక్రోఫోన్‌లు ఒకదానినొకటి ఎంత బాగా వింటున్నాయంటే వాటిలో ఏదీ ప్రత్యేకంగా నిలవదు -- %s dB మాత్రమే, కాగా ఎవరు మాట్లాడుతున్నారో చెప్పడానికి ఒక్క మైక్రోఫోన్‌కే %s dB కావాలి."
+
+msgid "Mixing the tracks for the separation"
+msgstr "విభజన కోసం ట్రాక్‌లను మిక్స్ చేస్తోంది"
+
+msgid "  Which voice belongs to which microphone could not be told, so the tracks are measured instead."
+msgstr "  ఏ స్వరం ఏ మైక్రోఫోన్‌కు చెందినదో తెలియలేదు, కాబట్టి బదులుగా ట్రాక్‌లు కొలవబడతాయి."
+
+msgid "  %-20s is %-20s %s dB ahead of the next microphone, the recording level taken out"
+msgstr "  %-20s అనేది %-20s, తర్వాతి మైక్రోఫోన్ కంటే %s dB ముందుంది (రికార్డింగ్ స్థాయిని తీసివేసి)"
+
+msgid "  The speaker separation is not used: %s."
+msgstr "  వక్తల విభజన ఉపయోగించబడదు: %s."
+
+msgid "  %s cannot be read: %s"
+msgstr "  %s ఫైల్‌ను చదవలేము: %s"
+
+msgid "%s is not part of this run"
+msgstr "%s ఈ రన్‌లో భాగం కాదు"
+
+msgid "%s has no place on the axis"
+msgstr "సమయ అక్షంపై %s ఫైల్‌కు స్థానం లేదు"
+
+msgid "no recording named"
+msgstr "ఏ రికార్డింగ్ పేరూ ఇవ్వలేదు"
+
+msgid "nothing of it falls inside the window"
+msgstr "దానిలో ఏదీ సమయ పరిధిలోకి రాదు"
+
+msgid "the interface"
+msgstr "ఇంటర్‌ఫేస్"
+
+msgid "the separation in this run"
+msgstr "ఈ రన్‌లోని వక్తల విభజన"
+
+msgid "Speakers, separated by voice"
+msgstr "స్వరాల వారీగా వేరుచేసిన వక్తలు"
+
+msgid "That produced no cut -- press Start above again."
+msgstr "దీని నుండి కట్ ఏర్పడలేదు -- పైన ఉన్న ప్రారంభ బటన్‌ను మళ్లీ నొక్కండి."
+
+msgid "\nWITHOUT AUPHONIC.COM"
+msgstr "\nAUPHONIC.COM లేకుండా"
+
+msgid "  Bleed measured, %s in %s only %s dB quieter -- taken out of the speech detection"
+msgstr "  బ్లీడ్ కొలవబడింది: %s స్వరం %s ట్రాక్‌లో కేవలం %s dB తక్కువగా ఉంది -- ప్రసంగ గుర్తింపు నుండి తీసివేయబడింది"
+
+msgid "  Bleed not separable: %s"
+msgstr "  బ్లీడ్‌ను వేరుచేయలేము: %s"
+
+msgid "  No moment found where exactly one person speaks -- the bleed stays in the speech detection."
+msgstr "  సరిగ్గా ఒక్కరే మాట్లాడే క్షణం ఏదీ కనుగొనబడలేదు -- బ్లీడ్ ప్రసంగ గుర్తింపులోనే ఉంటుంది."
+
+msgid "  Nothing was audible in the tracks -- no camera cut from this."
+msgstr "  ట్రాక్‌లలో ఏదీ వినబడలేదు -- దీని నుండి కెమెరా కట్ రాదు."
+
+msgid "  Not in the cut: %s -- a separation speaks for the recording, or it was not measured."
+msgstr "  కట్‌లో లేనివి: %s -- ఆ రికార్డింగ్ స్థానంలో విభజన ఫలితం ఉంది, లేదా అది కొలవబడలేదు."
+
+msgid "  The tracks are used as recorded: aligned, mixed and brought to the\n  target loudness. No de-bleed, no leveler, no noise removal -- for\n  those the run needs auphonic.com."
+msgstr "  ట్రాక్‌లు రికార్డ్ చేసినట్లే వాడబడతాయి: సమలేఖనం చేసి, మిక్స్ చేసి,\n  లక్ష్య లౌడ్‌నెస్‌కు తీసుకురాబడతాయి. బ్లీడ్ తొలగింపు లేదు, లెవెలర్ లేదు, నాయిస్ తొలగింపు లేదు -- వాటి\n  కోసం రన్‌కు auphonic.com అవసరం."
+
+msgid "  --without-auphonic and --auphonic-done were both given. The finished tracks win: there is nothing left to send anywhere."
+msgstr "  --without-auphonic మరియు --auphonic-done రెండూ ఇవ్వబడ్డాయి. పూర్తయిన ట్రాక్‌లకే ప్రాధాన్యం: ఇక ఎక్కడికీ పంపాల్సింది ఏమీ లేదు."
+
+msgid "MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send to auphonic.com.\n  With --without-auphonic it runs locally instead: aligned,\n  mixed and cut, but without de-bleed and leveler."
+msgstr "MULTITRACK సాధ్యం కాదు\n  API కీ లేకుండా auphonic.com కు పంపడానికి ఏమీ లేదు.\n  --without-auphonic తో బదులుగా ఇది స్థానికంగా నడుస్తుంది: సమలేఖనం,\n  మిక్స్, కట్ చేయబడుతుంది, కానీ బ్లీడ్ తొలగింపు, లెవెలర్ లేకుండా."
+
+msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
+msgstr "  జాగ్రత్త: కొలవగలిగిన జతలు %s మాత్రమే (మొత్తం %s). మిగిలిన వాటికి సరిగ్గా ఒక్కరే మాట్లాడే క్షణం దొరకలేదు, కాబట్టి వాటి బ్లీడ్ అలాగే ఉంటుంది -- ఇక్కడ వక్తల గుర్తింపు నమ్మదగినది కాదు."
+
+msgid "the microphones hear each other almost as loudly as their own speaker"
+msgstr "మైక్రోఫోన్‌లు తమ సొంత వక్తను విన్నంత గట్టిగా దాదాపు ఒకదానినొకటి వింటున్నాయి"
+
+msgid "the tracks are too much alike to separate"
+msgstr "ట్రాక్‌లు వేరుచేయలేనంతగా ఒకేలా ఉన్నాయి"
+
+msgid "Reading the plan"
+msgstr "ప్లాన్‌ను చదువుతోంది"
+
+msgid "Audio out of the cameras"
+msgstr "కెమెరాల నుండి ఆడియో"
+
+msgid "Common time axis"
+msgstr "ఉమ్మడి సమయ అక్షం"
+
+msgid "Processing at auphonic.com"
+msgstr "auphonic.com లో ప్రాసెసింగ్"
+
+msgid "Loudness"
+msgstr "లౌడ్‌నెస్"
+
+msgid "Loudness and levels"
+msgstr "లౌడ్‌నెస్ మరియు స్థాయిలు"
+
+msgid "Loudness of the finished episode"
+msgstr "తుది ఎపిసోడ్ లౌడ్‌నెస్"
+
+msgid "How loud the finished episode is made. The same gain goes on every\ntrack, so the balance between the speakers is kept.\n\"Take from source files\" adjusts nothing at all: auphonic.com goes\non doing what its preset says, and without auphonic.com the sound\nstays as it is in the source files."
+msgstr "తుది ఎపిసోడ్ ఎంత గట్టిగా వినిపించాలో. ప్రతి ట్రాక్‌కు ఒకే గెయిన్\nవర్తిస్తుంది, కాబట్టి వక్తల మధ్య సమతుల్యం అలాగే ఉంటుంది.\n\"మూల ఫైళ్ల నుండి తీసుకో\" ఏదీ సర్దుబాటు చేయదు: auphonic.com తన\nప్రీసెట్ చెప్పినదే చేస్తూ ఉంటుంది, auphonic.com లేకుండా ఆడియో\nమూల ఫైళ్లలో ఉన్నట్లే ఉంటుంది."
+
+msgid "    Loudness was not adjusted -- the target below is only what the meter\n    measures against."
+msgstr "    లౌడ్‌నెస్ సర్దుబాటు చేయబడలేదు -- కింది లక్ష్యం మీటర్ దేనితో పోల్చి\n    కొలుస్తుందో అది మాత్రమే."
+
+msgid "Who speaks when"
+msgstr "ఎవరు ఎప్పుడు మాట్లాడతారు"
+
+msgid "Writing the camera files"
+msgstr "కెమెరా ఫైళ్లను రాస్తోంది"
+
+msgid "Handover and result"
+msgstr "అప్పగింత మరియు ఫలితం"
+
+msgid "Show twice as much (minus key, or the wheel over the band)"
+msgstr "రెట్టింపు చూపించు (మైనస్ కీ, లేదా బ్యాండ్‌పై మౌస్ వీల్)"
+
+msgid "Show half as much, around the current position (plus key, or the wheel over the band)"
+msgstr "సగం చూపించు, ప్రస్తుత స్థానం చుట్టూ (ప్లస్ కీ, లేదా బ్యాండ్‌పై మౌస్ వీల్)"
+
+msgid "The whole length again (0 key)"
+msgstr "మళ్లీ మొత్తం నిడివి (0 కీ)"
+
+msgid "  Also fetched: %s"
+msgstr "  ఇది కూడా తీసుకురాబడింది: %s"
+
+msgid "Auphonic will not take the settings: %s"
+msgstr "Auphonic సెట్టింగ్‌లను స్వీకరించదు: %s"
+
+msgid "      %s channels"
+msgstr "      %s ఛానళ్లు"
+
+msgid "measurement running ..."
+msgstr "కొలత జరుగుతోంది ..."
+
+msgid "      Channel %d"
+msgstr "      ఛానల్ %d"
+
+msgid "Looking at the channels"
+msgstr "ఛానళ్లను పరిశీలిస్తోంది"
+
+msgid "channels not readable: %s"
+msgstr "ఛానళ్లను చదవలేము: %s"
+
+msgid "unused input -- ignored"
+msgstr "వాడని ఇన్‌పుట్ -- విస్మరించబడింది"
+
+msgid "uncertain -- %s"
+msgstr "అనిశ్చితం -- %s"
+
+msgid "set by hand -- overrides the measurement"
+msgstr "చేతితో సెట్ చేయబడింది -- కొలతను అధిగమిస్తుంది"
+
+msgid "Language"
+msgstr "భాష"
+
+msgid "both channels identical -- mono laid on both sides"
+msgstr "రెండు ఛానళ్లూ ఒకేలా ఉన్నాయి -- మోనో రెండు వైపులా ఉంచబడింది"
+
+msgid "probably two microphones -- about %s m apart%s"
+msgstr "బహుశా రెండు మైక్రోఫోన్‌లు -- సుమారు %s m దూరంలో%s"
+
+msgid ", agreed at %s of %s places"
+msgstr ", %s చోట్ల సరిపోలింది (మొత్తం %s)"
+
+msgid "probably one stereo track -- both microphones in the same place"
+msgstr "బహుశా ఒకే స్టీరియో ట్రాక్ -- రెండు మైక్రోఫోన్‌లూ ఒకే చోట"
+
+msgid "not recognisable -- only %s of %s places where both channels carry sound, %s needed"
+msgstr "గుర్తించలేము -- రెండు ఛానళ్లలోనూ ధ్వని ఉన్న చోట్లు %s మాత్రమే (మొత్తం %s), %s కావాలి"
+
+msgid "not recognisable -- these two agree no better than each does with the channel beside it"
+msgstr "గుర్తించలేము -- ఈ రెండూ ఒక్కొక్కటి తన పక్క ఛానల్‌తో సరిపోలినంతకన్నా ఎక్కువగా ఒకదానితో ఒకటి సరిపోలవు"
+
+msgid "not set"
+msgstr "సెట్ చేయలేదు"
+
+msgid "The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. \"%s\" leaves the track untagged\nand lets the recognition work the language out itself."
+msgstr "రికార్డింగ్‌లో మాట్లాడిన భాష. ఇది రాసిన ఆడియో ట్రాక్‌కు\nట్యాగ్ అవుతుంది, ఇక్కడి గుర్తింపుకు ఈ భాషను ఆశించమని చెప్పబడుతుంది.\nసిస్టమ్ భాష నుండి ముందే ఎంచుకోబడుతుంది. \"%s\" ట్రాక్‌ను ట్యాగ్ లేకుండా ఉంచి\nగుర్తింపే భాషను కనుగొనేలా చేస్తుంది."
+
+msgid "German"
+msgstr "జర్మన్"
+
+msgid "English"
+msgstr "ఇంగ్లీష్"
+
+msgid "French"
+msgstr "ఫ్రెంచ్"
+
+msgid "Spanish"
+msgstr "స్పానిష్"
+
+msgid "Italian"
+msgstr "ఇటాలియన్"
+
+msgid "Dutch"
+msgstr "డచ్"
+
+msgid "Portuguese"
+msgstr "పోర్చుగీస్"
+
+msgid "Polish"
+msgstr "పోలిష్"
+
+msgid "Russian"
+msgstr "రష్యన్"
+
+msgid "Swedish"
+msgstr "స్వీడిష్"
+
+msgid "Danish"
+msgstr "డానిష్"
+
+msgid "Norwegian"
+msgstr "నార్వేజియన్"
+
+msgid "Finnish"
+msgstr "ఫిన్నిష్"
+
+msgid "Czech"
+msgstr "చెక్"
+
+msgid "Turkish"
+msgstr "టర్కిష్"
+
+msgid "Greek"
+msgstr "గ్రీక్"
+
+msgid "Hungarian"
+msgstr "హంగేరియన్"
+
+msgid "Romanian"
+msgstr "రొమేనియన్"
+
+msgid "Ukrainian"
+msgstr "ఉక్రేనియన్"
+
+msgid "Catalan"
+msgstr "కాటలాన్"
+
+msgid "Arabic"
+msgstr "అరబిక్"
+
+msgid "Hebrew"
+msgstr "హీబ్రూ"
+
+msgid "Japanese"
+msgstr "జపనీస్"
+
+msgid "Chinese"
+msgstr "చైనీస్"
+
+msgid "Korean"
+msgstr "కొరియన్"
+
+msgid "Cutting out track %d of %d"
+msgstr "ట్రాక్ %d వేరుచేయబడుతోంది (మొత్తం %d)"
+
+msgid "cutting failed: %s"
+msgstr "వేరుచేయడం విఫలమైంది: %s"
+
+msgid "  One camera for everybody: cut into %s shots at the change of speaker, so Resolve can group them."
+msgstr "  అందరికీ ఒకే కెమెరా: వక్త మారిన చోట్ల %s షాట్‌లుగా కట్ చేయబడింది, తద్వారా Resolve వాటిని గ్రూప్ చేయగలదు."
+
+msgid "Shorter shots fall into the following one."
+msgstr "ఇంతకంటే చిన్న షాట్‌లు తర్వాతి షాట్‌లో కలిసిపోతాయి."
+
+msgid "Speaks at least"
+msgstr "కనీసం ఇంత మాట్లాడాలి"
+
+msgid "below this the camera does not follow"
+msgstr "దీనికంటే తక్కువైతే కెమెరా అనుసరించదు"
+
+msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
+msgstr "చిన్న \"అవును\" చిత్రాన్ని కదిలించదు. ఇది లేకపోతే అర సెకను బ్లాక్ కూడా కెమెరాను తనవైపుకు లాగుతుంది, ఆపై కనీస షాట్ నిడివి దాన్ని అక్కడ సెకన్ల పాటు ఉంచుతుంది."
+
+msgid "Answer on screen earlier"
+msgstr "సమాధానం ముందుగా తెరపై"
+
+msgid "before the question ends"
+msgstr "ప్రశ్న ముగిసే ముందు"
+
+msgid "Zero is where the asker stops, not where the answer starts: the pause between them belongs to the question. Applies only where \"After a question\" asks for it, and the Edit Change Delay is not added again."
+msgstr "సున్నా అంటే ప్రశ్న అడిగినవారు ఆపిన చోటు, సమాధానం మొదలయ్యే చోటు కాదు: వాటి మధ్య విరామం ప్రశ్నకే చెందుతుంది. \"ప్రశ్న తర్వాత\" దీన్ని కోరిన చోట మాత్రమే వర్తిస్తుంది, Edit Change Delay మళ్లీ జోడించబడదు."
+
+msgid "Wide shot at least"
+msgstr "వైడ్ షాట్ కనీసం"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "చొప్పించిన వైడ్ షాట్ కనీసం ఇంతసేపు ఉంటుంది"
+
+msgid "It then runs to the end of the sentence. Below five seconds the look reads as a twitch."
+msgstr "ఆ తర్వాత అది వాక్యం చివరి వరకు సాగుతుంది. ఐదు సెకన్ల కంటే తక్కువైతే ఆ దృశ్యం ఒక కుదుపులా కనిపిస్తుంది."
+
+msgid "and at most this long"
+msgstr "గరిష్ఠంగా ఇంతసేపు"
+
+msgid "Where the end of the sentence lies beyond it, the last clause break before it ends the shot -- it is not cut off mid-sentence."
+msgstr "వాక్యం ముగింపు దీన్ని దాటితే, దీనికి ముందున్న చివరి ఉపవాక్య విరామం వద్ద షాట్ ముగుస్తుంది -- వాక్యం మధ్యలో కత్తిరించబడదు."
+
+msgid "Long monologue"
+msgstr "సుదీర్ఘ మోనోలాగ్"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "ఒక్కరే \"వైడ్ షాట్ ఇంత తర్వాత\" దాటి మాట్లాడుతూనే ఉంటారు"
+
+msgid "\"Alternating\" remembers what the last break of this monologue showed. The listener only gets the picture when someone on that camera was heard in the last 20 seconds; otherwise the wide shot."
+msgstr "\"మార్చి మార్చి\" ఈ మోనోలాగ్ చివరి విరామంలో ఏమి చూపించిందో గుర్తుంచుకుంటుంది. ఆ కెమెరాలో ఉన్న ఎవరైనా గత 20 సెకన్లలో వినిపించినప్పుడే శ్రోతకు చిత్రం దక్కుతుంది; లేకపోతే వైడ్ షాట్."
+
+msgid "Several speak at once"
+msgstr "అనేకులు ఒకేసారి మాట్లాడతారు"
+
+msgid "and no camera shows exactly them"
+msgstr "మరియు ఏ కెమెరా సరిగ్గా వారినే చూపదు"
+
+msgid "Cutting into a jumble looks frantic."
+msgstr "గందరగోళంలోకి కట్ చేస్తే హడావుడిగా కనిపిస్తుంది."
+
+msgid "Nobody speaks"
+msgstr "ఎవరూ మాట్లాడరు"
+
+msgid "no voice is heard at all here"
+msgstr "ఇక్కడ ఏ స్వరమూ అసలు వినబడదు"
+
+msgid "A breath in the middle of a sentence and the end of a thought are both silence, and the program cannot tell them apart. Only the length can: \"Short gap up to\" says how long a silence may be and still count as a breath."
+msgstr "వాక్యం మధ్యలో ఊపిరి, ఆలోచన ముగింపు -- రెండూ నిశ్శబ్దమే, ప్రోగ్రామ్ వాటిని వేరుగా గుర్తించలేదు. నిడివి మాత్రమే గుర్తించగలదు: \"చిన్న ఖాళీ ఇంత వరకు\" ఒక నిశ్శబ్దం ఎంతసేపటి వరకు ఉంటే ఇంకా ఊపిరిగానే లెక్కించబడుతుందో చెబుతుంది."
+
+msgid "Short gap up to"
+msgstr "చిన్న ఖాళీ ఇంత వరకు"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "ఇంతసేపటి నిశ్శబ్దం చిత్రాన్ని మార్చదు"
+
+msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "\"ఎవరూ మాట్లాడరు\" చిన్న ఖాళీని ఉంచేలా సెట్ చేసిన చోట మాత్రమే. ఇంతసేపటి వరకు ఉన్న ఖాళీ ఏమీ మార్చదు, అంతకంటే పొడవైనది వైడ్ షాట్‌కు వెళ్తుంది. రెండు సెకన్లు దాటితే చిత్రం ఐదు సెకన్లకు పైగా మౌనంగా ఉన్న వ్యక్తిపై నిలవడం మొదలవుతుంది."
+
+msgid "Recognition uncertain"
+msgstr "గుర్తింపు అనిశ్చితం"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "వక్తల గుర్తింపు చెదిరిపోతుంది లేదా ఒక కుప్పను మిగులుస్తుంది"
+
+msgid "Guessing puts the wrong person on screen for seconds; the wide shot is right in every case. Somebody is speaking here -- where nobody is, \"Nobody speaks\" decides."
+msgstr "ఊహిస్తే తప్పు వ్యక్తి సెకన్ల పాటు తెరపై కనిపిస్తారు; వైడ్ షాట్ ప్రతి సందర్భంలోనూ సరైనదే. ఇక్కడ ఎవరో మాట్లాడుతున్నారు -- ఎవరూ మాట్లాడని చోట \"ఎవరూ మాట్లాడరు\" నిర్ణయిస్తుంది."
+
+msgid "the picture goes to the answer before it starts"
+msgstr "సమాధానం మొదలయ్యే ముందే చిత్రం దానివైపు వెళ్తుంది"
+
+msgid "Only after a question that is not the main speaker's, when somebody else takes over at once and keeps the floor.\n\"do not go early\" means no early camera change: the picture follows the sound here as it does everywhere else."
+msgstr "ప్రధాన వక్తది కాని ప్రశ్న తర్వాత, వేరొకరు వెంటనే అందుకుని మాట్లాడుతూ ఉన్నప్పుడు మాత్రమే.\n\"ముందుగా మారవద్దు\" అంటే ముందస్తు కెమెరా మార్పు లేదు: ఇక్కడ కూడా మిగతా అన్ని చోట్లలాగే చిత్రం ధ్వనిని అనుసరిస్తుంది."
+
+msgid "Wide shot"
+msgstr "వైడ్ షాట్"
+
+msgid "Wide shot %d"
+msgstr "వైడ్ షాట్ %d"
+
+msgid "(wide shot)"
+msgstr "(వైడ్ షాట్)"
+
+msgid "No speaker"
+msgstr "వక్త లేరు"
+
+msgid "Listener"
+msgstr "శ్రోత"
+
+msgid "Alternating"
+msgstr "మార్చి మార్చి"
+
+msgid "No camera change"
+msgstr "కెమెరా మార్పు లేదు"
+
+msgid "Hold a short gap"
+msgstr "చిన్న ఖాళీని ఉంచు"
+
+msgid "do not go early"
+msgstr "ముందుగా మారవద్దు"
+
+msgid "Answering speaker"
+msgstr "సమాధానమిచ్చే వక్త"
+
+msgid "  %sx away from the speaker because a shot ran longer than %s s"
+msgstr "  %s సార్లు వక్త నుండి దూరంగా, ఎందుకంటే ఒక షాట్ %s సెకన్ల కంటే ఎక్కువసేపు సాగింది"
+
+msgid "%s is in place."
+msgstr "వెర్షన్ %s సిద్ధంగా ఉంది."
+
+msgid "This window is still the version it started as. It can start again now and come up as that one, or you can do that yourself later."
+msgstr "ఈ విండో ఇంకా అది ప్రారంభమైన వెర్షన్‌లోనే ఉంది. ఇది ఇప్పుడే మళ్లీ ప్రారంభమై ఆ వెర్షన్‌గా తెరుచుకోవచ్చు, లేదా మీరే తర్వాత అలా చేయవచ్చు."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "ఈ కాపీ దాని సొంత ఫోల్డర్ నుండి నడుస్తోంది, కాబట్టి ఇక్కడ pip అప్‌డేట్ చేయడానికి ఏమీ లేదు. దీన్ని ఇన్‌స్టాల్ చేసే ఆదేశం: %s"
+
+msgid "Language of the window"
+msgstr "విండో భాష"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "ఇక్కడ ఎంచుకున్న భాష తదుపరి ప్రారంభం నుండి అమలవుతుంది."
+
+msgid "Restart the application"
+msgstr "అప్లికేషన్‌ను పునఃప్రారంభించు"
+
+msgid "The work can be written to a project file first."
+msgstr "ముందుగా పనిని ప్రాజెక్ట్ ఫైల్‌లో రాయవచ్చు."
+
+msgid "Starting the application again brings it at once, and asks first what is to happen to the work. Leaving it alone costs nothing -- it comes at the next start."
+msgstr "అప్లికేషన్‌ను మళ్లీ ప్రారంభిస్తే ఇది వెంటనే అమలవుతుంది, ముందుగా పనిని ఏం చేయాలో అడుగుతుంది. అలాగే వదిలేసినా నష్టం లేదు -- తదుపరి ప్రారంభంలో ఇది వస్తుంది."
+
+msgid "The application is about to start again. Shall the work be written to a project file first?"
+msgstr "అప్లికేషన్ మళ్లీ ప్రారంభం కాబోతోంది. ముందుగా పనిని ప్రాజెక్ట్ ఫైల్‌లో రాయాలా?"
+
+msgid "Written, the new window opens the project again and everything stands where it stood. Not written, it comes up empty and the files have to be added afresh."
+msgstr "రాస్తే, కొత్త విండో ప్రాజెక్ట్‌ను మళ్లీ తెరుస్తుంది, అన్నీ ఉన్నచోటే ఉంటాయి. రాయకపోతే, అది ఖాళీగా తెరుచుకుంటుంది, ఫైళ్లను మళ్లీ జోడించాలి."
+
+msgid "Save and restart"
+msgstr "సేవ్ చేసి పునఃప్రారంభించు"
+
+msgid "Restart without saving"
+msgstr "సేవ్ చేయకుండా పునఃప్రారంభించు"
+
+msgid "The run is still going. The window can be started again once it is finished."
+msgstr "రన్ ఇంకా జరుగుతోంది. అది పూర్తయిన తర్వాత విండోను మళ్లీ ప్రారంభించవచ్చు."
+
+msgid "System language (%s)"
+msgstr "సిస్టమ్ భాష (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "ఈ ప్రోగ్రామ్‌కు షార్ట్‌కట్ సృష్టించబడింది: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "ఈ ప్రోగ్రామ్‌కు షార్ట్‌కట్ సృష్టించబడలేదు: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "అది రాయబడింది, కానీ తర్వాత అక్కడ లేదు"
+
+msgid "This program is running as %s and the packages installed for it are %s, so none of them can be loaded. This starts it right: %s"
+msgstr "ఈ ప్రోగ్రామ్ %s ఆర్కిటెక్చర్‌పై నడుస్తోంది, కానీ దీని కోసం ఇన్‌స్టాల్ చేసిన ప్యాకేజీలు %s కోసం ఉన్నాయి, కాబట్టి వాటిలో ఏదీ లోడ్ కాదు. దీన్ని సరిగ్గా ప్రారంభించే ఆదేశం: %s"
+
+msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
+msgstr "ఈ అప్పగింతలో ఫ్రేమ్ రేట్ లేదు, కాబట్టి దీని నుండి Timeline నిర్మించలేము. దయచేసి రన్‌ను మళ్లీ చేయండి."
+
+msgid "Cut by speaker"
+msgstr "వక్తల వారీగా కట్"
+
+msgid "Sync only"
+msgstr "సింక్ మాత్రమే"
+
+msgid "Project type"
+msgstr "ప్రాజెక్ట్ రకం"
+
+msgid "No project type chosen yet."
+msgstr "ఇంకా ప్రాజెక్ట్ రకం ఎంచుకోలేదు."
+
+msgid "What is this production to become?"
+msgstr "ఈ ప్రొడక్షన్ ఏమి కావాలి?"
+
+msgid "\"%s\": the cameras on one time axis and a cut by who is speaking.\n\"%s\": the cameras on one time axis, nothing more -- no speakers, no cut."
+msgstr "\"%s\": కెమెరాలు ఒకే సమయ అక్షంపై, ఎవరు మాట్లాడుతున్నారో దాని ఆధారంగా కట్.\n\"%s\": కెమెరాలు ఒకే సమయ అక్షంపై, అంతే -- వక్తలు లేరు, కట్ లేదు."
+
+msgid "Sync only: no cut. The handover carries the multicam timeline alone; the Resolve project is created from the Output tab."
+msgstr "సింక్ మాత్రమే: కట్ లేదు. అప్పగింతలో Multicam Timeline మాత్రమే ఉంటుంది; Resolve ప్రాజెక్ట్ అవుట్‌పుట్ ట్యాబ్ నుండి సృష్టించబడుతుంది."
+
+msgid "Project type: Sync only -- no speakers, no transcript, no cut; the handover carries the multicam timeline alone."
+msgstr "ప్రాజెక్ట్ రకం: సింక్ మాత్రమే -- వక్తలు లేరు, ట్రాన్స్‌క్రిప్ట్ లేదు, కట్ లేదు; అప్పగింతలో Multicam Timeline మాత్రమే ఉంటుంది."
+
+msgid "\n  Sync only: no cut by speaker was asked for.\n  Only the Timeline for the multicam clip is built."
+msgstr "\n  సింక్ మాత్రమే: వక్తల వారీగా కట్ కోరలేదు.\n  Multicam క్లిప్ కోసం Timeline మాత్రమే నిర్మించబడుతుంది."
+
+msgid "  %s video tracks, named after the camera files:"
+msgstr "  %s వీడియో ట్రాక్‌లు, కెమెరా ఫైళ్ల పేర్లతో:"
+
+msgid "Sync only takes one audio recording; this is one more: %s"
+msgstr "సింక్ మాత్రమే ఒకే ఆడియో రికార్డింగ్‌ను తీసుకుంటుంది; ఇది అదనంగా ఉన్నది: %s"
+
+msgid "Sync only: the handover is worked out again; there is no cut to redo. Resolve must be running."
+msgstr "సింక్ మాత్రమే: అప్పగింత మళ్లీ లెక్కించబడుతుంది; మళ్లీ చేయాల్సిన కట్ లేదు. Resolve నడుస్తూ ఉండాలి."
+
+msgid "%s has not started yet"
+msgstr "%s ఫైల్ ఇంకా మొదలవలేదు"
+
+msgid "%s   --   the sound cannot be played"
+msgstr "%s   --   ఆడియోను ప్లే చేయలేము"
+
+msgid "sound placed by clock -- measurement pending"
+msgstr "ఆడియో గడియారం ప్రకారం ఉంచబడింది -- కొలత ఇంకా జరగాలి"
+
+msgid "\nSPEAKER LEVELS"
+msgstr "\nవక్తల స్థాయిలు"
+
+msgid "Measuring %s"
+msgstr "కొలుస్తోంది: %s"
+
+msgid "  %-20s not measurable -- left as it is"
+msgstr "  %-20s కొలవలేము -- అలాగే వదిలివేయబడింది"
+
+msgid "  %-20s %s LUFS -- nothing on it, left as it is"
+msgstr "  %-20s %s LUFS -- దానిపై ఏమీ లేదు, అలాగే వదిలివేయబడింది"
+
+msgid "  %-20s %s LUFS  ->  %s dB"
+msgstr "  %-20s %s LUFS  ->  %s dB"
+
+msgid "  Only one voice -- nothing to match it against."
+msgstr "  ఒకే స్వరం -- దానితో పోల్చడానికి ఏమీ లేదు."
+
+msgid "  Common level:      %s LUFS, the median of the voices"
+msgstr "  ఉమ్మడి స్థాయి:       %s LUFS, స్వరాల మధ్యస్థం"
+
+msgid "--new-name names %s, which is not one of the camera files of this run."
+msgstr "--new-name పేర్కొన్నది: %s, ఇది ఈ రన్‌లోని కెమెరా ఫైళ్లలో ఒకటి కాదు."
+
+msgid "The new name for %s is empty; give a plain file name or leave --new-name out."
+msgstr "%s ఫైల్ కొత్త పేరు ఖాళీగా ఉంది; సాధారణ ఫైల్ పేరు ఇవ్వండి లేదా --new-name ను వదిలేయండి."
+
+msgid "The new name \"%s\" for %s holds \"%s\", a folder or drive separator; give a plain file name."
+msgstr "కొత్త పేరు \"%s\" (%s ఫైల్ కోసం) \"%s\" అనే గుర్తును కలిగి ఉంది, ఇది ఫోల్డర్ లేదా డ్రైవ్ విభాజకం; సాధారణ ఫైల్ పేరు ఇవ్వండి."
+
+msgid "The new name \"%s\" for %s begins with a dot, which makes a hidden file or a folder; give a plain file name."
+msgstr "కొత్త పేరు \"%s\" (%s ఫైల్ కోసం) చుక్కతో మొదలవుతుంది, దీంతో అది దాచిన ఫైల్ లేదా ఫోల్డర్ అవుతుంది; సాధారణ ఫైల్ పేరు ఇవ్వండి."
+
+msgid "Two cameras would be written as one file, %s: %s and %s."
+msgstr "రెండు కెమెరాలు ఒకే ఫైల్‌గా రాయబడతాయి, %s: %s మరియు %s."
+
+msgid "--new-name gives %s two names, \"%s\" and \"%s\"; give each file one."
+msgstr "--new-name %s ఫైల్‌కు రెండు పేర్లు ఇస్తుంది, \"%s\" మరియు \"%s\"; ప్రతి ఫైల్‌కు ఒకే పేరు ఇవ్వండి."
+
+msgid "The assignment file names the cameras here, so --new-name would be dropped; give the names there or leave --new-name out."
+msgstr "ఇక్కడ కెమెరాలకు పేర్లను కేటాయింపు ఫైల్ ఇస్తుంది, కాబట్టి --new-name వదిలివేయబడుతుంది; పేర్లను అక్కడ ఇవ్వండి లేదా --new-name ను వదిలేయండి."
+
+msgid "With cameras only, each file is named after the tracks taken from its sound, so --new-name would be dropped; leave --new-name out."
+msgstr "కెమెరాలు మాత్రమే ఉన్నప్పుడు, ప్రతి ఫైల్‌కు దాని ఆడియో నుండి తీసిన ట్రాక్‌ల పేరు పెట్టబడుతుంది, కాబట్టి --new-name వదిలివేయబడుతుంది; --new-name ను వదిలేయండి."
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "%s కెమెరాలో"
+msgstr[1] "%s కెమెరాలలో"
+
+msgid "  %s word came back without a time and was left out."
+msgid_plural "  %s words came back without a time and were left out."
+msgstr[0] "  %s పదం సమయం లేకుండా తిరిగి వచ్చింది, అది వదిలివేయబడింది."
+msgstr[1] "  %s పదాలు సమయం లేకుండా తిరిగి వచ్చాయి, అవి వదిలివేయబడ్డాయి."
+
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgid_plural "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr[0] "  వక్తల విభజన (%s): %s వక్త, %s నిడివి గల ఆడియో నుండి"
+msgstr[1] "  వక్తల విభజన (%s): %s వక్తలు, %s నిడివి గల ఆడియో నుండి"
+
+msgid "Separated: %s speaker"
+msgid_plural "Separated: %s speakers"
+msgstr[0] "విభజన పూర్తి: %s వక్త"
+msgstr[1] "విభజన పూర్తి: %s వక్తలు"
+
+msgid "%s fixed on its own"
+msgid_plural "%s fixed on their own"
+msgstr[0] "%s స్వయంగా సరిచేయబడింది"
+msgstr[1] "%s స్వయంగా సరిచేయబడ్డాయి"
+
+msgid "    Picture and audio linked again: %s angle"
+msgid_plural "    Picture and audio linked again: %s angles"
+msgstr[0] "    చిత్రం మరియు ఆడియో మళ్లీ జత చేయబడ్డాయి: %s యాంగిల్"
+msgstr[1] "    చిత్రం మరియు ఆడియో మళ్లీ జత చేయబడ్డాయి: %s యాంగిల్‌లు"
+
+msgid "  Caution: %s not inserted. Without this angle the\n  Timeline is no good for converting."
+msgid_plural "  Caution: %s not inserted. Without these angles the\n  Timeline is no good for converting."
+msgstr[0] "  జాగ్రత్త: %s చేర్చబడలేదు. ఈ యాంగిల్ లేకుండా\n  Timeline మార్చడానికి పనికిరాదు."
+msgstr[1] "  జాగ్రత్త: %s చేర్చబడలేదు. ఈ యాంగిల్‌లు లేకుండా\n  Timeline మార్చడానికి పనికిరాదు."
+
+msgid "  %s stays in two channels"
+msgid_plural "  %s stay in two channels"
+msgstr[0] "  %s ట్రాక్ రెండు ఛానళ్లలోనే ఉంటుంది"
+msgstr[1] "  %s ట్రాక్‌లు రెండు ఛానళ్లలోనే ఉంటాయి"
+
+msgid "  %s went up in stereo and came back in one channel."
+msgid_plural "  %s went up in stereo and came back in one channel each."
+msgstr[0] "  %s ట్రాక్ స్టీరియోలో అప్‌లోడ్ అయి ఒకే ఛానల్‌లో తిరిగి వచ్చింది."
+msgstr[1] "  %s ట్రాక్‌లు స్టీరియోలో అప్‌లోడ్ అయి ఒక్కొక్కటి ఒకే ఛానల్‌లో తిరిగి వచ్చాయి."
+
+msgid " of %s embedded channel"
+msgid_plural " of %s embedded channels"
+msgstr[0] " (%s ఎంబెడెడ్ ఛానల్ నుండి)"
+msgstr[1] " (%s ఎంబెడెడ్ ఛానళ్ల నుండి)"
+
+msgid "The file is tagged as HDR, with %s note."
+msgid_plural "The file is tagged as HDR, with %s notes."
+msgstr[0] "ఫైల్ HDR గా గుర్తించబడింది, %s గమనికతో."
+msgstr[1] "ఫైల్ HDR గా గుర్తించబడింది, %s గమనికలతో."
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s ఆడియో ట్రాక్"
+msgstr[1] "%s ఆడియో ట్రాక్‌లు"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s క్లిప్"
+msgstr[1] "%s క్లిప్‌లు"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s వీడియో ట్రాక్"
+msgstr[1] "%s వీడియో ట్రాక్‌లు"
+
+msgid "  Full-Mix from %s tracks, %s channel"
+msgid_plural "  Full-Mix from %s tracks, %s channels"
+msgstr[0] "  %s ట్రాక్‌ల నుండి Full-Mix, %s ఛానల్"
+msgstr[1] "  %s ట్రాక్‌ల నుండి Full-Mix, %s ఛానళ్లు"
+
+msgid "      %s clip left without a colour."
+msgid_plural "      %s clips left without a colour."
+msgstr[0] "      %s క్లిప్ రంగు లేకుండా మిగిలిపోయింది."
+msgstr[1] "      %s క్లిప్‌లు రంగు లేకుండా మిగిలిపోయాయి."
+
+msgid "      --> interpreted as %s audio track%s"
+msgid_plural "      --> interpreted as %s audio tracks%s"
+msgstr[0] "      --> %s ఆడియో ట్రాక్‌గా అర్థం చేసుకోబడింది%s"
+msgstr[1] "      --> %s ఆడియో ట్రాక్‌లుగా అర్థం చేసుకోబడింది%s"
+
+msgid "      More angles than colours -- %s colour occurs twice."
+msgid_plural "      More angles than colours -- %s colours occur twice."
+msgstr[0] "      రంగుల కంటే యాంగిల్‌లు ఎక్కువ -- %s రంగు రెండుసార్లు వస్తుంది."
+msgstr[1] "      రంగుల కంటే యాంగిల్‌లు ఎక్కువ -- %s రంగులు రెండుసార్లు వస్తాయి."
+
+msgid "    %s empty audio track removed"
+msgid_plural "    %s empty audio tracks removed"
+msgstr[0] "    %s ఖాళీ ఆడియో ట్రాక్ తీసివేయబడింది"
+msgstr[1] "    %s ఖాళీ ఆడియో ట్రాక్‌లు తీసివేయబడ్డాయి"
+
+msgid "    V2 now holds %s clip: %s"
+msgid_plural "    V2 now holds %s clips: %s"
+msgstr[0] "    V2 లో ఇప్పుడు %s క్లిప్ ఉంది: %s"
+msgstr[1] "    V2 లో ఇప్పుడు %s క్లిప్‌లు ఉన్నాయి: %s"
+
+msgid "  %s audio track remains:"
+msgid_plural "  %s audio tracks remain:"
+msgstr[0] "  %s ఆడియో ట్రాక్ మిగిలి ఉంది:"
+msgstr[1] "  %s ఆడియో ట్రాక్‌లు మిగిలి ఉన్నాయి:"
+
+msgid "  %s audio track stays: %s"
+msgid_plural "  %s audio tracks stay: %s"
+msgstr[0] "  %s ఆడియో ట్రాక్ అలాగే ఉంటుంది: %s"
+msgstr[1] "  %s ఆడియో ట్రాక్‌లు అలాగే ఉంటాయి: %s"
+
+msgid "  %s marker set%s."
+msgid_plural "  %s markers set%s."
+msgstr[0] "  %s మార్కర్ సెట్ చేయబడింది%s."
+msgstr[1] "  %s మార్కర్‌లు సెట్ చేయబడ్డాయి%s."
+
+msgid "%s file was finished before that and is whole: %s"
+msgid_plural "%s files were finished before that and are whole: %s"
+msgstr[0] "%s ఫైల్ అంతకు ముందే పూర్తయింది, అది చెక్కుచెదరకుండా ఉంది: %s"
+msgstr[1] "%s ఫైళ్లు అంతకు ముందే పూర్తయ్యాయి, అవి చెక్కుచెదరకుండా ఉన్నాయి: %s"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s ఛానల్"
+msgstr[1] "%s ఛానళ్లు"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s ఫైల్"
+msgstr[1] "%s ఫైళ్లు"
+
+msgid "%s reason to stop"
+msgid_plural "%s reasons to stop"
+msgstr[0] "ఆపడానికి %s కారణం"
+msgstr[1] "ఆపడానికి %s కారణాలు"
+
+msgid "%s recording from %s files"
+msgid_plural "%s recordings from %s files"
+msgstr[0] "%s రికార్డింగ్, %s ఫైళ్ల నుండి"
+msgstr[1] "%s రికార్డింగ్‌లు, %s ఫైళ్ల నుండి"
+
+msgid "%s track, %s, %s kHz, %s"
+msgid_plural "%s tracks, %s, %s kHz, %s"
+msgstr[0] "%s ట్రాక్, %s, %s kHz, %s"
+msgstr[1] "%s ట్రాక్‌లు, %s, %s kHz, %s"
+
+msgid "%s: sits at %s (target %s) after %d ms, %d attempt"
+msgid_plural "%s: sits at %s (target %s) after %d ms, %d attempts"
+msgstr[0] "%s: %s వద్ద ఉంది (లక్ష్యం %s), %d ms తర్వాత, %d ప్రయత్నం"
+msgstr[1] "%s: %s వద్ద ఉంది (లక్ష్యం %s), %d ms తర్వాత, %d ప్రయత్నాలు"
+
+msgid ", %s file does not fit"
+msgid_plural ", %s files do not fit"
+msgstr[0] ", %s ఫైల్ సరిపోలడం లేదు"
+msgstr[1] ", %s ఫైళ్లు సరిపోలడం లేదు"
+
+msgid "Remove %s audio file from the list?\n\n%s"
+msgid_plural "Remove all %s audio files from the list?\n\n%s"
+msgstr[0] "జాబితా నుండి %s ఆడియో ఫైల్‌ను తీసివేయాలా?\n\n%s"
+msgstr[1] "జాబితా నుండి మొత్తం %s ఆడియో ఫైళ్లను తీసివేయాలా?\n\n%s"
+
+msgid "Remove %s video file from the list?\n\n%s"
+msgid_plural "Remove all %s video files from the list?\n\n%s"
+msgstr[0] "జాబితా నుండి %s వీడియో ఫైల్‌ను తీసివేయాలా?\n\n%s"
+msgstr[1] "జాబితా నుండి మొత్తం %s వీడియో ఫైళ్లను తీసివేయాలా?\n\n%s"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s ఆడియో రికార్డింగ్"
+msgstr[1] "%s ఆడియో రికార్డింగ్‌లు"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s కెమెరా"
+msgstr[1] "%s కెమెరాలు"
+
+msgid "%s hint"
+msgid_plural "%s hints"
+msgstr[0] "%s గమనిక"
+msgstr[1] "%s గమనికలు"
+
+msgid "%s point"
+msgid_plural "%s points"
+msgstr[0] "%s అంశం"
+msgstr[1] "%s అంశాలు"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s వీడియో ఫైల్"
+msgstr[1] "%s వీడియో ఫైళ్లు"
+
+msgid "%s  + %s continuation"
+msgid_plural "%s  + %s continuations"
+msgstr[0] "%s  + %s కొనసాగింపు"
+msgstr[1] "%s  + %s కొనసాగింపులు"
+
+msgid "This makes %s video file, about %s. Target: %s"
+msgid_plural "This makes %s video files, about %s. Target: %s"
+msgstr[0] "దీని వల్ల %s వీడియో ఫైల్ తయారవుతుంది, సుమారు %s. గమ్యం: %s"
+msgstr[1] "దీని వల్ల %s వీడియో ఫైళ్లు తయారవుతాయి, సుమారు %s. గమ్యం: %s"
+
+msgid "  From %s: %s voice."
+msgid_plural "  From %s: %s voices."
+msgstr[0] "  %s నుండి: %s స్వరం."
+msgstr[1] "  %s నుండి: %s స్వరాలు."
+
+msgid "  %-20s %s in %s passage"
+msgid_plural "  %-20s %s in %s passages"
+msgstr[0] "  %-20s %s, %s భాగంలో"
+msgstr[1] "  %-20s %s, %s భాగాలలో"
+
+msgid "  %s cannot be classified: %s -- placed by its clock alone"
+msgstr "  %s ను వర్గీకరించలేము: %s -- దాని గడియారం ఆధారంగా మాత్రమే ఉంచబడింది"
+
+msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
+msgstr "  %s: దీని ఆడియో %s మేరకు సరిపోతుంది, కనిష్ఠ స్థాయి %s కంటే తక్కువ -- దాని గడియారం ఆధారంగా మాత్రమే ఉంచబడింది"
+
+msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
+msgstr "  జాగ్రత్త: ఈ ప్రాజెక్ట్ పూర్తి కాలేదు -- Resolve ఈ ట్రాక్‌లను రెండుసార్లు తిరస్కరించింది:"
+
+msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
+msgstr "  ఆఫ్‌సెట్:            %s   (దాని టైమ్‌కోడ్ ఆధారంగా మాత్రమే -- దాని ఆడియో దీన్ని ఉంచలేకపోయింది, కాబట్టి ఏదీ సరిచూడబడదు)"
+
+msgid "  Resolve refused audio track A%d twice on the Timeline \"%s\" -- the cameras are laid on the %s audio tracks there are."
+msgstr "  Resolve ఆడియో ట్రాక్ A%d ను Timeline \"%s\" పై రెండుసార్లు తిరస్కరించింది -- కెమెరాలు అక్కడ ఉన్న %s ఆడియో ట్రాక్‌లపై ఉంచబడతాయి."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks %s."
+msgstr "  Resolve వీడియో ట్రాక్ V%d ను రెండుసార్లు తిరస్కరించింది -- Timeline \"%s\" లో ఇది లేదు: %s."
+
+msgid "  Status:      %s"
+msgstr "  స్థితి:          %s"
+
+msgid "  The sound of %s matched too weakly to trust -- placed by the timecode alone."
+msgstr "  ఆడియో నమ్మదగినంత బలంగా సరిపోలలేదు: %s -- టైమ్‌కోడ్ ఆధారంగా మాత్రమే ఉంచబడింది."
+
+msgid "%s\n   does not fit the other files: sound not recognised,\n   nothing to set its timecode against.\n   %s"
+msgstr "%s\n   ఇతర ఫైళ్లకు సరిపోదు: ఆడియో గుర్తించబడలేదు,\n   దీని టైమ్‌కోడ్‌ను పోల్చడానికి ఏదీ లేదు.\n   %s"
+
+msgid "%s cannot be placed: its sound has nothing in common with the rest of the material, and no camera the sound placed carries a timecode to set its own against. One of those needs a timecode that fits this one, and that has to be set with another program."
+msgstr "%s ఫైల్‌ను ఎక్కడా ఉంచలేము: దీని ఆడియోకు మిగతా మెటీరియల్‌తో ఉమ్మడి ఏమీ లేదు, ఆడియో ఉంచిన ఏ కెమెరాలోనూ దీని టైమ్‌కోడ్‌ను పోల్చగలిగే టైమ్‌కోడ్ లేదు. వాటిలో ఒకదానికి దీనికి సరిపోయే టైమ్‌కోడ్ కావాలి, దాన్ని వేరే ప్రోగ్రామ్‌తో సెట్ చేయాలి."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against, so it cannot be cut into the episode: set to Intro."
+msgstr "%s మెటీరియల్‌లో దేనికీ సరిపోదు, ఆడియో ఉంచిన ఏ కెమెరాలోనూ దీని టైమ్‌కోడ్‌ను పోల్చగలిగే టైమ్‌కోడ్ లేదు, కాబట్టి ఎపిసోడ్‌లోకి కట్ చేయలేము: ఇంట్రోగా సెట్ చేయబడింది."
+
+msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
+msgstr "%s మెటీరియల్‌లో దేనికీ సరిపోదు, ఆడియో ఉంచిన ఏ కెమెరాలోనూ దీని టైమ్‌కోడ్‌ను పోల్చగలిగే టైమ్‌కోడ్ లేదు; ఇంట్రో ఇప్పటికే ఉంది: వదిలివేయబడింది."
+
+msgid "API Key:"
+msgstr "API కీ:"
+
+msgid "In point"
+msgstr "ఇన్ పాయింట్"
+
+msgid "Left out; %s or %s is one click away."
+msgstr "వదిలివేయబడింది; %s లేదా %s ఒక్క క్లిక్ దూరంలో ఉంది."
+
+msgid "Out point"
+msgstr "అవుట్ పాయింట్"
+
+msgid "Presets:"
+msgstr "ప్రీసెట్‌లు:"
+
+msgid "Registry"
+msgstr "రిజిస్ట్రీ"
+
+msgid "Removing AUDIO or VIDEO takes everything under it."
+msgstr "\"ఆడియో\" లేదా \"వీడియో\" తీసివేస్తే దాని కింద ఉన్నవన్నీ తీసివేయబడతాయి."
+
+msgid "VIDEO"
+msgstr "వీడియో"
+
+msgid "a finished clip"
+msgstr "పూర్తయిన క్లిప్"
+
+msgid "cannot be cut into the episode -- only before or after it"
+msgstr "ఎపిసోడ్‌లోకి కట్ చేయలేము -- ముందు లేదా తర్వాత మాత్రమే"
+
+msgid "moved off the wide shot"
+msgstr "వైడ్ షాట్ నుండి తప్పించబడింది"
+
+msgid "neither its sound nor a timecode puts it on the axis"
+msgstr "దీని ఆడియో గానీ టైమ్‌కోడ్ గానీ దీన్ని అక్షంపై ఉంచవు"
+
+msgid "no audio track"
+msgstr "ఆడియో ట్రాక్ లేదు"
+
+msgid "no speaker"
+msgstr "వక్త లేరు"
+
+msgid "not used"
+msgstr "వాడబడదు"
+
+msgid "placed with its camera, by that camera's clock"
+msgstr "దాని కెమెరాతో, ఆ కెమెరా గడియారం ప్రకారం ఉంచబడింది"
+
+msgid "the file stays out"
+msgstr "ఫైల్ బయటే ఉంటుంది"
+
+msgid "the only sound"
+msgstr "ఏకైక ఆడియో"
+
+msgid "  Resolve refused audio track A%d twice -- the Timeline \"%s\" lacks the sound of %s."
+msgstr "  Resolve ఆడియో ట్రాక్ A%d ను రెండుసార్లు తిరస్కరించింది -- Timeline \"%s\" లో %s యొక్క ఆడియో లేదు."
+
+msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
+msgstr "  Resolve వీడియో ట్రాక్ V%d ను రెండుసార్లు తిరస్కరించింది -- Timeline \"%s\" లో %s యొక్క చిత్రం లేదు."

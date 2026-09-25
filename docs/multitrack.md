@@ -74,8 +74,8 @@ cases:
 
 - **no camera of its own**: in the Full-Mix, but nobody's first track.
   For someone heard but not seen.
-- **do not use**: out entirely, and the speaker name goes grey. For a
-  recording whose video is still missing.
+- **do not use**: out entirely, and the speaker name goes grey and says
+  **not used** in it. For a recording whose video is still missing.
 
 The selector is there with the **Multitrack** tick and without it: which
 camera a recording belongs to is the same question either way, and the
@@ -113,26 +113,41 @@ The lower table has a row per camera: **Camera**, **new file name**,
 in the file list as well, on the same value, and they stand here a
 second time because the player is here: that a clip is in truth an
 outro is noticed while watching it. A click on a row fetches that file
-into the player.
+into the player. Under **Sync only** the column **gets audio from** is
+not there: nobody is assigned, so it would have nothing to say.
 
 **new file name** is what will come out of that camera, with the tick
 and without it, under **Sync only** too: the run writes the camera file
-under that name, and the camera's track in Resolve carries it. It is a
-proposal until somebody types over it, and it is built from the camera
-and the speakers. A camera with no speaker's name on it -- no speaker,
-and not its own sound kept as a track -- gets `Audio-Full-Mix` where the
-speakers would stand when the tick is set, because what it carries is
-the whole sound. Without the tick, and so under **Sync only**, such a
-camera is offered its own file name: `CAM_B.mov` is offered `CAM_B`,
-the name it was written under before. The production name is not part of it:
-the result usually lies beside the material, where a folder full of
-files all beginning with the same word tells nobody anything. Where the
-camera counts its files with a number, the speakers go in front of that
-number and the camera's own name stays in front of them, so the front
-still reads as which camera it was. Where there is no such number the
-camera's name is left whole and the speakers follow it, and where the
-camera is called after those speakers already they are not said a second
-time.
+under that name. It is a proposal until somebody types over it. In a
+project cut by speaker it is built from the camera and the speakers on
+it, and several speakers stand in alphabetical order, joined by a plus,
+whichever of them stands higher in the table: `CamB_0001.mov` with
+Presenter and Guest on it is offered `CamB_Guest+Presenter_0001`. Where
+the camera counts its files with a number, as here, the speakers go in
+front of that number and the camera's own name stays in front of them,
+so the front still reads as which camera it was. Where there is no such
+number the camera's name is left whole and the speakers follow it, and
+where the camera is called after those speakers already they are not
+said a second time. The production name is not part of it: the result
+usually lies beside the material, where a folder full of files all
+beginning with the same word tells nobody anything.
+
+A camera with no speaker's name on it -- no speaker, and not its own
+sound kept as a track -- gets `Audio-Full-Mix` where the speakers would
+stand when the tick is set, because what it carries is the whole sound;
+without the tick it is offered its own file name, `CAM_B.mov` the name
+`CAM_B`. Under **Sync only** every camera is offered its own file name,
+whoever might be on it: that type asks nobody who speaks, so there is
+nobody to name.
+
+The camera's video track in Resolve is called after the speakers, in the
+same order -- `Guest + Presenter`; a camera nobody speaks on is called
+`Wide shot`. Under **Sync only**, and in a project where nobody was
+heard at all, every track carries the **new file name** instead
+([DaVinci Resolve](resolve.md)). A project saved by an earlier version,
+which put the speakers in the order of the rows, shows the new order as
+soon as it is opened: a name the table proposed follows the table, and
+only a typed one stays as it was.
 
 The written file carries `_audio` at the end on top of what stands in
 the field. That ending is not decoration: without it the name can come
@@ -149,11 +164,16 @@ under the same name. The run keeps going, so a marked line is the
 moment to stop it if that file was wanted. A second production over the
 same material is better given an output folder of its own.
 
-**gets audio from** beside it names those same speakers. A camera
-nobody is assigned to says **the mix of all tracks** there, and the
-wide shot says **no speaker -- this is the wide shot** -- or names
-whoever was assigned to it before and has been moved to **no camera of
-its own**.
+**gets audio from** beside it names those same speakers, in the same
+order. A camera nobody is assigned to says **the mix of all tracks**
+there, and as long as no camera is marked as the wide shot its **Kind**
+stands on **Wide shot**. A camera marked as the wide shot says what it
+gets in the same way: whoever was assigned to it before is moved to
+**no camera of its own**, so nobody is left on it and it gets **the mix
+of all tracks** too. Why nobody speaks on it is not said there but in
+the fields it concerns: every wide shot, marked or worked out, has **no
+speaker** in grey in its **Kind**, and a recording moved off it has
+**moved off the wide shot** in grey in its **belongs to**.
 
 **A name that is only suggested counts everywhere.** The name field of
 a recording starts empty with the guess from the file name standing in
@@ -208,12 +228,15 @@ with the material; what is only heard later is changed where it can be
 heard.
 
 One case settles itself: exactly one video file with sound and no audio
-recording beside it. That sound is then the only sound there is, and the
-field stands on **use internal audio** and cannot be changed. Nothing
-stands beside it saying why: a field that is shut says by being shut
-that there is nothing left to answer. It is derived, not stored -- an
-audio recording added takes it back to a question
-([The simple path](simple-path.md)).
+recording beside it. That sound is then the only sound there is: it is
+used, and the field is shut, with **the only sound** in grey where its
+value would stand. It is derived, not stored -- an audio recording added
+takes it back to a question ([The simple path](simple-path.md)).
+
+The field is shut in three more cases, and each time the reason stands
+in it the same way: **no audio track** for a video file that has none,
+**a finished clip** for an intro or outro, and **the file stays out**
+for one on **ignore this video**.
 
 Set to **use internal audio**, the camera gets a row in the upper
 table, with its speaker name. It counts like any other track:
@@ -338,8 +361,9 @@ Out** apart and running again. There is no separate switch for it.
 ### What goes into the camera files
 
 The first audio track of each camera file is the mix of exactly the
-speakers in that picture: `Mix <A> + <B>`. With only one speaker it
-carries their name. Then those speakers singly, then `Full-Mix`, last
+speakers in that picture: `Mix <A> + <B>`, the names in alphabetical
+order, as in the file name. With only one speaker it carries their name.
+Then those speakers singly, in the same order, then `Full-Mix`, last
 `Camera Original`. The full mix used to stand in the plan with its
 ingredients in brackets behind it; it is the bare `Full-Mix` now, the
 same name the written track carries and the same one it has in Resolve.
@@ -405,27 +429,47 @@ masters to ([Preflight](preflight.md)).
   lie against. The lines above name each one and why it was dropped.
 - **A row is marked, and the mark is not red.** Under the name stands
   **sound not recognised; placed by its timecode**. Nothing has to be
-  done: the sound of that file was not recognised, its clock places it
-  among the others to the frame, and one of the two ways to a place is
-  enough. The file lies on the axis and goes into the run. Where it is a
-  camera, the run names it once more as it writes the handover -- placed
-  by the timecode alone ([DaVinci Resolve](resolve.md), "Where each
-  camera sits").
+  done: the sound of that file was not recognised, or it has none, but
+  its clock places it among the others to the frame, and one of the two
+  ways to a place is enough. The file lies on the axis and goes into the
+  run. Where it is a camera, the run names it once more as it writes the
+  handover -- placed by the timecode alone ([DaVinci Resolve](resolve.md),
+  "Where each camera sits").
 - **A row stands in red.** That file has no place at all: nothing in its
   sound matches the rest of the material, and no timecode places it
   among the others either. Pick **ignore this video** in the column
   **Kind** of the file list, or take the file out of the list with
   **Remove**.
 - **A row went to ignore this video by itself.** That file has no place
-  at all: nothing in its sound matches the rest of the material, and it
-  carries no timecode either. The program proposes leaving it out
-  rather than laying it down at a guess, and the log names the file.
-  Give it a timecode that fits the other recordings -- another program
-  has to set that -- or let the proposal stand. An answer given by hand
+  at all: nothing in its sound matches the rest of the material -- or it
+  has no sound track at all, and its **Camera audio** says **no audio
+  track** -- and no timecode places it either: it carries none, or no
+  camera the sound placed carries one to set it against. The program
+  proposes leaving it out rather than laying it down at a guess, and the
+  log names the file and which of the two it is. Give it a timecode
+  that fits the other recordings -- another program has to set that;
+  where it has one already, one of those cameras needs a timecode
+  fitting it -- or let the proposal stand. An answer given by hand
   settles the row for good; a file that can be placed again gets its old
   **Kind** back ([The interface](interface.md)).
 - **Mark In and Mark Out stay locked.** The common time axis is not
   there yet. Wait for the bar under the tables.
+- **Two cameras whose files have the same name, and Start stays
+  locked.** Two cameras of one make often write the same file names,
+  each into a folder of its own. Both **new file name** fields go red,
+  and the lines under the camera table and under **Start** say **Two
+  cameras are one camera in the cut … Their files carry the same name,
+  so rename one of them**: the window tells cameras apart by their file
+  names. Renaming one of the files outside the program ends it and
+  keeps both cameras; giving one of them another **Kind**, or taking it
+  off the list, ends it too, but that camera is then out of the cut.
+  Where the two are offered the same file name -- always under **Sync
+  only**, and in a cut when nobody is on either of them -- the line
+  first says **Two cameras would produce the same file**; a name of its
+  own typed into one field
+  clears that, and then the other line stands. On the command line the
+  run tells the two apart by itself: the second is written and handed
+  over to Resolve as `<name> 2`, and each keeps its own picture.
 - **Several cameras, no audio recording, and Start stays locked.** No
   camera is contributing its sound. Set **Camera audio** to **use
   internal audio** at every camera that is to be heard; each one is then
