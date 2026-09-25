@@ -374,8 +374,12 @@ def look(case, media):
     separated = vpm.TN(1, 'Separated: %s speaker',
                        'Separated: %s speakers').split("%s")[0]
     several = vpm.label_of(vpm.SEVERAL_SPEAKERS)
-    picks = [os.path.basename(video), vpm.MIX_ONLY,
-             os.path.basename(video)]
+    # The chooser holds a camera by its path.
+    picks = [video, vpm.MIX_ONLY, video]
+
+    def named(values):
+        """Stored answers as the FAIL line carries them: file names."""
+        return [os.path.basename(v) if v == video else v for v in values]
 
     def speakers_cell():
         """The Speakers cell of the recording's row, whatever sits in it.
@@ -509,7 +513,7 @@ def look(case, media):
               "%d of %d rows carry no name field: %s"
               % (len(no_field), len(rows), no_field))
         no_cam = [said for _t, said, _w, box in rows
-                  if box.findData(os.path.basename(video)) < 0]
+                  if box.findData(video) < 0]
         check("and a chooser offering the camera itself", not no_cam,
               "%d of %d choosers do not offer %s: %s"
               % (len(no_cam), len(rows), os.path.basename(video), no_cam))
@@ -603,7 +607,7 @@ def look(case, media):
               got_names == NAMES, str(got_names))
         got_picks = [box.currentData() for _t, _s, _w, box in rows]
         check("and so did the cameras they were put on",
-              got_picks == picks, str(got_picks))
+              got_picks == picks, str(named(got_picks)))
 
     def dry_run():
         """The name and the camera of a row reach the run itself."""
@@ -626,7 +630,8 @@ def look(case, media):
         check("what was typed and picked reaches the run",
               bool(handed) and all(pair in pairs
                                    for pair in zip(NAMES, picks)),
-              str(pairs) if handed else "Dry run: " + (offered or "none"))
+              str([(n, named([c])[0]) for n, c in pairs]) if handed
+              else "Dry run: " + (offered or "none"))
 
     # --- the project carrying no separation at all
 

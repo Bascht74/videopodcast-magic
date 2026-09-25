@@ -4,8 +4,10 @@
 Measure the time axis, take the bleed out of the speech detection, mix,
 cut by speaker, write the files and the handover for Resolve -- all of
 it here, with nothing leaving the house. The run is started with
---without-auphonic, and the test holds the program to that: the log has
-to say what is missing, and nothing may be uploaded.
+--without-auphonic and a made-up key, and the test holds the program to
+that: the log has to say what is missing, and a stand-in curl on the
+search path sees nothing sent to auphonic.com. Windows starts no such
+stand-in; there no key is given and that judgement is left out.
 """
 import os
 import sys
@@ -18,8 +20,8 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import json, subprocess, sys, tempfile, time, wave
-import numpy as np
+import json, subprocess, sys, tempfile, time
+import local_ground
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 vpm = the_program.load()
@@ -37,92 +39,30 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
-# Its own folder under the run's TMPDIR, which the run throws away at
-# the end. Not in the shared fixture root: no other test reads this
-# material, and wiping a folder in that root pulls it out from under
-# whatever runs beside it. The leaf keeps its name, because the program
-# builds the names of the files it writes out of the folder it was
-# pointed at, and checks below look for them.
+# Its own folder under the run's TMPDIR, not the shared fixture root. The
+# leaf keeps its name: the program names what it writes after the folder
+# it was pointed at, and the checks below look for those names.
 D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "localrun")
 os.makedirs(D)
-# The program refuses a common range of sound and picture under 30
-# seconds, and the second camera starts CAM_LATE late, so the window is
-# LENGTH - CAM_LATE: at 34 that is 2.5 s over the barrier.
-RATE, LENGTH, CAM_LATE = 48000, 34.0, 1.5
-# Five turns of 5 s with at least 1 s of quiet around each, so a quarter
-# of the material is quiet. Under a fifth quiet, each track's noise floor
-# lands inside the neighbour's bleed and the threshold throws the bleed
-# out by itself -- a build with the separation taken out then passes.
-# 5 s also stays clear of MIN_EDIT_DURATION_S, under which a shot is
-# merged away; nothing starts before CAM_LATE, where the window begins.
-TURNS = {"Host": [(2, 7), (15, 20), (28, 33)],
-         "Guest": [(8.5, 13.5), (21.5, 26.5)]}
-
-
-def voice(turns, seed):
-    rng = np.random.default_rng(seed)
-    x = np.zeros(int(LENGTH * RATE))
-    for a, b in turns:
-        n = int((b - a) * RATE)
-        env = 0.3 + 0.7 * np.abs(np.sin(np.linspace(0, 50, n)))
-        x[int(a * RATE):int(a * RATE) + n] = rng.normal(0, 0.25, n) * env
-    return x
-
-
-def write(path, x):
-    with wave.open(path, "wb") as f:
-        f.setnchannels(1); f.setsampwidth(2); f.setframerate(RATE)
-        f.writeframes((np.clip(x, -1, 1) * 32000).astype("<i2").tobytes())
-
-
-host, guest = voice(TURNS["Host"], 1), voice(TURNS["Guest"], 2)
-bleed = 10 ** (-8.0 / 20)            # under the 3:1 rule on purpose
-noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
-write(D + "/Host.wav", host + bleed * guest + noise)
-write(D + "/Guest.wav", guest + bleed * host + noise)
-write(D + "/room.wav", 0.6 * host + 0.6 * guest + noise)
-# Colour bars at the fastest preset: the run never decodes a video
-# frame, it reads packet times and copies the picture through, so the
-# picture only has to exist. One call writes both cameras -- the second
-# is the first from CAM_LATE on, and the -ss in front of it is an output
-# option that cuts that file alone.
-subprocess.run(
-    ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
-     "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
-     "-i", D + "/room.wav",
-     "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
-     "-preset", "ultrafast",
-     "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
-     D + "/CamHost.mov",
-     "-ss", "%.2f" % CAM_LATE,
-     "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
-     "-preset", "ultrafast",
-     "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
-     D + "/CamGuest.mov"], check=True)
-
-plan = {"format": vpm.FILE_FORMAT, "created_by": "test", "production": "WA",
-        "tracks_of": [
-            {"audio": D + "/Host.wav", "blocks": [D + "/Host.wav"],
-             "speakers": "Host", "camera": D + "/CamHost.mov",
-             "camera_audio": False},
-            {"audio": D + "/Guest.wav", "blocks": [D + "/Guest.wav"],
-             "speakers": "Guest", "camera": D + "/CamGuest.mov",
-             "camera_audio": False}],
-        "cameras": [{"video": D + "/CamHost.mov", "name": "CamHost"},
-                    {"video": D + "/CamGuest.mov", "name": "CamGuest"}]}
-with open(D + "/assign.json", "w", encoding="utf-8") as f:
-    json.dump(plan, f)
+ASSIGN = local_ground.build(D, vpm.FILE_FORMAT)
+TURNS, CAM_LATE = local_ground.TURNS, local_ground.CAM_LATE
+ENV = dict(os.environ, LANG="C", LC_ALL="C")
+curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
+# A made-up key where the stand-in watches, so that --without-auphonic
+# has something to hold back; without the stand-in no key is given.
+KEY = ["--auphonic-api-key", "not-a-key-only-a-test"] if WATCHED else []
+if WATCHED:
+    ENV["AUPHONIC_TOKEN"] = KEY[1]
 
 OUT = D + "/out"
-print("1. The run goes through without a key")
+print("1. The run goes through, and nothing leaves the house")
 p = subprocess.run(
-    [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
-     "--assign", D + "/assign.json", "--out", OUT, "--no-metrics",
-     "--no-speech-recognition", "--no-transcript-file",
-     "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",
-     D + "/CamHost.mov", D + "/CamGuest.mov"],
-    capture_output=True, text=True, timeout=900,
-    env=dict(os.environ, LANG="C", LC_ALL="C"))
+    [sys.executable, SCRIPT, "--multitrack", "--without-auphonic"] + KEY
+    + ["--assign", ASSIGN, "--out", OUT, "--no-metrics",
+       "--no-speech-recognition", "--no-transcript-file",
+       "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",
+       D + "/CamHost.mov", D + "/CamGuest.mov"],
+    capture_output=True, text=True, timeout=900, env=ENV)
 out = (p.stdout or "") + (p.stderr or "")
 check("return code 0", p.returncode == 0, str(p.returncode))
 check("no traceback", "Traceback" not in out,
@@ -131,11 +71,17 @@ said = out.count("WITHOUT AUPHONIC.COM")
 check("it says what is missing", said > 0,
         "%d mentions of WITHOUT AUPHONIC.COM in %d characters of log, "
         "wanted at least 1" % (said, len(out)))
-api = out.count("auphonic.com/api")
-sent = out.count("Uploading")
-check("nothing was uploaded", api == 0 and sent == 0,
-        "%d mentions of auphonic.com/api and %d of Uploading, wanted 0 and 0"
-        % (api, sent))
+if WATCHED:
+    # The address only: the rest of a call is a file of this machine.
+    reached = [w for c in curl_calls() if "auphonic.com" in c
+               for w in c.split() if "://" in w]
+    check("nothing reached auphonic.com although a key was given",
+          not reached, "%d calls to curl, %d of them to auphonic.com: %s"
+          % (len(curl_calls()), len(reached), reached[:1]))
+else:
+    print("LEFT OUT: the stand-in curl is a #!/bin/sh file and this "
+          "machine starts none of those, so no key was given and nothing "
+          "watched whether the run reached auphonic.com.")
 measured = out.count("Bleed measured")
 apart = out.count("Bleed not separable")
 check("the bleed was measured", measured > 0,
@@ -157,8 +103,17 @@ check("the mix is there",
         "wanted final_Full-Mix.wav; the %d files in auphonic-tracks are %s"
         % (len(tracks), tracks))
 
+
+def rows_of(name):
+    """The rows under a written table's head; none where it is missing."""
+    path = os.path.join(OUT, name)
+    if not os.path.exists(path):
+        return []
+    return open(path, encoding="utf-8").read().splitlines()[1:]
+
+
 print("\n3. The speakers were told apart")
-rows = open(OUT + "/WA_speakers.csv", encoding="utf-8").read().splitlines()[1:]
+rows = rows_of("WA_speakers.csv")
 found = {}
 for line in rows:
     part = line.split(",")
@@ -190,7 +145,7 @@ check("neither track claims the other's turns",
         str({k: round(v, 1) for k, v in foreign.items()}))
 
 print("\n4. And the cut alternates")
-cut = open(OUT + "/WA_cameracut.csv", encoding="utf-8").read().splitlines()[1:]
+cut = rows_of("WA_cameracut.csv")
 cameras = [line.split(",")[1] for line in cut]
 print("   ", len(cut), "shots:", cameras)
 check("more than two shots", len(cut) > 2, str(len(cut)))
@@ -198,10 +153,13 @@ check("both cameras are used", set(cameras) == {"CamHost", "CamGuest"},
         str(set(cameras)))
 
 print("\n5. The handover holds the same cut")
-d = json.load(open(OUT + "/WA_resolve.json", encoding="utf-8"))
+# Missing, it reads as empty: the checks below then name what is absent.
+d = (json.load(open(OUT + "/WA_resolve.json", encoding="utf-8"))
+     if os.path.exists(OUT + "/WA_resolve.json") else {})
 check("format stamped", d.get("format") == vpm.FILE_FORMAT,
         "%r in the file, wanted %r" % (d.get("format"), vpm.FILE_FORMAT))
-check("cut in the file", len(d.get("cut") or []) == len(cut),
+# Not 0 against 0: an empty cut in both would agree and say nothing.
+check("cut in the file", 0 < len(d.get("cut") or []) == len(cut),
         "%d/%d" % (len(d.get("cut") or []), len(cut)))
 # The track name is the speaker; the camera name stands beside it.
 check("both cameras in the file",

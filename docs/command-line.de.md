@@ -45,7 +45,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--speech-language CODE` | Sprachkennung der Tonspuren, ISO 639-2/B: `ger`, `eng`. Vorsicht, `deu` wirft ffmpeg stillschweigend weg (keine) |
 | `--speech-language-camera CODE` | dasselbe für die Kameraspur (keine: nur so unterscheidet der QuickTime-Player die beiden Einträge im Tonmenü) |
 | `--speakers-local DATEI` | diese Aufnahme auf diesem Rechner nach Stimmen trennen und danach schneiden (die Aufnahme, die der Lauf selbst wählt) |
-| `--speakers-from DATEI` | eine fertige Trennung aus einer Projekt- oder Zuordnungsdatei übernehmen, statt zu rechnen (keine) |
+| `--speakers-from DATEI` | eine fertige Trennung aus einer Projekt- oder Zuordnungsdatei übernehmen, statt zu rechnen; sie bleibt liegen, wenn sich ihre Aufnahme seitdem geändert hat oder sie von einem anderen Modell stammt (keine) |
 | `--speakers-count ZAHL` | wie viele Personen `--speakers-local` suchen soll (selbst herausfinden) |
 | `--no-speakers-local` | in diesem Lauf nie eine Aufnahme nach Stimmen trennen (aus) |
 | `--no-speech-recognition` | nicht mitschreiben, was gesprochen wird; der Schnitt hat dann keine Satzgrenzen (aus)  `[multitrack only]` |

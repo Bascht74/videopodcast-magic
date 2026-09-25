@@ -638,6 +638,69 @@ def short_name(widget, text, room):
     from PySide6 import QtCore as _qc
     return widget.fontMetrics().elidedText(text, _qc.Qt.ElideMiddle, room)
 
+def path_label(text, colour=None):
+    """A label for a path: whole where it fits, else shortened in the middle.
+
+    A folder chosen on a share runs to two hundred characters and more,
+    and a plain label asks for all of it: the page it stands on grows
+    past the window and is cut off. This one asks for its whole width
+    but takes less, and what it cannot show goes out of the middle --
+    both ends carry meaning -- with the whole path as its tooltip.
+    """
+    from PySide6 import QtCore as _qc, QtGui as _qg, QtWidgets as _qw
+
+    class PathLabel(_qw.QLabel):
+        """Holds the whole text and draws as much of it as fits.
+
+        text() stays whole for whoever reads it -- a screen reader, a
+        test; only the drawing is shortened. Set with say().
+        """
+
+        def say(self, words):
+            """Take a new text and show it at the width there is."""
+            self.setText(words)
+            self.updateGeometry()
+            self.fit()
+
+        def fit(self):
+            """The whole path as the tooltip when it is drawn shortened."""
+            short = self.fontMetrics().horizontalAdvance(self.text()) \
+                > self.contentsRect().width()
+            self.setToolTip(self.text() if short else "")
+
+        def sizeHint(self):
+            """As wide as the whole text asks for."""
+            wide = self.fontMetrics().horizontalAdvance(self.text())
+            return _qc.QSize(wide + 4, _qw.QLabel.sizeHint(self).height())
+
+        def minimumSizeHint(self):
+            """Room for the two ends and the dots between them."""
+            least = self.fontMetrics().averageCharWidth() * 16
+            return _qc.QSize(min(least, self.sizeHint().width()),
+                             _qw.QLabel.minimumSizeHint(self).height())
+
+        def resizeEvent(self, event):
+            """Decide the tooltip again at the new width."""
+            _qw.QLabel.resizeEvent(self, event)
+            self.fit()
+
+        def paintEvent(self, event):
+            """Draw the text, its middle left out where it is too wide."""
+            room = self.contentsRect()
+            words = self.fontMetrics().elidedText(
+                self.text(), _qc.Qt.ElideMiddle, room.width())
+            painter = _qg.QPainter(self)
+            self.style().drawItemText(
+                painter, room, int(self.alignment()), self.palette(),
+                self.isEnabled(), words, self.foregroundRole())
+            painter.end()
+
+    widget = PathLabel()
+    if colour:
+        widget.setStyleSheet("color: %s" % colour)
+    widget.say(text)
+    return widget
+
 def box_names_fit(box, room):
     """Give a chooser of file names the width it needs, up to *room*.
 
@@ -750,8 +813,10 @@ def cut_fields_build(into, parts=None):
                   if unit == "s" else T(caption))
         row_layout.addWidget(field)
         t = label("%s  %s" % (unit, T(short)), COLOURS["quiet"])
-        row_layout.addWidget(t)
-        row_layout.addStretch(1)
+        # Wrapping, and the row's stretch: unwrapped, the longest of
+        # these made the column as wide as itself in half the languages.
+        t.setWordWrap(True)
+        row_layout.addWidget(t, 1)
         for _w in (line, m, field, t):
             hint(_w, T(long))
         field_grid.addWidget(line, idx, 0)
@@ -776,8 +841,8 @@ def cut_fields_build(into, parts=None):
         speaks_as(box, T(caption))
         row_layout.addWidget(box)
         t = label(T(short), COLOURS["quiet"])
-        row_layout.addWidget(t)
-        row_layout.addStretch(1)
+        t.setWordWrap(True)
+        row_layout.addWidget(t, 1)
         for _w in (line, m, box, t):
             hint(_w, T(long))
         choice_grid.addWidget(line, idx, 0)

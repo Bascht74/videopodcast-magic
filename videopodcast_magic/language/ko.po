@@ -3030,9 +3030,6 @@ msgstr "정보 없음"
 msgid "no information in the file"
 msgstr "파일에 정보 없음"
 
-msgid "no match in the middle either (%s)"
-msgstr "중간에서도 일치하지 않음 (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "정확히 한 사람만 말하는 곳을 찾지 못했습니다 -- 분리를 측정할 수 없습니다."
 
@@ -3711,9 +3708,6 @@ msgstr "취소"
 msgid "cancelled"
 msgstr "취소됨"
 
-msgid "edges implausible"
-msgstr "경계가 타당하지 않음"
-
 msgid "fixed: "
 msgstr "수정됨: "
 
@@ -3749,9 +3743,6 @@ msgstr "인 포인트로"
 
 msgid "to Out point"
 msgstr "아웃 포인트로"
-
-msgid "too short"
-msgstr "너무 짧음"
 
 msgid "two Timelines"
 msgstr "Timeline 두 개"
@@ -4792,3 +4783,18 @@ msgstr "스테레오"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- 파일 %s개가 다른 파일과 맞지 않습니다"
+
+msgid "Cameras"
+msgstr "카메라"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s은(는) 크기와 길이가 같습니다 -- 같은 녹음이 두 번 들어갔을 수 있습니다."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe가 더 이상 파일을 열지 못합니다"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg와 ffprobe가 없습니다."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s에는 그 뒤 바뀌었거나 없어진 녹음의 화자 분리, 또는 다른 모델의 화자 분리가 들어 있습니다 -- 사용하지 않습니다."

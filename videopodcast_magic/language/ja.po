@@ -786,9 +786,6 @@ msgstr "イン点へ"
 msgid "to Out point"
 msgstr "アウト点へ"
 
-msgid "too short"
-msgstr "短すぎます"
-
 msgid "unknown"
 msgstr "不明"
 
@@ -1898,9 +1895,6 @@ msgstr "  重なっています -- 複数のマイクが同時に録ったもの
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s 個のブロックを名前順に連結（タイムコードなし -- 隙間は判別できません）"
 
-msgid "edges implausible"
-msgstr "端が不自然"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "位相で配置、鋭さ %s（下限 %s）、ずれは不明"
 
@@ -1912,9 +1906,6 @@ msgstr "%s から音声データがありません"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  映像に入るのはミックスだけです (--no-single-tracks)。"
-
-msgid "no match in the middle either (%s)"
-msgstr "中央でも一致しません (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      警告: %s の一致が弱いです（%s、下限は %s）。この 2 つは対応していない可能性があります。"
@@ -4794,3 +4785,18 @@ msgstr "ステレオ"
 msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- ファイル %s 個が他のファイルと合いません"
+
+msgid "Cameras"
+msgstr "カメラ"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s はサイズと長さが同じです -- 同じ録音が二重に入っている可能性があります。"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe でファイルを開けなくなりました"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg と ffprobe がありません。"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s の話者分離は、その後変わったかなくなった録音のもの、または別のモデルのものです -- 使いません。"

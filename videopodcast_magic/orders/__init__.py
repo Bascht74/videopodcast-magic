@@ -27,6 +27,7 @@ TYPE_WIDE = PROGRAM.TYPE_WIDE
 VERSION = PROGRAM.VERSION
 VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 WIDE_AFTER_S = PROGRAM.WIDE_AFTER_S
+WIDE_LATEST_S = PROGRAM.WIDE_LATEST_S
 argparse = PROGRAM.argparse
 label_of = PROGRAM.label_of
 languages = PROGRAM.languages
@@ -66,23 +67,25 @@ def slider_numbers(values):
 def voices_of_values(values):
     """Name -> camera file, out of what the interface holds.
 
-    The window knows a camera by the name of its file; the run wants the
-    file. A voice set to "no camera of its own" or left out is not in
-    the answer -- it keeps its name in the markers and takes no picture.
+    The window knows a camera by its path, and a bare file name means
+    the first file of that name, as the recordings' rows read it. A
+    voice set to "no camera of its own" or left out is not in the
+    answer -- it keeps its name in the markers and takes no picture.
     """
-    where = {}
+    paths = [cam["path"] for cam in (values.get("cameras") or ())
+             if cam.get("path")]
+    called = {}
     for cam in (values.get("cameras") or ()):
-        if not cam.get("path"):
-            continue
-        where[os.path.basename(cam["path"])] = cam["path"]
-        if (cam.get("name") or "").strip():
-            where[cam["name"].strip()] = cam["path"]
+        if cam.get("path") and (cam.get("name") or "").strip():
+            called[cam["name"].strip()] = cam["path"]
     out = {}
     for row in (values.get("voices") or ()):
         name = (row.get("name") or "").strip()
         pick = row.get("camera") or ""
-        if name and pick in where:
-            out[name] = where[pick]
+        hit = next((p for p in paths if PROGRAM.camera_is(pick, p)),
+                   called.get(pick))
+        if name and hit:
+            out[name] = hit
     return out
 
 
@@ -253,9 +256,11 @@ def run_argv(values, assignment_file_path=""):
         for r in lines:
             blocks = list(r.get("blocks") or [])
             target = r.get("camera_choice") or ""
+            # The window answers with the path; a bare file name, as a
+            # hand-written order gives it, takes the first of that name.
             full = ""
             for p, a in files:
-                if a == "video" and os.path.basename(p) == target:
+                if a == "video" and PROGRAM.camera_is(target, p):
                     full = p
                     break
             camera_track = bool(r.get("own_audio"))
@@ -592,10 +597,10 @@ def build_argument_parser():
                          "sentence lies beyond it, the last clause break "
                          "before it ends the shot. (default: 15)")
     ap.add_argument("--wide-latest", dest="wide_latest", type=float,
-                    default=120.0, metavar="SECONDS",
+                    default=WIDE_LATEST_S, metavar="SECONDS",
                     help="upper limit: longest one camera may stand without "
                          "a cut. Where no good pause turns up, it cuts "
-                         "anyway. (default: 120)")
+                         "anyway. (default: %g)" % WIDE_LATEST_S)
     ap.add_argument("--no-wide-edges", dest="no_wide_edges",
                     action="store_true",
                     help="do NOT hold the wide shot at the beginning and the "

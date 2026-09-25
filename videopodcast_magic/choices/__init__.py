@@ -10,6 +10,7 @@ PROGRAM = PROGRAM
 
 # Bound above the seam, so it is a copy and not read late.
 T = PROGRAM.T
+os = PROGRAM.os
 
 
 # =====================================================================
@@ -60,11 +61,53 @@ def label_of(value):
     return T(CHOICE_LABELS[value]) if value in CHOICE_LABELS else value
 
 
+def is_a_path(value):
+    """Whether a stored value names a file by its path, not a bare name."""
+    return (isinstance(value, str) and value not in CHOICE_LABELS
+            and os.path.basename(value) != value)
+
+
+def camera_labels(videos):
+    """{path: what a chooser shows}: the file name, a second one numbered.
+
+    Two cameras of one file name are two cameras: the second "(2)", in
+    the order they are given, which is the window's.
+    """
+    seen, out = {}, {}
+    for p in videos:
+        name = os.path.basename(p)
+        seen[name] = seen.get(name, 0) + 1
+        out[p] = name if seen[name] == 1 else "%s (%d)" % (name, seen[name])
+    return out
+
+
+def camera_is(pick, path):
+    """Whether a camera answer names this file.
+
+    The window answers with the path, and a path is compared as one; a
+    bare file name, as older answers and hand-written ones give it, is
+    compared as a name.
+    """
+    if not pick or not path:
+        return False
+    if is_a_path(pick):
+        return PROGRAM.path_key(pick) == PROGRAM.path_key(path)
+    return os.path.basename(path) == pick
+
+
 def fill_choices(box, values, chosen=None):
-    """Fill a combo box: it stores the value and shows the label."""
+    """Fill a combo box: it stores the value and shows the label.
+
+    A value that is a path shows its file name, told apart from another
+    of the same name, and carries the whole path as its tooltip.
+    """
+    from PySide6.QtCore import Qt as _qt
     box.clear()
+    shown = camera_labels([v for v in values if is_a_path(v)])
     for v in values:
-        box.addItem(label_of(v), v)
+        box.addItem(shown.get(v) or label_of(v), v)
+        if v in shown:
+            box.setItemData(box.count() - 1, v, _qt.ToolTipRole)
     if chosen is not None:
         pick_choice(box, chosen)
 

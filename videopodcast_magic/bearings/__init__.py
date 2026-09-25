@@ -265,12 +265,14 @@ def handover_over_this_material(d, ours):
     One lying in a result folder may be days old or from another
     production, and looks exactly like a fresh one. A camera too few is
     as wrong as one too many, so the two lists have to be the same list.
+    A camera the run refused counts as named: it saw it.
     """
     mine = set(path_key(p) for p in ours or () if p)
     theirs = set(path_key(c.get("source") or c.get("camera") or "")
                  for c in (d.get("cameras") or [])
                  if (c.get("source") or c.get("camera")))
-    return bool(theirs) and theirs == mine
+    refused = set(path_key(p) for p in (d.get("refused") or []) if p)
+    return bool(theirs) and theirs <= mine and not (mine - theirs - refused)
 
 
 def find_handover_file(*places, deeper=False, ours=None):
@@ -339,8 +341,15 @@ def _block_levels(data, rate, block=1.0):
     return level, np.array(speech)
 
 
-def _windows_for_pair(level, speech, i, j, loud=10.0, faint=6.0,
-                       at_most=14):
+# One voice alone: its own track within ALONE_LOUD_DB of its speech
+# level, every other track more than OTHERS_FAINT_DB below its own. The
+# speaker separation asks the same. Set, not measured.
+ALONE_LOUD_DB = 10.0
+OTHERS_FAINT_DB = 6.0
+
+
+def _windows_for_pair(level, speech, i, j, loud=ALONE_LOUD_DB,
+                      faint=OTHERS_FAINT_DB, at_most=14):
     """Return the blocks in which i speaks and j does not.
 
     Each track is measured against its *own* speech level, not against the
@@ -1692,7 +1701,7 @@ def preselected_camera(old, targets, speaker, videos, own_camera=""):
     if own_camera:
         return own_camera
     hit = camera_for_speaker(speaker, videos)
-    return os.path.basename(hit) if hit else MIX_ONLY
+    return hit if hit else MIX_ONLY
 
 
 def camera_to_remember(camera, derived, keep=None):

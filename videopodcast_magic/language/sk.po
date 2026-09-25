@@ -3035,9 +3035,6 @@ msgstr "žiadne údaje"
 msgid "no information in the file"
 msgstr "v súbore žiadne údaje"
 
-msgid "no match in the middle either (%s)"
-msgstr "ani v strede žiadna zhoda (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nenájdené miesto, kde hovorí presne jeden človek -- oddelenie nemožno zmerať."
 
@@ -3716,9 +3713,6 @@ msgstr "zrušiť"
 msgid "cancelled"
 msgstr "zrušené"
 
-msgid "edges implausible"
-msgstr "okraje nevierohodné"
-
 msgid "fixed: "
 msgstr "opravené: "
 
@@ -3754,9 +3748,6 @@ msgstr "na bod In"
 
 msgid "to Out point"
 msgstr "na bod Out"
-
-msgid "too short"
-msgstr "príliš krátke"
 
 msgid "two Timelines"
 msgstr "dve Timeline"
@@ -4879,3 +4870,18 @@ msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s súbor nepasuje k ostatným"
 msgstr[1] " -- %s súbory nepasujú k ostatným"
 msgstr[2] " -- %s súborov nepasuje k ostatným"
+
+msgid "Cameras"
+msgstr "Kamery"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "%s majú rovnakú veľkosť a dĺžku -- možno jedna nahrávka dvakrát."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe už súbor neotvorí"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg a ffprobe chýbajú."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s obsahuje oddelenie rečníkov nahrávky, ktorá sa medzitým zmenila alebo zmizla, alebo iného modelu -- nepoužije sa."

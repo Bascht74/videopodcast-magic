@@ -6,7 +6,9 @@ read off the video track. In order: how many shots landed of how many
 were asked for, then each shot's length against the cut, then the two
 sides of every join -- no gap, and no overlap either. The stand-in takes
 whatever it is handed, so this says what the program built, not what
-Resolve would accept.
+Resolve would accept. Then a camera that stopped early: another takes
+its shot at its length, the window counts such shots, and a shot no
+camera covers is named.
 """
 import os
 import sys
@@ -19,7 +21,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import sys, time
+import contextlib, io, sys, time
 
 began = time.time()
 vpm = the_program.load()
@@ -139,6 +141,49 @@ check("no shot overlaps the one before it",
       overlaps == 0,
       "%d overlaps in %d joins; %s"
       % (overlaps, joins, first_overlap or "none"))
+
+print("\nA camera that stopped early")
+# Wide runs 100 s, Guest only 50: the Guest shot at 60 s has to go to
+# Wide, and the one at 100 s lies behind every camera.
+short = [{"camera": "Wide", "track": "Wide", "file": "W.mov", "offset": 0.0,
+          "duration": 100.0, "source": "W.mov"},
+         {"camera": "Guest", "track": "Guest", "file": "G.mov",
+          "offset": 0.0, "duration": 50.0, "source": "G.mov"}]
+asked = [{"start": 0.0, "end": 20.0, "camera": "Guest"},
+         {"start": 20.0, "end": 40.0, "camera": "Wide"},
+         {"start": 40.0, "end": 49.0, "camera": "Guest"},
+         {"start": 60.0, "end": 80.0, "camera": "Guest"},
+         {"start": 100.0, "end": 110.0, "camera": "Guest"}]
+mp = MP()
+said = io.StringIO()
+with contextlib.redirect_stdout(said):
+    vpm.build_cut_timeline(mp, TL(mp), asked, short, clips,
+                           {"fps": FPS, "start_tc": "00:00:00:00"})
+said = said.getvalue()
+at = {p["recordFrame"]: p for p in mp.item if p.get("mediaType") == 1}
+taken = at.get(1800)
+check("a shot whose camera is not running is taken by another",
+      taken is not None and taken["mediaPoolItem"].GetName() == "W.mov"
+      and taken["startFrame"] == 1800,
+      "at frame 1800: %s from frame %s, wanted W.mov from 1800"
+      % (taken["mediaPoolItem"].GetName() if taken else "nothing",
+         taken["startFrame"] if taken else "-"))
+check("the replacement keeps the length the cut asks for",
+      taken is not None and taken["endFrame"] - taken["startFrame"] == 600,
+      "%s frames against 600" % (taken["endFrame"] - taken["startFrame"]
+                                 if taken else "no shot"))
+once = (vpm.T('    %sx the intended camera was not running -- a '
+              'different one is there.') % vpm.number_text(1, 0)).strip()
+check("and the window says so, with the count", once in said,
+      "%r %s among %d lines" % (once, "said" if once in said else "not said",
+                                len(said.splitlines())))
+left = (vpm.T('    Left without picture: %s')
+        % (vpm.T('%s (%s to %s)') % ("Guest", "0:01:40.000",
+                                      "0:01:50.000"))).strip()
+check("a shot no camera covers is named, not dropped silently",
+      left in said and 3000 not in at,
+      "%r %s; %d shots placed at frames %s"
+      % (left, "said" if left in said else "not said", len(at), sorted(at)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

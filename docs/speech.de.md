@@ -329,8 +329,14 @@ Beides liegt im Ablageordner des Systems, neben den Hüllkurven
 Mikrofonen zusammengelegte Aufnahme liegt ebenfalls in `speakers/`,
 unter einem Namen aus den Aufnahmen, die in ihr stecken -- dasselbe
 Material findet sie also wieder, statt sie ein zweites Mal zu bauen.
-Dort bleibt alles. Es wegzuwerfen macht nichts kaputt; es heißt nur,
-dass noch einmal gerechnet wird.
+Bei jedem Start wirft das Programm weg, was dort vor mehr als dreißig
+Tagen geschrieben wurde -- gezählt ab dem Schreiben, nicht ab dem
+letzten Lesen. Ein Projekt behält seine Trennung trotzdem, denn es
+trägt sie in seiner eigenen Datei. Daneben liegt die Spracherkennung,
+die macOS benutzt und die das Programm beim ersten Bedarf auf diesem
+Rechner baut; von ihr bleibt nur der jüngste Bau, ältere verschwinden.
+Wirft man etwas davon weg, geht nichts kaputt; es heißt nur, dass noch
+einmal gerechnet wird.
 
 ### Woher die Sprecher kamen
 
@@ -480,11 +486,15 @@ mitgeschrieben. Was der Schnitt aus beidem macht, steht in
 
 Diese Optionen gibt es im Fenster nicht.
 
-* `--speakers-local <FILE>` nimmt diese Aufnahme auf diesem Rechner nach
+* `--speakers-local <DATEI>` nimmt diese Aufnahme auf diesem Rechner nach
   Stimmen auseinander und schneidet nach dem Ergebnis.
-* `--speakers-from <FILE>` holt eine fertige Trennung aus einer
-  Projekt- oder Zuordnungsdatei, statt eine zu rechnen.
-* `--speakers-count <NUMBER>` gibt an, wie viele Personen zu finden
+* `--speakers-from <DATEI>` holt eine fertige Trennung aus einer
+  Projekt- oder Zuordnungsdatei, statt eine zu rechnen. Hält die Datei
+  fest, aus welcher Aufnahme die Trennung stammt, und hat sich diese
+  Aufnahme seitdem geändert oder ist sie verschwunden -- oder stammt die
+  Trennung von einem anderen Modell --, wird sie nicht verwendet: Der
+  Lauf warnt und macht ohne sie weiter.
+* `--speakers-count <ZAHL>` gibt an, wie viele Personen zu finden
   sind; ohne die Angabe rechnet das Programm die Zahl selbst aus.
 * `--no-speakers-local` nimmt in diesem Lauf keine Aufnahme nach Stimmen
   auseinander, gleich was sonst danach verlangt.

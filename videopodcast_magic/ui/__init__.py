@@ -281,8 +281,9 @@ def choices_shut(box, shut, why, quiet, noted=None):
             return box
         box.setItemData(i, _qg.QBrush(_qg.QColor(quiet)) if barred else None,
                         _qt.ForegroundRole)
-        box.setItemData(i, reasons[value] if barred else notes.get(value, ""),
-                        _qt.ToolTipRole)
+        # An open camera keeps its whole path, which fill_choices set.
+        box.setItemData(i, reasons[value] if barred else notes.get(
+            value, value if PROGRAM.is_a_path(value) else ""), _qt.ToolTipRole)
     entries_say_why(box, dict((i, reasons[box.itemData(i)])
                               for i in range(box.count())
                               if box.itemData(i) in reasons))
@@ -760,7 +761,7 @@ def kind_cell_for(path, value, wides, said, placeless, kinds, quiet,
     intro and outro are free.
     """
     short = os.path.basename(path)
-    shown, why, derived = kind_on_show(value.get(), short, wides, said)
+    shown, why, derived = kind_on_show(value.get(), path, wides, said)
     cell, box = clip_kind_cell(short, shown, why, quiet, derived,
                                wide_shot_barred(path, value, placeless),
                                edge_kind_barred(path, kinds))
@@ -1204,15 +1205,19 @@ def choice_boxes_even(boxes, base=150):
     return boxes
 
 
-def unless_sync(state, compute):
+def unless_sync(state, compute, *said):
     """*compute*, silenced while the project type is "sync".
 
-    The preview and the speaker measure are about the cut; a project
-    that only synchronises has none, and its tab says so instead.
+    The preview and the wide shot are about the cut; a project that
+    only synchronises has none, and its tab says so instead. What
+    *compute* wrote into the labels *said* stands empty then: greyed,
+    it would still promise speakers worked out and a wide shot to set.
     """
     def guarded(*args, **named):
         if state.get("project_type") != "sync":
             return compute(*args, **named)
+        for words in said:
+            words.setText("")
     return guarded
 
 
@@ -1393,6 +1398,7 @@ mac_menu_name = PROGRAM.mac_menu_name
 make_footer = PROGRAM.make_footer
 mark_red = PROGRAM.mark_red
 more_speakers_row = PROGRAM.more_speakers_row
+path_label = PROGRAM.path_label
 qt_own_words = PROGRAM.qt_own_words
 say_dialog = PROGRAM.say_dialog
 speaker_name_cell = PROGRAM.speaker_name_cell
@@ -1545,19 +1551,6 @@ def stop_forget():
     RUN_STOP["wanted"] = False
     RUN_STOP["at"] = ""
     RUN_STOP["children"].clear()
-
-
-def stop_here(what=""):
-    """Break off, where a run may be broken off -- and nowhere else.
-
-    Called between steps, never in the middle of writing one file: a
-    half file looks finished from the outside, and the next run finds
-    it and believes it.
-    """
-    if RUN_STOP["wanted"]:
-        # What the window said is the better answer: it knows which step
-        # was on the screen, this only where the run got to.
-        raise Stopped(RUN_STOP["at"] or what)
 
 
 class Redirect(object):
@@ -1739,14 +1732,13 @@ def audio_under_camera(camera_path, kind_of, done,
     kind = kind_of.get(camera_path)
     if kind is not None and kind.get() in (TYPE_INTRO, TYPE_OUTRO):
         return []
-    short = os.path.basename(camera_path)
     # The recordings first, then the voices under them: the raw sound
     # behind a voice is the recording it was heard in.
     rows = ([(row[0], nv, cv) for row, nv, cv in assign_lines]
             + [(voice_key_parts(key)[0], nv, cv)
                for key, nv, cv in voice_lines or ()])
     for source, nv, cv in rows:
-        if cv.get() != short:
+        if not PROGRAM.camera_is(cv.get(), camera_path):
             continue
         name = nv.get()
         if name and name in done:
@@ -1868,9 +1860,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         return
     # The cameras first, then the two special cases. MIX_ONLY: processed
     # and in the mix, but not the first track on any camera.
-    # IGNORE_AUDIO: left out entirely.
-    targets = ([os.path.basename(b) for b in videos]
-             + [MIX_ONLY, IGNORE_AUDIO])
+    # IGNORE_AUDIO: left out entirely. A camera is its path: two files
+    # of one name are two cameras, and the chooser shows them apart.
+    targets = list(videos) + [MIX_ONLY, IGNORE_AUDIO]
     wide = wide_bar_of(targets, *wide_cameras_now(),
                        aside=state.setdefault("wide_set_aside", {}))
     barred = wide["barred"]
@@ -1977,8 +1969,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             continue
         # Camera rows get the full selector too: a clip-on microphone
         # in one camera does not mean the person is filmed by it.
-        own_camera = (os.path.basename(from_camera or first)
-                      if camera_track else "")
+        own_camera = (next((b for b in videos if path_key(b) == path_key(
+            from_camera or first)), "") if camera_track else "")
         was = camera_after_a_mark("audio:" + first, old_camera, wide)
         picked, worked_out = camera_row_cameras(
             was, wide["pickable"], name_value.get(), videos,
@@ -2058,8 +2050,10 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     state["video_reason"] = video_reason
     taken = {}
     for _, nv, cv in assign_lines:
-        taken.setdefault(cv.get(), []).append(nv)
+        if PROGRAM.is_a_path(cv.get()):
+            taken.setdefault(path_key(cv.get()), []).append(nv)
     wides, said = wide_cameras_now()
+    shown = PROGRAM.camera_labels(videos)
 
     def kinds_refresh():
         """Say the Kind column again, with the wide shot as it is now.
@@ -2091,7 +2085,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     for row, b in enumerate(videos):
         short = os.path.basename(b)
         table_video.insertRow(row)
-        cell(table_video, row, 0, short)
+        # Named as the choosers name it, the whole path on the tooltip.
+        cell(table_video, row, 0, shown[b]).setToolTip(b)
         clip_kind = clip_kind_value(b)
         kind_cell, _kind_box = kind_cell_for(
             b, clip_kind, wides, said, state.get("no_place"),
@@ -2119,7 +2114,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         mine = own_audio_names.get(b) or []
         own_audio_name = mine[0] if mine else Value(
             remembered.get("ownname:" + b) or guess_camera_name(b))
-        own = list(taken.get(short) or [])
+        own = list(taken.get(path_key(b)) or [])
         if used:
             own += mine or [own_audio_name]
         multitrack_now = bool(state["multitrack"].get()) and not sync_only
@@ -2766,7 +2761,7 @@ def gui():
     folder_bar.addWidget(hint(
         folder_button, T('If empty: next to each video file.')))
     speaks_as(folder_button, T('Choose the output folder'))
-    folder_label = label(T('next to each video file'), COLOURS["quiet"])
+    folder_label = path_label(T('next to each video file'), COLOURS["quiet"])
     speaks_as(folder_label, T('Output folder'))
     folder_bar.addWidget(folder_label)
     reset = QtWidgets.QPushButton(T('reset'))
@@ -2779,7 +2774,7 @@ def gui():
 
     def folder_show():
         d = out_folder.get()
-        folder_label.setText(d if d else T('next to each video file'))
+        folder_label.say(d if d else T('next to each video file'))
         reset.setVisible(bool(d))
 
     def folder_pick():
@@ -3568,9 +3563,9 @@ def gui():
         after the tables that ask for this.
         """
         if state.get("cut_box_there"):
-            wide_settings_grey(cut_parts, _edge_box, wide_note,
-                               bool(wide_cameras_now()[0]), COLOURS["quiet"],
-                               bool(state.get("words_there")))
+            unless_sync(state, wide_settings_grey, wide_note)(
+                cut_parts, _edge_box, wide_note, bool(wide_cameras_now()[0]),
+                COLOURS["quiet"], bool(state.get("words_there")))
             preview_kick_off()
 
     # The same way over as refresh_names above, and for the same reason.
@@ -3725,7 +3720,7 @@ def gui():
         question_note, cut_column, forecast_box, preview_label,
         speech_title, speech_table)
     # A project that only synchronises has no cut to preview.
-    preview_compute = unless_sync(state, preview_compute)
+    preview_compute = unless_sync(state, preview_compute, preview_label)
     state["preview_compute"] = preview_compute
 
     # Do not compute on every keystroke; wait a moment.

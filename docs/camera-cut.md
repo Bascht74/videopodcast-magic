@@ -698,9 +698,10 @@ and the Resolve part builds from it.
 
 **Opening a project picks that handover up again**, in the output folder
 and beside the project file -- but only one that names **exactly these
-cameras**. A handover out of another production, or out of an earlier
-round over fewer cameras, is passed over as if it were not there: a cut
-built out of it looks exactly like a fresh one and is not. Where it
+cameras**, those its run left out counted in. A handover out of another
+production, or out of an earlier round over fewer cameras, is passed
+over as if it were not there: a cut built out of it looks exactly like a
+fresh one and is not. Where it
 fits, the preview stands on the run's numbers from the first moment and
 **Create Resolve project** can be pressed without running anything
 again.

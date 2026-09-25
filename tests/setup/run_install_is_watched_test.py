@@ -9,7 +9,8 @@ Sections: what a watched command hands out, and when; that the process
 is handed out so it can be reached; that a command which cannot start
 says so instead of pretending a code; that without a sink nothing is
 piped, which is what leaves a password prompt on the terminal; that a
-test run installs nothing; that the manager's lines and the program's
+test run installs nothing, and a run without a terminal neither asks
+about pip nor starts it; that the manager's lines and the program's
 own go the same way and carry their newline; that the job says
 beforehand what it is, hands every line to the Output tab and into
 the log, and ends by saying what has to happen next; that a job which
@@ -239,6 +240,50 @@ check("under VPM_SILENT nothing is installed",
       bool(os.environ.get("VPM_SILENT")) and ran is False and not asked,
       "VPM_SILENT %r, answer %r, %d lines"
       % (os.environ.get("VPM_SILENT"), ran, len(asked)))
+
+
+class NoPip(object):
+    """subprocess inside the setup piece: each start written down, none made."""
+    PIPE = subprocess.PIPE
+
+    def __init__(self):
+        self.started = []
+
+    def run(self, command, **how):
+        self.started.append(" ".join(command[-3:]))
+        return subprocess.CompletedProcess(command, 0, b"", b"")
+
+
+# Started from a desktop there is no terminal, and pip for a Python
+# package must then be neither asked about nor started. Fenced twice,
+# by the stand-in and by PIP_NO_INDEX, since the counter-proof takes
+# the guard away.
+pieces = vpm._pip_install.__globals__
+pip_standin, pip_asked = NoPip(), []
+was_pip = (sys.stdin, pieces["subprocess"], pieces["INSTALL_TOOLS"],
+           pieces.get("input"), os.environ.get("PIP_NO_INDEX"))
+try:
+    sys.stdin = io.StringIO()
+    pieces["subprocess"], pieces["INSTALL_TOOLS"] = pip_standin, False
+    pieces["input"] = lambda prompt="": pip_asked.append(prompt) or ""
+    os.environ["PIP_NO_INDEX"] = "1"
+    pip_answer = vpm._pip_install("vpm-no-such-package")
+finally:
+    sys.stdin, pieces["subprocess"], pieces["INSTALL_TOOLS"] = was_pip[:3]
+    if was_pip[3] is None:
+        pieces.pop("input", None)
+    else:
+        pieces["input"] = was_pip[3]
+    if was_pip[4] is None:
+        os.environ.pop("PIP_NO_INDEX", None)
+    else:
+        os.environ["PIP_NO_INDEX"] = was_pip[4]
+check("without a terminal pip is not started",
+      pip_answer is False and not pip_standin.started,
+      "answer %r, %d starts: %s"
+      % (pip_answer, len(pip_standin.started), pip_standin.started[:1]))
+check("and nobody is asked about it", not pip_asked,
+      "%d questions: %r" % (len(pip_asked), pip_asked[:1]))
 
 print("\n5. The line and the manager's output go the same way")
 if sys.platform == "win32":

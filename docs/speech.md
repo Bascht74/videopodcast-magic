@@ -310,8 +310,13 @@ Both lie in the system cache folder, beside the envelopes
 in `words/` and `speakers/`. A recording joined out of several
 microphones lies in `speakers/` as well, under a name made out of the
 recordings it holds, so the same material finds it again instead of
-building it twice. It all stays there. Throwing it away breaks nothing;
-it only means the computing happens once more.
+building it twice. Every start of the program throws away what was
+written there more than thirty days ago -- counted from the writing,
+not from the last reading. A project keeps its separation all the
+same: it carries it in its own file. The recogniser macOS uses lies
+beside them, built on this machine the first time it is needed; of
+that only the newest build stays, the older ones go. Throwing any of
+it away breaks nothing; it only means the computing happens once more.
 
 ### Where the speakers came from
 
@@ -457,7 +462,10 @@ These options are not in the window.
 * `--speakers-local <FILE>` takes that recording apart by voice on this
   machine and cuts by the result.
 * `--speakers-from <FILE>` takes a finished separation out of a project
-  or assignment file instead of working one out.
+  or assignment file instead of working one out. Where the file notes
+  which recording the separation was made from, and that recording has
+  changed or gone since, or the separation came from another model, it
+  is not used: the run warns and goes on without it.
 * `--speakers-count <NUMBER>` says how many people are to be found;
   without it the program works the count out.
 * `--no-speakers-local` takes no recording apart by voice in this run,

@@ -791,9 +791,6 @@ msgstr "इन पॉइंट पर"
 msgid "to Out point"
 msgstr "आउट पॉइंट पर"
 
-msgid "too short"
-msgstr "बहुत छोटा"
-
 msgid "unknown"
 msgstr "अज्ञात"
 
@@ -1908,9 +1905,6 @@ msgstr "  ये एक-दूसरे पर चढ़ते हैं -- ए�
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s खंड नाम के क्रम में जोड़े गए (कोई टाइमकोड नहीं -- अंतराल पहचाने नहीं जा सकते)"
 
-msgid "edges implausible"
-msgstr "किनारे अविश्वसनीय"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "फ़ेज़ से रखा गया, तीक्ष्णता %s बनाम न्यूनतम %s, विचलन अज्ञात"
 
@@ -1922,9 +1916,6 @@ msgstr "%s से कोई ऑडियो डेटा नहीं"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  वीडियो में केवल मिक्स जाता है (--no-single-tracks)।"
-
-msgid "no match in the middle either (%s)"
-msgstr "बीच में भी कोई मेल नहीं (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      चेतावनी: %s के लिए कमज़ोर मेल (%s, न्यूनतम %s)। हो सकता है ये दोनों साथ के न हों।"
@@ -4836,3 +4827,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s फ़ाइल बाकी फ़ाइलों से मेल नहीं खाती"
 msgstr[1] " -- %s फ़ाइलें बाकी फ़ाइलों से मेल नहीं खातीं"
+
+msgid "Cameras"
+msgstr "कैमरे"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "एक जैसा आकार और अवधि: %s -- शायद एक ही रिकॉर्डिंग दो बार।"
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe अब फ़ाइल नहीं खोलता"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "ffmpeg और ffprobe गायब हैं।"
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s में ऐसी रिकॉर्डिंग का वक्ता पृथक्करण है जो तब से बदल गई है या अब नहीं है, या किसी दूसरे मॉडल का -- इसका उपयोग नहीं किया जाता।"

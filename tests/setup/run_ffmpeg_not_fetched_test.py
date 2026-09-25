@@ -188,7 +188,6 @@ finally:
 
 # Out of the catalogue, so the reading does not tie itself to one
 # language.
-IS_MISSING = vpm.T('%s is missing.').split("%s")[-1].strip(" .")
 NOTHING_RUNS = vpm.T(
     'Nothing runs until that is put right. This way: %s').split("%s")[0]
 
@@ -204,9 +203,10 @@ check("a search that finds no ffmpeg installs nothing",
       "%d installs asked for, wanted 0: %s"
       % (len(asked_pip), asked_pip[:3]))
 check("and it comes back saying both of them are missing",
-      ended[0] == "missing" and IS_MISSING in ended[1]
-      and "ffmpeg" in ended[1] and "ffprobe" in ended[1],
-      "it came back with %r, wanted 'missing' and both named" % (ended,))
+      ended[0] == "missing"
+      and ended[1] == vpm.T('ffmpeg and ffprobe are missing.'),
+      "it came back with %r, wanted %r"
+      % (ended, ("missing", vpm.T('ffmpeg and ffprobe are missing.'))))
 # Nothing is said inside the search itself: at that point in the run it
 # is not known whether there is a console to say it in, and a sentence
 # written where nobody is looking is the same as no sentence.

@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 """A run main() stops returns 1, its last line naming what failed and why.
 
-main() catches what goes wrong and says it in one line. Reached here
-from a bare command line, the program in a process of its own: the
-list of presets, with the place list_presets reaches curl through
-replaced by a stand-in that counts its calls, and every curl fenced
-off behind a proxy that goes nowhere; and a lone camera with no sound
-on it, made here. For each: the return code, and the last line held
-against the program's own sentence -- the reason, and the file.
-
-The limit: --hdr-check and the two Resolve switches are not reached --
-the first answers every way in from outside with its report, the others
-lie past source_resolve_door_shut, which forbids them in any test.
+Each case is a bare command line in a process of its own: presets that
+cannot be fetched (curl stood in for, fenced behind a proxy to nowhere),
+a lone camera with no sound, a file of no known kind alone, a path that
+is not there, two cameras with no recording and no --multitrack, the
+last also naming the unknown file beside it as skipped, and the two
+Resolve switches in a child cut off from Resolve, which checks that
+before main() and stops red, main() uncalled, where it is not. The
+limit: --hdr-check is not reached; it answers with its report.
 """
 import os
 import sys
@@ -24,6 +21,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
+import json
 import re
 import subprocess
 import tempfile
@@ -52,7 +50,7 @@ ASK = 120.0
 
 
 def run(argv, fence=None):
-    """The program's way in, in a process of its own: (code, last line).
+    """The program's way in, in its own process: (code, last line, all).
 
     The code is None if it did not end within ASK, and the last line
     then says so. `fence` replaces the variables it names in either case,
@@ -66,12 +64,12 @@ def run(argv, fence=None):
         kid = subprocess.run(argv, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, timeout=ASK, env=env)
     except subprocess.TimeoutExpired:
-        return None, "no end within %.0f s" % ASK
+        return None, "no end within %.0f s" % ASK, ""
     text = kid.stdout.decode("utf-8", "replace")
     # Colour marks and a progress bar's carriage returns are not words.
     text = re.sub(r"\x1b\[[0-9;]*m", "", text).replace("\r", "\n")
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    return kid.returncode, (lines[-1] if lines else "")
+    return kid.returncode, (lines[-1] if lines else ""), "\n".join(lines)
 
 
 print("1. The presets cannot be fetched")
@@ -98,8 +96,8 @@ CHILD = "\n".join([
 NOWHERE = "http://127.0.0.1:9"
 FENCE = {"https_proxy": NOWHERE, "http_proxy": NOWHERE,
          "all_proxy": NOWHERE, "no_proxy": None}
-code, last = run([sys.executable, "-c", CHILD,
-                  "--auphonic-api-key", "not-a-real-key"], FENCE)
+code, last, _said = run([sys.executable, "-c", CHILD,
+                         "--auphonic-api-key", "not-a-real-key"], FENCE)
 try:
     with open(ASKED, encoding="utf-8") as f:
         asked = len(f.read().splitlines())
@@ -122,14 +120,124 @@ made = subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
                       stderr=subprocess.STDOUT, timeout=ASK)
 # A precondition of the material, not a judgement about the program.
 assert made.returncode == 0 and os.path.exists(CAMERA), made.stdout
-code, last = run([sys.executable, SCRIPT, "--without-auphonic",
-                  "--out", os.path.join(HOME, "out"), CAMERA])
+code, last, _said = run([sys.executable, SCRIPT, "--without-auphonic",
+                         "--out", os.path.join(HOME, "out"), CAMERA])
 WANT = vpm.T('Camera audio not usable: %s') % (
     vpm.T('%s has no audio track.') % os.path.basename(CAMERA))
 check("a lone camera without sound returns 1", code == 1,
       "returned %r against 1" % code)
 check("and its last line names the file and says it has no sound",
       last == WANT, "last line %r against %r" % (last, WANT))
+
+print("\n3. Files a run can do nothing with")
+NOTES = os.path.join(HOME, "notes.txt")
+with open(NOTES, "w") as f:
+    f.write("not a recording\n")
+CAMS = [os.path.join(HOME, "CamA_C001.mov"), os.path.join(HOME,
+                                                         "CamB_C001.mov")]
+build = ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+         "testsrc=size=160x90:rate=25:duration=2", "-f", "lavfi", "-i",
+         "sine=frequency=440:duration=2"]
+for cam in CAMS:
+    build += ["-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-pix_fmt",
+              "yuv420p", "-c:a", "pcm_s16le", cam]
+made = subprocess.run(build, stdout=subprocess.PIPE,
+                      stderr=subprocess.STDOUT, timeout=ASK)
+# A precondition of the material, not a judgement about the program.
+assert made.returncode == 0 and all(map(os.path.exists, CAMS)), made.stdout
+code, last, _said = run([sys.executable, SCRIPT, "--without-auphonic",
+                         "--out", os.path.join(HOME, "out3"), NOTES])
+WANT = vpm.T('No audio file given.')
+check("an unknown file alone returns 1 and says no audio came",
+      code == 1 and last == WANT,
+      "returned %r against 1, last line %r against %r" % (code, last, WANT))
+GONE = os.path.join(HOME, "Gone_C001.wav")
+code, last, _said = run([sys.executable, SCRIPT, "--without-auphonic",
+                         "--out", os.path.join(HOME, "out3"), GONE])
+WANT = vpm.T('Not found: %s') % GONE
+check("a missing file returns 1 and names it",
+      code == 1 and last == WANT,
+      "returned %r against 1, last line %r against %r" % (code, last, WANT))
+code, last, said = run([sys.executable, SCRIPT, "--without-auphonic",
+                        "--out", os.path.join(HOME, "out3"), NOTES] + CAMS)
+WANT = vpm.T('Several cameras but no audio file. Each camera would have its '
+             'own audio --\nthat is what --multitrack is for. Otherwise '
+             'one camera after another.').splitlines()[-1].strip()
+check("two cameras without a recording and without Multitrack return 1 "
+      "and say what --multitrack is for", code == 1 and last == WANT,
+      "returned %r against 1, last line %r against %r" % (code, last, WANT))
+SKIPPED = vpm.T('Unknown extension, skipped: %s') % "notes.txt"
+check("an unknown file beside real ones is named as skipped",
+      SKIPPED in said.splitlines(),
+      "%r %s among %d lines" % (SKIPPED, "said" if SKIPPED in
+                                said.splitlines() else "not said",
+                                len(said.splitlines())))
+
+print("\n4. Resolve out of reach, and main() saying so")
+# The owner's Resolve may be running on this machine. So the child
+# points the scripting interface at a folder that is not there, drops
+# any path holding the module, nails connect_to_resolve, and checks all
+# three before main() is called; where one does not hold it stops there.
+RESOLVE_REASON = "no Resolve here -- the stand-in answers in its place"
+HANDOVER = os.path.join(HOME, "Door_resolve.json")
+with open(HANDOVER, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "fps": 25, "production": "Door",
+               "cameras": [{"file": CAMS[0], "name": "CamA"}]}, f)
+SHUT = "Resolve's scripting module is out of reach"
+# One string, not lines joined: source_resolve_door_shut reads it as a
+# child of its own and lets its switches through for the nail and the
+# bolt standing above them, and for nothing else.
+RESOLVE_CHILD = """import importlib.util, os, sys
+os.environ["RESOLVE_SCRIPT_API"] = %r
+os.environ["RESOLVE_SCRIPT_LIB"] = os.path.join(%r, "fusionscript.so")
+MODULES = ("DaVinciResolveScript", "fusionscript")
+sys.path[:] = [p for p in sys.path if not any(
+    os.path.exists(os.path.join(p, m + e)) for m in MODULES
+    for e in (".py", ".so", ".dll"))]
+sys.path.insert(0, %r)
+import the_program
+vpm = the_program.load()
+def refuse(*a, **k):
+    raise RuntimeError(%r)
+vpm.connect_to_resolve = refuse
+near = [m for m in MODULES if importlib.util.find_spec(m) is not None]
+there = [p for p in vpm.resolve_module_paths() if os.path.exists(p)]
+loose = [f.__name__ for f in (vpm.build_resolve_project,
+                              vpm.print_audio_track_mapping)
+         if f.__globals__.get("connect_to_resolve") is not refuse]
+if near or there or loose:
+    print("Resolve within reach, main() not called:", near, there, loose)
+    sys.exit(3)
+print(%r)
+sys.argv = ["videopodcast-magic"] + {
+    "json": ["--resolve-json", %r],
+    "tracks": ["--resolve-audio-tracks"]}[sys.argv[1]]
+sys.exit(vpm.main())
+""" % (os.path.join(HOME, "nowhere"), os.path.join(HOME, "nowhere"), HERE,
+       RESOLVE_REASON, SHUT, HANDOVER)
+code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "json"])
+bolted = SHUT in said.splitlines()
+check("the child finds Resolve out of reach before main() is called",
+      bolted, "%r %s, returned %r, last line %r"
+      % (SHUT, "said" if bolted else "not said", code, last))
+if bolted:
+    WANT = vpm.T('Resolve part stopped: %s') % RESOLVE_REASON
+    check("a Resolve build that cannot connect returns 1", code == 1,
+          "returned %r against 1" % code)
+    check("and its last line says the Resolve part stopped, and why",
+          last == WANT, "last line %r against %r" % (last, WANT))
+    code, last, said = run([sys.executable, "-c", RESOLVE_CHILD, "tracks"])
+    WANT = vpm.T('Stopped: %s') % RESOLVE_REASON
+    check("a look at Resolve's tracks that cannot connect returns 1",
+          code == 1 and SHUT in said.splitlines(),
+          "returned %r against 1, %r %s" % (code, SHUT, "said" if SHUT in
+                                            said.splitlines() else
+                                            "not said"))
+    check("and its last line says it stopped, and why", last == WANT,
+          "last line %r against %r" % (last, WANT))
+else:
+    print("   main() was not called: the checks on the two Resolve "
+          "switches wait for a child that cannot reach Resolve")
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

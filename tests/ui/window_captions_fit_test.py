@@ -5,17 +5,27 @@ Every language the window offers, read off the catalogues beside the
 program, because that is where this goes wrong: a caption cut off in
 German only ever stood in a screenshot, and nothing in the program
 misbehaved, so no test that runs the program noticed. Four windows are
-built at a time. A caption this platform draws with a missing glyph is
+built at a time, each measured once the program has finished its work
+and the captions stand still; a second round only confirms a finding
+of the first. A caption this platform draws with a missing glyph is
 not judged but named as left out: its width is the width of boxes, and
 a machine without the script's fonts would otherwise call it cut off,
 or not, for a reason that is not in the program.
 
-Every widget carrying text in the window -- built for real, offscreen,
-with the fixture project in it -- is asked how wide its text is and how
+First that the project came in -- a view in the window holds rows --
+and that the program had finished its work by then. Then every widget carrying text in the window -- built for real, offscreen,
+empty as it opens and again with the fixture project in it, since the
+two show different sheets -- is asked how wide its text is and how
 much room it has. The room is not guessed: a twin of the same class,
 parent, font and style sheet is given a long text, and its size hint
 minus the text width is what the frame costs. Word wrap, widgets with no
 text or with an icon, and fields somebody types into are left out.
+The window stands at the size the manual's pictures are taken at, and
+grows only where its sheets need more even at their narrowest: there
+the layout would squeeze a field below its text for want of window,
+not of field -- whether the sheets fit is window_sheets_fit's claim.
+Resolve is never asked: the sheet is measured as it stands where
+Resolve does not answer, since where it does it is somebody's own.
 
 The reading beside the zoom buttons is asked further things: that it
 holds its place, that it says something before anybody clicks, that the
@@ -48,7 +58,8 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-import os, sys, json, subprocess, time
+import os, sys, json, shutil, subprocess, time
+from concurrent.futures import ThreadPoolExecutor
 import the_program
 
 SCRIPT = the_program.SCRIPT
@@ -96,6 +107,28 @@ PLATFORM = os.environ.get("VPM_LAYOUT_PLATFORM") or "offscreen"
 # Well under a tenth of a pixel: the faces that fail this are out by two
 # pixels, and a face that is really fixed width is out by nothing at all.
 SAME_WIDTH = 0.05
+# The Resolve sheet asks whether Resolve answers as soon as it is shown,
+# and on a machine where Resolve runs that is somebody's own. Pointed at
+# a folder that is not there, it answers "not" without asking anybody --
+# the answer every builder gives.
+NO_RESOLVE = (os.path.join(HERE, "no_resolve_here", "Scripting"),
+              os.path.join(HERE, "no_resolve_here", "fusionscript"))
+
+
+def media_links(files):
+    """One folder of links to the fixture's files, made once by the parent.
+
+    Every window then reads the files under the same names, so what the
+    first ones measured the rest find in the store, as a second opening
+    does for a user -- instead of each language decoding every file
+    again: ten processes fewer per window, measured, on a builder that
+    pays for every process it starts.
+    """
+    import tempfile
+    here = tempfile.mkdtemp(prefix="vpm_layout_media_")
+    for path in files:
+        os.symlink(path, os.path.join(here, os.path.basename(path)))
+    return here
 
 
 def own_project():
@@ -103,7 +136,9 @@ def own_project():
 
     Opening a project moves the project file into its output folder and
     deletes copies lying elsewhere, which on the shared fixture would
-    leave the next test with nothing to open.
+    leave the next test with nothing to open. The files are reached
+    through the parent's links where it made them, else through links
+    of this window's own.
     """
     import json as _json, tempfile
     from fixture_root import fixture
@@ -113,8 +148,9 @@ def own_project():
     with open(source, encoding="utf-8") as f:
         d = _json.load(f)
     own = tempfile.mkdtemp(prefix="vpm_layout_")
+    media = os.environ.get("VPM_LAYOUT_MEDIA") or own
     for entry in d.get("files") or []:
-        link = os.path.join(own, os.path.basename(entry["path"]))
+        link = os.path.join(media, os.path.basename(entry["path"]))
         if not os.path.exists(link):
             os.symlink(entry["path"], link)
         entry["path"] = link
@@ -134,6 +170,8 @@ def measure(language):
     """Build the window in that language and report every caption."""
     os.environ["QT_QPA_PLATFORM"] = PLATFORM
     os.environ["VPM_SILENT"] = "1"
+    os.environ["RESOLVE_SCRIPT_API"], os.environ["RESOLVE_SCRIPT_LIB"] = \
+        NO_RESOLVE
     from PySide6 import QtCore, QtGui, QtWidgets
 
     app = QtWidgets.QApplication(sys.argv[:1])
@@ -144,6 +182,21 @@ def measure(language):
     vpm.load_api_key = lambda: ""
     vpm.update_offer = lambda *a, **k: None
     vpm.set_language(language)
+    # The bar is drawn outside gui() from one plan; wrapping the drawing
+    # hands over the program's own word on whether it is still at work.
+    _paint = vpm.total_paint
+    work = {}
+
+    def paint_spy(Qt, plan, *rest):
+        work["plan"] = plan
+        return _paint(Qt, plan, *rest)
+
+    vpm.total_paint = paint_spy
+
+    def working():
+        """Whether the program still has work open, by its own plan."""
+        plan = work.get("plan")
+        return plan is None or plan.busy()
 
     project = own_project()
     if project:
@@ -291,19 +344,30 @@ def measure(language):
     # rewritten stands in its old field for one turn of the event loop,
     # which alone would make the report differ from run to run.
     rounds = [{}, {}]
-    round_now = [rounds[0]]
+    empty = [{}, {}]                     # the same, before the project
+    round_now = [empty[0]]
     seen = [0]
     undrawable = set()
 
     def windows_size():
-        """Give every window the program did not size itself its hint.
+        """Every window at a width its sheets can be laid out in.
 
         The offscreen platform leaves a window it shows at its smallest
-        allowed width instead of the width it asked for, and every
-        caption in it would then look cut off.
+        allowed width, not the one it asked for: those get their hint.
+        The program's own window keeps the size the pictures are taken
+        at, and grows only to the least its sheets need -- narrower, the
+        layout squeezes fields below their text, which is the sheet not
+        fitting the window: window_sheets_fit's question, not this one's.
         """
+        main = window_of()
         for w in app.topLevelWidgets():
-            if not w.isVisible() or w.windowTitle().startswith("Video Pod"):
+            if not w.isVisible():
+                continue
+            if w is main:
+                least = w.minimumSizeHint().width()
+                if w.width() < least:
+                    result["widened"] = max(result.get("widened", 0), least)
+                    w.resize(least, w.height())
                 continue
             hint = w.sizeHint()
             if hint.isValid() and w.width() < hint.width():
@@ -499,6 +563,23 @@ def measure(language):
     result = {"project": bool(project)}
     step = [0]
     waited = [0]
+    quiet = [0]
+    clicked = [0.0]
+
+    def views_filled(window):
+        """Whether a table, tree or list in the window holds rows.
+
+        The list inside a drop-down is a view as well and holds its
+        entries from the start, so it does not count.
+        """
+        for v in window.findChildren(QtWidgets.QAbstractItemView):
+            up = v.parentWidget()
+            while up is not None and not isinstance(up, QtWidgets.QComboBox):
+                up = up.parentWidget()
+            if up is None and v.model() is not None \
+                    and v.model().rowCount() > 0:
+                return True
+        return False
 
     def window_of():
         for x in app.topLevelWidgets():
@@ -508,6 +589,10 @@ def measure(language):
     def look():
         """Open the project, wait for it to be in, then measure."""
         window = window_of()
+        if window is None and step[0] == 0 and waited[0] < 600:
+            waited[0] += 1
+            QtCore.QTimer.singleShot(50, look)
+            return
         if window is None:
             result["error"] = "no window came up"
             app.quit()
@@ -515,40 +600,65 @@ def measure(language):
         if step[0] == 0:
             window.resize(*WINDOW)
             app.processEvents()
-            sweep()                      # the empty window as it opens
+            sweep()                      # the empty window as it opens,
+            # and again half a second on, but only to confirm a finding:
+            # with none, the second look could not change the verdict.
+            if round_now[0] is empty[0] and empty[0]:
+                round_now[0] = empty[1]
+                QtCore.QTimer.singleShot(500, look)
+                return
             step[0] = 1
+            clicked[0] = time.time()
             if project:
                 for b in window.findChildren(QtWidgets.QPushButton):
                     if drawn(b.text()).strip().startswith(
                             vpm.T('Open project ...')[:8]):
                         b.click()
                         break
-            QtCore.QTimer.singleShot(400, look)
+            QtCore.QTimer.singleShot(50, look)
             return
         if step[0] == 1:
-            # The tables are only built once the project is read.
-            # Waiting for the rows rather than for the clock: a slow
-            # machine takes longer, an interface that never gets there
-            # gives up.
-            filled = any(t.rowCount() for t in
-                         window.findChildren(QtWidgets.QTableWidget))
-            if project and not filled and waited[0] < 100:
-                waited[0] += 1
-                QtCore.QTimer.singleShot(300, look)
+            # Rows in, the program's plan done, and the captions as they
+            # were two looks ago. 150 looks of standstill end the wait,
+            # and 60 s in all (10 and 10 s once another window has run
+            # out of patience); the parent judges which it was.
+            filled = views_filled(window)
+            face = tuple(sorted((type(w).__name__, caption(w))
+                                for w in app.allWidgets()
+                                if type(w).__name__ in KINDS
+                                and w.isVisible()))
+            still = face == work.get("face")
+            work["face"] = face
+            quiet[0] = quiet[0] + 1 if still else 0
+            quick = bool(os.environ.get("VPM_LAYOUT_QUICK"))
+            if project and (not filled or working() or quiet[0] < 2) \
+                    and quiet[0] < (10 if quick else 150) \
+                    and time.time() - clicked[0] < (10 if quick else 60):
+                QtCore.QTimer.singleShot(200, look)
                 return
             result["filled"] = filled
+            result["busy"] = working()
+            result["settled"] = not working() and quiet[0] >= 2
+            result["waited"] = round(time.time() - clicked[0], 1)
+            result["still"] = quiet[0]
+            result["quick"] = quick
             step[0] = 2
         if step[0] == 2:
             round_now[0] = rounds[0]
+            seen[0] = 0
             tabs_sweep(window)
             result["settings"] = settings_sweep(window)
             step[0] = 3
-            QtCore.QTimer.singleShot(500, look)
-            return
-        round_now[0] = rounds[1]
-        seen[0] = 0
-        tabs_sweep(window)
-        settings_sweep(window)
+            # A finding has to stand twice; with none in the first round
+            # the second could not change the verdict, so it is not run.
+            if rounds[0]:
+                QtCore.QTimer.singleShot(500, look)
+                return
+        if rounds[0]:
+            round_now[0] = rounds[1]
+            seen[0] = 0
+            tabs_sweep(window)
+            settings_sweep(window)
         result["font"] = "%s %.1f" % (app.font().family(),
                                       app.font().pointSizeF())
         # The platform, not the style: a style sheet is laid over the
@@ -560,15 +670,17 @@ def measure(language):
         result["zoom_row"] = zoom_row_holds(window)
         result["output_pane"] = output_pane_face()
         result["undrawable"] = sorted(undrawable)
+        both = {k: s for k, s in rounds[1].items() if k in rounds[0]}
+        both.update((k, s) for k, s in empty[1].items() if k in empty[0])
         result["found"] = [dict(text=t, kind=k, box=b, short=s)
-                           for (t, k, b), s in rounds[1].items()
-                           if (t, k, b) in rounds[0]]
+                           for (t, k, b), s in both.items()]
         app.quit()
 
-    QtCore.QTimer.singleShot(1200, look)
+    QtCore.QTimer.singleShot(0, look)
     # A window that never comes up must not hold the suite -- and must
     # not pass either: the report is empty then, and the parent says so.
-    QtCore.QTimer.singleShot(180000, app.quit)
+    # Above the 30 s for the window and the 60 s for the project.
+    QtCore.QTimer.singleShot(100000, app.quit)
     vpm.gui()
     print("LAYOUT " + json.dumps(result))
 
@@ -596,26 +708,53 @@ def check(name, ok, extra=""):
 # language: they are about the platform, not about the words in it.
 said = []
 
-outputs = []
-for first in range(0, len(LANGUAGES), AT_ONCE):
-    started = []
-    for language in LANGUAGES[first:first + AT_ONCE]:
-        locale = "%s_%s.UTF-8" % (language, language.upper())
-        env = dict(os.environ, VPM_LAYOUT_LANG=language, LANG=locale,
-                   LC_ALL=locale, LANGUAGE=language,
-                   QT_QPA_PLATFORM=PLATFORM)
-        started.append((language, subprocess.Popen(
-            [sys.executable, os.path.abspath(__file__)],
-            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-            env=env, cwd=HERE)))
-    for language, process in started:
-        try:
-            out, _ = process.communicate(timeout=600)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.communicate()
-            out = "the window never came back"
-        outputs.append((language, out))
+# A backstop for a child that does not even quit itself, as it does
+# after 100 s. A hung one holds one of four places this long while the
+# rest go on in three; on the slowest builder that comes to about 220 s
+# of run.sh's 300 -- estimated from its logs, not measured there.
+CHILD_LIMIT = 120
+# Once one window has run out of patience, the rest wait a shorter
+# while: every language waiting its full patience would run past
+# run.sh's 300 s, and the test would then name nothing at all.
+not_in = []
+
+
+def one(language):
+    """One language's window in a process of its own; its whole output."""
+    locale = "%s_%s.UTF-8" % (language, language.upper())
+    env = dict(os.environ, VPM_LAYOUT_LANG=language, LANG=locale,
+               LC_ALL=locale, LANGUAGE=language, QT_QPA_PLATFORM=PLATFORM,
+               VPM_LAYOUT_QUICK="1" if not_in else "",
+               VPM_LAYOUT_MEDIA=MEDIA)
+    process = subprocess.Popen(
+        [sys.executable, os.path.abspath(__file__)],
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+        env=env, cwd=HERE)
+    try:
+        out, _ = process.communicate(timeout=CHILD_LIMIT)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        process.communicate()
+        out = "the window never came back within %d s" % CHILD_LIMIT
+    if '"filled": false' in out or '"settled": false' in out:
+        not_in.append(language)
+    return language, out
+
+
+# The fixture's files, linked once for every window; with no fixture
+# each window says so itself.
+from fixture_root import fixture
+MEDIA = ""
+if os.path.exists(os.path.join(fixture("interview"), NAME)):
+    with open(os.path.join(fixture("interview"), NAME),
+              encoding="utf-8") as f:
+        MEDIA = media_links([e["path"] for e in json.load(f).get("files")
+                             or []])
+# A pool rather than waves: a wave waits for its slowest window.
+with ThreadPoolExecutor(AT_ONCE) as pool:
+    outputs = list(pool.map(one, LANGUAGES))
+if MEDIA:
+    shutil.rmtree(MEDIA, ignore_errors=True)
 
 for language, out in outputs:
     # The measuring happens in the child, so its dump would otherwise go
@@ -639,6 +778,12 @@ for language, out in outputs:
     print("\n%s: %d captions, %s %s, window %s"
           % (language, report["seen"], report["style"], report["font"],
              report["size"]))
+    if report.get("widened"):
+        print("  the window was widened to %d px, the least its sheets "
+              "need in this platform's fonts: at %d px the layout would "
+              "squeeze fields below their text, and whether the sheets "
+              "fit the window is window_sheets_fit's question"
+              % (report["widened"], WINDOW[0]))
     if report.get("undrawable"):
         # A piece of this language was not judged, and run.sh reports
         # the test green with that piece named rather than green whole.
@@ -651,8 +796,19 @@ for language, out in outputs:
     if not report.get("project"):
         print("  the interview fixture is not there -- only the empty "
               "window was looked at. Run tests/fixtures.sh.")
-    elif not report.get("filled"):
-        print("  the project did not come in -- the tables stayed empty.")
+    else:
+        cut = (" (a shortened wait: another language had run out of "
+               "patience first)" if report.get("quick") else "")
+        check("%s: the project came in" % language,
+              report.get("filled") is True,
+              "no table, tree or list in the window held a row %s s after "
+              "'Open project' was pressed%s" % (report.get("waited"), cut))
+        check("%s: the program had finished before it was measured"
+              % language, report.get("settled") is True,
+              "measured %s s after 'Open project', its plan %s, the "
+              "captions unchanged for %s looks of 0.2 s (2 wanted)%s"
+              % (report.get("waited"), "still busy" if report.get("busy")
+                 else "done", report.get("still"), cut))
     if not report.get("settings"):
         print("  the settings window was not reached -- not measured.")
     # The zoom row. A button that walks away as it is pressed cannot be

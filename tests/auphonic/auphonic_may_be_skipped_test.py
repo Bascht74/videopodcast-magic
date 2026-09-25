@@ -191,6 +191,73 @@ check("a plain preset name still holds",
         "the wish was %r, plaintext %r, the box sits on %r"
         % ("Podcast_Zoom", plaintext(b), b.currentData()))
 
+print("\n6b. A Multitrack project keeps its preset through the wrong list")
+# The program's own preset_box_fill this time, not the rebuilt filter:
+# a project opened in Multitrack meets the Singletrack list first, and
+# the wish it carries must outlive that list without being spent.
+
+
+class Rows(object):
+    """The model a QComboBox has: rows that can be greyed out."""
+
+    def __init__(self):
+        self.greyed = []
+
+    def item(self, i):
+        rows = self
+
+        class Row(object):
+            def setEnabled(self, on):
+                if not on:
+                    rows.greyed.append(i)
+        return Row()
+
+
+class RowBox(Box):
+    """The box above with the model preset_box_fill greys rows in."""
+
+    def __init__(self):
+        Box.__init__(self)
+        self.rows = Rows()
+
+    def model(self):
+        return self.rows
+
+
+state = {"preset_wanted": "Podcast_Multitrack"}
+b = RowBox()
+none_label = vpm.label_of(vpm.PRESET_NONE)
+vpm.preset_box_fill(b, vpm.preset_entries(PRESETS, False, none_label,
+                                          vpm.PRESET_NONE),
+                    state, vpm.PRESET_NONE)
+check("the wish outlives the singletrack list",
+      state.get("preset_wanted") == "Podcast_Multitrack",
+      "the wish is now %r, wanted %r"
+      % (state.get("preset_wanted"), "Podcast_Multitrack"))
+check("and meanwhile the box spends nothing", plaintext(b) == "",
+      "plaintext %r -- the box sits on entry %d of %d, %r"
+      % (plaintext(b), b.i, b.count(), b.currentData()))
+vpm.preset_box_fill(b, vpm.preset_entries(PRESETS, True, none_label,
+                                          vpm.PRESET_NONE),
+                    state, vpm.PRESET_NONE)
+check("and lands on the multitrack list once that comes",
+      b.currentData() == "Podcast_Multitrack",
+      "the box sits on entry %d of %d, %r, wanted %r"
+      % (b.i, b.count(), b.currentData(), "Podcast_Multitrack"))
+asked = []
+vpm.preset_list_bring({"preset_wanted": "Podcast_Multitrack"},
+                      lambda: asked.append("fetch"),
+                      lambda: asked.append("apply"))
+check("a project's wish with no list yet asks for the list",
+      asked == ["fetch"], "called %r, wanted ['fetch']" % (asked,))
+asked = []
+vpm.preset_list_bring({"preset_wanted": "Podcast_Multitrack",
+                       "presets": PRESETS},
+                      lambda: asked.append("fetch"),
+                      lambda: asked.append("apply"))
+check("with the list there the wish goes straight into it",
+      asked == ["apply"], "called %r, wanted ['apply']" % (asked,))
+
 print("\n7. The run: without a key nothing goes to auphonic.com")
 def argv_with(key, preset):
     values = {"files": [("/tmp/a.mov", "video")], "clip_kinds": {},

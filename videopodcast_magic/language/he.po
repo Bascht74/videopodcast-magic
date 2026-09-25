@@ -3067,9 +3067,6 @@ msgstr "אין מידע"
 msgid "no information in the file"
 msgstr "אין מידע בקובץ"
 
-msgid "no match in the middle either (%s)"
-msgstr "גם באמצע אין התאמה (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "לא נמצא מקום שבו מדבר בדיוק אדם אחד -- לא ניתן למדוד את ההפרדה."
 
@@ -3799,9 +3796,6 @@ msgstr "ביטול"
 msgid "cancelled"
 msgstr "בוטל"
 
-msgid "edges implausible"
-msgstr "קצוות לא סבירים"
-
 msgid "fixed: "
 msgstr "תוקן: "
 
@@ -3840,9 +3834,6 @@ msgstr "לנקודת הכניסה"
 
 msgid "to Out point"
 msgstr "לנקודת היציאה"
-
-msgid "too short"
-msgstr "קצר מדי"
 
 msgid "two Timelines"
 msgstr "שני Timelines"
@@ -4838,3 +4829,18 @@ msgid " -- %s file does not fit the others"
 msgid_plural " -- %s files do not fit the others"
 msgstr[0] " -- %s קובץ אינו מתאים לאחרים"
 msgstr[1] " -- %s קבצים אינם מתאימים לאחרים"
+
+msgid "Cameras"
+msgstr "מצלמות"
+
+msgid "%s have the same size and running time -- possibly one recording twice."
+msgstr "אותו גודל ואותו זמן ריצה: %s -- ייתכן שזו אותה הקלטה פעמיים."
+
+msgid "ffprobe no longer opens the file"
+msgstr "ffprobe כבר אינו פותח את הקובץ"
+
+msgid "ffmpeg and ffprobe are missing."
+msgstr "חסרים: ffmpeg ו-ffprobe."
+
+msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
+msgstr "  %s מכיל הפרדת דוברים של הקלטה שהשתנתה מאז או שאינה קיימת עוד, או של מודל אחר -- היא אינה בשימוש."
