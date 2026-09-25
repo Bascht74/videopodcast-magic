@@ -466,6 +466,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   für Minute. Aus einem Terminal startet das Programm niemand mehr,
   also ist dies das Terminal.
 
+  ![Der Reiter Ausgabe am Ende eines Probelaufs](images/output.de.png)
+
   **Resolve-Projekt anlegen** richtet sich nach der Dateiliste. Nimmt
   man eine Kamera heraus, wird der Knopf grau, sobald die Übergabe des
   letzten Laufs nicht mehr genau die Kameras nennt, die dort stehen, und

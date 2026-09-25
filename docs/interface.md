@@ -427,6 +427,8 @@ Four tabs, in the order they are needed.
   minute by minute. Nobody starts the program from a terminal any more,
   so this is the terminal.
 
+  ![The Output tab at the end of a dry run](images/output.png)
+
   **Create Resolve project** follows the file list. Take a camera out
   and the button greys as soon as the last run's handover no longer
   names exactly the cameras standing there, and resting on it says that

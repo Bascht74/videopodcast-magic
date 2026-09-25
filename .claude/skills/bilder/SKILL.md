@@ -85,7 +85,7 @@ red line there is fixed in the program before a single picture is taken.
 cd tests && bash fixtures.sh          # builds /tmp/vpm-fixtures-<uid>/interview and /mixer
 mkdir -p /tmp/vpm_shots && cp docs/notes/shoot_screenshots.py /tmp/vpm_shots/
 cd /tmp/vpm_shots
-for s in main split channels; do for l in en de; do
+for s in main split channels output; do for l in en de; do
   VPM_SHOT_SET=$s LANGUAGE=$l python3 shoot_screenshots.py
 done; done
 ```
@@ -97,6 +97,7 @@ What each set delivers:
 | `main` | `files`, `blocks`, `assignment`, `resolve-cut`, `settings` |
 | `split` | `voices` |
 | `channels` | `channels` |
+| `output` | `output` |
 
 The terminal picture comes from a second script, `shoot_terminal.py`,
 through `VPM_SHOT_TERMINAL_LANG`. It needs an **unlocked** screen, or
@@ -106,7 +107,8 @@ through `VPM_SHOT_TERMINAL_LANG`. It needs an **unlocked** screen, or
 Whoever needs only `resolve-cut` runs `main` and gets `files`, `blocks`,
 `assignment` and `settings` along with it. That is harmless, because the
 pass is repeatable -- unchanged pictures come out byte for byte the
-same. Six passes together: about two and a half minutes.
+same. Eight passes together: about two and a half minutes for the
+first six, and each output pass adds a dry run (7 s offscreen, measured).
 
 ## The choosing happens when copying, not when shooting
 
