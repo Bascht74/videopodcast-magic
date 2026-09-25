@@ -53,10 +53,14 @@ def size_in_mb(file_path):
 
 
 def as_data_size(mb_value):
-    """Format a byte count for reading: 542 MB, 1,024 MB, 28.9 GB."""
+    """Format a byte count for reading: 542 MB, 1,024 MB, 28.9 GB.
+
+    The unit goes through the catalogue with its number, not beside it:
+    French writes Mo and Go.
+    """
     if mb_value >= 1000:
-        return "%s GB" % number_text(mb_value / 1000.0, 1)
-    return "%s MB" % number_text(math.ceil(mb_value), 0)
+        return T('%s GB') % number_text(mb_value / 1000.0, 1)
+    return T('%s MB') % number_text(math.ceil(mb_value), 0)
 
 
 def khz_text(value):
@@ -76,22 +80,27 @@ def audio_summary(file_path):
     """Return key facts about an audio file as (label, value) pairs."""
     d = ffprobe_json(file_path)
     a = next((x for x in d.get("streams", []) if x.get("codec_type") == "audio"), {})
-    if str(a.get("sample_fmt", "")).startswith("flt"):
-        depth = "32 bit float"
-    else:
-        depth = "%s bit" % (a.get("bits_per_raw_sample")
-                            or a.get("bits_per_sample") or "?")
     channels = channel_text(a.get("channels"))
+    # The whole line is one text, its units in it: "bit" is "Bit" in
+    # German and "бит" in Russian, and float needs a wording of its own.
+    if str(a.get("sample_fmt", "")).startswith("flt"):
+        facts = (T('%s, 32 bit float, %s kHz, %s')
+                 % (a.get("codec_name", "?"),
+                    khz_text(a.get("sample_rate")), channels))
+    else:
+        facts = (T('%s, %s bit, %s kHz, %s')
+                 % (a.get("codec_name", "?"),
+                    a.get("bits_per_raw_sample")
+                    or a.get("bits_per_sample") or "?",
+                    khz_text(a.get("sample_rate")), channels))
     tc = file_timecode(file_path)
     # Read at the file's own rate, so shown at it too: a line printed
     # at 30 gives back a timecode the file never carried.
     rate = picture_rate(d) or 30.0
-    return [("Format", "%s, %s, %s kHz, %s"
-             % (a.get("codec_name", "?"), depth,
-                khz_text(a.get("sample_rate")), channels)),
+    return [(T('Format'), facts),
             (T('Length'), "%s  (%s)  --  %s"
              % (as_hms(sample_count(file_path) / float(SR)), as_data_size(size_in_mb(file_path)),
-                "Timecode %s" % timecode_string(tc, rate) if tc is not None
+                T('Timecode %s') % timecode_string(tc, rate) if tc is not None
                 else T('no timecode')))]
 
 
@@ -623,7 +632,7 @@ def video_summary(file_path, info):
     # The nominal rate comes first: editors use it. The measured one
     # beside it where it differs -- frame count over track duration.
     label_text, measured = info.get("nominal") or info["fps"], info["fps"]
-    lines = [("Video", "%s, %sx%s, %s fps%s%s"
+    lines = [(T('Video'), T('%s, %sx%s, %s fps%s%s')
                % (v.get("codec_name", "?"), v.get("width"), v.get("height"),
                   number_text(label_text, 3),
                   "" if abs(measured - label_text) < 0.0005
@@ -635,7 +644,7 @@ def video_summary(file_path, info):
                          'it is converted'))),
               (T('Length'), "%s  (%s)  --  %s"
                % (as_hms(info["duration"]), as_data_size(size_in_mb(file_path)),
-                  "Timecode %s" % info["tc"] if info["tc"]
+                  T('Timecode %s') % info["tc"] if info["tc"]
                   else T('no timecode'))),
               (T('Colour'), PROGRAM.colour_text(file_path, v, tags)),
               (T('Camera'), PROGRAM.camera_text(tags))]
