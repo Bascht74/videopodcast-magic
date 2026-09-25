@@ -1371,9 +1371,6 @@ msgstr "La risposta non era JSON: %s"
 msgid "  Number (empty = cancel): "
 msgstr "  Numero (vuoto = annulla): "
 
-msgid "The key was not saved"
-msgstr "La chiave non è stata salvata"
-
 msgid "The key was not saved: %s"
 msgstr "La chiave non è stata salvata: %s"
 
@@ -3625,9 +3622,6 @@ msgstr "  L’inizio %s della Timeline è stato rifiutato: %s"
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s nessun file nel Media Pool"
 
-msgid "   MISSING"
-msgstr "   MANCANTE"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  Attenzione: %s e %s si chiamano entrambe %s. Sulla Timeline\n  Resolve indica solo il nome, quindi le loro clip non si possono\n  distinguere -- rinominare uno dei due file."
 
@@ -4042,9 +4036,6 @@ msgstr "  La separazione dei parlanti non viene usata: %s."
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Due telecamere produrrebbero lo stesso file. La seconda sovrascriverebbe la prima."
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Due telecamere sono una sola telecamera nel montaggio. I loro file hanno lo stesso nome, quindi rinominarne uno."
-
 msgid "  Bleed not separable: %s"
 msgstr "  Diafonia non separabile: %s"
 
@@ -4071,9 +4062,6 @@ msgstr "  Diafonia misurata, %s in %s solo %s dB più bassa -- tolta dal rilevam
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Le tracce non sono state misurate, quindi %s è nel mix e non nel montaggio: %s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Due telecamere sono una sola nel montaggio (%s). I loro file hanno lo stesso nome, quindi rinominane uno."
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  Attenzione: solo %s coppie su %s misurabili. Per le altre non si è trovato alcun momento in cui parli esattamente una persona, quindi la loro diafonia resta -- qui il rilevamento di chi parla non è affidabile."
@@ -4194,9 +4182,6 @@ msgstr "Multitraccia richiede due tracce nella tabella qui sopra -- una telecame
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s è su più di un parlante -- un nome è una persona, e ogni persona ha bisogno del proprio."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Due telecamere sono una sola nel montaggio: %s. I loro file hanno lo stesso nome, quindi rinominane uno."
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "Due telecamere produrrebbero lo stesso file: %s"
@@ -4734,9 +4719,6 @@ msgstr "  %s non si può classificare: %s -- collocato solo in base al suo orolo
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: il suo suono corrisponde per %s, sotto la soglia di %s -- collocato solo in base al suo orologio"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Attenzione: questo progetto non è completo -- Resolve ha rifiutato due volte queste tracce:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Scostamento:          %s   (solo dal suo timecode -- il suo suono non ha potuto collocarla, quindi non si verifica nulla)"
 
@@ -4782,9 +4764,6 @@ msgstr "Preset:"
 msgid "Registry"
 msgstr "Registro"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Rimuovere AUDIO o VIDEO rimuove tutto ciò che sta sotto."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4823,3 +4802,53 @@ msgstr "  Resolve ha rifiutato due volte la traccia audio A%d -- la Timeline \"%
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ha rifiutato due volte la traccia video V%d -- la Timeline \"%s\" resta senza l’immagine di %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s scostamento %s, deriva dell’orologio non misurata%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Attenzione: questo progetto non è completo -- ciò che Resolve ha rifiutato:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Deriva orologio:      non misurata -- troppo pochi punti del suo suono hanno retto per una misura"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bit, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, float a 32 bit, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", la sua traccia audio rifiutata"
+
+msgid "Format"
+msgstr "Formato"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Rimuovere %s o %s rimuove tutto ciò che sta sotto."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "collocato con la sua telecamera"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s file non si accorda con gli altri"
+msgstr[1] " -- %s file non si accordano con gli altri"

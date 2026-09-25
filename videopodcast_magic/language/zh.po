@@ -1347,9 +1347,6 @@ msgstr "响应不是 JSON：%s"
 msgid "  Number (empty = cancel): "
 msgstr "  编号（留空 = 取消）: "
 
-msgid "The key was not saved"
-msgstr "密钥未保存"
-
 msgid "The key was not saved: %s"
 msgstr "密钥未保存：%s"
 
@@ -3599,9 +3596,6 @@ msgstr "  Timeline 起点 %s 被拒绝：%s"
 msgid "      %-24s no file in the media pool"
 msgstr "      %-24s Media Pool 中没有文件"
 
-msgid "   MISSING"
-msgstr "   缺失"
-
 msgid "  Caution: %s and %s are both called %s. On the Timeline\n  Resolve reports only the name, so their clips cannot be told\n  apart -- rename one of the two files."
 msgstr "  注意：%s 和 %s 都叫 %s。在 Timeline 上\n  Resolve 只报告名称，因此无法区分它们的\n  片段 -- 请重命名其中一个文件。"
 
@@ -4016,9 +4010,6 @@ msgstr "  未使用说话人分离：%s。"
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "两台摄像机会生成同一个文件。第二台会覆盖第一台。"
 
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "两台摄像机在剪辑中成了一台。它们的文件名相同，请重命名其中一个。"
-
 msgid "  Bleed not separable: %s"
 msgstr "  串音无法分离：%s"
 
@@ -4045,9 +4036,6 @@ msgstr "  已测量串音，%s 在 %s 中仅低 %s dB——已从语音检测中
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  音轨未经测量，因此 %s 在混音中，但不在剪辑中：%s"
-
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  两台摄像机在剪辑中成了一台（%s）。它们的文件同名，请重命名其中一个。"
 
 msgid "  Caution: only %s of %s pairs measurable. For the rest no moment was found where exactly one person speaks, so their bleed stays in -- the speaker detection is unreliable here."
 msgstr "  注意：只有 %s 对（共 %s 对）可以测量。其余的找不到恰好一人说话的时刻，因此它们的串音保留——此处的说话人检测不可靠。"
@@ -4168,9 +4156,6 @@ msgstr "Multitrack 需要上方表格中有两条音轨——摄像机的摄像�
 
 msgid "%s is on more than one speaker -- a name is a person, and every person needs their own."
 msgstr "%s 用在了不止一个说话人上——一个名字就是一个人，每个人都需要自己的名字。"
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "两台摄像机在剪辑中成了一台：%s。它们的文件同名，请重命名其中一个。"
 
 msgid "Two cameras would produce the same file: %s"
 msgstr "两台摄像机会生成同一个文件：%s"
@@ -4677,9 +4662,6 @@ msgstr "  %s 无法归类：%s -- 仅按其时钟放置"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s：其声音匹配度为 %s，低于下限 %s -- 仅按其时钟放置"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  注意：此项目不完整 -- Resolve 两次拒绝了以下轨道："
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  偏移：         %s   （仅来自其时间码 -- 其声音无法定位它，因此未做任何核对）"
 
@@ -4725,9 +4707,6 @@ msgstr "预设："
 msgid "Registry"
 msgstr "注册表"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "移除“音频”或“视频”会一并移除其下的所有内容。"
-
 msgid "VIDEO"
 msgstr "视频"
 
@@ -4766,3 +4745,52 @@ msgstr "  Resolve 两次拒绝了音轨 A%d -- Timeline \"%s\" 缺少 %s 的声�
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve 两次拒绝了视频轨道 V%d -- Timeline \"%s\" 缺少 %s 的画面。"
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s 偏移 %s，时钟漂移未测量%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  注意：此项目不完整 -- Resolve 拒绝了以下内容："
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  时钟漂移：     未测量 —— 其声音中可用的点太少"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s，%s 位，%s kHz，%s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s，%sx%s，%s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s，32 位浮点，%s kHz，%s"
+
+msgid ", its sound track refused"
+msgstr "，其音轨被拒绝"
+
+msgid "Format"
+msgstr "格式"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "移除“%s”或“%s”会一并移除其下的全部内容。"
+
+msgid "Timecode %s"
+msgstr "时间码 %s"
+
+msgid "mono"
+msgstr "单声道"
+
+msgid "placed with its camera"
+msgstr "随其摄像机放置"
+
+msgid "stereo"
+msgstr "立体声"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s 个文件与其他文件不匹配"

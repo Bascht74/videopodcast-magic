@@ -2714,9 +2714,6 @@ msgstr "%s -- tarkistetaan"
 msgid "The key was not saved: %s"
 msgstr "Avainta ei tallennettu: %s"
 
-msgid "The key was not saved"
-msgstr "Avainta ei tallennettu"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Avainnippu on lukittu. Avaa lukitus ja yritä uudelleen."
 
@@ -2857,12 +2854,6 @@ msgstr "Raita"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Muutoksen aikana lisättiin raitoja (nyt %s). Se tekee miksauksesta\n  virheellisen. Poista tiedostottomat raidat auphonic.com-palvelussa."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Kaksi kameraa on leikkauksessa yksi kamera. Niiden tiedostoilla on sama nimi, joten nimeä toinen uudelleen."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Kaksi kameraa on leikkauksessa yksi kamera: %s. Niiden tiedostoilla on sama nimi, joten nimeä toinen niistä uudelleen."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Kaksi kameraa tuottaisi saman tiedoston. Toinen ylikirjoittaisi ensimmäisen."
@@ -3251,9 +3242,6 @@ msgstr "✕  %s esiintyy useammin kuin kerran. Nämä tallenteet yhdistetään y
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Kaikilla tallenteilla on sama nimi. Siitä tulee yksi raita -- Multitrack tarvitsee vähintään kaksi."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Kaksi kameraa on leikkauksessa yksi kamera (%s). Niiden tiedostoilla on sama nimi, joten nimeä toinen uudelleen."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Kaksi kameraa tuottaisi saman tiedoston (%s). Toinen ylikirjoittaisi ensimmäisen."
 
@@ -3409,9 +3397,6 @@ msgstr "nimetön"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Varoitus: mittaus käyttökelvoton"
-
-msgid "   MISSING"
-msgstr "   PUUTTUU"
 
 msgid "   NOT INSERTED"
 msgstr "   EI LISÄTTY"
@@ -4717,9 +4702,6 @@ msgstr "  Kohdetta %s ei voi luokitella: %s -- sijoitettu pelkän kellonsa mukaa
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: sen ääni vastaa arvolla %s, alle alarajan %s -- sijoitettu pelkän kellonsa mukaan"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Varoitus: tämä projekti ei ole kokonainen -- Resolve hylkäsi nämä raidat kahdesti:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Siirtymä:         %s   (pelkästä aikakoodista -- ääni ei pystynyt sijoittamaan sitä, joten mitään ei tarkisteta)"
 
@@ -4765,9 +4747,6 @@ msgstr "Esiasetukset:"
 msgid "Registry"
 msgstr "Registry"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Kun poistat otsikon ÄÄNI tai VIDEO, kaikki sen alla oleva poistuu."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4806,3 +4785,53 @@ msgstr "  Resolve hylkäsi ääniraidan A%d kahdesti -- Timelinesta \"%s\" puutt
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve hylkäsi videoraidan V%d kahdesti -- Timelinesta \"%s\" puuttuu kuva: %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s siirtymä %s, kellon ajautumaa ei mitattu%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Varoitus: tämä projekti ei ole kokonainen -- mitä Resolve hylkäsi:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Kellon ajautuma:  ei mitattu -- sen äänestä saatiin liian vähän pisteitä mittaukseen"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bittiä, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32-bittinen liukuluku, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", sen ääniraita hylätty"
+
+msgid "Format"
+msgstr "Muoto"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Kun %s tai %s poistetaan, kaikki sen alla oleva poistuu mukana."
+
+msgid "Timecode %s"
+msgstr "Aikakoodi %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "sijoitettu kameransa mukana"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s tiedosto ei sovi muihin"
+msgstr[1] " -- %s tiedostoa ei sovi muihin"

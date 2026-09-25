@@ -53,10 +53,22 @@ ROW = "| `%s` | %s |"
 ROW_READ = re.compile(r"^\| `([a-z0-9_]+)` \| (.*?) \|$")
 HEAD_READ = re.compile(r"^### `([a-z]+_)`")
 NO_PREFIX_HEAD = "### Under none of the twelve"
-# The tests under resolve/ are not in the suite and not in its count;
-# they stand in a table of their own, under this heading.
-APART = "resolve"
-APART_HEAD = "### Under `resolve/`"
+# The tests under resolve/live/ are not in the suite and not in its
+# count; they stand in a table of their own, under this heading. Two
+# folders down, so resolve/ itself stays a piece like any other.
+APART = "resolve/live"
+APART_HEAD = "### Under `resolve/live/`"
+# Where each test lies: in tests/ or in the folder under it named after
+# the piece of the program it checks. This index says which; the rows
+# above it stay under their prefixes.
+FOLDERS_HEAD = "### By folder"
+FOLDER_ROW = "| %s | %s |"
+FOLDER_READ = re.compile(r"^\| (`[a-z0-9_]+/`|tests/ itself) \| (.*) \|$")
+ROOT_LABEL = "tests/ itself"
+# The two folders that are no piece, each named where it holds a test.
+ASIDE = (("source", "`source/` is no piece: it holds the tests that read"),
+         ("source", "the source, the texts and the documents as a whole."),
+         ("", "A test under `tests/ itself` has no piece folder yet."))
 COUNT_READ = re.compile(r"(?<![0-9])([0-9]+) tests(?![A-Za-z])")
 
 
@@ -76,54 +88,90 @@ def first_line_of(text):
     return doc.split("\n")[0].strip()
 
 
-def test_sources(folder=HERE, below=""):
-    """Every test of this repository, by name, with its text.
+def ours(path, below=""):
+    """Whether a test at `path`, relative and with /, is the suite's.
+
+    With `below` empty the suite is tests/ and every folder one below
+    it, which leaves resolve/live/ out; with `below` named, that folder
+    alone.
+    """
+    parent = path.rpartition("/")[0]
+    if below:
+        return parent == below
+    return parent == "" or ("/" not in parent and parent != APART)
+
+
+def git(folder, *args):
+    """What git answers in `folder`, or None where there is no git."""
+    try:
+        out = subprocess.run(("git", "-C", folder) + args,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.DEVNULL)
+    except OSError:
+        return None
+    return out.stdout.decode("utf-8") if out.returncode == 0 else None
+
+
+def test_places(folder=HERE, below=""):
+    """Every test of this repository: its name and where it lies, in pairs.
 
     The repository is asked, not the folder. The builder moves the tests
     a machine cannot run out of the way before the suite starts -- the
     Windows key store on a Mac, the speech model where there is none --
-    so the folder there is never the whole suite, and counting it would
-    make every such machine red for a reason that is not a fault.
-
-    A file that is there is read from there, so uncommitted work counts;
-    only one that was moved aside is read out of the last commit.
-    Without git, the folder has to do. `below` names a folder under it,
-    and a test there is that folder's and not this one's.
+    so the folder there is never the whole suite. Without git, the
+    folder has to do. Pairs and not a dictionary: a name lying in two
+    folders comes back twice, where a dictionary would keep one of them.
     """
-    where = os.path.join(folder, below)
     here = {}
-    for name in (os.listdir(where) if os.path.isdir(where) else ()):
-        if name.endswith("_test.py"):
-            here[name] = None
+    for top in (os.listdir(folder) if os.path.isdir(folder) else ()):
+        inside = os.path.join(folder, top)
+        paths = [top]
+        if os.path.isdir(inside) and not top.startswith((".", "__")):
+            paths = [top + "/" + one for one in os.listdir(inside)]
+        # A folder named deeper down, resolve/live/, is read as well.
+        if below.startswith(top + "/"):
+            deep = os.path.join(folder, *below.split("/"))
+            if os.path.isdir(deep):
+                paths += [below + "/" + one for one in os.listdir(deep)]
+        for path in paths:
+            if path.endswith("_test.py") and ours(path, below):
+                here[path] = None
+    listed = git(folder, "ls-files", "--", "*_test.py") or ""
+    for line in (one.strip() for one in listed.splitlines()):
+        if line.endswith("_test.py") and ours(line, below):
+            here.setdefault(line, None)
+    return [(path.rpartition("/")[2][:-len("_test.py")], path)
+            for path in sorted(here)]
 
-    def git(*args):
-        try:
-            out = subprocess.run(("git", "-C", folder) + args,
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.DEVNULL)
-        except OSError:
-            return None
-        return out.stdout.decode("utf-8") if out.returncode == 0 else None
 
-    listed = git("ls-files", "--", "*_test.py")
-    if listed is not None:
-        for line in listed.splitlines():
-            parent, _, name = line.strip().rpartition("/")
-            if parent == below and name.endswith("_test.py"):
-                here.setdefault(name, None)
+def test_sources(folder=HERE, below=""):
+    """Every test of this repository, by name, with its text.
 
+    Which tests those are, and where, is test_places's to say. A file
+    that is there is read from there, so uncommitted work counts; only
+    one that was moved aside is read out of the last commit. `below`
+    names a folder, and a test there is that folder's and not the suite's.
+    """
     out = {}
-    for name in sorted(here):
-        path = os.path.join(where, name)
-        if os.path.exists(path):
-            out[name[:-len("_test.py")]] = io.open(
-                path, encoding="utf-8").read()
+    for name, path in test_places(folder, below):
+        whole = os.path.join(folder, *path.split("/"))
+        if os.path.exists(whole):
+            out[name] = io.open(whole, encoding="utf-8").read()
         else:
-            text = git("show", "HEAD:./" + "/".join(
-                piece for piece in (below, name) if piece))
+            text = git(folder, "show", "HEAD:./" + path)
             if text is not None:
-                out[name[:-len("_test.py")]] = text
+                out[name] = text
     return out
+
+
+def folders(folder=HERE):
+    """Every test of the suite by name, and the folder it lies in.
+
+    "" stands for tests/ itself. The folder carries the name of the
+    piece of the program whose logic the test checks.
+    """
+    return dict((name, path.rpartition("/")[0])
+                for name, path in test_places(folder))
 
 
 def statements(folder=HERE, below=""):
@@ -163,11 +211,12 @@ def unescape(text):
     return text.replace("\\|", "|")
 
 
-def rendered(rows, apart=None):
+def rendered(rows, apart=None, where=None):
     """The whole block, markers included, ready to stand in the README.
 
-    `apart` are the tests under resolve/, by name as resolve.sh takes
+    `apart` are the tests under resolve/live/, by name as resolve.sh takes
     them. Their table carries no count: the one above is the suite's.
+    `where` is each suite test's folder, for the index by folder.
     """
     groups, loose = grouped(rows)
     out = [BEGIN, ""]
@@ -188,6 +237,18 @@ def rendered(rows, apart=None):
                 "| Test | Green means |", "|---|---|"]
         for name in loose:
             out.append(ROW % (name, escape(rows[name])))
+    if where:
+        out += ["", FOLDERS_HEAD + " -- the piece each test checks", "",
+                "A test lies in the folder named after the piece of the",
+                "program under `videopodcast_magic/` whose logic it checks;",
+                "`bash run.sh <name>` finds it there by its name alone."]
+        out += [line for one, line in ASIDE if one in where.values()]
+        out += ["", "| Folder | Tests |", "|---|---|"]
+        for one in sorted(set(where.values()), key=lambda f: (not f, f)):
+            label = "`%s/`" % one if one else ROOT_LABEL
+            out.append(FOLDER_ROW % (label, ", ".join(
+                "`%s`" % name for name in sorted(where)
+                if where[name] == one)))
     if apart:
         out += ["", APART_HEAD + " -- beside a running DaVinci Resolve", "",
                 "Not in the suite and not in the count above: `resolve.sh`",
@@ -230,6 +291,27 @@ def rows_in(text):
     return out
 
 
+def folders_in(text):
+    """Read the index back: every test named in it, and its folder.
+
+    Pairs and not a dictionary, so a name standing in two rows of the
+    index is seen twice rather than once.
+    """
+    out = []
+    inside = False
+    for line in text.splitlines():
+        if line.strip() == BEGIN:
+            inside = True
+        elif line.strip() == END:
+            inside = False
+        row = FOLDER_READ.match(line) if inside else None
+        if row:
+            one = "" if row.group(1) == ROOT_LABEL else row.group(1)[1:-2]
+            out += [(name, one) for name in
+                    re.findall(r"`([a-z0-9_]+)`", row.group(2))]
+    return out
+
+
 def counts_in(text):
     """Every "N tests" the README claims, as numbers."""
     return [int(n) for n in COUNT_READ.findall(text)]
@@ -246,7 +328,7 @@ def spliced(text, block):
 
 def main(argv):
     rows = statements()
-    block = rendered(rows, statements(HERE, APART))
+    block = rendered(rows, statements(HERE, APART), folders())
     if "--show" in argv:
         sys.stdout.write(block)
         return 0

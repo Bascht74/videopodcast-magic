@@ -201,3 +201,19 @@
 34793866982	2026-09-14	Linux py3.10	table_row_per_voice	beside rc=1
 34782751812	2026-09-13	Windows py3.14	window_restart_carries	beside rc=1
 34782751812	2026-09-13	Windows py3.10	window_restart_carries	beside rc=1
+36095917433	2026-09-25	Windows py3.10	source_checks_proved	beside rc=124
+36095917433	2026-09-25	Windows py3.10	project_settings_return	beside rc=1
+35936442083	2026-09-24	Windows py3.14	window_hears_while_split	beside rc=1
+35936442083	2026-09-24	Windows py3.10	cut_player_in_sync	beside rc=1
+35936442083	2026-09-24	Linux py3.10	window_hears_while_split	beside rc=1
+35936442083	2026-09-24	Linux py3.10	cut_player_in_sync	beside rc=1
+35935402778	2026-09-24	macOS py3.14	window_hears_while_split	beside rc=1
+35935402778	2026-09-24	Windows py3.10	table_notes_in_one_row	unknown
+35935402778	2026-09-24	Windows py3.10	project_keeps_answers	unknown
+35933183116	2026-09-23	macOS py3.10	window_project_type_set	beside rc=1
+35590462193	2026-09-21	Windows py3.14	window_restart_carries	beside rc=1
+35590462193	2026-09-21	Windows py3.10	table_notes_in_one_row	unknown
+35590462193	2026-09-21	Linux py3.10	window_hears_while_split	beside rc=1
+35590462193	2026-09-21	macOS py3.10	window_project_type_set	beside rc=1
+35590462193	2026-09-21	Windows py3.10	files_block_out_and_back	unknown
+35590462193	2026-09-21	Linux py3.10	window_play_follows_tab	beside rc=124

@@ -243,6 +243,14 @@ table, with its speaker name. It counts like any other track:
 processed, in the Full-Mix, counted in the speaking time for the camera
 cut, and the first audio track of its own camera.
 
+One thing it does not share with the others: it is not measured onto
+the time axis on its own. It is the camera's own sound, so it stands
+where its camera stands, whichever way the camera was placed -- by its
+sound or by its timecode. In the log's block `MEASURING THE TIME AXIS`
+its line says so: `placed with its camera`, or `placed with its camera,
+by that camera's clock`. Only a camera that got no place of its own
+leaves its sound to be measured like any other track.
+
 "Like any other track" includes the channels. The field only keeps the
 audio; the same measurement as for a recorder file decides what it
 becomes.
@@ -348,12 +356,17 @@ Where the key frames of a camera cannot be read, the program says so and
 leaves that camera's start where it is.
 
 In the same block each camera reports its offset and its clock drift.
-One of them reports no drift: **Clock drift: nothing measured -- this
-is the reference the others are held against**. It is the longest
-camera, the one all the others were measured against, so there is
-nothing about it that a measurement produced. It used to print a row of
-noughts there -- nought ppm, nought of nought points -- which reads
-like a measurement and was none.
+Where nothing measured a drift, the line says so instead of a number.
+The reference says `Clock drift: nothing measured -- this is the
+reference the others are held against`: it is the longest camera, the
+one all the others were measured against, so there is nothing about it
+that a measurement produced. A camera its sound placed, but on too few
+points to fit a drift, says `Clock drift: not measured -- too few points
+of its sound held for one`. And in the block `MEASURING THE TIME AXIS`,
+such a camera, a camera placed by its timecode and a sound track
+without a fit of its own read `clock drift not measured`. All of them
+used to print a row of noughts there -- nought ppm, nought
+points -- which reads like a measurement and was none.
 
 Wanting more than the window holds means moving **Mark In** and **Mark
 Out** apart and running again. There is no separate switch for it.
@@ -454,22 +467,15 @@ masters to ([Preflight](preflight.md)).
   **Kind** back ([The interface](interface.md)).
 - **Mark In and Mark Out stay locked.** The common time axis is not
   there yet. Wait for the bar under the tables.
-- **Two cameras whose files have the same name, and Start stays
-  locked.** Two cameras of one make often write the same file names,
-  each into a folder of its own. Both **new file name** fields go red,
-  and the lines under the camera table and under **Start** say **Two
-  cameras are one camera in the cut … Their files carry the same name,
-  so rename one of them**: the window tells cameras apart by their file
-  names. Renaming one of the files outside the program ends it and
-  keeps both cameras; giving one of them another **Kind**, or taking it
-  off the list, ends it too, but that camera is then out of the cut.
-  Where the two are offered the same file name -- always under **Sync
-  only**, and in a cut when nobody is on either of them -- the line
-  first says **Two cameras would produce the same file**; a name of its
-  own typed into one field
-  clears that, and then the other line stands. On the command line the
-  run tells the two apart by itself: the second is written and handed
-  over to Resolve as `<name> 2`, and each keeps its own picture.
+- **Two cameras would produce the same file, and Start stays
+  locked.** The same **new file name** stands in two fields, both go
+  red, and the lines under the camera table and under **Start** say
+  **Two cameras would produce the same file**. Type a name of its own
+  into one of them. Two cameras whose files merely have the same name --
+  two of one make often write the same file names, each into a folder
+  of its own -- lock nothing: the window tells them apart as the command
+  line does. The second is `<name> 2` in the cut, in the **new file
+  name** offered to it and in Resolve, and each keeps its own picture.
 - **Several cameras, no audio recording, and Start stays locked.** No
   camera is contributing its sound. Set **Camera audio** to **use
   internal audio** at every camera that is to be heard; each one is then

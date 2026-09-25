@@ -2741,9 +2741,6 @@ msgstr "%s -- तपासणी सुरू"
 msgid "The key was not saved: %s"
 msgstr "किल्ली जतन झाली नाही: %s"
 
-msgid "The key was not saved"
-msgstr "किल्ली जतन झाली नाही"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain लॉक आहे. ते अनलॉक करा आणि पुन्हा प्रयत्न करा."
 
@@ -2884,12 +2881,6 @@ msgstr "ट्रॅक"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "बदलताना ट्रॅक जोडले गेले (आता %s). त्यामुळे मिक्स\n  चुकीचा होतो. कृपया auphonic.com वर फाइल नसलेले ट्रॅक हटवा."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "कटमध्ये दोन कॅमेरे एकच कॅमेरा आहेत. त्यांच्या फाइलींचे नाव एकच आहे, म्हणून त्यांपैकी एकाचे नाव बदला."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "कटमध्ये दोन कॅमेरे एकच कॅमेरा आहेत: %s. त्यांच्या फाइलींचे नाव एकच आहे, म्हणून त्यांपैकी एकाचे नाव बदला."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "दोन कॅमेरे एकच फाइल तयार करतील. दुसरा पहिल्याला अधिलिखित करेल."
@@ -3296,9 +3287,6 @@ msgstr "✕  एकापेक्षा जास्त वेळा आले�
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  सर्व रेकॉर्डिंग्जचे नाव एकच आहे. त्यातून एक ट्रॅक बनतो -- Multitrack ला किमान दोन लागतात."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  कटमध्ये दोन कॅमेरे एकच कॅमेरा ठरतात (%s). त्यांच्या फाइलींचे नाव एकच आहे, म्हणून त्यांपैकी एकाचे नाव बदला."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  दोन कॅमेरे एकच फाइल तयार करतील (%s). दुसरा पहिल्यावर अधिलेखन करेल."
 
@@ -3460,9 +3448,6 @@ msgstr "अनामिक"
 
 msgid "   Caution: measurement unusable"
 msgstr "   सावधान: मोजमाप निरुपयोगी"
-
-msgid "   MISSING"
-msgstr "   गहाळ"
 
 msgid "   NOT INSERTED"
 msgstr "   घातले नाही"
@@ -4721,9 +4706,6 @@ msgstr "  %s चे वर्गीकरण करता येत नाही
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: त्याचा ध्वनी %s इतका जुळतो, किमान %s च्या खाली -- फक्त त्याच्या घड्याळानुसार ठेवले"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  सावधान: हा प्रकल्प पूर्ण नाही -- Resolve ने हे ट्रॅक दोनदा नाकारले:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  ऑफसेट:            %s   (फक्त त्याच्या टाइमकोडवरून -- त्याचा ध्वनी त्याला जागा देऊ शकला नाही, म्हणून काहीही तपासले जात नाही)"
 
@@ -4769,9 +4751,6 @@ msgstr "प्रीसेट:"
 msgid "Registry"
 msgstr "रजिस्ट्री"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "\"ऑडिओ\" किंवा \"व्हिडिओ\" काढल्यास त्याखालील सर्व काही निघून जाते."
-
 msgid "VIDEO"
 msgstr "व्हिडिओ"
 
@@ -4810,3 +4789,53 @@ msgstr "  Resolve ने ऑडिओ ट्रॅक A%d दोनदा ना
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ने व्हिडिओ ट्रॅक V%d दोनदा नाकारला -- Timeline \"%s\" मध्ये %s चे चित्र नाही."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s ऑफसेट %s, घड्याळाचे विचलन मोजले नाही%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  सावधान: हा प्रकल्प पूर्ण नाही -- Resolve ने जे नाकारले:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  घड्याळाचे विचलन:   मोजले नाही -- त्याच्या ध्वनीचे फारच कमी बिंदू त्यासाठी टिकले"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s बिट, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 बिट फ्लोटिंग पॉइंट, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", त्याचा ऑडिओ ट्रॅक नाकारला"
+
+msgid "Format"
+msgstr "फॉरमॅट"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "\"%s\" किंवा \"%s\" काढल्यास त्याखालील सर्व काही निघून जाते."
+
+msgid "Timecode %s"
+msgstr "टाइमकोड %s"
+
+msgid "mono"
+msgstr "मोनो"
+
+msgid "placed with its camera"
+msgstr "आपल्या कॅमेऱ्यासह ठेवले"
+
+msgid "stereo"
+msgstr "स्टिरिओ"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s फाइल इतरांशी जुळत नाही"
+msgstr[1] " -- %s फाइली इतरांशी जुळत नाहीत"

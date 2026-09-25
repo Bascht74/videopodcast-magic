@@ -2742,9 +2742,6 @@ msgstr "%s -- tikrinama"
 msgid "The key was not saved: %s"
 msgstr "Raktas neišsaugotas: %s"
 
-msgid "The key was not saved"
-msgstr "Raktas neišsaugotas"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain saugykla užrakinta. Atrakinkite ją ir bandykite dar kartą."
 
@@ -2885,12 +2882,6 @@ msgstr "Takelis"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Keičiant buvo pridėta takelių (dabar %s). Dėl to miksas\n  bus neteisingas. Ištrinkite takelius be failo svetainėje auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Dvi kameros montaže tampa viena kamera. Jų failai turi tą patį pavadinimą, todėl pervardykite vieną iš jų."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Dvi kameros montaže tampa viena kamera: %s. Jų failai turi tą patį pavadinimą, todėl pervardykite vieną iš jų."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Dvi kameros sukurtų tą patį failą. Antrasis perrašytų pirmąjį."
@@ -3297,9 +3288,6 @@ msgstr "✕  %s pasitaiko daugiau nei kartą. Šie įrašai sujungiami į vieną
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Visi įrašai turi tą patį vardą. Tai sudaro vieną takelį -- Multitrack reikia bent dviejų."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Montaže dvi kameros tampa viena (%s). Jų failai turi tą patį pavadinimą, todėl pervardykite vieną iš jų."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Dvi kameros sukurtų tą patį failą (%s). Antroji perrašytų pirmąją."
 
@@ -3461,9 +3449,6 @@ msgstr "be pavadinimo"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Dėmesio: matavimas netinkamas"
-
-msgid "   MISSING"
-msgstr "   TRŪKSTA"
 
 msgid "   NOT INSERTED"
 msgstr "   NEĮTERPTA"
@@ -4764,9 +4749,6 @@ msgstr "  Failo %s neįmanoma klasifikuoti: %s -- išdėstytas tik pagal jo laik
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: garso atitiktis %s, žemiau slenksčio %s -- išdėstytas tik pagal jo laikrodį"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Dėmesio: šis projektas neužbaigtas -- Resolve du kartus atmetė šiuos takelius:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Poslinkis:          %s   (tik pagal laiko kodą -- pagal garsą jos padėti į vietą nepavyko, todėl niekas netikrinama)"
 
@@ -4812,9 +4794,6 @@ msgstr "Išankstiniai nustatymai:"
 msgid "Registry"
 msgstr "registras"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Pašalinus antraštę GARSAS arba VIDEO, pašalinama viskas, kas po ja."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4853,3 +4832,54 @@ msgstr "  Resolve du kartus atmetė garso takelį A%d -- Timeline „%s“ trūk
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve du kartus atmetė vaizdo takelį V%d -- Timeline „%s“ trūksta vaizdo (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s poslinkis %s, laikrodžio dreifas neišmatuotas%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Dėmesio: šis projektas neužbaigtas -- ką atmetė Resolve:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Laikrodžio dreifas: neišmatuotas -- jos garsas tam davė per mažai taškų"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bitų, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s kadr./s%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bitų slankiojo kablelio, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", garso takelis atmestas"
+
+msgid "Format"
+msgstr "Formatas"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Pašalinus eilutę %s arba %s, pašalinama ir viskas, kas po ja."
+
+msgid "Timecode %s"
+msgstr "Laiko kodas %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "išdėstyta kartu su savo kamera"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s failas netinka prie kitų"
+msgstr[1] " -- %s failai netinka prie kitų"
+msgstr[2] " -- %s failų netinka prie kitų"

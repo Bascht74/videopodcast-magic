@@ -2741,9 +2741,6 @@ msgstr "%s -- ukaguzi unaendelea"
 msgid "The key was not saved: %s"
 msgstr "Ufunguo haukuhifadhiwa: %s"
 
-msgid "The key was not saved"
-msgstr "Ufunguo haukuhifadhiwa"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain imefungwa. Ifungue kisha ujaribu tena."
 
@@ -2884,12 +2881,6 @@ msgstr "Treki"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Treki ziliongezwa wakati wa kubadilisha (sasa %s). Hilo linafanya mchanganyiko\n  kuwa na makosa. Tafadhali futa treki zisizo na faili katika auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Kamera mbili ni kamera moja katika mkato. Faili zao zina jina moja, kwa hivyo badilisha jina la mojawapo."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Kamera mbili ni kamera moja katika mkato: %s. Faili zao zina jina moja, kwa hivyo badilisha jina la mojawapo."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Kamera mbili zingetoa faili ileile. Ya pili ingeandika juu ya ya kwanza."
@@ -3296,9 +3287,6 @@ msgstr "✕  Jina linatokea zaidi ya mara moja: %s. Rekodi hizi zinaunganishwa k
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Rekodi zote zina jina moja. Hilo linatoa treki moja -- Multitrack inahitaji angalau mbili."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Kamera mbili ni kamera moja katika mkato (%s). Faili zake zina jina moja, kwa hiyo badilisha jina la mojawapo."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Kamera mbili zingetoa faili moja (%s). Ya pili ingeandika juu ya ya kwanza."
 
@@ -3460,9 +3448,6 @@ msgstr "bila jina"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Tahadhari: kipimo hakitumiki"
-
-msgid "   MISSING"
-msgstr "   HAIPO"
 
 msgid "   NOT INSERTED"
 msgstr "   HAIJAPACHIKWA"
@@ -4721,9 +4706,6 @@ msgstr "  %s haiwezi kuainishwa: %s -- imewekwa kwa saa yake tu"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: sauti yake inalingana kwa %s, chini ya kiwango cha chini cha %s -- imewekwa kwa saa yake tu"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Tahadhari: mradi huu haujakamilika -- Resolve ilikataa treki hizi mara mbili:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Msogeo:           %s   (kutoka timecode yake peke yake -- sauti yake haikuweza kuiweka, kwa hivyo hakuna kinachokaguliwa)"
 
@@ -4769,9 +4751,6 @@ msgstr "Mipangilio awali:"
 msgid "Registry"
 msgstr "Rejista"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Kuondoa SAUTI au VIDEO kunaondoa kila kitu kilicho chini yake."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4810,3 +4789,53 @@ msgstr "  Resolve ilikataa treki ya sauti A%d mara mbili -- Timeline \"%s\" inak
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve ilikataa treki ya video V%d mara mbili -- Timeline \"%s\" inakosa picha ya %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s msogeo %s, mkengeuko wa saa haukupimwa%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Tahadhari: mradi huu haujakamilika -- kile ambacho Resolve ilikataa:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Mkengeuko wa saa: haukupimwa -- sauti yake ilitoa pointi chache mno kwa kipimo"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, biti %s, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bit float, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", treki yake ya sauti ilikataliwa"
+
+msgid "Format"
+msgstr "Muundo"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Kuondoa %s au %s kunaondoa kila kitu kilicho chini yake."
+
+msgid "Timecode %s"
+msgstr "Timecode %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "imewekwa pamoja na kamera yake"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- faili %s hailingani na nyingine"
+msgstr[1] " -- faili %s hazilingani na nyingine"

@@ -2742,9 +2742,6 @@ msgstr "%s -- notiek pārbaude"
 msgid "The key was not saved: %s"
 msgstr "Atslēga netika saglabāta: %s"
 
-msgid "The key was not saved"
-msgstr "Atslēga netika saglabāta"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Keychain krātuve ir bloķēta. Atbloķējiet to un mēģiniet vēlreiz."
 
@@ -2885,12 +2882,6 @@ msgstr "Celiņš"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Mainot tika pievienoti celiņi (tagad %s). Tādēļ miksējums\n  būs nepareizs. Lūdzu, izdzēsiet celiņus bez faila vietnē auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Divas kameras montāžā ir viena kamera. To failiem ir vienāds nosaukums, tāpēc pārdēvējiet vienu no tiem."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Divas kameras montāžā ir viena kamera: %s. To failiem ir vienāds nosaukums, tāpēc pārdēvējiet vienu no tiem."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Divas kameras radītu vienu un to pašu failu. Otrais pārrakstītu pirmo."
@@ -3297,9 +3288,6 @@ msgstr "✕  %s atkārtojas vairāk nekā vienu reizi. Šie ieraksti tiek apvien
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Visiem ierakstiem ir viens un tas pats vārds. Tas veido vienu celiņu -- Multitrack vajag vismaz divus."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Montāžā divas kameras ir viena (%s). To failiem ir vienāds nosaukums, tāpēc pārdēvējiet vienu no tiem."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Divas kameras izveidotu vienu un to pašu failu (%s). Otrā pārrakstītu pirmo."
 
@@ -3461,9 +3449,6 @@ msgstr "bez nosaukuma"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Uzmanību: mērījums nav izmantojams"
-
-msgid "   MISSING"
-msgstr "   TRŪKST"
 
 msgid "   NOT INSERTED"
 msgstr "   NAV IEVIETOTS"
@@ -4764,9 +4749,6 @@ msgstr "  Failu %s nevar klasificēt: %s -- novietots tikai pēc tā pulksteņa"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: skaņas atbilstība %s, zem sliekšņa %s -- novietots tikai pēc tā pulksteņa"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Uzmanību: šis projekts nav pabeigts -- Resolve divreiz atteica šos celiņus:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Nobīde:           %s   (tikai pēc laika koda -- pēc skaņas to nevarēja novietot, tāpēc nekas netiek pārbaudīts)"
 
@@ -4812,9 +4794,6 @@ msgstr "Priekšiestatījumi:"
 msgid "Registry"
 msgstr "reģistrs"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Noņemot virsrakstu SKAŅA vai VIDEO, tiek noņemts viss, kas zem tā."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4853,3 +4832,54 @@ msgstr "  Resolve divreiz atteica audio celiņu A%d -- Timeline „%s“ trūkst
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve divreiz atteica video celiņu V%d -- Timeline „%s“ trūkst attēla (%s)."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s nobīde %s, pulksteņa dreifs nav izmērīts%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Uzmanību: šis projekts nav pabeigts -- ko Resolve atteica:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Pulksteņa dreifs: nav izmērīts -- tās skaņa tam deva par maz punktu"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bitu, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s kadri/s%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bitu peldošā komata, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", audio celiņš atteikts"
+
+msgid "Format"
+msgstr "Formāts"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Noņemot rindu %s vai %s, tiek noņemts arī viss, kas zem tās."
+
+msgid "Timecode %s"
+msgstr "Laika kods %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "novietots kopā ar savu kameru"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s fails neatbilst pārējiem"
+msgstr[1] " -- %s faili neatbilst pārējiem"
+msgstr[2] " -- %s faili neatbilst pārējiem"

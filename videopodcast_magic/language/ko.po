@@ -2712,9 +2712,6 @@ msgstr "%s -- 확인 중"
 msgid "The key was not saved: %s"
 msgstr "키가 저장되지 않았습니다: %s"
 
-msgid "The key was not saved"
-msgstr "키가 저장되지 않았습니다"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "키체인이 잠겨 있습니다. 잠금을 해제하고 다시 시도하세요."
 
@@ -2855,12 +2852,6 @@ msgstr "트랙"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "변경 중에 트랙이 추가되었습니다 (현재 %s). 그러면 믹스가\n  잘못됩니다. auphonic.com에서 파일이 없는 트랙을 삭제하세요."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "편집에서 두 카메라가 하나의 카메라가 됩니다. 파일 이름이 같으니 하나의 이름을 바꾸세요."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "편집에서 카메라 두 대가 한 대로 취급됩니다: %s. 파일 이름이 같으니 하나의 이름을 바꾸세요."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "두 카메라가 같은 파일을 만들게 됩니다. 두 번째가 첫 번째를 덮어씁니다."
@@ -3249,9 +3240,6 @@ msgstr "✕  %s이(가) 두 번 이상 나옵니다. 이 녹음들은 하나의 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  모든 녹음이 같은 이름입니다. 그러면 트랙이 하나가 됩니다 -- Multitrack에는 최소 두 개가 필요합니다."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  편집에서 두 카메라가 하나의 카메라가 됩니다 (%s). 파일 이름이 같으니 하나의 이름을 바꾸세요."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  두 카메라가 같은 파일을 만들게 됩니다 (%s). 두 번째가 첫 번째를 덮어씁니다."
 
@@ -3407,9 +3395,6 @@ msgstr "이름 없음"
 
 msgid "   Caution: measurement unusable"
 msgstr "   주의: 측정값 사용 불가"
-
-msgid "   MISSING"
-msgstr "   누락"
 
 msgid "   NOT INSERTED"
 msgstr "   삽입 안 됨"
@@ -4675,9 +4660,6 @@ msgstr "  %s을(를) 분류할 수 없습니다: %s -- 자체 시계만으로 �
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: 소리 일치도 %s, 하한 %s 미만 -- 자체 시계만으로 배치했습니다"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  주의: 이 프로젝트는 완전하지 않습니다 -- Resolve가 다음 트랙을 두 번 거부했습니다:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  오프셋:         %s   (타임코드만으로 -- 소리로 위치를 정하지 못해 아무것도 확인하지 않았습니다)"
 
@@ -4723,9 +4705,6 @@ msgstr "프리셋:"
 msgid "Registry"
 msgstr "레지스트리"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "\"오디오\" 또는 \"비디오\"를 제거하면 그 아래의 모든 항목이 함께 제거됩니다."
-
 msgid "VIDEO"
 msgstr "비디오"
 
@@ -4764,3 +4743,52 @@ msgstr "  Resolve가 오디오 트랙 A%d을(를) 두 번 거부했습니다 -- 
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve가 비디오 트랙 V%d을(를) 두 번 거부했습니다 -- Timeline \"%s\"에 %s의 영상이 빠져 있습니다."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s 오프셋 %s, 클럭 드리프트 측정 안 됨%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  주의: 이 프로젝트는 완전하지 않습니다 -- Resolve가 거부한 항목:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  클럭 드리프트:  측정 안 됨 -- 소리에서 측정에 쓸 지점이 너무 적었습니다"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s비트, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32비트 부동소수점, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", 오디오 트랙 거부됨"
+
+msgid "Format"
+msgstr "형식"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "%s 또는 %s 항목을 제거하면 그 아래에 있는 것도 모두 제거됩니다."
+
+msgid "Timecode %s"
+msgstr "타임코드 %s"
+
+msgid "mono"
+msgstr "모노"
+
+msgid "placed with its camera"
+msgstr "자기 카메라와 함께 배치함"
+
+msgid "stereo"
+msgstr "스테레오"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- 파일 %s개가 다른 파일과 맞지 않습니다"

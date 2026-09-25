@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b20 durchgegangen worden.
+zuletzt für 3.0.0b21 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b20.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b21.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -134,10 +134,14 @@ kann das nicht bestätigen. Und der Fall, den keine Attrappe je gezeigt
 hat: ein Resolve, das nein sagt.
 
 **Die Tests ziehen in Ordner wie die Stücke, die sie prüfen.** Das
-Programm ist in Stücke geteilt, jedes in einem eigenen Ordner. Bis auf vier
-stehen die Tests noch nebeneinander in einem, weit über zweihundert. Wenn sie
-folgen, stehen ein Stück und seine Prüfungen an einer Stelle, und wer
-ein Stück ändert, findet seine Tests daneben.
+Programm ist in Stücke geteilt, jedes in einem eigenen Ordner, und die
+meisten Tests liegen jetzt im Ordner des Stücks, das sie prüfen -- wer
+ein Stück ändert, findet seine Tests daneben. Die letzten warteten,
+weil der Ordner, den ihr Stück ihnen gäbe, schon etwas anderes
+bedeutete; die Tests, die ein laufendes Resolve brauchen, sind nach
+`tests/resolve/live/` weitergezogen, das Material, auf dem die Suite
+aufbaut, nach `tests/samples/`, und jetzt liegt jeder Test in einem
+Ordner.
 
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Beide stellen dieselbe Frage — kommt eine Stereo-Aufnahme

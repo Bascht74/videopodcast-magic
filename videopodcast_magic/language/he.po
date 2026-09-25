@@ -2740,9 +2740,6 @@ msgstr "%s -- בבדיקה"
 msgid "The key was not saved: %s"
 msgstr "המפתח לא נשמר: %s"
 
-msgid "The key was not saved"
-msgstr "המפתח לא נשמר"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "מחזיק המפתחות נעול. יש לבטל את נעילתו ולנסות שוב."
 
@@ -2883,12 +2880,6 @@ msgstr "רצועה"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "בזמן השינוי נוספו רצועות (כעת %s). זה משבש את\n  המיקס. נא למחוק ב-auphonic.com את הרצועות שאין להן קובץ."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "בחיתוך שתי מצלמות הן מצלמה אחת. לקבצים שלהן אותו שם, ולכן יש לשנות את שמו של אחד מהם."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "בחיתוך שתי מצלמות הן מצלמה אחת: %s. לקבצים שלהן אותו שם, ולכן יש לשנות את שמו של אחד מהם."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "שתי מצלמות היו מפיקות אותו קובץ. השני היה דורס את הראשון."
@@ -3295,9 +3286,6 @@ msgstr "✕  השם מופיע יותר מפעם אחת: %s. ההקלטות הא
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  לכל ההקלטות אותו שם. מכך נוצרת רצועה אחת -- Multitrack דורש לפחות שתיים."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  שתי מצלמות הן מצלמה אחת בחיתוך (%s). לקבצים שלהן אותו שם, לכן יש לשנות את שם אחת מהן."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  שתי מצלמות היו יוצרות את אותו קובץ (%s). השנייה הייתה דורסת את הראשונה."
 
@@ -3459,9 +3447,6 @@ msgstr "ללא שם"
 
 msgid "   Caution: measurement unusable"
 msgstr "   זהירות: המדידה אינה שמישה"
-
-msgid "   MISSING"
-msgstr "   חסר"
 
 msgid "   NOT INSERTED"
 msgstr "   לא הוכנס"
@@ -4720,9 +4705,6 @@ msgstr "  לא ניתן לסווג את %s: %s -- המיקום לפי השעון
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: השמע שלו מתאים ברמה %s, מתחת לסף של %s -- המיקום לפי השעון שלו בלבד"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  זהירות: הפרויקט הזה אינו שלם -- Resolve דחה את הרצועות האלה פעמיים:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  היסט:            %s   (מקוד הזמן שלה בלבד -- השמע שלה לא הצליח למקם אותה, ולכן דבר אינו נבדק)"
 
@@ -4768,9 +4750,6 @@ msgstr "פריסטים:"
 msgid "Registry"
 msgstr "רישום"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "הסרת \"שמע\" או \"וידאו\" מסירה את כל מה שמתחתיו."
-
 msgid "VIDEO"
 msgstr "וידאו"
 
@@ -4809,3 +4788,53 @@ msgstr "  Resolve דחה את רצועת השמע A%d פעמיים -- ל-Timelin
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve דחה את רצועת הווידאו V%d פעמיים -- ל-Timeline \"%s\" חסרה התמונה של %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s היסט %s, סחיפת שעון לא נמדדה%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  זהירות: הפרויקט הזה אינו שלם -- מה ש-Resolve דחה:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  סחיפת שעון:      לא נמדדה -- בשמע שלה נותרו מעט מדי נקודות תקפות לשם כך"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s סיביות, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 סיביות נקודה צפה, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", רצועת השמע שלו נדחתה"
+
+msgid "Format"
+msgstr "פורמט"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "הסרת \"%s\" או \"%s\" מסירה את כל מה שמתחתיו."
+
+msgid "Timecode %s"
+msgstr "קוד זמן %s"
+
+msgid "mono"
+msgstr "מונו"
+
+msgid "placed with its camera"
+msgstr "מוקם עם המצלמה שלו"
+
+msgid "stereo"
+msgstr "סטריאו"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s קובץ אינו מתאים לאחרים"
+msgstr[1] " -- %s קבצים אינם מתאימים לאחרים"

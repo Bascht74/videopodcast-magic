@@ -1148,13 +1148,14 @@ def words_settings_grey(parts, note, there, wide_there, quiet):
     note.setText("" if there else why)
     note.setVisible(not there)
 
-def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
+def wide_cameras_of(files, kinds, remembered, taken, placeless=(),
+                    sync=False):
     """The wide shots among these files, and whether anybody said so.
 
     *files* are the window's (path, kind) pairs, *kinds* the
     {path: Value} it holds, *remembered* the fallback for a file no table
-    has a value for, *placeless* the paths placed nowhere. Returns
-    (file names, marked).
+    has a value for, *placeless* the paths placed nowhere. Under *sync*
+    only a mark makes one: nobody is asked who speaks. (names, marked).
     """
     videos = sorted([p for p, a in files if a == "video"],
                     key=lambda x: os.path.basename(x).lower())
@@ -1177,8 +1178,8 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
             kind == TYPE_WIDE or path_key(path) not in lost)
 
     marked = [os.path.basename(p) for p in videos if kind_of(p) == TYPE_WIDE]
-    return (wide_shots_of([os.path.basename(p) for p in videos
-                           if a_camera(p)], taken, marked),
+    cameras = [os.path.basename(p) for p in videos if a_camera(p)]
+    return (wide_shots_of(cameras, cameras if sync else taken, marked),
             bool(marked))
 
 def wide_shot_barred(path, value, placeless):
@@ -1208,9 +1209,9 @@ def wide_bar_of(targets, wides, said, aside):
     return {"barred": barred,
             "why": T('marked as the wide shot -- it takes no speakers'),
             "pickable": [t for t in targets if t not in barred],
-            "aside": aside, "pushed": {}}
+            "aside": aside}
 
-def camera_after_a_mark(api_key, old_camera, wide, who):
+def camera_after_a_mark(api_key, old_camera, wide):
     """The camera a row is preselected to, once the marks are in.
 
     Whoever was on a camera that is now the wide shot goes to "no camera
@@ -1225,7 +1226,6 @@ def camera_after_a_mark(api_key, old_camera, wide, who):
         # Held for as long as the mark stands, or a second rebuild
         # would lose what the first one set aside.
         aside[api_key] = was
-        wide["pushed"].setdefault(was, []).append(who)
         return None
     if kept:
         # The mark is gone. The camera comes back where nothing else was
@@ -1257,13 +1257,13 @@ def speaker_names_of(values):
     return [name for name in (v.get() for v in values or ())
             if name]
 
-def camera_gets_from(short, wide, names):
+def camera_gets_from(names):
     """What the camera table says this camera gets its audio from.
 
     What it really gets, a marked wide shot as much as a derived one:
-    why nobody speaks on it stands grey in its fields, not here. *short*
-    and *wide* are no longer read. The speakers stand sorted, as in the
-    camera's file name and track.
+    why nobody speaks on it stands grey in its fields, not here. *names*
+    are the speaker fields on it, sorted as in the camera's file name
+    and track.
     """
     return (", ".join(sorted((v.get() or "?" for v in names),
                              key=name_order))
@@ -1935,8 +1935,9 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     """Turn speaker segments into a camera cut list.
 
     Returns [(from, to, camera, speakers)]; *speakers* is who talks in
-    that shot, empty during silence. Whoever speaks alone gets their
-    camera; several prefer one showing exactly them. Judged per camera.
+    that shot in name_order, empty during silence. Whoever speaks alone
+    gets their camera; several prefer one showing exactly them. Judged
+    per camera.
     """
     rules = rules or cut_rules()
     long = [(n, list(segs)) for n, segs in tracks]
@@ -2056,7 +2057,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             who = camera_of.get(shown[0]) or wide_shot
         else:
             who = common_camera(shown) or together_picture(middle, shown)
-        raw.append([a, b, who, tuple(sorted(active))])
+        raw.append([a, b, who, tuple(sorted(active, key=name_order))])
 
     # "Hold" means the picture does not change, so the block takes the
     # camera of the one before it -- or of the one after, at the start.
@@ -2144,7 +2145,8 @@ def voices_joined(keeper, swallowed):
     and the clip name in the EDL. A row without voices is left alone.
     """
     if len(keeper) > 3 and len(swallowed) > 3:
-        keeper[3] = tuple(sorted(set(keeper[3]) | set(swallowed[3])))
+        keeper[3] = tuple(sorted(set(keeper[3]) | set(swallowed[3]),
+                                 key=name_order))
 
 def shot_key(row):
     """What makes two neighbouring shots the same shot: the camera."""
@@ -2173,8 +2175,8 @@ def split_shots_by_speaker(cut, tracks, min_len=MIN_EDIT_DURATION_S):
                 continue
             middle = (x + y) / 2.0
             talking = tuple(sorted(
-                n for n, segs in tracks
-                for s0, s1 in segs if s0 <= middle < s1))
+                (n for n, segs in tracks
+                 for s0, s1 in segs if s0 <= middle < s1), key=name_order))
             if pieces and pieces[-1][3] == talking:
                 pieces[-1][1] = y
             else:
@@ -2455,7 +2457,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     run placed by their clock alone, None where nothing was heard.
     """
     if not cameras:
-        return
+        return 0
     fps = timeline_frame_rate(args, videos, ref_clip)
     stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     # The written file carries the ending the run hangs on; the camera
@@ -2572,8 +2574,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             "fps": own_frame_rate(rate_of.get(v) or fps),
             # Two answers to two questions: "wide" is nobody assigned,
             # "wide_marked" is what somebody said, and the cut goes by it.
+            # Sync only asks nobody, so there only a mark makes one.
             "wide_marked": v in marked_wide,
-            "wide": v in marked_wide or not who})
+            "wide": v in marked_wide or not (who or sync_only(args))})
     if left_out:
         print(as_warn(T('  Not handed over: the run could not place %s, so '
                         'it is no camera of this episode.')
@@ -2696,14 +2699,16 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             if os.path.exists(p):
                 print("  %s" % p)
     if js and getattr(args, "resolve", False):
+        # The build's code goes up to whoever called this step; a track
+        # Resolve refused twice is not a finished build.
         try:
-            build_resolve_project(handover, args.resolve_project,
-                          log=stem + "_resolve_log.txt",
-                          )
+            return build_resolve_project(handover, args.resolve_project,
+                                         log=stem + "_resolve_log.txt")
         except Exception as e:
             print(T('\n  Resolve part stopped: %s') % e)
             print(T('  %s is ready -- with --resolve-json it can be done '
                     'later.') % os.path.basename(js))
+    return 0
 
 def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                            tc_start, ref_clip, length, words=(),

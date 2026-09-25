@@ -2714,9 +2714,6 @@ msgstr "%s -- kontrolleras"
 msgid "The key was not saved: %s"
 msgstr "Nyckeln sparades inte: %s"
 
-msgid "The key was not saved"
-msgstr "Nyckeln sparades inte"
-
 msgid "The keychain is locked. Unlock it and try again."
 msgstr "Nyckelringen är låst. Lås upp den och försök igen."
 
@@ -2857,12 +2854,6 @@ msgstr "Spår"
 
 msgid "Tracks were added while changing (now %s). That makes the mix\n  wrong. Please delete the tracks without a file at auphonic.com."
 msgstr "Spår kom till under ändringen (nu %s). Det gör mixen\n  fel. Ta bort spåren utan fil på auphonic.com."
-
-msgid "Two cameras are one camera in the cut. Their files carry the same name, so rename one of them."
-msgstr "Två kameror är en kamera i klippningen. Deras filer heter likadant, så byt namn på en av dem."
-
-msgid "Two cameras are one camera in the cut: %s. Their files carry the same name, so rename one of them."
-msgstr "Två kameror är en kamera i klippningen: %s. Deras filer bär samma namn, så döp om en av dem."
 
 msgid "Two cameras would produce the same file. The second would overwrite the first."
 msgstr "Två kameror skulle ge samma fil. Den andra skulle skriva över den första."
@@ -3251,9 +3242,6 @@ msgstr "✕  %s förekommer mer än en gång. De här inspelningarna slås ihop 
 msgid "✕  All recordings carry the same name. That makes one track -- Multitrack needs at least two."
 msgstr "✕  Alla inspelningar bär samma namn. Det blir ett spår -- Multitrack behöver minst två."
 
-msgid "✕  Two cameras are one camera in the cut (%s). Their files carry the same name, so rename one of them."
-msgstr "✕  Två kameror är en kamera i klippningen (%s). Deras filer heter likadant, så byt namn på en av dem."
-
 msgid "✕  Two cameras would produce the same file (%s). The second would overwrite the first."
 msgstr "✕  Två kameror skulle ge samma fil (%s). Den andra skulle skriva över den första."
 
@@ -3409,9 +3397,6 @@ msgstr "namnlös"
 
 msgid "   Caution: measurement unusable"
 msgstr "   Varning: mätningen oanvändbar"
-
-msgid "   MISSING"
-msgstr "   SAKNAS"
 
 msgid "   NOT INSERTED"
 msgstr "   INTE INFOGAD"
@@ -4717,9 +4702,6 @@ msgstr "  %s kan inte klassificeras: %s -- placerad enbart efter sin klocka"
 msgid "  %s: its sound matches by %s, under the floor of %s -- placed by its clock alone"
 msgstr "  %s: ljudet stämmer med %s, under golvet på %s -- placerad enbart efter sin klocka"
 
-msgid "  Caution: this project is not complete -- Resolve refused these tracks twice:"
-msgstr "  Varning: det här projektet är inte komplett -- Resolve vägrade dessa spår två gånger:"
-
 msgid "  Offset:          %s   (from its timecode alone -- its sound could not place it, so nothing is checked)"
 msgstr "  Förskjutning:    %s   (enbart från dess tidskod -- ljudet kunde inte placera den, så inget kontrolleras)"
 
@@ -4765,9 +4747,6 @@ msgstr "Förinställningar:"
 msgid "Registry"
 msgstr "Registry"
 
-msgid "Removing AUDIO or VIDEO takes everything under it."
-msgstr "Tar du bort LJUD eller VIDEO tas allt under rubriken bort."
-
 msgid "VIDEO"
 msgstr "VIDEO"
 
@@ -4806,3 +4785,53 @@ msgstr "  Resolve vägrade ljudspår A%d två gånger -- Timeline \"%s\" saknar 
 
 msgid "  Resolve refused video track V%d twice -- the Timeline \"%s\" lacks the picture of %s."
 msgstr "  Resolve vägrade videospår V%d två gånger -- Timeline \"%s\" saknar bilden från %s."
+
+msgid "  %-20s offset %s, clock drift not measured%s"
+msgstr "  %-20s förskjutning %s, klockdrift inte mätt%s"
+
+msgid "  Caution: this project is not complete -- what Resolve refused:"
+msgstr "  Varning: det här projektet är inte komplett -- det som Resolve vägrade:"
+
+msgid "  Clock drift:     not measured -- too few points of its sound held for one"
+msgstr "  Klockdrift:      inte mätt -- ljudet gav för få punkter för en mätning"
+
+msgid "%s GB"
+msgstr "%s GB"
+
+msgid "%s MB"
+msgstr "%s MB"
+
+msgid "%s, %s bit, %s kHz, %s"
+msgstr "%s, %s bitar, %s kHz, %s"
+
+msgid "%s, %sx%s, %s fps%s%s"
+msgstr "%s, %sx%s, %s fps%s%s"
+
+msgid "%s, 32 bit float, %s kHz, %s"
+msgstr "%s, 32 bitars flyttal, %s kHz, %s"
+
+msgid ", its sound track refused"
+msgstr ", ljudspåret avvisat"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Removing %s or %s takes everything under it."
+msgstr "Om %s eller %s tas bort, tas allt därunder också bort."
+
+msgid "Timecode %s"
+msgstr "Tidskod %s"
+
+msgid "mono"
+msgstr "mono"
+
+msgid "placed with its camera"
+msgstr "placerad med sin kamera"
+
+msgid "stereo"
+msgstr "stereo"
+
+msgid " -- %s file does not fit the others"
+msgid_plural " -- %s files do not fit the others"
+msgstr[0] " -- %s fil passar inte ihop med de andra"
+msgstr[1] " -- %s filer passar inte ihop med de andra"

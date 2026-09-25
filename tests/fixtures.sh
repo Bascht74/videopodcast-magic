@@ -387,7 +387,7 @@ fi
 # four apart and put every boundary within 0.11 s, so the order below
 # is a preference and not a condition.
 #
-# The material is also checked in, under tests/material/twovoices, and
+# The material is also checked in, under tests/samples/twovoices, and
 # that is what Linux and Windows use: say(1) is macOS only, so without
 # a copy in the repository the separation could not be tested there at
 # all -- and it is the one test that lets the real pyannote run. The
@@ -398,7 +398,7 @@ fi
 # is then held against the checked-in copy, and one line below says
 # whether the two are the same bytes or not. It says; it does not
 # write. Until 20.9.2026 this block copied the fresh files back over
-# tests/material/twovoices, and a full run on 19.9.2026 left a changed
+# tests/samples/twovoices, and a full run on 19.9.2026 left a changed
 # talk.wav and truth.txt in the working tree that nearly travelled
 # into a pull request about something else. A run must not change what
 # is checked in -- test-neu, section 8 -- and a diff that turns up in
@@ -427,7 +427,7 @@ fi
 #
 # The word below changed when -bitexact came in, so a machine carrying
 # material from before speaks it once more and lands on the new bytes.
-KEPT="$HERE/material/twovoices"
+KEPT="$HERE/samples/twovoices"
 TWOVOICES_BUILD=bitexact-1
 if have "$FIX/twovoices" "$TWOVOICES_BUILD"; then
   echo "  "$FIX/twovoices"    already there"
@@ -451,7 +451,7 @@ else
       cp "$KEPT/talk.wav" "$KEPT/truth.txt" "$KEPT/voices.txt" \
          "$FIX/twovoices/"
       done_with "$FIX/twovoices" "$TWOVOICES_BUILD"
-      echo "  "$FIX/twovoices"    taken from tests/material"
+      echo "  "$FIX/twovoices"    taken from tests/samples"
     else
       echo "  "$FIX/twovoices"    skipped -- no say(1) and no copy kept"
     fi
@@ -514,9 +514,9 @@ up and every cut lands in the wrong place."
       cmp -s "$f" "$KEPT/$f" || same=no
     done
     if [ "$same" = yes ]; then
-      echo "    identical to tests/material/twovoices"
+      echo "    identical to tests/samples/twovoices"
     else
-      echo "    differs from tests/material/twovoices -- the four machines" \
+      echo "    differs from tests/samples/twovoices -- the four machines" \
            "without say(1) read the copy; if the change is wanted, copy" \
            "it there by hand"
     fi

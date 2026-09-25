@@ -18,7 +18,7 @@ run-name: "release #${{ github.run_number }} of ${{ inputs.tag || github.ref_nam
 # addresses answer, and whether the release the program asks about
 # looks the way the program expects.
 #
-# tests/text_release_ready_test.py holds the working tree against itself -- one
+# tests/source/text_release_ready_test.py holds the working tree against itself -- one
 # version number in the program, the changelog and both READMEs. It
 # runs here too, against the files as they are at the tag, and this
 # workflow does not check any of it a second time.
@@ -161,13 +161,17 @@ jobs:
           echo
           echo "3. The files at this tag, held against each other"
           # text_release_ready_test.py is the test that does this. It is run, not
-          # copied: two lists of the same rule drift apart.
+          # copied: two lists of the same rule drift apart. Found by its
+          # name: it lies in tests/source/, and a tag made before the tests
+          # went into folders holds it in tests/ itself.
+          ready=tests/source/text_release_ready_test.py
+          [ -f "$ready" ] || ready=tests/text_release_ready_test.py
           set +e
-          python tests/text_release_ready_test.py
+          python "$ready"
           rc=$?
           set -e
           [ "$rc" = "0" ] && ok=1 || ok=0
-          check "tests/text_release_ready_test.py at this tag" "$ok" \
+          check "$ready at this tag" "$ok" \
             "returned $rc"
 
           echo
