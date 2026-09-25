@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 """A run main() stops returns 1, its last line naming what failed and why.
 
-main() catches what goes wrong and says it in one line. Reached here
-from a bare command line, the program in a process of its own: the
-list of presets, with the place list_presets reaches curl through
-replaced by a stand-in that counts its calls, and every curl fenced
-off behind a proxy that goes nowhere; and a lone camera with no sound
-on it, made here. For each: the return code, and the last line held
-against the program's own sentence -- the reason, and the file.
-
-The limit: --hdr-check and the two Resolve switches are not reached --
-the first answers every way in from outside with its report, the others
-lie past source_resolve_door_shut, which forbids them in any test.
+Each case is a bare command line in a process of its own: presets that
+cannot be fetched (curl stood in for, fenced behind a proxy to nowhere),
+a lone camera with no sound, a file of no known kind alone, a path that
+is not there, and two cameras with no recording and no --multitrack,
+the last also naming the unknown file beside it as skipped. The limit:
+--hdr-check and the two Resolve switches are not reached -- the first
+answers with its report, the others lie past source_resolve_door_shut.
 """
 import os
 import sys
@@ -52,7 +48,7 @@ ASK = 120.0
 
 
 def run(argv, fence=None):
-    """The program's way in, in a process of its own: (code, last line).
+    """The program's way in, in its own process: (code, last line, all).
 
     The code is None if it did not end within ASK, and the last line
     then says so. `fence` replaces the variables it names in either case,
@@ -66,12 +62,12 @@ def run(argv, fence=None):
         kid = subprocess.run(argv, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, timeout=ASK, env=env)
     except subprocess.TimeoutExpired:
-        return None, "no end within %.0f s" % ASK
+        return None, "no end within %.0f s" % ASK, ""
     text = kid.stdout.decode("utf-8", "replace")
     # Colour marks and a progress bar's carriage returns are not words.
     text = re.sub(r"\x1b\[[0-9;]*m", "", text).replace("\r", "\n")
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    return kid.returncode, (lines[-1] if lines else "")
+    return kid.returncode, (lines[-1] if lines else ""), "\n".join(lines)
 
 
 print("1. The presets cannot be fetched")
@@ -98,8 +94,8 @@ CHILD = "\n".join([
 NOWHERE = "http://127.0.0.1:9"
 FENCE = {"https_proxy": NOWHERE, "http_proxy": NOWHERE,
          "all_proxy": NOWHERE, "no_proxy": None}
-code, last = run([sys.executable, "-c", CHILD,
-                  "--auphonic-api-key", "not-a-real-key"], FENCE)
+code, last, _said = run([sys.executable, "-c", CHILD,
+                         "--auphonic-api-key", "not-a-real-key"], FENCE)
 try:
     with open(ASKED, encoding="utf-8") as f:
         asked = len(f.read().splitlines())
@@ -122,14 +118,58 @@ made = subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
                       stderr=subprocess.STDOUT, timeout=ASK)
 # A precondition of the material, not a judgement about the program.
 assert made.returncode == 0 and os.path.exists(CAMERA), made.stdout
-code, last = run([sys.executable, SCRIPT, "--without-auphonic",
-                  "--out", os.path.join(HOME, "out"), CAMERA])
+code, last, _said = run([sys.executable, SCRIPT, "--without-auphonic",
+                         "--out", os.path.join(HOME, "out"), CAMERA])
 WANT = vpm.T('Camera audio not usable: %s') % (
     vpm.T('%s has no audio track.') % os.path.basename(CAMERA))
 check("a lone camera without sound returns 1", code == 1,
       "returned %r against 1" % code)
 check("and its last line names the file and says it has no sound",
       last == WANT, "last line %r against %r" % (last, WANT))
+
+print("\n3. Files a run can do nothing with")
+NOTES = os.path.join(HOME, "notes.txt")
+with open(NOTES, "w") as f:
+    f.write("not a recording\n")
+CAMS = [os.path.join(HOME, "CamA_C001.mov"), os.path.join(HOME,
+                                                         "CamB_C001.mov")]
+build = ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+         "testsrc=size=160x90:rate=25:duration=2", "-f", "lavfi", "-i",
+         "sine=frequency=440:duration=2"]
+for cam in CAMS:
+    build += ["-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-pix_fmt",
+              "yuv420p", "-c:a", "pcm_s16le", cam]
+made = subprocess.run(build, stdout=subprocess.PIPE,
+                      stderr=subprocess.STDOUT, timeout=ASK)
+# A precondition of the material, not a judgement about the program.
+assert made.returncode == 0 and all(map(os.path.exists, CAMS)), made.stdout
+code, last, _said = run([sys.executable, SCRIPT, "--without-auphonic",
+                         "--out", os.path.join(HOME, "out3"), NOTES])
+WANT = vpm.T('No audio file given.')
+check("an unknown file alone returns 1 and says no audio came",
+      code == 1 and last == WANT,
+      "returned %r against 1, last line %r against %r" % (code, last, WANT))
+GONE = os.path.join(HOME, "Gone_C001.wav")
+code, last, _said = run([sys.executable, SCRIPT, "--without-auphonic",
+                         "--out", os.path.join(HOME, "out3"), GONE])
+WANT = vpm.T('Not found: %s') % GONE
+check("a missing file returns 1 and names it",
+      code == 1 and last == WANT,
+      "returned %r against 1, last line %r against %r" % (code, last, WANT))
+code, last, said = run([sys.executable, SCRIPT, "--without-auphonic",
+                        "--out", os.path.join(HOME, "out3"), NOTES] + CAMS)
+WANT = vpm.T('Several cameras but no audio file. Each camera would have its '
+             'own audio --\nthat is what --multitrack is for. Otherwise '
+             'one camera after another.').splitlines()[-1].strip()
+check("two cameras without a recording and without Multitrack return 1 "
+      "and say what --multitrack is for", code == 1 and last == WANT,
+      "returned %r against 1, last line %r against %r" % (code, last, WANT))
+SKIPPED = vpm.T('Unknown extension, skipped: %s') % "notes.txt"
+check("an unknown file beside real ones is named as skipped",
+      SKIPPED in said.splitlines(),
+      "%r %s among %d lines" % (SKIPPED, "said" if SKIPPED in
+                                said.splitlines() else "not said",
+                                len(said.splitlines())))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

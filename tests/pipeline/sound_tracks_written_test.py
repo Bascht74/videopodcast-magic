@@ -6,7 +6,8 @@ nobody was assigned it carries every recording on a line of its own as
 well, so the edit can reach for one voice without importing anything
 beside the video. Losing those single tracks changes no sentence the run
 prints, so the question is put to the written file itself: how many
-audio tracks are in it, and what is each one called.
+audio tracks are in it, and what is each one called. With a made-up key
+a stand-in curl sees none reach auphonic.com (left out on Windows).
 """
 import os
 import sys
@@ -22,6 +23,7 @@ SCRIPT = the_program.SCRIPT
 import json, re, subprocess, sys, tempfile, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
+import local_ground
 
 # The same environment the suite gives every test, so a run by hand
 # measures the same thing. The speaker separation is switched off: it
@@ -89,6 +91,12 @@ def write(path, x):
 # pointed at, and checks below look for them.
 D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "tracksinfile")
 os.makedirs(D)
+# A stand-in curl first on the search path, and a made-up key where it
+# watches, so that --without-auphonic has something to hold back.
+curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
+KEY = ["--auphonic-api-key", "not-a-key-only-a-test"] if WATCHED else []
+if WATCHED:
+    ENV["AUPHONIC_TOKEN"] = KEY[1]
 host, guest = voice(TURNS["Host"], 1), voice(TURNS["Guest"], 2)
 bleed = 10 ** (-8.0 / 20)            # under the 3:1 rule on purpose
 noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
@@ -137,9 +145,9 @@ with open(D + "/assign.json", "w", encoding="utf-8") as f:
 def run(out, *extra):
     """One run on this material, and what it printed."""
     p = subprocess.run(
-        [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
-         "--no-speech-recognition", "--no-transcript-file",
-         "--no-wide-edges", "--out", D + "/" + out]
+        [sys.executable, SCRIPT, "--without-auphonic"] + KEY
+        + ["--no-metrics", "--no-speech-recognition", "--no-transcript-file",
+           "--no-wide-edges", "--out", D + "/" + out]
         + [str(x) for x in extra],
         capture_output=True, text=True, timeout=1800, env=ENV)
     return p.returncode, (p.stdout or "") + (p.stderr or "")
@@ -202,6 +210,18 @@ for name in ("one", "two", "nosingle", "assign"):
           "%d mentions of auphonic.com/api and %d of Uploading in %d "
           "characters of log, wanted 0 and 0"
           % (api, sent, len(log[name])))
+
+if WATCHED:
+    # The address only: the rest of a call is a file of this machine.
+    reached = [w for c in curl_calls() if "auphonic.com" in c
+               for w in c.split() if "://" in w]
+    check("nothing reached auphonic.com although a key was given",
+          not reached, "%d calls to curl in the four runs, %d of them to "
+          "auphonic.com: %s" % (len(curl_calls()), len(reached), reached[:1]))
+else:
+    print("LEFT OUT: the stand-in curl is a #!/bin/sh file and this "
+          "machine starts none of those, so no key was given and nothing "
+          "watched whether a run reached auphonic.com.")
 
 print("\n2. What the written files carry")
 for folder, made, want in WANTED:
