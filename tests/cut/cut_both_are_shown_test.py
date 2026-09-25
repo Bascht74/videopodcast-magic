@@ -88,7 +88,11 @@ show("three talk, only one camera covers all", tracks3,
 # overlap in pairs only.
 cameras3 = {"Host": "Hosts", "Co-host": "Hosts",
             "Guest": "Guest"}
-show("all three at once, no camera covers them", tracks3, cameras3, 12.0)
+crowd = show("all three at once, no camera covers them", tracks3,
+             cameras3, 12.0)
+check("all three at once and no camera shows them all: the wide shot",
+      at(crowd, 9.0) == "Wide",
+      "%s on screen at 9.0 s, wanted Wide" % at(crowd, 9.0))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
