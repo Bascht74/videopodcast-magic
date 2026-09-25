@@ -186,7 +186,8 @@ Four tabs, in the order they are needed.
 
   *The list after a project was opened, with the marks from the
   preflight and the strip underneath.*
-- **Assignment & time window**: tables on the left, player on the right.
+- **Assignment & time window**: tables on the left, player on the right,
+  or under them where the window is too narrow for the two side by side.
   Appears with the files.
 
   The recordings are a tree. Its second column is the **Speaker
@@ -293,7 +294,9 @@ Four tabs, in the order they are needed.
   the cut values and the box **Speaker**, whose heading names where the
   speakers came from, the measured speech time in brackets and, behind
   it, that people talking at once count twice.
-  Last the box **Camera cut -- preview**, with the cut band
+  All of that is the left-hand column. On the right stands the box
+  **Camera cut -- preview**, or below the settings where the window is
+  too narrow for two columns. It holds the cut band
   and a picture that plays. The picture says under itself, on a plate
   in the colour of the running shot, who is speaking and which camera
   is up; where a shot has no picture the colour fills the whole box and
@@ -461,6 +464,11 @@ its file is done, and the bar itself a moment after the last one. It
 shows the prework -- reading the audio and computing the envelopes --
 which is the same work the bar beside **Start** carries, here file by
 file.
+
+**Production name**, **Language** and **Project type** stand in one
+row. Where the window is too narrow for all three, the row goes on in a
+second line instead of pushing the **Files & production** tab past the
+window's edge, and a caption never parts from its field.
 
 **Language** beside the production name is the language spoken in the
 recording, preset from the system language. It does two things: it

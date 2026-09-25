@@ -242,8 +242,10 @@ the only recording there is.
 
 The program counts in integer formats only. An integer format has a stop
 at full scale, and nothing above it ever reached the file. Float has no
-stop, and 0 dBFS there is a mark on the scale, not a wall. Both 16 and
-24 bit come out identical at the stop;
+stop, and 0 dBFS there is a mark on the scale, not a wall; a float
+recording is the one whose line in the report says `32 bit float` in
+place of a plain number of bits. Both 16 and 24 bit come out identical
+at the stop;
 [What was measured](../development/measurements.md) has the same clipped
 source written in all three formats.
 
