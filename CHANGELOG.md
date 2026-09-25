@@ -25,6 +25,104 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b22] - 2026-09-25
+
+### Changed
+
+- **Two camera files with the same name are now told apart by their
+  path.** The window lists the second as "C0003.MP4 (2)", with the path
+  as a tooltip; an older project gives both rows to the first.
+- **"Create Resolve project" is offered again after reopening a project
+  whose run left a camera out.** A camera added after that run keeps
+  the button grey.
+- **Under "Sync only" the greyed preview and the wide-shot note on the
+  Resolve tab now stand empty** instead of speaking of speakers and a
+  wide shot.
+- **The preflight now notes two cameras that are one recording added
+  twice.** It is a hint and stops nothing.
+- **A separation file named with `--speakers-from` is no longer used
+  when its recording has changed** or it came from another model; the
+  run warns and goes on without it.
+- **The cache now drops transcripts and speaker separations written
+  more than 30 days ago**, and old builds of the speech recogniser.
+
+### Fixed
+
+- **The limiter now holds a peak at the very start of a recording under
+  -1 dBTP.** Such a peak used to pass at full scale.
+- **On a 1280 px screen the "Resolve cut" tab no longer scrolls
+  sideways**; the explanations beside the settings now wrap.
+- **A long output folder is now shortened in the middle** instead of
+  pushing the "Files & production" tab past the window; the tooltip holds it whole.
+- **The two buttons in the empty window now grow with their text**
+  instead of cutting a longer translation off.
+- **With both tools missing the message now reads "ffmpeg and ffprobe
+  are missing."** instead of "ffmpeg, ffprobe is missing."
+- **The first lines of a run now stand in its own log**, and an empty
+  log no longer overwrites the kept one.
+- **The camera's colour boxes are now taken back** if ffprobe can no
+  longer open the file after they were copied in.
+- **The Resolve build no longer asks for audio tracks for a camera
+  whose video track was refused.**
+- **The preview now offers the outside player also where the system
+  only reports a file as unopenable.**
+
+### Tests
+
+- **Eight paths no test entered are now tested**, among them tracks
+  that come back from Auphonic, the limiter and the refusals of a run.
+
+**Deutsch**
+
+### Geändert
+
+- **Zwei Kameradateien mit gleichem Namen werden jetzt über ihren Pfad
+  unterschieden.** Die zweite heißt im Fenster „C0003.MP4 (2)“, der Pfad
+  steht im Tooltip; ein älteres Projekt gibt beide Zeilen der ersten.
+- **„Resolve-Projekt anlegen“ steht nach dem Wiederöffnen eines
+  Projekts wieder bereit, dessen Lauf eine Kamera ausgelassen hat.** Eine
+  danach hinzugefügte Kamera lässt den Knopf grau.
+- **Bei „Nur synchronisieren“ bleiben die ausgegraute Vorschau und der
+  Weitwinkel-Hinweis im Reiter Resolve jetzt leer**, statt von Sprechern
+  und einem Weitwinkel zu reden.
+- **Die Vorprüfung meldet jetzt zwei Kameras, die eine doppelt
+  hinzugefügte Aufnahme sind.** Es ist ein Hinweis und hält nichts auf.
+- **Eine Sprechertrennung aus `--speakers-from` wird nicht mehr
+  verwendet, wenn sich ihre Aufnahme geändert hat** oder sie von einem
+  anderen Modell stammt; der Lauf warnt und macht ohne sie weiter.
+- **Der Zwischenspeicher löscht jetzt Transkripte und Sprechertrennungen,
+  die vor mehr als 30 Tagen geschrieben wurden**, und alte Bauten der
+  Spracherkennung.
+
+### Behoben
+
+- **Der Limiter hält eine Spitze ganz am Anfang einer Aufnahme jetzt
+  unter -1 dBTP.** Sie ging vorher ungebremst durch.
+- **Auf einem 1280 px breiten Bildschirm scrollt der Reiter
+  „Resolve-Schnitt“ nicht mehr seitwärts**; die Erklärungen brechen um.
+- **Ein langer Ausgabeordner wird jetzt in der Mitte gekürzt**, statt
+  den Reiter „Dateien & Produktion“ über das Fenster hinauszuschieben; der Tooltip
+  zeigt ihn ganz.
+- **Die zwei Knöpfe im leeren Fenster wachsen jetzt mit ihrem Text**,
+  statt eine längere Übersetzung abzuschneiden.
+- **Fehlen beide Werkzeuge, heißt die Meldung jetzt „ffmpeg und ffprobe
+  fehlen.“** statt „ffmpeg, ffprobe fehlt.“
+- **Die ersten Zeilen eines Laufs stehen jetzt in seinem eigenen
+  Protokoll**, und ein leeres Protokoll überschreibt das aufbewahrte nicht
+  mehr.
+- **Die Farbangaben der Kamera werden jetzt zurückgenommen**, wenn
+  ffprobe die Datei nach dem Einkopieren nicht mehr öffnet.
+- **Der Resolve-Bau fordert jetzt keine Tonspuren mehr für eine Kamera
+  an, deren Videospur abgelehnt wurde.**
+- **Die Vorschau bietet den externen Abspieler jetzt auch an, wenn das
+  System eine Datei nur als nicht zu öffnen meldet.**
+
+### Tests
+
+- **Acht Wege, die kein Test betrat, werden jetzt geprüft**, darunter
+  Spuren, die von Auphonic zurückkommen, der Limiter und die Ablehnungen
+  eines Laufs.
+
 ## [3.0.0b21] - 2026-09-25
 
 ### Changed
