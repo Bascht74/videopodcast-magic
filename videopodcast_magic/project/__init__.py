@@ -393,10 +393,15 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         no_join.clear()
         join_to.clear()
         channel_choice.clear()
+        # Where the file was last written goes too, or the next folder
+        # or name moved the old project's file onto the new one's; and
+        # the handovers remembered per camera list, or the next
+        # production in this folder was handed this one's.
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
-                     "cut_basis", "run_auphonic",
+                     "cut_basis", "run_auphonic", "project_last",
+                     "handover_offered",
                      "project_type_asked") + SPEAKER_STATE:
             state.pop(name, None)
         words_forgotten(state)
@@ -484,8 +489,12 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         for s, value in (d.get("camera_cut") or {}).items():
             if s in cut_var:
                 cut_var[s].set(value)
+        # Between folder and name the window names the unnamed
+        # production's file beside this one, and the name moved it onto
+        # this one's. So that file is forgotten before the name is set.
         out_folder.set(d.get("out_folder") or "")
         folder_show()
+        state.pop("project_last", None)
         production_var.set(d.get("production") or "")
         edge_on.set(bool(d.get("wide_at_edges", True)))
         # Set before the tables are built: the window prefill leaves standing
