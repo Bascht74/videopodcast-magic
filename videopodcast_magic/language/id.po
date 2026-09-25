@@ -1937,9 +1937,6 @@ msgstr " (diputar)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- titik masuk atau keluar menghemat unggahan"
 
-msgid " -- not readable"
-msgstr " -- tidak terbaca"
-
 msgid " -- nothing to fault."
 msgstr " -- tidak ada masalah."
 
@@ -4802,3 +4799,48 @@ msgstr "ffmpeg dan ffprobe tidak ada."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s berisi pemisahan pembicara dari rekaman yang sejak itu berubah atau hilang, atau dari model lain -- tidak digunakan."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bit, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 bit float, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matriks %s"
+
+msgid "%d bit"
+msgstr "%d bit"
+
+msgid "%d bit -- not readable"
+msgstr "%d bit -- tidak terbaca"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Perangkat lunak %s"
+
+msgid "colr box"
+msgstr "kotak colr"
+
+msgid "Codec"
+msgstr "Codec"
+
+msgid "Bitrate"
+msgstr "Bitrate"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINE"
+
+msgid "\n  Import"
+msgstr "\n  Impor"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

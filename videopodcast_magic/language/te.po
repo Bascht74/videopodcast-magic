@@ -1937,9 +1937,6 @@ msgstr " (ప్లే అవుతోంది)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- ఇన్ లేదా అవుట్ పాయింట్ పెడితే దీన్ని అప్‌లోడ్ చేయాల్సిన అవసరం తప్పుతుంది"
 
-msgid " -- not readable"
-msgstr " -- చదవడం సాధ్యం కాదు"
-
 msgid " -- nothing to fault."
 msgstr " -- లోపాలేమీ లేవు."
 
@@ -4845,3 +4842,48 @@ msgstr "ffmpeg మరియు ffprobe లేవు."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s లోని వక్తల విభజన అప్పటి నుంచి మారిపోయిన లేదా ఇక లేని రికార్డింగ్‌ది, లేదా మరో మోడల్‌ది -- అది ఉపయోగించబడదు."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s బిట్, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 బిట్ ఫ్లోట్, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "మ్యాట్రిక్స్ %s"
+
+msgid "%d bit"
+msgstr "%d బిట్"
+
+msgid "%d bit -- not readable"
+msgstr "%d బిట్ -- చదవలేము"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  సాఫ్ట్‌వేర్ %s"
+
+msgid "colr box"
+msgstr "colr బాక్స్"
+
+msgid "Codec"
+msgstr "కోడెక్"
+
+msgid "Bitrate"
+msgstr "బిట్‌రేట్"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  Timelineలు"
+
+msgid "\n  Import"
+msgstr "\n  ఇంపోర్ట్"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

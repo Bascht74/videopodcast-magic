@@ -193,6 +193,13 @@ SAME_IN_BOTH = {
     # One German word for a sound and a video format alike, and it is
     # this one.
     'Format',
+    # LUFS is the unit's own name, and a colour matrix is a Matrix in
+    # German too.
+    '%.0f LUFS (%s)', '%.0f LUFS', 'Matrix %s',
+    # A camera's make and software, two headings of a file's details,
+    # a log line of units, and two log headings German writes alike.
+    '%s  --  Software %s', 'Codec', 'Bitrate', '    %-22s %dx%d, %s fps',
+    '\n  TIMELINES', '\n  Import', '%s/%s %s ms %s ppm',
 }
 untranslated = [k for k, v in catalogue.items()
                 if k == v and k not in SAME_IN_BOTH]

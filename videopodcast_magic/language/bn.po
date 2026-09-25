@@ -1908,9 +1908,6 @@ msgstr " (চলছে)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- ইন বা আউট পয়েন্ট দিলে এই আপলোড বাঁচে"
 
-msgid " -- not readable"
-msgstr " -- পড়া যায়নি"
-
 msgid " -- nothing to fault."
 msgstr " -- আপত্তির কিছু নেই।"
 
@@ -4843,3 +4840,48 @@ msgstr "ffmpeg ও ffprobe নেই।"
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s-এ এমন একটি রেকর্ডিংয়ের বক্তা পৃথকীকরণ আছে যা তারপর বদলে গেছে বা আর নেই, অথবা অন্য একটি মডেলের -- এটি ব্যবহার করা হয় না।"
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s বিট, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 বিট ফ্লোটিং পয়েন্ট, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "ম্যাট্রিক্স %s"
+
+msgid "%d bit"
+msgstr "%d বিট"
+
+msgid "%d bit -- not readable"
+msgstr "%d বিট -- অপাঠযোগ্য"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  সফটওয়্যার %s"
+
+msgid "colr box"
+msgstr "colr বক্স"
+
+msgid "Codec"
+msgstr "কোডেক"
+
+msgid "Bitrate"
+msgstr "বিটরেট"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINES"
+
+msgid "\n  Import"
+msgstr "\n  ইমপোর্ট"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

@@ -1938,9 +1938,6 @@ msgstr " (grojama)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- pradžios ar pabaigos taškas sutaupo įkėlimo"
 
-msgid " -- not readable"
-msgstr " -- neįskaitoma"
-
 msgid " -- nothing to fault."
 msgstr " -- priekaištų nėra."
 
@@ -4889,3 +4886,48 @@ msgstr "Trūksta: ffmpeg ir ffprobe."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  Faile %s yra kalbėtojų atskyrimas įrašo, kuris nuo to laiko pasikeitė ar dingo, arba kito modelio -- jis nenaudojamas."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bitų, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 bitų slankiojo kablelio, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matrica %s"
+
+msgid "%d bit"
+msgstr "%d bitų"
+
+msgid "%d bit -- not readable"
+msgstr "%d bitų -- neįmanoma perskaityti"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Programinė įranga %s"
+
+msgid "colr box"
+msgstr "colr struktūra"
+
+msgid "Codec"
+msgstr "Kodekas"
+
+msgid "Bitrate"
+msgstr "Bitų srautas"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINE"
+
+msgid "\n  Import"
+msgstr "\n  Importas"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

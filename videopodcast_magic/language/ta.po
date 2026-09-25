@@ -1936,9 +1936,6 @@ msgstr " (இயங்குகிறது)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- இன் அல்லது அவுட் புள்ளி வைத்தால் இதைப் பதிவேற்ற வேண்டியதில்லை"
 
-msgid " -- not readable"
-msgstr " -- படிக்க முடியாது"
-
 msgid " -- nothing to fault."
 msgstr " -- குறை எதுவும் இல்லை."
 
@@ -4844,3 +4841,48 @@ msgstr "ffmpeg மற்றும் ffprobe இல்லை."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s இல் உள்ள பேச்சாளர் பிரிப்பு, அதன் பிறகு மாறிய அல்லது இனி இல்லாத ஒரு பதிவுக்குரியது, அல்லது வேறொரு மாடலுடையது -- அது பயன்படுத்தப்படவில்லை."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s பிட், %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 பிட் ஃப்ளோட், %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "மேட்ரிக்ஸ் %s"
+
+msgid "%d bit"
+msgstr "%d பிட்"
+
+msgid "%d bit -- not readable"
+msgstr "%d பிட் -- படிக்க முடியாது"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  மென்பொருள் %s"
+
+msgid "colr box"
+msgstr "colr பெட்டி"
+
+msgid "Codec"
+msgstr "கோடெக்"
+
+msgid "Bitrate"
+msgstr "பிட்ரேட்"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  Timeline-கள்"
+
+msgid "\n  Import"
+msgstr "\n  இறக்குமதி"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

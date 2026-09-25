@@ -1938,9 +1938,6 @@ msgstr " (възпроизвеждане)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- входна или изходна точка спестява качването"
 
-msgid " -- not readable"
-msgstr " -- не може да се прочете"
-
 msgid " -- nothing to fault."
 msgstr " -- няма забележки."
 
@@ -4846,3 +4843,48 @@ msgstr "Липсват: ffmpeg и ffprobe."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s съдържа разделяне на говорещите за запис, който оттогава е променен или вече го няма, или от друг модел -- не се използва."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s кХц, %s бита, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s кХц, 32 бита с плаваща запетая, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Матрица %s"
+
+msgid "%d bit"
+msgstr "%d бита"
+
+msgid "%d bit -- not readable"
+msgstr "%d бита -- не може да се прочете"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Софтуер %s"
+
+msgid "colr box"
+msgstr "colr бокс"
+
+msgid "Codec"
+msgstr "Кодек"
+
+msgid "Bitrate"
+msgstr "Битрейт"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s кадъра/с"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINE"
+
+msgid "\n  Import"
+msgstr "\n  Импортиране"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s мс %s ppm"

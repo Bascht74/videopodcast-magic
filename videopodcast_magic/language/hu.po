@@ -1908,9 +1908,6 @@ msgstr " (lejátszás)"
 msgid " -- an In or Out point saves the upload"
 msgstr " -- egy In vagy Out pont megtakarítja a feltöltést"
 
-msgid " -- not readable"
-msgstr " -- nem olvasható"
-
 msgid " -- nothing to fault."
 msgstr " -- nincs kifogásolnivaló."
 
@@ -4843,3 +4840,48 @@ msgstr "ffmpeg és ffprobe hiányzik."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s a beszélők szétválasztását tartalmazza egy azóta megváltozott vagy eltűnt felvételhez, vagy egy másik modelltől -- nincs felhasználva."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bit, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 bites lebegőpontos, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Mátrix %s"
+
+msgid "%d bit"
+msgstr "%d bit"
+
+msgid "%d bit -- not readable"
+msgstr "%d bit -- nem olvasható"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Szoftver %s"
+
+msgid "colr box"
+msgstr "colr blokk"
+
+msgid "Codec"
+msgstr "Kodek"
+
+msgid "Bitrate"
+msgstr "Bitráta"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINE-OK"
+
+msgid "\n  Import"
+msgstr "\n  Importálás"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"

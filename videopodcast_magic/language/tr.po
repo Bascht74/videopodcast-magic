@@ -3585,9 +3585,6 @@ msgstr "sınırlı (Video/TV)"
 msgid "Delivery usually takes the limited range. Full is not wrong, but some players misread it."
 msgstr "Teslimde genellikle sınırlı aralık kullanılır. Tam aralık yanlış değildir, ama bazı oynatıcılar onu yanlış yorumlar."
 
-msgid " -- not readable"
-msgstr " -- okunamıyor"
-
 msgid "missing: %s"
 msgstr "eksik: %s"
 
@@ -4854,3 +4851,48 @@ msgstr "Eksik: ffmpeg ve ffprobe."
 
 msgid "  %s holds a separation of a recording that has changed or gone since, or of another model -- it is not used."
 msgstr "  %s, o zamandan beri değişmiş ya da artık bulunmayan bir kaydın veya başka bir modelin konuşmacı ayrımını içeriyor -- kullanılmıyor."
+
+msgid "%s kHz, %s bit, %s, %s"
+msgstr "%s kHz, %s bit, %s, %s"
+
+msgid "%s kHz, 32 bit float, %s, %s"
+msgstr "%s kHz, 32 bit kayan nokta, %s, %s"
+
+msgid "%.0f LUFS (%s)"
+msgstr "%.0f LUFS (%s)"
+
+msgid "%.0f LUFS"
+msgstr "%.0f LUFS"
+
+msgid "Matrix %s"
+msgstr "Matris %s"
+
+msgid "%d bit"
+msgstr "%d bit"
+
+msgid "%d bit -- not readable"
+msgstr "%d bit -- okunamıyor"
+
+msgid "%s  --  Software %s"
+msgstr "%s  --  Yazılım %s"
+
+msgid "colr box"
+msgstr "colr kutusu"
+
+msgid "Codec"
+msgstr "Codec"
+
+msgid "Bitrate"
+msgstr "Bit hızı"
+
+msgid "    %-22s %dx%d, %s fps"
+msgstr "    %-22s %dx%d, %s fps"
+
+msgid "\n  TIMELINES"
+msgstr "\n  TIMELINE'LAR"
+
+msgid "\n  Import"
+msgstr "\n  İçe aktarma"
+
+msgid "%s/%s %s ms %s ppm"
+msgstr "%s/%s %s ms %s ppm"
