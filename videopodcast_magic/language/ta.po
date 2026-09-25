@@ -3067,9 +3067,6 @@ msgstr "தகவல் இல்லை"
 msgid "no information in the file"
 msgstr "கோப்பில் தகவல் இல்லை"
 
-msgid "no match in the middle either (%s)"
-msgstr "நடுவிலும் பொருத்தம் இல்லை (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "சரியாக ஒருவர் மட்டும் பேசும் இடம் கிடைக்கவில்லை -- மைக்ரோஃபோன்களுக்கு இடையிலான பிரிப்பை அளவிட முடியாது."
 
@@ -3799,9 +3796,6 @@ msgstr "ரத்துசெய்"
 msgid "cancelled"
 msgstr "ரத்துசெய்யப்பட்டது"
 
-msgid "edges implausible"
-msgstr "விளிம்புகள் நம்பத்தகாதவை"
-
 msgid "fixed: "
 msgstr "சரிசெய்யப்பட்டது: "
 
@@ -3840,9 +3834,6 @@ msgstr "இன் புள்ளிக்கு"
 
 msgid "to Out point"
 msgstr "அவுட் புள்ளிக்கு"
-
-msgid "too short"
-msgstr "மிகக் குறுகியது"
 
 msgid "two Timelines"
 msgstr "இரண்டு Timeline-கள்"

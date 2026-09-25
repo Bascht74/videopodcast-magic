@@ -3073,9 +3073,6 @@ msgstr "gan eolas"
 msgid "no information in the file"
 msgstr "gan eolas sa chomhad"
 
-msgid "no match in the middle either (%s)"
-msgstr "níl meaitseáil sa lár ach oiread (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "níor aimsíodh áit ina labhraíonn duine amháin go díreach -- ní féidir an scaradh a thomhas."
 
@@ -3805,9 +3802,6 @@ msgstr "cealaigh"
 msgid "cancelled"
 msgstr "cealaithe"
 
-msgid "edges implausible"
-msgstr "imill dochreidte"
-
 msgid "fixed: "
 msgstr "ceartaithe: "
 
@@ -3846,9 +3840,6 @@ msgstr "go dtí an pointe isteach"
 
 msgid "to Out point"
 msgstr "go dtí an pointe amach"
-
-msgid "too short"
-msgstr "róghearr"
 
 msgid "two Timelines"
 msgstr "dhá Timeline"

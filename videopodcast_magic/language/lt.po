@@ -3069,9 +3069,6 @@ msgstr "nėra informacijos"
 msgid "no information in the file"
 msgstr "faile nėra informacijos"
 
-msgid "no match in the middle either (%s)"
-msgstr "ir viduryje nėra atitikties (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nerasta vietos, kur kalbėtų lygiai vienas žmogus -- atskyrimo išmatuoti neįmanoma."
 
@@ -3801,9 +3798,6 @@ msgstr "atšaukti"
 msgid "cancelled"
 msgstr "atšaukta"
 
-msgid "edges implausible"
-msgstr "kraštai neįtikimi"
-
 msgid "fixed: "
 msgstr "ištaisyta: "
 
@@ -3842,9 +3836,6 @@ msgstr "į pradžios tašką"
 
 msgid "to Out point"
 msgstr "į pabaigos tašką"
-
-msgid "too short"
-msgstr "per trumpas"
 
 msgid "two Timelines"
 msgstr "du Timeline"

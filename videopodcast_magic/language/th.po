@@ -3066,9 +3066,6 @@ msgstr "ไม่มีข้อมูล"
 msgid "no information in the file"
 msgstr "ไม่มีข้อมูลในไฟล์"
 
-msgid "no match in the middle either (%s)"
-msgstr "ตรงกลางก็ไม่ตรงกันเช่นกัน (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ไม่พบช่วงที่มีคนพูดเพียงคนเดียว -- วัดการแยกเสียงระหว่างไมโครโฟนไม่ได้"
 
@@ -3798,9 +3795,6 @@ msgstr "ยกเลิก"
 msgid "cancelled"
 msgstr "ยกเลิกแล้ว"
 
-msgid "edges implausible"
-msgstr "ขอบไม่สมเหตุสมผล"
-
 msgid "fixed: "
 msgstr "แก้ไขแล้ว: "
 
@@ -3839,9 +3833,6 @@ msgstr "ไปจุดเข้า"
 
 msgid "to Out point"
 msgstr "ไปจุดออก"
-
-msgid "too short"
-msgstr "สั้นเกินไป"
 
 msgid "two Timelines"
 msgstr "Timeline สองรายการ"

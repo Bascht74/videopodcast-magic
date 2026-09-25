@@ -789,9 +789,6 @@ msgstr "a la entrada"
 msgid "to Out point"
 msgstr "a la salida"
 
-msgid "too short"
-msgstr "demasiado corto"
-
 msgid "unknown"
 msgstr "desconocido"
 
@@ -3979,9 +3976,6 @@ msgstr "¿encaja el ajuste preestablecido con la ejecución?"
 msgid "downloaded file is only %s bytes"
 msgstr "el archivo descargado tiene solo %s bytes"
 
-msgid "edges implausible"
-msgstr "flancos inverosímiles"
-
 msgid "ends"
 msgstr "acaba"
 
@@ -4101,9 +4095,6 @@ msgstr "sin datos"
 
 msgid "no information in the file"
 msgstr "sin datos en el archivo"
-
-msgid "no match in the middle either (%s)"
-msgstr "tampoco hay coincidencia en el medio (%s)"
 
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "no se ha encontrado ningún punto en el que hable exactamente una persona -- la separación no se puede medir."

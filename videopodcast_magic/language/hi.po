@@ -791,9 +791,6 @@ msgstr "इन पॉइंट पर"
 msgid "to Out point"
 msgstr "आउट पॉइंट पर"
 
-msgid "too short"
-msgstr "बहुत छोटा"
-
 msgid "unknown"
 msgstr "अज्ञात"
 
@@ -1908,9 +1905,6 @@ msgstr "  ये एक-दूसरे पर चढ़ते हैं -- ए�
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  %s खंड नाम के क्रम में जोड़े गए (कोई टाइमकोड नहीं -- अंतराल पहचाने नहीं जा सकते)"
 
-msgid "edges implausible"
-msgstr "किनारे अविश्वसनीय"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "फ़ेज़ से रखा गया, तीक्ष्णता %s बनाम न्यूनतम %s, विचलन अज्ञात"
 
@@ -1922,9 +1916,6 @@ msgstr "%s से कोई ऑडियो डेटा नहीं"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  वीडियो में केवल मिक्स जाता है (--no-single-tracks)।"
-
-msgid "no match in the middle either (%s)"
-msgstr "बीच में भी कोई मेल नहीं (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      चेतावनी: %s के लिए कमज़ोर मेल (%s, न्यूनतम %s)। हो सकता है ये दोनों साथ के न हों।"

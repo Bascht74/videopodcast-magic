@@ -3067,9 +3067,6 @@ msgstr "بدون اطلاعات"
 msgid "no information in the file"
 msgstr "اطلاعاتی در فایل نیست"
 
-msgid "no match in the middle either (%s)"
-msgstr "در میانه هم تطابقی نیست (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "جایی پیدا نشد که دقیقاً یک نفر صحبت کند -- تفکیک قابل اندازه‌گیری نیست."
 
@@ -3799,9 +3796,6 @@ msgstr "لغو"
 msgid "cancelled"
 msgstr "لغو شد"
 
-msgid "edges implausible"
-msgstr "مرزها باورپذیر نیستند"
-
 msgid "fixed: "
 msgstr "اصلاح شد: "
 
@@ -3840,9 +3834,6 @@ msgstr "به نقطه ورود"
 
 msgid "to Out point"
 msgstr "به نقطه خروج"
-
-msgid "too short"
-msgstr "بسیار کوتاه"
 
 msgid "two Timelines"
 msgstr "دو Timeline"

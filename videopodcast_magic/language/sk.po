@@ -3035,9 +3035,6 @@ msgstr "žiadne údaje"
 msgid "no information in the file"
 msgstr "v súbore žiadne údaje"
 
-msgid "no match in the middle either (%s)"
-msgstr "ani v strede žiadna zhoda (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "nenájdené miesto, kde hovorí presne jeden človek -- oddelenie nemožno zmerať."
 
@@ -3716,9 +3713,6 @@ msgstr "zrušiť"
 msgid "cancelled"
 msgstr "zrušené"
 
-msgid "edges implausible"
-msgstr "okraje nevierohodné"
-
 msgid "fixed: "
 msgstr "opravené: "
 
@@ -3754,9 +3748,6 @@ msgstr "na bod In"
 
 msgid "to Out point"
 msgstr "na bod Out"
-
-msgid "too short"
-msgstr "príliš krátke"
 
 msgid "two Timelines"
 msgstr "dve Timeline"

@@ -3030,9 +3030,6 @@ msgstr "정보 없음"
 msgid "no information in the file"
 msgstr "파일에 정보 없음"
 
-msgid "no match in the middle either (%s)"
-msgstr "중간에서도 일치하지 않음 (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "정확히 한 사람만 말하는 곳을 찾지 못했습니다 -- 분리를 측정할 수 없습니다."
 
@@ -3711,9 +3708,6 @@ msgstr "취소"
 msgid "cancelled"
 msgstr "취소됨"
 
-msgid "edges implausible"
-msgstr "경계가 타당하지 않음"
-
 msgid "fixed: "
 msgstr "수정됨: "
 
@@ -3749,9 +3743,6 @@ msgstr "인 포인트로"
 
 msgid "to Out point"
 msgstr "아웃 포인트로"
-
-msgid "too short"
-msgstr "너무 짧음"
 
 msgid "two Timelines"
 msgstr "Timeline 두 개"

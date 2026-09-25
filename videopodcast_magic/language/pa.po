@@ -3070,9 +3070,6 @@ msgstr "ਕੋਈ ਜਾਣਕਾਰੀ ਨਹੀਂ"
 msgid "no information in the file"
 msgstr "ਫ਼ਾਈਲ ਵਿੱਚ ਕੋਈ ਜਾਣਕਾਰੀ ਨਹੀਂ"
 
-msgid "no match in the middle either (%s)"
-msgstr "ਵਿਚਕਾਰ ਵੀ ਕੋਈ ਮੇਲ ਨਹੀਂ (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ਕੋਈ ਥਾਂ ਨਹੀਂ ਮਿਲੀ ਜਿੱਥੇ ਠੀਕ ਇੱਕ ਜਣਾ ਬੋਲਦਾ ਹੋਵੇ -- ਨਿਖੇੜਾ ਮਾਪਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ।"
 
@@ -3802,9 +3799,6 @@ msgstr "ਰੱਦ ਕਰੋ"
 msgid "cancelled"
 msgstr "ਰੱਦ ਕੀਤਾ ਗਿਆ"
 
-msgid "edges implausible"
-msgstr "ਕਿਨਾਰੇ ਮੰਨਣਯੋਗ ਨਹੀਂ"
-
 msgid "fixed: "
 msgstr "ਠੀਕ ਕੀਤਾ: "
 
@@ -3843,9 +3837,6 @@ msgstr "ਇਨ ਪੁਆਇੰਟ ਵੱਲ"
 
 msgid "to Out point"
 msgstr "ਆਊਟ ਪੁਆਇੰਟ ਵੱਲ"
-
-msgid "too short"
-msgstr "ਲੰਬਾਈ ਬਹੁਤ ਘੱਟ"
 
 msgid "two Timelines"
 msgstr "ਦੋ Timeline"

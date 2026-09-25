@@ -4688,9 +4688,6 @@ msgstr "keine Angaben"
 msgid "no information in the file"
 msgstr "keine Angaben in der Datei"
 
-msgid "no match in the middle either (%s)"
-msgstr "auch in der Mitte keine Übereinstimmung (%s)"
-
 msgid ""
 "no place found where exactly one person speaks -- the separation cannot "
 "be measured."
@@ -5513,9 +5510,6 @@ msgstr "abbrechen"
 msgid "cancelled"
 msgstr "abgebrochen"
 
-msgid "edges implausible"
-msgstr "Kanten unplausibel"
-
 msgid "fixed: "
 msgstr "behoben: "
 
@@ -5554,9 +5548,6 @@ msgstr "zu In-Punkt"
 
 msgid "to Out point"
 msgstr "zu Out-Punkt"
-
-msgid "too short"
-msgstr "zu kurz"
 
 msgid "two Timelines"
 msgstr "zwei Timelines"

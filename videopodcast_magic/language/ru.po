@@ -796,9 +796,6 @@ msgstr "к точке входа"
 msgid "to Out point"
 msgstr "к точке выхода"
 
-msgid "too short"
-msgstr "слишком коротко"
-
 msgid "unknown"
 msgstr "неизвестно"
 
@@ -3991,9 +3988,6 @@ msgstr "подходит ли пресет к прогону?"
 msgid "downloaded file is only %s bytes"
 msgstr "скачанный файл всего %s байт"
 
-msgid "edges implausible"
-msgstr "края неправдоподобны"
-
 msgid "ends"
 msgstr "заканчивается"
 
@@ -4113,9 +4107,6 @@ msgstr "нет данных"
 
 msgid "no information in the file"
 msgstr "в файле нет данных"
-
-msgid "no match in the middle either (%s)"
-msgstr "и в середине нет совпадения (%s)"
 
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "не найдено места, где говорит ровно один человек -- разделение измерить нельзя."

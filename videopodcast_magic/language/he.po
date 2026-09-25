@@ -3067,9 +3067,6 @@ msgstr "אין מידע"
 msgid "no information in the file"
 msgstr "אין מידע בקובץ"
 
-msgid "no match in the middle either (%s)"
-msgstr "גם באמצע אין התאמה (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "לא נמצא מקום שבו מדבר בדיוק אדם אחד -- לא ניתן למדוד את ההפרדה."
 
@@ -3799,9 +3796,6 @@ msgstr "ביטול"
 msgid "cancelled"
 msgstr "בוטל"
 
-msgid "edges implausible"
-msgstr "קצוות לא סבירים"
-
 msgid "fixed: "
 msgstr "תוקן: "
 
@@ -3840,9 +3834,6 @@ msgstr "לנקודת הכניסה"
 
 msgid "to Out point"
 msgstr "לנקודת היציאה"
-
-msgid "too short"
-msgstr "קצר מדי"
 
 msgid "two Timelines"
 msgstr "שני Timelines"

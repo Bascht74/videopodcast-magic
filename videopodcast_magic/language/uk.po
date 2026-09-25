@@ -814,9 +814,6 @@ msgstr "до точки входу"
 msgid "to Out point"
 msgstr "до точки виходу"
 
-msgid "too short"
-msgstr "занадто коротко"
-
 msgid "unknown"
 msgstr "невідомо"
 
@@ -1936,9 +1933,6 @@ msgstr "  Вони перекриваються -- кілька мікрофон
 msgid "  %s blocks joined in name order (no timecode -- gaps would not be recognisable)"
 msgstr "  Блоків, з'єднаних за порядком назв: %s (таймкоду немає -- проміжки не було б видно)"
 
-msgid "edges implausible"
-msgstr "краї неправдоподібні"
-
 msgid "placed by phase, sharpness %s against a floor of %s, drift unknown"
 msgstr "розміщено за фазою, чіткість %s проти порога %s, дрейф невідомий"
 
@@ -1950,9 +1944,6 @@ msgstr "немає звукових даних із %s"
 
 msgid "  Only the mix goes into the video (--no-single-tracks)."
 msgstr "  У відео йде лише мікс (--no-single-tracks)."
-
-msgid "no match in the middle either (%s)"
-msgstr "і посередині збігу немає (%s)"
 
 msgid "      WARNING: weak match for %s (%s, %s is the floor). The two may not belong together."
 msgstr "      ПОПЕРЕДЖЕННЯ: слабкий збіг для %s (%s, поріг %s). Ці два, можливо, не пов'язані."

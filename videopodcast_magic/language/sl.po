@@ -3071,9 +3071,6 @@ msgstr "ni podatkov"
 msgid "no information in the file"
 msgstr "v datoteki ni podatkov"
 
-msgid "no match in the middle either (%s)"
-msgstr "tudi na sredini ni ujemanja (%s)"
-
 msgid "no place found where exactly one person speaks -- the separation cannot be measured."
 msgstr "ni mesta, kjer govori natanko ena oseba -- ločevanja ni mogoče izmeriti."
 
@@ -3803,9 +3800,6 @@ msgstr "prekliči"
 msgid "cancelled"
 msgstr "preklicano"
 
-msgid "edges implausible"
-msgstr "neverodostojni robovi"
-
 msgid "fixed: "
 msgstr "popravljeno: "
 
@@ -3844,9 +3838,6 @@ msgstr "na vstopno točko"
 
 msgid "to Out point"
 msgstr "na izstopno točko"
-
-msgid "too short"
-msgstr "prekratko"
 
 msgid "two Timelines"
 msgstr "dve Timeline"
