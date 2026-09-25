@@ -67,23 +67,25 @@ def slider_numbers(values):
 def voices_of_values(values):
     """Name -> camera file, out of what the interface holds.
 
-    The window knows a camera by the name of its file; the run wants the
-    file. A voice set to "no camera of its own" or left out is not in
-    the answer -- it keeps its name in the markers and takes no picture.
+    The window knows a camera by its path, and a bare file name means
+    the first file of that name, as the recordings' rows read it. A
+    voice set to "no camera of its own" or left out is not in the
+    answer -- it keeps its name in the markers and takes no picture.
     """
-    where = {}
+    paths = [cam["path"] for cam in (values.get("cameras") or ())
+             if cam.get("path")]
+    called = {}
     for cam in (values.get("cameras") or ()):
-        if not cam.get("path"):
-            continue
-        where[os.path.basename(cam["path"])] = cam["path"]
-        if (cam.get("name") or "").strip():
-            where[cam["name"].strip()] = cam["path"]
+        if cam.get("path") and (cam.get("name") or "").strip():
+            called[cam["name"].strip()] = cam["path"]
     out = {}
     for row in (values.get("voices") or ()):
         name = (row.get("name") or "").strip()
         pick = row.get("camera") or ""
-        if name and pick in where:
-            out[name] = where[pick]
+        hit = next((p for p in paths if PROGRAM.camera_is(pick, p)),
+                   called.get(pick))
+        if name and hit:
+            out[name] = hit
     return out
 
 
@@ -254,9 +256,11 @@ def run_argv(values, assignment_file_path=""):
         for r in lines:
             blocks = list(r.get("blocks") or [])
             target = r.get("camera_choice") or ""
+            # The window answers with the path; a bare file name, as a
+            # hand-written order gives it, takes the first of that name.
             full = ""
             for p, a in files:
-                if a == "video" and os.path.basename(p) == target:
+                if a == "video" and PROGRAM.camera_is(target, p):
                     full = p
                     break
             camera_track = bool(r.get("own_audio"))

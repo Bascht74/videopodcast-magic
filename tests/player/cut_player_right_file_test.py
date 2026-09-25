@@ -93,7 +93,8 @@ IN_ORDER = ["/x/CoPresenter.mov", "/x/Guest.mov",
             "/x/Short.mov", "/x/WideCam.mov"]
 clip_kind_values = {"/x/Jingle.mp4": Value(vpm.TYPE_INTRO),
                     "/x/WideCam.mov": Value(vpm.TYPE_WIDE)}
-assign_lines = [(["/x/Guest.wav"], Value("Tr1"), Value("Guest.mov"))]
+# The camera as the window's chooser holds it: its path.
+assign_lines = [(["/x/Guest.wav"], Value("Tr1"), Value("/x/Guest.mov"))]
 remembered = {}
 start_var, end_var = Value(""), Value("")
 
@@ -120,7 +121,8 @@ rules = {"os": os, "picture_span": picture_span, "files": files,
          "clip_kind_values": clip_kind_values, "assign_lines": assign_lines,
          "start_var": start_var, "end_var": end_var, "remembered": remembered,
          "parse_time_point": vpm.parse_time_point,
-         "CAMERA_TYPES": vpm.CAMERA_TYPES}
+         "CAMERA_TYPES": vpm.CAMERA_TYPES, "path_key": vpm.path_key,
+         "MIX_ONLY": vpm.MIX_ONLY, "IGNORE_AUDIO": vpm.IGNORE_AUDIO}
 trouble = ""
 if block:
     try:

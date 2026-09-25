@@ -661,18 +661,25 @@ def name_in(recording):
     return None
 
 
+def named(value):
+    """A stored camera by its file name: the sheet holds its path."""
+    return os.path.basename(value) if isinstance(value, str) else value
+
+
 def camera_of(recording):
-    """Which camera that recording is assigned to, as the sheet has it."""
+    """Which camera that recording is assigned to, by its file name."""
     w = field_of(recording, vpm.T('belongs to'))
-    return None if w is None else w.currentData()
+    return None if w is None else named(w.currentData())
 
 
 def put_on_camera(recording, camera):
     """Pick that camera for that recording, the way a person picks it."""
     w = field_of(recording, vpm.T('belongs to'))
-    if w is None or w.findData(camera) < 0:
+    at = [i for i in range(w.count())
+          if named(w.itemData(i)) == camera] if w is not None else []
+    if not at:
         return False
-    w.setCurrentIndex(w.findData(camera))
+    w.setCurrentIndex(at[0])
     app.processEvents()
     return True
 
@@ -683,7 +690,7 @@ def cameras_offered(recording):
     if w is None:
         return "the row has no 'belongs to' field"
     return "%d cameras offered: %s" % (
-        w.count(), [w.itemData(i) for i in range(w.count())])
+        w.count(), [named(w.itemData(i)) for i in range(w.count())])
 
 
 def type_name(recording, text):

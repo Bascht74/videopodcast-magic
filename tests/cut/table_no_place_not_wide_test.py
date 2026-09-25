@@ -155,26 +155,26 @@ check("a Kind somebody picked is barred too where nothing places the file",
 print("\n4. The derivation stops at the same file")
 FILES = [(TAKEN, "video"), (GOOD, "video"), (LOST, "video")]
 KINDS = dict((p, vpm.Value(vpm.TYPE_CONTENT)) for p, _a in FILES)
-SPEAKER = {os.path.basename(TAKEN)}
+# The window's chooser holds a camera by its path.
+SPEAKER = {TAKEN}
 wides, said = vpm.wide_cameras_of(FILES, KINDS, {}, SPEAKER)
 check("a camera nobody sits in front of is the derived wide shot",
-      wides == [os.path.basename(GOOD), os.path.basename(LOST)]
-      and said is False, "%s, marked %s" % (wides, said))
+      wides == [GOOD, LOST] and said is False,
+      "%s, marked %s" % ([os.path.basename(w) for w in wides], said))
 wides, said = vpm.wide_cameras_of(FILES, KINDS, {}, SPEAKER, NOWHERE)
 check("but not one that sits nowhere",
-      wides == [os.path.basename(GOOD)] and said is False,
-      "%s, marked %s" % (wides, said))
+      wides == [GOOD] and said is False,
+      "%s, marked %s" % ([os.path.basename(w) for w in wides], said))
 check("so its Kind field does not show a wide shot it may not be",
-      vpm.kind_on_show(vpm.TYPE_CONTENT, os.path.basename(LOST),
-                       wides, said)[0] == vpm.TYPE_CONTENT,
-      "shows %r" % vpm.kind_on_show(vpm.TYPE_CONTENT,
-                                    os.path.basename(LOST), wides, said)[0])
+      vpm.kind_on_show(vpm.TYPE_CONTENT, LOST, wides, said)[0]
+      == vpm.TYPE_CONTENT,
+      "shows %r" % vpm.kind_on_show(vpm.TYPE_CONTENT, LOST, wides, said)[0])
 MARKED = dict(KINDS)
 MARKED[LOST] = vpm.Value(vpm.TYPE_WIDE)
 wides, said = vpm.wide_cameras_of(FILES, MARKED, {}, SPEAKER, NOWHERE)
 check("a mark stands even there, because a mark is an answer",
-      wides == [os.path.basename(LOST)] and said is True,
-      "%s, marked %s" % (wides, said))
+      wides == [LOST] and said is True,
+      "%s, marked %s" % ([os.path.basename(w) for w in wides], said))
 # Both bars at once: a file with no place that the derivation still
 # shows as the wide shot would carry two reasons, and one sentence over
 # both would explain neither.

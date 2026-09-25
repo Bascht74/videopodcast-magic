@@ -281,8 +281,9 @@ def choices_shut(box, shut, why, quiet, noted=None):
             return box
         box.setItemData(i, _qg.QBrush(_qg.QColor(quiet)) if barred else None,
                         _qt.ForegroundRole)
-        box.setItemData(i, reasons[value] if barred else notes.get(value, ""),
-                        _qt.ToolTipRole)
+        # An open camera keeps its whole path, which fill_choices set.
+        box.setItemData(i, reasons[value] if barred else notes.get(
+            value, value if PROGRAM.is_a_path(value) else ""), _qt.ToolTipRole)
     entries_say_why(box, dict((i, reasons[box.itemData(i)])
                               for i in range(box.count())
                               if box.itemData(i) in reasons))
@@ -760,7 +761,7 @@ def kind_cell_for(path, value, wides, said, placeless, kinds, quiet,
     intro and outro are free.
     """
     short = os.path.basename(path)
-    shown, why, derived = kind_on_show(value.get(), short, wides, said)
+    shown, why, derived = kind_on_show(value.get(), path, wides, said)
     cell, box = clip_kind_cell(short, shown, why, quiet, derived,
                                wide_shot_barred(path, value, placeless),
                                edge_kind_barred(path, kinds))
@@ -1731,14 +1732,13 @@ def audio_under_camera(camera_path, kind_of, done,
     kind = kind_of.get(camera_path)
     if kind is not None and kind.get() in (TYPE_INTRO, TYPE_OUTRO):
         return []
-    short = os.path.basename(camera_path)
     # The recordings first, then the voices under them: the raw sound
     # behind a voice is the recording it was heard in.
     rows = ([(row[0], nv, cv) for row, nv, cv in assign_lines]
             + [(voice_key_parts(key)[0], nv, cv)
                for key, nv, cv in voice_lines or ()])
     for source, nv, cv in rows:
-        if cv.get() != short:
+        if not PROGRAM.camera_is(cv.get(), camera_path):
             continue
         name = nv.get()
         if name and name in done:
@@ -1860,9 +1860,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         return
     # The cameras first, then the two special cases. MIX_ONLY: processed
     # and in the mix, but not the first track on any camera.
-    # IGNORE_AUDIO: left out entirely.
-    targets = ([os.path.basename(b) for b in videos]
-             + [MIX_ONLY, IGNORE_AUDIO])
+    # IGNORE_AUDIO: left out entirely. A camera is its path: two files
+    # of one name are two cameras, and the chooser shows them apart.
+    targets = list(videos) + [MIX_ONLY, IGNORE_AUDIO]
     wide = wide_bar_of(targets, *wide_cameras_now(),
                        aside=state.setdefault("wide_set_aside", {}))
     barred = wide["barred"]
@@ -1969,8 +1969,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             continue
         # Camera rows get the full selector too: a clip-on microphone
         # in one camera does not mean the person is filmed by it.
-        own_camera = (os.path.basename(from_camera or first)
-                      if camera_track else "")
+        own_camera = (next((b for b in videos if path_key(b) == path_key(
+            from_camera or first)), "") if camera_track else "")
         was = camera_after_a_mark("audio:" + first, old_camera, wide)
         picked, worked_out = camera_row_cameras(
             was, wide["pickable"], name_value.get(), videos,
@@ -2050,8 +2050,10 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     state["video_reason"] = video_reason
     taken = {}
     for _, nv, cv in assign_lines:
-        taken.setdefault(cv.get(), []).append(nv)
+        if PROGRAM.is_a_path(cv.get()):
+            taken.setdefault(path_key(cv.get()), []).append(nv)
     wides, said = wide_cameras_now()
+    shown = PROGRAM.camera_labels(videos)
 
     def kinds_refresh():
         """Say the Kind column again, with the wide shot as it is now.
@@ -2083,7 +2085,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     for row, b in enumerate(videos):
         short = os.path.basename(b)
         table_video.insertRow(row)
-        cell(table_video, row, 0, short)
+        # Named as the choosers name it, the whole path on the tooltip.
+        cell(table_video, row, 0, shown[b]).setToolTip(b)
         clip_kind = clip_kind_value(b)
         kind_cell, _kind_box = kind_cell_for(
             b, clip_kind, wides, said, state.get("no_place"),
@@ -2111,7 +2114,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         mine = own_audio_names.get(b) or []
         own_audio_name = mine[0] if mine else Value(
             remembered.get("ownname:" + b) or guess_camera_name(b))
-        own = list(taken.get(short) or [])
+        own = list(taken.get(path_key(b)) or [])
         if used:
             own += mine or [own_audio_name]
         multitrack_now = bool(state["multitrack"].get()) and not sync_only
