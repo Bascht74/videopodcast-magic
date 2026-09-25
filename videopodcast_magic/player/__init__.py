@@ -2242,18 +2242,22 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             wanted_value = offered if self.track_checkbox.isChecked() else None
             if not wanted_value:
                 self.track_path, self.track_blocks = None, []
+                self._track_basis = ""
                 self.track.stop()
                 self.track.setSource(QtCore.QUrl())
                 self.audio_adjust()
-                return
-            # A recording arrives as all its blocks; track_follow_up
-            # picks the one the picture stands in.
-            if list(wanted_value) != self.track_blocks:
-                self.track_blocks = list(wanted_value)
-                self.track_path = None
-            self._label_track()
-            self.audio_adjust()
-            self.track_follow_up()
+            else:
+                # A recording arrives as all its blocks; track_follow_up
+                # picks the one the picture stands in.
+                if list(wanted_value) != self.track_blocks:
+                    self.track_blocks = list(wanted_value)
+                    self.track_path = None
+                self._label_track()
+                self.audio_adjust()
+                self.track_follow_up()
+            # Said here as well: a paused player sends no tick, and the
+            # line went on telling of a sound no longer placed that way.
+            self.say_where(self.slider.value())
 
         def _label_track(self):
             """Label the checkbox with what is playing and how loud it is.
@@ -2308,6 +2312,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if not self.track_blocks:
                 return
             path, into, whose = self.track_where()
+            self._track_basis = whose
             if path is None:
                 # Not this recording's moment. Its first block stays
                 # ready but silent, against a picture it does not fit.
@@ -2453,6 +2458,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if not self._held:
                 self.slider.setValue(ms)
             self.track_watch()
+            self.say_where(ms)
+
+        def say_where(self, ms):
+            """Write the line under the picture for this position."""
             # Timecode on the left, playback position on the right. With a cut
             # in set it counts from there, negative before it, as in an editor.
             begins = self._limit(state["in_point"])

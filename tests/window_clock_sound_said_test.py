@@ -6,11 +6,13 @@ and by the clocks until then -- a whole clock error off, and nothing
 said it. With the assigned sound on under the camera, the line under
 the picture says the sound is placed by clock while the measurement is
 pending, stays a time where no sound is assigned at all, and gives way
-to the time again once the placing is measured.
+to the time again once the placing is measured. A paused player sends
+no position tick, so the line also follows the tick under the picture
+being put on and taken off, and the measurement arriving, without one.
 
-One ground: one camera file with one assigned track, and a stand-in
-for the player's own placing that answers by clock, then measured.
-What the real placing answers is not measured here.
+One ground: one camera file with one assigned track. A stand-in for
+the player's own placing answers by clock, then measured; the last
+section places for real, the camera's clock set by hand.
 """
 import os
 import sys
@@ -71,9 +73,13 @@ subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
                 TRACK], check=True)
 
 state = {"in_point": None, "out_point": None, "axis": {}}
+# The track's own clock, half a second before the camera's; read by the
+# real placing in the last section only.
+CAMERA_CLOCK = 100.0
+clocks = {TRACK: CAMERA_CLOCK - 0.5}
 (WindowSlider, VideoSurface, Player, NoPlayer) = vpm.make_player_widgets(
     QtCore, QtGui, QtWidgets, Qt, label, hint,
-    lambda *a, **k: None, lambda *a, **k: None, state)
+    lambda *a, **k: None, lambda p: clocks.get(p), state)
 
 player = Player()
 player.find_track = lambda path: [TRACK]
@@ -122,6 +128,60 @@ try:
     check("once measured the line gives way to the time",
           reading() != CLOCK_LINE and "0:00:02" in reading(),
           "the line says %r" % reading())
+
+    print("\n4. Paused: no position tick, the line follows all the same")
+    del player.track_where          # the player's own placing again
+    player.tc0 = CAMERA_CLOCK       # the fixture carries no timecode
+    state["axis"] = {}
+    ticks = []
+    player.player.positionChanged.connect(ticks.append)
+    player.track_checkbox.setChecked(False)
+    player.track_checkbox.setChecked(True)
+    app.processEvents()
+    check("the tick put on says the sound is placed by clock",
+          reading() == CLOCK_LINE and not ticks,
+          "the line says %r after %d position ticks"
+          % (reading(), len(ticks)))
+    before = reading()
+    player.track_checkbox.setChecked(False)
+    app.processEvents()
+    check("the tick taken off gives the line its time back",
+          before == CLOCK_LINE and reading() != CLOCK_LINE
+          and "0:00:0" in reading() and not ticks,
+          "the line said %r, then %r, after %d position ticks"
+          % (before, reading(), len(ticks)))
+
+    # The measurement arrives as the window takes it in: through the
+    # axis's own presenter, everything round the player a stand-in.
+    player.track_checkbox.setChecked(True)
+    app.processEvents()
+    arrive = []
+    bridge = type("Bridge", (), {})()
+    bridge.axis = type("Signal", (), {"connect": lambda s, f: arrive.append(f)})()
+    plan = type("Plan", (), {"begin": lambda *a: None,
+                             "done": lambda *a: None})()
+    nothing = lambda *a, **k: None
+    vpm.make_time_axis(
+        state=state, files=[], plan=plan, bridge=bridge,
+        bridge_emit=nothing, assign_lines=nothing, blocks_of=nothing,
+        real_tc=lambda p: clocks.get(p), HOP=5.0, prework_busy=nothing,
+        out_folder=None, production_var=None, commonest_folder=nothing,
+        project_move=nothing, project_collect=nothing,
+        settings_extend=nothing, axis_label=QtWidgets.QLabel(),
+        player=player, video_kind_again={}, kind_answered=nothing,
+        show_weak=nothing, tc_column_show=nothing,
+        player_follow_up=nothing, window_enable=nothing,
+        window_position_show=nothing)
+    before = reading()
+    arrive[0]({"axis": {vpm.path_key(CAMERA): 0.0,
+                        vpm.path_key(TRACK): -0.5},
+               "remembered": True}, "measured")
+    app.processEvents()
+    check("the measurement arriving gives the line its time back",
+          before == CLOCK_LINE and reading() != CLOCK_LINE
+          and "0:00:0" in reading() and not ticks,
+          "the line said %r, then %r, after %d position ticks"
+          % (before, reading(), len(ticks)))
 finally:
     try:
         player.track.stop()
