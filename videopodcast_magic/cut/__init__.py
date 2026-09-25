@@ -43,6 +43,7 @@ T = PROGRAM.T
 TYPE_CONTENT = PROGRAM.TYPE_CONTENT
 TYPE_WIDE = PROGRAM.TYPE_WIDE
 VERSION = PROGRAM.VERSION
+WIDE_LATEST_S = PROGRAM.WIDE_LATEST_S
 _intro_outro_entry = PROGRAM._intro_outro_entry
 _xml_escape = PROGRAM._xml_escape
 as_bad = PROGRAM.as_bad
@@ -1016,7 +1017,7 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     """
     rules = rules or cut_rules()
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
-                           min_len, -delay, rules)
+                           min_len=min_len, lead_in=-delay, rules=rules)
     if edge:
         cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint)
         cut = merge_short_shots(cut, min_len)
@@ -2820,8 +2821,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         segment_list, length, camera_of, wide_shot,
         args.min_edit_duration, getattr(args, "delay", 0.3),
         after=wide_after, holds=args.wide_length,
-        at_latest=getattr(args, "wide_latest", 120.0), edge=edges_on,
-        rules=rules, faint=PROGRAM.GUI_RUNNING)
+        at_latest=getattr(args, "wide_latest", WIDE_LATEST_S),
+        edge=edges_on, rules=rules, faint=PROGRAM.GUI_RUNNING)
     # What became of the questions. An omitted reaction cut that says
     # nothing looks like a broken setting; the answer is a number here.
     _said = question_report(rules)
@@ -2833,8 +2834,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             segment_list, length, camera_of, wide_shot,
             args.min_edit_duration, getattr(args, "delay", 0.3),
             after=0.0, holds=args.wide_length,
-            at_latest=getattr(args, "wide_latest", 120.0), edge=edges_on,
-            rules=rules))
+            at_latest=getattr(args, "wide_latest", WIDE_LATEST_S),
+            edge=edges_on, rules=rules))
     if wide_after > 0 and len(cut) > before_value and not PROGRAM.GUI_RUNNING:
         print(T('  %sx away from the speaker because a shot ran '
                 'longer than %s s')
