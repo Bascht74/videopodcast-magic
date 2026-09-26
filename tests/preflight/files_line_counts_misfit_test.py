@@ -5,11 +5,11 @@ A row the axis refused is red and says it does not fit; the line under
 the list may not say "nothing to fault" beside it. In order: refused
 rows counted as a fault in red, three blocks as one, a file placed by
 its timecode alone as a note, also beside a note of the check, one set
-to the intro as neither, nothing off the axis as nothing to fault, the
-line following the rows when they are painted again after the check,
-and "checking" kept while the check runs. Real widgets, rows marked by
-the program's own painter; the axis verdict is set by hand, and nothing
-reads a file.
+to the intro or left out as neither, nothing off the axis as nothing to
+fault, the line following the rows when they are painted again after
+the check, and "checking" kept while the check runs. Real widgets, rows
+marked by the program's own painter; the axis verdict is set by hand,
+and nothing reads a file.
 """
 import os
 import shutil
@@ -160,12 +160,18 @@ notes = vpm.T(' -- %s notes') % vpm.number_text(2, 0)
 check("a note of the check and one of the axis are counted together",
       line.text().endswith(notes), ends(notes))
 
-print("\n3. A file set to the intro")
+print("\n3. A file set to the intro, or left out")
 kinds[GUESTCAM] = Value(vpm.TYPE_INTRO)
 axis_says(weak=[GUESTCAM], nowhere=[GUESTCAM])
 fill_in([])
 quiet = vpm.T(' -- nothing to fault.')
 check("a file set to the intro is no fault in the line",
+      line.text().endswith(quiet), ends(quiet) + ", row ink %s"
+      % ink(GUESTCAM))
+kinds[GUESTCAM] = Value(vpm.TYPE_IGNORED)
+axis_says(weak=[GUESTCAM], nowhere=[GUESTCAM])
+fill_in([])
+check("a file set to be left out is no fault in the line",
       line.text().endswith(quiet), ends(quiet) + ", row ink %s"
       % ink(GUESTCAM))
 kinds[GUESTCAM] = Value(vpm.TYPE_CONTENT)
