@@ -1,6 +1,6 @@
 # The test suite
 
-407 tests against the program in `../videopodcast_magic/`. Every one of them stands
+408 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -248,7 +248,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-407 tests. The name is the one a red line carries, and beside it the
+408 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -570,6 +570,7 @@ it is green.
 | `window_speaker_langs7` | Whatever is written into the Speakers cell can be read, seventh slice. |
 | `window_speaker_langs8` | Whatever is written into the Speakers cell can be read, eighth slice. |
 | `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
+| `window_split_held_known` | Resolve cut measures no speakers while a stored separation still holds. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_stands_still` | Left alone, the window stops measuring and stops moving a Kind. |
 | `window_start_runs` | The start button must build a command line and start a run. |
@@ -753,7 +754,7 @@ the source, the texts and the documents as a whole.
 | `prework/` | `window_prework_box_goes` |
 | `project/` | `files_project_first`, `files_project_offered`, `project_close_forgets`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `project_ticks_come_back`, `window_restart_carries` |
 | `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `cut_own_rate_counted`, `cut_wide_colour_apart`, `project_amounts_grouped`, `project_audio_counted`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_markers_placed`, `project_mix_by_name`, `project_mixed_run_lands`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_run_lands_whole`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_top_rate_wins`, `project_two_stay_two`, `project_two_timelines_go` |
-| `resolvesheet/` | `window_cut_tab_by_voice`, `window_groups_make_room` |
+| `resolvesheet/` | `window_cut_tab_by_voice`, `window_groups_make_room`, `window_split_held_known` |
 | `running/` | `run_assign_file_gone`, `run_dry_leaves_out`, `run_window_run_agrees`, `window_overwrite_asked`, `window_start_runs`, `window_stop_always` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_in_keyring`, `auphonic_key_kept`, `auphonic_key_reg_shut`, `auphonic_key_typed`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |

@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3875** -- who speaks and when: the separation itself,
+* `speakers/` **3907** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -87,7 +87,7 @@ figure of the day is that command, not this paragraph**:
   `assignmentsheet/` and nothing else
 * `upkeep/` **724** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **839** -- the progress bar, the stages, the console and log
+* `herald/` **842** -- the progress bar, the stages, the console and log
   redirection, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
 * `pipeline/` **638** -- the plan: the camera audio out of the
@@ -100,7 +100,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **436** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `resolvesheet/` **619** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **620** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **392** -- the colours, the marks that say what kind a line
