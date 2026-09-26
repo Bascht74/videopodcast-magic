@@ -1,6 +1,6 @@
 # The test suite
 
-406 tests against the program in `../videopodcast_magic/`. Every one of them stands
+407 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -248,7 +248,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-406 tests. The name is the one a red line carries, and beside it the
+407 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -581,6 +581,7 @@ it is green.
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
 | `window_voice_audio_heard` | A camera hears its voice; the wide shot, the one recording of every voice. |
 | `window_words_caught_up` | The window writes its own transcript once the axis stands, and uses it. |
+| `window_zero_as_run` | A relative mark means in the window what it means in the run. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what a press then means. |
 
 ### `table_` -- the assignment table
@@ -762,7 +763,7 @@ the source, the texts and the documents as a whole.
 | `stowage/` | `run_choice_kept` |
 | `timebase/` | `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named` |
 | `timecode/` | `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_over_midnight` |
-| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard` |
+| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
 
 ### Under `resolve/live/` -- beside a running DaVinci Resolve

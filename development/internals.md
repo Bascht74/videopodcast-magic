@@ -42,10 +42,10 @@ figure of the day is that command, not this paragraph**:
   marks on the assignment table, and the speaking-time table
 * `ui/` **3186** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3151** -- the moving picture: the player, the cut band,
+* `player/` **3157** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3212** -- who is on camera when, and what carries it out
+* `cut/` **3237** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2628** -- the DaVinci Resolve project, timelines, colour,
@@ -56,7 +56,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **1832** -- the time base and the camera files: every
+* `timebase/` **1837** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -108,7 +108,7 @@ figure of the day is that command, not this paragraph**:
 * `colour/` **364** -- what a video file says about its colour: the
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
-* `tables/` **348** -- the tables and trees the window builds
+* `tables/` **367** -- the tables and trees the window builds
 * `running/` **425** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
@@ -118,7 +118,7 @@ figure of the day is that command, not this paragraph**:
 * `filesheet/` **290** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
   production strip with the output folder
-* `assignmentsheet/` **256** -- the second tab: the assignment boxes,
+* `assignmentsheet/` **258** -- the second tab: the assignment boxes,
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it

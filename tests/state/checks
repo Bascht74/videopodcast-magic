@@ -323,7 +323,7 @@ time_short_cam_found	6
 time_sound_stays_put	31
 time_thin_block_refused	8
 time_track_starts_late	8
-time_tracks_alone	36
+time_tracks_alone	37
 time_tracks_sit_together	4
 time_unheard_file_named	8
 time_weak_as_run	7
@@ -436,4 +436,5 @@ window_tracks_seen_anew	5
 window_view_reaches_tabs	10
 window_voice_audio_heard	6
 window_words_caught_up	23
+window_zero_as_run	10
 window_zoom_stays_in	32
