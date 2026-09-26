@@ -9,90 +9,75 @@ order: 20
 # Writing or changing a test
 
 `development/test_guidelines.md` says **why** all of this is so. This
-says **how, and in what order**: the sections carry the mechanism, the
-measurement and the case, and the twelve questions at the end carry what
-has to be answered before the test is finished. Neither says what the
-other says. The worked cases behind sections 5b, 5c and 5d stand in
-`.claude/skills/test-neu/cases.md`.
+says **how, and in what order**; the questions at the end carry what has
+to be answered before the test is finished. The measured case behind a
+rule stands in the case book, `.claude/skills/test-neu/cases.md`, under
+the number of its section here.
 
 ## Before any of it: should this check exist at all?
 
-Everything below decides **where** a check goes and **how** it is
-written. This decides **whether**. It comes first because it is the
-only question that can save all the rest.
+This decides **whether**, before everything below decides where and how.
 
 **Do not write a check because something was changed.** Write one where
-there is something that could break without anybody noticing, and say
-in one sentence **what it protects**. A function that only hands its
-argument on, a wrapper that adds no judgement of its own, a value read
-straight back out of a dictionary: those break loudly or not at all.
+something could break without anybody noticing, and say in one sentence
+**what it protects**. A function that only hands its argument on, a
+wrapper with no judgement of its own, a value read straight back out of
+a dictionary: those break loudly or not at all.
 
-**And here a needless check costs more than almost anywhere else.** It
-owes a counter-proof, a deliberately broken copy, a run against it, a
-row in the register -- and it is then read by everybody who comes after.
-Elsewhere a useless test is a file; here it is a chain.
-
-**When you are not sure, do not write it.** Describe the check and what
-it would catch, and let the owner decide. That costs one sentence and
-is reversible; the chain above is neither.
+**Here a needless check costs a chain**: a counter-proof, a deliberately
+broken copy, a run against it, a row in the register -- and everybody
+who comes after reads it. **When you are not sure, do not write it.**
+Describe the check and what it would catch, and let the owner decide;
+that costs one sentence and is reversible.
 
 ## 1. Where it belongs
 
 **A section inside an existing test is the rule; a new file is the
-exception.** What costs is not the check, it is the ground under it:
-starting Python, importing a megabyte and a half of program, bringing Qt
-up, letting ffmpeg build a piece of material. Whoever has already built
-that ground can ask it a twentieth question for nothing.
-
-Look at what is there first. The second line of every file is its claim,
-and all of them together stand in the table at the end of
-`tests/README.md`, sorted under the twelve prefixes.
+exception.** What costs is the ground, not the check: starting Python,
+importing the program, bringing Qt up, letting ffmpeg build material.
+Whoever has built that ground can ask it a twentieth question for
+nothing. Look first: the second line of every file is its claim, and all
+of them stand in the table at the end of `tests/README.md`, sorted under
+the twelve prefixes.
 
 **It joins an existing file only if all three are yes:**
 
-* **The same claim.** The new check fits under the existing first line
-  without that line needing an "and".
-* **The same ground.** It questions what already stands, instead of
-  building a second lot of material beside it.
+* **The same claim.** It fits under the existing first line without an "and".
+* **The same ground.** It questions what stands, instead of building
+  a second lot of material beside it.
 * **The same name.** The file name stays true without growing vaguer.
 
-**One no means a new file**, even though the ground then gets built
-twice. One file, one claim beats the saving: a file that claims two
-things has a name that conceals one of them, and at the next rebuild
-somebody clears the concealed one away.
+**One no means a new file**, even though the ground is then built twice:
+a file that claims two things has a name that conceals one, and at the
+next rebuild somebody clears the concealed one away.
 
-**A new file owes a row in that table, and the row is not written by
-hand.** `python3 overview.py` writes the whole table out of the
-docstrings; `text_tests_listed_test.py` holds it against the files, so
-a list that was not written back turns the suite red instead of going
-quietly stale. Renaming a test and rewording its first line need the
-same step.
+**A new file owes a row in that table, never written by hand.**
+`python3 overview.py` writes it out of the docstrings, and
+`text_tests_listed_test.py` holds it against the files. Renaming a test
+and rewording its first line need the same step.
 
 **A new file lies in the folder of the piece it checks** --
-`tests/<piece>/`, where `<piece>` is the folder under
-`videopodcast_magic/` whose logic the test judges, so that a piece and
-its checks are found side by side. Two kinds of folder are no piece:
-`tests/source/` holds the tests that read the source, the texts and
-the documents as a whole, and a `live/` folder under a piece the tests
+`tests/<piece>/`, `<piece>` being the folder under `videopodcast_magic/`
+whose logic it judges. Two kinds of folder are no piece:
+`tests/source/` holds the tests that read the source, the texts and the
+documents as a whole; a `live/` folder under a piece holds the tests
 that talk to what the suite only stands in for -- `tests/resolve/live/`
 a running Resolve, `tests/auphonic/live/` auphonic.com. `run.sh` never
 takes them; `tests/<piece>.sh` starts them on the owner's OK, and their
 counter-proofs stand in a `counterproof` beside them. `tests/resolve/`
-itself is the piece's, like any other. `tests/samples/` holds
-checked-in material and no test.
-`run.sh` finds a test by its name wherever it lies, and the preamble
-every test opens with finds `tests/` from there -- copy it from any
-test, word for word.
+itself is a piece like any other; `tests/samples/` holds checked-in
+material and no test. `run.sh` finds a test by name wherever it lies,
+and the preamble every test opens with finds `tests/` from there -- copy
+it from any test, word for word.
 
 **Under the docstring stands `PLATFORM_BOUND = True` or `False`: a new
-test sets it, and a changed test has it looked at again.** False means
-the verdict cannot differ between Linux, macOS, Windows or the two
-Pythons -- the test reads the repository or calls the program in
-memory -- and the test then runs once, on the builder's neutral job,
-instead of on all six. The day it starts a process, opens a window,
-writes a file whose path or lock matters, or asks the platform, it is
-True; in doubt, True. `source_platform_declared` holds the spelling and
-the imports.
+test sets it, a changed test has it looked at again.** False means the
+verdict cannot differ between Linux, macOS, Windows or the two Pythons
+-- the test reads the repository or calls the program in memory -- and
+it then runs once, on the builder's neutral job. The day it starts a
+process, opens a window, writes a file whose path or lock matters, or
+asks the platform, it is True; in doubt, True.
+`source_platform_declared` holds the spelling and the imports.
 
 ## 2. What it is called
 
@@ -104,57 +89,48 @@ files_  sound_  time_  voice_  cut_  project_
 auphonic_  window_  table_  run_  text_  source_
 ```
 
-**The rule that settles every borderline case: the prefix says where
-the fault would sit, not what the material is about.** A test about
-channels whose fault would show in the table is `table_…`, not
-`sound_…`. Whoever reads the red line should know which part of the
-program is broken without opening the file.
+**The prefix says where the fault would sit, not what the material is
+about** -- that settles every borderline case. A test about channels
+whose fault would show in the table is `table_…`, so whoever reads the
+red line knows which part is broken without opening the file.
 
 **The second half is a claim, not a thing:** `atom_travels`, not
-`log_atom`. A thing in the name covers every check that has anything to
-do with that thing — including one that measures something else
-entirely. **If the claim does not fit in two or three words, it is two
-claims**, and it is split rather than shortened back to a thing.
+`log_atom`. A thing covers every check that touches it, including one
+that measures something else. **If the claim does not fit in two or
+three words, it is two claims**, and it is split, not shortened back to
+a thing.
 
 ## 3. The docstring
 
-**The first line states what holds when the test is green** — not what
-it does. At most 79 characters including the three quotes, so that this
-line alone decides whether a red run concerns the reader.
+**The first line states what holds when the test is green**, not what
+it does -- at most 79 characters including the three quotes, so that
+this line alone decides whether a red run concerns the reader.
 
-Under it, in eight lines: the sections in the order they come, and a
-sentence about the limit of the method where there is one. **No number
-that would have to travel** — "six things" over seven blocks is a second
-place wanting maintenance, and it always loses. **So the blocks carry
-names, not numbers**; and where they are numbered after all, the
-numbering is the one the test itself prints, copied from there.
-
-What else does not belong in it: a date, a name, a path, the road that
-led there, and a number out of a single run. All of that ages, and no
-line is helped by it.
+Under it, in eight lines: the sections in the order they come, and the
+limit of the method where there is one. **No number that would have to
+travel** -- "six things" over seven blocks is a second place wanting
+maintenance, and it always loses. **So blocks carry names, not
+numbers**; where they are numbered after all, it is the numbering the
+test itself prints. Nor a date, a name, a path, the road that led there,
+or a number out of a single run: all of that ages.
 
 **Head and checks are held against each other in both directions, and
 it is looked up, not assumed** -- every claim of the first line has a
-`check`, and every `check` appears in the head. The seventeen tests that
-checked less than their docstring promised were all green, and every
-question in the closing list caught at least one of them, except the
-fourth and the seventh, which are there to stop the next one.
+`check`, and every `check` appears in the head (the seventeen that
+failed this: the case book, §3).
 
-**And the head is reread whenever the test changes**, because a wrong
-docstring sends every reader in the wrong direction, and it is the
-likeliest reason a hole goes unnoticed for years. A note in it saying
-"this step is red" goes out with the repair, rather than waiting for the
-next tidy-up.
+**The head is reread whenever the test changes**: a wrong docstring
+sends every reader the wrong way and is the likeliest reason a hole
+survives for years. A note saying "this step is red" goes out with the
+repair, not at the next tidy-up.
 
 ## 4. The judgements
 
-**Model: `tests/cut/table_no_place_not_wide_test.py`.** Eighteen checks on
-one piece of ground, the canonical `check`, the canonical closing
-lines. Canonical is what a new test is written to, not what the folder
-already does: of the closing lines 46 say `ALL OK` and 69 `All good.`,
-and the `check` shape below stands in five files of a hundred and
-forty-five. The field is uneven; write to the canon and leave the rest.
-Whoever is unsure what a line should look like reads it there.
+**Model: `tests/cut/table_no_place_not_wide_test.py`** -- eighteen checks
+on one piece of ground, the canonical `check` and closing lines.
+Canonical is what a new test is written to, not what the folder already
+does (it is uneven: the case book, §4); write to the canon and leave the
+rest. Unsure what a line should look like, read it there.
 
 ```python
 began = time.time()
@@ -170,23 +146,21 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 ```
 
-**A verdict is a `check`, never a bare `assert`.** A bare `assert`
-throws a traceback instead of a readable line, stops at the first
-failure and hides everything behind it, carries no numbers, and is not
-counted. It is allowed for a precondition of the material that says
-nothing about the program, and then the comment beside it says that is
-what it is.
+**A verdict is a `check`, never a bare `assert`.** An `assert` throws a
+traceback instead of a line, stops at the first failure and hides the
+rest, carries no numbers, and is not counted. It is allowed for a
+precondition of the material that says nothing about the program, with
+a comment beside it saying so.
 
-**A `check` name is the sentence that lands in the report**, and it is
-read when nothing else is left: `check("a marked camera is the wide shot
-even with a speaker on it", …)`, not `check("wide shot", …)`. **The rule
-of §2 holds for it too**: a claim, and the part of the program it names
-is the part the fault would sit in.
+**A `check` name is the sentence that lands in the report**, read when
+nothing else is left: `check("a marked camera is the wide shot even with
+a speaker on it", …)`, not `check("wide shot", …)`. **§2 holds for it
+too**: a claim, naming the part the fault would sit in.
 
 **No logic in a test.** A loop that computes the expectation usually
-computes it as wrongly as the program does. **So what the test expects
-stands there as a value** — and where it really has to be computed, then
-by a different route than the program takes.
+computes it as wrongly as the program. **What the test expects stands
+there as a value** -- and where it has to be computed, by a different
+route than the program takes.
 
 **The closing lines are always the same, and every path leads past
 them:**
@@ -197,28 +171,25 @@ print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)
 ```
 
-**One line per judgement, and the closing line sums them up** — the
-report shows that summary first, so it has to name every check that
-fell and not only how many, which is what collecting them in `bad` is
-for.
-
-**And where a test reaches no verdict at all** -- because it only builds
-something, or only prints -- the docstring says so and the closing line
-says so, rather than leaving a reader to read `0 checks` as a pass.
+**One line per judgement, and the closing line names every check that
+fell**, not only how many -- the report shows that summary first, which
+is what `bad` is for. **Where a test reaches no verdict at all** (it only
+builds or prints), docstring and closing line say so, rather than let
+`0 checks` read as a pass.
 
 **Every path means the crashed one and the concurrent one.** Where a
-timer or a window runs alongside, the test ends in **one** place and
-that place asks the count: a second timer that stops the run after a
-deadline otherwise sends the test out with 0 although it crashed on its
-first step.
+timer or a window runs alongside, the test ends in **one** place that
+asks the count; otherwise a second timer that stops the run after a
+deadline sends it out with 0 although it crashed on its first step.
 
 ## 5. What belongs in the FAIL line
 
 **On someone else's machine, only what stands in the line itself
 exists.** Six builder jobs, and all that comes back are the lines that
-look like a failure; everything printed before is gone, and the run
-cannot be repeated. **So: expected and actual, as numbers. The third
-argument is not optional.**
+look like a failure; the rest is gone and the run cannot be repeated.
+**So: expected and actual, as numbers. The third argument is not
+optional.** Numbers, not adjectives: "too short" says nothing, "0.31 s
+against 0.80 s" says everything.
 
 ```python
 # right
@@ -229,199 +200,153 @@ check("the shot does not fall below the minimum", shortest >= limit,
 check("the shot does not fall below the minimum", shortest >= limit)
 ```
 
-Numbers, not adjectives: "too short" says nothing, "0.31 s against
-0.80 s" says everything.
-
-**And the line names the first thing that was wrong, not a
-consequence.** Where a claim rests on a precondition -- the player was
-running, the file appeared -- the precondition is a check of its own and
-stands before it; otherwise the line reports that the camera did not
-switch while in truth nothing ever played.
+**The line names the first thing that was wrong, not a consequence.**
+Where a claim rests on a precondition -- the player was running, the
+file appeared -- that is a check of its own and stands before it;
+otherwise the line says the camera did not switch while nothing ever
+played.
 
 ## 5b. Three shapes of a blind judgement
 
-Twenty-two judgements were found green and testing nothing in one night,
-and they fall into three shapes. **Ask these of every judgement while
-you write it, before the counter-proof and not after:**
+**Ask these of every judgement while you write it, before the
+counter-proof and not after:**
 
 * **Does it hold A against A?** One pure function, one argument, called
-  twice. It proves that the function is deterministic, nothing about the
-  ordering, the comparison or the rule it is named after.
-* **Does it repeat a guard above it?** Four lines up the code already
-  demanded it and waited. Then nothing happens, and the judgement asks
-  the same thing again. Per construction always true.
+  twice: it proves determinism, nothing about the rule it is named after.
+* **Does it repeat a guard above it?** The code already demanded and
+  waited for it; the judgement asks again and is true by construction.
 * **Does a second net repair the fault before it looks?** Take the guard
-  away and the program puts it right on a later pass, or the fixture
-  happens to give the right answer for the wrong reason.
+  away and a later pass puts it right, or the fixture gives the right
+  answer for the wrong reason.
 
 **All three are invisible from the source.** Only a broken copy finds
-them -- which is why the counter-proof is the rule and not the polish.
-What each of the three looked like when it was found, with its numbers,
-is in `.claude/skills/test-neu/cases.md`.
+them -- which is why the counter-proof is the rule, not the polish.
 
 ## 5c. A judgement that forbids the repair
 
-**And the other direction: does the judgement forbid the repair?** The
-three shapes above check nothing. This one checks the wrong thing: it is
-green while a fault stands in the program and goes red the moment
-somebody fixes it.
+**The other direction: the judgement is green while a fault stands and
+goes red the moment somebody fixes it.** It is dearer than a blind one,
+because it **costs the next person their improvement**: they build what
+the head asks for, see red, and believe they broke something.
 
-It is the more expensive of the two, because a blind judgement costs
-nobody anything and this one **costs the next person their
-improvement**. They read the head of the file, build what it asks for,
-see red, and believe they broke something. It was found twice in one
-day, independently, and both cases are in
-`.claude/skills/test-neu/cases.md`.
-
-**The question to ask: if the thing this judgement describes were put
-right tomorrow, would the judgement still be true?** Where the answer is
-no, the judgement is describing today's state as though it were the
-contract. It says what the program does; it must not say what the
-program may never stop doing.
-
-**Where a judgement really does have to pin a fault** -- because
-something downstream depends on it -- that stands in the docstring, in
-words, so the next person reads it before the red line.
+**Ask: if the thing this judgement describes were put right tomorrow,
+would the judgement still be true?** If not, it describes today's state
+as though it were the contract. It says what the program does, never
+what the program may never stop doing. **Where a judgement really has to
+pin a fault**, because something downstream depends on it, the docstring
+says so in words, so the next person reads it before the red line.
 
 ## 5d. A guard that eats the judgement
 
-**Does a guard above it ask what the judgement below asks?** A wait or a
-precondition put in front of a check to give a better failure line can
-demand exactly the thing the check demands -- and then the check never
-runs. The file still counts it, the register still holds a row for it,
-and nobody is told. Found twice in one day, 2.9.2026, and both stand in
-`.claude/skills/test-neu/cases.md`.
+**Does a guard above it ask what the judgement below asks?** A wait or
+precondition put in for a better failure line can demand exactly what
+the check demands -- and then the check never runs, while the file still
+counts it and the register still holds its row.
 
-**Neither is visible to `source_checks_proved`:** it sees a wording
-that has gone, not a judgement that can no longer be reached. **So this
-one is asked by hand, and the cheapest way to ask it is to run the
-row's own recorded break and count the checks.** If the count comes out
-short, a guard ate the judgement.
-
-**The repair is not to drop the guard.** A guard that gives a better
-failure line is worth keeping -- it has to **give up into** the
-judgement rather than instead of it: wait, then judge either way, and
-let the line say which of the two happened.
+**`source_checks_proved` cannot see it** -- it sees a wording that has
+gone, not a judgement that can no longer be reached. **So ask it by hand:
+run the row's own recorded break and count the checks.** Short means a
+guard ate the judgement. **The repair keeps the guard** and lets it
+**give up into** the judgement rather than instead of it: wait, then
+judge either way, and let the line say which of the two happened.
 
 ## 6. Waiting
 
 **On a condition, never on the clock.** A fixed pause costs time in
-every run for ever, and it lies in both directions: too short and it
-falls on a loaded machine, too long and nobody notices it is waiting for
-something that never comes.
+every run for ever and lies both ways: too short, it falls on a loaded
+machine; too long, nobody notices it waits for something that never
+comes. **The shape: a short interval, the condition, a generous upper
+bound** -- the interval is what the normal case loses, the bound is
+never reached and so free.
 
-The shape is always the same: **a short interval, the condition, and a
-generous upper bound.** The interval is the time lost in the normal
-case; the bound is never reached in the normal case and is therefore
-free.
+**Measure how long nothing has changed, not how long the step took.**
+The builder is about nine times slower than this machine (the case book,
+§6). Standstill does not punish the slow machine, and it catches what a
+deadline cannot: a hang while time is left.
 
-**What is measured is how long nothing has changed, not how long the
-step has taken.** The builder is about nine times slower than this
-machine -- measured on 31.8.2026 over twelve tests, median 8.7, never
-below 5. Standstill does not punish the slow machine, and it
-additionally catches the case a deadline cannot see: something hanging
-while there is still time left.
-
-**A usable sign of life changes because the program is working.** A
-progress bar that creeps along by itself is not one: it moves whether
-anything happens or not. "The window is still up" is not one. Usable are
-a value the step itself writes, a file that appears, a number that
-rises, a state the program reports outright.
-
-Where timeout and arrival return the same value, the test carries on and
-measures something half-finished, so they must be told apart.
+**A usable sign of life changes because the program is working** -- a
+value the step writes, a file that appears, a number that rises, a state
+the program reports outright. A progress bar that creeps by itself is
+not one, nor "the window is still up". **Timeout and arrival must be
+told apart** where they return the same value, or the test carries on
+measuring something half-finished.
 
 **A step's own deadline stays under the whole run's**, so a slow machine
-learns which step never came and not merely that the total time is up.
-**And exhausted patience is red, not green**, with a line saying how
-long it waited and what never came.
+learns which step never came. **Exhausted patience is red, not green**,
+with a line saying how long it waited and what never came.
 
 **A fixed pause is allowed while a test is being written, and nowhere
-else.** What the condition has to be is worth measuring rather than
-guessing a number that looks safe: put a probe on a copy and see when
-the thing really happens. Then the pause goes out again.
+else.** Measure what the condition has to be -- a probe on a copy, see
+when the thing really happens -- then the pause goes out again.
 
 ## 7. Leaving something out
 
 **A skipped test is not a green one.** It prints `SKIPPED:` on a line of
-its own, `run.sh` counts it apart, and the summary names it — `green: 50
-skipped: 1`. A `sys.exit(0)` in passing is the same lie: a test that
-bows out because its material is missing and returns 0 cannot be told
-from one that checked everything. **The reason stands in that line: what
-is missing, and what would bring it back** — "no test project" is not a
-reason, "no test project — point `VPM_MEDIA` at a folder with …" is one.
+its own, `run.sh` counts it apart, and the summary names it -- `green:
+50 skipped: 1`. A `sys.exit(0)` because material is missing is the same
+lie. **The reason says what is missing and what would bring it back** --
+not "no test project", but "no test project -- point `VPM_MEDIA` at a
+folder with …".
 
-There are two ways to say a section was left out, and they are counted
-differently:
+Two ways to say a section was left out, counted differently:
 
-* **`SKIPPED:` is the loud one, and it carries the fraction.**
+* **`SKIPPED:` is the loud one, with the fraction.**
   `tests/language/text_no_german_left_test.py` prints `SKIPPED: %d of
   %d sections ran in full` and ends on `Good as far as it went -- %d of %d
-  sections.` in place of `All good.` The run then counts that test as
-  skipped, so it goes against the ratchet below.
+  sections.` instead of `All good.`; the run counts it as skipped, so it
+  goes against the ratchet.
 * **A line beginning `LEFT OUT` is the quiet one.** `run.sh` keeps the
   test green, prints `ok, but left a piece out`, and repeats the line
-  underneath — so the piece is named without the whole test being
-  written off.
+  underneath.
 
 **How much may be left out is a ratchet.** `SKIPS_ALLOWED` in `run.sh`
-holds the number; it may fall, never rise. A run that skips more returns
-1 **although every check in it was green**, because it then proved less
-than the run that set the number. So a new skip is never free.
+may fall, never rise; a run that skips more returns 1 **although every
+check was green**, because it proved less. A new skip is never free.
 
-**What no machine can run is removed; what one machine cannot run is
-set aside by name.** The tests a single builder job cannot run are
-listed in `.github/workflows/tests.yml` — a Windows registry on Linux, a
-`#!/bin/sh` stand-in on Windows, a German dictation asset the macOS
-runner does not carry. That step moves them out of `tests/` before the
-suite starts, with the reason beside each and the count printed, so they
-never reach the skip ratchet.
+**What no machine can run is removed; what one machine cannot run is set
+aside by name** in `.github/workflows/tests.yml` -- a Windows registry
+on Linux, a `#!/bin/sh` stand-in on Windows, a German dictation asset
+the macOS runner lacks. That step moves them out of `tests/` before the
+suite, with the reason beside each and the count printed, so they never
+reach the ratchet.
 
 ## 8. Cleaning up
 
 **`tempfile.mkdtemp()`, never a fixed path.** The run points `TMPDIR` at
-one folder per run and throws it away at the end.
+one folder per run and throws it away. A fixed path collides when two
+tests run side by side, outlives the run, and ties one run's result to
+the last -- **it has already poisoned a test**, whose project file left
+every following run in a question nobody answered.
 
-A fixed path collides the moment two tests run side by side, it outlives
-the run, and it makes one run's result depend on the last one's. **It has
-already poisoned a test:** the program put its project file there, and
-every following run walked into a question nobody answered.
+**Leave nothing a second run can find** -- not in the cache, the
+preferences store or the keychain. What the test sets, it puts back.
+**Never delete what the test did not create** -- not `tests/state/`, not
+the shared fixture folders, not the project material. Fixture folders
+are built once before the fan-out and only read afterwards; writing into
+them builds the next wobble.
 
-**Leave nothing behind that a second run can find** — not in the cache,
-not in the preferences store, not in the keychain. What the test sets,
-it puts back.
-
-**Never delete anything the test did not create itself.** Not
-`tests/state/`, not the shared fixture folders, not the material in the
-project folder. The fixture folders are built once before the fan-out and
-only read afterwards; writing into them builds the next wobble.
-
-**And nothing goes outside.** No network, no upload, no asking whether a
-newer version is out. **Where a connection has to be checked, the place
-that opens it is replaced** — the check is then about what the program
-does with the answer, and the weather is no longer part of the result.
+**Nothing goes outside.** No network, no upload, no update check.
+**Where a connection has to be checked, the place that opens it is
+replaced** -- the check is then about what the program does with the
+answer, and the weather is no longer part of the result.
 
 ## 8b. What the tree looks like where it runs
 
-**Never take the folder for the whole of what exists.** Three red runs in
-one day came from that one assumption, each in a different disguise:
+**Never take the folder for the whole of what exists** -- three red runs
+in one day came from that assumption:
 
-* **The builder sets tests aside** (§7), so counting what lies in the
-  folder answers fewer on Windows than here -- 143 against 145 when that
-  was counted. **Ask the repository, not the folder** -- `git ls-files`
+* **The builder sets tests aside** (§7), so counting the folder answers
+  fewer on Windows than here. **Ask the repository** -- `git ls-files`
   knows what belongs to the suite whatever was moved; a file that is
-  there is read from there, so uncommitted work still counts, and only a
-  file that was set aside is read out of the last commit.
+  there is read from there, so uncommitted work counts, and only a file
+  set aside is read out of the last commit.
 * **The working notes are not shipped.** `docs/notes/` is in
-  `.gitignore` on purpose, so it is present here and absent on every
-  clone. A check that resolved paths against it was green here and red on
-  all six.
+  `.gitignore`, present here and absent on every clone; a check that
+  resolved paths against it was red on all six.
 * **A snapshot has nothing beside it.** Under `VPM_SCRIPT` the program
-  is a copy in `/tmp`, and what the program looks for next to itself --
-  the log, the project file -- is not there. The speaker model is the
-  exception since 4.9.2026: it lies inside the program's own folder and
-  travels with a `cp -R` of it. Two tests sat out silently for months on
-  that.
+  is a copy in `/tmp`, and the log and project file it looks for beside
+  itself are not there. The speaker model is the exception: it lies in
+  the program's own folder and travels with a `cp -R` of it.
 
 **The proof is a clone, and it costs one command:**
 
@@ -430,61 +355,37 @@ d=$(mktemp -d) && git archive HEAD | tar -x -C "$d" \
     && ( cd "$d" && git init -q && git add -A )
 ```
 
-**Neither the `git init` nor the `git add` is tidiness, and the second
-is the one that was missing.** A plain `tar -x` tree has no `.git`, and
-`source_no_real_names` then skips with "no git here -- this asks the
-repository what it ships, and a folder cannot answer it". The full
-suite already spends its one allowed skip on `auphonic_key_kept`, so
-this makes two, and the run comes back red with nothing red in it.
-
-**An empty repository is not enough**, and that sentence stood here
-wrongly until 6.9.2026 -- it cost two people an hour on one night. The
-check asks `git ls-files`, which reads the **index**, and `git init`
-leaves it empty. Measured on the same clone, one test, twice:
-
-```
-git init only    : git ls-files counts 0     green: 0  skipped: 1
-plus git add -A  : git ls-files counts 406   green: 1  red: 0
-```
-
-Run the test in that tree. What is green there is green on the builder;
-what needs the notes, a snapshot's neighbours or a full folder shows
-itself at once, here, instead of four minutes later on six machines.
+**Neither the `git init` nor the `git add` is tidiness.** Without `.git`,
+`source_no_real_names` skips, and with the one allowed skip already spent
+on `auphonic_key_kept` the run comes back red with nothing red in it.
+**An empty repository is not enough either**: the check asks `git
+ls-files`, which reads the index, and `git init` leaves it empty
+(measured: the case book, §8b). Run the test in that tree: what is green
+there is green on the builder, and what needs the notes, a snapshot's
+neighbours or a full folder shows itself here, not four minutes later.
 
 ## 8c. A number that is also in the program is not written down twice
 
-**Fetch it from there.** A test that spells out what the program says
-is green until the program says something else, and then it is red for
-a reason that is not a fault.
+**Fetch it from there.** A test that spells out what the program says is
+green until the program says something else, and then red for a reason
+that is not a fault. **The version number is the dearest**: it moves
+once per release, and the test looks green every day in between -- it
+has cost a release its first attempt (the case book, §8c).
 
-**The version number is the dearest of them**, because it moves exactly
-once per release and the test looks green every day in between.
-Measured 6.9.2026, and it cost a release its first attempt:
-`run_way_back_offered` held a stand-in list of releases that spelled
-out `v3.0.0b0` to `v3.0.0b4`. The hour VERSION became `3.0.0b5`, the
-note an install writes named a release the list did not hold, and all
-six machines went red on work that was otherwise finished.
-
-**And the repair is measured against a different number, not against
-today's.** The first fix took the list from `VERSION` and was green --
-and would have held for exactly one release, because the point the
-list was *asked from* was still written down. That only showed against
-a copy set two releases ahead.
-
-So: derive it, and prove the derivation by moving the number.
+**The repair is measured against a different number, not today's**: a
+fix that derives the value but still writes down the point it is asked
+from holds for exactly one release. So: derive it, and prove the
+derivation by moving the number -- a copy set two releases ahead.
 
 ## 9. Visible texts
 
 **What a user sees goes through `T()`, and the German lives in
 `language/de.po` inside the program's folder, read by
-`language/__init__.py` into `CATALOGUE`.** If the check
-brings a new string into the program, both sides change, or
-`text_no_german_left_test.py` turns red.
-
-**A text is never written out literally in a test.** A button is found
-through `vpm.T('Add files ...')`, and the test sets `vpm.set_language(
-"en")` at the top. A literal ties the check to one language and one
-wording.
+`language/__init__.py` into `CATALOGUE`.** A new string changes both
+sides, or `text_no_german_left_test.py` turns red. **A text is never
+written out literally in a test**: a button is found through
+`vpm.T('Add files ...')`, with `vpm.set_language("en")` at the top. A
+literal ties the check to one language and one wording.
 
 ## 10. Running it
 
@@ -496,7 +397,7 @@ cd tests && bash run.sh <name_without_test_py>
 
 Called by hand it lacks `LANG=C LC_ALL=C LANGUAGE=en`, `TMPDIR`,
 `VPM_FIXTURES`, `VPM_SILENT`, `VPM_NO_SPEAKER_SPLIT`,
-`VPM_NO_UPDATE_CHECK` — and then red or green is a statement about the
+`VPM_NO_UPDATE_CHECK` -- and then red or green is a statement about the
 environment and not about the program.
 
 **That list stands here, in `gegenbeweis` and in `test-rot`, and the
@@ -505,13 +406,10 @@ the other two, and a wrongly set `LANGUAGE` costs an hour. Do not tidy
 it away.
 
 A test is green when it returns 0 and prints neither a traceback nor
-`FAIL`. **Never claim it is green without having run it.**
-
-**A test that measures real time cannot share the machine.** Playing a
-second of sound takes a second; beside eleven others it took sixteen,
-and no amount of waiting fixes that. Such a test goes into `ALONE_ONLY`
-in `run.sh` by name and runs by itself at the end, when everything else
-is done.
+`FAIL`. **Never claim it is green without having run it.** **A test that
+measures real time cannot share the machine** -- a second of sound took
+sixteen beside eleven others -- so it goes into `ALONE_ONLY` in `run.sh`
+by name and runs alone at the end.
 
 ## 11. The counter-proof
 
@@ -523,55 +421,39 @@ you to answer is points 6 to 8.
 ## 11b. When no judgement changes
 
 A closing line, a diagnosis, a reason beside a skip, a tidier temporary
-folder: none of these touch what the test claims, so the entry in
-`tests/state/counterproof` stands and nothing is owed. The register hangs
-on **the first argument of every `check(...)`**, nothing else -- leave
-those alone and the fingerprint does not move.
+folder: none touch what the test claims, so the entry in
+`tests/state/counterproof` stands and nothing is owed. The register
+hangs on **the first argument of every `check(...)`**, nothing else --
+leave those alone and the fingerprint does not move. Three things are
+still looked at:
 
-Two things still have to be looked at, and both have caught somebody
-out:
-
-**Is the name already taken?** The counter template prints `done = 0`
-and `global done`. In one test `done` already stood for something else,
-and `%d` against `None` would have ended the file in a traceback instead
-of a verdict -- the line would have broken the test it was meant to
-secure.
-
-**Does `run.sh` read the new line as something else?** It greps the
-output for `^FAIL`, `[Ee]rror`, `^SKIPPED:` and `^ *(LEFT OUT|Left out)`.
-A printed line that begins with any of those changes the verdict of the
-whole test, however harmless it looks.
-
-And know what the line is worth: **nothing reads the count.** Not
-`run.sh`, not another test, no ratchet. A test whose checking part dies
-quietly prints `0 checks in 2.7 s`, then `All good.`, and leaves green.
-The line tells a person who looks; it becomes a check the day the number
-is held against a floor, and then it owes a counter-proof like any
-other.
+* **Is the name already taken?** The counter template brings `done = 0`
+  and `global done`; where `done` already means something else, the line
+  ends the file in a traceback (the case book, §11b).
+* **Does `run.sh` read the new line as something else?** It greps for
+  `^FAIL`, `[Ee]rror`, `^SKIPPED:` and `^ *(LEFT OUT|Left out)`; a
+  printed line beginning with any of those changes the whole verdict.
+* **Nothing reads the count.** Not `run.sh`, not a test, no ratchet: a
+  test whose checking part dies quietly prints `0 checks`, then `All
+  good.`, and leaves green. The line becomes a check the day the number
+  is held against a floor, and then it owes a counter-proof.
 
 ## 12. What a change costs in the register
 
 **When an entry goes void and has to be earned again -- *what* is
-checked against *how* it looks, and why the register draws that line
-over the wordings -- is in the `gegenbeweis` skill.** Call it; do not
-copy it out.
+checked against *how* it looks -- is in the `gegenbeweis` skill.** Call
+it; do not copy it out.
 
-**One case belongs here, because it is a rule about writing a test and
-nowhere else: a check whose name is computed hides from all of it.** The
-register collects the string constants inside the first argument, so
-`check("%s names this version" % name, ...)` leaves one wording for
-four checks -- and the row cannot say which of the four was ever seen
-red. Two such checks stood in `text_release_ready_test.py` for versions
-with no entry possible, and nothing said so: the ratchet counts tests
-missing a row, and that test had rows for its other checks.
-
-So **write the name out, once per check, even where a loop is
-shorter.** A loop over four file names is four lines saved and four
-counter-proofs lost.
+**One rule belongs here: a check whose name is computed hides from the
+register.** It collects the string constants in the first argument, so
+`check("%s names this version" % name, ...)` leaves one wording for four
+checks, and the row cannot say which was ever seen red (the case book,
+§12). So **write the name out, once per check, even where a loop is
+shorter** -- four lines saved are four counter-proofs lost.
 
 ## Before it counts as done
 
-**Twelve questions, answered one by one and not skimmed.**
+**Thirteen questions, answered one by one and not skimmed.**
 
 1. **Assert** (§4). Every verdict through `check`, never a bare `assert`?
 2. **Head and checks agree** (§3). Both directions, and looked up?
@@ -592,8 +474,8 @@ counter-proofs lost.
     way back, and the count under `SKIPS_ALLOWED`?
 11. **It cleans up, and does not take the folder for the world** (§8,
     §8b). Has the clone been run, with `git init` and `git add -A` in it?
-15b. Does any judgement spell out a number the program also holds --
-    the version above all? Taken from there, and proved by moving it
-    (§8c)?
-12. **The head has been reread** (§3). Does its first line still
+12. **No number written twice** (§8c). Does any judgement spell out a
+    number the program also holds -- the version above all? Taken from
+    there, and proved by moving it?
+13. **The head has been reread** (§3). Does its first line still
     describe what the test claims today?
