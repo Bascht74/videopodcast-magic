@@ -57,8 +57,11 @@ Mikrofonen über die Stimme bestimmt, nach dem Dienst wie ohne ihn.
 
 Wo eine Tatsache fehlt, sagt das Fenster es, statt eine Antwort
 entgegenzunehmen, die nichts bewirkt. Die Einstellungen, die die Worte
-brauchen, und die, die einen Weitwinkel brauchen, stehen gesperrt, mit
-dem Grund darunter, und sie öffnen sich wieder, sobald die Tatsache da
+brauchen, sind schon vor dem ersten Lauf offen: Steht die Zeitachse,
+schreibt das Fenster die Niederschrift im Hintergrund. Bis sie da ist,
+oder wo die Spracherkennung abgeschaltet oder gescheitert ist, stehen
+sie gesperrt, mit dem Grund darunter, ebenso wie die, die einen
+Weitwinkel brauchen, und sie öffnen sich wieder, sobald die Tatsache da
 ist.
 
 Das Protokoll neben dem Programm sagt, was ein Lauf außerhalb von sich
@@ -74,11 +77,14 @@ Jede Sprache, die das Fenster anbietet, sagt alles: ihr Katalog hat
 für jeden der rund 1600 Texte des Programms eine
 Antwort, die Zeilen eines Laufs und den Schritt nach Resolve
 eingeschlossen. Was jede Sprache beantwortet, wird bei jedem Push
-gezählt und darf nur wachsen, und jede wird an allem gemessen.
+gezählt und darf nur wachsen. Ob die Texte ins Fenster passen, wird bei
+jedem Push für Englisch und Deutsch gemessen und im Lauf vor einer
+Freigabe für jede Sprache; ein Text, der dort abgeschnitten ist, wird
+für die nächste Fassung notiert und hält diese nicht auf.
 
 Es ist ein Python-Programm: ein Ordner, `videopodcast_magic/`, in dem
 eine kleine Datei liegt, mit der das Programm startet, daneben
-sechsunddreißig Stücke in je einem eigenen Ordner und das Sprechermodell.
+dreiundvierzig Stücke in je einem eigenen Ordner und das Sprechermodell.
 Installiert wird es mit `pip3 install git+...`, zu bauen ist daran
 nichts. Eine einzelne Datei zu holen und zu starten war bis zum 4.9.2026
 der zweite Weg hinein und ist keiner mehr -- eine Kopie ohne den übrigen
@@ -86,22 +92,31 @@ Ordner bleibt schon beim Import stehen. Python 3.10 oder neuer muss da
 sein und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
 mitbringen kann; jedes Python-Paket, das es braucht, steht auf der
 Liste, die pip liest, und kommt mit der Installation. Benutzt wird es
-unter macOS und Windows, unter Linux läuft es mit zwei Einschränkungen.
+unter macOS und Windows, und es läuft auch unter Linux; dort liegt der
+Auphonic-Schlüssel im Schlüsselbund des Desktops, erreicht über
+`secret-tool`.
 
 **Bis zum 4.9.2026 war es eine Datei, und jetzt ist es ein Ordner.**
 Zuerst gingen die Texte heraus, je Sprache eine Datei, und in den drei
 Tagen danach folgte der Rest: die Datei, mit der das Programm startet,
-hatte an jenem Tag 37 535 Zeilen und hat jetzt 784, und das größte
-Stück, das Fenster, hat 4544. Für jeden, der daran arbeitet, folgt
-daraus nur eines -- das Programm wird als Ordner kopiert, nie als die
-Datei darin. Eine Suite aus 361 Tests läuft bei jedem Push: sechs Läufe
+hatte an jenem Tag 37 535 Zeilen und hat jetzt 811. Das Fenster, lange
+das größte Stück, ist mit 3.0.0b26 auseinandergenommen worden: in ein
+Hauptfenster, je ein Stück für jeden seiner vier Reiter und ein Modell
+der Produktion, aus dem die Projektdatei, der Start eines Laufs und die
+Dateiliste lesen; was davon übrig ist, hat 3206 Zeilen, und das größte
+Stück ist jetzt das, das die Sprecher auseinanderhält, mit 3847. Die
+Zuordnungstabelle und die Zeitbasis des Laufs sind auf dieselbe Weise
+eigene Stücke geworden. Für jeden, der daran arbeitet, folgt daraus nur
+eines -- das Programm wird als Ordner kopiert, nie als die Datei darin.
+Eine Suite aus 401 Tests läuft bei jedem Push: sechs Läufe
 nebeneinander, drei Systeme und zwei Python-Versionen. Daneben liegen
-vier weitere, die ein echtes Resolve brauchen und nirgends sonst laufen
-können. Die sechs sind nicht gleich schnell, und der langsame ist
-Windows: bei 3.0.0b24 brauchte der langsamste der sechs 1067 Sekunden,
-Windows mit Python 3.10, und in den sieben grünen Läufen, gemessen am
-3.9.2026, war es jedes Mal ein Windows-Lauf. Gewartet wird auf diesen einen, nicht
-auf die Summe der sechs.
+acht weitere, die nirgends sonst laufen können: vier brauchen ein
+echtes Resolve, vier auphonic.com selbst. Die sechs sind nicht gleich
+schnell, und der langsame ist Windows: bei 3.0.0b24 brauchte der
+langsamste der sechs 1067 Sekunden, Windows mit Python 3.10, und in
+den sieben grünen Läufen, gemessen am 3.9.2026, war es jedes Mal ein
+Windows-Lauf. Gewartet wird auf diesen einen, nicht auf die Summe der
+sechs.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
@@ -111,14 +126,16 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-**Die nächsten fünf Fassungen, kurz.** 3.0.0b26 nimmt das Fenster in
-Stücke auseinander -- das Hauptfenster, je Reiter ein Stück und ein
-Modell des Projekts, aus dem alle lesen --, teilt die Zuordnungstabelle
-und die Kette des Laufs ebenso und lässt die Tests gegen auphonic.com
-und ein echtes Resolve auf der Maschine des Eigners laufen. 3.0.0b27
-bringt die erste Hälfte der Tests über den ganzen Weg und behebt, was
-das Fenster sichtbar noch falsch macht. 3.0.0b28 macht die Zeitachse
-und die Übergabe an Resolve genauer, mit der zweiten Hälfte dieser
+**Die nächsten vier Fassungen, kurz.** 3.0.0b26 hat getan, was
+vorgesehen war: Die Fassung hat das Fenster in Stücke
+auseinandergenommen, die Zuordnungstabelle und die Kette des Laufs
+ebenso geteilt und neben den Tests gegen ein echtes Resolve Tests gegen
+auphonic.com gebaut -- beide
+laufen nur auf der Maschine des Eigners, wenn eine Änderung sie
+verlangt. Die ersten Tests über den ganzen Weg hat sie außerdem
+vorgezogen. 3.0.0b27 bringt die Tests über den ganzen Weg weiter und
+behebt, was das Fenster sichtbar noch falsch macht. 3.0.0b28 macht die
+Zeitachse und die Übergabe an Resolve genauer, mit dem Rest dieser
 Tests. 3.0.0b29 öffnet mehr von den Auphonic-Optionen, nimmt mehr als
 zwei Kanäle, ersetzt gesetzte Schwellen durch gemessene und zeigt die
 Vorschau in HDR. 3.0.0b30 gibt dem Programm einen eigenen Tonweg, ohne
@@ -136,17 +153,27 @@ Reiter 3, der richtige Schnitt mitsamt einer schon vorhandenen
 Sprechererkennung, der Lauf selbst, der Import nach Resolve. Das ist ein
 Punkt und keine Liste von fünfzig: Wer ihn anfasst, deckt einen der
 sieben Schritte ganz, denn nach Nummer abgearbeitete Lücken geben je
-einen Test und zusammen keinen Weg. Die Erhebung, die diese Lücken
-gezählt hat, ist mehrere Fassungen alt, und das meiste, was sie nannte,
-ist seither gedeckt — sie lohnt sich noch einmal, bevor darauf gebaut
-wird.
+einen Test und zusammen keinen Weg. Vier der sieben haben seit
+3.0.0b26 ihren Test -- Dateien kommen herein, der Schnitt mitsamt einer
+schon vorhandenen Sprechererkennung, der Lauf selbst und der Import
+nach Resolve, dieser gegen eine Attrappe --, und ein fünfter Test hält
+die Zuordnungstabelle; jeder lässt dieselbe Produktion einmal aus dem
+Fenster und einmal von der Kommandozeile laufen und hält beides
+gegeneinander. Das Öffnen des Programms, In und Out und der Wechsel auf
+Reiter 3 stehen noch aus. Ein Test von In und Out an einer
+29,97-Kamera hat gefunden, dass die Marke des Fensters etwa drei Bilder
+zu spät landet, und was daraus folgt, ist noch nicht entschieden. Die
+Erhebung, die diese Lücken gezählt hat, ist mehrere Fassungen alt, und
+das meiste, was sie nannte, ist seither gedeckt — sie lohnt sich noch
+einmal, bevor darauf gebaut wird.
 
 **Tests gegen ein echtes DaVinci Resolve.** In der Suite können sie
 nicht stehen: Auf einer Maschine ohne Resolve wäre jeder von ihnen rot
 aus einem Grund, der kein Fehler ist. Sie liegen daneben, in einem
 eigenen Ordner mit einem eigenen Starter, den die Suite nicht kennt, und
 sie laufen einer nach dem anderen auf der einen Maschine, auf der
-Resolve steht. Vier sind gebaut, und drei davon laufen jetzt auch gegen
+Resolve steht, und nur, wenn sie mit `bash resolve.sh --go` gestartet
+werden. Vier sind gebaut, und drei davon laufen jetzt auch gegen
 das unbenannte Projekt, mit dem Resolve aufmacht — also nach jedem
 Start. Der Vorspann gehört hierher: das Programm legt ihn auf die zweite
 Videospur und liest nach, wie viele Clips dort liegen, und eine Attrappe
@@ -161,9 +188,13 @@ Produktion wird angelegt, ohne sie zu starten, die Ausgabedateien werden
 zurückgelesen, auf jeder wird die Faltung auf Mono gestrichen, und das
 Ganze geht noch einmal hin — also zwei Aufrufe. Mehrere Aufnahmen gehen
 über die volle Schnittstelle, die denselben Wunsch gleich in die eine
-Anfrage setzt. Keiner der beiden ist je wirklich hinausgegangen, und
-einer vertritt den anderen nicht. Bis das gelaufen ist, beschreibt das
-Handbuch diese zwei Wege aus dem Quelltext statt aus einem Lauf.
+Anfrage setzt. Der erste Weg hat jetzt einen Test gegen den Dienst,
+neben dreien, die die Presets holen, einen Schlüssel schicken, den
+niemand hat, und eine kurze Mono-Datei durchlaufen lassen; sie starten
+nur mit `bash auphonic.sh --online`. Der zweite Weg hat noch keinen
+eigenen Test, und einer vertritt den anderen nicht. Bis beide gelaufen
+sind, beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt
+aus einem Lauf.
 
 **Der Reaktionsschnitt wird gesichtet, bevor er scharf bleibt.** Er
 greift ein paar Dutzend Mal in einer Folge und ist voreingestellt an,
@@ -194,20 +225,10 @@ Gröber, und in keiner festen Reihenfolge.
   Ein dritter, ein Resolve, das sich weigert, gehört zu den Tests gegen
   ein echtes Resolve weiter oben.
 
-* **Die letzte lange Definition bekommt ihre Beschreibung.** Die Kommentare
-  im Programm haben bekommen, was die Tests schon hinter sich hatten:
-  Kommentar und Docstring sind von knapp einem Drittel der Zeilen auf
-  ein Viertel gefallen, und die Stellen, an denen ein Kommentar länger
-  läuft, als die Regeln wollen, von 104 und 141 auf je sieben. Übrig
-  ist die umgekehrte Lücke. Von den acht Definitionen mit hundert
-  Zeilen und mehr, die gar keine Beschreibung trugen, ist eine übrig --
-  die, die die Vorschau des Schnitts ausrechnet, 117 Zeilen --, und eine
-  Prüfung hält diese Zahl fest, sodass sie nur noch fallen kann.
-
-* **Das Handbuch bekommt, was ihm fehlt.** Rund ein Dutzend Zahlen
-  stehen noch ohne ihre Vorgabe und ohne die Richtung, in die sie
-  ziehen. Und eine veröffentlichte Adresse, sobald jemand eine zum
-  Weitergeben braucht.
+* **Eine veröffentlichte Adresse für das Handbuch**, sobald jemand
+  eine zum Weitergeben braucht. Das Dutzend Zahlen darin, das ohne seine
+  Vorgabe und ohne die Richtung stand, in die es zieht, hat beides
+  jetzt.
 
 ## Was wir nicht vorhaben
 
@@ -263,7 +284,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Generator machte daraus eine Liste von Betreffzeilen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Das wären vier
-  neue Abhängigkeiten für ein Programm, dessen 361 Tests als schlichte
+  neue Abhängigkeiten für ein Programm, dessen 401 Tests als schlichte
   Scripts durchlaufen. Eine dünne pytest-Schicht, die genau diese
   Scripts unverändert startet, ist etwas anderes und kann kommen.
 
@@ -334,8 +355,9 @@ Aufnahme unter welches Bild gelegt wurde, und wie jede Datei zu ihrem
 Platz auf der Zeitachse kam.
 
 **Der Auphonic-Schlüssel gehört nie in eine Meldung.** Auf dem Mac hält
-das Programm ihn im Schlüsselbund, unter Windows in der Registry; unter
-Linux speichert es ihn gar nicht. Die Projektdatei enthält keine
+das Programm ihn im Schlüsselbund, unter Windows in der Registry und
+unter Linux im Schlüsselbund des Desktops; wo Linux keinen hat,
+speichert es ihn gar nicht. Die Projektdatei enthält keine
 Befehlszeile, also steht er auch dort nicht drin, und ein Lauf von der
 Kommandozeile nimmt den abgelegten; `--store-auphonic-key` fragt ihn
 dort ab, wo das Terminal ihn nicht anzeigt, er steht also in keinem
