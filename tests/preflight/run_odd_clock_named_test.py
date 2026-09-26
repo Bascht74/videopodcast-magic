@@ -52,9 +52,12 @@ check("and it is the recorder standing apart", one
       out[0].file if out else "nothing reported")
 check("said as a hint, not as a fault", one and out[0].kind == "hint",
       out[0].kind if out else "nothing reported")
+# Longer than the column: cut in the middle, both ends of the name kept.
 check("the field names the file it is about", one
-      and out[0].field == "Full-Mix-016_Zoom",
-      repr(out[0].field) if out else "nothing reported")
+      and out[0].field.startswith("Full-")
+      and out[0].field.endswith("Zoom.wav") and len(out[0].field) <= 17,
+      "shown %r for %r" % (out[0].field if out else "nothing reported",
+                           data[0]["name"]))
 check("the text carries both clocks", one
       and "00:00:48:00" in out[0].text and "17:14:13:00" in out[0].text,
       out[0].text[:46] if out else "nothing reported")
