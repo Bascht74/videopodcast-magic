@@ -159,10 +159,11 @@ CUT_CHOICES = (
      (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
      'and no camera shows exactly them',
      'Cutting into a jumble looks frantic.'),
-    # Directly above "Recognition uncertain", easily taken for it:
-    # nobody speaking is not recognition being unsure, and this case
-    # decides a fifth of the running time against three thousandths.
-    ("on-silence", 'Nobody speaks', SHOT_WIDE,
+    # Directly above "Recognition uncertain", easily taken for it: this
+    # case decides a fifth of the running time against three thousandths.
+    # A breath is held by default, as most silence is a pause inside one
+    # person's speech; a saved project keeps the answer it holds.
+    ("on-silence", 'Nobody speaks', SHOT_HOLD_BRIEF,
      (SHOT_WIDE, SHOT_HOLD_BRIEF, SHOT_HOLD),
      'no voice is heard at all here',
      ('A breath in the middle of a sentence and the end of a thought '

@@ -570,9 +570,9 @@ def cut_rules(**over):
            "on_monologue": SHOT_ALTERNATE,
            "on_together": SHOT_WIDE,
            "on_uncertain": SHOT_WIDE,
-           # The wide shot, as it always was. A setting that moves the
-           # cut of every project already made belongs to whoever cuts.
-           "on_silence": SHOT_WIDE,
+           # A breath is held, a longer silence goes wide. A project
+           # saved before keeps the answer it holds in its own file.
+           "on_silence": SHOT_HOLD_BRIEF,
            "silence_hold": SILENCE_HOLD_S,
            "on_question": SHOT_ANSWER,
            "reaction_lead": 1.5,

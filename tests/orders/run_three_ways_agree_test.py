@@ -93,7 +93,7 @@ CUT = {"min-edit-duration": "2.5", "min-speech-to-switch": "0.9",
        "wide-length": "6", "wide-most": "12", "silence-hold": "1.7",
        "on-question": vpm.SHOT_LISTENER, "on-monologue": vpm.SHOT_WIDE,
        "on-together": vpm.SHOT_HOLD, "on-uncertain": vpm.SHOT_LISTENER,
-       "on-silence": vpm.SHOT_HOLD_BRIEF}
+       "on-silence": vpm.SHOT_WIDE}
 
 # Precondition of the material again: not one of the answers is the
 # built-in default. A command line that quietly fell back to the
