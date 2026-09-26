@@ -191,9 +191,10 @@ def run_argv(values, assignment_file_path=""):
     argv += camera_label_argv(files, off)
     if values.get("out_folder"):
         argv += ["--out", values["out_folder"]]
-    # No switch means "take it from the source files", as on the line.
-    if values.get("lufs") is not None:
-        argv += ["--lufs", "%g" % values["lufs"]]
+    # The line levels to -16 unless told otherwise, so the window's
+    # "Take from source files" has to say so in words.
+    argv += ["--lufs", LUFS_UNCHANGED if values.get("lufs") is None
+             else "%g" % values["lufs"]]
     if (values.get("speech_language") or "").strip():
         argv += ["--speech-language", values["speech_language"].strip()]
     # Blocks taken out by hand; without this the run joins them again.
@@ -770,15 +771,16 @@ def build_argument_parser():
     ap.add_argument("--anyway", action="store_true",
                     help="run even where the preflight found a reason to "
                          "stop.")
-    ap.add_argument("--lufs", type=float, default=None,
+    ap.add_argument("--lufs", type=lufs_argument, default=LUFS_DEFAULT,
                     help="loudness the sum of all speaker tracks is brought "
                          "to. The same gain goes on every track, so their "
-                         "balance is kept. Usual values: %s. Without it "
-                         "nothing is adjusted: the sound is taken from the "
+                         "balance is kept. Usual values: %s. \"--lufs %s\" "
+                         "adjusts nothing: the sound is taken from the "
                          "source files as it is, and auphonic.com goes on "
-                         "doing what its preset says. (default: none)"
-                    % ", ".join("%.0f = %s" % (lufs, what)
-                                for lufs, what in PLATFORMS.values()))
+                         "doing what its preset says. (default: %g)"
+                    % (", ".join("%.0f = %s" % (lufs, what)
+                                 for lufs, what in PLATFORMS.values()),
+                       LUFS_UNCHANGED, LUFS_DEFAULT))
     ap.add_argument("--assign", default=None, metavar="FILE",
                     help="JSON file holding which audio track belongs to "
                          "which camera. The interface writes it; this is how "
@@ -858,6 +860,26 @@ def build_argument_parser():
 _SHOWN = [ByFile()]
 
 
+# The line levels to -16 as the window does; this word leaves it alone.
+LUFS_DEFAULT = -16.0
+LUFS_UNCHANGED = "source"
+
+
+def lufs_argument(text):
+    """Read --lufs: a number, or LUFS_UNCHANGED for None.
+
+    None is what the window's "Take from source files" holds, and what
+    every step after the parser reads as "adjust nothing".
+    """
+    if text.strip().lower() == LUFS_UNCHANGED:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            "a number in LUFS, or %s" % LUFS_UNCHANGED)
+
+
 def cameras_shown_as(pairs):
     """Take the window's camera names for this run, [(file, name), ...]."""
     _SHOWN[0] = ByFile((file_path, name.strip())
@@ -894,8 +916,8 @@ def cut_slider_defaults():
             out.append(("--" + api_key, field, float(default_value)))
         except ValueError:
             continue
-    # None like the switch itself: no --lufs in the stored call means the
-    # run took the loudness from the source files, not that it took -16.
+    # None, not the line's -16: the project file's own "lufs", which the
+    # window always writes, is asked first, and null there means "source".
     out.append(("--lufs", "lufs", None))
     # And two numbers the run takes that the window has no field for.
     # Out of CUT_FIELDS alone they are not recovered, and the rules fall

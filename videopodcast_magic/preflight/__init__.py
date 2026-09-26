@@ -1287,7 +1287,7 @@ def check_loudness_target(args, videos=()):
     """
     if getattr(args, "lufs", None) is None:
         return [Finding("good", T('Loudness'),
-                       T('taken from the source files, no --lufs given -- '
+                       T('taken from the source files, --lufs source -- '
                          'nothing is adjusted'))]
     near = [n for n, (lufs, _) in PLATFORMS.items() if abs(lufs - args.lufs) < 0.05]
     # as_written, as in loudness_choices: in Arabic script the minus

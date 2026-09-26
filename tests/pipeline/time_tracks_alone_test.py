@@ -238,7 +238,9 @@ open(CURL_CALLS, "w").close()
 #-------------------------------------- 1. With --multitrack: an axis
 
 print("1. Two recordings, no picture: they are laid against each other")
-p = subprocess.run(CALL + ["--multitrack", "--out", D + "/run",
+# No target, said in words: without --lufs the line levels to -16.
+p = subprocess.run(CALL + ["--multitrack", "--lufs", "source",
+                           "--out", D + "/run",
                            D + "/Host.wav", D + "/Guest.wav"],
                    capture_output=True, text=True, env=ENV)
 # Kept under a second name as well: section 2 writes over `log`, and the
@@ -495,13 +497,14 @@ check("the number itself still stands in the line",
       bool(target) and "-16 LUFS" in target[0],
       repr(target[0][:70]) if target else "no Loudness line at all")
 # The other side of the rule, and it has to be asked of the same path:
-# the run of section 1 is --multitrack without --lufs, and there neither
-# line may stand. Asked of the joined run instead it was true twice over
+# the run of section 1 is --multitrack with --lufs source, and there
+# neither line may stand. Asked of the joined run instead it was true twice over
 # -- no --lufs and no --multitrack -- and could not have gone red.
 loose = [x.strip() for x in axis_log.splitlines()
          if "--lufs does nothing here" in x or "nothing is adjusted here" in x]
-check("without --lufs neither line is printed", not loose,
-      "%d such lines in the run without --lufs: %s" % (len(loose), loose[:2]))
+check("with --lufs source neither line is printed", not loose,
+      "%d such lines in the run with --lufs source: %s"
+      % (len(loose), loose[:2]))
 check("and the one predicate governs both messages",
       vpm.lufs_does_nothing(vpm.build_argument_parser().parse_args(
           ["--multitrack", "--lufs", "-16", "x.wav"]), ()) is True,
