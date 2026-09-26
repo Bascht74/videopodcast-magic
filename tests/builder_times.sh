@@ -38,13 +38,16 @@
 # of the others, and a queue ordered by yesterday's slowest machine
 # orders nothing.
 #
-#   bash builder_times.sh                     the newest green run on main
+#   bash builder_times.sh                     the green run of the version
+#                                             HEAD says it is
 #   bash builder_times.sh <run id>            a named run
 #   JOB='macos-latest / py3.10' bash ...      one named machine
 #   bash builder_times.sh --record <version> [<run id>]
 #                                             the same, and a section for
 #                                             that release appended to
 #                                             development/test_durations.md
+#   bash builder_times.sh --dry-run ...       writes nothing: prints what
+#                                             state/longest would hold
 #
 HERE=$(cd "$(dirname "$0")" && pwd)
 # A German desk writes 171,0 for awk's 171.0, and the next release reads
@@ -53,6 +56,11 @@ export LC_ALL=C
 LONGEST="$HERE/state/longest"
 DURATIONS="${VPM_DURATIONS:-$HERE/../development/test_durations.md}"
 RECORD=
+DRY=
+if [ "$1" = "--dry-run" ]; then
+  DRY=1
+  shift
+fi
 if [ "$1" = "--record" ]; then
   RECORD="$2"
   shift 2
@@ -76,26 +84,38 @@ version_of() {
     | sed -n 's/^VERSION = "\(.*\)"$/\1/p' | head -1
 }
 
-# A release's record has to come from that release's run. The newest
-# green run on main is not it while the merge's own run is still going:
-# 3.0.0b24's times were read at 21:41 and came from 3.0.0b23's main run,
-# because b24's finished at 21:53 (26.9.2026). So the run is found by
-# the version its commit carries, on any branch, and a named one is
-# held to it too.
-if [ -n "$RECORD" ] && [ -z "$RUN" ]; then
+# The run is found by the version its commit carries, on any branch --
+# for the record and for the queue alike. The newest green run on main
+# is not it while the merge's own run is still going: 3.0.0b24's times
+# were read at 21:41 and came from 3.0.0b23's main run, because b24's
+# finished at 21:53 (26.9.2026). Without --record the version is the
+# one HEAD says it is. A run named for a record is held to it too.
+WANT=$RECORD
+if [ -z "$WANT" ] && [ -z "$RUN" ]; then
+  WANT=$(git -C "$HERE" show HEAD:videopodcast_magic/__init__.py 2>/dev/null \
+         | sed -n 's/^VERSION = "\(.*\)"$/\1/p' | head -1)
+  if [ -z "$WANT" ]; then
+    echo "could not read VERSION from videopodcast_magic/__init__.py at HEAD;"\
+         "name a run: bash builder_times.sh <run id>" >&2
+    exit 2
+  fi
+fi
+if [ -n "$WANT" ] && [ -z "$RUN" ]; then
   for pair in $(gh run list --workflow tests --status success --limit 20 \
                   --json databaseId,headSha \
                   --jq '.[] | "\(.databaseId):\(.headSha)"' 2>/dev/null); do
-    if [ "$(version_of "${pair#*:}")" = "$RECORD" ]; then
+    if [ "$(version_of "${pair#*:}")" = "$WANT" ]; then
       RUN=${pair%%:*}
       break
     fi
   done
   if [ -z "$RUN" ]; then
     echo "no green run among the last 20 stands on a commit that says"\
-         "VERSION = \"$RECORD\". Name one: --record $RECORD <run id>" >&2
+         "VERSION = \"$WANT\" -- has its run finished? Or name one:"\
+         "bash builder_times.sh ${RECORD:+--record $RECORD }<run id>" >&2
     exit 2
   fi
+  echo "green run of $WANT: $RUN"
 elif [ -n "$RECORD" ]; then
   sha=$(gh run view "$RUN" --json headSha --jq .headSha 2>/dev/null)
   said=$(version_of "$sha")
@@ -104,18 +124,6 @@ elif [ -n "$RECORD" ]; then
          "not \"$RECORD\" -- that is another release's run" >&2
     exit 2
   fi
-fi
-if [ -z "$RUN" ]; then
-  # --workflow, not just the newest green run on main: since 5.9.2026
-  # a second workflow answers there -- the one that takes a deleted
-  # branch's caches with it -- and it has no test job at all. Without
-  # the name this asked that run for its slowest test and got 'null'.
-  RUN=$(gh run list --branch main --status success --workflow tests \
-        --limit 1 --json databaseId --jq '.[0].databaseId' 2>/dev/null)
-fi
-if [ -z "$RUN" ]; then
-  echo "no green run found on main" >&2
-  exit 2
 fi
 
 # The slowest job of this run, by wall clock, unless one was named.
@@ -195,15 +203,23 @@ suite=$(cd "$HERE" && ls *_test.py */*_test.py 2> /dev/null \
     END { for (n in seen)
             if (index(suite, " " n " "))
               printf "%s %d\n", n, seen[n] }' \
-  | sort > "$LONGEST.new" && mv "$LONGEST.new" "$LONGEST"
-after=$(awk '{ s += $2 } END { print s+0 }' "$LONGEST")
+  | sort > "$LONGEST.new" || exit 2
+if [ -n "$DRY" ]; then
+  echo "--dry-run: state/longest left as it is; it would hold:"
+  sed 's/^/  /' "$LONGEST.new"
+  SHOWN="$LONGEST.new"; trap 'rm -f "$log" "$LONGEST.new"' EXIT
+else
+  mv "$LONGEST.new" "$LONGEST"; SHOWN="$LONGEST"
+fi
+after=$(awk '{ s += $2 } END { print s+0 }' "$SHOWN")
 
 echo "run $RUN, job '$JOB': $count tests measured"
-echo "state/longest holds $(wc -l < "$LONGEST" | tr -d ' ') tests,"\
-     "$before s before, $after s now"
+holds=holds; now=now; [ -n "$DRY" ] && { holds="would hold"; now=after; }
+echo "state/longest $holds $(wc -l < "$SHOWN" | tr -d ' ') tests,"\
+     "$before s before, $after s $now"
 echo
 echo "the ten that go first from here on:"
-sort -k2 -rn "$LONGEST" | head -10 | awk '{ printf "  %-24s %3d s\n", $1, $2 }'
+sort -k2 -rn "$SHOWN" | head -10 | awk '{ printf "  %-24s %3d s\n", $1, $2 }'
 
 [ -n "$RECORD" ] || exit 0
 
@@ -314,6 +330,11 @@ previous=$(awk '/^## / { n = 0 }
     }
     printf "```\n\n</details>\n"
   }' > "$DURATIONS.new" || exit 2
+if [ -n "$DRY" ]; then
+  echo; echo "--dry-run: the section for $RECORD, not appended:"
+  cat "$DURATIONS.new"; rm -f "$DURATIONS.new"
+  exit 0
+fi
 cat "$DURATIONS.new" >> "$DURATIONS" && rm -f "$DURATIONS.new"
 echo
 echo "appended $RECORD to $DURATIONS:"
