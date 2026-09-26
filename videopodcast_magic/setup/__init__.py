@@ -15,6 +15,7 @@ PROGRAM = PROGRAM
 # the blocks under the list say which and why.
 
 FFMPEG_FLOOR = PROGRAM.FFMPEG_FLOOR
+FROZEN_NAME = PROGRAM.FROZEN_NAME
 T = PROGRAM.T
 ctypes = PROGRAM.ctypes
 json = PROGRAM.json
@@ -147,7 +148,7 @@ def tools_folder(make=False):
         else:
             base = (os.environ.get("XDG_DATA_HOME")
                     or os.path.expanduser("~/.local/share"))
-    folder = os.path.join(base, "videopodcast-magic", "tools")
+    folder = os.path.join(base, FROZEN_NAME, "tools")
     if not make:
         return folder
     try:
@@ -765,9 +766,9 @@ def soxr_note():
 
 # The API key lives in the OS credential store -- macOS keychain,
 # Windows registry under HKEY_CURRENT_USER. Never in a file: the script
-# gets copied around. All three names of the place stand only here.
-KEY_STORE_REAL = ("videopodcast-magic", "auphonic",
-                  r"Software\videopodcast-magic")
+# gets copied around. All three names of the place stand only here,
+# two of them the frozen name: a rename must not lose the stored key.
+KEY_STORE_REAL = (FROZEN_NAME, "auphonic", "Software\\" + FROZEN_NAME)
 KEY_SERVICE, KEY_ACCOUNT, REG_PATH = KEY_STORE_REAL
 
 

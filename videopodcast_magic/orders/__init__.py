@@ -19,6 +19,7 @@ IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
 PLATFORMS = PROGRAM.PLATFORMS
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
 SOUND_HOLDS = PROGRAM.SOUND_HOLDS
 SOUND_MIXED = PROGRAM.SOUND_MIXED
@@ -317,7 +318,7 @@ def run_argv(values, assignment_file_path=""):
                     entry["audio_done"] = r["audio_done"]
             tracks.append(entry)
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast-magic %s" % VERSION,
+                "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
                 "production": (values.get("production") or "").strip()
                 or 'Production', "tracks_of": tracks, "cameras": cameras}
         # What the separation heard travels with the assignment. Raw and
@@ -336,7 +337,7 @@ def run_argv(values, assignment_file_path=""):
         # the way the multitrack path sends it, so the run does not spend
         # the minutes twice -- with the cameras, and with the sliders.
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast-magic %s" % VERSION,
+                "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
                 "speakers_of": values["speakers_of"],
                 "voices_of": voices_of_values(values)}
         argv += ["--speakers-from", assignment_file_path]
@@ -465,12 +466,13 @@ class SoundOf(argparse.Action):
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(
-        prog="videopodcast-magic",
-        description="videopodcast-magic %s -- put processed audio into "
-                    "video files as the first audio track" % VERSION)
+        prog=PROGRAM_NAME,
+        description="%s %s -- put processed audio into "
+                    "video files as the first audio track"
+                    % (PROGRAM_NAME, VERSION))
     ap.add_argument("--version", action="version",
-                    version="videopodcast-magic %s   %s"
-                            % (VERSION, python_note()))
+                    version="%s %s   %s"
+                            % (PROGRAM_NAME, VERSION, python_note()))
     ap.add_argument("--lang", choices=languages(), default=None,
                     help="language of the messages (default: the system's)")
     ap.add_argument("files", nargs="*",

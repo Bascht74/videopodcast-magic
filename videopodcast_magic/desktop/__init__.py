@@ -13,6 +13,8 @@ carries two and the installed packages fit only one of them.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
+FROZEN_NAME = PROGRAM.FROZEN_NAME
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 T = PROGRAM.T
 VERSION = PROGRAM.VERSION
 ctypes = PROGRAM.ctypes
@@ -28,8 +30,9 @@ subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 
 # pip's name in bin/ and the name under the icon, deliberately the same.
-COMMAND = "videopodcast-magic"
-IDENTIFIER = "com.github.bascht74.videopodcast-magic"
+COMMAND = PROGRAM_NAME
+# What macOS files the bundle's permissions under: the frozen name.
+IDENTIFIER = "com.github.bascht74." + FROZEN_NAME
 SAYS = "Raw material from a video podcast becomes an edited episode"
 
 # What is written down between two starts: the path that was laid, not
@@ -393,7 +396,8 @@ ARCH_TOOL = "/usr/bin/arch"
 
 # The line that says a runner inside an entry is this program's own.
 # Written into every one, and the only thing that may be laid again.
-WRITTEN_BY = "# Written by videopodcast-magic."
+# Frozen: after a rename the old entries must still be recognised.
+WRITTEN_BY = "# Written by %s." % FROZEN_NAME
 
 # What a Mach-O header calls a processor, under the names ARCH_TOOL
 # takes. A file names one of these per architecture it carries.
@@ -728,7 +732,7 @@ def _link(where, target, png, root):
     if png:
         # The same roaming folder the settings file is in, reached the
         # way place() reaches it: two answers would be one too many.
-        folder = os.path.join(_roaming(root), COMMAND)
+        folder = os.path.join(_roaming(root), FROZEN_NAME)
         os.makedirs(folder, exist_ok=True)
         icon = os.path.join(folder, COMMAND + ".ico")
         if not _ico(icon, png):
