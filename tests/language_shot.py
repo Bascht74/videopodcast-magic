@@ -193,5 +193,9 @@ def step():
 QtCore.QTimer.singleShot(1200, step)
 QtCore.QTimer.singleShot(120000, app.quit)
 sys.argv = ["videopodcast_magic.py"]
+# On Windows main() ends the process itself with the last window's
+# answer (leave_window), so the line below is written only elsewhere;
+# the return code carries that answer on every platform alike.
 code = vpm.main()
 say("main came back with %s" % code)
+sys.exit(code if isinstance(code, int) else "main answered %r" % (code,))

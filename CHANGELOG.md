@@ -98,6 +98,10 @@ nicht.
 - **A project file that names its spoken language in another spelling,
   such as "de" or "fr", now keeps it** when the project is opened and
   saved; it used to come back with no language at all.
+- **`--speech-language de` on the command line now tags the track
+  `ger`, as the window does**; the same holds for `deu` and for
+  `--speech-language-camera`. ffmpeg used to drop the other spelling and
+  leave the track untagged.
 - **A dry run from the window no longer rewrites the project file in the
   output folder**; the folder now stays exactly as it was.
 - **"Start again now" after an update or the ffmpeg install now reopens
@@ -227,6 +231,10 @@ nicht.
 - **Eine Projektdatei, die ihre gesprochene Sprache anders schreibt,
   etwa „de“ oder „fr“, behält sie jetzt** beim Öffnen und Speichern;
   vorher kam das Projekt ganz ohne Sprache zurück.
+- **`--speech-language de` auf der Kommandozeile kennzeichnet die Spur
+  jetzt als `ger`, wie das Fenster**; dasselbe gilt für `deu` und für
+  `--speech-language-camera`. Vorher warf ffmpeg die andere Schreibweise
+  weg, und die Spur blieb ohne Kennung.
 - **Ein Probelauf aus dem Fenster schreibt die Projektdatei im
   Ausgabeordner nicht mehr neu**; der Ordner bleibt jetzt genau, wie er
   war.
