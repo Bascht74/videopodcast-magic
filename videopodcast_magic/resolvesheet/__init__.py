@@ -559,6 +559,10 @@ class ResolveSheet(QtWidgets.QScrollArea):
         self.edge_on.listen(self.preview_kick_off)
         start_var.listen(self.preview_kick_off)
         end_var.listen(self.preview_kick_off)
+        # The window's own transcript reports on the prework bar, as a
+        # line of its own beside the files.
+        self.words_report = lambda text, share: bridge_emit(
+            bridge.progress, T('Transcript'), text, share, "words")
         self.watchdog = QtCore.QTimer(self.window)
         self.watchdog.setInterval(3000)
         self.watchdog.timeout.connect(self.check_for_a_cut)
@@ -569,8 +573,15 @@ class ResolveSheet(QtWidgets.QScrollArea):
         self.preview_timer.start()
 
     def check_for_a_cut(self):
-        """Compute the preview when a run has left a newer handover file."""
-        if preview_out_of_date(self.state, self.model.multitrack.get()):
+        """Compute the preview when a run has left a newer handover file.
+
+        Or when the window's own transcript was begun or has arrived:
+        this is also the look that starts it, once the time axis stands.
+        """
+        heard = PROGRAM.window_words_round(
+            self.state, self.model.assign_lines, self.words_report)
+        if preview_out_of_date(self.state, self.model.multitrack.get()) \
+                or heard:
             self.preview_compute()
 
     def speakers_build(self, column, state):

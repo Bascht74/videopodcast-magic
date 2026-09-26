@@ -1199,15 +1199,17 @@ def wide_settings_grey(parts, tick, note, there, quiet, words_there):
     note.setVisible(not there)
 
 def words_missing_why(d):
-    """Why a handover carries no words: "yet", "off" or "failed".
+    """Why a handover carries no words: "yet", "listening", "off", "failed".
 
-    True where it carries some. The window works its own preview out
-    without a transcript, and an older run wrote no "words" at all:
-    both are "yet". A run that listened and brought nothing back failed;
-    one told not to listen says so with speech_recognition false.
+    True where it carries some. "listening" while the window writes its
+    own; a preview without one, and an older run that wrote no "words"
+    at all, are "yet". A run that listened and brought nothing back
+    failed; one told not to listen says so with speech_recognition false.
     """
     if words_from_handover(d):
         return True
+    if (d or {}).get("words_listening"):
+        return "listening"
     if (d or {}).get("speech_recognition") is False:
         return "off"
     return "failed" if "words" in (d or {}) else "yet"
@@ -1224,6 +1226,8 @@ def words_settings_grey(parts, note, there, wide_there, quiet):
     state = "yet" if there is False else there
     why = {"yet": T('There is none yet: a run writes it, and from then on '
                     'they work.'),
+           "listening": T('It is being written down in the background; '
+                          'they open by themselves when it is done.'),
            "off": T('Speech recognition was switched off for the run. '
                     'Leave it on, and the next run writes one.'),
            "failed": T('The run wrote none: the speech recognition failed '
@@ -1924,7 +1928,8 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         # window work the speakers out for itself.
         d = preview_handover(state)
         if d is None:
-            d = off_speakers()
+            d = PROGRAM.window_words_joined(state, off_speakers(),
+                                            assign_lines)
         # A change on the assignment sheet reaches the preview without
         # a run: the file may be older than the answer.
         now = state.get("wide_cameras_now")
