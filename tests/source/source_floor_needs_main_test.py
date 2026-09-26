@@ -12,7 +12,7 @@ claims no tightening; and that the current tree and the tree without
 an origin/main write as they always did. What origin/main holds is as
 fresh as the last fetch, and nothing here fetches.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

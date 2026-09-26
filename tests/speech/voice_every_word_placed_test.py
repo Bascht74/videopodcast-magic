@@ -7,7 +7,7 @@ sentence agrees on one voice while the others hold under a fifth of
 it. The three files are the ones auphonic.com delivers, so our json
 goes through their reader and back against the words that went in.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -12,7 +12,7 @@ Dropping the advice is a contract and not a description of today: in
 the window it hangs on the mark already, and printing it a second time
 in full is what would make the log long.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

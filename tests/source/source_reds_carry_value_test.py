@@ -9,7 +9,7 @@ of arguments: a function that measures its own numbers asks nothing of
 its callers. One limit: a call unpacked with a star is taken as filled,
 since what the star holds is not on the page.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
