@@ -391,17 +391,20 @@ GUI_MARK = "[GUI]"
 SPEAKER_STATE = ("measure_failed", "speakers_measured", "speakers_measuring")
 
 
-def speakers_still_wanted(state):
+def speakers_still_wanted(state, assign_lines=(), voice_lines=None):
     """Whether the speakers still have to be worked out.
 
     Not while one run is under way and not after one failed -- it would
-    fail the same way and cost the same minutes. And not where a
-    finished run knows them: measuring again would relabel its preview.
+    fail the same way and cost the same minutes. Not where a finished
+    run knows them: measuring again would relabel its preview. Nor where
+    a stored separation still holds for every track in *assign_lines*.
     """
     return not (state.get("speakers_measured")
                 or state.get("speakers_measuring")
                 or state.get("measure_failed")
-                or state.get("cut_basis") in ("run", "auphonic"))
+                or state.get("cut_basis") in ("run", "auphonic")
+                or PROGRAM.tracks_all_separated(state, assign_lines,
+                                                voice_lines))
 
 # How close a player has to be to a jump before it counts as arrived.
 # One second: a seek lands on the key frame before the mark, which on
