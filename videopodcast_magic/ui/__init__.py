@@ -71,8 +71,7 @@ ffmpeg_can_be_had = PROGRAM.ffmpeg_can_be_had
 file_timecode = PROGRAM.file_timecode
 fill_choices = PROGRAM.fill_choices
 find_required_tools = PROGRAM.find_required_tools
-finished_tracks_deeper = PROGRAM.finished_tracks_deeper
-finished_tracks_find = PROGRAM.finished_tracks_find
+finished_tracks_where = PROGRAM.finished_tracks_where
 forget_soxr = PROGRAM.forget_soxr
 guess_camera_name = PROGRAM.guess_camera_name
 guess_production_name = PROGRAM.guess_production_name
@@ -3212,11 +3211,8 @@ def gui():
 
     def prepared_tracks():
         """Return the finished tracks from auphonic.com: name -> file."""
-        return prepared_tracks_in(
-            done_folder.get()
-            or finished_tracks_find(out_folder.get())
-            or finished_tracks_find(commonest_folder())
-            or finished_tracks_deeper(commonest_folder()))
+        return prepared_tracks_in(done_folder.get() or finished_tracks_where(
+            out_folder.get(), commonest_folder()))
 
     def audio_for_camera(camera_path):
         """The recording that belongs under this camera in the preview."""

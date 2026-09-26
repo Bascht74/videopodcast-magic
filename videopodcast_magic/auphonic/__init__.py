@@ -606,6 +606,17 @@ def keychain_row_add(into, keep_button):
     return look
 
 
+def finished_tracks_where(out, common):
+    """The folder of finished tracks from auphonic.com, or None.
+
+    The output folder first, then the folder most of the material comes
+    from, then one level below that. The one search for the note under
+    the preset and for the preview both.
+    """
+    return (finished_tracks_find(out) or finished_tracks_find(common)
+            or finished_tracks_deeper(common))
+
+
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
                       settings_open, buttons_check, multi_button,
                       multitrack, out_folder, commonest_folder, report):
@@ -710,9 +721,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     preset_box.activated.connect(preset_picked)
     def finished_tracks_check():
         """Check whether processed tracks are already in the output folder."""
-        found = (finished_tracks_find(out_folder.get())
-                    or finished_tracks_find(commonest_folder())
-                    or finished_tracks_deeper(commonest_folder()))
+        found = finished_tracks_where(out_folder.get(), commonest_folder())
         done_folder.set(found or "")
         done_label.setText(T('processed tracks found -- nothing is uploaded') if found else "")
 
