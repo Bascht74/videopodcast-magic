@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""The start button must build a command line and start a run."""
+"""The start button must build a command line and start a run.
+
+Over the interview fixture, opened in the window and started with Dry
+run, the run loop stood in. The line starts a run with the program's
+name, --dry-run and the files; and the project names no In point and no
+Out point, so the line carries neither -- the window adds no time window
+nobody chose, which the run would then have cut to.
+"""
 PLATFORM_BOUND = True
 import os
 import sys
@@ -44,6 +51,13 @@ if PROJECT is None:
     sys.exit(1 if bad else 0)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (PROJECT, ""))
+import json
+with open(PROJECT, encoding="utf-8") as f:
+    PLANNED = json.load(f)
+# The material's own state, not the program's: the checks on the time
+# window below mean nothing over a fixture that sets one.
+assert not PLANNED.get("in_point") and not PLANNED.get("out_point"), \
+    "the fixture project sets a time window: %r" % PLANNED
 
 # Accept every dialog at once -- offscreen nobody would answer them.
 QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
@@ -83,6 +97,13 @@ def fake_thread(target=None, args=(), daemon=None, **rest):
 
 
 threading.Thread = fake_thread
+
+
+def after(switch):
+    """What stands behind *switch* on the line last started, or "-"."""
+    argv = seen.get("argv") or []
+    i = argv.index(switch) if switch in argv else -1
+    return argv[i + 1] if 0 <= i < len(argv) - 1 else "-"
 
 def win():
     for x in app.topLevelWidgets():
@@ -173,6 +194,16 @@ def carry_on():
                         "are %s"
                         % (sum(1 for x in argv if x.endswith(".mov")
                                or x.endswith(".wav")), len(argv), argv[-4:]))
+                check("a project with no In point sends no --in-point",
+                        "--in-point" not in argv,
+                        "the line carries --in-point %s; the project file "
+                        "holds In point %r" % (after("--in-point"),
+                                               PLANNED.get("in_point")))
+                check("a project with no Out point sends no --out-point",
+                        "--out-point" not in argv,
+                        "the line carries --out-point %s; the project file "
+                        "holds Out point %r" % (after("--out-point"),
+                                                PLANNED.get("out_point")))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return

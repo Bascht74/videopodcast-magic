@@ -175,41 +175,16 @@ def app_icon(QtGui):
 
 #-------------------------------------------------------------- Interface
 
-# What the language field offers -- only languages with both codes,
-# since an unknown recognition code would promise a transcript that
-# cannot come. SPEECH_CODES, in the program, holds the second code.
-SPOKEN_LANGUAGES = (
-    ("ger", "German"), ("eng", "English"), ("fra", "French"),
-    ("spa", "Spanish"), ("ita", "Italian"), ("nld", "Dutch"),
-    ("por", "Portuguese"), ("pol", "Polish"), ("rus", "Russian"),
-    ("swe", "Swedish"), ("dan", "Danish"), ("nor", "Norwegian"),
-    ("fin", "Finnish"), ("ces", "Czech"), ("tur", "Turkish"),
-    ("ell", "Greek"), ("hun", "Hungarian"), ("ron", "Romanian"),
-    ("ukr", "Ukrainian"), ("cat", "Catalan"), ("ara", "Arabic"),
-    ("heb", "Hebrew"), ("jpn", "Japanese"), ("zho", "Chinese"),
-    ("kor", "Korean"),
-)
+# What the language field offers stands in the speech piece, beside
+# spoken_language_offered: the command line takes --speech-language
+# through that too, and the command line reads no window.
+SPOKEN_LANGUAGES = PROGRAM.SPOKEN_LANGUAGES
 
 
 def spoken_language_choices():
     """Return [(tag, name)] for the language field, by name."""
     return sorted(((tag, T(name)) for tag, name in SPOKEN_LANGUAGES),
                   key=lambda x: x[1].lower())
-
-
-def spoken_language_offered(tag):
-    """Return the tag the language field offers for *tag*, or *tag* as is.
-
-    A project file may name the language another way -- "de", "deu" --
-    and the field, which holds only its own tags, fell back to "not
-    set", so the next save wrote the language out of the project.
-    """
-    tag = (tag or "").strip()
-    code = SPEECH_CODES.get(tag.lower(), tag.lower())
-    for offered, _name in SPOKEN_LANGUAGES:
-        if SPEECH_CODES.get(offered) == code:
-            return offered
-    return tag
 
 
 def language_of_system():
@@ -3134,14 +3109,14 @@ def gui():
         window_hint.setVisible(not on)
 
     def window_prefill(videos):
-        """Prefill the In point and the Out point from what the cameras offer.
+        """Take a camera's clock time as the axis; fill in no boundary.
 
-        As far as the cameras reach -- from the earliest start to the latest
-        end. That is what happens without an entry anyway; here it is visible
-        and can be adjusted.
+        An In point and an Out point nobody set stay empty, and the run
+        then takes the whole material, as the command line does. Filled
+        in from the cameras they reached past the first frame, and the
+        run warned about a window nobody chose. What stays is the axis:
+        a camera with a timecode is enough to set a window by hand.
         """
-        if start_var.get().strip() or end_var.get().strip():
-            return
         entries, fps = [], 30.0
         for b in videos:
             try:
@@ -3160,14 +3135,14 @@ def gui():
                 t0 = measured
             entries.append((t0, duration))
         from_s, until, absolute = window_suggestion(entries, fps)
-        if not from_s:
+        if not (from_s and until and absolute):
             return
-        if not absolute and not window_ready(state):
-            return          # without an axis the value has no reference
-        if absolute and (not state["axis"] or state.get("axis_absolute")):
+        # Nothing goes into start_var or end_var. With and without an In
+        # point and an Out point nothing may differ, and a value the window
+        # put there is one the run cannot tell from a chosen one -- it sent
+        # a clock time before the first frame and the run warned about it.
+        if not state["axis"] or state.get("axis_absolute"):
             state["tc_there"] = True
-        start_var.set(from_s)
-        end_var.set(until)
 
     assign_lines, camera_lines = model.assign_lines, model.camera_lines
     voice_lines, remembered = model.voice_lines, model.remembered
