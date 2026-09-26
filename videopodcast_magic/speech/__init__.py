@@ -1042,14 +1042,26 @@ def recognise_speech(audio_path, language="", way=""):
     return words, took
 
 
+def listening_unasked():
+    """Whether the window may set a recogniser going by itself.
+
+    Not in silent mode: VPM_SILENT marks a test or a picture run, which
+    opens projects nobody is listening to, and every one would start
+    Apple's recogniser at once. Stored words are read either way; a run
+    still writes its own down. Asked at every call, never at loading.
+    """
+    return not os.environ.get("VPM_SILENT")
+
+
 def words_at_hand(audio_path, language="", mark=""):
     """Write the words down with what the machine already has.
 
     A run may install faster-whisper and fetch a 1.5 GB model: somebody
     started it and is watching. The window may not -- nobody asked for
     a download by adding files to a list. So macOS first, faster-whisper
-    only where a run already installed it. [] where nothing can listen.
-    *mark* stores a mix under what it was made of, not what it holds.
+    only where a run already installed it. [] where nothing can listen,
+    or nobody may: see listening_unasked. *mark* stores a mix under
+    what it was made of, not what it holds.
     """
     started = time.time()
     mark = mark or file_content_mark(audio_path)
@@ -1059,6 +1071,8 @@ def words_at_hand(audio_path, language="", mark=""):
         print(T('  Speech recognition (%s): %s words, read back')
               % (took, number_text(len(words), 0)))
         return words
+    if not listening_unasked():
+        return []
     words = macos_words(audio_path, language)
     took = "macOS"
     if words is None:
@@ -1161,10 +1175,10 @@ def window_words_may(state):
     """Whether the window may listen by itself now.
 
     Not where nothing may compute unasked -- the switch that keeps the
-    separation from starting by itself -- not for a project that only
-    synchronises, and not before the time axis stands.
+    separation from starting by itself, or silent mode -- not for a
+    project that only synchronises, and not before the time axis stands.
     """
-    return bool(not PROGRAM.SPEAKER_SPLIT_OFF
+    return bool(not PROGRAM.SPEAKER_SPLIT_OFF and listening_unasked()
                 and state.get("project_type") != "sync"
                 and state.get("axis") and not state.get("axis_running"))
 

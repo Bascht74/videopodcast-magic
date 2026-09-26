@@ -314,6 +314,9 @@ def stood_in(way, path, language):
 vpm.macos_words = lambda path, language="": stood_in("macos", path, language)
 vpm.whisper_words = (lambda path, language="", install=True:
                      stood_in("whisper", path, language))
+# The suite runs silent, and silent mode lets the window start no
+# recogniser by itself; here the recogniser is stood in and asked.
+vpm.listening_unasked = lambda: True
 
 
 def listens(work):
