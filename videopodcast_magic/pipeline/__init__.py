@@ -903,6 +903,10 @@ def join_only(args, tracks, tmpdir, title=""):
                 os.path.join(tmpdir, "level_%s.wav"
                              % safe_filename(track["name"])),
                 gain, curve, channels=channel_count(track["source"]))
+    if len(tracks) > 1:
+        print(T('  %s recordings and no picture: each is joined on its own '
+                'and they are not laid against each other. --multitrack '
+                'puts them on one time axis.') % number_text(len(tracks), 0))
     if args.auphonic_key:
         key = api_key_from_anywhere(args)
         preset, presetname = choose_preset(
