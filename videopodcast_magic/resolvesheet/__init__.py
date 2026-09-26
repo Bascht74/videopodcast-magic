@@ -375,7 +375,8 @@ class ResolveSheet(QtWidgets.QScrollArea):
             self.resolve_check_run_kick_off()
         if self.state.get("project_type") == "sync":
             return          # no cut, so no speakers to measure
-        if speakers_still_wanted(self.state):
+        if speakers_still_wanted(self.state, self.model.assign_lines,
+                                 self.model.voice_lines):
             gui_log("cut tab opened with no speakers known -- measuring")
             self.speaker_measure()
 

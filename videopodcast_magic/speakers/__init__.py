@@ -1569,7 +1569,7 @@ def speakers_block_of(state, voice_lines=None):
                                      voices_ignored_of(voice_lines, src))
             names = voice_names_of(names, voice_lines, src)
         return speakers_for_project(src, segments, e.get("count") or 0,
-                                    names)
+                                    names, e.get("proof"))
     out = block(named, by[first])
     more = [block(src, by[src]) for src in keep if src != first]
     more = [m for m in more if m["segments"]]
@@ -2869,16 +2869,19 @@ def speaker_split_begin(state, split_run, bridge, bridge_emit,
         bridge.speakers_heard, r), source)
 
 
-def speakers_for_project(source, segments, num_speakers=0, called=None):
+def speakers_for_project(source, segments, num_speakers=0, called=None,
+                         proof=None):
     """The separation as the project file carries it.
 
     Raw, in the time of the source file, so a machine that opens the
-    project elsewhere does not pay the three minutes again.
+    project elsewhere does not pay the three minutes again. *proof*, the
+    one it was read back with, is kept rather than stamped anew.
     """
     mark = file_fingerprint(source) or [source, 0, 0]
-    return {"source": mark[0], "mtime": mark[1], "size": mark[2],
+    proof = proof or separation_proof_now(source)
+    return {"source": mark[0], "mtime": proof[0], "size": proof[1],
             "model": SPEAKER_MODEL_NAME,
-            "model_mark": speaker_model_mark(),
+            "model_mark": proof[2], "recipe": proof[3],
             "num_speakers": int(num_speakers or 0),
             "names": dict(called or {}),
             "segments": [[label, a, b] for label, parts in segments
@@ -2921,8 +2924,37 @@ def speakers_all_from_project(d, fingerprint=file_fingerprint):
         if source and segments:
             out[source] = {
                 "segments": segments, "names": names,
-                "count": int(one.get("num_speakers") or 0)}
+                "count": int(one.get("num_speakers") or 0),
+                "proof": [one.get("mtime"), one.get("size"),
+                          one.get("model_mark"), one.get("recipe")]}
     return out
+
+
+def separation_proof_now(source):
+    """What a separation of *source* made now would be stamped with.
+
+    [mtime, size, model mark, recipe mark]: the file, the measurement
+    and the code. A stored one holds while its own stamp is this one.
+    """
+    mark = file_fingerprint(source) or [source, 0, 0]
+    return [mark[1], mark[2], speaker_model_mark(), speaker_recipe_mark()]
+
+
+def tracks_all_separated(state, assign_lines, voice_lines=None):
+    """Whether a stored separation that still holds covers every track.
+
+    Then measuring the tracks adds nothing: the preview takes a separated
+    recording's voices, not its level. Holds: file, model and code as
+    stamped when it was stored, the recipe mark present.
+    """
+    by = state.get("speakers_by") or ByFile()
+    held = set(path_key(src) for src in by
+               if by[src].get("segments") and (by[src].get("proof") or [0])[-1]
+               and by[src]["proof"] == separation_proof_now(src)
+               and (voice_lines is None or voice_lines_here(voice_lines, src)))
+    paths = [row[0] for row, _n, cv in assign_lines or ()
+             if cv.get() != IGNORE_AUDIO]
+    return bool(paths) and all(path_key(p) in held for p in paths)
 
 
 #------------------------------------------ A separation already stored
