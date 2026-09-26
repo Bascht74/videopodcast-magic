@@ -7,7 +7,9 @@ later block that fits painted the first one's warning back to the
 plain colour. Sections: a first block with no place and a later one
 that fits, then a first block that is only weak; the note beside the
 row as well as its colour; and a recording whose blocks all fit, which
-stays plain.
+stays plain. Last, both sheets through the one call that paints them:
+the assignment tree's row for the recording is held to the file list's
+row -- all blocks fit, the first has no place, only a later one has none.
 """
 PLATFORM_BOUND = True
 import os
@@ -84,6 +86,49 @@ check("a recording whose blocks all fit stays in the plain colour",
       ink == PLAIN and note == FOLDER,
       "the row is written in %s with %r, wanted %s (text) and %r"
       % (ink, note, PLAIN, FOLDER))
+
+
+def both_after(weak, no_place):
+    """The file list's row and the assignment tree's, painted in one call.
+
+    The tree's row is its cells and the plain caption, one entry per
+    recording under the first block, as the assignment sheet keeps it.
+    """
+    node = QtWidgets.QTreeWidgetItem(["ZOOM0004_Tr1.WAV  + 1 continuation",
+                                      "", FOLDER])
+    cells = [QtGui.QStandardItem(CAPTION) for _ in range(4)]
+    state = {"weak": set(weak), "no_place": set(no_place),
+             "file_rows": [(cells, FIRST, CAPTION)]}
+    vpm.weak_marks_show(state, vpm.ByFile({FIRST: node, SECOND: node}))
+    return (node.foreground(2).color().name(),
+            cells[0].foreground().color().name(), cells[0].text())
+
+
+CAPTION = "ZOOM0004_Tr1.WAV  (+1)"
+print("\n4. Both sheets, every block fitting")
+listed, assigned, said = both_after((), ())
+check("a recording whose blocks all fit is plain on both sheets",
+      listed == PLAIN and assigned == PLAIN and said == CAPTION,
+      "file list %s, assignment %s with %r, wanted %s (text) on both"
+      % (listed, assigned, said, PLAIN))
+
+print("\n5. Both sheets, a first block with no place")
+listed, assigned, said = both_after((), (vpm.path_key(FIRST),))
+check("a first block with no place is red on both sheets",
+      listed == RED and assigned == RED,
+      "file list %s, assignment %s, wanted %s (error) on both"
+      % (listed, assigned, RED))
+
+print("\n6. Both sheets, only a later block with no place")
+listed, assigned, said = both_after((), (vpm.path_key(SECOND),))
+check("only a later block with no place is red on both sheets",
+      listed == RED and assigned == RED,
+      "file list %s, assignment %s, wanted %s (error) on both"
+      % (listed, assigned, RED))
+check("and the assignment row says in words that it does not fit",
+      said != CAPTION and said.startswith(CAPTION + "\n"),
+      "the row says %r, wanted the caption %r with the note under it"
+      % (said, CAPTION))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
