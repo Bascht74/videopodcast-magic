@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """A weak file's note names the way that placed it, not another one.
 
-A recording the sound hardly places is laid where the run measures it,
-a camera at its timecode, and the note beside each says which. Both are
+A recording the sound hardly places goes as the run lays it -- its
+measurement, or its clock -- a camera at its timecode, and the note
+beside each says which of the two rules it went by. Both are
 read out of one weak_marks_show call, the way the window hands over the
 measurement: the recording on both sheets, the tree and the file list,
 the camera on the file list, where its note stands. The limit: the
@@ -43,8 +44,8 @@ def check(name, ok, extra=""):
 RECORDING = "/tmp/vpm weak note/Host_REC0001.wav"
 CAMERA = "/tmp/vpm weak note/SideCam_C002.mov"
 # The finding under the name, asked for by its value.
-BY_RUN = vpm.T('%s\n   sound not recognised; placed where the run '
-               'measures it, not by its timecode').split("\n")[1].strip()
+BY_RUN = vpm.T('%s\n   sound not recognised; placed as the run '
+               'places it').split("\n")[1].strip()
 BY_CLOCK = vpm.T('%s\n   sound not recognised; placed by its '
                  'timecode').split("\n")[1].strip()
 
@@ -68,7 +69,7 @@ def said(text):
 
 print("1. The recording")
 got = said(row[0].text())
-check("a weak recording's row in the tree says the run measures it",
+check("a weak recording's row in the tree says the run places it",
       got == BY_RUN, "the tree says %r, wanted %r" % (got, BY_RUN))
 got = said(nodes[RECORDING].text(2))
 check("and so does its line in the file list",

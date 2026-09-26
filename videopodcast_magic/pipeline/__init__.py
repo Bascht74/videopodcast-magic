@@ -54,6 +54,7 @@ channel_text = PROGRAM.channel_text
 check_camera_metadata = PROGRAM.check_camera_metadata
 check_colour_survived = PROGRAM.check_colour_survived
 check_data_tracks = PROGRAM.check_data_tracks
+clock_base = PROGRAM.clock_base
 choose_preset = PROGRAM.choose_preset
 copy_mov_atoms = PROGRAM.copy_mov_atoms
 cross_correlate = PROGRAM.cross_correlate
@@ -83,6 +84,7 @@ lufs_does_nothing = PROGRAM.lufs_does_nothing
 mix_tracks = PROGRAM.mix_tracks
 mix_width = PROGRAM.mix_width
 name_order = PROGRAM.name_order
+no_base_message = PROGRAM.no_base_message
 no_place_message = PROGRAM.no_place_message
 normalise_loudness = PROGRAM.normalise_loudness
 number_text = PROGRAM.number_text
@@ -1170,6 +1172,24 @@ def silence_sentence(where, how_much, uploading):
                if how_much > 30 and uploading else ""))
 
 
+def recording_at_its_clock(own_tc, position, videos):
+    """Where a recording no measurement placed stands by its clock.
+
+    The camera's rule: the base is the one clock_base picks among the
+    cameras the sound placed, reference first, and the recording sits
+    its clock less the base's from it. Returns (a, b, st) as a
+    measurement does, or None with no base to set its clock against.
+    """
+    clocks = dict((v, timecode_seconds(i)) for v, i in videos)
+    w = clock_base(own_tc, [(c, clocks.get(c)) for c, (_a, _b, st_c)
+                            in position.items()
+                            if not st_c.get("by_clock_only")])
+    if w is None:
+        return None
+    return (position[w][0] + clocks[w] - own_tc, 1.0,
+            {"points": 0, "unplaceable": True, "by_clock_only": True})
+
+
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
     """Put all audio tracks on one common time axis.
 
@@ -1301,6 +1321,11 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             hint = (hint + ", " if hint else "") + (
                 T("placed with its camera, by that camera's clock")
                 if st.get("by_clock_only") else T("placed with its camera"))
+        elif e.get("from_camera"):
+            # Its camera got no place: laid on its own it would stand on
+            # the axis beside a picture handed over nowhere.
+            print(as_bad("  " + no_place_message(name)))
+            continue
         else:
             try:
                 a, b, st = align_audio_to_video(
@@ -1311,10 +1336,21 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 print(T('  %-20s cannot be aligned: %s') % (name, ex))
                 continue
             hint = which_way_placed(st, hint)
-            if cannot_be_placed(st, file_timecode(blocks[0]) if blocks
-                                else None, camera_clocks):
+            own_tc = (file_timecode(blocks[0], ref_clip[1]["fps"])
+                      if blocks else None)
+            if cannot_be_placed(st, own_tc, camera_clocks):
                 print(as_bad("  " + no_place_message(name)))
                 continue
+            if st.get("unplaceable"):
+                # Every way came up empty and the clock answers: it
+                # stands there, never at the failed measurement.
+                at = recording_at_its_clock(own_tc, position, videos)
+                if at is None:
+                    print(as_bad("  " + no_base_message(name)))
+                    continue
+                a, b, st = at
+                hint = (hint + ", " if hint else "") + T(
+                    'sound not recognised, placed by its timecode')
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
                        # Which recording the sound came out of, kept

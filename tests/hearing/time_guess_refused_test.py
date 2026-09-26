@@ -8,7 +8,7 @@ sound throws away a file known to the millisecond. In order: what the
 alignment admits, the rule itself, the sample points that are its
 second opinion, camera against camera, a whole run, what the window
 offers, and last the same question on the recording side, where
-another caller has to read the same verdict.
+another caller reads the same verdict and a clock sets the place.
 """
 import os
 import sys
@@ -21,7 +21,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import glob, shutil, subprocess, sys, tempfile, time, wave
+import glob, re, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 
@@ -495,6 +495,19 @@ laid_down = sorted(os.path.basename(f) for f in
 print("   written: %s" % laid_down)
 check("the same sound with a clock is laid on the axis",
       any(TIMED_NAME in n for n in laid_down), str(laid_down))
+# At its clock: the camera's first frame is CAM_LATE into it, and the
+# failed measurement's guess is not asked at all.
+AT_CLOCK = (vpm.T('  %-20s offset %s, clock drift not measured%s')
+            % (TIMED_NAME, vpm.as_hms(CAM_LATE), "")).rstrip()
+BY_CLOCK = vpm.T('sound not recognised, placed by its timecode')
+plain_log = re.sub(r"\x1b\[[0-9;]*m", "",
+                   re.sub(re.escape(vpm.MARK) + "[a-z]", "", both_log))
+timed = [line.rstrip() for line in plain_log.splitlines()
+         if line.strip().startswith(TIMED_NAME + " ")]
+check("and it stands at its clock, not at the failed measurement",
+      any(line.startswith(AT_CLOCK) and BY_CLOCK in line for line in timed),
+      "its lines %r, wanted one starting %r and saying %r"
+      % (timed, AT_CLOCK.strip(), BY_CLOCK))
 check("and so is a recording that measures and has no clock",
       any(FITS_NAME in n for n in laid_down), str(laid_down))
 check("that run carries both through to the end",

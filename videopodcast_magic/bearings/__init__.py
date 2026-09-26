@@ -767,7 +767,7 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
 
     The longest recording is the reference, a timecode from *tc_of*
     hangs the axis off it; a weak camera stands at its clock, a weak
-    recording where the run measures it. Returns (result, text), by
+    recording where the run lays it. Returns (result, text), by
     path_key: "axis", "clock" (recorder speed), and lists -- "weak" fits
     badly or its points speak against it, "no_place" has no place,
     "unplaceable" under the floor too, "clock_alone" a lone clock, "brief".
@@ -896,9 +896,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
                     and clocks.get(p) is not None and p not in axis):
                 axis[p] = float(clocks[p])
                 clock_speed[p] = 1.0
-    # A recording its sound does not place stands where the run lays it,
-    # never at its clock (the owner, 25.9.2026: the clock rule is for
-    # cameras), by the run's own measurement against the run's reference.
+    # A recording its sound does not place stands where the run lays it:
+    # at the run's own measurement against the run's reference, or at
+    # its clock where every way of measuring came up empty.
     ref_r = camera_ref if camera_ref is not None else reference
     points = int(max(20, min(120, len(envelopes[ref_r]) * HOP / 30000.0)))
     camera_clocks = [clocks.get(c) for c in paths
@@ -916,15 +916,20 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
             return None
 
     for p, found in zip(recordings, parallel_map(recordings, as_the_run)):
-        # As the run: beside cameras a clock keeps a failed measurement
-        # at its guess (cannot_be_placed); without any it is refused.
-        if found is None or (
-                cannot_be_placed(found[2], clocks.get(p), camera_clocks)
-                if camera_clocks else found[2].get("unplaceable")):
+        # As the run: a failed measurement a clock places stands at that
+        # clock (cannot_be_placed), one no clock places is refused.
+        if found is None or cannot_be_placed(found[2], clocks.get(p),
+                                             camera_clocks):
             refused.add(p)
-            continue
-        axis[p] = axis[ref_r] - found[0] / found[1]
-        clock_speed[p] = found[1]
+        elif not found[2].get("unplaceable"):
+            axis[p] = axis[ref_r] - found[0] / found[1]
+            clock_speed[p] = found[1]
+        elif clock_base(clocks[p], placed) in axis:
+            w = clock_base(clocks[p], placed)
+            axis[p] = axis[w] + clocks[p] - clocks[w]
+            clock_speed[p] = 1.0
+        else:
+            refused.add(p)
     nowhere = [p for p in weak if p in refused]
     lost = [p for p in nowhere if p in under]
     # A silent file has no curve to read a length off, so its container

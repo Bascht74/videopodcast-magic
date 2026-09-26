@@ -2,12 +2,12 @@
 """The preview lays a file its sound hardly places where the run lays it.
 
 A recording whose sound barely reaches the camera is laid by the run's
-own measurement, never at its clock; a camera the recording does not
-place and the other cameras do stands where they put it. Sections: a
-weak recording where the run puts it, its clock ten seconds off, and
-so beside a camera at its clock; the same with clocks on weak
-recordings alone; one the run refuses, refused; the camera. What the
-note says is window_note_names_way's.
+own measurement, and one no way measures at its clock; a camera the
+recording does not place and the other cameras do stands where they
+put it. Sections: a weak recording where the run puts it, its clock ten
+seconds off, and so beside a camera at its clock; the same with clocks
+on weak recordings alone; one the run refuses, refused, and with a
+clock at that clock; the camera. The note is window_note_names_way's.
 """
 import os
 import sys
@@ -183,6 +183,18 @@ check("a recording the run refuses is refused here too",
       "the run %s; no place %s, at %s"
       % ("refuses it" if st.get("unplaceable") else "places it",
          named(data, "no_place"), where(at(data, HISS))))
+# The same recording with a clock twenty seconds after the camera's:
+# the run lays it there, and so does the preview.
+HISS_AT = 20.0
+data, text = vpm.measure_time_axis(
+    [CAM, HISS], tc_of=lambda p: {CAM: 1000.0, HISS: 1000.0 + HISS_AT}.get(p))
+print("   %s" % text)
+here = at(data, HISS)
+check("one no way measures stands at its clock, beside a camera's",
+      here is not None and abs(here - HISS_AT) < 0.001
+      and "hiss.wav" not in named(data, "no_place"),
+      "hiss.wav at %s from the camera, wanted its clock's %+.1f s; no "
+      "place %s" % (where(here), HISS_AT, named(data, "no_place")))
 
 #------------------------------------------------------- 4. The camera
 

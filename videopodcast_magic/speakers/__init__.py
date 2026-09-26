@@ -1275,7 +1275,7 @@ def weak_note(caption, placeless, kind="", intro_free=False,
     all and its sound is out of the run. Then the finding comes first
     and what was done about it under it. *clock_alone*: the file has a
     timecode, but nothing it could be set against has one. A recording
-    (*camera* False) is never placed by its clock, but where the run is.
+    (*camera* False) goes as the run lays it: measured, or at its clock.
     """
     decided = weak_decision(kind, intro_free)
     if placeless and clock_alone:
@@ -1286,8 +1286,8 @@ def weak_note(caption, placeless, kind="", intro_free=False,
         return T('%s\n   does not fit the other files: sound not '
                  'recognised, no timecode.\n   %s') % (caption, decided)
     if not camera:
-        return T('%s\n   sound not recognised; placed where the run '
-                 'measures it, not by its timecode') % caption
+        return T('%s\n   sound not recognised; placed as the run '
+                 'places it') % caption
     return T('%s\n   sound not recognised; placed by its timecode') \
         % caption
 
