@@ -1459,6 +1459,18 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
     return CutPlayer
 
 
+def end_in_file(p):
+    """Where "-0:00:30" counts back from, in the file player *p* holds.
+
+    Where the first camera stops, as in the run, once the file stands on
+    the axis; before that, the end of the file itself.
+    """
+    end = getattr(p, "marks_end", lambda: None)()
+    if end is None or p.axis_s() is None:
+        return p.player.duration() / 1000.0
+    return end - p.axis_s()
+
+
 def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      ffplay_preview, real_tc, state):
     """The building blocks of the preview: rail, video surface, player.
@@ -1927,7 +1939,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 # From where every camera runs, as in the run (the window).
                 value += getattr(self, "marks_zero", float)() - self.axis_s()
             elif value < 0:
-                value = self.player.duration() / 1000.0 + value
+                value += end_in_file(self)
             return value, absolute
 
         def _limit(self, text):
@@ -2876,6 +2888,12 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
 
     player.marks_zero = marks_zero_here
 
+    def marks_end_here():
+        """Where "-0:00:30" counts back from on this axis: the first stop."""
+        return PROGRAM.marks_end(state["axis"], player_candidates())
+
+    player.marks_end = marks_end_here
+
     def covers(file_path, text):
         """Report whether a time value lies inside this video file.
 
@@ -2904,7 +2922,9 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
                 return None
             value += marks_zero_here() - span["axis"]
         else:
-            value = span["duration"] + value
+            # Back from where the first camera stops, as in the run.
+            end = marks_end_here() if span["axis"] is not None else None
+            value += span["duration"] if end is None else end - span["axis"]
         return -0.05 <= value <= span["duration"] + 0.05
 
     def player_candidates():
