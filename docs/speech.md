@@ -196,6 +196,13 @@ recordings of one name are a question and not a refusal -- they are
 meant to become a single track, laid end to end by their timecode
 ([Multitrack](multitrack.md)).
 
+A run from the command line holds the same rule. Where the separation it
+is handed -- in the window's assignment file or with `--speakers-from`
+-- gives a voice a name another speaker already carries, the run stops
+before anything is written, with `Abort:` and the same sentence the
+window shows. A separation the run only makes itself, on its way, is not
+checked beforehand, because its names are not known yet.
+
 Once the words are written down, those names become a proposal that
 says something. Who asks the questions and who answers can be read out
 of the speech: the program counts, for every voice inside the time
@@ -481,5 +488,7 @@ These options are not in the window.
 * `--no-speech-recognition` leaves the text out.
 * `VPM_NO_SPEAKER_SPLIT=1` in front of the call: no column
   **Speakers**, no button, and the separation never starts by itself.
+  Nor does the window write the transcript in the background; the four
+  camera-cut settings that need the words then wait for a run.
 * `--project-type sync` switches all of it off at once: no separation,
   no recognition, no transcript, no cut.

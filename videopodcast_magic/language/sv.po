@@ -2557,9 +2557,6 @@ msgstr "Förhandsvisning inte möjlig: %s"
 msgid "Preview running ..."
 msgstr "Förhandsvisning pågår ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Förarbete -- läsa ljud och beräkna envelopper:\n"
-
 msgid "Primaries"
 msgstr "Primärfärger"
 
@@ -2695,9 +2692,6 @@ msgstr "Det första spåret i förinställningen bestämmer inställningarna fö
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Det kräver överlämningsfilen från en körning, och det finns ingen."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Nyckeln kan bara sparas på Mac och Windows -- i nyckelringen eller registret. I en fil hamnar den inte."
 
 msgid "%s -- being checked"
 msgstr "%s -- kontrolleras"
@@ -4963,3 +4957,27 @@ msgstr "lämnas kvar: %s ppm eller mer är snarare ett mätfel"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "lämnas kvar: inte %s gånger sin osäkerhet"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Specialfall"
+
+msgid "Transcript"
+msgstr "Transkription"
+
+msgid "Writing down what is said ..."
+msgstr "Skriver ner det som sägs ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixar spåren för transkriptionen"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Den skrivs i bakgrunden; inställningarna öppnar sig själva när den är klar."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ingen Secret Service-nyckelring svarade, så ingenting sparades. Utanför Mac och Windows förvaras nyckeln i skrivbordets nyckelring, via kommandot secret-tool från libsecret. I en fil hamnar den inte."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Förarbete -- läsa ljud, beräkna envelopper och skriva ner det som sägs:\n"

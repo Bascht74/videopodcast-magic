@@ -2595,9 +2595,6 @@ msgstr "Прегледът не е възможен: %s"
 msgid "Preview running ..."
 msgstr "Прегледът тече ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Подготовка -- четене на звука и изчисляване на обвивките:\n"
-
 msgid "Primaries"
 msgstr "Основни цветове"
 
@@ -2723,9 +2720,6 @@ msgstr "Първата писта на пресета задава настро�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "За това е нужен предавателният файл от изпълнение, а такъв няма."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ключът може да се съхрани само на Mac и Windows -- в Keychain или в регистъра. Във файл не отива."
 
 msgid "%s -- being checked"
 msgstr "%s -- проверява се"
@@ -4968,3 +4962,27 @@ msgstr "остава: %s ppm или повече е по-скоро грешка
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "остава: не достига %s пъти неточността си"
+
+msgid "Timing"
+msgstr "Тайминг"
+
+msgid "Special cases"
+msgstr "Особени случаи"
+
+msgid "Transcript"
+msgstr "Транскрипция"
+
+msgid "Writing down what is said ..."
+msgstr "Записване на казаното ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Смесване на пистите за транскрипцията"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Записва се във фонов режим; настройките се отварят сами, когато е готово."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Не отговори ключодържател на Secret Service, затова нищо не беше съхранено. Извън Mac и Windows ключът се пази в ключодържателя на работния плот, чрез командата secret-tool от libsecret. Във файл не отива."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Подготовка -- четене на звука, изчисляване на обвивките и записване на казаното:\n"

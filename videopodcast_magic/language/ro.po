@@ -2559,9 +2559,6 @@ msgstr "Previzualizare imposibilă: %s"
 msgid "Preview running ..."
 msgstr "Previzualizare în curs ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Pregătire -- citirea audio și calculul anvelopelor:\n"
-
 msgid "Primaries"
 msgstr "Culori primare"
 
@@ -2699,9 +2696,6 @@ msgstr "Prima pistă a presetării stabilește setările pentru toate pistele no
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Pentru asta este nevoie de fișierul de predare dintr-o rulare, și nu există niciunul."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Cheia poate fi păstrată doar pe Mac și Windows -- în portchei sau în registru. Nu ajunge într-un fișier."
 
 msgid "%s -- being checked"
 msgstr "%s -- se verifică"
@@ -5008,3 +5002,27 @@ msgstr "rămâne: %s ppm sau mai mult este mai degrabă o eroare de măsurare"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "rămâne: nu atinge de %s ori incertitudinea sa"
+
+msgid "Timing"
+msgstr "Temporizare"
+
+msgid "Special cases"
+msgstr "Cazuri speciale"
+
+msgid "Transcript"
+msgstr "Transcriere"
+
+msgid "Writing down what is said ..."
+msgstr "Se scrie ce se spune ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixarea pistelor pentru transcriere"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Se scrie în fundal; setările se deschid singure când e gata."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Nu a răspuns niciun portchei Secret Service, așa că nu s-a păstrat nimic. În afara Mac și Windows, cheia e păstrată în portcheiul desktopului, prin comanda secret-tool din libsecret. Nu ajunge într-un fișier."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Pregătire -- citirea audio, calculul anvelopelor și scrierea a ceea ce se spune:\n"

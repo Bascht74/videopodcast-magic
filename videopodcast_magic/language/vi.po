@@ -2557,9 +2557,6 @@ msgstr "Không thể xem trước: %s"
 msgid "Preview running ..."
 msgstr "Đang chạy xem trước ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Chuẩn bị -- đọc âm thanh và tính đường bao:\n"
-
 msgid "Primaries"
 msgstr "Màu cơ bản"
 
@@ -2693,9 +2690,6 @@ msgstr "Rãnh đầu tiên của cài đặt sẵn quyết định cài đặt c
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Việc này cần tệp bàn giao từ một lượt chạy, mà hiện không có."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Khóa chỉ có thể lưu trên Mac và Windows -- trong Chuỗi khóa hoặc Registry. Nó không được lưu vào tệp."
 
 msgid "%s -- being checked"
 msgstr "%s -- đang kiểm tra"
@@ -4920,3 +4914,27 @@ msgstr "được giữ nguyên: %s ppm trở lên nhiều khả năng là lỗi 
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "được giữ nguyên: không đạt %s lần độ bất định của nó"
+
+msgid "Timing"
+msgstr "Thời điểm"
+
+msgid "Special cases"
+msgstr "Trường hợp đặc biệt"
+
+msgid "Transcript"
+msgstr "Bản chép lời"
+
+msgid "Writing down what is said ..."
+msgstr "Đang chép lại những gì được nói ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Đang trộn các track cho bản chép lời"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Bản chép lời đang được viết ở chế độ nền; các thiết lập sẽ tự mở khi xong."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Không có chuỗi khóa Secret Service nào trả lời, nên không có gì được lưu. Ngoài Mac và Windows, khóa được giữ trong chuỗi khóa của màn hình nền, qua lệnh secret-tool của libsecret. Nó không được lưu vào tệp."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Chuẩn bị -- đọc âm thanh, tính đường bao và chép lại những gì được nói:\n"

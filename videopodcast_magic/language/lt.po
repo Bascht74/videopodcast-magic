@@ -2595,9 +2595,6 @@ msgstr "Peržiūra neįmanoma: %s"
 msgid "Preview running ..."
 msgstr "Vyksta peržiūra ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Parengiamasis darbas -- garso skaitymas ir gaubtinių skaičiavimas:\n"
-
 msgid "Primaries"
 msgstr "Pirminės spalvos"
 
@@ -2723,9 +2720,6 @@ msgstr "Pirmasis išankstinio nustatymo takelis nustato visų mūsų takelių nu
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Tam reikia vykdymo perdavimo failo, o jo nėra."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Raktą galima saugoti tik Mac ir Windows kompiuteriuose -- Keychain arba registre. Į failą jis nepatenka."
 
 msgid "%s -- being checked"
 msgstr "%s -- tikrinama"
@@ -5011,3 +5005,27 @@ msgstr "paliekamas: %s ppm ar daugiau veikiau yra matavimo klaida"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "paliekamas: nesiekia %s kartų savo neapibrėžties"
+
+msgid "Timing"
+msgstr "Laikas"
+
+msgid "Special cases"
+msgstr "Ypatingi atvejai"
+
+msgid "Transcript"
+msgstr "Transkripcija"
+
+msgid "Writing down what is said ..."
+msgstr "Užrašoma, kas sakoma ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Takelių maišymas transkripcijai"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Ji rašoma fone; nustatymai atsivers patys, kai tik ji bus baigta."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Neatsakė nė vienas Secret Service raktų ryšulys, todėl niekas neišsaugota. Ne Mac ir Windows kompiuteriuose raktas laikomas darbalaukio raktų ryšulyje, per libsecret komandą secret-tool. Į failą jis nepatenka."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Parengiamasis darbas -- garso skaitymas, gaubtinių skaičiavimas ir to, kas sakoma, užrašymas:\n"

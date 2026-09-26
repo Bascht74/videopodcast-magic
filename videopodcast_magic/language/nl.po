@@ -2557,9 +2557,6 @@ msgstr "Voorbeeld niet mogelijk: %s"
 msgid "Preview running ..."
 msgstr "Voorbeeld loopt ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Voorwerk -- geluid lezen en omhullenden berekenen:\n"
-
 msgid "Primaries"
 msgstr "Primaire kleuren"
 
@@ -2695,9 +2692,6 @@ msgstr "Het eerste spoor van de voorinstelling bepaalt de instellingen voor al o
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Daarvoor is het overdrachtsbestand van een proces nodig, en dat is er niet."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "De sleutel kan alleen op Mac en Windows worden bewaard -- in de sleutelhanger of het register. Hij gaat niet in een bestand."
 
 msgid "%s -- being checked"
 msgstr "%s -- wordt gecontroleerd"
@@ -4964,3 +4958,27 @@ msgstr "blijft staan: %s ppm of meer is eerder een meetfout"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "blijft staan: niet %s keer de eigen onzekerheid"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Bijzondere gevallen"
+
+msgid "Transcript"
+msgstr "Transcriptie"
+
+msgid "Writing down what is said ..."
+msgstr "Opschrijven wat er gezegd wordt ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "De sporen mengen voor de transcriptie"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Ze wordt op de achtergrond geschreven; de instellingen gaan vanzelf open zodra ze klaar is."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Geen Secret Service-sleutelbos antwoordde, dus er is niets bewaard. Buiten Mac en Windows staat de sleutel in de sleutelbos van het bureaublad, via het commando secret-tool uit libsecret. Hij gaat niet in een bestand."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Voorwerk -- geluid lezen, omhullenden berekenen en opschrijven wat er gezegd wordt:\n"

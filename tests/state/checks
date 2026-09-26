@@ -246,7 +246,7 @@ table_audio_asked_for	60
 table_back_to_one_name	5
 table_blocks_judged	7
 table_camera_proposed	16
-table_lock_says_why	28
+table_lock_says_why	30
 table_names_one_order	11
 table_names_reach_camera	10
 table_no_place_not_wide	26
@@ -367,6 +367,7 @@ window_exit_keeps_all	7
 window_foot_on_one_line	8
 window_grey_opens_again	25
 window_grey_says_why	36
+window_groups_make_room	5
 window_handover_follows	3
 window_handover_found	5
 window_hears_while_split	8

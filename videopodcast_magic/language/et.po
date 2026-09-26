@@ -2594,9 +2594,6 @@ msgstr "Eelvaade pole võimalik: %s"
 msgid "Preview running ..."
 msgstr "Eelvaade käib ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Eeltöö -- heli lugemine ja mähiskõverate arvutamine:\n"
-
 msgid "Primaries"
 msgstr "Põhivärvid"
 
@@ -2722,9 +2719,6 @@ msgstr "Eelseadistuse esimene rada määrab kõigi meie radade seaded. Muidu tul
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Selleks on vaja käituse üleandmisfaili, aga seda pole."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Võtit saab hoida ainult Macis ja Windowsis -- Keychainis või registris. Faili see ei lähe."
 
 msgid "%s -- being checked"
 msgstr "%s -- kontrollitakse"
@@ -4967,3 +4961,27 @@ msgstr "jäetakse alles: %s ppm või rohkem on pigem mõõteviga"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "jäetakse alles: ei ulatu %s-kordse määramatuseni"
+
+msgid "Timing"
+msgstr "Ajastus"
+
+msgid "Special cases"
+msgstr "Erijuhud"
+
+msgid "Transcript"
+msgstr "Transkriptsioon"
+
+msgid "Writing down what is said ..."
+msgstr "Kirjutan üles, mida öeldakse ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Radade miksimine transkriptsiooni jaoks"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Seda kirjutatakse taustal; seaded avanevad ise, kui see valmis on."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ükski Secret Service'i võtmehoidja ei vastanud, seega midagi ei salvestatud. Väljaspool Maci ja Windowsi hoitakse võtit töölaua võtmehoidjas, libsecreti käsu secret-tool kaudu. Faili see ei lähe."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Eeltöö -- heli lugemine, mähiskõverate arvutamine ja öeldu üleskirjutamine:\n"

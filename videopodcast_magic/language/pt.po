@@ -437,9 +437,6 @@ msgstr "Reproduzir e pausar."
 msgid "Preview running ..."
 msgstr "Pré-visualização em curso ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Trabalho prévio -- ler o áudio e calcular as envolventes:\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "Processamento em auphonic.com (opcional)"
 
@@ -3678,9 +3675,6 @@ msgstr "pelo gerenciador de pacotes: apt install ffmpeg, dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "Este ffmpeg não tem soxr: o desvio de relógio entre as câmeras sai em passos de 21 ppm em vez de 0,21."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "A chave só pode ser salva no Mac e no Windows -- no Chaveiro ou no registro. Ela não vai para um arquivo."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  O ffmpeg.org tem builds para Windows. A pasta com ffmpeg.exe precisa então ir para o PATH, ou os arquivos para junto deste programa."
 
@@ -4964,3 +4958,27 @@ msgstr "permanece: %s ppm ou mais é antes um erro de medição"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "permanece: não chega a %s vezes a sua incerteza"
+
+msgid "Timing"
+msgstr "Tempos"
+
+msgid "Special cases"
+msgstr "Casos especiais"
+
+msgid "Transcript"
+msgstr "Transcrição"
+
+msgid "Writing down what is said ..."
+msgstr "Escrevendo o que é dito ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixando as faixas para a transcrição"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Ela está sendo escrita em segundo plano; os ajustes se abrem sozinhos quando terminar."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Nenhum chaveiro do Secret Service respondeu, então nada foi salvo. Fora do Mac e do Windows a chave fica no chaveiro da área de trabalho, pelo comando secret-tool do libsecret. Ela não vai para um arquivo."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Trabalho prévio -- ler o áudio, calcular as envolventes e escrever o que é dito:\n"

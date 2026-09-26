@@ -2594,9 +2594,6 @@ msgstr "ప్రివ్యూ సాధ్యం కాదు: %s"
 msgid "Preview running ..."
 msgstr "ప్రివ్యూ నడుస్తోంది ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "ముందస్తు పని -- ఆడియో చదివి ఎన్వలప్‌లు లెక్కించడం:\n"
-
 msgid "Primaries"
 msgstr "ప్రాథమిక రంగులు"
 
@@ -2722,9 +2719,6 @@ msgstr "ప్రీసెట్‌లోని మొదటి ట్రాక�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "దానికి ఒక రన్ నుండి అప్పగింత ఫైల్ కావాలి, అది లేదు."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "కీని Mac, Windows లో మాత్రమే నిల్వ చేయవచ్చు -- Keychain లో లేదా రిజిస్ట్రీలో. అది ఫైల్‌లోకి వెళ్లదు."
 
 msgid "%s -- being checked"
 msgstr "%s -- తనిఖీ అవుతోంది"
@@ -4967,3 +4961,27 @@ msgstr "అలాగే ఉంచబడుతుంది: %s ppm లేదా �
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "అలాగే ఉంచబడుతుంది: దాని అనిశ్చితికి %s రెట్లు చేరదు"
+
+msgid "Timing"
+msgstr "సమయం"
+
+msgid "Special cases"
+msgstr "ప్రత్యేక సందర్భాలు"
+
+msgid "Transcript"
+msgstr "ట్రాన్స్‌క్రిప్ట్"
+
+msgid "Writing down what is said ..."
+msgstr "చెప్పినది రాస్తోంది ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ట్రాన్స్‌క్రిప్ట్ కోసం ట్రాక్‌లను కలుపుతోంది"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "అది నేపథ్యంలో రాయబడుతోంది; పూర్తికాగానే సెట్టింగులు వాటంతట అవే తెరుచుకుంటాయి."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "ఏ Secret Service కీరింగ్ కూడా స్పందించలేదు, కాబట్టి ఏదీ నిల్వ చేయలేదు. Mac, Windows కాకుండా ఇతర వాటిలో కీ libsecret లోని secret-tool ఆదేశం ద్వారా డెస్క్‌టాప్ కీరింగ్‌లో ఉంచబడుతుంది. అది ఫైల్‌లోకి వెళ్లదు."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "ముందస్తు పని -- ఆడియో చదివి, ఎన్వలప్‌లు లెక్కించి, చెప్పినది రాయడం:\n"

@@ -2557,9 +2557,6 @@ msgstr "Η προεπισκόπηση δεν είναι δυνατή: %s"
 msgid "Preview running ..."
 msgstr "Προεπισκόπηση σε εξέλιξη ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Προεργασία -- ανάγνωση ήχου και υπολογισμός περιβαλλουσών:\n"
-
 msgid "Primaries"
 msgstr "Πρωτεύοντα χρώματα"
 
@@ -2695,9 +2692,6 @@ msgstr "Το πρώτο κομμάτι της προρύθμισης ορίζε�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Αυτό χρειάζεται το αρχείο παράδοσης από μια εκτέλεση, και δεν υπάρχει κανένα."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Το κλειδί μπορεί να αποθηκευτεί μόνο σε Mac και Windows -- στην κλειδοθήκη ή στο μητρώο. Δεν πηγαίνει σε αρχείο."
 
 msgid "%s -- being checked"
 msgstr "%s -- ελέγχεται"
@@ -4964,3 +4958,27 @@ msgstr "παραμένει: %s ppm ή περισσότερο είναι μάλλ
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "παραμένει: δεν φτάνει τις %s φορές την αβεβαιότητά της"
+
+msgid "Timing"
+msgstr "Χρονισμός"
+
+msgid "Special cases"
+msgstr "Ειδικές περιπτώσεις"
+
+msgid "Transcript"
+msgstr "Απομαγνητοφώνηση"
+
+msgid "Writing down what is said ..."
+msgstr "Καταγράφεται ό,τι λέγεται ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Μίξη των κομματιών για την απομαγνητοφώνηση"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Γράφεται στο παρασκήνιο· οι ρυθμίσεις ανοίγουν μόνες τους μόλις ολοκληρωθεί."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Καμία κλειδοθήκη Secret Service δεν απάντησε, οπότε δεν αποθηκεύτηκε τίποτα. Εκτός Mac και Windows το κλειδί φυλάσσεται στην κλειδοθήκη της επιφάνειας εργασίας, μέσω της εντολής secret-tool του libsecret. Δεν πηγαίνει σε αρχείο."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Προεργασία -- ανάγνωση ήχου, υπολογισμός περιβαλλουσών και καταγραφή όσων λέγονται:\n"

@@ -2557,9 +2557,6 @@ msgstr "Forhåndsvisning ikke mulig: %s"
 msgid "Preview running ..."
 msgstr "Forhåndsvisning i gang ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Forarbejde -- læse lyd og beregne envelopes:\n"
-
 msgid "Primaries"
 msgstr "Primærfarver"
 
@@ -2695,9 +2692,6 @@ msgstr "Det første spor i forudindstillingen bestemmer indstillingerne for alle
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Det kræver overdragelsesfilen fra en kørsel, og der er ingen."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Nøglen kan kun gemmes på Mac og Windows -- i nøgleringen eller registreringsdatabasen. Den kommer ikke i en fil."
 
 msgid "%s -- being checked"
 msgstr "%s -- tjekkes"
@@ -4963,3 +4957,27 @@ msgstr "bliver stående: %s ppm eller mere er snarere en målefejl"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "bliver stående: ikke %s gange sin usikkerhed"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Særtilfælde"
+
+msgid "Transcript"
+msgstr "Transskription"
+
+msgid "Writing down what is said ..."
+msgstr "Skriver ned, hvad der bliver sagt ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mikser sporene til transskriptionen"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Den bliver skrevet i baggrunden; indstillingerne åbner af sig selv, når den er færdig."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ingen Secret Service-nøglering svarede, så intet blev gemt. Uden for Mac og Windows opbevares nøglen i skrivebordets nøglering, via kommandoen secret-tool fra libsecret. Den kommer ikke i en fil."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Forarbejde -- læse lyd, beregne envelopes og skrive ned, hvad der bliver sagt:\n"

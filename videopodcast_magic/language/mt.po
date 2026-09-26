@@ -2596,9 +2596,6 @@ msgstr "Id-dehra minn qabel mhix possibbli: %s"
 msgid "Preview running ..."
 msgstr "Id-dehra minn qabel qed taħdem ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Xogħol preliminari -- qari tal-awdjo u kalkolu tal-inviluppi:\n"
-
 msgid "Primaries"
 msgstr "Kuluri primarji"
 
@@ -2724,9 +2721,6 @@ msgstr "L-ewwel binarju tal-preset jissettja l-issettjar għall-binarji kollha t
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Għal dan hemm bżonn il-fajl tal-konsenja minn tħaddim, u m'hemmx."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Iċ-ċavetta tista' tinħażen biss fuq Mac u Windows -- f'Keychain jew fir-reġistru. Ma tmurx f'fajl."
 
 msgid "%s -- being checked"
 msgstr "%s -- qed jiġi ċċekkjat"
@@ -5056,3 +5050,27 @@ msgstr "jitħalla: %s ppm jew aktar huwa aktarx żball fil-kejl"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "jitħalla: ma jilħaqx %s darbiet l-inċertezza tiegħu"
+
+msgid "Timing"
+msgstr "Ħin"
+
+msgid "Special cases"
+msgstr "Każijiet speċjali"
+
+msgid "Transcript"
+msgstr "Traskrizzjoni"
+
+msgid "Writing down what is said ..."
+msgstr "Qed jinkiteb dak li jintqal ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Qed jitħalltu t-traċċi għat-traskrizzjoni"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Qed tinkiteb fl-isfond; is-settings jinfetħu waħedhom hekk kif tlesti."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "L-ebda keyring tas-Secret Service ma wieġeb, għalhekk ma nħażen xejn. Barra minn Mac u Windows iċ-ċavetta tinżamm fil-keyring tad-desktop, permezz tal-kmand secret-tool minn libsecret. Ma tmurx f'fajl."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Xogħol preliminari -- qari tal-awdjo, kalkolu tal-inviluppi u kitba ta' dak li jintqal:\n"

@@ -2559,9 +2559,6 @@ msgstr "Podgląd niemożliwy: %s"
 msgid "Preview running ..."
 msgstr "Podgląd w toku ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Przygotowanie -- odczyt dźwięku i obliczanie obwiedni:\n"
-
 msgid "Primaries"
 msgstr "Barwy podstawowe"
 
@@ -2699,9 +2696,6 @@ msgstr "Pierwsza ścieżka presetu określa ustawienia wszystkich naszych ście�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Do tego potrzebny jest plik przekazania z przebiegu, a go nie ma."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Klucz można przechowywać tylko na Macu i w Windows -- w pęku kluczy albo w rejestrze. Nie trafia do pliku."
 
 msgid "%s -- being checked"
 msgstr "%s -- trwa sprawdzanie"
@@ -5008,3 +5002,27 @@ msgstr "pozostaje: %s ppm lub więcej to raczej błąd pomiaru"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "pozostaje: nie osiąga %s-krotności swojej niepewności"
+
+msgid "Timing"
+msgstr "Czas"
+
+msgid "Special cases"
+msgstr "Przypadki szczególne"
+
+msgid "Transcript"
+msgstr "Transkrypcja"
+
+msgid "Writing down what is said ..."
+msgstr "Zapisywanie tego, co powiedziano ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Miksowanie ścieżek do transkrypcji"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Powstaje w tle; ustawienia otworzą się same, gdy będzie gotowa."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Nie odpowiedział żaden pęk kluczy Secret Service, więc nic nie zostało zapisane. Poza Makiem i Windows klucz jest przechowywany w pęku kluczy pulpitu, przez polecenie secret-tool z libsecret. Nie trafia do pliku."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Przygotowanie -- odczyt dźwięku, obliczanie obwiedni i zapisywanie tego, co powiedziano:\n"

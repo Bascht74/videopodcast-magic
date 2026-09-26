@@ -449,9 +449,6 @@ msgstr "Oynat ve duraklat."
 msgid "Preview running ..."
 msgstr "Önizleme sürüyor ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Ön çalışma -- sesi oku ve zarfları hesapla:\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "auphonic.com'da işleme (isteğe bağlı)"
 
@@ -3690,9 +3687,6 @@ msgstr "paket yöneticisiyle: apt install ffmpeg, dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "Bu ffmpeg'de soxr yok: kameralar arasındaki saat sürüklenmesi 0,21 yerine 21 ppm'lik adımlarla çıkar."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Anahtar yalnızca Mac ve Windows'ta saklanabilir -- Anahtar Zinciri'nde ya da kayıt defterinde. Bir dosyaya yazılmaz."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org'da Windows için derlemeler var. Ardından ffmpeg.exe'nin bulunduğu klasör PATH'e eklenmeli ya da dosyalar bu programın yanına konmalı."
 
@@ -4976,3 +4970,27 @@ msgstr "bırakılıyor: %s ppm veya fazlası büyük olasılıkla ölçüm hatas
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "bırakılıyor: belirsizliğinin %s katına ulaşmıyor"
+
+msgid "Timing"
+msgstr "Zamanlama"
+
+msgid "Special cases"
+msgstr "Özel durumlar"
+
+msgid "Transcript"
+msgstr "Döküm"
+
+msgid "Writing down what is said ..."
+msgstr "Söylenenler yazılıyor ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Döküm için izler karıştırılıyor"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Arka planda yazılıyor; bittiğinde ayarlar kendiliğinden açılır."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Hiçbir Secret Service anahtar zinciri yanıt vermedi, bu yüzden hiçbir şey saklanmadı. Mac ve Windows dışında anahtar, libsecret'in secret-tool komutuyla masaüstünün anahtar zincirinde tutulur. Bir dosyaya yazılmaz."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Ön çalışma -- sesi oku, zarfları hesapla ve söylenenleri yaz:\n"

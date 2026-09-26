@@ -2559,9 +2559,6 @@ msgstr "Az előnézet nem lehetséges: %s"
 msgid "Preview running ..."
 msgstr "Előnézet folyamatban ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Előmunka -- hang beolvasása és burkológörbék számítása:\n"
-
 msgid "Primaries"
 msgstr "Alapszínek"
 
@@ -2697,9 +2694,6 @@ msgstr "Az előbeállítás első sávja adja meg az összes sávunk beállítá
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Ehhez egy futás átadási fájlja kell, és nincs ilyen."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "A kulcs csak Macen és Windowson tárolható -- a kulcskarikán vagy a rendszerleíró adatbázisban. Fájlba nem kerül."
 
 msgid "%s -- being checked"
 msgstr "%s -- ellenőrzés alatt"
@@ -4965,3 +4959,27 @@ msgstr "benne marad: %s ppm vagy több inkább mérési hiba"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "benne marad: nem éri el bizonytalanságának %s-szorosát"
+
+msgid "Timing"
+msgstr "Időzítés"
+
+msgid "Special cases"
+msgstr "Különleges esetek"
+
+msgid "Transcript"
+msgstr "Átirat"
+
+msgid "Writing down what is said ..."
+msgstr "Az elhangzottak leírása ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "A sávok keverése az átirathoz"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "A háttérben készül; amint kész, a beállítások maguktól megnyílnak."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Egyetlen Secret Service kulcstartó sem válaszolt, ezért semmi sem lett eltárolva. Macen és Windowson kívül a kulcs az asztali környezet kulcstartójában van, a libsecret secret-tool parancsán keresztül. Fájlba nem kerül."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Előmunka -- hang beolvasása, burkológörbék számítása és az elhangzottak leírása:\n"

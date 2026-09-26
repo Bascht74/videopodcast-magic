@@ -2557,9 +2557,6 @@ msgstr "Esikatselu ei ole mahdollinen: %s"
 msgid "Preview running ..."
 msgstr "Esikatselu käynnissä ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Esityö -- luetaan ääni ja lasketaan verhokäyrät:\n"
-
 msgid "Primaries"
 msgstr "Päävärit"
 
@@ -2695,9 +2692,6 @@ msgstr "Esiasetuksen ensimmäinen raita määrää asetukset kaikille raidoillem
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Se tarvitsee ajon luovutustiedoston, eikä sellaista ole."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Avain voidaan tallentaa vain Macilla ja Windowsilla -- avainnippuun tai rekisteriin. Tiedostoon se ei mene."
 
 msgid "%s -- being checked"
 msgstr "%s -- tarkistetaan"
@@ -4963,3 +4957,27 @@ msgstr "jätetään paikalleen: %s ppm tai enemmän on pikemminkin mittausvirhe"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "jätetään paikalleen: ei yllä %s-kertaiseen epävarmuuteensa"
+
+msgid "Timing"
+msgstr "Ajoitus"
+
+msgid "Special cases"
+msgstr "Erikoistapaukset"
+
+msgid "Transcript"
+msgstr "Litterointi"
+
+msgid "Writing down what is said ..."
+msgstr "Kirjoitetaan puhetta muistiin ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Miksataan raidat litterointia varten"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Sitä kirjoitetaan taustalla; asetukset avautuvat itsestään, kun se on valmis."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Yksikään Secret Service -avainnippu ei vastannut, joten mitään ei tallennettu. Macin ja Windowsin ulkopuolella avain säilytetään työpöydän avainnipussa secret-tool-komennolla libsecretistä. Tiedostoon se ei mene."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Esityö -- luetaan ääni, lasketaan verhokäyrät ja kirjoitetaan puhe muistiin:\n"

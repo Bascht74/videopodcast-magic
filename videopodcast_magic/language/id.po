@@ -2594,9 +2594,6 @@ msgstr "Pratinjau tidak mungkin: %s"
 msgid "Preview running ..."
 msgstr "Pratinjau berjalan ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Persiapan -- membaca audio dan menghitung selubung:\n"
-
 msgid "Primaries"
 msgstr "Warna primer"
 
@@ -2722,9 +2719,6 @@ msgstr "Trek pertama preset menentukan pengaturan untuk semua trek kita. Jika ti
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Itu memerlukan file serah terima dari sebuah proses, dan tidak ada."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Kunci hanya dapat disimpan di Mac dan Windows -- di Keychain atau Registry. Kunci tidak masuk ke file."
 
 msgid "%s -- being checked"
 msgstr "%s -- sedang diperiksa"
@@ -4924,3 +4918,27 @@ msgstr "dibiarkan: %s ppm atau lebih kemungkinan besar kesalahan pengukuran"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "dibiarkan: tidak mencapai %s kali ketidakpastiannya"
+
+msgid "Timing"
+msgstr "Waktu"
+
+msgid "Special cases"
+msgstr "Kasus khusus"
+
+msgid "Transcript"
+msgstr "Transkrip"
+
+msgid "Writing down what is said ..."
+msgstr "Menuliskan apa yang diucapkan ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mencampur trek untuk transkrip"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Transkrip sedang ditulis di latar belakang; pengaturan ini terbuka sendiri setelah selesai."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Tidak ada keyring Secret Service yang menjawab, jadi tidak ada yang disimpan. Di luar Mac dan Windows, kunci disimpan di keyring desktop, melalui perintah secret-tool dari libsecret. Kunci tidak masuk ke file."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Persiapan -- membaca audio, menghitung selubung, dan menuliskan apa yang diucapkan:\n"

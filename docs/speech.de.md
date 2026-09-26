@@ -207,6 +207,14 @@ Aufnahmen gleichen Namens sind dagegen eine Frage und keine Weigerung --
 sie sollen zu einer Spur werden, nach Timecode hintereinandergelegt
 ([Multitrack](multitrack.de.md)).
 
+Ein Lauf von der Kommandozeile hält sich an dieselbe Regel. Gibt die
+Trennung, die er mitbekommt -- in der Zuordnungsdatei des Fensters oder
+über `--speakers-from` --, einer Stimme einen Namen, den schon ein
+anderer Sprecher trägt, bricht der Lauf ab, bevor irgendetwas
+geschrieben ist, mit `Abbruch:` und demselben Satz, den das Fenster
+zeigt. Eine Trennung, die der Lauf erst unterwegs selbst rechnet, wird
+vorher nicht geprüft: ihre Namen kennt dann noch niemand.
+
 Sobald die Worte aufgeschrieben sind, werden aus diesen Namen
 Vorschläge, die etwas sagen. Wer fragt und wer antwortet, lässt sich am
 Gesprochenen ablesen: das Programm zählt für jede Stimme im Zeitfenster,
@@ -508,6 +516,9 @@ Diese Optionen gibt es im Fenster nicht.
   auseinander, gleich was sonst danach verlangt.
 * `--no-speech-recognition` lässt den Text weg.
 * `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: keine Spalte **Sprecher**,
-  kein Knopf, und die Trennung startet nie von selbst.
+  kein Knopf, und die Trennung startet nie von selbst. Auch die
+  Niederschrift schreibt das Fenster dann nicht im Hintergrund; die vier
+  Einstellungen des Kameraschnitts, die die Wörter brauchen, warten
+  dann auf einen Lauf.
 * `--project-type sync` schaltet alles davon auf einmal ab: keine
   Trennung, keine Erkennung, kein Transkript, kein Schnitt.

@@ -2558,9 +2558,6 @@ msgstr "Náhled není možný: %s"
 msgid "Preview running ..."
 msgstr "Náhled běží ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Příprava -- načíst zvuk a spočítat obálky:\n"
-
 msgid "Primaries"
 msgstr "Primární barvy"
 
@@ -2698,9 +2695,6 @@ msgstr "První stopa předvolby určuje nastavení pro všechny naše stopy. Jin
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "K tomu je třeba soubor předání z běhu, a žádný není."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Klíč lze uložit jen na Macu a Windows -- do Klíčenky nebo do registru. Do souboru nejde."
 
 msgid "%s -- being checked"
 msgstr "%s -- kontroluje se"
@@ -5007,3 +5001,27 @@ msgstr "zůstává: %s ppm nebo více je spíše chyba měření"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "zůstává: nedosahuje %s násobku své nejistoty"
+
+msgid "Timing"
+msgstr "Časování"
+
+msgid "Special cases"
+msgstr "Zvláštní případy"
+
+msgid "Transcript"
+msgstr "Přepis"
+
+msgid "Writing down what is said ..."
+msgstr "Zapisuje se, co zaznělo ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Míchání stop pro přepis"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Zapisuje se na pozadí; až bude hotový, otevřou se samy."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Neodpověděla žádná klíčenka Secret Service, proto nebylo nic uloženo. Mimo Mac a Windows se klíč uchovává v klíčence pracovního prostředí, přes příkaz secret-tool z libsecret. Do souboru nejde."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Příprava -- načíst zvuk, spočítat obálky a zapsat, co zaznělo:\n"

@@ -2596,9 +2596,6 @@ msgstr "ਪ੍ਰੀਵਿਊ ਸੰਭਵ ਨਹੀਂ: %s"
 msgid "Preview running ..."
 msgstr "ਪ੍ਰੀਵਿਊ ਚੱਲ ਰਿਹਾ ਹੈ ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "ਤਿਆਰੀ -- ਆਡੀਓ ਪੜ੍ਹਨਾ ਅਤੇ ਐਨਵੈਲਪ ਗਿਣਨਾ:\n"
-
 msgid "Primaries"
 msgstr "ਮੂਲ ਰੰਗ"
 
@@ -2724,9 +2721,6 @@ msgstr "ਪ੍ਰੀਸੈੱਟ ਦਾ ਪਹਿਲਾ ਟਰੈਕ ਸਾਡ�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "ਇਸ ਲਈ ਕਿਸੇ ਰਨ ਦੀ ਸਪੁਰਦਗੀ ਫ਼ਾਈਲ ਚਾਹੀਦੀ ਹੈ, ਅਤੇ ਉਹ ਕੋਈ ਨਹੀਂ ਹੈ।"
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "ਕੁੰਜੀ ਸਿਰਫ਼ Mac ਅਤੇ Windows 'ਤੇ ਸਟੋਰ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ -- Keychain ਜਾਂ ਰਜਿਸਟਰੀ ਵਿੱਚ। ਇਹ ਕਿਸੇ ਫ਼ਾਈਲ ਵਿੱਚ ਨਹੀਂ ਜਾਂਦੀ।"
 
 msgid "%s -- being checked"
 msgstr "%s -- ਜਾਂਚ ਜਾਰੀ"
@@ -4969,3 +4963,27 @@ msgstr "ਜਿਉਂ ਦਾ ਤਿਉਂ ਰਹਿਣ ਦਿੱਤਾ ਜਾਂ�
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "ਜਿਉਂ ਦਾ ਤਿਉਂ ਰਹਿਣ ਦਿੱਤਾ ਜਾਂਦਾ ਹੈ: ਆਪਣੀ ਅਨਿਸ਼ਚਿਤਤਾ ਦੇ %s ਗੁਣਾ ਤੱਕ ਨਹੀਂ ਪਹੁੰਚਦਾ"
+
+msgid "Timing"
+msgstr "ਸਮਾਂ"
+
+msgid "Special cases"
+msgstr "ਖ਼ਾਸ ਹਾਲਤਾਂ"
+
+msgid "Transcript"
+msgstr "ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ"
+
+msgid "Writing down what is said ..."
+msgstr "ਜੋ ਕਿਹਾ ਜਾ ਰਿਹਾ ਹੈ, ਉਹ ਲਿਖਿਆ ਜਾ ਰਿਹਾ ਹੈ ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ ਲਈ ਟ੍ਰੈਕ ਮਿਲਾਏ ਜਾ ਰਹੇ ਹਨ"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "ਇਹ ਪਿਛੋਕੜ ਵਿੱਚ ਲਿਖੀ ਜਾ ਰਹੀ ਹੈ; ਪੂਰੀ ਹੁੰਦੇ ਹੀ ਸੈਟਿੰਗਾਂ ਆਪਣੇ ਆਪ ਖੁੱਲ੍ਹ ਜਾਣਗੀਆਂ।"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "ਕਿਸੇ Secret Service ਕੀਰਿੰਗ ਨੇ ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ, ਇਸ ਲਈ ਕੁਝ ਵੀ ਸਟੋਰ ਨਹੀਂ ਕੀਤਾ ਗਿਆ। Mac ਅਤੇ Windows ਤੋਂ ਬਾਹਰ ਕੁੰਜੀ ਡੈਸਕਟਾਪ ਦੀ ਕੀਰਿੰਗ ਵਿੱਚ ਰੱਖੀ ਜਾਂਦੀ ਹੈ, libsecret ਦੀ secret-tool ਕਮਾਂਡ ਰਾਹੀਂ। ਇਹ ਕਿਸੇ ਫ਼ਾਈਲ ਵਿੱਚ ਨਹੀਂ ਜਾਂਦੀ।"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "ਤਿਆਰੀ -- ਆਡੀਓ ਪੜ੍ਹਨਾ, ਐਨਵੈਲਪ ਗਿਣਨਾ ਅਤੇ ਜੋ ਕਿਹਾ ਜਾਂਦਾ ਹੈ ਉਹ ਲਿਖਣਾ:\n"

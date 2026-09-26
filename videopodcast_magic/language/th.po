@@ -2592,9 +2592,6 @@ msgstr "แสดงตัวอย่างไม่ได้: %s"
 msgid "Preview running ..."
 msgstr "กำลังแสดงตัวอย่าง ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "งานเตรียม -- อ่านเสียงและคำนวณเอนเวโลป:\n"
-
 msgid "Primaries"
 msgstr "สีปฐมภูมิ"
 
@@ -2720,9 +2717,6 @@ msgstr "แทร็กแรกของพรีเซ็ตกำหนดก
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "ต้องใช้ไฟล์การส่งมอบจากรอบการทำงาน แต่ไม่มี"
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "เก็บคีย์ได้เฉพาะบน Mac และ Windows -- ในพวงกุญแจหรือรีจิสทรี คีย์จะไม่ถูกเขียนลงไฟล์"
 
 msgid "%s -- being checked"
 msgstr "%s -- กำลังตรวจสอบ"
@@ -4922,3 +4916,27 @@ msgstr "คงไว้ตามเดิม: %s ppm ขึ้นไปน่า
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "คงไว้ตามเดิม: ไม่ถึง %s เท่าของความไม่แน่นอน"
+
+msgid "Timing"
+msgstr "จังหวะเวลา"
+
+msgid "Special cases"
+msgstr "กรณีพิเศษ"
+
+msgid "Transcript"
+msgstr "บทถอดความ"
+
+msgid "Writing down what is said ..."
+msgstr "กำลังเขียนสิ่งที่พูด ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "กำลังมิกซ์แทร็กสำหรับบทถอดความ"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "กำลังเขียนอยู่เบื้องหลัง เมื่อเสร็จแล้วการตั้งค่าเหล่านี้จะเปิดเอง"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "ไม่มีพวงกุญแจ Secret Service ใดตอบกลับ จึงไม่ได้เก็บอะไรไว้ นอก Mac และ Windows คีย์จะเก็บไว้ในพวงกุญแจของเดสก์ท็อป ผ่านคำสั่ง secret-tool จาก libsecret คีย์จะไม่ถูกเขียนลงไฟล์"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "งานเตรียม -- อ่านเสียง คำนวณเอนเวโลป และเขียนสิ่งที่พูด:\n"

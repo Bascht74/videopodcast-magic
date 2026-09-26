@@ -79,14 +79,15 @@ hint. Without a key the multitrack run stops there.*
 
 ## Processing at auphonic.com
 
-The key comes from the account settings into the Keychain or the
-Registry, once, never onto the command line: through the window, or
-with `--store-auphonic-key`. A stored key turns processing on, and a
-command line with switches but no files then only lists the presets.
+The key comes from the account settings into the Keychain, the
+Registry or the desktop's keyring (Linux), once, never onto the command
+line: through the window, or with `--store-auphonic-key`. A stored key
+turns processing on, and a command line with switches but no files then
+only lists the presets.
 
 | Switch | Does |
 |---|---|
-| `--store-auphonic-key` | ask for the key in the terminal without showing it, store it in the Keychain (macOS) or the Registry (Windows) and read it back; nothing may follow the switch (off) |
+| `--store-auphonic-key` | ask for the key in the terminal without showing it, store it in the Keychain (macOS), the Registry (Windows) or the desktop's keyring (Linux) and read it back; nothing may follow the switch (off) |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
 | `--auphonic-wait SECONDS` | how long to wait (7200) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |

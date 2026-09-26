@@ -432,9 +432,6 @@ msgstr "播放与暂停。"
 msgid "Preview running ..."
 msgstr "预览进行中 ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "前期处理——读取音频并计算包络：\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "在 auphonic.com 上处理（可选）"
 
@@ -3668,9 +3665,6 @@ msgstr "通过包管理器：apt install ffmpeg、dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "此 ffmpeg 没有 soxr：摄像机之间的时钟漂移将以 21 ppm 而非 0.21 的步长校正。"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "密钥只能在 Mac 和 Windows 上保存 -- 存入钥匙串或注册表。它不会写入文件。"
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org 提供 Windows 版本。随后须将含 ffmpeg.exe 的文件夹加入 PATH，或把文件放在本程序旁边。"
 
@@ -4918,3 +4912,27 @@ msgstr "保留不动：%s ppm 或以上更可能是测量误差"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "保留不动：未达到其不确定度的 %s 倍"
+
+msgid "Timing"
+msgstr "时间"
+
+msgid "Special cases"
+msgstr "特殊情况"
+
+msgid "Transcript"
+msgstr "转录"
+
+msgid "Writing down what is said ..."
+msgstr "正在写下所说的话 ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "正在为转录混合音轨"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "正在后台转录；完成后这些设置会自动开放。"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "没有 Secret Service 密钥环应答，因此什么也没有保存。在 Mac 和 Windows 以外，密钥通过 libsecret 的 secret-tool 命令保存在桌面的密钥环中。它不会写入文件。"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "前期处理——读取音频、计算包络并写下所说的话：\n"

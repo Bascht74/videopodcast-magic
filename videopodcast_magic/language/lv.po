@@ -2595,9 +2595,6 @@ msgstr "Priekšskatījums nav iespējams: %s"
 msgid "Preview running ..."
 msgstr "Notiek priekšskatījums ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Sagatavošana -- skaņas nolasīšana un aploksņu aprēķināšana:\n"
-
 msgid "Primaries"
 msgstr "Pamatkrāsas"
 
@@ -2723,9 +2720,6 @@ msgstr "Pirmais priekšiestatījuma celiņš nosaka iestatījumus visiem mūsu c
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Tam vajag izpildes nodošanas failu, bet tā nav."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Atslēgu var glabāt tikai Mac un Windows datoros -- Keychain krātuvē vai reģistrā. Failā tā nenonāk."
 
 msgid "%s -- being checked"
 msgstr "%s -- notiek pārbaude"
@@ -5012,3 +5006,27 @@ msgstr "tiek atstāts: %s ppm vai vairāk drīzāk ir mērījuma kļūda"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "tiek atstāts: nesasniedz %s reizes savu nenoteiktību"
+
+msgid "Timing"
+msgstr "Laiks"
+
+msgid "Special cases"
+msgstr "Īpaši gadījumi"
+
+msgid "Transcript"
+msgstr "Transkripcija"
+
+msgid "Writing down what is said ..."
+msgstr "Pieraksta teikto ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Celiņu miksēšana transkripcijai"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Tā tiek rakstīta fonā; iestatījumi atvērsies paši, tiklīdz tā būs gatava."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Neatbildēja neviens Secret Service atslēgu saišķis, tāpēc nekas netika saglabāts. Ārpus Mac un Windows atslēgu glabā darbvirsmas atslēgu saišķī, izmantojot libsecret komandu secret-tool. Failā tā nenonāk."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Sagatavošana -- skaņas nolasīšana, aploksņu aprēķināšana un teiktā pierakstīšana:\n"

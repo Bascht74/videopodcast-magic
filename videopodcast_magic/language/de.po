@@ -1793,7 +1793,7 @@ msgstr ""
 "                     klingt gequetscht -- %s dB weniger Verstärkung."
 
 msgid "  Transcript not possible (%s) -- it runs anyway."
-msgstr "  Mitschrift nicht möglich (%s) -- es läuft trotzdem."
+msgstr "  Niederschrift nicht möglich (%s) -- es läuft trotzdem."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Weitwinkel am Rand: bis %s und ab %s"
@@ -2753,7 +2753,7 @@ msgid "  Tracks: %s"
 msgstr "  Spuren: %s"
 
 msgid "  Transcript: %s"
-msgstr "  Mitschrift: %s"
+msgstr "  Niederschrift: %s"
 
 msgid "  Uploaded:"
 msgstr "  Hochgeladen:"
@@ -3934,9 +3934,6 @@ msgstr "Vorschau nicht möglich: %s"
 msgid "Preview running ..."
 msgstr "Vorschau läuft ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Vorarbeit -- Ton lesen und Hüllkurven rechnen:\n"
-
 msgid "Primaries"
 msgstr "Primärfarben"
 
@@ -4141,13 +4138,6 @@ msgstr ""
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Dafür fehlt die Übergabedatei aus einem Lauf."
-
-msgid ""
-"The key can only be stored on Mac and Windows -- in the keychain or the "
-"registry. It does not go into a file."
-msgstr ""
-"Der Schlüssel lässt sich nur auf Mac und Windows ablegen -- im "
-"Schlüsselbund oder in der Registrierung. In eine Datei kommt er nicht."
 
 msgid "%s -- being checked"
 msgstr "%s -- wird geprüft"
@@ -6733,3 +6723,27 @@ msgstr "bleibt stehen: %s ppm oder mehr sind eher ein Messfehler"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "bleibt stehen: nicht das %s-Fache seiner Unsicherheit"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Sonderfälle"
+
+msgid "Transcript"
+msgstr "Niederschrift"
+
+msgid "Writing down what is said ..."
+msgstr "Schreibe auf, was gesagt wird ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Spuren für die Niederschrift mischen"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Sie wird im Hintergrund geschrieben; sobald sie fertig ist, öffnen sich die Einstellungen von selbst."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Kein Schlüsselbund des Secret Service hat geantwortet, darum wurde nichts abgelegt. Außerhalb von Mac und Windows liegt der Schlüssel im Schlüsselbund des Desktops, erreicht über den Befehl secret-tool aus libsecret. In eine Datei kommt er nicht."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Vorarbeit -- Ton lesen, Hüllkurven rechnen, Gesagtes aufschreiben:\n"

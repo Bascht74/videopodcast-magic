@@ -187,6 +187,9 @@ SAME_IN_BOTH = {
     '\n    %s  --  %s, %s',
     # Player is the ordinary German word too, so both sides are right.
     '  Player: %s',
+    # Timing is what a German editor says of a cut as well; the group of
+    # cut settings carries it unchanged.
+    'Timing',
     # Two units, and a row of numbers with its units: GB, MB and fps are
     # written so in German too.
     '%s GB', '%s MB', '%s, %sx%s, %s fps%s%s',

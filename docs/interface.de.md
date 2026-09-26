@@ -541,7 +541,10 @@ Material vermessen wird, mit einer Zeile je Datei und dem Stand jeder
 einzelnen. Eine Zeile verschwindet, sobald ihre Datei fertig ist, der
 Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
 lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
-neben **Start** mitträgt, hier Datei für Datei.
+neben **Start** mitträgt, hier Datei für Datei. Steht die Zeitachse,
+kommt eine weitere Zeile hinzu, **Niederschrift**: das Fenster schreibt
+auf, was gesagt wird, und auf diese Wörter warten die vier Einstellungen
+des Kameraschnitts, die sie brauchen ([Kameraschnitt](camera-cut.de.md)).
 
 **Name der Produktion**, **Sprache im Ton** und **Projekttyp** stehen
 in einer Zeile. Ist das Fenster für alle drei zu schmal, bricht die

@@ -2594,9 +2594,6 @@ msgstr "Hakiki haiwezekani: %s"
 msgid "Preview running ..."
 msgstr "Hakiki inaendelea ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Maandalizi -- kusoma sauti na kukokotoa mikunjo ya sauti:\n"
-
 msgid "Primaries"
 msgstr "Rangi za msingi"
 
@@ -2722,9 +2719,6 @@ msgstr "Treki ya kwanza ya mpangilio awali huweka mipangilio ya treki zetu zote.
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Hilo linahitaji faili ya makabidhiano kutoka kwa uendeshaji, na hakuna."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ufunguo unaweza kuhifadhiwa kwenye Mac na Windows tu -- katika Keychain au Rejista. Hauwekwi kwenye faili."
 
 msgid "%s -- being checked"
 msgstr "%s -- ukaguzi unaendelea"
@@ -4967,3 +4961,27 @@ msgstr "inaachwa ilivyo: %s ppm au zaidi huenda ni kosa la kipimo"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "inaachwa ilivyo: haifikii mara %s ya kutokuwa na uhakika kwake"
+
+msgid "Timing"
+msgstr "Muda"
+
+msgid "Special cases"
+msgstr "Hali maalum"
+
+msgid "Transcript"
+msgstr "Nakala ya maneno"
+
+msgid "Writing down what is said ..."
+msgstr "Inaandika kinachosemwa ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Inachanganya nyimbo kwa ajili ya nakala ya maneno"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Inaandikwa chinichini; mipangilio itajifungua yenyewe itakapokamilika."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Hakuna keyring ya Secret Service iliyojibu, kwa hiyo hakuna kilichohifadhiwa. Nje ya Mac na Windows ufunguo huhifadhiwa kwenye keyring ya eneo-kazi, kupitia amri ya secret-tool kutoka libsecret. Hauwekwi kwenye faili."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Maandalizi -- kusoma sauti, kukokotoa mikunjo ya sauti na kuandika kinachosemwa:\n"

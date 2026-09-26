@@ -432,9 +432,6 @@ msgstr "再生と一時停止をします。"
 msgid "Preview running ..."
 msgstr "プレビュー実行中 ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "前処理 -- 音声を読み、エンベロープを計算します：\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "auphonic.com での処理（任意）"
 
@@ -3668,9 +3665,6 @@ msgstr "パッケージマネージャーで: apt install ffmpeg、dnf install f
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "この ffmpeg には soxr がありません: カメラ間のクロックのずれは 0.21 ではなく 21 ppm 刻みで補正されます。"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "キーは Mac と Windows でのみ保存できます -- キーチェーンかレジストリに。ファイルには書き込みません。"
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org に Windows 用のビルドがあります。ffmpeg.exe のあるフォルダーを PATH に加えるか、ファイルをこのプログラムの隣に置いてください。"
 
@@ -4920,3 +4914,27 @@ msgstr "そのまま残します: %s ppm 以上はむしろ測定エラーです
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "そのまま残します: 不確かさの %s 倍に達していません"
+
+msgid "Timing"
+msgstr "タイミング"
+
+msgid "Special cases"
+msgstr "特別な場合"
+
+msgid "Transcript"
+msgstr "書き起こし"
+
+msgid "Writing down what is said ..."
+msgstr "話された内容を書き起こしています ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "書き起こし用にトラックをミックスしています"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "バックグラウンドで書き起こし中です。終われば設定は自動的に使えるようになります。"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Secret Service のキーリングが応答しなかったため、何も保存されていません。Mac と Windows 以外では、キーは libsecret の secret-tool コマンドを通じてデスクトップのキーリングに保存されます。ファイルには書き込みません。"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "前処理 -- 音声を読み、エンベロープを計算し、話された内容を書き起こします：\n"

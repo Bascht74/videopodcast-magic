@@ -2557,9 +2557,6 @@ msgstr "미리보기 불가: %s"
 msgid "Preview running ..."
 msgstr "미리보기 실행 중 ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "사전 작업 -- 오디오 읽기 및 엔벨로프 계산:\n"
-
 msgid "Primaries"
 msgstr "원색"
 
@@ -2693,9 +2690,6 @@ msgstr "프리셋의 첫 번째 트랙이 이쪽 모든 트랙의 설정을 정�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "이 작업에는 실행에서 나온 인계 파일이 필요한데, 없습니다."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "키는 Mac과 Windows에서만 저장할 수 있습니다 -- 키체인 또는 레지스트리에. 파일에는 저장되지 않습니다."
 
 msgid "%s -- being checked"
 msgstr "%s -- 확인 중"
@@ -4919,3 +4913,27 @@ msgstr "그대로 둡니다: %s ppm 이상은 오히려 측정 오류입니다"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "그대로 둡니다: 불확실성의 %s배에 이르지 않습니다"
+
+msgid "Timing"
+msgstr "타이밍"
+
+msgid "Special cases"
+msgstr "특수한 경우"
+
+msgid "Transcript"
+msgstr "대본"
+
+msgid "Writing down what is said ..."
+msgstr "말한 내용을 받아 적는 중 ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "대본을 위해 트랙을 믹싱하는 중"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "백그라운드에서 작성 중입니다. 끝나면 설정이 저절로 열립니다."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "응답한 Secret Service 키링이 없어 아무것도 저장하지 않았습니다. Mac과 Windows 외에서는 libsecret의 secret-tool 명령을 통해 키를 데스크톱 키링에 보관합니다. 파일에는 저장되지 않습니다."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "사전 작업 -- 오디오 읽기, 엔벨로프 계산 및 말한 내용 받아 적기:\n"

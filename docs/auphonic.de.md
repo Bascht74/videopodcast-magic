@@ -11,18 +11,20 @@ Der Zugang wird einmal hinterlegt, das Preset gehört zur einzelnen
 Produktion.
 
 Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen. Das Programm
-bewahrt ihn an genau einer Stelle auf: im Schlüsselbund (macOS) oder in
-der Registry (Windows). Nie in einer Datei, nie in der Projektdatei und
-auch nicht in einer Umgebungsvariable.
+bewahrt ihn an genau einer Stelle auf: im Schlüsselbund (macOS), in der
+Registry (Windows) oder im Schlüsselbund des Desktops (Linux). Nie in
+einer Datei, nie in der Projektdatei und auch nicht in einer
+Umgebungsvariable.
 
 1. Im Fußbereich **Einstellungen ...** öffnen; das Fenster selbst ist in
    [Die Oberfläche](interface.de.md) beschrieben.
 2. Im Kasten **Zugang zu auphonic.com** das Feld **API Key:** füllen
    (wer von der Kommandozeile aus arbeitet, legt den Schlüssel einmal
    ab, wie unten unter *Den Schlüssel ohne Fenster ablegen* beschrieben).
-3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen, das den
-   Schlüssel im Schlüsselbund (macOS) oder in der Registry (Windows)
-   behält. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
+3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen (unter
+   Windows heißt es **In der Registry speichern**, unter Linux
+   **Gemerkt lassen**); der Schlüssel bleibt dann im Schlüsselbund, in
+   der Registry oder im Schlüsselbund des Desktops. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
    ist er es nicht, sagt das Fenster es.
 4. **Verbinden** drücken. Der Knopf prüft den Schlüssel und holt die
    Presets.
@@ -40,11 +42,11 @@ im Kasten auf dem Reiter **Zuordnung & Zeitfenster**. Sie nennt auch
 einen fehlenden Schlüssel.
 
 **Die Zeile sagt, welcher Schlüssel abgelehnt wurde.** Beim Start hat
-niemand etwas getippt, der Schlüssel kam also aus dem Schlüsselbund
-oder der Registry, und genau das sagt die Zeile -- **Der gemerkte
-Schlüssel wird nicht angenommen** --, damit dort gesucht wird, wo er
-liegt. Nach **Verbinden** ist es der Schlüssel aus dem Feld, und die
-Zeile sagt nur noch, was auphonic.com geantwortet hat.
+niemand etwas getippt, der Schlüssel kam also aus dem Schlüsselbund, der
+Registry oder dem Schlüsselbund des Desktops, und genau das sagt die
+Zeile -- **Der gemerkte Schlüssel wird nicht angenommen** --, damit dort
+gesucht wird, wo er liegt. Nach **Verbinden** ist es der Schlüssel aus
+dem Feld, und die Zeile sagt nur noch, was auphonic.com geantwortet hat.
 
 * Auf dem Weg zu auphonic.com steht der Schlüssel nie in der
   Prozessliste: curl liest ihn aus einer Konfigurationsdatei, die nur
@@ -113,15 +115,16 @@ Der Schlüssel ist gespeichert, und das Zurücklesen ergab denselben Schlüssel.
 ```
 
 Getippt wird er dort, wo das Terminal nichts anzeigt; dann kommt er in
-den Schlüsselbund oder die Registry, genau wie mit dem Häkchen oben,
-und wird zurückgelesen. Jeder spätere Lauf nimmt ihn von dort. Hat es
-nicht gehalten, lautet die Antwort **Der Schlüssel ist nicht
-gespeichert:** mit dem Grund dahinter; wer nichts tippt, legt nichts
-ab. Den Schlüssel selbst schreibt man nie hinter den Schalter: Ein Wort
-dort wird abgewiesen, bevor überhaupt gefragt wird, denn in der
-Befehlsgeschichte der Shell bliebe es stehen. Unter Linux gibt es
-keinen solchen Speicher, der Schalter hat dort also nichts, wohin er
-den Schlüssel legen könnte -- siehe [Was gebraucht wird](requirements.de.md).
+den Schlüsselbund, die Registry oder den Schlüsselbund des Desktops,
+genau wie mit dem Häkchen oben, und wird zurückgelesen. Jeder spätere
+Lauf nimmt ihn von dort. Hat es nicht gehalten, lautet die Antwort **Der
+Schlüssel ist nicht gespeichert:** mit dem Grund dahinter; wer nichts
+tippt, legt nichts ab. Den Schlüssel selbst schreibt man nie hinter den
+Schalter: Ein Wort dort wird abgewiesen, bevor überhaupt gefragt wird,
+denn in der Befehlsgeschichte der Shell bliebe es stehen. Unter Linux
+kommt er in den Schlüsselbund des Desktops (Secret Service, über
+`secret-tool`); antwortet keiner, wird nichts abgelegt, und die Antwort
+sagt das -- siehe [Was gebraucht wird](requirements.de.md).
 
 ### Das Transkript entsteht hier
 

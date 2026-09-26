@@ -2594,9 +2594,6 @@ msgstr "પૂર્વાવલોકન શક્ય નથી: %s"
 msgid "Preview running ..."
 msgstr "પૂર્વાવલોકન ચાલી રહ્યું છે ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "પૂર્વતૈયારી -- ઑડિયો વાંચવો અને એન્વેલપ ગણવા:\n"
-
 msgid "Primaries"
 msgstr "મૂળ રંગો"
 
@@ -2722,9 +2719,6 @@ msgstr "પ્રીસેટનો પહેલો ટ્રૅક અમાર
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "આ માટે કોઈ રનની હસ્તાંતરણ ફાઇલ જોઈએ, અને તે નથી."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "કી ફક્ત Mac અને Windows પર સંગ્રહી શકાય છે -- Keychain અથવા રજિસ્ટ્રીમાં. તે ફાઇલમાં જતી નથી."
 
 msgid "%s -- being checked"
 msgstr "%s -- ચકાસણી ચાલુ"
@@ -4967,3 +4961,27 @@ msgstr "એમ જ રાખવામાં આવે છે: %s ppm કે ત�
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "એમ જ રાખવામાં આવે છે: તેની અનિશ્ચિતતાના %s ગણા સુધી પહોંચતું નથી"
+
+msgid "Timing"
+msgstr "સમય"
+
+msgid "Special cases"
+msgstr "ખાસ કિસ્સાઓ"
+
+msgid "Transcript"
+msgstr "ટ્રાન્સક્રિપ્ટ"
+
+msgid "Writing down what is said ..."
+msgstr "જે બોલાય છે તે લખાઈ રહ્યું છે ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ટ્રાન્સક્રિપ્ટ માટે ટ્રૅક મિક્સ થઈ રહ્યા છે"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "તે પૃષ્ઠભૂમિમાં લખાઈ રહી છે; પૂરી થતાં જ સેટિંગ્સ આપોઆપ ખૂલી જશે."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "કોઈ Secret Service કીરિંગે જવાબ ન આપ્યો, તેથી કંઈ સંગ્રહાયું નથી. Mac અને Windows સિવાય કી ડેસ્કટૉપની કીરિંગમાં રાખવામાં આવે છે, libsecretના secret-tool આદેશ દ્વારા. તે ફાઇલમાં જતી નથી."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "પૂર્વતૈયારી -- ઑડિયો વાંચવો, એન્વેલપ ગણવા અને જે બોલાય છે તે લખવું:\n"

@@ -2557,9 +2557,6 @@ msgstr "Forhåndsvisning ikke mulig: %s"
 msgid "Preview running ..."
 msgstr "Forhåndsvisning pågår ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Forarbeid -- lese lyd og beregne envelopekurver:\n"
-
 msgid "Primaries"
 msgstr "Primærfarger"
 
@@ -2695,9 +2692,6 @@ msgstr "Det første sporet i forhåndsinnstillingen bestemmer innstillingene for
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Det krever overleveringsfilen fra en kjøring, og det finnes ingen."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Nøkkelen kan bare lagres på Mac og Windows -- i nøkkelringen eller registeret. Den havner ikke i en fil."
 
 msgid "%s -- being checked"
 msgstr "%s -- sjekkes"
@@ -4963,3 +4957,27 @@ msgstr "blir stående: %s ppm eller mer er heller en målefeil"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "blir stående: ikke %s ganger usikkerheten sin"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Spesialtilfeller"
+
+msgid "Transcript"
+msgstr "Transkripsjon"
+
+msgid "Writing down what is said ..."
+msgstr "Skriver ned det som blir sagt ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mikser sporene for transkripsjonen"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Den skrives i bakgrunnen; innstillingene åpner seg selv når den er ferdig."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ingen Secret Service-nøkkelring svarte, så ingenting ble lagret. Utenfor Mac og Windows ligger nøkkelen i skrivebordets nøkkelring, via kommandoen secret-tool fra libsecret. Den havner ikke i en fil."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Forarbeid -- lese lyd, beregne envelopekurver og skrive ned det som blir sagt:\n"

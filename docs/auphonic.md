@@ -10,17 +10,20 @@ preset and sends it back as an ordinary audio file. The access goes in
 once, the preset belongs to the single production.
 
 The key is in the Auphonic account settings. The program keeps it in
-one place: the Keychain (macOS) or the Registry (Windows). Never in a
-file, never in the project file, and not in an environment variable.
+one place: the Keychain (macOS), the Registry (Windows), or the
+desktop's keyring (Linux). Never in a file, never in the project file,
+and not in an environment variable.
 
 1. Open **Settings ...** in the footer; the window itself is described
    in [The interface](interface.md).
 2. In the box **Access to auphonic.com** fill in the field **API Key:**
    (for runs from the command line the key is stored once, as
    described under *Storing the key without the window* below).
-3. Optional: tick **Save in Keychain**, which keeps the key in the
-   Keychain (macOS) or in the Registry (Windows). On a Mac the keychain
-   has to be unlocked for that, and the window says so where it is not.
+3. Optional: tick **Save in Keychain** (on Windows **Save in
+   Registry**, on Linux **Keep it saved**), which keeps the key in the
+   Keychain, the Registry or the desktop's keyring. On a Mac the
+   keychain has to be unlocked for that, and the window says so where
+   it is not.
 4. Press **Connect**. It checks the key and fetches the presets.
 
 ![The box for the key](images/settings.png)
@@ -35,10 +38,11 @@ stands in the settings window and in the box on the **Assignment & time
 window** tab alike. It names a missing key as well.
 
 **The line says which key was refused.** Nobody typed anything at
-start-up, so the key came out of the Keychain or the Registry, and the
-line says so -- **The stored key is not accepted** -- so the answer is
-looked for where the key lies. After **Connect** it is the key in the
-field, and the line says only what auphonic.com replied.
+start-up, so the key came out of the Keychain, the Registry or the
+desktop's keyring, and the line says so -- **The stored key is not
+accepted** -- so the answer is looked for where the key lies. After
+**Connect** it is the key in the field, and the line says only what
+auphonic.com replied.
 
 * On its way to auphonic.com the key never appears in the process list:
   curl reads it from a config file that only its owner can read. The
@@ -101,13 +105,15 @@ The key is stored, and reading it back gave the same key.
 ```
 
 The key is typed where the terminal does not show it, goes into the
-Keychain or the Registry just as the tick above does, and is read
-back. Every later run takes it from there. Where it did not hold, the
-answer is **The key is not stored:** and the reason, and nothing typed
-stores nothing. The key itself is never written after the switch: a
-word there is refused before anything is asked, because it would stand
-in the shell's history. On Linux there is no store, so this switch has
-nothing to put the key in -- see [What it needs](requirements.md).
+Keychain, the Registry or the desktop's keyring just as the tick above
+does, and is read back. Every later run takes it from there. Where it
+did not hold, the answer is **The key is not stored:** and the reason,
+and nothing typed stores nothing. The key itself is never written after
+the switch: a word there is refused before anything is asked, because it
+would stand in the shell's history. On Linux it goes into the desktop's
+keyring (the Secret Service, through `secret-tool`); where none answers,
+nothing is stored and the answer says so -- see
+[What it needs](requirements.md).
 
 ### The transcript is made here
 

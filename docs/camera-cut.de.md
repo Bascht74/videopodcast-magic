@@ -83,6 +83,17 @@ daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald
 davon, oder eine mit einer zweiten Kamera, auf der niemand ist; vorher
 steht an seiner Stelle eine Zeile und sagt, was fehlt.
 
+Im Kasten sind die Einstellungen in drei Gruppen geordnet: **Timing**,
+**Weitwinkel** und **Sonderfälle**. Ein Klick auf den Kopf einer Gruppe
+klappt sie auf oder zu, und eine zugeklappte Gruppe nennt ihre Werte in
+einer Zeile neben dem Kopf — was nicht zu sehen ist, steht dort
+wenigstens da. Müsste der Reiter sonst rollen, klappt die Gruppe von
+selbst zu, die am längsten offen ist, nie aber die letzte, die noch
+offen steht. Welche Gruppen offen sind, merkt sich das Programm für den
+nächsten Start, sobald einmal eine von Hand auf- oder zugeklappt wurde;
+bis dahin sind alle offen, und eine Gruppe, in der ein Wert von der
+Vorgabe abweicht, wird als letzte zugeklappt, wenn der Platz knapp wird.
+
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
 *Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau. Vier der
@@ -95,7 +106,8 @@ Dezimalzeichen, und eine Obergrenze gibt es nicht. Ein negativer Wert
 ist nur für **Edit Change Delay** gedacht; die anderen Felder nehmen
 ihn an, aber es kommt nichts Gutes dabei heraus.
 
-Drei Felder bestimmen den Rhythmus des Schnitts:
+In **Timing** stehen vier Felder. Drei davon bestimmen den Rhythmus des
+Schnitts:
 
 * **Mindestschnittdauer**: 3 s, so lange steht eine Einstellung
   mindestens; höher macht den Schnitt ruhiger (auf der Kommandozeile
@@ -107,9 +119,9 @@ Drei Felder bestimmen den Rhythmus des Schnitts:
   das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
   Kommandozeile `--edit-change-delay`)
 
-Ein viertes Feld steht mitten unter diesen dreien, an dritter Stelle,
-und gehört nicht zum Rhythmus, sondern zu einem Auswahlfeld weiter
-unten:
+Das vierte steht mitten unter diesen dreien, an dritter Stelle, und
+gehört nicht zum Rhythmus, sondern zu einem Auswahlfeld in
+**Sonderfälle**:
 
 * **Kurze Lücke bis**: 1 s, bis zu dieser Länge lässt eine Stille das
   Bild stehen, eine längere geht auf den Weitwinkel. Es wirkt nur, wo
@@ -119,8 +131,8 @@ unten:
   der schweigt; ab zwei Sekunden kommen die ersten Strecken über fünf
   Sekunden, und dort fängt das Bild an, vergessen auszusehen.
 
-Vier formen den Weitwinkel, und die ersten beiden davon gehören
-zusammen: eine weiche Grenze und eine harte.
+In **Weitwinkel** stehen vier Felder, und die ersten beiden davon
+gehören zusammen: eine weiche Grenze und eine harte.
 
 * **Weitwinkel nach**: 70 s, die weiche Grenze. Ab dieser Standzeit
   sucht das Programm eine Satzgrenze und setzt den Weitwinkel dorthin,
@@ -141,8 +153,8 @@ zusammen: eine weiche Grenze und eine harte.
 * **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der
   Kommandozeile `--wide-most`)
 
-Das letzte Feld gehört zur Frage und steht direkt über dem Auswahlfeld,
-das über sie entscheidet:
+**Sonderfälle** beginnt mit einem Feld, das zur Frage gehört; es steht
+direkt über dem Auswahlfeld, das über sie entscheidet:
 
 * **Antwort früher im Bild**: 1,5 s, so viel vor dem Ende der Frage
   steht der Antwortende im Bild (auf der Kommandozeile
@@ -153,8 +165,8 @@ das über sie entscheidet:
   liegt der Schnitt bei 5,0 Sekunden, nicht bei 7,5. Die Verzögerung
   aus **Edit Change Delay** kommt nicht noch einmal dazu.
 
-Unter den Feldern stehen fünf Auswahlfelder. Sie sagen, was läuft, wenn
-die Sprache nicht sagt, wer zu zeigen ist:
+Darunter stehen fünf Auswahlfelder. Sie sagen, was läuft, wenn die
+Sprache nicht sagt, wer zu zeigen ist:
 
 * **Nach einer Frage**: **Antwortender** (auf der Kommandozeile
   `--on-question`)
@@ -181,18 +193,19 @@ Frage** nimmt **nicht vorziehen**, **Antwortender** und **Zuhörer**;
 **nicht vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild
 folgt dem Ton hier wie überall sonst.
 
-Unter den Auswahlfeldern hält das Häkchen **Weitwinkel für Begrüßung am
-Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
-(auf der Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel
-am Anfang hält, bis das Wort wirklich übergeben wird, nicht bis zum
-ersten längeren Block einer Nebenstimme. Keiner der beiden Ränder hält
-länger als ein Drittel der Aufnahme und länger als **Weitwinkel
-spätestens**: Wo Begrüßung oder Abschied länger dauern würden, endet
-dieser Rand dort -- in einer kurzen Aufnahme beim Drittel, in einer
-langen bei der Einstellung --, und das Protokoll vermerkt es unter
-`Weitwinkel am Rand`, samt der Stelle, an der das Wort wirklich
-wechselt. Fällt ein Rand kürzer aus als die **Mindestschnittdauer**,
-geht er wie jede andere Einstellung in die benachbarte auf.
+Am Fuß von **Weitwinkel**, unter dessen vier Feldern, hält das Häkchen
+**Weitwinkel für Begrüßung am Anfang und Verabschiedung am Ende** Anfang
+und Ende auf dem Weitwinkel (auf der Kommandozeile schaltet
+`--no-wide-edges` es ab). Der Weitwinkel am Anfang hält, bis das Wort
+wirklich übergeben wird, nicht bis zum ersten längeren Block einer
+Nebenstimme. Keiner der beiden Ränder hält länger als ein Drittel der
+Aufnahme und länger als **Weitwinkel spätestens**: Wo Begrüßung oder
+Abschied länger dauern würden, endet dieser Rand dort -- in einer kurzen
+Aufnahme beim Drittel, in einer langen bei der Einstellung --, und das
+Protokoll vermerkt es unter `Weitwinkel am Rand`, samt der Stelle, an
+der das Wort wirklich wechselt. Fällt ein Rand kürzer aus als die
+**Mindestschnittdauer**, geht er wie jede andere Einstellung in die
+benachbarte auf.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
@@ -219,8 +232,14 @@ keinen Satz. Offen sind sie, solange es überhaupt einen Weitwinkel gibt
 — der nächste Abschnitt handelt vom zweiten Grund, aus dem eine
 Einstellung grau dasteht.
 
-Der erste Lauf schreibt die Niederschrift. Von da an sind die vier
-offen, und die Vorschau rechnet mit ihnen.
+Die Niederschrift schreibt das Fenster selbst, im Hintergrund, sobald
+die Zeitachse steht: der Balken der Vorarbeit unter den Tabellen auf
+**Zuordnung & Zeitfenster** führt sie als eigene Zeile,
+**Niederschrift**. Solange sie entsteht, sagt die Zeile unter den vier
+genau das, und ist sie fertig, werden die vier von selbst frei; von da
+an rechnet die Vorschau mit ihnen. Hat die Trennung die Wörter einer
+einzelnen Aufnahme schon aufgeschrieben, werden diese so übernommen,
+wie sie sind. Auch ein Lauf schreibt eine Niederschrift.
 
 ### Wenn keine Kamera frei von Sprechern ist
 
@@ -286,8 +305,7 @@ für die Ränder hier nichts.
 
 Keines der beiden Graus bleibt für immer. Eine Kamera kennzeichnen oder
 einer den Sprecher wegnehmen, und die fünf sind im selben Augenblick
-wieder da — so wie die vier, sobald ein Lauf die Wörter aufgeschrieben
-hat.
+wieder da — so wie die vier, sobald die Niederschrift steht.
 
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
@@ -869,7 +887,11 @@ Lautheitsmessung läuft je Spur zweimal durch.
 * **Vier Einstellungen sind grau und nehmen nichts an.** Es ist noch
   keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
   Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen
-  eine; der erste Lauf schreibt sie, danach nehmen sie einen Wert an.
+  eine. Das Fenster schreibt sie im Hintergrund, sobald die Zeitachse
+  steht — der Balken der Vorarbeit zeigt dann die Zeile
+  **Niederschrift** —, und ist sie fertig, werden die vier von selbst
+  frei. Ist `VPM_NO_SPEAKER_SPLIT` gesetzt, schreibt das Fenster keine,
+  und der erste Lauf tut es.
 * **Fünf Einstellungen sind grau, und der Weitwinkel lässt sich nicht
   wählen.** Jede Kamera trägt einen Sprecher, also gibt es keinen
   Weitwinkel. Einer Kamera im Feld **Typ** den Wert **Weitwinkel**

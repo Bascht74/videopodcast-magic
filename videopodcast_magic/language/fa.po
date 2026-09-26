@@ -2593,9 +2593,6 @@ msgstr "پیش‌نمایش ممکن نیست: %s"
 msgid "Preview running ..."
 msgstr "پیش‌نمایش در حال اجرا ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "کار مقدماتی -- خواندن صدا و محاسبه پوش‌ها:\n"
-
 msgid "Primaries"
 msgstr "رنگ‌های اصلی"
 
@@ -2721,9 +2718,6 @@ msgstr "نخستین ترک پیش‌تنظیم، تنظیمات همه ترک�
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "برای این کار فایل تحویل یک اجرا لازم است، و چنین فایلی نیست."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "کلید فقط در Mac و Windows ذخیره می‌شود -- در Keychain یا رجیستری. در هیچ فایلی نوشته نمی‌شود."
 
 msgid "%s -- being checked"
 msgstr "%s -- در حال بررسی"
@@ -4966,3 +4960,27 @@ msgstr "باقی گذاشته می‌شود: %s ppm یا بیشتر به احت�
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "باقی گذاشته می‌شود: به %s برابر عدم قطعیتش نمی‌رسد"
+
+msgid "Timing"
+msgstr "زمان‌بندی"
+
+msgid "Special cases"
+msgstr "موارد خاص"
+
+msgid "Transcript"
+msgstr "متن گفتار"
+
+msgid "Writing down what is said ..."
+msgstr "نوشتن آنچه گفته می‌شود ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "میکس کردن ترک‌ها برای متن گفتار"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "در پس‌زمینه نوشته می‌شود؛ وقتی تمام شد، این تنظیمات خودشان باز می‌شوند."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "هیچ جاکلیدی Secret Service پاسخ نداد، بنابراین چیزی ذخیره نشد. بیرون از Mac و Windows کلید در جاکلیدی میز کار نگه داشته می‌شود، از طریق فرمان secret-tool از libsecret. در هیچ فایلی نوشته نمی‌شود."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "کار مقدماتی -- خواندن صدا، محاسبه پوش‌ها و نوشتن آنچه گفته می‌شود:\n"

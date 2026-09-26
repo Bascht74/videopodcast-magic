@@ -437,9 +437,6 @@ msgstr "चलाएँ और रोकें।"
 msgid "Preview running ..."
 msgstr "पूर्वावलोकन चल रहा है ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "पूर्वकार्य -- ऑडियो पढ़ें और एनवेलप की गणना करें:\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "auphonic.com पर प्रोसेसिंग (वैकल्पिक)"
 
@@ -3678,9 +3675,6 @@ msgstr "पैकेज मैनेजर से: apt install ffmpeg, dnf insta
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "इस ffmpeg में soxr नहीं है: कैमरों के बीच घड़ी का विचलन 0.21 के बजाय 21 ppm के चरणों में आता है।"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "कुंजी केवल Mac और Windows पर सहेजी जा सकती है -- कीचेन में या रजिस्ट्री में। वह किसी फ़ाइल में नहीं जाती।"
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org पर Windows के लिए बिल्ड हैं। फिर ffmpeg.exe वाला फ़ोल्डर PATH में जाना चाहिए, या फ़ाइलें इस प्रोग्राम के बगल में।"
 
@@ -4964,3 +4958,27 @@ msgstr "छोड़ दिया जाता है: %s ppm या उसस�
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "छोड़ दिया जाता है: अपनी अनिश्चितता के %s गुना तक नहीं पहुँचता"
+
+msgid "Timing"
+msgstr "टाइमिंग"
+
+msgid "Special cases"
+msgstr "विशेष स्थितियाँ"
+
+msgid "Transcript"
+msgstr "ट्रांसक्रिप्ट"
+
+msgid "Writing down what is said ..."
+msgstr "जो कहा गया है, वह लिखा जा रहा है ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ट्रांसक्रिप्ट के लिए ट्रैक मिलाए जा रहे हैं"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "यह पृष्ठभूमि में लिखा जा रहा है; पूरा होते ही सेटिंग्स अपने आप खुल जाएँगी।"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "किसी Secret Service कीरिंग ने जवाब नहीं दिया, इसलिए कुछ नहीं सहेजा गया। Mac और Windows के बाहर कुंजी डेस्कटॉप की कीरिंग में रखी जाती है, libsecret के secret-tool कमांड के ज़रिए। वह किसी फ़ाइल में नहीं जाती।"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "पूर्वकार्य -- ऑडियो पढ़ें, एनवेलप की गणना करें और जो कहा गया है उसे लिखें:\n"

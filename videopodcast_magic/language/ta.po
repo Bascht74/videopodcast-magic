@@ -2593,9 +2593,6 @@ msgstr "முன்னோட்டம் சாத்தியமில்ல�
 msgid "Preview running ..."
 msgstr "முன்னோட்டம் இயங்குகிறது ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "முன்வேலை -- ஆடியோவைப் படித்து என்வலப்புகளைக் கணக்கிடுதல்:\n"
-
 msgid "Primaries"
 msgstr "முதன்மை நிறங்கள்"
 
@@ -2721,9 +2718,6 @@ msgstr "முன்னமைவின் முதல் தடம் நமத
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "அதற்கு ஒரு இயக்கத்தின் ஒப்படைப்புக் கோப்பு தேவை, அது இல்லை."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "விசையை Mac, Windows-இல் மட்டுமே சேமிக்க முடியும் -- Keychain-இல் அல்லது பதிவகத்தில். அது கோப்புக்குள் போகாது."
 
 msgid "%s -- being checked"
 msgstr "%s -- சரிபார்க்கப்படுகிறது"
@@ -4967,3 +4961,27 @@ msgstr "அப்படியே விடப்படுகிறது: %s ppm
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "அப்படியே விடப்படுகிறது: அதன் நிச்சயமின்மையின் %s மடங்கை எட்டவில்லை"
+
+msgid "Timing"
+msgstr "நேரம்"
+
+msgid "Special cases"
+msgstr "சிறப்பு நிலைகள்"
+
+msgid "Transcript"
+msgstr "எழுத்துப்படி"
+
+msgid "Writing down what is said ..."
+msgstr "சொல்லப்படுவது எழுதப்படுகிறது ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "எழுத்துப்படிக்காகத் தடங்கள் கலக்கப்படுகின்றன"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "அது பின்னணியில் எழுதப்படுகிறது; முடிந்ததும் அமைப்புகள் தாமாகத் திறக்கும்."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "எந்த Secret Service சாவிக்கொத்தும் பதிலளிக்கவில்லை, எனவே எதுவும் சேமிக்கப்படவில்லை. Mac, Windows தவிர மற்றவற்றில் விசை libsecret-இன் secret-tool கட்டளை வழியாக டெஸ்க்டாப்பின் சாவிக்கொத்தில் வைக்கப்படுகிறது. அது கோப்புக்குள் போகாது."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "முன்வேலை -- ஆடியோவைப் படித்து, என்வலப்புகளைக் கணக்கிட்டு, சொல்லப்படுவதை எழுதுதல்:\n"

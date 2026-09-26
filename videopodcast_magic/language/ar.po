@@ -472,9 +472,6 @@ msgstr "تشغيل وإيقاف مؤقت."
 msgid "Preview running ..."
 msgstr "المعاينة قيد التشغيل ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "العمل التمهيدي -- قراءة الصوت وحساب الأغلفة:\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "المعالجة على auphonic.com (اختياري)"
 
@@ -3733,9 +3730,6 @@ msgstr "عبر مدير الحزم: apt install ffmpeg، dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "لا يحتوي ffmpeg هذا على soxr: يُعوَّض انحراف الساعة بين الكاميرات بخطوات 21 ppm بدلًا من 0.21."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "لا يمكن حفظ المفتاح إلا على Mac وWindows -- في سلسلة المفاتيح أو السجل. ولا يُكتب في ملف."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  يوفّر ffmpeg.org إصدارات لـ Windows. يجب بعدها إضافة المجلد الذي فيه ffmpeg.exe إلى PATH، أو وضع الملفات بجوار هذا البرنامج."
 
@@ -5147,3 +5141,27 @@ msgstr "يُترك كما هو: %s جزء في المليون أو أكثر هو
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "يُترك كما هو: لا يبلغ %s أضعاف عدم يقينه"
+
+msgid "Timing"
+msgstr "التوقيت"
+
+msgid "Special cases"
+msgstr "حالات خاصة"
+
+msgid "Transcript"
+msgstr "النص المفرّغ"
+
+msgid "Writing down what is said ..."
+msgstr "تدوين ما يُقال ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "مزج المسارات من أجل النص المفرّغ"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "يُدوَّن في الخلفية؛ وتُفتح من تلقاء نفسها حين ينتهي."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "لم تُجب أي سلسلة مفاتيح من Secret Service، لذلك لم يُحفظ شيء. خارج Mac وWindows يُحفظ المفتاح في سلسلة مفاتيح سطح المكتب، عبر الأمر secret-tool من libsecret. ولا يُكتب في ملف."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "العمل التمهيدي -- قراءة الصوت وحساب الأغلفة وتدوين ما يُقال:\n"

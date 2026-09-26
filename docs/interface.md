@@ -495,7 +495,10 @@ measured, one line per file with how far each has got. A line goes as
 its file is done, and the bar itself a moment after the last one. It
 shows the prework -- reading the audio and computing the envelopes --
 which is the same work the bar beside **Start** carries, here file by
-file.
+file. Once the time axis stands, one more line joins them,
+**Transcript**: the window writing down what is said, which the four
+settings of the camera cut that need the words wait for
+([Camera cut](camera-cut.md)).
 
 **Production name**, **Language of the sound** and **Project type**
 stand in one row. Where the window is too narrow for all three, the row

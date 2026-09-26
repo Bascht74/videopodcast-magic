@@ -2593,9 +2593,6 @@ msgstr "התצוגה המקדימה אינה אפשרית: %s"
 msgid "Preview running ..."
 msgstr "התצוגה המקדימה פועלת ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "עבודה מקדימה -- קריאת השמע וחישוב מעטפות:\n"
-
 msgid "Primaries"
 msgstr "צבעי יסוד"
 
@@ -2721,9 +2718,6 @@ msgstr "הרצועה הראשונה בפריסט קובעת את ההגדרות 
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "לשם כך נדרש קובץ המסירה של הרצה, ואין כזה."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "אפשר לשמור את המפתח רק ב-Mac וב-Windows -- במחזיק המפתחות או ברישום. הוא לא נכתב לקובץ."
 
 msgid "%s -- being checked"
 msgstr "%s -- בבדיקה"
@@ -4966,3 +4960,27 @@ msgstr "נשארת: %s ppm או יותר הם כנראה שגיאת מדידה"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "נשארת: אינה מגיעה לפי %s מאי־הוודאות שלה"
+
+msgid "Timing"
+msgstr "תזמון"
+
+msgid "Special cases"
+msgstr "מקרים מיוחדים"
+
+msgid "Transcript"
+msgstr "תמלול"
+
+msgid "Writing down what is said ..."
+msgstr "כותב את מה שנאמר ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "מערבב את הערוצים לתמלול"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "הוא נכתב ברקע; ההגדרות ייפתחו מעצמן כשיסתיים."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "אף מחזיק מפתחות של Secret Service לא ענה, ולכן לא נשמר דבר. מחוץ ל-Mac ול-Windows המפתח נשמר במחזיק המפתחות של שולחן העבודה, באמצעות הפקודה secret-tool מ-libsecret. הוא לא נכתב לקובץ."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "עבודה מקדימה -- קריאת השמע, חישוב מעטפות ותמלול מה שנאמר:\n"

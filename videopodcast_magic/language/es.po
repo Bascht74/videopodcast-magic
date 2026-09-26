@@ -435,9 +435,6 @@ msgstr "Reproducir y pausar."
 msgid "Preview running ..."
 msgstr "Vista previa en curso ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Trabajo previo -- leer el audio y calcular las envolventes:\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "Procesado en auphonic.com (opcional)"
 
@@ -3576,9 +3573,6 @@ msgstr "Los fotogramas duran un poco más; el archivo no se acorta por ello. Un 
 msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
 msgstr "Los fotogramas duran un poco menos; el archivo no se alarga por ello. Un programa de montaje omite a cambio aproximadamente un fotograma cada %s s, y la imagen y el audio de la cámara siguen juntos."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "La clave solo se puede guardar en Mac y Windows -- en el Llavero o en el Registro. En un archivo no entra."
-
 msgid "The key has a character in it that cannot be typed."
 msgstr "En la clave hay un carácter que no se puede teclear."
 
@@ -4962,3 +4956,27 @@ msgstr "se deja dentro: %s ppm o más es más bien un error de medición"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "se deja dentro: no llega a %s veces su incertidumbre"
+
+msgid "Timing"
+msgstr "Tiempos"
+
+msgid "Special cases"
+msgstr "Casos especiales"
+
+msgid "Transcript"
+msgstr "Transcripción"
+
+msgid "Writing down what is said ..."
+msgstr "Escribiendo lo que se dice ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mezclando las pistas para la transcripción"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Se está escribiendo en segundo plano; los ajustes se abren solos cuando termine."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "No respondió ningún llavero de Secret Service, así que no se guardó nada. Fuera de Mac y Windows la clave se guarda en el llavero del escritorio, mediante la orden secret-tool de libsecret. En un archivo no entra."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Trabajo previo -- leer el audio, calcular las envolventes y escribir lo que se dice:\n"

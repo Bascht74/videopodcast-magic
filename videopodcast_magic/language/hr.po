@@ -2559,9 +2559,6 @@ msgstr "Pretpregled nije moguć: %s"
 msgid "Preview running ..."
 msgstr "Pretpregled u tijeku ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Priprema -- učitati zvuk i izračunati ovojnice:\n"
-
 msgid "Primaries"
 msgstr "Primarne boje"
 
@@ -2699,9 +2696,6 @@ msgstr "Prvi zapis predefinirane postavke određuje postavke za sve naše zapise
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Za to treba datoteka predaje iz prolaza, a nema je."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ključ se može spremiti samo na Macu i Windowsima -- u privjesak ključeva ili registar. Ne ide u datoteku."
 
 msgid "%s -- being checked"
 msgstr "%s -- provjerava se"
@@ -5008,3 +5002,27 @@ msgstr "ostaje: %s ppm ili više prije je pogreška mjerenja"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "ostaje: ne doseže %s puta svoju nesigurnost"
+
+msgid "Timing"
+msgstr "Vrijeme"
+
+msgid "Special cases"
+msgstr "Posebni slučajevi"
+
+msgid "Transcript"
+msgstr "Transkript"
+
+msgid "Writing down what is said ..."
+msgstr "Zapisuje se ono što je rečeno ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Miješanje traka za transkript"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Zapisuje se u pozadini; postavke se otvaraju same čim bude gotov."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Nijedan privjesak ključeva Secret Service nije odgovorio, pa ništa nije spremljeno. Izvan Maca i Windowsa ključ se čuva u privjesku ključeva radne površine, putem naredbe secret-tool iz libsecret. Ne ide u datoteku."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Priprema -- učitati zvuk, izračunati ovojnice i zapisati ono što je rečeno:\n"

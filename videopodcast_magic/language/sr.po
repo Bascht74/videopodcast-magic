@@ -2559,9 +2559,6 @@ msgstr "Преглед није могућ: %s"
 msgid "Preview running ..."
 msgstr "Преглед у току ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Припрема -- читање аудија и рачунање обвојница:\n"
-
 msgid "Primaries"
 msgstr "Примарне боје"
 
@@ -2699,9 +2696,6 @@ msgstr "Прва трака пресета одређује подешавања
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "За то је потребна датотека предаје из извршавања, а нема је."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Кључ може да се чува само на Mac-у и Windows-у -- у Keychain-у или у регистру. У датотеку не иде."
 
 msgid "%s -- being checked"
 msgstr "%s -- проверава се"
@@ -5008,3 +5002,27 @@ msgstr "остаје: %s ppm или више је пре грешка мерењ
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "остаје: не достиже %s пута своју несигурност"
+
+msgid "Timing"
+msgstr "Време"
+
+msgid "Special cases"
+msgstr "Посебни случајеви"
+
+msgid "Transcript"
+msgstr "Транскрипт"
+
+msgid "Writing down what is said ..."
+msgstr "Записује се оно што је речено ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Мешање трака за транскрипт"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Записује се у позадини; подешавања се отварају сама чим буде готов."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ниједан привезак кључева Secret Service није одговорио, па ништа није сачувано. Ван Mac-а и Windows-а кључ се чува у привеску кључева радне површине, преко наредбе secret-tool из libsecret. У датотеку не иде."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Припрема -- читање аудија, рачунање обвојница и записивање реченог:\n"

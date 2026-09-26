@@ -74,6 +74,16 @@ beside it. The box is there once **Multitrack** is ticked, or once the
 cut has its people -- two of them, or one with a second camera nobody is
 on; until then a line stands in its place and says what is missing.
 
+Inside the box the settings stand in three groups: **Timing**, **Wide
+shot** and **Special cases**. A click on a group's header opens or shuts
+it, and a shut group shows its values on one line beside the header, so
+nothing is out of sight that is not also said. Where the tab would have
+to scroll, the group opened longest ago shuts by itself -- never the
+last one still open. Which groups are open is kept for the next start,
+once one has been opened or shut by hand; until then all of them open,
+and a group holding a value off its default is the last to be shut for
+room.
+
 ![The knobs for the camera cut](images/resolve-cut.png)
 
 *Tab Resolve cut: the values on the left, the preview on the right. Four
@@ -86,7 +96,7 @@ mark, and there is no upper limit. A negative value is only meant for
 **Edit Change Delay**; the other fields take one but nothing good comes
 of it.
 
-Three fields shape the rhythm of the cut:
+**Timing** holds four fields. Three of them shape the rhythm of the cut:
 
 * **Minimum Edit Duration**: 3 s, this long a shot stands at least;
   higher makes the cut calmer (on the command line
@@ -98,8 +108,8 @@ Three fields shape the rhythm of the cut:
   picture cuts; a negative value makes the picture lead (on the
   command line `--edit-change-delay`)
 
-A fourth field stands among those three, in third place, and belongs
-not to the rhythm but to a selector further down:
+The fourth stands among those three, in third place, and belongs not
+to the rhythm but to a selector in **Special cases**:
 
 * **Short gap up to**: 1 s, up to this length a silence leaves the
   picture where it is, and a longer one goes to the wide shot. It does
@@ -110,8 +120,8 @@ not to the rhythm but to a selector further down:
   stretches over five seconds appear, and that is where the picture
   starts to look forgotten.
 
-Four shape the wide shot, and the first two of them are a pair: a soft
-limit and a hard one.
+**Wide shot** holds four fields, and the first two of them are a pair:
+a soft limit and a hard one.
 
 * **Wide shot after**: 70 s, the soft limit. From this hold time on the
   program looks for a sentence boundary and puts the wide shot there,
@@ -132,8 +142,8 @@ limit and a hard one.
 * **Wide shot at most**: 15 s, and at most this long (on the command
   line `--wide-most`)
 
-The last field belongs to the question, and stands directly above the
-selector that decides it:
+**Special cases** opens with a field that belongs to the question, and
+stands directly above the selector that decides it:
 
 * **Answer on screen earlier**: 1.5 s, this much before the question
   ends the answering speaker is on screen (on the command line
@@ -143,8 +153,8 @@ selector that decides it:
   at 12.5: with a lead of 5 seconds the cut sits at 5.0 seconds, not at
   7.5. The **Edit Change Delay** is not added to it a second time.
 
-Under the fields stand five selectors. They say what runs when the
-speech does not say whom to show:
+Under it stand five selectors. They say what runs when the speech does
+not say whom to show:
 
 * **After a question**: **Answering speaker** (on the command line
   `--on-question`)
@@ -171,17 +181,17 @@ early**, **Answering speaker** and **Listener**; **do not go early**
 means no early camera change, the picture follows the sound here as it
 does everywhere else.
 
-Under the selectors the tick **Wide shot for greeting at the start and
-farewell at the end** keeps beginning and end on the wide shot (on the
-command line `--no-wide-edges` switches it off). The opening wide shot
-holds until the floor is really handed over, not until the first longer
-block from somebody else. Neither edge holds for more than a third of
-the recording, nor for longer than **Wide shot at the latest**: where
-greeting or goodbye would run longer, that edge stops there -- at the
-third in a short recording, at the setting in a long one -- and the log
-says so under `Wide shot at the edges`, with where the talk really
-changes hands. An edge that comes out shorter than **Minimum Edit
-Duration** falls into the shot beside it, like any other.
+At the foot of **Wide shot**, under its four fields, the tick **Wide
+shot for greeting at the start and farewell at the end** keeps beginning
+and end on the wide shot (on the command line `--no-wide-edges` switches
+it off). The opening wide shot holds until the floor is really handed
+over, not until the first longer block from somebody else. Neither edge
+holds for more than a third of the recording, nor for longer than **Wide
+shot at the latest**: where greeting or goodbye would run longer, that
+edge stops there -- at the third in a short recording, at the setting in
+a long one -- and the log says so under `Wide shot at the edges`, with
+where the talk really changes hands. An edge that comes out shorter than
+**Minimum Edit Duration** falls into the shot beside it, like any other.
 
 **Speaks at least** takes care of short interjections ("mhm", "yes
 exactly"). A shot that still comes out too short falls into the one
@@ -206,8 +216,14 @@ without a transcript: those two count by the clock and need no sentence.
 They are open as long as there is a wide shot at all -- the next section
 is the other reason a setting stands grey.
 
-The first run writes the transcript down. From then on the four are
-open, and the preview reckons with them.
+The window writes the transcript down by itself, in the background,
+as soon as the time axis stands: the prework bar under the tables on
+**Assignment & time window** shows it as a line of its own,
+**Transcript**. While it is being written the line under the four says
+so, and they open by themselves when it is done; from then on the
+preview reckons with them. Where the separation has already written the
+words of a single recording down, those are taken as they are. A run
+writes one as well.
 
 ### When no camera is free of speakers
 
@@ -266,7 +282,7 @@ tick for the edges do nothing here.
 
 Neither of the two greys is for ever. Mark a camera, or take a speaker
 off one, and the five come alive in the same moment, as the four do
-when a run has written the words down.
+when the transcript has been written down.
 
 ### When the speech does not say whom to show
 
@@ -819,8 +835,11 @@ loudness measurement runs through each track twice.
   give each voice a name and a camera.
 * **Four settings are grey and take nothing.** No transcript is written
   down yet. **After a question**, **Answer on screen earlier**, **Wide
-  shot after** and **Wide shot at most** all need one; the first run
-  writes it, and from then on they take a value.
+  shot after** and **Wide shot at most** all need one. The window writes
+  it in the background once the time axis stands -- the prework bar shows
+  the line **Transcript** -- and they open by themselves when it is
+  done. With `VPM_NO_SPEAKER_SPLIT` set the window writes none, and the
+  first run does.
 * **Five settings are grey and the wide shot cannot be picked.** Every
   camera carries a speaker, so there is no wide shot. Give one camera
   the **Kind** **Wide shot**, or take the speaker off one of them.

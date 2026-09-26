@@ -442,9 +442,6 @@ msgstr "Воспроизведение и пауза."
 msgid "Preview running ..."
 msgstr "Предпросмотр выполняется ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Подготовка -- прочитать звук и вычислить огибающие:\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "Обработка на auphonic.com (необязательно)"
 
@@ -3588,9 +3585,6 @@ msgstr "Кадры стоят чуть дольше; короче файл от 
 msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
 msgstr "Кадры стоят чуть короче; длиннее файл от этого не становится. Программа монтажа примерно каждые %s с пропускает один кадр, а картинка и звук камеры остаются вместе."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ключ можно сохранить только на Mac и Windows -- в связке ключей или в реестре. В файл он не попадает."
-
 msgid "The key has a character in it that cannot be typed."
 msgstr "В ключе есть знак, который нельзя набрать."
 
@@ -5006,3 +5000,27 @@ msgstr "остаётся как есть: %s ppm и больше -- скорее
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "остаётся как есть: не достигает %s-кратной погрешности"
+
+msgid "Timing"
+msgstr "Тайминг"
+
+msgid "Special cases"
+msgstr "Особые случаи"
+
+msgid "Transcript"
+msgstr "Транскрипт"
+
+msgid "Writing down what is said ..."
+msgstr "Записываю сказанное ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Сведение дорожек для транскрипта"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Он записывается в фоне; настройки откроются сами, как только он будет готов."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ни одна связка ключей Secret Service не ответила, поэтому ничего не сохранено. Вне Mac и Windows ключ хранится в связке ключей рабочего стола, через команду secret-tool из libsecret. В файл он не попадает."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Подготовка -- прочитать звук, вычислить огибающие и записать сказанное:\n"

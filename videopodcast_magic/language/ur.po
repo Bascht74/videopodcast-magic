@@ -2593,9 +2593,6 @@ msgstr "پیش نظارہ ممکن نہیں: %s"
 msgid "Preview running ..."
 msgstr "پیش نظارہ چل رہا ہے ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "ابتدائی کام -- آڈیو پڑھنا اور اینویلپ نکالنا:\n"
-
 msgid "Primaries"
 msgstr "بنیادی رنگ"
 
@@ -2721,9 +2718,6 @@ msgstr "پری سیٹ کا پہلا ٹریک ہمارے سب ٹریکوں کی �
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "اس کے لیے کسی رن کی حوالگی فائل چاہیے، اور وہ موجود نہیں۔"
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "کلید صرف Mac اور Windows پر محفوظ کی جا سکتی ہے -- Keychain یا رجسٹری میں۔ یہ کسی فائل میں نہیں جاتی۔"
 
 msgid "%s -- being checked"
 msgstr "%s -- جانچ جاری ہے"
@@ -4966,3 +4960,27 @@ msgstr "باقی رکھا جاتا ہے: %s ppm یا اس سے زیادہ غال
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "باقی رکھا جاتا ہے: اپنی غیر یقینی کے %s گنا تک نہیں پہنچتا"
+
+msgid "Timing"
+msgstr "وقت"
+
+msgid "Special cases"
+msgstr "خاص صورتیں"
+
+msgid "Transcript"
+msgstr "ٹرانسکرپٹ"
+
+msgid "Writing down what is said ..."
+msgstr "جو کہا جا رہا ہے وہ لکھا جا رہا ہے ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ٹرانسکرپٹ کے لیے ٹریک ملائے جا رہے ہیں"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "یہ پس منظر میں لکھا جا رہا ہے؛ مکمل ہوتے ہی سیٹنگز خود کھل جائیں گی۔"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "کسی Secret Service کی رنگ نے جواب نہیں دیا، اس لیے کچھ محفوظ نہیں کیا گیا۔ Mac اور Windows کے علاوہ کلید ڈیسک ٹاپ کی کی رنگ میں رکھی جاتی ہے، libsecret کے secret-tool کمانڈ کے ذریعے۔ یہ کسی فائل میں نہیں جاتی۔"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "ابتدائی کام -- آڈیو پڑھنا، اینویلپ نکالنا اور جو کہا جائے اسے لکھنا:\n"

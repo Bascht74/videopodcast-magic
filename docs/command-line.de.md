@@ -80,14 +80,15 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 ## Bei auphonic.com aufbereiten
 
 Der Schlüssel kommt einmal aus den Kontoeinstellungen in den
-Schlüsselbund oder die Registry, nie auf die Kommandozeile: über das
-Fenster oder mit `--store-auphonic-key`. Ein abgelegter Schlüssel
-schaltet die Aufbereitung ein, und eine Kommandozeile mit Schaltern,
-aber ohne Dateien listet dann nur die Presets.
+Schlüsselbund, die Registry oder den Schlüsselbund des Desktops (Linux),
+nie auf die Kommandozeile: über das Fenster oder mit
+`--store-auphonic-key`. Ein abgelegter Schlüssel schaltet die
+Aufbereitung ein, und eine Kommandozeile mit Schaltern, aber ohne
+Dateien listet dann nur die Presets.
 
 | Schalter | Wirkung |
 |---|---|
-| `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS) oder in der Registry (Windows) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
+| `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS), in der Registry (Windows) oder im Schlüsselbund des Desktops (Linux) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
 | `--auphonic-wait SEKUNDEN` | wie lange gewartet wird (7200) |
 | `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |

@@ -447,9 +447,6 @@ msgstr "Lire et mettre en pause."
 msgid "Preview running ..."
 msgstr "Aperçu en cours ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Travail préalable -- lire l’audio et calculer les enveloppes :\n"
-
 msgid "Processing at auphonic.com (optional)"
 msgstr "Traitement sur auphonic.com (facultatif)"
 
@@ -3591,9 +3588,6 @@ msgstr "Les images tiennent un peu plus longtemps ; le fichier n’en est pas pl
 msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
 msgstr "Les images tiennent un peu moins longtemps ; le fichier n’en est pas plus long pour autant. Un logiciel de montage omet environ une image toutes les %s s, et l’image et l’audio de la caméra restent ensemble."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "La clé ne peut être conservée que sur Mac et Windows -- dans le trousseau ou le Registre. Elle ne va pas dans un fichier."
-
 msgid "The key has a character in it that cannot be typed."
 msgstr "La clé contient un caractère qui ne peut pas être tapé."
 
@@ -4974,3 +4968,27 @@ msgstr "reste en place : %s ppm ou plus, c'est plutôt une erreur de mesure"
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "reste en place : n'atteint pas %s fois son incertitude"
+
+msgid "Timing"
+msgstr "Minutage"
+
+msgid "Special cases"
+msgstr "Cas particuliers"
+
+msgid "Transcript"
+msgstr "Transcription"
+
+msgid "Writing down what is said ..."
+msgstr "Transcription de ce qui est dit ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixage des pistes pour la transcription"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Elle s’écrit en arrière-plan ; les réglages s’ouvrent d’eux-mêmes dès qu’elle est terminée."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Aucun trousseau Secret Service n’a répondu, donc rien n’a été conservé. Hors de Mac et Windows, la clé est gardée dans le trousseau du bureau, par la commande secret-tool de libsecret. Elle ne va pas dans un fichier."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Travail préalable -- lire l’audio, calculer les enveloppes et transcrire ce qui est dit :\n"

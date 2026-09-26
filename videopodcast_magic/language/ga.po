@@ -2599,9 +2599,6 @@ msgstr "Ní féidir réamhamharc: %s"
 msgid "Preview running ..."
 msgstr "Réamhamharc ar siúl ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Réamhobair -- fuaim a léamh agus imchlúdaigh a ríomh:\n"
-
 msgid "Primaries"
 msgstr "Príomhdhathanna"
 
@@ -2727,9 +2724,6 @@ msgstr "Socraíonn an chéad rian den réamhshocrú na socruithe dár rianta go 
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Teastaíonn comhad seachadta ó rith chuige sin, agus níl ceann ann."
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ní féidir an eochair a stóráil ach ar Mac agus Windows -- i Keychain nó sa Chlárlann. Ní théann sí isteach i gcomhad."
 
 msgid "%s -- being checked"
 msgstr "%s -- faoi sheiceáil"
@@ -5103,3 +5097,27 @@ msgstr "fágtar istigh é: is dóichí gur earráid tomhais é %s ppm nó níos 
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "fágtar istigh é: ní shroicheann sé %s oiread a éiginnteachta"
+
+msgid "Timing"
+msgstr "Uainiú"
+
+msgid "Special cases"
+msgstr "Cásanna speisialta"
+
+msgid "Transcript"
+msgstr "Tras-scríbhinn"
+
+msgid "Writing down what is said ..."
+msgstr "Ag scríobh síos a ndeirtear ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Ag meascadh na rianta don tras-scríbhinn"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Tá sí á scríobh sa chúlra; osclóidh na socruithe iad féin nuair a bheidh sí réidh."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Níor fhreagair aon fháinne eochracha Secret Service, mar sin níor stóráladh aon rud. Lasmuigh de Mac agus Windows coinnítear an eochair i bhfáinne eochracha an deisce, tríd an ordú secret-tool ó libsecret. Ní théann sí isteach i gcomhad."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Réamhobair -- fuaim a léamh, imchlúdaigh a ríomh agus a ndeirtear a scríobh síos:\n"

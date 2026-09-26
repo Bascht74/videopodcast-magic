@@ -2559,9 +2559,6 @@ msgstr "প্রিভিউ সম্ভব নয়: %s"
 msgid "Preview running ..."
 msgstr "প্রিভিউ চলছে ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "প্রস্তুতি -- অডিও পড়া ও এনভেলপ গণনা:\n"
-
 msgid "Primaries"
 msgstr "প্রাথমিক রং"
 
@@ -2697,9 +2694,6 @@ msgstr "প্রিসেটের প্রথম ট্র্যাক আম
 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "এর জন্য একটি চালনার হস্তান্তর ফাইল দরকার, আর তা নেই।"
-
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "কী-টি শুধু Mac ও Windows-এ রাখা যায় -- Keychain-এ বা রেজিস্ট্রিতে। এটি কোনো ফাইলে যায় না।"
 
 msgid "%s -- being checked"
 msgstr "%s -- যাচাই করা হচ্ছে"
@@ -4965,3 +4959,27 @@ msgstr "রেখে দেওয়া হয়: %s ppm বা তার ব�
 
 msgid "is left in: not %s times its uncertainty"
 msgstr "রেখে দেওয়া হয়: এর অনিশ্চয়তার %s গুণে পৌঁছায় না"
+
+msgid "Timing"
+msgstr "সময়"
+
+msgid "Special cases"
+msgstr "বিশেষ ক্ষেত্র"
+
+msgid "Transcript"
+msgstr "প্রতিলিপি"
+
+msgid "Writing down what is said ..."
+msgstr "যা বলা হচ্ছে তা লেখা হচ্ছে ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "প্রতিলিপির জন্য ট্র্যাকগুলো মেশানো হচ্ছে"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "এটি পটভূমিতে লেখা হচ্ছে; শেষ হলে এগুলো নিজে থেকেই খুলে যাবে।"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "কোনো Secret Service কী-রিং সাড়া দেয়নি, তাই কিছুই রাখা হয়নি। Mac ও Windows-এর বাইরে কী-টি ডেস্কটপের কী-রিংয়ে রাখা হয়, libsecret-এর secret-tool কমান্ডের মাধ্যমে। এটি কোনো ফাইলে যায় না।"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "প্রস্তুতি -- অডিও পড়া, এনভেলপ গণনা ও যা বলা হয় তা লেখা:\n"
