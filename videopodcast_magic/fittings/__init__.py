@@ -470,6 +470,18 @@ def mac_menu_name(name):
         return False
 
 
+def line_warns(total_state, total_line, warn):
+    """Colour the line beside the bar as a warning, or quiet again.
+
+    Set only when it changes: a style sheet set five times a second
+    makes Qt work the widget out again five times a second.
+    """
+    if total_state.get("warn") != warn:
+        total_state["warn"] = warn
+        total_line.setStyleSheet("color: %s" % COLOURS[
+            "warning" if warn else "quiet"])
+
+
 def total_paint(Qt, plan, total_state, total_bar, total_line):
     """Draw the whole run's progress bar, or take it away when it is over.
 
@@ -480,7 +492,10 @@ def total_paint(Qt, plan, total_state, total_bar, total_line):
         total_state["full_since"] = 0.0
         plan.creep(0.2)
         total_bar.setValue(int(round(1000 * plan.total())))
-        PROGRAM.fitted(Qt, total_line, plan.line())
+        # A run quiet for minutes says whether it still works; stuck warns.
+        said, warn = PROGRAM.vitals_now()
+        line_warns(total_state, total_line, warn)
+        PROGRAM.fitted(Qt, total_line, said or plan.line())
         total_bar.show()
         total_line.show()
         return
@@ -488,6 +503,7 @@ def total_paint(Qt, plan, total_state, total_bar, total_line):
         return
     # Finished: full for a moment, so the end is seen, then away.
     total_bar.setValue(1000)
+    line_warns(total_state, total_line, False)
     total_line.setText(T('done'))
     if not total_state["full_since"]:
         total_state["full_since"] = time.time()
@@ -1105,6 +1121,11 @@ def break_off_button(QtWidgets, state, say):
     button.setVisible(False)
 
     def pressed():
+        if state.get("waiting") and not state.get("running"):
+            # A start still waiting for camera audio: that wait is
+            # called off, and the camera audio goes on being made.
+            state["wait_off"] = True
+            return
         if not state.get("running"):
             return
         button.setEnabled(False)

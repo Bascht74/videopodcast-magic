@@ -82,11 +82,29 @@ def user_asker(window, bridge, bridge_emit):
     def ask_user(possible, title=T('Question')):
         """A question from the worker thread; the dialog is the window's."""
         f = PROGRAM.Question(possible, title)
-        bridge_emit(bridge.question, f)
-        f.event.wait()
+        # A run waiting on a person is not stuck, however long it waits.
+        with PROGRAM.RUN_VITALS.asking():
+            bridge_emit(bridge.question, f)
+            f.event.wait()
         return f.choice
 
     return ask_user
+
+
+def wait_called_off(state, window):
+    """Whether Stop called off a start waiting for camera audio.
+
+    If so the buttons stand as before the press on Start, and the
+    camera audio goes on being made: it is not the run's own work.
+    """
+    if not state.pop("wait_off", False):
+        return False
+    state["waiting"] = state["confirmed"] = False
+    window.start_run.setText(T('Start'))
+    window.start_run.setEnabled(True)
+    window.preview_button.setEnabled(True)
+    window.break_off.setVisible(False)
+    return True
 
 
 def make_run_start(QtCore, window, state, model, report, ask, write,
@@ -196,8 +214,12 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             state["waiting"] = True
             start_run.setEnabled(False)
             preview_button.setEnabled(False)
+            # Stop calls the waiting start off; the prework goes on.
+            PROGRAM.break_off_arm(window.break_off, run=False)
 
             def check_again():
+                if wait_called_off(state, window):
+                    return
                 if not prework_busy():
                     state["waiting"] = False
                     state["confirmed"] = True
@@ -361,6 +383,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         only_resolve.setEnabled(False)
         only_resolve.setText(T('Resolve running ...'))
         state["running"] = True
+        PROGRAM.break_off_arm(window.break_off)
         result_button_check()
         # The sliders go along: the Resolve part recomputes the cut list
         # and must do it with what stands in the fields now.

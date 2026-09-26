@@ -525,9 +525,9 @@ class SaysWhenDone(_subprocess_popen):
 def popen_outside(cmd, *rest, **named):
     """subprocess.Popen, saying both when it started and when it ended."""
     if getattr(_in_run, "here", 0):
-        return _subprocess_popen(cmd, *rest, **named)
+        return RUN_VITALS.watch(_subprocess_popen(cmd, *rest, **named))
     outside_log(cmd)
-    return SaysWhenDone(cmd, *rest, **named)
+    return RUN_VITALS.watch(SaysWhenDone(cmd, *rest, **named))
 
 
 def watch_outside_calls():
@@ -641,3 +641,201 @@ def redirect_console():
     if said:
         trouble_log(said)
     return file_path
+
+
+#------------------------------------------ Whether a quiet run still lives
+# Two minutes without a word is when somebody starts to wonder; every
+# stage that moves says something more often than that.
+QUIET_AFTER_S = 120.0
+# Five minutes with nothing changing: the owner's line (card E-225).
+STUCK_AFTER_S = 300.0
+# How often the signs are read: a stat and a system call per child.
+VITALS_EVERY_S = 5.0
+# This process counts as working from a quarter of one core on: the
+# empty window idles at 0.1 % (offscreen, 26.9.2026), a model far over.
+OWN_BUSY_SHARE = 0.25
+
+
+def cpu_seconds(proc):
+    """The processor time a child has used so far, or None.
+
+    Only ever held against itself, so the unit may be the system's own
+    -- ticks on Linux and macOS, 100 ns steps on Windows.
+    """
+    try:
+        import ctypes
+        if sys.platform.startswith("linux"):
+            with open("/proc/%d/stat" % proc.pid) as f:
+                fields = f.read().rsplit(")", 1)[1].split()
+            return float(int(fields[11]) + int(fields[12]))
+        if sys.platform == "darwin":
+            usage = (ctypes.c_uint64 * 20)()
+            libproc = ctypes.CDLL("/usr/lib/libproc.dylib")
+            if libproc.proc_pid_rusage(int(proc.pid), 0,
+                                       ctypes.byref(usage)):
+                return None
+            return float(usage[2] + usage[3])
+        if os.name == "nt":
+            from ctypes import wintypes
+            times = [wintypes.FILETIME() for _ in range(4)]
+            ask = ctypes.windll.kernel32.GetProcessTimes
+            ask.argtypes = ([wintypes.HANDLE]
+                            + [ctypes.POINTER(wintypes.FILETIME)] * 4)
+            if not ask(int(proc._handle), *[ctypes.byref(t) for t in times]):
+                return None
+            return float(sum(t.dwHighDateTime << 32 | t.dwLowDateTime
+                             for t in times[2:]))
+    except Exception:
+        # Gone between the look and the reading, or a system without
+        # the call: no reading, and the other signs decide.
+        return None
+    return None
+
+
+def named_files(cmd):
+    """Size and time of every file a command line names that exists.
+
+    ffmpeg names what it writes, so a growing output shows here; the
+    inputs stand still and change nothing.
+    """
+    found = {}
+    for part in ([cmd] if isinstance(cmd, str) else (cmd or [])):
+        try:
+            if isinstance(part, str) and os.path.isfile(part):
+                seen = os.stat(part)
+                found[part] = (seen.st_size, seen.st_mtime_ns)
+        except (OSError, ValueError):
+            continue
+    return found
+
+
+class RunVitals(object):
+    """Whether a run that has said nothing for a while is still alive.
+
+    Signs of life: a child's processor time rising, a file its command
+    line names changing, this process busy, an answer from a server.
+    A new line of output is a word; the same line again is not. While
+    the run waits for a person's answer nothing is judged.
+    """
+
+    def __init__(self, clock=None, own=None):
+        """A watch not yet on; *clock* and *own* stand in for tests."""
+        self.clock = clock or time.monotonic
+        self.own = own or time.process_time
+        self.lock = threading.Lock()
+        self.children = set()
+        self.begin()
+        self.active = False
+
+    def begin(self):
+        """A run starts: everything it says or does is new from here."""
+        now = self.clock()
+        self.active, self.waiting, self.told = True, 0, None
+        self.word_at = self.life_at = now
+        self.said, self.last, self.looked_at = None, None, None
+
+    def end(self):
+        """The run is over; nothing is judged until the next one."""
+        self.active = False
+
+    def watch(self, proc):
+        """Count *proc* among the children, and hand it back."""
+        with self.lock:
+            self.children = set(c for c in self.children
+                                if c.returncode is None)
+            self.children.add(proc)
+        return proc
+
+    def heard(self, text=None):
+        """The run said something; the same line again is no news."""
+        if text is not None and text == self.said:
+            return
+        self.said = text
+        self.word_at = self.life_at = self.clock()
+
+    def alive(self):
+        """A sign of life that is not a word -- a server answering."""
+        self.life_at = self.clock()
+
+    @contextlib.contextmanager
+    def asking(self):
+        """While a person is asked, silence is theirs, not the run's."""
+        self.waiting += 1
+        try:
+            yield
+        finally:
+            self.waiting -= 1
+            self.heard()
+
+    def reading(self):
+        """What the signs stand at now: each child, its files, and us."""
+        with self.lock:
+            procs = [c for c in self.children if c.returncode is None]
+        cpu, files = {}, {}
+        for proc in procs:
+            cpu[proc.pid] = cpu_seconds(proc)
+            files.update(named_files(getattr(proc, "args", None)))
+        return cpu, files, self.own()
+
+    def look(self):
+        """Read the signs if it is time, and note when they last moved."""
+        now = self.clock()
+        if not self.active or (self.looked_at is not None and
+                               now - self.looked_at < VITALS_EVERY_S):
+            return
+        cpu, files, own = self.reading()
+        if self.last is not None:
+            was_cpu, was_files, was_own, was_at = self.last
+            # A child that is new, or whose time rose, is at work.
+            rose = any(value is not None
+                       and (was_cpu.get(pid) is None or value > was_cpu[pid])
+                       for pid, value in cpu.items())
+            busy = own - was_own >= OWN_BUSY_SHARE * (now - was_at)
+            if rose or files != was_files or busy:
+                self.life_at = now
+        self.last, self.looked_at = (cpu, files, own, now), now
+
+    def verdict(self):
+        """None while all is well; else ("working"/"stuck", minutes)."""
+        if not self.active or self.waiting:
+            return None
+        now = self.clock()
+        if now - self.life_at >= STUCK_AFTER_S:
+            return ("stuck", int((now - self.life_at) // 60))
+        quiet = now - self.word_at
+        if quiet >= QUIET_AFTER_S and self.life_at > self.word_at:
+            return ("working", int(quiet // 60))
+        return None
+
+
+RUN_VITALS = RunVitals()
+
+
+def vitals_line(verdict):
+    """What the line beside the bar says of a quiet run, and if it warns."""
+    if not verdict:
+        return "", False
+    kind, minutes = verdict
+    if kind == "stuck":
+        return (T('no change for %s min -- may be stuck, please check')
+                % number_text(minutes, 0), True)
+    return (T('working -- no word for %s min, the computer may be busy')
+            % number_text(minutes, 0), False)
+
+
+def vitals_now():
+    """Read the run's signs if it is time, and say what the bar says.
+
+    A change of verdict goes into the log file only: a line in the
+    window would be a word from the run, and reset what it reports.
+    """
+    RUN_VITALS.look()
+    verdict = RUN_VITALS.verdict()
+    said, warn = vitals_line(verdict)
+    kind = verdict[0] if verdict else None
+    if kind != RUN_VITALS.told:
+        RUN_VITALS.told = kind
+        if said:
+            log_aside("%s %s  %s" % (GUI_MARK, time.strftime("%H:%M:%S"),
+                                     said))
+    return said, warn

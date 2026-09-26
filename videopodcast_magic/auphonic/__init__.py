@@ -159,8 +159,11 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                                     stdout=answer_file,
                                     stderr=subprocess.PIPE)
             running.append(proc)
+            # An upload runs for many minutes, so Stop has to reach it.
+            PROGRAM.RUN_STOP["children"].add(proc)
             text = progress if isinstance(progress, str) else T('Transfer')
             rest, last_percent, last_time = "", -1, 0.0
+            moved = None         # the amounts curl last reported
             said = []            # everything that is not a progress line
             show_progress(text, 0.0)
             while True:
@@ -177,12 +180,20 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                         if line.strip():
                             said.append(line.strip())
                         continue
+                    # Bytes the server took or sent are its answer and a
+                    # sign of life; curl's clock ticking on is not.
+                    if line.split()[:6] != moved:
+                        moved = line.split()[:6]
+                        PROGRAM.RUN_VITALS.alive()
                     pct = min(100, int(m.group(1)))
                     now = time.time()
                     if pct != last_percent and now - last_time > 0.2:
                         show_progress(text, pct / 100.0)
                         last_percent, last_time = pct, now
             proc.wait()
+            PROGRAM.RUN_STOP["children"].discard(proc)
+            if PROGRAM.stop_wanted():
+                raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"] or text)
             answer_file.close()
             with open(body, "rb") as fh:
                 off = fh.read()
@@ -208,6 +219,8 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                                 "--max-time", "60",
                                 "--config", conf] + arguments,
                                capture_output=True)
+            # The server answered, or gave up within the minute above.
+            PROGRAM.RUN_VITALS.alive()
     finally:
         # A broken-off transfer leaves curl writing into a file nobody
         # reads: stopped here, or it downloads gigabytes for nothing.
@@ -1623,6 +1636,10 @@ def wait_for_production(key, uuid, wait_s):
                              % ("#" * int(share * 30), share * 100,
                                 as_hms(elapsed), text))
             sys.stdout.flush()
+            if PROGRAM.stop_wanted():
+                # The production goes on at auphonic.com; only the
+                # waiting for it ends, and a later run can take it up.
+                raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"] or text)
             if time.time() >= end:
                 break
             time.sleep(2)
