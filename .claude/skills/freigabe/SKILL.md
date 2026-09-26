@@ -403,7 +403,7 @@ sixth is answered in the report, and "not run, because ..." answers it.
 
 **A text cut off holds up no release either, in any language, English
 and German included** (the owner, 26.9.2026). The release run gets
-`VPM_CUT_OFF=noted` from `tests.yml`, and such a judgement there prints
+`VPM_CUT_OFF=noted` from `.github/workflows/tests.yml`, and such a judgement there prints
 a `NOTED cut off:` line and stays green; every other run stays red on
 it, and so does every other judgement. **After publishing, the block is
 read, not skipped**: `gh run view <run> --log | grep 'NOTED cut off: '

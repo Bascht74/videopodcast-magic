@@ -122,10 +122,10 @@ nach denen das Programm gesucht hat, und was im Weg sein kann:
 **Erneut prüfen** und der Rest dieses Fensters stehen in [Die
 Oberfläche](interface.de.md).
 
-![Der Reiter Resolve-Schnitt mit der Antwortzeile](images/resolve-cut.de.png)
+![Der Reiter Resolve-Schnitt](images/resolve-cut.de.png)
 
-*Reiter Resolve-Schnitt: die Antwort in Grün, darunter die Werte, die
-der Knopf in die Schnittliste nimmt.*
+*Reiter Resolve-Schnitt: die Werte, die der Knopf in die Schnittliste
+nimmt, und daneben die Vorschau.*
 
 | Fall | Schnitt-Timeline | Multicam-Timeline |
 |---|---|---|

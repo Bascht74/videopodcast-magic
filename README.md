@@ -9,7 +9,7 @@ not fit -- before anything is written.*
 
 *Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
 
-**Version 3.0.0b25.** It does the work it was written for, every week, on
+**Version 3.0.0b26.** It does the work it was written for, every week, on
 real material. The step to 3 is a break rather than a heap of new
 features: the program is installed now, with pip3, and it is a command
 called `videopodcast-magic`. Anything that still starts it as a file
@@ -146,8 +146,8 @@ package, every one of them stands on the list pip reads, and the
 install brings them all. ffmpeg is the exception it cannot help being,
 since it is not Python -- the program brings none of its own, offers
 the system's package manager and asks first, and otherwise says where
-to get it. macOS and Windows are what this is used on; Linux works with
-two limits.
+to get it. macOS and Windows are what this is used on; Linux works too,
+with two differences.
 
 The detail, including why that ffmpeg version, which Python is
 recommended and what differs per platform, is in

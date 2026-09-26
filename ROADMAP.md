@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b25.
+gone through for 3.0.0b26.
 
 ## Where the program stands today
 
-**Version 3.0.0b25.** It runs every week, on real material.
+**Version 3.0.0b26.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -55,9 +55,12 @@ worked out by voice on the raw microphones either way, after the
 service as without it.
 
 Where a fact is missing, the window says so instead of taking an answer
-that changes nothing. The settings that need the words, and those that
-need a wide shot, stand greyed with the reason under them, and they open
-again the moment the fact arrives.
+that changes nothing. The settings that need the words open before the
+first run: once the time axis stands, the window writes the transcript
+in the background. Until it is there, or where the recognition is
+switched off or has failed, they stand greyed with the reason under
+them, as do those that need a wide shot, and they open again the moment
+the fact arrives.
 
 The log beside the program says what a run did outside itself: every
 call to ffmpeg and ffprobe with the file it was about and how long it
@@ -71,10 +74,13 @@ Every language the window offers says everything: its catalogue
 answers every one of the
 roughly 1600 texts the program has, the lines of a run and the step
 into Resolve included. What each language answers is counted at every
-push and may only grow, and every one is held to all of it.
+push and may only grow. Whether the texts fit the window is measured at
+every push for English and German, and for every language in the run
+before a release; a text cut off there is noted for the next version
+and does not stop this one.
 
 It is a Python program: a folder, `videopodcast_magic/`, holding a small
-file the program starts in, thirty-six pieces beside it in folders of
+file the program starts in, forty-three pieces beside it in folders of
 their own, and the speaker model. It is installed with
 `pip3 install git+...` and there is nothing to build. Fetching one file
 and starting it was the other way in until 4.9.2026 and is not one any
@@ -82,17 +88,24 @@ more -- a copy without the rest of the folder stops during the import.
 Python 3.10 or newer has to be there, and `ffmpeg`, which is not Python
 and is the one thing pip cannot bring; every Python package it needs is
 on the list pip reads and arrives with the install. macOS and Windows
-are what it is used on, and Linux works with two limits.
+are what it is used on, and it runs on Linux as well, where the Auphonic
+key is kept in the desktop's keyring through `secret-tool`.
 
 **It was one file until 4.9.2026, and it is a folder now.** The texts
 went out first, into a file for each language, and the rest followed
 over the next three days: the file the program starts in held 37 535
-lines that day and holds 784 now, and the largest piece, the window,
-holds 4544. What follows for anybody working on it is only this -- the
-program is copied as a folder, never as the file inside it. A suite of
-361 tests runs at every push: six runs side by side, three systems and
-two versions of Python. Beside it stand four more that want a real
-Resolve and cannot run anywhere else. The six are not equally fast, and
+lines that day and holds 811 now. The window, long the largest piece,
+was taken apart in 3.0.0b26 into a main window, one piece for each of
+its four tabs, and one model of the production that the project file,
+the start of a run and the file list read; what is left of it holds
+3206 lines, and the largest piece is now the one that tells the
+speakers apart, with 3847. The assignment table and the run's time base
+became pieces of their own the same way. What follows for anybody
+working on it is only this -- the program is copied as a folder, never
+as the file inside it. A suite of 401 tests runs at every push: six runs
+side by side, three systems and two versions of Python. Beside it stand
+eight more that cannot run anywhere else: four want a real Resolve, and
+four auphonic.com itself. The six are not equally fast, and
 Windows is the slow one: for 3.0.0b24 the slowest of the six took 1067
 seconds, Windows with Python 3.10, and in the seven green runs measured
 on 3.9.2026 it was a Windows job every time. That longest job is the wait, not the
@@ -106,22 +119,22 @@ the major number.
 
 ## What comes next
 
-**The next five versions, in short.** 3.0.0b26 takes the window apart
-into pieces -- the main window, one piece per tab, and one model of the
-project that all of them read -- splits the assignment table and the
-run's pipeline the same way, and runs the tests against auphonic.com
-and a real Resolve on the owner's machine. 3.0.0b27 brings the first
-half of the whole-way tests and fixes what the window visibly still
-does wrong. 3.0.0b28 makes the time axis and the hand-over to Resolve
-more exact, with the second half of the whole-way tests. 3.0.0b29 opens
-more of the Auphonic options, takes more than two channels, replaces
-set thresholds with measured ones and shows the preview in HDR.
-3.0.0b30 gives the program a sound path of its own, without
-auphonic.com. The order can change; the four items below are what
-stands first in it.
+**3.0.0b26, and the four versions after it, in short.** 3.0.0b26 did what it was set
+to: it took the window apart into pieces, split the assignment table
+and the run's pipeline the same way, and built tests against
+auphonic.com beside those against a real Resolve -- both run only on
+the owner's machine, when a change calls for them. It also brought the
+first of the whole-way tests forward. 3.0.0b27 takes the whole-way
+tests further and fixes what the window visibly still does wrong.
+3.0.0b28 makes the time axis and the hand-over to Resolve more exact,
+with the rest of the whole-way tests. 3.0.0b29 opens more of the
+Auphonic options, takes more than two channels, replaces set thresholds
+with measured ones and shows the preview in HDR. 3.0.0b30 gives the
+program a sound path of its own, without auphonic.com. The order can
+change; the four items below are what stands first in it.
 
-Four items. The first two are work. The last two are built, and what
-they wait on is somebody sitting down with real material rather than
+Four items. The first three are work. The last one is built, and what
+it waits on is somebody sitting down with real material rather than
 more building.
 
 **The whole way gets tests, not the single functions along it.** Seven
@@ -130,18 +143,27 @@ in, In and Out are marked, the change to the third tab, the cut with a
 speaker recognition that is already there, the run itself, the import
 into Resolve. It is one item and not a list of fifty: whoever takes it
 on covers one of the seven steps whole, because gaps picked off by
-number give a test each and no way at all. The survey that counted
-those gaps is several versions old and most of what it named has been
-covered since, so it is worth taking again before anything is built on
-it.
+number give a test each and no way at all. Four of the seven have their
+test since 3.0.0b26 -- files coming in, the cut with a speaker
+recognition already there, the run itself, and the import into Resolve,
+that one against a stand-in -- and a fifth test holds the assignment
+table; each runs the same production once from the window and once
+from the command line and holds the two against each other. The
+program opening, In and Out, and the change to the third tab are still
+open. A test of In and Out on a 29.97 camera found the window's mark
+landing about three frames late, and what to do about it is not yet
+decided. The survey that counted those gaps is several versions old and
+most of what it named has been covered since, so it is worth taking
+again before anything is built on it.
 
 **Tests against a real DaVinci Resolve.** They cannot live in the
 suite: on a machine without Resolve every one of them would be red for
 a reason that is not a fault. They sit beside it, in a folder of their
 own with a starter the suite does not know, and they run one after
-another on the one machine that has Resolve. Four are built, and three
-of them now run against the untitled project Resolve opens with, which
-is the state after every start. The opening title belongs here -- the
+another on the one machine that has Resolve, and only when started
+with `bash resolve.sh --go`. Four are built, and three of them now run
+against the untitled project Resolve opens with, which is the state
+after every start. The opening title belongs here -- the
 program puts it on the second video track and reads back how many clips
 landed there, and a stand-in cannot confirm that. So does the case no
 stand-in has ever shown: a Resolve that says no.
@@ -153,9 +175,12 @@ recording goes through the simple interface: the production is created
 without starting it, the output files are read back, the fold to mono
 is struck from each of them, and the whole thing is sent again, so two
 calls. Several recordings go through the full one, which puts the same
-wish into the single request. Neither has ever been sent for real, and
-one does not stand in for the other. Until they have run, the manual
-describes those two ways from the source instead of from a run.
+wish into the single request. The first way has a test against the
+service now, beside three that fetch the presets, send a key nobody
+holds and run a short mono file; they start only with `bash auphonic.sh
+--online`. The second way has no test of its own yet, and one does not
+stand in for the other. Until both have run, the manual describes those
+two ways from the source instead of from a run.
 
 **The reaction cut is watched before it stays on.** It fires a few
 dozen times in an episode and it is on by default, and nobody has yet
@@ -185,19 +210,9 @@ Coarser, and in no fixed order.
   there are no separate recordings. A third, a Resolve that refuses,
   belongs to the tests against a real Resolve above.
 
-* **The last long definition gets its description.** The comments in
-  the program have had the treatment the tests had: comment and
-  docstring fell from nearly a third of its lines to a quarter, and the
-  places where a comment runs longer than the rules want fell from 104
-  and 141 to seven each. What is left is the opposite gap. Of the eight
-  definitions of a hundred lines and more that carried no description
-  at all, one is left -- the one that works out the preview of the cut,
-  117 lines -- and a check holds that number so it can only fall.
-
-* **The manual gets what it still lacks.** About a dozen numbers still
-  stand without their default and the direction they pull in. And a
-  published address for the manual, once somebody needs one to hand
-  out.
+* **A published address for the manual**, once somebody needs one to
+  hand out. The dozen numbers in it that stood without their default
+  and the direction they pull in have both now.
 
 ## What we do not plan to do
 
@@ -251,7 +266,7 @@ been refused, it has only not come up yet.
   turn it into a list of subject lines.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** They would be
-  four new dependencies for a program whose 361 tests run as plain
+  four new dependencies for a program whose 401 tests run as plain
   scripts. A thin pytest layer that starts those same scripts
   unchanged is a different thing, and that one may come.
 
@@ -317,8 +332,9 @@ what the players loaded and played, which recording was laid under
 which picture, and how every file got its place on the time axis.
 
 **Never paste your Auphonic key.** On a Mac the program keeps it in the
-keychain and on Windows in the registry; on Linux it does not store it
-at all. The project file holds no command line, so the key is not in it
+keychain, on Windows in the registry and on Linux in the desktop's
+keyring; where Linux has no keyring, it does not store it at all. The
+project file holds no command line, so the key is not in it
 either, and a run from the command line takes the stored one;
 `--store-auphonic-key` asks for it where the terminal does not show it,
 so it stands in no shell history. No report needs it.

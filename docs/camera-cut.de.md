@@ -96,9 +96,9 @@ Vorgabe abweicht, wird als letzte zugeklappt, wenn der Platz knapp wird.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
-*Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau. Vier der
-Einstellungen stehen grau da, weil noch kein Lauf die Wörter
-aufgeschrieben hat.*
+*Reiter Resolve-Schnitt: links die Werte in drei Gruppen, die sich
+zuklappen lassen, rechts die Vorschau. Die Wörter sind hier schon
+aufgeschrieben, darum wirkt jede Einstellung.*
 
 Alle neun Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
 Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als
