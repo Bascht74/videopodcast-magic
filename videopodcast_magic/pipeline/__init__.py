@@ -976,6 +976,43 @@ def drift_measured(st):
     return "ppm" in (st or {}) and not (st or {}).get("from_phase")
 
 
+# A drift is taken out only at this many times its own uncertainty:
+# the fixture's four turns gave +67.6 +/- 40 ppm, real material 12-56 +/- 0.5.
+DRIFT_OVER_ERROR = 3.0
+
+
+def drift_clear(b, st):
+    """Whether the clock drift in *b* stands clear of its uncertainty.
+
+    Every path asks this one question: the drift is taken out only where
+    it is at least DRIFT_OVER_ERROR times the slope's standard error the
+    fit gave. A placing that measured no drift has none to take out.
+    """
+    ppm = (b - 1.0) * 1e6
+    return bool(drift_measured(st) and abs(b - 1.0) > 1e-7
+                and abs(ppm) >= DRIFT_OVER_ERROR
+                * (st or {}).get("ppm_error", float("inf")))
+
+
+def drift_note(b, st, drift):
+    """What the axis line says about a track's clock drift.
+
+    Taken out, left in because nothing asked for it, or left in with
+    both numbers where a drift was measured but did not stand clear.
+    """
+    ppm = (b - 1.0) * 1e6
+    if drift:
+        return T(', clock drift %s ppm taken out') % number_text(
+            ppm, 1, plus=True)
+    if drift_measured(st) and abs(b - 1.0) > 1e-7 and not drift_clear(b, st):
+        return T(', clock drift %s ppm left in: not %s times its '
+                 'uncertainty of %s ppm') % (
+            number_text(ppm, 1, plus=True),
+            number_text(DRIFT_OVER_ERROR, 0),
+            number_text((st or {}).get("ppm_error", 0.0), 1))
+    return T(', clock drift left in')
+
+
 def phase_of_run(args, paths):
     """Whether this run lets the phase way place the recording of *paths*.
 
@@ -1021,7 +1058,7 @@ def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True):
         if st.get("unplaceable"):
             print(as_bad("  " + no_place_message(track["name"])))
             continue
-        track["a"], track["b"] = a, b
+        track["a"], track["b"], track["st"] = a, b, st
         placed.append(track)
         # The same note as on the path with a picture: which way placed
         # it. Without it a track put there by phase shows +0.00 ppm and
@@ -1095,15 +1132,17 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
         target = os.path.join(tmpdir if args.dry_run else folder,
                               "%s_aligned.wav" % safe_filename(track["name"]))
         track["drift"] = (not args.no_drift
-                          and abs(track["b"] - 1.0) > 1e-7)
+                          and drift_clear(track["b"], track.get("st")))
         show_progress(track["name"], 0.0)
         place_track_on_axis(track["source"], target, track["a"], track["b"],
                             t0, t1, track["drift"])
         show_progress(track["name"], 1.0)
         print()
         track["axis"] = target
-        print("    %s, %s" % (as_hms(sample_count(target) / float(SR)),
-                              as_data_size(size_in_mb(target))))
+        print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
+                                as_data_size(size_in_mb(target)),
+                                drift_note(track["b"], track.get("st"),
+                                           track["drift"])))
     verify_alignment(placed, t0, t1, drift_allowed=not args.no_drift)
     if args.auphonic_key and not getattr(args, "without_auphonic", False):
         stop = send_aligned_tracks(args, placed, folder, tmpdir, t1 - t0,
@@ -1509,19 +1548,16 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     print(as_head(T('\nWRITING TRACKS TO THE AXIS')))
     for track in tracks:
         target = os.path.join(tmpdir, "axis_%s.wav" % safe_filename(track["name"]))
-        drift = not args.no_drift and abs(track["b"] - 1.0) > 1e-7
+        drift = not args.no_drift and drift_clear(track["b"], track["st"])
         show_progress("%s" % track["name"], 0.0)
         place_track_on_axis(track["source"], target, track["a"], track["b"], t0, t1, drift)
         show_progress("%s" % track["name"], 1.0)
         print()
         track["axis"] = target
         track["drift"] = drift
-        clock_drift = (track["b"] - 1.0) * 1e6
         print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
                                 as_data_size(size_in_mb(target)),
-                                T(', clock drift %s ppm taken out')
-                                % number_text(clock_drift, 1, plus=True)
-                                if drift else T(', clock drift left in')))
+                                drift_note(track["b"], track["st"], drift)))
     verify_alignment(tracks, t0, t1,
                      drift_allowed=not getattr(args, "no_drift", False))
 
@@ -2068,10 +2104,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print(T('  Cross-check:     not possible (%s)') % e)
         fps = max(1.0, info["fps"])
         total = (b - 1.0) * info["duration"]
-        uncertainty = st.get("ppm_error", 0.0) / 1e6 * info["duration"]
         threshold = max(0.010, 0.5 / fps)
         drift = (not args.no_drift
-                 and abs(total) > 4 * uncertainty and abs(total) > threshold
+                 and drift_clear(b, st) and abs(total) > threshold
                  and abs(st.get("ppm", 0.0)) < 500 and info["duration"] >= 120)
         if clocked:
             print(T('  Offset:          %s   (from its timecode alone -- '
