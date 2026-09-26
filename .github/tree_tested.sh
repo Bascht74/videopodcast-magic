@@ -24,8 +24,8 @@
 #
 # These are the questions a. to c. of publish.yml's evidence job,
 # written once here so tests.yml asks them the same way (see its job
-# "gate"). publish.yml still carries its own copy inline; its d. and
-# the version question are about a release and do not belong here.
+# "gate"). publish.yml's evidence job calls this file too; its d.
+# (the speaker separation) is about a release and does not belong here.
 #
 # Exit 0: yes to all three. Exit 1: no -- including GitHub not
 # answering, which is never a yes. Exit 3: tests.yml at <sha> could
