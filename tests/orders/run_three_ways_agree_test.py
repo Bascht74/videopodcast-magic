@@ -131,7 +131,7 @@ WRITTEN = {"format": vpm.FILE_FORMAT, "version": vpm.VERSION,
            "lufs": LUFS, "speakers": {}, "speakers_source": "",
            "speakers_local": False, "apart": [SOUND_B],
            "together": {SOUND_A2: SOUND_A}, "channels": {},
-           "project_type": "cut"}
+           "project_type": "cut", "sound": {SOUND_A: "mixed"}}
 
 project_path = os.path.join(
     out_folder, "%s%s.json" % (vpm.PROJECT_PREFIX,
@@ -203,6 +203,7 @@ back = {
     "together": [[target, source] for source, target
                  in sorted((d.get("together") or {}).items())
                  if target and target != source],
+    "sound": dict(d.get("sound") or {}),
 }
 
 # ---------------------------------------------------------------------
@@ -375,7 +376,8 @@ CENSUS = (("out_folder", "--out", "out", out_folder),
           ("speakers_local", "--no-speakers-local", "no_speakers_local",
            True),
           ("camera_cut", "--min-edit-duration", "min_edit_duration", 2.5),
-          ("project_type", "--project-type", "project_type", "cut"))
+          ("project_type", "--project-type", "project_type", "cut"),
+          ("sound", "--sound-of", "sound_of", [[SOUND_A, "mixed"]]))
 # The five that carry no switch, and the door each takes instead:
 # the production names the job in the assignment file, the assignment
 # reaches the run as the kinds above and the tracks in that same file,

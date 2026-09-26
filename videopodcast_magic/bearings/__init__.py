@@ -22,6 +22,7 @@ IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIX_ONLY = PROGRAM.MIX_ONLY
 PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
 SOUND_MATCH_ENOUGH = PROGRAM.SOUND_MATCH_ENOUGH
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 T = PROGRAM.T
 TN = PROGRAM.TN
 TRAILING_NUMBER = PROGRAM.TRAILING_NUMBER
@@ -56,6 +57,7 @@ number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
 path_key = PROGRAM.path_key
+phase_way_on = PROGRAM.phase_way_on
 place_track_on_axis = PROGRAM.place_track_on_axis
 re = PROGRAM.re
 safe_filename = PROGRAM.safe_filename
@@ -762,15 +764,15 @@ def axis_text(data):
     return text
 
 
-def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
+def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
+                      phase_of=lambda p: True):
     """Determine how all files sit relative to each other.
 
     The longest recording is the reference, a timecode from *tc_of*
     hangs the axis off it; a weak camera stands at its clock, a weak
-    recording where the run lays it. Returns (result, text), by
-    path_key: "axis", "clock" (recorder speed), and lists -- "weak" fits
-    badly or its points speak against it, "no_place" has no place,
-    "unplaceable" under the floor too, "clock_alone" a lone clock, "brief".
+    recording where the run lays it, the phase way on where *phase_of*
+    says. Returns (result, text), by path_key: "axis", "clock", and
+    lists -- "weak", "no_place", "unplaceable", "clock_alone", "brief".
     """
     # Every file at once: each envelope is read on its own, and over
     # hours of 4K this is the longest part of the measurement.
@@ -911,7 +913,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         """The run's own measurement of one recording, or None."""
         try:
             return align_audio_to_video(file_path, ref_r, distance_s=30.0,
-                                        sample_points=points)
+                                        sample_points=points,
+                                        phase=bool(phase_of(file_path)))
         except Exception:
             return None
 
@@ -1037,18 +1040,19 @@ def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
 
 
 def axis_with_blocks(paths, tc_of=lambda p: None, HOP=5.0, blocks=None,
-                     length_of=envelope_seconds):
+                     length_of=envelope_seconds, phase_of=lambda p: True):
     """Measure a recording made of blocks as one recording.
 
     The head is measured like any other file; the continuations are
     taken to fit and their place follows from the head, so a tail of a
     few minutes cannot turn down an hour of material. One taken out of
     the recording and put back in as a file is measured again.
+    *phase_of* is handed on to measure_time_axis.
     """
     tails = set(path_key(p) for row in (blocks or {}).values()
                 for p in (row or ())[1:])
     data, text = measure_time_axis(
-        [p for p in paths if path_key(p) not in tails], tc_of, HOP)
+        [p for p in paths if path_key(p) not in tails], tc_of, HOP, phase_of)
     return blocks_after_their_head(data, blocks, length_of), text
 
 
@@ -1175,6 +1179,8 @@ def axis_worth_measuring(files, every, state, fingerprint=file_fingerprint):
     mark -- a file whose Kind is not a camera drops out of it.
     """
     mark = frozenset(tuple(fingerprint(p) or (p, 0, 0)) for p, _a in files)
+    # What the sound was said to hold is part of the question too.
+    mark |= frozenset([("phase",) + tuple(state.get("axis_phase") or ())])
     want = set(path_key(p) for p in every)
     if (state.get("axis_answered") == mark
             and want <= (state.get("axis_covered") or set())):
@@ -1182,6 +1188,19 @@ def axis_worth_measuring(files, every, state, fingerprint=file_fingerprint):
     if not state.get("axis_running"):
         state["axis_asked"], state["axis_asking"] = mark, want
     return True
+
+
+def axis_phase_on(state, paths, blocks_of):
+    """The files the preview lets the phase way place, as the run would.
+
+    Asked per recording with every block of it, as phase_way_on is asked
+    for the run; the window names no value for all, so speech stands.
+    Returns their paths, sorted, for the project file to keep.
+    """
+    return sorted(os.path.abspath(p) for p in paths if phase_way_on(
+        blocks_of.get(p) or [p],
+        state.get("project_type") or "cut", SOUND_SPEECH,
+        state.get("sound_holds") or {}))
 
 
 def axis_answer_kept(state):
@@ -1347,7 +1366,13 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
 
     def axis_measure(paths):
         """Determine how all files sit relative to each other."""
-        return axis_with_blocks(paths, real_tc, HOP, blocks_of)
+        on = set(path_key(p) for p in state.get("axis_phase_measuring") or ())
+
+        def said(file_path):
+            """Whether the phase way was said to be on for this file."""
+            return path_key(file_path) in on
+
+        return axis_with_blocks(paths, real_tc, HOP, blocks_of, phase_of=said)
 
     def axis_file():
         """Return the project file, even before a name is settled.
@@ -1389,6 +1414,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             d["timeline"] = timeline_entries(axis, state.get("axis_clock"),
                                              state.get("axis_marks"))
             d["timeline_absolute"] = bool(state.get("axis_absolute"))
+            d["timeline_phase"] = list(state.get("axis_phase_measuring") or [])
         d["files"] = [{"path": p, "kind": a} for p, a in files]
         settings_extend(d)
         try:
@@ -1408,6 +1434,10 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             with open(file_path, encoding="utf-8") as f:
                 d = json.load(f) or {}
         except (OSError, ValueError):
+            return None
+        # Measured with the phase way on for other files: not this axis.
+        if (set(path_key(p) for p in d.get("timeline_phase") or ())
+                != set(path_key(p) for p in state.get("axis_phase") or ())):
             return None
         return axis_still_valid(d, paths)
 
@@ -1458,6 +1488,8 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
                 every.append(row[0])
         if len(every) < 2:
             return
+        state["axis_paths_last"] = list(paths)
+        state["axis_phase"] = axis_phase_on(state, every, blocks_of)
         if not axis_worth_measuring(files, every, state):
             return
         remembered = axis_read(every)
@@ -1465,6 +1497,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             # Not stored again: it came out of the file.
             remembered["remembered"] = True
             state["axis_running"] = True
+            state["axis_phase_measuring"] = state["axis_phase"]
             label_run = state.get("axis_run", 0) + 1
             state["axis_run"] = label_run
             threading.Thread(target=axis_hand_back,
@@ -1477,6 +1510,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             state["axis_again"] = list(paths)
             return
         state["axis_running"] = True
+        state["axis_phase_measuring"] = state["axis_phase"]
         label_run = state.get("axis_run", 0) + 1
         state["axis_run"] = label_run
         plan.begin("axis", T('Measuring time axis'), 3.0)
@@ -1484,6 +1518,23 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         axis_label.setStyleSheet("color: %s" % COLOURS["quiet"])
         threading.Thread(target=axis_work_loop, args=(every, label_run),
                          daemon=True).start()
+
+    def axis_sound_again():
+        """Ask again where what a recording's sound holds has changed.
+
+        The same files as last time, those still in the list; nothing
+        where the files the phase way may place came out as before, or
+        where nothing was asked yet -- the first question asks by it.
+        """
+        if state.get("axis_paths_last") is None:
+            return
+        listed = set(path_key(p) for p, _a in files)
+        last = [p for p in state.get("axis_paths_last") or ()
+                if path_key(p) in listed]
+        every = last + [r[0] for r, _nv, _cv in assign_lines
+                        if r[0] not in last]
+        if axis_phase_on(state, every, blocks_of) != state.get("axis_phase"):
+            axis_kick_off(last)
 
     def axis_present(data, text, remember=True):
         state["axis_running"] = False
@@ -1531,6 +1582,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             axis_kick_off(state.pop("axis_again"))
 
     bridge.axis.connect(axis_present)
+    state["axis_sound_again"] = axis_sound_again
 
     return axis_file, axis_kick_off, axis_store
 

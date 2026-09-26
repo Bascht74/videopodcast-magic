@@ -27,6 +27,9 @@ ON_DARK = PROGRAM.ON_DARK
 PRESET_NONE = PROGRAM.PRESET_NONE
 ProgressPlan = PROGRAM.ProgressPlan
 RUN_STOP = PROGRAM.RUN_STOP
+SOUND_HOLDS = PROGRAM.SOUND_HOLDS
+SOUND_MIXED = PROGRAM.SOUND_MIXED
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SPEAKER_SPLIT_OFF = PROGRAM.SPEAKER_SPLIT_OFF
 SPEECH_CODES = PROGRAM.SPEECH_CODES
 SR = PROGRAM.SR
@@ -681,6 +684,59 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
     return cell, box
 
 
+def sound_cell_for(path, state, quiet):
+    """The In the sound field of one recording, built and tied to it.
+
+    One answer per recording, kept under its first block in
+    state["sound_holds"]: speech keeps the phase way off, mixed lets it
+    place what the loudness cannot. A change asks the time axis again,
+    and sound_cells_follow shuts the field while the project only syncs.
+    """
+    holds = state.setdefault("sound_holds", ByFile())
+    cell, box = choice_cell(SOUND_HOLDS, holds.get(path) or SOUND_SPEECH)
+    cell.layout().insertWidget(0, label(T('In the sound'), quiet))
+    speaks_as(box, T('In the sound'), os.path.basename(path))
+    hint(box, T('Speech: placed by its loudness alone. A recording that '
+                'shares nothing\nwith the cameras is refused. Mixed: music '
+                'or a mix lies under the voices,\nand where the loudness '
+                'finds nothing the phase may place it.\nUnder "%s" it is '
+                'always mixed.') % T('Sync only'))
+    box.sound_of = path
+
+    def chosen(i):
+        """Keep the answer, and let the time axis hear of it."""
+        holds[path] = box.itemData(i)
+        (state.get("axis_sound_again") or (lambda: None))()
+
+    box.currentIndexChanged.connect(chosen)
+    state["sound_boxes"] = list(state.get("sound_boxes") or ()) + [box]
+    sound_cells_follow(state)
+    return cell, box
+
+
+def sound_cells_follow(state):
+    """Show every In the sound field as the project type has it.
+
+    Under "Sync only" each stands on mixed and is shut, and what was
+    chosen stays kept beside it for a return to the cut. A field whose
+    row has been built again is dropped here.
+    """
+    sync = state.get("project_type") == "sync"
+    holds = state.get("sound_holds") or {}
+    alive = []
+    for box in state.get("sound_boxes") or ():
+        try:
+            box.blockSignals(True)
+            pick_choice(box, SOUND_MIXED if sync
+                        else holds.get(box.sound_of) or SOUND_SPEECH)
+            box.blockSignals(False)
+            box.setEnabled(not sync)
+        except RuntimeError:
+            continue
+        alive.append(box)
+    state["sound_boxes"] = alive
+
+
 def name_shut(field, shut, guess, quiet):
     """Shut a name field whose track is not used, and say so in it.
 
@@ -1007,6 +1063,8 @@ def project_type_wire(state, tabs, tab2, project_type, multitrack,
     """
     def project_type_changed():
         state["project_type"] = project_type.get()
+        sound_cells_follow(state)
+        (state.get("axis_sound_again") or (lambda: None))()
         if project_type.get() == "sync" and multitrack.get():
             multitrack.set(False)       # the tick's own handler rebuilds
         else:
@@ -3135,6 +3193,7 @@ def gui():
                            or (PRESET_NONE if without_auphonic()
                                else preset_plaintext().strip()))
             d["speech_language"] = speech_language.get().strip()
+            d["sound"] = dict(state.get("sound_holds") or {})
             # null where nothing is adjusted, and written even then: the
             # key tells this file apart from one written before the choice.
             d["lufs"] = lufs_value.get()
@@ -3451,8 +3510,7 @@ def gui():
     # --- Spoken language: the tag of the written audio track, and
     #     what the recognition expects. Empty answers both.
     speech_language = Value(language_of_system())
-    # The separation, which stands above this line, reads the tag when
-    # it starts a run.
+    # The separation above this line reads the tag when it starts a run.
     state["speech_language"] = speech_language
     strip_choice_build(
         QtWidgets, name_bar, speech_language, T('Language of the sound'),

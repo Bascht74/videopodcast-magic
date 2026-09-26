@@ -13,6 +13,8 @@ PROGRAM = PROGRAM
 # the blocks under the list say which and why.
 
 ENV_MARK = PROGRAM.ENV_MARK
+SOUND_MIXED = PROGRAM.SOUND_MIXED
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SR = PROGRAM.SR
 T = PROGRAM.T
 THREAD_SHARE = PROGRAM.THREAD_SHARE
@@ -435,26 +437,6 @@ def phase_align(a, b, rate, most_s=None):
     return k / float(rate), sharp
 
 
-def looks_like_music(env):
-    """A guess at whether this is music, for the log and nothing else.
-
-    Speech swings in syllables, two to eight times a second; music
-    swings slower. The two do not separate cleanly -- a finished mix
-    landed at 26 per cent of its movement in the syllable band, speech
-    at 31 to 32 -- so this decides nothing, it only explains.
-    """
-    e = np.asarray(env, float)
-    e = e[np.isfinite(e)]
-    if len(e) < 4000:
-        return False
-    e = e - e.mean()
-    power = np.abs(np.fft.rfft(e * np.hanning(len(e)))) ** 2
-    hz = np.fft.rfftfreq(len(e), 0.005)
-    whole = float(power[(hz >= 0.2) & (hz < 20.0)].sum()) or 1.0
-    syllables = float(power[(hz >= 2.0) & (hz < 8.0)].sum()) / whole
-    return syllables < 0.20
-
-
 def cross_correlate(a, b):
     """Where b sits against a, and how well it fits there.
 
@@ -662,8 +644,12 @@ def align_on_moving_bands(x_video, x_audio, HOP, rate, sample_points,
 
 
 def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
-               distance_s=120.0):
-    """Return a, b with audio time = a + b * video time."""
+               distance_s=120.0, phase=True):
+    """Return a, b with audio time = a + b * video time.
+
+    *phase* lets the phase way answer where both curves came up empty;
+    the caller asks phase_way_on, which is the person's say.
+    """
     HOP, rate = 5.0, 4000
     env_video = video_envelope(video, HOP, rate)
     x_audio = decode_audio(audio, rate=rate)
@@ -684,20 +670,40 @@ def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
         second[2]["from_bands"] = True
         return second
     # Both curves came up empty. The phase way runs only here, where
-    # the answer was wrong anyway, and no sample point backs it up.
-    st["music_like"] = looks_like_music(env_audio)
-    where, sharp = phase_align(x_video, x_audio, rate)
-    st["phase_s"], st["phase_sharp"] = where, sharp
-    if sharp >= PHASE_SHARP_ENOUGH:
-        st["from_phase"] = True
-        # No drift from this one: it answers where, not how fast, so
-        # the factor stays 1.0 and the report calls the drift unknown.
-        return where, 1.0, st
+    # the answer was wrong anyway, no sample point backs it up, and only
+    # where the sound was said to be mixed: on speech it lays foreign
+    # recordings a hundred seconds out.
+    if phase:
+        where, sharp = phase_align(x_video, x_audio, rate)
+        st["phase_s"], st["phase_sharp"] = where, sharp
+        if sharp >= PHASE_SHARP_ENOUGH:
+            st["from_phase"] = True
+            # No drift from this one: it answers where, not how fast, so
+            # the factor stays 1.0 and the report calls the drift unknown.
+            return where, 1.0, st
     # Both ways came up empty. The numbers still travel back for the
     # log, marked for what they are: a guess, not an alignment. What to
     # do with a file that has no place: see cannot_be_placed.
     st["unplaceable"] = True
     return a, b, st
+
+
+def phase_way_on(paths, project_type="cut", every=SOUND_SPEECH, each=()):
+    """Whether the phase way may place the recording made of *paths*.
+
+    Only a person says so: *each* is {path: value} or (path, value) as
+    the file list and --sound-of give it, a mark on any block standing
+    for the recording, and *every* the value where none is marked. A
+    project that only synchronises takes mixed sound whatever is marked.
+    """
+    if project_type == "sync":
+        return True
+    pairs = each.items() if isinstance(each, dict) else (each or ())
+    marked = dict((path_key(p), v) for p, v in pairs)
+    for p in paths or ():
+        if path_key(p) in marked:
+            return marked[path_key(p)] == SOUND_MIXED
+    return every == SOUND_MIXED
 
 
 # Below this the agreement between two envelopes is not worth calling a
