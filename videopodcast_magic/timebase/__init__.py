@@ -952,11 +952,18 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     # like one that dropped nothing.
     for track in tracks:
         front, back = track["dropped_head"], track["dropped_tail"]
-        if front <= 0.25 and back <= 0.25:
-            continue
-        print(T('    %s: %s at the front and %s at the back have no '
-                'picture and are left out')
-              % (track["name"], as_hms(front), as_hms(back)))
+        # Only the end that loses something is named: "0:00:00.000 at
+        # the front" is a stretch that is not there.
+        if front > 0.25 and back > 0.25:
+            print(T('    %s: %s at the front and %s at the back have no '
+                    'picture and are left out')
+                  % (track["name"], as_hms(front), as_hms(back)))
+        elif front > 0.25:
+            print(T('    %s: %s at the front has no picture and is left '
+                    'out') % (track["name"], as_hms(front)))
+        elif back > 0.25:
+            print(T('    %s: %s at the back has no picture and is left '
+                    'out') % (track["name"], as_hms(back)))
     # Remember the measured window: already processed tracks come from a run
     # without In point and Out point and are therefore exactly that long.
     full0, full1 = t0, t1

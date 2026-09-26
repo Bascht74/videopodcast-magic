@@ -4,7 +4,8 @@
 Through camera_cut, the way preview and run both build the cut. Thirty
 seconds whose announcements both run past a third: it begins and ends
 on the wide shot, each edge stops at the third, no shot falls under the
-minimum edit duration, and the log says so. The mixedcase voices over a
+minimum edit duration, and the log says so -- one announcement as the
+only one, two as the first and the last. The mixedcase voices over a
 minute keep their edges and say nothing. Half an hour: each edge stops
 at "Wide shot at the latest", and at a lower setting at that one.
 """
@@ -43,6 +44,8 @@ CAMERA_OF = {"Host": "HostCam", "Guest": "GuestCam"}
 SHORTEST = 3.0
 SHORTENED = vpm.T('  shortened to at most %s each -- the first '
                   'announcement ends at %s, the last begins at %s')
+ONLY = vpm.T('  shortened to at most %s each -- the only announcement '
+             'runs from %s to %s')
 
 
 def cut_and_log(tracks, length, latest=120.0):
@@ -83,11 +86,23 @@ check("no shot of the shortened cut is under the minimum edit duration",
       bool(short) and min(b - a for a, b, _w in short) >= SHORTEST,
       "shots %s against a minimum of %.1f s"
       % ([shot(short, i) for i in range(len(short))], SHORTEST))
-want = SHORTENED % (vpm.as_hms(10.0), vpm.as_hms(21.0), vpm.as_hms(11.5))
+want = ONLY % (vpm.as_hms(10.0), vpm.as_hms(11.5), vpm.as_hms(21.0))
 check("the log says the edges were shortened, and where the talk lies",
       short_log.count(want) == 1,
       "%r stands %d times in the log, wanted 1" % (want,
                                                    short_log.count(want)))
+
+print("\n1b. Thirty seconds, two announcements, both past a third")
+# The guest speaks twice, 6 to 12 s and 18 to 24 s: the first ends
+# after the third, the last begins before the one before the end.
+two, two_log = cut_and_log([("Host", [(0.0, 6.0), (12.0, 18.0),
+                                      (24.0, 30.0)]),
+                            ("Guest", [(6.0, 12.0), (18.0, 24.0)])], 30.0)
+want = SHORTENED % (vpm.as_hms(10.0), vpm.as_hms(12.0), vpm.as_hms(18.0))
+check("two announcements are named as the first and the last",
+      two_log.count(want) == 1,
+      "%r stands %d times in the log -- the log %r"
+      % (want, two_log.count(want), two_log))
 
 print("\n2. A minute, no edge too long")
 # The two voices of the mixedcase fixture: the presenter's first turn
