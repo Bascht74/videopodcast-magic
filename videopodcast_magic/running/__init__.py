@@ -320,7 +320,10 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         PROGRAM.break_off_arm(break_off)
         run_plan_build()
         result_button_check()
-        project_write()          # the dry run too: same hand work
+        # A dry run says it left the output folder as it was, so it
+        # does not save: the window's close writes the hand work down.
+        if not only_look:
+            project_write()
         threading.Thread(target=work_loop, args=(argv,), daemon=True).start()
         output_timer.start()
 
