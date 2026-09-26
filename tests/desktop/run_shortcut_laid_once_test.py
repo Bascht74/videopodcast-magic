@@ -7,10 +7,10 @@ away by hand does not come back; that a place which cannot be written
 says why instead of stopping the start; that a test run lays
 nothing unless a home of its own is named; what a start from the Dock
 costs; that the line lands in this run's log; and that a rename leaves
-no bundle of ours under the old name. The macOS and the Linux shape are
-written here and read back; the Windows one is left out, because
-writing a .lnk needs a shell object this machine has not, and a rename
-is asked of the bundle alone, the one entry that says who wrote it.
+no bundle or launcher of ours under the old name, and nobody else's.
+The macOS and the Linux shape are written here and read back; the
+Windows one is left out: writing a .lnk needs a shell object this
+machine has not, and a .lnk does not say who wrote it.
 """
 PLATFORM_BOUND = True
 import os
@@ -390,6 +390,48 @@ check("and it is taken away where the new entry already stands",
       "old back=%s, new laid now=%s, old still there=%s"
       % (back, stood.made, os.path.exists(old.where)))
 shutil.rmtree(renamed, ignore_errors=True)
+
+
+print("\n11. A rename on Linux leaves one launcher, and nobody else's")
+# The same as section 10 in the Linux shape. The launcher says who
+# wrote it in its first line; one without that line -- somebody
+# else's, or one of ours from before the line came in -- stays.
+penguin, penguin_starter = a_home()
+desktop.COMMAND = "old-podcast-magic"
+try:
+    old = desktop.make_shortcut(root=penguin, target=penguin_starter,
+                                png=PICTURE, system="posix")
+finally:
+    desktop.COMMAND = held_command
+with open(old.where, encoding="utf-8") as f:
+    first_line = f.readline().rstrip("\n")
+check("the Linux launcher says in its first line who wrote it",
+      old.made and first_line == desktop.WRITTEN_BY,
+      "laid=%s, first line %r" % (old.made, first_line))
+apps = os.path.dirname(old.where)
+unmarked = {"foreign.desktop": "[Desktop Entry]\nType=Application\n"
+                               "Name=Foreign\nExec=/bin/true\n",
+            "before-the-line.desktop": "[Desktop Entry]\nType=Application"
+                                       "\nName=Before\nExec=%s\n"
+                                       % penguin_starter}
+for name, text in unmarked.items():
+    with open(os.path.join(apps, name), "w", encoding="utf-8") as f:
+        f.write(text)
+new = desktop.make_shortcut(root=penguin, target=penguin_starter,
+                            png=PICTURE, kept={desktop.KEPT: old.where},
+                            system="posix")
+check("a launcher laid under an earlier name is taken away after a rename",
+      new.made and not os.path.exists(old.where)
+      and os.path.exists(new.where),
+      "old still there=%s, new laid=%s at %s"
+      % (os.path.exists(old.where), new.made,
+         os.path.basename(new.where)))
+standing = sorted(name for name in unmarked
+                  if os.path.isfile(os.path.join(apps, name)))
+check("a launcher without that line is left standing after a rename",
+      standing == sorted(unmarked),
+      "standing %r of %r" % (standing, sorted(unmarked)))
+shutil.rmtree(penguin, ignore_errors=True)
 
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
