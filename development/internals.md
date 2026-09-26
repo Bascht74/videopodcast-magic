@@ -131,7 +131,7 @@ figure of the day is that command, not this paragraph**:
 * `stowage/` **229** -- where things are put down between one run and
   the next: the work folder, what somebody chose, and the write that is
   moved into place rather than left half done
-* `dials/` **179** -- the kinds a shot can be, the cut fields and their
+* `dials/` **181** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **141** -- what has been measured of a file, taken once
