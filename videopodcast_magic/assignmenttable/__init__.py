@@ -289,6 +289,48 @@ def camera_name_kept(file_path, name_value):
             "videotyped:" + file_path: bool(name_value.by_hand)}
 
 
+def reason_own_line(cell, box):
+    """Move the reason written after a Kind field onto a line under it.
+
+    In the field it made the field, its column and the table so wide
+    that a narrow window cut it off at the table's edge. Under it, it
+    wraps to the field's width instead. Returns the cell to put in the
+    table: *cell* itself where the field carries no reason.
+    """
+    why = getattr(getattr(box, "_why", None), "why", "")
+    if not why or not box.isEnabled():
+        return cell
+    PROGRAM.why_in_field(box, "", COLOURS["quiet"])
+    holder = QtWidgets.QWidget()
+    column = QtWidgets.QVBoxLayout(holder)
+    column.setContentsMargins(0, 0, 0, 2)
+    column.setSpacing(0)
+    column.addWidget(cell)
+    # A file name has no space to wrap at: these give it places to.
+    line = label("".join(c + "​" if c in "_.-" else c for c in why),
+                 COLOURS["quiet"])
+    line.setWordWrap(True)
+    line.setObjectName("reason_line")
+    # No width of its own: the column is as wide as the field.
+    line.setSizePolicy(QtWidgets.QSizePolicy.Ignored,
+                       QtWidgets.QSizePolicy.Preferred)
+    column.addWidget(line)
+    box.setAccessibleDescription(why)
+    return holder
+
+
+def reason_rows_fit(table, column):
+    """Make each row whose *column* carries a reason line tall enough."""
+    for row in range(table.rowCount()):
+        holder = table.cellWidget(row, column)
+        if holder is None or holder.findChild(
+                QtWidgets.QLabel, "reason_line") is None:
+            continue
+        table.setRowHeight(row, max(table.rowHeight(row),
+                                    holder.heightForWidth(
+                                        table.columnWidth(column))))
+
+
 def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
                             assign_position, audio_fields, camera_lines,
                             clip_kind_values, file_rows, files, no_join,
@@ -603,7 +645,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
                     path, clip_kind_value(path), fresh, marked,
                     state.get("no_place"), clip_kind_values,
                     COLOURS["quiet"], lambda q=path: kind_answered(q), shown)
-                table_video.setCellWidget(i, 3, box_cell)
+                table_video.setCellWidget(i, 3, reason_own_line(box_cell,
+                                                                _box))
+            reason_rows_fit(table_video, 3)
         except RuntimeError:
             # The table was rebuilt under us; the new one is right.
             return
@@ -620,7 +664,8 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
             b, clip_kind, wides, said, state.get("no_place"),
             clip_kind_values, COLOURS["quiet"],
             lambda p=b: kind_answered(p), shown)
-        table_video.setCellWidget(row, 3, kind_cell)
+        table_video.setCellWidget(row, 3, reason_own_line(kind_cell,
+                                                          _kind_box))
         own_audio = audio_use_value(b)
         used, why = PROGRAM.audio_use_settled(b, own_now, forced,
                                               has_sound(b), clip_kind.get())
@@ -694,6 +739,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     table_video.horizontalHeader().setStretchLastSection(False)
     table_video.horizontalHeader().setSectionResizeMode(
         1, QtWidgets.QHeaderView.Stretch)
+    reason_rows_fit(table_video, 3)
     tree_audio.header().setStretchLastSection(True)
     if not SPEAKER_SPLIT_OFF:
         # A width for what the column will hold, not for what is in it:
