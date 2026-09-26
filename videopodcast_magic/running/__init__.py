@@ -194,7 +194,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             [(row, nv.get(), cv.get())
              for row, nv, cv in model.assign_lines],
             [(nv.get(), cv.get()) for _k, nv, cv in model.voice_lines],
-            bool(model.multitrack.get()), state.get("voiced") or ())
+            state.get("voiced") or ())
         lines += camera_shortfall_lines(who, model.assign_lines,
                                         model.voice_lines)
         if without_auphonic() or not state.get("presets"):
@@ -235,9 +235,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
                 only_look):
             return
         # Where the camera audio is needed and not quite there yet, wait for it
-        # -- but without freezing the window.
-        if (model.multitrack.get() and state.get("own_cameras")
-                and prework_busy()):
+        # -- but without freezing the window. Ticked or not: the plan is one.
+        if state.get("own_cameras") and prework_busy():
             if state["waiting"]:
                 return          # a wait loop is already running
             state["waiting"] = True
@@ -334,8 +333,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             "apart": sorted(model.no_join),
             "together": model.together_now(),
         }
-        assign_file, discard = assignment_file(
-            model.multitrack.get() or state.get("speakers_local"))
+        # Every run carries the plan, ticked or not: one way to the run.
+        assign_file, discard = assignment_file(True)
         argv, wishes, messages = run_argv(values, assign_file)
         for kind, title, text, button in messages:
             if kind == "question":

@@ -344,8 +344,9 @@ def window_answered_run(vpm, app, project, keep, answer, run=True,
     None, none is), and hands back "" when its answers stand or what it
     still waits for; after 60 s the button is pressed regardless. With
     *run* False the loop is not entered: its line is kept, nothing
-    written. *keep* gets "argv", "log", "ended", "why", "unanswered"
-    (what never stood, or "") and "answered" (s it took, None if never).
+    written. *keep* gets "argv", "plan" (its assignment file, read before
+    the run removes it), "log", "ended", "why", "unanswered" (what never
+    stood, or "") and "answered" (s it took, None if never).
     """
     from PySide6 import QtCore, QtWidgets
     QtWidgets.QFileDialog.getOpenFileName = staticmethod(
@@ -353,12 +354,16 @@ def window_answered_run(vpm, app, project, keep, answer, run=True,
     QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
     QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
     real = vpm.gui_run_loop
-    keep.update(argv=None, log=[], ended=False, why="", answered=None,
-                unanswered="")
+    keep.update(argv=None, plan=None, log=[], ended=False, why="",
+                answered=None, unanswered="")
 
     def loop(argv, state, write, *rest):
         """The window's own run loop, or only its line, kept."""
         keep["argv"] = list(argv)
+        if "--assign" in argv:
+            with open(argv[argv.index("--assign") + 1],
+                      encoding="utf-8") as f:
+                keep["plan"] = json.load(f)
 
         def kept(text):
             """Keep a piece of the log, and hand it on to the window."""

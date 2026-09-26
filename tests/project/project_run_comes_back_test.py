@@ -9,7 +9,8 @@ round over a single camera, and -- last -- one of a run that refused a
 camera. Read off the search, the button, and the preview, which has to
 show the run's speakers rather than work them out again from the raw
 tracks -- and has to follow that file when it is written again, which
-is what turning a number above does.
+is what turning a number above does. The projects leave Multitrack off:
+a plain run leaves a handover as a ticked one does.
 
 Before the fourth the sheet that reads the recordings itself, opened
 where no run answered the question. That reading costs minutes on the
@@ -199,7 +200,7 @@ def project_file(name, target):
                    "files": [{"path": audio, "kind": "audio"}]
                             + [{"path": p, "kind": "video"} for p in cams],
                    "out_folder": target, "production": name,
-                   "multitrack": True, "assignment": {}, "preset": ""}, f)
+                   "multitrack": False, "assignment": {}, "preset": ""}, f)
     return path
 
 

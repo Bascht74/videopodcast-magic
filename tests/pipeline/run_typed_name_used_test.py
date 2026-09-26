@@ -2,8 +2,8 @@
 """A name typed for a recording is the name its run works under.
 
 On way_ground's production without Multitrack, all three recordings.
-The window: the presenter's recording typed "Host", a dry run; its line
-carries the pair, its log lists the recording and lays its track under
+The window: the presenter's recording typed "Host", a dry run; its plan
+carries the name, its log lists the recording and lays its track under
 that name, and the untyped recording keeps what its file proposes. The
 line: the name given on the second block names the whole recording,
 without it the file names it. Refused, not dropped: a file that is no
@@ -128,12 +128,12 @@ check("the window's dry run ran to its end, the name typed",
          kept["why"] or "nothing given up",
          kept["unanswered"] or "stood",
          "on the line" if "--dry-run" in argv else "missing"))
-pairs = [argv[i + 1:i + 3] for i, w in enumerate(argv)
-         if w == "--speaker-name"]
-check("the window's line hands the typed name over with its file",
+pairs = [[e.get("audio"), e.get("speakers")]
+         for e in (kept["plan"] or {}).get("tracks_of") or ()]
+check("the window's plan hands the typed name over with its file",
       [REC[1], TYPED] in pairs,
-      "pairs %s, wanted %s among them"
-      % ([[os.path.basename(p), n] for p, n in pairs],
+      "plan rows %s, wanted %s among them"
+      % ([[os.path.basename(p or ""), n] for p, n in pairs],
          [os.path.basename(REC[1]), TYPED]))
 check("the window's run lists that recording under the typed name",
       bool(plan_line(said, TYPED, REC[1])),
