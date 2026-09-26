@@ -9,7 +9,8 @@ bash run.sh              # all of them, several at a time
 WORKERS=1 bash run.sh    # one after another, easier to read
 bash run.sh voice_turns_found time_offset_found   # only those, named
 python3 speakers/voice_turns_found_test.py        # a single one, by hand
-bash resolve.sh          # the ones that need a running DaVinci Resolve
+bash resolve.sh --go     # the ones that need a running DaVinci Resolve
+bash auphonic.sh --online  # the ones that talk to auphonic.com itself
 ```
 
 `resolve.sh` runs what lies under `resolve/live/`. Those talk to a DaVinci
@@ -725,7 +726,7 @@ the source, the texts and the documents as a whole.
 
 ### Under `resolve/live/` -- beside a running DaVinci Resolve
 
-Not in the suite and not in the count above: `resolve.sh`
+Not in the suite and not in the count above: `bash resolve.sh --go`
 starts these by hand, one after another.
 
 | Test | Green means |

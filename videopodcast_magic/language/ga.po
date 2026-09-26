@@ -3715,9 +3715,6 @@ msgstr "agus gearrtar anseo, nóiméad maith nó ná bíodh"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Teorainn chrua an phéire: mura raibh teorainn abairte ann ó \"Seat leathan tar éis\", seasann an sos cainte is faide ina háit, agus ag an bpointe seo déantar an gearradh is cuma cad atá á rá."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Níl tras-scríbhinn ann fós. Gan í ní aimsítear ceist ar bith agus níl aon teorainn abairte ar eolas, mar sin ní dhéanann na ceithre shocrú seo tada. Scríobhann rith í, agus as sin amach oibríonn siad."
-
 msgid "Why the question settings are grey"
 msgstr "Cén fáth a bhfuil socruithe na ceiste liath"
 
@@ -5054,3 +5051,21 @@ msgstr "níor aithníodh an fhuaim, curtha ina áit de réir a chóid ama"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s taifeadadh agus gan aon phictiúr: ceanglaítear gach ceann acu ina aonar agus ní chuirtear in aice a chéile iad. Cuireann --multitrack ar ais ama amháin iad."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", fágadh an sruth cloig %s ppm ann: ní %s oiread a éiginnteachta de %s ppm é"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Gan tras-scríbhinn ní aimsítear ceist ar bith agus níl aon teorainn abairte ar eolas, mar sin ní dhéanann dhá shocrú na ceiste ná an dá shocrú seat leathan a fhanann le deireadh abairte tada."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Gan tras-scríbhinn ní aimsítear ceist ar bith, mar sin ní dhéanann dhá shocrú na ceiste tada."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Níl ceann ann fós: scríobhann rith í, agus as sin amach oibríonn siad."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Bhí an aithint cainte múchta don rith. Fág ar siúl í, agus scríobhfaidh an chéad rith eile ceann."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Níor scríobh an rith ceann ar bith: theip ar an aithint cainte nó níor chuala sí tada, agus insíonn loga an rith cé acu. Seiceáil teanga na fuaime agus rith arís; mura bhfuil aithint ar an ríomhaire seo, tugann macOS 26 ceann leis, nó suiteálann an rith faster-whisper."

@@ -3710,9 +3710,6 @@ msgstr "અને અહીં કટ થાય છે, ક્ષણ સાર�
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "આ જોડીની કઠોર મર્યાદા: \"વાઇડ શૉટ આટલા પછી\" થી વાક્યની કોઈ સીમા ન આવી હોય, તો બોલવામાં સૌથી લાંબો વિરામ તેનું સ્થાન લે છે, અને આ બિંદુએ, તે સમયે ગમે તે બોલાતું હોય, કટ થાય છે."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "હજી કોઈ ટ્રાન્સક્રિપ્ટ નથી. તેના વગર કોઈ પ્રશ્ન મળતો નથી અને વાક્યની સીમા જાણી શકાતી નથી, તેથી આ ચાર સેટિંગ્સ કંઈ કરતાં નથી. એક રન તેને લખે છે, અને ત્યારથી તે કામ કરે છે."
-
 msgid "Why the question settings are grey"
 msgstr "પ્રશ્નની સેટિંગ્સ ભૂખરી કેમ છે"
 
@@ -4920,3 +4917,21 @@ msgstr "ધ્વનિ ઓળખાયો નહીં, તેના ટાઇ�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s રેકોર્ડિંગ અને કોઈ ચિત્ર નહીં: દરેક અલગથી જોડાય છે અને તેમને એકબીજા સાથે ગોઠવવામાં આવતાં નથી. --multitrack તેમને એક સમય-અક્ષ પર મૂકે છે."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", ઘડિયાળનું વિચલન %s ppm એમ જ રાખ્યું: તે તેની અનિશ્ચિતતાથી %s ગણું નથી, જે %s ppm છે"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ટ્રાન્સક્રિપ્ટ વગર કોઈ પ્રશ્ન મળતો નથી અને વાક્યની સીમા જાણી શકાતી નથી, તેથી પ્રશ્નની બે સેટિંગ્સ અને વાક્યના અંતની રાહ જોતી વાઇડ શૉટની બે સેટિંગ્સ કંઈ કરતી નથી."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ટ્રાન્સક્રિપ્ટ વગર કોઈ પ્રશ્ન મળતો નથી, તેથી પ્રશ્નની બે સેટિંગ્સ કંઈ કરતી નથી."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "હજી કોઈ નથી: એક રન તેને લખે છે, અને ત્યારથી તે કામ કરે છે."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "આ રન માટે વાણી ઓળખ બંધ હતી. તેને ચાલુ રાખો, અને પછીનો રન એક લખશે."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "રને કોઈ ટ્રાન્સક્રિપ્ટ લખી નથી: વાણી ઓળખ નિષ્ફળ ગઈ અથવા તેણે કંઈ સાંભળ્યું નહીં, અને રનનો લૉગ કહે છે કે કયું. ધ્વનિની ભાષા તપાસો અને ફરી ચલાવો; જ્યાં આ મશીનમાં ઓળખ નથી, ત્યાં macOS 26 એક લાવે છે, અથવા રન faster-whisper ઇન્સ્ટોલ કરે છે."

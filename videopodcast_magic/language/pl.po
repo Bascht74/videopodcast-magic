@@ -3630,9 +3630,6 @@ msgstr "Przetwarzanie"
 msgid "Profile"
 msgstr "Profil"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Nie ma jeszcze transkrypcji. Bez niej nie da się znaleźć pytania ani granicy zdania, więc te cztery ustawienia nic nie robią. Przebieg ją zapisuje i od tej chwili działają."
-
 msgid "Why the question settings are grey"
 msgstr "Dlaczego ustawienia pytania są wyszarzone"
 
@@ -4961,3 +4958,21 @@ msgstr "nie rozpoznano dźwięku, umieszczono według timecode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s nagrania i brak obrazu: każde jest łączone osobno i nie są wyrównywane względem siebie. --multitrack umieszcza je na jednej osi czasu."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", dryf zegara %s ppm pozostawiony: nie jest %s razy większy od swojej niepewności %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Bez transkrypcji nie da się znaleźć pytania ani granicy zdania, więc dwa ustawienia pytania i dwa ustawienia planu ogólnego, które czekają na koniec zdania, nic nie robią."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Bez transkrypcji nie da się znaleźć pytania, więc dwa ustawienia pytania nic nie robią."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Jeszcze jej nie ma: przebieg ją zapisuje i od tej chwili działają."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Rozpoznawanie mowy było w tym przebiegu wyłączone. Zostaw je włączone, a następny przebieg zapisze transkrypcję."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Przebieg nie zapisał transkrypcji: rozpoznawanie mowy zawiodło albo nic nie usłyszało, a dziennik przebiegu mówi, które z tych dwóch. Sprawdź język dźwięku i uruchom ponownie; jeśli ten komputer nie ma rozpoznawania, macOS 26 je zapewnia, albo przebieg instaluje faster-whisper."

@@ -5405,15 +5405,6 @@ msgstr ""
 "gekommen, tritt die längste Sprechpause an ihre Stelle, und hier wird "
 "geschnitten, gleich was gerade gesagt wird."
 
-msgid ""
-"No transcript yet. Without one no question is found and no sentence "
-"boundary is known, so these four settings do nothing. A run writes it, "
-"and from then on they work."
-msgstr ""
-"Noch keine Niederschrift. Ohne sie wird keine Frage gefunden und keine "
-"Satzgrenze, also bewirken diese vier Einstellungen nichts. Ein Lauf "
-"schreibt sie, und von da an wirken sie."
-
 msgid "Why the question settings are grey"
 msgstr "Warum die Einstellungen zur Frage grau sind"
 
@@ -6694,3 +6685,21 @@ msgstr "Ton nicht erkannt, über den Timecode platziert"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s Aufnahmen und kein Bild: Jede wird für sich zusammengefügt, und sie werden nicht aneinander ausgerichtet. --multitrack legt sie auf eine Zeitachse."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", Gang %s ppm bleibt stehen: nicht %s-mal so groß wie seine Unsicherheit von %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Ohne Niederschrift wird keine Frage gefunden und keine Satzgrenze, also bewirken die beiden Einstellungen zur Frage und die beiden Weitwinkel-Einstellungen, die auf ein Satzende warten, nichts."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Ohne Niederschrift wird keine Frage gefunden, also bewirken die beiden Einstellungen zur Frage nichts."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Noch gibt es keine: Ein Lauf schreibt sie, und von da an wirken sie."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Die Spracherkennung war für den Lauf abgeschaltet. Lass sie an, dann schreibt der nächste Lauf eine."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Der Lauf hat keine geschrieben: Die Spracherkennung ist gescheitert oder hat nichts gehört, und das Protokoll des Laufs sagt, was davon. Prüfe die Sprache im Ton und starte den Lauf noch einmal; hat dieser Rechner keine Erkennung, bringt macOS 26 eine mit, oder der Lauf installiert faster-whisper."

@@ -1609,9 +1609,6 @@ msgstr "  %s: تعذّر تحديد عدد قنواته (%s) -- لا يُقاس"
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "لا توجد كاميرا خالية من المتحدثين، لذا لا توجد لقطة واسعة: إعدادات اللقطة الواسعة الأربعة وعلامة الأطراف لا تفعل شيئًا. اضبط «النوع» لإحدى الكاميرات على «لقطة واسعة»، أو اترك واحدة بلا متحدث."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "لا يوجد نص مفرغ بعد. بدونه لا يُعثر على سؤال ولا تُعرف حدود الجمل، لذا لا تفعل هذه الإعدادات الأربعة شيئًا. يكتبه التشغيل، ومن بعدها تعمل."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  السؤال: لا نص مفرغ، لذا لم يُعثر على سؤال ولم يحدث قطع ردّ فعل.\n          تُدوَّن الكلمات من المزج النهائي أثناء\n          التشغيل؛ وبدونها لا يفعل الإعداد شيئًا."
 
@@ -5100,3 +5097,21 @@ msgstr "لم يُتعرَّف على الصوت، وُضع حسب كوده ال�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s تسجيلات ولا صورة: يُجمَع كل منها وحده ولا تُحاذى بعضها مع بعض. يضعها --multitrack على محور زمني واحد."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "، ويُترك انحراف الساعة %s ppm: ليس %s أضعاف عدم يقينه البالغ %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "بدون نص مفرغ لا يُعثر على سؤال ولا تُعرف حدود الجمل، لذا لا يفعل إعدادا السؤال شيئًا، ولا إعدادا اللقطة الواسعة اللذان ينتظران نهاية الجملة."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "بدون نص مفرغ لا يُعثر على سؤال، لذا لا يفعل إعدادا السؤال شيئًا."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "لا يوجد نص بعد: يكتبه التشغيل، ومن بعدها تعمل."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "كان التعرف على الكلام متوقفًا في هذا التشغيل. اتركه مفعّلًا، وسيكتب التشغيل التالي نصًا."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "لم يكتب التشغيل نصًا: فشل التعرف على الكلام أو لم يسمع شيئًا، وسجل التشغيل يذكر أيهما. تحقق من لغة الصوت وشغّل مرة أخرى؛ وإن لم يكن على هذا الجهاز تعرّف على الكلام، فإن macOS 26 يأتي بواحد، أو يثبّت التشغيل faster-whisper."

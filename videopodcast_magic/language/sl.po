@@ -3713,9 +3713,6 @@ msgstr "in tukaj se reže, dober trenutek ali ne"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Trda meja para: če se od „Splošni plan po“ ni pojavila nobena meja stavka, jo nadomesti najdaljši premor v govoru, in na tej točki se reže, karkoli se že govori."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Prepisa še ni. Brez njega se ne najde nobeno vprašanje in ni znana nobena meja stavka, zato te štiri nastavitve ne naredijo ničesar. Zagon ga zapiše in od takrat delujejo."
-
 msgid "Why the question settings are grey"
 msgstr "Zakaj so nastavitve vprašanja sive"
 
@@ -5009,3 +5006,21 @@ msgstr "zvok ni prepoznan, umeščen po svoji časovni kodi"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s posnetki in nobene slike: vsak se združi posebej in se ne poravnajo drug ob drugega. --multitrack jih postavi na eno časovno os."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", drsenje ure %s ppm ostane: ni %s-krat večje od svoje negotovosti %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Brez prepisa se ne najde nobeno vprašanje in ni znana nobena meja stavka, zato obe nastavitvi vprašanja in obe nastavitvi splošnega plana, ki čakata na konec stavka, ne naredijo ničesar."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Brez prepisa se ne najde nobeno vprašanje, zato obe nastavitvi vprašanja ne naredita ničesar."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Še ga ni: zagon ga zapiše in od takrat delujejo."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Razpoznavanje govora je bilo za ta zagon izklopljeno. Pustite ga vklopljenega in naslednji zagon bo zapisal prepis."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Zagon ni zapisal prepisa: razpoznavanje govora ni uspelo ali ni slišalo ničesar, dnevnik zagona pa pove, kaj od tega. Preverite jezik zvoka in zaženite znova; kjer ta računalnik nima razpoznavanja, ga prinese macOS 26, ali pa zagon namesti faster-whisper."

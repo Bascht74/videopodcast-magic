@@ -3710,9 +3710,6 @@ msgstr "మరియు ఇక్కడ కట్ అవుతుంది, మ�
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "ఈ జంటలోని కఠిన పరిమితి: \"వైడ్ షాట్ ఇంత తర్వాత\" నుండి ఏ వాక్య సరిహద్దూ రాకపోతే, అన్నిటికంటే పొడవైన మాటల విరామం దాని స్థానంలో నిలుస్తుంది, మరియు ఈ బిందువు వద్ద ఏం మాట్లాడుతున్నా కట్ జరుగుతుంది."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "ఇంకా ట్రాన్స్‌క్రిప్ట్ లేదు. అది లేకుండా ఏ ప్రశ్నా దొరకదు, ఏ వాక్య సరిహద్దూ తెలియదు, కాబట్టి ఈ నాలుగు సెట్టింగ్‌లు ఏమీ చేయవు. ఒక రన్ దాన్ని రాస్తుంది, అప్పటి నుండి అవి పనిచేస్తాయి."
-
 msgid "Why the question settings are grey"
 msgstr "ప్రశ్న సెట్టింగ్‌లు ఎందుకు బూడిద రంగులో ఉన్నాయి"
 
@@ -4920,3 +4917,21 @@ msgstr "ఆడియో గుర్తించబడలేదు, దాని
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s రికార్డింగ్‌లు, చిత్రం లేదు: ప్రతిదీ విడిగా జోడించబడుతుంది, అవి ఒకదానికొకటి సమలేఖనం చేయబడవు. --multitrack వాటిని ఒకే సమయ అక్షంపై ఉంచుతుంది."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", గడియార విచలనం %s ppm అలాగే ఉంచబడింది: అది తన అనిశ్చితికి %s రెట్లు కాదు, అది %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ట్రాన్స్‌క్రిప్ట్ లేకుండా ఏ ప్రశ్నా దొరకదు, ఏ వాక్య సరిహద్దూ తెలియదు, కాబట్టి ప్రశ్న యొక్క రెండు సెట్టింగ్‌లు, వాక్య ముగింపు కోసం వేచి ఉండే వైడ్ షాట్ యొక్క రెండు సెట్టింగ్‌లు ఏమీ చేయవు."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ట్రాన్స్‌క్రిప్ట్ లేకుండా ఏ ప్రశ్నా దొరకదు, కాబట్టి ప్రశ్న యొక్క రెండు సెట్టింగ్‌లు ఏమీ చేయవు."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "ఇంకా లేదు: ఒక రన్ దాన్ని రాస్తుంది, అప్పటి నుండి అవి పనిచేస్తాయి."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "ఈ రన్‌కు ప్రసంగ గుర్తింపు ఆపివేయబడింది. దాన్ని ఆన్‌లో ఉంచండి, తదుపరి రన్ ఒకటి రాస్తుంది."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "రన్ ఏ ట్రాన్స్‌క్రిప్ట్‌నూ రాయలేదు: ప్రసంగ గుర్తింపు విఫలమైంది లేదా ఏమీ వినలేదు, ఏది అనేది రన్ లాగ్ చెబుతుంది. ఆడియో భాషను తనిఖీ చేసి మళ్లీ నడపండి; ఈ యంత్రంలో గుర్తింపు లేని చోట macOS 26 ఒకటి తెస్తుంది, లేదా రన్ faster-whisper‌ను ఇన్‌స్టాల్ చేస్తుంది."

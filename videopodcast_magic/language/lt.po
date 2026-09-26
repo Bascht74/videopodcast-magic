@@ -3711,9 +3711,6 @@ msgstr "o čia kerpama, tinkamas momentas ar ne"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Poros griežtoji riba: jei nuo „Bendrasis planas anksčiausiai“ neatsirado sakinio ribos, jos vietą užima ilgiausia kalbos pauzė, o šioje vietoje kerpama, kad ir kas tuo metu būtų sakoma."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Transkripcijos dar nėra. Be jos nerandamas joks klausimas ir nežinoma jokia sakinio riba, todėl šie keturi nustatymai nieko nedaro. Ją įrašo vykdymas, ir nuo tada jie veikia."
-
 msgid "Why the question settings are grey"
 msgstr "Kodėl klausimo nustatymai pilki"
 
@@ -4964,3 +4961,21 @@ msgstr "garsas neatpažintas, vieta nustatyta pagal laiko kodą"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  Įrašų: %s, vaizdo nėra: kiekvienas sujungiamas atskirai, ir jie nederinami vienas prie kito. --multitrack juos padeda ant vienos laiko ašies."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", laikrodžio dreifas %s ppm paliktas: jis nesiekia %s kartų savo %s ppm neapibrėžties"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Be transkripcijos nerandamas joks klausimas ir nežinoma jokia sakinio riba, todėl du klausimo nustatymai ir du bendrojo plano nustatymai, laukiantys sakinio pabaigos, nieko nedaro."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Be transkripcijos nerandamas joks klausimas, todėl du klausimo nustatymai nieko nedaro."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Jos dar nėra: ją įrašo vykdymas, ir nuo tada jie veikia."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Šiam vykdymui kalbos atpažinimas buvo išjungtas. Palikite jį įjungtą, ir kitas vykdymas ją įrašys."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Vykdymas jos neįrašė: kalbos atpažinimas nepavyko arba nieko negirdėjo, o vykdymo žurnalas sako, kuris iš dviejų. Patikrinkite garso kalbą ir paleiskite dar kartą; jei šiame kompiuteryje nėra atpažinimo, jį atneša macOS 26, arba vykdymas įdiegia faster-whisper."

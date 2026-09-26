@@ -3712,9 +3712,6 @@ msgstr "u hawn jinqata', mument tajjeb jew le"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Il-limitu iebes tal-par: fejn ma nstab l-ebda tmiem ta' sentenza minn \"Veduta wiesgħa wara\", l-itwal pawża fid-diskors tieħu postu, u f'dan il-punt issir il-qatgħa irrispettivament minn x'qed jingħad."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "L-ebda traskrizzjoni s'issa. Mingħajrha ma tinstab l-ebda mistoqsija u ma hu magħruf l-ebda tmiem ta' sentenza, għalhekk dawn l-erba' għażliet ma jagħmlu xejn. Tħaddim jiktibha, u minn dak il-ħin jaħdmu."
-
 msgid "Why the question settings are grey"
 msgstr "Għaliex l-għażliet tal-mistoqsija huma griżi"
 
@@ -5008,3 +5005,21 @@ msgstr "il-ħoss ma ntgħarafx, tqiegħed skont it-timecode tiegħu"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s reġistrazzjonijiet u l-ebda stampa: kull waħda tingħaqad waħedha u ma jitqegħdux ma' xulxin. --multitrack ipoġġihom fuq assi tal-ħin wieħed."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", id-drift tal-arloġġ ta' %s ppm jibqa': mhux %s darbiet l-inċertezza tiegħu ta' %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Mingħajr traskrizzjoni ma tinstab l-ebda mistoqsija u ma hu magħruf l-ebda tmiem ta' sentenza, għalhekk iż-żewġ għażliet tal-mistoqsija u ż-żewġ għażliet tal-veduta wiesgħa li jistennew it-tmiem ta' sentenza ma jagħmlu xejn."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Mingħajr traskrizzjoni ma tinstab l-ebda mistoqsija, għalhekk iż-żewġ għażliet tal-mistoqsija ma jagħmlu xejn."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Għad m'hemmx: tħaddim jiktibha, u minn dak il-ħin jaħdmu."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Ir-rikonoxximent tad-diskors kien mitfi għal dan it-tħaddim. Ħallih mixgħul, u t-tħaddim li jmiss jikteb waħda."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "It-tħaddim ma kiteb l-ebda waħda: ir-rikonoxximent tad-diskors falla jew ma sema' xejn, u r-reġistru tat-tħaddim jgħid liema. Iċċekkja l-lingwa tal-ħoss u erġa' ħaddem; fejn din il-magna m'għandhiex rikonoxximent, macOS 26 iġib wieħed, jew it-tħaddim jinstalla faster-whisper."

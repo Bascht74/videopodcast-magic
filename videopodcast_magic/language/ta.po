@@ -3709,9 +3709,6 @@ msgstr "இங்கே கட் செய்யப்படும், ஏற�
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "இந்த இணையின் கடின வரம்பு: \"வைட் ஷாட் இவ்வளவுக்குப் பின்\" முதல் எந்த வாக்கிய எல்லையும் வரவில்லை என்றால், மிக நீண்ட பேச்சு இடைநிறுத்தம் அதன் இடத்தைப் பிடிக்கும், இந்தப் புள்ளியில் என்ன பேசப்பட்டாலும் கட் நடக்கும்."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "இன்னும் எழுத்துப்படி இல்லை. அது இல்லாமல் எந்தக் கேள்வியும் கண்டறியப்படாது, எந்த வாக்கிய எல்லையும் தெரியாது, எனவே இந்த நான்கு அமைப்புகளும் எதுவும் செய்யாது. ஓர் இயக்கம் அதை எழுதும், அதன்பின் அவை செயல்படும்."
-
 msgid "Why the question settings are grey"
 msgstr "கேள்வி அமைப்புகள் ஏன் சாம்பல் நிறத்தில் உள்ளன"
 
@@ -4919,3 +4916,21 @@ msgstr "ஆடியோ அடையாளம் காணப்படவில�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s பதிவுகள், படம் இல்லை: ஒவ்வொன்றும் தனியாக இணைக்கப்படுகிறது, அவை ஒன்றுக்கொன்று சீரமைக்கப்படுவதில்லை. --multitrack அவற்றை ஒரே நேர அச்சில் வைக்கிறது."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", கடிகார விலகல் %s ppm அப்படியே விடப்பட்டது: அது தன் நிச்சயமின்மையின் %s மடங்கு இல்லை, அது %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "எழுத்துப்படி இல்லாமல் எந்தக் கேள்வியும் கண்டறியப்படாது, எந்த வாக்கிய எல்லையும் தெரியாது, எனவே கேள்வியின் இரண்டு அமைப்புகளும், வாக்கிய முடிவுக்குக் காத்திருக்கும் வைட் ஷாட்டின் இரண்டு அமைப்புகளும் எதுவும் செய்யாது."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "எழுத்துப்படி இல்லாமல் எந்தக் கேள்வியும் கண்டறியப்படாது, எனவே கேள்வியின் இரண்டு அமைப்புகளும் எதுவும் செய்யாது."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "இன்னும் இல்லை: ஓர் இயக்கம் அதை எழுதும், அதன்பின் அவை செயல்படும்."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "இந்த இயக்கத்தில் பேச்சு அறிதல் அணைக்கப்பட்டிருந்தது. அதை இயக்கத்தில் விடுங்கள், அடுத்த இயக்கம் ஒன்றை எழுதும்."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "இயக்கம் எந்த எழுத்துப்படியையும் எழுதவில்லை: பேச்சு அறிதல் தோல்வியடைந்தது அல்லது எதையும் கேட்கவில்லை, எது என்பதை இயக்கத்தின் பதிவு சொல்கிறது. ஆடியோ மொழியைச் சரிபார்த்து மீண்டும் இயக்குங்கள்; இந்தக் கணினியில் அறிதல் இல்லையெனில் macOS 26 ஒன்றைக் கொண்டுவருகிறது, அல்லது இயக்கம் faster-whisper-ஐ நிறுவுகிறது."

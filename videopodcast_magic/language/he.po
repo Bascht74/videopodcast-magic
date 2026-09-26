@@ -3709,9 +3709,6 @@ msgstr "וכאן נחתך, רגע מתאים או לא"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "הגבול הקשיח של הזוג: אם מאז \"שוט רחב אחרי\" לא הופיע סוף משפט, ההפסקה הארוכה ביותר בדיבור באה במקומו, ובנקודה זו נחתך, יהיה הנאמר אשר יהיה."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "אין עדיין תמלול. בלעדיו לא נמצאת שום שאלה ולא ידוע שום סוף משפט, ולכן ארבע ההגדרות האלה אינן עושות דבר. הרצה כותבת אותו, ומאז הן פועלות."
-
 msgid "Why the question settings are grey"
 msgstr "למה הגדרות השאלה אפורות"
 
@@ -4919,3 +4916,21 @@ msgstr "השמע לא זוהה, מוקם לפי קוד הזמן שלו"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s הקלטות וללא תמונה: כל אחת מחוברת בנפרד והן אינן מיושרות זו מול זו. --multitrack מניח אותן על ציר זמן אחד."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", סחיפת שעון של %s ppm נשארה: היא אינה פי %s מאי-הוודאות שלה, %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "בלי תמלול לא נמצאת שום שאלה ולא ידוע שום סוף משפט, ולכן שתי ההגדרות של השאלה ושתי ההגדרות של השוט הרחב שממתינות לסוף משפט אינן עושות דבר."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "בלי תמלול לא נמצאת שום שאלה, ולכן שתי ההגדרות של השאלה אינן עושות דבר."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "עדיין אין: הרצה כותבת אותו, ומאז הן פועלות."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "זיהוי הדיבור היה כבוי בהרצה הזו. השאירו אותו פועל, וההרצה הבאה תכתוב תמלול."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "ההרצה לא כתבה תמלול: זיהוי הדיבור נכשל או לא שמע דבר, ויומן ההרצה אומר מה מהשניים. בדקו את שפת השמע והריצו שוב; במקום שבו אין במחשב הזה זיהוי, macOS 26 מביא אחד, או שההרצה מתקינה את faster-whisper."

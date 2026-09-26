@@ -1554,9 +1554,6 @@ msgstr "  %s：无法确定其声道数（%s）——不予测量"
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "没有哪台摄像机不带说话人，所以没有全景：全景的四项设置和首尾勾选都不起作用。请把某台摄像机的“类型”设为“全景”，或留一台不分配说话人。"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "还没有转录文本。没有它就找不到提问，也不知道句子边界，因此这四项设置不起作用。一次运行会写出它，此后这些设置即生效。"
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  提问：没有转录文本，因此未找到提问，也没有进行反应镜头切换。\n        转录文字是在运行中从完成的混音里\n        写出的；没有它们，此设置不起作用。"
 
@@ -4875,3 +4872,21 @@ msgstr "未识别出声音，按其时间码放置"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s 个录音且没有画面：每个单独拼接，彼此之间不对齐。--multitrack 会把它们放到同一时间轴上。"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "，保留 %s ppm 的时钟漂移：未达到其不确定度的 %s 倍（不确定度 %s ppm）"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "没有转录文本就找不到提问，也不知道句子边界，因此提问的两项设置和等待句子结束的两项全景设置都不起作用。"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "没有转录文本就找不到提问，因此提问的两项设置不起作用。"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "还没有：一次运行会写出它，此后这些设置即生效。"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "本次运行关闭了语音识别。保持开启，下一次运行就会写出一份。"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "本次运行没有写出转录文本：语音识别失败或什么也没听到，运行日志会说明是哪一种。请检查声音语言后再次运行；如果这台机器没有语音识别，macOS 26 自带一个，或者运行会安装 faster-whisper。"

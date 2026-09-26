@@ -3630,9 +3630,6 @@ msgstr "Обрада"
 msgid "Profile"
 msgstr "Профил"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Још нема транскрипта. Без њега се не налази ниједно питање и не зна се ниједна граница реченице, па ова четири подешавања не раде ништа. Покретање га пише, и од тада раде."
-
 msgid "Why the question settings are grey"
 msgstr "Зашто су подешавања питања сива"
 
@@ -4961,3 +4958,21 @@ msgstr "звук није препознат, постављен по свом �
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s снимка и нема слике: сваки се спаја засебно и не поравнавају се један према другом. --multitrack их ставља на једну временску осу."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", одступање сата од %s ppm остаје: није %s пута веће од своје несигурности од %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Без транскрипта се не налази ниједно питање и не зна се ниједна граница реченице, па два подешавања питања и два подешавања широког кадра која чекају крај реченице не раде ништа."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Без транскрипта се не налази ниједно питање, па два подешавања питања не раде ништа."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Још га нема: покретање га пише, и од тада раде."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Препознавање говора је за ово покретање било искључено. Оставите га укљученим, и следеће покретање ће написати транскрипт."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Покретање није написало транскрипт: препознавање говора није успело или није ништа чуло, а дневник покретања каже шта од тога. Проверите језик звука и покрените поново; где овај рачунар нема препознавање, macOS 26 га доноси, или покретање инсталира faster-whisper."

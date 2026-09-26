@@ -3628,9 +3628,6 @@ msgstr "প্রক্রিয়াকরণ"
 msgid "Profile"
 msgstr "প্রোফাইল"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "এখনও কোনো ট্রান্সক্রিপ্ট নেই। এটি ছাড়া কোনো প্রশ্ন পাওয়া যায় না এবং বাক্যের সীমানা জানা যায় না, তাই এই চারটি সেটিং কোনো কাজ করে না। একটি চালনা এটি লেখে, আর তারপর থেকে সেগুলো কাজ করে।"
-
 msgid "Why the question settings are grey"
 msgstr "প্রশ্নের সেটিংস কেন ধূসর"
 
@@ -4918,3 +4915,21 @@ msgstr "শব্দ চেনা যায়নি, টাইমকোড অ�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %sটি রেকর্ডিং এবং কোনো ছবি নেই: প্রতিটি আলাদাভাবে জোড়া হয় এবং একটিকে অন্যটির সঙ্গে মেলানো হয় না। --multitrack এগুলোকে একটি সময়-অক্ষে বসায়।"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", ঘড়ির বিচ্যুতি %s ppm রেখে দেওয়া হয়েছে: এটি এর অনিশ্চয়তার %s গুণ নয়, যা %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ট্রান্সক্রিপ্ট ছাড়া কোনো প্রশ্ন পাওয়া যায় না এবং বাক্যের সীমানা জানা যায় না, তাই প্রশ্নের দুটি সেটিং এবং ওয়াইড শটের যে দুটি সেটিং বাক্যের শেষের জন্য অপেক্ষা করে, সেগুলো কোনো কাজ করে না।"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ট্রান্সক্রিপ্ট ছাড়া কোনো প্রশ্ন পাওয়া যায় না, তাই প্রশ্নের দুটি সেটিং কোনো কাজ করে না।"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "এখনও নেই: একটি চালনা এটি লেখে, আর তারপর থেকে সেগুলো কাজ করে।"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "এই চালনায় বক্তৃতা শনাক্তকরণ বন্ধ ছিল। এটি চালু রাখুন, তাহলে পরের চালনা একটি লিখবে।"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "চালনা কোনো ট্রান্সক্রিপ্ট লেখেনি: বক্তৃতা শনাক্তকরণ ব্যর্থ হয়েছে বা কিছুই শোনেনি, আর চালনার লগ বলে দেয় কোনটি। অডিওর ভাষা দেখে নিয়ে আবার চালান; এই যন্ত্রে শনাক্তকরণ না থাকলে macOS 26 একটি নিয়ে আসে, অথবা চালনা faster-whisper ইনস্টল করে।"

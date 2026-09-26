@@ -1562,9 +1562,6 @@ msgstr "  %s: इसमें कितने चैनल हैं, यह त
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "कोई भी कैमरा वक्ताओं से खाली नहीं है, इसलिए कोई वाइड शॉट नहीं: वाइड शॉट की चारों सेटिंग्स और किनारों वाला निशान कुछ नहीं करते। किसी कैमरे का प्रकार “वाइड शॉट” रखें, या किसी एक को बिना वक्ता के छोड़ें।"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "अभी कोई ट्रांसक्रिप्ट नहीं। इसके बिना न कोई प्रश्न मिलता है, न वाक्य की सीमा पता चलती है, इसलिए ये चार सेटिंग्स कुछ नहीं करतीं। एक रन इसे लिखता है, और तब से ये काम करती हैं।"
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  प्रश्न: कोई ट्रांसक्रिप्ट नहीं, इसलिए न कोई प्रश्न मिला और न कोई रिएक्शन कट\n          हुआ। शब्द रन के दौरान तैयार मिक्स से\n          लिखे जाते हैं; उनके बिना यह सेटिंग कुछ नहीं करती।"
 
@@ -4917,3 +4914,21 @@ msgstr "ध्वनि नहीं पहचानी गई, उसके ट
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s रिकॉर्डिंग और कोई चित्र नहीं: हर एक अलग से जोड़ी जाती है और उन्हें एक-दूसरे के साथ संरेखित नहीं किया जाता। --multitrack उन्हें एक समय-अक्ष पर रखता है।"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", घड़ी का विचलन %s ppm छोड़ा गया: यह अपनी अनिश्चितता का %s गुना नहीं है, जो %s ppm है"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ट्रांसक्रिप्ट के बिना न कोई प्रश्न मिलता है, न वाक्य की सीमा पता चलती है, इसलिए प्रश्न की दो सेटिंग्स और वाइड शॉट की वे दो सेटिंग्स जो वाक्य के अंत की प्रतीक्षा करती हैं, कुछ नहीं करतीं।"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ट्रांसक्रिप्ट के बिना कोई प्रश्न नहीं मिलता, इसलिए प्रश्न की दो सेटिंग्स कुछ नहीं करतीं।"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "अभी कोई नहीं है: एक रन इसे लिखता है, और तब से ये काम करती हैं।"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "इस रन के लिए वाक् पहचान बंद थी। इसे चालू रहने दें, तो अगला रन एक लिखेगा।"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "रन ने कोई ट्रांसक्रिप्ट नहीं लिखा: वाक् पहचान विफल रही या उसे कुछ सुनाई नहीं दिया, और रन का लॉग बताता है कि कौन-सा। ध्वनि की भाषा जाँचें और फिर से चलाएँ; जहाँ इस मशीन में पहचान नहीं है, वहाँ macOS 26 एक लाता है, या रन faster-whisper इंस्टॉल करता है।"

@@ -3629,9 +3629,6 @@ msgstr "Zpracování"
 msgid "Profile"
 msgstr "Profil"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Zatím žádný přepis. Bez něj se nenajde žádná otázka a není známa žádná hranice věty, takže tato čtyři nastavení nic nedělají. Běh ho zapíše a od té chvíle fungují."
-
 msgid "Why the question settings are grey"
 msgstr "Proč jsou nastavení otázky šedá"
 
@@ -4960,3 +4957,21 @@ msgstr "zvuk nerozpoznán, umístěno podle časového kódu"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s nahrávky a žádný obraz: každá se spojí zvlášť a nezarovnávají se vůči sobě. --multitrack je položí na jednu časovou osu."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", drift hodin %s ppm ponechán: není %s-krát větší než jeho nejistota %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Bez přepisu se nenajde žádná otázka a není známa žádná hranice věty, takže dvě nastavení otázky a dvě nastavení širokého záběru, která čekají na konec věty, nic nedělají."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Bez přepisu se nenajde žádná otázka, takže dvě nastavení otázky nic nedělají."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Zatím žádný není: běh ho zapíše a od té chvíle fungují."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Rozpoznávání řeči bylo pro tento běh vypnuto. Nechte ho zapnuté a příští běh přepis zapíše."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Běh žádný přepis nezapsal: rozpoznávání řeči selhalo nebo nic neslyšelo, a protokol běhu říká, které z toho. Zkontrolujte jazyk zvuku a spusťte znovu; kde tento počítač rozpoznávání nemá, přináší ho macOS 26, nebo běh nainstaluje faster-whisper."

@@ -3624,9 +3624,6 @@ msgstr "Đang xử lý"
 msgid "Profile"
 msgstr "Cấu hình"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Chưa có bản chép lời. Không có nó thì không tìm được câu hỏi và không biết ranh giới câu, nên bốn cài đặt này không có tác dụng. Một lượt chạy sẽ ghi nó, và từ đó chúng có tác dụng."
-
 msgid "Why the question settings are grey"
 msgstr "Vì sao các cài đặt câu hỏi bị mờ"
 
@@ -4873,3 +4870,21 @@ msgstr "không nhận ra âm thanh, đặt theo mã thời gian"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s bản ghi và không có hình: mỗi bản được ghép riêng và chúng không được căn với nhau. --multitrack đặt chúng lên một trục thời gian."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", giữ nguyên độ trôi đồng hồ %s ppm: chưa đến %s lần độ bất định %s ppm của nó"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Không có bản chép lời thì không tìm được câu hỏi và không biết ranh giới câu, nên hai cài đặt của câu hỏi và hai cài đặt của cảnh rộng chờ đến cuối câu không có tác dụng."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Không có bản chép lời thì không tìm được câu hỏi, nên hai cài đặt của câu hỏi không có tác dụng."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Chưa có: một lượt chạy sẽ ghi nó, và từ đó chúng có tác dụng."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Nhận dạng giọng nói đã bị tắt cho lượt chạy này. Hãy để nó bật, và lượt chạy tiếp theo sẽ ghi một bản."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Lượt chạy không ghi bản nào: nhận dạng giọng nói thất bại hoặc không nghe thấy gì, và nhật ký của lượt chạy cho biết là trường hợp nào. Hãy kiểm tra ngôn ngữ của âm thanh rồi chạy lại; nếu máy này không có nhận dạng, macOS 26 có sẵn một bộ, hoặc lượt chạy sẽ cài faster-whisper."
