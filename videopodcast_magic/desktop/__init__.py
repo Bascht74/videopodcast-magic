@@ -160,7 +160,10 @@ def _retire_older(where, system, kept):
         return
     try:
         for old in _older_entries(where, system):
-            shutil.rmtree(old)
+            if os.path.isdir(old):
+                shutil.rmtree(old)
+            else:
+                os.remove(old)
             log_aside("shortcut -- taken away, laid under an earlier "
                       "name: %s" % old)
     except Exception as e:
@@ -168,19 +171,24 @@ def _retire_older(where, system, kept):
 
 
 def _older_entries(where, system):
-    """Entries beside *where* whose runner carries the frozen line.
+    """Entries beside *where* that carry the frozen line.
 
-    Only a bundle has a runner that says who wrote it; a .desktop file
-    and a .lnk carry no such line, so nothing of theirs is found.
+    A bundle carries it in its runner, a .desktop file in itself. A .lnk
+    carries none, and one written before the line came in neither: both
+    are left alone, since nothing says they are ours.
     """
-    if system != "darwin":
+    if system == "darwin":
+        ending, ours = ".app", _written_by_us
+    elif system == "nt":
         return []
+    else:
+        ending, ours = ".desktop", _marked
     folder = os.path.dirname(where)
     found = []
     for name in sorted(os.listdir(folder)):
         path = os.path.join(folder, name)
-        if name.endswith(".app") and path != where \
-                and not os.path.islink(path) and _written_by_us(path):
+        if name.endswith(ending) and path != where \
+                and not os.path.islink(path) and ours(path):
             found.append(path)
     return found
 
@@ -189,19 +197,24 @@ def _written_by_us(bundle):
     """Whether a runner inside that bundle carries WRITTEN_BY.
 
     Asked of every runner, since the old one is named after the old
-    name. Big files are passed over: ours is a few lines of shell.
+    name.
     """
     macos = os.path.join(bundle, "Contents", "MacOS")
     if not os.path.isdir(macos):
         return False
-    for name in os.listdir(macos):
-        runner = os.path.join(macos, name)
-        if not os.path.isfile(runner) or os.path.getsize(runner) > 8192:
-            continue
-        with open(runner, encoding="utf-8", errors="replace") as f:
-            if WRITTEN_BY in f.read():
-                return True
-    return False
+    return any(_marked(os.path.join(macos, name))
+               for name in os.listdir(macos))
+
+
+def _marked(path):
+    """Whether that one file carries WRITTEN_BY.
+
+    Big files are passed over: ours is a few lines of text.
+    """
+    if not os.path.isfile(path) or os.path.getsize(path) > 8192:
+        return False
+    with open(path, encoding="utf-8", errors="replace") as f:
+        return WRITTEN_BY in f.read()
 
 
 def _starter_or_nothing():
@@ -451,8 +464,8 @@ def _out_of_launcher(where):
 # nothing to ask with, and the Dock's choice stands.
 ARCH_TOOL = "/usr/bin/arch"
 
-# The line that says a runner inside an entry is this program's own.
-# Written into every one, and the only thing that may be laid again.
+# The line that says an entry is this program's own: in a bundle's
+# runner, and in a .desktop file. Only such an entry may be laid again.
 # Frozen: after a rename the old entries must still be recognised.
 WRITTEN_BY = "# Written by %s." % FROZEN_NAME
 
@@ -866,10 +879,12 @@ def _launcher(where, target, png, root):
 
     The icon is named by a bare name and the file put where the icon
     theme looks for that name. That is the way round the standard asks
-    for, and the only one that survives a theme or scale change.
+    for, and the only one that survives a theme or scale change. Its
+    first line is WRITTEN_BY, so that a rename can find it again.
     """
     icon = _theme_icon(png, root)
     lines = [
+        WRITTEN_BY,
         "[Desktop Entry]",
         "Type=Application",
         "Version=1.0",
