@@ -51,9 +51,9 @@ LENGTH, CAM_LEN, CAM_LATE = 60.0, 40.0, 4.0
 # does not push it lower -- 50 dB reads 0.026.
 HUM_HZ, HUM_OVER_DB, HUM_AMP = 100.0, 40.0, 0.8
 # What the run asks for on a reference of half an hour. Written out
-# rather than left to the default: the gate below wants fifty sample
-# points, and the default of one every two minutes never has them on
-# material a test can afford to build.
+# rather than left to the default: the gate below wants its count of
+# sample points, and the default of one every two minutes never has
+# them on material a test can afford to build.
 ASKED = dict(sample_points=60, distance_s=30.0)
 
 

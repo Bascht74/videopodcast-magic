@@ -42,10 +42,10 @@ def check(name, ok, extra=""):
 
 RATE = 8000
 # A camera of five minutes hearing two people taking turns, and one
-# person's microphone of three. The microphone starts 165 s into the
+# person's microphone of three. The microphone starts 260 s into the
 # camera and runs past its end, its clock 40 ppm fast. The answer is
-# +165.0 s; it stands here as a number.
-LENGTH, REC_LEN, STARTS_AT, DRIFT = 300.0, 180.0, 165.0, 40e-6
+# +260.0 s; it stands here as a number.
+LENGTH, REC_LEN, STARTS_AT, DRIFT = 300.0, 180.0, 260.0, 40e-6
 
 
 def turns(seconds, seed):
@@ -109,8 +109,9 @@ def said(st):
 
 # Its own folder under the run's TMPDIR, which the run throws away.
 D = tempfile.mkdtemp(prefix="vpm_scatter_")
-# The microphone hanging off the back of the camera, three quarters of
-# it shared; and the same recording wholly inside, from the 60th second.
+# The microphone hanging off the back of the camera, only its first 40 s
+# shared -- with more the curve finds it, since it searches the whole
+# camera; and the same recording wholly inside, from the 60th second.
 REF, REC = pair(D, "back", STARTS_AT, 38)
 REF_IN, REC_IN = pair(D, "inside", 60.0, 32)
 
