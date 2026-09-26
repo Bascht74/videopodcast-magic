@@ -174,7 +174,12 @@ Under the selectors the tick **Wide shot for greeting at the start and
 farewell at the end** keeps beginning and end on the wide shot (on the
 command line `--no-wide-edges` switches it off). The opening wide shot
 holds until the floor is really handed over, not until the first longer
-block from somebody else.
+block from somebody else. Neither edge holds for more than a third of
+the recording: where greeting or goodbye would run longer -- in a short
+recording above all -- that edge stops at the third, and the log says
+so under `Wide shot at the edges`, with where the talk really changes
+hands. An edge that comes out shorter than **Minimum Edit Duration**
+falls into the shot beside it, like any other.
 
 **Speaks at least** takes care of short interjections ("mhm", "yes
 exactly"). A shot that still comes out too short falls into the one

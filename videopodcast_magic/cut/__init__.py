@@ -731,13 +731,7 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if not other:
         return cut
     begin, end = cut[0][0], cut[-1][1]
-    until, from_s = other[0][1], other[-1][0]
-    if until - begin > (end - begin) / 3.0 or end - from_s > (end - begin) / 3.0:
-        # A third would no longer be a greeting but a conversation.
-        if not faint:
-            print(T('  Wide shot at the edges: skipped -- the first or '
-                    'last announcement\n  would be too long for a greeting.'))
-        return cut
+    until, from_s = edges_within_third(begin, end, other[0][1], other[-1][0])
     out = []
     for a, b, who in cut:
         if b <= until or a >= from_s:
@@ -751,7 +745,22 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if not faint:
         print(T('  Wide shot at the edges: until %s and from %s') % (as_hms(until - begin),
                                                       as_hms(from_s - begin)))
+        if (until, from_s) != (other[0][1], other[-1][0]):
+            print(T('  shortened to at most a third of the length -- the '
+                    'first announcement ends at %s, the last begins at %s')
+                  % (as_hms(other[0][1] - begin), as_hms(other[-1][0] - begin)))
     return merge_adjacent(out)
+
+def edges_within_third(begin, end, until, from_s):
+    """Shorten either edge to a third of the length where it runs longer.
+
+    A third would no longer be a greeting but a conversation. A short
+    recording used to lose both edges to that; now each stops at the
+    third. What falls below the minimum edit duration is left to
+    merge_short_shots, as for any edge.
+    """
+    third = (end - begin) / 3.0
+    return min(until, begin + third), max(from_s, end - third)
 
 def metrics_sentence(numbers, colours, minutes_fn):
     """Build the summary line under the preview.
