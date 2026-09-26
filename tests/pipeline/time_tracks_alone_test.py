@@ -6,8 +6,8 @@ earlier, and no camera. The axis is built out of the tracks themselves,
 with the longest one as the reference; the files come out equally long
 and with one start point, so the shorter recording is padded at both
 ends, and the run says how far apart the two recorders were. Without
---multitrack the blocks are joined and nothing is aligned, and the log
-says one thing about --lufs on this path, not two.
+--multitrack the blocks are joined, nothing is aligned and the log says
+so, and it says one thing about --lufs on this path, not two.
 
 What the tracks carry is asked before where they sit: a file that came
 out empty measures as perfectly placed, so the judgements about the
@@ -421,6 +421,13 @@ axis = [x.strip() for x in log.splitlines() if "MEASURING THE TIME AXIS" in x]
 check("no axis was built", "MEASURING THE TIME AXIS" not in log,
       "%d of %d lines of the log announce the axis: %s"
       % (len(axis), len(log.splitlines()), axis[:2]))
+APART = vpm.T('  %s recordings and no picture: each is joined on its own '
+              'and they are not laid against each other. --multitrack '
+              'puts them on one time axis.') % vpm.number_text(2, 0)
+check("and the log says they were not laid against each other",
+      APART.strip() in log,
+      "wanted %r among %d lines of the log" % (APART.strip()[:60],
+                                              len(log.splitlines())))
 if joined == ["Guest_joined.wav", "Host_joined.wav"]:
     length = dict((f, vpm.sample_count(D + "/join/" + f) / float(vpm.SR))
                   for f in joined)

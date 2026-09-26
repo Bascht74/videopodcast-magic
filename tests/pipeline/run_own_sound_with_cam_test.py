@@ -2,12 +2,12 @@
 """A camera's own sound stands where its camera stands, however placed.
 
 One measuring run, Sync only, --dry-run and --without-auphonic, over
-three cameras alone, each with a timecode that fits: two share one
-pattern of tone bursts, the second rolling 2.48 s later, and the third
-hears a steady tone and rolls 1 s later. The sections: the sound places
-the second camera and the clock the third; then in the time axis block
-each camera's own sound -- the reference's, the one the sound placed,
-the one the clock placed -- at its camera's offset, placed with it.
+four cameras alone. Three have a timecode that fits: two share one
+pattern of tone bursts, the second 2.48 s later; the third hears a
+steady tone, 1 s later. The fourth hears the bursts under noise, too
+faint for a camera, and has no timecode. Sections: the sound places the
+second, the clock the third, nothing the fourth; then each own sound at
+its camera's offset, placed with it -- and the fourth's placed nowhere.
 """
 import os
 import re
@@ -96,6 +96,17 @@ def camera(name, late, timecode, length):
 REFERENCE = camera("GuestCam_C003.mov", 0.0, "18:55:04:00", LENGTH + 2)
 BY_SOUND = camera("PresenterCam_C002.mov", 2.48, "18:55:06:12", LENGTH)
 BY_CLOCK = camera("WideCam_C001.mov", None, "18:55:05:00", LENGTH)
+# The bursts from 1.2 s on at a fifth, under noise: 0.19 against the
+# reference, under the floor for a camera and above it for a sound.
+NOWHERE = made(["-f", "lavfi", "-i", "testsrc=size=160x90:rate=25:"
+                "duration=%g" % LENGTH, "-ss", "1.2", "-i", TONE,
+                "-f", "lavfi", "-i", "anoisesrc=color=white:seed=4:"
+                "amplitude=0.5:sample_rate=16000:duration=%g" % LENGTH,
+                "-filter_complex", "[1:a]volume=0.2[t];[t][2:a]amix="
+                "inputs=2:normalize=0", "-t", "%g" % LENGTH, "-c:v",
+                "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p",
+                "-c:a", "aac", "-ar", "48000"],
+               os.path.join(HOME, "SideCam_C004.mov"))
 
 
 def pattern(text):
@@ -107,12 +118,12 @@ def pattern(text):
 
 #--------------------------------------------------------------- 1. Run
 
-print("1. Three cameras alone, Sync only, measured and not written")
+print("1. Four cameras alone, Sync only, measured and not written")
 try:
     answer = subprocess.run(
         [sys.executable, SCRIPT, "--project-type", "sync",
          "--without-auphonic", "--multitrack", "--dry-run", "--out",
-         os.path.join(HOME, "out"), REFERENCE, BY_SOUND, BY_CLOCK],
+         os.path.join(HOME, "out"), REFERENCE, BY_SOUND, BY_CLOCK, NOWHERE],
         capture_output=True, text=True, timeout=LONGEST,
         env=dict(os.environ, QT_QPA_PLATFORM="offscreen"))
     code, said = answer.returncode, answer.stdout + answer.stderr
@@ -121,7 +132,7 @@ except subprocess.TimeoutExpired:
 said = re.sub(re.escape(vpm.MARK) + "[a-z]", "", said)
 lines = [x.strip() for x in re.sub(r"\x1b\[[0-9;]*m", "", said)
          .replace("\r", "\n").splitlines() if x.strip()]
-check("a measuring run over three cameras goes through",
+check("a measuring run over four cameras goes through",
       code == 0 and len(lines) > 20,
       "returned %r after %.1f s, %d lines, the last %r"
       % (code, time.time() - began, len(lines), lines[-1] if lines else ""))
@@ -174,5 +185,12 @@ check("and a camera its clock placed keeps its own sound with it",
       and own[1] == WITH_CLOCK,
       "its sound %r, the camera %r, wanted the same offset and %r"
       % (own, cam, WITH_CLOCK))
+refused = vpm.no_place_message(stem(NOWHERE)).strip()
+check("and a camera nothing placed leaves its own sound nowhere",
+      stem(NOWHERE) not in placed and refused in lines
+      and os.path.basename(NOWHERE) not in placed,
+      "its sound %r, the camera %r, wanted neither placed and %r said"
+      % (placed.get(stem(NOWHERE)), placed.get(os.path.basename(NOWHERE)),
+         refused[:40]))
 
 finish()

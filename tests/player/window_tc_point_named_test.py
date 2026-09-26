@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """A point outside a timecoded camera is named, never jumped past.
 
-Two cameras, 12 s each, on 10:00:00:00 and 11:00:00:00; the In point a
-minute before the first, the Out point ten hours past both. Sections,
+Two cameras, 12 and 14 s, on 10:00:00:00 and 11:00:00:00; the In point
+a minute before the first, the Out point ten hours past both. Sections,
 once the time axis is in: both jump buttons live, the first camera in the
 player on its clock; "to In point" and "to Out point" say no file holds
 the point and leave the player where it stood; an In point six seconds
@@ -50,29 +50,30 @@ def check(name, ok, extra=""):
 
 
 def material(folder):
-    """Two recordings and two cameras, 12 s each, a pair per clock.
+    """Two cameras on 10:00:00 and 11:00:00, and one recording, on B.
 
-    Room and A on 10:00:00 hear a tone, Host and B on 11:00:00 a noise:
-    the same sound in both pairs would measure A and B as one moment,
-    an hour against their clocks. Each camera has a recording on it,
-    so neither is the free wide shot the player would take first, and
-    A comes first by name.
+    A hears a tone and B a noise: the same sound in both would measure
+    them as one moment, an hour against their clocks. A carries no
+    recording, so it is the free wide shot the player takes first. B
+    and Host run 14 s to A's 12, so B is the camera the run measures a
+    recording against, and Host, hearing B's noise, fits it.
     """
+    noise = "anoisesrc=color=pink:seed=7:sample_rate=48000:duration=14"
     made = {n: os.path.join(folder, n) for n in (
-        "Room_tc.wav", "A_tc.mov", "Host_tc.wav", "B_tc.mov")}
-    for wav, mov, hours, sound in (
-            ("Room_tc.wav", "A_tc.mov", 10, "sine=frequency=300:duration=12"),
-            ("Host_tc.wav", "B_tc.mov", 11,
-             "anoisesrc=color=pink:seed=7:sample_rate=48000:duration=12")):
-        subprocess.run(
-            ["ffmpeg", "-v", "error", "-f", "lavfi", "-i", sound,
-             "-ar", "48000", "-ac", "1",
-             "-c:a", "pcm_s16le", "-write_bext", "1", "-metadata",
-             "time_reference=%d" % (hours * 3600 * 48000), "-y", made[wav]],
-            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        "A_tc.mov", "Host_tc.wav", "B_tc.mov")}
+    subprocess.run(
+        ["ffmpeg", "-v", "error", "-f", "lavfi", "-i", noise,
+         "-ar", "48000", "-ac", "1",
+         "-c:a", "pcm_s16le", "-write_bext", "1", "-metadata",
+         "time_reference=%d" % (11 * 3600 * 48000), "-y",
+         made["Host_tc.wav"]],
+        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    for mov, hours, sound, runs in (
+            ("A_tc.mov", 10, "sine=frequency=300:duration=12", 12),
+            ("B_tc.mov", 11, noise, 14)):
         subprocess.run(
             ["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
-             "testsrc=size=160x90:rate=25:duration=12", "-f", "lavfi",
+             "testsrc=size=160x90:rate=25:duration=%d" % runs, "-f", "lavfi",
              "-i", sound, "-c:a", "aac", "-ac", "1",
              "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt",
              "yuv420p", "-timecode", "%02d:00:00:00" % hours, "-shortest",
@@ -93,11 +94,9 @@ with open(project, "w", encoding="utf-8") as f:
                "out_folder": os.path.join(os.path.dirname(project),
                                           "Result"),
                "assignment": {
-                   "audio:" + made["Room_tc.wav"]: ["Guest", "A_tc.mov"],
                    "audio:" + made["Host_tc.wav"]: ["Presenter",
                                                     "B_tc.mov"]},
-               "files": [{"path": made["Room_tc.wav"], "kind": "audio"},
-                         {"path": made["Host_tc.wav"], "kind": "audio"},
+               "files": [{"path": made["Host_tc.wav"], "kind": "audio"},
                          {"path": made["A_tc.mov"], "kind": "video"},
                          {"path": made["B_tc.mov"], "kind": "video"}]}, f)
 os.makedirs(os.path.join(os.path.dirname(project), "Result"), exist_ok=True)

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-"""A file the sound did not place stands at its clock, not at what failed.
+"""A camera the sound did not place stands at its clock, not at what failed.
 
-Two files do not fit: one whose sound has nothing in common with the
-rest, and a camera that fits the sound recording and not the other
-cameras. Both carry a clock, and the note beside each says it was
-placed by its timecode. The axis held nothing for the first and the
-failed measurement for the second, a hundred seconds from its clock.
-
-Sections: both named as not fitting; each at its clock where the axis
-hangs off one; the failed measurement casts no vote on where the axis
-hangs; and in a relative axis a clock reading is not laid in at all.
+Two files do not fit: a recording whose sound has nothing in common
+with the rest, and a camera that fits the sound recording and not the
+other cameras. Both carry a clock. The camera stands at it; the
+recording goes where the run lays it, which time_weak_as_run judges.
+Sections: both named as not fitting; the camera at its clock where the
+axis hangs off one; the failed measurement casts no vote on where the
+axis hangs; and clocks on weak files alone leave the axis relative.
 """
 import os
 import sys
@@ -95,7 +93,7 @@ subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
 ROOM, CAM_A, CAM_B = D + "/room.wav", D + "/CamA.mov", D + "/CamB.mov"
 FOREIGN = D + "/foreign.wav"
 FILES = [ROOM, CAM_A, CAM_B, FOREIGN]
-KR, KB, KF = vpm.path_key(ROOM), vpm.path_key(CAM_B), vpm.path_key(FOREIGN)
+KR, KB = vpm.path_key(ROOM), vpm.path_key(CAM_B)
 
 
 def short(row):
@@ -117,18 +115,14 @@ print("   %s" % places(data))
 check("both files are named as not fitting",
       short(data.get("weak")) == ["CamB.mov", "foreign.wav"],
       "weak: %s" % short(data.get("weak")))
-check("and neither is refused, each having a clock the others share",
-      short(data.get("no_place")) == [],
-      "no place: %s" % short(data.get("no_place")))
+check("and the camera is not refused, having a clock others share",
+      "CamB.mov" not in short(data.get("no_place")),
+      "no place: %s, wanted no CamB.mov in it" % short(data.get("no_place")))
 
-#------------------------------------------------ 2. Each at its clock
+#------------------------------------------ 2. The camera at its clock
 
-print("\n2. Each stands at its clock")
+print("\n2. The camera stands at its clock")
 axis = (data or {}).get("axis") or {}
-check("a file whose sound fits nothing stands at its clock",
-      KF in axis and abs(axis[KF] - 61230.0) < 1e-6,
-      "foreign.wav at %s, wanted its clock's 61230.0"
-      % (axis.get(KF),))
 check("a camera that fits the sound and not the other cameras stands at "
       "its clock too",
       KB in axis and abs(axis[KB] - 61300.0) < 1e-6,
@@ -154,17 +148,12 @@ check("the failed measurement casts no vote on where the axis hangs",
 
 #---------------------------------------------- 4. A relative axis
 
-print("\n4. In a relative axis a clock reading is not laid in")
+print("\n4. Clocks on weak files alone leave the axis relative")
 # Clocks on the two weak files alone: nothing placed hangs off one, so
 # the axis is relative and a reading of 61230 means nothing in it.
 WEAK_ONLY = {CAM_B: 61300.0, FOREIGN: 61230.0}
 data, _text = vpm.measure_time_axis(FILES, tc_of=lambda p: WEAK_ONLY.get(p))
 print("   %s" % places(data))
-axis = (data or {}).get("axis") or {}
-check("in a relative axis a clock reading is not laid in",
-      KF not in axis and axis.get(KB, 0.0) < 1000.0,
-      "foreign.wav at %s and CamB.mov at %s, wanted no place and a "
-      "relative one" % (axis.get(KF), axis.get(KB)))
 check("and the axis does not claim to be tied to a clock",
       (data or {}).get("absolute") is False,
       "absolute is %s, wanted False" % ((data or {}).get("absolute"),))
