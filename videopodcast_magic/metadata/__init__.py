@@ -104,6 +104,24 @@ def audio_summary(file_path):
                 else T('no timecode')))]
 
 
+def audio_track_count(cam):
+    """Return how many audio tracks this camera file carries.
+
+    Counted in the file, not in the handover, which lists only the
+    processed tracks and omits the camera microphone.
+    """
+    file_path = cam.get("file") or cam.get("source")
+    try:
+        d = ffprobe_json(file_path)
+        n = len([s for s in (d.get("streams") or [])
+                 if s.get("codec_type") == "audio"])
+        if n:
+            return n
+    except Exception:
+        pass
+    return max(1, len(cam.get("audio_tracks") or [1]) + 1)
+
+
 MOV_CONTAINERS = (b"moov", b"trak", b"mdia", b"minf", b"stbl", b"wave")
 
 

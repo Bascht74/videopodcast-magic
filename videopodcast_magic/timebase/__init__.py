@@ -18,6 +18,7 @@ PROGRAM = PROGRAM
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 AXIS_MIN_WINDOW_S = PROGRAM.AXIS_MIN_WINDOW_S
 ByFile = PROGRAM.ByFile
+CAMERA_MARGIN_S = PROGRAM.CAMERA_MARGIN_S
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SR = PROGRAM.SR
@@ -43,8 +44,6 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 atexit = PROGRAM.atexit
 build_ixml = PROGRAM.build_ixml
-camera_stamp = PROGRAM.camera_stamp
-camera_window_cut = PROGRAM.camera_window_cut
 cannot_be_placed = PROGRAM.cannot_be_placed
 channel_count = PROGRAM.channel_count
 check_camera_metadata = PROGRAM.check_camera_metadata
@@ -52,8 +51,10 @@ check_colour_survived = PROGRAM.check_colour_survived
 check_data_tracks = PROGRAM.check_data_tracks
 clock_base = PROGRAM.clock_base
 choose_preset = PROGRAM.choose_preset
+colour_arguments = PROGRAM.colour_arguments
 copy_mov_atoms = PROGRAM.copy_mov_atoms
 cross_correlate = PROGRAM.cross_correlate
+data_track_maps = PROGRAM.data_track_maps
 decode_audio = PROGRAM.decode_audio
 decode_audio_tracks = PROGRAM.decode_audio_tracks
 envelope = PROGRAM.envelope
@@ -85,6 +86,7 @@ parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 phase_way_on = PROGRAM.phase_way_on
 place_track_on_axis = PROGRAM.place_track_on_axis
+rate_filter_chain = PROGRAM.rate_filter_chain
 recognise_speech = PROGRAM.recognise_speech
 report_picture_comparison = PROGRAM.report_picture_comparison
 resolve_timeline_rate = PROGRAM.resolve_timeline_rate
@@ -101,10 +103,12 @@ similarity = PROGRAM.similarity
 size_in_mb = PROGRAM.size_in_mb
 speakers_for_the_cut = PROGRAM.speakers_for_the_cut
 step_begin = PROGRAM.step_begin
+subprocess = PROGRAM.subprocess
 sync_only = PROGRAM.sync_only
 sys = PROGRAM.sys
 tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
+timecode_moved = PROGRAM.timecode_moved
 timecode_seconds = PROGRAM.timecode_seconds
 timecode_string = PROGRAM.timecode_string
 timeline_frame_rate = PROGRAM.timeline_frame_rate
@@ -116,7 +120,6 @@ video_facts = PROGRAM.video_facts
 voice_names_report = PROGRAM.voice_names_report
 which_way_placed = PROGRAM.which_way_placed
 who_asks = PROGRAM.who_asks
-write_camera_file = PROGRAM.write_camera_file
 write_cut_list = PROGRAM.write_cut_list
 write_handover = PROGRAM.write_handover
 write_metrics_csv = PROGRAM.write_metrics_csv
@@ -1378,6 +1381,154 @@ def replacement_lines(targets, ours):
                                 '-- this production has no record of making '
                                 'it.') % target))
     return out
+
+
+def key_frame_at_or_before(video, when):
+    """Where the last key frame at or before *when* seconds sits.
+
+    A stream copy starting between two key frames takes the picture from
+    the one before while the sound starts where asked, a group of
+    pictures apart. So the cut goes back, never forward; 0.0 if none.
+    """
+    if when <= 0:
+        return 0.0
+    for reach in (10.0, 120.0, 1200.0):
+        begin = max(0.0, when - reach)
+        try:
+            p = subprocess.run(
+                ["ffprobe", "-v", "error", "-select_streams", "v:0",
+                 "-skip_frame", "nokey", "-show_entries", "frame=pts_time",
+                 "-of", "csv=p=0", "-read_intervals",
+                 "%.3f%%%.3f" % (begin, when + 0.001), video],
+                capture_output=True, timeout=300)
+        except Exception as e:
+            print(T('  Key frames of %s cannot be read (%s) -- the copy '
+                    'starts at the beginning of the file.')
+                  % (PROGRAM.camera_shown(video), str(e)[:60]))
+            return 0.0
+        found = []
+        for line in p.stdout.decode("utf-8", "replace").splitlines():
+            try:
+                seconds = float(line.strip().rstrip(","))
+            except ValueError:
+                continue
+            if seconds <= when + 1e-6:
+                found.append(seconds)
+        if found:
+            return max(found)
+        if begin <= 0:
+            break
+    return 0.0
+
+
+def camera_window_cut(video, duration, offset, window_s):
+    """Which stretch of a camera a time window leaves: (cut_at, keep_s).
+
+    *offset* is where the camera's first frame sits in programme time.
+    The copy starts on the key frame before the window, the end is cut
+    where the window ends, and keep_s is None where neither end gives.
+    """
+    first = max(0.0, -offset - CAMERA_MARGIN_S)
+    last = min(duration, window_s - offset + CAMERA_MARGIN_S)
+    cut_at = key_frame_at_or_before(video, first)
+    if cut_at <= 0 and last >= duration - 0.001:
+        return 0.0, None
+    return cut_at, max(1.0, last - cut_at)
+
+
+def camera_stamp(info, cut_at, at_s):
+    """The timecode a written camera file carries, or nothing.
+
+    *at_s* is where its first frame sits on the wall clock, the reckoning
+    every camera gets, written at this camera's own rate. Without it the
+    camera's own timecode is moved by the cut and stands alone again.
+    """
+    fps = max(1.0, info.get("fps") or 30.0)
+    if at_s is not None:
+        return timecode_string(at_s, fps)
+    return timecode_moved(info["tc"], cut_at, fps) if info.get("tc") else ""
+
+
+def write_camera_file(video, info, audio_tracks, target, a, b, drift, args,
+                 head_s=0, tail_s=0, cut_at=0.0, keep_s=None, at_s=None):
+    """Write a new video file carrying several audio tracks.
+
+    *audio_tracks* is [(name, path)]; all get the same offset and clock
+    correction, so they stay as aligned as they were. *head_s* and
+    *tail_s* trim samples front and back before the offset; *cut_at* and
+    *keep_s* say which stretch of the camera is written.
+    """
+    kept = keep_s if keep_s else info["duration"] - cut_at
+    n_video = int(round(kept * SR))
+    if drift and abs(b - 1.0) > 1e-7:
+        intro = rate_filter_chain(b) + ","
+        k = int(round(a / b * SR))
+    else:
+        intro, k = "", int(round(a * SR))
+    cut = ("atrim=start_sample=%d,asetpts=N/SR/TB," % k) if k > 0 else\
+              ("adelay=delays=%dS:all=1," % (-k)) if k < 0 else ""
+    cmd = ["ffmpeg", "-v", "warning", "-nostats"]
+    # Both in front of the input, so they cut the camera alone: the
+    # tracks that follow are inputs of their own.
+    if cut_at > 0:
+        cmd += ["-ss", "%.6f" % cut_at]
+    if keep_s:
+        cmd += ["-t", "%.6f" % keep_s]
+    cmd += ["-i", video]
+    chains, map_args = [], ["-map", "0:v"]
+    for i, (_, file_path) in enumerate(audio_tracks):
+        cmd += ["-i", file_path]
+        edge = ""
+        if head_s or tail_s:
+            edge = ("atrim=start_sample=%d:end_sample=%d,asetpts=N/SR/TB,"
+                    % (head_s, sample_count(file_path) - tail_s))
+        chains.append("[%d:a]%s%s%sapad=whole_len=%d,atrim=end_sample=%d,"
+                      "asetpts=N/SR/TB[t%d]"
+                      % (i + 1, edge, intro, cut, n_video, n_video, i))
+        map_args += ["-map", "[t%d]" % i]
+    n_camera = 0
+    if not args.no_camera_audio:
+        for i in range(len(info["audio"])):
+            map_args += ["-map", "0:a:%d" % i]
+        n_camera = len(info["audio"])
+    # Behind the audio, so every track above keeps its place.
+    data_maps = data_track_maps(video)
+    map_args += data_maps
+    cmd += ["-filter_complex", ";".join(chains)] + map_args
+    if data_maps:
+        cmd += ["-c:d", "copy"]
+    # use_metadata_tags keeps the camera's QuickTime keys, where Resolve
+    # reads device and input colour space. No write_colr: a colr box
+    # travels either way, and the switch invents 2/2/2 where none is.
+    cmd += ["-c:v", "copy"] + colour_arguments(video)
+    cmd += ["-map_metadata", "0", "-movflags", "+use_metadata_tags"]
+    for i in range(len(audio_tracks)):
+        cmd += ["-c:a:%d" % i, "pcm_s24le"]
+    for i in range(n_camera):
+        cmd += ["-c:a:%d" % (len(audio_tracks) + i), "copy"]
+    for i, (name, _) in enumerate(audio_tracks):
+        cmd += ["-metadata:s:a:%d" % i, "title=%s" % name,
+                "-metadata:s:a:%d" % i, "handler_name=%s" % name,
+                "-disposition:a:%d" % i, "default" if i == 0 else "0"]
+        if args.speech_language:
+            cmd += ["-metadata:s:a:%d" % i, "language=%s" % args.speech_language]
+    for i in range(n_camera):
+        nm = args.name_camera if n_camera == 1 else "%s %d" % (args.name_camera,
+                                                               i + 1)
+        j = len(audio_tracks) + i
+        cmd += ["-metadata:s:a:%d" % j, "title=%s" % nm,
+                "-metadata:s:a:%d" % j, "handler_name=%s" % nm,
+                "-disposition:a:%d" % j, "0"]
+        if args.speech_language_camera:
+            cmd += ["-metadata:s:a:%d" % j, "language=%s" % args.speech_language_camera]
+    stamp = camera_stamp(info, cut_at, at_s)
+    if stamp:
+        # ffmpeg carries the source timecode through unchanged however
+        # much is cut off the front, so the real start is written here.
+        cmd += ["-timecode", stamp]
+    cmd += ["-y", target]
+    PROGRAM.run_ffmpeg_with_progress(
+        cmd, kept, T('Writing %s') % os.path.basename(target))
 
 
 def camera_drift(args, b, st, info):

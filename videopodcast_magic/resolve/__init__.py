@@ -12,9 +12,12 @@ PROGRAM = PROGRAM
 # What this piece uses out of the program, bound once. None of them is
 # a name the program rebinds while it runs.
 ByFile = PROGRAM.ByFile
+CLIP_COLOURS = PROGRAM.CLIP_COLOURS
 COLOURS = PROGRAM.COLOURS
+HDR_TAGS = PROGRAM.HDR_TAGS
 LOG_MARKERS = PROGRAM.LOG_MARKERS
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
+SDR_TAGS = PROGRAM.SDR_TAGS
 SR = PROGRAM.SR
 T = PROGRAM.T
 TN = PROGRAM.TN
@@ -26,8 +29,10 @@ as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 ask_choice = PROGRAM.ask_choice
-ffprobe_json = PROGRAM.ffprobe_json
+audio_track_count = PROGRAM.audio_track_count
+colour_per_camera = PROGRAM.colour_per_camera
 format_complaint = PROGRAM.format_complaint
+hdr_says = PROGRAM.hdr_says
 hint = PROGRAM.hint
 json = PROGRAM.json
 label = PROGRAM.label
@@ -36,6 +41,7 @@ math = PROGRAM.math
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
+plain_spelling = PROGRAM.plain_spelling
 speaks_as = PROGRAM.speaks_as
 strip_marks = PROGRAM.strip_marks
 sys = PROGRAM.sys
@@ -479,40 +485,6 @@ def bitrate_for(height, fps=30.0, hdr=False):
     return RENDER_BITRATE[-1][column]
 
 
-# How Resolve writes the two tags in the Deliver tab depends on the version. So
-# do not bet on one spelling: try them in turn and read back what arrived.
-HDR_TAGS = {
-    "pq": (("Rec.2020", "Rec. 2020", "Rec2020"),
-           ("ST.2084", "ST2084", "PQ", "SMPTE ST 2084")),
-    "hlg": (("Rec.2020", "Rec. 2020", "Rec2020"),
-            ("HLG", "Rec.2100 HLG", "ARIB STD-B67")),
-}
-
-# The same for a delivery that is not HDR: without it an HDR project
-# puts an HDR colr box on an eight bit file. The gamma spelling that
-# lands right comes first, the others write "unspecified".
-SDR_TAGS = (("Rec.709", "Rec. 709", "Rec709"),
-            ("Rec.709", "Gamma 2.4", "Rec.709 Gamma 2.4", "Gamma2.4"))
-
-
-def plain_spelling(value):
-    """One spelling of a colour space name for both readers below.
-
-    Lower case, the dots out, runs of blanks to one, and the blank
-    between a word and its digits out -- so "Rec. 2100 ST.2084",
-    "Rec.2100 ST2084" and "REC2100 ST 2084" read the same, while the
-    blanks that make "log gamma" or "arri logc" words of their own stay,
-    because the log markers are held to word boundaries.
-    """
-    out = ""
-    for word in str(value).lower().replace(".", "").split():
-        if out and word[:1].isdigit() and out[-1].isalpha():
-            out += word
-        else:
-            out += (" " if out else "") + word
-    return out
-
-
 def output_colour_settings(p):
     """Return [(api_key, value, plain)] for the project's output colour.
 
@@ -615,20 +587,6 @@ def free_render_name(folder, name, extension=".mp4"):
                                            candidate + extension)):
             return candidate
     return name
-
-
-def hdr_says(value):
-    """Report whether a colour space name means HDR.
-
-    Read on Resolve's internal names -- "Rec.2100 ST2084" -- and on the
-    dropdown names, which carry the answer in front ("SDR Rec.2020").
-    """
-    wl = str(value).strip().lower()
-    if wl.startswith("sdr"):
-        return False
-    if wl.startswith("hdr"):
-        return True
-    return any(x in wl for x in ("2100", "st2084", "pq", "hlg", "2020"))
 
 
 def project_colour_to_material(p, hdr):
@@ -1109,24 +1067,6 @@ def set_timeline_start(tl, tc):
     if not took and now is None:
         print(as_warn(T('  The Timeline start %s was not accepted.') % tc))
     return took
-
-
-def audio_track_count(cam):
-    """Return how many audio tracks this camera file carries.
-
-    Counted in the file, not in the handover, which lists only the
-    processed tracks and omits the camera microphone.
-    """
-    file_path = cam.get("file") or cam.get("source")
-    try:
-        d = ffprobe_json(file_path)
-        n = len([s for s in (d.get("streams") or [])
-                 if s.get("codec_type") == "audio"])
-        if n:
-            return n
-    except Exception:
-        pass
-    return max(1, len(cam.get("audio_tracks") or [1]) + 1)
 
 
 def add_track(tl, kind):
@@ -1717,38 +1657,6 @@ def timeline_items_per_camera(tl, cameras):
     return assignment
 
 
-# Resolve's clip colours, most distinguishable first: the first two far apart,
-# a third clear of both, and so on. Accepted names are documented nowhere, so
-# none is guessed: SetClipColor reports, one pass finds them.
-CLIP_COLOURS = ["Blue", "Orange", "Green", "Pink", "Yellow", "Violet",
-              "Teal", "Brown", "Lime", "Navy", "Apricot", "Purple",
-              "Olive", "Chocolate", "Beige", "Tan"]
-# The wide shot is the fallback, not a voice, so it gets a calm colour. In
-# Resolve it stays "Tan": the colour must not shift under graded projects.
-# On dark the interface uses another shade -- see CLIP_COLOURS_RGB_DARK.
-COLOUR_WIDE_SHOT = "Tan"
-# Approximations of the clip colours for the cut band: recognisable, not
-# exact -- what Resolve makes of them is what counts.
-CLIP_COLOURS_RGB = {
-    "Blue": "#3f7fbf", "Cyan": "#3fbfbf", "Green": "#3fbf5f",
-    "Yellow": "#d9c23a", "Red": "#bf3f3f", "Pink": "#d98fbf",
-    "Purple": "#8f5fbf", "Fuchsia": "#bf3f8f", "Rose": "#d99f9f",
-    "Lavender": "#a89fd9", "Sky": "#7fbfd9", "Mint": "#7fd9a8",
-    "Lemon": "#d9d97f", "Sand": "#d9bf8f", "Cocoa": "#8f6f4f",
-    "Cream": "#e8dfc0", "Orange": "#d98f3f", "Violet": "#7f5fbf",
-    "Teal": "#3f8f8f", "Brown": "#8f5f3f", "Lime": "#9fd93f",
-    "Navy": "#3f4f8f", "Apricot": "#e8b07f", "Olive": "#7f8f3f",
-    "Chocolate": "#6f4f3f", "Beige": "#ddd0b0", "Tan": "#c8b088"}
-# On a dark background the dark shades all but vanish. These are lightened
-# far enough to sit at least 50 CIE76 from the sheet -- computed, not felt.
-# "Tan" is there for another reason: as a warm sand brown it sits 34.9 CIE76
-# from the second camera's orange, while the pale sage keeps at least 52.9
-# from every speaker colour. In Resolve the clip is still called Tan.
-CLIP_COLOURS_RGB_DARK = {
-    "Brown": "#9d6945", "Chocolate": "#a57760", "Cocoa": "#9d7a57",
-    "Navy": "#4c5fac", "Teal": "#429696", "Tan": "#b5c9b1"}
-# And the other way round: on white the lightest shade disappears.
-CLIP_COLOURS_RGB_LIGHT = {"Beige": "#ccb989"}
 # Set by the interface when the system is in dark mode.
 ON_DARK = [False]
 
@@ -1778,33 +1686,6 @@ def usable_clip_colours(item, wanted):
     except Exception:
         pass
     return good or list(wanted)
-
-
-def colour_per_camera(cameras, colours):
-    """Assign a colour to each camera.
-
-    The wide shot colour is set aside first so no speaker gets it, which
-    would make the fallback look like a person; the rest are handed out
-    in order, sorted so the first two lie furthest apart. Only the first
-    wide shot gets that colour -- two of them sharing it put two names
-    behind two identical squares, and the second is a camera of its own.
-    """
-    if not colours:
-        return {}, 0
-    wide_shot_colour = COLOUR_WIDE_SHOT if COLOUR_WIDE_SHOT in colours else colours[-1]
-    rest = [f for f in colours if f != wide_shot_colour] or [wide_shot_colour]
-    wides = [cam for cam in cameras if cam.get("wide")]
-    # The further wide shots go to the back of the queue, so nobody's
-    # colour moves because a second wide shot appeared.
-    row = [cam for cam in cameras if not cam.get("wide")] + wides[1:]
-    assigned = {}
-    for i, cam in enumerate(row):
-        assigned[cam["track"]] = rest[i % len(rest)]
-    for cam in wides[:1]:
-        assigned[cam["track"]] = wide_shot_colour
-    # More angles than colours repeats the sequence, and not silently.
-    duplicate = max(0, len(row) - len(rest))
-    return assigned, duplicate
 
 
 def colour_clips_by_camera(tl, cameras):
