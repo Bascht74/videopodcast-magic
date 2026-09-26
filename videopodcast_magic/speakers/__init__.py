@@ -218,34 +218,61 @@ def model_reference():
     return "v" + VERSION
 
 
+def model_file_inside(folder, name):
+    """Where *name* out of SHA256SUMS.txt is written, or "" if outside.
+
+    The list comes off the network, so a name in it is not trusted to
+    stay in the model folder. A backslash or a colon is refused on every
+    system, because Windows reads them as a separator and a drive; the
+    rest -- an absolute name, "..", a folder that links elsewhere -- is
+    judged by where the name really resolves.
+    """
+    if not name or "\\" in name or ":" in name:
+        return ""
+    where = os.path.normpath(os.path.join(folder, name))
+    home = os.path.realpath(folder)
+    real = os.path.realpath(where)
+    try:
+        inside = os.path.commonpath([home, real]) == home and real != home
+    except ValueError:
+        inside = False
+    return where if inside else ""
+
+
 def fetch_model(report=None, ref=""):
     """Fetch the separation model beside the program. "" when it worked.
 
-    The SHA-256 sums are fetched first and every file held against them:
-    one that does not match is not written, and no second list of files
-    can drift from what the model is.
+    The SHA-256 sums come first, every file is held against them, and a
+    name in them outside the model folder stops the fetch before any
+    file. Only a tag that is not there (404) sends the fetch to main; a
+    timeout or a server fault stops it, so a release never takes main's
+    model because the network wobbled.
     """
     # The program's own folder, one above this piece.
     here = os.path.dirname(running_from())
     if not os.access(here, os.W_OK):
         return T('The folder of the program cannot be written to: %s') \
             % here
+    import urllib.error
     import urllib.request
-    base = MODEL_BASE % (ref or model_reference())
+    used = ref or model_reference()
 
     def take(name):
-        with urllib.request.urlopen(base + name,
+        with urllib.request.urlopen(MODEL_BASE % used + name,
                                     context=https_context(),
                                     timeout=120) as answer:
             return answer.read()
 
     try:
         raw = take("SHA256SUMS.txt")
+    except urllib.error.HTTPError as e:
+        if e.code != 404 or ref:
+            return T('The model could not be fetched from %s: %s') \
+                % (used, e)
+        # No tag of that name: a run off the branch, not a release.
+        return fetch_model(report, "main")
     except Exception as e:
-        if not ref:
-            # No tag of that name: a run off the branch, not a release.
-            return fetch_model(report, "main")
-        return T('The model could not be fetched: %s') % e
+        return T('The model could not be fetched from %s: %s') % (used, e)
     sums = {}
     for line in raw.decode("utf-8", "replace").splitlines():
         line = line.strip()
@@ -256,20 +283,28 @@ def fetch_model(report=None, ref=""):
     if not sums:
         return T('The list of model files came back empty.')
     folder = os.path.join(here, "models", SPEAKER_MODEL_NAME)
+    places = {}
+    for name in sums:
+        places[name] = model_file_inside(folder, name)
+        if not places[name]:
+            return T('The list of model files names %s, which lies '
+                     'outside the model folder; nothing was fetched.') \
+                % name
     done = 0
     for name in sorted(sums):
         if report:
-            report(T('Fetching the model (about %s MB): %s')
-                   % (number_text(MODEL_MB, 0), name),
+            report(T('Fetching the model from %s (about %s MB): %s')
+                   % (used, number_text(MODEL_MB, 0), name),
                    0.05 + 0.9 * done / len(sums))
         try:
             data = take(name)
         except Exception as e:
-            return T('The model could not be fetched: %s') % e
+            return T('The model could not be fetched from %s: %s') \
+                % (used, e)
         if hashlib.sha256(data).hexdigest() != sums[name]:
             return T('%s does not match its checksum and was not '
                      'written.') % name
-        where = os.path.join(folder, name.replace("/", os.sep))
+        where = places[name]
         try:
             os.makedirs(os.path.dirname(where), exist_ok=True)
             beside = where + ".part"
