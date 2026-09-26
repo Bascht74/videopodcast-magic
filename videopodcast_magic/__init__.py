@@ -585,6 +585,19 @@ run_ffmpeg_with_progress = preflight.run_ffmpeg_with_progress
 run_preflight = preflight.run_preflight
 
 
+#------------------------------------------------------ What colour says
+
+colour = beside("colour", program=PROGRAM)
+take_from(colour)
+
+MATRIX_BT2020 = colour.MATRIX_BT2020
+PRIMARIES_BT2020 = colour.PRIMARIES_BT2020
+camera_text = colour.camera_text
+check_hdr = colour.check_hdr
+colour_text = colour.colour_text
+hdr_from_sources = colour.hdr_from_sources
+
+
 #---------------------------------------------------------- The processing
 
 auphonic = beside("auphonic", program=PROGRAM)
@@ -630,17 +643,11 @@ CLIP_COLOURS = resolve.CLIP_COLOURS
 CLIP_COLOURS_RGB = resolve.CLIP_COLOURS_RGB
 CLIP_COLOURS_RGB_DARK = resolve.CLIP_COLOURS_RGB_DARK
 CLIP_COLOURS_RGB_LIGHT = resolve.CLIP_COLOURS_RGB_LIGHT
-MATRIX_BT2020 = resolve.MATRIX_BT2020
 ON_DARK = resolve.ON_DARK
-PRIMARIES_BT2020 = resolve.PRIMARIES_BT2020
 build_resolve_project = resolve.build_resolve_project
-camera_text = resolve.camera_text
-check_hdr = resolve.check_hdr
 colour_per_camera = resolve.colour_per_camera
-colour_text = resolve.colour_text
 file_frame_rate = resolve.file_frame_rate
 frames_to_timecode = resolve.frames_to_timecode
-hdr_from_sources = resolve.hdr_from_sources
 known_frame_rate = resolve.known_frame_rate
 own_frame_rate = resolve.own_frame_rate
 print_audio_track_mapping = resolve.print_audio_track_mapping

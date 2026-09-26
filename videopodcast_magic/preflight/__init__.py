@@ -74,7 +74,7 @@ write_beside_then_move = PROGRAM.write_beside_then_move
 
 # Two stand in a piece read after this one: read_preset in the
 # processing (a circle: choose_preset there asks check_preset here),
-# and MATRIX_BT2020 in the Resolve project. The other four of the six
+# and MATRIX_BT2020 in the colour reading. The other four of the six
 # that stood here are head lines now -- the fittings moved above.
 
 # Three are bent while the run goes on, and a copy taken here would

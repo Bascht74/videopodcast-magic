@@ -179,9 +179,9 @@ TABLES = {
     "CUT_CHOICES": "dials/__init__.py",
     "PLATFORMS": "preflight/__init__.py",
     "SPOKEN_LANGUAGES": "ui/__init__.py",
-    "PRIMARIES_NAMES": "resolve/__init__.py",
-    "TRC_NAMES": "resolve/__init__.py",
-    "MATRIX_NAMES": "resolve/__init__.py",
+    "PRIMARIES_NAMES": "colour/__init__.py",
+    "TRC_NAMES": "colour/__init__.py",
+    "MATRIX_NAMES": "colour/__init__.py",
     "RESOLVE_REASONS": "resolve/__init__.py",
     "HINT_MULTICAM": "resolve/__init__.py",
 }
