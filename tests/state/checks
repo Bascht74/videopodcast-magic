@@ -162,6 +162,7 @@ run_install_is_watched	42
 run_log_within_reach	30
 run_metrics_add_up	51
 run_mute_camera_placed	6
+run_name_twice_refused	4
 run_names_as_window	8
 run_new_name_checked	15
 run_no_drift_noughts	8

@@ -35,12 +35,12 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3775** -- who speaks and when: the separation itself,
+* `speakers/` **3828** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3208** -- the window and everything it shows, asks or offers,
+* `ui/` **3206** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3159** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
@@ -90,7 +90,7 @@ figure of the day is that command, not this paragraph**:
 * `herald/` **841** -- the progress bar, the stages, the console and log
   redirection, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **600** -- the plan: the camera audio out of the
+* `pipeline/` **606** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **592** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
