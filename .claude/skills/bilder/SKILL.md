@@ -70,12 +70,14 @@ once -- ask, shoot, bring the descriptions up to date, check in.
 
 ```bash
 cd tests && VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1 bash run.sh \
-  window_captions_fit window_captions_langs1 window_captions_langs2 \
-  window_captions_langs3 window_captions_langs4
+  window_captions_fit \
+  $(ls ui | sed -n 's/^\(window_captions_langs[0-9]*\)_test\.py$/\1/p')
 ```
 
 `window_captions_fit` measures English and German; the other languages
-are the `_langsN` tests, and without `VPM_ALL_LANGUAGES=1` `run.sh`
+are the `_langsN` tests -- as many as `LANGUAGE_PARTS` in
+`tests/the_program.py`, so the line asks the folder rather than
+naming them -- and without `VPM_ALL_LANGUAGES=1` `run.sh`
 sets them aside and says so in its `languages:` line.
 
 The suite runs it offscreen, and offscreen draws the Fusion faces: it can
@@ -239,6 +241,6 @@ written down:
 6. Did it change for the reason you expected?
 7. Is there one line per changed picture in the release report, and one
    record of what the change invalidated?
-8. Were `window_captions_fit` and the two `window_captions_langs` tests
+8. Were `window_captions_fit` and every `window_captions_langsN` test
    run with `VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1` before the
    pictures, and were they green?
