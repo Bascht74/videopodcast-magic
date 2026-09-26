@@ -9,6 +9,7 @@ assignment table asks for. Where a judgement rests on the material
 having been built or measured, that stands as a check of its own before
 it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

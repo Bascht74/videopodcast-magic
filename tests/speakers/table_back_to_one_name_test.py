@@ -9,6 +9,7 @@ the voices are waited for, one name is typed, and the widths are asked
 again. The window runs in a process of its own, so what the machine's
 speech recogniser says stays out of this test's output.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

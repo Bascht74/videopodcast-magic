@@ -17,6 +17,7 @@ and says nothing.
 The report's figures are medians over a few windows, so they are held to
 a tolerance rather than read off exactly.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

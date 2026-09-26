@@ -12,6 +12,7 @@ them, "nobody set a point" the window the interface fills in by itself,
 "nothing at all" the refusal, and "what counts as a clock" the
 gathering underneath, where a file placed by its clock has no vote.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

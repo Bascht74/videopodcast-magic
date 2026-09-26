@@ -11,6 +11,7 @@ counts as content. And where a Timecode is refused, the refusal names
 the situation it is really in and says what does work instead, in the
 language of the run: without a picture there is no reference camera to
 name, and the message used to name one anyway."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

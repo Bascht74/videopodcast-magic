@@ -9,6 +9,7 @@ one that is shown keeps the shortest shot -- counted only where the
 picture still changes. Every count is read out of the line the run
 prints, not out of the numbers behind it.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

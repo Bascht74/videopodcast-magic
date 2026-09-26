@@ -17,6 +17,7 @@ On Windows the first bash on the search path is the WSL stub, which
 only says how to install a distribution; Git's bash is taken there,
 and the fresh folder is handed to it in its own spelling.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -8,6 +8,7 @@ material the floor belongs at 0.2 s: down to there whole reactions
 come back, and below it the gain is breath. The case built here is two
 turns with a short reaction between them.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

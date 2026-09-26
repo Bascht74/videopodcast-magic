@@ -13,6 +13,7 @@ number rather than a guess. What is asked is that the counting stops
 and that no Kind moves after the first answer -- never how the window
 avoids the second question.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

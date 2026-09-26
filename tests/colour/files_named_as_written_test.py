@@ -10,6 +10,7 @@ line, where a plain key names the device and the usual keys are absent.
 A marker glued behind a letter, SonySLog3, is not found and is not
 asked for here.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

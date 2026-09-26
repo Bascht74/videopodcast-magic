@@ -15,6 +15,7 @@ fault this is about. What faster-whisper does with a code it does not
 know is read from its source, not measured: the package is not on this
 machine.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -17,6 +17,7 @@ Latin name inside in its own order -- and a window that reads left to
 right carries no direction mark at all -- which is what every other
 language rests on.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

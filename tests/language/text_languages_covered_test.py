@@ -41,6 +41,7 @@ may only grow, never shrink; that every catalogue on disk answers all
 of it; and that the languages the window offers and the catalogues on
 disk are the same set, so neither can appear without the other.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

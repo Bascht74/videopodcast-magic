@@ -12,6 +12,7 @@ lists among it; which targets are to be asked about and what is said of
 them; and one real run to show the line reaches the log. What this
 cannot show is that a person reads it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

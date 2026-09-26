@@ -13,6 +13,7 @@ single recording, and the one-shot jobs: --update with the look
 switched off, --hdr-check over a file that is not HDR. What they
 return when they did their work is run_one_shots_return_0's.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

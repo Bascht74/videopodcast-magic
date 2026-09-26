@@ -18,6 +18,7 @@ The material makes the clocks and the stored places disagree on
 purpose: with the two agreeing, a route that quietly went back to the
 clocks would answer the same and nothing here could see it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

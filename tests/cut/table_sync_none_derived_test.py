@@ -7,6 +7,7 @@ is none, and its Kind field shows its own Kind; a camera marked the wide
 shot stays one; and a window over a Sync only project shows that camera
 as Content, so the window hands Sync only in.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import subprocess

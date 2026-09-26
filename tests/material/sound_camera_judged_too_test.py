@@ -11,6 +11,7 @@ lone camera with sound is settled without being chosen, a track starts
 on the camera it came out of, and the command line cuts what the
 interface would. None of it goes through the interface itself.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

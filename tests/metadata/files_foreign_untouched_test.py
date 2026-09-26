@@ -3,6 +3,7 @@
 
 The expectation is the same everywhere: no crash, no byte changed, [].
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

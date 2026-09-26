@@ -69,6 +69,7 @@ them, and then no floor can hold it.
 
 VPM_ONE_MOMENT_KEEP=1 leaves the written files in place for looking at.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

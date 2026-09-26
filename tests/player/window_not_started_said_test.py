@@ -12,6 +12,7 @@ One ground: two copies of the same file, one placed on the measured
 axis half a minute after the other. The first stands at a moment, the
 second is switched to, and the second is then started.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

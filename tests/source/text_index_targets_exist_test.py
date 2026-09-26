@@ -10,6 +10,7 @@ else reads the index. The index itself is a section of the manual's
 README, not a file of its own, and it ships with every checkout: so
 its absence is a defect here and not a machine that cannot check it.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

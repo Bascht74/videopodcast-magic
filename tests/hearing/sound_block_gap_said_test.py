@@ -9,6 +9,7 @@ others, and what it prints is held to the program's own sentences: the
 join by timecode, the hole with its length and place, the overlap as an
 overlap and as several microphones at once.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

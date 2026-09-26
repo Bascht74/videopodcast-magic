@@ -8,6 +8,7 @@ nobody shipped. A rule that only a person enforces holds until that
 person is busy, so every check here is the mechanical half of a rule
 written out in docs/notes/claude_intern.md.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

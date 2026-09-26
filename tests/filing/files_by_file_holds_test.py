@@ -21,6 +21,7 @@ keys and read back under abspath. Keys handed out of a ByFile carry
 the spelling they arrived in, so whatever they are then stored in or
 compared against has to settle the shape as well.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

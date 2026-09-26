@@ -6,6 +6,7 @@ box declare the same numbers a second time, so the last section holds
 the two against each other; the few numbers no field shows stand
 written out there instead.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

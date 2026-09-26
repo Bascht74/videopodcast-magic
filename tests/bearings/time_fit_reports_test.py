@@ -8,6 +8,7 @@ a warning about a weak one owes the name of the file it is about:
 with several recordings in a run, warnings without names are a heap
 nobody can put back.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -16,6 +16,7 @@ preview handing it on with no start at all; the lines the run owes wherever a me
 whose sound gives nothing, which the axis places by its clock rather
 than stopping on.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

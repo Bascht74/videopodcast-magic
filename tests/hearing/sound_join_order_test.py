@@ -5,6 +5,7 @@ One of the defects an adversarial review turned up. The two file names
 below run against the alphabet on purpose: sorted rather than taken as
 handed over, the joined file comes back the other way round.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

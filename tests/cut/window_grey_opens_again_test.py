@@ -10,6 +10,7 @@ order: the settings the cut box builder hands over, the wide shot's
 greying, the words', and the two settings both of them reach, which
 are open only where both say so. No window is opened.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

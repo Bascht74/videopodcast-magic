@@ -12,6 +12,7 @@ thing. Every catalogue, not the German one alone, is held to carrying
 no entry the program cannot reach; reachable is a wording that stands
 in the program at all, so an entry whose string never meets T() passes.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

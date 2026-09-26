@@ -12,6 +12,7 @@ written then is not asked: three nets stand in front of it, and no one
 break reaches it. Last a returned track handed in as a recording, which
 the run refuses by name: who speaks is worked out on the raw ones.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

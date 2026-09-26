@@ -10,6 +10,7 @@ tenths. It holds because the floor keeps the answer, not because the
 cut avoids speech -- an answer under the floor can still be covered,
 so this says nothing about a floor lower than the one in use.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

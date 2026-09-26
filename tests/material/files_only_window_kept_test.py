@@ -8,6 +8,7 @@ head cut off moved it, "the recorded moment" holds the delivered
 picture against the source camera, "the handover" describes the
 delivered file, and "what it wrote" is the line the log owes the user.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

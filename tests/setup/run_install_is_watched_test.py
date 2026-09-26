@@ -36,6 +36,7 @@ where every road out ends, and the last check of the failed job says
 how many addresses were opened all the same. The failed job itself is
 driven onto Linux: only there does the program have a second door.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

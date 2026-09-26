@@ -10,6 +10,7 @@ track that has one. The material is built here, so both numbers are
 known exactly, and the tolerances stay far under the echo: a
 measurement that took an echo for the direct path falls.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

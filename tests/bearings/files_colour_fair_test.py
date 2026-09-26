@@ -9,6 +9,7 @@ a row under each and is one camera in the mean.
 Sections: one picture at 8, 10 and 12 bit; the 8 and 10 bit pair
 through the report; one file under two names.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

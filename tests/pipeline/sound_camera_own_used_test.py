@@ -17,6 +17,7 @@ no sound at all, where the run stops and says so.
 The limit of the method: a tone is one frequency, so this says the
 right camera's sound arrived, not that nothing else was mixed into it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

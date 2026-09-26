@@ -11,6 +11,7 @@ The worker is a stand-in that answers with a fixed set of labels, so
 what is judged is the line the program writes and not what pyannote
 would hear. The real separation never starts here.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

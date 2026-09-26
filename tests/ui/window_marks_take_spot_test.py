@@ -10,6 +10,7 @@ the project file; an Out point in front of the In point; and a step
 whose answer never comes, red where it stands. From the project file on,
 run_three_ways_agree has it, and this one stops there.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

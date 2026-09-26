@@ -7,6 +7,7 @@ number come down, and "the summary itself" reads the line out of the
 window the Start button opens. Free space is read twice and can differ
 by a byte, so only the size is compared.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

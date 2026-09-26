@@ -19,6 +19,7 @@ What a press means is pinned to the pixel as well as to the middle: the
 bound there is a fraction of a single pixel, so reading a pixel from its
 centre instead of from its left edge is red on purpose.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

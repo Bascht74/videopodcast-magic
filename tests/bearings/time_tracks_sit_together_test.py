@@ -9,6 +9,7 @@ measurable at the end, the offset left between them, and the clock
 drift left. The material is synthetic, so its bleed is cleaner than any
 room's and the numbers come out sharper than a recording would give.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

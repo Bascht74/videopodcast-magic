@@ -17,6 +17,7 @@ The picture is read here down a path this test builds itself, not
 through the program's reader: a check that asks its subject with the
 subject's eyes says only that the two agree.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

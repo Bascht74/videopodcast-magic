@@ -14,6 +14,7 @@ name where no plan carries it: it goes as a switch pair the run's
 parser reads back, under Sync only too, and two cameras of one name,
 case aside, are refused on that path; the production's name, and the
 window's name for the second of two files of one name, ride the same way."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

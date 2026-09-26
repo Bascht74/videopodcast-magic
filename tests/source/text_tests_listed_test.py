@@ -19,6 +19,7 @@ Nothing here is a matter of taste: whatever it finds, `python3
 overview.py` writes right again, and the reading and the writing of
 the list live in overview.py together.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

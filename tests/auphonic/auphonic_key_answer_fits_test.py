@@ -17,6 +17,7 @@ does not become the one that is kept.
 Nothing here goes to auphonic.com: the fetch is replaced, and the key
 store with it, so nothing real is ever read or written.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

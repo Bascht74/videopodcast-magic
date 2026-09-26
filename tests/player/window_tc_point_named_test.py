@@ -10,6 +10,7 @@ in is jumped to, silently; one five seconds into the second camera,
 pressed for from the first, names it, loads it, says 5 s while it opens
 and lands there with its recording.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import subprocess

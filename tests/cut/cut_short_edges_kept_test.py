@@ -8,6 +8,7 @@ minimum edit duration, and the log says so. The mixedcase voices over a
 minute keep their edges and say nothing. Half an hour: each edge stops
 at "Wide shot at the latest", and at a lower setting at that one.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

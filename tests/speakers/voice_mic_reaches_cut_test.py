@@ -10,6 +10,7 @@ reading is stood in for: what is asked is who is put into the cut, not
 what a microphone sounds like, and the stand-in refuses what the real
 reading refuses.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

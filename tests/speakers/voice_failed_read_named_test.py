@@ -15,6 +15,7 @@ not measured really are missing -- the price of going on, counted.
 The failure is staged: a reading that refuses is what is being asked
 about, and no real file refuses to order.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

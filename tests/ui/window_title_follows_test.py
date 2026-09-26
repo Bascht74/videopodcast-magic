@@ -8,6 +8,7 @@ a file named otherwise than its production, opened and renamed, which
 moves nothing, so the bar names it throughout; then one named after
 it, opened and renamed. Read off the window's own title, offscreen.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import shutil

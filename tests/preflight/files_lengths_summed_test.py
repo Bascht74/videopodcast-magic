@@ -10,6 +10,7 @@ answer before it is not green for want of anything to find.
 The material is built once into the shared fixture folder and reused
 from there, so a run measures the program and not ffmpeg.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

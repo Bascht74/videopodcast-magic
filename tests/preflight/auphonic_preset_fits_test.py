@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Preflight for the preset: does it hold what the run needs?"""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

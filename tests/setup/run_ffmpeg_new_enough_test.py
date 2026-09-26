@@ -22,6 +22,7 @@ before those three, and not something the setting up is trusted for:
 an empty search path alone stopped shutting it the day the search
 began looking where the package managers of each system install.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

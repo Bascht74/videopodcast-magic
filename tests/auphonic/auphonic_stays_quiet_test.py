@@ -7,6 +7,7 @@ the list is opened and at no other time; and a key that is plainly not
 one never leaves the house, where plainly covers only what can be told
 without asking, because a guessed format turns away a key that works.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

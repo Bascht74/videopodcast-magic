@@ -9,6 +9,7 @@ recordings. The run's plan has its measuring replaced, so the naming is
 asked and not the material. What this cannot show is that the window
 hands its project type in; that is one argument at one call.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

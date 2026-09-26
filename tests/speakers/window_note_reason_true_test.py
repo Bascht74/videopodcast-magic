@@ -9,6 +9,7 @@ and the tree, out of one weak_marks_show call, and the answer reaches
 it through the window's own axis_present. The limit: that answer is
 laid here in the shape measure_time_axis gives, not measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

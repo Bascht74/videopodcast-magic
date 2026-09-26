@@ -21,11 +21,29 @@ echo "Python: $("$PY" -V 2>&1)"
 # two runs look alike in the log and a result is read against the wrong
 # file.
 echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic/__init__.py}"
+# Which half of the suite. Every test says on a line of its own whether
+# its verdict can differ between systems and Pythons: PLATFORM_BOUND =
+# True or False. The builder runs the neutral ones once, on a job of
+# their own, and the bound ones on all six (tests.yml); VPM_TESTS=neutral
+# or =bound runs one half, and all, the default, both -- so a run here
+# before a release still runs every test once.
+VPM_TESTS=${VPM_TESTS:-all}
+case "$VPM_TESTS" in
+  all|bound|neutral) ;;
+  *) echo "VPM_TESTS is '$VPM_TESTS'; it takes all, bound or neutral" >&2
+     exit 2 ;;
+esac
+# Tests named on the command line run whichever half they are in: the
+# name is the more precise wish, and a test that starts run.sh itself
+# would otherwise hand its own half on to the run it starts.
+[ $# -gt 0 ] && VPM_TESTS=all
 # Without ffmpeg most of the suite goes red, and none of those reds say
 # anything about the program: they say the machine has no ffmpeg. The
 # program brings none of its own either -- it names the package manager
-# and stops -- so the way out named here is the way out it names.
+# and stops -- so the way out named here is the way out it names. The
+# neutral half starts no ffmpeg and needs no fixture, so it asks neither.
 for tool in ffmpeg ffprobe; do
+  [ "$VPM_TESTS" = neutral ] && break
   if ! command -v "$tool" > /dev/null 2>&1; then
     echo "$tool is not on the search path. Almost every test needs it,"
     echo "and without it their red says nothing about the program."
@@ -151,7 +169,7 @@ fixtures_hold
 
 # The shared fixture folders are read-only. Building them here, before
 # the fan-out, keeps two tests from racing for the same files.
-if ! bash "$HERE/fixtures.sh"; then
+if [ "$VPM_TESTS" != neutral ] && ! bash "$HERE/fixtures.sh"; then
   echo "fixtures could not be built -- stopping." >&2
   exit 2
 fi
@@ -247,6 +265,25 @@ if [ $# -gt 0 ]; then
     echo "$t lies in ${lies:-tests}/, not in $given/ -- running it by its name." >&2
   done
   TESTS=$asked; WHOLE=0
+fi
+
+# One half, by the line each test carries (see VPM_TESTS at the top).
+# One grep over every file, not one a test: on Windows a process costs
+# half a second. A half is not the whole folder, so it sets no baseline.
+# Before the languages below, so what they set aside is of this half.
+if [ "$VPM_TESTS" != all ]; then
+  want=True
+  [ "$VPM_TESTS" = neutral ] && want=False
+  half=$(cd "$HERE" && grep -lx "PLATFORM_BOUND = $want" \
+           *_test.py */*_test.py 2>/dev/null \
+         | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//')
+  TESTS=$(printf '%s\n' $TESTS | grep -Fx "$(printf '%s\n' $half)")
+  WHOLE=0
+  if [ -z "$TESTS" ]; then
+    echo "no test of the $VPM_TESTS half among those asked for --" \
+         "VPM_TESTS=all runs both" >&2
+    exit 2
+  fi
 fi
 
 # The owner's rule, 26.9.2026: the everyday run tests English and
@@ -691,6 +728,14 @@ else
   echo "languages: English and German; every catalogue with" \
        "VPM_ALL_LANGUAGES=1, as a release does"
 fi
+# And which half, said the same way; tests.yml lifts it by its first word.
+case "$VPM_TESTS" in
+  neutral) echo "platform: the neutral half only (VPM_TESTS=neutral) --" \
+                "the bound half runs on each system's own job" ;;
+  bound)   echo "platform: the bound half only (VPM_TESTS=bound) --" \
+                "the neutral half runs once, on a job of its own" ;;
+  *)       echo "platform: both halves, every test once" ;;
+esac
 # state/checks carried forward. The count of judgements rises with every
 # check anybody adds, so a floor kept by hand would be behind within the
 # day and then be raised in a hurry, which is how a floor stops meaning

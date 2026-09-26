@@ -14,6 +14,7 @@ One ground: one camera file with one assigned track. A stand-in for
 the player's own placing answers by clock, then measured; the last
 section places for real, the camera's clock set by hand.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -10,6 +10,7 @@ knows nothing opens it again; and closing the project empties the
 window while the file itself stays. Where the first pass writes no file
 the second cannot run, and says so rather than passing.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

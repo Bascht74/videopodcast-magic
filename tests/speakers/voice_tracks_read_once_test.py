@@ -18,6 +18,7 @@ asks, which no real measurement would say more clearly, and the stand-in
 opens every file it is handed so that it refuses what the real one
 refuses.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

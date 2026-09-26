@@ -20,6 +20,7 @@ set nothing going. Two things lie about the whole time and must have
 no effect: a stranger's handover in the result folder, and an earlier
 production's prepared tracks below the material.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

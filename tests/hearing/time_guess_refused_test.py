@@ -10,6 +10,7 @@ second opinion, camera against camera, a whole run, what the window
 offers, and last the same question on the recording side, where
 another caller reads the same verdict and a clock sets the place.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

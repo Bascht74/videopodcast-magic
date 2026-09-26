@@ -5,6 +5,7 @@ A stylesheet with a placeholder that no longer exists, or a table that
 reads a renamed key, shows up in none of the functional tests. Here the
 window is really built.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

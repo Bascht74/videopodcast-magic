@@ -8,6 +8,7 @@ hold really holds, that the shots and the voices come back as they went
 in, that the camera follows the cut at every moment, that no name is
 invented, and that a jump shows the new place at once.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

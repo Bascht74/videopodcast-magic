@@ -11,6 +11,7 @@ any separation, and the window taking that road at all. Neither the
 model nor a recogniser runs -- the separation is stood in for by one
 that blocks until this test lets it go, so "while" is measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

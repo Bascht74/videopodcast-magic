@@ -10,6 +10,7 @@ loudest and could see it at all; the tracks follow from that. One block
 alone is that block's answer, no block at all is unreadable, and two
 blocks of unequal channel count do not fit -- the reason names both.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

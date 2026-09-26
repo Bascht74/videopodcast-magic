@@ -15,6 +15,7 @@ guessed and confirmed -- see the note at section 5. Nothing here reads
 a picture, and nothing here knows a village from an invented word --
 see the note at section 4.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -17,6 +17,7 @@ the window writes and not what a recording would have measured. No
 wording is held against anything, which is why these checks stand
 whether a catalogue carries the sentence or not.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

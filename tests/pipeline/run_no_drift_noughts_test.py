@@ -10,6 +10,7 @@ sections: the run goes through and places them so; the time axis block
 and the short camera's own block say "not measured" where nothing was,
 and the long one's its number.
 """
+PLATFORM_BOUND = True
 import os
 import re
 import shutil

@@ -8,6 +8,7 @@ its own measured rules -- the filter without which Whisper writes words
 into silence, and a correction of its own; and that the bundle a model
 download is verified against reaches the connection.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

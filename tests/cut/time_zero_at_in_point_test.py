@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """#66: Where does programme time start on the clock, and what hangs on it?"""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -9,6 +9,7 @@ faint for a camera, and has no timecode. Sections: the sound places the
 second, the clock the third, nothing the fourth; then each own sound at
 its camera's offset, placed with it -- and the fourth's placed nowhere.
 """
+PLATFORM_BOUND = True
 import os
 import re
 import subprocess

@@ -10,6 +10,7 @@ Resolve would accept. Then a camera that stopped early: another takes
 its shot at its length, the window counts such shots, and a shot no
 camera covers is named.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

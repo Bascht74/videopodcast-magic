@@ -24,6 +24,7 @@ the search path writes down every call. Where it cannot be put there --
 Windows starts no #!/bin/sh file -- no key is given and those two
 judgements are left out rather than claimed.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

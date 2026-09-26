@@ -7,6 +7,7 @@ style sheet draws them in a font half as large again, and the same is
 asked once more, with the shared width. Offscreen, so the style is not
 the one a user sees; the font is what is changed.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

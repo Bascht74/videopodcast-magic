@@ -8,6 +8,7 @@ there, it is the file that was loaded and not the one that was invoked,
 and last a second copy started in a folder of its own writes that
 folder's path into the header of its own log.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

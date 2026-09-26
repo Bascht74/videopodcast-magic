@@ -13,6 +13,7 @@ answer is about.
 What free space really is comes from the system, so it is replaced
 here: the check is about the judgement, not about this machine's disk.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

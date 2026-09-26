@@ -9,6 +9,7 @@ short stranger, its match over the floor, refused by both. Synthetic
 material, fixed seeds, no timecode, so a camera the sound refuses has
 no place at all.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

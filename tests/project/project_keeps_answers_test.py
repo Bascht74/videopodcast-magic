@@ -17,6 +17,7 @@ never out of a variable.
 Nothing here goes to auphonic.com or into a key store: both are
 replaced by stand-ins, and all material lives under a folder of its own.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

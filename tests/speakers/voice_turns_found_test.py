@@ -9,6 +9,7 @@ with an offset comes back with its sections and on the axis that offset
 puts it. What the material carries is modulated noise, not a voice: what
 is measured is the pattern of loudness, and nothing about speech itself.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

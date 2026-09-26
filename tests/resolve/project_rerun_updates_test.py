@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """#60 in a whole run: build twice, update on the second pass."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

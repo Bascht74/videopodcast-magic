@@ -4,6 +4,7 @@
 The wide shot holds until the floor changes hands. A recogniser that
 chops one long turn into many blocks must not read as many handovers.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

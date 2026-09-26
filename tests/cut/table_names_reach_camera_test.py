@@ -9,6 +9,7 @@ and umlauts too, and the mix where nobody is on it; and the file name
 the camera is offered. What this cannot show is that the window really
 hands these fields in; that is one call at each of the two places.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -10,6 +10,7 @@ with a bar, what is left lying about, and the project file. Where a
 file mode carries no rights -- Windows -- the two judgements about it
 are left out by name. The key is invented and no line prints it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

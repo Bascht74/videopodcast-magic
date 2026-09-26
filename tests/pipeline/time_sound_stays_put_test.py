@@ -14,6 +14,7 @@ So the delivered file's first frame is not the camera's, and every
 judgement here is put back on the recording's axis first -- read off the
 camera's own sound, the one track that is cut together with the picture.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -9,6 +9,7 @@ answer and the run's handover over names plain sorting misplaces; in a
 real run the tracks in the camera's file, one nobody named among them,
 and the plan's preview. The rows are never in alphabetical order.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -10,6 +10,7 @@ piece; and no folder of the program is fetched by nobody -- the last
 is what falls the day this search is narrowed back to the way in. The
 limit: a piece reached otherwise than by beside() shows as unfetched.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

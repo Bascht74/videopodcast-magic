@@ -9,6 +9,7 @@ track under the name it was given. And the other way round -- a source
 with no colour box must not come out with one invented for it, and a
 camera that writes no Apple key at all must still get a line.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -17,6 +17,7 @@ own track included -- the overall mix is asked about on its own as
 well, because it used to be spelt one way in the plan and another in
 the file.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

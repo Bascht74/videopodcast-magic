@@ -18,6 +18,7 @@ development/skill_table.py` writes right again. The reading of a table
 and the writing of it live in that one file, so the two cannot drift
 apart.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

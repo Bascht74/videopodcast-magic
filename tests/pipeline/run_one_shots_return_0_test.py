@@ -8,6 +8,7 @@ account (curl stood in for, fenced the same way), and --hdr-check over
 a file tagged as HDR. Where one of them fails, main() returning 1 is
 run_stop_names_why's; this holds the other half, which a script reads.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

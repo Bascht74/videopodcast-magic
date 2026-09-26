@@ -18,6 +18,7 @@ there is nothing to send with. It is not asked of the log, because the
 log cannot answer it -- a run that really reaches the service prints
 neither its address nor a word about uploading.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -8,6 +8,7 @@ whose project names no curve. Each of the first three is asked for its
 tags first and for the bracket after; the fourth applies no tags and
 prints no tag line at all. Nothing reaches the disk.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

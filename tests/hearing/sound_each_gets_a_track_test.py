@@ -6,6 +6,7 @@ each recording also goes in on its own -- but only where they really did
 run at the same time. Blocks laid end to end are one recording, and a
 track per block would be silence with one block in it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

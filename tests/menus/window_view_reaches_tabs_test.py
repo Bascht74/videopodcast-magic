@@ -10,6 +10,7 @@ in it, before the menu has been opened again; and after it has. Each
 key is then both set off on the window and typed at it, since between
 the two lies a shortcut map that answers twice or not at all.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

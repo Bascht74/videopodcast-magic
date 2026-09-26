@@ -24,6 +24,7 @@ their last read, a recogniser build once a newer one stands beside it,
 a joined recording by its date, whose separation it finds again when
 joined anew while a changed recording's is not read back -- and a listener or a check whose recipe changed, which reads nothing old back.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

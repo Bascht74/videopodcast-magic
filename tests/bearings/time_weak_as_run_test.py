@@ -9,6 +9,7 @@ seconds off, and so beside a camera at its clock; the same with clocks
 on weak recordings alone; one the run refuses, refused, and with a
 clock at that clock; the camera. The note is window_note_names_way's.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -11,6 +11,7 @@ naming its refused camera standing with that camera out or in, but not
 once a camera is added that the run never saw.
 The window's own functions, the run loop included, without a window.
 """
+PLATFORM_BOUND = True
 import io
 import json
 import os

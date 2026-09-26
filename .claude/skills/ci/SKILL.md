@@ -63,11 +63,14 @@ before changing anything: language, snapshot, contention and deadline
 between them explain a red run more often than the program does, and
 they cost under a minute to rule out.
 
-## Six jobs, and what you are waiting for
+## Seven jobs, and what you are waiting for
 
-`ubuntu`, `macos` and `windows`, each on two versions of Python. **What
-stands between a push and an answer is the longest job, not the sum** --
-they run side by side. The sum is what the builder is billed.
+`ubuntu`, `macos` and `windows`, each on two versions of Python, run
+the tests marked `PLATFORM_BOUND = True`; a seventh, `Neutral py3.14`
+on Linux, runs the ones marked False, once, beside them -- a push and
+a release alike (owner's rule, 26.9.2026). Green means all seven.
+**What stands between a push and an answer is the longest job, not the
+sum** -- they run side by side. The sum is what the builder is billed.
 
 A single reading of a macOS job says almost nothing: the same commit has
 come back at 950 and at 1091 seconds, and once at 651 against 1088.
@@ -78,7 +81,7 @@ before a number means anything.
 
 **Before every release, fetch the builder's times and look at them.**
 This is the moment the command is run, and this section is the whole
-account of it -- nothing else in the project keeps a copy.
+account of the queue -- nothing else in the project keeps a copy.
 
 The suite runs the long tests first so nobody waits, and it takes that
 order from `tests/state/longest`. **Those times have to come from the
@@ -93,6 +96,11 @@ before, so it is asked and not written down -- and writes that job's
 numbers over the file. Then read the ten it prints and ask whether the
 top two can be made cheaper. That is where a minute of the builder's
 time is.
+
+**Before a release it is `builder_times.sh --record <version>`**, which
+also keeps every job's times in `development/test_durations.md`; why,
+and what a test marked grown there asks of the release, is in the skill
+`freigabe` under "Beforehand: the builder's times".
 
 **A renamed test leaves a dead row behind.** After a rename the file
 names tests that no longer exist, `run.sh` finds no time for any of

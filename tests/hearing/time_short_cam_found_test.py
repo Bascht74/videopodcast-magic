@@ -8,6 +8,7 @@ refused; a short stranger whose match clears the floor refused too,
 because another place fits it nearly as well; and the log saying so.
 Synthetic material, fixed seeds, one room.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

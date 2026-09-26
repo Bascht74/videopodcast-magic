@@ -18,6 +18,7 @@ What this cannot show is what a particular substitute font measures on
 somebody else's machine; it shows that neither text has to be drawn on
 one line any more.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

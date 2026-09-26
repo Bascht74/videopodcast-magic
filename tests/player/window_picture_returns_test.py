@@ -15,6 +15,7 @@ refusal hides anything in the first place. A refusal counts whether Qt
 signals it or only reports the InvalidMedia state; the third ground
 takes the signal away, and the refusal is still offered and said.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

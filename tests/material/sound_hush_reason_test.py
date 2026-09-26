@@ -5,6 +5,7 @@ Two rules can call a channel empty: far under the loudest of its
 neighbours, or under -70 dBFS on its own. Without the reason and the
 number, the log gives nobody anything to turn a knob by.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

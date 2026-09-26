@@ -8,6 +8,7 @@ and main() sends the window's code through that door. Each end runs in a
 child, since os._exit takes the process with it. The crash it avoids
 cannot happen here: this holds the door, not the Windows teardown.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

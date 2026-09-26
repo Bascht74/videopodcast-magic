@@ -10,6 +10,7 @@ one before it really stopped; last a camera the handover gives no rate.
 The stand-in media pool takes whatever it is handed, so this says what
 the program built, not what Resolve would accept.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

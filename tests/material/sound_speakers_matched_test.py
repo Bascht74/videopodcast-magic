@@ -11,6 +11,7 @@ decibel, the empty track stays, the log names every move; the path
 hands matched tracks on; and the Auphonic chain never calls it, which
 is asked of the source, since that chain cannot run here.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

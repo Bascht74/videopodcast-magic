@@ -11,6 +11,7 @@ place, which is what everything else asks. And there is one intro in
 an episode: where it is already given away, the next file with no
 place is left out instead of taking the mark off the first.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -9,6 +9,7 @@ and length agree as well; then two such recordings over two MiB that
 differ only towards the end. The limit: only the first and last MiB are
 compared, so recordings that differ only between them are named too.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

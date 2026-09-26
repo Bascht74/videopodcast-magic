@@ -17,6 +17,7 @@ Nothing is installed and no interpreter is started: pip and the one
 call that starts an interpreter are both answered from here, so what
 is measured is what the program does with those answers.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

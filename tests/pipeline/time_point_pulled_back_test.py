@@ -8,6 +8,7 @@ delivered as a sliver of picture, which is what the floor under the kept
 length would otherwise make of it. "Inside" is the control, "pulled
 back" the two ends, and "refused" the two ways out.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

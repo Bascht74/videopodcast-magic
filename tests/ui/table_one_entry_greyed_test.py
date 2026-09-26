@@ -30,6 +30,7 @@ because a bar that never lifts would pass the first half. The holder
 is named by the label handed in, so the second of a pair is
 "C0003.MP4 (2)" there too.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

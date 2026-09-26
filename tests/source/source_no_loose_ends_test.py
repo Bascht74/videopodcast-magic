@@ -14,6 +14,7 @@ paper's stock list of the pieces is held against the folder both ways,
 line counts included -- but the folders only: the way in's own count
 stands there in prose, off the list, and nothing reads it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -15,6 +15,7 @@ cut makes of the segments is not asked here -- both roads reach the
 one camera_cut, and the preview against the run is
 cut_preview_is_the_run's.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

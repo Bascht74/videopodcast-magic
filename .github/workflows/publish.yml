@@ -293,7 +293,9 @@ jobs:
           fi
 
           # c. Every job of the suite, green on that head. The names
-          # first, out of tests.yml as it stands at this commit.
+          # first, out of tests.yml as it stands at this commit -- seven
+          # since 26.9.2026: the neutral tests' job is a row of the same
+          # matrix, so it is asked for exactly as the six are.
           gh api "repos/$R/contents/.github/workflows/tests.yml?ref=$SHA" \
             --jq .content | base64 -d > /tmp/tests.yml
           if ! python3 - /tmp/tests.yml > /tmp/wanted.txt 2> /tmp/why.txt <<'PY'

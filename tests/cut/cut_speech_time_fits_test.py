@@ -8,6 +8,7 @@ people talking at once are counted three times: a real run reported
 percentage beside it looked right. Two grounds, both built here: one
 where everybody talks over everybody, and one where nobody does.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

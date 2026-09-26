@@ -9,6 +9,7 @@ standing over a part of the picture, and the ground comes back. The
 limit: offscreen Qt reports no colour scheme, so the desktop is stood
 in for at the one place the window asks it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

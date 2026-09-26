@@ -10,6 +10,7 @@ without the key box, preset and tick beside the table, the settings
 window opening on the button and closing again, and last whether the run
 got through its steps at all rather than breaking off.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

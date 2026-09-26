@@ -18,6 +18,7 @@ which files it was handed, so what reaches it is a number rather than a
 guess. What is asked is where the recording ends up, never how that
 place was arrived at.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

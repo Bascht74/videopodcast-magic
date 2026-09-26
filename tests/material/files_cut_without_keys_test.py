@@ -8,6 +8,7 @@ the same, and the line the run prints has to say so. "Both ends" is the
 control with the query working, "no key frames" the same call with it
 failing, and "what it says" the line itself.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

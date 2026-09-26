@@ -8,6 +8,7 @@ out. The command line: --dry-run into a folder already holding a file.
 Each time the folder is read before and after, name, bytes and time of
 each file: nothing came in, went, or was written again.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

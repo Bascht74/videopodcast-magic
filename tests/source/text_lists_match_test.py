@@ -28,6 +28,7 @@ better answer; the bold labels of a chapter, most of which are
 subheadings rather than labels; and screenshots, which no test judges
 without a reference image per system.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
