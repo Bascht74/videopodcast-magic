@@ -11,7 +11,7 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b24.
+gone through for 3.0.0b25.
 
 ## Where the program stands today
 
@@ -34,8 +34,13 @@ Where a file sits on the shared time axis comes out of its sound. A
 camera's own clock counts only where the sound gave nothing to go on,
 and the run names every file it had to place by the clock alone --
 because two cameras agree on a clock only if somebody set them to one,
-and even then by a frame or two. The window, the preview and the
-finished project are all built on that one reckoning.
+and even then by a frame or two. Each recording also says what is in its
+sound: speech, or a mix with music under the voices. Only a mixed one
+may be placed by the phase of its sound; a speech recording that shares
+no sound with the cameras is refused rather than guessed at, and one
+that no way of measuring can place stands at its timecode. The window,
+the preview and the finished project are all built on that one
+reckoning.
 
 Separation, speech recognition and the transcript run on the machine in
 front of you. Separation and recognition each need a
@@ -45,7 +50,9 @@ no token, and after that one download no network. Ordering the transcript
 from auphonic.com is gone, tick and switch with it, so the words no
 longer depend on a service being reachable or on a preset being chosen.
 Levelling, de-bleed and noise removal there are still optional, and the
-program uploads only when somebody asks it to.
+program uploads only when somebody asks it to. Who speaks when is
+worked out by voice on the raw microphones either way, after the
+service as without it.
 
 Where a fact is missing, the window says so instead of taking an answer
 that changes nothing. The settings that need the words, and those that
@@ -62,12 +69,12 @@ again, and the complaint about it arrives hours later.
 
 Every language the window offers says everything: its catalogue
 answers every one of the
-roughly 1400 texts the program has, the lines of a run and the step
+roughly 1600 texts the program has, the lines of a run and the step
 into Resolve included. What each language answers is counted at every
 push and may only grow, and every one is held to all of it.
 
 It is a Python program: a folder, `videopodcast_magic/`, holding a small
-file the program starts in, thirty-five pieces beside it in folders of
+file the program starts in, thirty-six pieces beside it in folders of
 their own, and the speaker model. It is installed with
 `pip3 install git+...` and there is nothing to build. Fetching one file
 and starting it was the other way in until 4.9.2026 and is not one any
@@ -80,15 +87,15 @@ are what it is used on, and Linux works with two limits.
 **It was one file until 4.9.2026, and it is a folder now.** The texts
 went out first, into a file for each language, and the rest followed
 over the next three days: the file the program starts in held 37 535
-lines that day and holds 717 now, and the largest piece, the window,
-holds 3867. What follows for anybody working on it is only this -- the
+lines that day and holds 784 now, and the largest piece, the window,
+holds 4544. What follows for anybody working on it is only this -- the
 program is copied as a folder, never as the file inside it. A suite of
-263 tests runs at every push: six runs side by side, three systems and
+361 tests runs at every push: six runs side by side, three systems and
 two versions of Python. Beside it stand four more that want a real
 Resolve and cannot run anywhere else. The six are not equally fast, and
-Windows is the slow one: over the last seven green runs, measured on
-3.9.2026, the slowest of the six took between 404 and 835 seconds, and
-it was a Windows job every time. That longest job is the wait, not the
+Windows is the slow one: for 3.0.0b24 the slowest of the six took 1067
+seconds, Windows with Python 3.10, and in the seven green runs measured
+on 3.9.2026 it was a Windows job every time. That longest job is the wait, not the
 sum of the six.
 
 **Why it is still beta.** The format of the project file may still
@@ -98,6 +105,20 @@ ends when the format holds still, and a change that breaks it raises
 the major number.
 
 ## What comes next
+
+**The next five versions, in short.** 3.0.0b26 takes the window apart
+into pieces -- the main window, one piece per tab, and one model of the
+project that all of them read -- splits the assignment table and the
+run's pipeline the same way, and runs the tests against auphonic.com
+and a real Resolve on the owner's machine. 3.0.0b27 brings the first
+half of the whole-way tests and fixes what the window visibly still
+does wrong. 3.0.0b28 makes the time axis and the hand-over to Resolve
+more exact, with the second half of the whole-way tests. 3.0.0b29 opens
+more of the Auphonic options, takes more than two channels, replaces
+set thresholds with measured ones and shows the preview in HDR.
+3.0.0b30 gives the program a sound path of its own, without
+auphonic.com. The order can change; the four items below are what
+stands first in it.
 
 Four items. The first two are work. The last two are built, and what
 they wait on is somebody sitting down with real material rather than
@@ -164,13 +185,14 @@ Coarser, and in no fixed order.
   there are no separate recordings. A third, a Resolve that refuses,
   belongs to the tests against a real Resolve above.
 
-* **Eight long definitions get their description.** The comments in the
-  program have had the treatment the tests had: comment and docstring
-  fell from nearly a third of its lines to a quarter, and the places
-  where a comment runs longer than the rules want fell from 104 and 141
-  to seven each. What is left is the opposite gap. Eight definitions of
-  a hundred lines and more, the cut player among them, still carry no
-  description at all, and a check holds that number so it can only fall.
+* **The last long definition gets its description.** The comments in
+  the program have had the treatment the tests had: comment and
+  docstring fell from nearly a third of its lines to a quarter, and the
+  places where a comment runs longer than the rules want fell from 104
+  and 141 to seven each. What is left is the opposite gap. Of the eight
+  definitions of a hundred lines and more that carried no description
+  at all, one is left -- the one that works out the preview of the cut,
+  117 lines -- and a check holds that number so it can only fall.
 
 * **The manual gets what it still lacks.** About a dozen numbers still
   stand without their default and the direction they pull in. And a
@@ -229,7 +251,7 @@ been refused, it has only not come up yet.
   turn it into a list of subject lines.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** They would be
-  four new dependencies for a program whose 263 tests run as plain
+  four new dependencies for a program whose 361 tests run as plain
   scripts. A thin pytest layer that starts those same scripts
   unchanged is a different thing, and that one may come.
 
@@ -297,7 +319,9 @@ which picture, and how every file got its place on the time axis.
 **Never paste your Auphonic key.** On a Mac the program keeps it in the
 keychain and on Windows in the registry; on Linux it does not store it
 at all. The project file holds no command line, so the key is not in it
-either. No report needs it.
+either, and a run from the command line takes it from `AUPHONIC_TOKEN`
+rather than from a switch, so it stands in no shell history. No report
+needs it.
 
 **Patches are welcome, and there is no second reviewer.** A small
 change that does one thing gets read and merged; a large one waits.
