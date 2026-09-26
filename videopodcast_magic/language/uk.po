@@ -1600,9 +1600,6 @@ msgstr "<span style='color:%(t)s'><b>%(n)s планів</b>, медіана %(me
 msgid "Speakers, as the run measured them"
 msgstr "Мовці, як їх виміряв запуск"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "з оброблених доріжок Auphonic -- мовців: %s, %s"
-
 msgid "Why the wide shot settings are grey"
 msgstr "Чому налаштування загального плану сірі"
 
@@ -1713,9 +1710,6 @@ msgstr "  Монтаж лишається таким, як був."
 
 msgid "  Not used:  %s."
 msgstr "  Не використано: %s."
-
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Загальний план на краях: пропущено -- перше або останнє оголошення\n  було б задовге для привітання."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Загальний план на краях: до %s і від %s"
@@ -4944,3 +4938,42 @@ msgstr "%s/%s %s мс %s ppm"
 
 msgid "Language of the sound"
 msgstr "Мова звуку"
+
+msgid "In the sound"
+msgstr "У звуці"
+
+msgid "Speech"
+msgstr "Мовлення"
+
+msgid "Mixed"
+msgstr "Змішаний"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Мовлення: розміщується лише за гучністю. Запис, що не має нічого спільного\nз камерами, відхиляється. Змішаний: під голосами лежить музика чи мікс,\nі де гучність нічого не знаходить, його може розмістити фаза.\nЗа «%s» завжди змішаний."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: збіг звуку %s, і в іншому місці також %s -- розміщено лише за власним годинником"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  скорочено щонайбільше до %s кожен -- перше оголошення закінчується на %s, останнє починається на %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "У цій теці вже є інший проєкт із такою назвою, %s -- цей залишається в %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "картинка там не перемкнулася на того, хто відповідає"
+
+msgid "the answer was counted with the question before"
+msgstr "відповідь зараховано разом із попереднім питанням"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s лежить у теці --auphonic-done, серед доріжок, які повернув auphonic.com. Хто говорить, визначається за сирими записами, тому вкажіть тут натомість сирий запис."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   звук не розпізнано; розміщено так, як його розміщує запуск"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "звук не розпізнано, розміщено за таймкодом"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s записи і жодного зображення: кожен з'єднується окремо, і вони не вирівнюються один щодо одного. --multitrack кладе їх на одну вісь часу."

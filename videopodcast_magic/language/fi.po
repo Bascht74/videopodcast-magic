@@ -1267,9 +1267,6 @@ msgstr "  Liikaa:            rajoittimen pitäisi poistaa %s dB. Yli %s dB\n    
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Litterointi ei ole mahdollinen (%s) -- ajo jatkuu silti."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Yleiskuva reunoilla: ohitettu -- ensimmäinen tai viimeinen puheenvuoro\n  olisi liian pitkä tervehdykseksi."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Yleiskuva reunoilla: kohtaan %s asti ja kohdasta %s alkaen"
 
@@ -3377,9 +3374,6 @@ msgstr "mitattu tallenteista -- %s puhujaa, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "valmiista ajosta -- %s puhujaa, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "käsitellyistä Auphonic-raidoista -- %s puhujaa, %s"
-
 msgid "no folder"
 msgstr "ei kansiota"
 
@@ -4883,3 +4877,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Äänen kieli"
+
+msgid "In the sound"
+msgstr "Äänessä"
+
+msgid "Speech"
+msgstr "Puhe"
+
+msgid "Mixed"
+msgstr "Sekoitettu"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Puhe: sijoitetaan pelkän äänekkyyden mukaan. Tallenne, jolla ei ole mitään yhteistä\nkameroiden kanssa, hylätään. Sekoitettu: äänten alla on musiikkia tai miksaus,\nja missä äänekkyys ei löydä mitään, vaihe saa sijoittaa sen.\nKohdassa ”%s” se on aina sekoitettu."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: sen ääni vastaa arvolla %s, ja toisessa kohdassa myös arvolla %s -- sijoitettu pelkän kellonsa mukaan"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  lyhennetty kukin enintään pituuteen %s -- ensimmäinen puheenvuoro päättyy kohtaan %s, viimeinen alkaa kohdasta %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Tässä kansiossa on jo sillä nimellä toinen projekti, %s -- tämä pysyy tiedostossa %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "kuva ei vaihtunut siinä vastaajaan"
+
+msgid "the answer was counted with the question before"
+msgstr "vastaus laskettiin edeltävän kysymyksen kanssa"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s on --auphonic-done-kansiossa, auphonic.com-palvelun palauttamien raitojen joukossa. Puhuja selvitetään raakatallenteista, joten anna tässä sen sijaan raakatallenne."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ääntä ei tunnistettu; sijoitettu niin kuin ajo sen sijoittaa"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ääntä ei tunnistettu, sijoitettu aikakoodinsa mukaan"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s tallennetta eikä kuvaa: jokainen yhdistetään erikseen, eikä niitä kohdisteta toisiinsa. --multitrack asettaa ne yhdelle aika-akselille."

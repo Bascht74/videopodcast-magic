@@ -1566,9 +1566,6 @@ msgstr "<span style='color:%(t)s'><b>%(n)s 个镜头</b>，中位数 %(med)s 秒
 msgid "Speakers, as the run measured them"
 msgstr "本次运行测得的说话人"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "来自处理后的 Auphonic 音轨——%s 位说话人，%s"
-
 msgid "Why the wide shot settings are grey"
 msgstr "为什么全景设置是灰色的"
 
@@ -1679,9 +1676,6 @@ msgstr "  剪辑保持不变。"
 
 msgid "  Not used:  %s."
 msgstr "  未使用：%s。"
-
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  首尾全景：已跳过 -- 第一段或最后一段发言\n  作为问候太长了。"
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  首尾全景：至 %s，自 %s 起"
@@ -4842,3 +4836,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "声音语言"
+
+msgid "In the sound"
+msgstr "声音内容"
+
+msgid "Speech"
+msgstr "语音"
+
+msgid "Mixed"
+msgstr "混合"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "语音：仅按响度放置。与摄像机毫无共同之处的\n录音会被拒绝。混合：人声下面有音乐或混音，\n在响度找不到任何东西的地方，可以按相位放置。\n在“%s”下始终为混合。"
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s：其声音匹配度为 %s，在另一处也有 %s -- 仅按其时钟放置"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  每段最多缩短到 %s -- 第一段发言在 %s 结束，最后一段在 %s 开始"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "此文件夹中已有同名的另一个项目 %s -- 本项目保留在 %s 中。"
+
+msgid "the picture did not change to the answerer there"
+msgstr "那里画面没有切到答话者"
+
+msgid "the answer was counted with the question before"
+msgstr "该回答被与前一个问题一起计数"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s 位于 --auphonic-done 文件夹中，属于 auphonic.com 返回的音轨。说话人是根据原始录音确定的，因此请在此改为指定原始录音。"
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   未识别出声音；按运行的放置方式放置"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "未识别出声音，按其时间码放置"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s 个录音且没有画面：每个单独拼接，彼此之间不对齐。--multitrack 会把它们放到同一时间轴上。"

@@ -1267,9 +1267,6 @@ msgstr "  Quá nhiều:         bộ giới hạn sẽ phải bớt %s dB. Hơn 
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Không thể tạo bản chép lời (%s) -- vẫn tiếp tục chạy."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Cảnh rộng ở hai đầu: bỏ qua -- lượt nói đầu tiên hoặc cuối cùng\n  sẽ quá dài cho một lời chào."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Cảnh rộng ở hai đầu: đến %s và từ %s"
 
@@ -3375,9 +3372,6 @@ msgstr "đo từ các bản ghi -- %s người nói, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "từ lượt chạy đã xong -- %s người nói, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "từ các rãnh Auphonic đã xử lý -- %s người nói, %s"
-
 msgid "no folder"
 msgstr "(không có thư mục)"
 
@@ -4840,3 +4834,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Ngôn ngữ của âm thanh"
+
+msgid "In the sound"
+msgstr "Trong âm thanh"
+
+msgid "Speech"
+msgstr "Lời nói"
+
+msgid "Mixed"
+msgstr "Hỗn hợp"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Lời nói: chỉ đặt theo độ to. Bản ghi không có gì chung\nvới các máy quay sẽ bị từ chối. Hỗn hợp: dưới giọng nói có nhạc hoặc bản phối,\nvà ở chỗ độ to không tìm thấy gì, pha có thể đặt nó.\nVới \"%s\" thì luôn là hỗn hợp."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: âm thanh khớp ở mức %s, và ở một chỗ khác cũng ở mức %s -- chỉ được đặt theo đồng hồ của nó"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  mỗi đoạn được rút ngắn còn tối đa %s -- lượt nói đầu tiên kết thúc lúc %s, lượt cuối cùng bắt đầu lúc %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Trong thư mục này đã có một dự án khác mang tên đó, %s -- dự án này vẫn ở %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "hình ảnh ở đó không chuyển sang người trả lời"
+
+msgid "the answer was counted with the question before"
+msgstr "câu trả lời được tính chung với câu hỏi trước đó"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s nằm trong thư mục của --auphonic-done, giữa các rãnh mà auphonic.com trả về. Ai đang nói được xác định trên các bản ghi thô, vì vậy hãy nêu bản ghi thô ở đây thay vào đó."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   không nhận ra âm thanh; đặt như lượt chạy đặt nó"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "không nhận ra âm thanh, đặt theo mã thời gian"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s bản ghi và không có hình: mỗi bản được ghép riêng và chúng không được căn với nhau. --multitrack đặt chúng lên một trục thời gian."

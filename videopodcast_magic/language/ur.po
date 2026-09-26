@@ -1294,9 +1294,6 @@ msgstr "  بہت زیادہ:         لمیٹر کو %s dB کم کرنا پڑت�
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  ٹرانسکرپٹ ممکن نہیں (%s) -- رن پھر بھی چلتا ہے۔"
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  کناروں پر وائیڈ شاٹ: چھوڑ دیا گیا -- پہلا یا آخری اعلان\n  استقبال کے لیے بہت طویل ہوتا۔"
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  کناروں پر وائیڈ شاٹ: %s تک اور %s سے"
 
@@ -3427,9 +3424,6 @@ msgstr "ریکارڈنگز سے ناپا گیا -- %s مقرر، %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "مکمل رن سے -- %s مقرر، %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "Auphonic کے پروسیس شدہ ٹریکوں سے -- %s مقرر، %s"
-
 msgid "no folder"
 msgstr "کسی فولڈر"
 
@@ -4886,3 +4880,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "آڈیو کی زبان"
+
+msgid "In the sound"
+msgstr "آڈیو میں"
+
+msgid "Speech"
+msgstr "بول چال"
+
+msgid "Mixed"
+msgstr "مخلوط"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "بول چال: صرف لاؤڈنیس کے مطابق رکھی جاتی ہے۔ جس ریکارڈنگ میں کیمروں کے ساتھ کچھ بھی\nمشترک نہ ہو، وہ رد کر دی جاتی ہے۔ مخلوط: آوازوں کے نیچے موسیقی یا مکس ہوتا ہے،\nاور جہاں لاؤڈنیس کو کچھ نہ ملے، وہاں فیز اسے رکھ سکتا ہے۔\n\"%s\" کے تحت یہ ہمیشہ مخلوط ہوتی ہے۔"
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: اس کا آڈیو %s کی حد تک میل کھاتا ہے، اور کسی دوسری جگہ بھی %s کی حد تک -- صرف اس کی گھڑی کے مطابق جگہ دی گئی"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  ہر ایک کو زیادہ سے زیادہ %s تک مختصر کیا گیا -- پہلا اعلان %s پر ختم ہوتا ہے، آخری %s پر شروع ہوتا ہے"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "اس فولڈر میں اس نام سے ایک اور پروجیکٹ موجود ہے، %s -- یہ پروجیکٹ %s میں رہتا ہے۔"
+
+msgid "the picture did not change to the answerer there"
+msgstr "وہاں تصویر جواب دینے والے کی طرف نہیں بدلی"
+
+msgid "the answer was counted with the question before"
+msgstr "جواب کو پچھلے سوال کے ساتھ گنا گیا"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s --auphonic-done فولڈر میں ہے، ان ٹریکوں کے درمیان جو auphonic.com نے واپس کیے۔ کون بول رہا ہے یہ خام ریکارڈنگز سے طے ہوتا ہے، اس لیے یہاں اس کی بجائے خام ریکارڈنگ دیں۔"
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   آڈیو پہچانا نہیں گیا؛ جیسے رن رکھتا ہے ویسے رکھا گیا"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "آڈیو پہچانا نہیں گیا، اس کے ٹائم کوڈ سے رکھا گیا"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s ریکارڈنگز اور کوئی تصویر نہیں: ہر ایک الگ سے جوڑی جاتی ہے اور انہیں ایک دوسرے کے ساتھ ہم آہنگ نہیں کیا جاتا۔ --multitrack انہیں ایک وقتی محور پر رکھتا ہے۔"

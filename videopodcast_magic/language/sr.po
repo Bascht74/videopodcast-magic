@@ -1269,9 +1269,6 @@ msgstr "  Превише:           лимитер би морао да одуз
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Транскрипт није могућ (%s) -- ипак ради."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Широки кадар на ивицама: прескочен -- прва или последња најава\n  била би предуга за поздрав."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Широки кадар на ивицама: до %s и од %s"
 
@@ -3381,9 +3378,6 @@ msgstr "измерено из снимака -- говорника: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "из завршеног покретања -- говорника: %s, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "из обрађених Auphonic трака -- говорника: %s, %s"
-
 msgid "no folder"
 msgstr "ниједној фасцикли"
 
@@ -4928,3 +4922,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Језик звука"
+
+msgid "In the sound"
+msgstr "У звуку"
+
+msgid "Speech"
+msgstr "Говор"
+
+msgid "Mixed"
+msgstr "Мешано"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Говор: поставља се само према гласноћи. Снимак који нема ништа заједничко\nса камерама се одбија. Мешано: испод гласова су музика или микс,\nи где гласноћа ништа не нађе, фаза сме да га постави.\nПод „%s“ је увек мешано."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: поклапање њеног звука је %s, а на другом месту такође %s -- постављена само по свом сату"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  скраћено на највише %s сваки -- прва најава завршава се на %s, последња почиње на %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "У овој фасцикли под тим именом већ постоји други пројекат, %s -- овај остаје у %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "слика се тамо није пребацила на онога ко одговара"
+
+msgid "the answer was counted with the question before"
+msgstr "одговор је урачунат уз питање пре њега"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s се налази у фасцикли --auphonic-done, међу тракама које је вратио auphonic.com. Ко говори, одређује се на сировим снимцима, па овде уместо тога наведите сирови снимак."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   звук није препознат; постављен онако како га поставља покретање"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "звук није препознат, постављен по свом тајмкоду"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s снимка и нема слике: сваки се спаја засебно и не поравнавају се један према другом. --multitrack их ставља на једну временску осу."

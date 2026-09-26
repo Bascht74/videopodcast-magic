@@ -1267,9 +1267,6 @@ msgstr "  För mycket:        limitern skulle behöva ta bort %s dB. Mer än %s 
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Transkription inte möjlig (%s) -- det körs ändå."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Översiktsbild i kanterna: hoppas över -- det första eller sista inlägget\n  vore för långt för en hälsning."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Översiktsbild i kanterna: till %s och från %s"
 
@@ -3377,9 +3374,6 @@ msgstr "mätt från inspelningarna -- %s talare, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "från den färdiga körningen -- %s talare, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "från de bearbetade Auphonic-spåren -- %s talare, %s"
-
 msgid "no folder"
 msgstr "ingen mapp"
 
@@ -4883,3 +4877,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Ljudets språk"
+
+msgid "In the sound"
+msgstr "I ljudet"
+
+msgid "Speech"
+msgstr "Tal"
+
+msgid "Mixed"
+msgstr "Blandat"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Tal: placeras enbart efter ljudstyrkan. En inspelning som inte har något gemensamt\nmed kamerorna avvisas. Blandat: musik eller en mix ligger under rösterna,\noch där ljudstyrkan inte hittar något får fasen placera den.\nUnder ”%s” är det alltid blandat."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: ljudet stämmer med %s, och med %s på ett annat ställe också -- placerad enbart efter sin klocka"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  förkortad till högst %s var -- det första inlägget slutar vid %s, det sista börjar vid %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Ett annat projekt ligger redan i den här mappen under det namnet, %s -- det här stannar i %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "bilden bytte inte till den svarande där"
+
+msgid "the answer was counted with the question before"
+msgstr "svaret räknades med frågan före"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s ligger i mappen för --auphonic-done, bland spåren som auphonic.com skickade tillbaka. Vem som talar tas fram ur råinspelningarna, så ange råinspelningen här i stället."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ljudet inte igenkänt; placerad som körningen placerar den"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ljudet inte igenkänt, placerad efter sin tidskod"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s inspelningar och ingen bild: var och en fogas samman för sig, och de läggs inte mot varandra. --multitrack lägger dem på en tidsaxel."

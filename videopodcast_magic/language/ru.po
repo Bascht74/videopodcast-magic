@@ -2329,9 +2329,6 @@ msgstr "  Какой голос какому микрофону принадле
 msgid "  Who asks -- not said here: two of the tracks carry the same speech, so the questions would go to whichever recorder was turned up loudest."
 msgstr "  Кто спрашивает -- здесь не говорится: две дорожки несут одну и ту же речь, поэтому вопросы достались бы тому рекордеру, который был выкручен громче всех."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Общий план по краям: пропущен -- первая или последняя реплика\n  была бы слишком длинной для приветствия."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Общий план по краям: до %s и с %s"
 
@@ -4015,9 +4012,6 @@ msgstr "с ffmpeg.org, и папку в PATH"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "из завершённого прогона -- %s говорящих, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "из обработанных дорожек Auphonic -- %s говорящих, %s"
-
 msgid "full range"
 msgstr "полный диапазон"
 
@@ -4926,3 +4920,42 @@ msgstr "%s/%s %s мс %s ppm"
 
 msgid "Language of the sound"
 msgstr "Язык звука"
+
+msgid "In the sound"
+msgstr "В звуке"
+
+msgid "Speech"
+msgstr "Речь"
+
+msgid "Mixed"
+msgstr "Смешанный"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Речь: размещается только по громкости. Запись, у которой нет ничего общего\nс камерами, отклоняется. Смешанный: под голосами лежит музыка или микс,\nи где громкость ничего не находит, её может разместить фаза.\nПри «%s» всегда смешанный."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: совпадение звука %s, и в другом месте тоже %s -- размещено только по собственным часам"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  сокращено не более чем до %s каждый -- первая реплика заканчивается на %s, последняя начинается на %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "В этой папке уже есть другой проект с таким именем, %s -- этот остаётся в %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "картинка там не переключилась на отвечающего"
+
+msgid "the answer was counted with the question before"
+msgstr "ответ был засчитан вместе с предыдущим вопросом"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s лежит в папке --auphonic-done, среди дорожек, которые вернул auphonic.com. Кто говорит, определяется по сырым записям, поэтому укажите здесь вместо неё сырую запись."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   звук не распознан; размещён так, как его размещает прогон"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "звук не распознан, размещён по своему таймкоду"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s записи и никакой картинки: каждая собирается отдельно, и они не выравниваются друг относительно друга. --multitrack кладёт их на одну ось времени."

@@ -1300,9 +1300,6 @@ msgstr "  Iomarca:           bheadh ar an teorannóir %s dB a bhaint. Os cionn %
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Níl logchomhad indéanta (%s) -- leanann an rith ar aghaidh mar sin féin."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Seat leathan ag na himill: fágtha ar lár -- bheadh an chéad fhógra nó an fógra deireanach\n  rófhada do bheannú."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Seat leathan ag na himill: go dtí %s agus ó %s"
 
@@ -3433,9 +3430,6 @@ msgstr "tomhaiste ó na taifeadtaí -- cainteoirí: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "ón rith críochnaithe -- cainteoirí: %s, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "ó na rianta Auphonic próiseáilte -- cainteoirí: %s, %s"
-
 msgid "no folder"
 msgstr "(níl fillteán ann)"
 
@@ -5021,3 +5015,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Teanga na fuaime"
+
+msgid "In the sound"
+msgstr "San fhuaim"
+
+msgid "Speech"
+msgstr "Caint"
+
+msgid "Mixed"
+msgstr "Measctha"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Caint: curtha de réir a treise amháin. Diúltaítear do thaifeadadh nach bhfuil aon rud i gcoitinne aige\nleis na ceamaraí. Measctha: tá ceol nó meascán faoi na guthanna,\nagus nuair nach bhfaigheann an treise aon rud, féadfaidh an pas é a chur ina áit.\nFaoi \"%s\" bíonn sé measctha i gcónaí."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: oireann a fhuaim le %s, agus le %s in áit eile freisin -- curtha de réir a chloig amháin"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  giorraithe go %s ar a mhéad an ceann -- críochnaíonn an chéad fhógra ag %s, tosaíonn an fógra deireanach ag %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Tá tionscadal eile san fhillteán seo faoin ainm sin, %s -- fanann an ceann seo in %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "níor athraigh an pictiúr chuig an bhfreagróir ansin"
+
+msgid "the answer was counted with the question before"
+msgstr "comhaireadh an freagra leis an gceist roimhe"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "Tá %s san fhillteán --auphonic-done, i measc na rianta a sheol auphonic.com ar ais. Oibrítear amach cé atá ag caint ar na taifeadtaí amha, mar sin ainmnigh an taifeadadh amh anseo ina ionad."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   níor aithníodh an fhuaim; curtha ina áit mar a chuireann an rith é"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "níor aithníodh an fhuaim, curtha ina áit de réir a chóid ama"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s taifeadadh agus gan aon phictiúr: ceanglaítear gach ceann acu ina aonar agus ní chuirtear in aice a chéile iad. Cuireann --multitrack ar ais ama amháin iad."
