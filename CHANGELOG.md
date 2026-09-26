@@ -126,6 +126,8 @@ nicht.
   the production**, not after the folder the material lies in.
 - **A file set to "ignore this video" is no longer counted under the
   file list as one that does not fit.**
+- **A file that stops being marked as not fitting shows its folder again
+  in the file list** instead of the old note.
 - **On Windows the program now ends cleanly when its window closes**;
   with Python 3.10 it used to crash on the way out.
 - **In Arabic, Persian, Hebrew and Urdu every line of the log now reads
@@ -144,6 +146,8 @@ nicht.
 
 - **The manual now describes the "In the sound" field** and says when
   the program places a recording by the phase of its sound.
+- **The manual shows a command-line run as text** instead of a terminal
+  picture.
 
 **Deutsch**
 
@@ -220,6 +224,9 @@ nicht.
 - **Ein Projekt, das vor der Wahl seines Typs gespeichert wurde, öffnet
   jetzt mit offenem „Projekttyp“**, und „Start“ und „Probelauf“ warten
   auf die Antwort, statt es als „Schnitt nach Sprecher“ zu nehmen.
+- **Eine Projektdatei, die ihre gesprochene Sprache anders schreibt,
+  etwa „de“ oder „fr“, behält sie jetzt** beim Öffnen und Speichern;
+  vorher kam das Projekt ganz ohne Sprache zurück.
 - **Ein Probelauf aus dem Fenster schreibt die Projektdatei im
   Ausgabeordner nicht mehr neu**; der Ordner bleibt jetzt genau, wie er
   war.
@@ -251,6 +258,8 @@ nicht.
   Produktion**, nicht mehr nach dem Ordner, in dem das Material liegt.
 - **Eine Datei auf „Video ignorieren“ zählt unter der Dateiliste nicht
   mehr als eine, die nicht dazu passt.**
+- **Eine Datei, die nicht mehr als unpassend markiert ist, zeigt in der
+  Dateiliste jetzt wieder ihren Ordner** statt des alten Hinweises.
 - **Unter Windows endet das Programm jetzt sauber, wenn sein Fenster
   schließt**; mit Python 3.10 stürzte es vorher beim Beenden ab.
 - **Auf Arabisch, Persisch, Hebräisch und Urdu liest sich jetzt jede
@@ -270,6 +279,8 @@ nicht.
 
 - **Das Handbuch beschreibt jetzt das Feld „Im Ton“** und sagt, wann das
   Programm eine Aufnahme über die Phase ihres Tons platziert.
+- **Das Handbuch zeigt einen Lauf von der Kommandozeile jetzt als
+  Text** statt als Bild eines Terminals.
 
 ## [3.0.0b24] - 2026-09-25
 

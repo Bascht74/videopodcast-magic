@@ -9,7 +9,30 @@ Ein Schalter, der nur auf einem Weg wirkt, trägt in den Tabellen hier
 ihnen ebenso gekennzeichnet, und die Marke bleibt englisch, in welcher
 Sprache der Lauf auch läuft.
 
-![Der Anfang eines Laufs im Terminal](images/terminal.de.png)
+```text
+$ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
+    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+videopodcast-magic 3.0.0b25   Python 3.14.7
+/tmp/vpm_terminal/videopodcast_magic/__init__.py
+
+
+VORFLUG -- passt das Material zusammen?
+    GuestCam_01011858_C003.m 25,000 fps -- h264, 320x180, 3.000 Bilder in 0:02:00,000
+    Guest_Take0021A_Timecode 48 kHz, 16 Bit, Mono, 0:02:00,000
+    Presenter_REC00021.wav 48 kHz, 16 Bit, Mono, 0:00:40,000
+    Presenter_REC0002 Hinweis: nur 0:00:40,000 lang, die längste Aufnahme hat 0:02:00,000.
+      Spät gestartet oder früh gestoppt -- im Mix fehlt diese Stimme dann
+      streckenweise.
+    Übersprechen      Guest_Take0021A_Timecode im Mikrofon von Presenter_REC00021: 31,7 dB leiser als im eigenen.
+    Übersprechen      Presenter_REC00021 im Mikrofon von Guest_Take0021A_Timecode: 31,6 dB leiser als im eigenen.
+    Plattenplatz      frei 119,6 GB, gebraucht etwa 326 MB (/private/tmp/vpm_terminal/interview)
+    Lautheit          -16 LUFS (Podcast-Verzeichnisse, stereo)
+    8 geprüft, 1 Hinweis
+MULTITRACK NICHT MÖGLICH
+  Ohne API Key gibt es nichts, was zu auphonic.com ginge.
+  Mit --without-auphonic läuft es stattdessen örtlich: ausgerichtet,
+  gemischt und geschnitten, aber ohne De-Bleed und Leveler.
+```
 
 *`--multitrack --lufs -16 --dry-run` am Ende des Aufrufs, darunter die
 Version und das Python, dann der Vorflug mit acht Prüfungen und einem

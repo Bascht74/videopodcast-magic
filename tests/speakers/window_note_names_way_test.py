@@ -6,8 +6,9 @@ measurement, or its clock -- a camera at its timecode, and the note
 beside each says which of the two rules it went by. Both are
 read out of one weak_marks_show call, the way the window hands over the
 measurement: the recording on both sheets, the tree and the file list,
-the camera on the file list, where its note stands. The limit: the
-measurement is laid here in the shape measure_time_axis gives.
+the camera on the file list, where its note stands; and once the
+recording is measured fine, its line shows its folder again. The limit:
+the measurement is laid here in the shape measure_time_axis gives.
 """
 PLATFORM_BOUND = True
 import os
@@ -80,6 +81,15 @@ print("\n2. The camera")
 got = said(nodes[CAMERA].text(2))
 check("a weak camera's line in the file list names its timecode",
       got == BY_CLOCK, "the list says %r, wanted %r" % (got, BY_CLOCK))
+
+print("\n3. Once it fits")
+# The same rows asked again with nothing weak any more, the way the
+# window marks them after a new measurement. The folder, as a value.
+FOLDER = "/tmp/vpm weak note"
+vpm.weak_marks_show(dict(state, weak=[]), nodes)
+got = nodes[RECORDING].text(2)
+check("a recording measured fine shows its folder again, not the note",
+      got == FOLDER, "the list says %r, wanted %r" % (got, FOLDER))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
