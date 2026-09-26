@@ -314,6 +314,18 @@ def preset_fits_mode(mark, multitrack):
     return mark is None or bool(mark) == bool(multitrack)
 
 
+def production_is_multitrack(tracks, together):
+    """Whether a run's tracks go up as one Multitrack production.
+
+    The one rule the preset list, the run's early preset check and the
+    sending all ask: two tracks or more that share one time axis go up
+    together; a lone track, or recordings not laid against each other,
+    go up one Singletrack production each. *together*: a picture, or
+    --multitrack without one.
+    """
+    return bool(together) and tracks >= 2
+
+
 def presets_for_mode(key, multitrack):
     """Return only the presets that match the mode.
 
@@ -396,13 +408,14 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         print(T('  Please give a number between 1 and %d.') % len(items))
 
 
-def preset_box_widget(QtWidgets, state, fetch):
+def preset_box_widget(QtWidgets, state, fetch, refill):
     """The class for the preset list, which fetches itself when opened.
 
     Opening the list is the moment somebody wants to know what
     auphonic.com has; before that nothing is asked. Fetching takes a
     moment, so it says so rather than opening on the one entry it has --
-    and whoever receives them opens it again. A factory, not a class.
+    and whoever receives them opens it again. A list already there is
+    *refill*ed first: the kind it offers follows the rows. A factory.
     """
 
     class PresetBox(QtWidgets.QComboBox):
@@ -414,6 +427,8 @@ def preset_box_widget(QtWidgets, state, fetch):
                 if state.get("presets_busy"):
                     self.addItem(T('fetching from auphonic.com ...'), "")
                     self.model().item(self.count() - 1).setEnabled(False)
+            elif state.get("presets"):
+                refill()
             QtWidgets.QComboBox.showPopup(self)
 
     return PresetBox
@@ -642,13 +657,14 @@ def finished_tracks_where(out, common):
 
 def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
                       settings_open, buttons_check, multi_button,
-                      multitrack, out_folder, commonest_folder, report):
+                      out_folder, commonest_folder, report, tracks_now):
     """The key for auphonic.com, and the preset a run is given.
 
     Here and not in the window because the two are one theme: the key is
     checked by fetching the presets, and what comes back is what the
-    preset box offers. gui() calls it below multi_button, which the
-    preset switches on when it says no processing is wanted.
+    preset box offers -- of the kind *tracks_now*, (tracks, on one axis),
+    needs. gui() calls it below multi_button, which the preset switches
+    on when it says no processing is wanted.
     """
     # --- In two places in the window: the key behind "Settings ...", set
     #     once; the preset under the assignment, chosen every time.
@@ -699,7 +715,8 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     run_layout.addLayout(second_line)
     second_line.addWidget(label(T('Preset:')))
     presets_wanted_now = lambda: presets_load(asked=False)
-    preset_box = preset_box_widget(QtWidgets, state, presets_wanted_now)()
+    preset_box = preset_box_widget(QtWidgets, state, presets_wanted_now,
+                                   lambda: presets_filter())()
     preset_box.setMinimumWidth(caption_room(preset_box, 320,
                                             preset_missing_rows()))
     # While no key is checked there is only the one entry, and it describes
@@ -762,12 +779,16 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
     keep_button.toggled.connect(remember_toggled)
 
     def presets_filter():
-        """Offer only the presets that match the mode."""
+        """Offer only the presets of the kind the run needs."""
         preset_box_fill(preset_box,
-                        preset_entries(state["presets"], multitrack.get(),
+                        preset_entries(state["presets"], kind_needed(),
                                        label_of(PRESET_NONE), PRESET_NONE),
                         state, PRESET_NONE)
         without_auphonic_toggled()
+
+    def kind_needed():
+        """True where the rows as they stand need a Multitrack preset."""
+        return production_is_multitrack(*tracks_now())
 
     def preset_plaintext():
         """Return the chosen preset name, empty where none was chosen.
@@ -837,7 +858,7 @@ def make_auphonic_box(QtWidgets, state, bridge, bridge_emit, run_layout,
             key_note_show(unsaved)
         button_green(True)
         presets_filter()
-        note, fitting = preset_mode_note(preset_list, multitrack.get())
+        note, fitting = preset_mode_note(preset_list, kind_needed())
         if note:
             # A refusal above stays in front: the line shows both, not
             # only the last sentence said to it.

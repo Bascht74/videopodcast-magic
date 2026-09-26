@@ -148,15 +148,18 @@ try:
     line = types.SimpleNamespace(auphonic_preset="", lufs=-16.0,
                                  auphonic_wait=60, dry_run=False,
                                  auphonic_resume=None)
+    # Two tracks on one axis: the send makes them one Multitrack
+    # production, the way the Stop below is met in.
+    pair = [{"name": "Guest", "axis": A}, {"name": "Presenter", "axis": B}]
     try:
-        got = outcome(lambda: tb.send_aligned_tracks(
-            line, [], WORK, WORK, (0.0, 1.0)))
+        got = outcome(lambda: tb.send_to_auphonic(
+            line, pair, WORK, WORK, 1.0))
         check("Stop while the send's preset is chosen ends the run",
               got == "Stopped", "the send %s, wanted Stopped" % got)
         tb.choose_preset = lambda *a, **k: ("uuid", "Preset")
         tb.run_multitrack_production = stopping
-        got = outcome(lambda: tb.send_aligned_tracks(
-            line, [], WORK, WORK, (0.0, 1.0)))
+        got = outcome(lambda: tb.send_to_auphonic(
+            line, pair, WORK, WORK, 1.0))
         check("Stop while the production is waited for ends the run",
               got == "Stopped", "the send %s, wanted Stopped" % got)
     finally:

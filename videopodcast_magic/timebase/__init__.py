@@ -385,23 +385,21 @@ def join_only(args, tracks, tmpdir, title=""):
         print(T('  In point and Out point do nothing here: without a '
                 'picture and without --multitrack every recording is '
                 'joined whole.'))
-    if args.auphonic_key:
-        key = api_key_from_anywhere(args)
-        preset, presetname = choose_preset(
-            key, args.auphonic_preset, len(tracks) > 1, lufs=args.lufs,
-            anyway=getattr(args, "anyway", False))
+    if args.auphonic_done or (args.auphonic_key and run_uploads(args)):
+        # What came back is held against what went up, the same as on a
+        # run with a picture: --auphonic-done in place of the upload.
         for track in tracks:
             track["axis"] = track["source"]
-            track["done"] = run_single_production(
-                track["source"], preset, presetname, key, folder,
-                args.auphonic_wait, args.dry_run, title or track["name"])
-        if args.dry_run:
-            return 0
-        # What came back is held against what went up, the same as on a
-        # run with a picture. The service can prepend material and
-        # change the length, and nothing else here would notice.
         longest = max(sample_count(t["source"]) for t in tracks) / float(SR)
-        return 0 if verify_returned_tracks(tracks, longest, tmpdir) else 1
+        if args.auphonic_done:
+            if not processed_tracks_taken(args, tracks, tmpdir, dict(
+                    (t["name"], sample_count(t["source"]) / float(SR))
+                    for t in tracks)):
+                return 1
+            return 0 if args.dry_run or verify_returned_tracks(
+                tracks, longest, tmpdir) else 1
+        return send_to_auphonic(args, tracks, folder, tmpdir, longest,
+                                title, together=False) or 0
     if len(tracks) == 1 and len(tracks[0]["blocks"]) < 2:
         print(T('Only one audio file and no picture -- nothing to do.'))
         return 0
@@ -604,11 +602,17 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
                                 drift_note(track["b"], track.get("st"),
                                            track["drift"])))
     verify_alignment(placed, t0, t1, drift_allowed=not args.no_drift)
-    if args.auphonic_key and not getattr(args, "without_auphonic", False):
-        stop = send_aligned_tracks(args, placed, folder, tmpdir, t1 - t0,
-                                   title)
-        if stop is not None:
-            return stop
+    stop = None
+    if args.auphonic_done:
+        # Already processed: taken as the run with a picture takes them.
+        stop = None if processed_tracks_taken(
+            args, placed, tmpdir, dict((t["name"], t1 - t0) for t in placed),
+            last - first, t0) and (args.dry_run or verify_returned_tracks(
+                placed, t1 - t0, tmpdir)) else 1
+    elif args.auphonic_key and run_uploads(args):
+        stop = send_to_auphonic(args, placed, folder, tmpdir, t1 - t0, title)
+    if stop is not None:
+        return stop
     if args.dry_run:
         print(T('\n  (measuring only: nothing written)'))
         return 0
@@ -620,18 +624,58 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
     return 0
 
 
-def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
-    """Send the aligned tracks up as one multitrack production.
+def preset_for_run(args, key, multitrack):
+    """The preset of the kind asked for, chosen once for the whole run.
 
-    Returns a return code where the run is over, and None where it goes
-    on. Nothing leaves this machine unless a key was given: that is what
-    asking for it looks like on the command line.
+    Asked before the time axis and again where the tracks go up; the
+    second time answers from the first unless the kind changed, as it
+    does where a track found no place. Returns (uuid, name).
+    """
+    kept = getattr(args, "_preset", None)
+    if kept and kept[0] == multitrack:
+        return kept[1:]
+    preset, name = choose_preset(key, args.auphonic_preset, multitrack,
+                                 lufs=args.lufs,
+                                 anyway=getattr(args, "anyway", False))
+    args._preset = (multitrack, preset, name)
+    return preset, name
+
+
+def preset_before_the_axis(args, count, together):
+    """Choose the preset before the time axis, by the rule sending follows.
+
+    A preset of the wrong kind stopped the run only once the axis was
+    measured. *count* tracks in the plan, *together* on one axis. Returns
+    1 where the run ends, None where it goes on; a run that sends
+    nothing asks nothing.
+    """
+    if not (args.auphonic_key and run_uploads(args)):
+        return None
+    try:
+        preset_for_run(args, api_key_from_anywhere(args),
+                       PROGRAM.production_is_multitrack(count, together))
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
+    except Exception as e:
+        print(T('\nNo preset chosen: %s') % e)
+        return 1
+    return None
+
+
+def send_to_auphonic(args, tracks, folder, tmpdir, window, title="",
+                     together=True):
+    """Send the tracks to auphonic.com and hold what comes back.
+
+    The one road up, for every path; how the tracks go up is
+    production_is_multitrack's answer. Each result lands in the track's
+    "done", checked against *window* seconds. Returns 1 where the run is
+    over, None where it goes on -- on a dry run too, which checks nothing.
     """
     key = api_key_from_anywhere(args)
+    multitrack = PROGRAM.production_is_multitrack(len(tracks), together)
     try:
-        preset, _name = choose_preset(key, args.auphonic_preset, True,
-                                      lufs=args.lufs,
-                                      anyway=getattr(args, "anyway", False))
+        preset, presetname = preset_for_run(args, key, multitrack)
     except PROGRAM.Stopped:
         # Stop ends the run; it is no failure of this step.
         raise
@@ -639,9 +683,15 @@ def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
         print(T('\nNo preset chosen: %s') % e)
         return 1
     try:
-        done = run_multitrack_production(
-            key, preset, title or 'Production', tracks, folder,
-            args.auphonic_wait, args.dry_run, args.auphonic_resume)
+        if multitrack:
+            done = run_multitrack_production(
+                key, preset, title or 'Production', tracks, folder,
+                args.auphonic_wait, args.dry_run, args.auphonic_resume)
+        else:
+            done = dict((track["name"], run_single_production(
+                track["axis"], preset, presetname, key, folder,
+                args.auphonic_wait, args.dry_run, title or track["name"]))
+                for track in tracks)
     except PROGRAM.Stopped:
         # Stop ends the run; it is no failure of this step.
         raise
@@ -657,6 +707,83 @@ def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
         print(T('\nEnded without a result: %s') % ", ".join(missing))
         return 1
     return None if verify_returned_tracks(tracks, window, tmpdir) else 1
+
+
+def processed_tracks_taken(args, tracks, tmpdir, lengths, measured=None,
+                           shift=0.0):
+    """Take the tracks --auphonic-done hands in, in place of an upload.
+
+    Each finds its file by name, as long as *lengths* says for it, give
+    or take a jingle -- or as long as *measured*, the range without In and
+    Out point, *shift* seconds before the window: then it is trimmed.
+    Sets "done"; False, and said, where one found none.
+    """
+    if getattr(args, "without_auphonic", False):
+        print(as_warn(T('  --without-auphonic and --auphonic-done were '
+                        'both given. The finished tracks win: there is '
+                        'nothing left to send anywhere.')))
+    folder = os.path.abspath(args.auphonic_done)
+    print(as_head(T('\nALREADY PROCESSED')))
+    print(T('  From %s') % folder)
+    existing = [f for f in os.listdir(folder)
+                if os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES]
+    # Trimming leaves slack at both ends, so nothing is lost even where a
+    # jingle was prepended. The return check finds the exact position
+    # anyway and trims to the sample.
+    MARGIN = 30.0
+    bad = []
+    for track in tracks:
+        window = lengths[track["name"]]
+        whole = window if measured is None else measured
+        best = max(existing, key=lambda f: similarity(
+            track["name"], os.path.splitext(f)[0])) if existing else None
+        quality = similarity(track["name"],
+                             os.path.splitext(best)[0]) if best else 0.0
+        if not best or quality < 0.6:
+            print(T('    %-20s no file with a matching name') % track["name"])
+            bad.append(track["name"])
+            continue
+        file_path = os.path.join(folder, best)
+        length = sample_count(file_path) / float(SR)
+        # The length may differ by a jingle, not by minutes, or the file is
+        # from another run. Two lengths qualify: this run's window, and the
+        # longer measured one without In and Out point, which gets trimmed.
+        if abs(length - window) <= 60:
+            track["done"] = file_path
+            existing.remove(best)
+            print(T('    %-20s <- %s  (%s, name similarity %s)')
+                  % (track["name"], best, as_hms(length),
+                     number_text(quality, 2)))
+            continue
+        if abs(window - whole) > 0.001 and abs(length - whole) <= 60:
+            # A prepended jingle lengthens the file; everything sits
+            # further back by the same amount.
+            front = shift + max(0.0, length - whole)
+            target = os.path.join(tmpdir,
+                                  "window_%s.wav" % safe_filename(track["name"]))
+            place_track_on_axis(file_path, target, front - MARGIN, 1.0, 0.0,
+                                window + 2 * MARGIN, drift=False)
+            track["done"] = target
+            track["edge"] = MARGIN
+            existing.remove(best)
+            print(T('    %-20s <- %s  (%s, trimmed to the time window, '
+                    'name similarity %s)')
+                  % (track["name"], best, as_hms(length),
+                     number_text(quality, 2)))
+            continue
+        print(T('    %-20s <- %s  BUT %s -- neither the time window '
+                '(%s) nor the\n    %-20s    whole measured range (%s). '
+                'This belongs to another run.')
+              % (track["name"], best, as_hms(length), as_hms(window), "",
+                 as_hms(whole)))
+        bad.append(track["name"])
+    if bad:
+        print(T('\n  Not usable: %s') % ", ".join(bad))
+        print(T('  The files in the folder must be named after the '
+                'speakers and belong\n  to this run. Without the folder '
+                'it goes through auphonic.com again.'))
+        return False
+    return True
 
 
 def common_window(camera_areas):
@@ -762,6 +889,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         # the material sits in. Without it two jobs from two shoots
         # wrote the same handover and the second took the first's place.
         args.production = guess_production_name(videos[0][0])
+    # The preset before the axis: a preset of the wrong kind stops the run
+    # here, not once the time axis is measured.
+    stop = preset_before_the_axis(args, len(plan),
+                                  bool(videos) or args.multitrack)
+    if stop is not None:
+        return stop
     if not videos:
         if video_paths:
             print(T('\nNo usable video file -- without camera audio there '
@@ -1046,84 +1179,23 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     #--------------------------------------------------- Processing
     # --auphonic-done first: its folder is an instruction about this run,
     # not a mode; the other order ignores it and mixes the raw recordings.
-    if getattr(args, "without_auphonic", False) and args.auphonic_done:
-        print(as_warn(T('  --without-auphonic and --auphonic-done were '
-                        'both given. The finished tracks win: there is '
-                        'nothing left to send anywhere.')))
     if getattr(args, "without_auphonic", False) and not args.auphonic_done:
         return finish_without_auphonic(args, tracks, cameras, videos, tmpdir,
                                        position, t0, t1, ref_clip)
     if args.auphonic_done:
         # Already processed: the files are there. Saves a second upload and,
         # more to the point, the credit.
-        folder = os.path.abspath(args.auphonic_done)
-        print(as_head(T('\nALREADY PROCESSED')))
-        print(T('  From %s') % folder)
-        existing = [f for f in os.listdir(folder)
-                     if os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES]
-        window = t1 - t0                       # what this run needs
-        measured = full1 - full0        # the window without In point/Out point
-        trimmed = abs(window - measured) > 0.001
-        # Trimming leaves slack at both ends, so nothing is lost even where a
-        # jingle was prepended. The return check finds the exact position
-        # anyway and trims to the sample.
-        MARGIN = 30.0
-        shift = t0 - full0
-        bad = []
-        for track in tracks:
-            best = max(existing, key=lambda f: similarity(
-                track["name"], os.path.splitext(f)[0])) if existing else None
-            quality = similarity(track["name"],
-                             os.path.splitext(best)[0]) if best else 0.0
-            if not best or quality < 0.6:
-                print(T('    %-20s no file with a matching name') % track["name"])
-                bad.append(track["name"])
-                continue
-            file_path = os.path.join(folder, best)
-            length = sample_count(file_path) / float(SR)
-            # The length may differ by a jingle, not by minutes, or the file is
-            # from another run. Two lengths qualify: this run's window, and the
-            # longer measured one without In and Out point, which gets trimmed.
-            if abs(length - window) <= 60:
-                track["done"] = file_path
-                existing.remove(best)
-                print(T('    %-20s <- %s  (%s, name similarity %s)')
-                      % (track["name"], best, as_hms(length),
-                         number_text(quality, 2)))
-                continue
-            if trimmed and abs(length - measured) <= 60:
-                # A prepended jingle lengthens the file; everything sits
-                # further back by the same amount.
-                front = shift + max(0.0, length - measured)
-                target = os.path.join(tmpdir,
-                                    "window_%s.wav" % safe_filename(track["name"]))
-                place_track_on_axis(file_path, target, front - MARGIN, 1.0, 0.0,
-                               window + 2 * MARGIN, drift=False)
-                track["done"] = target
-                track["edge"] = MARGIN
-                existing.remove(best)
-                print(T('    %-20s <- %s  (%s, trimmed to the time window, '
-                        'name similarity %s)')
-                      % (track["name"], best, as_hms(length),
-                         number_text(quality, 2)))
-                continue
-            print(T('    %-20s <- %s  BUT %s -- neither the time window '
-                    '(%s) nor the\n    %-20s    whole measured range (%s). '
-                    'This belongs to another run.')
-                  % (track["name"], best, as_hms(length), as_hms(window), "",
-                     as_hms(measured)))
-            bad.append(track["name"])
-        if bad:
-            print(T('\n  Not usable: %s') % ", ".join(bad))
-            print(T('  The files in the folder must be named after the '
-                    'speakers and belong\n  to this run. Without the folder '
-                    'it goes through auphonic.com again.'))
+        if not processed_tracks_taken(
+                args, tracks, tmpdir,
+                dict((t["name"], t1 - t0) for t in tracks), full1 - full0,
+                t0 - full0):
             return 1
         if args.dry_run:
             print(T('\n  (measuring only: nothing written)'))
             return 0
         if not verify_returned_tracks(tracks, t1 - t0, tmpdir):
             return 1
+        folder = os.path.abspath(args.auphonic_done)
         gain, curve = normalise_loudness(
             tracks, args.lufs, tmpdir,
             find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
@@ -1135,53 +1207,15 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     if args.dry_run and not args.auphonic_key:
         print(T('\n  (measuring only: without an API key it stops here)'))
         return 0
-    key = api_key_from_anywhere(args)
-    # The one place a single recording needs something else: only
-    # auphonic.com has two kinds of production, and a multitrack preset
-    # of one track is not wanted, so preset and production follow the count.
-    alone = len(tracks) < 2
-    try:
-        preset, presetname = choose_preset(
-            key, args.auphonic_preset, not alone, lufs=args.lufs,
-            anyway=getattr(args, "anyway", False))
-    except PROGRAM.Stopped:
-        # Stop ends the run; it is no failure of this step.
-        raise
-    except Exception as e:
-        print(T('\nNo preset chosen: %s') % e)
-        return 1
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(video_paths[0]))
     print()
-    try:
-        if alone:
-            one = run_single_production(
-                tracks[0]["axis"], preset, presetname, key, folder,
-                args.auphonic_wait, args.dry_run, title or 'Production')
-            done = {tracks[0]["name"]: one} if one else {}
-        else:
-            done = run_multitrack_production(
-                key, preset, title or 'Production', tracks, folder,
-                args.auphonic_wait, args.dry_run, args.auphonic_resume)
-    except PROGRAM.Stopped:
-        # Stop ends the run; it is no failure of this step.
-        raise
-    except Exception as e:
-        print(as_bad(T('Processing failed: %s') % e))
-        return 1
-    for track in tracks:
-        track["done"] = done.get(track["name"])
-    missing = [track["name"] for track in tracks if not track.get("done")]
-    if missing and not args.dry_run:
-        print(T('\nEnded without a result: %s') % ", ".join(missing))
-        return 1
-
+    stop = send_to_auphonic(args, tracks, folder, tmpdir, t1 - t0, title)
+    if stop is not None:
+        return stop
     if args.dry_run:
         print(T('\n  (measuring only: nothing written)'))
         return 0
-
-    if not verify_returned_tracks(tracks, t1 - t0, tmpdir):
-        return 1
     gain, curve = normalise_loudness(
         tracks, args.lufs, tmpdir,
         find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
