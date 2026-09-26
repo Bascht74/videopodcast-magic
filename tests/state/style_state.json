@@ -1,7 +1,5 @@
 {
- "big_without_docstring": {
-  "make_preview.preview_compute": [1, 1749]
- },
+ "big_without_docstring": {},
  "classes_over_300": {
   "make_player_widgets.Player": [1, 1567],
   "qt_cut_player.CutPlayer": [1, 737]
@@ -20,6 +18,7 @@
   "one_separation_on_axis": [2, 2787]
  },
  "one_sided_paths": {
+  "AssignmentTable.assignment_remember": [1, 130],
   "assignment_marks_show": [1, 3384],
   "assignment_tables_build": [1, 1347],
   "cameras_with_a_speaker": [1, 1266],
@@ -29,7 +28,6 @@
   "every_audio_block": [1, 1375],
   "group_recording_parts": [2, 441],
   "guess_production_name": [1, 685],
-  "AssignmentTable.assignment_remember": [1, 130],
   "make_file_changes.remove": [1, 428],
   "make_prework_tasks.prework_kick_off": [1, 405],
   "speakers_to_cameras": [1, 359],
@@ -45,6 +43,7 @@
   "qt_cut_player": [1, 531]
  },
  "silent_except": {
+  "AssignmentTable.assignment_remember": [1, 151],
   "Redirect.write": [1, 1053],
   "SharedProgressBar.show": [1, 110],
   "ThreadOutput.flush": [1, 371],
@@ -67,7 +66,6 @@
   "force_utf8_output": [1, 361],
   "general_folder_names": [1, 667],
   "gui": [1, 3528],
-  "AssignmentTable.assignment_remember": [1, 151],
   "gui.bridge_emit": [1, 1731],
   "gui.clean_up": [1, 3464],
   "gui.mode_toggled": [1, 2895],
@@ -293,7 +291,6 @@
   "make_player_widgets.WindowSlider.paintEvent": [1, 1516],
   "make_player_widgets.WindowSlider.paintEvent.x": [1, 1530],
   "make_player_widgets.WindowSlider.set_range": [1, 1512],
-  "make_preview.preview_compute": [1, 1786],
   "make_preview.preview_set": [1, 1781],
   "make_preview.speaker_measure_done": [1, 1724],
   "make_prework_bar.prework_busy": [1, 112],

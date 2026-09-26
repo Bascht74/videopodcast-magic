@@ -1956,12 +1956,12 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         preview_label.setStyleSheet("color: %s" % (colour or COLOURS["value"]))
 
     def preview_compute():
-        # Kept in state at the end of this def: an answer on the
-        # assignment sheet has to reach the preview without a run.
+        """Work the cut out again and show it under the picture.
+
+        From a run's handover, else what the window measures; kept in state.
+        """
         d = None
         state["reason"] = ""
-        # The handover of a run. Only where there is none does the
-        # window work the speakers out for itself.
         d = preview_handover(state)
         if d is None:
             d = PROGRAM.window_words_joined(state, off_speakers(),
