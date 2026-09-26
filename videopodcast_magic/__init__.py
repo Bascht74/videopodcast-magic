@@ -366,6 +366,25 @@ write_transcript_files = speech.write_transcript_files
 
 #--------------------------------------------------------------------- Run
 
+def leave_window(code):
+    """The window's code, and on Windows the process ended here with it.
+
+    Python 3.10 on Windows crashed after the window had closed, in the
+    teardown behind the last line. What has to survive is done first --
+    the atexit handlers (the held-back log line, the temporary folders),
+    then the console and the log flushed -- and the rest is skipped.
+    """
+    if sys.platform != "win32":
+        return code
+    atexit._run_exitfuncs()
+    for stream in [sys.stdout, sys.stderr] + list(logbook._LOG_ASIDE):
+        # No console under pythonw, a handle already shut, a pipe gone:
+        # none of them may keep the process from ending here.
+        with contextlib.suppress(AttributeError, ValueError, OSError):
+            stream.flush()
+    os._exit(int(code or 0))
+
+
 def main():
     """The way in: a command line means a run, a bare start means the window.
 
@@ -435,7 +454,7 @@ def main():
         while True:
             code = piece.gui()
             if code != piece.LANGUAGE_AGAIN:
-                return code
+                return leave_window(code)
             # The window took itself down for a chosen language; the
             # choice is read back so the next one speaks it.
             set_language(kept_language() or system_locale())
