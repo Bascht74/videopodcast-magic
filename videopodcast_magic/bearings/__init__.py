@@ -1309,7 +1309,11 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         There is exactly one. It comes into being while the time axis is
         measured, still next to the material, and moves once an output
         folder is chosen. Two copies would be a trap: the wrong one opens.
+        A project opened from a file named otherwise -- a copy beside
+        the original -- is written back into that file and nowhere else.
         """
+        if state.get("project_kept"):
+            return state["project_kept"]
         target = out_folder.get() or commonest_folder()
         if not target or not os.path.isdir(target):
             return None
