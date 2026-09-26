@@ -2568,14 +2568,18 @@ def speaker_recipe_mark():
 def speaker_cache_key(path, model_mark="", num_speakers=0):
     """The name a stored separation lives under.
 
-    Path, mtime and size say whether it is the same recording; the
-    model, a number of speakers set by hand and the way the answer is
-    worked out are inputs too. Not in it: the language, the time
-    window, the offset, the names -- they change nothing measured.
+    Path, mtime and size say whether it is the same recording; a mix of
+    speaker_mix_file is known by its name, which its inputs make, as
+    the sweep redates it. Model, speakers set by hand and recipe count
+    too; the language, time window, offset and names change nothing.
     """
     mark = file_fingerprint(path)
     if not mark:
         return ""
+    name, mixes = os.path.basename(mark[0]), cache_folder("speakers")
+    if (mixes and re.match(r"mix_[0-9a-f]{16}\.wav$", name)
+            and path_key(os.path.dirname(mark[0])) == path_key(mixes)):
+        mark = [name, 0, 0]
     parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
              model_mark or "", str(int(num_speakers or 0)),
              speaker_recipe_mark()]

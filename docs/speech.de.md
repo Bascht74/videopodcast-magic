@@ -332,8 +332,9 @@ Material findet sie also wieder, statt sie ein zweites Mal zu bauen.
 Bei jedem Start wirft das Programm weg, was dort dreißig Tage lang
 unbenutzt lag: Wörter und eine Trennung zählen ab dem letzten Lesen,
 was jede Woche gebraucht wird, bleibt also. Die zusammengelegte
-Aufnahme zählt ab ihrem Bau, und muss sie neu zusammengelegt werden,
-wird auch ihre Trennung neu gerechnet. Ein Projekt behält seine Trennung trotzdem, denn es
+Aufnahme zählt ab ihrem Bau; neu zusammengelegt kommt sie unter
+demselben Namen wieder und findet ihre Trennung, nur das Zusammenlegen
+wird also noch einmal gerechnet. Ein Projekt behält seine Trennung trotzdem, denn es
 trägt sie in seiner eigenen Datei. Daneben liegt die Spracherkennung,
 die macOS benutzt und die das Programm beim ersten Bedarf auf diesem
 Rechner baut; von ihr bleibt nur der jüngste Bau, ältere verschwinden.

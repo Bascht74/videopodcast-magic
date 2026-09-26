@@ -313,8 +313,9 @@ recordings it holds, so the same material finds it again instead of
 building it twice. Every start of the program throws away what has
 lain there unused for thirty days: words and a separation count from
 the last time they were read, so what is used every week stays. The
-joined recording counts from when it was made, and once it has to be
-joined again its separation is worked out afresh. A project keeps its
+joined recording counts from when it was made; joined again, it comes
+back under the same name and finds its separation, so only the joining
+is done once more. A project keeps its
 separation all the same: it carries it in its own file. The recogniser macOS uses lies
 beside them, built on this machine the first time it is needed; of
 that only the newest build stays, the older ones go. Throwing any of
