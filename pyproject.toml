@@ -136,6 +136,7 @@ packages = [
     "videopodcast_magic.speech",
     "videopodcast_magic.stowage",
     "videopodcast_magic.tables",
+    "videopodcast_magic.timebase",
     "videopodcast_magic.timecode",
     "videopodcast_magic.ui",
     "videopodcast_magic.upkeep",

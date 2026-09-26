@@ -720,6 +720,12 @@ write_handover = cut.write_handover
 write_metrics_csv = cut.write_metrics_csv
 
 
+#-------------------------------------------------------- The time base
+
+timebase = beside("timebase", program=PROGRAM)
+take_from(timebase)
+
+
 #------------------------------------------------------------ The chain
 
 pipeline = beside("pipeline", program=PROGRAM)
