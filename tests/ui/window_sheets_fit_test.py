@@ -9,9 +9,11 @@ the catalogues at every run; each in a window of its own.
 First that the window came up on that screen with the project in it,
 and that it opened no wider than that screen; then per sheet what it
 needs against the room the window lets be seen of it on opening, and
-for the two scrolling sheets whether a sideways scrollbar shows. Both
-sides come out of one run on one platform, so a platform that draws
-wider moves both; no pixel bound is written down.
+for the two scrolling sheets whether a sideways scrollbar shows. Last,
+with each sheet in front, that the window dragged as small as it goes
+stays as large as its layout asks. Both sides come out of one run on
+one platform, so a platform that draws wider moves both; no pixel
+bound is written down.
 The files sheet is measured with a long output folder chosen, the
 kind a share gives. Left out: the Output sheet, which only appears once
 a run has made something, and this test runs nothing; other languages;
@@ -55,8 +57,8 @@ NAME = "videopodcast-magic_Interview_2.json"
 # The screen the window is opened on: a small laptop's. What a sheet
 # needs does not depend on the screen, only its room does, so this is
 # harder than any wider desk. Offscreen the platform's own screen is
-# 800 px wide, under the window's minimum. The test reads the window's
-# width off the window and does not say what the program's cap is.
+# 800 px wide, narrower than the window opens. The test reads the
+# window's width off the window and does not say what the program's cap is.
 SCREEN = (1280, 1024)
 # An example, not a bound: one run offscreen on a Mac, 25.9.2026, gave
 # the window 1280 px and a page of 1254 px; the sheets needed 485 en /
@@ -261,7 +263,28 @@ def measure(language):
             out.append(one)
         return out
 
-    result = {"project": bool(project), "tabs": [], "waited": 0,
+    def narrowest_of(window):
+        """Each of the first three sheets shown, the window dragged small.
+
+        Asked for one pixel square, as a hand dragging the corner would
+        ask; what comes back is what the window allows, set against what
+        its layout asks for with that sheet in front.
+        """
+        bar = window.findChild(QtWidgets.QTabWidget)
+        out = []
+        for k in range(min(3, bar.count())):
+            bar.setCurrentIndex(k)
+            settle()
+            window.resize(1, 1)
+            settle()
+            asks = window.minimumSizeHint()
+            out.append({"title": drawn(bar.tabText(k)),
+                        "size": [window.width(), window.height()],
+                        "asks": [asks.width(), asks.height()],
+                        "widest": widest_path(bar.widget(k))})
+        return out
+
+    result ={"project": bool(project), "tabs": [], "waited": 0,
               "screen": app.primaryScreen().availableGeometry().width()}
     step = [0]
     began = time.time()
@@ -306,6 +329,8 @@ def measure(language):
         result["sheets"] = sheets_of(window)
         bar = window.findChild(QtWidgets.QTabWidget)
         result["tabs"] = [drawn(bar.tabText(k)) for k in range(bar.count())]
+        # Last, since it leaves the window small.
+        result["narrowest"] = narrowest_of(window)
         app.quit()
 
     QtCore.QTimer.singleShot(1200, look)
@@ -406,10 +431,10 @@ def came_up(report):
 def on_screen(report):
     """The window opens no wider than the screen, measured in one run.
 
-    The program keeps a sheet that asks for too much from widening the
-    window by a minimum size set on it outright; without that, the room
-    the sheets are judged against below would grow with them, and every
-    sheet would fit a window that runs off the screen.
+    The program takes the window's least size from its layout but never
+    past the screen; without that cap, a sheet asking for too much would
+    widen the window, the room the sheets are judged against below would
+    grow with them, and every sheet would fit a window off the screen.
     """
     screen = report.get("screen") or 0
     window = (report.get("window") or [0, 0])[0]
@@ -467,6 +492,27 @@ def no_bar(report, place):
            window))
 
 
+def kept(report):
+    """Dragged as small as it goes, the window is what its layout asks.
+
+    Narrower, a page that cannot scroll squeezes its fields below their
+    text. Asked with each sheet in front, since what the window shows
+    changes with it; the line names the first sheet that came out short.
+    """
+    seen = report.get("narrowest") or []
+    if len(seen) < 3:
+        return False, "only %d sheets measured dragged small, tabs %s" % (
+            len(seen), report.get("tabs"))
+    for s in seen:
+        if s["size"][0] < s["asks"][0] or s["size"][1] < s["asks"][1]:
+            return False, home_off(
+                "%r dragged to %dx%d px, its layout asks %dx%d; widest: %s"
+                % (s["title"], s["size"][0], s["size"][1], s["asks"][0],
+                   s["asks"][1], s["widest"]))
+    return True, "; ".join("%r %dx%d" % (s["title"], s["size"][0],
+                                         s["size"][1]) for s in seen)
+
+
 def of(report, verdict):
     """The verdict, its line naming the language it was measured in."""
     ok, why = verdict
@@ -492,6 +538,8 @@ check("en: the Resolve sheet fits its viewport on opening",
       *of(en, fits(en, 2, "viewport")))
 check("en: the Resolve sheet shows no sideways scrollbar",
       *of(en, no_bar(en, 2)))
+check("en: dragged small, the window keeps what it shows",
+      *of(en, kept(en)))
 
 check("longest catalogue: the window came up with the project in it",
       *of(first, came_up(first)))
@@ -507,6 +555,8 @@ check("longest catalogue: the Resolve sheet fits its viewport",
       *of(first, fits(first, 2, "viewport")))
 check("longest catalogue: the Resolve sheet shows no sideways bar",
       *of(first, no_bar(first, 2)))
+check("longest catalogue: dragged small, the window keeps what it shows",
+      *of(first, kept(first)))
 
 check("second longest: the window came up with the project in it",
       *of(second, came_up(second)))
@@ -522,6 +572,8 @@ check("second longest: the Resolve sheet fits its viewport",
       *of(second, fits(second, 2, "viewport")))
 check("second longest: the Resolve sheet shows no sideways bar",
       *of(second, no_bar(second, 2)))
+check("second longest: dragged small, the window keeps what it shows",
+      *of(second, kept(second)))
 
 check("third longest: the window came up with the project in it",
       *of(third, came_up(third)))
@@ -537,6 +589,8 @@ check("third longest: the Resolve sheet fits its viewport",
       *of(third, fits(third, 2, "viewport")))
 check("third longest: the Resolve sheet shows no sideways bar",
       *of(third, no_bar(third, 2)))
+check("third longest: dragged small, the window keeps what it shows",
+      *of(third, kept(third)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
