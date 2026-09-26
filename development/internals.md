@@ -75,13 +75,13 @@ figure of the day is that command, not this paragraph**:
   audio to video
 * `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
-* `desktop/` **926** -- the picture and the shortcut the first start
+* `desktop/` **941** -- the picture and the shortcut the first start
   lays down
 * `orders/` **954** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
-* `assignmenttable/` **733** -- the table on the second tab:
+* `assignmenttable/` **779** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
@@ -100,7 +100,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `resolvesheet/` **400** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **608** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **392** -- the colours, the marks that say what kind a line
