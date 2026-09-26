@@ -44,7 +44,7 @@ figure of the day is that command, not this paragraph**:
   track is made of, and the channel rows the window shows of it
 * `pipeline/` **2216** -- the chain the recordings run until the camera
   files are written
-* `bearings/` **2011** -- where each file and each voice sits, and how
+* `bearings/` **2015** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
@@ -71,7 +71,7 @@ figure of the day is that command, not this paragraph**:
   one in place, and what the window offers of all three
 * `herald/` **643** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **596** -- the program's own project file: writing
+* `project/` **603** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **520** -- the list of chosen files: the tree it is
