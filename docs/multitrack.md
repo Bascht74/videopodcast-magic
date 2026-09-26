@@ -295,7 +295,8 @@ At start the program clears out anything older than thirty days.
 
 ### Setting the time window
 
-By default the window reaches as far as the cameras. To set the start:
+By default the window reaches as far as the cameras, and In point and
+Out point stay empty until somebody sets them. To set the start:
 
 1. On the **Assignment & time window** tab, click the row of the file.
    It goes into the **Preview player**.

@@ -318,8 +318,9 @@ dreißig Tage ist.
 
 ### Das Zeitfenster setzen
 
-Voreingestellt reicht das Fenster so weit wie die Kameras. So wird der
-Anfang gesetzt:
+Voreingestellt reicht das Fenster so weit wie die Kameras; In-Punkt und
+Out-Punkt bleiben leer, bis jemand sie setzt. So wird der Anfang
+gesetzt:
 
 1. Auf dem Reiter **Zuordnung & Zeitfenster** die Zeile der Datei
    anklicken. Sie kommt in den **Vorschau Player**.

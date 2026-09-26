@@ -26,9 +26,11 @@ Damit weiß das Script, wann wer redet, und baut daraus den Schnitt:
 * Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
 * Ein kurzes „ja“ nicht: unter **Redet mindestens** bleibt das Bild, wo
   es ist.
-* Bei Stille läuft der Weitwinkel — die Kamera, der kein Sprecher
-  zugeordnet ist —, solange **Niemand redet** darauf stehen bleibt.
-  Dieses Auswahlfeld kann stattdessen auch eine kurze Lücke halten oder
+* Bei Stille bleibt das Bild über eine kurze Lücke stehen — eine
+  Atempause bis zu einer Sekunde —, und erst eine längere geht auf den
+  Weitwinkel, die Kamera, der kein Sprecher zugeordnet ist. So steht
+  **Niemand redet** von Haus aus: auf **Kurze Lücke halten**. Das
+  Auswahlfeld kann auch jede Stille auf den Weitwinkel schicken oder
   das Bild ganz in Ruhe lassen.
 * Nach einer langen Einstellung kommt der Weitwinkel an einer
   Satzgrenze.
@@ -160,7 +162,7 @@ die Sprache nicht sagt, wer zu zeigen ist:
   `--on-monologue`)
 * **Mehrere reden zugleich**: **Weitwinkel** (auf der Kommandozeile
   `--on-together`)
-* **Niemand redet**: **Weitwinkel** (auf der Kommandozeile
+* **Niemand redet**: **Kurze Lücke halten** (auf der Kommandozeile
   `--on-silence`)
 * **Erkennung unsicher**: **Weitwinkel** (auf der Kommandozeile
   `--on-uncertain`)
@@ -309,11 +311,12 @@ Fünf Fälle, und was jedes der fünf Auswahlfelder entscheidet:
 daran ist nicht, was das Wort vermuten lässt. An 83 Minuten Interview
 gemessen: ein Fünftel der Laufzeit fällt darauf, und neun Zehntel davon
 sind Lücken innerhalb ein und derselben Person, die mittlere 0,6
-Sekunden lang — eine Atempause, nicht das Ende eines Gedankens. Steht
-**Niemand redet** auf **Weitwinkel**, nimmt jede einzelne davon das
-Bild vom Sprecher weg. Auf **Kurze Lücke halten** mit einer Sekunde ergibt
-dasselbe Material 244 Einstellungen statt 296, und der Anteil des
-Weitwinkels sinkt von 28 auf 17 Prozent.
+Sekunden lang — eine Atempause, nicht das Ende eines Gedankens. Darum
+steht **Niemand redet** zu Beginn auf **Kurze Lücke halten** mit einer
+Sekunde: Dasselbe Material ergibt so 244 Einstellungen statt der 296,
+die **Weitwinkel** liefert, und der Anteil des Weitwinkels sinkt von 28
+auf 17 Prozent. Stellt man auf **Weitwinkel**, nimmt jede einzelne
+dieser Atempausen das Bild vom Sprecher weg.
 
 **Was aus den Fragen geworden ist, steht im Protokoll.** Eine Zeile
 nennt, wie viele Fragezeichen im Transkript standen und bei wie vielen
