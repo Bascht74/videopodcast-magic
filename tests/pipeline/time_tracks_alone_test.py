@@ -7,7 +7,8 @@ with the longest one as the reference; the files come out equally long
 and with one start point, so the shorter recording is padded at both
 ends, and the run says how far apart the two recorders were. Without
 --multitrack the blocks are joined, nothing is aligned and the log says
-so, and it says one thing about --lufs on this path, not two.
+so -- and that an In or Out point does nothing there -- and it says one
+thing about --lufs on this path, not two.
 
 What the tracks carry is asked before where they sit: a file that came
 out empty measures as perfectly placed, so the judgements about the
@@ -408,7 +409,10 @@ else:
 #----------------------------------- 3. Without it: nothing has moved
 
 print("\n3. Without --multitrack the blocks are joined, as before")
-p = subprocess.run(CALL + ["--out", D + "/join",
+# With an In and an Out point, which this path cannot cut to: the files
+# below keep their whole length all the same, and the log says so.
+p = subprocess.run(CALL + ["--out", D + "/join", "--in-point", "+0:10",
+                           "--out-point", "+0:40",
                            D + "/Host.wav", D + "/Guest.wav"],
                    capture_output=True, text=True, env=ENV)
 log = (p.stdout or "") + (p.stderr or "")
@@ -430,6 +434,13 @@ APART = vpm.T('  %s recordings and no picture: each is joined on its own '
 check("and the log says they were not laid against each other",
       APART.strip() in log,
       "wanted %r among %d lines of the log" % (APART.strip()[:60],
+                                              len(log.splitlines())))
+MARKS = vpm.T('  In point and Out point do nothing here: without a '
+              'picture and without --multitrack every recording is '
+              'joined whole.')
+check("and it says the In and Out point do nothing on this path",
+      MARKS.strip() in log,
+      "wanted %r among %d lines of the log" % (MARKS.strip()[:60],
                                               len(log.splitlines())))
 if joined == ["Guest_joined.wav", "Host_joined.wav"]:
     length = dict((f, vpm.sample_count(D + "/join/" + f) / float(vpm.SR))

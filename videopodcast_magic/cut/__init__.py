@@ -1026,12 +1026,20 @@ def apply_time_window(d, in_point, out_point):
     The speaker times count from the start of the window in force at the
     time; start_s says where that was, so a new setting converts without
     measuring again. With a complaint the handover comes back untrimmed.
+    A point the run already cut to (its in_point, out_point) is not
+    applied again; a relative one counts from marks_zero_s, else 0.
     """
+    # Again, "+0:55" would move a run's cut by another 55 seconds.
+    if (in_point or "").strip() == (d.get("in_point") or "").strip():
+        in_point = ""
+    if (out_point or "").strip() == (d.get("out_point") or "").strip():
+        out_point = ""
     if not (in_point or "").strip() and not (out_point or "").strip():
         return d, ""
     length = float(d.get("length_s") or 0.0)
     origin = d.get("start_s")
     fps = max(1.0, float(d.get("fps") or 30.0))
+    zero = float(d.get("marks_zero_s") or 0.0)
 
     def compute(value_text, from_the_end):
         value, absolute = parse_time_point(value_text, fps)
@@ -1043,7 +1051,7 @@ def apply_time_window(d, in_point, out_point):
             return value - float(origin)
         if value < 0 and not from_the_end:
             raise ValueError(value_text)
-        return (length + value) if value < 0 else value
+        return (length + value) if value < 0 else value + zero
 
     try:
         from_s = compute(in_point, False) if (in_point or "").strip() else 0.0
@@ -1072,6 +1080,7 @@ def apply_time_window(d, in_point, out_point):
     if until - from_s < 5:
         return d, T('Out point lies less than 5 seconds after In point.')
     fresh = dict(d)
+    fresh.pop("marks_zero_s", None)   # trimmed, it starts at In point
     fresh["length_s"] = round(until - from_s, 3)
     # The origin moves along: start_s is where programme time starts on
     # the clock, and after trimming that is In point, not the old value.
@@ -1869,7 +1878,23 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
             places=(out_folder.get(), commonest_folder()))
         if d is None:
             state["reason"] = reason
+        else:
+            marks_zero_add(d)
         return d
+
+    def marks_zero_add(d):
+        """Say in *d* where "+12:30" counts from: where every camera runs.
+
+        As in the run, and on the places the cameras have in *d* --
+        measured, else their timecode. Programme time counts from start_s.
+        """
+        cams = [b for b, _n, _own, _f in camera_lines
+                if clip_kind_value(b).get() in CAMERA_TYPES]
+        places = dict((path_key(b), camera_start(b)) for b in cams
+                      if camera_start(b) is not None)
+        if places and d.get("start_s") is not None:
+            d["marks_zero_s"] = (PROGRAM.marks_zero(places, cams)
+                                 - float(d["start_s"]))
 
     def audio_start(file_path):
         """Return where this recording starts on the common time axis.

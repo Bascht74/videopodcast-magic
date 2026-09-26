@@ -123,7 +123,10 @@ rules = {"os": os, "picture_span": picture_span, "files": files,
          "start_var": start_var, "end_var": end_var, "remembered": remembered,
          "parse_time_point": vpm.parse_time_point,
          "CAMERA_TYPES": vpm.CAMERA_TYPES, "path_key": vpm.path_key,
-         "MIX_ONLY": vpm.MIX_ONLY, "IGNORE_AUDIO": vpm.IGNORE_AUDIO}
+         "MIX_ONLY": vpm.MIX_ONLY, "IGNORE_AUDIO": vpm.IGNORE_AUDIO,
+         # Where every camera runs is window_zero_as_run's question; put
+         # at the start of the axis here, covers' own arithmetic is left.
+         "marks_zero_here": lambda: 0.0}
 trouble = ""
 if block:
     try:

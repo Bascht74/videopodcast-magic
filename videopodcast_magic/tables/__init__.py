@@ -189,6 +189,25 @@ def file_span(file_path, axis):
             "axis": (axis or {}).get(path_key(file_path))}
 
 
+def marks_zero(axis, cameras):
+    """Where a relative In or Out point counts from, on the window's axis.
+
+    The run's zero, by the run's own rule: common_window, the moment
+    every camera runs. *axis* is {path_key: start}, on one clock. Only
+    placed cameras count, as in the run; with none, the start of the
+    axis, as the run without a picture.
+    """
+    areas = []
+    for file_path in cameras or ():
+        span = file_span(file_path, axis)
+        if span and span["axis"] is not None and span["duration"] > 0:
+            areas.append((float(span["axis"]),
+                          float(span["axis"]) + span["duration"], file_path))
+    if areas:
+        return PROGRAM.common_window(areas)[0]
+    return min((float(v) for v in (axis or {}).values()), default=0.0)
+
+
 def tree_build(columns):
     """The assignment as a tree: a recording, its voices under it.
 
