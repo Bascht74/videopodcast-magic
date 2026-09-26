@@ -7,9 +7,12 @@ shape in pyannote.audio broke the program unnoticed. Here it runs on
 speech say(1) writes, where every boundary is known exactly; two voices
 that never overlap show the machinery works, not how well it does.
 
-Three sections: that it runs and hands back the shape the rest of the
-program reads, that it hears as many voices as spoke, and that every
-turn is one stretch under one label with its edges where truth has them.
+In order: that it runs and hands back the shape the rest of the
+program reads, that it hears as many voices as spoke, that every turn
+is one stretch under one label with its edges where truth has them,
+and that the voice print of each voice finds that voice again in a
+second recording -- the material cut in two in the pause between two
+turns -- and never the other one.
 """
 PLATFORM_BOUND = True
 import os
@@ -36,7 +39,10 @@ os.environ.pop("VPM_NO_SPEAKER_SPLIT", None)
 # put it, so this one test looks where the program looks in earnest.
 os.environ.pop("VPM_CACHE", None)
 
+import shutil
+import tempfile
 import time
+import wave
 vpm = the_program.load()
 
 # Nearly three times the worst boundary error measured, so a slower
@@ -198,5 +204,62 @@ if len(runs) == len(truth):
           worst <= TOLERANCE_S,
           "worst %.3f s against the %.2f s allowed -- %s"
           % (worst, TOLERANCE_S, where))
+
+#------------------------------------- 4. the same voice, a second time
+
+print("\n4. The same voice in a second recording")
+prints = vpm.SPEAKER_VOICES_HEARD.get(talk) or {}
+check("every voice comes back with a voice print",
+      sorted(prints) == sorted(x[0] for x in segments)
+      and len(set(len(v) for v in prints.values())) == 1,
+      "prints for %s, lengths %s, voices %s"
+      % (sorted(prints), sorted(set(len(v) for v in prints.values())),
+         [x[0] for x in segments]))
+# Cut in the pause after the fourth turn: both voices speak on either
+# side, and the second part says sentences the first never did.
+cut_at = (truth[3][2] + truth[4][1]) / 2.0 if len(truth) > 4 else 0.0
+halves = tempfile.mkdtemp(prefix="vpm_two_halves_")
+with wave.open(talk, "rb") as w:
+    shape, rate = w.getparams(), w.getframerate()
+    audio = w.readframes(w.getnframes())
+step = shape.sampwidth * shape.nchannels
+parted, heard = {}, {}
+for part, piece in (("first", audio[:int(cut_at * rate) * step]),
+                    ("second", audio[int(cut_at * rate) * step:])):
+    path = os.path.join(halves, "%s.wav" % part)
+    with wave.open(path, "wb") as w:
+        w.setparams(shape)
+        w.writeframes(piece)
+    parted[part], _why = vpm.speaker_split_run(path)
+    heard[part] = vpm.SPEAKER_VOICES_HEARD.get(path) or {}
+    print("      %-7s %d voices, %d prints" % (part, len(parted[part]),
+                                              len(heard[part])))
+shutil.rmtree(halves, ignore_errors=True)
+
+
+def who(label, parts, offset):
+    """The voice truth has most of this label's time under."""
+    most = {}
+    for a, b in parts:
+        for voice, x, y in truth:
+            most[voice] = most.get(voice, 0.0) + max(
+                0.0, min(b + offset, y) - max(a + offset, x))
+    return max(most, key=most.get) if most else "?"
+
+
+first_is = dict((label, who(label, parts, 0.0))
+                for label, parts in parted["first"])
+second_is = dict((label, who(label, parts, cut_at))
+                 for label, parts in parted["second"])
+found = vpm.speaker_voices_alike(heard["first"], heard["second"])
+said = sorted((first_is.get(a, "?"), second_is.get(b, "?"), alike)
+              for a, b, alike in found)
+check("each voice is found again in the second recording",
+      sorted(set(x for x, y, _s in said if x == y)) == spoke,
+      "pairs %s against the voices %s, line %.2f"
+      % (said, spoke, vpm.SPEAKER_SAME_VOICE))
+check("two voices are never proposed as one",
+      not [x for x in said if x[0] != x[1]],
+      "pairs %s, line %.2f" % (said, vpm.SPEAKER_SAME_VOICE))
 
 finish()

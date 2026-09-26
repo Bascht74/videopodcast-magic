@@ -590,8 +590,27 @@ def main():
     for turn, _track, label in turns.itertracks(yield_label=True):
         segments.append([str(label), round(float(turn.start), 3),
                          round(float(turn.end), 3)])
-    print(json.dumps({"segments": segments}))
+    print(json.dumps({"segments": segments, "voices": voices_of(out, turns)}))
     return 0
+
+
+def voices_of(out, turns):
+    """One voice print per label, in the order labels() gives them.
+
+    pyannote pads a label it has no centroid for with zeros; such a row
+    and anything unreadable is left out, never the separation with it.
+    """
+    voices = {}
+    try:
+        rows = getattr(out, "speaker_embeddings", None)
+        for row, label in zip(rows if rows is not None else (),
+                              turns.labels()):
+            numbers = [round(float(x), 5) for x in row]
+            if any(numbers) and all(x == x for x in numbers):
+                voices[str(label)] = numbers
+    except Exception:
+        return {}
+    return voices
 
 
 if __name__ == "__main__":
@@ -672,13 +691,20 @@ def speaker_split_run(path, num_speakers=0, report=None,
     with SPEAKER_SPLIT_TURN:
         if stopping and stopping():
             return [], ""
-        return _speaker_split_talk(python, worker, head, wave, clean,
-                                   report, stopping)
+        _SPEAKER_VOICES_TALKED.clear()
+        out = _speaker_split_talk(python, worker, head, wave, clean,
+                                  report, stopping)
+        # Beside the answer, not in it: a dozen tests stand in for its shape.
+        SPEAKER_VOICES_HEARD[path] = dict(_SPEAKER_VOICES_TALKED)
+    return out
 
 
 def _speaker_split_talk(python, worker, head, wave, environment,
                         report, stopping):
-    """Start the worker, feed it the waveform and read it out."""
+    """Start the worker, feed it the waveform and read it out.
+
+    The voice prints it hands back go to _SPEAKER_VOICES_TALKED.
+    """
     seconds = len(wave) / float(SPEAKER_SPLIT_RATE)
     try:
         proc = subprocess.Popen([python, worker], stdin=subprocess.PIPE,
@@ -760,6 +786,8 @@ def _speaker_split_talk(python, worker, head, wave, environment,
              '  Speaker separation (%s): %s speakers out of %s of audio')
           % (device[-1] if device else "cpu", number_text(found, 0),
              as_hms(seconds)))
+    if isinstance(d.get("voices"), dict):
+        _SPEAKER_VOICES_TALKED.update(d["voices"])
     return speaker_segments_group(d["segments"]), ""
 
 
@@ -2822,11 +2850,121 @@ def speaker_split_cached(source, count=0, report=None, stopping=None):
         return stored, ""
     segments, trouble = speaker_split_run(source, count, report=report,
                                           stopping=stopping)
+    heard = SPEAKER_VOICES_HEARD.pop(source, None)
     if segments:
-        speaker_cache_write(
-            speaker_cache_key(source, speaker_model_mark(), count),
-            segments)
+        key = speaker_cache_key(source, speaker_model_mark(), count)
+        speaker_cache_write(key, segments)
+        speaker_voices_write(key, heard)
     return segments, trouble
+
+
+#-------------------------------------------- The same voice, twice
+
+# Measured 27.9.2026, ten say(1) voices in twenty recordings: one voice
+# 0.60-0.95, two voices up to 0.60 -- both edges out of a telephone band;
+# without it 0.84 against 0.53. A voice missed is only a name to type.
+SPEAKER_SAME_VOICE = 0.70
+# The voice prints of the separation just run, by recording, until the
+# store has them; the worker's answer passes the one below on its way.
+SPEAKER_VOICES_HEARD = ByFile()
+_SPEAKER_VOICES_TALKED = {}
+
+
+def speaker_voices_write(key, voices):
+    """Put the voice prints beside the stored separation they belong to.
+
+    One print per label, the one pyannote's clustering worked out anyway.
+    Nothing is written where there are none or no separation is stored;
+    true where they were.
+    """
+    file_path = speaker_cache_file(key)
+    if not voices or not file_path or not os.path.exists(file_path):
+        return False
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            d = json.load(f)
+        d["voices"] = dict(voices)
+        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
+                                      prefix=".vpm_", suffix=".json")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False)
+        os.replace(beside, file_path)
+    except (OSError, ValueError):
+        return False
+    return True
+
+
+def speaker_voices_stored(source, count=0):
+    """The voice prints of a stored separation, {label: [numbers]}.
+
+    {} where none were kept -- an older separation, or one another
+    machine made -- and then nothing is proposed.
+    """
+    file_path = speaker_cache_file(
+        speaker_cache_key(source, speaker_model_mark(), count))
+    try:
+        with open(file_path or "", encoding="utf-8") as f:
+            got = json.load(f).get("voices")
+    except (OSError, ValueError, AttributeError):
+        return {}
+    return dict(got) if isinstance(got, dict) else {}
+
+
+def speaker_voices_alike(mine, theirs, least=SPEAKER_SAME_VOICE):
+    """Which voices of one recording are voices of the other.
+
+    [(my label, their label, similarity)], cosine of the two prints. A
+    pair counts only where each is the other's closest and the two lie
+    at *least* or above: one voice is never proposed for two.
+    """
+    def unit(v):
+        """The print scaled to length one, or None where it has none."""
+        try:
+            v = np.asarray(v, dtype=np.float64).ravel()
+        except (TypeError, ValueError):
+            return None
+        size = float(np.linalg.norm(v)) if v.size else 0.0
+        return v / size if size > 0 and np.isfinite(size) else None
+    a = [(k, unit(v)) for k, v in sorted((mine or {}).items())]
+    b = [(k, unit(v)) for k, v in sorted((theirs or {}).items())]
+    a = [(k, v) for k, v in a if v is not None]
+    b = [(k, v) for k, v in b if v is not None and v.size == (
+        a[0][1].size if a else 0)]
+    if not a or not b:
+        return []
+    alike = np.array([[float(x @ y) for _l, y in b] for _k, x in a])
+    out = []
+    for i, (label, _v) in enumerate(a):
+        j = int(alike[i].argmax())
+        if alike[i, j] >= least and int(alike[:, j].argmax()) == i:
+            out.append((label, b[j][0], round(float(alike[i, j]), 3)))
+    return out
+
+
+def speaker_voices_said(state, source, count=0):
+    """Say in the log which voices of *source* spoke in another recording.
+
+    A proposal, never a merge: the names stay as they are. Returns the
+    lines, so a caller can show them too.
+    """
+    mine = speaker_voices_stored(source, count)
+    by = state.get("speakers_by") or ByFile()
+    here = dict((by.get(source) or {}).get("names") or {})
+    lines = []
+    for other in sorted(by):
+        if not mine or path_key(other) == path_key(source):
+            continue
+        there = dict(by[other].get("names") or {})
+        for label, theirs, alike in speaker_voices_alike(
+                mine, speaker_voices_stored(other, by[other].get("count"))):
+            lines.append(T('  %s in %s sounds like %s in %s (similarity '
+                           '%s): the same person, it seems.')
+                         % (here.get(label, label), os.path.basename(source),
+                            there.get(theirs, theirs),
+                            os.path.basename(other), number_text(alike, 2)))
+    for line in lines:
+        print(line)
+    return lines
 
 
 def speaker_split_work(source, count, note, stopping, done):
@@ -3512,6 +3650,7 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
             speaker_label_names(segments, called, sheet_speaker_names(
                 assign_lines, voice_lines_here_not(voice_lines, source),
                 state.get("voiced") or ()))))
+        speaker_voices_said(state, source, count)
         axis_store(state.get("axis") or {})
         state["assignment_fresh"]()
         speaker_split_show()
