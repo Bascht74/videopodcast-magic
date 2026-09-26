@@ -13,15 +13,19 @@ the screen:
   bar went on naming files that were no longer in the window, and an
   answer arriving after the close put its work back on the bar.
 
-Three parts, in this order: the question comes before the measuring,
-yes throws no measurement away, closing breaks the measuring off. A
-last judgement says whether all of them ran, so a crash or an exhausted
-deadline cannot leave the file green with half its judgements missing.
+Four parts, in this order: the question comes before the measuring,
+yes throws no measurement away, closing breaks the measuring off, and a
+time axis measured for a closed production reaches no file of the next
+-- closed while it is measured, and closed while its answer is on the
+way. A last judgement says whether all of them ran, so a crash or an
+exhausted deadline cannot leave the file green with judgements missing.
 
 The window is driven from the outside: the button is clicked, the menu
 entry is triggered, and what is read back is what the window shows. The
 offer itself is stood in for, so the order can be read without a modal
 question; files_project_offered_test.py checks the offer's own behaviour.
+From the fourth part the time axis is stood in for too, held per request,
+and the next production's saved file is read for the closed one's files.
 """
 PLATFORM_BOUND = True
 import os
@@ -73,7 +77,7 @@ bad = []
 
 # How many turns of carry_on() below there are. The last judgement holds
 # the file to it, so a crash halfway through cannot pass for a full run.
-STEPS = 8
+STEPS = 11
 
 
 def check(name, ok, extra=""):
@@ -172,6 +176,33 @@ def envelope_stub(path, hop_ms=5.0, rate=4000, report=None):
 
 
 vpm.video_envelope = envelope_stub
+
+# The time axis, held per request from the fourth part on: each call
+# waits for its own release, and hands back an axis naming the files it
+# was given, so an answer that lands where it should not can be read in
+# the file it reaches. Before that the real measurement answers.
+_real_axis = vpm.measure_time_axis
+axis_calls = []
+axis_held = {"on": False}
+patience = [PATIENCE]
+
+
+def axis_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None):
+    if not axis_held["on"]:
+        return _real_axis(paths, tc_of, HOP, phase_of)
+    call = {"names": sorted(os.path.basename(p) for p in paths),
+            "go": threading.Event(), "back": threading.Event()}
+    axis_calls.append(call)
+    call["go"].wait(PATIENCE)
+    call["back"].set()
+    return {"axis": dict((p, 0.0) for p in paths)}, "stand-in"
+
+
+vpm.measure_time_axis = axis_stand_in
+# The output folder a save asks for, set per step.
+picked = [""]
+QtWidgets.QFileDialog.getExistingDirectory = staticmethod(
+    lambda *a, **k: picked[0])
 
 # The bar is drawn outside gui() from this one plan, so wrapping the
 # drawing reads exactly what the bar shows -- the steps still open and
@@ -324,6 +355,42 @@ def close_project():
     entry(vpm.T('Close project')).trigger()
 
 
+def axis_call(names):
+    """The held time axis request for exactly these files, or None."""
+    for call in axis_calls:
+        if call["names"] == sorted(os.path.basename(p) for p in names):
+            return call
+
+
+def axis_threads():
+    """How many measuring threads are still alive, by their target."""
+    return sum(1 for t in threading.enumerate()
+               if "axis_work_loop" in t.name and t.is_alive())
+
+
+def saved_into(folder):
+    """Save the project into *folder*; its file names and its timeline."""
+    picked[0] = folder
+    os.makedirs(folder, exist_ok=True)
+    entry(vpm.T('Save project')).trigger()
+    app.processEvents()
+    found = [n for n in os.listdir(folder)
+             if n.startswith(vpm.PROJECT_PREFIX) and n.endswith(".json")]
+    if not found:
+        return None, []
+    with open(os.path.join(folder, found[0]), encoding="utf-8") as f:
+        d = json.load(f)
+    return found[0], sorted(os.path.basename(e.get("path", ""))
+                            for e in d.get("timeline") or [])
+
+
+# Two recordings of a production closed while its axis is measured,
+# and two of the one opened after it.
+OLD = [media("Closed_A.wav"), media("Closed_B.mov")]
+NEW = [media("Next_A.wav"), media("Next_B.mov")]
+OLD_NAMES = sorted(os.path.basename(p) for p in OLD)
+
+
 step = [0]
 tries = [0]
 after_close = {"began": 0, "seen": []}
@@ -460,6 +527,77 @@ def carry_on():
                   % (len(rows()), rows()))
 
         elif i == 7:
+            print("\n4. A closed production's time axis reaches no file")
+            close_project()
+            app.processEvents()
+            axis_held["on"] = True
+            to_add[:] = OLD
+            add_files()
+            going = wait_for(lambda: axis_call(OLD) is not None)
+            check("the time axis is being measured when the project closes",
+                  going, "requests held: %s, wanted one over %s"
+                  % ([c["names"] for c in axis_calls], OLD_NAMES))
+            # Without a request held, the waits below would each spend
+            # their whole patience on something that cannot come.
+            patience[0] = PATIENCE if going else 1.0
+            close_project()
+            app.processEvents()
+            if axis_call(OLD) is not None:
+                axis_call(OLD)["go"].set()
+            back = wait_for(lambda: axis_call(OLD) is not None
+                            and axis_call(OLD)["back"].is_set()
+                            and axis_threads() == 0, patience[0])
+            watch(1.0, [])
+            to_add[:] = NEW
+            add_files()
+            wait_for(lambda: axis_call(NEW) is not None, patience[0])
+            name, placed = saved_into(os.path.join(ROOT, "Out_running"))
+            check("an axis measured while the project closed is not saved",
+                  back and name is not None
+                  and not set(placed) & set(OLD_NAMES),
+                  "the next production's file %s places %s, the closed "
+                  "one's files are %s; its measurement came back %r"
+                  % (name, placed, OLD_NAMES, back))
+
+        elif i == 8:
+            close_project()
+            app.processEvents()
+            for call in axis_calls:
+                call["go"].set()
+            wait_for(lambda: axis_threads() == 0)
+            del axis_calls[:]
+            to_add[:] = OLD
+            add_files()
+            wait_for(lambda: axis_call(OLD) is not None, patience[0])
+            if axis_call(OLD) is not None:
+                axis_call(OLD)["go"].set()
+            # Waited without letting the window work: the answer is to
+            # stand in its queue, sent and not yet taken in, at the close.
+            until = time.time() + patience[0]
+            while time.time() < until and (
+                    axis_call(OLD) is None or axis_threads() > 0):
+                time.sleep(0.02)
+            sent = axis_call(OLD) is not None and axis_threads() == 0
+            close_project()
+            to_add[:] = NEW
+            add_files()
+            wait_for(lambda: axis_call(NEW) is not None, patience[0])
+            watch(1.0, [])
+            name, placed = saved_into(os.path.join(ROOT, "Out_on_the_way"))
+            check("an axis on its way at the close is not saved either",
+                  sent and name is not None
+                  and not set(placed) & set(OLD_NAMES),
+                  "the next production's file %s places %s, the closed "
+                  "one's files are %s; sent before the close %r"
+                  % (name, placed, OLD_NAMES, sent))
+
+        elif i == 9:
+            for call in axis_calls:
+                call["go"].set()
+            QtCore.QTimer.singleShot(50, carry_on)
+            return
+
+        elif i == 10:
             # The window goes; the count and the verdict are printed
             # below, where every way out of this test comes past --
             # the crash above, and the deadline that quits the run.
@@ -490,6 +628,8 @@ QtCore.QTimer.singleShot(240000, app.quit)
 sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 gate.set()
+for call in axis_calls:
+    call["go"].set()
 
 print("")
 check("the test got through all of its steps", step[0] >= STEPS,

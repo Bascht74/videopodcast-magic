@@ -1460,7 +1460,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         # Counted like the check above: putting an answer about files
         # that have left in would carry one axis into the next.
         if state.get("axis_run") == label_run:
-            bridge_emit(bridge.axis, data or {}, text)
+            bridge_emit(bridge.axis, dict(data or {}, run=label_run), text)
 
     def axis_hand_back(data, label_run):
         """Present a stored axis once the prework is done.
@@ -1475,7 +1475,7 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
                 return
             time.sleep(0.4)
         if state.get("axis_run") == label_run:
-            bridge_emit(bridge.axis, data, "")
+            bridge_emit(bridge.axis, dict(data, run=label_run), "")
 
     def axis_kick_off(paths):
         """Measure wherever there are two files, timecode or not.
@@ -1537,6 +1537,15 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
             axis_kick_off(last)
 
     def axis_present(data, text, remember=True):
+        """Take a measured or stored axis in, if its run still stands.
+
+        The thread asks before it sends, but a close can land between
+        the send and this: the answer then waits in the queue and would
+        put the closed production's axis into the next one's file.
+        """
+        if (data or {}).get("run", state.get("axis_run")) \
+                != state.get("axis_run"):
+            return
         state["axis_running"] = False
         axis_answer_kept(state)
         plan.done("axis")
