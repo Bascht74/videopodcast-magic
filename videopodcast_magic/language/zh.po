@@ -91,8 +91,8 @@ msgstr "稍后"
 msgid "Go back"
 msgstr "返回"
 
-msgid "About Video Podcast Magic"
-msgstr "关于 Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "关于 %(name)s"
 
 msgid "&File"
 msgstr "文件(&F)"
@@ -3074,8 +3074,8 @@ msgstr "这些文件已不存在：\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  项目文件无法写入（%s）\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON 文件 (*.json);;所有文件 (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON 文件 (*.json);;所有文件 (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "此交接文件没有帧率，因此无法据此构建 Timeline。请重新运行一次。"
@@ -4058,8 +4058,8 @@ msgstr "没有可用的声音——请把某个视频文件的摄像机声音设
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "正片：与其他一样的一台摄像机。\n全景：前面没有人坐的摄像机——它不对应任何说话人，在停顿和长时间独白时剪辑会切到它。\n片头和片尾是成品片段——不对齐、不处理，只放入 Timeline。\n忽略视频：该文件完全不使用。"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s——把原始素材变成剪辑好的播客"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s——把原始素材变成剪辑好的播客"
 
 msgid "The work can be written to a project file first."
 msgstr "可以先把工作写入项目文件。"

@@ -189,8 +189,8 @@ msgstr "--update я изтегля и я поставя на мястото ѝ."
 msgid "The check for new versions is switched off here."
 msgstr "Проверката за нови версии е изключена тук."
 
-msgid "About Video Podcast Magic"
-msgstr "За Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "За %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Суровият материал от видеоподкаст става монтиран епизод: добрият звук от видеофайловете, камерите на една времева ос, първи монтаж по говорещи и проект в DaVinci Resolve."
@@ -2892,8 +2892,8 @@ msgstr "Видео 1"
 msgid "Video 2"
 msgstr "Видео 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- от суров материал до монтиран подкаст"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- от суров материал до монтиран подкаст"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Сила на звука. 100 е максимумът -- Qt не приема повече."
@@ -3431,8 +3431,8 @@ msgstr "Пренос"
 msgid "Uploading %s tracks"
 msgstr "Качване на писти: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON файлове (*.json);;Всички файлове (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON файлове (*.json);;Всички файлове (*)"
 
 msgid "Wide shot after"
 msgstr "Общ план след"

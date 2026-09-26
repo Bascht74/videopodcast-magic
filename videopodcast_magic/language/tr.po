@@ -103,8 +103,8 @@ msgstr "Sonra"
 msgid "Go back"
 msgstr "Geri dön"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic hakkında"
+msgid "About %(name)s"
+msgstr "%(name)s hakkında"
 
 msgid "&File"
 msgstr "&Dosya"
@@ -3096,8 +3096,8 @@ msgstr "Bu dosyalar artık yok:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  Proje dosyası yazılamıyor (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON dosyaları (*.json);;Tüm dosyalar (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON dosyaları (*.json);;Tüm dosyalar (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Bu aktarımda kare hızı yok, bu yüzden Timeline ondan oluşturulamaz. Lütfen çalıştırmayı yeniden yapın."
@@ -4080,8 +4080,8 @@ msgstr "Üzerinde çalışılacak ses yok -- bir video dosyasının Kamera sesin
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "İçerik: diğerleri gibi bir kamera.\nGeniş çekim: önünde kimsenin oturmadığı bir kamera -- hiçbir konuşmacı almaz, kurgu bir duraklamada ve uzun bir monologda ona geçer.\nGiriş ve kapanış bitmiş kliplerdir -- hizalanmaz, işlenmez, yalnızca Timeline'a yerleştirilir.\nVideoyu yok say: dosya tamamen dışarıda kalır."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- ham malzeme kurgulanmış bir podcast'e dönüşür"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- ham malzeme kurgulanmış bir podcast'e dönüşür"
 
 msgid "The work can be written to a project file first."
 msgstr "Çalışma önce bir proje dosyasına yazılabilir."

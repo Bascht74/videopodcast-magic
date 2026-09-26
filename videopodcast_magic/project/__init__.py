@@ -440,8 +440,9 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
             window, T('Open json project file'),
             model.out_folder.get() or model.commonest_folder() or "",
-            T('Video Podcast Magic (%s*.json);;JSON files (*.json);;All '
-              'files (*)') % PROJECT_PREFIX)[0]
+            T('%(name)s (%(prefix)s*.json);;JSON files (*.json);;All '
+              'files (*)') % {"name": PROGRAM.DISPLAY_NAME,
+                              "prefix": PROJECT_PREFIX})[0]
         if not file_path:
             return
         d, file_path = find_project_file(file_path)

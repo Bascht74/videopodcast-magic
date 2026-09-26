@@ -186,8 +186,8 @@ msgstr "A --update letölti és telepíti."
 msgid "The check for new versions is switched off here."
 msgstr "Az új verziók keresése itt ki van kapcsolva."
 
-msgid "About Video Podcast Magic"
-msgstr "A Video Podcast Magic névjegye"
+msgid "About %(name)s"
+msgstr "A %(name)s névjegye"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Egy videópodcast nyersanyagából megvágott epizód lesz: a jó hang a videófájlokból, a kamerák egy közös időtengelyen, egy első vágás beszélők szerint, és egy DaVinci Resolve-projekt."
@@ -2866,8 +2866,8 @@ msgstr "Videó 1"
 msgid "Video 2"
 msgstr "Videó 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- a nyersanyagból megvágott podcast lesz"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- a nyersanyagból megvágott podcast lesz"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Hangerő. A 100 a maximum -- a Qt nem fogad el ennél többet."
@@ -3384,8 +3384,8 @@ msgstr "Átvitel"
 msgid "Uploading %s tracks"
 msgstr "%s sáv feltöltése"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-fájlok (*.json);;Minden fájl (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-fájlok (*.json);;Minden fájl (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "az alábbi hangok viszik a kamerákat"

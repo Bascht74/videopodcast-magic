@@ -206,9 +206,8 @@ def speaker_model_folder():
 
 
 # The same repository the program comes from, so the two always match.
-MODEL_BASE = ("https://raw.githubusercontent.com/Bascht74"
-              "/videopodcast-magic/%s/videopodcast_magic/models/"
-              + SPEAKER_MODEL_NAME + "/")
+MODEL_BASE = ("https://raw.githubusercontent.com/" + PROGRAM.REPOSITORY
+              + "/%s/videopodcast_magic/models/" + SPEAKER_MODEL_NAME + "/")
 MODEL_MB = 33
 
 

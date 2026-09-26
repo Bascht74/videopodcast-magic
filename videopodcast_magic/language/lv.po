@@ -189,8 +189,8 @@ msgstr "--update to lejupielādē un instalē."
 msgid "The check for new versions is switched off here."
 msgstr "Jaunu versiju pārbaude šeit ir izslēgta."
 
-msgid "About Video Podcast Magic"
-msgstr "Par Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Par %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "No video podkāsta izejmateriāla top samontēta epizode: labā skaņa no video failiem, kameras uz vienas laika ass, pirmā montāža pēc runātāja un DaVinci Resolve projekts."
@@ -2892,8 +2892,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- no izejmateriāla top samontēts podkāsts"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- no izejmateriāla top samontēts podkāsts"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Skaļums. 100 ir maksimālais -- vairāk Qt nepieņem."
@@ -3432,8 +3432,8 @@ msgstr "Pārsūtīšana"
 msgid "Uploading %s tracks"
 msgstr "Celiņu augšupielāde: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON faili (*.json);;Visi faili (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON faili (*.json);;Visi faili (*)"
 
 msgid "Wide shot after"
 msgstr "Kopplāns agrākais"

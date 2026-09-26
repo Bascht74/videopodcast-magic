@@ -187,8 +187,8 @@ msgstr "--update اسے لا کر اس کی جگہ رکھ دیتا ہے۔"
 msgid "The check for new versions is switched off here."
 msgstr "نئے ورژن کی جانچ یہاں بند ہے۔"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic کے بارے میں"
+msgid "About %(name)s"
+msgstr "%(name)s کے بارے میں"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "ویڈیو پوڈکاسٹ کا خام مواد ایک ایڈٹ شدہ قسط بن جاتا ہے: ویڈیو فائلوں سے اچھا آڈیو، کیمرے ایک وقتی محور پر، مقرر کے لحاظ سے پہلا کٹ، اور ایک DaVinci Resolve پروجیکٹ۔"
@@ -2890,8 +2890,8 @@ msgstr "ویڈیو 1"
 msgid "Video 2"
 msgstr "ویڈیو 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- خام مواد سے ایڈٹ شدہ پوڈکاسٹ"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- خام مواد سے ایڈٹ شدہ پوڈکاسٹ"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "والیوم۔ 100 سب سے اونچا ہے -- Qt اس سے اوپر کچھ نہیں لیتا۔"
@@ -3429,8 +3429,8 @@ msgstr "منتقلی"
 msgid "Uploading %s tracks"
 msgstr "%s ٹریک اپ لوڈ ہو رہے ہیں"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON فائلیں (*.json);;تمام فائلیں (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON فائلیں (*.json);;تمام فائلیں (*)"
 
 msgid "Wide shot after"
 msgstr "وائیڈ شاٹ اتنی دیر بعد"

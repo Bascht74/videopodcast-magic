@@ -109,8 +109,8 @@ msgstr "Пізніше"
 msgid "Go back"
 msgstr "Повернутися"
 
-msgid "About Video Podcast Magic"
-msgstr "Про програму Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Про програму %(name)s"
 
 msgid "&File"
 msgstr "&Файл"
@@ -3112,8 +3112,8 @@ msgstr "Цих файлів більше немає:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  Файл проєкту не записується (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Файли JSON (*.json);;Усі файли (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Файли JSON (*.json);;Усі файли (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ця передача не містить частоти кадрів, тож Timeline з неї не побудувати. Будь ласка, зробіть запуск ще раз."
@@ -4096,8 +4096,8 @@ msgstr "Немає звуку для роботи -- установіть для
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "Зміст: камера, як будь-яка інша.\nЗагальний план: камера, перед якою ніхто не сидить -- вона не бере жодного мовця, а монтаж переходить до неї в паузі й у довгому монолозі.\nЗаставка й кінцівка -- готові кліпи: не вирівнюються, не обробляються, лише кладуться в Timeline.\nПропустити відео: файл повністю залишається осторонь."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- із сирого матеріалу виходить змонтований подкаст"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- із сирого матеріалу виходить змонтований подкаст"
 
 msgid "The work can be written to a project file first."
 msgstr "Роботу можна спершу записати у файл проєкту."

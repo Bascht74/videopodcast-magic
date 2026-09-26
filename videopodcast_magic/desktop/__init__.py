@@ -99,6 +99,7 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if stands:
         run_as = _lay_again_as(where, system, run_as)
     if stands and not run_as:
+        _retire_older(where, system, kept)
         # Written down although nothing was laid: reset settings
         # would otherwise hold a working entry and no note.
         if write_down is not None and kept.get(KEPT) != where:
@@ -124,6 +125,7 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if why:
         return Laid(where, False,
                     T('No shortcut to this program was made: %s') % why)
+    _retire_older(where, system, kept)
     if write_down is not None:
         write_down(KEPT, where)
     return Laid(where, True,
@@ -145,6 +147,61 @@ def _write_it(where, target, png, root, system, run_as=""):
     if not os.path.exists(where):
         return T('it was written and was not there afterwards')
     return ""
+
+
+def _retire_older(where, system, kept):
+    """Take away what this program laid under a name it no longer has.
+
+    Looked for only where the path written down is not today's -- after
+    a rename, or with nothing written down -- so an ordinary start reads
+    nothing more. Never raises: nothing in here may stop a start.
+    """
+    if kept.get(KEPT) == where:
+        return
+    try:
+        for old in _older_entries(where, system):
+            shutil.rmtree(old)
+            log_aside("shortcut -- taken away, laid under an earlier "
+                      "name: %s" % old)
+    except Exception as e:
+        log_aside("shortcut -- an older entry stays: %s" % e)
+
+
+def _older_entries(where, system):
+    """Entries beside *where* whose runner carries the frozen line.
+
+    Only a bundle has a runner that says who wrote it; a .desktop file
+    and a .lnk carry no such line, so nothing of theirs is found.
+    """
+    if system != "darwin":
+        return []
+    folder = os.path.dirname(where)
+    found = []
+    for name in sorted(os.listdir(folder)):
+        path = os.path.join(folder, name)
+        if name.endswith(".app") and path != where \
+                and not os.path.islink(path) and _written_by_us(path):
+            found.append(path)
+    return found
+
+
+def _written_by_us(bundle):
+    """Whether a runner inside that bundle carries WRITTEN_BY.
+
+    Asked of every runner, since the old one is named after the old
+    name. Big files are passed over: ours is a few lines of shell.
+    """
+    macos = os.path.join(bundle, "Contents", "MacOS")
+    if not os.path.isdir(macos):
+        return False
+    for name in os.listdir(macos):
+        runner = os.path.join(macos, name)
+        if not os.path.isfile(runner) or os.path.getsize(runner) > 8192:
+            continue
+        with open(runner, encoding="utf-8", errors="replace") as f:
+            if WRITTEN_BY in f.read():
+                return True
+    return False
 
 
 def _starter_or_nothing():

@@ -184,8 +184,8 @@ msgstr "--update가 받아서 설치합니다."
 msgid "The check for new versions is switched off here."
 msgstr "여기서는 새 버전 확인이 꺼져 있습니다."
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic 정보"
+msgid "About %(name)s"
+msgstr "%(name)s 정보"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "비디오 팟캐스트의 원본 소재가 편집된 에피소드가 됩니다: 비디오 파일에서 뽑은 좋은 오디오, 하나의 시간 축에 놓인 카메라들, 화자별 1차 편집, 그리고 DaVinci Resolve 프로젝트."
@@ -2862,8 +2862,8 @@ msgstr "비디오 1"
 msgid "Video 2"
 msgstr "비디오 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- 원본 소재가 편집된 팟캐스트로"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- 원본 소재가 편집된 팟캐스트로"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "볼륨. 100이 최대입니다 -- Qt는 그 이상을 받지 않습니다."
@@ -3379,8 +3379,8 @@ msgstr "전송"
 msgid "Uploading %s tracks"
 msgstr "트랙 %s개 업로드 중"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON 파일 (*.json);;모든 파일 (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON 파일 (*.json);;모든 파일 (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "카메라는 아래 목소리별로 지정"
