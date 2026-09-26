@@ -1749,7 +1749,9 @@ def run_ffmpeg_with_progress(cmd, duration, text):
             finally:
                 RUN_STOP["children"].discard(proc)
         if stop_wanted():
-            # Ended by us, so the error it left behind says nothing.
+            # Ended by us: its error says nothing, and what it wrote is
+            # cut short. The output comes last, and goes with the stop.
+            PROGRAM.remove_quietly(cmd[-1])
             raise Stopped(RUN_STOP["at"] or text)
         show_progress(text, 1.0)
         if THREAD_SHARE.get(threading.get_ident()) is None:

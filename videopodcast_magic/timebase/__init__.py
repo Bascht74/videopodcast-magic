@@ -1630,6 +1630,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         try:
             write_camera_file(v, info, items, target, a, b, drift, args,
                               cut_at=cut_at, keep_s=keep_s, at_s=at_s)
+        except PROGRAM.Stopped:
+            # Stop is no writing error: it ends the run, not this camera.
+            raise
         except Exception as e:
             print(as_bad(T('  Error while writing: %s') % e))
             return None
@@ -1667,6 +1670,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         THREAD_SHARE[ident] = Share(progress_bar, v)
         try:
             return one_camera(os.path.abspath(v), info, THREAD_SHARE[ident])
+        except PROGRAM.Stopped:
+            raise
         except Exception as e:
             print(T('\n  Stopped: %s') % e)
             return None
