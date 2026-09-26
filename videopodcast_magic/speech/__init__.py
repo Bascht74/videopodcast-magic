@@ -1035,16 +1035,17 @@ def recognise_speech(audio_path, language="", way=""):
     return words, took
 
 
-def words_at_hand(audio_path, language=""):
+def words_at_hand(audio_path, language="", mark=""):
     """Write the words down with what the machine already has.
 
     A run may install faster-whisper and fetch a 1.5 GB model: somebody
     started it and is watching. The window may not -- nobody asked for
     a download by adding files to a list. So macOS first, faster-whisper
     only where a run already installed it. [] where nothing can listen.
+    *mark* stores a mix under what it was made of, not what it holds.
     """
     started = time.time()
-    mark = file_content_mark(audio_path)
+    mark = mark or file_content_mark(audio_path)
     words, took = words_stored(mark, language,
                                [name for _wanted, name in WORD_WAYS])
     if words is not None:
@@ -1121,7 +1122,8 @@ def words_forgotten(state):
     in the last one's.
     """
     for name in ("speakers_words", "speakers_words_of",
-                 "speakers_words_by", "speakers_words_now"):
+                 "speakers_words_by", "speakers_words_now",
+                 "window_words"):
         state.pop(name, None)
 
 
@@ -1140,3 +1142,213 @@ def words_of_recording(state, source):
     if source == (state.get("speakers_words_of") or ""):
         return state.get("speakers_words") or []
     return None
+
+
+#------------------------------------- The window's transcript, caught up
+# The run writes one out of its mix. The window writes its own as soon
+# as the time axis stands, so the settings that need words work before
+# any run: a mix of the tracks on that axis, heard once and stored.
+
+
+def window_words_may(state):
+    """Whether the window may listen by itself now.
+
+    Not where nothing may compute unasked -- the switch that keeps the
+    separation from starting by itself -- not for a project that only
+    synchronises, and not before the time axis stands.
+    """
+    return bool(not PROGRAM.SPEAKER_SPLIT_OFF
+                and state.get("project_type") != "sync"
+                and state.get("axis") and not state.get("axis_running"))
+
+
+def window_words_language(state):
+    """The language of the sound as the window holds it, or ""."""
+    value = state.get("speech_language")
+    return ((value.get() if hasattr(value, "get") else value) or "").strip()
+
+
+def window_words_recordings(state, assign_lines):
+    """The recordings the transcript is heard from, placed on the axis.
+
+    Every row but "do not use", as the speaker measurement takes them,
+    so the words lie where the preview's speakers lie: counted from the
+    earliest of them. Every block of a row, each at its own place.
+    [(path, offset, clock)], sorted by path.
+    """
+    axis, clocks = state.get("axis") or {}, state.get("axis_clock")
+    rows, seen = [], set()
+    for row, _nv, cv in assign_lines or ():
+        if cv.get() == PROGRAM.IGNORE_AUDIO:
+            continue
+        for path in row:
+            if path in seen or not os.path.exists(path):
+                continue
+            seen.add(path)
+            start = PROGRAM.audio_start_of(path, axis)
+            rows.append((path, 0.0 if start is None else float(start),
+                         PROGRAM.audio_clock_of(path, clocks)))
+    begin = min([s for _p, s, _c in rows] or [0.0])
+    return sorted((p, round(s - begin, 4), c) for p, s, c in rows)
+
+
+def window_words_mark(recordings, language=""):
+    """What a mix of these recordings is stored under.
+
+    What it was made of, and not what it holds: then a stored transcript
+    is found without mixing an hour of sound first. The place to the
+    millisecond, so a measured axis that moves by less keeps its words.
+    """
+    parts = ["window words", (language or "").lower()]
+    for path, offset, clock in sorted(recordings or ()):
+        parts.append("%s|%s|%.3f|%.9f" % (
+            PROGRAM.path_key(path), PROGRAM.file_fingerprint(path),
+            offset, clock))
+    return hashlib.sha1("\n".join(parts).encode("utf-8")).hexdigest()
+
+
+def window_words_mix(recordings, target):
+    """Add the recordings up on the axis into one file to listen to.
+
+    Each moved to its place and stretched by its clock, as the run
+    rewrites them; a plain sum, then one gain so it cannot clip. Mono
+    at 16 kHz is what both recognisers hear anyway. Returns *target*.
+    """
+    parts, chains, markers = [], [], []
+    for i, (path, offset, clock) in enumerate(recordings):
+        parts += ["-i", path]
+        chain = "[%d:a:0]aformat=channel_layouts=mono" % i
+        if abs(clock - 1.0) > 1e-7:
+            chain += ",atempo=%.9f" % clock
+        if offset > 0:
+            chain += ",adelay=%d:all=1" % int(round(offset * 1000))
+        chains.append(chain + "[m%d]" % i)
+        markers.append("[m%d]" % i)
+    fc = (";".join(chains) + ";" + "".join(markers)
+          + "amix=inputs=%d:normalize=0:dropout_transition=0" % len(markers)
+          + ",volume=%.6f[out]" % (1.0 / len(markers)))
+    done = subprocess.run(
+        ["ffmpeg", "-v", "error", "-nostdin"] + parts
+        + ["-filter_complex", fc, "-map", "[out]", "-ar", "16000",
+           "-ac", "1", "-c:a", "pcm_s16le", "-y", target],
+        stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    if done.returncode != 0:
+        raise RuntimeError(done.stderr.decode("utf-8", "replace")[-300:])
+    return target
+
+
+def window_words_placed(words, offset, clock):
+    """Words of one recording's own time, moved onto the window's axis."""
+    return [speech_word(w["start"] / clock + offset,
+                        w["end"] / clock + offset, w["word"])
+            for w in (words or ())]
+
+
+def window_words_heard(recordings, language, mark, report):
+    """The transcript of these recordings, on the axis, or [].
+
+    One recording is heard as it is, so the separation's recognition of
+    it and this one are the same stored answer. Several are mixed, but
+    only once nothing is stored under *mark*.
+    """
+    if len(recordings) == 1:
+        path, offset, clock = recordings[0]
+        report(T('Writing down what is said ...'), 0.1)
+        return window_words_placed(words_at_hand(path, language),
+                                   offset, clock)
+    words, _way = words_stored(mark, language,
+                               [name for _wanted, name in WORD_WAYS])
+    if words is not None:
+        return words
+    folder = tempfile.mkdtemp(prefix="vpm_words_")
+    try:
+        report(T('Mixing the tracks for the transcript'), 0.0)
+        mix = window_words_mix(recordings, os.path.join(folder, "mix.wav"))
+        report(T('Writing down what is said ...'), 0.2)
+        return words_at_hand(mix, language, mark)
+    finally:
+        PROGRAM.shutil.rmtree(folder, True)
+
+
+def window_words_work(recordings, language, mark, held, report=None):
+    """Hear the recordings in a thread of its own, and leave the words.
+
+    Nothing here touches a widget: *report* crosses over on a signal,
+    and the words go into *held*, which the watchdog reads. The bar is
+    always finished, a failure included, or it would wait for ever.
+    """
+    said = []
+
+    def tell(text, share):
+        """Pass a step on to the bar, and remember that one was."""
+        said.append(share)
+        if report is not None:
+            report(text, share)
+
+    try:
+        words = window_words_heard(recordings, language, mark, tell)
+    except Exception as e:
+        print(T('  The speech recognition reports: %s') % str(e)[:140])
+        words = []
+    if said and report is not None:
+        report("", 1.0)
+    held["words"] = list(words or ())
+    held["busy"] = False
+    held["fresh"] = True
+
+
+def window_words_round(state, assign_lines, report=None):
+    """Start the window's own transcript once the time axis stands.
+
+    One at a time; a changed set of recordings or language is heard
+    after it. The separation's words of the one recording are taken as
+    they are, and waited for while being written. True where the preview
+    has news: a transcript begun, or one arrived.
+    """
+    if not window_words_may(state):
+        return False
+    recordings = window_words_recordings(state, assign_lines)
+    if not recordings:
+        return False
+    mark = window_words_mark(recordings, window_words_language(state))
+    held = state.setdefault("window_words", {})
+    if held.get("busy"):
+        return False
+    if held.get("mark") == mark:
+        fresh, held["fresh"] = held.get("fresh"), False
+        return bool(fresh)
+    if len(recordings) == 1:
+        path, offset, clock = recordings[0]
+        if path in (state.get("speakers_words_now") or ()):
+            return False
+        heard = (state.get("speakers_words_by") or {}).get(path)
+        if heard is not None:
+            held.clear()
+            held.update(mark=mark, busy=False, fresh=False,
+                        words=window_words_placed(heard, offset, clock))
+            return True
+    held.clear()
+    held.update(mark=mark, busy=True, fresh=False, words=None)
+    threading.Thread(target=window_words_work,
+                     args=(recordings, window_words_language(state), mark,
+                           held, report), daemon=True).start()
+    return True
+
+
+def window_words_joined(state, d, assign_lines):
+    """The window's handover with its own transcript in it.
+
+    The words where they belong to exactly these recordings; while one
+    is being written, a mark saying so, which words_missing_why reads.
+    A handover the window did not build is none of this one's business.
+    """
+    held = state.get("window_words") or {}
+    if d is None or not held:
+        return d
+    if held.get("busy"):
+        return dict(d, words_listening=True)
+    recordings = window_words_recordings(state, assign_lines)
+    if (not held.get("words") or held.get("mark") != window_words_mark(
+            recordings, window_words_language(state))):
+        return d
+    return dict(d, words=words_for_handover(held["words"]))
