@@ -492,16 +492,17 @@ def run_tracks_of(model):
 
     As the run takes them: a recording set to "do not use" is none, and
     rows of one name are one track -- an unnamed row counts alone. A
-    video that is not intro, outro or ignored is a picture, and a picture
-    or the Multitrack tick lays the tracks on one axis.
+    video that is not intro, outro or ignored is a picture. A picture
+    lays the tracks on one axis, and so do two or more without one,
+    whatever the Multitrack tick says -- as the run's time base does.
     """
     names = [v.get().strip() for _r, v, choice in model.assign_lines
              if choice.get() != IGNORE_AUDIO]
     pictures = [p for p, kind in model.files if kind == "video"
                 and (model.clip_kinds.get(p) or Value(TYPE_CONTENT)).get()
                 not in (TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)]
-    return (len(set(n for n in names if n)) + names.count(""),
-            bool(pictures) or bool(model.multitrack.get()))
+    count = len(set(n for n in names if n)) + names.count("")
+    return count, bool(pictures) or count >= 2
 
 
 def missing_conditions(files, production, multitrack, assign_lines,
