@@ -401,7 +401,8 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
                      "cut_basis", "run_auphonic", "project_last",
-                     "project_kept", "handover_offered",
+                     "project_kept", "project_refused",
+                     "project_refused_said", "handover_offered",
                      "project_type_asked") + SPEAKER_STATE:
             state.pop(name, None)
         words_forgotten(state)
