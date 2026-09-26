@@ -1,0 +1,22 @@
+# What every picture under docs/images shows, as seen by whoever looked.
+# One row per picture, tab-separated: file, sha256, date seen, what it shows.
+# A picture whose bytes move needs a new row before it is pushed, and the
+# last field is written by the one who looked -- never by a machine.
+# python3 development/seen_rows.py prints the rows still owed, field four
+# left empty; tests/source/source_pictures_seen_test.py holds this file.
+assignment.de.png	a57ec42b09a8c704f705b5cebc677b4355a8798f94422baae26aed48cd85869e	2026-09-26	German Assignment tab: the three fixture recordings on fixture cameras, colour-bar preview of WideCam; fixture names only
+assignment.png	07ce102631b0216f5123ad292483fe610fa1ed21f9947d18929570b058b9f488	2026-09-26	Assignment tab: CoPresenter, Guest, Presenter on fixture cameras, colour-bar preview of WideCam, no timecode; fixture names only
+blocks.de.png	c2288f53eaccbb76347296877b8b082f8394e00a1f4f2c565caf7c3e218314e7	2026-09-26	German Files tab, CoPresenter opened to its three blocks; fixture names and /tmp/vpm_shots/Demo_de only
+blocks.png	ba1b9a2ed02fa6a93f6485ff36d5923fa36cfe6a0c2502be8eaf79fb8c57ab3a	2026-09-26	Files tab, CoPresenter opened to its three REC blocks with format and length; fixture names and /tmp/vpm_shots/Demo_en only
+channels.de.png	bf0d80ab4da9ec5259c2cc8f45431063331adbb0ec875c2c51c4a4ef495e0c6e	2026-09-26	German Files tab, Mixer.wav opened to eight channels, StudioCam; fixture names and /tmp/vpm_shots/Demo_channels_de only
+channels.png	3e3f6a993fc3a56ea937ad09ea1f57c1b903fe81cb2954dc41b40f586f42d0c2	2026-09-26	Files tab, Mixer.wav opened to eight channels with pair verdicts, StudioCam; fixture names and /tmp/vpm_shots/Demo_channels_en only
+files.de.png	da6039fa67543bd0d62d9b406aec2e1833ef3b2b8d252f8b4e1c7ddb382171e8	2026-09-26	German Files tab: fixture recordings and cameras, production Demo, output /tmp/vpm_shots/Demo_de/Ergebnis; nothing else
+files.png	ac892ebfe46d02efb8417f394a8d768698d159db5f70b605c42b1628febb0727	2026-09-26	Files tab: three fixture recordings, three fixture cameras, production Demo, output /tmp/vpm_shots/Demo_en/Result; nothing else
+output.de.png	2b48fc75fca927d8069e6980ec8db13ee41057e192bdc39f225b8f34208bf544	2026-09-26	German Output tab after a dry run: offsets, time window, tracks and bleed check of the fixture speakers; no outside path
+output.png	dde02787bc44b6d083c2f4b4990b64766e960e5feab3cd6893bff7de39117e57	2026-09-26	Output tab after a dry run: offsets, time window, tracks and bleed check of the fixture speakers; no outside path
+resolve-cut.de.png	c4c3eccde281fc261be080e203c4013933c96e1a8d691b2207d32430dbcd5649	2026-09-26	German Resolve cut tab: camera-cut settings, PresentersCam preview with shot strip, speaker table; fixture names only
+resolve-cut.png	f144c0006af3a40e6e0dd0ce2a7b139be59bffbeeb22215d0a53a506e85e2b91	2026-09-26	Resolve cut tab: camera-cut settings, PresentersCam preview with shot strip, speaker table Guest/CoPresenter; fixture names only
+settings.de.png	1aa7e18a0d8633d1a87fb95fe7e1879a66a3c438b459fc6f874feb22e4208c0c	2026-09-26	German settings dialog: window language, empty API Key field, Keychain box unticked, Resolve answers; no key, no path
+settings.png	a6c5e2e695ca2044c650246c560c0d002373cd89fe5bb2ea60e36f9466cbbdc5	2026-09-26	Settings dialog: window language, empty API Key field, Keychain box unticked, Resolve answers with its version; no key, no path
+voices.de.png	2954b04c1c07b1d90ebe4154df9839ba7e1cb2b39cfa3df31924533eb663c553	2026-09-26	German Assignment tab, Guest recording split into three voices Sprecher 1-3 on fixture cameras; fixture names only
+voices.png	6a3182d2e2c5c3cdba173c83153166039a90cf2465a61e484c9b617b692e0906	2026-09-26	Assignment tab, Guest_Take0021A split into three voices Speaker 1-3 on fixture cameras, start held by the multitrack line; fixture names only
