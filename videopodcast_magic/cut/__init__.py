@@ -770,14 +770,15 @@ def floor_handovers(tracks, main_speaker, min_len_speech,
 EDGE_SHARE = 1.0 / 3.0
 
 def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
-                   faint=False, latest=None):
+                   said=None, latest=None):
     """Hold the wide shot while the round is introduced and closed.
 
     Someone introduces the participants at the start and says goodbye at
     the end; both belong in the wide frame. The opening ends where the
     floor first changes hands away from the main speaker, and the same
     rule runs backwards. A voice the separation never hears cannot end it.
-    *latest* is "Wide shot at the latest"; see edges_held_short.
+    *latest* is "Wide shot at the latest"; see edges_held_short. What was
+    laid goes into *said* for edges_said, which reads the finished cut.
     """
     if not cut:
         return cut
@@ -801,15 +802,44 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
             out += [(a, from_s, who), (from_s, b, wide_shot)]
         else:
             out.append((a, b, who))
-    if not faint:
-        print(T('  Wide shot at the edges: until %s and from %s') % (as_hms(until - begin),
-                                                      as_hms(from_s - begin)))
-        if (until, from_s) != (other[0][1], other[-1][0]):
-            print(T('  shortened to at most %s each -- the first '
-                    'announcement ends at %s, the last begins at %s')
-                  % (as_hms(most), as_hms(other[0][1] - begin),
-                     as_hms(other[-1][0] - begin)))
+    if said is not None:
+        said.update(begin=begin, most=most, first=other[0][1],
+                    last=other[-1][0],
+                    held=(until, from_s) != (other[0][1], other[-1][0]))
     return merge_adjacent(out)
+
+def edges_said(cut, wide_shot, said):
+    """The log lines for the wide shot at the edges, read off *cut*.
+
+    *cut* is the finished one: an edge shorter than the shortest shot
+    goes in the merging, and a line written before it named an edge that
+    never appears. *said* is what wide_shot_at_edges filled in.
+    """
+    if not said or not cut:
+        return ""
+    begin = said["begin"]
+    opening = cut[0][1] if cut[0][2] == wide_shot else None
+    closing = cut[-1][0] if cut[-1][2] == wide_shot else None
+    if opening is not None and closing is not None:
+        out = [T('  Wide shot at the edges: until %s and from %s')
+               % (as_hms(opening - begin), as_hms(closing - begin))]
+    elif closing is not None:
+        out = [T('  Wide shot at the edges: only from %s -- the opening '
+                 'one was shorter than the shortest shot and went into '
+                 'the next') % as_hms(closing - begin)]
+    elif opening is not None:
+        out = [T('  Wide shot at the edges: only until %s -- the closing '
+                 'one was shorter than the shortest shot and went into '
+                 'the one before') % as_hms(opening - begin)]
+    else:
+        out = [T('  Wide shot at the edges: none -- both were shorter '
+                 'than the shortest shot and went into their neighbours')]
+    if said["held"]:
+        out.append(T('  shortened to at most %s each -- the first '
+                     'announcement ends at %s, the last begins at %s')
+                   % (as_hms(said["most"]), as_hms(said["first"] - begin),
+                      as_hms(said["last"] - begin)))
+    return "\n".join(out)
 
 def edges_held_short(begin, end, until, from_s, latest=None):
     """Shorten either edge to what it may hold. Returns (until, from, most).
@@ -1088,8 +1118,9 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     rules = rules or cut_rules()
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
                            min_len=min_len, lead_in=-delay, rules=rules)
+    said = {}
     if edge:
-        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint,
+        cut = wide_shot_at_edges(cut, tracks, wide_shot, said=said,
                                  latest=at_latest)
         cut = merge_short_shots(cut, min_len)
     if after > 0:
@@ -1098,6 +1129,8 @@ def camera_cut(tracks, length, camera_of, wide_shot,
         # And again after them, which is what merge_short_shots asks
         # for: an inserted wide shot may be shorter than the shortest.
         cut = merge_short_shots(cut, min_len)
+    if said and not faint:
+        print(edges_said(cut, wide_shot, said))
     return cut
 
 def camera_short_name(track):
@@ -1470,6 +1503,9 @@ def without_a_wide_shot(after, edge, rules):
     for api_key in ("on_monologue", "on_together", "on_uncertain"):
         if rules.get(api_key) == SHOT_WIDE:
             rules[api_key] = SHOT_HOLD
+    # And an uncertain stretch holds without the silence's limit: past
+    # it would stand the stand-in, a speaker's camera picked by name.
+    rules["no_wide"] = True
     return 0.0, False, rules
 
 def legend_names(cameras, wide_shot=None):
@@ -2120,11 +2156,17 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             return None
         return wide_shot
 
+    held = object()
+
     def unsure_picture(t, active):
-        """Return what to show where the cut does not know whom."""
+        """Return what to show where the cut does not know whom.
+
+        Holding is marked, not answered: how long it may last is the
+        whole stretch's length, which unsure_held knows afterwards.
+        """
         want = rules.get("on_uncertain") or SHOT_WIDE
         if want == SHOT_HOLD:
-            return None
+            return held
         if want in (SHOT_LISTENER, SHOT_ALTERNATE):
             here = {camera_of.get(n) for n in on_a_camera(active)}
             listener = next_speaker_camera(
@@ -2177,6 +2219,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             who = common_camera(shown) or together_picture(middle, shown)
         raw.append([a, b, who, tuple(sorted(active, key=name_order))])
 
+    unsure_held(raw, held, wide_shot,
+                None if rules.get("no_wide") else hold_gap)
     # "Hold" means the picture does not change, so the block takes the
     # camera of the one before it -- or of the one after, at the start.
     for i in range(len(raw)):
@@ -2263,6 +2307,27 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
         tally["used"] = tally.get("used", 0) - missed
         tally["not_moved"] = missed
     return [tuple(r) for r in final]
+
+def unsure_held(raw, held, wide_shot, most):
+    """Answer the holds of "Recognition uncertain", in place, in *raw*.
+
+    The limit is the silence's, "Short gap up to": a stretch of blocks
+    marked *held* no longer than *most* keeps the picture (None), a
+    longer one goes to the wide shot. *most* None holds without an end,
+    as where the wide shot is only a stand-in.
+    """
+    i = 0
+    while i < len(raw):
+        if raw[i][2] is not held:
+            i += 1
+            continue
+        j = i
+        while j + 1 < len(raw) and raw[j + 1][2] is held:
+            j += 1
+        keep = most is None or raw[j][1] - raw[i][0] <= most
+        for k in range(i, j + 1):
+            raw[k][2] = None if keep else wide_shot
+        i = j + 1
 
 def voices_joined(keeper, swallowed):
     """Add the swallowed shot's voices to the shot that stays.
