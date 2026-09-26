@@ -83,6 +83,7 @@ cut_voice_on_its_camera	18
 cut_wide_colour_apart	11
 cut_wide_not_on_speech	6
 cut_window_cut_as_whole	9
+files_added_alike	7
 files_atom_travels	19
 files_block_out_and_back	10
 files_block_stays_apart	15
@@ -195,6 +196,7 @@ run_unreadable_named	6
 run_update_says_it_landed	7
 run_way_back_offered	15
 run_which_script	7
+run_window_run_agrees	6
 silent	auphonic_key_kept
 sound_all_blocks_count	18
 sound_any_count_judged	56
@@ -261,6 +263,7 @@ table_pair_seats_apart	10
 table_recording_shown	15
 table_row_per_channel	11
 table_row_per_voice	43
+table_seats_reach_run	6
 table_stereo_splits	5
 table_sync_keeps_stem	6
 table_sync_none_derived	6
