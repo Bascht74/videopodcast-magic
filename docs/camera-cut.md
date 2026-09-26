@@ -298,11 +298,15 @@ the wide shot's share falls from 28 to 17 per cent.
 many question marks the transcript held and for how many of them the
 picture was brought forward -- there the thing is called a reaction cut,
 and that is the last place the word is used; on the screen it is
-**After a question** and **Answer on screen earlier**. A second line
-follows where any were let go, with the count for each reason: the main
-speaker asked, asker and answerer on one camera, nobody answered in
-time, the answer did not keep the floor, nobody was speaking at the
-question. Without a transcript the line says that instead, so a setting
+**After a question** and **Answer on screen earlier**. Each place is
+counted once, and only where the picture really moved. An answer that
+starts a little off the place where the picture changes to the
+answerer -- no further than `--reaction-gap` -- is brought forward to
+that change. A second line follows where any were let go, with the
+count for each reason: the main speaker asked, asker and answerer on one
+camera, nobody answered in time, the answer did not keep the floor,
+nobody was speaking at the question, the picture did not change to the
+answerer there, the answer was counted with the question before. Without a transcript the line says that instead, so a setting
 that can do nothing does not read as one that is broken.
 
 **Listener** means whoever speaks next, and only if somebody on that

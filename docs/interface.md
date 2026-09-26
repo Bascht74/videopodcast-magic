@@ -26,6 +26,14 @@ Four tabs, in the order they are needed.
   leave the field, press Enter, save the project or start a run --
   never halfway through typing.
 
+  Another project's file is never written over on the way. Where one
+  already lies in the folder under the new name, the file stays where
+  it is, the window says once which project lies there, and saving goes
+  on into the file it had. A production that has no file of its own yet
+  is saved as `<name> (2)` beside it instead, and the window says that
+  too. A project opened from a copy of its file -- `Beta copy.json` --
+  is saved into that copy, not into `Beta.json`.
+
   Where a project file lies with the material, the program offers it as
   the files come in, and before it measures any of them: one found and
   it asks once, naming it and the day it was written; several and it
@@ -524,9 +532,11 @@ type chosen yet.** Opening the **Assignment & time window** tab without
 an answer asks once per production, in a box **Project type** --
 **What is this production to become?** -- with the two entries and
 **Cancel**. **Cancel** chooses nothing and is not asked again; the field
-in the strip still takes the answer. An opened project never asks: the
-type is in the project file, and a project file written before there
-was a type opens as **Cut by speaker**. On the command line it is
+in the strip still takes the answer. An opened project asks only where
+it was saved before its type was chosen: then the field stands on **not
+set** again, and the tab asks as for a new one. Every other project file
+carries its type, and one written before there was a type opens as
+**Cut by speaker**. On the command line it is
 `--project-type cut` or `sync`, and `cut` where nothing is said.
 
 **Loudness** in the **Production** box on the first page sets how loud
@@ -585,8 +595,9 @@ it.
 
 Then a summary: how many cameras and audio tracks, how long, which
 preset, how many files this makes, how much room they need and how much
-is free. If the run would overwrite files that are already there, a
-window first shows which.
+is free. If the run would overwrite files that are already there and
+that no earlier run of this production wrote, a window first shows
+which.
 
 The player has play and pause, seconds and frames forward and back,
 volume and speed; timecode on the left, position on the right, counted
@@ -745,10 +756,11 @@ standing in.
 
 **Arabic, Persian, Hebrew and Urdu turn the window round.** Menu bar,
 tabs, boxes, tables and this settings sheet all read from right to left,
-the way a reader of those languages expects. The log keeps its own
-direction: a line that begins with a path or a timecode stays as it
-was written, because a run's own words are not a sentence in any
-language.
+the way a reader of those languages expects. The log reads from the
+right as well, every line against the right edge, also one that begins
+with a file name. A path or a timecode inside it keeps the order it was
+written in, and a number keeps its sign in front: `-16 LUFS`, not
+`16- LUFS`.
 
 The choice is written down the moment it is made, and the line above
 the field says what happens next. As long as the language picked is the

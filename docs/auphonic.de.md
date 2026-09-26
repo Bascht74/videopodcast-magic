@@ -241,4 +241,6 @@ Im Fenster gibt es diese Optionen nicht.
   nur einen Lauf, der mehrere Spuren hochlädt; bei einer einzelnen Spur
   gibt es keinen Upload je Spur, den man wieder aufnehmen könnte.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
-  liegenden Spuren, benannt nach den Sprechern.
+  liegenden Spuren, benannt nach den Sprechern. Liegt eine der
+  Aufnahmen, die der Lauf bekommt, selbst in diesem Ordner, lehnt er sie
+  ab: Er hält vor allem anderen an und nennt die Datei.

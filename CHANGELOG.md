@@ -25,6 +25,249 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b25] - 2026-09-26
+
+### Added
+
+- **Every recording in the file list now has a field "In the sound":
+  "Speech" or "Mixed".** Set a recording with music or a mix under the
+  voices to Mixed, and the program may place it by the phase of its
+  sound.
+- **The command line takes `--sound speech|mixed` for every recording
+  and `--sound-of FILE WHAT` for one**, the same answer the "In the
+  sound" field gives in the window.
+
+### Changed
+
+- **A recording on "Speech" that shares no sound with the cameras is now
+  refused** instead of being placed by the phase of its sound, which on
+  speech put a recording from elsewhere far off the mark.
+- **A recording that no way of measuring can place now stands at its
+  timecode**, in the run and in the preview alike, instead of where the
+  failed guess of its sound would put it.
+- **After auphonic.com, who speaks when is now worked out by voice on
+  the raw microphones**, as it is without the service. On four real
+  productions that found the right speaker 99 % of the time, against
+  about 80 % from the processed tracks.
+- **"Wide shot for greeting at the start and farewell at the end" now
+  shortens an edge of a short recording instead of dropping it.** Each
+  edge is cut to at most a third of the length, and the log says so.
+- **Each wide-shot edge now also ends at "Wide shot at the latest"**,
+  120 seconds by default. In a 30-minute recording with a long greeting,
+  each end used to stay on the wide shot for ten minutes.
+- **"Answer on screen earlier" now also brings forward an answer that
+  begins a little off the camera change**, up to the reaction gap of
+  three seconds; before, only an answer starting exactly there counted.
+- **The log, the plan and the preflight now name the second of two
+  camera files of one name "C0003.MP4 (2)"**, as the window does.
+- **A camera or voice name typed into the table now stays exactly as
+  typed**, even one that looks like the table's own proposal, such as
+  "Wide 2".
+- **The window can now be made as narrow as its contents allow**, about
+  560 pixels in English, instead of stopping at a fixed 1000 × 520; in
+  a wide font it no longer squeezes a choice box below its text.
+- **Transcripts and speaker separations now stay in the cache for 30
+  days after they were last used**, not after they were made, so a
+  recording used every week is not listened to again.
+
+### Removed
+
+- **The command-line switch `--auphonic-api-key` is gone.** A run from
+  the command line takes the key from `AUPHONIC_TOKEN`, so the key no
+  longer stands in the process list or the shell history.
+
+### Fixed
+
+- **Saving a project opened from a copy of its file now writes into that
+  copy.** Opening and saving "Beta copy.json" used to overwrite the
+  original "Beta.json".
+- **A production without a file of its own no longer writes over another
+  project's file of the same name.** It is now saved as "Name (2)", and
+  the window says so.
+- **Renaming a production to another project's name no longer
+  overwrites that project's file.** The window now says which project
+  lies there, and saving goes on into the current file.
+- **Renaming a production now moves its project file only once the name
+  is settled**: on leaving the field, on Enter, on "Save project" or at
+  the start of a run, instead of on every keystroke.
+- **Closing a project no longer lets a time axis still being measured
+  land in the next production's file**; the late answer is now dropped.
+- **A project saved before its type was chosen now reopens with "Project
+  type" still open**, and "Start" and "Dry run" wait for the answer
+  instead of treating it as "Cut by speaker".
+- **A dry run from the window no longer rewrites the project file in the
+  output folder**; the folder now stays exactly as it was.
+- **"Start again now" after an update or the ffmpeg install now reopens
+  the window.** It used to repeat the last run from the command line and
+  upload to auphonic.com without asking.
+- **After a run, or after the output folder is reset, the window now
+  looks for finished Auphonic tracks again**, so the next run uses them
+  instead of uploading and spending credit a second time.
+- **"Overwrite files" no longer asks about files an earlier run of this
+  production wrote**, and it now names the camera files the run really
+  writes.
+- **A camera much shorter than the others is now found wherever it
+  begins.** It used to be looked for only near the start of the longest
+  camera, and refused wherever it began later.
+- **The preview now refuses a short camera from another room, as the run
+  does**, instead of placing it where the run then left it out.
+- **A recording block that fits weakly on too few points is no longer
+  laid out half a minute wrong**; it now stands at its clock instead.
+- **A run with `--auphonic-done` now refuses a recording that lies in
+  that same folder** and names the file, instead of running through with
+  the speakers read off the returned tracks.
+- **A recording joined from several microphones now keeps its speaker
+  separation after 30 days**, instead of being separated again when the
+  joined file is built afresh.
+- **Without "Multitrack", the handover and the lists are now named after
+  the production**, not after the folder the material lies in.
+- **A file set to "ignore this video" is no longer counted under the
+  file list as one that does not fit.**
+- **On Windows the program now ends cleanly when its window closes**;
+  with Python 3.10 it used to crash on the way out.
+- **In Arabic, Persian, Hebrew and Urdu every line of the log now reads
+  from the right**, also a line that begins with a file name.
+- **In Arabic, Persian, Hebrew and Urdu a signed number now keeps its
+  sign in front**: the log and the preflight read "-16 LUFS" where they
+  read "16- LUFS".
+
+### Security
+
+- **The window now hands the Auphonic key to its run inside the
+  program**, so the key no longer stands in the process list while the
+  run lasts.
+
+### Documentation
+
+- **The manual now describes the "In the sound" field** and says when
+  the program places a recording by the phase of its sound.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Jede Aufnahme in der Dateiliste hat jetzt ein Feld „Im Ton“:
+  „Sprache“ oder „Gemischt“.** Liegt Musik oder eine Mischung unter den
+  Stimmen, stellt man sie auf Gemischt, und das Programm darf sie über
+  die Phase ihres Tons platzieren.
+- **Die Kommandozeile kennt `--sound speech|mixed` für alle Aufnahmen
+  und `--sound-of DATEI WAS` für eine**, dieselbe Antwort, die im
+  Fenster das Feld „Im Ton“ gibt.
+
+### Geändert
+
+- **Eine Aufnahme auf „Sprache“, die keinen Ton mit den Kameras teilt,
+  wird jetzt abgelehnt**, statt über die Phase ihres Tons platziert zu
+  werden – bei Sprache landete so eine fremde Aufnahme weit daneben.
+- **Eine Aufnahme, die kein Messweg platzieren kann, steht jetzt an
+  ihrem Timecode**, im Lauf wie in der Vorschau, statt dort, wohin die
+  gescheiterte Schätzung ihres Tons sie gelegt hätte.
+- **Nach auphonic.com wird jetzt an den rohen Mikrofonen über die Stimme
+  bestimmt, wer wann spricht**, genau wie ohne den Dienst. In vier
+  echten Produktionen traf das zu 99 % den richtigen Sprecher, über die
+  bearbeiteten Spuren nur zu etwa 80 %.
+- **„Weitwinkel für Begrüßung am Anfang und Verabschiedung am Ende“
+  kürzt bei einer kurzen Aufnahme jetzt den Rand, statt ihn zu
+  streichen.** Jeder Rand wird auf höchstens ein Drittel der Länge
+  gekürzt, und das Protokoll sagt es.
+- **Jeder Weitwinkel-Rand endet jetzt auch bei „Weitwinkel
+  spätestens“**, in der Grundeinstellung nach 120 Sekunden. In einer
+  30-minütigen Aufnahme mit langer Begrüßung blieb vorher jedes Ende
+  zehn Minuten auf dem Weitwinkel.
+- **„Antwort früher im Bild“ zieht jetzt auch eine Antwort vor, die ein
+  Stück neben dem Kamerawechsel beginnt**, bis zur Reaktionsspanne von
+  drei Sekunden; vorher zählte nur eine, die genau dort anfing.
+- **Protokoll, Plan und Vorflug nennen die zweite von zwei gleichnamigen
+  Kameradateien jetzt „C0003.MP4 (2)“**, so wie das Fenster.
+- **Ein in die Tabelle getippter Kamera- oder Stimmenname bleibt jetzt
+  genau so stehen**, auch wenn er wie ein Vorschlag der Tabelle aussieht,
+  etwa „Wide 2“.
+- **Das Fenster lässt sich jetzt so schmal ziehen, wie sein Inhalt
+  erlaubt**, auf Englisch etwa 560 Pixel, statt bei festen 1000 × 520 zu
+  enden; bei breiter Schrift drückt es keine Auswahl mehr unter ihren
+  Text zusammen.
+- **Niederschriften und Sprechertrennungen bleiben jetzt 30 Tage nach
+  ihrer letzten Nutzung im Zwischenspeicher**, nicht nach ihrer
+  Entstehung – eine Aufnahme, die jede Woche gebraucht wird, wird nicht
+  noch einmal abgehört.
+
+### Entfernt
+
+- **Der Kommandozeilenschalter `--auphonic-api-key` ist weg.** Ein Lauf
+  von der Kommandozeile nimmt den Schlüssel aus `AUPHONIC_TOKEN`; so
+  steht er weder in der Prozessliste noch im Verlauf der Shell.
+
+### Behoben
+
+- **Ein Projekt, das aus einer Kopie seiner Datei geöffnet wurde,
+  speichert jetzt in diese Kopie.** Wer „Beta Kopie.json“ öffnete und
+  speicherte, überschrieb vorher das Original „Beta.json“.
+- **Eine Produktion ohne eigene Datei überschreibt die gleichnamige
+  Datei eines anderen Projekts nicht mehr.** Sie wird jetzt als
+  „Name (2)“ gespeichert, und das Fenster sagt es.
+- **Wer eine Produktion auf den Namen eines anderen Projekts umbenennt,
+  überschreibt dessen Datei nicht mehr.** Das Fenster sagt jetzt, welches
+  Projekt dort liegt, und gespeichert wird weiter in die bisherige Datei.
+- **Beim Umbenennen zieht die Projektdatei jetzt erst um, wenn der Name
+  feststeht**: beim Verlassen des Felds, bei Enter, bei „Projekt
+  speichern“ oder beim Start eines Laufs, nicht mehr bei jedem Tastendruck.
+- **Nach „Projekt schließen“ landet eine Zeitachse, die noch gemessen
+  wurde, nicht mehr in der Datei der nächsten Produktion**; die verspätete
+  Antwort wird jetzt verworfen.
+- **Ein Projekt, das vor der Wahl seines Typs gespeichert wurde, öffnet
+  jetzt mit offenem „Projekttyp“**, und „Start“ und „Probelauf“ warten
+  auf die Antwort, statt es als „Schnitt nach Sprecher“ zu nehmen.
+- **Ein Probelauf aus dem Fenster schreibt die Projektdatei im
+  Ausgabeordner nicht mehr neu**; der Ordner bleibt jetzt genau, wie er
+  war.
+- **„Jetzt neu starten“ nach einem Update oder der ffmpeg-Installation
+  öffnet jetzt wieder das Fenster.** Vorher wiederholte es den letzten
+  Lauf von der Kommandozeile und lud ungefragt zu auphonic.com hoch.
+- **Nach einem Lauf und nach dem Zurücksetzen des Ausgabeordners sucht
+  das Fenster jetzt wieder nach fertigen Auphonic-Spuren**; der nächste
+  Lauf nimmt sie, statt noch einmal hochzuladen und Guthaben zu zahlen.
+- **„Dateien überschreiben“ fragt nicht mehr nach Dateien, die ein
+  früherer Lauf dieser Produktion geschrieben hat**, und nennt jetzt die
+  Kameradateien, die der Lauf wirklich schreibt.
+- **Eine Kamera, die viel kürzer ist als die anderen, wird jetzt
+  gefunden, wo immer sie beginnt.** Vorher wurde sie nur am Anfang der
+  längsten Kamera gesucht und abgelehnt, wenn sie später einsetzte.
+- **Die Vorschau lehnt eine kurze Kamera aus einem anderen Raum jetzt ab
+  wie der Lauf**, statt sie dorthin zu legen, wo der Lauf sie dann
+  wegließ.
+- **Ein Aufnahmeblock, der schwach und auf zu wenigen Stützstellen
+  passt, liegt nicht mehr eine halbe Minute daneben**; er steht jetzt
+  an seiner Uhr.
+- **Ein Lauf mit `--auphonic-done` lehnt jetzt eine Aufnahme ab, die in
+  eben diesem Ordner liegt**, und nennt die Datei, statt durchzulaufen
+  und die Sprecher an den zurückgegebenen Spuren abzulesen.
+- **Eine aus mehreren Mikrofonen zusammengefügte Aufnahme behält ihre
+  Sprechertrennung jetzt auch nach 30 Tagen**, statt neu getrennt zu
+  werden, wenn die zusammengefügte Datei neu entsteht.
+- **Ohne „Multitrack“ heißen Übergabe und Listen jetzt nach der
+  Produktion**, nicht mehr nach dem Ordner, in dem das Material liegt.
+- **Eine Datei auf „Video ignorieren“ zählt unter der Dateiliste nicht
+  mehr als eine, die nicht dazu passt.**
+- **Unter Windows endet das Programm jetzt sauber, wenn sein Fenster
+  schließt**; mit Python 3.10 stürzte es vorher beim Beenden ab.
+- **Auf Arabisch, Persisch, Hebräisch und Urdu liest sich jetzt jede
+  Zeile des Protokolls von rechts**, auch eine, die mit einem Dateinamen
+  beginnt.
+- **Auf Arabisch, Persisch, Hebräisch und Urdu behält eine Zahl mit
+  Vorzeichen dieses jetzt vorne**: Protokoll und Vorflug zeigen
+  „-16 LUFS“, wo sie „16- LUFS“ zeigten.
+
+### Sicherheit
+
+- **Das Fenster reicht den Auphonic-Schlüssel seinem Lauf jetzt im
+  Programm weiter**, so steht er nicht mehr in der Prozessliste, solange
+  der Lauf dauert.
+
+### Dokumentation
+
+- **Das Handbuch beschreibt jetzt das Feld „Im Ton“** und sagt, wann das
+  Programm eine Aufnahme über die Phase ihres Tons platziert.
+
 ## [3.0.0b24] - 2026-09-25
 
 ### Changed

@@ -320,11 +320,15 @@ nennt, wie viele Fragezeichen im Transkript standen und bei wie vielen
 davon das Bild vorgezogen wurde. Dort heißt die Sache
 Reaktionsschnitt, und das ist die letzte Stelle, an der das Wort noch
 vorkommt: auf dem Bildschirm heißen die beiden Einstellungen **Nach
-einer Frage** und **Antwort früher im Bild**. Wo Fragen wegfielen, folgt
-eine zweite Zeile mit der Zahl je Grund — der Hauptsprecher fragte,
-Fragender und Antwortender auf einer Kamera, niemand antwortete
-rechtzeitig, die Antwort behielt das Wort nicht, bei der Frage sprach
-niemand. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
+einer Frage** und **Antwort früher im Bild**. Gezählt wird jede Stelle
+einmal, und nur dort, wo das Bild wirklich gewechselt hat. Beginnt eine
+Antwort ein Stück neben der Stelle, an der das Bild zum Antwortenden
+wechselt -- höchstens `--reaction-gap` weit --, wird sie an diesen
+Wechsel vorgezogen. Wo Fragen wegfielen, folgt eine zweite Zeile mit der
+Zahl je Grund — der Hauptsprecher fragte, Fragender und Antwortender auf
+einer Kamera, niemand antwortete rechtzeitig, die Antwort behielt das
+Wort nicht, bei der Frage sprach niemand, das Bild wechselte dort nicht
+zum Antwortenden, die Antwort wurde mit der Frage davor gezählt. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
 Einstellung, die nichts bewirken kann, nicht wie eine kaputte aussieht.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser

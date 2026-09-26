@@ -225,4 +225,6 @@ The window does not offer these.
   reaches only a run that uploads several tracks; a single track has no
   per-track upload to take up again.
 * `--auphonic-done FOLDER` fetches nothing and takes the tracks lying
-  there, named after the speakers.
+  there, named after the speakers. A recording handed to the run that
+  lies in that folder itself is refused: the run stops before anything
+  else and names the file.

@@ -191,8 +191,17 @@ wegfällt.
 Nach dem Versatz sucht der Lauf auf drei Wegen, einen nach dem anderen,
 und wer zuerst antwortet, behält recht: erst die Form des Tons, dann
 derselbe Vergleich noch einmal, aber nur auf den Frequenzbändern, die
-sich über die Aufnahme bewegen, zuletzt die Phase allein
+sich über die Aufnahme bewegen, zuletzt die Phase allein -- diese nur
+bei einer Aufnahme, deren Feld **Im Ton** auf **Gemischt** steht
 ([Überblick](overview.de.md)).
+
+Der erste Weg gilt für eine Aufnahme nur, wo ihre Übereinstimmung
+deutlich über dem besten Platz anderswo liegt oder genug ihrer
+Stützstellen auf einer Linie liegen. Ein Block aus ein, zwei
+Wortwechseln schafft selten eins von beidem: Anderswo passt er fast
+genauso gut, und ein paar Stützstellen stimmen mit allem überein. Er
+geht dann zum nächsten Weg weiter und zuletzt an seine Uhr, statt eine
+halbe Minute daneben zu liegen.
 
 Der mittlere Weg ist für Aufnahmen da, über denen ein gleichbleibender
 Ton liegt -- ein Brummen, eine Klimaanlage. In der letzten Minute ist so
@@ -211,8 +220,8 @@ Genommen wird der zweite Weg nur, wo er viele Stützstellen über die
 Laufzeit gesetzt hat und alle auf einer Linie liegen; so viele gibt es
 erst in langem Material: Die längste Kamera muss länger laufen als etwa
 zwölfeinhalb Minuten. Darunter misst der zweite Weg weiterhin richtig,
-seine Antwort wird aber nicht genommen, und es entscheidet wie bisher
-die Phase.
+seine Antwort wird aber nicht genommen, und wie bisher entscheidet die
+Phase, wo die Aufnahme auf **Gemischt** steht.
 
 Eine Aufnahme, die der Lauf gar nicht einordnen kann, bleibt draußen. Wo
 keiner der drei Wege die Kamera in der Aufnahme findet und die Datei

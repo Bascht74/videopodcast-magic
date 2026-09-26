@@ -49,15 +49,21 @@ drift comes out of the length as before, and the log marks the line:
 `placed on the bands that move`.
 
 Both comparisons live on pauses in the speech, and music has none. Where
-neither finds anything, the program looks at the phase, which survives a
-room and a second microphone. The phase answers where the audio sits. How
-fast the clocks run stays unknown, so the program takes no drift out on
-this path. The log marks that line too: `placed by phase`.
+neither finds anything in a recording set to **Mixed** in the field **In
+the sound**, the program looks at the phase, which survives a room and a
+second microphone. The phase answers where the audio sits. How fast the
+clocks run stays unknown, so the program takes no drift out on this
+path. The log marks that line too: `placed by phase`. A recording on
+**Speech**, where every recording starts, never goes to the phase: on
+speech it lays a recording from somewhere else far off the mark, so such
+a recording stands at its timecode or stays out.
 
 Cameras are set against each other by their own microphones, each
 against the longest of them, but only with the first comparison: between
 two cameras there is no second or third way, so the program asks more
-of the match before it lets it count. Where a camera's sound falls short
+of the match before it lets it count. A camera much shorter than the
+longest is looked for along the whole of it, and it has to fit its place
+clearly better than any other place. Where a camera's sound falls short
 of that, its timecode is the second way, and the camera stands where its
 timecode says -- counted from a camera the sound has placed and that
 carries a timecode too, so this holds only where both clocks were set to
