@@ -16,9 +16,12 @@ second project's, that project opened, and both files still lie there,
 each naming its own production; then a Finder copy of the second
 project's file opened and saved, and the original is byte for byte what
 it was, the copy carries the save, and the title bar names the copy;
-last a rename onto the name of another project's file beside it: that
-file stays as it was, the renamed one is saved into its own, the window
-says once which project lies there, and a free name moves it again;
+last a rename typed onto the name of another project's file beside it:
+that file stays as it was, the renamed one is saved into its own, the
+window says once which project lies there, and a free name moves it
+again; a name typed through another project's name on its way to a
+free one moves nothing and says nothing until Enter, and then moves once,
+and Save project settles a name still being typed the same way;
 last a new production never saved, named like another project beside
 its material: that file stays byte for byte, the new one is saved under
 the next free name, and the window says so once; and once its file is
@@ -52,7 +55,7 @@ os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 os.environ.pop("AUPHONIC_TOKEN", None)
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets, QtCore, QtTest
 
 app = QtWidgets.QApplication(sys.argv[:1])
 vpm = the_program.load()
@@ -115,6 +118,8 @@ PBC = os.path.join(FB, vpm.PROJECT_PREFIX + "Beta copy.json")
 # after it is refused: laid down only in the section that asks.
 PG = os.path.join(FB, vpm.PROJECT_PREFIX + "Gamma.json")
 PD = os.path.join(FB, vpm.PROJECT_PREFIX + "Delta.json")
+PR = os.path.join(FB, vpm.PROJECT_PREFIX + "Gammaray.json")
+PS = os.path.join(FB, vpm.PROJECT_PREFIX + "Gammarays.json")
 # Another production's file beside the new material, and where a
 # production never saved under that name goes instead.
 PE = os.path.join(FC, vpm.PROJECT_PREFIX + "Eta.json")
@@ -191,6 +196,21 @@ def name_field():
         if w.accessibleName() == vpm.T('Production name'):
             return w
     return None
+
+
+def typed_in(text, fresh=True, enter=True):
+    """Type a name into the field key by key, as a person does.
+
+    *fresh* types over what stands there; *enter* settles it at the end.
+    """
+    f = name_field()
+    if fresh:
+        f.selectAll()
+    QtTest.QTest.keyClicks(f, text)
+    app.processEvents()
+    if enter:
+        QtTest.QTest.keyClick(f, QtCore.Qt.Key_Return)
+        app.processEvents()
 
 
 def field_says():
@@ -409,8 +429,7 @@ def drive():
     waited_for(lambda: field_says() == "Beta" and title().startswith(
         os.path.basename(PB)), "the project's name after the copy")
     k = len(said)
-    name_field().setText("Gamma")
-    app.processEvents()
+    typed_in("Gamma")
     if saving is not None:
         saving.trigger()
     took = waited_for(lambda: production_of(PB) == "Gamma"
@@ -433,7 +452,7 @@ def drive():
           len(named) == 1, "%d of the messages since the rename, titled %s, "
           "name %s under %r" % (len(named), [put for put, _t in said[k:]],
                                 os.path.basename(PG), vpm.T('Project')))
-    name_field().setText("Delta")
+    typed_in("Delta")
     took = waited_for(lambda: os.path.isfile(PD), "the file under Delta")
     check("a name no other project has takes the file along again",
           os.path.isfile(PD) and not os.path.isfile(PB)
@@ -442,6 +461,43 @@ def drive():
           % (os.path.basename(PD), os.path.isfile(PD),
              os.path.basename(PB), os.path.isfile(PB), seconds(took),
              everywhere()))
+    k = len(said)
+    typed_in("Gamma", enter=False)
+    check("typing through another project's name moves nothing yet",
+          os.path.isfile(PD) and production_of(PG) == "Gamma"
+          and len(said) == k,
+          "the field says %r; %s there %s, %d message(s) since the typing "
+          "began: %r; %s" % (field_says(), os.path.basename(PD),
+                             os.path.isfile(PD), len(said) - k, said[k:],
+                             everywhere()))
+    typed_in("ray", fresh=False)
+    took = waited_for(lambda: os.path.isfile(PR), "the file under Gammaray")
+    with open(PG, "rb") as f:
+        after = f.read()
+    check("the name settled by Enter moves the file once, saying nothing",
+          os.path.isfile(PR) and not os.path.isfile(PD) and after == before
+          and len(said) == k,
+          "%s there %s, %s there %s, %s %d bytes before and %d after, "
+          "%d message(s): %r (%s); %s"
+          % (os.path.basename(PR), os.path.isfile(PR),
+             os.path.basename(PD), os.path.isfile(PD),
+             os.path.basename(PG), len(before), len(after), len(said) - k,
+             said[k:], seconds(took), everywhere()))
+    k = len(said)
+    typed_in("Gammarays", enter=False)
+    if saving is not None:
+        saving.trigger()
+    took = waited_for(lambda: os.path.isfile(PS), "the file under Gammarays")
+    check("Save project settles a name still typed: one file, nothing said",
+          os.path.isfile(PS) and not os.path.isfile(PR)
+          and production_of(PS) == "Gammarays"
+          and [p for p, _t in said[k:]] == [vpm.T('Save project')],
+          "%s there %s naming %r, %s there %s, messages since titled %r, "
+          "wanted only %r (%s); %s"
+          % (os.path.basename(PS), os.path.isfile(PS), production_of(PS),
+             os.path.basename(PR), os.path.isfile(PR),
+             [put for put, _t in said[k:]], vpm.T('Save project'),
+             seconds(took), everywhere()))
 
     print("\n6. A production never saved, named like another project")
     with open(PE, "w", encoding="utf-8") as f:
@@ -456,7 +512,7 @@ def drive():
         closing.trigger()
     app.processEvents()
     k = len(said)
-    name_field().setText("Eta")
+    typed_in("Eta")
     if adding is not None:
         adding.trigger()
     waited_for(lambda: listed(FRESH), "the material of the new production")
@@ -494,8 +550,7 @@ def drive():
         before = f.read()
     if os.path.isfile(PE2):
         os.remove(PE2)
-    name_field().setText("Theta")
-    app.processEvents()
+    typed_in("Theta")
     if saving is not None:
         saving.trigger()
     took = waited_for(lambda: production_of(PT) != "Theta"

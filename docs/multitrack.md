@@ -119,7 +119,9 @@ not there: nobody is assigned, so it would have nothing to say.
 
 **new file name** is what will come out of that camera, with the tick
 and without it, under **Sync only** too: the run writes the camera file
-under that name. It is a proposal until somebody types over it. In a
+under that name. It is a proposal until somebody types over it, and a
+typed name -- here or for a voice -- stays exactly as typed, even one
+that looks like a proposal with a number on it, such as `Wide 2`. In a
 project cut by speaker it is built from the camera and the speakers on
 it, and several speakers stand in alphabetical order, joined by a plus,
 whichever of them stands higher in the table: `CamB_0001.mov` with

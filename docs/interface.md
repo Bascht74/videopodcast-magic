@@ -22,7 +22,9 @@ Four tabs, in the order they are needed.
   title bar, so a window with a project open and one without are not
   the same picture. The project file is named after the production and
   moves along when the production is renamed; the title bar then names
-  it under its new name.
+  it under its new name. It moves once the name is settled -- when you
+  leave the field, press Enter, save the project or start a run --
+  never halfway through typing.
 
   Where a project file lies with the material, the program offers it as
   the files come in, and before it measures any of them: one found and

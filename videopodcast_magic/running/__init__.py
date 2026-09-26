@@ -165,6 +165,9 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
 
         if state["running"] or not files:
             return
+        # A name still being typed is settled, as leaving the field would.
+        if state.get("name_settle"):
+            state["name_settle"]()
         if not state.get("confirmed") and not summary_show(
                 only_look):
             return

@@ -1385,6 +1385,10 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         """
         if state.get("project_kept"):
             return state["project_kept"]
+        # A name half typed moves nothing: the file stays where it lies.
+        last = state.get("project_last")
+        if state.get("name_typing") and last and os.path.isfile(last):
+            return last
         target = out_folder.get() or commonest_folder()
         if not target or not os.path.isdir(target):
             return None

@@ -532,14 +532,41 @@ def camera_tracks_of(camera_lines):
             for p, n in zip(files, guessed)]
 
 
-def offered_apart(kept, offered):
-    """Whether *kept* is one of the *offered* names, or one told apart.
+def camera_name_typed(kept, typed, offered):
+    """Whether a camera's kept name is one somebody typed.
 
-    Two cameras offered one name get it as the run gives it, the second
-    with " 2" hung on; that name was never typed either.
+    The project file says so under "videotyped:"; what was typed stands
+    as typed, whatever it looks like. An older file does not say, and
+    there a name the table could have offered itself -- *offered*, the
+    one told apart with " 2" included -- counts as never typed.
     """
-    head, _gap, number = kept.rpartition(" ")
-    return kept in offered or (number.isdigit() and head in offered)
+    if not kept:
+        return False
+    if typed is not None:
+        return bool(typed)
+    return kept not in offered
+
+
+def name_typed_watch(field, name_value):
+    """Mark *name_value* typed the moment its field says something else.
+
+    Watched before field_bind binds the two: a name the program sets
+    reaches the value first and the field after, so only a name that
+    came in through the field differs from the value here.
+    """
+    def seen(text):
+        """Typed where the field runs ahead of the value."""
+        if text != str(name_value.get()):
+            name_value.by_hand = True
+
+    field.textChanged.connect(seen)
+    return field
+
+
+def camera_name_kept(file_path, name_value):
+    """What the project file keeps of one camera's name: it, and who."""
+    return {"video:" + file_path: name_value.get(),
+            "videotyped:" + file_path: bool(name_value.by_hand)}
 
 
 def missing_conditions(files, production, multitrack, assign_lines,
@@ -910,13 +937,15 @@ transport = menus.transport
 def project_file_follows(state, where, retitle, report=None):
     """Move the project file to where() says, its name and folder.
 
-    It is named after the production and lives in the output folder,
-    and both can change: moved rather than written a second time. The
-    title bar names the open project's file, so where that very file
-    moved *retitle* is handed the new title; where nothing moved, the
-    bar keeps naming the file that is on the disk. Another project's
-    file under the new name is never moved onto: see project_refused.
+    Named after the production, in the output folder; both change, and
+    it is moved rather than written twice. Where the open project's
+    file moved, *retitle* is handed the new title; where nothing moved,
+    the title bar keeps naming the file on the disk. Another project's
+    file is never moved onto (project_refused), and a name still being
+    typed moves nothing (name_settles).
     """
+    if state.get("name_typing"):
+        return
     fresh = project_refused(state, where, report)
     old, moved = state.get("project_last"), False
     if fresh and old and os.path.abspath(old) != os.path.abspath(fresh):
@@ -932,6 +961,31 @@ def project_file_follows(state, where, retitle, report=None):
     if moved and opened and os.path.abspath(opened) == os.path.abspath(old):
         state["project_from"] = fresh
         retitle(window_title(fresh))
+
+
+def name_settles(field, value, state, move):
+    """Move the project file once the production's name is settled.
+
+    Typing moves nothing and says nothing: a name on its way through
+    another project's name is not a rename. Leaving the field or Enter
+    settles it, and so do a save and a run through state["name_settle"];
+    a name the program sets is settled at once.
+    """
+    def changed():
+        """A key typed waits; a name set by the program moves now."""
+        state["name_typing"] = field.isModified()
+        if not state["name_typing"]:
+            move()
+
+    def left():
+        """The field left, or Enter: the name typed is the name."""
+        field.setModified(False)
+        state["name_typing"] = False
+        move()
+
+    value.listen(changed)
+    field.editingFinished.connect(left)
+    state["name_settle"] = left
 
 
 def project_refused(state, where, report=None):
@@ -2224,21 +2278,26 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         if used:
             own += mine or [own_audio_name]
         multitrack_now = bool(state["multitrack"].get()) and not sync_only
-        # A kept name the table offered itself was never typed -- a
-        # project file saves every field -- so it follows the table.
+        # A kept name nobody typed was the table's own -- a project
+        # file saves every field -- so it follows the table.
         kept = remembered.get("video:" + b) or ""
-        if offered_apart(kept, camera_names_offered(production_var.get(),
-                                                    short, own)):
-            kept = ""
+        offer = camera_name_suggestion(production_var.get(), short, own,
+                                       multitrack_now, sync_only)
+        by_hand = camera_name_typed(
+            kept, remembered.get("videotyped:" + b),
+            camera_names_offered(production_var.get(), short, own)
+            | {name_apart(offer, set(offered_now))})
+        kept = kept if by_hand else ""
         # Told apart from the names the rows above carry, as the run does.
-        suggestion = name_apart(camera_name_suggestion(
-            production_var.get(), short, own, multitrack_now, sync_only),
-            set(offered_now) if kept else offered_now)
+        suggestion = name_apart(offer, set(offered_now) if kept
+                                else offered_now)
         if kept:
             offered_now.add(kept.lower())
         suggestions[b] = suggestion
         name_value = Value(kept or suggestion)
-        name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
+        name_value.by_hand = by_hand
+        name_entry = field_bind(name_typed_watch(QtWidgets.QLineEdit(),
+                                                 name_value), name_value)
         speaks_as(name_entry, T('new file name'), short)
         from_the_front(name_entry)
         table_video.setCellWidget(row, 1, name_entry)
@@ -3209,9 +3268,9 @@ def gui():
         state["project_last"] = file_path
         return found
 
-    # Renaming the production or changing the output folder moves the file
-    # along at once, or a second one would appear beside it on the next write.
-    production_var.listen(project_move)
+    # A new output folder moves the file along at once, a new name once
+    # it is settled, or a second file would appear beside it on a write.
+    name_settles(_name_field, production_var, state, project_move)
     out_folder.listen(project_move)
 
     def settings_extend(d):
@@ -3421,7 +3480,7 @@ def gui():
                 cv.get(), getattr(cv, "derived", None),
                 old[1] if (quiet_row and old) else None))
         for file_path, nv, own_box, own_name_box in camera_lines:
-            remembered["video:" + file_path] = nv.get()
+            remembered.update(camera_name_kept(file_path, nv))
             # Only what somebody clicked is stored: a tick derived from
             # "one camera, no recording" is worked out afresh every time.
             if file_path not in (state.get("forced_own") or ()):
@@ -3502,7 +3561,7 @@ def gui():
     def refresh_names():
         """Suggest file names again; hand-edited ones stay."""
         untouched = [p for p, nv, _k, _n in camera_lines
-                      if nv.get() == suggestions.get(p)]
+                      if nv.get() == suggestions.get(p) and not nv.by_hand]
         assignment_fresh(untouched)
 
     # The table builder stands above gui() and is written before this,
@@ -3931,9 +3990,9 @@ def gui():
         Otherwise it is written only at the start of a run and at the
         quit, so setting up a production is not enough to keep it.
         """
+        state["name_settle"]()
         if not out_folder.get():
-            # The sentence first, the chooser after: a folder dialog
-            # opening by itself does not say why it is there.
+            # The sentence first: a chooser alone does not say why.
             report(T('Save project'),
                    T('The project file goes into the output folder, and '
                      'none is chosen yet. Please choose one.'))

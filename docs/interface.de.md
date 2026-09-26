@@ -24,7 +24,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   steht in der Titelzeile — ein Fenster mit geöffnetem Projekt und eines
   ohne sind so nicht dasselbe Bild. Die Projektdatei heißt nach der
   Produktion und zieht mit um, wenn die Produktion einen neuen Namen
-  bekommt; die Titelzeile nennt sie dann unter dem neuen.
+  bekommt; die Titelzeile nennt sie dann unter dem neuen. Sie zieht
+  um, sobald der Name feststeht -- wenn man das Feld verlässt, Enter
+  drückt, das Projekt speichert oder einen Lauf startet --, nie mitten
+  im Tippen.
 
   Liegt beim Material eine Projektdatei, bietet das Programm sie an,
   während die Dateien hereinkommen, und bevor eine davon vermessen wird:
