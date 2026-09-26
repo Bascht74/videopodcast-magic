@@ -565,17 +565,18 @@ def axis_line(log_text, name):
     """The line the run wrote under *name* on the axis, or ''.
 
     The progress bar redraws itself with a carriage return, so the
-    name stands on several lines; the answer is the first after them.
+    name stands on several lines; the answer is the first after the
+    last of them. Not the first after the first: an ffmpeg without
+    soxr prints its note while the bar stands at 0 %, and the note's
+    second line would be read as the answer.
     """
     lines = log_text.splitlines()
     start = next((i for i, x in enumerate(lines) if WRITING in x), None)
-    bar = False
-    for x in lines[start or len(lines):]:
-        if x.strip().startswith(name + " ["):
-            bar = True
-        elif bar:
-            return x.strip()
-    return ""
+    lines = lines[start or len(lines):]
+    bars = [i for i, x in enumerate(lines)
+            if x.strip().startswith(name + " [")]
+    after = lines[bars[-1] + 1:bars[-1] + 2] if bars else []
+    return after[0].strip() if after else ""
 
 
 # A clear drift, built in: the second recorder runs DRIFT_PPM fast, and
