@@ -43,9 +43,40 @@ def file_stamp(path):
 
 
 def _ffprobe_text(path):
-    return subprocess.run(["ffprobe", "-v", "error", "-print_format", "json",
-                           "-show_format", "-show_streams", path],
-                          capture_output=True).stdout
+    """What ffprobe says about a file, as JSON text that always parses.
+
+    A file ffprobe cannot open -- a header naming no channels, bytes
+    that are no media -- leaves half an answer or an empty one; it
+    comes back as {"unreadable": ffprobe's own reason} instead.
+    """
+    kid = subprocess.run(["ffprobe", "-v", "error", "-print_format", "json",
+                          "-show_format", "-show_streams", path],
+                         capture_output=True)
+    try:
+        said = json.loads(kid.stdout or b"{}")
+    except ValueError:
+        said = None
+    if isinstance(said, dict) and (said.get("streams") or not kid.returncode):
+        return kid.stdout
+    return json.dumps({"unreadable": ffprobe_reason(kid.stderr, path)}
+                      ).encode("utf-8")
+
+
+def ffprobe_reason(stderr, path):
+    """The first line ffprobe wrote on its error channel, told plainly.
+
+    Without the decoder's address in front and without the path, which
+    the line it lands in names already. "" when it said nothing.
+    """
+    for line in (stderr or b"").decode("utf-8", "replace").splitlines():
+        line = line.strip()
+        if line.startswith("[") and "] " in line:
+            line = line.split("] ", 1)[1]
+        if line.startswith(path + ": "):
+            line = line[len(path) + 2:]
+        if line and not line.startswith("Last message repeated"):
+            return line[:80]
+    return ""
 
 
 def probe_cache_path(api_key):
@@ -135,6 +166,7 @@ def ffprobe_json(path):
     Parsed afresh each time; a caller may change what it gets back. The
     kept answer is keyed on the recipe as well as on the file: a call
     that asks ffprobe something else must not read the old answer back.
+    A file ffprobe cannot read answers {"unreadable": its reason}.
     """
     out = probe_remember("ffprobe-" + ffprobe_recipe_mark(), path,
                          lambda: _ffprobe_text(path), keep=True)
