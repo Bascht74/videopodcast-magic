@@ -6,6 +6,10 @@ file it was cut out of -- that file is still being read -- so the
 program is handed in, and every name used out of it is bound below.
 """
 
+# Qt at the head: the way in reads this piece in window() alone, so the
+# command line never gets here and loads no Qt (coding_guidelines, 12).
+from PySide6 import QtCore, QtGui, QtWidgets
+
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
@@ -45,7 +49,6 @@ VERSION = PROGRAM.VERSION
 Value = PROGRAM.Value
 _ENV = PROGRAM._ENV
 _joins_seamlessly = PROGRAM._joins_seamlessly
-_require_module = PROGRAM._require_module
 app_style_set = PROGRAM.app_style_set
 as_bad = PROGRAM.as_bad
 as_good = PROGRAM.as_good
@@ -110,7 +113,6 @@ make_update_sink = PROGRAM.make_update_sink
 name_apart = PROGRAM.name_apart
 not_on_the_axis = PROGRAM.not_on_the_axis
 number_text = PROGRAM.number_text
-open_in_file_manager = PROGRAM.open_in_file_manager
 open_page = PROGRAM.open_page
 os = PROGRAM.os
 parse_time_point = PROGRAM.parse_time_point
@@ -131,7 +133,6 @@ soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
 speakers_still_wanted = PROGRAM.speakers_still_wanted
-speech_table_fill = PROGRAM.speech_table_fill
 start_again = PROGRAM.start_again
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
@@ -1058,12 +1059,9 @@ tree_rows_fit = PROGRAM.tree_rows_fit
 
 #------------------------------------------------------------ The player
 # A piece of its own, in "player". The way in reads it above this
-# file now, so these are ordinary head lines; eight names no code
+# file now, so these are ordinary head lines; the names no code
 # here reads have gone, and take_from() puts them on the program.
-box_room = PROGRAM.box_room
 make_band_and_player = PROGRAM.make_band_and_player
-make_drop_area = PROGRAM.make_drop_area
-make_log_view = PROGRAM.make_log_view
 make_player_choice = PROGRAM.make_player_choice
 make_player_widgets = PROGRAM.make_player_widgets
 
@@ -1183,9 +1181,14 @@ def sync_note_build(into):
     return note
 
 
-def scroll_sheet_build(QtWidgets):
-    """Return a scrolling tab and its layout: settings outgrow the window."""
-    outside = QtWidgets.QScrollArea()
+def scroll_sheet_build(QtWidgets, outside=None):
+    """Return a scrolling tab and its layout: settings outgrow the window.
+
+    *outside* is a sheet's own scroll area to fit out; without one a
+    plain one is made.
+    """
+    if outside is None:
+        outside = QtWidgets.QScrollArea()
     outside.setWidgetResizable(True)
     outside.setFrameShape(QtWidgets.QFrame.NoFrame)
     inside = QtWidgets.QWidget()
@@ -1589,6 +1592,16 @@ running = beside("running", program=PROGRAM)
 # What the window calls out of it, bound by name.
 make_run_start = running.make_run_start
 run_done_text = running.run_done_text
+
+
+#------------------------------------------------------------ The sheets
+# One piece per tab, so that each can be worked on apart. Each is read
+# by nobody but this window, so each may carry Qt at its head.
+
+filesheet = beside("filesheet", program=PROGRAM)
+assignmentsheet = beside("assignmentsheet", program=PROGRAM)
+resolvesheet = beside("resolvesheet", program=PROGRAM)
+outputsheet = beside("outputsheet", program=PROGRAM)
 
 
 #-------------------------------------------- What the window works with
@@ -2384,24 +2397,164 @@ def app_language_set(QtCore, Qt, app):
 
 
 #----------------------------------------------------- The window itself
-# One function, and the largest in the program. What could be lifted out
-# stands above and below; what is left holds the widgets and closes over.
+# MainWindow holds the tabs, the footer and the menu; the four sheets are
+# pieces of their own. gui() still assembles what goes into them and
+# closes over it, the largest function in the program for now.
+
+
+class Bridge(QtCore.QObject):
+    """What a worker thread hands over to the window, as Qt signals.
+
+    What arises in a worker thread must not reach the window from
+    there. Qt passes a signal into the window's thread by itself.
+    """
+
+    progress = QtCore.Signal(str, str, float, str)
+    question = QtCore.Signal(object)
+    # The key the answer is about travels with it: read off the field
+    # again, it may be a second one pasted while the first was away.
+    presets = QtCore.Signal(object, str, str)
+    axis = QtCore.Signal(object, str)
+    preflight = QtCore.Signal(object)
+    resolve_check = QtCore.Signal(object)
+    speakers_measured = QtCore.Signal(object)
+    run_step = QtCore.Signal(str, float)
+    channels_done = QtCore.Signal(str)
+    split_done = QtCore.Signal(str)
+    speaker_note = QtCore.Signal(str)
+    speakers_split = QtCore.Signal(object)
+    speakers_split_note = QtCore.Signal(str, float)
+    speakers_heard = QtCore.Signal(object)
+
+
+class MainWindow(QtWidgets.QWidget):
+    """The window: the four tabs, the footer under them, the menu bar.
+
+    Each sheet is a piece of its own. The first tab is always there;
+    the other three appear once they have something to show, and here
+    it is decided where each stands and what its tab is called.
+    """
+
+    def __init__(self, app, files, state):
+        """Title and picture, the tab widget, and the four sheets."""
+        QtWidgets.QWidget.__init__(self)
+        self.files = files          # the window's list, never a copy
+        self.setWindowTitle(window_title())
+        symbol = app_icon(QtGui)
+        if symbol is not None:
+            # On the Mac the dock icon belongs to the application, not to
+            # the window, or the Python rocket appears there.
+            app.setWindowIcon(symbol)
+            self.setWindowIcon(symbol)
+        self.vertical = QtWidgets.QVBoxLayout(self)
+        self.vertical.setContentsMargins(12, 10, 12, 10)
+        self.vertical.setSpacing(8)
+        # No header line: name, version and purpose are in the title. A
+        # few pixels of air keep the top edge of the tabs in view.
+        self.vertical.addSpacing(4)
+        self.tabs = QtWidgets.QTabWidget()
+        self.vertical.addWidget(self.tabs, 1)
+        self.files_sheet = filesheet.FilesSheet()
+        self.tabs.addTab(self.files_sheet, T('Files && production'))
+        self.assignment_sheet = assignmentsheet.AssignmentSheet()
+        self.resolve_sheet = resolvesheet.ResolveSheet()
+        self.output_sheet = outputsheet.OutputSheet(state)
+
+    def table_show(self, sheet, title, index, pick=False):
+        """Give *sheet* a tab at *index* if it has none; go there on *pick*."""
+        if self.tabs.indexOf(sheet) < 0:
+            self.tabs.insertTab(min(index, self.tabs.count()), sheet, title)
+        if pick:
+            self.tabs.setCurrentWidget(sheet)
+
+    def tab_gone(self, sheet):
+        """Take the tab of *sheet* away, if it has one."""
+        i = self.tabs.indexOf(sheet)
+        if i >= 0:
+            self.tabs.removeTab(i)
+
+    def settings_show(self):
+        """Show the two middle tabs only once there are files."""
+        if self.files:
+            self.table_show(self.assignment_sheet,
+                            T('Assignment && time window'), 1)
+            self.table_show(self.resolve_sheet, T('Resolve cut'), 2)
+        else:
+            self.tab_gone(self.assignment_sheet)
+            self.tab_gone(self.resolve_sheet)
+
+    def output_show(self, select=True):
+        """Show the output tab, and go to it unless told not to."""
+        self.table_show(self.output_sheet, T('Output'), 3, select)
+
+    def tab_named(self, sheet):
+        """What the tab holding this sheet is called at the moment.
+
+        Read off the tab rather than kept in a list beside it, and without
+        the doubled ampersand Qt needs and the tick it may already carry.
+        """
+        i = self.tabs.indexOf(sheet) if sheet is not None else -1
+        if i < 0:
+            return T('this window')
+        return self.tabs.tabText(i).replace("&&", "&").replace(
+            "\u2713", "").strip()
+
+    def ticks_set(self, pending):
+        """Put a tick behind each tab once nothing on it is outstanding.
+
+        *pending* is what missing_conditions answers, keyed by number.
+        Only the two tabs that can hold something outstanding: a tick
+        that is always on says nothing.
+        """
+        # The first tab carries both, files and production, so what is
+        # missing on it can come from either.
+        first = bool({1, 11, 21, 23} & set(pending))
+        for sheet, pending_here, base_title in (
+                (self.files_sheet, first, T('Files && production')),
+                (self.assignment_sheet, 22 in pending,
+                 T('Assignment && time window'))):
+            i = self.tabs.indexOf(sheet)
+            if i >= 0:
+                self.tabs.setTabText(i, base_title if pending_here
+                                     else base_title + "  \u2713")
+
+    def footer_build(self, state, plan, bridge, late, multitrack,
+                     without_auphonic, settings_open):
+        """The bottom row under the tabs: what make_footer hands back."""
+        return make_footer(QtCore.Qt, QtCore, QtWidgets, self, self.vertical,
+                           state, self.files, plan, bridge, late, multitrack,
+                           without_auphonic, settings_open)
+
+    def menu_build(self, player, does, window_switch, cut_player, late,
+                   buttons, has_material):
+        """The menu bar out of build_menus; a Mac puts it in the system bar.
+
+        A Mac program without a menu bar is not a Mac program: About,
+        Settings and Help are expected where the window has no say.
+        QLayout.setMenuBar is what puts it in the system bar on a Mac.
+        """
+        self.vertical.setMenuBar(build_menus(
+            QtGui, QtCore, QtWidgets, self, self.tabs, player, does,
+            window_switch, cut_player, late, buttons, has_material))
+
+    def screen_fit(self, app):
+        """As large as the screen, but an ordinary window, at its top left."""
+        screen = app.primaryScreen().availableGeometry()
+        self.resize(min(1600, screen.width()), min(1000, screen.height()))
+        PROGRAM.least_size_from_layout(self)
+        self.move(screen.left(), screen.top())
 
 
 def gui():
     """Build the Qt interface.
 
-    Three tabs in the order they are needed: choose files, configure,
-    watch. Tabs two and three appear only once they have something to
-    show. The work is done by the same main() as on the command line;
-    this only assembles the arguments and captures the output.
+    MainWindow holds the tabs in the order they are needed: choose
+    files, configure, cut, watch. What fills the sheets is assembled
+    here for now. The work is done by the same main() as on the command
+    line; this only assembles the arguments and captures the output.
     """
     import queue
-    _require_module("PySide6.QtWidgets", "PySide6")
-    from PySide6 import QtCore, QtGui, QtWidgets
-
     Qt = QtCore.Qt
-    Cursor = QtGui.QTextCursor
 
     PROGRAM.GUI_RUNNING = True
 
@@ -2426,15 +2579,6 @@ def gui():
 
     app_style_set(app)
 
-    window = QtWidgets.QWidget()
-    window.setWindowTitle(window_title())
-    symbol = app_icon(QtGui)
-    if symbol is not None:
-        # On the Mac the dock icon belongs to the application, not to the
-        # window, or the Python rocket appears there.
-        app.setWindowIcon(symbol)
-        window.setWindowIcon(symbol)
-
     files = []                      # [(path, "audio"|"video")]
     multitrack = Value(False)
     state = {"running": False, "results": [], "presets": None,
@@ -2445,29 +2589,8 @@ def gui():
                "weak": set(), "tables": [], "axis_absolute": False,
                "axis_clock": {}, "project_type": "", "multitrack": multitrack}
     post = queue.Queue()
-
-    # ------------------------------------------------------------------
-    # Bridge: what arises in a worker thread must not reach the window
-    # from there. Qt passes signals into the right thread by itself.
-    # ------------------------------------------------------------------
-    class Bridge(QtCore.QObject):
-        progress = QtCore.Signal(str, str, float, str)
-        question = QtCore.Signal(object)
-        # The key the answer is about travels with it: read off the field
-        # again, it may be a second one pasted while the first was away.
-        presets = QtCore.Signal(object, str, str)
-        axis = QtCore.Signal(object, str)
-        preflight = QtCore.Signal(object)
-        resolve_check = QtCore.Signal(object)
-        speakers_measured = QtCore.Signal(object)
-        run_step = QtCore.Signal(str, float)
-        channels_done = QtCore.Signal(str)
-        split_done = QtCore.Signal(str)
-        speaker_note = QtCore.Signal(str)
-        speakers_split = QtCore.Signal(object)
-        speakers_split_note = QtCore.Signal(str, float)
-        speakers_heard = QtCore.Signal(object)
-
+    window = MainWindow(app, files, state)
+    tab2, tab3 = window.assignment_sheet, window.resolve_sheet
     bridge = Bridge()
 
     def bridge_emit(signal, *values):
@@ -2530,77 +2653,13 @@ def gui():
     # ------------------------------------------------------------------
     plan = ProgressPlan()
 
-    # ------------------------------------------------------------------
-    # Layout: header, tabs, footer
-    # ------------------------------------------------------------------
-    vertical = QtWidgets.QVBoxLayout(window)
-    vertical.setContentsMargins(12, 10, 12, 10)
-    vertical.setSpacing(8)
-
-    # No header line: name, version and purpose are in the window title. A few
-    # pixels of air remain so the top edge of the tabs is visible.
-    vertical.addSpacing(4)
-
-    tabs = QtWidgets.QTabWidget()
-    vertical.addWidget(tabs, 1)
-
-    sheet1 = QtWidgets.QWidget()
-    sheet1_position = QtWidgets.QVBoxLayout(sheet1)
-    sheet1_position.setContentsMargins(10, 10, 10, 10)
-    tabs.addTab(sheet1, T('Files && production'))
-
-    # Production name, output folder and auphonic.com sit as a narrow
-    # strip: four values, and a sheet for them would be four fifths empty.
-    tab1 = QtWidgets.QWidget()
-    in_layout = QtWidgets.QVBoxLayout(tab1)
-    in_layout.setContentsMargins(0, 6, 0, 0)
-    in_layout.setSpacing(14)
-    tab2, assign_position_outside = scroll_sheet_build(QtWidgets)
-    tab3, resolve_position = scroll_sheet_build(QtWidgets)
-
-    sheet2 = QtWidgets.QWidget()
-    sheet2_position = QtWidgets.QVBoxLayout(sheet2)
-    sheet2_position.setContentsMargins(10, 10, 10, 10)
-
-    def table_show(sheet, title, index, pick=False):
-        if tabs.indexOf(sheet) < 0:
-            tabs.insertTab(min(index, tabs.count()), sheet, title)
-        if pick:
-            tabs.setCurrentWidget(sheet)
-
-    def tab_gone(sheet):
-        i = tabs.indexOf(sheet)
-        if i >= 0:
-            tabs.removeTab(i)
-
-    def settings_show():
-        """Show the later tabs only once there are files."""
-        if files:
-            table_show(tab2, T('Assignment && time window'), 1)
-            table_show(tab3, T('Resolve cut'), 2)
-        else:
-            tab_gone(tab2)
-            tab_gone(tab3)
-
-    def output_show(select=True):
-        table_show(sheet2, T('Output'), 3, select)
-
     # ----------------------------------------------------- Tab 1: the files
-    # While nothing is chosen the drop area is here and explains the
-    # workflow; afterwards the list, in the same place.
-    DropArea = make_drop_area(QtCore, QtGui, QtWidgets)
-    drop_area = DropArea(lambda paths: take_paths(paths),
-                           lambda: add_files(),
-                           lambda: project_open(), COLOURS)
-    sheet1_position.addWidget(drop_area, 1)
-
-    # ------------------------------------------------------------------
-    # The file list itself, and the two colour tables it draws with.
-    # What comes back is what the rest of the window reaches for.
-    # ------------------------------------------------------------------
+    # The drop area, the file list and the two colour tables it draws
+    # with. What comes back is what the rest of the window reaches for.
     (items, preflight_line, stripes_pick, marks_pick, MARKS, FINDING_WORD,
-     set_mark, item) = make_file_list(Qt, QtGui, QtWidgets,
-                                      sheet1_position, state)
+     set_mark, item) = window.files_sheet.list_build(
+         state, lambda paths: take_paths(paths), lambda: add_files(),
+         lambda: project_open())
 
     # Blocks taken out of a recording by hand stand on their own from
     # then on. Only removing the whole recording clears its marks.
@@ -2690,41 +2749,13 @@ def gui():
                                   state.get("voiced") or set(),
                                   project_type.get())
 
-    def tab_named(sheet):
-        """What the tab holding this sheet is called at the moment.
-
-        Read off the tab rather than kept in a list beside it, and without
-        the doubled ampersand Qt needs and the tick it may already carry.
-        """
-        i = tabs.indexOf(sheet) if sheet is not None else -1
-        if i < 0:
-            return T('this window')
-        return tabs.tabText(i).replace("&&", "&").replace("\u2713", "").strip()
-
-    def tab_checkbox():
-        """Put a tick behind each tab once nothing on it is outstanding."""
-        pending = what_missing()
-        # The first tab now carries both, files and production, so what is
-        # missing on it can come from either.
-        first = bool({1, 11, 21, 23} & set(pending))
-        # Only the two tabs that can hold something outstanding: a tick
-        # that is always on says nothing.
-        for sheet, pending_here, base_title in (
-                (sheet1, first, T('Files && production')),
-                (tab2, 22 in pending, T('Assignment && time window'))):
-            i = tabs.indexOf(sheet)
-            if i < 0:
-                continue
-            tabs.setTabText(i, base_title if pending_here
-                            else base_title + "  \u2713")
-        return pending
-
     def buttons_check():
         """Enable start and dry run only once nothing is missing.
 
         And if something is, what it is appears beside the button.
         """
-        pending = tab_checkbox()
+        pending = what_missing()
+        window.ticks_set(pending)
         ready = not pending and not state["running"]
         start_run.setEnabled(ready)
         preview_button.setEnabled(ready)
@@ -2735,11 +2766,12 @@ def gui():
         if pending and not state["running"]:
             # The names come from the tabs themselves: a second list
             # drifts apart at every rename and points at nothing.
+            sheet1 = window.files_sheet
             on_tab = {1: sheet1, 11: sheet1, 21: sheet1, 23: sheet1,
                       22: tab2}
             lines = [T('Not ready yet:')]
             for index_number in sorted(pending):
-                lines.append("  %s -- %s" % (tab_named(on_tab.get(index_number)),
+                lines.append("  %s -- %s" % (window.tab_named(on_tab.get(index_number)),
                                               pending[index_number]))
             lines.append("")
             lines.append(T('Rows marked red show where the problem is; a '
@@ -2755,7 +2787,7 @@ def gui():
                     note.setStyleSheet("color: %s;" % COLOURS["quiet"])
                 else:
                     note.setText(T('Cannot start yet: %s') % "   ".join(
-                        "%s -- %s" % (tab_named(on_tab.get(k)), pending[k])
+                        "%s -- %s" % (window.tab_named(on_tab.get(k)), pending[k])
                         for k in sorted(pending)))
                     note.setStyleSheet("color: %s;"
                                        % COLOURS["warning"])
@@ -2881,13 +2913,10 @@ def gui():
         while node is not None and node.data(0, Qt.UserRole) is None\
                 and node.data(0, Qt.UserRole + 1) is None:
             node = node.parent()
-        remove_button.setEnabled(node is not None)
+        window.files_sheet.remove_button.setEnabled(node is not None)
         menus_follow(late)     # so the entry's key dies with the button
 
     items.currentItemChanged.connect(lambda *_: removable())
-
-    bar_env_curve, add_button, remove_button = file_bar_build(
-        QtWidgets, sheet1_position, tab1)
 
     # ------------------------------------------------------------------
     # Tab 2: settings
@@ -2908,7 +2937,7 @@ def gui():
 
     # --- production: name and location belong together
     place_box = QtWidgets.QGroupBox(T('Production'))
-    in_layout.addWidget(place_box)
+    window.files_sheet.strip_rows.addWidget(place_box)
     place_position = QtWidgets.QVBoxLayout(place_box)
     # One row that breaks where the room ends: see wrap_row.
     name_bar = wrap_row(place_position)
@@ -2970,63 +2999,12 @@ def gui():
     lufs_value = Value(loudness_last())
     loudness_field_build(place_position, lufs_value)
 
-    # --- sheet 2 of the settings: the assignment on the left, the viewer
-    #     on the right, or under it where the room ends (stack_when_narrow).
-    two_columns = stack_when_narrow(tab2, QtWidgets.QHBoxLayout())
-    assign_position_outside.addLayout(two_columns, 1)
-
-    assign = QtWidgets.QGroupBox(T('Assignment: which audio track belongs '
-                                   'to which camera'))
-    two_columns.addWidget(assign, 1)
-    assign_position = QtWidgets.QVBoxLayout(assign)
-    # The Multitrack tick lives here, under the tables: whether a
-    # camera gives a track of its own is decided in this very table.
-    multitrack_bar = QtWidgets.QWidget()
-    multitrack_row = QtWidgets.QHBoxLayout(multitrack_bar)
-    multitrack_row.setContentsMargins(0, 6, 0, 0)
-    assign_position.addWidget(multitrack_bar)
-    # And right under it what auphonic.com is to make of those tracks:
-    # "what should this run do" in one place, filled further down.
-    run_box = QtWidgets.QGroupBox(T('Processing at auphonic.com (optional)'))
-    run_layout = QtWidgets.QVBoxLayout(run_box)
-    assign_position.addWidget(run_box)
-    # One bar for all the prework, under the tables.
-    prework_box = QtWidgets.QWidget()
-    _prework_rows = QtWidgets.QVBoxLayout(prework_box)
-    _prework_rows.setContentsMargins(0, 6, 0, 0)
-    _prework_rows.setSpacing(2)
-    prework_progress_bar = QtWidgets.QProgressBar()
-    prework_progress_bar.setRange(0, 100)
-    prework_progress_bar.setTextVisible(False)
-    prework_progress_bar.setFixedHeight(8)
-    _prework_rows.addWidget(prework_progress_bar)
-    prework_label = label("", COLOURS["value"])
-    _prework_rows.addWidget(prework_label)
-    hint(prework_box, T('Envelopes and camera audio are prepared in the '
-                        'background.'))
-    assign_position.addWidget(prework_box)
-    prework_box.hide()
-
-    right_column = QtWidgets.QVBoxLayout()
-    two_columns.addLayout(right_column)
-
-    view_box = QtWidgets.QGroupBox(T('Preview player'))
-    box_room(view_box, 580)
-    right_column.addWidget(view_box)
-    # Top aligned: the box is as tall as it needs to be and the rest stays
-    # empty. Otherwise Qt pulls the rows inside it apart.
-    right_column.addStretch(1)
-    view_position = QtWidgets.QVBoxLayout(view_box)
+    # --- sheet 2 of the settings: its boxes stand in AssignmentSheet,
+    #     and the window puts the player and the tables into them.
+    assign_position, view_position = tab2.assign_position, tab2.view_position
     player = (Player() if QtMultimedia is not None else NoPlayer())
     player.find_track = lambda p: audio_for_camera(p)
-
-    def view_title(text=""):
-        """Put the file name in the heading; that saves a line."""
-        view_box.setTitle(T('Preview player%s')
-                              % ("  --  " + text.replace("&", "&&")
-                                 if text else ""))
-
-    player.heading = view_title
+    player.heading = tab2.view_title
     player.title.hide()
     view_position.addWidget(player)
     axis_label = label("", COLOURS["quiet"])
@@ -3219,8 +3197,8 @@ def gui():
     split_run = {"busy": False, "stop": False}
 
     prework_busy, prework_report, prework_status_show = make_prework_bar(
-        QtCore, bridge, bridge_emit, plan, prework_box, prework_label,
-        prework_progress_bar, prework_node, prework_discarded,
+        QtCore, bridge, bridge_emit, plan, tab2.prework_box, tab2.prework_label,
+        tab2.prework_progress_bar, prework_node, prework_discarded,
         prework_lock, prework_queue, prework_run, prework_shares)
 
     prework_kick_off = make_prework_tasks(
@@ -3583,8 +3561,8 @@ def gui():
         """
         assignment_fresh()
         if files:
-            table_show(tab2, T('Assignment && time window'), 1)
-            table_show(tab3, T('Resolve cut'), 2)
+            window.table_show(tab2, T('Assignment && time window'), 1)
+            window.table_show(tab3, T('Resolve cut'), 2)
         # What gets checked hangs on this decision.
         preflight_kick_off()
         presets_filter()
@@ -3602,6 +3580,7 @@ def gui():
     multi_button = QtWidgets.QCheckBox(T('Multitrack (one track per speaker)'))
     checkbox_bind(multi_button, multitrack_value)
     multi_button.toggled.connect(lambda *_: mode_toggled())
+    multitrack_row = tab2.multitrack_row
     multitrack_row.addWidget(hint(
         multi_button, T('One audio track per person, kept apart all the '
                         'way to auphonic.com.\nWorks without it as well -- '
@@ -3636,7 +3615,7 @@ def gui():
     #     Empty until somebody answers; the assignment tab asks once.
     strip_choice_build(QtWidgets, name_bar, project_type, T('Project type'),
                        project_type_choices(), project_type_explained())
-    project_type_wire(state, tabs, tab2, project_type, multitrack,
+    project_type_wire(state, window.tabs, tab2, project_type, multitrack,
                       mode_toggled)
 
     # The key for auphonic.com and the preset a run is given stand in
@@ -3644,7 +3623,7 @@ def gui():
     (access_box, keep_where, key_var, done_folder,
      without_auphonic, preset_plaintext, presets_filter,
      presets_wanted_now, finished_tracks_check) = make_auphonic_box(
-         QtWidgets, state, bridge, bridge_emit, run_layout,
+         QtWidgets, state, bridge, bridge_emit, tab2.run_layout,
          settings_open, buttons_check, multi_button, multitrack,
          out_folder, commonest_folder, report)
 
@@ -3652,7 +3631,7 @@ def gui():
     # make_resolve_check(). Below settings_open, which its line reaches.
     (resolve_box, resolve_left, resolve_right,
      resolve_check_run_kick_off) = make_resolve_check(
-         QtWidgets, bridge, bridge_emit, resolve_position, settings_open)
+         QtWidgets, bridge, bridge_emit, tab3.room, settings_open)
     # The row holding its two columns is the left one's parent layout.
     stack_when_narrow(tab3, resolve_left.parent())
 
@@ -3661,7 +3640,7 @@ def gui():
 
         Not twice -- a second speaker run costs minutes for nothing.
         """
-        if tabs.currentWidget() is not tab3:
+        if window.tabs.currentWidget() is not tab3:
             return
         if not state.get("resolve_checked"):
             state["resolve_checked"] = True
@@ -3672,7 +3651,7 @@ def gui():
             gui_log("cut tab opened with no speakers known -- measuring")
             speaker_measure()
 
-    tabs.currentChanged.connect(resolve_sheet_chosen)
+    window.tabs.currentChanged.connect(resolve_sheet_chosen)
 
     # The In point and Out point are in the player on the right; a box of their
     # own would be the same information twice.
@@ -3763,39 +3742,11 @@ def gui():
     cut_column.addWidget(preview_label)
     cut_column.addStretch(1)
 
-    # Beside it: who speaks how much. Without those numbers the cut next to it
-    # cannot be judged.
-    speaker_box = QtWidgets.QGroupBox(T('Speaker'))
-    resolve_left.addWidget(speaker_box)
+    # Beside it: who speaks how much, in a box of the Resolve sheet's own.
+    tab3.speakers_build(resolve_left, state)
     # What the project type greys or hides: the same way over as cut_boxes.
-    state["sync_parts"] = (sync_note, speaker_box, multitrack_bar, split_line)
-    speech_column = QtWidgets.QVBoxLayout(speaker_box)
-    speech_column.setContentsMargins(10, 2, 10, 8)
-    speech_title = label(T('Speakers, separated by voice'),
-                        COLOURS["heading"], True)
-    speech_column.addWidget(speech_title)
-    speech_position = speech_column
-    speech_table = QtWidgets.QTableWidget(0, 5)
-    speech_table.setHorizontalHeaderLabels([T('Speaker'), T('Speech time'),
-                                            T('Share'), T('Blocks'),
-                                            T('average')])
-    speech_table.verticalHeader().setVisible(False)
-    speech_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-    speech_table.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
-    speech_table.setShowGrid(False)
-    speech_table.setAlternatingRowColors(True)
-    speech_position.addWidget(speech_table)
-
-
-    def speech_show(d):
-        """Write the speaker statistics into the table."""
-        state["speech_time_total"] = speech_table_fill(
-            Qt, QtGui, QtWidgets, speech_table, d)
-
-    speech_table.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
-                                QtWidgets.QSizePolicy.Fixed)
-    speech_table.setMinimumWidth(240)
-    speech_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+    state["sync_parts"] = (sync_note, tab3.speaker_box, tab2.multitrack_bar,
+                           split_line)
 
     # The cut band and the player under it, with what they show.
     (cut_band, cut_player, band_show,
@@ -3884,9 +3835,9 @@ def gui():
         Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         camera_lines, voice_lines, cut_var, cut_parts, edge_on, start_var,
         end_var, multitrack, out_folder, clip_kind_value, wide_cameras_now,
-        commonest_folder, band_show, speech_show, window_info_show,
+        commonest_folder, band_show, tab3.speech_show, window_info_show,
         question_note, cut_column, forecast_box, preview_label,
-        speech_title, speech_table)
+        tab3.speech_title, tab3.speech_table)
     # A project that only synchronises has no cut to preview.
     preview_compute = unless_sync(state, preview_compute, preview_label)
     state["preview_compute"] = preview_compute
@@ -3925,55 +3876,11 @@ def gui():
 
     bridge.preflight.connect(preflight_fill_in)
 
-    # ------------------------------------------------------------------
-    # Tab 3: log
-    # ------------------------------------------------------------------
-    log = make_log_view(QtGui, QtWidgets, Cursor)()
-    sheet2_position.addWidget(log, 1)
-
-    output_foot = QtWidgets.QHBoxLayout()
-    sheet2_position.addLayout(output_foot)
-
-    def result_open():
-        target = (state["results"][-1] if state["results"]
-                else state.get("result_folder"))
-        if target:
-            open_in_file_manager(target)
-
-    # The result button belongs with the output, not in the footer. A
-    # disabled button shows no tooltip, so a wrapper carries the reason.
-    def having_reason(button):
-        env_curve = QtWidgets.QWidget()
-        position = QtWidgets.QHBoxLayout(env_curve)
-        position.setContentsMargins(0, 0, 0, 0)
-        position.addWidget(button)
-        return env_curve
-
-    open_button = QtWidgets.QPushButton(T('Open result folder'))
-    open_button.clicked.connect(result_open)
-    open_button.setEnabled(False)
-    open_env_curve = having_reason(open_button)
-    open_env_curve.setToolTip(T('There is no result yet.'))
-    output_foot.addWidget(open_env_curve)
-    # The Resolve button belongs here: first one looks at the result, then one
-    # creates the project.
-    only_resolve = QtWidgets.QPushButton(T('Create Resolve project'))
-    only_resolve.setEnabled(False)
-    only_resolve_env_curve = having_reason(only_resolve)
-    only_resolve_env_curve.setToolTip(T('That needs the handover file from '
-                                        'a run, and there is none.'))
-    output_foot.addWidget(only_resolve_env_curve)
-    output_foot.addStretch(1)
-
-    def result_button_check():
-        """The button appears only once there really is a result."""
-        target = (state["results"][-1] if state["results"]
-                else state.get("result_folder"))
-        reason_set(open_env_curve, open_button,
-                     bool(target) and not state["running"],
-                     T('The run is still going.') if state["running"]
-                     else T('There is no result yet.'),
-                     T('Show in Finder.'))
+    # ------------------------------------------------------ Tab 4: the log
+    # The sheet holds the log pane and the two buttons for the result.
+    output = window.output_sheet
+    log, only_resolve = output.log, output.only_resolve
+    result_button_check = output.result_button_check
 
     # ------------------------------------------------------------------
     # Footer
@@ -3981,9 +3888,9 @@ def gui():
     # What comes back is what the rest of the window reaches for, down to
     # the timer that has to be stopped when the window goes.
     (start_run, start_run_env_curve, preview_button, break_off,
-     plan_wipe, run_plan_build, run_step_order, total_clock) = make_footer(
-        Qt, QtCore, QtWidgets, window, vertical, state, files,
-        plan, bridge, late, multitrack, without_auphonic, settings_open)
+     plan_wipe, run_plan_build, run_step_order,
+     total_clock) = window.footer_build(state, plan, bridge, late, multitrack,
+                                        without_auphonic, settings_open)
 
     # ------------------------------------------------------------------
     # Project file -- writing, closing and opening it stand in
@@ -4011,7 +3918,7 @@ def gui():
                else T('Nothing was written -- there is no material yet.'))
 
     def resolve_button_check():
-        resolve_button_say(state, only_resolve_env_curve, only_resolve)
+        resolve_button_say(state, output.only_resolve_env_curve, only_resolve)
 
     # The table builder stands above gui() and takes up the handover
     # when the cameras change; both of these it reaches through state.
@@ -4030,28 +3937,28 @@ def gui():
     # ------------------------------------------------------------------
     items_fresh, take_paths, add_files, remove = make_file_changes(
         Qt, QtCore, QtWidgets, window, state, files, ask,
-        report, items, item, drop_area, preflight_line,
+        report, items, item, window.files_sheet.drop_area, preflight_line,
         preflight_fill_in, preflight_kick_off, blocks_of,
         recording_of, join_to, no_join, lines_node,
         prework_node, video_kind_again, channel_rows_show,
-        audio_use_now, video_choices_show, settings_show,
+        audio_use_now, video_choices_show, window.settings_show,
         buttons_check, show_weak, assignment_fresh,
         finished_tracks_check, prework_clean_up, remembered,
         together_now, production_var, commonest_folder,
-        remove_button, bar_env_curve)
+        window.files_sheet.remove_button, window.files_sheet.bar)
 
     # A file dropped straight onto the list lands here; the buttons above
     # stand long before the five exist and are hung on them here.
     state["take_paths"] = take_paths
-    add_button.clicked.connect(add_files)
-    remove_button.clicked.connect(remove)
+    window.files_sheet.add_button.clicked.connect(add_files)
+    window.files_sheet.remove_button.clicked.connect(remove)
 
     # ------------------------------------------------------------------
     # Project file -- the three lifted out of here. Below the writer,
     # because it and resolve_button_check go in as arguments.
     # ------------------------------------------------------------------
     (project_write, project_new, project_open) = make_project_file(
-        QtWidgets, window, state, files, log, report, sheet2,
+        QtWidgets, window, state, files, log, report, output,
         out_folder, production_var, start_var, end_var,
         speech_language, lufs_value, edge_on, multitrack, project_type,
         cut_var, channel_choice, clip_kind_values,
@@ -4059,7 +3966,7 @@ def gui():
         assign_lines, camera_lines, axis_file, axis_store,
         project_collect, project_move, settings_extend,
         commonest_folder, folder_show, folder_pick, items_fresh,
-        window_enable, tab_gone, output_show, mode_toggled,
+        window_enable, window.tab_gone, window.output_show, mode_toggled,
         player_follow_up, plan_wipe, prework_clean_up,
         split_stop, split_run, preview_compute,
         presets_wanted_now, presets_filter,
@@ -4093,7 +4000,7 @@ def gui():
                     resolve_button_check, preview_compute)
 
     output_timer.timeout.connect(clear)
-    PROGRAM.UPDATE_SINK = make_update_sink(state, write, output_show,
+    PROGRAM.UPDATE_SINK = make_update_sink(state, write, window.output_show,
                                            output_timer)
 
     # Runs in the window thread while the worker thread waits.
@@ -4121,7 +4028,7 @@ def gui():
         prework_node, prework_done, prework_queue, prework_run,
         prework_lock, prework_busy, start_run, preview_button,
         only_resolve, break_off, output_timer, files_for_run,
-        window_length, preset_plaintext, without_auphonic, output_show,
+        window_length, preset_plaintext, without_auphonic, window.output_show,
         buttons_check, result_button_check, run_plan_build,
         run_step_order, project_write)
 
@@ -4129,11 +4036,7 @@ def gui():
     start_run.clicked.connect(lambda: start(False))
     preview_button.clicked.connect(lambda: start(True))
 
-    # As large as the screen, but an ordinary window.
-    screen = app.primaryScreen().availableGeometry()
-    window.resize(min(1600, screen.width()), min(1000, screen.height()))
-    PROGRAM.least_size_from_layout(window)
-    window.move(screen.left(), screen.top())
+    window.screen_fit(app)
 
     def clean_up():
         """Write the work down first, then stop the timers and the player."""
@@ -4161,10 +4064,8 @@ def gui():
     # it was only asked to keep. The list is fetched when it is opened.
 
     # ------------------------------------------------------- The menu
-    # A Mac program without a menu bar is not a Mac program: About,
-    # Settings and Help are expected where the window has no say.
-    # QLayout.setMenuBar puts it in the system bar on a Mac.
-    menu = build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, {
+    # What each entry does; MainWindow.menu_build lays the bar out.
+    window.menu_build(player, {
         "add files": add_files, "remove": remove,
         "output folder": folder_pick,
         "start": lambda: start_run.click(),
@@ -4177,9 +4078,8 @@ def gui():
         "to in": lambda: to_limit(start_var),
         "to out": lambda: to_limit(end_var)},
         window_switch, cut_player, late,
-        (remove_button, start_run, preview_button),
+        (window.files_sheet.remove_button, start_run, preview_button),
         lambda: bool(files) or bool(state.get("project_from")))
-    vertical.setMenuBar(menu)
     window_enable()    # after the menu: its four player entries join the list
     buttons_check()    # and its five file entries follow the buttons
 

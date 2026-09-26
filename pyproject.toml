@@ -78,7 +78,9 @@ videopodcast-magic = "videopodcast_magic:main"
 # player/, fittings/, tables/, menus/, filelist/ and prework/ are the
 # six the way in never fetches: all six are asked for from inside
 # ui/__init__.py, player/ again from fittings/ and fittings/ again from
-# filelist/.
+# filelist/. The four sheets -- filesheet/, assignmentsheet/,
+# resolvesheet/ and outputsheet/, one per tab -- are asked for from
+# ui/__init__.py alone, which is why they may carry Qt at their heads.
 # text_german_arrives reads the way in and no other file, so it cannot
 # see them; source_piece_list_holds walks the beside() calls in every
 # piece and does. Measured 6.9.2026 on a copy, one name off the list at
@@ -95,6 +97,7 @@ videopodcast-magic = "videopodcast_magic:main"
 # text_german_arrives green before that move and turned it red after.
 packages = [
     "videopodcast_magic",
+    "videopodcast_magic.assignmentsheet",
     "videopodcast_magic.auphonic",
     "videopodcast_magic.bearings",
     "videopodcast_magic.workbench",
@@ -104,6 +107,7 @@ packages = [
     "videopodcast_magic.desktop",
     "videopodcast_magic.dials",
     "videopodcast_magic.filelist",
+    "videopodcast_magic.filesheet",
     "videopodcast_magic.filing",
     "videopodcast_magic.fittings",
     "videopodcast_magic.hearing",
@@ -115,12 +119,14 @@ packages = [
     "videopodcast_magic.menus",
     "videopodcast_magic.metadata",
     "videopodcast_magic.orders",
+    "videopodcast_magic.outputsheet",
     "videopodcast_magic.pipeline",
     "videopodcast_magic.player",
     "videopodcast_magic.preflight",
     "videopodcast_magic.prework",
     "videopodcast_magic.project",
     "videopodcast_magic.resolve",
+    "videopodcast_magic.resolvesheet",
     "videopodcast_magic.running",
     "videopodcast_magic.setup",
     "videopodcast_magic.soundings",
