@@ -517,7 +517,8 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         # Intro, outro and "ignore this video" hang on the file, not
         # the table. Opening a project takes them with it, or two meet.
         if d.get("speech_language"):
-            model.speech_language.set(d["speech_language"])
+            model.speech_language.set(
+                PROGRAM.spoken_language_offered(d["speech_language"]))
         # The saved project beats what was chosen last. null is an answer,
         # so the key decides and not the value.
         if "lufs" in d:

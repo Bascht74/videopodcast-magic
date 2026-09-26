@@ -6,13 +6,16 @@ the screen but not the store the project file is written from, so it
 stood in the file with an empty name and came back at the next opening.
 And where auphonic.com refused the key, the preset list fell back on
 "work without Auphonic" -- a stand-in for a list that is missing, which
-was written into the project as though somebody had chosen it.
+was written into the project as though somebody had chosen it. And one
+answer got lost: a file naming its spoken language "de" left the field
+on "not set", and the next save wrote "" over it.
 
 The sections: what the store keeps about a file that has left; a
-recording added, saved, removed and saved again; and a preset chosen,
-then a key that stops being accepted. The window is driven from
-outside, and the answer is read out of the file that was written,
-never out of a variable.
+recording added, saved, removed and saved again; a preset chosen,
+then a key that stops being accepted; and project files naming their
+language in other spellings, each opened and saved. The window is
+driven from outside, and the answer is read out of the file that was
+written, never out of a variable.
 
 Nothing here goes to auphonic.com or into a key store: both are
 replaced by stand-ins, and all material lives under a folder of its own.
@@ -219,15 +222,60 @@ def preset_box():
     return None
 
 
-def waited_for(condition, why):
+def waited_for(condition, why, patience=PATIENCE):
     began_here = time.time()
-    while time.time() - began_here < PATIENCE:
+    while time.time() - began_here < patience:
         app.processEvents()
         if condition():
             return time.time() - began_here
         time.sleep(POLL)
-    print("      gave up after %.1f s waiting for %s" % (PATIENCE, why))
+    print("      gave up after %.1f s waiting for %s" % (patience, why))
     return None
+
+
+def language_box():
+    """The drop-down for the spoken language, by the name it speaks as."""
+    for b in among(QtWidgets.QComboBox):
+        if b.accessibleName() == vpm.T('Language of the sound'):
+            return b
+    return None
+
+
+# The language as a project file names it, and the tag the field keeps.
+SPELLINGS = (("de", "ger"), ("fr", "fra"), ("eng", "eng"))
+
+
+def language_file(written):
+    """A project file of its own, naming its language as *written*."""
+    folder = os.path.join(FOLDER, "Language_" + written)
+    os.makedirs(folder, exist_ok=True)
+    path = os.path.join(folder, vpm.PROJECT_PREFIX + written + ".json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"format": vpm.FILE_FORMAT, "version": "test",
+                   "timeline": [], "preset": "", "production": written,
+                   "multitrack": False, "project_type": "cut",
+                   "out_folder": folder, "assignment": {},
+                   "speech_language": written,
+                   "files": [{"path": KEPT, "kind": "audio"}]}, f)
+    return path
+
+
+def language_saved(written, kept):
+    """Open a file naming *written*, save it, and read back its language."""
+    path = language_file(written)
+    QtWidgets.QFileDialog.getOpenFileName = staticmethod(
+        lambda *a, **k: (path, ""))
+    action_named(vpm.T('Open project ...')).trigger()
+    box = language_box()
+    took = waited_for(lambda: box is not None and box.currentData() == kept,
+                      "the language field to show %r" % kept, 10.0)
+    action_named(vpm.T('Save project')).trigger()
+    app.processEvents()
+    with open(path, encoding="utf-8") as f:
+        back = json.load(f).get("speech_language")
+    field = "never" if took is None else "after %.2f s" % took
+    return ("%r came back as %r, the field on %r: %s"
+            % (written, back, kept, field)), back == kept
 
 
 def project_file():
@@ -392,6 +440,12 @@ def drive():
     check("the fallback is not written into the project as a decision",
           (fourth or {}).get("preset") == PRESET,
           "%r against %r" % ((fourth or {}).get("preset"), PRESET))
+
+    print("\n4. The spoken language of a project file, opened and saved")
+    outcomes = [language_saved(w, k) for w, k in SPELLINGS]
+    check("an opened project's language survives the next save",
+          all(ok for _said, ok in outcomes),
+          "; ".join(said for said, _ok in outcomes))
     app.quit()
 
 
