@@ -20,6 +20,9 @@ MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
 PLATFORMS = PROGRAM.PLATFORMS
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
+SOUND_HOLDS = PROGRAM.SOUND_HOLDS
+SOUND_MIXED = PROGRAM.SOUND_MIXED
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 T = PROGRAM.T
 TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 TYPE_INTRO = PROGRAM.TYPE_INTRO
@@ -35,6 +38,7 @@ label_of = PROGRAM.label_of
 languages = PROGRAM.languages
 number_text = PROGRAM.number_text
 os = PROGRAM.os
+path_key = PROGRAM.path_key
 python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
 
@@ -191,6 +195,12 @@ def run_argv(values, assignment_file_path=""):
     # while the window has not asked yet: the run then reads it as a cut.
     if values.get("project_type") in ("cut", "sync"):
         argv += ["--project-type", values["project_type"]]
+    # Only the recordings said to hold mixed sound: speech is what a run
+    # takes unasked. Keyed by the recording's first block, as listed.
+    listed = set(path_key(p) for p, a in files if a == "audio")
+    for p, holds in sorted((values.get("sound") or {}).items()):
+        if holds == SOUND_MIXED and path_key(p) in listed:
+            argv += ["--sound-of", p, holds]
 
     # The last net under the window's own mark: a voice whose name is on
     # somebody else already. Refused and not asked -- to the cut two
@@ -427,6 +437,18 @@ def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
 # this declares them, both out of CUT_FIELDS and CUT_CHOICES.
 
 
+class SoundOf(argparse.Action):
+    """--sound-of FILE SOUND, kept as pairs; SOUND is speech or mixed."""
+
+    def __call__(self, parser, space, words, option=None):
+        """Keep the pair, or refuse the line as a wrong choice is refused."""
+        if words[1] not in SOUND_HOLDS:
+            parser.error("argument --sound-of: invalid sound %r (choose "
+                         "from %s)" % (words[1], ", ".join(SOUND_HOLDS)))
+        setattr(space, self.dest,
+                list(getattr(space, self.dest, None) or []) + [list(words)])
+
+
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(
@@ -450,6 +472,21 @@ def build_argument_parser():
                          "onto each camera and the multicam timeline only, "
                          "with no speakers, no speech recognition, no "
                          "transcript and no cut lists. (default: cut)")
+    ap.add_argument("--sound", dest="sound", default=SOUND_SPEECH,
+                    choices=SOUND_HOLDS,
+                    help="what the sound of every recording holds: speech "
+                         "= it is placed by its loudness only, and one "
+                         "that shares nothing with the cameras is refused; "
+                         "mixed = music or a mix under the voices, and "
+                         "where the loudness finds nothing the phase may "
+                         "place it. --project-type sync always takes "
+                         "mixed. (default: speech)")
+    ap.add_argument("--sound-of", dest="sound_of", action=SoundOf, nargs=2,
+                    default=[], metavar=("FILE", "SOUND"),
+                    help="the same for one recording, named by any of its "
+                         "files; beats --sound. May be given several "
+                         "times. The interface sends it for a recording "
+                         "set to mixed. (default: none)")
     ap.add_argument("--auphonic-api-key", dest="auphonic_key",
                     default=None, metavar="KEY",
                     help="API key from the Auphonic account settings. Turns "

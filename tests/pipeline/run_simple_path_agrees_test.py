@@ -171,8 +171,11 @@ check("the fixture holds the microphones and cameras of a whole job",
 if len(RECORDINGS) < 2 or len(CAMERAS) < 2:
     stop()
 
+# The fixture's microphones share no sound with its cameras: only the
+# phase way places them, and it is asked only for mixed sound.
 ARGV = ([sys.executable, SCRIPT, "--without-auphonic", "--out", OUT,
-         "--no-metrics", "--no-speech-recognition", "--no-transcript-file"]
+         "--no-metrics", "--no-speech-recognition", "--no-transcript-file",
+         "--sound", "mixed"]
         + RECORDINGS + CAMERAS)
 code, said, stuck, took = run_and_watch(ARGV)
 print("    %d recordings, %d cameras, %.1f s"

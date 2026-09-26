@@ -8,7 +8,7 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# Bound above the seam. One name is missing, and the block under the
+# Bound above the seam. Two names are missing, and the block under the
 # list says which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
@@ -39,10 +39,10 @@ trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
 video_summary = PROGRAM.video_summary
 
-# join_box_fill is the one missing: it stands in the window below the
-# line this file is read at, so a copy taken here is an AttributeError,
-# and no earlier seam mends that. It is asked as PROGRAM.join_box_fill
-# where it is called, by which time the window has been read whole.
+# join_box_fill and sound_cell_for are missing: they stand in the window
+# below the line this file is read at, so a copy here is an
+# AttributeError. Each is asked as PROGRAM.<name> where it is called, by
+# which time the window has been read whole.
 
 # What the fittings bring. The way in reads that piece above the
 # window now, so these are ordinary head lines and no beside() call
@@ -255,7 +255,17 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         # In the wide column: column one is only as wide as a checkbox.
         items.setItemWidget(kid, 2, box)
 
+    def sound_row_show(node, head):
+        """What the sound of this recording holds, in its own row.
+
+        In the Kind column, which a recording leaves empty: one answer
+        for the whole recording, however many blocks it is made of.
+        """
+        cell, _box = PROGRAM.sound_cell_for(head, state, COLOURS["quiet"])
+        items.setItemWidget(node, 3, cell)
+
     def items_fresh():
+        """Build every row of the list again, and what hangs off the rows."""
         probe_warm([p for p, _ in files])
         items.clear()
         # The rows are gone with it, so what could draw them again goes too.
@@ -302,6 +312,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                             group, row, discarded, selected, item,
                             lines_node, channel_rows_show)
                         join_row_show(node, row[0], heads)
+                        sound_row_show(node, row[0])
                         continue
                     p = row[0]
                     node = item(group, os.path.basename(p),
@@ -309,6 +320,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                                     files_for_it=[p])
                     lines_node[p] = node
                     join_row_show(node, p, heads)
+                    sound_row_show(node, p)
                     channel_rows_show(node, p)
                     try:
                         lines = audio_summary(p)

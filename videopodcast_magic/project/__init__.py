@@ -428,6 +428,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         state["speakers_count"] = 0
         state["speakers_wanted"] = None
         state["preset_wanted"] = ""
+        state["sound_holds"] = ByFile()
         # Back to what they hold when the program has just started, so a
         # second production begins the way the first one did.
         speech_language.set(PROGRAM.language_of_system())
@@ -482,6 +483,10 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         # as that, and nothing asked. Before the files, so the tables
         # are built once, in the shape the type asks for.
         project_type.set(d.get("project_type") or "cut")
+        # What each recording's sound holds, by its first block, before
+        # the files too: the axis they start is measured by it. A file
+        # written before the choice holds none, and so holds speech.
+        state["sound_holds"] = ByFile(d.get("sound") or {})
         present, missing = project_files(d)
         files[:] = present
         # Before anything is drawn: every file measured once, in

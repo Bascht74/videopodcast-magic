@@ -5,10 +5,11 @@ An In point taken as given says nothing about the buttons that make
 one. So the player is dragged to a spot, the mark is made, and what
 came of it is read off the screen and off what reached the trimming.
 In order: no material and no mark at either door; the ground, a file
-with a timecode in the player; the button; the menu entry, with its key;
-the project file; an Out point in front of the In point; and a step
-whose answer never comes, red where it stands. From the project file on,
-run_three_ways_agree has it, and this one stops there.
+with a timecode in the player and the time axis measured; the button;
+the menu entry, with its key; the project file; an Out point in front
+of the In point; and a step whose answer never comes, red where it
+stands. From the project file on, run_three_ways_agree has it, and this
+one stops there.
 """
 import os
 import sys
@@ -650,6 +651,17 @@ def written_out(_fresh):
 COMPLAINT = vpm.T('Out point lies less than 5 seconds after In point.')
 
 
+def axis_measured():
+    """Has the time axis been measured and written into the project file?
+
+    Written by the program once the measurement lands, so it moves only
+    because the program worked. Every mark below is read against where
+    the material starts, and that is only settled once the axis is.
+    """
+    d, _path = newest_project()
+    return bool(d and d.get("timeline"))
+
+
 def complaint_up():
     return label_saying(COMPLAINT) is not None
 
@@ -686,6 +698,8 @@ step("1. the project is opened", open_project, opened, until=player_ready)
 step("1b. the player goes where the marks are made",
      lambda: tab_to(drawn(vpm.T('Assignment'))), lambda _f: None,
      until=player_ready)
+step("1c. the time axis is measured", lambda: None, lambda _f: None,
+     until=axis_measured)
 step("2. the player is dragged to the In point", move_to(IN_AT),
      moved(IN_AT), until=stands_at(IN_AT))
 step("2b. Mark In is pressed", press('Mark In'), in_marked, watch=True)
