@@ -4954,3 +4954,15 @@ msgstr "بازشناسی گفتار برای این اجرا خاموش بود. 
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "اجرا هیچ رونوشتی ننوشت: بازشناسی گفتار شکست خورد یا چیزی نشنید، و گزارش اجرا می‌گوید کدام. زبان صدا را بررسی کنید و دوباره اجرا کنید؛ اگر این دستگاه بازشناسی ندارد، macOS 26 یکی با خود دارد، یا اجرا faster-whisper را نصب می‌کند."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "در حال کار -- %s دقیقه است پیامی نیامده، شاید رایانه مشغول باشد"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s دقیقه بدون تغییر -- شاید گیر کرده باشد، لطفاً بررسی کنید"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "باقی گذاشته می‌شود: %s ppm یا بیشتر به احتمال زیاد خطای اندازه‌گیری است"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "باقی گذاشته می‌شود: به %s برابر عدم قطعیتش نمی‌رسد"

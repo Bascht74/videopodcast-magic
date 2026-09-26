@@ -4954,3 +4954,15 @@ msgstr "اس رن کے لیے تقریر کی شناخت بند تھی۔ اسے 
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "رن نے کوئی ٹرانسکرپٹ نہیں لکھا: تقریر کی شناخت ناکام رہی یا اسے کچھ سنائی نہیں دیا، اور رن کا لاگ بتاتا ہے کہ کون سا۔ آڈیو کی زبان جانچیں اور دوبارہ چلائیں؛ جہاں اس مشین میں شناخت نہیں، وہاں macOS 26 ایک لاتا ہے، یا رن faster-whisper انسٹال کرتا ہے۔"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "کام جاری ہے -- %s منٹ سے کوئی پیغام نہیں، شاید کمپیوٹر مصروف ہے"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s منٹ سے کوئی تبدیلی نہیں -- شاید اٹک گیا ہے، براہ کرم جانچ لیں"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "باقی رکھا جاتا ہے: %s ppm یا اس سے زیادہ غالباً پیمائش کی غلطی ہے"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "باقی رکھا جاتا ہے: اپنی غیر یقینی کے %s گنا تک نہیں پہنچتا"

@@ -4957,3 +4957,15 @@ msgstr "ਇਸ ਰਨ ਲਈ ਬੋਲੀ ਪਛਾਣ ਬੰਦ ਸੀ। ਇ�
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "ਰਨ ਨੇ ਕੋਈ ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ ਨਹੀਂ ਲਿਖੀ: ਬੋਲੀ ਪਛਾਣ ਫੇਲ੍ਹ ਹੋ ਗਈ ਜਾਂ ਉਸ ਨੇ ਕੁਝ ਨਹੀਂ ਸੁਣਿਆ, ਅਤੇ ਰਨ ਦਾ ਲੌਗ ਦੱਸਦਾ ਹੈ ਕਿ ਕਿਹੜਾ। ਧੁਨੀ ਦੀ ਭਾਸ਼ਾ ਜਾਂਚੋ ਅਤੇ ਫਿਰ ਚਲਾਓ; ਜਿੱਥੇ ਇਸ ਮਸ਼ੀਨ ਵਿੱਚ ਪਛਾਣ ਨਹੀਂ, ਉੱਥੇ macOS 26 ਇੱਕ ਲਿਆਉਂਦਾ ਹੈ, ਜਾਂ ਰਨ faster-whisper ਇੰਸਟਾਲ ਕਰਦਾ ਹੈ।"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "ਕੰਮ ਚੱਲ ਰਿਹਾ ਹੈ -- %s ਮਿੰਟ ਤੋਂ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ, ਕੰਪਿਊਟਰ ਸ਼ਾਇਦ ਰੁੱਝਿਆ ਹੈ"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s ਮਿੰਟ ਤੋਂ ਕੋਈ ਬਦਲਾਅ ਨਹੀਂ -- ਸ਼ਾਇਦ ਅਟਕ ਗਿਆ ਹੈ, ਕਿਰਪਾ ਕਰਕੇ ਜਾਂਚੋ"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "ਜਿਉਂ ਦਾ ਤਿਉਂ ਰਹਿਣ ਦਿੱਤਾ ਜਾਂਦਾ ਹੈ: %s ppm ਜਾਂ ਵੱਧ ਸ਼ਾਇਦ ਮਾਪ ਦੀ ਗਲਤੀ ਹੈ"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "ਜਿਉਂ ਦਾ ਤਿਉਂ ਰਹਿਣ ਦਿੱਤਾ ਜਾਂਦਾ ਹੈ: ਆਪਣੀ ਅਨਿਸ਼ਚਿਤਤਾ ਦੇ %s ਗੁਣਾ ਤੱਕ ਨਹੀਂ ਪਹੁੰਚਦਾ"

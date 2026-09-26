@@ -4996,3 +4996,15 @@ msgstr "Prepoznavanje govora bilo je za ovaj prolaz isključeno. Ostavite ga ukl
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Prolaz nije zapisao transkript: prepoznavanje govora nije uspjelo ili nije ništa čulo, a zapisnik prolaza kaže što od toga. Provjerite jezik zvuka i pokrenite ponovno; ako ovo računalo nema prepoznavanje, macOS 26 ga donosi, ili prolaz instalira faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "radi -- nema poruke već %s min, računalo je možda zauzeto"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "nema promjene već %s min -- možda je zapelo, molimo provjerite"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "ostaje: %s ppm ili više prije je pogreška mjerenja"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "ostaje: ne doseže %s puta svoju nesigurnost"

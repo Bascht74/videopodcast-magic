@@ -4955,3 +4955,15 @@ msgstr "இந்த இயக்கத்தில் பேச்சு அற
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "இயக்கம் எந்த எழுத்துப்படியையும் எழுதவில்லை: பேச்சு அறிதல் தோல்வியடைந்தது அல்லது எதையும் கேட்கவில்லை, எது என்பதை இயக்கத்தின் பதிவு சொல்கிறது. ஆடியோ மொழியைச் சரிபார்த்து மீண்டும் இயக்குங்கள்; இந்தக் கணினியில் அறிதல் இல்லையெனில் macOS 26 ஒன்றைக் கொண்டுவருகிறது, அல்லது இயக்கம் faster-whisper-ஐ நிறுவுகிறது."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "வேலை நடக்கிறது -- %s நிமிடமாக எந்தச் செய்தியும் இல்லை, கணினி பணிச்சுமையில் இருக்கலாம்"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s நிமிடமாக எந்த மாற்றமும் இல்லை -- சிக்கியிருக்கலாம், தயவுசெய்து சரிபார்க்கவும்"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "அப்படியே விடப்படுகிறது: %s ppm அல்லது அதற்கு மேல் என்பது பெரும்பாலும் அளவீட்டுப் பிழை"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "அப்படியே விடப்படுகிறது: அதன் நிச்சயமின்மையின் %s மடங்கை எட்டவில்லை"

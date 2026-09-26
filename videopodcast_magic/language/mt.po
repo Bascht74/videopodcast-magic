@@ -5044,3 +5044,15 @@ msgstr "Ir-rikonoxximent tad-diskors kien mitfi għal dan it-tħaddim. Ħallih m
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "It-tħaddim ma kiteb l-ebda waħda: ir-rikonoxximent tad-diskors falla jew ma sema' xejn, u r-reġistru tat-tħaddim jgħid liema. Iċċekkja l-lingwa tal-ħoss u erġa' ħaddem; fejn din il-magna m'għandhiex rikonoxximent, macOS 26 iġib wieħed, jew it-tħaddim jinstalla faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "qed jaħdem -- l-ebda kelma għal %s min, il-kompjuter jista' jkun okkupat"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "l-ebda bidla għal %s min -- jista' jkun imwaħħal, jekk jogħġbok iċċekkja"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "jitħalla: %s ppm jew aktar huwa aktarx żball fil-kejl"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "jitħalla: ma jilħaqx %s darbiet l-inċertezza tiegħu"

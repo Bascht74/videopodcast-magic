@@ -5091,3 +5091,15 @@ msgstr "Bhí an aithint cainte múchta don rith. Fág ar siúl í, agus scríobh
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Níor scríobh an rith ceann ar bith: theip ar an aithint cainte nó níor chuala sí tada, agus insíonn loga an rith cé acu. Seiceáil teanga na fuaime agus rith arís; mura bhfuil aithint ar an ríomhaire seo, tugann macOS 26 ceann leis, nó suiteálann an rith faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "ag obair -- gan scéala le %s nóim., d'fhéadfadh an ríomhaire a bheith gnóthach"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "gan athrú le %s nóim. -- d'fhéadfadh sé a bheith greamaithe, seiceáil le do thoil"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "fágtar istigh é: is dóichí gur earráid tomhais é %s ppm nó níos mó"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "fágtar istigh é: ní shroicheann sé %s oiread a éiginnteachta"

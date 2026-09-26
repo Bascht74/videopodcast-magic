@@ -4996,3 +4996,15 @@ msgstr "Rozpoznawanie mowy było w tym przebiegu wyłączone. Zostaw je włączo
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Przebieg nie zapisał transkrypcji: rozpoznawanie mowy zawiodło albo nic nie usłyszało, a dziennik przebiegu mówi, które z tych dwóch. Sprawdź język dźwięku i uruchom ponownie; jeśli ten komputer nie ma rozpoznawania, macOS 26 je zapewnia, albo przebieg instaluje faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "pracuje -- od %s min brak komunikatu, komputer może być obciążony"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "od %s min bez zmian -- może się zawiesił, sprawdź"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "pozostaje: %s ppm lub więcej to raczej błąd pomiaru"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "pozostaje: nie osiąga %s-krotności swojej niepewności"

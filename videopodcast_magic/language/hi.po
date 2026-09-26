@@ -4952,3 +4952,15 @@ msgstr "इस रन के लिए वाक् पहचान बंद �
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "रन ने कोई ट्रांसक्रिप्ट नहीं लिखा: वाक् पहचान विफल रही या उसे कुछ सुनाई नहीं दिया, और रन का लॉग बताता है कि कौन-सा। ध्वनि की भाषा जाँचें और फिर से चलाएँ; जहाँ इस मशीन में पहचान नहीं है, वहाँ macOS 26 एक लाता है, या रन faster-whisper इंस्टॉल करता है।"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "काम चल रहा है -- %s मिनट से कोई संदेश नहीं, कंप्यूटर शायद व्यस्त है"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s मिनट से कोई बदलाव नहीं -- शायद अटक गया है, कृपया जाँचें"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "छोड़ दिया जाता है: %s ppm या उससे अधिक संभवतः मापन की गलती है"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "छोड़ दिया जाता है: अपनी अनिश्चितता के %s गुना तक नहीं पहुँचता"

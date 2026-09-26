@@ -4996,3 +4996,15 @@ msgstr "Препознавање говора је за ово покретањ�
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Покретање није написало транскрипт: препознавање говора није успело или није ништа чуло, а дневник покретања каже шта од тога. Проверите језик звука и покрените поново; где овај рачунар нема препознавање, macOS 26 га доноси, или покретање инсталира faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "ради -- нема поруке већ %s мин, рачунар је можда заузет"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "нема промене већ %s мин -- можда је заглављено, проверите"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "остаје: %s ppm или више је пре грешка мерења"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "остаје: не достиже %s пута своју несигурност"

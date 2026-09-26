@@ -31,7 +31,11 @@ same clock.
 So the program listens instead. It compares when the good audio gets loud
 and when the camera microphone does, slides them together, and takes the
 drift out over the length. If the measurement is too shaky for that, the
-program leaves it alone and says so.
+program leaves it alone and says so. Too shaky means a drift smaller
+than three times its own uncertainty. A camera answers to that same
+rule however short its file is, with one bound of its own: 500 ppm or
+more -- 1.8 seconds an hour -- is rather a failed measurement than a
+clock, and stays in as well.
 
 A steady tone defeats that comparison. A hum off the mains, an air
 conditioner, a signal tone somewhere in the building: it stands there

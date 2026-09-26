@@ -4994,3 +4994,15 @@ msgstr "Распознавание речи было выключено для �
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Прогон не написал расшифровку: распознавание речи не удалось или ничего не услышало, и журнал прогона говорит, что именно. Проверьте язык звука и запустите снова; если на этой машине нет распознавания, macOS 26 приносит его, или прогон устанавливает faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "работает -- %s мин. без сообщений, компьютер, возможно, загружен"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s мин. без изменений -- возможно, зависло, проверьте"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "остаётся как есть: %s ppm и больше -- скорее ошибка измерения"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "остаётся как есть: не достигает %s-кратной погрешности"

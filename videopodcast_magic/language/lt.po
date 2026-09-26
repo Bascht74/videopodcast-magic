@@ -4999,3 +4999,15 @@ msgstr "Šiam vykdymui kalbos atpažinimas buvo išjungtas. Palikite jį įjungt
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Vykdymas jos neįrašė: kalbos atpažinimas nepavyko arba nieko negirdėjo, o vykdymo žurnalas sako, kuris iš dviejų. Patikrinkite garso kalbą ir paleiskite dar kartą; jei šiame kompiuteryje nėra atpažinimo, jį atneša macOS 26, arba vykdymas įdiegia faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "dirba -- %s min. nėra pranešimų, kompiuteris gali būti apkrautas"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min. jokių pokyčių -- gali būti užstrigęs, patikrinkite"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "paliekamas: %s ppm ar daugiau veikiau yra matavimo klaida"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "paliekamas: nesiekia %s kartų savo neapibrėžties"

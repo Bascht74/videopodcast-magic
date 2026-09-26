@@ -4955,3 +4955,15 @@ msgstr "Utambuzi wa usemi ulizimwa kwa uendeshaji huu. Uache ukiwa umewashwa, na
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Uendeshaji haukuandika nakala: utambuzi wa usemi ulishindwa au haukusikia chochote, na kumbukumbu ya uendeshaji inasema ni kipi. Kagua lugha ya sauti na uendeshe tena; mahali ambapo mashine hii haina utambuzi, macOS 26 huleta mmoja, au uendeshaji husakinisha faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "inafanya kazi -- hakuna ujumbe kwa dak. %s, huenda kompyuta ina shughuli nyingi"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "hakuna mabadiliko kwa dak. %s -- huenda imekwama, tafadhali angalia"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "inaachwa ilivyo: %s ppm au zaidi huenda ni kosa la kipimo"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "inaachwa ilivyo: haifikii mara %s ya kutokuwa na uhakika kwake"

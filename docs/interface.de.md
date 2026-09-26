@@ -781,6 +781,27 @@ Ein Abschnitt, der gar nicht vorkommt, steht auch nicht in der Liste; der
 Balken hält also keinen Anteil für ihn zurück. Bleibt ein Lauf stehen,
 sagt die Zeile, in welchem Abschnitt.
 
+**Wird ein Lauf still, muss niemand raten.** Manche Schritte arbeiten
+minutenlang, ohne etwas zu sagen -- eine lange Aufnahme, die in Sprecher
+getrennt wird, oder ein langsamer Rechner. Hat die Zeile zwei Minuten
+lang nichts Neues gemeldet und sieht das Programm die Arbeit trotzdem
+vorangehen -- ein Hilfsprogramm, das Rechenzeit verbraucht, eine Datei,
+die beim Schreiben noch wächst, eine Antwort von auphonic.com --, steht
+dort **arbeitet -- seit 3 Min. ohne Meldung, der Rechner ist womöglich
+ausgelastet**. Hat sich fünf Minuten lang gar nichts mehr bewegt, heißt
+es in der Warnfarbe **seit 5 Min. keine Veränderung -- hängt womöglich,
+bitte prüfen**. Solange der Lauf auf eine Antwort wartet, wird nichts
+beurteilt.
+
+**Abbrechen geht in jeder Phase eines Laufs.** Solange etwas läuft,
+steht neben **Start** der Knopf **Abbrechen**: während ein Start noch
+auf den Kameraton wartet (**Kameraton, noch 2 ...**), im Lauf selbst und
+während **Resolve-Projekt anlegen** arbeitet. Wer ihn in jener Wartezeit
+drückt, sagt nur den Start ab; der Kameraton wird weiter erzeugt, und
+ein späteres **Start** findet ihn fertig vor. Mitten im Lauf gedrückt,
+endet der Lauf, sobald er es kann, ohne eine Datei halb geschrieben
+zurückzulassen; bis dahin steht auf dem Knopf **Abbruch ...**.
+
 **Die Zeile steht als Satz da, nie als Name, unter dem das Programm die
 Sache intern führt.** Während eine Aufnahme in Sprecher getrennt wird,
 heißt es dort **Sprecher werden getrennt:** und dahinter der bloße Name

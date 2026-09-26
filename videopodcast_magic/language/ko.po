@@ -4907,3 +4907,15 @@ msgstr "이 실행에서는 음성 인식이 꺼져 있었습니다. 켜 두면 
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "이 실행은 전사본을 기록하지 못했습니다. 음성 인식이 실패했거나 아무것도 듣지 못했으며, 어느 쪽인지는 실행 로그에 있습니다. 오디오 언어를 확인하고 다시 실행하세요. 이 컴퓨터에 음성 인식이 없으면 macOS 26에 포함되어 있거나, 실행 시 faster-whisper가 설치됩니다."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "작업 중 -- %s분 동안 소식 없음, 컴퓨터가 바쁠 수 있습니다"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s분 동안 변화 없음 -- 멈췄을 수 있습니다, 확인해 주세요"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "그대로 둡니다: %s ppm 이상은 오히려 측정 오류입니다"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "그대로 둡니다: 불확실성의 %s배에 이르지 않습니다"

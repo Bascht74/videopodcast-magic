@@ -4952,3 +4952,15 @@ msgstr "Η αναγνώριση ομιλίας ήταν απενεργοποιη
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Η εκτέλεση δεν έγραψε καμία: η αναγνώριση ομιλίας απέτυχε ή δεν άκουσε τίποτα, και το αρχείο καταγραφής της εκτέλεσης λέει ποιο από τα δύο. Ελέγξτε τη γλώσσα του ήχου και εκτελέστε ξανά· όπου αυτός ο υπολογιστής δεν έχει αναγνώριση, το macOS 26 φέρνει μία, ή η εκτέλεση εγκαθιστά το faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "λειτουργεί -- κανένα μήνυμα εδώ και %s λεπ., ο υπολογιστής ίσως είναι απασχολημένος"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "καμία αλλαγή εδώ και %s λεπ. -- ίσως έχει κολλήσει, ελέγξτε"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "παραμένει: %s ppm ή περισσότερο είναι μάλλον σφάλμα μέτρησης"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "παραμένει: δεν φτάνει τις %s φορές την αβεβαιότητά της"

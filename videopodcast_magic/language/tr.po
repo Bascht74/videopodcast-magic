@@ -4964,3 +4964,15 @@ msgstr "Konuşma tanıma bu çalıştırma için kapalıydı. Açık bırakın, 
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Çalıştırma hiç transkript yazmadı: konuşma tanıma başarısız oldu ya da hiçbir şey duymadı; hangisi olduğunu çalıştırmanın günlüğü söyler. Sesin dilini kontrol edin ve yeniden çalıştırın; bu makinede tanıma yoksa macOS 26 bir tane getirir ya da çalıştırma faster-whisper'ı kurar."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "çalışıyor -- %s dk'dır haber yok, bilgisayar meşgul olabilir"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s dk'dır değişiklik yok -- takılmış olabilir, lütfen kontrol edin"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "bırakılıyor: %s ppm veya fazlası büyük olasılıkla ölçüm hatasıdır"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "bırakılıyor: belirsizliğinin %s katına ulaşmıyor"

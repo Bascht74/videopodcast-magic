@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the program is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 805 lines of it, against the 37 535 it held
+program lives any more -- 811 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-seven
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -21,16 +21,26 @@ Nothing in it belongs anywhere else any more: what is left is the
 loader, the version check, the run, the values more than one piece
 reads, and the catalogue.
 
+Among those values are the program's names, each written out once at
+the head of the way in. `REPOSITORY` is where it lives on github --
+releases, pip, the model and the manual are all reached through it --
+and `DISPLAY_NAME` is what a person reads in the title bar, the About
+box and the menus; a translated text carries `%(name)s` and is filled
+from it, so no catalogue spells the name out. `PROGRAM_NAME` is the
+command pip lays, and `FROZEN_NAME` the one everything a user keeps is
+filed under, which never follows a rename. `source_names_said_once`
+holds the first two to that one place.
+
 What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3776** -- who speaks and when: the separation itself,
+* `speakers/` **3775** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3200** -- the window and everything it shows, asks or offers,
+* `ui/` **3208** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3159** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
@@ -46,10 +56,13 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **1822** -- the time base and the camera files: every
+* `timebase/` **1843** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
-  tracks back onto each camera and the camera files written
-* `auphonic/` **1680** -- the sending to auphonic.com and the fetching
+  tracks back onto each camera and the camera files written; whether a
+  camera's drift goes out is `camera_drift`'s alone, by the rule every
+  recording answers to (`drift_clear`: three times its uncertainty)
+  and one bound of its own, 500 ppm
+* `auphonic/` **1697** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1728** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -60,9 +73,9 @@ figure of the day is that command, not this paragraph**:
   from it
 * `hearing/` **1083** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1299** -- helpers that shape what the window shows and
+* `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
-* `desktop/` **869** -- the picture and the shortcut the first start
+* `desktop/` **926** -- the picture and the shortcut the first start
   lays down
 * `orders/` **954** -- the command line a run is given: written out of
   the window, and read back off the line
@@ -74,11 +87,12 @@ figure of the day is that command, not this paragraph**:
   `assignmentsheet/` and nothing else
 * `upkeep/` **726** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **643** -- the progress bar, the stages, the console and log
-  redirection
+* `herald/` **841** -- the progress bar, the stages, the console and log
+  redirection, and the watch over a quiet run: `RunVitals` counts the
+  run's children and reads whether any of them still moves
 * `pipeline/` **600** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
-* `project/` **591** -- the program's own project file: writing
+* `project/` **592** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
 * `filelist/` **530** -- the list of chosen files: the tree it is
@@ -95,7 +109,7 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
 * `tables/` **348** -- the tables and trees the window builds
-* `running/` **383** -- what a run is offered before it starts, the
+* `running/` **406** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **360** -- a .po file per language and the reader that
   looks one up
@@ -107,7 +121,7 @@ figure of the day is that command, not this paragraph**:
 * `assignmentsheet/` **256** -- the second tab: the assignment boxes,
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
-* `menus/` **237** -- the menu bar and what follows it
+* `menus/` **238** -- the menu bar and what follows it
 * `workbench/` **236** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
   step, what a video file says of itself, and the four the way in used
@@ -757,6 +771,18 @@ the largest share, reading the plan the smallest. If a section reports
 nothing, the bar creeps on slowly, only a little past what was last
 reported. It stops short of the end rather than standing still.
 
+A run that says nothing is judged beside the bar, by `RunVitals` in
+`herald/`. Every child the run starts is counted there -- every
+`subprocess.Popen` and `subprocess.run` passes `popen_outside` since
+`watch_outside_calls` -- and every five seconds its signs are
+read: a child's processor time rising, a file its command line names
+changing size or time, this process at a quarter of a core or more, an
+answer from a server. A new line of output is a word; the same line
+again is not. Two minutes without a word while a sign still moves reads
+*working -- no word for N min*; five minutes with no sign at all reads
+*no change for N min -- may be stuck*, in the warning colour. While the
+run waits for a person's answer nothing is judged.
+
 ## How the channels are measured
 
 *When* both channels hear the same thing decides which two of them are
@@ -897,7 +923,11 @@ Per video file the run works in this order:
    falls away.
 2. Align over envelopes against the camera's audio track.
 3. Measure the clock drift and take it out, as far as the measurement
-   carries; the picture is the reference.
+   carries; the picture is the reference. Out means at least three
+   times its own uncertainty (`drift_clear`, the same rule as for every
+   recording) and under 500 ppm, which is rather a failed measurement
+   than a clock; `--no-drift` leaves it in. Length and effect are no
+   floor: the picture is copied, only the sound is stretched.
 4. Bring the audio to the start point and length of the picture, gaps
    filled with silence.
 5. Reassemble: picture untouched (`-c:v copy`), the new audio as the

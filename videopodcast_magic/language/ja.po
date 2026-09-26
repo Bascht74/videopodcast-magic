@@ -4908,3 +4908,15 @@ msgstr "この実行では音声認識がオフでした。オンのままにし
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "この実行では文字起こしが書き出されませんでした。音声認識が失敗したか何も聞き取れず、どちらだったかは実行のログにあります。音声の言語を確認してもう一度実行してください。このマシンに音声認識がない場合は macOS 26 に含まれています。または実行時に faster-whisper がインストールされます。"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "処理中 -- %s 分間応答なし、コンピューターが混み合っている可能性があります"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s 分間変化なし -- 止まっている可能性があります。確認してください"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "そのまま残します: %s ppm 以上はむしろ測定エラーです"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "そのまま残します: 不確かさの %s 倍に達していません"
