@@ -2339,8 +2339,8 @@ msgstr "Multitrack (jedna stopa na mluvčího)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack potřebuje aspoň dvě vstupní stopy. Stopa je vlastní nahrávka, kanál vícekanálového rekordéru nebo zvuk videosouboru nastaveného na \"použít interní zvuk\". Více bloků téže nahrávky se počítá jako jedna, odložené stopy vůbec."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Žádný klíč API. Zadejte --auphonic-api-key KLÍČ, nastavte AUPHONIC_TOKEN nebo si ho nechte jednou zapamatovat v rozhraní. Klíč je v nastavení účtu Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Žádný klíč API. Nastavte AUPHONIC_TOKEN nebo si ho nechte jednou zapamatovat v rozhraní. Klíč je v nastavení účtu Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Žádný zvukový soubor nenese časový kód. Bod In a bod Out se počítají od začátku materiálu -- vzájemná poloha souborů je změřena."

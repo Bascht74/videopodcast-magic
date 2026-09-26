@@ -1110,8 +1110,8 @@ msgstr "来自 AUPHONIC_TOKEN 的密钥未被接受：%s"
 msgid "The stored key is not accepted: %s"
 msgstr "已保存的密钥未被接受：%s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "没有 API 密钥。请传入 --auphonic-api-key 密钥、设置 AUPHONIC_TOKEN，或在界面中保存一次。密钥位于 Auphonic 账户设置中。"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "没有 API 密钥。请设置 AUPHONIC_TOKEN，或在界面中保存一次。密钥位于 Auphonic 账户设置中。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "账户中没有保存任何预设。可在网页界面中创建一个。"

@@ -2373,8 +2373,8 @@ msgstr "Multitrack (po takelį kalbėtojui)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack reikia bent dviejų įvesties takelių. Takelis yra atskiras įrašas, daugiakanalio įrašytuvo kanalas arba vaizdo įrašo failo garsas, kai nustatyta „naudoti vidinį garsą“. Keli to paties įrašo blokai skaičiuojami kaip vienas, atidėti takeliai visai neskaičiuojami."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nėra API rakto. Nurodykite --auphonic-api-key RAKTAS, nustatykite AUPHONIC_TOKEN arba leiskite jį vieną kartą įsiminti sąsajoje. Raktas yra Auphonic paskyros nustatymuose."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nėra API rakto. Nustatykite AUPHONIC_TOKEN arba leiskite jį vieną kartą įsiminti sąsajoje. Raktas yra Auphonic paskyros nustatymuose."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Nė vienas garso failas neturi laiko kodo. Pradžios taškas ir pabaigos taškas skaičiuojami nuo medžiagos pradžios -- failų padėtis vienas kito atžvilgiu yra išmatuota."

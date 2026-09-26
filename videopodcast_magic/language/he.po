@@ -2371,8 +2371,8 @@ msgstr "Multitrack (רצועה אחת לכל דובר)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה היא הקלטה נפרדת, ערוץ של מקליט רב-ערוצי, או השמע של קובץ וידאו שהוגדר ל\"שימוש בשמע הפנימי\". כמה מקטעים של אותה הקלטה נספרים כאחד, ורצועות שהועברו הצידה אינן נספרות כלל."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "אין מפתח API. יש להעביר --auphonic-api-key KEY, להגדיר AUPHONIC_TOKEN או לשמור אותו פעם אחת בממשק. המפתח נמצא בהגדרות החשבון ב-Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "אין מפתח API. יש להגדיר AUPHONIC_TOKEN או לשמור אותו פעם אחת בממשק. המפתח נמצא בהגדרות החשבון ב-Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "לאף קובץ שמע אין קוד זמן. נקודת הכניסה ונקודת היציאה נספרות מתחילת החומר -- מיקום הקבצים זה ביחס לזה נמדד."

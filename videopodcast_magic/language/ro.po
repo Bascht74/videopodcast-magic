@@ -2340,8 +2340,8 @@ msgstr "Multitrack (o pistă per vorbitor)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosiți audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nicio cheie API. Indicați --auphonic-api-key CHEIE, setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nicio cheie API. Setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără de la începutul materialului -- poziția fișierelor unul față de altul este măsurată."

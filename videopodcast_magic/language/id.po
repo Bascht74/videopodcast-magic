@@ -2372,8 +2372,8 @@ msgstr "Multitrack (satu trek per pembicara)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah rekaman tersendiri, satu kanal dari perekam multikanal, atau audio file video yang diatur ke \"gunakan audio internal\". Beberapa blok dari rekaman yang sama dihitung sebagai satu, trek yang disisihkan tidak dihitung sama sekali."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Tidak ada kunci API. Berikan --auphonic-api-key KEY, atur AUPHONIC_TOKEN, atau biarkan antarmuka mengingatnya sekali. Kunci ada di pengaturan akun Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Tidak ada kunci API. Atur AUPHONIC_TOKEN, atau biarkan antarmuka mengingatnya sekali. Kunci ada di pengaturan akun Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Tidak ada file audio yang membawa timecode. Titik masuk dan titik keluar dihitung dari awal materi -- posisi file satu sama lain diukur."

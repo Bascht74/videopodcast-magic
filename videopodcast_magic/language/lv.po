@@ -2373,8 +2373,8 @@ msgstr "Multitrack (celiņš katram runātājam)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack vajag vismaz divus ievades celiņus. Celiņš ir atsevišķs ieraksts, daudzkanālu ierakstītāja kanāls vai video faila skaņa, kam iestatīts „izmantot iekšējo skaņu“. Vairāki viena ieraksta bloki skaitās kā viens, noliktie celiņi netiek skaitīti vispār."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nav API atslēgas. Norādiet --auphonic-api-key ATSLĒGA, iestatiet AUPHONIC_TOKEN vai ļaujiet to vienreiz atcerēties saskarnē. Atslēga ir Auphonic konta iestatījumos."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nav API atslēgas. Iestatiet AUPHONIC_TOKEN vai ļaujiet to vienreiz atcerēties saskarnē. Atslēga ir Auphonic konta iestatījumos."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Nevienam audio failam nav laika koda. Sākuma punkts un beigu punkts tiek skaitīti no materiāla sākuma -- failu savstarpējais novietojums ir izmērīts."

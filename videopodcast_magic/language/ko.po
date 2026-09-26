@@ -2338,8 +2338,8 @@ msgstr "Multitrack (화자마다 트랙 하나)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack에는 입력 트랙이 두 개 이상 필요합니다. 트랙이란 별도 녹음, 멀티채널 레코더의 채널 하나, 또는 \"내장 오디오 사용\"으로 설정된 비디오 파일의 오디오입니다. 같은 녹음의 여러 블록은 하나로 세고, 따로 빼 둔 트랙은 세지 않습니다."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API 키가 없습니다. --auphonic-api-key KEY를 지정하거나, AUPHONIC_TOKEN을 설정하거나, 인터페이스에서 한 번 저장해 두세요. 키는 Auphonic 계정 설정에 있습니다."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API 키가 없습니다. AUPHONIC_TOKEN을 설정하거나, 인터페이스에서 한 번 저장해 두세요. 키는 Auphonic 계정 설정에 있습니다."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "타임코드가 있는 오디오 파일이 없습니다. 인 포인트와 아웃 포인트는 소재의 시작부터 셉니다 -- 파일 간 위치는 측정된 것입니다."

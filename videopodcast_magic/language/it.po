@@ -1134,8 +1134,8 @@ msgstr "La chiave da AUPHONIC_TOKEN non viene accettata: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "La chiave memorizzata non viene accettata: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nessuna chiave API. Indica --auphonic-api-key CHIAVE, imposta AUPHONIC_TOKEN oppure falla memorizzare una volta nell’interfaccia. La chiave si trova nelle impostazioni dell’account Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nessuna chiave API. Imposta AUPHONIC_TOKEN oppure falla memorizzare una volta nell’interfaccia. La chiave si trova nelle impostazioni dell’account Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Nessun preset salvato nell’account. Se ne può creare uno nell’interfaccia web."

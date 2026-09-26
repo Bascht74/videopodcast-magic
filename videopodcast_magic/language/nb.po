@@ -2338,8 +2338,8 @@ msgstr "Multitrack (ett spor per taler)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack trenger minst to inngangsspor. Et spor er et eget opptak, en kanal fra en flerkanalsopptaker eller lyden fra en videofil som er satt til \"bruk intern lyd\". Flere blokker av samme opptak teller som ett, spor lagt til side ikke i det hele tatt."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Ingen API-nøkkel. Angi --auphonic-api-key NØKKEL, sett AUPHONIC_TOKEN eller la den huskes én gang i grensesnittet. Nøkkelen står i Auphonic-kontoens innstillinger."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Ingen API-nøkkel. Sett AUPHONIC_TOKEN eller la den huskes én gang i grensesnittet. Nøkkelen står i Auphonic-kontoens innstillinger."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ingen lydfil bærer en tidskode. Inn-punkt og ut-punkt telles fra starten av materialet -- filenes plassering i forhold til hverandre måles."

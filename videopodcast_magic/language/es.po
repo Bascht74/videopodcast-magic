@@ -3096,8 +3096,8 @@ msgstr "SIN GRABACIONES DE AUDIO SEPARADAS -- SE USA EL AUDIO DE LA CÁMARA"
 msgid "Names used more than once"
 msgstr "Nombres usados más de una vez"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "No hay API Key. Indicar --auphonic-api-key CLAVE, definir AUPHONIC_TOKEN o hacer que se recuerde una vez en la interfaz. La clave está en los ajustes de la cuenta de Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "No hay API Key. Definir AUPHONIC_TOKEN o hacer que se recuerde una vez en la interfaz. La clave está en los ajustes de la cuenta de Auphonic."
 
 msgid "No Multitrack preset found in the account."
 msgstr "No se ha encontrado ningún ajuste preestablecido Multitrack en la cuenta."

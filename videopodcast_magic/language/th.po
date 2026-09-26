@@ -2370,8 +2370,8 @@ msgstr "Multitrack (หนึ่งแทร็กต่อผู้พูด)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แทร็กคือการบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึกหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\" หลายบล็อกของการบันทึกเดียวกันนับเป็นหนึ่ง แทร็กที่พักไว้ไม่นับเลย"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "ไม่มีคีย์ API ส่ง --auphonic-api-key KEY ตั้งค่า AUPHONIC_TOKEN หรือให้หน้าต่างโปรแกรมจำไว้ครั้งเดียว คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "ไม่มีคีย์ API ตั้งค่า AUPHONIC_TOKEN หรือให้หน้าต่างโปรแกรมจำไว้ครั้งเดียว คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ไม่มีไฟล์เสียงใดมีไทม์โค้ด จุดเข้าและจุดออกนับจากจุดเริ่มของฟุตเทจ -- ส่วนตำแหน่งของไฟล์เทียบกันจะวัดเอา"

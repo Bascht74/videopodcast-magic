@@ -2340,8 +2340,8 @@ msgstr "Multitrack (beszélőnként egy sáv)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "A Multitrack legalább két bemeneti sávot igényel. Egy sáv egy saját felvétel, egy többcsatornás felvevő egy csatornája vagy egy \"belső hang használata\" beállítású videófájl hangja. Ugyanannak a felvételnek több blokkja egynek számít, a félretett sávok egyáltalán nem."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nincs API-kulcs. Adja meg a --auphonic-api-key KULCS kapcsolót, állítsa be az AUPHONIC_TOKEN változót, vagy jegyeztesse meg egyszer a felületen. A kulcs az Auphonic-fiók beállításaiban található."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nincs API-kulcs. Állítsa be az AUPHONIC_TOKEN változót, vagy jegyeztesse meg egyszer a felületen. A kulcs az Auphonic-fiók beállításaiban található."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Egyik hangfájl sem hordoz timecode-ot. Az In pont és az Out pont az anyag elejétől számít -- a fájlok egymáshoz viszonyított helyzetét a program megméri."

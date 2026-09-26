@@ -1110,8 +1110,8 @@ msgstr "AUPHONIC_TOKEN のキーが受け付けられません：%s"
 msgid "The stored key is not accepted: %s"
 msgstr "保存されたキーが受け付けられません：%s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API キーがありません。--auphonic-api-key キー を指定するか、AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API キーがありません。AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "アカウントにプリセットが保存されていません。Web 画面で作成できます。"

@@ -2340,8 +2340,8 @@ msgstr "Multitrack (jedna ścieżka na mówcę)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack wymaga co najmniej dwóch ścieżek wejściowych. Ścieżka to osobne nagranie, kanał rejestratora wielokanałowego albo dźwięk pliku wideo ustawionego na \"użyj dźwięku\". Kilka bloków tego samego nagrania liczy się jako jedno, odłożone ścieżki wcale."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Brak klucza API. Podaj --auphonic-api-key KLUCZ, ustaw AUPHONIC_TOKEN albo pozwól raz zapamiętać go w interfejsie. Klucz znajdziesz w ustawieniach konta Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Brak klucza API. Ustaw AUPHONIC_TOKEN albo pozwól raz zapamiętać go w interfejsie. Klucz znajdziesz w ustawieniach konta Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Żaden plik audio nie ma timecode. Punkt wejścia i punkt wyjścia liczone są od początku materiału -- wzajemne położenie plików jest zmierzone."
