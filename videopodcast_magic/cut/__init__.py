@@ -872,12 +872,11 @@ def label_say(widget, text, colour):
 def cut_basis_line(basis, speakers, length):
     """Say what the cut on the third tab stands on, and in what colour.
 
-    Three answers, and not worth the same: the recordings as they lie,
-    a finished run on one axis, and with auphonic.com de-bled as well.
+    Two answers, and not worth the same: the recordings as they lie, and
+    a finished run on one axis. "auphonic", kept by an older project, is
+    a finished run too: auphonic.com makes the sound, not the speakers.
     """
-    if basis == "auphonic":
-        text = T('from the processed Auphonic tracks -- %s speakers, %s')
-    elif basis == "run":
+    if basis in ("run", "auphonic"):
         text = T('from the finished run -- %s speakers, %s')
     else:
         text = T('measured from the recordings -- %s speakers, %s')

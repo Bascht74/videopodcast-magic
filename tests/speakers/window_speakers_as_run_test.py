@@ -20,7 +20,7 @@ rewrites every track onto the axis before it reads the speakers off
 it, so the window has to read on that clock too, or the two hear the
 same hour at two different lengths. Last the line on the third tab
 that says which of the two the cut in front of somebody is standing
-on.
+on, a run through auphonic.com being a run like any other.
 
 The run's reading of the microphones is stood in for, and it hands back
 exactly what the window's stored measurement holds -- otherwise the two
@@ -213,19 +213,32 @@ said = dict((b, vpm.cut_basis_line(b, 3, 4163.0))
             for b in ("measured", "run", "auphonic"))
 for b in ("measured", "run", "auphonic"):
     print("   %-9s %s" % (b, said[b][0]))
-check("three bases, three different sentences",
-        len(set(t for t, _c in said.values())) == 3,
-        "%s" % [t for t, _c in said.values()])
+check("a finished run and the raw recordings say different things",
+        said["run"][0] != said["measured"][0],
+        "run %r, recordings %r" % (said["run"][0], said["measured"][0]))
 check("the raw recordings are the provisional answer",
         said["measured"][1] == vpm.COLOURS["warning"]
         and "recordings" in said["measured"][0],
         "%s in %s" % (said["measured"][0], said["measured"][1]))
-check("a finished run is the good one, with or without auphonic.com",
-        said["run"][1] == vpm.COLOURS["good"]
-        and said["auphonic"][1] == vpm.COLOURS["good"],
-        "run %s, auphonic %s" % (said["run"][1], said["auphonic"][1]))
-check("and auphonic.com is named where it did the work",
-        "Auphonic" in said["auphonic"][0], said["auphonic"][0])
+check("a finished run is the good one",
+        said["run"][1] == vpm.COLOURS["good"],
+        "run %s, wanted %s" % (said["run"][1], vpm.COLOURS["good"]))
+# An older project may still hold "auphonic": auphonic.com makes the
+# sound and not the speakers, so that is a finished run like any other.
+check("a basis an older project kept as auphonic reads as a finished run",
+        said["auphonic"] == said["run"],
+        "auphonic %r, run %r" % (said["auphonic"], said["run"]))
+# And the preview itself: a handover read after a run through
+# auphonic.com is labelled a run, not the processed tracks.
+HANDOVER = os.path.join(tempfile.mkdtemp(prefix="vpm_basis_"),
+                        "episode_resolve.json")
+with open(HANDOVER, "w") as f:
+    f.write('{"speakers": []}')
+after_auphonic = {"resolve_json": HANDOVER, "run_auphonic": True}
+vpm.preview_handover(after_auphonic)
+check("the preview after a run through auphonic.com stands on the run",
+        after_auphonic.get("cut_basis") == "run",
+        "cut_basis %r, wanted 'run'" % (after_auphonic.get("cut_basis"),))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
