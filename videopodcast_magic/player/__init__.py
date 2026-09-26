@@ -116,6 +116,20 @@ def pause_if_running(QtMultimedia, *players):
             pass
 
 
+def stop_if_running(QtMultimedia, *players):
+    """Stop the players that are not stopped, and leave the others alone.
+
+    stop() on a player that never started builds what lies behind it,
+    as pause() does above, and waits for the same lock. Paused counts
+    as running: a paused player still holds its file. tests/let_go.py
+    asks the same question before it stops a player.
+    """
+    for one in players:
+        if (one.playbackState()
+                != QtMultimedia.QMediaPlayer.StoppedState):
+            one.stop()
+
+
 # The same nine point font runs 1.89 times as wide on Windows as on
 # macOS, so fields grow there only: the Mac layout is what the manual
 # shows, where four cut buttons and a checkbox share a 480 px row.
@@ -2289,7 +2303,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if not wanted_value:
                 self.track_path, self.track_blocks = None, []
                 self._track_basis = ""
-                self.track.stop()
+                stop_if_running(QtMultimedia, self.track)
                 self.track.setSource(QtCore.QUrl())
                 self.audio_adjust()
             else:
@@ -2611,7 +2625,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 self._title_show(T('%s   --   the sound cannot be played')
                                    % os.path.basename(self.file_path or ""))
                 return
-            self.player.stop()
+            stop_if_running(QtMultimedia, self.player)
             self.video.hide()
             self.extern.show()
             self._title_show(T('%s   --   the app does not know this format')

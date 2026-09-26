@@ -105,6 +105,7 @@ soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
 start_again = PROGRAM.start_again
+stop_if_running = PROGRAM.stop_if_running
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
 subprocess = PROGRAM.subprocess
@@ -2840,8 +2841,8 @@ def gui():
             total_clock.stop()
             output_timer.stop()
             if getattr(player, "player", None) is not None:
-                player.player.stop()
-                player.track.stop()
+                stop_if_running(QtMultimedia, player.player,
+                                player.track)
         except Exception:
             pass
 
