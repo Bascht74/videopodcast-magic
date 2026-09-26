@@ -371,116 +371,53 @@ with the cut sliders and with the window arithmetic.
 **Lines up to 79 characters.** Not out of nostalgia: when comparing, two
 files side by side on one screen are worth more than long lines.
 
-## 12. The one exception: `gui()`
+## 12. The window, and where Qt is loaded
 
-`gui()` is 1900 lines long -- six times the rule above. Measured on
-7 September 2026, after the window parts were moved out to the pieces
-whose subject they show; it was 2334 on 6 September and 5753 on
-23 August. `source_limits_hold_test.py` prints the figure of the day on
-every run, so the current number is read there and not here. This is a
-decision, not an oversight, and this is where the reasons live.
+**`gui()` is still one long function, and it is being rebuilt into
+components**: a `MainWindow` class, one piece per tab, and a
+`ProjectModel` holding what the tabs share. Until that is done,
+`gui()` is the one function that breaks section 11 knowingly.
+`source_limits_hold_test.py` prints its size on every run, so the
+number is read there and not here.
 
-**Why it is one function.** Qt builds an interface out of closures. A
-button needs a callback, and the callback needs the button, the field
-beside it and the value both of them mean. In C++ the shared place for
-that is a class with fields; in Python it is a function with functions
-inside it. Both write down the same thing. Only one of them counts as a
-class with 75 members, the other as a function with 1900 lines.
-Counted with the compiler's own bookkeeping, not by eye: 75 definitions
-stand directly in the body of `gui()` -- 74 functions and the `Bridge`
-class -- and hold 51 percent of its lines. Under that same rule they
-were 182 and 76 percent before the cutting began. `state`, a single
-dictionary, is captured by most of them.
+**The command line loads no Qt, and it stays that way.** `--help`,
+`--version`, `--hdr-check` and a real `--dry-run` load no PySide6
+module -- and still none with `from PySide6 import QtWidgets` and a
+widget class at the top of `ui/`, because `ui/` is only read in
+`window()`, when the window opens. The same lines at the top of
+`player/`, `fittings/` or `tables/` load Qt on every call, because the
+way in reads those pieces for every run. So:
 
-**Why the obvious split does not work.** 53 forward references: 22 of
-the inner functions read 43 names that the text binds further down, and
-`buttons_check` uses a button that comes into being 1255 lines later.
-**The rule those numbers are counted by**, written down so that anybody
-can count them again: compile the file, take the code object of each
-function standing directly in the body of `gui()`, and count the pair
-once for every name in that function's `co_freevars` whose first
-binding in the text of `gui()` -- bindings inside a nested definition
-left out -- stands below that function's last line.
-That works only because a closure looks a name up late, at the call and
-not at the definition. Those names can never become parameters, at no
-price and in no order -- **but that is not the end of it, and nine cuts
-measured the third way.** A name bound below the seam is reached
-through `state`, the dictionary the file already carries for its own
-reasons: `gui()` writes `state["preview_soon"] = preview_kick_off` and
-the lifted block calls `state["preview_soon"]()`. Six such hooks stand
-there now -- `gui()` puts a function of its own into `state` under that
-name and something outside `gui()` calls it back through the same key,
-which is how they are counted. What each one costs is one line in
-`gui()`, and what it needs is a counter-proof read off the log -- a
-callback missing from a Qt slot leaves the test green. Cutting a
-section out and handing it what it needs gives functions with forty to eighty
-parameters, or a build in two phases. Create everything, then wire it.
-Lifting the shared state into an object was weighed too: every captured
-name becomes an attribute, one for one, and afterwards every one of the
-definitions may still touch every one of them. A seam of width zero
-separates nothing. It buys the number and leaves the structure where it
-was.
+- **Qt may be imported at the top of `ui/`, and of any piece only the
+  window reads.** A widget class may stand at module level there; it
+  needs no factory around it.
+- **In a piece the command line reads, Qt stays inside the function
+  that needs it.** `run_choice_kept_test.py` holds that reading and
+  writing a setting loads no Qt.
 
-**PySide6 is imported inside `gui()`**, because without Qt the program
-has to keep working on the command line. A class inheriting from a Qt
-widget cannot be defined at module level at all. Every Qt-touching
-helper that moves out therefore costs a factory on top. And **there is
-no `nonlocal` in `videopodcast_magic/ui/__init__.py`, not one** -- nor
-anywhere else in the program, measured over all 36 files. Shared
-mutable state runs through named containers, the `state` dictionary and
-the `Value` objects, and never through rebinding a name. That is why
-these thousands of lines can be read at all, and it is the condition the
-exception rests on.
+**A class is not a split by itself.** Moving `gui()` into a class one
+for one -- every inner function a method, every captured name an
+attribute -- leaves every method free to touch every attribute. It
+brings the largest function down and leaves the structure where it was.
+So `source_limits_hold_test.py` holds classes the way it holds
+functions: the largest class as a number, and every class over 300
+lines by name. A component counts when it owns its data and the others
+reach it through what it offers, not through its fields.
 
-**What still holds.** The exception covers the interface that is there.
-It is not a licence.
+**What holds meanwhile.**
 
-- **New code that gets by without a widget does not go into `gui()`.**
-  Computation, checking, preparation: whatever touches no widget is
-  written beside `gui()` and takes what it needs as an argument.
-  **Twenty-three of them live outside it now, and only one is still in
-  the window's own file** -- counted 7.9.2026 with `ast` over every
-  piece, and every one of the twenty-three stands at module level:
-  `player/` 5, `auphonic/`, `filelist/`, `prework/` and `speakers/` 2
-  each, and one apiece in `bearings/`, `cut/`, `desktop/`, `fittings/`,
-  `preflight/`, `project/`, `resolve/`, `running/`, `upkeep/` and
-  `ui/`, whose one is `make_log_writer`. `make_key_note`,
-  `make_log_writer` and `make_update_sink` were the first; then nine in
-  one night, and after them six more.
-  **A factory that leaves `gui()` often leaves the file next**, and
-  that is the pattern rather than an accident: `make_file_list` and
-  `make_file_changes` went to `filelist/`, `make_player_choice` and
-  `make_band_and_player` to `player/`, `make_speaker_split` to
-  `speakers/`, `make_key_note` to `auphonic/` and `make_update_sink`
-  to `upkeep/`. Pulling a block out of `gui()` names it, and a named
-  block shows which piece it belonged to all along.
-  The factory hands back the names `gui()` still needs, one theme
-  each.
-  The docstring of `make_player_widgets` states the rule: "Whatever is
-  needed from gui() comes in as an argument and keeps its name
-  inside."
+- **New code that gets by without a widget does not go into the
+  window.** Computation, checking, preparation: it is written beside the
+  window and takes what it needs as an argument.
+- **No `nonlocal`, anywhere in the program.** Shared mutable state runs
+  through named containers -- the `state` dictionary, the `Value`
+  objects, and the model once it exists -- never through rebinding a
+  name.
 - **A helper inside `gui()` that captures nothing is in the wrong
   place.** Whether it captures anything has an exact answer:
   `co_freevars` of the compiled function, not a search through the text.
-- **The number goes down, never up.** `source_limits_hold_test.py`
-  prints the largest function on every run, and a ratchet holds whatever
-  comes off. Nothing here freezes any number as acceptable. It stood at
-  5753 on 23 August, and `largest_function` in
-  `tests/state/style_state.json` has carried it down from there step by
-  step; that file and its history are the record, so no list of the
-  steps is kept here to go stale. **Once the number rose**, on 30
-  August: `c746179` wrote a fall to 5218 into the state while `gui()`
-  had in fact grown to 5267 -- the run there is red on its own ratchet
-  -- and `c506337` put the measured figure back by hand. The function
-  did not grow that day; the record of it was wrong for fourteen
-  minutes.
-
-**The long version** is `docs/notes/gui_struktur.md`: the map of the
-banner sections with the seam measured at each one. It also holds what
-can be taken out cheaply, what cannot, and what was tried on a copy
-instead of argued. That folder is not delivered, so this section has to
-stand on its own. What is needed to decide is here, and the note
-carries only the measurements behind it.
+- **The numbers go down, never up.** The ratchets in
+  `tests/state/style_state.json` are the record.
 
 ## 13. Interface
 

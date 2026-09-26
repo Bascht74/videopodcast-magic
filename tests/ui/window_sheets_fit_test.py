@@ -3,9 +3,11 @@
 
 The window is built offscreen on a stated screen, with the fixture
 project opened the way window_captions_fit opens it -- the assignment
-and Resolve sheets only exist once there are files. English, and the
-three languages whose catalogues hold the most characters, counted off
-the catalogues at every run; each in a window of its own.
+and Resolve sheets only exist once there are files. English and German
+every day; for a release (VPM_ALL_LANGUAGES=1) also the three languages
+whose catalogues hold the most characters, counted off the catalogues
+at every run. Each in a window of its own, English judged on its own
+and the other languages together, the line naming the first that fell.
 First that the window came up on that screen with the project in it,
 and that it opened no wider than that screen; then per sheet what it
 needs against the room the window lets be seen of it on opening, and
@@ -52,7 +54,7 @@ def longest_catalogues(many=3):
 
 
 LONGEST = longest_catalogues()
-LANGUAGES = ("en",) + tuple(LONGEST)
+LANGUAGES, MEASURED = the_program.languages_measured(LONGEST)
 NAME = "videopodcast-magic_Interview_2.json"
 # The screen the window is opened on: a small laptop's. What a sheet
 # needs does not depend on the screen, only its room does, so this is
@@ -371,6 +373,7 @@ def home_off(text):
                   text.replace(os.path.expanduser("~"), "~"))
 
 
+print(MEASURED)
 started = []
 for language in LANGUAGES:
     locale = "%s_%s.UTF-8" % (language, language.upper())
@@ -519,12 +522,26 @@ def of(report, verdict):
     return ok, "%s: %s" % (report.get("language"), why)
 
 
+def others(judge):
+    """One verdict over every language but English, each in its window.
+
+    Which languages those are is the run's (see MEASURED), so the line
+    names how many fell and the first of them, or each one's own line.
+    """
+    said = [of(reports[x], judge(reports[x])) for x in LANGUAGES
+            if x != "en"]
+    fell = [why for ok, why in said if not ok]
+    if fell:
+        return False, "%d of %d fell, first %s" % (len(fell), len(said),
+                                                   fell[0])
+    return True, " | ".join(why for _ok, why in said)
+
+
 # Written out once per window: a computed name would leave one wording
 # for four checks, and the register could not say which was seen red.
-# The three by their place among the catalogues, since which language
-# holds that place is counted at the run.
+# English on its own; the other languages under one wording each, as
+# many or as few as the run measures, so the count stays the same.
 en = reports["en"]
-first, second, third = (reports[x] for x in LONGEST)
 check("en: the window came up with the project in it", *of(en, came_up(en)))
 check("en: the window opens no wider than its screen",
       *of(en, on_screen(en)))
@@ -541,56 +558,22 @@ check("en: the Resolve sheet shows no sideways scrollbar",
 check("en: dragged small, the window keeps what it shows",
       *of(en, kept(en)))
 
-check("longest catalogue: the window came up with the project in it",
-      *of(first, came_up(first)))
-check("longest catalogue: the window opens no wider than its screen",
-      *of(first, on_screen(first)))
-check("longest catalogue: the files sheet fits the page on opening",
-      *of(first, fits(first, 0, "page")))
-check("longest catalogue: the assignment sheet fits its viewport",
-      *of(first, fits(first, 1, "viewport")))
-check("longest catalogue: the assignment sheet shows no sideways bar",
-      *of(first, no_bar(first, 1)))
-check("longest catalogue: the Resolve sheet fits its viewport",
-      *of(first, fits(first, 2, "viewport")))
-check("longest catalogue: the Resolve sheet shows no sideways bar",
-      *of(first, no_bar(first, 2)))
-check("longest catalogue: dragged small, the window keeps what it shows",
-      *of(first, kept(first)))
-
-check("second longest: the window came up with the project in it",
-      *of(second, came_up(second)))
-check("second longest: the window opens no wider than its screen",
-      *of(second, on_screen(second)))
-check("second longest: the files sheet fits the page on opening",
-      *of(second, fits(second, 0, "page")))
-check("second longest: the assignment sheet fits its viewport",
-      *of(second, fits(second, 1, "viewport")))
-check("second longest: the assignment sheet shows no sideways bar",
-      *of(second, no_bar(second, 1)))
-check("second longest: the Resolve sheet fits its viewport",
-      *of(second, fits(second, 2, "viewport")))
-check("second longest: the Resolve sheet shows no sideways bar",
-      *of(second, no_bar(second, 2)))
-check("second longest: dragged small, the window keeps what it shows",
-      *of(second, kept(second)))
-
-check("third longest: the window came up with the project in it",
-      *of(third, came_up(third)))
-check("third longest: the window opens no wider than its screen",
-      *of(third, on_screen(third)))
-check("third longest: the files sheet fits the page on opening",
-      *of(third, fits(third, 0, "page")))
-check("third longest: the assignment sheet fits its viewport",
-      *of(third, fits(third, 1, "viewport")))
-check("third longest: the assignment sheet shows no sideways bar",
-      *of(third, no_bar(third, 1)))
-check("third longest: the Resolve sheet fits its viewport",
-      *of(third, fits(third, 2, "viewport")))
-check("third longest: the Resolve sheet shows no sideways bar",
-      *of(third, no_bar(third, 2)))
-check("third longest: dragged small, the window keeps what it shows",
-      *of(third, kept(third)))
+check("other languages: the window came up with the project in it",
+      *others(came_up))
+check("other languages: the window opens no wider than its screen",
+      *others(on_screen))
+check("other languages: the files sheet fits the page on opening",
+      *others(lambda r: fits(r, 0, "page")))
+check("other languages: the assignment sheet fits its viewport",
+      *others(lambda r: fits(r, 1, "viewport")))
+check("other languages: the assignment sheet shows no sideways bar",
+      *others(lambda r: no_bar(r, 1)))
+check("other languages: the Resolve sheet fits its viewport",
+      *others(lambda r: fits(r, 2, "viewport")))
+check("other languages: the Resolve sheet shows no sideways bar",
+      *others(lambda r: no_bar(r, 2)))
+check("other languages: dragged small, the window keeps what it shows",
+      *others(kept))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

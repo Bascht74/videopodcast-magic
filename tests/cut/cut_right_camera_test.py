@@ -301,11 +301,13 @@ handover = [("Host", [(0.0, 20.0)]), ("Guest", [(20.0, 40.0)])]
 untold = vpm.camera_cut(handover, 40.0, CAMERA_OF, "Wide",
                         after=vpm.WIDE_AFTER_S, holds=5.0, at_latest=120.0,
                         edge=True)
-untold_at = untold[0][1] if untold else -1.0
+# The shot under the handover, not the first: the wide shot at the
+# edges may end earlier, at a third of the recording.
+untold_at = ([b for a, b, _w in untold if a <= 19.9 < b] or [-1.0])[0]
 check("with nobody naming a delay the cut still sits 0.3 s late",
       abs(untold_at - 20.3) < 1e-6,
-      "%d shots, the first change at %.3f s, wanted 20.300 -- the "
-      "speech changes at 20.000" % (len(untold), untold_at))
+      "%d shots, the one under the handover ends at %.3f s, wanted "
+      "20.300 -- the speech changes at 20.000" % (len(untold), untold_at))
 raw = vpm.build_camera_cut(handover, 40.0, CAMERA_OF, "Wide")
 raw_at = raw[0][1] if raw else -1.0
 check("the same 0.3 s in the shots before any wide shot is put in",

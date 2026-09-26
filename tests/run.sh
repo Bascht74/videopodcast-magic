@@ -249,6 +249,31 @@ if [ $# -gt 0 ]; then
   TESTS=$asked; WHOLE=0
 fi
 
+# The owner's rule, 26.9.2026: the everyday run tests English and
+# German, and every language only for a release, which sets
+# VPM_ALL_LANGUAGES=1 (tests.yml says when). A test named *_langsN
+# measures the other languages, so it is set aside here unless that is
+# set -- named in the summary, and never counted as skipped, because it
+# did not skip: this run was not asked for it. Named on the command
+# line it is set aside all the same; the line says how to run it. The
+# variable goes on to the tests as it came, for the tests that measure
+# English and German first and the rest only on a release.
+export VPM_ALL_LANGUAGES
+LANGS_ASIDE=""
+if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
+  for t in $TESTS; do
+    case "$t" in *_langs[0-9]*) LANGS_ASIDE="$LANGS_ASIDE $t" ;; esac
+  done
+  if [ -n "$LANGS_ASIDE" ]; then
+    TESTS=$(printf '%s\n' $TESTS | grep -v -E '_langs[0-9]')
+  fi
+  if [ -z "$TESTS" ] && [ -n "$LANGS_ASIDE" ]; then
+    echo "only tests of every language were named:$LANGS_ASIDE -- they" \
+         "run with VPM_ALL_LANGUAGES=1 bash run.sh" >&2
+    exit 2
+  fi
+fi
+
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
 # whole length is added to the end of the run, every other worker idle
@@ -547,9 +572,20 @@ CROWD=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$')
 for t in $ALONE_ONLY; do
   CROWD=$(echo "$CROWD" | grep -vx "$t" || true)
 done
+# The *_langsN tests each open several windows at once, and two of them
+# side by side took 159 and 171 s against 41 and 36 s alone (26.9.2026)
+# -- near the 300 s limit on a builder. So they run one after another,
+# as one line of the queue, beside the rest and first, being long.
+LANGS_CHAIN=$(echo "$CROWD" | grep -E '_langs[0-9]' | tr '\n' ' ' \
+              | sed 's/ *$//')
+if [ -n "$LANGS_CHAIN" ]; then
+  CROWD=$(printf '%s\n' "$LANGS_CHAIN"; echo "$CROWD" \
+          | grep -v -E '_langs[0-9]' || true)
+fi
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
+# Each line is a list of tests run one after another; most hold one.
 echo "$CROWD" | grep -v '^$' \
-  | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
+  | xargs -P "$WORKERS" -I{} bash -c 'for t in {}; do run_one "$t"; done'
 for t in $ALONE_ONLY; do
   echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
 done
@@ -641,6 +677,19 @@ elif [ $past -lt "$SKIPS_ALLOWED" ]; then
        "number comes down when every machine reports $past"
 else
   echo "skips: $past of at most $SKIPS_ALLOWED allowed"
+fi
+# Which languages this run tested, always said: a green run that does
+# not say it read English and German only reads as if it read them all.
+# tests.yml lifts this line into the builder's report by its first word.
+if [ "${VPM_ALL_LANGUAGES:-}" = 1 ]; then
+  echo "languages: every catalogue (VPM_ALL_LANGUAGES=1)"
+elif [ -n "$LANGS_ASIDE" ]; then
+  echo "languages: English and German; set aside" \
+       "$(echo $LANGS_ASIDE | wc -w | tr -d ' '):$LANGS_ASIDE --" \
+       "they run with VPM_ALL_LANGUAGES=1, as a release does"
+else
+  echo "languages: English and German; every catalogue with" \
+       "VPM_ALL_LANGUAGES=1, as a release does"
 fi
 # state/checks carried forward. The count of judgements rises with every
 # check anybody adds, so a floor kept by hand would be behind within the

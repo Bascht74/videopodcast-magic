@@ -183,7 +183,14 @@ Unter den Auswahlfeldern hält das Häkchen **Weitwinkel für Begrüßung am
 Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
 (auf der Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel
 am Anfang hält, bis das Wort wirklich übergeben wird, nicht bis zum
-ersten längeren Block einer Nebenstimme.
+ersten längeren Block einer Nebenstimme. Keiner der beiden Ränder hält
+länger als ein Drittel der Aufnahme und länger als **Weitwinkel
+spätestens**: Wo Begrüßung oder Abschied länger dauern würden, endet
+dieser Rand dort -- in einer kurzen Aufnahme beim Drittel, in einer
+langen bei der Einstellung --, und das Protokoll vermerkt es unter
+`Weitwinkel am Rand`, samt der Stelle, an der das Wort wirklich
+wechselt. Fällt ein Rand kürzer aus als die **Mindestschnittdauer**,
+geht er wie jede andere Einstellung in die benachbarte auf.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
@@ -362,9 +369,9 @@ Klammern die gemessene Sprechzeit und dahinter **-- gleichzeitig redende
 werden doppelt gezählt**. Für die Quelle gibt es drei Antworten:
 
 - **Gemessene Sprecher.** Ein Lauf ist durch, und seine Übergabedatei
-  wird gelesen. Für ihn lagen alle Spuren auf einer Achse, und über
-  auphonic.com waren zusätzlich die Nachbarn aus ihnen herausgerechnet.
-  Das ist die feinste der drei Auskünfte.
+  wird gelesen. Für ihn lagen alle Spuren auf einer Achse, und
+  Mikrofone, die einander hören, wurden zusammengelegt und nach Stimmen
+  getrennt. Das ist die feinste der drei Auskünfte.
 - **Nach Stimmen getrennte Sprecher.** Sie kommen aus einer Trennung auf
   diesem Rechner, noch vor jedem Lauf.
 - **Selbst gemessene Sprecher.** Pegel, hier im Fenster gegeneinander
@@ -627,13 +634,13 @@ Das Programm setzt jede Stelle nach, bis sie sitzt;
 [Inside the program](../development/internals.md) (englisch) nennt, wie
 oft und wie lange.
 
-### Sprecher ohne Auphonic messen
+### Sprecher aus den Spuren messen
 
-Ohne Auphonic bleibt der Lauf lokal, und das Script misst aus den Spuren,
-wer wann redet. Der Weg dahin steht in [Aufbereitung über
-auphonic.com](auphonic.de.md) (auf der Kommandozeile
-`--without-auphonic`). Im Protokoll steht dieser Abschnitt unter der
-Überschrift `SPRECHER -- HIER GEMESSEN`.
+Jede Spur, für die keine Trennung spricht, misst das Script selbst: Wer
+wann redet, liest es an der Aufnahme ab, so wie sie aufgenommen wurde --
+mit auphonic.com genauso wie ohne, denn was von dort zurückkommt, ist
+nur der Klang. Im Protokoll steht dieser Abschnitt unter der Überschrift
+`SPRECHER -- HIER GEMESSEN`.
 
 So liest das Script die Spuren:
 

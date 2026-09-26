@@ -29,6 +29,11 @@ those is true any more, and each of them had a good reason written
 beside it in the source -- **which is why they read as ground.** The
 source records what was true, not what is.
 
+**Qt is the one that moved only halfway.** pip3 brings PySide6 with the
+program, so the window may use it freely; the command line still loads
+none of it, and that stays. Where Qt may be imported, and the
+measurement behind it, is `coding_guidelines.md` section 12.
+
 **One thing about the fifth is worth knowing, and it is not a hole.**
 The program's own text says external scripting -- the way it talks to
 Resolve -- may be reserved for the Studio edition since 19.1, and that

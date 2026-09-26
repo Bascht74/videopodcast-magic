@@ -7,9 +7,9 @@ cameras and the tracks; and what cannot be run is refused with a title
 a person can read, while a merely doubtful case becomes a question.
 Two sections hold the window to calling this and keeping no
 assembly of its own, since two builders of one command line drift
-apart. The window is gui() and every make_* function beside it,
-collected out of the program rather than listed here, and held against
-a plain search for their definitions. The last section is the camera's
+apart. The window is gui(), every make_* function beside it and
+every class, collected out of the program rather than listed here, and
+held against a plain search for their definitions. The last section is the camera's
 name where no plan carries it: it goes as a switch pair the run's
 parser reads back, under Sync only too, and two cameras of one name,
 case aside, are refused on that path; the production's name, and the
@@ -395,7 +395,7 @@ import ast
 
 
 def window_pieces():
-    """gui() and every make_* function of the program, with its place.
+    """gui(), every make_* function and every class, with its place.
 
     Read out of the files, not off the loaded program: desktop's
     make_shortcut is fetched only when somebody asks for a shortcut,
@@ -406,13 +406,16 @@ def window_pieces():
     class or into another function is still seen. It then stands twice
     in the joined text, once on its own and once inside its holder,
     and a word search pays nothing for that.
+
+    A class is read whole, every method in it: a handler moved out of
+    gui() into a window class goes by a name no make_* rule would catch.
     """
     found = []
     for where, body in the_program.pieces():
         for node in ast.walk(ast.parse(body)):
-            if not isinstance(node, ast.FunctionDef):
-                continue
-            if node.name == "gui" or node.name.startswith("make_"):
+            if isinstance(node, ast.ClassDef) or (
+                    isinstance(node, ast.FunctionDef)
+                    and (node.name == "gui" or node.name.startswith("make_"))):
                 found.append(("%s:%s" % (where, node.name),
                               ast.get_source_segment(body, node)))
     return found
@@ -420,8 +423,8 @@ def window_pieces():
 
 window = window_pieces()
 source = "\n".join(body for _where, body in window)
-print("    %d pieces of the window read: gui() and every make_*"
-      % len(window))
+print("    %d pieces of the window read: gui(), every make_* and every"
+      " class" % len(window))
 # A second road to the same text, with no number to keep: a collector
 # that loses single pieces stays green on every word search below.
 named = ["%s:%s" % (where, m.group(1))
@@ -433,6 +436,14 @@ check("every def make_* the program's text names was read",
       bool(named) and not unread,
       "16. the text defines %d, the collector read %d; unread: %s"
       % (len(named), len(window), unread[:4] or "none"))
+classes = ["%s:%s" % (where, m.group(1))
+           for where, body in the_program.pieces()
+           for m in re.finditer(r"^[ \t]*class (\w+)\b", body, re.M)]
+unread = [n for n in classes if n not in read]
+check("every class the program's text names was read",
+      bool(classes) and not unread,
+      "16. the text defines %d classes, the collector missed %d: %s"
+      % (len(classes), len(unread), unread[:4] or "none"))
 check("call present", "run_argv(values, assign_file)" in source,
         "16. over %d pieces of the window run_argv is named in %s, wanted "
         "one reading run_argv(values, assign_file)"

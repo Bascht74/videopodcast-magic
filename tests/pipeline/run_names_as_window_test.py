@@ -5,8 +5,10 @@ One real run, started with the command line the window builds, on two
 camera files of one name in two folders and a recording beside them.
 The log names the second camera "(2)" in the plan, on the time axis and
 where it is processed, and the handover is named after the production
-field, not after the folder the material lies in. The preflight's lines
-are not held here: they still name a camera by its file.
+field, not after the folder the material lies in. The preflight names
+it so too: in the facts line for that camera and in the hint that the
+two files may be one recording twice. Last the window's own check, run
+in this process on the same files, says that hint with both apart too.
 """
 import os
 import sys
@@ -100,11 +102,57 @@ check("and it is processed under that name", HEAD + "\n" in log,
       "%r not in %d characters of log; it says %r" % (
           HEAD.strip(), len(log), line_with(log, "PROCESSING")))
 
-print("\n3. The production, as the field names it")
+print("\n3. The preflight, as the window names them")
+FACTS = "    C0003.MP4 (2)     %s fps" % vpm.number_text(25, 3)
+check("the preflight's facts line names the second camera so",
+      bool(line_with(log, FACTS)),
+      "no line begins %r; the preflight says %r" % (
+          FACTS, [x for x in log.splitlines()
+                  if x.startswith("    C0003.MP4")]))
+TWINS = vpm.T('%s have the same size and running time -- possibly one '
+              'recording twice.') % "C0003.MP4, C0003.MP4 (2)"
+check("and the hint on one recording twice names both apart",
+      TWINS in log, "%r not in the log; it says %r" % (
+          TWINS, next((x for x in log.splitlines()
+                       if "same size and running time" in x), "")))
+
+print("\n4. The production, as the field names it")
 made = sorted(n for n in os.listdir(OUT) if n.endswith("_resolve.json"))
 check("the handover is named after the production field",
       made == ["Pilot_resolve.json"],
       "handover files %s, wanted ['Pilot_resolve.json']" % made)
+
+print("\n5. The window's own check, on the same two cameras")
+
+
+class Stub(object):
+    """What the check touches of the window: a line, a plan, a field."""
+
+    def __init__(self, value=None):
+        self.value = value
+
+    def get(self):
+        return self.value
+
+    def __getattr__(self, name):
+        return lambda *a, **k: None
+
+
+came = []
+_fill, kick_off = vpm.make_preflight(
+    {}, [(REC, "audio"), (CAMS[0], "video"), (CAMS[1], "video")], Stub(),
+    Stub(), lambda _signal, findings: came.append(findings), Stub(), None,
+    None, None, {}, set(), lambda: [], Stub(False), [], {})
+kick_off()
+waited = time.time()
+while not came and time.time() - waited < 120:
+    time.sleep(0.05)
+said = [b.text for b in (came[0] if came else ())
+        if b.field == vpm.T('Cameras')]
+check("the window's check names both apart in the hint as well",
+      TWINS.strip() in [x.strip() for x in said],
+      "after %.1f s the window's check says %r, wanted %r" % (
+          time.time() - waited, said, TWINS.strip()))
 
 shutil.rmtree(D, ignore_errors=True)
 

@@ -260,3 +260,22 @@ def pieces():
             found.append((name.replace(os.sep, "/"), body))
     found.sort(key=lambda piece: (piece[0] != entry, piece[0]))
     return found
+
+
+def languages_measured(every):
+    """The languages a test measures in this run, and a line naming them.
+
+    The owner's rule, 26.9.2026: the everyday suite measures English and
+    German, and every language only for a release, which sets
+    VPM_ALL_LANGUAGES=1. `every` is what the test measures then; English
+    and German stand first either way. The line is the test's to print,
+    since nothing in this file prints: a green run says what it saw.
+    """
+    if os.environ.get("VPM_ALL_LANGUAGES") == "1":
+        chosen = tuple(dict.fromkeys(("en", "de") + tuple(every)))
+        return chosen, "languages: %d measured, %s (VPM_ALL_LANGUAGES=1)" % (
+            len(chosen), " ".join(chosen))
+    others = len(set(every) - {"en", "de"})
+    return ("en", "de"), ("languages: en and de measured; the other %d "
+                          "with VPM_ALL_LANGUAGES=1, as a release runs"
+                          % others)

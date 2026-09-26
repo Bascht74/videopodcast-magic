@@ -14,7 +14,6 @@ PROGRAM = PROGRAM
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 ByFile = PROGRAM.ByFile
-CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 COLOURS = PROGRAM.COLOURS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -216,8 +215,8 @@ def preview_handover(state):
     """Read the run's handover for the preview, or answer None.
 
     A finished run beats what the window worked out: its tracks lie on
-    one axis and auphonic.com has de-bled them. So the measurement taken
-    from the raw tracks is dropped rather than shown beside it.
+    one axis and its speakers are the ones it cut by. So the measurement
+    the window took is dropped rather than shown beside it.
     """
     d, js = None, state.get("resolve_json")
     state["preview_from"] = None
@@ -228,8 +227,7 @@ def preview_handover(state):
             state["preview_from"] = handover_mark(js)
         except (OSError, ValueError):
             d = None
-    state["cut_basis"] = (("auphonic" if state.get("run_auphonic")
-                           else "run") if d is not None else "measured")
+    state["cut_basis"] = "run" if d is not None else "measured"
     if d is not None:
         state["tracks_left"] = []
         state["stat_measured"] = "run"
@@ -850,7 +848,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
                                              warn=os.path.basename(p))
             except Exception:
                 continue
-            if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
+            # The run's own rule, asked of the run's own function: a
+            # short stranger's chance fit elsewhere refuses it here too.
+            if (not PROGRAM.match_places_it(st)
                     and not fit_places_it(st)):
                 st["unplaceable"] = True
                 by_clock.append(p)

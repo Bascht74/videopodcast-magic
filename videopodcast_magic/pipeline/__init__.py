@@ -368,10 +368,10 @@ def clocks_on_the_axis(videos, position, tracks, ref_clip):
 
     One entry per file that carries a timecode and whose place on the
     axis was measured: the name to say it by, the clock in seconds, and
-    the place (file time = a + b * axis time). A file that was never
-    placed is left out -- its clock says when it was recorded but not
-    where it sits, and only the two together say what the reference's
-    first frame reads.
+    the place (file time = a + b * axis time). A file never placed is
+    left out -- its clock says when, not where -- and so is one placed
+    by its clock: it only says its base's clock again. The preview
+    counts neither (measure_time_axis).
     """
     found = []
     for v, info in videos:
@@ -380,11 +380,15 @@ def clocks_on_the_axis(videos, position, tracks, ref_clip):
         when = timecode_seconds(info)
         if when is None:
             continue
-        a, b, _st = position[v]
+        a, b, st = position[v]
+        if (st or {}).get("by_clock_only"):
+            continue
         found.append({"name": os.path.basename(v), "tc": when,
                       "a": a, "b": b})
     for track in (tracks or []):
         blocks = track.get("blocks") or []
+        if (track.get("st") or {}).get("by_clock_only"):
+            continue
         # The blocks were sorted by time and joined on one axis, so the
         # first one's clock is the clock of the joined recording.
         # A recorder writes no frames, so the frames of a timecode track
@@ -1878,8 +1882,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
               segment_list=None):
     """Place the processed tracks onto the cameras.
 
-    Without *segment_list* the speakers are worked out here: the tracks
-    from auphonic.com are cleaner to measure than the raw ones.
+    Without *segment_list* the speakers are worked out here, off the raw
+    tracks on the axis; what auphonic.com returned is only the sound.
     """
     step_begin("cameras")
     sync = sync_only(args)

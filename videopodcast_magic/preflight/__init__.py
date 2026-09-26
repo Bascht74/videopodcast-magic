@@ -1288,13 +1288,12 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
             out.append(Finding(
                 "good", T('Loudness'),
                 T('the preset masters to %s LUFS -- that stands, nothing '
-                  'of ours adjusts.') % as_written(number_text(target, 0))))
+                  'of ours adjusts.') % number_text(target, 0)))
     elif target is not None and abs(target - float(lufs)) > 0.05:
         out.append(Finding(
             "abort", T('Loudness'),
             T('the preset masters to %s LUFS, the calculation uses %s.')
-            % (as_written(number_text(target, 0)),
-               as_written(number_text(lufs, 0))),
+            % (number_text(target, 0), number_text(lufs, 0)),
             T('Both at once does not work: the returning tracks would go '
               'to one value, our own mix to the other. Either set --lufs '
               '%.0f or change the preset.')
@@ -1357,8 +1356,27 @@ def report_findings(findings, heading, anyway=False):
     return False
 
 
+def camera_named(file_path, findings_, data, labels=None):
+    """A camera's findings and data, named as the run's log names it.
+
+    The cache holds them under the file's own name, which two files of
+    one name share; the run names the second "(2)" (camera_shown), and
+    the facts line and the comparisons say it so too. The window's own
+    check hands its names in as *labels*, {path: name}.
+    """
+    name = os.path.basename(file_path)
+    shown = (labels or {}).get(file_path) or PROGRAM.camera_shown(file_path)
+    if shown == name:
+        return findings_, data
+    for b in findings_:
+        if b.field == name[:24]:
+            b.field = shown[:24]
+    return findings_, (dict(data, name=shown) if data else data)
+
+
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
-                    set_aside=(), apart=(), together=(), project_type="cut"):
+                    set_aside=(), apart=(), together=(), project_type="cut",
+                    labels=None):
     """Collect all findings about the material.
 
     Each file is measured and cached on its own, so adding one measures
@@ -1366,7 +1384,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     *set_aside* are files that do not take part -- ignored ones, intro,
     outro. They are checked so their row is not the only one without a
     mark, and stay out of the comparisons. *project_type* "sync" takes
-    exactly one audio recording and refuses every further one.
+    one audio recording and refuses more; *labels* see camera_named.
     """
     set_aside = {path_key(x) for x in (set_aside or ())}
 
@@ -1382,6 +1400,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     for p, (b, d) in zip(video_paths, parallel_map(
             video_paths,
             lambda x: measure_cached(x, "video", check_camera_file, fresh))):
+        b, d = camera_named(p, b, d, labels)
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             video_data.append(d)
@@ -1605,12 +1624,12 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
 
     def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
                          set_aside=(), apart=(), together=(),
-                         project_type="cut"):
+                         project_type="cut", labels=None):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
                                         crosstalk, set_aside, apart,
-                                        together, project_type)
+                                        together, project_type, labels)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
             # would start on material nobody looked at.
@@ -1657,7 +1676,10 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                                bool(multitrack.get()), gone,
                                frozenset(no_join),
                                tuple(tuple(g) for g in together_now()),
-                               state.get("project_type") or "cut"),
+                               state.get("project_type") or "cut",
+                               # Named as the window names them: the
+                               # run's camera_shown knows no labels here.
+                               PROGRAM.camera_labels(videos_p)),
                          daemon=True).start()
 
     return preflight_fill_in, preflight_kick_off

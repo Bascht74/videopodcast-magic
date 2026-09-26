@@ -53,6 +53,33 @@ on:
           Every release turns it on.
         type: boolean
         default: false
+      # Every language, or English and German. The owner's rule,
+      # 26.9.2026: "Die Sprachen testen wir nicht jedes Mal. Nur
+      # Englisch und Deutsch. Die Sprachen testen wir ausführlich nur
+      # beim Release." Everyday runs measure the window in those two;
+      # with this on the suite gets VPM_ALL_LANGUAGES=1, run.sh keeps
+      # the *_langsN tests in, and the tests that measure a language at
+      # a time take every catalogue. The same two lines under
+      # workflow_call, for the reason written above the first switch.
+      #
+      # A release reaches it two ways, one for each of publish.yml's.
+      # The long way calls this workflow with all_languages true, as it
+      # does speaker_split. The short way runs no suite at all: it
+      # points at the six green checks of the pull request's head, which
+      # were a push -- and a push has no input. So a push whose branch
+      # changes the VERSION line of videopodcast_magic/__init__.py
+      # against main, which is what a release pull request does, turns
+      # it on by itself ("Record: which languages this run tests"), and
+      # the evidence the short way reuses is then evidence in every
+      # language. Where main cannot be fetched to ask, that is no
+      # answer, and the run takes every language rather than guess.
+      all_languages:
+        description: >
+          Test every language, not only English and German. Off by
+          default; a release turns it on, and so does a push whose
+          branch changes the program's version.
+        type: boolean
+        default: false
   # Called by publish.yml, so that a release runs the suite itself
   # rather than asking whether somebody ran it earlier. The called
   # workflow runs on the caller's commit, which is the whole point:
@@ -66,6 +93,13 @@ on:
           because a release answers for the whole program. The default
           is false so that this workflow behaves the same way whoever
           calls it and however it is started.
+        type: boolean
+        required: false
+        default: false
+      all_languages:
+        description: >
+          Test every language, not only English and German.
+          publish.yml passes true; why, see the same input above.
         type: boolean
         required: false
         default: false
@@ -193,6 +227,9 @@ jobs:
       # cannot be measured from here is also the one where every reading
       # gives the same answer.
       SPEAKER_SPLIT: ${{ inputs.speaker_split == true || inputs.speaker_split == 'true' }}
+      # The second switch, read the same way; a push can still turn it
+      # on, in "Record: which languages this run tests".
+      ALL_LANGUAGES: ${{ inputs.all_languages == true || inputs.all_languages == 'true' }}
 
     steps:
       - uses: actions/checkout@v5
@@ -763,6 +800,40 @@ jobs:
                        torch.__version__, where, time.time() - began))
           PY
 
+      # Why a push can turn every language on is written beside the
+      # input all_languages at the top. Only a branch asks: a push to
+      # main is no release pull request, and it compares with itself.
+      - name: "Record: which languages this run tests"
+        shell: bash
+        run: |
+          why=""
+          if [ "$ALL_LANGUAGES" = "true" ]; then
+            why="the input all_languages is on"
+          elif [ "$GITHUB_EVENT_NAME" = push ] \
+               && [ "$GITHUB_REF" != refs/heads/main ]; then
+            here=$(grep -m1 '^VERSION = ' videopodcast_magic/__init__.py)
+            if git fetch --no-tags --depth=1 origin main > /dev/null 2>&1
+            then
+              there=$(git show FETCH_HEAD:videopodcast_magic/__init__.py \
+                      | grep -m1 '^VERSION = ')
+              if [ "$here" != "$there" ]; then
+                why="this branch changes the version against main"
+                why="$why (${there:-nothing} -> ${here:-nothing}),"
+                why="$why so it is a release pull request"
+              fi
+            else
+              why="main could not be fetched, so whether this branch"
+              why="$why changes the version cannot be told"
+            fi
+          fi
+          if [ -n "$why" ]; then
+            echo "VPM_ALL_LANGUAGES=1" >> "$GITHUB_ENV"
+            echo "languages: every catalogue -- $why"
+          else
+            echo "languages: English and German -- every catalogue for a"\
+                 "release, or with the input all_languages"
+          fi
+
       # A test that cannot run here is taken out by name, with the reason
       # written beside it, and the count is printed. Nothing is taken out
       # for being red: what is red and could run stays in.
@@ -964,6 +1035,12 @@ jobs:
           if [ -s "$RUNNER_TEMP/aside.txt" ]; then
             out=$(wc -l < "$RUNNER_TEMP/aside.txt" | tr -d ' ')
           fi
+          # run.sh sets the *_langsN tests aside itself on an everyday
+          # run and names them in its "languages:" line, lifted below;
+          # they lie in the folder and did not run.
+          langs=$(sed -n 's/^languages: .*set aside \([0-9][0-9]*\):.*/\1/p' \
+                  "$S" 2>/dev/null)
+          ran=$((ran - ${langs:-0}))
           {
             echo "## ${{ matrix.os }} / Python ${{ matrix.python }}"
             echo
@@ -987,9 +1064,10 @@ jobs:
             # again here -- the line is only lifted where a reader will
             # see it without opening the log.
             grep -E "^skips:" "$S" 2>/dev/null || true
+            grep -E "^languages:" "$S" 2>/dev/null || true
             echo '```'
             if [ "$out" -gt 0 ]; then
-              echo "Of $((ran + out)) tests, $ran ran. Taken out, because"\
+              echo "Of $((ran + out + ${langs:-0})) tests, $ran ran. Taken out, because"\
                 "this machine cannot run them ($out):"
               echo
               while read -r l; do echo "* $l"; done \

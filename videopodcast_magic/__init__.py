@@ -366,6 +366,43 @@ write_transcript_files = speech.write_transcript_files
 
 #--------------------------------------------------------------------- Run
 
+def leave_window(code):
+    """The window's code, and on Windows the process ended here with it.
+
+    Python 3.10 on Windows crashed after the window had closed, in the
+    teardown behind the last line. What has to survive is done first --
+    the atexit handlers (the held-back log line, the temporary folders),
+    then the console and the log flushed -- and the rest is skipped.
+    """
+    if sys.platform != "win32":
+        return code
+    atexit._run_exitfuncs()
+    for stream in [sys.stdout, sys.stderr] + list(logbook._LOG_ASIDE):
+        # No console under pythonw, a handle already shut, a pipe gone:
+        # none of them may keep the process from ending here.
+        with contextlib.suppress(AttributeError, ValueError, OSError):
+            stream.flush()
+    os._exit(int(code or 0))
+
+
+def returned_given_as_raw(audio_paths, done_folder):
+    """The first recording handed in from the --auphonic-done folder, or "".
+
+    That folder holds what auphonic.com returned, and who speaks is
+    worked out on the raw recordings. One of those handed in from there
+    would decide it unseen, so the run refuses it rather than guess.
+    Only audio: a camera lying there is no returned track.
+    """
+    if not done_folder:
+        return ""
+    # The real path first: /tmp is a link to /private/tmp on macOS.
+    home = os.path.join(path_key(os.path.realpath(done_folder)), "")
+    for p in audio_paths:
+        if path_key(os.path.realpath(p)).startswith(home):
+            return p
+    return ""
+
+
 def main():
     """The way in: a command line means a run, a bare start means the window.
 
@@ -435,7 +472,7 @@ def main():
         while True:
             code = piece.gui()
             if code != piece.LANGUAGE_AGAIN:
-                return code
+                return leave_window(code)
             # The window took itself down for a chosen language; the
             # choice is read back so the next one speaks it.
             set_language(kept_language() or system_locale())
@@ -507,6 +544,12 @@ def main():
     for p in audio_paths + video_paths:
         if not os.path.exists(p):
             sys.exit(T('Not found: %s') % p)
+    returned = returned_given_as_raw(audio_paths, args.auphonic_done)
+    if returned:
+        sys.exit(T('%s lies in the --auphonic-done folder, among the tracks '
+                   'auphonic.com returned. Who speaks is worked out on the '
+                   'raw recordings, so name the raw one here instead.')
+                 % returned)
 
     # Preflight: once for both modes, before any fork.
     if run_preflight(args, audio_paths, video_paths):

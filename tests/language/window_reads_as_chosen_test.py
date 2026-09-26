@@ -11,8 +11,11 @@ order the eye meets them in: a seek button says "-10 s" and not
 "s 10-", a loudness target keeps its number in front -- in the list
 and in the preflight's line, which is laid out here too -- a signed
 number in a line of the log pane keeps its sign in front of it, read
-off the pane's own line direction, and a window that reads left to right carries no direction mark at all -- which is
-what every other language rests on.
+off the pane's own line direction, and in Arabic every line of that
+pane reads right to left, stands against the right edge and keeps a
+Latin name inside in its own order -- and a window that reads left to
+right carries no direction mark at all -- which is what every other
+language rests on.
 """
 import os
 import sys
@@ -293,9 +296,8 @@ check("the preflight's loudness line in Arabic keeps its number in front",
       "%d of 3 lines reported, %d lost it, first %s"
       % (told, len(lost), "%r reads %r" % lost[0] if lost else "none"))
 
-# A signed number in a line of the log, which number_text() writes. The
-# pane gives each line the direction of its first letter, so a line that
-# opens on a track name reads left to right: each is read the pane's way.
+# A signed number in a line of the log, which number_text() writes. Each
+# line is read the way the pane lays it out, whichever way that is.
 reader.setLayoutDirection(QtCore.Qt.RightToLeft)
 pane = vpm.make_log_view(QtGui, QtWidgets, QtGui.QTextCursor)()
 N = vpm.number_text
@@ -323,6 +325,41 @@ check("a signed number in an Arabic log line keeps its sign in front",
       "%d of %d lines in the pane, %d lost it, first %s"
       % (len(ways), len(logged), len(behind),
          "%r reads %r" % behind[0] if behind else "none"))
+
+# The pane itself: every line reads the language's way whatever letter
+# opens it -- a track name opens one of them -- and stands against
+# the right edge, and a Latin name inside keeps its own order.
+pane.resize(900, 300)
+pane.setAttribute(QtCore.Qt.WA_DontShowOnScreen, True)
+pane.show()
+reader.processEvents()
+edge = pane.viewport().width()
+lines, turned, leftish, named = 0, [], [], None
+block = pane.document().begin()
+while block.isValid():
+    if block.text().strip():
+        lines += 1
+        if block.textDirection() != QtCore.Qt.RightToLeft:
+            turned.append(bare(block.text()).strip()[:30])
+        room = block.layout().lineAt(0).naturalTextRect()
+        if room.left() <= edge - room.right():
+            leftish.append("%r %.0f px from the left, %.0f from the right"
+                           % (bare(block.text()).strip()[:20], room.left(),
+                              edge - room.right()))
+        if "Presenter" in block.text():
+            named = order(block.text(), block.textDirection())
+    block = block.next()
+check("every line of the Arabic log pane reads right to left",
+      lines == len(logged) and not turned,
+      "%d of %d lines, %d of them left to right, first %r"
+      % (lines, len(logged), len(turned), turned[0] if turned else "none"))
+check("and stands against the right edge of the pane",
+      lines == len(logged) and not leftish,
+      "%d of %d lines nearer the left edge of %d px, first %s"
+      % (len(leftish), lines, edge, leftish[0] if leftish else "none"))
+check("a Latin name in an Arabic log line keeps its own order",
+      named is not None and "Presenter" in named,
+      "the line naming it reads %r" % named)
 
 # The other way round, and it is the one that costs everybody else: a
 # mark put in whatever the language would change every width and every

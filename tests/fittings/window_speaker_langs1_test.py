@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Whatever is written into the Speakers cell can be read there.
+"""Whatever is written into the Speakers cell can be read, languages a to k.
 
-That cell is filled minutes after the sheet was built -- a separation
-reports when it is done -- so a column measured from its own contents
-was measured while every cell was still empty, and everything written
-in afterwards was cut off at the top and at the right.
-
-In English and German, on every run; window_speaker_langs1 and _langs2
-take the other catalogues for a release, with the same checks.
+Every catalogue whose code begins with a to k, English and German
+aside: window_speaker_cell_fits measures those on every run,
+window_speaker_langs2 takes l to z, and run.sh sets both
+langs tests aside unless VPM_ALL_LANGUAGES=1; run by hand, this runs
+its slice. The checks are window_speaker_cell_fits's word for word.
 Sections, as they print: the real window, with a project open, is
 dragged as small as it goes in every language and font, and every tree
 after that is given what the narrowest window shows of it; the column
@@ -32,7 +30,13 @@ sys.path.insert(0, HERE)
 import time
 import speaker_cell_measure as m
 
-LANGUAGES = m.EVERY_RUN
+# By the first letter of the code, so a new catalogue lands in one of
+# the two files without anybody writing it down.
+LANGUAGES = tuple(l for l in m.LANGUAGES
+                  if l not in m.EVERY_RUN and "a" <= l[0] <= "k")
+# A precondition of the material, not a judgement: a slice with no
+# language in it would come out green having looked at nothing.
+assert LANGUAGES, "no language code begins with a to k"
 print(m.languages_line(LANGUAGES))
 vpm = m.begin()
 

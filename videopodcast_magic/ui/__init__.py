@@ -907,15 +907,17 @@ transport = menus.transport
 # changes it: the project file following the production's new name.
 
 
-def project_file_follows(state, fresh, retitle):
-    """Move the project file to *fresh*, where its name and folder say.
+def project_file_follows(state, where, retitle, report=None):
+    """Move the project file to where() says, its name and folder.
 
     It is named after the production and lives in the output folder,
     and both can change: moved rather than written a second time. The
     title bar names the open project's file, so where that very file
     moved *retitle* is handed the new title; where nothing moved, the
-    bar keeps naming the file that is on the disk.
+    bar keeps naming the file that is on the disk. Another project's
+    file under the new name is never moved onto: see project_refused.
     """
+    fresh = project_refused(state, where, report)
     old, moved = state.get("project_last"), False
     if fresh and old and os.path.abspath(old) != os.path.abspath(fresh):
         try:
@@ -930,6 +932,40 @@ def project_file_follows(state, fresh, retitle):
     if moved and opened and os.path.abspath(opened) == os.path.abspath(old):
         state["project_from"] = fresh
         retitle(window_title(fresh))
+
+
+def project_refused(state, where, report=None):
+    """Where the project file goes, or None where another project lies.
+
+    A name another project's file in the same folder already has is
+    refused: the file stays where it is and is written there (kept, as
+    axis_file keeps an opened copy) until the name changes again, and
+    *report* is told once which project lies there. One with no file on
+    the disk stays in the next free name, "(2)"; one opened is its own.
+    """
+    if state.pop("project_refused", None):
+        state.pop("project_kept", None)
+    fresh, old = where(), state.get("project_last")
+    mine = bool(old and os.path.isfile(old))
+    try:
+        taken = bool(fresh and os.path.isfile(fresh) and (
+            not mine and (old or not state.get("project_from"))
+            or mine and not os.path.samefile(old, fresh)))
+    except OSError:
+        taken = False
+    if not taken:
+        return fresh
+    stem, ext, n = os.path.splitext(fresh) + (2,)
+    while not mine and os.path.exists("%s (%d)%s" % (stem, n, ext)):
+        n += 1
+    old = old if mine else "%s (%d)%s" % (stem, n, ext)
+    if report and state.get("project_refused_said") != fresh:
+        report(T('Project'), T('Another project lies in this folder under '
+                               'that name, %s -- this one stays in %s.')
+               % (os.path.basename(fresh), os.path.basename(old)))
+    state["project_refused"] = state["project_refused_said"] = fresh
+    state["project_kept"] = old
+    return None
 
 
 def window_title(project=""):
@@ -1720,6 +1756,16 @@ def make_log_writer(state, post):
         post.put(text)
 
     return write
+
+
+def in_turn(*steps):
+    """Call each of *steps* in the order given, with nothing.
+
+    A window that has to bring several things up to date at one moment
+    says them in one line; the order is the order they depend on.
+    """
+    for step in steps:
+        step()
 
 
 def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
@@ -2845,14 +2891,15 @@ def gui():
         folder_show()
         state["resolve_json"] = None
         handover_follows(state, [c[0] for c in camera_lines], True)
-        preview_compute()
         finished_tracks_check()
+        preview_compute()
 
     def folder_delete():
         out_folder.set("")
         folder_show()
         state["resolve_json"] = None
         handover_follows(state, [c[0] for c in camera_lines], True)
+        in_turn(finished_tracks_check, preview_compute)
 
     # --- how loud the finished episode is. Why it stands here and what
     #     the entries mean is in loudness_field_build.
@@ -3147,7 +3194,7 @@ def gui():
 
     def project_move():
         """Move the project file after a rename or a new output folder."""
-        project_file_follows(state, axis_file(), window.setWindowTitle)
+        project_file_follows(state, axis_file, window.setWindowTitle, report)
 
     def project_collect(file_path):
         """Read the project file, earlier locations included."""
@@ -3977,10 +4024,9 @@ def gui():
             output_timer.stop()
             break_off.setVisible(False)
             start_run.setText(T('Start'))
-            buttons_check()
-            result_button_check()
-            resolve_button_check()
-            preview_compute()
+            # Tracks the run brought back count before anything is drawn.
+            in_turn(finished_tracks_check, buttons_check, result_button_check,
+                    resolve_button_check, preview_compute)
 
     output_timer.timeout.connect(clear)
     PROGRAM.UPDATE_SINK = make_update_sink(state, write, output_show,

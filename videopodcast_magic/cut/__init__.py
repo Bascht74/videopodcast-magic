@@ -417,7 +417,7 @@ def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
     stopped = {} if ends is None else ends
     counted = {} if tally is None else tally
     for key in ("questions", "used", "no_asker", "asked_by_main",
-                "no_answer", "did_not_hold", "same_camera"):
+                "no_answer", "did_not_hold", "same_camera", "shared_answer"):
         counted.setdefault(key, 0)
     if not words or not tracks:
         return out
@@ -469,10 +469,58 @@ def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
         if camera_of.get(who) and camera_of.get(who) == camera_of.get(asker):
             counted["same_camera"] += 1
             continue
-        out[when] = who
+        # Two questions into one answer are one place in the picture; the
+        # later question's end is the zero, as it is the nearer one.
         stopped[when] = end
+        if when in out:
+            counted["shared_answer"] += 1
+            continue
+        out[when] = who
         counted["used"] += 1
     return out
+
+def answer_boundaries(raw, answers, camera_of, gap):
+    """Return {block index: answer start} for the reaction cuts.
+
+    The picture changes to the answerer's camera at a block boundary,
+    and the answer's start need not lie on one: a first word too short
+    to move the camera, or both talking at once, puts it later. So the
+    nearest boundary to that camera within *gap* is taken, each once.
+    """
+    pairs = []
+    for i in range(1, len(raw)):
+        if raw[i][2] == raw[i - 1][2]:
+            continue
+        for when, who in answers.items():
+            off = abs(raw[i][0] - when)
+            if raw[i][2] == camera_of.get(who) and off <= gap + 1e-6:
+                pairs.append((off, i, when))
+    placed, taken = {}, set()
+    for _off, i, when in sorted(pairs):
+        if i not in placed and when not in taken:
+            placed[i] = when
+            taken.add(when)
+    return placed
+
+def reaction_places(before, after, brought):
+    """Count the places where a reaction cut really changed the picture.
+
+    *brought* holds (edge, camera) as moved; *before* is the cut before
+    short shots were merged, *after* the cut after. A question shot too
+    short to stand goes, and the answer then starts where it started;
+    where the shot before was the answerer's too, nothing changed.
+    """
+    places = set()
+    for t, camera in brought:
+        start = [j for j in range(1, len(before)) if before[j][2] == camera
+                 and abs(before[j][0] - t) < 1e-6]
+        if not start:
+            continue
+        since = before[start[0] - 1][0]
+        if any(after[k][2] == camera and since - 1e-6 <= after[k][0]
+               <= t + 1e-6 for k in range(1, len(after))):
+            places.add(round(t, 6))
+    return len(places)
 
 def question_report(rules):
     """What the reaction cut found and what it let go, in one or two lines.
@@ -501,6 +549,10 @@ def question_report(rules):
                 T('nobody answered in time')),
                (counted.get("did_not_hold"),
                 T('the answer did not keep the floor')),
+               (counted.get("not_moved"),
+                T('the picture did not change to the answerer there')),
+               (counted.get("shared_answer"),
+                T('the answer was counted with the question before')),
                (counted.get("no_asker"),
                 T('nobody was speaking at the question')))
     named = ["%d %s" % (int(n), why) for n, why in reasons if n]
@@ -712,14 +764,19 @@ def floor_handovers(tracks, main_speaker, min_len_speech,
             out.append((a, b))
     return sorted(out)
 
+# The most of the recording either wide edge may hold: past it a
+# greeting has become a conversation. "Wide shot at the latest" caps it too.
+EDGE_SHARE = 1.0 / 3.0
+
 def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
-                   faint=False):
+                   faint=False, latest=None):
     """Hold the wide shot while the round is introduced and closed.
 
     Someone introduces the participants at the start and says goodbye at
     the end; both belong in the wide frame. The opening ends where the
     floor first changes hands away from the main speaker, and the same
     rule runs backwards. A voice the separation never hears cannot end it.
+    *latest* is "Wide shot at the latest"; see edges_held_short.
     """
     if not cut:
         return cut
@@ -731,13 +788,8 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if not other:
         return cut
     begin, end = cut[0][0], cut[-1][1]
-    until, from_s = other[0][1], other[-1][0]
-    if until - begin > (end - begin) / 3.0 or end - from_s > (end - begin) / 3.0:
-        # A third would no longer be a greeting but a conversation.
-        if not faint:
-            print(T('  Wide shot at the edges: skipped -- the first or '
-                    'last announcement\n  would be too long for a greeting.'))
-        return cut
+    until, from_s, most = edges_held_short(begin, end, other[0][1],
+                                           other[-1][0], latest)
     out = []
     for a, b, who in cut:
         if b <= until or a >= from_s:
@@ -751,7 +803,25 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if not faint:
         print(T('  Wide shot at the edges: until %s and from %s') % (as_hms(until - begin),
                                                       as_hms(from_s - begin)))
+        if (until, from_s) != (other[0][1], other[-1][0]):
+            print(T('  shortened to at most %s each -- the first '
+                    'announcement ends at %s, the last begins at %s')
+                  % (as_hms(most), as_hms(other[0][1] - begin),
+                     as_hms(other[-1][0] - begin)))
     return merge_adjacent(out)
+
+def edges_held_short(begin, end, until, from_s, latest=None):
+    """Shorten either edge to what it may hold. Returns (until, from, most).
+
+    At most EDGE_SHARE of the length, and at most *latest* seconds where
+    that is set above nought: in a short recording the share decides, in
+    a long one the setting. What falls below the minimum edit duration
+    is left to merge_short_shots, as for any edge.
+    """
+    most = (end - begin) * EDGE_SHARE
+    if latest and latest > 0:
+        most = min(most, latest)
+    return min(until, begin + most), max(from_s, end - most), most
 
 def metrics_sentence(numbers, colours, minutes_fn):
     """Build the summary line under the preview.
@@ -820,12 +890,11 @@ def label_say(widget, text, colour):
 def cut_basis_line(basis, speakers, length):
     """Say what the cut on the third tab stands on, and in what colour.
 
-    Three answers, and not worth the same: the recordings as they lie,
-    a finished run on one axis, and with auphonic.com de-bled as well.
+    Two answers, and not worth the same: the recordings as they lie, and
+    a finished run on one axis. "auphonic", kept by an older project, is
+    a finished run too: auphonic.com makes the sound, not the speakers.
     """
-    if basis == "auphonic":
-        text = T('from the processed Auphonic tracks -- %s speakers, %s')
-    elif basis == "run":
+    if basis in ("run", "auphonic"):
         text = T('from the finished run -- %s speakers, %s')
     else:
         text = T('measured from the recordings -- %s speakers, %s')
@@ -1019,7 +1088,8 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
                            min_len=min_len, lead_in=-delay, rules=rules)
     if edge:
-        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint)
+        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint,
+                                 latest=at_latest)
         cut = merge_short_shots(cut, min_len)
     if after > 0:
         cut = insert_wide_shots(cut, tracks, wide_shot, after, holds,
@@ -1940,11 +2010,10 @@ def build_camera_cut(tracks, length, camera_of, wide_shot,
     """Return the camera cut as [(from, to, camera)], without speakers."""
     return [(a, b, who) for a, b, who, _speaking
             in camera_cut_detail(tracks, length, camera_of, wide_shot,
-                                 min_len, lead_in, rules)]
+                                 min_len, lead_in=lead_in, rules=rules)]
 
 def camera_cut_detail(tracks, length, camera_of, wide_shot,
-                      min_len=MIN_EDIT_DURATION_S, lead_in=-0.3,
-                      rules=None):
+                      min_len=MIN_EDIT_DURATION_S, *, lead_in, rules=None):
     """Turn speaker segments into a camera cut list.
 
     Returns [(from, to, camera, speakers)]; *speakers* is who talks in
@@ -2084,7 +2153,9 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     # Lead-in: switch to the coming camera shortly before the entry. A
     # negative value makes it a lag, as Resolve's Edit Change Delay does;
     # both edges of a shot move together, or shifting would shorten it.
-    answers, asked_until = {}, {}
+    answers, asked_until, brought_to = {}, {}, []
+    # Afresh on every cut: the report speaks of this one, not of a sum.
+    tally = rules["question_tally"] = {}
     if (rules.get("on_question") or SHOT_OFF) != SHOT_OFF and words:
         answers = reaction_cuts(
             long, words, camera_of or {},
@@ -2093,24 +2164,21 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             float(rules.get("reaction_over") or 0.0),
             # Counted into the caller's own rules, so whoever built them
             # can say what became of the questions; one built here cannot.
-            tally=rules.setdefault("question_tally", {}),
-            ends=asked_until)
+            tally=tally, ends=asked_until)
     lead = float(rules.get("reaction_lead") or 0.0)
     if (lead_in or answers) and raw:
         limits = [r[0] for r in raw] + [raw[-1][1]]
         end = limits[-1]
         brought = []
+        placed = answer_boundaries(
+            raw, answers, camera_of or {},
+            float(rules.get("reaction_gap") or 3.0))
         for i in range(1, len(raw)):
             if raw[i][2] == raw[i - 1][2]:
                 continue
-            who = answers.get(round(raw[i][0], 6))
-            if who is None:
-                for when in answers:
-                    if abs(when - raw[i][0]) < 1e-6:
-                        who = answers[when]
-                        break
-            early = (who is not None and lead > 0
-                     and raw[i][2] == (camera_of or {}).get(who))
+            who = answers.get(placed.get(i))
+            # answer_boundaries has already asked for the answerer's camera.
+            early = who is not None and lead > 0
             if early and (rules.get("on_question") == SHOT_LISTENER
                           and not next_speaker_camera(
                               raw[i][0] - lead, per_camera, raw[i - 1][2])):
@@ -2118,9 +2186,12 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             if early:
                 # Zero is where the asker stops: the pause belongs to
                 # the question, and the delay is not added twice.
-                zero = asked_until.get(raw[i][0], raw[i][0])
-                limits[i] = min(end, max(0.0, cut_point(
+                zero = asked_until.get(placed[i], raw[i][0])
+                moved = min(end, max(0.0, cut_point(
                     zero - lead, (), (), levels, step)))
+                early = moved < raw[i][0] - 1e-6
+            if early:
+                limits[i] = moved
                 brought.append(i)
             elif lead_in:
                 limits[i] = min(end, limits[i] - lead_in)
@@ -2137,6 +2208,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
                 limits[i] = limits[i - 1]
         for i in range(len(raw)):
             raw[i][0], raw[i][1] = limits[i], limits[i + 1]
+        brought_to = [(limits[i], raw[i][2]) for i in brought]
         raw = [r for r in raw if r[1] - r[0] > 1e-6]
 
     # A short silence between two identical shots is not noticeable.
@@ -2148,7 +2220,13 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
         else:
             extra.append(list(r))
 
-    return [tuple(r) for r in merge_short_shots(extra, min_len)]
+    final = merge_short_shots(extra, min_len)
+    if answers:
+        # Counted where the picture changed, not where an answer began.
+        missed = len(answers) - reaction_places(extra, final, brought_to)
+        tally["used"] = tally.get("used", 0) - missed
+        tally["not_moved"] = missed
+    return [tuple(r) for r in final]
 
 def voices_joined(keeper, swallowed):
     """Add the swallowed shot's voices to the shot that stays.

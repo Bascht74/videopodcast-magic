@@ -51,7 +51,7 @@ explains the word comes first.
 * **belongs to (selector)**: `multitrack`, "Setting the assignment";
   `simple-path`, "Putting blocks together by hand"
 * **bleed**: `preflight`, "How the report measures bleed against the 3:1
-  rule"; `camera-cut`, "Measuring the speakers without Auphonic"
+  rule"; `camera-cut`, "Measuring the speakers from the tracks"
 * **block**: `simple-path`, "What goes into the video beside the mix";
   `simple-path`, "Putting blocks together by hand"
 * **cache**: `speech`, "What is kept, and what is worked out again";

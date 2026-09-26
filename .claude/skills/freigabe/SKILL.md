@@ -197,6 +197,15 @@ What that refers to is the command-line switches, the format of the
 project file, and the names of what comes out. **Manual, tests or notes
 alone get no new number.**
 
+**Every language, once, before the word.** The everyday suite tests
+English and German only (the owner's rule, 26.9.2026); a release tests
+every catalogue. Here that is `cd tests && VPM_ALL_LANGUAGES=1 bash
+run.sh`, green before the push. On the builder nothing has to be
+asked for: the release pull request changes the version, so its six
+checks run every language by themselves, and the long way passes
+`all_languages: true` -- why, beside that input in
+`.github/workflows/tests.yml`.
+
 **Write the changelog section before the push, because the workflow
 reads it and does not write it.** Skill `changelog` says what goes in
 one. What the workflow does with it is cut everything between
@@ -241,8 +250,11 @@ of the separation -- since 25.9.2026 its code, its model,
 requirements.txt and the test that runs it, but not pyproject.toml,
 whose version every release changes. A pull request that changed one of
 them goes the long way, and the line names the file that sent it
-there. How the four questions are asked, and where that difference is
-kept, is `.claude/skills/freigabe/mechanics.md`.
+there. **Since 26.9.2026 a fifth:** a pull request runs English and
+German only, every language only where it changes the `VERSION` line,
+so the short way is taken only where the merge changes the version.
+How the five questions are asked, and where that difference is kept,
+is `.claude/skills/freigabe/mechanics.md`.
 
 **Before the word, count what is left over.** The commonest way to break
 the one-run rule is not impatience, it is a file forgotten while
@@ -420,7 +432,7 @@ sixth is answered in the report, and "not run, because ..." answers it.
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
-    suite with it?
+    suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?
 11. The builder's times fetched and looked at?
 12. `git status --short` empty, or every line in it explained out loud?
 13. `git stash list` free of this work?

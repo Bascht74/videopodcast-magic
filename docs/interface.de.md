@@ -353,10 +353,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   - **aus dem fertigen Lauf -- 3 Sprecher, 1:09:23**, in der guten
     Farbe. Ein Lauf ist durch, und die Vorschau steht auf dessen
     Ergebnis: alle Spuren auf einer Achse, die Sprecher so, wie der Lauf
-    sie gefunden hat.
-  - **aus den bearbeiteten Auphonic Spuren -- 3 Sprecher, 1:09:23**,
-    ebenfalls in der guten Farbe. Dasselbe, und die Spuren sind von
-    auphonic.com zurückgekommen, das Übersprechen der Nachbarn heraus.
+    sie gefunden hat. Nach einem Lauf über auphonic.com steht dort
+    dasselbe: Von dort kommt der Klang zurück, und die Sprecher werden
+    so oder so an den Aufnahmen ermittelt.
 
   Damit ist die eine Frage beantwortet, die man an eine Vorschau hat:
   ob man ihr trauen kann. Ist ein Lauf durch, stehen Vorschau und Lauf
