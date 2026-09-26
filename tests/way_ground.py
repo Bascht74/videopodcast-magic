@@ -4,9 +4,10 @@
 The ground the whole-way tests stand on: the mixedcase fixture with its
 numbers written down as values, a separation stored the way a run and
 a project file carry it, a project file the window opens, the command
-line a test writes itself, a child run with Resolve locked out, and a
+line a test writes itself, a child run with Resolve locked out, a
 window run started with its own Start button, offscreen and in this
-process. What a test judges stays in the test; this only builds.
+process, and one answered by hand first. What a test judges stays in
+the test; this only builds.
 
 Nothing in this file prints; run.sh would count a line against the test.
 """
@@ -303,6 +304,161 @@ def window_run(vpm, app, project, keep):
     return keep
 
 
+# ------------------------------------------- the window, answered by hand
+def recordings():
+    """All three recordings of the production: the guest's, two blocks."""
+    return [media(n) for n in ("Guest_Take0031A", "Presenter_REC00031",
+                               "Presenter_REC00032")]
+
+
+def project_plain(vpm, folder, out, multitrack=True, extra=None):
+    """A project file with all six files and no answers; hands back its path.
+
+    No separation, no assignment: what the run gets is what a test then
+    sets in the window by hand. *extra* is laid over the fields.
+    """
+    _sound, pictures = material()
+    d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
+         "preset": "", "production": PRODUCTION, "project_type": "cut",
+         "multitrack": multitrack, "wide_at_edges": False,
+         "out_folder": out, "assignment": {},
+         "files": [{"path": p, "kind": "audio"} for p in recordings()]
+         + [{"path": p, "kind": "video"} for p in pictures]}
+    d.update(extra or {})
+    path = os.path.join(folder, "videopodcast-magic_%s.json" % PRODUCTION)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(d, f, ensure_ascii=False, indent=1)
+    return path
+
+
+def window_answered_run(vpm, app, project, keep, answer, run=True,
+                        press="Start"):
+    """As window_run, answered by hand before *press* ("Start", "Dry run").
+
+    *answer(window)* is called every 100 ms once *project* is open (with
+    None, none is), and hands back "" when its answers stand or what it
+    still waits for; after 60 s the button is pressed regardless. With
+    *run* False the loop is not entered: its line is kept, nothing
+    written. *keep* gets "argv", "log", "ended", "why", "unanswered"
+    (what never stood, or "") and "answered" (s it took, None if never).
+    """
+    from PySide6 import QtCore, QtWidgets
+    QtWidgets.QFileDialog.getOpenFileName = staticmethod(
+        lambda *a, **k: (project, ""))
+    QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
+    QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
+    real = vpm.gui_run_loop
+    keep.update(argv=None, log=[], ended=False, why="", answered=None,
+                unanswered="")
+
+    def loop(argv, state, write, *rest):
+        """The window's own run loop, or only its line, kept."""
+        keep["argv"] = list(argv)
+
+        def kept(text):
+            """Keep a piece of the log, and hand it on to the window."""
+            keep["log"].append(text)
+            return write(text)
+
+        try:
+            return real(argv, state, kept, *rest) if run else 0
+        finally:
+            keep["ended"] = True
+
+    vpm.gui_run_loop = loop
+    step, since, waits = [0], [time.time(), 0], [""]
+
+    def win():
+        """The program's window, once it stands."""
+        for x in app.topLevelWidgets():
+            if vpm.DISPLAY_NAME in x.windowTitle():
+                return x
+
+    def button(text):
+        """The window's button whose text begins with *text*."""
+        for w in (win().findChildren(QtWidgets.QPushButton)
+                  if win() else ()):
+            if w.text().strip().startswith(text):
+                return w
+
+    def give_up(why):
+        """Stop waiting, and keep the reason for the red line."""
+        keep["why"] = why
+        app.quit()
+
+    def tick():
+        """One step: open, answer, wait for Start, press, wait."""
+        try:
+            if step[0] == 0:
+                if button(vpm.T("Open project")) is None:
+                    if time.time() - since[0] > 60:
+                        return give_up("the window never showed its "
+                                       "Open project button in 60 s")
+                    return QtCore.QTimer.singleShot(50, tick)
+                win().show()
+                win().resize(1400, 900)
+                if project:
+                    button(vpm.T("Open project")).click()
+                step[0], since[0] = 1, time.time()
+            elif step[0] == 1:
+                # Answers that never stand go on to Start all the same,
+                # so the run is judged and says what it got instead.
+                waits[0] = answer(win())
+                if waits[0] and time.time() - since[0] <= 60:
+                    return QtCore.QTimer.singleShot(100, tick)
+                keep["answered"] = (None if waits[0]
+                                    else time.time() - since[0])
+                keep["unanswered"] = waits[0]
+                step[0], since[0] = 2, time.time()
+            elif step[0] == 2:
+                k = button(vpm.T(press))
+                if k is None or not k.isEnabled():
+                    if time.time() - since[0] > 90:
+                        return give_up("%s was not ready after 90 s"
+                                       % press)
+                    return QtCore.QTimer.singleShot(100, tick)
+                k.click()
+                step[0], since[0], since[1] = 3, time.time(), 0
+            elif step[0] == 3:
+                if keep["ended"]:
+                    step[0] = 4
+                    return QtCore.QTimer.singleShot(300, tick)
+                if keep["argv"] is None and time.time() - since[0] > 30:
+                    return give_up("%s was pressed and no run began "
+                                   "in 30 s" % press)
+                if len(keep["log"]) != since[1]:
+                    since[0], since[1] = time.time(), len(keep["log"])
+                elif time.time() - since[0] > STILL:
+                    return give_up("the run stood still for %.0f s" % STILL)
+            else:
+                return app.quit()
+        except Exception as e:
+            return give_up("%s: %s" % (type(e).__name__, e))
+        QtCore.QTimer.singleShot(100, tick)
+
+    QtCore.QTimer.singleShot(0, tick)
+    sys.argv = ["videopodcast_magic.py"]
+    vpm.gui()
+    vpm.gui_run_loop = real
+    return keep
+
+
+def fields(window, said):
+    """The window's fields a screen reader calls *said*, by the row named.
+
+    A table cell's field carries "<column> -- <row>" as its name; the
+    row after the dashes is the key. Found afresh on every call: an
+    answer rebuilds the table, and the old fields are gone.
+    """
+    from PySide6 import QtWidgets
+    out = {}
+    for w in window.findChildren(QtWidgets.QWidget) if window else ():
+        name = w.accessibleName() or ""
+        if name.startswith(said + " -- "):
+            out[name.split(" -- ", 1)[1].strip()] = w
+    return out
+
+
 # ----------------------------------------------------------- the results
 def handover(out):
     """The run's handover in *out*, read, or None."""
@@ -325,6 +481,15 @@ def cut_files(out):
             with open(p, encoding="utf-8", errors="replace") as f:
                 found[os.path.basename(p)] = f.read().replace(out, "<out>")
     return found
+
+
+def written_names(out):
+    """Every file under *out* by its path inside it, sorted; [] if none."""
+    found = []
+    for root, _dirs, names in os.walk(out):
+        found += [os.path.relpath(os.path.join(root, n), out)
+                  .replace(os.sep, "/") for n in names]
+    return sorted(found)
 
 
 def own_folder(tag):
