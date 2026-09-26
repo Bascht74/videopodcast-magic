@@ -25,6 +25,250 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b26] - 2026-09-26
+
+### Added
+
+- **A run that goes quiet now says whether it is still working.** After
+  two minutes without a message the line beside the progress bar says
+  "working"; after five minutes in which nothing changes at all it says
+  "may be stuck, please check".
+- **The command line takes `--store-auphonic-key`.** It asks for the
+  Auphonic key without showing it, stores it, reads it back and says
+  whether it holds.
+- **On Linux the Auphonic key is now stored in the desktop's keyring**
+  through `secret-tool`. Where no keyring answers, nothing is stored and
+  the program says so.
+
+### Changed
+
+- **The camera-cut settings now sit in three groups, "Timing", "Wide
+  shot" and "Special cases", that open and close.** A closed group shows
+  its values in grey, and where the tab would have to scroll, the group
+  opened longest ago closes.
+- **"After a question", "Answer on screen earlier", "Wide shot after"
+  and "Wide shot at most" now open before the first run.** Once the time
+  axis stands, the window writes the transcript in the background, and
+  the progress box shows a "Transcript" line.
+- **Where the transcript is missing, the note under the greyed settings
+  now says why**: none written yet, speech recognition switched off, or
+  the recognition failed. A failure stands in the warning colour, with
+  what to do next.
+- **"Nobody speaks" now holds the picture through a pause of up to one
+  second by default** instead of going to the wide shot. A project saved
+  with "Wide shot" keeps it.
+- **With "Recognition uncertain" on "No camera change", an uncertain
+  passage longer than "Short gap up to" now goes to the wide shot.** It
+  used to hold the camera however long it ran; without a wide shot it
+  still does.
+- **A clock drift is now only corrected when it is at least three times
+  its own uncertainty.** A smaller one is left in, and the log line of
+  that recording or camera says so and why.
+- **A camera's drift is now also corrected when the camera runs under
+  two minutes or the drift stays under half a frame.** Only a drift of
+  500 ppm or more is still left in, as rather a measuring error.
+- **Subtitles in the .srt now hold at most two lines of 42 characters,
+  the speaker's name counted in.** A long subtitle could run to three
+  lines before.
+- **The preflight now shortens a long file name in the middle with
+  "…"**, so the extension and a "(2)" stay visible; it used to cut the
+  end off.
+- **The command line now refuses a speaker name that stands both on a
+  recording and on a separated voice**, as the window does. It used to
+  merge the two and count every turn twice.
+- **A launcher or menu entry the program laid under an earlier name of
+  its own is now removed when it lays a new one**, on macOS and on
+  Linux. An entry of any other program stays where it is.
+
+### Removed
+
+- **`AUPHONIC_TOKEN` is no longer read.** A run from the command line
+  now takes the Auphonic key the program has stored, the same one the
+  window uses; `--store-auphonic-key` puts it there.
+
+### Fixed
+
+- **An empty "In point" and "Out point" now stay empty.** The window
+  used to fill them from the cameras' clock and hand them to the run;
+  now the run takes the whole material, as on the command line.
+- **The time-axis preview now measures the recordings against the
+  longest camera, as the run does.** It used to take the longest file,
+  and so could show a place the run would not use.
+- **A multitrack run with only a stored Auphonic key no longer stops as
+  if there were no key.** Every kind of run now takes the stored key;
+  `--without-auphonic` still leaves it untouched.
+- **"Stop" now works in every phase of a run**, also while a start waits
+  for the camera sound and during "Create Resolve project". An upload to
+  auphonic.com now stops within two seconds.
+- **Blocks of one recording whose timecodes lie more than half an hour
+  apart are no longer joined into hours of silence.** The far block is
+  now left out, named in the log, and missing from the plan.
+- **The log line "Wide shot at the edges" now describes the finished
+  cut.** An edge that merged into its neighbour is no longer announced,
+  and with a single camera the line says the whole cut is the wide shot.
+- **A track's line "has no picture and is left out" now names only an
+  end that really loses something**, instead of listing "0:00:00.000 at
+  the front" beside the end that does.
+- **An audio file ffprobe cannot read is now called "not readable" in
+  the preflight, with ffprobe's own reason.** The run leaves it out and
+  goes on, instead of ending in a Python error.
+- **A recording made of several blocks now keeps its warning colour in
+  the file list when one of its blocks does not fit the time axis.** A
+  later block that fitted used to paint the row back to plain.
+- **The cameras' colour comparison in the log now names each camera
+  after its own file.** Two cameras could swap their brightness rows
+  before.
+
+### Security
+
+- **A run from the window no longer leaves a file naming the recordings
+  and the speakers in the temp folder.** It is now removed however the
+  run ends, also when the window is closed during the run.
+- **On Windows the registry entry holding the Auphonic key is now shut
+  to everybody but the user before the key goes in**, and the key is
+  read back to check it holds.
+
+### Tests
+
+- **The tests that talk to a running DaVinci Resolve now start only with
+  `bash resolve.sh --go`**, and the ones that reach auphonic.com only
+  with `bash auphonic.sh --online`. Without the word they start nothing
+  and say which word starts them.
+
+### Documentation
+
+- **The speech chapter of the manual now describes the three transcript
+  files**, the .json, the .srt and the .txt, and what each holds.
+- **The channels chapter now says what to do when a file's channel
+  count cannot be read**, step by step.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Ein Lauf, der still wird, sagt jetzt, ob er noch arbeitet.** Nach
+  zwei Minuten ohne Meldung steht neben dem Fortschrittsbalken
+  „arbeitet“; ändert sich fünf Minuten lang gar nichts, heißt es dort
+  „hängt womöglich, bitte prüfen“.
+- **Die Kommandozeile kennt `--store-auphonic-key`.** Der Schalter fragt
+  den Auphonic-Schlüssel verdeckt ab, legt ihn ab, liest ihn zurück und
+  sagt, ob er hält.
+- **Unter Linux kommt der Auphonic-Schlüssel jetzt in den Schlüsselbund
+  des Desktops**, über `secret-tool`. Antwortet keiner, wird nichts
+  abgelegt, und das Programm sagt es.
+
+### Geändert
+
+- **Die Einstellungen für den Kameraschnitt stehen jetzt in drei
+  Gruppen, „Timing“, „Weitwinkel“ und „Sonderfälle“, die sich auf- und
+  zuklappen lassen.** Eine zugeklappte Gruppe zeigt ihre Werte grau;
+  müsste der Reiter rollen, klappt die am längsten offene zu.
+- **„Nach einer Frage“, „Antwort früher im Bild“, „Weitwinkel nach“ und
+  „Weitwinkel höchstens“ sind jetzt schon vor dem ersten Lauf offen.**
+  Steht die Zeitachse, schreibt das Fenster die Niederschrift im
+  Hintergrund, und der Vorarbeitskasten zeigt eine Zeile „Niederschrift“.
+- **Fehlt die Niederschrift, sagt der Hinweis unter den ausgegrauten
+  Einstellungen jetzt, warum**: noch keine geschrieben, Spracherkennung
+  abgeschaltet oder Erkennung gescheitert. Das Scheitern steht in der
+  Warnfarbe, zusammen mit dem nächsten Schritt.
+- **„Niemand redet“ hält das Bild jetzt von Haus aus über eine Pause von
+  bis zu einer Sekunde**, statt auf den Weitwinkel zu gehen. Ein mit
+  „Weitwinkel“ gespeichertes Projekt behält das.
+- **Steht „Erkennung unsicher“ auf „Kein Kamerawechsel“, geht eine
+  unsichere Stelle, die länger als „Kurze Lücke bis“ dauert, jetzt auf
+  den Weitwinkel.** Vorher blieb die Kamera beliebig lange stehen; ohne
+  Weitwinkel bleibt sie das weiterhin.
+- **Ein Uhrengang wird jetzt nur noch herausgerechnet, wenn er
+  mindestens dreimal so groß ist wie seine eigene Unsicherheit.** Ein
+  kleinerer bleibt stehen, und die Protokollzeile der Aufnahme oder
+  Kamera sagt das und warum.
+- **Der Gang einer Kamera wird jetzt auch herausgerechnet, wenn sie
+  kürzer als zwei Minuten läuft oder er unter einem halben Bild bleibt.**
+  Nur ab 500 ppm bleibt er stehen – das ist eher ein Messfehler.
+- **Untertitel in der .srt haben jetzt höchstens zwei Zeilen zu 42
+  Zeichen, der Name des Sprechers mitgezählt.** Vorher konnte ein langer
+  Untertitel auf drei Zeilen wachsen.
+- **Der Vorflug kürzt einen langen Dateinamen jetzt in der Mitte mit
+  „…“**, damit die Endung und ein „(2)“ sichtbar bleiben; vorher fiel das
+  Ende weg.
+- **Die Kommandozeile lehnt jetzt einen Sprechernamen ab, der zugleich
+  an einer Aufnahme und an einer getrennten Stimme steht**, wie das
+  Fenster. Vorher legte sie beide zusammen und zählte jeden Beitrag
+  doppelt.
+- **Einen Starter oder Menüeintrag, den das Programm unter einem
+  früheren eigenen Namen angelegt hat, entfernt es jetzt, sobald es
+  einen neuen anlegt**, unter macOS und Linux. Einträge anderer
+  Programme bleiben unberührt.
+
+### Entfernt
+
+- **`AUPHONIC_TOKEN` wird nicht mehr gelesen.** Ein Lauf von der
+  Kommandozeile nimmt jetzt den Auphonic-Schlüssel, den das Programm
+  abgelegt hat, denselben wie das Fenster; dorthin kommt er mit
+  `--store-auphonic-key`.
+
+### Behoben
+
+- **Ein leerer „In-Punkt“ und „Out-Punkt“ bleiben jetzt leer.** Das
+  Fenster füllte sie vorher aus der Uhr der Kameras und gab sie dem Lauf
+  mit; jetzt nimmt der Lauf das ganze Material, wie auf der Kommandozeile.
+- **Die Vorschau der Zeitachse misst die Aufnahmen jetzt an der längsten
+  Kamera, wie der Lauf.** Vorher nahm sie die längste Datei und konnte
+  so einen Platz zeigen, den der Lauf nicht nimmt.
+- **Ein Multitrack-Lauf, der nur einen abgelegten Auphonic-Schlüssel
+  hat, bricht nicht mehr ab, als gäbe es keinen.** Jetzt nimmt jede Art
+  von Lauf den abgelegten Schlüssel; `--without-auphonic` lässt ihn
+  weiterhin unberührt.
+- **„Abbrechen“ wirkt jetzt in jeder Phase eines Laufs**, auch während
+  ein Start auf den Kameraton wartet und bei „Resolve-Projekt anlegen“.
+  Ein Hochladen zu auphonic.com hält jetzt binnen zwei Sekunden an.
+- **Blöcke einer Aufnahme, deren Timecodes mehr als eine halbe Stunde
+  auseinanderliegen, werden nicht mehr zu Stunden voller Stille
+  zusammengefügt.** Der ferne Block bleibt jetzt draußen, das Protokoll
+  nennt ihn, und im Plan fehlt er.
+- **Die Protokollzeile „Weitwinkel am Rand“ beschreibt jetzt den
+  fertigen Schnitt.** Ein Rand, der im Nachbarn aufging, wird nicht mehr
+  angesagt, und bei nur einer Kamera heißt es, der ganze Schnitt sei der
+  Weitwinkel.
+- **Die Zeile „hat kein Bild und bleibt weg“ einer Spur nennt jetzt nur
+  noch ein Ende, an dem wirklich etwas wegfällt**, statt „0:00:00.000
+  am Anfang“ neben das Ende zu setzen, das es betrifft.
+- **Eine Audiodatei, die ffprobe nicht lesen kann, heißt im Vorflug
+  jetzt „nicht lesbar“, mit dem Grund, den ffprobe selbst nennt.** Der
+  Lauf lässt sie weg und macht weiter, statt mit einem Python-Fehler zu
+  enden.
+- **Eine Aufnahme aus mehreren Blöcken behält in der Dateiliste jetzt
+  ihre Warnfarbe, wenn einer ihrer Blöcke nicht zur Zeitachse passt.**
+  Vorher malte ein späterer, passender Block die Zeile wieder schlicht.
+- **Der Farbvergleich der Kameras im Protokoll benennt jetzt jede Kamera
+  nach ihrer eigenen Datei.** Vorher konnten zwei Kameras ihre
+  Helligkeitszeilen tauschen.
+
+### Sicherheit
+
+- **Ein Lauf aus dem Fenster lässt keine Datei mit den Namen der
+  Aufnahmen und Sprecher mehr im Temp-Ordner liegen.** Sie wird jetzt
+  entfernt, wie immer der Lauf endet, auch wenn das Fenster mitten im
+  Lauf schließt.
+- **Unter Windows wird der Registry-Eintrag für den Auphonic-Schlüssel
+  jetzt für alle außer dem Benutzer gesperrt, bevor der Schlüssel
+  hineinkommt**, und der Schlüssel wird zur Probe zurückgelesen.
+
+### Tests
+
+- **Die Tests, die mit einem laufenden DaVinci Resolve sprechen, starten
+  jetzt nur noch mit `bash resolve.sh --go`**, die zu auphonic.com nur
+  mit `bash auphonic.sh --online`. Ohne das Wort starten sie nichts und
+  sagen, welches Wort sie startet.
+
+### Dokumentation
+
+- **Das Kapitel über Sprache im Handbuch beschreibt jetzt die drei
+  Dateien der Niederschrift**, die .json, die .srt und die .txt, und
+  was in jeder steht.
+- **Das Kapitel über Kanäle sagt jetzt Schritt für Schritt, was zu tun
+  ist, wenn sich die Kanalzahl einer Datei nicht lesen lässt.**
+
 ## [3.0.0b25] - 2026-09-26
 
 ### Added
