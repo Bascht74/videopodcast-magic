@@ -208,7 +208,9 @@ check("marked mixed on a block, the run lays it by phase",
 check("and leaves the recording nobody marked refused",
       how_placed(said, "CoPresenter") == "refused",
       "CoPresenter %s, wanted refused" % how_placed(said, "CoPresenter"))
-said = run("--project-type", "sync")
+# --anyway: Sync takes one recording and the preflight stops a second,
+# as the window does; the placing behind it is what is asked here.
+said = run("--project-type", "sync", "--anyway")
 check("a run that only syncs lays both by phase",
       how_placed(said, "Presenter") == "by phase"
       and how_placed(said, "CoPresenter") == "by phase",

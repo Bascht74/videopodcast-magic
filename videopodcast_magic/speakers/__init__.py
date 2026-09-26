@@ -1002,13 +1002,12 @@ def voices_clashing_of_run(args, plan):
     """voice_names_clashing for a command line, before anything is made.
 
     The recordings are the plan's rows, the voices those of the
-    separation handed over -- by the window's assignment file or by
-    --speakers-from, and only one the run would use. A row whose sound
-    the separation was heard in speaks through its voices, as a
+    separation handed over, and only one the run would use. A row whose
+    sound the separation was heard in speaks through its voices, as a
     recording with voices under it does in the window.
     """
     given = handed_over(args)[0]
-    if getattr(args, "project_type", "") == "sync" or not given:
+    if PROGRAM.sync_only(args) or not given:
         return []
     heard, voices = set(), []
     for one in [given] + list(given.get("more") or ()):
@@ -3189,8 +3188,8 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     """
     given, _seats, where_from = handed_over(args, say=True)
     source, why, dropped = "", "", None
-    if (getattr(args, "_speakers_of", None)
-            and not SPEAKER_SPLIT_OFF
+    # Whichever carrier brought it: both hand over one recording's.
+    if (given and not SPEAKER_SPLIT_OFF
             and not getattr(args, "no_speakers_local", False)
             and not getattr(args, "speakers_local", None)
             and not getattr(args, "_camera_audio", None)):
@@ -3759,7 +3758,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         while the window is still being built.
         """
         boxes = state.get("cut_boxes")
-        sync_only = state.get("project_type") == "sync"
+        sync_only = PROGRAM.sync_only(state)
         if boxes:
             pairs = assignment_pairs(voice_lines, assign_lines)
             seen = len(camera_lines)

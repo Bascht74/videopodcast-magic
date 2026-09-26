@@ -60,10 +60,10 @@ def check(name, ok, extra=""):
 seen = []
 
 
-def stand_in_preflight(args, audio_paths, video_paths):
+def stand_in_preflight(args, audio_paths, video_paths, project_type=None):
     """Stops the run where the preflight would; keeps its line and key.
 
-    The three parameters and no more, as the program's own has them.
+    The four parameters and no more, as the program's own has them.
     """
     seen.append((list(sys.argv), args.auphonic_key))
     return 1

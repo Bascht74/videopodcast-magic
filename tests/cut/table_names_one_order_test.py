@@ -223,8 +223,11 @@ with open(PLAN, "w", encoding="utf-8") as f:
                              for path, who in zip(
                                  TAKEN, ("Presenter", "", "Guest"))],
                "cameras": [{"video": FILMED, "name": "CamB_0001"}]}, f)
+# --anyway: Sync takes one recording and the preflight stops a second,
+# as the window does; the order of the names behind it is what is asked.
 code, said, stuck = run([sys.executable, SCRIPT, "--project-type", "sync",
-                         "--without-auphonic", "--multitrack", "--assign",
+                         "--without-auphonic", "--multitrack", "--anyway",
+                         "--assign",
                          PLAN, "--out", os.path.join(HOME, "out")]
                         + TAKEN + [FILMED])
 WRITTEN = os.path.join(HOME, "out", "CamB_0001_audio.mov")

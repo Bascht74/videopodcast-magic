@@ -143,7 +143,7 @@ seen = []
 sent = []
 
 
-def stand_in_preflight(args, audio_paths, video_paths):
+def stand_in_preflight(args, audio_paths, video_paths, project_type=None):
     """Stops the run where the preflight would, and keeps what it saw."""
     seen.append(args)
     return 1

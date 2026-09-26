@@ -37,6 +37,7 @@ auphonic_key_in_keyring	14
 auphonic_key_out_of_view	25
 auphonic_key_reg_shut	9
 auphonic_key_typed	11
+auphonic_kind_one_rule	8
 auphonic_may_be_skipped	28
 auphonic_mono_not_stereo	7
 auphonic_none_chosen	12
@@ -86,6 +87,7 @@ cut_wide_not_on_speech	6
 cut_window_cut_as_whole	9
 files_added_alike	7
 files_atom_travels	19
+files_bleed_not_by_tick	2
 files_block_out_and_back	10
 files_block_stays_apart	15
 files_blocks_join_exact	3
@@ -151,6 +153,7 @@ project_two_timelines_go	16
 run_assign_file_gone	4
 run_bar_never_falls	20
 run_bar_tracks_work	35
+run_cam_fault_no_half 8	0
 run_choice_kept	17
 run_clock_place_travels	7
 run_command_built	78
@@ -179,13 +182,13 @@ run_outside_seen	14
 run_overwrite_is_said	15
 run_own_sound_with_cam	6
 run_prework_listed	43
-run_project_type_reaches	12
+run_project_type_reaches	14
 run_promise_is_written	15
 run_quiet_judged	16
 run_rate_way_said_right	5
 run_shortcut_laid_once	34
 run_simple_path_agrees	26
-run_space_has_margin	17
+run_space_has_margin	18
 run_starter_arch_fits	30
 run_stays_local	20
 run_stop_heard_midway	17
@@ -212,6 +215,7 @@ sound_both_sides_alike	16
 sound_camera_counts	17
 sound_camera_judged_too	42
 sound_camera_own_used	7
+sound_cameras_carry_cut 9	0
 sound_channels_split	35
 sound_check_reads_once	14
 sound_clipping_counted	14
@@ -308,7 +312,7 @@ time_colour_own_camera	4
 time_drift_taken_out	4
 time_drop_label_kept	6
 time_fit_reports	11
-time_guess_refused	57
+time_guess_refused	61
 time_length_is_in_to_out	24
 time_length_names_change	5
 time_lost_end_named	4
@@ -316,6 +320,7 @@ time_measured_place_wins	38
 time_offset_found	6
 time_one_track_aligned	43
 time_over_midnight	9
+time_phase_late_placed	2
 time_phase_only_mixed	19
 time_point_pulled_back	5
 time_preview_fit_as_run	4
@@ -340,7 +345,7 @@ voice_answer_kept	24
 voice_bleed_gone_first	15
 voice_both_splits_stand	18
 voice_both_ways_agree	20
-voice_close_mics_mixed	51
+voice_close_mics_mixed	53
 voice_counts_grouped	3
 voice_cue_fits_two_lines	5
 voice_every_block_heard	7
@@ -433,10 +438,11 @@ window_speaker_langs7	17
 window_speaker_langs8	17
 window_speakers_as_run	15
 window_split_held_known	5
-window_stages_named	16
+window_stages_named	18
 window_stands_still	2
 window_start_runs	6
 window_stop_always	4
+window_stop_what_runs	5
 window_symbol_from_file	5
 window_tc_point_named	12
 window_title_follows	4
@@ -446,8 +452,3 @@ window_voice_audio_heard	6
 window_words_caught_up	23
 window_zero_as_run	14
 window_zoom_stays_in	32
-time_phase_late_placed	2
-window_stop_what_runs	5
-run_cam_fault_no_half 8	
-sound_cameras_carry_cut 9	
-auphonic_kind_one_rule	8

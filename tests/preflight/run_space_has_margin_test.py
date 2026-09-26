@@ -5,9 +5,9 @@
 is the band where the numbers fit but only just, "the second disk" is
 the temporary files eating the same space twice, and "two folders, one
 disk" is how that is told. "What the run really writes" is what the
-estimate has to cover -- the whole length, every camera, every track,
-and with a time window the stretch each camera is cut down to rather
-than the whole shoot. "The folder that is asked about" is the one the
+estimate has to cover -- the whole length, every camera, a track per
+recording whether Multitrack is ticked or not, and with a time window
+the stretch each camera is cut down to rather than the whole shoot. "The folder that is asked about" is the one the
 answer is about.
 
 What free space really is comes from the system, so it is replaced
@@ -105,13 +105,13 @@ real_usage = vpm.shutil.disk_usage
 real_one_disk = vpm.on_one_disk
 
 
-def judge(free_mb, one_disk=False, videos=None, multitrack=False):
+def judge(free_mb, one_disk=False, videos=None, sounds=None):
     """The finding for a made-up amount of free space."""
     vpm.shutil.disk_usage = lambda _p: Usage(0, 0, free_mb * 1e6)
     vpm.on_one_disk = lambda _a, _b: one_disk
     try:
-        return vpm.check_disk_space(WORK, [audio], videos or [video],
-                                    multitrack)[0]
+        return vpm.check_disk_space(WORK, sounds or [audio],
+                                    videos or [video])[0]
     finally:
         vpm.shutil.disk_usage = real_usage
         vpm.on_one_disk = real_one_disk
@@ -143,16 +143,16 @@ def bisect_estimate(finding_for):
 class Call(object):
     """What the preflight sees of a call: a time window and an out folder."""
 
-    def __init__(self, first="", last=""):
+    def __init__(self, first="", last="", multitrack=False):
         self.in_point = first
         self.out_point = last
         self.fps = 25.0
         self.out = WORK
-        self.multitrack = False
+        self.multitrack = multitrack
         self.anyway = False
 
 
-def preflight_space(free_mb, first="", last=""):
+def preflight_space(free_mb, first="", last="", multitrack=False):
     """The disk-space finding the preflight arrives at for a call.
 
     Everything the preflight does with the material itself is replaced,
@@ -169,7 +169,8 @@ def preflight_space(free_mb, first="", last=""):
     vpm.shutil.disk_usage = lambda _p: Usage(0, 0, free_mb * 1e6)
     vpm.on_one_disk = lambda _a, _b: False
     try:
-        vpm.run_preflight(Call(first, last), [audio], [long_video])
+        vpm.run_preflight(Call(first, last, multitrack), [audio],
+                          [long_video])
     finally:
         (vpm.collect_findings, vpm.report_findings,
          vpm.check_loudness_target) = keep
@@ -251,10 +252,16 @@ check("every camera is counted, not only the longest one",
       three >= one_camera * 2.5,
       "three cameras want %.3f MB against %.3f MB for one of them"
       % (three, one_camera))
-several = bisect_estimate(lambda free: judge(free, False, [long_video], True))
-check("several tracks in the file ask for more room than one",
+# Three recordings: every camera carries a track of each, whatever the
+# tick says, so the room follows the recordings and not the switch.
+sounds = [audio] + [os.path.join(WORK, "Sound%d.wav" % i) for i in (2, 3)]
+for copy in sounds[1:]:
+    vpm.shutil.copy(audio, copy)
+several = bisect_estimate(
+    lambda free: judge(free, False, [long_video], sounds))
+check("three recordings in the file ask for more room than one",
       several >= one_camera * 1.4,
-      "with the tracks kept apart %.3f MB against %.3f MB for one mix"
+      "with three recordings %.3f MB against %.3f MB for one"
       % (several, one_camera))
 # A precondition: without this line there is nothing to compare below,
 # and "the window changed nothing" would be true of two empty hands.
@@ -276,6 +283,12 @@ check("the preflight reaches the disk-space line at all",
 # estimate has to follow the window down, and it may not fall under what
 # the window itself costs.
 open_end = bisect_estimate(lambda free: preflight_space(free))
+ticked = bisect_estimate(
+    lambda free: preflight_space(free, multitrack=True))
+check("the Multitrack tick asks for the same room as without it",
+      abs(ticked - open_end) < 0.001,
+      "%.3f MB with the tick against %.3f MB without it"
+      % (ticked, open_end))
 windowed = bisect_estimate(
     lambda free: preflight_space(free, WINDOW_IN, WINDOW_OUT))
 check("a time window shrinks what the run needs on disk",
@@ -299,7 +312,7 @@ print("\n6. The folder that is asked about")
 # The real disk_usage here, not the made-up one: what is asked is which
 # folder the answer is about, not how much is free on it.
 not_made_yet = os.path.join(WORK, "not", "made", "yet")
-about = vpm.check_disk_space(not_made_yet, [audio], [video], False)
+about = vpm.check_disk_space(not_made_yet, [audio], [video])
 check("a folder not there yet is judged by the one above it",
       len(about) == 1 and WORK in (about[0].text if about else ""),
       "findings: %d, and the sentence reads %r"

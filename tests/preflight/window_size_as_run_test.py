@@ -91,7 +91,7 @@ def sizes(text):
 def summary_size(window=True):
     """What the summary before the run says the run writes, in MB."""
     lines = vpm.space_summary_lines(
-        TARGET, AUDIO, VIDEO, True,
+        TARGET, AUDIO, VIDEO,
         IN_POINT if window else "", OUT_POINT if window else "")
     got = sizes(lines[0])
     return got[0] if got else None
@@ -104,7 +104,7 @@ def preflight_size(window=True):
     left is what lands in the target folder -- which is what the summary
     is about.
     """
-    found = vpm.check_disk_space(TARGET, AUDIO, VIDEO, True,
+    found = vpm.check_disk_space(TARGET, AUDIO, VIDEO,
                                  WINDOW_S if window else None)
     got = sizes(found[0].text) if found else []
     # "free %s, about %s needed": the second figure is the estimate.
@@ -250,7 +250,7 @@ shown = seen.get("summary") or ""
 check("the summary came up when Start was pressed", bool(shown),
       "%d characters of summary after %.0f s of waiting"
       % (len(shown), waited[0]))
-want = vpm.space_summary_lines(TARGET, AUDIO, VIDEO, True,
+want = vpm.space_summary_lines(TARGET, AUDIO, VIDEO,
                                IN_POINT, OUT_POINT)[0]
 check("and the line it shows is the one reckoning",
       want in shown,

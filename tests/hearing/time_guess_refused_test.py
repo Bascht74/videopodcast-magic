@@ -7,8 +7,9 @@ with a clock is placed by it, and refusing that for an uncorrelated
 sound throws away a file known to the millisecond. In order: what the
 alignment admits, the rule itself, the sample points that are its
 second opinion, camera against camera, a whole run, what the window
-offers, and last the same question on the recording side, where
-another caller reads the same verdict and a clock sets the place.
+offers, the same question on the recording side, where another caller
+reads the same verdict and a clock sets the place, and last the same
+rule with no picture at all, where the tick changes nothing.
 """
 PLATFORM_BOUND = True
 import os
@@ -516,6 +517,64 @@ check("that run carries both through to the end",
       both_rc == 0 and os.path.exists(D + "/placed/Good_audio.mov"),
       "returned %d, Good_audio.mov %s"
       % (both_rc, os.path.exists(D + "/placed/Good_audio.mov")))
+
+
+
+#------------------------------------------ 7. No picture, one rule
+
+print("\n7. No picture: the clock places, with the tick or without")
+
+
+def without_picture(folder, *words):
+    """One run over recordings alone; the return code and the files."""
+    p = subprocess.run(
+        [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
+         "--no-speech-recognition", "--no-transcript-file",
+         "--out", D + "/" + folder] + list(words),
+        capture_output=True, text=True, timeout=RUN_LIMIT_S, env=ENV)
+    out = D + "/" + folder
+    return (p.returncode, (p.stdout or "") + (p.stderr or ""),
+            sorted(os.listdir(out)) if os.path.isdir(out) else [])
+
+
+multi_rc, multi_log, multi_made = without_picture(
+    "nopic_multi", "--multitrack", REC, TIMED)
+plain_rc, plain_log, plain_made = without_picture("nopic_plain", REC, TIMED)
+lost_rc, lost_log, lost_made = without_picture("nopic_lost", REC, STRAY)
+nopic = multi_log + plain_log + lost_log
+check("none of the runs without a picture threw", "Traceback" not in nopic,
+      nopic[nopic.find("Traceback"):][:90] if "Traceback" in nopic else "")
+by_clock = [line.strip()[:90] for line in multi_log.splitlines()
+            if BY_CLOCK in line]
+check("without a picture a sound nothing matches stands at its clock",
+      multi_rc == 0 and len(by_clock) == 1
+      and any(TIMED_NAME in n for n in multi_made),
+      "returned %d, %d lines placed by the clock %s, wrote %s"
+      % (multi_rc, len(by_clock), by_clock[:1], multi_made))
+
+
+def same_file(name):
+    """Whether both runs wrote *name*, byte for byte the same."""
+    try:
+        with open(D + "/nopic_multi/" + name, "rb") as a, \
+                open(D + "/nopic_plain/" + name, "rb") as b:
+            return a.read() == b.read()
+    except OSError:
+        return False
+
+
+differ = [n for n in multi_made if not same_file(n)]
+check("and without the tick the same files come out, to the byte",
+      plain_rc == multi_rc and plain_made == multi_made
+      and bool(multi_made) and not differ,
+      "returned %d and %d, wrote %s and %s, %d differ: %s"
+      % (plain_rc, multi_rc, plain_made, multi_made, len(differ), differ))
+refused = [line.strip()[:60] for line in lost_log.splitlines()
+           if SAYS_NO in line]
+check("while one with neither a match nor a clock is refused there too",
+      lost_rc == 1 and len(refused) == 1,
+      "returned %d, %d refusals %s, wrote %s"
+      % (lost_rc, len(refused), refused[:1], lost_made))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

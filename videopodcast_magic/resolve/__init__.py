@@ -1014,7 +1014,7 @@ def track_labels(cameras, d):
     wide shot, numbered where there are two. Where the window has no legend --
     Sync only, or nobody heard -- tracks keep the camera files' names.
     """
-    if d.get("project_type") == "sync" or not d.get("speakers"):
+    if PROGRAM.sync_only(d) or not d.get("speakers"):
         return dict((cam["track"], cam["track"]) for cam in cameras)
     # Both live in cut/, which is read after this piece: reached at the use.
     wides = PROGRAM.wide_shots_of(
@@ -1240,7 +1240,7 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     shown = [(i, cam) for i, cam in enumerate(placed, 1)
              if cam["track"] not in absent]
     print((T('  %s video tracks, named after the camera files:')
-           if d.get("project_type") == "sync"
+           if PROGRAM.sync_only(d)
            else T('  %s video tracks, named after the speakers:'))
           % number_text(len(shown), 0))
     for i, cam in shown:
@@ -2311,7 +2311,7 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     # lacking either, that timeline is not made. "sync" is the flag, not an
     # empty cut: that run never asked who speaks; its cut list is foreign.
     only_one = len(cameras) < 2
-    sync = d.get("project_type") == "sync"
+    sync = PROGRAM.sync_only(d)
     tl = None
     if d.get("cut") and not sync:
         print(T('\n  Timeline with the finished cut'))

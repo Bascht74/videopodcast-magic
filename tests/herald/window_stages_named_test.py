@@ -65,6 +65,15 @@ check("without auphonic the loudness is measured here",
       "loudness" in names and "auphonic" not in names,
       "%d stages, loudness among them %s, auphonic %s: %s"
       % (len(names), "loudness" in names, "auphonic" in names, names))
+# The run asks who speaks on every run but a sync one, tick or no tick;
+# a plan without the stage lets the bar jump over the camera writing.
+ticked_off = [n for n, _w, _c in vpm.run_stages(False, 3, False)]
+check("who speaks when is planned with the tick off as with it on",
+      "speakers" in ticked_off and "speakers" in names,
+      "tick off: %s; tick on: %s" % (ticked_off, names))
+sync = [n for n, _w, _c in vpm.run_stages(False, 3, False, True)]
+check("and a sync run is the one that leaves it out",
+      "speakers" not in sync and "cameras" in sync, str(sync))
 with_auphonic = [n for n, _w, _c in vpm.run_stages(True, 1, True)]
 check("with auphonic it is not", "auphonic" in with_auphonic,
       "%d stages: %s" % (len(with_auphonic), with_auphonic))

@@ -181,12 +181,13 @@ def step_report(share):
             pass
 
 
-def run_stages(multitrack, cameras, auphonic, speakers=None):
+def run_stages(multitrack, cameras, auphonic, sync=False):
     """The stages of a run and what share of the bar each is worth.
 
     The weights are proportions measured on real jobs: writing the camera
     files re-encodes every camera in full and takes longer than
-    everything before it together. A stage that will not happen is out.
+    everything before it together. A stage that will not happen is out:
+    who speaks is asked on every run but a *sync* one, tick or no tick.
     """
     cameras = max(0, int(cameras))
     out = [("plan", 1.0, T('Reading the plan'))]
@@ -200,7 +201,7 @@ def run_stages(multitrack, cameras, auphonic, speakers=None):
         out.append(("auphonic", 8.0, T('Processing at auphonic.com')))
     else:
         out.append(("loudness", 4.0, T('Loudness and levels')))
-    if multitrack if speakers is None else speakers:
+    if not sync:
         out.append(("speakers", 3.0, T('Who speaks when')))
     if cameras:
         out.append(("cameras", 12.0 * cameras,
