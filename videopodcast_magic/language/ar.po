@@ -5135,3 +5135,15 @@ msgstr "كان التعرف على الكلام متوقفًا في هذا ال�
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "لم يكتب التشغيل نصًا: فشل التعرف على الكلام أو لم يسمع شيئًا، وسجل التشغيل يذكر أيهما. تحقق من لغة الصوت وشغّل مرة أخرى؛ وإن لم يكن على هذا الجهاز تعرّف على الكلام، فإن macOS 26 يأتي بواحد، أو يثبّت التشغيل faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "يعمل -- لا رسالة منذ %s دقيقة، قد يكون الحاسوب مشغولًا"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "لا تغيير منذ %s دقيقة -- ربما توقف، يُرجى التحقق"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "يُترك كما هو: %s جزء في المليون أو أكثر هو على الأرجح خطأ قياس"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "يُترك كما هو: لا يبلغ %s أضعاف عدم يقينه"

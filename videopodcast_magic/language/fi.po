@@ -4951,3 +4951,15 @@ msgstr "Puheentunnistus oli tässä ajossa pois päältä. Jätä se päälle, n
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Ajo ei kirjoittanut transkriptiota: puheentunnistus epäonnistui tai ei kuullut mitään, ja ajon loki kertoo kumpi. Tarkista äänen kieli ja aja uudelleen; jos tässä koneessa ei ole tunnistusta, macOS 26 tuo sellaisen, tai ajo asentaa faster-whisperin."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "työskentelee -- ei viestiä %s minuuttiin, tietokone voi olla kuormitettu"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "ei muutosta %s minuuttiin -- saattaa olla jumissa, tarkista"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "jätetään paikalleen: %s ppm tai enemmän on pikemminkin mittausvirhe"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "jätetään paikalleen: ei yllä %s-kertaiseen epävarmuuteensa"

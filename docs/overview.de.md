@@ -31,7 +31,12 @@ den Timecode, wenn jemand beide Geräte auf dieselbe Uhr gestellt hätte.
 Also hört das Programm hin. Es vergleicht, wann der gute Ton laut wird
 und wann das Kameramikrofon, schiebt beides übereinander und rechnet den
 Uhrengang über die Länge heraus. Wenn die Messung dafür zu wackelig ist,
-lässt es die Finger davon und sagt das auch.
+lässt es die Finger davon und sagt das auch. Zu wackelig heißt: Der
+Uhrengang ist nicht mindestens dreimal so groß wie seine eigene
+Unsicherheit. Für eine Kamera gilt dieselbe Regel, wie kurz ihre Datei
+auch ist, dazu eine eigene Grenze: 500 ppm oder mehr -- 1,8 Sekunden in
+der Stunde -- sind eher eine missglückte Messung als eine Uhr, und auch
+dann bleibt der Uhrengang stehen.
 
 Gegen einen gleichbleibenden Ton kommt dieser Vergleich nicht an. Ein
 Netzbrummen, eine Klimaanlage, irgendwo im Haus ein Signalton: so etwas

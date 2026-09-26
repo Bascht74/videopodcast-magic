@@ -4912,3 +4912,15 @@ msgstr "Pengenalan ucapan dimatikan untuk proses ini. Biarkan menyala, dan prose
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Proses tidak menulis transkrip: pengenalan ucapan gagal atau tidak mendengar apa pun, dan log proses menyebutkan yang mana. Periksa bahasa audio lalu jalankan lagi; jika mesin ini tidak punya pengenalan, macOS 26 menyediakannya, atau proses memasang faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "sedang bekerja -- tidak ada kabar selama %s mnt, komputer mungkin sibuk"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "tidak ada perubahan selama %s mnt -- mungkin macet, harap periksa"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "dibiarkan: %s ppm atau lebih kemungkinan besar kesalahan pengukuran"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "dibiarkan: tidak mencapai %s kali ketidakpastiannya"

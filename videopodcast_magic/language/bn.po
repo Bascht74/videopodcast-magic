@@ -4953,3 +4953,15 @@ msgstr "এই চালনায় বক্তৃতা শনাক্তক
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "চালনা কোনো ট্রান্সক্রিপ্ট লেখেনি: বক্তৃতা শনাক্তকরণ ব্যর্থ হয়েছে বা কিছুই শোনেনি, আর চালনার লগ বলে দেয় কোনটি। অডিওর ভাষা দেখে নিয়ে আবার চালান; এই যন্ত্রে শনাক্তকরণ না থাকলে macOS 26 একটি নিয়ে আসে, অথবা চালনা faster-whisper ইনস্টল করে।"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "কাজ চলছে -- %s মিনিট ধরে কোনো বার্তা নেই, কম্পিউটার হয়তো ব্যস্ত"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s মিনিট ধরে কোনো পরিবর্তন নেই -- হয়তো আটকে গেছে, দয়া করে দেখুন"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "রেখে দেওয়া হয়: %s ppm বা তার বেশি সম্ভবত পরিমাপের ভুল"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "রেখে দেওয়া হয়: এর অনিশ্চয়তার %s গুণে পৌঁছায় না"

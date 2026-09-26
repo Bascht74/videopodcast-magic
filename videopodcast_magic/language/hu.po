@@ -4953,3 +4953,15 @@ msgstr "A beszédfelismerés ki volt kapcsolva ennél a futásnál. Hagyja bekap
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "A futás nem írt átiratot: a beszédfelismerés hibát jelzett vagy nem hallott semmit, és a futás naplója megmondja, melyik. Ellenőrizze a hang nyelvét, és futtassa újra; ha ezen a gépen nincs felismerés, a macOS 26 hoz egyet, vagy a futás telepíti a faster-whispert."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "dolgozik -- %s perce nincs üzenet, a számítógép talán leterhelt"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s perce nincs változás -- talán elakadt, kérjük, ellenőrizze"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "benne marad: %s ppm vagy több inkább mérési hiba"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "benne marad: nem éri el bizonytalanságának %s-szorosát"

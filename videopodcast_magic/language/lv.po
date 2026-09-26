@@ -5000,3 +5000,15 @@ msgstr "Runas atpazīšana šai izpildei bija izslēgta. Atstājiet to ieslēgtu
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Izpilde to neierakstīja: runas atpazīšana neizdevās vai neko nedzirdēja, un izpildes žurnāls saka, kurš no abiem. Pārbaudiet skaņas valodu un palaidiet vēlreiz; ja šajā datorā nav atpazīšanas, to atnes macOS 26, vai izpilde instalē faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "strādā -- %s min nav ziņu, dators var būt noslogots"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min nav izmaiņu -- iespējams, iestrēdzis, lūdzu, pārbaudiet"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "tiek atstāts: %s ppm vai vairāk drīzāk ir mērījuma kļūda"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "tiek atstāts: nesasniedz %s reizes savu nenoteiktību"

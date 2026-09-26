@@ -4951,3 +4951,15 @@ msgstr "Talegjenkjenningen var slått av for kjøringen. La den stå på, så sk
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Kjøringen skrev ingen: talegjenkjenningen mislyktes eller hørte ingenting, og kjøringens logg sier hvilket. Sjekk lydens språk og kjør igjen; der denne maskinen ikke har gjenkjenning, har macOS 26 en med, eller kjøringen installerer faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "arbeider -- ingen melding på %s min, datamaskinen er kanskje travel"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "ingen endring på %s min -- kan ha hengt seg, sjekk"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "blir stående: %s ppm eller mer er heller en målefeil"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "blir stående: ikke %s ganger usikkerheten sin"

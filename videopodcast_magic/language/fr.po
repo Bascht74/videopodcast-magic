@@ -4962,3 +4962,15 @@ msgstr "La reconnaissance vocale était désactivée pour cette exécution. Lais
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "L’exécution n’en a écrit aucune : la reconnaissance vocale a échoué ou n’a rien entendu, et le journal de l’exécution dit lequel des deux. Vérifiez la langue du son et relancez ; si cette machine n’a pas de reconnaissance, macOS 26 en apporte une, ou l’exécution installe faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "en cours -- aucun message depuis %s min, l'ordinateur est peut-être très occupé"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "aucun changement depuis %s min -- peut-être bloqué, veuillez vérifier"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "reste en place : %s ppm ou plus, c'est plutôt une erreur de mesure"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "reste en place : n'atteint pas %s fois son incertitude"

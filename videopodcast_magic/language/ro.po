@@ -4996,3 +4996,15 @@ msgstr "Recunoașterea vorbirii a fost oprită pentru această rulare. Las-o por
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Rularea nu a scris niciuna: recunoașterea vorbirii a eșuat sau nu a auzit nimic, iar jurnalul rulării spune care dintre ele. Verifică limba sunetului și rulează din nou; unde acest calculator nu are recunoaștere, macOS 26 aduce una, sau rularea instalează faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "lucrează -- niciun mesaj de %s min, calculatorul poate fi ocupat"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "nicio schimbare de %s min -- poate s-a blocat, verificați"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "rămâne: %s ppm sau mai mult este mai degrabă o eroare de măsurare"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "rămâne: nu atinge de %s ori incertitudinea sa"

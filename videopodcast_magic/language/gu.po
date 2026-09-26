@@ -4955,3 +4955,15 @@ msgstr "આ રન માટે વાણી ઓળખ બંધ હતી. ત�
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "રને કોઈ ટ્રાન્સક્રિપ્ટ લખી નથી: વાણી ઓળખ નિષ્ફળ ગઈ અથવા તેણે કંઈ સાંભળ્યું નહીં, અને રનનો લૉગ કહે છે કે કયું. ધ્વનિની ભાષા તપાસો અને ફરી ચલાવો; જ્યાં આ મશીનમાં ઓળખ નથી, ત્યાં macOS 26 એક લાવે છે, અથવા રન faster-whisper ઇન્સ્ટોલ કરે છે."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "કામ ચાલુ છે -- %s મિનિટથી કોઈ સંદેશ નથી, કમ્પ્યુટર કદાચ વ્યસ્ત છે"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s મિનિટથી કોઈ ફેરફાર નથી -- કદાચ અટકી ગયું છે, કૃપા કરીને તપાસો"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "એમ જ રાખવામાં આવે છે: %s ppm કે તેથી વધુ એ મોટે ભાગે માપનની ભૂલ છે"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "એમ જ રાખવામાં આવે છે: તેની અનિશ્ચિતતાના %s ગણા સુધી પહોંચતું નથી"

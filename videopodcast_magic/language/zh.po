@@ -4906,3 +4906,15 @@ msgstr "本次运行关闭了语音识别。保持开启，下一次运行就会
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "本次运行没有写出转录文本：语音识别失败或什么也没听到，运行日志会说明是哪一种。请检查声音语言后再次运行；如果这台机器没有语音识别，macOS 26 自带一个，或者运行会安装 faster-whisper。"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "正在工作——已有 %s 分钟没有消息，计算机可能很忙"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "已有 %s 分钟没有变化——可能卡住了，请检查"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "保留不动：%s ppm 或以上更可能是测量误差"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "保留不动：未达到其不确定度的 %s 倍"

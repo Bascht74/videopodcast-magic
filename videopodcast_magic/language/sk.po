@@ -4995,3 +4995,15 @@ msgstr "Rozpoznávanie reči bolo pre tento beh vypnuté. Nechajte ho zapnuté a
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Beh nezapísal žiadny prepis: rozpoznávanie reči zlyhalo alebo nič nepočulo, a protokol behu hovorí, ktoré z toho. Skontrolujte jazyk zvuku a spustite znova; kde tento počítač rozpoznávanie nemá, prináša ho macOS 26, alebo beh nainštaluje faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "pracuje -- %s min bez správy, počítač môže byť vyťažený"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min bez zmeny -- možno sa zasekol, skontrolujte to"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "zostáva: %s ppm alebo viac je skôr chyba merania"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "zostáva: nedosahuje %s-násobok svojej neistoty"

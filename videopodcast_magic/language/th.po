@@ -4910,3 +4910,15 @@ msgstr "การรู้จำเสียงพูดถูกปิดไว
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "รอบการทำงานไม่ได้เขียนบทถอดความ: การรู้จำเสียงพูดล้มเหลวหรือไม่ได้ยินอะไรเลย และบันทึกของรอบการทำงานบอกว่าเป็นอย่างไหน ตรวจสอบภาษาของเสียงแล้วเรียกใช้อีกครั้ง หากเครื่องนี้ไม่มีการรู้จำ macOS 26 มีมาให้ หรือรอบการทำงานจะติดตั้ง faster-whisper"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "กำลังทำงาน -- ไม่มีข้อความมา %s นาที คอมพิวเตอร์อาจทำงานหนักอยู่"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "ไม่มีการเปลี่ยนแปลงมา %s นาที -- อาจค้าง โปรดตรวจสอบ"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "คงไว้ตามเดิม: %s ppm ขึ้นไปน่าจะเป็นความผิดพลาดในการวัด"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "คงไว้ตามเดิม: ไม่ถึง %s เท่าของความไม่แน่นอน"

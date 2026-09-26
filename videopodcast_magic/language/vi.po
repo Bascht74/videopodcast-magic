@@ -4908,3 +4908,15 @@ msgstr "Nhận dạng giọng nói đã bị tắt cho lượt chạy này. Hãy
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Lượt chạy không ghi bản nào: nhận dạng giọng nói thất bại hoặc không nghe thấy gì, và nhật ký của lượt chạy cho biết là trường hợp nào. Hãy kiểm tra ngôn ngữ của âm thanh rồi chạy lại; nếu máy này không có nhận dạng, macOS 26 có sẵn một bộ, hoặc lượt chạy sẽ cài faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "đang làm việc -- không có thông báo trong %s phút, máy tính có thể đang bận"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "không thay đổi trong %s phút -- có thể bị treo, vui lòng kiểm tra"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "được giữ nguyên: %s ppm trở lên nhiều khả năng là lỗi đo"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "được giữ nguyên: không đạt %s lần độ bất định của nó"

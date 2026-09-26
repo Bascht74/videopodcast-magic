@@ -5044,3 +5044,15 @@ msgstr "Razpoznavanje govora je bilo za ta zagon izklopljeno. Pustite ga vkloplj
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Zagon ni zapisal prepisa: razpoznavanje govora ni uspelo ali ni slišalo ničesar, dnevnik zagona pa pove, kaj od tega. Preverite jezik zvoka in zaženite znova; kjer ta računalnik nima razpoznavanja, ga prinese macOS 26, ali pa zagon namesti faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "deluje -- že %s min brez sporočila, računalnik je morda zaseden"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "že %s min brez spremembe -- morda se je zataknilo, preverite"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "ostane: %s ppm ali več je prej merilna napaka"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "ostane: ne doseže %s-kratnika svoje negotovosti"

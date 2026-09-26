@@ -4952,3 +4952,15 @@ msgstr "De spraakherkenning stond uit voor deze run. Laat ze aan, dan schrijft d
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "De run schreef er geen: de spraakherkenning mislukte of hoorde niets, en het logboek van de run zegt welke van de twee. Controleer de taal van het geluid en start opnieuw; waar deze machine geen herkenning heeft, brengt macOS 26 er een mee, of installeert de run faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "bezig -- al %s min geen bericht, de computer is misschien druk"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "al %s min geen verandering -- loopt misschien vast, controleer dit"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "blijft staan: %s ppm of meer is eerder een meetfout"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "blijft staan: niet %s keer de eigen onzekerheid"

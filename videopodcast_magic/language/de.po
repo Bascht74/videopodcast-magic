@@ -6721,3 +6721,15 @@ msgstr "Die Spracherkennung war für den Lauf abgeschaltet. Lass sie an, dann sc
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Der Lauf hat keine geschrieben: Die Spracherkennung ist gescheitert oder hat nichts gehört, und das Protokoll des Laufs sagt, was davon. Prüfe die Sprache im Ton und starte den Lauf noch einmal; hat dieser Rechner keine Erkennung, bringt macOS 26 eine mit, oder der Lauf installiert faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "arbeitet -- seit %s Min. ohne Meldung, der Rechner ist womöglich ausgelastet"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "seit %s Min. keine Veränderung -- hängt womöglich, bitte prüfen"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "bleibt stehen: %s ppm oder mehr sind eher ein Messfehler"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "bleibt stehen: nicht das %s-Fache seiner Unsicherheit"

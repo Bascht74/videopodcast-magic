@@ -4955,3 +4955,15 @@ msgstr "ఈ రన్‌కు ప్రసంగ గుర్తింపు �
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "రన్ ఏ ట్రాన్స్‌క్రిప్ట్‌నూ రాయలేదు: ప్రసంగ గుర్తింపు విఫలమైంది లేదా ఏమీ వినలేదు, ఏది అనేది రన్ లాగ్ చెబుతుంది. ఆడియో భాషను తనిఖీ చేసి మళ్లీ నడపండి; ఈ యంత్రంలో గుర్తింపు లేని చోట macOS 26 ఒకటి తెస్తుంది, లేదా రన్ faster-whisper‌ను ఇన్‌స్టాల్ చేస్తుంది."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "పని జరుగుతోంది -- %s నిమిషాలుగా ఏ సందేశమూ లేదు, కంప్యూటర్ బిజీగా ఉండవచ్చు"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s నిమిషాలుగా ఏ మార్పూ లేదు -- ఆగిపోయి ఉండవచ్చు, దయచేసి తనిఖీ చేయండి"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "అలాగే ఉంచబడుతుంది: %s ppm లేదా అంతకంటే ఎక్కువ అంటే కొలత లోపమే ఎక్కువ అవకాశం"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "అలాగే ఉంచబడుతుంది: దాని అనిశ్చితికి %s రెట్లు చేరదు"

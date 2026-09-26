@@ -721,6 +721,25 @@ A stage that will not happen is not in the list at all, so the bar holds
 no share back for it. If a run stops, the line says which stage it
 stopped in.
 
+**A run that goes quiet is not left to guesswork.** Some steps work for
+minutes without a word -- a long recording being separated, a slow
+machine. Where the line has said nothing new for two minutes and the
+program can still see the work moving -- a helper using the processor,
+a file being written that still grows, an answer from auphonic.com --
+it reads **working -- no word for 3 min, the computer may be busy**.
+Where nothing at all has moved for five minutes it reads **no change
+for 5 min -- may be stuck, please check**, in the warning colour. While
+the run waits for somebody to answer a question, nothing is judged.
+
+**Stop is there in every phase of a run.** Beside **Start** the button
+**Stop** stands as long as something runs: while a start is still
+waiting for the camera audio (**Camera audio, 2 to go ...**), during
+the run itself, and while **Create Resolve project** is at work. Pressed
+during that wait it calls off only the start; the camera audio goes on
+being made, and a later **Start** finds it ready. Pressed during a run,
+the run ends as soon as it can do so without leaving a file half
+written; until then the button reads **Stopping ...**.
+
 **The line reads as a sentence, and never as a name the program uses
 inside itself.** While a recording is being separated into speakers it
 says **Separating speakers:** and the bare name of that recording --

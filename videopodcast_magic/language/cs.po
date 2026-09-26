@@ -4995,3 +4995,15 @@ msgstr "Rozpoznávání řeči bylo pro tento běh vypnuto. Nechte ho zapnuté a
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Běh žádný přepis nezapsal: rozpoznávání řeči selhalo nebo nic neslyšelo, a protokol běhu říká, které z toho. Zkontrolujte jazyk zvuku a spusťte znovu; kde tento počítač rozpoznávání nemá, přináší ho macOS 26, nebo běh nainstaluje faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "pracuje -- %s min bez zprávy, počítač může být vytížený"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min beze změny -- možná se zasekl, zkontrolujte to prosím"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "zůstává: %s ppm nebo více je spíše chyba měření"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "zůstává: nedosahuje %s násobku své nejistoty"

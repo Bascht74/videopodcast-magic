@@ -4955,3 +4955,15 @@ msgstr "Kõnetuvastus oli selle käituse jaoks välja lülitatud. Jäta see siss
 
 msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
 msgstr "Käitus ei kirjutanud ühtegi: kõnetuvastus ebaõnnestus või ei kuulnud midagi, ja käituse logi ütleb, kumb. Kontrolli heli keelt ja käivita uuesti; kui selles masinas tuvastust pole, toob macOS 26 selle kaasa või käitus paigaldab faster-whisperi."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "töötab -- %s min pole teateid, arvuti võib olla hõivatud"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min muutusteta -- võib olla kinni jäänud, palun kontrolli"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "jäetakse alles: %s ppm või rohkem on pigem mõõteviga"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "jäetakse alles: ei ulatu %s-kordse määramatuseni"
