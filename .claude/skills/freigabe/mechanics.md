@@ -129,7 +129,9 @@ checkout. Six green, off `commits/<head>/check-runs`, held against
 the job names rendered out of `tests.yml` at this commit, so a job
 added to the matrix is asked about without the workflow being touched.
 `checks: read` was added to the permissions for the third; a scope
-not named there is none. Nothing of the separation, off
+not named there is none. These three are asked by
+`.github/tree_tested.sh`, the same file `tests.yml`'s gate asks on
+every merge to `main`. Nothing of the separation, off
 `compare/<first parent>...<sha>` -- the files the merge brings in, a
 renamed one under both its names -- held against the separation's
 four patterns, written once in the step itself. The version, off
