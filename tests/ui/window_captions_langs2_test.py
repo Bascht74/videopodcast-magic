@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-"""Does every visible caption fit its field in the languages l to z?
+"""Does every visible caption fit its field, second slice of languages?
 
-Every catalogue whose code begins with l to z, English and German
-aside: window_captions_fit measures those on every run,
-window_captions_langs1 takes a to k, and run.sh sets both langs tests
-aside unless VPM_ALL_LANGUAGES=1; run by hand, this runs its slice. The
+The second of the slices the_program.language_part cuts every language
+but English and German into -- window_captions_fit measures those two
+on every run, the other window_captions_langs files the other slices,
+and run.sh sets them aside unless VPM_ALL_LANGUAGES=1; run by hand,
+this runs its slice. The
 checks are window_captions_fit's word for word: the window measured,
 the project in, the program finished, no thread or timer at work, the
 zoom row, its reading and the output pane's face, every caption.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -21,13 +23,12 @@ sys.path.insert(0, HERE)
 import time
 import captions_measure as m
 
-# By the first letter of the code, so a new catalogue lands in one of
-# the two files without anybody writing it down.
-LANGUAGES = tuple(l for l in m.LANGUAGES
-                  if l not in m.EVERY_RUN and "l" <= l[0] <= "z")
+import the_program
+# This file's slice, by the rule every *_langsN family is cut by.
+LANGUAGES = the_program.language_part(m.LANGUAGES, __file__)
 # A precondition of the material, not a judgement: a slice with no
 # language in it would come out green having looked at nothing.
-assert LANGUAGES, "no language code begins with l to z"
+assert LANGUAGES, "no languages in the slice this file's name asks for"
 print("languages: %s" % ", ".join(LANGUAGES))
 
 began = time.time()

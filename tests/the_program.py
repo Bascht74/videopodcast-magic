@@ -275,7 +275,37 @@ def languages_measured(every):
         chosen = tuple(dict.fromkeys(("en", "de") + tuple(every)))
         return chosen, "languages: %d measured, %s (VPM_ALL_LANGUAGES=1)" % (
             len(chosen), " ".join(chosen))
-    others = len(set(every) - {"en", "de"})
-    return ("en", "de"), ("languages: en and de measured; the other %d "
-                          "with VPM_ALL_LANGUAGES=1, as a release runs"
-                          % others)
+    return ("en", "de"), every_run_line(every)
+
+
+def every_run_line(every):
+    """The line of a test that measures English and German only.
+
+    In one place, because two kinds of test print it: the ones above,
+    and the everyday half of a family whose other languages stand in
+    *_langsN files, which says the same thing in either mode.
+    """
+    return ("languages: en and de measured; the other %d with "
+            "VPM_ALL_LANGUAGES=1, as a release runs"
+            % len(set(every) - {"en", "de"}))
+
+
+# How many *_langsN tests a family of window tests is cut into for a
+# release. One number for every family: each slice has to stay well
+# under run.sh's 300 s on the slowest builder job.
+LANGUAGE_PARTS = 4
+
+
+def language_part(every, test_file):
+    """The languages of the release slice a *_langsN test stands for.
+
+    Every language but English and German, sorted by code and cut into
+    LANGUAGE_PARTS runs of near-equal length; N is read off the test's
+    own file name, so the slices of one family differ in nothing else
+    and a new catalogue lands in one of them without anybody writing it
+    down. A slice number above LANGUAGE_PARTS gets nothing.
+    """
+    part = int(re.search(r"_langs(\d+)_test\.py$", test_file).group(1))
+    rest = sorted(set(every) - {"en", "de"})
+    return tuple(rest[(part - 1) * len(rest) // LANGUAGE_PARTS:
+                      part * len(rest) // LANGUAGE_PARTS])

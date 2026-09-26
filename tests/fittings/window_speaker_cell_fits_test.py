@@ -6,7 +6,7 @@ reports when it is done -- so a column measured from its own contents
 was measured while every cell was still empty, and everything written
 in afterwards was cut off at the top and at the right.
 
-In English and German, on every run; window_speaker_langs1 and _langs2
+In English and German, on every run; the window_speaker_langsN files
 take the other catalogues for a release, with the same checks.
 Sections, as they print: the real window, with a project open, is
 dragged as small as it goes in every language and font, and every tree
@@ -20,6 +20,7 @@ can be brought fully into view; a recording whose voices hang under it
 stays open while its cell is written. speaker_cell_measure.py builds
 the windows and says how they are measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

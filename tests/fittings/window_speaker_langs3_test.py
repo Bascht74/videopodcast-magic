@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Whatever is written into the Speakers cell can be read, second slice.
+"""Whatever is written into the Speakers cell can be read, third slice.
 
-The second of the slices the_program.language_part cuts every language
+The third of the slices the_program.language_part cuts every language
 but English and German into -- window_speaker_cell_fits measures those
 two on every run, the other window_speaker_langs files the other
 slices, and run.sh sets them aside unless VPM_ALL_LANGUAGES=1; run by

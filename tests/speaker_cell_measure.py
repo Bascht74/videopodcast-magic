@@ -63,11 +63,14 @@ FONTS = (100, 120, 136, 160, WIDER)
 
 
 def languages_line(languages):
-    """The one plain line saying which languages this test measures."""
+    """The one plain line saying which languages this test measures.
+
+    The every-run pair is said in the_program's words, the same line
+    every test measuring a language at a time prints; a release slice
+    names its languages, as window_captions_langsN does.
+    """
     if tuple(languages) == EVERY_RUN:
-        return ("languages: %s measured; the other %d with "
-                "VPM_ALL_LANGUAGES=1, as a release runs"
-                % (" and ".join(languages), len(LANGUAGES) - len(languages)))
+        return the_program.every_run_line(LANGUAGES)
     return "languages: %s" % ", ".join(languages)
 
 
