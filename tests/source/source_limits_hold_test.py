@@ -4,10 +4,10 @@
 Two things must not come back as more gets written: German comments (the
 interface stays German, the code does not) and narrating comments that
 report what stood there before. Beside them stand the sizes -- lines,
-blocks, docstrings, functions -- the definitions and pieces carrying no
-docstring, the except branches that only pass, and the paths put into
-shape on one side of a comparison or of a lookup while the other side
-is left raw. All of it is counted as ratchets, so the
+blocks, docstrings, functions, classes -- the definitions and pieces
+carrying no docstring, the except branches that only pass, and the
+paths put into shape on one side of a comparison or of a lookup while
+the other side is left raw. All of it is counted as ratchets, so the
 numbers may fall and never rise.
 
 Every piece of the program is read, not the file it starts in alone: a
@@ -286,16 +286,26 @@ for line, text in lazy[:8]:
 # it; freezing that number would say it is acceptable. The state holds
 # one entry per oversized function, by name: one dropping under the
 # limit does not buy room for another to climb over it.
-sizes = []
-for piece, tree, seen in trees:
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            end = getattr(node, "end_lineno", None)
-            if end:
-                sizes.append((end - node.lineno + 1,
-                              ratchet.qualified(seen, node), node.lineno,
-                              piece))
-sizes.sort(reverse=True)
+def sizes_of(kinds):
+    """Every definition of these kinds, biggest first, with its place.
+
+    A size is the whole body, from the def or class line to its last
+    line. The same reading serves functions and classes, so the two
+    ratchets below cannot drift into measuring two different things.
+    """
+    out = []
+    for piece, tree, seen in trees:
+        for node in ast.walk(tree):
+            if isinstance(node, kinds):
+                end = getattr(node, "end_lineno", None)
+                if end:
+                    out.append((end - node.lineno + 1,
+                                ratchet.qualified(seen, node), node.lineno,
+                                piece))
+    return sorted(out, reverse=True)
+
+
+sizes = sizes_of((ast.FunctionDef, ast.AsyncFunctionDef))
 big = [s for s in sizes if s[0] > 300]
 
 held = state.places("over_300",
@@ -320,6 +330,35 @@ check("largest function: %d lines (ratchet %d)" % (largest, limit_l),
         largest <= limit_l,
         sizes[0][1] if sizes else "")
 state.note(limit_l, largest)
+
+# --------------------------------------------------- How big a class got
+# The same two ratchets for classes. Without them a long function moved
+# whole into a class, every inner function turned into a method, would
+# read as progress on the two above while nothing got smaller. A method
+# still counts as a function there as well.
+class_sizes = sizes_of((ast.ClassDef,))
+big_classes = [s for s in class_sizes if s[0] > 300]
+
+held = state.places("classes_over_300",
+                    dict((name, (1, line))
+                         for _size, name, line, _piece in big_classes))
+check("classes over 300 lines: %d (ratchet %d)"
+      % (len(big_classes), held.limit), held.ok, over(held))
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d"
+          % (held.limit, len(big_classes)))
+for size, name, line, piece in big_classes[:8]:
+    print("      %-28s %5d lines, from line %s"
+          % (name[:28], size, where(piece, line)))
+
+largest_c = class_sizes[0][0] if class_sizes else 0
+limit_c = state.number("largest_class", largest_c)
+check("largest class: %d lines (ratchet %d)" % (largest_c, limit_c),
+      largest_c <= limit_c,
+      "%s against a ratchet of %d" % (class_sizes[0][1], limit_c)
+      if class_sizes else "no class in the program")
+state.note(limit_c, largest_c)
 
 # ------------------------------------ A big definition says what it is for
 # A hundred lines cannot be taken in at a glance, so whoever arrives at
