@@ -198,6 +198,21 @@ def spoken_language_choices():
                   key=lambda x: x[1].lower())
 
 
+def spoken_language_offered(tag):
+    """Return the tag the language field offers for *tag*, or *tag* as is.
+
+    A project file may name the language another way -- "de", "deu" --
+    and the field, which holds only its own tags, fell back to "not
+    set", so the next save wrote the language out of the project.
+    """
+    tag = (tag or "").strip()
+    code = SPEECH_CODES.get(tag.lower(), tag.lower())
+    for offered, _name in SPOKEN_LANGUAGES:
+        if SPEECH_CODES.get(offered) == code:
+            return offered
+    return tag
+
+
 def language_of_system():
     """Return the track tag the system language suggests, or "".
 
