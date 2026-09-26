@@ -189,13 +189,12 @@ def file_span(file_path, axis):
             "axis": (axis or {}).get(path_key(file_path))}
 
 
-def marks_zero(axis, cameras):
-    """Where a relative In or Out point counts from, on the window's axis.
+def camera_window(axis, cameras):
+    """The stretch every camera runs, as (from, to) on the window's axis.
 
-    The run's zero, by the run's own rule: common_window, the moment
-    every camera runs. *axis* is {path_key: start}, on one clock. Only
-    placed cameras count, as in the run; with none, the start of the
-    axis, as the run without a picture.
+    The run's window by the run's own rule, common_window. *axis* is
+    {path_key: start}, on one clock; only placed cameras count, as in
+    the run. None where no camera has a place.
     """
     areas = []
     for file_path in cameras or ():
@@ -203,8 +202,22 @@ def marks_zero(axis, cameras):
         if span and span["axis"] is not None and span["duration"] > 0:
             areas.append((float(span["axis"]),
                           float(span["axis"]) + span["duration"], file_path))
-    if areas:
-        return PROGRAM.common_window(areas)[0]
+    if not areas:
+        return None
+    t0, _begins_with, t1, _ends_with = PROGRAM.common_window(areas)
+    return t0, t1
+
+
+def marks_zero(axis, cameras):
+    """Where a relative In or Out point counts from, on the window's axis.
+
+    The run's zero: where camera_window begins, the moment every camera
+    runs. With no placed camera, the start of the axis, as the run
+    without a picture.
+    """
+    window = camera_window(axis, cameras)
+    if window:
+        return window[0]
     return min((float(v) for v in (axis or {}).values()), default=0.0)
 
 

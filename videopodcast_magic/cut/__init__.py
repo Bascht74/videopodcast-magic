@@ -1020,6 +1020,29 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
              "start_s": choose_zero_point(audio_origin, camera_origin,
                                           length)}, "")
 
+def window_taken(d, from_s, length):
+    """The handover *d* from *from_s* on, *length* seconds long.
+
+    Programme time then starts there: start_s moves along, the speakers
+    and words with it, and "+12:30" counts from it. Where the stretch
+    is empty, *d* as it was.
+    """
+    if length <= 0:
+        return d
+    fresh = dict(d, length_s=round(length, 3), marks_zero_s=0.0,
+                 start_s=round(float(d["start_s"]) + from_s, 3))
+    fresh["speakers"] = [
+        {"name": s.get("name"),
+         "sections": [[max(0.0, a - from_s), min(length, b - from_s)]
+                      for a, b in (s.get("sections") or [])
+                      if b > from_s and a - from_s < length]}
+        for s in (d.get("speakers") or [])]
+    if d.get("words"):
+        fresh["words"] = [[a - from_s, b - from_s, text]
+                          for a, b, text in d["words"]
+                          if b > from_s and a - from_s < length]
+    return fresh
+
 def window_moved_since(d, in_point, out_point):
     """Why the run's handover *d* no longer fits these marks, else "".
 
@@ -1917,23 +1940,25 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
             places=(out_folder.get(), commonest_folder()))
         if d is None:
             state["reason"] = reason
-        else:
-            marks_zero_add(d)
         return d
 
-    def marks_zero_add(d):
-        """Say in *d* where "+12:30" counts from: where every camera runs.
+    def run_window_take(d):
+        """*d* cut to the run's window: from where every camera runs.
 
-        As in the run, and on the places the cameras have in *d* --
-        measured, else their timecode. Programme time counts from start_s.
+        The run's own window, camera_window, on the places the cameras
+        have here -- measured, else their timecode -- so the preview
+        shows the cut the run builds. Untouched where no camera is placed,
+        and None stays None.
         """
         cams = [b for b, _n, _own, _f in camera_lines
                 if clip_kind_value(b).get() in CAMERA_TYPES]
         places = dict((path_key(b), camera_start(b)) for b in cams
                       if camera_start(b) is not None)
-        if places and d.get("start_s") is not None:
-            d["marks_zero_s"] = (PROGRAM.marks_zero(places, cams)
-                                 - float(d["start_s"]))
+        window = PROGRAM.camera_window(places, cams) if places else None
+        if window is None or d is None or d.get("start_s") is None:
+            return d
+        return window_taken(d, window[0] - float(d["start_s"]),
+                            window[1] - window[0])
 
     def audio_start(file_path):
         """Return where this recording starts on the common time axis.
@@ -2037,8 +2062,10 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         state["reason"] = ""
         d = preview_handover(state)
         if d is None:
-            d = PROGRAM.window_words_joined(state, off_speakers(),
-                                            assign_lines)
+            # Words and all: the transcript counts from where the
+            # speakers do, and both move to the run's window together.
+            d = run_window_take(PROGRAM.window_words_joined(
+                state, off_speakers(), assign_lines))
         # A change on the assignment sheet reaches the preview without
         # a run: the file may be older than the answer.
         now = state.get("wide_cameras_now")

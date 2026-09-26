@@ -187,7 +187,6 @@ _real_window = vpm.apply_time_window
 def window_spy(d, in_point, out_point):
     out = _real_window(d, in_point, out_point)
     seen.append({"in": in_point, "out": out_point, "complaint": out[1],
-                 "origin": d.get("start_s"),
                  "start": out[0].get("start_s")})
     return out
 
@@ -425,7 +424,9 @@ def in_marked(fresh):
           "%.1f s before the guest camera rolls" % (
               said, got, IN_SAYS, IN_AT, GUEST_ROLLS - WIDE_ROLLS))
     start = None if fresh is None else fresh["start"]
-    origin = None if fresh is None else fresh["origin"]
+    # From the earliest recorder's place on the axis, not the handover's
+    # start: the preview's handover itself begins where every camera runs.
+    origin = timeline().get(SPLIT)
     wanted = WIDE_ROLLS + IN_AT
     check("the preview cuts at the picture Mark In was pressed on",
           start is not None and origin is not None
