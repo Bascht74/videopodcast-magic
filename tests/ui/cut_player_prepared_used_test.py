@@ -234,10 +234,15 @@ for name in (TYPED, GUESSED, CAM_TYPED, CAM_GUESSED, CAM_WIDE):
     copy = os.path.join(media, name)
     here[name] = copy
     if name.endswith(".mov"):
-        # Only stamped, not re-encoded: the clock is written beside
-        # the pictures as they are copied through.
+        # The pictures only stamped, not re-encoded: the clock is
+        # written beside them as they are copied through. The sound is
+        # a tone instead of the fixture's room, which would place the
+        # three apart by as much as their own clocks were.
         subprocess.run(["ffmpeg", "-v", "error", "-i",
-                        os.path.join(material, name), "-c", "copy",
+                        os.path.join(material, name), "-f", "lavfi", "-i",
+                        "sine=frequency=330:duration=%d" % LENGTH,
+                        "-map", "0:v", "-map", "1:a", "-c:v", "copy",
+                        "-c:a", "aac", "-shortest",
                         "-timecode", "19:04:00:00", "-y", copy],
                        check=True, stdout=subprocess.DEVNULL,
                        stderr=subprocess.DEVNULL)

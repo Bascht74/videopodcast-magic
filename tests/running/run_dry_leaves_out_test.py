@@ -95,15 +95,6 @@ if PROJECT is None:
           "holding videopodcast-magic_Interview_2.json (looked in %s)"
           % MEDIA)
     stop()
-# The fixture's microphones share no sound with its cameras: only the
-# phase way places them, and it is asked only for mixed sound -- so
-# every recording is marked mixed here, and on the command line below.
-with open(PROJECT, encoding="utf-8") as f:
-    _d = json.load(f)
-_d["sound"] = dict((e["path"], "mixed") for e in _d.get("files") or ()
-                   if e.get("kind") == "audio")
-with open(PROJECT, "w", encoding="utf-8") as f:
-    json.dump(_d, f, indent=1)
 # Where a run leaves it: the project file lies in the output folder.
 OWN = os.path.dirname(PROJECT)
 OUT = os.path.join(OWN, "Ergebnis")
@@ -242,7 +233,7 @@ before = folder_read(out)
 answer = subprocess.run(
     [sys.executable, SCRIPT, "--dry-run", "--without-auphonic",
      "--out", out, "--no-metrics", "--no-speech-recognition",
-     "--no-transcript-file", "--sound", "mixed"]
+     "--no-transcript-file"]
     + sorted(glob.glob(os.path.join(media, "*.wav")))
     + sorted(glob.glob(os.path.join(media, "*.mov"))),
     capture_output=True, text=True, errors="replace")
