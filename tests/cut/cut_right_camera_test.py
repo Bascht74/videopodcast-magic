@@ -242,14 +242,19 @@ sheet = {"speakers": [{"name": n, "sections": s} for n, s in turns],
                      {"track": "CamC", "speakers": ["Third"]},
                      {"track": "Wide", "speakers": []}],
          "length_s": 300.0}
-numbers = vpm.cut_statistics(sheet, 3.0, 0.3, 0.0, 5.0, 120.0, False)
+# The one-second pauses between turns go to the wide shot, as section 1
+# says; held, the delay would show each speaker's first 0.3 s elsewhere.
+SILENCE_WIDE = vpm.cut_rules(on_silence=vpm.SHOT_WIDE)
+numbers = vpm.cut_statistics(sheet, 3.0, 0.3, 0.0, 5.0, 120.0, False,
+                             rules=SILENCE_WIDE)
 check("the preview counts no speech on a wrong camera",
       numbers["off_camera_s"] < 0.05,
       "%.1f s off camera of %.1f s of speech"
       % (numbers["off_camera_s"], numbers["speech_time_s"]))
 # Counter-check: three seconds of delay hold the previous speaker on
 # screen well into the next turn, and the preview has to say so.
-late = vpm.cut_statistics(sheet, 3.0, 3.0, 0.0, 5.0, 120.0, False)
+late = vpm.cut_statistics(sheet, 3.0, 3.0, 0.0, 5.0, 120.0, False,
+                          rules=SILENCE_WIDE)
 check("and it does count it when the delay is three seconds",
       late["off_camera_s"] > 30.0,
       "%.1f s off camera of %.1f s of speech"
@@ -455,7 +460,7 @@ check("a lead of 4.0 s counts from there as well",
       "camera changes at %.3f s, wanted 14.800 -- the question ends at "
       "18.800, the answer begins at 21.000" % _when)
 rules = vpm.cut_rules(words=asked, reaction_lead=0.0,
-                      on_question=vpm.SHOT_ANSWER)
+                      on_question=vpm.SHOT_ANSWER, on_silence=vpm.SHOT_WIDE)
 none_early = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, after=0.0,
                             holds=5.0, at_latest=120.0, edge=False,
                             rules=rules)
@@ -463,7 +468,7 @@ check("at zero it waits for the delay instead",
       abs(min(a for a, _b, w in none_early if w == "CamB") - 20.3) < 1e-6,
       str(none_early))
 rules = vpm.cut_rules(words=asked, reaction_lead=4.0,
-                      on_question=vpm.SHOT_OFF)
+                      on_question=vpm.SHOT_OFF, on_silence=vpm.SHOT_WIDE)
 shut = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, after=0.0,
                       holds=5.0, at_latest=120.0, edge=False, rules=rules)
 check("switched off, nothing comes early at all",

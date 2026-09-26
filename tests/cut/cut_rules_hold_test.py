@@ -374,8 +374,11 @@ print("\n11. Silence: a breath in a sentence, or the end of a thought")
 breath = [("Host", [(0.0, 20.0), (20.8, 40.0), (42.5, 60.0)]),
           ("Guest", [(60.0, 80.0)])]
 gap_cams = {"Host": "CamA", "Guest": "CamB"}
-TODAY = [(0.0, 20.0, "CamA"), (20.0, 20.8, "Wide"), (20.8, 40.0, "CamA"),
-         (40.0, 42.5, "Wide"), (42.5, 60.0, "CamA"), (60.0, 80.0, "CamB")]
+BOTH_WIDE = [(0.0, 20.0, "CamA"), (20.0, 20.8, "Wide"),
+             (20.8, 40.0, "CamA"), (40.0, 42.5, "Wide"),
+             (42.5, 60.0, "CamA"), (60.0, 80.0, "CamB")]
+BREATH_HELD = [(0.0, 40.0, "CamA"), (40.0, 42.5, "Wide"),
+               (42.5, 60.0, "CamA"), (60.0, 80.0, "CamB")]
 
 
 def silence_cut(**over):
@@ -394,15 +397,16 @@ def camera_at(cut, when):
 
 
 plain = silence_cut()
-check("with nothing set both holes go to the wide shot, as before",
-      plain == TODAY, "%d shots %s, wanted the %d of %s"
-      % (len(plain), [(a, w) for a, _b, w in plain], len(TODAY),
-         [(a, w) for a, _b, w in TODAY]))
+check("with nothing set the breath is held and the stop goes wide",
+      plain == BREATH_HELD, "%d shots %s, wanted the %d of %s"
+      % (len(plain), [(a, w) for a, _b, w in plain], len(BREATH_HELD),
+         [(a, w) for a, _b, w in BREATH_HELD]))
+# What a project saved with the old default still holds in its file.
 told_wide = silence_cut(on_silence=vpm.SHOT_WIDE)
-check("and asking for the wide shot by name gives that same cut",
-      told_wide == TODAY, "%d shots %s, wanted the %d of %s"
-      % (len(told_wide), [(a, w) for a, _b, w in told_wide], len(TODAY),
-         [(a, w) for a, _b, w in TODAY]))
+check("asking for the wide shot by name sends both holes to it",
+      told_wide == BOTH_WIDE, "%d shots %s, wanted the %d of %s"
+      % (len(told_wide), [(a, w) for a, _b, w in told_wide],
+         len(BOTH_WIDE), [(a, w) for a, _b, w in BOTH_WIDE]))
 brief = silence_cut(on_silence=vpm.SHOT_HOLD_BRIEF, silence_hold=1.0)
 check("holding up to 1.0 s: the 0.8 s breath leaves the camera standing",
       camera_at(brief, 20.4) == "CamA",

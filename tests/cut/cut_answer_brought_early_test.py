@@ -51,9 +51,13 @@ CAMERAS = {"Host": "CamA", "Guest": "CamB", "Third": "CamC"}
 
 
 def cut_of(tracks, words, length=60.0, min_len=0.5):
-    """The cut of this talk, and the lines the run prints about questions."""
+    """The cut of this talk, and the lines the run prints about questions.
+
+    Silence goes to the wide shot here, so the half second before an
+    answer is a change of picture of its own and not a held breath.
+    """
     rules = vpm.cut_rules(words=words, on_question=vpm.SHOT_ANSWER,
-                          reaction_lead=1.5)
+                          reaction_lead=1.5, on_silence=vpm.SHOT_WIDE)
     cut = vpm.build_camera_cut(tracks, length, CAMERAS, "Wide",
                                min_len=min_len, lead_in=-0.3, rules=rules)
     return cut, vpm.question_report(rules)
