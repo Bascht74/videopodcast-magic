@@ -154,7 +154,7 @@ run_bar_tracks_work	35
 run_choice_kept	17
 run_clock_place_travels	7
 run_command_built	78
-run_done_tracks_used	9
+run_done_tracks_used	13
 run_dry_leaves_out	4
 run_dry_reports_voices	13
 run_dry_run_not_stopped	6
@@ -450,3 +450,4 @@ time_phase_late_placed	2
 window_stop_what_runs	5
 run_cam_fault_no_half 8	
 sound_cameras_carry_cut 9	
+auphonic_kind_one_rule	8
