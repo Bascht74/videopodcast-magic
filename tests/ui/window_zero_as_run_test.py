@@ -4,9 +4,10 @@
 No file carries a clock; a recorder rolls first, the cameras later.
 Sections: the ground, the axis with each camera where it rolls; Mark
 In and Mark Out, counted from where every camera runs; the preview
-cut there; "to In point" back to that picture; the run, fed those two
-marks, cutting at the same pictures; its handover, not cut again by
-the preview. The limit: one camera in the player, relative marks.
+cut there; "to In point" back to that picture; an Out point counted
+back from where the first camera stops, in the preview, the player and
+a run; the run, fed the two marks, cutting at the same pictures; its
+handover, not cut again. The limit: one camera in the player.
 """
 PLATFORM_BOUND = True
 import os
@@ -75,6 +76,10 @@ EVERY_CAMERA = 25.0
 # and what the marks then have to say: seconds after EVERY_CAMERA.
 IN_AT, OUT_AT = 45.0, 115.0
 IN_SAYS, OUT_SAYS = 30.0, 100.0
+# An Out point typed counted back from the end: from where the guest
+# camera stops, in the wide camera's seconds -- not from its own end.
+FROM_END = "-0:00:20"
+FROM_END_AT = GUEST_STOPS - 20.0 - WIDE_ROLLS
 AWAY_AT = 5.0
 FRAME = 1.0 / 25
 NEAR = 0.02
@@ -188,7 +193,8 @@ def window_spy(d, in_point, out_point):
     out = _real_window(d, in_point, out_point)
     seen.append({"in": in_point, "out": out_point, "complaint": out[1],
                  "origin": d.get("start_s"),
-                 "start": out[0].get("start_s")})
+                 "start": out[0].get("start_s"),
+                 "length": out[0].get("length_s")})
     return out
 
 
@@ -456,6 +462,35 @@ def back_at_in(_fresh):
               os.path.basename(getattr(p, "file_path", "") or ""), IN_AT))
 
 
+def type_from_end():
+    window_of().assignment_sheet.model.out_point.set(FROM_END)
+
+
+def from_end_previewed(fresh):
+    start = None if fresh is None else fresh["start"]
+    origin = None if fresh is None else fresh["origin"]
+    length = None if fresh is None else fresh["length"]
+    ends = (None if None in (start, origin, length)
+            else round(start - origin + length, 3))
+    wanted = GUEST_STOPS - 20.0
+    check("the preview counts an Out point back from the first stop",
+          ends is not None and abs(ends - wanted) <= FRAME,
+          "the preview's window ends %s s after the earliest recording, "
+          "wanted %.1f s; complaint %r" % (
+              ends, wanted, None if fresh is None else fresh["complaint"]))
+
+
+def at_from_end(_fresh):
+    p = preview_player()
+    where = None if p is None else p.spot_s()
+    check("to Out point goes where the run puts that Out point",
+          where is not None and abs(where - FROM_END_AT) <= FRAME,
+          "the player stands at %s s of %s, wanted %.1f s" % (
+              None if where is None else round(where, 3),
+              os.path.basename(getattr(p, "file_path", "") or ""),
+              FROM_END_AT))
+
+
 def start():
     top = window_of()
     if top is None:
@@ -485,6 +520,11 @@ step("4. the player is moved away", move_to(AWAY_AT), lambda _f: None,
      until=stands_at(AWAY_AT))
 step("4b. to In point is pressed", press('to In point'), back_at_in,
      until=stands_at(IN_AT))
+step("5. an Out point is typed counted back from the end", type_from_end,
+     from_end_previewed, watch=True,
+     until=lambda: bool(seen) and seen[-1]["out"] == FROM_END)
+step("5b. to Out point is pressed", press('to Out point'), at_from_end,
+     until=stands_at(FROM_END_AT))
 
 QtCore.QTimer.singleShot(1200, start)
 QtCore.QTimer.singleShot(420000, app.quit)
@@ -496,21 +536,28 @@ if not plan or not plan[-1]["begun"]:
 
 
 # ------------------------------------------------------------- the run
-print("\n5. The run, fed the two marks the window wrote")
+def run(out, out_point):
+    """One run fed the window's In point and *out_point*; its log."""
+    p = subprocess.run(
+        [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
+         "--no-speech-recognition", "--no-transcript-file",
+         "--in-point", kept.get("in") or "+0:00:00", "--out-point",
+         out_point, "--out", out]
+        + [HERE_IS[n] for n in (WIDE, GUEST, SPLIT, PLAIN)],
+        capture_output=True, text=True, env=dict(os.environ))
+    said = (p.stdout or "") + (p.stderr or "")
+    check("the run ends green", p.returncode == 0 and "Traceback" not in said,
+          "return code %d, Out point %s, %s" % (
+              p.returncode, out_point, said[said.find("Traceback"):][:80]))
+    return said
+
+
+print("\n6. The run, fed the two marks the window wrote")
 OUT = os.path.join(FOLDER, "run")
-p = subprocess.run(
-    [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
-     "--no-speech-recognition", "--no-transcript-file",
-     "--in-point", kept.get("in") or "+0:00:00", "--out-point",
-     kept.get("out") or "+0:00:00", "--out", OUT]
-    + [HERE_IS[n] for n in (WIDE, GUEST, SPLIT, PLAIN)],
-    capture_output=True, text=True, env=dict(os.environ))
-log = (p.stdout or "") + (p.stderr or "")
-check("the run ends green", p.returncode == 0 and "Traceback" not in log,
-      "return code %d, %s" % (p.returncode, log[log.find("Traceback"):][:80]))
+log = run(OUT, kept.get("out") or "+0:00:00")
 
 
-def run_point(which):
+def run_point(which, log):
     """The run's In or Out point, in the wide camera's seconds, off its log."""
     head = vpm.T('    In point   %s\n    Out point  %s').split(
         "\n")[which].split("%s")[0].strip()
@@ -525,8 +572,8 @@ def run_point(which):
 
 # The wide camera is the longest and so the run's reference: its log
 # names the window in that camera's own seconds.
-ran_in = run_point(0)
-ran_out = run_point(1)
+ran_in = run_point(0, log)
+ran_out = run_point(1, log)
 check("the run cuts at the picture Mark In was pressed on",
       ran_in is not None and abs(ran_in - IN_AT) <= FRAME,
       "the run's In point at %s s of %s, the player stood at %.1f s"
@@ -536,7 +583,14 @@ check("and at the picture Mark Out was pressed on",
       "the run's Out point at %s s of %s, the player stood at %.1f s"
       % (ran_out, WIDE, OUT_AT))
 
-print("\n6. The Resolve tab's preview, over the run's handover")
+print("\n7. The run, fed the Out point counted back from the end")
+from_end_out = run_point(1, run(os.path.join(FOLDER, "from_end"), FROM_END))
+check("and the run counts it back from the first stop too",
+      from_end_out is not None and abs(from_end_out - FROM_END_AT) <= FRAME,
+      "the run's Out point at %s s of %s, wanted %.1f s"
+      % (from_end_out, WIDE, FROM_END_AT))
+
+print("\n8. The Resolve tab's preview, over the run's handover")
 handover = sorted(glob.glob(os.path.join(OUT, "*_resolve.json")))
 d = {}
 if handover:

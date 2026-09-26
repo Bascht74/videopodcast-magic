@@ -78,7 +78,6 @@ number_text = PROGRAM.number_text
 os = PROGRAM.os
 own_frame_rate = PROGRAM.own_frame_rate
 parse_time_point = PROGRAM.parse_time_point
-parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 picture_rate = PROGRAM.picture_rate
 preview_handover = PROGRAM.preview_handover
@@ -1063,11 +1062,11 @@ def window_moved_since(d, in_point, out_point):
 def apply_time_window(d, in_point, out_point):
     """Apply the In point and the Out point to an already written handover.
 
-    The speaker times count from the start of the window in force at the
-    time; start_s says where that was, so a new setting converts without
-    measuring again. With a complaint the handover comes back untrimmed.
-    A run's handover is never cut again: window_moved_since answers for
-    it. A relative point counts from marks_zero_s, else 0.
+    Speaker times count from start_s, so a new setting converts without
+    measuring again; with a complaint the handover comes back untrimmed,
+    and a run's handover is never cut again (window_moved_since). "+x"
+    counts from marks_zero_s, else 0; "-x" back from marks_end_s, else
+    from the end of the material.
     """
     # The run cut it already: again, "+0:55" would move its cut by another
     # 55 s, and a moved mark would reach the preview but never Resolve.
@@ -1079,6 +1078,8 @@ def apply_time_window(d, in_point, out_point):
     origin = d.get("start_s")
     fps = max(1.0, float(d.get("fps") or 30.0))
     zero = float(d.get("marks_zero_s") or 0.0)
+    end = (length if d.get("marks_end_s") is None
+           else float(d["marks_end_s"]))
 
     def compute(value_text, from_the_end):
         value, absolute = parse_time_point(value_text, fps)
@@ -1090,7 +1091,7 @@ def apply_time_window(d, in_point, out_point):
             return value - float(origin)
         if value < 0 and not from_the_end:
             raise ValueError(value_text)
-        return (length + value) if value < 0 else value + zero
+        return (end + value) if value < 0 else value + zero
 
     try:
         from_s = compute(in_point, False) if (in_point or "").strip() else 0.0
@@ -1120,6 +1121,7 @@ def apply_time_window(d, in_point, out_point):
         return d, T('Out point lies less than 5 seconds after In point.')
     fresh = dict(d)
     fresh.pop("marks_zero_s", None)   # trimmed, it starts at In point
+    fresh.pop("marks_end_s", None)    # and ends at Out point
     fresh["length_s"] = round(until - from_s, 3)
     # The origin moves along: start_s is where programme time starts on
     # the clock, and after trimming that is In point, not the old value.
@@ -1934,6 +1936,11 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         if places and d.get("start_s") is not None:
             d["marks_zero_s"] = (PROGRAM.marks_zero(places, cams)
                                  - float(d["start_s"]))
+            # And where "-0:00:30" counts back from: where the first
+            # camera stops, as in the run -- not the end of the sound.
+            end = PROGRAM.marks_end(places, cams)
+            if end is not None:
+                d["marks_end_s"] = end - float(d["start_s"])
 
     def audio_start(file_path):
         """Return where this recording starts on the common time axis.
@@ -3171,23 +3178,10 @@ def refresh_cut_list(d, file_path):
     if not speakers or not project or d.get("start_s") is None:
         return None
     fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
-
-    def then(key):
-        """The window the existing files were made with, in seconds."""
-        raw = d.get(key)
-        if not raw:
-            return None
-        try:
-            return parse_timecode(raw, fps)
-        except Exception:
-            return None
-
-    made_in, made_out = then("in_point"), then("out_point")
-    # The old window's length, and only where both its ends are written
-    # down. length_s is no substitute: that is the axis, the whole of
-    # the material, and an unchanged window would read minutes short.
-    length = ((made_out - made_in)
-              if made_in is not None and made_out is not None else 0.0)
+    # The length the run handed its own cut, written down beside it. Read
+    # back out of the marks instead, an Out point of "-0:00:30" came out
+    # as +30 s, and the rebuilt cut began before the window did.
+    length = float(d.get("length_s") or 0.0)
 
     print(T('\n  REFRESH THE CUT LIST'))
     # The sliders come from the project file, and a value typed on the

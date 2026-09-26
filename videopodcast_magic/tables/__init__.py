@@ -197,15 +197,32 @@ def marks_zero(axis, cameras):
     placed cameras count, as in the run; with none, the start of the
     axis, as the run without a picture.
     """
+    areas = marked_camera_areas(axis, cameras)
+    if areas:
+        return PROGRAM.common_window(areas)[0]
+    return min((float(v) for v in (axis or {}).values()), default=0.0)
+
+
+def marks_end(axis, cameras):
+    """Where an Out point counted back from the end counts from.
+
+    The run's rule again: common_window, the moment the first camera
+    stops. None without a placed camera -- then the end of the material
+    holds, as in the run without a picture.
+    """
+    areas = marked_camera_areas(axis, cameras)
+    return PROGRAM.common_window(areas)[2] if areas else None
+
+
+def marked_camera_areas(axis, cameras):
+    """(from, to, path) of every placed camera on the axis, for the marks."""
     areas = []
     for file_path in cameras or ():
         span = file_span(file_path, axis)
         if span and span["axis"] is not None and span["duration"] > 0:
             areas.append((float(span["axis"]),
                           float(span["axis"]) + span["duration"], file_path))
-    if areas:
-        return PROGRAM.common_window(areas)[0]
-    return min((float(v) for v in (axis or {}).values()), default=0.0)
+    return areas
 
 
 def tree_build(columns):

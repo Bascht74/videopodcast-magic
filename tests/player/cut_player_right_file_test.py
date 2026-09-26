@@ -8,7 +8,8 @@ one time axis: what is judged is the program's code, not a copy kept
 beside it. The sections: the rules come out and answer, the order they
 put the files in, the kinds that never come into question, the file
 chosen last, what covers() says about the axis, a missing timecode and
-the ends of a file, the values it can and cannot answer, the order over
+the ends of a file -- one counted back from where the first camera
+stops --, the values it can and cannot answer, the order over
 two cards, and nothing left to play at all. What the method
 costs, in full: the three have to keep their names and stay directly
 inside make_player_choice() -- their order, their parameters and their
@@ -126,7 +127,9 @@ rules = {"os": os, "picture_span": picture_span, "files": files,
          "MIX_ONLY": vpm.MIX_ONLY, "IGNORE_AUDIO": vpm.IGNORE_AUDIO,
          # Where every camera runs is window_zero_as_run's question; put
          # at the start of the axis here, covers' own arithmetic is left.
-         "marks_zero_here": lambda: 0.0}
+         "marks_zero_here": lambda: 0.0,
+         # And where the first camera stops: None, the file's own end.
+         "marks_end_here": lambda: None}
 trouble = ""
 if block:
     try:
@@ -321,6 +324,17 @@ if ran and not answered:
             from_end is True,
             "short at -0:00:10: %s, wanted True -- 10 s back from the end"
             " of %.1f s" % (from_end, SPANS["/x/Short.mov"]["duration"]))
+    # With cameras on the axis the run counts back from where the first
+    # of them stops -- the wide camera, at 4800 s -- not from each end.
+    rules["marks_end_here"] = lambda: 4800.0
+    back = (covers("/x/Short.mov", "-0:00:30"),
+            covers("/x/Guest.mov", "-0:00:30"))
+    rules["marks_end_here"] = lambda: None
+    check("with an axis it counts back from where the first camera stops",
+            back == (False, True),
+            "short, guest at -0:00:30: %s, %s, wanted False, True -- "
+            "4770 s along the axis, where the short file ends at 4260 s"
+            % back)
     # And how far outside is far enough. The two above hold the sign of
     # the comparison, not the slack around it: widening either end
     # tenfold leaves both green. Twelve frames is well outside any
