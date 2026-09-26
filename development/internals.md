@@ -25,56 +25,56 @@ What is in them, largest first, every folder of the program on the list
 and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4380** -- the window and everything it shows, asks or offers,
+* `ui/` **4544** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `speakers/` **3735** -- who speaks and when: the separation itself,
+* `speakers/` **3769** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `player/` **3153** -- the moving picture: the player, the cut band,
+* `player/` **3159** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3029** -- who is on camera when, and what carries it out
+* `cut/` **3107** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2983** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2638** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2858** -- channels, chains, continuation files, what a
+* `material/` **2865** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
-* `pipeline/` **2216** -- the chain the recordings run until the camera
+* `pipeline/` **2338** -- the chain the recordings run until the camera
   files are written
-* `bearings/` **2015** -- where each file and each voice sits, and how
+* `bearings/` **2170** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `auphonic/` **1660** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1668** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1696** -- whether the material fits together before the
+* `preflight/` **1728** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
-* `speech/` **1106** -- what is said and when, and what is written down
+* `speech/` **1109** -- what is said and when, and what is written down
   from it
 * `setup/` **1091** -- finding ffmpeg, installing a missing module,
   keeping the key
-* `hearing/` **974** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1083** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1266** -- helpers that shape what the window shows and
+* `fittings/` **1299** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
-* `orders/` **837** -- the command line a run is given: written out of
+* `orders/` **942** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
-* `upkeep/` **721** -- which release is out, the way back, pip putting
+* `upkeep/` **726** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
 * `herald/` **643** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **603** -- the program's own project file: writing
+* `project/` **609** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **520** -- the list of chosen files: the tree it is
+* `filelist/` **532** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **435** -- the audio, envelopes, channels and tracks
@@ -85,20 +85,20 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
 * `tables/` **348** -- the tables and trees the window builds
-* `running/` **357** -- what a run is offered before it starts, the
+* `running/` **367** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **360** -- a .po file per language and the reader that
   looks one up
 * `timecode/` **349** -- timecode strings, frame rates, the clock a file
   carries
 * `menus/` **237** -- the menu bar and what follows it
-* `workbench/` **232** -- what more than one piece reaches over for:
+* `workbench/` **236** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
   step, what a video file says of itself, and the four the way in used
   itself
 * `logbook/` **195** -- where the log of a run goes, and what goes into
   it
-* `stowage/` **215** -- where things are put down between one run and
+* `stowage/` **228** -- where things are put down between one run and
   the next: the work folder, what somebody chose, and the write that is
   moved into place rather than left half done
 * `dials/` **178** -- the kinds a shot can be, the cut fields and their
@@ -106,7 +106,7 @@ figure of the day is that command, not this paragraph**:
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **141** -- what has been measured of a file, taken once
   and kept
-* `choices/` **118** -- the values a choice box holds, and what they are
+* `choices/` **123** -- the values a choice box holds, and what they are
   called
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
