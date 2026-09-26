@@ -1143,9 +1143,10 @@ added to the camera at its own level plus 20, 30, 40 and 50 dB.
 answer**, at every tone level, and passed `fit_places_it` every time.
 
 **The gate holds on band-selected curves as well:** 85 of 85 pairs that
-belong together pass (50 points, 15 ms spread), 0 of 293 foreign ones --
-the foreign maxima are 49 points and a smallest spread of 240 ms. The
-worst real pair's correlation rises 0.203 to 0.377.
+belong together pass (50 points, 15 ms spread; the count is 20 now,
+see below), 0 of 293 foreign ones -- the foreign maxima are 49 points
+and a smallest spread of 240 ms. The worst real pair's correlation
+rises 0.203 to 0.377.
 
 **The band selection is what does it, not the shorter window.** With the
 window kept at 64 ms but the band rule switched off
@@ -1157,9 +1158,13 @@ on the pair 1.09 s. So: nothing where the plain curve places (the second
 try is not entered), a net saving where it places (the phase and its
 decoding fall away), and about +0.5 s where neither does.
 
-**The floor of 50 points is reachable from 750 s of reference.** A run
-asks for `max(20, min(120, duration/30))` sample points and
-`align_envelopes` doubles them into `max(sample_points * 2, 12)`
-candidates. At exactly 750 s every candidate would have to yield a
-point, so in practice the second try is only accepted well above twelve
-and a half minutes.
+**`FIT_POINTS_ENOUGH` is 20, no longer 50** (26.9.2026, real material
+from four productions). A right camera shorter than about seven
+minutes could not reach 50 points however well it fitted. Of 1353
+comparisons between cameras that do not belong together, none was
+placed at 20 points; some kept 10 points within the 15 ms spread, none
+more. The spread is what separates them, so the count only has to
+stand clear of those 10. Read, not measured: a run asks for `max(20,
+min(120, duration/30))` sample points and `align_envelopes` doubles
+them into `max(sample_points * 2, 12)` candidates, so 50 points needed
+every candidate of a 750 s reference to yield one.

@@ -14,7 +14,6 @@ PROGRAM = PROGRAM
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 ByFile = PROGRAM.ByFile
-CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
 COLOURS = PROGRAM.COLOURS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -848,7 +847,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
                                              warn=os.path.basename(p))
             except Exception:
                 continue
-            if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
+            # The run's own rule, asked of the run's own function: a
+            # short stranger's chance fit elsewhere refuses it here too.
+            if (not PROGRAM.match_places_it(st)
                     and not fit_places_it(st)):
                 st["unplaceable"] = True
                 by_clock.append(p)
