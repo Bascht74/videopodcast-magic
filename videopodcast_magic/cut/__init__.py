@@ -28,6 +28,7 @@ FileSet = PROGRAM.FileSet
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIX_ONLY = PROGRAM.MIX_ONLY
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
 SHOT_ALTERNATE = PROGRAM.SHOT_ALTERNATE
 SHOT_ANSWER = PROGRAM.SHOT_ANSWER
@@ -2717,7 +2718,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     drop = is_drop_frame(ref_clip[1].get("tc") if ref_clip else None)
     handover = {
         "format": FILE_FORMAT,
-        "created_by": "videopodcast-magic %s" % VERSION,
+        "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
         "production": args.production or 'Production',
         # "cut" or "sync". The Resolve side branches on this and not on
         # an empty cut list: a cut can be empty because nobody was heard,
@@ -3106,8 +3107,8 @@ def refresh_cut_list(d, file_path):
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
-    d["created_by"] = ('videopodcast-magic %s (cut list refreshed)'
-                       % VERSION)
+    d["created_by"] = ('%s %s (cut list refreshed)'
+                       % (PROGRAM_NAME, VERSION))
     # Written beside it and moved into place: writing straight onto it,
     # a failure half way leaves a fragment the next run silently skips.
     beside = file_path + ".new"

@@ -33,6 +33,14 @@ import time
 import types
 
 
+# The program's name: the command pip lays and what a run calls itself.
+# It may follow a rename -- together with [project.scripts] in pyproject.
+PROGRAM_NAME = "videopodcast-magic"
+# DANGER: the name everything a user keeps is filed under -- keychain,
+# registry, logs, settings, cache, tools, project files, the macOS bundle
+# id. NEVER follow a rename: the next start finds no key and no choices.
+FROZEN_NAME = "videopodcast-magic"
+
 PIECES = {}    # the pieces of the program already read, by their path
 
 
@@ -169,9 +177,10 @@ TOOL_TROUBLE = ("", "")
 NEEDS_PYTHON = (3, 10)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
-    sys.exit("videopodcast-magic needs Python %d.%d or newer -- this is "
+    sys.exit("%s needs Python %d.%d or newer -- this is "
              "%d.%d. Recommended version: %s."
-             % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
+             % ((PROGRAM_NAME,) + NEEDS_PYTHON + sys.version_info[:2]
+                + (LIKES_PYTHON,)))
 
 class Numpy:
     """Stands in for numpy until the first calculation asks for it."""
@@ -200,7 +209,7 @@ VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
 VERSION = "3.0.0b25"
-PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
+PROJECT_PREFIX = FROZEN_NAME + "_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
 FILE_FORMAT = 3
@@ -484,8 +493,8 @@ def main():
     # language is settled and before the banner claims a run starts.
     if TOOL_TROUBLE[0] and not tools_repaired(*TOOL_TROUBLE):
         return 1
-    print("videopodcast-magic %s   %s\n%s\n"
-          % (VERSION, python_note(), running_from()))
+    print("%s %s   %s\n%s\n"
+          % (PROGRAM_NAME, VERSION, python_note(), running_from()))
     # Said, not asked: a run started from a script must not stop for a
     # question, and a coarser correction is not a fault.
     if not soxr_available() and ffmpeg_can_be_had():

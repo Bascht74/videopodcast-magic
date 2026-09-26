@@ -10,6 +10,7 @@ A piece of the program; the program is handed in and bound below.
 PROGRAM = PROGRAM
 
 # Bound above the seam, so each is a copy and none is read late.
+FROZEN_NAME = PROGRAM.FROZEN_NAME
 json = PROGRAM.json
 os = PROGRAM.os
 sys = PROGRAM.sys
@@ -34,7 +35,7 @@ def cache_folder(sub=""):
         else:
             base = (os.environ.get("XDG_CACHE_HOME")
                      or os.path.expanduser("~/.cache"))
-    folder = os.path.join(base, "videopodcast-magic", sub)
+    folder = os.path.join(base, FROZEN_NAME, sub)
     try:
         os.makedirs(folder, exist_ok=True)
     except OSError:
@@ -154,7 +155,7 @@ def settings_folder(make=False):
         else:
             base = (os.environ.get("XDG_CONFIG_HOME")
                     or os.path.expanduser("~/.config"))
-    folder = os.path.join(base, "videopodcast-magic")
+    folder = os.path.join(base, FROZEN_NAME)
     # Only a write asks for the folder to be built: a run in which
     # nobody chooses must not leave an empty folder behind for looking.
     if not make:
