@@ -1,6 +1,6 @@
 # The test suite
 
-362 tests against the program in `../videopodcast_magic/`. Every one of them stands
+365 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -247,7 +247,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-362 tests. The name is the one a red line carries, and beside it the
+365 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -635,13 +635,16 @@ it is green.
 |---|---|
 | `text_german_arrives` | The German texts are a file of their own, and every way in brings them. |
 | `text_index_targets_exist` | The index has to point at sections that are really there. |
+| `text_lang_acted_on` | --lang is acted on, not only accepted: two languages, two answers. |
 | `text_lang_settled_first` | Nothing this program says is made before the language is settled. |
 | `text_languages_covered` | No language answers fewer of the program's texts than it did before. |
 | `text_lists_match` | Where the manual copies a list out of the program, it has to match. |
 | `text_no_german_left` | Hunt down the last German word, and check the catalogue itself. |
 | `text_numbers_fit_reader` | A number takes the language's form for a person, never for a machine. |
 | `text_only_texts_change` | The language machinery: catalogue, detection, switch, log colours. |
+| `text_release_has_program` | Every release github.com lists carries the program, at its version. |
 | `text_release_ready` | What a release has to have, checked instead of remembered. |
+| `text_run_all_german` | The program run in German says no English sentence. |
 | `text_shown_catalogued` | Every word the window and the printed Auphonic lists show went through T(). |
 | `text_skills_listed` | Every copy of the skill table says what the skills themselves say. |
 | `text_tests_listed` | README.md lists every test with the sentence that test stands for. |
@@ -693,7 +696,7 @@ the source, the texts and the documents as a whole.
 | `fittings/` | `table_recording_shown`, `window_choices_refit`, `window_foot_on_one_line`, `window_speaker_cell_fits`, `window_speaker_langs1`, `window_speaker_langs2`, `window_speaker_langs3`, `window_speaker_langs4` |
 | `hearing/` | `files_curve_kept_once`, `sound_block_gap_said`, `sound_check_reads_once`, `sound_each_gets_a_track`, `sound_join_any_rate`, `sound_join_order`, `time_bad_point_dropped`, `time_guess_refused`, `time_phase_only_mixed`, `time_scatter_not_placed`, `time_second_try_places`, `time_short_cam_found`, `time_thin_block_refused`, `time_track_starts_late`, `time_which_way_is_said` |
 | `herald/` | `run_bar_never_falls`, `run_bar_tracks_work`, `run_which_script`, `window_idle_bar_hidden`, `window_stages_named` |
-| `language/` | `text_german_arrives`, `text_lang_settled_first`, `text_languages_covered`, `text_no_german_left`, `text_numbers_fit_reader`, `text_only_texts_change`, `text_shown_catalogued`, `text_whole_sentences`, `window_reads_as_chosen` |
+| `language/` | `text_german_arrives`, `text_lang_acted_on`, `text_lang_settled_first`, `text_languages_covered`, `text_no_german_left`, `text_numbers_fit_reader`, `text_only_texts_change`, `text_run_all_german`, `text_shown_catalogued`, `text_whole_sentences`, `window_reads_as_chosen` |
 | `livery/` | `window_dark_follows` |
 | `logbook/` | `run_log_within_reach`, `run_outside_seen`, `window_exit_keeps_all` |
 | `material/` | `files_block_stays_apart`, `files_blocks_join_exact`, `files_clock_links_blocks`, `files_cut_without_keys`, `files_joined_by_hand`, `files_left_out_named`, `files_old_file_refused`, `files_only_window_kept`, `files_order_kept`, `files_split_found_again`, `run_clock_place_travels`, `run_mute_camera_placed`, `run_threads_keep_order`, `sound_all_blocks_count`, `sound_any_count_judged`, `sound_both_sides_alike`, `sound_camera_judged_too`, `sound_channels_split`, `sound_clipping_counted`, `sound_delay_decides`, `sound_hush_reason`, `sound_loudest_block`, `sound_mix_hits_target`, `sound_mix_says_the_name`, `sound_one_pass_agrees`, `sound_peaks_limited`, `sound_silent_no_pair`, `sound_speakers_matched`, `sound_stereo_kept`, `table_blocks_judged`, `table_row_per_channel`, `table_stereo_splits`, `time_drift_taken_out` |
@@ -709,7 +712,7 @@ the source, the texts and the documents as a whole.
 | `running/` | `run_dry_leaves_out`, `window_overwrite_asked`, `window_start_runs` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_kept`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |
-| `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_material_stays`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_ready`, `text_skills_listed`, `text_tests_listed` |
+| `source/` | `source_checks_proved`, `source_floor_needs_main`, `source_imported_is_whole`, `source_limits_hold`, `source_line_loads_no_qt`, `source_material_stays`, `source_names_stay_fresh`, `source_needs_lists_agree`, `source_no_loose_ends`, `source_no_real_names`, `source_no_stale_places`, `source_numpy_comes_last`, `source_piece_list_holds`, `source_platform_declared`, `source_reds_carry_value`, `source_resolve_door_shut`, `source_resolve_recalled`, `source_sections_named`, `source_skills_resolve`, `source_test_names_swept`, `text_index_targets_exist`, `text_lists_match`, `text_release_has_program`, `text_release_ready`, `text_skills_listed`, `text_tests_listed` |
 | `speakers/` | `cut_amounts_grouped`, `cut_own_mic_own_camera`, `run_dry_reports_voices`, `table_back_to_one_name`, `table_row_per_voice`, `voice_answer_kept`, `voice_bleed_gone_first`, `voice_both_splits_stand`, `voice_both_ways_agree`, `voice_close_mics_mixed`, `voice_counts_grouped`, `voice_failed_read_named`, `voice_mhm_is_speech`, `voice_mic_reaches_cut`, `voice_name_is_one_person`, `voice_names_when_sure`, `voice_questions_rank`, `voice_raw_times_kept`, `voice_reason_reaches_log`, `voice_source_travels`, `voice_split_hears_two`, `voice_split_mends_itself`, `voice_split_names_fault`, `voice_tracks_read_once`, `voice_turns_found`, `window_amounts_grouped`, `window_hears_while_split`, `window_note_names_kind`, `window_note_names_way`, `window_note_reason_true`, `window_speakers_as_run` |
 | `speech/` | `voice_amounts_grouped`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_words_intact` |
 | `stowage/` | `run_choice_kept` |
