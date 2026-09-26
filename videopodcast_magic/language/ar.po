@@ -1165,8 +1165,8 @@ msgstr "المفتاح من AUPHONIC_TOKEN غير مقبول: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "المفتاح المحفوظ غير مقبول: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "لا يوجد مفتاح API. مرّر --auphonic-api-key المفتاح، أو اضبط AUPHONIC_TOKEN، أو دع الواجهة تحفظه مرة واحدة. المفتاح موجود في إعدادات حساب Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "لا يوجد مفتاح API. اضبط AUPHONIC_TOKEN، أو دع الواجهة تحفظه مرة واحدة. المفتاح موجود في إعدادات حساب Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "لا توجد إعدادات مسبقة محفوظة في الحساب. يمكن إنشاء واحد في واجهة الويب."

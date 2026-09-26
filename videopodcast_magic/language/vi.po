@@ -2338,8 +2338,8 @@ msgstr "Multitrack (mỗi người nói một rãnh)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack cần ít nhất hai rãnh đầu vào. Một rãnh là một bản ghi riêng, một kênh của máy ghi nhiều kênh, hoặc âm thanh của một tệp video được đặt thành \"dùng âm thanh tích hợp\". Nhiều khối của cùng một bản ghi được tính là một, các rãnh để riêng ra thì không tính."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Không có khóa API. Hãy truyền --auphonic-api-key KHÓA, đặt AUPHONIC_TOKEN hoặc để giao diện ghi nhớ một lần. Khóa nằm trong phần cài đặt tài khoản Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Không có khóa API. Hãy đặt AUPHONIC_TOKEN hoặc để giao diện ghi nhớ một lần. Khóa nằm trong phần cài đặt tài khoản Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Không tệp âm thanh nào có mã thời gian. Điểm vào và điểm ra được tính từ đầu tư liệu -- vị trí tương đối giữa các tệp đã được đo."

@@ -2374,8 +2374,8 @@ msgstr "Multitrack (binarju għal kull kelliem)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack jeħtieġ mill-inqas żewġ binarji tad-dħul. Binarju huwa reġistrazzjoni għaliha, kanal ta' reġistratur b'ħafna kanali, jew l-awdjo ta' fajl tal-vidjo ssettjat fuq \"uża l-awdjo intern\". Diversi blokki tal-istess reġistrazzjoni jgħoddu bħala wieħed, binarji mwarrba ma jgħoddu xejn."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "L-ebda ċavetta tal-API. Għaddi --auphonic-api-key KEY, issettja AUPHONIC_TOKEN jew ħalli l-interfaċċa tiftakarha darba. Iċ-ċavetta tinsab fl-issettjar tal-kont ta' Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "L-ebda ċavetta tal-API. Issettja AUPHONIC_TOKEN jew ħalli l-interfaċċa tiftakarha darba. Iċ-ċavetta tinsab fl-issettjar tal-kont ta' Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "L-ebda fajl tal-awdjo m'għandu timecode. Il-punt tad-dħul u l-punt tal-ħruġ jgħoddu mill-bidu tal-materjal -- il-pożizzjoni tal-fajls bejniethom hija mkejla."

@@ -2372,8 +2372,8 @@ msgstr "Multitrack (treki moja kwa mzungumzaji)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofauti, chaneli ya kinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia sauti ya ndani\". Bloku kadhaa za rekodi moja huhesabiwa kuwa moja, na treki zilizowekwa kando hazihesabiwi kabisa."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Hakuna ufunguo wa API. Toa --auphonic-api-key KEY, weka AUPHONIC_TOKEN au uuhifadhi mara moja kwenye kiolesura. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Hakuna ufunguo wa API. Weka AUPHONIC_TOKEN au uuhifadhi mara moja kwenye kiolesura. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Hakuna faili ya sauti yenye timecode. Alama ya kuingia na alama ya kutoka huhesabiwa kuanzia mwanzo wa nyenzo -- nafasi ya faili kati yao hupimwa."

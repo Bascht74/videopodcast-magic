@@ -1130,8 +1130,8 @@ msgstr "AUPHONIC_TOKEN içindeki anahtar kabul edilmiyor: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Kaydedilmiş anahtar kabul edilmiyor: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API anahtarı yok. --auphonic-api-key ANAHTAR verin, AUPHONIC_TOKEN tanımlayın ya da arayüzde bir kez kaydettirin. Anahtar, Auphonic hesap ayarlarında bulunur."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API anahtarı yok. AUPHONIC_TOKEN tanımlayın ya da arayüzde bir kez kaydettirin. Anahtar, Auphonic hesap ayarlarında bulunur."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Hesapta kayıtlı hazır ayar yok. Web arayüzünde bir tane oluşturulabilir."

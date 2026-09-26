@@ -2338,8 +2338,8 @@ msgstr "Multitrack (één spoor per spreker)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"intern geluid gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Geen API-sleutel. Geef --auphonic-api-key SLEUTEL op, stel AUPHONIC_TOKEN in of laat hem één keer onthouden in de interface. De sleutel staat in de accountinstellingen van Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Geen API-sleutel. Stel AUPHONIC_TOKEN in of laat hem één keer onthouden in de interface. De sleutel staat in de accountinstellingen van Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Geen enkel audiobestand heeft een timecode. In-punt en Uit-punt tellen vanaf het begin van het materiaal -- de positie van de bestanden ten opzichte van elkaar is gemeten."

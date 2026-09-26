@@ -2377,8 +2377,8 @@ msgstr "Multitrack (rian do gach cainteoir)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Teastaíonn dhá rian ionchuir ar a laghad ó Multitrack. Is éard is rian ann taifeadadh ar leith, cainéal de thaifeadán ilchainéil, nó fuaim chomhaid físe atá socraithe ar \"úsáid fuaim inmheánach\". Áirítear roinnt bloc den taifeadadh céanna mar cheann amháin, agus ní áirítear rianta a cuireadh i leataobh ar chor ar bith."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Níl eochair API ann. Tabhair --auphonic-api-key KEY, socraigh AUPHONIC_TOKEN nó sábháil í uair amháin sa chomhéadan. Tá an eochair i socruithe chuntas Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Níl eochair API ann. Socraigh AUPHONIC_TOKEN nó sábháil í uair amháin sa chomhéadan. Tá an eochair i socruithe chuntas Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Níl cód ama ar aon chomhad fuaime. Áirítear an pointe isteach agus an pointe amach ó thús an ábhair -- tomhaistear suíomh na gcomhad i gcoibhneas lena chéile."

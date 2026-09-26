@@ -3106,8 +3106,8 @@ msgstr "НЕТ ОТДЕЛЬНЫХ ЗВУКОЗАПИСЕЙ -- БЕРЁТСЯ З�
 msgid "Names used more than once"
 msgstr "Повторяющиеся имена"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Нет API-ключа. Укажите --auphonic-api-key КЛЮЧ, задайте AUPHONIC_TOKEN или один раз сохраните его в интерфейсе. Он есть в настройках учётной записи Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Нет API-ключа. Задайте AUPHONIC_TOKEN или один раз сохраните его в интерфейсе. Он есть в настройках учётной записи Auphonic."
 
 msgid "No Multitrack preset found in the account."
 msgstr "В учётной записи не найдено ни одного пресета Multitrack."

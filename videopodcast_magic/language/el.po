@@ -2338,8 +2338,8 @@ msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κομμάτια εισόδου. Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης συσκευής εγγραφής ή ο ήχος ενός αρχείου βίντεο ορισμένου σε \"χρήση εσωτερικού ήχου\". Πολλά μπλοκ της ίδιας ηχογράφησης μετρούν ως ένα, τα κομμάτια που τέθηκαν στην άκρη καθόλου."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Δεν υπάρχει κλειδί API. Δώστε --auphonic-api-key ΚΛΕΙΔΙ, ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Δεν υπάρχει κλειδί API. Ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από την αρχή του υλικού -- η θέση των αρχείων μεταξύ τους μετριέται."

@@ -2371,8 +2371,8 @@ msgstr "Multitrack (یک ترک برای هر گوینده)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack دست‌کم به دو ترک ورودی نیاز دارد. هر ترک یا یک ضبط جداگانه است، یا یک کانال از ضبط‌کننده چندکاناله، یا صدای فایل ویدیویی‌ای که روی «استفاده از صدای داخلی» تنظیم شده باشد. چند بلوک از یک ضبط یکی شمرده می‌شوند و ترک‌های کنارگذاشته اصلاً شمرده نمی‌شوند."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "کلید API وجود ندارد. --auphonic-api-key KEY را بدهید، AUPHONIC_TOKEN را تنظیم کنید، یا یک‌بار آن را در رابط کاربری ذخیره کنید. کلید در تنظیمات حساب Auphonic است."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "کلید API وجود ندارد. AUPHONIC_TOKEN را تنظیم کنید، یا یک‌بار آن را در رابط کاربری ذخیره کنید. کلید در تنظیمات حساب Auphonic است."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "هیچ فایل صوتی‌ای تایم‌کد ندارد. نقطه ورود و نقطه خروج از آغاز مواد شمرده می‌شوند -- جایگاه فایل‌ها نسبت به یکدیگر اندازه‌گیری می‌شود."

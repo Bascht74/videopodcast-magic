@@ -2340,8 +2340,8 @@ msgstr "Multitrack (једна трака по говорнику)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack захтева најмање две улазне траке. Трака је засебан снимак, канал вишеканалног снимача или аудио видео датотеке подешене на \"користи интерни аудио\". Више блокова истог снимка рачуна се као један, траке стављене са стране уопште не."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Нема API кључа. Наведите --auphonic-api-key КЉУЧ, поставите AUPHONIC_TOKEN или га једном запамтите у интерфејсу. Кључ се налази у подешавањима Auphonic налога."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Нема API кључа. Поставите AUPHONIC_TOKEN или га једном запамтите у интерфејсу. Кључ се налази у подешавањима Auphonic налога."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ниједна аудио датотека не носи тајмкод. Тачка In и тачка Out броје се од почетка материјала -- међусобни положај датотека се мери."

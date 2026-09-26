@@ -1144,8 +1144,8 @@ msgstr "Ключ з AUPHONIC_TOKEN не приймається: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Збережений ключ не приймається: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Немає ключа API. Вкажіть --auphonic-api-key КЛЮЧ, задайте AUPHONIC_TOKEN або один раз збережіть його в інтерфейсі. Ключ є в налаштуваннях облікового запису Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Немає ключа API. Задайте AUPHONIC_TOKEN або один раз збережіть його в інтерфейсі. Ключ є в налаштуваннях облікового запису Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "В обліковому записі немає збережених пресетів. Пресет можна створити у вебінтерфейсі."

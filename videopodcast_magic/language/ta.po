@@ -2371,8 +2371,8 @@ msgstr "Multitrack (பேச்சாளருக்கு ஒரு தடம�
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack-க்குக் குறைந்தது இரண்டு உள்ளீட்டுத் தடங்கள் தேவை. தடம் என்பது தனிப் பதிவு, பல சேனல் ரெக்கார்டரின் ஒரு சேனல், அல்லது \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைத்த வீடியோ கோப்பின் ஆடியோ. ஒரே பதிவின் பல தொகுதிகள் ஒன்றாகக் கணக்கிடப்படும், ஒதுக்கி வைத்த தடங்கள் கணக்கிலேயே வராது."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API விசை இல்லை. --auphonic-api-key KEY கொடுக்கவும், AUPHONIC_TOKEN அமைக்கவும், அல்லது இடைமுகத்தில் ஒருமுறை நினைவில் வைக்கச் செய்யவும். விசை Auphonic கணக்கு அமைப்புகளில் உள்ளது."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API விசை இல்லை. AUPHONIC_TOKEN அமைக்கவும், அல்லது இடைமுகத்தில் ஒருமுறை நினைவில் வைக்கச் செய்யவும். விசை Auphonic கணக்கு அமைப்புகளில் உள்ளது."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "எந்த ஆடியோ கோப்பிலும் டைம்கோடு இல்லை. இன் புள்ளியும் அவுட் புள்ளியும் மூலப்பொருளின் தொடக்கத்திலிருந்து கணக்கிடப்படும் -- கோப்புகளின் ஒன்றுக்கொன்றான நிலை அளவிடப்படுகிறது."

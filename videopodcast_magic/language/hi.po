@@ -1118,8 +1118,8 @@ msgstr "AUPHONIC_TOKEN से मिली कुंजी स्वीकार
 msgid "The stored key is not accepted: %s"
 msgstr "सहेजी गई कुंजी स्वीकार नहीं हुई: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "कोई API कुंजी नहीं। --auphonic-api-key कुंजी दें, AUPHONIC_TOKEN सेट करें, या इंटरफ़ेस में इसे एक बार याद रखवा लें। कुंजी Auphonic खाते की सेटिंग्स में है।"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "कोई API कुंजी नहीं। AUPHONIC_TOKEN सेट करें, या इंटरफ़ेस में इसे एक बार याद रखवा लें। कुंजी Auphonic खाते की सेटिंग्स में है।"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "खाते में कोई प्रीसेट सहेजा नहीं है। वेब इंटरफ़ेस में एक बनाया जा सकता है।"

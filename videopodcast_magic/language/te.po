@@ -2372,8 +2372,8 @@ msgstr "Multitrack (ప్రతి వక్తకు ఒక ట్రాక్
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి. ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో. ఒకే రికార్డింగ్‌లోని అనేక బ్లాక్‌లు ఒకటిగా లెక్కించబడతాయి, పక్కన పెట్టిన ట్రాక్‌లు అసలు లెక్కించబడవు."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API కీ లేదు. --auphonic-api-key KEY ఇవ్వండి, AUPHONIC_TOKEN సెట్ చేయండి, లేదా ఇంటర్‌ఫేస్‌లో ఒకసారి గుర్తుంచుకునేలా చేయండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API కీ లేదు. AUPHONIC_TOKEN సెట్ చేయండి, లేదా ఇంటర్‌ఫేస్‌లో ఒకసారి గుర్తుంచుకునేలా చేయండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ఏ ఆడియో ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు. ఇన్ పాయింట్, అవుట్ పాయింట్ మెటీరియల్ ప్రారంభం నుండి లెక్కించబడతాయి -- ఫైళ్ల పరస్పర స్థానం కొలవబడుతుంది."

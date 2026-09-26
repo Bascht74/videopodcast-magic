@@ -2338,8 +2338,8 @@ msgstr "Multitrack (yksi raita puhujaa kohden)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack tarvitsee vähintään kaksi tuloraitaa. Raita on oma tallenne, monikanavaisen tallentimen kanava tai videotiedoston ääni, jolle on valittu \"käytä sisäistä ääntä\". Saman tallenteen useat osat lasketaan yhdeksi, sivuun jätetyt raidat eivät lainkaan."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Ei API-avainta. Anna --auphonic-api-key AVAIN, aseta AUPHONIC_TOKEN tai tallenna se kerran käyttöliittymässä. Avain löytyy Auphonic-tilin asetuksista."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Ei API-avainta. Aseta AUPHONIC_TOKEN tai tallenna se kerran käyttöliittymässä. Avain löytyy Auphonic-tilin asetuksista."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Yksikään äänitiedosto ei sisällä aikakoodia. In-piste ja out-piste lasketaan materiaalin alusta -- tiedostojen sijainti toisiinsa nähden mitataan."

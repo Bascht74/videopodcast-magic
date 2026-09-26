@@ -2374,8 +2374,8 @@ msgstr "Multitrack (ਹਰ ਬੁਲਾਰੇ ਲਈ ਇੱਕ ਟਰੈਕ)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ਨੂੰ ਘੱਟੋ-ਘੱਟ ਦੋ ਇਨਪੁੱਟ ਟਰੈਕ ਚਾਹੀਦੇ ਹਨ। ਟਰੈਕ ਹੈ ਇੱਕ ਆਪਣੀ ਵੱਖਰੀ ਰਿਕਾਰਡਿੰਗ, ਮਲਟੀਚੈਨਲ ਰਿਕਾਰਡਰ ਦਾ ਇੱਕ ਚੈਨਲ, ਜਾਂ \"ਅੰਦਰੂਨੀ ਆਡੀਓ ਵਰਤੋ\" 'ਤੇ ਸੈੱਟ ਕੀਤੀ ਵੀਡੀਓ ਫ਼ਾਈਲ ਦਾ ਆਡੀਓ। ਇੱਕੋ ਰਿਕਾਰਡਿੰਗ ਦੇ ਕਈ ਬਲਾਕ ਇੱਕ ਗਿਣੇ ਜਾਂਦੇ ਹਨ, ਅਤੇ ਪਾਸੇ ਰੱਖੇ ਟਰੈਕ ਬਿਲਕੁਲ ਨਹੀਂ।"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "ਕੋਈ API ਕੁੰਜੀ ਨਹੀਂ। --auphonic-api-key KEY ਦਿਓ, AUPHONIC_TOKEN ਸੈੱਟ ਕਰੋ ਜਾਂ ਇੱਕ ਵਾਰ ਇੰਟਰਫ਼ੇਸ ਵਿੱਚ ਇਸ ਨੂੰ ਯਾਦ ਰਖਵਾਓ। ਕੁੰਜੀ Auphonic ਖਾਤੇ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਹੈ।"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "ਕੋਈ API ਕੁੰਜੀ ਨਹੀਂ। AUPHONIC_TOKEN ਸੈੱਟ ਕਰੋ ਜਾਂ ਇੱਕ ਵਾਰ ਇੰਟਰਫ਼ੇਸ ਵਿੱਚ ਇਸ ਨੂੰ ਯਾਦ ਰਖਵਾਓ। ਕੁੰਜੀ Auphonic ਖਾਤੇ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਹੈ।"
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ਕਿਸੇ ਵੀ ਆਡੀਓ ਫ਼ਾਈਲ ਵਿੱਚ ਟਾਈਮਕੋਡ ਨਹੀਂ। ਇਨ ਪੁਆਇੰਟ ਅਤੇ ਆਊਟ ਪੁਆਇੰਟ ਮਟੀਰੀਅਲ ਦੀ ਸ਼ੁਰੂਆਤ ਤੋਂ ਗਿਣੇ ਜਾਂਦੇ ਹਨ -- ਫ਼ਾਈਲਾਂ ਦੀ ਇੱਕ-ਦੂਜੇ ਨਾਲ ਸਥਿਤੀ ਮਾਪੀ ਜਾਂਦੀ ਹੈ।"
