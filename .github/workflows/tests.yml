@@ -15,7 +15,11 @@ name: tests
 # A run started by hand for a few tests names them, and the system if
 # one was chosen: "suite #7 ... -- only cut_x on macOS" is a different
 # answer from a whole suite, and the list of runs has to say so.
-run-name: "suite #${{ github.run_number }} on ${{ github.ref_name }} -- separation ${{ (inputs.speaker_split == true || inputs.speaker_split == 'true') && 'on' || 'off' }}${{ inputs.tests && format(' -- only {0} on {1}', inputs.tests, inputs.os || 'all') || '' }}"
+#
+# A pull request names its number and branch rather than "12/merge",
+# and says whether it came from a fork -- the only kind the suite runs
+# for; our own request's run is empty, and its title says why.
+run-name: "suite #${{ github.run_number }} on ${{ github.event_name == 'pull_request' && format('pull request #{0} ({1}){2}', github.event.pull_request.number, github.head_ref, github.event.pull_request.head.repo.full_name == github.repository && ' -- own branch, its push runs the suite' || ' from a fork') || github.ref_name }} -- separation ${{ (inputs.speaker_split == true || inputs.speaker_split == 'true') && 'on' || 'off' }}${{ inputs.tests && format(' -- only {0} on {1}', inputs.tests, inputs.os || 'all') || '' }}"
 
 on:
   # Branches only. A tag points at a commit the suite has already
@@ -23,14 +27,25 @@ on:
   push:
     branches:
       - '**'
-  # No pull_request. It ran a second time on the branch merged into
-  # main, and that is a different question from the one the push
-  # answers -- but only where main has moved under the branch, and with
-  # one person writing it has not. Measured 5.9.2026: every push to a
-  # branch with an open request cost twelve jobs where six answer, 20
-  # runs in ninety minutes. What is given up is "green apart, broken
-  # together", and after a merge main says so anyway, one step later.
-  # The day a second person writes here, this comes back.
+  # A pull request runs the suite only when it comes from a fork. Our
+  # own branches are answered by their push, above, and a second run on
+  # the merged branch cost twelve jobs where six answer -- measured
+  # 5.9.2026, 20 runs in ninety minutes. What that gives up is "green
+  # apart, broken together", and after a merge main says so anyway.
+  #
+  # A fork's branch pushes nothing here, so without this its request
+  # had no answer at all and the six required checks never came. The
+  # owner, 27.9.2026: prepared so that it works the day somebody from
+  # outside contributes. The event fires for every request -- GitHub
+  # cannot filter on where the head lives -- so the suite's if: below
+  # skips it unless the head is a fork; for our own request the run
+  # stands in the list, says so in its title, and holds no machine.
+  #
+  # pull_request, never pull_request_target: the fork's code runs with
+  # a read-only token and no secrets, and this workflow has none to
+  # give. A first-time contributor's run waits for the owner's approval
+  # (the repository's fork setting, measured 27.9.2026).
+  pull_request:
   # Nothing here is pinned: requirements.txt names numpy and PySide6
   # without a version, ffmpeg is whatever the package service has that
   # day, and the Python patch levels move under setup-python. So a green
@@ -196,7 +211,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: .github/tree_tested.sh
           sparse-checkout-cone-mode: false
@@ -220,8 +235,11 @@ jobs:
   suite:
     # Skipped only on the gate's yes; a gate that was not started (every
     # event but a push to main) or that failed leaves the suite running.
+    #
+    # And on a pull request only where its head is a fork -- see on:
+    # pull_request. Our own branch was run by its push.
     needs: gate
-    if: ${{ !cancelled() && needs.gate.outputs.tested != 'true' }}
+    if: ${{ !cancelled() && needs.gate.outputs.tested != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository) }}
     # No slash in it, and that is the whole point. GitHub's list of
     # jobs shows only the last piece after a slash, so six jobs called
     # "<system> / py<version>" came out as py3.14 and py3.10 six times
@@ -353,7 +371,7 @@ jobs:
       CHOSEN: ${{ !inputs.tests || (matrix.tests != 'neutral' && (!inputs.os || inputs.os == 'all' || inputs.os == matrix.label)) }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         if: env.CHOSEN == 'true'
 
       # Before setup-python, because this file is one of the three the
@@ -411,7 +429,7 @@ jobs:
       # And the third path is the switch, written down by the step
       # above. Two installations under one key is the same defect in a
       # new coat, and it is argued out where that file is written.
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         if: env.CHOSEN == 'true'
         with:
           python-version: ${{ matrix.python }}

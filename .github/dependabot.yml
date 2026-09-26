@@ -1,0 +1,21 @@
+# The actions the workflows use, and nothing else. The owner,
+# 27.9.2026: once a month, every update in one pull request.
+#
+# Only github-actions. The program's own packages stay unpinned in
+# requirements.txt on purpose (see tests.yml, on: schedule), so there is
+# nothing for Dependabot to raise there -- the weekly run answers for
+# them instead.
+#
+# The pull request comes from a branch of this repository, so its push
+# runs the suite once; the pull_request run of tests.yml skips it,
+# because the head is no fork.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns:
+          - "*"
