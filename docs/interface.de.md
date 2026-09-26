@@ -1223,7 +1223,7 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 
 ## Wenn etwas klemmt
 
-- **Das Fenster bleibt leer, und es lässt sich nichts hineinlegen**:
+- **Ein Kasten nennt eine ffmpeg-Fassung, und es lässt sich nichts hineinlegen**:
   dann fehlen `ffmpeg` und `ffprobe`, oder das ffmpeg dieser Maschine
   ist älter als 9.0.1. Nichts, was die beiden braucht, geht dann noch —
   Dateien hinzufügen, ein Projekt öffnen, die Zeitachse messen, ein

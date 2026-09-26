@@ -1134,7 +1134,7 @@ nothing are told apart.
 
 ## When something goes wrong
 
-- **The window stays empty and nothing can be added**: `ffmpeg` and
+- **A box names an ffmpeg version and nothing can be added**: `ffmpeg` and
   `ffprobe` are missing, or the ffmpeg on this machine is older than
   9.0.1. Nothing that needs the two is possible then -- adding files,
   opening a project, measuring the time axis, a run. A box names the

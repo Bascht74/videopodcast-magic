@@ -86,7 +86,9 @@ itself**, 3.10 or newer, and **`ffmpeg` 9.0.1 or newer, with
 `ffprobe`**. For the two tools the program looks on the search path,
 offers the package manager of the machine and asks before it runs it,
 and otherwise says where to fetch them. Below 9.0.1 the window opens
-and stays empty. That number is not a guess: it is the oldest version
+with a box that names the version found and the one needed, and
+nothing that needs the tools can be done until it is put right. That
+number is not a guess: it is the oldest version
 measured to hand the camera's own entries -- colour box, recording
 curve, Dolby Vision, timecode -- through untouched beside the
 picture.

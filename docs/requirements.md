@@ -262,7 +262,7 @@ back at every start over something that is not broken is a box people
 learn to click away. It is not asked at all where this machine has no
 way of getting a better build.
 
-**Missing or too old: the window opens and stays empty.** Everything
+**Missing or too old: the window opens, a box says so, and nothing can be added.** Everything
 that needs the two tools is barred, not the run alone -- adding files,
 opening a project, measuring the time axis. The message names what was
 found and what is needed, and beside it stands a button that gets it.
@@ -317,8 +317,8 @@ machine has:
   package manager answers "already installed" and does nothing. The
   program knows the difference and gives the other command -- on macOS
   `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`.
-* **When nothing gets installed**, the window stays empty and says what
-  to do on this machine. Answering the question with no leaves it the
+* **When nothing gets installed**, nothing can be added to the window,
+  and its box says what to do on this machine. Answering the question with no leaves it the
   same way.
 
 `requirements.txt` holds the Python packages under the same names pip
@@ -372,8 +372,8 @@ well, with two differences:
   may point at it.
 * **`ffmpeg` is still not found after installing it.** The folder
   holding it is not on the search path. Put it there and start again.
-* **The window opens and stays empty, and the message names an ffmpeg
-  version.** This ffmpeg is older than 9.0.1. The button in that box
+* **The window opens, a box names an ffmpeg version, and nothing can
+  be added.** This ffmpeg is older than 9.0.1. The button in that box
   gets a new one; what it does appears under **Output**. By hand it is
   `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`
   on macOS, otherwise a build from ffmpeg.org with its folder on the

@@ -334,8 +334,8 @@ Maschine hat:
   installiert“ und tut nichts. Das Programm kennt den Unterschied und
   nimmt den anderen Befehl — unter macOS `brew reinstall --yes
   homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`.
-* **Wenn nichts installiert wird**, bleibt das Fenster leer und sagt,
-  was auf dieser Maschine zu tun ist. Die Frage mit nein zu beantworten
+* **Wenn nichts installiert wird**, lässt sich nichts ins Fenster
+  legen, und sein Kasten sagt, was auf dieser Maschine zu tun ist. Die Frage mit nein zu beantworten
   lässt es genauso stehen.
 
 In `requirements.txt` stehen dieselben Python-Pakete, die pip aus
@@ -394,8 +394,8 @@ es ebenfalls, mit zwei Unterschieden:
 * **`ffmpeg` wird auch nach der Installation nicht gefunden.** Der
   Ordner, in dem es liegt, steht nicht im Suchpfad. Ihn dort
   aufnehmen und neu starten.
-* **Das Fenster geht auf und bleibt leer, und die Meldung nennt eine
-  ffmpeg-Fassung.** Dieses ffmpeg ist älter als 9.0.1. Der Knopf in
+* **Das Fenster geht auf, ein Kasten nennt eine ffmpeg-Fassung, und
+  es lässt sich nichts hineinlegen.** Dieses ffmpeg ist älter als 9.0.1. Der Knopf in
   diesem Kasten holt ein neues; was er dabei tut, erscheint unter
   **Ausgabe**. Von Hand heißt das unter macOS `brew reinstall --yes
   homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`, sonst ein Bau von

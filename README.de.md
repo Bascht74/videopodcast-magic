@@ -91,7 +91,9 @@ Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
 samt `ffprobe`**. Die beiden Werkzeuge sucht das Programm im Suchpfad,
 bietet die Paketverwaltung der Maschine an und fragt, bevor es sie
 ausführt, und sonst sagt es, woher man sie bekommt. Unter 9.0.1 geht
-das Fenster auf und bleibt leer: erst diese Fassung reicht neben dem
+das Fenster mit einem Kasten auf, der die gefundene und die nötige
+Fassung nennt, und nichts, was die Werkzeuge braucht, geht, bis das
+behoben ist: erst diese Fassung reicht neben dem
 Bild auch die Angaben der Kamera unverändert durch — Farbkasten,
 Aufnahmekurve, Dolby Vision, Zeitcode.
 
