@@ -20,8 +20,9 @@ its name, and two separations in the window, each keeping its own
 words instead of sending the other back to the recogniser, and neither
 started a second time while it is still being written down. Last, what
 the store lets go of -- measurements by age, words and separations by
-their last read, a recogniser build once a newer one stands beside it --
-and a listener or a check whose recipe changed, which reads nothing old back.
+their last read, a recogniser build once a newer one stands beside it,
+a joined recording by its date, whose separation it finds again when
+joined anew while a changed recording's is not read back -- and a listener or a check whose recipe changed, which reads nothing old back.
 """
 import os
 import sys
@@ -689,6 +690,51 @@ check("and a build another copy is still making is left alone",
       os.path.exists(under_way),
       "%s went, %s left" % (os.path.basename(under_way),
                             sorted(os.listdir(built))))
+
+# The mix of close microphones counts from its making, so the sweep
+# takes it while its separation, read since, stays. Joined again it
+# carries a new date, and a key on that date separates it once more.
+def stored_then(path, days=31):
+    """Date *path* and a separation of it *days* back; read it back."""
+    back = (time.time() - days * 86400,) * 2
+    os.utime(path, back)
+    key = vpm.speaker_cache_key(path, vpm.speaker_model_mark(), 0)
+    vpm.speaker_cache_write(key, [("A", [(0.0, 1.0)])])
+    os.utime(vpm.speaker_cache_file(key), back)
+    return bool(vpm.speaker_split_stored(path))
+
+
+pair = [tone("left.wav"), tone("right.wav")]
+joined = vpm.speaker_mix_file(pair, ["left", "right"])
+read_before = bool(joined) and stored_then(joined)
+vpm.clean_kept_stores()
+swept = bool(joined) and not os.path.exists(joined)
+check("the joined recording is swept by its date while read since",
+      read_before and swept,
+      "mix %r, separation read before %s, mix %s after the sweep"
+      % (os.path.basename(joined or ""), read_before,
+         "gone" if swept else "still there"))
+joined_again = vpm.speaker_mix_file(pair, ["left", "right"])
+check("a mix joined again under a new date finds its separation",
+      joined_again == joined
+      and bool(vpm.speaker_split_stored(joined_again)),
+      "joined again as %r (was %r), separation read back: %r" % (
+          os.path.basename(joined_again or ""),
+          os.path.basename(joined or ""),
+          vpm.speaker_split_stored(joined_again or "")))
+own = tone("voices.wav")
+look_alike = tone("mix_0123456789abcdef.wav")
+before = [stored_then(real) for real in (own, look_alike)]
+for real in (own, look_alike):
+    tone(os.path.basename(real), 2.0)       # same name, other contents
+check("a changed recording is separated anew rather than read back",
+      before[0] and vpm.speaker_split_stored(own) == [],
+      "read back before the change: %s, after it %r, wanted []"
+      % (before[0], vpm.speaker_split_stored(own)))
+check("and one named like a mix outside the store keeps its date",
+      before[1] and vpm.speaker_split_stored(look_alike) == [],
+      "read back before the change: %s, after it %r, wanted []"
+      % (before[1], vpm.speaker_split_stored(look_alike)))
 for kept_store in (vpm.cache_folder("speakers"), built):
     if kept_store:                      # inside this test's own cache
         shutil.rmtree(kept_store, ignore_errors=True)
