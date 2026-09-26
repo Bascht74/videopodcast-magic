@@ -1362,6 +1362,35 @@ def replacement_lines(targets, ours):
     return out
 
 
+def camera_drift(args, b, st, info):
+    """Whether a camera's clock drift is taken out, and the line saying so.
+
+    The rule is drift_clear's, the one every recording answers to, with
+    one bound of the camera's own. The line gives the drift over the
+    running time and, where it stays in, why.
+    """
+    fps = max(1.0, info["fps"])
+    total = (b - 1.0) * info["duration"]
+    ppm = (b - 1.0) * 1e6
+    # 500 ppm is 1.8 s an hour: rather a failed measurement than a clock.
+    # The camera's other two floors -- 120 s long, 10 ms or half a frame
+    # of effect -- guarded a re-encode that never happens: write_camera_file
+    # copies the picture (-c:v copy) and stretches only the sound.
+    if args.no_drift or abs(b - 1.0) <= 1e-7:
+        drift, why = False, T('is left in')
+    elif abs(ppm) >= 500:
+        drift, why = False, T('is left in: %s ppm or more is rather a '
+                              'measuring error') % number_text(500, 0)
+    elif not drift_clear(b, st):
+        drift, why = False, T('is left in: not %s times its '
+                              'uncertainty') % number_text(DRIFT_OVER_ERROR, 0)
+    else:
+        drift, why = True, T('is actively taken out')
+    return drift, (T('  Drift over the running time: %s s = %s frames  -->  %s')
+                   % (number_text(total, 3, plus=True),
+                      number_text(abs(total) * fps), why))
+
+
 def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
               position, t0, ref_clip=None, t1=None, curve=None,
               segment_list=None):
@@ -1552,11 +1581,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             a2, st2, deviation = None, {}, None
             print(T('  Cross-check:     not possible (%s)') % e)
         fps = max(1.0, info["fps"])
-        total = (b - 1.0) * info["duration"]
-        threshold = max(0.010, 0.5 / fps)
-        drift = (not args.no_drift
-                 and drift_clear(b, st) and abs(total) > threshold
-                 and abs(st.get("ppm", 0.0)) < 500 and info["duration"] >= 120)
+        drift, running = camera_drift(args, b, st, info)
         if clocked:
             print(T('  Offset:          %s   (from its timecode alone -- '
                     'its sound could not place it, so nothing is checked)')
@@ -1591,11 +1616,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                      number_text(st.get("spread_ms", 0.0)),
                      number_text(st.get("points", 0), 0),
                      number_text(st.get("candidates", 0) or 0, 0)))
-            print(T('  Drift over the running time: %s s = %s frames  -->  %s')
-                  % (number_text(total, 3, plus=True),
-                     number_text(abs(total) * fps),
-                     T('is actively taken out') if drift
-                     else T('is left in')))
+            print(running)
         print()
         outdir, target = output_path[v]
         os.makedirs(outdir, exist_ok=True)
