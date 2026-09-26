@@ -111,7 +111,7 @@ The tests under a `live/` folder -- `tests/resolve/live/`,
 `tests/auphonic/live/` -- are not part of `run.sh` and not part of the
 builder. They talk to a running DaVinci Resolve or to auphonic.com
 itself, and are started only on the owner's OK: `cd tests && bash
-resolve.sh`, or `cd tests && bash auphonic.sh --online`, with
+resolve.sh --go`, or `cd tests && bash auphonic.sh --online`, with
 `--spend-credit` added for the ones that start a production. Every run
 of the suite says at the end that they are there and did not run, and
 says it more sharply where git shows that branch has been worked on. On

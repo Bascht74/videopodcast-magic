@@ -4,11 +4,13 @@
 Sections: the suite knows no test under a live/ folder; auphonic.sh
 without its word sends nothing and says the word; with --online alone,
 against a stand-in curl, it starts no production and the key it was
-given stands in no line and no argument; and a run here names the
-Auphonic tests and how to start them. auphonic.com is never spoken to:
-curl is a stand-in first on PATH, a proxy that answers nothing stands
-behind it, and the Resolve interface is pointed at a folder that is not
-there, so no live test can reach anything even if one were taken.
+given stands in no line and no argument; a run here names the Auphonic
+tests and how to start them; resolve.sh without --go starts nothing and
+says the word; and every file under resolve/live/ started directly stops
+with the word and loads neither the program nor the Resolve module, as a
+watch put into every child records. auphonic.com is never spoken to:
+curl is a stand-in, a proxy that answers nothing stands behind it, and
+the Resolve interface is pointed at a folder that is not there.
 """
 PLATFORM_BOUND = True
 import os
@@ -31,6 +33,16 @@ STARTER = os.path.join(HERE, "auphonic.sh")
 LIVE = os.path.join(HERE, "auphonic", "live")
 sys.path.insert(0, LIVE)
 import auphonic_ground
+
+RESOLVE_STARTER = os.path.join(HERE, "resolve.sh")
+RESOLVE_LIVE = os.path.join(HERE, "resolve", "live")
+# What a person types, written out here and not read from the ground:
+# a line that only repeated the ground's own constant could not fall.
+RESOLVE_WORD = "bash resolve.sh --go"
+# The modules a child that could reach Resolve has to load first -- the
+# program, and the scripting module the program connects through.
+WATCHED = ("the_program", "videopodcast_magic", "DaVinciResolveScript",
+           "fusionscript")
 
 KEY = "FAKEKEY-0000"
 # A suite of one comes back in well under a second here and the builder
@@ -84,7 +96,7 @@ def fenced():
     """The environment for a child: stand-in curl first, a dead proxy."""
     env = dict(os.environ)
     for name in (auphonic_ground.ONLINE, auphonic_ground.CREDIT, "CI",
-                 "GITHUB_ACTIONS", "VPM_LIVE_PRESET"):
+                 "GITHUB_ACTIONS", "VPM_LIVE_PRESET", "VPM_LIVE_RESOLVE"):
         env.pop(name, None)
     env["PATH"] = BIN + os.pathsep + env.get("PATH", "")
     env["AUPHONIC_TOKEN"] = KEY
@@ -107,6 +119,52 @@ def started(*args):
     """(return code, lines) of a child, or (None, [why])."""
     try:
         ran = subprocess.run(["bash"] + list(args), cwd=HERE, env=fenced(),
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT, timeout=WAIT)
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return None, [type(e).__name__]
+    return ran.returncode, ran.stdout.decode("utf-8", "replace").splitlines()
+
+
+# The watch: a sitecustomize first on PYTHONPATH, so every Python a
+# child starts writes down each watched module it loads, before anything
+# of the child's own runs. A connection has to load one of them first.
+HOOK = os.path.join(D, "hook")
+WATCH_LOG = os.path.join(D, "watch.log")
+os.makedirs(HOOK)
+with open(os.path.join(HOOK, "sitecustomize.py"), "w", encoding="utf-8") as f:
+    f.write("import os, sys\n"
+            "def heard(event, args):\n"
+            "    if event == 'import' and args and \\\n"
+            "            str(args[0]).split('.')[0] in %r:\n"
+            "        with open(%r, 'a') as log:\n"
+            "            log.write('%%s\\n' %% args[0])\n"
+            "sys.addaudithook(heard)\n" % (WATCHED, WATCH_LOG))
+FIXTURES = os.path.join(D, "fixtures")
+
+
+def watched():
+    """The environment for a Resolve child: fenced, and watched."""
+    env = fenced()
+    env["PYTHONPATH"] = HOOK + os.pathsep + env.get("PYTHONPATH", "")
+    env["VPM_FIXTURES"] = FIXTURES
+    return env
+
+
+def loaded():
+    """What the watched children loaded since the last look, and forget it."""
+    if not os.path.isfile(WATCH_LOG):
+        return []
+    with open(WATCH_LOG, encoding="utf-8") as f:
+        seen = sorted(set(line.strip() for line in f if line.strip()))
+    os.remove(WATCH_LOG)
+    return seen
+
+
+def run_watched(argv):
+    """(return code, lines) of a watched child, or (None, [why])."""
+    try:
+        ran = subprocess.run(argv, cwd=HERE, env=watched(),
                              stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, timeout=WAIT)
     except (OSError, subprocess.TimeoutExpired) as e:
@@ -204,6 +262,59 @@ try:
           "'bash auphonic.sh' in %d after it"
           % (len(at), len(lines),
              len([one for one in after if "bash auphonic.sh" in one])))
+
+    # -------------------------------------------------------------- 6.
+    print("\n6. resolve.sh without its word")
+    loaded()
+    rc, lines = run_watched(["bash", RESOLVE_STARTER])
+    took = loaded()
+    check("resolve.sh without --go starts nothing and stops",
+          rc not in (0, None) and not took and not os.path.exists(FIXTURES),
+          "rc=%s, %d modules loaded: %s; fixtures %s"
+          % (rc, len(took), quiet(", ".join(took[:3])) or "none",
+             "made" if os.path.exists(FIXTURES) else "not made"))
+    check("and it says the word that starts Resolve's tests",
+          any(RESOLVE_WORD in one for one in lines),
+          "%r in %d of %d lines" % (RESOLVE_WORD, len(
+              [one for one in lines if RESOLVE_WORD in one]), len(lines)))
+
+    # -------------------------------------------------------------- 7.
+    print("\n7. A file under resolve/live/ started directly")
+    rc, lines = run_watched([sys.executable, "-c", "import the_program"])
+    took = loaded()
+    check("the watch sees the program when a child loads it",
+          rc == 0 and "the_program" in took,
+          "rc=%s, loaded: %s" % (rc, quiet(", ".join(took)) or "nothing"))
+    started_here = sorted(name for name in os.listdir(RESOLVE_LIVE)
+                          if name.endswith("_test.py") or name == "sweep.py")
+    check("there are Resolve live tests and a sweep to start",
+          "sweep.py" in started_here and len(started_here) > 1,
+          "%d found: %s" % (len(started_here),
+                            quiet(", ".join(started_here)) or "none"))
+    zero, mute, loading = [], [], []
+    for name in started_here:
+        argv = [sys.executable, os.path.join(RESOLVE_LIVE, name)]
+        rc, lines = run_watched(argv + (["--which"] if name == "sweep.py"
+                                        else []))
+        took = loaded()
+        if rc in (0, None):
+            zero.append("%s (rc=%s)" % (name, rc))
+        if not any(RESOLVE_WORD in one for one in lines):
+            mute.append("%s (%s)" % (name, quiet(lines[-1] if lines
+                                                  else "no output")))
+        if took:
+            loading.append("%s (%s)" % (name, ", ".join(took[:2])))
+    check("each one stops with a return code other than 0",
+          bool(started_here) and not zero, "%d of %d returned 0: %s"
+          % (len(zero), len(started_here), quiet(", ".join(zero)) or "none"))
+    check("each one says the word that starts it",
+          bool(started_here) and not mute, "%d of %d without %r: %s"
+          % (len(mute), len(started_here), RESOLVE_WORD,
+             quiet("; ".join(mute[:2])) or "none"))
+    check("none loads the program or the Resolve module first",
+          bool(started_here) and not loading, "%d of %d loaded: %s"
+          % (len(loading), len(started_here),
+             quiet("; ".join(loading[:2])) or "none"))
 except Exception as e:
     # Not a judgement of its own: a step that threw is named in the
     # closing line, so every path still ends there.
