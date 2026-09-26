@@ -4,9 +4,10 @@
 docs/images/seen.tsv holds one row per picture: file, sha256, date, and
 what it shows, written by whoever looked. In order: the record reads, a
 row per file; every picture git holds or would take has a row with its
-current sum; no row names a picture that is gone; and every row says
-what it shows. The sum proves the bytes were the ones seen, never that
-the line in the last field is true -- that stays a person's word.
+current sum; no row names a picture that is gone; every row says what
+it shows; and no two pictures share their bytes, so no row stands for
+another's content. The sum proves the bytes were the ones seen, never
+that the last field is true -- that stays a person's word.
 """
 PLATFORM_BOUND = False
 import os
@@ -121,6 +122,21 @@ blank = sorted(n for n, f in rows.items() if not f[3].strip())
 check("every seen row says what the picture shows", not blank,
       "empty last field: %s -- a person writes it after looking"
       % (", ".join(blank) or "none"))
+
+# ---------------------------------------------------------------- 5.
+print("\n5. No two pictures carry the same bytes")
+# A picture script given a set name it did not know once saved one sheet
+# under another's name, and both passed the rows above. The two languages
+# of one picture count too: each shows the window in its own words.
+by_sum = {}
+for name in sorted(pictures):
+    by_sum.setdefault(pictures[name], []).append(name)
+alike = sorted(" = ".join(names) for names in by_sum.values()
+               if len(names) > 1)
+check("no two pictures carry the same bytes", not alike,
+      "%d of %d pictures share their bytes with another -- %s"
+      % (sum(len(n.split(" = ")) for n in alike), len(pictures),
+         "; ".join(alike) or "none"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
