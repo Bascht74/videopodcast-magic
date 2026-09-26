@@ -543,14 +543,15 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                      number_text(k, 0, plus=True), ""))
             continue
         # "audio time = a + b * reference time": read d0 too early means
-        # shifting a by b*d0, and the drift multiplies b.
-        track["a"] = track["a"] + (d0 / 1000.0) * track.get("b", 1.0)
+        # shifting a by b*d0, and the drift multiplies b. A drift left
+        # in stays out: the track lies on the axis at b = 1, not at b.
+        held = track.get("b", 1.0) if track.get("drift") else 1.0
+        track["a"] = track["a"] + (d0 / 1000.0) * held
         # The output is compressed by b. A track running too fast -- k
         # negative, the offset shrinking over time -- needs b lowered.
-        track["b"] = track.get("b", 1.0) * (1.0 + k * 1e-6)
+        track["b"] = held * (1.0 + k * 1e-6)
         track["drift"] = bool(drift_allowed
-                           and (track.get("drift")
-                                or abs(track["b"] - 1.0) > 1e-7))
+                           and (track.get("drift") or k != 0.0))
         place_track_on_axis(track["source"], track["axis"], track["a"], track["b"], t0, t1,
                        track.get("drift", False))
         shifted.append((track["name"], d0, k))
