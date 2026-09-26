@@ -179,6 +179,28 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   beide Einträge zurück. Wohin die Datei inzwischen gesetzt wurde,
   bleibt stehen, bis jemand es selbst ändert.
 
+  Jede Tonaufnahme trägt in derselben Spalte das Feld **Im Ton** -- eine
+  Antwort für die ganze Aufnahme, aus wie vielen Blöcken sie auch
+  besteht. Es sagt, womit das Programm die Aufnahme auf die Zeitachse
+  legen darf, und das sagt nur ein Mensch; das Programm rät nicht.
+
+  - **Sprache**, so steht es anfangs: Die Aufnahme wird allein nach
+    ihrer Lautheit gelegt, gegen die Lautheit der Kameras. Hat sie mit
+    den Kameras nichts gemeinsam, wird sie abgelehnt, statt irgendwo
+    hingelegt zu werden.
+  - **Gemischt**: Unter den Stimmen liegt Musik oder ein fertiger Mix,
+    und daran kann die Lautheit scheitern. Wo sie nichts findet, darf
+    dann die Phase des Tons die Aufnahme legen.
+
+  Bei **Nur synchronisieren** steht das Feld fest auf **Gemischt** und
+  ist gesperrt, denn dort ist die Phase immer erlaubt. Was man vorher
+  gewählt hatte, bleibt gemerkt und kehrt mit **Schnitt nach Sprecher**
+  zurück. Wer das Feld oder den Projekttyp ändert, lässt die Zeitachse
+  neu messen, sofern sich damit ändert, welche Aufnahmen die Phase legen
+  darf. Die Projektdatei hält die Antwort je Aufnahme fest; ein
+  Projekt, das gespeichert wurde, bevor es das Feld gab, liest sich als
+  **Sprache**.
+
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile
   **mit Channel 2 zusammenlegen** anbietet, und daneben, was gemessen

@@ -161,6 +161,27 @@ Four tabs, in the order they are needed.
   measurement can place gets both entries back. What the file was moved
   to in the meantime stays until somebody sets it themselves.
 
+  Every audio recording carries **In the sound** in the same column,
+  one answer for the whole recording however many blocks it is made of.
+  It says what the program may use to place the recording on the time
+  axis, and only a person says it -- the program does not guess.
+
+  - **Speech**, where it starts: the recording is placed by its
+    loudness alone, against the loudness of the cameras. A recording
+    that shares nothing with the cameras is refused instead of being
+    put somewhere.
+  - **Mixed**: music or a finished mix lies under the voices, so the
+    loudness may find nothing. Where it does, the phase of the sound
+    may place the recording instead.
+
+  Under **Sync only** the field stands on **Mixed** and is shut: there
+  the phase is always allowed. What was chosen is kept beside it and
+  comes back with **Cut by speaker**. Changing the field, or the project
+  type, measures the time axis again where that changes which
+  recordings the phase may place. The project file keeps the answer
+  per recording; a project saved before the field existed reads as
+  **Speech**.
+
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
   on the first row and, beside it, what was measured. The program names
