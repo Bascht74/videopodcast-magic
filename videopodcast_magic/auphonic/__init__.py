@@ -1029,6 +1029,9 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
             _curl_call(key, ["-o", target, url],
                        progress=T('Downloading %s') % name)
             print(T('  Also fetched: %s') % name)
+        except PROGRAM.Stopped:
+            # Stop ends the run; it is no failure of this step.
+            raise
         except Exception as e:
             print(T('  %s could not be fetched: %s') % (name, e))
 
@@ -1059,6 +1062,9 @@ def find_output_format(key, find, avoid=()):
     """
     try:
         d = _parse_json(_curl_call(key, [AUPHONIC + "/api/info/output_files.json"]))
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception:
         return None
     kinds = d.get("data")
@@ -1413,6 +1419,9 @@ def download_results(key, p, names, target_folder, base):
         try:
             _curl_call(key, ["-o", extra_file, f["download_url"]],
                   progress=T('Downloading %s') % name)
+        except PROGRAM.Stopped:
+            # Stop ends the run; it is no failure of this step.
+            raise
         except Exception as e:
             print(T('  %s could not be fetched: %s') % (name, e))
     return match_zip_entries_to_tracks(target, names, target_folder)

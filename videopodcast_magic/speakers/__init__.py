@@ -1874,6 +1874,9 @@ def speaker_mix_file(paths, made_of, folder=""):
             sample_count(paths[0]) / float(SR),
             T('Mixing the tracks for the separation'))
         os.replace(beside, here)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception:
         if beside:
             remove_quietly(beside)

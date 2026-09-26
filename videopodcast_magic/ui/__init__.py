@@ -1722,17 +1722,40 @@ def question_dialog(f, window, QtWidgets, label):
     f.event.set()
 
 
+def run_result(path, state):
+    """Whether *path*, said on a line of its own, is a result of the run.
+
+    Not the project file and not the program itself, which the banner
+    names; and with an output folder named, only what lies inside it.
+    """
+    def plain(p):
+        """The path as the file system spells it, for a comparison."""
+        return os.path.normcase(os.path.realpath(p))
+
+    if not (os.path.isabs(path) and os.path.exists(path)):
+        return False
+    name = os.path.basename(path)
+    if name.startswith(PROGRAM.PROJECT_PREFIX) and name.endswith(".json"):
+        return False
+    held = state.get("out_folder")
+    out = held.get().strip() if held is not None else ""
+    within = plain(out) if out else plain(os.path.dirname(PROGRAM.__file__))
+    inside = plain(path).startswith(within.rstrip(os.sep) + os.sep)
+    return inside if out else not inside
+
+
 def make_log_writer(state, post):
     """The window's own way of taking a line of output.
 
-    Every absolute path that really exists is kept as a result on the
-    way through, so the button that opens the result folder has a target.
+    Every path the run said that is one of its results (run_result) is
+    kept on the way through, so the button that opens the result folder
+    has a target and a stop can say what was finished.
     """
     def write(text):
         PROGRAM.RUN_VITALS.heard(text)
         for line in text.splitlines():
             path = line.strip()
-            if os.path.isabs(path) and os.path.exists(path):
+            if run_result(path, state):
                 if path not in state["results"]:
                     state["results"].append(path)
         post.put(text)
