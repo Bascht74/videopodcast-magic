@@ -9,10 +9,10 @@ been checked, and the button went green over it. And the complaint
 about a key that was refused named the store, although the environment
 is read first and wins.
 
-The sections: the origin of a key and the sentence that names it, both
-without a window; then the window itself -- the refusal at start-up
-names where its key came from, and a second key typed during a check
-does not become the one that is kept.
+The sections: the origin of a key, a run's too, and the sentence that
+names it, both without a window; then the window itself -- the refusal
+at start-up names where its key came from, and a second key typed
+during a check does not become the one that is kept.
 
 Nothing here goes to auphonic.com: the fetch is replaced, and the key
 store with it, so nothing real is ever read or written.
@@ -28,6 +28,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import time
+import types
 import threading
 import the_program
 
@@ -129,6 +130,12 @@ key, origin = vpm.api_key_source()
 check("and it beats one lying in the store",
       (key, origin) == (FROM_ENV, "environment"),
       "%r from %r while the store holds %r" % (key, origin, IN_STORE))
+# main() hands a run the key out of AUPHONIC_TOKEN; a refusal during
+# that run has to name the environment all the same.
+key, origin = vpm.api_key_source(types.SimpleNamespace(auphonic_key=FROM_ENV))
+check("a run's key out of the environment is still named so",
+      (key, origin) == (FROM_ENV, "environment"),
+      "%r from %r, wanted the environment" % (key, origin))
 del os.environ["AUPHONIC_TOKEN"]
 key, origin = vpm.api_key_source()
 os.environ["AUPHONIC_TOKEN"] = FROM_ENV

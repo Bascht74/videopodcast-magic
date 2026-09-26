@@ -75,14 +75,14 @@ AUPHONIC = "https://auphonic.com"
 def api_key_source(args=None):
     """Return (the API key, where it came from).
 
-    Read in order: command line, environment, credential store. Which of
-    the three answered travels with the key, or a complaint names the
-    store for a key that came from elsewhere.
+    Read in order: the window's hand-over, environment, credential
+    store. Which of the three answered travels with the key, or a
+    complaint names the store for a key that came from elsewhere.
     """
     given = getattr(args, "auphonic_key", "") if args is not None else ""
-    if given:
-        return given, "argument"
     from_env = os.environ.get("AUPHONIC_TOKEN")
+    if given and given != from_env:
+        return given, "window"
     if from_env:
         return from_env, "environment"
     kept = load_api_key() or ""
@@ -99,13 +99,12 @@ def key_refused_note(origin, error):
 
 
 def api_key_from_anywhere(args):
-    """Return the API key: command line, environment, credential store."""
+    """Return the API key: the window's, environment, credential store."""
     key = api_key_source(args)[0]
     if not key:
-        raise RuntimeError(T('No API key. Pass --auphonic-api-key KEY, set '
-                             'AUPHONIC_TOKEN or have it remembered once in '
-                             'the interface. The key is in the Auphonic '
-                             'account settings.'))
+        raise RuntimeError(T('No API key. Set AUPHONIC_TOKEN or have it '
+                             'remembered once in the interface. The key is '
+                             'in the Auphonic account settings.'))
     return key.strip()
 
 

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-"""A window run's key stands on no command line, now or at a restart.
+"""The key stands on no command line: a window run's, a restart's, a typed one.
 
 The window's line is built by run_argv with a made-up key and sent
 through the window's own run loop into main(), stopped at a stand-in
 preflight. In order: the run is reached, its line carries no key, the
 run holds the key all the same, sys.argv is the window's own again
-afterwards, and a restart then starts the program as it was started.
-Nothing is uploaded and nothing is started: preflight and execv are
-stand-ins.
+afterwards, a restart then starts the program as it was started, and
+the parser refuses a switch that would carry a key. Nothing is uploaded
+and nothing is started: preflight and execv are stand-ins.
 """
 PLATFORM_BOUND = True
 import os
@@ -19,6 +19,8 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
+import contextlib
+import io
 import queue
 import shutil
 import tempfile
@@ -87,11 +89,9 @@ check("the window's loop reaches the run once", len(seen) == 1,
                            else "%d words" % len(line)))
 run_line, run_key = seen[0] if seen else ([], None)
 check("the key stands nowhere on the line the run reads",
-      bool(run_line) and KEY not in run_line
-      and "--auphonic-api-key" not in run_line,
-      "%d words, the key among them %s, --auphonic-api-key among them "
-      "%s, wanted False and False" % (len(run_line), KEY in run_line,
-                                      "--auphonic-api-key" in run_line))
+      bool(run_line) and KEY not in run_line,
+      "%d words, the key among them %s, wanted False"
+      % (len(run_line), KEY in run_line))
 check("the run holds the key all the same", run_key == KEY,
       "the run's key is %r, wanted %r" % (run_key, KEY))
 check("sys.argv is the window's own again after the run",
@@ -120,6 +120,22 @@ check("a restart starts the program as it was started, bare",
       "with none: %r" % (len(execs), len(execs[0]) - 2 if execs else -1,
                          [os.path.basename(w) for w in execs[0][2:]]
                          if execs else None))
+
+print("\n3. A key typed on the command line")
+# The parser alone, its complaint caught: exit code 2 is argparse's
+# refusal, anything else means the switch was taken.
+said = io.StringIO()
+try:
+    with contextlib.redirect_stderr(said):
+        vpm.build_argument_parser().parse_args(
+            ["--auphonic-api-key", KEY, CAMERA])
+    refused = None
+except SystemExit as e:
+    refused = e.code
+check("the parser refuses a switch that would carry the key",
+      refused == 2,
+      "exit code %r, wanted 2; the parser said %r"
+      % (refused, said.getvalue().strip().splitlines()[-1:]))
 
 shutil.rmtree(FOLDER, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

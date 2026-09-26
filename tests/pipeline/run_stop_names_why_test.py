@@ -100,8 +100,10 @@ CHILD = "\n".join([
 NOWHERE = "http://127.0.0.1:9"
 FENCE = {"https_proxy": NOWHERE, "http_proxy": NOWHERE,
          "all_proxy": NOWHERE, "no_proxy": None}
-code, last, _said = run([sys.executable, "-c", CHILD,
-                         "--auphonic-api-key", "not-a-real-key"], FENCE)
+# The key in the environment and a switch but no file: that is the
+# preset list. --dry-run, so a run that went further writes nothing.
+code, last, _said = run([sys.executable, "-c", CHILD, "--dry-run"],
+                        dict(FENCE, AUPHONIC_TOKEN="FAKEKEY-0000"))
 try:
     with open(ASKED, encoding="utf-8") as f:
         asked = len(f.read().splitlines())

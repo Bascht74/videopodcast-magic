@@ -500,13 +500,13 @@ def build_argument_parser():
                          "files; beats --sound. May be given several "
                          "times. The interface sends it for a recording "
                          "set to mixed. (default: none)")
-    ap.add_argument("--auphonic-api-key", dest="auphonic_key",
-                    default=None, metavar="KEY",
-                    help="API key from the Auphonic account settings. Turns "
-                         "processing on. Without files it only lists the "
-                         "presets.")
+    # No switch: main() hands the run the window's key or AUPHONIC_TOKEN,
+    # so a parse of its own reads None here.
+    ap.set_defaults(auphonic_key=None)
     ap.add_argument("--auphonic-preset", default=None, metavar="NAME",
-                    help="preset name or id (default: asked for)")
+                    help="preset name or id. The key comes from "
+                         "AUPHONIC_TOKEN; with it, switches and no files "
+                         "only list the presets. (default: asked for)")
     ap.add_argument("--auphonic-wait", dest="auphonic_wait", type=int,
                     default=7200, metavar="SECONDS",
                     help="how long to wait for Auphonic (default: 7200)")
