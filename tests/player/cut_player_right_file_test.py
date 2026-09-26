@@ -16,6 +16,7 @@ layout are free; a rule that starts reading a further name out of it
 shows up as no answer at all; and nothing here says the window ever
 reaches these rules.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

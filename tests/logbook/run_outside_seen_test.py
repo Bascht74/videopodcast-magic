@@ -15,6 +15,7 @@ the program: what it is filed under is built in one place, because
 the day it was spelled out twice the answer became "not measured" for
 ever and the work went back in the queue on every redraw.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

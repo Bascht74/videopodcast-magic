@@ -9,6 +9,7 @@ Then build_camera_timeline over it, on a stand-in that keeps what it
 is given: that it ran through, where it starts, every camera at its
 own clock. The limit: the stand-in is not Resolve.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -26,6 +26,7 @@ deleted, named like a third project: that file stays byte for byte too.
 The window is driven from outside and the answer is read out of the
 files on the disk and the title bar, never out of a variable.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

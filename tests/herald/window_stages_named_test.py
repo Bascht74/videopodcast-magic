@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """The footer bar during a run: stages, weights, and the end reached."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

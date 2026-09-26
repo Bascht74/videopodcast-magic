@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """The handover is built from data alone, without a window."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

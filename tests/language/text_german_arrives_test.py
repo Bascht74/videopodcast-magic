@@ -9,6 +9,7 @@ to come up German, and the list pip installs by has to carry the folder
 they lie in. Last the order: the language is settled only once the
 texts stand, so a machine set to German comes up German.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

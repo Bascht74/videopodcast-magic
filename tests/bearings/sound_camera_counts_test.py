@@ -9,6 +9,7 @@ camera -- own_audio, camera_audio, from_camera -- an assignment that
 marks nothing, one that is missing and one that cannot be read, and the
 tick that turns the whole question off.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

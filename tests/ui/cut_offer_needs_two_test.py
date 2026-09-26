@@ -39,6 +39,7 @@ these cases already expect. Both are found by their column names.
 
 VPM_CUT_GATE_DUMP=1 prints what the children said.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

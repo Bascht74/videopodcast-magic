@@ -7,6 +7,7 @@ button says at each rate, what puts the rate back to normal, and that
 the programme clock runs at the rate that was set -- a clock left
 behind would switch the picture where the sound has long gone.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

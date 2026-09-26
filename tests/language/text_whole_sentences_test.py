@@ -10,6 +10,7 @@ plural made by gluing a letter behind the slot a translated word goes
 into -- one wording bent for every language at once, which no catalogue
 can put right.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -16,6 +16,7 @@ into a file of its own, and a fall looks like progress. The place a
 find is held under is the function it sits in and not the file, so
 moving a function from one piece to another moves nothing here.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

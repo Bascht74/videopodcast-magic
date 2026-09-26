@@ -80,6 +80,16 @@ other. `tests/samples/` holds checked-in material and no test.
 every test opens with finds `tests/` from there -- copy it from any
 test, word for word.
 
+**Under the docstring stands `PLATFORM_BOUND = True` or `False`: a new
+test sets it, and a changed test has it looked at again.** False means
+the verdict cannot differ between Linux, macOS, Windows or the two
+Pythons -- the test reads the repository or calls the program in
+memory -- and the test then runs once, on the builder's neutral job,
+instead of on all six. The day it starts a process, opens a window,
+writes a file whose path or lock matters, or asks the platform, it is
+True; in doubt, True. `source_platform_declared` holds the spelling and
+the imports.
+
 ## 2. What it is called
 
 **`<subject>_<claim>_test.py`**, at most 24 characters before

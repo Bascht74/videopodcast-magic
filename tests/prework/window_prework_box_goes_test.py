@@ -8,6 +8,7 @@ below makes that order instead of waiting for a busy machine to fall
 into it. The sections: the box comes up, its bar reaches the end, and
 the box goes again.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

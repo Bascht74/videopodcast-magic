@@ -16,6 +16,7 @@ globals()` is the seam itself and no case of it. Two things the source
 does not show: a write made through `setattr`, and a name a piece puts
 at its top only while it runs, out of a `global` inside a function.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

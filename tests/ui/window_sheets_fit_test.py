@@ -21,6 +21,7 @@ kind a share gives. Left out: the Output sheet, which only appears once
 a run has made something, and this test runs nothing; other languages;
 Resolve, never asked, so its sheet stands as where it does not answer.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

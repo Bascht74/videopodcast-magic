@@ -5,6 +5,7 @@ The band has no margins: a time is at width * t / length. The ruler and
 the playhead are drawn over the colours, so a sample that lands on one
 steps aside, never further than the shot's own pixels reach.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

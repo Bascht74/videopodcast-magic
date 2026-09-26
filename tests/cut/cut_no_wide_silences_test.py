@@ -10,6 +10,7 @@ there, where none may happen. The cut comes out of the run itself. The
 "Long monologue" rule is replaced too but cannot be read here: with the
 interval at zero, nothing asks it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

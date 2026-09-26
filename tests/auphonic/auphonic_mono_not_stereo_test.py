@@ -5,6 +5,7 @@ On resume the outputs already there are read back and only the rest
 is asked for. Auphonic appends rather than replaces, so an output
 sent twice is computed and billed twice.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

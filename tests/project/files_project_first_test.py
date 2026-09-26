@@ -23,6 +23,7 @@ entry is triggered, and what is read back is what the window shows. The
 offer itself is stood in for, so the order can be read without a modal
 question; files_project_offered_test.py checks the offer's own behaviour.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

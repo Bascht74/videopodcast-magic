@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Whatever is written into the Speakers cell can be read, languages l to z.
+"""Whatever is written into the Speakers cell can be read, second slice.
 
-Every catalogue whose code begins with l to z, English and German
-aside: window_speaker_cell_fits measures those on every run,
-window_speaker_langs1 takes a to k, and run.sh sets both
-langs tests aside unless VPM_ALL_LANGUAGES=1; run by hand, this runs
-its slice. The checks are window_speaker_cell_fits's word for word.
+The second of the slices the_program.language_part cuts every language
+but English and German into -- window_speaker_cell_fits measures those
+two on every run, the other window_speaker_langs files the other
+slices, and run.sh sets them aside unless VPM_ALL_LANGUAGES=1; run by
+hand, this runs its slice. The checks are window_speaker_cell_fits's word for word.
 Sections, as they print: the real window, with a project open, is
 dragged as small as it goes in every language and font, and every tree
 after that is given what the narrowest window shows of it; the column
@@ -18,6 +18,7 @@ can be brought fully into view; a recording whose voices hang under it
 stays open while its cell is written. speaker_cell_measure.py builds
 the windows and says how they are measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -30,13 +31,12 @@ sys.path.insert(0, HERE)
 import time
 import speaker_cell_measure as m
 
-# By the first letter of the code, so a new catalogue lands in one of
-# the two files without anybody writing it down.
-LANGUAGES = tuple(l for l in m.LANGUAGES
-                  if l not in m.EVERY_RUN and "l" <= l[0] <= "z")
+import the_program
+# This file's slice, by the rule every *_langsN family is cut by.
+LANGUAGES = the_program.language_part(m.LANGUAGES, __file__)
 # A precondition of the material, not a judgement: a slice with no
 # language in it would come out green having looked at nothing.
-assert LANGUAGES, "no language code begins with l to z"
+assert LANGUAGES, "no languages in the slice this file's name asks for"
 print(m.languages_line(LANGUAGES))
 vpm = m.begin()
 

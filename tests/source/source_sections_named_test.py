@@ -10,6 +10,7 @@ the first dividing line, reads no name defined above it. Names are
 resolved through the scopes, so a local `label` is not the top-level
 one; a name bound at the top in two sections counts for both.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

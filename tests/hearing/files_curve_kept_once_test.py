@@ -16,6 +16,7 @@ The sections: the store in memory, the curve saved beside it on disc,
 and that the window looks for both under the same name. The clean-up
 itself lives inside the window and is read out of the source.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

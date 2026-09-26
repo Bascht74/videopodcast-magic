@@ -13,6 +13,7 @@ The restart is a real one -- a second interpreter, not set_language()
 called twice in this process. A store that only works while the module
 stays loaded is what this test exists to rule out.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

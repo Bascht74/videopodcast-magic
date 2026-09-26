@@ -8,6 +8,7 @@ earlier; two turns on one frame become one marker naming both; a taken
 frame moves a marker on, and one with no free frame is counted and said;
 each person keeps one colour.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

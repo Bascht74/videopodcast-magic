@@ -9,6 +9,7 @@ that: the log has to say what is missing, and a stand-in curl on the
 search path sees nothing sent to auphonic.com. Windows starts no such
 stand-in; there no key is given and that judgement is left out.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

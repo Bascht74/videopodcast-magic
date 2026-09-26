@@ -8,6 +8,7 @@ in the player greys the In and Out buttons, and the hint beside them
 names it '(2)'. What the two functions do with a label is held apart;
 this asks whether the window hands the labels over at all.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import shutil

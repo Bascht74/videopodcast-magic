@@ -1,4 +1,5 @@
 """The one bar: weights, creeping, never going backwards, and its line."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

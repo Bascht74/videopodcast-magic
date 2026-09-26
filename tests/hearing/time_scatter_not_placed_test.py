@@ -8,6 +8,7 @@ not, too few say nothing, and a clock speed alone speaks as well;
 the run then does not keep that answer; the preview names the file
 as not fitting. Synthetic material, one seed, cut out of one room.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

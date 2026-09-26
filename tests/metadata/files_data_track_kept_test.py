@@ -9,6 +9,7 @@ for at all, the timecode track is never asked for because copying it
 makes ffmpeg throw away the timecode this program worked out, and the
 report names what was left behind instead of losing it silently.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

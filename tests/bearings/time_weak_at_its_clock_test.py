@@ -9,6 +9,7 @@ Sections: both named as not fitting; the camera at its clock where the
 axis hangs off one; the failed measurement casts no vote on where the
 axis hangs; and clocks on weak files alone leave the axis relative.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

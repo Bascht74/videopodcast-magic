@@ -11,6 +11,7 @@ into the project file, and one window is on the screen. Not saved, it
 comes up empty in the new language, and the project file is left
 exactly as it lay.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

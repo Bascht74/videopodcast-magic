@@ -37,6 +37,7 @@ here. Where that pass earns its keep is a handover left over from a
 run, and that is another test's ground. Nor that order, for as long
 as the program keeps both.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

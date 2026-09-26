@@ -11,6 +11,7 @@ asked for before its value is read: a row that is not there is a finding
 of its own, and a number taken out of a row that is not there would end
 the run instead of being reported.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

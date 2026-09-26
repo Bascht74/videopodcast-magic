@@ -11,6 +11,7 @@ the check, and "checking" kept while the check runs. Real widgets, rows
 marked by the program's own painter; the axis verdict is set by hand,
 and nothing reads a file.
 """
+PLATFORM_BOUND = True
 import os
 import shutil
 import sys

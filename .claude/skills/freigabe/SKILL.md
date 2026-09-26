@@ -21,8 +21,8 @@ stopped somewhere, or when a command in it is being changed.
 
 ## The six things
 
-1. **The tests are green on all six builder jobs.** Not here on this
-   Mac -- there. That is the evidence the tag later stands on.
+1. **The tests are green on all seven builder jobs** -- the six
+   systems and the neutral one. Not here on this Mac -- there. That is the evidence the tag later stands on.
 
 2. **`CHANGELOG.md` says what changed.** How a section is built, what
    belongs in it and what does not: skill `changelog`.
@@ -159,13 +159,24 @@ nothing tells you: no test holds the two against each other (4.9.2026).
 **Fetch them before a release and look at them**:
 
 ```bash
-cd tests && bash builder_times.sh
+cd tests && bash builder_times.sh --record <version>
 ```
 
-**What you wait for is the longest of the six jobs, not the sum** -- they
-run side by side. What the numbers mean, and what to do with them, is in
-the skill `ci` under "After a green run, the queue", because that is the
-moment the command is run.
+**What you wait for is the longest of the seven jobs, not the sum** -- they
+run side by side. What the numbers mean for the queue, and what to do
+with them, is in the skill `ci` under "After a green run, the queue",
+because that is the moment the command is run.
+
+**`--record` keeps them, one section per release, in
+`development/test_durations.md`** -- every job, a trimmed mean per
+test, and the change against the release before. `state/longest` is
+overwritten each time and so cannot say that a test got slower; the
+record can, and a test marked **grown** there (more than 20 % and at
+least 10 s) is named in the release report with what made it so. It
+finds its run by the version the commit carries, because the newest
+green run on main is not the release's while the merge's own run is
+still going: 3.0.0b24's `state/longest` was read that way and holds
+3.0.0b23's times (measured 26.9.2026).
 
 ## Still by hand, and before the word
 
@@ -201,7 +212,7 @@ alone get no new number.**
 English and German only (the owner's rule, 26.9.2026); a release tests
 every catalogue. Here that is `cd tests && VPM_ALL_LANGUAGES=1 bash
 run.sh`, green before the push. On the builder nothing has to be
-asked for: the release pull request changes the version, so its six
+asked for: the release pull request changes the version, so its seven
 checks run every language by themselves, and the long way passes
 `all_languages: true` -- why, beside that input in
 `.github/workflows/tests.yml`.
@@ -221,7 +232,7 @@ it.** Everything finished first -- every file, every register, the whole
 suite green here -- then **one** push. Then wait, without adding
 anything. This was a rule about evidence and it is a mechanism now: the
 workflow **runs the suite itself**, on the commit the dispatch was
-started against, and makes the tag only where all six jobs came back.
+started against, and makes the tag only where all seven jobs came back.
 A second commit pushed after the first therefore does not merely muddy
 the list of runs -- it moves the head the next dispatch would run
 against, and the suite answers for that commit instead.
@@ -420,7 +431,7 @@ sixth is answered in the report, and "not run, because ..." answers it.
 
 ## Before it counts as done
 
-1. Six builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
+1. All seven builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
 2. `CHANGELOG.md` carries a section under this number, in both languages?
 3. The manual true again -- every chapter a visible change touched, both?
 4. What the manual pass turned up: a test, or its shape an entry on the list?
@@ -433,7 +444,9 @@ sixth is answered in the report, and "not run, because ..." answers it.
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
     suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?
-11. The builder's times fetched and looked at?
+11. The builder's times fetched with `--record <version>`, the section in
+    `development/test_durations.md` looked at, and every test marked
+    grown there named in the release report?
 12. `git status --short` empty, or every line in it explained out loud?
 13. `git stash list` free of this work?
 14. `build/` cleared, the wheel built and diffed, and cleared up again after?

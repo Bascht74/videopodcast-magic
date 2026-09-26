@@ -10,6 +10,7 @@ same way, in the last section: without it a reopened project measured
 everything again or, where the file had left the cameras, showed it
 plain.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

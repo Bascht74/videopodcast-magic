@@ -7,6 +7,7 @@ matching the upload, a straightened file takes the place of the
 returned one, and what is left of the offset and of the clock drift is
 measured again by a second route.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

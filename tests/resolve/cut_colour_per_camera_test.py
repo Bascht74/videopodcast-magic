@@ -7,6 +7,7 @@ cameras never share one while colours are left. Resolve accepts only
 its own sixteen names and refuses anything else silently, so the run
 finds out which ones an installation takes rather than trusting a list.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

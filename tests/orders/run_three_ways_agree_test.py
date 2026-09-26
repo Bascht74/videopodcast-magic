@@ -12,6 +12,7 @@ can have; the assignment; the time window, the wide shot at the edges
 and the loudness; and last the census -- no setting the window writes
 stops half way, and the five that carry no switch are named.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

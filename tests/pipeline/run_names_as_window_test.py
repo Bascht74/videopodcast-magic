@@ -10,6 +10,7 @@ it so too: in the facts line for that camera and in the hint that the
 two files may be one recording twice. Last the window's own check, run
 in this process on the same files, says that hint with both apart too.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

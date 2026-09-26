@@ -19,6 +19,7 @@ The limit of the last part: which stages the run announces is read off
 the program's own calls, so a name written out or held in a constant is
 seen and one built at run time is not -- the line says which.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

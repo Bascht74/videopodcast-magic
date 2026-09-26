@@ -8,6 +8,7 @@ on CardB and Guest on CardA; what the run and the preview are handed;
 the wide shot once Guest is taken off; the project saved and opened
 again; an older project whose answers name the file alone.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import shutil

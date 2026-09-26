@@ -17,6 +17,7 @@ the written file carries, against both. Only the cut list is compared,
 to the millisecond the handover writes; what the window rounds for its
 own sentence is not.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

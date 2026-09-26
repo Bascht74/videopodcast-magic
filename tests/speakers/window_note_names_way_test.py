@@ -9,6 +9,7 @@ measurement: the recording on both sheets, the tree and the file list,
 the camera on the file list, where its note stands. The limit: the
 measurement is laid here in the shape measure_time_axis gives.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

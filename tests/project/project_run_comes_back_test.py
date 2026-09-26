@@ -16,6 +16,7 @@ where no run answered the question. That reading costs minutes on the
 graphics card, so a reading that came to nothing must not be set going
 a second time by the next look at the sheet.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

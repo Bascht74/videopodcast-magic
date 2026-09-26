@@ -11,6 +11,7 @@ recording, what a typed switch does to a stored value, and the time
 window. write_cut_list is wrapped, not replaced: the cut is the real
 one, and the settings are read where the run reads them.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

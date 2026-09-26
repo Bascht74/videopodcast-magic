@@ -11,6 +11,7 @@ gets the next one up while the files keep counting in their own.
 The rates are written out rather than computed, so a wrong comparison
 in the program cannot be repeated here.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

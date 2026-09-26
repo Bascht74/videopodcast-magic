@@ -8,6 +8,7 @@ way back, which shows what was chosen rather than what was forced. The
 field is built on its own, not inside a window: which row carries it is
 the file list's, and this asks only what the field does.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

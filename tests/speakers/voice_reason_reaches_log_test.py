@@ -17,6 +17,7 @@ No interpreter is really asked. The one call that starts one is replaced
 by an answer written here, so what is measured is what the program does
 with that answer.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -11,6 +11,7 @@ The sections: the order asked of a probe built here, so that no
 ffmpeg version can decide the answer; and the same order asked of two
 files ffmpeg really wrote, which is where the shapes above come from.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -6,6 +6,7 @@ on the row of the first one. A redraw asked for by any other block
 therefore reached nothing, and the recording said "measurement running
 ..." with the work long done.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

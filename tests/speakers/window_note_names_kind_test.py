@@ -17,6 +17,7 @@ one nobody has placed.
 The words in it are the program's own, asked for by their value, so
 this measures the sentence and not one language's spelling of it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 import time

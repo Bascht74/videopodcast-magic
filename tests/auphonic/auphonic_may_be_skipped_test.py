@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """The entry "work without Auphonic" instead of a tick of its own."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

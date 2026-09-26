@@ -11,6 +11,7 @@ name changed afterwards still moves the camera.
 The names here are made up; no file is opened. What that cannot show is
 whether the window really asks these three in this order.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

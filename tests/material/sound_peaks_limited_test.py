@@ -10,6 +10,7 @@ down until the limiter takes the bound, and the ceiling holds all the
 same. In the third a loud stretch opens the file; in the fourth three
 begin where the limiter takes up the next piece it reads.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

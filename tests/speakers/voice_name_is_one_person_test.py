@@ -15,6 +15,7 @@ Held against values written out here rather than against a second pass
 over the input: a loop that works the expectation out usually works it
 out the way the program does.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

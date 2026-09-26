@@ -14,6 +14,7 @@ by a note an earlier run left behind. Nothing here imports pyannote
 for real -- the package is driven, so the judgement is the same on a
 machine that has none.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

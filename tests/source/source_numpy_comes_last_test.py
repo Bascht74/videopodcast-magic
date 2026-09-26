@@ -10,6 +10,7 @@ numpy shut reads the file to the end, what stands under np afterwards,
 that nothing reached for numpy at all, and a walk over the syntax tree
 naming every default value and top-level line that reads np.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

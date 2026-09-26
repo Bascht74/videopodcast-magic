@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Does every visible caption fit the field that carries it?
 
-In English and German, on every run; window_captions_langs1 and _langs2
+In English and German, on every run; the window_captions_langsN files
 take the other catalogues for a release, and captions_measure.py builds
 the windows and says how they are measured. Per language: the window
 was measured, the project came in, the program had finished and no
@@ -10,6 +10,7 @@ reading stands there before a click, is drawn with a fixed width, one
 width per digit, and the pinned width holds the widest reading; the
 output pane is drawn with a fixed width; every caption fits its field.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -23,9 +24,8 @@ import time
 import captions_measure as m
 
 LANGUAGES = m.EVERY_RUN
-print("languages: %s -- the other %d are window_captions_langs1 and "
-      "_langs2, run with VPM_ALL_LANGUAGES=1"
-      % (", ".join(LANGUAGES), len(m.LANGUAGES) - len(LANGUAGES)))
+import the_program
+print(the_program.every_run_line(m.LANGUAGES))
 
 began = time.time()
 done = 0

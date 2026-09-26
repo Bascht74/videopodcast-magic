@@ -8,6 +8,7 @@ the handover of other material and the button has to go grey; with it
 back, the same file is the right one again and the button comes back.
 Read off the button and off the search the window makes.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

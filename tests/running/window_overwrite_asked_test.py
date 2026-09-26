@@ -9,6 +9,7 @@ names the first two and none of the rest; No starts nothing, Yes starts
 the run, gui_run_loop stood in. Then the production's record claims
 both, and the next Start goes without the question.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -13,6 +13,7 @@ replaced by a stand-in that writes down the list it was handed and
 waits until it is let go -- so "while it runs" is a state the test
 makes rather than a moment it hopes to hit.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

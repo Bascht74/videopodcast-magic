@@ -10,6 +10,7 @@ no camera of the run by name, one file given two names with both; names
 beside assigned cameras, and for cameras alone, with the reason. Two
 distinct names pass, alone and beside a --speakers-from file, read too.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

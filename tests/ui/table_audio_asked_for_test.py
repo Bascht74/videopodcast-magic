@@ -7,6 +7,7 @@ cannot turn this red. The audio decision is found by what can be picked
 in it, never by a column number, and it stands in two places at once --
 on the file sheet and beside the player -- which the checks walk between.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

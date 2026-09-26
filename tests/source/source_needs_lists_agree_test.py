@@ -9,6 +9,7 @@ them -- case, dots, dashes and underscores alike -- and versions,
 extras and markers are left out: the limit is that only the names are
 held.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

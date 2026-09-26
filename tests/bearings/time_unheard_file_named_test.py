@@ -10,6 +10,7 @@ measurement fails is named the same way.
 Sections: a camera with no sound and no clock; the same camera with a
 clock; beside a single file with sound; a measurement that fails.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

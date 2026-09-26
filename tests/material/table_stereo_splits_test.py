@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """A stereo file with two people on it becomes two rows to assign."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

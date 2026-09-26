@@ -10,6 +10,7 @@ The sections: the stored file out of the handover, the order it is
 listed in, a speaker who only looks like the mix, the audio track of a
 camera, and which camera goes on track one.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

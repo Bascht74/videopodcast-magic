@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Taking one block out of a recording, and putting it back."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

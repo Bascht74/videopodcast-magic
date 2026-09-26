@@ -10,6 +10,7 @@ The sections: which earlier versions are put on offer and which are
 kept off it, which one the offer opens on, and what is handed to pip
 when somebody takes it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -17,6 +17,7 @@ for the mix. Last a run whose returned tracks would name the wrong
 person: the raw mix decides. The model is not run -- the voices are
 handed in with their true times.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -18,6 +18,7 @@ both arranged so that no separation can start. Each is watched from
 outside: one that stands still is stopped and named by its step, and so
 is one that ends but leaves a process of its own holding its output.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

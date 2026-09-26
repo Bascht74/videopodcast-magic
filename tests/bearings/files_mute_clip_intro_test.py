@@ -11,6 +11,7 @@ container lengths must not stand in the middle the jingle is held
 against. The rule is the length one of files_intro_proposed; only where
 the length comes from, and what it may judge, is new here.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

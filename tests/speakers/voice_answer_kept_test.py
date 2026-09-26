@@ -7,6 +7,7 @@ only in the run-up is ranked without the window and falls out with it,
 so a check that passed both ways would say nothing. Neither proposal
 ever writes over an answer, and the mark decides that, not the text.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

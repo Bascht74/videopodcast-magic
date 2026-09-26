@@ -9,6 +9,7 @@ too short for a greeting against a recording just that long. Through
 apply_time_window and cut_statistics; the run trims its material in the
 pipeline, which this does not reach.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

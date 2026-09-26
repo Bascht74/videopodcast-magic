@@ -17,6 +17,7 @@ execute bit, Windows with the ending, and a mode says nothing there.
 No connection is ever opened -- the one function that would open it is
 replaced, so what is measured is what the program does with the answer.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

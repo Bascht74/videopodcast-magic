@@ -7,6 +7,7 @@ order: what the two lines carry, the four ways speech and the wide shot
 can meet, the colour round the picture and on the note, the two
 heights, and that the camera is named there and in no line under it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

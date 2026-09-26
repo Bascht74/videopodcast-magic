@@ -22,6 +22,7 @@ box is never opened here -- the hook stands in for it, so its wording and
 buttons are not judged; and the suite runs without the separation, so
 the Speakers column it would hide is not on any tree here.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

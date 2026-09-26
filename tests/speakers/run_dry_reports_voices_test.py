@@ -10,6 +10,7 @@ to read back and the dry run measures nothing again.
 The model is stood in for by a table, so what is counted is who asks
 for it, not what a model hears.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

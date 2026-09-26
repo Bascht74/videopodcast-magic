@@ -8,6 +8,7 @@ picture far from sixteen to nine, that the picture gives height up and
 takes none, that a narrower camera does not pull it back, and the air.
 The height the box itself gets is the layout's, and is not measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

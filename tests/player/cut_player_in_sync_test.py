@@ -106,6 +106,7 @@ all three roads together and go unseen here. That question belongs to
 time_all_ways_agree_test.py, which holds one moment against nine ways of
 reaching a picture.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

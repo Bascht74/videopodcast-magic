@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """The one bar in the footer: does it come, rise, and go again?"""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

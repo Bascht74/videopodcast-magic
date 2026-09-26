@@ -15,6 +15,7 @@ asks about is asked for first: a name that is not in the list would end
 the run with a traceback instead of a red line saying which entries
 there are.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

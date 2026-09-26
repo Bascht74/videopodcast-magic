@@ -26,6 +26,7 @@ The run's reading of the microphones is stood in for, and it hands back
 exactly what the window's stored measurement holds -- otherwise the two
 sides are given different material and the comparison says nothing.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

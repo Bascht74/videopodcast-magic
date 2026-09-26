@@ -10,6 +10,7 @@ at the run's place. The pair is synthetic, and one length is asked:
 14 minutes, where the run's density reaches the fit's count and a
 point every two minutes does not.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

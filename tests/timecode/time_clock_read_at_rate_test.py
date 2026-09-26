@@ -10,6 +10,7 @@ timecode track; the frames of a timecode read at two rates and at the
 file's own; and the two answers that look alike and are not, a clock
 standing at zero and no clock at all.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

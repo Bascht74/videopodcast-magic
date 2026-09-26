@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """#60: update a project -- the two timelines go, nothing else."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

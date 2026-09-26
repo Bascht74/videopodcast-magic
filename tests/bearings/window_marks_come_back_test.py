@@ -18,6 +18,7 @@ carries the verdict; closed and opened again in this session, the mark
 stands; and opened in a second process, it stands and nothing was
 measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

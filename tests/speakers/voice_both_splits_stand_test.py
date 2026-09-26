@@ -21,6 +21,7 @@ SPEAKER_00, and counts every call: so "nothing was separated again" is
 counted rather than believed. The cache is stood in for as well, which
 is what keeps the real one out of it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -20,6 +20,7 @@ gets a row in the assignment tree. The state before is read as a
 judgement of its own, so the two readings are not two constants
 agreeing.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

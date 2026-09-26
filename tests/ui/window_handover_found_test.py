@@ -9,6 +9,7 @@ chosen afterwards brings the one lying in it; and reset to beside the
 videos, theirs comes back. Read off the button and off the search the
 window makes, offscreen.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import shutil

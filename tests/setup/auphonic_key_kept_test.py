@@ -16,6 +16,7 @@ The sections: the names and the comparison, there and back, what is not
 there, deleting, awkward values, the other way round, and what is left
 behind.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

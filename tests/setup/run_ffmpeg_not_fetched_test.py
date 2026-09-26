@@ -14,6 +14,7 @@ on it already, and only where a folder really is. The probe puts a
 recorder in place of the two installers, so it says what the program
 asked for, not what pip would have made of it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

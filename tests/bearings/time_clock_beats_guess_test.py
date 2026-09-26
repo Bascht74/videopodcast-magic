@@ -10,6 +10,7 @@ refuses, the window and the project file saying so; a failed
 measurement, at its clock; a recording the cameras miss refusing
 none; and the reference's clock first.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -6,6 +6,7 @@ on a mixer file is most of the waiting. One pass, taken apart afterwards,
 is only allowed if the numbers do not move -- so the same file is read
 both ways and the two are held against each other.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

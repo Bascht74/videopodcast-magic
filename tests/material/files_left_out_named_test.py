@@ -9,6 +9,7 @@ Each half first asks whether the recording came back at all and
 whether it holds the file it was asked about, so a red line names
 the first thing that was wrong and not a consequence of it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

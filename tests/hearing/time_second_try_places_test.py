@@ -8,6 +8,7 @@ phase, whose answer no sample point backs up; the second try placing
 the file and handing the gate its numbers; the cheap way staying where
 it reaches; and a recording that fits nowhere, placed by neither.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

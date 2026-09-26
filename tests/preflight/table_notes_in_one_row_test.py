@@ -5,6 +5,7 @@ A recording that arrived in three blocks is one row with the blocks
 under it. A finding about the third block belongs to that row, not to a
 row of its own and not to the general notes.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

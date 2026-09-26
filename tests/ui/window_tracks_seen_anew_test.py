@@ -8,6 +8,7 @@ the next run is handed them rather than uploading again. Then the output
 folder is put back beside the material, where no tracks lie: the note
 goes, and the run after that is handed no tracks of a folder not chosen.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

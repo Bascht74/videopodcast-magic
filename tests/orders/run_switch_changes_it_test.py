@@ -12,6 +12,7 @@ Left out is everything that would reach auphonic.com or wants Resolve
 running. Whether the cut is right is not asked here, only that the
 switch moves it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

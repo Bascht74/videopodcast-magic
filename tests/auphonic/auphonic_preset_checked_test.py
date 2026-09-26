@@ -9,6 +9,7 @@ a Singletrack one in a Multitrack run is refused before anything goes
 up; without a terminal no preset is a stop that names the way out; and
 a preset the check finds unfit stops the run.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

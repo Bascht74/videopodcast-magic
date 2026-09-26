@@ -5,6 +5,7 @@ Sound needs three milliseconds to travel a metre: one pair hears everything
 at the same moment, two clip-on microphones on two people hear each other
 late. The delay is built in on purpose, so the answer is known beforehand.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

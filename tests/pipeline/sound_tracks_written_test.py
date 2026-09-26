@@ -9,6 +9,7 @@ prints, so the question is put to the written file itself: how many
 audio tracks are in it, and what is each one called. With a made-up key
 a stand-in curl sees none reach auphonic.com (left out on Windows).
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -7,6 +7,7 @@ drops out entirely instead of being guessed at, and a measured axis is
 reused only where path, time and size match for every file, one
 changed file discarding all of it: a partly stale axis is worse than
 measuring again. The last section holds the program to these four."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

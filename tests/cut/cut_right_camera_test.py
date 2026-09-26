@@ -16,6 +16,7 @@ Every check has a counter-check beside it, the same reading run against
 a doctored list or with the setting turned off: a check nobody can make
 fail proves nothing.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

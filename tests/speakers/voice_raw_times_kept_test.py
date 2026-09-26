@@ -11,6 +11,7 @@ and that the samples come back as wide as they were asked for --
 narrow for the separation, which holds a whole episode in memory at
 once.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -12,6 +12,7 @@ target in the form delivered; the computed gain applied whole. Not in
 it: a sine at this level needs no limiter, so normalising hands back no
 curve and every mix here is built without one.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

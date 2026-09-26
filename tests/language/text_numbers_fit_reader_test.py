@@ -44,6 +44,7 @@ The reader of the last section sees string constants only: a text put
 together at run time, or handed to T() in a variable, is invisible to
 it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

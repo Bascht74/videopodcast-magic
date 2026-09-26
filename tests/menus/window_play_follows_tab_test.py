@@ -20,6 +20,7 @@ is the state of the build and green for nothing. And a typed key needs
 the player on the screen: from a collapsed box the sequence cannot fire
 at all, so the visibility is a check of its own before it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

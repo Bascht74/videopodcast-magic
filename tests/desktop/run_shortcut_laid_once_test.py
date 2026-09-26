@@ -9,6 +9,7 @@ nothing unless a home of its own is named. The macOS and the Linux
 shape are written here and read back; the Windows one is left out,
 because writing a .lnk needs a shell object this machine has not.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

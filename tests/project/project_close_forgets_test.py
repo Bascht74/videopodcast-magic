@@ -10,6 +10,7 @@ production, then the project closed and the same cameras and folder
 taken up again. The window's own functions without a window; what
 closing touches besides the state stands in and takes every call.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

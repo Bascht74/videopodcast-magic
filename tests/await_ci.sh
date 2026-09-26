@@ -52,7 +52,7 @@ gh run view "$WANT" --json jobs \
    --jq '.jobs[] | "  \(.conclusion)  \(.name)"' 2>/dev/null
 
 if [ "$verdict" = 0 ]; then
-  echo "green on all six. The tag may follow -- see the skill freigabe."
+  echo "green on every job. The tag may follow -- see the skill freigabe."
 else
   echo "RED. What fell, and where:"
   # Only the lines that say something: the suite's own summary and the

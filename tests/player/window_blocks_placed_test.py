@@ -10,6 +10,7 @@ preview's first tick until the picture reaches the block, and then
 sounding from its start. Not seen: the sound start() sets playing
 before that first tick, which the tick pauses again.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

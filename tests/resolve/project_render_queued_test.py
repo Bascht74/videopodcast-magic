@@ -8,6 +8,7 @@ chosen, what the settings dictionary holds, and that a refusal leaves the
 queue empty. The one thing that does touch the filesystem is the target
 name: an existing delivery must not be rendered over.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

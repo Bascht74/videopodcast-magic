@@ -10,6 +10,7 @@ the run rather than written down here; the overall mix under its name;
 three speakers whose names only look like the mix or its prefixes; and
 whether the mixing call asks this rather than a replace of its own.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

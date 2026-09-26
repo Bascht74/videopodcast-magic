@@ -10,6 +10,7 @@ a Resolve running on this machine is never asked for anything. What
 the setting does to a picture is not judged, only what the program
 writes and what it reports.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

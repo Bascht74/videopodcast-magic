@@ -13,6 +13,7 @@ comparison never carries it; the same for sound, where a short
 recording earns a hint only while it takes part; and the balance line,
 which a marked finding leaves alone.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

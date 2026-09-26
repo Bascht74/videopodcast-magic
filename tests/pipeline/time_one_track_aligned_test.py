@@ -17,6 +17,7 @@ delivered picture begins off the camera's own sound rather than taking
 the file's start for it. No key is given, so nothing is sent to
 auphonic.com.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

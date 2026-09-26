@@ -19,6 +19,7 @@ and there alone: a name given to a stand-in reaches nothing. Only what
 stands in the source, so a name a test works out while it runs is
 counted and not judged, and a placeholder is read as a lower-case word.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

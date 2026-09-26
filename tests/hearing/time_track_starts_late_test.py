@@ -13,6 +13,7 @@ reports over a written file whose two tracks begin at different times.
 The limit: a file that does not declare its AAC lead-in cannot be put
 right by anybody, because the number is not in it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

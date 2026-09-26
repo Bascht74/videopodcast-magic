@@ -11,6 +11,7 @@ The material is made up here -- a ranking, and two levels forty
 decibels apart -- so what is judged is the shape of the number the
 program prints, and no wording is held against a catalogue.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

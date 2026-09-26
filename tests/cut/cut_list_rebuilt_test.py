@@ -10,6 +10,7 @@ off the disk and not out of the dictionary the call was handed. The
 settings come out of the project file under their own names, which is
 where the button has read them since the stored command line went.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -70,11 +70,12 @@ once -- ask, shoot, bring the descriptions up to date, check in.
 
 ```bash
 cd tests && VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1 bash run.sh \
-  window_captions_fit window_captions_langs1 window_captions_langs2
+  window_captions_fit window_captions_langs1 window_captions_langs2 \
+  window_captions_langs3 window_captions_langs4
 ```
 
 `window_captions_fit` measures English and German; the other languages
-are the two `_langs` tests, and without `VPM_ALL_LANGUAGES=1` `run.sh`
+are the `_langsN` tests, and without `VPM_ALL_LANGUAGES=1` `run.sh`
 sets them aside and says so in its `languages:` line.
 
 The suite runs it offscreen, and offscreen draws the Fusion faces: it can

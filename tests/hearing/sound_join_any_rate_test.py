@@ -8,6 +8,7 @@ said, the second where its stamp puts it; the same at 44.1 kHz -- as
 long as both, not taken for microphones side by side; and two 96 kHz
 blocks with ten seconds between them, the hole named with its length.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -11,6 +11,7 @@ only for the plain cut list, which may not grow a name field it never
 had; everywhere else the callers unpack by name, so a row of the wrong
 width ends the run before a check could speak.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

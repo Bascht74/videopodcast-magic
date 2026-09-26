@@ -10,6 +10,7 @@ over the refusing store -- the key handed on, no box, the sentence on the
 key's line. Every box is answered at once and counted; the store is stood
 in and never writes, and nothing goes to auphonic.com.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

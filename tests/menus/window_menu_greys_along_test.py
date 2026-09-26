@@ -27,6 +27,7 @@ entries are read as they stand, which is what the keys hang on. The run
 is held still -- gui_run_loop is replaced by one that waits -- so the
 state is reached without anything being computed.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

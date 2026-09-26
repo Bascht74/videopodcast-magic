@@ -13,6 +13,7 @@ the call without the keyword, a camera with its own sound, the command
 line stopping, and the window -- state to check, mark to row, sentence
 under the list.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

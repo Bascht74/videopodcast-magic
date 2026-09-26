@@ -11,6 +11,7 @@ apart from its neighbour and kept whole in a tooltip that follows the
 choice; and last the button, which hands on the untouched path. Widths
 are asked of the box itself, because the font decides.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

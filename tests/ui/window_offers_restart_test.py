@@ -8,6 +8,7 @@ language and the old one leaves the screen. The sections in the order
 the shot walks them: the offer at rest, after a change, on the way
 back, under a run, and the window that comes of taking it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

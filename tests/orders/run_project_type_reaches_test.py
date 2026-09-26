@@ -11,6 +11,7 @@ window has not asked. main() is stopped at a stand-in preflight, so
 nothing is measured: what is judged is the namespace as the preflight
 and everything after it read it, not a run.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

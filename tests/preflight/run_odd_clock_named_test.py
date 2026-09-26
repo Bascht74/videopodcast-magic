@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """A clock that was never set is found, and blocks group as recordings."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
