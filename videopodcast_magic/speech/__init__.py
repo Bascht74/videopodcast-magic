@@ -1057,11 +1057,10 @@ def words_at_hand(audio_path, language="", mark=""):
     """Write the words down with what the machine already has.
 
     A run may install faster-whisper and fetch a 1.5 GB model: somebody
-    started it and is watching. The window may not -- nobody asked for
-    a download by adding files to a list. So macOS first, faster-whisper
-    only where a run already installed it. [] where nothing can listen,
-    or nobody may: see listening_unasked. *mark* stores a mix under
-    what it was made of, not what it holds.
+    started it and is watching. The window may not: adding files to a
+    list asks for no download. So macOS first, faster-whisper only where
+    a run installed it; [] where nothing can listen or nobody may (see
+    listening_unasked). *mark* files a mix under its sources, not content.
     """
     started = time.time()
     mark = mark or file_content_mark(audio_path)
@@ -1166,9 +1165,8 @@ def words_of_recording(state, source):
 
 
 #------------------------------------- The window's transcript, caught up
-# The run writes one out of its mix. The window writes its own as soon
-# as the time axis stands, so the settings that need words work before
-# any run: a mix of the tracks on that axis, heard once and stored.
+# Besides the run's, the window writes one as soon as the time axis stands,
+# from a mix on it heard once and stored, so word settings work before a run.
 
 
 def window_words_may(state):

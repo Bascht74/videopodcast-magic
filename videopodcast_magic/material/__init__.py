@@ -72,10 +72,9 @@ video_facts = PROGRAM.video_facts
 # Two of the seven stand in a piece read after this one and go through
 # PROGRAM: run_ffmpeg_with_progress, and tracks_folder behind it.
 
-# Two are the fittings' -- hint and label -- and channel_rows_build
-# below reaches them through PROGRAM where it calls them. That is a
-# leftover from the window: the fittings are read above this piece
-# since #152, so both could be head lines here.
+# Two are the fittings', hint and label, which channel_rows_build reaches
+# through PROGRAM where it calls them: a leftover, as the fittings are
+# read above this piece since #152, so both could be head lines here.
 
 # Two are bent while the run goes on: the window sets OUTPUT_SINK and
 # ASK_SINK on the program object, a write the pieces are never told
@@ -254,12 +253,11 @@ def _joins_seamlessly(before, after, row):
 def find_continuation_files(file_path):
     """Find every block of the same recording, forwards and backwards.
 
-    Only seamless continuations are appended, the same test both ways,
-    so which block is picked makes no difference. Both rules hold the
-    letters as written; the counter's one freedom is the number's width
-    (back from REC10 it tries REC09 and REC9), six beside eight digits
-    is refused as a doubled moment, and neither folds case -- normcase
-    would, on Windows only, and one folder must not join differently there.
+    Only seamless continuations, the same test both ways, so which block
+    is picked makes no difference. Letters count as written; the counter's
+    one freedom is its width (from REC10 back it tries REC09 and REC9), six
+    beside eight digits is refused as a doubled moment, and case never
+    folds: normcase would, on Windows only; a folder joins alike everywhere.
     """
     folder = os.path.dirname(file_path) or "."
     name, ext = os.path.splitext(os.path.basename(file_path))
@@ -475,10 +473,9 @@ def track_order_for_camera(own, every, singles=(), camera_tracks=1,
 
     Track 1 is the finished mix for this camera, so taking only the first
     is correct; then the same speakers, the overall mix, and last the
-    camera's own sound. *camera_tracks* is how many of its own the camera
-    brings -- none where it filmed without sound or --no-camera-audio was
-    given -- and *name_camera* what they are called; more than one are
-    numbered the way the written file numbers them.
+    camera's own sound: *camera_tracks* of them (none without sound or
+    with --no-camera-audio) called *name_camera*, several numbered the
+    way the written file numbers them.
     """
     sequence = []
     if own:
@@ -489,10 +486,9 @@ def track_order_for_camera(own, every, singles=(), camera_tracks=1,
     else:
         sequence.append(MIX_TRACK_NAME)
         sequence += list(singles)
-    # The overall mix under every camera that carries a speaker, also
-    # where that one camera carries them all. It is then the same sound
-    # twice under two names -- but the manual promises the track, and
-    # the cut and the handover look it up by this name, not by content.
+    # The overall mix under every camera that carries a speaker, even one
+    # carrying them all: the same sound twice, but the manual promises the
+    # track, and the cut and the handover look it up by name, not content.
     if own:
         sequence.append(MIX_TRACK_NAME)
     if camera_tracks == 1:
@@ -519,9 +515,8 @@ def find_pauses(tracks):
 
 
 # =====================================================================
-#  What the cut is decided by -- the rules a human editor follows on
-#  top of "whoever speaks is on screen". Every number is adjustable.
-# =====================================================================
+#  What the cut is decided by: the rules a human editor follows on top
+#  of "whoever speaks is on screen". Every number is adjustable.
 
 
 def format_complaint(d):
@@ -998,11 +993,10 @@ def match_speakers(tracks, tmpdir):
     """Bring the speaker tracks to one level, each with a gain of its own.
 
     Only where auphonic.com set no balance: one common gain keeps voices
-    six decibels apart six apart. Each track is measured as it is, the way
-    normalise_loudness measures, and moved to the median of the voices; a
-    track under SPEAKER_FLOOR_LUFS carries no voice and stays, since lifting
-    silence lifts only its noise. The moved copy becomes the track's
-    "ready". Returns [(name, LUFS, gain dB)], one per track, in order.
+    six decibels apart six apart. Each is measured as normalise_loudness
+    does and moved to the voices' median; one under SPEAKER_FLOOR_LUFS
+    has no voice and stays: lifting silence lifts only noise. The moved
+    copy is its "ready". Returns [(name, LUFS, gain dB)], per track in order.
     """
     if len(tracks) < 2:
         return [(track["name"], None, 0.0) for track in tracks]
@@ -2631,12 +2625,11 @@ def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
 def mixing_label(target):
     """The name the progress line gives a mix: the track, not the file.
 
-    The targets are called mix_full, single_<speaker> and mix_<camera
-    file>. Only the overall mix is announced as the mix, and only a prefix
-    at the start comes off: replacing "full" and "mix_" wherever they
-    stood announced a speaker called Carefully as CareFull-Mixy. The
-    overall mix is asked for before any prefix comes off, or a speaker
-    called full would be announced as the mix again.
+    The targets are mix_full, single_<speaker> and mix_<camera file>.
+    Only the overall mix is announced as the mix, and only a leading
+    prefix comes off: replacing "full" and "mix_" anywhere announced a
+    speaker Carefully as CareFull-Mixy. The overall mix is asked for
+    first, or a speaker called full would be announced as the mix again.
     """
     stem = os.path.splitext(os.path.basename(target))[0]
     if stem == "mix_full":

@@ -37,10 +37,9 @@ time = PROGRAM.time
 # the program, so the place is asked of PROGRAM.__file__, never of this.
 
 
-# Set to answer yes before the question is asked: a test run, a build
-# machine, anything with nobody in front of it. It answers for both
-# places here that ask, the package manager and pip -- and nothing
-# installs without it, or without somebody saying yes.
+# Answers yes before asking, for the package manager and pip alike: a
+# test run, a build machine, anything nobody sits at. Nothing installs
+# without it or without somebody saying yes.
 INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
 
 
@@ -764,10 +763,9 @@ def soxr_note():
              'comes out in steps of 21 ppm instead of 0.21.')
 
 
-# The API key lives in the OS credential store -- macOS keychain,
-# Windows registry, the Secret Service elsewhere. Never in a file: the
-# script gets copied around. All three names stand only here, two the
-# frozen name: a rename must not lose the stored key.
+# The API key lives in the OS credential store (macOS keychain, Windows
+# registry, Secret Service elsewhere), never in a file the script travels
+# with. Named only here, twice as FROZEN_NAME, so a rename keeps the key.
 KEY_STORE_REAL = (FROZEN_NAME, "auphonic", "Software\\" + FROZEN_NAME)
 KEY_SERVICE, KEY_ACCOUNT, REG_PATH = KEY_STORE_REAL
 

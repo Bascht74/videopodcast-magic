@@ -233,10 +233,9 @@ def run_argv(values, assignment_file_path=""):
               'name would be one person in two places.')
             % ", ".join(twice))
 
-    # One entry per camera, under the name the window's field gives it
-    # or, with the field empty, the file's stem. Both paths read it: the
-    # multitrack plan carries the list, the plain path sends the names
-    # as switches further down.
+    # One entry per camera, named by the window's field or else the file's
+    # stem. Both paths read it: the multitrack plan carries the list, the
+    # plain path sends the names as switches further down.
     cameras = [{"video": cam.get("path"),
                 "name": (cam.get("name") or "").strip()
                 or os.path.splitext(os.path.basename(
@@ -351,10 +350,9 @@ def run_argv(values, assignment_file_path=""):
             T('Two cameras would produce the same new file. Please '
               'give different names.'))
     if not values.get("multitrack"):
-        # No plan on this path, so a name typed for a camera goes as a
-        # switch pair; an empty field sends nothing and the run names
-        # the file after itself. Only the cameras that ride along: an
-        # intro, an outro or a file set aside is no camera of the run.
+        # No plan here: a name typed for a camera goes as a switch pair, and
+        # an empty field sends nothing and the run names the file after itself.
+        # Only cameras riding along: an intro, outro or file set aside is none.
         for cam in (values.get("cameras") or []):
             name = (cam.get("name") or "").strip()
             file_path = cam.get("path") or ""
@@ -410,10 +408,9 @@ def run_argv(values, assignment_file_path=""):
         # Only with a key: without auphonic.com there is nobody to
         # transcribe, and the switch would promise what cannot happen.
     else:
-        # No key, no preset: it runs locally, on either path. Everything
-        # that only auphonic.com can do is missing, and the run says so.
-        # Without the switch one recording would go and ask the
-        # credential store for the key the window had just set aside.
+        # No key, no preset: it runs locally, on either path, without what
+        # only auphonic.com can do, and says so. Without the switch one
+        # recording would ask the credential store for the key just set aside.
         argv += ["--without-auphonic"]
     return RunLine(argv, key), plan, messages
 
@@ -952,7 +949,6 @@ def _sliders_from_project(project, production, over=()):
     Nine numbers and five choices stand under `camera_cut` by their own
     names, the loudness under `lufs`, the wide shots are the files whose
     kind says so, and the edge is `wide_at_edges` the other way round.
-
     *over* is the command line this program was started with, and a
     value typed there beats the one the file holds.
     """

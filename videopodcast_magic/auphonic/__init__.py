@@ -534,9 +534,8 @@ def preset_mode_note(preset_list, multitrack_on):
 
 
 #------------------------------------------ The box in the window
-# The key and the presets it unlocks already stand above; the box that
-# asks for both, and says what came back of them, stands here, so that
-# what is asked and what is done with it are read in one place.
+# The box that asks for the key and its presets (above) and says what
+# came back, so what is asked and what is done are read in one place.
 
 
 def make_key_note(QtWidgets, label, hint, settings_open):
