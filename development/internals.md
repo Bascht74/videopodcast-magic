@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3942** -- who speaks and when: the separation itself,
+* `speakers/` **3950** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3191** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3272** -- who is on camera when, and what carries it out
+* `cut/` **3267** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2509** -- the DaVinci Resolve project, timelines, colour,
@@ -77,7 +77,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **995** -- the command line a run is given: written out of
+* `orders/` **973** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **742** -- MOV atoms, colour tags, what a recording says
   about itself, and how many audio streams it carries
@@ -100,7 +100,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **436** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `resolvesheet/` **620** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **619** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **453** -- the colours, the clip colours of the cut band and
@@ -111,7 +111,7 @@ figure of the day is that command, not this paragraph**:
   material is HDR, the spellings a colour space name goes by, and the
   report on a finished file
 * `tables/` **397** -- the tables and trees the window builds
-* `running/` **425** -- what a run is offered before it starts, the
+* `running/` **424** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
   looks one up
