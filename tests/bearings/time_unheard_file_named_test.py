@@ -138,8 +138,8 @@ real = vpm.bearings.align_envelopes
 
 
 def refusing(env_a, env_b, *args, **named):
-    """The real alignment, but it raises for the pair warned as CamA.mov."""
-    if named.get("warn") == "CamA.mov":
+    """The real alignment, but it raises for the pair warned as room.wav."""
+    if named.get("warn") == "room.wav":
         raise RuntimeError("stand-in: this pair cannot be measured")
     return real(env_a, env_b, *args, **named)
 
@@ -151,8 +151,8 @@ finally:
     vpm.bearings.align_envelopes = real
 print("   %s" % text)
 check("a file whose measurement fails is named, not left out",
-      short((data or {}).get("weak")) == ["CamA.mov"],
-      "weak: %s, wanted ['CamA.mov'] -- text %r"
+      short((data or {}).get("weak")) == ["room.wav"],
+      "weak: %s, wanted ['room.wav'] -- text %r"
       % (short((data or {}).get("weak")), text))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
