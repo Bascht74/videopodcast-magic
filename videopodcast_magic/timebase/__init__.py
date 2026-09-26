@@ -374,6 +374,11 @@ def join_only(args, tracks, tmpdir, title=""):
         print(T('  %s recordings and no picture: each is joined on its own '
                 'and they are not laid against each other. --multitrack '
                 'puts them on one time axis.') % number_text(len(tracks), 0))
+    # Said, not dropped in silence: nothing here is cut to a window.
+    if getattr(args, "in_point", None) or getattr(args, "out_point", None):
+        print(T('  In point and Out point do nothing here: without a '
+                'picture and without --multitrack every recording is '
+                'joined whole.'))
     if args.auphonic_key:
         key = api_key_from_anywhere(args)
         preset, presetname = choose_preset(

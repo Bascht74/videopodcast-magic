@@ -184,7 +184,8 @@ class AssignmentSheet(QtWidgets.QScrollArea):
         """Adopt the position currently on screen as a boundary.
 
         In the same reckoning as the readout right above these buttons:
-        two of them one widget apart put it where nobody set it.
+        two of them one widget apart put it where nobody set it. A
+        relative one counts from where every camera runs, as the run does.
         """
         player = self.player
         a = player.axis_spot()
@@ -193,7 +194,8 @@ class AssignmentSheet(QtWidgets.QScrollArea):
         if exact is not None:
             target.set(timecode_string(exact, player.fps))
             return
-        target.set(as_relative_time(a if a is not None else player.spot_s()))
+        target.set(as_relative_time(a - player.marks_zero() if a is not None
+                                    else player.spot_s()))
 
     def window_remember(self):
         """Put the boundaries where the player will find them."""
@@ -231,7 +233,7 @@ class AssignmentSheet(QtWidgets.QScrollArea):
             return
         self.window_label.setText(
             T('No audio file carries a timecode. In point and Out point count '
-              'from the start of the material -- the position of the files '
+              'from the moment every camera runs -- the position of the files '
               'to each other is measured.'))
         self.window_label.show()
 

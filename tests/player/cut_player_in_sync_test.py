@@ -163,8 +163,12 @@ NAMED = {"SPEAKER_00": "Host", "SPEAKER_01": "Guest"}
 # It must not be read: that is the fault of 30.8.2026, kept here as a
 # counter-check rather than as the source of the cut.
 STALE_AWAY = 3600.0
-# How far the window case pushes the start of the programme.
+# How far the window case pushes the start of the programme: a relative
+# In point counts, as in the run, from where every camera runs -- the
+# guest camera's 18:55:17:12, so 7.48 s after the programme's own start.
 WINDOW_IN = 20.0
+EVERY_CAMERA = 18 * 3600 + 55 * 60 + 17.48
+IN_LANDS = EVERY_CAMERA + WINDOW_IN - CUT_START
 WINDOW = (1400, 950)
 CASES = ("plain", "window")
 
@@ -509,7 +513,7 @@ def look(case):
         return seen["lines"].get(name) or []
 
     result = {"case": case, "measured": measured, "start_s": CUT_START,
-              "window_in": WINDOW_IN if case == "window" else 0.0}
+              "window_in": IN_LANDS if case == "window" else 0.0}
     state = {"waited": 0, "played": 0, "ready": 0, "from": 0.0,
              "turned": 0, "seen_at": 0.0, "still": 0, "again": 0,
              "went": None, "quiet": 0, "afresh": 0}
@@ -1588,11 +1592,11 @@ if plain.get("offset") and shifted.get("offset"):
     both = sorted(set(plain["offset"]) & set(shifted["offset"]))
     moved = [(t, plain["offset"][t] - shifted["offset"][t]) for t in both]
     check("  every camera moved by the In point, and by no more",
-          bool(moved) and all(abs(v - WINDOW_IN) < 0.05 for _t, v in moved),
+          bool(moved) and all(abs(v - IN_LANDS) < 0.05 for _t, v in moved),
           json.dumps([[t, round(v, 3)] for t, v in moved]))
     check("  and the sound moved with them",
           abs((plain.get("audio_offset") or 0.0)
-              - (shifted.get("audio_offset") or 0.0) - WINDOW_IN) < 0.05,
+              - (shifted.get("audio_offset") or 0.0) - IN_LANDS) < 0.05,
           "%s against %s" % (plain.get("audio_offset"),
                              shifted.get("audio_offset")))
 

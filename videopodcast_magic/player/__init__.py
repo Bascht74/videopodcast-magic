@@ -1924,8 +1924,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                     return None, True
                 value -= self.tc0
             elif value >= 0 and self.axis_s() is not None:
-                # Relative values count from the material, not from this file.
-                value -= self.axis_s()
+                # From where every camera runs, as in the run (the window).
+                value += getattr(self, "marks_zero", float)() - self.axis_s()
             elif value < 0:
                 value = self.player.duration() / 1000.0 + value
             return value, absolute
@@ -2859,7 +2859,7 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         elif value >= 0:
             if span["axis"] is None:
                 return None
-            value -= span["axis"]
+            value += marks_zero_here() - span["axis"]
         else:
             value = span["duration"] + value
         if not (0.0 <= value <= span["duration"] + 0.05):
@@ -2869,6 +2869,12 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
     def picture_span(file_path):
         """What this file knows about its place in time, on this axis."""
         return file_span(file_path, state["axis"])
+
+    def marks_zero_here():
+        """Where "+12:30" counts from on this axis: where every camera runs."""
+        return PROGRAM.marks_zero(state["axis"], player_candidates())
+
+    player.marks_zero = marks_zero_here
 
     def covers(file_path, text):
         """Report whether a time value lies inside this video file.
@@ -2896,7 +2902,7 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
         elif value >= 0:
             if span["axis"] is None:
                 return None
-            value -= span["axis"]
+            value += marks_zero_here() - span["axis"]
         else:
             value = span["duration"] + value
         return -0.05 <= value <= span["duration"] + 0.05
