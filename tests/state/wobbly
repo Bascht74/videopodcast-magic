@@ -217,3 +217,26 @@
 35590462193	2026-09-21	macOS py3.10	window_project_type_set	beside rc=1
 35590462193	2026-09-21	Windows py3.10	files_block_out_and_back	unknown
 35590462193	2026-09-21	Linux py3.10	window_play_follows_tab	beside rc=124
+36251871464	2026-09-26	macOS py3.14	table_row_per_voice	beside rc=1
+36251871464	2026-09-26	macOS py3.14	table_lock_says_why	beside rc=1
+36251871464	2026-09-26	Windows py3.10	window_blocks_placed	beside rc=1
+36249724087	2026-09-26	Windows py3.14	window_speaker_langs2	beside rc=1
+36249724087	2026-09-26	macOS py3.10	run_outside_seen	beside rc=1
+36249724087	2026-09-26	Windows py3.10	table_tick_keeps_camera	crashed rc=139 at exit
+36249724087	2026-09-26	Windows py3.10	window_setup_kept_apart	crashed rc=139 at exit
+36249724087	2026-09-26	Windows py3.10	table_notes_in_one_row	crashed rc=139 at exit
+36249724087	2026-09-26	Windows py3.10	run_threads_keep_order	beside rc=1
+36249724087	2026-09-26	Linux py3.14	table_lock_says_why	beside rc=1
+36246280640	2026-09-26	macOS py3.14	window_speaker_langs1	beside rc=124
+36246280640	2026-09-26	macOS py3.14	window_speaker_langs2	beside rc=124
+36246280640	2026-09-26	Windows py3.14	window_speaker_langs1	beside rc=124
+36246280640	2026-09-26	macOS py3.14	window_speaker_langs3	beside rc=124
+36246280640	2026-09-26	Windows py3.14	source_material_stays	beside rc=1
+36246280640	2026-09-26	Windows py3.14	window_speaker_langs2	beside rc=124
+36246280640	2026-09-26	macOS py3.14	window_speaker_langs4	beside rc=124
+36246280640	2026-09-26	Windows py3.14	window_speaker_langs3	beside rc=124
+36246280640	2026-09-26	Windows py3.14	window_speaker_langs4	beside rc=124
+36246280640	2026-09-26	Linux py3.14	table_row_per_voice	beside rc=1
+36246280640	2026-09-26	Windows py3.10	cut_player_in_sync	beside rc=1
+36246280640	2026-09-26	macOS py3.10	window_speaker_langs3	beside rc=124
+36246280640	2026-09-26	macOS py3.10	window_speaker_langs4	beside rc=124
