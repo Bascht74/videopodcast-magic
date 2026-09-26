@@ -1795,13 +1795,6 @@ msgstr ""
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Mitschrift nicht möglich (%s) -- es läuft trotzdem."
 
-msgid ""
-"  Wide shot at the edges: skipped -- the first or last announcement\n"
-"  would be too long for a greeting."
-msgstr ""
-"  Weitwinkel am Rand: übersprungen -- die erste oder letzte Ansage\n"
-"  wäre zu lang für eine Begrüßung."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Weitwinkel am Rand: bis %s und ab %s"
 
@@ -5090,9 +5083,6 @@ msgstr "gemessen aus den Aufnahmen -- %s Sprecher, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "aus dem fertigen Lauf -- %s Sprecher, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "aus den bearbeiteten Auphonic Spuren -- %s Sprecher, %s"
-
 msgid "no folder"
 msgstr "keinem Ordner"
 
@@ -6667,3 +6657,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Sprache im Ton"
+
+msgid "In the sound"
+msgstr "Im Ton"
+
+msgid "Speech"
+msgstr "Sprache"
+
+msgid "Mixed"
+msgstr "Gemischt"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Sprache: nur nach der Lautheit gelegt. Eine Aufnahme, die nichts\nmit den Kameras gemeinsam hat, wird abgelehnt. Gemischt: Musik oder ein Mix\nliegt unter den Stimmen, und wo die Lautheit nichts findet, darf die Phase sie legen.\nUnter „%s“ ist es immer gemischt."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: Übereinstimmung des Tons %s, an einer anderen Stelle ebenso %s -- allein nach seiner Uhr gesetzt"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  gekürzt auf höchstens je %s -- die erste Ansage endet bei %s, die letzte beginnt bei %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "In diesem Ordner liegt unter diesem Namen schon ein anderes Projekt, %s -- dieses bleibt in %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "das Bild wechselte dort nicht zum Antwortenden"
+
+msgid "the answer was counted with the question before"
+msgstr "die Antwort wurde mit der Frage davor gezählt"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s liegt im Ordner von --auphonic-done, zwischen den Spuren, die auphonic.com zurückgegeben hat. Wer spricht, wird an den Rohaufnahmen ermittelt -- hier stattdessen die Rohaufnahme nennen."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   Ton nicht erkannt; so platziert, wie der Lauf ihn platziert"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "Ton nicht erkannt, über den Timecode platziert"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s Aufnahmen und kein Bild: Jede wird für sich zusammengefügt, und sie werden nicht aneinander ausgerichtet. --multitrack legt sie auf eine Zeitachse."

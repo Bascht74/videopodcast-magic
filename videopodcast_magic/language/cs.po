@@ -1268,9 +1268,6 @@ msgstr "  Příliš mnoho:  limiter by musel ubrat %s dB. Víc než %s dB\n     
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Přepis není možný (%s) -- běží to i tak."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Široký záběr na okrajích: přeskočeno -- první nebo poslední hláška\n  by byla na přivítání příliš dlouhá."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Široký záběr na okrajích: do %s a od %s"
 
@@ -3380,9 +3377,6 @@ msgstr "změřeno z nahrávek -- mluvčí: %s, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "z dokončeného běhu -- mluvčí: %s, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "ze zpracovaných stop Auphonic -- mluvčí: %s, %s"
-
 msgid "no folder"
 msgstr "žádné složce"
 
@@ -4927,3 +4921,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Jazyk zvuku"
+
+msgid "In the sound"
+msgstr "Ve zvuku"
+
+msgid "Speech"
+msgstr "Řeč"
+
+msgid "Mixed"
+msgstr "Smíšené"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Řeč: umístí se jen podle hlasitosti. Nahrávka, která nemá nic společného\ns kamerami, se odmítne. Smíšené: pod hlasy leží hudba nebo mix,\na kde hlasitost nic nenajde, smí ji umístit fáze.\nPři „%s“ je vždy smíšené."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: shoda zvuku %s, a na jiném místě také %s -- zařazeno jen podle vlastních hodin"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  zkráceno nejvýše na %s každý -- první hláška končí v %s, poslední začíná v %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "V této složce už pod tímto názvem leží jiný projekt, %s -- tento zůstává v %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "obraz tam nepřepnul na odpovídajícího"
+
+msgid "the answer was counted with the question before"
+msgstr "odpověď byla započtena s otázkou před ní"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s leží ve složce --auphonic-done, mezi stopami, které vrátil auphonic.com. Kdo mluví, se zjišťuje ze surových nahrávek, proto zde místo toho uveďte surovou nahrávku."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   zvuk nerozpoznán; umístěno tak, jak to umístí běh"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "zvuk nerozpoznán, umístěno podle časového kódu"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s nahrávky a žádný obraz: každá se spojí zvlášť a nezarovnávají se vůči sobě. --multitrack je položí na jednu časovou osu."

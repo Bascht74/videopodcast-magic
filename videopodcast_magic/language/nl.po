@@ -1267,9 +1267,6 @@ msgstr "  Te veel:           de limiter zou %s dB moeten wegnemen. Meer dan %s d
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Transcriptie niet mogelijk (%s) -- het loopt toch door."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Totaalshot aan de randen: overgeslagen -- de eerste of laatste aankondiging\n  zou te lang zijn voor een begroeting."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Totaalshot aan de randen: tot %s en vanaf %s"
 
@@ -3377,9 +3374,6 @@ msgstr "gemeten uit de opnamen -- %s sprekers, %s"
 msgid "from the finished run -- %s speakers, %s"
 msgstr "uit de voltooide run -- %s sprekers, %s"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "uit de bewerkte Auphonic-sporen -- %s sprekers, %s"
-
 msgid "no folder"
 msgstr "(geen map)"
 
@@ -4883,3 +4877,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Taal van het geluid"
+
+msgid "In the sound"
+msgstr "In het geluid"
+
+msgid "Speech"
+msgstr "Spraak"
+
+msgid "Mixed"
+msgstr "Gemengd"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Spraak: alleen op de luidheid geplaatst. Een opname die niets gemeen heeft\nmet de camera’s, wordt geweigerd. Gemengd: onder de stemmen ligt muziek of een mix,\nen waar de luidheid niets vindt, mag de fase haar plaatsen.\nBij \"%s\" is het altijd gemengd."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: het geluid komt overeen met %s, en op een andere plek ook met %s -- alleen op zijn klok geplaatst"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  ingekort tot hoogstens %s elk -- de eerste aankondiging eindigt op %s, de laatste begint op %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "In deze map staat onder die naam al een ander project, %s -- dit blijft in %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "het beeld ging daar niet naar de antwoorder"
+
+msgid "the answer was counted with the question before"
+msgstr "het antwoord werd met de vraag ervoor meegeteld"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s staat in de map van --auphonic-done, tussen de sporen die auphonic.com terugstuurde. Wie er spreekt, wordt bepaald op de ruwe opnamen, dus geef hier in plaats daarvan de ruwe opname op."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   geluid niet herkend; geplaatst zoals de run het plaatst"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "geluid niet herkend, geplaatst op zijn timecode"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s opnamen en geen beeld: elke wordt apart samengevoegd en ze worden niet tegen elkaar uitgelijnd. --multitrack zet ze op één tijdas."

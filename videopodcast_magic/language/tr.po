@@ -1586,9 +1586,6 @@ msgstr "<span style='color:%(t)s'><b>%(n)s çekim</b>, medyan %(med)s sn, en kı
 msgid "Speakers, as the run measured them"
 msgstr "Çalıştırmanın ölçtüğü konuşmacılar"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "işlenmiş Auphonic izlerinden -- %s konuşmacı, %s"
-
 msgid "Why the wide shot settings are grey"
 msgstr "Geniş çekim ayarları neden gri"
 
@@ -1699,9 +1696,6 @@ msgstr "  Kurgu olduğu gibi kalıyor."
 
 msgid "  Not used:  %s."
 msgstr "  Kullanılmayanlar: %s."
-
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Kenarlarda geniş çekim: atlandı -- ilk ya da son anons\n  bir selamlama için fazla uzun olurdu."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Kenarlarda geniş çekim: %s değerine kadar ve %s değerinden itibaren"
@@ -4896,3 +4890,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Sesin dili"
+
+msgid "In the sound"
+msgstr "Seste"
+
+msgid "Speech"
+msgstr "Konuşma"
+
+msgid "Mixed"
+msgstr "Karışık"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Konuşma: yalnızca ses yüksekliğine göre yerleştirilir. Kameralarla hiçbir ortak\nyanı olmayan kayıt reddedilir. Karışık: seslerin altında müzik ya da bir miks vardır,\nve ses yüksekliğinin bir şey bulamadığı yerde faz onu yerleştirebilir.\n\"%s\" altında her zaman karışıktır."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: ses eşleşmesi %s, başka bir yerde de %s -- yalnızca kendi saatine göre yerleştirildi"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  her biri en fazla %s olacak şekilde kısaltıldı -- ilk anons %s anında biter, son anons %s anında başlar"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Bu klasörde bu adla başka bir proje zaten var, %s -- bu proje %s içinde kalıyor."
+
+msgid "the picture did not change to the answerer there"
+msgstr "görüntü orada yanıtlayana geçmedi"
+
+msgid "the answer was counted with the question before"
+msgstr "yanıt önceki soruyla birlikte sayıldı"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s, --auphonic-done klasöründe, auphonic.com'un geri gönderdiği izlerin arasında. Kimin konuştuğu ham kayıtlardan çıkarılır, bu yüzden burada onun yerine ham kaydı belirtin."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ses tanınmadı; çalıştırmanın yerleştirdiği gibi yerleştirildi"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ses tanınmadı, timecode'una göre yerleştirildi"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s kayıt ve hiç görüntü yok: her biri ayrı birleştirilir ve birbirine göre hizalanmaz. --multitrack onları tek bir zaman eksenine koyar."
