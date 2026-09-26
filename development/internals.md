@@ -40,9 +40,9 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3237** -- the window and everything it shows, asks or offers,
+* `ui/` **3238** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3177** -- the moving picture: the player, the cut band,
+* `player/` **3191** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
 * `cut/` **3272** -- who is on camera when, and what carries it out
