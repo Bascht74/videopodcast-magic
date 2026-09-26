@@ -183,10 +183,12 @@ on the command line. The window offers five entries:
 - **-23 LUFS (EBU R128, broadcast)**
 - **Take from source files**
 
-A new project starts on -16 LUFS. The window remembers the entry last
-chosen and starts the next new project on it, and a loaded project file
-beats that memory: a project saved at -23 LUFS opens at -23 LUFS, even
-where the machine had remembered **Take from source files**.
+A number nearer to zero makes the episode louder: -14 is the loudest
+of the four, -23 the quietest. A new project starts on -16 LUFS. The
+window remembers the entry last chosen and starts the next new project
+on it, and a loaded project file beats that memory: a project saved at
+-23 LUFS opens at -23 LUFS, even where the machine had remembered
+**Take from source files**.
 
 **Without a target nothing is adjusted.** No `--lufs` on the command
 line, or **Take from source files** in the window, and the sound leaves

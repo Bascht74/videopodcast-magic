@@ -509,10 +509,10 @@ tab past the window's edge, and a caption never parts from its field.
 spoken in the recording, preset from the system language. It does two
 things: it becomes the tag of the written audio track, and the
 recognition on this machine is told to expect that language. "not set"
-leaves the track untagged and lets the recognition work the language
-out for itself. The list holds only languages the recognition here also
-knows.
-[The transcript is made here](auphonic.md#the-transcript-is-made-here)
+leaves the track untagged, and the recognition then takes the system
+language on macOS and guesses from the sound everywhere else. The list
+holds only languages the recognition here also knows.
+[The three transcript files](speech.md#the-three-transcript-files)
 says what the recognition writes, and [Speech recognition and speaker
 separation](speech.md) which way it takes on which machine.
 
@@ -552,8 +552,9 @@ balance between the speakers is kept. Five entries:
 - **-23 LUFS (EBU R128, broadcast)**
 - **Take from source files**
 
-A new project starts on -16 LUFS. The window remembers the entry last
-chosen, and a loaded project file beats that memory.
+A number nearer to zero is louder. A new project starts on -16 LUFS.
+The window remembers the entry last chosen, and a loaded project file
+beats that memory.
 **Take from source files** adjusts nothing at all: auphonic.com goes on
 doing what its preset says, and without auphonic.com the sound stays as
 it is in the source files -- the file comes out byte for byte the same.

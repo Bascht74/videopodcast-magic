@@ -130,29 +130,20 @@ sagt das -- siehe [Was gebraucht wird](requirements.de.md).
 
 Am Text hat auphonic.com keinen Anteil. Das Programm hört den fertigen
 Mix auf diesem Rechner ab und schreibt jedes Wort mit der Zeit mit, zu
-der es gesagt wurde. Drei Dateien landen im Ausgabeordner, benannt nach
-dem **Namen der Produktion**:
-
-* ein json mit Zeiten
-* ein srt für Untertitel
-* ein txt zum Lesen
-
-Sind die Stimmen vorher auseinandergehalten worden, trägt das Transkript
-ihre Namen. Sind sie es nicht, trägt es keine: dann ist nicht bekannt,
-wer einen Satz gesagt hat, und ein geratener Name im Transkript ist
-schlimmer als eine Lücke.
+der es gesagt wurde: eine json-Datei mit Zeiten, eine srt-Datei für
+Untertitel und eine txt-Datei zum Lesen, in der Form, in der
+auphonic.com seine eigenen liefert.
 
 Das kostet Rechenzeit, kein Guthaben. Es braucht weder Schlüssel noch
 Preset noch Upload, und ein Lauf ohne Auphonic schreibt dieselben drei
-Dateien. Wie viele Wörter gehört wurden und wie viele Sekunden das
-Zuhören gedauert hat, steht im Protokoll; unter der Überschrift
-**TRANSKRIPT** stehen die drei Pfade. `--no-transcript-file` lässt die
-Dateien weg -- gehört werden die Wörter trotzdem, und der Schnitt holt
-sich seine Satzgrenzen weiter aus ihnen.
+Dateien. `--no-transcript-file` lässt die Dateien weg -- gehört werden
+die Wörter trotzdem, und der Schnitt holt sich seine Satzgrenzen weiter
+aus ihnen.
 
-Welchen Weg die Erkennung auf welchem Rechner nimmt, was sie dort
-kostet und wofür der Text gebraucht wird, steht in [Spracherkennung und
-Sprechertrennung](speech.de.md).
+Was in jeder der Dateien steht, sagt [Die drei Dateien des
+Transkripts](speech.de.md#die-drei-dateien-des-transkripts); welchen Weg
+die Erkennung auf welchem Rechner nimmt und was sie dort kostet, steht
+im selben Kapitel.
 
 ### Ohne Auphonic arbeiten
 

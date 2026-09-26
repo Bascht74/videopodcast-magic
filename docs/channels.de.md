@@ -42,6 +42,24 @@ auseinander. Die Messung schlägt vor, das Häkchen berichtigt:
 * Bei einer Datei, deren Kanalzahl sich gar nicht lesen lässt, sagt der
   Lauf das, statt die Zeile warten zu lassen.
 
+**Wenn sich die Kanäle nicht lesen lassen.** Kann das Programm nicht
+feststellen, wie viele Kanäle eine Datei hat, sagt das Protokoll `wie
+viele Kanäle sie hat, ist nicht feststellbar` samt Grund; kann es sie
+zählen, aber nicht messen, nennt die Fortschrittszeile neben **Start**
+die Datei mit `Kanäle nicht lesbar` und dem Grund. So oder so bekommt
+die Datei keine Kanalzeilen und kein Häkchen, und sie geht als eine
+einzige Spur in den Lauf, was immer sie enthält. Wo das stimmt -- eine
+Person oder ein Mix --, ist nichts zu tun. Wo mehrere Personen in der
+Datei stecken:
+
+1. Jeden Kanal als eigene Datei speichern, mit der Software des
+   Rekorders oder einem anderen Tonprogramm, oder die Datei noch einmal
+   als gewöhnliche WAV speichern.
+2. Die unlesbare Datei mit **Entfernen** aus der Liste nehmen.
+3. Die neuen Dateien hinzufügen. Eine gewöhnliche WAV klappt wie oben
+   in ihre Kanäle auf; Dateien mit je einem Kanal sind eigene
+   Aufnahmen.
+
 Das Programm benennt die Spuren nach ihren Kanälen: `Channel 1`,
 `Channel 2+3`. Die Dateien, in die es sie schneidet, tragen denselben
 Namen, zusammengeschrieben und mit einem kurzen Fingerabdruck des

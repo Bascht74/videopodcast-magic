@@ -197,9 +197,11 @@ fünf Einträge:
 - **-23 LUFS (EBU R128, Rundfunk)**
 - **Aus Quelldateien übernehmen**
 
-Ein neues Projekt beginnt bei −16 LUFS. Das Fenster merkt sich den
-zuletzt gewählten Eintrag und beginnt das nächste neue Projekt damit,
-und eine geladene Projektdatei sticht diese Erinnerung: ein mit −23 LUFS
+Je näher die Zahl an null liegt, desto lauter wird die Folge: -14 ist
+die lauteste der vier, -23 die leiseste. Ein neues Projekt beginnt bei
+−16 LUFS. Das Fenster merkt sich den zuletzt gewählten Eintrag und
+beginnt das nächste neue Projekt damit, und eine geladene Projektdatei
+sticht diese Erinnerung: ein mit −23 LUFS
 gespeichertes Projekt öffnet auf −23 LUFS, auch wenn der Rechner sich
 **Aus Quelldateien übernehmen** gemerkt hatte.
 
