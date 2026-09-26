@@ -974,10 +974,63 @@ def voice_names_clashing(assign_lines=(), voice_lines=(), voiced=()):
     name twice there is a question and not a refusal. A voice cannot
     merge with anything, so its name has to be its own.
     """
-    twice = set(names_used_twice(assign_lines, voice_lines, voiced))
-    return sorted(set(nv.get().strip() for _k, nv, cv in voice_lines or ()
-                      if cv.get() != IGNORE_AUDIO
-                      and nv.get().strip() in twice))
+    voices = [nv.get().strip() for _k, nv, cv in voice_lines or ()
+              if cv.get() != IGNORE_AUDIO]
+    return names_clashing(
+        sheet_speaker_names(assign_lines, voice_lines, voiced), voices)
+
+
+def names_clashing(names, voices):
+    """The names a voice carries that stand more than once in *names*.
+
+    The one rule both doors hold: *names* is every speaker of the run,
+    the voices among them, *voices* the names of the voices alone. The
+    window reads them off its sheet, the command line off its plan and
+    the separation it was handed.
+    """
+    names = [n for n in names if n]
+    return sorted(set(n for n in voices
+                      if n and names.count(n) > 1))
+
+
+def names_clash_said(clash):
+    """What both doors say when *clash* holds a name: one text, one place."""
+    return (T('%s is on more than one speaker -- a name is a '
+              'person, and every person needs their own.')
+            % ", ".join(clash))
+
+
+def voices_clashing_of_run(args, plan):
+    """voice_names_clashing for a command line, before anything is made.
+
+    The recordings are the plan's rows, the voices those of the
+    separation handed over -- by the window's assignment file or by
+    --speakers-from, and only one the run would use. A row whose sound
+    the separation was heard in speaks through its voices, as a
+    recording with voices under it does in the window.
+    """
+    given = getattr(args, "_speakers_of", None) or {}
+    if not given and getattr(args, "speakers_from", None):
+        given = read_separation_file(args.speakers_from)
+        if given.get("mtime") is not None \
+                and not speakers_from_project({"speakers": given})[0]:
+            given = {}
+    if getattr(args, "project_type", "") == "sync" or not given:
+        return []
+    heard, voices = set(), []
+    for one in [given] + list(given.get("more") or ()):
+        if one.get("source"):
+            heard.add(path_key(os.path.realpath(one["source"])))
+        named = dict(one.get("names") or {})
+        labels = set(s[0] for s in one.get("segments") or () if s)
+        voices += [named[k].strip() for k in sorted(labels)
+                   if (named.get(k) or "").strip()]
+    rows = []
+    for e in plan:
+        own = [(e.get("blocks") or [e.get("audio")])[0], e.get("from_camera")]
+        if not heard & set(path_key(os.path.realpath(p)) for p in own if p):
+            rows.append((e.get("speakers") or "").strip())
+    return names_clashing(rows + voices, voices)
 
 
 def speakers_on_window_axis(segments, offset, named=None):

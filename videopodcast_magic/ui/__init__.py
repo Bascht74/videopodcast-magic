@@ -523,9 +523,7 @@ def missing_conditions(files, production, multitrack, assign_lines,
     # one name are one person, and no answer makes that right.
     clash = voice_names_clashing(assign_lines, voice_lines, voiced)
     if clash:
-        pending[22] = (T('%s is on more than one speaker -- a name is a '
-                         'person, and every person needs their own.')
-                       % ", ".join(clash))
+        pending[22] = PROGRAM.names_clash_said(clash)
     # No sound at all: a video file whose Camera audio is not in use
     # contributes none, and a run with nothing to hear has no first step.
     if files and not assign_lines:

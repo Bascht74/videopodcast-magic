@@ -527,6 +527,12 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                  called.get(path_key(path))
                  or os.path.splitext(os.path.basename(path))[0], taken)}
             for path in video_paths if path_key(path) not in have]
+    # One name on a recording and on a voice: the window refuses it,
+    # and so does the line -- merged, each turn would count twice.
+    clash = PROGRAM.voices_clashing_of_run(args, plan)
+    if clash:
+        print(as_bad(T('Abort: %s') % PROGRAM.names_clash_said(clash)))
+        return 1
     plan = merge_plan_entries(plan)
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
