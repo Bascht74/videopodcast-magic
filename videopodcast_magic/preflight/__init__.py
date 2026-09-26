@@ -172,7 +172,7 @@ def name_to_fit(name, room):
 # else the window shows the old result for weeks. The recipe mark below
 # sees the three checks change by themselves; this number is for a
 # change in what they call.
-MEASUREMENT_VERSION = 2
+MEASUREMENT_VERSION = 3
 
 
 def preflight_recipe_mark():
@@ -265,12 +265,18 @@ def measure_cached(file_path, label, measure, fresh=False):
     fingerprint = "%s_%s" % (label, _fingerprint(file_path))
     d = None if fresh else cache_read(fingerprint)
     if d is None:
+        # ffprobe's own reason, never a parser's: a file it cannot open
+        # is named so here and is left out of every comparison.
         try:
+            why = ffprobe_json(file_path).get("unreadable")
+            if why is not None:
+                raise ValueError(why)
             findings, data = measure(file_path)
         except Exception as e:
             findings = [Finding("hint",
                                 name_to_fit(os.path.basename(file_path), 24),
-                                T('not readable: %s') % str(e)[:80])]
+                                T('not readable: %s') % str(e)[:80]
+                                if str(e) else T('not readable'))]
             data = {}
         d = {"findings": _findings_to_json(findings), "data": data}
         cache_write(fingerprint, d)
