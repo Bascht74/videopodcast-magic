@@ -126,7 +126,7 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-**Die nächsten vier Fassungen, kurz.** 3.0.0b26 hat getan, was
+**3.0.0b26 und die vier Fassungen danach, kurz.** 3.0.0b26 hat getan, was
 vorgesehen war: Die Fassung hat das Fenster in Stücke
 auseinandergenommen, die Zuordnungstabelle und die Kette des Laufs
 ebenso geteilt und neben den Tests gegen ein echtes Resolve Tests gegen
@@ -142,8 +142,8 @@ Vorschau in HDR. 3.0.0b30 gibt dem Programm einen eigenen Tonweg, ohne
 auphonic.com. Die Reihenfolge kann sich ändern; die vier Punkte unten
 stehen darin vorn.
 
-Vier Punkte. Die ersten zwei sind Arbeit. Die letzten zwei sind gebaut,
-und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
+Vier Punkte. Die ersten drei sind Arbeit. Der letzte ist gebaut,
+und was ihm fehlt, ist jemand, der sich mit echtem Material hinsetzt,
 nicht weiteres Bauen.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**

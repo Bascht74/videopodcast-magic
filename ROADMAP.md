@@ -119,7 +119,7 @@ the major number.
 
 ## What comes next
 
-**The next four versions, in short.** 3.0.0b26 did what it was set
+**3.0.0b26, and the four versions after it, in short.** 3.0.0b26 did what it was set
 to: it took the window apart into pieces, split the assignment table
 and the run's pipeline the same way, and built tests against
 auphonic.com beside those against a real Resolve -- both run only on
@@ -133,8 +133,8 @@ with measured ones and shows the preview in HDR. 3.0.0b30 gives the
 program a sound path of its own, without auphonic.com. The order can
 change; the four items below are what stands first in it.
 
-Four items. The first two are work. The last two are built, and what
-they wait on is somebody sitting down with real material rather than
+Four items. The first three are work. The last one is built, and what
+it waits on is somebody sitting down with real material rather than
 more building.
 
 **The whole way gets tests, not the single functions along it.** Seven
