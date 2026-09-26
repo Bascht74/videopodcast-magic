@@ -118,6 +118,207 @@ def player_load_cut(cut_player, cut_band, state, numbers, prepared_tracks,
                  {name: COLOURS["head"]}, duration or 1.0)
 
 
+class CutGroup(QtWidgets.QWidget):
+    """One group of the camera cut's settings, which opens and shuts.
+
+    A header button with the group's name; beside it, while the group is
+    shut, its values on a line of their own, wrapped rather than cut, so
+    a shut group still says what it holds. *toggled* is told (group, on)
+    when the button is pressed; *summary* gives the line.
+    """
+
+    # The rhythm, the wide shot, and where the speech does not decide:
+    # the question's seconds stand over "After a question", as before.
+    PLAN = (("timing", ("min-edit-duration", "min-speech-to-switch",
+                        "silence-hold", "edit-change-delay")),
+            ("wide", ("wide-after", "wide-latest", "wide-length",
+                      "wide-most")),
+            ("special", ("reaction-lead", "on-question", "on-monologue",
+                         "on-together", "on-silence", "on-uncertain")))
+
+    def __init__(self, key, title, summary, toggled):
+        """The header, the line beside it, and the rows' empty body."""
+        QtWidgets.QWidget.__init__(self)
+        self.key = self.name = key
+        self.summary = summary
+        column = QtWidgets.QVBoxLayout(self)
+        column.setContentsMargins(0, 0, 0, 0)
+        column.setSpacing(2)
+        head = QtWidgets.QHBoxLayout()
+        column.addLayout(head)
+        self.button = QtWidgets.QToolButton()
+        self.button.setText(title)
+        self.button.setAutoRaise(True)
+        bold = self.button.font()
+        bold.setBold(True)
+        self.button.setFont(bold)
+        self.button.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
+        self.button.clicked.connect(
+            lambda *_: toggled(self, not self.is_open()))
+        head.addWidget(self.button, 0,
+                       QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
+        self.said = label("", COLOURS["quiet"])
+        self.said.setWordWrap(True)
+        head.addWidget(self.said, 1)
+        head.addStretch(0)
+        self.body = QtWidgets.QWidget()
+        self.rows = QtWidgets.QVBoxLayout(self.body)
+        self.rows.setContentsMargins(18, 0, 0, 0)
+        column.addWidget(self.body)
+
+    def is_open(self):
+        """Whether the rows of this group are shown."""
+        return not self.body.isHidden()
+
+    def open_show(self, on):
+        """Show the rows or only the header, and the arrow that says which."""
+        self.body.setVisible(on)
+        self.button.setArrowType(QtCore.Qt.DownArrow if on
+                                 else QtCore.Qt.RightArrow)
+        self.said_again()
+
+    def said_again(self):
+        """The values beside the header, while shut; read out either way."""
+        text = self.summary()
+        self.said.setText("" if self.is_open() else text)
+        self.said.setVisible(not self.is_open())
+        self.button.setAccessibleDescription(text)
+
+
+class CutGroups(object):
+    """The camera cut's groups on one sheet, and which of them are open.
+
+    *opened* holds the open groups' keys, the one opened longest ago
+    first. What was open is asked of the settings file, not the project:
+    it is how somebody likes the tab, not a fact about one production.
+    """
+
+    def __init__(self, sheet, into, loose, parts, values):
+        """Each row out of the grid it was built in (*loose*) into a group.
+
+        Nothing kept means all open until the first look settles it.
+        """
+        self.sheet, self.values, self.arranged = sheet, values, False
+        self.parts = parts
+        titles = {"timing": T('Timing'), "wide": T('Wide shot'),
+                  "special": T('Special cases')}
+        self.groups, self.group_of = [], {}
+        for key, keys in CutGroup.PLAN:
+            group = CutGroup(key, titles[key],
+                             lambda k=keys: self.said(k), self.toggled)
+            for api_key in keys:
+                line = parts[api_key][0]
+                for i in range(loose.count()):
+                    loose.itemAt(i).layout().removeWidget(line)
+                group.rows.addWidget(line)
+                values[api_key].listen(group.said_again)
+            into.addWidget(group)
+            self.groups.append(group)
+            self.group_of[key] = group
+        kept = PROGRAM.settings().get("cut_groups_open")
+        self.kept = kept if isinstance(kept, list) else None
+        self.opened = [g.key for g in self.groups
+                       if self.kept is None or g.key in kept]
+        if self.kept is not None:
+            self.opened.sort(key=kept.index)
+        for group in self.groups:
+            group.open_show(group.key in self.opened)
+
+    def said(self, keys):
+        """The values of one group on one line, for its header when shut."""
+        said = []
+        for api_key, caption, _d, unit, _s, _l in PROGRAM.CUT_FIELDS:
+            if api_key in keys:
+                said.append("%s %s\u00a0%s" % (
+                    T(caption), self.values[api_key].get(), unit))
+        # A choice as its drop-down names it, in the language shown.
+        for api_key, caption, _d, _a, _s, _l in PROGRAM.CUT_CHOICES:
+            if api_key in keys:
+                said.append("%s: %s" % (T(caption),
+                                        self.parts[api_key][1].currentText()))
+        return "  ·  ".join(said)
+
+    def toggled(self, group, on):
+        """A header was pressed: open or shut that group, then make room.
+
+        The group just opened is the newest, so it is never the one the
+        room it needs is taken from.
+        """
+        if group.key in self.opened:
+            self.opened.remove(group.key)
+        if on:
+            self.opened.append(group.key)
+        group.open_show(on)
+        if on:
+            self.fit()
+        self.keep()
+
+    def first(self):
+        """On a look at the tab: make room, and first time decide who leads.
+
+        Without a kept choice a group holding a value off its default is
+        put last, so it is the one left open when room runs short.
+        """
+        if self.kept is None and not self.arranged:
+            self.arranged = True
+            plain = dict((f[0], str(f[2])) for f in
+                         PROGRAM.CUT_FIELDS + PROGRAM.CUT_CHOICES)
+            plan = dict(CutGroup.PLAN)
+            self.opened.sort(key=lambda key: any(
+                str(self.values[k].get()) != plain[k] for k in plan[key]))
+        self.fit()
+
+    def fit(self):
+        """Shut the group opened longest ago while the tab would scroll.
+
+        Never the last open one, and none whose shutting would not lower
+        the tab: where the preview beside it is what is too tall, taking
+        the settings away gains nothing.
+        """
+        room = self.sheet.maximumViewportSize().height()
+        while len(self.opened) > 1:
+            before = self.room_needed()
+            if before <= room:
+                break
+            oldest = self.group_of[self.opened.pop(0)]
+            oldest.open_show(False)
+            if self.room_needed() >= before:
+                self.opened.insert(0, oldest.key)
+                oldest.open_show(True)
+                break
+
+    def room_needed(self):
+        """The height the tab asks for now, in the width it is shown in.
+
+        Every layout from the groups up is told to measure again first:
+        a hidden row only reaches the tab's size once they have.
+        """
+        inside = self.sheet.widget()
+        here = self.groups[0]
+        while here is not None and here is not self.sheet:
+            if here.layout() is not None:
+                here.layout().invalidate()
+            here = here.parentWidget()
+        for group in self.groups:
+            group.layout().invalidate()
+        inside.layout().activate()
+        need = inside.minimumSizeHint().height()
+        if inside.hasHeightForWidth():
+            need = max(need, inside.heightForWidth(
+                self.sheet.maximumViewportSize().width()))
+        return need
+
+    def keep(self):
+        """Write down which groups are open, oldest first, where it moved.
+
+        Only after a press: shutting for room alone writes nothing, so a
+        window that is only looked at leaves the settings as they were.
+        """
+        if self.opened != self.kept:
+            self.kept = list(self.opened)
+            PROGRAM.keep_setting("cut_groups_open", list(self.opened))
+
+
 class ResolveSheet(QtWidgets.QScrollArea):
     """Tab three: whether Resolve answers, the camera cut and its preview.
 
@@ -167,6 +368,8 @@ class ResolveSheet(QtWidgets.QScrollArea):
         """
         if self.window.tabs.currentWidget() is not self:
             return
+        # After the tab is laid out, which is after this signal.
+        QtCore.QTimer.singleShot(0, self.cut_groups.first)
         if not self.state.get("resolve_checked"):
             self.state["resolve_checked"] = True
             self.resolve_check_run_kick_off()
@@ -225,7 +428,9 @@ class ResolveSheet(QtWidgets.QScrollArea):
         left.addWidget(self.cut_box)
         cut_position = QtWidgets.QVBoxLayout(self.cut_box)
         self.cut_parts = {}
-        self.cut_var = self.model.cut = cut_fields_build(cut_position,
+        # Built into a layout of no window's, then handed to the groups.
+        loose = QtWidgets.QVBoxLayout()
+        self.cut_var = self.model.cut = cut_fields_build(loose,
                                                          self.cut_parts)
         PROGRAM.choice_boxes_even(
             [box for _line, box in self.cut_parts.values()])
@@ -233,7 +438,10 @@ class ResolveSheet(QtWidgets.QScrollArea):
         self.edge_box = checkbox_bind(QtWidgets.QCheckBox(
             T('Wide shot for greeting at the start and farewell at the end')),
             self.edge_on)
-        cut_position.addWidget(hint(
+        self.cut_groups = CutGroups(self, cut_position, loose,
+                                    self.cut_parts, self.cut_var)
+        self.groups = self.cut_groups.groups
+        self.cut_groups.group_of["wide"].rows.addWidget(hint(
             self.edge_box,
             T('During greeting and farewell the picture stays wide.')))
         self.wide_note = wide_note_build(label, COLOURS["quiet"])
