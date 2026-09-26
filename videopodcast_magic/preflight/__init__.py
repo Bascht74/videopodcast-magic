@@ -133,6 +133,41 @@ class Finding(object):
         return as_warn(out) if self.kind == "abort" else out
 
 
+def name_to_fit(name, room):
+    """*name* in at most *room* columns, the middle given up for an ellipsis.
+
+    The ends tell two files apart -- the take at the front, the
+    extension and a "(2)" at the back -- so the middle goes, as
+    short_name does in the window. Counted in the columns a terminal
+    gives a letter: a wide one takes two, a combining mark none.
+    """
+    import unicodedata
+
+    def columns(c):
+        """How many columns of a terminal the letter *c* takes."""
+        if unicodedata.combining(c):
+            return 0
+        return 2 if unicodedata.east_asian_width(c) in ("W", "F") else 1
+
+    if sum(columns(c) for c in name) <= room:
+        return name
+    tail, left = "", room - 1 - (room - 1) // 2
+    for c in reversed(name):
+        if columns(c) > left:
+            break
+        left -= columns(c)
+        tail = c + tail
+    # A mark whose letter stays on the other side of the cut goes too.
+    tail = tail.lstrip("".join(c for c in tail if unicodedata.combining(c)))
+    head, left = "", room - 1 - sum(columns(c) for c in tail)
+    for c in name:
+        if columns(c) > left:
+            break
+        left -= columns(c)
+        head += c
+    return head + "\u2026" + tail
+
+
 # Part of the fingerprint: raising it makes every old measurement stale,
 # else the window shows the old result for weeks. The recipe mark below
 # sees the three checks change by themselves; this number is for a
@@ -233,8 +268,9 @@ def measure_cached(file_path, label, measure, fresh=False):
         try:
             findings, data = measure(file_path)
         except Exception as e:
-            findings = [Finding("hint", os.path.basename(file_path)[:24],
-                              T('not readable: %s') % str(e)[:80])]
+            findings = [Finding("hint",
+                                name_to_fit(os.path.basename(file_path), 24),
+                                T('not readable: %s') % str(e)[:80])]
             data = {}
         d = {"findings": _findings_to_json(findings), "data": data}
         cache_write(fingerprint, d)
@@ -380,8 +416,10 @@ def check_camera_file(file_path):
     name = os.path.basename(file_path)
     b = inspect_frame_rate(file_path)
     if not b:
-        return [Finding("hint", name[:24], T('no video track'))], {}
-    out = [Finding("good", name[:24], T('%s fps -- %s, %dx%d, %s frames in %s')
+        return [Finding("hint", name_to_fit(name, 24),
+                        T('no video track'))], {}
+    out = [Finding("good", name_to_fit(name, 24),
+                   T('%s fps -- %s, %dx%d, %s frames in %s')
                    % (number_text(b["nominal"], 3),
                       b["codec"] or "?", b["width"] or 0, b["height"] or 0,
                       number_text(b["videos"], 0),
@@ -578,7 +616,7 @@ def find_camera_gaps(video_paths):
             t1, t2 = file_timecode(p1), file_timecode(p2)
             if t1 is None or t2 is None:
                 out.append(Finding(
-                    "hint", stem[:17],
+                    "hint", name_to_fit(stem, 17),
                     T('multi-part, no timecode -- gaps in between cannot '
                       'be detected.'), "",
                     os.path.abspath(p2)))
@@ -590,7 +628,7 @@ def find_camera_gaps(video_paths):
             gap = unwrap_day(t2, t1 + d1) - (t1 + d1)
             if gap > 0.5:
                 out.append(Finding(
-                    "hint", stem[:17],
+                    "hint", name_to_fit(stem, 17),
                     T('Gap of %s between block %d and %d -- the camera '
                       'stopped.') % (as_hms(gap), n1, n2),
                     T('The cut has no picture there. When the Timeline is '
@@ -617,7 +655,7 @@ def check_audio_file(file_path):
     else:
         said = T('%s kHz, %s bit, %s, %s') % (
             khz, depth, channel_text(channels), as_hms(duration))
-    out = [Finding("good", name[:24], said)]
+    out = [Finding("good", name_to_fit(name, 24), said)]
     if rate and rate != SR:
         out.append(Finding(
             "fixed", "",
@@ -703,7 +741,7 @@ def one_recording_only(chains):
     for row, _rest in chains[1:]:
         name = recording_name(os.path.basename(row[0]), len(row))
         out.append(Finding(
-            "abort", name[:17],
+            "abort", name_to_fit(name, 17),
             T('Sync only takes one audio recording; this is one more: %s')
             % name, "", row[0]))
     return out
@@ -720,7 +758,7 @@ def compare_audio_tracks(data):
     for name, d, file_path in lengths:
         if longer > 0 and d < 0.5 * longer:
             out.append(Finding(
-                "hint", name[:17],
+                "hint", name_to_fit(name, 17),
                 T('only %s long, the longest recording has %s.')
                 % (as_hms(d), as_hms(longer)),
                 T('Started late or stopped early -- this voice is then '
@@ -763,7 +801,7 @@ def timecode_comparison(data):
         other = sorted((b0, j) for b0, _m, j in placed if j != i)
         middle, other_row = other[len(other) // 2]
         out.append(Finding(
-            "hint", (rows[i].get("name") or "?")[:17],
+            "hint", name_to_fit(rows[i].get("name") or "?", 17),
             T('Timecode %s, the other files are at %s -- this clock was '
               'not set.')
             % (timecode_string(a0, rows[i].get("nominal") or 30.0),
@@ -1369,8 +1407,8 @@ def camera_named(file_path, findings_, data, labels=None):
     if shown == name:
         return findings_, data
     for b in findings_:
-        if b.field == name[:24]:
-            b.field = shown[:24]
+        if b.field == name_to_fit(name, 24):
+            b.field = name_to_fit(shown, 24)
     return findings_, (dict(data, name=shown) if data else data)
 
 

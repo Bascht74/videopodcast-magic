@@ -160,6 +160,7 @@ run_ffmpeg_offered	19
 run_findings_reach_both	6
 run_install_is_watched	42
 run_log_within_reach	30
+run_long_names_keep_end	14
 run_metrics_add_up	51
 run_mute_camera_placed	6
 run_name_twice_refused	4

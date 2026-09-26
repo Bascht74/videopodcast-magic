@@ -195,7 +195,8 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
             dy = du = dv = 0.0
             distance = T('-- only one camera')
         print("  %-24s %8s %8s %8s   %s"
-              % (name[:24], number_text(values.get("y", 0), 1),
+              % (PROGRAM.name_to_fit(name, 24),
+                 number_text(values.get("y", 0), 1),
                  number_text(values.get("u", 0), 1),
                  number_text(values.get("v", 0), 1), distance))
         lines.append((name, values, (dy, du, dv)))
