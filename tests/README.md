@@ -1,6 +1,6 @@
 # The test suite
 
-411 tests against the program in `../videopodcast_magic/`. Every one of them stands
+412 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -248,7 +248,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-411 tests. The name is the one a red line carries, and beside it the
+412 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -537,6 +537,7 @@ it is green.
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
 | `window_key_off_line` | The key stands on no command line: a window run's, a restart's, a typed one. |
 | `window_marks_come_back` | A file that fits nothing is still marked after the project is reopened. |
+| `window_marks_moved_grey` | A mark moved since the run greys Create Resolve project, and says why. |
 | `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
@@ -767,7 +768,7 @@ the source, the texts and the documents as a whole.
 | `stowage/` | `run_choice_kept` |
 | `timebase/` | `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named` |
 | `timecode/` | `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_over_midnight` |
-| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
+| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_crash_said`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_moved_grey`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard`, `window_zero_as_run` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
 
 ### Under `resolve/live/` -- beside a running DaVinci Resolve

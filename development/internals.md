@@ -40,12 +40,12 @@ figure of the day is that command, not this paragraph**:
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3186** -- the window and everything it shows, asks or offers,
+* `ui/` **3210** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `player/` **3157** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3237** -- who is on camera when, and what carries it out
+* `cut/` **3255** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2628** -- the DaVinci Resolve project, timelines, colour,
@@ -118,7 +118,7 @@ figure of the day is that command, not this paragraph**:
 * `filesheet/` **290** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
   production strip with the output folder
-* `assignmentsheet/` **258** -- the second tab: the assignment boxes,
+* `assignmentsheet/` **260** -- the second tab: the assignment boxes,
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
