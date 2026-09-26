@@ -70,23 +70,43 @@ def run_done_text(dry):
 # goes through PROGRAM: at this file's head it is not there yet.
 
 
+def user_asker(window, bridge, bridge_emit):
+    """How the run asks somebody: the worker waits, the window asks.
+
+    The dialog runs in the window's thread, reached through the bridge;
+    the worker thread stands still until the answer is in.
+    """
+    bridge.question.connect(lambda f: PROGRAM.question_dialog(
+        f, window, PROGRAM._qt_widgets(), PROGRAM.label))
+
+    def ask_user(possible, title=T('Question')):
+        """A question from the worker thread; the dialog is the window's."""
+        f = PROGRAM.Question(possible, title)
+        bridge_emit(bridge.question, f)
+        f.event.wait()
+        return f.choice
+
+    return ask_user
+
+
 def make_run_start(QtCore, window, state, model, report, ask, write,
-                   ask_user, bridge, bridge_emit, prework_node, prework_done,
+                   bridge, bridge_emit, prework_node, prework_done,
                    prework_queue, prework_run, prework_lock, prework_busy,
-                   start_run, preview_button, break_off, output_timer,
-                   files_for_run, window_length, preset_plaintext,
-                   without_auphonic, buttons_check, result_button_check,
-                   run_plan_build, run_step_order, project_write):
+                   output_timer, preset_plaintext, without_auphonic,
+                   run_step_order):
     """Setting a run going: the summary, the command line, the thread.
 
     One name for four because they are one theme and answer each other:
     what the summary offers is what start then builds, and both runs --
     the whole one and the Resolve-only one -- end in the same work_loop.
-    What the production holds is read off *model*. The call sits below
-    the footer, the project file and the output timer, three arguments.
+    What the production holds is read off *model*, the footer's buttons
+    off *window*, and what follows a start goes out as its signals.
     """
     log = window.output_sheet.log
     only_resolve = window.output_sheet.only_resolve
+    result_button_check = window.output_sheet.result_button_check
+    start_run, preview_button = window.start_run, window.preview_button
+    ask_user = user_asker(window, bridge, bridge_emit)
 
     def work_loop(argv):
         # A separator, so several runs of one session can be told apart
@@ -112,7 +132,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         content = [p for p in videos_p if kind_now(p) in CAMERA_TYPES]
         edge = [(kind_now(p), os.path.basename(p)) for p in videos_p
                 if kind_now(p) not in CAMERA_TYPES]
-        duration = window_length()
+        duration = model.window_length()
         lines = ["%s, %s%s"
                   % (TN(len(content), '%s camera', '%s cameras')
                      % number_text(len(content), 0),
@@ -194,7 +214,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         state["waiting"] = False
         state["confirmed"] = False
         start_run.setText(T('Start'))
-        buttons_check()
+        window.run_starting.emit()
         # A selection with no sound in use never gets this far --
         # what_missing holds the button and says why. The prework is
         # done, and its display has no business in the file list.
@@ -217,7 +237,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         values = {
             # The tracks, not the files they came out of: a recorder
             # file holding four channels goes into the run as four.
-            "files": files_for_run(),
+            "files": model.files_for_run(),
             "clip_kinds": {p: value.get()
                            for p, value in model.clip_kinds.items()},
             "out_folder": model.out_folder.get(),
@@ -322,13 +342,11 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         state["running"], state["dry_run"] = True, bool(only_look)
         # Held now: the preset box can be turned while the run goes on.
         state["run_auphonic"] = not without_auphonic()
-        PROGRAM.break_off_arm(break_off)
-        run_plan_build()
-        result_button_check()
-        # A dry run says it left the output folder as it was, so it
-        # does not save: the window's close writes the hand work down.
-        if not only_look:
-            project_write()
+        PROGRAM.break_off_arm(window.break_off)
+        # The plan is built, the result buttons follow, and the project
+        # file is written -- but not by a dry run, which says it left
+        # the output folder as it was: the close writes the hand work.
+        window.run_begun.emit(bool(only_look))
         threading.Thread(target=work_loop, args=(argv,), daemon=True).start()
         output_timer.start()
 

@@ -55,4 +55,8 @@ class FilesSheet(QtWidgets.QWidget):
         (self.bar, self.add_button,
          self.remove_button) = PROGRAM.file_bar_build(
              QtWidgets, self.position, self.strip)
+        # The list, its status line and its row maker, which the file
+        # changes reach for here rather than being handed them.
+        self.items, self.preflight_line, self.item = (
+            parts[0], parts[1], parts[-1])
         return parts

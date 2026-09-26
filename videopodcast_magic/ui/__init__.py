@@ -53,7 +53,6 @@ app_style_set = PROGRAM.app_style_set
 as_bad = PROGRAM.as_bad
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
-as_hms = PROGRAM.as_hms
 as_relative_time = PROGRAM.as_relative_time
 assignment_marks_show = PROGRAM.assignment_marks_show
 assignment_rows = PROGRAM.assignment_rows
@@ -115,7 +114,6 @@ not_on_the_axis = PROGRAM.not_on_the_axis
 number_text = PROGRAM.number_text
 open_page = PROGRAM.open_page
 os = PROGRAM.os
-parse_time_point = PROGRAM.parse_time_point
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 pick_choice = PROGRAM.pick_choice
@@ -1856,6 +1854,16 @@ def in_turn(*steps):
         step()
 
 
+def wire(signal, *slots):
+    """Connect each of *slots* to *signal*, in the order given.
+
+    Qt calls them in the order they were connected, so one line says
+    what answers a signal and in which order.
+    """
+    for slot in slots:
+        signal.connect(slot)
+
+
 def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
                  run_step_order):
     """Do the actual run in a worker thread and catch what it says.
@@ -2456,6 +2464,22 @@ class MainWindow(QtWidgets.QWidget):
     it is decided where each stands and what its tab is called.
     """
 
+    # What the project file, the run start and the file list say has
+    # happened. They emit; gui() connects who answers, and in what order.
+    project_closed = QtCore.Signal()
+    project_opened = QtCore.Signal()
+    files_changed = QtCore.Signal()
+    files_redrawn = QtCore.Signal()
+    files_leaving = QtCore.Signal(object)
+    material_leaving = QtCore.Signal(object)
+    folder_changed = QtCore.Signal()
+    folder_wanted = QtCore.Signal()
+    mode_changed = QtCore.Signal()
+    presets_wanted = QtCore.Signal()
+    assignment_due = QtCore.Signal()
+    run_starting = QtCore.Signal()
+    run_begun = QtCore.Signal(bool)
+
     def __init__(self, app, files, state):
         """Title and picture, the tab widget, and the four sheets."""
         QtWidgets.QWidget.__init__(self)
@@ -2541,10 +2565,17 @@ class MainWindow(QtWidgets.QWidget):
 
     def footer_build(self, state, plan, bridge, late, multitrack,
                      without_auphonic, settings_open):
-        """The bottom row under the tabs: what make_footer hands back."""
-        return make_footer(QtCore.Qt, QtCore, QtWidgets, self, self.vertical,
-                           state, self.files, plan, bridge, late, multitrack,
-                           without_auphonic, settings_open)
+        """The bottom row under the tabs: what make_footer hands back.
+
+        Its three buttons are kept on the window too, where the run
+        start reaches for them.
+        """
+        parts = make_footer(QtCore.Qt, QtCore, QtWidgets, self, self.vertical,
+                            state, self.files, plan, bridge, late, multitrack,
+                            without_auphonic, settings_open)
+        self.start_run, self.preview_button, self.break_off = (
+            parts[0], parts[2], parts[3])
+        return parts
 
     def menu_build(self, player, does, window_switch, cut_player, late,
                    buttons, has_material):
@@ -2682,40 +2713,18 @@ def gui():
          state, lambda paths: take_paths(paths), lambda: add_files(),
          lambda: project_open())
 
-    no_join = model.no_join
-    # Which blocks make up which recording. The channels are judged over
-    # the whole recording, not over its first block -- see blocks_facts.
-    blocks_of = ByFile()
-    recording_of = ByFile()
+    no_join, split_files = model.no_join, model.split_files
+    blocks_of, recording_of = model.blocks_of, model.recording_of
     join_to, together_now = model.join_to, model.together_now
     channel_choice = model.channel_choice
     channel_node = ByFile()      # file -> its row in the list
     video_kind_again = ByFile()  # file -> draw its Kind cell again
-    # file -> [(track file, label)]. An empty list means looked at and
-    # whole; a missing entry means not looked at yet.
-    split_files = ByFile()
 
     def channel_rows_show(node, path):
         channel_rows_build(node, path, Qt, QtCore, QtWidgets,
                            blocks_of, channel_choice, channel_node,
                            channels_arrived, clip_kind_values, items,
                            remembered, split_files)
-
-    def files_for_run():
-        """The file list a run is given, with tracks in place of sources.
-
-        Only here, not in the list the project stores: that one keeps the
-        files as they lie on disc. The tracks are cut afresh each time.
-        """
-        out = []
-        for p, kind in files:
-            pieces = (split_files.get(p) or []
-                      if kind == "audio" else [])
-            if pieces:
-                out += [(x, "audio") for x, _label in pieces]
-            else:
-                out.append((p, kind))
-        return out
 
     def split_arrived(path):
         """One file has been cut into its tracks: rebuild the tables."""
@@ -3123,17 +3132,6 @@ def gui():
             'In point and Out point are available once the time axis is '
             'set -- from the timecode or measured.')))
         window_hint.setVisible(not on)
-
-    def window_length():
-        """Return the length of the window, empty if none is set."""
-        try:
-            a, _ = parse_time_point(start_var.get(), 30.0)
-            b, _ = parse_time_point(end_var.get(), 30.0)
-        except Exception:
-            return ""
-        if a is None or b is None or b <= a:
-            return ""
-        return as_hms(b - a)
 
     def window_prefill(videos):
         """Prefill the In point and the Out point from what the cameras offer.
@@ -3656,7 +3654,7 @@ def gui():
 
     def window_info_show():
         a, b = start_var.get().strip(), end_var.get().strip()
-        duration = window_length()
+        duration = model.window_length()
         window_info_label.setText(
             T('In point: %s     Out point: %s     Duration: %s')
             % (a or T('Beginning'), b or T('End'),
@@ -3929,12 +3927,14 @@ def gui():
     # project file, which takes items_fresh; take_paths goes back.
     # ------------------------------------------------------------------
     items_fresh, take_paths, add_files, remove = make_file_changes(
-        Qt, QtCore, QtWidgets, window, state, model, ask, report, items,
-        item, preflight_line, preflight_fill_in, preflight_kick_off,
-        blocks_of, recording_of, lines_node, prework_node,
+        Qt, QtCore, QtWidgets, window, state, model, ask, report,
+        preflight_fill_in, preflight_kick_off, lines_node, prework_node,
         video_kind_again, channel_rows_show, audio_use_now,
-        video_choices_show, buttons_check, show_weak, assignment_fresh,
-        finished_tracks_check, prework_clean_up)
+        video_choices_show)
+    wire(window.files_redrawn, show_weak, finished_tracks_check,
+         buttons_check, window.settings_show, assignment_fresh)
+    wire(window.files_leaving, prework_clean_up)
+    wire(window.assignment_due, assignment_fresh)
 
     # A file dropped straight onto the list lands here; the buttons above
     # stand long before the five exist and are hung on them here.
@@ -3944,15 +3944,22 @@ def gui():
 
     # ------------------------------------------------------------------
     # Project file -- the three lifted out of here. Below the writer,
-    # because it and resolve_button_check go in as arguments.
+    # which goes in; what answers its signals is said here.
     # ------------------------------------------------------------------
+    wire(window.material_leaving, lambda paths: PROGRAM.measuring_stop(
+        state, paths, prework_clean_up, split_stop, split_run, plan_wipe))
+    wire(window.project_closed, items_fresh, folder_show, window_enable,
+         resolve_button_check, result_button_check, preview_compute)
+    wire(window.project_opened, resolve_button_check, result_button_check,
+         preview_compute, lambda: player_follow_up(spot_also=True))
+    wire(window.folder_changed, folder_show)
+    wire(window.folder_wanted, folder_pick)
+    wire(window.mode_changed, mode_toggled)
+    wire(window.presets_wanted, lambda: PROGRAM.preset_list_bring(
+        state, presets_wanted_now, presets_filter))
     (project_write, project_new, project_open) = make_project_file(
         QtWidgets, window, state, model, report, write, axis_file,
-        axis_store, project_collect, project_move, settings_extend,
-        folder_show, folder_pick, items_fresh, window_enable, mode_toggled,
-        player_follow_up, plan_wipe, prework_clean_up, split_stop,
-        split_run, preview_compute, presets_wanted_now, presets_filter,
-        resolve_button_check, result_button_check)
+        axis_store, project_collect, project_move, settings_extend)
     # take_paths asks whether the files just dropped in carry a
     # project of their own, and it is made here, below it.
     state["project_open"] = project_open
@@ -3985,28 +3992,18 @@ def gui():
     PROGRAM.UPDATE_SINK = make_update_sink(state, write, window.output_show,
                                            output_timer)
 
-    # Runs in the window thread while the worker thread waits.
-    bridge.question.connect(
-        lambda f: question_dialog(f, window, QtWidgets, label))
-
-    def ask_user(possible, title=T('Question')):
-        """A question from the worker thread; the dialog is the window's."""
-        f = Question(possible, title)
-        bridge_emit(bridge.question, f)
-        f.event.wait()
-        return f.choice
-
     # ------------------------------------------------------------------
     # Setting a run going -- the four lifted out of here. Below the
     # footer, the project file and the timer, which go in as arguments.
     # ------------------------------------------------------------------
+    wire(window.run_starting, buttons_check)
+    wire(window.run_begun, run_plan_build, result_button_check,
+         lambda dry: dry or project_write())
     start, only_resolve_start_run = make_run_start(
-        QtCore, window, state, model, report, ask, write, ask_user,
-        bridge, bridge_emit, prework_node, prework_done, prework_queue,
-        prework_run, prework_lock, prework_busy, start_run, preview_button,
-        break_off, output_timer, files_for_run, window_length,
-        preset_plaintext, without_auphonic, buttons_check,
-        result_button_check, run_plan_build, run_step_order, project_write)
+        QtCore, window, state, model, report, ask, write, bridge,
+        bridge_emit, prework_node, prework_done, prework_queue,
+        prework_run, prework_lock, prework_busy, output_timer,
+        preset_plaintext, without_auphonic, run_step_order)
 
     only_resolve.clicked.connect(only_resolve_start_run)
     start_run.clicked.connect(lambda: start(False))
