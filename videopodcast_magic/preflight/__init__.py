@@ -1190,7 +1190,8 @@ def loudness_field_build(into, value):
             # A value nobody can pick here, out of a project file or a
             # run with its own --lufs. Added rather than replaced:
             # opening a project must not change what it was set to.
-            box.addItem(T('%.0f LUFS') % value.get(), value.get())
+            box.addItem(as_written(T('%.0f LUFS') % value.get()),
+                        value.get())
             i = box.count() - 1
         if box.currentIndex() != i:
             box.setCurrentIndex(i)
@@ -1245,8 +1246,10 @@ def check_loudness_target(args, videos=()):
                        T('taken from the source files, no --lufs given -- '
                          'nothing is adjusted'))]
     near = [n for n, (lufs, _) in PLATFORMS.items() if abs(lufs - args.lufs) < 0.05]
-    text = (T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
-            if near else T('%.0f LUFS') % args.lufs)
+    # as_written, as in loudness_choices: in Arabic script the minus
+    # would otherwise move behind the number, -16 reading as 16.
+    text = as_written(T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
+                      if near else T('%.0f LUFS') % args.lufs)
     if lufs_does_nothing(args, videos):
         return [Finding("good", T('Loudness'),
                        T('%s is set, and nothing is adjusted here: the '
@@ -1285,12 +1288,13 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
             out.append(Finding(
                 "good", T('Loudness'),
                 T('the preset masters to %s LUFS -- that stands, nothing '
-                  'of ours adjusts.') % number_text(target, 0)))
+                  'of ours adjusts.') % as_written(number_text(target, 0))))
     elif target is not None and abs(target - float(lufs)) > 0.05:
         out.append(Finding(
             "abort", T('Loudness'),
             T('the preset masters to %s LUFS, the calculation uses %s.')
-            % (number_text(target, 0), number_text(lufs, 0)),
+            % (as_written(number_text(target, 0)),
+               as_written(number_text(lufs, 0))),
             T('Both at once does not work: the returning tracks would go '
               'to one value, our own mix to the other. Either set --lufs '
               '%.0f or change the preset.')
