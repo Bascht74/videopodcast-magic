@@ -72,21 +72,39 @@ widest_track = PROGRAM.widest_track
 AUPHONIC = "https://auphonic.com"
 
 
-def api_key_source(args=None):
+def api_key_source(args=None, handed=""):
     """Return (the API key, where it came from).
 
     Read in order: the window's hand-over, environment, credential
     store. Which of the three answered travels with the key, or a
     complaint names the store for a key that came from elsewhere.
+    A run's key was found so once by key_for_run and keeps its origin.
     """
     given = getattr(args, "auphonic_key", "") if args is not None else ""
     from_env = os.environ.get("AUPHONIC_TOKEN")
-    if given and given != from_env:
-        return given, "window"
+    if given:
+        return given, (getattr(args, "auphonic_key_from", "") or
+                       ("environment" if given == from_env else "window"))
+    if handed:
+        return handed, "window"
     if from_env:
         return from_env, "environment"
     kept = load_api_key() or ""
     return kept, ("store" if kept else "")
+
+
+def key_for_run(args):
+    """Give a run its key and its origin, the same on every way.
+
+    With pictures, with several recordings and with one alike: the
+    window's hand-over, AUPHONIC_TOKEN, then the credential store. A key
+    sends nothing by itself -- choose_preset still wants a preset first.
+    --without-auphonic takes none. Returns the key, or None.
+    """
+    key, origin = (("", "") if getattr(args, "without_auphonic", False)
+                   else api_key_source(handed=PROGRAM.RUN_KEY))
+    args.auphonic_key, args.auphonic_key_from = key or None, origin
+    return args.auphonic_key
 
 
 def key_refused_note(origin, error):

@@ -427,10 +427,6 @@ def main():
         return 0
     ap = build_argument_parser()
     args = ap.parse_args()
-    # The key goes with a run that may send: the window's, handed over
-    # here and never on the line, or the one in AUPHONIC_TOKEN.
-    args.auphonic_key = (None if args.without_auphonic else
-                         RUN_KEY or os.environ.get("AUPHONIC_TOKEN") or None)
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.
@@ -528,6 +524,9 @@ def main():
         args.no_speech_recognition = True
         args.no_transcript_file = True
 
+    # The key goes with a run that may send, found the same way on
+    # every path: the window's, AUPHONIC_TOKEN, or the stored one.
+    key_for_run(args)
     if args.auphonic_key and not args.files:
         try:
             return print_presets(api_key_from_anywhere(args), args.multitrack)
@@ -654,6 +653,7 @@ auphonic = beside("auphonic", program=PROGRAM)
 take_from(auphonic)
 
 api_key_from_anywhere = auphonic.api_key_from_anywhere
+key_for_run = auphonic.key_for_run
 print_presets = auphonic.print_presets
 tracks_folder = auphonic.tracks_folder
 
