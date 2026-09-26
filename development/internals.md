@@ -35,67 +35,67 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3871** -- who speaks and when: the separation itself,
+* `speakers/` **3863** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
-* `ui/` **3206** -- the window and everything it shows, asks or offers,
+* `ui/` **3186** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3159** -- the moving picture: the player, the cut band,
+* `player/` **3151** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3223** -- who is on camera when, and what carries it out
+* `cut/` **3212** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2638** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2628** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2862** -- channels, chains, continuation files, what a
+* `material/` **2855** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
-* `bearings/` **2184** -- where each file and each voice sits, and how
+* `bearings/` **2176** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **1861** -- the time base and the camera files: every
+* `timebase/` **1832** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **1697** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1696** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1772** -- whether the material fits together before the
+* `preflight/` **1767** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
-* `setup/` **1253** -- finding ffmpeg, installing a missing module,
+* `setup/` **1251** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1375** -- what is said and when, and what is written down
+* `speech/` **1373** -- what is said and when, and what is written down
   from it
-* `hearing/` **1132** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1125** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **999** -- the command line a run is given: written out of
+* `orders/` **995** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
-* `assignmenttable/` **779** -- the table on the second tab:
+* `assignmenttable/` **777** -- the table on the second tab:
   recordings above, the voices under them, the cameras below, what it
   keeps between builds and the camera names somebody typed; read by
   `assignmentsheet/` and nothing else
-* `upkeep/` **726** -- which release is out, the way back, pip putting
+* `upkeep/` **724** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **841** -- the progress bar, the stages, the console and log
+* `herald/` **839** -- the progress bar, the stages, the console and log
   redirection, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **644** -- the plan: the camera audio out of the
+* `pipeline/` **638** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
-* `project/` **592** -- the program's own project file: writing
+* `project/` **589** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **530** -- the list of chosen files: the tree it is
+* `filelist/` **528** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **436** -- the audio, envelopes, channels and tracks
@@ -109,11 +109,11 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
 * `tables/` **348** -- the tables and trees the window builds
-* `running/` **428** -- what a run is offered before it starts, the
+* `running/` **425** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
-* `language/` **360** -- a .po file per language and the reader that
+* `language/` **358** -- a .po file per language and the reader that
   looks one up
-* `timecode/` **351** -- timecode strings, frame rates, the clock a file
+* `timecode/` **350** -- timecode strings, frame rates, the clock a file
   carries
 * `filesheet/` **290** -- the first tab: the drop area or the file
   list with its channel rows and findings, the video choices, and the
@@ -122,7 +122,7 @@ figure of the day is that command, not this paragraph**:
   the time window beside the preview player, and which audio runs under
   a camera; the table itself is `assignmenttable/`
 * `menus/` **238** -- the menu bar and what follows it
-* `workbench/` **236** -- what more than one piece reaches over for:
+* `workbench/` **235** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
   step, what a video file says of itself, and the four the way in used
   itself
@@ -131,7 +131,7 @@ figure of the day is that command, not this paragraph**:
 * `stowage/` **229** -- where things are put down between one run and
   the next: the work folder, what somebody chose, and the write that is
   moved into place rather than left half done
-* `dials/` **181** -- the kinds a shot can be, the cut fields and their
+* `dials/` **180** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **173** -- what has been measured of a file, taken once

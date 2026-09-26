@@ -42,8 +42,8 @@ DOCSTRING_MAX = 23      # lines -- the hard limit
 # What the guidelines ask for, shorter than what the file holds today.
 # Counted rather than enforced: a comment past these is either saying
 # what the code says, telling a story, or two comments written as one.
-BLOCK_WANTED = 4
-DOCSTRING_WANTED = 8
+BLOCK_WANTED = 3
+DOCSTRING_WANTED = 7
 HEAD_MAX = 79           # first docstring line
 
 done = 0
