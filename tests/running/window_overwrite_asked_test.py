@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 """A camera file already written is asked about before a run starts.
 
-One recording and one camera, their output folder holding the camera's
-file from an earlier run. Start is pressed twice: No to the question
-starts nothing, and Yes starts the run, gui_run_loop stood in for so
-that nothing is computed. Every other question on the way is answered
-yes and written down. Two files of that camera lie in the folder, the
-bare name and the one with _audio the run writes, so the question is
-held whichever of the two it goes by.
+One recording and one camera already called B_camera_audio.mov, written
+into its own folder under the typed name B_camera: the run steps aside
+to B_camera_audio_2.mov. That file lies there, and so do three the run
+never writes. The question has to name the first and none of the rest.
+Start is pressed twice: No starts nothing, and Yes starts the run,
+gui_run_loop stood in for so that nothing is computed.
 """
 import os
 import sys
@@ -72,8 +71,8 @@ vpm.gui_run_loop = run_stood_in
 
 RATE, SEC = 48000, 4
 folder = tempfile.mkdtemp(prefix="vpm_overwrite_")
-out_folder = os.path.join(folder, "Ergebnis")
-os.makedirs(out_folder)
+# Into the material's own folder, so the typed name meets the source.
+out_folder = folder
 t = np.arange(SEC * RATE) / float(RATE)
 audio = os.path.join(folder, "A_speaker.wav")
 with wave.open(audio, "wb") as f:
@@ -82,13 +81,18 @@ with wave.open(audio, "wb") as f:
     f.setframerate(RATE)
     f.writeframes((0.4 * np.sin(2 * np.pi * 300 * t) * 32767)
                   .astype("<i2").tobytes())
-camera = os.path.join(folder, "B_camera.mov")
+camera = os.path.join(folder, "B_camera_audio.mov")
 subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
                 "testsrc=size=160x90:rate=25:duration=%d" % SEC,
                 "-f", "lavfi", "-i", "sine=frequency=300:duration=%d" % SEC,
                 "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt",
                 "yuv420p", "-c:a", "aac", "-shortest", "-y", camera],
                check=True)
+# Measured on longer material of these names: the run wrote
+# B_camera_audio_2.mov, since B_camera_audio.mov is the source. Never
+# written: the source itself, the bare name, the file's own stem.
+written = "B_camera_audio_2.mov"
+never = ["B_camera_audio.mov", "B_camera.mov", "B_camera_audio_audio.mov"]
 project = os.path.join(folder, "videopodcast-magic_Again.json")
 with open(project, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
@@ -153,30 +157,37 @@ def step():
             if push[START] is None or not push[START].isEnabled() \
                     or name_field() is None:
                 raise NotYet("a live Start button and the camera's name")
-            name = name_field().text().strip()
-            print("   the camera is to be written as %r" % name)
-            for made in (name + ".mov", name + "_audio.mov"):
+            name_field().setText("B_camera")
+            for made in [written] + never[1:]:
                 open(os.path.join(out_folder, made), "wb").close()
+        elif i == 2:
+            if name_field() is None or name_field().text() != "B_camera":
+                raise NotYet("the typed name in the camera's field")
             print("1. The question comes before anything starts")
             before[0], answer[0] = len(asked), False
             push[START].click()
             app.processEvents()
             put = [x for x in asked[before[0]:] if x[0] == OVERWRITE]
-            check("a camera file already there is asked about first",
-                  bool(put) and name in put[0][1],
-                  "questions %s, the overwrite one naming %r: %r"
-                  % (questions_since(before[0]), name,
-                     put[0][1][:120] if put else "never put"))
+            said = put[0][1] if put else ""
+            check("the file the run will write is asked about first",
+                  bool(put) and written in said,
+                  "questions %s, wanted %r named, the overwrite one says "
+                  "%r" % (questions_since(before[0]), written,
+                          said[:160] if put else "never put"))
+            check("and no name the run never writes is in it",
+                  not [x for x in never if x in said],
+                  "%s named, the overwrite one says %r"
+                  % ([x for x in never if x in said], said[:200]))
             print("\n2. No starts nothing")
             check("and No starts nothing",
                   push[START].text().strip() == START and not runs,
                   "the button says %r, %d runs started"
                   % (push[START].text(), len(runs)))
-        elif i == 2:
+        elif i == 3:
             print("\n3. Yes starts the run")
             before[0], answer[0], had[0] = len(asked), True, len(runs)
             push[START].click()
-        elif i == 3:
+        elif i == 4:
             # Waited for, then judged either way: a run that never comes
             # is the red line below, not a line about waiting.
             if len(runs) == had[0] and waited[0] < 50:

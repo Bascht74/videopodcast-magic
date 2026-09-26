@@ -21,10 +21,12 @@ T = PROGRAM.T
 TN = PROGRAM.TN
 as_data_size = PROGRAM.as_data_size
 camera_shortfall_lines = PROGRAM.camera_shortfall_lines
+camera_targets = PROGRAM.camera_targets
 json = PROGRAM.json
 label_of = PROGRAM.label_of
 number_text = PROGRAM.number_text
 os = PROGRAM.os
+path_key = PROGRAM.path_key
 run_argv = PROGRAM.run_argv
 size_in_mb = PROGRAM.size_in_mb
 slider_argv = PROGRAM.slider_argv
@@ -287,15 +289,15 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         if wishes is not None:
             with open(assign_file, "w", encoding="utf-8") as f:
                 json.dump(wishes, f, ensure_ascii=False, indent=1)
-        # What is already there gets overwritten, so show what first.
+        # What is already there gets overwritten, so show what first --
+        # named by the function the run names its files by.
         if not only_look:
             already_present = []
-            for p, v, _k, _n in camera_lines:
-                folder = out_folder.get() or os.path.dirname(p)
-                target = os.path.join(folder, (v.get().strip()
-                                             or os.path.splitext(
-                                                 os.path.basename(p))[0])
-                                    + ".mov")
+            for _o, target in camera_targets(
+                    [p for p, _v, _k, _n in camera_lines],
+                    {path_key(p): v.get().strip()
+                     for p, v, _k, _n in camera_lines},
+                    out_folder.get()).values():
                 if os.path.exists(target):
                     already_present.append("%s   (%s)"
                                     % (os.path.basename(target),
