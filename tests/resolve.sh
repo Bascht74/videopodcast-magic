@@ -6,10 +6,17 @@
 # without Resolve every one of them would be red for a reason that is not
 # a fault, and a test that skipped instead would cost the skip ratchet in
 # run.sh, which may fall and never rise. So they live in resolve/live/ and are
-# started from here:
+# started from here -- and only with the word, because the owner decides
+# when the Resolve on this machine is worked in:
 #
-#   cd tests && bash resolve.sh              all of them
-#   cd tests && bash resolve.sh project_clips_land_right    one of them
+#   cd tests && bash resolve.sh --go         all of them
+#   cd tests && bash resolve.sh --go project_clips_land_right    one of them
+#
+# Without --go nothing is started, and the ground under resolve/live/
+# refuses too unless this script set VPM_LIVE_RESOLVE: a live test started
+# directly, or taken by a run.sh gone wrong, reaches no Resolve. The same
+# way auphonic.sh and its ground work. Claude proposes a run when a change
+# needs one and starts it after the owner's OK.
 #
 # One after another, never several at a time: there is one Resolve and one
 # project open in it, and two tests would fight over it.
@@ -22,6 +29,31 @@
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$HERE"
 WHERE="$HERE/resolve/live"
+
+GO=0
+TESTS=""
+for a in "$@"; do
+  case "$a" in
+    --go) GO=1 ;;
+    -*) echo "resolve.sh does not know $a -- it takes --go and test" \
+             "names" >&2; exit 2 ;;
+    *) TESTS="$TESTS $a" ;;
+  esac
+done
+# No word, no Resolve. Said before anything is started -- no Python, no
+# fixtures, no probe -- so a run nobody asked for touches nothing.
+if [ "$GO" != 1 ]; then
+  echo "resolve.sh works in the DaVinci Resolve running on this machine,"
+  echo "and only on consent."
+  echo
+  echo "  cd tests && bash resolve.sh --go                all of them"
+  echo "  cd tests && bash resolve.sh --go <name>         one of them"
+  echo
+  echo "Nothing was started and Resolve was not asked."
+  exit 2
+fi
+# The ground under resolve/live/ goes on only where this is set.
+export VPM_LIVE_RESOLVE=1
 
 # The same interpreter the suite runs on, or the answer is about a Python
 # nobody uses. VPM_PYTHON overrides it, as in run.sh.
@@ -164,8 +196,8 @@ echo "named. Open at the start, and open again at the end: ${OPEN_BEFORE:-none -
 # found nowhere else. Same narrow pattern, and the same putting back.
 "$PY" "$WHERE/sweep.py" --sweep --restore "$OPEN_BEFORE"
 
-TESTS=$(cd "$WHERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
-[ $# -gt 0 ] && TESTS="$*"
+[ -z "$TESTS" ] && TESTS=$(cd "$WHERE" && ls *_test.py 2>/dev/null \
+                           | sed 's/_test\.py$//' | sort)
 if [ -z "$TESTS" ]; then
   echo "no tests found in $WHERE" >&2
   exit 2

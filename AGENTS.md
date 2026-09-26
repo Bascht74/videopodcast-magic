@@ -88,7 +88,8 @@ a command.
   finds it by its name alone. One is no piece: `tests/source/` reads
   the source as a whole. A `live/` folder under a piece is apart --
   `tests/resolve/live/` wants a Resolve running, `tests/auphonic/live/`
-  auphonic.com itself -- and `tests/<piece>.sh` starts it, only on the
+  auphonic.com itself -- and `tests/<piece>.sh` starts it, only with its
+  word (`resolve.sh --go`, `auphonic.sh --online`) and only on the
   owner's OK: Claude proposes the run, the owner never tests by hand.
   `tests/samples/`
   holds checked-in material, and no test.

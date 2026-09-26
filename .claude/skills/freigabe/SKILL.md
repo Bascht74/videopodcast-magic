@@ -74,7 +74,7 @@ stopped somewhere, or when a command in it is being changed.
    a line in a report. A report nobody grades holds nothing.
 
 6. **The live tests have run, or the report says why not.**
-   `tests/resolve.sh` starts the tests under `tests/resolve/live/`, which
+   `tests/resolve.sh --go` starts the tests under `tests/resolve/live/`, which
    talk to a DaVinci Resolve really running; `tests/auphonic.sh
    --online` those under `tests/auphonic/live/`, which talk to
    auphonic.com, and `--spend-credit` the ones that start a production.

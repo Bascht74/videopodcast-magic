@@ -51,6 +51,7 @@ A step that throws is a failed judgement and not a traceback, so the
 closing count is reached whatever happens.
 """
 import os
+import signal
 import subprocess
 import sys
 import tempfile
@@ -208,6 +209,11 @@ folder = ground_of.a_test_name("folder")
 child = None
 made_decoy = False
 made_folder = False
+spare = decoy + "-spare"
+# A kill that can be caught becomes an ordinary exit, so the finally
+# below runs and takes the decoys away. Only SIGKILL gets past it.
+for caught in (signal.SIGTERM, signal.SIGHUP):
+    signal.signal(caught, lambda number, frame: sys.exit(128 + number))
 try:
     print("\n1. What the run remembers is a project it can open again")
     check("what the run remembers is a project it can open again",
@@ -220,7 +226,6 @@ try:
     # a run may now step over, so it does not survive to section 3 --
     # and the decoy has to, because the later checks are about it being
     # left alone.
-    spare = decoy + "-spare"
     made_decoy = pm.CreateProject(spare) is not None
     # Left unsaved on purpose, and that is the whole state. Measured on
     # Resolve 21.0.4.5 on 1.9.2026: a project that was only created stays
@@ -368,10 +373,20 @@ finally:
     try:
         if open_now(pm) != before:
             pm.LoadProject(before)
-        if made_decoy:
-            pm.DeleteProject(decoy)
-            if decoy in listed(pm):
-                left_over.append("%r is still in the project list" % decoy)
+    except Exception as e:
+        left_over.append("could not open %r again: %s" % (before, e))
+    # Both names, each on its own: the one made is the spare, and the
+    # sweep leaves either standing on purpose, so nothing else takes
+    # them away. A failure on one must not keep the other.
+    for name in ((decoy, spare) if made_decoy else ()):
+        try:
+            if name in listed(pm):
+                pm.DeleteProject(name)
+            if name in listed(pm):
+                left_over.append("%r is still in the project list" % name)
+        except Exception as e:
+            left_over.append("could not delete %r: %s" % (name, e))
+    try:
         if made_folder and folder in folders(pm):
             pm.DeleteFolder(folder)
             if folder in folders(pm):

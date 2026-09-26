@@ -5,7 +5,10 @@ their own that goes away again.
 These tests talk to a DaVinci Resolve that is really running on this
 machine, so they cannot go into the suite: on a machine without Resolve
 every one of them would be red for a reason that is not a fault. They
-live beside it and are started by resolve.sh.
+live beside it and are started by resolve.sh, which lets them through
+only when it was given the word --go. Started any other way, importing
+this file leaves the test out before the program is loaded, and says how
+to start it.
 
 Somebody works in Resolve on this machine. So: the tests create a project
 of their own whose name no human would type, they touch nothing else, and
@@ -42,6 +45,34 @@ import re
 import sys
 import time
 
+# The word resolve.sh sets, and only after it was given --go.
+ONLINE = "VPM_LIVE_RESOLVE"
+STARTED = "cd tests && bash resolve.sh --go"
+
+
+def leave_out(why):
+    """Say out loud that nothing was checked, and stop.
+
+    Not sys.exit(0): a test that bows out and returns 0 cannot be told
+    from one that checked everything. resolve.sh reads the 2.
+    """
+    print("SKIPPED: %s" % why)
+    sys.exit(2)
+
+
+def gate():
+    """Go on only where resolve.sh was given the word; leave out otherwise.
+
+    Called below before the program is imported, so a test started any
+    other way -- by hand, or by a run.sh gone wrong -- stops before
+    anything could reach the Resolve on this machine.
+    """
+    if os.environ.get(ONLINE) != "1":
+        leave_out("this test works in the DaVinci Resolve running on this "
+                  "machine and is started only on consent -- %s" % STARTED)
+
+
+gate()
 HERE = os.path.dirname(os.path.abspath(__file__))
 # tests/, where the helpers and state/ lie; this file stands two folders
 # under it, and finds it the way every test in the suite does.
@@ -145,16 +176,6 @@ def holds_nothing(project):
         return not (root.GetClipList() or root.GetSubFolderList())
     except Exception:
         return False
-
-
-def leave_out(why):
-    """Say out loud that nothing was checked, and stop.
-
-    Not sys.exit(0): a test that bows out and returns 0 cannot be told
-    from one that checked everything. resolve.sh reads the 2.
-    """
-    print("SKIPPED: %s" % why)
-    sys.exit(2)
 
 
 def a_resolve(vpm):
