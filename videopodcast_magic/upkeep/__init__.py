@@ -458,12 +458,17 @@ def update_from_command_line():
     return 0
 
 
+# How the person started it, read once as the program is read: a run
+# from the window sets sys.argv to its own line while it goes.
+STARTED_WITH = tuple(sys.argv[1:])
+
+
 def start_again():
-    """Start this program once more, in place of this run."""
+    """Start this program once more, as the person started it."""
     here = os.path.abspath(PROGRAM.__file__)
     try:
         sys.stdout.flush()
-        os.execv(sys.executable, [sys.executable, here] + sys.argv[1:])
+        os.execv(sys.executable, [sys.executable, here] + list(STARTED_WITH))
     except OSError as e:
         print(T('Starting again did not work: %s') % e)
         print(T('Start it by hand: %s %s') % (sys.executable, here))

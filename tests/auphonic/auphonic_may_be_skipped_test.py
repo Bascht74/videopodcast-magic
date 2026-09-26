@@ -272,11 +272,14 @@ check("without a key: no --auphonic-api-key",
 check("without a key: no message", not messages,
       "%s, wanted none" % said(messages))
 argv, _plan, messages = argv_with("SECRET", "Podcast_Zoom")
-check("with key and preset: both there",
-        argv is not None and "--auphonic-api-key" in argv
-        and "--auphonic-preset" in argv,
-        "%s, wanted both there"
-        % switches(argv, "--auphonic-api-key", "--auphonic-preset"))
+check("with key and preset: preset on the line, key beside it",
+        argv is not None and "--auphonic-preset" in argv
+        and "--auphonic-api-key" not in argv and "SECRET" not in argv
+        and getattr(argv, "key", None) == "SECRET",
+        "%s, the key on the line %s, beside it %s, wanted the preset "
+        "there and the key only beside it"
+        % (switches(argv, "--auphonic-api-key", "--auphonic-preset"),
+           "SECRET" in (argv or []), getattr(argv, "key", None) == "SECRET"))
 argv, _plan, messages = argv_with("SECRET", "")
 check("key without preset: an error message",
         argv is None and messages and messages[0][0] == "error",

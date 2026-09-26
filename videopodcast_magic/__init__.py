@@ -191,6 +191,7 @@ if os.environ.get("VPM_COUNT_STARTS"):
 SR = 48000
 ASK_SINK = None      # set by the GUI: callable(options, title) -> key
 OUTPUT_SINK = None   # set by the GUI: callable that receives raw log text
+RUN_KEY = ""         # set by the GUI for its own run: the key, off argv
 GUI_RUNNING = False  # the GUI already lists per-file details, so the log
                      # skips them when this is set
 AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
@@ -425,6 +426,9 @@ def main():
         return 0
     ap = build_argument_parser()
     args = ap.parse_args()
+    # The window's run hands its key over here, never on the line.
+    if RUN_KEY and not args.auphonic_key:
+        args.auphonic_key = RUN_KEY
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.
