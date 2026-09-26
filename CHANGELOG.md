@@ -95,6 +95,9 @@ nicht.
 - **A project saved before its type was chosen now reopens with "Project
   type" still open**, and "Start" and "Dry run" wait for the answer
   instead of treating it as "Cut by speaker".
+- **A project file that names its spoken language in another spelling,
+  such as "de" or "fr", now keeps it** when the project is opened and
+  saved; it used to come back with no language at all.
 - **A dry run from the window no longer rewrites the project file in the
   output folder**; the folder now stays exactly as it was.
 - **"Start again now" after an update or the ffmpeg install now reopens
