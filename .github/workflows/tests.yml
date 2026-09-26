@@ -142,7 +142,10 @@ jobs:
     # the runner image's.
     name: ${{ matrix.label }} py${{ matrix.python }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
+    # 30 was too short for a release run with every language: 3.0.0b25's
+    # macOS job had passed all 270 tests at 26 min and fell at 30 during
+    # the reruns. The limit only stops a hang; 60 leaves room for that.
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
