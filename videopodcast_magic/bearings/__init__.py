@@ -478,6 +478,9 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
           % tracks[0]["name"])
     try:
         measurements, lines = measure_offsets_by_crosstalk(tracks)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(T('    not possible: %s') % e)
         return
@@ -565,6 +568,9 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                  if abs(k) >= limit_ppm else ""))
     try:
         measurements2, _ = measure_offsets_by_crosstalk(tracks)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(T('    Cross-check not possible: %s') % e)
         return

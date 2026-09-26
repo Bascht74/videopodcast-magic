@@ -2,10 +2,10 @@
 """A Stop met inside a run's step ends the run, not only that step.
 
 Each step below catches its own failures and goes on; Stop must pass
-them. In order: the separation mix (real ffmpeg, Stop already asked,
-and no half mix left), the three auphonic.com downloads and the
-format lookup, the preset check, the loudness of a join, and the
-preset and production of a multitrack send -- the calls stood in.
+them. In order: the separation mix (real ffmpeg, no half mix left), the
+auphonic.com downloads and format lookup, the preset check, a join's
+loudness, a multitrack send's preset and production, a parallel step,
+the bleed check and its cross-check, the cut's speaker reading.
 """
 PLATFORM_BOUND = True
 import os
@@ -162,6 +162,61 @@ try:
     finally:
         (tb.api_key_from_anywhere, tb.choose_preset,
          tb.run_multitrack_production) = kept
+
+    print("\nA parallel step, Stop asked before its items are worked")
+    vpm.RUN_STOP["wanted"], vpm.RUN_STOP["at"] = True, AT
+    try:
+        got = outcome(lambda: vpm.material.parallel_map([1, 2, 3],
+                                                        lambda x: x))
+    finally:
+        vpm.RUN_STOP["wanted"], vpm.RUN_STOP["at"] = False, ""
+    check("Stop in a parallel step ends the run, not a list with gaps",
+          got == "Stopped", "the parallel step %s, wanted Stopped" % got)
+
+    print("\nThe bleed check, Stop while it measures and cross-checks")
+    bg = vpm.bearings
+    kept = (bg.measure_offsets_by_crosstalk, bg.solve_pair_offsets,
+            bg.place_track_on_axis)
+    pair = [{"name": n, "source": p, "axis": p, "a": 0.0, "b": 1.0}
+            for n, p in (("A", A), ("B", B))]
+    calls = []
+
+    def second_stops(tracks):
+        """The first measurement comes back empty, the cross-check stops."""
+        calls.append(1)
+        if len(calls) > 1:
+            raise vpm.Stopped(AT)
+        return {}, []
+
+    try:
+        bg.measure_offsets_by_crosstalk = stopping
+        got = outcome(lambda: bg.verify_alignment(pair, 0.0, 1.0))
+        check("Stop while the bleed is measured ends the run",
+              got == "Stopped", "the bleed check %s, wanted Stopped" % got)
+        # One pair 5 ms apart, so a track is moved and then cross-checked.
+        bg.measure_offsets_by_crosstalk = second_stops
+        bg.solve_pair_offsets = lambda m, i, j: (1.0, 5.0, 0.0, 10, 0.1)
+        bg.place_track_on_axis = lambda *a, **k: None
+        got = outcome(lambda: bg.verify_alignment(pair, 0.0, 1.0))
+        check("Stop while the bleed is cross-checked ends the run",
+              got == "Stopped" and len(calls) == 2,
+              "the cross-check %s after %d measurements, wanted Stopped "
+              "after 2" % (got, len(calls)))
+    finally:
+        (bg.measure_offsets_by_crosstalk, bg.solve_pair_offsets,
+         bg.place_track_on_axis) = kept
+
+    print("\nThe cut's speakers, Stop while the tracks are read")
+    sp = vpm.speakers
+    real_read = sp.speakers_from_tracks
+    sp.speakers_from_tracks = stopping
+    try:
+        got = outcome(lambda: sp.speakers_for_the_cut(
+            types.SimpleNamespace(), pair))
+    finally:
+        sp.speakers_from_tracks = real_read
+    check("Stop while the cut's speakers are read ends the run",
+          got == "Stopped", "the speaker reading %s, wanted Stopped" % got)
 except Exception:
     import traceback
     traceback.print_exc()
