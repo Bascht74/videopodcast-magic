@@ -70,28 +70,23 @@ def run_done_text(dry):
 # goes through PROGRAM: at this file's head it is not there yet.
 
 
-def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
-                   bridge, bridge_emit, out_folder, production_var,
-                   start_var, end_var, speech_language, lufs_value,
-                   done_folder, key_var, cut_var, edge_on, multitrack,
-                   project_type, clip_kind_values, clip_kind_value, no_join,
-                   together_now,
-                   assign_lines, camera_lines, voice_lines, prework_node,
-                   prework_done, prework_queue, prework_run, prework_lock,
-                   prework_busy, start_run, preview_button, only_resolve,
-                   break_off, output_timer, files_for_run, window_length,
-                   preset_plaintext, without_auphonic, output_show,
-                   buttons_check, result_button_check, run_plan_build,
-                   run_step_order, project_write):
+def make_run_start(QtCore, window, state, model, report, ask, write,
+                   ask_user, bridge, bridge_emit, prework_node, prework_done,
+                   prework_queue, prework_run, prework_lock, prework_busy,
+                   start_run, preview_button, break_off, output_timer,
+                   files_for_run, window_length, preset_plaintext,
+                   without_auphonic, buttons_check, result_button_check,
+                   run_plan_build, run_step_order, project_write):
     """Setting a run going: the summary, the command line, the thread.
 
     One name for four because they are one theme and answer each other:
     what the summary offers is what start then builds, and both runs --
     the whole one and the Resolve-only one -- end in the same work_loop.
-    What the window holds comes in as an argument and keeps its name
-    inside. The call sits below the footer, the project file and the
-    output timer, three of those arguments.
+    What the production holds is read off *model*. The call sits below
+    the footer, the project file and the output timer, three arguments.
     """
+    log = window.output_sheet.log
+    only_resolve = window.output_sheet.only_resolve
 
     def work_loop(argv):
         # A separator, so several runs of one session can be told apart
@@ -111,9 +106,9 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         Everything in it is known or already measured; it has just not been
         shown anywhere. Aborting here costs nothing.
         """
-        audio_files = [p for p, a in files if a == "audio"]
-        videos_p = [p for p, a in files if a == "video"]
-        kind_now = lambda p: clip_kind_value(p).get()
+        audio_files = [p for p, a in model.files if a == "audio"]
+        videos_p = [p for p, a in model.files if a == "video"]
+        kind_now = lambda p: model.clip_kind_value(p).get()
         content = [p for p in videos_p if kind_now(p) in CAMERA_TYPES]
         edge = [(kind_now(p), os.path.basename(p)) for p in videos_p
                 if kind_now(p) not in CAMERA_TYPES]
@@ -129,20 +124,21 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
             lines.append("%s: %s" % (label_of(kind), name))
         who = without_own_camera(
             [(row, nv.get(), cv.get())
-             for row, nv, cv in assign_lines],
-            [(nv.get(), cv.get()) for _k, nv, cv in voice_lines],
-            bool(multitrack.get()), state.get("voiced") or ())
-        lines += camera_shortfall_lines(who, assign_lines, voice_lines)
+             for row, nv, cv in model.assign_lines],
+            [(nv.get(), cv.get()) for _k, nv, cv in model.voice_lines],
+            bool(model.multitrack.get()), state.get("voiced") or ())
+        lines += camera_shortfall_lines(who, model.assign_lines,
+                                        model.voice_lines)
         if without_auphonic() or not state.get("presets"):
             lines.append(T('Without processing at auphonic.com'))
         else:
             lines.append(T('Processing at auphonic.com with "%s"')
                           % (preset_plaintext() or "?"))
         lines += space_summary_lines(
-            out_folder.get() or (os.path.dirname(videos_p[0])
-                                  if videos_p else ""),
-            audio_files, content, bool(multitrack.get()),
-            start_var.get(), end_var.get())
+            model.out_folder.get() or (os.path.dirname(videos_p[0])
+                                        if videos_p else ""),
+            audio_files, content, bool(model.multitrack.get()),
+            model.in_point.get(), model.out_point.get())
         if only_look:
             lines.append("")
             lines.append(T('Dry run: only measuring, nothing written, '
@@ -163,7 +159,7 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         written. The work runs in a thread; the timer drains its output.
         """
 
-        if state["running"] or not files:
+        if state["running"] or not model.files:
             return
         # A name still being typed is settled, as leaving the field would.
         if state.get("name_settle"):
@@ -173,7 +169,8 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
             return
         # Where the camera audio is needed and not quite there yet, wait for it
         # -- but without freezing the window.
-        if multitrack.get() and state.get("own_cameras") and prework_busy():
+        if (model.multitrack.get() and state.get("own_cameras")
+                and prework_busy()):
             if state["waiting"]:
                 return          # a wait loop is already running
             state["waiting"] = True
@@ -221,12 +218,13 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
             # The tracks, not the files they came out of: a recorder
             # file holding four channels goes into the run as four.
             "files": files_for_run(),
-            "clip_kinds": {p: value.get() for p, value in clip_kind_values.items()},
-            "out_folder": out_folder.get(),
+            "clip_kinds": {p: value.get()
+                           for p, value in model.clip_kinds.items()},
+            "out_folder": model.out_folder.get(),
             "dry_run": bool(only_look),
-            "multitrack": bool(multitrack.get()),
+            "multitrack": bool(model.multitrack.get()),
             # "cut" or "sync"; the window does not start without one.
-            "project_type": project_type.get(),
+            "project_type": model.project_type.get(),
             "camera_audio_only": bool(state["camera_audio"]),
             "rows": [{"blocks": list(row),
                         "speakers": nv.get(),
@@ -235,38 +233,38 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
                         "from_camera": (own_flag.get(row[0])
                                         if isinstance(own_flag, dict) else ""),
                         "audio_done": audio_done_of(row)}
-                       for row, nv, cv in assign_lines],
+                       for row, nv, cv in model.assign_lines],
             "cameras": [{"path": p, "name": v.get()}
-                        for p, v, _k, _n in camera_lines],
-            "production": production_var.get(),
-            "in_point": start_var.get(),
-            "out_point": end_var.get(),
-            "cut": {k: cut_var[k].get() for k in cut_var},
-            "wide_at_edges": bool(edge_on.get()),
+                        for p, v, _k, _n in model.camera_lines],
+            "production": model.production.get(),
+            "in_point": model.in_point.get(),
+            "out_point": model.out_point.get(),
+            "cut": {k: model.cut[k].get() for k in model.cut},
+            "wide_at_edges": bool(model.edge_on.get()),
             # The voices this machine has already taken apart. They
             # travel with the run so it need not separate them again.
-            "speakers_of": speakers_for_run(state, voice_lines),
+            "speakers_of": speakers_for_run(state, model.voice_lines),
             # A no given in the window has to reach the run: it would
             # otherwise pick a source itself and separate after all.
             "speakers_wanted": state.get("speakers_wanted"),
             # Which camera each voice belongs to. The run cannot work
             # that out: a voice has no file to be assigned by.
             "voices": [{"name": nv.get().strip(), "camera": cv.get()}
-                       for _k, nv, cv in voice_lines],
+                       for _k, nv, cv in model.voice_lines],
             # Without auphonic.com: the key stays in the field but this run
             # does not see it.
-            "key": "" if without_auphonic() else key_var.get(),
+            "key": "" if without_auphonic() else model.key.get(),
             "preset": preset_plaintext(),
-            "done_folder": done_folder.get(),
-            "speech_language": speech_language.get().strip(),
+            "done_folder": model.done_folder.get(),
+            "speech_language": model.speech_language.get().strip(),
             # What each recording's sound holds, by its first block.
             "sound": dict(state.get("sound_holds") or {}),
-            "lufs": lufs_value.get(),
-            "apart": sorted(no_join),
-            "together": together_now(),
+            "lufs": model.lufs.get(),
+            "apart": sorted(model.no_join),
+            "together": model.together_now(),
         }
         assign_file = ""
-        if multitrack.get() or state.get("speakers_local"):
+        if model.multitrack.get() or state.get("speakers_local"):
             fd, assign_file = tempfile.mkstemp(prefix="vpm_assign_",
                                            suffix=".json")
             os.close(fd)
@@ -299,10 +297,10 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         if not only_look:
             already_present = []
             for target in targets_to_ask(
-                    [p for p, _v, _k, _n in camera_lines],
+                    [p for p, _v, _k, _n in model.camera_lines],
                     {path_key(p): v.get().strip()
-                     for p, v, _k, _n in camera_lines},
-                    out_folder.get(), values["production"].strip()):
+                     for p, v, _k, _n in model.camera_lines},
+                    model.out_folder.get(), values["production"].strip()):
                 if os.path.exists(target):
                     already_present.append("%s   (%s)"
                                     % (os.path.basename(target),
@@ -314,7 +312,7 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
                     % "\n  ".join(already_present[:12]), T('Overwrite')):
                 discard()
                 return
-        output_show()
+        window.output_show()
         log.clear()
         state["results"] = []
         start_run.setEnabled(False)
@@ -338,7 +336,7 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         js = state.get("resolve_json")
         if not js or state["running"]:
             return
-        output_show()
+        window.output_show()
         log.clear()
         start_run.setEnabled(False)
         preview_button.setEnabled(False)
@@ -351,13 +349,13 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         argv = [sys.argv[0], "--resolve-json", js]
         # Where no number stands, the default applies -- nothing is aborted
         # here, the button should do something.
-        values = {k: cut_var[k].get() for k in cut_var}
+        values = {k: model.cut[k].get() for k in model.cut}
         part, bad = slider_argv(values)
         if bad:
             values[bad] = ""
             part, _s = slider_argv(values)
         argv += part
-        if not edge_on.get():
+        if not model.edge_on.get():
             argv += ["--no-wide-edges"]
         threading.Thread(target=work_loop,
                          args=(argv,),

@@ -315,27 +315,22 @@ def project_type_question(window):
 #  Write it, close it, open it again
 #  ---------------------------------
 
-def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
-                      out_folder, production_var, start_var, end_var,
-                      speech_language, lufs_value, edge_on, multitrack,
-                      project_type, cut_var, channel_choice, clip_kind_values,
-                      audio_use_values, no_join, join_to, remembered,
-                      assign_lines, camera_lines, axis_file, axis_store,
-                      project_collect, project_move, settings_extend,
-                      commonest_folder, folder_show, folder_pick, items_fresh,
-                      window_enable, tab_gone, output_show, mode_toggled,
-                      player_follow_up, plan_wipe, prework_clean_up,
-                      split_stop, split_run, preview_compute,
-                      presets_wanted_now, presets_filter,
-                      resolve_button_check, result_button_check, write):
+def make_project_file(QtWidgets, window, state, model, report, write,
+                      axis_file, axis_store, project_collect, project_move,
+                      settings_extend, folder_show, folder_pick, items_fresh,
+                      window_enable, mode_toggled, player_follow_up,
+                      plan_wipe, prework_clean_up, split_stop, split_run,
+                      preview_compute, presets_wanted_now, presets_filter,
+                      resolve_button_check, result_button_check):
     """The project file: write it, close it, open it again.
 
     One maker and not three functions, because the three are one theme
     and answer each other: project_new is the one list of what belongs
     to a production, and project_open runs it before laying the file's
-    answers on top. The window makes them once its log writer and
-    resolve_button_check stand, and hands both in.
+    answers on top. What the production holds is read off *model*; the
+    rest are the window's, handed in once its log writer stands.
     """
+    log = window.output_sheet.log
 
     def project_write():
         """Store what this run did, so it can be reopened.
@@ -353,7 +348,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         axis_old = (project_collect(file_path).get("timeline") or [])
         d = {"format": FILE_FORMAT,
              "version": VERSION,
-             "files": [{"path": p, "kind": a} for p, a in files],
+             "files": [{"path": p, "kind": a} for p, a in model.files],
              "timeline": axis_old,
              "timeline_absolute": bool(state.get("axis_absolute"))}
         settings_extend(d)
@@ -374,25 +369,25 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         puts the file's answers on top, so the two cannot drift apart.
         Anything left standing here is carried into the next production.
         """
-        PROGRAM.measuring_stop(state, [p for p, _a in files],
+        PROGRAM.measuring_stop(state, [p for p, _a in model.files],
                                prework_clean_up, split_stop,
                                split_run, plan_wipe)
         state["closing"] = False
-        tab_gone(sheet2)
+        window.tab_gone(window.output_sheet)
         log.clear()
         state["results"] = []
         state["project_from"] = ""
         window.setWindowTitle(PROGRAM.window_title())
-        files[:] = []
-        out_folder.set("")
-        production_var.set("")
-        start_var.set("")
-        end_var.set("")
-        clip_kind_values.clear()
-        audio_use_values.clear()
-        no_join.clear()
-        join_to.clear()
-        channel_choice.clear()
+        model.files[:] = []
+        model.out_folder.set("")
+        model.production.set("")
+        model.in_point.set("")
+        model.out_point.set("")
+        model.clip_kinds.clear()
+        model.audio_use.clear()
+        model.no_join.clear()
+        model.join_to.clear()
+        model.channel_choice.clear()
         # Where the file was last written goes too, or the next folder
         # or name moved the old project's file onto the new one's; and
         # the handovers remembered per camera list, or the next
@@ -431,11 +426,11 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         state["sound_holds"] = ByFile()
         # Back to what they hold when the program has just started, so a
         # second production begins the way the first one did.
-        speech_language.set(PROGRAM.language_of_system())
-        lufs_value.set(loudness_last())
-        edge_on.set(True)
-        multitrack.set(False)
-        project_type.set("")
+        model.speech_language.set(PROGRAM.language_of_system())
+        model.lufs.set(loudness_last())
+        model.edge_on.set(True)
+        model.multitrack.set(False)
+        model.project_type.set("")
         items_fresh()
         folder_show()
         window_enable()
@@ -456,7 +451,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
 
         file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
             window, T('Open json project file'),
-            out_folder.get() or commonest_folder() or "",
+            model.out_folder.get() or model.commonest_folder() or "",
             T('Video Podcast Magic (%s*.json);;JSON files (*.json);;All '
               'files (*)') % PROJECT_PREFIX)[0]
         if not file_path:
@@ -482,26 +477,26 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         # A file without the key predates the question and was a cut; an
         # empty one was saved before the answer, so the assignment tab
         # still asks. Before the files: the tables take the type's shape.
-        project_type.set(d.get("project_type", "cut") or "")
+        model.project_type.set(d.get("project_type", "cut") or "")
         # What each recording's sound holds, by its first block, before
         # the files too: the axis they start is measured by it. A file
         # written before the choice holds none, and so holds speech.
         state["sound_holds"] = ByFile(d.get("sound") or {})
         present, missing = project_files(d)
-        files[:] = present
+        model.files[:] = present
         # Before anything is drawn: every file measured once, in
         # parallel. What follows then asks its questions of memory.
         probe_warm([x for x, _ in present])
         for s, value in (d.get("camera_cut") or {}).items():
-            if s in cut_var:
-                cut_var[s].set(value)
+            if s in model.cut:
+                model.cut[s].set(value)
         # Between folder and name the window names the unnamed
         # production's file beside this one, and the name moved it onto
         # this one's. So that file is forgotten before the name is set.
-        out_folder.set(d.get("out_folder") or "")
+        model.out_folder.set(d.get("out_folder") or "")
         folder_show()
         state.pop("project_last", None)
-        production_var.set(d.get("production") or "")
+        model.production.set(d.get("production") or "")
         # The file opened is the file saved into. One named otherwise
         # than its production -- a copy beside the original -- is kept
         # by its own name, or the save went into the file the name says.
@@ -509,24 +504,24 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         if not named or os.path.abspath(named) != os.path.abspath(file_path):
             state["project_kept"] = file_path
         state["project_last"] = file_path
-        edge_on.set(bool(d.get("wide_at_edges", True)))
+        model.edge_on.set(bool(d.get("wide_at_edges", True)))
         # Set before the tables are built: the window prefill leaves standing
         # whatever is already there.
-        start_var.set(d.get("in_point") or "")
-        end_var.set(d.get("out_point") or "")
+        model.in_point.set(d.get("in_point") or "")
+        model.out_point.set(d.get("out_point") or "")
         # Restore the assignment before the tables are built, or the interface
         # suggests something and overwrites it.
-        assign_lines[:] = []
-        camera_lines[:] = []
-        remembered.clear()
+        model.assign_lines[:] = []
+        model.camera_lines[:] = []
+        model.remembered.clear()
         # Intro, outro and "ignore this video" hang on the file, not
         # the table. Opening a project takes them with it, or two meet.
         if d.get("speech_language"):
-            speech_language.set(d["speech_language"])
+            model.speech_language.set(d["speech_language"])
         # The saved project beats what was chosen last. null is an answer,
         # so the key decides and not the value.
         if "lufs" in d:
-            lufs_value.set(d["lufs"])
+            model.lufs.set(d["lufs"])
         # The separations come back before the tables are built, or
         # the voices would be missing until they had run again.
         state["speakers_by"] = speakers_all_from_project(d)
@@ -538,41 +533,42 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         speakers_front_pick(state)
         state["speakers_wanted"] = (bool(d["speakers_local"])
                                     if "speakers_local" in d else None)
-        no_join.update(d.get("apart") or [])
-        join_to.update(d.get("together") or {})
+        model.no_join.update(d.get("apart") or [])
+        model.join_to.update(d.get("together") or {})
         for p, choice in (d.get("channels") or {}).items():
-            channel_choice[p] = {int(k): bool(v) for k, v in choice.items()}
+            model.channel_choice[p] = {int(k): bool(v)
+                                       for k, v in choice.items()}
         state["preset_wanted"] = d.get("preset") or ""
         for api_key, value in (d.get("assignment") or {}).items():
-            remembered[api_key] = (tuple(value) if isinstance(value, list)
-                                   else value)
-        voice_keys_carry_source(remembered,
+            model.remembered[api_key] = (tuple(value)
+                                         if isinstance(value, list) else value)
+        voice_keys_carry_source(model.remembered,
                                 state.get("speakers_source") or "")
-        PROGRAM.cameras_carry_path(remembered,
+        PROGRAM.cameras_carry_path(model.remembered,
                                    [p for p, a in present if a == "video"])
         if d.get("multitrack"):
-            multitrack.set(True)
+            model.multitrack.set(True)
         preset_list_bring(state, presets_wanted_now, presets_filter)
         items_fresh()
-        if multitrack.get():
+        if model.multitrack.get():
             # The tick fires nothing where it already stood, so the later
             # tabs are told by hand that the project is open.
             mode_toggled()
         state["results"] = []
         for name in SPEAKER_STATE:
             state.pop(name, None)
-        target = out_folder.get()
+        target = model.out_folder.get()
         # The handover of that project's own run, and only where it names
         # the same cameras -- or the note promises what the button refuses.
         state["resolve_json"] = find_handover_file(
             target, os.path.dirname(os.path.abspath(file_path)),
-            ours=[b for b, _n, _own, _own_name in camera_lines])
+            ours=[b for b, _n, _own, _own_name in model.camera_lines])
         if target and os.path.isdir(target) and any(
                 n.lower().endswith(VIDEO_SUFFIXES) for n in os.listdir(target)):
             # Results from earlier: the sheet comes along with its buttons,
             # and says where things stand rather than looking like a failure.
             state["result_folder"] = target
-            output_show(False)
+            window.output_show(False)
             log.append_text(as_head(project_opened_note(target)))
         else:
             state["result_folder"] = None
@@ -602,7 +598,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
             QtCore.QTimer.singleShot(0, lambda: project_open(again))
 
     PROGRAM.RESTART_ASK[0] = lambda: restart_question(
-        window, state, files, out_folder, report, folder_pick,
+        window, state, model.files, model.out_folder, report, folder_pick,
         axis_file, axis_store)
     PROGRAM.PROJECT_TYPE_ASK[0] = lambda: project_type_question(window)
     project_open_after_restart()

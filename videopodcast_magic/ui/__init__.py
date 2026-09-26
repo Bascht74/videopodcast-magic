@@ -1603,6 +1603,11 @@ assignmentsheet = beside("assignmentsheet", program=PROGRAM)
 resolvesheet = beside("resolvesheet", program=PROGRAM)
 outputsheet = beside("outputsheet", program=PROGRAM)
 
+# What a production is, apart from the widgets: no Qt in it, and the
+# project file and the run read it rather than a list of its parts.
+projectmodel = beside("projectmodel", program=PROGRAM)
+ProjectModel = projectmodel.ProjectModel
+
 
 #-------------------------------------------- What the window works with
 # Everything gui() calls that is not a fitting and not a piece of its
@@ -2579,8 +2584,8 @@ def gui():
 
     app_style_set(app)
 
-    files = []                      # [(path, "audio"|"video")]
-    multitrack = Value(False)
+    model = ProjectModel(loudness_last(), language_of_system())
+    files, multitrack = model.files, model.multitrack
     state = {"running": False, "results": [], "presets": None,
                "resolve_json": None, "result_folder": None,
                "camera_audio": False, "waiting": False, "without_tc": False,
@@ -2661,22 +2666,13 @@ def gui():
          state, lambda paths: take_paths(paths), lambda: add_files(),
          lambda: project_open())
 
-    # Blocks taken out of a recording by hand stand on their own from
-    # then on. Only removing the whole recording clears its marks.
-    no_join = FileSet()
+    no_join = model.no_join
     # Which blocks make up which recording. The channels are judged over
     # the whole recording, not over its first block -- see blocks_facts.
     blocks_of = ByFile()
     recording_of = ByFile()
-    # Files put into a recording by hand: {file: the recording it joins}.
-    # The counterpart to no_join, and stored in the project the same way.
-    join_to = ByFile()
-
-    def together_now():
-        """The by-hand groupings, as group_recording_parts wants them."""
-        return [[target, source] for source, target in sorted(join_to.items())
-                if target and target != source]
-    channel_choice = ByFile()    # file -> {pair number: stereo yes/no}
+    join_to, together_now = model.join_to, model.together_now
+    channel_choice = model.channel_choice
     channel_node = ByFile()      # file -> its row in the list
     video_kind_again = ByFile()  # file -> draw its Kind cell again
     # file -> [(track file, label)]. An empty list means looked at and
@@ -2921,19 +2917,9 @@ def gui():
     # ------------------------------------------------------------------
     # Tab 2: settings
     # ------------------------------------------------------------------
-    out_folder = Value("")
-    production_var = Value("")
-    start_var = Value("")
-    end_var = Value("")
-    project_type = Value("")
-
-    def commonest_folder():
-        """Return the folder most of the chosen files come from."""
-        counter = {}
-        for p, _ in files:
-            folder = os.path.dirname(os.path.abspath(p))
-            counter[folder] = counter.get(folder, 0) + 1
-        return max(counter, key=counter.get) if counter else None
+    out_folder, production_var = model.out_folder, model.production
+    start_var, end_var = model.in_point, model.out_point
+    project_type, commonest_folder = model.project_type, model.commonest_folder
 
     # --- production: name and location belong together
     place_box = QtWidgets.QGroupBox(T('Production'))
@@ -2996,7 +2982,7 @@ def gui():
 
     # --- how loud the finished episode is. Why it stands here and what
     #     the entries mean is in loudness_field_build.
-    lufs_value = Value(loudness_last())
+    lufs_value = model.lufs
     loudness_field_build(place_position, lufs_value)
 
     # --- sheet 2 of the settings: its boxes stand in AssignmentSheet,
@@ -3169,12 +3155,8 @@ def gui():
         start_var.set(from_s)
         end_var.set(until)
 
-    assign_lines = []            # [(chain, name_value, camera_value)]
-    camera_lines = []           # [(path, name_value, own, own_name)]
-    # One row per voice a separation heard, hanging under the recording
-    # it was heard in: a tree says the level by where the row hangs.
-    voice_lines = []             # [(key, name_value, camera_value)]
-    remembered = {}              # survives a redraw of the table
+    assign_lines, camera_lines = model.assign_lines, model.camera_lines
+    voice_lines, remembered = model.voice_lines, model.remembered
     suggestions = ByFile()       # what the table last suggested itself
 
     # ------------------------------------------------------------------
@@ -3359,8 +3341,9 @@ def gui():
 
     def prepared_tracks():
         """Return the finished tracks from auphonic.com: name -> file."""
-        return prepared_tracks_in(done_folder.get() or finished_tracks_where(
-            out_folder.get(), commonest_folder()))
+        return prepared_tracks_in(model.done_folder.get()
+                                  or finished_tracks_where(
+                                      out_folder.get(), commonest_folder()))
 
     def audio_for_camera(camera_path):
         """The recording that belongs under this camera in the preview."""
@@ -3378,10 +3361,7 @@ def gui():
         if 0 <= row < len(file_list) and file_list[row]:
             player_load(file_list[row])
 
-    clip_kind_values = ByFile()
-    # One value per video file, shown twice -- file list and player. Not
-    # a second store: the same object both times.
-    audio_use_values = ByFile()
+    clip_kind_values, audio_use_values = model.clip_kinds, model.audio_use
 
     # The time axis is measured elsewhere and proposes a Kind from there.
     state["clip_kinds"] = clip_kind_values
@@ -3404,10 +3384,7 @@ def gui():
          files, clip_kind_values, assign_lines, start_var, end_var,
          player, remembered, state, window_enable)
 
-    def clip_kind_value(path):
-        """One video file's Kind -- one value, and two places show it."""
-        return clip_kind_values.setdefault(
-            path, Value(remembered.get("kind:" + path) or TYPE_CONTENT))
+    clip_kind_value = model.clip_kind_value
     def wide_cameras_now():
         """Which cameras here are the wide shot, and who said so.
 
@@ -3599,7 +3576,7 @@ def gui():
 
     # --- Spoken language: the tag of the written audio track, and
     #     what the recognition expects. Empty answers both.
-    speech_language = Value(language_of_system())
+    speech_language = model.speech_language
     # The separation above this line reads the tag when it starts a run.
     state["speech_language"] = speech_language
     strip_choice_build(
@@ -3620,7 +3597,7 @@ def gui():
 
     # The key for auphonic.com and the preset a run is given stand in
     # make_auphonic_box(). Below multi_button, which its handler switches.
-    (access_box, keep_where, key_var, done_folder,
+    (access_box, keep_where, model.key, model.done_folder,
      without_auphonic, preset_plaintext, presets_filter,
      presets_wanted_now, finished_tracks_check) = make_auphonic_box(
          QtWidgets, state, bridge, bridge_emit, tab2.run_layout,
@@ -3692,9 +3669,9 @@ def gui():
     resolve_left.addWidget(cut_box)
     cut_position = QtWidgets.QVBoxLayout(cut_box)
     cut_parts = {}
-    cut_var = cut_fields_build(cut_position, cut_parts)
+    cut_var = model.cut = cut_fields_build(cut_position, cut_parts)
     choice_boxes_even([box for _line, box in cut_parts.values()])
-    edge_on = Value(True)
+    edge_on = model.edge_on
     _edge_box = checkbox_bind(QtWidgets.QCheckBox(
         T('Wide shot for greeting at the start and farewell at the end')), edge_on)
     cut_position.addWidget(hint(
@@ -3936,16 +3913,12 @@ def gui():
     # project file, which takes items_fresh; take_paths goes back.
     # ------------------------------------------------------------------
     items_fresh, take_paths, add_files, remove = make_file_changes(
-        Qt, QtCore, QtWidgets, window, state, files, ask,
-        report, items, item, window.files_sheet.drop_area, preflight_line,
-        preflight_fill_in, preflight_kick_off, blocks_of,
-        recording_of, join_to, no_join, lines_node,
-        prework_node, video_kind_again, channel_rows_show,
-        audio_use_now, video_choices_show, window.settings_show,
-        buttons_check, show_weak, assignment_fresh,
-        finished_tracks_check, prework_clean_up, remembered,
-        together_now, production_var, commonest_folder,
-        window.files_sheet.remove_button, window.files_sheet.bar)
+        Qt, QtCore, QtWidgets, window, state, model, ask, report, items,
+        item, preflight_line, preflight_fill_in, preflight_kick_off,
+        blocks_of, recording_of, lines_node, prework_node,
+        video_kind_again, channel_rows_show, audio_use_now,
+        video_choices_show, buttons_check, show_weak, assignment_fresh,
+        finished_tracks_check, prework_clean_up)
 
     # A file dropped straight onto the list lands here; the buttons above
     # stand long before the five exist and are hung on them here.
@@ -3958,19 +3931,12 @@ def gui():
     # because it and resolve_button_check go in as arguments.
     # ------------------------------------------------------------------
     (project_write, project_new, project_open) = make_project_file(
-        QtWidgets, window, state, files, log, report, output,
-        out_folder, production_var, start_var, end_var,
-        speech_language, lufs_value, edge_on, multitrack, project_type,
-        cut_var, channel_choice, clip_kind_values,
-        audio_use_values, no_join, join_to, remembered,
-        assign_lines, camera_lines, axis_file, axis_store,
-        project_collect, project_move, settings_extend,
-        commonest_folder, folder_show, folder_pick, items_fresh,
-        window_enable, window.tab_gone, window.output_show, mode_toggled,
-        player_follow_up, plan_wipe, prework_clean_up,
-        split_stop, split_run, preview_compute,
-        presets_wanted_now, presets_filter,
-        resolve_button_check, result_button_check, write)
+        QtWidgets, window, state, model, report, write, axis_file,
+        axis_store, project_collect, project_move, settings_extend,
+        folder_show, folder_pick, items_fresh, window_enable, mode_toggled,
+        player_follow_up, plan_wipe, prework_clean_up, split_stop,
+        split_run, preview_compute, presets_wanted_now, presets_filter,
+        resolve_button_check, result_button_check)
     # take_paths asks whether the files just dropped in carry a
     # project of their own, and it is made here, below it.
     state["project_open"] = project_open
@@ -4019,18 +3985,12 @@ def gui():
     # footer, the project file and the timer, which go in as arguments.
     # ------------------------------------------------------------------
     start, only_resolve_start_run = make_run_start(
-        QtCore, state, files, log, report, ask, write, ask_user,
-        bridge, bridge_emit, out_folder, production_var, start_var,
-        end_var, speech_language, lufs_value, done_folder, key_var,
-        cut_var, edge_on, multitrack, project_type, clip_kind_values,
-        clip_kind_value, no_join, together_now, assign_lines,
-        camera_lines, voice_lines,
-        prework_node, prework_done, prework_queue, prework_run,
-        prework_lock, prework_busy, start_run, preview_button,
-        only_resolve, break_off, output_timer, files_for_run,
-        window_length, preset_plaintext, without_auphonic, window.output_show,
-        buttons_check, result_button_check, run_plan_build,
-        run_step_order, project_write)
+        QtCore, window, state, model, report, ask, write, ask_user,
+        bridge, bridge_emit, prework_node, prework_done, prework_queue,
+        prework_run, prework_lock, prework_busy, start_run, preview_button,
+        break_off, output_timer, files_for_run, window_length,
+        preset_plaintext, without_auphonic, buttons_check,
+        result_button_check, run_plan_build, run_step_order, project_write)
 
     only_resolve.clicked.connect(only_resolve_start_run)
     start_run.clicked.connect(lambda: start(False))
