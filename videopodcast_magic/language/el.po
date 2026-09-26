@@ -3626,9 +3626,6 @@ msgstr "Επεξεργασία"
 msgid "Profile"
 msgstr "Προφίλ"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Δεν υπάρχει απομαγνητοφώνηση ακόμη. Χωρίς αυτήν δεν βρίσκεται ερώτηση και δεν είναι γνωστό κανένα όριο πρότασης, οπότε αυτές οι τέσσερις ρυθμίσεις δεν κάνουν τίποτα. Μια εκτέλεση τη γράφει, και από τότε λειτουργούν."
-
 msgid "Why the question settings are grey"
 msgstr "Γιατί οι ρυθμίσεις της ερώτησης είναι γκρι"
 
@@ -4916,3 +4913,21 @@ msgstr "ήχος μη αναγνωρισμένος, τοποθετήθηκε κ�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s ηχογραφήσεις και καμία εικόνα: η καθεμία ενώνεται χωριστά και δεν ευθυγραμμίζονται μεταξύ τους. Το --multitrack τις βάζει σε έναν άξονα χρόνου."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", η ολίσθηση ρολογιού %s ppm παραμένει: δεν είναι %s φορές η αβεβαιότητά της των %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Χωρίς απομαγνητοφώνηση δεν βρίσκεται ερώτηση και δεν είναι γνωστό κανένα όριο πρότασης, οπότε οι δύο ρυθμίσεις της ερώτησης και οι δύο ρυθμίσεις του γενικού πλάνου που περιμένουν το τέλος μιας πρότασης δεν κάνουν τίποτα."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Χωρίς απομαγνητοφώνηση δεν βρίσκεται ερώτηση, οπότε οι δύο ρυθμίσεις της ερώτησης δεν κάνουν τίποτα."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Δεν υπάρχει ακόμη: μια εκτέλεση τη γράφει, και από τότε λειτουργούν."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Η αναγνώριση ομιλίας ήταν απενεργοποιημένη για την εκτέλεση. Αφήστε την ενεργή, και η επόμενη εκτέλεση θα γράψει μία."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Η εκτέλεση δεν έγραψε καμία: η αναγνώριση ομιλίας απέτυχε ή δεν άκουσε τίποτα, και το αρχείο καταγραφής της εκτέλεσης λέει ποιο από τα δύο. Ελέγξτε τη γλώσσα του ήχου και εκτελέστε ξανά· όπου αυτός ο υπολογιστής δεν έχει αναγνώριση, το macOS 26 φέρνει μία, ή η εκτέλεση εγκαθιστά το faster-whisper."

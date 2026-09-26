@@ -31,12 +31,12 @@
 #
 # Written by run.sh, only from a run against the file this repository
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
-auphonic_key_answer_fits	17
+auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
 auphonic_key_out_of_view	25
 auphonic_may_be_skipped	28
 auphonic_mono_not_stereo	7
-auphonic_none_chosen	4
+auphonic_none_chosen	12
 auphonic_preset_checked	4
 auphonic_preset_fits	5
 auphonic_run_delivers	73
@@ -215,6 +215,8 @@ source_checks_proved	23
 source_floor_needs_main	17
 source_imported_is_whole	5
 source_limits_hold	19
+source_line_loads_no_qt	6
+source_live_asks_first	19
 source_material_stays	3
 source_names_stay_fresh	4
 source_needs_lists_agree	4
@@ -238,7 +240,7 @@ table_camera_proposed	16
 table_lock_says_why	28
 table_names_one_order	11
 table_names_reach_camera	10
-table_no_place_not_wide	25
+table_no_place_not_wide	26
 table_notes_in_one_row	6
 table_one_entry_greyed	45
 table_pair_named_alike	5
@@ -300,11 +302,11 @@ time_short_cam_found	6
 time_sound_stays_put	31
 time_thin_block_refused	8
 time_track_starts_late	8
-time_tracks_alone	33
+time_tracks_alone	36
 time_tracks_sit_together	4
 time_unheard_file_named	8
-time_weak_as_run	6
-time_weak_at_its_clock	5
+time_weak_as_run	7
+time_weak_at_its_clock	6
 time_which_way_is_said	13
 time_window_is_shared	11
 time_zero_at_in_point	77
@@ -349,7 +351,7 @@ window_cut_colours	8
 window_dark_follows	5
 window_exit_keeps_all	7
 window_foot_on_one_line	8
-window_grey_opens_again	19
+window_grey_opens_again	25
 window_grey_says_why	36
 window_handover_follows	3
 window_handover_found	5

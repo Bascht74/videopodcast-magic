@@ -1574,9 +1574,6 @@ msgstr "  %s: kaç kanalı olduğu belirlenemiyor (%s) -- ölçülmüyor"
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "Hiçbir kamera konuşmacısız değil, bu yüzden geniş çekim yok: dört geniş çekim ayarı ve kenarlar için onay işareti bir şey yapmaz. Bir kameraya Tür olarak “Geniş çekim” verin ya da birini konuşmacısız bırakın."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Henüz transkript yok. O olmadan hiçbir soru bulunmaz ve hiçbir cümle sınırı bilinmez, bu yüzden bu dört ayar bir şey yapmaz. Bir çalıştırma onu yazar, o andan itibaren çalışırlar."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Soru: transkript yok, bu yüzden soru bulunmadı ve tepki kesmesi\n        yapılmadı. Sözcükler çalıştırma sırasında bitmiş miksten\n        yazıya dökülür; onlar olmadan ayar bir şey yapmaz."
 
@@ -4929,3 +4926,21 @@ msgstr "ses tanınmadı, timecode'una göre yerleştirildi"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s kayıt ve hiç görüntü yok: her biri ayrı birleştirilir ve birbirine göre hizalanmaz. --multitrack onları tek bir zaman eksenine koyar."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", %s ppm saat sürüklenmesi bırakılır: belirsizliğinin %s katı değil (belirsizlik %s ppm)"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Transkript olmadan hiçbir soru bulunmaz ve hiçbir cümle sınırı bilinmez, bu yüzden sorunun iki ayarı ve cümle sonunu bekleyen geniş çekimin iki ayarı bir şey yapmaz."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Transkript olmadan hiçbir soru bulunmaz, bu yüzden sorunun iki ayarı bir şey yapmaz."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Henüz yok: bir çalıştırma onu yazar, o andan itibaren çalışırlar."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Konuşma tanıma bu çalıştırma için kapalıydı. Açık bırakın, bir sonraki çalıştırma bir tane yazar."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Çalıştırma hiç transkript yazmadı: konuşma tanıma başarısız oldu ya da hiçbir şey duymadı; hangisi olduğunu çalıştırmanın günlüğü söyler. Sesin dilini kontrol edin ve yeniden çalıştırın; bu makinede tanıma yoksa macOS 26 bir tane getirir ya da çalıştırma faster-whisper'ı kurar."

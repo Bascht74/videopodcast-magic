@@ -1562,9 +1562,6 @@ msgstr "  %s: não é possível determinar quantos canais tem (%s) -- não é me
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "Nenhuma câmera está livre de falantes, então não há plano geral: as quatro configurações de plano geral e a marca para as bordas não fazem nada. Dê a uma câmera o Tipo “Plano geral”, ou deixe uma sem falante."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Ainda não há transcrição. Sem ela nenhuma pergunta é encontrada e nenhum limite de frase é conhecido, por isso estas quatro configurações não fazem nada. Uma execução a escreve, e a partir daí funcionam."
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Pergunta: sem transcrição, então nenhuma pergunta foi encontrada e nenhum\n            corte de reação aconteceu. As palavras são transcritas do mix pronto\n            durante a execução; sem elas a configuração não faz nada."
 
@@ -4917,3 +4914,21 @@ msgstr "som não reconhecido, posicionado pelo timecode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s gravações e nenhuma imagem: cada uma é unida à parte e elas não são alinhadas entre si. --multitrack as coloca num eixo de tempo."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", a deriva do relógio de %s ppm permanece: não chega a %s vezes a sua incerteza de %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Sem transcrição nenhuma pergunta é encontrada e nenhum limite de frase é conhecido, por isso as duas configurações da pergunta e as duas configurações do plano geral que esperam o fim de uma frase não fazem nada."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Sem transcrição nenhuma pergunta é encontrada, por isso as duas configurações da pergunta não fazem nada."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Ainda não há: uma execução a escreve, e a partir daí funcionam."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "O reconhecimento de fala estava desligado nesta execução. Deixe-o ligado, e a próxima execução escreverá uma."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "A execução não escreveu nenhuma: o reconhecimento de fala falhou ou não ouviu nada, e o registo da execução diz qual das duas. Verifique o idioma do som e execute de novo; onde esta máquina não tem reconhecimento, o macOS 26 traz um, ou a execução instala o faster-whisper."

@@ -3628,9 +3628,6 @@ msgstr "Feldolgozás"
 msgid "Profile"
 msgstr "Profil"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Még nincs átirat. Nélküle nem kerül elő kérdés és nem ismert mondathatár, így ez a négy beállítás nem tesz semmit. Egy futás megírja, és attól fogva működnek."
-
 msgid "Why the question settings are grey"
 msgstr "Miért szürkék a kérdés beállításai"
 
@@ -4918,3 +4915,21 @@ msgstr "a hang nem felismert, a timecode-ja szerint elhelyezve"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s felvétel és nincs kép: mindegyiket külön illesztjük össze, és nem igazítjuk őket egymáshoz. A --multitrack egy időtengelyre teszi őket."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", a %s ppm órasodródás benne marad: nem éri el bizonytalanságának %s-szorosát, amely %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Átirat nélkül nem kerül elő kérdés és nem ismert mondathatár, így a kérdés két beállítása és a totál két beállítása, amely a mondat végére vár, nem tesz semmit."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Átirat nélkül nem kerül elő kérdés, így a kérdés két beállítása nem tesz semmit."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Még nincs: egy futás megírja, és attól fogva működnek."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "A beszédfelismerés ki volt kapcsolva ennél a futásnál. Hagyja bekapcsolva, és a következő futás megír egyet."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "A futás nem írt átiratot: a beszédfelismerés hibát jelzett vagy nem hallott semmit, és a futás naplója megmondja, melyik. Ellenőrizze a hang nyelvét, és futtassa újra; ha ezen a gépen nincs felismerés, a macOS 26 hoz egyet, vagy a futás telepíti a faster-whispert."

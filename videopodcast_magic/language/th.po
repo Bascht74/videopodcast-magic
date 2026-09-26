@@ -3708,9 +3708,6 @@ msgstr "และตรงนี้จะตัด ไม่ว่าจัง�
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "ยังไม่มีบทถอดความ หากไม่มีจะหาคำถามไม่พบและไม่รู้ขอบเขตประโยค การตั้งค่าทั้งสี่นี้จึงไม่มีผล รอบการทำงานหนึ่งรอบจะเขียนบทถอดความ และหลังจากนั้นการตั้งค่าจะมีผล"
-
 msgid "Why the question settings are grey"
 msgstr "ทำไมการตั้งค่าคำถามจึงเป็นสีเทา"
 
@@ -4875,3 +4872,21 @@ msgstr "ระบุเสียงไม่ได้ วางตามไท�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  การบันทึก %s รายการและไม่มีภาพ: แต่ละรายการต่อกันแยกกัน และไม่ถูกจัดให้ตรงกัน --multitrack จะวางไว้บนแกนเวลาเดียว"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", คงการคลาดของนาฬิกา %s ppm ไว้: ไม่ถึง %s เท่าของความไม่แน่นอน %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "หากไม่มีบทถอดความจะหาคำถามไม่พบและไม่รู้ขอบเขตประโยค การตั้งค่าสองรายการของคำถามและการตั้งค่าสองรายการของภาพมุมกว้างที่รอจนจบประโยคจึงไม่มีผล"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "หากไม่มีบทถอดความจะหาคำถามไม่พบ การตั้งค่าสองรายการของคำถามจึงไม่มีผล"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "ยังไม่มี: รอบการทำงานหนึ่งรอบจะเขียนบทถอดความ และหลังจากนั้นการตั้งค่าจะมีผล"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "การรู้จำเสียงพูดถูกปิดไว้สำหรับรอบการทำงานนี้ เปิดไว้ แล้วรอบการทำงานถัดไปจะเขียนบทถอดความ"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "รอบการทำงานไม่ได้เขียนบทถอดความ: การรู้จำเสียงพูดล้มเหลวหรือไม่ได้ยินอะไรเลย และบันทึกของรอบการทำงานบอกว่าเป็นอย่างไหน ตรวจสอบภาษาของเสียงแล้วเรียกใช้อีกครั้ง หากเครื่องนี้ไม่มีการรู้จำ macOS 26 มีมาให้ หรือรอบการทำงานจะติดตั้ง faster-whisper"

@@ -3705,9 +3705,6 @@ msgstr "i ovdje se reže, dobar trenutak ili ne"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Tvrda granica para: ako se od \"Široki kadar nakon\" nije pojavila nijedna granica rečenice, na njeno mjesto dolazi najduža pauza u govoru, i u ovoj se tački reže, bez obzira na to šta se upravo govori."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Još nema transkripta. Bez njega se ne nalazi nijedno pitanje i nije poznata nijedna granica rečenice, pa ove četiri postavke ne rade ništa. Prolaz ga zapisuje i od tada rade."
-
 msgid "Why the question settings are grey"
 msgstr "Zašto su postavke pitanja sive"
 
@@ -4958,3 +4955,21 @@ msgstr "zvuk nije prepoznat, postavljeno prema vremenskom kodu"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s snimka i nema slike: svaki se spaja zasebno i ne poravnavaju se jedan prema drugom. --multitrack ih stavlja na jednu vremensku osu."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", drift sata od %s ppm ostavljen: nije %s puta veći od svoje nesigurnosti od %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Bez transkripta se ne nalazi nijedno pitanje i nije poznata nijedna granica rečenice, pa dvije postavke pitanja i dvije postavke širokog kadra koje čekaju kraj rečenice ne rade ništa."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Bez transkripta se ne nalazi nijedno pitanje, pa dvije postavke pitanja ne rade ništa."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Još ga nema: prolaz ga zapisuje i od tada rade."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Prepoznavanje govora je za ovaj prolaz bilo isključeno. Ostavite ga uključenim i sljedeći prolaz će zapisati transkript."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Prolaz nije zapisao transkript: prepoznavanje govora nije uspjelo ili nije ništa čulo, a zapisnik prolaza kaže šta od toga. Provjerite jezik zvuka i pokrenite ponovo; ako ovaj računar nema prepoznavanje, macOS 26 ga donosi, ili prolaz instalira faster-whisper."

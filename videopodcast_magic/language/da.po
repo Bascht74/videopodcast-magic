@@ -3626,9 +3626,6 @@ msgstr "Behandling"
 msgid "Profile"
 msgstr "Profil"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Ingen transskription endnu. Uden den findes intet spørgsmål, og ingen sætningsgrænse kendes, så disse fire indstillinger gør ingenting. En kørsel skriver den, og fra da af virker de."
-
 msgid "Why the question settings are grey"
 msgstr "Hvorfor indstillingerne for spørgsmålet er grå"
 
@@ -4916,3 +4913,21 @@ msgstr "lyd ikke genkendt, placeret efter sin tidskode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s optagelser og intet billede: hver sættes sammen for sig, og de lægges ikke op ad hinanden. --multitrack lægger dem på én tidsakse."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", klokkedrift %s ppm efterladt: ikke %s gange dens usikkerhed på %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Uden transskription findes intet spørgsmål, og ingen sætningsgrænse kendes, så de to indstillinger for spørgsmålet og de to indstillinger for oversigtsbilledet, der venter på en sætnings slutning, gør ingenting."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Uden transskription findes intet spørgsmål, så de to indstillinger for spørgsmålet gør ingenting."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Der er ingen endnu: en kørsel skriver den, og fra da af virker de."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Talegenkendelsen var slået fra for kørslen. Lad den være slået til, så skriver næste kørsel en."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Kørslen skrev ingen: talegenkendelsen mislykkedes eller hørte ingenting, og kørslens log siger hvilket. Tjek lydens sprog og kør igen; hvor denne maskine ingen genkendelse har, medbringer macOS 26 en, eller kørslen installerer faster-whisper."

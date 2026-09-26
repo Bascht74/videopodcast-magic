@@ -3709,9 +3709,6 @@ msgstr "و اینجا برش می‌خورد، لحظه مناسب باشد یا
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "حد سختِ این دو: اگر از «نمای باز پس از این مدت» به بعد هیچ پایان جمله‌ای پیش نیامده باشد، طولانی‌ترین وقفه گفتار جای آن را می‌گیرد، و در این نقطه برش می‌خورد، هر چه در حال گفته شدن باشد."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "هنوز رونوشتی وجود ندارد. بدون آن هیچ پرسشی پیدا نمی‌شود و هیچ پایان جمله‌ای شناخته نیست، پس این چهار تنظیم کاری نمی‌کنند. یک اجرا آن را می‌نویسد و از آن پس کار می‌کنند."
-
 msgid "Why the question settings are grey"
 msgstr "چرا تنظیمات پرسش خاکستری‌اند"
 
@@ -4919,3 +4916,21 @@ msgstr "صدا شناسایی نشد، بر اساس تایم‌کد آن جای
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s ضبط و بدون تصویر: هر کدام جداگانه به هم پیوسته می‌شود و آن‌ها نسبت به هم تراز نمی‌شوند. --multitrack آن‌ها را روی یک محور زمانی می‌گذارد."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "، رانش ساعت %s ppm باقی ماند: %s برابر عدم قطعیت %s ppm آن نیست"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "بدون رونوشت هیچ پرسشی پیدا نمی‌شود و هیچ پایان جمله‌ای شناخته نیست، پس دو تنظیم پرسش و دو تنظیم نمای باز که منتظر پایان جمله‌اند کاری نمی‌کنند."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "بدون رونوشت هیچ پرسشی پیدا نمی‌شود، پس دو تنظیم پرسش کاری نمی‌کنند."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "هنوز وجود ندارد: یک اجرا آن را می‌نویسد و از آن پس کار می‌کنند."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "بازشناسی گفتار برای این اجرا خاموش بود. آن را روشن بگذارید تا اجرای بعدی یکی بنویسد."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "اجرا هیچ رونوشتی ننوشت: بازشناسی گفتار شکست خورد یا چیزی نشنید، و گزارش اجرا می‌گوید کدام. زبان صدا را بررسی کنید و دوباره اجرا کنید؛ اگر این دستگاه بازشناسی ندارد، macOS 26 یکی با خود دارد، یا اجرا faster-whisper را نصب می‌کند."

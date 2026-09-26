@@ -3711,9 +3711,6 @@ msgstr "и тук се реже, подходящ момент или не"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Твърдата граница на двойката: ако от „Общ план след“ не се е появила граница на изречение, най-дългата пауза в речта я замества и в тази точка се реже, каквото и да се казва."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Все още няма транскрипция. Без нея не се намира въпрос и не е известна граница на изречение, така че тези четири настройки не правят нищо. Изпълнението я записва и оттогава те действат."
-
 msgid "Why the question settings are grey"
 msgstr "Защо настройките за въпроса са сиви"
 
@@ -4921,3 +4918,21 @@ msgstr "звукът не е разпознат, поставен по своя 
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s записа и никаква картина: всеки се съединява поотделно и те не се подравняват един спрямо друг. --multitrack ги поставя на една времева ос."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", дрейфът на часовника %s ppm е оставен: не е %s пъти неговата неопределеност от %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Без транскрипция не се намира въпрос и не е известна граница на изречение, така че двете настройки за въпроса и двете настройки за общия план, които чакат края на изречение, не правят нищо."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Без транскрипция не се намира въпрос, така че двете настройки за въпроса не правят нищо."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Все още няма: изпълнението я записва и оттогава те действат."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Разпознаването на реч беше изключено за това изпълнение. Оставете го включено и следващото изпълнение ще запише транскрипция."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Изпълнението не записа транскрипция: разпознаването на реч се провали или не чу нищо, а дневникът на изпълнението казва кое от двете. Проверете езика на звука и изпълнете отново; ако на тази машина няма разпознаване, macOS 26 носи такова, или изпълнението инсталира faster-whisper."

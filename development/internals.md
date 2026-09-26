@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the program is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 717 lines of it, against the 37 535 it held
+program lives any more -- 784 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-six
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -25,9 +25,9 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4404** -- the window and everything it shows, asks or offers,
+* `ui/` **4417** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `speakers/` **3769** -- who speaks and when: the separation itself,
+* `speakers/` **3776** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -35,20 +35,20 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3159** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3107** -- who is on camera when, and what carries it out
+* `cut/` **3137** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2638** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2865** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
-* `pipeline/` **2338** -- the chain the recordings run until the camera
+* `pipeline/` **2373** -- the chain the recordings run until the camera
   files are written
-* `bearings/` **2170** -- where each file and each voice sits, and how
+* `bearings/` **2183** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `auphonic/` **1668** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1686** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1728** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
@@ -71,10 +71,10 @@ figure of the day is that command, not this paragraph**:
   one in place, and what the window offers of all three
 * `herald/` **643** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **605** -- the program's own project file: writing
+* `project/` **591** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **533** -- the list of chosen files: the tree it is
+* `filelist/` **530** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **435** -- the audio, envelopes, channels and tracks
@@ -85,7 +85,7 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
 * `tables/` **348** -- the tables and trees the window builds
-* `running/` **365** -- what a run is offered before it starts, the
+* `running/` **383** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **360** -- a .po file per language and the reader that
   looks one up
@@ -114,12 +114,12 @@ figure of the day is that command, not this paragraph**:
   buttons for what a run made
 * `resolvesheet/` **69** -- the third tab: the scrolling sheet the
   Resolve check and the camera cut go into, and the speaker box
-* `filesheet/` **58** -- the first tab: the drop area, the file list
+* `filesheet/` **62** -- the first tab: the drop area, the file list
   and its bar, and the production strip under it
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
-* `projectmodel/` **85** -- the production's data the window works on:
+* `projectmodel/` **121** -- the production's data the window works on:
   the files, the output folder, the assignment and the choices, read by
   the project file, the run start and the file list; no widget, no Qt
 

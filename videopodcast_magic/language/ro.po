@@ -3630,9 +3630,6 @@ msgstr "Procesare"
 msgid "Profile"
 msgstr "Profil"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Încă nu există transcriere. Fără ea nu se găsește nicio întrebare și nu se cunoaște nicio limită de propoziție, deci aceste patru setări nu fac nimic. O rulare o scrie, și de atunci funcționează."
-
 msgid "Why the question settings are grey"
 msgstr "De ce setările întrebării sunt gri"
 
@@ -4961,3 +4958,21 @@ msgstr "sunet nerecunoscut, așezat după timecode-ul său"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s înregistrări și nicio imagine: fiecare este unită separat și nu sunt aliniate una față de alta. --multitrack le pune pe o singură axă a timpului."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", deriva ceasului de %s ppm rămâne: nu este de %s ori incertitudinea ei de %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Fără transcriere nu se găsește nicio întrebare și nu se cunoaște nicio limită de propoziție, deci cele două setări ale întrebării și cele două setări ale planului larg care așteaptă sfârșitul unei propoziții nu fac nimic."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Fără transcriere nu se găsește nicio întrebare, deci cele două setări ale întrebării nu fac nimic."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Încă nu există: o rulare o scrie, și de atunci funcționează."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Recunoașterea vorbirii a fost oprită pentru această rulare. Las-o pornită, și următoarea rulare va scrie una."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Rularea nu a scris niciuna: recunoașterea vorbirii a eșuat sau nu a auzit nimic, iar jurnalul rulării spune care dintre ele. Verifică limba sunetului și rulează din nou; unde acest calculator nu are recunoaștere, macOS 26 aduce una, sau rularea instalează faster-whisper."

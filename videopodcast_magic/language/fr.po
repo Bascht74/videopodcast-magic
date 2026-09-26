@@ -3198,9 +3198,6 @@ msgstr "Aucun locuteur n’est encore connu -- ils sont tirés des pistes dès q
 msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
 msgstr "Aucun locuteur connu pour l’instant -- rien de mesuré, rien de séparé, et aucun fichier de transfert d’une exécution antérieure dans %s ni dans ses sous-dossiers."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Pas encore de transcription. Sans elle, aucune question n’est trouvée et aucune fin de phrase n’est connue, donc ces quatre réglages ne font rien. Une exécution l’écrit, et à partir de là ils agissent."
-
 msgid "No version earlier than %s is out that pip can install."
 msgstr "Il n’existe aucune version antérieure à %s que pip puisse installer."
 
@@ -4927,3 +4924,21 @@ msgstr "son non reconnu, placé d’après son timecode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s enregistrements et aucune image : chacun est assemblé séparément et ils ne sont pas alignés les uns sur les autres. --multitrack les place sur un même axe temporel."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", la dérive d’horloge de %s ppm reste : elle n’atteint pas %s fois son incertitude de %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Sans transcription, aucune question n’est trouvée et aucune fin de phrase n’est connue, donc les deux réglages de la question et les deux réglages du plan large qui attendent la fin d’une phrase ne font rien."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Sans transcription, aucune question n’est trouvée, donc les deux réglages de la question ne font rien."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Il n’y en a pas encore : une exécution l’écrit, et à partir de là ils agissent."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "La reconnaissance vocale était désactivée pour cette exécution. Laissez-la activée, et la prochaine exécution en écrira une."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "L’exécution n’en a écrit aucune : la reconnaissance vocale a échoué ou n’a rien entendu, et le journal de l’exécution dit lequel des deux. Vérifiez la langue du son et relancez ; si cette machine n’a pas de reconnaissance, macOS 26 en apporte une, ou l’exécution installe faster-whisper."

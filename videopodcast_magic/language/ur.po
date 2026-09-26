@@ -3709,9 +3709,6 @@ msgstr "اور یہاں کٹ لگتا ہے، اچھا لمحہ ہو یا نہ ہ
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "جوڑی کی سخت حد: جہاں \"وائیڈ شاٹ اتنی دیر بعد\" کے بعد سے جملے کا کوئی اختتام نہیں آیا، وہاں بولنے میں سب سے لمبا خلا اس کی جگہ لیتا ہے، اور اس مقام پر کٹ لگتا ہے چاہے اس وقت کچھ بھی کہا جا رہا ہو۔"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "ابھی کوئی ٹرانسکرپٹ نہیں۔ اس کے بغیر نہ کوئی سوال ملتا ہے اور نہ جملوں کے اختتام معلوم ہوتے ہیں، اس لیے یہ چار ترتیبات کچھ نہیں کرتیں۔ ایک رن اسے لکھتا ہے، اور اس کے بعد یہ کام کرتی ہیں۔"
-
 msgid "Why the question settings are grey"
 msgstr "سوال والی ترتیبات سرمئی کیوں ہیں"
 
@@ -4919,3 +4916,21 @@ msgstr "آڈیو پہچانا نہیں گیا، اس کے ٹائم کوڈ سے �
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s ریکارڈنگز اور کوئی تصویر نہیں: ہر ایک الگ سے جوڑی جاتی ہے اور انہیں ایک دوسرے کے ساتھ ہم آہنگ نہیں کیا جاتا۔ --multitrack انہیں ایک وقتی محور پر رکھتا ہے۔"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "، گھڑی کا انحراف %s ppm برقرار رکھا گیا: یہ اپنی غیر یقینی کا %s گنا نہیں، جو %s ppm ہے"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ٹرانسکرپٹ کے بغیر نہ کوئی سوال ملتا ہے اور نہ جملوں کے اختتام معلوم ہوتے ہیں، اس لیے سوال کی دو ترتیبات اور وائیڈ شاٹ کی وہ دو ترتیبات جو جملے کے اختتام کا انتظار کرتی ہیں، کچھ نہیں کرتیں۔"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ٹرانسکرپٹ کے بغیر کوئی سوال نہیں ملتا، اس لیے سوال کی دو ترتیبات کچھ نہیں کرتیں۔"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "ابھی کوئی نہیں: ایک رن اسے لکھتا ہے، اور اس کے بعد یہ کام کرتی ہیں۔"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "اس رن کے لیے تقریر کی شناخت بند تھی۔ اسے چالو رہنے دیں، تو اگلا رن ایک لکھے گا۔"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "رن نے کوئی ٹرانسکرپٹ نہیں لکھا: تقریر کی شناخت ناکام رہی یا اسے کچھ سنائی نہیں دیا، اور رن کا لاگ بتاتا ہے کہ کون سا۔ آڈیو کی زبان جانچیں اور دوبارہ چلائیں؛ جہاں اس مشین میں شناخت نہیں، وہاں macOS 26 ایک لاتا ہے، یا رن faster-whisper انسٹال کرتا ہے۔"

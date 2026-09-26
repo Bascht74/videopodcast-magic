@@ -3710,9 +3710,6 @@ msgstr "dan di sini dipotong, momen tepat atau tidak"
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Batas keras dari pasangan ini: jika tidak ada batas kalimat sejak \"Bidikan lebar setelah\", jeda bicara terpanjang menggantikannya, dan pada titik ini potongan terjadi apa pun yang sedang diucapkan."
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Belum ada transkrip. Tanpa transkrip, tidak ada pertanyaan yang ditemukan dan tidak ada batas kalimat yang diketahui, sehingga keempat pengaturan ini tidak berpengaruh. Sebuah proses menulisnya, dan sejak itu pengaturan ini berfungsi."
-
 msgid "Why the question settings are grey"
 msgstr "Mengapa pengaturan pertanyaan berwarna abu-abu"
 
@@ -4877,3 +4874,21 @@ msgstr "audio tidak dikenali, ditempatkan menurut timecode-nya"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s rekaman dan tanpa gambar: masing-masing digabungkan sendiri dan tidak disejajarkan satu sama lain. --multitrack menaruhnya pada satu sumbu waktu."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", penyimpangan jam %s ppm dibiarkan: tidak sampai %s kali ketidakpastiannya sebesar %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Tanpa transkrip, tidak ada pertanyaan yang ditemukan dan tidak ada batas kalimat yang diketahui, sehingga dua pengaturan pertanyaan dan dua pengaturan bidikan lebar yang menunggu akhir kalimat tidak berpengaruh."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Tanpa transkrip, tidak ada pertanyaan yang ditemukan, sehingga dua pengaturan pertanyaan tidak berpengaruh."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Belum ada: sebuah proses menulisnya, dan sejak itu pengaturan ini berfungsi."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Pengenalan ucapan dimatikan untuk proses ini. Biarkan menyala, dan proses berikutnya akan menulis transkrip."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Proses tidak menulis transkrip: pengenalan ucapan gagal atau tidak mendengar apa pun, dan log proses menyebutkan yang mana. Periksa bahasa audio lalu jalankan lagi; jika mesin ini tidak punya pengenalan, macOS 26 menyediakannya, atau proses memasang faster-whisper."

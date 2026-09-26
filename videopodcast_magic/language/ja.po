@@ -1554,9 +1554,6 @@ msgstr "  %s：チャンネル数を判定できません（%s） -- 測定し�
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "話者のいないカメラがないため、引き画がありません：引き画の 4 つの設定と両端のチェックは効果がありません。いずれかのカメラの「種類」を「引き画」にするか、話者なしのカメラを 1 台残してください。"
 
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "まだ文字起こしがありません。文字起こしがないと質問も文の区切りも見つからないため、この 4 つの設定は効果がありません。実行時に書き出され、それ以降は有効になります。"
-
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  質問：文字起こしがないため、質問は見つからず、リアクションカットも\n        行われませんでした。言葉は実行中に完成したミックスから\n        書き起こされます。それがなければこの設定は効果がありません。"
 
@@ -4875,3 +4872,21 @@ msgstr "音声を認識できず、タイムコードで配置しました"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s 本の録音があり、映像はありません: それぞれ単独で連結し、互いに合わせることはしません。--multitrack を使うと一つの時間軸に並べます。"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "、クロックのずれ %s ppm はそのまま: 不確かさの %s 倍に届かない（不確かさは %s ppm）"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "文字起こしがないと質問も文の区切りも見つからないため、質問の 2 つの設定と、文の終わりを待つ引き画の 2 つの設定は効果がありません。"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "文字起こしがないと質問が見つからないため、質問の 2 つの設定は効果がありません。"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "まだありません。実行時に書き出され、それ以降は有効になります。"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "この実行では音声認識がオフでした。オンのままにしておけば、次の実行で書き出されます。"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "この実行では文字起こしが書き出されませんでした。音声認識が失敗したか何も聞き取れず、どちらだったかは実行のログにあります。音声の言語を確認してもう一度実行してください。このマシンに音声認識がない場合は macOS 26 に含まれています。または実行時に faster-whisper がインストールされます。"
