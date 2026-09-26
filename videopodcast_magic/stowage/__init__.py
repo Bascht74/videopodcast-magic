@@ -64,6 +64,19 @@ def clean_old_files(folder, days=30):
             continue
 
 
+def kept_in_use(file_path):
+    """Date a stored entry to now, because it was just read.
+
+    The store is swept by age, so the age has to be the last use, not
+    the writing: a transcript read every week would otherwise go after
+    thirty days and the recording be listened to again.
+    """
+    try:
+        os.utime(file_path, None)
+    except (OSError, TypeError):
+        return
+
+
 def keep_newest_build(folder, prefix):
     """Discard every file under *prefix* but the one written last.
 
@@ -91,10 +104,10 @@ def keep_newest_build(folder, prefix):
 def clean_kept_stores(days=30):
     """Let the stores of words, voices and recognisers go again.
 
-    Words and separations by age, like every other store: the project
-    file carries its separation itself. The speech recogniser not by
-    age -- it is used on every run that listens -- but its old builds
-    beside the current one.
+    Words and separations by the time they were last read (see
+    kept_in_use); the project file carries its separation itself. The
+    speech recogniser not by age -- it is used on every run that
+    listens -- but its old builds beside the current one.
     """
     clean_old_files(cache_folder("words"), days)
     clean_old_files(cache_folder("speakers"), days)

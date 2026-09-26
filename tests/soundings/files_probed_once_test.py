@@ -19,9 +19,9 @@ into a folder of its own, which is known by what it holds and not by
 its name, and two separations in the window, each keeping its own
 words instead of sending the other back to the recogniser, and neither
 started a second time while it is still being written down. Last, what
-the store lets go of -- measurements, words and separations by age, a
-recogniser build once a newer one stands beside it -- and a listener or
-a check whose recipe changed, which reads nothing old back.
+the store lets go of -- measurements by age, words and separations by
+their last read, a recogniser build once a newer one stands beside it --
+and a listener or a check whose recipe changed, which reads nothing old back.
 """
 import os
 import sys
@@ -645,6 +645,20 @@ for path, days in ((old_words, 40), (old_voices, 40), (first, 50),
     with open(path, "w") as fh:
         fh.write("{}")
     os.utime(path, (time.time() - days * 86400,) * 2)
+# Written a day past the limit, then read once through the store's own
+# lookup: the thirty days count from that read, not from the writing.
+said_long_ago = [{"word": "hello", "start": 0.0, "end": 0.5}]
+vpm.words_cache_write("f" * 40, "eng", "macOS", said_long_ago)
+vpm.words_cache_write("0" * 40, "eng", "macOS", said_long_ago)
+vpm.speaker_cache_write("e" * 16, [("A", [(0.0, 1.0)])])
+vpm.speaker_cache_write("f" * 16, [("A", [(0.0, 1.0)])])
+used_words, idle_words = (vpm.words_cache_file(vpm.words_cache_key(
+    m * 40, "eng", "macOS")) for m in ("f", "0"))
+used_voices, idle_voices = (vpm.speaker_cache_file(k * 16) for k in "ef")
+for path in (used_words, idle_words, used_voices, idle_voices):
+    os.utime(path, (time.time() - 31 * 86400,) * 2)
+words_back = vpm.words_stored("f" * 40, "eng", ["macOS"])[0]
+voices_back = vpm.speaker_cache_read("e" * 16)
 vpm.clean_kept_stores()
 check("written-down words untouched for longer than the limit are let go",
       not os.path.exists(old_words),
@@ -652,6 +666,18 @@ check("written-down words untouched for longer than the limit are let go",
 check("a separation untouched for longer than the limit is let go",
       not os.path.exists(old_voices),
       "%s is still there" % os.path.basename(old_voices))
+check("words written long ago but read since are kept",
+      words_back == said_long_ago and os.path.exists(used_words),
+      "read back %r, file %s" % (words_back, "kept" if os.path.exists(
+          used_words) else "gone after a read 31 days past its writing"))
+check("a separation written long ago but read since is kept",
+      bool(voices_back) and os.path.exists(used_voices),
+      "read back %r, file %s" % (voices_back, "kept" if os.path.exists(
+          used_voices) else "gone after a read 31 days past its writing"))
+check("and words and a separation as old and never read are let go",
+      not os.path.exists(idle_words) and not os.path.exists(idle_voices),
+      "31 days unread, still there: %s" % [os.path.basename(p) for p in
+          (idle_words, idle_voices) if os.path.exists(p)])
 check("a recogniser build beside a newer one is let go",
       not os.path.exists(first) and not os.path.exists(last),
       "%s are still there" % sorted(os.listdir(built)))

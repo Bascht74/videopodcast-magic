@@ -240,6 +240,7 @@ take_from(stowage)
 
 cache_folder = stowage.cache_folder
 clean_kept_stores = stowage.clean_kept_stores
+kept_in_use = stowage.kept_in_use
 
 
 logbook = beside("logbook", program=PROGRAM)
