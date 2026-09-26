@@ -79,10 +79,9 @@ def number_text(number, places=1, plus=False):
 
     Not in two passes over the finished text: one language's thousands
     mark is another's decimal mark, and on German the second pass reads
-    what the first wrote -- "1,234,5". *places* None writes as many
-    places as the number needs, and *plus* signs a positive one. A
-    signed number is held together as_written(), or a right-to-left
-    line puts its sign behind it: "-16 LUFS" read as "LUFS 16-".
+    what the first wrote -- "1,234,5". *places* None writes the places
+    needed, *plus* signs a positive one. as_written() holds a signed number
+    together, or right-to-left puts the sign behind: "-16 LUFS" as "LUFS 16-".
     """
     # French and Russian group with a space, so nothing here may look
     # for a particular character: the cut is made at the point "%f"

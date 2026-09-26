@@ -39,10 +39,9 @@ trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
 video_summary = PROGRAM.video_summary
 
-# join_box_fill and sound_cell_for are missing: they stand in the window
-# below the line this file is read at, so a copy here is an
-# AttributeError. Each is asked as PROGRAM.<name> where it is called, by
-# which time the window has been read whole.
+# join_box_fill and sound_cell_for stand in the window below where this
+# file is read, so a copy here is an AttributeError; each is asked as
+# PROGRAM.<name> where called, when the window has been read whole.
 
 # What the fittings bring. The way in reads that piece above the
 # window now, so these are ordinary head lines and no beside() call
@@ -471,9 +470,8 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
     return items_fresh, take_paths, add_files, remove
 
 #--------------------------------- A recording of several blocks
-# One entry with its blocks under it, built for the list above
-# and read nowhere else. It stood in the window while the window
-# still held the list.
+# One entry with its blocks under it, built for the list above and
+# read nowhere else.
 
 
 def chain_fill_in(group, row, discarded, selected,

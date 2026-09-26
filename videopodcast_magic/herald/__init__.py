@@ -579,10 +579,9 @@ def redirect_console():
                 kept.close()
         except Exception:
             kept = None
-    # What this run wrote aside before now belongs to this run: it is cut
-    # off the old log and written again after the head -- but only off
-    # the file the aside handle wrote, not off a log another copy has put
-    # in its place since, which would be cut short or padded with zeros.
+    # What this run wrote aside is cut off the old log and written again
+    # after the head -- but only off the file the aside handle wrote: a log
+    # another copy put in its place would be cut short or padded with zeros.
     moved = ""
     if begun is not None:
         try:
@@ -603,10 +602,9 @@ def redirect_console():
             os.unlink(old)          # from older versions
     except OSError:
         pass
-    # Where the old log cannot be renamed -- on Windows while another
-    # copy holds it open -- this run follows it in the same file rather
-    # than going unwritten, and the lines moved above follow its head.
-    # An empty one is not renamed: it would put nothing over the kept one.
+    # A log that cannot be renamed (Windows: another copy holds it open) is
+    # followed in the same file, moved lines after its head, rather than
+    # left unwritten. An empty one is not renamed over the kept one.
     mode = "w"
     try:
         if os.path.exists(file_path) and os.path.getsize(file_path):

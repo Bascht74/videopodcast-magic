@@ -26,12 +26,11 @@ struct = PROGRAM.struct
 def timecode_string(seconds, fps=30.0, drop_frame=False):
     """A time of day since midnight as a timecode label.
 
-    The digits are the same on both clocks -- a drop-frame label reads
-    as time of day, that is what the dropped numbers buy -- so
-    *drop_frame* decides the separator alone: a semicolon before the
-    frames, which is what timecode_to_frames counts the label by. A
-    colon on a drop-frame count lands frame zero 3.6 s per hour since
-    midnight away from the camera's own clock.
+    The digits are the same on both clocks (a drop-frame label reads as
+    time of day; that is what the dropped numbers buy), so *drop_frame*
+    decides the separator alone: a semicolon before the frames, by which
+    timecode_to_frames counts the label. A colon on a drop-frame count
+    lands frame zero 3.6 s per hour since midnight off the camera's clock.
     """
     if seconds < 0:
         seconds = 0.0

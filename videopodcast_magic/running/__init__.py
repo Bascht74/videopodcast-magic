@@ -40,9 +40,8 @@ without_own_camera = PROGRAM.without_own_camera
 
 
 #----------------------------------------------- What a finished run says
-# Called by the run loop, which stayed in the window. A bend put on
-# the program before the window is read reaches the window but not a
-# piece read out of it, which is how a test holds that loop still.
+# Called by the window's run loop. A test holds that loop still by bending
+# the program before the window is read, which a piece read out misses.
 
 
 def run_done_text(dry):
@@ -65,9 +64,8 @@ def run_done_text(dry):
 
 
 #--------------------------------------------------- Setting a run going
-# The summary, the command line and the thread. What lives in the
-# window -- the run loop, the break-off button, the prework's key --
-# goes through PROGRAM: at this file's head it is not there yet.
+# The summary, the command line and the thread. The window's run loop,
+# break-off button and prework key go via PROGRAM, absent at this head.
 
 
 def user_asker(window, bridge, bridge_emit):
@@ -222,11 +220,10 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         """Turn what the window holds into a command line and set it going.
 
         Nothing starts twice or unconfirmed: the summary comes first, and
-        while camera audio is still being extracted the button counts down
-        and calls back here. The interface is read once into plain values,
-        run_argv builds argv, wishes and questions from them -- testable
-        without a window -- and every question is put before anything is
-        written. The work runs in a thread; the timer drains its output.
+        while camera audio is being extracted the button counts down and
+        calls back here. run_argv builds argv, wishes and questions from the
+        interface read once into plain values (testable without a window);
+        questions all precede any write. A timer drains the worker thread.
         """
 
         if state["running"] or not model.files:

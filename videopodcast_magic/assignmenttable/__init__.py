@@ -244,10 +244,9 @@ class AssignmentTable(object):
         from_s, until, absolute = window_suggestion(entries, fps)
         if not (from_s and until and absolute):
             return
-        # Nothing goes into the In point or the Out point. With and
-        # without them nothing may differ, and a value the window put
-        # there is one the run cannot tell from a chosen one -- it sent
-        # a clock time before the first frame and the run warned.
+        # Nothing goes into the In or Out point: the run cannot tell a value
+        # put there by the window from a chosen one, and one sent a clock time
+        # before the first frame and made the run warn.
         if not state["axis"] or state.get("axis_absolute"):
             state["tc_there"] = True
 
@@ -427,10 +426,9 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
         # taking the last sound away.
         assignment_check()
         return
-    # The cameras first, then the two special cases. MIX_ONLY: processed
-    # and in the mix, but not the first track on any camera.
-    # IGNORE_AUDIO: left out entirely. A camera is its path: two files
-    # of one name are two cameras, and the chooser shows them apart.
+    # Cameras, then MIX_ONLY (in the mix, first track on no camera) and
+    # IGNORE_AUDIO (left out). A camera is its path: two files of one
+    # name are two cameras, and the chooser shows them apart.
     targets = list(videos) + [MIX_ONLY, IGNORE_AUDIO]
     wide = wide_bar_of(targets, *wide_cameras_now(),
                        aside=state.setdefault("wide_set_aside", {}))
