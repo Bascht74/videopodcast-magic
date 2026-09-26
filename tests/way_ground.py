@@ -122,10 +122,15 @@ def project_file(vpm, folder, out, seat=None):
     separation with its voices named and seated -- "several speakers"
     on the recording it was heard in, which is what brings the voices
     up as rows. Opening moves the file, so it lies in *folder* alone.
+
+    "several:" is keyed as the window keys it, by the absolute path of
+    the table's row: on Windows the fixture folder comes in with forward
+    slashes and os.path.join adds a backslash, and a key spelt the raw
+    way is never found, so the voices never come up.
     """
     sound, pictures = material()
     source = media(HEARD_IN)
-    assignment = {"several:" + source: True}
+    assignment = {"several:" + os.path.abspath(source): True}
     for who, cam in (seat or SEAT).items():
         assignment["voice:" + vpm.voice_key(source, LABEL[who])] = \
             media(cam)
