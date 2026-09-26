@@ -158,11 +158,14 @@ Each agent starts with nothing. Every prompt says, in this order:
 * **Measured against read.** Ask for the two apart, in the report. A line
   number looks like evidence and is not one.
 
-## One file, one owner
+## One function, one owner
 
-The project rule holds inside a workflow: **one file, one agent, never
-two agents in one file.** Say in each prompt which files that agent owns
-and which are somebody else's, by name. Where two would collide,
+The project rule holds inside a workflow: **two agents share a file only
+on different functions**, each prompt naming the functions it may
+change; head lines and `gui()`'s length stay out of reach. Say in each
+prompt which files that agent owns and which are somebody else's, by
+name. The conditions and the measurement behind them are in skill
+`strang`. Where two would collide,
 `isolation: 'worktree'` gives an agent its own copy — expensive, so only
 where they really write at once.
 
@@ -190,8 +193,8 @@ If the script bounds anything — the top ten, no retry, a sample —
 9. Does every prompt carry the five -- where it is and that it only
    reads, what is already known, that the description is a signpost and
    not a source, the limits of this machine, measured against read?
-10. Is it one file, one agent, with each prompt naming the files that
-    are somebody else's?
+10. Is it one function, one agent, with each prompt naming its files and
+    functions and the files that are somebody else's?
 11. Is anything the script bounded written into the log?
 12. Does every strand that writes a file save after every block and
     carry on from a file it finds -- so a stop costs a block, not a strand?

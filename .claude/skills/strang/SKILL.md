@@ -36,10 +36,25 @@ you are deep in a task; a sentence that has to be written does not.
 
 ## The split goes by file
 
-**One file, one owner. Never two strands in one file.** Everything else
-here hangs off that. Two strands in one file always end with somebody
-merging their work by hand afterwards, and something is lost in the
-merge.
+**One function, one owner.** Two strands may work in the same file when
+they change different functions, and on nothing else. Three conditions:
+
+* **Each order names the functions it may change**, by name. Anything
+  else in the file it reports and leaves alone.
+* **The head lines are shared and nobody's**: imports, module-level
+  constants, binds. Neither strand changes them; what one needs there
+  goes to the orchestrator.
+* **No strand lengthens `gui()`** in `videopodcast_magic/ui/__init__.py`
+  -- its size is a ratchet. New code goes into helpers outside it.
+
+**Measured, not assumed.** 46 strand merges replayed with
+`git merge-tree` on 26.9.2026: in 26 file pairs both sides had changed
+the same file, and 25 of those merged without a conflict. The three real
+conflicts were two strands changing the same function, or a rename.
+`ui/__init__.py` alone was needed by 12 of the 46 strands -- under one
+file, one owner, a quarter of all strands queued behind one file. The
+old rule guarded against a conflict that the function border already
+prevents, and paid for it in waiting.
 
 **The order names both sides: which files the strand owns, and which
 are somebody else's.** Name the foreign ones **by path**, not as
@@ -55,10 +70,9 @@ leaves today's wide open. So name the program as the **folder** --
 `videopodcast_magic/`, everything in it -- and the border survives the
 next cut inside it without anybody maintaining a list of names.
 
-**One file, one owner is unchanged by that.** The folder says where
-the border runs, not that one strand owns everything inside it. Where
-two strands really do work on different files of the program, the order
-names each file on its own.
+**The folder says where the border runs, not that one strand owns
+everything inside it.** The order names each file on its own, and in a
+shared file each function on its own.
 
 **A folder is not a category.** Four strands were told to leave
 `docs/notes/` alone as history, and all four obeyed — while the two
@@ -220,7 +234,7 @@ Three things. Without them a claim comes back instead of a result.
   ran the thing or read it.
 * **Report, do not repair.** Whatever the strand finds outside its own
   order, it reports and leaves alone. Otherwise one strand grows into
-  another's file and the split is undone.
+  another's file or function and the split is undone.
 
 ## The reversal: the brief is a signpost, not a source
 

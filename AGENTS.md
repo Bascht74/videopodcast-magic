@@ -183,9 +183,11 @@ Each of these cost something, and `development/decisions.md` says what.
 ## Working here
 
 * **Parallelise, and account for it.** Before the first edit of a task
-  touching more than one file, split by file and start the strands. One
-  file, one strand, never two strands in one file; name the foreign
-  files by path. **If you do not split, write one sentence saying why.**
+  touching more than one file, split by file and start the strands.
+  Two strands may share a file only on different functions: each order
+  names the functions it may change, the head lines (imports, constants,
+  binds) stay the orchestrator's, and no strand lengthens `gui()`. Name
+  the foreign files by path. **If you do not split, write one sentence saying why.**
   A file another strand owns is not a reason to wait -- prepare
   instead. Skill `strang`.
 * **A big fan-out is proposed, never started.** Over about 25 strands
