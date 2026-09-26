@@ -100,6 +100,9 @@ vpm.speaker_split_run = blocking_split
 vpm.speaker_split_available = lambda deep=False: True
 vpm.macos_words = listening
 vpm.whisper_words = lambda p, language="", install=True: None
+# The suite runs silent, and silent mode lets the window start no
+# recogniser by itself; here the recogniser is stood in and asked.
+vpm.listening_unasked = lambda: True
 
 
 class Signal(object):
