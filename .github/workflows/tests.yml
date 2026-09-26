@@ -996,6 +996,11 @@ jobs:
                  run.sh as children. Windows runs no such file, so the
                  curl Windows brings would answer -- and this test is
                  the one that must reach nothing outside."
+              aside auphonic_key_in_keyring \
+                "it puts a stand-in secret-tool on PATH as a file with a
+                 #! line and an execute bit. Windows runs neither, and on
+                 Windows the key goes to the registry, which
+                 auphonic_key_reg_shut walks."
               aside files_named_by_folder \
                 "it asks what /Volumes/Recordings is called. /Volumes is
                  the macOS shape of a volume root; Windows has none."

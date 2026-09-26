@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3159** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3138** -- who is on camera when, and what carries it out
+* `cut/` **3143** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2638** -- the DaVinci Resolve project, timelines, colour,
@@ -67,9 +67,9 @@ figure of the day is that command, not this paragraph**:
 * `preflight/` **1728** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
-* `setup/` **1225** -- finding ffmpeg, installing a missing module,
+* `setup/` **1253** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1142** -- what is said and when, and what is written down
+* `speech/` **1354** -- what is said and when, and what is written down
   from it
 * `hearing/` **1083** -- decoding, envelopes, bands, phase, aligning
   audio to video
@@ -100,7 +100,7 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `resolvesheet/` **608** -- the third tab: whether Resolve answers,
+* `resolvesheet/` **619** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
   player is fed with, and the speaker box
 * `livery/` **392** -- the colours, the marks that say what kind a line

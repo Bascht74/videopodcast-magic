@@ -33,6 +33,7 @@
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
 auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
+auphonic_key_in_keyring	14
 auphonic_key_out_of_view	25
 auphonic_key_reg_shut	9
 auphonic_key_typed	11
@@ -415,4 +416,5 @@ window_title_follows	4
 window_tracks_seen_anew	5
 window_view_reaches_tabs	10
 window_voice_audio_heard	6
+window_words_caught_up	23
 window_zoom_stays_in	32
