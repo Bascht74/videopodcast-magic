@@ -81,15 +81,18 @@ with open(HANDOVER, "w", encoding="utf-8") as f:
                "cut": [], "speakers": [], "audio_files": {}, "words": []},
               f)
 
-state = {"out_folder": vpm.Value(out), "project_from": "",
+# The production as the window holds it, its output folder in the state
+# where the handover memory reads it.
+model = ui.ProjectModel(None, "")
+model.out_folder.set(out)
+state = {"out_folder": model.out_folder, "project_from": "",
          "resolve_button_check": lambda: None,
          "results": [], "running": False, "dry_run": False}
-files = []
-# Closing as the window wires it, with the state and the output folder
+# Closing as the window wires it, with the state and the production
 # real and everything else a stand-in.
 wiring = {name: Anything() for name in
           inspect.signature(vpm.make_project_file).parameters}
-wiring.update(state=state, files=files, out_folder=state["out_folder"])
+wiring.update(state=state, model=model)
 _write, project_close, _open = vpm.make_project_file(**wiring)
 
 
