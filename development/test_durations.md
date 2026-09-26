@@ -409,3 +409,405 @@ source_needs_lists_agree 0 0 0 0 1 0 0.0
 ```
 
 </details>
+
+## 3.0.0b25 -- 2026-09-26
+
+Run 36251871464 on `main` at `1ae49a2`: suite #781 on main -- separation off.
+
+The slowest job, and what a push waits for: **Windows py3.14, 848 s**.
+The suite summed over the trimmed means: **2394 s** for 354 tests.
+
+| job | wall s | tests summed s |
+|---|---:|---:|
+| Linux py3.10 | 508 | 2106 |
+| Linux py3.14 | 401 | 1574 |
+| macOS py3.10 | 659 | 2060 |
+| macOS py3.14 | 478 | 1306 |
+| Neutral py3.14 | 64 | 170 |
+| Windows py3.10 | 842 | 3217 |
+| Windows py3.14 | 848 | 3347 |
+
+The 15 longest by trimmed mean:
+
+| test | Linux py3.10 | Linux py3.14 | macOS py3.10 | macOS py3.14 | Neutral py3.14 | Windows py3.10 | Windows py3.14 | trimmed | change |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| `run_switch_changes_it` | 39 | 28 | 46 | 37 | - | 75 | 80 | 49.2 | -16.5 |
+| `source_material_stays` | 43 | 39 | 37 | 34 | - | 71 | 71 | 47.5 | +8.3 |
+| `window_speaker_cell_fits` | 35 | 28 | 60 | 36 | - | 57 | 56 | 46.0 | +24.0 **grown** |
+| `time_phase_only_mixed` | 45 | 34 | 24 | 18 | - | 88 | 77 | 45.0 | new |
+| `run_promise_is_written` | 38 | 27 | 35 | 28 | - | 71 | 77 | 43.0 | -29.5 |
+| `run_new_name_checked` | 45 | 30 | 30 | 22 | - | 54 | 57 | 39.8 | -35.0 |
+| `table_lock_says_why` | 35 | 24 | 52 | - | - | - | - | 35.0 (median of 3) | +9.0 |
+| `run_stop_names_why` | 37 | 20 | 28 | 14 | - | 51 | 44 | 32.2 | +1.1 |
+| `run_simple_path_agrees` | 17 | 14 | 36 | 22 | - | 51 | 53 | 31.5 | +11.7 **grown** |
+| `table_row_per_voice` | 25 | 32 | 31 | - | - | 30 | 33 | 31.0 (median of 5) | +16.0 **grown** |
+| `voice_both_splits_stand` | 27 | 22 | 36 | 23 | - | 36 | 36 | 30.5 | -2.5 |
+| `run_choice_kept` | 47 | 22 | 22 | 17 | - | 38 | 39 | 30.2 | -3.8 |
+| `text_no_german_left` | 29 | 22 | 25 | 19 | - | 38 | 39 | 28.5 | +1.7 |
+| `run_dry_leaves_out` | 25 | 21 | 19 | 19 | - | 46 | 50 | 27.8 | new |
+| `run_no_drift_noughts` | 22 | 17 | 15 | 20 | - | 52 | 54 | 27.8 | +10.2 **grown** |
+
+Grown by more than 20 % and at least 10 s: `run_simple_path_agrees` 19.8 -> 31.5 s, `table_row_per_voice` 15.0 -> 31.0 s, `run_no_drift_noughts` 17.5 -> 27.8 s, `window_speaker_cell_fits` 22.0 -> 46.0 s, `table_pair_seats_apart` 12.2 -> 26.8 s, `cut_player_prepared_used` 13.0 -> 27.0 s.
+
+<details>
+<summary>Every test, 354</summary>
+
+```text
+test Linux_py3.10 Linux_py3.14 macOS_py3.10 macOS_py3.14 Neutral_py3.14 Windows_py3.10 Windows_py3.14 trimmed
+run_switch_changes_it 39 28 46 37 - 75 80 49.2
+source_material_stays 43 39 37 34 - 71 71 47.5
+window_speaker_cell_fits 35 28 60 36 - 57 56 46.0
+time_phase_only_mixed 45 34 24 18 - 88 77 45.0
+run_promise_is_written 38 27 35 28 - 71 77 43.0
+run_new_name_checked 45 30 30 22 - 54 57 39.8
+table_lock_says_why 35 24 52 - - - - 35.0
+run_stop_names_why 37 20 28 14 - 51 44 32.2
+run_simple_path_agrees 17 14 36 22 - 51 53 31.5
+table_row_per_voice 25 32 31 - - 30 33 31.0
+voice_both_splits_stand 27 22 36 23 - 36 36 30.5
+run_choice_kept 47 22 22 17 - 38 39 30.2
+text_no_german_left 29 22 25 19 - 38 39 28.5
+run_dry_leaves_out 25 21 19 19 - 46 50 27.8
+run_no_drift_noughts 22 17 15 20 - 52 54 27.8
+cut_player_prepared_used 24 20 31 16 - 33 39 27.0
+table_pair_seats_apart 27 22 37 26 - 27 27 26.8
+sound_camera_own_used 26 19 18 17 - 43 46 26.5
+sound_tracks_written 24 18 19 19 - 43 46 26.2
+window_all_come_up 18 14 28 19 - 35 36 25.0
+time_one_track_aligned 26 19 16 14 - 38 42 24.8
+files_only_window_kept 19 14 16 13 - 41 42 22.5
+run_log_within_reach 27 18 16 12 - 29 31 22.5
+time_guess_refused 22 15 15 13 - 36 37 22.0
+project_errors_reach_run 17 19 11 9 - 40 59 21.8
+run_done_tracks_used 19 15 16 11 - 35 38 21.2
+time_tracks_alone 23 16 15 13 - 32 31 21.2
+cut_player_jump_lands 20 18 20 20 - 22 25 20.5
+project_mixed_run_lands 17 13 12 9 - 40 42 20.5
+project_run_comes_back 20 18 21 17 - 24 21 20.0
+table_names_one_order 16 11 21 8 - 39 31 19.8
+run_mute_camera_placed 17 14 13 12 - 33 33 19.2
+window_answers_arrive 17 15 17 23 - 22 21 19.2
+time_sound_stays_put 15 14 14 15 - 32 33 19.0
+table_tick_keeps_camera 17 17 28 14 - 20 19 18.2
+window_grey_says_why 14 13 29 19 - 23 16 18.0
+run_clock_place_travels 13 8 16 5 - 28 28 16.2
+time_drift_taken_out 16 13 9 10 - 28 25 16.0
+window_marks_take_spot 10 8 28 12 - 17 23 15.5
+source_no_loose_ends - - - - 15 - - 15.0
+time_tracks_sit_together 13 16 12 6 - 19 20 15.0
+text_only_texts_change 18 12 11 10 - 18 19 14.8
+time_offset_found 9 6 16 5 - 28 28 14.8
+time_weak_as_run 14 11 10 7 - 39 23 14.5
+window_offers_restart 17 14 14 10 - 14 16 14.5
+project_settings_return 13 11 16 12 - 18 15 14.0
+project_ticks_come_back 15 14 12 9 - 15 16 14.0
+window_restart_carries 12 8 13 8 - 24 23 14.0
+window_stands_still 15 10 19 7 - 16 14 13.8
+cut_voice_on_its_camera 13 8 13 5 - 20 22 13.5
+cut_own_mic_own_camera 12 9 14 6 - 18 20 13.2
+sound_speakers_matched 7 3 10 4 - 31 40 13.0
+run_stays_local 9 6 18 5 - 18 26 12.8
+window_play_follows_tab 11 10 16 12 - 13 14 12.5
+window_captions_fit 9 7 12 10 - 18 19 12.2
+window_stages_named 11 10 10 9 - 20 18 12.2
+sound_mix_hits_target 9 5 17 5 - 17 26 12.0
+run_outside_seen 12 7 12 5 - 17 16 11.8
+run_sync_only_no_cut 8 5 14 5 - 20 28 11.8
+table_pair_named_alike 11 8 14 8 - 14 18 11.8
+window_menu_greys_along 11 10 12 10 - 15 14 11.8
+cut_offer_needs_two 10 7 13 9 - 14 14 11.5
+time_clock_beats_guess 13 6 12 4 - 15 16 11.5
+window_idle_bar_hidden 9 8 10 9 - 18 35 11.5
+run_own_sound_with_cam 8 6 17 3 - 14 24 11.2
+text_lang_settled_first 9 5 12 10 - 14 16 11.2
+cut_player_in_sync 10 9 11 11 - 12 14 11.0
+time_reference_silent 8 5 11 4 - 18 34 10.5
+files_project_first 10 7 10 7 - 14 14 10.2
+run_ffmpeg_new_enough 10 7 12 3 - 12 12 10.2
+text_german_arrives 10 6 14 3 - 12 13 10.2
+voice_close_mics_mixed 8 5 10 4 - 18 18 10.2
+text_languages_covered 12 7 7 3 - 14 20 10.0
+time_scatter_not_placed 9 8 9 6 - 14 14 10.0
+window_project_type_set 10 7 17 9 - 11 10 10.0
+window_sheets_fit 11 8 18 9 - - - 10.0
+project_file_beats_last 10 8 8 8 - 13 22 9.8
+run_names_as_window 9 9 8 6 - 24 13 9.8
+run_one_shots_return_0 11 7 8 7 - 13 15 9.8
+window_marks_come_back 9 8 17 9 - 10 11 9.8
+window_reads_as_chosen 10 8 11 6 - 11 10 9.8
+table_audio_asked_for 9 7 10 7 - 11 12 9.2
+time_thin_block_refused 10 7 6 5 - 38 14 9.2
+window_axis_asks_again 9 7 16 5 - 11 10 9.2
+source_no_real_names - - - - 9 - - 9.0
+table_blocks_judged 8 7 8 6 - 13 19 9.0
+time_second_try_places 7 6 9 4 - 14 16 9.0
+table_back_to_one_name 8 7 12 7 - 10 10 8.8
+window_tc_point_named 8 7 9 7 - 11 13 8.8
+window_view_reaches_tabs 8 7 10 5 - 10 10 8.8
+time_preview_fit_as_run 9 6 9 3 - 10 10 8.5
+files_block_stays_apart 8 6 6 4 - 13 20 8.2
+window_prework_box_goes 6 6 9 6 - 12 12 8.2
+source_limits_hold - - - - 8 - - 8.0
+source_reds_carry_value - - - - 8 - - 8.0
+source_resolve_door_shut - - - - 8 - - 8.0
+window_dark_follows 8 7 8 6 - 9 9 8.0
+window_exit_keeps_all 9 6 6 4 - 11 13 8.0
+table_row_per_channel 7 5 9 5 - 10 18 7.8
+sound_peaks_limited 8 4 7 3 - 11 12 7.5
+run_overwrite_is_said 7 5 7 4 - 10 11 7.2
+sound_stereo_kept 6 4 7 4 - 11 12 7.0
+files_probed_once 5 3 8 6 - 9 8 6.8
+run_only_newer_offered 8 6 5 4 - 8 9 6.8
+project_keeps_answers 7 5 7 4 - 8 7 6.5
+sound_delay_decides 6 4 5 3 - 10 11 6.2
+table_stereo_splits 6 5 6 5 - 8 9 6.2
+table_sync_stem_shown 6 5 6 5 - 8 8 6.2
+run_install_is_watched 6 6 6 5 - 6 7 6.0
+window_blocks_placed 6 5 7 5 - - 9 6.0
+files_colour_fair 4 4 5 3 - 12 10 5.8
+run_switch_has_effect 6 4 5 2 - 8 8 5.8
+sound_both_sides_alike 5 4 4 4 - 10 10 5.8
+source_imported_is_whole 6 4 6 2 - 7 7 5.8
+window_handover_follows 6 4 5 4 - 8 8 5.8
+window_handover_found 6 4 5 4 - 8 8 5.8
+window_overwrite_asked 6 4 6 3 - 7 7 5.8
+window_pair_said_apart 6 4 5 4 - 10 8 5.8
+files_sync_one_recording 4 4 5 3 - 9 10 5.5
+sound_camera_judged_too 5 4 4 3 - 10 9 5.5
+sound_any_count_judged 5 3 3 4 - 9 9 5.2
+window_point_named 6 4 4 4 - 7 7 5.2
+window_tracks_seen_anew 5 4 5 4 - 9 7 5.2
+auphonic_key_answer_fits 5 5 5 3 - 6 5 5.0
+table_sync_none_derived 5 4 4 3 - 7 8 5.0
+table_typed_name_stays 5 4 5 4 - 6 8 5.0
+auphonic_none_chosen 5 4 4 3 - 6 6 4.8
+files_lengths_summed 5 3 3 2 - 9 8 4.8
+run_threads_keep_order 5 4 5 4 - 5 5 4.8
+sound_each_gets_a_track 3 2 3 3 - 10 11 4.8
+files_block_out_and_back 5 3 4 3 - 6 7 4.5
+files_data_track_kept 4 4 3 2 - 7 7 4.5
+sound_channels_split 4 2 5 2 - 8 7 4.5
+sound_join_any_rate 4 3 3 2 - 9 8 4.5
+time_weak_at_its_clock 4 3 4 2 - 7 7 4.5
+cut_preview_is_the_run 2 2 4 3 - 8 8 4.2
+files_set_aside_skipped 3 3 4 1 - 7 7 4.2
+run_which_script 4 3 4 2 - 6 6 4.2
+time_axis_measured 4 3 2 1 - 8 8 4.2
+time_short_cam_as_run 4 3 4 3 - 6 6 4.2
+voice_bleed_gone_first 5 3 3 1 - 6 9 4.2
+window_title_follows 4 4 4 2 - 5 6 4.2
+files_atom_travels 3 2 2 1 - 10 9 4.0
+files_clock_links_blocks 3 2 4 2 - 7 8 4.0
+sound_one_pass_agrees 7 4 4 4 - - - 4.0
+source_checks_proved - - - - 4 - - 4.0
+source_resolve_recalled 5 4 4 3 - - - 4.0
+source_test_names_swept - - - - 4 - - 4.0
+text_whole_sentences - - - - 4 - - 4.0
+time_short_cam_found 4 3 3 3 - 7 6 4.0
+cut_box_fits_the_picture 4 3 3 2 - 5 5 3.8
+files_colour_carried 4 3 2 2 - 7 6 3.8
+files_intro_proposed 5 3 2 2 - 6 5 3.8
+files_mute_clip_intro 4 3 2 2 - 6 6 3.8
+run_ffmpeg_not_fetched 4 3 3 1 - 5 6 3.8
+table_notes_in_one_row 4 2 4 2 - 5 5 3.8
+text_numbers_fit_reader 4 3 3 2 - 6 5 3.8
+text_shown_catalogued 4 3 3 3 - 5 5 3.8
+voice_answer_kept 4 3 4 3 - 4 5 3.8
+window_choices_refit 3 3 4 3 - 5 6 3.8
+window_sound_fault_named 4 2 4 2 - 5 5 3.8
+files_by_file_holds 4 2 3 1 - 5 5 3.5
+project_leaves_others 4 2 3 1 - 6 5 3.5
+sound_bleed_reported 3 2 3 1 - 6 6 3.5
+sound_check_reads_once 3 2 3 1 - 6 6 3.5
+sound_clipping_counted 3 2 3 2 - 6 7 3.5
+time_track_starts_late 2 2 4 2 - 6 7 3.5
+files_twin_cameras_named 4 3 2 1 - 4 5 3.2
+sound_all_blocks_count 4 2 2 1 - 6 5 3.2
+source_numpy_comes_last 4 3 2 1 - 4 4 3.2
+time_unheard_file_named 3 2 3 2 - 5 5 3.2
+window_setup_kept_apart 3 2 3 1 - 5 5 3.2
+window_size_as_run 3 2 3 2 - 5 6 3.2
+window_start_runs 4 2 3 2 - 4 5 3.2
+cut_player_speeds_up 3 3 2 2 - 4 5 3.0
+files_foreign_untouched 3 2 2 1 - 6 5 3.0
+files_hdr_complete 3 2 2 2 - 6 5 3.0
+files_old_file_refused - - - - 3 - - 3.0
+run_bar_tracks_work - - - - 3 - - 3.0
+run_three_ways_agree 3 3 2 1 - 4 4 3.0
+source_sections_named - - - - 3 - - 3.0
+time_axis_keys_agree 3 2 2 1 - 5 5 3.0
+time_which_way_is_said - - - - 3 - - 3.0
+voice_mhm_is_speech 3 2 3 2 - 4 5 3.0
+window_clock_sound_said 3 2 3 1 - 4 4 3.0
+window_no_full_screen 4 2 2 1 - 4 4 3.0
+window_picture_returns 3 1 2 2 - 5 5 3.0
+cut_note_says_who_speaks 3 2 2 1 - 4 4 2.8
+run_dry_run_not_stopped 3 1 2 2 - 4 4 2.8
+run_metrics_add_up 3 2 2 1 - 4 4 2.8
+sound_join_order 3 2 2 1 - 4 4 2.8
+text_units_translated 3 2 2 1 - 4 5 2.8
+time_bext_at_own_rate 3 2 2 1 - 4 4 2.8
+time_measured_place_wins 3 2 2 1 - 5 4 2.8
+voice_split_names_fault 3 2 3 2 - 3 3 2.8
+window_hears_while_split 2 2 2 1 - 5 5 2.8
+window_key_off_line 2 2 2 1 - 6 5 2.8
+window_not_started_said 3 2 3 1 - 3 3 2.8
+window_note_names_way 3 2 2 2 - 5 4 2.8
+window_sound_sync_fixed 3 2 2 2 - 5 4 2.8
+window_voice_audio_heard 3 2 2 2 - 4 4 2.8
+auphonic_key_by_pipe 3 2 2 1 - 3 3 2.5
+auphonic_key_kept - - - - - 2 3 2.5
+auphonic_unsaved_said 3 1 2 1 - 4 4 2.5
+cut_note_moves_no_shot 3 2 2 2 - 3 3 2.5
+files_cut_without_keys 3 1 2 1 - 4 4 2.5
+files_order_kept 3 2 1 1 - 4 4 2.5
+run_ffmpeg_offered 3 2 2 1 - 3 3 2.5
+run_odd_clock_named 2 2 2 2 - 4 5 2.5
+run_shortcut_laid_once 2 2 2 2 - 4 4 2.5
+run_update_says_it_landed 3 2 2 1 - 4 3 2.5
+sound_block_gap_said 2 2 2 1 - 4 4 2.5
+table_one_entry_greyed 3 2 2 2 - 3 3 2.5
+voice_counts_grouped 3 2 2 1 - 3 3 2.5
+voice_names_when_sure 3 1 2 1 - 4 4 2.5
+voice_words_intact 2 2 - - - 3 3 2.5
+window_amounts_grouped 3 2 2 1 - 4 3 2.5
+window_foot_on_one_line 3 2 2 1 - 4 3 2.5
+window_grey_opens_again 3 2 2 1 - 4 3 2.5
+window_run_handover_kept 3 2 2 1 - 3 3 2.5
+window_speakers_as_run 3 2 2 1 - 3 3 2.5
+auphonic_key_out_of_view 2 2 1 1 - 4 4 2.2
+auphonic_run_delivers 3 2 1 1 - 3 3 2.2
+cut_no_wide_silences 2 2 2 0 - 3 3 2.2
+cut_two_stay_two 2 2 2 1 - 3 4 2.2
+files_split_found_again 3 2 1 0 - 3 3 2.2
+project_audio_counted 2 2 1 1 - 5 4 2.2
+project_handover_built 3 1 2 0 - 3 4 2.2
+project_same_offset 3 1 2 1 - 3 3 2.2
+run_project_type_reaches 3 1 2 1 - 5 3 2.2
+run_space_has_margin 2 2 1 1 - 4 5 2.2
+table_recording_shown 2 2 2 2 - 3 4 2.2
+time_all_ways_agree 2 2 1 1 - 4 4 2.2
+time_clock_track_first 2 2 1 1 - 4 4 2.2
+voice_language_arrives 3 2 1 1 - 3 3 2.2
+voice_raw_times_kept 2 2 2 1 - 3 4 2.2
+voice_split_mends_itself 2 1 2 2 - 3 3 2.2
+voice_turns_found 2 1 2 1 - 4 5 2.2
+window_note_names_kind 3 2 1 0 - 3 3 2.2
+window_note_reason_true 3 1 2 1 - 4 3 2.2
+window_symbol_from_file 2 2 2 1 - 3 4 2.2
+auphonic_preset_fits - - - - 2 - - 2.0
+auphonic_stays_quiet - - - - 2 - - 2.0
+cut_amounts_grouped - - - - 2 - - 2.0
+cut_answer_brought_early - - - - 2 - - 2.0
+cut_list_rebuilt 2 2 1 1 - 3 3 2.0
+cut_rules_hold - - - - 2 - - 2.0
+cut_short_edges_kept - - - - 2 - - 2.0
+cut_wide_not_on_speech - - - - 2 - - 2.0
+cut_window_cut_as_whole - - - - 2 - - 2.0
+files_blocks_join_exact 2 2 1 1 - 3 3 2.0
+files_left_out_named 3 1 1 0 - 3 3 2.0
+files_line_counts_misfit 3 1 1 1 - 4 3 2.0
+files_project_offered 2 2 1 1 - 3 3 2.0
+project_every_offset 2 2 1 0 - 3 3 2.0
+project_output_says_hdr - - - - 2 - - 2.0
+project_real_frame - - - - 2 - - 2.0
+project_two_stay_two 2 2 1 1 - 3 3 2.0
+project_two_timelines_go - - - - 2 - - 2.0
+run_bar_never_falls - - - - 2 - - 2.0
+run_command_built - - - - 2 - - 2.0
+run_no_upload_no_hint - - - - 2 - - 2.0
+run_rate_way_said_right 2 2 1 0 - 3 3 2.0
+run_starter_arch_fits 2 1 2 1 - 3 3 2.0
+run_way_back_offered 3 1 1 1 - 4 3 2.0
+sound_camera_counts 2 2 1 0 - 3 3 2.0
+sound_loudest_block - - - - 2 - - 2.0
+sound_silent_no_pair - - - - 2 - - 2.0
+source_names_stay_fresh - - - - 2 - - 2.0
+source_piece_list_holds - - - - 2 - - 2.0
+table_names_reach_camera - - - - 2 - - 2.0
+table_no_place_not_wide 2 1 2 1 - 3 3 2.0
+table_sync_keeps_stem 3 1 1 1 - 3 4 2.0
+text_lists_match - - - - 2 - - 2.0
+text_tests_listed - - - - 2 - - 2.0
+time_clock_from_any_file 3 1 1 0 - 3 3 2.0
+time_clock_read_at_rate 2 1 1 1 - 5 4 2.0
+time_length_is_in_to_out - - - - 2 - - 2.0
+time_length_names_change - - - - 2 - - 2.0
+time_zero_at_in_point - - - - 2 - - 2.0
+voice_both_ways_agree 2 2 1 0 - 3 3 2.0
+voice_failed_read_named 2 2 1 0 - 3 3 2.0
+voice_questions_rank - - - - 2 - - 2.0
+voice_source_travels 2 2 1 1 - 3 3 2.0
+voice_tracks_read_once 2 1 2 1 - 3 3 2.0
+window_cut_colours 2 1 2 1 - 3 3 2.0
+window_notes_break_up 2 1 2 1 - 3 4 2.0
+cut_player_right_file 2 1 1 1 - 3 3 1.8
+cut_rebuild_keeps_all 2 1 1 0 - 3 3 1.8
+files_curve_kept_once 2 1 1 1 - 4 3 1.8
+files_joined_by_hand 2 1 1 1 - 3 3 1.8
+project_close_forgets 2 1 1 1 - 3 3 1.8
+project_mix_by_name 2 2 1 1 - 2 2 1.8
+project_render_kept 2 1 2 1 - 2 3 1.8
+run_dry_reports_voices 2 1 1 1 - 3 3 1.8
+run_prework_listed 2 1 1 1 - 4 3 1.8
+text_release_ready 2 1 1 0 - 3 3 1.8
+voice_mic_reaches_cut 2 1 1 1 - 3 3 1.8
+window_zoom_stays_in 2 1 1 1 - 3 3 1.8
+files_named_by_folder 2 2 1 0 - - - 1.5
+time_block_holds_on 1 1 1 0 - 2 2 1.2
+auphonic_may_be_skipped - - - - 1 - - 1.0
+auphonic_mono_not_stereo - - - - 1 - - 1.0
+auphonic_preset_checked - - - - 1 - - 1.0
+auphonic_speech_read - - - - 1 - - 1.0
+cut_all_shots_land - - - - 1 - - 1.0
+cut_both_are_shown - - - - 1 - - 1.0
+cut_colour_per_camera - - - - 1 - - 1.0
+cut_edl_says_drop_frame - - - - 1 - - 1.0
+cut_jingle_over_start - - - - 1 - - 1.0
+cut_one_camera_marks - - - - 1 - - 1.0
+cut_opening_wide_holds - - - - 1 - - 1.0
+cut_own_rate_counted - - - - 1 - - 1.0
+cut_player_offset_used - - - - 1 - - 1.0
+cut_right_camera - - - - 1 - - 1.0
+cut_speech_time_fits - - - - 1 - - 1.0
+cut_together_read_order - - - - 1 - - 1.0
+cut_wide_colour_apart - - - - 1 - - 1.0
+files_named_as_written - - - - 1 - - 1.0
+project_amounts_grouped - - - - 1 - - 1.0
+project_cameras_land - - - - 1 - - 1.0
+project_each_track_set - - - - 1 - - 1.0
+project_grades_stay_off - - - - 1 - - 1.0
+project_hdr_follows - - - - 1 - - 1.0
+project_markers_placed - - - - 1 - - 1.0
+project_refusal_heeded - - - - 1 - - 1.0
+project_render_queued - - - - 1 - - 1.0
+project_rerun_updates - - - - 1 - - 1.0
+project_sync_multicam - - - - 1 - - 1.0
+project_tag_reason_fits - - - - 1 - - 1.0
+project_top_rate_wins - - - - 1 - - 1.0
+run_findings_reach_both - - - - 1 - - 1.0
+sound_hush_reason - - - - 1 - - 1.0
+sound_mix_says_the_name - - - - 1 - - 1.0
+source_no_stale_places - - - - 1 - - 1.0
+source_platform_declared - - - - 1 - - 1.0
+source_skills_resolve - - - - 1 - - 1.0
+table_camera_proposed - - - - 1 - - 1.0
+time_bad_point_dropped - - - - 1 - - 1.0
+time_drop_label_kept - - - - 1 - - 1.0
+time_fit_reports - - - - 1 - - 1.0
+time_over_midnight - - - - 1 - - 1.0
+time_point_pulled_back - - - - 1 - - 1.0
+time_window_is_shared - - - - 1 - - 1.0
+voice_amounts_grouped - - - - 1 - - 1.0
+voice_every_word_placed - - - - 1 - - 1.0
+voice_name_is_one_person - - - - 1 - - 1.0
+voice_note_translated - - - - 1 - - 1.0
+voice_reason_reaches_log - - - - 1 - - 1.0
+source_floor_needs_main - - - - 0 - - 0.0
+source_needs_lists_agree - - - - 0 - - 0.0
+source_pictures_seen - - - - 0 - - 0.0
+text_index_targets_exist - - - - 0 - - 0.0
+text_skills_listed - - - - 0 - - 0.0
+```
+
+</details>
