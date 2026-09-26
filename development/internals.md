@@ -25,13 +25,13 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4392** -- the window and everything it shows, asks or offers,
-  less what a subject has taken to stand beside its own logic
 * `speakers/` **3776** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
+* `ui/` **3200** -- the window and everything it shows, asks or offers,
+  less what a subject has taken to stand beside its own logic
 * `player/` **3159** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
@@ -68,6 +68,10 @@ figure of the day is that command, not this paragraph**:
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
+* `assignmenttable/` **733** -- the table on the second tab:
+  recordings above, the voices under them, the cameras below, what it
+  keeps between builds and the camera names somebody typed; read by
+  `assignmentsheet/` and nothing else
 * `upkeep/` **726** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
 * `herald/` **643** -- the progress bar, the stages, the console and log
@@ -82,6 +86,9 @@ figure of the day is that command, not this paragraph**:
   several blocks shown as one entry
 * `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
+* `resolvesheet/` **400** -- the third tab: whether Resolve answers,
+  the camera cut with its settings, forecast and preview, what the
+  player is fed with, and the speaker box
 * `livery/` **392** -- the colours, the marks that say what kind a line
   is, and the room a name or a table may take
 * `colour/` **364** -- what a video file says about its colour: the
@@ -94,6 +101,12 @@ figure of the day is that command, not this paragraph**:
   looks one up
 * `timecode/` **351** -- timecode strings, frame rates, the clock a file
   carries
+* `filesheet/` **290** -- the first tab: the drop area or the file
+  list with its channel rows and findings, the video choices, and the
+  production strip with the output folder
+* `assignmentsheet/` **256** -- the second tab: the assignment boxes,
+  the time window beside the preview player, and which audio runs under
+  a camera; the table itself is `assignmenttable/`
 * `menus/` **237** -- the menu bar and what follows it
 * `workbench/` **236** -- what more than one piece reaches over for:
   numbers as words, a channel count, one tool run, two recordings in
@@ -109,16 +122,11 @@ figure of the day is that command, not this paragraph**:
 * `filing/` **158** -- path_key, ByFile and FileSet
 * `soundings/` **141** -- what has been measured of a file, taken once
   and kept
+* `outputsheet/` **124** -- the fourth tab: the log pane and how it
+  follows a run, and the two buttons for what a run made, each with the
+  reason it is greyed
 * `choices/` **123** -- the values a choice box holds, and what they are
   called
-* `assignmentsheet/` **90** -- the second tab: the assignment box and
-  the boxes under it, and the preview player's box beside it
-* `outputsheet/` **89** -- the fourth tab: the log pane, and the two
-  buttons for what a run made
-* `resolvesheet/` **69** -- the third tab: the scrolling sheet the
-  Resolve check and the camera cut go into, and the speaker box
-* `filesheet/` **62** -- the first tab: the drop area, the file list
-  and its bar, and the production strip under it
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
@@ -141,9 +149,19 @@ use. Read after the timecode, they are head lines for everybody.
 The four sheets -- `filesheet/`, `assignmentsheet/`, `resolvesheet/`
 and `outputsheet/`, one per tab -- are read out of `ui/__init__.py`
 as well, and by nothing else, which is why each may carry Qt at its
-head. What they take of the window's own names (`scroll_sheet_build`,
-`file_bar_build`, `make_file_list`, `reason_set`) they read through
-`PROGRAM.` at the call: the window is still being read when they are.
+head. What they and the table below take of the window's own helpers
+-- twenty-one names on 26.9.2026, `scroll_sheet_build`, `file_bar_build`,
+`make_file_list`, `reason_set`, `kind_cell_for`, `camera_audio_cell`,
+`audio_use_bind` among them -- they read through `PROGRAM.` at the call,
+never at the head: the window is still being read when they are, and
+its names reach the program only once it is through.
+
+**`assignmenttable/` is read one step further in**: `assignmentsheet/`
+asks `beside()` for it at its own head, so it comes after everything
+the way in and `ui/` bound above the sheets and before the rest of
+`ui/`. Its head lines bind what the program already holds; the
+window's own names it reads through `PROGRAM.` at the call, as the
+sheets do.
 
 **`player/` and `fittings/` left for that same reason on 7.9.2026**,
 and they are the toolbox a *window* is built out of: `hint`, `label`,

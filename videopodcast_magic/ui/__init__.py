@@ -34,9 +34,7 @@ RUN_STOP = PROGRAM.RUN_STOP
 SOUND_HOLDS = PROGRAM.SOUND_HOLDS
 SOUND_MIXED = PROGRAM.SOUND_MIXED
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
-SPEAKER_SPLIT_OFF = PROGRAM.SPEAKER_SPLIT_OFF
 SPEECH_CODES = PROGRAM.SPEECH_CODES
-SR = PROGRAM.SR
 Stopped = PROGRAM.Stopped
 T = PROGRAM.T
 TN = PROGRAM.TN
@@ -53,25 +51,11 @@ app_style_set = PROGRAM.app_style_set
 as_bad = PROGRAM.as_bad
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
-as_relative_time = PROGRAM.as_relative_time
-assignment_marks_show = PROGRAM.assignment_marks_show
-assignment_rows = PROGRAM.assignment_rows
 beside = PROGRAM.beside
-camera_after_a_mark = PROGRAM.camera_after_a_mark
-camera_gets_from = PROGRAM.camera_gets_from
-camera_name_suggestion = PROGRAM.camera_name_suggestion
-camera_names_offered = PROGRAM.camera_names_offered
-camera_offset = PROGRAM.camera_offset
-camera_row_cameras = PROGRAM.camera_row_cameras
-camera_to_remember = PROGRAM.camera_to_remember
-cameras_in_track_order = PROGRAM.cameras_in_track_order
 cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
-channel_rows_build = PROGRAM.channel_rows_build
 colours_pick = PROGRAM.colours_pick
-cut_title_of = PROGRAM.cut_title_of
 desktop_is_dark = PROGRAM.desktop_is_dark
-every_audio_block = PROGRAM.every_audio_block
 ffmpeg_can_be_had = PROGRAM.ffmpeg_can_be_had
 file_timecode = PROGRAM.file_timecode
 fill_choices = PROGRAM.fill_choices
@@ -79,9 +63,6 @@ find_required_tools = PROGRAM.find_required_tools
 finished_tracks_where = PROGRAM.finished_tracks_where
 forget_soxr = PROGRAM.forget_soxr
 guess_camera_name = PROGRAM.guess_camera_name
-guess_production_name = PROGRAM.guess_production_name
-guess_speaker_name = PROGRAM.guess_speaker_name
-gui_log = PROGRAM.gui_log
 has_sound = PROGRAM.has_sound
 how_to_get_ffmpeg = PROGRAM.how_to_get_ffmpeg
 install_ffmpeg = PROGRAM.install_ffmpeg
@@ -92,25 +73,21 @@ known_language = PROGRAM.known_language
 label_of = PROGRAM.label_of
 # Out of the language piece: the program binds neither of these two.
 language_name = PROGRAM.language.language_name
-make_preview = PROGRAM.make_preview
 reads_right_to_left = PROGRAM.language.reads_right_to_left
 languages = PROGRAM.languages
 log_aside = PROGRAM.log_aside
 make_voice_rows = PROGRAM.make_voice_rows
 mark_time = PROGRAM.mark_time
 log_path = PROGRAM.log_path
-loudness_field_build = PROGRAM.loudness_field_build
 loudness_last = PROGRAM.loudness_last
 main = PROGRAM.main
 make_auphonic_box = PROGRAM.make_auphonic_box
 make_preflight = PROGRAM.make_preflight
 make_project_file = PROGRAM.make_project_file
-make_resolve_check = PROGRAM.make_resolve_check
 make_speaker_split = PROGRAM.make_speaker_split
 make_time_axis = PROGRAM.make_time_axis
 make_update_sink = PROGRAM.make_update_sink
 name_apart = PROGRAM.name_apart
-not_on_the_axis = PROGRAM.not_on_the_axis
 number_text = PROGRAM.number_text
 open_page = PROGRAM.open_page
 os = PROGRAM.os
@@ -118,19 +95,15 @@ parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 pick_choice = PROGRAM.pick_choice
 platform = PROGRAM.platform
-preview_out_of_date = PROGRAM.preview_out_of_date
 project_state_read = PROGRAM.project_state_read
-question_note_build = PROGRAM.question_note_build
 release_text_in = PROGRAM.release_text_in
 release_text_of = PROGRAM.release_text_of
 resolve_installed = PROGRAM.resolve_installed
-sample_count = PROGRAM.sample_count
 settings = PROGRAM.settings
 sign_of_life = PROGRAM.sign_of_life
 soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
-speakers_still_wanted = PROGRAM.speakers_still_wanted
 start_again = PROGRAM.start_again
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
@@ -139,22 +112,15 @@ sys = PROGRAM.sys
 system_locale = PROGRAM.system_locale
 tc_column_write = PROGRAM.tc_column_write
 threading = PROGRAM.threading
-timecode_string = PROGRAM.timecode_string
 trouble_log = PROGRAM.trouble_log
 update_offer = PROGRAM.update_offer
 video_facts = PROGRAM.video_facts
-video_kinds_again = PROGRAM.video_kinds_again
 voice_key_parts = PROGRAM.voice_key_parts
 voice_names_clashing = PROGRAM.voice_names_clashing
-voice_suggest_round = PROGRAM.voice_suggest_round
 warn_box = PROGRAM.warn_box
 weak_marks_show = PROGRAM.weak_marks_show
-wide_bar_of = PROGRAM.wide_bar_of
 wide_cameras_of = PROGRAM.wide_cameras_of
-wide_note_build = PROGRAM.wide_note_build
-wide_settings_grey = PROGRAM.wide_settings_grey
 wide_shot_barred = PROGRAM.wide_shot_barred
-window_suggestion = PROGRAM.window_suggestion
 
 
 def app_icon(QtGui):
@@ -990,30 +956,10 @@ def window_title(project=""):
     return "%s -- %s" % (os.path.basename(project), said.split(" -- ")[0])
 
 
-#------------------------------------------------------------ The tables
-# A piece of its own, in the folder "tables". Read where its block stood.
-
-# The way in reads tables/ now: this binds what it brought rather than
-# reading the piece again, which would leave two copies to drift. Gone
-# because nothing here reads them: fix_table_width, folded_summary and
-# tree_row_of with the speakers' rows, file_span and widget_width before.
-from_the_front = PROGRAM.from_the_front
-row_picker_for = PROGRAM.row_picker_for
-row_picker_watch = PROGRAM.row_picker_watch
-table_build = PROGRAM.table_build
-table_rows_fit = PROGRAM.table_rows_fit
-tree_build = PROGRAM.tree_build
-tree_cell = PROGRAM.tree_cell
-tree_field = PROGRAM.tree_field
-tree_row = PROGRAM.tree_row
-tree_rows_fit = PROGRAM.tree_rows_fit
-
-
 #------------------------------------------------------------ The player
 # A piece of its own, in "player". The way in reads it above this
 # file now, so these are ordinary head lines; the names no code
 # here reads have gone, and take_from() puts them on the program.
-make_band_and_player = PROGRAM.make_band_and_player
 make_player_choice = PROGRAM.make_player_choice
 make_player_widgets = PROGRAM.make_player_widgets
 
@@ -1489,26 +1435,17 @@ def log_entry(act, where, window):
 
 #---------------------------------------------------------- The fittings
 # A piece of its own, in "fittings". The way in reads it above this
-# file now, so these are ordinary head lines; thirteen names no code
+# file now, so these are ordinary head lines; the names no code
 # here reads have gone, and take_from() puts them on the program.
 checkbox_bind = PROGRAM.checkbox_bind
-cut_fields_build = PROGRAM.cut_fields_build
-field_bind = PROGRAM.field_bind
 hint = PROGRAM.hint
 label = PROGRAM.label
 mac_menu_name = PROGRAM.mac_menu_name
 make_footer = PROGRAM.make_footer
 mark_red = PROGRAM.mark_red
-more_speakers_row = PROGRAM.more_speakers_row
-path_label = PROGRAM.path_label
 qt_own_words = PROGRAM.qt_own_words
 say_dialog = PROGRAM.say_dialog
-speaker_name_cell = PROGRAM.speaker_name_cell
 speaks_as = PROGRAM.speaks_as
-split_cell_build = PROGRAM.split_cell_build
-split_column_fit = PROGRAM.split_column_fit
-stack_when_narrow = PROGRAM.stack_when_narrow
-wrap_row = PROGRAM.wrap_row
 
 
 #--------------------------------------------------------- The file list
