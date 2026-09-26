@@ -124,22 +124,28 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
     """Run curl with the key in a config file rather than in argv.
 
     In argv it would stand in the process list for the length of the call.
+    A key of None sends no key at all: no config file is written.
     """
-    fd, conf = tempfile.mkstemp(prefix="auph_", suffix=".conf")
-    os.close(fd)
     leftovers = []
     closing, running = [], []
+    keyed = []
+    if key is not None:
+        fd, conf = tempfile.mkstemp(prefix="auph_", suffix=".conf")
+        os.close(fd)
+        leftovers.append(conf)
+        keyed = ["--config", conf]
     try:
-        # The one file that holds the key in plain text; the finally
-        # below removes it whatever happened. Owner-readable only.
-        os.chmod(conf, 0o600)
-        # curl reads this file as configuration, so the key goes in as
-        # a value: a quotation mark or a line break in it would start a
-        # directive of its own. curl escapes with a backslash.
-        safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
-                .replace("\r", "").replace("\n", ""))
-        with open(conf, "w", encoding="utf-8") as f:
-            f.write('header = "Authorization: bearer %s"\n' % safe)
+        if key is not None:
+            # The one file that holds the key in plain text; the finally
+            # below removes it whatever happened. Owner-readable only.
+            os.chmod(conf, 0o600)
+            # curl reads this file as configuration, so the key goes in
+            # as a value: a quotation mark or a line break in it would
+            # start a directive of its own. curl escapes with a backslash.
+            safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
+                    .replace("\r", "").replace("\n", ""))
+            with open(conf, "w", encoding="utf-8") as f:
+                f.write('header = "Authorization: bearer %s"\n' % safe)
         if progress:
             # curl's own bar has no percentage and cannot be indented,
             # so its table is read and our bar drawn from it. The answer
@@ -153,9 +159,8 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             # upload of gigabytes takes as long as it takes, but a
             # server that never answers must not hold the run.
             proc = subprocess.Popen(["curl", "-S", "-L",
-                                     "--connect-timeout", "15",
-                                     "--config", conf]
-                                    + arguments,
+                                     "--connect-timeout", "15"]
+                                    + keyed + arguments,
                                     stdout=answer_file,
                                     stderr=subprocess.PIPE)
             running.append(proc)
@@ -216,8 +221,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             # short enough to look alive. Without it the button waits.
             p = subprocess.run(["curl", "-sS", "-L",
                                 "--connect-timeout", "15",
-                                "--max-time", "60",
-                                "--config", conf] + arguments,
+                                "--max-time", "60"] + keyed + arguments,
                                capture_output=True)
             # The server answered, or gave up within the minute above.
             PROGRAM.RUN_VITALS.alive()
@@ -239,7 +243,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
         # The config file holds the key, so it goes whatever happened,
         # and a failure to remove it must not replace the real error.
         # What cannot be removed is overwritten: no file keeps the key.
-        for path in [conf] + leftovers:
+        for path in leftovers:
             try:
                 os.unlink(path)
             except FileNotFoundError:
@@ -257,6 +261,50 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
         # A return code is a name, not an amount: plain digits to look up.
         raise RuntimeError(error or T('curl ended with %d') % p.returncode)
     return p.stdout if output_binary else p.stdout.decode("utf-8", "replace")
+
+
+# https, auphonic.com or a name under it, then a port, a path or the end.
+# A pattern, not urlsplit: "auphonic.com@other" or a backslash in the host
+# are read differently by the two, and only what both call ours passes.
+_KEY_HOST = re.compile(r"https://([a-z0-9-]+\.)*auphonic\.com"
+                       r"(:443)?(/[^\s\\]*)?$", re.I)
+
+
+def key_goes_to(url):
+    """Whether the key may be sent with a request to *url*.
+
+    Only to auphonic.com. A download address is the server's word, and
+    it can name any host; the key would go there with it. curl itself
+    already drops the header when -L follows a redirect to another host
+    (measured with 7.86 and 8.7), so this is the second lock, for an
+    address that is foreign from the start.
+    """
+    return bool(_KEY_HOST.match(str(url or "")))
+
+
+def plain_download_name(name):
+    """The plain file name in a name auphonic.com gave, or "" if refused.
+
+    What is joined to a folder has to stay in it: the part after the
+    last slash is kept, and refused is what is then still empty, starts
+    with a dot (which takes "." and ".." with it), holds a backslash or
+    a zero byte, or starts with a drive such as "C:". The refusal is
+    said, so a file that is not fetched is never dropped silently.
+    """
+    plain = str(name or "").rsplit("/", 1)[-1]
+    if (not plain or plain.startswith(".") or "\\" in plain
+            or "\0" in plain or re.match(r"[A-Za-z]:", plain)):
+        print(as_warn(T('  auphonic.com named a file "%s" -- not a plain '
+                        'file name, so it is not fetched') % name))
+        return ""
+    return plain
+
+
+def _download(key, url, target, name):
+    """Fetch *url* into *target*, with the key only for auphonic.com."""
+    return _curl_call(key if key_goes_to(url) else None,
+                      ["-o", target, url],
+                      progress=T('Downloading %s') % name)
 
 
 def _parse_json(text):
@@ -1007,14 +1055,16 @@ def run_single_production(audio, preset, presetname, key, target_folder,
         nm = (f.get("filename") or "").lower()
         return {".wav": 1, ".flac": 2, ".aiff": 3}.get(os.path.splitext(nm)[1], 9)
     best = sorted(files, key=rank)[0]
-    name = best.get("filename") or (title + ".wav")
+    name = plain_download_name(best.get("filename") or (title + ".wav"))
+    if not name:
+        raise RuntimeError(T('production finished, but its result has no '
+                             'plain file name'))
     url = best.get("download_url")
     if not url:
         raise RuntimeError(T('no download address for %s') % name)
     os.makedirs(target_folder, exist_ok=True)
     target = os.path.join(target_folder, name)
-    _curl_call(key, ["-o", target, url],
-          progress=T('Downloading %s') % name)
+    _download(key, url, target, name)
     if os.path.getsize(target) < 1000:
         raise RuntimeError(T('downloaded file is only %s bytes')
                            % number_text(os.path.getsize(target), 0))
@@ -1039,6 +1089,9 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
             continue
         if not name.lower().endswith(TRANSCRIPT_SUFFIXES):
             continue
+        name = plain_download_name(name)
+        if not name:
+            continue
         # Two outputs of one name land in the same file, and the second
         # download overwrites the first though both were paid for.
         if name in fetched:
@@ -1047,8 +1100,7 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
         fetched.add(name)
         target = os.path.join(target_folder, name)
         try:
-            _curl_call(key, ["-o", target, url],
-                       progress=T('Downloading %s') % name)
+            _download(key, url, target, name)
             print(T('  Also fetched: %s') % name)
         except PROGRAM.Stopped:
             # Stop ends the run; it is no failure of this step.
@@ -1420,15 +1472,21 @@ def download_results(key, p, names, target_folder, base):
     if not zip_file:
         raise RuntimeError(T('Production finished, but no ZIP with the '
                              'individual tracks'))
+    zip_name = plain_download_name(zip_file.get("filename"))
+    if not zip_name:
+        raise RuntimeError(T('Production finished, but the ZIP with the '
+                             'individual tracks has no plain file name'))
     cache = tracks_folder(target_folder)
-    target = os.path.join(cache, zip_file.get("filename"))
-    _curl_call(key, ["-o", target, zip_file.get("download_url")],
-          progress=T('Downloading %s') % zip_file.get("filename"))
+    target = os.path.join(cache, zip_name)
+    _download(key, zip_file.get("download_url"), target, zip_name)
     # Whatever else the preset produces belongs here: it is paid for.
     already = set()
     for f in (p.get("output_files") or []):
         name = f.get("filename") or ""
         if not name or not f.get("download_url") or f is zip_file:
+            continue
+        name = plain_download_name(name)
+        if not name:
             continue
         if name.lower() in already:
             # Two output kinds of one file name: the second overwrites.
@@ -1438,8 +1496,7 @@ def download_results(key, p, names, target_folder, base):
         already.add(name.lower())
         extra_file = os.path.join(cache, name)
         try:
-            _curl_call(key, ["-o", extra_file, f["download_url"]],
-                  progress=T('Downloading %s') % name)
+            _download(key, f["download_url"], extra_file, name)
         except PROGRAM.Stopped:
             # Stop ends the run; it is no failure of this step.
             raise
@@ -1694,7 +1751,14 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
     with zipfile.ZipFile(zip_file_path) as zf:
         files = [n for n in zf.namelist()
                    if not n.endswith("/") and not os.path.basename(n).startswith(".")]
-        zf.extractall(folder)
+        # One entry at a time, for the path each really went to: zipfile
+        # drops "../" and a leading "/" while writing, so the entry's own
+        # name joined to the folder can point at a file never written.
+        landed = {}
+        for entry in zf.namelist():
+            written = zf.extract(entry, folder)
+            if entry in files:
+                landed[entry] = written
     assignment, pending = {}, list(files)
     print(T('  In the archive: %s') % ", ".join(os.path.basename(d) for d in files))
     try:
@@ -1718,7 +1782,7 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
         best = max(pending, key=lambda d: similarity(name, telling[d]))
         quality = similarity(name, telling[best])
         if name.lower() in telling[best].lower() or quality > 0.4:
-            assignment[name] = os.path.join(folder, best)
+            assignment[name] = landed[best]
             pending.remove(best)
             print("    %-20s <- %s" % (name, os.path.basename(best)))
         else:

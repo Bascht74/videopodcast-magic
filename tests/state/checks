@@ -34,7 +34,7 @@
 auphonic_key_answer_fits	18
 auphonic_key_by_pipe	68
 auphonic_key_in_keyring	14
-auphonic_key_out_of_view	25
+auphonic_key_out_of_view	28
 auphonic_key_reg_shut	9
 auphonic_key_typed	11
 auphonic_kind_one_rule	10
@@ -456,3 +456,4 @@ voice_heard_again_said	10
 text_third_party_true	4
 voice_model_main_on_404	7
 voice_model_names_inside	7
+auphonic_names_stay_in	12

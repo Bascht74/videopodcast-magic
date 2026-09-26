@@ -62,7 +62,7 @@ figure of the day is that command, not this paragraph**:
   camera's drift goes out is `camera_drift`'s alone, by the rule every
   recording answers to (`drift_clear`: three times its uncertainty)
   and one bound of its own, 500 ppm
-* `auphonic/` **1726** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1790** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1771** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
