@@ -82,6 +82,7 @@ videopodcast-magic = "videopodcast_magic:main"
 # resolvesheet/ and outputsheet/, one per tab -- are asked for from
 # ui/__init__.py alone, which is why they may carry Qt at their heads.
 # projectmodel/ is asked for from there too, and carries no Qt.
+# assignmenttable/ is asked for from assignmentsheet/ alone, the same way.
 # text_german_arrives reads the way in and no other file, so it cannot
 # see them; source_piece_list_holds walks the beside() calls in every
 # piece and does. Measured 6.9.2026 on a copy, one name off the list at
@@ -99,6 +100,7 @@ videopodcast-magic = "videopodcast_magic:main"
 packages = [
     "videopodcast_magic",
     "videopodcast_magic.assignmentsheet",
+    "videopodcast_magic.assignmenttable",
     "videopodcast_magic.auphonic",
     "videopodcast_magic.bearings",
     "videopodcast_magic.workbench",
