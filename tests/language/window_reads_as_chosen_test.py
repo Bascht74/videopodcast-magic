@@ -8,7 +8,8 @@ for its last word, for a traceback -- a fault in a Qt slot ends a run on a nough
 the direction of the window and of the Settings sheet. Then the labels
 each run printed are counted and laid out again here, and read for the
 order the eye meets them in: a seek button says "-10 s" and not
-"s 10-", a loudness target keeps its number in front, and a window
+"s 10-", a loudness target keeps its number in front -- in the list
+and in the preflight's line, which is laid out here too -- and a window
 that reads left to right carries no direction mark at all -- which is
 what every other language rests on.
 """
@@ -21,7 +22,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
         and os.path.dirname(HERE) != HERE:
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-import ast, os, re, shutil, subprocess, sys, tempfile, time
+import ast, os, re, shutil, subprocess, sys, tempfile, time, types
 
 sys.path.insert(0, HERE)
 import the_program
@@ -273,6 +274,24 @@ check("every loudness target in Arabic keeps its number in front",
       "%d of %d lost it, first %s"
       % (len(astray), len(loud),
          "%r reads %r" % astray[0] if astray else "none"))
+
+# The same target as the preflight reports it: a line of its own, with
+# and without the bracket, and inside a sentence where it does nothing.
+vpm.set_language("ar")
+told, lost = 0, []
+for lufs, videos, alone, front in ((-16.0, ("a",), False, "-16 LUFS"),
+                                   (-18.0, ("a",), False, "-18 LUFS"),
+                                   (-16.0, (), True, "-16 LUFS")):
+    for found in vpm.check_loudness_target(types.SimpleNamespace(
+            lufs=lufs, multitrack=alone, auphonic_key=None), videos):
+        told += 1
+        if front not in order(found.text):
+            lost.append((bare(found.text), order(found.text)))
+vpm.set_language("en")
+check("the preflight's loudness line in Arabic keeps its number in front",
+      told == 3 and not lost,
+      "%d of 3 lines reported, %d lost it, first %s"
+      % (told, len(lost), "%r reads %r" % lost[0] if lost else "none"))
 
 # The other way round, and it is the one that costs everybody else: a
 # mark put in whatever the language would change every width and every
