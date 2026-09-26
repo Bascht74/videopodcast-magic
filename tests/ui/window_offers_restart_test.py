@@ -4,9 +4,10 @@
 The offer stands only on a real difference and goes when the choice
 goes back; while a run is going it does nothing and says so where the
 choice was made. Taken, main() builds a window that speaks the new
-language and the old one leaves the screen. The sections in the order
-the shot walks them: the offer at rest, after a change, on the way
-back, under a run, and the window that comes of taking it.
+language, the old one leaves the screen, and main() ends on what the
+last window answered. The sections in the order the shot walks them:
+the offer at rest, after a change, on the way back, under a run, and
+the window that comes of taking it.
 """
 PLATFORM_BOUND = True
 import os
@@ -68,8 +69,9 @@ ENV = dict(os.environ, HOME=OWN, APPDATA=OWN, XDG_CONFIG_HOME=OWN,
 def shot_run():
     """Start the shot and wait on it writing, not on the clock.
 
-    What comes back: the lines it wrote, whatever it printed, and the
-    reason it stopped -- "ended", or "stood still" with the seconds.
+    What comes back: the lines it wrote, whatever it printed, the
+    reason it stopped -- "ended", or "stood still" with the seconds --
+    and its return code, which is what main() answered.
     """
     going = subprocess.Popen([sys.executable, SHOT], env=ENV, cwd=HERE,
                              stdout=subprocess.PIPE,
@@ -83,8 +85,10 @@ def shot_run():
         elif time.time() - since > STILL:
             going.kill()
             going.wait()
-            return lines_read(), "", "stood still %.0f s" % STILL
-    return lines_read(), (going.stdout.read() or "")[-400:], "ended"
+            return (lines_read(), "", "stood still %.0f s" % STILL,
+                    going.returncode)
+    return (lines_read(), (going.stdout.read() or "")[-400:], "ended",
+            going.returncode)
 
 
 def lines_read():
@@ -102,8 +106,9 @@ def said(word):
     return ""
 
 
-LINES, PRINTED, WHY = shot_run()
-print("  the shot wrote %d lines and %s" % (len(LINES), WHY))
+LINES, PRINTED, WHY, CODE = shot_run()
+print("  the shot wrote %d lines and %s, return code %s"
+      % (len(LINES), WHY, CODE))
 if "done" not in LINES and PRINTED:
     # Only where it did not finish: the console of a window run holds
     # the locale note of every Qt on this machine, and run.sh reads
@@ -156,9 +161,12 @@ check("taking the offer brings a window speaking the chosen language",
 check("only one window is on the screen once the new one stands",
       said("windows after").endswith("visible 1"),
       "after the rebuild: %r" % said("windows after"))
+# The return code and not the line: on Windows main() ends the process
+# with the answer, and the line after it is never written there.
 check("main hands back what the last window answered",
-      said("main came back with") == "0",
-      "main answered %r" % said("main came back with"))
+      WHY == "ended" and CODE == 0,
+      "the shot %s with return code %s, main came back with %r"
+      % (WHY, CODE, said("main came back with") or "no line"))
 
 shutil.rmtree(FOLDER, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

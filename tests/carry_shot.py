@@ -339,4 +339,9 @@ def tick():
 
 QtCore.QTimer.singleShot(LOOK, tick)
 sys.argv = ["videopodcast_magic.py"]
-say("main came back with %s" % vpm.main())
+# On Windows main() ends the process itself with the last window's
+# answer (leave_window), so the line below is written only elsewhere;
+# the return code carries that answer on every platform alike.
+code = vpm.main()
+say("main came back with %s" % code)
+sys.exit(code if isinstance(code, int) else "main answered %r" % (code,))

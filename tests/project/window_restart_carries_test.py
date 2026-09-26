@@ -2,7 +2,7 @@
 """A restart carries the work over, or says plainly that it will not.
 
 The shot opens a production and presses the restart button three times:
-first that it walked its whole way, to main() coming back and a return
+first that it walked its whole way, to main() ending on the return
 code 0, held files, and was asked with all three answers. Cancelled,
 nothing changes -- files, language, project file, the choice in the box
 and the way to restart. Saved, the new window speaks the new language
@@ -33,11 +33,10 @@ import time
 # The window script is not part of this suite; it is only started here.
 SHOT = os.path.join(HERE, "carry_shot.py")
 # What is waited for is what the shot reports, never a length of time:
-# its line "main came back with ..." says the program's main() returned,
-# and after it the process owes its end. The only clock is a standstill
-# -- how long nothing at all changed in the shot's own folder: the
-# report, the console, and the cache the window fills while it opens a
-# project. Measured here 23.9.2026 over three runs: the longest stretch
+# after its line "done" the process owes its end, main()'s answer as
+# its return code. The only clock is a standstill -- how long nothing
+# at all changed in the shot's own folder: the report, the console,
+# and the cache the window fills while it opens a project. Measured here 23.9.2026 over three runs: the longest stretch
 # without a change 0.5 to 3.1 s; the builder is at most 12.6 times
 # slower, so the bound below is never reached in the normal case.
 STILL = 120.0           # seconds of nothing changing before it is hung
@@ -111,10 +110,8 @@ def footprint():
 
 def awaited(lines):
     """What the shot owed next, read off what it has reported so far."""
-    if any(line.startswith("main came back with") for line in lines):
-        return "the process ending after 'main came back'"
     if "done" in lines:
-        return "the line 'main came back with ...' after 'done'"
+        return "the process ending after 'done'"
     return "the shot's next line after %r" % (lines or ["nothing"])[-1][:60]
 
 
@@ -212,7 +209,9 @@ def same(one, two, *fields):
 
 LINES, PRINTED, WHY, CODE = shot_run()
 BACK = [line for line in LINES if line.startswith("main came back with")]
-WALKED = "done" in LINES and bool(BACK) and WHY == "ended" and CODE == 0
+# The return code and not the line: on Windows main() ends the process
+# with its answer, and the line after it is never written there.
+WALKED = "done" in LINES and WHY == "ended" and CODE == 0
 print("  the shot wrote %d lines and %s, return code %s"
       % (len(LINES), WHY, CODE))
 if not WALKED and PRINTED:
@@ -229,7 +228,7 @@ SAVED, READY, DROPPED = seen("SAVED"), seen("READY"), seen("DROPPED")
 CARRIED = ("rows", "project", "in", "out")
 
 check("the shot walked its whole way", WALKED,
-      "wanted 'done', 'main came back with ...' and return code 0, got "
+      "wanted 'done', the end and return code 0, got "
       "'done' %s, %s, return code %s; %s -- %d lines, the last of them %s"
       % ("written" if "done" in LINES else "missing",
          repr(BACK[0][:60]) if BACK else "no 'main came back'", CODE, WHY,

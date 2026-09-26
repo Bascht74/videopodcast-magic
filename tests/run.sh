@@ -422,6 +422,11 @@ run_one() {
   t="$1"
   began=$SECONDS
   test_file "$t"
+  # A release slice of every language is a whole family's work cut in
+  # four: 180 to 280 s on the builder jobs of run 36246280640, over 300
+  # beside the others on three of the six -- twice the bound, for work.
+  limit=$LIMIT
+  case "$t" in *_langs[0-9]*) [ -n "$LIMIT" ] && limit="${LIMIT% *} 600" ;; esac
   # A test that crashed is run again before the whole run is called red.
   # Only a crash: a check that said FAIL will say it again, and a test
   # that ran out of time will run out of time again. A signal does come
@@ -432,7 +437,7 @@ run_one() {
   fell_count=0
   while :; do
     out=$(VPM_COUNT_STARTS="$STARTS/$t" \
-          $LIMIT "$PY" "$file" 2>&1); rc=$?
+          $limit "$PY" "$file" 2>&1); rc=$?
     fell=0
     if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
       fell=1
@@ -498,8 +503,8 @@ $short"
     { echo "RED (rc=$rc)"
       # 124 is what the time limit returns when it kills a test, 137 when
       # a polite TERM was not enough and it had to go further.
-      if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
-        echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
+      if [ -n "$limit" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
+        echo "      killed by the ${limit##* } s time limit -- it never finished"
       elif [ $rc -gt 128 ]; then
         # Right under the name, where wobbly.sh looks for it.
         echo "      crashed ($(crash_said "$rc" "$out")), go $try of $TRIES"
@@ -612,7 +617,7 @@ done
 # The *_langsN tests each open several windows at once, and two of them
 # side by side took 159 and 171 s against 41 and 36 s alone (26.9.2026)
 # -- near the 300 s limit on a builder. So they run one after another,
-# as one line of the queue, beside the rest and first, being long.
+# as one line of the queue, beside the rest and first; run_one says why 600 s.
 LANGS_CHAIN=$(echo "$CROWD" | grep -E '_langs[0-9]' | tr '\n' ' ' \
               | sed 's/ *$//')
 if [ -n "$LANGS_CHAIN" ]; then
