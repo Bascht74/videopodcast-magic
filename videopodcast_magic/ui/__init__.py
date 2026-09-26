@@ -2692,14 +2692,7 @@ def gui():
     blocks_of, recording_of = model.blocks_of, model.recording_of
     join_to, together_now = model.join_to, model.together_now
     channel_choice = model.channel_choice
-    channel_node = ByFile()      # file -> its row in the list
     video_kind_again = ByFile()  # file -> draw its Kind cell again
-
-    def channel_rows_show(node, path):
-        channel_rows_build(node, path, Qt, QtCore, QtWidgets,
-                           blocks_of, channel_choice, channel_node,
-                           channels_arrived, clip_kind_values, items,
-                           remembered, split_files)
 
     def split_arrived(path):
         """One file has been cut into its tracks: rebuild the tables."""
@@ -2707,30 +2700,6 @@ def gui():
         buttons_check()
 
     bridge.split_done.connect(split_arrived)
-
-    def channels_arrived(path):
-        """The measurement for one file is in; redraw the rows it feeds.
-
-        A recording of several blocks has one row and waits for every
-        block. The row hangs on the first block, so a finished second
-        block has to redraw the first one's node -- otherwise the last
-        block to finish redraws nothing and the row waits for ever.
-        """
-        a = os.path.abspath(path)
-        for api_key in dict.fromkeys([a, recording_of.get(a, a)]):
-            entry = channel_node.get(api_key)
-            if not entry:
-                continue
-            try:
-                channel_rows_show(entry[0], entry[1])
-            except RuntimeError:
-                channel_node.pop(api_key, None)
-        # The channels are known, so what has to be cut out is too. The
-        # cameras belong in it, or a two-microphone camera is never cut.
-        prework_kick_off(every_audio_block(files, blocks_of,
-                                          state.get("own_cameras") or ()))
-
-    bridge.channels_done.connect(channels_arrived)
 
 
     # Widgets built further down but marked from up here. Empty while the
@@ -2815,48 +2784,6 @@ def gui():
         d.raise_()
         d.activateWindow()
 
-    def append_findings(node, its_findings):
-        """List the hints for a file as lines below it.
-
-        Otherwise the summary would count hints that can be read nowhere.
-        """
-        # Only the old finding lines: the same slot marks the channel rows
-        # too, and clearing those would drop a setting.
-        for i in range(node.childCount() - 1, -1, -1):
-            if node.child(i).data(0, Qt.UserRole + 2) == "finding":
-                node.removeChild(node.child(i))
-        for b in its_findings:
-            if b.kind == "good":
-                continue
-            line = item(node, "      " + FINDING_WORD[b.kind], b.text)
-            line.setData(0, Qt.UserRole + 2, "finding")
-            line.setForeground(2, QtGui.QBrush(QtGui.QColor(
-                MARKS[b.kind][1])))
-            if b.advice:
-                for column in (0, 1, 2):
-                    line.setToolTip(column, b.advice)
-
-    def show_overall(general):
-        """Put what belongs to no single file into its own group."""
-        for i in range(items.topLevelItemCount() - 1, -1, -1):
-            if items.topLevelItem(i).data(0, Qt.UserRole + 2):
-                items.takeTopLevelItem(i)
-        if not general:
-            return
-        group = item(items, T('GENERAL NOTES'),
-                        TN(len(general), '%s point', '%s points')
-                        % number_text(len(general), 0), "group", True)
-        group.setData(0, Qt.UserRole + 2, True)
-        group.setExpanded(True)
-        for b in general:
-            line = item(group, "      " + (b.field or FINDING_WORD[b.kind]),
-                           b.text)
-            line.setForeground(2, QtGui.QBrush(QtGui.QColor(
-                MARKS[b.kind][1])))
-            if b.advice:
-                for column in (0, 1, 2):
-                    line.setToolTip(column, b.advice)
-
     def audio_use_value(path):
         """Whether this video file's sound is material -- one per file.
 
@@ -2879,40 +2806,17 @@ def gui():
         return cameras_using_audio(files, clip_kind_values,
                                    audio_use_values, has_sound)
 
-    def video_choices_show(node, path, chosen, forced):
-        """The two decisions a video file carries, in its own row.
-
-        The Kind is shown twice in this window, and both show a derived
-        wide shot -- which changes the moment a voice is given a camera.
-        So the row leaves behind how to draw itself again; kinds_refresh
-        calls it, or the list keeps calling every camera the wide shot.
-        """
-        short = os.path.basename(path)
-        kind = clip_kind_values[path]
-        video_kind_again[path] = lambda: video_choices_show(
-            node, path, chosen, forced)
-        cell, box = kind_cell_for(
-            path, kind, *wide_cameras_now(), state.get("no_place"),
-            clip_kind_values, COLOURS["quiet"],
-            lambda p=path: kind_answered(p), state.get("camera_labels"))
-        items.setItemWidget(node, 3, cell)
-        used, why = audio_use_settled(path, chosen, forced,
-                                      has_sound(path), kind.get())
-        sound, sound_box = camera_audio_cell(short, used, why,
-                                             COLOURS["quiet"])
-        audio_use_bind(sound_box, audio_use_value(path), why)
-        items.setItemWidget(node, 4, sound)
-
-    def removable():
-        """Enable removal only when the selection actually offers something."""
-        node = items.currentItem()
-        while node is not None and node.data(0, Qt.UserRole) is None\
-                and node.data(0, Qt.UserRole + 1) is None:
-            node = node.parent()
-        window.files_sheet.remove_button.setEnabled(node is not None)
-        menus_follow(late)     # so the entry's key dies with the button
-
-    items.currentItemChanged.connect(lambda *_: removable())
+    # The rows, the findings and the output folder are the first sheet's;
+    # what they reach for down here goes in as late look-ups.
+    files_sheet = window.files_sheet
+    files_sheet.rows_wire(model, state, bridge, late, video_kind_again,
+                          audio_use_value, lambda: wide_cameras_now(),
+                          lambda p: kind_answered(p),
+                          lambda blocks: prework_kick_off(blocks))
+    (channel_rows_show, append_findings, show_overall,
+     video_choices_show) = (
+        files_sheet.channel_rows_show, files_sheet.append_findings,
+        files_sheet.show_overall, files_sheet.video_choices_show)
 
     # ------------------------------------------------------------------
     # Tab 2: settings
@@ -2921,69 +2825,14 @@ def gui():
     start_var, end_var = model.in_point, model.out_point
     project_type, commonest_folder = model.project_type, model.commonest_folder
 
-    # --- production: name and location belong together
-    place_box = QtWidgets.QGroupBox(T('Production'))
-    window.files_sheet.strip_rows.addWidget(place_box)
-    place_position = QtWidgets.QVBoxLayout(place_box)
-    # One row that breaks where the room ends: see wrap_row.
-    name_bar = wrap_row(place_position)
-    _name_field = field_bind(QtWidgets.QLineEdit(), production_var, 340)
-    # Duplicate names are marked red in their row; a missing production
-    # name is the same fault and gets the same mark.
-    late["name_field"] = _name_field
-    speaks_as(_name_field, T('Production name'))
-    name_bar.pair(label(T('Production name')), hint(
-        _name_field, T('Title at auphonic.com and start of the new file names.')))
+    # --- production: name, output folder and loudness, on the first sheet.
+    name_bar, _name_field, folder_show, folder_pick = (
+        files_sheet.production_build(
+            model, state, late,
+            lambda: in_turn(finished_tracks_check, preview_compute)))
     _name_field.editingFinished.connect(lambda: refresh_names())
     production_var.listen(buttons_check)
-
-    folder_bar = QtWidgets.QHBoxLayout()
-    place_position.addLayout(folder_bar)
-    folder_button = QtWidgets.QPushButton(T('Output folder ...'))
-    folder_button.clicked.connect(lambda: folder_pick())
-    folder_bar.addWidget(hint(
-        folder_button, T('If empty: next to each video file.')))
-    speaks_as(folder_button, T('Choose the output folder'))
-    folder_label = path_label(T('next to each video file'), COLOURS["quiet"])
-    speaks_as(folder_label, T('Output folder'))
-    folder_bar.addWidget(folder_label)
-    reset = QtWidgets.QPushButton(T('reset'))
-    reset.clicked.connect(lambda: folder_delete())
-    speaks_as(reset, T('Output folder back beside each video file'))
-    reset.hide()
-    folder_bar.addWidget(hint(reset,
-                                    T('Puts it back next to each video file.')))
-    folder_bar.addStretch(1)
-
-    def folder_show():
-        d = out_folder.get()
-        folder_label.say(d if d else T('next to each video file'))
-        reset.setVisible(bool(d))
-
-    def folder_pick():
-        d = QtWidgets.QFileDialog.getExistingDirectory(
-            window, T('Output folder'),
-            out_folder.get() or commonest_folder() or "")
-        if not d:
-            return
-        out_folder.set(d)
-        folder_show()
-        state["resolve_json"] = None
-        handover_follows(state, [c[0] for c in camera_lines], True)
-        finished_tracks_check()
-        preview_compute()
-
-    def folder_delete():
-        out_folder.set("")
-        folder_show()
-        state["resolve_json"] = None
-        handover_follows(state, [c[0] for c in camera_lines], True)
-        in_turn(finished_tracks_check, preview_compute)
-
-    # --- how loud the finished episode is. Why it stands here and what
-    #     the entries mean is in loudness_field_build.
     lufs_value = model.lufs
-    loudness_field_build(place_position, lufs_value)
 
     # --- sheet 2 of the settings: its boxes stand in AssignmentSheet,
     #     and the window puts the player and the tables into them.

@@ -159,7 +159,7 @@ print("\n3. The dictionaries that hold files are of that kind")
 HOLD_FILES = [
     ("ProjectModel", "blocks_of"), ("ProjectModel", "recording_of"),
     ("ProjectModel", "join_to"), ("ProjectModel", "channel_choice"),
-    ("gui", "channel_node"),
+    ("FilesSheet", "channel_node"),
     ("gui", "video_kind_again"), ("ProjectModel", "split_files"),
     ("gui", "lines_node"), ("gui", "prework_node"),
     ("gui", "prework_pending"), ("gui", "tree_open"),
