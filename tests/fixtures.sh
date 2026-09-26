@@ -411,9 +411,10 @@ fi
 # 0.86 m), the room pair is one signal 14 samples apart (0.29 ms, well
 # inside the 1 ms window), and the room mic hears both speakers 216
 # samples late (4.5 ms, 1.5 m). 24 bit, because channel 5 lies below
-# the last step of 16. Eight seconds, and the build takes under a
-# second -- run.sh calls this before every suite run.
-MIXER_BUILD=roles-1
+# the last step of 16. Sixty seconds, because at eight the rule on thin
+# blocks called Mixer.wav not usable; the build still takes under a
+# second (0.65 s measured) -- run.sh calls this before every suite run.
+MIXER_BUILD=roles-60s
 if have "$FIX/mixer" "$MIXER_BUILD"; then
   echo "  "$FIX/mixer"        already there"
 else
@@ -423,20 +424,20 @@ else
   # point of channels 5 and 6, and amix's own normalising would move
   # them. 0.040 puts a voice at about -34 dBFS.
   $FF -filter_complex "
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=1101,
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=1101,
       highpass=f=140,lowpass=f=5200,tremolo=f=0.62:d=0.6,
       asplit=3[a1][a2][a3];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=2202,
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=2202,
       highpass=f=170,lowpass=f=6000,tremolo=f=0.83:d=0.6,
       asplit=3[b1][b2][b3];
-    anoisesrc=c=pink:r=48000:d=8:a=0.9:seed=3303,
+    anoisesrc=c=pink:r=48000:d=60:a=0.9:seed=3303,
       highpass=f=60,lowpass=f=9000[r1];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=4404,
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=4404,
       highpass=f=150,lowpass=f=5600,tremolo=f=0.71:d=0.6[c1];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=5505,volume=0.00002[ch5];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=6606,volume=0.0003[ch6];
-    anullsrc=r=48000:cl=mono,atrim=end=8[ch7];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=7707,volume=0.06[nr];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=5505,volume=0.00002[ch5];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=6606,volume=0.0003[ch6];
+    anullsrc=r=48000:cl=mono,atrim=end=60[ch7];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=7707,volume=0.06[nr];
     [a2]adelay=delays=120S,volume=0.22[a2d];
     [b2]adelay=delays=120S,volume=0.30[b2d];
     [a3]adelay=delays=216S,volume=0.45[a3d];
@@ -450,12 +451,12 @@ else
     [p2d][nr]amix=inputs=2:normalize=0:weights=1 0.05:duration=first[ch4];
     [c1]volume=0.040[ch8];
     [ch1][ch2][ch3][ch4][ch5][ch6][ch7][ch8]amerge=inputs=8[out]" \
-    -map "[out]" -c:a pcm_s24le -ar 48000 -t 8 Mixer.wav -y
+    -map "[out]" -c:a pcm_s24le -ar 48000 -t 60 Mixer.wav -y
   # One camera beside it, so the folder is a job and not a single file.
   # Its sound is channel 1 of the mixer, which is what a camera picks up
   # in that room -- anything else would be a file that cannot be lined
   # up with the recording next to it.
-  $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=8" -i Mixer.wav \
+  $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=60" -i Mixer.wav \
     -filter_complex "[1:a]pan=mono|c0=c0[a]" -map 0:v -map "[a]" \
     -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
     -shortest StudioCam_01011855_C001.mov -y

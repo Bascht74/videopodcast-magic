@@ -1331,6 +1331,7 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
     *alone* which of them has a timecode with none to set it against.
     Returns the rows that are gone.
     """
+    import PySide6.QtCore as _qc
     import PySide6.QtGui as _qg
     nowhere = set(no_place or ())
     alone = set(path_key(p) for p in (alone or ()))
@@ -1345,11 +1346,17 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
             # overwrite each other, whichever ran last.
             for column in (0, 2):
                 item.setForeground(column, ink)
+            # The note is marked as ours, so a row that fits again gets
+            # its folder back -- and only then, the prework writes here too.
             if odd:
                 item.setText(2, weak_note(
                     os.path.dirname(p), placeless, kind,
                     intro_free_of(kinds, p), path_key(p) in alone,
                     p.lower().endswith(VIDEO_SUFFIXES)))
+                item.setData(2, _qc.Qt.UserRole, "weak")
+            elif item.data(2, _qc.Qt.UserRole) == "weak":
+                item.setText(2, os.path.dirname(p))
+                item.setData(2, _qc.Qt.UserRole, None)
         except RuntimeError:
             dropped.append(p)
     return dropped

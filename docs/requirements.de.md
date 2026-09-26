@@ -209,11 +209,17 @@ wenn es eine andere ist: `Python 3.11.15  (recommended version 3.14.7)`.
 `--help` und `--version` antworten ohne `numpy`, `PySide6` und
 `ffmpeg`.
 
-![Ein Lauf im Terminal](images/terminal.de.png)
+```text
+$ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
+    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+videopodcast-magic 3.0.0b25   Python 3.14.7
+/tmp/vpm_terminal/videopodcast_magic/__init__.py
+...
+```
 
-*Die erste Zeile nennt Version und Python, darunter steht der Pfad der
-laufenden Datei. Dieses Python ist das empfohlene, also folgt keine
-Klammer.*
+*Die erste Zeile unter dem Aufruf nennt Version und Python, darunter
+steht der Pfad der laufenden Datei. Dieses Python ist das empfohlene,
+also folgt keine Klammer.*
 
 ## Woher ffmpeg kommt
 
