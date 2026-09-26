@@ -6,8 +6,9 @@ opens: the first sheet alone. Then Add files with the six: its table
 holds two recordings, the presenter's two blocks as one, and the three
 cameras; the output folder and the type are given and Dry run pressed.
 Then the line's --dry-run over the same six: two recordings, the
-blocks as one -- and the window's dry run reads the plan the line
-reads. The limit: the plan as printed, measuring only, nothing written.
+blocks as one -- and the window's dry run reads the recordings and the
+cameras the line reads; which camera a recording is on is the window's
+own choice. The limit: the plan as printed, measuring only.
 """
 PLATFORM_BOUND = True
 import os
@@ -84,6 +85,17 @@ QtWidgets.QFileDialog.getOpenFileNames = staticmethod(
     lambda *a, **k: (list(ADDED), ""))
 QtWidgets.QFileDialog.getExistingDirectory = staticmethod(
     lambda *a, **k: OUT_WINDOW)
+
+
+def read_alike(lines):
+    """The plan's lines without what only the window chooses.
+
+    A recording's camera is picked in the window's table, and the line
+    given no assignment picks none; the order of the cameras is the
+    table's. So a recording's line is cut at its arrow, and all sorted.
+    """
+    return sorted(x.split(" -> ")[0] if re.search(r"\d:\d\d:\d\d\.\d{3}", x)
+                  else x for x in lines)
 
 
 def plan(text):
@@ -200,8 +212,8 @@ check("at the line, two recordings, the blocks as one",
       % (recordings_in(by_line), RECORDINGS, by_line))
 
 print("\n3. The two doors against each other")
-check("the window's dry run reads the plan the line reads",
-      bool(by_line) and plan(said_window) == by_line,
+check("the window's dry run reads the recordings and cameras the line does",
+      bool(by_line) and read_alike(plan(said_window)) == read_alike(by_line),
       "line %s -- window %s" % (by_line, plan(said_window)))
 
 shutil.rmtree(WORK, ignore_errors=True)

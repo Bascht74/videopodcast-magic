@@ -108,7 +108,6 @@ track_recordings_of = PROGRAM.track_recordings_of
 tracks_awaiting_measure = PROGRAM.tracks_awaiting_measure
 trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
-voices_of_file = PROGRAM.voices_of_file
 words_for_handover = PROGRAM.words_for_handover
 words_from_handover = PROGRAM.words_from_handover
 
@@ -997,8 +996,8 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                       % (T(' and ').join([x for x in places if x])
                          or T('no folder')))
     if not cameras:
-        return None, (T('No cameras assigned yet -- switch Multitrack on '
-                        'to do that.'))
+        return None, T('No camera is assigned, so there is nothing to cut '
+                       'between.')
     out = []
     for cam in cameras:
         # The camera audio arrives through the assignment already, and
@@ -2783,9 +2782,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                                     []).append(track["name"])
     # And the voices told apart under one recording, which have no track
     # of their own -- else a camera filled with a person counts as wide.
-    for name, where in voices_of_file(
-            getattr(args, "assign", "")
-            or getattr(args, "speakers_from", "") or "").items():
+    for name, where in PROGRAM.handed_over(args)[1].items():
         speaker_of.setdefault(where, []).append(name)
 
     #----------------------------------------------------- Handover file
@@ -3049,9 +3046,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     # And the voices told apart under a recording: without this every
     # one lands on the camera of its recording, one for everybody.
     strangers = []
-    for who, where in voices_of_file(
-            getattr(args, "assign", "")
-            or getattr(args, "speakers_from", "") or "").items():
+    for who, where in PROGRAM.handed_over(args)[1].items():
         v = os.path.abspath(where)
         if path_key(v) not in output_name:
             strangers.append((who, os.path.basename(v)))

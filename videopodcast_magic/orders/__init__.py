@@ -44,8 +44,8 @@ python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
 
 # The switches that need several recordings. Everything else works on
-# any run since the two paths became one.
-ONLY_MULTITRACK = ("auphonic_resume", "assign", "multitrack")
+# any run since the two paths became one -- the assignment file too.
+ONLY_MULTITRACK = ("auphonic_resume", "multitrack")
 
 
 #--------------------------------------- Out of the window into an order
@@ -136,7 +136,7 @@ def run_argv(values, assignment_file_path=""):
     Returns (argv, plan, messages)
 
       argv      the command line, its key in .key, or None if missing
-      plan      what goes into the assignment file, or None
+      plan      what goes into the assignment file, ticked or not
       messages  list of (kind, title, text, button) in the order the
                 interface should present them. "error" means show and
                 abort, "question" means ask and abort on no.
@@ -234,18 +234,18 @@ def run_argv(values, assignment_file_path=""):
             % ", ".join(twice))
 
     # One entry per camera, named by the window's field or else the file's
-    # stem. Both paths read it: the multitrack plan carries the list, the
-    # plain path sends the names as switches further down.
+    # stem; an intro, outro or file set aside is no camera.
     cameras = [{"video": cam.get("path"),
                 "name": (cam.get("name") or "").strip()
                 or os.path.splitext(os.path.basename(
                     cam.get("path") or ""))[0]}
-               for cam in (values.get("cameras") or [])]
-    plan = None
+               for cam in (values.get("cameras") or [])
+               if cam.get("path") not in edge.values()
+               and cam.get("path") not in off]
+    only_video = bool(values.get("camera_audio_only"))
+    lines = [r for r in (values.get("rows") or [])
+             if r.get("camera_choice") != IGNORE_AUDIO]
     if values.get("multitrack"):
-        only_video = bool(values.get("camera_audio_only"))
-        lines = [r for r in (values.get("rows") or [])
-                  if r.get("camera_choice") != IGNORE_AUDIO]
         if only_video:
             messages.append((
                 "question", T('Cameras only'),
@@ -282,99 +282,23 @@ def run_argv(values, assignment_file_path=""):
                   'timecode. That is right if recording was stopped in '
                   'between.')
                 % "\n  ".join(duplicate), T('Merge them')))
-        tracks = []
-        for r in lines:
-            blocks = list(r.get("blocks") or [])
-            target = r.get("camera_choice") or ""
-            # The window answers with the path; a bare file name, as a
-            # hand-written order gives it, takes the first of that name.
-            full = ""
-            for p, a in files:
-                if a == "video" and PROGRAM.camera_is(target, p):
-                    full = p
-                    break
-            camera_track = bool(r.get("own_audio"))
-            # Two different things, kept apart: where the audio comes
-            # from, and which camera the speaker is on. A clip-on plugged
-            # into one camera may film a person another one carries.
-            source = r.get("from_camera") or ""
-            straight = bool(blocks) and os.path.splitext(
-                blocks[0])[1].lower() in VIDEO_SUFFIXES
-            entry = {"audio": blocks[0] if blocks else "",
-                       "blocks": blocks,
-                       "speakers": (r.get("speakers") or "").strip(),
-                       "camera": full,
-                       "camera_audio": bool(only_video or
-                                            (camera_track and straight))}
-            if camera_track or only_video:
-                if not full:
-                    # No camera picked: it belongs to the one it came from.
-                    entry["camera"] = os.path.abspath(source or (
-                        blocks[0] if blocks else ""))
-                entry["from_camera"] = os.path.abspath(
-                    source or (blocks[0] if blocks else ""))
-                # What the background thread fetched is not fetched again.
-                if r.get("audio_done"):
-                    entry["audio_done"] = r["audio_done"]
-            tracks.append(entry)
-        plan = {"format": FILE_FORMAT,
-                "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
-                "production": (values.get("production") or "").strip()
-                or 'Production', "tracks_of": tracks, "cameras": cameras}
-        # What the separation heard travels with the assignment. Raw and
-        # in the time of its own file -- the run puts it on the axis.
-        if separation_has_voices(values.get("speakers_of")):
-            plan["speakers_of"] = values["speakers_of"]
-            # And which camera each voice belongs to; without it the run
-            # knows the voices and not where they sit.
-            plan["voices_of"] = voices_of_values(values)
-        argv += ["--multitrack", "--assign", assignment_file_path]
-        if values.get("speakers_wanted") is False:
-            argv += ["--no-speakers-local"]
-    elif separation_has_voices(values.get("speakers_of")) \
-            and assignment_file_path:
-        # One track, and the voices in it already told apart. It travels
-        # the way the multitrack path sends it, so the run does not spend
-        # the minutes twice -- with the cameras, and with the sliders.
-        plan = {"format": FILE_FORMAT,
-                "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
-                "speakers_of": values["speakers_of"],
-                "voices_of": voices_of_values(values)}
-        argv += ["--speakers-from", assignment_file_path]
     # Two cameras under one name would be one file and one track. The
     # window refuses it before the button; this is the net under it,
-    # on both paths, and without case, as the disks compare.
+    # and without case, as the disks compare.
     if len(set(cam["name"].lower() for cam in cameras)) != len(cameras):
         return error(
             T('File names'),
             T('Two cameras would produce the same new file. Please '
               'give different names.'))
-    if not values.get("multitrack"):
-        # No plan here: a name typed for a camera goes as a switch pair, and
-        # an empty field sends nothing and the run names the file after itself.
-        # Only cameras riding along: an intro, outro or file set aside is none.
-        for cam in (values.get("cameras") or []):
-            name = (cam.get("name") or "").strip()
-            file_path = cam.get("path") or ""
-            if name and file_path and file_path not in edge.values() \
-                    and file_path not in off:
-                argv += ["--new-name", file_path, name]
-        # A recording's name field, as the plan carries it on the other
-        # path: without it the run guesses from the file name again.
-        # Keyed by the first block; the run finds its row by any block.
-        sent = set(p for p, a in files if a == "audio")
-        for r in (values.get("rows") or []):
-            blocks = list(r.get("blocks") or [])
-            name = (r.get("speakers") or "").strip()
-            if name and blocks and blocks[0] in sent:
-                argv += ["--speaker-name", blocks[0], name]
-        # The plan carries the production's name; this path has none,
-        # and without the switch the run names it after the folder.
-        if (values.get("production") or "").strip():
-            argv += ["--production", values["production"].strip()]
-    if values.get("speakers_wanted") is False \
-            and not values.get("multitrack"):
+    # One plan on both paths: the tick only groups the recordings, so
+    # the chosen cameras and "do not use" reach every run alike.
+    if values.get("multitrack"):
+        argv += ["--multitrack"]
+    if assignment_file_path:
+        argv += ["--assign", assignment_file_path]
+    if values.get("speakers_wanted") is False:
         argv += ["--no-speakers-local"]
+    plan = run_plan(values, lines, cameras, only_video)
 
     # The time window and the cut numbers belong to every run, not only
     # the two that carry an assignment file: In point and Out point are
@@ -413,6 +337,62 @@ def run_argv(values, assignment_file_path=""):
         # recording would ask the credential store for the key just set aside.
         argv += ["--without-auphonic"]
     return RunLine(argv, key), plan, messages
+
+
+def run_plan(values, lines, cameras, only_video):
+    """What goes into the assignment file, on either path.
+
+    One entry per recording in use, with the camera it is on; a name
+    left empty is the one the run would guess. The window's separation
+    and which camera each voice is on travel with it.
+    """
+    files = list(values.get("files") or [])
+    tracks = []
+    for r in lines:
+        blocks = list(r.get("blocks") or [])
+        target = r.get("camera_choice") or ""
+        # The window answers with the path; a bare file name, as a
+        # hand-written order gives it, takes the first of that name.
+        full = ""
+        for p, a in files:
+            if a == "video" and PROGRAM.camera_is(target, p):
+                full = p
+                break
+        camera_track = bool(r.get("own_audio"))
+        # Two different things, kept apart: where the audio comes
+        # from, and which camera the speaker is on. A clip-on plugged
+        # into one camera may film a person another one carries.
+        source = r.get("from_camera") or ""
+        straight = bool(blocks) and os.path.splitext(
+            blocks[0])[1].lower() in VIDEO_SUFFIXES
+        entry = {"audio": blocks[0] if blocks else "",
+                 "blocks": blocks,
+                 "speakers": (r.get("speakers") or "").strip()
+                 or PROGRAM.guess_speaker_name(blocks[0] if blocks else ""),
+                 "camera": full,
+                 "camera_audio": bool(only_video or
+                                      (camera_track and straight))}
+        if camera_track or only_video:
+            if not full:
+                # No camera picked: it belongs to the one it came from.
+                entry["camera"] = os.path.abspath(source or (
+                    blocks[0] if blocks else ""))
+            entry["from_camera"] = os.path.abspath(
+                source or (blocks[0] if blocks else ""))
+            # What the background thread fetched is not fetched again.
+            if r.get("audio_done"):
+                entry["audio_done"] = r["audio_done"]
+        tracks.append(entry)
+    plan = {"format": FILE_FORMAT,
+            "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
+            "production": (values.get("production") or "").strip(),
+            "tracks_of": tracks, "cameras": cameras}
+    # What the separation heard, raw and in the time of its own file --
+    # the run puts it on the axis -- and which camera each voice is on.
+    if separation_has_voices(values.get("speakers_of")):
+        plan["speakers_of"] = values["speakers_of"]
+        plan["voices_of"] = voices_of_values(values)
+    return plan
 
 
 def camera_label_argv(files, off=()):
@@ -733,9 +713,9 @@ def build_argument_parser():
                     help="this video file is written as NAME, with the "
                          "ending hung on, and its track in the handover "
                          "carries that name; may be given several times. "
-                         "Without it the file's own name. The interface "
-                         "sends what stands in its \"new file name\" "
-                         "field where no assignment file carries it.")
+                         "Without it the file's own name. Not read where "
+                         "the --assign file lists the cameras: it names "
+                         "them itself.")
     ap.add_argument("--speaker-name", dest="speaker_name", action="append",
                     nargs=2, default=[], metavar=("FILE", "NAME"),
                     help="the recording FILE belongs to is spoken by NAME: "
@@ -743,9 +723,7 @@ def build_argument_parser():
                          "carry that name; FILE may be any of its blocks. "
                          "May be given several times. Without it the name "
                          "is guessed from the file name. Not read beside "
-                         "--assign: the assignment file carries its own. "
-                         "The interface sends what stands in a "
-                         "recording's name field.")
+                         "--assign: the assignment file carries its own.")
     ap.add_argument("--camera-label", dest="camera_label", action="append",
                     nargs=2, default=[], metavar=("FILE", "NAME"),
                     help="the run's messages name this video file NAME; "

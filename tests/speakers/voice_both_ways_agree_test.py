@@ -244,8 +244,8 @@ handover = os.path.join(folder, "assign.json")
 argv, plan, _msgs = vpm.run_argv(
     window_state(multitrack=False, speakers_of=handed), handover)
 argv = argv or []
-named = (argv[argv.index("--speakers-from") + 1]
-         if "--speakers-from" in argv else "")
+named = (argv[argv.index("--assign") + 1]
+         if "--assign" in argv else "")
 with open(handover, "w", encoding="utf-8") as f:
     json.dump(plan or {}, f)
 del asked[:]
@@ -256,7 +256,7 @@ check("out of the assignment file the same segments, unmeasured",
       by_file == by_window and asked == [],
       "out of %s: %s, handed over: %s, the model asked %d times -- "
       "wanted the same passages and none"
-      % (os.path.basename(named) or "no --speakers-from",
+      % (os.path.basename(named) or "no --assign",
          by_file, by_window, len(asked)))
 
 print("\n5. What one way measured, the other reads")

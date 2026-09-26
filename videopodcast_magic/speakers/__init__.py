@@ -1007,12 +1007,7 @@ def voices_clashing_of_run(args, plan):
     the separation was heard in speaks through its voices, as a
     recording with voices under it does in the window.
     """
-    given = getattr(args, "_speakers_of", None) or {}
-    if not given and getattr(args, "speakers_from", None):
-        given = read_separation_file(args.speakers_from)
-        if given.get("mtime") is not None \
-                and not speakers_from_project({"speakers": given})[0]:
-            given = {}
+    given = handed_over(args)[0]
     if getattr(args, "project_type", "") == "sync" or not given:
         return []
     heard, voices = set(), []
@@ -3011,6 +3006,32 @@ def read_separation_file(file_path):
     return d if d.get("segments") else {}
 
 
+def handed_over(args, say=False):
+    """What separation this run was handed, and which camera each voice is on.
+
+    One reader for every step: the window's assignment file, else
+    --speakers-from. A separation carrying its recording's fingerprint is
+    held to it, as the window holds a project's; *say* prints why one is
+    dropped. Returns (separation or {}, {voice: camera}, where from).
+    """
+    given = getattr(args, "_speakers_of", None) or {}
+    where_from = T('the interface') if given else ""
+    if not given and getattr(args, "speakers_from", None):
+        given = read_separation_file(args.speakers_from)
+        where_from = os.path.basename(args.speakers_from)
+    # A recording changed since would be cut by voices heard in the old one.
+    if given and given.get("mtime") is not None \
+            and not speakers_from_project({"speakers": given})[0]:
+        if say:
+            print(as_warn(T('  %s holds a separation of a recording that '
+                            'has changed or gone since, or of another '
+                            'model -- it is not used.') % where_from))
+        given = {}
+    seats = voices_of_file(getattr(args, "assign", "")
+                           or getattr(args, "speakers_from", "") or "")
+    return given, seats, where_from
+
+
 def voices_of_file(file_path):
     """Which camera each voice belongs to, out of a handed-over file.
 
@@ -3166,20 +3187,7 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     run picks. Where the microphones hear each other too well, all are
     mixed instead. Returns (segments, where from) or ([], "").
     """
-    given = getattr(args, "_speakers_of", None) or {}
-    where_from = T('the interface') if given else ""
-    if not given and getattr(args, "speakers_from", None):
-        given = read_separation_file(args.speakers_from)
-        where_from = os.path.basename(args.speakers_from)
-        # A block carrying the fingerprint of its recording is held to it,
-        # as the window holds a project's: a recording changed since would
-        # be cut by voices heard in the old one. One without it stands.
-        if given.get("mtime") is not None \
-                and not speakers_from_project({"speakers": given})[0]:
-            print(as_warn(T('  %s holds a separation of a recording that '
-                            'has changed or gone since, or of another '
-                            'model -- it is not used.') % where_from))
-            given = {}
+    given, _seats, where_from = handed_over(args, say=True)
     source, why, dropped = "", "", None
     if (getattr(args, "_speakers_of", None)
             and not SPEAKER_SPLIT_OFF

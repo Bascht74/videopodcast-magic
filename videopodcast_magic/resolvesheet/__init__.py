@@ -581,8 +581,7 @@ class ResolveSheet(QtWidgets.QScrollArea):
         """
         heard = PROGRAM.window_words_round(
             self.state, self.model.assign_lines, self.words_report)
-        if preview_out_of_date(self.state, self.model.multitrack.get()) \
-                or heard:
+        if preview_out_of_date(self.state) or heard:
             self.preview_compute()
 
     def speakers_build(self, column, state):

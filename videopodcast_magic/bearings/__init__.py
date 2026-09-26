@@ -233,14 +233,14 @@ def preview_handover(state):
     return d
 
 
-def preview_out_of_date(state, multitrack_on):
+def preview_out_of_date(state):
     """Whether the preview has to be worked out from the handover again.
 
     Stale again when the same file is rewritten: "Create Resolve project"
     works the cut out from the numbers set now and writes it back under
-    the name it had.
+    the name it had. With or without multitrack: both leave one.
     """
-    if state.get("running") or not multitrack_on:
+    if state.get("running"):
         return False
     js = state.get("resolve_json")
     return bool(js) and (not state.get("statistics")
@@ -1916,18 +1916,18 @@ def camera_shortfall_lines(who, rows, voices):
     return out
 
 
-def without_own_camera(rows, voices, multitrack_on, voiced=()):
+def without_own_camera(rows, voices, voiced=()):
     """Who goes into the mix but gets no shot of their own.
 
     Information, not a complaint: whoever set somebody to "no camera of
     its own" wanted it that way, and this is the list of them in one
     place before the hours of computing. Passed over, as nobody left out
-    of the picture: a recording whose voices stand under it, and every
-    recording at all without multitrack. *rows* are (blocks, name, camera).
+    of the picture: a recording whose voices stand under it. With or
+    without multitrack alike. *rows* are (blocks, name, camera).
     """
     voiced = set(voiced or ())
     pairs = [(name, camera) for blocks, name, camera in rows
-             if multitrack_on and os.path.abspath(blocks[0]) not in voiced]
+             if os.path.abspath(blocks[0]) not in voiced]
     out = []
     for name, camera in pairs + list(voices):
         name = (name or "").strip()
