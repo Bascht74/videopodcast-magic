@@ -68,10 +68,10 @@ cut_player_in_sync	63
 cut_player_jump_lands	6
 cut_player_offset_used	12
 cut_player_prepared_used	40
-cut_player_right_file	31
+cut_player_right_file	32
 cut_player_speeds_up	10
 cut_preview_is_the_run	17
-cut_rebuild_keeps_all	26
+cut_rebuild_keeps_all	27
 cut_right_camera	67
 cut_rules_hold	84
 cut_short_edges_kept	12
@@ -443,5 +443,5 @@ window_tracks_seen_anew	5
 window_view_reaches_tabs	10
 window_voice_audio_heard	6
 window_words_caught_up	23
-window_zero_as_run	10
+window_zero_as_run	14
 window_zoom_stays_in	32

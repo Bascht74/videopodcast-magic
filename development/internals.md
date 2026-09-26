@@ -35,17 +35,17 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3933** -- who speaks and when: the separation itself,
+* `speakers/` **3939** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
   marks on the assignment table, and the speaking-time table
 * `ui/` **3233** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
-* `player/` **3157** -- the moving picture: the player, the cut band,
+* `player/` **3177** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3255** -- who is on camera when, and what carries it out
+* `cut/` **3249** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2628** -- the DaVinci Resolve project, timelines, colour,
@@ -108,7 +108,7 @@ figure of the day is that command, not this paragraph**:
 * `colour/` **364** -- what a video file says about its colour: the
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
-* `tables/` **367** -- the tables and trees the window builds
+* `tables/` **384** -- the tables and trees the window builds
 * `running/` **425** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that
