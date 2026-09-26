@@ -25,7 +25,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4444** -- the window and everything it shows, asks or offers,
+* `ui/` **4404** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3769** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -71,10 +71,10 @@ figure of the day is that command, not this paragraph**:
   one in place, and what the window offers of all three
 * `herald/` **643** -- the progress bar, the stages, the console and log
   redirection
-* `project/` **609** -- the program's own project file: writing
+* `project/` **605** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
   the work before the window is rebuilt
-* `filelist/` **532** -- the list of chosen files: the tree it is
+* `filelist/` **533** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
 * `prework/` **435** -- the audio, envelopes, channels and tracks
@@ -85,7 +85,7 @@ figure of the day is that command, not this paragraph**:
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
 * `tables/` **348** -- the tables and trees the window builds
-* `running/` **367** -- what a run is offered before it starts, the
+* `running/` **365** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **360** -- a .po file per language and the reader that
   looks one up
@@ -119,6 +119,9 @@ figure of the day is that command, not this paragraph**:
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
+* `projectmodel/` **85** -- the production's data the window works on:
+  the files, the output folder, the assignment and the choices, read by
+  the project file, the run start and the file list; no widget, no Qt
 
 **Four pieces are asked for by another piece, not by the way in.**
 `menus/`, `filelist/`, `prework/` and `running/` are read out of
