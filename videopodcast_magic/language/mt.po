@@ -5086,3 +5086,15 @@ msgstr "Fejn \"Ħadd ma jitkellem\" huwa ssettjat biex iżomm pawża qasira, paw
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s tħalla barra -- %s 'il bogħod mill-blokki l-oħra skont it-timecode, wisq 'il bogħod għal reġistrazzjoni waħda"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Veduta wiesgħa fit-truf: il-qatgħa kollha hija l-veduta wiesgħa"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  imqassar għal mhux aktar minn %s kull wieħed -- l-unika tħabbira tieħu minn %s sa %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s fil-bidu m'għandux stampa u jitħalla barra"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s fl-aħħar m'għandux stampa u jitħalla barra"

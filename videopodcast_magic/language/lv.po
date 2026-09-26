@@ -5042,3 +5042,15 @@ msgstr "Kur „Neviens nerunā“ ir iestatīts nogaidīt īsu pauzi, pauze līd
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s izlaists -- pēc laika koda %s attālumā no pārējiem blokiem, pārāk tālu vienam ierakstam"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Kopplāns malās: viss griezums ir kopplāns"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  katrs saīsināts līdz ne vairāk kā %s -- vienīgais paziņojums ilgst no %s līdz %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s sākumā nav attēla un tiek izlaists"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s beigās nav attēla un tiek izlaists"

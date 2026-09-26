@@ -4993,3 +4993,15 @@ msgstr "Där \"Ingen talar\" är inställt på att hålla en kort paus ändrar e
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s utelämnad -- %s från de andra blocken enligt tidskoden, för långt isär för en inspelning"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Översiktsbild i kanterna: hela klippet är översiktsbilden"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  förkortad till högst %s var -- det enda inlägget går från %s till %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s i början har ingen bild och utelämnas"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s i slutet har ingen bild och utelämnas"

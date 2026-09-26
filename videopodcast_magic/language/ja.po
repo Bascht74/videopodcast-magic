@@ -4950,3 +4950,15 @@ msgstr "「誰も話さない」が短い間を保つ設定のときは、この
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s を除外 -- タイムコード上ほかのブロックから %s 離れており、1 つの録音としては離れすぎ"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  両端の引き画: カット全体が引き画です"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  それぞれ最長 %s に短縮 -- 唯一の発言は %s から %s まで"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: 先頭の %s は映像がないため省きます"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: 末尾の %s は映像がないため省きます"

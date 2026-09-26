@@ -4997,3 +4997,15 @@ msgstr "જ્યાં \"કોઈ બોલતું નથી\" ટૂંક�
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s છોડી દીધું -- ટાઇમકોડ મુજબ બીજા બ્લોકથી %s દૂર, એક રેકોર્ડિંગ માટે બહુ દૂર"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  કિનારે વાઇડ શૉટ: આખો કટ જ વાઇડ શૉટ છે"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  દરેકને વધુમાં વધુ %s સુધી ટૂંકાવ્યું -- એકમાત્ર જાહેરાત %s થી %s સુધી ચાલે છે"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: શરૂઆતના %s માં ચિત્ર નથી અને તે છોડી દેવાય છે"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: અંતના %s માં ચિત્ર નથી અને તે છોડી દેવાય છે"

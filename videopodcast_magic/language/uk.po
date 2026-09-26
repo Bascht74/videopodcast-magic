@@ -5054,3 +5054,15 @@ msgstr "Там, де для «Ніхто не говорить» вибрано 
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s пропущено -- за таймкодом за %s від інших блоків, задалеко для одного запису"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Загальний план на краях: увесь монтаж — загальний план"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  скорочено щонайбільше до %s кожен -- єдине оголошення триває від %s до %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s на початку не має зображення й відкидається"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s в кінці не має зображення й відкидається"

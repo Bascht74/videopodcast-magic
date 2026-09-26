@@ -5006,3 +5006,15 @@ msgstr "“Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda, bu 
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s dışarıda bırakıldı -- timecode'a göre diğer bloklardan %s uzakta, tek bir kayıt için fazla uzak"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Kenarlarda geniş çekim: kurgunun tamamı geniş çekim"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  her biri en fazla %s olacak şekilde kısaltıldı -- tek anons %s ile %s arasında sürer"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: baştaki %s görüntüsüz, dışarıda bırakılıyor"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: sondaki %s görüntüsüz, dışarıda bırakılıyor"

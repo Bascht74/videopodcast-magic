@@ -4997,3 +4997,15 @@ msgstr "Pale \"Hakuna anayezungumza\" imewekwa kushikilia pengo fupi, pengo hadi
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s imeachwa nje -- %s mbali na bloku nyingine kwa mujibu wa timecode, mbali mno kwa rekodi moja"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Picha pana kwenye ncha: mkato wote ni picha pana"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  kila moja imefupishwa hadi %s kwa upeo -- tangazo pekee linaanzia %s hadi %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s mwanzoni haina picha na inaachwa nje"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s mwishoni haina picha na inaachwa nje"

@@ -4994,3 +4994,15 @@ msgstr "Waar \"Niemand spreekt\" op korte pauze aanhouden staat, verandert een p
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s weggelaten -- volgens timecode %s van de andere blokken, te ver uit elkaar voor één opname"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Totaalshot aan de randen: de hele montage is het totaalshot"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  ingekort tot hoogstens %s elk -- de enige aankondiging loopt van %s tot %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s aan het begin heeft geen beeld en valt weg"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s aan het eind heeft geen beeld en valt weg"

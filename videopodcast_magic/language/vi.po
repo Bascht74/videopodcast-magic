@@ -4950,3 +4950,15 @@ msgstr "Khi \"Không ai nói\" được đặt là giữ khoảng trống ngắn
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  Bỏ qua %s -- cách các khối khác %s theo mã thời gian, quá xa cho một bản ghi"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Cảnh rộng ở hai đầu: toàn bộ bản dựng là cảnh rộng"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  mỗi đoạn được rút ngắn còn tối đa %s -- lượt nói duy nhất kéo dài từ %s đến %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s ở đầu không có hình ảnh nên bị bỏ"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s ở cuối không có hình ảnh nên bị bỏ"

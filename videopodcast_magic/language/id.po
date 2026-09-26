@@ -4954,3 +4954,15 @@ msgstr "Jika \"Tak ada yang bicara\" diatur untuk menahan jeda singkat, jeda hin
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s dilewati -- %s menurut timecode dari blok lainnya, terlalu berjauhan untuk satu rekaman"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Bidikan lebar di tepi: seluruh potongan adalah bidikan lebar"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  dipendekkan menjadi paling lama %s masing-masing -- satu-satunya pengumuman berlangsung dari %s sampai %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s di awal tidak punya gambar dan ditinggalkan"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s di akhir tidak punya gambar dan ditinggalkan"

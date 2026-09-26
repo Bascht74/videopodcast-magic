@@ -5038,3 +5038,15 @@ msgstr "Тамо где је \"Нико не говори\" подешено н�
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s изостављен -- по тајмкоду %s од осталих блокова, предалеко за један снимак"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Широки кадар на ивицама: цела монтажа је широки кадар"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  скраћено на највише %s сваки -- једина најава траје од %s до %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s на почетку нема слику и изоставља се"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s на крају нема слику и изоставља се"
