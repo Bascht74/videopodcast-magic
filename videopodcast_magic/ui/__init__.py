@@ -159,10 +159,9 @@ def language_of_system():
     Only a suggestion for the empty field: the operating system does not
     know what language was spoken in a recording.
     """
-    # The locale is read directly, not through known_language: that
-    # one answers which language the *interface* speaks and falls back
-    # to English. A Spanish system would then suggest English, and the
-    # recording would be tagged wrongly.
+    # The locale is read directly: known_language answers which language
+    # the *interface* speaks and falls back to English, so a Spanish
+    # system would suggest English and the recording be tagged wrongly.
     head = (system_locale() or "").replace("_", "-").split("-")[0]
     head = head.strip().lower()
     if len(head) != 2:
@@ -493,11 +492,10 @@ def missing_conditions(files, production, multitrack, assign_lines,
     """Report what is still missing, and where it is missing.
 
     Returns {key: reason}; empty means everything is there. Reasons go
-    under the start button and are in plain words -- greyed out without
-    one is a dead end. The key says which sheet: 1 and 11 the file tab,
-    21 and 23 the production strip on it, 22 the assignment tab. 1 is
-    empty. *project_type* "" is unanswered; a caller without a window
-    has the answer the command line has, which is "cut".
+    under the start button in plain words -- greyed out without one is a
+    dead end. Keys by sheet: 1 and 11 the file tab, 21 and 23 its
+    production strip, 22 the assignment tab; 1 is empty. *project_type*
+    "" is unanswered; without a window it is "cut", as on the command line.
     """
     pending = {}
     if not files:
@@ -855,11 +853,10 @@ def project_file_follows(state, where, retitle, report=None):
     """Move the project file to where() says, its name and folder.
 
     Named after the production, in the output folder; both change, and
-    it is moved rather than written twice. Where the open project's
-    file moved, *retitle* is handed the new title; where nothing moved,
-    the title bar keeps naming the file on the disk. Another project's
-    file is never moved onto (project_refused), and a name still being
-    typed moves nothing (name_settles).
+    it is moved, not written twice. Where the open project's file moved,
+    *retitle* gets the new title; else the title bar keeps naming the file
+    on disk. Never moved onto another project's file (project_refused);
+    a name still being typed moves nothing (name_settles).
     """
     if state.get("name_typing"):
         return
@@ -955,9 +952,8 @@ def window_title(project=""):
 
 
 #------------------------------------------------------------ The player
-# A piece of its own, in "player". The way in reads it above this
-# file now, so these are ordinary head lines; the names no code
-# here reads have gone, and take_from() puts them on the program.
+# A piece of its own, in "player", read in above this file: the names
+# no code here reads have gone, and take_from() puts them on the program.
 make_player_choice = PROGRAM.make_player_choice
 make_player_widgets = PROGRAM.make_player_widgets
 
@@ -977,9 +973,8 @@ voices_of_values = orders.voices_of_values
 
 
 #---------------------------------------- The settings sheet and the log
-# The Settings window: the language box, and the sheet the boxes for
-# the key and for Resolve are set into -- each of those two is built in
-# the piece it is about. The log way at the end.
+# The Settings window: the language box, and the sheet holding the key
+# and Resolve boxes, each built in its own piece. The log at the end.
 
 
 # What gui() answers with when the window is to be built again in
@@ -990,10 +985,9 @@ LANGUAGE_AGAIN = 7
 # not, or think better of it. The three ways out all ask the same one.
 RESTART_ASK = [None]
 
-# The one question about a production the window asks by itself: cut
-# by speaker, or only synchronised. Asked once, on the first look at
-# the assignment tab, and reached through this hook so a test can
-# answer it without a window standing in the way.
+# The one production question the window asks by itself: cut by
+# speaker, or only synchronised. Asked once, on the first look at the
+# assignment tab, through this hook so a test can answer without a window.
 PROJECT_TYPE_ASK = [None]
 
 
@@ -1175,12 +1169,11 @@ def handover_cameras_of(file_path):
 def handover_follows(state, cameras, again=False):
     """Take up the handover over the cameras the table holds now.
 
-    Asked when the cameras changed, or *again* when the output folder
-    did, never on every rebuild: the run's own handover leaves out a
-    camera it refused, and is kept for a name typed. Else one over
-    exactly these, from the output folder -- beside the videos without
-    one -- the project's or beside the last; failing that, what the
-    button offered this list before, lying there and naming no other.
+    Asked when the cameras or (*again*) the output folder changed, never
+    per rebuild: the run's own handover omits a refused camera and is kept
+    for a typed name. Else one over exactly these, from the output folder
+    (beside the videos without one), the project's or beside the last;
+    else the button's earlier offer for this list, if there, naming no other.
     """
     now = sorted(path_key(p) for p in cameras)
     before, js = state.get("handover_cameras"), state.get("resolve_json")
@@ -1432,9 +1425,8 @@ def log_entry(act, where, window):
 
 
 #---------------------------------------------------------- The fittings
-# A piece of its own, in "fittings". The way in reads it above this
-# file now, so these are ordinary head lines; the names no code
-# here reads have gone, and take_from() puts them on the program.
+# A piece of its own, in "fittings", read in above this file: the names
+# no code here reads have gone, and take_from() puts them on the program.
 checkbox_bind = PROGRAM.checkbox_bind
 hint = PROGRAM.hint
 label = PROGRAM.label
@@ -1796,10 +1788,9 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
             state["results"][-1])
     state["running"] = False
 
-# What a finished track can be called when it comes back from the
-# service: our own name first, then the two spellings it hands back
-# instead. Not a second name for MIX_TRACK_NAME -- these are foreign,
-# and only the first of them is ours.
+# What a finished track may be called when the service returns it: our
+# own name first, then the two spellings it hands back instead -- not
+# second names for MIX_TRACK_NAME: those two are foreign.
 MIX_TRACK_ALIASES = (MIX_TRACK_NAME, "Fullmix", "Mix")
 
 
@@ -1808,11 +1799,10 @@ def audio_under_camera(camera_path, kind_of, done,
     """Return the audio recording belonging to this camera.
 
     For the preview the assigned audio plays instead of the camera's:
-    preferably the processed track, at delivery level, else the raw
-    recording; with several speakers the first. A voice heard inside a
-    recording occupies a camera like a recording does. With no speaker
-    -- the wide shot -- the overall mix plays; before it exists, the
-    one recording that carries every voice, where there is just one.
+    the processed track at delivery level, else the raw recording; with
+    several speakers the first. A voice heard inside a recording occupies
+    a camera like a recording. With no speaker -- the wide shot -- the
+    mix plays; before it exists, the sole recording holding every voice.
     """
     # An intro or outro stands before or after the episode, so nothing
     # off the episode's own axis belongs under it.
@@ -1863,9 +1853,8 @@ def app_language_set(QtCore, Qt, app):
 
 
 #----------------------------------------------------- The window itself
-# MainWindow holds the tabs, the footer and the menu; the four sheets are
-# pieces of their own. gui() still assembles what goes into them and
-# closes over it, the largest function in the program for now.
+# MainWindow holds tabs, footer and menu; the four sheets are pieces of
+# their own, filled by gui() -- for now the program's largest function.
 
 
 class Bridge(QtCore.QObject):
@@ -2136,10 +2125,8 @@ def gui():
         lambda *a, **k: real_tc(*a, **k), state)
 
     # ------------------------------------------------------------------
-    # The one bar: measuring runs in the background and across every tab,
-    # and a bar that lives on one page is invisible when it matters.
-    # Declared here because the pieces that feed it come before the footer.
-    # ------------------------------------------------------------------
+    # The one bar: measuring runs behind every tab, so a bar on one page is
+    # unseen when it matters. Here because what feeds it precedes the footer.
     plan = ProgressPlan()
 
     # ----------------------------------------------------- Tab 1: the files
@@ -2503,7 +2490,6 @@ def gui():
     # ------------------------------------------------------------------
     # The check in the background -- the three lifted out of here. Below
     # clip_kind_values, which preflight_kick_off reads.
-    # ------------------------------------------------------------------
     preflight_fill_in, preflight_kick_off = make_preflight(
         state, files, plan, bridge, bridge_emit, preflight_line,
         set_mark, append_findings, show_overall, lines_node,
@@ -2684,9 +2670,7 @@ def gui():
     result_button_check = output.result_button_check
     resolve_button_check = output.resolve_button_check
 
-    # ------------------------------------------------------------------
-    # Footer
-    # ------------------------------------------------------------------
+    # ---------------------------------------------------------- Footer
     # What comes back is what the rest of the window reaches for, down to
     # the timer that has to be stopped when the window goes.
     (start_run, start_run_env_curve, preview_button, break_off,
@@ -2697,7 +2681,6 @@ def gui():
     # ------------------------------------------------------------------
     # Project file -- writing, closing and opening it stand in
     # make_project_file(); this one asks for a folder first.
-    # ------------------------------------------------------------------
     def project_save():
         """Write the project file now, without running anything.
 
@@ -2733,7 +2716,6 @@ def gui():
     # ------------------------------------------------------------------
     # The file list changing -- the five lifted out of here. Above the
     # project file, which takes items_fresh; take_paths goes back.
-    # ------------------------------------------------------------------
     items_fresh, take_paths, add_files, remove = make_file_changes(
         Qt, QtCore, QtWidgets, window, state, model, ask, report,
         preflight_fill_in, preflight_kick_off, lines_node, prework_node,
@@ -2753,7 +2735,6 @@ def gui():
     # ------------------------------------------------------------------
     # Project file -- the three lifted out of here. Below the writer,
     # which goes in; what answers its signals is said here.
-    # ------------------------------------------------------------------
     wire(window.material_leaving, lambda paths: PROGRAM.measuring_stop(
         state, paths, prework_clean_up, split_stop, split_run, plan_wipe))
     wire(window.project_closed, items_fresh, folder_show, window_enable,
@@ -2784,7 +2765,6 @@ def gui():
     # ------------------------------------------------------------------
     # Setting a run going -- the four lifted out of here. Below the
     # footer, the project file and the timer, which go in as arguments.
-    # ------------------------------------------------------------------
     wire(window.run_starting, buttons_check)
     wire(window.run_begun, run_plan_build, result_button_check,
          lambda dry: dry or project_write())

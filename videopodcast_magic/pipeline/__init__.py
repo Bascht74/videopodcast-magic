@@ -11,10 +11,9 @@ and every name this piece uses out of it is bound below, by name.
 # and the line under that binds it to a name of this file's own.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# chain reads as it did in the one file. None is missing and none is
-# read late: not one of the names below is bent while the run goes on,
-# so a copy taken here cannot go stale under it.
+# What the program has and this piece uses, bound once so the chain
+# reads as in the one file. None is missing or read late: none is bent
+# while the run goes on, so a copy taken here cannot go stale.
 
 ByFile = PROGRAM.ByFile
 MIX_ONLY = PROGRAM.MIX_ONLY
@@ -59,10 +58,9 @@ video_facts = PROGRAM.video_facts
 wav_safe = PROGRAM.wav_safe
 
 
-# =====================================================================
-#  The chain, in the order a run takes it: the camera audio out of the
-#  pictures, and the plan timebase/ puts on one axis and back on them.
-# =====================================================================
+# ================  The chain, in the order a run takes it  ==========
+#  The camera audio out of the pictures, and the plan timebase/ puts
+#  on one axis and back on them.
 
 
 def unpack_kind(file_path):
@@ -357,11 +355,10 @@ def names_given(args, video_paths):
     """The names --new-name gives, by file, or why they cannot be used.
 
     Before anything is written: a plain file name, for a camera of the
-    run, one name per file, and no two cameras in one file -- without
-    case, as the writer and the disks compare; the window asks that
-    too, a command line never passes it. Two cameras sharing a stem and
-    given no name pass: where the run names cameras after their files,
-    name_apart tells them apart with a number.
+    run, one name per file, no two cameras in one file -- without case,
+    as the writer and the disks compare; the window asks that too, a
+    command line never passes it. Two unnamed cameras sharing a stem
+    pass: named after their files, name_apart numbers them apart.
     """
     cameras = {path_key(p): p for p in video_paths}
     called = {}
@@ -512,10 +509,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     if title:
         print(T('  Production at auphonic.com:   %s') % title)
     if not plan and audio_paths:
-        # A block taken out by hand is carried as such into the plan.
-        # Grouping alone was not enough: the rows are merged by speaker
-        # name further down, and two blocks of one recorder guess the
-        # same name, so what was separated here was joined again there.
+        # A block taken out by hand is carried as such into the plan: rows
+        # merge by speaker name below, and two blocks of one recorder guess the
+        # same name, so grouping alone would join again what was split here.
         kept_apart = {path_key(x)
                       for x in (getattr(args, "apart", ()) or ())}
         for row, _ in group_recording_parts(audio_paths,
@@ -553,10 +549,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
         if not cameras:
             cameras = cameras_named_by_tracks(plan, sync_only(args))
     if named_here and video_paths:
-        # One entry per video file nothing has named yet -- every file, or
-        # a mute one no track names: as --new-name says or after the stem
-        # it is written under; equal names told apart, or two handover
-        # tracks point at one written file. The ending is hung on later.
+        # One entry per video file nothing names yet (every file, or a mute one
+        # no track names), by --new-name or its written stem, ending put last;
+        # equal names told apart, or two handover tracks hit one written file.
         taken = {cam["name"].lower() for cam in cameras}
         have = {path_key(cam["video"]) for cam in cameras}
         cameras = cameras + [
@@ -625,10 +620,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                     track_order_for_camera(own, every, singles,
                                            camera_tracks,
                                            args.name_camera), 1):
-                # The track number names the track, it does not count
-                # anything: it is what the editor sees in the strip and
-                # what the writer below numbers by. Plain digits, the
-                # way Resolve's own track numbers stay plain.
+                # The track number names the track, counts nothing: it is
+                # what the editor sees in the strip and what the writer below
+                # numbers by -- plain digits, as Resolve's own stay plain.
                 print(T('        Track %d: %s') % (idx, what))
     return build_common_timebase(args, plan, cameras, video_paths, title)
 
