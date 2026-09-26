@@ -401,6 +401,18 @@ comment hold up no release -- and they do not go in a changelog either.
 A release is held up by the first five things and by nothing else; the
 sixth is answered in the report, and "not run, because ..." answers it.
 
+**A text cut off holds up no release either, in any language, English
+and German included** (the owner, 26.9.2026). The release run gets
+`VPM_CUT_OFF=noted` from `tests.yml`, and such a judgement there prints
+a `NOTED cut off:` line and stays green; every other run stays red on
+it, and so does every other judgement. **After publishing, the block is
+read, not skipped**: `gh run view <run> --log | grep 'NOTED cut off: '
+| sed 's/.*NOTED cut off: //' | sort -u` -- the six jobs say each one
+again -- and each line becomes one card on the owner's board for the
+next release, carrying its numbers. The same local pass for 10b is
+`VPM_ALL_LANGUAGES=1 VPM_CUT_OFF=noted bash run.sh ...`; the summary
+ends in `cut off, to fix next release: N` and the lines.
+
 ## Before it counts as done
 
 1. All seven builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
@@ -424,7 +436,8 @@ sixth is answered in the report, and "not run, because ..." answers it.
 10b. The language slices run here on the Mac in every language before
     the release push -- `cd tests && VPM_ALL_LANGUAGES=1 bash run.sh
     */*_langs*_test.py` -- so a cut-off text is found here, not in the
-    release run?
+    release run? Found here, it is fixed before the push; one that shows
+    only in the release run is noted there, not a stop (see above).
 11. The builder's times fetched with `--record <version>`, the section in
     `development/test_durations.md` looked at, and every test marked
     grown there named in the release report?
