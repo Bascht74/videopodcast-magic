@@ -814,6 +814,12 @@ def show_multitrack_plan(args, audio_paths, video_paths):
               % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
+        # Named by the function the run writes by, so a camera whose own
+        # stem is taken reads here under the name it really gets.
+        written = {path_key(v): t for v, t in camera_targets(
+            video_paths or [c["video"] for c in cameras],
+            {path_key(c["video"]): c["name"] for c in cameras},
+            args.out, args.suffix).items()}
         every = [track_name_of(e) for e in plan]
         # The same rule the writer follows: a recording gets a line of
         # its own only where no camera has a track at all, there is more
@@ -833,7 +839,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             camera_tracks = 0 if args.no_camera_audio else heard
             print("    %s  ->  %s"
                   % (os.path.basename(cam["video"]),
-                     cam["name"] + (args.suffix or "_audio") + ".mov"))
+                     os.path.basename(written.get(
+                         path_key(cam["video"]), ("", cam["name"] + (
+                             args.suffix or "_audio") + ".mov"))[1])))
             for idx, what in enumerate(
                     track_order_for_camera(own, every, singles,
                                            camera_tracks,
@@ -1688,6 +1696,38 @@ def finish_camera_file(source, info, target, items, args, fps,
         check_written_file(target, items, len(info["audio"]), args, fps)
 
 
+def camera_targets(videos, names, out, suffix=""):
+    """Where each camera's file is written: {video: (folder, file)}.
+
+    One answer for the run, which writes there, and for the window,
+    which asks before it writes over a file already lying at one.
+    *names* holds the new names under path_key; a camera without one
+    is named after its file. Without a name of its own it would write
+    over an original, and two of one name would write one file at once.
+    """
+    targets, taken = {}, set()
+    sources = set(os.path.abspath(v).lower() for v in videos)
+    # The ending is always hung on: without it a camera's new name can
+    # be its source's own stem, and beside it that is the source itself.
+    tail = suffix or "_audio"
+    for v in videos:
+        v = os.path.abspath(v)
+        stem = names.get(path_key(v)) or os.path.splitext(
+            os.path.basename(v))[0]
+        outdir = os.path.abspath(out) if out else os.path.dirname(v)
+        target = os.path.join(outdir, stem + tail + ".mov")
+        count = 1
+        while target.lower() in sources or target.lower() in taken:
+            count += 1
+            # Plain digits, the way every other name this program writes
+            # keeps them.
+            target = os.path.join(outdir, "%s%s_%d.mov"
+                                  % (stem, tail, count))
+        taken.add(target.lower())
+        targets[v] = (outdir, target)
+    return targets
+
+
 def written_before_here(folder, production):
     """What this production's own record says an earlier run wrote here.
 
@@ -1707,7 +1747,47 @@ def written_before_here(folder, production):
         print(T('  The record of earlier runs here cannot be read (%s), so '
                 'everything already in place is reported.') % e)
         return set()
-    return set(path_key(c["file"]) for c in written if c.get("file"))
+    # The record stands beside the lists it was written with, so a
+    # readable one vouches for all six production files of its name.
+    return (set(path_key(c["file"]) for c in written if c.get("file"))
+            | set(path_key(p) for p in production_files(folder,
+                                                        production)))
+
+
+def production_files(folder, production):
+    """The six files a run names after its production, in *folder*."""
+    stem = os.path.join(folder, safe_filename(production or 'Production'))
+    return [stem + end for end in ("_resolve.json", "_speakers.csv",
+                                   "_speakers.edl", "_cameracut.csv",
+                                   "_cameracut.edl", "_metrics.csv")]
+
+
+def foreign_targets(targets, ours):
+    """The targets a file is lying at that this production did not make.
+
+    The one rule for writing over: the window asks about these and the
+    run marks them, while our own earlier delivery goes quietly.
+    """
+    return [t for t in targets
+            if os.path.exists(t) and path_key(t) not in ours]
+
+
+def targets_to_ask(videos, names, out, production, suffix=""):
+    """What a run would write over that the window has to ask about first.
+
+    The camera files as camera_targets names them and the six production
+    files, beside the first camera where no folder is given, the way
+    the run places them; foreign_targets decides.
+    """
+    targets = [t for _o, t in camera_targets(videos, names, out,
+                                             suffix).values()]
+    folder = (os.path.abspath(out) if out else
+              os.path.dirname(os.path.abspath(videos[0])) if videos
+              else "")
+    if folder:
+        targets += production_files(folder, production)
+    return foreign_targets(targets, written_before_here(folder, production)
+                           if folder else set())
 
 
 def replacement_lines(targets, ours):
@@ -1719,11 +1799,11 @@ def replacement_lines(targets, ours):
     everyday case, and a mark there would teach people to skip marks.
     Anything else is marked and named whole.
     """
-    out = []
+    out, strange = [], set(foreign_targets(targets, ours))
     for target in targets:
         if not os.path.exists(target):
             continue
-        if path_key(target) in ours:
+        if target not in strange:
             out.append(T('  %s is there from an earlier run of this '
                          'production and is replaced.')
                        % os.path.basename(target))
@@ -1821,35 +1901,14 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # given here, writes itself under the bare file name, and then
     # misses its measured offset, which is kept under the file written.
     output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
-    # The target names are settled before the threads start. Without a name
-    # of its own a camera would write over an original -- its own or another
-    # camera's, which a second thread may be reading at that moment -- and
-    # two cameras with the same file name would write the same file at once.
-    output_path, taken = {}, set()
+    # The target names are settled before the threads start, and by the
+    # function the window asks before it offers to write over them.
+    output_path = camera_targets([_v for _v, _i in videos], output_name,
+                                 args.out, args.suffix)
     # Up here rather than beside the tracks it also names: what a target
     # would replace is asked of the record lying in it.
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(videos[0][0]))
-    sources = set(os.path.abspath(_v).lower() for _v, _i in videos)
-    for _v, _info in videos:
-        _v = os.path.abspath(_v)
-        stem = output_name.get(path_key(_v)) or os.path.splitext(
-            os.path.basename(_v))[0]
-        outdir = os.path.abspath(args.out) if args.out else os.path.dirname(_v)
-        # The ending is always hung on. Without it the name a camera is
-        # given can be the source's own stem, and next to each video file
-        # that is the source's own name.
-        tail = args.suffix or "_audio"
-        target = os.path.join(outdir, stem + tail + ".mov")
-        count = 1
-        while target.lower() in sources or target.lower() in taken:
-            count += 1
-            # A file name: plain digits, the way every other name this
-            # program writes keeps them.
-            target = os.path.join(outdir, "%s%s_%d.mov"
-                                  % (stem, tail, count))
-        taken.add(target.lower())
-        output_path[_v] = (outdir, target)
     # Before the first camera is written, so a run about to walk over
     # somebody's file can still be stopped.
     for line in replacement_lines(

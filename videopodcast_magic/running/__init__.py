@@ -25,12 +25,14 @@ json = PROGRAM.json
 label_of = PROGRAM.label_of
 number_text = PROGRAM.number_text
 os = PROGRAM.os
+path_key = PROGRAM.path_key
 run_argv = PROGRAM.run_argv
 size_in_mb = PROGRAM.size_in_mb
 slider_argv = PROGRAM.slider_argv
 space_summary_lines = PROGRAM.space_summary_lines
 speakers_for_run = PROGRAM.speakers_for_run
 sys = PROGRAM.sys
+targets_to_ask = PROGRAM.targets_to_ask
 tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
 time = PROGRAM.time
@@ -287,15 +289,15 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         if wishes is not None:
             with open(assign_file, "w", encoding="utf-8") as f:
                 json.dump(wishes, f, ensure_ascii=False, indent=1)
-        # What is already there gets overwritten, so show what first.
+        # What is already there and not our own earlier delivery gets
+        # asked about first, by the rule the run itself goes by.
         if not only_look:
             already_present = []
-            for p, v, _k, _n in camera_lines:
-                folder = out_folder.get() or os.path.dirname(p)
-                target = os.path.join(folder, (v.get().strip()
-                                             or os.path.splitext(
-                                                 os.path.basename(p))[0])
-                                    + ".mov")
+            for target in targets_to_ask(
+                    [p for p, _v, _k, _n in camera_lines],
+                    {path_key(p): v.get().strip()
+                     for p, v, _k, _n in camera_lines},
+                    out_folder.get(), values["production"].strip()):
                 if os.path.exists(target):
                     already_present.append("%s   (%s)"
                                     % (os.path.basename(target),
