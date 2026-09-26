@@ -11,9 +11,10 @@ German text about it -- a listed few use the word in its ordinary sense
 -- or the log and the field are two names for one thing. Every
 catalogue, not the German one alone, is held to carrying no entry the
 program cannot reach; reachable is a wording that stands in the program
-at all, so an entry whose string never meets T() passes.
+at all, so an entry whose string never meets T() passes. The program
+run in German and read back is text_run_all_german's.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -28,7 +29,6 @@ import ast, io, os, re, sys, time
 began = time.time()
 ROOT = os.path.dirname(HERE)
 import importlib.util
-from fixture_root import fixture
 import overview
 import the_program
 SCRIPT = the_program.SCRIPT
@@ -484,53 +484,6 @@ for f in mine:
             spotted.append("%s:%d" % (f, i))
 check("no umlaut and no abbreviation in a test", not spotted,
       str(spotted[:4]))
-
-section("The program run in German, read back")
-# The strongest check, because it needs no list: a line that never went
-# through T() stays English, and English function words give it away.
-import subprocess
-media = os.environ.get("VPM_MEDIA") or fixture("interview")
-job = sorted(f for f in (os.listdir(media) if os.path.isdir(media) else [])
-             if f.lower().endswith((".wav", ".mov")))
-if len(job) < 2:
-    # The machine's doing again: run.sh builds this folder and points
-    # VPM_MEDIA at it, so under the suite the section runs.
-    left_out("all of it", "no material under %s (%d files of the right "
-             "kind, two are needed)" % (media, len(job)))
-else:
-    # Two runs, so both paths are read: the simple one and multitrack.
-    out = ""
-    for extra in ([], ["--multitrack", "--without-auphonic"]):
-        out += subprocess.run(
-            [sys.executable, SCRIPT] + [os.path.join(media, f) for f in job]
-            + ["--lang", "de", "--dry-run", "--no-preflight",
-               "--no-metrics"] + extra,
-            capture_output=True, text=True, timeout=900,
-            env=dict(os.environ, LANG="C", LC_ALL="C")).stdout
-    check("the German run says something at all", len(out) > 2000,
-          "%d characters" % len(out))
-    # Words that are English and not also German, and not a term the
-    # German text uses as it stands. A hyphen counts as a letter on
-    # both sides, because a word glued to one belongs to a name and
-    # not to a sentence: the switch --with-libsoxr, the switch
-    # --without-auphonic, the cut rule wide-after. Measured 4.9.2026,
-    # so the price is known: of the 4877 lines of the English manual
-    # this pattern catches, eight fall out of its reach that way, and
-    # all eight are names. The limit is the other side of that -- an
-    # English line whose only word from the list is glued to a hyphen
-    # now goes through.
-    ENGLISH = re.compile(r"(?<![A-Za-z-])(the|and|with|from|into|"
-                         r"which|would|there|their|because|"
-                         r"before|after|between|through|without)"
-                         r"(?![A-Za-z-])")
-    left = []
-    for line in out.splitlines():
-        # Paths and file names carry English words and are not text.
-        bare = re.sub(r"[^\s]*[/\\][^\s]*", "", line)
-        m = ENGLISH.search(bare)
-        if m:
-            left.append((m.group(0), bare.strip()[:60]))
-    check("and no English sentence is left in it", not left, str(left[:3]))
 
 section("What the German manual quotes in English stays English")
 # A German chapter may quote program output in English only where that
