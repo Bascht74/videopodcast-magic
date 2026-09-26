@@ -787,11 +787,13 @@ def key_store_off_limits():
 
 
 def store_api_key(key):
-    """Store the API key in the OS credential store. True on success.
+    """Store the API key in the OS credential store. True where it holds.
 
     On a Mac the key goes to "security" over its input, never as an
-    argument that would stand in the process list. It needs a session
-    of its own, and the word is sent twice because it asks to confirm.
+    argument that would stand in the process list, and the word is sent
+    twice because it asks to confirm. On Windows the registry entry is
+    shut to everybody but this user first. Either way True only where
+    reading it back out of the store gives the same key.
     """
     forget_api_key()   # or the old one would still answer
     if key_store_off_limits():
@@ -821,12 +823,143 @@ def store_api_key(key):
     if os.name == "nt":
         try:
             import winreg
-            with winreg.CreateKey(winreg.HKEY_CURRENT_USER, REG_PATH) as k:
+            with winreg.CreateKeyEx(winreg.HKEY_CURRENT_USER, REG_PATH, 0,
+                                    winreg.KEY_ALL_ACCESS) as k:
+                # Shut to everybody else before the key goes in, or it
+                # stands readable for as long as the lock takes.
+                if not registry_owner_only(k):
+                    return False
                 winreg.SetValueEx(k, "auphonic_api_key", 0, winreg.REG_SZ, key)
-            return True
         except Exception:
             return False
+        return load_api_key() == key
     return False
+
+
+def registry_rule(sid):
+    """The access rule for the key's registry entry, written as SDDL.
+
+    Protected, so nothing is inherited from the folder above, and one
+    entry: the user named by sid, with every right. Nobody else is
+    named, so nobody else reads it -- administrators included.
+    """
+    return "D:P(A;;KA;;;%s)" % sid
+
+
+# The Windows numbers the lock below is written in: what a token is
+# asked for, which part of the answer, and which part of the rule.
+TOKEN_QUERY, TOKEN_USER, SDDL_REVISION_1 = 0x0008, 1, 1
+DACL_ONLY = 0x00000004 | 0x80000000   # the DACL, and protected
+
+
+def this_user_sid():
+    """The SID of the user this program runs as, as text; "" if unknown.
+
+    Asked of the process's own token, the same windll road the console
+    colours take. Libraries of its own, so the argument types set here
+    reach no other caller in this process.
+    """
+    from ctypes import wintypes
+    advapi32 = ctypes.WinDLL("advapi32")
+    kernel32 = ctypes.WinDLL("kernel32")
+    kernel32.GetCurrentProcess.restype = wintypes.HANDLE
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.LocalFree.argtypes = [ctypes.c_void_p]
+    advapi32.OpenProcessToken.argtypes = [
+        wintypes.HANDLE, wintypes.DWORD, ctypes.POINTER(wintypes.HANDLE)]
+    advapi32.GetTokenInformation.argtypes = [
+        wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD,
+        ctypes.POINTER(wintypes.DWORD)]
+    advapi32.ConvertSidToStringSidW.argtypes = [
+        ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p)]
+    token = wintypes.HANDLE()
+    if not advapi32.OpenProcessToken(kernel32.GetCurrentProcess(),
+                                     TOKEN_QUERY, ctypes.byref(token)):
+        return ""
+    try:
+        size = wintypes.DWORD(0)
+        advapi32.GetTokenInformation(token, TOKEN_USER, None, 0,
+                                     ctypes.byref(size))
+        answer = ctypes.create_string_buffer(size.value)
+        if not advapi32.GetTokenInformation(token, TOKEN_USER, answer, size,
+                                            ctypes.byref(size)):
+            return ""
+        # TOKEN_USER begins with a pointer to the SID.
+        sid = ctypes.cast(answer, ctypes.POINTER(ctypes.c_void_p))[0]
+        text = ctypes.c_void_p()
+        if not advapi32.ConvertSidToStringSidW(sid, ctypes.byref(text)):
+            return ""
+        try:
+            return ctypes.wstring_at(text.value) or ""
+        finally:
+            kernel32.LocalFree(text)
+    finally:
+        kernel32.CloseHandle(token)
+
+
+def registry_owner_only(handle):
+    """Let only this user at an open registry key. True where it held.
+
+    The entry under HKEY_CURRENT_USER inherits its readers from the
+    folder above it; this puts registry_rule in their place. False
+    where the user or the rule could not be had -- the key then does
+    not go in at all.
+    """
+    try:
+        from ctypes import wintypes
+        sid = this_user_sid()
+        if not sid:
+            return False
+        advapi32 = ctypes.WinDLL("advapi32")
+        kernel32 = ctypes.WinDLL("kernel32")
+        kernel32.LocalFree.argtypes = [ctypes.c_void_p]
+        convert = advapi32.ConvertStringSecurityDescriptorToSecurityDescriptorW
+        convert.argtypes = [wintypes.LPCWSTR, wintypes.DWORD,
+                            ctypes.POINTER(ctypes.c_void_p), ctypes.c_void_p]
+        advapi32.RegSetKeySecurity.argtypes = [
+            ctypes.c_void_p, wintypes.DWORD, ctypes.c_void_p]
+        advapi32.RegSetKeySecurity.restype = wintypes.LONG
+        rule = ctypes.c_void_p()
+        if not convert(registry_rule(sid), SDDL_REVISION_1,
+                       ctypes.byref(rule), None):
+            return False
+        try:
+            return advapi32.RegSetKeySecurity(int(handle), DACL_ONLY,
+                                              rule) == 0
+        finally:
+            kernel32.LocalFree(rule)
+    except (AttributeError, OSError, ValueError):
+        return False   # no windll: not Windows, and not to be locked
+
+
+def store_key_from_terminal(words=()):
+    """--store-auphonic-key: ask for the key unseen, store it, read it back.
+
+    For whoever works without the window. The key is typed where the
+    terminal does not show it; words after the switch are refused
+    unread, since they can only be the key on a command line. What is
+    said is whether the stored key holds, never the key: 0 where it was
+    stored and read back the same, 1 where not, 2 for a word after it.
+    """
+    if words:
+        print(T('--store-auphonic-key takes nothing after it: the key is '
+                'asked for, unseen. Nothing was stored.'))
+        return 2
+    import getpass
+    try:
+        key = getpass.getpass(T('Auphonic API key (it is not shown): '))
+    except (EOFError, KeyboardInterrupt):
+        print()
+        key = ""
+    key = (key or "").strip()
+    if not key:
+        print(T('No key was typed, so nothing was stored.'))
+        return 1
+    if store_api_key(key):
+        print(T('The key is stored, and reading it back gave the same key.'))
+        return 0
+    print(T('The key is not stored: %s') % key_store_trouble())
+    return 1
 
 
 # Whether the keychain is open, read out of the library every Mac

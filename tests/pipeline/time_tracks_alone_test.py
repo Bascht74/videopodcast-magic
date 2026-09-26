@@ -22,7 +22,7 @@ fixture's Presenter, under three times its own uncertainty -- is left
 in, with both numbers said.
 
 Nothing may reach auphonic.com here, and that is watched rather than
-read off the log. Every run carries a made-up key in AUPHONIC_TOKEN,
+read off the log. One run carries a made-up key in a stand-in store,
 so that --without-auphonic has something to hold back, and a stand-in
 curl on the search path writes down every call. Where it cannot be put
 there -- Windows starts no #!/bin/sh file -- the run of its own for
@@ -39,6 +39,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import the_program
+import local_ground
 SCRIPT = the_program.SCRIPT
 import re, subprocess, sys, tempfile, time, wave
 from fixture_root import fixture
@@ -55,13 +56,11 @@ vpm = the_program.load()
 vpm.set_language("en")
 
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
-# A made-up key, and the environment carries it too so that no run of
-# this test ever reaches for the one in the keychain -- not even a copy
-# with the barrier broken.
+# A made-up key, handed to the keyed run through a stand-in store; the
+# others hold none, and VPM_SILENT keeps every run off the real store.
 NOT_A_KEY = "not-a-key-only-a-test"
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
-           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
-           AUPHONIC_TOKEN=NOT_A_KEY)
+           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
 
 began = time.time()
 done = 0
@@ -360,12 +359,13 @@ else:
 
 #--------------------------- 2. The barrier, with something to hold
 
-# A run of its own, with the made-up key in AUPHONIC_TOKEN that every
-# run here carries: --without-auphonic has to hold it back all the same.
+# A run of its own, the made-up key standing in its store:
+# --without-auphonic has to hold it back all the same.
 print("\n2. Even with a key, --without-auphonic lets nothing out")
 if WATCHED:
-    p = subprocess.run(CALL + ["--multitrack", "--out", D + "/keyed",
-                               D + "/Host.wav", D + "/Guest.wav"],
+    p = subprocess.run(local_ground.keyed(NOT_A_KEY) + CALL[2:]
+                       + ["--multitrack", "--out", D + "/keyed",
+                          D + "/Host.wav", D + "/Guest.wav"],
                        capture_output=True, text=True, env=ENV)
     keyed_log = (p.stdout or "") + (p.stderr or "")
     keyed = sorted(f for f in os.listdir(D + "/keyed")) \

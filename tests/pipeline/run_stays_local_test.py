@@ -49,15 +49,15 @@ ASSIGN = local_ground.build(D, vpm.FILE_FORMAT)
 TURNS, CAM_LATE = local_ground.TURNS, local_ground.CAM_LATE
 ENV = dict(os.environ, LANG="C", LC_ALL="C")
 curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
-# A made-up key where the stand-in watches, so that --without-auphonic
-# has something to hold back; without the stand-in no key is given.
-if WATCHED:
-    ENV["AUPHONIC_TOKEN"] = "not-a-key-only-a-test"
+# A made-up key in a stand-in store where the stand-in curl watches,
+# so --without-auphonic has something to hold back; without it, none.
+START = (local_ground.keyed("not-a-key-only-a-test") if WATCHED
+         else [sys.executable, SCRIPT])
 
 OUT = D + "/out"
 print("1. The run goes through, and nothing leaves the house")
 p = subprocess.run(
-    [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+    START + ["--multitrack", "--without-auphonic",
      "--assign", ASSIGN, "--out", OUT, "--no-metrics",
      "--no-speech-recognition", "--no-transcript-file",
      "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",

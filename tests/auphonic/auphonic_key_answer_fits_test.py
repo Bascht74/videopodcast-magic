@@ -6,14 +6,14 @@ The answer from auphonic.com arrives in a signal, and what to do with
 it was read off the field a second time -- so a key pasted while the
 first check was running went into the store while a different one had
 been checked, and the button went green over it. And the complaint
-about a key that was refused named the store, although the environment
-is read first and wins.
+about a refused key has to name the place that key came from.
 
-The sections: the origin of a key, a run's too -- out of the
-environment and out of the store -- and the sentence that names it,
-both without a window; then the window itself -- the refusal
-at start-up names where its key came from, and a second key typed
-during a check does not become the one that is kept.
+The sections: the origin of a key, a run's too -- the window's
+hand-over or the store, none with --without-auphonic, and AUPHONIC_TOKEN
+no longer read at all -- and the sentence that names it, both without
+a window; then the window itself -- the refusal at start-up names the
+store its key came from, and a second key typed during a check does
+not become the one kept.
 
 Nothing here goes to auphonic.com: the fetch is replaced, and the key
 store with it, so nothing real is ever read or written.
@@ -37,10 +37,9 @@ SCRIPT = the_program.SCRIPT
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-# The window is built with a key in the environment: that is the case
-# the second section is about, and it decides what the window starts
-# with, so it has to stand before the module is read.
-FROM_ENV = "env-key-77777"
+# A made-up key in the variable the program once read, set before the
+# module is read: nothing may take it up any more, at start or later.
+FROM_ENV = "FAKEKEY-0000"
 os.environ["AUPHONIC_TOKEN"] = FROM_ENV
 
 from PySide6 import QtWidgets, QtCore
@@ -123,47 +122,46 @@ vpm.update_offer = lambda *a, **k: None
 
 print("1. Where a key came from, and the sentence that names it")
 key, origin = vpm.api_key_source()
-check("a key in the environment is the one that goes out",
-      (key, origin) == (FROM_ENV, "environment"),
-      "%r from %r, wanted the environment" % (key, origin))
+check("AUPHONIC_TOKEN alone gives no key at all",
+      (key, origin) == ("", ""),
+      "%d characters from %r, wanted none" % (len(key), origin))
+bare = types.SimpleNamespace(without_auphonic=False)
+vpm.key_for_run(bare)
+check("and a run finds none in it either",
+      bare.auphonic_key is None,
+      "%r from %r, wanted None" % (bare.auphonic_key, bare.auphonic_key_from))
 kept[0] = IN_STORE
 key, origin = vpm.api_key_source()
-check("and it beats one lying in the store",
-      (key, origin) == (FROM_ENV, "environment"),
-      "%r from %r while the store holds %r" % (key, origin, IN_STORE))
-# main() hands a run the key out of AUPHONIC_TOKEN; a refusal during
-# that run has to name the environment all the same.
-key, origin = vpm.api_key_source(types.SimpleNamespace(auphonic_key=FROM_ENV))
-check("a run's key out of the environment is still named so",
-      (key, origin) == (FROM_ENV, "environment"),
-      "%r from %r, wanted the environment" % (key, origin))
-del os.environ["AUPHONIC_TOKEN"]
-key, origin = vpm.api_key_source()
+check("the stored key is the one that goes out",
+      (key, origin) == (IN_STORE, "store"),
+      "%d characters from %r, wanted the store's %d"
+      % (len(key), origin, len(IN_STORE)))
+key, origin = vpm.api_key_source(handed=FIRST)
+check("the window's hand-over beats the store",
+      (key, origin) == (FIRST, "window"),
+      "%r from %r, wanted %r from the window" % (key, origin, FIRST))
 # A run handed the stored key by main(): a refusal in the middle of it
 # has to name the store, not the window that never held a key.
 run = types.SimpleNamespace(without_auphonic=False)
 vpm.key_for_run(run)
 run_key, run_origin = vpm.api_key_source(run)
-os.environ["AUPHONIC_TOKEN"] = FROM_ENV
-check("without one in the environment the store answers",
-      (key, origin) == (IN_STORE, "store"),
-      "%r from %r, wanted the store" % (key, origin))
 check("a run's key out of the store is named so",
       (run_key, run_origin) == (IN_STORE, "store"),
       "%r from %r, wanted the store" % (run_key, run_origin))
-kept[0] = ""
-check("the complaint about an environment key names the environment",
-      vpm.key_refused_note("environment", REFUSED)
-      == vpm.T('The key from AUPHONIC_TOKEN is not accepted: %s') % REFUSED,
-      "%r" % vpm.key_refused_note("environment", REFUSED))
 check("the complaint about a stored key names the store",
       vpm.key_refused_note("store", REFUSED)
       == vpm.T('The stored key is not accepted: %s') % REFUSED,
       "%r" % vpm.key_refused_note("store", REFUSED))
-check("and the two complaints are not the same sentence",
-      vpm.key_refused_note("environment", REFUSED)
-      != vpm.key_refused_note("store", REFUSED),
-      "%r" % vpm.key_refused_note("store", REFUSED))
+check("the complaint about a typed key names auphonic.com alone",
+      vpm.key_refused_note("window", REFUSED)
+      == vpm.T('auphonic.com does not accept the key: %s') % REFUSED,
+      "%r" % vpm.key_refused_note("window", REFUSED))
+held_back = types.SimpleNamespace(without_auphonic=True)
+vpm.key_for_run(held_back)
+check("--without-auphonic takes no key although one is stored",
+      held_back.auphonic_key is None,
+      "the run holds %s" % ("no key" if held_back.auphonic_key is None
+                            else "a key from %r" % held_back.auphonic_key_from))
 
 
 # ------------------------------------------------------- reading the window
@@ -219,8 +217,7 @@ def preset_box():
 
 def note_shown():
     """The sentence the window is showing about the key, or ""."""
-    heads = [vpm.T('The key from AUPHONIC_TOKEN is not accepted: %s'),
-             vpm.T('The stored key is not accepted: %s'),
+    heads = [vpm.T('The stored key is not accepted: %s'),
              vpm.T('auphonic.com does not accept the key: %s')]
     heads = [h.replace("%s", "").strip() for h in heads]
     for x in among(QtWidgets.QLabel):
@@ -265,9 +262,10 @@ def drive():
         return
     check("the window came up with its key field, list and button",
           True, "the field holds %d characters" % len(field.text()))
-    check("and it starts on the key out of the environment",
-          field.text() == FROM_ENV,
-          "%r against %r" % (field.text(), FROM_ENV))
+    check("and it starts on the stored key",
+          field.text() == IN_STORE,
+          "%d characters against the store's %d"
+          % (len(field.text()), len(IN_STORE)))
 
     print("\n2. The refusal at start-up names where the key came from")
     # Opening the list is what asks auphonic.com -- the start-up try,
@@ -276,13 +274,12 @@ def drive():
     box.hidePopup()
     took = waited_for(lambda: note_shown() != "", "the refusal")
     said = note_shown()
-    check("auphonic.com was asked with the key from the environment",
-          asked[:1] == [FROM_ENV],
+    check("auphonic.com was asked with the stored key",
+          asked[:1] == [IN_STORE],
           "asked with %r after %s s" % (asked[:1], took))
-    check("and the refusal names AUPHONIC_TOKEN, not the store",
-          said == vpm.key_refused_note("environment", REFUSED),
-          "%r against %r" % (said, vpm.key_refused_note("environment",
-                                                        REFUSED)))
+    check("and the refusal names the store",
+          said == vpm.key_refused_note("store", REFUSED),
+          "%r against %r" % (said, vpm.key_refused_note("store", REFUSED)))
 
     print("\n3. A second key typed while the first is being checked")
     answer["raise"] = False
@@ -293,14 +290,15 @@ def drive():
               False, "no tick found on this platform")
         app.quit()
         return
-    # Ticked while the key of the environment still stands there, so
-    # what the tick stores and what the answer stores can be told
-    # apart. With both storing the same key the last check below would
-    # be green whether the answer ever stored anything or not.
+    # Ticked while the stored key still stands there, so what the tick
+    # stores and what the answer stores can be told apart. It starts
+    # ticked, for a key is stored: off first, and on again.
+    tick.setChecked(False)
+    app.processEvents()
     tick.setChecked(True)
     app.processEvents()
     check("ticking the box puts the key of the moment into the store",
-          tick.isChecked() and stored[-1:] == [FROM_ENV],
+          tick.isChecked() and stored[-1:] == [IN_STORE],
           "the store holds %r after %d put(s)" % (stored[-1:], len(stored)))
     type_in(field, FIRST)
     was_asked, was_kept = len(asked), len(stored)

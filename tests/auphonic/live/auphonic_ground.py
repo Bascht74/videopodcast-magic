@@ -10,9 +10,9 @@ given the word -- --online for the ones that cost nothing, and
 --spend-credit as well for the ones that start a production. Started
 any other way, each one leaves itself out and says how to start it.
 
-The key is the program's own: AUPHONIC_TOKEN where that is set, the
-credential store otherwise, read through the program's functions at the
-moment it is needed. It is never printed, written or put on a command
+The key is the program's own: the one in the credential store, put
+there by the window or by --store-auphonic-key, read through the
+program's functions at the moment it is needed. It is never printed, written or put on a command
 line; the program hands it to curl in a file of its own.
 
 Run as a script, this file is what auphonic.sh calls: --probe says
@@ -192,8 +192,7 @@ if __name__ == "__main__":
         if was is not None:
             os.environ["VPM_SILENT"] = was
         print("  key for auphonic.com: %s"
-              % ({"environment": "from AUPHONIC_TOKEN",
-                  "store": "from the credential store"}.get(origin)
+              % ({"store": "from the credential store"}.get(origin)
                  if key else "none found"))
         sys.exit(0 if key else 3)
     if "--sweep" in sys.argv:

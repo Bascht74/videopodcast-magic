@@ -78,12 +78,12 @@ def number_after(text, template):
 D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "donerun")
 os.makedirs(D)
 ASSIGN = local_ground.build(D, vpm.FILE_FORMAT)
-# A made-up key and a curl that goes nowhere: a copy with the finished
-# folder ignored reaches for the upload, and must meet neither the
-# keychain nor auphonic.com.
+# A made-up key in a stand-in store and a curl that goes nowhere: a
+# copy with the finished folder ignored reaches for the upload, and
+# must meet neither the keychain nor auphonic.com.
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
-           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
-           AUPHONIC_TOKEN="not-a-key-only-a-test")
+           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
+START = local_ground.keyed("not-a-key-only-a-test")
 local_ground.watched_curl(os.path.join(D, "bin"), ENV)
 
 DONE = os.path.join(D, "done")
@@ -113,7 +113,7 @@ assert RAW > 0.5 and 0 <= PROCESSED < 0.001, (RAW, PROCESSED)
 def run(folder, out, *extra):
     """One run with the finished folder given: (code, what it printed)."""
     p = subprocess.run(
-        [sys.executable, SCRIPT, "--multitrack", "--auphonic-done", folder,
+        START + ["--multitrack", "--auphonic-done", folder,
          "--assign", ASSIGN, "--out", out, "--no-metrics",
          "--no-speech-recognition", "--no-transcript-file",
          "--no-wide-edges"] + list(extra)
@@ -173,7 +173,7 @@ check("and names it as from another run", why in said and named in said,
 print("\n3. A returned track handed in as a recording")
 OUT3 = os.path.join(D, "given_out")
 p = subprocess.run(
-    [sys.executable, SCRIPT, "--multitrack", "--auphonic-done", DONE,
+    START + ["--multitrack", "--auphonic-done", DONE,
      "--assign", ASSIGN, "--out", OUT3, "--no-metrics",
      "--no-speech-recognition", "--no-transcript-file", "--no-wide-edges",
      DONE + "/Host.wav", D + "/Guest.wav", D + "/CamHost.mov",

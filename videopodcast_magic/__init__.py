@@ -162,6 +162,7 @@ https_context = setup.https_context
 load_api_key = setup.load_api_key
 soxr_available = setup.soxr_available
 soxr_note = setup.soxr_note
+store_key_from_terminal = setup.store_key_from_terminal
 tools_repaired = setup.tools_repaired
 
 
@@ -446,6 +447,11 @@ def main():
     # looked for.
     if args.update_now:
         return update_from_command_line()
+    # The same for storing the key: no files and no tools. A word after
+    # the switch is refused unread -- it can only be the key, typed
+    # where the shell keeps it.
+    if args.store_auphonic_key:
+        return store_key_from_terminal(args.files)
     # Everything goes through ffmpeg, so below the floor there is
     # nothing to start. Behind only_reading() and --update on purpose:
     # --update must not fail on the thing it repairs.
@@ -534,7 +540,7 @@ def main():
         args.no_transcript_file = True
 
     # The key goes with a run that may send, found the same way on
-    # every path: the window's, AUPHONIC_TOKEN, or the stored one.
+    # every path: the window's, or the stored one.
     key_for_run(args)
     if args.auphonic_key and not args.files:
         try:

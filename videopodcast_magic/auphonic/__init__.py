@@ -75,20 +75,16 @@ AUPHONIC = "https://auphonic.com"
 def api_key_source(args=None, handed=""):
     """Return (the API key, where it came from).
 
-    Read in order: the window's hand-over, environment, credential
-    store. Which of the three answered travels with the key, or a
-    complaint names the store for a key that came from elsewhere.
-    A run's key was found so once by key_for_run and keeps its origin.
+    Read in order: the key a run already holds, the window's hand-over,
+    the credential store -- the one place a key is kept. Which answered
+    travels with the key, so a complaint names the store only for a key
+    that came out of it.
     """
     given = getattr(args, "auphonic_key", "") if args is not None else ""
-    from_env = os.environ.get("AUPHONIC_TOKEN")
     if given:
-        return given, (getattr(args, "auphonic_key_from", "") or
-                       ("environment" if given == from_env else "window"))
+        return given, getattr(args, "auphonic_key_from", "") or "window"
     if handed:
         return handed, "window"
-    if from_env:
-        return from_env, "environment"
     kept = load_api_key() or ""
     return kept, ("store" if kept else "")
 
@@ -97,8 +93,8 @@ def key_for_run(args):
     """Give a run its key and its origin, the same on every way.
 
     With pictures, with several recordings and with one alike: the
-    window's hand-over, AUPHONIC_TOKEN, then the credential store. A key
-    sends nothing by itself -- choose_preset still wants a preset first.
+    window's hand-over, then the credential store. A key sends nothing
+    by itself -- choose_preset still wants a preset first.
     --without-auphonic takes none. Returns the key, or None.
     """
     key, origin = (("", "") if getattr(args, "without_auphonic", False)
@@ -109,20 +105,18 @@ def key_for_run(args):
 
 def key_refused_note(origin, error):
     """Say a key was refused, and name where that key came from."""
-    if origin == "environment":
-        return T('The key from AUPHONIC_TOKEN is not accepted: %s') % error
     if origin == "store":
         return T('The stored key is not accepted: %s') % error
     return T('auphonic.com does not accept the key: %s') % error
 
 
 def api_key_from_anywhere(args):
-    """Return the API key: the window's, environment, credential store."""
+    """Return the API key: the run's, the window's, the credential store's."""
     key = api_key_source(args)[0]
     if not key:
-        raise RuntimeError(T('No API key. Set AUPHONIC_TOKEN or have it '
-                             'remembered once in the interface. The key is '
-                             'in the Auphonic account settings.'))
+        raise RuntimeError(T('No API key. Store it once in the interface, '
+                             'or with --store-auphonic-key. The key is in '
+                             'the Auphonic account settings.'))
     return key.strip()
 
 
