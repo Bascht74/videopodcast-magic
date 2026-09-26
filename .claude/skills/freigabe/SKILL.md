@@ -183,11 +183,11 @@ alone get no new number.**
 **Every language, once, before the word.** The everyday suite tests
 English and German only (the owner's rule, 26.9.2026); a release tests
 every catalogue. Here that is `cd tests && VPM_ALL_LANGUAGES=1 bash
-run.sh`, green before the push. On the builder nothing has to be
-asked for: the release pull request changes the version, so its seven
-checks run every language by themselves, and the long way passes
-`all_languages: true` -- why, beside that input in
-`.github/workflows/tests.yml`.
+run.sh`, green before the push. On the builder a push never tests
+every language, not even the release pull request's (the owner,
+26.9.2026): the release run does, `all_languages: true` on the long
+way and the job "Languages" on the short one -- why, beside that input
+in `.github/workflows/tests.yml`.
 
 **Write the changelog section before the push, because the workflow
 reads it and does not write it.** Skill `changelog` says what goes in
@@ -421,6 +421,10 @@ sixth is answered in the report, and "not run, because ..." answers it.
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
     suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?
+10b. The language slices run here on the Mac in every language before
+    the release push -- `cd tests && VPM_ALL_LANGUAGES=1 bash run.sh
+    */*_langs*_test.py` -- so a cut-off text is found here, not in the
+    release run?
 11. The builder's times fetched with `--record <version>`, the section in
     `development/test_durations.md` looked at, and every test marked
     grown there named in the release report?
