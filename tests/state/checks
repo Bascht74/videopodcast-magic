@@ -187,10 +187,10 @@ run_simple_path_agrees	26
 run_space_has_margin	17
 run_starter_arch_fits	30
 run_stays_local	20
-run_stop_heard_midway	13
+run_stop_heard_midway	17
 run_stop_heard_midway 12	0
 run_stop_names_why	23
-run_stop_passes_through	9
+run_stop_passes_through	13
 run_switch_changes_it	12
 run_switch_has_effect	8
 run_sync_only_no_cut	20
