@@ -99,7 +99,7 @@ check is missing or red, or the merge brings in a file of the speaker
 separation, the suite runs as before, and the line under the run says
 why.
 
-**The four questions, and how each is asked.** Two parents, off
+**The five questions, and how each is asked.** Two parents, off
 `commits/<sha>`. One tree, off the two commits' tree ids -- the same
 question as `git diff --quiet HEAD^2 HEAD`, asked without a 59.5 MiB
 checkout. Six green, off `commits/<head>/check-runs`, held against
@@ -109,7 +109,11 @@ added to the matrix is asked about without the workflow being touched.
 not named there is none. Nothing of the separation, off
 `compare/<first parent>...<sha>` -- the files the merge brings in, a
 renamed one under both its names -- held against the separation's
-four patterns, written once in the step itself.
+four patterns, written once in the step itself. The version, off
+`contents/videopodcast_magic/__init__.py` at the first parent and at
+the merge: the `VERSION = ` line has to differ, because only a pull
+request that changes it ran every language (`all_languages` in
+`tests.yml` says why); unreadable or unchanged goes the long way.
 
 **What the short way gives up, and it is written here rather than
 found later.** A push runs the everyday suite, separation off;

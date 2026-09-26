@@ -69,8 +69,13 @@ once -- ask, shoot, bring the descriptions up to date, check in.
 **Before the pictures, on this Mac:**
 
 ```bash
-cd tests && VPM_LAYOUT_PLATFORM=cocoa bash run.sh window_captions_fit
+cd tests && VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1 bash run.sh \
+  window_captions_fit window_captions_langs1 window_captions_langs2
 ```
+
+`window_captions_fit` measures English and German; the other languages
+are the two `_langs` tests, and without `VPM_ALL_LANGUAGES=1` `run.sh`
+sets them aside and says so in its `languages:` line.
 
 The suite runs it offscreen, and offscreen draws the Fusion faces: it can
 say that a caption is fixed width, never whether the face the system
@@ -232,5 +237,6 @@ written down:
 6. Did it change for the reason you expected?
 7. Is there one line per changed picture in the release report, and one
    record of what the change invalidated?
-8. Was `window_captions_fit` run with `VPM_LAYOUT_PLATFORM=cocoa` before
-   the pictures, and was it green?
+8. Were `window_captions_fit` and the two `window_captions_langs` tests
+   run with `VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1` before the
+   pictures, and were they green?
