@@ -100,10 +100,12 @@ CUT_FIELDS = (
       'duration then holds it there for seconds.')),
     ("silence-hold", 'Short gap up to', "%.1f" % SILENCE_HOLD_S, "s",
      'so long a silence leaves the picture alone',
-     ('Only where "Nobody speaks" is set to hold a short gap. A gap up '
-      'to this long changes nothing, a longer one goes to the wide '
-      'shot. Above two seconds the picture begins to stand on someone '
-      'silent for over five seconds.')),
+     ('Where "Nobody speaks" is set to hold a short gap, a gap up to '
+      'this long changes nothing and a longer one goes to the wide '
+      'shot. Where "Recognition uncertain" is set to "No camera '
+      'change", an uncertain passage longer than this goes to the wide '
+      'shot as well. Above two seconds the picture begins to stand on '
+      'someone silent for over five seconds.')),
     # Resolve's own name for it, in the German window as well, so it stays
     # English. The double quotes are the mark: this one is not translated.
     ("edit-change-delay", "Edit Change Delay", "0.3", "s",

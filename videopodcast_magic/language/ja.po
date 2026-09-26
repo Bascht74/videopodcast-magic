@@ -4605,9 +4605,6 @@ msgstr "これより短いショットは次のショットに統合されます
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "短い「はい」では画は動きません。これがないと、0.5 秒のブロックがカメラを引き寄せ、さらに最短ショット長がそこに数秒間とどめてしまいます。"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "「誰も話さない」が短い間を保つ設定になっている場合だけです。この長さまでの間は何も変えず、それより長い間は引き画に切り替わります。2 秒を超えると、黙っている人に画が 5 秒以上とどまり始めます。"
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 定輝度"
 
@@ -4938,3 +4935,15 @@ msgstr "Secret Service のキーリングが応答しなかったため、何も
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "前処理 -- 音声を読み、エンベロープを計算し、話された内容を書き起こします：\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  両端の引き画: %s からのみ -- 冒頭のものは最短のショットより短く、次のショットに吸収されました"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  両端の引き画: %s までのみ -- 末尾のものは最短のショットより短く、前のショットに吸収されました"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  両端の引き画: なし -- どちらも最短のショットより短く、隣のショットに吸収されました"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "「誰も話さない」が短い間を保つ設定のときは、この長さまでの間は何も変えず、それより長い間は引き画に切り替わります。「認識が不確か」が「カメラを切り替えない」の設定のときは、これより長い不確かな区間も引き画に切り替わります。2 秒を超えると、黙っている人に画が 5 秒以上とどまり始めます。"

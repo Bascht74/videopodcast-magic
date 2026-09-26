@@ -4662,9 +4662,6 @@ msgstr "Le inquadrature più brevi confluiscono nella successiva."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Un breve «sì» non sposta l’immagine. Senza questo, un blocco di mezzo secondo tira a sé la telecamera, e la durata minima dell’inquadratura la tiene poi lì per secondi."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Solo dove «Nessuno parla» è impostato su mantenere una pausa breve. Una pausa fino a questa durata non cambia nulla, una più lunga passa al campo totale. Oltre due secondi l’immagine comincia a restare per più di cinque secondi su qualcuno che tace."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 costante"
 
@@ -4999,3 +4996,15 @@ msgstr "Nessun portachiavi Secret Service ha risposto, quindi non è stato salva
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Lavoro preliminare -- leggere l’audio, calcolare gli inviluppi e trascrivere ciò che viene detto:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Campo totale ai bordi: solo da %s -- quello iniziale era più corto dell’inquadratura più breve ed è confluito nella successiva"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Campo totale ai bordi: solo fino a %s -- quello finale era più corto dell’inquadratura più breve ed è confluito nella precedente"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Campo totale ai bordi: nessuno -- entrambi erano più corti dell’inquadratura più breve e sono confluiti nelle vicine"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Dove «Nessuno parla» è impostato su mantenere una pausa breve, una pausa fino a questa durata non cambia nulla e una più lunga passa al campo totale. Dove «Riconoscimento incerto» è impostato su «Nessun cambio di telecamera», anche un passaggio incerto più lungo di così passa al campo totale. Oltre due secondi l’immagine comincia a restare per più di cinque secondi su qualcuno che tace."

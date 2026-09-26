@@ -4658,9 +4658,6 @@ msgstr "Daha kısa çekimler bir sonrakine katılır."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Kısa bir “evet” görüntüyü yerinden oynatmaz. Bu olmadan yarım saniyelik bir blok kamerayı kendine çeker ve en kısa çekim süresi onu orada saniyelerce tutar."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Yalnızca “Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda. Bu uzunluğa kadar bir boşluk hiçbir şeyi değiştirmez, daha uzunu geniş çekime geçer. İki saniyenin üstünde görüntü, susan birinin üzerinde beş saniyeden uzun kalmaya başlar."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 sabit"
 
@@ -4994,3 +4991,15 @@ msgstr "Hiçbir Secret Service anahtar zinciri yanıt vermedi, bu yüzden hiçbi
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Ön çalışma -- sesi oku, zarfları hesapla ve söylenenleri yaz:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Kenarlarda geniş çekim: yalnızca %s değerinden itibaren -- açılıştaki en kısa çekimden kısaydı ve sonrakine katıldı"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Kenarlarda geniş çekim: yalnızca %s değerine kadar -- kapanıştaki en kısa çekimden kısaydı ve öncekine katıldı"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Kenarlarda geniş çekim: yok -- ikisi de en kısa çekimden kısaydı ve komşularına katıldı"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "“Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda, bu uzunluğa kadar bir boşluk hiçbir şeyi değiştirmez, daha uzunu geniş çekime geçer. “Tanıma belirsiz” “Kamera değişikliği yok” olarak ayarlı olduğunda, bundan uzun belirsiz bir bölüm de geniş çekime geçer. İki saniyenin üstünde görüntü, susan birinin üzerinde beş saniyeden uzun kalmaya başlar."

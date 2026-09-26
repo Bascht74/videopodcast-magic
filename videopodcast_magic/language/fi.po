@@ -4560,9 +4560,6 @@ msgstr "Lyhyt tauko enintään"
 msgid "so long a silence leaves the picture alone"
 msgstr "näin pitkä hiljaisuus jättää kuvan rauhaan"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Vain siellä, missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli. Enintään näin pitkä tauko ei muuta mitään, pidempi siirtyy yleiskuvaan. Yli kahden sekunnin arvolla kuva alkaa viipyä vaiti olevassa yli viisi sekuntia."
-
 msgid "Listener"
 msgstr "Kuuntelija"
 
@@ -4981,3 +4978,15 @@ msgstr "Yksikään Secret Service -avainnippu ei vastannut, joten mitään ei ta
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Esityö -- luetaan ääni, lasketaan verhokäyrät ja kirjoitetaan puhe muistiin:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Yleiskuva reunoilla: vain kohdasta %s alkaen -- alun yleiskuva oli lyhyempi kuin lyhin otos ja sulautui seuraavaan"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Yleiskuva reunoilla: vain kohtaan %s asti -- lopun yleiskuva oli lyhyempi kuin lyhin otos ja sulautui edelliseen"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Yleiskuva reunoilla: ei yhtään -- molemmat olivat lyhyempiä kuin lyhin otos ja sulautuivat naapureihinsa"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli, enintään näin pitkä tauko ei muuta mitään ja pidempi siirtyy yleiskuvaan. Missä \"Tunnistus epävarma\" on asetettu arvoon \"Ei kameranvaihtoa\", tätä pidempi epävarma jakso siirtyy myös yleiskuvaan. Yli kahden sekunnin arvolla kuva alkaa viipyä vaiti olevassa yli viisi sekuntia."

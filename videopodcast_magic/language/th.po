@@ -4280,9 +4280,6 @@ msgstr "ช่องว่างสั้นไม่เกิน"
 msgid "so long a silence leaves the picture alone"
 msgstr "ความเงียบยาวเท่านี้จะไม่เปลี่ยนภาพ"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "ใช้เฉพาะเมื่อตั้ง \"ไม่มีใครพูด\" ไว้ให้คงช่องว่างสั้น ช่องว่างที่ยาวไม่เกินค่านี้จะไม่เปลี่ยนอะไร ที่ยาวกว่าจะไปที่ภาพมุมกว้าง หากเกินสองวินาที ภาพจะเริ่มค้างอยู่ที่คนที่เงียบนานเกินห้าวินาที"
-
 msgid "Recognition uncertain"
 msgstr "การรู้จำไม่แน่นอน"
 
@@ -4940,3 +4937,15 @@ msgstr "ไม่มีพวงกุญแจ Secret Service ใดตอบ�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "งานเตรียม -- อ่านเสียง คำนวณเอนเวโลป และเขียนสิ่งที่พูด:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: ตั้งแต่ %s เท่านั้น -- ช่วงหัวสั้นกว่าช็อตที่สั้นที่สุดจึงรวมเข้ากับช็อตถัดไป"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: จนถึง %s เท่านั้น -- ช่วงท้ายสั้นกว่าช็อตที่สั้นที่สุดจึงรวมเข้ากับช็อตก่อนหน้า"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: ไม่มี -- ทั้งสองช่วงสั้นกว่าช็อตที่สั้นที่สุดจึงรวมเข้ากับช็อตข้างเคียง"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "เมื่อตั้ง \"ไม่มีใครพูด\" ไว้ให้คงช่องว่างสั้น ช่องว่างที่ยาวไม่เกินค่านี้จะไม่เปลี่ยนอะไร ที่ยาวกว่าจะไปที่ภาพมุมกว้าง เมื่อตั้ง \"การรู้จำไม่แน่นอน\" ไว้ที่ \"ไม่เปลี่ยนกล้อง\" ช่วงที่ไม่แน่นอนซึ่งยาวกว่าค่านี้ก็จะไปที่ภาพมุมกว้างเช่นกัน หากเกินสองวินาที ภาพจะเริ่มค้างอยู่ที่คนที่เงียบนานเกินห้าวินาที"

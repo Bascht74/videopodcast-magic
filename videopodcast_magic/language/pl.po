@@ -4604,9 +4604,6 @@ msgstr "Krótka luka do"
 msgid "so long a silence leaves the picture alone"
 msgstr "tak długo cisza nie rusza obrazu"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tylko tam, gdzie \"Nikt nie mówi\" ma ustawione przeczekanie krótkiej luki. Luka do tej długości niczego nie zmienia, dłuższa przechodzi do planu ogólnego. Powyżej dwóch sekund obraz zaczyna stać na kimś milczącym dłużej niż pięć sekund."
-
 msgid "Listener"
 msgstr "Słuchacz"
 
@@ -5026,3 +5023,15 @@ msgstr "Nie odpowiedział żaden pęk kluczy Secret Service, więc nic nie zosta
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Przygotowanie -- odczyt dźwięku, obliczanie obwiedni i zapisywanie tego, co powiedziano:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plan ogólny na krańcach: tylko od %s -- początkowy był krótszy niż najkrótsze ujęcie i wszedł w następne"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plan ogólny na krańcach: tylko do %s -- końcowy był krótszy niż najkrótsze ujęcie i wszedł w poprzednie"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plan ogólny na krańcach: brak -- oba były krótsze niż najkrótsze ujęcie i weszły w sąsiednie"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Tam, gdzie \"Nikt nie mówi\" ma ustawione przeczekanie krótkiej luki, luka do tej długości niczego nie zmienia, a dłuższa przechodzi do planu ogólnego. Tam, gdzie \"Niepewne rozpoznanie\" ma ustawione \"Bez zmiany kamery\", niepewny fragment dłuższy niż ta wartość także przechodzi do planu ogólnego. Powyżej dwóch sekund obraz zaczyna stać na kimś milczącym dłużej niż pięć sekund."

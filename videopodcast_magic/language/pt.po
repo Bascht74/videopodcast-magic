@@ -4646,9 +4646,6 @@ msgstr "Planos mais curtos se fundem ao seguinte."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Um \"sim\" curto não move a imagem. Sem isto, um bloco de meio segundo puxa a câmera para lá, e a duração mínima do plano a mantém ali por segundos."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Só onde \"Ninguém fala\" está definido para manter uma pausa curta. Uma pausa até esta duração não muda nada; uma mais longa vai para o plano geral. Acima de dois segundos, a imagem começa a ficar mais de cinco segundos em alguém calado."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 constante"
 
@@ -4982,3 +4979,15 @@ msgstr "Nenhum chaveiro do Secret Service respondeu, então nada foi salvo. Fora
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Trabalho prévio -- ler o áudio, calcular as envolventes e escrever o que é dito:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plano geral nas bordas: só a partir de %s -- o do início era mais curto que a tomada mais curta e foi absorvido pela seguinte"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plano geral nas bordas: só até %s -- o do fim era mais curto que a tomada mais curta e foi absorvido pela anterior"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plano geral nas bordas: nenhum -- ambos eram mais curtos que a tomada mais curta e foram absorvidos pelas vizinhas"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Onde \"Ninguém fala\" está definido para manter uma pausa curta, uma pausa até esta duração não muda nada e uma mais longa vai para o plano geral. Onde \"Reconhecimento incerto\" está definido como \"Sem troca de câmera\", um trecho incerto mais longo que isso também vai para o plano geral. Acima de dois segundos, a imagem começa a ficar mais de cinco segundos em alguém calado."

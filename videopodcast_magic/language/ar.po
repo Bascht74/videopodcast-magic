@@ -4825,9 +4825,6 @@ msgstr "اللقطات الأقصر تندمج في اللقطة التالية.
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "\"نعم\" قصيرة لا تحرك الصورة. بدون ذلك تسحب كتلة من نصف ثانية الكاميرا إليها، ثم تبقيها أدنى مدة للقطة هناك لثوانٍ."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "فقط حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإبقاء على فجوة قصيرة. الفجوة حتى هذا الطول لا تغيّر شيئًا، والأطول تنتقل إلى اللقطة الواسعة. فوق ثانيتين تبدأ الصورة بالبقاء أكثر من خمس ثوانٍ على شخص صامت."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 ثابت"
 
@@ -5165,3 +5162,15 @@ msgstr "لم تُجب أي سلسلة مفاتيح من Secret Service، لذل�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "العمل التمهيدي -- قراءة الصوت وحساب الأغلفة وتدوين ما يُقال:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  لقطة واسعة عند الأطراف: من %s فقط -- كانت الافتتاحية أقصر من أقصر لقطة فدخلت في التالية"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  لقطة واسعة عند الأطراف: حتى %s فقط -- كانت الختامية أقصر من أقصر لقطة فدخلت في التي قبلها"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  لقطة واسعة عند الأطراف: لا شيء -- كانتا كلتاهما أقصر من أقصر لقطة فدخلتا في جارتيهما"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإبقاء على فجوة قصيرة، لا تغيّر الفجوة حتى هذا الطول شيئًا، والأطول تنتقل إلى اللقطة الواسعة. وحيث يكون \"التعرّف غير مؤكد\" مضبوطًا على \"بدون تغيير الكاميرا\"، ينتقل المقطع غير المؤكد الأطول من ذلك إلى اللقطة الواسعة أيضًا. فوق ثانيتين تبدأ الصورة بالبقاء أكثر من خمس ثوانٍ على شخص صامت."

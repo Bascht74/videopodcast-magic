@@ -4281,9 +4281,6 @@ msgstr "הפסקה קצרה עד"
 msgid "so long a silence leaves the picture alone"
 msgstr "שקט באורך כזה אינו נוגע בתמונה"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "רק היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על הפסקה קצרה. הפסקה עד אורך זה אינה משנה דבר, הפסקה ארוכה יותר עוברת לשוט הרחב. מעל שתי שניות התמונה מתחילה לעמוד על מישהו שותק במשך יותר מחמש שניות."
-
 msgid "Recognition uncertain"
 msgstr "זיהוי לא ודאי"
 
@@ -4984,3 +4981,15 @@ msgstr "אף מחזיק מפתחות של Secret Service לא ענה, ולכן �
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "עבודה מקדימה -- קריאת השמע, חישוב מעטפות ותמלול מה שנאמר:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  שוט רחב בקצוות: רק מ-%s -- זה שבפתיחה היה קצר מהשוט הקצר ביותר ונבלע בשוט הבא"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  שוט רחב בקצוות: רק עד %s -- זה שבסיום היה קצר מהשוט הקצר ביותר ונבלע בשוט שלפניו"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  שוט רחב בקצוות: אין -- שניהם היו קצרים מהשוט הקצר ביותר ונבלעו בשכניהם"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על הפסקה קצרה, הפסקה עד אורך זה אינה משנה דבר, והפסקה ארוכה יותר עוברת לשוט הרחב. היכן ש\"זיהוי לא ודאי\" מוגדר ל\"ללא החלפת מצלמה\", קטע לא ודאי ארוך מזה עובר גם הוא לשוט הרחב. מעל שתי שניות התמונה מתחילה לעמוד על מישהו שותק במשך יותר מחמש שניות."

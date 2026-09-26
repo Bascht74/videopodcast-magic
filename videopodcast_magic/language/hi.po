@@ -4646,9 +4646,6 @@ msgstr "छोटे शॉट अगले शॉट में मिल जा
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "एक छोटा \"हाँ\" चित्र को नहीं हिलाता। इसके बिना आधे सेकंड का एक खंड कैमरे को अपनी ओर खींच लेता है, और फिर न्यूनतम शॉट अवधि उसे सेकंडों तक वहीं रोके रखती है।"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "केवल वहाँ जहाँ \"कोई नहीं बोलता\" छोटा अंतराल बनाए रखने पर सेट है। इतनी लंबाई तक का अंतराल कुछ नहीं बदलता, इससे लंबा वाइड शॉट पर जाता है। दो सेकंड से ऊपर चित्र किसी चुप व्यक्ति पर पाँच सेकंड से अधिक टिकने लगता है।"
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 स्थिर"
 
@@ -4982,3 +4979,15 @@ msgstr "किसी Secret Service कीरिंग ने जवाब न�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "पूर्वकार्य -- ऑडियो पढ़ें, एनवेलप की गणना करें और जो कहा गया है उसे लिखें:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  किनारों पर वाइड शॉट: केवल %s से -- शुरुआत वाला सबसे छोटे शॉट से भी छोटा था और अगले में मिल गया"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  किनारों पर वाइड शॉट: केवल %s तक -- अंत वाला सबसे छोटे शॉट से भी छोटा था और पिछले में मिल गया"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  किनारों पर वाइड शॉट: कोई नहीं -- दोनों सबसे छोटे शॉट से भी छोटे थे और अपने पड़ोसियों में मिल गए"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "जहाँ \"कोई नहीं बोलता\" छोटा अंतराल बनाए रखने पर सेट है, वहाँ इतनी लंबाई तक का अंतराल कुछ नहीं बदलता और इससे लंबा वाइड शॉट पर जाता है। जहाँ \"पहचान अनिश्चित\" \"कैमरा न बदलें\" पर सेट है, वहाँ इससे लंबा अनिश्चित हिस्सा भी वाइड शॉट पर जाता है। दो सेकंड से ऊपर चित्र किसी चुप व्यक्ति पर पाँच सेकंड से अधिक टिकने लगता है।"

@@ -4603,9 +4603,6 @@ msgstr "Krátká mezera do"
 msgid "so long a silence leaves the picture alone"
 msgstr "tak dlouho ticho nechá obraz na pokoji"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Jen tam, kde je \"Nikdo nemluví\" nastaveno na podržení krátké mezery. Mezera až do této délky nic nemění, delší přejde na široký záběr. Nad dvě sekundy začne obraz stát na někom mlčícím déle než pět sekund."
-
 msgid "Listener"
 msgstr "Posluchač"
 
@@ -5025,3 +5022,15 @@ msgstr "Neodpověděla žádná klíčenka Secret Service, proto nebylo nic ulo�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Příprava -- načíst zvuk, spočítat obálky a zapsat, co zaznělo:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Široký záběr na okrajích: jen od %s -- úvodní byl kratší než nejkratší záběr a přešel do následujícího"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Široký záběr na okrajích: jen do %s -- závěrečný byl kratší než nejkratší záběr a přešel do předchozího"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Široký záběr na okrajích: žádný -- oba byly kratší než nejkratší záběr a přešly do svých sousedů"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Tam, kde je \"Nikdo nemluví\" nastaveno na podržení krátké mezery, mezera až do této délky nic nemění a delší přejde na široký záběr. Tam, kde je \"Nejisté rozpoznání\" nastaveno na \"Bez změny kamery\", přejde na široký záběr i nejistá pasáž delší než toto. Nad dvě sekundy začne obraz stát na někom mlčícím déle než pět sekund."

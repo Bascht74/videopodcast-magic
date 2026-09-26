@@ -6209,17 +6209,6 @@ msgstr "Kurze Lücke bis"
 msgid "so long a silence leaves the picture alone"
 msgstr "so lange lässt eine Stille das Bild in Ruhe"
 
-msgid ""
-"Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this "
-"long changes nothing, a longer one goes to the wide shot. Above two "
-"seconds the picture begins to stand on someone silent for over five "
-"seconds."
-msgstr ""
-"Nur wo „Niemand redet“ auf eine kurze Lücke halten steht. Eine Lücke bis "
-"hierher ändert nichts, eine längere geht auf den Weitwinkel. Über zwei "
-"Sekunden fängt das Bild an, länger als fünf Sekunden auf einem "
-"Schweigenden zu stehen."
-
 msgid "Recognition uncertain"
 msgstr "Erkennung unsicher"
 
@@ -6747,3 +6736,15 @@ msgstr "Kein Schlüsselbund des Secret Service hat geantwortet, darum wurde nich
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Vorarbeit -- Ton lesen, Hüllkurven rechnen, Gesagtes aufschreiben:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Weitwinkel am Rand: nur ab %s -- der am Anfang war kürzer als die kürzeste Einstellung und ging in die nächste auf"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Weitwinkel am Rand: nur bis %s -- der am Ende war kürzer als die kürzeste Einstellung und ging in die davor auf"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Weitwinkel am Rand: keiner -- beide waren kürzer als die kürzeste Einstellung und gingen in ihre Nachbarn auf"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Wo „Niemand redet“ auf eine kurze Lücke halten steht, ändert eine Lücke bis hierher nichts, eine längere geht auf den Weitwinkel. Wo „Erkennung unsicher“ auf „Kein Kamerawechsel“ steht, geht auch eine unsichere Passage, die länger dauert, auf den Weitwinkel. Über zwei Sekunden fängt das Bild an, länger als fünf Sekunden auf einem Schweigenden zu stehen."

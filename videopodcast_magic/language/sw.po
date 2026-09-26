@@ -4282,9 +4282,6 @@ msgstr "Pengo fupi hadi"
 msgid "so long a silence leaves the picture alone"
 msgstr "kimya cha muda huu hakiigusi picha"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tu pale \"Hakuna anayezungumza\" imewekwa kushikilia pengo fupi. Pengo hadi urefu huu halibadilishi chochote, refu zaidi linaenda kwenye picha pana. Zaidi ya sekunde mbili picha huanza kukaa kwa mtu aliyenyamaza kwa zaidi ya sekunde tano."
-
 msgid "Recognition uncertain"
 msgstr "Utambuzi hauna uhakika"
 
@@ -4985,3 +4982,15 @@ msgstr "Hakuna keyring ya Secret Service iliyojibu, kwa hiyo hakuna kilichohifad
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Maandalizi -- kusoma sauti, kukokotoa mikunjo ya sauti na kuandika kinachosemwa:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Picha pana kwenye ncha: kuanzia %s tu -- ya mwanzo ilikuwa fupi kuliko picha fupi zaidi na iliingia kwenye inayofuata"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Picha pana kwenye ncha: hadi %s tu -- ya mwisho ilikuwa fupi kuliko picha fupi zaidi na iliingia kwenye iliyotangulia"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Picha pana kwenye ncha: hakuna -- zote mbili zilikuwa fupi kuliko picha fupi zaidi na ziliingia kwenye jirani zao"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Pale \"Hakuna anayezungumza\" imewekwa kushikilia pengo fupi, pengo hadi urefu huu halibadilishi chochote, na refu zaidi linaenda kwenye picha pana. Pale \"Utambuzi hauna uhakika\" imewekwa kuwa \"Bila kubadili kamera\", sehemu isiyo na uhakika iliyo ndefu kuliko hii nayo inaenda kwenye picha pana. Zaidi ya sekunde mbili picha huanza kukaa kwa mtu aliyenyamaza kwa zaidi ya sekunde tano."

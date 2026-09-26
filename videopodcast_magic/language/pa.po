@@ -4284,9 +4284,6 @@ msgstr "ਛੋਟਾ ਵਕਫ਼ਾ ਇਸ ਤੱਕ"
 msgid "so long a silence leaves the picture alone"
 msgstr "ਇੰਨੀ ਦੇਰ ਤੱਕ ਚੁੱਪ ਤਸਵੀਰ ਨੂੰ ਨਹੀਂ ਛੇੜਦੀ"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "ਸਿਰਫ਼ ਉੱਥੇ ਜਿੱਥੇ \"ਕੋਈ ਨਹੀਂ ਬੋਲਦਾ\" ਛੋਟੇ ਵਕਫ਼ੇ ਵਿੱਚ ਟਿਕੇ ਰਹਿਣ 'ਤੇ ਸੈੱਟ ਹੈ। ਇੰਨੇ ਲੰਮੇ ਤੱਕ ਦਾ ਵਕਫ਼ਾ ਕੁਝ ਨਹੀਂ ਬਦਲਦਾ, ਇਸ ਤੋਂ ਲੰਮਾ ਵਾਈਡ ਸ਼ਾਟ 'ਤੇ ਜਾਂਦਾ ਹੈ। ਦੋ ਸਕਿੰਟ ਤੋਂ ਵੱਧ ਹੋਣ 'ਤੇ ਤਸਵੀਰ ਕਿਸੇ ਚੁੱਪ ਵਿਅਕਤੀ 'ਤੇ ਪੰਜ ਸਕਿੰਟ ਤੋਂ ਵੱਧ ਟਿਕਣ ਲੱਗਦੀ ਹੈ।"
-
 msgid "Recognition uncertain"
 msgstr "ਪਛਾਣ ਅਨਿਸ਼ਚਿਤ"
 
@@ -4987,3 +4984,15 @@ msgstr "ਕਿਸੇ Secret Service ਕੀਰਿੰਗ ਨੇ ਜਵਾਬ ਨ�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "ਤਿਆਰੀ -- ਆਡੀਓ ਪੜ੍ਹਨਾ, ਐਨਵੈਲਪ ਗਿਣਨਾ ਅਤੇ ਜੋ ਕਿਹਾ ਜਾਂਦਾ ਹੈ ਉਹ ਲਿਖਣਾ:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  ਕਿਨਾਰਿਆਂ 'ਤੇ ਵਾਈਡ ਸ਼ਾਟ: ਸਿਰਫ਼ %s ਤੋਂ -- ਸ਼ੁਰੂ ਵਾਲਾ ਸਭ ਤੋਂ ਛੋਟੇ ਸ਼ਾਟ ਤੋਂ ਵੀ ਛੋਟਾ ਸੀ ਅਤੇ ਅਗਲੇ ਵਿੱਚ ਰਲ ਗਿਆ"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  ਕਿਨਾਰਿਆਂ 'ਤੇ ਵਾਈਡ ਸ਼ਾਟ: ਸਿਰਫ਼ %s ਤੱਕ -- ਅਖ਼ੀਰ ਵਾਲਾ ਸਭ ਤੋਂ ਛੋਟੇ ਸ਼ਾਟ ਤੋਂ ਵੀ ਛੋਟਾ ਸੀ ਅਤੇ ਪਿਛਲੇ ਵਿੱਚ ਰਲ ਗਿਆ"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  ਕਿਨਾਰਿਆਂ 'ਤੇ ਵਾਈਡ ਸ਼ਾਟ: ਕੋਈ ਨਹੀਂ -- ਦੋਵੇਂ ਸਭ ਤੋਂ ਛੋਟੇ ਸ਼ਾਟ ਤੋਂ ਵੀ ਛੋਟੇ ਸਨ ਅਤੇ ਆਪਣੇ ਗੁਆਂਢੀਆਂ ਵਿੱਚ ਰਲ ਗਏ"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "ਜਿੱਥੇ \"ਕੋਈ ਨਹੀਂ ਬੋਲਦਾ\" ਛੋਟੇ ਵਕਫ਼ੇ ਵਿੱਚ ਟਿਕੇ ਰਹਿਣ 'ਤੇ ਸੈੱਟ ਹੈ, ਉੱਥੇ ਇੰਨੇ ਲੰਮੇ ਤੱਕ ਦਾ ਵਕਫ਼ਾ ਕੁਝ ਨਹੀਂ ਬਦਲਦਾ ਅਤੇ ਇਸ ਤੋਂ ਲੰਮਾ ਵਾਈਡ ਸ਼ਾਟ 'ਤੇ ਜਾਂਦਾ ਹੈ। ਜਿੱਥੇ \"ਪਛਾਣ ਅਨਿਸ਼ਚਿਤ\" \"ਕੈਮਰਾ ਨਹੀਂ ਬਦਲਦਾ\" 'ਤੇ ਸੈੱਟ ਹੈ, ਉੱਥੇ ਇਸ ਤੋਂ ਲੰਮਾ ਅਨਿਸ਼ਚਿਤ ਹਿੱਸਾ ਵੀ ਵਾਈਡ ਸ਼ਾਟ 'ਤੇ ਜਾਂਦਾ ਹੈ। ਦੋ ਸਕਿੰਟ ਤੋਂ ਵੱਧ ਹੋਣ 'ਤੇ ਤਸਵੀਰ ਕਿਸੇ ਚੁੱਪ ਵਿਅਕਤੀ 'ਤੇ ਪੰਜ ਸਕਿੰਟ ਤੋਂ ਵੱਧ ਟਿਕਣ ਲੱਗਦੀ ਹੈ।"

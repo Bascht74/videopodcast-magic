@@ -4282,9 +4282,6 @@ msgstr "Lühike paus kuni"
 msgid "so long a silence leaves the picture alone"
 msgstr "nii kaua ei muuda vaikus pilti"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Ainult seal, kus „Keegi ei räägi“ on seatud lühikest pausi ära ootama. Kuni nii pikk paus ei muuda midagi, pikem viib üldplaanile. Üle kahe sekundi hakkab pilt üle viie sekundi vaikivat inimest näitama."
-
 msgid "Recognition uncertain"
 msgstr "Tuvastus ebakindel"
 
@@ -4985,3 +4982,15 @@ msgstr "Ükski Secret Service'i võtmehoidja ei vastanud, seega midagi ei salves
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Eeltöö -- heli lugemine, mähiskõverate arvutamine ja öeldu üleskirjutamine:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Üldplaan servades: ainult alates %s -- alguse oma oli lühem kui lühim võte ja läks järgmise sisse"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Üldplaan servades: ainult kuni %s -- lõpu oma oli lühem kui lühim võte ja läks eelmise sisse"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Üldplaan servades: puudub -- mõlemad olid lühemad kui lühim võte ja läksid naabrite sisse"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kus „Keegi ei räägi“ on seatud lühikest pausi ära ootama, ei muuda kuni nii pikk paus midagi ja pikem viib üldplaanile. Kus „Tuvastus ebakindel“ on seatud väärtusele „Kaamera ei vahetu“, viib sellest pikem ebakindel lõik samuti üldplaanile. Üle kahe sekundi hakkab pilt üle viie sekundi vaikivat inimest näitama."

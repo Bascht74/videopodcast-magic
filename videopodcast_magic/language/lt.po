@@ -4283,9 +4283,6 @@ msgstr "Trumpa pauzė iki"
 msgid "so long a silence leaves the picture alone"
 msgstr "tiek tyla nekeičia vaizdo"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tik ten, kur „Niekas nekalba“ nustatyta išlaukti trumpą pauzę. Iki tokio ilgio pauzė nieko nekeičia, ilgesnė pereina į bendrąjį planą. Virš dviejų sekundžių vaizdas ima ilgiau nei penkias sekundes rodyti tylintį žmogų."
-
 msgid "Recognition uncertain"
 msgstr "Atpažinimas neaiškus"
 
@@ -5029,3 +5026,15 @@ msgstr "Neatsakė nė vienas Secret Service raktų ryšulys, todėl niekas neiš
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Parengiamasis darbas -- garso skaitymas, gaubtinių skaičiavimas ir to, kas sakoma, užrašymas:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Bendrasis planas kraštuose: tik nuo %s -- pradžios planas buvo trumpesnis už trumpiausią kadrą ir įsiliejo į kitą"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Bendrasis planas kraštuose: tik iki %s -- pabaigos planas buvo trumpesnis už trumpiausią kadrą ir įsiliejo į ankstesnį"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Bendrasis planas kraštuose: nėra -- abu buvo trumpesni už trumpiausią kadrą ir įsiliejo į kaimynus"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kur „Niekas nekalba“ nustatyta išlaukti trumpą pauzę, iki tokio ilgio pauzė nieko nekeičia, o ilgesnė pereina į bendrąjį planą. Kur „Atpažinimas neaiškus“ nustatyta į „Kamera nekeičiama“, už tai ilgesnė neaiški atkarpa taip pat pereina į bendrąjį planą. Virš dviejų sekundžių vaizdas ima ilgiau nei penkias sekundes rodyti tylintį žmogų."

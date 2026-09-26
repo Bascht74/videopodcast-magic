@@ -4282,9 +4282,6 @@ msgstr "Jeda singkat hingga"
 msgid "so long a silence leaves the picture alone"
 msgstr "selama ini keheningan tidak mengubah gambar"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Hanya jika \"Tak ada yang bicara\" diatur untuk menahan jeda singkat. Jeda hingga sepanjang ini tidak mengubah apa pun, yang lebih panjang beralih ke bidikan lebar. Di atas dua detik, gambar mulai bertahan lebih dari lima detik pada seseorang yang diam."
-
 msgid "Recognition uncertain"
 msgstr "Pengenalan tidak pasti"
 
@@ -4942,3 +4939,15 @@ msgstr "Tidak ada keyring Secret Service yang menjawab, jadi tidak ada yang disi
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Persiapan -- membaca audio, menghitung selubung, dan menuliskan apa yang diucapkan:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Bidikan lebar di tepi: hanya mulai %s -- yang di awal lebih pendek dari bidikan terpendek dan melebur ke bidikan berikutnya"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Bidikan lebar di tepi: hanya sampai %s -- yang di akhir lebih pendek dari bidikan terpendek dan melebur ke bidikan sebelumnya"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Bidikan lebar di tepi: tidak ada -- keduanya lebih pendek dari bidikan terpendek dan melebur ke tetangganya"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Jika \"Tak ada yang bicara\" diatur untuk menahan jeda singkat, jeda hingga sepanjang ini tidak mengubah apa pun dan yang lebih panjang beralih ke bidikan lebar. Jika \"Pengenalan tidak pasti\" diatur ke \"Tanpa ganti kamera\", bagian tidak pasti yang lebih panjang dari ini juga beralih ke bidikan lebar. Di atas dua detik, gambar mulai bertahan lebih dari lima detik pada seseorang yang diam."

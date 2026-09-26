@@ -4282,9 +4282,6 @@ msgstr "చిన్న ఖాళీ ఇంత వరకు"
 msgid "so long a silence leaves the picture alone"
 msgstr "ఇంతసేపటి నిశ్శబ్దం చిత్రాన్ని మార్చదు"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "\"ఎవరూ మాట్లాడరు\" చిన్న ఖాళీని ఉంచేలా సెట్ చేసిన చోట మాత్రమే. ఇంతసేపటి వరకు ఉన్న ఖాళీ ఏమీ మార్చదు, అంతకంటే పొడవైనది వైడ్ షాట్‌కు వెళ్తుంది. రెండు సెకన్లు దాటితే చిత్రం ఐదు సెకన్లకు పైగా మౌనంగా ఉన్న వ్యక్తిపై నిలవడం మొదలవుతుంది."
-
 msgid "Recognition uncertain"
 msgstr "గుర్తింపు అనిశ్చితం"
 
@@ -4985,3 +4982,15 @@ msgstr "ఏ Secret Service కీరింగ్ కూడా స్పంది
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "ముందస్తు పని -- ఆడియో చదివి, ఎన్వలప్‌లు లెక్కించి, చెప్పినది రాయడం:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: %s నుండి మాత్రమే -- మొదటిది అతి చిన్న షాట్ కంటే చిన్నదిగా ఉండి తర్వాతి దానిలో కలిసిపోయింది"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: %s వరకు మాత్రమే -- చివరిది అతి చిన్న షాట్ కంటే చిన్నదిగా ఉండి ముందరి దానిలో కలిసిపోయింది"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: ఏదీ లేదు -- రెండూ అతి చిన్న షాట్ కంటే చిన్నవిగా ఉండి పక్కవాటిలో కలిసిపోయాయి"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "\"ఎవరూ మాట్లాడరు\" చిన్న ఖాళీని ఉంచేలా సెట్ చేసిన చోట, ఇంతసేపటి వరకు ఉన్న ఖాళీ ఏమీ మార్చదు, అంతకంటే పొడవైనది వైడ్ షాట్‌కు వెళ్తుంది. \"గుర్తింపు అనిశ్చితం\" \"కెమెరా మార్పు లేదు\"కు సెట్ చేసిన చోట, దీనికంటే పొడవైన అనిశ్చిత భాగం కూడా వైడ్ షాట్‌కు వెళ్తుంది. రెండు సెకన్లు దాటితే చిత్రం ఐదు సెకన్లకు పైగా మౌనంగా ఉన్న వ్యక్తిపై నిలవడం మొదలవుతుంది."

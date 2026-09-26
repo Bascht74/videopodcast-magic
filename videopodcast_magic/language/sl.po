@@ -4285,9 +4285,6 @@ msgstr "Kratek premor do"
 msgid "so long a silence leaves the picture alone"
 msgstr "toliko časa tišina pusti sliko pri miru"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Le kjer je „Nihče ne govori“ nastavljeno na zadržanje kratkega premora. Premor do te dolžine ne spremeni ničesar, daljši gre na splošni plan. Nad dvema sekundama začne slika stati na nekom, ki molči, dlje kot pet sekund."
-
 msgid "Recognition uncertain"
 msgstr "Negotovo razpoznavanje"
 
@@ -5074,3 +5071,15 @@ msgstr "Noben obesek za ključe Secret Service se ni odzval, zato ni bilo nič s
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Priprava -- branje zvoka, izračun ovojnic in zapis povedanega:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Splošni plan na robovih: samo od %s -- začetni je bil krajši od najkrajšega kadra in se je zlil v naslednjega"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Splošni plan na robovih: samo do %s -- končni je bil krajši od najkrajšega kadra in se je zlil v prejšnjega"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Splošni plan na robovih: nobenega -- oba sta bila krajša od najkrajšega kadra in sta se zlila v soseda"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kjer je „Nihče ne govori“ nastavljeno na zadržanje kratkega premora, premor do te dolžine ne spremeni ničesar, daljši pa gre na splošni plan. Kjer je „Negotovo razpoznavanje“ nastavljeno na „Brez menjave kamere“, gre tudi negotov odlomek, daljši od tega, na splošni plan. Nad dvema sekundama začne slika stati na nekom, ki molči, dlje kot pet sekund."

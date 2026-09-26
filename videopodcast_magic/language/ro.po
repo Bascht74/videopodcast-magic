@@ -4604,9 +4604,6 @@ msgstr "Pauză scurtă până la"
 msgid "so long a silence leaves the picture alone"
 msgstr "o liniște atât de lungă lasă imaginea în pace"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Doar unde \"Nimeni nu vorbește\" este setat să păstreze o pauză scurtă. O pauză de până la atât nu schimbă nimic, una mai lungă trece la planul larg. Peste două secunde, imaginea începe să stea mai mult de cinci secunde pe cineva care tace."
-
 msgid "Listener"
 msgstr "Ascultător"
 
@@ -5026,3 +5023,15 @@ msgstr "Nu a răspuns niciun portchei Secret Service, așa că nu s-a păstrat n
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Pregătire -- citirea audio, calculul anvelopelor și scrierea a ceea ce se spune:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plan larg la margini: doar de la %s -- cel de la început a fost mai scurt decât cel mai scurt cadru și s-a contopit cu următorul"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plan larg la margini: doar până la %s -- cel de la final a fost mai scurt decât cel mai scurt cadru și s-a contopit cu cel dinainte"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plan larg la margini: niciunul -- amândouă au fost mai scurte decât cel mai scurt cadru și s-au contopit cu vecinii lor"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Unde \"Nimeni nu vorbește\" este setat să păstreze o pauză scurtă, o pauză de până la atât nu schimbă nimic, iar una mai lungă trece la planul larg. Unde \"Recunoaștere nesigură\" este setat pe \"Fără schimbare de cameră\", și un pasaj nesigur mai lung de atât trece la planul larg. Peste două secunde, imaginea începe să stea mai mult de cinci secunde pe cineva care tace."

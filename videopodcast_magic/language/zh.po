@@ -4605,9 +4605,6 @@ msgstr "更短的镜头会并入下一个镜头。"
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "一声简短的“是”不会让画面切换。没有这项设置，半秒钟的一段话就会把镜头拉过去，而最短镜头时长会让它在那里停留好几秒。"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "仅当“无人说话”设为保持短暂停顿时生效。不超过此长度的停顿不改变任何东西，更长的则切到全景。此值超过两秒时，画面会开始在一个沉默的人身上停留五秒以上。"
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 恒定亮度"
 
@@ -4936,3 +4933,15 @@ msgstr "没有 Secret Service 密钥环应答，因此什么也没有保存。�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "前期处理——读取音频、计算包络并写下所说的话：\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  首尾全景：仅自 %s 起 -- 开头的比最短镜头还短，已并入下一个"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  首尾全景：仅至 %s -- 结尾的比最短镜头还短，已并入前一个"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  首尾全景：无 -- 两者都比最短镜头还短，已并入各自相邻的镜头"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "当“无人说话”设为保持短暂停顿时，不超过此长度的停顿不改变任何东西，更长的则切到全景。当“识别不确定”设为“不切换镜头”时，比此更长的不确定片段也会切到全景。此值超过两秒时，画面会开始在一个沉默的人身上停留五秒以上。"

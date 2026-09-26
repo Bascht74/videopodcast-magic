@@ -4713,9 +4713,6 @@ msgstr "Более короткие планы вливаются в следу�
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Короткое «да» не сдвигает картинку. Без этого фрагмент речи в полсекунды перетягивает камеру, и минимальная длина плана держит её там секундами."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Только там, где у «Никто не говорит» выбрано держать короткую паузу. Пауза не длиннее этого ничего не меняет, более длинная уходит на общий план. Свыше двух секунд картинка начинает стоять на молчащем дольше пяти секунд."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 с постоянной яркостью"
 
@@ -5024,3 +5021,15 @@ msgstr "Ни одна связка ключей Secret Service не ответи
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Подготовка -- прочитать звук, вычислить огибающие и записать сказанное:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Общий план по краям: только с %s -- начальный был короче самого короткого кадра и слился со следующим"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Общий план по краям: только до %s -- конечный был короче самого короткого кадра и слился с предыдущим"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Общий план по краям: нет -- оба были короче самого короткого кадра и слились с соседними"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Там, где у «Никто не говорит» выбрано держать короткую паузу, пауза не длиннее этого ничего не меняет, а более длинная уходит на общий план. Там, где у «Распознавание ненадёжно» выбрано «Без смены камеры», неуверенный отрезок длиннее этого тоже уходит на общий план. Свыше двух секунд картинка начинает стоять на молчащем дольше пяти секунд."
