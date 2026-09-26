@@ -71,11 +71,15 @@ same step.
 **A new file lies in the folder of the piece it checks** --
 `tests/<piece>/`, where `<piece>` is the folder under
 `videopodcast_magic/` whose logic the test judges, so that a piece and
-its checks are found side by side. Two folders are no piece:
+its checks are found side by side. Two kinds of folder are no piece:
 `tests/source/` holds the tests that read the source, the texts and
-the documents as a whole, and `tests/resolve/live/` the tests that want
-a Resolve running -- `tests/resolve/` itself is the piece's, like any
-other. `tests/samples/` holds checked-in material and no test.
+the documents as a whole, and a `live/` folder under a piece the tests
+that talk to what the suite only stands in for -- `tests/resolve/live/`
+a running Resolve, `tests/auphonic/live/` auphonic.com. `run.sh` never
+takes them; `tests/<piece>.sh` starts them on the owner's OK, and their
+counter-proofs stand in a `counterproof` beside them. `tests/resolve/`
+itself is the piece's, like any other. `tests/samples/` holds
+checked-in material and no test.
 `run.sh` finds a test by its name wherever it lies, and the preamble
 every test opens with finds `tests/` from there -- copy it from any
 test, word for word.

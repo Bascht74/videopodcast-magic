@@ -228,13 +228,14 @@ trap clean_up EXIT
 trap 'exit 130' INT TERM
 # Every *_test.py in this folder and in the folders under it, one per
 # piece of the program, so a new test is picked up by being there. Not
-# resolve/live/: those want a Resolve running and resolve.sh starts
-# them; the pattern reaches one folder down and they lie two, and the
-# filter names them all the same. A test is known by its name alone,
+# <area>/live/: those talk to something outside -- a running Resolve,
+# auphonic.com -- and <area>.sh starts them; the pattern reaches one
+# folder down and they lie two, and the filter names every such folder
+# all the same. A test is known by its name alone,
 # wherever it lies. Sorted, so the order does not depend on the file
 # system.
 TESTS=$(cd "$HERE" && ls *_test.py */*_test.py 2>/dev/null \
-        | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//' | sort -u)
+        | grep -v '^[^/]*/live/' | sed 's|.*/||; s/_test\.py$//' | sort -u)
 # Named on the command line: only those, through the same machinery --
 # the same retry, the same report, the same progress line. One red test
 # is looked at on its own far more often than all of them are.
@@ -259,7 +260,7 @@ if [ $# -gt 0 ]; then
     t=$(printf '%s\n' "$a" | sed 's|.*/||; s/_test\.py$//')
     given=${a%/*}; given=${given#./}; given=${given#"$HERE"}
     given=${given#/}; given=${given#tests}; given=${given#/}
-    lies=$(cd "$HERE" && ls */"${t}_test.py" 2>/dev/null | grep -v '^resolve/live/' \
+    lies=$(cd "$HERE" && ls */"${t}_test.py" 2>/dev/null | grep -v '^[^/]*/live/' \
            | sed 's|/[^/]*$||' | head -1)
     [ "$given" = "$lies" ] && continue
     echo "$t lies in ${lies:-tests}/, not in $given/ -- running it by its name." >&2
@@ -276,7 +277,7 @@ if [ "$VPM_TESTS" != all ]; then
   [ "$VPM_TESTS" = neutral ] && want=False
   half=$(cd "$HERE" && grep -lx "PLATFORM_BOUND = $want" \
            *_test.py */*_test.py 2>/dev/null \
-         | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//')
+         | grep -v '^[^/]*/live/' | sed 's|.*/||; s/_test\.py$//')
   TESTS=$(printf '%s\n' $TESTS | grep -Fx "$(printf '%s\n' $half)")
   WHOLE=0
   if [ -z "$TESTS" ]; then
@@ -413,7 +414,7 @@ crash_said() {
 test_file() {
   file="$HERE/$1_test.py"
   for one in "$HERE"/*/"$1_test.py"; do
-    case "$one" in "$HERE/resolve/live/"*) continue ;; esac
+    case "$one" in "$HERE"/*/live/*) continue ;; esac
     [ -f "$one" ] && file="$one"
   done
 }
@@ -836,74 +837,79 @@ fi
 # it. Times written here put a test that is slow there last in the
 # queue on the strength of how fast it is on this machine.
 
-# The tests under resolve/live/ talk to a DaVinci Resolve really running on
-# this machine. They are not in this folder, so nothing above collected
+# The tests under <area>/live/ talk to something the suite only stands
+# in for -- resolve/live/ to a DaVinci Resolve really running on this
+# machine, auphonic/live/ to auphonic.com itself. Nothing above collected
 # them, counted them or judged them -- they are not skipped, they are
 # not part of this run at all, and the skips barrier must never hear of
-# them. The only thing that starts them is a person, and a person
-# forgets. So the run says at the end that they are there.
+# them. They are started by <area>.sh, on the owner's OK and never as a
+# matter of routine, and an OK nobody asks for is never given. So the
+# run says at the end that they are there, one block per folder.
 #
 # Said after everything is counted and printed, and in a line that
 # begins with none of the words anything reads: run_one judges each
 # test's own output, not this one, and the CI report lifts "green:" and
 # "skips:" out of the log by name.
 #
-# Not on the builder. No runner has a Resolve, "start them by hand" is
-# an instruction nobody there can follow, and tests.yml already says
-# where it belongs -- in the step that sets tests aside. CI and
-# GITHUB_ACTIONS are both set by GitHub; neither is set here.
-if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ] \
-   && [ -d "$HERE/resolve/live" ]; then
-  apart=$(ls "$HERE"/resolve/live/*_test.py 2>/dev/null | wc -l | tr -d ' ')
-  # Sharper when the Resolve branch has just been worked on: a line that
-  # reads the same every day is read once. Two signals, both out of git,
-  # both without guesswork -- work under those paths not committed yet,
-  # and the newest commit touching them being the one this run stands
-  # on. What the program's own diff says was measured and thrown away:
-  # over 40 commits, "a changed line in videopodcast-magic.py naming
-  # Resolve" fired three times and every one of the three was a comment
-  # or a key name, while no commit in those 40 changed the Resolve code
-  # itself. A sharp line that is wrong three times in forty is noise.
-  #
-  # Where there is no git and no repository both questions come back
-  # empty and the plain line stands.
-  touched=""
-  if command -v git > /dev/null 2>&1 \
-     && git -C "$HERE" rev-parse --git-dir > /dev/null 2>&1; then
-    # Named, not counted: "something changed" sends whoever reads it
-    # looking for what. Three names and then a number, because the line
-    # is a reminder and not a listing.
-    changed=$(git -C "$HERE" status --porcelain -- resolve/live resolve.sh \
-              2>/dev/null | sed 's/^...//' | grep -c . )
-    if [ "${changed:-0}" -gt 0 ]; then
-      touched=$(git -C "$HERE" status --porcelain -- resolve/live resolve.sh \
-                2>/dev/null | sed 's/^...//' | head -3 | tr '\n' ' ' \
-                | sed 's/ *$//')
-      [ "$changed" -gt 3 ] && touched="$touched and $((changed - 3)) more"
-    else
-      # Asked for, not derived from HEAD~1: a repository whose first
-      # commit is its only one has no HEAD~1, and a run there must not
-      # break. An unborn HEAD answers nothing at all, which is why the
-      # emptiness is asked after rather than compared.
-      was=$(git -C "$HERE" log -1 --format=%H -- resolve/live resolve.sh \
-            2>/dev/null)
-      now=$(git -C "$HERE" rev-parse HEAD 2>/dev/null)
-      [ -n "$was" ] && [ "$was" = "$now" ] \
-        && touched="the commit this run stands on"
+# Not on the builder. No runner has a Resolve or a key, "start them on
+# the owner's OK" is an instruction nobody there can follow, and
+# tests.yml already says where it belongs -- in the step that sets tests
+# aside. CI and GITHUB_ACTIONS are both set by GitHub; neither is set here.
+if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ]; then
+  for live in "$HERE"/*/live; do
+    [ -d "$live" ] || continue
+    area=${live%/live}; area=${area##*/}
+    apart=$(ls "$live"/*_test.py 2>/dev/null | wc -l | tr -d ' ')
+    # Sharper when that branch has just been worked on: a line that
+    # reads the same every day is read once. Two signals, both out of git,
+    # both without guesswork -- work under those paths not committed yet,
+    # and the newest commit touching them being the one this run stands
+    # on. What the program's own diff says was measured and thrown away:
+    # over 40 commits, "a changed line in videopodcast-magic.py naming
+    # Resolve" fired three times and every one of the three was a comment
+    # or a key name, while no commit in those 40 changed the Resolve code
+    # itself. A sharp line that is wrong three times in forty is noise.
+    #
+    # Where there is no git and no repository both questions come back
+    # empty and the plain line stands.
+    touched=""
+    if command -v git > /dev/null 2>&1 \
+       && git -C "$HERE" rev-parse --git-dir > /dev/null 2>&1; then
+      # Named, not counted: "something changed" sends whoever reads it
+      # looking for what. Three names and then a number, because the line
+      # is a reminder and not a listing.
+      changed=$(git -C "$HERE" status --porcelain -- "$area/live" "$area.sh" \
+                2>/dev/null | sed 's/^...//' | grep -c . )
+      if [ "${changed:-0}" -gt 0 ]; then
+        touched=$(git -C "$HERE" status --porcelain -- "$area/live" "$area.sh" \
+                  2>/dev/null | sed 's/^...//' | head -3 | tr '\n' ' ' \
+                  | sed 's/ *$//')
+        [ "$changed" -gt 3 ] && touched="$touched and $((changed - 3)) more"
+      else
+        # Asked for, not derived from HEAD~1: a repository whose first
+        # commit is its only one has no HEAD~1, and a run there must not
+        # break. An unborn HEAD answers nothing at all, which is why the
+        # emptiness is asked after rather than compared.
+        was=$(git -C "$HERE" log -1 --format=%H -- "$area/live" "$area.sh" \
+              2>/dev/null)
+        now=$(git -C "$HERE" rev-parse HEAD 2>/dev/null)
+        [ -n "$was" ] && [ "$was" = "$now" ] \
+          && touched="the commit this run stands on"
+      fi
     fi
-  fi
-  if [ "$apart" -gt 0 ] && [ -n "$touched" ]; then
-    echo "resolve: $apart tests under resolve/live/ did not run here, and the"
-    echo "         Resolve branch has been worked on: $touched"
-    echo "         Nothing but a person starts them, and they want a"
-    echo "         Resolve running:"
-    echo "             cd tests && bash resolve.sh"
-  elif [ "$apart" -gt 0 ]; then
-    echo "resolve: $apart tests under resolve/live/ did not run here. They talk"
-    echo "         to a DaVinci Resolve really running, so a person"
-    echo "         starts them:"
-    echo "             cd tests && bash resolve.sh"
-  fi
+    if [ "$apart" -gt 0 ] && [ -n "$touched" ]; then
+      echo "$area: $apart tests under $area/live/ did not run here, and that"
+      echo "         branch has been worked on: $touched"
+      echo "         They talk to what the suite only stands in for, so"
+      echo "         they are proposed and started on the owner's OK:"
+      echo "             cd tests && bash $area.sh"
+    elif [ "$apart" -gt 0 ]; then
+      echo "$area: $apart tests under $area/live/ did not run here. They talk"
+      echo "         to what the suite only stands in for, so they are"
+      echo "         started on the owner's OK:"
+      echo "             cd tests && bash $area.sh"
+    fi
+  done
 fi
 echo "(started in the background? then do the next thing while it runs.)"
 # Red if anything failed, and red if more was left out than the barrier

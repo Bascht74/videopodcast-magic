@@ -107,12 +107,15 @@ bash run.sh <name>             # one test, without the _test.py
 WORKERS=1 bash run.sh          # one after another, easier to read
 ```
 
-The tests under `tests/resolve/live/` are not part of `run.sh` and not
-part of the builder. They need a running DaVinci Resolve and are started
-by hand: `cd tests && bash resolve.sh`. Every run of the suite says at the
-end that they are there and did not run, and says it more sharply where
-git shows the Resolve branch has been worked on. On the builder it says
-nothing: nobody there could start them.
+The tests under a `live/` folder -- `tests/resolve/live/`,
+`tests/auphonic/live/` -- are not part of `run.sh` and not part of the
+builder. They talk to a running DaVinci Resolve or to auphonic.com
+itself, and are started only on the owner's OK: `cd tests && bash
+resolve.sh`, or `cd tests && bash auphonic.sh --online`, with
+`--spend-credit` added for the ones that start a production. Every run
+of the suite says at the end that they are there and did not run, and
+says it more sharply where git shows that branch has been worked on. On
+the builder it says nothing: nobody there could start them.
 
 A full run takes a couple of minutes. **Always through `run.sh`** — run
 by hand a test lacks `LANG=C LC_ALL=C LANGUAGE=en`, `TMPDIR`,
@@ -180,8 +183,9 @@ The file lies in the folder of the piece whose logic it checks --
 `tests/cut/`, `tests/ui/`, one for each folder under
 `videopodcast_magic/` -- and `run.sh` finds it by its name wherever it
 lies. `tests/source/` holds the tests that read the source and the
-documents as a whole, `tests/resolve/live/` those that want a Resolve
-running. Copy the opening lines of any test word for word: they find
+documents as a whole, and a `live/` folder under a piece those that
+talk to a running Resolve or to auphonic.com -- `tests/resolve/live/`,
+`tests/auphonic/live/`. Copy the opening lines of any test word for word: they find
 `tests/` from the file's own folder.
 
 The second line of the file is its claim — what holds when the test is

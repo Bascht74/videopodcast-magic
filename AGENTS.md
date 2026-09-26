@@ -86,8 +86,11 @@ a command.
 * `tests/` is the suite, **each test in the folder named after the piece
   whose logic it checks** -- `tests/cut/`, `tests/ui/` -- and `run.sh`
   finds it by its name alone. One is no piece: `tests/source/` reads
-  the source as a whole. `tests/resolve/live/` is apart: those tests
-  want a Resolve running, and `resolve.sh` starts them. `tests/samples/`
+  the source as a whole. A `live/` folder under a piece is apart --
+  `tests/resolve/live/` wants a Resolve running, `tests/auphonic/live/`
+  auphonic.com itself -- and `tests/<piece>.sh` starts it, only on the
+  owner's OK: Claude proposes the run, the owner never tests by hand.
+  `tests/samples/`
   holds checked-in material, and no test.
 * `docs/` is the manual: `docs/name.md` and `docs/name.de.md`. Changing
   one means changing both.

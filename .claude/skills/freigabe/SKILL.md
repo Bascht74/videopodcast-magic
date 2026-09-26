@@ -73,17 +73,20 @@ stopped somewhere, or when a command in it is being changed.
    (`80f46d5`, 1.9.2026) -- and what was supposed to have caught it was
    a line in a report. A report nobody grades holds nothing.
 
-6. **The Resolve tests have run, or the report says why not.**
-   `tests/resolve.sh` starts the tests under `tests/resolve/live/`, the
-   only ones that talk to a DaVinci Resolve really running. No builder
-   has one, so the owner runs them -- on the owner's Mac, with Resolve
-   open -- and nobody else starts them: not a strand, not a script.
-   **This one point does not block.** One line goes into the release
-   report either way, `resolve.sh: green`, or `resolve.sh: not run,
-   because ...` with the reason, and then the release goes on. **A blank
-   line is still no answer.** Until 25.9.2026, when the owner decided
-   it, the point stood nowhere: `resolve.sh` came up here only as a file
-   once forgotten while staging, never as a step.
+6. **The live tests have run, or the report says why not.**
+   `tests/resolve.sh` starts the tests under `tests/resolve/live/`, which
+   talk to a DaVinci Resolve really running; `tests/auphonic.sh
+   --online` those under `tests/auphonic/live/`, which talk to
+   auphonic.com, and `--spend-credit` the ones that start a production.
+   No builder has either, so Claude proposes the run where a change
+   needs it and starts it on the owner's Mac after the owner's OK. The
+   owner does not test by hand, and no strand starts them.
+   **This one point does not block.** One line each goes into the
+   release report either way, `resolve.sh: green`, or `auphonic.sh: not
+   run, because ...` with the reason, and then the release goes on. **A
+   blank line is still no answer.** Until 25.9.2026, when the owner
+   decided it, the point stood nowhere: `resolve.sh` came up here only
+   as a file once forgotten while staging, never as a step.
 
 ## The workflow takes the handgrips, not the judgement
 
@@ -403,8 +406,8 @@ sixth is answered in the report, and "not run, because ..." answers it.
 4. What the manual pass turned up: a test, or its shape a card on the owner's board?
 5. Do the pictures show the program as it is now?
 6. The three lines of the release report written down, none of them blank -- the owner's confirmation of the board among them?
-6b. `resolve.sh` run by the owner with Resolve open -- or the line "not
-    run, because ..." in the report, with the reason?
+6b. `resolve.sh` and `auphonic.sh` run on the owner's OK -- or the line
+    "not run, because ..." in the report, with the reason?
 7. The number set in the program and the four documents that carry it?
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
