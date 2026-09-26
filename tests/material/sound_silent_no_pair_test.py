@@ -4,6 +4,7 @@
 A tick set by hand outlives the measurement, and after a block is
 taken away the channel it paired may carry nothing at all.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

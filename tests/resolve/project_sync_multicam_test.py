@@ -19,6 +19,7 @@ under stays the file's, so two cameras nobody is on stay two tracks.
 The limit of the method: nothing here is laid on a real timeline; the
 stand-in records the calls, and the real insert is another test's.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

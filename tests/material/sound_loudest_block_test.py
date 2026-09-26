@@ -4,6 +4,7 @@
 A recording is measured block by block, and the quiet run-out must
 not decide what the show measured.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

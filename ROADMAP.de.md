@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b24 durchgegangen worden.
+zuletzt für 3.0.0b25 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b24.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b25.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -34,8 +34,13 @@ Wo eine Datei auf der gemeinsamen Zeitachse liegt, kommt aus ihrem Ton.
 Die eigene Uhr einer Kamera zählt nur dort, wo der Ton nichts hergab,
 und der Lauf nennt jede Datei, die er allein nach der Uhr setzen musste
 — denn zwei Kameras gehen nur gleich, wenn jemand sie darauf gestellt
-hat, und dann noch um ein, zwei Bilder daneben. Fenster, Vorschau und
-fertiges Projekt stehen alle auf dieser einen Rechnung.
+hat, und dann noch um ein, zwei Bilder daneben. Jede Aufnahme sagt
+außerdem, was in ihrem Ton liegt: Sprache oder eine Mischung, Musik
+unter den Stimmen. Nur eine gemischte darf über die Phase ihres Tons
+gesetzt werden; eine Sprachaufnahme, die keinen Ton mit den Kameras
+teilt, wird abgelehnt statt geraten, und eine, die kein Messweg setzen
+kann, steht an ihrem Timecode. Fenster, Vorschau und fertiges Projekt
+stehen alle auf dieser einen Rechnung.
 
 Sprechertrennung, Spracherkennung und Niederschrift laufen auf der
 Maschine, vor der du sitzt. Trennung und Erkennung
@@ -47,7 +52,8 @@ mit ihr der Haken und der Schalter dafür; die Worte hängen also weder
 daran, dass der Dienst erreichbar ist, noch daran, dass eine
 Voreinstellung gewählt wurde. Pegel, De-Bleed und Rauschunterdrückung
 dort sind weiterhin freiwillig, und das Programm lädt erst hoch, wenn es
-dazu aufgefordert wird.
+dazu aufgefordert wird. Wer wann spricht, wird so oder so an den rohen
+Mikrofonen über die Stimme bestimmt, nach dem Dienst wie ohne ihn.
 
 Wo eine Tatsache fehlt, sagt das Fenster es, statt eine Antwort
 entgegenzunehmen, die nichts bewirkt. Die Einstellungen, die die Worte
@@ -65,14 +71,14 @@ ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
 Jede Sprache, die das Fenster anbietet, sagt alles: ihr Katalog hat
-für jeden der rund 1400 Texte des Programms eine
+für jeden der rund 1600 Texte des Programms eine
 Antwort, die Zeilen eines Laufs und den Schritt nach Resolve
 eingeschlossen. Was jede Sprache beantwortet, wird bei jedem Push
 gezählt und darf nur wachsen, und jede wird an allem gemessen.
 
 Es ist ein Python-Programm: ein Ordner, `videopodcast_magic/`, in dem
 eine kleine Datei liegt, mit der das Programm startet, daneben
-fünfunddreißig Stücke in je einem eigenen Ordner und das Sprechermodell.
+sechsunddreißig Stücke in je einem eigenen Ordner und das Sprechermodell.
 Installiert wird es mit `pip3 install git+...`, zu bauen ist daran
 nichts. Eine einzelne Datei zu holen und zu starten war bis zum 4.9.2026
 der zweite Weg hinein und ist keiner mehr -- eine Kopie ohne den übrigen
@@ -85,16 +91,16 @@ unter macOS und Windows, unter Linux läuft es mit zwei Einschränkungen.
 **Bis zum 4.9.2026 war es eine Datei, und jetzt ist es ein Ordner.**
 Zuerst gingen die Texte heraus, je Sprache eine Datei, und in den drei
 Tagen danach folgte der Rest: die Datei, mit der das Programm startet,
-hatte an jenem Tag 37 535 Zeilen und hat jetzt 717, und das größte
-Stück, das Fenster, hat 3867. Für jeden, der daran arbeitet, folgt
+hatte an jenem Tag 37 535 Zeilen und hat jetzt 784, und das größte
+Stück, das Fenster, hat 4544. Für jeden, der daran arbeitet, folgt
 daraus nur eines -- das Programm wird als Ordner kopiert, nie als die
-Datei darin. Eine Suite aus 263 Tests läuft bei jedem Push: sechs Läufe
+Datei darin. Eine Suite aus 361 Tests läuft bei jedem Push: sechs Läufe
 nebeneinander, drei Systeme und zwei Python-Versionen. Daneben liegen
 vier weitere, die ein echtes Resolve brauchen und nirgends sonst laufen
 können. Die sechs sind nicht gleich schnell, und der langsame ist
-Windows: über die letzten sieben grünen Läufe, gemessen am 3.9.2026,
-brauchte der langsamste der sechs zwischen 404 und 835 Sekunden, und es
-war jedes Mal ein Windows-Lauf. Gewartet wird auf diesen einen, nicht
+Windows: bei 3.0.0b24 brauchte der langsamste der sechs 1067 Sekunden,
+Windows mit Python 3.10, und in den sieben grünen Läufen, gemessen am
+3.9.2026, war es jedes Mal ein Windows-Lauf. Gewartet wird auf diesen einen, nicht
 auf die Summe der sechs.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
@@ -104,6 +110,20 @@ das wissen. Beta endet, sobald das Format stillhält, und eine Änderung,
 die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
+
+**Die nächsten fünf Fassungen, kurz.** 3.0.0b26 nimmt das Fenster in
+Stücke auseinander -- das Hauptfenster, je Reiter ein Stück und ein
+Modell des Projekts, aus dem alle lesen --, teilt die Zuordnungstabelle
+und die Kette des Laufs ebenso und lässt die Tests gegen auphonic.com
+und ein echtes Resolve auf der Maschine des Eigners laufen. 3.0.0b27
+bringt die erste Hälfte der Tests über den ganzen Weg und behebt, was
+das Fenster sichtbar noch falsch macht. 3.0.0b28 macht die Zeitachse
+und die Übergabe an Resolve genauer, mit der zweiten Hälfte dieser
+Tests. 3.0.0b29 öffnet mehr von den Auphonic-Optionen, nimmt mehr als
+zwei Kanäle, ersetzt gesetzte Schwellen durch gemessene und zeigt die
+Vorschau in HDR. 3.0.0b30 gibt dem Programm einen eigenen Tonweg, ohne
+auphonic.com. Die Reihenfolge kann sich ändern; die vier Punkte unten
+stehen darin vorn.
 
 Vier Punkte. Die ersten zwei sind Arbeit. Die letzten zwei sind gebaut,
 und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
@@ -174,15 +194,15 @@ Gröber, und in keiner festen Reihenfolge.
   Ein dritter, ein Resolve, das sich weigert, gehört zu den Tests gegen
   ein echtes Resolve weiter oben.
 
-* **Acht lange Definitionen bekommen ihre Beschreibung.** Die Kommentare
+* **Die letzte lange Definition bekommt ihre Beschreibung.** Die Kommentare
   im Programm haben bekommen, was die Tests schon hinter sich hatten:
   Kommentar und Docstring sind von knapp einem Drittel der Zeilen auf
   ein Viertel gefallen, und die Stellen, an denen ein Kommentar länger
   läuft, als die Regeln wollen, von 104 und 141 auf je sieben. Übrig
-  ist die umgekehrte Lücke. Acht Definitionen von hundert Zeilen und
-  mehr, der Schnittplayer darunter, tragen noch gar keine Beschreibung,
-  und eine Prüfung hält diese Zahl fest, sodass sie nur noch fallen
-  kann.
+  ist die umgekehrte Lücke. Von den acht Definitionen mit hundert
+  Zeilen und mehr, die gar keine Beschreibung trugen, ist eine übrig --
+  die, die die Vorschau des Schnitts ausrechnet, 117 Zeilen --, und eine
+  Prüfung hält diese Zahl fest, sodass sie nur noch fallen kann.
 
 * **Das Handbuch bekommt, was ihm fehlt.** Rund ein Dutzend Zahlen
   stehen noch ohne ihre Vorgabe und ohne die Richtung, in die sie
@@ -243,7 +263,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Generator machte daraus eine Liste von Betreffzeilen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Das wären vier
-  neue Abhängigkeiten für ein Programm, dessen 263 Tests als schlichte
+  neue Abhängigkeiten für ein Programm, dessen 361 Tests als schlichte
   Scripts durchlaufen. Eine dünne pytest-Schicht, die genau diese
   Scripts unverändert startet, ist etwas anderes und kann kommen.
 
@@ -316,8 +336,9 @@ Platz auf der Zeitachse kam.
 **Der Auphonic-Schlüssel gehört nie in eine Meldung.** Auf dem Mac hält
 das Programm ihn im Schlüsselbund, unter Windows in der Registry; unter
 Linux speichert es ihn gar nicht. Die Projektdatei enthält keine
-Befehlszeile, also steht er auch dort nicht drin. Keine Meldung braucht
-ihn.
+Befehlszeile, also steht er auch dort nicht drin, und ein Lauf von der
+Kommandozeile nimmt ihn aus `AUPHONIC_TOKEN` statt aus einem Schalter,
+er steht also in keinem Verlauf der Shell. Keine Meldung braucht ihn.
 
 **Patches sind willkommen, und einen zweiten Leser gibt es nicht.**
 Eine kleine Änderung, die eine Sache tut, wird gelesen und übernommen;

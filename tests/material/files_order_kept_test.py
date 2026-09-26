@@ -11,6 +11,7 @@ Without --together the same files sort by name.
 
 The files are empty: only their order is measured.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

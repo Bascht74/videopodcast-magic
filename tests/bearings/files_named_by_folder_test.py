@@ -16,6 +16,7 @@ where user-dirs.dirs gives it, and the built-in names count on beside
 it; and no language stands in the list. What a section rests on is
 checked before it, so a red line names the first thing that was wrong.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

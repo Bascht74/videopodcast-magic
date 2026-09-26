@@ -9,6 +9,7 @@ command line, one with --version that afterwards calls main(). The
 limit: this says what happens where numpy is shut away, not what
 happens on a machine that really has none.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

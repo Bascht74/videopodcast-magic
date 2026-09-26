@@ -8,6 +8,7 @@ the piece alone. What was cut is then regrouped channel by channel
 across the blocks, and a recording whose blocks did not all come apart
 the same way stays whole instead of putting two signals on one row.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

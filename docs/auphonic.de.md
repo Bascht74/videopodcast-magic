@@ -16,7 +16,7 @@ Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
 1. Im Fußbereich **Einstellungen ...** öffnen; das Fenster selbst ist in
    [Die Oberfläche](interface.de.md) beschrieben.
 2. Im Kasten **Zugang zu auphonic.com** das Feld **API Key:** füllen
-   (auf der Kommandozeile `--auphonic-api-key`).
+   (für einen Lauf von der Kommandozeile: `AUPHONIC_TOKEN`).
 3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen, das den
    Schlüssel im Schlüsselbund (macOS) oder in der Registry (Windows)
    behält. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
@@ -52,9 +52,6 @@ auphonic.com geantwortet hat.
   überschreibt sie vorher, wenn sie sich nicht löschen lässt. Der
   Schlüssel geht maskiert hinein, damit ein Anführungszeichen oder ein
   Zeilenumbruch darin keine eigenen Direktiven anfügen kann.
-* Aber `--auphonic-api-key SCHLUESSEL` schreibt ihn in die Kommandozeile
-  dieses Programms, wo `ps` und die Shell-Historie ihn sehen. Auf der
-  Kommandozeile also lieber `AUPHONIC_TOKEN`.
 
 Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security`
 über dessen Eingabe, nicht als Argument; auch auf diesem Weg steht er
@@ -244,4 +241,6 @@ Im Fenster gibt es diese Optionen nicht.
   nur einen Lauf, der mehrere Spuren hochlädt; bei einer einzelnen Spur
   gibt es keinen Upload je Spur, den man wieder aufnehmen könnte.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
-  liegenden Spuren, benannt nach den Sprechern.
+  liegenden Spuren, benannt nach den Sprechern. Liegt eine der
+  Aufnahmen, die der Lauf bekommt, selbst in diesem Ordner, lehnt er sie
+  ab: Er hält vor allem anderen an und nennt die Datei.

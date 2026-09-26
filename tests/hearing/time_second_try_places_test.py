@@ -8,6 +8,7 @@ phase, whose answer no sample point backs up; the second try placing
 the file and handing the gate its numbers; the cheap way staying where
 it reaches; and a recording that fits nowhere, placed by neither.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -51,9 +52,9 @@ LENGTH, CAM_LEN, CAM_LATE = 60.0, 40.0, 4.0
 # does not push it lower -- 50 dB reads 0.026.
 HUM_HZ, HUM_OVER_DB, HUM_AMP = 100.0, 40.0, 0.8
 # What the run asks for on a reference of half an hour. Written out
-# rather than left to the default: the gate below wants fifty sample
-# points, and the default of one every two minutes never has them on
-# material a test can afford to build.
+# rather than left to the default: the gate below wants its count of
+# sample points, and the default of one every two minutes never has
+# them on material a test can afford to build.
 ASKED = dict(sample_points=60, distance_s=30.0)
 
 

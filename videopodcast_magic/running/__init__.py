@@ -25,12 +25,14 @@ json = PROGRAM.json
 label_of = PROGRAM.label_of
 number_text = PROGRAM.number_text
 os = PROGRAM.os
+path_key = PROGRAM.path_key
 run_argv = PROGRAM.run_argv
 size_in_mb = PROGRAM.size_in_mb
 slider_argv = PROGRAM.slider_argv
 space_summary_lines = PROGRAM.space_summary_lines
 speakers_for_run = PROGRAM.speakers_for_run
 sys = PROGRAM.sys
+targets_to_ask = PROGRAM.targets_to_ask
 tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
 time = PROGRAM.time
@@ -163,6 +165,9 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
 
         if state["running"] or not files:
             return
+        # A name still being typed is settled, as leaving the field would.
+        if state.get("name_settle"):
+            state["name_settle"]()
         if not state.get("confirmed") and not summary_show(
                 only_look):
             return
@@ -254,6 +259,8 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
             "preset": preset_plaintext(),
             "done_folder": done_folder.get(),
             "speech_language": speech_language.get().strip(),
+            # What each recording's sound holds, by its first block.
+            "sound": dict(state.get("sound_holds") or {}),
             "lufs": lufs_value.get(),
             "apart": sorted(no_join),
             "together": together_now(),
@@ -287,15 +294,15 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         if wishes is not None:
             with open(assign_file, "w", encoding="utf-8") as f:
                 json.dump(wishes, f, ensure_ascii=False, indent=1)
-        # What is already there gets overwritten, so show what first.
+        # What is already there and not our own earlier delivery gets
+        # asked about first, by the rule the run itself goes by.
         if not only_look:
             already_present = []
-            for p, v, _k, _n in camera_lines:
-                folder = out_folder.get() or os.path.dirname(p)
-                target = os.path.join(folder, (v.get().strip()
-                                             or os.path.splitext(
-                                                 os.path.basename(p))[0])
-                                    + ".mov")
+            for target in targets_to_ask(
+                    [p for p, _v, _k, _n in camera_lines],
+                    {path_key(p): v.get().strip()
+                     for p, v, _k, _n in camera_lines},
+                    out_folder.get(), values["production"].strip()):
                 if os.path.exists(target):
                     already_present.append("%s   (%s)"
                                     % (os.path.basename(target),
@@ -320,7 +327,10 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         PROGRAM.break_off_arm(break_off)
         run_plan_build()
         result_button_check()
-        project_write()          # the dry run too: same hand work
+        # A dry run says it left the output folder as it was, so it
+        # does not save: the window's close writes the hand work down.
+        if not only_look:
+            project_write()
         threading.Thread(target=work_loop, args=(argv,), daemon=True).start()
         output_timer.start()
 

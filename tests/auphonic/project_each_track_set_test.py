@@ -11,6 +11,7 @@ and the settings have arrived on all of them at the end. Auphonic is a
 stand-in here; what is measured is which calls the program makes and
 what it puts into them.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

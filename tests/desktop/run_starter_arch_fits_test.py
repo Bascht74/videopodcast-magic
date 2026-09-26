@@ -11,6 +11,7 @@ it, laid again once and never after; and the sentence a person gets
 where the two no longer fit. Every architecture in here is a stand-in:
 six builder jobs and one of them is an Apple Silicon Mac.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

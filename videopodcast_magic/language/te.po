@@ -1295,9 +1295,6 @@ msgstr "  చాలా ఎక్కువ:          లిమిటర్ %s dB 
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  ట్రాన్స్‌క్రిప్ట్ సాధ్యం కాదు (%s) -- అయినా రన్ కొనసాగుతుంది."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  అంచుల వద్ద వైడ్ షాట్: వదిలివేయబడింది -- మొదటి లేదా చివరి ప్రకటన\n  పలకరింపుకు చాలా పొడవుగా ఉంటుంది."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  అంచుల వద్ద వైడ్ షాట్: %s వరకు, %s నుండి"
 
@@ -2375,8 +2372,8 @@ msgstr "Multitrack (ప్రతి వక్తకు ఒక ట్రాక్
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి. ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో. ఒకే రికార్డింగ్‌లోని అనేక బ్లాక్‌లు ఒకటిగా లెక్కించబడతాయి, పక్కన పెట్టిన ట్రాక్‌లు అసలు లెక్కించబడవు."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API కీ లేదు. --auphonic-api-key KEY ఇవ్వండి, AUPHONIC_TOKEN సెట్ చేయండి, లేదా ఇంటర్‌ఫేస్‌లో ఒకసారి గుర్తుంచుకునేలా చేయండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API కీ లేదు. AUPHONIC_TOKEN సెట్ చేయండి, లేదా ఇంటర్‌ఫేస్‌లో ఒకసారి గుర్తుంచుకునేలా చేయండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ఏ ఆడియో ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు. ఇన్ పాయింట్, అవుట్ పాయింట్ మెటీరియల్ ప్రారంభం నుండి లెక్కించబడతాయి -- ఫైళ్ల పరస్పర స్థానం కొలవబడుతుంది."
@@ -3427,9 +3424,6 @@ msgstr "రికార్డింగ్‌ల నుండి కొలిచ�
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "పూర్తయిన రన్ నుండి -- %s వక్తలు, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "ప్రాసెస్ చేసిన Auphonic ట్రాక్‌ల నుండి -- %s వక్తలు, %s"
 
 msgid "no folder"
 msgstr "ఏ ఫోల్డర్ లేదు"
@@ -4887,3 +4881,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "ఆడియో భాష"
+
+msgid "In the sound"
+msgstr "ఆడియోలో"
+
+msgid "Speech"
+msgstr "మాట"
+
+msgid "Mixed"
+msgstr "మిశ్రమం"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "మాట: లౌడ్‌నెస్ ఆధారంగా మాత్రమే ఉంచబడుతుంది. కెమెరాలతో ఏదీ ఉమ్మడిగా\nలేని రికార్డింగ్ తిరస్కరించబడుతుంది. మిశ్రమం: గొంతుల కింద సంగీతం లేదా మిక్స్ ఉంటుంది,\nలౌడ్‌నెస్ ఏమీ కనుగొనని చోట ఫేజ్ దాన్ని ఉంచవచ్చు.\n\"%s\" కింద ఇది ఎల్లప్పుడూ మిశ్రమం."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: దీని ఆడియో %s మేరకు సరిపోతుంది, మరో చోట కూడా %s మేరకు -- దాని గడియారం ఆధారంగా మాత్రమే ఉంచబడింది"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  ఒక్కొక్కటి గరిష్ఠంగా %s కి కుదించబడింది -- మొదటి ప్రకటన %s వద్ద ముగుస్తుంది, చివరిది %s వద్ద మొదలవుతుంది"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "ఈ ఫోల్డర్‌లో ఆ పేరుతో మరో ప్రాజెక్ట్ ఉంది, %s -- ఇది %s లోనే ఉంటుంది."
+
+msgid "the picture did not change to the answerer there"
+msgstr "అక్కడ చిత్రం సమాధానమిచ్చినవారికి మారలేదు"
+
+msgid "the answer was counted with the question before"
+msgstr "సమాధానం ముందటి ప్రశ్నతో కలిపి లెక్కించబడింది"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s --auphonic-done ఫోల్డర్‌లో, auphonic.com తిరిగి ఇచ్చిన ట్రాక్‌ల మధ్య ఉంది. ఎవరు మాట్లాడుతున్నారో ముడి రికార్డింగ్‌ల నుండి నిర్ణయించబడుతుంది, కాబట్టి ఇక్కడ దానికి బదులుగా ముడి రికార్డింగ్‌ను ఇవ్వండి."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ఆడియో గుర్తించబడలేదు; రన్ ఉంచే విధంగానే ఉంచబడింది"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ఆడియో గుర్తించబడలేదు, దాని టైమ్‌కోడ్ ఆధారంగా ఉంచబడింది"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s రికార్డింగ్‌లు, చిత్రం లేదు: ప్రతిదీ విడిగా జోడించబడుతుంది, అవి ఒకదానికొకటి సమలేఖనం చేయబడవు. --multitrack వాటిని ఒకే సమయ అక్షంపై ఉంచుతుంది."

@@ -13,6 +13,7 @@ others on the list -- the older gamma and both Dolby Vision boxes --
 and the one that is deliberately not on it: a 3D box beside the one
 ffmpeg writes itself leaves a file nothing will open.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

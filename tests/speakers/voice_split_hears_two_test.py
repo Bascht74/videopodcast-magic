@@ -11,6 +11,7 @@ Three sections: that it runs and hands back the shape the rest of the
 program reads, that it hears as many voices as spoke, and that every
 turn is one stretch under one label with its edges where truth has them.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

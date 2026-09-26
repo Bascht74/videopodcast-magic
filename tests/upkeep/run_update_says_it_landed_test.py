@@ -16,6 +16,7 @@ the network is shut at the top of the file. What the box does with the
 two buttons in it is not measured here -- that is the ffmpeg install's
 test, and the box is the same box.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

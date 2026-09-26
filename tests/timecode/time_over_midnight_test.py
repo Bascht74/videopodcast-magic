@@ -5,6 +5,7 @@ A recorder started at 00:10 and cameras running since 23:50 are
 minutes apart, but their timecodes are almost a whole day. Read
 plainly, the run reported an unset clock where the clock was right.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

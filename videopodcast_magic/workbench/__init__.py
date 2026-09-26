@@ -14,6 +14,7 @@ PROGRAM = PROGRAM
 # stand below it and are read through PROGRAM where they are used.
 T = PROGRAM.T
 TN = PROGRAM.TN
+as_written = PROGRAM.as_written
 os = PROGRAM.os
 re = PROGRAM.re
 subprocess = PROGRAM.subprocess
@@ -79,7 +80,9 @@ def number_text(number, places=1, plus=False):
     Not in two passes over the finished text: one language's thousands
     mark is another's decimal mark, and on German the second pass reads
     what the first wrote -- "1,234,5". *places* None writes as many
-    places as the number needs, and *plus* signs a positive one.
+    places as the number needs, and *plus* signs a positive one. A
+    signed number is held together as_written(), or a right-to-left
+    line puts its sign behind it: "-16 LUFS" read as "LUFS 16-".
     """
     # French and Russian group with a space, so nothing here may look
     # for a particular character: the cut is made at the point "%f"
@@ -90,13 +93,14 @@ def number_text(number, places=1, plus=False):
     # "inf" and "nan" carry no digits to group, and int() stops the run
     # over them. A fit with no spread of its own reports its error as
     # inf, so this is reachable, and the word is handed on whole.
-    if not text.lstrip("-")[:1].isdigit():
-        return ahead + text.lstrip("-")
-    whole, _, rest = text.lstrip("-").partition(".")
-    # Over a million "%g" writes "1e+06", and int() stops over that too.
-    if whole.isdigit():
-        whole = format(int(whole), ",d").replace(",", T(","))
-    return ahead + whole + (T(".") + rest if rest else "")
+    body = text.lstrip("-")
+    if body[:1].isdigit():
+        whole, _, rest = body.partition(".")
+        # Over a million "%g" writes "1e+06", and int() stops over that.
+        if whole.isdigit():
+            whole = format(int(whole), ",d").replace(",", T(","))
+        body = whole + (T(".") + rest if rest else "")
+    return as_written(ahead + body) if ahead else body
 
 
 def channel_text(count):

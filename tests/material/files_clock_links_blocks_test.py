@@ -11,6 +11,7 @@ to stay apart, and what has to become one row, because a rule that
 refuses everything passes every judgement of the first kind. Last, a
 moment two names spell alike, from either of the two files.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

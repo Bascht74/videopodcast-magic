@@ -8,6 +8,7 @@ number, as the run tells them; and where two cameras are given one new
 file name, the start held back, red on the row and the line under the
 table -- and none of it for two files of one name named apart.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 import time

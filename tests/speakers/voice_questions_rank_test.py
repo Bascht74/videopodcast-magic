@@ -10,6 +10,7 @@ this file holds the order, holds the questions above the share, stays
 quiet where there is too little, and quiet again where two tracks
 carry the same speech.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

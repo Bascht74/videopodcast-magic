@@ -174,7 +174,13 @@ Under the selectors the tick **Wide shot for greeting at the start and
 farewell at the end** keeps beginning and end on the wide shot (on the
 command line `--no-wide-edges` switches it off). The opening wide shot
 holds until the floor is really handed over, not until the first longer
-block from somebody else.
+block from somebody else. Neither edge holds for more than a third of
+the recording, nor for longer than **Wide shot at the latest**: where
+greeting or goodbye would run longer, that edge stops there -- at the
+third in a short recording, at the setting in a long one -- and the log
+says so under `Wide shot at the edges`, with where the talk really
+changes hands. An edge that comes out shorter than **Minimum Edit
+Duration** falls into the shot beside it, like any other.
 
 **Speaks at least** takes care of short interjections ("mhm", "yes
 exactly"). A shot that still comes out too short falls into the one
@@ -241,6 +247,15 @@ the list of the **Kind** field of every wide shot after the first:
 **the cut uses** and the camera, named as the window names it -- of two
 files called `C0003.MP4` the second is `C0003.MP4 (2)`.
 
+Which one it takes is decided by the file name: the first in
+alphabetical order. That shows most where nobody is assigned to any
+camera at all. Then every camera is a wide shot, no speaker has a
+camera of their own to be cut to, and the whole cut stays on that first
+camera -- three cameras in one room give a cut that never changes the
+picture. The log's line with the number of wide shots says which camera
+that is. Assign the speakers to their cameras, and the cut follows
+whoever is speaking.
+
 A number already in a grey field is kept, and the run does not act on it
 either: without a wide shot **Wide shot after** counts as 0, the tick as
 off, and each of those three selectors still standing on **Wide shot**
@@ -283,11 +298,15 @@ the wide shot's share falls from 28 to 17 per cent.
 many question marks the transcript held and for how many of them the
 picture was brought forward -- there the thing is called a reaction cut,
 and that is the last place the word is used; on the screen it is
-**After a question** and **Answer on screen earlier**. A second line
-follows where any were let go, with the count for each reason: the main
-speaker asked, asker and answerer on one camera, nobody answered in
-time, the answer did not keep the floor, nobody was speaking at the
-question. Without a transcript the line says that instead, so a setting
+**After a question** and **Answer on screen earlier**. Each place is
+counted once, and only where the picture really moved. An answer that
+starts a little off the place where the picture changes to the
+answerer -- no further than `--reaction-gap` -- is brought forward to
+that change. A second line follows where any were let go, with the
+count for each reason: the main speaker asked, asker and answerer on one
+camera, nobody answered in time, the answer did not keep the floor,
+nobody was speaking at the question, the picture did not change to the
+answerer there, the answer was counted with the question before. Without a transcript the line says that instead, so a setting
 that can do nothing does not read as one that is broken.
 
 **Listener** means whoever speaks next, and only if somebody on that
@@ -330,9 +349,9 @@ brackets the measured speech time, and behind that **-- talking at once
 counts twice**. For the source there are three answers:
 
 - **Speakers, as the run measured them.** A run is done and its handover
-  is being read. Every track lay on one axis for it, and over
-  auphonic.com the neighbours had been taken out of them as well. This
-  is the finest of the three.
+  is being read. Every track lay on one axis for it, and microphones
+  that hear each other were joined and separated by voice. This is the
+  finest of the three.
 - **Speakers, separated by voice.** They come out of a separation on
   this machine, before any run.
 - **Speakers, self-measured from the tracks.** Levels measured against
@@ -583,12 +602,12 @@ The program sets every spot again until it holds;
 [Inside the program](../development/internals.md) names how often and
 for how long.
 
-### Measuring the speakers without Auphonic
+### Measuring the speakers from the tracks
 
-Without Auphonic the run stays local, and the script measures from the
-tracks who speaks when. The way there is in [Processing at
-auphonic.com](auphonic.md) (on the command line `--without-auphonic`).
-In the log that section is headed `SPEAKERS -- MEASURED HERE`.
+Every track no separation speaks for is measured by the script itself:
+who speaks when, read off the recording as it was made -- with
+auphonic.com as without, because what comes back from there is only the
+sound. In the log that section is headed `SPEAKERS -- MEASURED HERE`.
 
 How the script reads the tracks:
 

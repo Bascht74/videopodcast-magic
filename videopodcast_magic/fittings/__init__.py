@@ -903,6 +903,39 @@ def box_names_fit(box, room):
     whole_name()
     return box
 
+def least_size_from_layout(window):
+    """Let the window be made no smaller than what it shows needs.
+
+    The least size is its layout's, asked again whenever that changes --
+    a project opened, a sheet turned to -- so a choice box is never
+    squeezed below its text, in any language. Never more than the screen
+    the window stands on: a window wider than that cannot be reached.
+    """
+    from PySide6 import QtCore as _qc
+
+    def fit():
+        """Set the least size to the layout's, up to the screen's room."""
+        need = window.minimumSizeHint()
+        room = window.screen().availableGeometry()
+        frame = window.frameGeometry().size() - window.size()
+        least = _qc.QSize(min(need.width(), room.width() - frame.width()),
+                          min(need.height(), room.height() - frame.height()))
+        if least != window.minimumSize():
+            window.setMinimumSize(least)
+
+    class LayoutWatch(_qc.QObject):
+        """Asks again each time the window's layout is to be redone."""
+
+        def eventFilter(self, which, event):
+            """Fit on a layout request, and let it through."""
+            if event.type() == _qc.QEvent.LayoutRequest:
+                fit()
+            return False
+
+    window.installEventFilter(LayoutWatch(window))
+    fit()
+    return window
+
 def field_bind(field, value, width=None):
     """Bind an input field and a value so each follows the other.
 

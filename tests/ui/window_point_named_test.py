@@ -8,6 +8,7 @@ comes up with both jump buttons live; "to In point" and "to Out point"
 each leave the sentence saying no video file holds that point, opened by
 the German word. Offscreen, in Qt's own style.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

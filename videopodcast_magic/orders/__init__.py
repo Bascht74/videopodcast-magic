@@ -20,6 +20,9 @@ MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
 PLATFORMS = PROGRAM.PLATFORMS
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
+SOUND_HOLDS = PROGRAM.SOUND_HOLDS
+SOUND_MIXED = PROGRAM.SOUND_MIXED
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 T = PROGRAM.T
 TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 TYPE_INTRO = PROGRAM.TYPE_INTRO
@@ -35,6 +38,7 @@ label_of = PROGRAM.label_of
 languages = PROGRAM.languages
 number_text = PROGRAM.number_text
 os = PROGRAM.os
+path_key = PROGRAM.path_key
 python_note = PROGRAM.python_note
 separation_has_voices = PROGRAM.separation_has_voices
 
@@ -110,6 +114,19 @@ def slider_argv(values):
     return out, bad
 
 
+class RunLine(list):
+    """A window run's command line, with its key carried beside it.
+
+    Never on it: a line stands in the process list, and a restart can
+    start it again.
+    """
+
+    def __init__(self, words, key=""):
+        """The words of the line, and the key that goes with it."""
+        list.__init__(self, words)
+        self.key = key
+
+
 def run_argv(values, assignment_file_path=""):
     """Build the command line from what the interface holds.
 
@@ -117,7 +134,7 @@ def run_argv(values, assignment_file_path=""):
 
     Returns (argv, plan, messages)
 
-      argv      the command line, or None if something is missing
+      argv      the command line, its key in .key, or None if missing
       plan      what goes into the assignment file, or None
       messages  list of (kind, title, text, button) in the order the
                 interface should present them. "error" means show and
@@ -170,6 +187,7 @@ def run_argv(values, assignment_file_path=""):
     for file_path in sorted(p for p, a in clip_kind.items()
                             if a == TYPE_WIDE and p not in off):
         argv += ["--wide-shot", file_path]
+    argv += camera_label_argv(files, off)
     if values.get("out_folder"):
         argv += ["--out", values["out_folder"]]
     # No switch means "take it from the source files", as on the line.
@@ -190,6 +208,12 @@ def run_argv(values, assignment_file_path=""):
     # while the window has not asked yet: the run then reads it as a cut.
     if values.get("project_type") in ("cut", "sync"):
         argv += ["--project-type", values["project_type"]]
+    # Only the recordings said to hold mixed sound: speech is what a run
+    # takes unasked. Keyed by the recording's first block, as listed.
+    listed = set(path_key(p) for p, a in files if a == "audio")
+    for p, holds in sorted((values.get("sound") or {}).items()):
+        if holds == SOUND_MIXED and path_key(p) in listed:
+            argv += ["--sound-of", p, holds]
 
     # The last net under the window's own mark: a voice whose name is on
     # somebody else already. Refused and not asked -- to the cut two
@@ -335,6 +359,10 @@ def run_argv(values, assignment_file_path=""):
             if name and file_path and file_path not in edge.values() \
                     and file_path not in off:
                 argv += ["--new-name", file_path, name]
+        # The plan carries the production's name; this path has none,
+        # and without the switch the run names it after the folder.
+        if (values.get("production") or "").strip():
+            argv += ["--production", values["production"].strip()]
     if values.get("speakers_wanted") is False \
             and not values.get("multitrack"):
         argv += ["--no-speakers-local"]
@@ -367,7 +395,7 @@ def run_argv(values, assignment_file_path=""):
             return error(
                 T('Preset missing'),
                 T('Load Presets and pick one, or leave the API Key empty.'))
-        argv += ["--auphonic-api-key", key, "--auphonic-preset", selected]
+        argv += ["--auphonic-preset", selected]
         # Only with a key: without auphonic.com there is nobody to
         # transcribe, and the switch would promise what cannot happen.
     else:
@@ -376,7 +404,22 @@ def run_argv(values, assignment_file_path=""):
         # Without the switch one recording would go and ask the
         # credential store for the key the window had just set aside.
         argv += ["--without-auphonic"]
-    return argv, plan, messages
+    return RunLine(argv, key), plan, messages
+
+
+def camera_label_argv(files, off=()):
+    """The window's camera names as switches, where not the file's own.
+
+    camera_labels numbers the second of two files of one name "(2)", in
+    the window's order, and the run's log is to say the same. A file
+    set aside does not ride along; every other name is the file's own.
+    """
+    out = []
+    videos = [p for p, a in files if a == "video"]
+    for file_path, shown in camera_labels(videos).items():
+        if file_path not in off and shown != os.path.basename(file_path):
+            out += ["--camera-label", file_path, shown]
+    return out
 
 
 def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
@@ -407,6 +450,18 @@ def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
 # this declares them, both out of CUT_FIELDS and CUT_CHOICES.
 
 
+class SoundOf(argparse.Action):
+    """--sound-of FILE SOUND, kept as pairs; SOUND is speech or mixed."""
+
+    def __call__(self, parser, space, words, option=None):
+        """Keep the pair, or refuse the line as a wrong choice is refused."""
+        if words[1] not in SOUND_HOLDS:
+            parser.error("argument --sound-of: invalid sound %r (choose "
+                         "from %s)" % (words[1], ", ".join(SOUND_HOLDS)))
+        setattr(space, self.dest,
+                list(getattr(space, self.dest, None) or []) + [list(words)])
+
+
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(
@@ -430,13 +485,28 @@ def build_argument_parser():
                          "onto each camera and the multicam timeline only, "
                          "with no speakers, no speech recognition, no "
                          "transcript and no cut lists. (default: cut)")
-    ap.add_argument("--auphonic-api-key", dest="auphonic_key",
-                    default=None, metavar="KEY",
-                    help="API key from the Auphonic account settings. Turns "
-                         "processing on. Without files it only lists the "
-                         "presets.")
+    ap.add_argument("--sound", dest="sound", default=SOUND_SPEECH,
+                    choices=SOUND_HOLDS,
+                    help="what the sound of every recording holds: speech "
+                         "= it is placed by its loudness only, and one "
+                         "that shares nothing with the cameras is refused; "
+                         "mixed = music or a mix under the voices, and "
+                         "where the loudness finds nothing the phase may "
+                         "place it. --project-type sync always takes "
+                         "mixed. (default: speech)")
+    ap.add_argument("--sound-of", dest="sound_of", action=SoundOf, nargs=2,
+                    default=[], metavar=("FILE", "SOUND"),
+                    help="the same for one recording, named by any of its "
+                         "files; beats --sound. May be given several "
+                         "times. The interface sends it for a recording "
+                         "set to mixed. (default: none)")
+    # No switch: main() hands the run the window's key or AUPHONIC_TOKEN,
+    # so a parse of its own reads None here.
+    ap.set_defaults(auphonic_key=None)
     ap.add_argument("--auphonic-preset", default=None, metavar="NAME",
-                    help="preset name or id (default: asked for)")
+                    help="preset name or id. The key comes from "
+                         "AUPHONIC_TOKEN; with it, switches and no files "
+                         "only list the presets. (default: asked for)")
     ap.add_argument("--auphonic-wait", dest="auphonic_wait", type=int,
                     default=7200, metavar="SECONDS",
                     help="how long to wait for Auphonic (default: 7200)")
@@ -474,10 +544,12 @@ def build_argument_parser():
                          "(default: from the video file)")
     ap.add_argument("--speech-language", dest="speech_language",
                     default="", metavar="CODE",
+                    type=PROGRAM.spoken_language_offered,
                     help="language tag of the audio tracks, three letters "
-                         "per ISO 639-2/B -- ger, eng, fra. Careful: ffmpeg "
-                         "drops 'deu' silently. Empty means no tag. "
-                         "(default: none)")
+                         "per ISO 639-2/B -- ger, eng, fra. Another spelling "
+                         "of one of those (de, deu) becomes that tag, as in "
+                         "the window; ffmpeg would drop it silently. Empty "
+                         "means no tag. (default: none)")
     ap.add_argument("--speakers-local", dest="speakers_local", default=None,
                     metavar="FILE",
                     help="take exactly that recording apart by voice, "
@@ -644,6 +716,19 @@ def build_argument_parser():
                          "Without it the file's own name. The interface "
                          "sends what stands in its \"new file name\" "
                          "field where no assignment file carries it.")
+    ap.add_argument("--camera-label", dest="camera_label", action="append",
+                    nargs=2, default=[], metavar=("FILE", "NAME"),
+                    help="the run's messages name this video file NAME; "
+                         "may be given several times. Without it the "
+                         "file's own name. The interface sends it for the "
+                         "second of two files of one name, \"(2)\" as it "
+                         "shows it.")
+    ap.add_argument("--production", default="", metavar="NAME",
+                    help="the production's name, which the handover, the "
+                         "lists and the transcript are named after. "
+                         "Without it the folder the material lies in. "
+                         "Not read beside --assign: the assignment file "
+                         "carries its own.")
     ap.add_argument("--no-single-tracks", dest="no_single_tracks",
                     action="store_true",
                     help="put only the mix into the video, not the single "
@@ -703,6 +788,7 @@ def build_argument_parser():
                          "that file.")
     ap.add_argument("--speech-language-camera", dest="speech_language_camera",
                     default="", metavar="CODE",
+                    type=PROGRAM.spoken_language_offered,
                     help="the same for the camera track. Empty means no tag "
                          "-- that is what makes the QuickTime player tell "
                          "the two entries in its audio menu apart at all "
@@ -752,6 +838,28 @@ def build_argument_parser():
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
+
+
+# The window's names for this run's cameras, set by cameras_shown_as
+# at the start of every run so that none is left over from the last.
+_SHOWN = [ByFile()]
+
+
+def cameras_shown_as(pairs):
+    """Take the window's camera names for this run, [(file, name), ...]."""
+    _SHOWN[0] = ByFile((file_path, name.strip())
+                       for file_path, name in (pairs or ())
+                       if file_path and (name or "").strip())
+
+
+def camera_shown(file_path):
+    """A camera as the run's log names it: as the window does.
+
+    Two files of one name are two cameras, and the window calls the
+    second "C0003.MP4 (2)" (camera_labels); --camera-label hands that
+    over. Every other camera is named by its file.
+    """
+    return _SHOWN[0].get(file_path) or os.path.basename(file_path or "")
 
 
 # How the command line switch is named and how the field behind it. All others

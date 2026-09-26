@@ -9,8 +9,10 @@ processed one written, the mixdown setting the loudness. Then a folder
 holding a track two minutes long, which belongs to another run and has
 to stop this one with its reason, not by a crash. That nothing is
 written then is not asked: three nets stand in front of it, and no one
-break reaches it.
+break reaches it. Last a returned track handed in as a recording, which
+the run refuses by name: who speaks is worked out on the raw ones.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -167,6 +169,28 @@ named = vpm.T('\n  Not usable: %s').strip() % "Host"
 check("and names it as from another run", why in said and named in said,
       "%r %s, %r %s" % (why, "said" if why in said else "not said",
                         named, "said" if named in said else "not said"))
+
+print("\n3. A returned track handed in as a recording")
+OUT3 = os.path.join(D, "given_out")
+p = subprocess.run(
+    [sys.executable, SCRIPT, "--multitrack", "--auphonic-done", DONE,
+     "--assign", ASSIGN, "--out", OUT3, "--no-metrics",
+     "--no-speech-recognition", "--no-transcript-file", "--no-wide-edges",
+     DONE + "/Host.wav", D + "/Guest.wav", D + "/CamHost.mov",
+     D + "/CamGuest.mov"],
+    capture_output=True, text=True, timeout=900, env=ENV)
+said = (p.stdout or "") + (p.stderr or "")
+crashed = "Traceback (most recent call last)" in said
+check("a returned track handed in as a recording stops the run with 1",
+      p.returncode == 1 and not crashed,
+      "returned %d against 1%s, ends: %s"
+      % (p.returncode, ", after a traceback" if crashed else "", tail(said)))
+refused = vpm.T('%s lies in the --auphonic-done folder, among the tracks '
+                'auphonic.com returned. Who speaks is worked out on the '
+                'raw recordings, so name the raw one here instead.') % (
+                    DONE + "/Host.wav")
+check("and the refusal names that file",
+      refused in said, "wanted %r, ends: %s" % (refused, tail(said)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

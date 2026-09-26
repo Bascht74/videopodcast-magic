@@ -8,6 +8,7 @@ nobody shipped. A rule that only a person enforces holds until that
 person is busy, so every check here is the mechanical half of a rule
 written out in docs/notes/claude_intern.md.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -173,10 +174,9 @@ check("the key is taken out before pip runs",
       "%d places" % source.count('clean.pop("AUPHONIC_TOKEN", None)'))
 
 
-# The switch used to be dropped out of a command line project_write
-# stored. Since 7.9.2026 there is no line to drop it from: the source
-# of the function is read here and asked both halves of that, because a
-# filter can be got round and an absent argument cannot.
+# project_write stores no command line: the source of the function is
+# read here and asked both halves of that, because a filter can be got
+# round and an absent argument cannot.
 def project_write_body():
     """The source of project_write, dedented to the left margin."""
     lines = source.split("\n")

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """#65: Does a finished file carry everything that marks it as HDR?"""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

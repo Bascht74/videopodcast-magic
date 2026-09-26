@@ -1134,8 +1134,8 @@ msgstr "La chiave da AUPHONIC_TOKEN non viene accettata: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "La chiave memorizzata non viene accettata: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nessuna chiave API. Indica --auphonic-api-key CHIAVE, imposta AUPHONIC_TOKEN oppure falla memorizzare una volta nell’interfaccia. La chiave si trova nelle impostazioni dell’account Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nessuna chiave API. Imposta AUPHONIC_TOKEN oppure falla memorizzare una volta nell’interfaccia. La chiave si trova nelle impostazioni dell’account Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Nessun preset salvato nell’account. Se ne può creare uno nell’interfaccia web."
@@ -1590,9 +1590,6 @@ msgstr "<span style='color:%(t)s'><b>%(n)s inquadrature</b>, mediana %(med)s s, 
 msgid "Speakers, as the run measured them"
 msgstr "Parlanti, come li ha misurati l’esecuzione"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "dalle tracce Auphonic elaborate -- %s parlanti, %s"
-
 msgid "Why the wide shot settings are grey"
 msgstr "Perché le impostazioni del campo totale sono grigie"
 
@@ -1703,9 +1700,6 @@ msgstr "  Il montaggio resta com'era."
 
 msgid "  Not used:  %s."
 msgstr "  Non usati: %s."
-
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Campo totale ai bordi: saltato -- il primo o l'ultimo annuncio\n  sarebbe troppo lungo per un saluto."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Campo totale ai bordi: fino a %s e da %s"
@@ -4900,3 +4894,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Lingua dell’audio"
+
+msgid "In the sound"
+msgstr "Nell’audio"
+
+msgid "Speech"
+msgstr "Parlato"
+
+msgid "Mixed"
+msgstr "Misto"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Parlato: collocato solo in base alla sonorità. Una registrazione che non ha nulla in comune\ncon le telecamere viene rifiutata. Misto: sotto le voci c’è musica o un mix,\ne dove la sonorità non trova nulla, la fase può collocarla.\nCon \"%s\" è sempre misto."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: il suo suono corrisponde per %s, e per %s anche in un altro punto -- collocato solo in base al suo orologio"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  accorciato al massimo a %s ciascuno -- il primo annuncio finisce a %s, l’ultimo inizia a %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "In questa cartella c’è già un altro progetto con quel nome, %s -- questo resta in %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "l’immagine lì non è passata a chi risponde"
+
+msgid "the answer was counted with the question before"
+msgstr "la risposta è stata contata con la domanda precedente"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s si trova nella cartella di --auphonic-done, tra le tracce restituite da auphonic.com. Chi parla si ricava dalle registrazioni grezze, quindi indica qui invece la registrazione grezza."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   audio non riconosciuto; posizionato come lo posiziona l’esecuzione"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "audio non riconosciuto, posizionato in base al suo timecode"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s registrazioni e nessuna immagine: ciascuna viene unita a sé e non vengono allineate tra loro. --multitrack le mette su un unico asse dei tempi."

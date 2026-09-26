@@ -16,6 +16,7 @@ read the same plain spelling of the same settings. The one door to a
 Resolve that is really running is nailed shut first: every project here
 is a stand-in, and a reading that asked for a real one would be news.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

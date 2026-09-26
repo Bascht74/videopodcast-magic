@@ -1295,9 +1295,6 @@ msgstr "  Terlalu banyak:    limiter harus mengurangi %s dB. Lebih dari %s dB\n 
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Log tidak mungkin (%s) -- proses tetap berjalan."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Bidikan lebar di tepi: dilewati -- pengumuman pertama atau terakhir\n  akan terlalu panjang untuk sebuah sapaan."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Bidikan lebar di tepi: sampai %s dan mulai %s"
 
@@ -2375,8 +2372,8 @@ msgstr "Multitrack (satu trek per pembicara)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah rekaman tersendiri, satu kanal dari perekam multikanal, atau audio file video yang diatur ke \"gunakan audio internal\". Beberapa blok dari rekaman yang sama dihitung sebagai satu, trek yang disisihkan tidak dihitung sama sekali."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Tidak ada kunci API. Berikan --auphonic-api-key KEY, atur AUPHONIC_TOKEN, atau biarkan antarmuka mengingatnya sekali. Kunci ada di pengaturan akun Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Tidak ada kunci API. Atur AUPHONIC_TOKEN, atau biarkan antarmuka mengingatnya sekali. Kunci ada di pengaturan akun Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Tidak ada file audio yang membawa timecode. Titik masuk dan titik keluar dihitung dari awal materi -- posisi file satu sama lain diukur."
@@ -3427,9 +3424,6 @@ msgstr "diukur dari rekaman -- %s pembicara, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "dari proses yang sudah selesai -- %s pembicara, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "dari trek Auphonic yang sudah diolah -- %s pembicara, %s"
 
 msgid "no folder"
 msgstr "folder mana pun"
@@ -4844,3 +4838,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Bahasa audio"
+
+msgid "In the sound"
+msgstr "Dalam audio"
+
+msgid "Speech"
+msgstr "Ucapan"
+
+msgid "Mixed"
+msgstr "Campuran"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Ucapan: ditempatkan hanya menurut kenyaringannya. Rekaman yang tidak punya kesamaan apa pun\ndengan kamera ditolak. Campuran: musik atau mix ada di bawah suara-suara,\ndan di mana kenyaringan tidak menemukan apa pun, fase boleh menempatkannya.\nDengan \"%s\" selalu campuran."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: audionya cocok sebesar %s, dan sebesar %s di tempat lain juga -- ditempatkan hanya menurut jamnya"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  dipendekkan menjadi paling lama %s masing-masing -- pengumuman pertama berakhir di %s, yang terakhir mulai di %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Di folder ini sudah ada proyek lain dengan nama itu, %s -- proyek ini tetap di %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "gambar tidak berpindah ke penjawab di sana"
+
+msgid "the answer was counted with the question before"
+msgstr "jawaban dihitung bersama pertanyaan sebelumnya"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s ada di folder --auphonic-done, di antara trek yang dikembalikan auphonic.com. Siapa yang berbicara ditentukan dari rekaman mentah, jadi sebutkan rekaman mentahnya di sini."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   audio tidak dikenali; ditempatkan sebagaimana proses menempatkannya"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "audio tidak dikenali, ditempatkan menurut timecode-nya"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s rekaman dan tanpa gambar: masing-masing digabungkan sendiri dan tidak disejajarkan satu sama lain. --multitrack menaruhnya pada satu sumbu waktu."

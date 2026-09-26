@@ -7,12 +7,14 @@ cameras and the tracks; and what cannot be run is refused with a title
 a person can read, while a merely doubtful case becomes a question.
 Two sections hold the window to calling this and keeping no
 assembly of its own, since two builders of one command line drift
-apart. The window is gui() and every make_* function beside it,
-collected out of the program rather than listed here, and held against
-a plain search for their definitions. The last section is the camera's
+apart. The window is gui(), every make_* function beside it and
+every class, collected out of the program rather than listed here, and
+held against a plain search for their definitions. The last section is the camera's
 name where no plan carries it: it goes as a switch pair the run's
 parser reads back, under Sync only too, and two cameras of one name,
-case aside, are refused on that path."""
+case aside, are refused on that path; the production's name, and the
+window's name for the second of two files of one name, ride the same way."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -269,12 +271,13 @@ check("defaults for the other sliders",
             if "--" + k not in a] or "none"))
 check("--no-wide-edges", "--no-wide-edges" in a,
         "9. wanted --no-wide-edges on the line, the line is %s" % shown(a))
-check("key and preset",
-        a[a.index("--auphonic-api-key") + 1] == "secret"
-        and a[a.index("--auphonic-preset") + 1] == "Preset 1",
-        "9. key %r and preset %r, wanted 'secret' and 'Preset 1'"
-        % (a[a.index("--auphonic-api-key") + 1],
-           a[a.index("--auphonic-preset") + 1]))
+check("the preset on the line, the key beside it and not on it",
+        a[a.index("--auphonic-preset") + 1] == "Preset 1"
+        and "secret" not in a and getattr(a, "key", None) == "secret",
+        "9. preset %r, the key on the line %s, beside it %r, wanted "
+        "'Preset 1', False and 'secret'"
+        % (a[a.index("--auphonic-preset") + 1], "secret" in a,
+           getattr(a, "key", None)))
 check("--auphonic-done",
         a[a.index("--auphonic-done") + 1] == "/out/auphonic-tracks",
         "9. --auphonic-done carries %r, wanted '/out/auphonic-tracks'"
@@ -331,9 +334,10 @@ check("not rejected", a is not None,
 check("--without-auphonic is there", "--without-auphonic" in (a or []),
         "13. wanted --without-auphonic on the line, the line is %s" % shown(a))
 check("nothing goes to auphonic.com",
-        "--auphonic-api-key" not in (a or []),
-        "13. wanted no --auphonic-api-key on the line, the line is %s"
-        % shown(a))
+        a is not None and getattr(a, "key", None) == "",
+        "13. wanted no key beside the line, %s"
+        % ("no line at all" if a is None
+           else "a key of %d characters" % len(getattr(a, "key", "") or "")))
 check("the assignment is still written", plan is not None,
         "13. plan is %s, wanted an assignment" % brief(plan))
 
@@ -394,7 +398,7 @@ import ast
 
 
 def window_pieces():
-    """gui() and every make_* function of the program, with its place.
+    """gui(), every make_* function and every class, with its place.
 
     Read out of the files, not off the loaded program: desktop's
     make_shortcut is fetched only when somebody asks for a shortcut,
@@ -405,13 +409,16 @@ def window_pieces():
     class or into another function is still seen. It then stands twice
     in the joined text, once on its own and once inside its holder,
     and a word search pays nothing for that.
+
+    A class is read whole, every method in it: a handler moved out of
+    gui() into a window class goes by a name no make_* rule would catch.
     """
     found = []
     for where, body in the_program.pieces():
         for node in ast.walk(ast.parse(body)):
-            if not isinstance(node, ast.FunctionDef):
-                continue
-            if node.name == "gui" or node.name.startswith("make_"):
+            if isinstance(node, ast.ClassDef) or (
+                    isinstance(node, ast.FunctionDef)
+                    and (node.name == "gui" or node.name.startswith("make_"))):
                 found.append(("%s:%s" % (where, node.name),
                               ast.get_source_segment(body, node)))
     return found
@@ -419,8 +426,8 @@ def window_pieces():
 
 window = window_pieces()
 source = "\n".join(body for _where, body in window)
-print("    %d pieces of the window read: gui() and every make_*"
-      % len(window))
+print("    %d pieces of the window read: gui(), every make_* and every"
+      " class" % len(window))
 # A second road to the same text, with no number to keep: a collector
 # that loses single pieces stays green on every word search below.
 named = ["%s:%s" % (where, m.group(1))
@@ -432,6 +439,14 @@ check("every def make_* the program's text names was read",
       bool(named) and not unread,
       "16. the text defines %d, the collector read %d; unread: %s"
       % (len(named), len(window), unread[:4] or "none"))
+classes = ["%s:%s" % (where, m.group(1))
+           for where, body in the_program.pieces()
+           for m in re.finditer(r"^[ \t]*class (\w+)\b", body, re.M)]
+unread = [n for n in classes if n not in read]
+check("every class the program's text names was read",
+      bool(classes) and not unread,
+      "16. the text defines %d classes, the collector missed %d: %s"
+      % (len(classes), len(unread), unread[:4] or "none"))
 check("call present", "run_argv(values, assign_file)" in source,
         "16. over %d pieces of the window run_argv is named in %s, wanted "
         "one reading run_argv(values, assign_file)"
@@ -440,13 +455,11 @@ check("call present", "run_argv(values, assign_file)" in source,
            or "no line at all"))
 # Written out once for the failure line, and once more in the check itself:
 # a list read by both would be logic deciding what is tested.
-tinkering = ['argv += ["--auphonic-api-key"', '"--multitrack", "--assign"',
-             'argv += ["--" + key']
+tinkering = ['"--multitrack", "--assign"', 'argv += ["--" + key']
 check("no argv tinkering left in the window",
-        'argv += ["--auphonic-api-key"' not in source
-        and '"--multitrack", "--assign"' not in source
+        '"--multitrack", "--assign"' not in source
         and 'argv += ["--" + key' not in source,
-        "16. over %d pieces of the window %s of the 3 fragments is still "
+        "16. over %d pieces of the window %s of the 2 fragments is still "
         "carried, wanted none"
         % (len(window),
            ["%s %s" % (where, t) for where, body in window
@@ -559,6 +572,42 @@ check("and so are two whose names differ only in case",
         a is None and bool(m) and m[-1][1] == "File names",
         "19. named 'Same' and 'same' gave %s with the titles %s, wanted "
         "None and 'File names' last" % (shown(a), [x[1] for x in m]))
+
+print("\n20. The production's name and a camera's window name ride along")
+# Without a plan the production field reached no run, and the run named
+# its handover after the material's folder. And two cameras of one file
+# name: the window calls the second "(2)", and the run's log is to say
+# the same, so that name travels too -- only where it is not the file's.
+a, plan, m = vpm.run_argv(values(files=THREE, production=" Pilot "))
+a = a or []
+said = [a[i + 1:i + 2] for i, w in enumerate(a) if w == "--production"]
+check("the production's name goes as a switch where no plan does",
+        said == [["Pilot"]] and plan is None,
+        "20. --production carries %s and the plan is %s, wanted "
+        "[['Pilot']] and None; the line is %s" % (said, brief(plan),
+                                                  shown(a)))
+space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
+check("and the run's parser reads it back as the production",
+        getattr(space, "production", None) == "Pilot" and rest == [],
+        "20. production read back as %r with %d words left over %s, "
+        "wanted 'Pilot' and none"
+        % (getattr(space, "production", None), len(rest), rest[:4]))
+PAIR = [("/x/a.wav", "audio"), ("/x/A/C0003.MP4", "video"),
+        ("/x/B/C0003.MP4", "video")]
+a, _p, m = vpm.run_argv(values(files=PAIR))
+a = a or []
+labels = [a[i + 1:i + 3] for i, w in enumerate(a) if w == "--camera-label"]
+check("the second of two files of one name goes as the window names it",
+        labels == [["/x/B/C0003.MP4", "C0003.MP4 (2)"]],
+        "20. --camera-label pairs %s, wanted [['/x/B/C0003.MP4', "
+        "'C0003.MP4 (2)']]; the line is %s" % (labels, shown(a)))
+space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
+check("and the run's parser reads that pair back as file and name",
+        getattr(space, "camera_label", None)
+        == [["/x/B/C0003.MP4", "C0003.MP4 (2)"]] and rest == [],
+        "20. camera_label read back as %r with %d words left over %s, "
+        "wanted [['/x/B/C0003.MP4', 'C0003.MP4 (2)']] and none"
+        % (getattr(space, "camera_label", None), len(rest), rest[:4]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

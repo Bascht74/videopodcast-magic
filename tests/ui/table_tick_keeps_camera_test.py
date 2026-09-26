@@ -14,6 +14,7 @@ closes; the second opens what was written. What this cannot show is
 whether the run then cuts to that camera -- cut_voice_on_its_camera
 asks that.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

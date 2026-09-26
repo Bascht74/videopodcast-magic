@@ -8,6 +8,7 @@ the names offered against a dry run's over the same files; what the
 sheet holds back; then the first renamed by hand, against a dry run
 given that name alone. One window over two Sync only projects.
 """
+PLATFORM_BOUND = True
 import json
 import os
 import shutil

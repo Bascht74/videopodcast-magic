@@ -158,11 +158,9 @@ fi
 #
 # The distances are seconds and not the minutes the file names suggest,
 # because the files are two minutes long and three cameras that do not
-# overlap are not a job. And the pictures themselves are the same
-# testsrc in all three, so the measured offset between them stays zero
-# while the timecodes say otherwise: an axis over this folder is
-# absolute and lands on the middle timecode. What can be checked here
-# is the conversion for one file, not the alignment of three.
+# overlap are not a job. The pictures are the same testsrc in all three
+# and say nothing about where a camera stands; the sound does, and it
+# agrees with the clocks (below).
 #
 # The microphones speak, and until 30.8.2026 they did not: each was one
 # unbroken sine tone. Speech is found in blocks standing over a track's
@@ -205,15 +203,28 @@ fi
 # that speaker and nothing else. Over the whole recordings: 7, 4 and 5.
 # Peak -17.8 dBFS, speech 31.5 dB over the room noise. The one call costs
 # 0.5 s, which is what the three sine tones cost too.
-INTERVIEW_BUILD=roles-1
+#
+# The cameras hear the room, and until 26.9.2026 they did not: each
+# carried one sine tone of its own, so no recording shared a sound with
+# any camera, and once a recording said to hold speech is refused rather
+# than laid by phase, all of them were refused. Now every camera carries
+# the three voices as a room hears them -- summed, 12 dB down, the band
+# narrowed -- over a room noise of its own. An echo of 23 ms was tried
+# and dropped: it made the run take out a drift of 13 ppm that is not
+# there, and this folder is for everything else. The recordings
+# start with the wide shot, which rolls first, so a camera's sound starts
+# where its clock says: 0, 4 and 17.48 s into the programme. The room is
+# written 140 s long, so the guest's camera ends on 17.48 s of quiet
+# room, and thrown away once the cameras have it.
+INTERVIEW_BUILD=room-1
 if have "$FIX/interview" "$INTERVIEW_BUILD"; then
   echo "  "$FIX/interview"    already there"
 else
   rm -rf "$FIX/interview" && mkdir -p "$FIX/interview"/Ergebnis
   cd "$FIX/interview"
-  # cam <file> <seconds> <sine Hz> <timecode>
+  # cam <file> <seconds> <second of the programme it starts on> <timecode>
   cam() { $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=$2" \
-            -f lavfi -i "sine=frequency=$3:duration=$2" \
+            -ss "$3" -t "$2" -i room.wav -map 0:v -map 1:a \
             -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
             -timecode "$4" -shortest "$1" -y; }
   # When each turn speaks, as an expression the volume filter can read.
@@ -232,16 +243,21 @@ else
   $FF -filter_complex "
     anoisesrc=c=white:r=48000:d=120:a=0.9:seed=1101,
       highpass=f=120,lowpass=f=4600,tremolo=f=5.5:d=0.55,
-      volume=eval=frame:volume='$GUEST',volume=0.15[guest];
+      volume=eval=frame:volume='$GUEST',volume=0.15,asplit=2[guest][g2];
     anoisesrc=c=white:r=48000:d=120:a=0.9:seed=2202,
       highpass=f=150,lowpass=f=5200,tremolo=f=4.7:d=0.55,
-      volume=eval=frame:volume='$PRES',volume=0.15[pres];
+      volume=eval=frame:volume='$PRES',volume=0.15,asplit=2[pres][p2];
     anoisesrc=c=white:r=48000:d=120:a=0.9:seed=3303,
       highpass=f=180,lowpass=f=6000,tremolo=f=6.1:d=0.55,
-      volume=eval=frame:volume='$COPRES',volume=0.15[copres];
+      volume=eval=frame:volume='$COPRES',volume=0.15,asplit=2[copres][c2];
     anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=4404,volume=0.004[room1];
     anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=5505,volume=0.004[room2];
     anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=6606,volume=0.004[room3];
+    anoisesrc=c=pink:r=48000:d=140:a=0.9:seed=7707,volume=0.006[room4];
+    [g2][p2][c2]amix=inputs=3:normalize=0,highpass=f=200,lowpass=f=3500,
+      volume=0.25,
+      apad=whole_len=6720000[voices];
+    [voices][room4]amix=inputs=2:normalize=0[room];
     [guest][room1]amix=inputs=2:normalize=0[k];
     [pres][room2]amix=inputs=2:normalize=0,asplit=3[r1][r2][r3];
     [copres][room3]amix=inputs=2:normalize=0,asplit=3[n1][n2][n3];
@@ -257,10 +273,12 @@ else
     -map "[rc]" -ac 1 -ar 48000 -c:a pcm_s16le Presenter_REC00023.wav \
     -map "[na]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00018.wav \
     -map "[nb]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00019.wav \
-    -map "[nc]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00020.wav -y
-  cam GuestCam_01011858_C003.mov      120 220 18:55:17:12
-  cam PresentersCam_01011855_C002.mov 120 330 18:55:04:00
-  cam WideCam_01011855_C001.mov       120 550 18:55:00:00
+    -map "[nc]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00020.wav \
+    -map "[room]" -ac 1 -ar 48000 -c:a pcm_s16le room.wav -y
+  cam GuestCam_01011858_C003.mov      120 17.48 18:55:17:12
+  cam PresentersCam_01011855_C002.mov 120 4     18:55:04:00
+  cam WideCam_01011855_C001.mov       120 0     18:55:00:00
+  rm -f room.wav
   done_with "$FIX/interview" "$INTERVIEW_BUILD"
   echo "  "$FIX/interview"    built"
 fi
@@ -393,9 +411,10 @@ fi
 # 0.86 m), the room pair is one signal 14 samples apart (0.29 ms, well
 # inside the 1 ms window), and the room mic hears both speakers 216
 # samples late (4.5 ms, 1.5 m). 24 bit, because channel 5 lies below
-# the last step of 16. Eight seconds, and the build takes under a
-# second -- run.sh calls this before every suite run.
-MIXER_BUILD=roles-1
+# the last step of 16. Sixty seconds, because at eight the rule on thin
+# blocks called Mixer.wav not usable; the build still takes under a
+# second (0.65 s measured) -- run.sh calls this before every suite run.
+MIXER_BUILD=roles-60s
 if have "$FIX/mixer" "$MIXER_BUILD"; then
   echo "  "$FIX/mixer"        already there"
 else
@@ -405,20 +424,20 @@ else
   # point of channels 5 and 6, and amix's own normalising would move
   # them. 0.040 puts a voice at about -34 dBFS.
   $FF -filter_complex "
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=1101,
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=1101,
       highpass=f=140,lowpass=f=5200,tremolo=f=0.62:d=0.6,
       asplit=3[a1][a2][a3];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=2202,
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=2202,
       highpass=f=170,lowpass=f=6000,tremolo=f=0.83:d=0.6,
       asplit=3[b1][b2][b3];
-    anoisesrc=c=pink:r=48000:d=8:a=0.9:seed=3303,
+    anoisesrc=c=pink:r=48000:d=60:a=0.9:seed=3303,
       highpass=f=60,lowpass=f=9000[r1];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=4404,
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=4404,
       highpass=f=150,lowpass=f=5600,tremolo=f=0.71:d=0.6[c1];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=5505,volume=0.00002[ch5];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=6606,volume=0.0003[ch6];
-    anullsrc=r=48000:cl=mono,atrim=end=8[ch7];
-    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=7707,volume=0.06[nr];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=5505,volume=0.00002[ch5];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=6606,volume=0.0003[ch6];
+    anullsrc=r=48000:cl=mono,atrim=end=60[ch7];
+    anoisesrc=c=white:r=48000:d=60:a=0.9:seed=7707,volume=0.06[nr];
     [a2]adelay=delays=120S,volume=0.22[a2d];
     [b2]adelay=delays=120S,volume=0.30[b2d];
     [a3]adelay=delays=216S,volume=0.45[a3d];
@@ -432,12 +451,12 @@ else
     [p2d][nr]amix=inputs=2:normalize=0:weights=1 0.05:duration=first[ch4];
     [c1]volume=0.040[ch8];
     [ch1][ch2][ch3][ch4][ch5][ch6][ch7][ch8]amerge=inputs=8[out]" \
-    -map "[out]" -c:a pcm_s24le -ar 48000 -t 8 Mixer.wav -y
+    -map "[out]" -c:a pcm_s24le -ar 48000 -t 60 Mixer.wav -y
   # One camera beside it, so the folder is a job and not a single file.
   # Its sound is channel 1 of the mixer, which is what a camera picks up
   # in that room -- anything else would be a file that cannot be lined
   # up with the recording next to it.
-  $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=8" -i Mixer.wav \
+  $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=60" -i Mixer.wav \
     -filter_complex "[1:a]pan=mono|c0=c0[a]" -map 0:v -map "[a]" \
     -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
     -shortest StudioCam_01011855_C001.mov -y

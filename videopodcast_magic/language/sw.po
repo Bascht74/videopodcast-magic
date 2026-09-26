@@ -1295,9 +1295,6 @@ msgstr "  Kupita kiasi:      kizuizi kingelazimika kuondoa %s dB. Zaidi ya %s dB
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Nakala haiwezekani (%s) -- inaendelea hata hivyo."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Picha pana kwenye ncha: imerukwa -- tangazo la kwanza au la mwisho\n  lingekuwa refu mno kwa salamu."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Picha pana kwenye ncha: hadi %s na kuanzia %s"
 
@@ -2375,8 +2372,8 @@ msgstr "Multitrack (treki moja kwa mzungumzaji)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofauti, chaneli ya kinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia sauti ya ndani\". Bloku kadhaa za rekodi moja huhesabiwa kuwa moja, na treki zilizowekwa kando hazihesabiwi kabisa."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Hakuna ufunguo wa API. Toa --auphonic-api-key KEY, weka AUPHONIC_TOKEN au uuhifadhi mara moja kwenye kiolesura. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Hakuna ufunguo wa API. Weka AUPHONIC_TOKEN au uuhifadhi mara moja kwenye kiolesura. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Hakuna faili ya sauti yenye timecode. Alama ya kuingia na alama ya kutoka huhesabiwa kuanzia mwanzo wa nyenzo -- nafasi ya faili kati yao hupimwa."
@@ -3427,9 +3424,6 @@ msgstr "imepimwa kutoka kwenye rekodi -- wazungumzaji %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "kutoka uendeshaji uliokamilika -- wazungumzaji %s, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "kutoka treki za Auphonic zilizochakatwa -- wazungumzaji %s, %s"
 
 msgid "no folder"
 msgstr "folda yoyote"
@@ -4887,3 +4881,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Lugha ya sauti"
+
+msgid "In the sound"
+msgstr "Katika sauti"
+
+msgid "Speech"
+msgstr "Mazungumzo"
+
+msgid "Mixed"
+msgstr "Mchanganyiko"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Mazungumzo: huwekwa kwa ukubwa wa sauti pekee. Rekodi isiyoshiriki chochote\nna kamera hukataliwa. Mchanganyiko: muziki au mchanganyiko uko chini ya sauti za watu,\nna pale ukubwa wa sauti usipopata kitu, fazi inaweza kuiweka.\nChini ya \"%s\" huwa mchanganyiko daima."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: sauti yake inalingana kwa %s, na kwa %s mahali pengine pia -- imewekwa kwa saa yake tu"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  kila moja imefupishwa hadi %s kwa upeo -- tangazo la kwanza linaishia %s, la mwisho linaanzia %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Katika folda hii tayari kuna mradi mwingine wenye jina hilo, %s -- huu unabaki katika %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "picha haikuhamia kwa anayejibu hapo"
+
+msgid "the answer was counted with the question before"
+msgstr "jibu lilihesabiwa pamoja na swali lililotangulia"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s iko katika folda ya --auphonic-done, kati ya treki ambazo auphonic.com ilirudisha. Nani anazungumza hubainishwa kwenye rekodi ghafi, kwa hiyo taja hapa rekodi ghafi badala yake."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   sauti haikutambuliwa; imewekwa jinsi uendeshaji unavyoiweka"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "sauti haikutambuliwa, imewekwa kwa timecode yake"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  Rekodi %s na hakuna picha: kila moja inaunganishwa peke yake na hazipangwi dhidi ya nyingine. --multitrack huziweka kwenye mhimili mmoja wa muda."

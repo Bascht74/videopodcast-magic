@@ -183,7 +183,14 @@ Unter den Auswahlfeldern hält das Häkchen **Weitwinkel für Begrüßung am
 Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
 (auf der Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel
 am Anfang hält, bis das Wort wirklich übergeben wird, nicht bis zum
-ersten längeren Block einer Nebenstimme.
+ersten längeren Block einer Nebenstimme. Keiner der beiden Ränder hält
+länger als ein Drittel der Aufnahme und länger als **Weitwinkel
+spätestens**: Wo Begrüßung oder Abschied länger dauern würden, endet
+dieser Rand dort -- in einer kurzen Aufnahme beim Drittel, in einer
+langen bei der Einstellung --, und das Protokoll vermerkt es unter
+`Weitwinkel am Rand`, samt der Stelle, an der das Wort wirklich
+wechselt. Fällt ein Rand kürzer aus als die **Mindestschnittdauer**,
+geht er wie jede andere Einstellung in die benachbarte auf.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
@@ -256,6 +263,16 @@ jedem weiteren Weitwinkel: Dort steht **der Schnitt nimmt** und dahinter
 die Kamera, mit dem Namen, den das Fenster ihr gibt. Heißen zwei Dateien
 `C0003.MP4`, trägt die zweite dort den Namen `C0003.MP4 (2)`.
 
+Welchen er nimmt, entscheidet der Dateiname: den ersten in
+alphabetischer Reihenfolge. Am deutlichsten wird das, wenn keiner Kamera
+überhaupt jemand zugeordnet ist. Dann ist jede Kamera ein Weitwinkel,
+kein Sprecher hat eine eigene Kamera, zu der geschnitten werden könnte,
+und der ganze Schnitt bleibt auf dieser ersten Kamera — drei Kameras im
+selben Raum ergeben einen Schnitt, in dem das Bild kein einziges Mal
+wechselt. Welche Kamera das ist, steht im Protokoll in der Zeile mit der
+Zahl der Weitwinkel. Wer die Sprecher ihren Kameras zuordnet, bekommt
+einen Schnitt, der dem folgt, der gerade spricht.
+
 Eine Zahl, die schon in einem grau gewordenen Feld steht, bleibt
 erhalten, und der Lauf richtet sich ebenso wenig nach ihr: ohne
 Weitwinkel gilt **Weitwinkel nach** als 0, das Häkchen als
@@ -303,11 +320,15 @@ nennt, wie viele Fragezeichen im Transkript standen und bei wie vielen
 davon das Bild vorgezogen wurde. Dort heißt die Sache
 Reaktionsschnitt, und das ist die letzte Stelle, an der das Wort noch
 vorkommt: auf dem Bildschirm heißen die beiden Einstellungen **Nach
-einer Frage** und **Antwort früher im Bild**. Wo Fragen wegfielen, folgt
-eine zweite Zeile mit der Zahl je Grund — der Hauptsprecher fragte,
-Fragender und Antwortender auf einer Kamera, niemand antwortete
-rechtzeitig, die Antwort behielt das Wort nicht, bei der Frage sprach
-niemand. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
+einer Frage** und **Antwort früher im Bild**. Gezählt wird jede Stelle
+einmal, und nur dort, wo das Bild wirklich gewechselt hat. Beginnt eine
+Antwort ein Stück neben der Stelle, an der das Bild zum Antwortenden
+wechselt -- höchstens `--reaction-gap` weit --, wird sie an diesen
+Wechsel vorgezogen. Wo Fragen wegfielen, folgt eine zweite Zeile mit der
+Zahl je Grund — der Hauptsprecher fragte, Fragender und Antwortender auf
+einer Kamera, niemand antwortete rechtzeitig, die Antwort behielt das
+Wort nicht, bei der Frage sprach niemand, das Bild wechselte dort nicht
+zum Antwortenden, die Antwort wurde mit der Frage davor gezählt. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
 Einstellung, die nichts bewirken kann, nicht wie eine kaputte aussieht.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
@@ -352,9 +373,9 @@ Klammern die gemessene Sprechzeit und dahinter **-- gleichzeitig redende
 werden doppelt gezählt**. Für die Quelle gibt es drei Antworten:
 
 - **Gemessene Sprecher.** Ein Lauf ist durch, und seine Übergabedatei
-  wird gelesen. Für ihn lagen alle Spuren auf einer Achse, und über
-  auphonic.com waren zusätzlich die Nachbarn aus ihnen herausgerechnet.
-  Das ist die feinste der drei Auskünfte.
+  wird gelesen. Für ihn lagen alle Spuren auf einer Achse, und
+  Mikrofone, die einander hören, wurden zusammengelegt und nach Stimmen
+  getrennt. Das ist die feinste der drei Auskünfte.
 - **Nach Stimmen getrennte Sprecher.** Sie kommen aus einer Trennung auf
   diesem Rechner, noch vor jedem Lauf.
 - **Selbst gemessene Sprecher.** Pegel, hier im Fenster gegeneinander
@@ -617,13 +638,13 @@ Das Programm setzt jede Stelle nach, bis sie sitzt;
 [Inside the program](../development/internals.md) (englisch) nennt, wie
 oft und wie lange.
 
-### Sprecher ohne Auphonic messen
+### Sprecher aus den Spuren messen
 
-Ohne Auphonic bleibt der Lauf lokal, und das Script misst aus den Spuren,
-wer wann redet. Der Weg dahin steht in [Aufbereitung über
-auphonic.com](auphonic.de.md) (auf der Kommandozeile
-`--without-auphonic`). Im Protokoll steht dieser Abschnitt unter der
-Überschrift `SPRECHER -- HIER GEMESSEN`.
+Jede Spur, für die keine Trennung spricht, misst das Script selbst: Wer
+wann redet, liest es an der Aufnahme ab, so wie sie aufgenommen wurde --
+mit auphonic.com genauso wie ohne, denn was von dort zurückkommt, ist
+nur der Klang. Im Protokoll steht dieser Abschnitt unter der Überschrift
+`SPRECHER -- HIER GEMESSEN`.
 
 So liest das Script die Spuren:
 

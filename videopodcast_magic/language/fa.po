@@ -1294,9 +1294,6 @@ msgstr "  بیش از حد:         محدودکننده باید %s dB کم م�
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  ثبت گزارش ممکن نیست (%s) -- اجرا با این حال ادامه می‌یابد."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  نمای باز در دو سر: رد شد -- نخستین یا آخرین اعلام\n  برای یک خوشامد بیش از حد طولانی می‌بود."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  نمای باز در دو سر: تا %s و از %s"
 
@@ -2374,8 +2371,8 @@ msgstr "Multitrack (یک ترک برای هر گوینده)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack دست‌کم به دو ترک ورودی نیاز دارد. هر ترک یا یک ضبط جداگانه است، یا یک کانال از ضبط‌کننده چندکاناله، یا صدای فایل ویدیویی‌ای که روی «استفاده از صدای داخلی» تنظیم شده باشد. چند بلوک از یک ضبط یکی شمرده می‌شوند و ترک‌های کنارگذاشته اصلاً شمرده نمی‌شوند."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "کلید API وجود ندارد. --auphonic-api-key KEY را بدهید، AUPHONIC_TOKEN را تنظیم کنید، یا یک‌بار آن را در رابط کاربری ذخیره کنید. کلید در تنظیمات حساب Auphonic است."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "کلید API وجود ندارد. AUPHONIC_TOKEN را تنظیم کنید، یا یک‌بار آن را در رابط کاربری ذخیره کنید. کلید در تنظیمات حساب Auphonic است."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "هیچ فایل صوتی‌ای تایم‌کد ندارد. نقطه ورود و نقطه خروج از آغاز مواد شمرده می‌شوند -- جایگاه فایل‌ها نسبت به یکدیگر اندازه‌گیری می‌شود."
@@ -3426,9 +3423,6 @@ msgstr "اندازه‌گیری‌شده از ضبط‌ها -- %s گوینده،
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "از اجرای تمام‌شده -- %s گوینده، %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "از ترک‌های پردازش‌شده Auphonic -- %s گوینده، %s"
 
 msgid "no folder"
 msgstr "هیچ پوشه‌ای"
@@ -4886,3 +4880,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "زبان صدا"
+
+msgid "In the sound"
+msgstr "در صدا"
+
+msgid "Speech"
+msgstr "گفتار"
+
+msgid "Mixed"
+msgstr "ترکیبی"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "گفتار: فقط بر اساس بلندی صدا جای‌گذاری می‌شود. ضبطی که هیچ اشتراکی\nبا دوربین‌ها ندارد رد می‌شود. ترکیبی: موسیقی یا میکس زیر صداها قرار دارد،\nو جایی که بلندی صدا چیزی نمی‌یابد، فاز می‌تواند آن را جای‌گذاری کند.\nدر «%s» همیشه ترکیبی است."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: صدای آن با میزان %s تطبیق دارد، و در جای دیگری هم با میزان %s -- فقط با ساعت خودش جای‌گذاری شد"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  هر کدام حداکثر به %s کوتاه شد -- نخستین اعلام در %s پایان می‌یابد، آخرین در %s آغاز می‌شود"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "پروژه دیگری با این نام در این پوشه هست، %s -- این یکی در %s می‌ماند."
+
+msgid "the picture did not change to the answerer there"
+msgstr "تصویر آنجا به پاسخ‌دهنده تغییر نکرد"
+
+msgid "the answer was counted with the question before"
+msgstr "پاسخ همراه با پرسش پیش از آن شمرده شد"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s در پوشه --auphonic-done است، میان ترک‌هایی که auphonic.com بازگرداند. اینکه چه کسی صحبت می‌کند از روی ضبط‌های خام تعیین می‌شود، پس اینجا به جای آن ضبط خام را نام ببرید."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   صدا شناسایی نشد؛ همان‌طور که اجرا جای‌گذاری می‌کند جای‌گذاری شد"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "صدا شناسایی نشد، بر اساس تایم‌کد آن جای‌گذاری شد"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s ضبط و بدون تصویر: هر کدام جداگانه به هم پیوسته می‌شود و آن‌ها نسبت به هم تراز نمی‌شوند. --multitrack آن‌ها را روی یک محور زمانی می‌گذارد."

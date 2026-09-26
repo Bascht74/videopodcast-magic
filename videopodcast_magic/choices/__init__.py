@@ -41,6 +41,10 @@ CAMERA_TYPES = (TYPE_CONTENT, TYPE_WIDE)
 AUDIO_UNUSED = "audio-unused"
 AUDIO_MATERIAL = "audio-material"
 AUDIO_USE = (AUDIO_UNUSED, AUDIO_MATERIAL)
+# What the sound of one recording holds, said by a person: mixed sound
+# lets the phase way place it, speech keeps to the envelopes.
+SOUND_SPEECH, SOUND_MIXED = "speech", "mixed"
+SOUND_HOLDS = (SOUND_SPEECH, SOUND_MIXED)
 # Two names easy to confuse: "do not use" leaves the audio out
 # entirely, "no camera of its own" only keeps the person off camera.
 CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
@@ -53,7 +57,8 @@ CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
                  TYPE_WIDE: 'Wide shot',
                  TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video",
                  AUDIO_UNUSED: "do not use internal audio",
-                 AUDIO_MATERIAL: "use internal audio"}
+                 AUDIO_MATERIAL: "use internal audio",
+                 SOUND_SPEECH: "Speech", SOUND_MIXED: "Mixed"}
 
 
 def label_of(value):

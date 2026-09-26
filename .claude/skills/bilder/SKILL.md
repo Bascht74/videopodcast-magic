@@ -69,8 +69,14 @@ once -- ask, shoot, bring the descriptions up to date, check in.
 **Before the pictures, on this Mac:**
 
 ```bash
-cd tests && VPM_LAYOUT_PLATFORM=cocoa bash run.sh window_captions_fit
+cd tests && VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1 bash run.sh \
+  window_captions_fit window_captions_langs1 window_captions_langs2 \
+  window_captions_langs3 window_captions_langs4
 ```
+
+`window_captions_fit` measures English and German; the other languages
+are the `_langsN` tests, and without `VPM_ALL_LANGUAGES=1` `run.sh`
+sets them aside and says so in its `languages:` line.
 
 The suite runs it offscreen, and offscreen draws the Fusion faces: it can
 say that a caption is fixed width, never whether the face the system
@@ -99,10 +105,6 @@ What each set delivers:
 | `channels` | `channels` |
 | `output` | `output` |
 
-The terminal picture comes from a second script, `shoot_terminal.py`,
-through `VPM_SHOT_TERMINAL_LANG`. It needs an **unlocked** screen, or
-`screencapture` hands back nothing.
-
 **The smallest unit is one set in one language, not one picture.**
 Whoever needs only `resolve-cut` runs `main` and gets `files`, `blocks`,
 `assignment` and `settings` along with it. That is harmless, because the
@@ -123,6 +125,14 @@ cp /tmp/vpm_shots/png_de/NAME.png docs/images/NAME.de.png
 The output folder is called `Result` in the English pass and `Ergebnis`
 in the German one: a German word in an English window reads as a mistake
 in the manual.
+
+**Every picture that goes into `docs/images/` is looked at before it is
+pushed, and `docs/images/seen.tsv` gets a row for it**: `python3
+development/seen_rows.py` prints the owed rows with the last field
+empty, and whoever looked writes what the picture shows there and
+replaces the old row; `source_pictures_seen` is red for any picture
+whose current sha256 has no row, for an empty last field, and for a row
+whose picture is gone.
 
 ## Look at them, do not just produce them
 
@@ -195,14 +205,10 @@ only the window. So a new menu entry makes no picture invalid.
 The same holds for anything that touches only the command line, the log
 or the handover, and for every state the picture pass does not set up.
 
-**A new version number alone.** The terminal picture shows the number in
-its header, so every release makes it a version old; retaking it costs a
-visible terminal, an unlocked screen and the owner's permission. The
-chapters it stands in are about the call, not about the number, so the
-number in it is accepted (settled 20.9.2026, after four retakes in one
-week that moved nothing but the number). It is retaken when the header,
-the preflight, the switches in the call or the message under it change
--- and that is decided with the checksum like every other picture.
+**A new version number alone.** A command-line run stands in the
+chapters as a text block, not as a terminal picture, so a new number
+moves no picture; the text is kept in step like any other passage of
+the manual.
 
 ## When a window may be visible
 
@@ -232,5 +238,6 @@ written down:
 6. Did it change for the reason you expected?
 7. Is there one line per changed picture in the release report, and one
    record of what the change invalidated?
-8. Was `window_captions_fit` run with `VPM_LAYOUT_PLATFORM=cocoa` before
-   the pictures, and was it green?
+8. Were `window_captions_fit` and the two `window_captions_langs` tests
+   run with `VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1` before the
+   pictures, and were they green?

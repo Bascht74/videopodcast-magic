@@ -69,6 +69,7 @@ them, and then no floor can hold it.
 
 VPM_ONE_MOMENT_KEEP=1 leaves the written files in place for looking at.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -1130,7 +1131,12 @@ vpm.build_cut_timeline(f_pool, FakeTimeline(f_pool), foreign["cut"],
                        {c["file"]: FakeClip(c["camera"])
                         for c in foreign["cameras"]}, foreign)
 f_placed = [x for x in f_pool.sent if x.get("mediaType") == 1]
-f_fps, f_origin = vpm.timeline_origin(foreign)
+f_fps = vpm.timeline_origin(foreign)[0]
+# Frame zero from the fixture's own clock, not from timeline_origin:
+# the build asks that too, so a fault in it would move shot and zero
+# alike and cancel. The run starts on the wide camera's timecode,
+# 18:55:00:00 as fixtures.sh writes it -- frame 1702500 at 25.
+f_origin = int(round(ZERO * tc_clock(FPS)))
 f_cam = next(c for c in foreign["cameras"] if c["camera"] == SLOWER)
 # Both halves of the setup, as judgements: everything under them is a
 # statement about two rates, and if the two ever became one number

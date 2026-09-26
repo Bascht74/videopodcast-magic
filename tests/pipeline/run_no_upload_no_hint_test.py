@@ -8,6 +8,7 @@ runs upload; what the line says with an upload, without one, and for a
 short gap; and whether the run's own report asks the first before it
 says the second.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

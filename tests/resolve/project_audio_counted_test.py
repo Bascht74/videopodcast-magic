@@ -8,6 +8,7 @@ be started for: both fall back to the handover, which lists the
 processed tracks and not the camera's own microphone, so that one is
 added to them.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

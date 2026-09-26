@@ -20,6 +20,7 @@ cache_folder = PROGRAM.cache_folder
 certificate_file = PROGRAM.certificate_file
 hashlib = PROGRAM.hashlib
 json = PROGRAM.json
+kept_in_use = PROGRAM.kept_in_use
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 outside_work = PROGRAM.outside_work
@@ -709,6 +710,39 @@ def macos_recognition_ready():
     return os.path.exists(binary) or not os.path.exists(refused)
 
 
+# What the language field offers -- only languages with both codes,
+# since an unknown recognition code would promise a transcript that
+# cannot come. SPEECH_CODES, in the program, holds the second code.
+SPOKEN_LANGUAGES = (
+    ("ger", "German"), ("eng", "English"), ("fra", "French"),
+    ("spa", "Spanish"), ("ita", "Italian"), ("nld", "Dutch"),
+    ("por", "Portuguese"), ("pol", "Polish"), ("rus", "Russian"),
+    ("swe", "Swedish"), ("dan", "Danish"), ("nor", "Norwegian"),
+    ("fin", "Finnish"), ("ces", "Czech"), ("tur", "Turkish"),
+    ("ell", "Greek"), ("hun", "Hungarian"), ("ron", "Romanian"),
+    ("ukr", "Ukrainian"), ("cat", "Catalan"), ("ara", "Arabic"),
+    ("heb", "Hebrew"), ("jpn", "Japanese"), ("zho", "Chinese"),
+    ("kor", "Korean"),
+)
+
+
+def spoken_language_offered(tag):
+    """Return the tag the language field offers for *tag*, or *tag* as is.
+
+    A project file may name the language another way -- "de", "deu" --
+    and the field, which holds only its own tags, fell back to "not
+    set", so the next save wrote the language out of the project. The
+    command line takes --speech-language through here too: ffmpeg
+    drops "de" and "deu" and leaves the track untagged.
+    """
+    tag = (tag or "").strip()
+    code = SPEECH_CODES.get(tag.lower(), tag.lower())
+    for offered, _name in SPOKEN_LANGUAGES:
+        if SPEECH_CODES.get(offered) == code:
+            return offered
+    return tag
+
+
 def speech_locale(language):
     """The recogniser's code for the tag the interface carries.
 
@@ -900,6 +934,8 @@ def words_cache_read(mark, language, way):
     except (OSError, ValueError):
         return None
     words = d.get("words")
+    if isinstance(words, list):
+        kept_in_use(file_path)
     return words if isinstance(words, list) else None
 
 

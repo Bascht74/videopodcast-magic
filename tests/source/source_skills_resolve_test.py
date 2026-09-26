@@ -8,6 +8,7 @@ them. Three sections: the paths a skill points at, the tests it names,
 and the skills it sends the reader on to. What a skill says about the
 program is not checked here -- only that what it names exists.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -81,7 +82,7 @@ LOOKS_LIKE = re.compile(
 # about rather than slipping in: these are files of the notes folder
 # that the skills mention without their folder in front of them.
 NOT_SHIPPED = {"shoot_terminal.py", "shoot_screenshots.py", "bilder.md",
-               "aufgaben.md", "claude_intern.md"}
+               "claude_intern.md"}
 missing = []
 for name, text in sorted(texts.items()):
     for i, line in enumerate(text.splitlines(), 1):

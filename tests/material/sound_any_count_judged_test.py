@@ -12,6 +12,7 @@ with them, and a section that reads a single judgement counts the
 neighbours first, so a section that lost its material says that rather
 than the consequence.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

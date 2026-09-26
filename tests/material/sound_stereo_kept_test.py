@@ -7,6 +7,7 @@ trusted: the channel count, and whether the sides still differ. Levels
 too -- ffmpeg's own mono to stereo conversion loses 3 dB, inaudible in
 one listen and wrong in every meter.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

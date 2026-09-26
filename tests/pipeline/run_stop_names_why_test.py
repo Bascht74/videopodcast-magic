@@ -8,10 +8,12 @@ is not there, two cameras with no recording and no --multitrack, the
 last also naming the unknown file beside it as skipped, the two
 Resolve switches in a child cut off from Resolve, which checks that
 before main() and stops red, main() uncalled, where it is not, no
-ffmpeg with the repair stood in for and refused, and --multitrack over
-a single recording. The limit: --hdr-check is not reached; it answers
-with its report.
+ffmpeg with the repair stood in for and refused, --multitrack over a
+single recording, and the one-shot jobs: --update with the look
+switched off, --hdr-check over a file that is not HDR. What they
+return when they did their work is run_one_shots_return_0's.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -98,8 +100,10 @@ CHILD = "\n".join([
 NOWHERE = "http://127.0.0.1:9"
 FENCE = {"https_proxy": NOWHERE, "http_proxy": NOWHERE,
          "all_proxy": NOWHERE, "no_proxy": None}
-code, last, _said = run([sys.executable, "-c", CHILD,
-                         "--auphonic-api-key", "not-a-real-key"], FENCE)
+# The key in the environment and a switch but no file: that is the
+# preset list. --dry-run, so a run that went further writes nothing.
+code, last, _said = run([sys.executable, "-c", CHILD, "--dry-run"],
+                        dict(FENCE, AUPHONIC_TOKEN="FAKEKEY-0000"))
 try:
     with open(ASKED, encoding="utf-8") as f:
         asked = len(f.read().splitlines())
@@ -299,6 +303,25 @@ WANT = (vpm.T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
 check("multitrack over one recording returns 1", code == 1,
       "returned %r against 1, last line %r" % (code, last))
 check("and its last line says it would run as an ordinary production",
+      last == WANT, "last line %r against %r" % (last, WANT))
+
+print("\n7. The one-shot jobs that cannot do theirs")
+# The look for new versions switched off is the fault here, so --update
+# is refused before anything could leave; the proxies to nowhere stand
+# behind it. Named as the program reads it: the fence's lower case
+# would take the switch away. The lone camera of section 2 is SDR.
+code, last, _said = run([sys.executable, SCRIPT, "--update"],
+                        dict(FENCE, VPM_NO_UPDATE_CHECK="1"))
+WANT = vpm.T('The check for new versions is switched off here.')
+check("an --update that cannot look returns 1", code == 1,
+      "returned %r against 1, last line %r" % (code, last))
+check("and its last line says the look is switched off", last == WANT,
+      "last line %r against %r" % (last, WANT))
+code, last, _said = run([sys.executable, SCRIPT, "--hdr-check", CAMERA])
+WANT = vpm.T('The file is NOT recognised as HDR.')
+check("an --hdr-check over a file that is not HDR returns 1", code == 1,
+      "returned %r against 1, last line %r" % (code, last))
+check("and its last line says the file is not recognised as HDR",
       last == WANT, "last line %r against %r" % (last, WANT))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

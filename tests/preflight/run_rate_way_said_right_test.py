@@ -8,6 +8,7 @@ the second. Two made-up results stand in for the measurement, one a
 little above the nominal rate and one as far below it, so what is
 judged is the hint the program writes, not what a file would measure.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

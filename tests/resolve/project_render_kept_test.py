@@ -4,6 +4,7 @@
 The target came from the production name alone, so a second run
 replaced the file of the first without asking.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

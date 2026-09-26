@@ -10,6 +10,7 @@ a test run which left the real names standing is shut out of the store
 altogether, and that nothing real ever ran. The key is invented and no
 line prints it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

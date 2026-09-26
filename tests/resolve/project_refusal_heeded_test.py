@@ -10,6 +10,7 @@ says, a camera not inserted, and an intro with no sound. A track is
 asked for twice, the code is 1 where something lacks and 0 where not,
 and audio room and the closing lines go only to what was laid.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

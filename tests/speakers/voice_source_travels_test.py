@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Where the speakers of a run come from, and how they reach it."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

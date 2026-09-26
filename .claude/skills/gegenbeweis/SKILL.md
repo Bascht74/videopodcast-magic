@@ -231,8 +231,9 @@ ratchet: the number may fall, never rise. **So a new test gets a
 finished entry, not an `open` row** — an `open` row would raise it.
 **How many there are is not written down here**: a count of our own
 state goes stale between two commits, and a wrong one discourages. `bash
-run.sh source_checks_proved` says it, and `docs/notes/aufgaben.md` keeps
-what it said when somebody last looked.
+run.sh source_checks_proved` says it, and the owner's decision board
+(private, outside the repository) keeps what it said when somebody last
+looked.
 
 **A row is addressed by its wording, never by its line number.** The
 file is written by many hands in one night, and every entry above a row

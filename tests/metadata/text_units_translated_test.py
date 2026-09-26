@@ -12,6 +12,7 @@ come out of the file and are left out of the marks; and a word handed
 into a text as a value sits inside that text's marks, which is why the
 channel words are asked in German.
 """
+PLATFORM_BOUND = True
 import os
 import re
 import shutil

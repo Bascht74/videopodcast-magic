@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Connecting to auphonic.com must not by itself arm a paid run."""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

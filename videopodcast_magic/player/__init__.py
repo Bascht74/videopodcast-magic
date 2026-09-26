@@ -2715,6 +2715,12 @@ def make_log_view(QtGui, QtWidgets, Cursor):
                             else 9)
             s.setStyleHint(QtGui.QFont.Monospace)
             self.setFont(fixed_width(QtGui, s))
+            # A right-to-left window reads every line its way, whatever
+            # letter opens it; a Latin name inside keeps its own order.
+            if self.isRightToLeft():
+                option = self.document().defaultTextOption()
+                option.setTextDirection(self.layoutDirection())
+                self.document().setDefaultTextOption(option)
             self._kind = "text"
             self._formats = {}
             self._formats_build()

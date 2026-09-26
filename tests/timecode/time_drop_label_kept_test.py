@@ -9,6 +9,7 @@ reads the drop-frame label as the drop-frame frames since midnight and
 the non-drop one as thirty a second; and a label moved on, which keeps
 the separator it came with.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

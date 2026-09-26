@@ -22,6 +22,7 @@ that the command names the release that was offered.
 The way back out of a version is not here: it is one road further
 on, and `run_way_back_offered_test.py` holds it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

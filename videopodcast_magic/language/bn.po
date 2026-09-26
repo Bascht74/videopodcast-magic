@@ -1269,9 +1269,6 @@ msgstr "  অতিরিক্ত:           লিমিটারকে %s dB 
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  প্রতিলিপি সম্ভব নয় (%s) -- তবু চালনা চলতে থাকে।"
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  প্রান্তে ওয়াইড শট: বাদ দেওয়া হয়েছে -- প্রথম বা শেষ ঘোষণা\n  স্বাগত জানানোর জন্য খুব দীর্ঘ হতো।"
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  প্রান্তে ওয়াইড শট: %s পর্যন্ত এবং %s থেকে"
 
@@ -2343,8 +2340,8 @@ msgstr "Multitrack (প্রতি বক্তার জন্য একটি
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack-এর জন্য অন্তত দুটি ইনপুট ট্র্যাক দরকার। একটি ট্র্যাক হলো নিজস্ব একটি রেকর্ডিং, মাল্টিচ্যানেল রেকর্ডারের একটি চ্যানেল, অথবা এমন ভিডিও ফাইলের অডিও যা \"ভেতরের অডিও ব্যবহার করুন\"-এ সেট করা। একই রেকর্ডিংয়ের একাধিক ব্লক একটি হিসেবে গোনা হয়, সরিয়ে রাখা ট্র্যাক একেবারেই নয়।"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "কোনো API কী নেই। --auphonic-api-key KEY দিন, AUPHONIC_TOKEN সেট করুন অথবা ইন্টারফেসে একবার সংরক্ষণ করিয়ে নিন। কী-টি Auphonic অ্যাকাউন্টের সেটিংসে আছে।"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "কোনো API কী নেই। AUPHONIC_TOKEN সেট করুন অথবা ইন্টারফেসে একবার সংরক্ষণ করিয়ে নিন। কী-টি Auphonic অ্যাকাউন্টের সেটিংসে আছে।"
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "কোনো অডিও ফাইলে টাইমকোড নেই। ইন পয়েন্ট ও আউট পয়েন্ট উপাদানের শুরু থেকে গোনা হয় -- ফাইলগুলোর পারস্পরিক অবস্থান মাপা হয়েছে।"
@@ -3378,9 +3375,6 @@ msgstr "রেকর্ডিং থেকে মাপা -- %s জন বক�
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "সম্পন্ন চালনা থেকে -- %s জন বক্তা, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "প্রক্রিয়াকৃত Auphonic ট্র্যাক থেকে -- %s জন বক্তা, %s"
 
 msgid "no folder"
 msgstr "(কোনো ফোল্ডার নেই)"
@@ -4885,3 +4879,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "অডিওর ভাষা"
+
+msgid "In the sound"
+msgstr "অডিওতে"
+
+msgid "Speech"
+msgstr "কথা"
+
+msgid "Mixed"
+msgstr "মিশ্র"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "কথা: শুধু লাউডনেস দিয়ে বসানো হয়। যে রেকর্ডিংয়ের ক্যামেরার সঙ্গে\nকোনো মিল নেই, তা বাতিল হয়। মিশ্র: কণ্ঠের নিচে সংগীত বা মিক্স থাকে,\nআর যেখানে লাউডনেস কিছু পায় না, সেখানে ফেজ দিয়ে বসানো যেতে পারে।\n\"%s\"-এ এটি সবসময় মিশ্র।"
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: এর শব্দ %s মাত্রায় মেলে, আর অন্য এক জায়গায়ও %s মাত্রায় -- শুধু নিজের ঘড়ি অনুযায়ী বসানো হয়েছে"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  প্রতিটি সর্বোচ্চ %s পর্যন্ত ছোট করা হয়েছে -- প্রথম ঘোষণা %s-এ শেষ হয়, শেষ ঘোষণা %s-এ শুরু হয়"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "এই ফোল্ডারে ওই নামে আরেকটি প্রকল্প আছে, %s -- এটি %s-এ থাকছে।"
+
+msgid "the picture did not change to the answerer there"
+msgstr "সেখানে ছবি উত্তরদাতার দিকে বদলায়নি"
+
+msgid "the answer was counted with the question before"
+msgstr "উত্তরটি আগের প্রশ্নের সঙ্গে গোনা হয়েছে"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s --auphonic-done ফোল্ডারে আছে, auphonic.com যে ট্র্যাকগুলো ফেরত দিয়েছে সেগুলোর মধ্যে। কে কথা বলছে তা কাঁচা রেকর্ডিং থেকে বের করা হয়, তাই এখানে বরং কাঁচা রেকর্ডিংটির নাম দিন।"
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   শব্দ চেনা যায়নি; চালনা যেভাবে বসায় সেভাবে বসানো হয়েছে"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "শব্দ চেনা যায়নি, টাইমকোড অনুযায়ী বসানো হয়েছে"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %sটি রেকর্ডিং এবং কোনো ছবি নেই: প্রতিটি আলাদাভাবে জোড়া হয় এবং একটিকে অন্যটির সঙ্গে মেলানো হয় না। --multitrack এগুলোকে একটি সময়-অক্ষে বসায়।"

@@ -8,6 +8,7 @@ The second question is the same one a step further out -- the mark
 "[multitrack only]" was set once and printed to nobody, because --help
 builds a parser of its own and never reached the place it was set in.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

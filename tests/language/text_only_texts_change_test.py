@@ -48,6 +48,7 @@ of the file it starts in: a word looked for in one file goes missing
 the day it moves into another, and a check that asks whether a word is
 gone then passes because the file it read no longer holds it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

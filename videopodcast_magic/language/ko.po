@@ -1267,9 +1267,6 @@ msgstr "  과다:              리미터가 %s dB를 줄여야 합니다. %s dB�
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  대본을 만들 수 없습니다 (%s) -- 그래도 계속 진행합니다."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  양 끝의 와이드 샷: 건너뜀 -- 첫 번째 또는 마지막 발언이\n  인사로 보기에는 너무 깁니다."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  양 끝의 와이드 샷: %s까지, 그리고 %s부터"
 
@@ -2341,8 +2338,8 @@ msgstr "Multitrack (화자마다 트랙 하나)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack에는 입력 트랙이 두 개 이상 필요합니다. 트랙이란 별도 녹음, 멀티채널 레코더의 채널 하나, 또는 \"내장 오디오 사용\"으로 설정된 비디오 파일의 오디오입니다. 같은 녹음의 여러 블록은 하나로 세고, 따로 빼 둔 트랙은 세지 않습니다."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API 키가 없습니다. --auphonic-api-key KEY를 지정하거나, AUPHONIC_TOKEN을 설정하거나, 인터페이스에서 한 번 저장해 두세요. 키는 Auphonic 계정 설정에 있습니다."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API 키가 없습니다. AUPHONIC_TOKEN을 설정하거나, 인터페이스에서 한 번 저장해 두세요. 키는 Auphonic 계정 설정에 있습니다."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "타임코드가 있는 오디오 파일이 없습니다. 인 포인트와 아웃 포인트는 소재의 시작부터 셉니다 -- 파일 간 위치는 측정된 것입니다."
@@ -3374,9 +3371,6 @@ msgstr "녹음에서 측정 -- 화자 %s명, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "완료된 실행에서 -- 화자 %s명, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "처리된 Auphonic 트랙에서 -- 화자 %s명, %s"
 
 msgid "no folder"
 msgstr "(폴더 없음)"
@@ -4840,3 +4834,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "오디오 언어"
+
+msgid "In the sound"
+msgstr "오디오 내용"
+
+msgid "Speech"
+msgstr "말소리"
+
+msgid "Mixed"
+msgstr "혼합"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "말소리: 라우드니스만으로 배치합니다. 카메라와 공통점이 없는\n녹음은 거부됩니다. 혼합: 목소리 아래에 음악이나 믹스가 있으며,\n라우드니스가 아무것도 찾지 못하는 곳에서는 위상으로 배치할 수 있습니다.\n\"%s\"에서는 항상 혼합입니다."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: 소리 일치도 %s, 다른 위치에서도 %s -- 자체 시계만으로 배치했습니다"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  각각 최대 %s로 줄임 -- 첫 발언은 %s에 끝나고, 마지막 발언은 %s에 시작합니다"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "이 폴더에 같은 이름의 다른 프로젝트가 있습니다: %s -- 이 프로젝트는 %s에 그대로 있습니다."
+
+msgid "the picture did not change to the answerer there"
+msgstr "그곳에서 화면이 답변자로 바뀌지 않음"
+
+msgid "the answer was counted with the question before"
+msgstr "답변이 앞의 질문과 함께 계산됨"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s은(는) --auphonic-done 폴더에, auphonic.com이 돌려준 트랙들 사이에 있습니다. 누가 말하는지는 원본 녹음에서 알아내므로, 여기에는 대신 원본 녹음을 지정하십시오."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   소리를 인식하지 못함; 실행이 배치하는 대로 배치됨"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "소리를 인식하지 못함, 타임코드로 배치됨"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  녹음 %s개, 영상 없음: 각각 따로 이어 붙이며 서로 맞추지 않습니다. --multitrack을 쓰면 하나의 시간 축에 놓습니다."

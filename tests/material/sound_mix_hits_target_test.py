@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Loudness: does the range come along, and does it still normalise?"""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

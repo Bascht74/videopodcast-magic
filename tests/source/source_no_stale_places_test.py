@@ -18,6 +18,7 @@ The limit of the method: a docstring that says "this file" is right or
 wrong depending on what it means, and no reading tells them apart.
 Those are printed, never judged.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

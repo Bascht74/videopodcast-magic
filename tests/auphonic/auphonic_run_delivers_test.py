@@ -9,6 +9,7 @@ what is not. What is sent is read whole -- the arguments and the files
 an @ points at -- because a key travels in a body as easily as in an
 argument. Every claim has its counter-check with a wrong input.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

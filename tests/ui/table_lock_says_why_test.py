@@ -10,6 +10,7 @@ English and German. A third window marks the wide shot, over a speaker
 and a voice on it and a voice set to "do not use". Offscreen, in Qt's
 own style.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

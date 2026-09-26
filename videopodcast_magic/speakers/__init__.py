@@ -42,6 +42,7 @@ TYPE_IGNORED = PROGRAM.TYPE_IGNORED
 TYPE_INTRO = PROGRAM.TYPE_INTRO
 TYPE_OUTRO = PROGRAM.TYPE_OUTRO
 VERSION = PROGRAM.VERSION
+VIDEO_SUFFIXES = PROGRAM.VIDEO_SUFFIXES
 Value = PROGRAM.Value
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
@@ -63,6 +64,7 @@ hashlib = PROGRAM.hashlib
 how_many_processors = PROGRAM.how_many_processors
 https_context = PROGRAM.https_context
 json = PROGRAM.json
+kept_in_use = PROGRAM.kept_in_use
 label_of = PROGRAM.label_of
 math = PROGRAM.math
 microphones_apart_db = PROGRAM.microphones_apart_db
@@ -847,8 +849,9 @@ def voice_key_parts(key):
 
 # What the table remembers about one file, by the head of the key. A
 # recording's voices are remembered under it, and struck with it.
-REMEMBERED_PER_FILE = ("audio", "kind", "own", "ownname", "several", "video")
-REMEMBERED_PER_VOICE = ("voice", "voicename")
+REMEMBERED_PER_FILE = ("audio", "kind", "own", "ownname", "several", "video",
+                       "videotyped")
+REMEMBERED_PER_VOICE = ("voice", "voicename", "voicetyped")
 
 
 def remembered_forget(remembered, gone):
@@ -1091,17 +1094,18 @@ def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
     return out
 
 
-def voice_name_free(name, taken=()):
+def voice_name_free(name, taken=(), typed=False):
     """The name a voice shows: its own, or the first number nobody has.
 
     A name somebody typed stands, whatever else is on the sheet -- the
-    field says so itself where two are the same. Only the numbered
-    stand-in counts on, and it counts across every separation: to the
-    cut, two voices of one name are one person.
+    field says so itself where two are the same -- and *typed* says one
+    was, even where it looks like the stand-in. Only the program's own
+    stand-in counts on, across every separation: to the cut, two voices
+    of one name are one person.
     """
     name = str(name or "").strip()
     used = set(str(x).strip() for x in taken or () if str(x or "").strip())
-    if name and not (is_stand_in_name(name) and name in used):
+    if name and (typed or not (is_stand_in_name(name) and name in used)):
         return name
     n = 1
     while T('Speaker %d') % n in used:
@@ -1230,6 +1234,11 @@ def tc_column_write(rows, real_tc, axis, absolute):
         try:
             row[3].setText(text)
             row[3].setForeground(_qg.QBrush(_qg.QColor(colour)))
+            # The tree was sized before the measurement came: without
+            # this a rebuild lays it out wider than the fresh one.
+            view = row[3].model().parent()
+            if hasattr(view, "resizeColumnToContents"):
+                view.resizeColumnToContents(3)
         except RuntimeError:
             return False
     return True
@@ -1261,14 +1270,15 @@ def weak_decision(kind, intro_free=False):
 
 
 def weak_note(caption, placeless, kind="", intro_free=False,
-              clock_alone=False):
+              clock_alone=False, camera=True):
     """What a file whose sound was not recognised says beside its name.
 
     Two ways lead to a place and one is enough: with a timecode only
     the second opinion is missing, without one there is no place at
     all and its sound is out of the run. Then the finding comes first
     and what was done about it under it. *clock_alone*: the file has a
-    timecode, but nothing it could be set against has one.
+    timecode, but nothing it could be set against has one. A recording
+    (*camera* False) goes as the run lays it: measured, or at its clock.
     """
     decided = weak_decision(kind, intro_free)
     if placeless and clock_alone:
@@ -1278,6 +1288,9 @@ def weak_note(caption, placeless, kind="", intro_free=False,
     if placeless:
         return T('%s\n   does not fit the other files: sound not '
                  'recognised, no timecode.\n   %s') % (caption, decided)
+    if not camera:
+        return T('%s\n   sound not recognised; placed as the run '
+                 'places it') % caption
     return T('%s\n   sound not recognised; placed by its timecode') \
         % caption
 
@@ -1318,6 +1331,7 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
     *alone* which of them has a timecode with none to set it against.
     Returns the rows that are gone.
     """
+    import PySide6.QtCore as _qc
     import PySide6.QtGui as _qg
     nowhere = set(no_place or ())
     alone = set(path_key(p) for p in (alone or ()))
@@ -1332,10 +1346,17 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
             # overwrite each other, whichever ran last.
             for column in (0, 2):
                 item.setForeground(column, ink)
+            # The note is marked as ours, so a row that fits again gets
+            # its folder back -- and only then, the prework writes here too.
             if odd:
                 item.setText(2, weak_note(
                     os.path.dirname(p), placeless, kind,
-                    intro_free_of(kinds, p), path_key(p) in alone))
+                    intro_free_of(kinds, p), path_key(p) in alone,
+                    p.lower().endswith(VIDEO_SUFFIXES)))
+                item.setData(2, _qc.Qt.UserRole, "weak")
+            elif item.data(2, _qc.Qt.UserRole) == "weak":
+                item.setText(2, os.path.dirname(p))
+                item.setData(2, _qc.Qt.UserRole, None)
         except RuntimeError:
             dropped.append(p)
     return dropped
@@ -1389,7 +1410,8 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=()):
             if odd:
                 said = weak_note(plain, placeless, kind,
                                  intro_free_of(kinds, p),
-                                 path_key(p) in alone)
+                                 path_key(p) in alone,
+                                 p.lower().endswith(VIDEO_SUFFIXES))
             row[0].setText(said)
             # The column can be narrower than the sentence.
             row[0].setToolTip(said if odd else "")
@@ -2250,7 +2272,23 @@ def voice_marks_of(state):
     if marks is None:
         marks = {"typed": set(), "said": {}, "name": {}, "camera": {}}
         state["voice_marks"] = marks
+    # Who typed a name, apart from who answered in the row at all.
+    marks.setdefault("named", set())
     return marks
+
+
+def voice_typed_back(state, remembered, key):
+    """Whether this voice's name was typed, in this window or the file's.
+
+    A project file says so under "voicetyped:"; brought back, the name
+    is marked as typed again, so no proposal and no count rewrites it.
+    An older file does not say, and a stand-in there is the program's.
+    """
+    marks = voice_marks_of(state)
+    if remembered.get("voicetyped:" + key):
+        marks["typed"].add(key)
+        marks["named"].add(key)
+    return key in marks["named"]
 
 
 def voice_row_marks(state, key, name_value, camera_value, field, box):
@@ -2267,6 +2305,7 @@ def voice_row_marks(state, key, name_value, camera_value, field, box):
     # marked in it. Written over on every rebuild, never kept.
     marks.setdefault("field", {})[key] = field
     field.textEdited.connect(lambda *_: marks["typed"].add(key))
+    field.textEdited.connect(lambda *_: marks["named"].add(key))
     box.activated.connect(lambda *_: marks["typed"].add(key))
 
 
@@ -2567,14 +2606,18 @@ def speaker_recipe_mark():
 def speaker_cache_key(path, model_mark="", num_speakers=0):
     """The name a stored separation lives under.
 
-    Path, mtime and size say whether it is the same recording; the
-    model, a number of speakers set by hand and the way the answer is
-    worked out are inputs too. Not in it: the language, the time
-    window, the offset, the names -- they change nothing measured.
+    Path, mtime and size say whether it is the same recording; a mix of
+    speaker_mix_file is known by its name, which its inputs make, as
+    the sweep redates it. Model, speakers set by hand and recipe count
+    too; the language, time window, offset and names change nothing.
     """
     mark = file_fingerprint(path)
     if not mark:
         return ""
+    name, mixes = os.path.basename(mark[0]), cache_folder("speakers")
+    if (mixes and re.match(r"mix_[0-9a-f]{16}\.wav$", name)
+            and path_key(os.path.dirname(mark[0])) == path_key(mixes)):
+        mark = [name, 0, 0]
     parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
              model_mark or "", str(int(num_speakers or 0)),
              speaker_recipe_mark()]
@@ -2603,6 +2646,7 @@ def speaker_cache_read(key):
             d = json.load(f)
     except (OSError, ValueError):
         return None
+    kept_in_use(file_path)
     return speaker_segments_group(d.get("segments") or [])
 
 
@@ -2897,14 +2941,13 @@ def microphones_apart_of_run(args, tracks):
     return apart
 
 
-def separation_source_of_run(args, tracks, video_paths, mixable=False,
-                             window=()):
+def separation_source_of_run(args, tracks, video_paths, window=()):
     """Which recording a run without a window takes apart by voice.
 
     The same rule the window follows, on the same function. Which cameras
     were ticked by hand is not on the command line, so all are offered.
-    With *mixable* microphones that hear each other too well are added
-    into one file, which becomes the source; *window* names it.
+    Microphones that hear each other too well are added into one file,
+    which becomes the source; *window* names it.
     """
     from_cameras = bool(getattr(args, "_camera_audio", None))
     recordings, of_track = [], {}
@@ -2935,12 +2978,12 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
         return speaker_mix_file(picked, made_of + [str(x) for x in window])
 
     apart = (microphones_apart_of_run(args, tracks)
-             if mixable and not from_cameras else None)
+             if not from_cameras else None)
     return speaker_source_pick([] if from_cameras else recordings,
                                video_paths or (),
                                camera_audio=from_cameras,
                                apart_db=apart,
-                               mix=mix if mixable else None)
+                               mix=mix)
 
 
 def voices_reported(segments):
@@ -2979,16 +3022,14 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             and not SPEAKER_SPLIT_OFF
             and not getattr(args, "no_speakers_local", False)
             and not getattr(args, "speakers_local", None)
-            and not getattr(args, "_camera_audio", None)
-            and bool(getattr(args, "without_auphonic", False))
-            and not getattr(args, "auphonic_done", None)):
+            and not getattr(args, "_camera_audio", None)):
         # The window picks its source without knowing how far the
         # microphones stand apart, so it takes one recording: below
         # MICROPHONES_APART_DB that names 37.5 % right against 97.6 %.
         apart = microphones_apart_of_run(args, tracks)
         if apart is not None and apart < MICROPHONES_APART_DB:
             source, why = separation_source_of_run(
-                args, tracks, video_paths, mixable=True, window=(t0, t1))
+                args, tracks, video_paths, window=(t0, t1))
             if source and why == "microphones mixed":
                 dropped = apart
             else:
@@ -2999,13 +3040,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         if getattr(args, "speakers_local", None):
             source = os.path.abspath(args.speakers_local)
         elif not SPEAKER_SPLIT_OFF:
-            # Only where the recordings stay raw -- after auphonic.com
-            # the bleed is already out of them.
+            # With or without auphonic.com: the raw recordings are mixed,
+            # which named 99 % right against 80-83 % for the returned ones.
             source, why = separation_source_of_run(
-                args, tracks, video_paths,
-                mixable=bool(getattr(args, "without_auphonic", False))
-                and not getattr(args, "auphonic_done", None),
-                window=(t0, t1))
+                args, tracks, video_paths, window=(t0, t1))
     if source:
         print(as_head(T('\nSEPARATING THE SPEAKERS')))
         if dropped is not None:
@@ -3128,10 +3166,11 @@ def speakers_for_the_cut(args, tracks):
     mics, box = [], []
     if left or (where_from and len(tracks) > 1):
         # One reading for both uses, over every track: a track left out
-        # would hear its neighbour and count that as speech.
+        # would hear its neighbour and count that as speech. The raw
+        # tracks, never the returned ones: auphonic.com is sound only.
         try:
             mics = speakers_from_tracks(
-                [(track["name"], track.get("ready") or track["axis"], 0.0)
+                [(track["name"], track["axis"], 0.0)
                  for track in tracks], note=print, grid=box)
         except Exception as e:
             print(as_warn(T('  The tracks were not measured, so %s is in '
@@ -3655,9 +3694,10 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         called = dict(speakers_stored(state, path).get("names") or {})
         for label, _parts in found:
             key = voice_key(path, label)
+            named = voice_typed_back(state, remembered, key)
             name_value = PROGRAM.SpeakerName(voice_name_free(
                 remembered.get("voicename:" + key) or called.get(label),
-                [nv.get() for _k, nv, _c in voice_lines]))
+                [nv.get() for _k, nv, _c in voice_lines], named))
             picked, worked_out = camera_row_cameras(
                 PROGRAM.camera_after_a_mark(
                     "voice:" + key, remembered.get("voice:" + key), wide),
@@ -3721,6 +3761,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
                 remembered["voicename:" + k] = said
             else:
                 remembered.pop("voicename:" + k, None)
+            remembered["voicetyped:" + k] = k in voice_marks_of(state)["named"]
         voices_answer_kept(remembered, files, named)
         # A voice that has just been given a camera may be the second
         # one, and with it the camera cut becomes possible.

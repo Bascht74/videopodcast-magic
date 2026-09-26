@@ -29,6 +29,11 @@ those is true any more, and each of them had a good reason written
 beside it in the source -- **which is why they read as ground.** The
 source records what was true, not what is.
 
+**Qt is the one that moved only halfway.** pip3 brings PySide6 with the
+program, so the window may use it freely; the command line still loads
+none of it, and that stays. Where Qt may be imported, and the
+measurement behind it, is `coding_guidelines.md` section 12.
+
 **One thing about the fifth is worth knowing, and it is not a hole.**
 The program's own text says external scripting -- the way it talks to
 Resolve -- may be reserved for the Studio edition since 19.1, and that
@@ -295,8 +300,8 @@ a second time.
 
 A strand that reports gets written down because its report arrives; a
 sentence said to somebody has nothing that arrives. So "that goes on the
-list" means it goes into `docs/notes/aufgaben.md` in the same breath,
-before the next thing is started.
+list" means it goes onto the owner's decision board (private, outside
+the repository) in the same breath, before the next thing is started.
 
 ---
 
@@ -309,7 +314,8 @@ that shipped 21 files instead of 11. A number that says how things stand
 today does not: it goes stale between two commits, and a stale one
 discourages or misleads. One said two thirds of the counter-proof
 register were still owed; it was 12 % when somebody finally counted.
-**Those belong in `docs/notes/`, or in a command that answers them.**
+**Those belong on the owner's decision board (private, outside the
+repository), or in a command that answers them.**
 
 ---
 

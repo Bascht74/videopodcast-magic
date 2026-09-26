@@ -14,6 +14,7 @@ The sections: what the measurement hands back, what the project file
 hands back, that the readers find a file under either name, and that
 the window has no reader of its own.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

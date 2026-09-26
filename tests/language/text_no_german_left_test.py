@@ -7,11 +7,13 @@ German abbreviations, German words on the English side of the manual,
 and the catalogue as data. A German text missing a %s raises at run
 time, and only for people running in German. And one thing has one
 German word: a value the interface offers is called the same in every
-German text about it, or the log and the field are two names for one
-thing. Every catalogue, not the German one alone, is held to carrying
-no entry the program cannot reach; reachable is a wording that stands
-in the program at all, so an entry whose string never meets T() passes.
+German text about it -- a listed few use the word in its ordinary sense
+-- or the log and the field are two names for one thing. Every
+catalogue, not the German one alone, is held to carrying no entry the
+program cannot reach; reachable is a wording that stands in the program
+at all, so an entry whose string never meets T() passes.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -216,6 +218,43 @@ offered = sorted(set(vpm.CHOICE_LABELS.values()))
 missing = [w for w in offered if w not in catalogue]
 check("every value the interface offers has a German word", not missing,
       str(missing))
+# Two of those words are ordinary English as well, and some texts use
+# them so, where German has its own word: a speech time, a pause in
+# speech, tracks mixed together. Named here one by one, with the label
+# they share a word with, so any other text about the value still falls.
+ORDINARY = {
+    # Mixed as in put together, not the sound's field value.
+    ('Mixed', '  %s: %s mixed together'),
+    ('Mixed', '  %s gets %s tracks mixed together: %s'),
+    # Speech time is how long a person talks: Redezeit.
+    ('Speech', '%s speech time'),
+    ('Speech', 'Speech time'),
+    ('Speech', "<span style='color:%(t)s'><b>%(n)s shots</b>, median "
+     "%(med)s s, shortest %(short)s s, longest camera %(long)s s</span>. "
+     "Speech time: <b>%(own)s %%</b> on their own camera (%(own_t)s), "
+     "%(wide)s %% on the wide shot (%(wide_t)s), <span style='color:"
+     "%(warn)s'>at %(off)s %% (%(off_t)s) the speaker's camera is not "
+     "active</span>"),
+    # The same speech on two tracks: what was said, dieselbe Rede.
+    ('Speech', '  The order carries, the distance between them does not: '
+     'measured over four episodes it never turned round, while the '
+     'distance between first and last changed fourfold. It takes one '
+     'voice per track; where two of them carry the same speech nothing '
+     'is said at all.'),
+    ('Speech', '  Who asks -- not said here: two of the tracks carry the '
+     'same speech, so the questions would go to whichever recorder was '
+     'turned up loudest.'),
+    # A pause in talking: Sprechpause.
+    ('Speech', 'The hard limit of the pair: where no sentence boundary has '
+     'turned up since "Wide shot after", the longest speech pause stands '
+     'in for one, and at this point the cut happens whatever is being '
+     'said.'),
+    # Finding who speaks when, said as such in German.
+    ('Speech', '  Bleed measured, %s in %s only %s dB quieter -- taken out '
+     'of the speech detection'),
+    ('Speech', '  No moment found where exactly one person speaks -- the '
+     'bleed stays in the speech detection.'),
+}
 apart = []
 for _english in offered:
     if _english in missing:
@@ -225,7 +264,8 @@ for _english in offered:
     spoken = re.compile(r"(?<![\w-])%s" % re.escape(_german), re.I)
     for key, value in catalogue.items():
         # A label entry is the word itself, not a text about it.
-        if key in offered or not named.search(key):
+        if key in offered or not named.search(key) \
+                or (_english, key) in ORDINARY:
             continue
         if not spoken.search(value):
             apart.append("%r wants %r: %r" % (_english, _german, key[:44]))

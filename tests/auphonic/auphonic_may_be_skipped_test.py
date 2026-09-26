@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """The entry "work without Auphonic" instead of a tick of its own."""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -264,18 +265,22 @@ def argv_with(key, preset):
               "multitrack": False, "key": key, "preset": preset}
     return vpm.run_argv(values, "")
 argv, _plan, messages = argv_with("", "")
-check("without a key: no --auphonic-api-key",
-        argv is not None and "--auphonic-api-key" not in argv,
-        "%s, wanted a command line without it"
-        % switches(argv, "--auphonic-api-key"))
+check("without a key: none goes with the run",
+        argv is not None and getattr(argv, "key", None) == "",
+        "%s, a key beside it %s, wanted a command line and no key"
+        % (switches(argv, "--without-auphonic"),
+           bool(getattr(argv, "key", None))))
 check("without a key: no message", not messages,
       "%s, wanted none" % said(messages))
 argv, _plan, messages = argv_with("SECRET", "Podcast_Zoom")
-check("with key and preset: both there",
-        argv is not None and "--auphonic-api-key" in argv
-        and "--auphonic-preset" in argv,
-        "%s, wanted both there"
-        % switches(argv, "--auphonic-api-key", "--auphonic-preset"))
+check("with key and preset: preset on the line, key beside it",
+        argv is not None and "--auphonic-preset" in argv
+        and "SECRET" not in argv
+        and getattr(argv, "key", None) == "SECRET",
+        "%s, the key on the line %s, beside it %s, wanted the preset "
+        "there and the key only beside it"
+        % (switches(argv, "--auphonic-preset"),
+           "SECRET" in (argv or []), getattr(argv, "key", None) == "SECRET"))
 argv, _plan, messages = argv_with("SECRET", "")
 check("key without preset: an error message",
         argv is None and messages and messages[0][0] == "error",

@@ -10,6 +10,7 @@ off where its picture's sound does, within a frame; the handover says
 the clock placed it and not the other, and the log that its sound
 matched too weakly.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

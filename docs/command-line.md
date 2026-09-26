@@ -9,7 +9,30 @@ A switch that works on one path only carries `[multitrack only]` or
 the same way, and the marker stays English whatever the language of the
 run.
 
-![The start of a run in the terminal](images/terminal.png)
+```text
+$ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
+    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+videopodcast-magic 3.0.0b25   Python 3.14.7
+/tmp/vpm_terminal/videopodcast_magic/__init__.py
+
+
+PREFLIGHT -- does the material fit together?
+    GuestCam_01011858_C003.m 25.000 fps -- h264, 320x180, 3,000 frames in 0:02:00.000
+    Guest_Take0021A_Timecode 48 kHz, 16 bit, mono, 0:02:00.000
+    Presenter_REC00021.wav 48 kHz, 16 bit, mono, 0:00:40.000
+    Presenter_REC0002 Note: only 0:00:40.000 long, the longest recording has 0:02:00.000.
+      Started late or stopped early -- this voice is then missing from the
+      mix in places.
+    Bleed             Guest_Take0021A_Timecode in Presenter_REC00021's microphone: 31.7 dB quieter than in their own.
+    Bleed             Presenter_REC00021 in Guest_Take0021A_Timecode's microphone: 31.6 dB quieter than in their own.
+    Disk space        free 119.6 GB, about 326 MB needed (/private/tmp/vpm_terminal/interview)
+    Loudness          -16 LUFS (Podcast directories, stereo)
+    8 checked, 1 hint
+MULTITRACK NOT POSSIBLE
+  Without an API key there is nothing to send to auphonic.com.
+  With --without-auphonic it runs locally instead: aligned,
+  mixed and cut, but without de-bleed and leveler.
+```
 
 *`--multitrack --lufs -16 --dry-run` at the end of the call, the version
 and the Python underneath, then the preflight with eight checks and one
@@ -23,6 +46,7 @@ hint. Without a key the multitrack run stops there.*
 | `--out FOLDER` | where the results go (next to each video) |
 | `--project-type WHAT` | what the run is for: `cut` puts the cameras on one time axis and cuts by speaker, in the window "Cut by speaker"; `sync` only puts the audio onto each camera and builds the multicam timeline, "Sync only" -- no speakers, no speech recognition, no transcript, no cut lists (`cut`) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
+| `--production NAME` | the production's name, which the handover, the lists and the transcript are named after; not read beside `--assign`, whose file carries its own (the folder the material lies in) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0)  `[multitrack only]` |
 | `--dry-run` | only measure and report, write nothing |
@@ -37,12 +61,14 @@ hint. Without a key the multitrack run stops there.*
 | `--no-follow-ups` | do not look for numbered continuation files (it looks for them) |
 | `--together FILE ...` | these files are one recording, in this order; repeatable. The run sorts the other files by name and leaves the group untouched: one block at the first of its names |
 | `--apart FILE` | this block stands on its own, whatever its name says: it is not joined to a recording, and in the plan it stays a track of its own even where it gets the same name as another block of the same recorder; repeatable |
+| `--sound WHAT` | what the sound of every recording holds: `speech` places it by its loudness alone, and a recording that shares nothing with the cameras is refused; `mixed` means music or a mix lies under the voices, and where the loudness finds nothing the phase may place it. `--project-type sync` always takes `mixed`. In the window the field **In the sound** (`speech`) |
+| `--sound-of FILE WHAT` | the same for one recording, named by any of its files; beats `--sound`; repeatable. The window sends it for every recording set to **Mixed** (none) |
 | `--no-single-tracks` | only the mix into the video, not the recordings beside it  `[simple path only]` |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
 | `--fps NUMBER` | frame rate to assume, if ffprobe reports a wrong one (from the video file) |
 | `--lufs NUMBER` | loudness target in LUFS for the sum of the speaker tracks; lower is quieter, the usual targets lie between -23 and -14. Without it nothing is adjusted: the sound is taken from the source files as it is (none) |
-| `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Careful, ffmpeg drops `deu` silently (none) |
+| `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Another spelling of one of those, such as `de` or `deu`, becomes that tag, as in the window; ffmpeg would drop it silently (none) |
 | `--speech-language-camera CODE` | the same for the camera track (none: that is what tells the two apart in the QuickTime audio menu) |
 | `--speakers-local FILE` | take that recording apart by voice on this machine, and cut by the result (the recording the run picks itself) |
 | `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one; not used where its recording has changed since or it came from another model (none) |
@@ -53,9 +79,12 @@ hint. Without a key the multitrack run stops there.*
 
 ## Processing at auphonic.com
 
+The key comes from the account settings into `AUPHONIC_TOKEN`, never
+onto the command line. It turns processing on, and a command line with
+switches but no files then only lists the presets.
+
 | Switch | Does |
 |---|---|
-| `--auphonic-api-key KEY` | key from the account settings; turns processing on. Without files it only lists the presets |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
 | `--auphonic-wait SECONDS` | how long to wait (7200) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
@@ -89,6 +118,7 @@ hint. Without a key the multitrack run stops there.*
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots -- except with `--project-type sync`, where only a camera given here is one |
 | `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. The window sends its "new file name" field this way where no assignment file carries it. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with `--multitrack` and cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
+| `--camera-label FILE NAME` | the run's messages name this video file NAME; repeatable. Without it the file's own name. The window sends it for the second of two files of one name, "(2)" as it shows it |
 | `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (70) |
 | `--wide-length SECONDS` | how long the interposed shot stands at least; it then runs to the end of the sentence (5) |
 | `--wide-most SECONDS` | how long it stands at most; if the end of the sentence lies beyond it, the last clause break before it ends the shot (15) |
@@ -145,7 +175,7 @@ chapters.
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.
 * **`--multitrack` without a key.** The run stops after the preflight.
-  Give the program a key, or let `--without-auphonic` align, mix and cut
+  Put a key in `AUPHONIC_TOKEN`, or let `--without-auphonic` align, mix and cut
   on this machine.
 * **The list is English in a German run.** `--help` and the names of
   the switches do not follow `--lang`; that switch sets the language of

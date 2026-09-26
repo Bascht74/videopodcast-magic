@@ -20,6 +20,7 @@ stands in -- and not pip's own wheel. The second spelling is a link
 where the system makes one; the two spellings Windows itself produces
 are put to ntpath, which answers here what it answers there.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -8,6 +8,7 @@ that has just said the measured window is being kept. In order: a
 window really cut, one pulled back to the whole of it, and the German
 run, which needs a wording of its own for the short line.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

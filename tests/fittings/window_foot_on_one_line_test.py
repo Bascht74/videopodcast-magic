@@ -18,6 +18,7 @@ even while it stood crooked in the native macOS style, which is where
 it was seen. So this reads as a guard offscreen and as a measurement under
 VPM_LAYOUT_PLATFORM=cocoa, which is where it was made to fall.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

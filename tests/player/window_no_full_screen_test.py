@@ -7,6 +7,7 @@ the source, where the four names that could ask for it would stand, and
 the picture itself, which is sent the double click and the escape that
 used to do it. Last, that no player carries the command by another name.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

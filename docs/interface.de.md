@@ -24,7 +24,19 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   steht in der Titelzeile — ein Fenster mit geöffnetem Projekt und eines
   ohne sind so nicht dasselbe Bild. Die Projektdatei heißt nach der
   Produktion und zieht mit um, wenn die Produktion einen neuen Namen
-  bekommt; die Titelzeile nennt sie dann unter dem neuen.
+  bekommt; die Titelzeile nennt sie dann unter dem neuen. Sie zieht
+  um, sobald der Name feststeht -- wenn man das Feld verlässt, Enter
+  drückt, das Projekt speichert oder einen Lauf startet --, nie mitten
+  im Tippen.
+
+  Die Datei eines anderen Projekts wird dabei nie überschrieben. Liegt
+  unter dem neuen Namen schon eine im Ordner, bleibt die Projektdatei,
+  wo sie ist; das Fenster sagt einmal, welches Projekt dort liegt, und
+  gespeichert wird weiter in die bisherige Datei. Hat eine Produktion
+  noch keine eigene Datei, wird sie stattdessen als `<Name> (2)` daneben
+  gespeichert, und auch das sagt das Fenster. Ein Projekt, das aus einer
+  Kopie seiner Datei geöffnet wurde -- `Beta Kopie.json` --, speichert
+  in diese Kopie und nicht in `Beta.json`.
 
   Liegt beim Material eine Projektdatei, bietet das Programm sie an,
   während die Dateien hereinkommen, und bevor eine davon vermessen wird:
@@ -178,6 +190,28 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   und eine Datei, die eine spätere Messung einordnen kann, bekommt
   beide Einträge zurück. Wohin die Datei inzwischen gesetzt wurde,
   bleibt stehen, bis jemand es selbst ändert.
+
+  Jede Tonaufnahme trägt in derselben Spalte das Feld **Im Ton** -- eine
+  Antwort für die ganze Aufnahme, aus wie vielen Blöcken sie auch
+  besteht. Es sagt, womit das Programm die Aufnahme auf die Zeitachse
+  legen darf, und das sagt nur ein Mensch; das Programm rät nicht.
+
+  - **Sprache**, so steht es anfangs: Die Aufnahme wird allein nach
+    ihrer Lautheit gelegt, gegen die Lautheit der Kameras. Hat sie mit
+    den Kameras nichts gemeinsam, wird sie abgelehnt, statt irgendwo
+    hingelegt zu werden.
+  - **Gemischt**: Unter den Stimmen liegt Musik oder ein fertiger Mix,
+    und daran kann die Lautheit scheitern. Wo sie nichts findet, darf
+    dann die Phase des Tons die Aufnahme legen.
+
+  Bei **Nur synchronisieren** steht das Feld fest auf **Gemischt** und
+  ist gesperrt, denn dort ist die Phase immer erlaubt. Was man vorher
+  gewählt hatte, bleibt gemerkt und kehrt mit **Schnitt nach Sprecher**
+  zurück. Wer das Feld oder den Projekttyp ändert, lässt die Zeitachse
+  neu messen, sofern sich damit ändert, welche Aufnahmen die Phase legen
+  darf. Die Projektdatei hält die Antwort je Aufnahme fest; ein
+  Projekt, das gespeichert wurde, bevor es das Feld gab, liest sich als
+  **Sprache**.
 
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile
@@ -353,10 +387,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   - **aus dem fertigen Lauf -- 3 Sprecher, 1:09:23**, in der guten
     Farbe. Ein Lauf ist durch, und die Vorschau steht auf dessen
     Ergebnis: alle Spuren auf einer Achse, die Sprecher so, wie der Lauf
-    sie gefunden hat.
-  - **aus den bearbeiteten Auphonic Spuren -- 3 Sprecher, 1:09:23**,
-    ebenfalls in der guten Farbe. Dasselbe, und die Spuren sind von
-    auphonic.com zurückgekommen, das Übersprechen der Nachbarn heraus.
+    sie gefunden hat. Nach einem Lauf über auphonic.com steht dort
+    dasselbe: Von dort kommt der Klang zurück, und die Sprecher werden
+    so oder so an den Aufnahmen ermittelt.
 
   Damit ist die eine Frage beantwortet, die man an eine Vorschau hat:
   ob man ihr trauen kann. Ist ein Lauf durch, stehen Vorschau und Lauf
@@ -549,7 +582,9 @@ gefragt, in einem Kasten **Projekttyp** -- **Was soll aus dieser
 Produktion werden?** -- mit den beiden Einträgen und **Abbrechen**.
 **Abbrechen** wählt nichts, und gefragt wird nicht noch einmal; das
 Feld im Streifen nimmt die Antwort weiterhin an. Ein geöffnetes Projekt
-fragt nie: der Typ steht in der Projektdatei, und eine Projektdatei aus
+fragt nur, wenn es gespeichert wurde, bevor ein Typ gewählt war: Dann
+steht das Feld wieder auf **nicht gesetzt**, und der Reiter fragt wie
+bei einem neuen. Jede andere Projektdatei trägt ihren Typ, und eine aus
 der Zeit vor dem Typ öffnet sich als **Schnitt nach Sprecher**. Auf der
 Kommandozeile heißt es `--project-type cut` oder `sync`, und `cut`, wo
 nichts gesagt wird.
@@ -612,7 +647,8 @@ Sprechertrennung](speech.de.md) zeigt den Block und was darin steht.
 Dann eine Zusammenfassung: wie viele Kameras und Tonspuren, wie
 lang, welches Preset, wie viele Dateien entstehen, wieviel Platz sie
 brauchen und wieviel frei ist. Wenn der Lauf bestehende Dateien
-überschreiben würde, zeigt ein Fenster erst, welche.
+überschreiben würde, die kein früherer Lauf dieser Produktion
+geschrieben hat, zeigt ein Fenster erst, welche.
 
 Der Player hat Abspielen und Pause, sekunden- und frameweise vor und
 zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
@@ -782,10 +818,11 @@ womöglich nicht.
 **Arabisch, Persisch, Hebräisch und Urdu drehen das Fenster um.**
 Menüleiste, Reiter, Kästen, Tabellen und dieses Einstellungsblatt lesen
 sich dann von rechts nach links, so wie es ein Leser dieser Sprachen
-erwartet. Das Protokoll behält seine eigene Richtung: eine Zeile, die
-mit einem Pfad oder einem Timecode anfängt, steht so da, wie sie
-geschrieben wurde -- was ein Lauf über sich selbst sagt, ist kein Satz
-in irgendeiner Sprache.
+erwartet. Auch das Protokoll liest sich dann von rechts: Jede Zeile
+steht am rechten Rand, auch eine, die mit einem Dateinamen beginnt. Ein
+Pfad oder ein Timecode darin behält die Reihenfolge, in der er
+geschrieben wurde, und eine Zahl behält ihr Vorzeichen vorne: `-16
+LUFS`, nicht `16- LUFS`.
 
 Die Wahl wird sofort festgehalten, und die Zeile über dem Feld sagt,
 was als Nächstes geschieht. Solange die gewählte Sprache die ist, in

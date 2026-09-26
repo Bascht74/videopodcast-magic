@@ -15,6 +15,7 @@ file that opens; and where nothing lies, nothing is said.
 The question and the list are stand-ins, so no window opens, and what
 they answer is all the test sees of Qt.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

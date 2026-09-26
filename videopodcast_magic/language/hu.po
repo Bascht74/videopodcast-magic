@@ -1269,9 +1269,6 @@ msgstr "  Túl sok:           a limiternek %s dB-t kellene levennie. %s dB föl�
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Átirat nem lehetséges (%s) -- így is fut."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Totál a széleken: kihagyva -- az első vagy az utolsó bejelentés\n  túl hosszú lenne köszöntésnek."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Totál a széleken: eddig: %s, és ettől: %s"
 
@@ -2343,8 +2340,8 @@ msgstr "Multitrack (beszélőnként egy sáv)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "A Multitrack legalább két bemeneti sávot igényel. Egy sáv egy saját felvétel, egy többcsatornás felvevő egy csatornája vagy egy \"belső hang használata\" beállítású videófájl hangja. Ugyanannak a felvételnek több blokkja egynek számít, a félretett sávok egyáltalán nem."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nincs API-kulcs. Adja meg a --auphonic-api-key KULCS kapcsolót, állítsa be az AUPHONIC_TOKEN változót, vagy jegyeztesse meg egyszer a felületen. A kulcs az Auphonic-fiók beállításaiban található."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nincs API-kulcs. Állítsa be az AUPHONIC_TOKEN változót, vagy jegyeztesse meg egyszer a felületen. A kulcs az Auphonic-fiók beállításaiban található."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Egyik hangfájl sem hordoz timecode-ot. Az In pont és az Out pont az anyag elejétől számít -- a fájlok egymáshoz viszonyított helyzetét a program megméri."
@@ -3378,9 +3375,6 @@ msgstr "a felvételekből mérve -- %s beszélő, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "a befejezett futásból -- %s beszélő, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "a feldolgozott Auphonic sávokból -- %s beszélő, %s"
 
 msgid "no folder"
 msgstr "egyetlen mappa"
@@ -4885,3 +4879,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "A hang nyelve"
+
+msgid "In the sound"
+msgstr "A hangban"
+
+msgid "Speech"
+msgstr "Beszéd"
+
+msgid "Mixed"
+msgstr "Kevert"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Beszéd: csak a hangosság alapján kerül a helyére. Az a felvétel, amelynek semmi köze\na kamerákhoz, elutasításra kerül. Kevert: a hangok alatt zene vagy mix szól,\nés ahol a hangosság nem talál semmit, a fázis elhelyezheti.\n„%s” esetén mindig kevert."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: a hang egyezése %s, és egy másik helyen is %s -- csak az órája alapján került a helyére"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  mindegyik legfeljebb %s hosszúra rövidítve -- az első bejelentés vége: %s, az utolsó kezdete: %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Ebben a mappában már van egy másik projekt ezen a néven, %s -- ez ebben marad: %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "a kép ott nem váltott a válaszolóra"
+
+msgid "the answer was counted with the question before"
+msgstr "a válasz az előtte lévő kérdéssel együtt számítódott"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s a --auphonic-done mappájában van, az auphonic.com által visszaadott sávok között. Hogy ki beszél, azt a nyers felvételekből állapítjuk meg, ezért itt inkább a nyers felvételt adja meg."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   a hang nem felismert; úgy elhelyezve, ahogy a futás elhelyezi"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "a hang nem felismert, a timecode-ja szerint elhelyezve"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s felvétel és nincs kép: mindegyiket külön illesztjük össze, és nem igazítjuk őket egymáshoz. A --multitrack egy időtengelyre teszi őket."

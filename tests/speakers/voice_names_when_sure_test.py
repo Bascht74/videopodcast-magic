@@ -6,6 +6,7 @@ microphone tracks, and who asks against who answers. Real microphones
 often cannot be told apart, so most of this test asks where nothing
 may be said at all -- a wrong name would stand over a whole episode.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

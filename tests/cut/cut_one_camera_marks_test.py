@@ -11,6 +11,7 @@ only for the plain cut list, which may not grow a name field it never
 had; everywhere else the callers unpack by name, so a row of the wrong
 width ends the run before a check could speak.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -82,7 +83,7 @@ check("splitting again changes nothing",
       [(round(a, 4), round(b, 4), c) for a, b, c in two_cut]
       == [(round(a, 4), round(b, 4), c) for a, b, c, _w in after],
       "%d against %d" % (len(two_cut), len(after)))
-detail = vpm.camera_cut_detail(tracks, 80.0, two, "Wide")
+detail = vpm.camera_cut_detail(tracks, 80.0, two, "Wide", lead_in=-0.3)
 # Counting the fields said nothing about what stands in the fourth, and
 # a cut that named nobody kept every check green. So the names are
 # written out: ten turns of eight seconds, the Host first. Read off the
@@ -103,7 +104,8 @@ check("while the detailed one says who is talking", said == TURNS,
 # after it in the alphabet, so the two orders really differ here. The
 # rules are named rather than left to their defaults, so a changed
 # default does not turn this one judgement red for the wrong reason --
-# it does nothing for the reading above, which passes nothing. Named
+# it does nothing for the reading above, which passes only the lead-in,
+# the one value the function no longer holds a default for. Named
 # too, and not counted off: a parameter inserted into the signature
 # leaves the program right and kills a row of seven positions.
 both = [("Host", [(0, 20)]), ("Guest", [(8, 12)])]

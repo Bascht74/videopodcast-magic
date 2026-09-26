@@ -13,6 +13,7 @@ The limit is that one cheap test is named rather than the whole folder,
 so what is read is what run.sh prints around a run. The count is taken
 out of the folder again here, by another route than the shell takes.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

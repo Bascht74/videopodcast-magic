@@ -74,7 +74,7 @@ write_beside_then_move = PROGRAM.write_beside_then_move
 
 # Two stand in a piece read after this one: read_preset in the
 # processing (a circle: choose_preset there asks check_preset here),
-# and MATRIX_BT2020 in the Resolve project. The other four of the six
+# and MATRIX_BT2020 in the colour reading. The other four of the six
 # that stood here are head lines now -- the fittings moved above.
 
 # Three are bent while the run goes on, and a copy taken here would
@@ -1190,7 +1190,8 @@ def loudness_field_build(into, value):
             # A value nobody can pick here, out of a project file or a
             # run with its own --lufs. Added rather than replaced:
             # opening a project must not change what it was set to.
-            box.addItem(T('%.0f LUFS') % value.get(), value.get())
+            box.addItem(as_written(T('%.0f LUFS') % value.get()),
+                        value.get())
             i = box.count() - 1
         if box.currentIndex() != i:
             box.setCurrentIndex(i)
@@ -1245,8 +1246,10 @@ def check_loudness_target(args, videos=()):
                        T('taken from the source files, no --lufs given -- '
                          'nothing is adjusted'))]
     near = [n for n, (lufs, _) in PLATFORMS.items() if abs(lufs - args.lufs) < 0.05]
-    text = (T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
-            if near else T('%.0f LUFS') % args.lufs)
+    # as_written, as in loudness_choices: in Arabic script the minus
+    # would otherwise move behind the number, -16 reading as 16.
+    text = as_written(T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
+                      if near else T('%.0f LUFS') % args.lufs)
     if lufs_does_nothing(args, videos):
         return [Finding("good", T('Loudness'),
                        T('%s is set, and nothing is adjusted here: the '
@@ -1353,8 +1356,27 @@ def report_findings(findings, heading, anyway=False):
     return False
 
 
+def camera_named(file_path, findings_, data, labels=None):
+    """A camera's findings and data, named as the run's log names it.
+
+    The cache holds them under the file's own name, which two files of
+    one name share; the run names the second "(2)" (camera_shown), and
+    the facts line and the comparisons say it so too. The window's own
+    check hands its names in as *labels*, {path: name}.
+    """
+    name = os.path.basename(file_path)
+    shown = (labels or {}).get(file_path) or PROGRAM.camera_shown(file_path)
+    if shown == name:
+        return findings_, data
+    for b in findings_:
+        if b.field == name[:24]:
+            b.field = shown[:24]
+    return findings_, (dict(data, name=shown) if data else data)
+
+
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
-                    set_aside=(), apart=(), together=(), project_type="cut"):
+                    set_aside=(), apart=(), together=(), project_type="cut",
+                    labels=None):
     """Collect all findings about the material.
 
     Each file is measured and cached on its own, so adding one measures
@@ -1362,7 +1384,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     *set_aside* are files that do not take part -- ignored ones, intro,
     outro. They are checked so their row is not the only one without a
     mark, and stay out of the comparisons. *project_type* "sync" takes
-    exactly one audio recording and refuses every further one.
+    one audio recording and refuses more; *labels* see camera_named.
     """
     set_aside = {path_key(x) for x in (set_aside or ())}
 
@@ -1378,6 +1400,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     for p, (b, d) in zip(video_paths, parallel_map(
             video_paths,
             lambda x: measure_cached(x, "video", check_camera_file, fresh))):
+        b, d = camera_named(p, b, d, labels)
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             video_data.append(d)
@@ -1457,7 +1480,8 @@ def rows_off_the_axis(nodes, state):
     Read off what the rows are drawn from -- the measurement's "weak"
     and "no_place" and each row's Kind -- and judged by the ink the row
     gets, one answer per row, so three blocks are one recording. Returns
-    two lists of file names: refused in red, placed by the clock alone.
+    two lists of file names: refused in red, placed by the clock alone;
+    a file set to be left out stands in neither.
     """
     weak = state.get("weak") or ()
     nowhere = state.get("no_place") or ()
@@ -1470,10 +1494,15 @@ def rows_off_the_axis(nodes, state):
         odd = out + [p for p in paths if path_key(p) in weak]
         if not odd:
             continue
+        # A file set to be left out takes no part, so it is no fault
+        # of the material: the line does not count it, whatever ink
+        # its row wears.
+        kind = PROGRAM.weak_kind(state.get("clip_kinds"), odd[0])
+        if kind == TYPE_IGNORED:
+            continue
         # The row's own ink, asked of the piece that draws it; that
         # piece is read after this one, so it is asked by name here.
-        ink = PROGRAM.weak_colour(True, bool(out), PROGRAM.weak_kind(
-            state.get("clip_kinds"), odd[0]))
+        ink = PROGRAM.weak_colour(True, bool(out), kind)
         if ink == COLOURS["error"]:
             refused.append(os.path.basename(odd[0]))
         elif ink == COLOURS["warning"]:
@@ -1595,12 +1624,12 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
 
     def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
                          set_aside=(), apart=(), together=(),
-                         project_type="cut"):
+                         project_type="cut", labels=None):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
                                         crosstalk, set_aside, apart,
-                                        together, project_type)
+                                        together, project_type, labels)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
             # would start on material nobody looked at.
@@ -1647,7 +1676,10 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                                bool(multitrack.get()), gone,
                                frozenset(no_join),
                                tuple(tuple(g) for g in together_now()),
-                               state.get("project_type") or "cut"),
+                               state.get("project_type") or "cut",
+                               # Named as the window names them: the
+                               # run's camera_shown knows no labels here.
+                               PROGRAM.camera_labels(videos_p)),
                          daemon=True).start()
 
     return preflight_fill_in, preflight_kick_off

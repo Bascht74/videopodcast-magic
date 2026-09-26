@@ -5,6 +5,7 @@ The counterpart to --apart, for names that give the search nothing to go
 on: no counter, no clock. Each name brings the blocks already found for
 it, so naming one block of a chain brings the whole chain.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

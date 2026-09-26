@@ -27,7 +27,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "videopodcast-magic"
-version = "3.0.0b24"
+version = "3.0.0b25"
 description = "Raw material from a video podcast becomes an edited episode"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -99,6 +99,7 @@ packages = [
     "videopodcast_magic.bearings",
     "videopodcast_magic.workbench",
     "videopodcast_magic.choices",
+    "videopodcast_magic.colour",
     "videopodcast_magic.cut",
     "videopodcast_magic.desktop",
     "videopodcast_magic.dials",

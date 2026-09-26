@@ -11,11 +11,13 @@ that arrives in several blocks, which has to be measured as the one
 recording it is. Last a run started out of the window with a separation
 already in hand: below the limit the run overrules it, above the limit
 and wherever the measurement could decide nothing it does not, and the
-question of how far apart they stand is asked once a run at most.
-Then the count the log gives for the mix: the tracks that went into
-it, not every track the run was handed. The model itself is not run
--- the voices are handed in with their true times.
+question of how far apart they stand is asked once a run at most, with
+tracks back from auphonic.com as without. Then the count the log gives
+for the mix. Last a run whose returned tracks would name the wrong
+person: the raw mix decides. The model is not run -- the voices are
+handed in with their true times.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -458,8 +460,7 @@ try:
     del measured[:]
     del offered[:]
     close_run = vpm.separation_source_of_run(
-        Bare(), blocked_tracks(*in_blocks(CLOSE, "blocked_close")), [],
-        mixable=True)
+        Bare(), blocked_tracks(*in_blocks(CLOSE, "blocked_close")), [])
     close_blocks_db = measured[-1] if measured else None
     close_offered = offered[-1] if offered else []
     check("a recording in blocks is measured as one, so close "
@@ -491,8 +492,7 @@ try:
     del measured[:]
     del offered[:]
     far_run = vpm.separation_source_of_run(
-        Bare(), blocked_tracks(*in_blocks(FAR, "blocked_far")), [],
-        mixable=True)
+        Bare(), blocked_tracks(*in_blocks(FAR, "blocked_far")), [])
     far_blocks_db = measured[-1] if measured else None
     check("microphones far apart are left alone even when a recording "
           "comes in blocks",
@@ -510,7 +510,7 @@ try:
     del offered[:]
     loose_run = vpm.separation_source_of_run(
         Bare(), blocked_tracks(*in_blocks(CLOSE, "loose_close", clock=False)),
-        [], mixable=True)
+        [])
     loose_db = measured[-1] if measured else None
     check("and without a clock too, blocks answer as the one recording "
           "and not each other",
@@ -558,11 +558,10 @@ def counting_apart(paths):
     return straight_apart(paths)
 
 
-def counting_pick(args, tracks, video_paths, mixable=False, window=()):
-    """The real source pick, with a note of whether it was asked at all."""
-    counted["picked"].append(bool(mixable))
-    return straight_pick(args, tracks, video_paths, mixable=mixable,
-                         window=window)
+def counting_pick(args, tracks, video_paths, window=()):
+    """The real source pick, with a note that it was asked at all."""
+    counted["picked"].append(True)
+    return straight_pick(args, tracks, video_paths, window=window)
 
 
 vpm.microphones_apart_db = counting_apart
@@ -620,7 +619,7 @@ try:
           close_run["from"] == vpm.T('the separation in this run')
           and close_run["picked"] == [True],
           "the run says %r after %d source picks %s -- wanted %r and one "
-          "pick with the mix allowed"
+          "pick"
           % (close_run["from"], len(close_run["picked"]),
              close_run["picked"], vpm.T('the separation in this run')))
     check("and the voices that reach the cut are the mix's, not the "
@@ -654,16 +653,22 @@ try:
           "one" % (len(far_run["picked"]), far_run["picked"],
                    far_run["apart"]))
 
+    # auphonic.com only makes the sound: who speaks is still worked out
+    # on the raw recordings, so the run overrules the window there too.
+    auphonic_run = out_of_the_window(CLOSE, without_auphonic=False,
+                                     auphonic_done=WORK)
+    check("after auphonic.com too, close microphones overrule the "
+          "window's answer",
+          auphonic_run["from"] == vpm.T('the separation in this run')
+          and auphonic_run["picked"] == [True]
+          and auphonic_run["apart"] == 1,
+          "the run says %r after %d source picks %s and %d measurements "
+          "-- wanted %r, one pick, one measurement"
+          % (auphonic_run["from"], len(auphonic_run["picked"]),
+             auphonic_run["picked"], auphonic_run["apart"],
+             vpm.T('the separation in this run')))
     # The measurement reads five windows out of every recording against
     # every other, so it may not fall where its answer changes nothing.
-    auphonic_run = out_of_the_window(CLOSE, without_auphonic=False)
-    check("where auphonic.com takes the bleed out the window's answer "
-          "stands, unmeasured",
-          auphonic_run["from"] == vpm.T('the interface')
-          and auphonic_run["apart"] == 0,
-          "the run says %r after %d measurements -- wanted %r and none"
-          % (auphonic_run["from"], auphonic_run["apart"],
-             vpm.T('the interface')))
     refused_run = out_of_the_window(CLOSE, no_speakers_local=True)
     check("and --no-speakers-local leaves it alone, unmeasured, as well",
           refused_run["from"] == vpm.T('the interface')
@@ -736,6 +741,68 @@ try:
           "the log says %r, wanted %r -- three of the four tracks have "
           "an axis" % (said_about_all[0] if said_about_all else "nothing",
                        wanted.strip()))
+
+    print("\n10. After auphonic.com the raw mix says who speaks")
+    #
+    # The returned tracks carry the sound and nothing else. Here they
+    # are made to lie: each one holds the other person's clean voice, so
+    # reading their level would put everybody on the wrong camera. The
+    # run is told the tracks came back (--auphonic-done), and it still
+    # has to take the raw microphones apart as one mix and name the
+    # voices after the raw ones.
+    returned = {}
+    for mic, other in (("Guest", "Presenter"), ("Presenter", "Guest")):
+        path = os.path.join(WORK, "returned_%s.wav" % mic)
+        x = SPOKEN[other] + np.random.RandomState(5).normal(
+            0, 0.0008, len(SPOKEN[other]))
+        with wave.open(path, "wb") as f:
+            f.setnchannels(1)
+            f.setsampwidth(2)
+            f.setframerate(SR)
+            f.writeframes((np.clip(x, -1, 1) * 32000)
+                          .astype("<i2").tobytes())
+        returned[mic] = path
+    back = on_the_axis(CLOSE)
+    for track in back:
+        track["ready"] = returned[track["name"]]
+    # The middle of the one turn each that the stand-in above hears, and
+    # who is speaking there.
+    TRUTH = {3.5: ["Guest"], 9.5: ["Presenter"]}
+
+    def who_at(segments):
+        """Who the segments have speaking at each moment of TRUTH."""
+        return dict((t, sorted(n for n, segs in segments
+                               if any(a <= t < b for a, b in segs)))
+                    for t in sorted(TRUTH))
+
+    lying = vpm.speakers_from_tracks(
+        [(n, returned[n], 0.0) for n in ("Guest", "Presenter")], rate=SR)
+    check("the returned tracks alone would put each on the other's turns",
+          all(who_at(lying)[t] != TRUTH[t] for t in TRUTH),
+          "their level says %s, the truth is %s" % (who_at(lying), TRUTH))
+    counted["apart"] = 0
+    del counted["picked"][:]
+    done_run = Started(without_auphonic=False, auphonic_done=WORK)
+    kept_out, sys.stdout = sys.stdout, io.StringIO()
+    try:
+        done_run._speakers = vpm.separation_for_run(
+            done_run, back, {}, 0.0, LENGTH, [])
+        in_the_cut = vpm.speakers_for_the_cut(done_run, back)
+    finally:
+        sys.stdout = kept_out
+    check("after auphonic.com the raw microphones are mixed and taken apart",
+          done_run._speakers[1] == vpm.T('the separation in this run')
+          and getattr(done_run, "_speakers_mixed", False)
+          and counted["picked"] == [True],
+          "the run says %r, mixed %r, source picks %s -- wanted %r, "
+          "True and one pick"
+          % (done_run._speakers[1],
+             getattr(done_run, "_speakers_mixed", False),
+             counted["picked"], vpm.T('the separation in this run')))
+    check("and the cut has each speaker on their own turns, not the "
+          "returned tracks' level",
+          who_at(in_the_cut) == TRUTH,
+          "the cut says %s, the truth is %s" % (who_at(in_the_cut), TRUTH))
 finally:
     vpm.microphones_apart_db = straight_apart
     vpm.separation_source_of_run = straight_pick

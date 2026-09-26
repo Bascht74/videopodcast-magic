@@ -21,11 +21,29 @@ echo "Python: $("$PY" -V 2>&1)"
 # two runs look alike in the log and a result is read against the wrong
 # file.
 echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic/__init__.py}"
+# Which half of the suite. Every test says on a line of its own whether
+# its verdict can differ between systems and Pythons: PLATFORM_BOUND =
+# True or False. The builder runs the neutral ones once, on a job of
+# their own, and the bound ones on all six (tests.yml); VPM_TESTS=neutral
+# or =bound runs one half, and all, the default, both -- so a run here
+# before a release still runs every test once.
+VPM_TESTS=${VPM_TESTS:-all}
+case "$VPM_TESTS" in
+  all|bound|neutral) ;;
+  *) echo "VPM_TESTS is '$VPM_TESTS'; it takes all, bound or neutral" >&2
+     exit 2 ;;
+esac
+# Tests named on the command line run whichever half they are in: the
+# name is the more precise wish, and a test that starts run.sh itself
+# would otherwise hand its own half on to the run it starts.
+[ $# -gt 0 ] && VPM_TESTS=all
 # Without ffmpeg most of the suite goes red, and none of those reds say
 # anything about the program: they say the machine has no ffmpeg. The
 # program brings none of its own either -- it names the package manager
-# and stops -- so the way out named here is the way out it names.
+# and stops -- so the way out named here is the way out it names. The
+# neutral half starts no ffmpeg and needs no fixture, so it asks neither.
 for tool in ffmpeg ffprobe; do
+  [ "$VPM_TESTS" = neutral ] && break
   if ! command -v "$tool" > /dev/null 2>&1; then
     echo "$tool is not on the search path. Almost every test needs it,"
     echo "and without it their red says nothing about the program."
@@ -58,7 +76,7 @@ done
 # the two that wobble are 10 and 11. So the bound is six times the
 # slowest test that finishes, and it is never reached by one that does.
 # It caps what a hang costs; it does not mend the hang, and the shape
-# of that repair stands in docs/notes/aufgaben.md.
+# of that repair stands on the owner's decision board.
 LIMIT=""
 for candidate in timeout gtimeout; do
   command -v "$candidate" > /dev/null 2>&1 || continue
@@ -151,7 +169,7 @@ fixtures_hold
 
 # The shared fixture folders are read-only. Building them here, before
 # the fan-out, keeps two tests from racing for the same files.
-if ! bash "$HERE/fixtures.sh"; then
+if [ "$VPM_TESTS" != neutral ] && ! bash "$HERE/fixtures.sh"; then
   echo "fixtures could not be built -- stopping." >&2
   exit 2
 fi
@@ -247,6 +265,50 @@ if [ $# -gt 0 ]; then
     echo "$t lies in ${lies:-tests}/, not in $given/ -- running it by its name." >&2
   done
   TESTS=$asked; WHOLE=0
+fi
+
+# One half, by the line each test carries (see VPM_TESTS at the top).
+# One grep over every file, not one a test: on Windows a process costs
+# half a second. A half is not the whole folder, so it sets no baseline.
+# Before the languages below, so what they set aside is of this half.
+if [ "$VPM_TESTS" != all ]; then
+  want=True
+  [ "$VPM_TESTS" = neutral ] && want=False
+  half=$(cd "$HERE" && grep -lx "PLATFORM_BOUND = $want" \
+           *_test.py */*_test.py 2>/dev/null \
+         | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//')
+  TESTS=$(printf '%s\n' $TESTS | grep -Fx "$(printf '%s\n' $half)")
+  WHOLE=0
+  if [ -z "$TESTS" ]; then
+    echo "no test of the $VPM_TESTS half among those asked for --" \
+         "VPM_TESTS=all runs both" >&2
+    exit 2
+  fi
+fi
+
+# The owner's rule, 26.9.2026: the everyday run tests English and
+# German, and every language only for a release, which sets
+# VPM_ALL_LANGUAGES=1 (tests.yml says when). A test named *_langsN
+# measures the other languages, so it is set aside here unless that is
+# set -- named in the summary, and never counted as skipped, because it
+# did not skip: this run was not asked for it. Named on the command
+# line it is set aside all the same; the line says how to run it. The
+# variable goes on to the tests as it came, for the tests that measure
+# English and German first and the rest only on a release.
+export VPM_ALL_LANGUAGES
+LANGS_ASIDE=""
+if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
+  for t in $TESTS; do
+    case "$t" in *_langs[0-9]*) LANGS_ASIDE="$LANGS_ASIDE $t" ;; esac
+  done
+  if [ -n "$LANGS_ASIDE" ]; then
+    TESTS=$(printf '%s\n' $TESTS | grep -v -E '_langs[0-9]')
+  fi
+  if [ -z "$TESTS" ] && [ -n "$LANGS_ASIDE" ]; then
+    echo "only tests of every language were named:$LANGS_ASIDE -- they" \
+         "run with VPM_ALL_LANGUAGES=1 bash run.sh" >&2
+    exit 2
+  fi
 fi
 
 # The long ones first. xargs hands the list out in the order it is
@@ -360,6 +422,11 @@ run_one() {
   t="$1"
   began=$SECONDS
   test_file "$t"
+  # A release slice of every language is a whole family's work cut in
+  # four: 180 to 280 s on the builder jobs of run 36246280640, over 300
+  # beside the others on three of the six -- twice the bound, for work.
+  limit=$LIMIT
+  case "$t" in *_langs[0-9]*) [ -n "$LIMIT" ] && limit="${LIMIT% *} 600" ;; esac
   # A test that crashed is run again before the whole run is called red.
   # Only a crash: a check that said FAIL will say it again, and a test
   # that ran out of time will run out of time again. A signal does come
@@ -370,7 +437,7 @@ run_one() {
   fell_count=0
   while :; do
     out=$(VPM_COUNT_STARTS="$STARTS/$t" \
-          $LIMIT "$PY" "$file" 2>&1); rc=$?
+          $limit "$PY" "$file" 2>&1); rc=$?
     fell=0
     if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
       fell=1
@@ -436,8 +503,8 @@ $short"
     { echo "RED (rc=$rc)"
       # 124 is what the time limit returns when it kills a test, 137 when
       # a polite TERM was not enough and it had to go further.
-      if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
-        echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
+      if [ -n "$limit" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
+        echo "      killed by the ${limit##* } s time limit -- it never finished"
       elif [ $rc -gt 128 ]; then
         # Right under the name, where wobbly.sh looks for it.
         echo "      crashed ($(crash_said "$rc" "$out")), go $try of $TRIES"
@@ -547,9 +614,20 @@ CROWD=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$')
 for t in $ALONE_ONLY; do
   CROWD=$(echo "$CROWD" | grep -vx "$t" || true)
 done
+# The *_langsN tests each open several windows at once, and two of them
+# side by side took 159 and 171 s against 41 and 36 s alone (26.9.2026)
+# -- near the 300 s limit on a builder. So they run one after another,
+# as one line of the queue, beside the rest and first; run_one says why 600 s.
+LANGS_CHAIN=$(echo "$CROWD" | grep -E '_langs[0-9]' | tr '\n' ' ' \
+              | sed 's/ *$//')
+if [ -n "$LANGS_CHAIN" ]; then
+  CROWD=$(printf '%s\n' "$LANGS_CHAIN"; echo "$CROWD" \
+          | grep -v -E '_langs[0-9]' || true)
+fi
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
+# Each line is a list of tests run one after another; most hold one.
 echo "$CROWD" | grep -v '^$' \
-  | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
+  | xargs -P "$WORKERS" -I{} bash -c 'for t in {}; do run_one "$t"; done'
 for t in $ALONE_ONLY; do
   echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
 done
@@ -642,6 +720,27 @@ elif [ $past -lt "$SKIPS_ALLOWED" ]; then
 else
   echo "skips: $past of at most $SKIPS_ALLOWED allowed"
 fi
+# Which languages this run tested, always said: a green run that does
+# not say it read English and German only reads as if it read them all.
+# tests.yml lifts this line into the builder's report by its first word.
+if [ "${VPM_ALL_LANGUAGES:-}" = 1 ]; then
+  echo "languages: every catalogue (VPM_ALL_LANGUAGES=1)"
+elif [ -n "$LANGS_ASIDE" ]; then
+  echo "languages: English and German; set aside" \
+       "$(echo $LANGS_ASIDE | wc -w | tr -d ' '):$LANGS_ASIDE --" \
+       "they run with VPM_ALL_LANGUAGES=1, as a release does"
+else
+  echo "languages: English and German; every catalogue with" \
+       "VPM_ALL_LANGUAGES=1, as a release does"
+fi
+# And which half, said the same way; tests.yml lifts it by its first word.
+case "$VPM_TESTS" in
+  neutral) echo "platform: the neutral half only (VPM_TESTS=neutral) --" \
+                "the bound half runs on each system's own job" ;;
+  bound)   echo "platform: the bound half only (VPM_TESTS=bound) --" \
+                "the neutral half runs once, on a job of its own" ;;
+  *)       echo "platform: both halves, every test once" ;;
+esac
 # state/checks carried forward. The count of judgements rises with every
 # check anybody adds, so a floor kept by hand would be behind within the
 # day and then be raised in a hurry, which is how a floor stops meaning

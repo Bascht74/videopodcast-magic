@@ -4,6 +4,7 @@
 Width and height were each taken as their own maximum, so a landscape
 and a portrait camera together gave a square frame neither of them had.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

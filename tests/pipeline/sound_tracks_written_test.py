@@ -9,6 +9,7 @@ prints, so the question is put to the written file itself: how many
 audio tracks are in it, and what is each one called. With a made-up key
 a stand-in curl sees none reach auphonic.com (left out on Windows).
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -94,9 +95,8 @@ os.makedirs(D)
 # A stand-in curl first on the search path, and a made-up key where it
 # watches, so that --without-auphonic has something to hold back.
 curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
-KEY = ["--auphonic-api-key", "not-a-key-only-a-test"] if WATCHED else []
 if WATCHED:
-    ENV["AUPHONIC_TOKEN"] = KEY[1]
+    ENV["AUPHONIC_TOKEN"] = "not-a-key-only-a-test"
 host, guest = voice(TURNS["Host"], 1), voice(TURNS["Guest"], 2)
 bleed = 10 ** (-8.0 / 20)            # under the 3:1 rule on purpose
 noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
@@ -145,9 +145,9 @@ with open(D + "/assign.json", "w", encoding="utf-8") as f:
 def run(out, *extra):
     """One run on this material, and what it printed."""
     p = subprocess.run(
-        [sys.executable, SCRIPT, "--without-auphonic"] + KEY
-        + ["--no-metrics", "--no-speech-recognition", "--no-transcript-file",
-           "--no-wide-edges", "--out", D + "/" + out]
+        [sys.executable, SCRIPT, "--without-auphonic",
+         "--no-metrics", "--no-speech-recognition", "--no-transcript-file",
+         "--no-wide-edges", "--out", D + "/" + out]
         + [str(x) for x in extra],
         capture_output=True, text=True, timeout=1800, env=ENV)
     return p.returncode, (p.stdout or "") + (p.stderr or "")

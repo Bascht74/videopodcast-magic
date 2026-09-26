@@ -7,10 +7,12 @@ hand-made export, another production's result under the same name -- is
 marked: nothing here says this program made it, and until now the run
 walked over it without a word.
 
-The sections: what the record of earlier runs holds, what is said about
-a target something is already lying at, and one real run to show the
-line reaches the log. What this cannot show is that a person reads it.
+The sections: what the record of earlier runs holds, its production's
+lists among it; which targets are to be asked about and what is said of
+them; and one real run to show the line reaches the log. What this
+cannot show is that a person reads it.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -72,6 +74,12 @@ check("the record names the file an earlier run wrote here",
 check("and it names nothing else",
       vpm.path_key(STRANGE) not in ours,
       "%d entries, did not want %r" % (len(ours), vpm.path_key(STRANGE)))
+lists = [os.path.join(OUT, "Show_speakers.csv"),
+         os.path.join(OUT, "Show_metrics.csv")]
+check("a readable record vouches for its production's own lists",
+      all(vpm.path_key(x) in ours for x in lists),
+      "%d entries, wanted %s among them"
+      % (len(ours), [os.path.basename(x) for x in lists]))
 other = vpm.written_before_here(OUT, "Other")
 check("a production with no record of its own reads nothing",
       other == set(), "%d entries, wanted 0" % len(other))
@@ -80,6 +88,10 @@ check("an unreadable record reads nothing instead of stopping the run",
       broken == set(), "%d entries, wanted 0" % len(broken))
 
 print("\n2. What is said about a target something lies at")
+foreign = vpm.foreign_targets([KNOWN, STRANGE, GONE], ours)
+check("only a file this production did not make is to be asked about",
+      foreign == [STRANGE],
+      "%s, wanted %r" % (foreign, [STRANGE]))
 check("nothing is said about a target that is not there",
       vpm.replacement_lines([GONE], ours) == [],
       str(vpm.replacement_lines([GONE], ours)))

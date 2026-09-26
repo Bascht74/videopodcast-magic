@@ -401,7 +401,8 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
                      "cut_basis", "run_auphonic", "project_last",
-                     "handover_offered",
+                     "project_kept", "project_refused",
+                     "project_refused_said", "handover_offered",
                      "project_type_asked") + SPEAKER_STATE:
             state.pop(name, None)
         words_forgotten(state)
@@ -427,6 +428,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         state["speakers_count"] = 0
         state["speakers_wanted"] = None
         state["preset_wanted"] = ""
+        state["sound_holds"] = ByFile()
         # Back to what they hold when the program has just started, so a
         # second production begins the way the first one did.
         speech_language.set(PROGRAM.language_of_system())
@@ -477,10 +479,14 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         project_new()
         state["project_from"] = file_path
         window.setWindowTitle(PROGRAM.window_title(file_path))
-        # Files from before the question were all cuts by speaker: read
-        # as that, and nothing asked. Before the files, so the tables
-        # are built once, in the shape the type asks for.
-        project_type.set(d.get("project_type") or "cut")
+        # A file without the key predates the question and was a cut; an
+        # empty one was saved before the answer, so the assignment tab
+        # still asks. Before the files: the tables take the type's shape.
+        project_type.set(d.get("project_type", "cut") or "")
+        # What each recording's sound holds, by its first block, before
+        # the files too: the axis they start is measured by it. A file
+        # written before the choice holds none, and so holds speech.
+        state["sound_holds"] = ByFile(d.get("sound") or {})
         present, missing = project_files(d)
         files[:] = present
         # Before anything is drawn: every file measured once, in
@@ -496,6 +502,13 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         folder_show()
         state.pop("project_last", None)
         production_var.set(d.get("production") or "")
+        # The file opened is the file saved into. One named otherwise
+        # than its production -- a copy beside the original -- is kept
+        # by its own name, or the save went into the file the name says.
+        named = axis_file()
+        if not named or os.path.abspath(named) != os.path.abspath(file_path):
+            state["project_kept"] = file_path
+        state["project_last"] = file_path
         edge_on.set(bool(d.get("wide_at_edges", True)))
         # Set before the tables are built: the window prefill leaves standing
         # whatever is already there.
@@ -509,7 +522,8 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         # Intro, outro and "ignore this video" hang on the file, not
         # the table. Opening a project takes them with it, or two meet.
         if d.get("speech_language"):
-            speech_language.set(d["speech_language"])
+            speech_language.set(
+                PROGRAM.spoken_language_offered(d["speech_language"]))
         # The saved project beats what was chosen last. null is an answer,
         # so the key decides and not the value.
         if "lufs" in d:

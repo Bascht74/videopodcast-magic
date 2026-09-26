@@ -10,6 +10,7 @@ be started the work is done anyway. Bounded: three items start three
 threads, not the fifty that were asked for. The two timings are wall
 clock, with limits wide enough that a busy machine does not turn them red.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

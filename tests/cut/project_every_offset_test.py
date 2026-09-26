@@ -9,6 +9,7 @@ reads as the wide shot. It is named apart, as refused. Two cameras
 nobody is assigned to keep two track names: the track name is the key
 the Resolve side files a camera under.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

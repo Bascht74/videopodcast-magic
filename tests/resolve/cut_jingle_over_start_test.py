@@ -9,6 +9,7 @@ late enough by itself, nothing moves and the jingle goes into the run-up.
 The second tracks it lies on are asked for, as Resolve makes a timeline
 with one of each and lays nothing on a track that is not there.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

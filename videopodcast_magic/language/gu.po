@@ -1295,9 +1295,6 @@ msgstr "  ઘણું વધારે:           લિમિટરે %s dB �
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  ટ્રાન્સક્રિપ્ટ શક્ય નથી (%s) -- છતાં ચાલુ રહે છે."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  કિનારે વાઇડ શૉટ: છોડી દીધો -- પહેલી કે છેલ્લી જાહેરાત\n  અભિવાદન માટે ઘણી લાંબી હોત."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  કિનારે વાઇડ શૉટ: %s સુધી અને %s થી"
 
@@ -2375,8 +2372,8 @@ msgstr "Multitrack (દરેક વક્તા માટે એક ટ્ર�
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ને ઓછામાં ઓછા બે ઇનપુટ ટ્રૅક જોઈએ. ટ્રૅક એટલે પોતાનું અલગ રેકોર્ડિંગ, મલ્ટિચૅનલ રેકોર્ડરની એક ચૅનલ, અથવા \"આંતરિક ઑડિયો વાપરો\" પર સેટ કરેલી વિડિયો ફાઇલનો ઑડિયો. એક જ રેકોર્ડિંગના અનેક બ્લોક એક ગણાય છે, બાજુએ મૂકેલા ટ્રૅક બિલકુલ નહીં."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "કોઈ API કી નથી. --auphonic-api-key KEY આપો, AUPHONIC_TOKEN સેટ કરો અથવા ઇન્ટરફેસમાં એક વાર તેને યાદ રખાવો. કી Auphonic ખાતાની સેટિંગ્સમાં છે."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "કોઈ API કી નથી. AUPHONIC_TOKEN સેટ કરો અથવા ઇન્ટરફેસમાં એક વાર તેને યાદ રખાવો. કી Auphonic ખાતાની સેટિંગ્સમાં છે."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "કોઈ ઑડિયો ફાઇલમાં ટાઇમકોડ નથી. ઇન પૉઇન્ટ અને આઉટ પૉઇન્ટ મટીરિયલની શરૂઆતથી ગણાય છે -- ફાઇલોની એકબીજા સાથેની સ્થિતિ માપવામાં આવે છે."
@@ -3427,9 +3424,6 @@ msgstr "રેકોર્ડિંગમાંથી માપ્યું -- %
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "પૂરા થયેલા રનમાંથી -- %s વક્તા, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "પ્રક્રિયા કરેલા Auphonic ટ્રૅકમાંથી -- %s વક્તા, %s"
 
 msgid "no folder"
 msgstr "(કોઈ નહીં)"
@@ -4887,3 +4881,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "ધ્વનિની ભાષા"
+
+msgid "In the sound"
+msgstr "ધ્વનિમાં"
+
+msgid "Speech"
+msgstr "વાણી"
+
+msgid "Mixed"
+msgstr "મિશ્ર"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "વાણી: ફક્ત લાઉડનેસ મુજબ ગોઠવાય છે. જે રેકોર્ડિંગમાં કૅમેરા સાથે કંઈ\nસામાન્ય નથી તે નકારાય છે. મિશ્ર: અવાજો નીચે સંગીત કે મિક્સ હોય છે,\nઅને જ્યાં લાઉડનેસને કંઈ મળતું નથી ત્યાં ફેઝ તેને ગોઠવી શકે છે.\n\"%s\" હેઠળ તે હંમેશાં મિશ્ર હોય છે."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: તેનો ધ્વનિ %s જેટલો મેળ ખાય છે, અને બીજી જગ્યાએ પણ %s જેટલો -- ફક્ત તેની ઘડિયાળથી ગોઠવ્યું"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  દરેકને વધુમાં વધુ %s સુધી ટૂંકાવ્યું -- પહેલી જાહેરાત %s પર પૂરી થાય છે, છેલ્લી %s પર શરૂ થાય છે"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "આ ફોલ્ડરમાં તે નામ હેઠળ બીજો પ્રોજેક્ટ છે, %s -- આ પ્રોજેક્ટ %s માં રહે છે."
+
+msgid "the picture did not change to the answerer there"
+msgstr "ત્યાં ચિત્ર જવાબ આપનાર તરફ બદલાયું નહીં"
+
+msgid "the answer was counted with the question before"
+msgstr "જવાબને પહેલાંના પ્રશ્ન સાથે ગણવામાં આવ્યો"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s --auphonic-done ફોલ્ડરમાં છે, auphonic.com એ પાછા આપેલા ટ્રૅક વચ્ચે. કોણ બોલે છે તે કાચા રેકોર્ડિંગ પરથી નક્કી થાય છે, તેથી અહીં તેના બદલે કાચું રેકોર્ડિંગ આપો."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ધ્વનિ ઓળખાયો નહીં; રન જે રીતે ગોઠવે તે રીતે ગોઠવ્યું"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ધ્વનિ ઓળખાયો નહીં, તેના ટાઇમકોડ મુજબ ગોઠવ્યું"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s રેકોર્ડિંગ અને કોઈ ચિત્ર નહીં: દરેક અલગથી જોડાય છે અને તેમને એકબીજા સાથે ગોઠવવામાં આવતાં નથી. --multitrack તેમને એક સમય-અક્ષ પર મૂકે છે."

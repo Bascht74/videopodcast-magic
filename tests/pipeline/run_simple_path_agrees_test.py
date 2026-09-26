@@ -20,6 +20,7 @@ share no signal, so every offset measured over it is arbitrary. Nothing
 here is a claim about where the axis landed, only about the results
 agreeing with each other.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -1295,9 +1295,6 @@ msgstr "  Liiga palju:       limiiter peaks eemaldama %s dB. Üle %s dB\n       
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Transkriptsioon pole võimalik (%s) -- käitus jätkub."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Üldplaan servades: vahele jäetud -- esimene või viimane teadaanne\n  oleks tervituseks liiga pikk."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Üldplaan servades: kuni %s ja alates %s"
 
@@ -2375,8 +2372,8 @@ msgstr "Multitrack (iga kõneleja oma rada)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack vajab vähemalt kaht sisendrada. Rada on eraldi salvestis, mitmekanalilise salvesti kanal või videofaili heli, mille valik on „kasuta sisemist heli“. Sama salvestise mitu plokki loetakse üheks, kõrvale pandud radu ei loeta üldse."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API-võtit pole. Anna --auphonic-api-key VÕTI, sea AUPHONIC_TOKEN või lase see üks kord liideses meelde jätta. Võti on Auphonicu konto seadetes."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API-võtit pole. Sea AUPHONIC_TOKEN või lase see üks kord liideses meelde jätta. Võti on Auphonicu konto seadetes."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ühelgi helifailil pole ajakoodi. Algpunkt ja lõpp-punkt loetakse materjali algusest -- failide asend üksteise suhtes on mõõdetud."
@@ -3427,9 +3424,6 @@ msgstr "mõõdetud salvestistest -- kõnelejaid: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "lõpetatud käitusest -- kõnelejaid: %s, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "töödeldud Auphonicu radadest -- kõnelejaid: %s, %s"
 
 msgid "no folder"
 msgstr "(kaust puudub)"
@@ -4887,3 +4881,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Heli keel"
+
+msgid "In the sound"
+msgstr "Helis"
+
+msgid "Speech"
+msgstr "Kõne"
+
+msgid "Mixed"
+msgstr "Segatud"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Kõne: paigutatakse ainult valjuse järgi. Salvestis, millel pole kaameratega\nmidagi ühist, lükatakse tagasi. Segatud: häälte all on muusika või miks,\nja kus valjus midagi ei leia, võib selle paigutada faas.\n„%s“ puhul on see alati segatud."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: heli sobib määraga %s ja ka teises kohas määraga %s -- paigutatud ainult selle kella järgi"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  lühendatud igaüks kuni %s -- esimene teadaanne lõpeb ajal %s, viimane algab ajal %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Selles kaustas on selle nime all juba teine projekt, %s -- see jääb faili %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "pilt ei vahetunud seal vastajale"
+
+msgid "the answer was counted with the question before"
+msgstr "vastust loeti koos eelmise küsimusega"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s asub --auphonic-done kaustas, radade seas, mille auphonic.com tagastas. Kes räägib, selgitatakse välja töötlemata salvestistest, seega nimeta siin selle asemel töötlemata salvestis."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   heli ei tuvastatud; paigutatud nii, nagu käitus selle paigutab"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "heli ei tuvastatud, paigutatud ajakoodi järgi"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s salvestist ja pilti pole: igaüks ühendatakse eraldi ja neid ei joondata üksteise suhtes. --multitrack paneb need ühele ajateljele."

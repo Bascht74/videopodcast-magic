@@ -9,6 +9,7 @@ a place and keeps the choice, what a hand and a missing measurement
 leave alone, the derivation, which stops picking such a file, and last
 that every table builds the field in the one place where the bar is hung.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

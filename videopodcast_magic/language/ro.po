@@ -1269,9 +1269,6 @@ msgstr "  Prea mult:         limitatorul ar trebui să ia %s dB. Mai mult de %s 
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Transcriere imposibilă (%s) -- rulează oricum."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Plan larg la margini: omis -- primul sau ultimul anunț\n  ar fi prea lung pentru un salut."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Plan larg la margini: până la %s și de la %s"
 
@@ -2343,8 +2340,8 @@ msgstr "Multitrack (o pistă per vorbitor)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosiți audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nicio cheie API. Indicați --auphonic-api-key CHEIE, setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nicio cheie API. Setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără de la începutul materialului -- poziția fișierelor unul față de altul este măsurată."
@@ -3380,9 +3377,6 @@ msgstr "măsurat din înregistrări -- vorbitori: %s, %s"
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "din rularea încheiată -- vorbitori: %s, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "din pistele Auphonic procesate -- vorbitori: %s, %s"
 
 msgid "no folder"
 msgstr "niciun dosar"
@@ -4928,3 +4922,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Limba sunetului"
+
+msgid "In the sound"
+msgstr "În sunet"
+
+msgid "Speech"
+msgstr "Vorbire"
+
+msgid "Mixed"
+msgstr "Mixt"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Vorbire: plasat doar după sonoritate. O înregistrare care nu are nimic în comun\ncu camerele este refuzată. Mixt: sub voci se află muzică sau un mix,\niar acolo unde sonoritatea nu găsește nimic, faza o poate plasa.\nLa „%s” este întotdeauna mixt."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: potrivirea sunetului este %s, și de %s și în alt loc -- plasată doar după ceasul ei"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  scurtat la cel mult %s fiecare -- primul anunț se termină la %s, ultimul începe la %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "În acest dosar există deja alt proiect cu acest nume, %s -- acesta rămâne în %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "imaginea nu a trecut acolo la cel care răspunde"
+
+msgid "the answer was counted with the question before"
+msgstr "răspunsul a fost numărat cu întrebarea dinainte"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s se află în dosarul de la --auphonic-done, printre pistele returnate de auphonic.com. Cine vorbește se stabilește pe înregistrările brute, așa că indicați aici înregistrarea brută."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   sunet nerecunoscut; așezat cum îl așază rularea"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "sunet nerecunoscut, așezat după timecode-ul său"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s înregistrări și nicio imagine: fiecare este unită separat și nu sunt aliniate una față de alta. --multitrack le pune pe o singură axă a timpului."

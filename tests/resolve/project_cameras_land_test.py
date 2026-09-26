@@ -12,6 +12,7 @@ not fit the whole insert is refused without a word. So the second and the
 third camera arrive only if the program notices the silent refusal and
 inserts picture and audio separately.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

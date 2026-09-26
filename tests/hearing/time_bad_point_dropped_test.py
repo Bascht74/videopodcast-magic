@@ -30,6 +30,7 @@ throw away the same second point and leave the same line -- so the
 bent draw asks only that the bent point is the one reported and taken
 out, and over-eagerness is judged on the quiet draw alone.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

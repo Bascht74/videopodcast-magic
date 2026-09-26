@@ -15,6 +15,7 @@ One ground: a camera and a wide shot, voice rows, a finished track
 and the recordings behind the voices. The lookup is the window's own;
 the tables are stood in for.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

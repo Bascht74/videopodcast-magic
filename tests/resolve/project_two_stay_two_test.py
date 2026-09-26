@@ -5,6 +5,7 @@ The map from file name to camera overwrote silently, and two cameras
 writing C0001.MP4 in two folders landed on one media pool item, so the
 second camera showed the first one's picture.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

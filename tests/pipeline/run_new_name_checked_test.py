@@ -10,6 +10,7 @@ no camera of the run by name, one file given two names with both; names
 beside assigned cameras, and for cameras alone, with the reason. Two
 distinct names pass, alone and beside a --speakers-from file, read too.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -219,12 +220,14 @@ check("two distinct names still pass into the plan",
 print("\n8. Beside a separation file")
 # It carries voices and the camera each sits on, and no camera names:
 # the window sends it beside --new-name, and neither pushes out the other.
+# The recording starts 17.48 s before the guest's camera, so its turns
+# lie past that, inside the stretch the camera saw.
 VOICES = os.path.join(HELD, "voices.json")
 with open(VOICES, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "created_by": "test",
                "speakers_of": {"source": SOUND[0],
-                               "segments": [["A", 0.0, 5.0],
-                                            ["B", 5.0, 10.0]],
+                               "segments": [["A", 30.0, 35.0],
+                                            ["B", 35.0, 40.0]],
                                "names": {"A": "Guest", "B": "Presenter"}},
                "voices_of": {"Guest": GUEST, "Presenter": HOST}}, f)
 code, said, stood = dry_run([(GUEST, "Guest"), (HOST, "Presenter")], FILES,

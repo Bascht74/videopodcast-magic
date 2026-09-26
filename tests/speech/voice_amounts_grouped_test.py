@@ -11,6 +11,7 @@ held against anything -- what is judged is the shape of the number,
 which is why these checks stand whether a catalogue carries the
 sentence or not.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -7,6 +7,7 @@ output comes out shorter than the window promised. The intersection is
 the answer, and nothing asked this before: the suite stayed green while
 the meaning of the window turned round.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -12,6 +12,7 @@ One ground: a file that plays, refused by a stand-in error while it
 runs, and one that is no media file at all, refused the same way.
 Qt's own answer to a real broken sound track is not measured here.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

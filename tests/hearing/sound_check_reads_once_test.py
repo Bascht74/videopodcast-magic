@@ -8,6 +8,7 @@ ffmpeg, the same samples as one call per track and in the order they were
 asked for, one progress stream that never falls back, a track that is not
 there named instead of reported as a bad match, and one track alone.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -15,6 +15,7 @@ metrics no speech time.
 The limit of the method: the microphone and the cameras of that folder
 share no signal, so nothing here says where the axis landed.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

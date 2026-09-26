@@ -41,6 +41,7 @@ may only grow, never shrink; that every catalogue on disk answers all
 of it; and that the languages the window offers and the catalogues on
 disk are the same set, so neither can appear without the other.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -178,10 +179,10 @@ TABLES = {
     "CUT_FIELDS": "dials/__init__.py",
     "CUT_CHOICES": "dials/__init__.py",
     "PLATFORMS": "preflight/__init__.py",
-    "SPOKEN_LANGUAGES": "ui/__init__.py",
-    "PRIMARIES_NAMES": "resolve/__init__.py",
-    "TRC_NAMES": "resolve/__init__.py",
-    "MATRIX_NAMES": "resolve/__init__.py",
+    "SPOKEN_LANGUAGES": "speech/__init__.py",
+    "PRIMARIES_NAMES": "colour/__init__.py",
+    "TRC_NAMES": "colour/__init__.py",
+    "MATRIX_NAMES": "colour/__init__.py",
     "RESOLVE_REASONS": "resolve/__init__.py",
     "HINT_MULTICAM": "resolve/__init__.py",
 }

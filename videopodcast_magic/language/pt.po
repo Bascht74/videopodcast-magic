@@ -1118,8 +1118,8 @@ msgstr "A chave de AUPHONIC_TOKEN não é aceita: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "A chave salva não é aceita: %s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nenhuma chave de API. Indique --auphonic-api-key CHAVE, defina AUPHONIC_TOKEN ou faça-a ser salva uma vez na interface. A chave está nas configurações da conta Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Nenhuma chave de API. Defina AUPHONIC_TOKEN ou faça-a ser salva uma vez na interface. A chave está nas configurações da conta Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Nenhuma predefinição salva na conta. É possível criar uma na interface web."
@@ -1574,9 +1574,6 @@ msgstr "<span style='color:%(t)s'><b>%(n)s planos</b>, mediana %(med)s s, o mais
 msgid "Speakers, as the run measured them"
 msgstr "Falantes, como a execução os mediu"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "das faixas processadas pelo Auphonic -- %s falantes, %s"
-
 msgid "Why the wide shot settings are grey"
 msgstr "Por que as configurações de plano geral estão cinzentas"
 
@@ -1687,9 +1684,6 @@ msgstr "  O corte fica como estava."
 
 msgid "  Not used:  %s."
 msgstr "  Não usados: %s."
-
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Plano geral nas bordas: ignorado -- o primeiro ou o último anúncio\n  seria longo demais para uma saudação."
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Plano geral nas bordas: até %s e a partir de %s"
@@ -4884,3 +4878,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Idioma do som"
+
+msgid "In the sound"
+msgstr "No som"
+
+msgid "Speech"
+msgstr "Fala"
+
+msgid "Mixed"
+msgstr "Misto"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Fala: posicionada só pela sonoridade. Uma gravação que não tem nada em comum\ncom as câmeras é recusada. Misto: música ou uma mixagem fica sob as vozes,\ne onde a sonoridade não encontra nada, a fase pode posicioná-la.\nCom \"%s\" é sempre misto."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: o som dele corresponde em %s, e em %s também em outro ponto -- posicionado só pelo seu relógio"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  encurtado para no máximo %s cada -- o primeiro anúncio termina em %s, o último começa em %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Nesta pasta já existe outro projeto com esse nome, %s -- este fica em %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "a imagem não passou ali para quem responde"
+
+msgid "the answer was counted with the question before"
+msgstr "a resposta foi contada com a pergunta anterior"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s está na pasta de --auphonic-done, entre as faixas que o auphonic.com devolveu. Quem fala é determinado nas gravações brutas, então indique aqui a gravação bruta."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   som não reconhecido; posicionado como a execução o posiciona"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "som não reconhecido, posicionado pelo timecode"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s gravações e nenhuma imagem: cada uma é unida à parte e elas não são alinhadas entre si. --multitrack as coloca num eixo de tempo."

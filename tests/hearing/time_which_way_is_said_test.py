@@ -12,6 +12,7 @@ two roads cannot drift apart again. The road with a picture is not
 driven here -- it is minutes of material for one line of text -- so
 what it is held to is that it can say nothing of its own.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

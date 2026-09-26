@@ -8,6 +8,7 @@ codec, the ten bit profile, the bitrate, the picture, the colour tags.
 Whether Resolve then delivers what it was told is not visible from
 here.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -13,6 +13,7 @@ number rather than a guess. What is asked is that the counting stops
 and that no Kind moves after the first answer -- never how the window
 avoids the second question.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -108,7 +109,7 @@ NO_PLACE = [ONE, TWO]
 asked = []
 
 
-def measure_stand_in(paths, tc_of=None, HOP=5.0):
+def measure_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None):
     asked.append(time.time())
     lost = set(vpm.path_key(p) for p in NO_PLACE)
     placed = [p for p in paths if vpm.path_key(p) not in lost]

@@ -1294,9 +1294,6 @@ msgstr "  அதிகப்படி:          லிமிட்டர் %s d
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  எழுத்துப்படி முடியாது (%s) -- இருப்பினும் இயக்கம் தொடர்கிறது."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  ஓரங்களில் வைட் ஷாட்: தவிர்க்கப்பட்டது -- முதல் அல்லது கடைசி அறிவிப்பு\n  வாழ்த்துக்கு மிக நீளமாக இருக்கும்."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  ஓரங்களில் வைட் ஷாட்: %s வரை, %s முதல்"
 
@@ -2374,8 +2371,8 @@ msgstr "Multitrack (பேச்சாளருக்கு ஒரு தடம�
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack-க்குக் குறைந்தது இரண்டு உள்ளீட்டுத் தடங்கள் தேவை. தடம் என்பது தனிப் பதிவு, பல சேனல் ரெக்கார்டரின் ஒரு சேனல், அல்லது \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைத்த வீடியோ கோப்பின் ஆடியோ. ஒரே பதிவின் பல தொகுதிகள் ஒன்றாகக் கணக்கிடப்படும், ஒதுக்கி வைத்த தடங்கள் கணக்கிலேயே வராது."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API விசை இல்லை. --auphonic-api-key KEY கொடுக்கவும், AUPHONIC_TOKEN அமைக்கவும், அல்லது இடைமுகத்தில் ஒருமுறை நினைவில் வைக்கச் செய்யவும். விசை Auphonic கணக்கு அமைப்புகளில் உள்ளது."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API விசை இல்லை. AUPHONIC_TOKEN அமைக்கவும், அல்லது இடைமுகத்தில் ஒருமுறை நினைவில் வைக்கச் செய்யவும். விசை Auphonic கணக்கு அமைப்புகளில் உள்ளது."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "எந்த ஆடியோ கோப்பிலும் டைம்கோடு இல்லை. இன் புள்ளியும் அவுட் புள்ளியும் மூலப்பொருளின் தொடக்கத்திலிருந்து கணக்கிடப்படும் -- கோப்புகளின் ஒன்றுக்கொன்றான நிலை அளவிடப்படுகிறது."
@@ -3426,9 +3423,6 @@ msgstr "பதிவுகளிலிருந்து அளவிடப்�
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "முடிந்த இயக்கத்திலிருந்து -- %s பேச்சாளர்கள், %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "செயலாக்கப்பட்ட Auphonic தடங்களிலிருந்து -- %s பேச்சாளர்கள், %s"
 
 msgid "no folder"
 msgstr "கோப்புறை இல்லை"
@@ -4886,3 +4880,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "ஆடியோ மொழி"
+
+msgid "In the sound"
+msgstr "ஆடியோவில்"
+
+msgid "Speech"
+msgstr "பேச்சு"
+
+msgid "Mixed"
+msgstr "கலப்பு"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "பேச்சு: லவுட்னஸ் மூலம் மட்டுமே வைக்கப்படும். கேமராக்களுடன் எதையும்\nபகிராத பதிவு நிராகரிக்கப்படும். கலப்பு: குரல்களுக்குக் கீழே இசை அல்லது மிக்ஸ் உள்ளது,\nலவுட்னஸ் எதையும் காணாத இடத்தில் கட்டம் அதை வைக்கலாம்.\n\"%s\" இல் இது எப்போதும் கலப்பு."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: அதன் ஆடியோ %s அளவில் பொருந்துகிறது, வேறோர் இடத்திலும் %s அளவில் -- அதன் கடிகாரத்தை மட்டும் வைத்து இடம் தரப்பட்டது"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  ஒவ்வொன்றும் அதிகபட்சம் %s ஆகக் குறைக்கப்பட்டது -- முதல் அறிவிப்பு %s இல் முடிகிறது, கடைசி %s இல் தொடங்குகிறது"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "இந்தக் கோப்புறையில் அந்தப் பெயரில் வேறொரு திட்டப்பணி உள்ளது, %s -- இது %s இல் இருக்கும்."
+
+msgid "the picture did not change to the answerer there"
+msgstr "அங்கே படம் பதிலளிப்பவருக்கு மாறவில்லை"
+
+msgid "the answer was counted with the question before"
+msgstr "பதில் முந்தைய கேள்வியுடன் சேர்த்து எண்ணப்பட்டது"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s --auphonic-done கோப்புறையில், auphonic.com திருப்பியளித்த தடங்களுக்கு இடையே உள்ளது. யார் பேசுகிறார் என்பது மூலப் பதிவுகளில் கண்டறியப்படுகிறது, எனவே இங்கே அதற்குப் பதிலாக மூலப் பதிவைக் குறிப்பிடவும்."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ஆடியோ அடையாளம் காணப்படவில்லை; இயக்கம் வைக்கும்படியே வைக்கப்பட்டது"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ஆடியோ அடையாளம் காணப்படவில்லை, அதன் டைம்கோடு மூலம் வைக்கப்பட்டது"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s பதிவுகள், படம் இல்லை: ஒவ்வொன்றும் தனியாக இணைக்கப்படுகிறது, அவை ஒன்றுக்கொன்று சீரமைக்கப்படுவதில்லை. --multitrack அவற்றை ஒரே நேர அச்சில் வைக்கிறது."

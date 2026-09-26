@@ -6,8 +6,8 @@ earlier, and no camera. The axis is built out of the tracks themselves,
 with the longest one as the reference; the files come out equally long
 and with one start point, so the shorter recording is padded at both
 ends, and the run says how far apart the two recorders were. Without
---multitrack the blocks are joined and nothing is aligned, and the log
-says one thing about --lufs on this path, not two.
+--multitrack the blocks are joined, nothing is aligned and the log says
+so, and it says one thing about --lufs on this path, not two.
 
 What the tracks carry is asked before where they sit: a file that came
 out empty measures as perfectly placed, so the judgements about the
@@ -18,12 +18,13 @@ the run itself never does -- it comes out to a fraction of a
 millisecond, and the straightening then has nothing to straighten.
 
 Nothing may reach auphonic.com here, and that is watched rather than
-read off the log. A run of its own gets a made-up key, so that
---without-auphonic has something to hold back, and a stand-in curl on
-the search path writes down every call. Where it cannot be put there --
-Windows starts no #!/bin/sh file -- no key is given and those two
-judgements are left out rather than claimed.
+read off the log. Every run carries a made-up key in AUPHONIC_TOKEN,
+so that --without-auphonic has something to hold back, and a stand-in
+curl on the search path writes down every call. Where it cannot be put
+there -- Windows starts no #!/bin/sh file -- the run of its own for
+that and its two judgements are left out rather than claimed.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -354,16 +355,11 @@ else:
 
 #--------------------------- 2. The barrier, with something to hold
 
-# A run of its own, because a key changes what the run above is: with
-# one, --lufs is in force on this path and section 5 would have nothing
-# left to ask. And without one, --without-auphonic holds nothing back --
-# there is nothing to send, so the barrier is never reached and taking
-# it away changes nothing. Measured 2.9.2026: the guard replaced by
-# `if args.auphonic_key:` and every judgement of this file still green.
+# A run of its own, with the made-up key in AUPHONIC_TOKEN that every
+# run here carries: --without-auphonic has to hold it back all the same.
 print("\n2. Even with a key, --without-auphonic lets nothing out")
 if WATCHED:
-    p = subprocess.run(CALL + ["--auphonic-api-key", NOT_A_KEY,
-                               "--multitrack", "--out", D + "/keyed",
+    p = subprocess.run(CALL + ["--multitrack", "--out", D + "/keyed",
                                D + "/Host.wav", D + "/Guest.wav"],
                        capture_output=True, text=True, env=ENV)
     keyed_log = (p.stdout or "") + (p.stderr or "")
@@ -421,6 +417,13 @@ axis = [x.strip() for x in log.splitlines() if "MEASURING THE TIME AXIS" in x]
 check("no axis was built", "MEASURING THE TIME AXIS" not in log,
       "%d of %d lines of the log announce the axis: %s"
       % (len(axis), len(log.splitlines()), axis[:2]))
+APART = vpm.T('  %s recordings and no picture: each is joined on its own '
+              'and they are not laid against each other. --multitrack '
+              'puts them on one time axis.') % vpm.number_text(2, 0)
+check("and the log says they were not laid against each other",
+      APART.strip() in log,
+      "wanted %r among %d lines of the log" % (APART.strip()[:60],
+                                              len(log.splitlines())))
 if joined == ["Guest_joined.wav", "Host_joined.wav"]:
     length = dict((f, vpm.sample_count(D + "/join/" + f) / float(vpm.SR))
                   for f in joined)

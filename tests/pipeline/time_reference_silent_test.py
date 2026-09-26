@@ -17,6 +17,7 @@ camera the sound placed says anything about its clock.
 The limit of the method: nothing here is a claim about where the axis
 landed -- only about which lines stand in whose block.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

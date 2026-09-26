@@ -39,6 +39,7 @@ places carrying one wording added up; a loop over what the run brought
 cannot be counted, stands as one, and is told apart from a list somebody
 wrote out.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

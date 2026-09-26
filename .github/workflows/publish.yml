@@ -60,11 +60,13 @@ run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}, separa
 # -- nothing else landed on main in between -- the six check runs of
 # that head answer for exactly the bytes that are about to be tagged,
 # and running them again would say the same thing twelve minutes
-# later. So the job "evidence" below asks four questions of the API
+# later. So the job "evidence" below asks five questions of the API
 # before the suite starts, and the suite job is skipped only where all
-# four answer yes. Anywhere else -- main moved, the commit is not a
+# five answer yes. Anywhere else -- main moved, the commit is not a
 # merge, a check is missing or not green, the merge brings in a file
-# of the speaker separation -- the suite runs here as it has since
+# of the speaker separation, the merge leaves the version as it was
+# (so its checks ran English and German only; see all_languages in
+# tests.yml, 26.9.2026) -- the suite runs here as it has since
 # 4.9.2026, and the run says in one line which way it took and why.
 #
 # "What is tagged is what was tested" stays true on both ways: on the
@@ -291,7 +293,9 @@ jobs:
           fi
 
           # c. Every job of the suite, green on that head. The names
-          # first, out of tests.yml as it stands at this commit.
+          # first, out of tests.yml as it stands at this commit -- seven
+          # since 26.9.2026: the neutral tests' job is a row of the same
+          # matrix, so it is asked for exactly as the six are.
           gh api "repos/$R/contents/.github/workflows/tests.yml?ref=$SHA" \
             --jq .content | base64 -d > /tmp/tests.yml
           if ! python3 - /tmp/tests.yml > /tmp/wanted.txt 2> /tmp/why.txt <<'PY'
@@ -394,7 +398,29 @@ jobs:
             decide false "the tree of $short is the tree of ${head2:0:7} and its $n check runs are green, but the merge brings in $first$others -- the speaker separation changed and the pull request ran with it off, so the suite runs here with it on"
             exit 0
           fi
-          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, and none of the $nf files the merge brings in is a file of the speaker separation -- the suite is not run again"
+
+          # e. The merge changes the version. Only then did the pull
+          # request's checks run every language: why, beside the input
+          # all_languages in tests.yml. Both lines are read at the two
+          # commits; a file or a line that cannot be read is the long way.
+          V=videopodcast_magic/__init__.py
+          if ! gh api "repos/$R/contents/$V?ref=$base" --jq .content \
+                 | base64 -d > /tmp/version_before.py \
+             || ! gh api "repos/$R/contents/$V?ref=$SHA" --jq .content \
+                 | base64 -d > /tmp/version_after.py \
+             || [ ! -s /tmp/version_before.py ] \
+             || [ ! -s /tmp/version_after.py ]; then
+            decide false "$V could not be read at ${base:0:7} and $short, so whether the pull request ran every language cannot be told, and the suite runs here"
+            exit 0
+          fi
+          before=$(grep -m1 '^VERSION = ' /tmp/version_before.py || true)
+          after=$(grep -m1 '^VERSION = ' /tmp/version_after.py || true)
+          echo "version: ${before:-none} -> ${after:-none}"
+          if [ -z "$after" ] || [ "$before" = "$after" ]; then
+            decide false "the tree of $short is the tree of ${head2:0:7} and its $n check runs are green, but the merge leaves the VERSION line of $V as it was (${after:-none}), so the pull request ran English and German only, and the suite runs here in every language"
+            exit 0
+          fi
+          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, none of the $nf files the merge brings in is a file of the speaker separation, and the merge changes the version ($before -> $after), so those checks ran every language -- the suite is not run again"
 
   # The suite itself, on this very commit, in this very run -- unless
   # the job above found it has already answered for this very tree.
@@ -424,8 +450,12 @@ jobs:
     # leaning on that default from the other side: whoever reads this
     # file must be able to see what a release tests without opening
     # the other one.
+    #
+    # And every language, not only English and German. Why, and how the
+    # short way gets the same, stands beside all_languages in tests.yml.
     with:
       speaker_split: true
+      all_languages: true
 
   # After the suite, or after the suite was skipped -- and the
   # condition is the whole of the difference, so it is spelled out.

@@ -10,6 +10,7 @@ block; the preset list, full and empty, from a stood-in account. Not
 counted: names of files, presets and languages, LUFS, the log's path, what
 Qt draws. Walked alone: the Windows store, the headings, Resolve's refusal.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

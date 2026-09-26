@@ -1110,8 +1110,8 @@ msgstr "AUPHONIC_TOKEN のキーが受け付けられません：%s"
 msgid "The stored key is not accepted: %s"
 msgstr "保存されたキーが受け付けられません：%s"
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API キーがありません。--auphonic-api-key キー を指定するか、AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "API キーがありません。AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "アカウントにプリセットが保存されていません。Web 画面で作成できます。"
@@ -1566,9 +1566,6 @@ msgstr "<span style='color:%(t)s'><b>%(n)s ショット</b>、中央値 %(med)s 
 msgid "Speakers, as the run measured them"
 msgstr "実行で測定した話者"
 
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "処理済みの Auphonic トラックから -- 話者 %s 人、%s"
-
 msgid "Why the wide shot settings are grey"
 msgstr "引き画の設定がグレーになっている理由"
 
@@ -1679,9 +1676,6 @@ msgstr "  カットは元のままです。"
 
 msgid "  Not used:  %s."
 msgstr "  未使用: %s。"
-
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  両端の引き画: 省略 -- 最初または最後の発言が\n  あいさつにしては長すぎます。"
 
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  両端の引き画: %s まで、%s から"
@@ -4842,3 +4836,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "音声の言語"
+
+msgid "In the sound"
+msgstr "音声の内容"
+
+msgid "Speech"
+msgstr "話し声"
+
+msgid "Mixed"
+msgstr "ミックス"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "話し声: ラウドネスだけで配置します。カメラと共通するものが\nない録音は受け付けません。ミックス: 声の下に音楽やミックスがあり、\nラウドネスで何も見つからない所では位相で配置できます。\n「%s」では常にミックスです。"
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: 音声の一致度は %s で、別の位置でも %s です -- 内蔵時計だけで配置しました"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  それぞれ最長 %s に短縮 -- 最初の発言は %s で終わり、最後の発言は %s から始まります"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "このフォルダーには同じ名前の別のプロジェクト %s があります -- このプロジェクトは %s のままです。"
+
+msgid "the picture did not change to the answerer there"
+msgstr "そこで画面が応答者に切り替わらなかった"
+
+msgid "the answer was counted with the question before"
+msgstr "回答が直前の質問と一緒に数えられた"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "%s は --auphonic-done のフォルダー内、auphonic.com が返したトラックの中にあります。誰が話しているかは未処理の録音から割り出すので、ここでは代わりに未処理の録音を指定してください。"
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   音声を認識できず、実行が配置するとおりに配置しました"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "音声を認識できず、タイムコードで配置しました"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s 本の録音があり、映像はありません: それぞれ単独で連結し、互いに合わせることはしません。--multitrack を使うと一つの時間軸に並べます。"

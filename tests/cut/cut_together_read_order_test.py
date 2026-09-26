@@ -8,6 +8,7 @@ cut split at the change of speaker does too; and a shot too short to
 stand, taken into its neighbour, leaves the joined shot in the same
 order. The wanted names are written out, not read off name_order.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 import time

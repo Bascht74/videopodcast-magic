@@ -11,6 +11,7 @@ that one aimed at 44.1 alone cannot. Then a 44.1 kHz recording in two
 blocks, stamped 01:00:00:00 and 01:00:02:00, joined: the run's report
 names the start the recorder wrote.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

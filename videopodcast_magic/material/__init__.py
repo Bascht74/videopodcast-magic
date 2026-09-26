@@ -609,7 +609,7 @@ def key_frame_at_or_before(video, when):
         except Exception as e:
             print(T('  Key frames of %s cannot be read (%s) -- the copy '
                     'starts at the beginning of the file.')
-                  % (os.path.basename(video), str(e)[:60]))
+                  % (PROGRAM.camera_shown(video), str(e)[:60]))
             return 0.0
         found = []
         for line in p.stdout.decode("utf-8", "replace").splitlines():
@@ -2793,17 +2793,24 @@ def align_cameras(videos):
         # There is no phase way between two cameras, so the envelopes are
         # the whole measurement and the floor is higher than anywhere
         # else: a short jingle otherwise gets a number too.
-        if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
+        if (not PROGRAM.match_places_it(st)
                 and not fit_places_it(st)):
             st["unplaceable"] = True
         if st.get("unplaceable"):
             # What the sound failed at is a guess and the clock is not:
             # where a clock places the camera it stands there.
-            by_clock.append((v, T(
+            q = st.get("quality", 0.0)
+            by_clock.append((v, (T(
                 '  %s: its sound matches by %s, under the floor of %s -- '
                 'placed by its clock alone')
-                % (os.path.basename(v), number_text(st.get("quality", 0.0), 3),
-                   number_text(CAMERA_MATCH_ENOUGH, 2)), st.get("quality")))
+                % (os.path.basename(v), number_text(q, 3),
+                   number_text(CAMERA_MATCH_ENOUGH, 2))
+                if q < CAMERA_MATCH_ENOUGH else T(
+                    '  %s: its sound matches by %s, and by %s at another '
+                    'place as well -- placed by its clock alone')
+                % (os.path.basename(v), number_text(q, 3),
+                   number_text(st.get("next_best", 0.0), 3))),
+                st.get("quality")))
             continue
         position[v] = (a, b, st)
     for v, said, quality in by_clock:

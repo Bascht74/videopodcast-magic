@@ -21,8 +21,8 @@ stopped somewhere, or when a command in it is being changed.
 
 ## The six things
 
-1. **The tests are green on all six builder jobs.** Not here on this
-   Mac -- there. That is the evidence the tag later stands on.
+1. **The tests are green on all seven builder jobs** -- the six
+   systems and the neutral one. Not here on this Mac -- there. That is the evidence the tag later stands on.
 
 2. **`CHANGELOG.md` says what changed.** How a section is built, what
    belongs in it and what does not: skill `changelog`.
@@ -34,65 +34,31 @@ stopped somewhere, or when a command in it is being changed.
 4. **The pictures show the program as it is now.** Skill `bilder`. Not
    every version moves them; one that changed the window does.
 
-5. **The list and the issue are up to date** -- `docs/notes/` for what
-   is open, the roadmap issue for whoever reads from outside. **Said in
-   numbers, not asserted**, because a list nobody counts drifts without
-   anything noticing:
+5. **The open work and the issue are up to date** -- the owner's
+   decision board (private, outside the repository) for what is open,
+   the roadmap issue for whoever reads from outside.
 
-   ```bash
-   grep -c '^## ' docs/notes/aufgaben.md        # what it holds today
-   tail -1 tests/state/notes                    # what it held last time
-   ```
+   **Before a release the owner reviews the board's "Prüfen" column and
+   confirms it**: every card of this release is done, or has been moved
+   to a later release. That confirmation is the owner's and it is a
+   decision, not a count -- nobody else gives it. Two lines go into the
+   release report, and a blank one stops the release:
 
-   Two lines go into the release report, and a blank one stops the
-   release:
-
-   * `aufgaben.md: N sections, M written since v<previous>` -- **and M
-     may not be nought.** A release in which nothing was written to the
-     notes is a round nobody recorded.
+   * `board: reviewed and confirmed by the owner`
    * `nothing this version's changelog claims is still standing as open`
 
-   Then `tests/state/notes` gains a line, `v<number> <N>`, and it goes
-   in with the version. That file is the only place the count survives
-   between releases, because the notes themselves do not.
+   **Why a decision and not a number any more.** Until 3.0.0b24 this
+   step counted the sections of a task file under `docs/notes/` and
+   wrote the count into the repository at every release. The count said
+   how long the list was, never whether this release's work was done.
+   The owner's decision of 26.9.2026 replaced the file with the board,
+   where every card belongs to a release, so the question is asked of
+   the cards directly.
 
-   **And this is where the list is cleared out, not only counted.**
-   The owner's rule, 7 September 2026: a release reworks
-   `aufgaben.md`, and everything finished goes out of it. Counting alone was tried and
-   failed -- on that day the file stood at **18 109 lines and 370
-   sections**, of which **153 were long done and 82 were no task at
-   all**, two thirds ballast, although the rule „what is finished comes
-   out" had stood in the file's own head since 22 August.
-
-   It has a release to hang on because a release is the one moment
-   where somebody counts anyway. **Every section that goes out is
-   measured against the program first** -- not against what the entry
-   claims about itself; the entries are older than the code and say so
-   wrongly. What still holds at a finished point goes somewhere else
-   before it goes: a standing decision to `claude_intern.md`, a
+   What still holds at a finished card goes somewhere else before the
+   card is closed: a standing decision to `claude_intern.md`, a
    measurement to `development/measurements.md`, what a user notices to
    `CHANGELOG.md`, what they must know to the manual.
-
-   The second line of the report then carries the number it cost:
-
-   * `aufgaben.md: N sections, M written, K taken out since
-     v<previous>` -- **and K may not be nought in a release that
-     closed anything.**
-
-   **Where `docs/notes/` is not on the disc, the first line says so and
-   the release goes on.** It is in `.gitignore` on purpose -- it carries
-   material out of real productions -- so it is here and on no clone.
-   Two tests already handle it that way; this is the same rule.
-
-   **What used to stand here could not be carried out, and it was wrong
-   twice over.** It said `git log v<previous>..HEAD --
-   docs/notes/aufgaben.md | wc -l`, which answers **0** for ever,
-   because the file is not in the repository at all. And even where it
-   ran it would answer the wrong question: it counts *commits that
-   touched a file*, while the line beneath it claimed "N entries struck
-   off, M added" -- a commit count cannot say that. The second fault
-   would have gone unseen for years behind the first. And "struck off"
-   describes a list that gets ticked; ours is a journal that only grows.
 
    **The roadmap is not asked here any more. It is a gate.** Step 3b of
    `.github/workflows/publish.yml` reads the roadmap issue and refuses
@@ -159,13 +125,24 @@ nothing tells you: no test holds the two against each other (4.9.2026).
 **Fetch them before a release and look at them**:
 
 ```bash
-cd tests && bash builder_times.sh
+cd tests && bash builder_times.sh --record <version>
 ```
 
-**What you wait for is the longest of the six jobs, not the sum** -- they
-run side by side. What the numbers mean, and what to do with them, is in
-the skill `ci` under "After a green run, the queue", because that is the
-moment the command is run.
+**What you wait for is the longest of the seven jobs, not the sum** -- they
+run side by side. What the numbers mean for the queue, and what to do
+with them, is in the skill `ci` under "After a green run, the queue",
+because that is the moment the command is run.
+
+**`--record` keeps them, one section per release, in
+`development/test_durations.md`** -- every job, a trimmed mean per
+test, and the change against the release before. `state/longest` is
+overwritten each time and so cannot say that a test got slower; the
+record can, and a test marked **grown** there (more than 20 % and at
+least 10 s) is named in the release report with what made it so. It
+finds its run by the version the commit carries, because the newest
+green run on main is not the release's while the merge's own run is
+still going: 3.0.0b24's `state/longest` was read that way and holds
+3.0.0b23's times (measured 26.9.2026).
 
 ## Still by hand, and before the word
 
@@ -197,6 +174,15 @@ What that refers to is the command-line switches, the format of the
 project file, and the names of what comes out. **Manual, tests or notes
 alone get no new number.**
 
+**Every language, once, before the word.** The everyday suite tests
+English and German only (the owner's rule, 26.9.2026); a release tests
+every catalogue. Here that is `cd tests && VPM_ALL_LANGUAGES=1 bash
+run.sh`, green before the push. On the builder nothing has to be
+asked for: the release pull request changes the version, so its seven
+checks run every language by themselves, and the long way passes
+`all_languages: true` -- why, beside that input in
+`.github/workflows/tests.yml`.
+
 **Write the changelog section before the push, because the workflow
 reads it and does not write it.** Skill `changelog` says what goes in
 one. What the workflow does with it is cut everything between
@@ -212,7 +198,7 @@ it.** Everything finished first -- every file, every register, the whole
 suite green here -- then **one** push. Then wait, without adding
 anything. This was a rule about evidence and it is a mechanism now: the
 workflow **runs the suite itself**, on the commit the dispatch was
-started against, and makes the tag only where all six jobs came back.
+started against, and makes the tag only where all seven jobs came back.
 A second commit pushed after the first therefore does not merely muddy
 the list of runs -- it moves the head the next dispatch would run
 against, and the suite answers for that commit instead.
@@ -241,8 +227,11 @@ of the separation -- since 25.9.2026 its code, its model,
 requirements.txt and the test that runs it, but not pyproject.toml,
 whose version every release changes. A pull request that changed one of
 them goes the long way, and the line names the file that sent it
-there. How the four questions are asked, and where that difference is
-kept, is `.claude/skills/freigabe/mechanics.md`.
+there. **Since 26.9.2026 a fifth:** a pull request runs English and
+German only, every language only where it changes the `VERSION` line,
+so the short way is taken only where the merge changes the version.
+How the five questions are asked, and where that difference is kept,
+is `.claude/skills/freigabe/mechanics.md`.
 
 **Before the word, count what is left over.** The commonest way to break
 the one-run rule is not impatience, it is a file forgotten while
@@ -408,20 +397,22 @@ sixth is answered in the report, and "not run, because ..." answers it.
 
 ## Before it counts as done
 
-1. Six builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
+1. All seven builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
 2. `CHANGELOG.md` carries a section under this number, in both languages?
 3. The manual true again -- every chapter a visible change touched, both?
-4. What the manual pass turned up: a test, or its shape an entry on the list?
+4. What the manual pass turned up: a test, or its shape a card on the owner's board?
 5. Do the pictures show the program as it is now?
-6. The three lines of the release report written down, none of them blank?
+6. The three lines of the release report written down, none of them blank -- the owner's confirmation of the board among them?
 6b. `resolve.sh` run by the owner with Resolve open -- or the line "not
     run, because ..." in the report, with the reason?
 7. The number set in the program and the four documents that carry it?
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
-    suite with it?
-11. The builder's times fetched and looked at?
+    suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?
+11. The builder's times fetched with `--record <version>`, the section in
+    `development/test_durations.md` looked at, and every test marked
+    grown there named in the release report?
 12. `git status --short` empty, or every line in it explained out loud?
 13. `git stash list` free of this work?
 14. `build/` cleared, the wheel built and diffed, and cleared up again after?

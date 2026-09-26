@@ -72,7 +72,8 @@ different rows; what may not differ is the **wording**.
 
 **A skill carries rules and the cases that taught them, never the state
 of the repository.** A number about how things stand today goes stale
-between two commits: those belong in `docs/notes/`, or in a command.
+between two commits: those belong on the owner's decision board, or in
+a command.
 
 ## Where things are
 
@@ -127,8 +128,8 @@ mkdir -p /tmp/snap && cp -R videopodcast_magic /tmp/snap/vpm_sNN
 ## Rules that are not negotiable
 
 * **The Auphonic API key never goes into a script, a document or a
-  command line.** macOS Keychain or Windows Registry; the project file
-  strips `--auphonic-api-key`. One file holds it for one call, its name
+  command line.** macOS Keychain or Windows Registry; the window hands
+  it to its run beside the line. One file holds it for one call, its name
   unpredictable (`mkstemp`), removed on every path. What shuts that file
   is not the same on every system.
 * **The program never uploads to auphonic.com on its own.**
@@ -183,9 +184,11 @@ Each of these cost something, and `development/decisions.md` says what.
 ## Working here
 
 * **Parallelise, and account for it.** Before the first edit of a task
-  touching more than one file, split by file and start the strands. One
-  file, one strand, never two strands in one file; name the foreign
-  files by path. **If you do not split, write one sentence saying why.**
+  touching more than one file, split by file and start the strands.
+  Two strands may share a file only on different functions: each order
+  names the functions it may change, the head lines (imports, constants,
+  binds) stay the orchestrator's, and no strand lengthens `gui()`. Name
+  the foreign files by path. **If you do not split, write one sentence saying why.**
   A file another strand owns is not a reason to wait -- prepare
   instead. Skill `strang`.
 * **A big fan-out is proposed, never started.** Over about 25 strands
@@ -206,7 +209,8 @@ Each of these cost something, and `development/decisions.md` says what.
   `tests/state/counterproof`**; `source_checks_proved_test.py` is a
   ratchet over those still missing one. Skill `gegenbeweis`.
 * **What you promise in conversation is an entry, not an intention.**
-  It goes into `docs/notes/aufgaben.md` in the same breath.
+  It goes onto the owner's decision board (private, outside the
+  repository) in the same breath.
 * **Explain a change in plain words, not in terms of the code**: what it
   does and why, short. The road that led there goes in `docs/notes/`.
 * **A commit is made only when it was asked for**, never on `main`, and
@@ -226,8 +230,8 @@ handgrips, not the judgement**: a green run proves the mechanics held,
 never that the version was ready. Skill `freigabe`.
 
 **What the manual pass turns up becomes a test, and before the tag.**
-Where the test is larger than the fix, its shape is written out in
-`docs/notes/aufgaben.md` -- not a note saying "test this".
+Where the test is larger than the fix, its shape is written out on
+the owner's decision board -- not a note saying "test this".
 
 **Before every release fetch the builder's times** (`cd tests && bash
 builder_times.sh`); skill `ci` says what to do with them. What you wait

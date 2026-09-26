@@ -1267,9 +1267,6 @@ msgstr "  Υπερβολικό:        ο περιοριστής θα έπρεπ
 msgid "  Transcript not possible (%s) -- it runs anyway."
 msgstr "  Απομαγνητοφώνηση αδύνατη (%s) -- τρέχει έτσι κι αλλιώς."
 
-msgid "  Wide shot at the edges: skipped -- the first or last announcement\n  would be too long for a greeting."
-msgstr "  Γενικό πλάνο στα άκρα: παραλείφθηκε -- η πρώτη ή η τελευταία\n  αναγγελία θα ήταν πολύ μεγάλη για χαιρετισμό."
-
 msgid "  Wide shot at the edges: until %s and from %s"
 msgstr "  Γενικό πλάνο στα άκρα: έως %s και από %s"
 
@@ -2341,8 +2338,8 @@ msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κομμάτια εισόδου. Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης συσκευής εγγραφής ή ο ήχος ενός αρχείου βίντεο ορισμένου σε \"χρήση εσωτερικού ήχου\". Πολλά μπλοκ της ίδιας ηχογράφησης μετρούν ως ένα, τα κομμάτια που τέθηκαν στην άκρη καθόλου."
 
-msgid "No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Δεν υπάρχει κλειδί API. Δώστε --auphonic-api-key ΚΛΕΙΔΙ, ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
+msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
+msgstr "Δεν υπάρχει κλειδί API. Ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
 
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από την αρχή του υλικού -- η θέση των αρχείων μεταξύ τους μετριέται."
@@ -3376,9 +3373,6 @@ msgstr "μετρημένο από τις ηχογραφήσεις -- %s ομιλ
 
 msgid "from the finished run -- %s speakers, %s"
 msgstr "από την ολοκληρωμένη εκτέλεση -- %s ομιλητές, %s"
-
-msgid "from the processed Auphonic tracks -- %s speakers, %s"
-msgstr "από τα επεξεργασμένα κομμάτια Auphonic -- %s ομιλητές, %s"
 
 msgid "no folder"
 msgstr "κανέναν φάκελο"
@@ -4883,3 +4877,42 @@ msgstr "%s/%s %s ms %s ppm"
 
 msgid "Language of the sound"
 msgstr "Γλώσσα του ήχου"
+
+msgid "In the sound"
+msgstr "Στον ήχο"
+
+msgid "Speech"
+msgstr "Ομιλία"
+
+msgid "Mixed"
+msgstr "Μεικτό"
+
+msgid "Speech: placed by its loudness alone. A recording that shares nothing\nwith the cameras is refused. Mixed: music or a mix lies under the voices,\nand where the loudness finds nothing the phase may place it.\nUnder \"%s\" it is always mixed."
+msgstr "Ομιλία: τοποθετείται μόνο με βάση την ακουστότητα. Μια ηχογράφηση που δεν έχει τίποτα κοινό\nμε τις κάμερες απορρίπτεται. Μεικτό: μουσική ή μίξη βρίσκεται κάτω από τις φωνές,\nκαι όπου η ακουστότητα δεν βρίσκει τίποτα, μπορεί να την τοποθετήσει η φάση.\nΣτο «%s» είναι πάντα μεικτό."
+
+msgid "  %s: its sound matches by %s, and by %s at another place as well -- placed by its clock alone"
+msgstr "  %s: ο ήχος της ταιριάζει κατά %s, και κατά %s σε άλλο σημείο επίσης -- τοποθετήθηκε μόνο με βάση το ρολόι της"
+
+msgid "  shortened to at most %s each -- the first announcement ends at %s, the last begins at %s"
+msgstr "  συντομεύτηκε σε το πολύ %s το καθένα -- η πρώτη αναγγελία τελειώνει στο %s, η τελευταία αρχίζει στο %s"
+
+msgid "Another project lies in this folder under that name, %s -- this one stays in %s."
+msgstr "Σε αυτόν τον φάκελο υπάρχει ήδη άλλο έργο με αυτό το όνομα, %s -- αυτό μένει στο %s."
+
+msgid "the picture did not change to the answerer there"
+msgstr "η εικόνα δεν άλλαξε εκεί σε αυτόν που απαντά"
+
+msgid "the answer was counted with the question before"
+msgstr "η απάντηση μετρήθηκε μαζί με την προηγούμενη ερώτηση"
+
+msgid "%s lies in the --auphonic-done folder, among the tracks auphonic.com returned. Who speaks is worked out on the raw recordings, so name the raw one here instead."
+msgstr "Το %s βρίσκεται στον φάκελο του --auphonic-done, ανάμεσα στα κομμάτια που επέστρεψε το auphonic.com. Ποιος μιλά βρίσκεται από τις ακατέργαστες ηχογραφήσεις, γι’ αυτό δώστε εδώ την ακατέργαστη ηχογράφηση."
+
+msgid "%s\n   sound not recognised; placed as the run places it"
+msgstr "%s\n   ήχος μη αναγνωρισμένος· τοποθετήθηκε όπως τον τοποθετεί η εκτέλεση"
+
+msgid "sound not recognised, placed by its timecode"
+msgstr "ήχος μη αναγνωρισμένος, τοποθετήθηκε κατά το timecode του"
+
+msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
+msgstr "  %s ηχογραφήσεις και καμία εικόνα: η καθεμία ενώνεται χωριστά και δεν ευθυγραμμίζονται μεταξύ τους. Το --multitrack τις βάζει σε έναν άξονα χρόνου."

@@ -11,6 +11,7 @@ are the real ones. The limit: --resolve itself is not typed, because a
 test may not carry a switch that connects (source_resolve_door_shut);
 the parser's default for it is set instead, which is all the switch does.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

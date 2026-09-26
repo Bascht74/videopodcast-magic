@@ -51,17 +51,23 @@ Protokoll steht an der Zeile: `über die bewegten Frequenzbänder
 platziert`.
 
 Beide Vergleiche leben von Sprechpausen, und Musik hat keine. Findet
-keiner von beiden etwas, sucht das Programm weiter über die Phase, die
-einen Raum und ein zweites Mikrofon übersteht. Die Phase sagt, wo der
-Ton liegt. Der Uhrengang bleibt unbekannt, und auf diesem Weg rechnet ihn
-das Programm nicht heraus. Auch diese Zeile ist gekennzeichnet: `per
-Phase platziert`.
+keiner von beiden etwas und steht die Aufnahme im Feld **Im Ton** auf
+**Gemischt**, sucht das Programm weiter über die Phase, die einen Raum
+und ein zweites Mikrofon übersteht. Die Phase sagt, wo der Ton liegt.
+Der Uhrengang bleibt unbekannt, und auf diesem Weg rechnet ihn das
+Programm nicht heraus. Auch diese Zeile ist gekennzeichnet: `per Phase
+platziert`. Eine Aufnahme auf **Sprache** -- so steht jede zu Beginn --
+kommt nie zur Phase: Bei Sprache legt sie eine Aufnahme von anderswo
+weit daneben. Eine solche Aufnahme steht deshalb an ihrem Timecode, oder
+sie bleibt draußen.
 
 Die Kameras untereinander setzt das Programm über ihre eigenen
 Mikrofone an, jede an der längsten von ihnen -- aber nur mit dem ersten
 Vergleich. Zwischen zwei Kameras gibt es keinen zweiten und dritten Weg,
 also verlangt das Programm dort mehr Übereinstimmung, bevor es sie
-gelten lässt. Reicht der Ton einer Kamera dafür nicht, ist ihr Timecode
+gelten lässt. Eine Kamera, die viel kürzer ist als die längste, wird
+über deren ganze Länge gesucht, und an ihrer Stelle muss sie deutlich
+besser passen als an jeder anderen. Reicht der Ton einer Kamera dafür nicht, ist ihr Timecode
 der zweite Weg, und sie steht dort, wo er sagt. Gerechnet wird von einer
 Kamera aus, die über ihren Ton schon platziert ist und ebenfalls einen
 Timecode trägt; das geht also nur auf, wenn beide Uhren auf dieselbe

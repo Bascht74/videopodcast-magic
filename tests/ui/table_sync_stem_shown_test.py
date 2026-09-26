@@ -8,6 +8,7 @@ on that camera, hidden; the name the table offers is the camera's stem.
 Offscreen, in Qt's own style; the naming rule itself is held by
 table_sync_keeps_stem, this holds that the window hands Sync only in.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

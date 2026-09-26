@@ -13,6 +13,7 @@ format; it is named here so that no check of this file goes unmentioned.
 Where the test reads the source it reads the file under test, so a run
 against a snapshot searches the snapshot and not the working file.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

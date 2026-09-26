@@ -11,6 +11,7 @@ The limit of the method: the two spellings cannot lie side by side on
 a case-insensitive disc, so only one of them is ever written here, and
 what is measured is that the search does not reach for the other.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

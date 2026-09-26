@@ -191,6 +191,7 @@ if os.environ.get("VPM_COUNT_STARTS"):
 SR = 48000
 ASK_SINK = None      # set by the GUI: callable(options, title) -> key
 OUTPUT_SINK = None   # set by the GUI: callable that receives raw log text
+RUN_KEY = ""         # set by the GUI for its own run: the key, off argv
 GUI_RUNNING = False  # the GUI already lists per-file details, so the log
                      # skips them when this is set
 AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
@@ -198,7 +199,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b24"
+VERSION = "3.0.0b25"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
@@ -233,6 +234,7 @@ take_from(filing)
 
 ByFile = filing.ByFile
 FileSet = filing.FileSet
+path_key = filing.path_key
 
 
 stowage = beside("stowage", program=PROGRAM)
@@ -240,6 +242,7 @@ take_from(stowage)
 
 cache_folder = stowage.cache_folder
 clean_kept_stores = stowage.clean_kept_stores
+kept_in_use = stowage.kept_in_use
 
 
 logbook = beside("logbook", program=PROGRAM)
@@ -365,6 +368,43 @@ write_transcript_files = speech.write_transcript_files
 
 #--------------------------------------------------------------------- Run
 
+def leave_window(code):
+    """The window's code, and on Windows the process ended here with it.
+
+    Python 3.10 on Windows crashed after the window had closed, in the
+    teardown behind the last line. What has to survive is done first --
+    the atexit handlers (the held-back log line, the temporary folders),
+    then the console and the log flushed -- and the rest is skipped.
+    """
+    if sys.platform != "win32":
+        return code
+    atexit._run_exitfuncs()
+    for stream in [sys.stdout, sys.stderr] + list(logbook._LOG_ASIDE):
+        # No console under pythonw, a handle already shut, a pipe gone:
+        # none of them may keep the process from ending here.
+        with contextlib.suppress(AttributeError, ValueError, OSError):
+            stream.flush()
+    os._exit(int(code or 0))
+
+
+def returned_given_as_raw(audio_paths, done_folder):
+    """The first recording handed in from the --auphonic-done folder, or "".
+
+    That folder holds what auphonic.com returned, and who speaks is
+    worked out on the raw recordings. One of those handed in from there
+    would decide it unseen, so the run refuses it rather than guess.
+    Only audio: a camera lying there is no returned track.
+    """
+    if not done_folder:
+        return ""
+    # The real path first: /tmp is a link to /private/tmp on macOS.
+    home = os.path.join(path_key(os.path.realpath(done_folder)), "")
+    for p in audio_paths:
+        if path_key(os.path.realpath(p)).startswith(home):
+            return p
+    return ""
+
+
 def main():
     """The way in: a command line means a run, a bare start means the window.
 
@@ -387,6 +427,10 @@ def main():
         return 0
     ap = build_argument_parser()
     args = ap.parse_args()
+    # The key goes with a run that may send: the window's, handed over
+    # here and never on the line, or the one in AUPHONIC_TOKEN.
+    args.auphonic_key = (None if args.without_auphonic else
+                         RUN_KEY or os.environ.get("AUPHONIC_TOKEN") or None)
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.
@@ -434,7 +478,7 @@ def main():
         while True:
             code = piece.gui()
             if code != piece.LANGUAGE_AGAIN:
-                return code
+                return leave_window(code)
             # The window took itself down for a chosen language; the
             # choice is read back so the next one speaks it.
             set_language(kept_language() or system_locale())
@@ -453,7 +497,8 @@ def main():
     update_note()
     args.auphonic_done = getattr(args, "auphonic_done", None)
     args.auphonic_resume = getattr(args, "auphonic_resume", None)
-    args.production = ""
+    args.production = (getattr(args, "production", None) or "").strip()
+    cameras_shown_as(getattr(args, "camera_label", None))
     args.resolve_project = getattr(args, "resolve_project", None)
     if getattr(args, "hdr_check", None):
         return check_hdr(args.hdr_check)
@@ -505,6 +550,12 @@ def main():
     for p in audio_paths + video_paths:
         if not os.path.exists(p):
             sys.exit(T('Not found: %s') % p)
+    returned = returned_given_as_raw(audio_paths, args.auphonic_done)
+    if returned:
+        sys.exit(T('%s lies in the --auphonic-done folder, among the tracks '
+                   'auphonic.com returned. Who speaks is worked out on the '
+                   'raw recordings, so name the raw one here instead.')
+                 % returned)
 
     # Preflight: once for both modes, before any fork.
     if run_preflight(args, audio_paths, video_paths):
@@ -584,6 +635,19 @@ run_ffmpeg_with_progress = preflight.run_ffmpeg_with_progress
 run_preflight = preflight.run_preflight
 
 
+#------------------------------------------------------ What colour says
+
+colour = beside("colour", program=PROGRAM)
+take_from(colour)
+
+MATRIX_BT2020 = colour.MATRIX_BT2020
+PRIMARIES_BT2020 = colour.PRIMARIES_BT2020
+camera_text = colour.camera_text
+check_hdr = colour.check_hdr
+colour_text = colour.colour_text
+hdr_from_sources = colour.hdr_from_sources
+
+
 #---------------------------------------------------------- The processing
 
 auphonic = beside("auphonic", program=PROGRAM)
@@ -629,17 +693,11 @@ CLIP_COLOURS = resolve.CLIP_COLOURS
 CLIP_COLOURS_RGB = resolve.CLIP_COLOURS_RGB
 CLIP_COLOURS_RGB_DARK = resolve.CLIP_COLOURS_RGB_DARK
 CLIP_COLOURS_RGB_LIGHT = resolve.CLIP_COLOURS_RGB_LIGHT
-MATRIX_BT2020 = resolve.MATRIX_BT2020
 ON_DARK = resolve.ON_DARK
-PRIMARIES_BT2020 = resolve.PRIMARIES_BT2020
 build_resolve_project = resolve.build_resolve_project
-camera_text = resolve.camera_text
-check_hdr = resolve.check_hdr
 colour_per_camera = resolve.colour_per_camera
-colour_text = resolve.colour_text
 file_frame_rate = resolve.file_frame_rate
 frames_to_timecode = resolve.frames_to_timecode
-hdr_from_sources = resolve.hdr_from_sources
 known_frame_rate = resolve.known_frame_rate
 own_frame_rate = resolve.own_frame_rate
 print_audio_track_mapping = resolve.print_audio_track_mapping
@@ -676,6 +734,7 @@ orders = beside("orders", program=PROGRAM)
 take_from(orders)
 
 build_argument_parser = orders.build_argument_parser
+cameras_shown_as = orders.cameras_shown_as
 
 
 #-------------------------------------------------------- The interface

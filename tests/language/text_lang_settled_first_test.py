@@ -17,6 +17,7 @@ The limit of the method: argparse's own words -- the usage line,
 "unrecognized arguments" -- are English whatever the language, and no
 T() carries them. They are not what this measures.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

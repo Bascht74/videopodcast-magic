@@ -22,7 +22,17 @@ Four tabs, in the order they are needed.
   title bar, so a window with a project open and one without are not
   the same picture. The project file is named after the production and
   moves along when the production is renamed; the title bar then names
-  it under its new name.
+  it under its new name. It moves once the name is settled -- when you
+  leave the field, press Enter, save the project or start a run --
+  never halfway through typing.
+
+  Another project's file is never written over on the way. Where one
+  already lies in the folder under the new name, the file stays where
+  it is, the window says once which project lies there, and saving goes
+  on into the file it had. A production that has no file of its own yet
+  is saved as `<name> (2)` beside it instead, and the window says that
+  too. A project opened from a copy of its file -- `Beta copy.json` --
+  is saved into that copy, not into `Beta.json`.
 
   Where a project file lies with the material, the program offers it as
   the files come in, and before it measures any of them: one found and
@@ -160,6 +170,27 @@ Four tabs, in the order they are needed.
   is given a speaker gets **Content** back, and a file a later
   measurement can place gets both entries back. What the file was moved
   to in the meantime stays until somebody sets it themselves.
+
+  Every audio recording carries **In the sound** in the same column,
+  one answer for the whole recording however many blocks it is made of.
+  It says what the program may use to place the recording on the time
+  axis, and only a person says it -- the program does not guess.
+
+  - **Speech**, where it starts: the recording is placed by its
+    loudness alone, against the loudness of the cameras. A recording
+    that shares nothing with the cameras is refused instead of being
+    put somewhere.
+  - **Mixed**: music or a finished mix lies under the voices, so the
+    loudness may find nothing. Where it does, the phase of the sound
+    may place the recording instead.
+
+  Under **Sync only** the field stands on **Mixed** and is shut: there
+  the phase is always allowed. What was chosen is kept beside it and
+  comes back with **Cut by speaker**. Changing the field, or the project
+  type, measures the time axis again where that changes which
+  recordings the phase may place. The project file keeps the answer
+  per recording; a project saved before the field existed reads as
+  **Speech**.
 
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
@@ -324,10 +355,9 @@ Four tabs, in the order they are needed.
     provisional one.
   - **from the finished run -- 3 speakers, 1:09:23**, in the good
     colour. A run is done and the preview stands on its result: all
-    tracks on one axis, the speakers as the run found them.
-  - **from the processed Auphonic tracks -- 3 speakers, 1:09:23**, also
-    in the good colour. The same, and the tracks came back from
-    auphonic.com with the neighbours taken out of them as well.
+    tracks on one axis, the speakers as the run found them. A run
+    through auphonic.com says the same: what comes back from there is
+    the sound, and the speakers are found on the recordings either way.
 
   This is the answer to the one question worth asking of a preview:
   whether it can be trusted. Once a run is done, preview and run stand
@@ -502,9 +532,11 @@ type chosen yet.** Opening the **Assignment & time window** tab without
 an answer asks once per production, in a box **Project type** --
 **What is this production to become?** -- with the two entries and
 **Cancel**. **Cancel** chooses nothing and is not asked again; the field
-in the strip still takes the answer. An opened project never asks: the
-type is in the project file, and a project file written before there
-was a type opens as **Cut by speaker**. On the command line it is
+in the strip still takes the answer. An opened project asks only where
+it was saved before its type was chosen: then the field stands on **not
+set** again, and the tab asks as for a new one. Every other project file
+carries its type, and one written before there was a type opens as
+**Cut by speaker**. On the command line it is
 `--project-type cut` or `sync`, and `cut` where nothing is said.
 
 **Loudness** in the **Production** box on the first page sets how loud
@@ -563,8 +595,9 @@ it.
 
 Then a summary: how many cameras and audio tracks, how long, which
 preset, how many files this makes, how much room they need and how much
-is free. If the run would overwrite files that are already there, a
-window first shows which.
+is free. If the run would overwrite files that are already there and
+that no earlier run of this production wrote, a window first shows
+which.
 
 The player has play and pause, seconds and frames forward and back,
 volume and speed; timecode on the left, position on the right, counted
@@ -723,10 +756,11 @@ standing in.
 
 **Arabic, Persian, Hebrew and Urdu turn the window round.** Menu bar,
 tabs, boxes, tables and this settings sheet all read from right to left,
-the way a reader of those languages expects. The log keeps its own
-direction: a line that begins with a path or a timecode stays as it
-was written, because a run's own words are not a sentence in any
-language.
+the way a reader of those languages expects. The log reads from the
+right as well, every line against the right edge, also one that begins
+with a file name. A path or a timecode inside it keeps the order it was
+written in, and a number keeps its sign in front: `-16 LUFS`, not
+`16- LUFS`.
 
 The choice is written down the moment it is made, and the line above
 the field says what happens next. As long as the language picked is the

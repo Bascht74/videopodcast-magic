@@ -19,10 +19,12 @@ into a folder of its own, which is known by what it holds and not by
 its name, and two separations in the window, each keeping its own
 words instead of sending the other back to the recogniser, and neither
 started a second time while it is still being written down. Last, what
-the store lets go of -- measurements, words and separations by age, a
-recogniser build once a newer one stands beside it -- and a listener or
-a check whose recipe changed, which reads nothing old back.
+the store lets go of -- measurements by age, words and separations by
+their last read, a recogniser build once a newer one stands beside it,
+a joined recording by its date, whose separation it finds again when
+joined anew while a changed recording's is not read back -- and a listener or a check whose recipe changed, which reads nothing old back.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -645,6 +647,20 @@ for path, days in ((old_words, 40), (old_voices, 40), (first, 50),
     with open(path, "w") as fh:
         fh.write("{}")
     os.utime(path, (time.time() - days * 86400,) * 2)
+# Written a day past the limit, then read once through the store's own
+# lookup: the thirty days count from that read, not from the writing.
+said_long_ago = [{"word": "hello", "start": 0.0, "end": 0.5}]
+vpm.words_cache_write("f" * 40, "eng", "macOS", said_long_ago)
+vpm.words_cache_write("0" * 40, "eng", "macOS", said_long_ago)
+vpm.speaker_cache_write("e" * 16, [("A", [(0.0, 1.0)])])
+vpm.speaker_cache_write("f" * 16, [("A", [(0.0, 1.0)])])
+used_words, idle_words = (vpm.words_cache_file(vpm.words_cache_key(
+    m * 40, "eng", "macOS")) for m in ("f", "0"))
+used_voices, idle_voices = (vpm.speaker_cache_file(k * 16) for k in "ef")
+for path in (used_words, idle_words, used_voices, idle_voices):
+    os.utime(path, (time.time() - 31 * 86400,) * 2)
+words_back = vpm.words_stored("f" * 40, "eng", ["macOS"])[0]
+voices_back = vpm.speaker_cache_read("e" * 16)
 vpm.clean_kept_stores()
 check("written-down words untouched for longer than the limit are let go",
       not os.path.exists(old_words),
@@ -652,6 +668,18 @@ check("written-down words untouched for longer than the limit are let go",
 check("a separation untouched for longer than the limit is let go",
       not os.path.exists(old_voices),
       "%s is still there" % os.path.basename(old_voices))
+check("words written long ago but read since are kept",
+      words_back == said_long_ago and os.path.exists(used_words),
+      "read back %r, file %s" % (words_back, "kept" if os.path.exists(
+          used_words) else "gone after a read 31 days past its writing"))
+check("a separation written long ago but read since is kept",
+      bool(voices_back) and os.path.exists(used_voices),
+      "read back %r, file %s" % (voices_back, "kept" if os.path.exists(
+          used_voices) else "gone after a read 31 days past its writing"))
+check("and words and a separation as old and never read are let go",
+      not os.path.exists(idle_words) and not os.path.exists(idle_voices),
+      "31 days unread, still there: %s" % [os.path.basename(p) for p in
+          (idle_words, idle_voices) if os.path.exists(p)])
 check("a recogniser build beside a newer one is let go",
       not os.path.exists(first) and not os.path.exists(last),
       "%s are still there" % sorted(os.listdir(built)))
@@ -663,6 +691,51 @@ check("and a build another copy is still making is left alone",
       os.path.exists(under_way),
       "%s went, %s left" % (os.path.basename(under_way),
                             sorted(os.listdir(built))))
+
+# The mix of close microphones counts from its making, so the sweep
+# takes it while its separation, read since, stays. Joined again it
+# carries a new date, and a key on that date separates it once more.
+def stored_then(path, days=31):
+    """Date *path* and a separation of it *days* back; read it back."""
+    back = (time.time() - days * 86400,) * 2
+    os.utime(path, back)
+    key = vpm.speaker_cache_key(path, vpm.speaker_model_mark(), 0)
+    vpm.speaker_cache_write(key, [("A", [(0.0, 1.0)])])
+    os.utime(vpm.speaker_cache_file(key), back)
+    return bool(vpm.speaker_split_stored(path))
+
+
+pair = [tone("left.wav"), tone("right.wav")]
+joined = vpm.speaker_mix_file(pair, ["left", "right"])
+read_before = bool(joined) and stored_then(joined)
+vpm.clean_kept_stores()
+swept = bool(joined) and not os.path.exists(joined)
+check("the joined recording is swept by its date while read since",
+      read_before and swept,
+      "mix %r, separation read before %s, mix %s after the sweep"
+      % (os.path.basename(joined or ""), read_before,
+         "gone" if swept else "still there"))
+joined_again = vpm.speaker_mix_file(pair, ["left", "right"])
+check("a mix joined again under a new date finds its separation",
+      joined_again == joined
+      and bool(vpm.speaker_split_stored(joined_again)),
+      "joined again as %r (was %r), separation read back: %r" % (
+          os.path.basename(joined_again or ""),
+          os.path.basename(joined or ""),
+          vpm.speaker_split_stored(joined_again or "")))
+own = tone("voices.wav")
+look_alike = tone("mix_0123456789abcdef.wav")
+before = [stored_then(real) for real in (own, look_alike)]
+for real in (own, look_alike):
+    tone(os.path.basename(real), 2.0)       # same name, other contents
+check("a changed recording is separated anew rather than read back",
+      before[0] and vpm.speaker_split_stored(own) == [],
+      "read back before the change: %s, after it %r, wanted []"
+      % (before[0], vpm.speaker_split_stored(own)))
+check("and one named like a mix outside the store keeps its date",
+      before[1] and vpm.speaker_split_stored(look_alike) == [],
+      "read back before the change: %s, after it %r, wanted []"
+      % (before[1], vpm.speaker_split_stored(look_alike)))
 for kept_store in (vpm.cache_folder("speakers"), built):
     if kept_store:                      # inside this test's own cache
         shutil.rmtree(kept_store, ignore_errors=True)

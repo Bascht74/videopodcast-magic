@@ -11,6 +11,7 @@ a stereo pair; the run's length in samples and in milliseconds; and the
 preflight, which raises one hint for that one channel, names it
 counting from one, carries the count, and never a reason to stop.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

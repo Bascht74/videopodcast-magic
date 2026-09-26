@@ -21,6 +21,7 @@ AXIS_MIN_WINDOW_S = PROGRAM.AXIS_MIN_WINDOW_S
 ByFile = PROGRAM.ByFile
 MIX_ONLY = PROGRAM.MIX_ONLY
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SR = PROGRAM.SR
 Share = PROGRAM.Share
 SharedProgressBar = PROGRAM.SharedProgressBar
@@ -54,6 +55,7 @@ channel_text = PROGRAM.channel_text
 check_camera_metadata = PROGRAM.check_camera_metadata
 check_colour_survived = PROGRAM.check_colour_survived
 check_data_tracks = PROGRAM.check_data_tracks
+clock_base = PROGRAM.clock_base
 choose_preset = PROGRAM.choose_preset
 copy_mov_atoms = PROGRAM.copy_mov_atoms
 cross_correlate = PROGRAM.cross_correlate
@@ -83,6 +85,7 @@ lufs_does_nothing = PROGRAM.lufs_does_nothing
 mix_tracks = PROGRAM.mix_tracks
 mix_width = PROGRAM.mix_width
 name_order = PROGRAM.name_order
+no_base_message = PROGRAM.no_base_message
 no_place_message = PROGRAM.no_place_message
 normalise_loudness = PROGRAM.normalise_loudness
 number_text = PROGRAM.number_text
@@ -90,6 +93,7 @@ os = PROGRAM.os
 parse_time_point = PROGRAM.parse_time_point
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
+phase_way_on = PROGRAM.phase_way_on
 pcm_kind = PROGRAM.pcm_kind
 place_track_on_axis = PROGRAM.place_track_on_axis
 recognise_speech = PROGRAM.recognise_speech
@@ -169,7 +173,7 @@ def extract_audio_from_video(file_path, tmpdir):
     channels = int((info["audio"][0] or {}).get("channels") or 1)
     print(as_head(T('NO AUDIO FILE -- USING THE CAMERA AUDIO')))
     print(T('  from %s, %s')
-          % (os.path.basename(file_path), channel_text(channels)))
+          % (PROGRAM.camera_shown(file_path), channel_text(channels)))
     command = ["ffmpeg", "-v", "error", "-i", file_path, "-map", "0:a:0",
               "-ar", str(SR), "-c:a", unpack_kind(file_path),
               "-write_bext", "1"]
@@ -239,7 +243,7 @@ def extract_audio_for_plan(plan, tmpdir):
                 + wav_safe(target) + ["-y", target])
         except Exception as ex:
             print(T('\n  %s: no audio to extract (%s)')
-                  % (os.path.basename(v), ex))
+                  % (PROGRAM.camera_shown(v), ex))
             continue
         pieces = camera_audio_tracks(target, name, tmpdir)
         for piece, label in pieces:
@@ -255,7 +259,7 @@ def extract_audio_for_plan(plan, tmpdir):
             if not e.get("camera_audio") or e.get("upfront"):
                 continue
             print(T('  %-24s from %s')
-                  % (e["speakers"], os.path.basename(e["camera"])))
+                  % (e["speakers"], PROGRAM.camera_shown(e["camera"])))
     if len(done) < 2:
         print(T('  Fewer than two cameras with sound -- too few for '
                 'Multitrack.'))
@@ -343,7 +347,7 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
                 + wav_safe(target) + ["-y", target])
         except Exception as e:
             print(T('\n  %s: no audio to extract (%s)')
-                  % (os.path.basename(v), e))
+                  % (PROGRAM.camera_shown(v), e))
             continue
         for piece, label in camera_audio_tracks(target, name, tmpdir):
             plan.append({"audio": piece, "blocks": [piece],
@@ -352,7 +356,7 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
     show_progress(T('Camera audio'), 1.0)
     for e in plan:
         print(T('  %-24s from %s') % (e["speakers"],
-                                  os.path.basename(e["camera"])))
+                                  PROGRAM.camera_shown(e["camera"])))
     if len(plan) < 2:
         print(T('  Fewer than two cameras with sound -- too few for '
                 'Multitrack.'))
@@ -364,10 +368,10 @@ def clocks_on_the_axis(videos, position, tracks, ref_clip):
 
     One entry per file that carries a timecode and whose place on the
     axis was measured: the name to say it by, the clock in seconds, and
-    the place (file time = a + b * axis time). A file that was never
-    placed is left out -- its clock says when it was recorded but not
-    where it sits, and only the two together say what the reference's
-    first frame reads.
+    the place (file time = a + b * axis time). A file never placed is
+    left out -- its clock says when, not where -- and so is one placed
+    by its clock: it only says its base's clock again. The preview
+    counts neither (measure_time_axis).
     """
     found = []
     for v, info in videos:
@@ -376,11 +380,15 @@ def clocks_on_the_axis(videos, position, tracks, ref_clip):
         when = timecode_seconds(info)
         if when is None:
             continue
-        a, b, _st = position[v]
+        a, b, st = position[v]
+        if (st or {}).get("by_clock_only"):
+            continue
         found.append({"name": os.path.basename(v), "tc": when,
                       "a": a, "b": b})
     for track in (tracks or []):
         blocks = track.get("blocks") or []
+        if (track.get("st") or {}).get("by_clock_only"):
+            continue
         # The blocks were sorted by time and joined on one axis, so the
         # first one's clock is the clock of the joined recording.
         # A recorder writes no frames, so the frames of a timecode track
@@ -543,7 +551,7 @@ def merge_plan_entries(plan):
                   != os.path.abspath(old["camera"])):
                 print(T('  %s appears twice with different cameras -- %s '
                         'is used')
-                      % (name, os.path.basename(old["camera"])))
+                      % (name, PROGRAM.camera_shown(old["camera"])))
             continue
         fresh = dict(e)
         fresh["blocks"] = blocks
@@ -797,7 +805,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
         total = sum(sample_count(b) for b in blocks) / float(SR)
-        target = os.path.basename(e["camera"]) if e.get("camera")\
+        target = PROGRAM.camera_shown(e["camera"]) if e.get("camera")\
             else label_of(MIX_ONLY)
         print("  %-20s %-34s %s%s"
               % (e.get("speakers") or T('unnamed'),
@@ -811,9 +819,16 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     multiple = {cam: v for cam, v in combined.items() if len(v) > 1}
     for cam, v in multiple.items():
         print(T('  %s gets %s tracks mixed together: %s')
-              % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
+              % (PROGRAM.camera_shown(cam), number_text(len(v), 0),
+                 ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
+        # Named by the function the run writes by, so a camera whose own
+        # stem is taken reads here under the name it really gets.
+        written = {path_key(v): t for v, t in camera_targets(
+            video_paths or [c["video"] for c in cameras],
+            {path_key(c["video"]): c["name"] for c in cameras},
+            args.out, args.suffix).items()}
         every = [track_name_of(e) for e in plan]
         # The same rule the writer follows: a recording gets a line of
         # its own only where no camera has a track at all, there is more
@@ -832,8 +847,10 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                 heard = 1
             camera_tracks = 0 if args.no_camera_audio else heard
             print("    %s  ->  %s"
-                  % (os.path.basename(cam["video"]),
-                     cam["name"] + (args.suffix or "_audio") + ".mov"))
+                  % (PROGRAM.camera_shown(cam["video"]),
+                     os.path.basename(written.get(
+                         path_key(cam["video"]), ("", cam["name"] + (
+                             args.suffix or "_audio") + ".mov"))[1])))
             for idx, what in enumerate(
                     track_order_for_camera(own, every, singles,
                                            camera_tracks,
@@ -903,6 +920,10 @@ def join_only(args, tracks, tmpdir, title=""):
                 os.path.join(tmpdir, "level_%s.wav"
                              % safe_filename(track["name"])),
                 gain, curve, channels=channel_count(track["source"]))
+    if len(tracks) > 1:
+        print(T('  %s recordings and no picture: each is joined on its own '
+                'and they are not laid against each other. --multitrack '
+                'puts them on one time axis.') % number_text(len(tracks), 0))
     if args.auphonic_key:
         key = api_key_from_anywhere(args)
         preset, presetname = choose_preset(
@@ -955,12 +976,24 @@ def drift_measured(st):
     return "ppm" in (st or {}) and not (st or {}).get("from_phase")
 
 
-def measure_tracks_against_each_other(tracks):
+def phase_of_run(args, paths):
+    """Whether this run lets the phase way place the recording of *paths*.
+
+    What --sound, --sound-of and --project-type said, read in one place;
+    a run that said nothing takes speech, so the phase way stays off.
+    """
+    return phase_way_on(paths, getattr(args, "project_type", "cut"),
+                        getattr(args, "sound", None) or SOUND_SPEECH,
+                        getattr(args, "sound_of", None) or ())
+
+
+def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True):
     """Put every track on the time axis of the longest one.
 
     The longest recording is the reference for the same reason the
     longest camera is: it overlaps most with the others. Returns the
-    tracks that found a place, each carrying a and b.
+    tracks that found a place, each carrying a and b. *phase_of* says
+    of a track's blocks whether the phase way may place it.
     """
     reference = max(tracks, key=lambda t: sample_count(t["source"]))
     length = sample_count(reference["source"]) / float(SR)
@@ -980,7 +1013,8 @@ def measure_tracks_against_each_other(tracks):
             a, b, st = align_audio_to_video(
                 track["source"], reference["source"],
                 sample_points=int(max(20, min(120, length / 30.0))),
-                distance_s=30.0)
+                distance_s=30.0, phase=bool(phase_of(
+                    track.get("blocks") or [track["source"]])))
         except Exception as e:
             print(T('  %-20s cannot be aligned: %s') % (track["name"], e))
             continue
@@ -1020,7 +1054,8 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
     step_begin("time base")
     print(as_head(T('\nMEASURING THE TIME AXIS')))
     print(T('  No picture: the tracks are laid against each other.'))
-    placed = measure_tracks_against_each_other(tracks)
+    placed = measure_tracks_against_each_other(
+        tracks, lambda paths: phase_of_run(args, paths))
     if len(placed) < 2:
         print(T('\nOnly one track found a place -- there is nothing left '
                 'to lay it against.'))
@@ -1166,6 +1201,24 @@ def silence_sentence(where, how_much, uploading):
                if how_much > 30 and uploading else ""))
 
 
+def recording_at_its_clock(own_tc, position, videos):
+    """Where a recording no measurement placed stands by its clock.
+
+    The camera's rule: the base is the one clock_base picks among the
+    cameras the sound placed, reference first, and the recording sits
+    its clock less the base's from it. Returns (a, b, st) as a
+    measurement does, or None with no base to set its clock against.
+    """
+    clocks = dict((v, timecode_seconds(i)) for v, i in videos)
+    w = clock_base(own_tc, [(c, clocks.get(c)) for c, (_a, _b, st_c)
+                            in position.items()
+                            if not st_c.get("by_clock_only")])
+    if w is None:
+        return None
+    return (position[w][0] + clocks[w] - own_tc, 1.0,
+            {"points": 0, "unplaceable": True, "by_clock_only": True})
+
+
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
     """Put all audio tracks on one common time axis.
 
@@ -1179,13 +1232,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         try:
             info = video_facts(v, args.fps, args.tc)
         except Exception as e:
-            print(T('  %s: %s, skipped') % (os.path.basename(v), e))
+            print(T('  %s: %s, skipped') % (PROGRAM.camera_shown(v), e))
             continue
         # A camera with no sound but a clock goes on: align_cameras
         # places it by that clock. With neither, nothing can place it.
         if not info["audio"] and timecode_seconds(info) is None:
             print(T('  %s has no camera sound -- without it nothing can be '
-                    'aligned') % os.path.basename(v))
+                    'aligned') % PROGRAM.camera_shown(v))
             continue
         if known_frame_rate(file_frame_rate(info)) is None:
             # Said, not refused: the Timeline takes a rate Resolve has
@@ -1193,7 +1246,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             # the note below, where every camera has been read.
             print(T('  %s runs at %s frames/s, a rate Resolve has no '
                     'Timeline for -- it is converted, not left out')
-                  % (os.path.basename(v),
+                  % (PROGRAM.camera_shown(v),
                      number_text(file_frame_rate(info), 3)))
         videos.append((v, info))
     if not any(i["audio"] for _v, i in videos):
@@ -1253,7 +1306,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     print(as_head(T('\nMEASURING THE TIME AXIS')))
     ref_clip, position = align_cameras(videos)
     print(T('  Reference: %s (%s, longest running time)')
-          % (os.path.basename(ref_clip[0]), as_hms(ref_clip[1]["duration"])))
+          % (PROGRAM.camera_shown(ref_clip[0]),
+             as_hms(ref_clip[1]["duration"])))
     for v, info in videos:
         if v == ref_clip[0]:
             continue
@@ -1262,11 +1316,11 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         a, b, st = position[v]
         if not drift_measured(st):
             print(T('  %-20s offset %s, clock drift not measured%s')
-                  % (os.path.basename(v), as_hms(a), ""))
+                  % (PROGRAM.camera_shown(v), as_hms(a), ""))
             continue
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points')
-              % (os.path.basename(v), as_hms(a),
+              % (PROGRAM.camera_shown(v), as_hms(a),
                  number_text(st.get("ppm", 0.0), 2, plus=True),
                  number_text(st.get("ppm_error", 0.0), 2),
                  number_text(st.get("spread_ms", 0.0)),
@@ -1297,20 +1351,37 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             hint = (hint + ", " if hint else "") + (
                 T("placed with its camera, by that camera's clock")
                 if st.get("by_clock_only") else T("placed with its camera"))
+        elif e.get("from_camera"):
+            # Its camera got no place: laid on its own it would stand on
+            # the axis beside a picture handed over nowhere.
+            print(as_bad("  " + no_place_message(name)))
+            continue
         else:
             try:
                 a, b, st = align_audio_to_video(
                     source, ref_clip[0], sample_points=int(max(20, min(
                         120, ref_clip[1]["duration"] / 30.0))),
-                    distance_s=30.0)
+                    distance_s=30.0,
+                    phase=phase_of_run(args, blocks or [source]))
             except Exception as ex:
                 print(T('  %-20s cannot be aligned: %s') % (name, ex))
                 continue
             hint = which_way_placed(st, hint)
-            if cannot_be_placed(st, file_timecode(blocks[0]) if blocks
-                                else None, camera_clocks):
+            own_tc = (file_timecode(blocks[0], ref_clip[1]["fps"])
+                      if blocks else None)
+            if cannot_be_placed(st, own_tc, camera_clocks):
                 print(as_bad("  " + no_place_message(name)))
                 continue
+            if st.get("unplaceable"):
+                # Every way came up empty and the clock answers: it
+                # stands there, never at the failed measurement.
+                at = recording_at_its_clock(own_tc, position, videos)
+                if at is None:
+                    print(as_bad("  " + no_base_message(name)))
+                    continue
+                a, b, st = at
+                hint = (hint + ", " if hint else "") + T(
+                    'sound not recognised, placed by its timecode')
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
                        # Which recording the sound came out of, kept
@@ -1345,7 +1416,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             continue
         a, b, _ = position[v]
         camera_areas.append(((0.0 - a) / b, (info["duration"] - a) / b,
-                             os.path.basename(v)))
+                             PROGRAM.camera_shown(v)))
     audio_areas = []
     for track in tracks:
         n = sample_count(track["source"]) / float(SR)
@@ -1688,6 +1759,38 @@ def finish_camera_file(source, info, target, items, args, fps,
         check_written_file(target, items, len(info["audio"]), args, fps)
 
 
+def camera_targets(videos, names, out, suffix=""):
+    """Where each camera's file is written: {video: (folder, file)}.
+
+    One answer for the run, which writes there, and for the window,
+    which asks before it writes over a file already lying at one.
+    *names* holds the new names under path_key; a camera without one
+    is named after its file. Without a name of its own it would write
+    over an original, and two of one name would write one file at once.
+    """
+    targets, taken = {}, set()
+    sources = set(os.path.abspath(v).lower() for v in videos)
+    # The ending is always hung on: without it a camera's new name can
+    # be its source's own stem, and beside it that is the source itself.
+    tail = suffix or "_audio"
+    for v in videos:
+        v = os.path.abspath(v)
+        stem = names.get(path_key(v)) or os.path.splitext(
+            os.path.basename(v))[0]
+        outdir = os.path.abspath(out) if out else os.path.dirname(v)
+        target = os.path.join(outdir, stem + tail + ".mov")
+        count = 1
+        while target.lower() in sources or target.lower() in taken:
+            count += 1
+            # Plain digits, the way every other name this program writes
+            # keeps them.
+            target = os.path.join(outdir, "%s%s_%d.mov"
+                                  % (stem, tail, count))
+        taken.add(target.lower())
+        targets[v] = (outdir, target)
+    return targets
+
+
 def written_before_here(folder, production):
     """What this production's own record says an earlier run wrote here.
 
@@ -1707,7 +1810,47 @@ def written_before_here(folder, production):
         print(T('  The record of earlier runs here cannot be read (%s), so '
                 'everything already in place is reported.') % e)
         return set()
-    return set(path_key(c["file"]) for c in written if c.get("file"))
+    # The record stands beside the lists it was written with, so a
+    # readable one vouches for all six production files of its name.
+    return (set(path_key(c["file"]) for c in written if c.get("file"))
+            | set(path_key(p) for p in production_files(folder,
+                                                        production)))
+
+
+def production_files(folder, production):
+    """The six files a run names after its production, in *folder*."""
+    stem = os.path.join(folder, safe_filename(production or 'Production'))
+    return [stem + end for end in ("_resolve.json", "_speakers.csv",
+                                   "_speakers.edl", "_cameracut.csv",
+                                   "_cameracut.edl", "_metrics.csv")]
+
+
+def foreign_targets(targets, ours):
+    """The targets a file is lying at that this production did not make.
+
+    The one rule for writing over: the window asks about these and the
+    run marks them, while our own earlier delivery goes quietly.
+    """
+    return [t for t in targets
+            if os.path.exists(t) and path_key(t) not in ours]
+
+
+def targets_to_ask(videos, names, out, production, suffix=""):
+    """What a run would write over that the window has to ask about first.
+
+    The camera files as camera_targets names them and the six production
+    files, beside the first camera where no folder is given, the way
+    the run places them; foreign_targets decides.
+    """
+    targets = [t for _o, t in camera_targets(videos, names, out,
+                                             suffix).values()]
+    folder = (os.path.abspath(out) if out else
+              os.path.dirname(os.path.abspath(videos[0])) if videos
+              else "")
+    if folder:
+        targets += production_files(folder, production)
+    return foreign_targets(targets, written_before_here(folder, production)
+                           if folder else set())
 
 
 def replacement_lines(targets, ours):
@@ -1719,11 +1862,11 @@ def replacement_lines(targets, ours):
     everyday case, and a mark there would teach people to skip marks.
     Anything else is marked and named whole.
     """
-    out = []
+    out, strange = [], set(foreign_targets(targets, ours))
     for target in targets:
         if not os.path.exists(target):
             continue
-        if path_key(target) in ours:
+        if target not in strange:
             out.append(T('  %s is there from an earlier run of this '
                          'production and is replaced.')
                        % os.path.basename(target))
@@ -1739,8 +1882,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
               segment_list=None):
     """Place the processed tracks onto the cameras.
 
-    Without *segment_list* the speakers are worked out here: the tracks
-    from auphonic.com are cleaner to measure than the raw ones.
+    Without *segment_list* the speakers are worked out here, off the raw
+    tracks on the axis; what auphonic.com returned is only the sound.
     """
     step_begin("cameras")
     sync = sync_only(args)
@@ -1813,7 +1956,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                          % safe_filename(os.path.basename(file_path))), gain,
             curve, channels=mix_width(own))
         print(T('  %s: %s mixed together')
-              % (os.path.basename(file_path),
+              % (PROGRAM.camera_shown(file_path),
                  " + ".join(track["name"] for track in own)))
 
     # Through path_key, both sides: a camera whose path arrives in
@@ -1821,35 +1964,14 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # given here, writes itself under the bare file name, and then
     # misses its measured offset, which is kept under the file written.
     output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
-    # The target names are settled before the threads start. Without a name
-    # of its own a camera would write over an original -- its own or another
-    # camera's, which a second thread may be reading at that moment -- and
-    # two cameras with the same file name would write the same file at once.
-    output_path, taken = {}, set()
+    # The target names are settled before the threads start, and by the
+    # function the window asks before it offers to write over them.
+    output_path = camera_targets([_v for _v, _i in videos], output_name,
+                                 args.out, args.suffix)
     # Up here rather than beside the tracks it also names: what a target
     # would replace is asked of the record lying in it.
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(videos[0][0]))
-    sources = set(os.path.abspath(_v).lower() for _v, _i in videos)
-    for _v, _info in videos:
-        _v = os.path.abspath(_v)
-        stem = output_name.get(path_key(_v)) or os.path.splitext(
-            os.path.basename(_v))[0]
-        outdir = os.path.abspath(args.out) if args.out else os.path.dirname(_v)
-        # The ending is always hung on. Without it the name a camera is
-        # given can be the source's own stem, and next to each video file
-        # that is the source's own name.
-        tail = args.suffix or "_audio"
-        target = os.path.join(outdir, stem + tail + ".mov")
-        count = 1
-        while target.lower() in sources or target.lower() in taken:
-            count += 1
-            # A file name: plain digits, the way every other name this
-            # program writes keeps them.
-            target = os.path.join(outdir, "%s%s_%d.mov"
-                                  % (stem, tail, count))
-        taken.add(target.lower())
-        output_path[_v] = (outdir, target)
     # Before the first camera is written, so a run about to walk over
     # somebody's file can still be stopped.
     for line in replacement_lines(
@@ -1884,7 +2006,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         """
         v = os.path.abspath(v)
         own = after_camera.get(v, [])
-        print(as_head(T('\nPROCESSING: %s') % os.path.basename(v)))
+        print(as_head(T('\nPROCESSING: %s') % PROGRAM.camera_shown(v)))
         items = []
         if own:
             items.append(('Mix ' + " + ".join(track["name"] for track in own)
@@ -2122,7 +2244,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     if tc_start is not None:
         print(T('  Timecode %s written as bext and iXML (reference: %s)')
               % (timecode_string(tc_start, tc_fps),
-                 os.path.basename(ref_clip[0])))
+                 PROGRAM.camera_shown(ref_clip[0])))
 
     if results:
         print(as_head(T('\nRESULT')))

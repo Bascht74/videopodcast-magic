@@ -1,4 +1,5 @@
 """Two talk at once: does the camera showing both come up?"""
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

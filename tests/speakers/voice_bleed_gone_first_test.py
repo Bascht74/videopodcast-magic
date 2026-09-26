@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """#80: does the bleed get taken out before the speech detection?"""
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

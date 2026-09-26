@@ -7,6 +7,7 @@ suggests, and how it reaches the command line. The fetching is held
 against a stand-in that notes the address instead of opening it, so
 what is checked is which files are asked for and which are left alone.
 """
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

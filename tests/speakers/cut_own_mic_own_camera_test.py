@@ -18,6 +18,7 @@ shot, and all three cameras carry shots instead of two.
 Nothing goes out: the run is given --without-auphonic and no key, so
 there is nothing to send with.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

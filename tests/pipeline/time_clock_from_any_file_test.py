@@ -10,8 +10,9 @@ it are the same moment. "The reference" is the control, "another file"
 and "the direction" the conversion, "several clocks" the choice between
 them, "nobody set a point" the window the interface fills in by itself,
 "nothing at all" the refusal, and "what counts as a clock" the
-gathering underneath.
+gathering underneath, where a file placed by its clock has no vote.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -172,10 +173,15 @@ print("\n7. What counts as a clock on the axis")
 VIDEOS = [(REF_NAME, REFERENCE_WITH_CLOCK[1]),
           ("GuestCam.mov", {"fps": 25.0, "tc": "10:00:00:00"}),
           ("NoClockCam.mov", {"fps": 25.0}),
-          ("NeverPlaced.mov", {"fps": 25.0, "tc": "10:00:00:00"})]
+          ("NeverPlaced.mov", {"fps": 25.0, "tc": "10:00:00:00"}),
+          ("ClockOnlyCam.mov", {"fps": 25.0, "tc": "10:00:07:00"})]
+# The last stands where its clock put it, off the Guest camera's: it
+# only says that camera's clock again, and the preview counts it not.
 PLACES = {REF_NAME: (0.0, 1.0, {"points": 0}),
           "GuestCam.mov": (-5.0, 1.0, {"points": 30}),
-          "NoClockCam.mov": (3.0, 1.0, {"points": 12})}
+          "NoClockCam.mov": (3.0, 1.0, {"points": 12}),
+          "ClockOnlyCam.mov": (-12.0, 1.0, {"points": 0, "unplaceable": True,
+                                             "by_clock_only": True})}
 found = vpm.clocks_on_the_axis(VIDEOS, PLACES, [], REFERENCE_WITH_CLOCK)
 names = [c["name"] for c in found]
 check("a camera with a clock and a measured place is offered",
@@ -187,6 +193,9 @@ check("a camera without a clock is not offered",
 check("a camera the axis never placed is not offered either",
       "NeverPlaced.mov" not in names,
       "got %s, wanted NeverPlaced.mov left out" % (names,))
+check("a camera placed by its clock has no vote of its own",
+      "ClockOnlyCam.mov" not in names,
+      "got %s, wanted ClockOnlyCam.mov left out" % (names,))
 check("and the reference is not among them -- it is the axis itself",
       REF_NAME not in names, "got %s, wanted %s left out" % (names, REF_NAME))
 guest = ([c for c in found if c["name"] == "GuestCam.mov"] or [{}])[0]
@@ -233,6 +242,13 @@ check("and it is read off the file as 36000.0 s past midnight",
 got, said = window(IN_TC, OUT_TC, REFERENCE, found)
 check("a point counted through a recording lands where its clock says",
       got == (15.0, 75.0), "%s, wanted (15.0, 75.0) -- %s" % (got, said[:80]))
+CLOCKED = [dict(TRACKS[0], st={"points": 0, "unplaceable": True,
+                               "by_clock_only": True})]
+found = vpm.clocks_on_the_axis([(REF_NAME, REFERENCE[1])],
+                               {REF_NAME: (0.0, 1.0, {"points": 0})},
+                               CLOCKED, REFERENCE)
+check("a recording placed by its clock has no vote either",
+      not found, "got %s, wanted none" % ([c["name"] for c in found],))
 shutil.rmtree(FOLDER, ignore_errors=True)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

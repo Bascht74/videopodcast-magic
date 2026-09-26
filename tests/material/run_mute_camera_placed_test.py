@@ -9,6 +9,7 @@ places it by that clock where its timecode says, and the log says
 nothing was found in its sound; the one with neither is still left out.
 Then the cameras alone: the mute one is handed over by its clock too.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
