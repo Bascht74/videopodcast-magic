@@ -884,19 +884,25 @@ def project_refused(state, where, report=None):
     A name another project's file in the same folder already has is
     refused: the file stays where it is and is written there (kept, as
     axis_file keeps an opened copy) until the name changes again, and
-    *report* is told once which project lies there.
+    *report* is told once which project lies there. One with no file on
+    the disk stays in the next free name, "(2)"; one opened is its own.
     """
     if state.pop("project_refused", None):
         state.pop("project_kept", None)
     fresh, old = where(), state.get("project_last")
+    mine = bool(old and os.path.isfile(old))
     try:
-        taken = bool(fresh and old and os.path.isfile(old)
-                     and os.path.isfile(fresh)
-                     and not os.path.samefile(old, fresh))
+        taken = bool(fresh and os.path.isfile(fresh) and (
+            not mine and (old or not state.get("project_from"))
+            or mine and not os.path.samefile(old, fresh)))
     except OSError:
         taken = False
     if not taken:
         return fresh
+    stem, ext, n = os.path.splitext(fresh) + (2,)
+    while not mine and os.path.exists("%s (%d)%s" % (stem, n, ext)):
+        n += 1
+    old = old if mine else "%s (%d)%s" % (stem, n, ext)
     if report and state.get("project_refused_said") != fresh:
         report(T('Project'), T('Another project lies in this folder under '
                                'that name, %s -- this one stays in %s.')
@@ -2827,15 +2833,15 @@ def gui():
         folder_show()
         state["resolve_json"] = None
         handover_follows(state, [c[0] for c in camera_lines], True)
-        preview_compute()
         finished_tracks_check()
+        preview_compute()
 
     def folder_delete():
         out_folder.set("")
         folder_show()
         state["resolve_json"] = None
         handover_follows(state, [c[0] for c in camera_lines], True)
-        finished_tracks_check()
+        in_turn(finished_tracks_check, preview_compute)
 
     # --- how loud the finished episode is. Why it stands here and what
     #     the entries mean is in loudness_field_build.

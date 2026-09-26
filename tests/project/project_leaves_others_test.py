@@ -18,7 +18,11 @@ project's file opened and saved, and the original is byte for byte what
 it was, the copy carries the save, and the title bar names the copy;
 last a rename onto the name of another project's file beside it: that
 file stays as it was, the renamed one is saved into its own, the window
-says once which project lies there, and a free name moves it again.
+says once which project lies there, and a free name moves it again;
+last a new production never saved, named like another project beside
+its material: that file stays byte for byte, the new one is saved under
+the next free name, and the window says so once; and once its file is
+deleted, named like a third project: that file stays byte for byte too.
 The window is driven from outside and the answer is read out of the
 files on the disk and the title bar, never out of a variable.
 """
@@ -110,6 +114,11 @@ PBC = os.path.join(FB, vpm.PROJECT_PREFIX + "Beta copy.json")
 # after it is refused: laid down only in the section that asks.
 PG = os.path.join(FB, vpm.PROJECT_PREFIX + "Gamma.json")
 PD = os.path.join(FB, vpm.PROJECT_PREFIX + "Delta.json")
+# Another production's file beside the new material, and where a
+# production never saved under that name goes instead.
+PE = os.path.join(FC, vpm.PROJECT_PREFIX + "Eta.json")
+PE2 = os.path.join(FC, vpm.PROJECT_PREFIX + "Eta (2).json")
+PT = os.path.join(FC, vpm.PROJECT_PREFIX + "Theta.json")
 for path, out, production in ((PA, FA, "Alpha"), (PB, FB, "Beta")):
     os.makedirs(out, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -141,6 +150,8 @@ vpm.say_dialog = say_dialog
 # Nothing may sit and wait for a click.
 QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
+# Several project files beside the material: none is picked.
+QtWidgets.QInputDialog.getItem = staticmethod(lambda *a, **k: ("", False))
 
 _show = QtWidgets.QWidget.show
 
@@ -430,6 +441,71 @@ def drive():
           % (os.path.basename(PD), os.path.isfile(PD),
              os.path.basename(PB), os.path.isfile(PB), seconds(took),
              everywhere()))
+
+    print("\n6. A production never saved, named like another project")
+    with open(PE, "w", encoding="utf-8") as f:
+        json.dump({"format": vpm.FILE_FORMAT, "version": "test",
+                   "timeline": [], "preset": "", "production": "Eta",
+                   "multitrack": False, "project_type": "cut",
+                   "out_folder": FC, "assignment": {},
+                   "files": [{"path": TAKEN, "kind": "audio"}]}, f)
+    with open(PE, "rb") as f:
+        before = f.read()
+    if closing is not None:
+        closing.trigger()
+    app.processEvents()
+    k = len(said)
+    name_field().setText("Eta")
+    if adding is not None:
+        adding.trigger()
+    waited_for(lambda: listed(FRESH), "the material of the new production")
+    if saving is not None:
+        saving.trigger()
+    took = waited_for(lambda: os.path.isfile(PE2)
+                      or production_of(PE) != "Eta", "the save")
+    with open(PE, "rb") as f:
+        after = f.read()
+    check("a production never saved leaves the other's file as it was",
+          after == before,
+          "%s: %d bytes before, %d after, naming %r (%s); %s"
+          % (os.path.basename(PE), len(before), len(after),
+             production_of(PE), seconds(took), everywhere()))
+    check("it is saved under the next free name instead",
+          production_of(PE2) == "Eta" and version_of(PE2) == vpm.VERSION,
+          "%s names %r, written by version %r (%s); %s"
+          % (os.path.basename(PE2), production_of(PE2), version_of(PE2),
+             seconds(took), everywhere()))
+    named = [text for put, text in said[k:]
+             if put == vpm.T('Project') and os.path.basename(PE) in text]
+    check("and the window says once which project lies there, and where",
+          len(named) == 1 and os.path.basename(PE2) in named[0],
+          "%d of the messages since the name, titled %s, name %s under "
+          "%r: %r" % (len(named), [put for put, _t in said[k:]],
+                      os.path.basename(PE), vpm.T('Project'), named))
+    # Its own file gone from the disk, then named like another project.
+    with open(PT, "w", encoding="utf-8") as f:
+        json.dump({"format": vpm.FILE_FORMAT, "version": "test",
+                   "timeline": [], "preset": "", "production": "Theta",
+                   "multitrack": False, "project_type": "cut",
+                   "out_folder": FC, "assignment": {},
+                   "files": [{"path": TAKEN, "kind": "audio"}]}, f)
+    with open(PT, "rb") as f:
+        before = f.read()
+    if os.path.isfile(PE2):
+        os.remove(PE2)
+    name_field().setText("Theta")
+    app.processEvents()
+    if saving is not None:
+        saving.trigger()
+    took = waited_for(lambda: production_of(PT) != "Theta"
+                      or len(projects_in(FC)) > 3, "the save")
+    with open(PT, "rb") as f:
+        after = f.read()
+    check("one whose file was deleted leaves the other's file as it was",
+          after == before,
+          "%s: %d bytes before, %d after, naming %r (%s); %s"
+          % (os.path.basename(PT), len(before), len(after),
+             production_of(PT), seconds(took), everywhere()))
     over["done"] = True
     app.quit()
 

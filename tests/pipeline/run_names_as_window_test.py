@@ -7,7 +7,8 @@ The log names the second camera "(2)" in the plan, on the time axis and
 where it is processed, and the handover is named after the production
 field, not after the folder the material lies in. The preflight names
 it so too: in the facts line for that camera and in the hint that the
-two files may be one recording twice.
+two files may be one recording twice. Last the window's own check, run
+in this process on the same files, says that hint with both apart too.
 """
 import os
 import sys
@@ -120,6 +121,38 @@ made = sorted(n for n in os.listdir(OUT) if n.endswith("_resolve.json"))
 check("the handover is named after the production field",
       made == ["Pilot_resolve.json"],
       "handover files %s, wanted ['Pilot_resolve.json']" % made)
+
+print("\n5. The window's own check, on the same two cameras")
+
+
+class Stub(object):
+    """What the check touches of the window: a line, a plan, a field."""
+
+    def __init__(self, value=None):
+        self.value = value
+
+    def get(self):
+        return self.value
+
+    def __getattr__(self, name):
+        return lambda *a, **k: None
+
+
+came = []
+_fill, kick_off = vpm.make_preflight(
+    {}, [(REC, "audio"), (CAMS[0], "video"), (CAMS[1], "video")], Stub(),
+    Stub(), lambda _signal, findings: came.append(findings), Stub(), None,
+    None, None, {}, set(), lambda: [], Stub(False), [], {})
+kick_off()
+waited = time.time()
+while not came and time.time() - waited < 120:
+    time.sleep(0.05)
+said = [b.text for b in (came[0] if came else ())
+        if b.field == vpm.T('Cameras')]
+check("the window's check names both apart in the hint as well",
+      TWINS.strip() in [x.strip() for x in said],
+      "after %.1f s the window's check says %r, wanted %r" % (
+          time.time() - waited, said, TWINS.strip()))
 
 shutil.rmtree(D, ignore_errors=True)
 
