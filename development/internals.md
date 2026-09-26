@@ -77,7 +77,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **980** -- the command line a run is given: written out of
+* `orders/` **999** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
@@ -90,7 +90,7 @@ figure of the day is that command, not this paragraph**:
 * `herald/` **841** -- the progress bar, the stages, the console and log
   redirection, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
-* `pipeline/` **606** -- the plan: the camera audio out of the
+* `pipeline/` **644** -- the plan: the camera audio out of the
   pictures, the names and the plan the time base runs
 * `project/` **592** -- the program's own project file: writing
   it, reading it back, finding it, offering it, and what becomes of
