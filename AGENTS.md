@@ -127,8 +127,8 @@ mkdir -p /tmp/snap && cp -R videopodcast_magic /tmp/snap/vpm_sNN
 ## Rules that are not negotiable
 
 * **The Auphonic API key never goes into a script, a document or a
-  command line.** macOS Keychain or Windows Registry; the project file
-  strips `--auphonic-api-key`. One file holds it for one call, its name
+  command line.** macOS Keychain or Windows Registry; the window hands
+  it to its run beside the line. One file holds it for one call, its name
   unpredictable (`mkstemp`), removed on every path. What shuts that file
   is not the same on every system.
 * **The program never uploads to auphonic.com on its own.**

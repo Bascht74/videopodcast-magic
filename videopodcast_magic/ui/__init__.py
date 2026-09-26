@@ -1839,8 +1839,12 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         -1.0 if share is None else float(share))
     sys.stdout = sys.stderr = Redirect(old_out, write)
     code = 1
+    # The window's own start line comes back afterwards: a restart
+    # must not find a run's line in its place.
+    old_argv = sys.argv
     try:
-        sys.argv = argv
+        sys.argv = list(argv)
+        PROGRAM.RUN_KEY = getattr(argv, "key", "")
         code = main()
     except SystemExit as e:
         code = e.code if isinstance(e.code, int) else 1
@@ -1851,6 +1855,7 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         print(as_bad(T('\nStopped: %s') % e))
     finally:
         sys.stdout, sys.stderr = old_out, old_err
+        sys.argv, PROGRAM.RUN_KEY = old_argv, ""
         PROGRAM.OUTPUT_SINK = None
         PROGRAM.ASK_SINK = PROGRAM.PROGRESS_SINK = None
     # However it ended, nothing of it is still running.

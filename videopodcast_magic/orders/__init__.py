@@ -114,6 +114,19 @@ def slider_argv(values):
     return out, bad
 
 
+class RunLine(list):
+    """A window run's command line, with its key carried beside it.
+
+    Never on it: a line stands in the process list, and a restart can
+    start it again.
+    """
+
+    def __init__(self, words, key=""):
+        """The words of the line, and the key that goes with it."""
+        list.__init__(self, words)
+        self.key = key
+
+
 def run_argv(values, assignment_file_path=""):
     """Build the command line from what the interface holds.
 
@@ -121,7 +134,7 @@ def run_argv(values, assignment_file_path=""):
 
     Returns (argv, plan, messages)
 
-      argv      the command line, or None if something is missing
+      argv      the command line, its key in .key, or None if missing
       plan      what goes into the assignment file, or None
       messages  list of (kind, title, text, button) in the order the
                 interface should present them. "error" means show and
@@ -382,7 +395,7 @@ def run_argv(values, assignment_file_path=""):
             return error(
                 T('Preset missing'),
                 T('Load Presets and pick one, or leave the API Key empty.'))
-        argv += ["--auphonic-api-key", key, "--auphonic-preset", selected]
+        argv += ["--auphonic-preset", selected]
         # Only with a key: without auphonic.com there is nobody to
         # transcribe, and the switch would promise what cannot happen.
     else:
@@ -391,7 +404,7 @@ def run_argv(values, assignment_file_path=""):
         # Without the switch one recording would go and ask the
         # credential store for the key the window had just set aside.
         argv += ["--without-auphonic"]
-    return argv, plan, messages
+    return RunLine(argv, key), plan, messages
 
 
 def camera_label_argv(files, off=()):

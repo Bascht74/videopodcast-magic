@@ -271,12 +271,13 @@ check("defaults for the other sliders",
             if "--" + k not in a] or "none"))
 check("--no-wide-edges", "--no-wide-edges" in a,
         "9. wanted --no-wide-edges on the line, the line is %s" % shown(a))
-check("key and preset",
-        a[a.index("--auphonic-api-key") + 1] == "secret"
-        and a[a.index("--auphonic-preset") + 1] == "Preset 1",
-        "9. key %r and preset %r, wanted 'secret' and 'Preset 1'"
-        % (a[a.index("--auphonic-api-key") + 1],
-           a[a.index("--auphonic-preset") + 1]))
+check("the preset on the line, the key beside it and not on it",
+        a[a.index("--auphonic-preset") + 1] == "Preset 1"
+        and "secret" not in a and getattr(a, "key", None) == "secret",
+        "9. preset %r, the key on the line %s, beside it %r, wanted "
+        "'Preset 1', False and 'secret'"
+        % (a[a.index("--auphonic-preset") + 1], "secret" in a,
+           getattr(a, "key", None)))
 check("--auphonic-done",
         a[a.index("--auphonic-done") + 1] == "/out/auphonic-tracks",
         "9. --auphonic-done carries %r, wanted '/out/auphonic-tracks'"
