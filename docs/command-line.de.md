@@ -67,7 +67,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |
 | `--fps ZAHL` | anzunehmende Bildrate, wenn ffprobe eine falsche meldet (aus der Videodatei) |
-| `--lufs ZAHL` | Lautheitsziel in LUFS für die Summe der Sprecherspuren; tiefer ist leiser, die üblichen Ziele liegen zwischen -23 und -14. Ohne ihn wird nichts angepasst: der Ton wird aus den Quelldateien übernommen, wie er ist (keine) |
+| `--lufs ZAHL` | Lautheitsziel in LUFS für die Summe der Sprecherspuren; tiefer ist leiser, die üblichen Ziele liegen zwischen -23 und -14. `--lufs source` passt nichts an: der Ton wird so aus den Quelldateien übernommen, wie er ist -- im Fenster heißt das **Aus Quelldateien übernehmen** (-16, wie im Fenster) |
 | `--speech-language CODE` | Sprachkennung der Tonspuren, ISO 639-2/B: `ger`, `eng`. Eine andere Schreibweise davon, etwa `de` oder `deu`, wird zu dieser Kennung, wie im Fenster; ffmpeg würde sie stillschweigend wegwerfen (keine) |
 | `--speech-language-camera CODE` | dasselbe für die Kameraspur (keine: nur so unterscheidet der QuickTime-Player die beiden Einträge im Tonmenü) |
 | `--speakers-local DATEI` | diese Aufnahme auf diesem Rechner nach Stimmen trennen und danach schneiden (die Aufnahme, die der Lauf selbst wählt) |
