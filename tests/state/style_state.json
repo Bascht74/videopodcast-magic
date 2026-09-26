@@ -24,7 +24,6 @@
   "cameras_with_a_speaker": [1, 1266],
   "cameras_with_own_audio": [1, 1472],
   "chain_fill_in": [1, 489],
-  "distribute_tracks_to_cameras": [1, 1853],
   "every_audio_block": [1, 1375],
   "group_recording_parts": [2, 441],
   "guess_production_name": [1, 685],

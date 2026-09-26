@@ -1,6 +1,6 @@
 # The test suite
 
-399 tests against the program in `../videopodcast_magic/`. Every one of them stands
+400 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -248,7 +248,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-399 tests. The name is the one a red line carries, and beside it the
+400 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -335,6 +335,7 @@ it is green.
 | `time_clock_from_any_file` | A Timecode is counted from the axis, not from the reference's clock. |
 | `time_clock_read_at_rate` | What a file's clock says is read at that file's own rate. |
 | `time_clock_track_first` | A file's clock is read off its track before the file's own level. |
+| `time_colour_own_camera` | Each camera's colour row in the metrics is measured on its own file. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
 | `time_drop_label_kept` | A timecode written back stays on the clock it was read from. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
@@ -753,7 +754,7 @@ the source, the texts and the documents as a whole.
 | `speakers/` | `cut_amounts_grouped`, `cut_own_mic_own_camera`, `run_dry_reports_voices`, `table_back_to_one_name`, `table_row_per_voice`, `voice_answer_kept`, `voice_bleed_gone_first`, `voice_both_splits_stand`, `voice_both_ways_agree`, `voice_close_mics_mixed`, `voice_counts_grouped`, `voice_failed_read_named`, `voice_mhm_is_speech`, `voice_mic_reaches_cut`, `voice_name_is_one_person`, `voice_names_when_sure`, `voice_questions_rank`, `voice_raw_times_kept`, `voice_reason_reaches_log`, `voice_source_travels`, `voice_split_hears_two`, `voice_split_mends_itself`, `voice_split_names_fault`, `voice_tracks_read_once`, `voice_turns_found`, `window_amounts_grouped`, `window_block_misfit_kept`, `window_hears_while_split`, `window_note_names_kind`, `window_note_names_way`, `window_note_reason_true`, `window_speakers_as_run` |
 | `speech/` | `voice_amounts_grouped`, `voice_cue_fits_two_lines`, `voice_every_word_placed`, `voice_language_arrives`, `voice_note_translated`, `voice_words_intact`, `window_words_caught_up` |
 | `stowage/` | `run_choice_kept` |
-| `timebase/` | `time_camera_drift_clear`, `time_lost_end_named` |
+| `timebase/` | `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named` |
 | `timecode/` | `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_over_midnight` |
 | `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
