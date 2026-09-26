@@ -634,10 +634,13 @@ done
 # between a fault and a crowd. A test that is red beside eleven others
 # and green by itself has found nothing, but it has proved nothing
 # either, so it lands under "unsteady" rather than being counted green.
+# Not a test the time limit killed: run again it cost a second 300 s,
+# and on 26.9.2026 those reruns made most of the builder's red runs.
 ALONE=${ALONE:-1}
 if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
   for t in $TESTS; do
     case "$(head -1 "$OUT/$t")" in RED*) ;; *) continue ;; esac
+    grep -q "^      killed by the .* time limit" "$OUT/$t" && continue
     was=$(cat "$OUT/$t")
     began=$SECONDS
     printf '  %s  again, alone: %-24s' "$(date '+%H:%M:%S')" "$t"
