@@ -1020,20 +1020,59 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
              "start_s": choose_zero_point(audio_origin, camera_origin,
                                           length)}, "")
 
+def window_moved_since(d, in_point, out_point):
+    """Why the run's handover *d* no longer fits these marks, else "".
+
+    It names the window it was made with (in_point, out_point); a mark
+    set, cleared or moved since then needs a new run, and the reason
+    says so and why. One without those names answers "".
+    """
+    if "in_point" not in d and "out_point" not in d:
+        return ""
+    fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
+
+    def same(now, then):
+        """Whether two marks name one point: as written, or as read."""
+        now, then = (now or "").strip(), (then or "").strip()
+        if now == then:
+            return True
+        try:
+            a, b = parse_time_point(now, fps), parse_time_point(then, fps)
+        except ValueError:
+            return False
+        return (None not in (a[0], b[0]) and a[1] == b[1]
+                and abs(a[0] - b[0]) < 0.001)
+
+    for key, now, empty in (("in_point", in_point, T('Beginning')),
+                            ("out_point", out_point, T('End'))):
+        if not same(now, d.get(key)):
+            text = (T('In point has changed since the last run: %s then, '
+                      '%s now. The cut and the sound inside the videos '
+                      'still belong to the old window, so Resolve would not '
+                      'get what the marks say now -- press Start again.')
+                    if key == "in_point" else
+                    T('Out point has changed since the last run: %s then, '
+                      '%s now. The cut and the sound inside the videos '
+                      'still belong to the old window, so Resolve would not '
+                      'get what the marks say now -- press Start again.'))
+            return text % ((d.get(key) or "").strip() or empty,
+                           (now or "").strip() or empty)
+    return ""
+
+
 def apply_time_window(d, in_point, out_point):
     """Apply the In point and the Out point to an already written handover.
 
     The speaker times count from the start of the window in force at the
     time; start_s says where that was, so a new setting converts without
     measuring again. With a complaint the handover comes back untrimmed.
-    A point the run already cut to (its in_point, out_point) is not
-    applied again; a relative one counts from marks_zero_s, else 0.
+    A run's handover is never cut again: window_moved_since answers for
+    it. A relative point counts from marks_zero_s, else 0.
     """
-    # Again, "+0:55" would move a run's cut by another 55 seconds.
-    if (in_point or "").strip() == (d.get("in_point") or "").strip():
-        in_point = ""
-    if (out_point or "").strip() == (d.get("out_point") or "").strip():
-        out_point = ""
+    # The run cut it already: again, "+0:55" would move its cut by another
+    # 55 s, and a moved mark would reach the preview but never Resolve.
+    if "in_point" in d or "out_point" in d:
+        return d, window_moved_since(d, in_point, out_point)
     if not (in_point or "").strip() and not (out_point or "").strip():
         return d, ""
     length = float(d.get("length_s") or 0.0)
@@ -3119,25 +3158,19 @@ def refresh_cut_list(d, file_path):
     """
     folder = os.path.dirname(os.path.abspath(file_path))
     project = _read_project_file(folder)
+    # The same rule as the window's button, before anything else: a mark
+    # the project file does not name counts as the one the run had.
+    moved = project and window_moved_since(
+        d, project.get("in_point", d.get("in_point")),
+        project.get("out_point", d.get("out_point")))
+    if moved:
+        return moved
     speakers = [(x.get("name") or "", [tuple(v) for v in
                                        (x.get("sections") or [])])
                 for x in (d.get("speakers") or [])]
     if not speakers or not project or d.get("start_s") is None:
         return None
     fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
-
-    # Does the project file now hold a different time window from the handover?
-    # Then the audio files no longer match it. Both ends come from the file's
-    # own two keys, written in the same breath as the rest of the settings.
-    def tc_value(key):
-        raw = project.get(key)
-        if not raw:
-            return None
-        try:
-            return parse_timecode(raw, fps)
-        except Exception:
-            return None
-    in_point, out_point = tc_value("in_point"), tc_value("out_point")
 
     def then(key):
         """The window the existing files were made with, in seconds."""
@@ -3150,26 +3183,11 @@ def refresh_cut_list(d, file_path):
             return None
 
     made_in, made_out = then("in_point"), then("out_point")
-    # Both complaints hold the setting against the window the handover
-    # was made with, and stay silent where it carries none. Only the
-    # complaints: the cut list is worked out again either way.
-    if (in_point is not None and made_in is not None
-            and abs(in_point - made_in) > 0.5):
-        return (T('In point is now %s, but the existing files belong to %s.\n '
-                  ' The audio in the videos is cut to the old window -- '
-                  'press Start\n  above again.')
-                % (timecode_string(in_point, fps),
-                   timecode_string(made_in, fps)))
     # The old window's length, and only where both its ends are written
     # down. length_s is no substitute: that is the axis, the whole of
     # the material, and an unchanged window would read minutes short.
     length = ((made_out - made_in)
               if made_in is not None and made_out is not None else 0.0)
-    if (in_point is not None and out_point is not None
-            and length and abs((out_point - in_point) - length) > 0.5):
-        return (T('Out point is now %s; the window would be %s long, the '
-                  'existing\n  files are %s -- press Start above again.') % (timecode_string(out_point, fps), as_hms(out_point - in_point),
-                            as_hms(length)))
 
     print(T('\n  REFRESH THE CUT LIST'))
     # The sliders come from the project file, and a value typed on the

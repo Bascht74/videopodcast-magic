@@ -1142,8 +1142,11 @@ def resolve_button_say(state, env_curve, button):
         return
     js = state.get("resolve_json")
     what_for = resolve_what_for(state.get("project_type") == "sync")
+    moved = js and handover_marks_moved(state, js)
     if js and resolve_installed():
-        reason_set(env_curve, button, True, "", what_for)
+        # Marks moved since the run: the command line would refuse the
+        # same, so the button says it before anything is pressed.
+        reason_set(env_curve, button, not moved, moved, what_for)
         button.setText(T('Create Resolve project'))
     else:
         reason_set(env_curve, button, False,
@@ -1152,6 +1155,27 @@ def resolve_button_say(state, env_curve, button):
                    if resolve_installed() else
                    T('The Resolve interface is not where it should be.'),
                    what_for)
+
+
+def handover_marks_moved(state, js):
+    """Why the handover *js* no longer fits the marks set now, else "".
+
+    Only its window is read, and once per state of the file: the marks
+    ask again on every keystroke. The rule is window_moved_since's.
+    """
+    mark = PROGRAM.handover_mark(js)
+    kept = state.get("handover_window")
+    if not kept or kept[0] != mark:
+        try:
+            with open(js, encoding="utf-8") as f:
+                d = PROGRAM.json.load(f)
+        except (OSError, ValueError):
+            d = {}
+        kept = state["handover_window"] = (mark, dict(
+            (k, d[k]) for k in ("in_point", "out_point", "fps",
+                                "fps_measured") if k in d))
+    return PROGRAM.window_moved_since(kept[1], state.get("in_point"),
+                                      state.get("out_point"))
 
 
 def handover_cameras_of(file_path):

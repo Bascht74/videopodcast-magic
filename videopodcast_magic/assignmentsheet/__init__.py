@@ -202,6 +202,8 @@ class AssignmentSheet(QtWidgets.QScrollArea):
         self.state["in_point"] = self.model.in_point.get()
         self.state["out_point"] = self.model.out_point.get()
         self.player.window_draw()
+        # A mark moved since the run greys "Create Resolve project".
+        (self.state.get("resolve_button_check") or (lambda: None))()
 
     def to_limit(self, var):
         """Go to *var*'s point, loading the file that holds it, or say why."""
