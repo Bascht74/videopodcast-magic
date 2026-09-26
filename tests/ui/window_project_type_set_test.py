@@ -16,7 +16,8 @@ Multitrack tick offers such a camera the full mix instead, a typed
 name staying; the type goes round through the project file; a file from
 before the question reads as cut and asks nothing, and the full-mix
 name it saved for such a camera gives way to the stem while a name
-typed into it stays; and the Resolve
+typed into it stays; one saved before the answer opens unanswered,
+Start and Dry run grey, and asks on the assignment tab; and the Resolve
 button's tip names the cut only where there is one. The question's own
 box is never opened here -- the hook stands in for it, so its wording and
 buttons are not judged; and the suite runs without the separation, so
@@ -98,6 +99,7 @@ one, two = clip("B_camera.mov"), clip("C_camera.mov")
 elsewhere = tempfile.mkdtemp(prefix="vpm_type_older_")
 older = os.path.join(elsewhere, "videopodcast-magic_Older.json")
 saved = os.path.join(elsewhere, "videopodcast-magic_Saved.json")
+unanswered = os.path.join(elsewhere, "videopodcast-magic_Unanswered.json")
 with open(older, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "version": "test",
                "timeline": [],
@@ -110,6 +112,15 @@ with open(older, "w", encoding="utf-8") as f:
                # a suggestion nobody touched as well as a typed name.
                "assignment": {"video:" + one: "B_camera_Audio-Full-Mix",
                               "video:" + two: "Kept_name"}}, f)
+# Saved before the type was answered: the key is there, and empty.
+with open(unanswered, "w", encoding="utf-8") as f:
+    json.dump({"format": vpm.FILE_FORMAT, "version": "test",
+               "timeline": [], "project_type": "",
+               "files": [{"path": audio, "kind": "audio"},
+                         {"path": one, "kind": "video"},
+                         {"path": two, "kind": "video"}],
+               "out_folder": "", "production": "Unanswered",
+               "multitrack": False, "preset": ""}, f)
 # Which file the Open project dialog answers with: set per step.
 opening = [older]
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
@@ -572,6 +583,32 @@ def step():
             check("and under cut it speaks of the cut",
                   vpm.resolve_what_for(False).startswith(vpm.T('Cut, EDL')),
                   repr(vpm.resolve_what_for(False)))
+            # From the first tab, so the open itself switches nothing.
+            tab_to(0)
+            answer[0] = "cut"
+            opening[0] = unanswered
+            button("Open project").click()
+            wait_for(lambda: name_field().text() == "Unanswered", step,
+                     "the unanswered project")
+            return
+        elif i == 6:
+            print("\n9. A file saved before the answer is still unanswered")
+            check("a project saved with no type reopens with none",
+                  type_box().currentData() == "",
+                  "the field holds %r" % type_box().currentData())
+            check("and opening it asks nothing yet",
+                  len(asked) == 2, "asked %d times in all" % len(asked))
+            check("while it is unanswered neither Start nor Dry run goes",
+                  not button("Start").isEnabled()
+                  and not button("Dry run").isEnabled(),
+                  "Start enabled %r, Dry run enabled %r"
+                  % (button("Start").isEnabled(),
+                     button("Dry run").isEnabled()))
+            tab_to(1)
+            check("switching to the assignment tab then asks",
+                  len(asked) == 3 and type_box().currentData() == "cut",
+                  "asked %d times in all, the field holds %r"
+                  % (len(asked), type_box().currentData()))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc()

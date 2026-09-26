@@ -479,10 +479,10 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         project_new()
         state["project_from"] = file_path
         window.setWindowTitle(PROGRAM.window_title(file_path))
-        # Files from before the question were all cuts by speaker: read
-        # as that, and nothing asked. Before the files, so the tables
-        # are built once, in the shape the type asks for.
-        project_type.set(d.get("project_type") or "cut")
+        # A file without the key predates the question and was a cut; an
+        # empty one was saved before the answer, so the assignment tab
+        # still asks. Before the files: the tables take the type's shape.
+        project_type.set(d.get("project_type", "cut") or "")
         # What each recording's sound holds, by its first block, before
         # the files too: the axis they start is measured by it. A file
         # written before the choice holds none, and so holds speech.
