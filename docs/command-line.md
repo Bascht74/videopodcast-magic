@@ -68,7 +68,7 @@ hint. Without a key the multitrack run stops there.*
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
 | `--fps NUMBER` | frame rate to assume, if ffprobe reports a wrong one (from the video file) |
 | `--lufs NUMBER` | loudness target in LUFS for the sum of the speaker tracks; lower is quieter, the usual targets lie between -23 and -14. Without it nothing is adjusted: the sound is taken from the source files as it is (none) |
-| `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Careful, ffmpeg drops `deu` silently (none) |
+| `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Another spelling of one of those, such as `de` or `deu`, becomes that tag, as in the window; ffmpeg would drop it silently (none) |
 | `--speech-language-camera CODE` | the same for the camera track (none: that is what tells the two apart in the QuickTime audio menu) |
 | `--speakers-local FILE` | take that recording apart by voice on this machine, and cut by the result (the recording the run picks itself) |
 | `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one; not used where its recording has changed since or it came from another model (none) |

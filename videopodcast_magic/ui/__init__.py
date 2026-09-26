@@ -176,41 +176,16 @@ def app_icon(QtGui):
 
 #-------------------------------------------------------------- Interface
 
-# What the language field offers -- only languages with both codes,
-# since an unknown recognition code would promise a transcript that
-# cannot come. SPEECH_CODES, in the program, holds the second code.
-SPOKEN_LANGUAGES = (
-    ("ger", "German"), ("eng", "English"), ("fra", "French"),
-    ("spa", "Spanish"), ("ita", "Italian"), ("nld", "Dutch"),
-    ("por", "Portuguese"), ("pol", "Polish"), ("rus", "Russian"),
-    ("swe", "Swedish"), ("dan", "Danish"), ("nor", "Norwegian"),
-    ("fin", "Finnish"), ("ces", "Czech"), ("tur", "Turkish"),
-    ("ell", "Greek"), ("hun", "Hungarian"), ("ron", "Romanian"),
-    ("ukr", "Ukrainian"), ("cat", "Catalan"), ("ara", "Arabic"),
-    ("heb", "Hebrew"), ("jpn", "Japanese"), ("zho", "Chinese"),
-    ("kor", "Korean"),
-)
+# What the language field offers stands in the speech piece, beside
+# spoken_language_offered: the command line takes --speech-language
+# through that too, and the command line reads no window.
+SPOKEN_LANGUAGES = PROGRAM.SPOKEN_LANGUAGES
 
 
 def spoken_language_choices():
     """Return [(tag, name)] for the language field, by name."""
     return sorted(((tag, T(name)) for tag, name in SPOKEN_LANGUAGES),
                   key=lambda x: x[1].lower())
-
-
-def spoken_language_offered(tag):
-    """Return the tag the language field offers for *tag*, or *tag* as is.
-
-    A project file may name the language another way -- "de", "deu" --
-    and the field, which holds only its own tags, fell back to "not
-    set", so the next save wrote the language out of the project.
-    """
-    tag = (tag or "").strip()
-    code = SPEECH_CODES.get(tag.lower(), tag.lower())
-    for offered, _name in SPOKEN_LANGUAGES:
-        if SPEECH_CODES.get(offered) == code:
-            return offered
-    return tag
 
 
 def language_of_system():

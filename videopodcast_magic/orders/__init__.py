@@ -544,10 +544,12 @@ def build_argument_parser():
                          "(default: from the video file)")
     ap.add_argument("--speech-language", dest="speech_language",
                     default="", metavar="CODE",
+                    type=PROGRAM.spoken_language_offered,
                     help="language tag of the audio tracks, three letters "
-                         "per ISO 639-2/B -- ger, eng, fra. Careful: ffmpeg "
-                         "drops 'deu' silently. Empty means no tag. "
-                         "(default: none)")
+                         "per ISO 639-2/B -- ger, eng, fra. Another spelling "
+                         "of one of those (de, deu) becomes that tag, as in "
+                         "the window; ffmpeg would drop it silently. Empty "
+                         "means no tag. (default: none)")
     ap.add_argument("--speakers-local", dest="speakers_local", default=None,
                     metavar="FILE",
                     help="take exactly that recording apart by voice, "
@@ -786,6 +788,7 @@ def build_argument_parser():
                          "that file.")
     ap.add_argument("--speech-language-camera", dest="speech_language_camera",
                     default="", metavar="CODE",
+                    type=PROGRAM.spoken_language_offered,
                     help="the same for the camera track. Empty means no tag "
                          "-- that is what makes the QuickTime player tell "
                          "the two entries in its audio menu apart at all "

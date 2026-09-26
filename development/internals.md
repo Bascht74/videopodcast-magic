@@ -22,10 +22,10 @@ loader, the version check, the run, the values more than one piece
 reads, and the catalogue.
 
 What is in them, largest first, every folder of the program on the list
-and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
+and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4559** -- the window and everything it shows, asks or offers,
+* `ui/` **4534** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3776** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -53,7 +53,7 @@ figure of the day is that command, not this paragraph**:
 * `preflight/` **1728** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
-* `speech/` **1109** -- what is said and when, and what is written down
+* `speech/` **1142** -- what is said and when, and what is written down
   from it
 * `setup/` **1091** -- finding ffmpeg, installing a missing module,
   keeping the key
@@ -63,7 +63,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **865** -- the picture and the shortcut the first start
   lays down
-* `orders/` **942** -- the command line a run is given: written out of
+* `orders/` **945** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
@@ -544,7 +544,10 @@ did go: `only_reading`, `count_process_starts`, `safe_filename` and
 **The last three names to leave, and the two that could not.**
 `language_of_system`, `spoken_language_choices` and `SPOKEN_LANGUAGES`
 went into `ui/` on 6.9.2026 -- counted with `ast` over the way in *and*
-all 34 pieces, uses and not mentions, `ui/` was their only reader. Two
+all 34 pieces, uses and not mentions, `ui/` was their only reader.
+`SPOKEN_LANGUAGES` moved on into `speech/` on 26.9.2026, beside
+`spoken_language_offered`: the command line takes `--speech-language`
+through that helper too, and the command line reads no window. Two
 that were meant to go with them stayed, and both refusals were measured
 in a child process with `PYTHONDONTWRITEBYTECODE=1`, the probe calling
 `load()` and `window()`:

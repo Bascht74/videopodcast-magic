@@ -8,8 +8,8 @@ other two are watched, and it sits in the caller rather than in the
 function it calls. In order: the file is found, read and given back
 whole; a line is built out of it and the parser takes every switch on
 it; the cut numbers and the cut rules; the five kinds a clip
-can have; the assignment; the time window, the wide shot at the edges
-and the loudness; and last the census -- no setting the window writes
+can have; the assignment; the time window, the wide shot at the edges,
+the loudness and a spoken language typed another way; and last the census -- no setting the window writes
 stops half way, and the five that carry no switch are named.
 """
 PLATFORM_BOUND = True
@@ -322,7 +322,7 @@ check("and in it every speaker stands on the camera the file gave them",
          sorted((k, os.path.basename(v or "")) for k, v in pairs.items()),
          sorted((k, os.path.basename(v)) for k, v in WHO_ON_WHAT.items())))
 
-print("\n5. The time window, the edges and the loudness")
+print("\n5. The time window, the edges, the loudness and the language")
 check("In point and Out point reach the run as the file has them",
       got("in_point") == IN_POINT and got("out_point") == OUT_POINT,
       "in %r wanted %r, out %r wanted %r"
@@ -340,6 +340,26 @@ check("the edges are only taken away where the file turned them off",
       % (got("no_wide_edges"), getattr(edges_ns, "no_wide_edges", None)))
 check("the loudness reaches the run as the file has it",
       got("lufs") == LUFS, "--lufs is %r, wanted %r" % (got("lufs"), LUFS))
+# The window takes "de" or "deu" out of a project file as the tag its
+# field offers. Typed on the command line the same spelling reached
+# ffmpeg as it stood, ffmpeg dropped it, and the track went out untagged.
+typed = {}
+for spelling in ("de", "deu", " DE "):
+    typed[spelling] = read_back(["videopodcast_magic.py",
+                                 "--speech-language", spelling,
+                                 "--speech-language-camera", spelling])
+check("--speech-language in another spelling reaches the run as ger",
+      all(getattr(t[0], "speech_language", None) == "ger"
+          for t in typed.values()),
+      "; ".join("%r gives %r %s" % (k, getattr(t[0], "speech_language",
+                                                None), t[2])
+                for k, t in sorted(typed.items())) + ", wanted 'ger' each")
+check("--speech-language-camera in another spelling reaches it as ger",
+      all(getattr(t[0], "speech_language_camera", None) == "ger"
+          for t in typed.values()),
+      "; ".join("%r gives %r %s" % (k, getattr(
+          t[0], "speech_language_camera", None), t[2])
+                for k, t in sorted(typed.items())) + ", wanted 'ger' each")
 
 print("\n6. Nothing the window writes stops half way")
 # Every setting the window puts into the project file, taken from the
