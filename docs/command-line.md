@@ -38,6 +38,8 @@ hint. Without a key the multitrack run stops there.*
 | `--no-follow-ups` | do not look for numbered continuation files (it looks for them) |
 | `--together FILE ...` | these files are one recording, in this order; repeatable. The run sorts the other files by name and leaves the group untouched: one block at the first of its names |
 | `--apart FILE` | this block stands on its own, whatever its name says: it is not joined to a recording, and in the plan it stays a track of its own even where it gets the same name as another block of the same recorder; repeatable |
+| `--sound WHAT` | what the sound of every recording holds: `speech` places it by its loudness alone, and a recording that shares nothing with the cameras is refused; `mixed` means music or a mix lies under the voices, and where the loudness finds nothing the phase may place it. `--project-type sync` always takes `mixed`. In the window the field **In the sound** (`speech`) |
+| `--sound-of FILE WHAT` | the same for one recording, named by any of its files; beats `--sound`; repeatable. The window sends it for every recording set to **Mixed** (none) |
 | `--no-single-tracks` | only the mix into the video, not the recordings beside it  `[simple path only]` |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |

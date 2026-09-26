@@ -183,16 +183,28 @@ speakers to the phone, and sound needs 4 m / 343 m/s = 11.7 ms for
 that. Whoever takes those 12 ms out moves the video wrong by the
 travel time through the room.
 
-`looks_like_music()` decides none of this. Do not read it as if it
-did. Settling it on the share of the syllable band, 2 to 8 Hz under
-0.20, did not separate cleanly in the runs so far. A finished mix
-landed at 26 %, speech at 31 to 32 %. The value goes in the log and
-nowhere else.
-
 One recording, one room, one phone. The offset is confirmed, the way
 to it is not. Whether the phase way also beats the envelope on speech
 has never been tried. It runs as a fallback, after the envelope has
 already given up.
+
+Nothing in the program decides whether a recording is music. A guess,
+`looks_like_music()`, stood beside the phase way for a while, settled
+on the share of the syllable band (2 to 8 Hz under 0.20); its value
+went into the log and decided nothing. It was measured on 26.9.2026 on
+freely licensed material, 82 pairs of 2 to 6 minutes, as the rule
+"refuse a phase answer where it sounds like music": it separated
+nothing. It called the one spoken radio play music and all four pieces
+of music not music, and a jingle under 20 s is never music to it. So
+it is gone, and a person says it instead: every recording carries **In
+the sound**, **Speech** or **Mixed**, and `--sound` and `--sound-of`
+say the same on the command line. The phase way runs only where
+somebody said **Mixed**, and always under **Sync only**.
+
+What did separate on that material was the sharpness itself: foreign
+pairs reached 5.3 to 9.9, a shared music bed 16.8, right answers
+through a room 29.9 to 95.2 -- except one 15 s jingle, right at 9.9.
+The threshold of 8 was not moved on that; it stays a floor.
 
 ## What one bad point does to the drift
 

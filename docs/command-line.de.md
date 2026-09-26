@@ -38,6 +38,8 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--no-follow-ups` | nicht nach nummerierten Fortsetzungsdateien suchen (es sucht danach) |
 | `--together DATEI ...` | diese Dateien sind eine Aufnahme, in dieser Reihenfolge; wiederholbar. Der Lauf sortiert sonst nach Namen, die Gruppe nicht: ein Block beim ersten ihrer Namen |
 | `--apart DATEI` | dieser Block steht für sich, was immer sein Name sagt: er wird an keine Aufnahme angehängt und bleibt im Plan eine eigene Spur, auch wenn er denselben Namen bekommt wie ein anderer Block desselben Aufnahmegeräts; wiederholbar |
+| `--sound WAS` | was der Ton jeder Aufnahme enthält: bei `speech` wird sie allein nach ihrer Lautheit gelegt, und eine Aufnahme, die mit den Kameras nichts gemeinsam hat, wird abgelehnt; `mixed` heißt, unter den Stimmen liegt Musik oder ein Mix, und wo die Lautheit nichts findet, darf die Phase sie legen. `--project-type sync` nimmt immer `mixed`. Im Fenster das Feld **Im Ton** (`speech`) |
+| `--sound-of DATEI WAS` | dasselbe für eine einzelne Aufnahme, genannt über irgendeine ihrer Dateien; geht vor `--sound`; wiederholbar. Das Fenster schickt es für jede Aufnahme, die auf **Gemischt** steht (keine) |
 | `--no-single-tracks` | nur den Mix ins Video, nicht die Aufnahmen daneben  `[simple path only]` |
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |
