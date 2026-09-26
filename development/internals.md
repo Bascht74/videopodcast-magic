@@ -98,7 +98,7 @@ figure of the day is that command, not this paragraph**:
 * `filelist/` **530** -- the list of chosen files: the tree it is
   shown in, what adding and removing do to it, and a recording of
   several blocks shown as one entry
-* `prework/` **435** -- the audio, envelopes, channels and tracks
+* `prework/` **436** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
 * `resolvesheet/` **619** -- the third tab: whether Resolve answers,
   the camera cut with its settings, forecast and preview, what the
