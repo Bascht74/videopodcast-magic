@@ -952,10 +952,10 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         # the material sits in. Without it two jobs from two shoots
         # wrote the same handover and the second took the first's place.
         args.production = guess_production_name(videos[0][0])
-    # The preset before the axis: a preset of the wrong kind stops the run
-    # here, not once the time axis is measured.
+    # The preset before the axis, so a wrong kind stops the run here. Two
+    # recordings or more share one axis even without a picture or tick.
     stop = preset_before_the_axis(args, len(plan),
-                                  bool(videos) or args.multitrack)
+                                  bool(videos) or len(plan) > 1)
     if stop is not None:
         return stop
     if not videos:

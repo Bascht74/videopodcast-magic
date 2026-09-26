@@ -321,7 +321,7 @@ def production_is_multitrack(tracks, together):
     sending all ask: two tracks or more that share one time axis go up
     together; a lone track, or recordings not laid against each other,
     go up one Singletrack production each. *together*: a picture, or
-    --multitrack without one.
+    two recordings or more without one -- the tick does not decide it.
     """
     return bool(together) and tracks >= 2
 
