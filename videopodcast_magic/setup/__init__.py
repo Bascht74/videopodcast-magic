@@ -765,9 +765,9 @@ def soxr_note():
 
 
 # The API key lives in the OS credential store -- macOS keychain,
-# Windows registry under HKEY_CURRENT_USER. Never in a file: the script
-# gets copied around. All three names of the place stand only here,
-# two of them the frozen name: a rename must not lose the stored key.
+# Windows registry, the Secret Service elsewhere. Never in a file: the
+# script gets copied around. All three names stand only here, two the
+# frozen name: a rename must not lose the stored key.
 KEY_STORE_REAL = (FROZEN_NAME, "auphonic", "Software\\" + FROZEN_NAME)
 KEY_SERVICE, KEY_ACCOUNT, REG_PATH = KEY_STORE_REAL
 
@@ -790,10 +790,10 @@ def store_api_key(key):
     """Store the API key in the OS credential store. True where it holds.
 
     On a Mac the key goes to "security" over its input, never as an
-    argument that would stand in the process list, and the word is sent
-    twice because it asks to confirm. On Windows the registry entry is
-    shut to everybody but this user first. Either way True only where
-    reading it back out of the store gives the same key.
+    argument that would stand in the process list, sent twice because it
+    asks to confirm; elsewhere to secret-tool the same way, once. On
+    Windows the registry entry is shut to everybody but this user first.
+    Every way True only where reading it back gives the same key.
     """
     forget_api_key()   # or the old one would still answer
     if key_store_off_limits():
@@ -833,7 +833,29 @@ def store_api_key(key):
         except Exception:
             return False
         return load_api_key() == key
-    return False
+    # Without a newline: from a pipe secret-tool keeps every byte it reads.
+    p = secret_tool(["store", "--label=" + FROZEN_NAME + " Auphonic"],
+                    key.encode("utf-8"))
+    return p is not None and p.returncode == 0 and load_api_key() == key
+
+
+def secret_tool(words, given=b""):
+    """Ask secret-tool about the key's entry; the answer, or None.
+
+    The command libsecret ships, so no library has to be installed.
+    words say what to do -- store, lookup, clear -- and the entry is
+    named after them by service and account, the keychain's two names.
+    What is handed over goes in through the input, never among the
+    arguments. None where the command is missing or never answered.
+    """
+    try:
+        return subprocess.run(["secret-tool"] + list(words)
+                              + ["service", KEY_SERVICE,
+                                 "account", KEY_ACCOUNT],
+                              input=given, capture_output=True, timeout=20,
+                              start_new_session=True)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
 
 
 def registry_rule(sid):
@@ -1016,8 +1038,10 @@ def key_store_trouble():
                  'say why.')
     if os.name == "nt":
         return T('The registry did not take the key.')
-    return T('The key can only be stored on Mac and Windows -- in the '
-             'keychain or the registry. It does not go into a file.')
+    return T('No Secret Service keyring answered, so nothing was stored. '
+             'Off Mac and Windows the key is kept in the desktop\'s '
+             'keyring, through the secret-tool command from libsecret. '
+             'It does not go into a file.')
 
 
 # What the key store last said: every ask is a process, and drawing the
@@ -1041,7 +1065,7 @@ def load_api_key():
 
 
 def _ask_key_store():
-    """Go to the keychain or the registry, whatever this machine has."""
+    """Go to the keychain, the registry or the Secret Service."""
     if key_store_off_limits():
         return ""
     if sys.platform == "darwin":
@@ -1066,7 +1090,10 @@ def _ask_key_store():
                 return (value or "").strip()
         except Exception:
             return ""
-    return ""
+    p = secret_tool(["lookup"])
+    if p is None or p.returncode:
+        return ""
+    return p.stdout.decode("utf-8", "replace").strip()
 
 
 def delete_api_key():
@@ -1100,7 +1127,8 @@ def delete_api_key():
             return True
         except Exception:
             return False
-    return False
+    p = secret_tool(["clear"])
+    return p is not None and p.returncode == 0
 
 
 def pip_repair(packages):
