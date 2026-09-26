@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **3950** -- who speaks and when: the separation itself,
+* `speakers/` **4088** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3191** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3267** -- who is on camera when, and what carries it out
+* `cut/` **3275** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2509** -- the DaVinci Resolve project, timelines, colour,
@@ -56,7 +56,7 @@ figure of the day is that command, not this paragraph**:
   each one reads: the time axis and the offsets, which camera belongs
   to which voice, what a file off the axis bars, and what a meter, a
   stored handover and a file name read as
-* `timebase/` **2045** -- the time base and the camera files: every
+* `timebase/` **2057** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written; whether a
   camera's drift goes out is `camera_drift`'s alone, by the rule every
@@ -64,7 +64,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **1726** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1772** -- whether the material fits together before the
+* `preflight/` **1771** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1251** -- finding ffmpeg, installing a missing module,
@@ -73,7 +73,7 @@ figure of the day is that command, not this paragraph**:
   from it
 * `hearing/` **1128** -- decoding, envelopes, bands, phase, aligning
   audio to video
-* `fittings/` **1323** -- helpers that shape what the window shows and
+* `fittings/` **1321** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
@@ -87,7 +87,7 @@ figure of the day is that command, not this paragraph**:
   `assignmentsheet/` and nothing else
 * `upkeep/` **724** -- which release is out, the way back, pip putting
   one in place, and what the window offers of all three
-* `herald/` **842** -- the progress bar, the stages, the console and log
+* `herald/` **843** -- the progress bar, the stages, the console and log
   redirection, and the watch over a quiet run: `RunVitals` counts the
   run's children and reads whether any of them still moves
 * `pipeline/` **638** -- the plan: the camera audio out of the
