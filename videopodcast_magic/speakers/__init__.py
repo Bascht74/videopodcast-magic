@@ -1388,7 +1388,13 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
     nowhere = set(no_place or ())
     alone = set(path_key(p) for p in (alone or ()))
     dropped = []
+    # A recording of several blocks has one row that every block points
+    # at: it is painted once, by its worst block, or the last one wins.
+    rows = {}
     for p, item in list(nodes.items()):
+        rows.setdefault(id(item), (item, []))[1].append(p)
+    for item, paths in rows.values():
+        p = weak_row_worst(paths, weak, nowhere, kinds)
         placeless = path_key(p) in nowhere
         odd = path_key(p) in weak or placeless
         kind = weak_kind(kinds, p)
@@ -1410,8 +1416,21 @@ def weak_nodes_mark(nodes, weak, no_place=(), kinds=None, alone=()):
                 item.setText(2, os.path.dirname(p))
                 item.setData(2, _qc.Qt.UserRole, None)
         except RuntimeError:
-            dropped.append(p)
+            dropped.extend(paths)
     return dropped
+
+
+def weak_row_worst(paths, weak, nowhere, kinds=None):
+    """Which of the files behind one row decides how it is marked.
+
+    The one whose colour weighs most -- refused, then warned about,
+    then plain -- and the first of them where two weigh the same, so
+    the note names the block that does not fit.
+    """
+    weight = {COLOURS["error"]: 2, COLOURS["warning"]: 1}
+    return max(paths, key=lambda p: weight.get(weak_colour(
+        path_key(p) in weak or path_key(p) in nowhere,
+        path_key(p) in nowhere, weak_kind(kinds, p)), 0))
 
 
 def weak_marks_show(state, nodes):
