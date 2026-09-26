@@ -74,9 +74,11 @@ PLACES = dict(overview.test_places(HERE))
 print("\n2. Every path a skill points at is there")
 # Only what really looks like a path: a folder in front of it, or an
 # ending this repository uses. `check(...)`, `abspath` and the like are
-# backticked too and are not files.
+# backticked too and are not files. The program's own folder is one of
+# them: a skill naming a file in it goes as dead as any other on a move.
 LOOKS_LIKE = re.compile(
-    r"`((?:tests|docs|development|\.github|\.claude)/[A-Za-z0-9_./-]+"
+    r"`((?:tests|docs|development|\.github|\.claude|videopodcast_magic)"
+    r"/[A-Za-z0-9_./-]+"
     r"|[A-Za-z][A-Za-z0-9_-]*\.(?:py|sh|md|json|yml))`")
 # Named one by one, so a new name under docs/notes has to be thought
 # about rather than slipping in: these are files of the notes folder
@@ -109,7 +111,7 @@ for name, text in sorted(texts.items()):
             # Everything else goes over the folder, not over git: nothing
             # moves these, and the folder answers for uncommitted work as
             # readily as for the rest. A bare name may also live in
-            # tests/ or beside the program.
+            # tests/, docs/ or development/.
             elif os.path.exists(os.path.join(ROOT, path)):
                 continue
             elif "/" not in path and any(
