@@ -311,6 +311,26 @@ if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
     exit 2
   fi
 fi
+# The owner's rule, 26.9.2026: a text cut off, in any language, is
+# reported by the release run and does not stop it. tests.yml sets
+# VPM_CUT_OFF=noted beside VPM_ALL_LANGUAGES=1 for that run alone, and
+# tests/cut_off_rule.py turns such a FAIL into a NOTED line.
+case "${VPM_CUT_OFF:-}" in
+  "") ;;
+  noted)
+    if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
+      echo "VPM_CUT_OFF=noted is the release run's, and a release runs" \
+           "every language: set VPM_ALL_LANGUAGES=1 beside it" >&2
+      exit 2
+    fi ;;
+  *) echo "VPM_CUT_OFF is '$VPM_CUT_OFF'; it takes noted or nothing" >&2
+     exit 2 ;;
+esac
+export VPM_CUT_OFF
+# One file per test holding its NOTED lines, for the summary's block.
+NOTED="$RUN_TEMP/noted"
+mkdir -p "$NOTED"
+export NOTED
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -491,6 +511,10 @@ run_one() {
 $short"
     fi
   fi
+  # A text cut off, noted rather than failed (VPM_CUT_OFF above): kept
+  # whatever colour the test ends in, and replaced when it runs again.
+  printf '%s\n' "$out" | grep '^NOTED cut off: ' \
+    | sed "s/^NOTED cut off: /  NOTED cut off: $t: /" > "$NOTED/$t"
   # A failure beats a skip, always. Both can be true in one run: a test
   # leaves out the part this machine cannot do and falls over the rest.
   # Asking after the skip first makes such a test read "skipped", with
@@ -733,6 +757,14 @@ elif [ -n "$LANGS_ASIDE" ]; then
 else
   echo "languages: English and German; every catalogue with" \
        "VPM_ALL_LANGUAGES=1, as a release does"
+fi
+# The release run's texts cut off, one line each, said even when there
+# are none; tests.yml lifts the block into the job's summary by these
+# first words, and the owner's next release gets a card for each line.
+if [ "${VPM_CUT_OFF:-}" = noted ]; then
+  many=$(cat "$NOTED"/* 2> /dev/null | grep -c '^  NOTED cut off: ')
+  echo "cut off, to fix next release: ${many:-0}"
+  cat "$NOTED"/* 2> /dev/null | grep '^  NOTED cut off: '
 fi
 # And which half, said the same way; tests.yml lifts it by its first word.
 case "$VPM_TESTS" in

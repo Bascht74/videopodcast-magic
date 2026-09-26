@@ -884,6 +884,10 @@ jobs:
           if [ "$ALL_LANGUAGES" = "true" ]; then
             echo "VPM_ALL_LANGUAGES=1" >> "$GITHUB_ENV"
             echo "languages: every catalogue -- the input all_languages is on"
+            # The release run, so a text cut off is noted, not failed
+            # (the owner, 26.9.2026; tests/cut_off_rule.py says how).
+            echo "VPM_CUT_OFF=noted" >> "$GITHUB_ENV"
+            echo "cut off: noted, not failed -- this is the release run"
           else
             echo "languages: English and German -- every catalogue for a"\
                  "release, or with the input all_languages"
@@ -1165,6 +1169,10 @@ jobs:
             grep -E "^skips:" "$S" 2>/dev/null || true
             grep -E "^languages:" "$S" 2>/dev/null || true
             grep -E "^platform:" "$S" 2>/dev/null || true
+            # The release run's texts cut off, the whole block: after
+            # the release each line becomes a card for the next one.
+            grep -E "^cut off, to fix next release:|^  NOTED cut off: " \
+              "$S" 2>/dev/null || true
             echo '```'
             if [ "$out" -gt 0 ]; then
               echo "Of $((ran + out + ${langs:-0})) tests, $ran ran. Taken out, because"\
