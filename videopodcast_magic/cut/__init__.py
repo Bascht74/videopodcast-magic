@@ -764,14 +764,19 @@ def floor_handovers(tracks, main_speaker, min_len_speech,
             out.append((a, b))
     return sorted(out)
 
+# The most of the recording either wide edge may hold: past it a
+# greeting has become a conversation. "Wide shot at the latest" caps it too.
+EDGE_SHARE = 1.0 / 3.0
+
 def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
-                   faint=False):
+                   faint=False, latest=None):
     """Hold the wide shot while the round is introduced and closed.
 
     Someone introduces the participants at the start and says goodbye at
     the end; both belong in the wide frame. The opening ends where the
     floor first changes hands away from the main speaker, and the same
     rule runs backwards. A voice the separation never hears cannot end it.
+    *latest* is "Wide shot at the latest"; see edges_held_short.
     """
     if not cut:
         return cut
@@ -783,7 +788,8 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if not other:
         return cut
     begin, end = cut[0][0], cut[-1][1]
-    until, from_s = edges_within_third(begin, end, other[0][1], other[-1][0])
+    until, from_s, most = edges_held_short(begin, end, other[0][1],
+                                           other[-1][0], latest)
     out = []
     for a, b, who in cut:
         if b <= until or a >= from_s:
@@ -798,21 +804,24 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
         print(T('  Wide shot at the edges: until %s and from %s') % (as_hms(until - begin),
                                                       as_hms(from_s - begin)))
         if (until, from_s) != (other[0][1], other[-1][0]):
-            print(T('  shortened to at most a third of the length -- the '
-                    'first announcement ends at %s, the last begins at %s')
-                  % (as_hms(other[0][1] - begin), as_hms(other[-1][0] - begin)))
+            print(T('  shortened to at most %s each -- the first '
+                    'announcement ends at %s, the last begins at %s')
+                  % (as_hms(most), as_hms(other[0][1] - begin),
+                     as_hms(other[-1][0] - begin)))
     return merge_adjacent(out)
 
-def edges_within_third(begin, end, until, from_s):
-    """Shorten either edge to a third of the length where it runs longer.
+def edges_held_short(begin, end, until, from_s, latest=None):
+    """Shorten either edge to what it may hold. Returns (until, from, most).
 
-    A third would no longer be a greeting but a conversation. A short
-    recording used to lose both edges to that; now each stops at the
-    third. What falls below the minimum edit duration is left to
-    merge_short_shots, as for any edge.
+    At most EDGE_SHARE of the length, and at most *latest* seconds where
+    that is set above nought: in a short recording the share decides, in
+    a long one the setting. What falls below the minimum edit duration
+    is left to merge_short_shots, as for any edge.
     """
-    third = (end - begin) / 3.0
-    return min(until, begin + third), max(from_s, end - third)
+    most = (end - begin) * EDGE_SHARE
+    if latest and latest > 0:
+        most = min(most, latest)
+    return min(until, begin + most), max(from_s, end - most), most
 
 def metrics_sentence(numbers, colours, minutes_fn):
     """Build the summary line under the preview.
@@ -1080,7 +1089,8 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
                            min_len=min_len, lead_in=-delay, rules=rules)
     if edge:
-        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint)
+        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint,
+                                 latest=at_latest)
         cut = merge_short_shots(cut, min_len)
     if after > 0:
         cut = insert_wide_shots(cut, tracks, wide_shot, after, holds,

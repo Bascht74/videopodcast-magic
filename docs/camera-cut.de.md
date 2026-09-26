@@ -183,10 +183,11 @@ Unter den Auswahlfeldern hält das Häkchen **Weitwinkel für Begrüßung am
 Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
 (auf der Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel
 am Anfang hält, bis das Wort wirklich übergeben wird, nicht bis zum
-ersten längeren Block einer Nebenstimme. Länger als ein Drittel der
-Aufnahme hält keiner der beiden Ränder: Wo Begrüßung oder Abschied
-länger dauern würden -- vor allem in einer kurzen Aufnahme --, endet
-dieser Rand beim Drittel, und das Protokoll vermerkt es unter
+ersten längeren Block einer Nebenstimme. Keiner der beiden Ränder hält
+länger als ein Drittel der Aufnahme und länger als **Weitwinkel
+spätestens**: Wo Begrüßung oder Abschied länger dauern würden, endet
+dieser Rand dort -- in einer kurzen Aufnahme beim Drittel, in einer
+langen bei der Einstellung --, und das Protokoll vermerkt es unter
 `Weitwinkel am Rand`, samt der Stelle, an der das Wort wirklich
 wechselt. Fällt ein Rand kürzer aus als die **Mindestschnittdauer**,
 geht er wie jede andere Einstellung in die benachbarte auf.

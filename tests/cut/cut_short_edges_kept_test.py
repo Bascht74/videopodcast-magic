@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-"""A short recording keeps its wide edges, each cut to a third of it.
+"""A too long wide edge is shortened, to a third or the latest setting.
 
-Through camera_cut, the way preview and run both build the cut. First a
-recording of thirty seconds whose announcements both run past a third:
-it begins and ends on the wide shot, each edge stops at the third, no
-shot falls under the minimum edit duration, and the log says it was
-shortened and where the announcements lie. Then the mixedcase voices
-over a minute, where no edge is too long: they end where the
-announcement ends, and nothing is said about shortening.
+Through camera_cut, the way preview and run both build the cut. Thirty
+seconds whose announcements both run past a third: it begins and ends
+on the wide shot, each edge stops at the third, no shot falls under the
+minimum edit duration, and the log says so. The mixedcase voices over a
+minute keep their edges and say nothing. Half an hour: each edge stops
+at "Wide shot at the latest", and at a lower setting at that one.
 """
 import os
 import sys
@@ -41,16 +40,16 @@ def check(name, ok, extra=""):
 
 CAMERA_OF = {"Host": "HostCam", "Guest": "GuestCam"}
 SHORTEST = 3.0
-SHORTENED = vpm.T('  shortened to at most a third of the length -- the '
-                  'first announcement ends at %s, the last begins at %s')
+SHORTENED = vpm.T('  shortened to at most %s each -- the first '
+                  'announcement ends at %s, the last begins at %s')
 
 
-def cut_and_log(tracks, length):
+def cut_and_log(tracks, length, latest=120.0):
     """The cut with the wide shot at the edges, and what it printed."""
     said = io.StringIO()
     with contextlib.redirect_stdout(said):
         cut = vpm.camera_cut(tracks, length, CAMERA_OF, "Wide", SHORTEST,
-                             0.3, after=0.0, holds=5.0, at_latest=120.0,
+                             0.3, after=0.0, holds=5.0, at_latest=latest,
                              edge=True, rules=None, faint=False)
     return [(round(a, 3), round(b, 3), who) for a, b, who in cut], \
         said.getvalue()
@@ -83,7 +82,7 @@ check("no shot of the shortened cut is under the minimum edit duration",
       bool(short) and min(b - a for a, b, _w in short) >= SHORTEST,
       "shots %s against a minimum of %.1f s"
       % ([shot(short, i) for i in range(len(short))], SHORTEST))
-want = SHORTENED % (vpm.as_hms(21.0), vpm.as_hms(11.5))
+want = SHORTENED % (vpm.as_hms(10.0), vpm.as_hms(21.0), vpm.as_hms(11.5))
 check("the log says the edges were shortened, and where the talk lies",
       short_log.count(want) == 1,
       "%r stands %d times in the log, wanted 1" % (want,
@@ -104,6 +103,25 @@ check("and says nothing about shortening",
       long_log.count(lead) == 0,
       "%r stands %d times in the log, wanted 0" % (lead,
                                                    long_log.count(lead)))
+
+print("\n3. Half an hour, the other voice from 15:00 to 25:00")
+# A third would be ten minutes of wide shot at each end; the setting
+# the cut is handed, not the constant behind its starting value, caps it.
+HALF = [("Host", [(0.0, 900.0), (1500.0, 1800.0)]),
+        ("Guest", [(900.0, 1500.0)])]
+half, _half_log = cut_and_log(HALF, 1800.0)
+check("a long recording's opening wide shot stops at the latest setting",
+      bool(half) and half[0] == (0.0, 120.0, "Wide"),
+      "first %s, wanted Wide 0.0-120.0" % shot(half, 0))
+check("and its closing one begins that long before the end",
+      bool(half) and half[-1] == (1680.0, 1800.0, "Wide"),
+      "last %s, wanted Wide 1680.0-1800.0" % shot(half, -1))
+low, _low_log = cut_and_log(HALF, 1800.0, latest=60.0)
+check("a lower latest setting holds both edges to it",
+      bool(low) and low[0] == (0.0, 60.0, "Wide")
+      and low[-1] == (1740.0, 1800.0, "Wide"),
+      "first %s, last %s, wanted Wide 0.0-60.0 and Wide 1740.0-1800.0"
+      % (shot(low, 0), shot(low, -1)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
