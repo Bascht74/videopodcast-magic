@@ -5,8 +5,9 @@ One real run, started with the command line the window builds, on two
 camera files of one name in two folders and a recording beside them.
 The log names the second camera "(2)" in the plan, on the time axis and
 where it is processed, and the handover is named after the production
-field, not after the folder the material lies in. The preflight's lines
-are not held here: they still name a camera by its file.
+field, not after the folder the material lies in. The preflight names
+it so too: in the facts line for that camera and in the hint that the
+two files may be one recording twice.
 """
 import os
 import sys
@@ -100,7 +101,21 @@ check("and it is processed under that name", HEAD + "\n" in log,
       "%r not in %d characters of log; it says %r" % (
           HEAD.strip(), len(log), line_with(log, "PROCESSING")))
 
-print("\n3. The production, as the field names it")
+print("\n3. The preflight, as the window names them")
+FACTS = "    C0003.MP4 (2)     %s fps" % vpm.number_text(25, 3)
+check("the preflight's facts line names the second camera so",
+      bool(line_with(log, FACTS)),
+      "no line begins %r; the preflight says %r" % (
+          FACTS, [x for x in log.splitlines()
+                  if x.startswith("    C0003.MP4")]))
+TWINS = vpm.T('%s have the same size and running time -- possibly one '
+              'recording twice.') % "C0003.MP4, C0003.MP4 (2)"
+check("and the hint on one recording twice names both apart",
+      TWINS in log, "%r not in the log; it says %r" % (
+          TWINS, next((x for x in log.splitlines()
+                       if "same size and running time" in x), "")))
+
+print("\n4. The production, as the field names it")
 made = sorted(n for n in os.listdir(OUT) if n.endswith("_resolve.json"))
 check("the handover is named after the production field",
       made == ["Pilot_resolve.json"],
