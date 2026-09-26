@@ -52,6 +52,7 @@ cut_answer_brought_early	10
 cut_both_are_shown	19
 cut_box_fits_the_picture	13
 cut_colour_per_camera	32
+cut_edges_said_as_cut	7
 cut_edl_says_drop_frame	9
 cut_jingle_over_start	19
 cut_list_rebuilt	9
@@ -72,7 +73,7 @@ cut_player_speeds_up	10
 cut_preview_is_the_run	17
 cut_rebuild_keeps_all	26
 cut_right_camera	67
-cut_rules_hold	82
+cut_rules_hold	84
 cut_short_edges_kept	11
 cut_speech_time_fits	6
 cut_stored_voices_used	7

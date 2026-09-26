@@ -2,9 +2,10 @@
 """The cut rules: when the camera follows, and what it shows instead.
 
 And the values they take when nobody sets one. The fields of the cut
-box declare the same numbers a second time, so the last section holds
-the two against each other; the few numbers no field shows stand
-written out there instead.
+box declare the same numbers a second time, so section 12 holds the
+two against each other; the few numbers no field shows stand written
+out there instead. Last, a held uncertain stretch keeps to the
+silence's limit.
 """
 PLATFORM_BOUND = False
 import os
@@ -502,6 +503,44 @@ moved = sorted((rule, wanted, plain_rules[rule])
 check("the four numbers with nothing to hold them against are unmoved",
       not moved, "%d of %d moved (rule, wanted, found): %s"
       % (len(moved), len(ALONE), moved))
+
+print("\n13. Recognition uncertain: holding ends where the silence's does")
+# Anna, then Bert, then ten seconds in which the two swap every second:
+# ten changes of camera in ten seconds is a frayed recognition. Held,
+# Bert's camera would stand on through all ten -- so the silence's
+# limit, "Short gap up to", sends the stretch to the wide shot.
+frayed_ten = [("Anna", [(0.0, 60.0), (100.0, 101.0), (102.0, 103.0),
+                        (104.0, 105.0), (106.0, 107.0), (108.0, 109.0),
+                        (110.0, 160.0)]),
+              ("Bert", [(60.0, 100.0), (101.0, 102.0), (103.0, 104.0),
+                        (105.0, 106.0), (107.0, 108.0), (109.0, 110.0)])]
+fray_cams = {"Anna": "CamA", "Bert": "CamB"}
+
+
+def fray_cut(**over):
+    """The finished cut over the frayed ten seconds, one rule set."""
+    return vpm.camera_cut(frayed_ten, 160.0, fray_cams, "Wide", 3.0, 0.0,
+                          after=0.0, holds=5.0, at_latest=120.0, edge=False,
+                          rules=vpm.cut_rules(on_uncertain=vpm.SHOT_HOLD,
+                                              **over))
+
+
+FRAY_WIDE = [(0.0, 60.0, "CamA"), (60.0, 100.0, "CamB"),
+             (100.0, 110.0, "Wide"), (110.0, 160.0, "CamA")]
+FRAY_HELD = [(0.0, 60.0, "CamA"), (60.0, 110.0, "CamB"),
+             (110.0, 160.0, "CamA")]
+bounded = fray_cut()
+check("a held uncertain stretch past the silence limit goes wide",
+      bounded == FRAY_WIDE, "%d shots %s, wanted the %d of %s -- the "
+      "stretch is 10.0 s against a limit of 1.0 s"
+      % (len(bounded), [(a, w) for a, _b, w in bounded], len(FRAY_WIDE),
+         [(a, w) for a, _b, w in FRAY_WIDE]))
+widened = fray_cut(silence_hold=10.0)
+check("and the limit is the silence's own: at 10.0 s the stretch is held",
+      widened == FRAY_HELD, "%d shots %s, wanted the %d of %s -- the "
+      "stretch is 10.0 s against a limit of 10.0 s"
+      % (len(widened), [(a, w) for a, _b, w in widened], len(FRAY_HELD),
+         [(a, w) for a, _b, w in FRAY_HELD]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")
