@@ -1510,6 +1510,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         print(line)
     results, error = [], 0
     lengths = ByFile()    # output file -> running time delivered
+    written = ByFile()    # camera source -> the file written of it
     # An In or Out point is what makes the cameras carry a stretch
     # rather than the whole shoot. Without one they stay as they were,
     # so a run that sets no window writes exactly what it wrote before.
@@ -1715,14 +1716,13 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                 track_names[target] = names
                 offsets[target] = offset   # camera position in the window
                 lengths[target] = delivered
-                results.append(target)
+                written[v] = target
     finally:
         sys.stdout = old_off
     progress_bar.stop()
-    # Back in file order, not in the order of completion.
-    order = [os.path.abspath(x) for x, _ in videos]
-    results.sort(key=lambda path: order.index(os.path.abspath(path))
-                    if os.path.abspath(path) in order else len(order))
+    # Back in file order, not in the order of completion: each file is
+    # found by the camera it was written of, never by where it landed.
+    results = [written[v] for v, _ in videos if v in written]
 
     # --- keep the finished tracks, not only hidden inside the videos
     cache = tracks_folder(folder)
@@ -1824,13 +1824,16 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
 
     colours = []
     if not getattr(args, "no_metrics", False):
-        made = (results if len(results) == len(cameras)
-                else [cam.get("video") for cam in cameras])
+        # Each camera beside its own written file, found by the camera
+        # and never by place; with one camera unwritten, all by source.
+        whole = len(results) == len(cameras)
         try:
             colours = report_picture_comparison(
-                [{"track": cam.get("name"), "file": p}
-                 for cam, p in zip(cameras, made)
-                 if cut_against_the_others(cam)])
+                [{"track": cam.get("name"),
+                  "file": (written.get(cam.get("video") or "",
+                                       cam.get("video")) if whole
+                           else cam.get("video"))}
+                 for cam in cameras if cut_against_the_others(cam)])
         except Exception as e:
             print(T('  Colour comparison not possible: %s') % e)
         print(as_head(T('\nMETRICS')))
