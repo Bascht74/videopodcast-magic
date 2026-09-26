@@ -3843,10 +3843,12 @@ def gui():
     bridge.preflight.connect(preflight_fill_in)
 
     # ------------------------------------------------------ Tab 4: the log
-    # The sheet holds the log pane and the two buttons for the result.
+    # The sheet holds the log pane, its timer and the two buttons for the
+    # result, and says for itself whether each may be pressed.
     output = window.output_sheet
     log, only_resolve = output.log, output.only_resolve
     result_button_check = output.result_button_check
+    resolve_button_check = output.resolve_button_check
 
     # ------------------------------------------------------------------
     # Footer
@@ -3882,9 +3884,6 @@ def gui():
         report(T('Save project'),
                T('Written:\n\n  %s') % where if where
                else T('Nothing was written -- there is no material yet.'))
-
-    def resolve_button_check():
-        resolve_button_say(state, output.only_resolve_env_curve, only_resolve)
 
     # The table builder stands above gui() and takes up the handover
     # when the cameras change; both of these it reaches through state.
@@ -3939,31 +3938,12 @@ def gui():
     # project of their own, and it is made here, below it.
     state["project_open"] = project_open
 
-    output_timer = QtCore.QTimer(window)
-    output_timer.setInterval(80)
-
-    def clear():
-        def drain():
-            while True:
-                try:
-                    text = post.get_nowait()
-                except queue.Empty:
-                    return
-                log.append_text(text)
-
-        drain()
-        if not state["running"]:
-            # The run sets the flag after its last line, so what was
-            # written between the two is still waiting here.
-            drain()
-            output_timer.stop()
-            break_off.setVisible(False)
-            start_run.setText(T('Start'))
-            # Tracks the run brought back count before anything is drawn.
-            in_turn(finished_tracks_check, buttons_check, result_button_check,
-                    resolve_button_check, preview_compute)
-
-    output_timer.timeout.connect(clear)
+    output.post, output_timer = post, output.timer
+    # Tracks the run brought back count before anything is drawn.
+    wire(output.run_ended, lambda: break_off.setVisible(False),
+         lambda: start_run.setText(T('Start')), finished_tracks_check,
+         buttons_check, result_button_check, resolve_button_check,
+         preview_compute)
     PROGRAM.UPDATE_SINK = make_update_sink(state, write, window.output_show,
                                            output_timer)
 
