@@ -82,7 +82,7 @@ LOOKS_LIKE = re.compile(
 # about rather than slipping in: these are files of the notes folder
 # that the skills mention without their folder in front of them.
 NOT_SHIPPED = {"shoot_terminal.py", "shoot_screenshots.py", "bilder.md",
-               "aufgaben.md", "claude_intern.md"}
+               "claude_intern.md"}
 missing = []
 for name, text in sorted(texts.items()):
     for i, line in enumerate(text.splitlines(), 1):

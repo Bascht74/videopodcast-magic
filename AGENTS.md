@@ -72,7 +72,8 @@ different rows; what may not differ is the **wording**.
 
 **A skill carries rules and the cases that taught them, never the state
 of the repository.** A number about how things stand today goes stale
-between two commits: those belong in `docs/notes/`, or in a command.
+between two commits: those belong on the owner's decision board, or in
+a command.
 
 ## Where things are
 
@@ -208,7 +209,8 @@ Each of these cost something, and `development/decisions.md` says what.
   `tests/state/counterproof`**; `source_checks_proved_test.py` is a
   ratchet over those still missing one. Skill `gegenbeweis`.
 * **What you promise in conversation is an entry, not an intention.**
-  It goes into `docs/notes/aufgaben.md` in the same breath.
+  It goes onto the owner's decision board (private, outside the
+  repository) in the same breath.
 * **Explain a change in plain words, not in terms of the code**: what it
   does and why, short. The road that led there goes in `docs/notes/`.
 * **A commit is made only when it was asked for**, never on `main`, and
@@ -228,8 +230,8 @@ handgrips, not the judgement**: a green run proves the mechanics held,
 never that the version was ready. Skill `freigabe`.
 
 **What the manual pass turns up becomes a test, and before the tag.**
-Where the test is larger than the fix, its shape is written out in
-`docs/notes/aufgaben.md` -- not a note saying "test this".
+Where the test is larger than the fix, its shape is written out on
+the owner's decision board -- not a note saying "test this".
 
 **Before every release fetch the builder's times** (`cd tests && bash
 builder_times.sh`); skill `ci` says what to do with them. What you wait
