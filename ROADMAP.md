@@ -150,9 +150,7 @@ that one against a stand-in -- and a fifth test holds the assignment
 table; each runs the same production once from the window and once
 from the command line and holds the two against each other. The
 program opening, In and Out, and the change to the third tab are still
-open. A test of In and Out on a 29.97 camera found the window's mark
-landing about three frames late, and what to do about it is not yet
-decided. The survey that counted those gaps is several versions old and
+open. The survey that counted those gaps is several versions old and
 most of what it named has been covered since, so it is worth taking
 again before anything is built on it.
 

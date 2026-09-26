@@ -160,9 +160,7 @@ nach Resolve, dieser gegen eine Attrappe --, und ein fünfter Test hält
 die Zuordnungstabelle; jeder lässt dieselbe Produktion einmal aus dem
 Fenster und einmal von der Kommandozeile laufen und hält beides
 gegeneinander. Das Öffnen des Programms, In und Out und der Wechsel auf
-Reiter 3 stehen noch aus. Ein Test von In und Out an einer
-29,97-Kamera hat gefunden, dass die Marke des Fensters etwa drei Bilder
-zu spät landet, und was daraus folgt, ist noch nicht entschieden. Die
+Reiter 3 stehen noch aus. Die
 Erhebung, die diese Lücken gezählt hat, ist mehrere Fassungen alt, und
 das meiste, was sie nannte, ist seither gedeckt — sie lohnt sich noch
 einmal, bevor darauf gebaut wird.
