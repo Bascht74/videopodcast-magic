@@ -426,9 +426,10 @@ def main():
         return 0
     ap = build_argument_parser()
     args = ap.parse_args()
-    # The window's run hands its key over here, never on the line.
-    if RUN_KEY and not args.auphonic_key:
-        args.auphonic_key = RUN_KEY
+    # The key goes with a run that may send: the window's, handed over
+    # here and never on the line, or the one in AUPHONIC_TOKEN.
+    args.auphonic_key = (None if args.without_auphonic else
+                         RUN_KEY or os.environ.get("AUPHONIC_TOKEN") or None)
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.

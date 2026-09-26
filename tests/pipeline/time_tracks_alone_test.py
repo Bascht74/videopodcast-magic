@@ -18,11 +18,11 @@ the run itself never does -- it comes out to a fraction of a
 millisecond, and the straightening then has nothing to straighten.
 
 Nothing may reach auphonic.com here, and that is watched rather than
-read off the log. A run of its own gets a made-up key, so that
---without-auphonic has something to hold back, and a stand-in curl on
-the search path writes down every call. Where it cannot be put there --
-Windows starts no #!/bin/sh file -- no key is given and those two
-judgements are left out rather than claimed.
+read off the log. Every run carries a made-up key in AUPHONIC_TOKEN,
+so that --without-auphonic has something to hold back, and a stand-in
+curl on the search path writes down every call. Where it cannot be put
+there -- Windows starts no #!/bin/sh file -- the run of its own for
+that and its two judgements are left out rather than claimed.
 """
 PLATFORM_BOUND = True
 import os
@@ -355,16 +355,11 @@ else:
 
 #--------------------------- 2. The barrier, with something to hold
 
-# A run of its own, because a key changes what the run above is: with
-# one, --lufs is in force on this path and section 5 would have nothing
-# left to ask. And without one, --without-auphonic holds nothing back --
-# there is nothing to send, so the barrier is never reached and taking
-# it away changes nothing. Measured 2.9.2026: the guard replaced by
-# `if args.auphonic_key:` and every judgement of this file still green.
+# A run of its own, with the made-up key in AUPHONIC_TOKEN that every
+# run here carries: --without-auphonic has to hold it back all the same.
 print("\n2. Even with a key, --without-auphonic lets nothing out")
 if WATCHED:
-    p = subprocess.run(CALL + ["--auphonic-api-key", NOT_A_KEY,
-                               "--multitrack", "--out", D + "/keyed",
+    p = subprocess.run(CALL + ["--multitrack", "--out", D + "/keyed",
                                D + "/Host.wav", D + "/Guest.wav"],
                        capture_output=True, text=True, env=ENV)
     keyed_log = (p.stdout or "") + (p.stderr or "")

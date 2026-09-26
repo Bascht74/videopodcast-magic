@@ -15,7 +15,7 @@ Never in a file, never in the project file.
 1. Open **Settings ...** in the footer; the window itself is described
    in [The interface](interface.md).
 2. In the box **Access to auphonic.com** fill in the field **API Key:**
-   (on the command line `--auphonic-api-key`).
+   (for a run from the command line: `AUPHONIC_TOKEN`).
 3. Optional: tick **Save in Keychain**, which keeps the key in the
    Keychain (macOS) or in the Registry (Windows). On a Mac the keychain
    has to be unlocked for that, and the window says so where it is not.
@@ -46,9 +46,6 @@ replied.
   program deletes that file afterwards, and overwrites it first if it
   cannot delete it. The key goes into that file escaped, so a quotation
   mark or a line break in it cannot add directives of its own.
-* But `--auphonic-api-key KEY` puts it into the command line of this
-  program, where `ps` and the shell history can see it. On the command
-  line, prefer `AUPHONIC_TOKEN`.
 
 Storing it in the macOS Keychain hands it to the `security` program over
 that program's input, not as an argument, so the key does not stand in

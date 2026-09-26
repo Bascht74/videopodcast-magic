@@ -334,9 +334,10 @@ check("not rejected", a is not None,
 check("--without-auphonic is there", "--without-auphonic" in (a or []),
         "13. wanted --without-auphonic on the line, the line is %s" % shown(a))
 check("nothing goes to auphonic.com",
-        "--auphonic-api-key" not in (a or []),
-        "13. wanted no --auphonic-api-key on the line, the line is %s"
-        % shown(a))
+        a is not None and getattr(a, "key", None) == "",
+        "13. wanted no key beside the line, %s"
+        % ("no line at all" if a is None
+           else "a key of %d characters" % len(getattr(a, "key", "") or "")))
 check("the assignment is still written", plan is not None,
         "13. plan is %s, wanted an assignment" % brief(plan))
 
@@ -454,13 +455,11 @@ check("call present", "run_argv(values, assign_file)" in source,
            or "no line at all"))
 # Written out once for the failure line, and once more in the check itself:
 # a list read by both would be logic deciding what is tested.
-tinkering = ['argv += ["--auphonic-api-key"', '"--multitrack", "--assign"',
-             'argv += ["--" + key']
+tinkering = ['"--multitrack", "--assign"', 'argv += ["--" + key']
 check("no argv tinkering left in the window",
-        'argv += ["--auphonic-api-key"' not in source
-        and '"--multitrack", "--assign"' not in source
+        '"--multitrack", "--assign"' not in source
         and 'argv += ["--" + key' not in source,
-        "16. over %d pieces of the window %s of the 3 fragments is still "
+        "16. over %d pieces of the window %s of the 2 fragments is still "
         "carried, wanted none"
         % (len(window),
            ["%s %s" % (where, t) for where, body in window

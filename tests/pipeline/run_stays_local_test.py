@@ -51,18 +51,17 @@ ENV = dict(os.environ, LANG="C", LC_ALL="C")
 curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
 # A made-up key where the stand-in watches, so that --without-auphonic
 # has something to hold back; without the stand-in no key is given.
-KEY = ["--auphonic-api-key", "not-a-key-only-a-test"] if WATCHED else []
 if WATCHED:
-    ENV["AUPHONIC_TOKEN"] = KEY[1]
+    ENV["AUPHONIC_TOKEN"] = "not-a-key-only-a-test"
 
 OUT = D + "/out"
 print("1. The run goes through, and nothing leaves the house")
 p = subprocess.run(
-    [sys.executable, SCRIPT, "--multitrack", "--without-auphonic"] + KEY
-    + ["--assign", ASSIGN, "--out", OUT, "--no-metrics",
-       "--no-speech-recognition", "--no-transcript-file",
-       "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",
-       D + "/CamHost.mov", D + "/CamGuest.mov"],
+    [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+     "--assign", ASSIGN, "--out", OUT, "--no-metrics",
+     "--no-speech-recognition", "--no-transcript-file",
+     "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",
+     D + "/CamHost.mov", D + "/CamGuest.mov"],
     capture_output=True, text=True, timeout=900, env=ENV)
 out = (p.stdout or "") + (p.stderr or "")
 check("return code 0", p.returncode == 0, str(p.returncode))

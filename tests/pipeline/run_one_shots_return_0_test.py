@@ -134,8 +134,10 @@ PRESET_CHILD = "\n".join([
     "vpm.list_presets.__globals__['_curl_call'] = one_preset",
     "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
     "sys.exit(vpm.main())"])
-code, last, _said = run([sys.executable, "-c", PRESET_CHILD,
-                         "--auphonic-api-key", "not-a-real-key"], FENCE)
+# The key in the environment and a switch but no file: that is the
+# preset list. --dry-run, so a run that went further writes nothing.
+code, last, _said = run([sys.executable, "-c", PRESET_CHILD, "--dry-run"],
+                        dict(FENCE, AUPHONIC_TOKEN="FAKEKEY-0000"))
 asked = times_asked(ASKED)
 WANT = "1  %s" % PRESET
 check("the fetched presets come from the stand-in, never the "
