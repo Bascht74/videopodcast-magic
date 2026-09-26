@@ -9,8 +9,9 @@ the direction of the window and of the Settings sheet. Then the labels
 each run printed are counted and laid out again here, and read for the
 order the eye meets them in: a seek button says "-10 s" and not
 "s 10-", a loudness target keeps its number in front -- in the list
-and in the preflight's line, which is laid out here too -- and a window
-that reads left to right carries no direction mark at all -- which is
+and in the preflight's line, which is laid out here too -- a signed
+number in a line of the log pane keeps its sign in front of it, read
+off the pane's own line direction, and a window that reads left to right carries no direction mark at all -- which is
 what every other language rests on.
 """
 import os
@@ -219,8 +220,8 @@ def labels_of(code):
     return out
 
 
-def order(text):
-    """The characters of *text* as the eye meets them, right to left.
+def order(text, way=QtCore.Qt.RightToLeft):
+    """The characters of *text* as the eye meets them, in a *way* line.
 
     Read off the glyphs Qt lays out, so the answer comes from the same
     two-directional engine that draws the window, and not from a second
@@ -229,7 +230,7 @@ def order(text):
     """
     layout = QtGui.QTextLayout(text)
     option = QtGui.QTextOption()
-    option.setTextDirection(QtCore.Qt.RightToLeft)
+    option.setTextDirection(way)
     layout.setTextOption(option)
     layout.beginLayout()
     line = layout.createLine()
@@ -287,11 +288,41 @@ for lufs, videos, alone, front in ((-16.0, ("a",), False, "-16 LUFS"),
         told += 1
         if front not in order(found.text):
             lost.append((bare(found.text), order(found.text)))
-vpm.set_language("en")
 check("the preflight's loudness line in Arabic keeps its number in front",
       told == 3 and not lost,
       "%d of 3 lines reported, %d lost it, first %s"
       % (told, len(lost), "%r reads %r" % lost[0] if lost else "none"))
+
+# A signed number in a line of the log, which number_text() writes. The
+# pane gives each line the direction of its first letter, so a line that
+# opens on a track name reads left to right: each is read the pane's way.
+reader.setLayoutDirection(QtCore.Qt.RightToLeft)
+pane = vpm.make_log_view(QtGui, QtWidgets, QtGui.QTextCursor)()
+N = vpm.number_text
+logged = [(vpm.hush_reason(2, [None, ("floor", -78.0)]), N(-78, 0)),
+          (vpm.T('  Common level:      %s LUFS, the median of the voices')
+           % N(-19.4, 1), N(-19.4, 1)),
+          (vpm.T('    %-20s shifted by %s ms%s')
+           % ("Presenter", N(-40.0, 1, plus=True), ""), N(-40.0, 1, True)),
+          (vpm.T('  -->  aligned, clock drift %s ppm taken out')
+           % N(12.5, 1, plus=True), N(12.5, 1, True))]
+for text, _number in logged:
+    pane.append_text(text + "\n")
+ways, behind = [], []
+block = pane.document().begin()
+while block.isValid() and len(ways) < len(logged):
+    if block.text().strip():
+        text, number = logged[len(ways)]
+        ways.append(block.textDirection())
+        if bare(number) not in order(block.text(), ways[-1]):
+            behind.append((bare(number), order(block.text(), ways[-1])))
+    block = block.next()
+vpm.set_language("en")
+check("a signed number in an Arabic log line keeps its sign in front",
+      len(ways) == len(logged) and not behind,
+      "%d of %d lines in the pane, %d lost it, first %s"
+      % (len(ways), len(logged), len(behind),
+         "%r reads %r" % behind[0] if behind else "none"))
 
 # The other way round, and it is the one that costs everybody else: a
 # mark put in whatever the language would change every width and every
