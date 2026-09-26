@@ -42,7 +42,6 @@ sys = PROGRAM.sys
 threading = PROGRAM.threading
 
 # ------------------------------------------------------------ Resolve
-#
 # The scripting interface has no multicam: everything else is remote,
 # converting stays a right click. The track name becomes the angle name.
 
@@ -378,12 +377,10 @@ def handover_complaint(d):
 def apply_project_settings(p, d):
     """Set frame rate, drop frame and resolution, then verify they took.
 
-    The rate is read once and without a fallback. `write_handover`
-    writes it into every handover unconditionally, so a file without
-    one is broken rather than a case to work around -- and the silent
-    30 that stood here made a broken handover look like a sound one,
-    while the line under it read the same key without forgiving
-    anything. `handover_complaint` turns that away at the door.
+    The rate is read once and without a fallback: `write_handover` writes it
+    into every handover unconditionally, so a file without one is broken rather
+    than a case to work around, and a silent default would make it look sound.
+    `handover_complaint` turns that away at the door.
     """
     rate = resolve_timeline_rate(d["fps"])
     value = "%g" % rate
@@ -1053,12 +1050,11 @@ def cameras_in_track_order(cameras):
 def track_labels(cameras, d):
     """What each video track is called, keyed by the camera's track name.
 
-    The key stays what the handover wrote -- the speakers, or the file's
-    stem -- because two cameras nobody is on would fall on one key
-    otherwise. The label is the one the window puts under the cut band:
-    the speakers, and a camera nobody is on is the wide shot, numbered
-    where there are two. Where the window has no legend -- Sync only, or
-    nobody was heard -- the tracks keep the camera files' names.
+    The key stays what the handover wrote -- the speakers, or the file's stem
+    -- or two cameras nobody is on would fall on one key. The label is the
+    window's under the cut band: the speakers, and a camera nobody is on is the
+    wide shot, numbered where there are two. Where the window has no legend --
+    Sync only, or nobody heard -- tracks keep the camera files' names.
     """
     if d.get("project_type") == "sync" or not d.get("speakers"):
         return dict((cam["track"], cam["track"]) for cam in cameras)
@@ -1209,10 +1205,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     # The cameras with a video track. One without is laid nowhere: its
     # sound alone would become an angle with no picture.
     placed = cameras[:tl.GetTrackCount("video")]
-    # Room for the audio, side by side, or Resolve places what fits and
-    # silently drops the rest. With slack: what it occupies is not known
-    # in advance, and the cleanup removes empty tracks afterwards. Only
-    # for the cameras laid: one refused its picture lays no sound either.
+    # Room for the audio side by side, or Resolve silently drops what does not
+    # fit; with slack, as the need is unknown beforehand and cleanup removes
+    # empty tracks. Only cameras laid: one refused its picture lays no sound.
     needed = sum(audio_track_count(cam) for cam in placed) + len(placed)
     audio_refused = 0
     while tl.GetTrackCount("audio") < needed:
@@ -1722,10 +1717,9 @@ def timeline_items_per_camera(tl, cameras):
     return assignment
 
 
-# Resolve's clip colours, sorted by distinguishability: the first two lie
-# as far apart as possible, a third stands out from both, and so on.
-# Which names Resolve accepts is documented nowhere, so nothing is guessed
-# -- SetClipColor reports, and one pass establishes the usable list.
+# Resolve's clip colours, most distinguishable first: the first two far apart,
+# a third clear of both, and so on. Accepted names are documented nowhere, so
+# none is guessed: SetClipColor reports, one pass finds them.
 CLIP_COLOURS = ["Blue", "Orange", "Green", "Pink", "Yellow", "Violet",
               "Teal", "Brown", "Lime", "Navy", "Apricot", "Purple",
               "Olive", "Chocolate", "Beige", "Tan"]
@@ -1910,12 +1904,11 @@ def create_colour_groups(p, tl, cameras):
 def mix_file_from_handover(d):
     """Return the file carrying the overall mix.
 
-    Preferably the separate file, which is unambiguous. Otherwise the wide
-    shot, where the mix is the first audio track. Otherwise any camera with
-    a track of that name. The name is matched with startswith against
-    MIX_TRACK_NAME, the way pipeline does it: asking whether "full" stood
-    anywhere in the lower-cased name let a speaker called Fullerton win
-    every time, because the keys come speakers first and the mix last.
+    Preferably the separate file, which is unambiguous; else the wide shot,
+    where the mix is the first audio track; else any camera with a track of
+    that name. Matched with startswith against MIX_TRACK_NAME, as pipeline
+    does: "full" anywhere in the lower-cased name let a speaker called
+    Fullerton win every time, the keys coming speakers first and the mix last.
     """
     for name, file_path in (d.get("audio_files") or {}).items():
         if (name.startswith(MIX_TRACK_NAME) and file_path
@@ -2368,10 +2361,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
         print(T('  No cameras in the handover -- nothing to build.'))
         return 1
 
-    # Every track Resolve refused twice, said again at the very end. In
-    # the handover, as _source_path is: the two builders it passes through
-    # are stood in for in tests, and their arguments stay as
-    # they were.
+    # Every track Resolve refused twice, said again at the very end. In the
+    # handover, as _source_path is: the two builders it passes through are
+    # stood in for in tests, and their arguments stay as they were.
     d["_refused"] = []
     print(as_head("\nRESOLVE"))
     r = connect_to_resolve()
@@ -2434,10 +2426,9 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
             to_insert.append(entry["source"])
     clips = import_media(mp, to_insert)
 
-    # A camera cut needs the speaker statistics, a multicam clip more than
-    # one camera. Missing either, that timeline is not created at all.
-    # "sync" is the flag, not an empty cut: a run of that type never asked
-    # who speaks, and a cut list in such a handover is not its own.
+    # A camera cut needs the speaker statistics, a multicam clip two cameras;
+    # lacking either, that timeline is not made. "sync" is the flag, not an
+    # empty cut: that run never asked who speaks; its cut list is foreign.
     only_one = len(cameras) < 2
     sync = d.get("project_type") == "sync"
     tl = None
@@ -2538,9 +2529,8 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
 
 #-------------------------------------------- The box in the window
-# The connection has a box in the settings window, and the box says
-# what check_resolve above found. Both here, so that a change to the
-# one is made where the other is read.
+# The settings window's box for the connection says what check_resolve above
+# found; both stand here, so a change to one is made where the other is read.
 
 
 def make_resolve_check(QtWidgets, bridge, bridge_emit, resolve_position,
