@@ -91,6 +91,10 @@ builder**, and only a green run has them all:
 cd tests && bash builder_times.sh
 ```
 
+The run is the green one of the version HEAD says it is, found by the
+`VERSION` its commit carries -- not the newest green run on main, which
+on the b24 day was still b23's -- and it refuses when that version has
+none yet; `--dry-run` prints the file instead of writing it.
 It asks the run which job was slowest -- that has changed platform
 before, so it is asked and not written down -- and writes that job's
 numbers over the file. Then read the ten it prints and ask whether the
