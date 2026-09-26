@@ -2035,6 +2035,30 @@ def clock_on_axis(curve, clock):
                      np.arange(len(curve)), curve)
 
 
+def recording_decoded(blocks, rate):
+    """Every block of one recording in a row, the way the run joins them.
+
+    With a timecode on every block, each at its place, a hole silent, an
+    overlap summed and a block past the fence left out; without one, end
+    to end in the order given -- join_audio_parts' two roads. *blocks* is
+    a path or the recording's blocks, the first where it begins.
+    """
+    blocks = [blocks] if isinstance(blocks, str) else list(blocks)
+    trs = [PROGRAM.bext_time_reference(p)
+           for p in blocks] if len(blocks) > 1 else [None]
+    if any(t is None for t in trs):
+        return np.concatenate([decode_audio(p, rate=rate) for p in blocks])
+    keep, _far = PROGRAM.blocks_within_reach(
+        blocks, trs, [sample_count(p) for p in blocks])
+    at = [trs[i] / float(PROGRAM.wav_rate(blocks[i]) or SR) for i in keep]
+    pieces = [decode_audio(blocks[i], rate=rate) for i in keep]
+    starts = [int(round((a - min(at)) * rate)) for a in at]
+    out = np.zeros(max(s + len(x) for s, x in zip(starts, pieces)))
+    for s, x in zip(starts, pieces):
+        out[s:s + len(x)] += x
+    return out
+
+
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                         gap=SPEECH_PAUSE_BRIDGED_S, min_len=SPEECH_MIN_LEN_S,
                         report=None, separate=True,
@@ -2044,8 +2068,8 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     Each block is measured against the track's own noise floor, because
     recorders are set to different gains. With *separate* the bleed is
     taken out first; without it a neighbour's voice counts as that
-    neighbour speaking. *tracks* is [(name, path, offset[, clock])];
-    *grid* takes the levels as read, so no track is opened twice."""
+    neighbour speaking. *tracks* is [(name, path or blocks, offset[,
+    clock])]; *grid* takes the levels as read, so none is opened twice."""
     names, levels, shifts = [], [], []
     # Read a handful at a time, not all at once: an hour of audio is a
     # couple of hundred megabytes per track.
@@ -2057,16 +2081,16 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
         if i % step == 0:
             read = {}
             group = tracks[i:i + step]
-            for entry, x in zip(group, parallel_map(
-                    group, lambda t: decode_audio(t[1], rate=rate))):
-                read[entry[1]] = x
+            for j, x in enumerate(parallel_map(
+                    group, lambda t: recording_decoded(t[1], rate))):
+                read[i + j] = x
         if report:
             report(T('Measuring %s (%s of %s)')
                    % (name, number_text(i + 1, 0),
                       number_text(len(tracks), 0)))
-        x = read.pop(file_path, None)
+        x = read.pop(i, None)
         if x is None:
-            x = decode_audio(file_path, rate=rate)
+            x = recording_decoded(file_path, rate)
         nb = max(1, int(block * rate))
         count = len(x) // nb
         names.append(name)

@@ -1931,7 +1931,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
             if camera_value.get() == IGNORE_AUDIO:
                 continue
             name = name_value.get() or os.path.basename(row[0])
-            tracks.append((name, row[0], audio_start(row[0]),
+            tracks.append((name, list(row), audio_start(row[0]),
                            audio_clock_of(row[0], state.get("axis_clock"))))
         if not tracks:
             label_say(measure_label, T('No audio tracks are assigned.'),
