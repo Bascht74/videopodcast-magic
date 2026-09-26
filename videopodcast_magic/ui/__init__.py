@@ -1820,6 +1820,10 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         PROGRAM.OUTPUT_SINK = None
         PROGRAM.ASK_SINK = PROGRAM.PROGRESS_SINK = None
         PROGRAM.RUN_VITALS.end()
+        # A Stop belongs to this run: left standing, the window's own
+        # measuring comes back empty until the next Start.
+        stop_forget()
+        state.pop("run_step", None)
     # However it ended, nothing of it is still running.
     for name in list(run_step_order):
         bridge_emit(bridge.run_step, name, 1.0)

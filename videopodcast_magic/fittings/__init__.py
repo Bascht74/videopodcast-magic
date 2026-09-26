@@ -1240,6 +1240,9 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
             for earlier in run_step_order[:run_step_order.index(name)]:
                 plan.done("run:" + earlier)
             plan.begin("run:" + name)
+            # What a Stop now says it broke off: the stage in the plan's
+            # words, not the file name the ffmpeg step carries.
+            state["run_step"] = plan.caption.get("run:" + name, "")
             return
         plan.report("run:" + name, share)
 

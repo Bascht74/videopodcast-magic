@@ -3329,6 +3329,9 @@ def speakers_for_the_cut(args, tracks):
             mics = speakers_from_tracks(
                 [(track["name"], track["axis"], 0.0)
                  for track in tracks], note=print, grid=box)
+        except PROGRAM.Stopped:
+            # Stop ends the run; it is no failure of this step.
+            raise
         except Exception as e:
             print(as_warn(T('  The tracks were not measured, so %s is in '
                             'the mix and not in the cut: %s')

@@ -3,8 +3,9 @@
 
 Plain path stopped while camera files are written, Multitrack while a
 track is levelled, the step read at half speed (-readrate) so Stop meets
-it midway. Each: Stop there, a soon end, no ffmpeg left, the step named,
-Start back; plain also: no cut-short camera file, no handover or EDL.
+it midway. Each: Stop there, a soon end, no ffmpeg left, the stage named
+by its caption, Start back; plain also: no cut-short camera file, no
+handover or EDL, and the check and time axis measure afterwards, no Start.
 """
 PLATFORM_BOUND = True
 import os
@@ -280,6 +281,20 @@ def finished_named(text):
     return [] if listed == "-" else listed.split(", ")
 
 
+def stopped_at(text):
+    """What the last "Stopped during:" line names, or None without one."""
+    at = [x for x in text.splitlines() if AT_STEP in x]
+    return at[-1].split(AT_STEP, 1)[1].strip() if at else None
+
+
+def afterwards(call):
+    """What *call* gave: ('returned', value) or ('raised', its text)."""
+    try:
+        return "returned", call()
+    except BaseException as e:      # noqa: BLE001 -- the answer judged
+        return "raised", "%s: %s" % (type(e).__name__, str(e)[:80])
+
+
 def plain_path():
     """Stop while the camera files are written, and what is left."""
     print("Plain path, Stop while the camera files are written")
@@ -328,7 +343,7 @@ def plain_path():
                      .replace(OUT, "<out>").splitlines()
                      if x.strip())[-300:]))
     named = finished_named(seen["text"])
-    foreign = [n for n in named if n not in os.listdir(OUT)
+    foreign = [n for n in named or () if n not in os.listdir(OUT)
                or n.startswith(vpm.PROJECT_PREFIX)]
     check("the stop report names as finished only results in the out folder",
           seen["pressed"] is not None and named is not None and not foreign,
@@ -338,6 +353,24 @@ def plain_path():
           bool(seen["start_back"]) and bool(seen["stop_gone"]),
           "Start enabled %r, Stop gone %r" % (seen["start_back"],
                                               seen["stop_gone"]))
+    said, wanted = stopped_at(seen["text"]), vpm.T('Writing the camera files')
+    check("the stop report names the camera stage by its caption",
+          said == wanted, "said %r, wanted %r" % (said, wanted))
+    # What the window measures on its own, after the run and with no
+    # new Start: the check of the files and the time axis.
+    sound, pictures = ground.material()
+    how, got = afterwards(lambda: vpm.collect_findings(sound, pictures))
+    check("the file check measures after a stopped run, with no Start",
+          how == "returned" and bool(got),
+          "the check %s %s" % (how, "%d findings" % len(got)
+                               if how == "returned" else got))
+    how, got = afterwards(lambda: vpm.measure_time_axis(sound + pictures))
+    placed = len(got[0].get("axis") or {}) if how == "returned" else 0
+    check("the time axis measures after a stopped run, with no Start",
+          placed == len(sound + pictures),
+          "%d of %d files placed; %s %s" % (
+              placed, len(sound + pictures), how,
+              got[1] if how == "returned" else got))
 
 
 def multitrack():
@@ -370,6 +403,12 @@ def multitrack():
              " / ".join(x.strip() for x in seen["text"]
                      .replace(OUT, "<out>").splitlines()
                      if x.strip())[-300:]))
+    # Any stage caption: the levelling runs inside the speaker stage
+    # today, and a better stage for it must not turn this red.
+    said = stopped_at(seen["text"])
+    wanted = [c for _n, _w, c in vpm.run_stages(True, 3, False)]
+    check("the stop report names a Multitrack stage by its caption",
+          said in wanted, "said %r, wanted one of %r" % (said, wanted))
     check("Start is back and Stop gone after a stopped Multitrack run",
           bool(seen["start_back"]) and bool(seen["stop_gone"]),
           "Start enabled %r, Stop gone %r" % (seen["start_back"],

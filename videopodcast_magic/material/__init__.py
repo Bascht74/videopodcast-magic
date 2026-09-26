@@ -1383,9 +1383,9 @@ def prework_weight(file_path, task):
 def parallel_map(items, work, workers=None):
     """Run *work* over all *items* at once; answers come back in order.
 
-    Threads rather than processes: everything this is used for waits on
-    ffmpeg or numpy, and both let other threads run. Where none can be
-    started the rest is worked here; an error is raised at the end.
+    Threads rather than processes: everything this waits on lets other
+    threads run. The rest is worked here where none can be started; an
+    error is raised at the end, and Stop ends it as Stopped, not gaps.
     """
     items = list(items)
     if len(items) < 2:
@@ -1425,6 +1425,8 @@ def parallel_map(items, work, workers=None):
     work_loop()             # whatever no thread got to
     if trouble:
         raise trouble[0]
+    if todo and stop_wanted():
+        raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"])
     return out
 
 
@@ -1452,7 +1454,11 @@ def probe_warm(paths, workers=None):
                 # A file that cannot be measured is reported at its row.
                 pass
 
-    parallel_map(todo, one, workers)
+    try:
+        parallel_map(todo, one, workers)
+    except PROGRAM.Stopped:
+        # A Stop of a run beside it: the rows measure what is missing.
+        return
 
 
 # A channel counts as silent when it stays this far under the loudest
