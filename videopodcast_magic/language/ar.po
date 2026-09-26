@@ -106,8 +106,8 @@ msgstr "لاحقًا"
 msgid "Go back"
 msgstr "رجوع"
 
-msgid "About Video Podcast Magic"
-msgstr "حول Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "حول %(name)s"
 
 msgid "&File"
 msgstr "&ملف"
@@ -3139,8 +3139,8 @@ msgstr "هذه الملفات لم تعد موجودة:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  ملف المشروع غير قابل للكتابة (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;ملفات JSON (*.json);;كل الملفات (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;ملفات JSON (*.json);;كل الملفات (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "ملف التسليم هذا لا يحمل معدل إطارات، لذا لا يمكن بناء الـTimeline منه. يُرجى إعادة التشغيل."
@@ -4123,8 +4123,8 @@ msgstr "لا صوت للعمل به -- اضبط صوت الكاميرا لملف
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "المحتوى: كاميرا مثل أي كاميرا أخرى.\nلقطة واسعة: كاميرا لا يجلس أمامها أحد -- لا تأخذ متحدثًا، وينتقل المونتاج إليها في الوقفات وفي المونولوج الطويل.\nالمقدمة والخاتمة مقاطع جاهزة -- لا تُحاذى ولا تُعالج، بل توضع في الـ Timeline فقط.\nتجاهل الفيديو: يبقى الملف خارجًا تمامًا."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- من المادة الخام إلى بودكاست ممنتج"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- من المادة الخام إلى بودكاست ممنتج"
 
 msgid "The work can be written to a project file first."
 msgstr "يمكن كتابة العمل في ملف مشروع أولًا."

@@ -4,10 +4,13 @@
 Where it goes on each of the three systems; that the first start
 writes it and says where; that the second says nothing; that one taken
 away by hand does not come back; that a place which cannot be written
-says why instead of stopping the start; and that a test run lays
-nothing unless a home of its own is named. The macOS and the Linux
-shape are written here and read back; the Windows one is left out,
-because writing a .lnk needs a shell object this machine has not.
+says why instead of stopping the start; that a test run lays
+nothing unless a home of its own is named; what a start from the Dock
+costs; that the line lands in this run's log; and that a rename leaves
+no bundle of ours under the old name. The macOS and the Linux shape are
+written here and read back; the Windows one is left out, because
+writing a .lnk needs a shell object this machine has not, and a rename
+is asked of the bundle alone, the one entry that says who wrote it.
 """
 PLATFORM_BOUND = True
 import os
@@ -341,6 +344,52 @@ check("and it is laid on the command line road as well",
       "%d call(s), indented %d"
       % (len(laid_line),
          len(laid_line[0]) - len(laid_line[0].lstrip()) if laid_line else -1))
+
+
+print("\n10. A rename leaves one entry, not two")
+# The old name is COMMAND bent for one laying, which is what the
+# program under that name did; the note it wrote down names that path.
+renamed, renamed_starter = a_home()
+held_command = desktop.COMMAND
+desktop.COMMAND = "old-podcast-magic"
+try:
+    old = desktop.make_shortcut(root=renamed, target=renamed_starter,
+                                png=PICTURE, system="darwin", run_as="")
+finally:
+    desktop.COMMAND = held_command
+foreign = os.path.join(renamed, "Applications", "Foreign.app")
+os.makedirs(os.path.join(foreign, "Contents", "MacOS"))
+with open(os.path.join(foreign, "Contents", "MacOS", "Foreign"), "w",
+          encoding="utf-8") as f:
+    f.write("#!/bin/sh\nexec /bin/true\n")
+new = desktop.make_shortcut(root=renamed, target=renamed_starter,
+                            png=PICTURE, kept={desktop.KEPT: old.where},
+                            system="darwin", run_as="")
+check("an entry laid under an earlier name is taken away after a rename",
+      old.made and new.made and not os.path.exists(old.where)
+      and os.path.exists(new.where),
+      "old laid=%s and still there=%s, new laid=%s at %s"
+      % (old.made, os.path.exists(old.where), new.made,
+         os.path.basename(new.where)))
+check("a bundle this program did not write is left standing",
+      os.path.isdir(foreign), "Foreign.app there=%s" % os.path.isdir(foreign))
+
+# The new one already laid, the old one back, the note still old. The
+# old bundle is written directly: a laying would take the new one away.
+desktop.COMMAND = "old-podcast-magic"
+try:
+    desktop._bundle(old.where, renamed_starter, PICTURE)
+finally:
+    desktop.COMMAND = held_command
+back = os.path.exists(old.where)
+stood = desktop.make_shortcut(root=renamed, target=renamed_starter,
+                              png=PICTURE, kept={desktop.KEPT: old.where},
+                              system="darwin", run_as="")
+check("and it is taken away where the new entry already stands",
+      back and not stood.made and not os.path.exists(old.where),
+      "old back=%s, new laid now=%s, old still there=%s"
+      % (back, stood.made, os.path.exists(old.where)))
+shutil.rmtree(renamed, ignore_errors=True)
 
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

@@ -185,8 +185,8 @@ msgstr "--update ju stiahne a nainštaluje."
 msgid "The check for new versions is switched off here."
 msgstr "Vyhľadávanie nových verzií je tu vypnuté."
 
-msgid "About Video Podcast Magic"
-msgstr "O aplikácii Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "O aplikácii %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Zo surového materiálu videopodcastu vznikne zostrihaná epizóda: dobrý zvuk z videosúborov, kamery na jednej časovej osi, prvý strih podľa rečníkov a projekt DaVinci Resolve."
@@ -2867,8 +2867,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- zo surového materiálu vznikne zostrihaný podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- zo surového materiálu vznikne zostrihaný podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Hlasitosť. 100 je najviac, čo ide -- viac Qt neprijme."
@@ -3385,8 +3385,8 @@ msgstr "Prenos"
 msgid "Uploading %s tracks"
 msgstr "Nahráva sa %s stôp"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Súbory JSON (*.json);;Všetky súbory (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Súbory JSON (*.json);;Všetky súbory (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "hlasy nižšie nesú kamery"

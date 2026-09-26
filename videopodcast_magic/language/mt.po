@@ -190,8 +190,8 @@ msgstr "--update iniżżilha u jpoġġiha f'postha."
 msgid "The check for new versions is switched off here."
 msgstr "Il-kontroll għal verżjonijiet ġodda huwa mitfi hawn."
 
-msgid "About Video Podcast Magic"
-msgstr "Dwar Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Dwar %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Il-materjal mhux maħdum ta' podcast bil-vidjo jsir episodju mmuntat: l-awdjo tajjeb mill-fajls tal-vidjo, il-kameras fuq assi tal-ħin wieħed, l-ewwel muntaġġ skont il-kelliem, u proġett ta' DaVinci Resolve."
@@ -2893,8 +2893,8 @@ msgstr "Vidjo 1"
 msgid "Video 2"
 msgstr "Vidjo 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- il-materjal mhux maħdum isir podcast immuntat"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- il-materjal mhux maħdum isir podcast immuntat"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volum. 100 huwa l-ogħla li jista' jkun -- Qt ma jieħu xejn aktar minn hekk."
@@ -3433,8 +3433,8 @@ msgstr "Trasferiment"
 msgid "Uploading %s tracks"
 msgstr "Tlugħ ta' binarji: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Fajls JSON (*.json);;Il-fajls kollha (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Fajls JSON (*.json);;Il-fajls kollha (*)"
 
 msgid "Wide shot after"
 msgstr "Veduta wiesgħa wara"

@@ -184,8 +184,8 @@ msgstr "--update henter den og sætter den på plads."
 msgid "The check for new versions is switched off here."
 msgstr "Søgningen efter nye versioner er slået fra her."
 
-msgid "About Video Podcast Magic"
-msgstr "Om Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Om %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Råmateriale fra en videopodcast bliver et klippet afsnit: den gode lyd fra videofilerne, kameraerne på én tidsakse, en første klipning efter taler og et DaVinci Resolve-projekt."
@@ -2864,8 +2864,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- råmateriale bliver en klippet podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- råmateriale bliver en klippet podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volumen. 100 er så højt, det går -- Qt tager ikke imod mere end det."
@@ -3382,8 +3382,8 @@ msgstr "Overførsel"
 msgid "Uploading %s tracks"
 msgstr "Uploader %s spor"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-filer (*.json);;Alle filer (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-filer (*.json);;Alle filer (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "stemmerne nedenfor bærer kameraerne"

@@ -186,8 +186,8 @@ msgstr "--update จะดึงมาและติดตั้งให้"
 msgid "The check for new versions is switched off here."
 msgstr "การตรวจหาเวอร์ชันใหม่ถูกปิดไว้ที่นี่"
 
-msgid "About Video Podcast Magic"
-msgstr "เกี่ยวกับ Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "เกี่ยวกับ %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "ฟุตเทจดิบจากวิดีโอพอดแคสต์กลายเป็นตอนที่ตัดต่อแล้ว: เสียงดีจากไฟล์วิดีโอ กล้องทุกตัวบนแกนเวลาเดียวกัน การตัดต่อแรกตามผู้พูด และโปรเจกต์ DaVinci Resolve"
@@ -2889,8 +2889,8 @@ msgstr "วิดีโอ 1"
 msgid "Video 2"
 msgstr "วิดีโอ 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- จากฟุตเทจดิบสู่พอดแคสต์ที่ตัดต่อแล้ว"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- จากฟุตเทจดิบสู่พอดแคสต์ที่ตัดต่อแล้ว"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "ระดับเสียง 100 คือดังที่สุด -- Qt ไม่รับค่าที่สูงกว่านั้น"
@@ -3428,8 +3428,8 @@ msgstr "การถ่ายโอน"
 msgid "Uploading %s tracks"
 msgstr "กำลังอัปโหลด %s แทร็ก"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;ไฟล์ JSON (*.json);;ไฟล์ทั้งหมด (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;ไฟล์ JSON (*.json);;ไฟล์ทั้งหมด (*)"
 
 msgid "Wide shot after"
 msgstr "ภาพมุมกว้างหลังจาก"

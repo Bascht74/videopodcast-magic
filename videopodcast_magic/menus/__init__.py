@@ -219,8 +219,8 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
 
     help_menu = menu.addMenu(T('&Help'))
     act(help_menu, T('The manual'),
-        lambda: open_page("https://github.com/Bascht74/"
-                          "videopodcast-magic#readme"))
+        lambda: open_page("https://github.com/%s#readme"
+                          % PROGRAM.REPOSITORY))
     act(help_menu, T('What changed in this version'),
         lambda: PROGRAM.changes_shown(window))
     PROGRAM.log_entry(act, help_menu, window)
@@ -231,7 +231,8 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
     # question to github, and no menu being built can know the answer.
     act(help_menu, T('Back to an earlier version ...'),
         lambda: PROGRAM.restore_offer(window))
-    about = act(help_menu, T('About Video Podcast Magic'),
+    about = act(help_menu, T('About %(name)s')
+                % {"name": PROGRAM.DISPLAY_NAME},
                 lambda: PROGRAM.about_show(window))
     about.setMenuRole(QtGui.QAction.AboutRole)
     return menu

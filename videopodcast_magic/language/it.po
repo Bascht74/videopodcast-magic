@@ -107,8 +107,8 @@ msgstr "Più tardi"
 msgid "Go back"
 msgstr "Torna indietro"
 
-msgid "About Video Podcast Magic"
-msgstr "Informazioni su Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Informazioni su %(name)s"
 
 msgid "&File"
 msgstr "&File"
@@ -3100,8 +3100,8 @@ msgstr "Questi file non esistono più:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  File di progetto non scrivibile (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;File JSON (*.json);;Tutti i file (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;File JSON (*.json);;Tutti i file (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Questa consegna non contiene una frequenza fotogrammi, quindi non si può costruire la Timeline. Ripetere l’esecuzione."
@@ -4084,8 +4084,8 @@ msgstr "Nessun suono con cui lavorare -- imposta l’Audio della telecamera di u
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "Contenuto: una telecamera come le altre.\nCampo totale: una telecamera davanti a cui non siede nessuno -- non prende alcun parlante, e il montaggio passa a lei in una pausa e in un lungo monologo.\nIntro e outro sono clip finite -- non allineate, non elaborate, solo messe nella Timeline.\nIgnora video: il file resta del tutto fuori."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- il materiale grezzo diventa un podcast montato"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- il materiale grezzo diventa un podcast montato"
 
 msgid "The work can be written to a project file first."
 msgstr "Il lavoro può prima essere scritto in un file di progetto."

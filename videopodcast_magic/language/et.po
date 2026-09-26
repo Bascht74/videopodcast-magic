@@ -188,8 +188,8 @@ msgstr "--update laadib selle alla ja paigaldab."
 msgid "The check for new versions is switched off here."
 msgstr "Uute versioonide kontroll on siin välja lülitatud."
 
-msgid "About Video Podcast Magic"
-msgstr "Teave: Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Teave: %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Videotaskuhäälingu toormaterjalist saab monteeritud episood: hea heli videofailidest, kaamerad ühel ajateljel, esimene montaaž kõneleja järgi ja DaVinci Resolve'i projekt."
@@ -2891,8 +2891,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- toormaterjalist saab monteeritud taskuhääling"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- toormaterjalist saab monteeritud taskuhääling"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Helitugevus. 100 on nii vali kui võimalik -- üle selle Qt midagi ei võta."
@@ -3430,8 +3430,8 @@ msgstr "Edastus"
 msgid "Uploading %s tracks"
 msgstr "Radade üleslaadimine: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-failid (*.json);;Kõik failid (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-failid (*.json);;Kõik failid (*)"
 
 msgid "Wide shot after"
 msgstr "Üldplaan kõige varem"

@@ -187,8 +187,8 @@ msgstr "--update இதைப் பெற்று அதன் இடத்த
 msgid "The check for new versions is switched off here."
 msgstr "புதிய பதிப்புகளுக்கான சரிபார்ப்பு இங்கே அணைக்கப்பட்டுள்ளது."
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic பற்றி"
+msgid "About %(name)s"
+msgstr "%(name)s பற்றி"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "வீடியோ பாட்காஸ்டின் மூலப்பொருள் திருத்தப்பட்ட எபிசோடாக மாறுகிறது: வீடியோ கோப்புகளிலிருந்து நல்ல ஆடியோ, ஒரே நேர அச்சில் கேமராக்கள், பேச்சாளர் வாரியாக முதல் கட், மற்றும் ஒரு DaVinci Resolve திட்டப்பணி."
@@ -2890,8 +2890,8 @@ msgstr "வீடியோ 1"
 msgid "Video 2"
 msgstr "வீடியோ 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- மூலப்பொருள் திருத்தப்பட்ட பாட்காஸ்டாக மாறுகிறது"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- மூலப்பொருள் திருத்தப்பட்ட பாட்காஸ்டாக மாறுகிறது"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "ஒலியளவு. 100 என்பதே அதிகபட்சம் -- Qt அதற்கு மேல் எதையும் ஏற்காது."
@@ -3430,8 +3430,8 @@ msgstr "பரிமாற்றம்"
 msgid "Uploading %s tracks"
 msgstr "%s தடங்கள் பதிவேற்றப்படுகின்றன"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON கோப்புகள் (*.json);;அனைத்துக் கோப்புகளும் (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON கோப்புகள் (*.json);;அனைத்துக் கோப்புகளும் (*)"
 
 msgid "Wide shot after"
 msgstr "வைட் ஷாட் இவ்வளவுக்குப் பின்"

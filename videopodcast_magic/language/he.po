@@ -187,8 +187,8 @@ msgstr "--update מוריד אותה ומתקין אותה במקומה."
 msgid "The check for new versions is switched off here."
 msgstr "הבדיקה לגרסאות חדשות כבויה כאן."
 
-msgid "About Video Podcast Magic"
-msgstr "אודות Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "אודות %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "חומר גלם מפודקאסט וידאו הופך לפרק ערוך: השמע הטוב מתוך קובצי הווידאו, המצלמות על ציר זמן אחד, חיתוך ראשון לפי דובר, ופרויקט DaVinci Resolve."
@@ -2890,8 +2890,8 @@ msgstr "וידאו 1"
 msgid "Video 2"
 msgstr "וידאו 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- מחומר גולמי לפודקאסט ערוך"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- מחומר גולמי לפודקאסט ערוך"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "עוצמת שמע. 100 הוא המקסימום -- Qt אינו מקבל דבר מעבר לכך."
@@ -3429,8 +3429,8 @@ msgstr "העברה"
 msgid "Uploading %s tracks"
 msgstr "העלאת %s רצועות"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;קובצי JSON (*.json);;כל הקבצים (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;קובצי JSON (*.json);;כל הקבצים (*)"
 
 msgid "Wide shot after"
 msgstr "שוט רחב אחרי"

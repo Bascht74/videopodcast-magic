@@ -36,6 +36,12 @@ import types
 # The program's name: the command pip lays and what a run calls itself.
 # It may follow a rename -- together with [project.scripts] in pyproject.
 PROGRAM_NAME = "videopodcast-magic"
+# Where it lives on github: releases, pip, the model and the manual are
+# all reached through this one, so a move is one line.
+REPOSITORY = "Bascht74/videopodcast-magic"
+# What a person reads: title bar, About box, menus. Translated texts
+# carry %(name)s and are filled from here, so they follow a rename.
+DISPLAY_NAME = "Video Podcast Magic"
 # DANGER: the name everything a user keeps is filed under -- keychain,
 # registry, logs, settings, cache, tools, project files, the macOS bundle
 # id. NEVER follow a rename: the next start finds no key and no choices.

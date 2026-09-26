@@ -186,8 +186,8 @@ msgstr "--update এটি এনে জায়গামতো বসায়
 msgid "The check for new versions is switched off here."
 msgstr "এখানে নতুন সংস্করণ খোঁজা বন্ধ করা আছে।"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic সম্পর্কে"
+msgid "About %(name)s"
+msgstr "%(name)s সম্পর্কে"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "ভিডিও পডকাস্টের কাঁচা উপাদান থেকে একটি সম্পাদিত পর্ব: ভিডিও ফাইল থেকে ভালো অডিও, একটি সময়-অক্ষে সব ক্যামেরা, বক্তা অনুযায়ী প্রথম কাট, আর একটি DaVinci Resolve প্রজেক্ট।"
@@ -2866,8 +2866,8 @@ msgstr "ভিডিও 1"
 msgid "Video 2"
 msgstr "ভিডিও 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- কাঁচা উপাদান থেকে সম্পাদিত পডকাস্ট"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- কাঁচা উপাদান থেকে সম্পাদিত পডকাস্ট"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "ভলিউম। 100 হলো সর্বোচ্চ জোর -- Qt এর বেশি নেয় না।"
@@ -3384,8 +3384,8 @@ msgstr "স্থানান্তর"
 msgid "Uploading %s tracks"
 msgstr "%sটি ট্র্যাক আপলোড হচ্ছে"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON ফাইল (*.json);;সব ফাইল (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON ফাইল (*.json);;সব ফাইল (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "ক্যামেরা নিচের কণ্ঠস্বরগুলোর সঙ্গে যুক্ত"

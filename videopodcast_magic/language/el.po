@@ -184,8 +184,8 @@ msgstr "--update τη φέρνει και την εγκαθιστά."
 msgid "The check for new versions is switched off here."
 msgstr "Ο έλεγχος για νέες εκδόσεις είναι απενεργοποιημένος εδώ."
 
-msgid "About Video Podcast Magic"
-msgstr "Σχετικά με το Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Σχετικά με το %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Το ακατέργαστο υλικό ενός video podcast γίνεται μονταρισμένο επεισόδιο: ο καλός ήχος από τα αρχεία βίντεο, οι κάμερες σε έναν κοινό άξονα χρόνου, ένα πρώτο μοντάζ ανά ομιλητή, και ένα έργο DaVinci Resolve."
@@ -2864,8 +2864,8 @@ msgstr "Βίντεο 1"
 msgid "Video 2"
 msgstr "Βίντεο 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- το ακατέργαστο υλικό γίνεται μονταρισμένο podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- το ακατέργαστο υλικό γίνεται μονταρισμένο podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Ένταση. Το 100 είναι το μέγιστο -- το Qt δεν δέχεται τίποτα παραπάνω."
@@ -3383,8 +3383,8 @@ msgstr "Μεταφορά"
 msgid "Uploading %s tracks"
 msgstr "Μεταφόρτωση %s κομματιών"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Αρχεία JSON (*.json);;Όλα τα αρχεία (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Αρχεία JSON (*.json);;Όλα τα αρχεία (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "οι φωνές παρακάτω φέρουν τις κάμερες"

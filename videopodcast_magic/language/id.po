@@ -188,8 +188,8 @@ msgstr "--update mengambilnya dan memasangnya."
 msgid "The check for new versions is switched off here."
 msgstr "Pemeriksaan versi baru dinonaktifkan di sini."
 
-msgid "About Video Podcast Magic"
-msgstr "Tentang Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Tentang %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Materi mentah dari podcast video menjadi episode yang sudah disunting: audio yang baik dari file video, semua kamera pada satu sumbu waktu, potongan awal per pembicara, dan proyek DaVinci Resolve."
@@ -2891,8 +2891,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- materi mentah menjadi podcast yang tersunting"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- materi mentah menjadi podcast yang tersunting"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volume. 100 adalah yang paling keras -- Qt tidak menerima nilai di atasnya."
@@ -3430,8 +3430,8 @@ msgstr "Transfer"
 msgid "Uploading %s tracks"
 msgstr "Mengunggah %s trek"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;File JSON (*.json);;Semua file (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;File JSON (*.json);;Semua file (*)"
 
 msgid "Wide shot after"
 msgstr "Bidikan lebar setelah"

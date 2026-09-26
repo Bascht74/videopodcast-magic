@@ -48,17 +48,17 @@ write_through = PROGRAM.write_through
 # never during a run, and pip is the only way -- this is a folder.
 
 
-RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
-            "/releases/latest")
+RELEASES = ("https://api.github.com/repos/" + PROGRAM.REPOSITORY
+            + "/releases/latest")
 # The whole list: whoever skipped two releases wants to read all three.
-RELEASE_LIST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
-                "/releases?per_page=30")
+RELEASE_LIST = ("https://api.github.com/repos/" + PROGRAM.REPOSITORY
+                + "/releases?per_page=30")
 # Off for a test run: no network, and no swapping the file under test.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
 # What pip is pointed at where the program was installed rather than
 # downloaded. No PyPI in it: pip reads the repository itself, and
 # pip_update hangs the release on the end.
-PIP_SOURCE = "git+https://github.com/Bascht74/videopodcast-magic"
+PIP_SOURCE = "git+https://github.com/" + PROGRAM.REPOSITORY
 
 # How far back the way back reaches. Below v3.0.0b0 the repository is
 # no package at all -- v2.32.0-beta has neither pyproject.toml nor
@@ -529,7 +529,7 @@ def version_in_place(tag):
     "That one" points at the line above and holds both ways: the same
     box now follows a step back, where "the new one" was untrue.
     """
-    return ("Video Podcast Magic", T('%s is in place.') % tag,
+    return (PROGRAM.DISPLAY_NAME, T('%s is in place.') % tag,
             T('This window is still the version it started as. It can '
               'start again now and come up as that one, or you can do '
               'that yourself later.'))

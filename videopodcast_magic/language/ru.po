@@ -91,8 +91,8 @@ msgstr "Позже"
 msgid "Go back"
 msgstr "Вернуться"
 
-msgid "About Video Podcast Magic"
-msgstr "О программе Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "О программе %(name)s"
 
 msgid "&File"
 msgstr "&Файл"
@@ -3855,11 +3855,11 @@ msgstr "Видео 1"
 msgid "Video 2"
 msgstr "Видео 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- из сырого материала получается смонтированный подкаст"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- из сырого материала получается смонтированный подкаст"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Файлы JSON (*.json);;Все файлы (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Файлы JSON (*.json);;Все файлы (*)"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Громкость. 100 -- громче некуда, больше Qt не принимает."

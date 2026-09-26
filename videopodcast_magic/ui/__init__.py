@@ -949,8 +949,8 @@ def window_title(project=""):
     of the tag line, and without it a window with a project open and one
     without look exactly alike.
     """
-    said = T('Video Podcast Magic %s -- raw material becomes an edited '
-             'podcast') % VERSION
+    said = T('%(name)s %(version)s -- raw material becomes an edited '
+             'podcast') % {"name": PROGRAM.DISPLAY_NAME, "version": VERSION}
     if not project:
         return said
     return "%s -- %s" % (os.path.basename(project), said.split(" -- ")[0])
@@ -2045,12 +2045,12 @@ def gui():
     # the console for every file loaded.
     os.environ.setdefault("QT_LOGGING_RULES",
                           "qt.multimedia.ffmpeg*=false;qt.multimedia*=false")
-    mac_menu_name("Video Podcast Magic")   # before the menu bar is built
+    mac_menu_name(PROGRAM.DISPLAY_NAME)   # before the menu bar is built
     app = QtWidgets.QApplication.instance()
     if app is None:
         app = QtWidgets.QApplication(sys.argv[:1])
-    app.setApplicationName("Video Podcast Magic")
-    app.setApplicationDisplayName("Video Podcast Magic")
+    app.setApplicationName(PROGRAM.DISPLAY_NAME)
+    app.setApplicationDisplayName(PROGRAM.DISPLAY_NAME)
     app_language_set(QtCore, Qt, app)
 
     # With the system in dark mode the same roles get dark shades, or a
@@ -3091,8 +3091,8 @@ def about_show(window):
     """Show what this program is, which version, and under what terms."""
     QtWidgets = _qt_widgets()
     box = QtWidgets.QMessageBox(window)
-    box.setWindowTitle(T('About Video Podcast Magic'))
-    box.setText("Video Podcast Magic %s" % VERSION)
+    box.setWindowTitle(T('About %(name)s') % {"name": PROGRAM.DISPLAY_NAME})
+    box.setText("%s %s" % (PROGRAM.DISPLAY_NAME, VERSION))
     box.setInformativeText(
         T('Raw material from a video podcast becomes an edited '
           'episode: the good audio out of the video files, the '
@@ -3110,8 +3110,8 @@ def about_show(window):
 # The upkeep looks a release up by tag and asks the program for this
 # one: that piece is read before this file, so a head line there is an
 # AttributeError.
-RELEASE_BY_TAG = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
-                  "/releases/tags/%s")
+RELEASE_BY_TAG = ("https://api.github.com/repos/" + PROGRAM.REPOSITORY
+                  + "/releases/tags/%s")
 
 
 def story_window(window, title, said, changed, page=""):
