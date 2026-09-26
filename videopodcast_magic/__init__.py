@@ -100,10 +100,9 @@ def take_from(piece):
             globals()[name] = what
 
 
-# take_from places every name long before, so the `X = piece.X` lines
-# below say nothing about the binding order: they are for a reader, and
-# for source_no_loose_ends, which wants an origin for every name read.
-# What each read binds, and why it stands there: development/internals.md.
+# take_from binds every name long before: the `X = piece.X` lines below
+# are for a reader and for source_no_loose_ends (an origin per name
+# read). What each binds, and why there: development/internals.md.
 
 
 #---------------------------------------------------------------- Language
@@ -281,9 +280,8 @@ take_from(timecode)
 
 
 #----------------------------------------------------- The window's tables
-# Read here and not by the window, so any piece that shows a table
-# binds these names at its head instead of reaching for them at
-# every use. It needs nothing later than the timecode above it.
+# Read here, not by the window, so a piece showing a table binds these
+# at its head rather than at every use. Needs nothing after the timecode.
 tables = beside("tables", program=PROGRAM)
 take_from(tables)
 
@@ -324,16 +322,14 @@ write_through = herald.write_through
 
 
 #------------------------------------------------ Beside the window
-# What is running right now, so that breaking off can end it. A flag
-# alone would not do: the run waits on ffmpeg for most of its minutes,
-# and a child nobody tells goes on writing after the window has stopped.
+# What runs now, so breaking off can end it -- not a flag alone: the run
+# waits on ffmpeg, and an untold child writes on after the window stops.
 RUN_STOP = {"wanted": False, "children": set(), "at": ""}
 
 
 #----------------------------------------------- The window's toolbox
-# Read here and not by the window, so any piece that takes a window
-# part of its own binds these names at its head instead of reaching
-# for them at every use. Neither needs anything later than the herald.
+# Read here, not by the window, so a piece with its own window part binds
+# these at its head, not at every use. Neither needs a thing past the herald.
 player = beside("player", program=PROGRAM)
 take_from(player)
 
@@ -424,12 +420,11 @@ def returned_given_as_raw(audio_paths, done_folder):
 def main():
     """The way in: a command line means a run, a bare start means the window.
 
-    The order is the point. Help and version answer before any tool is
-    looked for, --update before ffmpeg, because a broken installation is
-    why it is typed; a bare start (or --lang alone) ends in the window,
-    the console redirected into the log first. Everything else is a run:
-    the one-shot jobs return on their own, the rest goes through
-    preflight and one door, multitrack_or_single. Faults are said, not raised.
+    The order is the point: help and version before any tool is looked
+    for, --update before ffmpeg, since a broken install is why it is typed.
+    A bare start (or --lang alone) opens the window, console into the log
+    first; else a run: one-shot jobs return alone, the rest pass preflight
+    and one door, multitrack_or_single. Faults are said, not raised.
     """
 
     force_utf8_output()
@@ -537,9 +532,8 @@ def main():
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
     # One word for the whole run. "sync" means no speakers, no speech
-    # recognition and no transcript, and the three switches that say so
-    # are set here, once -- the pipeline reads one flag, and each of the
-    # three keeps working on its own.
+    # recognition, no transcript; the three switches are set here, once:
+    # the pipeline reads one flag, and each switch still works on its own.
     if args.project_type == "sync":
         args.no_speakers_local = True
         args.no_speech_recognition = True
@@ -793,9 +787,8 @@ pieces_answer_together()
 
 
 #--------------------------------------------------------------- Catalogue
-# One file per language in language/, read for every name in
-# LANGUAGE_NAMES but the source language -- that dict is the one list of
-# languages. How to add one: see the top of language/__init__.py.
+# Read from language/, one file per LANGUAGE_NAMES entry, the one list of
+# languages, bar the source one. How to add one: top of language/__init__.py.
 for code in language.LANGUAGE_NAMES:
     if code != SOURCE_LANG:
         # A missing .po answers {} and so English, quietly; section 4 of

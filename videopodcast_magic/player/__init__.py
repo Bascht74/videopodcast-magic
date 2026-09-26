@@ -117,21 +117,19 @@ def pause_if_running(QtMultimedia, *players):
 
 
 # The same nine point font runs 1.89 times as wide on Windows as on
-# macOS, so the fields grow there and nowhere else: the Mac layout is
-# the one the manual's pictures show, and the one four cut buttons and
-# a checkbox were weighed against in a row 480 px wide.
+# macOS, so fields grow there only: the Mac layout is what the manual
+# shows, where four cut buttons and a checkbox share a 480 px row.
 WIDE_FONT = sys.platform == "win32"
 
 
 def caption_room(widget, base, captions=()):
     """How wide a field has to be, and never narrower than designed.
 
-    Measured in the font that is drawing rather than added as a
-    constant: a surcharge in pixels fits one font and misses the next.
-    Sans Serif 9.0 is not the same font file on two systems, and fixed
-    numbers left "+10 s" 9 px short on Linux. Where several fields
-    share one width every caption is handed in, because the widest of
-    them decides; one average character is left as air.
+    Measured in the font that is drawing, not added as a constant: a
+    pixel surcharge fits one font and misses the next -- Sans Serif 9.0
+    is not the same file on two systems, and fixed numbers left "+10 s"
+    9 px short on Linux. Fields sharing one width get every caption, as
+    the widest decides; one average character is left as air.
     """
     metrics = widget.fontMetrics()
     want = widget.sizeHint().width()
@@ -556,13 +554,11 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                       QtMultimediaWidgets, label, hint, COLOURS):
     """Play the computed cut without rendering anything.
 
-    Two video surfaces sit on top of each other: one shows, the other
-    is already loading the next shot. At the cut it only switches over,
-    which costs no frame; the audio comes from one file throughout.
-
-    Seeking is a request in Qt, not a command -- setPosition is
-    silently discarded before loading, before the first frame and in
-    mid-playback -- so every seek goes through a Seeker that retries.
+    Two stacked video surfaces: one shows, the other already loads the
+    next shot, so a cut only switches over and costs no frame; the audio
+    comes from one file throughout. Seeking is a request in Qt --
+    setPosition is silently dropped before loading, before the first frame
+    and mid-playback -- so every seek goes through a Seeker that retries.
     """
 
     # The box the pictures sit in. It is also what a stretch with no
@@ -793,10 +789,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 p = QtMultimedia.QMediaPlayer(self)
                 p.setVideoOutput(f)
                 self.stack.addWidget(f)
-                # Make the window now, while no player has a file yet.
-                # Made later it is made while the players are starting
-                # up, and two threads reach for the same lock inside Qt
-                # -- QWidget::createWinId then never comes back.
+                # Make the window now, while no player has a file yet. Made
+                # later, while the players start up, two threads reach for one
+                # lock inside Qt -- QWidget::createWinId then never comes back.
                 f.winId()
                 self.surfaces.append(f)
                 self.videos.append(p)
@@ -1661,10 +1656,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             cut_row.addStretch(1)
             self.cut_right = label("", COLOURS["value"], True)
             cut_row.addWidget(self.cut_right)
-            # The window length on a line of its own, under the two
-            # boundaries it spans: In point, Out point and the gaps take
-            # 300 of the 560 px, and the German sentence about a file
-            # that starts later wants 288 of the 260 left over.
+            # The window length on its own line, under the two boundaries it
+            # spans: In, Out and gaps take 300 of the 560 px, and the German
+            # sentence about a file starting later wants 288 of the 260 left.
             window_row = QtWidgets.QHBoxLayout()
             position.addLayout(window_row)
             window_row.addStretch(1)
@@ -2592,10 +2586,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      % (os.path.basename(self.file_path or "-"),
                         self.player.errorString() or "no reason given",
                         error))
-            # A codec refused while this file is open with a picture in
-            # it is the sound track: the picture runs on and the line says
-            # what cannot be played. Open is asked too -- at a refusal
-            # during loading hasVideo() still answers for the file before.
+            # A codec refused on an open file with a picture is the sound
+            # track: the picture runs on and the line says what cannot play.
+            # Open is asked too, as while loading hasVideo() is the old file's.
             opened = (QtMultimedia.QMediaPlayer.LoadedMedia,
                       QtMultimedia.QMediaPlayer.BufferingMedia,
                       QtMultimedia.QMediaPlayer.BufferedMedia,
@@ -2815,10 +2808,9 @@ def make_log_view(QtGui, QtWidgets, Cursor):
     return LogView
 
 
-# The three the window handed over with the player: which file the
-# player shows and where it starts, the cut band with the player
-# under it, and the menu entry for the whole of it. gui() calls the
-# first two and the menus the third, each by name off the program.
+# Handed over by the window with the player: which file it shows from
+# where, the cut band with the player under it, the menu entry for it
+# all. gui() calls the first two, the menus the third, by name off the program.
 
 
 def make_player_choice(files, clip_kind_values, assign_lines, start_var,
