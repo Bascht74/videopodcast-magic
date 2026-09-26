@@ -288,7 +288,7 @@ for lufs, videos, alone, front in ((-16.0, ("a",), False, "-16 LUFS"),
                                    (-18.0, ("a",), False, "-18 LUFS"),
                                    (-16.0, (), True, "-16 LUFS")):
     for found in vpm.check_loudness_target(types.SimpleNamespace(
-            lufs=lufs, multitrack=alone, auphonic_key=None), videos):
+            lufs=lufs, auphonic_key=None), videos, 2 if alone else 1):
         told += 1
         if front not in order(found.text):
             lost.append((bare(found.text), order(found.text)))

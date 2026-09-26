@@ -998,22 +998,39 @@ def names_clash_said(clash):
             % ", ".join(clash))
 
 
+def separation_handed_over(args, say=False):
+    """The separation a run was handed, and where from: ({}, "") if none.
+
+    By the window's assignment file or by --speakers-from, whichever
+    carrier the tick chose -- read here, once for both. A block carrying
+    its recording's fingerprint is held to it, as the window holds a
+    project's; one changed since is dropped, and said where *say*.
+    """
+    given = getattr(args, "_speakers_of", None) or {}
+    if given or not getattr(args, "speakers_from", None):
+        return given, (T('the interface') if given else "")
+    given = read_separation_file(args.speakers_from)
+    where_from = os.path.basename(args.speakers_from)
+    if given.get("mtime") is not None \
+            and not speakers_from_project({"speakers": given})[0]:
+        if say:
+            print(as_warn(T('  %s holds a separation of a recording that '
+                            'has changed or gone since, or of another '
+                            'model -- it is not used.') % where_from))
+        return {}, ""
+    return given, where_from
+
+
 def voices_clashing_of_run(args, plan):
     """voice_names_clashing for a command line, before anything is made.
 
     The recordings are the plan's rows, the voices those of the
-    separation handed over -- by the window's assignment file or by
-    --speakers-from, and only one the run would use. A row whose sound
-    the separation was heard in speaks through its voices, as a
+    separation handed over, and only one the run would use. A row whose
+    sound the separation was heard in speaks through its voices, as a
     recording with voices under it does in the window.
     """
-    given = getattr(args, "_speakers_of", None) or {}
-    if not given and getattr(args, "speakers_from", None):
-        given = read_separation_file(args.speakers_from)
-        if given.get("mtime") is not None \
-                and not speakers_from_project({"speakers": given})[0]:
-            given = {}
-    if getattr(args, "project_type", "") == "sync" or not given:
+    given = separation_handed_over(args)[0]
+    if PROGRAM.sync_only(args) or not given:
         return []
     heard, voices = set(), []
     for one in [given] + list(given.get("more") or ()):
@@ -3166,23 +3183,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     run picks. Where the microphones hear each other too well, all are
     mixed instead. Returns (segments, where from) or ([], "").
     """
-    given = getattr(args, "_speakers_of", None) or {}
-    where_from = T('the interface') if given else ""
-    if not given and getattr(args, "speakers_from", None):
-        given = read_separation_file(args.speakers_from)
-        where_from = os.path.basename(args.speakers_from)
-        # A block carrying the fingerprint of its recording is held to it,
-        # as the window holds a project's: a recording changed since would
-        # be cut by voices heard in the old one. One without it stands.
-        if given.get("mtime") is not None \
-                and not speakers_from_project({"speakers": given})[0]:
-            print(as_warn(T('  %s holds a separation of a recording that '
-                            'has changed or gone since, or of another '
-                            'model -- it is not used.') % where_from))
-            given = {}
+    given, where_from = separation_handed_over(args, say=True)
     source, why, dropped = "", "", None
-    if (getattr(args, "_speakers_of", None)
-            and not SPEAKER_SPLIT_OFF
+    # Whichever carrier brought it: both hand over one recording's.
+    if (given and not SPEAKER_SPLIT_OFF
             and not getattr(args, "no_speakers_local", False)
             and not getattr(args, "speakers_local", None)
             and not getattr(args, "_camera_audio", None)):
@@ -3751,7 +3755,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         while the window is still being built.
         """
         boxes = state.get("cut_boxes")
-        sync_only = state.get("project_type") == "sync"
+        sync_only = PROGRAM.sync_only(state)
         if boxes:
             pairs = assignment_pairs(voice_lines, assign_lines)
             seen = len(camera_lines)

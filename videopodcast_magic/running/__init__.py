@@ -205,7 +205,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         lines += space_summary_lines(
             model.out_folder.get() or (os.path.dirname(videos_p[0])
                                         if videos_p else ""),
-            audio_files, content, bool(model.multitrack.get()),
+            audio_files, content,
             model.in_point.get(), model.out_point.get())
         if only_look:
             lines.append("")

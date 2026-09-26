@@ -1177,7 +1177,7 @@ def window_words_may(state):
     project that only synchronises, and not before the time axis stands.
     """
     return bool(not PROGRAM.SPEAKER_SPLIT_OFF and listening_unasked()
-                and state.get("project_type") != "sync"
+                and not PROGRAM.sync_only(state)
                 and state.get("axis") and not state.get("axis_running"))
 
 

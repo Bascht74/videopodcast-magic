@@ -664,7 +664,7 @@ def sound_cells_follow(state):
     chosen stays kept beside it for a return to the cut. A field whose
     row has been built again is dropped here.
     """
-    sync = state.get("project_type") == "sync"
+    sync = PROGRAM.sync_only(state)
     holds = state.get("sound_holds") or {}
     alive = []
     for box in state.get("sound_boxes") or ():
@@ -1142,7 +1142,7 @@ def resolve_button_say(state, env_curve, button):
         reason_set(env_curve, button, False, T('The run is still going.'), "")
         return
     js = state.get("resolve_json")
-    what_for = resolve_what_for(state.get("project_type") == "sync")
+    what_for = resolve_what_for(PROGRAM.sync_only(state))
     moved = js and handover_marks_moved(state, js)
     if js and resolve_installed():
         # Marks moved since the run: the command line would refuse the
@@ -1278,7 +1278,7 @@ def unless_sync(state, compute, *said):
     it would still promise speakers worked out and a wide shot to set.
     """
     def guarded(*args, **named):
-        if state.get("project_type") != "sync":
+        if not PROGRAM.sync_only(state):
             return compute(*args, **named)
         for words in said:
             words.setText("")
@@ -2545,7 +2545,7 @@ def gui():
     preflight_fill_in, preflight_kick_off = make_preflight(
         state, files, plan, bridge, bridge_emit, preflight_line,
         set_mark, append_findings, show_overall, lines_node,
-        no_join, together_now, multitrack, assign_lines,
+        no_join, together_now, assign_lines,
         clip_kind_values)
 
     # Below clip_kind_values, which player_candidates reads: the eight are
@@ -2567,7 +2567,7 @@ def gui():
                                cameras_with_a_speaker(
                                    assign_lines, voice_lines,
                                    state.get("voiced") or ()),
-                               state.get("no_place") or (), state.get("project_type") == "sync")
+                               state.get("no_place") or (), PROGRAM.sync_only(state))
 
     state["wide_cameras_now"] = wide_cameras_now
 
@@ -2636,7 +2636,7 @@ def gui():
         if files:
             window.table_show(tab2, T('Assignment && time window'), 1)
             window.table_show(tab3, T('Resolve cut'), 2)
-        # What gets checked hangs on this decision.
+        # Checked again, though nothing the check asks hangs on the tick.
         preflight_kick_off()
         presets_filter()
         # Camera cut and forecast live off the speakers being told apart,

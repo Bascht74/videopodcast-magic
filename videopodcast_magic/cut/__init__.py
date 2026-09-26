@@ -2667,14 +2667,23 @@ def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
         return None
     return file_path
 
-def sync_only(args):
-    """Whether this run only synchronises: no speakers, no cut.
+def sync_only(of):
+    """Whether this run, window or handover only synchronises: no cut.
 
     The project type "sync" puts the one recording onto every camera
-    and stops there. Everything that reads it asks here, so the answer
-    is one -- and a run that never learned the switch is a cut.
+    and stops there. *of* is a call's args, the window's state or a
+    handover -- all three carry it as project_type, and everything
+    that reads it asks here. One that never learned it is a cut.
     """
-    return getattr(args, "project_type", "cut") == "sync"
+    ask = getattr(of, "get", None)
+    kind = ask("project_type") if ask else getattr(of, "project_type", "")
+    return kind == "sync"
+
+
+def output_folder(args, beside):
+    """Where a run writes: the --out folder, or the one *beside* lies in."""
+    return (os.path.abspath(args.out) if getattr(args, "out", None)
+            else os.path.dirname(os.path.abspath(beside)))
 
 
 def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
@@ -2702,8 +2711,7 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     else:
         step_begin("speakers")
         segment_list = speakers_for_the_cut(args, tracks)
-    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-        os.path.abspath(videos[0][0]))
+    folder = output_folder(args, videos and videos[0][0])
     # The voices first, each on its own, then the sum: one common gain
     # keeps whatever balance came in, and here no leveler set one.
     match_speakers(tracks, tmpdir)

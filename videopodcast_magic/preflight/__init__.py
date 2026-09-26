@@ -1011,12 +1011,13 @@ def window_from_points(args, fps=30.0):
                           getattr(args, "out_point", None), fps)
 
 
-def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
+def space_needed_mb(audio_paths, video_paths, window_s=None):
     """What a run writes, and how much of that goes to the temp folder too.
 
     Erring upward: every camera is copied and gets audio tracks added,
     plus the processed tracks and the mix. With a window each camera
     shrinks by its own share, not by the longest one's. In megabytes.
+    One reckoning whatever --multitrack says: the files are the same.
     """
     video_mb, delivered = 0.0, 0.0
     for p in video_paths:
@@ -1035,19 +1036,15 @@ def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
     # written uncompressed: 48 kHz, 24 bit, two channels are 0.29 MB per
     # second and per track. The given audio files are no measure of it.
     per_second = 48000 * 3 * 2 / 1e6
-    if multitrack:
-        # Every camera carries its own mix, its speakers, the overall mix
-        # and the camera original. Two plus the speakers is the upper end.
-        per_camera = 2 + (len(audio_paths) or 1)
-    else:
-        per_camera = 2
+    # Every camera carries the mix, one track per recording and the
+    # camera original; a block counted as a recording is the upper end.
+    per_camera = 2 + (len(audio_paths) or 1)
     added = delivered * per_second * per_camera * max(1, len(video_paths))
     # The processed tracks come back and are mixed once more.
-    return (video_mb * 1.05 + added
-            + audio_mb * (3.0 if multitrack else 2.0)), added
+    return (video_mb * 1.05 + added + audio_mb * 3.0), added
 
 
-def space_summary_lines(target, audio_paths, video_paths, multitrack,
+def space_summary_lines(target, audio_paths, video_paths,
                         in_point="", out_point=""):
     """What the run writes and what is free, for the summary before it.
 
@@ -1058,8 +1055,7 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
     where = target or T('the source folder')
     try:
         needed, _temporary = space_needed_mb(
-            audio_paths, video_paths, multitrack,
-            window_between(in_point, out_point))
+            audio_paths, video_paths, window_between(in_point, out_point))
         free = shutil.disk_usage(target or ".").free / 1e6
     except Exception:
         return [T('Target: %s') % where]
@@ -1070,7 +1066,7 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
             T('Free space there: %s') % as_data_size(free)]
 
 
-def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
+def check_disk_space(target_folder, audio_paths, video_paths,
                         window_s=None, dry_run=False):
     """Report whether there is enough disk space for what will be created.
 
@@ -1091,8 +1087,7 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
         free = shutil.disk_usage(folder or ".").free / 1e6
     except Exception:
         return []
-    needed, added = space_needed_mb(audio_paths, video_paths, multitrack,
-                                    window_s)
+    needed, added = space_needed_mb(audio_paths, video_paths, window_s)
     # The temporary files go to the system temp folder, and on the same
     # disk as the output they eat the same space twice.
     if on_one_disk(tempfile.gettempdir(), folder or "."):
@@ -1260,21 +1255,21 @@ def loudness_field_build(into, value):
     return box
 
 
-def lufs_does_nothing(args, videos):
+def lufs_does_nothing(args, videos, recordings):
     """Whether --lufs changes anything on the path this run takes.
 
-    Several voices and no picture: the tracks leave as recorded, a gain
-    per track being what would put the voices out of balance, and that
-    balance is what the path exists to keep. With a key the preset masters
-    the mix, and check_preset holds its target to --lufs before anything
-    is uploaded; the number itself never travels to auphonic.com.
+    Several *recordings* and no picture, tick or no tick: the tracks
+    leave as recorded, a gain per track being what would put the voices
+    out of balance. With a key the preset masters the mix, and
+    check_preset holds its target to --lufs before anything is
+    uploaded; the number itself never travels to auphonic.com.
     """
-    return (not videos and bool(getattr(args, "multitrack", False))
+    return (not videos and recordings > 1
             and getattr(args, "lufs", None) is not None
             and not getattr(args, "auphonic_key", None))
 
 
-def check_loudness_target(args, videos=()):
+def check_loudness_target(args, videos=(), recordings=1):
     """Report the loudness target in force. It only reports.
 
     It sets nothing: a check that quietly changes what it is checking
@@ -1291,7 +1286,7 @@ def check_loudness_target(args, videos=()):
     # would otherwise move behind the number, -16 reading as 16.
     text = as_written(T('%.0f LUFS (%s)') % (args.lufs, T(PLATFORMS[near[0]][1]))
                       if near else T('%.0f LUFS') % args.lufs)
-    if lufs_does_nothing(args, videos):
+    if lufs_does_nothing(args, videos, recordings):
         return [Finding("good", T('Loudness'),
                        T('%s is set, and nothing is adjusted here: the '
                          'tracks leave as they were recorded, and the '
@@ -1495,18 +1490,23 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
     """
     if getattr(args, "no_preflight", False):
         return 0
+    # Bleed and room are asked of the material, never of --multitrack:
+    # the run makes a track per recording whatever the tick says.
     findings = collect_findings(audio_paths, video_paths,
                               bool(getattr(args, "preflight_again", False)),
-                              bool(getattr(args, "multitrack", False)),
                               apart=getattr(args, "apart", ()),
                               together=getattr(args, "together", ()),
                               project_type=project_type or "cut")
     # These two depend on the call and the machine, not the material.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
-                             bool(getattr(args, "multitrack", False)),
                              window_from_points(args),
                              bool(getattr(args, "dry_run", False)))
-    findings += check_loudness_target(args, video_paths)
+    # Counted as the run counts them: blocks of one recording are one.
+    recordings = len(group_recording_parts(
+        audio_paths, getattr(args, "no_follow_ups", False),
+        getattr(args, "apart", ()), getattr(args, "together", ()))
+        if audio_paths else [])
+    findings += check_loudness_target(args, video_paths, recordings)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
 
@@ -1602,7 +1602,7 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n,
 
 def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
                    set_mark, append_findings, show_overall, lines_node,
-                   no_join, together_now, multitrack, assign_lines,
+                   no_join, together_now, assign_lines,
                    clip_kind_values):
     """Checking the files in the background, and showing what came back.
 
@@ -1664,13 +1664,13 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
     # the time axis lands after the check as often as not.
     state["preflight_sentence_again"] = sentence_again
 
-    def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
+    def preflight_work_loop(audio_files, videos_p, label_run,
                          set_aside=(), apart=(), together=(),
                          project_type="cut", labels=None):
         """Measure in the background so the interface does not freeze."""
         try:
             findings = collect_findings(audio_files, videos_p, False,
-                                        crosstalk, set_aside, apart,
+                                        True, set_aside, apart,
                                         together, project_type, labels)
         except Exception as e:
             # An empty list would read as "nothing to fault", and the run
@@ -1710,12 +1710,11 @@ def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
         state["preflight_waiting"] = True
         preflight_line.setText(T('checking ...'))
         preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
-        # Crosstalk is a question about per-speaker tracks. Without
-        # multitrack there are none, and nothing is assigned yet. The
+        # Bleed is asked wherever there are two recordings, as the run
+        # asks it: the tick groups them and changes nothing else. The
         # project type is the window's state; unset reads as cut.
         threading.Thread(target=preflight_work_loop,
-                         args=(audio_files, videos_p, label_run,
-                               bool(multitrack.get()), gone,
+                         args=(audio_files, videos_p, label_run, gone,
                                frozenset(no_join),
                                tuple(tuple(g) for g in together_now()),
                                state.get("project_type") or "cut",

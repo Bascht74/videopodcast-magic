@@ -206,14 +206,6 @@ class Bridge(object):
     preflight = "preflight"
 
 
-class Tick(object):
-    def __init__(self, value):
-        self.value = value
-
-    def get(self):
-        return self.value
-
-
 def window_findings(state):
     """What the window's background check hands back for this state."""
     files = [(anna, "audio"), (ben, "audio")]
@@ -221,7 +213,7 @@ def window_findings(state):
     _fill_in, kick_off = vpm.make_preflight(
         state, files, Plan(), Bridge(), lambda _s, found: seen.append(found),
         QtWidgets.QLabel(), lambda *a: None, lambda *a: None, lambda *a: None,
-        vpm.ByFile(), set(), lambda: [], Tick(False), [], {})
+        vpm.ByFile(), set(), lambda: [], [], {})
     kick_off()
     # On a condition, never on the clock: the answer arrives from a
     # thread, and a slow machine gets a standstill bound, not a deadline.
@@ -259,7 +251,7 @@ for p in (anna, ben):
 fill_in, _kick_off = vpm.make_preflight(
     state, [(anna, "audio"), (ben, "audio")], Plan(), Bridge(),
     lambda *a: None, preflight_line, set_mark, lambda *a: None,
-    lambda *a: None, lines_node, set(), lambda: [], Tick(False), [], {})
+    lambda *a: None, lines_node, set(), lambda: [], [], {})
 found = vpm.collect_findings([anna, ben], [], fresh=True, crosstalk=False,
                              project_type="sync")
 fill_in(found)

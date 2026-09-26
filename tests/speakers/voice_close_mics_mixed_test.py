@@ -9,11 +9,11 @@ the recording level is taken out. Then a guard: where the microphones
 can be told apart the cheap route stays untouched. Then a recording
 that arrives in several blocks, which has to be measured as the one
 recording it is. Last a run started out of the window with a separation
-already in hand: below the limit the run overrules it, above the limit
-and wherever the measurement could decide nothing it does not, and the
-question of how far apart they stand is asked once a run at most, with
-tracks back from auphonic.com as without. Then the count the log gives
-for the mix. Last a run whose returned tracks would name the wrong
+already in hand, by the assignment file or --speakers-from alike: below
+the limit the run overrules it, above the limit and wherever the
+measurement could decide nothing it does not, and how far apart they
+stand is asked once a run at most, with auphonic.com as without. Then
+the count the log gives for the mix. Last a run whose returned tracks would name the wrong
 person: the raw mix decides. The model is not run -- the voices are
 handed in with their true times.
 """
@@ -30,6 +30,7 @@ sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
 import io
+import json
 import shutil
 import struct
 import tempfile
@@ -596,15 +597,24 @@ class Started(object):
         self.__dict__.update(over)
 
 
-def out_of_the_window(tracks, **over):
-    """One run started from the window, and everything it said."""
+def out_of_the_window(tracks, by_file=False, **over):
+    """One run started from the window, and everything it said.
+
+    *by_file* hands the separation over as --speakers-from does, in a
+    file of its own, instead of in the assignment file.
+    """
     counted["apart"] = 0
     del counted["picked"][:]
+    if by_file:
+        over["speakers_from"] = os.path.join(WORK, "handed_over.json")
+        with open(over["speakers_from"], "w", encoding="utf-8") as f:
+            json.dump({"speakers": handed_over(tracks)}, f)
+    else:
+        over["_speakers_of"] = handed_over(tracks)
     kept_out, sys.stdout = sys.stdout, io.StringIO()
     try:
         out, where_from = vpm.separation_for_run(
-            Started(_speakers_of=handed_over(tracks), **over),
-            on_the_axis(tracks), {}, 0.0, LENGTH, [])
+            Started(**over), on_the_axis(tracks), {}, 0.0, LENGTH, [])
     finally:
         said, sys.stdout = sys.stdout.getvalue(), kept_out
     return {"voices": [n for n, _s in out], "from": where_from,
@@ -652,6 +662,26 @@ try:
           "%d source picks %s after %d measurements -- wanted none after "
           "one" % (len(far_run["picked"]), far_run["picked"],
                    far_run["apart"]))
+    # The other carrier: the same separation in a file of its own, as
+    # the window without Multitrack hands it on, is judged the same way.
+    file_run = out_of_the_window(CLOSE, by_file=True)
+    check("close microphones: one handed over with --speakers-from is "
+          "dropped the same way",
+          file_run["from"] == vpm.T('the separation in this run')
+          and sorted(file_run["voices"]) == ["SPEAKER_00", "SPEAKER_01"],
+          "the run says %r and %s came back after %d source picks -- "
+          "wanted %r and the mix's two voices"
+          % (file_run["from"], file_run["voices"], len(file_run["picked"]),
+             vpm.T('the separation in this run')))
+    file_run = out_of_the_window(FAR, by_file=True)
+    check("microphones far apart: the file's separation stands as the "
+          "window's does",
+          file_run["from"] == "handed_over.json"
+          and file_run["voices"] == ["WindowVoice"]
+          and file_run["picked"] == [],
+          "the run says %r and %s came back after %d source picks -- "
+          "wanted 'handed_over.json', ['WindowVoice'] and none"
+          % (file_run["from"], file_run["voices"], len(file_run["picked"])))
 
     # auphonic.com only makes the sound: who speaks is still worked out
     # on the raw recordings, so the run overrules the window there too.

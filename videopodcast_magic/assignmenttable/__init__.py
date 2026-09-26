@@ -443,7 +443,7 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     tree_audio = tree_build(columns)
     # Sync only: the columns about speakers stay in the tree, hidden,
     # so the cells keep their numbers and the project file its keys.
-    sync_only = state.get("project_type") == "sync"
+    sync_only = PROGRAM.sync_only(state)
     tree_audio.setColumnHidden(1, sync_only)
     # And "belongs to" with them: without a plan the run reads no
     # camera off a recording, so the column would promise an answer.

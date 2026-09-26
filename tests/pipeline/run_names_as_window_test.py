@@ -143,7 +143,7 @@ came = []
 _fill, kick_off = vpm.make_preflight(
     {}, [(REC, "audio"), (CAMS[0], "video"), (CAMS[1], "video")], Stub(),
     Stub(), lambda _signal, findings: came.append(findings), Stub(), None,
-    None, None, {}, set(), lambda: [], Stub(False), [], {})
+    None, None, {}, set(), lambda: [], [], {})
 kick_off()
 waited = time.time()
 while not came and time.time() - waited < 120:

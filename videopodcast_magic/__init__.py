@@ -539,7 +539,7 @@ def main():
     # One word for the whole run. "sync" means no speakers, no speech
     # recognition, no transcript; the three switches are set here, once:
     # the pipeline reads one flag, and each switch still works on its own.
-    if args.project_type == "sync":
+    if cut.sync_only(args):
         args.no_speakers_local = True
         args.no_speech_recognition = True
         args.no_transcript_file = True
@@ -576,8 +576,9 @@ def main():
                    'raw recordings, so name the raw one here instead.')
                  % returned)
 
-    # Preflight: once for both modes, before any fork.
-    if run_preflight(args, audio_paths, video_paths):
+    # Preflight: once for both modes, before any fork, and with the
+    # project type, so Sync refuses here what the window refuses.
+    if run_preflight(args, audio_paths, video_paths, args.project_type):
         return 1
     if args.multitrack and not audio_paths:
         # Cameras only: their own audio becomes the track, and how many

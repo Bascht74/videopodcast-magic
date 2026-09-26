@@ -5,11 +5,13 @@ One switch, --project-type, and three doors it has to pass. The parser
 takes cut and sync, answers cut on its own and refuses any other word.
 main() turns sync into the three switches the pipeline already reads --
 no local speaker split, no speech recognition, no transcript file --
-and leaves them alone for a cut. And run_argv puts the window's choice
-on the line: only the two words the parser takes, and nothing while the
-window has not asked. main() is stopped at a stand-in preflight, so
-nothing is measured: what is judged is the namespace as the preflight
-and everything after it read it, not a run.
+leaves them alone for a cut, and hands the type to the preflight, which
+refuses Sync with a second recording as the window does; the call, the
+window's state and a handover answer "sync?" alike. And run_argv puts
+the window's choice on the line: only the two words the parser takes,
+and nothing while the window has not asked. main() is stopped at a
+stand-in preflight, so nothing is measured: what is judged is the
+namespace as the preflight and everything after it read it, not a run.
 """
 PLATFORM_BOUND = True
 import os
@@ -88,16 +90,18 @@ check("a word other than cut or sync is refused",
 
 print("\n2. main(): sync sets three switches, cut leaves them as typed")
 seen = []
+handed = []
 
 
-def stand_in_preflight(args, audio_paths, video_paths):
+def stand_in_preflight(args, audio_paths, video_paths, project_type=None):
     """Stops the run where the preflight would, and keeps what it saw.
 
-    The three parameters and no more, as the program's own preflight
+    The four parameters and no more, as the program's own preflight
     has them: a stand-in taking anything would hide a call the real
-    one refuses.
+    one refuses. The project type it was handed is kept beside.
     """
     seen.append(args)
+    handed.append(project_type)
     return 1
 
 
@@ -112,6 +116,7 @@ def run_with(*words):
     a traceback.
     """
     del seen[:]
+    del handed[:]
     sys.argv = [SCRIPT] + list(words) + [SOUND]
     try:
         return vpm.main()
@@ -125,6 +130,9 @@ check("the run stops at the stand-in preflight",
       "main() returned %r and the preflight was reached %d times, "
       "wanted 1 and once" % (code, len(seen)))
 args = seen[0] if seen else None
+check("main() hands the project type on to the preflight",
+      handed == ["sync"],
+      "the preflight was handed %r, wanted ['sync']" % (handed,))
 check("sync switches the local speaker split off",
       getattr(args, "no_speakers_local", None) is True,
       "no_speakers_local is %r, wanted True"
@@ -146,6 +154,17 @@ check("a cut leaves the three switches as typed",
       code == 1 and three == [False, False, False],
       "main() returned %r and the three are %r, wanted 1 and "
       "[False, False, False]" % (code, three))
+
+# One question, asked of all three things that carry the type: the
+# call, the window's state and the handover the Resolve side reads.
+carriers = [(vpm.sync_only(parsed("--project-type", kind)),
+             vpm.sync_only({"project_type": kind}))
+            for kind in ("sync", "cut")] + [(vpm.sync_only(parsed()),
+                                             vpm.sync_only({}))]
+check("the call, the window and the handover answer sync alike",
+      carriers == [(True, True), (False, False), (False, False)],
+      "(call, state or handover) for sync, cut and unset: %s, wanted "
+      "[(True, True), (False, False), (False, False)]" % (carriers,))
 
 print("\n3. run_argv: the window's choice goes on the line, nothing "
       "when unset")

@@ -373,7 +373,7 @@ class ResolveSheet(QtWidgets.QScrollArea):
         if not self.state.get("resolve_checked"):
             self.state["resolve_checked"] = True
             self.resolve_check_run_kick_off()
-        if self.state.get("project_type") == "sync":
+        if PROGRAM.sync_only(self.state):
             return          # no cut, so no speakers to measure
         if speakers_still_wanted(self.state, self.model.assign_lines,
                                  self.model.voice_lines):

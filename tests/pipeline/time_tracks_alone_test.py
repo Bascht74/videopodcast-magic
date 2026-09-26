@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-"""Multitrack without a picture: the tracks are laid against each other.
+"""Without a picture the recordings are laid against each other.
 
 Two microphones in one room, the second switched on later and off
 earlier, and no camera. The axis is built out of the tracks themselves,
 with the longest one as the reference; the files come out equally long
 and with one start point, so the shorter recording is padded at both
 ends, and the run says how far apart the two recorders were. Without
---multitrack the blocks are joined, nothing is aligned and the log says
-so -- and that an In or Out point does nothing there -- and it says one
-thing about --lufs on this path, not two.
+--multitrack the same two files come out, to the byte: the tick groups
+the recordings and decides nothing here. One recording alone is joined
+whole, and an In point is said to do nothing there. And the run says
+one thing about --lufs on this path, not two.
 
 What the tracks carry is asked before where they sit: a file that came
 out empty measures as perfectly placed, so the judgements about the
@@ -406,54 +407,66 @@ else:
           "watched whether a run reached auphonic.com.")
 
 
-#----------------------------------- 3. Without it: nothing has moved
+#------------------------------ 3. Without it: the same axis, the same files
 
-print("\n3. Without --multitrack the blocks are joined, as before")
-# With an In and an Out point, which this path cannot cut to: the files
-# below keep their whole length all the same, and the log says so.
-p = subprocess.run(CALL + ["--out", D + "/join", "--in-point", "+0:10",
-                           "--out-point", "+0:40",
+print("\n3. Without --multitrack the same two files come out")
+# The call of section 1 with the tick taken off, and nothing else: the
+# plain path and Multitrack share one placement since both were given
+# the same recordings and came out three files against a refusal.
+p = subprocess.run(CALL + ["--lufs", "source", "--out", D + "/plain",
                            D + "/Host.wav", D + "/Guest.wav"],
                    capture_output=True, text=True, env=ENV)
 log = (p.stdout or "") + (p.stderr or "")
 check("no traceback", "Traceback" not in log,
       log[log.find("Traceback"):][:90])
 check("the run ends green", p.returncode == 0, str(p.returncode))
-joined = sorted(f for f in os.listdir(D + "/join")) \
-    if os.path.isdir(D + "/join") else []
-print("   written: %s" % joined)
-check("the joined files come out under their own names",
-      joined == ["Guest_joined.wav", "Host_joined.wav"], str(joined))
-axis = [x.strip() for x in log.splitlines() if "MEASURING THE TIME AXIS" in x]
-check("no axis was built", "MEASURING THE TIME AXIS" not in log,
-      "%d of %d lines of the log announce the axis: %s"
-      % (len(axis), len(log.splitlines()), axis[:2]))
-APART = vpm.T('  %s recordings and no picture: each is joined on its own '
-              'and they are not laid against each other. --multitrack '
-              'puts them on one time axis.') % vpm.number_text(2, 0)
-check("and the log says they were not laid against each other",
-      APART.strip() in log,
-      "wanted %r among %d lines of the log" % (APART.strip()[:60],
-                                              len(log.splitlines())))
-MARKS = vpm.T('  In point and Out point do nothing here: without a '
-              'picture and without --multitrack every recording is '
-              'joined whole.')
-check("and it says the In and Out point do nothing on this path",
-      MARKS.strip() in log,
-      "wanted %r among %d lines of the log" % (MARKS.strip()[:60],
-                                              len(log.splitlines())))
-if joined == ["Guest_joined.wav", "Host_joined.wav"]:
-    length = dict((f, vpm.sample_count(D + "/join/" + f) / float(vpm.SR))
-                  for f in joined)
-    print("   lengths: %s" % {f: round(s, 2) for f, s in length.items()})
-    # The whole difference between the two modes in one number: joined,
-    # the files keep the length they were recorded at.
-    check("and they keep the length they were recorded at",
-          abs(length["Host_joined.wav"] - LENGTH) < 0.2
-          and abs(length["Guest_joined.wav"]
-                  - (LENGTH - LATE - STOP)) < 0.2,
-          "%s against %.1f s and %.1f"
-          % (length, LENGTH, LENGTH - LATE - STOP))
+LAID = vpm.T('  No picture: the tracks are laid against each other.').strip()
+check("and it says the tracks are laid against each other, as with it",
+      LAID in log and LAID in axis_log,
+      "the line %r stands %d times without the tick and %d with it"
+      % (LAID[:40], log.count(LAID), axis_log.count(LAID)))
+plain = sorted(f for f in os.listdir(D + "/plain")) \
+    if os.path.isdir(D + "/plain") else []
+print("   written: %s" % plain)
+check("without the tick the same files come out as with it",
+      plain == made and made == ["Guest_aligned.wav", "Host_aligned.wav"],
+      "%s without the tick, %s with it" % (plain, made))
+
+
+def same_bytes(name):
+    """Whether the file of both runs is one and the same, byte for byte."""
+    with open(D + "/run/" + name, "rb") as a, \
+            open(D + "/plain/" + name, "rb") as b:
+        return a.read() == b.read()
+
+
+differ = [f for f in plain if f in made and not same_bytes(f)]
+check("and they carry the same sound to the byte",
+      bool(plain) and not differ,
+      "%d of %d files differ between the two runs: %s"
+      % (len(differ), len(plain), differ))
+
+
+#------------------------------------ 3b. One recording is joined whole
+
+# One recording and no picture: nothing to lay it against, so it is
+# joined and left whole, and an In or Out point is said to do nothing.
+print("\n3b. One recording alone is joined whole")
+p = subprocess.run(CALL + ["--out", D + "/alone", "--in-point", "+0:10",
+                           D + "/Host.wav"],
+                   capture_output=True, text=True, env=ENV)
+log = (p.stdout or "") + (p.stderr or "")
+check("one recording and no picture ends green, with no traceback",
+      p.returncode == 0 and "Traceback" not in log,
+      "returned %d, %s" % (p.returncode, log[log.find("Traceback"):][:90]
+                           if "Traceback" in log else "no traceback"))
+MARKS = vpm.T('  In point and Out point do nothing here: one recording '
+              'without a picture is joined whole.').strip()
+check("and it says the In and Out point do nothing for it",
+      MARKS in log and "MEASURING THE TIME AXIS" not in log,
+      "the line %r stands %d times, the axis is announced %d times"
+      % (MARKS[:50], log.count(MARKS),
+         log.count("MEASURING THE TIME AXIS")))
 
 
 #---------------------------------------- 4. Which track the axis is
@@ -485,7 +498,9 @@ else:
 # put the voices out of balance, which is what the path exists to keep
 # -- so the number only does something when it travels to auphonic.com.
 print("\n5. With --lufs the log says one thing about it, not two")
-p = subprocess.run(CALL + ["--multitrack", "--lufs", "-16",
+# Without the tick: the path is the same, and the preflight has to find
+# it by the recordings, not by the switch.
+p = subprocess.run(CALL + ["--lufs", "-16",
                            "--out", D + "/loud",
                            D + "/Host.wav", D + "/Guest.wav"],
                    capture_output=True, text=True, env=ENV)
@@ -508,9 +523,8 @@ check("the number itself still stands in the line",
       bool(target) and "-16 LUFS" in target[0],
       repr(target[0][:70]) if target else "no Loudness line at all")
 # The other side of the rule, and it has to be asked of the same path:
-# the run of section 1 is --multitrack with --lufs source, and there
-# neither line may stand. Asked of the joined run instead it was true twice over
-# -- no --lufs and no --multitrack -- and could not have gone red.
+# the run of section 1 has --lufs source, and there neither line may
+# stand. Asked of a run with no --lufs at all it could not go red.
 loose = [x.strip() for x in axis_log.splitlines()
          if "--lufs does nothing here" in x or "nothing is adjusted here" in x]
 check("with --lufs source neither line is printed", not loose,
@@ -518,7 +532,7 @@ check("with --lufs source neither line is printed", not loose,
       % (len(loose), loose[:2]))
 check("and the one predicate governs both messages",
       vpm.lufs_does_nothing(vpm.build_argument_parser().parse_args(
-          ["--multitrack", "--lufs", "-16", "x.wav"]), ()) is True,
+          ["--lufs", "-16", "x.wav", "y.wav"]), (), 2) is True,
       "lufs_does_nothing said no on the very path that prints it")
 
 

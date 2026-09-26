@@ -1218,9 +1218,7 @@ def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
         cameras = len([1 for p, a in files if a == "video"])
         stages = run_stages(bool(multitrack.get()), cameras,
                             not without_auphonic(),
-                            speakers=bool(multitrack.get()
-                                          or state.get("speakers_local"))
-                            and state.get("project_type") != "sync")
+                            sync=PROGRAM.sync_only(state))
         run_step_order[:] = [name for name, _w, _c in stages]
         for name, weight, caption in stages:
             plan.add("run:" + name, weight, caption)

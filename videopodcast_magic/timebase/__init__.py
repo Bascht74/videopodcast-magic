@@ -350,11 +350,11 @@ def join_only(args, tracks, tmpdir, title=""):
     """Join the blocks and stop: there is no picture to lay them on.
 
     Joining the blocks of a recording needs no camera, and one file out
-    of several is a whole result.
+    of several is a whole result. One recording: several go onto one
+    axis, align_tracks_only, whatever --multitrack says.
     """
     first = tracks[0]["blocks"][0]
-    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-        os.path.abspath(first))
+    folder = PROGRAM.output_folder(args, first)
     # Measured, said, and adjusted to a target as on any run with a
     # picture. One gain per recording: without a picture they are not laid
     # against each other, so there is no balance between them to keep.
@@ -376,15 +376,10 @@ def join_only(args, tracks, tmpdir, title=""):
                 os.path.join(tmpdir, "level_%s.wav"
                              % safe_filename(track["name"])),
                 gain, curve, channels=channel_count(track["source"]))
-    if len(tracks) > 1:
-        print(T('  %s recordings and no picture: each is joined on its own '
-                'and they are not laid against each other. --multitrack '
-                'puts them on one time axis.') % number_text(len(tracks), 0))
     # Said, not dropped in silence: nothing here is cut to a window.
     if getattr(args, "in_point", None) or getattr(args, "out_point", None):
-        print(T('  In point and Out point do nothing here: without a '
-                'picture and without --multitrack every recording is '
-                'joined whole.'))
+        print(T('  In point and Out point do nothing here: one recording '
+                'without a picture is joined whole.'))
     if args.auphonic_key:
         key = api_key_from_anywhere(args)
         preset, presetname = choose_preset(
@@ -485,60 +480,144 @@ def phase_of_run(args, paths):
                         getattr(args, "sound_of", None) or ())
 
 
+def offset_line(name, a, st, hint=""):
+    """Say where one file sits on the axis: offset, and the drift if any.
+
+    Cameras and recordings, with a picture and without, say it in this
+    one line, so a placing reads the same whichever path made it.
+    """
+    note = "  [" + hint + "]" if hint else ""
+    if not drift_measured(st):
+        print(T('  %-20s offset %s, clock drift not measured%s')
+              % (name, as_hms(a), note))
+        return
+    print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
+            'residual spread %s ms, %s of %s points%s')
+          % (name, as_hms(a),
+             number_text(st.get("ppm", 0.0), 2, plus=True),
+             number_text(st.get("ppm_error", 0.0), 2),
+             number_text(st.get("spread_ms", 0.0)),
+             number_text(st.get("points", 0), 0),
+             number_text(st.get("candidates", 0), 0), note))
+
+
+def sound_places(name, source, reference, length, phase):
+    """Where its sound puts one recording against *reference*, or None.
+
+    The one measurement both paths take, a camera's sound or the
+    longest recording as *reference*; a failure is said, not raised.
+    """
+    try:
+        return align_audio_to_video(
+            source, reference,
+            sample_points=int(max(20, min(120, length / 30.0))),
+            distance_s=30.0, phase=phase)
+    except Exception as e:
+        print(T('  %-20s cannot be aligned: %s') % (name, e))
+        return None
+
+
+def sound_or_clock(name, placing, hint, own_tc, other_tcs, at_clock,
+                   no_base=no_base_message):
+    """The place the sound gave, or the clock's where the sound found none.
+
+    One rule with a picture and without: a recording the sound cannot
+    place stands at its timecode where *at_clock* finds a base, and is
+    refused, said, where neither answers. Returns (a, b, st, hint).
+    """
+    a, b, st = placing
+    hint = which_way_placed(st, hint)
+    if not st.get("unplaceable"):
+        return a, b, st, hint
+    if cannot_be_placed(st, own_tc, other_tcs):
+        print(as_bad("  " + no_place_message(name)))
+        return None
+    at = at_clock(own_tc)
+    if at is None:
+        print(as_bad("  " + no_base(name)))
+        return None
+    return at + ((hint + ", " if hint else "") + T(
+        'sound not recognised, placed by its timecode'),)
+
+
+def no_recording_base_message(name):
+    """no_base_message without a picture: the base is a recording."""
+    return T('%s cannot be placed: its sound has nothing in common with '
+             'the rest of the material, and no recording the sound placed '
+             'carries a timecode to set its own against. One of those '
+             'needs a timecode that fits this one, and that has to be set '
+             'with another program.') % name
+
+
 def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True):
     """Put every track on the time axis of the longest one.
 
     The longest recording is the reference for the same reason the
-    longest camera is: it overlaps most with the others. Returns the
-    tracks that found a place, each carrying a and b. *phase_of* says
-    of a track's blocks whether the phase way may place it.
+    longest camera is: it overlaps most with the others. A track the
+    sound cannot place stands at its clock, as with a picture. Returns
+    the tracks that found a place, each carrying a and b. *phase_of*
+    says of a track's blocks whether the phase way may place it.
     """
     reference = max(tracks, key=lambda t: sample_count(t["source"]))
     length = sample_count(reference["source"]) / float(SR)
     print(T('  Reference: %s (%s, longest running time)')
           % (reference["name"], as_hms(length)))
+    measured = dict(
+        (id(t), sound_places(t["name"], t["source"], reference["source"],
+                             length, bool(phase_of(t.get("blocks")
+                                                   or [t["source"]]))))
+        for t in tracks if t is not reference)
+    # The clock of each, read off its first block, and the base the
+    # cameras' rule picks: the first the sound placed, reference first.
+    clocks = dict((id(t), file_timecode((t.get("blocks") or [t["source"]])[0]))
+                  for t in tracks)
+    position = {id(reference): (0.0, 1.0, {})}
+    position.update((k, m) for k, m in measured.items()
+                    if m and not m[2].get("unplaceable"))
     placed = []
     for track in tracks:
         if track is reference:
             track["a"], track["b"] = 0.0, 1.0
             placed.append(track)
             continue
-        try:
-            # The same measurement as against a camera, which reads only the
-            # audio it is handed: a second way of aligning would be a second
-            # answer to one question.
-            a, b, st = align_audio_to_video(
-                track["source"], reference["source"],
-                sample_points=int(max(20, min(120, length / 30.0))),
-                distance_s=30.0, phase=bool(phase_of(
-                    track.get("blocks") or [track["source"]])))
-        except Exception as e:
-            print(T('  %-20s cannot be aligned: %s') % (track["name"], e))
+        got = measured.get(id(track)) and sound_or_clock(
+            track["name"], measured[id(track)], track.get("hint") or "",
+            clocks[id(track)],
+            [c for k, c in clocks.items() if k != id(track)],
+            lambda tc: recording_at_its_clock(tc, position, clocks),
+            no_recording_base_message)
+        if not got:
             continue
-        if st.get("unplaceable"):
-            print(as_bad("  " + no_place_message(track["name"])))
-            continue
-        track["a"], track["b"], track["st"] = a, b, st
+        track["a"], track["b"], track["st"], track["hint"] = got
         placed.append(track)
-        # The same note as on the path with a picture: which way placed
-        # it. Without it a track put there by phase shows +0.00 ppm and
-        # nothing else, and that reads as a drift measured at zero.
-        track["hint"] = which_way_placed(st, track.get("hint") or "")
-        if not drift_measured(st):
-            print(T('  %-20s offset %s, clock drift not measured%s')
-                  % (track["name"], as_hms(a), "  [" + track["hint"] + "]"
-                     if track.get("hint") else ""))
-            continue
-        print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
-                'residual spread %s ms, %s of %s points%s')
-              % (track["name"], as_hms(a),
-                 number_text(st.get("ppm", 0.0), 2, plus=True),
-                 number_text(st.get("ppm_error", 0.0), 2),
-                 number_text(st.get("spread_ms", 0.0)),
-                 number_text(st.get("points", 0), 0),
-                 number_text(st.get("candidates", 0), 0),
-                 "  [" + track["hint"] + "]" if track.get("hint") else ""))
+        offset_line(track["name"], track["a"], track["st"], track["hint"])
     return placed
+
+
+def tracks_onto_axis(args, tracks, t0, t1, folder, pattern):
+    """Write every track onto the axis from *t0* to *t1*, into *folder*.
+
+    Both paths write with this, a picture's into the temp folder and
+    the one without under *pattern* into the output; the drift is taken
+    out only where it stands clear, and the line under each says so.
+    """
+    print(as_head(T('\nWRITING TRACKS TO THE AXIS')))
+    for track in tracks:
+        target = os.path.join(folder, pattern % safe_filename(track["name"]))
+        track["drift"] = (not getattr(args, "no_drift", False)
+                          and drift_clear(track["b"], track.get("st")))
+        show_progress(track["name"], 0.0)
+        place_track_on_axis(track["source"], target, track["a"], track["b"],
+                            t0, t1, track["drift"])
+        show_progress(track["name"], 1.0)
+        print()
+        track["axis"] = target
+        print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
+                                as_data_size(size_in_mb(target)),
+                                drift_note(track["b"], track.get("st"),
+                                           track["drift"])))
+    verify_alignment(tracks, t0, t1,
+                     drift_allowed=not getattr(args, "no_drift", False))
 
 
 def align_tracks_only(args, tracks, tmpdir, title=""):
@@ -579,31 +658,15 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
     t0, t1 = clip_to_time_window(args, 0.0, last - first, None)
     if t0 is None:
         return 1
-    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-        os.path.abspath(placed[0]["blocks"][0]))
-    if lufs_does_nothing(args, ()):
+    folder = PROGRAM.output_folder(args, placed[0]["blocks"][0])
+    if lufs_does_nothing(args, (), len(placed)):
         print(T('  --lufs does nothing here: the tracks leave as they '
                 'were recorded, and the loudness is set where they are '
                 'mixed.'))
     if not args.dry_run:
         os.makedirs(folder, exist_ok=True)
-    print(as_head(T('\nWRITING TRACKS TO THE AXIS')))
-    for track in placed:
-        target = os.path.join(tmpdir if args.dry_run else folder,
-                              "%s_aligned.wav" % safe_filename(track["name"]))
-        track["drift"] = (not args.no_drift
-                          and drift_clear(track["b"], track.get("st")))
-        show_progress(track["name"], 0.0)
-        place_track_on_axis(track["source"], target, track["a"], track["b"],
-                            t0, t1, track["drift"])
-        show_progress(track["name"], 1.0)
-        print()
-        track["axis"] = target
-        print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
-                                as_data_size(size_in_mb(target)),
-                                drift_note(track["b"], track.get("st"),
-                                           track["drift"])))
-    verify_alignment(placed, t0, t1, drift_allowed=not args.no_drift)
+    tracks_onto_axis(args, placed, t0, t1,
+                     tmpdir if args.dry_run else folder, "%s_aligned.wav")
     if args.auphonic_key and not getattr(args, "without_auphonic", False):
         stop = send_aligned_tracks(args, placed, folder, tmpdir, t1 - t0,
                                    title)
@@ -706,15 +769,15 @@ def silence_sentence(where, how_much, uploading):
                if how_much > 30 and uploading else ""))
 
 
-def recording_at_its_clock(own_tc, position, videos):
+def recording_at_its_clock(own_tc, position, clocks):
     """Where a recording no measurement placed stands by its clock.
 
-    The camera's rule: the base is the one clock_base picks among the
-    cameras the sound placed, reference first, and the recording sits
-    its clock less the base's from it. Returns (a, b, st) as a
-    measurement does, or None with no base to set its clock against.
+    The camera's rule: the base is the one clock_base picks among what
+    the sound placed -- cameras, or recordings without a picture --
+    reference first, and the recording sits its clock less the base's
+    from it. *clocks* maps what *position* holds to its clock. Returns
+    (a, b, st) as a measurement does, or None with no base.
     """
-    clocks = dict((v, timecode_seconds(i)) for v, i in videos)
     w = clock_base(own_tc, [(c, clocks.get(c)) for c, (_a, _b, st_c)
                             in position.items()
                             if not st_c.get("by_clock_only")])
@@ -779,12 +842,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
         atexit.register(shutil.rmtree, tmpdir, True)
         made = join_the_plan(plan, tmpdir)
-        if args.multitrack:
-            # Several separate voices and no picture: they are laid
-            # against each other instead of against a camera.
+        if len(made) > 1:
+            # Several recordings and no picture: they are laid against
+            # each other instead of against a camera, whatever the tick.
             return align_tracks_only(args, made, tmpdir, title)
-        # No picture and nobody asked for multitrack: the blocks of one
-        # recording become one file, and that is the whole job.
+        # One recording and no picture: its blocks become one file, and
+        # that is the whole job.
         return join_only(args, made, tmpdir, title)
 
     # The nominal rates from the container are compared. The measured ones
@@ -819,18 +882,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if v not in position:
             continue
         a, b, st = position[v]
-        if not drift_measured(st):
-            print(T('  %-20s offset %s, clock drift not measured%s')
-                  % (PROGRAM.camera_shown(v), as_hms(a), ""))
-            continue
-        print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
-                'residual spread %s ms, %s of %s points')
-              % (PROGRAM.camera_shown(v), as_hms(a),
-                 number_text(st.get("ppm", 0.0), 2, plus=True),
-                 number_text(st.get("ppm_error", 0.0), 2),
-                 number_text(st.get("spread_ms", 0.0)),
-                 number_text(st.get("points", 0), 0),
-                 number_text(st.get("candidates", 0), 0)))
+        offset_line(PROGRAM.camera_shown(v), a, st)
 
     tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
     # A dozen paths leave this function before the folder is removed at the
@@ -841,7 +893,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     # As with the cameras: a recording no measurement and no clock places
     # is refused rather than laid down somewhere, where it would look
     # exactly like one that fits.
-    camera_clocks = [timecode_seconds(i) for _v, i in videos]
+    clocks = dict((v, timecode_seconds(i)) for v, i in videos)
     placed = ByFile(position)
     for e, made in zip(plan, joined):
         blocks, name = made["blocks"], made["name"]
@@ -861,31 +913,19 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             print(as_bad("  " + no_place_message(name)))
             continue
         else:
-            try:
-                a, b, st = align_audio_to_video(
-                    source, ref_clip[0], sample_points=int(max(20, min(
-                        120, ref_clip[1]["duration"] / 30.0))),
-                    distance_s=30.0,
-                    phase=phase_of_run(args, blocks or [source]))
-            except Exception as ex:
-                print(T('  %-20s cannot be aligned: %s') % (name, ex))
+            # Every way came up empty and the clock answers: it stands
+            # there, never at the failed measurement -- as without one.
+            got = sound_places(name, source, ref_clip[0],
+                               ref_clip[1]["duration"],
+                               phase_of_run(args, blocks or [source]))
+            got = got and sound_or_clock(
+                name, got, hint,
+                (file_timecode(blocks[0], ref_clip[1]["fps"])
+                 if blocks else None), list(clocks.values()),
+                lambda tc: recording_at_its_clock(tc, position, clocks))
+            if not got:
                 continue
-            hint = which_way_placed(st, hint)
-            own_tc = (file_timecode(blocks[0], ref_clip[1]["fps"])
-                      if blocks else None)
-            if cannot_be_placed(st, own_tc, camera_clocks):
-                print(as_bad("  " + no_place_message(name)))
-                continue
-            if st.get("unplaceable"):
-                # Every way came up empty and the clock answers: it
-                # stands there, never at the failed measurement.
-                at = recording_at_its_clock(own_tc, position, videos)
-                if at is None:
-                    print(as_bad("  " + no_base_message(name)))
-                    continue
-                a, b, st = at
-                hint = (hint + ", " if hint else "") + T(
-                    'sound not recognised, placed by its timecode')
+            a, b, st, hint = got
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
                        # Which recording the sound came from, apart from
@@ -893,19 +933,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                        # file of its own, and only this names the recording.
                        "from_camera": e.get("from_camera") or "",
                        "blocks": list(blocks), "hint": hint})
-        if not drift_measured(st):
-            print(T('  %-20s offset %s, clock drift not measured%s')
-                  % (name, as_hms(a), "  [" + hint + "]" if hint else ""))
-            continue
-        print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
-                'residual spread %s ms, %s of %s points%s')
-              % (name, as_hms(a),
-                 number_text(st.get("ppm", 0.0), 2, plus=True),
-                 number_text(st.get("ppm_error", 0.0), 2),
-                 number_text(st.get("spread_ms", 0.0)),
-                 number_text(st.get("points", 0), 0),
-                 number_text(st.get("candidates", 0), 0),
-                 "  [" + hint + "]" if hint else ""))
+        offset_line(name, a, st, hint)
     if not tracks:
         print(T('\nNo audio track could be aligned -- there is nothing to '
                 'put on the axis.'))
@@ -1014,21 +1042,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     silence_report([max(0.0, t1 - b) for b in ends], ends,
                    T('from %s'))
 
-    print(as_head(T('\nWRITING TRACKS TO THE AXIS')))
-    for track in tracks:
-        target = os.path.join(tmpdir, "axis_%s.wav" % safe_filename(track["name"]))
-        drift = not args.no_drift and drift_clear(track["b"], track["st"])
-        show_progress("%s" % track["name"], 0.0)
-        place_track_on_axis(track["source"], target, track["a"], track["b"], t0, t1, drift)
-        show_progress("%s" % track["name"], 1.0)
-        print()
-        track["axis"] = target
-        track["drift"] = drift
-        print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
-                                as_data_size(size_in_mb(target)),
-                                drift_note(track["b"], track["st"], drift)))
-    verify_alignment(tracks, t0, t1,
-                     drift_allowed=not getattr(args, "no_drift", False))
+    tracks_onto_axis(args, tracks, t0, t1, tmpdir, "axis_%s.wav")
 
     # Who speaks when, before any upload or processing: the axis stands,
     # so a separation can be placed on it -- only on cameras that have a
@@ -1150,8 +1164,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     except Exception as e:
         print(T('\nNo preset chosen: %s') % e)
         return 1
-    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-        os.path.abspath(video_paths[0]))
+    folder = PROGRAM.output_folder(args, video_paths[0])
     print()
     try:
         if alone:
@@ -1648,8 +1661,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                                  args.out, args.suffix)
     # Up here rather than beside the tracks it also names: what a target
     # would replace is asked of the record lying in it.
-    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-        os.path.abspath(videos[0][0]))
+    folder = PROGRAM.output_folder(args, videos and videos[0][0])
     # Before the first camera is written, so a run about to walk over
     # somebody's file can still be stopped.
     for line in replacement_lines(
