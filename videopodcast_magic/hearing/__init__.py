@@ -520,6 +520,39 @@ def stretch_match(a, b):
     return lags, np.where(still, 0.0, cc[lags % nf] / scale)
 
 
+# How far two blocks of one recording may sit apart per timecode. Half
+# an hour is the fence: a clock is set wrong by whole hours, so half of
+# the smallest of those catches every one and lets a real pause through.
+# One fence for both: finding the blocks (material) and joining them.
+BLOCK_GAP_MAX_S = 1800.0
+
+
+def blocks_within_reach(paths, trs, lengths):
+    """Which blocks one recording can reach: (kept indices, [(name, s)]).
+
+    The fence block detection draws, BLOCK_GAP_MAX_S of timecode: past it
+    a clock was set wrong, and a join would write hours of silence. Kept
+    is the run around the first block handed in -- detection too keeps
+    the run around the file it starts from. Each block left out comes
+    with how far it lies from that run, in seconds.
+    """
+    start = [t / float(wav_rate(p) or SR) for t, p in zip(trs, paths)]
+    end = [s + n / float(SR) for s, n in zip(start, lengths)]
+    runs, reach = [], None
+    for i in sorted(range(len(paths)), key=lambda i: start[i]):
+        if reach is None or start[i] - reach > BLOCK_GAP_MAX_S:
+            runs.append([])
+            reach = end[i]
+        runs[-1].append(i)
+        reach = max(reach, end[i])
+    run = [r for r in runs if 0 in r][0]
+    first, last = min(start[i] for i in run), max(end[i] for i in run)
+    return sorted(run), [(os.path.basename(paths[i]),
+                          start[i] - last if start[i] >= last
+                          else first - end[i])
+                         for i in range(len(paths)) if i not in run]
+
+
 def join_with_report(paths, target, keep_parts=False):
     """Join the blocks of one recording and say what was found.
 
@@ -528,6 +561,12 @@ def join_with_report(paths, target, keep_parts=False):
     each other. A ten-second hole must not pass without a word.
     """
     source, join_info = join_audio_parts(paths, target, keep_parts=keep_parts)
+    for name, far in join_info.get("dropped", []):
+        print(T('  %s left out -- %s per timecode away from the other '
+                'blocks, too far apart for one recording')
+              % (name, as_hms(far)))
+    if join_info["blocks"] < 2:
+        return source, join_info
     if join_info.get("tc"):
         print(T('  %s blocks joined via timecode, start %s')
               % (number_text(join_info["blocks"], 0),
@@ -561,8 +600,9 @@ def join_with_report(paths, target, keep_parts=False):
 def join_audio_parts(paths, target, keep_parts=False):
     """Join several audio files into one.
 
-    With timecodes on a common axis, gaps filled with silence; without,
-    end to end in the order they came in. As many channels as the
+    With timecodes on a common axis, gaps filled with silence, a block
+    past BLOCK_GAP_MAX_S left out; without, end to end in the order they
+    came in. As many channels as the
     widest, mono copied to both sides here rather than by ffmpeg, which
     would take 3 dB off. With *keep_parts* each recording is written
     alone too, but only where they overlap.
@@ -579,6 +619,15 @@ def join_audio_parts(paths, target, keep_parts=False):
     # by it would then depend on the order the files came in. Equal
     # times mean at the same time, not end to end.
     having_tc = all(t is not None for t in trs)
+    # A block hours away is another recording or a clock set wrong: it
+    # stays out, as block detection keeps it out, and is said.
+    dropped = []
+    if having_tc:
+        keep, dropped = blocks_within_reach(paths, trs, lengths)
+        paths, same, lengths, trs = ([x[i] for i in keep]
+                                     for x in (paths, same, lengths, trs))
+        if len(paths) == 1:
+            return paths[0], {"blocks": 1, "parts": [], "dropped": dropped}
     if having_tc and len(set(trs)) != len(trs):
         order = sorted(range(len(paths)),
                        key=lambda i: (trs[i], os.path.basename(paths[i]).lower()))
@@ -648,7 +697,7 @@ def join_audio_parts(paths, target, keep_parts=False):
         return target, {"blocks": len(paths), "tc": True, "gaps_found": gaps,
                       "start": first, "start_s": start_s,
                       "side_by_side": side_by_side,
-                      "parts": alone}
+                      "parts": alone, "dropped": dropped}
 
     # In the order they came in: without a timecode that order is the
     # only one there is, and it may come from a hand rather than from a

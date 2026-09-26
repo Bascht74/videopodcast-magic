@@ -6,6 +6,10 @@ file it was cut out of -- that file is still being read -- so the
 program is handed in, and every name used out of it is bound below.
 """
 
+# Qt at the head: the way in reads this piece in window() alone, so the
+# command line never gets here and loads no Qt (coding_guidelines, 12).
+from PySide6 import QtCore, QtGui, QtWidgets
+
 # beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
@@ -30,9 +34,7 @@ RUN_STOP = PROGRAM.RUN_STOP
 SOUND_HOLDS = PROGRAM.SOUND_HOLDS
 SOUND_MIXED = PROGRAM.SOUND_MIXED
 SOUND_SPEECH = PROGRAM.SOUND_SPEECH
-SPEAKER_SPLIT_OFF = PROGRAM.SPEAKER_SPLIT_OFF
 SPEECH_CODES = PROGRAM.SPEECH_CODES
-SR = PROGRAM.SR
 Stopped = PROGRAM.Stopped
 T = PROGRAM.T
 TN = PROGRAM.TN
@@ -45,31 +47,15 @@ VERSION = PROGRAM.VERSION
 Value = PROGRAM.Value
 _ENV = PROGRAM._ENV
 _joins_seamlessly = PROGRAM._joins_seamlessly
-_require_module = PROGRAM._require_module
 app_style_set = PROGRAM.app_style_set
 as_bad = PROGRAM.as_bad
 as_good = PROGRAM.as_good
 as_head = PROGRAM.as_head
-as_hms = PROGRAM.as_hms
-as_relative_time = PROGRAM.as_relative_time
-assignment_marks_show = PROGRAM.assignment_marks_show
-assignment_rows = PROGRAM.assignment_rows
 beside = PROGRAM.beside
-camera_after_a_mark = PROGRAM.camera_after_a_mark
-camera_gets_from = PROGRAM.camera_gets_from
-camera_name_suggestion = PROGRAM.camera_name_suggestion
-camera_names_offered = PROGRAM.camera_names_offered
-camera_offset = PROGRAM.camera_offset
-camera_row_cameras = PROGRAM.camera_row_cameras
-camera_to_remember = PROGRAM.camera_to_remember
-cameras_in_track_order = PROGRAM.cameras_in_track_order
 cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
 cameras_with_own_audio = PROGRAM.cameras_with_own_audio
-channel_rows_build = PROGRAM.channel_rows_build
 colours_pick = PROGRAM.colours_pick
-cut_title_of = PROGRAM.cut_title_of
 desktop_is_dark = PROGRAM.desktop_is_dark
-every_audio_block = PROGRAM.every_audio_block
 ffmpeg_can_be_had = PROGRAM.ffmpeg_can_be_had
 file_timecode = PROGRAM.file_timecode
 fill_choices = PROGRAM.fill_choices
@@ -77,9 +63,6 @@ find_required_tools = PROGRAM.find_required_tools
 finished_tracks_where = PROGRAM.finished_tracks_where
 forget_soxr = PROGRAM.forget_soxr
 guess_camera_name = PROGRAM.guess_camera_name
-guess_production_name = PROGRAM.guess_production_name
-guess_speaker_name = PROGRAM.guess_speaker_name
-gui_log = PROGRAM.gui_log
 has_sound = PROGRAM.has_sound
 how_to_get_ffmpeg = PROGRAM.how_to_get_ffmpeg
 install_ffmpeg = PROGRAM.install_ffmpeg
@@ -90,48 +73,37 @@ known_language = PROGRAM.known_language
 label_of = PROGRAM.label_of
 # Out of the language piece: the program binds neither of these two.
 language_name = PROGRAM.language.language_name
-make_preview = PROGRAM.make_preview
 reads_right_to_left = PROGRAM.language.reads_right_to_left
 languages = PROGRAM.languages
 log_aside = PROGRAM.log_aside
 make_voice_rows = PROGRAM.make_voice_rows
 mark_time = PROGRAM.mark_time
 log_path = PROGRAM.log_path
-loudness_field_build = PROGRAM.loudness_field_build
 loudness_last = PROGRAM.loudness_last
 main = PROGRAM.main
 make_auphonic_box = PROGRAM.make_auphonic_box
 make_preflight = PROGRAM.make_preflight
 make_project_file = PROGRAM.make_project_file
-make_resolve_check = PROGRAM.make_resolve_check
 make_speaker_split = PROGRAM.make_speaker_split
 make_time_axis = PROGRAM.make_time_axis
 make_update_sink = PROGRAM.make_update_sink
 name_apart = PROGRAM.name_apart
-not_on_the_axis = PROGRAM.not_on_the_axis
 number_text = PROGRAM.number_text
-open_in_file_manager = PROGRAM.open_in_file_manager
 open_page = PROGRAM.open_page
 os = PROGRAM.os
-parse_time_point = PROGRAM.parse_time_point
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 pick_choice = PROGRAM.pick_choice
 platform = PROGRAM.platform
-preview_out_of_date = PROGRAM.preview_out_of_date
 project_state_read = PROGRAM.project_state_read
-question_note_build = PROGRAM.question_note_build
 release_text_in = PROGRAM.release_text_in
 release_text_of = PROGRAM.release_text_of
 resolve_installed = PROGRAM.resolve_installed
-sample_count = PROGRAM.sample_count
 settings = PROGRAM.settings
 sign_of_life = PROGRAM.sign_of_life
 soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
 speakers_project_block = PROGRAM.speakers_project_block
-speakers_still_wanted = PROGRAM.speakers_still_wanted
-speech_table_fill = PROGRAM.speech_table_fill
 start_again = PROGRAM.start_again
 strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
@@ -140,22 +112,15 @@ sys = PROGRAM.sys
 system_locale = PROGRAM.system_locale
 tc_column_write = PROGRAM.tc_column_write
 threading = PROGRAM.threading
-timecode_string = PROGRAM.timecode_string
 trouble_log = PROGRAM.trouble_log
 update_offer = PROGRAM.update_offer
 video_facts = PROGRAM.video_facts
-video_kinds_again = PROGRAM.video_kinds_again
 voice_key_parts = PROGRAM.voice_key_parts
 voice_names_clashing = PROGRAM.voice_names_clashing
-voice_suggest_round = PROGRAM.voice_suggest_round
 warn_box = PROGRAM.warn_box
 weak_marks_show = PROGRAM.weak_marks_show
-wide_bar_of = PROGRAM.wide_bar_of
 wide_cameras_of = PROGRAM.wide_cameras_of
-wide_note_build = PROGRAM.wide_note_build
-wide_settings_grey = PROGRAM.wide_settings_grey
 wide_shot_barred = PROGRAM.wide_shot_barred
-window_suggestion = PROGRAM.window_suggestion
 
 
 def app_icon(QtGui):
@@ -522,43 +487,6 @@ def camera_tracks_of(camera_lines):
             for p, n in zip(files, guessed)]
 
 
-def camera_name_typed(kept, typed, offered):
-    """Whether a camera's kept name is one somebody typed.
-
-    The project file says so under "videotyped:"; what was typed stands
-    as typed, whatever it looks like. An older file does not say, and
-    there a name the table could have offered itself -- *offered*, the
-    one told apart with " 2" included -- counts as never typed.
-    """
-    if not kept:
-        return False
-    if typed is not None:
-        return bool(typed)
-    return kept not in offered
-
-
-def name_typed_watch(field, name_value):
-    """Mark *name_value* typed the moment its field says something else.
-
-    Watched before field_bind binds the two: a name the program sets
-    reaches the value first and the field after, so only a name that
-    came in through the field differs from the value here.
-    """
-    def seen(text):
-        """Typed where the field runs ahead of the value."""
-        if text != str(name_value.get()):
-            name_value.by_hand = True
-
-    field.textChanged.connect(seen)
-    return field
-
-
-def camera_name_kept(file_path, name_value):
-    """What the project file keeps of one camera's name: it, and who."""
-    return {"video:" + file_path: name_value.get(),
-            "videotyped:" + file_path: bool(name_value.by_hand)}
-
-
 def missing_conditions(files, production, multitrack, assign_lines,
                        camera_lines, voice_lines=(), voiced=(),
                        project_type="cut"):
@@ -595,9 +523,7 @@ def missing_conditions(files, production, multitrack, assign_lines,
     # one name are one person, and no answer makes that right.
     clash = voice_names_clashing(assign_lines, voice_lines, voiced)
     if clash:
-        pending[22] = (T('%s is on more than one speaker -- a name is a '
-                         'person, and every person needs their own.')
-                       % ", ".join(clash))
+        pending[22] = PROGRAM.names_clash_said(clash)
     # No sound at all: a video file whose Camera audio is not in use
     # contributes none, and a run with nothing to hear has no first step.
     if files and not assign_lines:
@@ -645,8 +571,8 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
     A reason goes on the entry it is about, never beside the field. With
     *derived* the value shown is what the program worked out, and *why*
     bars Content; *no_wide* bars the wide shot, *no_edge* the marks
-    somebody gave. Without *derived* a *why* greys nothing. A wide shot,
-    marked or worked out, says in grey that nobody speaks on it.
+    somebody gave. Without *derived* a *why* greys nothing. A wide shot
+    says in grey that nobody speaks on it, or the stronger *no_wide*.
     """
     cell, box = choice_cell(CLIP_TYPES, kind)
     barred, noted = {}, {}
@@ -657,14 +583,15 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
     if no_wide:
         barred[TYPE_WIDE] = no_wide
         # Nor content: as content a placeless file becomes the wide shot
-        # by derivation. Intro, outro and "leave out" stay open.
-        barred.setdefault(TYPE_CONTENT, T(
-            'cannot be cut into the episode -- only before or after it'))
+        # by derivation. It outweighs "no speaker", which a speaker
+        # would lift. Intro, outro and "leave out" stay open.
+        barred[TYPE_CONTENT] = T(
+            'cannot be cut into the episode -- only before or after it')
     for value, sentence in (no_edge or {}).items():
         barred.setdefault(value, sentence)
     choices_shut(box, barred, why, quiet, noted)
     if kind == TYPE_WIDE:
-        why_in_field(box, T('no speaker'), quiet)
+        why_in_field(box, no_wide or T('no speaker'), quiet)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
                 'camera nobody sits in front of -- it takes no '
@@ -1020,40 +947,17 @@ def window_title(project=""):
     of the tag line, and without it a window with a project open and one
     without look exactly alike.
     """
-    said = T('Video Podcast Magic %s -- raw material becomes an edited '
-             'podcast') % VERSION
+    said = T('%(name)s %(version)s -- raw material becomes an edited '
+             'podcast') % {"name": PROGRAM.DISPLAY_NAME, "version": VERSION}
     if not project:
         return said
     return "%s -- %s" % (os.path.basename(project), said.split(" -- ")[0])
 
 
-#------------------------------------------------------------ The tables
-# A piece of its own, in the folder "tables". Read where its block stood.
-
-# The way in reads tables/ now: this binds what it brought rather than
-# reading the piece again, which would leave two copies to drift. Gone
-# because nothing here reads them: fix_table_width, folded_summary and
-# tree_row_of with the speakers' rows, file_span and widget_width before.
-from_the_front = PROGRAM.from_the_front
-row_picker_for = PROGRAM.row_picker_for
-row_picker_watch = PROGRAM.row_picker_watch
-table_build = PROGRAM.table_build
-table_rows_fit = PROGRAM.table_rows_fit
-tree_build = PROGRAM.tree_build
-tree_cell = PROGRAM.tree_cell
-tree_field = PROGRAM.tree_field
-tree_row = PROGRAM.tree_row
-tree_rows_fit = PROGRAM.tree_rows_fit
-
-
 #------------------------------------------------------------ The player
 # A piece of its own, in "player". The way in reads it above this
-# file now, so these are ordinary head lines; eight names no code
+# file now, so these are ordinary head lines; the names no code
 # here reads have gone, and take_from() puts them on the program.
-box_room = PROGRAM.box_room
-make_band_and_player = PROGRAM.make_band_and_player
-make_drop_area = PROGRAM.make_drop_area
-make_log_view = PROGRAM.make_log_view
 make_player_choice = PROGRAM.make_player_choice
 make_player_widgets = PROGRAM.make_player_widgets
 
@@ -1173,9 +1077,14 @@ def sync_note_build(into):
     return note
 
 
-def scroll_sheet_build(QtWidgets):
-    """Return a scrolling tab and its layout: settings outgrow the window."""
-    outside = QtWidgets.QScrollArea()
+def scroll_sheet_build(QtWidgets, outside=None):
+    """Return a scrolling tab and its layout: settings outgrow the window.
+
+    *outside* is a sheet's own scroll area to fit out; without one a
+    plain one is made.
+    """
+    if outside is None:
+        outside = QtWidgets.QScrollArea()
     outside.setWidgetResizable(True)
     outside.setFrameShape(QtWidgets.QFrame.NoFrame)
     inside = QtWidgets.QWidget()
@@ -1524,26 +1433,17 @@ def log_entry(act, where, window):
 
 #---------------------------------------------------------- The fittings
 # A piece of its own, in "fittings". The way in reads it above this
-# file now, so these are ordinary head lines; thirteen names no code
+# file now, so these are ordinary head lines; the names no code
 # here reads have gone, and take_from() puts them on the program.
 checkbox_bind = PROGRAM.checkbox_bind
-cut_fields_build = PROGRAM.cut_fields_build
-field_bind = PROGRAM.field_bind
 hint = PROGRAM.hint
 label = PROGRAM.label
 mac_menu_name = PROGRAM.mac_menu_name
 make_footer = PROGRAM.make_footer
 mark_red = PROGRAM.mark_red
-more_speakers_row = PROGRAM.more_speakers_row
-path_label = PROGRAM.path_label
 qt_own_words = PROGRAM.qt_own_words
 say_dialog = PROGRAM.say_dialog
-speaker_name_cell = PROGRAM.speaker_name_cell
 speaks_as = PROGRAM.speaks_as
-split_cell_build = PROGRAM.split_cell_build
-split_column_fit = PROGRAM.split_column_fit
-stack_when_narrow = PROGRAM.stack_when_narrow
-wrap_row = PROGRAM.wrap_row
 
 
 #--------------------------------------------------------- The file list
@@ -1579,6 +1479,21 @@ running = beside("running", program=PROGRAM)
 # What the window calls out of it, bound by name.
 make_run_start = running.make_run_start
 run_done_text = running.run_done_text
+
+
+#------------------------------------------------------------ The sheets
+# One piece per tab, so that each can be worked on apart. Each is read
+# by nobody but this window, so each may carry Qt at its head.
+
+filesheet = beside("filesheet", program=PROGRAM)
+assignmentsheet = beside("assignmentsheet", program=PROGRAM)
+resolvesheet = beside("resolvesheet", program=PROGRAM)
+outputsheet = beside("outputsheet", program=PROGRAM)
+
+# What a production is, apart from the widgets: no Qt in it, and the
+# project file and the run read it rather than a list of its parts.
+projectmodel = beside("projectmodel", program=PROGRAM)
+ProjectModel = projectmodel.ProjectModel
 
 
 #-------------------------------------------- What the window works with
@@ -1740,9 +1655,15 @@ def broken_off_report(where, results):
           'part of a run, not a result.')])
 
 
-def break_off_arm(button):
-    """Put the button back the way it was, for the run about to start."""
-    stop_forget()
+def break_off_arm(button, run=True):
+    """Put the button back the way it was, for the run about to start.
+
+    With *run* false only the button: a start still waiting has no run
+    to forget or to watch, and the prework's children are not its own.
+    """
+    if run:
+        stop_forget()
+        PROGRAM.RUN_VITALS.begin()
     button.setEnabled(True)
     button.setText(T('Stop'))
     button.setVisible(True)
@@ -1792,6 +1713,7 @@ def make_log_writer(state, post):
     way through, so the button that opens the result folder has a target.
     """
     def write(text):
+        PROGRAM.RUN_VITALS.heard(text)
         for line in text.splitlines():
             path = line.strip()
             if os.path.isabs(path) and os.path.exists(path):
@@ -1810,6 +1732,16 @@ def in_turn(*steps):
     """
     for step in steps:
         step()
+
+
+def wire(signal, *slots):
+    """Connect each of *slots* to *signal*, in the order given.
+
+    Qt calls them in the order they were connected, so one line says
+    what answers a signal and in which order.
+    """
+    for slot in slots:
+        signal.connect(slot)
 
 
 def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
@@ -1848,6 +1780,7 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         sys.argv, PROGRAM.RUN_KEY = old_argv, ""
         PROGRAM.OUTPUT_SINK = None
         PROGRAM.ASK_SINK = PROGRAM.PROGRESS_SINK = None
+        PROGRAM.RUN_VITALS.end()
     # However it ended, nothing of it is still running.
     for name in list(run_step_order):
         bridge_emit(bridge.run_step, name, 1.0)
@@ -1916,450 +1849,6 @@ def audio_under_camera(camera_path, kind_of, done,
     return None
 
 
-def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
-                            assign_position, audio_fields, camera_lines,
-                            clip_kind_values, file_rows, files, no_join,
-                            own_audio_names, piece_label, production_var,
-                            remembered, split_files, state, suggestions,
-                            tree_open, video_fields, video_kind_again,
-                            voice_lines, assignment_check,
-                            assignment_remember, assignment_row_show,
-                            assignment_state_show, audio_use_now,
-                            audio_use_value, cell, clip_kind_value,
-                            folded_show, kind_answered, line_show,
-                            main_track_show, prework_kick_off, several_set,
-                            show_weak, speaker_split_kick_off, split_stop,
-                            tc_column_show, together_now, voice_add,
-                            voices_build, voices_of, wide_cameras_now,
-                            window_enable, window_position_show,
-                            window_prefill):
-    """Two tables: audio recordings above, video files below.
-
-    Whatever is needed from gui() comes in as an argument and keeps its
-    name inside. The lists and dictionaries belong to the window and are
-    emptied at the start of every rebuild. Two names bound further down
-    in gui() come through *state*.
-    """
-    assignment_remember()
-    for p in forget:
-        remembered.pop("video:" + p, None)
-    # Between the old table going and the new one arriving Qt paints a
-    # flash. Painting waits for the next turn of the loop.
-    holder = assign_position.parentWidget()
-    if holder is not None and holder.updatesEnabled():
-        holder.setUpdatesEnabled(False)
-        QtCore.QTimer.singleShot(
-            0, lambda h=holder: h.setUpdatesEnabled(True))
-    old = state.get("assignment_content")
-    if old is not None:
-        old.setParent(None)
-        old.deleteLater()
-    # The marks of the old table went with its widgets.
-    content = QtWidgets.QWidget()
-    column_layout = QtWidgets.QVBoxLayout(content)
-    column_layout.setContentsMargins(0, 0, 0, 0)
-    column_layout.setSpacing(10)
-    # In front of the Multitrack tick and the prework bar.
-    assign_position.insertWidget(0, content)
-    state["assignment_content"] = content
-    assign_lines[:] = []
-    # Cleared with the rest: a row that no longer exists must not still
-    # be able to say which camera it is on.
-    voice_lines[:] = []
-    file_rows[:] = []
-    state["split_cells"] = []
-    state["voiced"] = set()
-    audio_fields[:] = []
-    video_fields[:] = []
-    # The two lines carrying a reason are widgets of that table too:
-    # left pointing at the old ones, the next check hits deleted Qt.
-    state["audio_reason"] = None
-    state["video_reason"] = None
-    audio_files = [p for p, a in files if a == "audio"]
-    videos = sorted([p for p, a in files if a == "video"],
-                    key=lambda x: os.path.basename(x).lower())
-    # A camera contributing its audio is an input track like any other,
-    # so it is in the table above. Emptied here: a rebuild starts over.
-    own_audio_names.clear()
-    # What a cut-out piece is called: the label the cutting gave it.
-    # Without it the piece is named after its file's channel number.
-    piece_label.clear()
-    for _src, _pieces in split_files.items():
-        for _path, _label in _pieces or []:
-            piece_label[_path] = _label
-    # The file list's own derivation, called and not copied: both
-    # tabs show one value and must not disagree about it.
-    own_now, forced = audio_use_now()
-    chains, camera_audio, own = assignment_rows(
-        audio_files, videos, own_now,
-        split_of=lambda x: [t[0] for t in
-                            split_files.get(x) or []],
-        apart=no_join, together=together_now())
-    state["camera_audio"] = camera_audio
-    state["own_audio_rows"] = own
-    state["own_cameras"] = list(own_now)
-    state["forced_own"] = list(forced)
-    if not chains:
-        column_layout.addWidget(label(
-            T('No sound in use yet -- add an audio recording, or set '
-              'a video file\'s Camera audio to "use internal audio" in the '
-              'file list.'), COLOURS["quiet"]))
-        # Before the exit, not after the table: the time axis is needed
-        # whether or not any sound is in use.
-        if videos:
-            prework_kick_off(list(videos))
-        # And the button, for the same reason: the way in here is also
-        # taking the last sound away.
-        assignment_check()
-        return
-    # The cameras first, then the two special cases. MIX_ONLY: processed
-    # and in the mix, but not the first track on any camera.
-    # IGNORE_AUDIO: left out entirely. A camera is its path: two files
-    # of one name are two cameras, and the chooser shows them apart.
-    targets = list(videos) + [MIX_ONLY, IGNORE_AUDIO]
-    wide = wide_bar_of(targets, *wide_cameras_now(),
-                       aside=state.setdefault("wide_set_aside", {}))
-    barred = wide["barred"]
-    head = T('Audio recording')
-    belongs_head = T('belongs to')
-    # The separation column is only there where there is a separation
-    # to have. No button -- only what came of it, and a way to stop.
-    columns = [head, T('Speaker name'), belongs_head, "Timecode"]
-    if not SPEAKER_SPLIT_OFF:
-        columns.append(T('Speakers'))
-    tree_audio = tree_build(columns)
-    # Sync only: the columns about speakers stay in the tree, hidden,
-    # so the cells keep their numbers and the project file its keys.
-    sync_only = state.get("project_type") == "sync"
-    tree_audio.setColumnHidden(1, sync_only)
-    # And "belongs to" with them: without a plan the run reads no
-    # camera off a recording, so the column would promise an answer.
-    tree_audio.setColumnHidden(2, sync_only)
-    if not SPEAKER_SPLIT_OFF:
-        tree_audio.setColumnHidden(4, sync_only)
-    state["assignment_tree"] = tree_audio
-    state["row_picker"] = row_picker_for(tree_audio)
-    column_layout.addWidget(tree_audio, 1)
-    audio_file_list = []
-    # Without timecode a position cannot be converted onto the common axis.
-    # Where not one file carries one, the values are relative to the first.
-    tc_of_row = []
-    for row, _ in chains:
-        try:
-            tc_of_row.append(file_timecode(row[0]))
-        except Exception:
-            tc_of_row.append(None)
-    without_tc = not any(t is not None for t in tc_of_row)
-    state["without_tc"] = without_tc
-    if not without_tc:
-        state["tc_there"] = True
-    for (row, _) in chains:
-        first = row[0]
-        camera_track = os.path.abspath(first) in state["own_audio_rows"]
-        from_camera = state["own_audio_rows"].get(first) \
-            if isinstance(state["own_audio_rows"], dict) else None
-        stem = (guess_camera_name(from_camera or first)
-                 if camera_track else guess_speaker_name(first))
-        # So the two rows of one camera can be told apart.
-        if piece_label.get(first):
-            stem = piece_label[first]
-        if camera_track:
-            stem = remembered.get("ownname:" + first) or stem
-        caption = os.path.basename(first)
-        if camera_track:
-            caption += T('   (camera audio)')
-        elif len(row) > 1:
-            caption += "  (+%d)" % (len(row) - 1)
-        node = tree_row(tree_audio, None, [caption])
-        node[0].setData(first, Qt.UserRole + 1)
-        audio_file_list.append(first)
-        file_rows.append((node, first, caption))
-        old_name, old_camera = remembered.get("audio:" + first, (None, None))
-        # Empty until somebody answers, with the guess offered in grey
-        # and never written in. The field itself knows both.
-        name_value = SpeakerName(old_name or "", stem)
-        # The voices this recording is showing. Where there are any, the
-        # assignment belongs to them: it has exactly one level.
-        kids = [] if sync_only else voices_of(first)
-        if kids:
-            state["voiced"].add(os.path.abspath(first))
-        if SPEAKER_SPLIT_OFF:
-            # Nothing can be told apart on this machine, so there is
-            # only one answer to give and a plain field to give it in.
-            name_field = field_bind(QtWidgets.QLineEdit(), name_value)
-            speaks_as(name_field, T('Speaker name'), caption)
-        else:
-            # Only an answer picks the answer: a separation that comes
-            # back with four voices does not set the field itself.
-            said = remembered.get("several:" + first)
-            several_value = Value(bool(said))
-            several_value.listen(
-                lambda *_, p=first, v=several_value: several_set(
-                    p, v.get()))
-            name_field = speaker_name_cell(name_value, several_value,
-                                           caption)
-        tree_field(tree_audio, node, 1, name_field)
-        row_picker_watch(state["row_picker"], name_field)
-        # Before the branch below, so a row without a selector says how
-        # its separation stands too.
-        if not SPEAKER_SPLIT_OFF:
-            box_, cell_ = split_cell_build(first, split_stop, node[4])
-            tree_field(tree_audio, node, 4, box_)
-            state["split_cells"].append(cell_)
-        # The voices go under the row before the row is filled in:
-        # whether it has any decides what the row carries itself.
-        if voices_build(tree_audio, node, first, videos, targets, wide):
-            tree_audio.setExpanded(node[0].index(),
-                                   tree_open.get(first, True))
-            folded_show(node[0].index())
-        # Where the voices hang underneath they carry the cameras and
-        # this row none. The cell says so rather than standing empty.
-        if kids:
-            tree_cell(node, 2, T('the voices below carry the cameras'),
-                      COLOURS["quiet"])
-            # MIX_ONLY is the truth here: no track belongs to one camera
-            # alone.
-            assign_lines.append((row, name_value, Value(MIX_ONLY)))
-            continue
-        # Camera rows get the full selector too: a clip-on microphone
-        # in one camera does not mean the person is filmed by it.
-        own_camera = (next((b for b in videos if path_key(b) == path_key(
-            from_camera or first)), "") if camera_track else "")
-        was = camera_after_a_mark("audio:" + first, old_camera, wide)
-        picked, worked_out = camera_row_cameras(
-            was, wide["pickable"], name_value.get(), videos,
-            own_camera="" if own_camera in barred else own_camera)
-        camera_value = Value(MIX_ONLY if picked in barred else picked)
-        camera_value.derived = worked_out
-        box = QtWidgets.QComboBox()
-        speaks_as(box, belongs_head, caption)
-        fill_choices(box, targets, camera_value.get())
-        choices_shut(box, barred, wide["why"], COLOURS["quiet"])
-
-        def chosen(_i=0, b=box, value=camera_value, f=name_field,
-                   guess=name_value.suggested):
-            """Hand the value on; an ignored track needs no name."""
-            v = b.currentData()
-            value.set(v)
-            name_shut(f, v == IGNORE_AUDIO, guess, COLOURS["quiet"])
-
-        box.currentIndexChanged.connect(chosen)
-        chosen()
-        moved_says_why(box, "audio:" + first, wide, COLOURS["quiet"])
-        # When the camera changes, the summary below no longer fits.
-        box.currentIndexChanged.connect(
-            lambda *_: QtCore.QTimer.singleShot(0, state["refresh_names"]))
-        tree_field(tree_audio, node, 2, box)
-        row_picker_watch(state["row_picker"], box)
-        if camera_track:
-            own_audio_names.setdefault(from_camera or first,
-                                       []).append(name_value)
-        assign_lines.append((row, name_value, camera_value))
-        audio_fields.append(name_field)
-        name_value.listen(lambda *_: QtCore.QTimer.singleShot(
-            0, assignment_check))
-    # A voice the separation missed is asked for below the tree: it is
-    # the input to another separation, not a row of this one.
-    more = (None if sync_only
-            else more_speakers_row(audio_file_list, voice_add))
-    if more is not None:
-        column_layout.addWidget(more)
-    audio_reason = label("", COLOURS["error"])
-    audio_reason.setWordWrap(True)
-    audio_reason.setVisible(False)
-    column_layout.addWidget(audio_reason)
-    state["audio_reason"] = audio_reason
-    # The rows that carry a file, which is not every row: the timecode
-    # and the "does not fit" mark belong to a recording, not a voice.
-    state["file_rows"] = list(file_rows)
-    tc_column_show()
-    # One tree where there were two tables, so it may be as tall as
-    # both were: 120 each, and the heading the second one had.
-    tree_rows_fit(tree_audio, 266)
-    for _signal in (tree_audio.expanded, tree_audio.collapsed):
-        _signal.connect(folded_show)
-    tree_audio.selectionModel().selectionChanged.connect(
-        lambda *_, t=tree_audio: assignment_row_show(t))
-
-    window_position_show()
-
-    # --- second table: what the new video files should be called
-    if not production_var.get():
-        production_var.set(guess_production_name(chains[0][0][0]))
-    camera_lines[:] = []
-    # What comes out, and the two decisions only watching can settle:
-    # what the clip is, and whether its sound is material.
-    table_video = table_build([T('Camera'), T('new file name'),
-                               T('gets audio from'), T('Kind'),
-                               T('Camera audio')])
-    # Sync only: the new file name stays, since the run names each file
-    # and its track after it on every path; where the audio comes from
-    # is read off the speakers, and there are none -- so that one hides.
-    table_video.setColumnHidden(2, sync_only)
-    column_layout.addWidget(table_video, 1)
-    video_reason = label("", COLOURS["error"])
-    video_reason.setWordWrap(True)
-    video_reason.setVisible(False)
-    column_layout.addWidget(video_reason)
-    state["video_reason"] = video_reason
-    taken = {}
-    for _, nv, cv in assign_lines:
-        if PROGRAM.is_a_path(cv.get()):
-            taken.setdefault(path_key(cv.get()), []).append(nv)
-    wides, said = wide_cameras_now()
-    shown = PROGRAM.camera_labels(videos)
-    state["camera_labels"] = shown
-
-    def kinds_refresh():
-        """Say the Kind column again, with the wide shot as it is now.
-
-        A voice given a name and a camera makes that camera one somebody
-        sits in front of, so it is no longer the derived wide shot, and
-        the table is built before that answer exists. Both tables that
-        show a Kind: left out, the file list keeps saying "Wide shot".
-        """
-        if state.get("closing"):
-            return
-        video_kinds_again(video_kind_again)
-        try:
-            fresh, marked = wide_cameras_now()
-            for i, path in enumerate(videos):
-                if i >= table_video.rowCount():
-                    break
-                box_cell, _box = kind_cell_for(
-                    path, clip_kind_value(path), fresh, marked,
-                    state.get("no_place"), clip_kind_values,
-                    COLOURS["quiet"], lambda q=path: kind_answered(q), shown)
-                table_video.setCellWidget(i, 3, box_cell)
-        except RuntimeError:
-            # The table was rebuilt under us; the new one is right.
-            return
-
-    state["kinds_refresh"] = kinds_refresh
-    offered_now = set()
-    for row, b in enumerate(videos):
-        short = os.path.basename(b)
-        table_video.insertRow(row)
-        # Named as the choosers name it, the whole path on the tooltip.
-        cell(table_video, row, 0, shown[b]).setToolTip(b)
-        clip_kind = clip_kind_value(b)
-        kind_cell, _kind_box = kind_cell_for(
-            b, clip_kind, wides, said, state.get("no_place"),
-            clip_kind_values, COLOURS["quiet"],
-            lambda p=b: kind_answered(p), shown)
-        table_video.setCellWidget(row, 3, kind_cell)
-        own_audio = audio_use_value(b)
-        used, why = audio_use_settled(b, own_now, forced,
-                                      has_sound(b), clip_kind.get())
-        if clip_kind.get() not in CAMERA_TYPES:
-            # A finished clip has nothing to assign and gets no new
-            # name, so a sentence stands where the empty fields would.
-            cell(table_video, row, 1,
-                  T('stays out') if clip_kind.get() == TYPE_IGNORED
-                  else T('used directly'),
-                  COLOURS["quiet"])
-            cell(table_video, row, 2, "")
-            sound_off, sound_off_box = camera_audio_cell(
-                short, used, why, COLOURS["quiet"], True)
-            audio_use_bind(sound_off_box, own_audio, why)
-            table_video.setCellWidget(row, 4, sound_off)
-            continue
-        # A camera can contribute its own audio and is then a track
-        # like any other. One camera can give more than one.
-        mine = own_audio_names.get(b) or []
-        own_audio_name = mine[0] if mine else Value(
-            remembered.get("ownname:" + b) or guess_camera_name(b))
-        own = list(taken.get(path_key(b)) or [])
-        if used:
-            own += mine or [own_audio_name]
-        multitrack_now = bool(state["multitrack"].get()) and not sync_only
-        # A kept name nobody typed was the table's own -- a project
-        # file saves every field -- so it follows the table.
-        kept = remembered.get("video:" + b) or ""
-        offer = camera_name_suggestion(production_var.get(), short, own,
-                                       multitrack_now, sync_only)
-        by_hand = camera_name_typed(
-            kept, remembered.get("videotyped:" + b),
-            camera_names_offered(production_var.get(), short, own)
-            | {name_apart(offer, set(offered_now))})
-        kept = kept if by_hand else ""
-        # Told apart from the names the rows above carry, as the run does.
-        suggestion = name_apart(offer, set(offered_now) if kept
-                                else offered_now)
-        if kept:
-            offered_now.add(kept.lower())
-        suggestions[b] = suggestion
-        name_value = Value(kept or suggestion)
-        name_value.by_hand = by_hand
-        name_entry = field_bind(name_typed_watch(QtWidgets.QLineEdit(),
-                                                 name_value), name_value)
-        speaks_as(name_entry, T('new file name'), short)
-        from_the_front(name_entry)
-        table_video.setCellWidget(row, 1, name_entry)
-        cell(table_video, row, 2, camera_gets_from(own),
-             COLOURS["quiet"])
-        # The file list's field again, on the same value: it stands
-        # here because the player does, and usable sound is heard.
-        sound, sound_box = camera_audio_cell(short, used, why,
-                                             COLOURS["quiet"], True)
-        audio_use_bind(sound_box, own_audio, why)
-        table_video.setCellWidget(row, 4, sound)
-        camera_lines.append((b, name_value, own_audio, own_audio_name))
-        video_fields.append(name_entry)
-        name_value.listen(lambda *_: QtCore.QTimer.singleShot(
-            0, assignment_check))
-    table_rows_fit(table_video)
-    table_video.itemSelectionChanged.connect(
-        lambda t=table_video, d=list(videos): line_show(t, d))
-    table_video.resizeColumnsToContents()
-    for c in range(len(columns)):
-        tree_audio.resizeColumnToContents(c)
-    # The name columns carry input fields, which must not shrink to their
-    # content; the first also carries triangles and the indentation.
-    tree_audio.setColumnWidth(0, max(220, tree_audio.columnWidth(0) + 30))
-    # The new file name is long, so it gets whatever is left.
-    table_video.horizontalHeader().setStretchLastSection(False)
-    table_video.horizontalHeader().setSectionResizeMode(
-        1, QtWidgets.QHeaderView.Stretch)
-    tree_audio.header().setStretchLastSection(True)
-    if not SPEAKER_SPLIT_OFF:
-        # A width for what the column will hold, not for what is in it:
-        # a column measuring its contents measures an empty one.
-        split_column_fit(tree_audio, 4)
-    # The camera list now stands, so queue what can be prepared: the
-    # envelope for every camera, plus the audio of those contributing it.
-    window_prefill(videos)
-    window_enable()
-    show_weak()
-    main_track_show()
-    every_cameras = [p for p, _n, _k, _own_name in camera_lines]
-    # A camera more or fewer can make another run's handover the right one.
-    handover_follows(state, every_cameras)
-    # Every camera goes in either way -- the time axis lives on those
-    # envelopes. Only fetching the sound is for those set to "use".
-    having_audio = [p for p in every_cameras if p in own_now]
-    # The audio recordings belong in it too, and every block of them:
-    # a recording of three blocks is measured and In-pointed thrice.
-    every = list(every_cameras)
-    for r, _nv, _cv in assign_lines:
-        for x in r:
-            if x not in every:
-                every.append(x)
-    if every:
-        prework_kick_off(every, having_audio)
-    # Beside the prework, not behind it: the two do not slow each
-    # other down, and the separation is the long one of the two.
-    if not sync_only:
-        speaker_split_kick_off()
-    assignment_check()
-    assignment_state_show()
-    # The last camera to be given a speaker takes the wide shot away.
-    state["wide_state_show"]()
-    # And the file list says so too: built before anybody is assigned,
-    # it would go on calling every camera the wide shot.
-    video_kinds_again(video_kind_again)
-
-
 def app_language_set(QtCore, Qt, app):
     """Give Qt its own words, and turn the window the way they read.
 
@@ -2374,24 +1863,187 @@ def app_language_set(QtCore, Qt, app):
 
 
 #----------------------------------------------------- The window itself
-# One function, and the largest in the program. What could be lifted out
-# stands above and below; what is left holds the widgets and closes over.
+# MainWindow holds the tabs, the footer and the menu; the four sheets are
+# pieces of their own. gui() still assembles what goes into them and
+# closes over it, the largest function in the program for now.
+
+
+class Bridge(QtCore.QObject):
+    """What a worker thread hands over to the window, as Qt signals.
+
+    What arises in a worker thread must not reach the window from
+    there. Qt passes a signal into the window's thread by itself.
+    """
+
+    progress = QtCore.Signal(str, str, float, str)
+    question = QtCore.Signal(object)
+    # The key the answer is about travels with it: read off the field
+    # again, it may be a second one pasted while the first was away.
+    presets = QtCore.Signal(object, str, str)
+    axis = QtCore.Signal(object, str)
+    preflight = QtCore.Signal(object)
+    resolve_check = QtCore.Signal(object)
+    speakers_measured = QtCore.Signal(object)
+    run_step = QtCore.Signal(str, float)
+    channels_done = QtCore.Signal(str)
+    split_done = QtCore.Signal(str)
+    speaker_note = QtCore.Signal(str)
+    speakers_split = QtCore.Signal(object)
+    speakers_split_note = QtCore.Signal(str, float)
+    speakers_heard = QtCore.Signal(object)
+
+
+class MainWindow(QtWidgets.QWidget):
+    """The window: the four tabs, the footer under them, the menu bar.
+
+    Each sheet is a piece of its own. The first tab is always there;
+    the other three appear once they have something to show, and here
+    it is decided where each stands and what its tab is called.
+    """
+
+    # What the project file, the run start and the file list say has
+    # happened. They emit; gui() connects who answers, and in what order.
+    project_closed = QtCore.Signal()
+    project_opened = QtCore.Signal()
+    files_changed = QtCore.Signal()
+    files_redrawn = QtCore.Signal()
+    files_leaving = QtCore.Signal(object)
+    material_leaving = QtCore.Signal(object)
+    folder_changed = QtCore.Signal()
+    folder_wanted = QtCore.Signal()
+    mode_changed = QtCore.Signal()
+    presets_wanted = QtCore.Signal()
+    assignment_due = QtCore.Signal()
+    run_starting = QtCore.Signal()
+    run_begun = QtCore.Signal(bool)
+
+    def __init__(self, app, files, state):
+        """Title and picture, the tab widget, and the four sheets."""
+        QtWidgets.QWidget.__init__(self)
+        self.files = files          # the window's list, never a copy
+        self.setWindowTitle(window_title())
+        symbol = app_icon(QtGui)
+        if symbol is not None:
+            # On the Mac the dock icon belongs to the application, not to
+            # the window, or the Python rocket appears there.
+            app.setWindowIcon(symbol)
+            self.setWindowIcon(symbol)
+        self.vertical = QtWidgets.QVBoxLayout(self)
+        self.vertical.setContentsMargins(12, 10, 12, 10)
+        self.vertical.setSpacing(8)
+        # No header line: name, version and purpose are in the title. A
+        # few pixels of air keep the top edge of the tabs in view.
+        self.vertical.addSpacing(4)
+        self.tabs = QtWidgets.QTabWidget()
+        self.vertical.addWidget(self.tabs, 1)
+        self.files_sheet = filesheet.FilesSheet()
+        self.tabs.addTab(self.files_sheet, T('Files && production'))
+        self.assignment_sheet = assignmentsheet.AssignmentSheet()
+        self.resolve_sheet = resolvesheet.ResolveSheet()
+        self.output_sheet = outputsheet.OutputSheet(state)
+
+    def table_show(self, sheet, title, index, pick=False):
+        """Give *sheet* a tab at *index* if it has none; go there on *pick*."""
+        if self.tabs.indexOf(sheet) < 0:
+            self.tabs.insertTab(min(index, self.tabs.count()), sheet, title)
+        if pick:
+            self.tabs.setCurrentWidget(sheet)
+
+    def tab_gone(self, sheet):
+        """Take the tab of *sheet* away, if it has one."""
+        i = self.tabs.indexOf(sheet)
+        if i >= 0:
+            self.tabs.removeTab(i)
+
+    def settings_show(self):
+        """Show the two middle tabs only once there are files."""
+        if self.files:
+            self.table_show(self.assignment_sheet,
+                            T('Assignment && time window'), 1)
+            self.table_show(self.resolve_sheet, T('Resolve cut'), 2)
+        else:
+            self.tab_gone(self.assignment_sheet)
+            self.tab_gone(self.resolve_sheet)
+
+    def output_show(self, select=True):
+        """Show the output tab, and go to it unless told not to."""
+        self.table_show(self.output_sheet, T('Output'), 3, select)
+
+    def tab_named(self, sheet):
+        """What the tab holding this sheet is called at the moment.
+
+        Read off the tab rather than kept in a list beside it, and without
+        the doubled ampersand Qt needs and the tick it may already carry.
+        """
+        i = self.tabs.indexOf(sheet) if sheet is not None else -1
+        if i < 0:
+            return T('this window')
+        return self.tabs.tabText(i).replace("&&", "&").replace(
+            "\u2713", "").strip()
+
+    def ticks_set(self, pending):
+        """Put a tick behind each tab once nothing on it is outstanding.
+
+        *pending* is what missing_conditions answers, keyed by number.
+        Only the two tabs that can hold something outstanding: a tick
+        that is always on says nothing.
+        """
+        # The first tab carries both, files and production, so what is
+        # missing on it can come from either.
+        first = bool({1, 11, 21, 23} & set(pending))
+        for sheet, pending_here, base_title in (
+                (self.files_sheet, first, T('Files && production')),
+                (self.assignment_sheet, 22 in pending,
+                 T('Assignment && time window'))):
+            i = self.tabs.indexOf(sheet)
+            if i >= 0:
+                self.tabs.setTabText(i, base_title if pending_here
+                                     else base_title + "  \u2713")
+
+    def footer_build(self, state, plan, bridge, late, multitrack,
+                     without_auphonic, settings_open):
+        """The bottom row under the tabs: what make_footer hands back.
+
+        Its three buttons are kept on the window too, where the run
+        start reaches for them.
+        """
+        parts = make_footer(QtCore.Qt, QtCore, QtWidgets, self, self.vertical,
+                            state, self.files, plan, bridge, late, multitrack,
+                            without_auphonic, settings_open)
+        self.start_run, self.preview_button, self.break_off = (
+            parts[0], parts[2], parts[3])
+        return parts
+
+    def menu_build(self, player, does, window_switch, cut_player, late,
+                   buttons, has_material):
+        """The menu bar out of build_menus; a Mac puts it in the system bar.
+
+        A Mac program without a menu bar is not a Mac program: About,
+        Settings and Help are expected where the window has no say.
+        QLayout.setMenuBar is what puts it in the system bar on a Mac.
+        """
+        self.vertical.setMenuBar(build_menus(
+            QtGui, QtCore, QtWidgets, self, self.tabs, player, does,
+            window_switch, cut_player, late, buttons, has_material))
+
+    def screen_fit(self, app):
+        """As large as the screen, but an ordinary window, at its top left."""
+        screen = app.primaryScreen().availableGeometry()
+        self.resize(min(1600, screen.width()), min(1000, screen.height()))
+        PROGRAM.least_size_from_layout(self)
+        self.move(screen.left(), screen.top())
 
 
 def gui():
     """Build the Qt interface.
 
-    Three tabs in the order they are needed: choose files, configure,
-    watch. Tabs two and three appear only once they have something to
-    show. The work is done by the same main() as on the command line;
-    this only assembles the arguments and captures the output.
+    MainWindow holds the tabs in the order they are needed: choose
+    files, configure, cut, watch. What fills the sheets is assembled
+    here for now. The work is done by the same main() as on the command
+    line; this only assembles the arguments and captures the output.
     """
     import queue
-    _require_module("PySide6.QtWidgets", "PySide6")
-    from PySide6 import QtCore, QtGui, QtWidgets
-
     Qt = QtCore.Qt
-    Cursor = QtGui.QTextCursor
 
     PROGRAM.GUI_RUNNING = True
 
@@ -2399,12 +2051,12 @@ def gui():
     # the console for every file loaded.
     os.environ.setdefault("QT_LOGGING_RULES",
                           "qt.multimedia.ffmpeg*=false;qt.multimedia*=false")
-    mac_menu_name("Video Podcast Magic")   # before the menu bar is built
+    mac_menu_name(PROGRAM.DISPLAY_NAME)   # before the menu bar is built
     app = QtWidgets.QApplication.instance()
     if app is None:
         app = QtWidgets.QApplication(sys.argv[:1])
-    app.setApplicationName("Video Podcast Magic")
-    app.setApplicationDisplayName("Video Podcast Magic")
+    app.setApplicationName(PROGRAM.DISPLAY_NAME)
+    app.setApplicationDisplayName(PROGRAM.DISPLAY_NAME)
     app_language_set(QtCore, Qt, app)
 
     # With the system in dark mode the same roles get dark shades, or a
@@ -2416,17 +2068,8 @@ def gui():
 
     app_style_set(app)
 
-    window = QtWidgets.QWidget()
-    window.setWindowTitle(window_title())
-    symbol = app_icon(QtGui)
-    if symbol is not None:
-        # On the Mac the dock icon belongs to the application, not to the
-        # window, or the Python rocket appears there.
-        app.setWindowIcon(symbol)
-        window.setWindowIcon(symbol)
-
-    files = []                      # [(path, "audio"|"video")]
-    multitrack = Value(False)
+    model = ProjectModel(loudness_last(), language_of_system())
+    files, multitrack = model.files, model.multitrack
     state = {"running": False, "results": [], "presets": None,
                "resolve_json": None, "result_folder": None,
                "camera_audio": False, "waiting": False, "without_tc": False,
@@ -2435,29 +2078,8 @@ def gui():
                "weak": set(), "tables": [], "axis_absolute": False,
                "axis_clock": {}, "project_type": "", "multitrack": multitrack}
     post = queue.Queue()
-
-    # ------------------------------------------------------------------
-    # Bridge: what arises in a worker thread must not reach the window
-    # from there. Qt passes signals into the right thread by itself.
-    # ------------------------------------------------------------------
-    class Bridge(QtCore.QObject):
-        progress = QtCore.Signal(str, str, float, str)
-        question = QtCore.Signal(object)
-        # The key the answer is about travels with it: read off the field
-        # again, it may be a second one pasted while the first was away.
-        presets = QtCore.Signal(object, str, str)
-        axis = QtCore.Signal(object, str)
-        preflight = QtCore.Signal(object)
-        resolve_check = QtCore.Signal(object)
-        speakers_measured = QtCore.Signal(object)
-        run_step = QtCore.Signal(str, float)
-        channels_done = QtCore.Signal(str)
-        split_done = QtCore.Signal(str)
-        speaker_note = QtCore.Signal(str)
-        speakers_split = QtCore.Signal(object)
-        speakers_split_note = QtCore.Signal(str, float)
-        speakers_heard = QtCore.Signal(object)
-
+    window = MainWindow(app, files, state)
+    tab2, tab3 = window.assignment_sheet, window.resolve_sheet
     bridge = Bridge()
 
     def bridge_emit(signal, *values):
@@ -2520,121 +2142,19 @@ def gui():
     # ------------------------------------------------------------------
     plan = ProgressPlan()
 
-    # ------------------------------------------------------------------
-    # Layout: header, tabs, footer
-    # ------------------------------------------------------------------
-    vertical = QtWidgets.QVBoxLayout(window)
-    vertical.setContentsMargins(12, 10, 12, 10)
-    vertical.setSpacing(8)
-
-    # No header line: name, version and purpose are in the window title. A few
-    # pixels of air remain so the top edge of the tabs is visible.
-    vertical.addSpacing(4)
-
-    tabs = QtWidgets.QTabWidget()
-    vertical.addWidget(tabs, 1)
-
-    sheet1 = QtWidgets.QWidget()
-    sheet1_position = QtWidgets.QVBoxLayout(sheet1)
-    sheet1_position.setContentsMargins(10, 10, 10, 10)
-    tabs.addTab(sheet1, T('Files && production'))
-
-    # Production name, output folder and auphonic.com sit as a narrow
-    # strip: four values, and a sheet for them would be four fifths empty.
-    tab1 = QtWidgets.QWidget()
-    in_layout = QtWidgets.QVBoxLayout(tab1)
-    in_layout.setContentsMargins(0, 6, 0, 0)
-    in_layout.setSpacing(14)
-    tab2, assign_position_outside = scroll_sheet_build(QtWidgets)
-    tab3, resolve_position = scroll_sheet_build(QtWidgets)
-
-    sheet2 = QtWidgets.QWidget()
-    sheet2_position = QtWidgets.QVBoxLayout(sheet2)
-    sheet2_position.setContentsMargins(10, 10, 10, 10)
-
-    def table_show(sheet, title, index, pick=False):
-        if tabs.indexOf(sheet) < 0:
-            tabs.insertTab(min(index, tabs.count()), sheet, title)
-        if pick:
-            tabs.setCurrentWidget(sheet)
-
-    def tab_gone(sheet):
-        i = tabs.indexOf(sheet)
-        if i >= 0:
-            tabs.removeTab(i)
-
-    def settings_show():
-        """Show the later tabs only once there are files."""
-        if files:
-            table_show(tab2, T('Assignment && time window'), 1)
-            table_show(tab3, T('Resolve cut'), 2)
-        else:
-            tab_gone(tab2)
-            tab_gone(tab3)
-
-    def output_show(select=True):
-        table_show(sheet2, T('Output'), 3, select)
-
     # ----------------------------------------------------- Tab 1: the files
-    # While nothing is chosen the drop area is here and explains the
-    # workflow; afterwards the list, in the same place.
-    DropArea = make_drop_area(QtCore, QtGui, QtWidgets)
-    drop_area = DropArea(lambda paths: take_paths(paths),
-                           lambda: add_files(),
-                           lambda: project_open(), COLOURS)
-    sheet1_position.addWidget(drop_area, 1)
-
-    # ------------------------------------------------------------------
-    # The file list itself, and the two colour tables it draws with.
-    # What comes back is what the rest of the window reaches for.
-    # ------------------------------------------------------------------
+    # The drop area, the file list and the two colour tables it draws
+    # with. What comes back is what the rest of the window reaches for.
     (items, preflight_line, stripes_pick, marks_pick, MARKS, FINDING_WORD,
-     set_mark, item) = make_file_list(Qt, QtGui, QtWidgets,
-                                      sheet1_position, state)
+     set_mark, item) = window.files_sheet.list_build(
+         state, lambda paths: take_paths(paths), lambda: add_files(),
+         lambda: project_open())
 
-    # Blocks taken out of a recording by hand stand on their own from
-    # then on. Only removing the whole recording clears its marks.
-    no_join = FileSet()
-    # Which blocks make up which recording. The channels are judged over
-    # the whole recording, not over its first block -- see blocks_facts.
-    blocks_of = ByFile()
-    recording_of = ByFile()
-    # Files put into a recording by hand: {file: the recording it joins}.
-    # The counterpart to no_join, and stored in the project the same way.
-    join_to = ByFile()
-
-    def together_now():
-        """The by-hand groupings, as group_recording_parts wants them."""
-        return [[target, source] for source, target in sorted(join_to.items())
-                if target and target != source]
-    channel_choice = ByFile()    # file -> {pair number: stereo yes/no}
-    channel_node = ByFile()      # file -> its row in the list
+    no_join, split_files = model.no_join, model.split_files
+    blocks_of, recording_of = model.blocks_of, model.recording_of
+    join_to, together_now = model.join_to, model.together_now
+    channel_choice = model.channel_choice
     video_kind_again = ByFile()  # file -> draw its Kind cell again
-    # file -> [(track file, label)]. An empty list means looked at and
-    # whole; a missing entry means not looked at yet.
-    split_files = ByFile()
-
-    def channel_rows_show(node, path):
-        channel_rows_build(node, path, Qt, QtCore, QtWidgets,
-                           blocks_of, channel_choice, channel_node,
-                           channels_arrived, clip_kind_values, items,
-                           remembered, split_files)
-
-    def files_for_run():
-        """The file list a run is given, with tracks in place of sources.
-
-        Only here, not in the list the project stores: that one keeps the
-        files as they lie on disc. The tracks are cut afresh each time.
-        """
-        out = []
-        for p, kind in files:
-            pieces = (split_files.get(p) or []
-                      if kind == "audio" else [])
-            if pieces:
-                out += [(x, "audio") for x, _label in pieces]
-            else:
-                out.append((p, kind))
-        return out
 
     def split_arrived(path):
         """One file has been cut into its tracks: rebuild the tables."""
@@ -2642,30 +2162,6 @@ def gui():
         buttons_check()
 
     bridge.split_done.connect(split_arrived)
-
-    def channels_arrived(path):
-        """The measurement for one file is in; redraw the rows it feeds.
-
-        A recording of several blocks has one row and waits for every
-        block. The row hangs on the first block, so a finished second
-        block has to redraw the first one's node -- otherwise the last
-        block to finish redraws nothing and the row waits for ever.
-        """
-        a = os.path.abspath(path)
-        for api_key in dict.fromkeys([a, recording_of.get(a, a)]):
-            entry = channel_node.get(api_key)
-            if not entry:
-                continue
-            try:
-                channel_rows_show(entry[0], entry[1])
-            except RuntimeError:
-                channel_node.pop(api_key, None)
-        # The channels are known, so what has to be cut out is too. The
-        # cameras belong in it, or a two-microphone camera is never cut.
-        prework_kick_off(every_audio_block(files, blocks_of,
-                                          state.get("own_cameras") or ()))
-
-    bridge.channels_done.connect(channels_arrived)
 
 
     # Widgets built further down but marked from up here. Empty while the
@@ -2680,41 +2176,13 @@ def gui():
                                   state.get("voiced") or set(),
                                   project_type.get())
 
-    def tab_named(sheet):
-        """What the tab holding this sheet is called at the moment.
-
-        Read off the tab rather than kept in a list beside it, and without
-        the doubled ampersand Qt needs and the tick it may already carry.
-        """
-        i = tabs.indexOf(sheet) if sheet is not None else -1
-        if i < 0:
-            return T('this window')
-        return tabs.tabText(i).replace("&&", "&").replace("\u2713", "").strip()
-
-    def tab_checkbox():
-        """Put a tick behind each tab once nothing on it is outstanding."""
-        pending = what_missing()
-        # The first tab now carries both, files and production, so what is
-        # missing on it can come from either.
-        first = bool({1, 11, 21, 23} & set(pending))
-        # Only the two tabs that can hold something outstanding: a tick
-        # that is always on says nothing.
-        for sheet, pending_here, base_title in (
-                (sheet1, first, T('Files && production')),
-                (tab2, 22 in pending, T('Assignment && time window'))):
-            i = tabs.indexOf(sheet)
-            if i < 0:
-                continue
-            tabs.setTabText(i, base_title if pending_here
-                            else base_title + "  \u2713")
-        return pending
-
     def buttons_check():
         """Enable start and dry run only once nothing is missing.
 
         And if something is, what it is appears beside the button.
         """
-        pending = tab_checkbox()
+        pending = what_missing()
+        window.ticks_set(pending)
         ready = not pending and not state["running"]
         start_run.setEnabled(ready)
         preview_button.setEnabled(ready)
@@ -2725,11 +2193,12 @@ def gui():
         if pending and not state["running"]:
             # The names come from the tabs themselves: a second list
             # drifts apart at every rename and points at nothing.
+            sheet1 = window.files_sheet
             on_tab = {1: sheet1, 11: sheet1, 21: sheet1, 23: sheet1,
                       22: tab2}
             lines = [T('Not ready yet:')]
             for index_number in sorted(pending):
-                lines.append("  %s -- %s" % (tab_named(on_tab.get(index_number)),
+                lines.append("  %s -- %s" % (window.tab_named(on_tab.get(index_number)),
                                               pending[index_number]))
             lines.append("")
             lines.append(T('Rows marked red show where the problem is; a '
@@ -2745,7 +2214,7 @@ def gui():
                     note.setStyleSheet("color: %s;" % COLOURS["quiet"])
                 else:
                     note.setText(T('Cannot start yet: %s') % "   ".join(
-                        "%s -- %s" % (tab_named(on_tab.get(k)), pending[k])
+                        "%s -- %s" % (window.tab_named(on_tab.get(k)), pending[k])
                         for k in sorted(pending)))
                     note.setStyleSheet("color: %s;"
                                        % COLOURS["warning"])
@@ -2777,48 +2246,6 @@ def gui():
         d.raise_()
         d.activateWindow()
 
-    def append_findings(node, its_findings):
-        """List the hints for a file as lines below it.
-
-        Otherwise the summary would count hints that can be read nowhere.
-        """
-        # Only the old finding lines: the same slot marks the channel rows
-        # too, and clearing those would drop a setting.
-        for i in range(node.childCount() - 1, -1, -1):
-            if node.child(i).data(0, Qt.UserRole + 2) == "finding":
-                node.removeChild(node.child(i))
-        for b in its_findings:
-            if b.kind == "good":
-                continue
-            line = item(node, "      " + FINDING_WORD[b.kind], b.text)
-            line.setData(0, Qt.UserRole + 2, "finding")
-            line.setForeground(2, QtGui.QBrush(QtGui.QColor(
-                MARKS[b.kind][1])))
-            if b.advice:
-                for column in (0, 1, 2):
-                    line.setToolTip(column, b.advice)
-
-    def show_overall(general):
-        """Put what belongs to no single file into its own group."""
-        for i in range(items.topLevelItemCount() - 1, -1, -1):
-            if items.topLevelItem(i).data(0, Qt.UserRole + 2):
-                items.takeTopLevelItem(i)
-        if not general:
-            return
-        group = item(items, T('GENERAL NOTES'),
-                        TN(len(general), '%s point', '%s points')
-                        % number_text(len(general), 0), "group", True)
-        group.setData(0, Qt.UserRole + 2, True)
-        group.setExpanded(True)
-        for b in general:
-            line = item(group, "      " + (b.field or FINDING_WORD[b.kind]),
-                           b.text)
-            line.setForeground(2, QtGui.QBrush(QtGui.QColor(
-                MARKS[b.kind][1])))
-            if b.advice:
-                for column in (0, 1, 2):
-                    line.setToolTip(column, b.advice)
-
     def audio_use_value(path):
         """Whether this video file's sound is material -- one per file.
 
@@ -2841,353 +2268,46 @@ def gui():
         return cameras_using_audio(files, clip_kind_values,
                                    audio_use_values, has_sound)
 
-    def video_choices_show(node, path, chosen, forced):
-        """The two decisions a video file carries, in its own row.
-
-        The Kind is shown twice in this window, and both show a derived
-        wide shot -- which changes the moment a voice is given a camera.
-        So the row leaves behind how to draw itself again; kinds_refresh
-        calls it, or the list keeps calling every camera the wide shot.
-        """
-        short = os.path.basename(path)
-        kind = clip_kind_values[path]
-        video_kind_again[path] = lambda: video_choices_show(
-            node, path, chosen, forced)
-        cell, box = kind_cell_for(
-            path, kind, *wide_cameras_now(), state.get("no_place"),
-            clip_kind_values, COLOURS["quiet"],
-            lambda p=path: kind_answered(p), state.get("camera_labels"))
-        items.setItemWidget(node, 3, cell)
-        used, why = audio_use_settled(path, chosen, forced,
-                                      has_sound(path), kind.get())
-        sound, sound_box = camera_audio_cell(short, used, why,
-                                             COLOURS["quiet"])
-        audio_use_bind(sound_box, audio_use_value(path), why)
-        items.setItemWidget(node, 4, sound)
-
-    def removable():
-        """Enable removal only when the selection actually offers something."""
-        node = items.currentItem()
-        while node is not None and node.data(0, Qt.UserRole) is None\
-                and node.data(0, Qt.UserRole + 1) is None:
-            node = node.parent()
-        remove_button.setEnabled(node is not None)
-        menus_follow(late)     # so the entry's key dies with the button
-
-    items.currentItemChanged.connect(lambda *_: removable())
-
-    bar_env_curve, add_button, remove_button = file_bar_build(
-        QtWidgets, sheet1_position, tab1)
+    # The rows, the findings and the output folder are the first sheet's;
+    # what they reach for down here goes in as late look-ups.
+    files_sheet = window.files_sheet
+    files_sheet.rows_wire(model, state, bridge, late, video_kind_again,
+                          audio_use_value, lambda: wide_cameras_now(),
+                          lambda p: kind_answered(p),
+                          lambda blocks: prework_kick_off(blocks))
+    (channel_rows_show, append_findings, show_overall,
+     video_choices_show) = (
+        files_sheet.channel_rows_show, files_sheet.append_findings,
+        files_sheet.show_overall, files_sheet.video_choices_show)
 
     # ------------------------------------------------------------------
     # Tab 2: settings
     # ------------------------------------------------------------------
-    out_folder = Value("")
-    production_var = Value("")
-    start_var = Value("")
-    end_var = Value("")
-    project_type = Value("")
+    out_folder, production_var = model.out_folder, model.production
+    start_var, end_var = model.in_point, model.out_point
+    project_type, commonest_folder = model.project_type, model.commonest_folder
 
-    def commonest_folder():
-        """Return the folder most of the chosen files come from."""
-        counter = {}
-        for p, _ in files:
-            folder = os.path.dirname(os.path.abspath(p))
-            counter[folder] = counter.get(folder, 0) + 1
-        return max(counter, key=counter.get) if counter else None
-
-    # --- production: name and location belong together
-    place_box = QtWidgets.QGroupBox(T('Production'))
-    in_layout.addWidget(place_box)
-    place_position = QtWidgets.QVBoxLayout(place_box)
-    # One row that breaks where the room ends: see wrap_row.
-    name_bar = wrap_row(place_position)
-    _name_field = field_bind(QtWidgets.QLineEdit(), production_var, 340)
-    # Duplicate names are marked red in their row; a missing production
-    # name is the same fault and gets the same mark.
-    late["name_field"] = _name_field
-    speaks_as(_name_field, T('Production name'))
-    name_bar.pair(label(T('Production name')), hint(
-        _name_field, T('Title at auphonic.com and start of the new file names.')))
+    # --- production: name, output folder and loudness, on the first sheet.
+    name_bar, _name_field, folder_show, folder_pick = (
+        files_sheet.production_build(
+            model, state, late,
+            lambda: in_turn(finished_tracks_check, preview_compute)))
     _name_field.editingFinished.connect(lambda: refresh_names())
     production_var.listen(buttons_check)
+    lufs_value = model.lufs
 
-    folder_bar = QtWidgets.QHBoxLayout()
-    place_position.addLayout(folder_bar)
-    folder_button = QtWidgets.QPushButton(T('Output folder ...'))
-    folder_button.clicked.connect(lambda: folder_pick())
-    folder_bar.addWidget(hint(
-        folder_button, T('If empty: next to each video file.')))
-    speaks_as(folder_button, T('Choose the output folder'))
-    folder_label = path_label(T('next to each video file'), COLOURS["quiet"])
-    speaks_as(folder_label, T('Output folder'))
-    folder_bar.addWidget(folder_label)
-    reset = QtWidgets.QPushButton(T('reset'))
-    reset.clicked.connect(lambda: folder_delete())
-    speaks_as(reset, T('Output folder back beside each video file'))
-    reset.hide()
-    folder_bar.addWidget(hint(reset,
-                                    T('Puts it back next to each video file.')))
-    folder_bar.addStretch(1)
-
-    def folder_show():
-        d = out_folder.get()
-        folder_label.say(d if d else T('next to each video file'))
-        reset.setVisible(bool(d))
-
-    def folder_pick():
-        d = QtWidgets.QFileDialog.getExistingDirectory(
-            window, T('Output folder'),
-            out_folder.get() or commonest_folder() or "")
-        if not d:
-            return
-        out_folder.set(d)
-        folder_show()
-        state["resolve_json"] = None
-        handover_follows(state, [c[0] for c in camera_lines], True)
-        finished_tracks_check()
-        preview_compute()
-
-    def folder_delete():
-        out_folder.set("")
-        folder_show()
-        state["resolve_json"] = None
-        handover_follows(state, [c[0] for c in camera_lines], True)
-        in_turn(finished_tracks_check, preview_compute)
-
-    # --- how loud the finished episode is. Why it stands here and what
-    #     the entries mean is in loudness_field_build.
-    lufs_value = Value(loudness_last())
-    loudness_field_build(place_position, lufs_value)
-
-    # --- sheet 2 of the settings: the assignment on the left, the viewer
-    #     on the right, or under it where the room ends (stack_when_narrow).
-    two_columns = stack_when_narrow(tab2, QtWidgets.QHBoxLayout())
-    assign_position_outside.addLayout(two_columns, 1)
-
-    assign = QtWidgets.QGroupBox(T('Assignment: which audio track belongs '
-                                   'to which camera'))
-    two_columns.addWidget(assign, 1)
-    assign_position = QtWidgets.QVBoxLayout(assign)
-    # The Multitrack tick lives here, under the tables: whether a
-    # camera gives a track of its own is decided in this very table.
-    multitrack_bar = QtWidgets.QWidget()
-    multitrack_row = QtWidgets.QHBoxLayout(multitrack_bar)
-    multitrack_row.setContentsMargins(0, 6, 0, 0)
-    assign_position.addWidget(multitrack_bar)
-    # And right under it what auphonic.com is to make of those tracks:
-    # "what should this run do" in one place, filled further down.
-    run_box = QtWidgets.QGroupBox(T('Processing at auphonic.com (optional)'))
-    run_layout = QtWidgets.QVBoxLayout(run_box)
-    assign_position.addWidget(run_box)
-    # One bar for all the prework, under the tables.
-    prework_box = QtWidgets.QWidget()
-    _prework_rows = QtWidgets.QVBoxLayout(prework_box)
-    _prework_rows.setContentsMargins(0, 6, 0, 0)
-    _prework_rows.setSpacing(2)
-    prework_progress_bar = QtWidgets.QProgressBar()
-    prework_progress_bar.setRange(0, 100)
-    prework_progress_bar.setTextVisible(False)
-    prework_progress_bar.setFixedHeight(8)
-    _prework_rows.addWidget(prework_progress_bar)
-    prework_label = label("", COLOURS["value"])
-    _prework_rows.addWidget(prework_label)
-    hint(prework_box, T('Envelopes and camera audio are prepared in the '
-                        'background.'))
-    assign_position.addWidget(prework_box)
-    prework_box.hide()
-
-    right_column = QtWidgets.QVBoxLayout()
-    two_columns.addLayout(right_column)
-
-    view_box = QtWidgets.QGroupBox(T('Preview player'))
-    box_room(view_box, 580)
-    right_column.addWidget(view_box)
-    # Top aligned: the box is as tall as it needs to be and the rest stays
-    # empty. Otherwise Qt pulls the rows inside it apart.
-    right_column.addStretch(1)
-    view_position = QtWidgets.QVBoxLayout(view_box)
+    # --- sheet 2 of the settings: AssignmentSheet puts the player made
+    #     here into its box, with the time window and the tables.
     player = (Player() if QtMultimedia is not None else NoPlayer())
-    player.find_track = lambda p: audio_for_camera(p)
+    (axis_label, window_switch, split_line, split_label, split_never,
+     limit_set, to_limit, window_enable,
+     window_position_show) = tab2.window_build(
+         model, state, player, lambda: prepared_tracks(),
+         lambda *a: player_load(*a), lambda *a: player_candidates(*a),
+         lambda *a: covers(*a))
 
-    def view_title(text=""):
-        """Put the file name in the heading; that saves a line."""
-        view_box.setTitle(T('Preview player%s')
-                              % ("  --  " + text.replace("&", "&&")
-                                 if text else ""))
-
-    player.heading = view_title
-    player.title.hide()
-    view_position.addWidget(player)
-    axis_label = label("", COLOURS["quiet"])
-    axis_label.setWordWrap(True)
-    hint(axis_label, T('Without timecode the position of the files is '
-                       'measured.'))
-
-    # The In point and Out point are taken from the picture, not typed. The
-    # buttons sit in the player, right under the times they refer to.
-    set_line = player.cut_bar
-
-    def limit_set(target):
-        """Adopt the position currently on screen as a boundary.
-
-        In the same reckoning as the readout right above these buttons:
-        two of them one widget apart put it where nobody set it.
-        """
-        a = player.axis_spot()
-        exact = a if (a is not None and state.get("axis_absolute")) \
-            else player.timer_s()
-        if exact is not None:
-            target.set(timecode_string(exact, player.fps))
-            return
-        target.set(as_relative_time(a if a is not None else player.spot_s()))
-
-    def window_remember():
-        """Put the boundaries where the player will find them."""
-        state["in_point"] = start_var.get()
-        state["out_point"] = end_var.get()
-        player.window_draw()
-
-    start_var.listen(window_remember)
-    end_var.listen(window_remember)
-
-    _in_point_button = QtWidgets.QPushButton(T('Mark In'))
-    _in_point_button.clicked.connect(lambda: limit_set(start_var))
-    set_line.addWidget(hint(_in_point_button, T('Takes the position from the picture.')))
-    def to_limit(var):
-        """Go to *var*'s point, loading the file that holds it, or say why."""
-        text = var.get()
-        how = T('In point') if var is start_var else T('Out point')
-        if player.jump_to(text):
-            window_label.setVisible(False)
-            return
-        matching = next((b for b in player_candidates()
-                        if covers(b, text) is True), None)
-        if matching and matching != player.file_path:
-            player_load(matching)
-            if player.jump_to(text):
-                window_label.setText(
-                    T('%s is in %s -- the file is now in the player.')
-                    % (how, os.path.basename(matching)))
-                window_label.setVisible(True)
-                return
-        window_label.setText(
-            T('%s is in none of the video files. Is there a timecode that '
-              'fits the material?') % how)
-        window_label.setVisible(True)
-
-    _to_in_point = QtWidgets.QPushButton(T('to In point'))
-    _to_in_point.clicked.connect(lambda: to_limit(start_var))
-    set_line.addWidget(hint(_to_in_point, T('Jumps to the start of the window.')))
-    set_line.addStretch(1)
-    _to_out_point = QtWidgets.QPushButton(T('to Out point'))
-    _to_out_point.clicked.connect(lambda: to_limit(end_var))
-    set_line.addWidget(hint(_to_out_point, T('Jumps to the end of the window.')))
-    _out_point_button = QtWidgets.QPushButton(T('Mark Out'))
-    _out_point_button.clicked.connect(lambda: limit_set(end_var))
-    set_line.addWidget(hint(_out_point_button, T('Takes the position from the picture.')))
-    window_switch = [_in_point_button, _to_in_point, _to_out_point, _out_point_button]
-
-    window_label = label("", COLOURS["warning"])
-    window_label.setWordWrap(True)
-    view_position.addWidget(window_label)
-    window_hint = label("", COLOURS["quiet"])
-    window_hint.setWordWrap(True)
-    view_position.addWidget(window_hint)
-    view_position.addWidget(axis_label)
-
-    # Under the assignment table: separating is an action on one named
-    # recording. Here stands the one project-wide question.
-    split_line = QtWidgets.QWidget()
-    _split_row = QtWidgets.QHBoxLayout(split_line)
-    _split_row.setContentsMargins(0, 0, 0, 0)
-    split_label = label("", COLOURS["quiet"])
-    split_label.setWordWrap(True)
-    _split_row.addWidget(split_label, 1)
-    split_never = QtWidgets.QPushButton(T('Not on this machine'))
-    hint(split_never, T('Leaves the separation switched off for this '
-                        'project. The cut then comes from the tracks or '
-                        'from auphonic.com, as before.'))
-    _split_row.addWidget(split_never)
-    assign_position.insertWidget(1, split_line)
-    split_line.setVisible(False)
-
-    def window_position_show():
-        """Say what the In point and the Out point refer to."""
-        if not state["without_tc"] or not state["axis"]:
-            window_label.hide()
-            return
-        window_label.setText(
-            T('No audio file carries a timecode. In point and Out point count '
-              'from the start of the material -- the position of the files '
-              'to each other is measured.'))
-        window_label.show()
-
-    def window_enable():
-        away = not_on_the_axis(getattr(player, "file_path", None),
-            clip_kind_values, remembered, state.get("camera_labels"))
-        on = window_ready(state) and not away
-        for widget in window_switch:
-            widget.setEnabled(on)
-        window_hint.setText(away or ("" if on else T(
-            'In point and Out point are available once the time axis is '
-            'set -- from the timecode or measured.')))
-        window_hint.setVisible(not on)
-
-    def window_length():
-        """Return the length of the window, empty if none is set."""
-        try:
-            a, _ = parse_time_point(start_var.get(), 30.0)
-            b, _ = parse_time_point(end_var.get(), 30.0)
-        except Exception:
-            return ""
-        if a is None or b is None or b <= a:
-            return ""
-        return as_hms(b - a)
-
-    def window_prefill(videos):
-        """Prefill the In point and the Out point from what the cameras offer.
-
-        As far as the cameras reach -- from the earliest start to the latest
-        end. That is what happens without an entry anyway; here it is visible
-        and can be adjusted.
-        """
-        if start_var.get().strip() or end_var.get().strip():
-            return
-        entries, fps = [], 30.0
-        for b in videos:
-            try:
-                if os.path.splitext(b)[1].lower() in AUDIO_SUFFIXES:
-                    t0, duration = file_timecode(b), sample_count(b) / float(SR)
-                else:
-                    info = video_facts(b)
-                    fps = max(1.0, info.get("fps") or 30.0)
-                    t0 = parse_timecode(info["tc"], fps) if info.get("tc") else None
-                    duration = info.get("duration") or 0.0
-            except Exception:
-                continue
-            measured = state["axis"].get(path_key(b))
-            if t0 is None or (measured is not None   # measured first
-                               and state.get("axis_absolute")):
-                t0 = measured
-            entries.append((t0, duration))
-        from_s, until, absolute = window_suggestion(entries, fps)
-        if not from_s:
-            return
-        if not absolute and not window_ready(state):
-            return          # without an axis the value has no reference
-        if absolute and (not state["axis"] or state.get("axis_absolute")):
-            state["tc_there"] = True
-        start_var.set(from_s)
-        end_var.set(until)
-
-    assign_lines = []            # [(chain, name_value, camera_value)]
-    camera_lines = []           # [(path, name_value, own, own_name)]
-    # One row per voice a separation heard, hanging under the recording
-    # it was heard in: a tree says the level by where the row hangs.
-    voice_lines = []             # [(key, name_value, camera_value)]
-    remembered = {}              # survives a redraw of the table
-    suggestions = ByFile()       # what the table last suggested itself
+    assign_lines, camera_lines = model.assign_lines, model.camera_lines
+    voice_lines, remembered = model.voice_lines, model.remembered
 
     # ------------------------------------------------------------------
     # Extract the camera audio in the background: with two hours of 4K it
@@ -3209,8 +2329,8 @@ def gui():
     split_run = {"busy": False, "stop": False}
 
     prework_busy, prework_report, prework_status_show = make_prework_bar(
-        QtCore, bridge, bridge_emit, plan, prework_box, prework_label,
-        prework_progress_bar, prework_node, prework_discarded,
+        QtCore, bridge, bridge_emit, plan, tab2.prework_box, tab2.prework_label,
+        tab2.prework_progress_bar, prework_node, prework_discarded,
         prework_lock, prework_queue, prework_run, prework_shares)
 
     prework_kick_off = make_prework_tasks(
@@ -3371,29 +2491,11 @@ def gui():
 
     def prepared_tracks():
         """Return the finished tracks from auphonic.com: name -> file."""
-        return prepared_tracks_in(done_folder.get() or finished_tracks_where(
-            out_folder.get(), commonest_folder()))
+        return prepared_tracks_in(model.done_folder.get()
+                                  or finished_tracks_where(
+                                      out_folder.get(), commonest_folder()))
 
-    def audio_for_camera(camera_path):
-        """The recording that belongs under this camera in the preview."""
-        return audio_under_camera(camera_path, clip_kind_values,
-                                  prepared_tracks(), assign_lines,
-                                  voice_lines, blocks_of)
-
-    def line_show(table, file_list):
-        """A clicked row of the camera table: that file in the player.
-
-        One entry per row. The recordings are a tree and not a table,
-        and a click in it is answered by assignment_row_show.
-        """
-        row = table.currentRow()
-        if 0 <= row < len(file_list) and file_list[row]:
-            player_load(file_list[row])
-
-    clip_kind_values = ByFile()
-    # One value per video file, shown twice -- file list and player. Not
-    # a second store: the same object both times.
-    audio_use_values = ByFile()
+    clip_kind_values, audio_use_values = model.clip_kinds, model.audio_use
 
     # The time axis is measured elsewhere and proposes a Kind from there.
     state["clip_kinds"] = clip_kind_values
@@ -3416,10 +2518,7 @@ def gui():
          files, clip_kind_values, assign_lines, start_var, end_var,
          player, remembered, state, window_enable)
 
-    def clip_kind_value(path):
-        """One video file's Kind -- one value, and two places show it."""
-        return clip_kind_values.setdefault(
-            path, Value(remembered.get("kind:" + path) or TYPE_CONTENT))
+    clip_kind_value = model.clip_kind_value
     def wide_cameras_now():
         """Which cameras here are the wide shot, and who said so.
 
@@ -3463,61 +2562,12 @@ def gui():
         voice_lines, remembered, split_run, split_line, split_label,
         split_never, axis_store)
 
-    def assignment_remember():
-        for row, nv, cv in assign_lines:
-            # Where the voices stand underneath the row holds no selector,
-            # and that fallback must not overwrite an older assignment.
-            old = remembered.get("audio:" + row[0])
-            quiet_row = os.path.abspath(row[0]) in (state.get("voiced") or ())
-            # Only the answer: a guess written back is a guess nobody
-            # checks, and a file renamed afterwards no longer moves it.
-            remembered["audio:" + row[0]] = (nv.typed(), camera_to_remember(
-                cv.get(), getattr(cv, "derived", None),
-                old[1] if (quiet_row and old) else None))
-        for file_path, nv, own_box, own_name_box in camera_lines:
-            remembered.update(camera_name_kept(file_path, nv))
-            # Only what somebody clicked is stored: a tick derived from
-            # "one camera, no recording" is worked out afresh every time.
-            if file_path not in (state.get("forced_own") or ()):
-                remembered["own:" + file_path] = own_box.get()
-            remembered["ownname:" + file_path] = own_name_box.get()
-        for file_path, value in clip_kind_values.items():
-            remembered["kind:" + file_path] = value.get()
-        # Where the player is belongs in the project: opening it again
-        # should carry on there, not at the start of the file.
-        try:
-            if player.file_path:
-                remembered["player_file"] = player.file_path
-                remembered["player_spot"] = round(player.spot_s(), 3)
-        except Exception:
-            pass
-
-    def cell(t, line, column, text, colour=None):
-        p = QtWidgets.QTableWidgetItem(text)
-        if colour:
-            p.setForeground(QtGui.QBrush(QtGui.QColor(colour)))
-        t.setItem(line, column, p)
-        return p
-
-    audio_fields, video_fields = [], []
-
-    def assignment_check():
-        """Mark the trouble spots red, and let the preview hear the name."""
-        # A typed name is an answer like any other: without this the
-        # preview keeps the old name at the old camera.
-        if state.get("preview_soon"):
-            state["preview_soon"]()
-        assignment_marks_show(
-            audio_fields, assign_lines, video_fields, camera_lines,
-            bool(multitrack.get()), state, voice_lines)
-        buttons_check()
-
-    # The recordings of the assignment tree: (its row, the file, the
-    # plain caption). The voices are not in here -- they have no file.
-    file_rows = []
-    # Which recordings somebody left open, over a rebuild of the tree.
-    # Open is what a fresh one starts as: the assignment is underneath.
-    tree_open = ByFile()
+    # The assignment table is the sheet's, with what it keeps between
+    # two builds: the voice rows below reach for two of its own, and
+    # settings_extend for the third.
+    assignment_remember, assignment_check, tree_open = (
+        tab2.table.assignment_remember, tab2.table.assignment_check,
+        tab2.table.tree_open)
 
     # Bound here, above assignment_fresh, which reaches for all seven,
     # and above the assignment_state_show() further down in this body.
@@ -3528,40 +2578,13 @@ def gui():
          assignment_check, player_load, speaker_split_kick_off,
          voices_of)
 
-    # Two dictionaries of files the table builder fills and empties
-    # again. They are made here because the window owns them.
-    own_audio_names = ByFile()
-    piece_label = ByFile()
-
-    def assignment_fresh(forget=()):
-        """Build both tables again, out of the piece above gui()."""
-        assignment_tables_build(
-            forget, Qt, QtCore, QtWidgets, assign_lines, assign_position,
-            audio_fields, camera_lines, clip_kind_values, file_rows, files,
-            no_join, own_audio_names, piece_label, production_var,
-            remembered, split_files, state, suggestions, tree_open,
-            video_fields, video_kind_again, voice_lines, assignment_check,
-            assignment_remember, assignment_row_show, assignment_state_show,
-            audio_use_now, audio_use_value, cell, clip_kind_value,
-            folded_show, kind_answered, line_show, main_track_show,
-            prework_kick_off, several_set, show_weak, speaker_split_kick_off,
-            split_stop, tc_column_show, together_now, voice_add,
-            voices_build, voices_of, wide_cameras_now, window_enable,
-            window_position_show, window_prefill)
-
-    # The separation stands above this line and redraws both tables when
-    # a result comes back; the way over is the one preview_soon takes.
-    state["assignment_fresh"] = assignment_fresh
-
-    def refresh_names():
-        """Suggest file names again; hand-edited ones stay."""
-        untouched = [p for p, nv, _k, _n in camera_lines
-                      if nv.get() == suggestions.get(p) and not nv.by_hand]
-        assignment_fresh(untouched)
-
-    # The table builder stands above gui() and is written before this,
-    # so the way over is state -- as state["preview_soon"] already is.
-    state["refresh_names"] = refresh_names
+    assignment_fresh, refresh_names = tab2.table.wire(
+        buttons_check, video_kind_again, audio_use_now, audio_use_value,
+        kind_answered, main_track_show, prework_kick_off, show_weak,
+        tc_column_show, wide_cameras_now,
+        (assignment_state_show, assignment_row_show, folded_show, voice_add,
+         voices_build),
+        (speaker_split_kick_off, split_stop, voices_of, several_set))
 
     def mode_toggled():
         """The checkbox changed: what the later tabs show changes with it.
@@ -3573,8 +2596,8 @@ def gui():
         """
         assignment_fresh()
         if files:
-            table_show(tab2, T('Assignment && time window'), 1)
-            table_show(tab3, T('Resolve cut'), 2)
+            window.table_show(tab2, T('Assignment && time window'), 1)
+            window.table_show(tab3, T('Resolve cut'), 2)
         # What gets checked hangs on this decision.
         preflight_kick_off()
         presets_filter()
@@ -3592,6 +2615,7 @@ def gui():
     multi_button = QtWidgets.QCheckBox(T('Multitrack (one track per speaker)'))
     checkbox_bind(multi_button, multitrack_value)
     multi_button.toggled.connect(lambda *_: mode_toggled())
+    multitrack_row = tab2.multitrack_row
     multitrack_row.addWidget(hint(
         multi_button, T('One audio track per person, kept apart all the '
                         'way to auphonic.com.\nWorks without it as well -- '
@@ -3610,7 +2634,7 @@ def gui():
 
     # --- Spoken language: the tag of the written audio track, and
     #     what the recognition expects. Empty answers both.
-    speech_language = Value(language_of_system())
+    speech_language = model.speech_language
     # The separation above this line reads the tag when it starts a run.
     state["speech_language"] = speech_language
     strip_choice_build(
@@ -3626,344 +2650,39 @@ def gui():
     #     Empty until somebody answers; the assignment tab asks once.
     strip_choice_build(QtWidgets, name_bar, project_type, T('Project type'),
                        project_type_choices(), project_type_explained())
-    project_type_wire(state, tabs, tab2, project_type, multitrack,
+    project_type_wire(state, window.tabs, tab2, project_type, multitrack,
                       mode_toggled)
 
     # The key for auphonic.com and the preset a run is given stand in
     # make_auphonic_box(). Below multi_button, which its handler switches.
-    (access_box, keep_where, key_var, done_folder,
+    (access_box, keep_where, model.key, model.done_folder,
      without_auphonic, preset_plaintext, presets_filter,
      presets_wanted_now, finished_tracks_check) = make_auphonic_box(
-         QtWidgets, state, bridge, bridge_emit, run_layout,
+         QtWidgets, state, bridge, bridge_emit, tab2.run_layout,
          settings_open, buttons_check, multi_button, multitrack,
          out_folder, commonest_folder, report)
 
-    # Whether Resolve answers, and the box that says so, stand in
-    # make_resolve_check(). Below settings_open, which its line reaches.
-    (resolve_box, resolve_left, resolve_right,
-     resolve_check_run_kick_off) = make_resolve_check(
-         QtWidgets, bridge, bridge_emit, resolve_position, settings_open)
-    # The row holding its two columns is the left one's parent layout.
-    stack_when_narrow(tab3, resolve_left.parent())
-
-    def resolve_sheet_chosen(*_):
-        """Resolve and the speakers, on the first look at this tab.
-
-        Not twice -- a second speaker run costs minutes for nothing.
-        """
-        if tabs.currentWidget() is not tab3:
-            return
-        if not state.get("resolve_checked"):
-            state["resolve_checked"] = True
-            resolve_check_run_kick_off()
-        if state.get("project_type") == "sync":
-            return          # no cut, so no speakers to measure
-        if speakers_still_wanted(state):
-            gui_log("cut tab opened with no speakers known -- measuring")
-            speaker_measure()
-
-    tabs.currentChanged.connect(resolve_sheet_chosen)
-
-    # The In point and Out point are in the player on the right; a box of their
-    # own would be the same information twice.
-    window_info = QtWidgets.QWidget()
-    window_info.setVisible(False)
-    _info_row = QtWidgets.QHBoxLayout(window_info)
-    window_info_label = label("", COLOURS["value"], True)
-    _info_row.addWidget(window_info_label)
-
-    def window_info_show():
-        a, b = start_var.get().strip(), end_var.get().strip()
-        duration = window_length()
-        window_info_label.setText(
-            T('In point: %s     Out point: %s     Duration: %s')
-            % (a or T('Beginning'), b or T('End'),
-               duration or T('the whole material')))
-
-    start_var.listen(window_info_show)
-    end_var.listen(window_info_show)
-
-    # Sync only: nothing on this tab is set, and one sentence says so.
-    sync_note = sync_note_build(resolve_left)
-    # What stands in place of the camera cut: one line saying why.
-    without_cut_label = label(
-        T('There is no camera cut yet: it needs two people, each with a '
-          'name and a camera.\nSeparate recordings give that with the '
-          'Multitrack tick, and so does "several speakers" in the '
-          'Speaker name field of one recording --\nthe voices found there '
-          'get their camera in the table under the recordings.\nA Resolve '
-          'project is created anyway -- all cameras at their measured '
-          'places, ready for Multicam.'),
-        COLOURS["quiet"])
-    without_cut_label.setWordWrap(True)
-    resolve_left.addWidget(without_cut_label)
-    without_cut_label.setVisible(False)
-
-    cut_box = QtWidgets.QGroupBox(T('Camera cut'))
-    resolve_left.addWidget(cut_box)
-    cut_position = QtWidgets.QVBoxLayout(cut_box)
-    cut_parts = {}
-    cut_var = cut_fields_build(cut_position, cut_parts)
-    choice_boxes_even([box for _line, box in cut_parts.values()])
-    edge_on = Value(True)
-    _edge_box = checkbox_bind(QtWidgets.QCheckBox(
-        T('Wide shot for greeting at the start and farewell at the end')), edge_on)
-    cut_position.addWidget(hint(
-        _edge_box, T('During greeting and farewell the picture stays wide.')))
-    wide_note = wide_note_build(label, COLOURS["quiet"])
-    question_note = question_note_build(label, COLOURS["quiet"])
-    for _n in (wide_note, question_note):
-        cut_position.addWidget(_n)
-    def wide_state_show():
-        """Grey the wide shot settings where there is no wide shot.
-
-        Silent while the cut box is still being assembled: it is built
-        after the tables that ask for this.
-        """
-        if state.get("cut_box_there"):
-            unless_sync(state, wide_settings_grey, wide_note)(
-                cut_parts, _edge_box, wide_note, bool(wide_cameras_now()[0]),
-                COLOURS["quiet"], bool(state.get("words_there")))
-            preview_kick_off()
-
-    # The same way over as refresh_names above, and for the same reason.
-    state["wide_state_show"] = wide_state_show
-    # Preview: with a handover file from earlier the cut is recomputed on
-    # every change, so the effect of a number is seen rather than guessed.
-    forecast_box = QtWidgets.QGroupBox(
-        T('%s -- preview') % cut_title_of(voice_lines, multitrack.get(),
-                                          assign_lines, len(camera_lines)))
-    # The three that stand or fall together, where the assignment can
-    # reach them: it is rebuilt before this tab exists.
-    state["cut_boxes"] = (cut_box, forecast_box, without_cut_label)
-    # Weighted: whatever stays free below goes into this picture.
-    resolve_right.addWidget(forecast_box, 1)
-    forecast_outer = QtWidgets.QVBoxLayout(forecast_box)
-    forecast_position = QtWidgets.QHBoxLayout()
-    forecast_outer.addLayout(forecast_position)
-    forecast_outer.setStretch(0, 0)
-    cut_column = QtWidgets.QVBoxLayout()
-    forecast_position.addLayout(cut_column)
-    # The per-camera numbers are in the legend under the cut band; the space
-    # here belongs to the picture.
-    preview_label = label("", COLOURS["value"])
-    preview_label.setTextFormat(Qt.RichText)
-    preview_label.setWordWrap(True)
-    preview_label.setAlignment(Qt.AlignTop)
-    cut_column.addWidget(preview_label)
-    cut_column.addStretch(1)
-
-    # Beside it: who speaks how much. Without those numbers the cut next to it
-    # cannot be judged.
-    speaker_box = QtWidgets.QGroupBox(T('Speaker'))
-    resolve_left.addWidget(speaker_box)
-    # What the project type greys or hides: the same way over as cut_boxes.
-    state["sync_parts"] = (sync_note, speaker_box, multitrack_bar, split_line)
-    speech_column = QtWidgets.QVBoxLayout(speaker_box)
-    speech_column.setContentsMargins(10, 2, 10, 8)
-    speech_title = label(T('Speakers, separated by voice'),
-                        COLOURS["heading"], True)
-    speech_column.addWidget(speech_title)
-    speech_position = speech_column
-    speech_table = QtWidgets.QTableWidget(0, 5)
-    speech_table.setHorizontalHeaderLabels([T('Speaker'), T('Speech time'),
-                                            T('Share'), T('Blocks'),
-                                            T('average')])
-    speech_table.verticalHeader().setVisible(False)
-    speech_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-    speech_table.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
-    speech_table.setShowGrid(False)
-    speech_table.setAlternatingRowColors(True)
-    speech_position.addWidget(speech_table)
-
-
-    def speech_show(d):
-        """Write the speaker statistics into the table."""
-        state["speech_time_total"] = speech_table_fill(
-            Qt, QtGui, QtWidgets, speech_table, d)
-
-    speech_table.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
-                                QtWidgets.QSizePolicy.Fixed)
-    speech_table.setMinimumWidth(240)
-    speech_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-
-    # The cut band and the player under it, with what they show.
-    (cut_band, cut_player, band_show,
-     preview_file) = make_band_and_player(
-        Qt, QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets,
-        NoPlayer, state, files, assign_lines, clip_kind_values,
-        forecast_outer, player)
-
-    def audio_for_cut(d, cameras, offset):
-        """Return the audio to run under the camera cut: (file, offset).
-
-        Preferably the finished overall mix from auphonic.com: at delivery
-        level, with its timecode, and what the cut timeline gets. Failing
-        that the camera file carrying the mix as its first audio track --
-        quieter. A speaker camera would be worse: it brings one voice.
-        """
-        done = prepared_tracks()
-        mix = next((done[n] for n in MIX_TRACK_ALIASES
-                    if n in done), None)
-        origin = d.get("start_s")
-        if mix and origin is not None:
-            try:
-                # With the measured frame rate, for the same reason as
-                # in camera_place: the frames of a timecode are frames.
-                tc = file_timecode(mix, max(1.0, float(
-                    d.get("fps_measured") or d.get("fps") or 30.0)))
-            except Exception:
-                tc = None
-            if tc is not None:
-                # The same computation as for the cameras: position in the file
-                # = programme time minus offset.
-                return mix, float(tc) - float(origin)
-        first = (cameras_in_track_order(cameras) or [{}])[0]
-        return first.get("file"), offset.get(first.get("track"), 0.0)
-
-    def player_load_cut(numbers):
-        """Feed the player with the cut, or with a single file."""
-        if not hasattr(cut_player, "set"):
-            return
-        d = state.get("cut_data")
-        if numbers and numbers.get("cut") and d:
-            cameras = [x for x in (d.get("cameras") or []) if x.get("file")]
-            offset = camera_offset(cameras, d.get("start_s"),
-                max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0)))
-            files_per_track = {x["track"]: x["file"] for x in cameras}
-            if files_per_track:
-                end = max(b for _a, b, _w in numbers["cut"])
-                audio_file, audio_offset = audio_for_cut(d, cameras, offset)
-                cut_player.set(
-                    numbers["cut"], files_per_track, offset,
-                    audio_file, audio_offset,
-                    0.0, end, d.get("start_s"),
-                    numbers.get("wide_shots"), numbers.get("colours"),
-                    d.get("speakers"))
-                return
-        file_path = preview_file()
-        if not file_path:
-            cut_player.set([], {}, {}, None, 0.0)
-            return
-        try:
-            duration = float(video_facts(file_path).get("duration") or 0.0)
-        except Exception:
-            duration = 0.0
-        name = os.path.basename(file_path)
-        try:
-            tc = video_facts(file_path).get("tc")
-            tc0 = parse_timecode(tc, 30.0) if tc else None
-        except Exception:
-            tc0 = None
-        cut_player.set([(0.0, duration or 1e6, name)], {name: file_path},
-                       {name: 0.0}, file_path, 0.0, 0.0, duration or None,
-                       tc0, [], {name: COLOURS["head"]})
-        # Without a cut the band stays as a position display, in one colour.
-        cut_band.set([(0.0, duration or 1.0, name)],
-                           {name: COLOURS["head"]}, duration or 1.0)
-    # band_show reaches for this through state: it is built above the
-    # line that made it, so it cannot be handed over as a parameter.
-    state["player_load_cut"] = player_load_cut
-    band_show(None)
-    resolve_left.addStretch(1)
-    # No stretch on the right: the room below belongs to the preview picture,
-    # not to empty space.
-    resolve_right.addStretch(0)
-
-    preview_compute, speaker_measure = make_preview(
-        Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
-        camera_lines, voice_lines, cut_var, cut_parts, edge_on, start_var,
-        end_var, multitrack, out_folder, clip_kind_value, wide_cameras_now,
-        commonest_folder, band_show, speech_show, window_info_show,
-        question_note, cut_column, forecast_box, preview_label,
-        speech_title, speech_table)
-    # A project that only synchronises has no cut to preview.
-    preview_compute = unless_sync(state, preview_compute, preview_label)
-    state["preview_compute"] = preview_compute
-
-    # Do not compute on every keystroke; wait a moment.
-    preview_timer = QtCore.QTimer(window)
-    preview_timer.setSingleShot(True)
-    preview_timer.setInterval(400)
-    preview_timer.timeout.connect(lambda: voice_suggest_round(
-        state, voice_lines, assign_lines, camera_lines,
-        start_var.get(), end_var.get(), speech_language.get(),
-        lambda r: bridge_emit(bridge.speakers_heard, r)))
-    preview_timer.timeout.connect(preview_compute)
-
-    def preview_kick_off():
-        preview_timer.start()
-    state["preview_soon"] = preview_kick_off
-
-    for _v in cut_var.values():
-        _v.listen(preview_kick_off)
-    edge_on.listen(preview_kick_off)
-    start_var.listen(preview_kick_off)
-    end_var.listen(preview_kick_off)
-
-    # As soon as a run has left a handover file behind, the preview
-    # should appear by itself rather than on the next click.
-    watchdog = QtCore.QTimer(window)
-    watchdog.setInterval(3000)
-
-    def check_for_a_cut():
-        if preview_out_of_date(state, multitrack.get()):
-            preview_compute()
-
-    watchdog.timeout.connect(check_for_a_cut)
-    watchdog.start()
+    # Tab 3: the Resolve check, the camera cut and its preview stand in
+    # ResolveSheet. Below settings_open, which its Resolve line reaches.
+    (resolve_box, resolve_check_run_kick_off, cut_var, edge_on, cut_player,
+     preview_compute, preview_kick_off, watchdog,
+     wide_state_show) = tab3.cut_build(window, model, state, bridge,
+                                       bridge_emit, {
+        "settings_open": settings_open, "wide_cameras_now": wide_cameras_now,
+        "prepared_tracks": prepared_tracks, "player": player,
+        "NoPlayer": NoPlayer, "split_line": split_line,
+        "QtMultimedia": QtMultimedia,
+        "QtMultimediaWidgets": QtMultimediaWidgets})
 
     bridge.preflight.connect(preflight_fill_in)
 
-    # ------------------------------------------------------------------
-    # Tab 3: log
-    # ------------------------------------------------------------------
-    log = make_log_view(QtGui, QtWidgets, Cursor)()
-    sheet2_position.addWidget(log, 1)
-
-    output_foot = QtWidgets.QHBoxLayout()
-    sheet2_position.addLayout(output_foot)
-
-    def result_open():
-        target = (state["results"][-1] if state["results"]
-                else state.get("result_folder"))
-        if target:
-            open_in_file_manager(target)
-
-    # The result button belongs with the output, not in the footer. A
-    # disabled button shows no tooltip, so a wrapper carries the reason.
-    def having_reason(button):
-        env_curve = QtWidgets.QWidget()
-        position = QtWidgets.QHBoxLayout(env_curve)
-        position.setContentsMargins(0, 0, 0, 0)
-        position.addWidget(button)
-        return env_curve
-
-    open_button = QtWidgets.QPushButton(T('Open result folder'))
-    open_button.clicked.connect(result_open)
-    open_button.setEnabled(False)
-    open_env_curve = having_reason(open_button)
-    open_env_curve.setToolTip(T('There is no result yet.'))
-    output_foot.addWidget(open_env_curve)
-    # The Resolve button belongs here: first one looks at the result, then one
-    # creates the project.
-    only_resolve = QtWidgets.QPushButton(T('Create Resolve project'))
-    only_resolve.setEnabled(False)
-    only_resolve_env_curve = having_reason(only_resolve)
-    only_resolve_env_curve.setToolTip(T('That needs the handover file from '
-                                        'a run, and there is none.'))
-    output_foot.addWidget(only_resolve_env_curve)
-    output_foot.addStretch(1)
-
-    def result_button_check():
-        """The button appears only once there really is a result."""
-        target = (state["results"][-1] if state["results"]
-                else state.get("result_folder"))
-        reason_set(open_env_curve, open_button,
-                     bool(target) and not state["running"],
-                     T('The run is still going.') if state["running"]
-                     else T('There is no result yet.'),
-                     T('Show in Finder.'))
+    # ------------------------------------------------------ Tab 4: the log
+    # The sheet holds the log pane, its timer and the two buttons for the
+    # result, and says for itself whether each may be pressed.
+    output = window.output_sheet
+    log, only_resolve = output.log, output.only_resolve
+    result_button_check = output.result_button_check
+    resolve_button_check = output.resolve_button_check
 
     # ------------------------------------------------------------------
     # Footer
@@ -3971,9 +2690,9 @@ def gui():
     # What comes back is what the rest of the window reaches for, down to
     # the timer that has to be stopped when the window goes.
     (start_run, start_run_env_curve, preview_button, break_off,
-     plan_wipe, run_plan_build, run_step_order, total_clock) = make_footer(
-        Qt, QtCore, QtWidgets, window, vertical, state, files,
-        plan, bridge, late, multitrack, without_auphonic, settings_open)
+     plan_wipe, run_plan_build, run_step_order,
+     total_clock) = window.footer_build(state, plan, bridge, late, multitrack,
+                                        without_auphonic, settings_open)
 
     # ------------------------------------------------------------------
     # Project file -- writing, closing and opening it stand in
@@ -4000,9 +2719,6 @@ def gui():
                T('Written:\n\n  %s') % where if where
                else T('Nothing was written -- there is no material yet.'))
 
-    def resolve_button_check():
-        resolve_button_say(state, only_resolve_env_curve, only_resolve)
-
     # The table builder stands above gui() and takes up the handover
     # when the cameras change; both of these it reaches through state.
     state["resolve_button_check"], state["out_folder"] = (
@@ -4019,111 +2735,70 @@ def gui():
     # project file, which takes items_fresh; take_paths goes back.
     # ------------------------------------------------------------------
     items_fresh, take_paths, add_files, remove = make_file_changes(
-        Qt, QtCore, QtWidgets, window, state, files, ask,
-        report, items, item, drop_area, preflight_line,
-        preflight_fill_in, preflight_kick_off, blocks_of,
-        recording_of, join_to, no_join, lines_node,
-        prework_node, video_kind_again, channel_rows_show,
-        audio_use_now, video_choices_show, settings_show,
-        buttons_check, show_weak, assignment_fresh,
-        finished_tracks_check, prework_clean_up, remembered,
-        together_now, production_var, commonest_folder,
-        remove_button, bar_env_curve)
+        Qt, QtCore, QtWidgets, window, state, model, ask, report,
+        preflight_fill_in, preflight_kick_off, lines_node, prework_node,
+        video_kind_again, channel_rows_show, audio_use_now,
+        video_choices_show)
+    wire(window.files_redrawn, show_weak, finished_tracks_check,
+         buttons_check, window.settings_show, assignment_fresh)
+    wire(window.files_leaving, prework_clean_up)
+    wire(window.assignment_due, assignment_fresh)
 
     # A file dropped straight onto the list lands here; the buttons above
     # stand long before the five exist and are hung on them here.
     state["take_paths"] = take_paths
-    add_button.clicked.connect(add_files)
-    remove_button.clicked.connect(remove)
+    window.files_sheet.add_button.clicked.connect(add_files)
+    window.files_sheet.remove_button.clicked.connect(remove)
 
     # ------------------------------------------------------------------
     # Project file -- the three lifted out of here. Below the writer,
-    # because it and resolve_button_check go in as arguments.
+    # which goes in; what answers its signals is said here.
     # ------------------------------------------------------------------
+    wire(window.material_leaving, lambda paths: PROGRAM.measuring_stop(
+        state, paths, prework_clean_up, split_stop, split_run, plan_wipe))
+    wire(window.project_closed, items_fresh, folder_show, window_enable,
+         resolve_button_check, result_button_check, preview_compute)
+    wire(window.project_opened, resolve_button_check, result_button_check,
+         preview_compute, lambda: player_follow_up(spot_also=True))
+    wire(window.folder_changed, folder_show)
+    wire(window.folder_wanted, folder_pick)
+    wire(window.mode_changed, mode_toggled)
+    wire(window.presets_wanted, lambda: PROGRAM.preset_list_bring(
+        state, presets_wanted_now, presets_filter))
     (project_write, project_new, project_open) = make_project_file(
-        QtWidgets, window, state, files, log, report, sheet2,
-        out_folder, production_var, start_var, end_var,
-        speech_language, lufs_value, edge_on, multitrack, project_type,
-        cut_var, channel_choice, clip_kind_values,
-        audio_use_values, no_join, join_to, remembered,
-        assign_lines, camera_lines, axis_file, axis_store,
-        project_collect, project_move, settings_extend,
-        commonest_folder, folder_show, folder_pick, items_fresh,
-        window_enable, tab_gone, output_show, mode_toggled,
-        player_follow_up, plan_wipe, prework_clean_up,
-        split_stop, split_run, preview_compute,
-        presets_wanted_now, presets_filter,
-        resolve_button_check, result_button_check, write)
+        QtWidgets, window, state, model, report, write, axis_file,
+        axis_store, project_collect, project_move, settings_extend)
     # take_paths asks whether the files just dropped in carry a
     # project of their own, and it is made here, below it.
     state["project_open"] = project_open
 
-    output_timer = QtCore.QTimer(window)
-    output_timer.setInterval(80)
-
-    def clear():
-        def drain():
-            while True:
-                try:
-                    text = post.get_nowait()
-                except queue.Empty:
-                    return
-                log.append_text(text)
-
-        drain()
-        if not state["running"]:
-            # The run sets the flag after its last line, so what was
-            # written between the two is still waiting here.
-            drain()
-            output_timer.stop()
-            break_off.setVisible(False)
-            start_run.setText(T('Start'))
-            # Tracks the run brought back count before anything is drawn.
-            in_turn(finished_tracks_check, buttons_check, result_button_check,
-                    resolve_button_check, preview_compute)
-
-    output_timer.timeout.connect(clear)
-    PROGRAM.UPDATE_SINK = make_update_sink(state, write, output_show,
+    output.post, output_timer = post, output.timer
+    # Tracks the run brought back count before anything is drawn.
+    wire(output.run_ended, lambda: break_off.setVisible(False),
+         lambda: start_run.setText(T('Start')), finished_tracks_check,
+         buttons_check, result_button_check, resolve_button_check,
+         preview_compute)
+    PROGRAM.UPDATE_SINK = make_update_sink(state, write, window.output_show,
                                            output_timer)
-
-    # Runs in the window thread while the worker thread waits.
-    bridge.question.connect(
-        lambda f: question_dialog(f, window, QtWidgets, label))
-
-    def ask_user(possible, title=T('Question')):
-        """A question from the worker thread; the dialog is the window's."""
-        f = Question(possible, title)
-        bridge_emit(bridge.question, f)
-        f.event.wait()
-        return f.choice
 
     # ------------------------------------------------------------------
     # Setting a run going -- the four lifted out of here. Below the
     # footer, the project file and the timer, which go in as arguments.
     # ------------------------------------------------------------------
+    wire(window.run_starting, buttons_check)
+    wire(window.run_begun, run_plan_build, result_button_check,
+         lambda dry: dry or project_write())
     start, only_resolve_start_run = make_run_start(
-        QtCore, state, files, log, report, ask, write, ask_user,
-        bridge, bridge_emit, out_folder, production_var, start_var,
-        end_var, speech_language, lufs_value, done_folder, key_var,
-        cut_var, edge_on, multitrack, project_type, clip_kind_values,
-        clip_kind_value, no_join, together_now, assign_lines,
-        camera_lines, voice_lines,
-        prework_node, prework_done, prework_queue, prework_run,
-        prework_lock, prework_busy, start_run, preview_button,
-        only_resolve, break_off, output_timer, files_for_run,
-        window_length, preset_plaintext, without_auphonic, output_show,
-        buttons_check, result_button_check, run_plan_build,
-        run_step_order, project_write)
+        QtCore, window, state, model, report, ask, write, bridge,
+        bridge_emit, prework_node, prework_done, prework_queue,
+        prework_run, prework_lock, prework_busy, output_timer,
+        preset_plaintext, without_auphonic, run_step_order)
 
     only_resolve.clicked.connect(only_resolve_start_run)
     start_run.clicked.connect(lambda: start(False))
     preview_button.clicked.connect(lambda: start(True))
 
-    # As large as the screen, but an ordinary window.
-    screen = app.primaryScreen().availableGeometry()
-    window.resize(min(1600, screen.width()), min(1000, screen.height()))
-    PROGRAM.least_size_from_layout(window)
-    window.move(screen.left(), screen.top())
+    window.screen_fit(app)
 
     def clean_up():
         """Write the work down first, then stop the timers and the player."""
@@ -4151,10 +2826,8 @@ def gui():
     # it was only asked to keep. The list is fetched when it is opened.
 
     # ------------------------------------------------------- The menu
-    # A Mac program without a menu bar is not a Mac program: About,
-    # Settings and Help are expected where the window has no say.
-    # QLayout.setMenuBar puts it in the system bar on a Mac.
-    menu = build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, {
+    # What each entry does; MainWindow.menu_build lays the bar out.
+    window.menu_build(player, {
         "add files": add_files, "remove": remove,
         "output folder": folder_pick,
         "start": lambda: start_run.click(),
@@ -4167,9 +2840,8 @@ def gui():
         "to in": lambda: to_limit(start_var),
         "to out": lambda: to_limit(end_var)},
         window_switch, cut_player, late,
-        (remove_button, start_run, preview_button),
+        (window.files_sheet.remove_button, start_run, preview_button),
         lambda: bool(files) or bool(state.get("project_from")))
-    vertical.setMenuBar(menu)
     window_enable()    # after the menu: its four player entries join the list
     buttons_check()    # and its five file entries follow the buttons
 
@@ -4425,8 +3097,8 @@ def about_show(window):
     """Show what this program is, which version, and under what terms."""
     QtWidgets = _qt_widgets()
     box = QtWidgets.QMessageBox(window)
-    box.setWindowTitle(T('About Video Podcast Magic'))
-    box.setText("Video Podcast Magic %s" % VERSION)
+    box.setWindowTitle(T('About %(name)s') % {"name": PROGRAM.DISPLAY_NAME})
+    box.setText("%s %s" % (PROGRAM.DISPLAY_NAME, VERSION))
     box.setInformativeText(
         T('Raw material from a video podcast becomes an edited '
           'episode: the good audio out of the video files, the '
@@ -4444,8 +3116,8 @@ def about_show(window):
 # The upkeep looks a release up by tag and asks the program for this
 # one: that piece is read before this file, so a head line there is an
 # AttributeError.
-RELEASE_BY_TAG = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
-                  "/releases/tags/%s")
+RELEASE_BY_TAG = ("https://api.github.com/repos/" + PROGRAM.REPOSITORY
+                  + "/releases/tags/%s")
 
 
 def story_window(window, title, said, changed, page=""):

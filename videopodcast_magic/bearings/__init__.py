@@ -195,7 +195,8 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
             dy = du = dv = 0.0
             distance = T('-- only one camera')
         print("  %-24s %8s %8s %8s   %s"
-              % (name[:24], number_text(values.get("y", 0), 1),
+              % (PROGRAM.name_to_fit(name, 24),
+                 number_text(values.get("y", 0), 1),
                  number_text(values.get("u", 0), 1),
                  number_text(values.get("v", 0), 1), distance))
         lines.append((name, values, (dy, du, dv)))
@@ -543,14 +544,15 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                      number_text(k, 0, plus=True), ""))
             continue
         # "audio time = a + b * reference time": read d0 too early means
-        # shifting a by b*d0, and the drift multiplies b.
-        track["a"] = track["a"] + (d0 / 1000.0) * track.get("b", 1.0)
+        # shifting a by b*d0, and the drift multiplies b. A drift left
+        # in stays out: the track lies on the axis at b = 1, not at b.
+        held = track.get("b", 1.0) if track.get("drift") else 1.0
+        track["a"] = track["a"] + (d0 / 1000.0) * held
         # The output is compressed by b. A track running too fast -- k
         # negative, the offset shrinking over time -- needs b lowered.
-        track["b"] = track.get("b", 1.0) * (1.0 + k * 1e-6)
+        track["b"] = held * (1.0 + k * 1e-6)
         track["drift"] = bool(drift_allowed
-                           and (track.get("drift")
-                                or abs(track["b"] - 1.0) > 1e-7))
+                           and (track.get("drift") or k != 0.0))
         place_track_on_axis(track["source"], track["axis"], track["a"], track["b"], t0, t1,
                        track.get("drift", False))
         shifted.append((track["name"], d0, k))
@@ -766,8 +768,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
                       phase_of=lambda p: True):
     """Determine how all files sit relative to each other.
 
-    The longest recording is the reference, a timecode from *tc_of*
-    hangs the axis off it; a weak camera stands at its clock, a weak
+    The longest camera is the reference, as in the run -- the longest
+    file only where no camera is heard; a timecode from *tc_of* hangs
+    the axis off it; a weak camera stands at its clock, a weak
     recording where the run lays it, the phase way on where *phase_of*
     says. Returns (result, text), by path_key: "axis", "clock", and
     lists -- "weak", "no_place", "unplaceable", "clock_alone", "brief".
@@ -789,7 +792,10 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     unheard = [p for p in paths if p not in envelopes]
     if not envelopes or (len(envelopes) < 2 and not unheard):
         return ({}, "" if envelopes else T('time axis not measurable'))
-    reference = max(envelopes, key=lambda p: len(envelopes[p]))
+    # The run's reference: a recording longer than every camera never
+    # is one, so nothing is measured against it here either.
+    heard = [p for p in envelopes if p.lower().endswith(VIDEO_SUFFIXES)]
+    reference = max(heard or envelopes, key=lambda p: len(envelopes[p]))
     axis, weak = {reference: 0.0}, []
     # Not "clocks": that one holds timecodes a few lines down.
     clock_speed = {reference: 1.0}
@@ -910,7 +916,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     camera_clocks = [clocks.get(c) for c in paths
                      if c.lower().endswith(VIDEO_SUFFIXES)]
     # Where its reference camera has no place here, neither has it.
-    recordings = [q for q in weak if ref_r in axis
+    # Beside a camera every recording is measured as the run does, one
+    # read more each; with none only the weak ones.
+    recordings = [q for q in (paths if camera_ref else weak) if ref_r in axis
                   and not q.lower().endswith(VIDEO_SUFFIXES)]
 
     def as_the_run(file_path):
@@ -923,6 +931,12 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
             return None
 
     for p, found in zip(recordings, parallel_map(recordings, as_the_run)):
+        if found is None or found[2].get("unplaceable"):
+            # What the run cannot hear is weak, whatever the curve above
+            # made of it, and stands nowhere unless its clock places it.
+            axis.pop(p, None)
+            clock_speed.pop(p, None)
+            weak += [] if p in weak else [p]
         # As the run: a failed measurement a clock places stands at that
         # clock (cannot_be_placed), one no clock places is refused.
         if found is None or cannot_be_placed(found[2], clocks.get(p),

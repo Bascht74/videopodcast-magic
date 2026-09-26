@@ -91,8 +91,8 @@ msgstr "Mais tarde"
 msgid "Go back"
 msgstr "Voltar"
 
-msgid "About Video Podcast Magic"
-msgstr "Sobre o Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Sobre o %(name)s"
 
 msgid "&File"
 msgstr "&Arquivo"
@@ -436,9 +436,6 @@ msgstr "Reproduzir e pausar."
 
 msgid "Preview running ..."
 msgstr "Pré-visualização em curso ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Trabalho prévio -- ler o áudio e calcular as envolventes:\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "Processamento em auphonic.com (opcional)"
@@ -1112,14 +1109,8 @@ msgstr "Nomes de faixa diferentes"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  JÁ EXISTE UMA PRODUÇÃO COM ESTE NOME"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "A chave de AUPHONIC_TOKEN não é aceita: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "A chave salva não é aceita: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nenhuma chave de API. Defina AUPHONIC_TOKEN ou faça-a ser salva uma vez na interface. A chave está nas configurações da conta Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Nenhuma predefinição salva na conta. É possível criar uma na interface web."
@@ -1561,9 +1552,6 @@ msgstr "  %s: não é possível determinar quantos canais tem (%s) -- não é me
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "Nenhuma câmera está livre de falantes, então não há plano geral: as quatro configurações de plano geral e a marca para as bordas não fazem nada. Dê a uma câmera o Tipo “Plano geral”, ou deixe uma sem falante."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Ainda não há transcrição. Sem ela nenhuma pergunta é encontrada e nenhum limite de frase é conhecido, por isso estas quatro configurações não fazem nada. Uma execução a escreve, e a partir daí funcionam."
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Pergunta: sem transcrição, então nenhuma pergunta foi encontrada e nenhum\n            corte de reação aconteceu. As palavras são transcritas do mix pronto\n            durante a execução; sem elas a configuração não faz nada."
@@ -3093,8 +3081,8 @@ msgstr "Estes arquivos não existem mais:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  Arquivo de projeto não gravável (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Arquivos JSON (*.json);;Todos os arquivos (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Arquivos JSON (*.json);;Todos os arquivos (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Esta entrega não traz taxa de quadros, então não é possível montar a Timeline a partir dela. Faça a execução de novo."
@@ -3687,9 +3675,6 @@ msgstr "pelo gerenciador de pacotes: apt install ffmpeg, dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "Este ffmpeg não tem soxr: o desvio de relógio entre as câmeras sai em passos de 21 ppm em vez de 0,21."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "A chave só pode ser salva no Mac e no Windows -- no Chaveiro ou no registro. Ela não vai para um arquivo."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  O ffmpeg.org tem builds para Windows. A pasta com ffmpeg.exe precisa então ir para o PATH, ou os arquivos para junto deste programa."
 
@@ -4077,8 +4062,8 @@ msgstr "Nenhum som com que trabalhar -- ajuste o Áudio da câmera de um arquivo
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "Conteúdo: uma câmera como qualquer outra.\nPlano geral: uma câmera diante da qual ninguém se senta -- ela não recebe nenhum falante, e o corte vai para ela numa pausa e num monólogo longo.\nAbertura e encerramento são clipes prontos -- não alinhados, não processados, apenas colocados na Timeline.\nIgnorar vídeo: o arquivo fica totalmente de fora."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- o material bruto vira um podcast editado"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- o material bruto vira um podcast editado"
 
 msgid "The work can be written to a project file first."
 msgstr "O trabalho pode antes ser gravado em um arquivo de projeto."
@@ -4661,9 +4646,6 @@ msgstr "Planos mais curtos se fundem ao seguinte."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Um \"sim\" curto não move a imagem. Sem isto, um bloco de meio segundo puxa a câmera para lá, e a duração mínima do plano a mantém ali por segundos."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Só onde \"Ninguém fala\" está definido para manter uma pausa curta. Uma pausa até esta duração não muda nada; uma mais longa vai para o plano geral. Acima de dois segundos, a imagem começa a ficar mais de cinco segundos em alguém calado."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 constante"
 
@@ -4709,14 +4691,34 @@ msgstr "%s não corresponde a nada no material, e nenhuma câmera posicionada pe
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s não corresponde a nada no material, e nenhuma câmera posicionada pelo som traz um timecode com que comparar o dele; a abertura já está ocupada: deixado de fora."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key não aceita nada depois dele: a chave é pedida sem ser "
+"exibida. Nada foi salvo."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Chave de API do Auphonic (não é exibida): "
 
 msgid "In point"
 msgstr "O ponto de entrada"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Deixado de fora; %s ou %s está a um clique."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nenhuma chave de API. Salve-a uma vez na interface ou com "
+"--store-auphonic-key. A chave está nas configurações da conta Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nenhuma chave foi digitada, então nada foi salvo."
 
 msgid "Out point"
 msgstr "O ponto de saída"
@@ -4726,6 +4728,12 @@ msgstr "Predefinições:"
 
 msgid "Registry"
 msgstr "Registro"
+
+msgid "The key is not stored: %s"
+msgstr "A chave não está salva: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "A chave está salva, e ao lê-la de volta obteve-se a mesma chave."
 
 msgid "VIDEO"
 msgstr "VÍDEO"
@@ -4917,3 +4925,84 @@ msgstr "som não reconhecido, posicionado pelo timecode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s gravações e nenhuma imagem: cada uma é unida à parte e elas não são alinhadas entre si. --multitrack as coloca num eixo de tempo."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", a deriva do relógio de %s ppm permanece: não chega a %s vezes a sua incerteza de %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Sem transcrição nenhuma pergunta é encontrada e nenhum limite de frase é conhecido, por isso as duas configurações da pergunta e as duas configurações do plano geral que esperam o fim de uma frase não fazem nada."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Sem transcrição nenhuma pergunta é encontrada, por isso as duas configurações da pergunta não fazem nada."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Ainda não há: uma execução a escreve, e a partir daí funcionam."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "O reconhecimento de fala estava desligado nesta execução. Deixe-o ligado, e a próxima execução escreverá uma."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "A execução não escreveu nenhuma: o reconhecimento de fala falhou ou não ouviu nada, e o registo da execução diz qual das duas. Verifique o idioma do som e execute de novo; onde esta máquina não tem reconhecimento, o macOS 26 traz um, ou a execução instala o faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "em execução -- sem mensagens há %s min, o computador pode estar ocupado"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "sem alterações há %s min -- pode estar travado, verifique"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "permanece: %s ppm ou mais é antes um erro de medição"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "permanece: não chega a %s vezes a sua incerteza"
+
+msgid "Timing"
+msgstr "Tempos"
+
+msgid "Special cases"
+msgstr "Casos especiais"
+
+msgid "Transcript"
+msgstr "Transcrição"
+
+msgid "Writing down what is said ..."
+msgstr "Escrevendo o que é dito ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixando as faixas para a transcrição"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Ela está sendo escrita em segundo plano; os ajustes se abrem sozinhos quando terminar."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Nenhum chaveiro do Secret Service respondeu, então nada foi salvo. Fora do Mac e do Windows a chave fica no chaveiro da área de trabalho, pelo comando secret-tool do libsecret. Ela não vai para um arquivo."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Trabalho prévio -- ler o áudio, calcular as envolventes e escrever o que é dito:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plano geral nas bordas: só a partir de %s -- o do início era mais curto que a tomada mais curta e foi absorvido pela seguinte"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plano geral nas bordas: só até %s -- o do fim era mais curto que a tomada mais curta e foi absorvido pela anterior"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plano geral nas bordas: nenhum -- ambos eram mais curtos que a tomada mais curta e foram absorvidos pelas vizinhas"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Onde \"Ninguém fala\" está definido para manter uma pausa curta, uma pausa até esta duração não muda nada e uma mais longa vai para o plano geral. Onde \"Reconhecimento incerto\" está definido como \"Sem troca de câmera\", um trecho incerto mais longo que isso também vai para o plano geral. Acima de dois segundos, a imagem começa a ficar mais de cinco segundos em alguém calado."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s deixado de fora -- a %s dos outros blocos segundo o timecode, afastado demais para uma gravação"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Plano geral nas bordas: todo o corte é o plano geral"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  encurtado para no máximo %s cada -- o único anúncio vai de %s a %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s no início não tem imagem e fica de fora"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s no fim não tem imagem e fica de fora"

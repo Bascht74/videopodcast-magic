@@ -28,8 +28,6 @@ SCRIPT = the_program.SCRIPT
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-# The key has to come out of the store, where the tick is decided.
-os.environ.pop("AUPHONIC_TOKEN", None)
 
 from PySide6 import QtWidgets, QtCore            # noqa: E402
 from PySide6.QtTest import QTest                  # noqa: E402

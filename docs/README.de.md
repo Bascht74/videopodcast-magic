@@ -179,8 +179,9 @@ der das Wort erklärt, steht vorn.
   Reiter“
 * **Tasten**: `interface`, „Alles über Menü oder Taste erreichen“
 * **Timecode, virtueller**: `interface`, „Wie die Zeitachse gemessen wird“
-* **Transkription**: `speech`, „Wie das Programm den Text mitschreibt“;
-  `auphonic`, „Das Transkript entsteht hier“
+* **Transkription**: `speech`, „Die drei Dateien des Transkripts“;
+  `speech`, „Wie das Programm den Text mitschreibt“; `auphonic`, „Das
+  Transkript entsteht hier“
 * **Typ (Spalte)**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie das
   Programm den Weitwinkel setzt“
 * **Übergabedatei (`_resolve.json`)**: `camera-cut`, „Was die Projektdatei
@@ -189,6 +190,7 @@ der das Wort erklärt, steht vorn.
   3:1-Regel misst“; `camera-cut`, „Sprecher aus den Spuren messen“
 * **Uhrengang**: `overview`, „Was es einem abnimmt“; `command-line`, „Was
   mit Ton und Bild geschieht“; `interface`, „Die vier Reiter“
+* **Untertitel (`.srt`)**: `speech`, „Die drei Dateien des Transkripts“
 * **Update**: `interface`, „Sich selbst aktuell halten“;
   `interface`, „Der Weg zurück auf eine ältere Version“
 * **Verknüpfung, Startmenü-Eintrag, Symbol**: `requirements`, „Wo es

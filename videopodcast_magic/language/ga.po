@@ -193,8 +193,8 @@ msgstr "Faigheann --update é agus cuireann sé ina áit é."
 msgid "The check for new versions is switched off here."
 msgstr "Tá an tseiceáil ar leaganacha nua múchta anseo."
 
-msgid "About Video Podcast Magic"
-msgstr "Maidir le Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Maidir le %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Déantar eipeasóid churtha in eagar d'amhábhar podchraolta físe: an fhuaim mhaith as na comhaid físe, na ceamaraí ar aon ais ama amháin, céad ghearradh de réir cainteora, agus tionscadal DaVinci Resolve."
@@ -2377,9 +2377,6 @@ msgstr "Multitrack (rian do gach cainteoir)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Teastaíonn dhá rian ionchuir ar a laghad ó Multitrack. Is éard is rian ann taifeadadh ar leith, cainéal de thaifeadán ilchainéil, nó fuaim chomhaid físe atá socraithe ar \"úsáid fuaim inmheánach\". Áirítear roinnt bloc den taifeadadh céanna mar cheann amháin, agus ní áirítear rianta a cuireadh i leataobh ar chor ar bith."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Níl eochair API ann. Socraigh AUPHONIC_TOKEN nó sábháil í uair amháin sa chomhéadan. Tá an eochair i socruithe chuntas Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Níl cód ama ar aon chomhad fuaime. Áirítear an pointe isteach agus an pointe amach ó thús an ábhair -- tomhaistear suíomh na gcomhad i gcoibhneas lena chéile."
 
@@ -2602,9 +2599,6 @@ msgstr "Ní féidir réamhamharc: %s"
 msgid "Preview running ..."
 msgstr "Réamhamharc ar siúl ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Réamhobair -- fuaim a léamh agus imchlúdaigh a ríomh:\n"
-
 msgid "Primaries"
 msgstr "Príomhdhathanna"
 
@@ -2731,9 +2725,6 @@ msgstr "Socraíonn an chéad rian den réamhshocrú na socruithe dár rianta go 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Teastaíonn comhad seachadta ó rith chuige sin, agus níl ceann ann."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ní féidir an eochair a stóráil ach ar Mac agus Windows -- i Keychain nó sa Chlárlann. Ní théann sí isteach i gcomhad."
-
 msgid "%s -- being checked"
 msgstr "%s -- faoi sheiceáil"
 
@@ -2766,9 +2757,6 @@ msgstr "  Níorbh fhéidir Keychain Access a oscailt: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Ní ghlactar leis an eochair stóráilte: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ní ghlactar leis an eochair ó AUPHONIC_TOKEN: %s"
 
 msgid "What auphonic.com replied"
 msgstr "An freagra a thug auphonic.com"
@@ -2902,8 +2890,8 @@ msgstr "Físeán 1"
 msgid "Video 2"
 msgstr "Físeán 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- déantar podchraoladh curtha in eagar den amhábhar"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- déantar podchraoladh curtha in eagar den amhábhar"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Airde fuaime. Is é 100 an leibhéal is airde -- ní ghlacann Qt le haon rud os a chionn."
@@ -2962,14 +2950,42 @@ msgstr "Meán oíche"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Cód ama ón taobh eile den mheán oíche: %s -- áirítear é mar oíche amháin, ní mar lá óna chéile."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"Ní ghlacann --store-auphonic-key le haon rud ina dhiaidh: iarrtar an eochair "
+"gan í a thaispeáint. Níor sábháladh aon rud."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Áiríonn cód ama ón meán oíche agus tosaíonn sé as an nua ansin. Cuirtear na comhaid ar ais amháin sula ndealaítear aon rud, nó bheadh cuma ar an taifeadadh tar éis an mheán oíche go bhfuil sé beagnach lá ón gceann roimhe. Má taifeadadh iad seo i ndáiríre ar laethanta éagsúla, tá an t-ailíniú mícheart agus is é an fritháireamh tomhaiste is iontaofa."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Eochair API Auphonic (ní thaispeántar í): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Tá cainéal %d ag an teorainn: trí shampla nó níos mó as a chéile, líon uaireanta: %s, an ceann is faide %s (%s ms), an chéad cheann ag %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Comhairítear anseo é, sampla ar shampla, ag an ráta ar ar taifeadadh an comhad: sraith de thrí shampla nó níos mó ar an luach is airde is féidir le formáid slánuimhreach a choinneáil. Is slánú iad ceann nó dhó agus ní thuairiscítear iad. An méid a ghearrtar ansin, tá sé imithe agus ní thabharfaidh aon phróiseáil ar ais é -- ach is é an taifeadadh an taifeadadh fós, agus ní choinníonn sé seo aon rud siar. Ní chomhairítear ach formáidí slánuimhreacha. Níl aon teorainn ag 32 bit float ag lánscála, mar sin níl aon rud le comhaireamh ansin."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Níl eochair API ann. Sábháil í uair amháin sa chomhéadan, nó le "
+"--store-auphonic-key. Tá an eochair i socruithe chuntas Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Níor clóscríobhadh aon eochair, mar sin níor sábháladh aon rud."
+
+msgid "The key is not stored: %s"
+msgstr "Níl an eochair sábháilte: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr ""
+"Tá an eochair sábháilte, agus fuarthas an eochair chéanna nuair a léadh ar "
+"ais í."
 
 msgid "boxes no longer readable"
 msgstr "ní féidir na boscaí a léamh a thuilleadh"
@@ -3415,8 +3431,8 @@ msgstr "Aistriú"
 msgid "Uploading %s tracks"
 msgstr "Rianta á n-uaslódáil: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Comhaid JSON (*.json);;Gach comhad (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Comhaid JSON (*.json);;Gach comhad (*)"
 
 msgid "Wide shot after"
 msgstr "Seat leathan tar éis"
@@ -3714,9 +3730,6 @@ msgstr "agus gearrtar anseo, nóiméad maith nó ná bíodh"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Teorainn chrua an phéire: mura raibh teorainn abairte ann ó \"Seat leathan tar éis\", seasann an sos cainte is faide ina háit, agus ag an bpointe seo déantar an gearradh is cuma cad atá á rá."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Níl tras-scríbhinn ann fós. Gan í ní aimsítear ceist ar bith agus níl aon teorainn abairte ar eolas, mar sin ní dhéanann na ceithre shocrú seo tada. Scríobhann rith í, agus as sin amach oibríonn siad."
 
 msgid "Why the question settings are grey"
 msgstr "Cén fáth a bhfuil socruithe na ceiste liath"
@@ -4275,9 +4288,6 @@ msgstr "Bearna ghearr suas le"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "fágann ciúnas chomh fada seo an pictiúr mar atá"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Ach amháin nuair atá \"Níl aon duine ag caint\" socraithe chun bearna ghearr a choinneáil. Ní athraíonn bearna chomh fada seo faic, téann bearna níos faide chuig an tseat leathan. Os cionn dhá shoicind tosaíonn an pictiúr ag fanacht ar dhuine ciúin ar feadh níos mó ná cúig shoicind."
 
 msgid "Recognition uncertain"
 msgstr "Aithint éiginnte"
@@ -5054,3 +5064,84 @@ msgstr "níor aithníodh an fhuaim, curtha ina áit de réir a chóid ama"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s taifeadadh agus gan aon phictiúr: ceanglaítear gach ceann acu ina aonar agus ní chuirtear in aice a chéile iad. Cuireann --multitrack ar ais ama amháin iad."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", fágadh an sruth cloig %s ppm ann: ní %s oiread a éiginnteachta de %s ppm é"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Gan tras-scríbhinn ní aimsítear ceist ar bith agus níl aon teorainn abairte ar eolas, mar sin ní dhéanann dhá shocrú na ceiste ná an dá shocrú seat leathan a fhanann le deireadh abairte tada."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Gan tras-scríbhinn ní aimsítear ceist ar bith, mar sin ní dhéanann dhá shocrú na ceiste tada."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Níl ceann ann fós: scríobhann rith í, agus as sin amach oibríonn siad."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Bhí an aithint cainte múchta don rith. Fág ar siúl í, agus scríobhfaidh an chéad rith eile ceann."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Níor scríobh an rith ceann ar bith: theip ar an aithint cainte nó níor chuala sí tada, agus insíonn loga an rith cé acu. Seiceáil teanga na fuaime agus rith arís; mura bhfuil aithint ar an ríomhaire seo, tugann macOS 26 ceann leis, nó suiteálann an rith faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "ag obair -- gan scéala le %s nóim., d'fhéadfadh an ríomhaire a bheith gnóthach"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "gan athrú le %s nóim. -- d'fhéadfadh sé a bheith greamaithe, seiceáil le do thoil"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "fágtar istigh é: is dóichí gur earráid tomhais é %s ppm nó níos mó"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "fágtar istigh é: ní shroicheann sé %s oiread a éiginnteachta"
+
+msgid "Timing"
+msgstr "Uainiú"
+
+msgid "Special cases"
+msgstr "Cásanna speisialta"
+
+msgid "Transcript"
+msgstr "Tras-scríbhinn"
+
+msgid "Writing down what is said ..."
+msgstr "Ag scríobh síos a ndeirtear ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Ag meascadh na rianta don tras-scríbhinn"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Tá sí á scríobh sa chúlra; osclóidh na socruithe iad féin nuair a bheidh sí réidh."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Níor fhreagair aon fháinne eochracha Secret Service, mar sin níor stóráladh aon rud. Lasmuigh de Mac agus Windows coinnítear an eochair i bhfáinne eochracha an deisce, tríd an ordú secret-tool ó libsecret. Ní théann sí isteach i gcomhad."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Réamhobair -- fuaim a léamh, imchlúdaigh a ríomh agus a ndeirtear a scríobh síos:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Seat leathan ag na himill: ó %s amháin -- bhí an ceann tosaigh níos giorra ná an seat is giorra agus chuaigh sé isteach sa chéad cheann eile"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Seat leathan ag na himill: go dtí %s amháin -- bhí an ceann deiridh níos giorra ná an seat is giorra agus chuaigh sé isteach sa cheann roimhe"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Seat leathan ag na himill: dada -- bhí an dá cheann níos giorra ná an seat is giorra agus chuaigh siad isteach ina gcomharsana"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Nuair atá \"Níl aon duine ag caint\" socraithe chun bearna ghearr a choinneáil, ní athraíonn bearna chomh fada seo faic, agus téann bearna níos faide chuig an tseat leathan. Nuair atá \"Aithint éiginnte\" socraithe ar \"Gan athrú ceamara\", téann sliocht éiginnte níos faide ná seo chuig an tseat leathan freisin. Os cionn dhá shoicind tosaíonn an pictiúr ag fanacht ar dhuine ciúin ar feadh níos mó ná cúig shoicind."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s fágtha amach -- %s ó na bloic eile de réir an chóid ama, rófhada óna chéile do thaifeadadh amháin"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Seat leathan ag na himill: is é an seat leathan an gearradh ar fad"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  giorraithe go %s ar a mhéad an ceann -- maireann an t-aon fhógra amháin ó %s go %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: níl pictiúr ag %s ag an tús agus fágtar amach é"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: níl pictiúr ag %s ag an deireadh agus fágtar amach é"

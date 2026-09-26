@@ -33,6 +33,20 @@ import time
 import types
 
 
+# The program's name: the command pip lays and what a run calls itself.
+# It may follow a rename -- together with [project.scripts] in pyproject.
+PROGRAM_NAME = "videopodcast-magic"
+# Where it lives on github: releases, pip, the model and the manual are
+# all reached through this one, so a move is one line.
+REPOSITORY = "Bascht74/videopodcast-magic"
+# What a person reads: title bar, About box, menus. Translated texts
+# carry %(name)s and are filled from here, so they follow a rename.
+DISPLAY_NAME = "Video Podcast Magic"
+# DANGER: the name everything a user keeps is filed under -- keychain,
+# registry, logs, settings, cache, tools, project files, the macOS bundle
+# id. NEVER follow a rename: the next start finds no key and no choices.
+FROZEN_NAME = "videopodcast-magic"
+
 PIECES = {}    # the pieces of the program already read, by their path
 
 
@@ -154,6 +168,7 @@ https_context = setup.https_context
 load_api_key = setup.load_api_key
 soxr_available = setup.soxr_available
 soxr_note = setup.soxr_note
+store_key_from_terminal = setup.store_key_from_terminal
 tools_repaired = setup.tools_repaired
 
 
@@ -169,9 +184,10 @@ TOOL_TROUBLE = ("", "")
 NEEDS_PYTHON = (3, 10)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
-    sys.exit("videopodcast-magic needs Python %d.%d or newer -- this is "
+    sys.exit("%s needs Python %d.%d or newer -- this is "
              "%d.%d. Recommended version: %s."
-             % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
+             % ((PROGRAM_NAME,) + NEEDS_PYTHON + sys.version_info[:2]
+                + (LIKES_PYTHON,)))
 
 class Numpy:
     """Stands in for numpy until the first calculation asks for it."""
@@ -199,8 +215,8 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b25"
-PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
+VERSION = "3.0.0b26"
+PROJECT_PREFIX = FROZEN_NAME + "_"  # project file: prefix + production
 # It counts up whenever a stored key or value is renamed. An older
 # file is refused with a clear message rather than half-read.
 FILE_FORMAT = 3
@@ -427,10 +443,6 @@ def main():
         return 0
     ap = build_argument_parser()
     args = ap.parse_args()
-    # The key goes with a run that may send: the window's, handed over
-    # here and never on the line, or the one in AUPHONIC_TOKEN.
-    args.auphonic_key = (None if args.without_auphonic else
-                         RUN_KEY or os.environ.get("AUPHONIC_TOKEN") or None)
     # Before the first sentence is made, not before the first is
     # printed: the ffmpeg complaint below is written here and shown
     # much later. Only where one was typed, or the kept one is lost.
@@ -441,6 +453,11 @@ def main():
     # looked for.
     if args.update_now:
         return update_from_command_line()
+    # The same for storing the key: no files and no tools. A word after
+    # the switch is refused unread -- it can only be the key, typed
+    # where the shell keeps it.
+    if args.store_auphonic_key:
+        return store_key_from_terminal(args.files)
     # Everything goes through ffmpeg, so below the floor there is
     # nothing to start. Behind only_reading() and --update on purpose:
     # --update must not fail on the thing it repairs.
@@ -488,8 +505,8 @@ def main():
     # language is settled and before the banner claims a run starts.
     if TOOL_TROUBLE[0] and not tools_repaired(*TOOL_TROUBLE):
         return 1
-    print("videopodcast-magic %s   %s\n%s\n"
-          % (VERSION, python_note(), running_from()))
+    print("%s %s   %s\n%s\n"
+          % (PROGRAM_NAME, VERSION, python_note(), running_from()))
     # Said, not asked: a run started from a script must not stop for a
     # question, and a coarser correction is not a fault.
     if not soxr_available() and ffmpeg_can_be_had():
@@ -528,6 +545,9 @@ def main():
         args.no_speech_recognition = True
         args.no_transcript_file = True
 
+    # The key goes with a run that may send, found the same way on
+    # every path: the window's, or the stored one.
+    key_for_run(args)
     if args.auphonic_key and not args.files:
         try:
             return print_presets(api_key_from_anywhere(args), args.multitrack)
@@ -654,6 +674,7 @@ auphonic = beside("auphonic", program=PROGRAM)
 take_from(auphonic)
 
 api_key_from_anywhere = auphonic.api_key_from_anywhere
+key_for_run = auphonic.key_for_run
 print_presets = auphonic.print_presets
 tracks_folder = auphonic.tracks_folder
 
@@ -718,6 +739,12 @@ finish_without_auphonic = cut.finish_without_auphonic
 write_cut_list = cut.write_cut_list
 write_handover = cut.write_handover
 write_metrics_csv = cut.write_metrics_csv
+
+
+#-------------------------------------------------------- The time base
+
+timebase = beside("timebase", program=PROGRAM)
+take_from(timebase)
 
 
 #------------------------------------------------------------ The chain

@@ -162,8 +162,9 @@ def make_prework_bar(QtCore, bridge, bridge_emit, plan, prework_box,
         status = max(prework_run.get("bar", 0), int(round(100 * total)))
         prework_run["bar"] = status
         prework_progress_bar.setValue(status)
-        prework_label.setText(T('Prework -- read audio and compute '
-                                'envelopes:\n') + "\n".join(lines))
+        prework_label.setText(T('Prework -- read audio, compute envelopes '
+                                'and write down what is said:\n')
+                              + "\n".join(lines))
         prework_box.show()
         if total >= 0.999 and not prework_busy():
             prework_shares.clear()

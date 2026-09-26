@@ -60,14 +60,15 @@ run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}, separa
 # -- nothing else landed on main in between -- the six check runs of
 # that head answer for exactly the bytes that are about to be tagged,
 # and running them again would say the same thing twelve minutes
-# later. So the job "evidence" below asks five questions of the API
+# later. So the job "evidence" below asks four questions of the API
 # before the suite starts, and the suite job is skipped only where all
-# five answer yes. Anywhere else -- main moved, the commit is not a
+# four answer yes. Anywhere else -- main moved, the commit is not a
 # merge, a check is missing or not green, the merge brings in a file
-# of the speaker separation, the merge leaves the version as it was
-# (so its checks ran English and German only; see all_languages in
-# tests.yml, 26.9.2026) -- the suite runs here as it has since
+# of the speaker separation -- the suite runs here as it has since
 # 4.9.2026, and the run says in one line which way it took and why.
+# A push tests English and German only (the owner, 26.9.2026), so the short way
+# still runs the language slices here, in every language: job
+# "languages".
 #
 # "What is tagged is what was tested" stays true on both ways: on the
 # long way by construction, on the short way by identity of the tree.
@@ -108,21 +109,42 @@ permissions:
   # request's head. A check run is neither contents nor an action run;
   # it is its own scope, and a scope not named here is none.
   checks: read
-  # read, because step 3b asks the roadmap issue which version it says
-  # the program is at. Issues are their own scope as well.
+  # read, because step 3b of the ready job asks the roadmap issue which
+  # version it says the program is at. Issues are their own scope too.
   issues: read
 
 jobs:
 
-  # The title first, in a job of its own, because it is free -- no
-  # checkout, no network, no suite. The commonest way to start this
-  # wrongly must not cost a full run of six jobs to find out about.
+  # Everything that needs neither the suite nor the archive, in a job
+  # of its own before both: the title, the version, the changelog
+  # section, the roadmap issue, the tag. The commonest ways to start
+  # this wrongly must not cost a full run of seven jobs to find out
+  # about.
+  #
+  # Until 26.9.2026 only the title stood here, and the rest waited in
+  # the publish job behind the suite. Measured that day: 3.0.0b25 was
+  # dispatched, the suite ran about forty minutes, and only then did
+  # step 3b find the roadmap issue still saying 3.0.0b24 -- and the
+  # second dispatch cost another forty. Every job below needs this
+  # one, so a FAIL here stops the run within a minute.
+  #
+  # The files are read out of a sparse checkout of this very commit --
+  # three files, one commit deep -- and not through the contents API:
+  # the steps can then be the publish job's own lines, letter for
+  # letter, rather than a second way of reading the same thing.
+  # Which of them the publish job asks again, and why, stands beside
+  # each of them there.
   ready:
-    name: "Ready: the title, which no workflow can invent"
+    name: "Ready: title, version, changelog, roadmap, tag"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
       TITLE: ${{ inputs.title }}
+      GH_TOKEN: ${{ github.token }}
+      # Which issue carries the roadmap. One number, in one place, so
+      # that moving the roadmap is one edit and not a search.
+      ROADMAP: 1
+      SHA: ${{ github.sha }}
     steps:
 
       # ------------------------------------------------------------
@@ -156,6 +178,148 @@ jobs:
             exit 1
           fi
           echo "title: $TITLE"
+
+      # Three files of this commit and nothing else: a few kilobytes
+      # instead of 59.5 MiB. Not cone mode, because the three are
+      # files and cone mode takes folders.
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /videopodcast_magic/__init__.py
+            /pyproject.toml
+            /CHANGELOG.md
+
+      # The same lines as step 2 of the publish job -- change both.
+      - name: "2. One version number, and the title built on it"
+        run: |
+          for pair in "videopodcast_magic/__init__.py:^VERSION = \"" \
+                      "pyproject.toml:^version = \""; do
+            file="${pair%%:*}"
+            mark="${pair#*:}"
+            n=$(grep -c "$mark" "$file" || true)
+            if [ "$n" != "1" ]; then
+              echo "FAIL: $file holds $n lines matching $mark, wanted 1."
+              exit 1
+            fi
+          done
+          program=$(sed -n 's/^VERSION = "\(.*\)"$/\1/p' \
+                    videopodcast_magic/__init__.py)
+          packed=$(sed -n 's/^version = "\(.*\)"$/\1/p' pyproject.toml)
+          if [ "$program" != "$packed" ]; then
+            echo "FAIL: the program says '$program', pyproject.toml says"
+            echo "      '$packed'. Both are set by hand and they have to"
+            echo "      say the same thing before the tag, because after"
+            echo "      it nobody can move either."
+            exit 1
+          fi
+          echo "version: $program"
+
+          # The number is put in front here, so the headline and the tag
+          # cannot come apart: both are built out of the one number that
+          # was just read. What was typed is the half sentence.
+          if [ "${TITLE#"$program"}" != "$TITLE" ]; then
+            echo "FAIL: the title already starts with the version."
+            echo "      Type only the half sentence after the number;"
+            echo "      the number is put in front for you. Given:"
+            echo "        $TITLE"
+            exit 1
+          fi
+          # Only the two numbers travel on. The title stays in the
+          # environment it came in on and is put together where it is
+          # used: a line written into GITHUB_ENV is parsed, so somebody
+          # else's prose with a newline in it would be setting whatever
+          # it liked in the steps below.
+          {
+            echo "VERSION=$program"
+            echo "TAG=v$program"
+          } >> "$GITHUB_ENV"
+          echo "tag will be:   v$program"
+          echo "title will be: $program -- $TITLE"
+
+      # The same lines as step 3 of the publish job -- change both.
+      - name: "3. The changelog section, cut out and not written again"
+        run: |
+          awk -v want="## [$VERSION]" \
+              'index($0, want) == 1 {f = 1; next} /^## /{f = 0} f' \
+              CHANGELOG.md > /tmp/notes.md
+          if ! grep -q '[^[:space:]]' /tmp/notes.md; then
+            echo "FAIL: CHANGELOG.md has no section '## [$VERSION]', or"
+            echo "      it is empty -- the cut came to" \
+                 "$(wc -c < /tmp/notes.md | tr -d ' ') bytes."
+            echo "      The release notes are that section and are"
+            echo "      never written a second time, so there is"
+            echo "      nothing to publish until it is there."
+            exit 1
+          fi
+          echo "notes: $(wc -l < /tmp/notes.md | tr -d ' ') lines," \
+               "$(wc -c < /tmp/notes.md | tr -d ' ') bytes"
+
+      # ------------------------------------------------------------
+      # 3b. The roadmap issue names the version that is going out.
+      #
+      # Of the five things a version needs, four are held by something:
+      # the suite by six jobs, the number by six files and a test, the
+      # changelog by the step above, the pictures by a pass that is
+      # repeatable. The fifth -- that the open list and the roadmap are
+      # brought up to date -- was held by a line in a report, and a
+      # report nobody grades holds nothing.
+      #
+      # It has already failed once, and quietly: "Where the program
+      # stands today" said 2.24.0-beta while the program was at
+      # 2.25.0-beta, and it had drifted two releases with nothing
+      # noticing (80f46d5, 1.9.2026).
+      #
+      # So it is asked before the tag, and since 26.9.2026 here and
+      # only here: it stood in the publish job behind the suite, and a
+      # stale issue cost forty minutes of suite before it was found.
+      # The issue can change during the run, but the only edit anybody
+      # makes to it then is the one that brings it up to date -- so a
+      # second asking after the suite would catch nothing and only
+      # carry the same lines twice.
+      - name: "3b. The roadmap issue names this version"
+        run: |
+          body=$(gh issue view "$ROADMAP" --repo "$GITHUB_REPOSITORY" \
+                   --json body --jq .body) || {
+            echo "FAIL: issue #$ROADMAP could not be read. It is the"
+            echo "      roadmap, and this step is the only thing that"
+            echo "      holds it against the program. If the number"
+            echo "      moved, say so here rather than turning the"
+            echo "      check off."
+            exit 1
+          }
+          if ! printf '%s' "$body" | grep -qF "$VERSION"; then
+            echo "FAIL: issue #$ROADMAP does not say $VERSION anywhere."
+            echo "      It names: $(printf '%s' "$body" \
+                 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.-]*' \
+                 | sort -u | tr '\n' ' ')"
+            echo "      The roadmap is what somebody outside reads to"
+            echo "      find out where this is. Bring it up to date and"
+            echo "      dispatch again -- it is two minutes, and it is"
+            echo "      one of the five things a version is."
+            exit 1
+          fi
+          echo "roadmap: issue #$ROADMAP names $VERSION"
+
+      # The same lines as step 4 of the publish job -- change both.
+      # Here so that a number that was not raised stops the run in a
+      # minute; there because a tag can appear in the forty minutes
+      # between, and that step is the last look before one is made.
+      - name: "4. The tag does not exist yet"
+        run: |
+          found=$(git ls-remote --tags origin "refs/tags/$TAG")
+          if [ -n "$found" ]; then
+            echo "FAIL: $TAG is already there:"
+            echo "      $found"
+            echo "      Either this version is out and the number was"
+            echo "      not raised, or a run before this one got as far"
+            echo "      as the tag. Look at the releases page before"
+            echo "      anything is deleted."
+            exit 1
+          fi
+          echo "$TAG is free"
 
   # ------------------------------------------------------------
   # 1. The evidence, if it already exists.
@@ -399,28 +563,7 @@ jobs:
             exit 0
           fi
 
-          # e. The merge changes the version. Only then did the pull
-          # request's checks run every language: why, beside the input
-          # all_languages in tests.yml. Both lines are read at the two
-          # commits; a file or a line that cannot be read is the long way.
-          V=videopodcast_magic/__init__.py
-          if ! gh api "repos/$R/contents/$V?ref=$base" --jq .content \
-                 | base64 -d > /tmp/version_before.py \
-             || ! gh api "repos/$R/contents/$V?ref=$SHA" --jq .content \
-                 | base64 -d > /tmp/version_after.py \
-             || [ ! -s /tmp/version_before.py ] \
-             || [ ! -s /tmp/version_after.py ]; then
-            decide false "$V could not be read at ${base:0:7} and $short, so whether the pull request ran every language cannot be told, and the suite runs here"
-            exit 0
-          fi
-          before=$(grep -m1 '^VERSION = ' /tmp/version_before.py || true)
-          after=$(grep -m1 '^VERSION = ' /tmp/version_after.py || true)
-          echo "version: ${before:-none} -> ${after:-none}"
-          if [ -z "$after" ] || [ "$before" = "$after" ]; then
-            decide false "the tree of $short is the tree of ${head2:0:7} and its $n check runs are green, but the merge leaves the VERSION line of $V as it was (${after:-none}), so the pull request ran English and German only, and the suite runs here in every language"
-            exit 0
-          fi
-          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, none of the $nf files the merge brings in is a file of the speaker separation, and the merge changes the version ($before -> $after), so those checks ran every language -- the suite is not run again"
+          decide true "the tree of $short is the tree of ${head2:0:7}, the head of the pull request it merges, and all $n check runs of that head ($(paste -sd ',' /tmp/wanted.txt | sed 's/,/, /g')) concluded success, and none of the $nf files the merge brings in is a file of the speaker separation -- the suite is not run again; only the language slices run, in every language"
 
   # The suite itself, on this very commit, in this very run -- unless
   # the job above found it has already answered for this very tree.
@@ -451,11 +594,26 @@ jobs:
     # file must be able to see what a release tests without opening
     # the other one.
     #
-    # And every language, not only English and German. Why, and how the
-    # short way gets the same, stands beside all_languages in tests.yml.
+    # And every language, not only English and German. Why, beside
+    # all_languages in tests.yml; the short way gets it from the job
+    # "languages" below.
     with:
       speaker_split: true
       all_languages: true
+
+  # The short way reuses the pull request's checks, and a push tests
+  # English and German only (the owner, 26.9.2026). So what those
+  # checks never ran -- the *_langsN slices, every language but those
+  # two -- runs here, and only that. On the long way the suite above
+  # runs them itself, and this job is skipped.
+  languages:
+    name: "Languages"
+    needs: evidence
+    if: needs.evidence.outputs.tested == 'true'
+    uses: ./.github/workflows/tests.yml
+    with:
+      all_languages: true
+      tests: '*_langs*'
 
   # After the suite, or after the suite was skipped -- and the
   # condition is the whole of the difference, so it is spelled out.
@@ -480,13 +638,15 @@ jobs:
   # its output empty. No tag on any of those.
   publish:
     name: "Publish: the evidence, then the tag"
-    needs: [evidence, tests]
+    needs: [evidence, tests, languages]
     if: >-
       ${{ !cancelled()
           && needs.evidence.result == 'success'
-          && (needs.tests.result == 'success'
+          && ((needs.tests.result == 'success'
+               && needs.languages.result == 'skipped')
               || (needs.tests.result == 'skipped'
-                  && needs.evidence.outputs.tested == 'true')) }}
+                  && needs.evidence.outputs.tested == 'true'
+                  && needs.languages.result == 'success')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -501,9 +661,6 @@ jobs:
       # line. It comes in through the environment, never through
       # ${{ }} inside a run:.
       TITLE: ${{ inputs.title }}
-      # Which issue carries the roadmap. One number, in one place, so
-      # that moving the roadmap is one edit and not a search.
-      ROADMAP: 1
       # The commit this run is about, written down once. Everything
       # below asks about this and about nothing else: the suite's run,
       # the checkout, the tag. A push landing on the branch while this
@@ -564,6 +721,12 @@ jobs:
       # instead. Both files carry exactly one such line (measured
       # 4.9.2026); if a second ever appears, this says so rather than
       # picking one.
+      #
+      # The ready job has asked all of this already, with these very
+      # lines, before the suite. Asked again here not because the
+      # answer could change -- both read the same commit -- but because
+      # this job needs VERSION and TAG for itself, and a read that came
+      # out wrong must stop here rather than become a tag. Change both.
       - name: "2. One version number, and the title built on it"
         run: |
           for pair in "videopodcast_magic/__init__.py:^VERSION = \"" \
@@ -642,6 +805,12 @@ jobs:
       # against the changelog line for line, so an empty body is
       # certainly found there; but it is found hanging on a tag, and
       # that is too late.
+      #
+      # The ready job made the same cut before the suite, so a missing
+      # section stops the run in a minute. Made again here because the
+      # notes file has to lie on the runner that publishes it; the
+      # commit is the same, so the guard is not expected to fire.
+      # Change both.
       - name: "3. The changelog section, cut out and not written again"
         run: |
           awk -v want="## [$VERSION]" \
@@ -659,48 +828,8 @@ jobs:
           echo "notes: $(wc -l < /tmp/notes.md | tr -d ' ') lines," \
                "$(wc -c < /tmp/notes.md | tr -d ' ') bytes"
 
-      # ------------------------------------------------------------
-      # 3b. The roadmap issue names the version that is going out.
-      #
-      # Of the five things a version needs, four are held by something:
-      # the suite by six jobs, the number by six files and a test, the
-      # changelog by the step above, the pictures by a pass that is
-      # repeatable. The fifth -- that the open list and the roadmap are
-      # brought up to date -- was held by a line in a report, and a
-      # report nobody grades holds nothing.
-      #
-      # It has already failed once, and quietly: "Where the program
-      # stands today" said 2.24.0-beta while the program was at
-      # 2.25.0-beta, and it had drifted two releases with nothing
-      # noticing (80f46d5, 1.9.2026).
-      #
-      # So it is asked here, where a wrong answer costs a run and not a
-      # tag. The issue has to say the number BEFORE the tag, the same
-      # way the changelog section does -- both describe a version that
-      # is about to exist, and both are written by hand while the work
-      # is still in the head that did it.
-      - name: "3b. The roadmap issue names this version"
-        run: |
-          body=$(gh issue view "$ROADMAP" --json body --jq .body) || {
-            echo "FAIL: issue #$ROADMAP could not be read. It is the"
-            echo "      roadmap, and this step is the only thing that"
-            echo "      holds it against the program. If the number"
-            echo "      moved, say so here rather than turning the"
-            echo "      check off."
-            exit 1
-          }
-          if ! printf '%s' "$body" | grep -qF "$VERSION"; then
-            echo "FAIL: issue #$ROADMAP does not say $VERSION anywhere."
-            echo "      It names: $(printf '%s' "$body" \
-                 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.-]*' \
-                 | sort -u | tr '\n' ' ')"
-            echo "      The roadmap is what somebody outside reads to"
-            echo "      find out where this is. Bring it up to date and"
-            echo "      dispatch again -- it is two minutes, and it is"
-            echo "      one of the five things a version is."
-            exit 1
-          fi
-          echo "roadmap: issue #$ROADMAP names $VERSION"
+      # 3b, the roadmap issue, is asked in the ready job and only
+      # there -- why, beside it.
 
       # ------------------------------------------------------------
       # 4. The tag does not exist yet.
@@ -713,6 +842,11 @@ jobs:
       # Measured 4.9.2026: git ls-remote returns 0 whether the tag is
       # there or not. The answer is the output, not the exit code, and
       # that is what is looked at.
+      #
+      # Asked in the ready job as well, and here on purpose: the tag
+      # is state outside the commit, the suite takes forty minutes, and
+      # a tag pushed in between is found here, the last look before
+      # one is made. Change both.
       - name: "4. The tag does not exist yet"
         run: |
           found=$(git ls-remote --tags origin "refs/tags/$TAG")

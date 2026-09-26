@@ -9,16 +9,21 @@ The service at auphonic.com processes the assembled audio with a stored
 preset and sends it back as an ordinary audio file. The access goes in
 once, the preset belongs to the single production.
 
-The key is in the Auphonic account settings, or in `AUPHONIC_TOKEN`.
-Never in a file, never in the project file.
+The key is in the Auphonic account settings. The program keeps it in
+one place: the Keychain (macOS), the Registry (Windows), or the
+desktop's keyring (Linux). Never in a file, never in the project file,
+and not in an environment variable.
 
 1. Open **Settings ...** in the footer; the window itself is described
    in [The interface](interface.md).
 2. In the box **Access to auphonic.com** fill in the field **API Key:**
-   (for a run from the command line: `AUPHONIC_TOKEN`).
-3. Optional: tick **Save in Keychain**, which keeps the key in the
-   Keychain (macOS) or in the Registry (Windows). On a Mac the keychain
-   has to be unlocked for that, and the window says so where it is not.
+   (for runs from the command line the key is stored once, as
+   described under *Storing the key without the window* below).
+3. Optional: tick **Save in Keychain** (on Windows **Save in
+   Registry**, on Linux **Keep it saved**), which keeps the key in the
+   Keychain, the Registry or the desktop's keyring. On a Mac the
+   keychain has to be unlocked for that, and the window says so where
+   it is not.
 4. Press **Connect**. It checks the key and fetches the presets.
 
 ![The box for the key](images/settings.png)
@@ -33,13 +38,11 @@ stands in the settings window and in the box on the **Assignment & time
 window** tab alike. It names a missing key as well.
 
 **The line says which key was refused.** Nobody typed anything at
-start-up, so the key came from somewhere, and there can be one in each
-place at once: `AUPHONIC_TOKEN` is read before what the Keychain or the
-Registry holds. The line names the one that went out -- **The key from
-AUPHONIC_TOKEN is not accepted** or **The stored key is not accepted**
--- so the answer is not looked for in the wrong place. After **Connect**
-it is the key in the field, and the line says only what auphonic.com
-replied.
+start-up, so the key came out of the Keychain, the Registry or the
+desktop's keyring, and the line says so -- **The stored key is not
+accepted** -- so the answer is looked for where the key lies. After
+**Connect** it is the key in the field, and the line says only what
+auphonic.com replied.
 
 * On its way to auphonic.com the key never appears in the process list:
   curl reads it from a config file that only its owner can read. The
@@ -56,8 +59,10 @@ where the Keychain does not take it, nothing is stored and the line
 under the key field says why: **The key was not saved: …** -- whether the
 tick was set by hand or the key came with **Connect**. No box has to be
 clicked away first. The tick comes off again with it, so it never
-stands there green over a key that is gone at the next start. The
-Windows Registry path has no such question.
+stands there green over a key that is gone at the next start. On
+Windows the Registry entry is shut to everybody but this user before
+the key goes in, and the key is read back afterwards; where the entry
+cannot be shut, the key is not written at all.
 
 What is stored is the key that was checked, and not what stands in the
 field when the answer comes back. Pasting a second key while the first
@@ -89,31 +94,43 @@ up as an ordinary production, two or more as a multitrack production,
 and the preset has to match: an ordinary preset for the one, a
 multitrack preset for the others.
 
+### Storing the key without the window
+
+Whoever works only on the command line stores the key once with
+
+```text
+$ videopodcast-magic --store-auphonic-key
+Auphonic API key (it is not shown):
+The key is stored, and reading it back gave the same key.
+```
+
+The key is typed where the terminal does not show it, goes into the
+Keychain, the Registry or the desktop's keyring just as the tick above
+does, and is read back. Every later run takes it from there. Where it
+did not hold, the answer is **The key is not stored:** and the reason,
+and nothing typed stores nothing. The key itself is never written after
+the switch: a word there is refused before anything is asked, because it
+would stand in the shell's history. On Linux it goes into the desktop's
+keyring (the Secret Service, through `secret-tool`); where none answers,
+nothing is stored and the answer says so -- see
+[What it needs](requirements.md).
+
 ### The transcript is made here
 
 None of the text comes from auphonic.com. The program listens to the
 finished mix on this machine and writes down every word with the time it
-was said. Three files land in the output folder, named after the
-**Production name**:
-
-* a json with times
-* an srt for subtitles
-* a txt to read
-
-Where the voices have been told apart, the transcript carries their
-names. Where they have not, it carries none: who said a sentence is then
-not known, and a guessed name in a transcript is worse than a gap.
+was said: a json with times, an srt for subtitles and a txt to read, in
+the shape auphonic.com delivers its own.
 
 This costs the processor, not credit. It needs no key, no preset and no
-upload, and a run without Auphonic writes the same three files. How many
-words were heard and how many seconds the listening took stands in the
-log; under the heading **TRANSCRIPT** stand the three paths.
+upload, and a run without Auphonic writes the same three files.
 `--no-transcript-file` leaves the files out -- the words are still heard,
 and the cut still takes its sentence boundaries from them.
 
-Which way the recognition takes on which machine, what it costs there
-and what the text is used for is in [Speech recognition and speaker
-separation](speech.md).
+What stands in each file is in [The three transcript
+files](speech.md#the-three-transcript-files); which way the recognition
+takes on which machine and what it costs there is in the same
+chapter.
 
 ### Working without Auphonic
 

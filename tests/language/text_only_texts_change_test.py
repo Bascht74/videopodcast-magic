@@ -38,17 +38,16 @@ counted pair per kind, and every language is asked it at one and at
 five, so that the count and the list of names still fit into what it
 says.
 
-The switch section really starts the program, twice, on a file that is
-not there: whether --lang is acted on cannot be read off the parser,
-and a wording held against the output would only say what language the
-machine itself is set to.
+The switch section reads the parser in memory; whether --lang is acted
+on cannot be read off the parser, so that half starts the program and
+is text_lang_acted_on's.
 
 What is read as text is read out of every piece of the program, not out
 of the file it starts in: a word looked for in one file goes missing
 the day it moves into another, and a check that asks whether a word is
 gone then passes because the file it read no longer holds it.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -67,7 +66,7 @@ SCRIPT = the_program.SCRIPT
 # looks in the same place and a snapshot run reads the snapshot's own
 # texts.
 TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.po")
-import ast, importlib.util, io, re, shutil, subprocess, tempfile
+import ast, importlib.util, io, re, shutil, tempfile
 import time, tokenize
 
 began = time.time()
@@ -234,65 +233,8 @@ check("without a value: system language", got is None,
 got = ap.parse_args(["--lang", "en"]).lang
 check("with a value it arrives", got == "en",
         "--lang en gives %r, wanted 'en'" % got)
-# Arriving in the parser is not the same as being acted on. A run whose
-# --lang goes nowhere falls back on the system's language, and on a
-# machine set to German that looks exactly right -- which is why the
-# program is really started here, once per language, on a file that is
-# not there so nothing is read and nothing is written. The two runs
-# only have to differ: no wording is held against anything, so this
-# says the same on a German machine and on an English one. Both streams
-# together, because the line that names a missing file goes to stderr
-# and the banner above it is language-free.
-GONE = "/tmp/vpm-no-such-recording.wav"
-# The program looks for ffmpeg before it ever looks at --lang, and where
-# it finds none it offers the package manager -- asked, and only where
-# somebody is there to answer. A question about the language must not
-# reach even that, so the run gets no console to be asked on, and a pip
-# that can neither reach an index nor write outside a virtual
-# environment.
-#
-# The pip half is kept although the program no longer fetches ffmpeg
-# that way. It still fetches numpy and PySide6, and it asks first -- but
-# this seal is what an unasked install would have run into, and it is
-# not theory: an earlier version of these two runs put a wheel of
-# ffmpeg binaries into the system Python. A seal is cheap; taking one
-# away because the hole it covers is closed today is how the hole comes
-# back.
-SEALED = dict(os.environ, VPM_NO_UPDATE_CHECK="1",
-              PIP_NO_INDEX="1", PIP_REQUIRE_VIRTUALENV="1", PIP_NO_INPUT="1")
-SEALED.pop("VPM_INSTALL_TOOLS", None)
-spoken, codes = {}, {}
-for _code in ("de", "en"):
-    try:
-        _r = subprocess.run([sys.executable, SCRIPT, "--lang", _code, GONE],
-                            capture_output=True, stdin=subprocess.DEVNULL,
-                            timeout=300, env=SEALED)
-        spoken[_code] = _r.stdout + _r.stderr
-        codes[_code] = _r.returncode
-    except subprocess.TimeoutExpired:
-        spoken[_code], codes[_code] = b"", "timed out after 300 s"
-# Asked before the judgement under it, and not folded into it: a
-# machine on which the program cannot start at all prints the same
-# thing twice, and that must read as "it did not run" and not as
-# "--lang does nothing".
-fell_over = b"Traceback" in spoken["de"] + spoken["en"]
-check("the program answers on both runs",
-        bool(spoken["de"]) and bool(spoken["en"])
-        and codes["de"] == codes["en"] and not fell_over,
-        "--lang de: %d characters, returned %s; --lang en: %d characters, "
-        "returned %s; a traceback in them: %s"
-        % (len(spoken["de"]), codes["de"], len(spoken["en"]), codes["en"],
-           "yes" if fell_over else "no"))
-apart = ""
-for _a, _b in zip(spoken["de"].splitlines(), spoken["en"].splitlines()):
-    if _a != _b:
-        apart = "%s against %s" % (repr(_a[:36]), repr(_b[:36]))
-        break
-check("--lang is acted on, not only accepted",
-        spoken["de"] != spoken["en"],
-        "--lang de and --lang en print %d and %d characters; first line "
-        "that differs: %s" % (len(spoken["de"]), len(spoken["en"]),
-                              apart or "none -- the two runs are the same"))
+# Arriving is not being acted on. That half starts the program, twice,
+# so it lies in text_lang_acted_on and runs on every system.
 
 print("\n5. Values and labels are separate")
 # One check per constant, each with its name written out. A name built
@@ -704,7 +646,7 @@ bilder dokumente filme musik schreibtisch deutsch
 # German one. A label for readers, not prose in the source.
 NOT_GERMAN = set("""
 also alt ansi antialiasing api ascii backend byte codec codecs cpu ctrl
-eng ext frontend gbr html installation iso lang man marker mpeg multi
+desktops eng ext frontend gbr html installation iso lang man marker mpeg multi
 normal popen programme sei stand std standard systems url urls xml
 """.split())          # technical words a German dictionary happens to know
 

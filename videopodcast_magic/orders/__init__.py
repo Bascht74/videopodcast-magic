@@ -19,6 +19,7 @@ IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIN_SPEECH_TO_SWITCH_S = PROGRAM.MIN_SPEECH_TO_SWITCH_S
 PLATFORMS = PROGRAM.PLATFORMS
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 SILENCE_HOLD_S = PROGRAM.SILENCE_HOLD_S
 SOUND_HOLDS = PROGRAM.SOUND_HOLDS
 SOUND_MIXED = PROGRAM.SOUND_MIXED
@@ -317,7 +318,7 @@ def run_argv(values, assignment_file_path=""):
                     entry["audio_done"] = r["audio_done"]
             tracks.append(entry)
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast-magic %s" % VERSION,
+                "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
                 "production": (values.get("production") or "").strip()
                 or 'Production', "tracks_of": tracks, "cameras": cameras}
         # What the separation heard travels with the assignment. Raw and
@@ -336,7 +337,7 @@ def run_argv(values, assignment_file_path=""):
         # the way the multitrack path sends it, so the run does not spend
         # the minutes twice -- with the cameras, and with the sliders.
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast-magic %s" % VERSION,
+                "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
                 "speakers_of": values["speakers_of"],
                 "voices_of": voices_of_values(values)}
         argv += ["--speakers-from", assignment_file_path]
@@ -465,12 +466,13 @@ class SoundOf(argparse.Action):
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(
-        prog="videopodcast-magic",
-        description="videopodcast-magic %s -- put processed audio into "
-                    "video files as the first audio track" % VERSION)
+        prog=PROGRAM_NAME,
+        description="%s %s -- put processed audio into "
+                    "video files as the first audio track"
+                    % (PROGRAM_NAME, VERSION))
     ap.add_argument("--version", action="version",
-                    version="videopodcast-magic %s   %s"
-                            % (VERSION, python_note()))
+                    version="%s %s   %s"
+                            % (PROGRAM_NAME, VERSION, python_note()))
     ap.add_argument("--lang", choices=languages(), default=None,
                     help="language of the messages (default: the system's)")
     ap.add_argument("files", nargs="*",
@@ -500,13 +502,20 @@ def build_argument_parser():
                          "files; beats --sound. May be given several "
                          "times. The interface sends it for a recording "
                          "set to mixed. (default: none)")
-    # No switch: main() hands the run the window's key or AUPHONIC_TOKEN,
-    # so a parse of its own reads None here.
+    # No switch for the key itself: main() hands the run the window's
+    # key or the stored one, so a parse of its own reads None here.
     ap.set_defaults(auphonic_key=None)
+    ap.add_argument("--store-auphonic-key", dest="store_auphonic_key",
+                    action="store_true", default=False,
+                    help="ask for the Auphonic API key on the terminal, "
+                         "without showing it, store it in the keychain "
+                         "(macOS) or the registry (Windows) and read it "
+                         "back. The key is never given on the command "
+                         "line. (default: off)")
     ap.add_argument("--auphonic-preset", default=None, metavar="NAME",
-                    help="preset name or id. The key comes from "
-                         "AUPHONIC_TOKEN; with it, switches and no files "
-                         "only list the presets. (default: asked for)")
+                    help="preset name or id. The key is the stored one; "
+                         "with it, switches and no files only list the "
+                         "presets. (default: asked for)")
     ap.add_argument("--auphonic-wait", dest="auphonic_wait", type=int,
                     default=7200, metavar="SECONDS",
                     help="how long to wait for Auphonic (default: 7200)")
@@ -632,7 +641,8 @@ def build_argument_parser():
                          "breath rather than an end. Only where "
                          "--on-silence hold-brief asks for it: up to here "
                          "the picture stays, beyond it the wide shot "
-                         "comes. (default: 1.0)")
+                         "comes. The same limit ends --on-uncertain hold, "
+                         "unless there is no wide shot. (default: 1.0)")
     ap.add_argument("--edit-change-delay", dest="delay", type=float,
                     default=0.3, metavar="SECONDS",
                     help="how much later than the audio the picture cuts. "
@@ -655,8 +665,11 @@ def build_argument_parser():
         ap.add_argument("--" + switch, dest=switch.replace("-", "_"),
                         choices=list(values), default=default_value,
                         help="what is shown where the speech does not say "
-                             "it: %s. (default: %s)"
-                             % (", ".join(values), default_value))
+                             "it: %s.%s (default: %s)"
+                             % (", ".join(values), " hold keeps the picture "
+                                "no longer than --silence-hold, unless "
+                                "there is no wide shot." if switch == "on-uncertain" else "",
+                                default_value))
     ap.add_argument("--wide-after", dest="wide_after", type=float,
                     default=WIDE_AFTER_S, metavar="SECONDS",
                     help="from this hold time on, a shot is broken up by "

@@ -189,8 +189,8 @@ msgstr "--update ją atsisiunčia ir įdiegia."
 msgid "The check for new versions is switched off here."
 msgstr "Naujų versijų paieška čia išjungta."
 
-msgid "About Video Podcast Magic"
-msgstr "Apie Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Apie %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Iš vaizdo tinklalaidės neapdorotos medžiagos sukuriamas sumontuotas epizodas: geras garsas iš vaizdo įrašų, kameros vienoje laiko ašyje, pirmasis montažas pagal kalbėtoją ir DaVinci Resolve projektas."
@@ -2373,9 +2373,6 @@ msgstr "Multitrack (po takelį kalbėtojui)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack reikia bent dviejų įvesties takelių. Takelis yra atskiras įrašas, daugiakanalio įrašytuvo kanalas arba vaizdo įrašo failo garsas, kai nustatyta „naudoti vidinį garsą“. Keli to paties įrašo blokai skaičiuojami kaip vienas, atidėti takeliai visai neskaičiuojami."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nėra API rakto. Nustatykite AUPHONIC_TOKEN arba leiskite jį vieną kartą įsiminti sąsajoje. Raktas yra Auphonic paskyros nustatymuose."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Nė vienas garso failas neturi laiko kodo. Pradžios taškas ir pabaigos taškas skaičiuojami nuo medžiagos pradžios -- failų padėtis vienas kito atžvilgiu yra išmatuota."
 
@@ -2598,9 +2595,6 @@ msgstr "Peržiūra neįmanoma: %s"
 msgid "Preview running ..."
 msgstr "Vyksta peržiūra ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Parengiamasis darbas -- garso skaitymas ir gaubtinių skaičiavimas:\n"
-
 msgid "Primaries"
 msgstr "Pirminės spalvos"
 
@@ -2727,9 +2721,6 @@ msgstr "Pirmasis išankstinio nustatymo takelis nustato visų mūsų takelių nu
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Tam reikia vykdymo perdavimo failo, o jo nėra."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Raktą galima saugoti tik Mac ir Windows kompiuteriuose -- Keychain arba registre. Į failą jis nepatenka."
-
 msgid "%s -- being checked"
 msgstr "%s -- tikrinama"
 
@@ -2762,9 +2753,6 @@ msgstr "  Keychain Access atidaryti nepavyko: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Išsaugotas raktas nepriimamas: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Raktas iš AUPHONIC_TOKEN nepriimamas: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Ką atsakė auphonic.com"
@@ -2898,8 +2886,8 @@ msgstr "Vaizdas 1"
 msgid "Video 2"
 msgstr "Vaizdas 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- iš neapdorotos medžiagos sumontuota tinklalaidė"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- iš neapdorotos medžiagos sumontuota tinklalaidė"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Garsumas. 100 yra garsiausia, kiek įmanoma -- daugiau Qt nepriima."
@@ -2958,14 +2946,40 @@ msgstr "Vidurnaktis"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Failas %s turi laiko kodą iš kitos vidurnakčio pusės -- skaičiuojama kaip viena naktis, o ne kaip paros skirtumas."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key po savęs nieko nepriima: raktas klausiamas jo nerodant. "
+"Niekas neišsaugota."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Laiko kodas skaičiuojamas nuo vidurnakčio ir ten prasideda iš naujo. Failai sudedami į vieną ašį prieš ką nors atimant, kitaip įrašas po vidurnakčio atrodytų beveik per dieną nutolęs nuo ankstesniojo. Jei jie iš tikrųjų įrašyti skirtingomis dienomis, sulygiavimas neteisingas ir reikia pasitikėti išmatuotu poslinkiu."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API raktas (nerodomas): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanalas %d pasiekia ribą: atvejų su trimis ar daugiau imčių iš eilės -- %s, ilgiausias %s (%s ms), pirmasis ties %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Skaičiuojama čia, imtis po imties, tokiu dažniu, kokiu failas įrašytas: trijų ar daugiau imčių seka ties didžiausia verte, kurią gali talpinti sveikųjų skaičių formatas. Viena ar dvi yra apvalinimas ir nepranešamos. Kas ten nukirsta, yra prarasta, ir joks apdorojimas to nesugrąžins -- bet įrašas lieka įrašu, ir tai nieko nestabdo. Skaičiuojami tik sveikųjų skaičių formatai. 32 bit float neturi ribos ties pilna skale, todėl ten nėra ko skaičiuoti."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nėra API rakto. Išsaugokite jį vieną kartą sąsajoje arba su "
+"--store-auphonic-key. Raktas yra Auphonic paskyros nustatymuose."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Raktas neįvestas, todėl niekas neišsaugota."
+
+msgid "The key is not stored: %s"
+msgstr "Raktas neišsaugotas: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Raktas išsaugotas, o nuskaičius jį atgal gautas tas pats raktas."
 
 msgid "boxes no longer readable"
 msgstr "box elementai nebeskaitomi"
@@ -3411,8 +3425,8 @@ msgstr "Duomenų perdavimas"
 msgid "Uploading %s tracks"
 msgstr "Takelių įkėlimas: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON failai (*.json);;Visi failai (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON failai (*.json);;Visi failai (*)"
 
 msgid "Wide shot after"
 msgstr "Bendrasis planas anksčiausiai"
@@ -3710,9 +3724,6 @@ msgstr "o čia kerpama, tinkamas momentas ar ne"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Poros griežtoji riba: jei nuo „Bendrasis planas anksčiausiai“ neatsirado sakinio ribos, jos vietą užima ilgiausia kalbos pauzė, o šioje vietoje kerpama, kad ir kas tuo metu būtų sakoma."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Transkripcijos dar nėra. Be jos nerandamas joks klausimas ir nežinoma jokia sakinio riba, todėl šie keturi nustatymai nieko nedaro. Ją įrašo vykdymas, ir nuo tada jie veikia."
 
 msgid "Why the question settings are grey"
 msgstr "Kodėl klausimo nustatymai pilki"
@@ -4271,9 +4282,6 @@ msgstr "Trumpa pauzė iki"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "tiek tyla nekeičia vaizdo"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tik ten, kur „Niekas nekalba“ nustatyta išlaukti trumpą pauzę. Iki tokio ilgio pauzė nieko nekeičia, ilgesnė pereina į bendrąjį planą. Virš dviejų sekundžių vaizdas ima ilgiau nei penkias sekundes rodyti tylintį žmogų."
 
 msgid "Recognition uncertain"
 msgstr "Atpažinimas neaiškus"
@@ -4964,3 +4972,84 @@ msgstr "garsas neatpažintas, vieta nustatyta pagal laiko kodą"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  Įrašų: %s, vaizdo nėra: kiekvienas sujungiamas atskirai, ir jie nederinami vienas prie kito. --multitrack juos padeda ant vienos laiko ašies."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", laikrodžio dreifas %s ppm paliktas: jis nesiekia %s kartų savo %s ppm neapibrėžties"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Be transkripcijos nerandamas joks klausimas ir nežinoma jokia sakinio riba, todėl du klausimo nustatymai ir du bendrojo plano nustatymai, laukiantys sakinio pabaigos, nieko nedaro."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Be transkripcijos nerandamas joks klausimas, todėl du klausimo nustatymai nieko nedaro."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Jos dar nėra: ją įrašo vykdymas, ir nuo tada jie veikia."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Šiam vykdymui kalbos atpažinimas buvo išjungtas. Palikite jį įjungtą, ir kitas vykdymas ją įrašys."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Vykdymas jos neįrašė: kalbos atpažinimas nepavyko arba nieko negirdėjo, o vykdymo žurnalas sako, kuris iš dviejų. Patikrinkite garso kalbą ir paleiskite dar kartą; jei šiame kompiuteryje nėra atpažinimo, jį atneša macOS 26, arba vykdymas įdiegia faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "dirba -- %s min. nėra pranešimų, kompiuteris gali būti apkrautas"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min. jokių pokyčių -- gali būti užstrigęs, patikrinkite"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "paliekamas: %s ppm ar daugiau veikiau yra matavimo klaida"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "paliekamas: nesiekia %s kartų savo neapibrėžties"
+
+msgid "Timing"
+msgstr "Laikas"
+
+msgid "Special cases"
+msgstr "Ypatingi atvejai"
+
+msgid "Transcript"
+msgstr "Transkripcija"
+
+msgid "Writing down what is said ..."
+msgstr "Užrašoma, kas sakoma ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Takelių maišymas transkripcijai"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Ji rašoma fone; nustatymai atsivers patys, kai tik ji bus baigta."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Neatsakė nė vienas Secret Service raktų ryšulys, todėl niekas neišsaugota. Ne Mac ir Windows kompiuteriuose raktas laikomas darbalaukio raktų ryšulyje, per libsecret komandą secret-tool. Į failą jis nepatenka."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Parengiamasis darbas -- garso skaitymas, gaubtinių skaičiavimas ir to, kas sakoma, užrašymas:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Bendrasis planas kraštuose: tik nuo %s -- pradžios planas buvo trumpesnis už trumpiausią kadrą ir įsiliejo į kitą"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Bendrasis planas kraštuose: tik iki %s -- pabaigos planas buvo trumpesnis už trumpiausią kadrą ir įsiliejo į ankstesnį"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Bendrasis planas kraštuose: nėra -- abu buvo trumpesni už trumpiausią kadrą ir įsiliejo į kaimynus"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kur „Niekas nekalba“ nustatyta išlaukti trumpą pauzę, iki tokio ilgio pauzė nieko nekeičia, o ilgesnė pereina į bendrąjį planą. Kur „Atpažinimas neaiškus“ nustatyta į „Kamera nekeičiama“, už tai ilgesnė neaiški atkarpa taip pat pereina į bendrąjį planą. Virš dviejų sekundžių vaizdas ima ilgiau nei penkias sekundes rodyti tylintį žmogų."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s praleistas -- pagal laiko kodą %s nuo kitų blokų, per toli vienam įrašui"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Bendrasis planas kraštuose: visas montažas yra bendrasis planas"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  kiekvienas sutrumpintas iki daugiausia %s -- vienintelis pranešimas trunka nuo %s iki %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s pradžioje neturi vaizdo ir praleidžiama"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s pabaigoje neturi vaizdo ir praleidžiama"

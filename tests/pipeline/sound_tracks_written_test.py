@@ -92,11 +92,12 @@ def write(path, x):
 # pointed at, and checks below look for them.
 D = os.path.join(tempfile.mkdtemp(prefix="vpm_run_"), "tracksinfile")
 os.makedirs(D)
-# A stand-in curl first on the search path, and a made-up key where it
-# watches, so that --without-auphonic has something to hold back.
+# A stand-in curl first on the search path, and a made-up key in a
+# stand-in store where it watches, so --without-auphonic has something
+# to hold back.
 curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
-if WATCHED:
-    ENV["AUPHONIC_TOKEN"] = "not-a-key-only-a-test"
+START = (local_ground.keyed("not-a-key-only-a-test") if WATCHED
+         else [sys.executable, SCRIPT])
 host, guest = voice(TURNS["Host"], 1), voice(TURNS["Guest"], 2)
 bleed = 10 ** (-8.0 / 20)            # under the 3:1 rule on purpose
 noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
@@ -145,7 +146,7 @@ with open(D + "/assign.json", "w", encoding="utf-8") as f:
 def run(out, *extra):
     """One run on this material, and what it printed."""
     p = subprocess.run(
-        [sys.executable, SCRIPT, "--without-auphonic",
+        START + ["--without-auphonic",
          "--no-metrics", "--no-speech-recognition", "--no-transcript-file",
          "--no-wide-edges", "--out", D + "/" + out]
         + [str(x) for x in extra],

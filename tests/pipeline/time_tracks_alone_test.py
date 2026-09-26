@@ -16,9 +16,13 @@ placement rest on that one being answered first.
 The last section puts a track ten milliseconds out on purpose, because
 the run itself never does -- it comes out to a fraction of a
 millisecond, and the straightening then has nothing to straighten.
+The section after it asks how fast they are laid: a drift built in is
+still taken out, and one the fit only imagines -- the interview
+fixture's Presenter, under three times its own uncertainty -- is left
+in, with both numbers said.
 
 Nothing may reach auphonic.com here, and that is watched rather than
-read off the log. Every run carries a made-up key in AUPHONIC_TOKEN,
+read off the log. One run carries a made-up key in a stand-in store,
 so that --without-auphonic has something to hold back, and a stand-in
 curl on the search path writes down every call. Where it cannot be put
 there -- Windows starts no #!/bin/sh file -- the run of its own for
@@ -35,8 +39,10 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
     HERE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import the_program
+import local_ground
 SCRIPT = the_program.SCRIPT
-import subprocess, sys, tempfile, time, wave
+import re, subprocess, sys, tempfile, time, wave
+from fixture_root import fixture
 import numpy as np
 sys.path.insert(0, HERE)
 
@@ -50,13 +56,11 @@ vpm = the_program.load()
 vpm.set_language("en")
 
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
-# A made-up key, and the environment carries it too so that no run of
-# this test ever reaches for the one in the keychain -- not even a copy
-# with the barrier broken.
+# A made-up key, handed to the keyed run through a stand-in store; the
+# others hold none, and VPM_SILENT keeps every run off the real store.
 NOT_A_KEY = "not-a-key-only-a-test"
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
-           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
-           AUPHONIC_TOKEN=NOT_A_KEY)
+           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
 
 began = time.time()
 done = 0
@@ -355,12 +359,13 @@ else:
 
 #--------------------------- 2. The barrier, with something to hold
 
-# A run of its own, with the made-up key in AUPHONIC_TOKEN that every
-# run here carries: --without-auphonic has to hold it back all the same.
+# A run of its own, the made-up key standing in its store:
+# --without-auphonic has to hold it back all the same.
 print("\n2. Even with a key, --without-auphonic lets nothing out")
 if WATCHED:
-    p = subprocess.run(CALL + ["--multitrack", "--out", D + "/keyed",
-                               D + "/Host.wav", D + "/Guest.wav"],
+    p = subprocess.run(local_ground.keyed(NOT_A_KEY) + CALL[2:]
+                       + ["--multitrack", "--out", D + "/keyed",
+                          D + "/Host.wav", D + "/Guest.wav"],
                        capture_output=True, text=True, env=ENV)
     keyed_log = (p.stdout or "") + (p.stderr or "")
     keyed = sorted(f for f in os.listdir(D + "/keyed")) \
@@ -539,6 +544,100 @@ check("an offset of ten milliseconds is taken out, not left standing",
       abs(left) <= 1.0,
       "%+.2f ms still there of the %+.1f put in, allowed 1.00"
       % (left, OUT_MS))
+
+
+#------------------ 7. A drift is taken out only where it stands clear
+
+print("\n7. A clock drift is taken out only where it stands clear")
+# The line the run writes under every track on the axis, one wording for
+# each of the three answers. Read out of the catalogue, never spelt out.
+TAKEN = vpm.T(', clock drift %s ppm taken out').split("%s")
+LEFT = vpm.T(', clock drift %s ppm left in: not %s times its '
+             'uncertainty of %s ppm')
+LEFT_AT = re.compile(re.escape(LEFT.split("%s")[0])
+                     + r"([-+0-9.,]+)" + re.escape(LEFT.split("%s")[1])
+                     + r"([0-9.,]+)" + re.escape(LEFT.split("%s")[2])
+                     + r"([0-9.,]+)")
+WRITING = vpm.T('\nWRITING TRACKS TO THE AXIS').strip()
+
+
+def axis_line(log_text, name):
+    """The line the run wrote under *name* on the axis, or ''.
+
+    The progress bar redraws itself with a carriage return, so the
+    name stands on several lines; the answer is the first after the
+    last of them. Not the first after the first: an ffmpeg without
+    soxr prints its note while the bar stands at 0 %, and the note's
+    second line would be read as the answer.
+    """
+    lines = log_text.splitlines()
+    start = next((i for i, x in enumerate(lines) if WRITING in x), None)
+    lines = lines[start or len(lines):]
+    bars = [i for i, x in enumerate(lines)
+            if x.strip().startswith(name + " [")]
+    after = lines[bars[-1] + 1:bars[-1] + 2] if bars else []
+    return after[0].strip() if after else ""
+
+
+# A clear drift, built in: the second recorder runs DRIFT_PPM fast, and
+# the run has to take it out. Well past what the measurement on this
+# material claims for itself, 30 to 40 ppm (measured 26.9.2026).
+DRIFT_PPM = 500.0
+FAST = D + "/fast"
+os.makedirs(FAST)
+guest_part = GUEST[int(LATE * RATE):int((LENGTH - STOP) * RATE)]
+read_at = np.arange(len(guest_part)) * (1.0 + DRIFT_PPM * 1e-6)
+read_at = read_at[read_at < len(guest_part) - 1]
+write(FAST + "/Host.wav", HOST)
+write(FAST + "/Guest.wav",
+      np.interp(read_at, np.arange(len(guest_part)), guest_part))
+p = subprocess.run(CALL + ["--multitrack", "--dry-run", "--out",
+                           FAST + "/run", FAST + "/Host.wav",
+                           FAST + "/Guest.wav"],
+                   capture_output=True, text=True, env=ENV)
+said = axis_line((p.stdout or "") + (p.stderr or ""), "Guest")
+print("   %s" % said)
+check("a drift built in at 500 ppm is still taken out",
+      TAKEN[0] in said and TAKEN[1] in said,
+      "the Guest's line on the axis reads %r" % said)
+
+# The interview fixture's Presenter speaks four times, and its fit sees a
+# drift that is not there: +67.6 ppm with +/- 40 (measured 26.9.2026).
+# That is under three times its own uncertainty, and has to stay in.
+INTERVIEW = fixture("interview")
+MEDIA = sorted(os.path.join(INTERVIEW, f) for f in os.listdir(INTERVIEW)
+               if f.endswith((".wav", ".mov"))) \
+    if os.path.isdir(INTERVIEW) else []
+p = subprocess.run(CALL + ["--dry-run", "--out", D + "/interview"] + MEDIA,
+                   capture_output=True, text=True, env=ENV)
+log = (p.stdout or "") + (p.stderr or "")
+said = axis_line(log, "Presenter")
+print("   %s" % said)
+found = LEFT_AT.search(said)
+check("a drift under three times its uncertainty is left in",
+      found is not None and TAKEN[1] not in said,
+      "%d files of the interview fixture, the Presenter's line on the "
+      "axis reads %r" % (len(MEDIA), said))
+# What the time axis block measured for it, two decimals, against what
+# the axis line says it left in, one: the same two numbers, rounded.
+MEASURED = vpm.T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
+                 'residual spread %s ms, %s of %s points%s')
+MEASURED_AT = re.compile(
+    re.escape(MEASURED.split("%s")[1]) + r"([-+0-9.,]+)"
+    + re.escape(MEASURED.split("%s")[2]) + r"([0-9.,]+)"
+    + re.escape(MEASURED.split("%s")[3]))
+measured = [MEASURED_AT.search(x) for x in log.splitlines()
+            if x.strip().startswith("Presenter ")]
+measured = [float(x.replace(",", "")) for m in measured if m
+            for x in m.groups()]
+numbers = [float(x.replace(",", "")) for x in found.groups()] \
+    if found else []
+check("and the line says the drift and the uncertainty it fell short of",
+      len(numbers) == 3 and len(measured) == 2
+      and abs(numbers[0] - measured[0]) <= 0.051
+      and abs(numbers[2] - measured[1]) <= 0.051,
+      "the axis line says %s, the time axis measured %s: %r"
+      % (numbers, measured, said))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

@@ -149,7 +149,11 @@ if blank:
     print("\n%d checks in %.2f s" % (done, time.time() - began))
     sys.exit(0)
 
-ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
+# The zero of the axis, as a value: the wide shot's clock as fixtures.sh
+# builds it, 18:55:00:00 at 25 fps. Taken from file_timecode it moved
+# with that function, and a clock read a second late on every camera
+# moved the axis along with it and parted nothing.
+ZERO = 68100.0
 # The material's own clocks, held against the places above. Every way
 # below walks from one of the two, and a fixture rebuilt to other times
 # would part them without anything saying so: the spread reported then
@@ -158,8 +162,10 @@ off_by = {os.path.basename(p): round(stamp[p] - ZERO - MEASURED[p], 4)
           for p in (WIDE, MOD, KAND)}
 check("the fixture's clocks are the places this test was written for",
       not [v for v in off_by.values() if abs(v) > FRAME],
-      "each camera's clock less the axis, less what this test measures "
-      "for it: %s -- rebuild with tests/fixtures.sh" % (off_by,))
+      "each camera's clock read by file_timecode, less the axis at %.2f "
+      "s, less what this test measures for it: %s -- a fixture rebuilt "
+      "to other times (tests/fixtures.sh), or the clocks read wrong"
+      % (ZERO, off_by))
 
 
 def stamp_of(cam):
@@ -533,6 +539,10 @@ def walk_every_way(r):
     for e in moments:
         t = float(e["start"])
         camera = e["camera"]
+        # A camera the handover does not know leads nowhere on the ways
+        # that ask it, rather than ending the file in a KeyError before
+        # "every cut entry names a camera the handover knows" can say so.
+        cam = r.by_camera.get(camera)
         x = r.resolve_at(t)
         ways = [
             ("handover start_s + t", r.start_s + t),
@@ -541,15 +551,15 @@ def walk_every_way(r):
             ("cameracut.csv",
              r.csv_row_at(r.cut_csv, "Start TC", r.start_s + t)),
             ("file time, stored offset",
-             r.file_position(camera, t, r.by_camera[camera].get("offset"))),
+             r.file_position(camera, t, (cam or {}).get("offset"))),
             ("file time, camera_offset()",
              r.file_position(camera, t,
-                             r.player_offset.get(r.track_of[camera]))),
+                             r.player_offset.get(r.track_of.get(camera)))),
             ("Resolve recordFrame",
              None if x is None else float(x["recordFrame"]) / r.fps_r),
             ("Resolve startFrame in the file",
-             None if x is None else
-             (stamp_of(r.by_camera[camera]) or 0.0)
+             None if x is None or cam is None else
+             (stamp_of(cam) or 0.0)
              + float(x["startFrame"]) / r.own_rate(camera)),
         ]
         lost += agree("%s: the shot on %s at %.3f s" % (r.name, camera, t),
@@ -569,11 +579,13 @@ def walk_every_way(r):
              r.csv_row_at(r.spk_csv, "Start TC", r.start_s + t)),
             ("file time, stored offset",
              r.file_position(on_screen, t,
-                             r.by_camera[on_screen].get("offset"))
+                             (r.by_camera.get(on_screen) or {})
+                             .get("offset"))
              if on_screen else None),
             ("file time, camera_offset()",
              r.file_position(on_screen, t,
-                             r.player_offset.get(r.track_of[on_screen]))
+                             r.player_offset.get(
+                                 r.track_of.get(on_screen)))
              if on_screen else None),
             ("Resolve recordFrame of that shot",
              None if x is None else
@@ -1024,7 +1036,11 @@ check("the two name spaces really differ here (a camera carries a "
       "%s vs %s" % (names, track_names))
 check("every cut entry names a camera the handover knows",
       all(e["camera"] in open_run.by_camera for e in d["cut"]),
-      str(sorted({e["camera"] for e in d["cut"]} - set(names))))
+      "%d of %d cameras the cut names are unknown: %s -- the handover "
+      "knows %s" % (len({e["camera"] for e in d["cut"]} - set(names)),
+                    len({e["camera"] for e in d["cut"]}),
+                    sorted({e["camera"] for e in d["cut"]} - set(names)),
+                    sorted(names)))
 check("no cut entry names a track by mistake",
       not ({e["camera"] for e in d["cut"]} & (set(track_names) - set(names))),
       str({e["camera"] for e in d["cut"]} & set(track_names)))

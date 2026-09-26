@@ -207,6 +207,14 @@ Aufnahmen gleichen Namens sind dagegen eine Frage und keine Weigerung --
 sie sollen zu einer Spur werden, nach Timecode hintereinandergelegt
 ([Multitrack](multitrack.de.md)).
 
+Ein Lauf von der Kommandozeile hält sich an dieselbe Regel. Gibt die
+Trennung, die er mitbekommt -- in der Zuordnungsdatei des Fensters oder
+über `--speakers-from` --, einer Stimme einen Namen, den schon ein
+anderer Sprecher trägt, bricht der Lauf ab, bevor irgendetwas
+geschrieben ist, mit `Abbruch:` und demselben Satz, den das Fenster
+zeigt. Eine Trennung, die der Lauf erst unterwegs selbst rechnet, wird
+vorher nicht geprüft: ihre Namen kennt dann noch niemand.
+
 Sobald die Worte aufgeschrieben sind, werden aus diesen Namen
 Vorschläge, die etwas sagen. Wer fragt und wer antwortet, lässt sich am
 Gesprochenen ablesen: das Programm zählt für jede Stimme im Zeitfenster,
@@ -329,8 +337,9 @@ gesetzt wurde. Der Knopf in einer anderen Zeile verwirft sie und zählt
 neu.
 
 Beides liegt im Ablageordner des Systems, neben den Hüllkurven
-(`~/Library/Caches/videopodcast-magic/`, unter Windows
-`%LOCALAPPDATA%`), in `words/` und `speakers/`. Eine aus mehreren
+(`~/Library/Caches/videopodcast-magic/`, unter Windows unter
+`%LOCALAPPDATA%`, unter Linux unter `~/.cache`), in `words/` und
+`speakers/`. Eine aus mehreren
 Mikrofonen zusammengelegte Aufnahme liegt ebenfalls in `speakers/`,
 unter einem Namen aus den Aufnahmen, die in ihr stecken -- dasselbe
 Material findet sie also wieder, statt sie ein zweites Mal zu bauen.
@@ -455,6 +464,50 @@ Fenster und der Lauf hören verschiedenes ab -- das Fenster die
 Aufnahme, der Lauf den Mix, den er daraus gemacht hat -- also zahlt
 jeder von beiden einmal.
 
+### Die drei Dateien des Transkripts
+
+Was gehört wurde, landet neben dem Ergebnis im Ausgabeordner, in drei
+Dateien, benannt nach dem **Namen der Produktion**: `<Name>.json`,
+`<Name>.srt` und `<Name>.txt`. Das Protokoll nennt ihre Pfade unter
+der Überschrift `TRANSKRIPT`, und darüber, wie viele Wörter gehört
+wurden und wie viele davon einer Stimme, zweien oder einer Lücke
+zwischen den Stimmen zufielen.
+
+* **Die json-Datei** hält für jede Strecke einer Stimme eine Passage:
+  wann sie anfängt und endet, den Text am Stück, den Sprecher, und je
+  Wort eine Zeile mit eigenem Anfang und Ende. Das ist die Form, die
+  auphonic.com neben eine Datei legt; was die eine liest, liest auch
+  die andere. Die vierte Spalte einer Wortzeile bleibt leer, denn keine
+  der beiden Erkennungen hier sagt, wie sicher sie war.
+* **Die srt-Datei** hält Untertitel. Ein Untertitel trägt nie zwei
+  Stimmen, steht höchstens sieben Sekunden und endet an einem Punkt,
+  wo immer der Satz hineinpasst. Seine Zeilen sind höchstens 42
+  Zeichen lang, zwei je Untertitel; wo die Stimme wechselt, steht der
+  Name des Sprechers in Großbuchstaben davor, und er zählt zu diesen
+  zwei Zeilen.
+* **Die txt-Datei** ist zum Lesen: ein Absatz je Passage, davor der
+  Name des Sprechers und ein Doppelpunkt, 76 Zeichen je Zeile, ohne
+  Zeiten.
+
+Die Zeiten zählen auf der Zeitachse des Ergebnisses, in denselben
+Sekunden wie die Kameradateien -- nicht ab dem Anfang der Aufnahme, aus
+der die Wörter stammen.
+
+Sind die Stimmen auseinandergehalten worden, trägt jede Passage den
+Namen ihres Sprechers. Sind sie es nicht, tragen die Dateien keine
+Namen, und das Protokoll sagt `ohne Namen -- es wurde niemand getrennt`:
+dann ist nicht bekannt, wer einen Satz gesagt hat, und ein geratener
+Name ist schlimmer als eine Lücke.
+
+**Die Sprache vor dem Lauf setzen.** Die Erkennung hört auf die Sprache
+in **Sprache im Ton**; ist keine gesetzt, nimmt macOS die Systemsprache.
+Ein englisches Gespräch, als deutsches gehört, kommt mit deutschen
+Wörtern mittendrin zurück -- aus „ten“ wird „zehn“.
+
+Keine Dateien entstehen beim Projekttyp **Nur synchronisieren**, mit
+`--no-speech-recognition`, mit `--no-transcript-file`, wo kein einziges
+Wort gehört wurde, und im Probelauf, der misst und nichts schreibt.
+
 ### Wofür der Text gebraucht wird
 
 Der Text liefert die Satz- und Teilsatzgrenzen für den Kameraschnitt,
@@ -508,6 +561,9 @@ Diese Optionen gibt es im Fenster nicht.
   auseinander, gleich was sonst danach verlangt.
 * `--no-speech-recognition` lässt den Text weg.
 * `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: keine Spalte **Sprecher**,
-  kein Knopf, und die Trennung startet nie von selbst.
+  kein Knopf, und die Trennung startet nie von selbst. Auch die
+  Niederschrift schreibt das Fenster dann nicht im Hintergrund; die vier
+  Einstellungen des Kameraschnitts, die die Wörter brauchen, warten
+  dann auf einen Lauf.
 * `--project-type sync` schaltet alles davon auf einmal ab: keine
   Trennung, keine Erkennung, kein Transkript, kein Schnitt.

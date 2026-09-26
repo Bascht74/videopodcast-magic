@@ -91,8 +91,8 @@ msgstr "稍后"
 msgid "Go back"
 msgstr "返回"
 
-msgid "About Video Podcast Magic"
-msgstr "关于 Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "关于 %(name)s"
 
 msgid "&File"
 msgstr "文件(&F)"
@@ -431,9 +431,6 @@ msgstr "播放与暂停。"
 
 msgid "Preview running ..."
 msgstr "预览进行中 ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "前期处理——读取音频并计算包络：\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "在 auphonic.com 上处理（可选）"
@@ -1104,14 +1101,8 @@ msgstr "不同的音轨名称"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  已有同名的制作"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "来自 AUPHONIC_TOKEN 的密钥未被接受：%s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "已保存的密钥未被接受：%s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "没有 API 密钥。请设置 AUPHONIC_TOKEN，或在界面中保存一次。密钥位于 Auphonic 账户设置中。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "账户中没有保存任何预设。可在网页界面中创建一个。"
@@ -1553,9 +1544,6 @@ msgstr "  %s：无法确定其声道数（%s）——不予测量"
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "没有哪台摄像机不带说话人，所以没有全景：全景的四项设置和首尾勾选都不起作用。请把某台摄像机的“类型”设为“全景”，或留一台不分配说话人。"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "还没有转录文本。没有它就找不到提问，也不知道句子边界，因此这四项设置不起作用。一次运行会写出它，此后这些设置即生效。"
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  提问：没有转录文本，因此未找到提问，也没有进行反应镜头切换。\n        转录文字是在运行中从完成的混音里\n        写出的；没有它们，此设置不起作用。"
@@ -3083,8 +3071,8 @@ msgstr "这些文件已不存在：\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  项目文件无法写入（%s）\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON 文件 (*.json);;所有文件 (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON 文件 (*.json);;所有文件 (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "此交接文件没有帧率，因此无法据此构建 Timeline。请重新运行一次。"
@@ -3677,9 +3665,6 @@ msgstr "通过包管理器：apt install ffmpeg、dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "此 ffmpeg 没有 soxr：摄像机之间的时钟漂移将以 21 ppm 而非 0.21 的步长校正。"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "密钥只能在 Mac 和 Windows 上保存 -- 存入钥匙串或注册表。它不会写入文件。"
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org 提供 Windows 版本。随后须将含 ffmpeg.exe 的文件夹加入 PATH，或把文件放在本程序旁边。"
 
@@ -4067,8 +4052,8 @@ msgstr "没有可用的声音——请把某个视频文件的摄像机声音设
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "正片：与其他一样的一台摄像机。\n全景：前面没有人坐的摄像机——它不对应任何说话人，在停顿和长时间独白时剪辑会切到它。\n片头和片尾是成品片段——不对齐、不处理，只放入 Timeline。\n忽略视频：该文件完全不使用。"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s——把原始素材变成剪辑好的播客"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s——把原始素材变成剪辑好的播客"
 
 msgid "The work can be written to a project file first."
 msgstr "可以先把工作写入项目文件。"
@@ -4620,9 +4605,6 @@ msgstr "更短的镜头会并入下一个镜头。"
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "一声简短的“是”不会让画面切换。没有这项设置，半秒钟的一段话就会把镜头拉过去，而最短镜头时长会让它在那里停留好几秒。"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "仅当“无人说话”设为保持短暂停顿时生效。不超过此长度的停顿不改变任何东西，更长的则切到全景。此值超过两秒时，画面会开始在一个沉默的人身上停留五秒以上。"
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 恒定亮度"
 
@@ -4668,14 +4650,30 @@ msgstr "%s 与素材中的任何部分都不匹配，且由声音放置的摄像
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s 与素材中的任何部分都不匹配，且由声音放置的摄像机中没有一台带有可供对照的时间码；片头已被占用：已排除。"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr "--store-auphonic-key 后面不接任何内容：密钥会以不显示的方式询问。未保存任何内容。"
+
 msgid "API Key:"
 msgstr "API Key："
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API 密钥（不会显示）： "
 
 msgid "In point"
 msgstr "入点"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "已排除；%s 或 %s 只需点击一下。"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr "没有 API 密钥。请在界面中保存一次，或使用 --store-auphonic-key 保存。密钥位于 Auphonic 账户设置中。"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "没有输入密钥，因此未保存任何内容。"
 
 msgid "Out point"
 msgstr "出点"
@@ -4685,6 +4683,12 @@ msgstr "预设："
 
 msgid "Registry"
 msgstr "注册表"
+
+msgid "The key is not stored: %s"
+msgstr "密钥未保存：%s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "密钥已保存，读回后得到的是同一个密钥。"
 
 msgid "VIDEO"
 msgstr "视频"
@@ -4875,3 +4879,84 @@ msgstr "未识别出声音，按其时间码放置"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s 个录音且没有画面：每个单独拼接，彼此之间不对齐。--multitrack 会把它们放到同一时间轴上。"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "，保留 %s ppm 的时钟漂移：未达到其不确定度的 %s 倍（不确定度 %s ppm）"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "没有转录文本就找不到提问，也不知道句子边界，因此提问的两项设置和等待句子结束的两项全景设置都不起作用。"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "没有转录文本就找不到提问，因此提问的两项设置不起作用。"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "还没有：一次运行会写出它，此后这些设置即生效。"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "本次运行关闭了语音识别。保持开启，下一次运行就会写出一份。"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "本次运行没有写出转录文本：语音识别失败或什么也没听到，运行日志会说明是哪一种。请检查声音语言后再次运行；如果这台机器没有语音识别，macOS 26 自带一个，或者运行会安装 faster-whisper。"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "正在工作——已有 %s 分钟没有消息，计算机可能很忙"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "已有 %s 分钟没有变化——可能卡住了，请检查"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "保留不动：%s ppm 或以上更可能是测量误差"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "保留不动：未达到其不确定度的 %s 倍"
+
+msgid "Timing"
+msgstr "时间"
+
+msgid "Special cases"
+msgstr "特殊情况"
+
+msgid "Transcript"
+msgstr "转录"
+
+msgid "Writing down what is said ..."
+msgstr "正在写下所说的话 ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "正在为转录混合音轨"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "正在后台转录；完成后这些设置会自动开放。"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "没有 Secret Service 密钥环应答，因此什么也没有保存。在 Mac 和 Windows 以外，密钥通过 libsecret 的 secret-tool 命令保存在桌面的密钥环中。它不会写入文件。"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "前期处理——读取音频、计算包络并写下所说的话：\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  首尾全景：仅自 %s 起 -- 开头的比最短镜头还短，已并入下一个"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  首尾全景：仅至 %s -- 结尾的比最短镜头还短，已并入前一个"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  首尾全景：无 -- 两者都比最短镜头还短，已并入各自相邻的镜头"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "当“无人说话”设为保持短暂停顿时，不超过此长度的停顿不改变任何东西，更长的则切到全景。当“识别不确定”设为“不切换镜头”时，比此更长的不确定片段也会切到全景。此值超过两秒时，画面会开始在一个沉默的人身上停留五秒以上。"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  已略去 %s -- 按时间码与其他片段相距 %s，相距太远，不可能是同一段录音"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  首尾全景：整个剪辑都是全景"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  每段最多缩短到 %s -- 唯一一段发言从 %s 到 %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s：开头 %s 没有画面，不予保留"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s：结尾 %s 没有画面，不予保留"

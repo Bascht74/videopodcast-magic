@@ -157,14 +157,15 @@ for folding in (False, True):
 FOLD[0] = False
 print("\n3. The dictionaries that hold files are of that kind")
 HOLD_FILES = [
-    ("gui", "blocks_of"), ("gui", "recording_of"), ("gui", "join_to"),
-    ("gui", "channel_choice"), ("gui", "channel_node"),
-    ("gui", "video_kind_again"), ("gui", "split_files"),
+    ("ProjectModel", "blocks_of"), ("ProjectModel", "recording_of"),
+    ("ProjectModel", "join_to"), ("ProjectModel", "channel_choice"),
+    ("FilesSheet", "channel_node"),
+    ("gui", "video_kind_again"), ("ProjectModel", "split_files"),
     ("gui", "lines_node"), ("gui", "prework_node"),
-    ("gui", "prework_pending"), ("gui", "tree_open"),
-    ("gui", "clip_kind_values"), ("gui", "audio_use_values"),
-    ("gui", "suggestions"), ("gui", "piece_label"),
-    ("gui", "own_audio_names"),
+    ("gui", "prework_pending"), ("AssignmentTable", "tree_open"),
+    ("ProjectModel", "clip_kinds"), ("ProjectModel", "audio_use"),
+    ("AssignmentTable", "suggestions"), ("AssignmentTable", "piece_label"),
+    ("AssignmentTable", "own_audio_names"),
     ("distribute_tracks_to_cameras", "after_camera"),
     ("distribute_tracks_to_cameras", "camera_mix"),
     ("speakers_all_from_project", "out"),
@@ -177,13 +178,18 @@ HOLD_FILES = [
     ("plan_from_camera_audio", "named"),
     ("voice_names_by_source", "out"),
 ]
-HOLD_FILES_SET = [("gui", "no_join"),
+HOLD_FILES_SET = [("ProjectModel", "no_join"),
                   ("group_recording_parts", "apart")]
 # Every piece of the program: the window is one of its own, and half
 # the dictionaries this section is about are built inside it.
 where = {}
 for _piece, _body in the_program.pieces():
-    for node in ast.walk(ast.parse(_body)):
+    _tree = ast.parse(_body)
+    # self.<name> in a method counts under its class: the production's
+    # own dictionaries are built in ProjectModel, not in a function.
+    _owner = {m: c.name for c in ast.walk(_tree)
+              if isinstance(c, ast.ClassDef) for m in c.body}
+    for node in ast.walk(_tree):
         if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             continue
         for st in ast.walk(node):
@@ -200,6 +206,11 @@ for _piece, _body in the_program.pieces():
             for name, value in pairs:
                 if isinstance(name, ast.Name):
                     where.setdefault((node.name, name.id), []).append(value)
+                elif (node in _owner and isinstance(name, ast.Attribute)
+                      and isinstance(name.value, ast.Name)
+                      and name.value.id == "self"):
+                    where.setdefault((_owner[node], name.attr),
+                                     []).append(value)
 
 
 def made_by(pair, wanted):

@@ -13,6 +13,8 @@ carries two and the installed packages fit only one of them.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
+FROZEN_NAME = PROGRAM.FROZEN_NAME
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 T = PROGRAM.T
 VERSION = PROGRAM.VERSION
 ctypes = PROGRAM.ctypes
@@ -28,8 +30,9 @@ subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 
 # pip's name in bin/ and the name under the icon, deliberately the same.
-COMMAND = "videopodcast-magic"
-IDENTIFIER = "com.github.bascht74.videopodcast-magic"
+COMMAND = PROGRAM_NAME
+# What macOS files the bundle's permissions under: the frozen name.
+IDENTIFIER = "com.github.bascht74." + FROZEN_NAME
 SAYS = "Raw material from a video podcast becomes an edited episode"
 
 # What is written down between two starts: the path that was laid, not
@@ -96,6 +99,7 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if stands:
         run_as = _lay_again_as(where, system, run_as)
     if stands and not run_as:
+        _retire_older(where, system, kept)
         # Written down although nothing was laid: reset settings
         # would otherwise hold a working entry and no note.
         if write_down is not None and kept.get(KEPT) != where:
@@ -121,6 +125,7 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if why:
         return Laid(where, False,
                     T('No shortcut to this program was made: %s') % why)
+    _retire_older(where, system, kept)
     if write_down is not None:
         write_down(KEPT, where)
     return Laid(where, True,
@@ -142,6 +147,74 @@ def _write_it(where, target, png, root, system, run_as=""):
     if not os.path.exists(where):
         return T('it was written and was not there afterwards')
     return ""
+
+
+def _retire_older(where, system, kept):
+    """Take away what this program laid under a name it no longer has.
+
+    Looked for only where the path written down is not today's -- after
+    a rename, or with nothing written down -- so an ordinary start reads
+    nothing more. Never raises: nothing in here may stop a start.
+    """
+    if kept.get(KEPT) == where:
+        return
+    try:
+        for old in _older_entries(where, system):
+            if os.path.isdir(old):
+                shutil.rmtree(old)
+            else:
+                os.remove(old)
+            log_aside("shortcut -- taken away, laid under an earlier "
+                      "name: %s" % old)
+    except Exception as e:
+        log_aside("shortcut -- an older entry stays: %s" % e)
+
+
+def _older_entries(where, system):
+    """Entries beside *where* that carry the frozen line.
+
+    A bundle carries it in its runner, a .desktop file in itself. A .lnk
+    carries none, and one written before the line came in neither: both
+    are left alone, since nothing says they are ours.
+    """
+    if system == "darwin":
+        ending, ours = ".app", _written_by_us
+    elif system == "nt":
+        return []
+    else:
+        ending, ours = ".desktop", _marked
+    folder = os.path.dirname(where)
+    found = []
+    for name in sorted(os.listdir(folder)):
+        path = os.path.join(folder, name)
+        if name.endswith(ending) and path != where \
+                and not os.path.islink(path) and ours(path):
+            found.append(path)
+    return found
+
+
+def _written_by_us(bundle):
+    """Whether a runner inside that bundle carries WRITTEN_BY.
+
+    Asked of every runner, since the old one is named after the old
+    name.
+    """
+    macos = os.path.join(bundle, "Contents", "MacOS")
+    if not os.path.isdir(macos):
+        return False
+    return any(_marked(os.path.join(macos, name))
+               for name in os.listdir(macos))
+
+
+def _marked(path):
+    """Whether that one file carries WRITTEN_BY.
+
+    Big files are passed over: ours is a few lines of text.
+    """
+    if not os.path.isfile(path) or os.path.getsize(path) > 8192:
+        return False
+    with open(path, encoding="utf-8", errors="replace") as f:
+        return WRITTEN_BY in f.read()
 
 
 def _starter_or_nothing():
@@ -391,9 +464,10 @@ def _out_of_launcher(where):
 # nothing to ask with, and the Dock's choice stands.
 ARCH_TOOL = "/usr/bin/arch"
 
-# The line that says a runner inside an entry is this program's own.
-# Written into every one, and the only thing that may be laid again.
-WRITTEN_BY = "# Written by videopodcast-magic."
+# The line that says an entry is this program's own: in a bundle's
+# runner, and in a .desktop file. Only such an entry may be laid again.
+# Frozen: after a rename the old entries must still be recognised.
+WRITTEN_BY = "# Written by %s." % FROZEN_NAME
 
 # What a Mach-O header calls a processor, under the names ARCH_TOOL
 # takes. A file names one of these per architecture it carries.
@@ -728,7 +802,7 @@ def _link(where, target, png, root):
     if png:
         # The same roaming folder the settings file is in, reached the
         # way place() reaches it: two answers would be one too many.
-        folder = os.path.join(_roaming(root), COMMAND)
+        folder = os.path.join(_roaming(root), FROZEN_NAME)
         os.makedirs(folder, exist_ok=True)
         icon = os.path.join(folder, COMMAND + ".ico")
         if not _ico(icon, png):
@@ -805,10 +879,12 @@ def _launcher(where, target, png, root):
 
     The icon is named by a bare name and the file put where the icon
     theme looks for that name. That is the way round the standard asks
-    for, and the only one that survives a theme or scale change.
+    for, and the only one that survives a theme or scale change. Its
+    first line is WRITTEN_BY, so that a rename can find it again.
     """
     icon = _theme_icon(png, root)
     lines = [
+        WRITTEN_BY,
         "[Desktop Entry]",
         "Type=Application",
         "Version=1.0",

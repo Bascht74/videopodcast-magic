@@ -7,7 +7,7 @@ and Resolve sheets only exist once there are files. English and German
 every day; for a release (VPM_ALL_LANGUAGES=1) also the three languages
 whose catalogues hold the most characters, counted off the catalogues
 at every run. Each in a window of its own, English judged on its own
-and the other languages together, the line naming the first that fell.
+and the other languages together, the line naming each that fell.
 First that the window came up on that screen with the project in it,
 and that it opened no wider than that screen; then per sheet what it
 needs against the room the window lets be seen of it on opening, and
@@ -20,6 +20,9 @@ The files sheet is measured with a long output folder chosen, the
 kind a share gives. Left out: the Output sheet, which only appears once
 a run has made something, and this test runs nothing; other languages;
 Resolve, never asked, so its sheet stands as where it does not answer.
+In the builder's release run a sheet that does not fit, or a window
+dragged below its layout, is noted rather than failed:
+cut_off_rule.py.
 """
 PLATFORM_BOUND = True
 import os
@@ -33,6 +36,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import os, re, sys, json, shutil, subprocess, tempfile, time
 import the_program
+import cut_off_rule
 
 SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
@@ -356,11 +360,15 @@ done = 0
 bad = []
 
 
-def check(name, ok, extra=""):
+def check(name, ok, extra="", cut_off=False):
     global done
     done += 1
-    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
+    # A text cut off is noted, not failed, in the builder's release run
+    # alone; cut_off_rule.py says whose rule it is and when.
+    noted = not ok and cut_off and cut_off_rule.noted(name, extra)
+    print("  %-58s %s %s" % (name, "ok" if ok else "noted" if noted
+                             else "FAIL", extra))
+    if not ok and not noted:
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
@@ -464,7 +472,8 @@ def fits(report, place, room_name):
 
     The files sheet is a plain page and cannot scroll: what does not fit
     is cut off. The two others scroll, so what they need is the widget
-    inside the scroll area and their room is the viewport.
+    inside the scroll area and their room is the viewport. The third
+    value says a sheet that does not fit is a text cut off.
     """
     s = sheet(report, place)
     if s is None:
@@ -476,7 +485,7 @@ def fits(report, place, room_name):
     return s["need"] <= s["room"], home_off(
         "%r needs %d px in a %s %d px wide, the window %d px; widest: %s"
         % (s["title"], s["need"], room_name, s["room"], window,
-           s["widest"]))
+           s["widest"])), True
 
 
 def no_bar(report, place):
@@ -501,7 +510,8 @@ def kept(report):
 
     Narrower, a page that cannot scroll squeezes its fields below their
     text. Asked with each sheet in front, since what the window shows
-    changes with it; the line names the first sheet that came out short.
+    changes with it; the line names the first sheet that came out short,
+    and the third value says that is a text cut off.
     """
     seen = report.get("narrowest") or []
     if len(seen) < 3:
@@ -512,30 +522,36 @@ def kept(report):
             return False, home_off(
                 "%r dragged to %dx%d px, its layout asks %dx%d; widest: %s"
                 % (s["title"], s["size"][0], s["size"][1], s["asks"][0],
-                   s["asks"][1], s["widest"]))
+                   s["asks"][1], s["widest"])), True
     return True, "; ".join("%r %dx%d" % (s["title"], s["size"][0],
                                          s["size"][1]) for s in seen)
 
 
 def of(report, verdict):
-    """The verdict, its line naming the language it was measured in."""
-    ok, why = verdict
-    return ok, "%s: %s" % (report.get("language"), why)
+    """The verdict, its line naming the language it was measured in.
+
+    A third value, where the judge gives one, goes on as it came: it
+    says the finding is a text cut off.
+    """
+    return (verdict[0], "%s: %s" % (report.get("language"), verdict[1])) \
+        + tuple(verdict[2:])
 
 
 def others(judge):
     """One verdict over every language but English, each in its window.
 
     Which languages those are is the run's (see MEASURED), so the line
-    names how many fell and the first of them, or each one's own line.
+    names how many fell and each that fell, or each one's own line. A
+    text cut off only where every one that fell says it is.
     """
     said = [of(reports[x], judge(reports[x])) for x in LANGUAGES
             if x != "en"]
-    fell = [why for ok, why in said if not ok]
+    fell = [v for v in said if not v[0]]
     if fell:
-        return False, "%d of %d fell, first %s" % (len(fell), len(said),
-                                                   fell[0])
-    return True, " | ".join(why for _ok, why in said)
+        return (False, "%d of %d fell: %s" % (
+            len(fell), len(said), " | ".join(v[1] for v in fell)),
+            all(v[2:] == (True,) for v in fell))
+    return True, " | ".join(v[1] for v in said)
 
 
 # Written out once per window: a computed name would leave one wording

@@ -24,19 +24,24 @@ import uuid
 
 
 def _scrub(service, account):
-    """Take the throwaway entry out of the keychain again.
+    """Take the throwaway entry out of the keychain or keyring again.
 
     A test that stores something leaves an item behind for good
     otherwise -- a new one every run, under a new name every run. Only
     ever this test's own name, and the answer is not looked at: there
     is nothing to do about a failure here and nothing to say about one.
+    Off Mac and Windows the store is the Secret Service, via secret-tool.
     """
-    if sys.platform != "darwin":
+    if sys.platform == "darwin":
+        argv = ["security", "delete-generic-password",
+                "-s", service, "-a", account]
+    elif sys.platform.startswith("win"):
         return
+    else:
+        argv = ["secret-tool", "clear", "service", service,
+                "account", account]
     try:
-        subprocess.run(["security", "delete-generic-password",
-                        "-s", service, "-a", account],
-                       input=b"", capture_output=True, timeout=20,
+        subprocess.run(argv, input=b"", capture_output=True, timeout=20,
                        start_new_session=True)
     except (OSError, subprocess.SubprocessError):
         pass

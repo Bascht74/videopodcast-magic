@@ -541,7 +541,10 @@ Material vermessen wird, mit einer Zeile je Datei und dem Stand jeder
 einzelnen. Eine Zeile verschwindet, sobald ihre Datei fertig ist, der
 Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
 lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
-neben **Start** mitträgt, hier Datei für Datei.
+neben **Start** mitträgt, hier Datei für Datei. Steht die Zeitachse,
+kommt eine weitere Zeile hinzu, **Niederschrift**: das Fenster schreibt
+auf, was gesagt wird, und auf diese Wörter warten die vier Einstellungen
+des Kameraschnitts, die sie brauchen ([Kameraschnitt](camera-cut.de.md)).
 
 **Name der Produktion**, **Sprache im Ton** und **Projekttyp** stehen
 in einer Zeile. Ist das Fenster für alle drei zu schmal, bricht die
@@ -553,10 +556,12 @@ bei ihrem Feld.
 gesprochene Sprache, vorbelegt aus der Systemsprache. Sie tut zweierlei:
 Sie wird zur Kennzeichnung der geschriebenen Tonspur, und die Erkennung
 auf diesem Rechner wird auf diese Sprache eingestellt. „nicht gesetzt“
-lässt die Spur ungekennzeichnet und überlässt der Erkennung die Sprache.
-Zur Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
-[Das Transkript entsteht hier](auphonic.de.md#das-transkript-entsteht-hier)
-sagt, was die Erkennung schreibt, und [Spracherkennung und
+lässt die Spur ungekennzeichnet, und die Erkennung nimmt dann unter
+macOS die Systemsprache und errät sie überall sonst aus dem Ton. Zur
+Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
+[Die drei Dateien des
+Transkripts](speech.de.md#die-drei-dateien-des-transkripts) sagt, was
+die Erkennung schreibt, und [Spracherkennung und
 Sprechertrennung](speech.de.md), welchen Weg sie auf welchem Rechner
 nimmt.
 
@@ -599,8 +604,9 @@ Spur, so bleibt das Verhältnis der Sprecher erhalten. Fünf Einträge:
 - **-23 LUFS (EBU R128, Rundfunk)**
 - **Aus Quelldateien übernehmen**
 
-Ein neues Projekt beginnt bei −16 LUFS. Das Fenster merkt sich den zuletzt
-gewählten Eintrag, und eine geladene Projektdatei sticht diese Erinnerung.
+Je näher die Zahl an null, desto lauter. Ein neues Projekt beginnt bei
+−16 LUFS. Das Fenster merkt sich den zuletzt gewählten Eintrag, und
+eine geladene Projektdatei sticht diese Erinnerung.
 **Aus Quelldateien übernehmen** passt gar nichts an: auphonic.com macht
 weiter, was in seinem Preset steht, und ohne auphonic.com bleibt der Ton
 wie in den Quelldateien -- die Datei kommt Byte für Byte gleich heraus.
@@ -781,6 +787,27 @@ Ein Abschnitt, der gar nicht vorkommt, steht auch nicht in der Liste; der
 Balken hält also keinen Anteil für ihn zurück. Bleibt ein Lauf stehen,
 sagt die Zeile, in welchem Abschnitt.
 
+**Wird ein Lauf still, muss niemand raten.** Manche Schritte arbeiten
+minutenlang, ohne etwas zu sagen -- eine lange Aufnahme, die in Sprecher
+getrennt wird, oder ein langsamer Rechner. Hat die Zeile zwei Minuten
+lang nichts Neues gemeldet und sieht das Programm die Arbeit trotzdem
+vorangehen -- ein Hilfsprogramm, das Rechenzeit verbraucht, eine Datei,
+die beim Schreiben noch wächst, eine Antwort von auphonic.com --, steht
+dort **arbeitet -- seit 3 Min. ohne Meldung, der Rechner ist womöglich
+ausgelastet**. Hat sich fünf Minuten lang gar nichts mehr bewegt, heißt
+es in der Warnfarbe **seit 5 Min. keine Veränderung -- hängt womöglich,
+bitte prüfen**. Solange der Lauf auf eine Antwort wartet, wird nichts
+beurteilt.
+
+**Abbrechen geht in jeder Phase eines Laufs.** Solange etwas läuft,
+steht neben **Start** der Knopf **Abbrechen**: während ein Start noch
+auf den Kameraton wartet (**Kameraton, noch 2 ...**), im Lauf selbst und
+während **Resolve-Projekt anlegen** arbeitet. Wer ihn in jener Wartezeit
+drückt, sagt nur den Start ab; der Kameraton wird weiter erzeugt, und
+ein späteres **Start** findet ihn fertig vor. Mitten im Lauf gedrückt,
+endet der Lauf, sobald er es kann, ohne eine Datei halb geschrieben
+zurückzulassen; bis dahin steht auf dem Knopf **Abbruch ...**.
+
 **Die Zeile steht als Satz da, nie als Name, unter dem das Programm die
 Sache intern führt.** Während eine Aufnahme in Sprecher getrennt wird,
 heißt es dort **Sprecher werden getrennt:** und dahinter der bloße Name
@@ -872,7 +899,7 @@ gelesen hat sie noch niemand, der die Sprache spricht. Jeder dieser
 Kataloge sagt das gleich oben: jeder Eintrag darin ist ein erster
 Entwurf.
 
-Gezählte Dinge -- „1 Datei" gegen „3 Dateien" -- sind eine eigene Art
+Gezählte Dinge -- „1 Datei“ gegen „3 Dateien“ -- sind eine eigene Art
 Eintrag, denn der Wortlaut ändert sich mit der Zahl, und nicht jede
 Sprache ändert ihn an denselben Stellen. Auch die trägt jede Sprache,
 mit so vielen Formen, wie sie kennt: eine im Japanischen, Chinesischen
@@ -1240,7 +1267,7 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   eine ältere Version ...** zeigt die Versionen vor dieser an und lässt
   pip die gewählte wieder einsetzen; liegt sie, bietet ein Kasten an,
   gleich mit ihr neu zu starten. Zurück kommt das Programm, nicht
-  die Einstellungen -- siehe „Der Weg zurück auf eine ältere Version"
+  die Einstellungen -- siehe „Der Weg zurück auf eine ältere Version“
   weiter oben.
 - **Beim Nachfragen mitschicken**: die Version aus `--version`, das
   Betriebssystem, `videopodcast-magic.log` und was man vorhatte, vor

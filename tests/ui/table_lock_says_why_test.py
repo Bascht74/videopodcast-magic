@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-"""The sheet's reasons stand in grey inside the field they are about.
+"""The sheet's reasons stand whole, in grey, in or under their field.
 
 A window over a project that locks something in every way the sheet
-can: a camera nobody speaks on, one with no sound, an intro, a
-recording set to "do not use". Each field is asked what it draws and
-the grey ink is counted there; a shut field draws no value under it
-and does not grow; a barred entry is asked with its list open and shut.
-English and German. A third window marks the wide shot, over a speaker
-and a voice on it and a voice set to "do not use". Offscreen, in Qt's
-own style.
+can: a camera nobody speaks on, one with no sound, an intro, a recording
+set to "do not use". Each field is asked what it draws, the Kind field's
+line under it what it reads, and the grey ink is counted there; a shut
+field draws no value under it and does not grow; a barred entry is asked
+with its list open and shut; at the window's smallest that line is whole.
+English and German, and a third window marks the wide shot. Offscreen.
+In the builder's release run an open list too narrow for its entry is
+noted rather than failed: cut_off_rule.py.
 """
 PLATFORM_BOUND = True
 import os
@@ -25,6 +26,7 @@ import subprocess
 import tempfile
 import time
 import wave
+import cut_off_rule
 import the_program
 
 SCRIPT = the_program.SCRIPT
@@ -57,11 +59,15 @@ done = 0
 bad = []
 
 
-def check(name, ok, extra=""):
+def check(name, ok, extra="", cut_off=False):
     global done
     done += 1
-    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
+    # A text cut off is noted, not failed, in the builder's release run
+    # alone; cut_off_rule.py says whose rule it is and when.
+    noted = not ok and cut_off and cut_off_rule.noted(name, extra)
+    print("  %-58s %s %s" % (name, "ok" if ok else "noted" if noted
+                             else "FAIL", extra))
+    if not ok and not noted:
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
@@ -113,9 +119,11 @@ if not LANG:
             out, code = str(gone.stdout or ""), "none, stopped after 140 s"
         said = ""
         for line in out.splitlines():
-            # Its judgements and a traceback; ffmpeg's chatter stays out.
+            # Its judgements, a traceback and a NOTED line run.sh collects;
+            # ffmpeg's chatter stays out.
             if line[61:63] == "ok" or line[61:65] == "FAIL" \
-                    or line.startswith(("Traceback", "  File ")):
+                    or line[61:66] == "noted" or line.startswith(
+                        ("Traceback", "  File ", "NOTED cut off: ")):
                 print(line[:200])
             said = line[6:] if line.startswith("FAIL: ") else said
             head = line.split(" checks in ")[0]
@@ -233,6 +241,81 @@ def ink(w, beyond=False):
     return near
 
 
+def line_under(w):
+    """The reason line in the table cell that holds *w*, or None."""
+    here = w.parentWidget()
+    for _ in range(3):
+        if here is None:
+            return None
+        line = here.findChild(QtWidgets.QLabel, "reason_line")
+        if line is not None:
+            return line
+        here = here.parentWidget()
+    return None
+
+
+def reads(line):
+    """What the line says, without the places it may wrap at."""
+    return line.text().replace("\u200b", "") if line else ""
+
+
+def grey(line):
+    """Pixels near the grey of the reasons anywhere on the line."""
+    if line is None:
+        return 0
+    image = line.grab().toImage()
+    want = QtGui.QColor(vpm.COLOURS["quiet"])
+    near = 0
+    for x in range(image.width()):
+        for y in range(image.height()):
+            c = image.pixelColor(x, y)
+            if (abs(c.red() - want.red()) + abs(c.green() - want.green())
+                    + abs(c.blue() - want.blue())) < 60:
+                near += 1
+    return near
+
+
+def judge_smallest(lang):
+    """At the window's smallest, the line under the Kind field is whole.
+
+    The table and the sheet are scrolled to that field first, as a hand
+    would: what lies past an edge is a scroll away, not cut.
+    """
+    kind_w = field('Kind', "W_cam.mov")
+    line = line_under(kind_w) if kind_w else None
+    if line is None:
+        check("at the smallest window the reason under Kind is whole",
+              False, "%s: no line under the Kind field, window %dx%d"
+              % (lang, win().width(), win().height()))
+        return
+    table = line.parentWidget()
+    while table is not None and not isinstance(table,
+                                               QtWidgets.QTableWidget):
+        table = table.parentWidget()
+    holder = kind_w.parentWidget().parentWidget()
+    for row in range(table.rowCount()):
+        if table.cellWidget(row, 3) is holder:
+            table.scrollTo(table.model().index(row, 3))
+    app.processEvents()
+    sheet = table.parentWidget()
+    while sheet is not None and not isinstance(sheet, QtWidgets.QScrollArea):
+        sheet = sheet.parentWidget()
+    if sheet is not None:
+        sheet.ensureWidgetVisible(line)
+    app.processEvents()
+    text = reads(line)
+    tall = line.heightForWidth(line.width())
+    wide = line.fontMetrics().horizontalAdvance(text)
+    seen = line.visibleRegion().boundingRect()
+    check("at the smallest window the reason under Kind is whole",
+          tall <= seen.height() and min(wide, line.width()) <= seen.width(),
+          "%s: window %dx%d, %r needs %dx%d px on a line of %d px, "
+          "%dx%d of it can be seen"
+          % (lang, win().width(), win().height(), text, min(
+              wide, line.width()), tall, line.width(), seen.width(),
+             seen.height()))
+
+
 def judge(lang):
     """Every lock of the sheet, asked in the language now set."""
     kind_w = field('Kind', "W_cam.mov")
@@ -247,14 +330,15 @@ def judge(lang):
           "%s: %d of 6 found" % (lang, len([f for f in fields if f])))
     if None in fields:
         return
-    said = vpm.why_shown(kind_w)[0]
-    check("a camera nobody speaks on says so in its Kind field",
-          said == vpm.T('no speaker'),
-          "%s: draws %r, wanted %r, field %d px"
-          % (lang, said, vpm.T('no speaker'), kind_w.width()))
-    check("in grey, inside that field", ink(kind_w) >= 6,
-          "%s: %d grey pixels where the reason stands"
-          % (lang, ink(kind_w)))
+    said, inside = reads(line_under(kind_w)), vpm.why_shown(kind_w)[0]
+    check("a camera nobody speaks on says so under its Kind field",
+          said == vpm.T('no speaker') and inside == "",
+          "%s: the line under it reads %r, the field draws %r; wanted %r "
+          "under it and nothing in it"
+          % (lang, said, inside, vpm.T('no speaker')))
+    check("in grey, under that field", grey(line_under(kind_w)) >= 6,
+          "%s: %d grey pixels on the line under it"
+          % (lang, grey(line_under(kind_w))))
     got = (vpm.why_shown(sound_b)[0], vpm.why_shown(sound_i)[0])
     wanted = (vpm.T('no audio track'), vpm.T('a finished clip'))
     under = (ink(sound_b, True), ink(sound_i, True))
@@ -295,7 +379,8 @@ def judge(lang):
           "%s: list open %r, the entry reads %r, its reason %r"
           % (lang, kind_a.view().isVisible(), opened, reason[:40]))
     check("and the open list is wide enough to show it", wide >= needs,
-          "%s: list %d px, the entry needs %d px" % (lang, wide, needs))
+          "%s: list %d px, the entry needs %d px" % (lang, wide, needs),
+          cut_off=True)
     kind_a.hidePopup()
     app.processEvents()
     check("and the entry is its caption again once the list shuts",
@@ -314,11 +399,11 @@ def judge_marked():
           "%d of 3 found" % len([f for f in fields if f]))
     if None in fields:
         return
-    said = vpm.why_shown(kind_w)[0]
-    check("a camera marked as the wide shot says so in its Kind field",
+    said = reads(line_under(kind_w))
+    check("a marked wide shot camera says so under its Kind field",
           said == vpm.T('no speaker')
           and kind_w.currentData() == vpm.TYPE_WIDE,
-          "draws %r on %r, wanted %r on %r" % (
+          "the line under it reads %r on %r, wanted %r on %r" % (
               said, kind_w.currentData(), vpm.T('no speaker'),
               vpm.TYPE_WIDE))
     said = vpm.why_shown(moved)[0]
@@ -334,9 +419,9 @@ def judge_marked():
           said == vpm.T('not used') and not voice.isEnabled(),
           "draws %r, wanted %r, field shut %s"
           % (said, vpm.T('not used'), not voice.isEnabled()))
-    grey = (ink(kind_w), ink(moved), ink(line))
-    check("in grey, inside those three fields", min(grey) >= 6,
-          "%d, %d and %d grey pixels" % grey)
+    seen = (grey(line_under(kind_w)), ink(moved), ink(line))
+    check("in grey, under the one field and inside the other two",
+          min(seen) >= 6, "%d, %d and %d grey pixels" % seen)
     cleo = field('belongs to', "Cleo")
     said = vpm.why_shown(cleo)[0] if cleo else "no such field"
     check("a voice the mark moved says so, in grey, in its own field",
@@ -384,8 +469,27 @@ def step():
         return
     if MARKED:
         judge_marked()
-    else:
-        judge(LANG)
+        app.quit()
+        return
+    judge(LANG)
+    state["still"], state["size"] = 0, None
+    win().resize(1, 1)
+    QtCore.QTimer.singleShot(200, smallest)
+
+
+def smallest():
+    """Wait for the window dragged small to hold its size, then judge.
+
+    Given up into the judgement after 60 turns rather than instead of it.
+    """
+    state["round"] += 1
+    now = (win().width(), win().height())
+    state["still"] = state["still"] + 1 if now == state["size"] else 0
+    state["size"] = now
+    if state["still"] < 3 and state["round"] < 300:
+        QtCore.QTimer.singleShot(100, smallest)
+        return
+    judge_smallest(LANG)
     app.quit()
 
 

@@ -188,8 +188,8 @@ msgstr "--update mengambilnya dan memasangnya."
 msgid "The check for new versions is switched off here."
 msgstr "Pemeriksaan versi baru dinonaktifkan di sini."
 
-msgid "About Video Podcast Magic"
-msgstr "Tentang Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Tentang %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Materi mentah dari podcast video menjadi episode yang sudah disunting: audio yang baik dari file video, semua kamera pada satu sumbu waktu, potongan awal per pembicara, dan proyek DaVinci Resolve."
@@ -2372,9 +2372,6 @@ msgstr "Multitrack (satu trek per pembicara)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah rekaman tersendiri, satu kanal dari perekam multikanal, atau audio file video yang diatur ke \"gunakan audio internal\". Beberapa blok dari rekaman yang sama dihitung sebagai satu, trek yang disisihkan tidak dihitung sama sekali."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Tidak ada kunci API. Atur AUPHONIC_TOKEN, atau biarkan antarmuka mengingatnya sekali. Kunci ada di pengaturan akun Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Tidak ada file audio yang membawa timecode. Titik masuk dan titik keluar dihitung dari awal materi -- posisi file satu sama lain diukur."
 
@@ -2597,9 +2594,6 @@ msgstr "Pratinjau tidak mungkin: %s"
 msgid "Preview running ..."
 msgstr "Pratinjau berjalan ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Persiapan -- membaca audio dan menghitung selubung:\n"
-
 msgid "Primaries"
 msgstr "Warna primer"
 
@@ -2726,9 +2720,6 @@ msgstr "Trek pertama preset menentukan pengaturan untuk semua trek kita. Jika ti
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Itu memerlukan file serah terima dari sebuah proses, dan tidak ada."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Kunci hanya dapat disimpan di Mac dan Windows -- di Keychain atau Registry. Kunci tidak masuk ke file."
-
 msgid "%s -- being checked"
 msgstr "%s -- sedang diperiksa"
 
@@ -2761,9 +2752,6 @@ msgstr "  Keychain Access tidak dapat dibuka: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Kunci yang tersimpan tidak diterima: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Kunci dari AUPHONIC_TOKEN tidak diterima: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Jawaban auphonic.com"
@@ -2897,8 +2885,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- materi mentah menjadi podcast yang tersunting"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- materi mentah menjadi podcast yang tersunting"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volume. 100 adalah yang paling keras -- Qt tidak menerima nilai di atasnya."
@@ -2957,14 +2945,40 @@ msgstr "Tengah malam"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s membawa timecode dari sisi lain tengah malam -- dihitung sebagai satu malam, bukan berselisih satu hari."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key tidak menerima apa pun sesudahnya: kunci diminta tanpa "
+"ditampilkan. Tidak ada yang disimpan."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Timecode dihitung dari tengah malam dan mulai lagi dari sana. File-file ditempatkan pada satu sumbu sebelum apa pun dikurangkan, jika tidak rekaman setelah tengah malam tampak hampir sehari jauhnya dari rekaman sebelumnya. Jika rekaman ini memang dibuat pada hari yang berbeda, penyelarasannya salah dan selisih yang diukurlah yang dapat dipercaya."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Kunci API Auphonic (tidak ditampilkan): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d menyentuh batas: %s kali tiga sampel atau lebih berturut-turut, yang terpanjang %s (%s ms), yang pertama pada %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Dihitung di sini, sampel demi sampel, pada laju saat file direkam: deretan tiga sampel atau lebih pada nilai tertinggi yang dapat dimuat format bilangan bulat. Satu atau dua adalah pembulatan dan tidak dilaporkan. Yang terpotong di sana hilang dan tidak ada pemrosesan yang dapat mengembalikannya -- tetapi rekaman tetaplah rekaman, dan ini tidak menahan apa pun. Hanya format bilangan bulat yang dihitung. 32 bit float tidak memiliki batas pada skala penuh, jadi tidak ada yang dihitung di sana."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Tidak ada kunci API. Simpan sekali di antarmuka, atau dengan "
+"--store-auphonic-key. Kunci ada di pengaturan akun Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Tidak ada kunci yang diketik, jadi tidak ada yang disimpan."
+
+msgid "The key is not stored: %s"
+msgstr "Kunci tidak tersimpan: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Kunci tersimpan, dan saat dibaca kembali hasilnya kunci yang sama."
 
 msgid "boxes no longer readable"
 msgstr "kotak tidak lagi terbaca"
@@ -3410,8 +3424,8 @@ msgstr "Transfer"
 msgid "Uploading %s tracks"
 msgstr "Mengunggah %s trek"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;File JSON (*.json);;Semua file (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;File JSON (*.json);;Semua file (*)"
 
 msgid "Wide shot after"
 msgstr "Bidikan lebar setelah"
@@ -3709,9 +3723,6 @@ msgstr "dan di sini dipotong, momen tepat atau tidak"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Batas keras dari pasangan ini: jika tidak ada batas kalimat sejak \"Bidikan lebar setelah\", jeda bicara terpanjang menggantikannya, dan pada titik ini potongan terjadi apa pun yang sedang diucapkan."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Belum ada transkrip. Tanpa transkrip, tidak ada pertanyaan yang ditemukan dan tidak ada batas kalimat yang diketahui, sehingga keempat pengaturan ini tidak berpengaruh. Sebuah proses menulisnya, dan sejak itu pengaturan ini berfungsi."
 
 msgid "Why the question settings are grey"
 msgstr "Mengapa pengaturan pertanyaan berwarna abu-abu"
@@ -4270,9 +4281,6 @@ msgstr "Jeda singkat hingga"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "selama ini keheningan tidak mengubah gambar"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Hanya jika \"Tak ada yang bicara\" diatur untuk menahan jeda singkat. Jeda hingga sepanjang ini tidak mengubah apa pun, yang lebih panjang beralih ke bidikan lebar. Di atas dua detik, gambar mulai bertahan lebih dari lima detik pada seseorang yang diam."
 
 msgid "Recognition uncertain"
 msgstr "Pengenalan tidak pasti"
@@ -4877,3 +4885,84 @@ msgstr "audio tidak dikenali, ditempatkan menurut timecode-nya"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s rekaman dan tanpa gambar: masing-masing digabungkan sendiri dan tidak disejajarkan satu sama lain. --multitrack menaruhnya pada satu sumbu waktu."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", penyimpangan jam %s ppm dibiarkan: tidak sampai %s kali ketidakpastiannya sebesar %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Tanpa transkrip, tidak ada pertanyaan yang ditemukan dan tidak ada batas kalimat yang diketahui, sehingga dua pengaturan pertanyaan dan dua pengaturan bidikan lebar yang menunggu akhir kalimat tidak berpengaruh."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Tanpa transkrip, tidak ada pertanyaan yang ditemukan, sehingga dua pengaturan pertanyaan tidak berpengaruh."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Belum ada: sebuah proses menulisnya, dan sejak itu pengaturan ini berfungsi."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Pengenalan ucapan dimatikan untuk proses ini. Biarkan menyala, dan proses berikutnya akan menulis transkrip."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Proses tidak menulis transkrip: pengenalan ucapan gagal atau tidak mendengar apa pun, dan log proses menyebutkan yang mana. Periksa bahasa audio lalu jalankan lagi; jika mesin ini tidak punya pengenalan, macOS 26 menyediakannya, atau proses memasang faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "sedang bekerja -- tidak ada kabar selama %s mnt, komputer mungkin sibuk"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "tidak ada perubahan selama %s mnt -- mungkin macet, harap periksa"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "dibiarkan: %s ppm atau lebih kemungkinan besar kesalahan pengukuran"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "dibiarkan: tidak mencapai %s kali ketidakpastiannya"
+
+msgid "Timing"
+msgstr "Waktu"
+
+msgid "Special cases"
+msgstr "Kasus khusus"
+
+msgid "Transcript"
+msgstr "Transkrip"
+
+msgid "Writing down what is said ..."
+msgstr "Menuliskan apa yang diucapkan ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mencampur trek untuk transkrip"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Transkrip sedang ditulis di latar belakang; pengaturan ini terbuka sendiri setelah selesai."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Tidak ada keyring Secret Service yang menjawab, jadi tidak ada yang disimpan. Di luar Mac dan Windows, kunci disimpan di keyring desktop, melalui perintah secret-tool dari libsecret. Kunci tidak masuk ke file."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Persiapan -- membaca audio, menghitung selubung, dan menuliskan apa yang diucapkan:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Bidikan lebar di tepi: hanya mulai %s -- yang di awal lebih pendek dari bidikan terpendek dan melebur ke bidikan berikutnya"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Bidikan lebar di tepi: hanya sampai %s -- yang di akhir lebih pendek dari bidikan terpendek dan melebur ke bidikan sebelumnya"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Bidikan lebar di tepi: tidak ada -- keduanya lebih pendek dari bidikan terpendek dan melebur ke tetangganya"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Jika \"Tak ada yang bicara\" diatur untuk menahan jeda singkat, jeda hingga sepanjang ini tidak mengubah apa pun dan yang lebih panjang beralih ke bidikan lebar. Jika \"Pengenalan tidak pasti\" diatur ke \"Tanpa ganti kamera\", bagian tidak pasti yang lebih panjang dari ini juga beralih ke bidikan lebar. Di atas dua detik, gambar mulai bertahan lebih dari lima detik pada seseorang yang diam."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s dilewati -- %s menurut timecode dari blok lainnya, terlalu berjauhan untuk satu rekaman"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Bidikan lebar di tepi: seluruh potongan adalah bidikan lebar"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  dipendekkan menjadi paling lama %s masing-masing -- satu-satunya pengumuman berlangsung dari %s sampai %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s di awal tidak punya gambar dan ditinggalkan"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s di akhir tidak punya gambar dan ditinggalkan"

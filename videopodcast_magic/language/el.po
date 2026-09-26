@@ -184,8 +184,8 @@ msgstr "--update τη φέρνει και την εγκαθιστά."
 msgid "The check for new versions is switched off here."
 msgstr "Ο έλεγχος για νέες εκδόσεις είναι απενεργοποιημένος εδώ."
 
-msgid "About Video Podcast Magic"
-msgstr "Σχετικά με το Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Σχετικά με το %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Το ακατέργαστο υλικό ενός video podcast γίνεται μονταρισμένο επεισόδιο: ο καλός ήχος από τα αρχεία βίντεο, οι κάμερες σε έναν κοινό άξονα χρόνου, ένα πρώτο μοντάζ ανά ομιλητή, και ένα έργο DaVinci Resolve."
@@ -2338,9 +2338,6 @@ msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κομμάτια εισόδου. Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης συσκευής εγγραφής ή ο ήχος ενός αρχείου βίντεο ορισμένου σε \"χρήση εσωτερικού ήχου\". Πολλά μπλοκ της ίδιας ηχογράφησης μετρούν ως ένα, τα κομμάτια που τέθηκαν στην άκρη καθόλου."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Δεν υπάρχει κλειδί API. Ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από την αρχή του υλικού -- η θέση των αρχείων μεταξύ τους μετριέται."
 
@@ -2560,9 +2557,6 @@ msgstr "Η προεπισκόπηση δεν είναι δυνατή: %s"
 msgid "Preview running ..."
 msgstr "Προεπισκόπηση σε εξέλιξη ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Προεργασία -- ανάγνωση ήχου και υπολογισμός περιβαλλουσών:\n"
-
 msgid "Primaries"
 msgstr "Πρωτεύοντα χρώματα"
 
@@ -2699,9 +2693,6 @@ msgstr "Το πρώτο κομμάτι της προρύθμισης ορίζε�
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Αυτό χρειάζεται το αρχείο παράδοσης από μια εκτέλεση, και δεν υπάρχει κανένα."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Το κλειδί μπορεί να αποθηκευτεί μόνο σε Mac και Windows -- στην κλειδοθήκη ή στο μητρώο. Δεν πηγαίνει σε αρχείο."
-
 msgid "%s -- being checked"
 msgstr "%s -- ελέγχεται"
 
@@ -2734,9 +2725,6 @@ msgstr "  Η Πρόσβαση Κλειδοθήκης δεν ήταν δυνατ�
 
 msgid "The stored key is not accepted: %s"
 msgstr "Το αποθηκευμένο κλειδί δεν γίνεται δεκτό: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Το κλειδί από το AUPHONIC_TOKEN δεν γίνεται δεκτό: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Τι απάντησε το auphonic.com"
@@ -2870,8 +2858,8 @@ msgstr "Βίντεο 1"
 msgid "Video 2"
 msgstr "Βίντεο 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- το ακατέργαστο υλικό γίνεται μονταρισμένο podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- το ακατέργαστο υλικό γίνεται μονταρισμένο podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Ένταση. Το 100 είναι το μέγιστο -- το Qt δεν δέχεται τίποτα παραπάνω."
@@ -2921,14 +2909,41 @@ msgstr "Μεσάνυχτα"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Το %s φέρει timecode από την άλλη πλευρά των μεσάνυχτων -- μετριέται ως μία νύχτα, όχι ως μία μέρα απόσταση."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"Το --store-auphonic-key δεν δέχεται τίποτα μετά από αυτό: το κλειδί ζητείται "
+"χωρίς να φαίνεται. Δεν αποθηκεύτηκε τίποτα."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Ένα timecode μετρά από τα μεσάνυχτα και ξαναρχίζει εκεί. Τα αρχεία τοποθετούνται σε έναν άξονα πριν αφαιρεθεί οτιδήποτε, αλλιώς η ηχογράφηση μετά τα μεσάνυχτα φαίνεται σχεδόν μία μέρα μακριά από την προηγούμενη. Αν αυτά πράγματι ηχογραφήθηκαν σε διαφορετικές μέρες, η ευθυγράμμιση είναι λάθος και η μετρημένη μετατόπιση είναι αυτή που ισχύει."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Κλειδί API του Auphonic (δεν εμφανίζεται): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Το κανάλι %d είναι στο όριο: %s φορές τρία δείγματα ή περισσότερα στη σειρά, το μεγαλύτερο %s (%s ms), το πρώτο στο %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Μετρημένο εδώ, δείγμα προς δείγμα, στον ρυθμό με τον οποίο ηχογραφήθηκε το αρχείο: μια σειρά τριών ή περισσότερων δειγμάτων στην υψηλότερη τιμή που χωράει μια ακέραια μορφή. Ένα ή δύο είναι στρογγυλοποίηση και δεν αναφέρονται. Ό,τι κόβεται εκεί χάνεται και καμία επεξεργασία δεν το επαναφέρει -- αλλά η ηχογράφηση παραμένει η ηχογράφηση, και τίποτα δεν σταματά εδώ. Μετριούνται μόνο ακέραιες μορφές. Το 32 bit float δεν έχει όριο στην πλήρη κλίμακα, οπότε δεν υπάρχει τίποτα να μετρηθεί εκεί."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Δεν υπάρχει κλειδί API. Αποθηκεύστε το μία φορά στη διεπαφή ή με το "
+"--store-auphonic-key. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Δεν πληκτρολογήθηκε κλειδί, οπότε δεν αποθηκεύτηκε τίποτα."
+
+msgid "The key is not stored: %s"
+msgstr "Το κλειδί δεν αποθηκεύτηκε: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Το κλειδί αποθηκεύτηκε και η ανάγνωσή του έδωσε το ίδιο κλειδί."
 
 msgid "boxes no longer readable"
 msgstr "τα box δεν διαβάζονται πια"
@@ -3362,8 +3377,8 @@ msgstr "Μεταφορά"
 msgid "Uploading %s tracks"
 msgstr "Μεταφόρτωση %s κομματιών"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Αρχεία JSON (*.json);;Όλα τα αρχεία (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Αρχεία JSON (*.json);;Όλα τα αρχεία (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "οι φωνές παρακάτω φέρουν τις κάμερες"
@@ -3625,9 +3640,6 @@ msgstr "Επεξεργασία"
 
 msgid "Profile"
 msgstr "Προφίλ"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Δεν υπάρχει απομαγνητοφώνηση ακόμη. Χωρίς αυτήν δεν βρίσκεται ερώτηση και δεν είναι γνωστό κανένα όριο πρότασης, οπότε αυτές οι τέσσερις ρυθμίσεις δεν κάνουν τίποτα. Μια εκτέλεση τη γράφει, και από τότε λειτουργούν."
 
 msgid "Why the question settings are grey"
 msgstr "Γιατί οι ρυθμίσεις της ερώτησης είναι γκρι"
@@ -4549,9 +4561,6 @@ msgstr "Σύντομη παύση έως"
 msgid "so long a silence leaves the picture alone"
 msgstr "τόσο μεγάλη σιωπή αφήνει την εικόνα ήσυχη"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Μόνο όπου το \"Κανείς δεν μιλάει\" είναι ρυθμισμένο σε κράτημα σύντομης παύσης. Μια παύση έως τόσο δεν αλλάζει τίποτα, μια μεγαλύτερη πηγαίνει στο γενικό πλάνο. Πάνω από δύο δευτερόλεπτα η εικόνα αρχίζει να μένει σε κάποιον σιωπηλό για πάνω από πέντε δευτερόλεπτα."
-
 msgid "Listener"
 msgstr "Ακροατής"
 
@@ -4916,3 +4925,84 @@ msgstr "ήχος μη αναγνωρισμένος, τοποθετήθηκε κ�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s ηχογραφήσεις και καμία εικόνα: η καθεμία ενώνεται χωριστά και δεν ευθυγραμμίζονται μεταξύ τους. Το --multitrack τις βάζει σε έναν άξονα χρόνου."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", η ολίσθηση ρολογιού %s ppm παραμένει: δεν είναι %s φορές η αβεβαιότητά της των %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Χωρίς απομαγνητοφώνηση δεν βρίσκεται ερώτηση και δεν είναι γνωστό κανένα όριο πρότασης, οπότε οι δύο ρυθμίσεις της ερώτησης και οι δύο ρυθμίσεις του γενικού πλάνου που περιμένουν το τέλος μιας πρότασης δεν κάνουν τίποτα."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Χωρίς απομαγνητοφώνηση δεν βρίσκεται ερώτηση, οπότε οι δύο ρυθμίσεις της ερώτησης δεν κάνουν τίποτα."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Δεν υπάρχει ακόμη: μια εκτέλεση τη γράφει, και από τότε λειτουργούν."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Η αναγνώριση ομιλίας ήταν απενεργοποιημένη για την εκτέλεση. Αφήστε την ενεργή, και η επόμενη εκτέλεση θα γράψει μία."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Η εκτέλεση δεν έγραψε καμία: η αναγνώριση ομιλίας απέτυχε ή δεν άκουσε τίποτα, και το αρχείο καταγραφής της εκτέλεσης λέει ποιο από τα δύο. Ελέγξτε τη γλώσσα του ήχου και εκτελέστε ξανά· όπου αυτός ο υπολογιστής δεν έχει αναγνώριση, το macOS 26 φέρνει μία, ή η εκτέλεση εγκαθιστά το faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "λειτουργεί -- κανένα μήνυμα εδώ και %s λεπ., ο υπολογιστής ίσως είναι απασχολημένος"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "καμία αλλαγή εδώ και %s λεπ. -- ίσως έχει κολλήσει, ελέγξτε"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "παραμένει: %s ppm ή περισσότερο είναι μάλλον σφάλμα μέτρησης"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "παραμένει: δεν φτάνει τις %s φορές την αβεβαιότητά της"
+
+msgid "Timing"
+msgstr "Χρονισμός"
+
+msgid "Special cases"
+msgstr "Ειδικές περιπτώσεις"
+
+msgid "Transcript"
+msgstr "Απομαγνητοφώνηση"
+
+msgid "Writing down what is said ..."
+msgstr "Καταγράφεται ό,τι λέγεται ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Μίξη των κομματιών για την απομαγνητοφώνηση"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Γράφεται στο παρασκήνιο· οι ρυθμίσεις ανοίγουν μόνες τους μόλις ολοκληρωθεί."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Καμία κλειδοθήκη Secret Service δεν απάντησε, οπότε δεν αποθηκεύτηκε τίποτα. Εκτός Mac και Windows το κλειδί φυλάσσεται στην κλειδοθήκη της επιφάνειας εργασίας, μέσω της εντολής secret-tool του libsecret. Δεν πηγαίνει σε αρχείο."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Προεργασία -- ανάγνωση ήχου, υπολογισμός περιβαλλουσών και καταγραφή όσων λέγονται:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Γενικό πλάνο στα άκρα: μόνο από %s -- το αρχικό ήταν μικρότερο από το συντομότερο πλάνο και ενσωματώθηκε στο επόμενο"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Γενικό πλάνο στα άκρα: μόνο έως %s -- το τελικό ήταν μικρότερο από το συντομότερο πλάνο και ενσωματώθηκε στο προηγούμενο"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Γενικό πλάνο στα άκρα: κανένα -- και τα δύο ήταν μικρότερα από το συντομότερο πλάνο και ενσωματώθηκαν στα γειτονικά τους"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Όπου το \"Κανείς δεν μιλάει\" είναι ρυθμισμένο σε κράτημα σύντομης παύσης, μια παύση έως τόσο δεν αλλάζει τίποτα και μια μεγαλύτερη πηγαίνει στο γενικό πλάνο. Όπου το \"Αβέβαιη αναγνώριση\" είναι ρυθμισμένο σε \"Χωρίς αλλαγή κάμερας\", ένα αβέβαιο απόσπασμα μεγαλύτερο από αυτό πηγαίνει επίσης στο γενικό πλάνο. Πάνω από δύο δευτερόλεπτα η εικόνα αρχίζει να μένει σε κάποιον σιωπηλό για πάνω από πέντε δευτερόλεπτα."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s παραλείφθηκε -- %s μακριά από τα άλλα μπλοκ κατά το timecode, πολύ μεγάλη απόσταση για μία ηχογράφηση"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Γενικό πλάνο στα άκρα: όλο το μοντάζ είναι το γενικό πλάνο"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  συντομεύτηκε σε το πολύ %s το καθένα -- η μόνη αναγγελία διαρκεί από %s έως %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s στην αρχή δεν έχει εικόνα και παραλείπεται"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s στο τέλος δεν έχει εικόνα και παραλείπεται"

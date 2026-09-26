@@ -187,8 +187,8 @@ msgstr "--update اسے لا کر اس کی جگہ رکھ دیتا ہے۔"
 msgid "The check for new versions is switched off here."
 msgstr "نئے ورژن کی جانچ یہاں بند ہے۔"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic کے بارے میں"
+msgid "About %(name)s"
+msgstr "%(name)s کے بارے میں"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "ویڈیو پوڈکاسٹ کا خام مواد ایک ایڈٹ شدہ قسط بن جاتا ہے: ویڈیو فائلوں سے اچھا آڈیو، کیمرے ایک وقتی محور پر، مقرر کے لحاظ سے پہلا کٹ، اور ایک DaVinci Resolve پروجیکٹ۔"
@@ -2371,9 +2371,6 @@ msgstr "Multitrack (ہر مقرر کے لیے ایک ٹریک)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack کو کم از کم دو ان پٹ ٹریک چاہییں۔ ٹریک یا تو الگ ریکارڈنگ ہے، یا ملٹی چینل ریکارڈر کا ایک چینل، یا کسی ویڈیو فائل کا آڈیو جو \"اندرونی آڈیو استعمال کریں\" پر طے ہو۔ ایک ہی ریکارڈنگ کے کئی بلاک ایک گنے جاتے ہیں، الگ رکھے گئے ٹریک بالکل نہیں۔"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "کوئی API کلید نہیں۔ AUPHONIC_TOKEN طے کریں، یا ایک بار انٹرفیس میں اسے محفوظ کروا لیں۔ کلید Auphonic اکاؤنٹ کی ترتیبات میں ہے۔"
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "کسی آڈیو فائل میں ٹائم کوڈ نہیں۔ اِن پوائنٹ اور آؤٹ پوائنٹ مواد کے آغاز سے گنے جاتے ہیں -- فائلوں کی ایک دوسرے کے لحاظ سے پوزیشن ناپی جاتی ہے۔"
 
@@ -2596,9 +2593,6 @@ msgstr "پیش نظارہ ممکن نہیں: %s"
 msgid "Preview running ..."
 msgstr "پیش نظارہ چل رہا ہے ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "ابتدائی کام -- آڈیو پڑھنا اور اینویلپ نکالنا:\n"
-
 msgid "Primaries"
 msgstr "بنیادی رنگ"
 
@@ -2725,9 +2719,6 @@ msgstr "پری سیٹ کا پہلا ٹریک ہمارے سب ٹریکوں کی �
 msgid "That needs the handover file from a run, and there is none."
 msgstr "اس کے لیے کسی رن کی حوالگی فائل چاہیے، اور وہ موجود نہیں۔"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "کلید صرف Mac اور Windows پر محفوظ کی جا سکتی ہے -- Keychain یا رجسٹری میں۔ یہ کسی فائل میں نہیں جاتی۔"
-
 msgid "%s -- being checked"
 msgstr "%s -- جانچ جاری ہے"
 
@@ -2760,9 +2751,6 @@ msgstr "  Keychain Access نہیں کھل سکا: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "محفوظ کی ہوئی کلید قبول نہیں کی گئی: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN والی کلید قبول نہیں کی گئی: %s"
 
 msgid "What auphonic.com replied"
 msgstr "auphonic.com نے کیا جواب دیا"
@@ -2896,8 +2884,8 @@ msgstr "ویڈیو 1"
 msgid "Video 2"
 msgstr "ویڈیو 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- خام مواد سے ایڈٹ شدہ پوڈکاسٹ"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- خام مواد سے ایڈٹ شدہ پوڈکاسٹ"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "والیوم۔ 100 سب سے اونچا ہے -- Qt اس سے اوپر کچھ نہیں لیتا۔"
@@ -2956,14 +2944,40 @@ msgstr "آدھی رات"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s: ٹائم کوڈ آدھی رات کے دوسری طرف کا ہے -- اسے ایک ہی رات گنا گیا، ایک دن کا فرق نہیں۔"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key اپنے بعد کچھ نہیں لیتا: کلید دکھائے بغیر پوچھی جاتی ہے۔ "
+"کچھ بھی محفوظ نہیں ہوا۔"
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "ٹائم کوڈ آدھی رات سے گنتا ہے اور وہیں سے دوبارہ شروع ہوتا ہے۔ کچھ بھی گھٹانے سے پہلے فائلیں ایک محور پر رکھی جاتی ہیں، ورنہ آدھی رات کے بعد والی ریکارڈنگ پچھلی سے تقریباً ایک دن دور لگتی ہے۔ اگر یہ واقعی مختلف دنوں میں ریکارڈ ہوئی تھیں تو الائنمنٹ غلط ہے اور ناپا گیا آفسیٹ ہی قابلِ اعتماد ہے۔"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API کلید (دکھائی نہیں جاتی): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "چینل %d حد سے ٹکرا رہا ہے: %s بار لگاتار تین یا زیادہ سیمپل، سب سے لمبا %s (%s ms)، پہلا %s پر۔"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "یہاں سیمپل بہ سیمپل، اسی ریٹ پر گنا گیا جس پر فائل ریکارڈ ہوئی تھی: لگاتار تین یا زیادہ سیمپل اس سب سے اونچی قدر پر جو کوئی انٹیجر فارمیٹ رکھ سکتا ہے۔ ایک یا دو راؤنڈنگ ہیں اور رپورٹ نہیں کیے جاتے۔ جو وہاں کٹ گیا وہ ختم ہو گیا اور کوئی پروسیسنگ اسے واپس نہیں لاتی -- لیکن ریکارڈنگ پھر بھی ریکارڈنگ ہے، اور اس سے کچھ نہیں رکتا۔ صرف انٹیجر فارمیٹ گنے جاتے ہیں۔ 32 bit float میں فل اسکیل پر کوئی حد نہیں، اس لیے وہاں گننے کو کچھ نہیں۔"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"کوئی API کلید نہیں۔ اسے ایک بار انٹرفیس میں، یا --store-auphonic-key سے "
+"محفوظ کریں۔ کلید Auphonic اکاؤنٹ کی ترتیبات میں ہے۔"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "کوئی کلید ٹائپ نہیں کی گئی، اس لیے کچھ بھی محفوظ نہیں ہوا۔"
+
+msgid "The key is not stored: %s"
+msgstr "کلید محفوظ نہیں ہوئی: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "کلید محفوظ ہو گئی ہے، اور واپس پڑھنے پر وہی کلید ملی۔"
 
 msgid "boxes no longer readable"
 msgstr "باکس اب پڑھنے کے قابل نہیں"
@@ -3409,8 +3423,8 @@ msgstr "منتقلی"
 msgid "Uploading %s tracks"
 msgstr "%s ٹریک اپ لوڈ ہو رہے ہیں"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON فائلیں (*.json);;تمام فائلیں (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON فائلیں (*.json);;تمام فائلیں (*)"
 
 msgid "Wide shot after"
 msgstr "وائیڈ شاٹ اتنی دیر بعد"
@@ -3708,9 +3722,6 @@ msgstr "اور یہاں کٹ لگتا ہے، اچھا لمحہ ہو یا نہ ہ
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "جوڑی کی سخت حد: جہاں \"وائیڈ شاٹ اتنی دیر بعد\" کے بعد سے جملے کا کوئی اختتام نہیں آیا، وہاں بولنے میں سب سے لمبا خلا اس کی جگہ لیتا ہے، اور اس مقام پر کٹ لگتا ہے چاہے اس وقت کچھ بھی کہا جا رہا ہو۔"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "ابھی کوئی ٹرانسکرپٹ نہیں۔ اس کے بغیر نہ کوئی سوال ملتا ہے اور نہ جملوں کے اختتام معلوم ہوتے ہیں، اس لیے یہ چار ترتیبات کچھ نہیں کرتیں۔ ایک رن اسے لکھتا ہے، اور اس کے بعد یہ کام کرتی ہیں۔"
 
 msgid "Why the question settings are grey"
 msgstr "سوال والی ترتیبات سرمئی کیوں ہیں"
@@ -4269,9 +4280,6 @@ msgstr "مختصر خلا زیادہ سے زیادہ"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "اتنی لمبی خاموشی تصویر کو نہیں چھیڑتی"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "صرف وہاں جہاں \"کوئی نہیں بول رہا\" کو مختصر خلا برقرار رکھنے پر رکھا گیا ہو۔ اتنی لمبائی تک کا خلا کچھ نہیں بدلتا، اس سے لمبا وائیڈ شاٹ پر جاتا ہے۔ دو سیکنڈ سے اوپر تصویر کسی خاموش شخص پر پانچ سیکنڈ سے زیادہ ٹھہرنے لگتی ہے۔"
 
 msgid "Recognition uncertain"
 msgstr "شناخت غیر یقینی"
@@ -4919,3 +4927,84 @@ msgstr "آڈیو پہچانا نہیں گیا، اس کے ٹائم کوڈ سے �
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s ریکارڈنگز اور کوئی تصویر نہیں: ہر ایک الگ سے جوڑی جاتی ہے اور انہیں ایک دوسرے کے ساتھ ہم آہنگ نہیں کیا جاتا۔ --multitrack انہیں ایک وقتی محور پر رکھتا ہے۔"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "، گھڑی کا انحراف %s ppm برقرار رکھا گیا: یہ اپنی غیر یقینی کا %s گنا نہیں، جو %s ppm ہے"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ٹرانسکرپٹ کے بغیر نہ کوئی سوال ملتا ہے اور نہ جملوں کے اختتام معلوم ہوتے ہیں، اس لیے سوال کی دو ترتیبات اور وائیڈ شاٹ کی وہ دو ترتیبات جو جملے کے اختتام کا انتظار کرتی ہیں، کچھ نہیں کرتیں۔"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ٹرانسکرپٹ کے بغیر کوئی سوال نہیں ملتا، اس لیے سوال کی دو ترتیبات کچھ نہیں کرتیں۔"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "ابھی کوئی نہیں: ایک رن اسے لکھتا ہے، اور اس کے بعد یہ کام کرتی ہیں۔"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "اس رن کے لیے تقریر کی شناخت بند تھی۔ اسے چالو رہنے دیں، تو اگلا رن ایک لکھے گا۔"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "رن نے کوئی ٹرانسکرپٹ نہیں لکھا: تقریر کی شناخت ناکام رہی یا اسے کچھ سنائی نہیں دیا، اور رن کا لاگ بتاتا ہے کہ کون سا۔ آڈیو کی زبان جانچیں اور دوبارہ چلائیں؛ جہاں اس مشین میں شناخت نہیں، وہاں macOS 26 ایک لاتا ہے، یا رن faster-whisper انسٹال کرتا ہے۔"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "کام جاری ہے -- %s منٹ سے کوئی پیغام نہیں، شاید کمپیوٹر مصروف ہے"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s منٹ سے کوئی تبدیلی نہیں -- شاید اٹک گیا ہے، براہ کرم جانچ لیں"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "باقی رکھا جاتا ہے: %s ppm یا اس سے زیادہ غالباً پیمائش کی غلطی ہے"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "باقی رکھا جاتا ہے: اپنی غیر یقینی کے %s گنا تک نہیں پہنچتا"
+
+msgid "Timing"
+msgstr "وقت"
+
+msgid "Special cases"
+msgstr "خاص صورتیں"
+
+msgid "Transcript"
+msgstr "ٹرانسکرپٹ"
+
+msgid "Writing down what is said ..."
+msgstr "جو کہا جا رہا ہے وہ لکھا جا رہا ہے ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ٹرانسکرپٹ کے لیے ٹریک ملائے جا رہے ہیں"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "یہ پس منظر میں لکھا جا رہا ہے؛ مکمل ہوتے ہی سیٹنگز خود کھل جائیں گی۔"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "کسی Secret Service کی رنگ نے جواب نہیں دیا، اس لیے کچھ محفوظ نہیں کیا گیا۔ Mac اور Windows کے علاوہ کلید ڈیسک ٹاپ کی کی رنگ میں رکھی جاتی ہے، libsecret کے secret-tool کمانڈ کے ذریعے۔ یہ کسی فائل میں نہیں جاتی۔"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "ابتدائی کام -- آڈیو پڑھنا، اینویلپ نکالنا اور جو کہا جائے اسے لکھنا:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  کناروں پر وائیڈ شاٹ: صرف %s سے -- شروع والا سب سے چھوٹے شاٹ سے بھی چھوٹا تھا اور اگلے میں مل گیا"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  کناروں پر وائیڈ شاٹ: صرف %s تک -- آخر والا سب سے چھوٹے شاٹ سے بھی چھوٹا تھا اور پچھلے میں مل گیا"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  کناروں پر وائیڈ شاٹ: کوئی نہیں -- دونوں سب سے چھوٹے شاٹ سے بھی چھوٹے تھے اور اپنے پڑوسیوں میں مل گئے"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "جہاں \"کوئی نہیں بول رہا\" کو مختصر خلا برقرار رکھنے پر رکھا گیا ہو، وہاں اتنی لمبائی تک کا خلا کچھ نہیں بدلتا اور اس سے لمبا وائیڈ شاٹ پر جاتا ہے۔ جہاں \"شناخت غیر یقینی\" کو \"کیمرا تبدیل نہیں\" پر رکھا گیا ہو، وہاں اس سے لمبا غیر یقینی حصہ بھی وائیڈ شاٹ پر جاتا ہے۔ دو سیکنڈ سے اوپر تصویر کسی خاموش شخص پر پانچ سیکنڈ سے زیادہ ٹھہرنے لگتی ہے۔"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s چھوڑ دیا گیا -- ٹائم کوڈ کے مطابق باقی بلاکوں سے %s دور، ایک ریکارڈنگ کے لیے بہت دور"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  کناروں پر وائیڈ شاٹ: پورا کٹ ہی وائیڈ شاٹ ہے"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  ہر ایک کو زیادہ سے زیادہ %s تک مختصر کیا گیا -- واحد اعلان %s سے %s تک چلتا ہے"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: شروع کے %s میں تصویر نہیں، اس لیے اسے چھوڑ دیا جاتا ہے"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: آخر کے %s میں تصویر نہیں، اس لیے اسے چھوڑ دیا جاتا ہے"

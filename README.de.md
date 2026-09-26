@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b25.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b26.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -153,7 +153,7 @@ Installation bringt sie alle mit. ffmpeg ist die Ausnahme, die es nicht
 sein kann, denn es ist kein Python — ein eigenes bringt das Programm
 nicht mit, es bietet den Paketverwalter des Systems an und fragt
 vorher, und sonst sagt es, woher man es bekommt. Benutzt wird das Ganze
-auf macOS und Windows; Linux läuft mit zwei Einschränkungen.
+auf macOS und Windows; Linux geht auch, mit zwei Unterschieden.
 
 Die Einzelheiten — warum diese ffmpeg-Fassung, welches Python empfohlen
 wird und was sich je Plattform unterscheidet — stehen in

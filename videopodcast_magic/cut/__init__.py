@@ -28,6 +28,7 @@ FileSet = PROGRAM.FileSet
 IGNORE_AUDIO = PROGRAM.IGNORE_AUDIO
 MIN_EDIT_DURATION_S = PROGRAM.MIN_EDIT_DURATION_S
 MIX_ONLY = PROGRAM.MIX_ONLY
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 PROJECT_PREFIX = PROGRAM.PROJECT_PREFIX
 SHOT_ALTERNATE = PROGRAM.SHOT_ALTERNATE
 SHOT_ANSWER = PROGRAM.SHOT_ANSWER
@@ -570,9 +571,9 @@ def cut_rules(**over):
            "on_monologue": SHOT_ALTERNATE,
            "on_together": SHOT_WIDE,
            "on_uncertain": SHOT_WIDE,
-           # The wide shot, as it always was. A setting that moves the
-           # cut of every project already made belongs to whoever cuts.
-           "on_silence": SHOT_WIDE,
+           # A breath is held, a longer silence goes wide. A project
+           # saved before keeps the answer it holds in its own file.
+           "on_silence": SHOT_HOLD_BRIEF,
            "silence_hold": SILENCE_HOLD_S,
            "on_question": SHOT_ANSWER,
            "reaction_lead": 1.5,
@@ -769,14 +770,15 @@ def floor_handovers(tracks, main_speaker, min_len_speech,
 EDGE_SHARE = 1.0 / 3.0
 
 def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
-                   faint=False, latest=None):
+                   said=None, latest=None):
     """Hold the wide shot while the round is introduced and closed.
 
     Someone introduces the participants at the start and says goodbye at
     the end; both belong in the wide frame. The opening ends where the
     floor first changes hands away from the main speaker, and the same
     rule runs backwards. A voice the separation never hears cannot end it.
-    *latest* is "Wide shot at the latest"; see edges_held_short.
+    *latest* is "Wide shot at the latest"; see edges_held_short. What was
+    laid goes into *said* for edges_said, which reads the finished cut.
     """
     if not cut:
         return cut
@@ -800,15 +802,59 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
             out += [(a, from_s, who), (from_s, b, wide_shot)]
         else:
             out.append((a, b, who))
-    if not faint:
-        print(T('  Wide shot at the edges: until %s and from %s') % (as_hms(until - begin),
-                                                      as_hms(from_s - begin)))
-        if (until, from_s) != (other[0][1], other[-1][0]):
-            print(T('  shortened to at most %s each -- the first '
-                    'announcement ends at %s, the last begins at %s')
-                  % (as_hms(most), as_hms(other[0][1] - begin),
-                     as_hms(other[-1][0] - begin)))
+    if said is not None:
+        said.update(begin=begin, most=most, first=other[0][1],
+                    last=other[-1][0], only=other[0] if len(other) == 1
+                    else None,
+                    held=(until, from_s) != (other[0][1], other[-1][0]))
     return merge_adjacent(out)
+
+def edges_said(cut, wide_shot, said):
+    """The log lines for the wide shot at the edges, read off *cut*.
+
+    *cut* is the finished one: an edge shorter than the shortest shot
+    goes in the merging, and a line written before it named an edge that
+    never appears. *said* is what wide_shot_at_edges filled in. A cut
+    that is one wide shot from end to end says so and nothing more.
+    """
+    if not said or not cut:
+        return ""
+    begin = said["begin"]
+    opening = cut[0][1] if cut[0][2] == wide_shot else None
+    closing = cut[-1][0] if cut[-1][2] == wide_shot else None
+    # One wide shot from end to end: its end and its start are no edges,
+    # and nothing was shortened that anybody could see.
+    whole = len(cut) == 1 and opening is not None
+    held = said["held"] and len(cut) > 1
+    if whole:
+        out = [T('  Wide shot at the edges: the whole cut is the wide shot')]
+    elif opening is not None and closing is not None:
+        out = [T('  Wide shot at the edges: until %s and from %s')
+               % (as_hms(opening - begin), as_hms(closing - begin))]
+    elif closing is not None:
+        out = [T('  Wide shot at the edges: only from %s -- the opening '
+                 'one was shorter than the shortest shot and went into '
+                 'the next') % as_hms(closing - begin)]
+    elif opening is not None:
+        out = [T('  Wide shot at the edges: only until %s -- the closing '
+                 'one was shorter than the shortest shot and went into '
+                 'the one before') % as_hms(opening - begin)]
+    else:
+        out = [T('  Wide shot at the edges: none -- both were shorter '
+                 'than the shortest shot and went into their neighbours')]
+    if held and said.get("only"):
+        # One passage is both the first and the last: "the last begins"
+        # before "the first ends" reads as a fault in the numbers.
+        out.append(T('  shortened to at most %s each -- the only '
+                     'announcement runs from %s to %s')
+                   % (as_hms(said["most"]), as_hms(said["only"][0] - begin),
+                      as_hms(said["only"][1] - begin)))
+    elif held:
+        out.append(T('  shortened to at most %s each -- the first '
+                     'announcement ends at %s, the last begins at %s')
+                   % (as_hms(said["most"]), as_hms(said["first"] - begin),
+                      as_hms(said["last"] - begin)))
+    return "\n".join(out)
 
 def edges_held_short(begin, end, until, from_s, latest=None):
     """Shorten either edge to what it may hold. Returns (until, from, most).
@@ -1087,8 +1133,9 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     rules = rules or cut_rules()
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
                            min_len=min_len, lead_in=-delay, rules=rules)
+    said = {}
     if edge:
-        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint,
+        cut = wide_shot_at_edges(cut, tracks, wide_shot, said=said,
                                  latest=at_latest)
         cut = merge_short_shots(cut, min_len)
     if after > 0:
@@ -1097,6 +1144,8 @@ def camera_cut(tracks, length, camera_of, wide_shot,
         # And again after them, which is what merge_short_shots asks
         # for: an inserted wide shot may be shorter than the shortest.
         cut = merge_short_shots(cut, min_len)
+    if said and not faint:
+        print(edges_said(cut, wide_shot, said))
     return cut
 
 def camera_short_name(track):
@@ -1197,27 +1246,61 @@ def wide_settings_grey(parts, tick, note, there, quiet, words_there):
     note.setText("" if there else why)
     note.setVisible(not there)
 
+def words_missing_why(d):
+    """Why a handover carries no words: "yet", "listening", "off", "failed".
+
+    True where it carries some. "listening" while the window writes its
+    own; a preview without one, and an older run that wrote no "words"
+    at all, are "yet". A run that listened and brought nothing back
+    failed; one told not to listen says so with speech_recognition false.
+    """
+    if words_from_handover(d):
+        return True
+    if (d or {}).get("words_listening"):
+        return "listening"
+    if (d or {}).get("speech_recognition") is False:
+        return "off"
+    return "failed" if "words" in (d or {}) else "yet"
+
 def words_settings_grey(parts, note, there, wide_there, quiet):
     """Grey the settings that need a transcript, with the reason.
 
-    Four of them: the two of the question, which without words find no
-    question at all, and two of the wide shot, which place themselves on
-    a sentence boundary. *wide_there* keeps the wide shot's own greying:
-    a control is open only where both say so.
+    The two of the question, which without words find no question, and
+    two of the wide shot, which place themselves on a sentence boundary.
+    *there* is True, or words_missing_why's answer (False means "yet");
+    a failed transcript is said in the warning colour, with what to do.
+    *wide_there* keeps the wide shot's own greying: open where both say so.
     """
-    why = T('No transcript yet. Without one no question is found and no '
-            'sentence boundary is known, so these four settings do '
-            'nothing. A run writes it, and from then on they work.')
+    state = "yet" if there is False else there
+    why = {"yet": T('There is none yet: a run writes it, and from then on '
+                    'they work.'),
+           "listening": T('It is being written down in the background; '
+                          'they open by themselves when it is done.'),
+           "off": T('Speech recognition was switched off for the run. '
+                    'Leave it on, and the next run writes one.'),
+           "failed": T('The run wrote none: the speech recognition failed '
+                       'or heard nothing, and the run\'s log says which. '
+                       'Check the language of the sound and run again; '
+                       'where this machine has no recognition, macOS 26 '
+                       'brings one, or the run installs faster-whisper.')
+           }.get(state, "")
+    if why:
+        why = (T('Without a transcript no question is found and no '
+                 'sentence boundary is known, so the two question '
+                 'settings and the two wide shot settings that wait for '
+                 'the end of a sentence do nothing.') if wide_there else
+               T('Without a transcript no question is found, so the two '
+                 'question settings do nothing.')) + " " + why
     for api_key in QUESTION_SETTINGS:
         for w in parts.get(api_key, (None, None)):
             if w is not None:
-                w.setEnabled(there)
+                w.setEnabled(state is True)
     for api_key in WIDE_NEEDS_WORDS:
         for w in parts.get(api_key, (None, None)):
             if w is not None:
-                w.setEnabled(there and wide_there)
-    note.setText("" if there else why)
-    note.setVisible(not there)
+                w.setEnabled(state is True and wide_there)
+    label_say(note, why, COLOURS["warning"] if state == "failed" else quiet)
+    note.setVisible(bool(why))
 
 def wide_cameras_of(files, kinds, remembered, taken, placeless=(),
                     sync=False):
@@ -1435,6 +1518,9 @@ def without_a_wide_shot(after, edge, rules):
     for api_key in ("on_monologue", "on_together", "on_uncertain"):
         if rules.get(api_key) == SHOT_WIDE:
             rules[api_key] = SHOT_HOLD
+    # And an uncertain stretch holds without the silence's limit: past
+    # it would stand the stand-in, a speaker's camera picked by name.
+    rules["no_wide"] = True
     return 0.0, False, rules
 
 def legend_names(cameras, wide_shot=None):
@@ -1885,15 +1971,16 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         preview_label.setStyleSheet("color: %s" % (colour or COLOURS["value"]))
 
     def preview_compute():
-        # Kept in state at the end of this def: an answer on the
-        # assignment sheet has to reach the preview without a run.
+        """Work the cut out again and show it under the picture.
+
+        From a run's handover, else what the window measures; kept in state.
+        """
         d = None
         state["reason"] = ""
-        # The handover of a run. Only where there is none does the
-        # window work the speakers out for itself.
         d = preview_handover(state)
         if d is None:
-            d = off_speakers()
+            d = PROGRAM.window_words_joined(state, off_speakers(),
+                                            assign_lines)
         # A change on the assignment sheet reaches the preview without
         # a run: the file may be older than the answer.
         now = state.get("wide_cameras_now")
@@ -1967,7 +2054,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         state["words_there"] = bool(words_from_handover(d))
         if state.get("cut_box_there"):
             words_settings_grey(cut_parts, question_note,
-                                state["words_there"],
+                                words_missing_why(d),
                                 bool(wide_cameras_now()[0]), COLOURS["quiet"])
         try:
             numbers = cut_statistics(d, number["min-edit-duration"],
@@ -2084,11 +2171,17 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             return None
         return wide_shot
 
+    held = object()
+
     def unsure_picture(t, active):
-        """Return what to show where the cut does not know whom."""
+        """Return what to show where the cut does not know whom.
+
+        Holding is marked, not answered: how long it may last is the
+        whole stretch's length, which unsure_held knows afterwards.
+        """
         want = rules.get("on_uncertain") or SHOT_WIDE
         if want == SHOT_HOLD:
-            return None
+            return held
         if want in (SHOT_LISTENER, SHOT_ALTERNATE):
             here = {camera_of.get(n) for n in on_a_camera(active)}
             listener = next_speaker_camera(
@@ -2141,6 +2234,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             who = common_camera(shown) or together_picture(middle, shown)
         raw.append([a, b, who, tuple(sorted(active, key=name_order))])
 
+    unsure_held(raw, held, wide_shot,
+                None if rules.get("no_wide") else hold_gap)
     # "Hold" means the picture does not change, so the block takes the
     # camera of the one before it -- or of the one after, at the start.
     for i in range(len(raw)):
@@ -2227,6 +2322,27 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
         tally["used"] = tally.get("used", 0) - missed
         tally["not_moved"] = missed
     return [tuple(r) for r in final]
+
+def unsure_held(raw, held, wide_shot, most):
+    """Answer the holds of "Recognition uncertain", in place, in *raw*.
+
+    The limit is the silence's, "Short gap up to": a stretch of blocks
+    marked *held* no longer than *most* keeps the picture (None), a
+    longer one goes to the wide shot. *most* None holds without an end,
+    as where the wide shot is only a stand-in.
+    """
+    i = 0
+    while i < len(raw):
+        if raw[i][2] is not held:
+            i += 1
+            continue
+        j = i
+        while j + 1 < len(raw) and raw[j + 1][2] is held:
+            j += 1
+        keep = most is None or raw[j][1] - raw[i][0] <= most
+        for k in range(i, j + 1):
+            raw[k][2] = None if keep else wide_shot
+        i = j + 1
 
 def voices_joined(keeper, swallowed):
     """Add the swallowed shot's voices to the shot that stays.
@@ -2687,7 +2803,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     drop = is_drop_frame(ref_clip[1].get("tc") if ref_clip else None)
     handover = {
         "format": FILE_FORMAT,
-        "created_by": "videopodcast-magic %s" % VERSION,
+        "created_by": "%s %s" % (PROGRAM_NAME, VERSION),
         "production": args.production or 'Production',
         # "cut" or "sync". The Resolve side branches on this and not on
         # an empty cut list: a cut can be empty because nobody was heard,
@@ -3076,8 +3192,8 @@ def refresh_cut_list(d, file_path):
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
-    d["created_by"] = ('videopodcast-magic %s (cut list refreshed)'
-                       % VERSION)
+    d["created_by"] = ('%s %s (cut list refreshed)'
+                       % (PROGRAM_NAME, VERSION))
     # Written beside it and moved into place: writing straight onto it,
     # a failure half way leaves a fragment the next run silently skips.
     beside = file_path + ".new"

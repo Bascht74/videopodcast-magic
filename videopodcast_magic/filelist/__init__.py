@@ -203,22 +203,23 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
 # They answer each other, which is why they are one call and not five.
 
 
-def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
-                      report, items, item, drop_area, preflight_line,
-                      preflight_fill_in, preflight_kick_off, blocks_of,
-                      recording_of, join_to, no_join, lines_node,
-                      prework_node, video_kind_again, channel_rows_show,
-                      audio_use_now, video_choices_show, settings_show,
-                      buttons_check, show_weak, assignment_fresh,
-                      finished_tracks_check, prework_clean_up, remembered,
-                      together_now, production_var, commonest_folder,
-                      remove_button, bar_env_curve):
+def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
+                      report, preflight_fill_in, preflight_kick_off,
+                      lines_node, prework_node, video_kind_again,
+                      channel_rows_show, audio_use_now, video_choices_show):
     """The file list changing: adding, removing, and reading it again.
 
     One name for five because they are one theme and answer each other:
-    take_paths and remove change what `files` holds, and both end in
-    items_fresh, which builds every row again and asks for a check.
+    take_paths and remove change what the model's files hold, and both
+    end in items_fresh, which builds every row again and asks for a
+    check. The list, the drop area and the bar are the first sheet's;
+    what the rest of the window does about a change, it hears as signals.
     """
+    sheet = window.files_sheet
+    drop_area, remove_button = sheet.drop_area, sheet.remove_button
+    bar_env_curve, items, item = sheet.bar, sheet.items, sheet.item
+    preflight_line = sheet.preflight_line
+    blocks_of, recording_of = model.blocks_of, model.recording_of
 
     def join_row_show(node, path, heads):
         """Offer to put this recording into another one.
@@ -230,7 +231,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         the one being joined into; join_barred says what is greyed.
         """
         others = [h for h in heads if path_key(h) != path_key(path)
-                  and h not in join_to]
+                  and h not in model.join_to]
         if not others:
             return
         kid = QtWidgets.QTreeWidgetItem(["      " + T('belongs to'), "", ""])
@@ -238,17 +239,17 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         node.insertChild(0, kid)
         box = PROGRAM.join_box_fill(QtWidgets.QComboBox(), path, others,
                                     blocks_of)
-        i = box.findData(join_to.get(path) or "")
+        i = box.findData(model.join_to.get(path) or "")
         box.setCurrentIndex(i if i >= 0 else 0)
 
         def chosen(_i=0, file_path=os.path.abspath(path), b=box):
             target = b.currentData() or ""
             if target:
-                join_to[file_path] = target
+                model.join_to[file_path] = target
             else:
-                join_to.pop(file_path, None)
+                model.join_to.pop(file_path, None)
             QtCore.QTimer.singleShot(0, items_fresh)
-            QtCore.QTimer.singleShot(0, assignment_fresh)
+            QtCore.QTimer.singleShot(0, window.assignment_due.emit)
             QtCore.QTimer.singleShot(0, preflight_kick_off)
 
         box.currentIndexChanged.connect(chosen)
@@ -266,7 +267,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
 
     def items_fresh():
         """Build every row of the list again, and what hangs off the rows."""
-        probe_warm([p for p, _ in files])
+        probe_warm([p for p, _ in model.files])
         items.clear()
         # The rows are gone with it, so what could draw them again goes too.
         video_kind_again.clear()
@@ -283,12 +284,12 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         state["own_cameras"] = list(own_now)
         state["forced_own"] = list(forced_now)
         for kind, title in (("audio", T('AUDIO')), ("video", T('VIDEO'))):
-            own = [p for p, a in files if a == kind]
+            own = [p for p, a in model.files if a == kind]
             if not own:
                 continue
             if kind == "audio":
-                chains = group_recording_parts(own, apart=no_join,
-                                               together=together_now())
+                chains = group_recording_parts(own, apart=model.no_join,
+                                               together=model.together_now())
                 file_count = sum(len(r) for r, _ in chains)
                 header_value = recordings_text(len(chains), file_count)
                 state["audio_recordings"] = len(chains)
@@ -347,24 +348,20 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                     item(node, "      " + k, value)
                 node.setExpanded(False)
         # The drop area gives way to the list as soon as something is in it.
-        drop_area.setVisible(not files)
-        items.setVisible(bool(files))
-        preflight_line.setVisible(bool(files))
+        drop_area.setVisible(not model.files)
+        items.setVisible(bool(model.files))
+        preflight_line.setVisible(bool(model.files))
         # Re-enter what is measured, so the list is never briefly markless.
         if state.get("preflight_findings"):
             preflight_fill_in(state["preflight_findings"])
         preflight_kick_off()
-        bar_env_curve.setVisible(bool(files))
+        bar_env_curve.setVisible(bool(model.files))
         # The name comes from the material, the output folder from
         # nobody: a handover file in a subfolder belongs to the run that
         # wrote it, so the folder stays empty until it is chosen.
-        if files and not production_var.get().strip():
-            production_var.set(guess_production_name(files[0][0]))
-        show_weak()
-        finished_tracks_check()
-        buttons_check()
-        settings_show()
-        assignment_fresh()
+        if model.files and not model.production.get().strip():
+            model.production.set(guess_production_name(model.files[0][0]))
+        window.files_redrawn.emit()
 
     def take_paths(new_one, quiet=False):
         """Take paths into the list, from the file dialog or dragged in.
@@ -388,8 +385,8 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                 if not os.path.basename(p).startswith("."):
                     unknown.append(os.path.basename(p))
                 continue
-            if p not in [x for x, _ in files]:
-                files.append((p, kind))
+            if p not in [x for x, _ in model.files]:
+                model.files.append((p, kind))
         if unknown and not quiet:
             report(T('Not recognised'),
                    T('These files are neither audio nor video and stay '
@@ -397,7 +394,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         # Asked before the files are measured: opening the project
         # replaces the list with its own files and builds that list
         # itself, so anything measured first was measured for nothing.
-        if project_offer(QtWidgets, window, state, [x for x, _ in files],
+        if project_offer(QtWidgets, window, state, [x for x, _ in model.files],
                          ask, state["project_open"]):
             return
         items_fresh()
@@ -407,7 +404,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                   % " ".join("*" + e for e in AUDIO_SUFFIXES + VIDEO_SUFFIXES))
         new_one, _ = QtWidgets.QFileDialog.getOpenFileNames(
             window, T('Select audio and video files'),
-            commonest_folder() or "", pattern)
+            model.commonest_folder() or "", pattern)
         take_paths(new_one)
 
     def remove():
@@ -418,7 +415,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         kind = choice.data(0, Qt.UserRole + 1)
         single_block = False
         if kind:
-            affected = [p for p, a in files if a == kind]
+            affected = [p for p, a in model.files if a == kind]
             if not affected:
                 return
             # Two whole wordings per kind, never a word with an "s"
@@ -455,21 +452,22 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
             if single_block:
                 # One block out of a recording: it must stay out. The
                 # search for continuations looks in the folder, not here.
-                no_join.update(gone)
-        files[:] = [(p, a) for p, a in files
-                      if os.path.abspath(p) not in gone]
+                model.no_join.update(gone)
+        model.files[:] = [(p, a) for p, a in model.files
+                            if os.path.abspath(p) not in gone]
         # A whole recording leaving takes the marks of its blocks with
         # it: adding the files again then joins them up as before.
         if not single_block:
             for p in list(gone):
-                no_join.difference_update(recording_family(p))
-        prework_clean_up(gone)
+                model.no_join.difference_update(recording_family(p))
+        window.files_leaving.emit(gone)
         items_fresh()
         # After the tables are built again, not before: building them
         # writes back every row they hold, and the row that has just gone
         # is among them until then. This store feeds the project file.
-        remembered_forget(remembered, gone)
+        remembered_forget(model.remembered, gone)
 
+    window.files_changed.connect(items_fresh)
     return items_fresh, take_paths, add_files, remove
 
 #--------------------------------- A recording of several blocks

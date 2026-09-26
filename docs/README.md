@@ -193,14 +193,16 @@ explains the word comes first.
   sound"
 * **stereo track**: `channels`, "Stereo stays stereo"; `preflight`, "Which
   loudness target holds"
+* **subtitles (`.srt`)**: `speech`, "The three transcript files"
 * **Sync only (project type)**: see project type
 * **time axis**: `interface`, "How the time axis is measured";
   `multitrack`, "What Multitrack does"
 * **time window**: `multitrack`, "Setting the time window"; `multitrack`,
   "How much of each camera is written"
 * **timecode, virtual**: `interface`, "How the time axis is measured"
-* **transcript**: `speech`, "How the program writes the text down";
-  `auphonic`, "The transcript is made here"
+* **transcript**: `speech`, "The three transcript files"; `speech`,
+  "How the program writes the text down"; `auphonic`, "The transcript is
+  made here"
 * **update**: `interface`, "Keeping itself up to date";
   `interface`, "The way back to an earlier version"
 * **voice**: `speech`, "Naming the voices"

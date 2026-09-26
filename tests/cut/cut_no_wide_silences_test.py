@@ -94,8 +94,16 @@ NO_WIDE = vpm.T('  Every camera carries a speaker, so there is no wide '
                 'shot: the four wide shot settings and the tick for the '
                 'edges do nothing here.')
 COUNTED = vpm.T('  %s wide shots: the cut uses %s.')
+# Read off the finished cut: the opening edge runs on through the
+# silence after Bert, 40 to 60, and the closing one begins where Anna
+# stops at 240 -- both moved by the 0.3 s edit change delay.
 AT_EDGES = vpm.T('  Wide shot at the edges: until %s and from %s') \
-    % (vpm.as_hms(40.0), vpm.as_hms(250.0))
+    % (vpm.as_hms(60.3), vpm.as_hms(240.3))
+# What every line about the edges begins with, whatever it says.
+EDGES_LEAD = os.path.commonprefix([
+    vpm.T('  Wide shot at the edges: until %s and from %s'),
+    vpm.T('  Wide shot at the edges: none -- both were shorter than the '
+          'shortest shot and went into their neighbours')])
 
 
 def a_run(cameras, speech=SPEECH, marked=()):
@@ -211,9 +219,9 @@ check("the opening stays with the speaker, not with a stand-in",
       "at 35.0 s the cut shows %s, wanted CamC -- Bert is heard there and "
       "the stand-in would be CamA" % shown_at(none_cut, 35.0))
 check("and the run announces no wide shot at the edges",
-      none_log.count(AT_EDGES) == 0,
+      none_log.count(EDGES_LEAD) == 0,
       "%r stands %d times in the log, wanted 0"
-      % (AT_EDGES, none_log.count(AT_EDGES)))
+      % (EDGES_LEAD, none_log.count(EDGES_LEAD)))
 check("two speaking at once hold the picture where it was",
       shown_at(none_cut, 175.0) == "CamC",
       "at 175.0 s the cut shows %s, wanted CamC -- Bert had the shot "

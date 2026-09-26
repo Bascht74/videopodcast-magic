@@ -91,8 +91,8 @@ msgstr "あとで"
 msgid "Go back"
 msgstr "戻る"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic について"
+msgid "About %(name)s"
+msgstr "%(name)s について"
 
 msgid "&File"
 msgstr "ファイル(&F)"
@@ -431,9 +431,6 @@ msgstr "再生と一時停止をします。"
 
 msgid "Preview running ..."
 msgstr "プレビュー実行中 ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "前処理 -- 音声を読み、エンベロープを計算します：\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "auphonic.com での処理（任意）"
@@ -1104,14 +1101,8 @@ msgstr "異なるトラック名"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  この名前の制作はすでにあります"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN のキーが受け付けられません：%s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "保存されたキーが受け付けられません：%s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API キーがありません。AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "アカウントにプリセットが保存されていません。Web 画面で作成できます。"
@@ -1553,9 +1544,6 @@ msgstr "  %s：チャンネル数を判定できません（%s） -- 測定し�
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "話者のいないカメラがないため、引き画がありません：引き画の 4 つの設定と両端のチェックは効果がありません。いずれかのカメラの「種類」を「引き画」にするか、話者なしのカメラを 1 台残してください。"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "まだ文字起こしがありません。文字起こしがないと質問も文の区切りも見つからないため、この 4 つの設定は効果がありません。実行時に書き出され、それ以降は有効になります。"
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  質問：文字起こしがないため、質問は見つからず、リアクションカットも\n        行われませんでした。言葉は実行中に完成したミックスから\n        書き起こされます。それがなければこの設定は効果がありません。"
@@ -3083,8 +3071,8 @@ msgstr "これらのファイルはもう存在しません:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  プロジェクトファイルに書き込めません（%s）\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON ファイル (*.json);;すべてのファイル (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON ファイル (*.json);;すべてのファイル (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "この受け渡しにはフレームレートがないため、Timeline を作れません。もう一度実行してください。"
@@ -3677,9 +3665,6 @@ msgstr "パッケージマネージャーで: apt install ffmpeg、dnf install f
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "この ffmpeg には soxr がありません: カメラ間のクロックのずれは 0.21 ではなく 21 ppm 刻みで補正されます。"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "キーは Mac と Windows でのみ保存できます -- キーチェーンかレジストリに。ファイルには書き込みません。"
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org に Windows 用のビルドがあります。ffmpeg.exe のあるフォルダーを PATH に加えるか、ファイルをこのプログラムの隣に置いてください。"
 
@@ -4067,8 +4052,8 @@ msgstr "扱える音声がありません -- 映像ファイルのカメラ音�
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "本編: ほかと同じ1台のカメラ。\n引き画: 誰も前に座っていないカメラ -- 話者を持たず、間(ま)と長い独話のときにカットがここへ切り替わります。\nイントロとアウトロは完成したクリップです -- 位置合わせも処理もせず、Timeline に置くだけです。\n映像を無視: このファイルはまったく使いません。"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- 素材から編集済みのポッドキャストへ"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- 素材から編集済みのポッドキャストへ"
 
 msgid "The work can be written to a project file first."
 msgstr "作業内容を先にプロジェクトファイルへ書き出せます。"
@@ -4620,9 +4605,6 @@ msgstr "これより短いショットは次のショットに統合されます
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "短い「はい」では画は動きません。これがないと、0.5 秒のブロックがカメラを引き寄せ、さらに最短ショット長がそこに数秒間とどめてしまいます。"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "「誰も話さない」が短い間を保つ設定になっている場合だけです。この長さまでの間は何も変えず、それより長い間は引き画に切り替わります。2 秒を超えると、黙っている人に画が 5 秒以上とどまり始めます。"
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 定輝度"
 
@@ -4668,14 +4650,32 @@ msgstr "%s は素材のどこにも合わず、音声で配置されたカメラ
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s は素材のどこにも合わず、音声で配置されたカメラのどれにも照合できるタイムコードがありません。イントロはすでに埋まっています：除外しました。"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr "--store-auphonic-key の後には何も指定できません。キーは表示されない形で尋ねられます。何も保存されていません。"
+
 msgid "API Key:"
 msgstr "API Key："
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic の API キー（表示されません）： "
 
 msgid "In point"
 msgstr "イン点"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "除外しました。%s または %s はワンクリックで選べます。"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API キーがありません。画面で一度保存するか、--store-auphonic-key で保存してください。キーは Auphonic "
+"のアカウント設定にあります。"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "キーが入力されなかったため、何も保存されていません。"
 
 msgid "Out point"
 msgstr "アウト点"
@@ -4685,6 +4685,12 @@ msgstr "プリセット："
 
 msgid "Registry"
 msgstr "レジストリ"
+
+msgid "The key is not stored: %s"
+msgstr "キーは保存されていません：%s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "キーは保存され、読み戻すと同じキーでした。"
 
 msgid "VIDEO"
 msgstr "映像"
@@ -4875,3 +4881,84 @@ msgstr "音声を認識できず、タイムコードで配置しました"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s 本の録音があり、映像はありません: それぞれ単独で連結し、互いに合わせることはしません。--multitrack を使うと一つの時間軸に並べます。"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "、クロックのずれ %s ppm はそのまま: 不確かさの %s 倍に届かない（不確かさは %s ppm）"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "文字起こしがないと質問も文の区切りも見つからないため、質問の 2 つの設定と、文の終わりを待つ引き画の 2 つの設定は効果がありません。"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "文字起こしがないと質問が見つからないため、質問の 2 つの設定は効果がありません。"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "まだありません。実行時に書き出され、それ以降は有効になります。"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "この実行では音声認識がオフでした。オンのままにしておけば、次の実行で書き出されます。"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "この実行では文字起こしが書き出されませんでした。音声認識が失敗したか何も聞き取れず、どちらだったかは実行のログにあります。音声の言語を確認してもう一度実行してください。このマシンに音声認識がない場合は macOS 26 に含まれています。または実行時に faster-whisper がインストールされます。"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "処理中 -- %s 分間応答なし、コンピューターが混み合っている可能性があります"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s 分間変化なし -- 止まっている可能性があります。確認してください"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "そのまま残します: %s ppm 以上はむしろ測定エラーです"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "そのまま残します: 不確かさの %s 倍に達していません"
+
+msgid "Timing"
+msgstr "タイミング"
+
+msgid "Special cases"
+msgstr "特別な場合"
+
+msgid "Transcript"
+msgstr "書き起こし"
+
+msgid "Writing down what is said ..."
+msgstr "話された内容を書き起こしています ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "書き起こし用にトラックをミックスしています"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "バックグラウンドで書き起こし中です。終われば設定は自動的に使えるようになります。"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Secret Service のキーリングが応答しなかったため、何も保存されていません。Mac と Windows 以外では、キーは libsecret の secret-tool コマンドを通じてデスクトップのキーリングに保存されます。ファイルには書き込みません。"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "前処理 -- 音声を読み、エンベロープを計算し、話された内容を書き起こします：\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  両端の引き画: %s からのみ -- 冒頭のものは最短のショットより短く、次のショットに吸収されました"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  両端の引き画: %s までのみ -- 末尾のものは最短のショットより短く、前のショットに吸収されました"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  両端の引き画: なし -- どちらも最短のショットより短く、隣のショットに吸収されました"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "「誰も話さない」が短い間を保つ設定のときは、この長さまでの間は何も変えず、それより長い間は引き画に切り替わります。「認識が不確か」が「カメラを切り替えない」の設定のときは、これより長い不確かな区間も引き画に切り替わります。2 秒を超えると、黙っている人に画が 5 秒以上とどまり始めます。"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s を除外 -- タイムコード上ほかのブロックから %s 離れており、1 つの録音としては離れすぎ"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  両端の引き画: カット全体が引き画です"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  それぞれ最長 %s に短縮 -- 唯一の発言は %s から %s まで"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: 先頭の %s は映像がないため省きます"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: 末尾の %s は映像がないため省きます"

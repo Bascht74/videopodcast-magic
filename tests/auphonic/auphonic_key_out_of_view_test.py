@@ -404,10 +404,10 @@ for path in survivors:
 # --------------------------------------------------- 5. The project file
 print("\n5. The project file")
 
-# project_write sits inside gui() and cannot be called from out here, so
-# its own body is cut out of the source and run for real against a
-# folder of its own: the file that comes out is the one the program
-# writes, not a copy of the rule in another shape.
+# project_write sits inside make_project_file() and cannot be called
+# from out here, so its own body is cut out of the source and run for
+# real against a folder of its own: the file that comes out is the one
+# the program writes, not a copy of the rule in another shape.
 source = the_program.whole()
 
 
@@ -430,6 +430,12 @@ def lifted(name):
 room = tempfile.mkdtemp(prefix="vpm_key_view_")
 project_path = os.path.join(room, "podcast.vpm")
 
+
+class Production(object):
+    """What project_write reads off the window's model: the files."""
+    files = [(os.path.join(room, "a.mov"), "camera")]
+
+
 body = lifted("project_write")
 around = {"project_move": lambda: None,
           "axis_file": lambda: project_path,
@@ -437,7 +443,7 @@ around = {"project_move": lambda: None,
           "settings_extend": lambda d: d.update({"production": "Test"}),
           "FILE_FORMAT": vpm.FILE_FORMAT,
           "VERSION": vpm.VERSION,
-          "files": [(os.path.join(room, "a.mov"), "camera")],
+          "model": Production(),
           "state": {"axis_absolute": False},
           "json": json,
           "write": lambda text: None,

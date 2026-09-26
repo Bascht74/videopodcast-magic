@@ -72,39 +72,51 @@ widest_track = PROGRAM.widest_track
 AUPHONIC = "https://auphonic.com"
 
 
-def api_key_source(args=None):
+def api_key_source(args=None, handed=""):
     """Return (the API key, where it came from).
 
-    Read in order: the window's hand-over, environment, credential
-    store. Which of the three answered travels with the key, or a
-    complaint names the store for a key that came from elsewhere.
+    Read in order: the key a run already holds, the window's hand-over,
+    the credential store -- the one place a key is kept. Which answered
+    travels with the key, so a complaint names the store only for a key
+    that came out of it.
     """
     given = getattr(args, "auphonic_key", "") if args is not None else ""
-    from_env = os.environ.get("AUPHONIC_TOKEN")
-    if given and given != from_env:
-        return given, "window"
-    if from_env:
-        return from_env, "environment"
+    if given:
+        return given, getattr(args, "auphonic_key_from", "") or "window"
+    if handed:
+        return handed, "window"
     kept = load_api_key() or ""
     return kept, ("store" if kept else "")
 
 
+def key_for_run(args):
+    """Give a run its key and its origin, the same on every way.
+
+    With pictures, with several recordings and with one alike: the
+    window's hand-over, then the credential store. A key sends nothing
+    by itself -- choose_preset still wants a preset first.
+    --without-auphonic takes none. Returns the key, or None.
+    """
+    key, origin = (("", "") if getattr(args, "without_auphonic", False)
+                   else api_key_source(handed=PROGRAM.RUN_KEY))
+    args.auphonic_key, args.auphonic_key_from = key or None, origin
+    return args.auphonic_key
+
+
 def key_refused_note(origin, error):
     """Say a key was refused, and name where that key came from."""
-    if origin == "environment":
-        return T('The key from AUPHONIC_TOKEN is not accepted: %s') % error
     if origin == "store":
         return T('The stored key is not accepted: %s') % error
     return T('auphonic.com does not accept the key: %s') % error
 
 
 def api_key_from_anywhere(args):
-    """Return the API key: the window's, environment, credential store."""
+    """Return the API key: the run's, the window's, the credential store's."""
     key = api_key_source(args)[0]
     if not key:
-        raise RuntimeError(T('No API key. Set AUPHONIC_TOKEN or have it '
-                             'remembered once in the interface. The key is '
-                             'in the Auphonic account settings.'))
+        raise RuntimeError(T('No API key. Store it once in the interface, '
+                             'or with --store-auphonic-key. The key is in '
+                             'the Auphonic account settings.'))
     return key.strip()
 
 
@@ -147,8 +159,11 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                                     stdout=answer_file,
                                     stderr=subprocess.PIPE)
             running.append(proc)
+            # An upload runs for many minutes, so Stop has to reach it.
+            PROGRAM.RUN_STOP["children"].add(proc)
             text = progress if isinstance(progress, str) else T('Transfer')
             rest, last_percent, last_time = "", -1, 0.0
+            moved = None         # the amounts curl last reported
             said = []            # everything that is not a progress line
             show_progress(text, 0.0)
             while True:
@@ -165,12 +180,20 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                         if line.strip():
                             said.append(line.strip())
                         continue
+                    # Bytes the server took or sent are its answer and a
+                    # sign of life; curl's clock ticking on is not.
+                    if line.split()[:6] != moved:
+                        moved = line.split()[:6]
+                        PROGRAM.RUN_VITALS.alive()
                     pct = min(100, int(m.group(1)))
                     now = time.time()
                     if pct != last_percent and now - last_time > 0.2:
                         show_progress(text, pct / 100.0)
                         last_percent, last_time = pct, now
             proc.wait()
+            PROGRAM.RUN_STOP["children"].discard(proc)
+            if PROGRAM.stop_wanted():
+                raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"] or text)
             answer_file.close()
             with open(body, "rb") as fh:
                 off = fh.read()
@@ -196,6 +219,8 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                                 "--max-time", "60",
                                 "--config", conf] + arguments,
                                capture_output=True)
+            # The server answered, or gave up within the minute above.
+            PROGRAM.RUN_VITALS.alive()
     finally:
         # A broken-off transfer leaves curl writing into a file nobody
         # reads: stopped here, or it downloads gigabytes for nothing.
@@ -1611,6 +1636,10 @@ def wait_for_production(key, uuid, wait_s):
                              % ("#" * int(share * 30), share * 100,
                                 as_hms(elapsed), text))
             sys.stdout.flush()
+            if PROGRAM.stop_wanted():
+                # The production goes on at auphonic.com; only the
+                # waiting for it ends, and a later run can take it up.
+                raise PROGRAM.Stopped(PROGRAM.RUN_STOP["at"] or text)
             if time.time() >= end:
                 break
             time.sleep(2)

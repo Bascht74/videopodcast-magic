@@ -185,8 +185,8 @@ msgstr "--update ju stiahne a nainštaluje."
 msgid "The check for new versions is switched off here."
 msgstr "Vyhľadávanie nových verzií je tu vypnuté."
 
-msgid "About Video Podcast Magic"
-msgstr "O aplikácii Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "O aplikácii %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Zo surového materiálu videopodcastu vznikne zostrihaná epizóda: dobrý zvuk z videosúborov, kamery na jednej časovej osi, prvý strih podľa rečníkov a projekt DaVinci Resolve."
@@ -2339,9 +2339,6 @@ msgstr "Multitrack (jedna stopa na rečníka)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack potrebuje aspoň dve vstupné stopy. Stopa je vlastná nahrávka, kanál viackanálového rekordéra alebo zvuk videosúboru nastaveného na \"použiť interný zvuk\". Viac blokov tej istej nahrávky sa počíta ako jedna, odložené stopy vôbec."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Žiadny kľúč API. Nastavte AUPHONIC_TOKEN alebo si ho nechajte raz zapamätať v rozhraní. Kľúč je v nastaveniach účtu Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Žiadny zvukový súbor nenesie časový kód. Bod In a bod Out sa počítajú od začiatku materiálu -- vzájomná poloha súborov je zmeraná."
 
@@ -2561,9 +2558,6 @@ msgstr "Náhľad nie je možný: %s"
 msgid "Preview running ..."
 msgstr "Náhľad beží ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Príprava -- načítať zvuk a vypočítať obálky:\n"
-
 msgid "Primaries"
 msgstr "Primárne farby"
 
@@ -2702,9 +2696,6 @@ msgstr "Prvá stopa predvoľby určuje nastavenia pre všetky naše stopy. Inak 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Na to je potrebný súbor odovzdania z behu, a žiadny nie je."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Kľúč sa dá uložiť len na Macu a Windows -- do Kľúčenky alebo do registra. Do súboru nejde."
-
 msgid "%s -- being checked"
 msgstr "%s -- kontroluje sa"
 
@@ -2737,9 +2728,6 @@ msgstr "  Kľúčenku sa nepodarilo otvoriť: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Uložený kľúč nie je prijatý: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Kľúč z AUPHONIC_TOKEN nie je prijatý: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Čo odpovedal auphonic.com"
@@ -2873,8 +2861,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- zo surového materiálu vznikne zostrihaný podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- zo surového materiálu vznikne zostrihaný podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Hlasitosť. 100 je najviac, čo ide -- viac Qt neprijme."
@@ -2924,14 +2912,40 @@ msgstr "Polnoc"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s nesie časový kód z druhej strany polnoci -- počíta sa ako jedna noc, nie ako deň rozdielu."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key za sebou nič neprijíma: kľúč sa zadáva skryto. Nič sa "
+"neuložilo."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Časový kód počíta od polnoci a tam začína znova. Súbory sa položia na jednu os, než sa čokoľvek odčíta, inak vyzerá nahrávka po polnoci skoro deň vzdialená od tej pred ňou. Ak sa tu naozaj nahrávalo v rôzne dni, je zarovnanie zlé a platí nameraný posun."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Kľúč API Auphonic (nezobrazuje sa): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanál %d je na doraze: %s-krát tri alebo viac vzoriek za sebou, najdlhší %s (%s ms), prvý v %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Tu počítané vzorka po vzorke, vo vzorkovacej frekvencii nahrávky: rad troch alebo viacerých vzoriek na najvyššej hodnote, ktorú celočíselný formát pojme. Jedna alebo dve sú zaokrúhlenie a nehlásia sa. Čo je tam orezané, je preč a žiadne spracovanie to nevráti -- ale nahrávka zostáva nahrávkou a nič sa tým nezastaví. Počíta sa len pri celočíselných formátoch. 32-bitová pohyblivá čiarka nemá pri plnom rozsahu žiadny doraz, takže tam nie je čo počítať."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Žiadny kľúč API. Uložte ho raz v rozhraní alebo pomocou "
+"--store-auphonic-key. Kľúč je v nastaveniach účtu Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nebol zadaný žiadny kľúč, takže sa nič neuložilo."
+
+msgid "The key is not stored: %s"
+msgstr "Kľúč nie je uložený: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Kľúč je uložený a spätné načítanie vrátilo ten istý kľúč."
 
 msgid "boxes no longer readable"
 msgstr "boxy už nie sú čitateľné"
@@ -3365,8 +3379,8 @@ msgstr "Prenos"
 msgid "Uploading %s tracks"
 msgstr "Nahráva sa %s stôp"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Súbory JSON (*.json);;Všetky súbory (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Súbory JSON (*.json);;Všetky súbory (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "hlasy nižšie nesú kamery"
@@ -3628,9 +3642,6 @@ msgstr "Spracovanie"
 
 msgid "Profile"
 msgstr "Profil"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Zatiaľ žiadny prepis. Bez neho sa nenájde žiadna otázka a nie je známa žiadna hranica vety, takže tieto štyri nastavenia nič nerobia. Beh ho zapíše a od tej chvíle fungujú."
 
 msgid "Why the question settings are grey"
 msgstr "Prečo sú nastavenia otázky sivé"
@@ -4592,9 +4603,6 @@ msgstr "Krátka medzera do"
 msgid "so long a silence leaves the picture alone"
 msgstr "tak dlho ticho nechá obraz na pokoji"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Len tam, kde je \"Nikto nehovorí\" nastavené na podržanie krátkej medzery. Medzera až do tejto dĺžky nič nemení, dlhšia prejde na široký záber. Nad dve sekundy začne obraz stáť na niekom mlčiacom dlhšie ako päť sekúnd."
-
 msgid "Listener"
 msgstr "Poslucháč"
 
@@ -4960,3 +4968,84 @@ msgstr "zvuk nerozpoznaný, umiestnené podľa časového kódu"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s nahrávky a žiadny obraz: každá sa spojí samostatne a nezarovnávajú sa voči sebe. --multitrack ich položí na jednu časovú os."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", drift hodín %s ppm ponechaný: nie je %s-krát väčší ako jeho neistota %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Bez prepisu sa nenájde žiadna otázka a nie je známa žiadna hranica vety, takže dve nastavenia otázky a dve nastavenia širokého záberu, ktoré čakajú na koniec vety, nič nerobia."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Bez prepisu sa nenájde žiadna otázka, takže dve nastavenia otázky nič nerobia."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Zatiaľ žiadny nie je: beh ho zapíše a od tej chvíle fungujú."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Rozpoznávanie reči bolo pre tento beh vypnuté. Nechajte ho zapnuté a ďalší beh prepis zapíše."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Beh nezapísal žiadny prepis: rozpoznávanie reči zlyhalo alebo nič nepočulo, a protokol behu hovorí, ktoré z toho. Skontrolujte jazyk zvuku a spustite znova; kde tento počítač rozpoznávanie nemá, prináša ho macOS 26, alebo beh nainštaluje faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "pracuje -- %s min bez správy, počítač môže byť vyťažený"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min bez zmeny -- možno sa zasekol, skontrolujte to"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "zostáva: %s ppm alebo viac je skôr chyba merania"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "zostáva: nedosahuje %s-násobok svojej neistoty"
+
+msgid "Timing"
+msgstr "Časovanie"
+
+msgid "Special cases"
+msgstr "Osobitné prípady"
+
+msgid "Transcript"
+msgstr "Prepis"
+
+msgid "Writing down what is said ..."
+msgstr "Zapisuje sa, čo odznelo ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Miešanie stôp pre prepis"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Zapisuje sa na pozadí; keď bude hotový, otvoria sa samy."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Neodpovedala žiadna kľúčenka Secret Service, preto sa nič neuložilo. Mimo Macu a Windows sa kľúč uchováva v kľúčenke pracovného prostredia, cez príkaz secret-tool z libsecret. Do súboru nejde."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Príprava -- načítať zvuk, vypočítať obálky a zapísať, čo odznelo:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Široký záber na okrajoch: len od %s -- úvodný bol kratší ako najkratší záber a prešiel do nasledujúceho"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Široký záber na okrajoch: len do %s -- záverečný bol kratší ako najkratší záber a prešiel do predchádzajúceho"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Široký záber na okrajoch: žiadny -- oba boli kratšie ako najkratší záber a prešli do svojich susedov"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Tam, kde je \"Nikto nehovorí\" nastavené na podržanie krátkej medzery, medzera až do tejto dĺžky nič nemení a dlhšia prejde na široký záber. Tam, kde je \"Neisté rozpoznanie\" nastavené na \"Bez zmeny kamery\", prejde na široký záber aj neistá pasáž dlhšia ako toto. Nad dve sekundy začne obraz stáť na niekom mlčiacom dlhšie ako päť sekúnd."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s vynechaný -- podľa časového kódu %s od ostatných blokov, na jednu nahrávku príliš ďaleko"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Široký záber na okrajoch: celý strih je široký záber"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  skrátené najviac na %s každý -- jediná hláška trvá od %s do %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s na začiatku nemá obraz a vynecháva sa"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s na konci nemá obraz a vynecháva sa"

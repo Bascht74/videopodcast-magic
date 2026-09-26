@@ -25,10 +25,11 @@ With that the script knows who speaks when, and builds the cut from it:
 * One speaker alone gets their camera, with a lead-in.
 * A short "yes" does not: below **Speaks at least** the picture stays
   where it is.
-* In silence the wide shot runs -- the camera with no speaker assigned
-  -- as long as **Nobody speaks** is left standing on it. That selector
-  can also hold a short gap instead, or leave the picture alone
-  altogether.
+* In silence the picture holds through a short gap -- a breath, up to
+  one second -- and a longer one goes to the wide shot, the camera with
+  no speaker assigned. That is **Nobody speaks** left on **Hold a short
+  gap**; the selector can also send every silence to the wide shot, or
+  leave the picture alone altogether.
 * After a long shot the wide shot drops in at a sentence boundary.
 
 **When several speak at once**, a camera showing exactly those speakers
@@ -73,11 +74,21 @@ beside it. The box is there once **Multitrack** is ticked, or once the
 cut has its people -- two of them, or one with a second camera nobody is
 on; until then a line stands in its place and says what is missing.
 
+Inside the box the settings stand in three groups: **Timing**, **Wide
+shot** and **Special cases**. A click on a group's header opens or shuts
+it, and a shut group shows its values on one line beside the header, so
+nothing is out of sight that is not also said. Where the tab would have
+to scroll, the group opened longest ago shuts by itself -- never the
+last one still open. Which groups are open is kept for the next start,
+once one has been opened or shut by hand; until then all of them open,
+and a group holding a value off its default is the last to be shut for
+room.
+
 ![The knobs for the camera cut](images/resolve-cut.png)
 
-*Tab Resolve cut: the values on the left, the preview on the right. Four
-of the settings stand grey, because no run has written the words down
-yet.*
+*Tab Resolve cut: the values on the left in three groups that fold
+away, the preview on the right. Words are written down here, so every
+setting is active.*
 
 All nine fields take seconds, and the number in each line is the
 default. An empty field means the default, a comma counts as the decimal
@@ -85,7 +96,7 @@ mark, and there is no upper limit. A negative value is only meant for
 **Edit Change Delay**; the other fields take one but nothing good comes
 of it.
 
-Three fields shape the rhythm of the cut:
+**Timing** holds four fields. Three of them shape the rhythm of the cut:
 
 * **Minimum Edit Duration**: 3 s, this long a shot stands at least;
   higher makes the cut calmer (on the command line
@@ -94,23 +105,30 @@ Three fields shape the rhythm of the cut:
   higher and it follows less often (on the command line
   `--min-speech-to-switch`)
 * **Edit Change Delay**: 0.3 s, this much later than the sound the
-  picture cuts; a negative value makes the picture lead (on the
-  command line `--edit-change-delay`)
+  picture cuts; higher lets the picture trail further behind, a
+  negative value makes it lead (on the command line
+  `--edit-change-delay`)
 
-A fourth field stands among those three, in third place, and belongs
-not to the rhythm but to a selector further down:
+The fourth stands among those three, in third place, and belongs not
+to the rhythm but to a selector in **Special cases**:
 
 * **Short gap up to**: 1 s, up to this length a silence leaves the
-  picture where it is, and a longer one goes to the wide shot. It does
-  something only where **Nobody speaks** stands on **Hold a short
-  gap** (on the command line `--silence-hold`). Measured over 83
+  picture where it is, and a longer one goes to the wide shot; higher
+  keeps the picture through longer silences, lower sends it to the wide
+  shot sooner. It does something where **Nobody speaks** stands on
+  **Hold a short gap**, and where **Recognition uncertain** stands on
+  **No camera change**: an uncertain passage up to this length keeps
+  the picture, a longer one goes to the wide shot as well (on the
+  command line `--silence-hold`).
+  Where no camera is free of speakers there is no wide shot, and the
+  uncertain passage holds however long it runs. Measured over 83
   minutes of interview: at one second no camera stands on a silent
   person for longer than 4 seconds; from two seconds on the first
   stretches over five seconds appear, and that is where the picture
   starts to look forgotten.
 
-Four shape the wide shot, and the first two of them are a pair: a soft
-limit and a hard one.
+**Wide shot** holds four fields, and the first two of them are a pair:
+a soft limit and a hard one.
 
 * **Wide shot after**: 70 s, the soft limit. From this hold time on the
   program looks for a sentence boundary and puts the wide shot there,
@@ -127,23 +145,27 @@ limit and a hard one.
   clock. Smaller breaks a standing camera up sooner (on the command
   line `--wide-latest`)
 * **Wide shot at least**: 5 s, the inserted wide shot stands at least
-  this long (on the command line `--wide-length`)
-* **Wide shot at most**: 15 s, and at most this long (on the command
-  line `--wide-most`)
+  this long and then runs on to the end of the sentence; higher makes
+  every look away longer (on the command line `--wide-length`)
+* **Wide shot at most**: 15 s, and at most this long; where the
+  sentence runs on past it, the last clause break before it ends the
+  shot. Higher lets more of them reach the end of their sentence (on
+  the command line `--wide-most`)
 
-The last field belongs to the question, and stands directly above the
-selector that decides it:
+**Special cases** opens with a field that belongs to the question, and
+stands directly above the selector that decides it:
 
 * **Answer on screen earlier**: 1.5 s, this much before the question
-  ends the answering speaker is on screen (on the command line
+  ends the answering speaker is on screen; higher shows them sooner,
+  while the question is still being asked (on the command line
   `--reaction-lead`). Zero is where the asker stops, not where the
   answer starts: the pause between the two belongs to the question.
   Measured on a question ending at 10 seconds with the answer starting
   at 12.5: with a lead of 5 seconds the cut sits at 5.0 seconds, not at
   7.5. The **Edit Change Delay** is not added to it a second time.
 
-Under the fields stand five selectors. They say what runs when the
-speech does not say whom to show:
+Under it stand five selectors. They say what runs when the speech does
+not say whom to show:
 
 * **After a question**: **Answering speaker** (on the command line
   `--on-question`)
@@ -151,7 +173,7 @@ speech does not say whom to show:
   `--on-monologue`)
 * **Several speak at once**: **Wide shot** (on the command line
   `--on-together`)
-* **Nobody speaks**: **Wide shot** (on the command line
+* **Nobody speaks**: **Hold a short gap** (on the command line
   `--on-silence`)
 * **Recognition uncertain**: **Wide shot** (on the command line
   `--on-uncertain`)
@@ -170,17 +192,20 @@ early**, **Answering speaker** and **Listener**; **do not go early**
 means no early camera change, the picture follows the sound here as it
 does everywhere else.
 
-Under the selectors the tick **Wide shot for greeting at the start and
-farewell at the end** keeps beginning and end on the wide shot (on the
-command line `--no-wide-edges` switches it off). The opening wide shot
-holds until the floor is really handed over, not until the first longer
-block from somebody else. Neither edge holds for more than a third of
-the recording, nor for longer than **Wide shot at the latest**: where
-greeting or goodbye would run longer, that edge stops there -- at the
-third in a short recording, at the setting in a long one -- and the log
-says so under `Wide shot at the edges`, with where the talk really
-changes hands. An edge that comes out shorter than **Minimum Edit
-Duration** falls into the shot beside it, like any other.
+At the foot of **Wide shot**, under its four fields, the tick **Wide
+shot for greeting at the start and farewell at the end** keeps beginning
+and end on the wide shot (on the command line `--no-wide-edges` switches
+it off). The opening wide shot holds until the floor is really handed
+over, not until the first longer block from somebody else. Neither edge
+holds for more than a third of the recording, nor for longer than **Wide
+shot at the latest**: where greeting or goodbye would run longer, that
+edge stops there -- at the third in a short recording, at the setting in
+a long one -- and the log says so under `Wide shot at the edges`, with
+where the talk really changes hands. An edge that comes out shorter than
+**Minimum Edit Duration** falls into the shot beside it, like any other.
+The log line names the edges as they stand in the finished cut: where
+one fell into its neighbour, it says `only from` or `only until`, and
+`none` where both did.
 
 **Speaks at least** takes care of short interjections ("mhm", "yes
 exactly"). A shot that still comes out too short falls into the one
@@ -205,8 +230,14 @@ without a transcript: those two count by the clock and need no sentence.
 They are open as long as there is a wide shot at all -- the next section
 is the other reason a setting stands grey.
 
-The first run writes the transcript down. From then on the four are
-open, and the preview reckons with them.
+The window writes the transcript down by itself, in the background,
+as soon as the time axis stands: the prework bar under the tables on
+**Assignment & time window** shows it as a line of its own,
+**Transcript**. While it is being written the line under the four says
+so, and they open by themselves when it is done; from then on the
+preview reckons with them. Where the separation has already written the
+words of a single recording down, those are taken as they are. A run
+writes one as well.
 
 ### When no camera is free of speakers
 
@@ -265,7 +296,7 @@ tick for the edges do nothing here.
 
 Neither of the two greys is for ever. Mark a camera, or take a speaker
 off one, and the five come alive in the same moment, as the four do
-when a run has written the words down.
+when the transcript has been written down.
 
 ### When the speech does not say whom to show
 
@@ -283,16 +314,19 @@ Five cases, and what each of the five selectors decides:
   **Short gap up to** draws that line.
 * **Recognition uncertain**: the recognition frays over a passage, or
   a name is left with nothing but scraps. Somebody is speaking here;
-  where nobody is, **Nobody speaks** decides.
+  where nobody is, **Nobody speaks** decides. **No camera change**
+  holds the picture only as long as **Short gap up to**; a longer
+  uncertain passage goes to the wide shot.
 
 **Silence is the biggest of these cases by far**, and most of it is not
 what the word suggests. Measured over 83 minutes of interview: a fifth
 of the running time falls to it, and nine tenths of that are gaps
 inside one and the same person, the middle one 0.6 seconds long -- a
-breath, not the end of a thought. Left on **Wide shot** every one of
-them takes the picture off the speaker. Set to **Hold a short gap**
-with one second, the same material gives 244 shots instead of 296, and
-the wide shot's share falls from 28 to 17 per cent.
+breath, not the end of a thought. That is why **Nobody speaks** starts
+on **Hold a short gap** with one second: the same material gives 244
+shots instead of the 296 that **Wide shot** gives, and the wide shot's
+share falls from 28 to 17 per cent. Set to **Wide shot**, every one of
+those breaths takes the picture off the speaker.
 
 **What became of the questions stands in the log.** One line says how
 many question marks the transcript held and for how many of them the
@@ -817,8 +851,11 @@ loudness measurement runs through each track twice.
   give each voice a name and a camera.
 * **Four settings are grey and take nothing.** No transcript is written
   down yet. **After a question**, **Answer on screen earlier**, **Wide
-  shot after** and **Wide shot at most** all need one; the first run
-  writes it, and from then on they take a value.
+  shot after** and **Wide shot at most** all need one. The window writes
+  it in the background once the time axis stands -- the prework bar shows
+  the line **Transcript** -- and they open by themselves when it is
+  done. With `VPM_NO_SPEAKER_SPLIT` set the window writes none, and the
+  first run does.
 * **Five settings are grey and the wide shot cannot be picked.** Every
   camera carries a speaker, so there is no wide shot. Give one camera
   the **Kind** **Wide shot**, or take the speaker off one of them.

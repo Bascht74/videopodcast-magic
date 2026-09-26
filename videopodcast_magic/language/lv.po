@@ -189,8 +189,8 @@ msgstr "--update to lejupielādē un instalē."
 msgid "The check for new versions is switched off here."
 msgstr "Jaunu versiju pārbaude šeit ir izslēgta."
 
-msgid "About Video Podcast Magic"
-msgstr "Par Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Par %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "No video podkāsta izejmateriāla top samontēta epizode: labā skaņa no video failiem, kameras uz vienas laika ass, pirmā montāža pēc runātāja un DaVinci Resolve projekts."
@@ -2373,9 +2373,6 @@ msgstr "Multitrack (celiņš katram runātājam)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack vajag vismaz divus ievades celiņus. Celiņš ir atsevišķs ieraksts, daudzkanālu ierakstītāja kanāls vai video faila skaņa, kam iestatīts „izmantot iekšējo skaņu“. Vairāki viena ieraksta bloki skaitās kā viens, noliktie celiņi netiek skaitīti vispār."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nav API atslēgas. Iestatiet AUPHONIC_TOKEN vai ļaujiet to vienreiz atcerēties saskarnē. Atslēga ir Auphonic konta iestatījumos."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Nevienam audio failam nav laika koda. Sākuma punkts un beigu punkts tiek skaitīti no materiāla sākuma -- failu savstarpējais novietojums ir izmērīts."
 
@@ -2598,9 +2595,6 @@ msgstr "Priekšskatījums nav iespējams: %s"
 msgid "Preview running ..."
 msgstr "Notiek priekšskatījums ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Sagatavošana -- skaņas nolasīšana un aploksņu aprēķināšana:\n"
-
 msgid "Primaries"
 msgstr "Pamatkrāsas"
 
@@ -2727,9 +2721,6 @@ msgstr "Pirmais priekšiestatījuma celiņš nosaka iestatījumus visiem mūsu c
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Tam vajag izpildes nodošanas failu, bet tā nav."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Atslēgu var glabāt tikai Mac un Windows datoros -- Keychain krātuvē vai reģistrā. Failā tā nenonāk."
-
 msgid "%s -- being checked"
 msgstr "%s -- notiek pārbaude"
 
@@ -2762,9 +2753,6 @@ msgstr "  Keychain Access neizdevās atvērt: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Saglabātā atslēga netiek pieņemta: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Atslēga no AUPHONIC_TOKEN netiek pieņemta: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Ko atbildēja auphonic.com"
@@ -2898,8 +2886,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- no izejmateriāla top samontēts podkāsts"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- no izejmateriāla top samontēts podkāsts"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Skaļums. 100 ir maksimālais -- vairāk Qt nepieņem."
@@ -2958,14 +2946,41 @@ msgstr "Pusnakts"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Failam %s ir laika kods no pusnakts otras puses -- skaitīts kā viena nakts, nevis dienas atstarpe."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key pēc sevis neko nepieņem: atslēga tiek prasīta, to "
+"nerādot. Nekas netika saglabāts."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Laika kods skaita no pusnakts un tur sāk no jauna. Faili tiek novietoti uz vienas ass, pirms kaut kas tiek atņemts, citādi ieraksts pēc pusnakts izskatās gandrīz dienas attālumā no iepriekšējā. Ja tie tiešām ierakstīti dažādās dienās, salāgošana ir nepareiza un jāuzticas izmērītajai nobīdei."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API atslēga (netiek rādīta): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "%d. kanāls sasniedz robežu: gadījumi ar trim vai vairāk paraugiem pēc kārtas -- %s, garākais %s (%s ms), pirmais pie %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Skaitīts šeit, paraugs pa paraugam, ar frekvenci, ar kādu fails ierakstīts: trīs vai vairāk paraugu virkne uz augstākās vērtības, ko var saturēt veselo skaitļu formāts. Viens vai divi ir noapaļošana, un par tiem netiek ziņots. Tas, kas tur nogriezts, ir zudis, un neviena apstrāde to neatgriezīs -- bet ieraksts joprojām ir ieraksts, un tas neko neaptur. Tiek skaitīti tikai veselo skaitļu formāti. 32 bit float nav robežas pie pilnās skalas, tāpēc tur nav ko skaitīt."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nav API atslēgas. Saglabājiet to vienreiz saskarnē vai ar "
+"--store-auphonic-key. Atslēga ir Auphonic konta iestatījumos."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Atslēga netika ievadīta, tāpēc nekas netika saglabāts."
+
+msgid "The key is not stored: %s"
+msgstr "Atslēga nav saglabāta: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr ""
+"Atslēga ir saglabāta, un, to nolasot atpakaļ, tika iegūta tā pati atslēga."
 
 msgid "boxes no longer readable"
 msgstr "box elementi vairs nav nolasāmi"
@@ -3411,8 +3426,8 @@ msgstr "Pārsūtīšana"
 msgid "Uploading %s tracks"
 msgstr "Celiņu augšupielāde: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON faili (*.json);;Visi faili (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON faili (*.json);;Visi faili (*)"
 
 msgid "Wide shot after"
 msgstr "Kopplāns agrākais"
@@ -3710,9 +3725,6 @@ msgstr "un šeit griež, piemērots brīdis vai ne"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Pāra stingrā robeža: ja kopš „Kopplāns agrākais“ nav parādījusies teikuma robeža, tās vietā stājas garākā runas pauze, un šajā punktā griež neatkarīgi no tā, kas tiek teikts."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Transkripcijas vēl nav. Bez tās netiek atrasts neviens jautājums un nav zināma neviena teikuma robeža, tāpēc šie četri iestatījumi neko nedara. Izpilde to ieraksta, un no tā brīža tie darbojas."
 
 msgid "Why the question settings are grey"
 msgstr "Kāpēc jautājuma iestatījumi ir pelēki"
@@ -4271,9 +4283,6 @@ msgstr "Īsa pauze līdz"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "tik ilgi klusums attēlu nemaina"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tikai tur, kur „Neviens nerunā“ ir iestatīts nogaidīt īsu pauzi. Pauze līdz šim ilgumam neko nemaina, garāka pāriet uz kopplānu. Virs divām sekundēm attēls sāk ilgāk par piecām sekundēm rādīt kādu, kurš klusē."
 
 msgid "Recognition uncertain"
 msgstr "Atpazīšana nedroša"
@@ -4964,3 +4973,84 @@ msgstr "skaņa nav atpazīta, vieta noteikta pēc laika koda"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  Ieraksti: %s, attēla nav: katrs tiek apvienots atsevišķi, un tie netiek salāgoti savā starpā. --multitrack tos novieto uz vienas laika ass."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", pulksteņa dreifs %s ppm atstāts: tas nav %s reizes lielāks par savu nenoteiktību %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Bez transkripcijas netiek atrasts neviens jautājums un nav zināma neviena teikuma robeža, tāpēc abi jautājuma iestatījumi un abi kopplāna iestatījumi, kas gaida teikuma beigas, neko nedara."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Bez transkripcijas netiek atrasts neviens jautājums, tāpēc abi jautājuma iestatījumi neko nedara."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Tās vēl nav: izpilde to ieraksta, un no tā brīža tie darbojas."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Runas atpazīšana šai izpildei bija izslēgta. Atstājiet to ieslēgtu, un nākamā izpilde to ierakstīs."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Izpilde to neierakstīja: runas atpazīšana neizdevās vai neko nedzirdēja, un izpildes žurnāls saka, kurš no abiem. Pārbaudiet skaņas valodu un palaidiet vēlreiz; ja šajā datorā nav atpazīšanas, to atnes macOS 26, vai izpilde instalē faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "strādā -- %s min nav ziņu, dators var būt noslogots"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min nav izmaiņu -- iespējams, iestrēdzis, lūdzu, pārbaudiet"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "tiek atstāts: %s ppm vai vairāk drīzāk ir mērījuma kļūda"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "tiek atstāts: nesasniedz %s reizes savu nenoteiktību"
+
+msgid "Timing"
+msgstr "Laiks"
+
+msgid "Special cases"
+msgstr "Īpaši gadījumi"
+
+msgid "Transcript"
+msgstr "Transkripcija"
+
+msgid "Writing down what is said ..."
+msgstr "Pieraksta teikto ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Celiņu miksēšana transkripcijai"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Tā tiek rakstīta fonā; iestatījumi atvērsies paši, tiklīdz tā būs gatava."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Neatbildēja neviens Secret Service atslēgu saišķis, tāpēc nekas netika saglabāts. Ārpus Mac un Windows atslēgu glabā darbvirsmas atslēgu saišķī, izmantojot libsecret komandu secret-tool. Failā tā nenonāk."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Sagatavošana -- skaņas nolasīšana, aploksņu aprēķināšana un teiktā pierakstīšana:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Kopplāns malās: tikai no %s -- sākuma kopplāns bija īsāks par īsāko kadru un saplūda ar nākamo"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Kopplāns malās: tikai līdz %s -- beigu kopplāns bija īsāks par īsāko kadru un saplūda ar iepriekšējo"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Kopplāns malās: nav -- abi bija īsāki par īsāko kadru un saplūda ar kaimiņiem"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kur „Neviens nerunā“ ir iestatīts nogaidīt īsu pauzi, pauze līdz šim ilgumam neko nemaina, bet garāka pāriet uz kopplānu. Kur „Atpazīšana nedroša“ ir iestatīta uz „Bez kameras maiņas“, arī nedrošs posms, kas garāks par šo, pāriet uz kopplānu. Virs divām sekundēm attēls sāk ilgāk par piecām sekundēm rādīt kādu, kurš klusē."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s izlaists -- pēc laika koda %s attālumā no pārējiem blokiem, pārāk tālu vienam ierakstam"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Kopplāns malās: viss griezums ir kopplāns"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  katrs saīsināts līdz ne vairāk kā %s -- vienīgais paziņojums ilgst no %s līdz %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s sākumā nav attēla un tiek izlaists"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s beigās nav attēla un tiek izlaists"

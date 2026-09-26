@@ -244,7 +244,7 @@ def narrowest_windows(languages):
     case; a case that never came back is simply missing from the answer.
     """
     cases = ["%s:%d" % (l, s) for s in FONTS for l in languages]
-    many = max(1, min(8, os.cpu_count() or 1, len(cases)))
+    many = max(1, min(2, os.cpu_count() or 1, len(cases)))
     # Into a file each, not a pipe: a pipe nobody reads yet fills, and
     # the child writing into it waits for the ones before it to finish.
     logs = [tempfile.TemporaryFile("w+", encoding="utf-8")

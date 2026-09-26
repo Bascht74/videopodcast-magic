@@ -10,6 +10,7 @@ PROGRAM = PROGRAM
 
 # Bound above the seam, so each is a copy and none is read late.
 
+PROGRAM_NAME = PROGRAM.PROGRAM_NAME
 SR = PROGRAM.SR
 T = PROGRAM.T
 ffprobe_json = PROGRAM.ffprobe_json
@@ -110,7 +111,7 @@ def build_ixml(name, tr, fps, bits=24, channels=1, df=False):
         '  <TAPE>%s</TAPE>\n'
         '  <TAKE>1</TAKE>\n'
         '  <SPEED>\n'
-        '    <NOTE>videopodcast-magic</NOTE>\n'
+        '    <NOTE>%s</NOTE>\n'
         '    <MASTER_SPEED>%d/%d</MASTER_SPEED>\n'
         '    <CURRENT_SPEED>%d/%d</CURRENT_SPEED>\n'
         '    <TIMECODE_RATE>%d/%d</TIMECODE_RATE>\n'
@@ -124,7 +125,8 @@ def build_ixml(name, tr, fps, bits=24, channels=1, df=False):
         '  </SPEED>\n'
         '  <TRACK_LIST>\n    <TRACK_COUNT>%d</TRACK_COUNT>\n%s'
         '  </TRACK_LIST>\n</BWFXML>\n'
-        % (_xml_escape(name), _xml_escape(name), num, the_one, num, the_one, num, the_one,
+        % (_xml_escape(name), _xml_escape(name), PROGRAM_NAME,
+           num, the_one, num, the_one, num, the_one,
            "NDF" if ndf else "DF", SR, bits,
            tr >> 32, tr & 0xFFFFFFFF, max(1, channels), tracks))
 

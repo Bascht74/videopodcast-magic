@@ -186,8 +186,8 @@ msgstr "--update o aduce și o instalează."
 msgid "The check for new versions is switched off here."
 msgstr "Căutarea de versiuni noi este dezactivată aici."
 
-msgid "About Video Podcast Magic"
-msgstr "Despre Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Despre %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Materialul brut al unui podcast video devine un episod montat: sunetul bun scos din fișierele video, camerele pe o singură axă a timpului, un prim montaj după vorbitori și un proiect DaVinci Resolve."
@@ -2340,9 +2340,6 @@ msgstr "Multitrack (o pistă per vorbitor)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosiți audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nicio cheie API. Setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără de la începutul materialului -- poziția fișierelor unul față de altul este măsurată."
 
@@ -2562,9 +2559,6 @@ msgstr "Previzualizare imposibilă: %s"
 msgid "Preview running ..."
 msgstr "Previzualizare în curs ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Pregătire -- citirea audio și calculul anvelopelor:\n"
-
 msgid "Primaries"
 msgstr "Culori primare"
 
@@ -2703,9 +2697,6 @@ msgstr "Prima pistă a presetării stabilește setările pentru toate pistele no
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Pentru asta este nevoie de fișierul de predare dintr-o rulare, și nu există niciunul."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Cheia poate fi păstrată doar pe Mac și Windows -- în portchei sau în registru. Nu ajunge într-un fișier."
-
 msgid "%s -- being checked"
 msgstr "%s -- se verifică"
 
@@ -2738,9 +2729,6 @@ msgstr "  Acces portchei nu a putut fi deschis: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Cheia stocată nu este acceptată: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Cheia din AUPHONIC_TOKEN nu este acceptată: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Ce a răspuns auphonic.com"
@@ -2874,8 +2862,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- din material brut iese un podcast montat"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- din material brut iese un podcast montat"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volum. 100 este maximul -- Qt nu acceptă nimic peste."
@@ -2925,14 +2913,40 @@ msgstr "Miezul nopții"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s poartă un timecode de cealaltă parte a miezului nopții -- numărat ca o singură noapte, nu ca o zi distanță."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key nu primește nimic după el: cheia este cerută fără a fi "
+"afișată. Nu s-a salvat nimic."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Un timecode numără de la miezul nopții și o ia de la capăt acolo. Fișierele sunt puse pe o singură axă înainte de a se scădea ceva, altfel înregistrarea de după miezul nopții pare la aproape o zi distanță de cea dinainte. Dacă acestea chiar au fost înregistrate în zile diferite, alinierea este greșită și decalajul măsurat este cel de încredere."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Cheia API Auphonic (nu este afișată): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Canalul %d este la limită: serii de trei eșantioane sau mai multe la rând: %s, cea mai lungă %s (%s ms), prima la %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Numărat aici, eșantion cu eșantion, la rata la care a fost înregistrat fișierul: o serie de trei sau mai multe eșantioane pe cea mai mare valoare pe care o poate ține un format întreg. Unul sau două sunt rotunjire și nu se raportează. Ce este tăiat acolo este pierdut și nicio procesare nu îl aduce înapoi -- dar înregistrarea rămâne înregistrarea, și nimic nu se oprește din acest motiv. Se numără doar formatele întregi. 32 bit float nu are limită la scară maximă, deci nu este nimic de numărat acolo."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nicio cheie API. Salvați-o o dată în interfață sau cu --store-auphonic-key. "
+"Cheia se află în setările contului Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nu s-a tastat nicio cheie, așa că nu s-a salvat nimic."
+
+msgid "The key is not stored: %s"
+msgstr "Cheia nu este salvată: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Cheia este salvată, iar citirea ei înapoi a dat aceeași cheie."
 
 msgid "boxes no longer readable"
 msgstr "box-urile nu se mai pot citi"
@@ -3366,8 +3380,8 @@ msgstr "Transfer"
 msgid "Uploading %s tracks"
 msgstr "Se încarcă %s piste"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Fișiere JSON (*.json);;Toate fișierele (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Fișiere JSON (*.json);;Toate fișierele (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "vocile de mai jos poartă camerele"
@@ -3629,9 +3643,6 @@ msgstr "Procesare"
 
 msgid "Profile"
 msgstr "Profil"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Încă nu există transcriere. Fără ea nu se găsește nicio întrebare și nu se cunoaște nicio limită de propoziție, deci aceste patru setări nu fac nimic. O rulare o scrie, și de atunci funcționează."
 
 msgid "Why the question settings are grey"
 msgstr "De ce setările întrebării sunt gri"
@@ -4593,9 +4604,6 @@ msgstr "Pauză scurtă până la"
 msgid "so long a silence leaves the picture alone"
 msgstr "o liniște atât de lungă lasă imaginea în pace"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Doar unde \"Nimeni nu vorbește\" este setat să păstreze o pauză scurtă. O pauză de până la atât nu schimbă nimic, una mai lungă trece la planul larg. Peste două secunde, imaginea începe să stea mai mult de cinci secunde pe cineva care tace."
-
 msgid "Listener"
 msgstr "Ascultător"
 
@@ -4961,3 +4969,84 @@ msgstr "sunet nerecunoscut, așezat după timecode-ul său"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s înregistrări și nicio imagine: fiecare este unită separat și nu sunt aliniate una față de alta. --multitrack le pune pe o singură axă a timpului."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", deriva ceasului de %s ppm rămâne: nu este de %s ori incertitudinea ei de %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Fără transcriere nu se găsește nicio întrebare și nu se cunoaște nicio limită de propoziție, deci cele două setări ale întrebării și cele două setări ale planului larg care așteaptă sfârșitul unei propoziții nu fac nimic."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Fără transcriere nu se găsește nicio întrebare, deci cele două setări ale întrebării nu fac nimic."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Încă nu există: o rulare o scrie, și de atunci funcționează."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Recunoașterea vorbirii a fost oprită pentru această rulare. Las-o pornită, și următoarea rulare va scrie una."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Rularea nu a scris niciuna: recunoașterea vorbirii a eșuat sau nu a auzit nimic, iar jurnalul rulării spune care dintre ele. Verifică limba sunetului și rulează din nou; unde acest calculator nu are recunoaștere, macOS 26 aduce una, sau rularea instalează faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "lucrează -- niciun mesaj de %s min, calculatorul poate fi ocupat"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "nicio schimbare de %s min -- poate s-a blocat, verificați"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "rămâne: %s ppm sau mai mult este mai degrabă o eroare de măsurare"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "rămâne: nu atinge de %s ori incertitudinea sa"
+
+msgid "Timing"
+msgstr "Temporizare"
+
+msgid "Special cases"
+msgstr "Cazuri speciale"
+
+msgid "Transcript"
+msgstr "Transcriere"
+
+msgid "Writing down what is said ..."
+msgstr "Se scrie ce se spune ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixarea pistelor pentru transcriere"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Se scrie în fundal; setările se deschid singure când e gata."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Nu a răspuns niciun portchei Secret Service, așa că nu s-a păstrat nimic. În afara Mac și Windows, cheia e păstrată în portcheiul desktopului, prin comanda secret-tool din libsecret. Nu ajunge într-un fișier."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Pregătire -- citirea audio, calculul anvelopelor și scrierea a ceea ce se spune:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plan larg la margini: doar de la %s -- cel de la început a fost mai scurt decât cel mai scurt cadru și s-a contopit cu următorul"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plan larg la margini: doar până la %s -- cel de la final a fost mai scurt decât cel mai scurt cadru și s-a contopit cu cel dinainte"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plan larg la margini: niciunul -- amândouă au fost mai scurte decât cel mai scurt cadru și s-au contopit cu vecinii lor"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Unde \"Nimeni nu vorbește\" este setat să păstreze o pauză scurtă, o pauză de până la atât nu schimbă nimic, iar una mai lungă trece la planul larg. Unde \"Recunoaștere nesigură\" este setat pe \"Fără schimbare de cameră\", și un pasaj nesigur mai lung de atât trece la planul larg. Peste două secunde, imaginea începe să stea mai mult de cinci secunde pe cineva care tace."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s lăsat deoparte -- la %s de celelalte blocuri după timecode, prea departe pentru o singură înregistrare"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Plan larg la margini: tot montajul este planul larg"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  scurtat la cel mult %s fiecare -- singurul anunț durează de la %s până la %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s la început nu are imagine și se omite"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s la sfârșit nu are imagine și se omite"

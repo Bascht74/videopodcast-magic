@@ -253,7 +253,7 @@ def rendered(rows, apart=None, where=None):
                 if where[name] == one)))
     if apart:
         out += ["", APART_HEAD + " -- beside a running DaVinci Resolve", "",
-                "Not in the suite and not in the count above: `resolve.sh`",
+                "Not in the suite and not in the count above: `bash resolve.sh --go`",
                 "starts these by hand, one after another.", "",
                 "| Test | Green means |", "|---|---|"]
         for name in sorted(apart):

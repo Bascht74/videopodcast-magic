@@ -187,8 +187,8 @@ msgstr "--update מוריד אותה ומתקין אותה במקומה."
 msgid "The check for new versions is switched off here."
 msgstr "הבדיקה לגרסאות חדשות כבויה כאן."
 
-msgid "About Video Podcast Magic"
-msgstr "אודות Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "אודות %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "חומר גלם מפודקאסט וידאו הופך לפרק ערוך: השמע הטוב מתוך קובצי הווידאו, המצלמות על ציר זמן אחד, חיתוך ראשון לפי דובר, ופרויקט DaVinci Resolve."
@@ -2371,9 +2371,6 @@ msgstr "Multitrack (רצועה אחת לכל דובר)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה היא הקלטה נפרדת, ערוץ של מקליט רב-ערוצי, או השמע של קובץ וידאו שהוגדר ל\"שימוש בשמע הפנימי\". כמה מקטעים של אותה הקלטה נספרים כאחד, ורצועות שהועברו הצידה אינן נספרות כלל."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "אין מפתח API. יש להגדיר AUPHONIC_TOKEN או לשמור אותו פעם אחת בממשק. המפתח נמצא בהגדרות החשבון ב-Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "לאף קובץ שמע אין קוד זמן. נקודת הכניסה ונקודת היציאה נספרות מתחילת החומר -- מיקום הקבצים זה ביחס לזה נמדד."
 
@@ -2596,9 +2593,6 @@ msgstr "התצוגה המקדימה אינה אפשרית: %s"
 msgid "Preview running ..."
 msgstr "התצוגה המקדימה פועלת ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "עבודה מקדימה -- קריאת השמע וחישוב מעטפות:\n"
-
 msgid "Primaries"
 msgstr "צבעי יסוד"
 
@@ -2725,9 +2719,6 @@ msgstr "הרצועה הראשונה בפריסט קובעת את ההגדרות 
 msgid "That needs the handover file from a run, and there is none."
 msgstr "לשם כך נדרש קובץ המסירה של הרצה, ואין כזה."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "אפשר לשמור את המפתח רק ב-Mac וב-Windows -- במחזיק המפתחות או ברישום. הוא לא נכתב לקובץ."
-
 msgid "%s -- being checked"
 msgstr "%s -- בבדיקה"
 
@@ -2760,9 +2751,6 @@ msgstr "  לא ניתן היה לפתוח את גישה למחזיק מפתחו�
 
 msgid "The stored key is not accepted: %s"
 msgstr "המפתח השמור אינו מתקבל: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "המפתח מ-AUPHONIC_TOKEN אינו מתקבל: %s"
 
 msgid "What auphonic.com replied"
 msgstr "מה ש-auphonic.com השיב"
@@ -2896,8 +2884,8 @@ msgstr "וידאו 1"
 msgid "Video 2"
 msgstr "וידאו 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- מחומר גולמי לפודקאסט ערוך"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- מחומר גולמי לפודקאסט ערוך"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "עוצמת שמע. 100 הוא המקסימום -- Qt אינו מקבל דבר מעבר לכך."
@@ -2956,14 +2944,40 @@ msgstr "חצות"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s: קוד זמן מהצד השני של חצות -- נספר כלילה אחת, לא כהפרש של יום."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key אינו מקבל דבר אחריו: המפתח מתבקש בלי שיוצג. דבר לא "
+"נשמר."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "קוד זמן נספר מחצות ומתחיל שם מחדש. הקבצים מוצבים על ציר אחד לפני שמחסרים דבר, אחרת ההקלטה שאחרי חצות נראית רחוקה כמעט יום מזו שלפניה. אם הן אכן הוקלטו בימים שונים, היישור שגוי, ויש לסמוך על ההיסט שנמדד."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "מפתח API של Auphonic (אינו מוצג): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "ערוץ %d נוגע בתקרה: %s פעמים שלוש דגימות או יותר ברצף, הארוך ביותר %s (%s ms), הראשון ב-%s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "נספר כאן דגימה אחר דגימה, בקצב שבו הקובץ הוקלט: רצף של שלוש דגימות או יותר על הערך הגבוה ביותר שפורמט שלמים יכול להכיל. אחת או שתיים הן עיגול ואינן מדווחות. מה שנחתך שם אבד, ושום עיבוד לא יחזיר אותו -- אבל ההקלטה היא עדיין ההקלטה, וזה לא מעכב דבר. רק פורמטים של שלמים נספרים. ל-32 bit float אין תקרה בסקאלה המלאה, ולכן אין שם מה לספור."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"אין מפתח API. יש לשמור אותו פעם אחת בממשק, או עם --store-auphonic-key. המפתח "
+"נמצא בהגדרות החשבון ב-Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "לא הוקלד מפתח, ולכן דבר לא נשמר."
+
+msgid "The key is not stored: %s"
+msgstr "המפתח לא נשמר: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "המפתח נשמר, וקריאתו בחזרה החזירה את אותו מפתח."
 
 msgid "boxes no longer readable"
 msgstr "התיבות כבר אינן קריאות"
@@ -3409,8 +3423,8 @@ msgstr "העברה"
 msgid "Uploading %s tracks"
 msgstr "העלאת %s רצועות"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;קובצי JSON (*.json);;כל הקבצים (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;קובצי JSON (*.json);;כל הקבצים (*)"
 
 msgid "Wide shot after"
 msgstr "שוט רחב אחרי"
@@ -3708,9 +3722,6 @@ msgstr "וכאן נחתך, רגע מתאים או לא"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "הגבול הקשיח של הזוג: אם מאז \"שוט רחב אחרי\" לא הופיע סוף משפט, ההפסקה הארוכה ביותר בדיבור באה במקומו, ובנקודה זו נחתך, יהיה הנאמר אשר יהיה."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "אין עדיין תמלול. בלעדיו לא נמצאת שום שאלה ולא ידוע שום סוף משפט, ולכן ארבע ההגדרות האלה אינן עושות דבר. הרצה כותבת אותו, ומאז הן פועלות."
 
 msgid "Why the question settings are grey"
 msgstr "למה הגדרות השאלה אפורות"
@@ -4269,9 +4280,6 @@ msgstr "הפסקה קצרה עד"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "שקט באורך כזה אינו נוגע בתמונה"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "רק היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על הפסקה קצרה. הפסקה עד אורך זה אינה משנה דבר, הפסקה ארוכה יותר עוברת לשוט הרחב. מעל שתי שניות התמונה מתחילה לעמוד על מישהו שותק במשך יותר מחמש שניות."
 
 msgid "Recognition uncertain"
 msgstr "זיהוי לא ודאי"
@@ -4919,3 +4927,84 @@ msgstr "השמע לא זוהה, מוקם לפי קוד הזמן שלו"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s הקלטות וללא תמונה: כל אחת מחוברת בנפרד והן אינן מיושרות זו מול זו. --multitrack מניח אותן על ציר זמן אחד."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", סחיפת שעון של %s ppm נשארה: היא אינה פי %s מאי-הוודאות שלה, %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "בלי תמלול לא נמצאת שום שאלה ולא ידוע שום סוף משפט, ולכן שתי ההגדרות של השאלה ושתי ההגדרות של השוט הרחב שממתינות לסוף משפט אינן עושות דבר."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "בלי תמלול לא נמצאת שום שאלה, ולכן שתי ההגדרות של השאלה אינן עושות דבר."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "עדיין אין: הרצה כותבת אותו, ומאז הן פועלות."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "זיהוי הדיבור היה כבוי בהרצה הזו. השאירו אותו פועל, וההרצה הבאה תכתוב תמלול."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "ההרצה לא כתבה תמלול: זיהוי הדיבור נכשל או לא שמע דבר, ויומן ההרצה אומר מה מהשניים. בדקו את שפת השמע והריצו שוב; במקום שבו אין במחשב הזה זיהוי, macOS 26 מביא אחד, או שההרצה מתקינה את faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "עובד -- אין הודעה כבר %s דק', ייתכן שהמחשב עמוס"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "אין שינוי כבר %s דק' -- ייתכן שנתקע, נא לבדוק"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "נשארת: %s ppm או יותר הם כנראה שגיאת מדידה"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "נשארת: אינה מגיעה לפי %s מאי־הוודאות שלה"
+
+msgid "Timing"
+msgstr "תזמון"
+
+msgid "Special cases"
+msgstr "מקרים מיוחדים"
+
+msgid "Transcript"
+msgstr "תמלול"
+
+msgid "Writing down what is said ..."
+msgstr "כותב את מה שנאמר ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "מערבב את הערוצים לתמלול"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "הוא נכתב ברקע; ההגדרות ייפתחו מעצמן כשיסתיים."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "אף מחזיק מפתחות של Secret Service לא ענה, ולכן לא נשמר דבר. מחוץ ל-Mac ול-Windows המפתח נשמר במחזיק המפתחות של שולחן העבודה, באמצעות הפקודה secret-tool מ-libsecret. הוא לא נכתב לקובץ."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "עבודה מקדימה -- קריאת השמע, חישוב מעטפות ותמלול מה שנאמר:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  שוט רחב בקצוות: רק מ-%s -- זה שבפתיחה היה קצר מהשוט הקצר ביותר ונבלע בשוט הבא"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  שוט רחב בקצוות: רק עד %s -- זה שבסיום היה קצר מהשוט הקצר ביותר ונבלע בשוט שלפניו"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  שוט רחב בקצוות: אין -- שניהם היו קצרים מהשוט הקצר ביותר ונבלעו בשכניהם"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על הפסקה קצרה, הפסקה עד אורך זה אינה משנה דבר, והפסקה ארוכה יותר עוברת לשוט הרחב. היכן ש\"זיהוי לא ודאי\" מוגדר ל\"ללא החלפת מצלמה\", קטע לא ודאי ארוך מזה עובר גם הוא לשוט הרחב. מעל שתי שניות התמונה מתחילה לעמוד על מישהו שותק במשך יותר מחמש שניות."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s הושמט -- %s לפי קוד הזמן מהמקטעים האחרים, רחוק מדי להקלטה אחת"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  שוט רחב בקצוות: כל העריכה היא השוט הרחב"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  קוצר לכל היותר ל-%s כל אחד -- ההכרזה היחידה נמשכת מ-%s עד %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: ל-%s בהתחלה אין תמונה, והוא מושמט"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: ל-%s בסוף אין תמונה, והוא מושמט"

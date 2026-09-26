@@ -109,8 +109,8 @@ msgstr "Пізніше"
 msgid "Go back"
 msgstr "Повернутися"
 
-msgid "About Video Podcast Magic"
-msgstr "Про програму Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Про програму %(name)s"
 
 msgid "&File"
 msgstr "&Файл"
@@ -459,9 +459,6 @@ msgstr "Відтворення і пауза."
 
 msgid "Preview running ..."
 msgstr "Триває попередній перегляд ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Підготовка -- прочитати звук і обчислити обвідні:\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "Обробка на auphonic.com (необов'язково)"
@@ -1138,14 +1135,8 @@ msgstr "Інші назви доріжок"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  ВИПУСК З ТАКОЮ НАЗВОЮ ВЖЕ ІСНУЄ"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ключ з AUPHONIC_TOKEN не приймається: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "Збережений ключ не приймається: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Немає ключа API. Задайте AUPHONIC_TOKEN або один раз збережіть його в інтерфейсі. Ключ є в налаштуваннях облікового запису Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "В обліковому записі немає збережених пресетів. Пресет можна створити у вебінтерфейсі."
@@ -1587,9 +1578,6 @@ msgstr "  %s: скільки в ньому каналів, визначити н
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "Жодна камера не вільна від мовців, тож загального плану немає: чотири налаштування загального плану й позначка для країв нічого не дають. Задайте камері Вид «Загальний план» або залиште одну без мовця."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Транскрипту ще немає. Без нього не знайдеться жодне запитання й не відома жодна межа речення, тож ці чотири налаштування нічого не дають. Запуск його запише, і відтоді вони працюють."
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Питання: транскрипту немає, тож питань не знайдено й план реакції\n           не вставлено. Слова записуються з готового міксу під час\n           запуску; без них налаштування нічого не дає."
@@ -3121,8 +3109,8 @@ msgstr "Цих файлів більше немає:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  Файл проєкту не записується (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Файли JSON (*.json);;Усі файли (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Файли JSON (*.json);;Усі файли (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Ця передача не містить частоти кадрів, тож Timeline з неї не побудувати. Будь ласка, зробіть запуск ще раз."
@@ -3715,9 +3703,6 @@ msgstr "через менеджер пакетів: apt install ffmpeg, dnf inst
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "У цьому ffmpeg немає soxr: розбіжність годинників між камерами виходить кроками по 21 ppm замість 0,21."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ключ можна зберегти лише на Mac і Windows -- у зв'язці ключів або в реєстрі. У файл він не потрапляє."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  На ffmpeg.org є збірки для Windows. Потім теку з ffmpeg.exe треба додати до PATH або покласти файли поруч із цією програмою."
 
@@ -4105,8 +4090,8 @@ msgstr "Немає звуку для роботи -- установіть для
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "Зміст: камера, як будь-яка інша.\nЗагальний план: камера, перед якою ніхто не сидить -- вона не бере жодного мовця, а монтаж переходить до неї в паузі й у довгому монолозі.\nЗаставка й кінцівка -- готові кліпи: не вирівнюються, не обробляються, лише кладуться в Timeline.\nПропустити відео: файл повністю залишається осторонь."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- із сирого матеріалу виходить змонтований подкаст"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- із сирого матеріалу виходить змонтований подкаст"
 
 msgid "The work can be written to a project file first."
 msgstr "Роботу можна спершу записати у файл проєкту."
@@ -4720,9 +4705,6 @@ msgstr "Коротші плани вливаються в наступний."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Коротке «так» не зрушує картинку. Без цього фрагмент мовлення в пів секунди перетягує камеру, і мінімальна довжина плану тримає її там секундами."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Лише там, де для «Ніхто не говорить» вибрано тримати коротку паузу. Пауза до цієї довжини нічого не змінює, довша переходить на загальний план. Понад дві секунди картинка починає стояти на тому, хто мовчить, довше за п'ять секунд."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 з постійною яскравістю"
 
@@ -4768,14 +4750,34 @@ msgstr "%s ні з чим у матеріалі не збігається, а ж
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s ні з чим у матеріалі не збігається, а жодна камера, розміщена за звуком, не має таймкоду, з яким можна було б звірити власний; заставку вже зайнято: залишено поза монтажем."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key нічого не приймає після себе: ключ запитується "
+"приховано. Нічого не збережено."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Ключ API Auphonic (не показується): "
 
 msgid "In point"
 msgstr "Точка входу"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Пропущено; %s або %s -- за один клік."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Немає ключа API. Збережіть його один раз в інтерфейсі або за допомогою "
+"--store-auphonic-key. Ключ є в налаштуваннях облікового запису Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Ключ не введено, тому нічого не збережено."
 
 msgid "Out point"
 msgstr "Точка виходу"
@@ -4785,6 +4787,12 @@ msgstr "Пресети:"
 
 msgid "Registry"
 msgstr "Реєстр"
+
+msgid "The key is not stored: %s"
+msgstr "Ключ не збережено: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ключ збережено, і зворотне читання дало той самий ключ."
 
 msgid "VIDEO"
 msgstr "ВІДЕО"
@@ -4977,3 +4985,84 @@ msgstr "звук не розпізнано, розміщено за таймко
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s записи і жодного зображення: кожен з'єднується окремо, і вони не вирівнюються один щодо одного. --multitrack кладе їх на одну вісь часу."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", дрейф годинника %s ppm залишається: він не в %s рази більший за свою похибку %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Без транскрипту не знайдеться жодне запитання й не відома жодна межа речення, тож два налаштування запитання й два налаштування загального плану, які чекають кінця речення, нічого не дають."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Без транскрипту не знайдеться жодне запитання, тож два налаштування запитання нічого не дають."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Його ще немає: запуск його запише, і відтоді вони працюють."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Розпізнавання мовлення було вимкнено для цього запуску. Залиште його ввімкненим, і наступний запуск запише транскрипт."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Запуск не записав транскрипт: розпізнавання мовлення не вдалося або нічого не почуло, і журнал запуску каже, що саме. Перевірте мову звуку й запустіть знову; де на цьому комп’ютері немає розпізнавання, macOS 26 приносить його, або запуск установлює faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "працює -- %s хв без повідомлень, комп'ютер, можливо, завантажений"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s хв без змін -- можливо, зависло, перевірте"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "залишається: %s ppm і більше -- радше помилка вимірювання"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "залишається: не досягає %s-кратної похибки"
+
+msgid "Timing"
+msgstr "Таймінг"
+
+msgid "Special cases"
+msgstr "Особливі випадки"
+
+msgid "Transcript"
+msgstr "Транскрипт"
+
+msgid "Writing down what is said ..."
+msgstr "Записую сказане ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Зведення доріжок для транскрипту"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Він записується у фоні; налаштування відкриються самі, щойно він буде готовий."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Жодна зв'язка ключів Secret Service не відповіла, тож нічого не збережено. Поза Mac і Windows ключ зберігається у зв'язці ключів робочого столу, через команду secret-tool з libsecret. У файл він не потрапляє."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Підготовка -- прочитати звук, обчислити обвідні й записати сказане:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Загальний план на краях: лише від %s -- початковий був коротший за найкоротший кадр і злився з наступним"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Загальний план на краях: лише до %s -- кінцевий був коротший за найкоротший кадр і злився з попереднім"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Загальний план на краях: немає -- обидва були коротші за найкоротший кадр і злилися з сусідніми"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Там, де для «Ніхто не говорить» вибрано тримати коротку паузу, пауза до цієї довжини нічого не змінює, а довша переходить на загальний план. Там, де для «Розпізнавання ненадійне» вибрано «Без зміни камери», непевний відрізок, довший за це, теж переходить на загальний план. Понад дві секунди картинка починає стояти на тому, хто мовчить, довше за п'ять секунд."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s пропущено -- за таймкодом за %s від інших блоків, задалеко для одного запису"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Загальний план на краях: увесь монтаж — загальний план"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  скорочено щонайбільше до %s кожен -- єдине оголошення триває від %s до %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s на початку не має зображення й відкидається"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s в кінці не має зображення й відкидається"

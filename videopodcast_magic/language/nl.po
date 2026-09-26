@@ -184,8 +184,8 @@ msgstr "--update haalt hem op en installeert hem."
 msgid "The check for new versions is switched off here."
 msgstr "Het zoeken naar nieuwe versies is hier uitgeschakeld."
 
-msgid "About Video Podcast Magic"
-msgstr "Over Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Over %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Ruw materiaal van een videopodcast wordt een gemonteerde aflevering: het goede geluid uit de videobestanden, de camera's op één tijdas, een eerste montage per spreker en een DaVinci Resolve-project."
@@ -2338,9 +2338,6 @@ msgstr "Multitrack (één spoor per spreker)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"intern geluid gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Geen API-sleutel. Stel AUPHONIC_TOKEN in of laat hem één keer onthouden in de interface. De sleutel staat in de accountinstellingen van Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Geen enkel audiobestand heeft een timecode. In-punt en Uit-punt tellen vanaf het begin van het materiaal -- de positie van de bestanden ten opzichte van elkaar is gemeten."
 
@@ -2560,9 +2557,6 @@ msgstr "Voorbeeld niet mogelijk: %s"
 msgid "Preview running ..."
 msgstr "Voorbeeld loopt ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Voorwerk -- geluid lezen en omhullenden berekenen:\n"
-
 msgid "Primaries"
 msgstr "Primaire kleuren"
 
@@ -2699,9 +2693,6 @@ msgstr "Het eerste spoor van de voorinstelling bepaalt de instellingen voor al o
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Daarvoor is het overdrachtsbestand van een proces nodig, en dat is er niet."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "De sleutel kan alleen op Mac en Windows worden bewaard -- in de sleutelhanger of het register. Hij gaat niet in een bestand."
-
 msgid "%s -- being checked"
 msgstr "%s -- wordt gecontroleerd"
 
@@ -2734,9 +2725,6 @@ msgstr "  Sleutelhangertoegang kon niet worden geopend: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "De opgeslagen sleutel wordt niet geaccepteerd: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "De sleutel uit AUPHONIC_TOKEN wordt niet geaccepteerd: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Wat auphonic.com antwoordde"
@@ -2870,8 +2858,8 @@ msgstr "Beeld 1"
 msgid "Video 2"
 msgstr "Beeld 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- van ruw materiaal naar een gemonteerde podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- van ruw materiaal naar een gemonteerde podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volume. 100 is zo luid als het gaat -- Qt neemt niets hoger aan."
@@ -2921,14 +2909,41 @@ msgstr "Middernacht"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s heeft een timecode van de andere kant van middernacht -- geteld als één nacht, niet als een dag verschil."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key neemt niets erachter aan: de sleutel wordt onzichtbaar "
+"gevraagd. Er is niets opgeslagen."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Een timecode telt vanaf middernacht en begint daar opnieuw. De bestanden komen op één as voordat er iets van elkaar wordt afgetrokken, anders lijkt de opname na middernacht bijna een dag van de vorige verwijderd. Als ze echt op verschillende dagen zijn opgenomen, klopt de uitlijning niet en is de gemeten offset de juiste."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic-API-sleutel (wordt niet getoond): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanaal %d zit tegen de aanslag: %s keer drie of meer samples op rij, de langste %s (%s ms), de eerste op %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Hier geteld, sample voor sample, op de rate waarmee het bestand is opgenomen: een reeks van drie of meer samples op de hoogste waarde die een integerformaat kan bevatten. Eén of twee zijn afronding en worden niet gemeld. Wat daar is afgekapt, is weg en geen bewerking haalt het terug -- maar de opname blijft de opname, en dit houdt niets tegen. Alleen integerformaten worden geteld. 32 bit float heeft bij volle schaal geen aanslag, dus daar valt niets te tellen."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Geen API-sleutel. Sla hem één keer op in de interface, of met "
+"--store-auphonic-key. De sleutel staat in de accountinstellingen van "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Er is geen sleutel getypt, dus er is niets opgeslagen."
+
+msgid "The key is not stored: %s"
+msgstr "De sleutel is niet opgeslagen: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "De sleutel is opgeslagen, en teruglezen gaf dezelfde sleutel."
 
 msgid "boxes no longer readable"
 msgstr "boxen niet meer leesbaar"
@@ -3362,8 +3377,8 @@ msgstr "Overdracht"
 msgid "Uploading %s tracks"
 msgstr "%s sporen uploaden"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-bestanden (*.json);;Alle bestanden (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-bestanden (*.json);;Alle bestanden (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "de stemmen hieronder dragen de camera's"
@@ -3625,9 +3640,6 @@ msgstr "Bewerking"
 
 msgid "Profile"
 msgstr "Profiel"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Nog geen transcript. Zonder transcript wordt er geen vraag gevonden en is geen zinsgrens bekend, dus deze vier instellingen doen niets. Een run schrijft het, en vanaf dan werken ze."
 
 msgid "Why the question settings are grey"
 msgstr "Waarom de vraag-instellingen grijs zijn"
@@ -4549,9 +4561,6 @@ msgstr "Korte pauze tot"
 msgid "so long a silence leaves the picture alone"
 msgstr "zo lang laat een stilte het beeld met rust"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Alleen waar \"Niemand spreekt\" op korte pauze aanhouden staat. Een pauze tot deze lengte verandert niets, een langere gaat naar het totaalshot. Boven twee seconden begint het beeld langer dan vijf seconden op iemand te staan die zwijgt."
-
 msgid "Listener"
 msgstr "Luisteraar"
 
@@ -4916,3 +4925,84 @@ msgstr "geluid niet herkend, geplaatst op zijn timecode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s opnamen en geen beeld: elke wordt apart samengevoegd en ze worden niet tegen elkaar uitgelijnd. --multitrack zet ze op één tijdas."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", klokdrift van %s ppm blijft staan: niet %s keer zijn onzekerheid van %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Zonder transcript wordt er geen vraag gevonden en is geen zinsgrens bekend, dus de twee instellingen voor de vraag en de twee instellingen voor het totaalshot die op het einde van een zin wachten, doen niets."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Zonder transcript wordt er geen vraag gevonden, dus de twee instellingen voor de vraag doen niets."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Er is er nog geen: een run schrijft het, en vanaf dan werken ze."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "De spraakherkenning stond uit voor deze run. Laat ze aan, dan schrijft de volgende run er een."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "De run schreef er geen: de spraakherkenning mislukte of hoorde niets, en het logboek van de run zegt welke van de twee. Controleer de taal van het geluid en start opnieuw; waar deze machine geen herkenning heeft, brengt macOS 26 er een mee, of installeert de run faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "bezig -- al %s min geen bericht, de computer is misschien druk"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "al %s min geen verandering -- loopt misschien vast, controleer dit"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "blijft staan: %s ppm of meer is eerder een meetfout"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "blijft staan: niet %s keer de eigen onzekerheid"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Bijzondere gevallen"
+
+msgid "Transcript"
+msgstr "Transcriptie"
+
+msgid "Writing down what is said ..."
+msgstr "Opschrijven wat er gezegd wordt ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "De sporen mengen voor de transcriptie"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Ze wordt op de achtergrond geschreven; de instellingen gaan vanzelf open zodra ze klaar is."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Geen Secret Service-sleutelbos antwoordde, dus er is niets bewaard. Buiten Mac en Windows staat de sleutel in de sleutelbos van het bureaublad, via het commando secret-tool uit libsecret. Hij gaat niet in een bestand."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Voorwerk -- geluid lezen, omhullenden berekenen en opschrijven wat er gezegd wordt:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Totaalshot aan de randen: alleen vanaf %s -- dat aan het begin was korter dan het kortste shot en ging op in het volgende"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Totaalshot aan de randen: alleen tot %s -- dat aan het eind was korter dan het kortste shot en ging op in het vorige"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Totaalshot aan de randen: geen -- beide waren korter dan het kortste shot en gingen op in hun buren"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Waar \"Niemand spreekt\" op korte pauze aanhouden staat, verandert een pauze tot deze lengte niets en gaat een langere naar het totaalshot. Waar \"Herkenning onzeker\" op \"Geen camerawissel\" staat, gaat een onzekere passage die langer is dan dit ook naar het totaalshot. Boven twee seconden begint het beeld langer dan vijf seconden op iemand te staan die zwijgt."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s weggelaten -- volgens timecode %s van de andere blokken, te ver uit elkaar voor één opname"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Totaalshot aan de randen: de hele montage is het totaalshot"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  ingekort tot hoogstens %s elk -- de enige aankondiging loopt van %s tot %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s aan het begin heeft geen beeld en valt weg"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s aan het eind heeft geen beeld en valt weg"

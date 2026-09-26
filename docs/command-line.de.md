@@ -79,15 +79,18 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 
 ## Bei auphonic.com aufbereiten
 
-Der Schlüssel kommt aus den Kontoeinstellungen in `AUPHONIC_TOKEN`, nie
-auf die Kommandozeile. Er schaltet die Aufbereitung ein, und eine
-Kommandozeile mit Schaltern, aber ohne Dateien listet dann nur die
-Presets.
+Der Schlüssel kommt einmal aus den Kontoeinstellungen in den
+Schlüsselbund, die Registry oder den Schlüsselbund des Desktops (Linux),
+nie auf die Kommandozeile: über das Fenster oder mit
+`--store-auphonic-key`. Ein abgelegter Schlüssel schaltet die
+Aufbereitung ein, und eine Kommandozeile mit Schaltern, aber ohne
+Dateien listet dann nur die Presets.
 
 | Schalter | Wirkung |
 |---|---|
+| `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS), in der Registry (Windows) oder im Schlüsselbund des Desktops (Linux) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
-| `--auphonic-wait SEKUNDEN` | wie lange gewartet wird (7200) |
+| `--auphonic-wait SEKUNDEN` | wie lange der Lauf darauf wartet, dass auphonic.com fertig wird; ist die Zeit um, bricht er ab und nennt die Adresse der Produktion, die dort weiterläuft; ist sie fertig, holt ein späterer Lauf ihr Ergebnis mit `--auphonic-resume result` ab. Höher wartet länger (7200, zwei Stunden) |
 | `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
 | `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet  `[multitrack only]` |
 | `--multitrack` | jede Tondatei als eigene Spur, damit auphonic.com das Übersprechen herausnehmen kann. Braucht ein Multitrack-Preset |
@@ -107,15 +110,15 @@ Presets.
 |---|---|
 | `--min-edit-duration SEKUNDEN` | wie kurz eine Einstellung stehen darf; kürzere gehen in die folgende auf, 0 aus (3) |
 | `--min-speech-to-switch SEKUNDEN` | wie lange jemand reden muss, bevor die Kamera ihm folgt, 0 aus (1,5) |
-| `--silence-hold SEKUNDEN` | wie lange eine Stille noch als Atempause zählt und nicht als Ende; nur wo `--on-silence` eine kurze Lücke halten soll (1,0) |
+| `--silence-hold SEKUNDEN` | wie lange eine Stille noch als Atempause zählt und nicht als Ende; nur wo `--on-silence` eine kurze Lücke halten soll. Dieselbe Grenze beendet auch `--on-uncertain hold`, es sei denn, es gibt keinen Weitwinkel (1,0) |
 | `--edit-change-delay SEKUNDEN` | wie viel später als der Ton das Bild schneidet; negativ lässt es vorlaufen (0,3) |
 | `--reaction-lead SEKUNDEN` | wie viel früher das Bild nach einer Frage zur Antwort geht (1,5) |
 | `--reaction-gap SEKUNDEN` | wie schnell die Antwort auf die Frage folgen muss, damit der Reaktionsschnitt greift (3) |
 | `--reaction-hold ANTEIL` | wie viel der zehn Sekunden nach der Frage der Antwortende halten muss, zwischen 0 und 1 (0,7) |
 | `--on-monologue WERT` | einer redet allein, länger als `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: `wide`, `listener`, `alternate`, `hold` (wide) |
-| `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (wide) |
-| `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` (wide) |
+| `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (hold-brief) |
+| `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` -- beim Halten bleibt das Bild höchstens so lange stehen, wie `--silence-hold` erlaubt, danach kommt der Weitwinkel; gibt es keinen, bleibt es bis zum Ende der unsicheren Strecke stehen (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher -- außer bei `--project-type sync`, wo nur eine hier genannte Kamera einer ist |
 | `--new-name DATEI NAME` | diese Videodatei wird als NAME geschrieben (die Endung kommt dahinter), und ihre Spur in der Übergabe trägt diesen Namen; wiederholbar. Ohne ihn der eigene Name der Datei. Das Fenster schickt sein Feld „neue Datei heißt“ so, wo keine Zuordnungsdatei es trägt. Wirksam ist er überall, wo jede Kamera nach ihrer Datei heißt, auch neben `--speakers-from` oder einer Zuordnungsdatei ohne Kameras. Neben einer Zuordnungsdatei, die die Kameras selbst benennt (`--assign`), und bei `--multitrack` mit Kameras allein, deren Dateien nach den Spuren aus ihrem Ton heißen, ginge er stillschweigend verloren; deshalb lehnt der Lauf ihn dort ab. Ebenso abgelehnt, bevor etwas geschrieben wird: ein NAME mit Ordner- oder Laufwerkstrenner (`/`, `\`, `:`), mit Punkt am Anfang oder leer, eine DATEI, die keine der Kameras ist oder zwei Namen bekommt, und zwei Kameras, die in derselben Datei landen würden, wobei Groß- und Kleinschreibung als gleich gilt |
@@ -176,8 +179,9 @@ führt die Kapitel auf.
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.
 * **`--multitrack` ohne Schlüssel.** Der Lauf hält nach dem Vorflug an.
-  Einen Schlüssel in `AUPHONIC_TOKEN` legen, oder `--without-auphonic` auf
-  diesem Rechner ausrichten, mischen und schneiden lassen.
+  Einmal einen Schlüssel mit `--store-auphonic-key` ablegen, oder
+  `--without-auphonic` auf diesem Rechner ausrichten, mischen und
+  schneiden lassen.
 * **Die Liste ist auch in einem deutschen Lauf englisch.** `--help` und
   die Namen der Schalter folgen `--lang` nicht; der Schalter setzt die
   Sprache der Meldungen.

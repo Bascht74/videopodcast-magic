@@ -91,8 +91,8 @@ msgstr "Позже"
 msgid "Go back"
 msgstr "Вернуться"
 
-msgid "About Video Podcast Magic"
-msgstr "О программе Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "О программе %(name)s"
 
 msgid "&File"
 msgstr "&Файл"
@@ -441,9 +441,6 @@ msgstr "Воспроизведение и пауза."
 
 msgid "Preview running ..."
 msgstr "Предпросмотр выполняется ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Подготовка -- прочитать звук и вычислить огибающие:\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "Обработка на auphonic.com (необязательно)"
@@ -2656,6 +2653,13 @@ msgstr "--- переход к %s по программному времени%s 
 msgid "--- point set, programme time runs from %s ---"
 msgstr "--- точка задана, программное время идёт с %s ---"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ничего не принимает после себя: ключ запрашивается "
+"скрытно. Ничего не сохранено."
+
 msgid "--update fetches it and puts it in place."
 msgstr "--update получает её и устанавливает."
 
@@ -2712,6 +2716,9 @@ msgstr "Звук по программному времени"
 
 msgid "Audio file %s"
 msgstr "Звуковой файл %s"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "API-ключ Auphonic (не отображается): "
 
 msgid "Auphonic created different tracks than requested: %s instead of %s"
 msgstr "Auphonic создал не те дорожки, что запрашивались: %s вместо %s"
@@ -3106,8 +3113,12 @@ msgstr "НЕТ ОТДЕЛЬНЫХ ЗВУКОЗАПИСЕЙ -- БЕРЁТСЯ З�
 msgid "Names used more than once"
 msgstr "Повторяющиеся имена"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Нет API-ключа. Задайте AUPHONIC_TOKEN или один раз сохраните его в интерфейсе. Он есть в настройках учётной записи Auphonic."
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Нет API-ключа. Сохраните его один раз в интерфейсе или с помощью "
+"--store-auphonic-key. Он есть в настройках учётной записи Auphonic."
 
 msgid "No Multitrack preset found in the account."
 msgstr "В учётной записи не найдено ни одного пресета Multitrack."
@@ -3154,6 +3165,9 @@ msgstr "Нет соединения с Resolve.\n  Программа запущ
 msgid "No input possible. Use %s %s to set what should happen."
 msgstr "Ввод невозможен. С помощью %s %s задайте, что должно произойти."
 
+msgid "No key was typed, so nothing was stored."
+msgstr "Ключ не был введён, поэтому ничего не сохранено."
+
 msgid "No newer version found. This one is %s."
 msgstr "Более новой версии не найдено. Здесь работает %s."
 
@@ -3192,9 +3206,6 @@ msgstr "Говорящие пока не известны -- они выясня
 
 msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
 msgstr "Говорящие пока не известны -- ничего не измерено, ничего не разделено, и нет файла передачи прежнего прогона в %s или во вложенных папках."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Расшифровки пока нет. Без неё не находится ни один вопрос и не известна ни одна граница предложения, поэтому эти четыре настройки ничего не дают. Прогон её пишет, и с этого момента они работают."
 
 msgid "No version earlier than %s is out that pip can install."
 msgstr "Нет ни одной версии раньше %s, которую pip мог бы установить."
@@ -3574,12 +3585,6 @@ msgstr "Кадры стоят чуть дольше; короче файл от 
 msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
 msgstr "Кадры стоят чуть короче; длиннее файл от этого не становится. Программа монтажа примерно каждые %s с пропускает один кадр, а картинка и звук камеры остаются вместе."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ключ можно сохранить только на Mac и Windows -- в связке ключей или в реестре. В файл он не попадает."
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ключ из AUPHONIC_TOKEN не принят: %s"
-
 msgid "The key has a character in it that cannot be typed."
 msgstr "В ключе есть знак, который нельзя набрать."
 
@@ -3594,6 +3599,12 @@ msgstr "Ключ хорош. Из %s пресетов в учётной запи
 
 msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
 msgstr "Ключ хорош. Из %s пресетов в учётной записи ни один не Singletrack, поэтому список остаётся пустым."
+
+msgid "The key is not stored: %s"
+msgstr "Ключ не сохранён: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ключ сохранён, и при обратном чтении получен тот же ключ."
 
 msgid "The key is then in the %s, never in a file."
 msgstr "Тогда ключ лежит здесь: %s -- и никогда в файле."
@@ -3838,11 +3849,11 @@ msgstr "Видео 1"
 msgid "Video 2"
 msgstr "Видео 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- из сырого материала получается смонтированный подкаст"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- из сырого материала получается смонтированный подкаст"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Файлы JSON (*.json);;Все файлы (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Файлы JSON (*.json);;Все файлы (*)"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Громкость. 100 -- громче некуда, больше Qt не принимает."
@@ -4702,9 +4713,6 @@ msgstr "Более короткие планы вливаются в следу�
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Короткое «да» не сдвигает картинку. Без этого фрагмент речи в полсекунды перетягивает камеру, и минимальная длина плана держит её там секундами."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Только там, где у «Никто не говорит» выбрано держать короткую паузу. Пауза не длиннее этого ничего не меняет, более длинная уходит на общий план. Свыше двух секунд картинка начинает стоять на молчащем дольше пяти секунд."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 с постоянной яркостью"
 
@@ -4959,3 +4967,84 @@ msgstr "звук не распознан, размещён по своему т�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s записи и никакой картинки: каждая собирается отдельно, и они не выравниваются друг относительно друга. --multitrack кладёт их на одну ось времени."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", дрейф часов %s ppm остаётся: он не превышает в %s раз свою погрешность %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Без расшифровки не находится ни один вопрос и не известна ни одна граница предложения, поэтому две настройки вопроса и две настройки общего плана, которые ждут конца предложения, ничего не дают."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Без расшифровки не находится ни один вопрос, поэтому две настройки вопроса ничего не дают."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Её пока нет: прогон её пишет, и с этого момента они работают."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Распознавание речи было выключено для этого прогона. Оставьте его включённым, и следующий прогон напишет расшифровку."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Прогон не написал расшифровку: распознавание речи не удалось или ничего не услышало, и журнал прогона говорит, что именно. Проверьте язык звука и запустите снова; если на этой машине нет распознавания, macOS 26 приносит его, или прогон устанавливает faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "работает -- %s мин. без сообщений, компьютер, возможно, загружен"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s мин. без изменений -- возможно, зависло, проверьте"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "остаётся как есть: %s ppm и больше -- скорее ошибка измерения"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "остаётся как есть: не достигает %s-кратной погрешности"
+
+msgid "Timing"
+msgstr "Тайминг"
+
+msgid "Special cases"
+msgstr "Особые случаи"
+
+msgid "Transcript"
+msgstr "Транскрипт"
+
+msgid "Writing down what is said ..."
+msgstr "Записываю сказанное ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Сведение дорожек для транскрипта"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Он записывается в фоне; настройки откроются сами, как только он будет готов."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ни одна связка ключей Secret Service не ответила, поэтому ничего не сохранено. Вне Mac и Windows ключ хранится в связке ключей рабочего стола, через команду secret-tool из libsecret. В файл он не попадает."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Подготовка -- прочитать звук, вычислить огибающие и записать сказанное:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Общий план по краям: только с %s -- начальный был короче самого короткого кадра и слился со следующим"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Общий план по краям: только до %s -- конечный был короче самого короткого кадра и слился с предыдущим"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Общий план по краям: нет -- оба были короче самого короткого кадра и слились с соседними"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Там, где у «Никто не говорит» выбрано держать короткую паузу, пауза не длиннее этого ничего не меняет, а более длинная уходит на общий план. Там, где у «Распознавание ненадёжно» выбрано «Без смены камеры», неуверенный отрезок длиннее этого тоже уходит на общий план. Свыше двух секунд картинка начинает стоять на молчащем дольше пяти секунд."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s пропущен -- по таймкоду в %s от остальных блоков, слишком далеко для одной записи"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Общий план по краям: весь монтаж — общий план"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  сокращено не более чем до %s каждый -- единственная реплика идёт с %s до %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s в начале не имеет изображения и отбрасывается"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s в конце не имеет изображения и отбрасывается"

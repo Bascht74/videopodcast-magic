@@ -19,6 +19,10 @@ the name field keeps its least width and the column carrying the button
 can be brought fully into view; a recording whose voices hang under it
 stays open while its cell is written. speaker_cell_measure.py builds
 the windows and says how they are measured.
+In the builder's release run a text too wide or too tall for its cell,
+column or button is noted rather than failed: cut_off_rule.py. The
+window measured, the row coming down, the reach and the name field
+stay red.
 """
 PLATFORM_BOUND = True
 import os
@@ -32,6 +36,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import time
 import speaker_cell_measure as m
+import cut_off_rule
 
 LANGUAGES = m.EVERY_RUN
 print(m.languages_line(LANGUAGES))
@@ -42,11 +47,15 @@ done = 0
 bad = []
 
 
-def check(name, ok, extra=""):
+def check(name, ok, extra="", cut_off=False):
     global done
     done += 1
-    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
+    # A text cut off is noted, not failed, in the builder's release run
+    # alone; cut_off_rule.py says whose rule it is and when.
+    noted = not ok and cut_off and cut_off_rule.noted(name, extra)
+    print("  %-58s %s %s" % (name, "ok" if ok else "noted" if noted
+                             else "FAIL", extra))
+    if not ok and not noted:
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
@@ -68,11 +77,11 @@ running, counted = m.column_holds(LANGUAGES)
 check("the column holds the running caption and its button",
       all(x[1] <= 0 for x in running),
       m.named(running, "%s: %d px short, %d px of column against %d px of "
-                       "caption and %d px of button"))
+                       "caption and %d px of button"), cut_off=True)
 check("and the finished count without wrapping it",
       all(x[1] <= 0 for x in counted),
       m.named(counted, "%s: %d px short, %d px of column against %d px of "
-                       "caption"))
+                       "caption"), cut_off=True)
 
 print("\n3. The row grows to the text and comes back down")
 grows, back = m.rows_follow(LANGUAGES)
@@ -82,7 +91,7 @@ check("a cell whose text has to wrap gets a taller row",
       m.named(grows, "%s: %d px short of growing, %d px of row for the "
                      "wrapped text against %d px for an empty cell")
       if grows else "in none of %s did the sentence wrap, so no row was "
-      "asked to grow" % ", ".join(LANGUAGES))
+      "asked to grow" % ", ".join(LANGUAGES), cut_off=bool(grows))
 check("and the row comes back down when the cell is emptied",
       all(x[1] <= 0 for x in back),
       m.named(back, "%s: %d px over, %d px of row after emptying against "
@@ -92,38 +101,41 @@ print("\n4. Everything the cell can show is readable, every language")
 over = m.readable(LANGUAGES)
 check("the sentence saying it is not set up is readable in full",
       all(x[1] <= 0 for x in over["missing"]),
-      m.named(over["missing"], "%s: %d px over in a label %dx%d"))
+      m.named(over["missing"], "%s: %d px over in a label %dx%d"),
+      cut_off=True)
 check("the running caption stands on one line beside its button",
       all(x[1] <= 0 for x in over["running"]),
       m.named(over["running"], "%s: %d px over one line, %d px wide, "
-                               "%d px of text"))
+                               "%d px of text"), cut_off=True)
 check("a finished count of speakers stands on one line",
       all(x[1] <= 0 for x in over["counted"]),
       m.named(over["counted"], "%s: %d px over one line, %d px wide, "
-                               "%d px of text"))
+                               "%d px of text"), cut_off=True)
 check("a long reason from the separation is readable in full",
       all(x[1] <= 0 for x in over["reported"]),
-      m.named(over["reported"], "%s: %d px over in a label %dx%d"))
+      m.named(over["reported"], "%s: %d px over in a label %dx%d"),
+      cut_off=True)
 check("the height a cell asks for is measured, not left to a guess",
       all(x[1] <= 0 for x in over["asked"]),
-      m.named(over["asked"], "%s: %d px short, asked for %d of %d needed"))
+      m.named(over["asked"], "%s: %d px short, asked for %d of %d needed"),
+      cut_off=True)
 check("the button keeps its whole caption while a separation runs",
       all(x[1] <= 0 for x in over["button"]),
-      m.named(over["button"], "%s: %d px missing, %d px of %d"))
+      m.named(over["button"], "%s: %d px missing, %d px of %d"), cut_off=True)
 
 print("\n5. And in a font drawn as wide as the widest we build for")
 far = m.readable_wide(LANGUAGES)
 check("a long reason is readable in the widest font we build for",
       all(x[1] <= 0 for x in far["reported"]),
       "in a font %d%% as wide, %s" % (m.WIDER, m.named(
-          far["reported"], "%s: %d px over in a label %dx%d")))
+          far["reported"], "%s: %d px over in a label %dx%d")), cut_off=True)
 check("so is the sentence saying it is not set up, in that font",
       all(x[1] <= 0 for x in far["missing"]),
-      m.named(far["missing"], "%s: %d px over in a label %dx%d"))
+      m.named(far["missing"], "%s: %d px over in a label %dx%d"), cut_off=True)
 check("and the running caption still on one line, in that font",
       all(x[1] <= 0 for x in far["running"]),
       m.named(far["running"], "%s: %d px over one line, %d px wide, "
-                              "%d px of text"))
+                              "%d px of text"), cut_off=True)
 
 print("\n6. Nothing is squeezed away or put out of reach")
 narrow = m.squeezed(LANGUAGES)

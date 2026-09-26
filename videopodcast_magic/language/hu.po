@@ -186,8 +186,8 @@ msgstr "A --update letölti és telepíti."
 msgid "The check for new versions is switched off here."
 msgstr "Az új verziók keresése itt ki van kapcsolva."
 
-msgid "About Video Podcast Magic"
-msgstr "A Video Podcast Magic névjegye"
+msgid "About %(name)s"
+msgstr "A %(name)s névjegye"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Egy videópodcast nyersanyagából megvágott epizód lesz: a jó hang a videófájlokból, a kamerák egy közös időtengelyen, egy első vágás beszélők szerint, és egy DaVinci Resolve-projekt."
@@ -2340,9 +2340,6 @@ msgstr "Multitrack (beszélőnként egy sáv)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "A Multitrack legalább két bemeneti sávot igényel. Egy sáv egy saját felvétel, egy többcsatornás felvevő egy csatornája vagy egy \"belső hang használata\" beállítású videófájl hangja. Ugyanannak a felvételnek több blokkja egynek számít, a félretett sávok egyáltalán nem."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nincs API-kulcs. Állítsa be az AUPHONIC_TOKEN változót, vagy jegyeztesse meg egyszer a felületen. A kulcs az Auphonic-fiók beállításaiban található."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Egyik hangfájl sem hordoz timecode-ot. Az In pont és az Out pont az anyag elejétől számít -- a fájlok egymáshoz viszonyított helyzetét a program megméri."
 
@@ -2562,9 +2559,6 @@ msgstr "Az előnézet nem lehetséges: %s"
 msgid "Preview running ..."
 msgstr "Előnézet folyamatban ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Előmunka -- hang beolvasása és burkológörbék számítása:\n"
-
 msgid "Primaries"
 msgstr "Alapszínek"
 
@@ -2701,9 +2695,6 @@ msgstr "Az előbeállítás első sávja adja meg az összes sávunk beállítá
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Ehhez egy futás átadási fájlja kell, és nincs ilyen."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "A kulcs csak Macen és Windowson tárolható -- a kulcskarikán vagy a rendszerleíró adatbázisban. Fájlba nem kerül."
-
 msgid "%s -- being checked"
 msgstr "%s -- ellenőrzés alatt"
 
@@ -2736,9 +2727,6 @@ msgstr "  A Kulcskarika-elérés nem nyitható meg: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "A tárolt kulcsot nem fogadják el: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Az AUPHONIC_TOKEN kulcsát nem fogadják el: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Az auphonic.com válasza"
@@ -2872,8 +2860,8 @@ msgstr "Videó 1"
 msgid "Video 2"
 msgstr "Videó 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- a nyersanyagból megvágott podcast lesz"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- a nyersanyagból megvágott podcast lesz"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Hangerő. A 100 a maximum -- a Qt nem fogad el ennél többet."
@@ -2923,14 +2911,40 @@ msgstr "Éjfél"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s az éjfél másik oldaláról hordoz timecode-ot -- egy éjszakának számít, nem egy nap különbségnek."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"A --store-auphonic-key után nem állhat semmi: a kulcsot láthatatlanul kéri "
+"be. Semmi sem lett elmentve."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "A timecode éjféltől számol, és ott újrakezdi. A fájlok egy tengelyre kerülnek, mielőtt bármi kivonásra kerülne, különben az éjfél utáni felvétel majdnem egy napnyira látszik az előtte lévőtől. Ha ezek valóban különböző napokon lettek felvéve, az igazítás hibás, és a mért eltolás az, amelyben bízni lehet."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API-kulcs (nem jelenik meg): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "A(z) %d. csatorna a határon van: %s alkalommal három vagy több minta egymás után, a leghosszabb %s (%s ms), az első itt: %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Itt számolva, mintáról mintára, azon a sebességen, amelyen a fájl fel lett véve: három vagy több egymást követő minta a legmagasabb értéken, amelyet egy egész számú formátum tárolni tud. Egy vagy kettő kerekítés, és nem kerül jelentésre. Ami ott le lett vágva, az elveszett, és semmilyen feldolgozás nem hozza vissza -- de a felvétel attól még felvétel, és ez semmit sem tart fel. Csak egész számú formátumok kerülnek számolásra. A 32 bites lebegőpontosnak nincs határa a teljes skálán, így ott nincs mit számolni."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nincs API-kulcs. Mentse el egyszer a felületen, vagy a --store-auphonic-key "
+"kapcsolóval. A kulcs az Auphonic-fiók beállításaiban található."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nem lett kulcs beírva, így semmi sem lett elmentve."
+
+msgid "The key is not stored: %s"
+msgstr "A kulcs nincs elmentve: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "A kulcs el van mentve, és a visszaolvasás ugyanazt a kulcsot adta."
 
 msgid "boxes no longer readable"
 msgstr "a boxok már nem olvashatók"
@@ -3364,8 +3378,8 @@ msgstr "Átvitel"
 msgid "Uploading %s tracks"
 msgstr "%s sáv feltöltése"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-fájlok (*.json);;Minden fájl (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-fájlok (*.json);;Minden fájl (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "az alábbi hangok viszik a kamerákat"
@@ -3627,9 +3641,6 @@ msgstr "Feldolgozás"
 
 msgid "Profile"
 msgstr "Profil"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Még nincs átirat. Nélküle nem kerül elő kérdés és nem ismert mondathatár, így ez a négy beállítás nem tesz semmit. Egy futás megírja, és attól fogva működnek."
 
 msgid "Why the question settings are grey"
 msgstr "Miért szürkék a kérdés beállításai"
@@ -4551,9 +4562,6 @@ msgstr "Rövid szünet legfeljebb"
 msgid "so long a silence leaves the picture alone"
 msgstr "ilyen hosszú csend békén hagyja a képet"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Csak ott, ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva. Egy legfeljebb ilyen hosszú szünet semmit sem változtat, egy hosszabb a totálra vált. Két másodperc fölött a kép kezd öt másodpercnél tovább valakin állni, aki hallgat."
-
 msgid "Listener"
 msgstr "Hallgató"
 
@@ -4918,3 +4926,84 @@ msgstr "a hang nem felismert, a timecode-ja szerint elhelyezve"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s felvétel és nincs kép: mindegyiket külön illesztjük össze, és nem igazítjuk őket egymáshoz. A --multitrack egy időtengelyre teszi őket."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", a %s ppm órasodródás benne marad: nem éri el bizonytalanságának %s-szorosát, amely %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Átirat nélkül nem kerül elő kérdés és nem ismert mondathatár, így a kérdés két beállítása és a totál két beállítása, amely a mondat végére vár, nem tesz semmit."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Átirat nélkül nem kerül elő kérdés, így a kérdés két beállítása nem tesz semmit."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Még nincs: egy futás megírja, és attól fogva működnek."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "A beszédfelismerés ki volt kapcsolva ennél a futásnál. Hagyja bekapcsolva, és a következő futás megír egyet."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "A futás nem írt átiratot: a beszédfelismerés hibát jelzett vagy nem hallott semmit, és a futás naplója megmondja, melyik. Ellenőrizze a hang nyelvét, és futtassa újra; ha ezen a gépen nincs felismerés, a macOS 26 hoz egyet, vagy a futás telepíti a faster-whispert."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "dolgozik -- %s perce nincs üzenet, a számítógép talán leterhelt"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s perce nincs változás -- talán elakadt, kérjük, ellenőrizze"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "benne marad: %s ppm vagy több inkább mérési hiba"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "benne marad: nem éri el bizonytalanságának %s-szorosát"
+
+msgid "Timing"
+msgstr "Időzítés"
+
+msgid "Special cases"
+msgstr "Különleges esetek"
+
+msgid "Transcript"
+msgstr "Átirat"
+
+msgid "Writing down what is said ..."
+msgstr "Az elhangzottak leírása ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "A sávok keverése az átirathoz"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "A háttérben készül; amint kész, a beállítások maguktól megnyílnak."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Egyetlen Secret Service kulcstartó sem válaszolt, ezért semmi sem lett eltárolva. Macen és Windowson kívül a kulcs az asztali környezet kulcstartójában van, a libsecret secret-tool parancsán keresztül. Fájlba nem kerül."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Előmunka -- hang beolvasása, burkológörbék számítása és az elhangzottak leírása:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Totál a széleken: csak ettől: %s -- a nyitó rövidebb volt a legrövidebb snittnél, és beolvadt a következőbe"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Totál a széleken: csak eddig: %s -- a záró rövidebb volt a legrövidebb snittnél, és beolvadt az előzőbe"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Totál a széleken: egyik sincs -- mindkettő rövidebb volt a legrövidebb snittnél, és beolvadt a szomszédjába"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva, ott egy legfeljebb ilyen hosszú szünet semmit sem változtat, egy hosszabb pedig a totálra vált. Ahol a \"Bizonytalan felismerés\" a \"Nincs kameraváltás\" értékre van állítva, ott az ennél hosszabb bizonytalan szakasz is a totálra vált. Két másodperc fölött a kép kezd öt másodpercnél tovább valakin állni, aki hallgat."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s kimaradt -- a timecode szerint %s távolságra a többi blokktól, túl messze egy felvételhez"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Totál a széleken: az egész vágás a totál"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  mindegyik legfeljebb %s hosszúra rövidítve -- az egyetlen bejelentés ettől: %s, eddig: %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s az elején kép nélküli, ez kimarad"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s a végén kép nélküli, ez kimarad"

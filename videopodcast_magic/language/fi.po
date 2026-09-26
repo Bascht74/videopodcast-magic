@@ -184,8 +184,8 @@ msgstr "--update hakee sen ja asentaa sen paikalleen."
 msgid "The check for new versions is switched off here."
 msgstr "Uusien versioiden tarkistus on täällä pois päältä."
 
-msgid "About Video Podcast Magic"
-msgstr "Tietoja Video Podcast Magic -ohjelmasta"
+msgid "About %(name)s"
+msgstr "Tietoja %(name)s -ohjelmasta"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Videopodcastin raakamateriaalista tulee leikattu jakso: hyvä ääni videotiedostoista, kamerat yhdellä aika-akselilla, ensimmäinen leikkaus puhujan mukaan ja DaVinci Resolve -projekti."
@@ -2338,9 +2338,6 @@ msgstr "Multitrack (yksi raita puhujaa kohden)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack tarvitsee vähintään kaksi tuloraitaa. Raita on oma tallenne, monikanavaisen tallentimen kanava tai videotiedoston ääni, jolle on valittu \"käytä sisäistä ääntä\". Saman tallenteen useat osat lasketaan yhdeksi, sivuun jätetyt raidat eivät lainkaan."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Ei API-avainta. Aseta AUPHONIC_TOKEN tai tallenna se kerran käyttöliittymässä. Avain löytyy Auphonic-tilin asetuksista."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Yksikään äänitiedosto ei sisällä aikakoodia. In-piste ja out-piste lasketaan materiaalin alusta -- tiedostojen sijainti toisiinsa nähden mitataan."
 
@@ -2560,9 +2557,6 @@ msgstr "Esikatselu ei ole mahdollinen: %s"
 msgid "Preview running ..."
 msgstr "Esikatselu käynnissä ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Esityö -- luetaan ääni ja lasketaan verhokäyrät:\n"
-
 msgid "Primaries"
 msgstr "Päävärit"
 
@@ -2699,9 +2693,6 @@ msgstr "Esiasetuksen ensimmäinen raita määrää asetukset kaikille raidoillem
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Se tarvitsee ajon luovutustiedoston, eikä sellaista ole."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Avain voidaan tallentaa vain Macilla ja Windowsilla -- avainnippuun tai rekisteriin. Tiedostoon se ei mene."
-
 msgid "%s -- being checked"
 msgstr "%s -- tarkistetaan"
 
@@ -2734,9 +2725,6 @@ msgstr "  Avainnipun käyttöä ei voitu avata: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Tallennettua avainta ei hyväksytä: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN-muuttujan avainta ei hyväksytä: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Mitä auphonic.com vastasi"
@@ -2870,8 +2858,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- raakamateriaalista tulee leikattu podcast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- raakamateriaalista tulee leikattu podcast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Äänenvoimakkuus. 100 on suurin mahdollinen -- Qt ei hyväksy mitään sen yli."
@@ -2921,14 +2909,40 @@ msgstr "Keskiyö"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s sisältää aikakoodin keskiyön toiselta puolelta -- lasketaan yhtenä yönä, ei päivän erona."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ei ota mitään peräänsä: avainta kysytään "
+"näkymättömästi. Mitään ei tallennettu."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Aikakoodi laskee keskiyöstä ja alkaa siinä alusta. Tiedostot asetetaan samalle akselille ennen kuin mitään vähennetään, muuten keskiyön jälkeinen tallenne näyttää olevan lähes päivän päässä edellisestä. Jos nämä todella tallennettiin eri päivinä, kohdistus on väärä, ja mitattu siirtymä on se, johon kannattaa luottaa."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonicin API-avain (ei näytetä): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanava %d on ääriarvossa: %s kertaa kolme näytettä tai enemmän peräkkäin, pisin %s (%s ms), ensimmäinen kohdassa %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Laskettu tässä näyte näytteeltä tiedoston tallennustaajuudella: kolmen tai useamman peräkkäisen näytteen jono korkeimmassa arvossa, jonka kokonaislukumuoto voi sisältää. Yksi tai kaksi on pyöristystä, eikä niitä raportoida. Se, mikä siinä leikkautuu pois, on poissa, eikä mikään käsittely tuo sitä takaisin -- mutta tallenne on silti tallenne, eikä tämä pysäytä mitään. Vain kokonaislukumuodot lasketaan. 32-bittisellä liukuluvulla ei ole ääriarvoa täydellä asteikolla, joten siinä ei ole mitään laskettavaa."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Ei API-avainta. Tallenna se kerran käyttöliittymässä tai valitsimella "
+"--store-auphonic-key. Avain löytyy Auphonic-tilin asetuksista."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Avainta ei kirjoitettu, joten mitään ei tallennettu."
+
+msgid "The key is not stored: %s"
+msgstr "Avainta ei ole tallennettu: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Avain on tallennettu, ja takaisin lukeminen antoi saman avaimen."
 
 msgid "boxes no longer readable"
 msgstr "laatikoita ei voi enää lukea"
@@ -3362,8 +3376,8 @@ msgstr "Siirto"
 msgid "Uploading %s tracks"
 msgstr "Lähetetään %s raitaa"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-tiedostot (*.json);;Kaikki tiedostot (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-tiedostot (*.json);;Kaikki tiedostot (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "alla olevat puheäänet kantavat kamerat"
@@ -3625,9 +3639,6 @@ msgstr "Käsittely"
 
 msgid "Profile"
 msgstr "Profiili"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Ei vielä transkriptiota. Ilman sitä yhtään kysymystä ei löydy eikä lauseen rajoja tunneta, joten nämä neljä asetusta eivät tee mitään. Ajo kirjoittaa sen, ja siitä lähtien ne toimivat."
 
 msgid "Why the question settings are grey"
 msgstr "Miksi kysymyksen asetukset ovat harmaita"
@@ -4549,9 +4560,6 @@ msgstr "Lyhyt tauko enintään"
 msgid "so long a silence leaves the picture alone"
 msgstr "näin pitkä hiljaisuus jättää kuvan rauhaan"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Vain siellä, missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli. Enintään näin pitkä tauko ei muuta mitään, pidempi siirtyy yleiskuvaan. Yli kahden sekunnin arvolla kuva alkaa viipyä vaiti olevassa yli viisi sekuntia."
-
 msgid "Listener"
 msgstr "Kuuntelija"
 
@@ -4916,3 +4924,84 @@ msgstr "ääntä ei tunnistettu, sijoitettu aikakoodinsa mukaan"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s tallennetta eikä kuvaa: jokainen yhdistetään erikseen, eikä niitä kohdisteta toisiinsa. --multitrack asettaa ne yhdelle aika-akselille."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", kellon ajautuma %s ppm jätetty paikalleen: se ei ole %s-kertainen epävarmuuteensa %s ppm nähden"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Ilman transkriptiota yhtään kysymystä ei löydy eikä lauseen rajoja tunneta, joten kysymyksen kaksi asetusta ja yleiskuvan kaksi asetusta, jotka odottavat lauseen loppua, eivät tee mitään."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Ilman transkriptiota yhtään kysymystä ei löydy, joten kysymyksen kaksi asetusta eivät tee mitään."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Sitä ei vielä ole: ajo kirjoittaa sen, ja siitä lähtien ne toimivat."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Puheentunnistus oli tässä ajossa pois päältä. Jätä se päälle, niin seuraava ajo kirjoittaa sen."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Ajo ei kirjoittanut transkriptiota: puheentunnistus epäonnistui tai ei kuullut mitään, ja ajon loki kertoo kumpi. Tarkista äänen kieli ja aja uudelleen; jos tässä koneessa ei ole tunnistusta, macOS 26 tuo sellaisen, tai ajo asentaa faster-whisperin."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "työskentelee -- ei viestiä %s minuuttiin, tietokone voi olla kuormitettu"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "ei muutosta %s minuuttiin -- saattaa olla jumissa, tarkista"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "jätetään paikalleen: %s ppm tai enemmän on pikemminkin mittausvirhe"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "jätetään paikalleen: ei yllä %s-kertaiseen epävarmuuteensa"
+
+msgid "Timing"
+msgstr "Ajoitus"
+
+msgid "Special cases"
+msgstr "Erikoistapaukset"
+
+msgid "Transcript"
+msgstr "Litterointi"
+
+msgid "Writing down what is said ..."
+msgstr "Kirjoitetaan puhetta muistiin ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Miksataan raidat litterointia varten"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Sitä kirjoitetaan taustalla; asetukset avautuvat itsestään, kun se on valmis."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Yksikään Secret Service -avainnippu ei vastannut, joten mitään ei tallennettu. Macin ja Windowsin ulkopuolella avain säilytetään työpöydän avainnipussa secret-tool-komennolla libsecretistä. Tiedostoon se ei mene."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Esityö -- luetaan ääni, lasketaan verhokäyrät ja kirjoitetaan puhe muistiin:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Yleiskuva reunoilla: vain kohdasta %s alkaen -- alun yleiskuva oli lyhyempi kuin lyhin otos ja sulautui seuraavaan"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Yleiskuva reunoilla: vain kohtaan %s asti -- lopun yleiskuva oli lyhyempi kuin lyhin otos ja sulautui edelliseen"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Yleiskuva reunoilla: ei yhtään -- molemmat olivat lyhyempiä kuin lyhin otos ja sulautuivat naapureihinsa"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli, enintään näin pitkä tauko ei muuta mitään ja pidempi siirtyy yleiskuvaan. Missä \"Tunnistus epävarma\" on asetettu arvoon \"Ei kameranvaihtoa\", tätä pidempi epävarma jakso siirtyy myös yleiskuvaan. Yli kahden sekunnin arvolla kuva alkaa viipyä vaiti olevassa yli viisi sekuntia."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s jätettiin pois -- aikakoodin mukaan %s muista osista, liian kaukana yhdeksi tallenteeksi"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Yleiskuva reunoilla: koko leikkaus on yleiskuvaa"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  lyhennetty kukin enintään pituuteen %s -- ainoa puheenvuoro kestää kohdasta %s kohtaan %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s alussa on ilman kuvaa ja jää pois"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s lopussa on ilman kuvaa ja jää pois"

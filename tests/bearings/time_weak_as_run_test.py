@@ -4,10 +4,11 @@
 A recording whose sound barely reaches the camera is laid by the run's
 own measurement, and one no way measures at its clock; a camera the
 recording does not place and the other cameras do stands where they
-put it. Sections: a weak recording where the run puts it, its clock ten
-seconds off, and so beside a camera at its clock; the same with clocks
+put it. Sections: a weak recording where the run puts it, its clock
+ten seconds off, and so beside a longer recording; the same with clocks
 on weak recordings alone; one the run refuses, refused, and with a
-clock at that clock; the camera. The note is window_note_names_way's.
+clock at that clock; the camera; recordings beside one longer than
+every camera, held against the camera as in the run.
 """
 PLATFORM_BOUND = True
 import os
@@ -138,9 +139,8 @@ check("a weak recording stands where the run puts it, not at its clock",
       here is not None and abs(here - RUN) < 0.01,
       "preview %s, run %+.3f s, its clock %+.1f s, truth %+.1f s"
       % (where(here), RUN, CLOCK_AT, TRUE_AT))
-# A longer recording with nothing in common is the reference now, so
-# the camera fits nothing and stands at its clock -- and the run still
-# measures the buried one against the camera.
+# A longer recording with nothing in common beside it: the run
+# measures the buried one against the camera all the same.
 LONG = D + "/long.wav"
 write(LONG, turns(150, 99))
 CLOCKS = {LONG: 1000.0, CAM: 1000.0, BURIED: 1000.0 + CLOCK_AT}
@@ -148,9 +148,8 @@ data, text = vpm.measure_time_axis([LONG, CAM, BURIED],
                                    tc_of=lambda p: CLOCKS.get(p))
 print("   %s; weak %s" % (text, named(data, "weak")))
 here = at(data, BURIED)
-check("and beside a camera laid at its clock as well",
-      here is not None and abs(here - RUN) < 0.01
-      and "Cam.mov" in named(data, "weak"),
+check("and beside a longer recording as well",
+      here is not None and abs(here - RUN) < 0.01,
       "preview %s from the camera, run %+.3f s, its clock %+.1f s; weak %s"
       % (where(here), RUN, CLOCK_AT, named(data, "weak")))
 
@@ -218,6 +217,34 @@ check("a camera the other cameras place stands where they put it",
       and "CamB.mov" not in named(data, "weak"),
       "CamB.mov at %s from CamA.mov, wanted +5.0 s; weak %s"
       % (where(here), named(data, "weak")))
+
+#------------------------------ 5. A recording longer than every camera
+
+print("\n5. A recording longer than every camera")
+# The microphone hears the room and a music bed and runs past the
+# camera, which hears the room alone; a second recording holds the bed
+# from its twentieth second. Against the microphone it fits there; the
+# run holds it against the camera, which never heard it.
+bed = turns(130, 7)
+MIC, BED = D + "/mic_long.wav", D + "/bed.wav"
+write(MIC, 0.5 * room + 0.5 * bed)
+write(BED, bed[20 * RATE:80 * RATE]
+      + np.random.default_rng(8).normal(0, 0.002, 60 * RATE))
+runs = {}
+for p in (MIC, BED):
+    a, b, st = vpm.align_audio_to_video(p, CAM, sample_points=20,
+                                        distance_s=30.0)
+    runs[p] = None if st.get("unplaceable") else -a / b
+print("   the run: mic %s, bed %s" % (where(runs[MIC]), where(runs[BED])))
+data, text = vpm.measure_time_axis([MIC, CAM, BED])
+print("   %s; no place %s" % (text, named(data, "no_place")))
+here = at(data, BED)
+check("beside a longer recording the others are held against the camera",
+      (here is None and runs[BED] is None) or (
+          here is not None and runs[BED] is not None
+          and abs(here - runs[BED]) < 0.01),
+      "bed.wav at %s from the camera, the run %s; against the longer "
+      "recording +20.0 s" % (where(here), where(runs[BED])))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -111,10 +111,10 @@ for and what can be in the way:
 **Check again** and the rest of that window are in [The
 interface](interface.md).
 
-![The Resolve cut tab with the answer line](images/resolve-cut.png)
+![The Resolve cut tab](images/resolve-cut.png)
 
-*Tab Resolve cut: the answer in green, and below it the values the
-button takes into the cut list.*
+*Tab Resolve cut: the values the button takes into the cut list, and
+the preview beside them.*
 
 | Case | Cut timeline | Multicam timeline |
 |---|---|---|

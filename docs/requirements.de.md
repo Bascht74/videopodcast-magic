@@ -345,10 +345,14 @@ in einer virtuellen Umgebung haben.
 ## Was sich je Plattform unterscheidet
 
 Im Alltag läuft das Programm auf macOS und Windows. Unter Linux läuft
-es ebenfalls, mit zwei Einschränkungen:
+es ebenfalls, mit zwei Unterschieden:
 
-* Der Schlüssel lässt sich nicht ablegen (kein Schlüsselbund, keine
-  Registry), er muss also jedes Mal aus `AUPHONIC_TOKEN` kommen.
+* Der Schlüssel liegt im Schlüsselbund des Desktops, erreicht über den
+  Secret Service, und dafür braucht es `secret-tool` (Paket
+  `libsecret-tools` unter Debian/Ubuntu, `libsecret` unter Fedora).
+  Fehlt es, wird nichts abgelegt: auphonic.com ist dann nur aus dem
+  Fenster erreichbar, mit dem Schlüssel, der für diese Sitzung ins Feld
+  getippt wird, und ein Lauf von der Kommandozeile kommt ohne aus.
 * Der Zwischenspeicher liegt unter `XDG_CACHE_HOME`.
 
 ## Wenn etwas klemmt

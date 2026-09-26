@@ -195,7 +195,7 @@ before=$( [ -f "$LONGEST" ] && awk '{ s += $2 } END { print s+0 }' "$LONGEST" ||
 # test file here or in a folder under it is dropped: a renamed test would
 # otherwise hold a place in a queue it is no longer in.
 suite=$(cd "$HERE" && ls *_test.py */*_test.py 2> /dev/null \
-        | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//' | tr '\n' ' ')
+        | grep -v '^[^/]*/live/' | sed 's|.*/||; s/_test\.py$//' | tr '\n' ' ')
 { [ -f "$LONGEST" ] && cat "$LONGEST" || true
   echo "$found"
 } | awk -v suite=" $suite" '

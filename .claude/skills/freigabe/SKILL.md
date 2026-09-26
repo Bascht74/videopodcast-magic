@@ -62,10 +62,13 @@ stopped somewhere, or when a command in it is being changed.
 
    **The roadmap is not asked here any more. It is a gate.** Step 3b of
    `.github/workflows/publish.yml` reads the roadmap issue and refuses
-   to tag where it does not name the version going out. So the roadmap
-   is brought up to date **before** the word is said, the same way the
+   to go on where it does not name the version going out -- since
+   26.9.2026 in the ready job, before the suite, so a stale issue costs
+   a minute and not the forty the suite takes. So the roadmap is
+   brought up to date **before** the word is said, the same way the
    changelog section is -- both describe a version that is about to
-   exist.
+   exist. The gate is the last net, not the check: the check is the
+   command in item 8b of the list at the end.
 
    **The real case, and why it became a gate: "Where the program stands
    today" in the roadmap said 2.24.0-beta while the program was at
@@ -73,17 +76,20 @@ stopped somewhere, or when a command in it is being changed.
    (`80f46d5`, 1.9.2026) -- and what was supposed to have caught it was
    a line in a report. A report nobody grades holds nothing.
 
-6. **The Resolve tests have run, or the report says why not.**
-   `tests/resolve.sh` starts the tests under `tests/resolve/live/`, the
-   only ones that talk to a DaVinci Resolve really running. No builder
-   has one, so the owner runs them -- on the owner's Mac, with Resolve
-   open -- and nobody else starts them: not a strand, not a script.
-   **This one point does not block.** One line goes into the release
-   report either way, `resolve.sh: green`, or `resolve.sh: not run,
-   because ...` with the reason, and then the release goes on. **A blank
-   line is still no answer.** Until 25.9.2026, when the owner decided
-   it, the point stood nowhere: `resolve.sh` came up here only as a file
-   once forgotten while staging, never as a step.
+6. **The live tests have run, or the report says why not.**
+   `tests/resolve.sh --go` starts the tests under `tests/resolve/live/`, which
+   talk to a DaVinci Resolve really running; `tests/auphonic.sh
+   --online` those under `tests/auphonic/live/`, which talk to
+   auphonic.com, and `--spend-credit` the ones that start a production.
+   No builder has either, so Claude proposes the run where a change
+   needs it and starts it on the owner's Mac after the owner's OK. The
+   owner does not test by hand, and no strand starts them.
+   **This one point does not block.** One line each goes into the
+   release report either way, `resolve.sh: green`, or `auphonic.sh: not
+   run, because ...` with the reason, and then the release goes on. **A
+   blank line is still no answer.** Until 25.9.2026, when the owner
+   decided it, the point stood nowhere: `resolve.sh` came up here only
+   as a file once forgotten while staging, never as a step.
 
 ## The workflow takes the handgrips, not the judgement
 
@@ -160,7 +166,7 @@ than fetches, and a package calling itself one thing while the program
 calls itself another looks amiss nowhere on the release page. Two
 workflows hold it against the program letter for letter now, and only
 one of them is in time: `.github/workflows/publish.yml` reads both lines and stops before
-the tag; `.github/workflows/release.yml` asks the same question once the
+the suite even starts; `.github/workflows/release.yml` asks the same question once the
 release is out, when the push is long gone. So it is set by hand, with
 the other six, before the word.
 
@@ -177,11 +183,11 @@ alone get no new number.**
 **Every language, once, before the word.** The everyday suite tests
 English and German only (the owner's rule, 26.9.2026); a release tests
 every catalogue. Here that is `cd tests && VPM_ALL_LANGUAGES=1 bash
-run.sh`, green before the push. On the builder nothing has to be
-asked for: the release pull request changes the version, so its seven
-checks run every language by themselves, and the long way passes
-`all_languages: true` -- why, beside that input in
-`.github/workflows/tests.yml`.
+run.sh`, green before the push. On the builder a push never tests
+every language, not even the release pull request's (the owner,
+26.9.2026): the release run does, `all_languages: true` on the long
+way and the job "Languages" on the short one -- why, beside that input
+in `.github/workflows/tests.yml`.
 
 **Write the changelog section before the push, because the workflow
 reads it and does not write it.** Skill `changelog` says what goes in
@@ -395,6 +401,18 @@ comment hold up no release -- and they do not go in a changelog either.
 A release is held up by the first five things and by nothing else; the
 sixth is answered in the report, and "not run, because ..." answers it.
 
+**A text cut off holds up no release either, in any language, English
+and German included** (the owner, 26.9.2026). The release run gets
+`VPM_CUT_OFF=noted` from `.github/workflows/tests.yml`, and such a judgement there prints
+a `NOTED cut off:` line and stays green; every other run stays red on
+it, and so does every other judgement. **After publishing, the block is
+read, not skipped**: `gh run view <run> --log | grep 'NOTED cut off: '
+| sed 's/.*NOTED cut off: //' | sort -u` -- the six jobs say each one
+again -- and each line becomes one card on the owner's board for the
+next release, carrying its numbers. The same local pass for 10b is
+`VPM_ALL_LANGUAGES=1 VPM_CUT_OFF=noted bash run.sh ...`; the summary
+ends in `cut off, to fix next release: N` and the lines.
+
 ## Before it counts as done
 
 1. All seven builder jobs green on the very tree that is about to be tagged -- on the commit itself, or on the pull request's head it merges byte for byte?
@@ -403,13 +421,28 @@ sixth is answered in the report, and "not run, because ..." answers it.
 4. What the manual pass turned up: a test, or its shape a card on the owner's board?
 5. Do the pictures show the program as it is now?
 6. The three lines of the release report written down, none of them blank -- the owner's confirmation of the board among them?
-6b. `resolve.sh` run by the owner with Resolve open -- or the line "not
-    run, because ..." in the report, with the reason?
+6b. `resolve.sh` and `auphonic.sh` run on the owner's OK -- or the line
+    "not run, because ..." in the report, with the reason?
 7. The number set in the program and the four documents that carry it?
 8. Set in `pyproject.toml` too -- the seventh place, which no test reaches?
+8b. The roadmap issue names the number, asked by command and not by eye:
+    `gh issue view 1 --json body -q .body | grep -c <VERSION>` says 2?
+    The workflow stops on it too, but only after the word: 3.0.0b25 was
+    dispatched with the issue at 3.0.0b24, and the gate then stood
+    behind the suite -- forty minutes for nothing (26.9.2026).
 9. The number Semantic Versioning asks for -- PATCH, MINOR or MAJOR?
 10. `tests/source/text_release_ready_test.py` green here, and the whole
     suite with it, in every language (`VPM_ALL_LANGUAGES=1`)?
+10b. The language slices run here on the Mac in every language before
+    the release push -- `cd tests && VPM_ALL_LANGUAGES=1 bash run.sh
+    */*_langs*_test.py` -- so a cut-off text is found here, not in the
+    release run? Found here, it is fixed before the push; one that shows
+    only in the release run is noted there, not a stop (see above).
+10c. The logs of the green runs read too, at least Linux and Windows on
+    Python 3.14 (`gh run view <run> --log | grep -E 'NOTED|LEFT OUT|
+    unsteady|again, alone'`) -- green hides what was noted, left out or
+    passed only on the second go; each finding becomes a card for the
+    next release (the owner's rule, 26.9.2026).
 11. The builder's times fetched with `--record <version>`, the section in
     `development/test_durations.md` looked at, and every test marked
     grown there named in the release report?

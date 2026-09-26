@@ -103,8 +103,8 @@ msgstr "Sonra"
 msgid "Go back"
 msgstr "Geri dön"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic hakkında"
+msgid "About %(name)s"
+msgstr "%(name)s hakkında"
 
 msgid "&File"
 msgstr "&Dosya"
@@ -448,9 +448,6 @@ msgstr "Oynat ve duraklat."
 
 msgid "Preview running ..."
 msgstr "Önizleme sürüyor ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Ön çalışma -- sesi oku ve zarfları hesapla:\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "auphonic.com'da işleme (isteğe bağlı)"
@@ -1124,14 +1121,8 @@ msgstr "Farklı iz adları"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  BU ADDA BİR PRODÜKSİYON ZATEN VAR"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN içindeki anahtar kabul edilmiyor: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "Kaydedilmiş anahtar kabul edilmiyor: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API anahtarı yok. AUPHONIC_TOKEN tanımlayın ya da arayüzde bir kez kaydettirin. Anahtar, Auphonic hesap ayarlarında bulunur."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Hesapta kayıtlı hazır ayar yok. Web arayüzünde bir tane oluşturulabilir."
@@ -1573,9 +1564,6 @@ msgstr "  %s: kaç kanalı olduğu belirlenemiyor (%s) -- ölçülmüyor"
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "Hiçbir kamera konuşmacısız değil, bu yüzden geniş çekim yok: dört geniş çekim ayarı ve kenarlar için onay işareti bir şey yapmaz. Bir kameraya Tür olarak “Geniş çekim” verin ya da birini konuşmacısız bırakın."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Henüz transkript yok. O olmadan hiçbir soru bulunmaz ve hiçbir cümle sınırı bilinmez, bu yüzden bu dört ayar bir şey yapmaz. Bir çalıştırma onu yazar, o andan itibaren çalışırlar."
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  Soru: transkript yok, bu yüzden soru bulunmadı ve tepki kesmesi\n        yapılmadı. Sözcükler çalıştırma sırasında bitmiş miksten\n        yazıya dökülür; onlar olmadan ayar bir şey yapmaz."
@@ -3105,8 +3093,8 @@ msgstr "Bu dosyalar artık yok:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  Proje dosyası yazılamıyor (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON dosyaları (*.json);;Tüm dosyalar (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON dosyaları (*.json);;Tüm dosyalar (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "Bu aktarımda kare hızı yok, bu yüzden Timeline ondan oluşturulamaz. Lütfen çalıştırmayı yeniden yapın."
@@ -3699,9 +3687,6 @@ msgstr "paket yöneticisiyle: apt install ffmpeg, dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "Bu ffmpeg'de soxr yok: kameralar arasındaki saat sürüklenmesi 0,21 yerine 21 ppm'lik adımlarla çıkar."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Anahtar yalnızca Mac ve Windows'ta saklanabilir -- Anahtar Zinciri'nde ya da kayıt defterinde. Bir dosyaya yazılmaz."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org'da Windows için derlemeler var. Ardından ffmpeg.exe'nin bulunduğu klasör PATH'e eklenmeli ya da dosyalar bu programın yanına konmalı."
 
@@ -4089,8 +4074,8 @@ msgstr "Üzerinde çalışılacak ses yok -- bir video dosyasının Kamera sesin
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "İçerik: diğerleri gibi bir kamera.\nGeniş çekim: önünde kimsenin oturmadığı bir kamera -- hiçbir konuşmacı almaz, kurgu bir duraklamada ve uzun bir monologda ona geçer.\nGiriş ve kapanış bitmiş kliplerdir -- hizalanmaz, işlenmez, yalnızca Timeline'a yerleştirilir.\nVideoyu yok say: dosya tamamen dışarıda kalır."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- ham malzeme kurgulanmış bir podcast'e dönüşür"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- ham malzeme kurgulanmış bir podcast'e dönüşür"
 
 msgid "The work can be written to a project file first."
 msgstr "Çalışma önce bir proje dosyasına yazılabilir."
@@ -4673,9 +4658,6 @@ msgstr "Daha kısa çekimler bir sonrakine katılır."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Kısa bir “evet” görüntüyü yerinden oynatmaz. Bu olmadan yarım saniyelik bir blok kamerayı kendine çeker ve en kısa çekim süresi onu orada saniyelerce tutar."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Yalnızca “Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda. Bu uzunluğa kadar bir boşluk hiçbir şeyi değiştirmez, daha uzunu geniş çekime geçer. İki saniyenin üstünde görüntü, susan birinin üzerinde beş saniyeden uzun kalmaya başlar."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 sabit"
 
@@ -4721,14 +4703,34 @@ msgstr "%s malzemedeki hiçbir şeye uymuyor ve sesin yerleştirdiği hiçbir ka
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s malzemedeki hiçbir şeye uymuyor ve sesin yerleştirdiği hiçbir kamera, bu dosyanın timecode'unun karşılaştırılabileceği bir timecode taşımıyor; giriş zaten dolu: dışarıda bırakıldı."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ardından hiçbir şey almaz: anahtar gösterilmeden "
+"sorulur. Hiçbir şey kaydedilmedi."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API anahtarı (gösterilmez): "
 
 msgid "In point"
 msgstr "Giriş noktası"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Dışarıda bırakıldı; %s ya da %s bir tık uzakta."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API anahtarı yok. Arayüzde bir kez ya da --store-auphonic-key ile kaydedin. "
+"Anahtar, Auphonic hesap ayarlarında bulunur."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Anahtar yazılmadı, bu yüzden hiçbir şey kaydedilmedi."
 
 msgid "Out point"
 msgstr "Çıkış noktası"
@@ -4738,6 +4740,12 @@ msgstr "Hazır ayarlar:"
 
 msgid "Registry"
 msgstr "Kayıt Defteri"
+
+msgid "The key is not stored: %s"
+msgstr "Anahtar kaydedilmedi: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Anahtar kaydedildi ve geri okunduğunda aynı anahtar çıktı."
 
 msgid "VIDEO"
 msgstr "VİDEO"
@@ -4929,3 +4937,84 @@ msgstr "ses tanınmadı, timecode'una göre yerleştirildi"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s kayıt ve hiç görüntü yok: her biri ayrı birleştirilir ve birbirine göre hizalanmaz. --multitrack onları tek bir zaman eksenine koyar."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", %s ppm saat sürüklenmesi bırakılır: belirsizliğinin %s katı değil (belirsizlik %s ppm)"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Transkript olmadan hiçbir soru bulunmaz ve hiçbir cümle sınırı bilinmez, bu yüzden sorunun iki ayarı ve cümle sonunu bekleyen geniş çekimin iki ayarı bir şey yapmaz."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Transkript olmadan hiçbir soru bulunmaz, bu yüzden sorunun iki ayarı bir şey yapmaz."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Henüz yok: bir çalıştırma onu yazar, o andan itibaren çalışırlar."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Konuşma tanıma bu çalıştırma için kapalıydı. Açık bırakın, bir sonraki çalıştırma bir tane yazar."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Çalıştırma hiç transkript yazmadı: konuşma tanıma başarısız oldu ya da hiçbir şey duymadı; hangisi olduğunu çalıştırmanın günlüğü söyler. Sesin dilini kontrol edin ve yeniden çalıştırın; bu makinede tanıma yoksa macOS 26 bir tane getirir ya da çalıştırma faster-whisper'ı kurar."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "çalışıyor -- %s dk'dır haber yok, bilgisayar meşgul olabilir"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s dk'dır değişiklik yok -- takılmış olabilir, lütfen kontrol edin"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "bırakılıyor: %s ppm veya fazlası büyük olasılıkla ölçüm hatasıdır"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "bırakılıyor: belirsizliğinin %s katına ulaşmıyor"
+
+msgid "Timing"
+msgstr "Zamanlama"
+
+msgid "Special cases"
+msgstr "Özel durumlar"
+
+msgid "Transcript"
+msgstr "Döküm"
+
+msgid "Writing down what is said ..."
+msgstr "Söylenenler yazılıyor ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Döküm için izler karıştırılıyor"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Arka planda yazılıyor; bittiğinde ayarlar kendiliğinden açılır."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Hiçbir Secret Service anahtar zinciri yanıt vermedi, bu yüzden hiçbir şey saklanmadı. Mac ve Windows dışında anahtar, libsecret'in secret-tool komutuyla masaüstünün anahtar zincirinde tutulur. Bir dosyaya yazılmaz."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Ön çalışma -- sesi oku, zarfları hesapla ve söylenenleri yaz:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Kenarlarda geniş çekim: yalnızca %s değerinden itibaren -- açılıştaki en kısa çekimden kısaydı ve sonrakine katıldı"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Kenarlarda geniş çekim: yalnızca %s değerine kadar -- kapanıştaki en kısa çekimden kısaydı ve öncekine katıldı"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Kenarlarda geniş çekim: yok -- ikisi de en kısa çekimden kısaydı ve komşularına katıldı"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "“Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda, bu uzunluğa kadar bir boşluk hiçbir şeyi değiştirmez, daha uzunu geniş çekime geçer. “Tanıma belirsiz” “Kamera değişikliği yok” olarak ayarlı olduğunda, bundan uzun belirsiz bir bölüm de geniş çekime geçer. İki saniyenin üstünde görüntü, susan birinin üzerinde beş saniyeden uzun kalmaya başlar."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s dışarıda bırakıldı -- timecode'a göre diğer bloklardan %s uzakta, tek bir kayıt için fazla uzak"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Kenarlarda geniş çekim: kurgunun tamamı geniş çekim"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  her biri en fazla %s olacak şekilde kısaltıldı -- tek anons %s ile %s arasında sürer"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: baştaki %s görüntüsüz, dışarıda bırakılıyor"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: sondaki %s görüntüsüz, dışarıda bırakılıyor"

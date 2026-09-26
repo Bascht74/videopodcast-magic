@@ -190,8 +190,8 @@ msgstr "--update iniżżilha u jpoġġiha f'postha."
 msgid "The check for new versions is switched off here."
 msgstr "Il-kontroll għal verżjonijiet ġodda huwa mitfi hawn."
 
-msgid "About Video Podcast Magic"
-msgstr "Dwar Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Dwar %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Il-materjal mhux maħdum ta' podcast bil-vidjo jsir episodju mmuntat: l-awdjo tajjeb mill-fajls tal-vidjo, il-kameras fuq assi tal-ħin wieħed, l-ewwel muntaġġ skont il-kelliem, u proġett ta' DaVinci Resolve."
@@ -2374,9 +2374,6 @@ msgstr "Multitrack (binarju għal kull kelliem)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack jeħtieġ mill-inqas żewġ binarji tad-dħul. Binarju huwa reġistrazzjoni għaliha, kanal ta' reġistratur b'ħafna kanali, jew l-awdjo ta' fajl tal-vidjo ssettjat fuq \"uża l-awdjo intern\". Diversi blokki tal-istess reġistrazzjoni jgħoddu bħala wieħed, binarji mwarrba ma jgħoddu xejn."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "L-ebda ċavetta tal-API. Issettja AUPHONIC_TOKEN jew ħalli l-interfaċċa tiftakarha darba. Iċ-ċavetta tinsab fl-issettjar tal-kont ta' Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "L-ebda fajl tal-awdjo m'għandu timecode. Il-punt tad-dħul u l-punt tal-ħruġ jgħoddu mill-bidu tal-materjal -- il-pożizzjoni tal-fajls bejniethom hija mkejla."
 
@@ -2599,9 +2596,6 @@ msgstr "Id-dehra minn qabel mhix possibbli: %s"
 msgid "Preview running ..."
 msgstr "Id-dehra minn qabel qed taħdem ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Xogħol preliminari -- qari tal-awdjo u kalkolu tal-inviluppi:\n"
-
 msgid "Primaries"
 msgstr "Kuluri primarji"
 
@@ -2728,9 +2722,6 @@ msgstr "L-ewwel binarju tal-preset jissettja l-issettjar għall-binarji kollha t
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Għal dan hemm bżonn il-fajl tal-konsenja minn tħaddim, u m'hemmx."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Iċ-ċavetta tista' tinħażen biss fuq Mac u Windows -- f'Keychain jew fir-reġistru. Ma tmurx f'fajl."
-
 msgid "%s -- being checked"
 msgstr "%s -- qed jiġi ċċekkjat"
 
@@ -2763,9 +2754,6 @@ msgstr "  Keychain Access ma setax jinfetaħ: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Iċ-ċavetta maħżuna mhix aċċettata: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Iċ-ċavetta minn AUPHONIC_TOKEN mhix aċċettata: %s"
 
 msgid "What auphonic.com replied"
 msgstr "X'wieġeb auphonic.com"
@@ -2899,8 +2887,8 @@ msgstr "Vidjo 1"
 msgid "Video 2"
 msgstr "Vidjo 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- il-materjal mhux maħdum isir podcast immuntat"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- il-materjal mhux maħdum isir podcast immuntat"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volum. 100 huwa l-ogħla li jista' jkun -- Qt ma jieħu xejn aktar minn hekk."
@@ -2959,14 +2947,41 @@ msgstr "Nofsillejl"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Il-fajl %s għandu timecode min-naħa l-oħra ta' nofsillejl -- jingħadd bħala lejl wieħed, mhux bħala ġurnata bogħod."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ma jieħu xejn warajh: iċ-ċavetta tintalab mingħajr ma "
+"tidher. Ma nħażen xejn."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "It-timecode jgħodd minn nofsillejl u jerġa' jibda mill-ġdid hemm. Il-fajls jitqiegħdu fuq assi wieħed qabel ma jitnaqqas xi ħaġa -- inkella r-reġistrazzjoni wara nofsillejl tidher kważi ġurnata 'l bogħod minn dik ta' qabilha. Jekk dawn verament ġew irreġistrati f'ġranet differenti, l-allinjament huwa ħażin u l-ispostament imkejjel huwa dak li għandek tafda."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Ċavetta tal-API ta' Auphonic (ma tidhirx): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Il-kanal %d qed jolqot il-limitu -- sekwenzi ta' tliet kampjuni jew aktar wara xulxin: %s, l-itwal %s (%s ms), l-ewwel f'%s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Magħdud hawn, kampjun b'kampjun, bir-rata li biha ġie rreġistrat il-fajl: sekwenza ta' tliet kampjuni jew aktar fuq l-ogħla valur li format ta' numri sħaħ jista' jżomm. Wieħed jew tnejn huma arrotondar u ma jiġux irrappurtati. Dak li jinqata' hemm jintilef u l-ebda pproċessar ma jġibu lura -- iżda r-reġistrazzjoni tibqa' r-reġistrazzjoni, u dan ma jwaqqaf xejn. Jingħaddu biss formati ta' numri sħaħ. Float ta' 32 bit m'għandux limitu fl-iskala sħiħa, għalhekk m'hemm xejn x'jingħadd hemm."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"L-ebda ċavetta tal-API. Aħżinha darba fl-interfaċċa, jew "
+"b'--store-auphonic-key. Iċ-ċavetta tinsab fl-issettjar tal-kont ta' "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Ma nkitbet l-ebda ċavetta, allura ma nħażen xejn."
+
+msgid "The key is not stored: %s"
+msgstr "Iċ-ċavetta mhix maħżuna: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Iċ-ċavetta hija maħżuna, u meta nqrat lura tat l-istess ċavetta."
 
 msgid "boxes no longer readable"
 msgstr "il-kaxxi ma għadhomx jinqraw"
@@ -3412,8 +3427,8 @@ msgstr "Trasferiment"
 msgid "Uploading %s tracks"
 msgstr "Tlugħ ta' binarji: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Fajls JSON (*.json);;Il-fajls kollha (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Fajls JSON (*.json);;Il-fajls kollha (*)"
 
 msgid "Wide shot after"
 msgstr "Veduta wiesgħa wara"
@@ -3711,9 +3726,6 @@ msgstr "u hawn jinqata', mument tajjeb jew le"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Il-limitu iebes tal-par: fejn ma nstab l-ebda tmiem ta' sentenza minn \"Veduta wiesgħa wara\", l-itwal pawża fid-diskors tieħu postu, u f'dan il-punt issir il-qatgħa irrispettivament minn x'qed jingħad."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "L-ebda traskrizzjoni s'issa. Mingħajrha ma tinstab l-ebda mistoqsija u ma hu magħruf l-ebda tmiem ta' sentenza, għalhekk dawn l-erba' għażliet ma jagħmlu xejn. Tħaddim jiktibha, u minn dak il-ħin jaħdmu."
 
 msgid "Why the question settings are grey"
 msgstr "Għaliex l-għażliet tal-mistoqsija huma griżi"
@@ -4272,9 +4284,6 @@ msgstr "Pawża qasira sa"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "daqshekk silenzju jħalli l-istampa kif inhi"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Biss fejn \"Ħadd ma jitkellem\" huwa ssettjat biex iżomm pawża qasira. Pawża sa dan it-tul ma tbiddel xejn, waħda itwal tmur għall-veduta wiesgħa. 'Il fuq minn żewġ sekondi l-istampa tibda toqgħod fuq xi ħadd sieket għal aktar minn ħames sekondi."
 
 msgid "Recognition uncertain"
 msgstr "Għarfien inċert"
@@ -5008,3 +5017,84 @@ msgstr "il-ħoss ma ntgħarafx, tqiegħed skont it-timecode tiegħu"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s reġistrazzjonijiet u l-ebda stampa: kull waħda tingħaqad waħedha u ma jitqegħdux ma' xulxin. --multitrack ipoġġihom fuq assi tal-ħin wieħed."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", id-drift tal-arloġġ ta' %s ppm jibqa': mhux %s darbiet l-inċertezza tiegħu ta' %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Mingħajr traskrizzjoni ma tinstab l-ebda mistoqsija u ma hu magħruf l-ebda tmiem ta' sentenza, għalhekk iż-żewġ għażliet tal-mistoqsija u ż-żewġ għażliet tal-veduta wiesgħa li jistennew it-tmiem ta' sentenza ma jagħmlu xejn."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Mingħajr traskrizzjoni ma tinstab l-ebda mistoqsija, għalhekk iż-żewġ għażliet tal-mistoqsija ma jagħmlu xejn."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Għad m'hemmx: tħaddim jiktibha, u minn dak il-ħin jaħdmu."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Ir-rikonoxximent tad-diskors kien mitfi għal dan it-tħaddim. Ħallih mixgħul, u t-tħaddim li jmiss jikteb waħda."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "It-tħaddim ma kiteb l-ebda waħda: ir-rikonoxximent tad-diskors falla jew ma sema' xejn, u r-reġistru tat-tħaddim jgħid liema. Iċċekkja l-lingwa tal-ħoss u erġa' ħaddem; fejn din il-magna m'għandhiex rikonoxximent, macOS 26 iġib wieħed, jew it-tħaddim jinstalla faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "qed jaħdem -- l-ebda kelma għal %s min, il-kompjuter jista' jkun okkupat"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "l-ebda bidla għal %s min -- jista' jkun imwaħħal, jekk jogħġbok iċċekkja"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "jitħalla: %s ppm jew aktar huwa aktarx żball fil-kejl"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "jitħalla: ma jilħaqx %s darbiet l-inċertezza tiegħu"
+
+msgid "Timing"
+msgstr "Ħin"
+
+msgid "Special cases"
+msgstr "Każijiet speċjali"
+
+msgid "Transcript"
+msgstr "Traskrizzjoni"
+
+msgid "Writing down what is said ..."
+msgstr "Qed jinkiteb dak li jintqal ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Qed jitħalltu t-traċċi għat-traskrizzjoni"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Qed tinkiteb fl-isfond; is-settings jinfetħu waħedhom hekk kif tlesti."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "L-ebda keyring tas-Secret Service ma wieġeb, għalhekk ma nħażen xejn. Barra minn Mac u Windows iċ-ċavetta tinżamm fil-keyring tad-desktop, permezz tal-kmand secret-tool minn libsecret. Ma tmurx f'fajl."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Xogħol preliminari -- qari tal-awdjo, kalkolu tal-inviluppi u kitba ta' dak li jintqal:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Veduta wiesgħa fit-truf: biss minn %s -- dik tal-bidu kienet iqsar mill-iqsar xena u daħlet f'dik ta' wara"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Veduta wiesgħa fit-truf: biss sa %s -- dik tat-tmiem kienet iqsar mill-iqsar xena u daħlet f'dik ta' qabel"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Veduta wiesgħa fit-truf: xejn -- it-tnejn kienu iqsar mill-iqsar xena u daħlu fil-ġirien tagħhom"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Fejn \"Ħadd ma jitkellem\" huwa ssettjat biex iżomm pawża qasira, pawża sa dan it-tul ma tbiddel xejn, u waħda itwal tmur għall-veduta wiesgħa. Fejn \"Għarfien inċert\" huwa ssettjat fuq \"L-ebda bidla ta' kamera\", silta inċerta itwal minn hekk tmur ukoll għall-veduta wiesgħa. 'Il fuq minn żewġ sekondi l-istampa tibda toqgħod fuq xi ħadd sieket għal aktar minn ħames sekondi."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s tħalla barra -- %s 'il bogħod mill-blokki l-oħra skont it-timecode, wisq 'il bogħod għal reġistrazzjoni waħda"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Veduta wiesgħa fit-truf: il-qatgħa kollha hija l-veduta wiesgħa"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  imqassar għal mhux aktar minn %s kull wieħed -- l-unika tħabbira tieħu minn %s sa %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s fil-bidu m'għandux stampa u jitħalla barra"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s fl-aħħar m'għandux stampa u jitħalla barra"

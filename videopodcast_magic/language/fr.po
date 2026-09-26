@@ -101,8 +101,8 @@ msgstr "Plus tard"
 msgid "Go back"
 msgstr "Revenir"
 
-msgid "About Video Podcast Magic"
-msgstr "À propos de Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "À propos de %(name)s"
 
 msgid "&File"
 msgstr "&Fichier"
@@ -446,9 +446,6 @@ msgstr "Lire et mettre en pause."
 
 msgid "Preview running ..."
 msgstr "Aperçu en cours ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Travail préalable -- lire l’audio et calculer les enveloppes :\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "Traitement sur auphonic.com (facultatif)"
@@ -2661,6 +2658,13 @@ msgstr "--- saut à %s en temps de programme%s ---"
 msgid "--- point set, programme time runs from %s ---"
 msgstr "--- point posé, le temps de programme part de %s ---"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key n’accepte rien après lui : la clé est demandée sans "
+"être affichée. Rien n’a été enregistré."
+
 msgid "--update fetches it and puts it in place."
 msgstr "--update la récupère et l’installe."
 
@@ -2717,6 +2721,9 @@ msgstr "Audio au temps de programme"
 
 msgid "Audio file %s"
 msgstr "Fichier audio %s"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Clé API Auphonic (elle n’est pas affichée) : "
 
 msgid "Auphonic created different tracks than requested: %s instead of %s"
 msgstr "Auphonic a créé d’autres pistes que celles demandées : %s au lieu de %s"
@@ -3111,8 +3118,12 @@ msgstr "AUCUN ENREGISTREMENT AUDIO SÉPARÉ -- L’AUDIO DE LA CAMÉRA EST UTILI
 msgid "Names used more than once"
 msgstr "Noms utilisés plusieurs fois"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Pas de clé API. Définir AUPHONIC_TOKEN ou la faire retenir une fois dans l’interface. La clé se trouve dans les réglages du compte Auphonic."
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Pas de clé API. L’enregistrer une fois dans l’interface, ou avec "
+"--store-auphonic-key. La clé se trouve dans les réglages du compte Auphonic."
 
 msgid "No Multitrack preset found in the account."
 msgstr "Aucun préréglage Multitrack trouvé dans le compte."
@@ -3159,6 +3170,9 @@ msgstr "Pas de connexion à Resolve.\n  Le programme est-il en marche ? Le scrip
 msgid "No input possible. Use %s %s to set what should happen."
 msgstr "Aucune saisie possible. Utilisez %s %s pour définir ce qui doit se passer."
 
+msgid "No key was typed, so nothing was stored."
+msgstr "Aucune clé n’a été saisie, donc rien n’a été enregistré."
+
 msgid "No newer version found. This one is %s."
 msgstr "Aucune version plus récente trouvée. Ici tourne %s."
 
@@ -3197,9 +3211,6 @@ msgstr "Aucun locuteur n’est encore connu -- ils sont tirés des pistes dès q
 
 msgid "No speakers known yet -- nothing measured, nothing separated, and no handover file of an earlier run in %s or its subfolders."
 msgstr "Aucun locuteur connu pour l’instant -- rien de mesuré, rien de séparé, et aucun fichier de transfert d’une exécution antérieure dans %s ni dans ses sous-dossiers."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Pas encore de transcription. Sans elle, aucune question n’est trouvée et aucune fin de phrase n’est connue, donc ces quatre réglages ne font rien. Une exécution l’écrit, et à partir de là ils agissent."
 
 msgid "No version earlier than %s is out that pip can install."
 msgstr "Il n’existe aucune version antérieure à %s que pip puisse installer."
@@ -3577,12 +3588,6 @@ msgstr "Les images tiennent un peu plus longtemps ; le fichier n’en est pas pl
 msgid "The frames stand a little shorter; the file is not any longer for it. Editing software leaves out about one frame every %s s, and picture and camera audio stay together."
 msgstr "Les images tiennent un peu moins longtemps ; le fichier n’en est pas plus long pour autant. Un logiciel de montage omet environ une image toutes les %s s, et l’image et l’audio de la caméra restent ensemble."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "La clé ne peut être conservée que sur Mac et Windows -- dans le trousseau ou le Registre. Elle ne va pas dans un fichier."
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "La clé issue de AUPHONIC_TOKEN n’est pas acceptée : %s"
-
 msgid "The key has a character in it that cannot be typed."
 msgstr "La clé contient un caractère qui ne peut pas être tapé."
 
@@ -3597,6 +3602,12 @@ msgstr "La clé est bonne. Sur les %s préréglages du compte, aucun n’est un 
 
 msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
 msgstr "La clé est bonne. Sur les %s préréglages du compte, aucun n’est un Singletrack, la liste reste donc vide."
+
+msgid "The key is not stored: %s"
+msgstr "La clé n’est pas enregistrée : %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "La clé est enregistrée, et sa relecture a donné la même clé."
 
 msgid "The key is then in the %s, never in a file."
 msgstr "La clé se trouve alors dans le %s, jamais dans un fichier."
@@ -3841,11 +3852,11 @@ msgstr "Vidéo 1"
 msgid "Video 2"
 msgstr "Vidéo 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- le matériel brut devient un podcast monté"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- le matériel brut devient un podcast monté"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Fichiers JSON (*.json);;Tous les fichiers (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Fichiers JSON (*.json);;Tous les fichiers (*)"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volume. 100 est le maximum -- Qt n’accepte rien au-dessus."
@@ -4671,9 +4682,6 @@ msgstr "Les plans plus courts se fondent dans le suivant."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Un bref « oui » ne déplace pas l’image. Sans cela, un bloc d’une demi-seconde attire la caméra, et la durée minimale de plan l’y maintient ensuite pendant des secondes."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Seulement là où « Personne ne parle » est réglé pour garder une courte pause. Une pause jusqu’à cette durée ne change rien, une plus longue passe au plan large. Au-delà de deux secondes, l’image commence à rester plus de cinq secondes sur une personne silencieuse."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 constant"
 
@@ -4927,3 +4935,84 @@ msgstr "son non reconnu, placé d’après son timecode"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s enregistrements et aucune image : chacun est assemblé séparément et ils ne sont pas alignés les uns sur les autres. --multitrack les place sur un même axe temporel."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", la dérive d’horloge de %s ppm reste : elle n’atteint pas %s fois son incertitude de %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Sans transcription, aucune question n’est trouvée et aucune fin de phrase n’est connue, donc les deux réglages de la question et les deux réglages du plan large qui attendent la fin d’une phrase ne font rien."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Sans transcription, aucune question n’est trouvée, donc les deux réglages de la question ne font rien."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Il n’y en a pas encore : une exécution l’écrit, et à partir de là ils agissent."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "La reconnaissance vocale était désactivée pour cette exécution. Laissez-la activée, et la prochaine exécution en écrira une."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "L’exécution n’en a écrit aucune : la reconnaissance vocale a échoué ou n’a rien entendu, et le journal de l’exécution dit lequel des deux. Vérifiez la langue du son et relancez ; si cette machine n’a pas de reconnaissance, macOS 26 en apporte une, ou l’exécution installe faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "en cours -- aucun message depuis %s min, l'ordinateur est peut-être très occupé"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "aucun changement depuis %s min -- peut-être bloqué, veuillez vérifier"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "reste en place : %s ppm ou plus, c'est plutôt une erreur de mesure"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "reste en place : n'atteint pas %s fois son incertitude"
+
+msgid "Timing"
+msgstr "Minutage"
+
+msgid "Special cases"
+msgstr "Cas particuliers"
+
+msgid "Transcript"
+msgstr "Transcription"
+
+msgid "Writing down what is said ..."
+msgstr "Transcription de ce qui est dit ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mixage des pistes pour la transcription"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Elle s’écrit en arrière-plan ; les réglages s’ouvrent d’eux-mêmes dès qu’elle est terminée."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Aucun trousseau Secret Service n’a répondu, donc rien n’a été conservé. Hors de Mac et Windows, la clé est gardée dans le trousseau du bureau, par la commande secret-tool de libsecret. Elle ne va pas dans un fichier."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Travail préalable -- lire l’audio, calculer les enveloppes et transcrire ce qui est dit :\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plan large aux bords : seulement à partir de %s -- celui du début était plus court que le plan le plus court et s’est fondu dans le suivant"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plan large aux bords : seulement jusqu’à %s -- celui de la fin était plus court que le plan le plus court et s’est fondu dans le précédent"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plan large aux bords : aucun -- les deux étaient plus courts que le plan le plus court et se sont fondus dans leurs voisins"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Là où « Personne ne parle » est réglé pour garder une courte pause, une pause jusqu’à cette durée ne change rien et une plus longue passe au plan large. Là où « Reconnaissance incertaine » est réglé sur « Pas de changement de caméra », un passage incertain plus long que cela passe lui aussi au plan large. Au-delà de deux secondes, l’image commence à rester plus de cinq secondes sur une personne silencieuse."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s laissé de côté -- à %s des autres blocs d’après le timecode, trop éloigné pour un seul enregistrement"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Plan large aux bords : tout le montage est le plan large"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  raccourci à %s au plus chacun -- la seule annonce va de %s à %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s : %s au début n’a pas d’image et est laissé de côté"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s : %s à la fin n’a pas d’image et est laissé de côté"

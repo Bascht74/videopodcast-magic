@@ -13,6 +13,7 @@ PROGRAM = PROGRAM
 # missing; the four blocks under the list say which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
+BLOCK_GAP_MAX_S = PROGRAM.BLOCK_GAP_MAX_S
 CAMERA_MATCH_ENOUGH = PROGRAM.CAMERA_MATCH_ENOUGH
 COLOURS = PROGRAM.COLOURS
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -112,10 +113,6 @@ NAME_CLOCK = re.compile(r"(?<![0-9])([0-9]{6}|[0-9]{8})[_\-. ]([0-9]{6})"
 # ends. Recorders write whole seconds and a block is rarely a whole one,
 # so two seconds of slack are needed and no real pair is further apart.
 CLOCK_SLACK = 2.0
-# How far two blocks of one recording may sit apart per timecode. Half
-# an hour is the fence: a clock is set wrong by whole hours, so half of
-# the smallest of those catches every one and lets a real pause through.
-BLOCK_GAP_MAX_S = 1800.0
 # What a track cut out of a multichannel file is called at the end. The
 # search for continuations leaves those alone: the number is a channel.
 SPLIT_MARK = re.compile(r"_Channel\d+(?:\+\d+)?$")

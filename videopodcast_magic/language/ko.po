@@ -184,8 +184,8 @@ msgstr "--update가 받아서 설치합니다."
 msgid "The check for new versions is switched off here."
 msgstr "여기서는 새 버전 확인이 꺼져 있습니다."
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic 정보"
+msgid "About %(name)s"
+msgstr "%(name)s 정보"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "비디오 팟캐스트의 원본 소재가 편집된 에피소드가 됩니다: 비디오 파일에서 뽑은 좋은 오디오, 하나의 시간 축에 놓인 카메라들, 화자별 1차 편집, 그리고 DaVinci Resolve 프로젝트."
@@ -2338,9 +2338,6 @@ msgstr "Multitrack (화자마다 트랙 하나)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack에는 입력 트랙이 두 개 이상 필요합니다. 트랙이란 별도 녹음, 멀티채널 레코더의 채널 하나, 또는 \"내장 오디오 사용\"으로 설정된 비디오 파일의 오디오입니다. 같은 녹음의 여러 블록은 하나로 세고, 따로 빼 둔 트랙은 세지 않습니다."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API 키가 없습니다. AUPHONIC_TOKEN을 설정하거나, 인터페이스에서 한 번 저장해 두세요. 키는 Auphonic 계정 설정에 있습니다."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "타임코드가 있는 오디오 파일이 없습니다. 인 포인트와 아웃 포인트는 소재의 시작부터 셉니다 -- 파일 간 위치는 측정된 것입니다."
 
@@ -2560,9 +2557,6 @@ msgstr "미리보기 불가: %s"
 msgid "Preview running ..."
 msgstr "미리보기 실행 중 ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "사전 작업 -- 오디오 읽기 및 엔벨로프 계산:\n"
-
 msgid "Primaries"
 msgstr "원색"
 
@@ -2697,9 +2691,6 @@ msgstr "프리셋의 첫 번째 트랙이 이쪽 모든 트랙의 설정을 정�
 msgid "That needs the handover file from a run, and there is none."
 msgstr "이 작업에는 실행에서 나온 인계 파일이 필요한데, 없습니다."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "키는 Mac과 Windows에서만 저장할 수 있습니다 -- 키체인 또는 레지스트리에. 파일에는 저장되지 않습니다."
-
 msgid "%s -- being checked"
 msgstr "%s -- 확인 중"
 
@@ -2732,9 +2723,6 @@ msgstr "  키체인 접근을 열 수 없었습니다: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "저장된 키가 받아들여지지 않습니다: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN의 키가 받아들여지지 않습니다: %s"
 
 msgid "What auphonic.com replied"
 msgstr "auphonic.com의 응답"
@@ -2868,8 +2856,8 @@ msgstr "비디오 1"
 msgid "Video 2"
 msgstr "비디오 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- 원본 소재가 편집된 팟캐스트로"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- 원본 소재가 편집된 팟캐스트로"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "볼륨. 100이 최대입니다 -- Qt는 그 이상을 받지 않습니다."
@@ -2919,14 +2907,39 @@ msgstr "자정"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s에는 자정 너머의 타임코드가 있습니다 -- 하루 차이가 아니라 같은 밤으로 계산합니다."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key 뒤에는 아무것도 붙일 수 없습니다. 키는 보이지 않게 입력받습니다. 아무것도 저장되지 않았습니다."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "타임코드는 자정부터 세고 거기서 다시 시작합니다. 무엇이든 빼기 전에 파일들을 하나의 축에 놓습니다. 그렇지 않으면 자정 이후의 녹음이 그 전 녹음과 거의 하루 떨어져 보입니다. 실제로 다른 날에 녹화한 것이라면 정렬이 잘못된 것이고, 측정한 오프셋을 믿어야 합니다."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API 키(표시되지 않음): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "채널 %d이(가) 한계에 닿았습니다: 연속 3샘플 이상이 %s회, 가장 긴 것 %s (%s ms), 첫 번째는 %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "여기서 파일이 녹음된 레이트로 샘플 하나하나 셉니다: 정수 형식이 담을 수 있는 최댓값에 3샘플 이상 이어진 구간입니다. 한두 개는 반올림이므로 보고하지 않습니다. 거기서 잘린 부분은 사라졌고 어떤 처리로도 되살릴 수 없습니다 -- 하지만 녹음은 여전히 녹음이며, 이것 때문에 멈추는 것은 없습니다. 정수 형식만 셉니다. 32 bit float에는 풀 스케일에 한계가 없으므로 셀 것이 없습니다."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API 키가 없습니다. 인터페이스에서 한 번, 또는 --store-auphonic-key로 저장하세요. 키는 Auphonic 계정 설정에 "
+"있습니다."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "키가 입력되지 않아 아무것도 저장되지 않았습니다."
+
+msgid "The key is not stored: %s"
+msgstr "키가 저장되지 않았습니다: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "키가 저장되었고, 다시 읽어도 같은 키였습니다."
 
 msgid "boxes no longer readable"
 msgstr "박스를 더 이상 읽을 수 없음"
@@ -3360,8 +3373,8 @@ msgstr "전송"
 msgid "Uploading %s tracks"
 msgstr "트랙 %s개 업로드 중"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON 파일 (*.json);;모든 파일 (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON 파일 (*.json);;모든 파일 (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "카메라는 아래 목소리별로 지정"
@@ -3623,9 +3636,6 @@ msgstr "처리 중"
 
 msgid "Profile"
 msgstr "프로필"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "아직 전사본이 없습니다. 전사본이 없으면 질문을 찾을 수 없고 문장 경계도 알 수 없으므로 이 네 설정은 아무 효과가 없습니다. 실행하면 전사본이 기록되고, 그때부터 작동합니다."
 
 msgid "Why the question settings are grey"
 msgstr "질문 설정이 회색인 이유"
@@ -4507,9 +4517,6 @@ msgstr "짧은 공백 최대"
 msgid "so long a silence leaves the picture alone"
 msgstr "이만큼의 침묵은 화면을 그대로 둠"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "\"아무도 말하지 않음\"이 짧은 공백 유지로 설정된 경우에만 적용됩니다. 이 길이까지의 공백은 아무것도 바꾸지 않고, 더 긴 공백은 와이드 샷으로 넘어갑니다. 2초를 넘기면 화면이 말없는 사람에게 5초 넘게 머무는 경우가 생기기 시작합니다."
-
 msgid "Listener"
 msgstr "청자"
 
@@ -4873,3 +4880,84 @@ msgstr "소리를 인식하지 못함, 타임코드로 배치됨"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  녹음 %s개, 영상 없음: 각각 따로 이어 붙이며 서로 맞추지 않습니다. --multitrack을 쓰면 하나의 시간 축에 놓습니다."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", 클럭 드리프트 %s ppm 유지: 불확도의 %s배에 미치지 않음 (불확도 %s ppm)"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "전사본이 없으면 질문을 찾을 수 없고 문장 경계도 알 수 없으므로, 질문의 두 설정과 문장 끝을 기다리는 와이드 샷의 두 설정은 아무 효과가 없습니다."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "전사본이 없으면 질문을 찾을 수 없으므로 질문의 두 설정은 아무 효과가 없습니다."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "아직 없습니다. 실행하면 기록되고, 그때부터 작동합니다."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "이 실행에서는 음성 인식이 꺼져 있었습니다. 켜 두면 다음 실행에서 전사본이 기록됩니다."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "이 실행은 전사본을 기록하지 못했습니다. 음성 인식이 실패했거나 아무것도 듣지 못했으며, 어느 쪽인지는 실행 로그에 있습니다. 오디오 언어를 확인하고 다시 실행하세요. 이 컴퓨터에 음성 인식이 없으면 macOS 26에 포함되어 있거나, 실행 시 faster-whisper가 설치됩니다."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "작업 중 -- %s분 동안 소식 없음, 컴퓨터가 바쁠 수 있습니다"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s분 동안 변화 없음 -- 멈췄을 수 있습니다, 확인해 주세요"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "그대로 둡니다: %s ppm 이상은 오히려 측정 오류입니다"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "그대로 둡니다: 불확실성의 %s배에 이르지 않습니다"
+
+msgid "Timing"
+msgstr "타이밍"
+
+msgid "Special cases"
+msgstr "특수한 경우"
+
+msgid "Transcript"
+msgstr "대본"
+
+msgid "Writing down what is said ..."
+msgstr "말한 내용을 받아 적는 중 ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "대본을 위해 트랙을 믹싱하는 중"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "백그라운드에서 작성 중입니다. 끝나면 설정이 저절로 열립니다."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "응답한 Secret Service 키링이 없어 아무것도 저장하지 않았습니다. Mac과 Windows 외에서는 libsecret의 secret-tool 명령을 통해 키를 데스크톱 키링에 보관합니다. 파일에는 저장되지 않습니다."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "사전 작업 -- 오디오 읽기, 엔벨로프 계산 및 말한 내용 받아 적기:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  양 끝의 와이드 샷: %s부터만 -- 시작 부분의 것은 가장 짧은 샷보다 짧아 다음 샷에 합쳐졌습니다"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  양 끝의 와이드 샷: %s까지만 -- 끝 부분의 것은 가장 짧은 샷보다 짧아 앞 샷에 합쳐졌습니다"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  양 끝의 와이드 샷: 없음 -- 둘 다 가장 짧은 샷보다 짧아 이웃 샷에 합쳐졌습니다"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "\"아무도 말하지 않음\"이 짧은 공백 유지로 설정된 곳에서는 이 길이까지의 공백은 아무것도 바꾸지 않고, 더 긴 공백은 와이드 샷으로 넘어갑니다. \"인식 불확실\"이 \"카메라 전환 없음\"으로 설정된 곳에서는 이보다 긴 불확실한 구간도 와이드 샷으로 넘어갑니다. 2초를 넘기면 화면이 말없는 사람에게 5초 넘게 머무는 경우가 생기기 시작합니다."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s 제외 -- 타임코드상 다른 블록과 %s 떨어져 있어 한 녹음으로 보기에는 너무 멉니다"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  양 끝의 와이드 샷: 컷 전체가 와이드 샷입니다"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  각각 최대 %s로 줄임 -- 유일한 발언은 %s부터 %s까지입니다"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: 앞쪽 %s은(는) 영상이 없어 제외됩니다"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: 뒤쪽 %s은(는) 영상이 없어 제외됩니다"

@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Connecting to auphonic.com must not by itself arm a paid run."""
+"""Connecting to auphonic.com must not by itself arm a paid run.
+
+The sections: a key lying only in the store, on the command line --
+each of the three ways takes it, the one place a key is kept, and
+none of them sends anything while no preset was named; then the window
+with a stored key, where 'without Auphonic' stays chosen. main() is
+stopped at a stand-in preflight, the service and the store are stood
+in for, and the video way's sending is judged at its preset gate only.
+"""
 PLATFORM_BOUND = True
+import io
 import os
+import shutil
 import sys
+import tempfile
+import types
 # tests/, where the helpers and state/ lie; this file may stand in a
 # folder under it, or in one under that.
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +28,16 @@ import sys, time
 began = time.time()
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+# The material for the command line: empty files the parser and main()
+# accept, never read, because the run stops at the preflight. The cache
+# lies beside them, so main()'s tidying touches nothing of anybody's.
+FOLDER = tempfile.mkdtemp(prefix="vpm_none_chosen_")
+os.makedirs(os.path.join(FOLDER, "cache"))
+os.environ["VPM_CACHE"] = os.path.join(FOLDER, "cache")
+MATERIAL = {}
+for name in ("one.wav", "host.wav", "guest.wav", "camera.mp4"):
+    MATERIAL[name] = os.path.join(FOLDER, name)
+    io.open(MATERIAL[name], "wb").close()
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
 vpm = the_program.load()
@@ -109,6 +131,122 @@ def look():
     check("and survives the list being rebuilt",
           b2.currentData() in (chosen, vpm.PRESET_NONE), repr(b2.currentData()))
     app.quit()
+
+# ------------------------------------------ a stored key, command line
+# Invented, and the only key this section knows. The store is
+# replaced, so the real one is never read.
+KEY = "FAKEKEY-0000"
+vpm.RUN_KEY = ""
+window_store = vpm.load_api_key
+vpm.load_api_key = lambda: KEY
+seen = []
+sent = []
+
+
+def stand_in_preflight(args, audio_paths, video_paths):
+    """Stops the run where the preflight would, and keeps what it saw."""
+    seen.append(args)
+    return 1
+
+
+def upload_stand_in(*a, **k):
+    """Every way to auphonic.com: counted, and nothing goes."""
+    sent.append(a)
+    raise RuntimeError("an upload was started")
+
+
+def run_with(*words):
+    """main() on this command line, up to the stand-in preflight."""
+    del seen[:]
+    sys.argv = [SCRIPT] + list(words)
+    try:
+        vpm.main()
+    except SystemExit:
+        pass
+    return seen[0] if seen else types.SimpleNamespace()
+
+
+def carried(args):
+    """The key and its origin as the run carries them, asked nothing.
+
+    Not api_key_source: it reads the store again for a run that took no
+    key, and so would repair the very fault asked about.
+    """
+    return (getattr(args, "auphonic_key", None),
+            getattr(args, "auphonic_key_from", None))
+
+
+kept_calls = dict((n, getattr(vpm, n)) for n in (
+    "run_preflight", "run_single_production", "run_multitrack_production",
+    "_curl_call", "normalise_loudness", "channel_count"))
+vpm.run_preflight = stand_in_preflight
+vpm.run_single_production = upload_stand_in
+vpm.run_multitrack_production = upload_stand_in
+vpm._curl_call = upload_stand_in
+vpm.normalise_loudness = lambda *a, **k: (0.0, None)
+vpm.channel_count = lambda path: 1
+kept_stdin = sys.stdin
+sys.stdin = io.StringIO("")     # nobody at the keyboard to pick a preset
+
+print("A key only in the store counts on every way")
+alone = run_with(MATERIAL["one.wav"])
+check("one recording without a picture takes the stored key",
+      carried(alone) == (KEY, "store"),
+      "key and origin %r, wanted the stored one from 'store'"
+      % (carried(alone),))
+several = run_with("--multitrack", MATERIAL["host.wav"], MATERIAL["guest.wav"])
+check("several recordings on one axis take the stored key",
+      carried(several) == (KEY, "store"),
+      "key and origin %r, wanted the stored one from 'store'"
+      % (carried(several),))
+pictured = run_with(MATERIAL["camera.mp4"], MATERIAL["one.wav"])
+check("a run with a picture takes the stored key",
+      carried(pictured) == (KEY, "store"),
+      "key and origin %r, wanted the stored one from 'store'"
+      % (carried(pictured),))
+stop = vpm.check_mode_fits_input(
+    [MATERIAL["host.wav"], MATERIAL["guest.wav"]], several) \
+    if getattr(several, "multitrack", False) else "the run never got here"
+check("and multitrack does not stop for want of a key",
+      stop is None, "it said %r" % (str(stop)[:60],))
+local = run_with("--without-auphonic", MATERIAL["one.wav"])
+check("--without-auphonic leaves the stored key where it lies",
+      getattr(local, "auphonic_key", "") is None,
+      "the run carries %r" % (getattr(local, "auphonic_key", "no run"),))
+
+print("\n... and with no preset named, none of the three sends anything")
+said = ""
+try:
+    code = vpm.join_only(alone, [{"name": "one", "source": MATERIAL["one.wav"],
+                                  "blocks": [MATERIAL["one.wav"]]}], FOLDER)
+except Exception as e:
+    code, said = "raised", str(e)
+check("one recording without a picture sends nothing without a preset",
+      not sent and code != 0,
+      "%d uploads started, the way ended on %r %r"
+      % (len(sent), code, said[:60]))
+del sent[:]
+tracks = [{"name": "host", "axis": MATERIAL["host.wav"]},
+          {"name": "guest", "axis": MATERIAL["guest.wav"]}]
+code = vpm.send_aligned_tracks(several, tracks, FOLDER, FOLDER, 10.0)
+check("several recordings on one axis send nothing without a preset",
+      not sent and code == 1,
+      "%d uploads started, the way returned %r" % (len(sent), code))
+del sent[:]
+try:
+    chosen = vpm.choose_preset(KEY, pictured.auphonic_preset, False)
+except Exception as e:
+    chosen = "refused: %s" % str(e)[:40]
+check("a run with a picture gets no preset it was not given",
+      not sent and str(chosen).startswith("refused"),
+      "%d uploads started, choose_preset gave %r" % (len(sent), chosen))
+
+sys.stdin = kept_stdin
+for name, call in kept_calls.items():
+    setattr(vpm, name, call)
+vpm.load_api_key = window_store
+shutil.rmtree(FOLDER, True)
+print()
 
 QtCore.QTimer.singleShot(2500, look)
 QtCore.QTimer.singleShot(40000, app.quit)

@@ -106,8 +106,8 @@ msgstr "لاحقًا"
 msgid "Go back"
 msgstr "رجوع"
 
-msgid "About Video Podcast Magic"
-msgstr "حول Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "حول %(name)s"
 
 msgid "&File"
 msgstr "&ملف"
@@ -471,9 +471,6 @@ msgstr "تشغيل وإيقاف مؤقت."
 
 msgid "Preview running ..."
 msgstr "المعاينة قيد التشغيل ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "العمل التمهيدي -- قراءة الصوت وحساب الأغلفة:\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "المعالجة على auphonic.com (اختياري)"
@@ -1159,14 +1156,8 @@ msgstr "أسماء مسارات مختلفة"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  يوجد بالفعل إنتاج بهذا الاسم"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "المفتاح من AUPHONIC_TOKEN غير مقبول: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "المفتاح المحفوظ غير مقبول: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "لا يوجد مفتاح API. اضبط AUPHONIC_TOKEN، أو دع الواجهة تحفظه مرة واحدة. المفتاح موجود في إعدادات حساب Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "لا توجد إعدادات مسبقة محفوظة في الحساب. يمكن إنشاء واحد في واجهة الويب."
@@ -1608,9 +1599,6 @@ msgstr "  %s: تعذّر تحديد عدد قنواته (%s) -- لا يُقاس"
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "لا توجد كاميرا خالية من المتحدثين، لذا لا توجد لقطة واسعة: إعدادات اللقطة الواسعة الأربعة وعلامة الأطراف لا تفعل شيئًا. اضبط «النوع» لإحدى الكاميرات على «لقطة واسعة»، أو اترك واحدة بلا متحدث."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "لا يوجد نص مفرغ بعد. بدونه لا يُعثر على سؤال ولا تُعرف حدود الجمل، لذا لا تفعل هذه الإعدادات الأربعة شيئًا. يكتبه التشغيل، ومن بعدها تعمل."
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  السؤال: لا نص مفرغ، لذا لم يُعثر على سؤال ولم يحدث قطع ردّ فعل.\n          تُدوَّن الكلمات من المزج النهائي أثناء\n          التشغيل؛ وبدونها لا يفعل الإعداد شيئًا."
@@ -3148,8 +3136,8 @@ msgstr "هذه الملفات لم تعد موجودة:\n  "
 msgid "  Project file not writable (%s)\n"
 msgstr "  ملف المشروع غير قابل للكتابة (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;ملفات JSON (*.json);;كل الملفات (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;ملفات JSON (*.json);;كل الملفات (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "ملف التسليم هذا لا يحمل معدل إطارات، لذا لا يمكن بناء الـTimeline منه. يُرجى إعادة التشغيل."
@@ -3742,9 +3730,6 @@ msgstr "عبر مدير الحزم: apt install ffmpeg، dnf install ffmpeg"
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "لا يحتوي ffmpeg هذا على soxr: يُعوَّض انحراف الساعة بين الكاميرات بخطوات 21 ppm بدلًا من 0.21."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "لا يمكن حفظ المفتاح إلا على Mac وWindows -- في سلسلة المفاتيح أو السجل. ولا يُكتب في ملف."
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  يوفّر ffmpeg.org إصدارات لـ Windows. يجب بعدها إضافة المجلد الذي فيه ffmpeg.exe إلى PATH، أو وضع الملفات بجوار هذا البرنامج."
 
@@ -4132,8 +4117,8 @@ msgstr "لا صوت للعمل به -- اضبط صوت الكاميرا لملف
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "المحتوى: كاميرا مثل أي كاميرا أخرى.\nلقطة واسعة: كاميرا لا يجلس أمامها أحد -- لا تأخذ متحدثًا، وينتقل المونتاج إليها في الوقفات وفي المونولوج الطويل.\nالمقدمة والخاتمة مقاطع جاهزة -- لا تُحاذى ولا تُعالج، بل توضع في الـ Timeline فقط.\nتجاهل الفيديو: يبقى الملف خارجًا تمامًا."
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- من المادة الخام إلى بودكاست ممنتج"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- من المادة الخام إلى بودكاست ممنتج"
 
 msgid "The work can be written to a project file first."
 msgstr "يمكن كتابة العمل في ملف مشروع أولًا."
@@ -4840,9 +4825,6 @@ msgstr "اللقطات الأقصر تندمج في اللقطة التالية.
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "\"نعم\" قصيرة لا تحرك الصورة. بدون ذلك تسحب كتلة من نصف ثانية الكاميرا إليها، ثم تبقيها أدنى مدة للقطة هناك لثوانٍ."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "فقط حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإبقاء على فجوة قصيرة. الفجوة حتى هذا الطول لا تغيّر شيئًا، والأطول تنتقل إلى اللقطة الواسعة. فوق ثانيتين تبدأ الصورة بالبقاء أكثر من خمس ثوانٍ على شخص صامت."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 ثابت"
 
@@ -4888,14 +4870,34 @@ msgstr "%s لا يطابق شيئًا في المادة، ولا تحمل أي �
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s لا يطابق شيئًا في المادة، ولا تحمل أي كاميرا وضعها الصوت كودًا زمنيًا يُقاس عليه كوده؛ والمقدمة مشغولة: تُرك خارجًا."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"لا يقبل --store-auphonic-key أي شيء بعده: يُطلب المفتاح دون أن يظهر. لم "
+"يُحفظ شيء."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "مفتاح Auphonic API (لا يُعرض): "
 
 msgid "In point"
 msgstr "نقطة البداية"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "مستبعد؛ %s أو %s على بُعد نقرة واحدة."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"لا يوجد مفتاح API. احفظه مرة واحدة في الواجهة، أو باستخدام "
+"--store-auphonic-key. المفتاح موجود في إعدادات حساب Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "لم يُكتب أي مفتاح، لذلك لم يُحفظ شيء."
 
 msgid "Out point"
 msgstr "نقطة النهاية"
@@ -4905,6 +4907,12 @@ msgstr "الإعدادات المسبقة:"
 
 msgid "Registry"
 msgstr "السجل (Registry)"
+
+msgid "The key is not stored: %s"
+msgstr "المفتاح غير محفوظ: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "المفتاح محفوظ، وقراءته مرة أخرى أعطت المفتاح نفسه."
 
 msgid "VIDEO"
 msgstr "فيديو"
@@ -5100,3 +5108,84 @@ msgstr "لم يُتعرَّف على الصوت، وُضع حسب كوده ال�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s تسجيلات ولا صورة: يُجمَع كل منها وحده ولا تُحاذى بعضها مع بعض. يضعها --multitrack على محور زمني واحد."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr "، ويُترك انحراف الساعة %s ppm: ليس %s أضعاف عدم يقينه البالغ %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "بدون نص مفرغ لا يُعثر على سؤال ولا تُعرف حدود الجمل، لذا لا يفعل إعدادا السؤال شيئًا، ولا إعدادا اللقطة الواسعة اللذان ينتظران نهاية الجملة."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "بدون نص مفرغ لا يُعثر على سؤال، لذا لا يفعل إعدادا السؤال شيئًا."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "لا يوجد نص بعد: يكتبه التشغيل، ومن بعدها تعمل."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "كان التعرف على الكلام متوقفًا في هذا التشغيل. اتركه مفعّلًا، وسيكتب التشغيل التالي نصًا."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "لم يكتب التشغيل نصًا: فشل التعرف على الكلام أو لم يسمع شيئًا، وسجل التشغيل يذكر أيهما. تحقق من لغة الصوت وشغّل مرة أخرى؛ وإن لم يكن على هذا الجهاز تعرّف على الكلام، فإن macOS 26 يأتي بواحد، أو يثبّت التشغيل faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "يعمل -- لا رسالة منذ %s دقيقة، قد يكون الحاسوب مشغولًا"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "لا تغيير منذ %s دقيقة -- ربما توقف، يُرجى التحقق"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "يُترك كما هو: %s جزء في المليون أو أكثر هو على الأرجح خطأ قياس"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "يُترك كما هو: لا يبلغ %s أضعاف عدم يقينه"
+
+msgid "Timing"
+msgstr "التوقيت"
+
+msgid "Special cases"
+msgstr "حالات خاصة"
+
+msgid "Transcript"
+msgstr "النص المفرّغ"
+
+msgid "Writing down what is said ..."
+msgstr "تدوين ما يُقال ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "مزج المسارات من أجل النص المفرّغ"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "يُدوَّن في الخلفية؛ وتُفتح من تلقاء نفسها حين ينتهي."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "لم تُجب أي سلسلة مفاتيح من Secret Service، لذلك لم يُحفظ شيء. خارج Mac وWindows يُحفظ المفتاح في سلسلة مفاتيح سطح المكتب، عبر الأمر secret-tool من libsecret. ولا يُكتب في ملف."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "العمل التمهيدي -- قراءة الصوت وحساب الأغلفة وتدوين ما يُقال:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  لقطة واسعة عند الأطراف: من %s فقط -- كانت الافتتاحية أقصر من أقصر لقطة فدخلت في التالية"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  لقطة واسعة عند الأطراف: حتى %s فقط -- كانت الختامية أقصر من أقصر لقطة فدخلت في التي قبلها"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  لقطة واسعة عند الأطراف: لا شيء -- كانتا كلتاهما أقصر من أقصر لقطة فدخلتا في جارتيهما"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإبقاء على فجوة قصيرة، لا تغيّر الفجوة حتى هذا الطول شيئًا، والأطول تنتقل إلى اللقطة الواسعة. وحيث يكون \"التعرّف غير مؤكد\" مضبوطًا على \"بدون تغيير الكاميرا\"، ينتقل المقطع غير المؤكد الأطول من ذلك إلى اللقطة الواسعة أيضًا. فوق ثانيتين تبدأ الصورة بالبقاء أكثر من خمس ثوانٍ على شخص صامت."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s تُرك جانبًا -- يبعد %s حسب الكود الزمني عن الكتل الأخرى، متباعد جدًا لتسجيل واحد"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  لقطة واسعة عند الأطراف: القطع كله لقطة واسعة"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  قُصِّر كلٌّ منهما إلى %s على الأكثر -- الإعلان الوحيد يمتد من %s إلى %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: ‏%s في البداية بلا صورة ويُترك خارجًا"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: ‏%s في النهاية بلا صورة ويُترك خارجًا"

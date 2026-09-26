@@ -79,14 +79,17 @@ hint. Without a key the multitrack run stops there.*
 
 ## Processing at auphonic.com
 
-The key comes from the account settings into `AUPHONIC_TOKEN`, never
-onto the command line. It turns processing on, and a command line with
-switches but no files then only lists the presets.
+The key comes from the account settings into the Keychain, the
+Registry or the desktop's keyring (Linux), once, never onto the command
+line: through the window, or with `--store-auphonic-key`. A stored key
+turns processing on, and a command line with switches but no files then
+only lists the presets.
 
 | Switch | Does |
 |---|---|
+| `--store-auphonic-key` | ask for the key in the terminal without showing it, store it in the Keychain (macOS), the Registry (Windows) or the desktop's keyring (Linux) and read it back; nothing may follow the switch (off) |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
-| `--auphonic-wait SECONDS` | how long to wait (7200) |
+| `--auphonic-wait SECONDS` | how long the run waits for auphonic.com to finish; when the time is up the run stops and names the address of the production, which goes on there; once it is finished, a later run takes its result with `--auphonic-resume result`. Higher waits longer (7200, two hours) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
 | `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit  `[multitrack only]` |
 | `--multitrack` | every audio file as its own track, so auphonic.com can take the bleed out. Needs a multitrack preset |
@@ -106,15 +109,15 @@ switches but no files then only lists the presets.
 |---|---|
 | `--min-edit-duration SECONDS` | shortest a shot may stand; shorter ones merge into the one that follows, 0 off (3) |
 | `--min-speech-to-switch SECONDS` | how long somebody has to hold the floor before the camera follows them, 0 off (1.5) |
-| `--silence-hold SECONDS` | how long a silence still counts as a breath rather than an end; only where `--on-silence` asks to hold a short gap (1.0) |
+| `--silence-hold SECONDS` | how long a silence still counts as a breath rather than an end; only where `--on-silence` asks to hold a short gap. The same limit ends `--on-uncertain hold`, unless there is no wide shot (1.0) |
 | `--edit-change-delay SECONDS` | how much later than the audio the picture cuts; negative lets it lead (0.3) |
 | `--reaction-lead SECONDS` | how much earlier the picture goes to the answer after a question (1.5) |
 | `--reaction-gap SECONDS` | how soon the answer has to follow the question for the reaction cut to fire (3) |
 | `--reaction-hold SHARE` | how much of the ten seconds after the question the answering speaker has to hold, between 0 and 1 (0.7) |
 | `--on-monologue VALUE` | one person holds the floor longer than `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together VALUE` | several speak at once and no camera shows exactly them: `wide`, `listener`, `alternate`, `hold` (wide) |
-| `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (wide) |
-| `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` (wide) |
+| `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (hold-brief) |
+| `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` -- the picture holds no longer than `--silence-hold`, then the wide shot comes; without a wide shot it holds to the end of the stretch (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots -- except with `--project-type sync`, where only a camera given here is one |
 | `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. The window sends its "new file name" field this way where no assignment file carries it. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with `--multitrack` and cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
@@ -175,8 +178,8 @@ chapters.
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.
 * **`--multitrack` without a key.** The run stops after the preflight.
-  Put a key in `AUPHONIC_TOKEN`, or let `--without-auphonic` align, mix and cut
-  on this machine.
+  Store a key once with `--store-auphonic-key`, or let
+  `--without-auphonic` align, mix and cut on this machine.
 * **The list is English in a German run.** `--help` and the names of
   the switches do not follow `--lang`; that switch sets the language of
   the messages.

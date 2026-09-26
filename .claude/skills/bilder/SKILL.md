@@ -70,12 +70,14 @@ once -- ask, shoot, bring the descriptions up to date, check in.
 
 ```bash
 cd tests && VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1 bash run.sh \
-  window_captions_fit window_captions_langs1 window_captions_langs2 \
-  window_captions_langs3 window_captions_langs4
+  window_captions_fit \
+  $(ls ui | sed -n 's/^\(window_captions_langs[0-9]*\)_test\.py$/\1/p')
 ```
 
 `window_captions_fit` measures English and German; the other languages
-are the `_langsN` tests, and without `VPM_ALL_LANGUAGES=1` `run.sh`
+are the `_langsN` tests -- as many as `LANGUAGE_PARTS` in
+`tests/the_program.py`, so the line asks the folder rather than
+naming them -- and without `VPM_ALL_LANGUAGES=1` `run.sh`
 sets them aside and says so in its `languages:` line.
 
 The suite runs it offscreen, and offscreen draws the Fusion faces: it can
@@ -176,8 +178,9 @@ the whole pass.
 both languages, and what was found. "Nothing" is an answer; a pass that
 names no picture has not been made.
 
-Hence the three nets in the script: `load_api_key` returns empty,
-`AUPHONIC_TOKEN` is cleared out of the environment, and four names are netted -- the three `speaker_split_*`
+Hence the two nets in the script: `load_api_key` returns empty -- the
+stored key is the only one the program reads, so nothing in the
+environment has to be cleared -- and four names are netted -- the three `speaker_split_*`
 and `fetch_model`, which is the one thing left that reaches the network. **A picture pass reads no key, computes
 no separation and installs nothing.** Before anybody removes one of
 them, they have to know what stands in the picture afterwards.
@@ -238,6 +241,6 @@ written down:
 6. Did it change for the reason you expected?
 7. Is there one line per changed picture in the release report, and one
    record of what the change invalidated?
-8. Were `window_captions_fit` and the two `window_captions_langs` tests
+8. Were `window_captions_fit` and every `window_captions_langsN` test
    run with `VPM_LAYOUT_PLATFORM=cocoa VPM_ALL_LANGUAGES=1` before the
    pictures, and were they green?

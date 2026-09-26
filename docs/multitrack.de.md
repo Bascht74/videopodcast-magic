@@ -311,15 +311,17 @@ Warteschlange, das Programm vergisst ihre Hüllkurve und löscht die schon
 herausgezogene Tondatei.
 
 Sonst bleiben die Hüllkurven im Ablageordner des Systems
-(`~/Library/Caches/videopodcast-magic/envelopes/`, unter Windows
-`%LOCALAPPDATA%`), benannt nach Pfad, Größe und Änderungszeit der
-Quelldatei. Beim Start räumt das Programm alles weg, was älter als
-dreißig Tage ist.
+(`~/Library/Caches/videopodcast-magic/envelopes/`, unter Windows unter
+`%LOCALAPPDATA%`, unter Linux unter `~/.cache`), benannt nach Pfad,
+Größe und Änderungszeit der Quelldatei. Beim Start räumt das Programm
+alles weg, was älter als dreißig Tage ist; die dreißig Tage sind fest,
+kein Schalter stellt sie ein.
 
 ### Das Zeitfenster setzen
 
-Voreingestellt reicht das Fenster so weit wie die Kameras. So wird der
-Anfang gesetzt:
+Voreingestellt reicht das Fenster so weit wie die Kameras; In-Punkt und
+Out-Punkt bleiben leer, bis jemand sie setzt. So wird der Anfang
+gesetzt:
 
 1. Auf dem Reiter **Zuordnung & Zeitfenster** die Zeile der Datei
    anklicken. Sie kommt in den **Vorschau Player**.

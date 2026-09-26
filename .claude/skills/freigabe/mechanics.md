@@ -19,9 +19,17 @@ makes the release.
 In its own order. Whoever knows this list does not have to open the
 YAML:
 
-0. **The title is not empty.** First because it costs nothing -- no
-   checkout, no network -- and the commonest wrong start is found in two
-   seconds.
+0. **Ready: everything that needs neither suite nor archive.** A job of
+   its own that every other job waits for, so a FAIL here stops the run
+   within a minute. The title first, because it costs nothing -- no
+   checkout, no network. Then a sparse checkout of this commit (three
+   files: `videopodcast_magic/__init__.py`, `pyproject.toml`,
+   `CHANGELOG.md`; a checkout rather than the contents API so the steps
+   are the publish job's own lines, letter for letter), and on it steps
+   2, 3, 3b and 4 below. **Until 26.9.2026 only the title stood here**,
+   and 3.0.0b25 went through forty minutes of suite before step 3b,
+   then in the publish job, found the roadmap issue still at 3.0.0b24;
+   the second dispatch cost forty more.
 1. **The evidence, if it already exists.** Since 21.9.2026 a job
    asks the API before the suite starts: is this commit a merge, is
    its tree the tree of its second parent -- the pull request's head
@@ -44,6 +52,9 @@ YAML:
    does not repeat the number. Stop on any of the three.
 3. **The changelog section exists and is not empty.** The cut goes into
    the notes file; nothing to publish until there is something in it.
+3b. **The roadmap issue names the version.** Issue #1, read with `gh
+   issue view`; it has to contain the number somewhere. Asked in the
+   ready job only.
 4. **The tag does not exist yet.** `git ls-remote` against the remote --
    a tag is the one thing here nobody can take back once it has been
    fetched, so a tag already standing means this run has nothing to do.
@@ -59,6 +70,18 @@ YAML:
    taken down again**, because a tag with no release is a mark with no
    evidence -- and step 4 of the next attempt would refuse to run into
    it.
+
+**Which of these are asked twice, and why.** 2 and 3 run in the ready
+job and again in the publish job with the same lines: the commit is the
+same, so the second asking is not expected to fire -- it is there
+because the publish job needs `VERSION`, `TAG` and the notes file on its
+own runner, and a read that came out wrong must stop there rather than
+become a tag. 4 runs in both on purpose: the tag is state outside the
+commit, and one pushed during the suite is found at the last look
+before a tag is made. 3b runs in the ready job only: the issue can
+change during the run, but the only edit made to it then is the one
+that brings it up to date, so a second asking would catch nothing.
+Each duplicated step carries "change both" in the YAML.
 
 Two runs cannot overlap (`concurrency: publish`, and a publish is never
 cancelled halfway), and the run says what it is in the list of runs

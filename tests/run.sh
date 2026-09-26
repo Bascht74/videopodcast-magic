@@ -228,13 +228,14 @@ trap clean_up EXIT
 trap 'exit 130' INT TERM
 # Every *_test.py in this folder and in the folders under it, one per
 # piece of the program, so a new test is picked up by being there. Not
-# resolve/live/: those want a Resolve running and resolve.sh starts
-# them; the pattern reaches one folder down and they lie two, and the
-# filter names them all the same. A test is known by its name alone,
+# <area>/live/: those talk to something outside -- a running Resolve,
+# auphonic.com -- and <area>.sh starts them; the pattern reaches one
+# folder down and they lie two, and the filter names every such folder
+# all the same. A test is known by its name alone,
 # wherever it lies. Sorted, so the order does not depend on the file
 # system.
 TESTS=$(cd "$HERE" && ls *_test.py */*_test.py 2>/dev/null \
-        | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//' | sort -u)
+        | grep -v '^[^/]*/live/' | sed 's|.*/||; s/_test\.py$//' | sort -u)
 # Named on the command line: only those, through the same machinery --
 # the same retry, the same report, the same progress line. One red test
 # is looked at on its own far more often than all of them are.
@@ -259,7 +260,7 @@ if [ $# -gt 0 ]; then
     t=$(printf '%s\n' "$a" | sed 's|.*/||; s/_test\.py$//')
     given=${a%/*}; given=${given#./}; given=${given#"$HERE"}
     given=${given#/}; given=${given#tests}; given=${given#/}
-    lies=$(cd "$HERE" && ls */"${t}_test.py" 2>/dev/null | grep -v '^resolve/live/' \
+    lies=$(cd "$HERE" && ls */"${t}_test.py" 2>/dev/null | grep -v '^[^/]*/live/' \
            | sed 's|/[^/]*$||' | head -1)
     [ "$given" = "$lies" ] && continue
     echo "$t lies in ${lies:-tests}/, not in $given/ -- running it by its name." >&2
@@ -276,7 +277,7 @@ if [ "$VPM_TESTS" != all ]; then
   [ "$VPM_TESTS" = neutral ] && want=False
   half=$(cd "$HERE" && grep -lx "PLATFORM_BOUND = $want" \
            *_test.py */*_test.py 2>/dev/null \
-         | grep -v '^resolve/live/' | sed 's|.*/||; s/_test\.py$//')
+         | grep -v '^[^/]*/live/' | sed 's|.*/||; s/_test\.py$//')
   TESTS=$(printf '%s\n' $TESTS | grep -Fx "$(printf '%s\n' $half)")
   WHOLE=0
   if [ -z "$TESTS" ]; then
@@ -310,6 +311,26 @@ if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
     exit 2
   fi
 fi
+# The owner's rule, 26.9.2026: a text cut off, in any language, is
+# reported by the release run and does not stop it. tests.yml sets
+# VPM_CUT_OFF=noted beside VPM_ALL_LANGUAGES=1 for that run alone, and
+# tests/cut_off_rule.py turns such a FAIL into a NOTED line.
+case "${VPM_CUT_OFF:-}" in
+  "") ;;
+  noted)
+    if [ "${VPM_ALL_LANGUAGES:-}" != 1 ]; then
+      echo "VPM_CUT_OFF=noted is the release run's, and a release runs" \
+           "every language: set VPM_ALL_LANGUAGES=1 beside it" >&2
+      exit 2
+    fi ;;
+  *) echo "VPM_CUT_OFF is '$VPM_CUT_OFF'; it takes noted or nothing" >&2
+     exit 2 ;;
+esac
+export VPM_CUT_OFF
+# One file per test holding its NOTED lines, for the summary's block.
+NOTED="$RUN_TEMP/noted"
+mkdir -p "$NOTED"
+export NOTED
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -413,7 +434,7 @@ crash_said() {
 test_file() {
   file="$HERE/$1_test.py"
   for one in "$HERE"/*/"$1_test.py"; do
-    case "$one" in "$HERE/resolve/live/"*) continue ;; esac
+    case "$one" in "$HERE"/*/live/*) continue ;; esac
     [ -f "$one" ] && file="$one"
   done
 }
@@ -422,11 +443,6 @@ run_one() {
   t="$1"
   began=$SECONDS
   test_file "$t"
-  # A release slice of every language is a whole family's work cut in
-  # four: 180 to 280 s on the builder jobs of run 36246280640, over 300
-  # beside the others on three of the six -- twice the bound, for work.
-  limit=$LIMIT
-  case "$t" in *_langs[0-9]*) [ -n "$LIMIT" ] && limit="${LIMIT% *} 600" ;; esac
   # A test that crashed is run again before the whole run is called red.
   # Only a crash: a check that said FAIL will say it again, and a test
   # that ran out of time will run out of time again. A signal does come
@@ -437,7 +453,7 @@ run_one() {
   fell_count=0
   while :; do
     out=$(VPM_COUNT_STARTS="$STARTS/$t" \
-          $limit "$PY" "$file" 2>&1); rc=$?
+          $LIMIT "$PY" "$file" 2>&1); rc=$?
     fell=0
     if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
       fell=1
@@ -495,6 +511,10 @@ run_one() {
 $short"
     fi
   fi
+  # A text cut off, noted rather than failed (VPM_CUT_OFF above): kept
+  # whatever colour the test ends in, and replaced when it runs again.
+  printf '%s\n' "$out" | grep '^NOTED cut off: ' \
+    | sed "s/^NOTED cut off: /  NOTED cut off: $t: /" > "$NOTED/$t"
   # A failure beats a skip, always. Both can be true in one run: a test
   # leaves out the part this machine cannot do and falls over the rest.
   # Asking after the skip first makes such a test read "skipped", with
@@ -503,8 +523,8 @@ $short"
     { echo "RED (rc=$rc)"
       # 124 is what the time limit returns when it kills a test, 137 when
       # a polite TERM was not enough and it had to go further.
-      if [ -n "$limit" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
-        echo "      killed by the ${limit##* } s time limit -- it never finished"
+      if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
+        echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
       elif [ $rc -gt 128 ]; then
         # Right under the name, where wobbly.sh looks for it.
         echo "      crashed ($(crash_said "$rc" "$out")), go $try of $TRIES"
@@ -617,7 +637,7 @@ done
 # The *_langsN tests each open several windows at once, and two of them
 # side by side took 159 and 171 s against 41 and 36 s alone (26.9.2026)
 # -- near the 300 s limit on a builder. So they run one after another,
-# as one line of the queue, beside the rest and first; run_one says why 600 s.
+# as one line of the queue, beside the rest and first, being long.
 LANGS_CHAIN=$(echo "$CROWD" | grep -E '_langs[0-9]' | tr '\n' ' ' \
               | sed 's/ *$//')
 if [ -n "$LANGS_CHAIN" ]; then
@@ -626,8 +646,10 @@ if [ -n "$LANGS_CHAIN" ]; then
 fi
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
 # Each line is a list of tests run one after another; most hold one.
+# -L and not -I: macOS's xargs builds an -I line of at most 255 bytes,
+# and on the chain of sixteen *_langsN names it ran nothing (26.9.2026).
 echo "$CROWD" | grep -v '^$' \
-  | xargs -P "$WORKERS" -I{} bash -c 'for t in {}; do run_one "$t"; done'
+  | xargs -P "$WORKERS" -L 1 bash -c 'for t in "$@"; do run_one "$t"; done' _
 for t in $ALONE_ONLY; do
   echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
 done
@@ -636,10 +658,13 @@ done
 # between a fault and a crowd. A test that is red beside eleven others
 # and green by itself has found nothing, but it has proved nothing
 # either, so it lands under "unsteady" rather than being counted green.
+# Not a test the time limit killed: run again it cost a second 300 s,
+# and on 26.9.2026 those reruns made most of the builder's red runs.
 ALONE=${ALONE:-1}
 if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
   for t in $TESTS; do
     case "$(head -1 "$OUT/$t")" in RED*) ;; *) continue ;; esac
+    grep -q "^      killed by the .* time limit" "$OUT/$t" && continue
     was=$(cat "$OUT/$t")
     began=$SECONDS
     printf '  %s  again, alone: %-24s' "$(date '+%H:%M:%S')" "$t"
@@ -732,6 +757,14 @@ elif [ -n "$LANGS_ASIDE" ]; then
 else
   echo "languages: English and German; every catalogue with" \
        "VPM_ALL_LANGUAGES=1, as a release does"
+fi
+# The release run's texts cut off, one line each, said even when there
+# are none; tests.yml lifts the block into the job's summary by these
+# first words, and the owner's next release gets a card for each line.
+if [ "${VPM_CUT_OFF:-}" = noted ]; then
+  many=$(cat "$NOTED"/* 2> /dev/null | grep -c '^  NOTED cut off: ')
+  echo "cut off, to fix next release: ${many:-0}"
+  cat "$NOTED"/* 2> /dev/null | grep '^  NOTED cut off: '
 fi
 # And which half, said the same way; tests.yml lifts it by its first word.
 case "$VPM_TESTS" in
@@ -841,74 +874,79 @@ fi
 # it. Times written here put a test that is slow there last in the
 # queue on the strength of how fast it is on this machine.
 
-# The tests under resolve/live/ talk to a DaVinci Resolve really running on
-# this machine. They are not in this folder, so nothing above collected
+# The tests under <area>/live/ talk to something the suite only stands
+# in for -- resolve/live/ to a DaVinci Resolve really running on this
+# machine, auphonic/live/ to auphonic.com itself. Nothing above collected
 # them, counted them or judged them -- they are not skipped, they are
 # not part of this run at all, and the skips barrier must never hear of
-# them. The only thing that starts them is a person, and a person
-# forgets. So the run says at the end that they are there.
+# them. They are started by <area>.sh, on the owner's OK and never as a
+# matter of routine, and an OK nobody asks for is never given. So the
+# run says at the end that they are there, one block per folder.
 #
 # Said after everything is counted and printed, and in a line that
 # begins with none of the words anything reads: run_one judges each
 # test's own output, not this one, and the CI report lifts "green:" and
 # "skips:" out of the log by name.
 #
-# Not on the builder. No runner has a Resolve, "start them by hand" is
-# an instruction nobody there can follow, and tests.yml already says
-# where it belongs -- in the step that sets tests aside. CI and
-# GITHUB_ACTIONS are both set by GitHub; neither is set here.
-if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ] \
-   && [ -d "$HERE/resolve/live" ]; then
-  apart=$(ls "$HERE"/resolve/live/*_test.py 2>/dev/null | wc -l | tr -d ' ')
-  # Sharper when the Resolve branch has just been worked on: a line that
-  # reads the same every day is read once. Two signals, both out of git,
-  # both without guesswork -- work under those paths not committed yet,
-  # and the newest commit touching them being the one this run stands
-  # on. What the program's own diff says was measured and thrown away:
-  # over 40 commits, "a changed line in videopodcast-magic.py naming
-  # Resolve" fired three times and every one of the three was a comment
-  # or a key name, while no commit in those 40 changed the Resolve code
-  # itself. A sharp line that is wrong three times in forty is noise.
-  #
-  # Where there is no git and no repository both questions come back
-  # empty and the plain line stands.
-  touched=""
-  if command -v git > /dev/null 2>&1 \
-     && git -C "$HERE" rev-parse --git-dir > /dev/null 2>&1; then
-    # Named, not counted: "something changed" sends whoever reads it
-    # looking for what. Three names and then a number, because the line
-    # is a reminder and not a listing.
-    changed=$(git -C "$HERE" status --porcelain -- resolve/live resolve.sh \
-              2>/dev/null | sed 's/^...//' | grep -c . )
-    if [ "${changed:-0}" -gt 0 ]; then
-      touched=$(git -C "$HERE" status --porcelain -- resolve/live resolve.sh \
-                2>/dev/null | sed 's/^...//' | head -3 | tr '\n' ' ' \
-                | sed 's/ *$//')
-      [ "$changed" -gt 3 ] && touched="$touched and $((changed - 3)) more"
-    else
-      # Asked for, not derived from HEAD~1: a repository whose first
-      # commit is its only one has no HEAD~1, and a run there must not
-      # break. An unborn HEAD answers nothing at all, which is why the
-      # emptiness is asked after rather than compared.
-      was=$(git -C "$HERE" log -1 --format=%H -- resolve/live resolve.sh \
-            2>/dev/null)
-      now=$(git -C "$HERE" rev-parse HEAD 2>/dev/null)
-      [ -n "$was" ] && [ "$was" = "$now" ] \
-        && touched="the commit this run stands on"
+# Not on the builder. No runner has a Resolve or a key, "start them on
+# the owner's OK" is an instruction nobody there can follow, and
+# tests.yml already says where it belongs -- in the step that sets tests
+# aside. CI and GITHUB_ACTIONS are both set by GitHub; neither is set here.
+if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ]; then
+  for live in "$HERE"/*/live; do
+    [ -d "$live" ] || continue
+    area=${live%/live}; area=${area##*/}
+    apart=$(ls "$live"/*_test.py 2>/dev/null | wc -l | tr -d ' ')
+    # Sharper when that branch has just been worked on: a line that
+    # reads the same every day is read once. Two signals, both out of git,
+    # both without guesswork -- work under those paths not committed yet,
+    # and the newest commit touching them being the one this run stands
+    # on. What the program's own diff says was measured and thrown away:
+    # over 40 commits, "a changed line in videopodcast-magic.py naming
+    # Resolve" fired three times and every one of the three was a comment
+    # or a key name, while no commit in those 40 changed the Resolve code
+    # itself. A sharp line that is wrong three times in forty is noise.
+    #
+    # Where there is no git and no repository both questions come back
+    # empty and the plain line stands.
+    touched=""
+    if command -v git > /dev/null 2>&1 \
+       && git -C "$HERE" rev-parse --git-dir > /dev/null 2>&1; then
+      # Named, not counted: "something changed" sends whoever reads it
+      # looking for what. Three names and then a number, because the line
+      # is a reminder and not a listing.
+      changed=$(git -C "$HERE" status --porcelain -- "$area/live" "$area.sh" \
+                2>/dev/null | sed 's/^...//' | grep -c . )
+      if [ "${changed:-0}" -gt 0 ]; then
+        touched=$(git -C "$HERE" status --porcelain -- "$area/live" "$area.sh" \
+                  2>/dev/null | sed 's/^...//' | head -3 | tr '\n' ' ' \
+                  | sed 's/ *$//')
+        [ "$changed" -gt 3 ] && touched="$touched and $((changed - 3)) more"
+      else
+        # Asked for, not derived from HEAD~1: a repository whose first
+        # commit is its only one has no HEAD~1, and a run there must not
+        # break. An unborn HEAD answers nothing at all, which is why the
+        # emptiness is asked after rather than compared.
+        was=$(git -C "$HERE" log -1 --format=%H -- "$area/live" "$area.sh" \
+              2>/dev/null)
+        now=$(git -C "$HERE" rev-parse HEAD 2>/dev/null)
+        [ -n "$was" ] && [ "$was" = "$now" ] \
+          && touched="the commit this run stands on"
+      fi
     fi
-  fi
-  if [ "$apart" -gt 0 ] && [ -n "$touched" ]; then
-    echo "resolve: $apart tests under resolve/live/ did not run here, and the"
-    echo "         Resolve branch has been worked on: $touched"
-    echo "         Nothing but a person starts them, and they want a"
-    echo "         Resolve running:"
-    echo "             cd tests && bash resolve.sh"
-  elif [ "$apart" -gt 0 ]; then
-    echo "resolve: $apart tests under resolve/live/ did not run here. They talk"
-    echo "         to a DaVinci Resolve really running, so a person"
-    echo "         starts them:"
-    echo "             cd tests && bash resolve.sh"
-  fi
+    if [ "$apart" -gt 0 ] && [ -n "$touched" ]; then
+      echo "$area: $apart tests under $area/live/ did not run here, and that"
+      echo "         branch has been worked on: $touched"
+      echo "         They talk to what the suite only stands in for, so"
+      echo "         they are proposed and started on the owner's OK:"
+      echo "             cd tests && bash $area.sh"
+    elif [ "$apart" -gt 0 ]; then
+      echo "$area: $apart tests under $area/live/ did not run here. They talk"
+      echo "         to what the suite only stands in for, so they are"
+      echo "         started on the owner's OK:"
+      echo "             cd tests && bash $area.sh"
+    fi
+  done
 fi
 echo "(started in the background? then do the next thing while it runs.)"
 # Red if anything failed, and red if more was left out than the barrier

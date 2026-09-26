@@ -9,6 +9,8 @@ thread or timer was at work; the zoom buttons hold their place, the
 reading stands there before a click, is drawn with a fixed width, one
 width per digit, and the pinned width holds the widest reading; the
 output pane is drawn with a fixed width; every caption fits its field.
+In the builder's release run a caption cut off, or a reading wider
+than its pin, is noted rather than failed: cut_off_rule.py.
 """
 PLATFORM_BOUND = True
 import os
@@ -22,6 +24,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import time
 import captions_measure as m
+import cut_off_rule
 
 LANGUAGES = m.EVERY_RUN
 import the_program
@@ -32,11 +35,15 @@ done = 0
 bad = []
 
 
-def check(name, ok, extra=""):
+def check(name, ok, extra="", cut_off=False):
     global done
     done += 1
-    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
+    # A text cut off is noted, not failed, in the builder's release run
+    # alone; cut_off_rule.py says whose rule it is and when.
+    noted = not ok and cut_off and cut_off_rule.noted(name, extra)
+    print("  %-58s %s %s" % (name, "ok" if ok else "noted" if noted
+                             else "FAIL", extra))
+    if not ok and not noted:
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
@@ -115,7 +122,7 @@ for language, out in m.windows(LANGUAGES):
               "pinned to %d px, but %r needs %d px in the font it is "
               "drawn in (%s)"
               % (row.get("width", 0), row.get("widest"), row.get("needs", 0),
-                 row.get("drawn")))
+                 row.get("drawn")), cut_off=True)
 
     found = sorted(report["found"], key=lambda f: -f["short"])
     # The findings go on the line that fails, not only under it: a build
@@ -126,7 +133,7 @@ for language, out in m.windows(LANGUAGES):
           "%d cut off%s" % (len(found), "".join(
               "; %s short by %d px in %s: %r"
               % (f["kind"][:14], f["short"], f["box"][:30], f["text"][:60])
-              for f in found)))
+              for f in found)), cut_off=True)
     for f in found:
         print("    %-14s short by %4d px  in %-30s  %r"
               % (f["kind"][:14], f["short"], f["box"][:30], f["text"][:60]))

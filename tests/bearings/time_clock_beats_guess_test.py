@@ -361,8 +361,10 @@ with contextlib.redirect_stdout(shown):
     vpm.kind_proposal_say(kinds, data)
 nowhere = sorted(map(os.path.basename, (data or {}).get("no_place") or ()))
 weak = sorted(map(os.path.basename, (data or {}).get("weak") or ()))
+# The recording itself may be refused: the run holds it against the
+# cameras, which never heard it. Only the cameras are asked here.
 check("the preview refuses no camera the run places by sound",
-      nowhere == [] and all(v.get() == vpm.TYPE_CONTENT
+      not [n for n in nowhere if n.endswith(".mov")] and all(v.get() == vpm.TYPE_CONTENT
                             for v in kinds.values()),
       "weak %s, no place %s, kinds %s -- %r, window %r"
       % (weak, nowhere, sorted((os.path.basename(p), v.get())

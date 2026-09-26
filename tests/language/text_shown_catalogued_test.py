@@ -7,8 +7,9 @@ seen. The sections: the window as it starts, its menu bar and the Windows
 key store; the file list's headings over an audio and a video file; the
 settings window once its Resolve check found none; a production's status
 block; the preset list, full and empty, from a stood-in account. Not
-counted: names of files, presets and languages, LUFS, the log's path, what
-Qt draws. Walked alone: the Windows store, the headings, Resolve's refusal.
+counted: names of files, presets and languages, the program's own name,
+LUFS, the log's path, what Qt draws. Walked alone: the Windows store,
+the headings, Resolve's refusal.
 """
 PLATFORM_BOUND = True
 import os
@@ -37,7 +38,6 @@ SCRIPT = the_program.SCRIPT
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-os.environ.pop("AUPHONIC_TOKEN", None)
 
 from PySide6 import QtWidgets, QtCore            # noqa: E402
 
@@ -147,10 +147,11 @@ subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
                 "-i", "sine=frequency=300:duration=1", "-c:v", "libx264",
                 "-preset", "ultrafast", "-pix_fmt", "yuv420p", "-c:a",
                 "aac", "-shortest", "-y", VIDEO], check=True)
-# Written as the reader has them: the files' names and every language's
-# own name for itself, longest first so no name is cut by a shorter one.
+# Written as the reader has them: the files' names, the program's, and
+# every language's own name for itself, longest first so no name is cut
+# by a shorter one. The program's name fills a %(name)s in the texts.
 OWN_NAMES = sorted([NO_API, NO_LIB, folder, os.path.basename(AUDIO),
-                    os.path.basename(VIDEO)]
+                    os.path.basename(VIDEO), vpm.DISPLAY_NAME]
                    + [p for p in [vpm.log_path()] if p]
                    + list(vpm.language.LANGUAGE_NAMES.values()),
                    key=len, reverse=True)

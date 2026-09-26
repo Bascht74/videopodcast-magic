@@ -93,6 +93,7 @@ CHILD = "\n".join([
     "        f.write('asked\\n')",
     "    raise RuntimeError(%r)" % REASON,
     "vpm.list_presets.__globals__['_curl_call'] = cannot_get_through",
+    "vpm.load_api_key = lambda: 'FAKEKEY-0000'",
     "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
     "sys.exit(vpm.main())"])
 # The fence: a curl started past the stand-in reaches a proxy on a
@@ -100,10 +101,9 @@ CHILD = "\n".join([
 NOWHERE = "http://127.0.0.1:9"
 FENCE = {"https_proxy": NOWHERE, "http_proxy": NOWHERE,
          "all_proxy": NOWHERE, "no_proxy": None}
-# The key in the environment and a switch but no file: that is the
+# A key in the stand-in store and a switch but no file: that is the
 # preset list. --dry-run, so a run that went further writes nothing.
-code, last, _said = run([sys.executable, "-c", CHILD, "--dry-run"],
-                        dict(FENCE, AUPHONIC_TOKEN="FAKEKEY-0000"))
+code, last, _said = run([sys.executable, "-c", CHILD, "--dry-run"], FENCE)
 try:
     with open(ASKED, encoding="utf-8") as f:
         asked = len(f.read().splitlines())

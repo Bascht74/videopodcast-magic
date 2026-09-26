@@ -188,8 +188,8 @@ msgstr "--update laadib selle alla ja paigaldab."
 msgid "The check for new versions is switched off here."
 msgstr "Uute versioonide kontroll on siin välja lülitatud."
 
-msgid "About Video Podcast Magic"
-msgstr "Teave: Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Teave: %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Videotaskuhäälingu toormaterjalist saab monteeritud episood: hea heli videofailidest, kaamerad ühel ajateljel, esimene montaaž kõneleja järgi ja DaVinci Resolve'i projekt."
@@ -2372,9 +2372,6 @@ msgstr "Multitrack (iga kõneleja oma rada)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack vajab vähemalt kaht sisendrada. Rada on eraldi salvestis, mitmekanalilise salvesti kanal või videofaili heli, mille valik on „kasuta sisemist heli“. Sama salvestise mitu plokki loetakse üheks, kõrvale pandud radu ei loeta üldse."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API-võtit pole. Sea AUPHONIC_TOKEN või lase see üks kord liideses meelde jätta. Võti on Auphonicu konto seadetes."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ühelgi helifailil pole ajakoodi. Algpunkt ja lõpp-punkt loetakse materjali algusest -- failide asend üksteise suhtes on mõõdetud."
 
@@ -2597,9 +2594,6 @@ msgstr "Eelvaade pole võimalik: %s"
 msgid "Preview running ..."
 msgstr "Eelvaade käib ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Eeltöö -- heli lugemine ja mähiskõverate arvutamine:\n"
-
 msgid "Primaries"
 msgstr "Põhivärvid"
 
@@ -2726,9 +2720,6 @@ msgstr "Eelseadistuse esimene rada määrab kõigi meie radade seaded. Muidu tul
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Selleks on vaja käituse üleandmisfaili, aga seda pole."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Võtit saab hoida ainult Macis ja Windowsis -- Keychainis või registris. Faili see ei lähe."
-
 msgid "%s -- being checked"
 msgstr "%s -- kontrollitakse"
 
@@ -2761,9 +2752,6 @@ msgstr "  Keychain Accessi ei õnnestunud avada: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Salvestatud võtit ei aktsepteerita: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN-i võtit ei aktsepteerita: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Mida auphonic.com vastas"
@@ -2897,8 +2885,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- toormaterjalist saab monteeritud taskuhääling"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- toormaterjalist saab monteeritud taskuhääling"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Helitugevus. 100 on nii vali kui võimalik -- üle selle Qt midagi ei võta."
@@ -2957,14 +2945,40 @@ msgstr "Kesköö"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s kannab ajakoodi teiselt poolt keskööd -- loetakse üheks ööks, mitte ööpäevaseks vaheks."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ei võta enda järel midagi: võtit küsitakse nähtamatult. "
+"Midagi ei salvestatud."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Ajakood loeb keskööst ja algab seal otsast peale. Failid pannakse ühele teljele enne, kui midagi lahutatakse, muidu näib kesköö järgne salvestis eelmisest peaaegu päeva kaugusel. Kui need tõesti salvestati eri päevadel, on joondamine vale ja usaldada tuleb mõõdetud nihet."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonicu API-võti (seda ei näidata): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d on piiril: kolm või enam järjestikust näitu, juhtumeid %s, pikim %s (%s ms), esimene kohal %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Loetud siin, näit näidu haaval, sagedusel, millega fail salvestati: kolme või enama näidu jada kõrgeimal väärtusel, mida täisarvuvorming mahutada suudab. Üks või kaks on ümardus ja neist ei teatata. Mis seal ära lõigati, on kadunud, ja ükski töötlus ei too seda tagasi -- aga salvestis jääb salvestiseks ja see ei peata midagi. Loetakse ainult täisarvuvorminguid. 32 bit float'il pole täisskaalal piiri, seega pole seal midagi lugeda."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API-võtit pole. Salvesta see üks kord liideses või võtmega "
+"--store-auphonic-key. Võti on Auphonicu konto seadetes."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Võtit ei sisestatud, seega midagi ei salvestatud."
+
+msgid "The key is not stored: %s"
+msgstr "Võti pole salvestatud: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Võti on salvestatud ja tagasilugemine andis sama võtme."
 
 msgid "boxes no longer readable"
 msgstr "boxe ei saa enam lugeda"
@@ -3410,8 +3424,8 @@ msgstr "Edastus"
 msgid "Uploading %s tracks"
 msgstr "Radade üleslaadimine: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-failid (*.json);;Kõik failid (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-failid (*.json);;Kõik failid (*)"
 
 msgid "Wide shot after"
 msgstr "Üldplaan kõige varem"
@@ -3709,9 +3723,6 @@ msgstr "ja siin lõigatakse, olgu hetk sobiv või mitte"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Paari range piir: kui alates „Üldplaan kõige varem“ pole lausepiiri tulnud, asendab seda pikim kõnepaus, ja siin lõigatakse, olenemata sellest, mida parajasti öeldakse."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Transkriptsiooni veel pole. Ilma selleta ei leita ühtegi küsimust ega teata ühtegi lausepiiri, nii et need neli seadet ei tee midagi. Käitus kirjutab selle ja sellest peale need toimivad."
 
 msgid "Why the question settings are grey"
 msgstr "Miks küsimuse seaded on hallid"
@@ -4270,9 +4281,6 @@ msgstr "Lühike paus kuni"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "nii kaua ei muuda vaikus pilti"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Ainult seal, kus „Keegi ei räägi“ on seatud lühikest pausi ära ootama. Kuni nii pikk paus ei muuda midagi, pikem viib üldplaanile. Üle kahe sekundi hakkab pilt üle viie sekundi vaikivat inimest näitama."
 
 msgid "Recognition uncertain"
 msgstr "Tuvastus ebakindel"
@@ -4920,3 +4928,84 @@ msgstr "heli ei tuvastatud, paigutatud ajakoodi järgi"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s salvestist ja pilti pole: igaüks ühendatakse eraldi ja neid ei joondata üksteise suhtes. --multitrack paneb need ühele ajateljele."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", kella triiv %s ppm jäeti alles: see pole %s korda oma %s ppm määramatusest"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Ilma transkriptsioonita ei leita ühtegi küsimust ega teata ühtegi lausepiiri, nii et kaks küsimuse seadet ja kaks üldplaani seadet, mis ootavad lause lõppu, ei tee midagi."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Ilma transkriptsioonita ei leita ühtegi küsimust, nii et kaks küsimuse seadet ei tee midagi."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Seda veel pole: käitus kirjutab selle ja sellest peale need toimivad."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Kõnetuvastus oli selle käituse jaoks välja lülitatud. Jäta see sisse ja järgmine käitus kirjutab ühe."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Käitus ei kirjutanud ühtegi: kõnetuvastus ebaõnnestus või ei kuulnud midagi, ja käituse logi ütleb, kumb. Kontrolli heli keelt ja käivita uuesti; kui selles masinas tuvastust pole, toob macOS 26 selle kaasa või käitus paigaldab faster-whisperi."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "töötab -- %s min pole teateid, arvuti võib olla hõivatud"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s min muutusteta -- võib olla kinni jäänud, palun kontrolli"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "jäetakse alles: %s ppm või rohkem on pigem mõõteviga"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "jäetakse alles: ei ulatu %s-kordse määramatuseni"
+
+msgid "Timing"
+msgstr "Ajastus"
+
+msgid "Special cases"
+msgstr "Erijuhud"
+
+msgid "Transcript"
+msgstr "Transkriptsioon"
+
+msgid "Writing down what is said ..."
+msgstr "Kirjutan üles, mida öeldakse ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Radade miksimine transkriptsiooni jaoks"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Seda kirjutatakse taustal; seaded avanevad ise, kui see valmis on."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ükski Secret Service'i võtmehoidja ei vastanud, seega midagi ei salvestatud. Väljaspool Maci ja Windowsi hoitakse võtit töölaua võtmehoidjas, libsecreti käsu secret-tool kaudu. Faili see ei lähe."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Eeltöö -- heli lugemine, mähiskõverate arvutamine ja öeldu üleskirjutamine:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Üldplaan servades: ainult alates %s -- alguse oma oli lühem kui lühim võte ja läks järgmise sisse"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Üldplaan servades: ainult kuni %s -- lõpu oma oli lühem kui lühim võte ja läks eelmise sisse"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Üldplaan servades: puudub -- mõlemad olid lühemad kui lühim võte ja läksid naabrite sisse"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kus „Keegi ei räägi“ on seatud lühikest pausi ära ootama, ei muuda kuni nii pikk paus midagi ja pikem viib üldplaanile. Kus „Tuvastus ebakindel“ on seatud väärtusele „Kaamera ei vahetu“, viib sellest pikem ebakindel lõik samuti üldplaanile. Üle kahe sekundi hakkab pilt üle viie sekundi vaikivat inimest näitama."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s jäeti välja -- ajakoodi järgi %s teistest plokkidest eemal, ühe salvestise jaoks liiga kaugel"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Üldplaan servades: kogu montaaž on üldplaan"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  lühendatud igaüks kuni %s -- ainus teadaanne kestab ajast %s kuni %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s alguses pole pilti ning jäetakse välja"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s lõpus pole pilti ning jäetakse välja"

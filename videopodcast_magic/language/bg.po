@@ -189,8 +189,8 @@ msgstr "--update я изтегля и я поставя на мястото ѝ."
 msgid "The check for new versions is switched off here."
 msgstr "Проверката за нови версии е изключена тук."
 
-msgid "About Video Podcast Magic"
-msgstr "За Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "За %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Суровият материал от видеоподкаст става монтиран епизод: добрият звук от видеофайловете, камерите на една времева ос, първи монтаж по говорещи и проект в DaVinci Resolve."
@@ -2373,9 +2373,6 @@ msgstr "Multitrack (по една писта на говорещ)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack изисква поне две входни писти. Писта е собствен запис, канал на многоканален рекордер или звукът на видеофайл, зададен на „с вътрешния звук“. Няколко блока от един и същ запис се броят за една, оставените настрана писти -- изобщо не."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Няма API ключ. Задайте AUPHONIC_TOKEN или го оставете да бъде запомнен веднъж в интерфейса. Ключът е в настройките на акаунта в Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Нито един аудиофайл няма таймкод. Входната и изходната точка се броят от началото на материала -- положението на файловете един спрямо друг е измерено."
 
@@ -2598,9 +2595,6 @@ msgstr "Прегледът не е възможен: %s"
 msgid "Preview running ..."
 msgstr "Прегледът тече ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Подготовка -- четене на звука и изчисляване на обвивките:\n"
-
 msgid "Primaries"
 msgstr "Основни цветове"
 
@@ -2727,9 +2721,6 @@ msgstr "Първата писта на пресета задава настро�
 msgid "That needs the handover file from a run, and there is none."
 msgstr "За това е нужен предавателният файл от изпълнение, а такъв няма."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ключът може да се съхрани само на Mac и Windows -- в Keychain или в регистъра. Във файл не отива."
-
 msgid "%s -- being checked"
 msgstr "%s -- проверява се"
 
@@ -2762,9 +2753,6 @@ msgstr "  Keychain Access не можа да бъде отворен: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Запазеният ключ не е приет: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ключът от AUPHONIC_TOKEN не е приет: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Какво отговори auphonic.com"
@@ -2898,8 +2886,8 @@ msgstr "Видео 1"
 msgid "Video 2"
 msgstr "Видео 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- от суров материал до монтиран подкаст"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- от суров материал до монтиран подкаст"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Сила на звука. 100 е максимумът -- Qt не приема повече."
@@ -2958,14 +2946,40 @@ msgstr "Полунощ"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s носи таймкод от другата страна на полунощ -- брои се като една нощ, а не като ден разлика."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key не приема нищо след себе си: ключът се въвежда, без да "
+"се вижда. Нищо не е запазено."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Таймкодът се брои от полунощ и там започва отначало. Файловете се поставят на една ос, преди да се извади каквото и да било -- иначе записът след полунощ изглежда почти на ден разстояние от предишния. Ако тези наистина са записани в различни дни, подравняването е грешно и трябва да се вярва на измереното отместване."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "API ключ за Auphonic (не се показва): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Канал %d удря тавана -- поредици от три или повече последователни семпъла: %s, най-дългата %s (%s мс), първата при %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Преброено тук, семпъл по семпъл, при честотата, с която е записан файлът: поредица от три или повече семпъла на най-високата стойност, която целочислен формат може да побере. Един или два са закръгляне и не се съобщават. Каквото е отрязано там, е изгубено и никаква обработка не го връща -- но записът си остава записът и това не спира нищо. Броят се само целочислени формати. 32-битовият float няма таван при пълна скала, така че там няма какво да се брои."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Няма API ключ. Запазете го веднъж в интерфейса или с --store-auphonic-key. "
+"Ключът е в настройките на акаунта в Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Не е въведен ключ, затова нищо не е запазено."
+
+msgid "The key is not stored: %s"
+msgstr "Ключът не е запазен: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ключът е запазен и при обратното прочитане се получи същият ключ."
 
 msgid "boxes no longer readable"
 msgstr "боксовете вече не могат да се прочетат"
@@ -3411,8 +3425,8 @@ msgstr "Пренос"
 msgid "Uploading %s tracks"
 msgstr "Качване на писти: %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON файлове (*.json);;Всички файлове (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON файлове (*.json);;Всички файлове (*)"
 
 msgid "Wide shot after"
 msgstr "Общ план след"
@@ -3710,9 +3724,6 @@ msgstr "и тук се реже, подходящ момент или не"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Твърдата граница на двойката: ако от „Общ план след“ не се е появила граница на изречение, най-дългата пауза в речта я замества и в тази точка се реже, каквото и да се казва."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Все още няма транскрипция. Без нея не се намира въпрос и не е известна граница на изречение, така че тези четири настройки не правят нищо. Изпълнението я записва и оттогава те действат."
 
 msgid "Why the question settings are grey"
 msgstr "Защо настройките за въпроса са сиви"
@@ -4271,9 +4282,6 @@ msgstr "Кратка пауза до"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "толкова дълго тишината не пипа картината"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Само там, където „Никой не говори“ е настроено да задържа кратка пауза. Пауза до тази дължина не променя нищо, по-дългата отива на общия план. Над две секунди картината започва да стои върху някого, който мълчи, повече от пет секунди."
 
 msgid "Recognition uncertain"
 msgstr "Несигурно разпознаване"
@@ -4921,3 +4929,84 @@ msgstr "звукът не е разпознат, поставен по своя 
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s записа и никаква картина: всеки се съединява поотделно и те не се подравняват един спрямо друг. --multitrack ги поставя на една времева ос."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", дрейфът на часовника %s ppm е оставен: не е %s пъти неговата неопределеност от %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Без транскрипция не се намира въпрос и не е известна граница на изречение, така че двете настройки за въпроса и двете настройки за общия план, които чакат края на изречение, не правят нищо."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Без транскрипция не се намира въпрос, така че двете настройки за въпроса не правят нищо."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Все още няма: изпълнението я записва и оттогава те действат."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Разпознаването на реч беше изключено за това изпълнение. Оставете го включено и следващото изпълнение ще запише транскрипция."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Изпълнението не записа транскрипция: разпознаването на реч се провали или не чу нищо, а дневникът на изпълнението казва кое от двете. Проверете езика на звука и изпълнете отново; ако на тази машина няма разпознаване, macOS 26 носи такова, или изпълнението инсталира faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "работи -- няма съобщение от %s мин., компютърът може да е натоварен"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "няма промяна от %s мин. -- може да е блокирало, моля, проверете"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "остава: %s ppm или повече е по-скоро грешка при измерването"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "остава: не достига %s пъти неточността си"
+
+msgid "Timing"
+msgstr "Тайминг"
+
+msgid "Special cases"
+msgstr "Особени случаи"
+
+msgid "Transcript"
+msgstr "Транскрипция"
+
+msgid "Writing down what is said ..."
+msgstr "Записване на казаното ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Смесване на пистите за транскрипцията"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Записва се във фонов режим; настройките се отварят сами, когато е готово."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Не отговори ключодържател на Secret Service, затова нищо не беше съхранено. Извън Mac и Windows ключът се пази в ключодържателя на работния плот, чрез командата secret-tool от libsecret. Във файл не отива."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Подготовка -- четене на звука, изчисляване на обвивките и записване на казаното:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Общ план в краищата: само от %s -- началният беше по-кратък от най-краткия кадър и премина в следващия"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Общ план в краищата: само до %s -- крайният беше по-кратък от най-краткия кадър и премина в предишния"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Общ план в краищата: няма -- и двата бяха по-кратки от най-краткия кадър и преминаха в съседите си"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Там, където „Никой не говори“ е настроено да задържа кратка пауза, пауза до тази дължина не променя нищо, а по-дългата отива на общия план. Там, където „Несигурно разпознаване“ е на „Без смяна на камерата“, несигурен откъс, по-дълъг от това, също отива на общия план. Над две секунди картината започва да стои върху някого, който мълчи, повече от пет секунди."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s е пропуснат -- на %s по таймкода от другите блокове, твърде далеч за един запис"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Общ план в краищата: целият монтаж е общ план"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  съкратено до най-много %s всеки -- единственото съобщение трае от %s до %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s в началото няма картина и се изпуска"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s в края няма картина и се изпуска"

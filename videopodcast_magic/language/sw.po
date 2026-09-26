@@ -188,8 +188,8 @@ msgstr "--update inalileta na kuliweka mahali pake."
 msgid "The check for new versions is switched off here."
 msgstr "Ukaguzi wa matoleo mapya umezimwa hapa."
 
-msgid "About Video Podcast Magic"
-msgstr "Kuhusu Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Kuhusu %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Nyenzo ghafi za podikasti ya video zinakuwa kipindi kilichohaririwa: sauti nzuri kutoka kwenye faili za video, kamera kwenye mhimili mmoja wa muda, mkato wa kwanza kwa mzungumzaji, na mradi wa DaVinci Resolve."
@@ -2372,9 +2372,6 @@ msgstr "Multitrack (treki moja kwa mzungumzaji)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofauti, chaneli ya kinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia sauti ya ndani\". Bloku kadhaa za rekodi moja huhesabiwa kuwa moja, na treki zilizowekwa kando hazihesabiwi kabisa."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Hakuna ufunguo wa API. Weka AUPHONIC_TOKEN au uuhifadhi mara moja kwenye kiolesura. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Hakuna faili ya sauti yenye timecode. Alama ya kuingia na alama ya kutoka huhesabiwa kuanzia mwanzo wa nyenzo -- nafasi ya faili kati yao hupimwa."
 
@@ -2597,9 +2594,6 @@ msgstr "Hakiki haiwezekani: %s"
 msgid "Preview running ..."
 msgstr "Hakiki inaendelea ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Maandalizi -- kusoma sauti na kukokotoa mikunjo ya sauti:\n"
-
 msgid "Primaries"
 msgstr "Rangi za msingi"
 
@@ -2726,9 +2720,6 @@ msgstr "Treki ya kwanza ya mpangilio awali huweka mipangilio ya treki zetu zote.
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Hilo linahitaji faili ya makabidhiano kutoka kwa uendeshaji, na hakuna."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Ufunguo unaweza kuhifadhiwa kwenye Mac na Windows tu -- katika Keychain au Rejista. Hauwekwi kwenye faili."
-
 msgid "%s -- being checked"
 msgstr "%s -- ukaguzi unaendelea"
 
@@ -2761,9 +2752,6 @@ msgstr "  Keychain Access haikuweza kufunguliwa: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Ufunguo uliohifadhiwa haukubaliwi: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ufunguo kutoka AUPHONIC_TOKEN haukubaliwi: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Jibu la auphonic.com"
@@ -2897,8 +2885,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- nyenzo ghafi zinakuwa podikasti iliyohaririwa"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- nyenzo ghafi zinakuwa podikasti iliyohaririwa"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Kiasi cha sauti. 100 ndicho kiwango cha juu kabisa -- Qt haikubali chochote zaidi ya hapo."
@@ -2957,14 +2945,40 @@ msgstr "Saa sita usiku"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Timecode kutoka upande mwingine wa saa sita usiku: %s -- inahesabiwa kama usiku mmoja, si tofauti ya siku moja."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key haipokei chochote baada yake: ufunguo huulizwa bila "
+"kuonyeshwa. Hakuna kilichohifadhiwa."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Timecode huhesabu kuanzia saa sita usiku na huanza upya hapo. Faili huwekwa kwenye mhimili mmoja kabla ya kutoa chochote, vinginevyo rekodi ya baada ya saa sita usiku ingeonekana kuwa karibu siku nzima mbali na ile ya kabla. Ikiwa kweli hizi zilirekodiwa siku tofauti, upangaji sawa si sahihi na msogeo uliopimwa ndio wa kuaminiwa."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Ufunguo wa API wa Auphonic (hauonyeshwi): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Chaneli %d imegonga kikomo: mara %s sampuli tatu au zaidi mfululizo, ndefu zaidi %s (%s ms), ya kwanza kwenye %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Huhesabiwa hapa, sampuli kwa sampuli, kwa kasi ambayo faili ilirekodiwa: mfululizo wa sampuli tatu au zaidi kwenye thamani ya juu kabisa ambayo muundo wa namba kamili unaweza kubeba. Moja au mbili ni ukadiriaji na haziripotiwi. Kilichokatwa hapo kimepotea na hakuna uchakataji unaoweza kukirudisha -- lakini rekodi bado ni rekodi, na hili halizuii chochote. Miundo ya namba kamili pekee ndiyo huhesabiwa. 32 bit float haina kikomo kwenye kipimo kamili, kwa hivyo hakuna cha kuhesabu hapo."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Hakuna ufunguo wa API. Uuhifadhi mara moja kwenye kiolesura, au kwa "
+"--store-auphonic-key. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Hakuna ufunguo ulioandikwa, kwa hiyo hakuna kilichohifadhiwa."
+
+msgid "The key is not stored: %s"
+msgstr "Ufunguo haujahifadhiwa: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ufunguo umehifadhiwa, na kuusoma tena kulitoa ufunguo uleule."
 
 msgid "boxes no longer readable"
 msgstr "visanduku havisomeki tena"
@@ -3410,8 +3424,8 @@ msgstr "Uhamisho"
 msgid "Uploading %s tracks"
 msgstr "Kupakia treki %s"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;Faili za JSON (*.json);;Faili zote (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;Faili za JSON (*.json);;Faili zote (*)"
 
 msgid "Wide shot after"
 msgstr "Picha pana baada ya"
@@ -3709,9 +3723,6 @@ msgstr "na hapa hukatwa, wakati uwe mzuri au la"
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "Kikomo kigumu cha jozi hii: pale ambapo hakuna mpaka wa sentensi uliotokea tangu \"Picha pana baada ya\", pumziko refu zaidi la kuzungumza huchukua nafasi yake, na katika hatua hii mkato hufanyika bila kujali kinachosemwa."
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Bado hakuna nakala. Bila nakala hakuna swali linalopatikana wala mpaka wa sentensi unaojulikana, kwa hiyo mipangilio hii minne haifanyi kitu. Uendeshaji huiandika, na kuanzia hapo inafanya kazi."
 
 msgid "Why the question settings are grey"
 msgstr "Kwa nini mipangilio ya swali ni ya kijivu"
@@ -4270,9 +4281,6 @@ msgstr "Pengo fupi hadi"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "kimya cha muda huu hakiigusi picha"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tu pale \"Hakuna anayezungumza\" imewekwa kushikilia pengo fupi. Pengo hadi urefu huu halibadilishi chochote, refu zaidi linaenda kwenye picha pana. Zaidi ya sekunde mbili picha huanza kukaa kwa mtu aliyenyamaza kwa zaidi ya sekunde tano."
 
 msgid "Recognition uncertain"
 msgstr "Utambuzi hauna uhakika"
@@ -4920,3 +4928,84 @@ msgstr "sauti haikutambuliwa, imewekwa kwa timecode yake"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  Rekodi %s na hakuna picha: kila moja inaunganishwa peke yake na hazipangwi dhidi ya nyingine. --multitrack huziweka kwenye mhimili mmoja wa muda."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", mkengeuko wa saa %s ppm umeachwa: si mara %s ya kutokuwa na uhakika kwake kwa %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Bila nakala hakuna swali linalopatikana wala mpaka wa sentensi unaojulikana, kwa hiyo mipangilio miwili ya swali na mipangilio miwili ya picha pana inayosubiri mwisho wa sentensi haifanyi kitu."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Bila nakala hakuna swali linalopatikana, kwa hiyo mipangilio miwili ya swali haifanyi kitu."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Bado haipo: uendeshaji huiandika, na kuanzia hapo inafanya kazi."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Utambuzi wa usemi ulizimwa kwa uendeshaji huu. Uache ukiwa umewashwa, na uendeshaji unaofuata utaandika nakala."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Uendeshaji haukuandika nakala: utambuzi wa usemi ulishindwa au haukusikia chochote, na kumbukumbu ya uendeshaji inasema ni kipi. Kagua lugha ya sauti na uendeshe tena; mahali ambapo mashine hii haina utambuzi, macOS 26 huleta mmoja, au uendeshaji husakinisha faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "inafanya kazi -- hakuna ujumbe kwa dak. %s, huenda kompyuta ina shughuli nyingi"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "hakuna mabadiliko kwa dak. %s -- huenda imekwama, tafadhali angalia"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "inaachwa ilivyo: %s ppm au zaidi huenda ni kosa la kipimo"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "inaachwa ilivyo: haifikii mara %s ya kutokuwa na uhakika kwake"
+
+msgid "Timing"
+msgstr "Muda"
+
+msgid "Special cases"
+msgstr "Hali maalum"
+
+msgid "Transcript"
+msgstr "Nakala ya maneno"
+
+msgid "Writing down what is said ..."
+msgstr "Inaandika kinachosemwa ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Inachanganya nyimbo kwa ajili ya nakala ya maneno"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Inaandikwa chinichini; mipangilio itajifungua yenyewe itakapokamilika."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Hakuna keyring ya Secret Service iliyojibu, kwa hiyo hakuna kilichohifadhiwa. Nje ya Mac na Windows ufunguo huhifadhiwa kwenye keyring ya eneo-kazi, kupitia amri ya secret-tool kutoka libsecret. Hauwekwi kwenye faili."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Maandalizi -- kusoma sauti, kukokotoa mikunjo ya sauti na kuandika kinachosemwa:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Picha pana kwenye ncha: kuanzia %s tu -- ya mwanzo ilikuwa fupi kuliko picha fupi zaidi na iliingia kwenye inayofuata"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Picha pana kwenye ncha: hadi %s tu -- ya mwisho ilikuwa fupi kuliko picha fupi zaidi na iliingia kwenye iliyotangulia"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Picha pana kwenye ncha: hakuna -- zote mbili zilikuwa fupi kuliko picha fupi zaidi na ziliingia kwenye jirani zao"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Pale \"Hakuna anayezungumza\" imewekwa kushikilia pengo fupi, pengo hadi urefu huu halibadilishi chochote, na refu zaidi linaenda kwenye picha pana. Pale \"Utambuzi hauna uhakika\" imewekwa kuwa \"Bila kubadili kamera\", sehemu isiyo na uhakika iliyo ndefu kuliko hii nayo inaenda kwenye picha pana. Zaidi ya sekunde mbili picha huanza kukaa kwa mtu aliyenyamaza kwa zaidi ya sekunde tano."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s imeachwa nje -- %s mbali na bloku nyingine kwa mujibu wa timecode, mbali mno kwa rekodi moja"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Picha pana kwenye ncha: mkato wote ni picha pana"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  kila moja imefupishwa hadi %s kwa upeo -- tangazo pekee linaanzia %s hadi %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s mwanzoni haina picha na inaachwa nje"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s mwishoni haina picha na inaachwa nje"

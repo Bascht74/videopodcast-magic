@@ -91,8 +91,8 @@ msgstr "बाद में"
 msgid "Go back"
 msgstr "वापस जाएँ"
 
-msgid "About Video Podcast Magic"
-msgstr "Video Podcast Magic के बारे में"
+msgid "About %(name)s"
+msgstr "%(name)s के बारे में"
 
 msgid "&File"
 msgstr "&फ़ाइल"
@@ -436,9 +436,6 @@ msgstr "चलाएँ और रोकें।"
 
 msgid "Preview running ..."
 msgstr "पूर्वावलोकन चल रहा है ..."
-
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "पूर्वकार्य -- ऑडियो पढ़ें और एनवेलप की गणना करें:\n"
 
 msgid "Processing at auphonic.com (optional)"
 msgstr "auphonic.com पर प्रोसेसिंग (वैकल्पिक)"
@@ -1112,14 +1109,8 @@ msgstr "अलग ट्रैक नाम"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  इस नाम का प्रोडक्शन पहले से मौजूद है"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN से मिली कुंजी स्वीकार नहीं हुई: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "सहेजी गई कुंजी स्वीकार नहीं हुई: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "कोई API कुंजी नहीं। AUPHONIC_TOKEN सेट करें, या इंटरफ़ेस में इसे एक बार याद रखवा लें। कुंजी Auphonic खाते की सेटिंग्स में है।"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "खाते में कोई प्रीसेट सहेजा नहीं है। वेब इंटरफ़ेस में एक बनाया जा सकता है।"
@@ -1561,9 +1552,6 @@ msgstr "  %s: इसमें कितने चैनल हैं, यह त
 
 msgid "No camera is free of speakers, so there is no wide shot: the four wide shot settings and the tick for the edges do nothing. Give a camera the Kind \"Wide shot\", or leave one without a speaker."
 msgstr "कोई भी कैमरा वक्ताओं से खाली नहीं है, इसलिए कोई वाइड शॉट नहीं: वाइड शॉट की चारों सेटिंग्स और किनारों वाला निशान कुछ नहीं करते। किसी कैमरे का प्रकार “वाइड शॉट” रखें, या किसी एक को बिना वक्ता के छोड़ें।"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "अभी कोई ट्रांसक्रिप्ट नहीं। इसके बिना न कोई प्रश्न मिलता है, न वाक्य की सीमा पता चलती है, इसलिए ये चार सेटिंग्स कुछ नहीं करतीं। एक रन इसे लिखता है, और तब से ये काम करती हैं।"
 
 msgid "  Question: no transcript, so no question was found and no reaction cut\n            happened. The words are written down from the finished mix during\n            the run; without them the setting does nothing."
 msgstr "  प्रश्न: कोई ट्रांसक्रिप्ट नहीं, इसलिए न कोई प्रश्न मिला और न कोई रिएक्शन कट\n          हुआ। शब्द रन के दौरान तैयार मिक्स से\n          लिखे जाते हैं; उनके बिना यह सेटिंग कुछ नहीं करती।"
@@ -3093,8 +3081,8 @@ msgstr "ये फ़ाइलें अब मौजूद नहीं है�
 msgid "  Project file not writable (%s)\n"
 msgstr "  परियोजना फ़ाइल लिखी नहीं जा सकती (%s)\n"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON फ़ाइलें (*.json);;सभी फ़ाइलें (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON फ़ाइलें (*.json);;सभी फ़ाइलें (*)"
 
 msgid "This handover carries no frame rate, so the timeline cannot be built from it. Please make the run again."
 msgstr "इस सौंपने वाली फ़ाइल में फ़्रेम दर नहीं है, इसलिए इससे Timeline नहीं बन सकती। कृपया रन फिर से करें।"
@@ -3687,9 +3675,6 @@ msgstr "पैकेज मैनेजर से: apt install ffmpeg, dnf insta
 msgid "This ffmpeg has no soxr: the clock drift between cameras comes out in steps of 21 ppm instead of 0.21."
 msgstr "इस ffmpeg में soxr नहीं है: कैमरों के बीच घड़ी का विचलन 0.21 के बजाय 21 ppm के चरणों में आता है।"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "कुंजी केवल Mac और Windows पर सहेजी जा सकती है -- कीचेन में या रजिस्ट्री में। वह किसी फ़ाइल में नहीं जाती।"
-
 msgid "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has to go into PATH, or the files next to this program."
 msgstr "  ffmpeg.org पर Windows के लिए बिल्ड हैं। फिर ffmpeg.exe वाला फ़ोल्डर PATH में जाना चाहिए, या फ़ाइलें इस प्रोग्राम के बगल में।"
 
@@ -4077,8 +4062,8 @@ msgstr "काम करने के लिए कोई ध्वनि नह
 msgid "Content: a camera like any other.\nWide shot: a camera nobody sits in front of -- it takes no speaker, and the cut goes to it in a pause and in a long monologue.\nIntro and outro are finished clips -- not aligned, not processed, only placed in the Timeline.\nIgnore video: the file stays out entirely."
 msgstr "सामग्री: किसी भी दूसरे जैसा एक कैमरा।\nवाइड शॉट: ऐसा कैमरा जिसके सामने कोई नहीं बैठता -- यह कोई वक्ता नहीं लेता, और कट विराम में और लंबे एकालाप में इस पर जाता है।\nइंट्रो और आउट्रो तैयार क्लिप हैं -- न संरेखित, न संसाधित, केवल Timeline में रखे जाते हैं।\nवीडियो अनदेखा करें: फ़ाइल पूरी तरह बाहर रहती है।"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- कच्चे माल से संपादित पॉडकास्ट"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- कच्चे माल से संपादित पॉडकास्ट"
 
 msgid "The work can be written to a project file first."
 msgstr "काम को पहले किसी परियोजना फ़ाइल में लिखा जा सकता है।"
@@ -4661,9 +4646,6 @@ msgstr "छोटे शॉट अगले शॉट में मिल जा
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "एक छोटा \"हाँ\" चित्र को नहीं हिलाता। इसके बिना आधे सेकंड का एक खंड कैमरे को अपनी ओर खींच लेता है, और फिर न्यूनतम शॉट अवधि उसे सेकंडों तक वहीं रोके रखती है।"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "केवल वहाँ जहाँ \"कोई नहीं बोलता\" छोटा अंतराल बनाए रखने पर सेट है। इतनी लंबाई तक का अंतराल कुछ नहीं बदलता, इससे लंबा वाइड शॉट पर जाता है। दो सेकंड से ऊपर चित्र किसी चुप व्यक्ति पर पाँच सेकंड से अधिक टिकने लगता है।"
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 स्थिर"
 
@@ -4709,14 +4691,34 @@ msgstr "%s सामग्री में किसी से मेल नह�
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s सामग्री में किसी से मेल नहीं खाता, और जिन कैमरों को ध्वनि ने रखा, उनमें से किसी में ऐसा टाइमकोड नहीं जिससे इसका अपना मिलाया जा सके; इंट्रो पहले से तय है: छोड़ दिया गया।"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key अपने बाद कुछ नहीं लेता: कुंजी बिना दिखाए पूछी जाती है। "
+"कुछ भी सहेजा नहीं गया।"
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API कुंजी (दिखाई नहीं जाती): "
 
 msgid "In point"
 msgstr "इन पॉइंट"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "बाहर रखा गया; %s या %s एक क्लिक दूर है।"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"कोई API कुंजी नहीं। इसे एक बार इंटरफ़ेस में, या --store-auphonic-key से "
+"सहेजें। कुंजी Auphonic खाते की सेटिंग्स में है।"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "कोई कुंजी टाइप नहीं की गई, इसलिए कुछ भी सहेजा नहीं गया।"
 
 msgid "Out point"
 msgstr "आउट पॉइंट"
@@ -4726,6 +4728,12 @@ msgstr "प्रीसेट:"
 
 msgid "Registry"
 msgstr "Registry"
+
+msgid "The key is not stored: %s"
+msgstr "कुंजी सहेजी नहीं गई: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "कुंजी सहेज ली गई है, और वापस पढ़ने पर वही कुंजी मिली।"
 
 msgid "VIDEO"
 msgstr "वीडियो"
@@ -4917,3 +4925,84 @@ msgstr "ध्वनि नहीं पहचानी गई, उसके ट
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s रिकॉर्डिंग और कोई चित्र नहीं: हर एक अलग से जोड़ी जाती है और उन्हें एक-दूसरे के साथ संरेखित नहीं किया जाता। --multitrack उन्हें एक समय-अक्ष पर रखता है।"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", घड़ी का विचलन %s ppm छोड़ा गया: यह अपनी अनिश्चितता का %s गुना नहीं है, जो %s ppm है"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "ट्रांसक्रिप्ट के बिना न कोई प्रश्न मिलता है, न वाक्य की सीमा पता चलती है, इसलिए प्रश्न की दो सेटिंग्स और वाइड शॉट की वे दो सेटिंग्स जो वाक्य के अंत की प्रतीक्षा करती हैं, कुछ नहीं करतीं।"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "ट्रांसक्रिप्ट के बिना कोई प्रश्न नहीं मिलता, इसलिए प्रश्न की दो सेटिंग्स कुछ नहीं करतीं।"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "अभी कोई नहीं है: एक रन इसे लिखता है, और तब से ये काम करती हैं।"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "इस रन के लिए वाक् पहचान बंद थी। इसे चालू रहने दें, तो अगला रन एक लिखेगा।"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "रन ने कोई ट्रांसक्रिप्ट नहीं लिखा: वाक् पहचान विफल रही या उसे कुछ सुनाई नहीं दिया, और रन का लॉग बताता है कि कौन-सा। ध्वनि की भाषा जाँचें और फिर से चलाएँ; जहाँ इस मशीन में पहचान नहीं है, वहाँ macOS 26 एक लाता है, या रन faster-whisper इंस्टॉल करता है।"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "काम चल रहा है -- %s मिनट से कोई संदेश नहीं, कंप्यूटर शायद व्यस्त है"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "%s मिनट से कोई बदलाव नहीं -- शायद अटक गया है, कृपया जाँचें"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "छोड़ दिया जाता है: %s ppm या उससे अधिक संभवतः मापन की गलती है"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "छोड़ दिया जाता है: अपनी अनिश्चितता के %s गुना तक नहीं पहुँचता"
+
+msgid "Timing"
+msgstr "टाइमिंग"
+
+msgid "Special cases"
+msgstr "विशेष स्थितियाँ"
+
+msgid "Transcript"
+msgstr "ट्रांसक्रिप्ट"
+
+msgid "Writing down what is said ..."
+msgstr "जो कहा गया है, वह लिखा जा रहा है ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "ट्रांसक्रिप्ट के लिए ट्रैक मिलाए जा रहे हैं"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "यह पृष्ठभूमि में लिखा जा रहा है; पूरा होते ही सेटिंग्स अपने आप खुल जाएँगी।"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "किसी Secret Service कीरिंग ने जवाब नहीं दिया, इसलिए कुछ नहीं सहेजा गया। Mac और Windows के बाहर कुंजी डेस्कटॉप की कीरिंग में रखी जाती है, libsecret के secret-tool कमांड के ज़रिए। वह किसी फ़ाइल में नहीं जाती।"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "पूर्वकार्य -- ऑडियो पढ़ें, एनवेलप की गणना करें और जो कहा गया है उसे लिखें:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  किनारों पर वाइड शॉट: केवल %s से -- शुरुआत वाला सबसे छोटे शॉट से भी छोटा था और अगले में मिल गया"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  किनारों पर वाइड शॉट: केवल %s तक -- अंत वाला सबसे छोटे शॉट से भी छोटा था और पिछले में मिल गया"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  किनारों पर वाइड शॉट: कोई नहीं -- दोनों सबसे छोटे शॉट से भी छोटे थे और अपने पड़ोसियों में मिल गए"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "जहाँ \"कोई नहीं बोलता\" छोटा अंतराल बनाए रखने पर सेट है, वहाँ इतनी लंबाई तक का अंतराल कुछ नहीं बदलता और इससे लंबा वाइड शॉट पर जाता है। जहाँ \"पहचान अनिश्चित\" \"कैमरा न बदलें\" पर सेट है, वहाँ इससे लंबा अनिश्चित हिस्सा भी वाइड शॉट पर जाता है। दो सेकंड से ऊपर चित्र किसी चुप व्यक्ति पर पाँच सेकंड से अधिक टिकने लगता है।"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s छोड़ दिया गया -- टाइमकोड के अनुसार बाकी खंडों से %s दूर, एक रिकॉर्डिंग के लिए बहुत दूर"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  किनारों पर वाइड शॉट: पूरा कट ही वाइड शॉट है"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  हर एक को अधिकतम %s तक छोटा किया गया -- एकमात्र घोषणा %s से %s तक चलती है"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: शुरू के %s में चित्र नहीं है और उसे छोड़ दिया जाता है"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: अंत के %s में चित्र नहीं है और उसे छोड़ दिया जाता है"

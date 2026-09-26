@@ -9,6 +9,7 @@ it was cut out of, so the program is handed in and bound below by name.
 PROGRAM = PROGRAM
 
 # Bound above the seam, so each is a copy and none is read late.
+FROZEN_NAME = PROGRAM.FROZEN_NAME
 cache_folder = PROGRAM.cache_folder
 os = PROGRAM.os
 sys = PROGRAM.sys
@@ -87,25 +88,26 @@ def log_folder():
     """
     base = os.environ.get("VPM_LOGS") or ""
     if base:
-        folder = os.path.join(base, "videopodcast-magic")
+        folder = os.path.join(base, FROZEN_NAME)
     elif os.environ.get("VPM_SILENT"):
         # A test run has no business in the log folder of whoever
         # started it; a test that does names its own VPM_LOGS.
         return cache_folder("logs")
     elif sys.platform == "darwin":
         # What Console.app shows.
-        folder = os.path.expanduser("~/Library/Logs/videopodcast-magic")
+        folder = os.path.join(os.path.expanduser("~/Library/Logs"),
+                              FROZEN_NAME)
     elif os.name == "nt":
         # LOCALAPPDATA, not APPDATA: a log must not travel with a
         # roaming profile. Its own folder, so emptying the cache keeps it.
         folder = os.path.join(os.environ.get("LOCALAPPDATA")
                               or os.path.expanduser("~"),
-                              "videopodcast-magic", "Logs")
+                              FROZEN_NAME, "Logs")
     else:
         # XDG names this one for logs in so many words.
         folder = os.path.join(os.environ.get("XDG_STATE_HOME")
                               or os.path.expanduser("~/.local/state"),
-                              "videopodcast-magic")
+                              FROZEN_NAME)
     try:
         os.makedirs(folder, exist_ok=True)
     except OSError:
@@ -124,9 +126,9 @@ def log_path():
     if not installed_by_a_package_manager():
         here = os.path.dirname(os.path.abspath(PROGRAM.__file__))
         if os.path.isdir(here) and os.access(here, os.W_OK):
-            return os.path.join(here, "videopodcast-magic.log")
+            return os.path.join(here, FROZEN_NAME + ".log")
     folder = log_folder()
-    return os.path.join(folder, "videopodcast-magic.log") if folder else None
+    return os.path.join(folder, FROZEN_NAME + ".log") if folder else None
 
 
 def log_aside(text):

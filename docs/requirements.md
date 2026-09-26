@@ -328,10 +328,13 @@ a virtual environment before the install.
 ## What differs per platform
 
 Day to day the program runs on macOS and Windows. On Linux it runs as
-well, with two limits:
+well, with two differences:
 
-* The key cannot be stored (no Keychain, no Registry), so it has to
-  come from `AUPHONIC_TOKEN` each time.
+* The key is stored in the desktop's keyring through the Secret
+  Service, and needs `secret-tool` (package `libsecret-tools` on
+  Debian/Ubuntu, `libsecret` on Fedora). Without it nothing is stored,
+  auphonic.com is reached only from the window with the key typed in
+  for that session, and a command-line run goes without it.
 * The cache goes to `XDG_CACHE_HOME`.
 
 ## When something goes wrong

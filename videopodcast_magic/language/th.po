@@ -186,8 +186,8 @@ msgstr "--update จะดึงมาและติดตั้งให้"
 msgid "The check for new versions is switched off here."
 msgstr "การตรวจหาเวอร์ชันใหม่ถูกปิดไว้ที่นี่"
 
-msgid "About Video Podcast Magic"
-msgstr "เกี่ยวกับ Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "เกี่ยวกับ %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "ฟุตเทจดิบจากวิดีโอพอดแคสต์กลายเป็นตอนที่ตัดต่อแล้ว: เสียงดีจากไฟล์วิดีโอ กล้องทุกตัวบนแกนเวลาเดียวกัน การตัดต่อแรกตามผู้พูด และโปรเจกต์ DaVinci Resolve"
@@ -2370,9 +2370,6 @@ msgstr "Multitrack (หนึ่งแทร็กต่อผู้พูด)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แทร็กคือการบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึกหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\" หลายบล็อกของการบันทึกเดียวกันนับเป็นหนึ่ง แทร็กที่พักไว้ไม่นับเลย"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "ไม่มีคีย์ API ตั้งค่า AUPHONIC_TOKEN หรือให้หน้าต่างโปรแกรมจำไว้ครั้งเดียว คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ไม่มีไฟล์เสียงใดมีไทม์โค้ด จุดเข้าและจุดออกนับจากจุดเริ่มของฟุตเทจ -- ส่วนตำแหน่งของไฟล์เทียบกันจะวัดเอา"
 
@@ -2595,9 +2592,6 @@ msgstr "แสดงตัวอย่างไม่ได้: %s"
 msgid "Preview running ..."
 msgstr "กำลังแสดงตัวอย่าง ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "งานเตรียม -- อ่านเสียงและคำนวณเอนเวโลป:\n"
-
 msgid "Primaries"
 msgstr "สีปฐมภูมิ"
 
@@ -2724,9 +2718,6 @@ msgstr "แทร็กแรกของพรีเซ็ตกำหนดก
 msgid "That needs the handover file from a run, and there is none."
 msgstr "ต้องใช้ไฟล์การส่งมอบจากรอบการทำงาน แต่ไม่มี"
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "เก็บคีย์ได้เฉพาะบน Mac และ Windows -- ในพวงกุญแจหรือรีจิสทรี คีย์จะไม่ถูกเขียนลงไฟล์"
-
 msgid "%s -- being checked"
 msgstr "%s -- กำลังตรวจสอบ"
 
@@ -2759,9 +2750,6 @@ msgstr "  เปิดการเข้าถึงพวงกุญแจไ�
 
 msgid "The stored key is not accepted: %s"
 msgstr "คีย์ที่เก็บไว้ไม่ได้รับการยอมรับ: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "คีย์จาก AUPHONIC_TOKEN ไม่ได้รับการยอมรับ: %s"
 
 msgid "What auphonic.com replied"
 msgstr "สิ่งที่ auphonic.com ตอบกลับ"
@@ -2895,8 +2883,8 @@ msgstr "วิดีโอ 1"
 msgid "Video 2"
 msgstr "วิดีโอ 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- จากฟุตเทจดิบสู่พอดแคสต์ที่ตัดต่อแล้ว"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- จากฟุตเทจดิบสู่พอดแคสต์ที่ตัดต่อแล้ว"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "ระดับเสียง 100 คือดังที่สุด -- Qt ไม่รับค่าที่สูงกว่านั้น"
@@ -2955,14 +2943,40 @@ msgstr "เที่ยงคืน"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s มีไทม์โค้ดจากอีกฝั่งของเที่ยงคืน -- นับเป็นคืนเดียวกัน ไม่ใช่ห่างกันหนึ่งวัน"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ไม่รับสิ่งใดต่อท้าย: ระบบจะถามคีย์โดยไม่แสดงให้เห็น "
+"ไม่มีสิ่งใดถูกบันทึก"
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "ไทม์โค้ดนับจากเที่ยงคืนและเริ่มใหม่ที่นั่น ไฟล์จะถูกวางบนแกนเดียวกันก่อนจะลบค่าใดๆ ไม่อย่างนั้นการบันทึกหลังเที่ยงคืนจะดูห่างจากการบันทึกก่อนหน้าเกือบหนึ่งวัน ถ้าบันทึกต่างวันกันจริง การจัดตำแหน่งจะผิด และควรเชื่อออฟเซ็ตที่วัดได้"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "คีย์ API ของ Auphonic (ไม่แสดง): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "ช่องสัญญาณ %d ชนขีดสูงสุด: มีแซมเปิลติดกันสามตัวขึ้นไป %s ครั้ง ยาวที่สุด %s (%s ms) ครั้งแรกที่ %s"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "นับที่นี่ทีละแซมเปิล ที่อัตราที่ไฟล์ถูกบันทึก: แซมเปิลติดกันสามตัวขึ้นไปที่ค่าสูงสุดที่รูปแบบจำนวนเต็มเก็บได้ หนึ่งหรือสองตัวเป็นการปัดเศษและไม่รายงาน สิ่งที่ถูกตัดไปตรงนั้นหายไปแล้วและไม่มีการประมวลผลใดเอากลับมาได้ -- แต่การบันทึกก็ยังเป็นการบันทึก และเรื่องนี้ไม่ได้หยุดอะไร นับเฉพาะรูปแบบจำนวนเต็ม 32 bit float ไม่มีขีดจำกัดที่ฟูลสเกล จึงไม่มีอะไรให้นับ"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"ไม่มีคีย์ API บันทึกไว้หนึ่งครั้งในหน้าต่างโปรแกรม หรือด้วย "
+"--store-auphonic-key คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "ไม่ได้พิมพ์คีย์ จึงไม่มีสิ่งใดถูกบันทึก"
+
+msgid "The key is not stored: %s"
+msgstr "คีย์ไม่ได้ถูกบันทึก: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "บันทึกคีย์แล้ว และเมื่ออ่านกลับได้คีย์เดิม"
 
 msgid "boxes no longer readable"
 msgstr "อ่านกล่องไม่ได้อีกต่อไป"
@@ -3408,8 +3422,8 @@ msgstr "การถ่ายโอน"
 msgid "Uploading %s tracks"
 msgstr "กำลังอัปโหลด %s แทร็ก"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;ไฟล์ JSON (*.json);;ไฟล์ทั้งหมด (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;ไฟล์ JSON (*.json);;ไฟล์ทั้งหมด (*)"
 
 msgid "Wide shot after"
 msgstr "ภาพมุมกว้างหลังจาก"
@@ -3707,9 +3721,6 @@ msgstr "และตรงนี้จะตัด ไม่ว่าจัง�
 
 msgid "The hard limit of the pair: where no sentence boundary has turned up since \"Wide shot after\", the longest speech pause stands in for one, and at this point the cut happens whatever is being said."
 msgstr "ขีดจำกัดแบบตายตัวของคู่นี้: หากไม่มีขอบเขตประโยคเกิดขึ้นเลยตั้งแต่ \"ภาพมุมกว้างหลังจาก\" ช่วงหยุดพูดที่ยาวที่สุดจะใช้แทน และ ณ จุดนี้จะตัดไม่ว่ากำลังพูดอะไรอยู่"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "ยังไม่มีบทถอดความ หากไม่มีจะหาคำถามไม่พบและไม่รู้ขอบเขตประโยค การตั้งค่าทั้งสี่นี้จึงไม่มีผล รอบการทำงานหนึ่งรอบจะเขียนบทถอดความ และหลังจากนั้นการตั้งค่าจะมีผล"
 
 msgid "Why the question settings are grey"
 msgstr "ทำไมการตั้งค่าคำถามจึงเป็นสีเทา"
@@ -4268,9 +4279,6 @@ msgstr "ช่องว่างสั้นไม่เกิน"
 
 msgid "so long a silence leaves the picture alone"
 msgstr "ความเงียบยาวเท่านี้จะไม่เปลี่ยนภาพ"
-
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "ใช้เฉพาะเมื่อตั้ง \"ไม่มีใครพูด\" ไว้ให้คงช่องว่างสั้น ช่องว่างที่ยาวไม่เกินค่านี้จะไม่เปลี่ยนอะไร ที่ยาวกว่าจะไปที่ภาพมุมกว้าง หากเกินสองวินาที ภาพจะเริ่มค้างอยู่ที่คนที่เงียบนานเกินห้าวินาที"
 
 msgid "Recognition uncertain"
 msgstr "การรู้จำไม่แน่นอน"
@@ -4875,3 +4883,84 @@ msgstr "ระบุเสียงไม่ได้ วางตามไท�
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  การบันทึก %s รายการและไม่มีภาพ: แต่ละรายการต่อกันแยกกัน และไม่ถูกจัดให้ตรงกัน --multitrack จะวางไว้บนแกนเวลาเดียว"
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", คงการคลาดของนาฬิกา %s ppm ไว้: ไม่ถึง %s เท่าของความไม่แน่นอน %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "หากไม่มีบทถอดความจะหาคำถามไม่พบและไม่รู้ขอบเขตประโยค การตั้งค่าสองรายการของคำถามและการตั้งค่าสองรายการของภาพมุมกว้างที่รอจนจบประโยคจึงไม่มีผล"
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "หากไม่มีบทถอดความจะหาคำถามไม่พบ การตั้งค่าสองรายการของคำถามจึงไม่มีผล"
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "ยังไม่มี: รอบการทำงานหนึ่งรอบจะเขียนบทถอดความ และหลังจากนั้นการตั้งค่าจะมีผล"
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "การรู้จำเสียงพูดถูกปิดไว้สำหรับรอบการทำงานนี้ เปิดไว้ แล้วรอบการทำงานถัดไปจะเขียนบทถอดความ"
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "รอบการทำงานไม่ได้เขียนบทถอดความ: การรู้จำเสียงพูดล้มเหลวหรือไม่ได้ยินอะไรเลย และบันทึกของรอบการทำงานบอกว่าเป็นอย่างไหน ตรวจสอบภาษาของเสียงแล้วเรียกใช้อีกครั้ง หากเครื่องนี้ไม่มีการรู้จำ macOS 26 มีมาให้ หรือรอบการทำงานจะติดตั้ง faster-whisper"
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "กำลังทำงาน -- ไม่มีข้อความมา %s นาที คอมพิวเตอร์อาจทำงานหนักอยู่"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "ไม่มีการเปลี่ยนแปลงมา %s นาที -- อาจค้าง โปรดตรวจสอบ"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "คงไว้ตามเดิม: %s ppm ขึ้นไปน่าจะเป็นความผิดพลาดในการวัด"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "คงไว้ตามเดิม: ไม่ถึง %s เท่าของความไม่แน่นอน"
+
+msgid "Timing"
+msgstr "จังหวะเวลา"
+
+msgid "Special cases"
+msgstr "กรณีพิเศษ"
+
+msgid "Transcript"
+msgstr "บทถอดความ"
+
+msgid "Writing down what is said ..."
+msgstr "กำลังเขียนสิ่งที่พูด ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "กำลังมิกซ์แทร็กสำหรับบทถอดความ"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "กำลังเขียนอยู่เบื้องหลัง เมื่อเสร็จแล้วการตั้งค่าเหล่านี้จะเปิดเอง"
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "ไม่มีพวงกุญแจ Secret Service ใดตอบกลับ จึงไม่ได้เก็บอะไรไว้ นอก Mac และ Windows คีย์จะเก็บไว้ในพวงกุญแจของเดสก์ท็อป ผ่านคำสั่ง secret-tool จาก libsecret คีย์จะไม่ถูกเขียนลงไฟล์"
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "งานเตรียม -- อ่านเสียง คำนวณเอนเวโลป และเขียนสิ่งที่พูด:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: ตั้งแต่ %s เท่านั้น -- ช่วงหัวสั้นกว่าช็อตที่สั้นที่สุดจึงรวมเข้ากับช็อตถัดไป"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: จนถึง %s เท่านั้น -- ช่วงท้ายสั้นกว่าช็อตที่สั้นที่สุดจึงรวมเข้ากับช็อตก่อนหน้า"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: ไม่มี -- ทั้งสองช่วงสั้นกว่าช็อตที่สั้นที่สุดจึงรวมเข้ากับช็อตข้างเคียง"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "เมื่อตั้ง \"ไม่มีใครพูด\" ไว้ให้คงช่องว่างสั้น ช่องว่างที่ยาวไม่เกินค่านี้จะไม่เปลี่ยนอะไร ที่ยาวกว่าจะไปที่ภาพมุมกว้าง เมื่อตั้ง \"การรู้จำไม่แน่นอน\" ไว้ที่ \"ไม่เปลี่ยนกล้อง\" ช่วงที่ไม่แน่นอนซึ่งยาวกว่าค่านี้ก็จะไปที่ภาพมุมกว้างเช่นกัน หากเกินสองวินาที ภาพจะเริ่มค้างอยู่ที่คนที่เงียบนานเกินห้าวินาที"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  ข้าม %s -- ห่างจากบล็อกอื่น %s ตามไทม์โค้ด ห่างเกินไปสำหรับการบันทึกเดียว"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  ภาพมุมกว้างที่หัวและท้าย: ทั้งการตัดต่อเป็นภาพมุมกว้าง"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  ย่อให้ยาวไม่เกิน %s ต่อช่วง -- ช่วงประกาศเดียวยาวตั้งแต่ %s ถึง %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: ช่วง %s ที่ต้นไม่มีภาพ จึงถูกตัดออก"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: ช่วง %s ที่ท้ายไม่มีภาพ จึงถูกตัดออก"

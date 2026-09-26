@@ -10,16 +10,21 @@ gespeicherten Preset und schickt ihn als gewöhnliche Tondatei zurück.
 Der Zugang wird einmal hinterlegt, das Preset gehört zur einzelnen
 Produktion.
 
-Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
-`AUPHONIC_TOKEN`. Nie in einer Datei, nie in der Projektdatei.
+Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen. Das Programm
+bewahrt ihn an genau einer Stelle auf: im Schlüsselbund (macOS), in der
+Registry (Windows) oder im Schlüsselbund des Desktops (Linux). Nie in
+einer Datei, nie in der Projektdatei und auch nicht in einer
+Umgebungsvariable.
 
 1. Im Fußbereich **Einstellungen ...** öffnen; das Fenster selbst ist in
    [Die Oberfläche](interface.de.md) beschrieben.
 2. Im Kasten **Zugang zu auphonic.com** das Feld **API Key:** füllen
-   (für einen Lauf von der Kommandozeile: `AUPHONIC_TOKEN`).
-3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen, das den
-   Schlüssel im Schlüsselbund (macOS) oder in der Registry (Windows)
-   behält. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
+   (wer von der Kommandozeile aus arbeitet, legt den Schlüssel einmal
+   ab, wie unten unter *Den Schlüssel ohne Fenster ablegen* beschrieben).
+3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen (unter
+   Windows heißt es **In der Registry speichern**, unter Linux
+   **Gemerkt lassen**); der Schlüssel bleibt dann im Schlüsselbund, in
+   der Registry oder im Schlüsselbund des Desktops. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
    ist er es nicht, sagt das Fenster es.
 4. **Verbinden** drücken. Der Knopf prüft den Schlüssel und holt die
    Presets.
@@ -37,14 +42,11 @@ im Kasten auf dem Reiter **Zuordnung & Zeitfenster**. Sie nennt auch
 einen fehlenden Schlüssel.
 
 **Die Zeile sagt, welcher Schlüssel abgelehnt wurde.** Beim Start hat
-niemand etwas getippt, der Schlüssel kam also irgendwoher, und es kann
-an beiden Stellen zugleich einer liegen: `AUPHONIC_TOKEN` wird vor dem
-gelesen, was Schlüsselbund oder Registry halten. Die Zeile nennt den,
-der hinausgegangen ist -- **Der Schlüssel aus AUPHONIC_TOKEN wird nicht
-angenommen** oder **Der gemerkte Schlüssel wird nicht angenommen** --,
-damit niemand an der falschen Stelle sucht. Nach **Verbinden** ist es
-der Schlüssel aus dem Feld, und die Zeile sagt nur noch, was
-auphonic.com geantwortet hat.
+niemand etwas getippt, der Schlüssel kam also aus dem Schlüsselbund, der
+Registry oder dem Schlüsselbund des Desktops, und genau das sagt die
+Zeile -- **Der gemerkte Schlüssel wird nicht angenommen** --, damit dort
+gesucht wird, wo er liegt. Nach **Verbinden** ist es der Schlüssel aus
+dem Feld, und die Zeile sagt nur noch, was auphonic.com geantwortet hat.
 
 * Auf dem Weg zu auphonic.com steht der Schlüssel nie in der
   Prozessliste: curl liest ihn aus einer Konfigurationsdatei, die nur
@@ -65,7 +67,10 @@ der Schlüssel mit **Verbinden** kam. Einen Kasten, der erst
 weggeklickt werden müsste, gibt es dabei nicht. Das Häkchen geht
 wieder heraus, damit es nicht gesetzt über einem Schlüssel steht, der
 beim nächsten Start fort ist.
-Beim Weg über die Windows-Registry stellt sich die Frage nicht.
+Unter Windows wird der Registry-Eintrag für alle außer diesem Benutzer
+gesperrt, bevor der Schlüssel hineinkommt, und danach wird er
+zurückgelesen. Lässt sich der Eintrag nicht sperren, wird der Schlüssel
+gar nicht erst geschrieben.
 
 Abgelegt wird der Schlüssel, der geprüft wurde, und nicht das, was im
 Feld steht, wenn die Antwort eintrifft. Wer während der Prüfung einen
@@ -99,33 +104,46 @@ einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
 Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
 für die eine, ein Multitrack-Preset für die anderen.
 
+### Den Schlüssel ohne Fenster ablegen
+
+Wer nur auf der Kommandozeile arbeitet, legt den Schlüssel einmal so ab:
+
+```text
+$ videopodcast-magic --store-auphonic-key --lang de
+Auphonic-API-Schlüssel (wird nicht angezeigt):
+Der Schlüssel ist gespeichert, und das Zurücklesen ergab denselben Schlüssel.
+```
+
+Getippt wird er dort, wo das Terminal nichts anzeigt; dann kommt er in
+den Schlüsselbund, die Registry oder den Schlüsselbund des Desktops,
+genau wie mit dem Häkchen oben, und wird zurückgelesen. Jeder spätere
+Lauf nimmt ihn von dort. Hat es nicht gehalten, lautet die Antwort **Der
+Schlüssel ist nicht gespeichert:** mit dem Grund dahinter; wer nichts
+tippt, legt nichts ab. Den Schlüssel selbst schreibt man nie hinter den
+Schalter: Ein Wort dort wird abgewiesen, bevor überhaupt gefragt wird,
+denn in der Befehlsgeschichte der Shell bliebe es stehen. Unter Linux
+kommt er in den Schlüsselbund des Desktops (Secret Service, über
+`secret-tool`); antwortet keiner, wird nichts abgelegt, und die Antwort
+sagt das -- siehe [Was gebraucht wird](requirements.de.md).
+
 ### Das Transkript entsteht hier
 
 Am Text hat auphonic.com keinen Anteil. Das Programm hört den fertigen
 Mix auf diesem Rechner ab und schreibt jedes Wort mit der Zeit mit, zu
-der es gesagt wurde. Drei Dateien landen im Ausgabeordner, benannt nach
-dem **Namen der Produktion**:
-
-* ein json mit Zeiten
-* ein srt für Untertitel
-* ein txt zum Lesen
-
-Sind die Stimmen vorher auseinandergehalten worden, trägt das Transkript
-ihre Namen. Sind sie es nicht, trägt es keine: dann ist nicht bekannt,
-wer einen Satz gesagt hat, und ein geratener Name im Transkript ist
-schlimmer als eine Lücke.
+der es gesagt wurde: eine json-Datei mit Zeiten, eine srt-Datei für
+Untertitel und eine txt-Datei zum Lesen, in der Form, in der
+auphonic.com seine eigenen liefert.
 
 Das kostet Rechenzeit, kein Guthaben. Es braucht weder Schlüssel noch
 Preset noch Upload, und ein Lauf ohne Auphonic schreibt dieselben drei
-Dateien. Wie viele Wörter gehört wurden und wie viele Sekunden das
-Zuhören gedauert hat, steht im Protokoll; unter der Überschrift
-**TRANSKRIPT** stehen die drei Pfade. `--no-transcript-file` lässt die
-Dateien weg -- gehört werden die Wörter trotzdem, und der Schnitt holt
-sich seine Satzgrenzen weiter aus ihnen.
+Dateien. `--no-transcript-file` lässt die Dateien weg -- gehört werden
+die Wörter trotzdem, und der Schnitt holt sich seine Satzgrenzen weiter
+aus ihnen.
 
-Welchen Weg die Erkennung auf welchem Rechner nimmt, was sie dort
-kostet und wofür der Text gebraucht wird, steht in [Spracherkennung und
-Sprechertrennung](speech.de.md).
+Was in jeder der Dateien steht, sagt [Die drei Dateien des
+Transkripts](speech.de.md#die-drei-dateien-des-transkripts); welchen Weg
+die Erkennung auf welchem Rechner nimmt und was sie dort kostet, steht
+im selben Kapitel.
 
 ### Ohne Auphonic arbeiten
 

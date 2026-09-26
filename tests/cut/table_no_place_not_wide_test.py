@@ -6,8 +6,9 @@ other one fits, so it has to lie on the time axis. A jingle does not:
 no timecode, and no sound in common with the rest. In order: the barred
 entry with its reason on it, whole in the open list, the file that has
 a place and keeps the choice, what a hand and a missing measurement
-leave alone, the derivation, which stops picking such a file, and last
-that every table builds the field in the one place where the bar is hung.
+leave alone, the derivation, which stops picking such a file and where
+it shows one lets "no place" outweigh "no speaker", and last that every
+table builds the field in the one place where the bar is hung.
 """
 PLATFORM_BOUND = True
 import os
@@ -177,19 +178,24 @@ check("a mark stands even there, because a mark is an answer",
       wides == [LOST] and said is True,
       "%s, marked %s" % ([os.path.basename(w) for w in wides], said))
 # Both bars at once: a file with no place that the derivation still
-# shows as the wide shot would carry two reasons, and one sentence over
-# both would explain neither.
+# shows as the wide shot carries two reasons for Content, and the
+# stronger wins -- a speaker would not give it a place.
 two_cell, two = vpm.clip_kind_cell(
     os.path.basename(LOST), vpm.TYPE_WIDE,
     "because no speaker is assigned to it", QUIET, True, why_wide)
-check("two barred entries each keep their own reason",
+check("both bars at once: Content says the stronger reason, no place",
       sorted(barred(two)) == sorted([vpm.TYPE_CONTENT, vpm.TYPE_WIDE])
       and says_at(two, vpm.TYPE_WIDE) == why_wide
-      and says_at(two, vpm.TYPE_CONTENT) == "because no speaker is "
-                                            "assigned to it",
+      and "cut into the episode" in says_at(two, vpm.TYPE_CONTENT),
       "barred %s; the wide shot says %r, Content says %r"
       % (sorted(barred(two)), says_at(two, vpm.TYPE_WIDE),
          says_at(two, vpm.TYPE_CONTENT)))
+# The field itself shows a wide shot in grey with "no speaker" on it;
+# where the file sits nowhere that is the weaker half, and it goes.
+in_field = getattr(getattr(two, "_why", None), "why", None)
+check("and the field says it sits nowhere, not that nobody speaks",
+      in_field == why_wide,
+      "the field says %r, wanted %r" % (in_field, why_wide))
 
 # The three tables that show a Kind ask one function for the cell, and
 # that is where the bar is hung. A table building its own would offer

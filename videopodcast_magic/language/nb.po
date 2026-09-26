@@ -184,8 +184,8 @@ msgstr "--update henter den og setter den på plass."
 msgid "The check for new versions is switched off here."
 msgstr "Sjekken etter nye versjoner er slått av her."
 
-msgid "About Video Podcast Magic"
-msgstr "Om Video Podcast Magic"
+msgid "About %(name)s"
+msgstr "Om %(name)s"
 
 msgid "Raw material from a video podcast becomes an edited episode: the good audio out of the video files, the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve project."
 msgstr "Råmateriale fra en videopodkast blir en klippet episode: den gode lyden fra videofilene, kameraene på én tidsakse, en første klipping etter taler og et DaVinci Resolve-prosjekt."
@@ -2338,9 +2338,6 @@ msgstr "Multitrack (ett spor per taler)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack trenger minst to inngangsspor. Et spor er et eget opptak, en kanal fra en flerkanalsopptaker eller lyden fra en videofil som er satt til \"bruk intern lyd\". Flere blokker av samme opptak teller som ett, spor lagt til side ikke i det hele tatt."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Ingen API-nøkkel. Sett AUPHONIC_TOKEN eller la den huskes én gang i grensesnittet. Nøkkelen står i Auphonic-kontoens innstillinger."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ingen lydfil bærer en tidskode. Inn-punkt og ut-punkt telles fra starten av materialet -- filenes plassering i forhold til hverandre måles."
 
@@ -2560,9 +2557,6 @@ msgstr "Forhåndsvisning ikke mulig: %s"
 msgid "Preview running ..."
 msgstr "Forhåndsvisning pågår ..."
 
-msgid "Prework -- read audio and compute envelopes:\n"
-msgstr "Forarbeid -- lese lyd og beregne envelopekurver:\n"
-
 msgid "Primaries"
 msgstr "Primærfarger"
 
@@ -2699,9 +2693,6 @@ msgstr "Det første sporet i forhåndsinnstillingen bestemmer innstillingene for
 msgid "That needs the handover file from a run, and there is none."
 msgstr "Det krever overleveringsfilen fra en kjøring, og det finnes ingen."
 
-msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
-msgstr "Nøkkelen kan bare lagres på Mac og Windows -- i nøkkelringen eller registeret. Den havner ikke i en fil."
-
 msgid "%s -- being checked"
 msgstr "%s -- sjekkes"
 
@@ -2734,9 +2725,6 @@ msgstr "  Nøkkelringtilgang kunne ikke åpnes: %s"
 
 msgid "The stored key is not accepted: %s"
 msgstr "Den lagrede nøkkelen godtas ikke: %s"
-
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Nøkkelen fra AUPHONIC_TOKEN godtas ikke: %s"
 
 msgid "What auphonic.com replied"
 msgstr "Hva auphonic.com svarte"
@@ -2870,8 +2858,8 @@ msgstr "Video 1"
 msgid "Video 2"
 msgstr "Video 2"
 
-msgid "Video Podcast Magic %s -- raw material becomes an edited podcast"
-msgstr "Video Podcast Magic %s -- råmateriale blir en klippet podkast"
+msgid "%(name)s %(version)s -- raw material becomes an edited podcast"
+msgstr "%(name)s %(version)s -- råmateriale blir en klippet podkast"
 
 msgid "Volume. 100 is as loud as it goes -- Qt takes nothing above that."
 msgstr "Volum. 100 er så høyt det går -- Qt tar ikke imot mer enn det."
@@ -2921,14 +2909,40 @@ msgstr "Midnatt"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s bærer en tidskode fra den andre siden av midnatt -- telt som én natt, ikke som et døgns avstand."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key tar ingenting etter seg: nøkkelen blir spurt om uten å "
+"vises. Ingenting ble lagret."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "En tidskode teller fra midnatt og begynner på nytt der. Filene legges på én akse før noe trekkes fra, ellers ligger opptaket etter midnatt nesten et døgn unna det før. Hvis disse virkelig ble tatt opp på ulike dager, er justeringen feil, og den målte forskyvningen er den som gjelder."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API-nøkkel (vises ikke): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d ligger i taket: %s ganger tre samples eller flere på rad, den lengste %s (%s ms), den første ved %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Telt her, sample for sample, med den samplingsfrekvensen filen ble tatt opp med: en rekke på tre eller flere samples på den høyeste verdien et heltallsformat kan romme. Én eller to er avrunding og rapporteres ikke. Det som er klippet av der, er borte, og ingen behandling henter det tilbake -- men opptaket er fortsatt opptaket, og dette stopper ingenting. Bare heltallsformater telles. 32 bit flyttall har ikke noe tak ved fullt utslag, så der er det ingenting å telle."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Ingen API-nøkkel. Lagre den én gang i grensesnittet eller med "
+"--store-auphonic-key. Nøkkelen står i Auphonic-kontoens innstillinger."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Ingen nøkkel ble skrevet inn, så ingenting ble lagret."
+
+msgid "The key is not stored: %s"
+msgstr "Nøkkelen er ikke lagret: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Nøkkelen er lagret, og tilbakelesingen ga den samme nøkkelen."
 
 msgid "boxes no longer readable"
 msgstr "boksene kan ikke lenger leses"
@@ -3362,8 +3376,8 @@ msgstr "Overføring"
 msgid "Uploading %s tracks"
 msgstr "Laster opp %s spor"
 
-msgid "Video Podcast Magic (%s*.json);;JSON files (*.json);;All files (*)"
-msgstr "Video Podcast Magic (%s*.json);;JSON-filer (*.json);;Alle filer (*)"
+msgid "%(name)s (%(prefix)s*.json);;JSON files (*.json);;All files (*)"
+msgstr "%(name)s (%(prefix)s*.json);;JSON-filer (*.json);;Alle filer (*)"
 
 msgid "the voices below carry the cameras"
 msgstr "stemmene nedenfor bærer kameraene"
@@ -3625,9 +3639,6 @@ msgstr "Behandling"
 
 msgid "Profile"
 msgstr "Profil"
-
-msgid "No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work."
-msgstr "Ingen transkripsjon ennå. Uten den blir ikke noe spørsmål funnet og ingen setningsgrense er kjent, så disse fire innstillingene gjør ingenting. En kjøring skriver den, og fra da av virker de."
 
 msgid "Why the question settings are grey"
 msgstr "Hvorfor innstillingene for spørsmålet er grå"
@@ -4549,9 +4560,6 @@ msgstr "Kort pause opptil"
 msgid "so long a silence leaves the picture alone"
 msgstr "så lenge lar en stillhet bildet være i fred"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Bare der \"Ingen snakker\" er satt til å holde en kort pause. En pause opptil denne lengden endrer ingenting, en lengre går til oversiktsbildet. Over to sekunder begynner bildet å bli stående på noen som tier, i mer enn fem sekunder."
-
 msgid "Listener"
 msgstr "Lytter"
 
@@ -4916,3 +4924,84 @@ msgstr "lyd ikke gjenkjent, plassert etter tidskoden sin"
 
 msgid "  %s recordings and no picture: each is joined on its own and they are not laid against each other. --multitrack puts them on one time axis."
 msgstr "  %s opptak og ikke noe bilde: hvert settes sammen for seg, og de legges ikke mot hverandre. --multitrack legger dem på én tidsakse."
+
+msgid ", clock drift %s ppm left in: not %s times its uncertainty of %s ppm"
+msgstr ", klokkedrift %s ppm beholdt: ikke %s ganger usikkerheten på %s ppm"
+
+msgid "Without a transcript no question is found and no sentence boundary is known, so the two question settings and the two wide shot settings that wait for the end of a sentence do nothing."
+msgstr "Uten transkripsjon blir ikke noe spørsmål funnet og ingen setningsgrense er kjent, så de to innstillingene for spørsmålet og de to innstillingene for oversiktsbildet som venter på slutten av en setning, gjør ingenting."
+
+msgid "Without a transcript no question is found, so the two question settings do nothing."
+msgstr "Uten transkripsjon blir ikke noe spørsmål funnet, så de to innstillingene for spørsmålet gjør ingenting."
+
+msgid "There is none yet: a run writes it, and from then on they work."
+msgstr "Det finnes ingen ennå: en kjøring skriver den, og fra da av virker de."
+
+msgid "Speech recognition was switched off for the run. Leave it on, and the next run writes one."
+msgstr "Talegjenkjenningen var slått av for kjøringen. La den stå på, så skriver neste kjøring en."
+
+msgid "The run wrote none: the speech recognition failed or heard nothing, and the run's log says which. Check the language of the sound and run again; where this machine has no recognition, macOS 26 brings one, or the run installs faster-whisper."
+msgstr "Kjøringen skrev ingen: talegjenkjenningen mislyktes eller hørte ingenting, og kjøringens logg sier hvilket. Sjekk lydens språk og kjør igjen; der denne maskinen ikke har gjenkjenning, har macOS 26 en med, eller kjøringen installerer faster-whisper."
+
+msgid "working -- no word for %s min, the computer may be busy"
+msgstr "arbeider -- ingen melding på %s min, datamaskinen er kanskje travel"
+
+msgid "no change for %s min -- may be stuck, please check"
+msgstr "ingen endring på %s min -- kan ha hengt seg, sjekk"
+
+msgid "is left in: %s ppm or more is rather a measuring error"
+msgstr "blir stående: %s ppm eller mer er heller en målefeil"
+
+msgid "is left in: not %s times its uncertainty"
+msgstr "blir stående: ikke %s ganger usikkerheten sin"
+
+msgid "Timing"
+msgstr "Timing"
+
+msgid "Special cases"
+msgstr "Spesialtilfeller"
+
+msgid "Transcript"
+msgstr "Transkripsjon"
+
+msgid "Writing down what is said ..."
+msgstr "Skriver ned det som blir sagt ..."
+
+msgid "Mixing the tracks for the transcript"
+msgstr "Mikser sporene for transkripsjonen"
+
+msgid "It is being written down in the background; they open by themselves when it is done."
+msgstr "Den skrives i bakgrunnen; innstillingene åpner seg selv når den er ferdig."
+
+msgid "No Secret Service keyring answered, so nothing was stored. Off Mac and Windows the key is kept in the desktop's keyring, through the secret-tool command from libsecret. It does not go into a file."
+msgstr "Ingen Secret Service-nøkkelring svarte, så ingenting ble lagret. Utenfor Mac og Windows ligger nøkkelen i skrivebordets nøkkelring, via kommandoen secret-tool fra libsecret. Den havner ikke i en fil."
+
+msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
+msgstr "Forarbeid -- lese lyd, beregne envelopekurver og skrive ned det som blir sagt:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Oversiktsbilde i kantene: bare fra %s -- det i starten var kortere enn det korteste klippet og gikk opp i det neste"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Oversiktsbilde i kantene: bare til %s -- det på slutten var kortere enn det korteste klippet og gikk opp i det forrige"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Oversiktsbilde i kantene: ingen -- begge var kortere enn det korteste klippet og gikk opp i naboene sine"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Der \"Ingen snakker\" er satt til å holde en kort pause, endrer en pause opptil denne lengden ingenting, og en lengre går til oversiktsbildet. Der \"Gjenkjenning usikker\" er satt til \"Ikke noe kamerabytte\", går også et usikkert parti som er lengre enn dette, til oversiktsbildet. Over to sekunder begynner bildet å bli stående på noen som tier, i mer enn fem sekunder."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s utelatt -- %s fra de andre blokkene ifølge tidskoden, for langt fra hverandre til ett opptak"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Oversiktsbilde i kantene: hele klippet er oversiktsbildet"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  forkortet til høyst %s hver -- det eneste innlegget går fra %s til %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s i starten har ikke noe bilde og utelates"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s på slutten har ikke noe bilde og utelates"

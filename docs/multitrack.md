@@ -289,13 +289,16 @@ report appears in one piece when it is finished, under one shared bar.
 program forgets its envelope and deletes the audio already extracted.
 
 Envelopes otherwise stay in the system cache folder
-(`~/Library/Caches/videopodcast-magic/envelopes/`, on Windows
-`%LOCALAPPDATA%`), keyed to the source file's path, size and change time.
-At start the program clears out anything older than thirty days.
+(`~/Library/Caches/videopodcast-magic/envelopes/`, on Windows under
+`%LOCALAPPDATA%`, on Linux under `~/.cache`), keyed to the source file's
+path, size and change time. At start the program clears out anything
+older than thirty days; the thirty days are fixed, and no switch sets
+them.
 
 ### Setting the time window
 
-By default the window reaches as far as the cameras. To set the start:
+By default the window reaches as far as the cameras, and In point and
+Out point stay empty until somebody sets them. To set the start:
 
 1. On the **Assignment & time window** tab, click the row of the file.
    It goes into the **Preview player**.

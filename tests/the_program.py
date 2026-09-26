@@ -292,8 +292,9 @@ def every_run_line(every):
 
 # How many *_langsN tests a family of window tests is cut into for a
 # release. One number for every family: each slice has to stay well
-# under run.sh's 300 s on the slowest builder job.
-LANGUAGE_PARTS = 4
+# under run.sh's 300 s on the slowest builder job, and a quarter of the
+# languages took up to 310 s there (release run, 26.9.2026).
+LANGUAGE_PARTS = 8
 
 
 def language_part(every, test_file):

@@ -495,7 +495,10 @@ measured, one line per file with how far each has got. A line goes as
 its file is done, and the bar itself a moment after the last one. It
 shows the prework -- reading the audio and computing the envelopes --
 which is the same work the bar beside **Start** carries, here file by
-file.
+file. Once the time axis stands, one more line joins them,
+**Transcript**: the window writing down what is said, which the four
+settings of the camera cut that need the words wait for
+([Camera cut](camera-cut.md)).
 
 **Production name**, **Language of the sound** and **Project type**
 stand in one row. Where the window is too narrow for all three, the row
@@ -506,10 +509,10 @@ tab past the window's edge, and a caption never parts from its field.
 spoken in the recording, preset from the system language. It does two
 things: it becomes the tag of the written audio track, and the
 recognition on this machine is told to expect that language. "not set"
-leaves the track untagged and lets the recognition work the language
-out for itself. The list holds only languages the recognition here also
-knows.
-[The transcript is made here](auphonic.md#the-transcript-is-made-here)
+leaves the track untagged, and the recognition then takes the system
+language on macOS and guesses from the sound everywhere else. The list
+holds only languages the recognition here also knows.
+[The three transcript files](speech.md#the-three-transcript-files)
 says what the recognition writes, and [Speech recognition and speaker
 separation](speech.md) which way it takes on which machine.
 
@@ -549,8 +552,9 @@ balance between the speakers is kept. Five entries:
 - **-23 LUFS (EBU R128, broadcast)**
 - **Take from source files**
 
-A new project starts on -16 LUFS. The window remembers the entry last
-chosen, and a loaded project file beats that memory.
+A number nearer to zero is louder. A new project starts on -16 LUFS.
+The window remembers the entry last chosen, and a loaded project file
+beats that memory.
 **Take from source files** adjusts nothing at all: auphonic.com goes on
 doing what its preset says, and without auphonic.com the sound stays as
 it is in the source files -- the file comes out byte for byte the same.
@@ -720,6 +724,25 @@ paths, with Multitrack and without:
 A stage that will not happen is not in the list at all, so the bar holds
 no share back for it. If a run stops, the line says which stage it
 stopped in.
+
+**A run that goes quiet is not left to guesswork.** Some steps work for
+minutes without a word -- a long recording being separated, a slow
+machine. Where the line has said nothing new for two minutes and the
+program can still see the work moving -- a helper using the processor,
+a file being written that still grows, an answer from auphonic.com --
+it reads **working -- no word for 3 min, the computer may be busy**.
+Where nothing at all has moved for five minutes it reads **no change
+for 5 min -- may be stuck, please check**, in the warning colour. While
+the run waits for somebody to answer a question, nothing is judged.
+
+**Stop is there in every phase of a run.** Beside **Start** the button
+**Stop** stands as long as something runs: while a start is still
+waiting for the camera audio (**Camera audio, 2 to go ...**), during
+the run itself, and while **Create Resolve project** is at work. Pressed
+during that wait it calls off only the start; the camera audio goes on
+being made, and a later **Start** finds it ready. Pressed during a run,
+the run ends as soon as it can do so without leaving a file half
+written; until then the button reads **Stopping ...**.
 
 **The line reads as a sentence, and never as a name the program uses
 inside itself.** While a recording is being separated into speakers it
