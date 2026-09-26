@@ -16,17 +16,22 @@ ByFile = PROGRAM.ByFile
 COLOURS = PROGRAM.COLOURS
 T = PROGRAM.T
 TN = PROGRAM.TN
-channel_rows_build = PROGRAM.channel_rows_build
+blocks_facts = PROGRAM.blocks_facts
+channel_count = PROGRAM.channel_count
+channel_facts_name = PROGRAM.channel_facts_name
+channel_joins = PROGRAM.channel_joins
 every_audio_block = PROGRAM.every_audio_block
 field_bind = PROGRAM.field_bind
 has_sound = PROGRAM.has_sound
 hint = PROGRAM.hint
+joined_channels = PROGRAM.joined_channels
 label = PROGRAM.label
 loudness_field_build = PROGRAM.loudness_field_build
 make_drop_area = PROGRAM.make_drop_area
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_label = PROGRAM.path_label
+probe_has = PROGRAM.probe_has
 speaks_as = PROGRAM.speaks_as
 wrap_row = PROGRAM.wrap_row
 
@@ -288,3 +293,166 @@ class FilesSheet(QtWidgets.QWidget):
         PROGRAM.handover_follows(
             self.state, [c[0] for c in self.model.camera_lines], True)
         self.after_folder()
+
+
+def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
+                       channel_choice, channel_node, channels_arrived,
+                       clip_kind_values, items, remembered, split_files):
+    """Build the channel rows under one recording.
+
+    Here and not in the window because it holds no state: what it needs
+    comes in as arguments, in the order the window has them.
+    """
+    api_key = os.path.abspath(path)
+    channel_node[api_key] = (node, path)
+    row = blocks_of.get(api_key) or [api_key]
+    # Where the list stands, kept over the rebuild: ticking a channel
+    # replaces every row below the file, and the list would jump to top.
+    bar_was = items.verticalScrollBar().value()
+    QtCore.QTimer.singleShot(
+        0, lambda: items.verticalScrollBar().setValue(bar_was))
+    for k in range(node.childCount() - 1, -1, -1):
+        kid = node.child(k)
+        if kid.data(0, Qt.UserRole + 2) == "channel":
+            node.removeChild(kid)
+    try:
+        how_many = channel_count(path)
+    except Exception:
+        how_many = 1
+    if how_many <= 1:
+        return
+
+    spot = [0]
+
+    def channel_row(text, value):
+        kid = QtWidgets.QTreeWidgetItem([text, "", value])
+        kid.setData(0, Qt.UserRole + 2, "channel")
+        node.insertChild(spot[0], kid)
+        spot[0] += 1
+        return kid
+
+    if not all(probe_has(channel_facts_name(), x) for x in row):
+        channel_row(T('      %s channels') % number_text(how_many, 0),
+                    T('measurement running ...'))
+        return
+    # Over the whole recording: the first block can be the soundcheck,
+    # and then it says nothing about what the channels carry.
+    facts = blocks_facts(row)
+    silent = list(facts.get("silent") or [])
+    picked = channel_choice.get(api_key) or {}
+    # What the file is decides before the measurement does, and only for
+    # a two channel intro or outro -- see kind_makes_stereo.
+    of_kind = clip_kind_values.get(api_key)
+    kind = (of_kind.get() if of_kind is not None
+            else remembered.get("kind:" + api_key))
+    joined = joined_channels(facts, picked, kind)
+    judged = {k: (stereo, sure, why)
+              for k, stereo, sure, why in channel_joins(facts, kind)}
+    # One row per channel; the tick says "this one and the next make one
+    # stereo track". On a mixer, channels 2 and 3 can be the pair.
+    second = {k + 1 for k in joined}
+    for k in range(how_many):
+        kid = channel_row(T('      Channel %d') % (k + 1), "")
+        if k in second:
+            kid.setText(2, T('with Channel %d one stereo track') % k)
+            continue
+        if silent[k:k + 1] == [True]:
+            kid.setText(2, T('unused input -- ignored'))
+            continue
+        if k >= how_many - 1 or silent[k + 1:k + 2] == [True]:
+            kid.setText(2, T('a track of its own'))
+            continue
+        stereo, sure, why = judged.get(k, (False, False, ""))
+        measured_stereo = stereo         # before any hand overrides it
+        if picked.get(k) is not None:
+            stereo = bool(picked[k])
+            why = T('set by hand -- overrides the measurement')
+            sure = True
+        # The tick and its reason side by side in the wide column: in the
+        # narrow one the word beside the box is cut off after one letter.
+        beside = QtWidgets.QWidget()
+        in_a_row = QtWidgets.QHBoxLayout(beside)
+        in_a_row.setContentsMargins(0, 0, 0, 0)
+        in_a_row.setSpacing(8)
+        # An offer, not a statement: a channel already spoken for says
+        # "with Channel N one stereo track" instead.
+        box = QtWidgets.QCheckBox(
+            T('join with Channel %d') % (k + 2))
+        box.setChecked(bool(joined.get(k)))
+        said = PROGRAM.label(why if sure else T('uncertain -- %s') % why,
+                             COLOURS["quiet"])
+        # German writes the finding half as long again as English, so it
+        # wraps: what would run past the edge is the finding itself.
+        said.setWordWrap(True)
+        in_a_row.addWidget(box)
+        in_a_row.addWidget(said, 1)
+        PROGRAM.hint(box, T('On makes one stereo track out of this channel '
+                            'and the next.\nThe next one then has no tick of '
+                            'its own -- it is spoken for.\nWhat was measured '
+                            'is in the line beside it.'))
+
+        def chosen(on, file_path=api_key, number=k,
+                   measured=measured_stereo):
+            # Only a real override is remembered: ticking a pair the
+            # measurement already found puts the row back to measured.
+            by_hand = channel_choice.setdefault(file_path, {})
+            if bool(on) == bool(measured):
+                by_hand.pop(number, None)
+            else:
+                by_hand[number] = bool(on)
+            # The cut tracks follow the old answer, so every block goes:
+            # block one's channel 1 beside block two's 1+2 otherwise.
+            for block in blocks_of.get(file_path) or [file_path]:
+                split_files.pop(block, None)
+            QtCore.QTimer.singleShot(
+                0, lambda: channels_arrived(file_path))
+
+        box.toggled.connect(chosen)
+        items.setItemWidget(kid, 2, beside)
+    # A moment later: the column still answers with its old width while
+    # it is saying that the width has changed.
+    def when_settled(*_a):
+        QtCore.QTimer.singleShot(
+            0, lambda: channel_rows_fit(items, Qt, QtCore, QtWidgets))
+
+    head = items.header()
+    if not head.property("channel_rows_fit"):
+        head.setProperty("channel_rows_fit", True)
+        head.sectionResized.connect(when_settled)
+    when_settled()
+
+
+def channel_rows_fit(items, Qt, QtCore, QtWidgets):
+    """Give every channel row the height its reason needs.
+
+    The reason stands in the column that takes what the others leave,
+    so its line count is known only once the window has a width.
+    Without this the wrapped line is drawn outside its row.
+    """
+    room = items.columnWidth(2)
+
+    def fit(kid):
+        beside = items.itemWidget(kid, 2)
+        said = beside.findChild(QtWidgets.QLabel) if beside else None
+        if said is None:
+            return
+        box = beside.findChild(QtWidgets.QCheckBox)
+        # The width it has; the column's only before the first layout.
+        # From the column both times, the rows creep taller each round.
+        left = said.width() or (
+            room - (box.sizeHint().width() if box else 0) - 8)
+        tall = said.fontMetrics().boundingRect(
+            QtCore.QRect(0, 0, max(60, left), 0), Qt.TextWordWrap,
+            said.text()).height()
+        want = max(box.sizeHint().height() if box else 0, tall) + 4
+        if kid.sizeHint(2).height() != want:
+            kid.setSizeHint(2, QtCore.QSize(0, want))
+
+    def walk(node):
+        for i in range(node.childCount()):
+            kid = node.child(i)
+            if kid.data(0, Qt.UserRole + 2) == "channel":
+                fit(kid)
+            walk(kid)
+
+    walk(items.invisibleRootItem())

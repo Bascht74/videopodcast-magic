@@ -73,6 +73,54 @@ TRC_NAMES = {0: 'reserved', 1: "BT.709", 2: 'unspecified',
              17: "SMPTE ST 428-1", 18: "HLG", 21: "Apple Log"}
 
 
+# How Resolve writes the two tags in the Deliver tab depends on the version. So
+# do not bet on one spelling: try them in turn and read back what arrived.
+HDR_TAGS = {
+    "pq": (("Rec.2020", "Rec. 2020", "Rec2020"),
+           ("ST.2084", "ST2084", "PQ", "SMPTE ST 2084")),
+    "hlg": (("Rec.2020", "Rec. 2020", "Rec2020"),
+            ("HLG", "Rec.2100 HLG", "ARIB STD-B67")),
+}
+
+# The same for a delivery that is not HDR: without it an HDR project
+# puts an HDR colr box on an eight bit file. The gamma spelling that
+# lands right comes first, the others write "unspecified".
+SDR_TAGS = (("Rec.709", "Rec. 709", "Rec709"),
+            ("Rec.709", "Gamma 2.4", "Rec.709 Gamma 2.4", "Gamma2.4"))
+
+
+def plain_spelling(value):
+    """One spelling of a colour space name for both readers below.
+
+    Lower case, the dots out, runs of blanks to one, and the blank
+    between a word and its digits out -- so "Rec. 2100 ST.2084",
+    "Rec.2100 ST2084" and "REC2100 ST 2084" read the same, while the
+    blanks that make "log gamma" or "arri logc" words of their own stay,
+    because the log markers are held to word boundaries.
+    """
+    out = ""
+    for word in str(value).lower().replace(".", "").split():
+        if out and word[:1].isdigit() and out[-1].isalpha():
+            out += word
+        else:
+            out += (" " if out else "") + word
+    return out
+
+
+def hdr_says(value):
+    """Report whether a colour space name means HDR.
+
+    Read on Resolve's internal names -- "Rec.2100 ST2084" -- and on the
+    dropdown names, which carry the answer in front ("SDR Rec.2020").
+    """
+    wl = str(value).strip().lower()
+    if wl.startswith("sdr"):
+        return False
+    if wl.startswith("hdr"):
+        return True
+    return any(x in wl for x in ("2100", "st2084", "pq", "hlg", "2020"))
+
+
 def _log_in_colour_tags(tags):
     """Report whether the colour tags say the source was recorded in log."""
     for api_key, value in (tags or {}).items():

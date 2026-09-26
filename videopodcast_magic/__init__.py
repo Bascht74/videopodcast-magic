@@ -231,7 +231,12 @@ take_from(choices)
 livery = beside("livery", program=PROGRAM)
 take_from(livery)
 
+CLIP_COLOURS = livery.CLIP_COLOURS
+CLIP_COLOURS_RGB = livery.CLIP_COLOURS_RGB
+CLIP_COLOURS_RGB_DARK = livery.CLIP_COLOURS_RGB_DARK
+CLIP_COLOURS_RGB_LIGHT = livery.CLIP_COLOURS_RGB_LIGHT
 as_warn = livery.as_warn
+colour_per_camera = livery.colour_per_camera
 enable_colour_output = livery.enable_colour_output
 force_utf8_output = livery.force_utf8_output
 
@@ -704,13 +709,8 @@ take_from(project)
 resolve = beside("resolve", program=PROGRAM)
 take_from(resolve)
 
-CLIP_COLOURS = resolve.CLIP_COLOURS
-CLIP_COLOURS_RGB = resolve.CLIP_COLOURS_RGB
-CLIP_COLOURS_RGB_DARK = resolve.CLIP_COLOURS_RGB_DARK
-CLIP_COLOURS_RGB_LIGHT = resolve.CLIP_COLOURS_RGB_LIGHT
 ON_DARK = resolve.ON_DARK
 build_resolve_project = resolve.build_resolve_project
-colour_per_camera = resolve.colour_per_camera
 file_frame_rate = resolve.file_frame_rate
 frames_to_timecode = resolve.frames_to_timecode
 known_frame_rate = resolve.known_frame_rate
