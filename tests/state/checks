@@ -187,7 +187,10 @@ run_simple_path_agrees	26
 run_space_has_margin	17
 run_starter_arch_fits	30
 run_stays_local	20
+run_stop_heard_midway	13
+run_stop_heard_midway 12	0
 run_stop_names_why	23
+run_stop_passes_through	9
 run_switch_changes_it	12
 run_switch_has_effect	8
 run_sync_only_no_cut	20
@@ -358,6 +361,7 @@ voice_split_names_fault	7
 voice_tracks_read_once	4
 voice_turns_found	6
 voice_words_intact	48
+voice_zero_all_cameras	4
 window_all_come_up	6
 window_amounts_grouped	10
 window_answers_arrive	39
@@ -376,6 +380,7 @@ window_captions_langs7	60
 window_captions_langs8	60
 window_choices_refit	4
 window_clock_sound_said	7
+window_crash_said 3	0
 window_cut_colours	8
 window_cut_tab_by_voice	8
 window_dark_follows	5
@@ -390,6 +395,7 @@ window_hears_while_split	8
 window_idle_bar_hidden	6
 window_key_off_line	6
 window_marks_come_back	6
+window_marks_moved_grey	7
 window_marks_take_spot	27
 window_menu_greys_along	27
 window_no_full_screen	5
@@ -439,7 +445,3 @@ window_voice_audio_heard	6
 window_words_caught_up	23
 window_zero_as_run	10
 window_zoom_stays_in	32
-voice_zero_all_cameras	4
-run_stop_heard_midway 12	
-window_crash_said 3	
-window_marks_moved_grey	7
