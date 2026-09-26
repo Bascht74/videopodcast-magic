@@ -448,3 +448,5 @@ window_zero_as_run	14
 window_zoom_stays_in	32
 time_phase_late_placed	2
 window_stop_what_runs	5
+run_cam_fault_no_half 8	
+sound_cameras_carry_cut 9	
