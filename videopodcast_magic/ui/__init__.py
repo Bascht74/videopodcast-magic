@@ -1657,9 +1657,15 @@ def broken_off_report(where, results):
           'part of a run, not a result.')])
 
 
-def break_off_arm(button):
-    """Put the button back the way it was, for the run about to start."""
-    stop_forget()
+def break_off_arm(button, run=True):
+    """Put the button back the way it was, for the run about to start.
+
+    With *run* false only the button: a start still waiting has no run
+    to forget or to watch, and the prework's children are not its own.
+    """
+    if run:
+        stop_forget()
+        PROGRAM.RUN_VITALS.begin()
     button.setEnabled(True)
     button.setText(T('Stop'))
     button.setVisible(True)
@@ -1709,6 +1715,7 @@ def make_log_writer(state, post):
     way through, so the button that opens the result folder has a target.
     """
     def write(text):
+        PROGRAM.RUN_VITALS.heard(text)
         for line in text.splitlines():
             path = line.strip()
             if os.path.isabs(path) and os.path.exists(path):
@@ -1775,6 +1782,7 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         sys.argv, PROGRAM.RUN_KEY = old_argv, ""
         PROGRAM.OUTPUT_SINK = None
         PROGRAM.ASK_SINK = PROGRAM.PROGRESS_SINK = None
+        PROGRAM.RUN_VITALS.end()
     # However it ended, nothing of it is still running.
     for name in list(run_step_order):
         bridge_emit(bridge.run_step, name, 1.0)
