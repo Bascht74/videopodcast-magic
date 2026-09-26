@@ -8,10 +8,10 @@ it was cut out of, so the program is handed in and bound below by name.
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. Five names of
+# What this piece uses out of the program, bound once. Four names of
 # the window stay below the seam and are read through PROGRAM where
-# they are used: RESTART_ASK, _qt_widgets, language_of_system,
-# measuring_stop and window_title.
+# they are used: RESTART_ASK, _qt_widgets, language_of_system and
+# window_title.
 
 ByFile = PROGRAM.ByFile
 FILE_FORMAT = PROGRAM.FILE_FORMAT
@@ -27,7 +27,6 @@ json = PROGRAM.json
 keep_setting = PROGRAM.keep_setting
 loudness_last = PROGRAM.loudness_last
 os = PROGRAM.os
-preset_list_bring = PROGRAM.preset_list_bring
 probe_warm = PROGRAM.probe_warm
 settings = PROGRAM.settings
 speakers_all_from_project = PROGRAM.speakers_all_from_project
@@ -317,18 +316,14 @@ def project_type_question(window):
 
 def make_project_file(QtWidgets, window, state, model, report, write,
                       axis_file, axis_store, project_collect, project_move,
-                      settings_extend, folder_show, folder_pick, items_fresh,
-                      window_enable, mode_toggled, player_follow_up,
-                      plan_wipe, prework_clean_up, split_stop, split_run,
-                      preview_compute, presets_wanted_now, presets_filter,
-                      resolve_button_check, result_button_check):
+                      settings_extend):
     """The project file: write it, close it, open it again.
 
     One maker and not three functions, because the three are one theme
     and answer each other: project_new is the one list of what belongs
     to a production, and project_open runs it before laying the file's
-    answers on top. What the production holds is read off *model*; the
-    rest are the window's, handed in once its log writer stands.
+    answers on top. What the production holds is read off *model*;
+    what the window has to do about it is said through its signals.
     """
     log = window.output_sheet.log
 
@@ -369,9 +364,7 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         puts the file's answers on top, so the two cannot drift apart.
         Anything left standing here is carried into the next production.
         """
-        PROGRAM.measuring_stop(state, [p for p, _a in model.files],
-                               prework_clean_up, split_stop,
-                               split_run, plan_wipe)
+        window.material_leaving.emit([p for p, _a in model.files])
         state["closing"] = False
         window.tab_gone(window.output_sheet)
         log.clear()
@@ -431,12 +424,7 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         model.edge_on.set(True)
         model.multitrack.set(False)
         model.project_type.set("")
-        items_fresh()
-        folder_show()
-        window_enable()
-        resolve_button_check()
-        result_button_check()
-        preview_compute()
+        window.project_closed.emit()
 
     def project_open(file_path=""):
         """Read a project file back into the window, as it was saved.
@@ -494,7 +482,7 @@ def make_project_file(QtWidgets, window, state, model, report, write,
         # production's file beside this one, and the name moved it onto
         # this one's. So that file is forgotten before the name is set.
         model.out_folder.set(d.get("out_folder") or "")
-        folder_show()
+        window.folder_changed.emit()
         state.pop("project_last", None)
         model.production.set(d.get("production") or "")
         # The file opened is the file saved into. One named otherwise
@@ -549,12 +537,12 @@ def make_project_file(QtWidgets, window, state, model, report, write,
                                    [p for p, a in present if a == "video"])
         if d.get("multitrack"):
             model.multitrack.set(True)
-        preset_list_bring(state, presets_wanted_now, presets_filter)
-        items_fresh()
+        window.presets_wanted.emit()
+        window.files_changed.emit()
         if model.multitrack.get():
             # The tick fires nothing where it already stood, so the later
             # tabs are told by hand that the project is open.
-            mode_toggled()
+            window.mode_changed.emit()
         state["results"] = []
         for name in SPEAKER_STATE:
             state.pop(name, None)
@@ -573,12 +561,9 @@ def make_project_file(QtWidgets, window, state, model, report, write,
             log.append_text(as_head(project_opened_note(target)))
         else:
             state["result_folder"] = None
-        resolve_button_check()
-        result_button_check()
-        preview_compute()
-        # The boundaries are back, so fetch the file containing them into
-        # the player, or the two jump buttons go nowhere after opening.
-        player_follow_up(spot_also=True)
+        # Among its answers the player fetches the file the boundaries
+        # lie in, or the two jump buttons go nowhere after opening.
+        window.project_opened.emit()
         if missing:
             report(T('Project'), T('These files no longer exist:\n  ')
                    + "\n  ".join(missing[:12]))
@@ -599,8 +584,8 @@ def make_project_file(QtWidgets, window, state, model, report, write,
             QtCore.QTimer.singleShot(0, lambda: project_open(again))
 
     PROGRAM.RESTART_ASK[0] = lambda: restart_question(
-        window, state, model.files, model.out_folder, report, folder_pick,
-        axis_file, axis_store)
+        window, state, model.files, model.out_folder, report,
+        window.folder_wanted.emit, axis_file, axis_store)
     PROGRAM.PROJECT_TYPE_ASK[0] = lambda: project_type_question(window)
     project_open_after_restart()
     return project_write, project_new, project_open

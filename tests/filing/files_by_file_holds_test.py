@@ -157,10 +157,10 @@ for folding in (False, True):
 FOLD[0] = False
 print("\n3. The dictionaries that hold files are of that kind")
 HOLD_FILES = [
-    ("gui", "blocks_of"), ("gui", "recording_of"),
+    ("ProjectModel", "blocks_of"), ("ProjectModel", "recording_of"),
     ("ProjectModel", "join_to"), ("ProjectModel", "channel_choice"),
     ("gui", "channel_node"),
-    ("gui", "video_kind_again"), ("gui", "split_files"),
+    ("gui", "video_kind_again"), ("ProjectModel", "split_files"),
     ("gui", "lines_node"), ("gui", "prework_node"),
     ("gui", "prework_pending"), ("gui", "tree_open"),
     ("ProjectModel", "clip_kinds"), ("ProjectModel", "audio_use"),

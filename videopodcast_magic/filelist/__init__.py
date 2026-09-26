@@ -204,22 +204,22 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
 
 
 def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
-                      report, items, item, preflight_line, preflight_fill_in,
-                      preflight_kick_off, blocks_of, recording_of,
+                      report, preflight_fill_in, preflight_kick_off,
                       lines_node, prework_node, video_kind_again,
-                      channel_rows_show, audio_use_now, video_choices_show,
-                      buttons_check, show_weak, assignment_fresh,
-                      finished_tracks_check, prework_clean_up):
+                      channel_rows_show, audio_use_now, video_choices_show):
     """The file list changing: adding, removing, and reading it again.
 
     One name for five because they are one theme and answer each other:
     take_paths and remove change what the model's files hold, and both
     end in items_fresh, which builds every row again and asks for a
-    check. The drop area, the bar and its button are the first sheet's.
+    check. The list, the drop area and the bar are the first sheet's;
+    what the rest of the window does about a change, it hears as signals.
     """
     sheet = window.files_sheet
     drop_area, remove_button = sheet.drop_area, sheet.remove_button
-    bar_env_curve = sheet.bar
+    bar_env_curve, items, item = sheet.bar, sheet.items, sheet.item
+    preflight_line = sheet.preflight_line
+    blocks_of, recording_of = model.blocks_of, model.recording_of
 
     def join_row_show(node, path, heads):
         """Offer to put this recording into another one.
@@ -249,7 +249,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
             else:
                 model.join_to.pop(file_path, None)
             QtCore.QTimer.singleShot(0, items_fresh)
-            QtCore.QTimer.singleShot(0, assignment_fresh)
+            QtCore.QTimer.singleShot(0, window.assignment_due.emit)
             QtCore.QTimer.singleShot(0, preflight_kick_off)
 
         box.currentIndexChanged.connect(chosen)
@@ -361,11 +361,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
         # wrote it, so the folder stays empty until it is chosen.
         if model.files and not model.production.get().strip():
             model.production.set(guess_production_name(model.files[0][0]))
-        show_weak()
-        finished_tracks_check()
-        buttons_check()
-        window.settings_show()
-        assignment_fresh()
+        window.files_redrawn.emit()
 
     def take_paths(new_one, quiet=False):
         """Take paths into the list, from the file dialog or dragged in.
@@ -464,13 +460,14 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, model, ask,
         if not single_block:
             for p in list(gone):
                 model.no_join.difference_update(recording_family(p))
-        prework_clean_up(gone)
+        window.files_leaving.emit(gone)
         items_fresh()
         # After the tables are built again, not before: building them
         # writes back every row they hold, and the row that has just gone
         # is among them until then. This store feeds the project file.
         remembered_forget(model.remembered, gone)
 
+    window.files_changed.connect(items_fresh)
     return items_fresh, take_paths, add_files, remove
 
 #--------------------------------- A recording of several blocks

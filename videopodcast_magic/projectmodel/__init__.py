@@ -16,7 +16,9 @@ ByFile = PROGRAM.ByFile
 FileSet = PROGRAM.FileSet
 TYPE_CONTENT = PROGRAM.TYPE_CONTENT
 Value = PROGRAM.Value
+as_hms = PROGRAM.as_hms
 os = PROGRAM.os
+parse_time_point = PROGRAM.parse_time_point
 
 
 class ProjectModel(object):
@@ -52,6 +54,13 @@ class ProjectModel(object):
         # Not a second store: the same object both times.
         self.audio_use = ByFile()
         self.channel_choice = ByFile()   # file -> {pair: stereo yes/no}
+        # Which blocks make up which recording. The channels are judged
+        # over the whole recording, not its first block -- blocks_facts.
+        self.blocks_of = ByFile()
+        self.recording_of = ByFile()
+        # file -> [(track file, label)]. An empty list means looked at and
+        # whole; a missing entry means not looked at yet.
+        self.split_files = ByFile()
         # Blocks taken out of a recording by hand stand on their own from
         # then on. Only removing the whole recording clears its marks.
         self.no_join = FileSet()
@@ -78,6 +87,33 @@ class ProjectModel(object):
         return [[target, source]
                 for source, target in sorted(self.join_to.items())
                 if target and target != source]
+
+    def files_for_run(self):
+        """The file list a run is given, with tracks in place of sources.
+
+        Only here, not in the list the project stores: that one keeps the
+        files as they lie on disc. The tracks are cut afresh each time.
+        """
+        out = []
+        for p, kind in self.files:
+            pieces = (self.split_files.get(p) or []
+                      if kind == "audio" else [])
+            if pieces:
+                out += [(x, "audio") for x, _label in pieces]
+            else:
+                out.append((p, kind))
+        return out
+
+    def window_length(self):
+        """Return the length of the window, empty if none is set."""
+        try:
+            a, _ = parse_time_point(self.in_point.get(), 30.0)
+            b, _ = parse_time_point(self.out_point.get(), 30.0)
+        except Exception:
+            return ""
+        if a is None or b is None or b <= a:
+            return ""
+        return as_hms(b - a)
 
     def clip_kind_value(self, path):
         """One video file's Kind -- one value, and two places show it."""
