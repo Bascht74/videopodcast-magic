@@ -186,7 +186,7 @@ der das Wort erklärt, steht vorn.
 * **Übergabedatei (`_resolve.json`)**: `camera-cut`, „Was die Projektdatei
   behält“
 * **Übersprechen**: `preflight`, „Wie der Bericht das Übersprechen gegen die
-  3:1-Regel misst“; `camera-cut`, „Sprecher ohne Auphonic messen“
+  3:1-Regel misst“; `camera-cut`, „Sprecher aus den Spuren messen“
 * **Uhrengang**: `overview`, „Was es einem abnimmt“; `command-line`, „Was
   mit Ton und Bild geschieht“; `interface`, „Die vier Reiter“
 * **Update**: `interface`, „Sich selbst aktuell halten“;

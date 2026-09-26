@@ -1865,8 +1865,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
               segment_list=None):
     """Place the processed tracks onto the cameras.
 
-    Without *segment_list* the speakers are worked out here: the tracks
-    from auphonic.com are cleaner to measure than the raw ones.
+    Without *segment_list* the speakers are worked out here, off the raw
+    tracks on the axis; what auphonic.com returned is only the sound.
     """
     step_begin("cameras")
     sync = sync_only(args)

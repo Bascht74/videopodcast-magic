@@ -2915,14 +2915,13 @@ def microphones_apart_of_run(args, tracks):
     return apart
 
 
-def separation_source_of_run(args, tracks, video_paths, mixable=False,
-                             window=()):
+def separation_source_of_run(args, tracks, video_paths, window=()):
     """Which recording a run without a window takes apart by voice.
 
     The same rule the window follows, on the same function. Which cameras
     were ticked by hand is not on the command line, so all are offered.
-    With *mixable* microphones that hear each other too well are added
-    into one file, which becomes the source; *window* names it.
+    Microphones that hear each other too well are added into one file,
+    which becomes the source; *window* names it.
     """
     from_cameras = bool(getattr(args, "_camera_audio", None))
     recordings, of_track = [], {}
@@ -2953,12 +2952,12 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
         return speaker_mix_file(picked, made_of + [str(x) for x in window])
 
     apart = (microphones_apart_of_run(args, tracks)
-             if mixable and not from_cameras else None)
+             if not from_cameras else None)
     return speaker_source_pick([] if from_cameras else recordings,
                                video_paths or (),
                                camera_audio=from_cameras,
                                apart_db=apart,
-                               mix=mix if mixable else None)
+                               mix=mix)
 
 
 def voices_reported(segments):
@@ -2997,16 +2996,14 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             and not SPEAKER_SPLIT_OFF
             and not getattr(args, "no_speakers_local", False)
             and not getattr(args, "speakers_local", None)
-            and not getattr(args, "_camera_audio", None)
-            and bool(getattr(args, "without_auphonic", False))
-            and not getattr(args, "auphonic_done", None)):
+            and not getattr(args, "_camera_audio", None)):
         # The window picks its source without knowing how far the
         # microphones stand apart, so it takes one recording: below
         # MICROPHONES_APART_DB that names 37.5 % right against 97.6 %.
         apart = microphones_apart_of_run(args, tracks)
         if apart is not None and apart < MICROPHONES_APART_DB:
             source, why = separation_source_of_run(
-                args, tracks, video_paths, mixable=True, window=(t0, t1))
+                args, tracks, video_paths, window=(t0, t1))
             if source and why == "microphones mixed":
                 dropped = apart
             else:
@@ -3017,13 +3014,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         if getattr(args, "speakers_local", None):
             source = os.path.abspath(args.speakers_local)
         elif not SPEAKER_SPLIT_OFF:
-            # Only where the recordings stay raw -- after auphonic.com
-            # the bleed is already out of them.
+            # With or without auphonic.com: the raw recordings are mixed,
+            # which named 99 % right against 80-83 % for the returned ones.
             source, why = separation_source_of_run(
-                args, tracks, video_paths,
-                mixable=bool(getattr(args, "without_auphonic", False))
-                and not getattr(args, "auphonic_done", None),
-                window=(t0, t1))
+                args, tracks, video_paths, window=(t0, t1))
     if source:
         print(as_head(T('\nSEPARATING THE SPEAKERS')))
         if dropped is not None:
@@ -3146,10 +3140,11 @@ def speakers_for_the_cut(args, tracks):
     mics, box = [], []
     if left or (where_from and len(tracks) > 1):
         # One reading for both uses, over every track: a track left out
-        # would hear its neighbour and count that as speech.
+        # would hear its neighbour and count that as speech. The raw
+        # tracks, never the returned ones: auphonic.com is sound only.
         try:
             mics = speakers_from_tracks(
-                [(track["name"], track.get("ready") or track["axis"], 0.0)
+                [(track["name"], track["axis"], 0.0)
                  for track in tracks], note=print, grid=box)
         except Exception as e:
             print(as_warn(T('  The tracks were not measured, so %s is in '
