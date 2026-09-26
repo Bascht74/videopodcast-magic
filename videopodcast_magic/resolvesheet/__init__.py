@@ -14,25 +14,356 @@ PROGRAM = PROGRAM
 # Bound above the seam: all of them are read before the window is.
 COLOURS = PROGRAM.COLOURS
 T = PROGRAM.T
+camera_offset = PROGRAM.camera_offset
+cameras_in_track_order = PROGRAM.cameras_in_track_order
+checkbox_bind = PROGRAM.checkbox_bind
+cut_fields_build = PROGRAM.cut_fields_build
+cut_title_of = PROGRAM.cut_title_of
+file_timecode = PROGRAM.file_timecode
+gui_log = PROGRAM.gui_log
+hint = PROGRAM.hint
 label = PROGRAM.label
+make_band_and_player = PROGRAM.make_band_and_player
+make_preview = PROGRAM.make_preview
+make_resolve_check = PROGRAM.make_resolve_check
+os = PROGRAM.os
+parse_timecode = PROGRAM.parse_timecode
+preview_out_of_date = PROGRAM.preview_out_of_date
+question_note_build = PROGRAM.question_note_build
+speakers_still_wanted = PROGRAM.speakers_still_wanted
 speech_table_fill = PROGRAM.speech_table_fill
+stack_when_narrow = PROGRAM.stack_when_narrow
+video_facts = PROGRAM.video_facts
+voice_suggest_round = PROGRAM.voice_suggest_round
+wide_note_build = PROGRAM.wide_note_build
+wide_settings_grey = PROGRAM.wide_settings_grey
 
-# scroll_sheet_build is the window's and stands below the line this file
-# is read at, so it is asked as PROGRAM.scroll_sheet_build at the call.
+# The window's own stand below the line this file is read at, so each is
+# asked as PROGRAM.<name> at the call: scroll_sheet_build, sync_note_build,
+# choice_boxes_even, unless_sync and MIX_TRACK_ALIASES.
+
+
+def audio_for_cut(d, cameras, offset, done):
+    """Return the audio to run under the camera cut: (file, offset).
+
+    Preferably the finished overall mix from auphonic.com (*done*, name
+    -> file): at delivery level, with its timecode, and what the cut
+    timeline gets. Failing that the camera file carrying the mix as its
+    first audio track -- quieter. A speaker camera would bring one voice.
+    """
+    mix = next((done[n] for n in PROGRAM.MIX_TRACK_ALIASES
+                if n in done), None)
+    origin = d.get("start_s")
+    if mix and origin is not None:
+        try:
+            # With the measured frame rate, for the same reason as
+            # in camera_place: the frames of a timecode are frames.
+            tc = file_timecode(mix, max(1.0, float(
+                d.get("fps_measured") or d.get("fps") or 30.0)))
+        except Exception:
+            tc = None
+        if tc is not None:
+            # The same computation as for the cameras: position in the file
+            # = programme time minus offset.
+            return mix, float(tc) - float(origin)
+    first = (cameras_in_track_order(cameras) or [{}])[0]
+    return first.get("file"), offset.get(first.get("track"), 0.0)
+
+
+def player_load_cut(cut_player, cut_band, state, numbers, prepared_tracks,
+                    preview_file):
+    """Feed the player with the cut, or with a single file.
+
+    *prepared_tracks* and *preview_file* are asked only when needed:
+    the finished tracks for the sound under a cut, the file for none.
+    """
+    if not hasattr(cut_player, "set"):
+        return
+    d = state.get("cut_data")
+    if numbers and numbers.get("cut") and d:
+        cameras = [x for x in (d.get("cameras") or []) if x.get("file")]
+        offset = camera_offset(cameras, d.get("start_s"),
+            max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0)))
+        files_per_track = {x["track"]: x["file"] for x in cameras}
+        if files_per_track:
+            end = max(b for _a, b, _w in numbers["cut"])
+            audio_file, audio_offset = audio_for_cut(d, cameras, offset,
+                                                     prepared_tracks())
+            cut_player.set(
+                numbers["cut"], files_per_track, offset,
+                audio_file, audio_offset,
+                0.0, end, d.get("start_s"),
+                numbers.get("wide_shots"), numbers.get("colours"),
+                d.get("speakers"))
+            return
+    file_path = preview_file()
+    if not file_path:
+        cut_player.set([], {}, {}, None, 0.0)
+        return
+    try:
+        duration = float(video_facts(file_path).get("duration") or 0.0)
+    except Exception:
+        duration = 0.0
+    name = os.path.basename(file_path)
+    try:
+        tc = video_facts(file_path).get("tc")
+        tc0 = parse_timecode(tc, 30.0) if tc else None
+    except Exception:
+        tc0 = None
+    cut_player.set([(0.0, duration or 1e6, name)], {name: file_path},
+                   {name: 0.0}, file_path, 0.0, 0.0, duration or None,
+                   tc0, [], {name: COLOURS["head"]})
+    # Without a cut the band stays as a position display, in one colour.
+    cut_band.set([(0.0, duration or 1.0, name)],
+                 {name: COLOURS["head"]}, duration or 1.0)
 
 
 class ResolveSheet(QtWidgets.QScrollArea):
     """Tab three: whether Resolve answers, the camera cut and its preview.
 
-    Its two columns come out of make_resolve_check, which the window
-    calls; this sheet holds the scrolling room they go into, and the
-    speaker box it builds itself.
+    Built empty with the window; cut_build fills it at the point in the
+    window's assembly where it has always been filled, so the order the
+    widgets arrive in -- and with it the focus chain -- stays. It reads
+    the production off the ProjectModel it is handed.
     """
 
     def __init__(self):
         """The scrolling sheet; what goes into it follows later."""
         QtWidgets.QScrollArea.__init__(self)
         _outside, self.room = PROGRAM.scroll_sheet_build(QtWidgets, self)
+
+    def cut_build(self, window, model, state, bridge, bridge_emit, parts):
+        """Everything on this tab, and what the window reaches for of it.
+
+        *parts* holds what the window made elsewhere and this tab uses:
+        settings_open, wide_cameras_now, prepared_tracks, player,
+        NoPlayer, split_line and the two multimedia modules. Returns the
+        Resolve box and its check, and the preview's pieces.
+        """
+        self.window, self.model, self.state = window, model, state
+        self.parts = parts
+        # Whether Resolve answers, and the box that says so, stand in
+        # make_resolve_check(). Below settings_open, which its line reaches.
+        (self.resolve_box, left, right,
+         self.resolve_check_run_kick_off) = make_resolve_check(
+             QtWidgets, bridge, bridge_emit, self.room,
+             parts["settings_open"])
+        # The row holding its two columns is the left one's parent layout.
+        stack_when_narrow(self, left.parent())
+        window.tabs.currentChanged.connect(self.chosen)
+        self.info_build()
+        self.settings_build(left)
+        self.forecast_build(left, right)
+        self.preview_build(bridge, bridge_emit)
+        return (self.resolve_box, self.resolve_check_run_kick_off,
+                self.cut_var, self.edge_on, self.cut_player,
+                self.preview_compute, self.preview_kick_off, self.watchdog,
+                self.wide_state_show)
+
+    def chosen(self, *_):
+        """Resolve and the speakers, on the first look at this tab.
+
+        Not twice -- a second speaker run costs minutes for nothing.
+        """
+        if self.window.tabs.currentWidget() is not self:
+            return
+        if not self.state.get("resolve_checked"):
+            self.state["resolve_checked"] = True
+            self.resolve_check_run_kick_off()
+        if self.state.get("project_type") == "sync":
+            return          # no cut, so no speakers to measure
+        if speakers_still_wanted(self.state):
+            gui_log("cut tab opened with no speakers known -- measuring")
+            self.speaker_measure()
+
+    def info_build(self):
+        """The line with In point, Out point and duration, kept up to date.
+
+        The In point and Out point are in the player on the tab before;
+        a box of their own would be the same information twice.
+        """
+        self.window_info = QtWidgets.QWidget()
+        self.window_info.setVisible(False)
+        info_row = QtWidgets.QHBoxLayout(self.window_info)
+        self.window_info_label = label("", COLOURS["value"], True)
+        info_row.addWidget(self.window_info_label)
+        self.model.in_point.listen(self.window_info_show)
+        self.model.out_point.listen(self.window_info_show)
+
+    def window_info_show(self):
+        """Write In point, Out point and duration into their line."""
+        a = self.model.in_point.get().strip()
+        b = self.model.out_point.get().strip()
+        duration = self.model.window_length()
+        self.window_info_label.setText(
+            T('In point: %s     Out point: %s     Duration: %s')
+            % (a or T('Beginning'), b or T('End'),
+               duration or T('the whole material')))
+
+    def settings_build(self, left):
+        """The left column: the notes, and the camera cut's settings grid.
+
+        The grid -- the cut fields, the wide shot tick and its two notes
+        -- is one unit in one box, so it can be regrouped in one place.
+        """
+        # Sync only: nothing on this tab is set, and one sentence says so.
+        self.sync_note = PROGRAM.sync_note_build(left)
+        # What stands in place of the camera cut: one line saying why.
+        self.without_cut_label = label(
+            T('There is no camera cut yet: it needs two people, each with a '
+              'name and a camera.\nSeparate recordings give that with the '
+              'Multitrack tick, and so does "several speakers" in the '
+              'Speaker name field of one recording --\nthe voices found there '
+              'get their camera in the table under the recordings.\nA Resolve '
+              'project is created anyway -- all cameras at their measured '
+              'places, ready for Multicam.'),
+            COLOURS["quiet"])
+        self.without_cut_label.setWordWrap(True)
+        left.addWidget(self.without_cut_label)
+        self.without_cut_label.setVisible(False)
+        self.cut_box = QtWidgets.QGroupBox(T('Camera cut'))
+        left.addWidget(self.cut_box)
+        cut_position = QtWidgets.QVBoxLayout(self.cut_box)
+        self.cut_parts = {}
+        self.cut_var = self.model.cut = cut_fields_build(cut_position,
+                                                         self.cut_parts)
+        PROGRAM.choice_boxes_even(
+            [box for _line, box in self.cut_parts.values()])
+        self.edge_on = self.model.edge_on
+        self.edge_box = checkbox_bind(QtWidgets.QCheckBox(
+            T('Wide shot for greeting at the start and farewell at the end')),
+            self.edge_on)
+        cut_position.addWidget(hint(
+            self.edge_box,
+            T('During greeting and farewell the picture stays wide.')))
+        self.wide_note = wide_note_build(label, COLOURS["quiet"])
+        self.question_note = question_note_build(label, COLOURS["quiet"])
+        for note in (self.wide_note, self.question_note):
+            cut_position.addWidget(note)
+        # The same way over as refresh_names in the window, and for the
+        # same reason: the tables ask for it before this tab is built.
+        self.state["wide_state_show"] = self.wide_state_show
+
+    def wide_state_show(self):
+        """Grey the wide shot settings where there is no wide shot.
+
+        Silent while the cut box is still being assembled: it is built
+        after the tables that ask for this.
+        """
+        if self.state.get("cut_box_there"):
+            PROGRAM.unless_sync(self.state, wide_settings_grey,
+                                self.wide_note)(
+                self.cut_parts, self.edge_box, self.wide_note,
+                bool(self.parts["wide_cameras_now"]()[0]),
+                COLOURS["quiet"], bool(self.state.get("words_there")))
+            self.preview_kick_off()
+
+    def forecast_build(self, left, right):
+        """The right column: the preview box, the cut band and its player.
+
+        With a handover file from earlier the cut is recomputed on every
+        change, so the effect of a number is seen rather than guessed.
+        The speaker box goes under the settings on the left.
+        """
+        model, state, parts = self.model, self.state, self.parts
+        self.forecast_box = QtWidgets.QGroupBox(
+            T('%s -- preview') % cut_title_of(
+                model.voice_lines, model.multitrack.get(),
+                model.assign_lines, len(model.camera_lines)))
+        # The three that stand or fall together, where the assignment can
+        # reach them: it is rebuilt before this tab exists.
+        state["cut_boxes"] = (self.cut_box, self.forecast_box,
+                              self.without_cut_label)
+        # Weighted: whatever stays free below goes into this picture.
+        right.addWidget(self.forecast_box, 1)
+        forecast_outer = QtWidgets.QVBoxLayout(self.forecast_box)
+        forecast_position = QtWidgets.QHBoxLayout()
+        forecast_outer.addLayout(forecast_position)
+        forecast_outer.setStretch(0, 0)
+        self.cut_column = QtWidgets.QVBoxLayout()
+        forecast_position.addLayout(self.cut_column)
+        # The per-camera numbers are in the legend under the cut band; the
+        # space here belongs to the picture.
+        self.preview_label = label("", COLOURS["value"])
+        self.preview_label.setTextFormat(QtCore.Qt.RichText)
+        self.preview_label.setWordWrap(True)
+        self.preview_label.setAlignment(QtCore.Qt.AlignTop)
+        self.cut_column.addWidget(self.preview_label)
+        self.cut_column.addStretch(1)
+        # Beside it: who speaks how much, in a box of this sheet's own.
+        self.speakers_build(left, state)
+        # What the project type greys or hides: the same way over as
+        # cut_boxes.
+        state["sync_parts"] = (self.sync_note, self.speaker_box,
+                               self.window.assignment_sheet.multitrack_bar,
+                               parts["split_line"])
+        (self.cut_band, self.cut_player, band_show,
+         self.preview_file) = make_band_and_player(
+            QtCore.Qt, QtCore, QtGui, QtWidgets, parts["QtMultimedia"],
+            parts["QtMultimediaWidgets"], parts["NoPlayer"], state,
+            model.files, model.assign_lines, model.clip_kinds,
+            forecast_outer, parts["player"])
+        # band_show reaches for this through state: it is built above the
+        # line that made it, so it cannot be handed over as a parameter.
+        state["player_load_cut"] = lambda numbers: player_load_cut(
+            self.cut_player, self.cut_band, state, numbers,
+            parts["prepared_tracks"], self.preview_file)
+        band_show(None)
+        left.addStretch(1)
+        # No stretch on the right: the room below belongs to the preview
+        # picture, not to empty space.
+        right.addStretch(0)
+        self.band_show = band_show
+
+    def preview_build(self, bridge, bridge_emit):
+        """The preview's computation, and the two timers that start it.
+
+        One waits a moment after a change instead of computing on every
+        keystroke; the other looks every three seconds whether a run has
+        left a handover file behind, so the preview appears by itself.
+        """
+        model, state = self.model, self.state
+        start_var, end_var = model.in_point, model.out_point
+        preview_compute, self.speaker_measure = make_preview(
+            QtCore.Qt, QtWidgets, state, bridge, bridge_emit,
+            model.assign_lines, model.camera_lines, model.voice_lines,
+            self.cut_var, self.cut_parts, self.edge_on, start_var, end_var,
+            model.multitrack, model.out_folder, model.clip_kind_value,
+            self.parts["wide_cameras_now"], model.commonest_folder,
+            self.band_show, self.speech_show, self.window_info_show,
+            self.question_note, self.cut_column, self.forecast_box,
+            self.preview_label, self.speech_title, self.speech_table)
+        # A project that only synchronises has no cut to preview.
+        self.preview_compute = PROGRAM.unless_sync(state, preview_compute,
+                                                   self.preview_label)
+        state["preview_compute"] = self.preview_compute
+        self.preview_timer = QtCore.QTimer(self.window)
+        self.preview_timer.setSingleShot(True)
+        self.preview_timer.setInterval(400)
+        self.preview_timer.timeout.connect(lambda: voice_suggest_round(
+            state, model.voice_lines, model.assign_lines, model.camera_lines,
+            start_var.get(), end_var.get(), model.speech_language.get(),
+            lambda r: bridge_emit(bridge.speakers_heard, r)))
+        self.preview_timer.timeout.connect(self.preview_compute)
+        state["preview_soon"] = self.preview_kick_off
+        for v in self.cut_var.values():
+            v.listen(self.preview_kick_off)
+        self.edge_on.listen(self.preview_kick_off)
+        start_var.listen(self.preview_kick_off)
+        end_var.listen(self.preview_kick_off)
+        self.watchdog = QtCore.QTimer(self.window)
+        self.watchdog.setInterval(3000)
+        self.watchdog.timeout.connect(self.check_for_a_cut)
+        self.watchdog.start()
+
+    def preview_kick_off(self):
+        """Compute the preview a moment from now, not on every keystroke."""
+        self.preview_timer.start()
+
+    def check_for_a_cut(self):
+        """Compute the preview when a run has left a newer handover file."""
+        if preview_out_of_date(self.state, self.model.multitrack.get()):
+            self.preview_compute()
 
     def speakers_build(self, column, state):
         """The box with who speaks how much, at the foot of *column*.
