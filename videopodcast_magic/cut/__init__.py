@@ -1940,11 +1940,10 @@ def build_camera_cut(tracks, length, camera_of, wide_shot,
     """Return the camera cut as [(from, to, camera)], without speakers."""
     return [(a, b, who) for a, b, who, _speaking
             in camera_cut_detail(tracks, length, camera_of, wide_shot,
-                                 min_len, lead_in, rules)]
+                                 min_len, lead_in=lead_in, rules=rules)]
 
 def camera_cut_detail(tracks, length, camera_of, wide_shot,
-                      min_len=MIN_EDIT_DURATION_S, lead_in=-0.3,
-                      rules=None):
+                      min_len=MIN_EDIT_DURATION_S, *, lead_in, rules=None):
     """Turn speaker segments into a camera cut list.
 
     Returns [(from, to, camera, speakers)]; *speakers* is who talks in
