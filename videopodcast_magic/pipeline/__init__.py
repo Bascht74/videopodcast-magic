@@ -814,6 +814,12 @@ def show_multitrack_plan(args, audio_paths, video_paths):
               % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
+        # Named by the function the run writes by, so a camera whose own
+        # stem is taken reads here under the name it really gets.
+        written = {path_key(v): t for v, t in camera_targets(
+            video_paths or [c["video"] for c in cameras],
+            {path_key(c["video"]): c["name"] for c in cameras},
+            args.out, args.suffix).items()}
         every = [track_name_of(e) for e in plan]
         # The same rule the writer follows: a recording gets a line of
         # its own only where no camera has a track at all, there is more
@@ -833,7 +839,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             camera_tracks = 0 if args.no_camera_audio else heard
             print("    %s  ->  %s"
                   % (os.path.basename(cam["video"]),
-                     cam["name"] + (args.suffix or "_audio") + ".mov"))
+                     os.path.basename(written.get(
+                         path_key(cam["video"]), ("", cam["name"] + (
+                             args.suffix or "_audio") + ".mov"))[1])))
             for idx, what in enumerate(
                     track_order_for_camera(own, every, singles,
                                            camera_tracks,
@@ -1739,7 +1747,47 @@ def written_before_here(folder, production):
         print(T('  The record of earlier runs here cannot be read (%s), so '
                 'everything already in place is reported.') % e)
         return set()
-    return set(path_key(c["file"]) for c in written if c.get("file"))
+    # The record stands beside the lists it was written with, so a
+    # readable one vouches for all six production files of its name.
+    return (set(path_key(c["file"]) for c in written if c.get("file"))
+            | set(path_key(p) for p in production_files(folder,
+                                                        production)))
+
+
+def production_files(folder, production):
+    """The six files a run names after its production, in *folder*."""
+    stem = os.path.join(folder, safe_filename(production or 'Production'))
+    return [stem + end for end in ("_resolve.json", "_speakers.csv",
+                                   "_speakers.edl", "_cameracut.csv",
+                                   "_cameracut.edl", "_metrics.csv")]
+
+
+def foreign_targets(targets, ours):
+    """The targets a file is lying at that this production did not make.
+
+    The one rule for writing over: the window asks about these and the
+    run marks them, while our own earlier delivery goes quietly.
+    """
+    return [t for t in targets
+            if os.path.exists(t) and path_key(t) not in ours]
+
+
+def targets_to_ask(videos, names, out, production, suffix=""):
+    """What a run would write over that the window has to ask about first.
+
+    The camera files as camera_targets names them and the six production
+    files, beside the first camera where no folder is given, the way
+    the run places them; foreign_targets decides.
+    """
+    targets = [t for _o, t in camera_targets(videos, names, out,
+                                             suffix).values()]
+    folder = (os.path.abspath(out) if out else
+              os.path.dirname(os.path.abspath(videos[0])) if videos
+              else "")
+    if folder:
+        targets += production_files(folder, production)
+    return foreign_targets(targets, written_before_here(folder, production)
+                           if folder else set())
 
 
 def replacement_lines(targets, ours):
@@ -1751,11 +1799,11 @@ def replacement_lines(targets, ours):
     everyday case, and a mark there would teach people to skip marks.
     Anything else is marked and named whole.
     """
-    out = []
+    out, strange = [], set(foreign_targets(targets, ours))
     for target in targets:
         if not os.path.exists(target):
             continue
-        if path_key(target) in ours:
+        if target not in strange:
             out.append(T('  %s is there from an earlier run of this '
                          'production and is replaced.')
                        % os.path.basename(target))

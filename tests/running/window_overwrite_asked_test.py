@@ -3,10 +3,11 @@
 
 One recording and one camera already called B_camera_audio.mov, written
 into its own folder under the typed name B_camera: the run steps aside
-to B_camera_audio_2.mov. That file lies there, and so do three the run
-never writes. The question has to name the first and none of the rest.
-Start is pressed twice: No starts nothing, and Yes starts the run,
-gui_run_loop stood in for so that nothing is computed.
+to B_camera_audio_2.mov. That file lies there, a list of the production
+nobody here made, and three names the run never writes. The question
+names the first two and none of the rest; No starts nothing, Yes starts
+the run, gui_run_loop stood in. Then the production's record claims
+both, and the next Start goes without the question.
 """
 import os
 import sys
@@ -93,6 +94,8 @@ subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
 # written: the source itself, the bare name, the file's own stem.
 written = "B_camera_audio_2.mov"
 never = ["B_camera_audio.mov", "B_camera.mov", "B_camera_audio_audio.mov"]
+# One of the six lists a run names after the production, here "Again".
+listed = "Again_speakers.csv"
 project = os.path.join(folder, "videopodcast-magic_Again.json")
 with open(project, "w", encoding="utf-8") as f:
     json.dump({"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
@@ -158,7 +161,7 @@ def step():
                     or name_field() is None:
                 raise NotYet("a live Start button and the camera's name")
             name_field().setText("B_camera")
-            for made in [written] + never[1:]:
+            for made in [written, listed] + never[1:]:
                 open(os.path.join(out_folder, made), "wb").close()
         elif i == 2:
             if name_field() is None or name_field().text() != "B_camera":
@@ -174,6 +177,10 @@ def step():
                   "questions %s, wanted %r named, the overwrite one says "
                   "%r" % (questions_since(before[0]), written,
                           said[:160] if put else "never put"))
+            check("and so is a list of the production nobody here made",
+                  listed in said,
+                  "wanted %r named, the overwrite one says %r"
+                  % (listed, said[:200]))
             check("and no name the run never writes is in it",
                   not [x for x in never if x in said],
                   "%s named, the overwrite one says %r"
@@ -195,6 +202,28 @@ def step():
                 raise NotYet("the run to reach gui_run_loop")
             check("and Yes starts the run",
                   OVERWRITE in questions_since(before[0])
+                  and len(runs) - had[0] == 1,
+                  "questions %s, %d runs started, %d rounds of 200 ms "
+                  "waited" % (questions_since(before[0]),
+                              len(runs) - had[0], waited[0]))
+        elif i == 5:
+            print("\n4. An earlier run of this production goes unasked")
+            # The record a run leaves: it names the camera file it wrote,
+            # and beside it vouches for the production's own lists.
+            with open(os.path.join(out_folder, "Again_resolve.json"), "w",
+                      encoding="utf-8") as f:
+                json.dump({"cameras": [{"camera": "B_camera", "file":
+                                        os.path.join(out_folder, written)}]},
+                          f)
+            before[0], answer[0], had[0], waited[0] = (len(asked), False,
+                                                       len(runs), 0)
+            push[START].click()
+        elif i == 6:
+            if len(runs) == had[0] and waited[0] < 50:
+                waited[0] += 1
+                raise NotYet("the run to reach gui_run_loop")
+            check("files an earlier run of this production wrote go unasked",
+                  OVERWRITE not in questions_since(before[0])
                   and len(runs) - had[0] == 1,
                   "questions %s, %d runs started, %d rounds of 200 ms "
                   "waited" % (questions_since(before[0]),
