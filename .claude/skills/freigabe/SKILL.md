@@ -446,6 +446,10 @@ ends in `cut off, to fix next release: N` and the lines.
 11. The builder's times fetched with `--record <version>`, the section in
     `development/test_durations.md` looked at, and every test marked
     grown there named in the release report?
+11b. After the release, the version's row written to the statistics on
+    the owner's board: hours since the previous release, the builder's
+    times, the whole suite here in seconds, and how many tests did not
+    run because they need Resolve, auphonic.com or another system.
 12. `git status --short` empty, or every line in it explained out loud?
 13. `git stash list` free of this work?
 14. `build/` cleared, the wheel built and diffed, and cleared up again after?
