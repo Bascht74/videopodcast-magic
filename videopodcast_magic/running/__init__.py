@@ -256,6 +256,8 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
             "preset": preset_plaintext(),
             "done_folder": done_folder.get(),
             "speech_language": speech_language.get().strip(),
+            # What each recording's sound holds, by its first block.
+            "sound": dict(state.get("sound_holds") or {}),
             "lufs": lufs_value.get(),
             "apart": sorted(no_join),
             "together": together_now(),

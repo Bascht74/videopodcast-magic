@@ -21,6 +21,7 @@ AXIS_MIN_WINDOW_S = PROGRAM.AXIS_MIN_WINDOW_S
 ByFile = PROGRAM.ByFile
 MIX_ONLY = PROGRAM.MIX_ONLY
 MIX_TRACK_NAME = PROGRAM.MIX_TRACK_NAME
+SOUND_SPEECH = PROGRAM.SOUND_SPEECH
 SR = PROGRAM.SR
 Share = PROGRAM.Share
 SharedProgressBar = PROGRAM.SharedProgressBar
@@ -92,6 +93,7 @@ os = PROGRAM.os
 parse_time_point = PROGRAM.parse_time_point
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
+phase_way_on = PROGRAM.phase_way_on
 pcm_kind = PROGRAM.pcm_kind
 place_track_on_axis = PROGRAM.place_track_on_axis
 recognise_speech = PROGRAM.recognise_speech
@@ -974,12 +976,24 @@ def drift_measured(st):
     return "ppm" in (st or {}) and not (st or {}).get("from_phase")
 
 
-def measure_tracks_against_each_other(tracks):
+def phase_of_run(args, paths):
+    """Whether this run lets the phase way place the recording of *paths*.
+
+    What --sound, --sound-of and --project-type said, read in one place;
+    a run that said nothing takes speech, so the phase way stays off.
+    """
+    return phase_way_on(paths, getattr(args, "project_type", "cut"),
+                        getattr(args, "sound", None) or SOUND_SPEECH,
+                        getattr(args, "sound_of", None) or ())
+
+
+def measure_tracks_against_each_other(tracks, phase_of=lambda paths: True):
     """Put every track on the time axis of the longest one.
 
     The longest recording is the reference for the same reason the
     longest camera is: it overlaps most with the others. Returns the
-    tracks that found a place, each carrying a and b.
+    tracks that found a place, each carrying a and b. *phase_of* says
+    of a track's blocks whether the phase way may place it.
     """
     reference = max(tracks, key=lambda t: sample_count(t["source"]))
     length = sample_count(reference["source"]) / float(SR)
@@ -999,7 +1013,8 @@ def measure_tracks_against_each_other(tracks):
             a, b, st = align_audio_to_video(
                 track["source"], reference["source"],
                 sample_points=int(max(20, min(120, length / 30.0))),
-                distance_s=30.0)
+                distance_s=30.0, phase=bool(phase_of(
+                    track.get("blocks") or [track["source"]])))
         except Exception as e:
             print(T('  %-20s cannot be aligned: %s') % (track["name"], e))
             continue
@@ -1039,7 +1054,8 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
     step_begin("time base")
     print(as_head(T('\nMEASURING THE TIME AXIS')))
     print(T('  No picture: the tracks are laid against each other.'))
-    placed = measure_tracks_against_each_other(tracks)
+    placed = measure_tracks_against_each_other(
+        tracks, lambda paths: phase_of_run(args, paths))
     if len(placed) < 2:
         print(T('\nOnly one track found a place -- there is nothing left '
                 'to lay it against.'))
@@ -1345,7 +1361,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 a, b, st = align_audio_to_video(
                     source, ref_clip[0], sample_points=int(max(20, min(
                         120, ref_clip[1]["duration"] / 30.0))),
-                    distance_s=30.0)
+                    distance_s=30.0,
+                    phase=phase_of_run(args, blocks or [source]))
             except Exception as ex:
                 print(T('  %-20s cannot be aligned: %s') % (name, ex))
                 continue

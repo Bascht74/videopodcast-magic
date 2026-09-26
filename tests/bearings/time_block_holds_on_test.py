@@ -78,7 +78,7 @@ def runs_for(path):
 handed = []
 
 
-def measure_stand_in(paths, tc_of=None, HOP=5.0):
+def measure_stand_in(paths, tc_of=None, HOP=5.0, phase_of=None):
     """A measurement that cannot place the tail, and says which it saw.
 
     Whatever it is handed except the tail gets a place; the tail is
@@ -95,7 +95,7 @@ def measure_stand_in(paths, tc_of=None, HOP=5.0):
             vpm.T('time axis measured and tied to the timecode'))
 
 
-def measure_places_the_tail(paths, tc_of=None, HOP=5.0):
+def measure_places_the_tail(paths, tc_of=None, HOP=5.0, phase_of=None):
     """The same, but it does place the tail -- somewhere else entirely."""
     handed.append([os.path.basename(p) for p in paths])
     at = dict((vpm.path_key(p), HEAD_AT) for p in paths)

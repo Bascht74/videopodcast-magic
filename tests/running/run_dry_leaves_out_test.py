@@ -20,7 +20,7 @@ while not os.path.isfile(os.path.join(HERE, "the_program.py")) \
 sys.path.insert(0, HERE)
 import the_program
 SCRIPT = the_program.SCRIPT
-import glob, hashlib, subprocess, tempfile, time
+import glob, hashlib, json, subprocess, tempfile, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
 
@@ -95,6 +95,15 @@ if PROJECT is None:
           "holding videopodcast-magic_Interview_2.json (looked in %s)"
           % MEDIA)
     stop()
+# The fixture's microphones share no sound with its cameras: only the
+# phase way places them, and it is asked only for mixed sound -- so
+# every recording is marked mixed here, and on the command line below.
+with open(PROJECT, encoding="utf-8") as f:
+    _d = json.load(f)
+_d["sound"] = dict((e["path"], "mixed") for e in _d.get("files") or ()
+                   if e.get("kind") == "audio")
+with open(PROJECT, "w", encoding="utf-8") as f:
+    json.dump(_d, f, indent=1)
 # Where a run leaves it: the project file lies in the output folder.
 OWN = os.path.dirname(PROJECT)
 OUT = os.path.join(OWN, "Ergebnis")
@@ -138,6 +147,20 @@ def button(word):
             return w
 
 
+def axis_written():
+    """Has the window put its measured axis into the project file yet?
+
+    The one write it makes on its own once a project is open; stillness
+    alone passed for it until a loaded machine took longer than the
+    stillness waited, and the write then landed inside the dry run.
+    """
+    try:
+        with open(PROJECT, encoding="utf-8") as f:
+            return bool(json.load(f).get("timeline"))
+    except (OSError, ValueError):
+        return False
+
+
 window = {"before": None, "after": None, "why": ""}
 step = [0]
 mark = [time.time(), None, 0]
@@ -160,9 +183,11 @@ def carry_on():
         state = folder_read(OUT)
         if state != mark[1]:
             mark[1], mark[0] = state, now
-        if dry is None or not dry.isEnabled() or now - mark[0] < STILL:
+        if (dry is None or not dry.isEnabled() or not axis_written()
+                or now - mark[0] < STILL):
             if now - mark[0] > QUIET:
-                window["why"] = "Dry run never came free in %.0f s" % QUIET
+                window["why"] = ("Dry run never came free in %.0f s, the "
+                                 "axis written %s" % (QUIET, axis_written()))
                 return app.quit()
             return QtCore.QTimer.singleShot(100, carry_on)
         window["before"] = state
@@ -217,7 +242,7 @@ before = folder_read(out)
 answer = subprocess.run(
     [sys.executable, SCRIPT, "--dry-run", "--without-auphonic",
      "--out", out, "--no-metrics", "--no-speech-recognition",
-     "--no-transcript-file"]
+     "--no-transcript-file", "--sound", "mixed"]
     + sorted(glob.glob(os.path.join(media, "*.wav")))
     + sorted(glob.glob(os.path.join(media, "*.mov"))),
     capture_output=True, text=True, errors="replace")

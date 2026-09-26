@@ -70,8 +70,10 @@ ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
 
 def dry_run(names, files, extra=()):
     """A dry run with these --new-name pairs; (return code, output)."""
+    # The fixture's microphones share no sound with its cameras: only the
+    # phase way places them, and it is asked only for mixed sound.
     argv = [sys.executable, SCRIPT, "--without-auphonic", "--dry-run",
-            "--out", OUT] + list(extra)
+            "--sound", "mixed", "--out", OUT] + list(extra)
     for file, name in names:
         argv += ["--new-name", file, name]
     kid = subprocess.Popen(argv + files, stdout=subprocess.PIPE,

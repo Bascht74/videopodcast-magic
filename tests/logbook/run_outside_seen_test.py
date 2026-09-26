@@ -116,9 +116,11 @@ if len(files) < 2:
     print("FAIL: " + " | ".join(bad) if bad else "Good as far as it went.")
     sys.exit(1 if bad else 0)
 
+# The fixture's microphones share no sound with its cameras: only the
+# phase way places them, and it is asked only for mixed sound.
 out = subprocess.run(
-    [sys.executable, SCRIPT, "--dry-run", "--no-preflight", "--no-metrics"]
-    + files, capture_output=True, text=True,
+    [sys.executable, SCRIPT, "--dry-run", "--no-preflight", "--no-metrics",
+     "--sound", "mixed"] + files, capture_output=True, text=True,
     env=dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
              VPM_NO_UPDATE_CHECK="1", VPM_NO_SPEAKER_SPLIT="1"))
 whole = out.stdout + out.stderr
