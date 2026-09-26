@@ -170,6 +170,7 @@ def run_argv(values, assignment_file_path=""):
     for file_path in sorted(p for p, a in clip_kind.items()
                             if a == TYPE_WIDE and p not in off):
         argv += ["--wide-shot", file_path]
+    argv += camera_label_argv(files, off)
     if values.get("out_folder"):
         argv += ["--out", values["out_folder"]]
     # No switch means "take it from the source files", as on the line.
@@ -335,6 +336,10 @@ def run_argv(values, assignment_file_path=""):
             if name and file_path and file_path not in edge.values() \
                     and file_path not in off:
                 argv += ["--new-name", file_path, name]
+        # The plan carries the production's name; this path has none,
+        # and without the switch the run names it after the folder.
+        if (values.get("production") or "").strip():
+            argv += ["--production", values["production"].strip()]
     if values.get("speakers_wanted") is False \
             and not values.get("multitrack"):
         argv += ["--no-speakers-local"]
@@ -377,6 +382,21 @@ def run_argv(values, assignment_file_path=""):
         # credential store for the key the window had just set aside.
         argv += ["--without-auphonic"]
     return argv, plan, messages
+
+
+def camera_label_argv(files, off=()):
+    """The window's camera names as switches, where not the file's own.
+
+    camera_labels numbers the second of two files of one name "(2)", in
+    the window's order, and the run's log is to say the same. A file
+    set aside does not ride along; every other name is the file's own.
+    """
+    out = []
+    videos = [p for p, a in files if a == "video"]
+    for file_path, shown in camera_labels(videos).items():
+        if file_path not in off and shown != os.path.basename(file_path):
+            out += ["--camera-label", file_path, shown]
+    return out
 
 
 def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
@@ -644,6 +664,19 @@ def build_argument_parser():
                          "Without it the file's own name. The interface "
                          "sends what stands in its \"new file name\" "
                          "field where no assignment file carries it.")
+    ap.add_argument("--camera-label", dest="camera_label", action="append",
+                    nargs=2, default=[], metavar=("FILE", "NAME"),
+                    help="the run's messages name this video file NAME; "
+                         "may be given several times. Without it the "
+                         "file's own name. The interface sends it for the "
+                         "second of two files of one name, \"(2)\" as it "
+                         "shows it.")
+    ap.add_argument("--production", default="", metavar="NAME",
+                    help="the production's name, which the handover, the "
+                         "lists and the transcript are named after. "
+                         "Without it the folder the material lies in. "
+                         "Not read beside --assign: the assignment file "
+                         "carries its own.")
     ap.add_argument("--no-single-tracks", dest="no_single_tracks",
                     action="store_true",
                     help="put only the mix into the video, not the single "
@@ -752,6 +785,28 @@ def build_argument_parser():
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
+
+
+# The window's names for this run's cameras, set by cameras_shown_as
+# at the start of every run so that none is left over from the last.
+_SHOWN = [ByFile()]
+
+
+def cameras_shown_as(pairs):
+    """Take the window's camera names for this run, [(file, name), ...]."""
+    _SHOWN[0] = ByFile((file_path, name.strip())
+                       for file_path, name in (pairs or ())
+                       if file_path and (name or "").strip())
+
+
+def camera_shown(file_path):
+    """A camera as the run's log names it: as the window does.
+
+    Two files of one name are two cameras, and the window calls the
+    second "C0003.MP4 (2)" (camera_labels); --camera-label hands that
+    over. Every other camera is named by its file.
+    """
+    return _SHOWN[0].get(file_path) or os.path.basename(file_path or "")
 
 
 # How the command line switch is named and how the field behind it. All others

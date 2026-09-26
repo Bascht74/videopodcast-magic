@@ -12,7 +12,8 @@ collected out of the program rather than listed here, and held against
 a plain search for their definitions. The last section is the camera's
 name where no plan carries it: it goes as a switch pair the run's
 parser reads back, under Sync only too, and two cameras of one name,
-case aside, are refused on that path."""
+case aside, are refused on that path; the production's name, and the
+window's name for the second of two files of one name, ride the same way."""
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
@@ -559,6 +560,42 @@ check("and so are two whose names differ only in case",
         a is None and bool(m) and m[-1][1] == "File names",
         "19. named 'Same' and 'same' gave %s with the titles %s, wanted "
         "None and 'File names' last" % (shown(a), [x[1] for x in m]))
+
+print("\n20. The production's name and a camera's window name ride along")
+# Without a plan the production field reached no run, and the run named
+# its handover after the material's folder. And two cameras of one file
+# name: the window calls the second "(2)", and the run's log is to say
+# the same, so that name travels too -- only where it is not the file's.
+a, plan, m = vpm.run_argv(values(files=THREE, production=" Pilot "))
+a = a or []
+said = [a[i + 1:i + 2] for i, w in enumerate(a) if w == "--production"]
+check("the production's name goes as a switch where no plan does",
+        said == [["Pilot"]] and plan is None,
+        "20. --production carries %s and the plan is %s, wanted "
+        "[['Pilot']] and None; the line is %s" % (said, brief(plan),
+                                                  shown(a)))
+space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
+check("and the run's parser reads it back as the production",
+        getattr(space, "production", None) == "Pilot" and rest == [],
+        "20. production read back as %r with %d words left over %s, "
+        "wanted 'Pilot' and none"
+        % (getattr(space, "production", None), len(rest), rest[:4]))
+PAIR = [("/x/a.wav", "audio"), ("/x/A/C0003.MP4", "video"),
+        ("/x/B/C0003.MP4", "video")]
+a, _p, m = vpm.run_argv(values(files=PAIR))
+a = a or []
+labels = [a[i + 1:i + 3] for i, w in enumerate(a) if w == "--camera-label"]
+check("the second of two files of one name goes as the window names it",
+        labels == [["/x/B/C0003.MP4", "C0003.MP4 (2)"]],
+        "20. --camera-label pairs %s, wanted [['/x/B/C0003.MP4', "
+        "'C0003.MP4 (2)']]; the line is %s" % (labels, shown(a)))
+space, rest = vpm.build_argument_parser().parse_known_args(a[1:])
+check("and the run's parser reads that pair back as file and name",
+        getattr(space, "camera_label", None)
+        == [["/x/B/C0003.MP4", "C0003.MP4 (2)"]] and rest == [],
+        "20. camera_label read back as %r with %d words left over %s, "
+        "wanted [['/x/B/C0003.MP4', 'C0003.MP4 (2)']] and none"
+        % (getattr(space, "camera_label", None), len(rest), rest[:4]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

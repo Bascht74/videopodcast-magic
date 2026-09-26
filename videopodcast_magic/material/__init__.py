@@ -609,7 +609,7 @@ def key_frame_at_or_before(video, when):
         except Exception as e:
             print(T('  Key frames of %s cannot be read (%s) -- the copy '
                     'starts at the beginning of the file.')
-                  % (os.path.basename(video), str(e)[:60]))
+                  % (PROGRAM.camera_shown(video), str(e)[:60]))
             return 0.0
         found = []
         for line in p.stdout.decode("utf-8", "replace").splitlines():

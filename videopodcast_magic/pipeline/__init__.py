@@ -169,7 +169,7 @@ def extract_audio_from_video(file_path, tmpdir):
     channels = int((info["audio"][0] or {}).get("channels") or 1)
     print(as_head(T('NO AUDIO FILE -- USING THE CAMERA AUDIO')))
     print(T('  from %s, %s')
-          % (os.path.basename(file_path), channel_text(channels)))
+          % (PROGRAM.camera_shown(file_path), channel_text(channels)))
     command = ["ffmpeg", "-v", "error", "-i", file_path, "-map", "0:a:0",
               "-ar", str(SR), "-c:a", unpack_kind(file_path),
               "-write_bext", "1"]
@@ -239,7 +239,7 @@ def extract_audio_for_plan(plan, tmpdir):
                 + wav_safe(target) + ["-y", target])
         except Exception as ex:
             print(T('\n  %s: no audio to extract (%s)')
-                  % (os.path.basename(v), ex))
+                  % (PROGRAM.camera_shown(v), ex))
             continue
         pieces = camera_audio_tracks(target, name, tmpdir)
         for piece, label in pieces:
@@ -255,7 +255,7 @@ def extract_audio_for_plan(plan, tmpdir):
             if not e.get("camera_audio") or e.get("upfront"):
                 continue
             print(T('  %-24s from %s')
-                  % (e["speakers"], os.path.basename(e["camera"])))
+                  % (e["speakers"], PROGRAM.camera_shown(e["camera"])))
     if len(done) < 2:
         print(T('  Fewer than two cameras with sound -- too few for '
                 'Multitrack.'))
@@ -343,7 +343,7 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
                 + wav_safe(target) + ["-y", target])
         except Exception as e:
             print(T('\n  %s: no audio to extract (%s)')
-                  % (os.path.basename(v), e))
+                  % (PROGRAM.camera_shown(v), e))
             continue
         for piece, label in camera_audio_tracks(target, name, tmpdir):
             plan.append({"audio": piece, "blocks": [piece],
@@ -352,7 +352,7 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
     show_progress(T('Camera audio'), 1.0)
     for e in plan:
         print(T('  %-24s from %s') % (e["speakers"],
-                                  os.path.basename(e["camera"])))
+                                  PROGRAM.camera_shown(e["camera"])))
     if len(plan) < 2:
         print(T('  Fewer than two cameras with sound -- too few for '
                 'Multitrack.'))
@@ -543,7 +543,7 @@ def merge_plan_entries(plan):
                   != os.path.abspath(old["camera"])):
                 print(T('  %s appears twice with different cameras -- %s '
                         'is used')
-                      % (name, os.path.basename(old["camera"])))
+                      % (name, PROGRAM.camera_shown(old["camera"])))
             continue
         fresh = dict(e)
         fresh["blocks"] = blocks
@@ -797,7 +797,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
         total = sum(sample_count(b) for b in blocks) / float(SR)
-        target = os.path.basename(e["camera"]) if e.get("camera")\
+        target = PROGRAM.camera_shown(e["camera"]) if e.get("camera")\
             else label_of(MIX_ONLY)
         print("  %-20s %-34s %s%s"
               % (e.get("speakers") or T('unnamed'),
@@ -811,7 +811,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     multiple = {cam: v for cam, v in combined.items() if len(v) > 1}
     for cam, v in multiple.items():
         print(T('  %s gets %s tracks mixed together: %s')
-              % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
+              % (PROGRAM.camera_shown(cam), number_text(len(v), 0),
+                 ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
         # Named by the function the run writes by, so a camera whose own
@@ -838,7 +839,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                 heard = 1
             camera_tracks = 0 if args.no_camera_audio else heard
             print("    %s  ->  %s"
-                  % (os.path.basename(cam["video"]),
+                  % (PROGRAM.camera_shown(cam["video"]),
                      os.path.basename(written.get(
                          path_key(cam["video"]), ("", cam["name"] + (
                              args.suffix or "_audio") + ".mov"))[1])))
@@ -1187,13 +1188,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         try:
             info = video_facts(v, args.fps, args.tc)
         except Exception as e:
-            print(T('  %s: %s, skipped') % (os.path.basename(v), e))
+            print(T('  %s: %s, skipped') % (PROGRAM.camera_shown(v), e))
             continue
         # A camera with no sound but a clock goes on: align_cameras
         # places it by that clock. With neither, nothing can place it.
         if not info["audio"] and timecode_seconds(info) is None:
             print(T('  %s has no camera sound -- without it nothing can be '
-                    'aligned') % os.path.basename(v))
+                    'aligned') % PROGRAM.camera_shown(v))
             continue
         if known_frame_rate(file_frame_rate(info)) is None:
             # Said, not refused: the Timeline takes a rate Resolve has
@@ -1201,7 +1202,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             # the note below, where every camera has been read.
             print(T('  %s runs at %s frames/s, a rate Resolve has no '
                     'Timeline for -- it is converted, not left out')
-                  % (os.path.basename(v),
+                  % (PROGRAM.camera_shown(v),
                      number_text(file_frame_rate(info), 3)))
         videos.append((v, info))
     if not any(i["audio"] for _v, i in videos):
@@ -1261,7 +1262,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     print(as_head(T('\nMEASURING THE TIME AXIS')))
     ref_clip, position = align_cameras(videos)
     print(T('  Reference: %s (%s, longest running time)')
-          % (os.path.basename(ref_clip[0]), as_hms(ref_clip[1]["duration"])))
+          % (PROGRAM.camera_shown(ref_clip[0]),
+             as_hms(ref_clip[1]["duration"])))
     for v, info in videos:
         if v == ref_clip[0]:
             continue
@@ -1270,11 +1272,11 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         a, b, st = position[v]
         if not drift_measured(st):
             print(T('  %-20s offset %s, clock drift not measured%s')
-                  % (os.path.basename(v), as_hms(a), ""))
+                  % (PROGRAM.camera_shown(v), as_hms(a), ""))
             continue
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points')
-              % (os.path.basename(v), as_hms(a),
+              % (PROGRAM.camera_shown(v), as_hms(a),
                  number_text(st.get("ppm", 0.0), 2, plus=True),
                  number_text(st.get("ppm_error", 0.0), 2),
                  number_text(st.get("spread_ms", 0.0)),
@@ -1353,7 +1355,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             continue
         a, b, _ = position[v]
         camera_areas.append(((0.0 - a) / b, (info["duration"] - a) / b,
-                             os.path.basename(v)))
+                             PROGRAM.camera_shown(v)))
     audio_areas = []
     for track in tracks:
         n = sample_count(track["source"]) / float(SR)
@@ -1893,7 +1895,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                          % safe_filename(os.path.basename(file_path))), gain,
             curve, channels=mix_width(own))
         print(T('  %s: %s mixed together')
-              % (os.path.basename(file_path),
+              % (PROGRAM.camera_shown(file_path),
                  " + ".join(track["name"] for track in own)))
 
     # Through path_key, both sides: a camera whose path arrives in
@@ -1943,7 +1945,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         """
         v = os.path.abspath(v)
         own = after_camera.get(v, [])
-        print(as_head(T('\nPROCESSING: %s') % os.path.basename(v)))
+        print(as_head(T('\nPROCESSING: %s') % PROGRAM.camera_shown(v)))
         items = []
         if own:
             items.append(('Mix ' + " + ".join(track["name"] for track in own)
@@ -2181,7 +2183,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     if tc_start is not None:
         print(T('  Timecode %s written as bext and iXML (reference: %s)')
               % (timecode_string(tc_start, tc_fps),
-                 os.path.basename(ref_clip[0])))
+                 PROGRAM.camera_shown(ref_clip[0])))
 
     if results:
         print(as_head(T('\nRESULT')))

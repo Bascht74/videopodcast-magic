@@ -454,7 +454,8 @@ def main():
     update_note()
     args.auphonic_done = getattr(args, "auphonic_done", None)
     args.auphonic_resume = getattr(args, "auphonic_resume", None)
-    args.production = ""
+    args.production = (getattr(args, "production", None) or "").strip()
+    cameras_shown_as(getattr(args, "camera_label", None))
     args.resolve_project = getattr(args, "resolve_project", None)
     if getattr(args, "hdr_check", None):
         return check_hdr(args.hdr_check)
@@ -677,6 +678,7 @@ orders = beside("orders", program=PROGRAM)
 take_from(orders)
 
 build_argument_parser = orders.build_argument_parser
+cameras_shown_as = orders.cameras_shown_as
 
 
 #-------------------------------------------------------- The interface
