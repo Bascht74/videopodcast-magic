@@ -5051,3 +5051,6 @@ msgstr "  Загальний план на краях: немає -- обидв�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Там, де для «Ніхто не говорить» вибрано тримати коротку паузу, пауза до цієї довжини нічого не змінює, а довша переходить на загальний план. Там, де для «Розпізнавання ненадійне» вибрано «Без зміни камери», непевний відрізок, довший за це, теж переходить на загальний план. Понад дві секунди картинка починає стояти на тому, хто мовчить, довше за п'ять секунд."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s пропущено -- за таймкодом за %s від інших блоків, задалеко для одного запису"

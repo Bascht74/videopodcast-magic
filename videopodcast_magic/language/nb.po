@@ -4990,3 +4990,6 @@ msgstr "  Oversiktsbilde i kantene: ingen -- begge var kortere enn det korteste 
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Der \"Ingen snakker\" er satt til å holde en kort pause, endrer en pause opptil denne lengden ingenting, og en lengre går til oversiktsbildet. Der \"Gjenkjenning usikker\" er satt til \"Ikke noe kamerabytte\", går også et usikkert parti som er lengre enn dette, til oversiktsbildet. Over to sekunder begynner bildet å bli stående på noen som tier, i mer enn fem sekunder."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s utelatt -- %s fra de andre blokkene ifølge tidskoden, for langt fra hverandre til ett opptak"

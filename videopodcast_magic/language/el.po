@@ -4991,3 +4991,6 @@ msgstr "  Γενικό πλάνο στα άκρα: κανένα -- και τα �
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Όπου το \"Κανείς δεν μιλάει\" είναι ρυθμισμένο σε κράτημα σύντομης παύσης, μια παύση έως τόσο δεν αλλάζει τίποτα και μια μεγαλύτερη πηγαίνει στο γενικό πλάνο. Όπου το \"Αβέβαιη αναγνώριση\" είναι ρυθμισμένο σε \"Χωρίς αλλαγή κάμερας\", ένα αβέβαιο απόσπασμα μεγαλύτερο από αυτό πηγαίνει επίσης στο γενικό πλάνο. Πάνω από δύο δευτερόλεπτα η εικόνα αρχίζει να μένει σε κάποιον σιωπηλό για πάνω από πέντε δευτερόλεπτα."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s παραλείφθηκε -- %s μακριά από τα άλλα μπλοκ κατά το timecode, πολύ μεγάλη απόσταση για μία ηχογράφηση"

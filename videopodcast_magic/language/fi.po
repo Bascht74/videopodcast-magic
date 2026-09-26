@@ -4990,3 +4990,6 @@ msgstr "  Yleiskuva reunoilla: ei yhtään -- molemmat olivat lyhyempiä kuin ly
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli, enintään näin pitkä tauko ei muuta mitään ja pidempi siirtyy yleiskuvaan. Missä \"Tunnistus epävarma\" on asetettu arvoon \"Ei kameranvaihtoa\", tätä pidempi epävarma jakso siirtyy myös yleiskuvaan. Yli kahden sekunnin arvolla kuva alkaa viipyä vaiti olevassa yli viisi sekuntia."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s jätettiin pois -- aikakoodin mukaan %s muista osista, liian kaukana yhdeksi tallenteeksi"

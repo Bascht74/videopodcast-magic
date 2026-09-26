@@ -5035,3 +5035,6 @@ msgstr "  Široki kadar na rubovima: nijedan -- oba su bila kraća od najkraćeg
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Ondje gdje je \"Nitko ne govori\" postavljeno na zadržavanje kratke praznine, praznina do ove duljine ništa ne mijenja, a dulja prelazi na široki kadar. Ondje gdje je \"Nesigurno prepoznavanje\" postavljeno na \"Bez promjene kamere\", nesiguran odlomak dulji od toga također prelazi na široki kadar. Iznad dvije sekunde slika počinje stajati na nekome tko šuti dulje od pet sekundi."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s izostavljen -- %s po vremenskom kodu udaljen od ostalih blokova, predaleko za jednu snimku"

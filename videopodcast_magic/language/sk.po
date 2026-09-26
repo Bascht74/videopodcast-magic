@@ -5034,3 +5034,6 @@ msgstr "  Široký záber na okrajoch: žiadny -- oba boli kratšie ako najkrat�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Tam, kde je \"Nikto nehovorí\" nastavené na podržanie krátkej medzery, medzera až do tejto dĺžky nič nemení a dlhšia prejde na široký záber. Tam, kde je \"Neisté rozpoznanie\" nastavené na \"Bez zmeny kamery\", prejde na široký záber aj neistá pasáž dlhšia ako toto. Nad dve sekundy začne obraz stáť na niekom mlčiacom dlhšie ako päť sekúnd."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s vynechaný -- podľa časového kódu %s od ostatných blokov, na jednu nahrávku príliš ďaleko"

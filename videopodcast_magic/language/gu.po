@@ -4994,3 +4994,6 @@ msgstr "  કિનારે વાઇડ શૉટ: એક પણ નહીં 
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "જ્યાં \"કોઈ બોલતું નથી\" ટૂંકા અંતરમાં એમ જ રહેવા પર સેટ હોય, ત્યાં આટલા લાંબા સુધીનું અંતર કંઈ બદલતું નથી, અને તેનાથી લાંબું અંતર વાઇડ શૉટ પર જાય છે. જ્યાં \"ઓળખ અનિશ્ચિત\" \"કૅમેરા બદલાતો નથી\" પર સેટ હોય, ત્યાં આનાથી લાંબો અનિશ્ચિત ભાગ પણ વાઇડ શૉટ પર જાય છે. બે સેકન્ડથી વધુ હોય તો ચિત્ર કોઈ મૌન વ્યક્તિ પર પાંચ સેકન્ડથી વધુ ટકવા લાગે છે."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s છોડી દીધું -- ટાઇમકોડ મુજબ બીજા બ્લોકથી %s દૂર, એક રેકોર્ડિંગ માટે બહુ દૂર"

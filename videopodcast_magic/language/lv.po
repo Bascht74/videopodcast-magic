@@ -5039,3 +5039,6 @@ msgstr "  Kopplāns malās: nav -- abi bija īsāki par īsāko kadru un saplūd
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Kur „Neviens nerunā“ ir iestatīts nogaidīt īsu pauzi, pauze līdz šim ilgumam neko nemaina, bet garāka pāriet uz kopplānu. Kur „Atpazīšana nedroša“ ir iestatīta uz „Bez kameras maiņas“, arī nedrošs posms, kas garāks par šo, pāriet uz kopplānu. Virs divām sekundēm attēls sāk ilgāk par piecām sekundēm rādīt kādu, kurš klusē."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s izlaists -- pēc laika koda %s attālumā no pārējiem blokiem, pārāk tālu vienam ierakstam"

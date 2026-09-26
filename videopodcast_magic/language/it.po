@@ -5008,3 +5008,6 @@ msgstr "  Campo totale ai bordi: nessuno -- entrambi erano più corti dell’inq
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Dove «Nessuno parla» è impostato su mantenere una pausa breve, una pausa fino a questa durata non cambia nulla e una più lunga passa al campo totale. Dove «Riconoscimento incerto» è impostato su «Nessun cambio di telecamera», anche un passaggio incerto più lungo di così passa al campo totale. Oltre due secondi l’immagine comincia a restare per più di cinque secondi su qualcuno che tace."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s escluso -- a %s dagli altri blocchi secondo il timecode, troppo lontano per una registrazione"

@@ -4992,3 +4992,6 @@ msgstr "  Totál a széleken: egyik sincs -- mindkettő rövidebb volt a legröv
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva, ott egy legfeljebb ilyen hosszú szünet semmit sem változtat, egy hosszabb pedig a totálra vált. Ahol a \"Bizonytalan felismerés\" a \"Nincs kameraváltás\" értékre van állítva, ott az ennél hosszabb bizonytalan szakasz is a totálra vált. Két másodperc fölött a kép kezd öt másodpercnél tovább valakin állni, aki hallgat."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s kimaradt -- a timecode szerint %s távolságra a többi blokktól, túl messze egy felvételhez"

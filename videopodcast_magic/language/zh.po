@@ -4945,3 +4945,6 @@ msgstr "  首尾全景：无 -- 两者都比最短镜头还短，已并入各自
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "当“无人说话”设为保持短暂停顿时，不超过此长度的停顿不改变任何东西，更长的则切到全景。当“识别不确定”设为“不切换镜头”时，比此更长的不确定片段也会切到全景。此值超过两秒时，画面会开始在一个沉默的人身上停留五秒以上。"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  已略去 %s -- 按时间码与其他片段相距 %s，相距太远，不可能是同一段录音"

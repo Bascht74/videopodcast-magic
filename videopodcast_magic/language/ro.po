@@ -5035,3 +5035,6 @@ msgstr "  Plan larg la margini: niciunul -- amândouă au fost mai scurte decât
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Unde \"Nimeni nu vorbește\" este setat să păstreze o pauză scurtă, o pauză de până la atât nu schimbă nimic, iar una mai lungă trece la planul larg. Unde \"Recunoaștere nesigură\" este setat pe \"Fără schimbare de cameră\", și un pasaj nesigur mai lung de atât trece la planul larg. Peste două secunde, imaginea începe să stea mai mult de cinci secunde pe cineva care tace."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s lăsat deoparte -- la %s de celelalte blocuri după timecode, prea departe pentru o singură înregistrare"

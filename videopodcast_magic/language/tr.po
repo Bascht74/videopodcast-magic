@@ -5003,3 +5003,6 @@ msgstr "  Kenarlarda geniş çekim: yok -- ikisi de en kısa çekimden kısaydı
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "“Kimse konuşmuyor” kısa boşluğu korumaya ayarlı olduğunda, bu uzunluğa kadar bir boşluk hiçbir şeyi değiştirmez, daha uzunu geniş çekime geçer. “Tanıma belirsiz” “Kamera değişikliği yok” olarak ayarlı olduğunda, bundan uzun belirsiz bir bölüm de geniş çekime geçer. İki saniyenin üstünde görüntü, susan birinin üzerinde beş saniyeden uzun kalmaya başlar."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s dışarıda bırakıldı -- timecode'a göre diğer bloklardan %s uzakta, tek bir kayıt için fazla uzak"

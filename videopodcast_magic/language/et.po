@@ -4994,3 +4994,6 @@ msgstr "  Üldplaan servades: puudub -- mõlemad olid lühemad kui lühim võte 
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Kus „Keegi ei räägi“ on seatud lühikest pausi ära ootama, ei muuda kuni nii pikk paus midagi ja pikem viib üldplaanile. Kus „Tuvastus ebakindel“ on seatud väärtusele „Kaamera ei vahetu“, viib sellest pikem ebakindel lõik samuti üldplaanile. Üle kahe sekundi hakkab pilt üle viie sekundi vaikivat inimest näitama."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s jäeti välja -- ajakoodi järgi %s teistest plokkidest eemal, ühe salvestise jaoks liiga kaugel"

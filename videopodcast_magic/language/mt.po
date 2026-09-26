@@ -5083,3 +5083,6 @@ msgstr "  Veduta wiesgħa fit-truf: xejn -- it-tnejn kienu iqsar mill-iqsar xena
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Fejn \"Ħadd ma jitkellem\" huwa ssettjat biex iżomm pawża qasira, pawża sa dan it-tul ma tbiddel xejn, u waħda itwal tmur għall-veduta wiesgħa. Fejn \"Għarfien inċert\" huwa ssettjat fuq \"L-ebda bidla ta' kamera\", silta inċerta itwal minn hekk tmur ukoll għall-veduta wiesgħa. 'Il fuq minn żewġ sekondi l-istampa tibda toqgħod fuq xi ħadd sieket għal aktar minn ħames sekondi."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s tħalla barra -- %s 'il bogħod mill-blokki l-oħra skont it-timecode, wisq 'il bogħod għal reġistrazzjoni waħda"

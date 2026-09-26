@@ -5035,3 +5035,6 @@ msgstr "  Plan ogólny na krańcach: brak -- oba były krótsze niż najkrótsze
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Tam, gdzie \"Nikt nie mówi\" ma ustawione przeczekanie krótkiej luki, luka do tej długości niczego nie zmienia, a dłuższa przechodzi do planu ogólnego. Tam, gdzie \"Niepewne rozpoznanie\" ma ustawione \"Bez zmiany kamery\", niepewny fragment dłuższy niż ta wartość także przechodzi do planu ogólnego. Powyżej dwóch sekund obraz zaczyna stać na kimś milczącym dłużej niż pięć sekund."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s pominięty -- według timecode %s od pozostałych bloków, za daleko jak na jedno nagranie"

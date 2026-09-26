@@ -5130,3 +5130,6 @@ msgstr "  Seat leathan ag na himill: dada -- bhí an dá cheann níos giorra ná
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Nuair atá \"Níl aon duine ag caint\" socraithe chun bearna ghearr a choinneáil, ní athraíonn bearna chomh fada seo faic, agus téann bearna níos faide chuig an tseat leathan. Nuair atá \"Aithint éiginnte\" socraithe ar \"Gan athrú ceamara\", téann sliocht éiginnte níos faide ná seo chuig an tseat leathan freisin. Os cionn dhá shoicind tosaíonn an pictiúr ag fanacht ar dhuine ciúin ar feadh níos mó ná cúig shoicind."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s fágtha amach -- %s ó na bloic eile de réir an chóid ama, rófhada óna chéile do thaifeadadh amháin"
