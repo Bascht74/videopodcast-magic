@@ -1443,18 +1443,29 @@ def weak_marks_show(state, nodes):
     alone = state.get("clock_alone") or ()
     dropped = weak_nodes_mark(nodes, weak, nowhere, kinds, alone)
     weak_rows_mark(state.get("file_rows") or (), weak, nowhere, kinds,
-                   alone)
+                   alone, nodes)
     return dropped
 
 
-def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=()):
+def row_blocks(nodes, path):
+    """The files behind the file list's row for *path*, in their order.
+
+    A recording of several blocks is one row there, every block pointing
+    at it; a file with no row there stands for itself alone.
+    """
+    item = ByFile(nodes or {}).get(path)
+    if item is None:
+        return [path]
+    return [p for p, other in nodes.items() if other is item]
+
+
+def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=(), nodes=None):
     """The same mark on the recordings of the assignment tree.
 
-    *rows* is (its row in the tree, the file, the plain caption), one
-    per recording; the voices under it carry no mark, the question
-    being about the recording. The camera rows carry none either: every
-    note about a file stands on the first sheet, where the files are
-    chosen, and repeating it here in red is an accusation, not news.
+    *rows* is (its row in the tree, the file, the plain caption), one per
+    recording, judged by its worst block as the file list's row in *nodes*
+    is. Voices and camera rows carry no mark: the note about a file
+    stands on the first sheet, and repeated here in red it accuses.
     """
     import PySide6.QtGui as _qg
     nowhere = set(no_place or ())
@@ -1462,6 +1473,7 @@ def weak_rows_mark(rows, weak, no_place=(), kinds=None, alone=()):
     for row, p, plain in rows:
         if not p:
             continue
+        p = weak_row_worst(row_blocks(nodes, p), weak, nowhere, kinds)
         placeless = path_key(p) in nowhere
         odd = path_key(p) in weak or placeless
         kind = weak_kind(kinds, p)
