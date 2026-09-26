@@ -153,6 +153,17 @@ RUN_TEMP_SETTINGS="${TMPDIR:-/tmp}/vpm_settings_$(id -u)_$$"
 mkdir -p "$RUN_TEMP_SETTINGS"
 export VPM_SETTINGS="$RUN_TEMP_SETTINGS"
 
+# And no test reaches a Resolve that is really running. A window test
+# that shows the Resolve tab starts check_resolve(), and on a machine
+# with Resolve installed that connects and asks the program its name --
+# measured 26.9.2026: fifteen tests did, against whatever Resolve was open.
+# Pointed at a folder that is never made, the interface is "not found"
+# before anything is asked. Set whatever came in: a shell pointed at the
+# real Resolve must not carry it into the suite. A test that wants its
+# own stand-in sets these itself; tests/resolve.sh runs apart from this.
+export RESOLVE_SCRIPT_API="$RUN_TEMP_SETTINGS/no-resolve-here"
+export RESOLVE_SCRIPT_LIB="$RUN_TEMP_SETTINGS/no-resolve-here/fusionscript"
+
 # Two suites on one machine share VPM_FIXTURES, and fixtures.sh deletes a
 # folder before building it again. The lock that keeps them apart stands
 # in fixture_lock.sh, because resolve.sh builds the same folders.
