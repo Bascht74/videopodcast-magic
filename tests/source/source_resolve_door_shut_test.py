@@ -17,7 +17,7 @@ while it runs is not seen, and one step is followed and not two: a
 function that reaches a door through another -- write_handover through
 the --resolve in its handover -- is not counted here.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

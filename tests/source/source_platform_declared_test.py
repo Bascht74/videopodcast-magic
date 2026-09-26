@@ -5,9 +5,9 @@ A test with PLATFORM_BOUND = True runs on the six system jobs, one with
 False once, on the neutral job; run.sh and tests.yml pick it by that
 line alone, so a missing or misspelt line takes it out of both halves.
 In order: every test carries the line exactly once, spelt as run.sh's
-grep reads it; a test declared neutral starts no process, opens no
-window and asks no platform; no test set aside on a system in tests.yml
-is declared neutral.
+grep reads it; a test declared neutral starts no process but git, opens
+no window and asks no platform; no test set aside on a system in
+tests.yml is declared neutral.
 """
 PLATFORM_BOUND = False
 import os
@@ -78,8 +78,54 @@ def reaches(source):
                 and isinstance(node.value, ast.Name) \
                 and (node.value.id, node.attr) in BOUND_NAMES:
             seen.add("%s.%s" % (node.value.id, node.attr))
-    return sorted(seen & BOUND_MODULES
-                  | {s for s in seen if "." in s})
+    hits = seen & BOUND_MODULES | {s for s in seen if "." in s}
+    if "subprocess" in hits and starts_git_only(source):
+        hits.discard("subprocess")
+    return sorted(hits)
+
+
+# The one process a neutral test may start: git reads the repository and
+# says the same on every system. Only the literal argv with "git" first.
+STARTERS = {"run", "Popen", "call", "check_call", "check_output"}
+QUIET = {"PIPE", "DEVNULL", "STDOUT"}
+
+
+def argv_is_git(node):
+    """Whether an argv written here begins with the word git."""
+    while isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        node = node.left
+    return isinstance(node, (ast.Tuple, ast.List)) and bool(node.elts) \
+        and isinstance(node.elts[0], ast.Constant) \
+        and node.elts[0].value == "git"
+
+
+def starts_git_only(source):
+    """Whether every use of subprocess here starts git and nothing else.
+
+    Each use is an allowed call -- a starter whose first argument is a
+    literal argv beginning with "git" -- or a PIPE/DEVNULL/STDOUT handed
+    to one. Anything else, an import under another name included, is not.
+    """
+    tree = ast.parse(source)
+    allowed = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "subprocess":
+            return False
+        if isinstance(node, ast.Import) and any(
+                a.name == "subprocess" and a.asname for a in node.names):
+            return False
+        if isinstance(node, ast.Call) and node.args \
+                and isinstance(node.func, ast.Attribute) \
+                and isinstance(node.func.value, ast.Name) \
+                and node.func.value.id == "subprocess" \
+                and node.func.attr in STARTERS and argv_is_git(node.args[0]):
+            allowed.add(id(node.func.value))
+            allowed.update(id(k.value.value) for k in node.keywords
+                           if isinstance(k.value, ast.Attribute)
+                           and isinstance(k.value.value, ast.Name)
+                           and k.value.attr in QUIET)
+    return all(id(node) in allowed for node in ast.walk(tree)
+               if isinstance(node, ast.Name) and node.id == "subprocess")
 
 
 ALL = tests()
@@ -105,7 +151,7 @@ for name in neutral:
     hits = reaches(io.open(ALL[name], encoding="utf-8").read())
     if hits:
         leaning.append("%s: %s" % (name, ", ".join(hits)))
-check("a neutral test starts no process, window or platform question",
+check("a neutral test starts nothing but git, no window, no platform",
       not leaning, "%d of %d neutral: %s"
       % (len(leaning), len(neutral), "; ".join(leaning[:6])))
 

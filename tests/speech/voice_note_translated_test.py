@@ -9,7 +9,7 @@ languages; a line nobody expected passed on as the fault it is; and the
 same thing seen from outside, with the recogniser replaced by a
 stand-in that writes exactly the line the real one writes.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

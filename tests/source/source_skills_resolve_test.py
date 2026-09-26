@@ -8,7 +8,7 @@ them. Three sections: the paths a skill points at, the tests it names,
 and the skills it sends the reader on to. What a skill says about the
 program is not checked here -- only that what it names exists.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a

@@ -10,7 +10,7 @@ beside them reads the same clock. Whether Resolve puts the markers where
 the head says is not measured here; the head and the semicolon are what
 it reads.
 """
-PLATFORM_BOUND = True
+PLATFORM_BOUND = False
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
