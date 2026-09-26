@@ -4997,3 +4997,15 @@ msgstr "\"யாரும் பேசவில்லை\" சிறு இட�
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s விடப்பட்டது -- டைம்கோடுப்படி மற்ற தொகுதிகளிலிருந்து %s தொலைவு, ஒரே பதிவுக்கு மிகத் தொலைவு"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  ஓரங்களில் வைட் ஷாட்: முழு வெட்டும் வைட் ஷாட்தான்"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  ஒவ்வொன்றும் அதிகபட்சம் %s ஆகக் குறைக்கப்பட்டது -- ஒரே அறிவிப்பு %s முதல் %s வரை நீள்கிறது"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: தொடக்கத்தில் %s படம் இல்லாததால் விடப்படுகிறது"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: இறுதியில் %s படம் இல்லாததால் விடப்படுகிறது"

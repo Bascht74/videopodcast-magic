@@ -5011,3 +5011,15 @@ msgstr "Dove «Nessuno parla» è impostato su mantenere una pausa breve, una pa
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s escluso -- a %s dagli altri blocchi secondo il timecode, troppo lontano per una registrazione"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Campo totale ai bordi: tutto il montaggio è il campo totale"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  accorciato al massimo a %s ciascuno -- l’unico annuncio va da %s a %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s all’inizio non ha immagine e viene tralasciato"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s alla fine non ha immagine e viene tralasciato"

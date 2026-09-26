@@ -5086,3 +5086,15 @@ msgstr "Kjer je „Nihče ne govori“ nastavljeno na zadržanje kratkega premor
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s izpuščen -- po časovni kodi %s od drugih blokov, predaleč za en posnetek"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Splošni plan na robovih: ves rez je splošni plan"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  skrajšano na največ %s vsak -- edini nagovor traja od %s do %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s na začetku nima slike in se izpusti"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s na koncu nima slike in se izpusti"

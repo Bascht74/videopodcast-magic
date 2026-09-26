@@ -4949,3 +4949,15 @@ msgstr "\"아무도 말하지 않음\"이 짧은 공백 유지로 설정된 곳�
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s 제외 -- 타임코드상 다른 블록과 %s 떨어져 있어 한 녹음으로 보기에는 너무 멉니다"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  양 끝의 와이드 샷: 컷 전체가 와이드 샷입니다"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  각각 최대 %s로 줄임 -- 유일한 발언은 %s부터 %s까지입니다"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: 앞쪽 %s은(는) 영상이 없어 제외됩니다"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: 뒤쪽 %s은(는) 영상이 없어 제외됩니다"

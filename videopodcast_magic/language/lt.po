@@ -5041,3 +5041,15 @@ msgstr "Kur „Niekas nekalba“ nustatyta išlaukti trumpą pauzę, iki tokio i
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s praleistas -- pagal laiko kodą %s nuo kitų blokų, per toli vienam įrašui"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Bendrasis planas kraštuose: visas montažas yra bendrasis planas"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  kiekvienas sutrumpintas iki daugiausia %s -- vienintelis pranešimas trunka nuo %s iki %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s pradžioje neturi vaizdo ir praleidžiama"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s pabaigoje neturi vaizdo ir praleidžiama"

@@ -5133,3 +5133,15 @@ msgstr "Nuair atá \"Níl aon duine ag caint\" socraithe chun bearna ghearr a ch
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s fágtha amach -- %s ó na bloic eile de réir an chóid ama, rófhada óna chéile do thaifeadadh amháin"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Seat leathan ag na himill: is é an seat leathan an gearradh ar fad"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  giorraithe go %s ar a mhéad an ceann -- maireann an t-aon fhógra amháin ó %s go %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: níl pictiúr ag %s ag an tús agus fágtar amach é"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: níl pictiúr ag %s ag an deireadh agus fágtar amach é"

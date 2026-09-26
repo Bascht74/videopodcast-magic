@@ -4996,3 +4996,15 @@ msgstr "היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על ה
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s הושמט -- %s לפי קוד הזמן מהמקטעים האחרים, רחוק מדי להקלטה אחת"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  שוט רחב בקצוות: כל העריכה היא השוט הרחב"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  קוצר לכל היותר ל-%s כל אחד -- ההכרזה היחידה נמשכת מ-%s עד %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: ל-%s בהתחלה אין תמונה, והוא מושמט"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: ל-%s בסוף אין תמונה, והוא מושמט"

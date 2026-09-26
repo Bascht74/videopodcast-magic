@@ -4992,3 +4992,15 @@ msgstr "Donde «Nadie habla» está en mantener una pausa corta, una pausa hasta
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s omitido -- a %s de los demás bloques según el timecode, demasiado lejos para una sola grabación"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Plano general en los bordes: todo el corte es el plano general"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  acortado a %s como máximo cada uno -- el único anuncio va de %s a %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s al principio no tiene imagen y se deja fuera"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s al final no tiene imagen y se deja fuera"

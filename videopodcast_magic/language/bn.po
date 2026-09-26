@@ -4995,3 +4995,15 @@ msgstr "যেখানে \"কেউ কথা বলছেন না\" ছো
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s বাদ দেওয়া হয়েছে -- টাইমকোড অনুযায়ী অন্য ব্লকগুলো থেকে %s দূরে, একটি রেকর্ডিংয়ের জন্য খুব দূরে"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  প্রান্তে ওয়াইড শট: পুরো কাটটাই ওয়াইড শট"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  প্রতিটি সর্বোচ্চ %s পর্যন্ত ছোট করা হয়েছে -- একমাত্র ঘোষণা %s থেকে %s পর্যন্ত চলে"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: শুরুর %s-এ কোনো ছবি নেই, তাই বাদ দেওয়া হয়"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: শেষের %s-এ কোনো ছবি নেই, তাই বাদ দেওয়া হয়"

@@ -4993,3 +4993,15 @@ msgstr "Missä \"Kukaan ei puhu\" on asetettu pitämään kuva lyhyen tauon yli,
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s jätettiin pois -- aikakoodin mukaan %s muista osista, liian kaukana yhdeksi tallenteeksi"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Yleiskuva reunoilla: koko leikkaus on yleiskuvaa"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  lyhennetty kukin enintään pituuteen %s -- ainoa puheenvuoro kestää kohdasta %s kohtaan %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s alussa on ilman kuvaa ja jää pois"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s lopussa on ilman kuvaa ja jää pois"

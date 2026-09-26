@@ -4997,3 +4997,15 @@ msgstr "\"ఎవరూ మాట్లాడరు\" చిన్న ఖాళ�
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s వదిలివేయబడింది -- టైమ్‌కోడ్ ప్రకారం మిగతా బ్లాక్‌ల నుంచి %s దూరం, ఒకే రికార్డింగ్‌కు చాలా దూరం"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  అంచుల వద్ద వైడ్ షాట్: మొత్తం కట్ వైడ్ షాట్‌యే"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  ఒక్కొక్కటి గరిష్ఠంగా %s కి కుదించబడింది -- ఏకైక ప్రకటన %s నుండి %s వరకు సాగుతుంది"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: ప్రారంభంలో %s చిత్రం లేనందున వదిలివేయబడుతుంది"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: చివరలో %s చిత్రం లేనందున వదిలివేయబడుతుంది"

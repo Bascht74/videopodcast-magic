@@ -4995,3 +4995,15 @@ msgstr "Ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva,
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s kimaradt -- a timecode szerint %s távolságra a többi blokktól, túl messze egy felvételhez"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Totál a széleken: az egész vágás a totál"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  mindegyik legfeljebb %s hosszúra rövidítve -- az egyetlen bejelentés ettől: %s, eddig: %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s az elején kép nélküli, ez kimarad"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s a végén kép nélküli, ez kimarad"

@@ -4994,3 +4994,15 @@ msgstr "Όπου το \"Κανείς δεν μιλάει\" είναι ρυθμι
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s παραλείφθηκε -- %s μακριά από τα άλλα μπλοκ κατά το timecode, πολύ μεγάλη απόσταση για μία ηχογράφηση"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  Γενικό πλάνο στα άκρα: όλο το μοντάζ είναι το γενικό πλάνο"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  συντομεύτηκε σε το πολύ %s το καθένα -- η μόνη αναγγελία διαρκεί από %s έως %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: %s στην αρχή δεν έχει εικόνα και παραλείπεται"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: %s στο τέλος δεν έχει εικόνα και παραλείπεται"

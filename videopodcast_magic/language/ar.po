@@ -5177,3 +5177,15 @@ msgstr "حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإ�
 
 msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
 msgstr "  %s تُرك جانبًا -- يبعد %s حسب الكود الزمني عن الكتل الأخرى، متباعد جدًا لتسجيل واحد"
+
+msgid "  Wide shot at the edges: the whole cut is the wide shot"
+msgstr "  لقطة واسعة عند الأطراف: القطع كله لقطة واسعة"
+
+msgid "  shortened to at most %s each -- the only announcement runs from %s to %s"
+msgstr "  قُصِّر كلٌّ منهما إلى %s على الأكثر -- الإعلان الوحيد يمتد من %s إلى %s"
+
+msgid "    %s: %s at the front has no picture and is left out"
+msgstr "    %s: ‏%s في البداية بلا صورة ويُترك خارجًا"
+
+msgid "    %s: %s at the back has no picture and is left out"
+msgstr "    %s: ‏%s في النهاية بلا صورة ويُترك خارجًا"
