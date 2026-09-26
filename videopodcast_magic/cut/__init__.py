@@ -1197,27 +1197,57 @@ def wide_settings_grey(parts, tick, note, there, quiet, words_there):
     note.setText("" if there else why)
     note.setVisible(not there)
 
+def words_missing_why(d):
+    """Why a handover carries no words: "yet", "off" or "failed".
+
+    True where it carries some. The window works its own preview out
+    without a transcript, and an older run wrote no "words" at all:
+    both are "yet". A run that listened and brought nothing back failed;
+    one told not to listen says so with speech_recognition false.
+    """
+    if words_from_handover(d):
+        return True
+    if (d or {}).get("speech_recognition") is False:
+        return "off"
+    return "failed" if "words" in (d or {}) else "yet"
+
 def words_settings_grey(parts, note, there, wide_there, quiet):
     """Grey the settings that need a transcript, with the reason.
 
-    Four of them: the two of the question, which without words find no
-    question at all, and two of the wide shot, which place themselves on
-    a sentence boundary. *wide_there* keeps the wide shot's own greying:
-    a control is open only where both say so.
+    The two of the question, which without words find no question, and
+    two of the wide shot, which place themselves on a sentence boundary.
+    *there* is True, or words_missing_why's answer (False means "yet");
+    a failed transcript is said in the warning colour, with what to do.
+    *wide_there* keeps the wide shot's own greying: open where both say so.
     """
-    why = T('No transcript yet. Without one no question is found and no '
-            'sentence boundary is known, so these four settings do '
-            'nothing. A run writes it, and from then on they work.')
+    state = "yet" if there is False else there
+    why = {"yet": T('There is none yet: a run writes it, and from then on '
+                    'they work.'),
+           "off": T('Speech recognition was switched off for the run. '
+                    'Leave it on, and the next run writes one.'),
+           "failed": T('The run wrote none: the speech recognition failed '
+                       'or heard nothing, and the run\'s log says which. '
+                       'Check the language of the sound and run again; '
+                       'where this machine has no recognition, macOS 26 '
+                       'brings one, or the run installs faster-whisper.')
+           }.get(state, "")
+    if why:
+        why = (T('Without a transcript no question is found and no '
+                 'sentence boundary is known, so the two question '
+                 'settings and the two wide shot settings that wait for '
+                 'the end of a sentence do nothing.') if wide_there else
+               T('Without a transcript no question is found, so the two '
+                 'question settings do nothing.')) + " " + why
     for api_key in QUESTION_SETTINGS:
         for w in parts.get(api_key, (None, None)):
             if w is not None:
-                w.setEnabled(there)
+                w.setEnabled(state is True)
     for api_key in WIDE_NEEDS_WORDS:
         for w in parts.get(api_key, (None, None)):
             if w is not None:
-                w.setEnabled(there and wide_there)
-    note.setText("" if there else why)
-    note.setVisible(not there)
+                w.setEnabled(state is True and wide_there)
+    label_say(note, why, COLOURS["warning"] if state == "failed" else quiet)
+    note.setVisible(bool(why))
 
 def wide_cameras_of(files, kinds, remembered, taken, placeless=(),
                     sync=False):
@@ -1967,7 +1997,7 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
         state["words_there"] = bool(words_from_handover(d))
         if state.get("cut_box_there"):
             words_settings_grey(cut_parts, question_note,
-                                state["words_there"],
+                                words_missing_why(d),
                                 bool(wide_cameras_now()[0]), COLOURS["quiet"])
         try:
             numbers = cut_statistics(d, number["min-edit-duration"],
