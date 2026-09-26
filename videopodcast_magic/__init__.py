@@ -385,6 +385,24 @@ def leave_window(code):
     os._exit(int(code or 0))
 
 
+def returned_given_as_raw(audio_paths, done_folder):
+    """The first recording handed in from the --auphonic-done folder, or "".
+
+    That folder holds what auphonic.com returned, and who speaks is
+    worked out on the raw recordings. One of those handed in from there
+    would decide it unseen, so the run refuses it rather than guess.
+    Only audio: a camera lying there is no returned track.
+    """
+    if not done_folder:
+        return ""
+    # The real path first: /tmp is a link to /private/tmp on macOS.
+    home = os.path.join(path_key(os.path.realpath(done_folder)), "")
+    for p in audio_paths:
+        if path_key(os.path.realpath(p)).startswith(home):
+            return p
+    return ""
+
+
 def main():
     """The way in: a command line means a run, a bare start means the window.
 
@@ -526,6 +544,12 @@ def main():
     for p in audio_paths + video_paths:
         if not os.path.exists(p):
             sys.exit(T('Not found: %s') % p)
+    returned = returned_given_as_raw(audio_paths, args.auphonic_done)
+    if returned:
+        sys.exit(T('%s lies in the --auphonic-done folder, among the tracks '
+                   'auphonic.com returned. Who speaks is worked out on the '
+                   'raw recordings, so name the raw one here instead.')
+                 % returned)
 
     # Preflight: once for both modes, before any fork.
     if run_preflight(args, audio_paths, video_paths):
