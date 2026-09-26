@@ -77,7 +77,7 @@ figure of the day is that command, not this paragraph**:
   hold none of its state
 * `desktop/` **941** -- the picture and the shortcut the first start
   lays down
-* `orders/` **958** -- the command line a run is given: written out of
+* `orders/` **980** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself
