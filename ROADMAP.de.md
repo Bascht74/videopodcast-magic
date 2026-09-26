@@ -213,9 +213,9 @@ Gröber, und in keiner festen Reihenfolge.
   reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit gesetztem
   `COVERAGE_PROCESS_START`, damit die Läufe mitzählen, die die Tests
   selbst starten. Beim letzten solchen Lauf betrat die
-  Suite rund sieben von zehn Anweisungen. Die Zahl wird als Spanne gelesen und nie als
-  Ziel, und sie stammt aus der Zeit, als das Programm noch eine einzige
-  Datei war — sie will neu erhoben werden. Was so ein Lauf wirklich wert
+  Suite 88 von hundert Anweisungen (87 mit den Verzweigungen), am
+  Programm in seiner heutigen Gestalt (26.9.2026). Die Zahl wird als
+  Spanne gelesen und nie als Ziel. Was so ein Lauf wirklich wert
   ist, ist die Liste der Stellen, die kein Test betritt. Zwei sind auch
   ohne ihn bekannt: die Meldungen, mit denen das Programm abbricht, wenn
   unterwegs etwas Unerwartetes schiefgeht, und der Weg, der den Ton

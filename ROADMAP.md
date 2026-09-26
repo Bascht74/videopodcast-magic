@@ -199,9 +199,9 @@ Coarser, and in no fixed order.
 * **The edges of the program get tests.** What the coverage is, a run
   says: coverage.py over `bash run.sh`, with `COVERAGE_PROCESS_START`
   set so the runs the tests start are counted too. The last such run
-  found about seven statements in ten entered. It is read as a band and
-  never as a target, and it was taken while the program was still one
-  file, so it wants taking again. What is worth having out of such a run
+  found 88 statements in a hundred entered (87 with the branches), on
+  the program as it is laid out today (26.9.2026). It is read as a band
+  and never as a target. What is worth having out of such a run
   is the list of places no test ever enters. Two are known without it:
   the messages the program stops with when something unexpected goes
   wrong, and the way that takes the sound from the cameras alone when
