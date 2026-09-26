@@ -193,6 +193,7 @@ run_switch_has_effect	8
 run_sync_only_no_cut	20
 run_threads_keep_order	17
 run_three_ways_agree	24
+run_typed_name_used	11
 run_unreadable_named	6
 run_update_says_it_landed	7
 run_way_back_offered	15
@@ -338,6 +339,7 @@ voice_both_ways_agree	20
 voice_close_mics_mixed	51
 voice_counts_grouped	3
 voice_cue_fits_two_lines	5
+voice_every_block_heard	7
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_language_arrives	15
@@ -360,6 +362,7 @@ window_all_come_up	6
 window_amounts_grouped	10
 window_answers_arrive	39
 window_axis_asks_again	2
+window_bare_start_stands	3
 window_block_misfit_kept	8
 window_blocks_placed	6
 window_captions_fit	480
@@ -374,6 +377,7 @@ window_captions_langs8	60
 window_choices_refit	4
 window_clock_sound_said	7
 window_cut_colours	8
+window_cut_tab_by_voice	8
 window_dark_follows	5
 window_exit_keeps_all	7
 window_foot_on_one_line	8
@@ -407,6 +411,7 @@ window_restart_carries	17
 window_run_handover_kept	8
 window_setup_kept_apart	19
 window_sheets_fit	16
+window_silent_hears_none	5
 window_size_as_run	6
 window_sound_fault_named	5
 window_sound_sync_fixed	6
@@ -432,6 +437,3 @@ window_view_reaches_tabs	10
 window_voice_audio_heard	6
 window_words_caught_up	23
 window_zoom_stays_in	32
-voice_every_block_heard	7
-run_typed_name_used	11
-window_silent_hears_none	5

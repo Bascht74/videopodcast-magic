@@ -1,6 +1,6 @@
 # The test suite
 
-404 tests against the program in `../videopodcast_magic/`. Every one of them stands
+406 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -248,7 +248,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-404 tests. The name is the one a red line carries, and beside it the
+406 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -507,6 +507,7 @@ it is green.
 | `window_amounts_grouped` | The window says its amounts the way the language does. |
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
+| `window_bare_start_stands` | A bare start, as the installed command makes it, opens the window and ends. |
 | `window_block_misfit_kept` | A recording of several blocks keeps its misfit mark whatever block ran last. |
 | `window_blocks_placed` | The preview plays a recording in the block that holds the moment. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
@@ -521,6 +522,7 @@ it is green.
 | `window_choices_refit` | The camera cut's drop-downs hold their longest entry in any font. |
 | `window_clock_sound_said` | Until the sound is measured in, the line under the picture says so. |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
+| `window_cut_tab_by_voice` | Opening Resolve cut asks Resolve and shows the cut by voice, on both paths. |
 | `window_dark_follows` | A desktop switched to dark leaves no light ground standing in the window. |
 | `window_exit_keeps_all` | On Windows the window's end skips the teardown and keeps what it owes. |
 | `window_foot_on_one_line` | The buttons in the footer stand on one line, and say why they are off. |
@@ -750,7 +752,7 @@ the source, the texts and the documents as a whole.
 | `prework/` | `window_prework_box_goes` |
 | `project/` | `files_project_first`, `files_project_offered`, `project_close_forgets`, `project_keeps_answers`, `project_leaves_others`, `project_run_comes_back`, `project_settings_return`, `project_ticks_come_back`, `window_restart_carries` |
 | `resolve/` | `cut_all_shots_land`, `cut_colour_per_camera`, `cut_jingle_over_start`, `cut_own_rate_counted`, `cut_wide_colour_apart`, `project_amounts_grouped`, `project_audio_counted`, `project_cameras_land`, `project_grades_stay_off`, `project_hdr_follows`, `project_markers_placed`, `project_mix_by_name`, `project_mixed_run_lands`, `project_output_says_hdr`, `project_refusal_heeded`, `project_render_kept`, `project_render_queued`, `project_rerun_updates`, `project_run_lands_whole`, `project_same_offset`, `project_sync_multicam`, `project_tag_reason_fits`, `project_top_rate_wins`, `project_two_stay_two`, `project_two_timelines_go` |
-| `resolvesheet/` | `window_groups_make_room` |
+| `resolvesheet/` | `window_cut_tab_by_voice`, `window_groups_make_room` |
 | `running/` | `run_assign_file_gone`, `run_dry_leaves_out`, `run_window_run_agrees`, `window_overwrite_asked`, `window_start_runs`, `window_stop_always` |
 | `setup/` | `auphonic_key_by_pipe`, `auphonic_key_in_keyring`, `auphonic_key_kept`, `auphonic_key_reg_shut`, `auphonic_key_typed`, `run_ffmpeg_new_enough`, `run_ffmpeg_not_fetched`, `run_ffmpeg_offered`, `run_install_is_watched` |
 | `soundings/` | `files_probed_once` |
@@ -760,7 +762,7 @@ the source, the texts and the documents as a whole.
 | `stowage/` | `run_choice_kept` |
 | `timebase/` | `time_camera_drift_clear`, `time_colour_own_camera`, `time_lost_end_named` |
 | `timecode/` | `time_all_ways_agree`, `time_bext_at_own_rate`, `time_clock_read_at_rate`, `time_clock_track_first`, `time_drop_label_kept`, `time_length_is_in_to_out`, `time_over_midnight` |
-| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard` |
+| `ui/` | `auphonic_speech_read`, `cut_offer_needs_two`, `cut_player_offset_used`, `cut_player_prepared_used`, `cut_two_stay_two`, `project_file_beats_last`, `table_audio_asked_for`, `table_lock_says_why`, `table_one_entry_greyed`, `table_pair_named_alike`, `table_pair_seats_apart`, `table_sync_stem_shown`, `table_tick_keeps_camera`, `table_typed_name_stays`, `window_all_come_up`, `window_answers_arrive`, `window_bare_start_stands`, `window_captions_fit`, `window_captions_langs1`, `window_captions_langs2`, `window_captions_langs3`, `window_captions_langs4`, `window_captions_langs5`, `window_captions_langs6`, `window_captions_langs7`, `window_captions_langs8`, `window_grey_says_why`, `window_handover_follows`, `window_handover_found`, `window_key_off_line`, `window_marks_take_spot`, `window_offers_restart`, `window_pair_said_apart`, `window_point_named`, `window_project_type_set`, `window_run_handover_kept`, `window_setup_kept_apart`, `window_sheets_fit`, `window_sound_sync_fixed`, `window_stands_still`, `window_symbol_from_file`, `window_title_follows`, `window_tracks_seen_anew`, `window_voice_audio_heard` |
 | `upkeep/` | `run_only_newer_offered`, `run_update_says_it_landed`, `run_way_back_offered` |
 
 ### Under `resolve/live/` -- beside a running DaVinci Resolve
