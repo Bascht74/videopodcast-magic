@@ -50,7 +50,7 @@ figure of the day is that command, not this paragraph**:
   reach it named, out of `speakers/`
 * `resolve/` **2638** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
-* `material/` **2865** -- channels, chains, continuation files, what a
+* `material/` **2862** -- channels, chains, continuation files, what a
   track is made of, and the channel rows the window shows of it
 * `bearings/` **2184** -- where each file and each voice sits, and how
   each one reads: the time axis and the offsets, which camera belongs
@@ -71,7 +71,7 @@ figure of the day is that command, not this paragraph**:
   keeping the key, and storing it from the terminal
 * `speech/` **1354** -- what is said and when, and what is written down
   from it
-* `hearing/` **1083** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1132** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1320** -- helpers that shape what the window shows and
   hold none of its state

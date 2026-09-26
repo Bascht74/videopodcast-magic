@@ -1,6 +1,6 @@
 # The test suite
 
-392 tests against the program in `../videopodcast_magic/`. Every one of them stands
+393 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -248,7 +248,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-392 tests. The name is the one a red line carries, and beside it the
+393 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -305,6 +305,7 @@ it is green.
 | `sound_clipping_counted` | Clipping is counted per channel, and only where the format has a stop. |
 | `sound_delay_decides` | One pair of microphones, or two of them? |
 | `sound_each_gets_a_track` | Without Multitrack: the mix, and the recordings beside it. |
+| `sound_far_block_left_out` | A block past the block limit per timecode is left out of the join, and said. |
 | `sound_hush_reason` | A channel that carries nothing says which rule caught it. |
 | `sound_join_any_rate` | Timecoded blocks in a row are joined whole at 44.1 and 96 kHz too. |
 | `sound_join_order` | Audio blocks are joined in the order they were handed over. |
@@ -722,7 +723,7 @@ the source, the texts and the documents as a whole.
 | `filelist/` | `files_block_out_and_back` |
 | `filing/` | `files_by_file_holds` |
 | `fittings/` | `table_recording_shown`, `window_choices_refit`, `window_foot_on_one_line`, `window_speaker_cell_fits`, `window_speaker_langs1`, `window_speaker_langs2`, `window_speaker_langs3`, `window_speaker_langs4`, `window_speaker_langs5`, `window_speaker_langs6`, `window_speaker_langs7`, `window_speaker_langs8` |
-| `hearing/` | `files_curve_kept_once`, `sound_block_gap_said`, `sound_check_reads_once`, `sound_each_gets_a_track`, `sound_join_any_rate`, `sound_join_order`, `time_bad_point_dropped`, `time_guess_refused`, `time_phase_only_mixed`, `time_scatter_not_placed`, `time_second_try_places`, `time_short_cam_found`, `time_thin_block_refused`, `time_track_starts_late`, `time_which_way_is_said` |
+| `hearing/` | `files_curve_kept_once`, `sound_block_gap_said`, `sound_check_reads_once`, `sound_each_gets_a_track`, `sound_far_block_left_out`, `sound_join_any_rate`, `sound_join_order`, `time_bad_point_dropped`, `time_guess_refused`, `time_phase_only_mixed`, `time_scatter_not_placed`, `time_second_try_places`, `time_short_cam_found`, `time_thin_block_refused`, `time_track_starts_late`, `time_which_way_is_said` |
 | `herald/` | `run_bar_never_falls`, `run_bar_tracks_work`, `run_quiet_judged`, `run_which_script`, `window_idle_bar_hidden`, `window_stages_named` |
 | `language/` | `text_german_arrives`, `text_lang_acted_on`, `text_lang_settled_first`, `text_languages_covered`, `text_no_german_left`, `text_numbers_fit_reader`, `text_only_texts_change`, `text_run_all_german`, `text_shown_catalogued`, `text_whole_sentences`, `window_reads_as_chosen` |
 | `livery/` | `window_dark_follows` |
