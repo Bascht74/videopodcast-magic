@@ -127,7 +127,10 @@ hätte also nichts zu sagen.
 **neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird --
 mit Häkchen wie ohne, und auch bei **Nur synchronisieren**: unter
 diesem Namen schreibt der Lauf die Kameradatei. Bis jemand
-darüberschreibt, ist es ein Vorschlag. Bei einem Projekt mit Schnitt
+darüberschreibt, ist es ein Vorschlag, und ein getippter Name -- hier
+wie bei einer Stimme -- bleibt genau so, wie er getippt wurde, auch
+einer, der wie ein Vorschlag mit einer Zahl dahinter aussieht, etwa
+`Wide 2`. Bei einem Projekt mit Schnitt
 nach Sprecher setzt er sich aus der Kamera und den Sprechern auf ihr
 zusammen, und mehrere Sprecher stehen alphabetisch, mit Plus verbunden
 -- gleich, wer in der Tabelle weiter oben steht: `CamB_0001.mov` mit

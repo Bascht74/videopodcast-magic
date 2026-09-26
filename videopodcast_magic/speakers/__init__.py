@@ -849,8 +849,9 @@ def voice_key_parts(key):
 
 # What the table remembers about one file, by the head of the key. A
 # recording's voices are remembered under it, and struck with it.
-REMEMBERED_PER_FILE = ("audio", "kind", "own", "ownname", "several", "video")
-REMEMBERED_PER_VOICE = ("voice", "voicename")
+REMEMBERED_PER_FILE = ("audio", "kind", "own", "ownname", "several", "video",
+                       "videotyped")
+REMEMBERED_PER_VOICE = ("voice", "voicename", "voicetyped")
 
 
 def remembered_forget(remembered, gone):
@@ -1093,17 +1094,18 @@ def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
     return out
 
 
-def voice_name_free(name, taken=()):
+def voice_name_free(name, taken=(), typed=False):
     """The name a voice shows: its own, or the first number nobody has.
 
     A name somebody typed stands, whatever else is on the sheet -- the
-    field says so itself where two are the same. Only the numbered
-    stand-in counts on, and it counts across every separation: to the
-    cut, two voices of one name are one person.
+    field says so itself where two are the same -- and *typed* says one
+    was, even where it looks like the stand-in. Only the program's own
+    stand-in counts on, across every separation: to the cut, two voices
+    of one name are one person.
     """
     name = str(name or "").strip()
     used = set(str(x).strip() for x in taken or () if str(x or "").strip())
-    if name and not (is_stand_in_name(name) and name in used):
+    if name and (typed or not (is_stand_in_name(name) and name in used)):
         return name
     n = 1
     while T('Speaker %d') % n in used:
@@ -2263,7 +2265,23 @@ def voice_marks_of(state):
     if marks is None:
         marks = {"typed": set(), "said": {}, "name": {}, "camera": {}}
         state["voice_marks"] = marks
+    # Who typed a name, apart from who answered in the row at all.
+    marks.setdefault("named", set())
     return marks
+
+
+def voice_typed_back(state, remembered, key):
+    """Whether this voice's name was typed, in this window or the file's.
+
+    A project file says so under "voicetyped:"; brought back, the name
+    is marked as typed again, so no proposal and no count rewrites it.
+    An older file does not say, and a stand-in there is the program's.
+    """
+    marks = voice_marks_of(state)
+    if remembered.get("voicetyped:" + key):
+        marks["typed"].add(key)
+        marks["named"].add(key)
+    return key in marks["named"]
 
 
 def voice_row_marks(state, key, name_value, camera_value, field, box):
@@ -2280,6 +2298,7 @@ def voice_row_marks(state, key, name_value, camera_value, field, box):
     # marked in it. Written over on every rebuild, never kept.
     marks.setdefault("field", {})[key] = field
     field.textEdited.connect(lambda *_: marks["typed"].add(key))
+    field.textEdited.connect(lambda *_: marks["named"].add(key))
     box.activated.connect(lambda *_: marks["typed"].add(key))
 
 
@@ -3668,9 +3687,10 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
         called = dict(speakers_stored(state, path).get("names") or {})
         for label, _parts in found:
             key = voice_key(path, label)
+            named = voice_typed_back(state, remembered, key)
             name_value = PROGRAM.SpeakerName(voice_name_free(
                 remembered.get("voicename:" + key) or called.get(label),
-                [nv.get() for _k, nv, _c in voice_lines]))
+                [nv.get() for _k, nv, _c in voice_lines], named))
             picked, worked_out = camera_row_cameras(
                 PROGRAM.camera_after_a_mark(
                     "voice:" + key, remembered.get("voice:" + key), wide),
@@ -3734,6 +3754,7 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
                 remembered["voicename:" + k] = said
             else:
                 remembered.pop("voicename:" + k, None)
+            remembered["voicetyped:" + k] = k in voice_marks_of(state)["named"]
         voices_answer_kept(remembered, files, named)
         # A voice that has just been given a camera may be the second
         # one, and with it the camera cut becomes possible.
