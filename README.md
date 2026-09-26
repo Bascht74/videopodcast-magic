@@ -146,8 +146,8 @@ package, every one of them stands on the list pip reads, and the
 install brings them all. ffmpeg is the exception it cannot help being,
 since it is not Python -- the program brings none of its own, offers
 the system's package manager and asks first, and otherwise says where
-to get it. macOS and Windows are what this is used on; Linux works with
-two limits.
+to get it. macOS and Windows are what this is used on; Linux works too,
+with two differences.
 
 The detail, including why that ffmpeg version, which Python is
 recommended and what differs per platform, is in

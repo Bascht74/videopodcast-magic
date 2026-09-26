@@ -153,7 +153,7 @@ Installation bringt sie alle mit. ffmpeg ist die Ausnahme, die es nicht
 sein kann, denn es ist kein Python — ein eigenes bringt das Programm
 nicht mit, es bietet den Paketverwalter des Systems an und fragt
 vorher, und sonst sagt es, woher man es bekommt. Benutzt wird das Ganze
-auf macOS und Windows; Linux läuft mit zwei Einschränkungen.
+auf macOS und Windows; Linux geht auch, mit zwei Unterschieden.
 
 Die Einzelheiten — warum diese ffmpeg-Fassung, welches Python empfohlen
 wird und was sich je Plattform unterscheidet — stehen in
