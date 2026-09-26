@@ -4289,9 +4289,6 @@ msgstr "Bearna ghearr suas le"
 msgid "so long a silence leaves the picture alone"
 msgstr "fágann ciúnas chomh fada seo an pictiúr mar atá"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Ach amháin nuair atá \"Níl aon duine ag caint\" socraithe chun bearna ghearr a choinneáil. Ní athraíonn bearna chomh fada seo faic, téann bearna níos faide chuig an tseat leathan. Os cionn dhá shoicind tosaíonn an pictiúr ag fanacht ar dhuine ciúin ar feadh níos mó ná cúig shoicind."
-
 msgid "Recognition uncertain"
 msgstr "Aithint éiginnte"
 
@@ -5121,3 +5118,15 @@ msgstr "Níor fhreagair aon fháinne eochracha Secret Service, mar sin níor st�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Réamhobair -- fuaim a léamh, imchlúdaigh a ríomh agus a ndeirtear a scríobh síos:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Seat leathan ag na himill: ó %s amháin -- bhí an ceann tosaigh níos giorra ná an seat is giorra agus chuaigh sé isteach sa chéad cheann eile"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Seat leathan ag na himill: go dtí %s amháin -- bhí an ceann deiridh níos giorra ná an seat is giorra agus chuaigh sé isteach sa cheann roimhe"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Seat leathan ag na himill: dada -- bhí an dá cheann níos giorra ná an seat is giorra agus chuaigh siad isteach ina gcomharsana"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Nuair atá \"Níl aon duine ag caint\" socraithe chun bearna ghearr a choinneáil, ní athraíonn bearna chomh fada seo faic, agus téann bearna níos faide chuig an tseat leathan. Nuair atá \"Aithint éiginnte\" socraithe ar \"Gan athrú ceamara\", téann sliocht éiginnte níos faide ná seo chuig an tseat leathan freisin. Os cionn dhá shoicind tosaíonn an pictiúr ag fanacht ar dhuine ciúin ar feadh níos mó ná cúig shoicind."

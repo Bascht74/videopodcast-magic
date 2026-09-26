@@ -113,8 +113,12 @@ to the rhythm but to a selector in **Special cases**:
 
 * **Short gap up to**: 1 s, up to this length a silence leaves the
   picture where it is, and a longer one goes to the wide shot. It does
-  something only where **Nobody speaks** stands on **Hold a short
-  gap** (on the command line `--silence-hold`). Measured over 83
+  something where **Nobody speaks** stands on **Hold a short gap**, and
+  where **Recognition uncertain** stands on **No camera change**: an
+  uncertain passage up to this length keeps the picture, a longer one
+  goes to the wide shot as well (on the command line `--silence-hold`).
+  Where no camera is free of speakers there is no wide shot, and the
+  uncertain passage holds however long it runs. Measured over 83
   minutes of interview: at one second no camera stands on a silent
   person for longer than 4 seconds; from two seconds on the first
   stretches over five seconds appear, and that is where the picture
@@ -192,6 +196,9 @@ edge stops there -- at the third in a short recording, at the setting in
 a long one -- and the log says so under `Wide shot at the edges`, with
 where the talk really changes hands. An edge that comes out shorter than
 **Minimum Edit Duration** falls into the shot beside it, like any other.
+The log line names the edges as they stand in the finished cut: where
+one fell into its neighbour, it says `only from` or `only until`, and
+`none` where both did.
 
 **Speaks at least** takes care of short interjections ("mhm", "yes
 exactly"). A shot that still comes out too short falls into the one
@@ -300,7 +307,9 @@ Five cases, and what each of the five selectors decides:
   **Short gap up to** draws that line.
 * **Recognition uncertain**: the recognition frays over a passage, or
   a name is left with nothing but scraps. Somebody is speaking here;
-  where nobody is, **Nobody speaks** decides.
+  where nobody is, **Nobody speaks** decides. **No camera change**
+  holds the picture only as long as **Short gap up to**; a longer
+  uncertain passage goes to the wide shot.
 
 **Silence is the biggest of these cases by far**, and most of it is not
 what the word suggests. Measured over 83 minutes of interview: a fifth

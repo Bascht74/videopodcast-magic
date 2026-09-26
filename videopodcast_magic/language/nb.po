@@ -4560,9 +4560,6 @@ msgstr "Kort pause opptil"
 msgid "so long a silence leaves the picture alone"
 msgstr "så lenge lar en stillhet bildet være i fred"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Bare der \"Ingen snakker\" er satt til å holde en kort pause. En pause opptil denne lengden endrer ingenting, en lengre går til oversiktsbildet. Over to sekunder begynner bildet å bli stående på noen som tier, i mer enn fem sekunder."
-
 msgid "Listener"
 msgstr "Lytter"
 
@@ -4981,3 +4978,15 @@ msgstr "Ingen Secret Service-nøkkelring svarte, så ingenting ble lagret. Utenf
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Forarbeid -- lese lyd, beregne envelopekurver og skrive ned det som blir sagt:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Oversiktsbilde i kantene: bare fra %s -- det i starten var kortere enn det korteste klippet og gikk opp i det neste"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Oversiktsbilde i kantene: bare til %s -- det på slutten var kortere enn det korteste klippet og gikk opp i det forrige"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Oversiktsbilde i kantene: ingen -- begge var kortere enn det korteste klippet og gikk opp i naboene sine"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Der \"Ingen snakker\" er satt til å holde en kort pause, endrer en pause opptil denne lengden ingenting, og en lengre går til oversiktsbildet. Der \"Gjenkjenning usikker\" er satt til \"Ikke noe kamerabytte\", går også et usikkert parti som er lengre enn dette, til oversiktsbildet. Over to sekunder begynner bildet å bli stående på noen som tier, i mer enn fem sekunder."

@@ -4284,9 +4284,6 @@ msgstr "Īsa pauze līdz"
 msgid "so long a silence leaves the picture alone"
 msgstr "tik ilgi klusums attēlu nemaina"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Tikai tur, kur „Neviens nerunā“ ir iestatīts nogaidīt īsu pauzi. Pauze līdz šim ilgumam neko nemaina, garāka pāriet uz kopplānu. Virs divām sekundēm attēls sāk ilgāk par piecām sekundēm rādīt kādu, kurš klusē."
-
 msgid "Recognition uncertain"
 msgstr "Atpazīšana nedroša"
 
@@ -5030,3 +5027,15 @@ msgstr "Neatbildēja neviens Secret Service atslēgu saišķis, tāpēc nekas ne
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Sagatavošana -- skaņas nolasīšana, aploksņu aprēķināšana un teiktā pierakstīšana:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Kopplāns malās: tikai no %s -- sākuma kopplāns bija īsāks par īsāko kadru un saplūda ar nākamo"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Kopplāns malās: tikai līdz %s -- beigu kopplāns bija īsāks par īsāko kadru un saplūda ar iepriekšējo"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Kopplāns malās: nav -- abi bija īsāki par īsāko kadru un saplūda ar kaimiņiem"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Kur „Neviens nerunā“ ir iestatīts nogaidīt īsu pauzi, pauze līdz šim ilgumam neko nemaina, bet garāka pāriet uz kopplānu. Kur „Atpazīšana nedroša“ ir iestatīta uz „Bez kameras maiņas“, arī nedrošs posms, kas garāks par šo, pāriet uz kopplānu. Virs divām sekundēm attēls sāk ilgāk par piecām sekundēm rādīt kādu, kurš klusē."

@@ -4604,9 +4604,6 @@ msgstr "Kratka praznina do"
 msgid "so long a silence leaves the picture alone"
 msgstr "toliko dugo tišina ostavlja sliku na miru"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Samo ondje gdje je \"Nitko ne govori\" postavljeno na zadržavanje kratke praznine. Praznina do ove duljine ništa ne mijenja, dulja prelazi na široki kadar. Iznad dvije sekunde slika počinje stajati na nekome tko šuti dulje od pet sekundi."
-
 msgid "Listener"
 msgstr "Slušatelj"
 
@@ -5026,3 +5023,15 @@ msgstr "Nijedan privjesak ključeva Secret Service nije odgovorio, pa ništa nij
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Priprema -- učitati zvuk, izračunati ovojnice i zapisati ono što je rečeno:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Široki kadar na rubovima: samo od %s -- početni je bio kraći od najkraćeg kadra i prešao je u sljedeći"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Široki kadar na rubovima: samo do %s -- završni je bio kraći od najkraćeg kadra i prešao je u prethodni"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Široki kadar na rubovima: nijedan -- oba su bila kraća od najkraćeg kadra i prešla su u susjedne"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Ondje gdje je \"Nitko ne govori\" postavljeno na zadržavanje kratke praznine, praznina do ove duljine ništa ne mijenja, a dulja prelazi na široki kadar. Ondje gdje je \"Nesigurno prepoznavanje\" postavljeno na \"Bez promjene kamere\", nesiguran odlomak dulji od toga također prelazi na široki kadar. Iznad dvije sekunde slika počinje stajati na nekome tko šuti dulje od pet sekundi."

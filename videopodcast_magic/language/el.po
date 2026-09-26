@@ -4561,9 +4561,6 @@ msgstr "Σύντομη παύση έως"
 msgid "so long a silence leaves the picture alone"
 msgstr "τόσο μεγάλη σιωπή αφήνει την εικόνα ήσυχη"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Μόνο όπου το \"Κανείς δεν μιλάει\" είναι ρυθμισμένο σε κράτημα σύντομης παύσης. Μια παύση έως τόσο δεν αλλάζει τίποτα, μια μεγαλύτερη πηγαίνει στο γενικό πλάνο. Πάνω από δύο δευτερόλεπτα η εικόνα αρχίζει να μένει σε κάποιον σιωπηλό για πάνω από πέντε δευτερόλεπτα."
-
 msgid "Listener"
 msgstr "Ακροατής"
 
@@ -4982,3 +4979,15 @@ msgstr "Καμία κλειδοθήκη Secret Service δεν απάντησε, 
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Προεργασία -- ανάγνωση ήχου, υπολογισμός περιβαλλουσών και καταγραφή όσων λέγονται:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Γενικό πλάνο στα άκρα: μόνο από %s -- το αρχικό ήταν μικρότερο από το συντομότερο πλάνο και ενσωματώθηκε στο επόμενο"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Γενικό πλάνο στα άκρα: μόνο έως %s -- το τελικό ήταν μικρότερο από το συντομότερο πλάνο και ενσωματώθηκε στο προηγούμενο"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Γενικό πλάνο στα άκρα: κανένα -- και τα δύο ήταν μικρότερα από το συντομότερο πλάνο και ενσωματώθηκαν στα γειτονικά τους"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Όπου το \"Κανείς δεν μιλάει\" είναι ρυθμισμένο σε κράτημα σύντομης παύσης, μια παύση έως τόσο δεν αλλάζει τίποτα και μια μεγαλύτερη πηγαίνει στο γενικό πλάνο. Όπου το \"Αβέβαιη αναγνώριση\" είναι ρυθμισμένο σε \"Χωρίς αλλαγή κάμερας\", ένα αβέβαιο απόσπασμα μεγαλύτερο από αυτό πηγαίνει επίσης στο γενικό πλάνο. Πάνω από δύο δευτερόλεπτα η εικόνα αρχίζει να μένει σε κάποιον σιωπηλό για πάνω από πέντε δευτερόλεπτα."

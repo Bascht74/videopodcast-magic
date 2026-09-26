@@ -4518,9 +4518,6 @@ msgstr "Khoảng trống ngắn tới"
 msgid "so long a silence leaves the picture alone"
 msgstr "khoảng im lặng chừng này không làm đổi hình"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Chỉ khi \"Không ai nói\" được đặt là giữ khoảng trống ngắn. Khoảng trống dài đến mức này không thay đổi gì, khoảng dài hơn sẽ chuyển sang cảnh rộng. Trên hai giây, hình bắt đầu dừng trên một người im lặng quá năm giây."
-
 msgid "Listener"
 msgstr "Người nghe"
 
@@ -4938,3 +4935,15 @@ msgstr "Không có chuỗi khóa Secret Service nào trả lời, nên không c�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Chuẩn bị -- đọc âm thanh, tính đường bao và chép lại những gì được nói:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Cảnh rộng ở hai đầu: chỉ từ %s -- cảnh ở đầu ngắn hơn cảnh ngắn nhất nên đã nhập vào cảnh sau"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Cảnh rộng ở hai đầu: chỉ đến %s -- cảnh ở cuối ngắn hơn cảnh ngắn nhất nên đã nhập vào cảnh trước"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Cảnh rộng ở hai đầu: không có -- cả hai đều ngắn hơn cảnh ngắn nhất nên đã nhập vào cảnh bên cạnh"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Khi \"Không ai nói\" được đặt là giữ khoảng trống ngắn, khoảng trống dài đến mức này không thay đổi gì, khoảng dài hơn sẽ chuyển sang cảnh rộng. Khi \"Nhận dạng không chắc\" được đặt là \"Không đổi máy quay\", một đoạn không chắc dài hơn mức này cũng chuyển sang cảnh rộng. Trên hai giây, hình bắt đầu dừng trên một người im lặng quá năm giây."

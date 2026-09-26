@@ -4561,9 +4561,6 @@ msgstr "Korte pauze tot"
 msgid "so long a silence leaves the picture alone"
 msgstr "zo lang laat een stilte het beeld met rust"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Alleen waar \"Niemand spreekt\" op korte pauze aanhouden staat. Een pauze tot deze lengte verandert niets, een langere gaat naar het totaalshot. Boven twee seconden begint het beeld langer dan vijf seconden op iemand te staan die zwijgt."
-
 msgid "Listener"
 msgstr "Luisteraar"
 
@@ -4982,3 +4979,15 @@ msgstr "Geen Secret Service-sleutelbos antwoordde, dus er is niets bewaard. Buit
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Voorwerk -- geluid lezen, omhullenden berekenen en opschrijven wat er gezegd wordt:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Totaalshot aan de randen: alleen vanaf %s -- dat aan het begin was korter dan het kortste shot en ging op in het volgende"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Totaalshot aan de randen: alleen tot %s -- dat aan het eind was korter dan het kortste shot en ging op in het vorige"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Totaalshot aan de randen: geen -- beide waren korter dan het kortste shot en gingen op in hun buren"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Waar \"Niemand spreekt\" op korte pauze aanhouden staat, verandert een pauze tot deze lengte niets en gaat een langere naar het totaalshot. Waar \"Herkenning onzeker\" op \"Geen camerawissel\" staat, gaat een onzekere passage die langer is dan dit ook naar het totaalshot. Boven twee seconden begint het beeld langer dan vijf seconden op iemand te staan die zwijgt."

@@ -4283,9 +4283,6 @@ msgstr "Кратка пауза до"
 msgid "so long a silence leaves the picture alone"
 msgstr "толкова дълго тишината не пипа картината"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Само там, където „Никой не говори“ е настроено да задържа кратка пауза. Пауза до тази дължина не променя нищо, по-дългата отива на общия план. Над две секунди картината започва да стои върху някого, който мълчи, повече от пет секунди."
-
 msgid "Recognition uncertain"
 msgstr "Несигурно разпознаване"
 
@@ -4986,3 +4983,15 @@ msgstr "Не отговори ключодържател на Secret Service, з
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Подготовка -- четене на звука, изчисляване на обвивките и записване на казаното:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Общ план в краищата: само от %s -- началният беше по-кратък от най-краткия кадър и премина в следващия"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Общ план в краищата: само до %s -- крайният беше по-кратък от най-краткия кадър и премина в предишния"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Общ план в краищата: няма -- и двата бяха по-кратки от най-краткия кадър и преминаха в съседите си"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Там, където „Никой не говори“ е настроено да задържа кратка пауза, пауза до тази дължина не променя нищо, а по-дългата отива на общия план. Там, където „Несигурно разпознаване“ е на „Без смяна на камерата“, несигурен откъс, по-дълъг от това, също отива на общия план. Над две секунди картината започва да стои върху някого, който мълчи, повече от пет секунди."

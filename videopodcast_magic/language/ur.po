@@ -4281,9 +4281,6 @@ msgstr "مختصر خلا زیادہ سے زیادہ"
 msgid "so long a silence leaves the picture alone"
 msgstr "اتنی لمبی خاموشی تصویر کو نہیں چھیڑتی"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "صرف وہاں جہاں \"کوئی نہیں بول رہا\" کو مختصر خلا برقرار رکھنے پر رکھا گیا ہو۔ اتنی لمبائی تک کا خلا کچھ نہیں بدلتا، اس سے لمبا وائیڈ شاٹ پر جاتا ہے۔ دو سیکنڈ سے اوپر تصویر کسی خاموش شخص پر پانچ سیکنڈ سے زیادہ ٹھہرنے لگتی ہے۔"
-
 msgid "Recognition uncertain"
 msgstr "شناخت غیر یقینی"
 
@@ -4984,3 +4981,15 @@ msgstr "کسی Secret Service کی رنگ نے جواب نہیں دیا، اس �
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "ابتدائی کام -- آڈیو پڑھنا، اینویلپ نکالنا اور جو کہا جائے اسے لکھنا:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  کناروں پر وائیڈ شاٹ: صرف %s سے -- شروع والا سب سے چھوٹے شاٹ سے بھی چھوٹا تھا اور اگلے میں مل گیا"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  کناروں پر وائیڈ شاٹ: صرف %s تک -- آخر والا سب سے چھوٹے شاٹ سے بھی چھوٹا تھا اور پچھلے میں مل گیا"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  کناروں پر وائیڈ شاٹ: کوئی نہیں -- دونوں سب سے چھوٹے شاٹ سے بھی چھوٹے تھے اور اپنے پڑوسیوں میں مل گئے"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "جہاں \"کوئی نہیں بول رہا\" کو مختصر خلا برقرار رکھنے پر رکھا گیا ہو، وہاں اتنی لمبائی تک کا خلا کچھ نہیں بدلتا اور اس سے لمبا وائیڈ شاٹ پر جاتا ہے۔ جہاں \"شناخت غیر یقینی\" کو \"کیمرا تبدیل نہیں\" پر رکھا گیا ہو، وہاں اس سے لمبا غیر یقینی حصہ بھی وائیڈ شاٹ پر جاتا ہے۔ دو سیکنڈ سے اوپر تصویر کسی خاموش شخص پر پانچ سیکنڈ سے زیادہ ٹھہرنے لگتی ہے۔"

@@ -4682,9 +4682,6 @@ msgstr "Les plans plus courts se fondent dans le suivant."
 msgid "A short \"yes\" does not move the picture. Without this a block of half a second draws the camera over, and the minimum edit duration then holds it there for seconds."
 msgstr "Un bref « oui » ne déplace pas l’image. Sans cela, un bloc d’une demi-seconde attire la caméra, et la durée minimale de plan l’y maintient ensuite pendant des secondes."
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Seulement là où « Personne ne parle » est réglé pour garder une courte pause. Une pause jusqu’à cette durée ne change rien, une plus longue passe au plan large. Au-delà de deux secondes, l’image commence à rester plus de cinq secondes sur une personne silencieuse."
-
 msgid "BT.2020 constant"
 msgstr "BT.2020 constant"
 
@@ -4992,3 +4989,15 @@ msgstr "Aucun trousseau Secret Service n’a répondu, donc rien n’a été con
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Travail préalable -- lire l’audio, calculer les enveloppes et transcrire ce qui est dit :\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Plan large aux bords : seulement à partir de %s -- celui du début était plus court que le plan le plus court et s’est fondu dans le suivant"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Plan large aux bords : seulement jusqu’à %s -- celui de la fin était plus court que le plan le plus court et s’est fondu dans le précédent"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Plan large aux bords : aucun -- les deux étaient plus courts que le plan le plus court et se sont fondus dans leurs voisins"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Là où « Personne ne parle » est réglé pour garder une courte pause, une pause jusqu’à cette durée ne change rien et une plus longue passe au plan large. Là où « Reconnaissance incertaine » est réglé sur « Pas de changement de caméra », un passage incertain plus long que cela passe lui aussi au plan large. Au-delà de deux secondes, l’image commence à rester plus de cinq secondes sur une personne silencieuse."

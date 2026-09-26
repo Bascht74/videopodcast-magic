@@ -4604,9 +4604,6 @@ msgstr "Кратка празнина до"
 msgid "so long a silence leaves the picture alone"
 msgstr "толико дуго тишина оставља слику на миру"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Само тамо где је \"Нико не говори\" подешено на задржавање кратке празнине. Празнина до ове дужине ништа не мења, дужа прелази на широки кадар. Изнад две секунде слика почиње да стоји на некоме ко ћути дуже од пет секунди."
-
 msgid "Listener"
 msgstr "Слушалац"
 
@@ -5026,3 +5023,15 @@ msgstr "Ниједан привезак кључева Secret Service није �
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Припрема -- читање аудија, рачунање обвојница и записивање реченог:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Широки кадар на ивицама: само од %s -- почетни је био краћи од најкраћег кадра и прешао је у следећи"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Широки кадар на ивицама: само до %s -- завршни је био краћи од најкраћег кадра и прешао је у претходни"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Широки кадар на ивицама: ниједан -- оба су била краћа од најкраћег кадра и прешла су у суседне"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Тамо где је \"Нико не говори\" подешено на задржавање кратке празнине, празнина до ове дужине ништа не мења, а дужа прелази на широки кадар. Тамо где је \"Несигурно препознавање\" подешено на \"Без промене камере\", несигуран одломак дужи од тога такође прелази на широки кадар. Изнад две секунде слика почиње да стоји на некоме ко ћути дуже од пет секунди."

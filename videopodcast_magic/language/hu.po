@@ -4562,9 +4562,6 @@ msgstr "Rövid szünet legfeljebb"
 msgid "so long a silence leaves the picture alone"
 msgstr "ilyen hosszú csend békén hagyja a képet"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Csak ott, ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva. Egy legfeljebb ilyen hosszú szünet semmit sem változtat, egy hosszabb a totálra vált. Két másodperc fölött a kép kezd öt másodpercnél tovább valakin állni, aki hallgat."
-
 msgid "Listener"
 msgstr "Hallgató"
 
@@ -4983,3 +4980,15 @@ msgstr "Egyetlen Secret Service kulcstartó sem válaszolt, ezért semmi sem let
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Előmunka -- hang beolvasása, burkológörbék számítása és az elhangzottak leírása:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Totál a széleken: csak ettől: %s -- a nyitó rövidebb volt a legrövidebb snittnél, és beolvadt a következőbe"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Totál a széleken: csak eddig: %s -- a záró rövidebb volt a legrövidebb snittnél, és beolvadt az előzőbe"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Totál a széleken: egyik sincs -- mindkettő rövidebb volt a legrövidebb snittnél, és beolvadt a szomszédjába"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Ahol a \"Senki sem beszél\" rövid szünet kivárására van állítva, ott egy legfeljebb ilyen hosszú szünet semmit sem változtat, egy hosszabb pedig a totálra vált. Ahol a \"Bizonytalan felismerés\" a \"Nincs kameraváltás\" értékre van állítva, ott az ennél hosszabb bizonytalan szakasz is a totálra vált. Két másodperc fölött a kép kezd öt másodpercnél tovább valakin állni, aki hallgat."

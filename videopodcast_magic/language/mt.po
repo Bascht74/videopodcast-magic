@@ -4285,9 +4285,6 @@ msgstr "Pawża qasira sa"
 msgid "so long a silence leaves the picture alone"
 msgstr "daqshekk silenzju jħalli l-istampa kif inhi"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Biss fejn \"Ħadd ma jitkellem\" huwa ssettjat biex iżomm pawża qasira. Pawża sa dan it-tul ma tbiddel xejn, waħda itwal tmur għall-veduta wiesgħa. 'Il fuq minn żewġ sekondi l-istampa tibda toqgħod fuq xi ħadd sieket għal aktar minn ħames sekondi."
-
 msgid "Recognition uncertain"
 msgstr "Għarfien inċert"
 
@@ -5074,3 +5071,15 @@ msgstr "L-ebda keyring tas-Secret Service ma wieġeb, għalhekk ma nħażen xejn
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Xogħol preliminari -- qari tal-awdjo, kalkolu tal-inviluppi u kitba ta' dak li jintqal:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Veduta wiesgħa fit-truf: biss minn %s -- dik tal-bidu kienet iqsar mill-iqsar xena u daħlet f'dik ta' wara"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Veduta wiesgħa fit-truf: biss sa %s -- dik tat-tmiem kienet iqsar mill-iqsar xena u daħlet f'dik ta' qabel"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Veduta wiesgħa fit-truf: xejn -- it-tnejn kienu iqsar mill-iqsar xena u daħlu fil-ġirien tagħhom"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Fejn \"Ħadd ma jitkellem\" huwa ssettjat biex iżomm pawża qasira, pawża sa dan it-tul ma tbiddel xejn, u waħda itwal tmur għall-veduta wiesgħa. Fejn \"Għarfien inċert\" huwa ssettjat fuq \"L-ebda bidla ta' kamera\", silta inċerta itwal minn hekk tmur ukoll għall-veduta wiesgħa. 'Il fuq minn żewġ sekondi l-istampa tibda toqgħod fuq xi ħadd sieket għal aktar minn ħames sekondi."

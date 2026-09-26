@@ -4560,9 +4560,6 @@ msgstr "Kort paus upp till"
 msgid "so long a silence leaves the picture alone"
 msgstr "så länge lämnar en tystnad bilden i fred"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "Bara där \"Ingen talar\" är inställt på att hålla en kort paus. En paus upp till denna längd ändrar ingenting, en längre går till översiktsbilden. Över två sekunder börjar bilden stå kvar på någon som tiger i mer än fem sekunder."
-
 msgid "Listener"
 msgstr "Lyssnare"
 
@@ -4981,3 +4978,15 @@ msgstr "Ingen Secret Service-nyckelring svarade, så ingenting sparades. Utanfö
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "Förarbete -- läsa ljud, beräkna envelopper och skriva ner det som sägs:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  Översiktsbild i kanterna: bara från %s -- den i början var kortare än den kortaste tagningen och gick upp i nästa"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  Översiktsbild i kanterna: bara till %s -- den i slutet var kortare än den kortaste tagningen och gick upp i den före"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  Översiktsbild i kanterna: ingen -- båda var kortare än den kortaste tagningen och gick upp i sina grannar"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "Där \"Ingen talar\" är inställt på att hålla en kort paus ändrar en paus upp till denna längd ingenting, och en längre går till översiktsbilden. Där \"Igenkänning osäker\" är inställt på \"Inget kamerabyte\" går även ett osäkert avsnitt som är längre än så till översiktsbilden. Över två sekunder börjar bilden stå kvar på någon som tiger i mer än fem sekunder."

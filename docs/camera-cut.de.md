@@ -124,9 +124,14 @@ gehört nicht zum Rhythmus, sondern zu einem Auswahlfeld in
 **Sonderfälle**:
 
 * **Kurze Lücke bis**: 1 s, bis zu dieser Länge lässt eine Stille das
-  Bild stehen, eine längere geht auf den Weitwinkel. Es wirkt nur, wo
-  **Niemand redet** auf **Kurze Lücke halten** steht (auf der
-  Kommandozeile `--silence-hold`). An 83 Minuten Interview gemessen:
+  Bild stehen, eine längere geht auf den Weitwinkel. Es wirkt dort, wo
+  **Niemand redet** auf **Kurze Lücke halten** steht, und dort, wo
+  **Erkennung unsicher** auf **Kein Kamerawechsel** steht: Bis zu
+  dieser Länge bleibt das Bild auch über einer unsicheren Passage
+  stehen, dauert sie länger, geht auch sie auf den Weitwinkel (auf der
+  Kommandozeile `--silence-hold`). Ist keine Kamera frei von
+  Sprechern, gibt es keinen Weitwinkel, und die unsichere Passage hält
+  das Bild, so lange sie eben dauert. An 83 Minuten Interview gemessen:
   bei einer Sekunde steht keine Kamera länger als 4 Sekunden auf einem,
   der schweigt; ab zwei Sekunden kommen die ersten Strecken über fünf
   Sekunden, und dort fängt das Bild an, vergessen auszusehen.
@@ -205,7 +210,10 @@ Aufnahme beim Drittel, in einer langen bei der Einstellung --, und das
 Protokoll vermerkt es unter `Weitwinkel am Rand`, samt der Stelle, an
 der das Wort wirklich wechselt. Fällt ein Rand kürzer aus als die
 **Mindestschnittdauer**, geht er wie jede andere Einstellung in die
-benachbarte auf.
+benachbarte auf. Die Zeile im Protokoll nennt die Ränder so, wie sie im
+fertigen Schnitt stehen: Ist einer in seinem Nachbarn aufgegangen,
+heißt es dort `nur ab` oder `nur bis`, und `keiner`, wenn es beiden so
+ergangen ist.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
@@ -323,7 +331,9 @@ Fünf Fälle, und was jedes der fünf Auswahlfelder entscheidet:
   tut es, und die Grenze zieht **Kurze Lücke bis**.
 * **Erkennung unsicher**: die Erkennung zerfasert über eine Passage,
   oder von einem Namen bleiben nur Schnipsel. Hier redet jemand; wo
-  niemand redet, entscheidet **Niemand redet**.
+  niemand redet, entscheidet **Niemand redet**. **Kein Kamerawechsel**
+  hält das Bild dabei nur so lange, wie **Kurze Lücke bis** sagt; eine
+  längere unsichere Passage geht auf den Weitwinkel.
 
 **Die Stille ist mit Abstand der größte dieser Fälle**, und das meiste
 daran ist nicht, was das Wort vermuten lässt. An 83 Minuten Interview

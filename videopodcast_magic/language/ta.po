@@ -4282,9 +4282,6 @@ msgstr "சிறு இடைவெளி இவ்வளவு வரை"
 msgid "so long a silence leaves the picture alone"
 msgstr "இவ்வளவு நேர அமைதி படத்தை மாற்றாது"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "\"யாரும் பேசவில்லை\" சிறு இடைவெளியைத் தக்கவைக்க அமைக்கப்பட்ட இடத்தில் மட்டுமே. இவ்வளவு நீளம் வரையிலான இடைவெளி எதையும் மாற்றாது, அதைவிட நீளமானது வைட் ஷாட்டுக்குச் செல்லும். இரண்டு வினாடிகளுக்கு மேல் என்றால், ஐந்து வினாடிகளுக்கு மேல் அமைதியாக இருக்கும் ஒருவர் மீது படம் நிற்கத் தொடங்கும்."
-
 msgid "Recognition uncertain"
 msgstr "அறிதல் உறுதியில்லை"
 
@@ -4985,3 +4982,15 @@ msgstr "எந்த Secret Service சாவிக்கொத்தும் �
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "முன்வேலை -- ஆடியோவைப் படித்து, என்வலப்புகளைக் கணக்கிட்டு, சொல்லப்படுவதை எழுதுதல்:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  ஓரங்களில் வைட் ஷாட்: %s முதல் மட்டும் -- தொடக்கத்தில் இருந்தது மிகக் குறுகிய ஷாட்டைவிடக் குறுகியதாக இருந்ததால் அடுத்ததில் சேர்ந்தது"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  ஓரங்களில் வைட் ஷாட்: %s வரை மட்டும் -- முடிவில் இருந்தது மிகக் குறுகிய ஷாட்டைவிடக் குறுகியதாக இருந்ததால் முந்தையதில் சேர்ந்தது"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  ஓரங்களில் வைட் ஷாட்: எதுவும் இல்லை -- இரண்டும் மிகக் குறுகிய ஷாட்டைவிடக் குறுகியதாக இருந்ததால் அருகிலுள்ளவற்றில் சேர்ந்தன"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "\"யாரும் பேசவில்லை\" சிறு இடைவெளியைத் தக்கவைக்க அமைக்கப்பட்ட இடத்தில், இவ்வளவு நீளம் வரையிலான இடைவெளி எதையும் மாற்றாது, அதைவிட நீளமானது வைட் ஷாட்டுக்குச் செல்லும். \"அறிதல் உறுதியில்லை\" \"கேமரா மாற்றம் இல்லை\" என அமைக்கப்பட்ட இடத்தில், இதைவிட நீளமான உறுதியற்ற பகுதியும் வைட் ஷாட்டுக்குச் செல்லும். இரண்டு வினாடிகளுக்கு மேல் என்றால், ஐந்து வினாடிகளுக்கு மேல் அமைதியாக இருக்கும் ஒருவர் மீது படம் நிற்கத் தொடங்கும்."

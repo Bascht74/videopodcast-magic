@@ -4562,9 +4562,6 @@ msgstr "ছোট ফাঁক সর্বোচ্চ"
 msgid "so long a silence leaves the picture alone"
 msgstr "এতক্ষণের নীরবতা ছবিকে যেমন আছে তেমন রাখে"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "শুধু যেখানে \"কেউ কথা বলছেন না\" ছোট ফাঁক ধরে রাখায় সেট করা আছে। এই দৈর্ঘ্য পর্যন্ত একটি ফাঁক কিছুই বদলায় না, এর চেয়ে লম্বা ফাঁক ওয়াইড শটে যায়। দুই সেকেন্ডের বেশি হলে ছবি পাঁচ সেকেন্ডের বেশি সময় ধরে কোনো নীরব মানুষের ওপর থাকতে শুরু করে।"
-
 msgid "Listener"
 msgstr "শ্রোতা"
 
@@ -4983,3 +4980,15 @@ msgstr "কোনো Secret Service কী-রিং সাড়া দেয�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "প্রস্তুতি -- অডিও পড়া, এনভেলপ গণনা ও যা বলা হয় তা লেখা:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  প্রান্তে ওয়াইড শট: শুধু %s থেকে -- শুরুরটি সবচেয়ে ছোট শটের চেয়েও ছোট ছিল এবং পরেরটিতে মিশে গেছে"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  প্রান্তে ওয়াইড শট: শুধু %s পর্যন্ত -- শেষেরটি সবচেয়ে ছোট শটের চেয়েও ছোট ছিল এবং আগেরটিতে মিশে গেছে"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  প্রান্তে ওয়াইড শট: নেই -- দুটিই সবচেয়ে ছোট শটের চেয়েও ছোট ছিল এবং পাশেরগুলোতে মিশে গেছে"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "যেখানে \"কেউ কথা বলছেন না\" ছোট ফাঁক ধরে রাখায় সেট করা আছে, সেখানে এই দৈর্ঘ্য পর্যন্ত একটি ফাঁক কিছুই বদলায় না, এর চেয়ে লম্বা ফাঁক ওয়াইড শটে যায়। যেখানে \"শনাক্তকরণ অনিশ্চিত\" \"ক্যামেরা বদল নেই\"-এ সেট করা আছে, সেখানে এর চেয়ে লম্বা একটি অনিশ্চিত অংশও ওয়াইড শটে যায়। দুই সেকেন্ডের বেশি হলে ছবি পাঁচ সেকেন্ডের বেশি সময় ধরে কোনো নীরব মানুষের ওপর থাকতে শুরু করে।"

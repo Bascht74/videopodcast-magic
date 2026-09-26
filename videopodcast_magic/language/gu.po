@@ -4282,9 +4282,6 @@ msgstr "ટૂંકું અંતર આટલા સુધી"
 msgid "so long a silence leaves the picture alone"
 msgstr "આટલો સમય મૌન ચિત્રને છેડતું નથી"
 
-msgid "Only where \"Nobody speaks\" is set to hold a short gap. A gap up to this long changes nothing, a longer one goes to the wide shot. Above two seconds the picture begins to stand on someone silent for over five seconds."
-msgstr "ફક્ત જ્યાં \"કોઈ બોલતું નથી\" ટૂંકા અંતરમાં એમ જ રહેવા પર સેટ હોય. આટલા લાંબા સુધીનું અંતર કંઈ બદલતું નથી, તેનાથી લાંબું અંતર વાઇડ શૉટ પર જાય છે. બે સેકન્ડથી વધુ હોય તો ચિત્ર કોઈ મૌન વ્યક્તિ પર પાંચ સેકન્ડથી વધુ ટકવા લાગે છે."
-
 msgid "Recognition uncertain"
 msgstr "ઓળખ અનિશ્ચિત"
 
@@ -4985,3 +4982,15 @@ msgstr "કોઈ Secret Service કીરિંગે જવાબ ન આપ�
 
 msgid "Prework -- read audio, compute envelopes and write down what is said:\n"
 msgstr "પૂર્વતૈયારી -- ઑડિયો વાંચવો, એન્વેલપ ગણવા અને જે બોલાય છે તે લખવું:\n"
+
+msgid "  Wide shot at the edges: only from %s -- the opening one was shorter than the shortest shot and went into the next"
+msgstr "  કિનારે વાઇડ શૉટ: ફક્ત %s થી -- શરૂઆતનો સૌથી ટૂંકા શૉટ કરતાં ટૂંકો હતો અને પછીના શૉટમાં ભળી ગયો"
+
+msgid "  Wide shot at the edges: only until %s -- the closing one was shorter than the shortest shot and went into the one before"
+msgstr "  કિનારે વાઇડ શૉટ: ફક્ત %s સુધી -- અંતનો સૌથી ટૂંકા શૉટ કરતાં ટૂંકો હતો અને પહેલાંના શૉટમાં ભળી ગયો"
+
+msgid "  Wide shot at the edges: none -- both were shorter than the shortest shot and went into their neighbours"
+msgstr "  કિનારે વાઇડ શૉટ: એક પણ નહીં -- બંને સૌથી ટૂંકા શૉટ કરતાં ટૂંકા હતા અને પડોશી શૉટમાં ભળી ગયા"
+
+msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
+msgstr "જ્યાં \"કોઈ બોલતું નથી\" ટૂંકા અંતરમાં એમ જ રહેવા પર સેટ હોય, ત્યાં આટલા લાંબા સુધીનું અંતર કંઈ બદલતું નથી, અને તેનાથી લાંબું અંતર વાઇડ શૉટ પર જાય છે. જ્યાં \"ઓળખ અનિશ્ચિત\" \"કૅમેરા બદલાતો નથી\" પર સેટ હોય, ત્યાં આનાથી લાંબો અનિશ્ચિત ભાગ પણ વાઇડ શૉટ પર જાય છે. બે સેકન્ડથી વધુ હોય તો ચિત્ર કોઈ મૌન વ્યક્તિ પર પાંચ સેકન્ડથી વધુ ટકવા લાગે છે."
