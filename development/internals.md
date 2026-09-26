@@ -22,10 +22,10 @@ loader, the version check, the run, the values more than one piece
 reads, and the catalogue.
 
 What is in them, largest first, every folder of the program on the list
-and counted 20.9.2026 with `wc -l` over its `__init__.py` -- and **the
+and counted 26.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **4544** -- the window and everything it shows, asks or offers,
+* `ui/` **4444** -- the window and everything it shows, asks or offers,
   less what a subject has taken to stand beside its own logic
 * `speakers/` **3769** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
@@ -108,6 +108,14 @@ figure of the day is that command, not this paragraph**:
   and kept
 * `choices/` **123** -- the values a choice box holds, and what they are
   called
+* `assignmentsheet/` **90** -- the second tab: the assignment box and
+  the boxes under it, and the preview player's box beside it
+* `outputsheet/` **89** -- the fourth tab: the log pane, and the two
+  buttons for what a run made
+* `resolvesheet/` **69** -- the third tab: the scrolling sheet the
+  Resolve check and the camera cut go into, and the speaker box
+* `filesheet/` **58** -- the first tab: the drop area, the file list
+  and its bar, and the production strip under it
 `models/` is the odd one out among the folders: the speaker model lives
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
@@ -123,6 +131,13 @@ built out of, and while the window read it last, no other piece could
 bind one of its names -- a subject that takes a window part of its own
 had to reach for `tree_cell` and seven more through `PROGRAM.` at every
 use. Read after the timecode, they are head lines for everybody.
+
+The four sheets -- `filesheet/`, `assignmentsheet/`, `resolvesheet/`
+and `outputsheet/`, one per tab -- are read out of `ui/__init__.py`
+as well, and by nothing else, which is why each may carry Qt at its
+head. What they take of the window's own names (`scroll_sheet_build`,
+`file_bar_build`, `make_file_list`, `reason_set`) they read through
+`PROGRAM.` at the call: the window is still being read when they are.
 
 **`player/` and `fittings/` left for that same reason on 7.9.2026**,
 and they are the toolbox a *window* is built out of: `hint`, `label`,
@@ -624,6 +639,7 @@ way every window in this table was found.
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
 | `ui/` | 168 head lines, the widest of them 17 out of `bearings/`, 16 out of `fittings/`, 13 each out of `cut/` and `choices/`, 10 each out of `speakers/`, `setup/` and `tables/`, six out of `player/` and five out of `upkeep/` -- all read above it. What it has handed over it binds back by name: `update_offer`, `make_update_sink` and `release_text_of` to `upkeep/`, `wide_shot_barred` to `cut/`, `camera_offset` and `not_on_the_axis` to `bearings/`, all on 7.9.2026 | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+| `filesheet/`, `assignmentsheet/`, `resolvesheet/`, `outputsheet/` | bind only names read above the window (`T`, `COLOURS`, `label`, `hint`, `box_room`, `stack_when_narrow`, `make_drop_area`, `make_log_view`, `open_in_file_manager`, `speech_table_fill`); the window's own four through `PROGRAM.` at the call | read from `ui/__init__.py` under `running/`; the window's `MainWindow` builds them. A bend on the program reaches their head lines before and after the read (measured 26.9.2026 on a copy: `open_in_file_manager` bent before `window()` and after, `make_drop_area` after) |
 
 ### The seven functions the seam is made of
 
