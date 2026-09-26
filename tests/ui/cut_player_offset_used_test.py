@@ -44,8 +44,12 @@ def sought(needle, text, what, probe):
 
 # The function itself, not a copy cut out of the source of gui().
 camera_offset = vpm.camera_offset
-# Three checks further down read the text of gui(), so it is still needed.
-source = inspect.getsource(vpm.gui) + inspect.getsource(vpm.camera_offset)
+# Three checks further down read the text of the two that feed the cut
+# player; they stand in the Resolve sheet's piece, which the window reads.
+sheet = vpm.ui.resolvesheet
+source = (inspect.getsource(sheet.audio_for_cut)
+          + inspect.getsource(sheet.player_load_cut)
+          + inspect.getsource(vpm.camera_offset))
 
 print("1. Handover file of a run -- the offset is taken")
 cameras = [{"track": "Wide", "offset": -534.2, "file": "W.mov"},
@@ -93,7 +97,7 @@ print("\n6. The audio comes from the camera with the Full-Mix")
 check("cameras_in_track_order is used",
         "cameras_in_track_order(cameras)" in source,
         sought("cameras_in_track_order(cameras)", source,
-               "gui and camera_offset", "cameras_in_track_order"))
+               "the cut player feed and camera_offset", "cameras_in_track_order"))
 mix = [{"camera": "Guest", "track": "Guest", "audio_tracks": ["Guest"]},
        {"camera": "Wide", "track": "Wide",
         "audio_tracks": ["Full-Mix", "Guest"], "wide": True}]
@@ -105,7 +109,7 @@ print("\n7. And the audio offset is the one of that same camera")
 check("offset.get(first[track]) instead of start_s",
         'offset.get(first.get("track"), 0.0)' in source,
         sought('offset.get(first.get("track"), 0.0)', source,
-               "gui and camera_offset", "offset.get"))
+               "the cut player feed and camera_offset", "offset.get"))
 player_build = source.split("def player_load_cut")[1].split("def ")[0]
 check("no start_s left in the player build",
         'x.get("start_s")' not in player_build,
