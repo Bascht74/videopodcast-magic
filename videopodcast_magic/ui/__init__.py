@@ -3968,7 +3968,7 @@ def gui():
     # As large as the screen, but an ordinary window.
     screen = app.primaryScreen().availableGeometry()
     window.resize(min(1600, screen.width()), min(1000, screen.height()))
-    window.setMinimumSize(1000, 520)
+    PROGRAM.least_size_from_layout(window)
     window.move(screen.left(), screen.top())
 
     def clean_up():
