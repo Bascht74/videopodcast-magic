@@ -90,7 +90,7 @@ Dateien listet dann nur die Presets.
 |---|---|
 | `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS), in der Registry (Windows) oder im Schlüsselbund des Desktops (Linux) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
-| `--auphonic-wait SEKUNDEN` | wie lange gewartet wird (7200) |
+| `--auphonic-wait SEKUNDEN` | wie lange der Lauf darauf wartet, dass auphonic.com fertig wird; ist die Zeit um, bricht er ab und nennt die Adresse der Produktion, die dort weiterläuft; ist sie fertig, holt ein späterer Lauf ihr Ergebnis mit `--auphonic-resume result` ab. Höher wartet länger (7200, zwei Stunden) |
 | `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
 | `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet  `[multitrack only]` |
 | `--multitrack` | jede Tondatei als eigene Spur, damit auphonic.com das Übersprechen herausnehmen kann. Braucht ein Multitrack-Preset |

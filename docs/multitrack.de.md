@@ -311,10 +311,11 @@ Warteschlange, das Programm vergisst ihre Hüllkurve und löscht die schon
 herausgezogene Tondatei.
 
 Sonst bleiben die Hüllkurven im Ablageordner des Systems
-(`~/Library/Caches/videopodcast-magic/envelopes/`, unter Windows
-`%LOCALAPPDATA%`), benannt nach Pfad, Größe und Änderungszeit der
-Quelldatei. Beim Start räumt das Programm alles weg, was älter als
-dreißig Tage ist.
+(`~/Library/Caches/videopodcast-magic/envelopes/`, unter Windows unter
+`%LOCALAPPDATA%`, unter Linux unter `~/.cache`), benannt nach Pfad,
+Größe und Änderungszeit der Quelldatei. Beim Start räumt das Programm
+alles weg, was älter als dreißig Tage ist; die dreißig Tage sind fest,
+kein Schalter stellt sie ein.
 
 ### Das Zeitfenster setzen
 

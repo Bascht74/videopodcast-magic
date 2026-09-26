@@ -116,17 +116,19 @@ Schnitts:
   und sie folgt seltener (auf der Kommandozeile
   `--min-speech-to-switch`)
 * **Edit Change Delay**: 0,3 s, so viel später als der Ton wechselt
-  das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
-  Kommandozeile `--edit-change-delay`)
+  das Bild; höher lässt es weiter hinterherlaufen, ein negativer Wert
+  lässt es vorlaufen (auf der Kommandozeile `--edit-change-delay`)
 
 Das vierte steht mitten unter diesen dreien, an dritter Stelle, und
 gehört nicht zum Rhythmus, sondern zu einem Auswahlfeld in
 **Sonderfälle**:
 
 * **Kurze Lücke bis**: 1 s, bis zu dieser Länge lässt eine Stille das
-  Bild stehen, eine längere geht auf den Weitwinkel. Es wirkt dort, wo
-  **Niemand redet** auf **Kurze Lücke halten** steht, und dort, wo
-  **Erkennung unsicher** auf **Kein Kamerawechsel** steht: Bis zu
+  Bild stehen, eine längere geht auf den Weitwinkel; höher hält das
+  Bild auch über längere Stillen, niedriger schickt es früher auf den
+  Weitwinkel. Es wirkt dort, wo **Niemand redet** auf **Kurze Lücke
+  halten** steht, und dort, wo **Erkennung unsicher** auf **Kein
+  Kamerawechsel** steht: Bis zu
   dieser Länge bleibt das Bild auch über einer unsicheren Passage
   stehen, dauert sie länger, geht auch sie auf den Weitwinkel (auf der
   Kommandozeile `--silence-hold`). Ist keine Kamera frei von
@@ -154,15 +156,19 @@ gehören zusammen: eine weiche Grenze und eine harte.
   entscheidet die Uhr. Kleiner unterbricht eine stehende Kamera früher
   (auf der Kommandozeile `--wide-latest`)
 * **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
-  Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
-* **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der
-  Kommandozeile `--wide-most`)
+  Weitwinkel mindestens, danach läuft er bis zum Ende des Satzes; höher
+  macht jeden Blick weg länger (auf der Kommandozeile `--wide-length`)
+* **Weitwinkel höchstens**: 15 s, und so lange höchstens; reicht der
+  Satz darüber hinaus, beendet die letzte Teilsatzgrenze davor die
+  Einstellung. Höher lässt mehr von ihnen bis ans Satzende kommen (auf
+  der Kommandozeile `--wide-most`)
 
 **Sonderfälle** beginnt mit einem Feld, das zur Frage gehört; es steht
 direkt über dem Auswahlfeld, das über sie entscheidet:
 
 * **Antwort früher im Bild**: 1,5 s, so viel vor dem Ende der Frage
-  steht der Antwortende im Bild (auf der Kommandozeile
+  steht der Antwortende im Bild; höher holt ihn früher ins Bild,
+  während die Frage noch läuft (auf der Kommandozeile
   `--reaction-lead`). Der Nullpunkt liegt dort, wo der Fragende
   aufhört, nicht dort, wo die Antwort anfängt: die Pause dazwischen
   gehört zur Frage. Gemessen an einer Frage, die bei 10 Sekunden endet,

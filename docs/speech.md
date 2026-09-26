@@ -318,8 +318,9 @@ A speaker count set by hand belongs to the recording it was set for.
 The button in another row drops it and counts afresh.
 
 Both lie in the system cache folder, beside the envelopes
-(`~/Library/Caches/videopodcast-magic/`, on Windows `%LOCALAPPDATA%`),
-in `words/` and `speakers/`. A recording joined out of several
+(`~/Library/Caches/videopodcast-magic/`, on Windows under
+`%LOCALAPPDATA%`, on Linux under `~/.cache`), in `words/` and
+`speakers/`. A recording joined out of several
 microphones lies in `speakers/` as well, under a name made out of the
 recordings it holds, so the same material finds it again instead of
 building it twice. Every start of the program throws away what has
@@ -435,6 +436,46 @@ cost was. What is kept and what is worked out afresh stands above,
 under "What is kept, and what is worked out again". The window and the
 run listen to different things -- the window to the recording, the run
 to the mix it made of it -- so each of the two pays once.
+
+### The three transcript files
+
+What was heard lands beside the result, in the output folder, as three
+files named after the **Production name**: `<name>.json`, `<name>.srt`
+and `<name>.txt`. The log lists their paths under the heading
+`TRANSCRIPT`, and above them how many words were heard and how many of
+those went to one voice, to two, or into a gap between voices.
+
+* **The json** holds a passage per stretch of one voice: when it begins
+  and ends, the running text, the speaker, and a row per word with its
+  own start and end. It is the shape auphonic.com delivers beside a
+  file, so whatever reads the one reads the other. The fourth column of
+  a word row stays empty: neither recogniser here says how sure it was.
+* **The srt** holds subtitles. A subtitle never carries two voices, stands
+  for seven seconds at most, and ends on a full stop wherever the
+  sentence fits. Its lines are at most 42 characters long, two of them
+  to a subtitle; where the voice changes, the speaker's name stands in
+  front in capitals, and that name is not counted in, so such a
+  subtitle can run to a third line.
+* **The txt** is for reading: a paragraph per passage, the speaker's
+  name and a colon in front, 76 characters to the line, no times.
+
+The times count on the time axis of the result, the same seconds as
+the camera files -- not from the start of the recording the words came
+from.
+
+Where the voices have been told apart, every passage carries its
+speaker's name. Where they have not, the files carry no names, and the
+log says `without names -- nobody was separated`: who said a sentence
+is then not known, and a guessed name is worse than a gap.
+
+**Set the language before the run.** Recognition listens for the
+language in **Language of the sound**; where none is set, macOS takes
+the system language. An English conversation heard as German comes
+back with German words in the middle of it, numbers first.
+
+No files are written with the project type **Sync only**, with
+`--no-speech-recognition`, with `--no-transcript-file`, where not a
+word was heard, and on a dry run, which measures and writes nothing.
 
 ### What the text is for
 

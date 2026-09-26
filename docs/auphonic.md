@@ -119,27 +119,18 @@ nothing is stored and the answer says so -- see
 
 None of the text comes from auphonic.com. The program listens to the
 finished mix on this machine and writes down every word with the time it
-was said. Three files land in the output folder, named after the
-**Production name**:
-
-* a json with times
-* an srt for subtitles
-* a txt to read
-
-Where the voices have been told apart, the transcript carries their
-names. Where they have not, it carries none: who said a sentence is then
-not known, and a guessed name in a transcript is worse than a gap.
+was said: a json with times, an srt for subtitles and a txt to read, in
+the shape auphonic.com delivers its own.
 
 This costs the processor, not credit. It needs no key, no preset and no
-upload, and a run without Auphonic writes the same three files. How many
-words were heard and how many seconds the listening took stands in the
-log; under the heading **TRANSCRIPT** stand the three paths.
+upload, and a run without Auphonic writes the same three files.
 `--no-transcript-file` leaves the files out -- the words are still heard,
 and the cut still takes its sentence boundaries from them.
 
-Which way the recognition takes on which machine, what it costs there
-and what the text is used for is in [Speech recognition and speaker
-separation](speech.md).
+What stands in each file is in [The three transcript
+files](speech.md#the-three-transcript-files); which way the recognition
+takes on which machine and what it costs there is in the same
+chapter.
 
 ### Working without Auphonic
 

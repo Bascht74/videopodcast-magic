@@ -289,9 +289,11 @@ report appears in one piece when it is finished, under one shared bar.
 program forgets its envelope and deletes the audio already extracted.
 
 Envelopes otherwise stay in the system cache folder
-(`~/Library/Caches/videopodcast-magic/envelopes/`, on Windows
-`%LOCALAPPDATA%`), keyed to the source file's path, size and change time.
-At start the program clears out anything older than thirty days.
+(`~/Library/Caches/videopodcast-magic/envelopes/`, on Windows under
+`%LOCALAPPDATA%`, on Linux under `~/.cache`), keyed to the source file's
+path, size and change time. At start the program clears out anything
+older than thirty days; the thirty days are fixed, and no switch sets
+them.
 
 ### Setting the time window
 

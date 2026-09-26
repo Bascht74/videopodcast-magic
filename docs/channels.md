@@ -42,6 +42,22 @@ measurement proposes, the tick corrects:
 * For a file whose channel count cannot be read at all, the run says
   that rather than leaving the row waiting.
 
+**When the channels cannot be read.** Where the program cannot tell how
+many channels a file has, the log says `how many channels it has cannot
+be determined` with the reason; where it can count them but not measure
+them, the progress line beside **Start** names the file with `channels
+not readable` and the reason. Either way the file gets no channel rows
+and no tick, and it goes into the run as one track, whatever it holds.
+Where that is right -- one person, or a mix -- nothing needs doing.
+Where the file holds several people:
+
+1. Save each channel as a file of its own, with the recorder's own
+   software or another audio program, or save the file again as a
+   plain WAV.
+2. Take the unreadable file out of the list with **Remove**.
+3. Add the new files. A plain WAV opens into its channels as above;
+   files of one channel each are recordings of their own.
+
 The program names the tracks after their channels: `Channel 1`,
 `Channel 2+3`. The files it cuts them into carry the same name, closed
 up and with a short fingerprint of the source folder in between:

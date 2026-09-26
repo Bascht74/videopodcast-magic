@@ -556,10 +556,12 @@ bei ihrem Feld.
 gesprochene Sprache, vorbelegt aus der Systemsprache. Sie tut zweierlei:
 Sie wird zur Kennzeichnung der geschriebenen Tonspur, und die Erkennung
 auf diesem Rechner wird auf diese Sprache eingestellt. „nicht gesetzt“
-lässt die Spur ungekennzeichnet und überlässt der Erkennung die Sprache.
-Zur Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
-[Das Transkript entsteht hier](auphonic.de.md#das-transkript-entsteht-hier)
-sagt, was die Erkennung schreibt, und [Spracherkennung und
+lässt die Spur ungekennzeichnet, und die Erkennung nimmt dann unter
+macOS die Systemsprache und errät sie überall sonst aus dem Ton. Zur
+Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
+[Die drei Dateien des
+Transkripts](speech.de.md#die-drei-dateien-des-transkripts) sagt, was
+die Erkennung schreibt, und [Spracherkennung und
 Sprechertrennung](speech.de.md), welchen Weg sie auf welchem Rechner
 nimmt.
 
@@ -602,8 +604,9 @@ Spur, so bleibt das Verhältnis der Sprecher erhalten. Fünf Einträge:
 - **-23 LUFS (EBU R128, Rundfunk)**
 - **Aus Quelldateien übernehmen**
 
-Ein neues Projekt beginnt bei −16 LUFS. Das Fenster merkt sich den zuletzt
-gewählten Eintrag, und eine geladene Projektdatei sticht diese Erinnerung.
+Je näher die Zahl an null, desto lauter. Ein neues Projekt beginnt bei
+−16 LUFS. Das Fenster merkt sich den zuletzt gewählten Eintrag, und
+eine geladene Projektdatei sticht diese Erinnerung.
 **Aus Quelldateien übernehmen** passt gar nichts an: auphonic.com macht
 weiter, was in seinem Preset steht, und ohne auphonic.com bleibt der Ton
 wie in den Quelldateien -- die Datei kommt Byte für Byte gleich heraus.
@@ -896,7 +899,7 @@ gelesen hat sie noch niemand, der die Sprache spricht. Jeder dieser
 Kataloge sagt das gleich oben: jeder Eintrag darin ist ein erster
 Entwurf.
 
-Gezählte Dinge -- „1 Datei" gegen „3 Dateien" -- sind eine eigene Art
+Gezählte Dinge -- „1 Datei“ gegen „3 Dateien“ -- sind eine eigene Art
 Eintrag, denn der Wortlaut ändert sich mit der Zahl, und nicht jede
 Sprache ändert ihn an denselben Stellen. Auch die trägt jede Sprache,
 mit so vielen Formen, wie sie kennt: eine im Japanischen, Chinesischen
@@ -1264,7 +1267,7 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   eine ältere Version ...** zeigt die Versionen vor dieser an und lässt
   pip die gewählte wieder einsetzen; liegt sie, bietet ein Kasten an,
   gleich mit ihr neu zu starten. Zurück kommt das Programm, nicht
-  die Einstellungen -- siehe „Der Weg zurück auf eine ältere Version"
+  die Einstellungen -- siehe „Der Weg zurück auf eine ältere Version“
   weiter oben.
 - **Beim Nachfragen mitschicken**: die Version aus `--version`, das
   Betriebssystem, `videopodcast-magic.log` und was man vorhatte, vor

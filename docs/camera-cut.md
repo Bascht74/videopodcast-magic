@@ -105,18 +105,21 @@ of it.
   higher and it follows less often (on the command line
   `--min-speech-to-switch`)
 * **Edit Change Delay**: 0.3 s, this much later than the sound the
-  picture cuts; a negative value makes the picture lead (on the
-  command line `--edit-change-delay`)
+  picture cuts; higher lets the picture trail further behind, a
+  negative value makes it lead (on the command line
+  `--edit-change-delay`)
 
 The fourth stands among those three, in third place, and belongs not
 to the rhythm but to a selector in **Special cases**:
 
 * **Short gap up to**: 1 s, up to this length a silence leaves the
-  picture where it is, and a longer one goes to the wide shot. It does
-  something where **Nobody speaks** stands on **Hold a short gap**, and
-  where **Recognition uncertain** stands on **No camera change**: an
-  uncertain passage up to this length keeps the picture, a longer one
-  goes to the wide shot as well (on the command line `--silence-hold`).
+  picture where it is, and a longer one goes to the wide shot; higher
+  keeps the picture through longer silences, lower sends it to the wide
+  shot sooner. It does something where **Nobody speaks** stands on
+  **Hold a short gap**, and where **Recognition uncertain** stands on
+  **No camera change**: an uncertain passage up to this length keeps
+  the picture, a longer one goes to the wide shot as well (on the
+  command line `--silence-hold`).
   Where no camera is free of speakers there is no wide shot, and the
   uncertain passage holds however long it runs. Measured over 83
   minutes of interview: at one second no camera stands on a silent
@@ -142,15 +145,19 @@ a soft limit and a hard one.
   clock. Smaller breaks a standing camera up sooner (on the command
   line `--wide-latest`)
 * **Wide shot at least**: 5 s, the inserted wide shot stands at least
-  this long (on the command line `--wide-length`)
-* **Wide shot at most**: 15 s, and at most this long (on the command
-  line `--wide-most`)
+  this long and then runs on to the end of the sentence; higher makes
+  every look away longer (on the command line `--wide-length`)
+* **Wide shot at most**: 15 s, and at most this long; where the
+  sentence runs on past it, the last clause break before it ends the
+  shot. Higher lets more of them reach the end of their sentence (on
+  the command line `--wide-most`)
 
 **Special cases** opens with a field that belongs to the question, and
 stands directly above the selector that decides it:
 
 * **Answer on screen earlier**: 1.5 s, this much before the question
-  ends the answering speaker is on screen (on the command line
+  ends the answering speaker is on screen; higher shows them sooner,
+  while the question is still being asked (on the command line
   `--reaction-lead`). Zero is where the asker stops, not where the
   answer starts: the pause between the two belongs to the question.
   Measured on a question ending at 10 seconds with the answer starting

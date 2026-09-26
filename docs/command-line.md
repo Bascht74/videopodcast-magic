@@ -89,7 +89,7 @@ only lists the presets.
 |---|---|
 | `--store-auphonic-key` | ask for the key in the terminal without showing it, store it in the Keychain (macOS), the Registry (Windows) or the desktop's keyring (Linux) and read it back; nothing may follow the switch (off) |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
-| `--auphonic-wait SECONDS` | how long to wait (7200) |
+| `--auphonic-wait SECONDS` | how long the run waits for auphonic.com to finish; when the time is up the run stops and names the address of the production, which goes on there; once it is finished, a later run takes its result with `--auphonic-resume result`. Higher waits longer (7200, two hours) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
 | `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit  `[multitrack only]` |
 | `--multitrack` | every audio file as its own track, so auphonic.com can take the bleed out. Needs a multitrack preset |
