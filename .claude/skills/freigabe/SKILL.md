@@ -438,6 +438,11 @@ ends in `cut off, to fix next release: N` and the lines.
     */*_langs*_test.py` -- so a cut-off text is found here, not in the
     release run? Found here, it is fixed before the push; one that shows
     only in the release run is noted there, not a stop (see above).
+10c. The logs of the green runs read too, at least Linux and Windows on
+    Python 3.14 (`gh run view <run> --log | grep -E 'NOTED|LEFT OUT|
+    unsteady|again, alone'`) -- green hides what was noted, left out or
+    passed only on the second go; each finding becomes a card for the
+    next release (the owner's rule, 26.9.2026).
 11. The builder's times fetched with `--record <version>`, the section in
     `development/test_durations.md` looked at, and every test marked
     grown there named in the release report?
