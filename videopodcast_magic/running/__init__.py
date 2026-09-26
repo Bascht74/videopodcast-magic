@@ -107,6 +107,32 @@ def wait_called_off(state, window):
     return True
 
 
+def assignment_file(wanted):
+    """A new, empty assignment file for one run, and what removes it.
+
+    Hands back (path, discard), ("", discard) when *wanted* is false.
+    The file names recordings and people, so it never outlives the run:
+    the run's thread removes it at the end, and a window closed while
+    the run still goes removes it on the way out.
+    """
+    path = ""
+    if wanted:
+        fd, path = tempfile.mkstemp(prefix="vpm_assign_", suffix=".json")
+        os.close(fd)
+
+    def discard():
+        """Remove the file; whether this call removed it, gone is gone."""
+        try:
+            os.remove(path)
+        except OSError:
+            return False
+        return True
+
+    if path:
+        PROGRAM.atexit.register(discard)
+    return path, discard
+
+
 def make_run_start(QtCore, window, state, model, report, ask, write,
                    bridge, bridge_emit, prework_node, prework_done,
                    prework_queue, prework_run, prework_lock, prework_busy,
@@ -126,7 +152,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
     start_run, preview_button = window.start_run, window.preview_button
     ask_user = user_asker(window, bridge, bridge_emit)
 
-    def work_loop(argv):
+    def work_loop(argv, discard=None):
         # A separator, so several runs of one session can be told apart
         # in the log.
         try:
@@ -135,8 +161,14 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             sys.stdout.flush()
         except Exception:
             pass
-        PROGRAM.gui_run_loop(argv, state, write, ask_user, bridge,
-                             bridge_emit, run_step_order)
+        # However the run ends, its assignment file goes with it.
+        try:
+            PROGRAM.gui_run_loop(argv, state, write, ask_user, bridge,
+                                 bridge_emit, run_step_order)
+        finally:
+            if discard:
+                discard()
+                PROGRAM.atexit.unregister(discard)
 
     def summary_show(only_look):
         """Before the long run: what is about to happen, one line each.
@@ -305,20 +337,9 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             "apart": sorted(model.no_join),
             "together": model.together_now(),
         }
-        assign_file = ""
-        if model.multitrack.get() or state.get("speakers_local"):
-            fd, assign_file = tempfile.mkstemp(prefix="vpm_assign_",
-                                           suffix=".json")
-            os.close(fd)
+        assign_file, discard = assignment_file(
+            model.multitrack.get() or state.get("speakers_local"))
         argv, wishes, messages = run_argv(values, assign_file)
-
-        def discard():
-            if assign_file:
-                try:
-                    os.remove(assign_file)
-                except OSError:
-                    pass
-
         for kind, title, text, button in messages:
             if kind == "question":
                 if not ask(title, text, button):
@@ -369,7 +390,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         # file is written -- but not by a dry run, which says it left
         # the output folder as it was: the close writes the hand work.
         window.run_begun.emit(bool(only_look))
-        threading.Thread(target=work_loop, args=(argv,), daemon=True).start()
+        threading.Thread(target=work_loop, args=(argv, discard),
+                         daemon=True).start()
         output_timer.start()
 
     def only_resolve_start_run():
