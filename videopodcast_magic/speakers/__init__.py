@@ -2321,12 +2321,13 @@ def voice_names_report(order):
 
 
 def voice_window_order(tracks, words, offset, origin,
-                       in_point="", out_point="", fps=30.0):
+                       in_point="", out_point="", fps=30.0, zero=None):
     """Who does the asking, worked out inside the time window alone.
 
     *tracks* are the voices on the shared axis, *words* the recognition
-    in its own time, *offset* what moves them onto it. The window goes
-    through apply_time_window, so preview and this can never disagree.
+    in its own time, *offset* what moves them onto it, *zero* where
+    "+12:30" counts from on the axis. The window goes through
+    apply_time_window, so preview and this can never disagree.
     """
     if not tracks or not words:
         return []
@@ -2339,6 +2340,8 @@ def voice_window_order(tracks, words, offset, origin,
         "words": [[w["start"] + offset, w["end"] + offset, w["word"]]
                   for w in words],
         "length_s": length, "start_s": origin, "fps": fps}
+    if zero is not None and origin is not None:
+        handover["marks_zero_s"] = float(zero) - float(origin)
     # Reached on the program and not bound above: apply_time_window
     # belongs to the cut, which the way in reads after this piece.
     cut, complaint = PROGRAM.apply_time_window(handover, in_point, out_point)
@@ -2471,6 +2474,25 @@ def voice_axis_offset(state, assign_lines):
     return (audio_start_of(source, axis) or 0.0) - min(starts or [0.0])
 
 
+def voice_marks_zero(state, camera_lines):
+    """Where "+12:30" counts from for the proposals: every camera runs.
+
+    The cut's rule through marks_zero itself, on the cut's places: the
+    measurement, else the timecode. None where no camera has a place.
+    """
+    axis, kinds = state.get("axis") or {}, state.get("clip_kinds") or {}
+    cams = [b for b, _n, _own, _f in camera_lines or ()
+            if (kinds[b].get() if b in kinds else PROGRAM.TYPE_CONTENT)
+            in PROGRAM.CAMERA_TYPES]
+    places = {}
+    for b in cams:
+        a = axis.get(path_key(b))
+        a = camera_start_of(b) if a is None else a
+        if a is not None:
+            places[path_key(b)] = float(a)
+    return PROGRAM.marks_zero(places, cams) if places else None
+
+
 def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
                         in_point, out_point, language="", heard=None):
     """One round of the proposals, on the wait the preview runs on.
@@ -2505,7 +2527,8 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
          if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])],
         [camera_start_of(b) for b, _n, _own, _flag in camera_lines], length)
     order = voice_window_order(tracks, spoken, offset, origin,
-                               in_point, out_point)
+                               in_point, out_point,
+                               zero=voice_marks_zero(state, camera_lines))
     named, silent = voice_proposals(order, [k for k, _p in tracks])
     return voice_proposal_apply(voice_lines, named, silent, marks, source)
 
