@@ -9,7 +9,30 @@ A switch that works on one path only carries `[multitrack only]` or
 the same way, and the marker stays English whatever the language of the
 run.
 
-![The start of a run in the terminal](images/terminal.png)
+```text
+$ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
+    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+videopodcast-magic 3.0.0b25   Python 3.14.7
+/tmp/vpm_terminal/videopodcast_magic/__init__.py
+
+
+PREFLIGHT -- does the material fit together?
+    GuestCam_01011858_C003.m 25.000 fps -- h264, 320x180, 3,000 frames in 0:02:00.000
+    Guest_Take0021A_Timecode 48 kHz, 16 bit, mono, 0:02:00.000
+    Presenter_REC00021.wav 48 kHz, 16 bit, mono, 0:00:40.000
+    Presenter_REC0002 Note: only 0:00:40.000 long, the longest recording has 0:02:00.000.
+      Started late or stopped early -- this voice is then missing from the
+      mix in places.
+    Bleed             Guest_Take0021A_Timecode in Presenter_REC00021's microphone: 31.7 dB quieter than in their own.
+    Bleed             Presenter_REC00021 in Guest_Take0021A_Timecode's microphone: 31.6 dB quieter than in their own.
+    Disk space        free 119.6 GB, about 326 MB needed (/private/tmp/vpm_terminal/interview)
+    Loudness          -16 LUFS (Podcast directories, stereo)
+    8 checked, 1 hint
+MULTITRACK NOT POSSIBLE
+  Without an API key there is nothing to send to auphonic.com.
+  With --without-auphonic it runs locally instead: aligned,
+  mixed and cut, but without de-bleed and leveler.
+```
 
 *`--multitrack --lufs -16 --dry-run` at the end of the call, the version
 and the Python underneath, then the preflight with eight checks and one

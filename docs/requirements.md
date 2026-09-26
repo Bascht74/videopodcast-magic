@@ -201,11 +201,17 @@ which Python is running. They name the recommended one when it is
 another: `Python 3.11.15  (recommended version 3.14.7)`. `--help` and
 `--version` answer without `numpy`, `PySide6` and `ffmpeg`.
 
-![A run in the terminal](images/terminal.png)
+```text
+$ videopodcast-magic Guest_Take0021A_Timecode.wav Presenter_REC00021.wav \
+    GuestCam_01011858_C003.mov --multitrack --lufs -16 --dry-run
+videopodcast-magic 3.0.0b25   Python 3.14.7
+/tmp/vpm_terminal/videopodcast_magic/__init__.py
+...
+```
 
-*The first line names version and Python, below it stands the path of
-the running file. This Python is the recommended one, so no bracket
-follows.*
+*The first line under the call names version and Python, below it
+stands the path of the running file. This Python is the recommended
+one, so no bracket follows.*
 
 ## Where ffmpeg comes from
 
