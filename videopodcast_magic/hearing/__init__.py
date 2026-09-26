@@ -428,12 +428,15 @@ def phase_align(a, b, rate, most_s=None):
     # The whitening is the point: every frequency counts the same, so a
     # loud bass drum does not drown out the rest.
     line = np.fft.irfft(both / (np.abs(both) + 1e-12), n)
-    k = int(np.argmax(line))
-    if k > n // 2:
-        k -= n
+    # Only lags from -len(a) to +len(b) can be; cutting at n/2 instead
+    # put a file starting more than n/2 samples late n samples out.
+    k = int(np.argmax(np.concatenate((line[:len(b)],
+                                      line[n - len(a) + 1:]))))
+    if k >= len(b):
+        k -= len(a) + len(b) - 1
     if most_s is not None and abs(k) / float(rate) > most_s:
         return 0.0, 0.0
-    sharp = float(line.max() / (line.std() or 1.0))
+    sharp = float(line[k] / (line.std() or 1.0))
     return k / float(rate), sharp
 
 
