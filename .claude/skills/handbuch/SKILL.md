@@ -49,8 +49,8 @@ answers:**
                           not add up, or nothing>
 ```
 
-Into `docs/notes/aufgaben.md`, or into the release report where the notes
-are not on disc. **A pass that reports "the chapters are up to date" and
+Onto the owner's decision board (private, outside the repository), or
+into the release report where the board is out of reach. **A pass that reports "the chapters are up to date" and
 names no chapter has not been made.**
 
 **The two halves of that line are counted apart on purpose**, because
@@ -59,8 +59,8 @@ confused at exactly this point. **The real case: the pass of 31.8.2026
 found two.** The log has three headings where the chapter said two --
 wrong for thirteen versions -- and the greyed-out fields under "no camera
 is free of speakers" do something other than what the notice under them
-says. The text was pulled straight, the program was not, and both still
-stand in `docs/notes/aufgaben.md` under "Zwei Befunde aus dem
+says. The text was pulled straight, the program was not, and both
+stood in the task list of the time under "Zwei Befunde aus dem
 Handbuchgang, nicht repariert". By the rule below each owed a test before
 the tag; three tags have gone out since (v2.25.0-beta, v2.25.1-beta,
 v2.26.0-beta, all 1.9.2026).
@@ -70,8 +70,8 @@ v2.26.0-beta, all 1.9.2026).
 Not afterwards, not "some time". What the pass uncovered stands in the
 suite as a test before the mark is set.
 
-**Where the test is genuinely larger than the fix**, it goes into
-`docs/notes/aufgaben.md`, and it goes in **with its shape written out**:
+**Where the test is genuinely larger than the fix**, it goes onto the
+owner's decision board, and it goes on **with its shape written out**:
 
 * what is set up -- the state the check runs against,
 * what is checked -- the one sentence that has to be true,

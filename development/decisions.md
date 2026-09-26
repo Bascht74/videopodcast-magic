@@ -300,8 +300,8 @@ a second time.
 
 A strand that reports gets written down because its report arrives; a
 sentence said to somebody has nothing that arrives. So "that goes on the
-list" means it goes into `docs/notes/aufgaben.md` in the same breath,
-before the next thing is started.
+list" means it goes onto the owner's decision board (private, outside
+the repository) in the same breath, before the next thing is started.
 
 ---
 
@@ -314,7 +314,8 @@ that shipped 21 files instead of 11. A number that says how things stand
 today does not: it goes stale between two commits, and a stale one
 discourages or misleads. One said two thirds of the counter-proof
 register were still owed; it was 12 % when somebody finally counted.
-**Those belong in `docs/notes/`, or in a command that answers them.**
+**Those belong on the owner's decision board (private, outside the
+repository), or in a command that answers them.**
 
 ---
 

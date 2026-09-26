@@ -108,8 +108,8 @@ now. Anything but 1 is cut again, never guessed at and never forced: an
 editor that applies by proximity puts the lines silently beside the right
 place, and nothing goes red.
 
-**The real case is in `docs/notes/aufgaben.md`**, in the plan for the 29
-remaining path places: two of the old lines occur **twice** in the
+**The real case was the plan for the 29 remaining path places**, in
+the task list of the time: two of the old lines occur **twice** in the
 program's own file and need the following line taken into the anchor
 to be unique. That was found by counting. Seventeen replacements were cut
 against that file; an uncounted anchor among them lands in the wrong
@@ -291,8 +291,8 @@ that now matches twice or not at all is cut again, never forced.
 expensive finding if it is right, and the cheapest if it arrives early.
 
 **A finding reported from outside an order does not go away by
-itself.** It goes into `docs/notes/`, or it becomes a strand of its
-own. A finding nobody writes down has been found twice and kept once
+itself.** It goes onto the owner's decision board (private, outside
+the repository), or it becomes a strand of its own. A finding nobody writes down has been found twice and kept once
 too few.
 
 ## Working on a skill itself
@@ -334,5 +334,5 @@ nobody could find them.
 14. Were the prepared edits put in the moment the file came free, an
     anchor that had stopped matching once cut again?
 15. Was a contradiction handled first, and every finding from outside an
-    order written into `docs/notes/` or made a strand of its own?
+    order put on the owner's decision board or made a strand of its own?
 16. Did a changed `description` line get the session restarted once?

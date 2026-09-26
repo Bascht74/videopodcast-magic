@@ -76,7 +76,7 @@ done
 # the two that wobble are 10 and 11. So the bound is six times the
 # slowest test that finishes, and it is never reached by one that does.
 # It caps what a hang costs; it does not mend the hang, and the shape
-# of that repair stands in docs/notes/aufgaben.md.
+# of that repair stands on the owner's decision board.
 LIMIT=""
 for candidate in timeout gtimeout; do
   command -v "$candidate" > /dev/null 2>&1 || continue

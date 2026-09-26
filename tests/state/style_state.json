@@ -2,9 +2,14 @@
  "big_without_docstring": {
   "make_preview.preview_compute": [1, 1749]
  },
+ "classes_over_300": {
+  "make_player_widgets.Player": [1, 1567],
+  "qt_cut_player.CutPlayer": [1, 737]
+ },
  "german": 0,
  "heading": 0,
- "largest_function": 1837,
+ "largest_class": 1047,
+ "largest_function": 1834,
  "lazy_plural": 0,
  "long_blocks": 7,
  "long_docstrings": 7,
@@ -262,7 +267,6 @@
   "make_drop_area.DropArea.dragLeaveEvent": [1, 257],
   "make_drop_area.DropArea.dropEvent": [1, 260],
   "make_file_changes.add_files": [1, 383],
-  "make_file_changes.items_fresh": [1, 248],
   "make_file_changes.join_row_show.chosen": [1, 234],
   "make_file_changes.remove": [1, 391],
   "make_file_list._list_takes": [1, 90],
@@ -323,7 +327,6 @@
   "make_run_start.start.check_again": [1, 178],
   "make_run_start.start.discard": [1, 268],
   "make_run_start.work_loop": [1, 94],
-  "make_time_axis.axis_present": [1, 1367],
   "make_update_sink.beside": [1, 485],
   "make_update_sink.beside.loop": [1, 489],
   "measure_loudness.get": [1, 773],
