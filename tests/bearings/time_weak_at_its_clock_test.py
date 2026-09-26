@@ -7,7 +7,8 @@ other cameras. Both carry a clock. The camera stands at it; the
 recording goes where the run lays it, which time_weak_as_run judges.
 Sections: both named as not fitting; the camera at its clock where the
 axis hangs off one; the failed measurement casts no vote on where the
-axis hangs; and clocks on weak files alone leave the axis relative.
+axis hangs; and clocks on weak files alone leave the axis relative,
+with the camera's reading not laid into it.
 """
 PLATFORM_BOUND = True
 import os
@@ -158,6 +159,12 @@ print("   %s" % places(data))
 check("and the axis does not claim to be tied to a clock",
       (data or {}).get("absolute") is False,
       "absolute is %s, wanted False" % ((data or {}).get("absolute"),))
+axis = (data or {}).get("axis") or {}
+check("in a relative axis the weak camera is not laid at its clock "
+      "reading",
+      axis.get(KB) is None or axis[KB] < 1000.0,
+      "CamB.mov at %s, wanted no place or a relative one, not its "
+      "clock's 61300.0" % (axis.get(KB),))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
