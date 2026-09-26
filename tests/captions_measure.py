@@ -80,7 +80,7 @@ LANGUAGES = ("en",) + tuple(sorted(
 EVERY_RUN = ("en", "de")
 # Windows built at once: each is a whole program with Qt in it, and
 # all of them side by side are memory the machine may not have.
-AT_ONCE = 4
+AT_ONCE = 2
 # Rounding, nothing else: a size hint is not the sum of the character
 # widths, and both are whole pixels. Above what rounding costs in either
 # language, well below the width a caption is really cut off by.
@@ -767,7 +767,7 @@ def one(language, media):
 
 
 def windows(languages):
-    """Every language's window, four at a time: (language, output) pairs.
+    """Every language's window, two at a time: (language, output) pairs.
 
     The fixture's files are linked once for every window; with no
     fixture each window says so itself. A pool rather than waves: a wave
