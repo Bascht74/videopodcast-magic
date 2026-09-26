@@ -86,9 +86,9 @@ room.
 
 ![The knobs for the camera cut](images/resolve-cut.png)
 
-*Tab Resolve cut: the values on the left, the preview on the right. Four
-of the settings stand grey, because no run has written the words down
-yet.*
+*Tab Resolve cut: the values on the left in three groups that fold
+away, the preview on the right. Words are written down here, so every
+setting is active.*
 
 All nine fields take seconds, and the number in each line is the
 default. An empty field means the default, a comma counts as the decimal
