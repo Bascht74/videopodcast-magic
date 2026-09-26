@@ -310,10 +310,12 @@ Both lie in the system cache folder, beside the envelopes
 in `words/` and `speakers/`. A recording joined out of several
 microphones lies in `speakers/` as well, under a name made out of the
 recordings it holds, so the same material finds it again instead of
-building it twice. Every start of the program throws away what was
-written there more than thirty days ago -- counted from the writing,
-not from the last reading. A project keeps its separation all the
-same: it carries it in its own file. The recogniser macOS uses lies
+building it twice. Every start of the program throws away what has
+lain there unused for thirty days: words and a separation count from
+the last time they were read, so what is used every week stays. The
+joined recording counts from when it was made, and once it has to be
+joined again its separation is worked out afresh. A project keeps its
+separation all the same: it carries it in its own file. The recogniser macOS uses lies
 beside them, built on this machine the first time it is needed; of
 that only the newest build stays, the older ones go. Throwing any of
 it away breaks nothing; it only means the computing happens once more.

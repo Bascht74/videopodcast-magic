@@ -63,6 +63,7 @@ hashlib = PROGRAM.hashlib
 how_many_processors = PROGRAM.how_many_processors
 https_context = PROGRAM.https_context
 json = PROGRAM.json
+kept_in_use = PROGRAM.kept_in_use
 label_of = PROGRAM.label_of
 math = PROGRAM.math
 microphones_apart_db = PROGRAM.microphones_apart_db
@@ -2603,6 +2604,7 @@ def speaker_cache_read(key):
             d = json.load(f)
     except (OSError, ValueError):
         return None
+    kept_in_use(file_path)
     return speaker_segments_group(d.get("segments") or [])
 
 

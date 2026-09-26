@@ -329,9 +329,11 @@ Beides liegt im Ablageordner des Systems, neben den Hüllkurven
 Mikrofonen zusammengelegte Aufnahme liegt ebenfalls in `speakers/`,
 unter einem Namen aus den Aufnahmen, die in ihr stecken -- dasselbe
 Material findet sie also wieder, statt sie ein zweites Mal zu bauen.
-Bei jedem Start wirft das Programm weg, was dort vor mehr als dreißig
-Tagen geschrieben wurde -- gezählt ab dem Schreiben, nicht ab dem
-letzten Lesen. Ein Projekt behält seine Trennung trotzdem, denn es
+Bei jedem Start wirft das Programm weg, was dort dreißig Tage lang
+unbenutzt lag: Wörter und eine Trennung zählen ab dem letzten Lesen,
+was jede Woche gebraucht wird, bleibt also. Die zusammengelegte
+Aufnahme zählt ab ihrem Bau, und muss sie neu zusammengelegt werden,
+wird auch ihre Trennung neu gerechnet. Ein Projekt behält seine Trennung trotzdem, denn es
 trägt sie in seiner eigenen Datei. Daneben liegt die Spracherkennung,
 die macOS benutzt und die das Programm beim ersten Bedarf auf diesem
 Rechner baut; von ihr bleibt nur der jüngste Bau, ältere verschwinden.

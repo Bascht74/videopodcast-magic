@@ -20,6 +20,7 @@ cache_folder = PROGRAM.cache_folder
 certificate_file = PROGRAM.certificate_file
 hashlib = PROGRAM.hashlib
 json = PROGRAM.json
+kept_in_use = PROGRAM.kept_in_use
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 outside_work = PROGRAM.outside_work
@@ -900,6 +901,8 @@ def words_cache_read(mark, language, way):
     except (OSError, ValueError):
         return None
     words = d.get("words")
+    if isinstance(words, list):
+        kept_in_use(file_path)
     return words if isinstance(words, list) else None
 
 
