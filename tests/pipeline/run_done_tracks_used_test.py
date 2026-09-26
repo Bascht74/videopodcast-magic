@@ -9,8 +9,11 @@ processed one written, the mixdown setting the loudness. Then a folder
 holding a track two minutes long, which belongs to another run and has
 to stop this one with its reason, not by a crash. That nothing is
 written then is not asked: three nets stand in front of it, and no one
-break reaches it. Last a returned track handed in as a recording, which
-the run refuses by name: who speaks is worked out on the raw ones.
+break reaches it. Then a returned track handed in as a recording, which
+the run refuses by name: who speaks is worked out on the raw ones. Last
+the two ways without a picture, joined alone and on one axis: each takes
+the folder and asks nothing of auphonic.com, which a stand-in curl
+watches where this machine can start one.
 """
 PLATFORM_BOUND = True
 import os
@@ -84,7 +87,7 @@ ASSIGN = local_ground.build(D, vpm.FILE_FORMAT)
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
 START = local_ground.keyed("not-a-key-only-a-test")
-local_ground.watched_curl(os.path.join(D, "bin"), ENV)
+curl_calls, WATCHED = local_ground.watched_curl(os.path.join(D, "bin"), ENV)
 
 DONE = os.path.join(D, "done")
 OTHER = os.path.join(D, "other")
@@ -191,6 +194,46 @@ refused = vpm.T('%s lies in the --auphonic-done folder, among the tracks '
                     DONE + "/Host.wav")
 check("and the refusal names that file",
       refused in said, "wanted %r, ends: %s" % (refused, tail(said)))
+
+print("\n4. Without a picture, joined alone and on one axis")
+
+
+def pictureless(out, *extra):
+    """A run of the two recordings alone: (code, printed, curl calls)."""
+    before = len(curl_calls())
+    p = subprocess.run(
+        START + ["--auphonic-done", DONE, "--out", out, "--no-metrics",
+                 "--no-speech-recognition", "--no-transcript-file"]
+        + list(extra) + [D + "/Host.wav", D + "/Guest.wav"],
+        capture_output=True, text=True, timeout=900, env=ENV)
+    return (p.returncode, (p.stdout or "") + (p.stderr or ""),
+            curl_calls()[before:])
+
+
+code, said, asked = pictureless(os.path.join(D, "alone_out"))
+check("joined alone, the finished folder is taken, with 0",
+      code == 0 and all(matched % (n, n + ".wav") in said
+                        for n in ("Host", "Guest")),
+      "returned %d against 0, matched %s, ends: %s"
+      % (code, [n for n in ("Host", "Guest")
+                if matched % (n, n + ".wav") in said], tail(said)))
+if WATCHED:
+    check("and joined alone nothing is asked of auphonic.com",
+          not asked, "%d calls to curl: %s" % (len(asked), asked[:1]))
+code, said, asked = pictureless(os.path.join(D, "axis_out"), "--multitrack")
+check("on one axis without a picture the folder is taken, with 0",
+      code == 0 and all(matched % (n, n + ".wav") in said
+                        for n in ("Host", "Guest")),
+      "returned %d against 0, matched %s, ends: %s"
+      % (code, [n for n in ("Host", "Guest")
+                if matched % (n, n + ".wav") in said], tail(said)))
+if WATCHED:
+    check("and on one axis nothing is asked of auphonic.com",
+          not asked, "%d calls to curl: %s" % (len(asked), asked[:1]))
+else:
+    print("LEFT OUT: the stand-in curl is a #!/bin/sh file and this "
+          "machine starts none of those, so nothing watched whether the "
+          "two runs without a picture asked auphonic.com.")
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

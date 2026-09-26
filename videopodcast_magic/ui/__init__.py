@@ -487,6 +487,23 @@ def camera_tracks_of(camera_lines):
             for p, n in zip(files, guessed)]
 
 
+def run_tracks_of(model):
+    """How many tracks a run gets from these rows, and whether on one axis.
+
+    As the run takes them: a recording set to "do not use" is none, and
+    rows of one name are one track -- an unnamed row counts alone. A
+    video that is not intro, outro or ignored is a picture, and a picture
+    or the Multitrack tick lays the tracks on one axis.
+    """
+    names = [v.get().strip() for _r, v, choice in model.assign_lines
+             if choice.get() != IGNORE_AUDIO]
+    pictures = [p for p, kind in model.files if kind == "video"
+                and (model.clip_kinds.get(p) or Value(TYPE_CONTENT)).get()
+                not in (TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)]
+    return (len(set(n for n in names if n)) + names.count(""),
+            bool(pictures) or bool(model.multitrack.get()))
+
+
 def missing_conditions(files, production, multitrack, assign_lines,
                        camera_lines, voice_lines=(), voiced=(),
                        project_type="cut"):
@@ -2697,8 +2714,8 @@ def gui():
      without_auphonic, preset_plaintext, presets_filter,
      presets_wanted_now, finished_tracks_check) = make_auphonic_box(
          QtWidgets, state, bridge, bridge_emit, tab2.run_layout,
-         settings_open, buttons_check, multi_button, multitrack,
-         out_folder, commonest_folder, report)
+         settings_open, buttons_check, multi_button, out_folder,
+         commonest_folder, report, lambda: run_tracks_of(model))
 
     # Tab 3: the Resolve check, the camera cut and its preview stand in
     # ResolveSheet. Below settings_open, which its Resolve line reaches.
@@ -2773,10 +2790,10 @@ def gui():
         preflight_fill_in, preflight_kick_off, lines_node, prework_node,
         video_kind_again, channel_rows_show, audio_use_now,
         video_choices_show)
-    wire(window.files_redrawn, show_weak, finished_tracks_check,
-         buttons_check, window.settings_show, assignment_fresh)
+    wire(window.files_redrawn, show_weak, finished_tracks_check, buttons_check,
+         window.settings_show, assignment_fresh, presets_filter)
     wire(window.files_leaving, prework_clean_up)
-    wire(window.assignment_due, assignment_fresh)
+    wire(window.assignment_due, assignment_fresh, presets_filter)
 
     # A file dropped straight onto the list lands here; the buttons above
     # stand long before the five exist and are hung on them here.

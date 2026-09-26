@@ -228,7 +228,7 @@ check("one recording without a picture sends nothing without a preset",
 del sent[:]
 tracks = [{"name": "host", "axis": MATERIAL["host.wav"]},
           {"name": "guest", "axis": MATERIAL["guest.wav"]}]
-code = vpm.send_aligned_tracks(several, tracks, FOLDER, FOLDER, 10.0)
+code = vpm.send_to_auphonic(several, tracks, FOLDER, FOLDER, 10.0)
 check("several recordings on one axis send nothing without a preset",
       not sent and code == 1,
       "%d uploads started, the way returned %r" % (len(sent), code))
