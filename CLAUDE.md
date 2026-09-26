@@ -62,9 +62,10 @@ they are missed. Do not tidy them away.
 the "Generated with Claude Code" line and the same URL. Skill `commit`
 holds the loop that counts them, and why afterwards is never.
 
-**The working notes are not in this repository.** Everything about who
-works on what, what is open and what was decided lives in `docs/notes/`,
-which is deliberately not shipped. If it is on disk, **read
+**The working notes are not in this repository.** What is open, what was
+decided and what goes into which release lives on the owner's decision
+board (private, outside the repository); the working notes live in
+`docs/notes/`, which is deliberately not shipped. If it is on disk, **read
 `docs/notes/claude_intern.md` first** -- it is the counterpart to
 `AGENTS.md` and names the rest.
 
