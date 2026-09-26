@@ -241,6 +241,15 @@ the list of the **Kind** field of every wide shot after the first:
 **the cut uses** and the camera, named as the window names it -- of two
 files called `C0003.MP4` the second is `C0003.MP4 (2)`.
 
+Which one it takes is decided by the file name: the first in
+alphabetical order. That shows most where nobody is assigned to any
+camera at all. Then every camera is a wide shot, no speaker has a
+camera of their own to be cut to, and the whole cut stays on that first
+camera -- three cameras in one room give a cut that never changes the
+picture. The log's line with the number of wide shots says which camera
+that is. Assign the speakers to their cameras, and the cut follows
+whoever is speaking.
+
 A number already in a grey field is kept, and the run does not act on it
 either: without a wide shot **Wide shot after** counts as 0, the tick as
 off, and each of those three selectors still standing on **Wide shot**

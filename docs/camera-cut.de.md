@@ -256,6 +256,16 @@ jedem weiteren Weitwinkel: Dort steht **der Schnitt nimmt** und dahinter
 die Kamera, mit dem Namen, den das Fenster ihr gibt. Heißen zwei Dateien
 `C0003.MP4`, trägt die zweite dort den Namen `C0003.MP4 (2)`.
 
+Welchen er nimmt, entscheidet der Dateiname: den ersten in
+alphabetischer Reihenfolge. Am deutlichsten wird das, wenn keiner Kamera
+überhaupt jemand zugeordnet ist. Dann ist jede Kamera ein Weitwinkel,
+kein Sprecher hat eine eigene Kamera, zu der geschnitten werden könnte,
+und der ganze Schnitt bleibt auf dieser ersten Kamera — drei Kameras im
+selben Raum ergeben einen Schnitt, in dem das Bild kein einziges Mal
+wechselt. Welche Kamera das ist, steht im Protokoll in der Zeile mit der
+Zahl der Weitwinkel. Wer die Sprecher ihren Kameras zuordnet, bekommt
+einen Schnitt, der dem folgt, der gerade spricht.
+
 Eine Zahl, die schon in einem grau gewordenen Feld steht, bleibt
 erhalten, und der Lauf richtet sich ebenso wenig nach ihr: ohne
 Weitwinkel gilt **Weitwinkel nach** als 0, das Häkchen als

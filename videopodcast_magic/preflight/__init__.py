@@ -1461,7 +1461,8 @@ def rows_off_the_axis(nodes, state):
     Read off what the rows are drawn from -- the measurement's "weak"
     and "no_place" and each row's Kind -- and judged by the ink the row
     gets, one answer per row, so three blocks are one recording. Returns
-    two lists of file names: refused in red, placed by the clock alone.
+    two lists of file names: refused in red, placed by the clock alone;
+    a file set to be left out stands in neither.
     """
     weak = state.get("weak") or ()
     nowhere = state.get("no_place") or ()
@@ -1474,10 +1475,15 @@ def rows_off_the_axis(nodes, state):
         odd = out + [p for p in paths if path_key(p) in weak]
         if not odd:
             continue
+        # A file set to be left out takes no part, so it is no fault
+        # of the material: the line does not count it, whatever ink
+        # its row wears.
+        kind = PROGRAM.weak_kind(state.get("clip_kinds"), odd[0])
+        if kind == TYPE_IGNORED:
+            continue
         # The row's own ink, asked of the piece that draws it; that
         # piece is read after this one, so it is asked by name here.
-        ink = PROGRAM.weak_colour(True, bool(out), PROGRAM.weak_kind(
-            state.get("clip_kinds"), odd[0]))
+        ink = PROGRAM.weak_colour(True, bool(out), kind)
         if ink == COLOURS["error"]:
             refused.append(os.path.basename(odd[0]))
         elif ink == COLOURS["warning"]:
