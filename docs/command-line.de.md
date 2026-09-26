@@ -79,13 +79,15 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 
 ## Bei auphonic.com aufbereiten
 
-Der Schlüssel kommt aus den Kontoeinstellungen in `AUPHONIC_TOKEN`, nie
-auf die Kommandozeile. Er schaltet die Aufbereitung ein, und eine
-Kommandozeile mit Schaltern, aber ohne Dateien listet dann nur die
-Presets.
+Der Schlüssel kommt einmal aus den Kontoeinstellungen in den
+Schlüsselbund oder die Registry, nie auf die Kommandozeile: über das
+Fenster oder mit `--store-auphonic-key`. Ein abgelegter Schlüssel
+schaltet die Aufbereitung ein, und eine Kommandozeile mit Schaltern,
+aber ohne Dateien listet dann nur die Presets.
 
 | Schalter | Wirkung |
 |---|---|
+| `--store-auphonic-key` | den Schlüssel im Terminal abfragen, ohne ihn anzuzeigen, im Schlüsselbund (macOS) oder in der Registry (Windows) ablegen und zurücklesen; hinter dem Schalter darf nichts stehen (aus) |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
 | `--auphonic-wait SEKUNDEN` | wie lange gewartet wird (7200) |
 | `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
@@ -176,8 +178,9 @@ führt die Kapitel auf.
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.
 * **`--multitrack` ohne Schlüssel.** Der Lauf hält nach dem Vorflug an.
-  Einen Schlüssel in `AUPHONIC_TOKEN` legen, oder `--without-auphonic` auf
-  diesem Rechner ausrichten, mischen und schneiden lassen.
+  Einmal einen Schlüssel mit `--store-auphonic-key` ablegen, oder
+  `--without-auphonic` auf diesem Rechner ausrichten, mischen und
+  schneiden lassen.
 * **Die Liste ist auch in einem deutschen Lauf englisch.** `--help` und
   die Namen der Schalter folgen `--lang` nicht; der Schalter setzt die
   Sprache der Meldungen.

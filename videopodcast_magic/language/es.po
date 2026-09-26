@@ -2646,6 +2646,13 @@ msgstr "--- salto a %s tiempo de programa%s ---"
 msgid "--- point set, programme time runs from %s ---"
 msgstr "--- punto fijado, tiempo de programa desde %s ---"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key no admite nada detrás: la clave se pide sin mostrarla. "
+"No se guardó nada."
+
 msgid "--update fetches it and puts it in place."
 msgstr "--update la obtiene y la coloca."
 
@@ -2702,6 +2709,9 @@ msgstr "Audio en el tiempo de programa"
 
 msgid "Audio file %s"
 msgstr "Archivo de audio %s"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "API Key de Auphonic (no se muestra): "
 
 msgid "Auphonic created different tracks than requested: %s instead of %s"
 msgstr "Auphonic ha creado pistas distintas de las pedidas: %s en vez de %s"
@@ -3096,8 +3106,12 @@ msgstr "SIN GRABACIONES DE AUDIO SEPARADAS -- SE USA EL AUDIO DE LA CÁMARA"
 msgid "Names used more than once"
 msgstr "Nombres usados más de una vez"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "No hay API Key. Definir AUPHONIC_TOKEN o hacer que se recuerde una vez en la interfaz. La clave está en los ajustes de la cuenta de Auphonic."
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"No hay API Key. Guárdela una vez en la interfaz o con --store-auphonic-key. "
+"La clave está en los ajustes de la cuenta de Auphonic."
 
 msgid "No Multitrack preset found in the account."
 msgstr "No se ha encontrado ningún ajuste preestablecido Multitrack en la cuenta."
@@ -3143,6 +3157,9 @@ msgstr "No hay conexión con Resolve.\n  ¿Está el programa en marcha? ¿Está 
 
 msgid "No input possible. Use %s %s to set what should happen."
 msgstr "No es posible introducir nada. Con %s %s se define qué debe ocurrir."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "No se escribió ninguna clave, así que no se guardó nada."
 
 msgid "No newer version found. This one is %s."
 msgstr "No se ha encontrado ninguna versión más reciente. Aquí corre %s."
@@ -3562,9 +3579,6 @@ msgstr "Los fotogramas duran un poco menos; el archivo no se alarga por ello. Un
 msgid "The key can only be stored on Mac and Windows -- in the keychain or the registry. It does not go into a file."
 msgstr "La clave solo se puede guardar en Mac y Windows -- en el Llavero o en el Registro. En un archivo no entra."
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "La clave de AUPHONIC_TOKEN no se acepta: %s"
-
 msgid "The key has a character in it that cannot be typed."
 msgstr "En la clave hay un carácter que no se puede teclear."
 
@@ -3579,6 +3593,12 @@ msgstr "La clave es buena. De los %s ajustes preestablecidos de la cuenta ningun
 
 msgid "The key is good. Of the %s presets in the account none is a Singletrack one, so the list stays empty."
 msgstr "La clave es buena. De los %s ajustes preestablecidos de la cuenta ninguno es Singletrack, así que la lista se queda vacía."
+
+msgid "The key is not stored: %s"
+msgstr "La clave no está guardada: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "La clave está guardada y, al volver a leerla, dio la misma clave."
 
 msgid "The key is then in the %s, never in a file."
 msgstr "La clave queda entonces en el %s, nunca en un archivo."

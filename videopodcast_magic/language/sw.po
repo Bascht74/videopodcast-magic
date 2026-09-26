@@ -2372,9 +2372,6 @@ msgstr "Multitrack (treki moja kwa mzungumzaji)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack inahitaji angalau treki mbili za ingizo. Treki ni rekodi tofauti, chaneli ya kinasa sauti cha chaneli nyingi, au sauti ya faili ya video iliyowekwa \"tumia sauti ya ndani\". Bloku kadhaa za rekodi moja huhesabiwa kuwa moja, na treki zilizowekwa kando hazihesabiwi kabisa."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Hakuna ufunguo wa API. Weka AUPHONIC_TOKEN au uuhifadhi mara moja kwenye kiolesura. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Hakuna faili ya sauti yenye timecode. Alama ya kuingia na alama ya kutoka huhesabiwa kuanzia mwanzo wa nyenzo -- nafasi ya faili kati yao hupimwa."
 
@@ -2762,9 +2759,6 @@ msgstr "  Keychain Access haikuweza kufunguliwa: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Ufunguo uliohifadhiwa haukubaliwi: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ufunguo kutoka AUPHONIC_TOKEN haukubaliwi: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Jibu la auphonic.com"
 
@@ -2957,14 +2951,40 @@ msgstr "Saa sita usiku"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Timecode kutoka upande mwingine wa saa sita usiku: %s -- inahesabiwa kama usiku mmoja, si tofauti ya siku moja."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key haipokei chochote baada yake: ufunguo huulizwa bila "
+"kuonyeshwa. Hakuna kilichohifadhiwa."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Timecode huhesabu kuanzia saa sita usiku na huanza upya hapo. Faili huwekwa kwenye mhimili mmoja kabla ya kutoa chochote, vinginevyo rekodi ya baada ya saa sita usiku ingeonekana kuwa karibu siku nzima mbali na ile ya kabla. Ikiwa kweli hizi zilirekodiwa siku tofauti, upangaji sawa si sahihi na msogeo uliopimwa ndio wa kuaminiwa."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Ufunguo wa API wa Auphonic (hauonyeshwi): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Chaneli %d imegonga kikomo: mara %s sampuli tatu au zaidi mfululizo, ndefu zaidi %s (%s ms), ya kwanza kwenye %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Huhesabiwa hapa, sampuli kwa sampuli, kwa kasi ambayo faili ilirekodiwa: mfululizo wa sampuli tatu au zaidi kwenye thamani ya juu kabisa ambayo muundo wa namba kamili unaweza kubeba. Moja au mbili ni ukadiriaji na haziripotiwi. Kilichokatwa hapo kimepotea na hakuna uchakataji unaoweza kukirudisha -- lakini rekodi bado ni rekodi, na hili halizuii chochote. Miundo ya namba kamili pekee ndiyo huhesabiwa. 32 bit float haina kikomo kwenye kipimo kamili, kwa hivyo hakuna cha kuhesabu hapo."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Hakuna ufunguo wa API. Uuhifadhi mara moja kwenye kiolesura, au kwa "
+"--store-auphonic-key. Ufunguo uko katika mipangilio ya akaunti ya Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Hakuna ufunguo ulioandikwa, kwa hiyo hakuna kilichohifadhiwa."
+
+msgid "The key is not stored: %s"
+msgstr "Ufunguo haujahifadhiwa: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ufunguo umehifadhiwa, na kuusoma tena kulitoa ufunguo uleule."
 
 msgid "boxes no longer readable"
 msgstr "visanduku havisomeki tena"

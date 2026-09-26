@@ -2338,9 +2338,6 @@ msgstr "Multitrack (화자마다 트랙 하나)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack에는 입력 트랙이 두 개 이상 필요합니다. 트랙이란 별도 녹음, 멀티채널 레코더의 채널 하나, 또는 \"내장 오디오 사용\"으로 설정된 비디오 파일의 오디오입니다. 같은 녹음의 여러 블록은 하나로 세고, 따로 빼 둔 트랙은 세지 않습니다."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API 키가 없습니다. AUPHONIC_TOKEN을 설정하거나, 인터페이스에서 한 번 저장해 두세요. 키는 Auphonic 계정 설정에 있습니다."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "타임코드가 있는 오디오 파일이 없습니다. 인 포인트와 아웃 포인트는 소재의 시작부터 셉니다 -- 파일 간 위치는 측정된 것입니다."
 
@@ -2733,9 +2730,6 @@ msgstr "  키체인 접근을 열 수 없었습니다: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "저장된 키가 받아들여지지 않습니다: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN의 키가 받아들여지지 않습니다: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com의 응답"
 
@@ -2919,14 +2913,39 @@ msgstr "자정"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s에는 자정 너머의 타임코드가 있습니다 -- 하루 차이가 아니라 같은 밤으로 계산합니다."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key 뒤에는 아무것도 붙일 수 없습니다. 키는 보이지 않게 입력받습니다. 아무것도 저장되지 않았습니다."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "타임코드는 자정부터 세고 거기서 다시 시작합니다. 무엇이든 빼기 전에 파일들을 하나의 축에 놓습니다. 그렇지 않으면 자정 이후의 녹음이 그 전 녹음과 거의 하루 떨어져 보입니다. 실제로 다른 날에 녹화한 것이라면 정렬이 잘못된 것이고, 측정한 오프셋을 믿어야 합니다."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API 키(표시되지 않음): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "채널 %d이(가) 한계에 닿았습니다: 연속 3샘플 이상이 %s회, 가장 긴 것 %s (%s ms), 첫 번째는 %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "여기서 파일이 녹음된 레이트로 샘플 하나하나 셉니다: 정수 형식이 담을 수 있는 최댓값에 3샘플 이상 이어진 구간입니다. 한두 개는 반올림이므로 보고하지 않습니다. 거기서 잘린 부분은 사라졌고 어떤 처리로도 되살릴 수 없습니다 -- 하지만 녹음은 여전히 녹음이며, 이것 때문에 멈추는 것은 없습니다. 정수 형식만 셉니다. 32 bit float에는 풀 스케일에 한계가 없으므로 셀 것이 없습니다."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API 키가 없습니다. 인터페이스에서 한 번, 또는 --store-auphonic-key로 저장하세요. 키는 Auphonic 계정 설정에 "
+"있습니다."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "키가 입력되지 않아 아무것도 저장되지 않았습니다."
+
+msgid "The key is not stored: %s"
+msgstr "키가 저장되지 않았습니다: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "키가 저장되었고, 다시 읽어도 같은 키였습니다."
 
 msgid "boxes no longer readable"
 msgstr "박스를 더 이상 읽을 수 없음"

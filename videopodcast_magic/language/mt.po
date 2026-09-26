@@ -2374,9 +2374,6 @@ msgstr "Multitrack (binarju għal kull kelliem)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack jeħtieġ mill-inqas żewġ binarji tad-dħul. Binarju huwa reġistrazzjoni għaliha, kanal ta' reġistratur b'ħafna kanali, jew l-awdjo ta' fajl tal-vidjo ssettjat fuq \"uża l-awdjo intern\". Diversi blokki tal-istess reġistrazzjoni jgħoddu bħala wieħed, binarji mwarrba ma jgħoddu xejn."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "L-ebda ċavetta tal-API. Issettja AUPHONIC_TOKEN jew ħalli l-interfaċċa tiftakarha darba. Iċ-ċavetta tinsab fl-issettjar tal-kont ta' Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "L-ebda fajl tal-awdjo m'għandu timecode. Il-punt tad-dħul u l-punt tal-ħruġ jgħoddu mill-bidu tal-materjal -- il-pożizzjoni tal-fajls bejniethom hija mkejla."
 
@@ -2764,9 +2761,6 @@ msgstr "  Keychain Access ma setax jinfetaħ: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Iċ-ċavetta maħżuna mhix aċċettata: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Iċ-ċavetta minn AUPHONIC_TOKEN mhix aċċettata: %s"
-
 msgid "What auphonic.com replied"
 msgstr "X'wieġeb auphonic.com"
 
@@ -2959,14 +2953,41 @@ msgstr "Nofsillejl"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Il-fajl %s għandu timecode min-naħa l-oħra ta' nofsillejl -- jingħadd bħala lejl wieħed, mhux bħala ġurnata bogħod."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ma jieħu xejn warajh: iċ-ċavetta tintalab mingħajr ma "
+"tidher. Ma nħażen xejn."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "It-timecode jgħodd minn nofsillejl u jerġa' jibda mill-ġdid hemm. Il-fajls jitqiegħdu fuq assi wieħed qabel ma jitnaqqas xi ħaġa -- inkella r-reġistrazzjoni wara nofsillejl tidher kważi ġurnata 'l bogħod minn dik ta' qabilha. Jekk dawn verament ġew irreġistrati f'ġranet differenti, l-allinjament huwa ħażin u l-ispostament imkejjel huwa dak li għandek tafda."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Ċavetta tal-API ta' Auphonic (ma tidhirx): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Il-kanal %d qed jolqot il-limitu -- sekwenzi ta' tliet kampjuni jew aktar wara xulxin: %s, l-itwal %s (%s ms), l-ewwel f'%s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Magħdud hawn, kampjun b'kampjun, bir-rata li biha ġie rreġistrat il-fajl: sekwenza ta' tliet kampjuni jew aktar fuq l-ogħla valur li format ta' numri sħaħ jista' jżomm. Wieħed jew tnejn huma arrotondar u ma jiġux irrappurtati. Dak li jinqata' hemm jintilef u l-ebda pproċessar ma jġibu lura -- iżda r-reġistrazzjoni tibqa' r-reġistrazzjoni, u dan ma jwaqqaf xejn. Jingħaddu biss formati ta' numri sħaħ. Float ta' 32 bit m'għandux limitu fl-iskala sħiħa, għalhekk m'hemm xejn x'jingħadd hemm."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"L-ebda ċavetta tal-API. Aħżinha darba fl-interfaċċa, jew "
+"b'--store-auphonic-key. Iċ-ċavetta tinsab fl-issettjar tal-kont ta' "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Ma nkitbet l-ebda ċavetta, allura ma nħażen xejn."
+
+msgid "The key is not stored: %s"
+msgstr "Iċ-ċavetta mhix maħżuna: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Iċ-ċavetta hija maħżuna, u meta nqrat lura tat l-istess ċavetta."
 
 msgid "boxes no longer readable"
 msgstr "il-kaxxi ma għadhomx jinqraw"

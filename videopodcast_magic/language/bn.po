@@ -2340,9 +2340,6 @@ msgstr "Multitrack (প্রতি বক্তার জন্য একটি
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack-এর জন্য অন্তত দুটি ইনপুট ট্র্যাক দরকার। একটি ট্র্যাক হলো নিজস্ব একটি রেকর্ডিং, মাল্টিচ্যানেল রেকর্ডারের একটি চ্যানেল, অথবা এমন ভিডিও ফাইলের অডিও যা \"ভেতরের অডিও ব্যবহার করুন\"-এ সেট করা। একই রেকর্ডিংয়ের একাধিক ব্লক একটি হিসেবে গোনা হয়, সরিয়ে রাখা ট্র্যাক একেবারেই নয়।"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "কোনো API কী নেই। AUPHONIC_TOKEN সেট করুন অথবা ইন্টারফেসে একবার সংরক্ষণ করিয়ে নিন। কী-টি Auphonic অ্যাকাউন্টের সেটিংসে আছে।"
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "কোনো অডিও ফাইলে টাইমকোড নেই। ইন পয়েন্ট ও আউট পয়েন্ট উপাদানের শুরু থেকে গোনা হয় -- ফাইলগুলোর পারস্পরিক অবস্থান মাপা হয়েছে।"
 
@@ -2737,9 +2734,6 @@ msgstr "  Keychain Access খোলা যায়নি: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "সংরক্ষিত কী গ্রহণ করা হয়নি: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN থেকে পাওয়া কী গ্রহণ করা হয়নি: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com কী উত্তর দিয়েছে"
 
@@ -2923,14 +2917,40 @@ msgstr "মধ্যরাত"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s মধ্যরাতের ওপারের একটি টাইমকোড বহন করে -- এক রাত হিসেবে গোনা হয়েছে, এক দিনের ব্যবধান হিসেবে নয়।"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key এর পরে কিছু নেয় না: কী-টি না দেখিয়ে চাওয়া হয়। কিছুই "
+"সংরক্ষণ করা হয়নি।"
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "টাইমকোড মধ্যরাত থেকে গোনে এবং সেখানে আবার শুরু হয়। কিছু বিয়োগ করার আগে ফাইলগুলোকে একটি অক্ষে বসানো হয়, নইলে মধ্যরাতের পরের রেকর্ডিং আগেরটি থেকে প্রায় এক দিন দূরে মনে হয়। এগুলো সত্যিই ভিন্ন দিনে রেকর্ড করা হলে মেলানো ভুল, আর মাপা অফসেটই বিশ্বাসযোগ্য।"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API কী (দেখানো হয় না): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "চ্যানেল %d সীমায় ঠেকেছে: %sবার পরপর তিন বা তার বেশি স্যাম্পল, দীর্ঘতমটি %s (%s ms), প্রথমটি %s-এ।"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "এখানে গোনা হয়েছে, স্যাম্পল ধরে ধরে, যে রেটে ফাইলটি রেকর্ড হয়েছিল সেই রেটে: একটি পূর্ণসংখ্যা ফরম্যাট যে সর্বোচ্চ মান ধরতে পারে, তাতে তিন বা তার বেশি স্যাম্পলের একটানা সারি। এক বা দুটি হলো রাউন্ডিং, সেগুলো জানানো হয় না। সেখানে যা কেটে গেছে তা হারিয়ে গেছে, কোনো প্রক্রিয়াকরণ তা ফেরাতে পারে না -- তবে রেকর্ডিং রেকর্ডিংই থাকে, আর এটি কিছুই আটকায় না। শুধু পূর্ণসংখ্যা ফরম্যাট গোনা হয়। 32 bit float-এর পূর্ণ স্কেলে কোনো সীমা নেই, তাই সেখানে গোনার কিছু নেই।"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"কোনো API কী নেই। ইন্টারফেসে একবার, অথবা --store-auphonic-key দিয়ে এটি "
+"সংরক্ষণ করুন। কী-টি Auphonic অ্যাকাউন্টের সেটিংসে আছে।"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "কোনো কী টাইপ করা হয়নি, তাই কিছুই সংরক্ষণ করা হয়নি।"
+
+msgid "The key is not stored: %s"
+msgstr "কী-টি সংরক্ষিত হয়নি: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "কী-টি সংরক্ষিত হয়েছে, এবং আবার পড়ে একই কী পাওয়া গেছে।"
 
 msgid "boxes no longer readable"
 msgstr "বক্সগুলো আর পড়া যায় না"

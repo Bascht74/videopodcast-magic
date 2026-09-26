@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the program is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 799 lines of it, against the 37 535 it held
+program lives any more -- 805 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-seven
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -49,22 +49,22 @@ figure of the day is that command, not this paragraph**:
 * `timebase/` **1822** -- the time base and the camera files: every
   track and camera on one axis, the drift, the common window, the
   tracks back onto each camera and the camera files written
-* `auphonic/` **1686** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1680** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
 * `preflight/` **1728** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
+* `setup/` **1225** -- finding ffmpeg, installing a missing module,
+  keeping the key, and storing it from the terminal
 * `speech/` **1142** -- what is said and when, and what is written down
   from it
-* `setup/` **1092** -- finding ffmpeg, installing a missing module,
-  keeping the key
 * `hearing/` **1083** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `fittings/` **1299** -- helpers that shape what the window shows and
   hold none of its state
 * `desktop/` **869** -- the picture and the shortcut the first start
   lays down
-* `orders/` **947** -- the command line a run is given: written out of
+* `orders/` **954** -- the command line a run is given: written out of
   the window, and read back off the line
 * `metadata/` **724** -- MOV atoms, colour tags, what a recording says
   about itself

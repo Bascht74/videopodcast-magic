@@ -2367,9 +2367,6 @@ msgstr "Multitrack (jedna traka po govorniku)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack treba barem dvije ulazne trake. Traka je vlastiti snimak, kanal višekanalnog snimača ili zvuk video datoteke postavljene na \"koristi interni zvuk\". Više blokova istog snimka računa se kao jedna, trake stavljene po strani uopće ne."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nema API ključa. Postavite AUPHONIC_TOKEN ili ga jednom dajte zapamtiti u interfejsu. Ključ se nalazi u postavkama računa Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Nijedna audio datoteka ne nosi vremenski kod. Tačka In i tačka Out broje se od početka materijala -- međusobni položaj datoteka je izmjeren."
 
@@ -2757,9 +2754,6 @@ msgstr "  Pristup privjesku ključeva nije bilo moguće otvoriti: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Sačuvani ključ nije prihvaćen: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ključ iz AUPHONIC_TOKEN nije prihvaćen: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Šta je odgovorio auphonic.com"
 
@@ -2952,14 +2946,40 @@ msgstr "Ponoć"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s nosi vremenski kod s druge strane ponoći -- računa se kao jedna noć, a ne kao dan razlike."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ne prima ništa iza sebe: ključ se traži bez "
+"prikazivanja. Ništa nije sačuvano."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Vremenski kod broji od ponoći i tamo počinje iznova. Datoteke se stavljaju na jednu osu prije nego što se išta oduzme, inače snimak nakon ponoći izgleda gotovo dan udaljen od onog prije. Ako se ovdje zaista snimalo različitih dana, poravnanje je pogrešno i vrijedi izmjereni pomak."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API ključ (ne prikazuje se): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d je na graničniku: %s puta tri ili više uzoraka zaredom, najduži %s (%s ms), prvi u %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Ovdje se broji uzorak po uzorak, pri frekvenciji kojom je datoteka snimljena: niz od tri ili više uzoraka na najvišoj vrijednosti koju cjelobrojni format može držati. Jedan ili dva su zaokruživanje i ne prijavljuju se. Što je tamo odrezano, nestalo je i nikakva ga obrada ne vraća -- ali snimak je i dalje snimak, i ovo ništa ne zaustavlja. Broje se samo cjelobrojni formati. 32-bitni pomični zarez nema graničnik na punoj skali, pa tamo nema šta brojati."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nema API ključa. Sačuvajte ga jednom u interfejsu ili pomoću "
+"--store-auphonic-key. Ključ se nalazi u postavkama računa Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nijedan ključ nije unesen, pa ništa nije sačuvano."
+
+msgid "The key is not stored: %s"
+msgstr "Ključ nije sačuvan: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ključ je sačuvan, a ponovno čitanje dalo je isti ključ."
 
 msgid "boxes no longer readable"
 msgstr "boxovi više nisu čitljivi"

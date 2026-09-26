@@ -2372,9 +2372,6 @@ msgstr "Multitrack (satu trek per pembicara)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack memerlukan setidaknya dua trek masukan. Satu trek adalah rekaman tersendiri, satu kanal dari perekam multikanal, atau audio file video yang diatur ke \"gunakan audio internal\". Beberapa blok dari rekaman yang sama dihitung sebagai satu, trek yang disisihkan tidak dihitung sama sekali."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Tidak ada kunci API. Atur AUPHONIC_TOKEN, atau biarkan antarmuka mengingatnya sekali. Kunci ada di pengaturan akun Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Tidak ada file audio yang membawa timecode. Titik masuk dan titik keluar dihitung dari awal materi -- posisi file satu sama lain diukur."
 
@@ -2762,9 +2759,6 @@ msgstr "  Keychain Access tidak dapat dibuka: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Kunci yang tersimpan tidak diterima: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Kunci dari AUPHONIC_TOKEN tidak diterima: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Jawaban auphonic.com"
 
@@ -2957,14 +2951,40 @@ msgstr "Tengah malam"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s membawa timecode dari sisi lain tengah malam -- dihitung sebagai satu malam, bukan berselisih satu hari."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key tidak menerima apa pun sesudahnya: kunci diminta tanpa "
+"ditampilkan. Tidak ada yang disimpan."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Timecode dihitung dari tengah malam dan mulai lagi dari sana. File-file ditempatkan pada satu sumbu sebelum apa pun dikurangkan, jika tidak rekaman setelah tengah malam tampak hampir sehari jauhnya dari rekaman sebelumnya. Jika rekaman ini memang dibuat pada hari yang berbeda, penyelarasannya salah dan selisih yang diukurlah yang dapat dipercaya."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Kunci API Auphonic (tidak ditampilkan): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d menyentuh batas: %s kali tiga sampel atau lebih berturut-turut, yang terpanjang %s (%s ms), yang pertama pada %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Dihitung di sini, sampel demi sampel, pada laju saat file direkam: deretan tiga sampel atau lebih pada nilai tertinggi yang dapat dimuat format bilangan bulat. Satu atau dua adalah pembulatan dan tidak dilaporkan. Yang terpotong di sana hilang dan tidak ada pemrosesan yang dapat mengembalikannya -- tetapi rekaman tetaplah rekaman, dan ini tidak menahan apa pun. Hanya format bilangan bulat yang dihitung. 32 bit float tidak memiliki batas pada skala penuh, jadi tidak ada yang dihitung di sana."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Tidak ada kunci API. Simpan sekali di antarmuka, atau dengan "
+"--store-auphonic-key. Kunci ada di pengaturan akun Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Tidak ada kunci yang diketik, jadi tidak ada yang disimpan."
+
+msgid "The key is not stored: %s"
+msgstr "Kunci tidak tersimpan: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Kunci tersimpan, dan saat dibaca kembali hasilnya kunci yang sama."
 
 msgid "boxes no longer readable"
 msgstr "kotak tidak lagi terbaca"

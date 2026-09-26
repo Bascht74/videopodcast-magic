@@ -1138,14 +1138,8 @@ msgstr "Інші назви доріжок"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  ВИПУСК З ТАКОЮ НАЗВОЮ ВЖЕ ІСНУЄ"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ключ з AUPHONIC_TOKEN не приймається: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "Збережений ключ не приймається: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Немає ключа API. Задайте AUPHONIC_TOKEN або один раз збережіть його в інтерфейсі. Ключ є в налаштуваннях облікового запису Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "В обліковому записі немає збережених пресетів. Пресет можна створити у вебінтерфейсі."
@@ -4765,14 +4759,34 @@ msgstr "%s ні з чим у матеріалі не збігається, а ж
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s ні з чим у матеріалі не збігається, а жодна камера, розміщена за звуком, не має таймкоду, з яким можна було б звірити власний; заставку вже зайнято: залишено поза монтажем."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key нічого не приймає після себе: ключ запитується "
+"приховано. Нічого не збережено."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Ключ API Auphonic (не показується): "
 
 msgid "In point"
 msgstr "Точка входу"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Пропущено; %s або %s -- за один клік."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Немає ключа API. Збережіть його один раз в інтерфейсі або за допомогою "
+"--store-auphonic-key. Ключ є в налаштуваннях облікового запису Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Ключ не введено, тому нічого не збережено."
 
 msgid "Out point"
 msgstr "Точка виходу"
@@ -4782,6 +4796,12 @@ msgstr "Пресети:"
 
 msgid "Registry"
 msgstr "Реєстр"
+
+msgid "The key is not stored: %s"
+msgstr "Ключ не збережено: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ключ збережено, і зворотне читання дало той самий ключ."
 
 msgid "VIDEO"
 msgstr "ВІДЕО"

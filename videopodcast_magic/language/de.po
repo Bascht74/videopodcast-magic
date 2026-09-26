@@ -3603,13 +3603,6 @@ msgstr ""
 "derselben Aufnahme zählen als eine, beiseitegelegte Spuren gar nicht."
 
 msgid ""
-"No API key. Set AUPHONIC_TOKEN or have it remembered once in the "
-"interface. The key is in the Auphonic account settings."
-msgstr ""
-"Kein API-Schlüssel. AUPHONIC_TOKEN setzen oder ihn einmal in der "
-"Oberfläche merken lassen. Er steht in den Auphonic-Kontoeinstellungen."
-
-msgid ""
 "No audio file carries a timecode. In point and Out point count from the "
 "start of the material -- the position of the files to each other is "
 "measured."
@@ -4201,9 +4194,6 @@ msgstr "  Die Schlüsselbundverwaltung ließ sich nicht öffnen: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Der gemerkte Schlüssel wird nicht angenommen: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Der Schlüssel aus AUPHONIC_TOKEN wird nicht angenommen: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Was auphonic.com geantwortet hat"
 
@@ -4532,6 +4522,13 @@ msgstr ""
 "als eine Nacht, nicht als ein Tag Abstand."
 
 msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key nimmt nichts danach: Der Schlüssel wird abgefragt, ohne "
+"dass er zu sehen ist. Es wurde nichts gespeichert."
+
+msgid ""
 "A timecode counts from midnight and starts over there. The files are put "
 "on one axis before anything is subtracted, otherwise the recording after "
 "midnight looks almost a day away from the one before. If these really "
@@ -4543,6 +4540,9 @@ msgstr ""
 "wird -- sonst liegt die Aufnahme nach Mitternacht fast einen Tag von der "
 "davor entfernt. Wurde hier wirklich an verschiedenen Tagen aufgenommen, "
 "ist die Zuordnung falsch, und es gilt der gemessene Versatz."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic-API-Schlüssel (wird nicht angezeigt): "
 
 msgid ""
 "Channel %d is against the stop: %s times three samples or more in a row, "
@@ -4567,6 +4567,24 @@ msgstr ""
 "es zurück -- aber die Aufnahme bleibt die Aufnahme, und aufgehalten wird "
 "hier nichts. Gezählt wird nur bei Ganzzahlformaten. 32-Bit-Gleitkomma hat "
 "bei Vollausschlag keinen Anschlag, dort gibt es nichts zu zählen."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Kein API-Schlüssel. Ihn einmal in der Oberfläche merken lassen oder mit "
+"--store-auphonic-key speichern. Er steht in den Auphonic-Kontoeinstellungen."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Es wurde kein Schlüssel eingegeben, also wurde nichts gespeichert."
+
+msgid "The key is not stored: %s"
+msgstr "Der Schlüssel ist nicht gespeichert: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr ""
+"Der Schlüssel ist gespeichert, und das Zurücklesen ergab denselben "
+"Schlüssel."
 
 msgid "boxes no longer readable"
 msgstr "keine Boxen mehr lesbar"

@@ -2340,9 +2340,6 @@ msgstr "Multitrack (o pistă per vorbitor)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă este o înregistrare proprie, un canal al unui recorder multicanal sau audio-ul unui fișier video setat pe \"folosiți audio intern\". Mai multe blocuri ale aceleiași înregistrări se numără ca una, pistele puse deoparte deloc."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nicio cheie API. Setați AUPHONIC_TOKEN sau lăsați-o memorată o dată în interfață. Cheia se află în setările contului Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Niciun fișier audio nu poartă un timecode. Punctul In și punctul Out se numără de la începutul materialului -- poziția fișierelor unul față de altul este măsurată."
 
@@ -2739,9 +2736,6 @@ msgstr "  Acces portchei nu a putut fi deschis: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Cheia stocată nu este acceptată: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Cheia din AUPHONIC_TOKEN nu este acceptată: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Ce a răspuns auphonic.com"
 
@@ -2925,14 +2919,40 @@ msgstr "Miezul nopții"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s poartă un timecode de cealaltă parte a miezului nopții -- numărat ca o singură noapte, nu ca o zi distanță."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key nu primește nimic după el: cheia este cerută fără a fi "
+"afișată. Nu s-a salvat nimic."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Un timecode numără de la miezul nopții și o ia de la capăt acolo. Fișierele sunt puse pe o singură axă înainte de a se scădea ceva, altfel înregistrarea de după miezul nopții pare la aproape o zi distanță de cea dinainte. Dacă acestea chiar au fost înregistrate în zile diferite, alinierea este greșită și decalajul măsurat este cel de încredere."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Cheia API Auphonic (nu este afișată): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Canalul %d este la limită: serii de trei eșantioane sau mai multe la rând: %s, cea mai lungă %s (%s ms), prima la %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Numărat aici, eșantion cu eșantion, la rata la care a fost înregistrat fișierul: o serie de trei sau mai multe eșantioane pe cea mai mare valoare pe care o poate ține un format întreg. Unul sau două sunt rotunjire și nu se raportează. Ce este tăiat acolo este pierdut și nicio procesare nu îl aduce înapoi -- dar înregistrarea rămâne înregistrarea, și nimic nu se oprește din acest motiv. Se numără doar formatele întregi. 32 bit float nu are limită la scară maximă, deci nu este nimic de numărat acolo."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nicio cheie API. Salvați-o o dată în interfață sau cu --store-auphonic-key. "
+"Cheia se află în setările contului Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nu s-a tastat nicio cheie, așa că nu s-a salvat nimic."
+
+msgid "The key is not stored: %s"
+msgstr "Cheia nu este salvată: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Cheia este salvată, iar citirea ei înapoi a dat aceeași cheie."
 
 msgid "boxes no longer readable"
 msgstr "box-urile nu se mai pot citi"

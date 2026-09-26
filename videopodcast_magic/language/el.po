@@ -2338,9 +2338,6 @@ msgstr "Multitrack (ένα κομμάτι ανά ομιλητή)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κομμάτια εισόδου. Κομμάτι είναι μια δική του ηχογράφηση, ένα κανάλι πολυκάναλης συσκευής εγγραφής ή ο ήχος ενός αρχείου βίντεο ορισμένου σε \"χρήση εσωτερικού ήχου\". Πολλά μπλοκ της ίδιας ηχογράφησης μετρούν ως ένα, τα κομμάτια που τέθηκαν στην άκρη καθόλου."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Δεν υπάρχει κλειδί API. Ορίστε το AUPHONIC_TOKEN ή αφήστε το να απομνημονευθεί μία φορά στη διεπαφή. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Κανένα αρχείο ήχου δεν φέρει timecode. Το σημείο In και το σημείο Out μετρούν από την αρχή του υλικού -- η θέση των αρχείων μεταξύ τους μετριέται."
 
@@ -2735,9 +2732,6 @@ msgstr "  Η Πρόσβαση Κλειδοθήκης δεν ήταν δυνατ�
 msgid "The stored key is not accepted: %s"
 msgstr "Το αποθηκευμένο κλειδί δεν γίνεται δεκτό: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Το κλειδί από το AUPHONIC_TOKEN δεν γίνεται δεκτό: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Τι απάντησε το auphonic.com"
 
@@ -2921,14 +2915,41 @@ msgstr "Μεσάνυχτα"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Το %s φέρει timecode από την άλλη πλευρά των μεσάνυχτων -- μετριέται ως μία νύχτα, όχι ως μία μέρα απόσταση."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"Το --store-auphonic-key δεν δέχεται τίποτα μετά από αυτό: το κλειδί ζητείται "
+"χωρίς να φαίνεται. Δεν αποθηκεύτηκε τίποτα."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Ένα timecode μετρά από τα μεσάνυχτα και ξαναρχίζει εκεί. Τα αρχεία τοποθετούνται σε έναν άξονα πριν αφαιρεθεί οτιδήποτε, αλλιώς η ηχογράφηση μετά τα μεσάνυχτα φαίνεται σχεδόν μία μέρα μακριά από την προηγούμενη. Αν αυτά πράγματι ηχογραφήθηκαν σε διαφορετικές μέρες, η ευθυγράμμιση είναι λάθος και η μετρημένη μετατόπιση είναι αυτή που ισχύει."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Κλειδί API του Auphonic (δεν εμφανίζεται): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Το κανάλι %d είναι στο όριο: %s φορές τρία δείγματα ή περισσότερα στη σειρά, το μεγαλύτερο %s (%s ms), το πρώτο στο %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Μετρημένο εδώ, δείγμα προς δείγμα, στον ρυθμό με τον οποίο ηχογραφήθηκε το αρχείο: μια σειρά τριών ή περισσότερων δειγμάτων στην υψηλότερη τιμή που χωράει μια ακέραια μορφή. Ένα ή δύο είναι στρογγυλοποίηση και δεν αναφέρονται. Ό,τι κόβεται εκεί χάνεται και καμία επεξεργασία δεν το επαναφέρει -- αλλά η ηχογράφηση παραμένει η ηχογράφηση, και τίποτα δεν σταματά εδώ. Μετριούνται μόνο ακέραιες μορφές. Το 32 bit float δεν έχει όριο στην πλήρη κλίμακα, οπότε δεν υπάρχει τίποτα να μετρηθεί εκεί."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Δεν υπάρχει κλειδί API. Αποθηκεύστε το μία φορά στη διεπαφή ή με το "
+"--store-auphonic-key. Το κλειδί βρίσκεται στις ρυθμίσεις του λογαριασμού "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Δεν πληκτρολογήθηκε κλειδί, οπότε δεν αποθηκεύτηκε τίποτα."
+
+msgid "The key is not stored: %s"
+msgstr "Το κλειδί δεν αποθηκεύτηκε: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Το κλειδί αποθηκεύτηκε και η ανάγνωσή του έδωσε το ίδιο κλειδί."
 
 msgid "boxes no longer readable"
 msgstr "τα box δεν διαβάζονται πια"

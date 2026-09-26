@@ -2340,9 +2340,6 @@ msgstr "Multitrack (jedna ścieżka na mówcę)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack wymaga co najmniej dwóch ścieżek wejściowych. Ścieżka to osobne nagranie, kanał rejestratora wielokanałowego albo dźwięk pliku wideo ustawionego na \"użyj dźwięku\". Kilka bloków tego samego nagrania liczy się jako jedno, odłożone ścieżki wcale."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Brak klucza API. Ustaw AUPHONIC_TOKEN albo pozwól raz zapamiętać go w interfejsie. Klucz znajdziesz w ustawieniach konta Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Żaden plik audio nie ma timecode. Punkt wejścia i punkt wyjścia liczone są od początku materiału -- wzajemne położenie plików jest zmierzone."
 
@@ -2739,9 +2736,6 @@ msgstr "  Nie udało się otworzyć Dostępu do pęku kluczy: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Zapisany klucz nie został przyjęty: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Klucz z AUPHONIC_TOKEN nie został przyjęty: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Co odpowiedział auphonic.com"
 
@@ -2925,14 +2919,40 @@ msgstr "Północ"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s ma timecode z drugiej strony północy -- liczone jako jedna noc, a nie dzień różnicy."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key nie przyjmuje niczego po sobie: klucz jest pobierany "
+"bez wyświetlania. Nic nie zostało zapisane."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Timecode liczy od północy i tam zaczyna od nowa. Pliki są umieszczane na jednej osi, zanim cokolwiek zostanie odjęte, inaczej nagranie po północy wygląda na odległe o prawie dzień od poprzedniego. Jeśli naprawdę nagrano je w różne dni, wyrównanie jest błędne i należy ufać zmierzonemu przesunięciu."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Klucz API Auphonic (nie jest wyświetlany): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanał %d dochodzi do granicy: %s razy trzy lub więcej próbek z rzędu, najdłuższy %s (%s ms), pierwszy w %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Liczone tutaj, próbka po próbce, z częstotliwością, z jaką plik nagrano: ciąg trzech lub więcej próbek na najwyższej wartości, jaką może zapisać format całkowitoliczbowy. Jedna lub dwie to zaokrąglenie i nie są zgłaszane. To, co tam obcięto, przepadło i żadne przetwarzanie tego nie przywróci -- ale nagranie pozostaje nagraniem i nic tu nie jest wstrzymywane. Liczone są tylko formaty całkowitoliczbowe. 32 bit float nie ma granicy przy pełnej skali, więc nie ma tam czego liczyć."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Brak klucza API. Zapisz go raz w interfejsie albo za pomocą "
+"--store-auphonic-key. Klucz znajdziesz w ustawieniach konta Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nie wpisano klucza, więc nic nie zostało zapisane."
+
+msgid "The key is not stored: %s"
+msgstr "Klucz nie jest zapisany: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Klucz jest zapisany, a ponowny odczyt dał ten sam klucz."
 
 msgid "boxes no longer readable"
 msgstr "boxów nie da się już odczytać"

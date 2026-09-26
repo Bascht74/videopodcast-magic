@@ -2372,9 +2372,6 @@ msgstr "Multitrack (ప్రతి వక్తకు ఒక ట్రాక్
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack కు కనీసం రెండు ఇన్‌పుట్ ట్రాక్‌లు కావాలి. ట్రాక్ అంటే సొంత రికార్డింగ్, మల్టీఛానల్ రికార్డర్‌లోని ఒక ఛానల్, లేదా \"అంతర్గత ఆడియో వాడు\" అని సెట్ చేసిన వీడియో ఫైల్ ఆడియో. ఒకే రికార్డింగ్‌లోని అనేక బ్లాక్‌లు ఒకటిగా లెక్కించబడతాయి, పక్కన పెట్టిన ట్రాక్‌లు అసలు లెక్కించబడవు."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API కీ లేదు. AUPHONIC_TOKEN సెట్ చేయండి, లేదా ఇంటర్‌ఫేస్‌లో ఒకసారి గుర్తుంచుకునేలా చేయండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ఏ ఆడియో ఫైల్‌లోనూ టైమ్‌కోడ్ లేదు. ఇన్ పాయింట్, అవుట్ పాయింట్ మెటీరియల్ ప్రారంభం నుండి లెక్కించబడతాయి -- ఫైళ్ల పరస్పర స్థానం కొలవబడుతుంది."
 
@@ -2762,9 +2759,6 @@ msgstr "  Keychain Access తెరవబడలేదు: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "నిల్వ చేసిన కీ అంగీకరించబడలేదు: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN నుండి వచ్చిన కీ అంగీకరించబడలేదు: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com ఇచ్చిన సమాధానం"
 
@@ -2957,14 +2951,40 @@ msgstr "అర్ధరాత్రి"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "అర్ధరాత్రి అవతలి వైపు నుండి టైమ్‌కోడ్ ఉంది: %s -- ఒకే రాత్రిగా లెక్కించబడింది, ఒక రోజు తేడాగా కాదు."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key తర్వాత ఏమీ తీసుకోదు: కీ కనిపించకుండా అడగబడుతుంది. ఏమీ "
+"భద్రపరచబడలేదు."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "టైమ్‌కోడ్ అర్ధరాత్రి నుండి లెక్కిస్తుంది, అక్కడే మళ్లీ మొదలవుతుంది. ఏదైనా తీసివేయడానికి ముందు ఫైళ్లు ఒకే అక్షంపై ఉంచబడతాయి, లేకపోతే అర్ధరాత్రి తర్వాతి రికార్డింగ్ ముందుదాని నుండి దాదాపు ఒక రోజు దూరంలో ఉన్నట్లు కనిపిస్తుంది. ఇవి నిజంగా వేర్వేరు రోజుల్లో రికార్డ్ చేయబడి ఉంటే, సమలేఖనం తప్పు, కొలిచిన ఆఫ్‌సెట్‌నే నమ్మాలి."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API కీ (చూపబడదు): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "ఛానల్ %d గరిష్ఠ పరిమితిని తాకుతోంది: వరుసగా మూడు లేదా అంతకంటే ఎక్కువ శాంపిల్‌లు %s సార్లు, అత్యంత పొడవైనది %s (%s ms), మొదటిది: %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "ఇక్కడ లెక్కించబడింది, శాంపిల్ వారీగా, ఫైల్ రికార్డ్ చేయబడిన రేట్‌లో: పూర్ణాంక ఫార్మాట్ పట్టుకోగల అత్యధిక విలువపై వరుసగా మూడు లేదా అంతకంటే ఎక్కువ శాంపిల్‌లు. ఒకటి లేదా రెండు రౌండింగ్ మాత్రమే, అవి నివేదించబడవు. అక్కడ కత్తిరించబడినది పోయింది, ఏ ప్రాసెసింగ్ దాన్ని తిరిగి తేదు -- కానీ రికార్డింగ్ రికార్డింగ్‌గానే ఉంటుంది, ఇది దేనినీ ఆపదు. పూర్ణాంక ఫార్మాట్‌లను మాత్రమే లెక్కిస్తారు. 32 bit float కు పూర్తి స్కేల్ వద్ద పరిమితి లేదు, కాబట్టి అక్కడ లెక్కించడానికి ఏమీ లేదు."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API కీ లేదు. దాన్ని ఇంటర్‌ఫేస్‌లో ఒకసారి, లేదా --store-auphonic-key తో "
+"భద్రపరచండి. కీ Auphonic ఖాతా సెట్టింగ్‌లలో ఉంటుంది."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "ఏ కీ టైప్ చేయలేదు, కాబట్టి ఏమీ భద్రపరచబడలేదు."
+
+msgid "The key is not stored: %s"
+msgstr "కీ భద్రపరచబడలేదు: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "కీ భద్రపరచబడింది, తిరిగి చదివినప్పుడు అదే కీ వచ్చింది."
 
 msgid "boxes no longer readable"
 msgstr "బాక్స్‌లు ఇక చదవలేనివి"

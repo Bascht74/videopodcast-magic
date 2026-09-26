@@ -1128,14 +1128,8 @@ msgstr "Nomi di traccia diversi"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  ESISTE GIÀ UNA PRODUZIONE CON QUESTO NOME"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "La chiave da AUPHONIC_TOKEN non viene accettata: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "La chiave memorizzata non viene accettata: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nessuna chiave API. Imposta AUPHONIC_TOKEN oppure falla memorizzare una volta nell’interfaccia. La chiave si trova nelle impostazioni dell’account Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Nessun preset salvato nell’account. Se ne può creare uno nell’interfaccia web."
@@ -4722,14 +4716,35 @@ msgstr "%s non corrisponde a nulla nel materiale, e nessuna telecamera collocata
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s non corrisponde a nulla nel materiale, e nessuna telecamera collocata dal suono porta un timecode con cui confrontare il suo; l’intro è già assegnata: lasciato fuori."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key non accetta nulla dopo di sé: la chiave viene chiesta "
+"senza mostrarla. Non è stato salvato nulla."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Chiave API di Auphonic (non viene mostrata): "
 
 msgid "In point"
 msgstr "Il punto di ingresso"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Escluso; %s o %s è a un clic."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nessuna chiave API. Salvala una volta nell’interfaccia, oppure con "
+"--store-auphonic-key. La chiave si trova nelle impostazioni dell’account "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Non è stata digitata nessuna chiave, quindi non è stato salvato nulla."
 
 msgid "Out point"
 msgstr "Il punto di uscita"
@@ -4739,6 +4754,12 @@ msgstr "Preset:"
 
 msgid "Registry"
 msgstr "Registro"
+
+msgid "The key is not stored: %s"
+msgstr "La chiave non è salvata: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "La chiave è salvata e rileggendola si è ottenuta la stessa chiave."
 
 msgid "VIDEO"
 msgstr "VIDEO"

@@ -2338,9 +2338,6 @@ msgstr "Multitrack (yksi raita puhujaa kohden)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack tarvitsee vähintään kaksi tuloraitaa. Raita on oma tallenne, monikanavaisen tallentimen kanava tai videotiedoston ääni, jolle on valittu \"käytä sisäistä ääntä\". Saman tallenteen useat osat lasketaan yhdeksi, sivuun jätetyt raidat eivät lainkaan."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Ei API-avainta. Aseta AUPHONIC_TOKEN tai tallenna se kerran käyttöliittymässä. Avain löytyy Auphonic-tilin asetuksista."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Yksikään äänitiedosto ei sisällä aikakoodia. In-piste ja out-piste lasketaan materiaalin alusta -- tiedostojen sijainti toisiinsa nähden mitataan."
 
@@ -2735,9 +2732,6 @@ msgstr "  Avainnipun käyttöä ei voitu avata: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Tallennettua avainta ei hyväksytä: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN-muuttujan avainta ei hyväksytä: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Mitä auphonic.com vastasi"
 
@@ -2921,14 +2915,40 @@ msgstr "Keskiyö"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s sisältää aikakoodin keskiyön toiselta puolelta -- lasketaan yhtenä yönä, ei päivän erona."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ei ota mitään peräänsä: avainta kysytään "
+"näkymättömästi. Mitään ei tallennettu."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Aikakoodi laskee keskiyöstä ja alkaa siinä alusta. Tiedostot asetetaan samalle akselille ennen kuin mitään vähennetään, muuten keskiyön jälkeinen tallenne näyttää olevan lähes päivän päässä edellisestä. Jos nämä todella tallennettiin eri päivinä, kohdistus on väärä, ja mitattu siirtymä on se, johon kannattaa luottaa."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonicin API-avain (ei näytetä): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanava %d on ääriarvossa: %s kertaa kolme näytettä tai enemmän peräkkäin, pisin %s (%s ms), ensimmäinen kohdassa %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Laskettu tässä näyte näytteeltä tiedoston tallennustaajuudella: kolmen tai useamman peräkkäisen näytteen jono korkeimmassa arvossa, jonka kokonaislukumuoto voi sisältää. Yksi tai kaksi on pyöristystä, eikä niitä raportoida. Se, mikä siinä leikkautuu pois, on poissa, eikä mikään käsittely tuo sitä takaisin -- mutta tallenne on silti tallenne, eikä tämä pysäytä mitään. Vain kokonaislukumuodot lasketaan. 32-bittisellä liukuluvulla ei ole ääriarvoa täydellä asteikolla, joten siinä ei ole mitään laskettavaa."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Ei API-avainta. Tallenna se kerran käyttöliittymässä tai valitsimella "
+"--store-auphonic-key. Avain löytyy Auphonic-tilin asetuksista."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Avainta ei kirjoitettu, joten mitään ei tallennettu."
+
+msgid "The key is not stored: %s"
+msgstr "Avainta ei ole tallennettu: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Avain on tallennettu, ja takaisin lukeminen antoi saman avaimen."
 
 msgid "boxes no longer readable"
 msgstr "laatikoita ei voi enää lukea"

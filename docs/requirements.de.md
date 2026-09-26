@@ -348,7 +348,10 @@ Im Alltag läuft das Programm auf macOS und Windows. Unter Linux läuft
 es ebenfalls, mit zwei Einschränkungen:
 
 * Der Schlüssel lässt sich nicht ablegen (kein Schlüsselbund, keine
-  Registry), er muss also jedes Mal aus `AUPHONIC_TOKEN` kommen.
+  Registry), und woanders liest das Programm ihn nicht. auphonic.com
+  ist deshalb nur aus dem Fenster erreichbar, mit dem Schlüssel, der für
+  diese Sitzung ins Feld getippt wird; ein Lauf von der Kommandozeile
+  kommt ohne aus.
 * Der Zwischenspeicher liegt unter `XDG_CACHE_HOME`.
 
 ## Wenn etwas klemmt

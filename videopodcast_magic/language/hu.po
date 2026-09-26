@@ -2340,9 +2340,6 @@ msgstr "Multitrack (beszélőnként egy sáv)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "A Multitrack legalább két bemeneti sávot igényel. Egy sáv egy saját felvétel, egy többcsatornás felvevő egy csatornája vagy egy \"belső hang használata\" beállítású videófájl hangja. Ugyanannak a felvételnek több blokkja egynek számít, a félretett sávok egyáltalán nem."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nincs API-kulcs. Állítsa be az AUPHONIC_TOKEN változót, vagy jegyeztesse meg egyszer a felületen. A kulcs az Auphonic-fiók beállításaiban található."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Egyik hangfájl sem hordoz timecode-ot. Az In pont és az Out pont az anyag elejétől számít -- a fájlok egymáshoz viszonyított helyzetét a program megméri."
 
@@ -2737,9 +2734,6 @@ msgstr "  A Kulcskarika-elérés nem nyitható meg: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "A tárolt kulcsot nem fogadják el: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Az AUPHONIC_TOKEN kulcsát nem fogadják el: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Az auphonic.com válasza"
 
@@ -2923,14 +2917,40 @@ msgstr "Éjfél"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s az éjfél másik oldaláról hordoz timecode-ot -- egy éjszakának számít, nem egy nap különbségnek."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"A --store-auphonic-key után nem állhat semmi: a kulcsot láthatatlanul kéri "
+"be. Semmi sem lett elmentve."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "A timecode éjféltől számol, és ott újrakezdi. A fájlok egy tengelyre kerülnek, mielőtt bármi kivonásra kerülne, különben az éjfél utáni felvétel majdnem egy napnyira látszik az előtte lévőtől. Ha ezek valóban különböző napokon lettek felvéve, az igazítás hibás, és a mért eltolás az, amelyben bízni lehet."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API-kulcs (nem jelenik meg): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "A(z) %d. csatorna a határon van: %s alkalommal három vagy több minta egymás után, a leghosszabb %s (%s ms), az első itt: %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Itt számolva, mintáról mintára, azon a sebességen, amelyen a fájl fel lett véve: három vagy több egymást követő minta a legmagasabb értéken, amelyet egy egész számú formátum tárolni tud. Egy vagy kettő kerekítés, és nem kerül jelentésre. Ami ott le lett vágva, az elveszett, és semmilyen feldolgozás nem hozza vissza -- de a felvétel attól még felvétel, és ez semmit sem tart fel. Csak egész számú formátumok kerülnek számolásra. A 32 bites lebegőpontosnak nincs határa a teljes skálán, így ott nincs mit számolni."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nincs API-kulcs. Mentse el egyszer a felületen, vagy a --store-auphonic-key "
+"kapcsolóval. A kulcs az Auphonic-fiók beállításaiban található."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nem lett kulcs beírva, így semmi sem lett elmentve."
+
+msgid "The key is not stored: %s"
+msgstr "A kulcs nincs elmentve: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "A kulcs el van mentve, és a visszaolvasás ugyanazt a kulcsot adta."
 
 msgid "boxes no longer readable"
 msgstr "a boxok már nem olvashatók"

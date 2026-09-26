@@ -337,8 +337,9 @@ Platz auf der Zeitachse kam.
 das Programm ihn im Schlüsselbund, unter Windows in der Registry; unter
 Linux speichert es ihn gar nicht. Die Projektdatei enthält keine
 Befehlszeile, also steht er auch dort nicht drin, und ein Lauf von der
-Kommandozeile nimmt ihn aus `AUPHONIC_TOKEN` statt aus einem Schalter,
-er steht also in keinem Verlauf der Shell. Keine Meldung braucht ihn.
+Kommandozeile nimmt den abgelegten; `--store-auphonic-key` fragt ihn
+dort ab, wo das Terminal ihn nicht anzeigt, er steht also in keinem
+Verlauf der Shell. Keine Meldung braucht ihn.
 
 **Patches sind willkommen, und einen zweiten Leser gibt es nicht.**
 Eine kleine Änderung, die eine Sache tut, wird gelesen und übernommen;

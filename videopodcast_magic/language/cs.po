@@ -2339,9 +2339,6 @@ msgstr "Multitrack (jedna stopa na mluvčího)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack potřebuje aspoň dvě vstupní stopy. Stopa je vlastní nahrávka, kanál vícekanálového rekordéru nebo zvuk videosouboru nastaveného na \"použít interní zvuk\". Více bloků téže nahrávky se počítá jako jedna, odložené stopy vůbec."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Žádný klíč API. Nastavte AUPHONIC_TOKEN nebo si ho nechte jednou zapamatovat v rozhraní. Klíč je v nastavení účtu Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Žádný zvukový soubor nenese časový kód. Bod In a bod Out se počítají od začátku materiálu -- vzájemná poloha souborů je změřena."
 
@@ -2738,9 +2735,6 @@ msgstr "  Klíčenku se nepodařilo otevřít: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Uložený klíč není přijat: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Klíč z AUPHONIC_TOKEN není přijat: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Co odpověděl auphonic.com"
 
@@ -2924,14 +2918,40 @@ msgstr "Půlnoc"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s nese časový kód z druhé strany půlnoci -- počítá se jako jedna noc, ne jako den rozdílu."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key za sebou nic nepřijímá: klíč se zadává skrytě. Nic "
+"nebylo uloženo."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Časový kód počítá od půlnoci a tam začíná znovu. Soubory se položí na jednu osu, než se cokoli odečte, jinak vypadá nahrávka po půlnoci skoro den vzdálená od té před ní. Pokud se tu opravdu nahrávalo v různé dny, je zarovnání špatně a platí naměřený posun."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Klíč API Auphonic (nezobrazuje se): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanál %d je na dorazu: %skrát tři nebo více vzorků za sebou, nejdelší %s (%s ms), první v %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Zde počítáno vzorek po vzorku, ve vzorkovací frekvenci nahrávky: řada tří nebo více vzorků na nejvyšší hodnotě, kterou celočíselný formát pojme. Jeden nebo dva jsou zaokrouhlení a nehlásí se. Co je tam oříznuto, je pryč a žádné zpracování to nevrátí -- ale nahrávka zůstává nahrávkou a nic se tím nezastaví. Počítá se jen u celočíselných formátů. 32bitová plovoucí čárka nemá při plném rozsahu žádný doraz, takže tam není co počítat."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Žádný klíč API. Uložte ho jednou v rozhraní nebo pomocí "
+"--store-auphonic-key. Klíč je v nastavení účtu Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nebyl zadán žádný klíč, takže nic nebylo uloženo."
+
+msgid "The key is not stored: %s"
+msgstr "Klíč není uložen: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Klíč je uložen a zpětné načtení vrátilo tentýž klíč."
 
 msgid "boxes no longer readable"
 msgstr "boxy už nejsou čitelné"

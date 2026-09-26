@@ -319,9 +319,9 @@ which picture, and how every file got its place on the time axis.
 **Never paste your Auphonic key.** On a Mac the program keeps it in the
 keychain and on Windows in the registry; on Linux it does not store it
 at all. The project file holds no command line, so the key is not in it
-either, and a run from the command line takes it from `AUPHONIC_TOKEN`
-rather than from a switch, so it stands in no shell history. No report
-needs it.
+either, and a run from the command line takes the stored one;
+`--store-auphonic-key` asks for it where the terminal does not show it,
+so it stands in no shell history. No report needs it.
 
 **Patches are welcome, and there is no second reviewer.** A small
 change that does one thing gets read and merged; a large one waits.

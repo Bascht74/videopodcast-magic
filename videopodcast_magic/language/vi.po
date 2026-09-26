@@ -2338,9 +2338,6 @@ msgstr "Multitrack (mỗi người nói một rãnh)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack cần ít nhất hai rãnh đầu vào. Một rãnh là một bản ghi riêng, một kênh của máy ghi nhiều kênh, hoặc âm thanh của một tệp video được đặt thành \"dùng âm thanh tích hợp\". Nhiều khối của cùng một bản ghi được tính là một, các rãnh để riêng ra thì không tính."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Không có khóa API. Hãy đặt AUPHONIC_TOKEN hoặc để giao diện ghi nhớ một lần. Khóa nằm trong phần cài đặt tài khoản Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Không tệp âm thanh nào có mã thời gian. Điểm vào và điểm ra được tính từ đầu tư liệu -- vị trí tương đối giữa các tệp đã được đo."
 
@@ -2733,9 +2730,6 @@ msgstr "  Không thể mở Truy cập Chuỗi khóa: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Khóa đã lưu không được chấp nhận: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Khóa từ AUPHONIC_TOKEN không được chấp nhận: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com đã trả lời gì"
 
@@ -2919,14 +2913,40 @@ msgstr "Nửa đêm"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s mang mã thời gian từ phía bên kia nửa đêm -- được tính là cùng một đêm, không phải cách nhau một ngày."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key không nhận gì phía sau: khóa được hỏi mà không hiển "
+"thị. Không có gì được lưu."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Mã thời gian đếm từ nửa đêm và bắt đầu lại ở đó. Các tệp được đặt lên một trục trước khi trừ bất cứ gì, nếu không bản ghi sau nửa đêm trông như cách bản trước gần một ngày. Nếu chúng thật sự được ghi vào những ngày khác nhau, việc căn chỉnh là sai và độ lệch đo được mới đáng tin."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Khóa API Auphonic (không hiển thị): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kênh %d chạm ngưỡng: %s lần có ba mẫu trở lên liên tiếp, lần dài nhất %s (%s ms), lần đầu ở %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Được đếm tại đây, từng mẫu một, ở tần số mà tệp được ghi: một chuỗi ba mẫu trở lên ở giá trị cao nhất mà định dạng số nguyên có thể chứa. Một hoặc hai mẫu là do làm tròn và không được báo. Phần bị cắt ở đó đã mất, không xử lý nào lấy lại được -- nhưng bản ghi vẫn là bản ghi, và điều này không chặn gì cả. Chỉ đếm với định dạng số nguyên. 32 bit float không có ngưỡng ở toàn thang, nên ở đó không có gì để đếm."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Không có khóa API. Hãy lưu nó một lần trong giao diện, hoặc bằng "
+"--store-auphonic-key. Khóa nằm trong phần cài đặt tài khoản Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Không có khóa nào được nhập, nên không có gì được lưu."
+
+msgid "The key is not stored: %s"
+msgstr "Khóa chưa được lưu: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Khóa đã được lưu, và khi đọc lại vẫn ra đúng khóa đó."
 
 msgid "boxes no longer readable"
 msgstr "không còn đọc được các box"

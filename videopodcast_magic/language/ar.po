@@ -1159,14 +1159,8 @@ msgstr "أسماء مسارات مختلفة"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  يوجد بالفعل إنتاج بهذا الاسم"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "المفتاح من AUPHONIC_TOKEN غير مقبول: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "المفتاح المحفوظ غير مقبول: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "لا يوجد مفتاح API. اضبط AUPHONIC_TOKEN، أو دع الواجهة تحفظه مرة واحدة. المفتاح موجود في إعدادات حساب Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "لا توجد إعدادات مسبقة محفوظة في الحساب. يمكن إنشاء واحد في واجهة الويب."
@@ -4885,14 +4879,34 @@ msgstr "%s لا يطابق شيئًا في المادة، ولا تحمل أي �
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s لا يطابق شيئًا في المادة، ولا تحمل أي كاميرا وضعها الصوت كودًا زمنيًا يُقاس عليه كوده؛ والمقدمة مشغولة: تُرك خارجًا."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"لا يقبل --store-auphonic-key أي شيء بعده: يُطلب المفتاح دون أن يظهر. لم "
+"يُحفظ شيء."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "مفتاح Auphonic API (لا يُعرض): "
 
 msgid "In point"
 msgstr "نقطة البداية"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "مستبعد؛ %s أو %s على بُعد نقرة واحدة."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"لا يوجد مفتاح API. احفظه مرة واحدة في الواجهة، أو باستخدام "
+"--store-auphonic-key. المفتاح موجود في إعدادات حساب Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "لم يُكتب أي مفتاح، لذلك لم يُحفظ شيء."
 
 msgid "Out point"
 msgstr "نقطة النهاية"
@@ -4902,6 +4916,12 @@ msgstr "الإعدادات المسبقة:"
 
 msgid "Registry"
 msgstr "السجل (Registry)"
+
+msgid "The key is not stored: %s"
+msgstr "المفتاح غير محفوظ: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "المفتاح محفوظ، وقراءته مرة أخرى أعطت المفتاح نفسه."
 
 msgid "VIDEO"
 msgstr "فيديو"

@@ -1112,14 +1112,8 @@ msgstr "अलग ट्रैक नाम"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  इस नाम का प्रोडक्शन पहले से मौजूद है"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN से मिली कुंजी स्वीकार नहीं हुई: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "सहेजी गई कुंजी स्वीकार नहीं हुई: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "कोई API कुंजी नहीं। AUPHONIC_TOKEN सेट करें, या इंटरफ़ेस में इसे एक बार याद रखवा लें। कुंजी Auphonic खाते की सेटिंग्स में है।"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "खाते में कोई प्रीसेट सहेजा नहीं है। वेब इंटरफ़ेस में एक बनाया जा सकता है।"
@@ -4706,14 +4700,34 @@ msgstr "%s सामग्री में किसी से मेल नह�
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s सामग्री में किसी से मेल नहीं खाता, और जिन कैमरों को ध्वनि ने रखा, उनमें से किसी में ऐसा टाइमकोड नहीं जिससे इसका अपना मिलाया जा सके; इंट्रो पहले से तय है: छोड़ दिया गया।"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key अपने बाद कुछ नहीं लेता: कुंजी बिना दिखाए पूछी जाती है। "
+"कुछ भी सहेजा नहीं गया।"
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API कुंजी (दिखाई नहीं जाती): "
 
 msgid "In point"
 msgstr "इन पॉइंट"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "बाहर रखा गया; %s या %s एक क्लिक दूर है।"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"कोई API कुंजी नहीं। इसे एक बार इंटरफ़ेस में, या --store-auphonic-key से "
+"सहेजें। कुंजी Auphonic खाते की सेटिंग्स में है।"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "कोई कुंजी टाइप नहीं की गई, इसलिए कुछ भी सहेजा नहीं गया।"
 
 msgid "Out point"
 msgstr "आउट पॉइंट"
@@ -4723,6 +4737,12 @@ msgstr "प्रीसेट:"
 
 msgid "Registry"
 msgstr "Registry"
+
+msgid "The key is not stored: %s"
+msgstr "कुंजी सहेजी नहीं गई: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "कुंजी सहेज ली गई है, और वापस पढ़ने पर वही कुंजी मिली।"
 
 msgid "VIDEO"
 msgstr "वीडियो"

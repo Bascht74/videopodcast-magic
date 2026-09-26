@@ -2372,9 +2372,6 @@ msgstr "Multitrack (iga kõneleja oma rada)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack vajab vähemalt kaht sisendrada. Rada on eraldi salvestis, mitmekanalilise salvesti kanal või videofaili heli, mille valik on „kasuta sisemist heli“. Sama salvestise mitu plokki loetakse üheks, kõrvale pandud radu ei loeta üldse."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API-võtit pole. Sea AUPHONIC_TOKEN või lase see üks kord liideses meelde jätta. Võti on Auphonicu konto seadetes."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ühelgi helifailil pole ajakoodi. Algpunkt ja lõpp-punkt loetakse materjali algusest -- failide asend üksteise suhtes on mõõdetud."
 
@@ -2762,9 +2759,6 @@ msgstr "  Keychain Accessi ei õnnestunud avada: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Salvestatud võtit ei aktsepteerita: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN-i võtit ei aktsepteerita: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Mida auphonic.com vastas"
 
@@ -2957,14 +2951,40 @@ msgstr "Kesköö"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s kannab ajakoodi teiselt poolt keskööd -- loetakse üheks ööks, mitte ööpäevaseks vaheks."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ei võta enda järel midagi: võtit küsitakse nähtamatult. "
+"Midagi ei salvestatud."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Ajakood loeb keskööst ja algab seal otsast peale. Failid pannakse ühele teljele enne, kui midagi lahutatakse, muidu näib kesköö järgne salvestis eelmisest peaaegu päeva kaugusel. Kui need tõesti salvestati eri päevadel, on joondamine vale ja usaldada tuleb mõõdetud nihet."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonicu API-võti (seda ei näidata): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d on piiril: kolm või enam järjestikust näitu, juhtumeid %s, pikim %s (%s ms), esimene kohal %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Loetud siin, näit näidu haaval, sagedusel, millega fail salvestati: kolme või enama näidu jada kõrgeimal väärtusel, mida täisarvuvorming mahutada suudab. Üks või kaks on ümardus ja neist ei teatata. Mis seal ära lõigati, on kadunud, ja ükski töötlus ei too seda tagasi -- aga salvestis jääb salvestiseks ja see ei peata midagi. Loetakse ainult täisarvuvorminguid. 32 bit float'il pole täisskaalal piiri, seega pole seal midagi lugeda."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API-võtit pole. Salvesta see üks kord liideses või võtmega "
+"--store-auphonic-key. Võti on Auphonicu konto seadetes."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Võtit ei sisestatud, seega midagi ei salvestatud."
+
+msgid "The key is not stored: %s"
+msgstr "Võti pole salvestatud: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Võti on salvestatud ja tagasilugemine andis sama võtme."
 
 msgid "boxes no longer readable"
 msgstr "boxe ei saa enam lugeda"

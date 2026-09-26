@@ -1124,14 +1124,8 @@ msgstr "Farklı iz adları"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  BU ADDA BİR PRODÜKSİYON ZATEN VAR"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN içindeki anahtar kabul edilmiyor: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "Kaydedilmiş anahtar kabul edilmiyor: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API anahtarı yok. AUPHONIC_TOKEN tanımlayın ya da arayüzde bir kez kaydettirin. Anahtar, Auphonic hesap ayarlarında bulunur."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Hesapta kayıtlı hazır ayar yok. Web arayüzünde bir tane oluşturulabilir."
@@ -4718,14 +4712,34 @@ msgstr "%s malzemedeki hiçbir şeye uymuyor ve sesin yerleştirdiği hiçbir ka
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s malzemedeki hiçbir şeye uymuyor ve sesin yerleştirdiği hiçbir kamera, bu dosyanın timecode'unun karşılaştırılabileceği bir timecode taşımıyor; giriş zaten dolu: dışarıda bırakıldı."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ardından hiçbir şey almaz: anahtar gösterilmeden "
+"sorulur. Hiçbir şey kaydedilmedi."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API anahtarı (gösterilmez): "
 
 msgid "In point"
 msgstr "Giriş noktası"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Dışarıda bırakıldı; %s ya da %s bir tık uzakta."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API anahtarı yok. Arayüzde bir kez ya da --store-auphonic-key ile kaydedin. "
+"Anahtar, Auphonic hesap ayarlarında bulunur."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Anahtar yazılmadı, bu yüzden hiçbir şey kaydedilmedi."
 
 msgid "Out point"
 msgstr "Çıkış noktası"
@@ -4735,6 +4749,12 @@ msgstr "Hazır ayarlar:"
 
 msgid "Registry"
 msgstr "Kayıt Defteri"
+
+msgid "The key is not stored: %s"
+msgstr "Anahtar kaydedilmedi: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Anahtar kaydedildi ve geri okunduğunda aynı anahtar çıktı."
 
 msgid "VIDEO"
 msgstr "VİDEO"

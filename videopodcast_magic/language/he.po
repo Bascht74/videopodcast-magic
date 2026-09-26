@@ -2371,9 +2371,6 @@ msgstr "Multitrack (רצועה אחת לכל דובר)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack דורש לפחות שתי רצועות קלט. רצועה היא הקלטה נפרדת, ערוץ של מקליט רב-ערוצי, או השמע של קובץ וידאו שהוגדר ל\"שימוש בשמע הפנימי\". כמה מקטעים של אותה הקלטה נספרים כאחד, ורצועות שהועברו הצידה אינן נספרות כלל."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "אין מפתח API. יש להגדיר AUPHONIC_TOKEN או לשמור אותו פעם אחת בממשק. המפתח נמצא בהגדרות החשבון ב-Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "לאף קובץ שמע אין קוד זמן. נקודת הכניסה ונקודת היציאה נספרות מתחילת החומר -- מיקום הקבצים זה ביחס לזה נמדד."
 
@@ -2761,9 +2758,6 @@ msgstr "  לא ניתן היה לפתוח את גישה למחזיק מפתחו�
 msgid "The stored key is not accepted: %s"
 msgstr "המפתח השמור אינו מתקבל: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "המפתח מ-AUPHONIC_TOKEN אינו מתקבל: %s"
-
 msgid "What auphonic.com replied"
 msgstr "מה ש-auphonic.com השיב"
 
@@ -2956,14 +2950,40 @@ msgstr "חצות"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s: קוד זמן מהצד השני של חצות -- נספר כלילה אחת, לא כהפרש של יום."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key אינו מקבל דבר אחריו: המפתח מתבקש בלי שיוצג. דבר לא "
+"נשמר."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "קוד זמן נספר מחצות ומתחיל שם מחדש. הקבצים מוצבים על ציר אחד לפני שמחסרים דבר, אחרת ההקלטה שאחרי חצות נראית רחוקה כמעט יום מזו שלפניה. אם הן אכן הוקלטו בימים שונים, היישור שגוי, ויש לסמוך על ההיסט שנמדד."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "מפתח API של Auphonic (אינו מוצג): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "ערוץ %d נוגע בתקרה: %s פעמים שלוש דגימות או יותר ברצף, הארוך ביותר %s (%s ms), הראשון ב-%s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "נספר כאן דגימה אחר דגימה, בקצב שבו הקובץ הוקלט: רצף של שלוש דגימות או יותר על הערך הגבוה ביותר שפורמט שלמים יכול להכיל. אחת או שתיים הן עיגול ואינן מדווחות. מה שנחתך שם אבד, ושום עיבוד לא יחזיר אותו -- אבל ההקלטה היא עדיין ההקלטה, וזה לא מעכב דבר. רק פורמטים של שלמים נספרים. ל-32 bit float אין תקרה בסקאלה המלאה, ולכן אין שם מה לספור."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"אין מפתח API. יש לשמור אותו פעם אחת בממשק, או עם --store-auphonic-key. המפתח "
+"נמצא בהגדרות החשבון ב-Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "לא הוקלד מפתח, ולכן דבר לא נשמר."
+
+msgid "The key is not stored: %s"
+msgstr "המפתח לא נשמר: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "המפתח נשמר, וקריאתו בחזרה החזירה את אותו מפתח."
 
 msgid "boxes no longer readable"
 msgstr "התיבות כבר אינן קריאות"

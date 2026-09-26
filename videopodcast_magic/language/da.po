@@ -2338,9 +2338,6 @@ msgstr "Multitrack (ét spor pr. taler)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack kræver mindst to inputspor. Et spor er en egen optagelse, en kanal fra en flerkanalsoptager eller lyden fra en videofil, der er sat til \"brug intern lyd\". Flere blokke af samme optagelse tæller som ét, spor lagt til side slet ikke."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Ingen API-nøgle. Sæt AUPHONIC_TOKEN eller lad den blive husket én gang i brugerfladen. Nøglen står i Auphonic-kontoens indstillinger."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Ingen lydfil bærer en tidskode. Ind-punkt og ud-punkt tælles fra materialets start -- filernes placering i forhold til hinanden måles."
 
@@ -2735,9 +2732,6 @@ msgstr "  Hovednøglering kunne ikke åbnes: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Den gemte nøgle accepteres ikke: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Nøglen fra AUPHONIC_TOKEN accepteres ikke: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Hvad auphonic.com svarede"
 
@@ -2921,14 +2915,40 @@ msgstr "Midnat"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s bærer en tidskode fra den anden side af midnat -- talt som én nat, ikke som et døgns afstand."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key tager intet efter sig: nøglen spørges om uden at blive "
+"vist. Intet blev gemt."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "En tidskode tæller fra midnat og begynder forfra der. Filerne lægges på én akse, før noget trækkes fra, ellers ligger optagelsen efter midnat næsten et døgn fra den før. Hvis disse virkelig blev optaget på forskellige dage, er justeringen forkert, og den målte forskydning er den, man skal stole på."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API-nøgle (vises ikke): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanal %d ligger i loftet: %s gange tre samples eller flere i træk, den længste %s (%s ms), den første ved %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Talt her, sample for sample, med den samplingsfrekvens filen blev optaget med: en række på tre eller flere samples på den højeste værdi, et heltalsformat kan rumme. En eller to er afrunding og rapporteres ikke. Det, der er klippet af der, er væk, og ingen behandling henter det tilbage -- men optagelsen er stadig optagelsen, og dette stopper intet. Kun heltalsformater tælles. 32 bit flydende komma har intet loft ved fuldt udslag, så der er intet at tælle der."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Ingen API-nøgle. Gem den én gang i brugerfladen eller med "
+"--store-auphonic-key. Nøglen står i Auphonic-kontoens indstillinger."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Der blev ikke indtastet nogen nøgle, så intet blev gemt."
+
+msgid "The key is not stored: %s"
+msgstr "Nøglen er ikke gemt: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Nøglen er gemt, og genlæsningen gav den samme nøgle."
 
 msgid "boxes no longer readable"
 msgstr "boksene kan ikke længere læses"

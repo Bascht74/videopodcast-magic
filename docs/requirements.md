@@ -330,8 +330,10 @@ a virtual environment before the install.
 Day to day the program runs on macOS and Windows. On Linux it runs as
 well, with two limits:
 
-* The key cannot be stored (no Keychain, no Registry), so it has to
-  come from `AUPHONIC_TOKEN` each time.
+* The key cannot be stored (no Keychain, no Registry), and the program
+  reads it from nowhere else. So auphonic.com is reached only from the
+  window, with the key typed into the field for that session; a run
+  from the command line goes without it.
 * The cache goes to `XDG_CACHE_HOME`.
 
 ## When something goes wrong

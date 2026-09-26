@@ -1112,14 +1112,8 @@ msgstr "Nomes de faixa diferentes"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  JÁ EXISTE UMA PRODUÇÃO COM ESTE NOME"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "A chave de AUPHONIC_TOKEN não é aceita: %s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "A chave salva não é aceita: %s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nenhuma chave de API. Defina AUPHONIC_TOKEN ou faça-a ser salva uma vez na interface. A chave está nas configurações da conta Auphonic."
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "Nenhuma predefinição salva na conta. É possível criar uma na interface web."
@@ -4706,14 +4700,34 @@ msgstr "%s não corresponde a nada no material, e nenhuma câmera posicionada pe
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s não corresponde a nada no material, e nenhuma câmera posicionada pelo som traz um timecode com que comparar o dele; a abertura já está ocupada: deixado de fora."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key não aceita nada depois dele: a chave é pedida sem ser "
+"exibida. Nada foi salvo."
+
 msgid "API Key:"
 msgstr "API Key:"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Chave de API do Auphonic (não é exibida): "
 
 msgid "In point"
 msgstr "O ponto de entrada"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "Deixado de fora; %s ou %s está a um clique."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nenhuma chave de API. Salve-a uma vez na interface ou com "
+"--store-auphonic-key. A chave está nas configurações da conta Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Nenhuma chave foi digitada, então nada foi salvo."
 
 msgid "Out point"
 msgstr "O ponto de saída"
@@ -4723,6 +4737,12 @@ msgstr "Predefinições:"
 
 msgid "Registry"
 msgstr "Registro"
+
+msgid "The key is not stored: %s"
+msgstr "A chave não está salva: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "A chave está salva, e ao lê-la de volta obteve-se a mesma chave."
 
 msgid "VIDEO"
 msgstr "VÍDEO"

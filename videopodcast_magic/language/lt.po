@@ -2373,9 +2373,6 @@ msgstr "Multitrack (po takelį kalbėtojui)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack reikia bent dviejų įvesties takelių. Takelis yra atskiras įrašas, daugiakanalio įrašytuvo kanalas arba vaizdo įrašo failo garsas, kai nustatyta „naudoti vidinį garsą“. Keli to paties įrašo blokai skaičiuojami kaip vienas, atidėti takeliai visai neskaičiuojami."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Nėra API rakto. Nustatykite AUPHONIC_TOKEN arba leiskite jį vieną kartą įsiminti sąsajoje. Raktas yra Auphonic paskyros nustatymuose."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Nė vienas garso failas neturi laiko kodo. Pradžios taškas ir pabaigos taškas skaičiuojami nuo medžiagos pradžios -- failų padėtis vienas kito atžvilgiu yra išmatuota."
 
@@ -2763,9 +2760,6 @@ msgstr "  Keychain Access atidaryti nepavyko: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Išsaugotas raktas nepriimamas: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Raktas iš AUPHONIC_TOKEN nepriimamas: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Ką atsakė auphonic.com"
 
@@ -2958,14 +2952,40 @@ msgstr "Vidurnaktis"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Failas %s turi laiko kodą iš kitos vidurnakčio pusės -- skaičiuojama kaip viena naktis, o ne kaip paros skirtumas."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key po savęs nieko nepriima: raktas klausiamas jo nerodant. "
+"Niekas neišsaugota."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Laiko kodas skaičiuojamas nuo vidurnakčio ir ten prasideda iš naujo. Failai sudedami į vieną ašį prieš ką nors atimant, kitaip įrašas po vidurnakčio atrodytų beveik per dieną nutolęs nuo ankstesniojo. Jei jie iš tikrųjų įrašyti skirtingomis dienomis, sulygiavimas neteisingas ir reikia pasitikėti išmatuotu poslinkiu."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API raktas (nerodomas): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanalas %d pasiekia ribą: atvejų su trimis ar daugiau imčių iš eilės -- %s, ilgiausias %s (%s ms), pirmasis ties %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Skaičiuojama čia, imtis po imties, tokiu dažniu, kokiu failas įrašytas: trijų ar daugiau imčių seka ties didžiausia verte, kurią gali talpinti sveikųjų skaičių formatas. Viena ar dvi yra apvalinimas ir nepranešamos. Kas ten nukirsta, yra prarasta, ir joks apdorojimas to nesugrąžins -- bet įrašas lieka įrašu, ir tai nieko nestabdo. Skaičiuojami tik sveikųjų skaičių formatai. 32 bit float neturi ribos ties pilna skale, todėl ten nėra ko skaičiuoti."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Nėra API rakto. Išsaugokite jį vieną kartą sąsajoje arba su "
+"--store-auphonic-key. Raktas yra Auphonic paskyros nustatymuose."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Raktas neįvestas, todėl niekas neišsaugota."
+
+msgid "The key is not stored: %s"
+msgstr "Raktas neišsaugotas: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Raktas išsaugotas, o nuskaičius jį atgal gautas tas pats raktas."
 
 msgid "boxes no longer readable"
 msgstr "box elementai nebeskaitomi"

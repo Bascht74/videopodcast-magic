@@ -10,13 +10,16 @@ gespeicherten Preset und schickt ihn als gewöhnliche Tondatei zurück.
 Der Zugang wird einmal hinterlegt, das Preset gehört zur einzelnen
 Produktion.
 
-Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
-`AUPHONIC_TOKEN`. Nie in einer Datei, nie in der Projektdatei.
+Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen. Das Programm
+bewahrt ihn an genau einer Stelle auf: im Schlüsselbund (macOS) oder in
+der Registry (Windows). Nie in einer Datei, nie in der Projektdatei und
+auch nicht in einer Umgebungsvariable.
 
 1. Im Fußbereich **Einstellungen ...** öffnen; das Fenster selbst ist in
    [Die Oberfläche](interface.de.md) beschrieben.
 2. Im Kasten **Zugang zu auphonic.com** das Feld **API Key:** füllen
-   (für einen Lauf von der Kommandozeile: `AUPHONIC_TOKEN`).
+   (wer von der Kommandozeile aus arbeitet, legt den Schlüssel einmal
+   ab, wie unten unter *Den Schlüssel ohne Fenster ablegen* beschrieben).
 3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen, das den
    Schlüssel im Schlüsselbund (macOS) oder in der Registry (Windows)
    behält. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
@@ -37,14 +40,11 @@ im Kasten auf dem Reiter **Zuordnung & Zeitfenster**. Sie nennt auch
 einen fehlenden Schlüssel.
 
 **Die Zeile sagt, welcher Schlüssel abgelehnt wurde.** Beim Start hat
-niemand etwas getippt, der Schlüssel kam also irgendwoher, und es kann
-an beiden Stellen zugleich einer liegen: `AUPHONIC_TOKEN` wird vor dem
-gelesen, was Schlüsselbund oder Registry halten. Die Zeile nennt den,
-der hinausgegangen ist -- **Der Schlüssel aus AUPHONIC_TOKEN wird nicht
-angenommen** oder **Der gemerkte Schlüssel wird nicht angenommen** --,
-damit niemand an der falschen Stelle sucht. Nach **Verbinden** ist es
-der Schlüssel aus dem Feld, und die Zeile sagt nur noch, was
-auphonic.com geantwortet hat.
+niemand etwas getippt, der Schlüssel kam also aus dem Schlüsselbund
+oder der Registry, und genau das sagt die Zeile -- **Der gemerkte
+Schlüssel wird nicht angenommen** --, damit dort gesucht wird, wo er
+liegt. Nach **Verbinden** ist es der Schlüssel aus dem Feld, und die
+Zeile sagt nur noch, was auphonic.com geantwortet hat.
 
 * Auf dem Weg zu auphonic.com steht der Schlüssel nie in der
   Prozessliste: curl liest ihn aus einer Konfigurationsdatei, die nur
@@ -65,7 +65,10 @@ der Schlüssel mit **Verbinden** kam. Einen Kasten, der erst
 weggeklickt werden müsste, gibt es dabei nicht. Das Häkchen geht
 wieder heraus, damit es nicht gesetzt über einem Schlüssel steht, der
 beim nächsten Start fort ist.
-Beim Weg über die Windows-Registry stellt sich die Frage nicht.
+Unter Windows wird der Registry-Eintrag für alle außer diesem Benutzer
+gesperrt, bevor der Schlüssel hineinkommt, und danach wird er
+zurückgelesen. Lässt sich der Eintrag nicht sperren, wird der Schlüssel
+gar nicht erst geschrieben.
 
 Abgelegt wird der Schlüssel, der geprüft wurde, und nicht das, was im
 Feld steht, wenn die Antwort eintrifft. Wer während der Prüfung einen
@@ -98,6 +101,27 @@ auseinandernehmen könnte.
 einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
 Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
 für die eine, ein Multitrack-Preset für die anderen.
+
+### Den Schlüssel ohne Fenster ablegen
+
+Wer nur auf der Kommandozeile arbeitet, legt den Schlüssel einmal so ab:
+
+```text
+$ videopodcast-magic --store-auphonic-key --lang de
+Auphonic-API-Schlüssel (wird nicht angezeigt):
+Der Schlüssel ist gespeichert, und das Zurücklesen ergab denselben Schlüssel.
+```
+
+Getippt wird er dort, wo das Terminal nichts anzeigt; dann kommt er in
+den Schlüsselbund oder die Registry, genau wie mit dem Häkchen oben,
+und wird zurückgelesen. Jeder spätere Lauf nimmt ihn von dort. Hat es
+nicht gehalten, lautet die Antwort **Der Schlüssel ist nicht
+gespeichert:** mit dem Grund dahinter; wer nichts tippt, legt nichts
+ab. Den Schlüssel selbst schreibt man nie hinter den Schalter: Ein Wort
+dort wird abgewiesen, bevor überhaupt gefragt wird, denn in der
+Befehlsgeschichte der Shell bliebe es stehen. Unter Linux gibt es
+keinen solchen Speicher, der Schalter hat dort also nichts, wohin er
+den Schlüssel legen könnte -- siehe [Was gebraucht wird](requirements.de.md).
 
 ### Das Transkript entsteht hier
 

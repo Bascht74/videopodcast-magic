@@ -1104,14 +1104,8 @@ msgstr "異なるトラック名"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  この名前の制作はすでにあります"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN のキーが受け付けられません：%s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "保存されたキーが受け付けられません：%s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API キーがありません。AUPHONIC_TOKEN を設定するか、画面で一度保存させてください。キーは Auphonic のアカウント設定にあります。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "アカウントにプリセットが保存されていません。Web 画面で作成できます。"
@@ -4665,14 +4659,32 @@ msgstr "%s は素材のどこにも合わず、音声で配置されたカメラ
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s は素材のどこにも合わず、音声で配置されたカメラのどれにも照合できるタイムコードがありません。イントロはすでに埋まっています：除外しました。"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr "--store-auphonic-key の後には何も指定できません。キーは表示されない形で尋ねられます。何も保存されていません。"
+
 msgid "API Key:"
 msgstr "API Key："
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic の API キー（表示されません）： "
 
 msgid "In point"
 msgstr "イン点"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "除外しました。%s または %s はワンクリックで選べます。"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API キーがありません。画面で一度保存するか、--store-auphonic-key で保存してください。キーは Auphonic "
+"のアカウント設定にあります。"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "キーが入力されなかったため、何も保存されていません。"
 
 msgid "Out point"
 msgstr "アウト点"
@@ -4682,6 +4694,12 @@ msgstr "プリセット："
 
 msgid "Registry"
 msgstr "レジストリ"
+
+msgid "The key is not stored: %s"
+msgstr "キーは保存されていません：%s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "キーは保存され、読み戻すと同じキーでした。"
 
 msgid "VIDEO"
 msgstr "映像"

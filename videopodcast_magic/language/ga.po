@@ -2377,9 +2377,6 @@ msgstr "Multitrack (rian do gach cainteoir)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Teastaíonn dhá rian ionchuir ar a laghad ó Multitrack. Is éard is rian ann taifeadadh ar leith, cainéal de thaifeadán ilchainéil, nó fuaim chomhaid físe atá socraithe ar \"úsáid fuaim inmheánach\". Áirítear roinnt bloc den taifeadadh céanna mar cheann amháin, agus ní áirítear rianta a cuireadh i leataobh ar chor ar bith."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Níl eochair API ann. Socraigh AUPHONIC_TOKEN nó sábháil í uair amháin sa chomhéadan. Tá an eochair i socruithe chuntas Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Níl cód ama ar aon chomhad fuaime. Áirítear an pointe isteach agus an pointe amach ó thús an ábhair -- tomhaistear suíomh na gcomhad i gcoibhneas lena chéile."
 
@@ -2767,9 +2764,6 @@ msgstr "  Níorbh fhéidir Keychain Access a oscailt: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Ní ghlactar leis an eochair stóráilte: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ní ghlactar leis an eochair ó AUPHONIC_TOKEN: %s"
-
 msgid "What auphonic.com replied"
 msgstr "An freagra a thug auphonic.com"
 
@@ -2962,14 +2956,42 @@ msgstr "Meán oíche"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "Cód ama ón taobh eile den mheán oíche: %s -- áirítear é mar oíche amháin, ní mar lá óna chéile."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"Ní ghlacann --store-auphonic-key le haon rud ina dhiaidh: iarrtar an eochair "
+"gan í a thaispeáint. Níor sábháladh aon rud."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Áiríonn cód ama ón meán oíche agus tosaíonn sé as an nua ansin. Cuirtear na comhaid ar ais amháin sula ndealaítear aon rud, nó bheadh cuma ar an taifeadadh tar éis an mheán oíche go bhfuil sé beagnach lá ón gceann roimhe. Má taifeadadh iad seo i ndáiríre ar laethanta éagsúla, tá an t-ailíniú mícheart agus is é an fritháireamh tomhaiste is iontaofa."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Eochair API Auphonic (ní thaispeántar í): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Tá cainéal %d ag an teorainn: trí shampla nó níos mó as a chéile, líon uaireanta: %s, an ceann is faide %s (%s ms), an chéad cheann ag %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Comhairítear anseo é, sampla ar shampla, ag an ráta ar ar taifeadadh an comhad: sraith de thrí shampla nó níos mó ar an luach is airde is féidir le formáid slánuimhreach a choinneáil. Is slánú iad ceann nó dhó agus ní thuairiscítear iad. An méid a ghearrtar ansin, tá sé imithe agus ní thabharfaidh aon phróiseáil ar ais é -- ach is é an taifeadadh an taifeadadh fós, agus ní choinníonn sé seo aon rud siar. Ní chomhairítear ach formáidí slánuimhreacha. Níl aon teorainn ag 32 bit float ag lánscála, mar sin níl aon rud le comhaireamh ansin."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Níl eochair API ann. Sábháil í uair amháin sa chomhéadan, nó le "
+"--store-auphonic-key. Tá an eochair i socruithe chuntas Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Níor clóscríobhadh aon eochair, mar sin níor sábháladh aon rud."
+
+msgid "The key is not stored: %s"
+msgstr "Níl an eochair sábháilte: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr ""
+"Tá an eochair sábháilte, agus fuarthas an eochair chéanna nuair a léadh ar "
+"ais í."
 
 msgid "boxes no longer readable"
 msgstr "ní féidir na boscaí a léamh a thuilleadh"

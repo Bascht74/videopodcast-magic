@@ -2372,9 +2372,6 @@ msgstr "Multitrack (દરેક વક્તા માટે એક ટ્ર�
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ને ઓછામાં ઓછા બે ઇનપુટ ટ્રૅક જોઈએ. ટ્રૅક એટલે પોતાનું અલગ રેકોર્ડિંગ, મલ્ટિચૅનલ રેકોર્ડરની એક ચૅનલ, અથવા \"આંતરિક ઑડિયો વાપરો\" પર સેટ કરેલી વિડિયો ફાઇલનો ઑડિયો. એક જ રેકોર્ડિંગના અનેક બ્લોક એક ગણાય છે, બાજુએ મૂકેલા ટ્રૅક બિલકુલ નહીં."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "કોઈ API કી નથી. AUPHONIC_TOKEN સેટ કરો અથવા ઇન્ટરફેસમાં એક વાર તેને યાદ રખાવો. કી Auphonic ખાતાની સેટિંગ્સમાં છે."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "કોઈ ઑડિયો ફાઇલમાં ટાઇમકોડ નથી. ઇન પૉઇન્ટ અને આઉટ પૉઇન્ટ મટીરિયલની શરૂઆતથી ગણાય છે -- ફાઇલોની એકબીજા સાથેની સ્થિતિ માપવામાં આવે છે."
 
@@ -2762,9 +2759,6 @@ msgstr "  Keychain Access ખોલી શકાયું નહીં: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "સંગ્રહેલી કી સ્વીકારાતી નથી: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN માંની કી સ્વીકારાતી નથી: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com એ શું જવાબ આપ્યો"
 
@@ -2957,14 +2951,40 @@ msgstr "મધ્યરાત્રિ"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s: મધ્યરાત્રિની બીજી બાજુનો ટાઇમકોડ -- એક રાત તરીકે ગણ્યો, એક દિવસના અંતર તરીકે નહીં."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key પછી કશું લેતું નથી: કી દેખાડ્યા વિના પૂછવામાં આવે છે. "
+"કશું સાચવ્યું નથી."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "ટાઇમકોડ મધ્યરાત્રિથી ગણે છે અને ત્યાં ફરી શરૂ થાય છે. કશું બાદ કરતાં પહેલાં ફાઇલોને એક અક્ષ પર મૂકવામાં આવે છે, નહીં તો મધ્યરાત્રિ પછીનું રેકોર્ડિંગ પહેલાંનાથી લગભગ એક દિવસ દૂર લાગે છે. જો આ ફાઇલો ખરેખર જુદા જુદા દિવસે રેકોર્ડ થઈ હોય, તો સંરેખણ ખોટું છે અને માપેલો ઑફસેટ જ વિશ્વસનીય છે."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API કી (દેખાડવામાં આવતી નથી): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "ચૅનલ %d મહત્તમ મર્યાદાને અડે છે: %s વાર સળંગ ત્રણ કે વધુ સૅમ્પલ, સૌથી લાંબો %s (%s ms), પહેલો %s પર."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "અહીં ગણ્યું, સૅમ્પલ દર સૅમ્પલ, ફાઇલ જે દરે રેકોર્ડ થઈ હતી તે જ દરે: પૂર્ણાંક ફૉર્મેટ રાખી શકે તે સૌથી ઊંચા મૂલ્ય પર સળંગ ત્રણ કે વધુ સૅમ્પલ. એક કે બે રાઉન્ડિંગ છે અને જણાવાતા નથી. ત્યાં જે કપાય છે તે ગયું, અને કોઈ પ્રક્રિયા તેને પાછું લાવતી નથી -- પણ રેકોર્ડિંગ તો પણ રેકોર્ડિંગ જ છે, અને આ કશું અટકાવતું નથી. ફક્ત પૂર્ણાંક ફૉર્મેટ ગણાય છે. 32 બિટ ફ્લોટમાં પૂર્ણ સ્કેલ પર કોઈ મહત્તમ મર્યાદા નથી, તેથી ત્યાં ગણવા જેવું કંઈ નથી."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"કોઈ API કી નથી. તેને ઇન્ટરફેસમાં એક વાર, અથવા --store-auphonic-key વડે "
+"સાચવો. કી Auphonic ખાતાની સેટિંગ્સમાં છે."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "કોઈ કી લખવામાં આવી નથી, તેથી કશું સાચવ્યું નથી."
+
+msgid "The key is not stored: %s"
+msgstr "કી સાચવી નથી: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "કી સાચવી છે, અને પાછી વાંચતાં એ જ કી મળી."
 
 msgid "boxes no longer readable"
 msgstr "બૉક્સ હવે વાંચી શકાતાં નથી"

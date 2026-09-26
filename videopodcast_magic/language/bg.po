@@ -2373,9 +2373,6 @@ msgstr "Multitrack (по една писта на говорещ)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack изисква поне две входни писти. Писта е собствен запис, канал на многоканален рекордер или звукът на видеофайл, зададен на „с вътрешния звук“. Няколко блока от един и същ запис се броят за една, оставените настрана писти -- изобщо не."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Няма API ключ. Задайте AUPHONIC_TOKEN или го оставете да бъде запомнен веднъж в интерфейса. Ключът е в настройките на акаунта в Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Нито един аудиофайл няма таймкод. Входната и изходната точка се броят от началото на материала -- положението на файловете един спрямо друг е измерено."
 
@@ -2763,9 +2760,6 @@ msgstr "  Keychain Access не можа да бъде отворен: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "Запазеният ключ не е приет: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "Ключът от AUPHONIC_TOKEN не е приет: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Какво отговори auphonic.com"
 
@@ -2958,14 +2952,40 @@ msgstr "Полунощ"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s носи таймкод от другата страна на полунощ -- брои се като една нощ, а не като ден разлика."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key не приема нищо след себе си: ключът се въвежда, без да "
+"се вижда. Нищо не е запазено."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Таймкодът се брои от полунощ и там започва отначало. Файловете се поставят на една ос, преди да се извади каквото и да било -- иначе записът след полунощ изглежда почти на ден разстояние от предишния. Ако тези наистина са записани в различни дни, подравняването е грешно и трябва да се вярва на измереното отместване."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "API ключ за Auphonic (не се показва): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Канал %d удря тавана -- поредици от три или повече последователни семпъла: %s, най-дългата %s (%s мс), първата при %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Преброено тук, семпъл по семпъл, при честотата, с която е записан файлът: поредица от три или повече семпъла на най-високата стойност, която целочислен формат може да побере. Един или два са закръгляне и не се съобщават. Каквото е отрязано там, е изгубено и никаква обработка не го връща -- но записът си остава записът и това не спира нищо. Броят се само целочислени формати. 32-битовият float няма таван при пълна скала, така че там няма какво да се брои."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Няма API ключ. Запазете го веднъж в интерфейса или с --store-auphonic-key. "
+"Ключът е в настройките на акаунта в Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Не е въведен ключ, затова нищо не е запазено."
+
+msgid "The key is not stored: %s"
+msgstr "Ключът не е запазен: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "Ключът е запазен и при обратното прочитане се получи същият ключ."
 
 msgid "boxes no longer readable"
 msgstr "боксовете вече не могат да се прочетат"

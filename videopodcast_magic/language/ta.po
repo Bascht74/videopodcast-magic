@@ -2371,9 +2371,6 @@ msgstr "Multitrack (பேச்சாளருக்கு ஒரு தடம�
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack-க்குக் குறைந்தது இரண்டு உள்ளீட்டுத் தடங்கள் தேவை. தடம் என்பது தனிப் பதிவு, பல சேனல் ரெக்கார்டரின் ஒரு சேனல், அல்லது \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைத்த வீடியோ கோப்பின் ஆடியோ. ஒரே பதிவின் பல தொகுதிகள் ஒன்றாகக் கணக்கிடப்படும், ஒதுக்கி வைத்த தடங்கள் கணக்கிலேயே வராது."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API விசை இல்லை. AUPHONIC_TOKEN அமைக்கவும், அல்லது இடைமுகத்தில் ஒருமுறை நினைவில் வைக்கச் செய்யவும். விசை Auphonic கணக்கு அமைப்புகளில் உள்ளது."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "எந்த ஆடியோ கோப்பிலும் டைம்கோடு இல்லை. இன் புள்ளியும் அவுட் புள்ளியும் மூலப்பொருளின் தொடக்கத்திலிருந்து கணக்கிடப்படும் -- கோப்புகளின் ஒன்றுக்கொன்றான நிலை அளவிடப்படுகிறது."
 
@@ -2761,9 +2758,6 @@ msgstr "  Keychain Access-ஐத் திறக்க முடியவில�
 msgid "The stored key is not accepted: %s"
 msgstr "சேமித்த விசை ஏற்கப்படவில்லை: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN-இலிருந்து வந்த விசை ஏற்கப்படவில்லை: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com அளித்த பதில்"
 
@@ -2956,14 +2950,41 @@ msgstr "நள்ளிரவு"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "நள்ளிரவுக்கு மறுபக்கத்திலிருந்து டைம்கோடு உள்ளது: %s -- ஒரே இரவாகக் கணக்கிடப்பட்டது, ஒரு நாள் இடைவெளியாக அல்ல."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key தனக்குப் பின் எதையும் ஏற்காது: விசை காட்டப்படாமல் "
+"கேட்கப்படுகிறது. எதுவும் சேமிக்கப்படவில்லை."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "டைம்கோடு நள்ளிரவிலிருந்து கணக்கிடுகிறது, அங்கே மீண்டும் தொடங்குகிறது. எதையும் கழிப்பதற்கு முன் கோப்புகள் ஒரே அச்சில் வைக்கப்படுகின்றன, இல்லையெனில் நள்ளிரவுக்குப் பிந்தைய பதிவு முந்தையதிலிருந்து கிட்டத்தட்ட ஒரு நாள் தொலைவில் இருப்பதாகத் தோன்றும். இவை உண்மையில் வெவ்வேறு நாட்களில் பதிவு செய்யப்பட்டிருந்தால், சீரமைப்பு தவறு, அளவிட்ட ஆஃப்செட்டையே நம்ப வேண்டும்."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API விசை (காட்டப்படாது): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "சேனல் %d உச்ச வரம்பைத் தொடுகிறது: தொடர்ச்சியாக மூன்று அல்லது அதற்கு மேற்பட்ட மாதிரிகள் %s முறை, மிக நீளமானது %s (%s ms), முதலாவது: %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "இங்கே கணக்கிடப்பட்டது, மாதிரி மாதிரியாக, கோப்பு பதிவு செய்யப்பட்ட வீதத்தில்: முழு எண் வடிவம் கொள்ளக்கூடிய அதிகபட்ச மதிப்பில் தொடர்ச்சியாக மூன்று அல்லது அதற்கு மேற்பட்ட மாதிரிகள். ஒன்று அல்லது இரண்டு என்பது முழுமையாக்கல் மட்டுமே, அவை தெரிவிக்கப்படுவதில்லை. அங்கே வெட்டப்பட்டது போய்விட்டது, எந்தச் செயலாக்கமும் அதைத் திரும்பக் கொண்டுவராது -- ஆனால் பதிவு பதிவாகவே இருக்கிறது, இது எதையும் தடுக்காது. முழு எண் வடிவங்கள் மட்டுமே கணக்கிடப்படுகின்றன. 32 bit float-க்கு முழு அளவில் வரம்பு இல்லை, எனவே அங்கே கணக்கிட எதுவும் இல்லை."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API விசை இல்லை. அதை இடைமுகத்தில் ஒருமுறை, அல்லது --store-auphonic-key மூலம் "
+"சேமிக்கவும். விசை Auphonic கணக்கு அமைப்புகளில் உள்ளது."
+
+msgid "No key was typed, so nothing was stored."
+msgstr ""
+"எந்த விசையும் தட்டச்சு செய்யப்படவில்லை, எனவே எதுவும் சேமிக்கப்படவில்லை."
+
+msgid "The key is not stored: %s"
+msgstr "விசை சேமிக்கப்படவில்லை: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "விசை சேமிக்கப்பட்டது, திரும்பப் படித்தபோது அதே விசை கிடைத்தது."
 
 msgid "boxes no longer readable"
 msgstr "பெட்டிகளை இனி படிக்க முடியவில்லை"

@@ -2370,9 +2370,6 @@ msgstr "Multitrack (หนึ่งแทร็กต่อผู้พูด)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่างน้อยสองแทร็ก แทร็กคือการบันทึกของตัวเอง ช่องสัญญาณหนึ่งของเครื่องบันทึกหลายช่อง หรือเสียงของไฟล์วิดีโอที่ตั้งเป็น \"ใช้เสียงในตัว\" หลายบล็อกของการบันทึกเดียวกันนับเป็นหนึ่ง แทร็กที่พักไว้ไม่นับเลย"
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "ไม่มีคีย์ API ตั้งค่า AUPHONIC_TOKEN หรือให้หน้าต่างโปรแกรมจำไว้ครั้งเดียว คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "ไม่มีไฟล์เสียงใดมีไทม์โค้ด จุดเข้าและจุดออกนับจากจุดเริ่มของฟุตเทจ -- ส่วนตำแหน่งของไฟล์เทียบกันจะวัดเอา"
 
@@ -2760,9 +2757,6 @@ msgstr "  เปิดการเข้าถึงพวงกุญแจไ�
 msgid "The stored key is not accepted: %s"
 msgstr "คีย์ที่เก็บไว้ไม่ได้รับการยอมรับ: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "คีย์จาก AUPHONIC_TOKEN ไม่ได้รับการยอมรับ: %s"
-
 msgid "What auphonic.com replied"
 msgstr "สิ่งที่ auphonic.com ตอบกลับ"
 
@@ -2955,14 +2949,40 @@ msgstr "เที่ยงคืน"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s มีไทม์โค้ดจากอีกฝั่งของเที่ยงคืน -- นับเป็นคืนเดียวกัน ไม่ใช่ห่างกันหนึ่งวัน"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key ไม่รับสิ่งใดต่อท้าย: ระบบจะถามคีย์โดยไม่แสดงให้เห็น "
+"ไม่มีสิ่งใดถูกบันทึก"
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "ไทม์โค้ดนับจากเที่ยงคืนและเริ่มใหม่ที่นั่น ไฟล์จะถูกวางบนแกนเดียวกันก่อนจะลบค่าใดๆ ไม่อย่างนั้นการบันทึกหลังเที่ยงคืนจะดูห่างจากการบันทึกก่อนหน้าเกือบหนึ่งวัน ถ้าบันทึกต่างวันกันจริง การจัดตำแหน่งจะผิด และควรเชื่อออฟเซ็ตที่วัดได้"
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "คีย์ API ของ Auphonic (ไม่แสดง): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "ช่องสัญญาณ %d ชนขีดสูงสุด: มีแซมเปิลติดกันสามตัวขึ้นไป %s ครั้ง ยาวที่สุด %s (%s ms) ครั้งแรกที่ %s"
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "นับที่นี่ทีละแซมเปิล ที่อัตราที่ไฟล์ถูกบันทึก: แซมเปิลติดกันสามตัวขึ้นไปที่ค่าสูงสุดที่รูปแบบจำนวนเต็มเก็บได้ หนึ่งหรือสองตัวเป็นการปัดเศษและไม่รายงาน สิ่งที่ถูกตัดไปตรงนั้นหายไปแล้วและไม่มีการประมวลผลใดเอากลับมาได้ -- แต่การบันทึกก็ยังเป็นการบันทึก และเรื่องนี้ไม่ได้หยุดอะไร นับเฉพาะรูปแบบจำนวนเต็ม 32 bit float ไม่มีขีดจำกัดที่ฟูลสเกล จึงไม่มีอะไรให้นับ"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"ไม่มีคีย์ API บันทึกไว้หนึ่งครั้งในหน้าต่างโปรแกรม หรือด้วย "
+"--store-auphonic-key คีย์อยู่ในการตั้งค่าบัญชี Auphonic"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "ไม่ได้พิมพ์คีย์ จึงไม่มีสิ่งใดถูกบันทึก"
+
+msgid "The key is not stored: %s"
+msgstr "คีย์ไม่ได้ถูกบันทึก: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "บันทึกคีย์แล้ว และเมื่ออ่านกลับได้คีย์เดิม"
 
 msgid "boxes no longer readable"
 msgstr "อ่านกล่องไม่ได้อีกต่อไป"

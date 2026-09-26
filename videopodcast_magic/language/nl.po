@@ -2338,9 +2338,6 @@ msgstr "Multitrack (één spoor per spreker)"
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eigen opname, een kanaal van een meerkanaalsrecorder, of het geluid van een videobestand dat op \"intern geluid gebruiken\" staat. Meerdere blokken van dezelfde opname tellen als één, opzijgezette sporen helemaal niet."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "Geen API-sleutel. Stel AUPHONIC_TOKEN in of laat hem één keer onthouden in de interface. De sleutel staat in de accountinstellingen van Auphonic."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "Geen enkel audiobestand heeft een timecode. In-punt en Uit-punt tellen vanaf het begin van het materiaal -- de positie van de bestanden ten opzichte van elkaar is gemeten."
 
@@ -2735,9 +2732,6 @@ msgstr "  Sleutelhangertoegang kon niet worden geopend: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "De opgeslagen sleutel wordt niet geaccepteerd: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "De sleutel uit AUPHONIC_TOKEN wordt niet geaccepteerd: %s"
-
 msgid "What auphonic.com replied"
 msgstr "Wat auphonic.com antwoordde"
 
@@ -2921,14 +2915,41 @@ msgstr "Middernacht"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s heeft een timecode van de andere kant van middernacht -- geteld als één nacht, niet als een dag verschil."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key neemt niets erachter aan: de sleutel wordt onzichtbaar "
+"gevraagd. Er is niets opgeslagen."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "Een timecode telt vanaf middernacht en begint daar opnieuw. De bestanden komen op één as voordat er iets van elkaar wordt afgetrokken, anders lijkt de opname na middernacht bijna een dag van de vorige verwijderd. Als ze echt op verschillende dagen zijn opgenomen, klopt de uitlijning niet en is de gemeten offset de juiste."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic-API-sleutel (wordt niet getoond): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "Kanaal %d zit tegen de aanslag: %s keer drie of meer samples op rij, de langste %s (%s ms), de eerste op %s."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "Hier geteld, sample voor sample, op de rate waarmee het bestand is opgenomen: een reeks van drie of meer samples op de hoogste waarde die een integerformaat kan bevatten. Eén of twee zijn afronding en worden niet gemeld. Wat daar is afgekapt, is weg en geen bewerking haalt het terug -- maar de opname blijft de opname, en dit houdt niets tegen. Alleen integerformaten worden geteld. 32 bit float heeft bij volle schaal geen aanslag, dus daar valt niets te tellen."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"Geen API-sleutel. Sla hem één keer op in de interface, of met "
+"--store-auphonic-key. De sleutel staat in de accountinstellingen van "
+"Auphonic."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "Er is geen sleutel getypt, dus er is niets opgeslagen."
+
+msgid "The key is not stored: %s"
+msgstr "De sleutel is niet opgeslagen: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "De sleutel is opgeslagen, en teruglezen gaf dezelfde sleutel."
 
 msgid "boxes no longer readable"
 msgstr "boxen niet meer leesbaar"

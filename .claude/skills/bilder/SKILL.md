@@ -176,8 +176,9 @@ the whole pass.
 both languages, and what was found. "Nothing" is an answer; a pass that
 names no picture has not been made.
 
-Hence the three nets in the script: `load_api_key` returns empty,
-`AUPHONIC_TOKEN` is cleared out of the environment, and four names are netted -- the three `speaker_split_*`
+Hence the two nets in the script: `load_api_key` returns empty -- the
+stored key is the only one the program reads, so nothing in the
+environment has to be cleared -- and four names are netted -- the three `speaker_split_*`
 and `fetch_model`, which is the one thing left that reaches the network. **A picture pass reads no key, computes
 no separation and installs nothing.** Before anybody removes one of
 them, they have to know what stands in the picture afterwards.

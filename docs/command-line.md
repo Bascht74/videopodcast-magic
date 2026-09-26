@@ -79,12 +79,14 @@ hint. Without a key the multitrack run stops there.*
 
 ## Processing at auphonic.com
 
-The key comes from the account settings into `AUPHONIC_TOKEN`, never
-onto the command line. It turns processing on, and a command line with
-switches but no files then only lists the presets.
+The key comes from the account settings into the Keychain or the
+Registry, once, never onto the command line: through the window, or
+with `--store-auphonic-key`. A stored key turns processing on, and a
+command line with switches but no files then only lists the presets.
 
 | Switch | Does |
 |---|---|
+| `--store-auphonic-key` | ask for the key in the terminal without showing it, store it in the Keychain (macOS) or the Registry (Windows) and read it back; nothing may follow the switch (off) |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
 | `--auphonic-wait SECONDS` | how long to wait (7200) |
 | `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
@@ -175,8 +177,8 @@ chapters.
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.
 * **`--multitrack` without a key.** The run stops after the preflight.
-  Put a key in `AUPHONIC_TOKEN`, or let `--without-auphonic` align, mix and cut
-  on this machine.
+  Store a key once with `--store-auphonic-key`, or let
+  `--without-auphonic` align, mix and cut on this machine.
 * **The list is English in a German run.** `--help` and the names of
   the switches do not follow `--lang`; that switch sets the language of
   the messages.

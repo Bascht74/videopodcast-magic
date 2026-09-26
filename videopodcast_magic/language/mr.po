@@ -2372,9 +2372,6 @@ msgstr "Multitrack (प्रत्येक वक्त्यासाठी �
 msgid "Multitrack needs at least two input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to \"use internal audio\". Several blocks of the same recording count as one, tracks set aside not at all."
 msgstr "Multitrack साठी किमान दोन इनपुट ट्रॅक लागतात. ट्रॅक म्हणजे स्वतंत्र रेकॉर्डिंग, मल्टिचॅनेल रेकॉर्डरचे एक चॅनेल, किंवा \"अंतर्गत ऑडिओ वापरा\" वर सेट केलेल्या व्हिडिओ फाइलचा ऑडिओ. एकाच रेकॉर्डिंगचे अनेक ब्लॉक एक म्हणून मोजले जातात, बाजूला ठेवलेले ट्रॅक अजिबात नाहीत."
 
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "API किल्ली नाही. AUPHONIC_TOKEN सेट करा किंवा इंटरफेसमध्ये एकदा ती लक्षात ठेवायला लावा. किल्ली Auphonic खात्याच्या सेटिंग्जमध्ये आहे."
-
 msgid "No audio file carries a timecode. In point and Out point count from the start of the material -- the position of the files to each other is measured."
 msgstr "कोणत्याही ऑडिओ फाइलमध्ये टाइमकोड नाही. इन पॉइंट आणि आउट पॉइंट साहित्याच्या सुरुवातीपासून मोजले जातात -- फाइलींची एकमेकांशी असलेली स्थिती मोजली जाते."
 
@@ -2762,9 +2759,6 @@ msgstr "  Keychain Access उघडता आले नाही: %s"
 msgid "The stored key is not accepted: %s"
 msgstr "साठवलेली किल्ली स्वीकारली जात नाही: %s"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "AUPHONIC_TOKEN मधील किल्ली स्वीकारली जात नाही: %s"
-
 msgid "What auphonic.com replied"
 msgstr "auphonic.com ने काय उत्तर दिले"
 
@@ -2957,14 +2951,40 @@ msgstr "मध्यरात्र"
 msgid "%s carries a timecode from the other side of midnight -- counted as one night, not as a day apart."
 msgstr "%s: मध्यरात्रीच्या पलीकडचा टाइमकोड -- एक रात्र म्हणून मोजला, एका दिवसाचे अंतर म्हणून नाही."
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr ""
+"--store-auphonic-key नंतर काहीही घेत नाही: किल्ली न दाखवता विचारली जाते. "
+"काहीही जतन झाले नाही."
+
 msgid "A timecode counts from midnight and starts over there. The files are put on one axis before anything is subtracted, otherwise the recording after midnight looks almost a day away from the one before. If these really were recorded on different days, the alignment is wrong and the measured offset is the one to trust."
 msgstr "टाइमकोड मध्यरात्रीपासून मोजतो आणि तिथे पुन्हा सुरू होतो. काहीही वजा करण्यापूर्वी फाइली एका अक्षावर ठेवल्या जातात, नाहीतर मध्यरात्रीनंतरचे रेकॉर्डिंग आधीच्यापासून जवळजवळ एक दिवस दूर वाटते. ही खरोखर वेगवेगळ्या दिवशी रेकॉर्ड केली असल्यास, संरेखन चुकीचे आहे आणि मोजलेला ऑफसेट हाच विश्वासार्ह आहे."
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API किल्ली (दाखवली जात नाही): "
 
 msgid "Channel %d is against the stop: %s times three samples or more in a row, the longest %s (%s ms), the first at %s."
 msgstr "चॅनेल %d कमाल मर्यादेला भिडतो: %s वेळा सलग तीन किंवा अधिक सॅम्पल, सर्वात लांब %s (%s ms), पहिला %s वर."
 
 msgid "Counted here, sample by sample, at the rate the file was recorded at: a run of three or more samples on the highest value an integer format can hold. One or two are rounding and are not reported. What is cut off there is gone and no processing brings it back -- but the recording is still the recording, and this holds nothing up. Only integer formats are counted. 32 bit float has no stop at full scale, so there is nothing there to count."
 msgstr "येथे मोजले, सॅम्पलमागून सॅम्पल, फाइल ज्या दराने रेकॉर्ड झाली त्याच दराने: पूर्णांक फॉरमॅट धरू शकणाऱ्या सर्वोच्च मूल्यावर सलग तीन किंवा अधिक सॅम्पल. एक किंवा दोन म्हणजे राउंडिंग, आणि ते नोंदवले जात नाहीत. तिथे जे कापले जाते ते गेले, आणि कोणतीही प्रक्रिया ते परत आणत नाही -- पण रेकॉर्डिंग तरीही रेकॉर्डिंगच आहे, आणि यामुळे काहीही अडत नाही. फक्त पूर्णांक फॉरमॅट मोजले जातात. 32 बिट फ्लोटला पूर्ण स्केलवर कमाल मर्यादा नसते, म्हणून तिथे मोजण्यासारखे काही नाही."
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr ""
+"API किल्ली नाही. ती इंटरफेसमध्ये एकदा, किंवा --store-auphonic-key ने जतन "
+"करा. किल्ली Auphonic खात्याच्या सेटिंग्जमध्ये आहे."
+
+msgid "No key was typed, so nothing was stored."
+msgstr "कोणतीही किल्ली टाइप केली नाही, म्हणून काहीही जतन झाले नाही."
+
+msgid "The key is not stored: %s"
+msgstr "किल्ली जतन झालेली नाही: %s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "किल्ली जतन झाली आहे, आणि परत वाचल्यावर तीच किल्ली मिळाली."
 
 msgid "boxes no longer readable"
 msgstr "बॉक्स आता वाचता येत नाहीत"

@@ -1104,14 +1104,8 @@ msgstr "不同的音轨名称"
 msgid "\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME"
 msgstr "\n  已有同名的制作"
 
-msgid "The key from AUPHONIC_TOKEN is not accepted: %s"
-msgstr "来自 AUPHONIC_TOKEN 的密钥未被接受：%s"
-
 msgid "The stored key is not accepted: %s"
 msgstr "已保存的密钥未被接受：%s"
-
-msgid "No API key. Set AUPHONIC_TOKEN or have it remembered once in the interface. The key is in the Auphonic account settings."
-msgstr "没有 API 密钥。请设置 AUPHONIC_TOKEN，或在界面中保存一次。密钥位于 Auphonic 账户设置中。"
 
 msgid "No presets stored in the account. One can be created in the web interface."
 msgstr "账户中没有保存任何预设。可在网页界面中创建一个。"
@@ -4665,14 +4659,30 @@ msgstr "%s 与素材中的任何部分都不匹配，且由声音放置的摄像
 msgid "%s fits nothing in the material, and no camera the sound placed carries a timecode to set its own against; the intro is taken: left out."
 msgstr "%s 与素材中的任何部分都不匹配，且由声音放置的摄像机中没有一台带有可供对照的时间码；片头已被占用：已排除。"
 
+msgid ""
+"--store-auphonic-key takes nothing after it: the key is asked for, unseen. "
+"Nothing was stored."
+msgstr "--store-auphonic-key 后面不接任何内容：密钥会以不显示的方式询问。未保存任何内容。"
+
 msgid "API Key:"
 msgstr "API Key："
+
+msgid "Auphonic API key (it is not shown): "
+msgstr "Auphonic API 密钥（不会显示）： "
 
 msgid "In point"
 msgstr "入点"
 
 msgid "Left out; %s or %s is one click away."
 msgstr "已排除；%s 或 %s 只需点击一下。"
+
+msgid ""
+"No API key. Store it once in the interface, or with --store-auphonic-key. "
+"The key is in the Auphonic account settings."
+msgstr "没有 API 密钥。请在界面中保存一次，或使用 --store-auphonic-key 保存。密钥位于 Auphonic 账户设置中。"
+
+msgid "No key was typed, so nothing was stored."
+msgstr "没有输入密钥，因此未保存任何内容。"
 
 msgid "Out point"
 msgstr "出点"
@@ -4682,6 +4692,12 @@ msgstr "预设："
 
 msgid "Registry"
 msgstr "注册表"
+
+msgid "The key is not stored: %s"
+msgstr "密钥未保存：%s"
+
+msgid "The key is stored, and reading it back gave the same key."
+msgstr "密钥已保存，读回后得到的是同一个密钥。"
 
 msgid "VIDEO"
 msgstr "视频"
