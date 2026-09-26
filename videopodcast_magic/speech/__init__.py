@@ -293,22 +293,29 @@ def srt_time(seconds):
                                     ms // 1000 % 60, ms % 1000)
 
 
+def subtitle_head(who):
+    """What stands in front of a subtitle where the voice changes."""
+    return "%s: " % who.upper() if who else ""
+
+
 def subtitle_cues(words, line_chars=SUBTITLE_LINE_CHARS,
                   lines=SUBTITLE_LINES, longest=SUBTITLE_LONGEST_S):
     """Cut the words into subtitles: (from, to, speaker, text).
 
     A subtitle never holds two speakers, never outlives *longest* and
-    never grows past *lines* lines. Inside that it ends on a full
-    stop, so a subtitle carries a whole thought where it fits.
+    never grows past *lines* lines, wrapped as the file wraps them and
+    with the name counted that the file sets in front of a new voice.
+    Inside that it ends on a full stop, so it carries a whole thought.
     """
-    room = max(1, int(line_chars) * max(1, int(lines)))
     out = []
     for passage in speech_passages(words):
-        current = []
+        current, first = [], len(out)
         for w in passage["words"]:
-            text = " ".join(x["word"] for x in current + [w])
+            head = subtitle_head(passage["speaker"]) if len(out) == first \
+                else ""
+            text = head + " ".join(x["word"] for x in current + [w])
             too_long = current and (
-                len(text) > room
+                len(wrapped_lines(text, line_chars)) > max(1, int(lines))
                 or w["end"] - current[0]["start"] > longest)
             if too_long:
                 out.append((current[0]["start"], current[-1]["end"],
@@ -337,7 +344,7 @@ def subtitle_file_text(cues, line_chars=SUBTITLE_LINE_CHARS):
     parts, last = [], None
     for i, (a, b, who, text) in enumerate(cues or (), 1):
         if who and who != last:
-            text = "%s: %s" % (who.upper(), text)
+            text = subtitle_head(who) + text
         last = who
         parts.append("%d\n%s --> %s\n%s\n"
                      % (i, srt_time(a), srt_time(b),

@@ -483,9 +483,8 @@ zwischen den Stimmen zufielen.
   Stimmen, steht höchstens sieben Sekunden und endet an einem Punkt,
   wo immer der Satz hineinpasst. Seine Zeilen sind höchstens 42
   Zeichen lang, zwei je Untertitel; wo die Stimme wechselt, steht der
-  Name des Sprechers in Großbuchstaben davor, und der wird nicht
-  mitgezählt -- ein solcher Untertitel kann also eine dritte Zeile
-  bekommen.
+  Name des Sprechers in Großbuchstaben davor, und er zählt zu diesen
+  zwei Zeilen.
 * **Die txt-Datei** ist zum Lesen: ein Absatz je Passage, davor der
   Name des Sprechers und ein Doppelpunkt, 76 Zeichen je Zeile, ohne
   Zeiten.

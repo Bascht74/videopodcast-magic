@@ -454,8 +454,7 @@ those went to one voice, to two, or into a gap between voices.
   for seven seconds at most, and ends on a full stop wherever the
   sentence fits. Its lines are at most 42 characters long, two of them
   to a subtitle; where the voice changes, the speaker's name stands in
-  front in capitals, and that name is not counted in, so such a
-  subtitle can run to a third line.
+  front in capitals, and it counts toward those two lines.
 * **The txt** is for reading: a paragraph per passage, the speaker's
   name and a colon in front, 76 characters to the line, no times.
 
