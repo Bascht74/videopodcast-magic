@@ -656,8 +656,8 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
     A reason goes on the entry it is about, never beside the field. With
     *derived* the value shown is what the program worked out, and *why*
     bars Content; *no_wide* bars the wide shot, *no_edge* the marks
-    somebody gave. Without *derived* a *why* greys nothing. A wide shot,
-    marked or worked out, says in grey that nobody speaks on it.
+    somebody gave. Without *derived* a *why* greys nothing. A wide shot
+    says in grey that nobody speaks on it, or the stronger *no_wide*.
     """
     cell, box = choice_cell(CLIP_TYPES, kind)
     barred, noted = {}, {}
@@ -668,14 +668,15 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
     if no_wide:
         barred[TYPE_WIDE] = no_wide
         # Nor content: as content a placeless file becomes the wide shot
-        # by derivation. Intro, outro and "leave out" stay open.
-        barred.setdefault(TYPE_CONTENT, T(
-            'cannot be cut into the episode -- only before or after it'))
+        # by derivation. It outweighs "no speaker", which a speaker
+        # would lift. Intro, outro and "leave out" stay open.
+        barred[TYPE_CONTENT] = T(
+            'cannot be cut into the episode -- only before or after it')
     for value, sentence in (no_edge or {}).items():
         barred.setdefault(value, sentence)
     choices_shut(box, barred, why, quiet, noted)
     if kind == TYPE_WIDE:
-        why_in_field(box, T('no speaker'), quiet)
+        why_in_field(box, no_wide or T('no speaker'), quiet)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
                 'camera nobody sits in front of -- it takes no '

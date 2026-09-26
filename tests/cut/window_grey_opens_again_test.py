@@ -3,12 +3,12 @@
 
 A greying that jams looks exactly like one that works: a dead control
 and a sentence beside it explaining why, for ever. So each of the two
-greyings is read twice -- shut while the reason holds and reaching no
-further, open again once it is gone -- and the note under it both
-times, as a widget with a name rather than a hint on a control. In
-order: the settings the cut box builder hands over, the wide shot's
-greying, the words', and the two settings both of them reach, which
-are open only where both say so. No window is opened.
+greyings is read shut and open again, and the note under it both times,
+as a widget with a name rather than a hint. In order: the settings the
+cut box builder hands over, the wide shot's greying, the words' --
+whose note tells "not yet", "switched off" and "failed" apart, the last
+in the warning colour -- and the two settings both greyings reach, open
+only where both say so. No window is opened.
 """
 PLATFORM_BOUND = True
 import os
@@ -240,6 +240,48 @@ check("and the words' note is empty and out of sight again",
       "%d characters, %s"
       % (len(words_note.text()),
          "hidden" if words_note.isHidden() else "shown"))
+
+print("\n   ... and why there is none: three reasons, told apart")
+WORD = [[1.0, 1.4, "Hello."]]
+kinds = {"words": vpm.words_missing_why({"words": WORD}),
+         "yet": vpm.words_missing_why({"speakers": []}),
+         "failed": vpm.words_missing_why({"words": []}),
+         "off": vpm.words_missing_why({"words": [],
+                                       "speech_recognition": False})}
+check("a handover is read as words there, not yet, failed or off",
+      kinds == {"words": True, "yet": "yet", "failed": "failed",
+                "off": "off"}, "read %r" % (kinds,))
+said = {}
+for reason in ("yet", "off", "failed"):
+    parts, tick, wide_note, words_note = cut_box_build()
+    vpm.words_settings_grey(parts, words_note, reason, True, QUIET)
+    said[reason] = (words_note.text(), words_note.styleSheet(),
+                    dead(parts, WORDS_SETTINGS))
+check("each reason greys the same four settings",
+      all(d == WORDS_SETTINGS for _t, _c, d in said.values()),
+      "; ".join("%s: %s" % (r, said[r][2]) for r in sorted(said)))
+check("and each says a sentence of its own",
+      len(set(t for t, _c, _d in said.values())) == 3,
+      "%d different sentences for 3 reasons"
+      % len(set(t for t, _c, _d in said.values())))
+WARNING = vpm.COLOURS["warning"]
+check("a failed transcript is a notice in the warning colour",
+      WARNING in said["failed"][1],
+      "failed: %r, wanted %s" % (said["failed"][1], WARNING))
+check("not yet and switched off stay in the quiet colour",
+      QUIET in said["yet"][1] and QUIET in said["off"][1],
+      "yet %r, off %r, wanted %s" % (said["yet"][1], said["off"][1], QUIET))
+# What the note says the missing words reach has to be what is grey:
+# without a wide shot its two are the wide shot's note's business.
+parts, tick, wide_note, words_note = cut_box_build()
+vpm.words_settings_grey(parts, words_note, "yet", False, QUIET)
+TWO = vpm.T('Without a transcript no question is found, so the two '
+            'question settings do nothing.')
+check("without a wide shot the note names two settings, not four",
+      words_note.text().startswith(TWO)
+      and dead(parts, ["on-question", "reaction-lead"])
+      == ["on-question", "reaction-lead"],
+      "the note begins %r" % words_note.text()[:80])
 
 # Two settings stand in both lists, and whichever greying runs last
 # writes the widget. So each is asked whether it can prise open what
