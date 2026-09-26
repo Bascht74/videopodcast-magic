@@ -2,7 +2,7 @@
 """Connecting to auphonic.com must not by itself arm a paid run.
 
 The sections: a key lying only in the store, on the command line --
-each of the three ways takes it as AUPHONIC_TOKEN would be taken, and
+each of the three ways takes it, the one place a key is kept, and
 none of them sends anything while no preset was named; then the window
 with a stored key, where 'without Auphonic' stays chosen. main() is
 stopped at a stand-in preflight, the service and the store are stood
@@ -133,10 +133,9 @@ def look():
     app.quit()
 
 # ------------------------------------------ a stored key, command line
-# Invented, and the only key this section knows. The store and the
-# environment are both replaced, so the real ones are never read.
+# Invented, and the only key this section knows. The store is
+# replaced, so the real one is never read.
 KEY = "FAKEKEY-0000"
-had_token = os.environ.pop("AUPHONIC_TOKEN", None)
 vpm.RUN_KEY = ""
 window_store = vpm.load_api_key
 vpm.load_api_key = lambda: KEY
@@ -189,7 +188,7 @@ vpm.channel_count = lambda path: 1
 kept_stdin = sys.stdin
 sys.stdin = io.StringIO("")     # nobody at the keyboard to pick a preset
 
-print("A key only in the store counts on every way, as AUPHONIC_TOKEN would")
+print("A key only in the store counts on every way")
 alone = run_with(MATERIAL["one.wav"])
 check("one recording without a picture takes the stored key",
       carried(alone) == (KEY, "store"),
@@ -246,8 +245,6 @@ sys.stdin = kept_stdin
 for name, call in kept_calls.items():
     setattr(vpm, name, call)
 vpm.load_api_key = window_store
-if had_token is not None:
-    os.environ["AUPHONIC_TOKEN"] = had_token
 shutil.rmtree(FOLDER, True)
 print()
 

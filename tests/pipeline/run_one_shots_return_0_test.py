@@ -132,12 +132,13 @@ PRESET_CHILD = "\n".join([
     "        'preset_name': %r, 'uuid': 'u1', 'is_multitrack': False}]})"
     % PRESET,
     "vpm.list_presets.__globals__['_curl_call'] = one_preset",
+    "vpm.load_api_key = lambda: 'FAKEKEY-0000'",
     "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
     "sys.exit(vpm.main())"])
-# The key in the environment and a switch but no file: that is the
+# A key in the stand-in store and a switch but no file: that is the
 # preset list. --dry-run, so a run that went further writes nothing.
 code, last, _said = run([sys.executable, "-c", PRESET_CHILD, "--dry-run"],
-                        dict(FENCE, AUPHONIC_TOKEN="FAKEKEY-0000"))
+                        FENCE)
 asked = times_asked(ASKED)
 WANT = "1  %s" % PRESET
 check("the fetched presets come from the stand-in, never the "

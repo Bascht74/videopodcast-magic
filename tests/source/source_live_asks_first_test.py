@@ -99,7 +99,6 @@ def fenced():
                  "GITHUB_ACTIONS", "VPM_LIVE_PRESET", "VPM_LIVE_RESOLVE"):
         env.pop(name, None)
     env["PATH"] = BIN + os.pathsep + env.get("PATH", "")
-    env["AUPHONIC_TOKEN"] = KEY
     env["VPM_STANDIN_LOG"] = LOG
     env["VPM_STANDIN_WATCH"] = KEY
     env["VPM_STANDIN_REFUSED"] = auphonic_ground.REFUSED_KEY
@@ -115,10 +114,31 @@ def fenced():
     return env
 
 
+# The stand-in store: every Python a child starts loads the program
+# through the_program, and gets it back with load_api_key answering KEY.
+KEYHOOK = os.path.join(D, "keyhook")
+os.makedirs(KEYHOOK)
+with open(os.path.join(KEYHOOK, "sitecustomize.py"), "w",
+          encoding="utf-8") as f:
+    f.write("import sys\n"
+            "sys.path.insert(0, %r)\n"
+            "import the_program\n"
+            "_load = the_program.load\n"
+            "def load(name='vpm'):\n"
+            "    vpm = _load(name)\n"
+            "    vpm.load_api_key = lambda: %r\n"
+            "    return vpm\n"
+            "the_program.load = load\n" % (HERE, KEY))
+
+
 def started(*args):
     """(return code, lines) of a child, or (None, [why])."""
+    env = fenced()
+    if args[:1] == (STARTER,):
+        # The live tests take their key out of the stand-in store.
+        env["PYTHONPATH"] = KEYHOOK + os.pathsep + env.get("PYTHONPATH", "")
     try:
-        ran = subprocess.run(["bash"] + list(args), cwd=HERE, env=fenced(),
+        ran = subprocess.run(["bash"] + list(args), cwd=HERE, env=env,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, timeout=WAIT)
     except (OSError, subprocess.TimeoutExpired) as e:

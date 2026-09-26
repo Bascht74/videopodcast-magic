@@ -40,7 +40,6 @@ SCRIPT = the_program.SCRIPT
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
-os.environ.pop("AUPHONIC_TOKEN", None)
 from PySide6 import QtCore, QtGui, QtWidgets
 
 # The second half runs in a process of its own: --reopen <project> <file>.

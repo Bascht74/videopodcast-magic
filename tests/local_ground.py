@@ -11,6 +11,7 @@ Nothing in this file prints; run.sh would count a line against the test.
 import json
 import os
 import subprocess
+import sys
 import wave
 
 import numpy as np
@@ -85,6 +86,25 @@ def build(folder, file_format):
     with open(folder + "/assign.json", "w", encoding="utf-8") as f:
         json.dump(plan, f)
     return folder + "/assign.json"
+
+
+def keyed(key):
+    """The start of a command line: the program, its store answering key.
+
+    [python, -c, ...] -- it loads the program the suite points at, lets
+    load_api_key answer the made-up key and runs main() on the words
+    that follow. The store is the one place the program takes a key
+    from, so a run that is to hold one is handed it there.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    return [sys.executable, "-c", "\n".join([
+        "import sys",
+        "sys.path.insert(0, %r)" % here,
+        "import the_program",
+        "vpm = the_program.load()",
+        "vpm.load_api_key = lambda: %r" % key,
+        "sys.argv = ['videopodcast-magic'] + sys.argv[1:]",
+        "sys.exit(vpm.main())"])]
 
 
 def watched_curl(folder, env):

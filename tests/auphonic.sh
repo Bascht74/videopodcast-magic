@@ -19,8 +19,8 @@
 # OK; nobody runs these as a matter of routine.
 #
 # The key is never handed to this script. The program reads it at run
-# time, from AUPHONIC_TOKEN or from the credential store the window
-# keeps it in, and hands it to curl in a file of its own. Nothing here
+# time from the credential store -- the window or --store-auphonic-key
+# puts it there -- and hands it to curl in a file of its own. Nothing here
 # prints it, and nothing here asks for it on a command line.
 #
 # Each production a test makes carries a title of the tests' own shape

@@ -44,7 +44,6 @@ SCRIPT = the_program.SCRIPT
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
-os.environ.pop("AUPHONIC_TOKEN", None)
 
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtTest import QTest
@@ -204,8 +203,7 @@ def key_field():
 def note_shown():
     """The sentence the window is showing about the key, or ""."""
     heads = [vpm.T('auphonic.com does not accept the key: %s'),
-             vpm.T('The stored key is not accepted: %s'),
-             vpm.T('The key from AUPHONIC_TOKEN is not accepted: %s')]
+             vpm.T('The stored key is not accepted: %s')]
     heads = [h.replace("%s", "").strip() for h in heads]
     for x in among(QtWidgets.QLabel):
         said = drawn(x.text()).strip()

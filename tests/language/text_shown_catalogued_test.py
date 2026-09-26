@@ -37,7 +37,6 @@ SCRIPT = the_program.SCRIPT
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-os.environ.pop("AUPHONIC_TOKEN", None)
 
 from PySide6 import QtWidgets, QtCore            # noqa: E402
 
