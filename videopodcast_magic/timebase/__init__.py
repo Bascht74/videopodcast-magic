@@ -1801,6 +1801,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             raise
         except Exception as e:
             print(as_bad(T('  Error while writing: %s') % e))
+            # A full disk leaves a cut-short file under the finished
+            # name, and from outside it looks like a result.
+            PROGRAM.remove_quietly(target)
             return None
         track_names = [name for name, _ in items]
         # The track number names the track in the finished file -- what
