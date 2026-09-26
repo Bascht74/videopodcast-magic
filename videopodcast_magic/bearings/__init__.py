@@ -812,7 +812,11 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     for p in others + unheard:
         a_s, b, st = measured.get(p) or (0.0, 1.0, {})
         g = st.get("quality", 0.0)
-        if abs(g) < SOUND_MATCH_ENOUGH or fit_speaks_against(st):
+        # A recording by the run's own rule besides: laid in on a turn
+        # or two, a block lands half a minute out.
+        if (abs(g) < SOUND_MATCH_ENOUGH or fit_speaks_against(st)
+                or (not p.lower().endswith(VIDEO_SUFFIXES)
+                    and not PROGRAM.sound_places_recording(st))):
             # No phase way here: laid in at this floor it places files
             # hours out. See align_audio_to_video.
             weak.append(p)
@@ -1053,7 +1057,47 @@ def axis_with_blocks(paths, tc_of=lambda p: None, HOP=5.0, blocks=None,
                 for p in (row or ())[1:])
     data, text = measure_time_axis(
         [p for p in paths if path_key(p) not in tails], tc_of, HOP, phase_of)
+    if head_by_the_whole(data, paths, blocks, HOP):
+        text = axis_text(data)
     return blocks_after_their_head(data, blocks, length_of), text
+
+
+def head_by_the_whole(data, paths, blocks, HOP=5.0):
+    """Place a head its own sound refused by the recording it heads.
+
+    The run joins the blocks and measures them as one, so a first block
+    of a turn or two refused on its own is placed there all the same.
+    Here the blocks' curves are joined and measured against the longest
+    camera on the axis, by the run's rule. True where one was placed.
+    """
+    axis = (data or {}).get("axis") or {}
+    cameras = [p for p in paths if path_key(p) in axis
+               and p.lower().endswith(VIDEO_SUFFIXES)]
+    rows = [row for row in (blocks or {}).values()
+            if len(row or ()) > 1 and path_key(row[0]) not in axis]
+    if not cameras or not rows:
+        return False
+    curve = dict((p, video_envelope(p, HOP, 4000)) for p in cameras)
+    ref = max(cameras, key=lambda p: len(curve[p]))
+    points = int(max(20, min(120, len(curve[ref]) * HOP / 30000.0)))
+    placed = False
+    for row in rows:
+        try:
+            whole = np.concatenate([video_envelope(p, HOP, 4000)
+                                    for p in row])
+            a, b, st = align_envelopes(curve[ref], whole, HOP, points,
+                                       distance_s=30.0, warn=False)
+        except Exception:
+            continue
+        if not PROGRAM.sound_places_recording(st):
+            continue
+        axis[path_key(row[0])] = axis[path_key(ref)] - a / b
+        data["clock"][path_key(row[0])] = b
+        for key in ("weak", "no_place", "unplaceable", "clock_alone"):
+            data[key] = [p for p in data.get(key) or ()
+                         if path_key(p) != path_key(row[0])]
+        placed = True
+    return placed
 
 
 def file_fingerprint(file_path):

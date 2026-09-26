@@ -718,7 +718,7 @@ def align_audio_to_video(audio, video, sample_points=None, window_s=20.0,
     a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
                                window_s, distance_s,
                                warn=os.path.basename(audio))
-    if st.get("quality", 0.0) >= WEAK_MATCH and not fit_speaks_against(st):
+    if sound_places_recording(st):
         return a, b, st
     # The plain way found nothing worth having. Read once here for the
     # second try and for the phase way under it.
@@ -828,6 +828,26 @@ def fit_speaks_against(st):
         return False
     return bool(spread > FIT_SPREAD_MS
                 or abs(st.get("ppm", 0.0)) > CLOCK_SPEED_BELIEVED_PPM)
+
+
+# Points on one line that bear out a recording whose match does not
+# stand out. 26.9.2026, blocks of 40 s to 10 min: generated, wrong ones
+# kept up to 6, none from 7; the fixture's whole recordings reach 18.
+RECORDING_POINTS_ENOUGH = 8
+
+
+def sound_places_recording(st):
+    """Report whether the plain loudness curve places a recording.
+
+    Over the floor, not spoken against, and borne out: its match stands
+    clear as a camera's does, or enough sample points lie on its line.
+    A block of a turn or two finds a place nearly as good elsewhere,
+    one or two points agree with anything, and it is refused.
+    """
+    return (st.get("quality", 0.0) >= WEAK_MATCH
+            and not fit_speaks_against(st)
+            and (match_places_it(st)
+                 or st.get("points", 0) >= RECORDING_POINTS_ENOUGH))
 
 
 # Against a sound recording a real match reads far lower, so this floor
