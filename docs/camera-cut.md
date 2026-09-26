@@ -25,10 +25,11 @@ With that the script knows who speaks when, and builds the cut from it:
 * One speaker alone gets their camera, with a lead-in.
 * A short "yes" does not: below **Speaks at least** the picture stays
   where it is.
-* In silence the wide shot runs -- the camera with no speaker assigned
-  -- as long as **Nobody speaks** is left standing on it. That selector
-  can also hold a short gap instead, or leave the picture alone
-  altogether.
+* In silence the picture holds through a short gap -- a breath, up to
+  one second -- and a longer one goes to the wide shot, the camera with
+  no speaker assigned. That is **Nobody speaks** left on **Hold a short
+  gap**; the selector can also send every silence to the wide shot, or
+  leave the picture alone altogether.
 * After a long shot the wide shot drops in at a sentence boundary.
 
 **When several speak at once**, a camera showing exactly those speakers
@@ -151,7 +152,7 @@ speech does not say whom to show:
   `--on-monologue`)
 * **Several speak at once**: **Wide shot** (on the command line
   `--on-together`)
-* **Nobody speaks**: **Wide shot** (on the command line
+* **Nobody speaks**: **Hold a short gap** (on the command line
   `--on-silence`)
 * **Recognition uncertain**: **Wide shot** (on the command line
   `--on-uncertain`)
@@ -289,10 +290,11 @@ Five cases, and what each of the five selectors decides:
 what the word suggests. Measured over 83 minutes of interview: a fifth
 of the running time falls to it, and nine tenths of that are gaps
 inside one and the same person, the middle one 0.6 seconds long -- a
-breath, not the end of a thought. Left on **Wide shot** every one of
-them takes the picture off the speaker. Set to **Hold a short gap**
-with one second, the same material gives 244 shots instead of 296, and
-the wide shot's share falls from 28 to 17 per cent.
+breath, not the end of a thought. That is why **Nobody speaks** starts
+on **Hold a short gap** with one second: the same material gives 244
+shots instead of the 296 that **Wide shot** gives, and the wide shot's
+share falls from 28 to 17 per cent. Set to **Wide shot**, every one of
+those breaths takes the picture off the speaker.
 
 **What became of the questions stands in the log.** One line says how
 many question marks the transcript held and for how many of them the

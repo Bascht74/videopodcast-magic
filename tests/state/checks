@@ -181,7 +181,7 @@ run_switch_changes_it	12
 run_switch_has_effect	8
 run_sync_only_no_cut	20
 run_threads_keep_order	17
-run_three_ways_agree	19
+run_three_ways_agree	21
 run_update_says_it_landed	7
 run_way_back_offered	15
 run_which_script	7
@@ -213,6 +213,7 @@ sound_stereo_kept	28
 sound_tracks_written	28
 source_checks_proved	23
 source_floor_needs_main	17
+source_frozen_name_holds	9
 source_imported_is_whole	5
 source_limits_hold	19
 source_line_loads_no_qt	6
@@ -391,7 +392,7 @@ window_speaker_langs4	17
 window_speakers_as_run	15
 window_stages_named	16
 window_stands_still	2
-window_start_runs	4
+window_start_runs	6
 window_symbol_from_file	5
 window_tc_point_named	12
 window_title_follows	4

@@ -113,7 +113,7 @@ switches but no files then only lists the presets.
 | `--reaction-hold SHARE` | how much of the ten seconds after the question the answering speaker has to hold, between 0 and 1 (0.7) |
 | `--on-monologue VALUE` | one person holds the floor longer than `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together VALUE` | several speak at once and no camera shows exactly them: `wide`, `listener`, `alternate`, `hold` (wide) |
-| `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (wide) |
+| `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (hold-brief) |
 | `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots -- except with `--project-type sync`, where only a camera given here is one |

@@ -114,7 +114,7 @@ Presets.
 | `--reaction-hold ANTEIL` | wie viel der zehn Sekunden nach der Frage der Antwortende halten muss, zwischen 0 und 1 (0,7) |
 | `--on-monologue WERT` | einer redet allein, länger als `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: `wide`, `listener`, `alternate`, `hold` (wide) |
-| `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (wide) |
+| `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (hold-brief) |
 | `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher -- außer bei `--project-type sync`, wo nur eine hier genannte Kamera einer ist |
