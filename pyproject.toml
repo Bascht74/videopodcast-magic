@@ -99,6 +99,7 @@ packages = [
     "videopodcast_magic.bearings",
     "videopodcast_magic.workbench",
     "videopodcast_magic.choices",
+    "videopodcast_magic.colour",
     "videopodcast_magic.cut",
     "videopodcast_magic.desktop",
     "videopodcast_magic.dials",
