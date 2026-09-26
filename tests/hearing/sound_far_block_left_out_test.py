@@ -7,7 +7,9 @@ first, the third a minute past it after the second. Joined, the far one
 is left out, the file holds the first two and the pause between them
 and not the hours after, the far one is named with its distance, the
 pause inside the limit is still filled -- and block detection, asked
-from the first file, keeps exactly the blocks the join keeps.
+from the first file, keeps exactly the blocks the join keeps. Last, a
+pair of the first and the far one goes through the plan's join: the
+track made of it lists the one block that was kept.
 """
 PLATFORM_BOUND = True
 import os
@@ -98,6 +100,16 @@ check("block detection keeps the blocks the join keeps",
       row == joined == ["REC0001.wav", "REC0002.wav"],
       "detection kept %s, the join %s; wanted both REC0001 and REC0002"
       % (row, joined))
+
+print("\nA far-apart pair in the plan")
+pair = [paths[0], paths[2]]
+with contextlib.redirect_stdout(io.StringIO()):
+    made = vpm.join_the_plan([{"name": "Pair", "audio": pair[0],
+                               "blocks": pair}], D)
+listed = [os.path.basename(p) for p in made[0]["blocks"]]
+check("the plan of a far-apart pair lists only the block it keeps",
+      listed == ["REC0001.wav"],
+      "the track lists %s; wanted ['REC0001.wav']" % listed)
 
 shutil.rmtree(D, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

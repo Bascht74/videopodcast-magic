@@ -4947,3 +4947,6 @@ msgstr "  両端の引き画: なし -- どちらも最短のショットより�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "「誰も話さない」が短い間を保つ設定のときは、この長さまでの間は何も変えず、それより長い間は引き画に切り替わります。「認識が不確か」が「カメラを切り替えない」の設定のときは、これより長い不確かな区間も引き画に切り替わります。2 秒を超えると、黙っている人に画が 5 秒以上とどまり始めます。"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s を除外 -- タイムコード上ほかのブロックから %s 離れており、1 つの録音としては離れすぎ"

@@ -110,7 +110,7 @@ Dateien listet dann nur die Presets.
 |---|---|
 | `--min-edit-duration SEKUNDEN` | wie kurz eine Einstellung stehen darf; kürzere gehen in die folgende auf, 0 aus (3) |
 | `--min-speech-to-switch SEKUNDEN` | wie lange jemand reden muss, bevor die Kamera ihm folgt, 0 aus (1,5) |
-| `--silence-hold SEKUNDEN` | wie lange eine Stille noch als Atempause zählt und nicht als Ende; nur wo `--on-silence` eine kurze Lücke halten soll (1,0) |
+| `--silence-hold SEKUNDEN` | wie lange eine Stille noch als Atempause zählt und nicht als Ende; nur wo `--on-silence` eine kurze Lücke halten soll. Dieselbe Grenze beendet auch `--on-uncertain hold`, es sei denn, es gibt keinen Weitwinkel (1,0) |
 | `--edit-change-delay SEKUNDEN` | wie viel später als der Ton das Bild schneidet; negativ lässt es vorlaufen (0,3) |
 | `--reaction-lead SEKUNDEN` | wie viel früher das Bild nach einer Frage zur Antwort geht (1,5) |
 | `--reaction-gap SEKUNDEN` | wie schnell die Antwort auf die Frage folgen muss, damit der Reaktionsschnitt greift (3) |
@@ -118,7 +118,7 @@ Dateien listet dann nur die Presets.
 | `--on-monologue WERT` | einer redet allein, länger als `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (hold-brief) |
-| `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` (wide) |
+| `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` -- beim Halten bleibt das Bild höchstens so lange stehen, wie `--silence-hold` erlaubt, danach kommt der Weitwinkel; gibt es keinen, bleibt es bis zum Ende der unsicheren Strecke stehen (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher -- außer bei `--project-type sync`, wo nur eine hier genannte Kamera einer ist |
 | `--new-name DATEI NAME` | diese Videodatei wird als NAME geschrieben (die Endung kommt dahinter), und ihre Spur in der Übergabe trägt diesen Namen; wiederholbar. Ohne ihn der eigene Name der Datei. Das Fenster schickt sein Feld „neue Datei heißt“ so, wo keine Zuordnungsdatei es trägt. Wirksam ist er überall, wo jede Kamera nach ihrer Datei heißt, auch neben `--speakers-from` oder einer Zuordnungsdatei ohne Kameras. Neben einer Zuordnungsdatei, die die Kameras selbst benennt (`--assign`), und bei `--multitrack` mit Kameras allein, deren Dateien nach den Spuren aus ihrem Ton heißen, ginge er stillschweigend verloren; deshalb lehnt der Lauf ihn dort ab. Ebenso abgelehnt, bevor etwas geschrieben wird: ein NAME mit Ordner- oder Laufwerkstrenner (`/`, `\`, `:`), mit Punkt am Anfang oder leer, eine DATEI, die keine der Kameras ist oder zwei Namen bekommt, und zwei Kameras, die in derselben Datei landen würden, wobei Groß- und Kleinschreibung als gleich gilt |

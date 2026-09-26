@@ -4994,3 +4994,6 @@ msgstr "  ஓரங்களில் வைட் ஷாட்: எதுவு
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "\"யாரும் பேசவில்லை\" சிறு இடைவெளியைத் தக்கவைக்க அமைக்கப்பட்ட இடத்தில், இவ்வளவு நீளம் வரையிலான இடைவெளி எதையும் மாற்றாது, அதைவிட நீளமானது வைட் ஷாட்டுக்குச் செல்லும். \"அறிதல் உறுதியில்லை\" \"கேமரா மாற்றம் இல்லை\" என அமைக்கப்பட்ட இடத்தில், இதைவிட நீளமான உறுதியற்ற பகுதியும் வைட் ஷாட்டுக்குச் செல்லும். இரண்டு வினாடிகளுக்கு மேல் என்றால், ஐந்து வினாடிகளுக்கு மேல் அமைதியாக இருக்கும் ஒருவர் மீது படம் நிற்கத் தொடங்கும்."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s விடப்பட்டது -- டைம்கோடுப்படி மற்ற தொகுதிகளிலிருந்து %s தொலைவு, ஒரே பதிவுக்கு மிகத் தொலைவு"

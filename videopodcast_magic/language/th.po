@@ -4949,3 +4949,6 @@ msgstr "  ภาพมุมกว้างที่หัวและท้า�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "เมื่อตั้ง \"ไม่มีใครพูด\" ไว้ให้คงช่องว่างสั้น ช่องว่างที่ยาวไม่เกินค่านี้จะไม่เปลี่ยนอะไร ที่ยาวกว่าจะไปที่ภาพมุมกว้าง เมื่อตั้ง \"การรู้จำไม่แน่นอน\" ไว้ที่ \"ไม่เปลี่ยนกล้อง\" ช่วงที่ไม่แน่นอนซึ่งยาวกว่าค่านี้ก็จะไปที่ภาพมุมกว้างเช่นกัน หากเกินสองวินาที ภาพจะเริ่มค้างอยู่ที่คนที่เงียบนานเกินห้าวินาที"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  ข้าม %s -- ห่างจากบล็อกอื่น %s ตามไทม์โค้ด ห่างเกินไปสำหรับการบันทึกเดียว"

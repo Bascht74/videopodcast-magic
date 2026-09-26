@@ -4993,3 +4993,6 @@ msgstr "  کناروں پر وائیڈ شاٹ: کوئی نہیں -- دونوں �
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "جہاں \"کوئی نہیں بول رہا\" کو مختصر خلا برقرار رکھنے پر رکھا گیا ہو، وہاں اتنی لمبائی تک کا خلا کچھ نہیں بدلتا اور اس سے لمبا وائیڈ شاٹ پر جاتا ہے۔ جہاں \"شناخت غیر یقینی\" کو \"کیمرا تبدیل نہیں\" پر رکھا گیا ہو، وہاں اس سے لمبا غیر یقینی حصہ بھی وائیڈ شاٹ پر جاتا ہے۔ دو سیکنڈ سے اوپر تصویر کسی خاموش شخص پر پانچ سیکنڈ سے زیادہ ٹھہرنے لگتی ہے۔"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s چھوڑ دیا گیا -- ٹائم کوڈ کے مطابق باقی بلاکوں سے %s دور، ایک ریکارڈنگ کے لیے بہت دور"

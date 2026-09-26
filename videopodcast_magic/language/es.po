@@ -4989,3 +4989,6 @@ msgstr "  Plano general en los bordes: ninguno -- ambos eran más cortos que la 
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Donde «Nadie habla» está en mantener una pausa corta, una pausa hasta esta duración no cambia nada y una más larga pasa al plano general. Donde «Reconocimiento incierto» está en «Sin cambio de cámara», un pasaje incierto más largo que esto también pasa al plano general. Por encima de dos segundos, la imagen empieza a quedarse más de cinco segundos en alguien callado."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s omitido -- a %s de los demás bloques según el timecode, demasiado lejos para una sola grabación"

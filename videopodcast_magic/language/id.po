@@ -4951,3 +4951,6 @@ msgstr "  Bidikan lebar di tepi: tidak ada -- keduanya lebih pendek dari bidikan
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Jika \"Tak ada yang bicara\" diatur untuk menahan jeda singkat, jeda hingga sepanjang ini tidak mengubah apa pun dan yang lebih panjang beralih ke bidikan lebar. Jika \"Pengenalan tidak pasti\" diatur ke \"Tanpa ganti kamera\", bagian tidak pasti yang lebih panjang dari ini juga beralih ke bidikan lebar. Di atas dua detik, gambar mulai bertahan lebih dari lima detik pada seseorang yang diam."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s dilewati -- %s menurut timecode dari blok lainnya, terlalu berjauhan untuk satu rekaman"

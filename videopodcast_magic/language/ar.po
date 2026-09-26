@@ -5174,3 +5174,6 @@ msgstr "  لقطة واسعة عند الأطراف: لا شيء -- كانتا �
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "حيث يكون \"لا أحد يتكلم\" مضبوطًا على الإبقاء على فجوة قصيرة، لا تغيّر الفجوة حتى هذا الطول شيئًا، والأطول تنتقل إلى اللقطة الواسعة. وحيث يكون \"التعرّف غير مؤكد\" مضبوطًا على \"بدون تغيير الكاميرا\"، ينتقل المقطع غير المؤكد الأطول من ذلك إلى اللقطة الواسعة أيضًا. فوق ثانيتين تبدأ الصورة بالبقاء أكثر من خمس ثوانٍ على شخص صامت."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s تُرك جانبًا -- يبعد %s حسب الكود الزمني عن الكتل الأخرى، متباعد جدًا لتسجيل واحد"

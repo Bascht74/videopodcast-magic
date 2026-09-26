@@ -4946,3 +4946,6 @@ msgstr "  양 끝의 와이드 샷: 없음 -- 둘 다 가장 짧은 샷보다 �
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "\"아무도 말하지 않음\"이 짧은 공백 유지로 설정된 곳에서는 이 길이까지의 공백은 아무것도 바꾸지 않고, 더 긴 공백은 와이드 샷으로 넘어갑니다. \"인식 불확실\"이 \"카메라 전환 없음\"으로 설정된 곳에서는 이보다 긴 불확실한 구간도 와이드 샷으로 넘어갑니다. 2초를 넘기면 화면이 말없는 사람에게 5초 넘게 머무는 경우가 생기기 시작합니다."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s 제외 -- 타임코드상 다른 블록과 %s 떨어져 있어 한 녹음으로 보기에는 너무 멉니다"

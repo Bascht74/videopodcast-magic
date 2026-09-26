@@ -5038,3 +5038,6 @@ msgstr "  Bendrasis planas kraštuose: nėra -- abu buvo trumpesni už trumpiaus
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Kur „Niekas nekalba“ nustatyta išlaukti trumpą pauzę, iki tokio ilgio pauzė nieko nekeičia, o ilgesnė pereina į bendrąjį planą. Kur „Atpažinimas neaiškus“ nustatyta į „Kamera nekeičiama“, už tai ilgesnė neaiški atkarpa taip pat pereina į bendrąjį planą. Virš dviejų sekundžių vaizdas ima ilgiau nei penkias sekundes rodyti tylintį žmogų."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s praleistas -- pagal laiko kodą %s nuo kitų blokų, per toli vienam įrašui"

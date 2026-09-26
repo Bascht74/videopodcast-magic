@@ -4994,3 +4994,6 @@ msgstr "  అంచుల వద్ద వైడ్ షాట్: ఏదీ ల�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "\"ఎవరూ మాట్లాడరు\" చిన్న ఖాళీని ఉంచేలా సెట్ చేసిన చోట, ఇంతసేపటి వరకు ఉన్న ఖాళీ ఏమీ మార్చదు, అంతకంటే పొడవైనది వైడ్ షాట్‌కు వెళ్తుంది. \"గుర్తింపు అనిశ్చితం\" \"కెమెరా మార్పు లేదు\"కు సెట్ చేసిన చోట, దీనికంటే పొడవైన అనిశ్చిత భాగం కూడా వైడ్ షాట్‌కు వెళ్తుంది. రెండు సెకన్లు దాటితే చిత్రం ఐదు సెకన్లకు పైగా మౌనంగా ఉన్న వ్యక్తిపై నిలవడం మొదలవుతుంది."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s వదిలివేయబడింది -- టైమ్‌కోడ్ ప్రకారం మిగతా బ్లాక్‌ల నుంచి %s దూరం, ఒకే రికార్డింగ్‌కు చాలా దూరం"

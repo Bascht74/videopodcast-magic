@@ -4993,3 +4993,6 @@ msgstr "  שוט רחב בקצוות: אין -- שניהם היו קצרים מ�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "היכן ש\"אף אחד לא מדבר\" מוגדר לשמירה על הפסקה קצרה, הפסקה עד אורך זה אינה משנה דבר, והפסקה ארוכה יותר עוברת לשוט הרחב. היכן ש\"זיהוי לא ודאי\" מוגדר ל\"ללא החלפת מצלמה\", קטע לא ודאי ארוך מזה עובר גם הוא לשוט הרחב. מעל שתי שניות התמונה מתחילה לעמוד על מישהו שותק במשך יותר מחמש שניות."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s הושמט -- %s לפי קוד הזמן מהמקטעים האחרים, רחוק מדי להקלטה אחת"

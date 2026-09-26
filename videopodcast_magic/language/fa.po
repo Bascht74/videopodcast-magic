@@ -4993,3 +4993,6 @@ msgstr "  نمای باز در دو سر: هیچ -- هر دو کوتاه‌تر 
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "جایی که «کسی صحبت نمی‌کند» روی حفظ وقفه کوتاه تنظیم شده باشد، وقفه‌ای تا این طول چیزی را تغییر نمی‌دهد و وقفه بلندتر به نمای باز می‌رود. جایی که «تشخیص نامطمئن» روی «بدون تغییر دوربین» تنظیم شده باشد، بخش نامطمئنی که بلندتر از این باشد نیز به نمای باز می‌رود. بالاتر از دو ثانیه، تصویر شروع می‌کند بیش از پنج ثانیه روی کسی که ساکت است بماند."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s کنار گذاشته شد -- بر پایه تایم‌کد %s از بلوک‌های دیگر فاصله دارد، برای یک ضبط بیش از حد دور"

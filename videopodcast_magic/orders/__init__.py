@@ -641,7 +641,8 @@ def build_argument_parser():
                          "breath rather than an end. Only where "
                          "--on-silence hold-brief asks for it: up to here "
                          "the picture stays, beyond it the wide shot "
-                         "comes. (default: 1.0)")
+                         "comes. The same limit ends --on-uncertain hold, "
+                         "unless there is no wide shot. (default: 1.0)")
     ap.add_argument("--edit-change-delay", dest="delay", type=float,
                     default=0.3, metavar="SECONDS",
                     help="how much later than the audio the picture cuts. "
@@ -664,8 +665,11 @@ def build_argument_parser():
         ap.add_argument("--" + switch, dest=switch.replace("-", "_"),
                         choices=list(values), default=default_value,
                         help="what is shown where the speech does not say "
-                             "it: %s. (default: %s)"
-                             % (", ".join(values), default_value))
+                             "it: %s.%s (default: %s)"
+                             % (", ".join(values), " hold keeps the picture "
+                                "no longer than --silence-hold, unless "
+                                "there is no wide shot." if switch == "on-uncertain" else "",
+                                default_value))
     ap.add_argument("--wide-after", dest="wide_after", type=float,
                     default=WIDE_AFTER_S, metavar="SECONDS",
                     help="from this hold time on, a shot is broken up by "

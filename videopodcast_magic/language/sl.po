@@ -5083,3 +5083,6 @@ msgstr "  Splošni plan na robovih: nobenega -- oba sta bila krajša od najkraj�
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Kjer je „Nihče ne govori“ nastavljeno na zadržanje kratkega premora, premor do te dolžine ne spremeni ničesar, daljši pa gre na splošni plan. Kjer je „Negotovo razpoznavanje“ nastavljeno na „Brez menjave kamere“, gre tudi negotov odlomek, daljši od tega, na splošni plan. Nad dvema sekundama začne slika stati na nekom, ki molči, dlje kot pet sekund."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s izpuščen -- po časovni kodi %s od drugih blokov, predaleč za en posnetek"

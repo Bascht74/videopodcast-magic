@@ -5001,3 +5001,6 @@ msgstr "  Plan large aux bords : aucun -- les deux étaient plus courts que le p
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Là où « Personne ne parle » est réglé pour garder une courte pause, une pause jusqu’à cette durée ne change rien et une plus longue passe au plan large. Là où « Reconnaissance incertaine » est réglé sur « Pas de changement de caméra », un passage incertain plus long que cela passe lui aussi au plan large. Au-delà de deux secondes, l’image commence à rester plus de cinq secondes sur une personne silencieuse."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s laissé de côté -- à %s des autres blocs d’après le timecode, trop éloigné pour un seul enregistrement"

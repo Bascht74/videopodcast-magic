@@ -4947,3 +4947,6 @@ msgstr "  Cảnh rộng ở hai đầu: không có -- cả hai đều ngắn hơ
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Khi \"Không ai nói\" được đặt là giữ khoảng trống ngắn, khoảng trống dài đến mức này không thay đổi gì, khoảng dài hơn sẽ chuyển sang cảnh rộng. Khi \"Nhận dạng không chắc\" được đặt là \"Không đổi máy quay\", một đoạn không chắc dài hơn mức này cũng chuyển sang cảnh rộng. Trên hai giây, hình bắt đầu dừng trên một người im lặng quá năm giây."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  Bỏ qua %s -- cách các khối khác %s theo mã thời gian, quá xa cho một bản ghi"

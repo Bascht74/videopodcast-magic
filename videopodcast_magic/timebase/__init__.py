@@ -324,7 +324,11 @@ def tracks_per_camera(entries):
 
 
 def join_the_plan(plan, tmpdir):
-    """Join the blocks of every track. No camera is needed for that."""
+    """Join the blocks of every track. No camera is needed for that.
+
+    A track keeps only the blocks the join kept: one left out as too far
+    apart is in neither the sound nor the list. The first always stays.
+    """
     made = []
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
@@ -333,7 +337,11 @@ def join_the_plan(plan, tmpdir):
             source, join_info = join_with_report(
                 blocks, os.path.join(tmpdir,
                                      "raw_%s.wav" % safe_filename(name)))
-            hint = T('%s blocks') % number_text(join_info["blocks"], 0)
+            out = {n for n, _far in join_info.get("dropped", [])}
+            blocks = [b for i, b in enumerate(blocks)
+                      if not i or os.path.basename(b) not in out]
+            hint = T('%s blocks') % number_text(join_info["blocks"], 0) \
+                if len(blocks) > 1 else ""
         else:
             source, hint = blocks[0], ""
         made.append({"name": name, "source": source, "hint": hint,

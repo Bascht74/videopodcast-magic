@@ -4994,3 +4994,6 @@ msgstr "  Picha pana kwenye ncha: hakuna -- zote mbili zilikuwa fupi kuliko pich
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Pale \"Hakuna anayezungumza\" imewekwa kushikilia pengo fupi, pengo hadi urefu huu halibadilishi chochote, na refu zaidi linaenda kwenye picha pana. Pale \"Utambuzi hauna uhakika\" imewekwa kuwa \"Bila kubadili kamera\", sehemu isiyo na uhakika iliyo ndefu kuliko hii nayo inaenda kwenye picha pana. Zaidi ya sekunde mbili picha huanza kukaa kwa mtu aliyenyamaza kwa zaidi ya sekunde tano."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s imeachwa nje -- %s mbali na bloku nyingine kwa mujibu wa timecode, mbali mno kwa rekodi moja"

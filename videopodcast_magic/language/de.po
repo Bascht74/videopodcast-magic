@@ -6748,3 +6748,6 @@ msgstr "  Weitwinkel am Rand: keiner -- beide waren kürzer als die kürzeste Ei
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Wo „Niemand redet“ auf eine kurze Lücke halten steht, ändert eine Lücke bis hierher nichts, eine längere geht auf den Weitwinkel. Wo „Erkennung unsicher“ auf „Kein Kamerawechsel“ steht, geht auch eine unsichere Passage, die länger dauert, auf den Weitwinkel. Über zwei Sekunden fängt das Bild an, länger als fünf Sekunden auf einem Schweigenden zu stehen."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s ausgelassen -- %s laut Timecode von den anderen Blöcken entfernt, zu weit für eine Aufnahme"

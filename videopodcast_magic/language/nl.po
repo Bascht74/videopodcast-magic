@@ -4991,3 +4991,6 @@ msgstr "  Totaalshot aan de randen: geen -- beide waren korter dan het kortste s
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "Waar \"Niemand spreekt\" op korte pauze aanhouden staat, verandert een pauze tot deze lengte niets en gaat een langere naar het totaalshot. Waar \"Herkenning onzeker\" op \"Geen camerawissel\" staat, gaat een onzekere passage die langer is dan dit ook naar het totaalshot. Boven twee seconden begint het beeld langer dan vijf seconden op iemand te staan die zwijgt."
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s weggelaten -- volgens timecode %s van de andere blokken, te ver uit elkaar voor één opname"

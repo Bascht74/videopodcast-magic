@@ -4996,3 +4996,6 @@ msgstr "  ਕਿਨਾਰਿਆਂ 'ਤੇ ਵਾਈਡ ਸ਼ਾਟ: ਕੋਈ 
 
 msgid "Where \"Nobody speaks\" is set to hold a short gap, a gap up to this long changes nothing and a longer one goes to the wide shot. Where \"Recognition uncertain\" is set to \"No camera change\", an uncertain passage longer than this goes to the wide shot as well. Above two seconds the picture begins to stand on someone silent for over five seconds."
 msgstr "ਜਿੱਥੇ \"ਕੋਈ ਨਹੀਂ ਬੋਲਦਾ\" ਛੋਟੇ ਵਕਫ਼ੇ ਵਿੱਚ ਟਿਕੇ ਰਹਿਣ 'ਤੇ ਸੈੱਟ ਹੈ, ਉੱਥੇ ਇੰਨੇ ਲੰਮੇ ਤੱਕ ਦਾ ਵਕਫ਼ਾ ਕੁਝ ਨਹੀਂ ਬਦਲਦਾ ਅਤੇ ਇਸ ਤੋਂ ਲੰਮਾ ਵਾਈਡ ਸ਼ਾਟ 'ਤੇ ਜਾਂਦਾ ਹੈ। ਜਿੱਥੇ \"ਪਛਾਣ ਅਨਿਸ਼ਚਿਤ\" \"ਕੈਮਰਾ ਨਹੀਂ ਬਦਲਦਾ\" 'ਤੇ ਸੈੱਟ ਹੈ, ਉੱਥੇ ਇਸ ਤੋਂ ਲੰਮਾ ਅਨਿਸ਼ਚਿਤ ਹਿੱਸਾ ਵੀ ਵਾਈਡ ਸ਼ਾਟ 'ਤੇ ਜਾਂਦਾ ਹੈ। ਦੋ ਸਕਿੰਟ ਤੋਂ ਵੱਧ ਹੋਣ 'ਤੇ ਤਸਵੀਰ ਕਿਸੇ ਚੁੱਪ ਵਿਅਕਤੀ 'ਤੇ ਪੰਜ ਸਕਿੰਟ ਤੋਂ ਵੱਧ ਟਿਕਣ ਲੱਗਦੀ ਹੈ।"
+
+msgid "  %s left out -- %s per timecode away from the other blocks, too far apart for one recording"
+msgstr "  %s ਛੱਡ ਦਿੱਤਾ -- ਟਾਈਮਕੋਡ ਮੁਤਾਬਕ ਬਾਕੀ ਬਲਾਕਾਂ ਤੋਂ %s ਦੂਰ, ਇੱਕ ਰਿਕਾਰਡਿੰਗ ਲਈ ਬਹੁਤ ਦੂਰ"

@@ -109,7 +109,7 @@ only lists the presets.
 |---|---|
 | `--min-edit-duration SECONDS` | shortest a shot may stand; shorter ones merge into the one that follows, 0 off (3) |
 | `--min-speech-to-switch SECONDS` | how long somebody has to hold the floor before the camera follows them, 0 off (1.5) |
-| `--silence-hold SECONDS` | how long a silence still counts as a breath rather than an end; only where `--on-silence` asks to hold a short gap (1.0) |
+| `--silence-hold SECONDS` | how long a silence still counts as a breath rather than an end; only where `--on-silence` asks to hold a short gap. The same limit ends `--on-uncertain hold`, unless there is no wide shot (1.0) |
 | `--edit-change-delay SECONDS` | how much later than the audio the picture cuts; negative lets it lead (0.3) |
 | `--reaction-lead SECONDS` | how much earlier the picture goes to the answer after a question (1.5) |
 | `--reaction-gap SECONDS` | how soon the answer has to follow the question for the reaction cut to fire (3) |
@@ -117,7 +117,7 @@ only lists the presets.
 | `--on-monologue VALUE` | one person holds the floor longer than `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together VALUE` | several speak at once and no camera shows exactly them: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (hold-brief) |
-| `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` (wide) |
+| `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` -- the picture holds no longer than `--silence-hold`, then the wide shot comes; without a wide shot it holds to the end of the stretch (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots -- except with `--project-type sync`, where only a camera given here is one |
 | `--new-name FILE NAME` | this video file is written as NAME (the ending is hung on) and its track in the handover carries that name; repeatable. Without it the file's own name. The window sends its "new file name" field this way where no assignment file carries it. It acts wherever each camera is named after its file, also beside `--speakers-from` or an assignment file that names no cameras. Beside an assignment file that names the cameras (`--assign`), and with `--multitrack` and cameras alone, whose files are named after the tracks taken from their sound, it would be dropped and is refused instead. Refused before anything is written as well: a NAME with a folder or drive separator (`/`, `\`, `:`), beginning with a dot or empty, a FILE that is not one of the cameras or given two names, and two cameras in one file, upper and lower case counting as the same |
