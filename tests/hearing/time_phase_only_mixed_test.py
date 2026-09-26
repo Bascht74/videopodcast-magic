@@ -8,6 +8,7 @@ the interview material, whose recordings share nothing with the
 cameras and which the phase way lays a hundred seconds out; the preview
 on the same; and the phase way not even asked under speech.
 """
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
