@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """#63: The player has to take the measured offset, not zero."""
-PLATFORM_BOUND = False
+PLATFORM_BOUND = True
 import os
 import sys
 # tests/, where the helpers and state/ lie; this file may stand in a
