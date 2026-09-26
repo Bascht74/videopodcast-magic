@@ -45,7 +45,7 @@ figure of the day is that command, not this paragraph**:
 * `player/` **3177** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
   when the other starts
-* `cut/` **3249** -- who is on camera when, and what carries it out
+* `cut/` **3272** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
 * `resolve/` **2628** -- the DaVinci Resolve project, timelines, colour,
@@ -108,7 +108,7 @@ figure of the day is that command, not this paragraph**:
 * `colour/` **364** -- what a video file says about its colour: the
   colour space, curve and bit depth, the device it names, whether the
   material is HDR, and the report on a finished file
-* `tables/` **384** -- the tables and trees the window builds
+* `tables/` **397** -- the tables and trees the window builds
 * `running/` **425** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `language/` **358** -- a .po file per language and the reader that

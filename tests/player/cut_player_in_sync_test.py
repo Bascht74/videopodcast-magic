@@ -141,13 +141,12 @@ GUEST = "GuestCam_01011858_C003.mov"
 # are measured under those names, off the very files it opened.
 CAMERAS = (WIDE, HOST, GUEST)
 
-# Where programme time starts on the wall clock: half a minute after
-# the earliest camera. Every offset is then a number and not a zero --
-# a zero cannot be reversed, and a check that lands on one checks
-# nothing -- and every position stays inside the 120 s the files run.
+# Where the recording starts on the wall clock: half a minute after
+# the earliest camera, so every position stays inside the 120 s the
+# files run.
 CUT_START = 18 * 3600 + 55 * 60 + 30.0
 CUT_LENGTH = 60.0
-# The prepared overall mix starts ten seconds before the programme.
+# The prepared overall mix starts ten seconds before the recording.
 MIX_START = CUT_START - 10.0
 MIX_LENGTH = 90.0
 TAIL = "18-55-20-00"                  # the timecode in its file name
@@ -163,12 +162,11 @@ NAMED = {"SPEAKER_00": "Host", "SPEAKER_01": "Guest"}
 # It must not be read: that is the fault of 30.8.2026, kept here as a
 # counter-check rather than as the source of the cut.
 STALE_AWAY = 3600.0
-# How far the window case pushes the start of the programme: a relative
-# In point counts, as in the run, from where every camera runs -- the
-# guest camera's 18:55:17:12, so 7.48 s after the programme's own start.
+# Programme time starts, as in the run, where every camera runs: the
+# guest camera's 18:55:17:12. The window case pushes it on by a relative
+# In point, which counts from there.
 WINDOW_IN = 20.0
 EVERY_CAMERA = 18 * 3600 + 55 * 60 + 17.48
-IN_LANDS = EVERY_CAMERA + WINDOW_IN - CUT_START
 WINDOW = (1400, 950)
 CASES = ("plain", "window")
 
@@ -296,9 +294,9 @@ def own_project(case, vpm, fixture):
     fps = float(vpm.video_facts(here[WIDE]).get("fps") or 30.0)
     mix = os.path.join(done, "final_Full-Mix_%s.wav" % TAIL)
     silent_wav(mix, MIX_LENGTH, MIX_START)
-    # The one recording everybody is on. Its timecode is what tells the
-    # window where programme time starts: the speech was measured on
-    # this file, so the zero point of the segments is its beginning.
+    # The one recording everybody is on. Its timecode tells the window
+    # where the speech lies: it was measured on this file, so the
+    # segments count from its beginning.
     voices = os.path.join(own, "Everyone_0001.wav")
     silent_wav(voices, CUT_LENGTH, CUT_START)
 
@@ -512,8 +510,8 @@ def look(case):
         """The player lines of that step, as this process saw them."""
         return seen["lines"].get(name) or []
 
-    result = {"case": case, "measured": measured, "start_s": CUT_START,
-              "window_in": IN_LANDS if case == "window" else 0.0}
+    result = {"case": case, "measured": measured, "start_s": EVERY_CAMERA,
+              "window_in": WINDOW_IN if case == "window" else 0.0}
     state = {"waited": 0, "played": 0, "ready": 0, "from": 0.0,
              "turned": 0, "seen_at": 0.0, "still": 0, "again": 0,
              "went": None, "quiet": 0, "afresh": 0}
@@ -1323,7 +1321,7 @@ for case in CASES:
           str(d.get("audio")))
     tc0 = d.get("tc0")
     want_tc0 = d["start_s"] + d["window_in"]
-    check("  programme time starts where the recording's clock says",
+    check("  programme time starts where the last camera's clock says",
           tc0 is not None and abs(tc0 - want_tc0) < 0.001,
           "%s, wanted %s" % (tc0, want_tc0))
     # The counter-check to that one, and the reason this test was
@@ -1440,10 +1438,14 @@ for case in CASES:
              d.get("reversed_tries"), d.get("loose")))
     real = [line for line in seen
             if abs((d.get("reversed") or {}).get(line["who"], 0.0)) > frame]
+    # The camera that rolls last has no offset -- programme time starts
+    # with it -- and a nought turned round is the same nought: its lines
+    # are no counter-check, the other two cameras' are.
     check("  the reversed run printed lines with a real offset in them",
-          len(real) >= 1 and len(real) == len(seen),
-          "%d of %d lines, offsets %s"
-          % (len(real), len(seen), json.dumps(d.get("reversed"))))
+          len(set(line["who"] for line in real)) >= 2,
+          "%d of %d lines, on %d camera(s), offsets %s"
+          % (len(real), len(seen), len(set(line["who"] for line in real)),
+             json.dumps(d.get("reversed"))))
     off, nameless = [], []
     for line in real:
         m = moments(line, measured, tc0)
@@ -1592,11 +1594,11 @@ if plain.get("offset") and shifted.get("offset"):
     both = sorted(set(plain["offset"]) & set(shifted["offset"]))
     moved = [(t, plain["offset"][t] - shifted["offset"][t]) for t in both]
     check("  every camera moved by the In point, and by no more",
-          bool(moved) and all(abs(v - IN_LANDS) < 0.05 for _t, v in moved),
+          bool(moved) and all(abs(v - WINDOW_IN) < 0.05 for _t, v in moved),
           json.dumps([[t, round(v, 3)] for t, v in moved]))
     check("  and the sound moved with them",
           abs((plain.get("audio_offset") or 0.0)
-              - (shifted.get("audio_offset") or 0.0) - IN_LANDS) < 0.05,
+              - (shifted.get("audio_offset") or 0.0) - WINDOW_IN) < 0.05,
           "%s against %s" % (plain.get("audio_offset"),
                              shifted.get("audio_offset")))
 
