@@ -622,8 +622,10 @@ if [ -n "$LANGS_CHAIN" ]; then
 fi
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
 # Each line is a list of tests run one after another; most hold one.
+# -L and not -I: macOS's xargs builds an -I line of at most 255 bytes,
+# and on the chain of sixteen *_langsN names it ran nothing (26.9.2026).
 echo "$CROWD" | grep -v '^$' \
-  | xargs -P "$WORKERS" -I{} bash -c 'for t in {}; do run_one "$t"; done'
+  | xargs -P "$WORKERS" -L 1 bash -c 'for t in "$@"; do run_one "$t"; done' _
 for t in $ALONE_ONLY; do
   echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
 done
