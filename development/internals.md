@@ -69,7 +69,7 @@ figure of the day is that command, not this paragraph**:
   the findings
 * `setup/` **1253** -- finding ffmpeg, installing a missing module,
   keeping the key, and storing it from the terminal
-* `speech/` **1361** -- what is said and when, and what is written down
+* `speech/` **1375** -- what is said and when, and what is written down
   from it
 * `hearing/` **1132** -- decoding, envelopes, bands, phase, aligning
   audio to video
