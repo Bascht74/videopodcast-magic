@@ -234,6 +234,7 @@ take_from(filing)
 
 ByFile = filing.ByFile
 FileSet = filing.FileSet
+path_key = filing.path_key
 
 
 stowage = beside("stowage", program=PROGRAM)
