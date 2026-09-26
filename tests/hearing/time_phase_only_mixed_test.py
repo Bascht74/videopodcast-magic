@@ -4,9 +4,9 @@
 A person says what a recording's sound holds, speech or mixed; the
 program no longer guesses. In order: the rule itself; the command line
 that carries it; the order the window writes; an old project; a run on
-the interview material, whose recordings share nothing with the
-cameras and which the phase way lays a hundred seconds out; the preview
-on the same; and the phase way not even asked under speech.
+the interview's recordings beside cameras that hear only a tone, which
+the phase way lays a hundred seconds out; the preview on the same; and
+the phase way not even asked under speech.
 """
 PLATFORM_BOUND = True
 import os
@@ -46,21 +46,34 @@ def check(name, ok, extra=""):
 
 
 # ---------------------------------------------------------------------
-# The material: the interview fixture, built once before the fan-out.
-# Its two recordings share nothing with the cameras; the phase way,
-# asked, lays them anyway -- measured 26.9.2026, 102 and 115 s out.
+# The material: the interview fixture's recordings, and three cameras
+# of its names and clocks built here, each hearing one sine tone of its
+# own -- the fixture's own cameras hear the room. So the recordings
+# share nothing with them; the phase way, asked, lays them anyway --
+# measured 26.9.2026, 102 and 115 s out.
 # ---------------------------------------------------------------------
 F = fixture("interview")
-CAMS = [os.path.join(F, n) for n in ("WideCam_01011855_C001.mov",
-                                     "PresentersCam_01011855_C002.mov",
-                                     "GuestCam_01011858_C003.mov")]
 REC = os.path.join(F, "Presenter_REC00021.wav")
 REC_LATER = os.path.join(F, "Presenter_REC00022.wav")
 OTHER = os.path.join(F, "CoPresenter_REC00018.wav")
-if not all(os.path.isfile(p) for p in CAMS + [REC, REC_LATER, OTHER]):
+if not all(os.path.isfile(p) for p in [REC, REC_LATER, OTHER]):
     print("SKIPPED: the interview fixture is missing -- run the suite "
           "through run.sh, which builds it into VPM_FIXTURES")
     sys.exit(0)
+TMP = tempfile.mkdtemp(prefix="vpm_phase_mixed_")
+CAMS = []
+for name, tone, clock in (("WideCam_01011855_C001.mov", 550, "18:55:00:00"),
+                          ("PresentersCam_01011855_C002.mov", 330,
+                           "18:55:04:00"),
+                          ("GuestCam_01011858_C003.mov", 220,
+                           "18:55:17:12")):
+    CAMS.append(os.path.join(TMP, name))
+    subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i",
+                    "testsrc=size=320x180:rate=25:duration=120",
+                    "-f", "lavfi", "-i", "sine=frequency=%d:duration=120"
+                    % tone, "-c:v", "libx264", "-preset", "ultrafast",
+                    "-pix_fmt", "yuv420p", "-c:a", "aac", "-timecode", clock,
+                    "-shortest", CAMS[-1], "-y"], check=True)
 
 
 def read_back(line):
@@ -156,8 +169,7 @@ check("an old Sync only project hands the run mixed",
       "phase way %r for a Sync only project, wanted True %s"
       % (vpm.phase_of_run(ns, [REC]), refused))
 
-print("\n5. A run on the interview material")
-TMP = tempfile.mkdtemp(prefix="vpm_phase_mixed_")
+print("\n5. A run on the interview's recordings, the cameras deaf")
 REFUSED = vpm.no_place_message("Presenter")
 BY_PHASE = vpm.T('placed by phase, sharpness %s against a floor of %s, '
                  'drift unknown').split(",")[0]
