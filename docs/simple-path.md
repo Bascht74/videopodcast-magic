@@ -183,7 +183,15 @@ the front or at the back.
 The offset is looked for in three ways, one after the other, and the
 first that answers decides: the shape of the sound, then the same
 comparison once more but only on the frequency bands that move over the
-recording, then the phase on its own ([overview](overview.md)).
+recording, then the phase on its own -- that one only for a recording
+whose field **In the sound** says **Mixed** ([overview](overview.md)).
+
+The first way answers for a recording only where its match stands
+clearly above the best place elsewhere, or where enough of its points
+lie on one line. A block of a turn or two seldom manages either: it fits
+nearly as well somewhere else, and a few points agree with anything. It
+goes on to the next way, and in the end to its clock, instead of being
+laid half a minute off.
 
 The middle way is there for a recording with a steady tone lying over
 it -- a hum, an air conditioner. Such a tone is as loud in the last
@@ -202,8 +210,8 @@ The second way is taken only where it set many points over the running
 time and all of them lie on one line, and that many points exist only in
 long material: the longest camera has to run longer than about twelve
 and a half minutes. Below that the second way still measures, and
-measures right, but its answer is not taken and the phase decides as
-before.
+measures right, but its answer is not taken, and the phase decides as
+before where the recording is set to **Mixed**.
 
 A recording the run cannot place at all stays out. Where none of the
 three ways finds the camera in the recording, and the file carries no

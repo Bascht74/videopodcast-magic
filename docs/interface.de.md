@@ -29,6 +29,15 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   drückt, das Projekt speichert oder einen Lauf startet --, nie mitten
   im Tippen.
 
+  Die Datei eines anderen Projekts wird dabei nie überschrieben. Liegt
+  unter dem neuen Namen schon eine im Ordner, bleibt die Projektdatei,
+  wo sie ist; das Fenster sagt einmal, welches Projekt dort liegt, und
+  gespeichert wird weiter in die bisherige Datei. Hat eine Produktion
+  noch keine eigene Datei, wird sie stattdessen als `<Name> (2)` daneben
+  gespeichert, und auch das sagt das Fenster. Ein Projekt, das aus einer
+  Kopie seiner Datei geöffnet wurde -- `Beta Kopie.json` --, speichert
+  in diese Kopie und nicht in `Beta.json`.
+
   Liegt beim Material eine Projektdatei, bietet das Programm sie an,
   während die Dateien hereinkommen, und bevor eine davon vermessen wird:
   findet es eine, fragt es einmal und nennt sie mit dem Tag, an dem sie
@@ -573,7 +582,9 @@ gefragt, in einem Kasten **Projekttyp** -- **Was soll aus dieser
 Produktion werden?** -- mit den beiden Einträgen und **Abbrechen**.
 **Abbrechen** wählt nichts, und gefragt wird nicht noch einmal; das
 Feld im Streifen nimmt die Antwort weiterhin an. Ein geöffnetes Projekt
-fragt nie: der Typ steht in der Projektdatei, und eine Projektdatei aus
+fragt nur, wenn es gespeichert wurde, bevor ein Typ gewählt war: Dann
+steht das Feld wieder auf **nicht gesetzt**, und der Reiter fragt wie
+bei einem neuen. Jede andere Projektdatei trägt ihren Typ, und eine aus
 der Zeit vor dem Typ öffnet sich als **Schnitt nach Sprecher**. Auf der
 Kommandozeile heißt es `--project-type cut` oder `sync`, und `cut`, wo
 nichts gesagt wird.
@@ -636,7 +647,8 @@ Sprechertrennung](speech.de.md) zeigt den Block und was darin steht.
 Dann eine Zusammenfassung: wie viele Kameras und Tonspuren, wie
 lang, welches Preset, wie viele Dateien entstehen, wieviel Platz sie
 brauchen und wieviel frei ist. Wenn der Lauf bestehende Dateien
-überschreiben würde, zeigt ein Fenster erst, welche.
+überschreiben würde, die kein früherer Lauf dieser Produktion
+geschrieben hat, zeigt ein Fenster erst, welche.
 
 Der Player hat Abspielen und Pause, sekunden- und frameweise vor und
 zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
@@ -806,10 +818,11 @@ womöglich nicht.
 **Arabisch, Persisch, Hebräisch und Urdu drehen das Fenster um.**
 Menüleiste, Reiter, Kästen, Tabellen und dieses Einstellungsblatt lesen
 sich dann von rechts nach links, so wie es ein Leser dieser Sprachen
-erwartet. Das Protokoll behält seine eigene Richtung: eine Zeile, die
-mit einem Pfad oder einem Timecode anfängt, steht so da, wie sie
-geschrieben wurde -- was ein Lauf über sich selbst sagt, ist kein Satz
-in irgendeiner Sprache.
+erwartet. Auch das Protokoll liest sich dann von rechts: Jede Zeile
+steht am rechten Rand, auch eine, die mit einem Dateinamen beginnt. Ein
+Pfad oder ein Timecode darin behält die Reihenfolge, in der er
+geschrieben wurde, und eine Zahl behält ihr Vorzeichen vorne: `-16
+LUFS`, nicht `16- LUFS`.
 
 Die Wahl wird sofort festgehalten, und die Zeile über dem Feld sagt,
 was als Nächstes geschieht. Solange die gewählte Sprache die ist, in
