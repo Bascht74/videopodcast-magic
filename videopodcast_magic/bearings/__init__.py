@@ -767,8 +767,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
                       phase_of=lambda p: True):
     """Determine how all files sit relative to each other.
 
-    The longest recording is the reference, a timecode from *tc_of*
-    hangs the axis off it; a weak camera stands at its clock, a weak
+    The longest camera is the reference, as in the run -- the longest
+    file only where no camera is heard; a timecode from *tc_of* hangs
+    the axis off it; a weak camera stands at its clock, a weak
     recording where the run lays it, the phase way on where *phase_of*
     says. Returns (result, text), by path_key: "axis", "clock", and
     lists -- "weak", "no_place", "unplaceable", "clock_alone", "brief".
@@ -790,7 +791,10 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     unheard = [p for p in paths if p not in envelopes]
     if not envelopes or (len(envelopes) < 2 and not unheard):
         return ({}, "" if envelopes else T('time axis not measurable'))
-    reference = max(envelopes, key=lambda p: len(envelopes[p]))
+    # The run's reference: a recording longer than every camera never
+    # is one, so nothing is measured against it here either.
+    heard = [p for p in envelopes if p.lower().endswith(VIDEO_SUFFIXES)]
+    reference = max(heard or envelopes, key=lambda p: len(envelopes[p]))
     axis, weak = {reference: 0.0}, []
     # Not "clocks": that one holds timecodes a few lines down.
     clock_speed = {reference: 1.0}
@@ -911,7 +915,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
     camera_clocks = [clocks.get(c) for c in paths
                      if c.lower().endswith(VIDEO_SUFFIXES)]
     # Where its reference camera has no place here, neither has it.
-    recordings = [q for q in weak if ref_r in axis
+    # Beside a camera every recording is measured as the run does, one
+    # read more each; with none only the weak ones.
+    recordings = [q for q in (paths if camera_ref else weak) if ref_r in axis
                   and not q.lower().endswith(VIDEO_SUFFIXES)]
 
     def as_the_run(file_path):
@@ -924,6 +930,12 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0,
             return None
 
     for p, found in zip(recordings, parallel_map(recordings, as_the_run)):
+        if found is None or found[2].get("unplaceable"):
+            # What the run cannot hear is weak, whatever the curve above
+            # made of it, and stands nowhere unless its clock places it.
+            axis.pop(p, None)
+            clock_speed.pop(p, None)
+            weak += [] if p in weak else [p]
         # As the run: a failed measurement a clock places stands at that
         # clock (cannot_be_placed), one no clock places is refused.
         if found is None or cannot_be_placed(found[2], clocks.get(p),
