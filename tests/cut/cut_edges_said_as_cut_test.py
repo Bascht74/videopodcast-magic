@@ -6,7 +6,8 @@ shortest shot of five seconds. Both edges long enough: the line names
 where they stand. The opening edge shorter than the shortest shot: it
 goes in the merging, and the line says only the closing one stands;
 the closing edge too short, only the opening one. Both too short: the
-line says none stands.
+line says none stands. One camera that is the wide shot: the line says
+the whole cut is the wide shot, and nothing about shortening.
 """
 PLATFORM_BOUND = False
 import os
@@ -50,6 +51,7 @@ ONLY_UNTIL = vpm.T('  Wide shot at the edges: only until %s -- the '
                    'went into the one before')
 NONE = vpm.T('  Wide shot at the edges: none -- both were shorter than '
              'the shortest shot and went into their neighbours')
+WHOLE = vpm.T('  Wide shot at the edges: the whole cut is the wide shot')
 # What the four lines begin with alike.
 LEAD = os.path.commonprefix([BOTH, ONLY_FROM, ONLY_UNTIL, NONE])
 
@@ -64,6 +66,17 @@ def cut_and_log(tracks, length):
     return [(round(a, 3), round(b, 3), who) for a, b, who in cut], \
         said.getvalue()
 
+
+
+def cut_and_log_one_camera(tracks, length):
+    """The same, with one camera for everybody, and it the wide shot."""
+    said = io.StringIO()
+    with contextlib.redirect_stdout(said):
+        cut = vpm.camera_cut(tracks, length, {}, "Wide", SHORTEST, 0.0,
+                             after=0.0, holds=5.0, at_latest=120.0,
+                             edge=True, rules=None, faint=False)
+    return [(round(a, 3), round(b, 3), who) for a, b, who in cut], \
+        said.getvalue()
 
 def edge_lines(log):
     """The lines of the log that speak of the edges."""
@@ -118,6 +131,24 @@ check("the cut holds no wide shot at all",
 check("where both edges went, the log says none stands",
       edge_lines(gone_log) == [NONE],
       "the log says %r, wanted [%r]" % (edge_lines(gone_log), NONE))
+
+print("\n5. One camera, and it is the wide shot")
+# The guest's one passage, 3.5 to 7.9 s, is the first and the last
+# announcement at once; every shot is the one camera anyway.
+one, one_log = cut_and_log_one_camera([("Guest", [(3.5, 7.9)]),
+                                       ("Host", [(0.0, 3.5), (7.9, 60.0)])],
+                                      60.0)
+check("a cut that is one wide shot is named as the whole cut",
+      one == [(0.0, 60.0, "Wide")] and edge_lines(one_log) == [WHOLE],
+      "cut %s, the log says %r, wanted [(0.0, 60.0, 'Wide')] and [%r]"
+      % (one, edge_lines(one_log), WHOLE))
+shortened = vpm.T('  shortened to at most %s each -- the first '
+                  'announcement ends at %s, the last begins at %s') \
+    .split("%s")[0]
+check("and the whole-cut line carries no shortening under it",
+      one_log.count(shortened) == 0,
+      "%r stands %d times in the log, wanted 0"
+      % (shortened, one_log.count(shortened)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -804,7 +804,8 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
             out.append((a, b, who))
     if said is not None:
         said.update(begin=begin, most=most, first=other[0][1],
-                    last=other[-1][0],
+                    last=other[-1][0], only=other[0] if len(other) == 1
+                    else None,
                     held=(until, from_s) != (other[0][1], other[-1][0]))
     return merge_adjacent(out)
 
@@ -813,14 +814,21 @@ def edges_said(cut, wide_shot, said):
 
     *cut* is the finished one: an edge shorter than the shortest shot
     goes in the merging, and a line written before it named an edge that
-    never appears. *said* is what wide_shot_at_edges filled in.
+    never appears. *said* is what wide_shot_at_edges filled in. A cut
+    that is one wide shot from end to end says so and nothing more.
     """
     if not said or not cut:
         return ""
     begin = said["begin"]
     opening = cut[0][1] if cut[0][2] == wide_shot else None
     closing = cut[-1][0] if cut[-1][2] == wide_shot else None
-    if opening is not None and closing is not None:
+    # One wide shot from end to end: its end and its start are no edges,
+    # and nothing was shortened that anybody could see.
+    whole = len(cut) == 1 and opening is not None
+    held = said["held"] and len(cut) > 1
+    if whole:
+        out = [T('  Wide shot at the edges: the whole cut is the wide shot')]
+    elif opening is not None and closing is not None:
         out = [T('  Wide shot at the edges: until %s and from %s')
                % (as_hms(opening - begin), as_hms(closing - begin))]
     elif closing is not None:
@@ -834,7 +842,14 @@ def edges_said(cut, wide_shot, said):
     else:
         out = [T('  Wide shot at the edges: none -- both were shorter '
                  'than the shortest shot and went into their neighbours')]
-    if said["held"]:
+    if held and said.get("only"):
+        # One passage is both the first and the last: "the last begins"
+        # before "the first ends" reads as a fault in the numbers.
+        out.append(T('  shortened to at most %s each -- the only '
+                     'announcement runs from %s to %s')
+                   % (as_hms(said["most"]), as_hms(said["only"][0] - begin),
+                      as_hms(said["only"][1] - begin)))
+    elif held:
         out.append(T('  shortened to at most %s each -- the first '
                      'announcement ends at %s, the last begins at %s')
                    % (as_hms(said["most"]), as_hms(said["first"] - begin),

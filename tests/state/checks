@@ -52,7 +52,7 @@ cut_answer_brought_early	10
 cut_both_are_shown	19
 cut_box_fits_the_picture	13
 cut_colour_per_camera	32
-cut_edges_said_as_cut	7
+cut_edges_said_as_cut	9
 cut_edl_says_drop_frame	9
 cut_jingle_over_start	19
 cut_list_rebuilt	9
@@ -74,7 +74,7 @@ cut_preview_is_the_run	17
 cut_rebuild_keeps_all	26
 cut_right_camera	67
 cut_rules_hold	84
-cut_short_edges_kept	11
+cut_short_edges_kept	12
 cut_speech_time_fits	6
 cut_stored_voices_used	7
 cut_together_read_order	3
@@ -300,6 +300,7 @@ time_fit_reports	11
 time_guess_refused	57
 time_length_is_in_to_out	24
 time_length_names_change	5
+time_lost_end_named	4
 time_measured_place_wins	38
 time_offset_found	6
 time_one_track_aligned	43
