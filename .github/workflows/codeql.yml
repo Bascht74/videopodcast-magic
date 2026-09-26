@@ -40,7 +40,7 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       # Python is read, not built: nothing to compile, so no build step.
       - uses: github/codeql-action/init@v4
         with:

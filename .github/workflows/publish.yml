@@ -182,7 +182,7 @@ jobs:
       # Three files of this commit and nothing else: a few kilobytes
       # instead of 59.5 MiB. Not cone mode, because the three are
       # files and cone mode takes folders.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
@@ -413,7 +413,7 @@ jobs:
     steps:
       # The one file, as tests.yml's gate takes it; the rest is asked
       # of the API.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: .github/tree_tested.sh
           sparse-checkout-cone-mode: false
@@ -627,7 +627,7 @@ jobs:
             echo "way: long -- $WHY"
           fi
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # The commit, not the branch. And the whole history, because
           # the tag is pushed from here: a shallow clone can be refused
