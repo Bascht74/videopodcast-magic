@@ -74,6 +74,7 @@ cut_right_camera	67
 cut_rules_hold	82
 cut_short_edges_kept	11
 cut_speech_time_fits	6
+cut_stored_voices_used	7
 cut_together_read_order	3
 cut_two_stay_two	11
 cut_voice_on_its_camera	18
@@ -134,6 +135,7 @@ project_render_kept	4
 project_render_queued	67
 project_rerun_updates	10
 project_run_comes_back	18
+project_run_lands_whole	13
 project_same_offset	11
 project_settings_return	31
 project_sync_multicam	19
