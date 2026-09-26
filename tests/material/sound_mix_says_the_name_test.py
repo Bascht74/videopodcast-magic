@@ -40,11 +40,11 @@ def check(name, ok, extra=""):
 
 
 print("\n1. The names the run gives its targets")
-# Out of pipeline, not spelt out here: a test that writes the file name
+# Out of timebase, not spelt out here: a test that writes the file name
 # down stays green the day the run calls it something else, and the mix
 # is then announced as a file.
 HERE = os.path.dirname(os.path.abspath(the_program.SCRIPT))
-RUN = open(os.path.join(HERE, "pipeline", "__init__.py"),
+RUN = open(os.path.join(HERE, "timebase", "__init__.py"),
            encoding="utf-8").read()
 # Each pattern stays inside its own call: .*? once ran on past the
 # speakers' call into the camera mix below it, and took that call's mix_
@@ -52,12 +52,12 @@ RUN = open(os.path.join(HERE, "pipeline", "__init__.py"),
 _mix = re.search(r'full_mix = mix_tracks\([^)]*?"(mix_\w+\.wav)"', RUN)
 MIX_FILE = _mix.group(1) if _mix else ""
 check("the run still names the file of its overall mix", bool(MIX_FILE),
-      MIX_FILE or "no file name after full_mix = mix_tracks( in pipeline")
+      MIX_FILE or "no file name after full_mix = mix_tracks( in timebase")
 _one = re.search(r'single\[track\["name"\]\] = mix_tracks\([^)]*?"(\w+_)%s\.wav"',
                  RUN)
 SPEAKER = _one.group(1) if _one else ""
 check("the run still names its speakers' files", bool(SPEAKER),
-      SPEAKER or "no speaker target built from the track's name in pipeline")
+      SPEAKER or "no speaker target built from the track's name in timebase")
 
 print("\n2. The overall mix")
 said = vpm.mixing_label(os.path.join("work", MIX_FILE))

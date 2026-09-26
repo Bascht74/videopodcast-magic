@@ -67,7 +67,7 @@ check("twenty seconds missing name no saving, upload or not",
 
 print("\n3. The run's own report")
 HERE = os.path.dirname(os.path.abspath(the_program.SCRIPT))
-RUN = open(os.path.join(HERE, "pipeline", "__init__.py"),
+RUN = open(os.path.join(HERE, "timebase", "__init__.py"),
            encoding="utf-8").read()
 # The call as it stands in the report, arguments and all, and not the
 # line that defines it: a report that hands on a fixed True promises the
@@ -75,7 +75,7 @@ RUN = open(os.path.join(HERE, "pipeline", "__init__.py"),
 call = re.search(r'(?<!def )silence_sentence\((?:[^()]|\([^()]*\))*\)', RUN)
 check("the run's report asks whether this run uploads",
       bool(call) and "run_uploads(args)" in call.group(0),
-      call.group(0) if call else "no call of silence_sentence in pipeline")
+      call.group(0) if call else "no call of silence_sentence in timebase")
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
