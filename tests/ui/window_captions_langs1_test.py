@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-"""Does every visible caption fit the field that carries it?
+"""Does every visible caption fit its field in the languages a to k?
 
-In English and German, on every run; window_captions_langs1 and _langs2
-take the other catalogues for a release, and captions_measure.py builds
-the windows and says how they are measured. Per language: the window
-was measured, the project came in, the program had finished and no
-thread or timer was at work; the zoom buttons hold their place, the
-reading stands there before a click, is drawn with a fixed width, one
-width per digit, and the pinned width holds the widest reading; the
-output pane is drawn with a fixed width; every caption fits its field.
+Every catalogue whose code begins with a to k, English and German
+aside: window_captions_fit measures those on every run,
+window_captions_langs2 takes l to z, and run.sh sets both langs tests
+aside unless VPM_ALL_LANGUAGES=1; run by hand, this runs its slice. The
+checks are window_captions_fit's word for word: the window measured,
+the project in, the program finished, no thread or timer at work, the
+zoom row, its reading and the output pane's face, every caption.
 """
 import os
 import sys
@@ -22,10 +21,14 @@ sys.path.insert(0, HERE)
 import time
 import captions_measure as m
 
-LANGUAGES = m.EVERY_RUN
-print("languages: %s -- the other %d are window_captions_langs1 and "
-      "_langs2, run with VPM_ALL_LANGUAGES=1"
-      % (", ".join(LANGUAGES), len(m.LANGUAGES) - len(LANGUAGES)))
+# By the first letter of the code, so a new catalogue lands in one of
+# the two files without anybody writing it down.
+LANGUAGES = tuple(l for l in m.LANGUAGES
+                  if l not in m.EVERY_RUN and "a" <= l[0] <= "k")
+# A precondition of the material, not a judgement: a slice with no
+# language in it would come out green having looked at nothing.
+assert LANGUAGES, "no language code begins with a to k"
+print("languages: %s" % ", ".join(LANGUAGES))
 
 began = time.time()
 done = 0

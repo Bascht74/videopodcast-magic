@@ -1288,13 +1288,12 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
             out.append(Finding(
                 "good", T('Loudness'),
                 T('the preset masters to %s LUFS -- that stands, nothing '
-                  'of ours adjusts.') % as_written(number_text(target, 0))))
+                  'of ours adjusts.') % number_text(target, 0)))
     elif target is not None and abs(target - float(lufs)) > 0.05:
         out.append(Finding(
             "abort", T('Loudness'),
             T('the preset masters to %s LUFS, the calculation uses %s.')
-            % (as_written(number_text(target, 0)),
-               as_written(number_text(lufs, 0))),
+            % (number_text(target, 0), number_text(lufs, 0)),
             T('Both at once does not work: the returning tracks would go '
               'to one value, our own mix to the other. Either set --lufs '
               '%.0f or change the preset.')
@@ -1357,6 +1356,22 @@ def report_findings(findings, heading, anyway=False):
     return False
 
 
+def camera_named(file_path, findings_, data):
+    """A camera's findings and data, named as the run's log names it.
+
+    The cache holds them under the file's own name, which two files of
+    one name share; the run names the second "(2)" (camera_shown), and
+    the facts line and the comparisons say it so too.
+    """
+    name, shown = os.path.basename(file_path), PROGRAM.camera_shown(file_path)
+    if shown == name:
+        return findings_, data
+    for b in findings_:
+        if b.field == name[:24]:
+            b.field = shown[:24]
+    return findings_, (dict(data, name=shown) if data else data)
+
+
 def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     set_aside=(), apart=(), together=(), project_type="cut"):
     """Collect all findings about the material.
@@ -1382,6 +1397,7 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     for p, (b, d) in zip(video_paths, parallel_map(
             video_paths,
             lambda x: measure_cached(x, "video", check_camera_file, fresh))):
+        b, d = camera_named(p, b, d)
         findings += counts_not(b, p)
         if d and path_key(p) not in set_aside:
             video_data.append(d)

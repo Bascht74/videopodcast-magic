@@ -462,19 +462,80 @@ def cross_correlate(a, b):
     envelope is log loudness with its mean taken out, so it swings
     either side of zero; two that belong together rise and fall
     together. A strong negative peak is loud where the other is quiet,
-    and that is never where they belong, however large.
+    and that is never where they belong, however large. The shorter is
+    looked for along the whole of the longer: see stretch_match.
     """
-    m = min(len(a), len(b))
-    if m < 10:
-        return 0, 0.0
-    a, b = a[:m], b[:m]
-    nf = 1 << int(np.ceil(np.log2(2 * m)))
+    return best_and_next(a, b)[:2]
+
+
+def best_and_next(a, b, apart=2000):
+    """Where b fits a best, and how well the best place elsewhere fits.
+
+    (shift, match, next match): the second is the highest match more
+    than *apart* steps away from the first, 0.0 where there is none.
+    """
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    if min(len(a), len(b)) < 10:
+        return 0, 0.0, 0.0
+    lags, match = stretch_match(a, b)
+    i = int(np.argmax(match))
+    far = np.abs(lags - lags[i]) > apart
+    return (int(lags[i]), float(match[i]),
+            float(match[far].max()) if far.any() else 0.0)
+
+
+# How far a camera's match has to stand above its best place elsewhere.
+# Synthetic only, 26.9.2026: unrelated cameras of 20 s to 2 min against
+# 6 and 60 min reached 1.44 at most; right ones of 40 s and more fell
+# under 1.5 only where their match was 0.52 or less.
+MATCH_STANDS_OUT = 1.5
+
+
+def match_places_it(st):
+    """Report whether the loudness curve alone places a camera.
+
+    Its match has to reach the floor and stand clear of the best place
+    elsewhere: a short camera looked for along an hour finds a chance
+    fit over the floor somewhere, and then a second place fits nearly
+    as well. Measured without a next place, it stands clear.
+    """
+    q = st.get("quality", 0.0)
+    return (q >= CAMERA_MATCH_ENOUGH
+            and q >= MATCH_STANDS_OUT * st.get("next_best", 0.0))
+
+
+def stretch_match(a, b):
+    """How well b fits against a at every shift: (shifts, match).
+
+    Each place is judged against the stretch of the longer curve the
+    shorter one covers, so a short camera is found wherever it sits in a
+    long recording, not only in its first minutes. For two curves of one
+    length that stretch is the whole of both, as it always was.
+    """
+    nf = 1 << int(np.ceil(np.log2(len(a) + len(b))))
+    lags = np.arange(-(len(a) - 1), len(b))
+    if len(a) <= len(b):
+        a = a - a.mean()
+        short, long_, at = a, b, lags
+    else:
+        b = b - b.mean()
+        short, long_, at = b, a, -lags
+    m, n = len(short), len(long_)
     cc = np.fft.irfft(np.fft.rfft(b, nf) * np.conj(np.fft.rfft(a, nf)), nf)
-    k = int(np.argmax(cc))
-    if k > nf // 2:
-        k -= nf
-    label_text = np.sqrt((a ** 2).sum() * (b ** 2).sum())
-    return k, float(cc[k % nf] / label_text) if label_text else 0.0
+    # Where the short curve begins in the long one, held inside it: a
+    # place hanging over an end is judged against the long curve's first
+    # or last stretch, and so counts only what the two share.
+    q = np.clip(at, 0, n - m)
+    s1 = np.concatenate(([0.0], np.cumsum(long_)))
+    s2 = np.concatenate(([0.0], np.cumsum(long_ ** 2)))
+    moves = (s2[q + m] - s2[q]) - (s1[q + m] - s1[q]) ** 2 / m
+    # A stretch that does not move -- digital silence -- matches nothing.
+    still = moves <= 1e-9 * m * max(float(np.var(long_)), 1e-12)
+    energy = float((short ** 2).sum())
+    if not energy:
+        return lags, np.zeros(len(lags))
+    scale = np.sqrt(energy * np.where(still, 1.0, moves))
+    return lags, np.where(still, 0.0, cc[lags % nf] / scale)
 
 
 def join_with_report(paths, target, keep_parts=False):
@@ -722,10 +783,10 @@ AXIS_MIN_WINDOW_S = 10.0
 # A real match sits above 0.8, unrelated material with structure near
 # 0.25, and half is the middle of the gap.
 CAMERA_MATCH_ENOUGH = 0.5
-# Over 85 pairs that belong together against 293 that do not: the
-# correlation overlaps (worst real 0.203, best foreign 0.124), the fit
-# does not (62 against 43 points, 11.3 against 22.4 ms).
-FIT_POINTS_ENOUGH = 50
+# The spread separates, not the count: on real cameras 1353 wrong pairs
+# never kept more than 10 points within 15 ms, and a right pair shorter
+# than about seven minutes cannot reach 50 -- measured 26.9.2026.
+FIT_POINTS_ENOUGH = 20
 FIT_SPREAD_MS = 15.0
 
 
@@ -923,7 +984,9 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         a, b, st = align_envelopes(env_audio, env_video, HOP, sample_points, window_s,
                                       distance_s, warn=warn)
         return -a / b, 1.0 / b, st
-    k, g = cross_correlate(env_video, env_audio)
+    # The best place elsewhere ten seconds or more away: match_places_it.
+    k, g, g_next = best_and_next(env_video, env_audio,
+                                 int(round(10000.0 / HOP)))
     coarse = k * HOP / 1000.0
     # Signed, not by size: see cross_correlate. Said out loud because
     # "found something" and "found it barely" look the same from
@@ -972,7 +1035,7 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         if float(cc[kk + pad] / label_text) > 0.2:
             points.append((t, coarse + kk * HOP / 1000.0))
     count_n = {"candidates": candidates, "with_signal": with_signal,
-                "points": len(points)}
+                "points": len(points), "next_best": g_next}
 
     if len(points) >= 3:
         tv = np.array([p[0] for p in points])

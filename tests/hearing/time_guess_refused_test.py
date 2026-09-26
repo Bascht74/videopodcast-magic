@@ -261,7 +261,8 @@ check("many sample points, close on the line, place the file",
       "%r from %d points at %.2f ms, against %d and %.1f"
       % (vpm.fit_places_it(st), st["points"], st["spread_ms"],
          vpm.FIT_POINTS_ENOUGH, vpm.FIT_SPREAD_MS))
-few = {"quality": 0.44, "points": 49, "spread_ms": 1.0}
+# One point under the program's own floor, whatever that floor is.
+few = {"quality": 0.44, "points": vpm.FIT_POINTS_ENOUGH - 1, "spread_ms": 1.0}
 check("too few of them place nothing, however close they lie",
       vpm.fit_places_it(few) is False,
       "%r from %d points at %.2f ms, the floor is %d points"
