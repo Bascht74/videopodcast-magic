@@ -361,6 +361,15 @@ def run_argv(values, assignment_file_path=""):
             if name and file_path and file_path not in edge.values() \
                     and file_path not in off:
                 argv += ["--new-name", file_path, name]
+        # A recording's name field, as the plan carries it on the other
+        # path: without it the run guesses from the file name again.
+        # Keyed by the first block; the run finds its row by any block.
+        sent = set(p for p, a in files if a == "audio")
+        for r in (values.get("rows") or []):
+            blocks = list(r.get("blocks") or [])
+            name = (r.get("speakers") or "").strip()
+            if name and blocks and blocks[0] in sent:
+                argv += ["--speaker-name", blocks[0], name]
         # The plan carries the production's name; this path has none,
         # and without the switch the run names it after the folder.
         if (values.get("production") or "").strip():
@@ -730,6 +739,16 @@ def build_argument_parser():
                          "Without it the file's own name. The interface "
                          "sends what stands in its \"new file name\" "
                          "field where no assignment file carries it.")
+    ap.add_argument("--speaker-name", dest="speaker_name", action="append",
+                    nargs=2, default=[], metavar=("FILE", "NAME"),
+                    help="the recording FILE belongs to is spoken by NAME: "
+                         "its track, its lines in the log and the cut "
+                         "carry that name; FILE may be any of its blocks. "
+                         "May be given several times. Without it the name "
+                         "is guessed from the file name. Not read beside "
+                         "--assign: the assignment file carries its own. "
+                         "The interface sends what stands in a "
+                         "recording's name field.")
     ap.add_argument("--camera-label", dest="camera_label", action="append",
                     nargs=2, default=[], metavar=("FILE", "NAME"),
                     help="the run's messages name this video file NAME; "

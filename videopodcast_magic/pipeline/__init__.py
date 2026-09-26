@@ -399,6 +399,37 @@ def names_given(args, video_paths):
     return called, ""
 
 
+def speakers_given(args, audio_paths):
+    """The names --speaker-name gives, by block, or why they cannot be used.
+
+    Before anything is written: for a recording of this run, not empty,
+    and one name per file. Beside --assign it would be dropped without
+    a word, since the assignment file names the rows itself, so it is
+    refused there. What no switch names is guessed from the file name.
+    """
+    given = getattr(args, "speaker_name", None) or ()
+    if given and getattr(args, "assign", None):
+        return {}, T('The assignment file names the recordings here, so '
+                     '--speaker-name would be dropped; give the names '
+                     'there or leave --speaker-name out.')
+    ours = set(path_key(p) for p in audio_paths)
+    called = {}
+    for file, name in given:
+        name, shown = (name or "").strip(), os.path.basename(file)
+        if path_key(file) not in ours:
+            return {}, T('--speaker-name names %s, which is not one of the '
+                         'recordings of this run.') % shown
+        if not name:
+            return {}, T('The speaker name for %s is empty; give a name or '
+                         'leave --speaker-name out.') % shown
+        if called.get(path_key(file), name) != name:
+            return {}, T('--speaker-name gives %s two names, "%s" and "%s"; '
+                         'give each recording one.') % (
+                shown, called[path_key(file)], name)
+        called[path_key(file)] = name
+    return called, ""
+
+
 def names_have_no_place(called, cameras, plan, audio_paths):
     """Why the names --new-name gives would go unused here, or "".
 
@@ -438,6 +469,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     """Show the detected plan without doing anything yet."""
     step_begin("plan")
     called, complaint = names_given(args, video_paths)
+    if not complaint:
+        spoken, complaint = speakers_given(args, audio_paths)
     if complaint:
         print(as_bad(T('Abort: %s') % complaint))
         return 1
@@ -489,8 +522,13 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                                             args.no_follow_ups,
                                             getattr(args, "apart", ()),
                                             getattr(args, "together", ())):
+            # The name typed for the recording, on whichever block it
+            # came; the file name is only the proposal.
+            typed = [spoken[path_key(b)] for b in row
+                     if path_key(b) in spoken] + [guess_speaker_name(row[0])]
             plan.append({"audio": row[0], "blocks": row,
-                         "speakers": guess_speaker_name(row[0]), "camera": "",
+                         "speakers": typed[0],
+                         "camera": "",
                          "apart": any(path_key(b) in kept_apart
                                       for b in row)})
     if any(e.get("camera_audio") for e in plan):
