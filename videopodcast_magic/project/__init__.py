@@ -401,7 +401,7 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
                      "cut_basis", "run_auphonic", "project_last",
-                     "handover_offered",
+                     "project_kept", "handover_offered",
                      "project_type_asked") + SPEAKER_STATE:
             state.pop(name, None)
         words_forgotten(state)
@@ -496,6 +496,13 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
         folder_show()
         state.pop("project_last", None)
         production_var.set(d.get("production") or "")
+        # The file opened is the file saved into. One named otherwise
+        # than its production -- a copy beside the original -- is kept
+        # by its own name, or the save went into the file the name says.
+        named = axis_file()
+        if not named or os.path.abspath(named) != os.path.abspath(file_path):
+            state["project_kept"] = file_path
+        state["project_last"] = file_path
         edge_on.set(bool(d.get("wide_at_edges", True)))
         # Set before the tables are built: the window prefill leaves standing
         # whatever is already there.

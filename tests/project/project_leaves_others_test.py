@@ -13,8 +13,11 @@ it lay and names its own production; then a new production with its own
 material, saved into its own folder, and the project open before it is
 still where it was; then an unnamed production's file laid beside the
 second project's, that project opened, and both files still lie there,
-each naming its own production. The window is driven from outside and
-the answer is read out of the files on the disk, never out of a variable.
+each naming its own production; last a Finder copy of the second
+project's file opened and saved, and the original is byte for byte what
+it was, the copy carries the save, and the title bar names the copy.
+The window is driven from outside and the answer is read out of the
+files on the disk and the title bar, never out of a variable.
 """
 import os
 import sys
@@ -98,6 +101,8 @@ PB = os.path.join(FB, vpm.PROJECT_PREFIX + "Beta.json")
 # The file a production without a name is written to, beside Beta's;
 # laid down only in the section that asks about it.
 PU = os.path.join(FB, vpm.PROJECT_PREFIX + "Project.json")
+# What the Finder names a copy of Beta's file laid beside it.
+PBC = os.path.join(FB, vpm.PROJECT_PREFIX + "Beta copy.json")
 for path, out, production in ((PA, FA, "Alpha"), (PB, FB, "Beta")):
     os.makedirs(out, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -217,6 +222,23 @@ def production_of(path):
         return "unreadable: %s" % type(e).__name__
 
 
+def title():
+    """What the window's title bar says, or empty while there is none."""
+    for w in app.topLevelWidgets():
+        if "Video Podcast Magic" in w.windowTitle():
+            return w.windowTitle()
+    return ""
+
+
+def version_of(path):
+    """The version a project file was last written by."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f).get("version")
+    except (OSError, ValueError) as e:
+        return "unreadable: %s" % type(e).__name__
+
+
 def everywhere():
     """What lies in the three folders, so a failing line shows it all."""
     return "; ".join("%s holds %s" % (os.path.basename(d), projects_in(d))
@@ -306,6 +328,40 @@ def drive():
           % (os.path.basename(PU), os.path.isfile(PU),
              production_of(PU) if os.path.isfile(PU) else None,
              everywhere()))
+
+    print("\n4. A Finder copy of a project opened and saved")
+    shutil.copyfile(PB, PBC)
+    with open(PB, "rb") as f:
+        before = f.read()
+    chosen[0] = PBC
+    if opening is not None:
+        opening.trigger()
+    waited_for(lambda: title().startswith(os.path.basename(PBC)),
+               "the copy's name in the title bar")
+    if saving is not None:
+        saving.trigger()
+    took = waited_for(lambda: version_of(PBC) == vpm.VERSION
+                      or version_of(PB) == vpm.VERSION,
+                      "the save to reach a file")
+    after = b""
+    if os.path.isfile(PB):
+        with open(PB, "rb") as f:
+            after = f.read()
+    check("saving the opened copy leaves the original byte for byte",
+          after == before,
+          "%s: %d bytes before, %d after, written by version %r (%s); %s"
+          % (os.path.basename(PB), len(before), len(after),
+             version_of(PB), seconds(took), everywhere()))
+    check("the save goes into the copy that was opened",
+          version_of(PBC) == vpm.VERSION and production_of(PBC) == "Beta",
+          "%s written by version %r naming %r, wanted %r naming 'Beta' "
+          "(%s); %s" % (os.path.basename(PBC), version_of(PBC),
+                        production_of(PBC), vpm.VERSION, seconds(took),
+                        everywhere()))
+    check("the title bar names the copy the save went into",
+          title().startswith(os.path.basename(PBC)),
+          "the title reads %r, wanted it to begin with %r"
+          % (title(), os.path.basename(PBC)))
     over["done"] = True
     app.quit()
 
