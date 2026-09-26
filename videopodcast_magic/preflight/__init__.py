@@ -1307,6 +1307,9 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
     """
     try:
         p = PROGRAM.read_preset(key, uuid)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         return [Finding("hint", T('Preset'),
                        T('not readable (%s) -- unchecked.') % str(e)[:60])]

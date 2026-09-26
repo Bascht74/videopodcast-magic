@@ -266,14 +266,28 @@ AT_STEP = vpm.T('\nStopped during: %s').strip().split("%s")[0].strip()
 WORK = ground.own_folder("stop")
 
 
+def finished_named(text):
+    """The names the stop report lists as finished, or None if no list.
+
+    The list is the line after "Stopped during:", after its last colon;
+    "-" stands for none.
+    """
+    lines = [x.strip() for x in text.splitlines()]
+    at = [i for i, x in enumerate(lines) if AT_STEP in x]
+    if not at or at[-1] + 1 >= len(lines):
+        return None
+    listed = lines[at[-1] + 1].rsplit(": ", 1)[-1]
+    return [] if listed == "-" else listed.split(", ")
+
+
 def plain_path():
     """Stop while the camera files are written, and what is left."""
     print("Plain path, Stop while the camera files are written")
     OUT = os.path.join(WORK, "plain")
     os.makedirs(OUT)
-    os.makedirs(os.path.join(WORK, "plain_project"))
-    seen = stopped_run(ground.project_file(
-        vpm, os.path.join(WORK, "plain_project"), OUT), "_audio.mov")
+    # The project file inside the out folder, where it is kept in use;
+    # the stop report must still not count it as finished.
+    seen = stopped_run(ground.project_file(vpm, OUT, OUT), "_audio.mov")
     check("Stop stands and can be pressed while a camera file is written",
           bool(seen["stop_there"]),
           "%s; Stop there and enabled: %r"
@@ -313,6 +327,13 @@ def plain_path():
              " / ".join(x.strip() for x in seen["text"]
                      .replace(OUT, "<out>").splitlines()
                      if x.strip())[-300:]))
+    named = finished_named(seen["text"])
+    foreign = [n for n in named if n not in os.listdir(OUT)
+               or n.startswith(vpm.PROJECT_PREFIX)]
+    check("the stop report names as finished only results in the out folder",
+          seen["pressed"] is not None and named is not None and not foreign,
+          "named %s, not a result of the out folder: %s"
+          % (named, foreign))
     check("Start is back and Stop gone after a run stopped at the cameras",
           bool(seen["start_back"]) and bool(seen["stop_gone"]),
           "Start enabled %r, Stop gone %r" % (seen["start_back"],

@@ -361,6 +361,9 @@ def join_only(args, tracks, tmpdir, title=""):
                 [{"name": track["name"], "axis": track["source"],
                   "ready": track["source"]}], args.lufs, tmpdir, None,
                 channels=channel_count(track["source"]))
+        except PROGRAM.Stopped:
+            # Stop ends the run; it is no failure of this step.
+            raise
         except Exception as e:
             gain, curve = 0.0, None
             print(T('  Loudness not measurable: %s') % str(e)[:60])
@@ -626,6 +629,9 @@ def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
         preset, _name = choose_preset(key, args.auphonic_preset, True,
                                       lufs=args.lufs,
                                       anyway=getattr(args, "anyway", False))
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(T('\nNo preset chosen: %s') % e)
         return 1
@@ -633,6 +639,9 @@ def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
         done = run_multitrack_production(
             key, preset, title or 'Production', tracks, folder,
             args.auphonic_wait, args.dry_run, args.auphonic_resume)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(as_bad(T('Processing failed: %s') % e))
         return 1
@@ -1132,6 +1141,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         preset, presetname = choose_preset(
             key, args.auphonic_preset, not alone, lufs=args.lufs,
             anyway=getattr(args, "anyway", False))
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(T('\nNo preset chosen: %s') % e)
         return 1
@@ -1148,6 +1160,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             done = run_multitrack_production(
                 key, preset, title or 'Production', tracks, folder,
                 args.auphonic_wait, args.dry_run, args.auphonic_resume)
+    except PROGRAM.Stopped:
+        # Stop ends the run; it is no failure of this step.
+        raise
     except Exception as e:
         print(as_bad(T('Processing failed: %s') % e))
         return 1
