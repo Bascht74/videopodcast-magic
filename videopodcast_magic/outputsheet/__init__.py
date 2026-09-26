@@ -6,7 +6,9 @@ nowhere else, so Qt may stand at its head: the command line never
 reads it. The program is handed in and bound below by name.
 """
 
-from PySide6 import QtGui, QtWidgets
+import queue
+
+from PySide6 import QtCore, QtGui, QtWidgets
 
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
@@ -16,8 +18,8 @@ T = PROGRAM.T
 make_log_view = PROGRAM.make_log_view
 open_in_file_manager = PROGRAM.open_in_file_manager
 
-# reason_set is the window's and stands below the line this file is
-# read at, so it is asked as PROGRAM.reason_set at the call.
+# reason_set and resolve_button_say are the window's and stand below the
+# line this file is read at, so they are asked through PROGRAM at the call.
 
 
 def having_reason(button):
@@ -35,15 +37,24 @@ def having_reason(button):
 class OutputSheet(QtWidgets.QWidget):
     """Tab four: the log pane, and under it the two buttons for the result.
 
-    It holds its own widgets and says for itself whether there is a
-    result to open. The Resolve button is only laid out here; what it
-    does and when it may be pressed are still the window's.
+    It holds its own widgets, empties the run's lines into the log, and
+    says for itself whether either button may be pressed. What the
+    Resolve button starts is the run start's; what follows the end of
+    a run is said through run_ended, in gui().
     """
 
+    # The timer has emptied the last lines of a run that is over.
+    run_ended = QtCore.Signal()
+
     def __init__(self, state):
-        """The log pane and the row of buttons under it."""
+        """The log pane, the row of buttons under it, and the log's timer."""
         QtWidgets.QWidget.__init__(self)
         self.state = state
+        # The queue the run's lines wait in; gui() hands in its own.
+        self.post = None
+        self.timer = QtCore.QTimer(self)
+        self.timer.setInterval(80)
+        self.timer.timeout.connect(self.log_follow)
         position = QtWidgets.QVBoxLayout(self)
         position.setContentsMargins(10, 10, 10, 10)
         self.log = make_log_view(QtGui, QtWidgets, QtGui.QTextCursor)()
@@ -87,3 +98,27 @@ class OutputSheet(QtWidgets.QWidget):
                            T('The run is still going.') if running
                            else T('There is no result yet.'),
                            T('Show in Finder.'))
+
+    def resolve_button_check(self):
+        """Whether "Create Resolve project" can be pressed, and why not."""
+        PROGRAM.resolve_button_say(self.state, self.only_resolve_env_curve,
+                                   self.only_resolve)
+
+    def log_drain(self):
+        """Every line waiting in the queue, into the log pane."""
+        while True:
+            try:
+                text = self.post.get_nowait()
+            except queue.Empty:
+                return
+            self.log.append_text(text)
+
+    def log_follow(self):
+        """What the timer does: the waiting lines, and the end of the run."""
+        self.log_drain()
+        if not self.state["running"]:
+            # The run sets the flag after its last line, so what was
+            # written between the two is still waiting here.
+            self.log_drain()
+            self.timer.stop()
+            self.run_ended.emit()
