@@ -64,7 +64,7 @@ figure of the day is that command, not this paragraph**:
   and one bound of its own, 500 ppm
 * `auphonic/` **1697** -- the sending to auphonic.com and the fetching
   back, and in the window the key, the note about it and the preset box
-* `preflight/` **1766** -- whether the material fits together before the
+* `preflight/` **1772** -- whether the material fits together before the
   first long step, and the marks and the sentence the window makes of
   the findings
 * `setup/` **1253** -- finding ffmpeg, installing a missing module,
@@ -134,7 +134,7 @@ figure of the day is that command, not this paragraph**:
 * `dials/` **181** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **158** -- path_key, ByFile and FileSet
-* `soundings/` **141** -- what has been measured of a file, taken once
+* `soundings/` **173** -- what has been measured of a file, taken once
   and kept
 * `outputsheet/` **124** -- the fourth tab: the log pane and how it
   follows a run, and the two buttons for what a run made, each with the

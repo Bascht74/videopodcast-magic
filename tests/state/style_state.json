@@ -178,7 +178,6 @@
   "Value.set": [1, 39],
   "_bext_time_reference": [1, 215],
   "_channel_count": [1, 1322],
-  "_ffprobe_text": [1, 45],
   "_find_atom": [1, 316],
   "_findings_from_json": [1, 218],
   "_findings_to_json": [1, 213],
