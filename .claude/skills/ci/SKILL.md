@@ -251,10 +251,21 @@ check that really failed, or a runner that never got as far as checking.
    attempt.
 
 **Write down which it was.** A red run put down to "GitHub" and never
-looked at again is how a real fault survives for weeks. If it was the
-machine, the line says which tool was missing and on which image; if it
-was us, the red line goes into the counter-proof register where it
-belongs.
+looked at again is how a real fault survives for weeks. **One line per
+red job, and each one says `machine` or `us` -- never "flaky", never
+blank:**
+
+```
+<job> | <step> | machine | <missing tool or hung step> on <runner image> | rerun: job / failed / whole run
+<job> | <step> | us      | <the red line, verbatim with FAIL>          | fix: <commit>
+```
+
+Job and step as `gh run view --job <id> --json steps` names them; the
+runner image as the job's setup log prints it. Read down the lines, the
+sorting shows itself: every `machine` line on one image is the machine,
+two `us` lines in the same step are one fault. The lines go with the
+report of the run; if it was us, the red line also goes into the
+counter-proof register where it belongs.
 
 ## Before it counts as done
 
@@ -277,13 +288,15 @@ The pass before a red run is called explained.
 9. If reruns carried it: has one whole run gone green on one state
    before the tag?
 10. If it was us: one repair, then one push, then the waiting again.
-11. Deleting a branch: was every pull request standing on it retargeted
+11. Is there one line per red job -- job, step, `machine` or `us`, the
+    red line or the missing tool and its runner image, and the rerun size
+    or the fix commit? And if it was us, the red line in the
+    counter-proof register?
+12. Deleting a branch: was every pull request standing on it retargeted
     first? Once it is closed with the base, it cannot be reopened.
-12. Was the merge read before the branch was deleted, rather than the
+13. Was the merge read before the branch was deleted, rather than the
     two sent out in one chain? A failed merge plus a delete that ran
     anyway costs a pull request.
-11. Is it written down which of the two it was -- the missing tool and
-    its image, or the red line in the counter-proof register?
-12. After a green run: `bash builder_times.sh`, and no dead rows left
+14. After a green run: `bash builder_times.sh`, and no dead rows left
     behind by a rename?
-13. Does every workflow touched carry a `run-name:` of its own?
+15. Does every workflow touched carry a `run-name:` of its own?
