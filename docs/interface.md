@@ -324,10 +324,9 @@ Four tabs, in the order they are needed.
     provisional one.
   - **from the finished run -- 3 speakers, 1:09:23**, in the good
     colour. A run is done and the preview stands on its result: all
-    tracks on one axis, the speakers as the run found them.
-  - **from the processed Auphonic tracks -- 3 speakers, 1:09:23**, also
-    in the good colour. The same, and the tracks came back from
-    auphonic.com with the neighbours taken out of them as well.
+    tracks on one axis, the speakers as the run found them. A run
+    through auphonic.com says the same: what comes back from there is
+    the sound, and the speakers are found on the recordings either way.
 
   This is the answer to the one question worth asking of a preview:
   whether it can be trusted. Once a run is done, preview and run stand

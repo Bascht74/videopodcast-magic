@@ -213,8 +213,8 @@ def preview_handover(state):
     """Read the run's handover for the preview, or answer None.
 
     A finished run beats what the window worked out: its tracks lie on
-    one axis and auphonic.com has de-bled them. So the measurement taken
-    from the raw tracks is dropped rather than shown beside it.
+    one axis and its speakers are the ones it cut by. So the measurement
+    the window took is dropped rather than shown beside it.
     """
     d, js = None, state.get("resolve_json")
     state["preview_from"] = None
@@ -225,8 +225,7 @@ def preview_handover(state):
             state["preview_from"] = handover_mark(js)
         except (OSError, ValueError):
             d = None
-    state["cut_basis"] = (("auphonic" if state.get("run_auphonic")
-                           else "run") if d is not None else "measured")
+    state["cut_basis"] = "run" if d is not None else "measured"
     if d is not None:
         state["tracks_left"] = []
         state["stat_measured"] = "run"

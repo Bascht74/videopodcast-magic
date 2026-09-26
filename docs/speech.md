@@ -58,9 +58,9 @@ audible on. It does not need the tick **Multitrack (one track per
 speaker)**: the column stands there on both paths, with a single camera
 as well. Where a person has a microphone of their own and the
 microphones can be told apart, that track is the truth and there is
-nothing to separate; where they hear each other too well for that, a run
-without auphonic.com joins them and separates them together ("When the
-microphones hear each other" below). The separation says who speaks
+nothing to separate; where they hear each other too well for that, the
+run joins them and separates them together, with auphonic.com as
+without ("When the microphones hear each other" below). The separation says who speaks
 when; it does not make one track per speaker out of one recording.
 
 Where there is no separate recording, the separation listens to the
@@ -129,16 +129,21 @@ known to the millisecond, the speech under the right name went from 72.5
 to 92.7 per cent, and the time the picture stands on the same camera as
 a run through auphonic.com from 46 to 96.5 per cent.
 
-**Only on a run without auphonic.com.** The de-bleed there takes the
-neighbours out of the tracks, and afterwards each track answers better
-on its own than any joining of them could. A run that uploads, and a run
-pointed at tracks that have already been processed, go the way they
-always went: one voice per track, measured from the microphones.
+**With auphonic.com as without.** What comes back from auphonic.com is
+the sound, and only the sound: those tracks go into the mix and onto the
+timeline, but who speaks when is worked out on the recordings as they
+were made. Measured on four real productions, the processed tracks named
+the right speaker 80 to 83 per cent of the time and cut about three
+times a minute; the joined raw recordings 99 per cent, at fewer
+than two cuts a minute. A run that uploads, and a run pointed at tracks
+that have already been processed, therefore go the same way as one that
+stays on this machine.
 
-**And only where the run works the separation out itself.** A separation
-the window has already made travels with the run and is used as it
-stands. Answer **several speakers** on one recording in the window, and
-that one recording is what the cut is built from; nothing is joined.
+**And the run has the last word.** A separation the window has already
+made travels with the run. Answer **several speakers** on one recording
+in the window, and that one recording is what the cut is built from --
+unless the microphones hear each other too well: then the run drops it,
+says so in the log with both numbers, and joins them after all.
 Where the window separated nothing -- the usual case with a microphone
 per person, where every row carries a name -- the run decides, and it is
 the run that joins them. On the command line it decides as well, unless

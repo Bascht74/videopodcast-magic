@@ -62,9 +62,9 @@ zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
 Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer
 einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat und die
 Mikrofone auseinanderzuhalten sind, ist diese Spur die Wahrheit, und es
-gibt nichts zu trennen; hören sie einander dafür zu gut, legt ein Lauf
-ohne auphonic.com sie zusammen und trennt sie gemeinsam („Wenn die
-Mikrofone einander hören“ weiter unten). Die Trennung sagt, wer wann
+gibt nichts zu trennen; hören sie einander dafür zu gut, legt der Lauf
+sie zusammen und trennt sie gemeinsam, mit auphonic.com genauso wie ohne
+(„Wenn die Mikrofone einander hören“ weiter unten). Die Trennung sagt, wer wann
 spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
 
 Gibt es keine eigene Aufnahme, hört die Trennung den Ton einer Kamera
@@ -137,17 +137,22 @@ Millisekunde feststeht, stieg die richtig benannte Rede von 72,5 auf
 92,7 Prozent, und die Zeit, in der das Bild auf derselben Kamera steht
 wie bei einem Lauf über auphonic.com, von 46 auf 96,5 Prozent.
 
-**Nur bei einem Lauf ohne auphonic.com.** Der De-Bleed dort nimmt die
-Nachbarn aus den Spuren heraus, und danach antwortet jede Spur für sich
-besser, als jedes Zusammenlegen es könnte. Ein Lauf, der hochlädt, und
-einer, der auf schon aufbereitete Spuren gerichtet ist, gehen deshalb
-den Weg wie bisher: eine Stimme je Spur, aus den Mikrofonen gemessen.
+**Mit auphonic.com genauso wie ohne.** Was von auphonic.com zurückkommt,
+ist der Klang und nur der Klang: Diese Spuren gehen in die Mischung und
+auf die Zeitleiste, wer wann spricht, wird aber an den Aufnahmen
+ermittelt, so wie sie aufgenommen wurden. An vier echten Produktionen
+gemessen, benannten die aufbereiteten Spuren in 80 bis 83 Prozent der
+Zeit den richtigen Sprecher und schnitten rund dreimal in der Minute; die zusammengelegten Rohaufnahmen trafen 99 Prozent, mit weniger
+als zwei Schnitten in der Minute. Ein Lauf, der hochlädt, und einer, der
+auf schon aufbereitete Spuren gerichtet ist, gehen deshalb denselben Weg
+wie einer, der auf diesem Rechner bleibt.
 
-**Und nur dort, wo der Lauf die Trennung selbst ermittelt.** Eine
-Trennung, die das Fenster schon gemacht hat, reist mit dem Lauf mit und
-wird genommen, wie sie ist. Wer im Fenster bei einer Aufnahme **mehrere
-Sprecher** antwortet, bekommt den Schnitt aus dieser einen Aufnahme;
-zusammengelegt wird dann nichts. Hat das Fenster nichts getrennt -- der
+**Und das letzte Wort hat der Lauf.** Eine Trennung, die das Fenster
+schon gemacht hat, reist mit dem Lauf mit. Wer im Fenster bei einer
+Aufnahme **mehrere Sprecher** antwortet, bekommt den Schnitt aus dieser
+einen Aufnahme -- es sei denn, die Mikrofone hören einander zu gut: Dann
+verwirft der Lauf sie, nennt im Protokoll beide Zahlen und legt die
+Mikrofone doch zusammen. Hat das Fenster nichts getrennt -- der
 übliche Fall bei einem Mikrofon je Person, wo in jeder Zeile ein Name
 steht --, entscheidet der Lauf, und er legt zusammen. Auf der
 Kommandozeile entscheidet er ebenso, sofern ihm nicht `--speakers-from`
