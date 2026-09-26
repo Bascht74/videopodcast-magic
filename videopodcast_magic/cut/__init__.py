@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 """The cut: who is on camera when, and what carries it out of here.
 
-Who speaks, when, and under what name is not here: that is speakers/
-beside this one, which the way in reads first. This piece takes the
-voices as given and decides the picture.
+Who speaks, when, and under what name is speakers/, which the way in
+reads first; this piece takes the voices as given and decides the picture.
 
-A piece of the program, read in by beside(): it cannot import the file
-it was cut out of, so the program is handed in and bound below by name.
+A piece of the program, read in by beside(): it cannot import the file it
+was cut out of, so the program is handed in and bound below by name.
 """
 
 # Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What this piece uses out of the program, bound once. What is not in
-# the list is read as PROGRAM.<name> where it is used: it is written
-# while the program runs, or its piece -- the window, the fittings,
-# pipeline/, orders/ -- is not read yet where this one stands.
+# What this piece uses out of the program, bound once. The rest is read as
+# PROGRAM.<name> where used: it is written while the program runs, or its piece
+# (the window, the fittings, pipeline/, orders/) is read after this one.
 
 ByFile = PROGRAM.ByFile
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
@@ -773,12 +771,11 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
                    said=None, latest=None):
     """Hold the wide shot while the round is introduced and closed.
 
-    Someone introduces the participants at the start and says goodbye at
-    the end; both belong in the wide frame. The opening ends where the
-    floor first changes hands away from the main speaker, and the same
-    rule runs backwards. A voice the separation never hears cannot end it.
-    *latest* is "Wide shot at the latest"; see edges_held_short. What was
-    laid goes into *said* for edges_said, which reads the finished cut.
+    Someone opens the round and says goodbye at the end; both belong in the
+    wide frame. The opening ends where the floor first leaves the main speaker,
+    the close likewise backwards; a voice the separation never hears cannot end
+    it. *latest*: "Wide shot at the latest", see edges_held_short. *said* gets
+    what was laid, for edges_said on the finished cut.
     """
     if not cut:
         return cut
@@ -872,12 +869,11 @@ def edges_held_short(begin, end, until, from_s, latest=None):
 def metrics_sentence(numbers, colours, minutes_fn):
     """Build the summary line under the preview.
 
-    How much speech time lands on the speaker's own camera, how much on
-    the wide shot, how much on the wrong one -- the last in warning red.
-    Every number stands as %(name)s and goes through number_text, never
-    %(name).1f: a place from the format writes a point on German where a
-    comma belongs and drops the thousands mark -- and the mapping form
-    hides it from every search for "%.1f".
+    How much speech time lands on the speaker's own camera, on the wide shot,
+    on the wrong one -- the last in warning red. Every number stands as
+    %(name)s through number_text, never %(name).1f: that writes a point on
+    German where a comma belongs and drops the thousands mark -- and the
+    mapping form hides it from every search for "%.1f".
     """
     return (T("<span style='color:%(t)s'><b>%(n)s shots</b>, median "
               '%(med)s s, shortest %(short)s s, longest camera '
@@ -1081,10 +1077,9 @@ def apply_time_window(d, in_point, out_point):
     # the clock, and after trimming that is In point, not the old value.
     if origin is not None:
         fresh["start_s"] = round(float(origin) + from_s, 3)
-        # And the timecode with it. Resolve places by this field alone,
-        # so one standing still puts every frame out by the removed head.
-        # On the clock it was written on: a drop-frame label handed back
-        # with a colon is counted non-drop, 3.6 s an hour since midnight.
+        # And the timecode: Resolve places by it alone, and a stale one shifts
+        # every frame by the removed head. On its own clock: a drop-frame label
+        # back with a colon counts non-drop, 3.6 s an hour since midnight.
         if d.get("start_tc"):
             fresh["start_tc"] = timecode_string(
                 fresh["start_s"], fps,
@@ -1340,12 +1335,11 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=(),
 def wide_shot_barred(path, value, placeless):
     """Why this file cannot be the wide shot, or "" where it can be one.
 
-    The wide shot is what the cut falls back on, so it has to lie on
-    the time axis. *placeless* are the paths the measurement placed
-    nowhere; empty or None bars nothing. A Kind somebody picked is
-    barred too: this is a fact about the material, not a suggestion.
-    One clause, for an open list cuts it at sixty; and true of a file
-    whose timecode has nothing to be set against as of one with none.
+    The wide shot is what the cut falls back on, so it must lie on the time
+    axis. *placeless*: paths the measurement placed nowhere; empty or None bars
+    nothing. A Kind somebody picked is barred too: a fact about the material,
+    not a suggestion. One clause, as an open list cuts at sixty; true of a
+    timecode with nothing to set it against as of none at all.
     """
     if not placeless:
         return ""
@@ -2656,12 +2650,11 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                       clocked=()):
     """Write everything Resolve needs: the handover file and instructions.
 
-    The Resolve scripting interface has no multicam: the word does not
-    appear once in the bundled README (version 21), and the manual lists
-    the conversion only as a menu command. Project, import, timeline,
-    track names and markers can be driven; the last step stays manual.
-    *clocked*: {camera: how well its sound matched} for the cameras the
-    run placed by their clock alone, None where nothing was heard.
+    The Resolve scripting interface has no multicam: the word is not once in
+    the bundled README (version 21); the manual lists the conversion only as a
+    menu command. Project, import, timeline, track names and markers can be
+    driven; the last step stays manual. *clocked*: {camera: how well its sound
+    matched} for cameras placed by clock alone, None where nothing was heard.
     """
     if not cameras:
         return 0
@@ -2720,10 +2713,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             left_out.append(cam["name"])
             refused.append(v)
             continue
-        # Sorted, like build_handover's, or one pair of people comes out
-        # under two names. Sync only knows nobody: every camera is plain,
-        # whatever an assignment says, and the track keeps the camera's
-        # name -- the window's or --new-name's, else the file's stem.
+        # Sorted like build_handover's, or one pair gets two names. Sync knows
+        # nobody: every camera plain whatever the assignment, its track named
+        # as the camera -- the window's or --new-name's, else the file's stem.
         who = [] if sync_only(args) else sorted(speaker_of.get(v) or [],
                                                 key=name_order)
         file = done.get(cam["name"], "")
@@ -2812,10 +2804,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         "fps": resolve_timeline_rate(fps),
         "fps_measured": round(fps, 4),
         "drop_frame": drop,
-        # The highest resolution wins, as a decision and not a side effect:
-        # the files are copied, never scaled, so an 8K camera beside three
-        # in HD gives an 8K Timeline that shows the small ones whole rather
-        # than throwing away what the largest one recorded.
+        # Highest resolution wins, by decision: files are copied, never scaled,
+        # so an 8K camera beside three HD ones gives an 8K Timeline showing
+        # them whole, not an HD one throwing away what the 8K one recorded.
         "width": widest_frame(resolutions)[0],
         "height": widest_frame(resolutions)[1],
         "start_tc": (timecode_string(tc_start, resolve_timeline_rate(fps),
@@ -2940,10 +2931,9 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         return [], []
     length = length or max((b for _n, segs in segment_list
                             for _a, b in segs), default=0.0)
-    # The clock the Timeline runs on, read the way the handover reads it:
-    # the two EDL files and the two CSV files carry the same timecodes as
-    # the Timeline Resolve builds from the handover, or a marker imported
-    # from the paper lands beside the shot it names.
+    # The Timeline's clock, read as the handover reads it: the two EDL and two
+    # CSV files carry the timecodes of the Timeline built from the handover, or
+    # a marker imported from the paper lands beside the shot it names.
     drop = is_drop_frame(ref_clip[1].get("tc") if ref_clip else None)
     # Frame zero of the Timeline, read back out of the start timecode --
     # the same step timeline_origin takes, and it has to be the same.
@@ -3111,10 +3101,9 @@ def refresh_cut_list(d, file_path):
         return None
     fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
 
-    # Does the project file now hold a different time window from the
-    # handover? Then the audio files no longer match it. Both ends come
-    # from the file's own two keys, written in the same breath as the
-    # rest of the settings.
+    # Does the project file now hold a different time window from the handover?
+    # Then the audio files no longer match it. Both ends come from the file's
+    # own two keys, written in the same breath as the rest of the settings.
     def tc_value(key):
         raw = project.get(key)
         if not raw:

@@ -3,10 +3,9 @@
 
 Everything about a voice is here -- the separation, the microphones,
 the names, a stored separation back on the axis, and what the window
-shows of it. Which camera that puts on screen is the cut's.
-
-A piece of the program, read by beside(). It cannot import the file it
-was cut out of, so the program is handed in and bound below by name.
+shows of it; which camera that puts on screen is the cut's. A piece
+read by beside(): it cannot import the file it was cut out of, so the
+program is handed in and bound below by name.
 """
 
 # beside() puts the program here before this file is read.
@@ -16,10 +15,9 @@ PROGRAM = PROGRAM
 # below, and apply_time_window, choose_zero_point and cells_laid_out,
 # whose files are read after this one.
 
-# Eight more are read as PROGRAM.<name> at the place they are used:
-# their files are read after this one. Out of cut/: as_minutes,
-# camera_after_a_mark, wide_bar_of. Out of fittings/, which the window
-# reads: mark_red, voice_row_cells.
+# Eight more are read as PROGRAM.<name> where used, their files coming
+# later. Out of cut/: as_minutes, camera_after_a_mark, wide_bar_of. Out
+# of fittings/, which the window reads: mark_red, voice_row_cells.
 
 # The last three are the window's own and can never be head lines here,
 # because ui/ is the last piece read: SpeakerName, choices_shut,
@@ -1230,12 +1228,11 @@ def split_line_write(line, words, never, wanted, busy, any_files,
                      note=None):
     """The line under the assignment table -- and mostly nothing at all.
 
-    It speaks where this machine does not work the separation out on
-    its own -- somebody said no, or nobody has been asked, and there
-    the question and its button are the point of it -- and where a
-    separation could not run: that reason belongs here, not in the
-    cell it happened in, which is one line wide. Otherwise it says
-    nothing, the state standing in each recording's own row.
+    It speaks where this machine does not work the separation out on its
+    own -- somebody said no, or nobody has been asked, and the question
+    and its button are the point -- and where a separation could not run:
+    that reason belongs here, not in its cell, one line wide. Otherwise
+    it says nothing, the state standing in each recording's own row.
     """
     if SPEAKER_SPLIT_OFF:
         line.setVisible(False)
@@ -1299,12 +1296,11 @@ def tc_column_write(rows, real_tc, axis, absolute):
 def weak_decision(kind, intro_free=False):
     """What became of a file with no place, in the words on the screen.
 
-    The program moves such a file off content and the wide shot at the
-    moment it finds it, so a line that only complains stands beside a
-    row that already says something else, and the two read as a
-    contradiction. *kind* is what the row says now; *intro_free* that
-    no other file holds the intro, so a file left out was not left out
-    for that reason.
+    The program moves such a file off content and the wide shot the
+    moment it finds it, so a line that only complained would contradict
+    the row beside it. *kind* is what the row says now; *intro_free*
+    that no other file holds the intro, so a file left out was not left
+    out for that reason.
     """
     if kind == TYPE_INTRO:
         return T('Set to %s; %s is one click away.') \
@@ -1325,12 +1321,11 @@ def weak_note(caption, placeless, kind="", intro_free=False,
               clock_alone=False, camera=True):
     """What a file whose sound was not recognised says beside its name.
 
-    Two ways lead to a place and one is enough: with a timecode only
-    the second opinion is missing, without one there is no place at
-    all and its sound is out of the run. Then the finding comes first
-    and what was done about it under it. *clock_alone*: the file has a
-    timecode, but nothing it could be set against has one. A recording
-    (*camera* False) goes as the run lays it: measured, or at its clock.
+    Two ways lead to a place and one is enough: with a timecode only the
+    second opinion is missing; without one there is no place, its sound
+    is out of the run, and the finding comes first, what was done under
+    it. *clock_alone*: a timecode, but nothing to set it against has one.
+    A recording (*camera* False) goes as the run lays it: by measure or clock.
     """
     decided = weak_decision(kind, intro_free)
     if placeless and clock_alone:
@@ -1879,12 +1874,11 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
                         alone=False, apart_db=None, mix=None):
     """Say which file the separation should listen to.
 
-    Microphones of their own MICROPHONES_APART_DB apart are measured
-    instead; below that they name 37.5 % right and *mix* makes one file
-    of them all. Only *placeless* files are left out; a run nobody
-    asked for (*alone*) refuses a guess. Returns (path, why): chosen /
-    one recording / camera track / microphones mixed / nothing, or,
-    with an empty path, several microphones / several cameras.
+    Own microphones MICROPHONES_APART_DB apart are measured instead;
+    closer, they name 37.5 % right and *mix* makes one file of them. Only
+    *placeless* files are left out; an unasked run (*alone*) refuses a
+    guess. Returns (path, why): chosen / one recording / camera track /
+    microphones mixed / nothing; with "": several microphones / cameras.
     """
     nowhere = set(path_key(p) for p in (placeless or ()))
 
@@ -3001,10 +2995,9 @@ def one_separation_on_axis(given, tracks, position, t0, t1):
     if not b:
         return [], T('%s has no place on the axis') % os.path.basename(source)
     named = dict((given or {}).get("names") or {})
-    # Only the recorder's own clock is undone here, an offset and a
-    # divisor; the window and the rounding are speaker_segments_on_axis's,
-    # so the two cannot drift apart. Measured over 18 cases with a
-    # divisor of 1: the same answer in each, edges and empty input in.
+    # Only the recorder's clock (offset, divisor) is undone here; window
+    # and rounding are speaker_segments_on_axis's, so the two cannot drift.
+    # Measured: the same answer in 18 cases at divisor 1, edges and empty in.
     moved = [(named.get(label) or label,
               [((x - a) / b, (y - a) / b) for x, y in parts])
              for label, parts in speaker_segments_polish(
@@ -3065,10 +3058,9 @@ def separation_source_of_run(args, tracks, video_paths, window=()):
                            % (path_key(p), file_fingerprint(p),
                               float(track.get("a") or 0.0),
                               float(track.get("b") or 1.0)))
-        # What the log says it listens to: the tracks that went into
-        # the mix, which is fewer than the run holds where one has no
-        # axis. Kept on *args* like the distance, this being the one
-        # place that knows the number.
+        # What the log says it listens to: the tracks that went into the
+        # mix, fewer than the run holds where one has no axis. Kept on
+        # *args* like the distance, this being the one place that knows it.
         args._speakers_mixed_count = len(picked)
         return speaker_mix_file(picked, made_of + [str(x) for x in window])
 

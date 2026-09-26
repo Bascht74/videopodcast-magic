@@ -72,10 +72,9 @@ timecode_string = PROGRAM.timecode_string
 unwrap_day = PROGRAM.unwrap_day
 write_beside_then_move = PROGRAM.write_beside_then_move
 
-# Two stand in a piece read after this one: read_preset in the
-# processing (a circle: choose_preset there asks check_preset here),
-# and MATRIX_BT2020 in the colour reading. The other four of the six
-# that stood here are head lines now -- the fittings moved above.
+# Two stand in a piece read after this one: read_preset in the processing (a
+# circle: choose_preset there asks check_preset here), and MATRIX_BT2020 in the
+# colour reading.
 
 # Three are bent while the run goes on, and a copy taken here would
 # answer with the run before: set_language rebinds LANG, and the window
@@ -168,10 +167,9 @@ def name_to_fit(name, room):
     return head + "\u2026" + tail
 
 
-# Part of the fingerprint: raising it makes every old measurement stale,
-# else the window shows the old result for weeks. The recipe mark below
-# sees the three checks change by themselves; this number is for a
-# change in what they call.
+# Part of the fingerprint: raising it makes every old measurement stale, else
+# the window shows the old result for weeks. The recipe mark below sees the
+# three checks change; this number is for a change in what they call.
 MEASUREMENT_VERSION = 3
 
 
@@ -554,10 +552,9 @@ def compare_cameras(data):
             % ", ".join("%dx%d" % g for g in sizes),
             T('Resolve scales to the Timeline resolution. Anything smaller '
               'is scaled up and gets softer.')))
-    # One recording added twice: said, never stopped. Size and length
-    # only pick the candidates -- a codec that writes every frame at one
-    # size gives two recordings of one length the same bytes count -- so
-    # the ends of the files decide, and only those are read.
+    # One recording added twice: said, never stopped. Size and length only pick
+    # candidates (a codec writing every frame at one size gives two recordings
+    # of one length equal bytes); the file ends decide, only they are read.
     alike = {}
     for d in data:
         try:
@@ -1423,12 +1420,11 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
                     labels=None):
     """Collect all findings about the material.
 
-    Each file is measured and cached on its own, so adding one measures
-    only that one; what shows in comparison comes off the cached data.
-    *set_aside* are files that do not take part -- ignored ones, intro,
-    outro. They are checked so their row is not the only one without a
-    mark, and stay out of the comparisons. *project_type* "sync" takes
-    one audio recording and refuses more; *labels* see camera_named.
+    Each file is measured and cached on its own, so adding one measures only
+    that one; comparisons come off the cached data. *set_aside* files take no
+    part -- ignored ones, intro, outro: checked so their row is not the only
+    one without a mark, kept out of the comparisons. *project_type* "sync"
+    takes one audio recording and refuses more; *labels* see camera_named.
     """
     set_aside = {path_key(x) for x in (set_aside or ())}
 
@@ -1513,9 +1509,8 @@ def run_preflight(args, audio_paths, video_paths, project_type=None):
 
 
 #--------------------------------------- The check in the window
-# What the window makes of these findings: the marks in the file
-# list and the line under it. Here, with what they are about, so
-# that a finding and the row it lands in are changed in one place.
+# The window's marks in the file list and the line under it, kept beside the
+# findings they show so a finding and its row change in one place.
 
 
 def rows_off_the_axis(nodes, state):
