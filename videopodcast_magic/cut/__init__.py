@@ -55,16 +55,15 @@ bisect = PROGRAM.bisect
 build_resolve_project = PROGRAM.build_resolve_project
 camera_output_name = PROGRAM.camera_output_name
 camera_start_of = PROGRAM.camera_start_of
+cameras_frame_rate = PROGRAM.cameras_frame_rate
 clause_break_times = PROGRAM.clause_break_times
 clip_colour_rgb = PROGRAM.clip_colour_rgb
 clocks_apart = PROGRAM.clocks_apart
 colour_per_camera = PROGRAM.colour_per_camera
 cut_log_heading = PROGRAM.cut_log_heading
 cut_title_of = PROGRAM.cut_title_of
-ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 find_pauses = PROGRAM.find_pauses
-frames_to_timecode = PROGRAM.frames_to_timecode
 glob = PROGRAM.glob
 hdr_from_sources = PROGRAM.hdr_from_sources
 is_drop_frame = PROGRAM.is_drop_frame
@@ -79,13 +78,11 @@ os = PROGRAM.os
 own_frame_rate = PROGRAM.own_frame_rate
 parse_time_point = PROGRAM.parse_time_point
 path_key = PROGRAM.path_key
-picture_rate = PROGRAM.picture_rate
 preview_handover = PROGRAM.preview_handover
 re = PROGRAM.re
 resolve_timeline_rate = PROGRAM.resolve_timeline_rate
 safe_filename = PROGRAM.safe_filename
 sample_count = PROGRAM.sample_count
-seconds_to_frames = PROGRAM.seconds_to_frames
 segments_per_camera = PROGRAM.segments_per_camera
 sentence_start_times = PROGRAM.sentence_start_times
 sentences_of = PROGRAM.sentences_of
@@ -104,6 +101,7 @@ timecode_seconds = PROGRAM.timecode_seconds
 timecode_string = PROGRAM.timecode_string
 timecode_to_frames = PROGRAM.timecode_to_frames
 timeline_frame_rate = PROGRAM.timeline_frame_rate
+timeline_timecode = PROGRAM.timeline_timecode
 track_recordings_of = PROGRAM.track_recordings_of
 tracks_awaiting_measure = PROGRAM.tracks_awaiting_measure
 trouble_log = PROGRAM.trouble_log
@@ -983,22 +981,6 @@ def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
     if audio_files:
         return min(audio_files)
     return min(videos) if videos else None
-
-def cameras_frame_rate(cameras):
-    """The rate the cut has to be read at, measured on a camera.
-
-    The frames of a timecode are frames, so one read at the wrong rate
-    lands whole frames out and the picture runs ahead of the sound on
-    every camera whose timecode has a frame part. Cameras ending :00 are
-    exact either way, which is how this sits unseen.
-    """
-    for cam in cameras or ():
-        path = cam.get("file") or ""
-        if path and os.path.exists(path):
-            rate = picture_rate(ffprobe_json(path))
-            if rate:
-                return float(rate)
-    return 0.0
 
 def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                     camera_origin=(), places=()):
@@ -2559,18 +2541,6 @@ def merge_short_shots(cut, min_len, key=shot_key):
             del extra[j + 1]
         i = max(0, i - 1)
     return extra
-
-def timeline_timecode(seconds, zero, fps, drop_frame=False):
-    """The timecode a moment of programme time carries on the Timeline.
-
-    Frame zero of the Timeline, then the frames since it -- the two steps
-    build_cut_timeline takes, or the paper and the Timeline name frames
-    one apart wherever the zero does not sit on a whole one. *drop_frame*
-    is the Timeline's own setting: the same frame reads differently on
-    the two clocks, and Resolve reads what is written on the one it runs.
-    """
-    return frames_to_timecode(zero + seconds_to_frames(seconds, fps), fps,
-                              drop_frame)
 
 def write_edl(file_path, title, segments, zero, fps, drop_frame=False):
     """Write segments as an EDL; Resolve imports it as timeline markers.

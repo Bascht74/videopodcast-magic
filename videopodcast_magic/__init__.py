@@ -149,6 +149,8 @@ take_from(workbench)
 
 count_process_starts = workbench.count_process_starts
 only_reading = workbench.only_reading
+parallel_map = workbench.parallel_map
+remove_quietly = workbench.remove_quietly
 
 
 # What this program answers for. soxr is no part of it: without soxr
@@ -262,6 +264,7 @@ take_from(stowage)
 
 cache_folder = stowage.cache_folder
 clean_kept_stores = stowage.clean_kept_stores
+format_complaint = stowage.format_complaint
 kept_in_use = stowage.kept_in_use
 
 
@@ -282,6 +285,15 @@ ffprobe_json = soundings.ffprobe_json
 #---------------------------------------------------------- Time and timecode
 timecode = beside("timecode", program=PROGRAM)
 take_from(timecode)
+
+file_frame_rate = timecode.file_frame_rate
+frames_to_timecode = timecode.frames_to_timecode
+known_frame_rate = timecode.known_frame_rate
+own_frame_rate = timecode.own_frame_rate
+resolve_timeline_rate = timecode.resolve_timeline_rate
+seconds_to_frames = timecode.seconds_to_frames
+timecode_to_frames = timecode.timecode_to_frames
+timeline_frame_rate = timecode.timeline_frame_rate
 
 
 #----------------------------------------------------- The window's tables
@@ -320,6 +332,7 @@ PROGRESS_SINK = None
 herald = beside("herald", program=PROGRAM)
 take_from(herald)
 
+python_note = herald.python_note
 redirect_console = herald.redirect_console
 running_from = herald.running_from
 watch_outside_calls = herald.watch_outside_calls
@@ -668,16 +681,18 @@ channel_count = material.channel_count
 channel_filter = material.channel_filter
 expand_chains_to_tracks = material.expand_chains_to_tracks
 find_continuation_files = material.find_continuation_files
-format_complaint = material.format_complaint
 kept_channels = material.kept_channels
-parallel_map = material.parallel_map
 place_track_on_axis = material.place_track_on_axis
-python_note = material.python_note
-remove_quietly = material.remove_quietly
 shapes_match = material.shapes_match
 together_chains = material.together_chains
 wav_safe = material.wav_safe
 widest_track = material.widest_track
+
+
+#---------------------------------------------------------- The loudness
+
+loudness = beside("loudness", program=PROGRAM)
+take_from(loudness)
 
 
 #---------------------------------------------------------- The bearings
@@ -761,15 +776,7 @@ take_from(resolve)
 
 ON_DARK = resolve.ON_DARK
 build_resolve_project = resolve.build_resolve_project
-file_frame_rate = resolve.file_frame_rate
-frames_to_timecode = resolve.frames_to_timecode
-known_frame_rate = resolve.known_frame_rate
-own_frame_rate = resolve.own_frame_rate
 print_audio_track_mapping = resolve.print_audio_track_mapping
-resolve_timeline_rate = resolve.resolve_timeline_rate
-seconds_to_frames = resolve.seconds_to_frames
-timecode_to_frames = resolve.timecode_to_frames
-timeline_frame_rate = resolve.timeline_frame_rate
 
 
 #-------------------------------------------------------------- The cut

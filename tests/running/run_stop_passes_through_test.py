@@ -169,8 +169,8 @@ try:
     print("\nA parallel step, Stop asked before its items are worked")
     vpm.RUN_STOP["wanted"], vpm.RUN_STOP["at"] = True, AT
     try:
-        got = outcome(lambda: vpm.material.parallel_map([1, 2, 3],
-                                                        lambda x: x))
+        got = outcome(lambda: vpm.workbench.parallel_map([1, 2, 3],
+                                                         lambda x: x))
     finally:
         vpm.RUN_STOP["wanted"], vpm.RUN_STOP["at"] = False, ""
     check("Stop in a parallel step ends the run, not a list with gaps",

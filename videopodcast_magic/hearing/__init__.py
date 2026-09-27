@@ -29,7 +29,6 @@ hashlib = PROGRAM.hashlib
 log_aside = PROGRAM.log_aside
 number_text = PROGRAM.number_text
 os = PROGRAM.os
-parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 progress_from_line = PROGRAM.progress_from_line
 safe_filename = PROGRAM.safe_filename
@@ -980,16 +979,6 @@ def no_place_message(name):
              'with the rest of the material, and the file carries no '
              'timecode. It needs one that fits the other recordings, '
              'and that has to be set with another program.') % name
-
-
-def timecode_seconds(info):
-    """The timecode in a video's facts, in seconds, or nothing."""
-    if not (info or {}).get("tc"):
-        return None
-    try:
-        return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
-    except (ValueError, TypeError):
-        return None
 
 
 # How far a point may sit from the middle before it is thrown away. 3

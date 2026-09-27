@@ -32,20 +32,25 @@ ask_choice = PROGRAM.ask_choice
 audio_track_count = PROGRAM.audio_track_count
 colour_per_camera = PROGRAM.colour_per_camera
 format_complaint = PROGRAM.format_complaint
+frames_of_the_file = PROGRAM.frames_of_the_file
+frames_to_timecode = PROGRAM.frames_to_timecode
 hdr_says = PROGRAM.hdr_says
 hint = PROGRAM.hint
 json = PROGRAM.json
 label = PROGRAM.label
 label_of = PROGRAM.label_of
-math = PROGRAM.math
 number_text = PROGRAM.number_text
 os = PROGRAM.os
-path_key = PROGRAM.path_key
+own_frame_rate = PROGRAM.own_frame_rate
 plain_spelling = PROGRAM.plain_spelling
+resolve_timeline_rate = PROGRAM.resolve_timeline_rate
+seconds_to_frames = PROGRAM.seconds_to_frames
 speaks_as = PROGRAM.speaks_as
 strip_marks = PROGRAM.strip_marks
 sys = PROGRAM.sys
 threading = PROGRAM.threading
+timecode_to_frames = PROGRAM.timecode_to_frames
+timeline_frames_of = PROGRAM.timeline_frames_of
 
 # ------------------------------------------------------------ Resolve
 # The scripting interface has no multicam: everything else is remote,
@@ -161,150 +166,6 @@ def check_resolve():
     what = " ".join(x for x in (ask(r.GetProductName),
                                ask(r.GetVersionString)) if x)
     return True, [what]
-
-
-def seconds_to_frames(seconds, fps):
-    """Convert a duration to frames using the true rate; 29.97 stays 29.97."""
-    return int(round(seconds * fps))
-
-
-def frames_of_the_file(length, fps, own):
-    """How many frames of a file fit into *length* frames of the Timeline.
-
-    The most that fit and never one more, or a shot runs into the next
-    one: Resolve pushes what overlaps, and the pushes add up. What a
-    shot leaves uncovered the one after it picks up; one frame is floor.
-    """
-    # A whole number of frames a division misses by a billionth is that
-    # whole number: 23.976 in a 23.976 Timeline asks one frame too many.
-    return max(1, int(math.ceil((length + 1) * own / float(fps) - 1e-9)) - 1)
-
-
-def timeline_frames_of(count, fps, own):
-    """How many frames of the Timeline a span of *count* file frames fills.
-
-    Resolve keeps whole Timeline frames, so the last part frame is lost:
-    175 frames of a 24 file fill 218 of a 30 Timeline, 176 fill 220.
-    """
-    return int(count * fps / float(own) + 1e-9)
-
-
-# Every rate Resolve offers a Timeline, and no other.
-RESOLVE_FRAME_RATES = (16.0, 18.0, 23.976, 24.0, 25.0, 29.97, 30.0, 47.952,
-                 48.0, 50.0, 59.94, 60.0, 72.0, 90.0, 95.904, 96.0, 100.0,
-                 119.88, 120.0)
-
-# How far a measured rate may sit from one of those and still be it.
-# Relative: one frame at 120 is a fifth of one at 24. An averaged
-# reading strays a few ten-thousandths, a foreign rate four times that.
-FRAME_RATE_TOLERANCE = 0.01
-
-
-def known_frame_rate(fps):
-    """The Resolve rate this one is, allowing for a measured reading.
-
-    A rate this answers None for is not one Resolve gives a Timeline.
-    The file is used all the same, counting in its own.
-    """
-    if not fps:
-        return None
-    near = min(RESOLVE_FRAME_RATES, key=lambda r: abs(r - fps))
-    return near if abs(near - fps) <= near * FRAME_RATE_TOLERANCE else None
-
-
-def own_frame_rate(fps):
-    """The rate a file's own frames are counted at.
-
-    A measured reading strays a few ten-thousandths from the format it
-    means, so a Resolve rate answers where it means one. Where it means
-    none the reading itself does: a file at 15 counts fifteen a second.
-    """
-    return known_frame_rate(fps) or float(fps or 30.0)
-
-
-def resolve_timeline_rate(fps):
-    """The rate a Timeline gets for material running at this one.
-
-    Not the nearest but the next one up: upwards Resolve repeats frames,
-    downwards it throws them away. 16 and 120 are the ends -- 15 and 240
-    are refused -- and a 15 file in a 16 Timeline keeps its length.
-    """
-    known = known_frame_rate(fps)
-    if known is not None:
-        return known
-    if not fps:
-        return 30.0
-    return next((r for r in RESOLVE_FRAME_RATES if r > fps),
-                RESOLVE_FRAME_RATES[-1])
-
-
-def file_frame_rate(info):
-    """The rate a video file runs at, by stream_frame_rate's one rule.
-
-    video_facts keeps it as "nominal": the file's own rate, which --fps
-    does not touch.
-    """
-    return (info or {}).get("nominal") or (info or {}).get("fps") or 0.0
-
-
-def timeline_frame_rate(args, videos, ref_clip):
-    """The rate the Timeline runs at: the highest one in the material.
-
-    Converted upwards Resolve repeats frames, downwards it throws them
-    away, so the fastest camera decides. Intro and outro do not count.
-    """
-    edges = {path_key(p) for p in (getattr(args, "intro", None),
-                                   getattr(args, "outro", None)) if p}
-    rates = [(e or {}).get("fps") or 0.0 for v, e in (videos or ())
-             if path_key(v) not in edges]
-    return max(rates) if any(rates) else (
-        ref_clip[1]["fps"] if ref_clip else 30.0)
-
-
-def frames_to_timecode(frames, fps, drop_frame=False):
-    """The other way round: a frame number since midnight as a timecode.
-
-    On the timecode clock, like timecode_to_frames: the true rate is
-    off by about a minute per hour.
-    """
-    full = int(round(own_frame_rate(fps)))
-    n = max(0, int(frames)) % (full * 86400)
-    if drop_frame:
-        dropped = 2 * full // 30
-        per_ten = full * 600 - dropped * 9
-        tens, rest = divmod(n, per_ten)
-        per_minute = full * 60 - dropped
-        # The first minute of every ten drops nothing, the nine after it do.
-        n += dropped * 9 * tens
-        if rest >= dropped:
-            n += dropped * ((rest - dropped) // per_minute)
-    f = n % full
-    s = n // full
-    return "%02d:%02d:%02d%s%02d" % (s // 3600 % 24, s % 3600 // 60, s % 60,
-                                     ";" if drop_frame else ":", f)
-
-
-def timecode_to_frames(tc, fps):
-    """Convert a timecode to a frame number since midnight.
-
-    Not with the true rate: a non-drop timecode still counts thirty
-    frames per second at 29.97. Drop frame skips numbers instead.
-    """
-    if not tc:
-        return 0
-    df = ";" in str(tc)
-    t = str(tc).replace(";", ":").split(":")
-    if len(t) != 4:
-        return 0
-    h, m, s, f = (int(x) for x in t)
-    full = int(round(own_frame_rate(fps)))                    # 30 at 29.97
-    n = ((h * 3600 + m * 60 + s) * full) + f
-    if df:
-        # Two numbers dropped per minute, except every tenth minute.
-        dropped = 2 * full // 30
-        minutes = h * 60 + m
-        n -= dropped * (minutes - minutes // 10)
-    return n
 
 
 def open_or_create_project(pm, name, carry_on=None):
