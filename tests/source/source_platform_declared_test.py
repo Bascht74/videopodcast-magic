@@ -36,7 +36,7 @@ BOUND_MODULES = {
     "ctypes", "msvcrt", "fcntl", "winreg", "platform", "socket",
     "urllib", "http", "captions_measure", "fixture_project",
     "interview_project", "fixture_root", "local_ground", "let_go",
-    "key_store_apart", "audio_chain", "assignment_shot", "carry_shot",
+    "key_store_apart", "assignment_shot", "carry_shot",
     "language_shot", "preset_shot", "preview_shot", "reading_shot"}
 BOUND_NAMES = {("sys", "platform"), ("os", "name"), ("os", "system"),
                ("os", "startfile")}
