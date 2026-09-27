@@ -699,7 +699,7 @@ it is green.
 | `run_outside_seen` | Every call to another program is in the log, and none in the output. |
 | `run_overwrite_is_said` | A run that replaces a file says so, and marks one it did not make. |
 | `run_own_sound_with_cam` | A camera's own sound stands where its camera stands, however placed. |
-| `run_preview_says_nothing` | The preview's own run says nothing, and a Start waits until it ends. |
+| `run_preview_says_nothing` | The preview's own run says nothing, and a Start stops it, not waits. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_project_type_reaches` | The project type reaches the run and says what sync leaves out. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |

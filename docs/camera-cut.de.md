@@ -471,8 +471,11 @@ Lauf wählt.
 
 Scheitert der Lauf der Vorschau, wird er für dieselben Einstellungen
 nicht wiederholt -- er scheiterte genauso und kostete dieselben
-Minuten. Wer **Start** oder **Probelauf** drückt, während er läuft,
-wartet auf ihn; der Knopf sagt so lange **Vorschau läuft ...**.
+Minuten. Wer **Start**, **Probelauf** oder **Resolve-Projekt anlegen**
+drückt, während er läuft, hält ihn an und beginnt sofort; der Knopf
+sagt für diesen Augenblick **Vorschau läuft ...**. Der angehaltene Lauf
+behält nichts und gilt als nicht versucht: Die Vorschau fragt wieder,
+sobald der Lauf vorbei ist.
 
 Unten im Vorschau-Kasten steht eine Zeile, unter dem, was die Vorschau
 sagt, und nicht unter diesem; darin steht, worauf der Schnitt beruht,

@@ -448,7 +448,7 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   ...**. Scheitert er, steht dort sein eigener Grund -- die Zeile, mit
   der ein **Probelauf** enden würde --, und für dieselben Einstellungen
   wird er nicht noch einmal versucht. Wer **Start** oder **Probelauf**
-  drückt, während er läuft, wartet auf ihn.
+  drückt, während er läuft, hält ihn an und beginnt sofort.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er

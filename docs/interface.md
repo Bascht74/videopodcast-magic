@@ -409,7 +409,8 @@ Four tabs, in the order they are needed.
   preview's run goes, **working out who speaks when ...**. Where that
   run fails, the line gives the run's own reason -- the line a **Dry
   run** would end on -- and for the same settings it is not tried again.
-  **Start** or **Dry run** pressed while it goes waits for it.
+  **Start** or **Dry run** pressed while it goes stops it and begins
+  at once.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called

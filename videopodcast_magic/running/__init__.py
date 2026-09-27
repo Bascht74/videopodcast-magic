@@ -72,7 +72,8 @@ def run_done_text(dry):
 PLAN_PLACE = "<the plan>"
 # The preview's runs going in this process, whichever window began them:
 # output is one for the process, so no run may begin while one goes.
-PREVIEWS = {"alive": 0, "lock": threading.Lock()}
+# "stopped": a run somebody started has pulled their stop (preview_stop).
+PREVIEWS = {"alive": 0, "lock": threading.Lock(), "stopped": False}
 
 
 class QuietHere(object):
@@ -127,8 +128,6 @@ def quiet_run(argv, key, over=None):
     the run starts itself writes on as usual.
     """
     old = sys.stdout, sys.stderr, PROGRAM.ASK_SINK
-    with PREVIEWS["lock"]:
-        PREVIEWS["alive"] += 1
     quiet = [QuietHere(old[0], threading.get_ident()),
              QuietHere(old[1], threading.get_ident())]
     sys.stdout, sys.stderr = quiet
@@ -151,8 +150,6 @@ def quiet_run(argv, key, over=None):
         for q in quiet:
             q.off()
         sys.stdout, sys.stderr, PROGRAM.ASK_SINK = old
-        with PREVIEWS["lock"]:
-            PREVIEWS["alive"] -= 1
     return code or 0, (why or (quiet[0].last_line() or quiet[1].last_line()
                                if code else ""))
 
@@ -189,27 +186,56 @@ def preview_request(state, model, prework_busy, values_of):
             "words": words, "plan": plan, "wishes": wishes}
 
 
+def preview_stop():
+    """Stop the preview's runs going: a run somebody started comes first.
+
+    Start, Dry run and Create Resolve project wait for them, and a
+    preview's run can be for settings already changed again. Their stop
+    is the run's own, pulled and taken back once the last of them ended,
+    so what else measures in the window meanwhile meets it too, briefly.
+    """
+    # Under the lock: a run ending in between would take it back first.
+    with PREVIEWS["lock"]:
+        if PREVIEWS["alive"]:
+            PREVIEWS["stopped"] = True
+            PROGRAM.stop_asked_for()
+
+
 def preview_run(request, done):
     """The preview's run: the dry run, or the cut stage over *over*.
 
-    In a thread of its own and quiet; *done* gets (key, code, why).
-    The plan goes into a file of its own for the run, as Start's
+    In a thread of its own and quiet; *done* gets (key, code, why), and
+    (None, 0, "") where preview_stop ended it: nothing ran, nothing is
+    kept. The plan goes into a file of its own for the run, as Start's
     does, and never outlives it.
     """
     path, discard = assignment_file(True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(request["wishes"], f, ensure_ascii=False, indent=1)
     argv = [path if w == PLAN_PLACE else w for w in request["argv"]]
+    # Counted from here, not from the thread: a Start pressed in between
+    # has to find it.
+    with PREVIEWS["lock"]:
+        PREVIEWS["alive"] += 1
 
     def work():
         """The run itself, then the file gone and *done* told."""
+        code, why = 1, ""
         try:
-            code, why = quiet_run(argv, request["key"],
-                                  request.get("over"))
+            if not PREVIEWS["stopped"]:
+                code, why = quiet_run(argv, request["key"],
+                                      request.get("over"))
         finally:
             discard()
             PROGRAM.atexit.unregister(discard)
-        done((request["key"], code, why))
+            with PREVIEWS["lock"]:
+                PREVIEWS["alive"] -= 1
+                stopped = PREVIEWS["stopped"]
+                if stopped and not PREVIEWS["alive"]:
+                    PREVIEWS["stopped"] = False
+                    PROGRAM.RUN_STOP["wanted"] = False
+                    PROGRAM.RUN_STOP["at"] = ""
+        done((None, 0, "") if stopped else (request["key"], code, why))
 
     threading.Thread(target=work, daemon=True).start()
 
@@ -485,6 +511,8 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
         # -- but without freezing the window. Ticked or not: the plan is one.
         # The preview's run is waited for too: it is a run of its own.
         if held():
+            # The preview's run is stopped, not waited out.
+            preview_stop()
             if state["waiting"]:
                 return          # a wait loop is already running
             state["waiting"] = True
@@ -591,6 +619,7 @@ def make_run_start(QtCore, window, state, model, report, ask, write,
             return
         # One run at a time in this window, the preview's included.
         if state.get("preview_running") or PREVIEWS["alive"]:
+            preview_stop()
             QtCore.QTimer.singleShot(300, only_resolve_start_run)
             return
         window.output_show()
