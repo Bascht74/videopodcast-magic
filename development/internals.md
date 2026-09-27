@@ -48,7 +48,7 @@ figure of the day is that command, not this paragraph**:
 * `cut/` **3277** -- who is on camera when, and what carries it out
   of here, and why a file can be the wide shot or cannot; the voices
   reach it named, out of `speakers/`
-* `resolve/` **2370** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2430** -- the DaVinci Resolve project, timelines, colour,
   markers, and the box in the window that says whether Resolve answers
 * `material/` **2017** -- channels, chains, continuation files, and what
   a track is made of
