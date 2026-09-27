@@ -35,7 +35,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 27.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `speakers/` **4264** -- who speaks and when: the separation itself,
+* `speakers/` **4390** -- who speaks and when: the separation itself,
   which microphone each voice is on, the names the voices carry, a
   separation stored in a project file put back on the axis, and the
   three the window shows of all that -- the rows one per voice, the
