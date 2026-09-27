@@ -189,19 +189,23 @@ check("the project file is stamped again where it is updated",
       '%d such assignments in %d characters'
       % (source.count('d["format"] = FILE_FORMAT'), len(source)))
 # Without the opening there is nothing to look into, and the check under
-# it would search an empty piece and pass.
+# it would search an empty piece and pass. Since E-451 the handover that is
+# written out is the dictionary handover_of() returns; the other one called
+# handover (in speakers) is never written, so the stamp is asked for there.
+start = source.find("def handover_of(")
+handover_piece = (source[start:source.find("\ndef ", start + 1)]
+                  if start >= 0 else "")
 check("the handover file is built somewhere to be looked into",
-      "handover = {" in source,
-      "%d places build one in %d characters"
-      % (source.count("handover = {"), len(source)))
-# Two dictionaries are called handover, and only one of them is written
-# out, so the stamp is asked for at the opening it belongs to rather
-# than anywhere after the name.
-stamped_handover = 'handover = {\n        "format": FILE_FORMAT,'
+      "return {" in handover_piece,
+      "handover_of %s, %d characters, %d dictionaries returned"
+      % ("found" if start >= 0 else "missing", len(handover_piece),
+         handover_piece.count("return {")))
+stamped_handover = 'return {\n        "format": FILE_FORMAT,'
 check("the handover file is stamped where it is built",
-      stamped_handover in source,
+      stamped_handover in handover_piece,
       "%d of the %d openings carry the stamp on the next line"
-      % (source.count(stamped_handover), source.count("handover = {")))
+      % (handover_piece.count(stamped_handover),
+         handover_piece.count("return {")))
 # Without the function the next check would read a piece of some other
 # part of the file, or fall over an index; either way it would not be
 # about the Resolve path any more.
