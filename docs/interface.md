@@ -353,9 +353,10 @@ Four tabs, in the order they are needed.
   the answer. It stays there as long as there are numbers.
 
   - **measured from the recordings -- 3 speakers, 1:09:23**, in the
-    colour of a warning. Nothing has run yet; the speakers were read
-    off the recordings as they lie, and the cut in front of you is a
-    provisional one.
+    colour of a warning. No run has written anything yet. The preview's
+    own run -- the run itself, stopped before it writes -- read the
+    speakers off the recordings as they lie, and the cut in front of
+    you is the one **Start** would make of them.
   - **from the finished run -- 3 speakers, 1:09:23**, in the good
     colour. A run is done and the preview stands on its result: all
     tracks on one axis, the speakers as the run found them. A run
@@ -369,7 +370,10 @@ Four tabs, in the order they are needed.
   Resolve project** and the cut for Resolve is worked out afresh, from
   the values standing there now and that same result. No second run, and
   no falling back on a provisional reading. As long as the line stands
-  in the colour of a warning, every number beside it can still move.
+  in the colour of a warning, what a run adds by listening can still
+  move a number beside it: the preview's run recognises no speech, and
+  the words a run writes down from the finished mix place questions,
+  answers and sentence boundaries.
 
   The preview reckons the speed of each recorder in, as the run does. No
   two recorders run at exactly the same rate; over an hour that comes to
@@ -393,22 +397,19 @@ Four tabs, in the order they are needed.
   its timecode puts it, and where it has none it is proposed for
   **ignore this video**.
 
-  Nothing has to be pressed for the speakers. They are worked out of
-  the tracks by themselves, as soon as this tab is opened -- once, and
-  not a second time: not while one reading is running, not after one
-  has failed, and not where a finished run already knows them. Until
-  anything is known the preview says as much, and names the way for a
-  room where everybody sits on one recording: **several speakers** in
-  the field **Speaker name**.
+  Nothing has to be pressed for the speakers. As soon as this tab is
+  opened the preview's run goes by itself, in the background and without
+  a line in the log, once the time axis stands and the camera audio is
+  made -- and again a moment after every change to what a run would do;
+  a changed cut value only works the cut out again. Until anything is known the preview says as
+  much, and names the way for a room where everybody sits on one
+  recording: **several speakers** in the field **Speaker name**.
 
-  That line under the preview stays and carries both answers. Where a
-  track is neither covered by a separation nor measured, it names who is
-  still missing in place of what the cut rests on -- beside a separation
-  that already stands as well. Those people are in the cut; it is this
-  preview that cannot show them until they have been measured. A reading
-  that fails says why in the same spot. After a run only what the cut
-  rests on is left there: the run measured every track it had, and its
-  result is finer than anything heard out of the raw recordings.
+  That line under the preview says what the cut rests on, and while the
+  preview's run goes, **working out who speaks when ...**. Where that
+  run fails, the line gives the run's own reason -- the line a **Dry
+  run** would end on -- and for the same settings it is not tried again.
+  **Start** or **Dry run** pressed while it goes waits for it.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -566,8 +567,12 @@ it is in the source files -- the file comes out byte for byte the same.
 says what else hangs on the target: normalising the tracks, the meter in
 the Resolve project, and what the log records.
 
-**Dry run** is the run that measures and reports and makes no edit.
-One thing it does write: where the microphones hear each other too well
+**Dry run** is the run that works everything out up to the finished
+cut -- the time axis, who speaks when, the cut with its shots -- reports
+all of it in the log, and makes no edit. It is the run the preview makes
+quietly for itself: pressed once the preview stands, it takes the time
+axis and who speaks when from what the preview kept. One thing it does
+write: where the microphones hear each other too well
 to be told apart, it measures how far apart they stand and keeps the
 joined recording the separation needs, so the run that follows does not
 build it a second time. It

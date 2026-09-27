@@ -2331,9 +2331,6 @@ msgstr "วัดอย่างเดียว -- ไม่มีการเ�
 msgid "Measuring %s (%s of %s)"
 msgstr "กำลังวัด %s (%s จาก %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "วัดไม่ได้: %s"
-
 msgid "Measuring the yardstick"
 msgstr "กำลังวัดมาตรวัด"
 
@@ -2357,9 +2354,6 @@ msgstr "Multitrack ต้องมีแทร็กขาเข้าอย่�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "ยังไม่มีเสียงที่ใช้งาน -- เพิ่มการบันทึกเสียง หรือตั้งเสียงจากกล้องของไฟล์วิดีโอเป็น \"ใช้เสียงในตัว\" ในรายการไฟล์"
-
-msgid "No audio tracks are assigned."
-msgstr "ไม่มีแทร็กเสียงที่กำหนดไว้"
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "ไม่มีกล้องที่กำหนดไว้ จึงไม่มีอะไรให้ตัดสลับ"
@@ -2498,9 +2492,6 @@ msgstr "ไม่บังคับ -- ถ้าไม่มี YouTube จะ�
 
 msgid "Not ready yet:"
 msgstr "ยังไม่พร้อม:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ไม่มีเสียงที่ได้ยินในแทร็กเลย"
 
 msgid "One audio recording has no speaker name yet."
 msgstr "การบันทึกเสียงหนึ่งรายการยังไม่มีชื่อผู้พูด"
@@ -3913,9 +3904,6 @@ msgstr "  (วัดอย่างเดียว: ไม่ได้แยก�
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  แทร็กไม่ได้ถูกวัด %s จึงอยู่ในมิกซ์แต่ไม่อยู่ในการตัดต่อ: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s ยังไม่ได้วัด -- อยู่ในการตัดต่อแล้ว แต่ยังไม่อยู่ในตัวอย่างนี้"
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  จากแทร็กโดยตรง แทร็กละหนึ่งเสียงพูด: %s"

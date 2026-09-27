@@ -1187,46 +1187,6 @@ def speakers_window_all(voices, length, measured, where_from, separated=()):
                     + [b for _n, parts in out for _a, b in parts])
 
 
-def tracks_awaiting_measure(where_from, measured, separated=()):
-    """The tracks no separation covers and no measurement has reached.
-
-    They are in the cut, but the preview cannot show them until the
-    button has been pressed, so it names who is missing rather than
-    showing a cut without them.
-    """
-    apart = set(path_key(p) for p in separated or () if p)
-    heard = set(n for n, _p in ((measured or {}).get("segments") or ()))
-    return sorted(name for name, paths in (where_from or {}).items()
-                  if name not in heard
-                  and not any(path_key(p) in apart for p in paths if p))
-
-
-def speakers_all_on_window_axis(state, voice_lines, assign_lines,
-                                offset_of):
-    """Every separation the window holds, on the window's own axis.
-
-    Each with the offset of its own recording, then folded by name: a
-    preview computed from other voices than the run uses is worse than
-    none. *offset_of* says where one recording lies on the axis.
-    Returns (voices, how long the last of them runs).
-    """
-    begin = min([offset_of(row[0]) for row, _n, cv in assign_lines or ()
-                 if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
-                or [0.0])
-    out, length = [], 0.0
-    for src, entry in sorted((state.get("speakers_by") or ByFile()).items()):
-        if not voice_lines_here(voice_lines, src):
-            continue
-        rows, far = speakers_on_window_axis(
-            voices_in_use(entry.get("segments") or (),
-                          voices_ignored_of(voice_lines, src)),
-            offset_of(src) - begin,
-            voice_names_of(entry.get("names") or {}, voice_lines, src))
-        out += rows
-        length = max(length, far)
-    return voices_merged(out), length
-
-
 def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
     """Move segments from the time of their file onto the common axis.
 
@@ -3271,19 +3231,6 @@ def speaker_split_work(source, count, note, stopping, done, blocks=()):
     except Exception as e:
         trouble = T('The speaker separation reports: %s') % str(e)[:140]
     done((source, count, segments, trouble, list(blocks or [source])))
-
-
-def speaker_measure_loop(tracks, bridge, bridge_emit):
-    """Read off the tracks who speaks when, in a thread of its own."""
-    try:
-        out = speakers_from_tracks(
-            tracks, report=bridge.speaker_note.emit)
-        length = max((b for _n, segs in out for _a, b in segs), default=0.0)
-        result = (out, length, "" if length > 0 else
-                    T('Nothing was audible in the tracks.'))
-    except Exception as e:
-        result = ([], 0.0, T('Measuring not possible: %s') % str(e)[:140])
-    bridge_emit(bridge.speakers_measured, result)
 
 
 def speaker_split_loop(state, split_run, bridge, bridge_emit,

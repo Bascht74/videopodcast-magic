@@ -1676,9 +1676,6 @@ msgstr "अभी कोई वक्ता ज्ञात नहीं -- क�
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "समय खिड़की सामग्री के बाहर है: इन पॉइंट %s पर, आउट पॉइंट %s पर, और सामग्री की अवधि %s है।"
 
-msgid "No audio tracks are assigned."
-msgstr "कोई ऑडियो ट्रैक नियत नहीं है।"
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "अभी कोई वक्ता ज्ञात नहीं -- यह टैब खुलते ही वे ट्रैकों से निकाले जाते हैं। जहाँ सभी एक ही रिकॉर्डिंग पर हों, वहाँ वक्ता का नाम फ़ील्ड में \"कई वक्ता\" रास्ता है।"
 
@@ -1705,9 +1702,6 @@ msgstr "कट %s का उपयोग करता है"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "इसे कोई वक्ता नियत नहीं, पर कट %s का उपयोग करता है"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s अभी मापा नहीं गया -- कट में है, इस पूर्वावलोकन में अभी नहीं।"
 
 msgid "%r is not a number."
 msgstr "%r कोई संख्या नहीं है।"
@@ -3894,9 +3888,6 @@ msgstr "  %-20s %s बोलना, %s प्रश्न (कुल %s वा�
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s लगता है %-20s उसका %s %% उस ट्रैक में, अगले से %s अंक आगे"
 
-msgid "Nothing was audible in the tracks."
-msgstr "ट्रैकों में कुछ सुनाई नहीं दिया।"
-
 msgid "%s is not part of this run"
 msgstr "%s इस रन का हिस्सा नहीं है"
 
@@ -3944,9 +3935,6 @@ msgstr "%s मापा जा रहा है (%s / %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s का नाम %s हो सकता है"
-
-msgid "Measuring not possible: %s"
-msgstr "मापना संभव नहीं: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  %s पढ़ा नहीं जा सकता: %s"

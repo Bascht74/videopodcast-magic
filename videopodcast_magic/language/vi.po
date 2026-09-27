@@ -2299,9 +2299,6 @@ msgstr "Chỉ đo -- không ghi hay tải lên gì."
 msgid "Measuring %s (%s of %s)"
 msgstr "Đang đo %s (%s/%s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Không thể đo: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Đo mức chuẩn"
 
@@ -2325,9 +2322,6 @@ msgstr "Multitrack cần ít nhất hai rãnh đầu vào. Một rãnh là một
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Chưa dùng âm thanh nào -- thêm một bản ghi âm, hoặc trong danh sách tệp đặt Âm thanh máy quay của một tệp video thành \"dùng âm thanh tích hợp\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Không có rãnh âm thanh nào được gán."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Không có máy quay nào được gán, nên không có gì để chuyển cảnh qua lại."
@@ -2466,9 +2460,6 @@ msgstr "Không bắt buộc -- khi đó YouTube dùng giá trị mặc định (
 
 msgid "Not ready yet:"
 msgstr "Chưa sẵn sàng:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Không nghe thấy gì trong các rãnh."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Một bản ghi âm chưa có tên người nói."
@@ -3820,9 +3811,6 @@ msgstr "  (chỉ đo: không tách gì)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Các rãnh chưa được đo, nên %s có trong bản trộn nhưng không có trong bản dựng: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s chưa được đo -- có trong bản dựng, chưa có trong bản xem trước này."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Từ chính các rãnh, mỗi rãnh một giọng nói: %s."

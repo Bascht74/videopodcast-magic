@@ -5,9 +5,10 @@ A recording made of blocks is joined and measured as the run measures
 it, and every file lies where the run lays it: divided by its clock
 where the run takes the drift out, unstretched where the drift stays in.
 Sections: the interview fixture, whose two recordings of three blocks
-the run places by sound and whose one drift stays in; and a synthetic
-camera with a recording in two blocks whose drift the run takes out.
-The run's side is read off the run's own functions, never the window's.
+the run places by sound and whose one drift stays in; a synthetic
+camera with a recording in two blocks whose drift the run takes out;
+and that recording once more, its join answering that it cannot be
+placed. The run's side is read off the run's own functions.
 """
 PLATFORM_BOUND = True
 import os
@@ -22,6 +23,7 @@ sys.path.insert(0, HERE)
 import the_program
 import contextlib
 import io
+import json
 import shutil
 import subprocess
 import tempfile
@@ -247,6 +249,49 @@ check("its second block follows at the head's length on the run's clock",
       "window %s against %s; by the length alone %s"
       % (figure(at(TAIL)), figure(wanted),
          figure(at(HEAD) + BLOCK if at(HEAD) is not None else None)))
+
+#------------------------------ 3. A join the run cannot place (E-535)
+
+print("\n3. A recording whose joined sound the run cannot place")
+# The join's measurement as the run keeps it, by head: None where it
+# found nothing, a place marked unplaceable where the sound gave none.
+# The run refuses such a head (tracks_placed): it lies nowhere, and the
+# window's axis says so too instead of keeping what the head alone got.
+HEAD_KEY = vpm.path_key(HEAD)
+
+
+def joined_as(got, weak=()):
+    """The window's axis of section 2, the join answering *got*."""
+    data = json.loads(json.dumps(data2))
+    data["weak"] = list(weak)
+    vpm.head_by_the_whole(data, [CAM, HEAD, TAIL], {HEAD: [HEAD, TAIL]},
+                          raw={"joined": {HEAD_KEY: got}})
+    return data
+
+
+def nowhere_line(data):
+    """Where the head stands in *data*, and whether it is said to."""
+    return "head at %s, among those with no place: %s" % (
+        figure((data.get("axis") or {}).get(HEAD_KEY)),
+        HEAD_KEY in set(vpm.path_key(p) for p in data.get("no_place") or ()))
+
+
+found_nothing = joined_as(None)
+check("a head whose join finds nothing stands nowhere, as in the run",
+      HEAD_KEY not in (found_nothing.get("axis") or {})
+      and HEAD in (found_nothing.get("no_place") or ()),
+      nowhere_line(found_nothing))
+check("and its later block with it",
+      vpm.path_key(TAIL) not in (found_nothing.get("axis") or {}),
+      "tail at %s" % figure((found_nothing.get("axis") or {}).get(
+          vpm.path_key(TAIL))))
+unplaced = joined_as([0.0, 1.0, {"unplaceable": True}])
+check("a head its join cannot place stands nowhere, though it alone did",
+      HEAD_KEY not in (unplaced.get("axis") or {})
+      and HEAD in (unplaced.get("no_place") or ()), nowhere_line(unplaced))
+by_clock = joined_as([0.0, 1.0, {"unplaceable": True}], weak=[HEAD])
+check("a head its clock placed keeps that place",
+      HEAD_KEY in (by_clock.get("axis") or {}), nowhere_line(by_clock))
 
 shutil.rmtree(WORK, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

@@ -2299,9 +2299,6 @@ msgstr "Μόνο μέτρηση -- τίποτα δεν γράφεται ούτε
 msgid "Measuring %s (%s of %s)"
 msgstr "Μέτρηση %s (%s από %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Η μέτρηση δεν είναι δυνατή: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Μέτρηση του μέτρου αναφοράς"
 
@@ -2325,9 +2322,6 @@ msgstr "Το Multitrack χρειάζεται τουλάχιστον δύο κο�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Δεν χρησιμοποιείται ήχος ακόμη -- προσθέστε μια ηχογράφηση, ή ορίστε στη λίστα αρχείων τον Ήχο κάμερας ενός αρχείου βίντεο σε «χρήση εσωτερικού ήχου»."
-
-msgid "No audio tracks are assigned."
-msgstr "Δεν έχουν αντιστοιχιστεί κομμάτια ήχου."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Δεν έχει αντιστοιχιστεί κάμερα, οπότε δεν υπάρχει τίποτα ανάμεσα στο οποίο να γίνει μοντάζ."
@@ -2466,9 +2460,6 @@ msgstr "Δεν είναι υποχρεωτικά -- το YouTube εφαρμόζ�
 
 msgid "Not ready yet:"
 msgstr "Δεν είναι έτοιμο ακόμη:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Τίποτα δεν ακουγόταν στα κομμάτια."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Μία ηχογράφηση δεν έχει όνομα ομιλητή ακόμη."
@@ -3823,9 +3814,6 @@ msgstr "  (μόνο μέτρηση: τίποτα δεν διαχωρίστηκε
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Τα κομμάτια δεν μετρήθηκαν, άρα στη μίξη και όχι στο μοντάζ: %s. Αιτία: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Δεν μετρήθηκε ακόμη: %s -- στο μοντάζ, όχι ακόμη σε αυτήν την προεπισκόπηση."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Από τα ίδια τα κομμάτια, μία φωνή ανά κομμάτι: %s."

@@ -1676,9 +1676,6 @@ msgstr "Nenhum falante conhecido ainda -- nada medido, nada separado, e nenhum a
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "A janela de tempo fica fora do material: ponto de entrada em %s, ponto de saída em %s, e o material dura %s."
 
-msgid "No audio tracks are assigned."
-msgstr "Nenhuma faixa de áudio atribuída."
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Nenhum falante conhecido ainda -- eles são obtidos das faixas assim que esta aba é aberta. Se todos estiverem numa só gravação, o caminho é \"vários falantes\" no campo Nome do falante."
 
@@ -1705,9 +1702,6 @@ msgstr "o corte usa %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "nenhum falante lhe está atribuído, mas o corte usa %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s ainda não medido -- no corte sim, nesta pré-visualização ainda não."
 
 msgid "%r is not a number."
 msgstr "%r não é um número."
@@ -3894,9 +3888,6 @@ msgstr "  %-20s %s de fala, %s de %s frases são perguntas"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s soa como %-20s %s %% dentro daquela faixa, %s pontos à frente da seguinte"
 
-msgid "Nothing was audible in the tracks."
-msgstr "Nada era audível nas faixas."
-
 msgid "%s is not part of this run"
 msgstr "%s não faz parte desta execução"
 
@@ -3944,9 +3935,6 @@ msgstr "Medindo %s (%s de %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s poderia se chamar %s"
-
-msgid "Measuring not possible: %s"
-msgstr "Medição impossível: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  Não é possível ler %s: %s"

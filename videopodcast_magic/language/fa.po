@@ -2332,9 +2332,6 @@ msgstr "فقط اندازه‌گیری -- چیزی نوشته یا بارگذا�
 msgid "Measuring %s (%s of %s)"
 msgstr "اندازه‌گیری %s (%s از %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "اندازه‌گیری ممکن نیست: %s"
-
 msgid "Measuring the yardstick"
 msgstr "اندازه‌گیری معیار"
 
@@ -2358,9 +2355,6 @@ msgstr "Multitrack دست‌کم به دو ترک ورودی نیاز دارد. 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "هنوز هیچ صدایی به کار نرفته است -- یک ضبط صوتی بیفزایید، یا در فهرست فایل‌ها صدای دوربین یک فایل ویدیویی را روی «استفاده از صدای داخلی» بگذارید."
-
-msgid "No audio tracks are assigned."
-msgstr "هیچ ترک صوتی‌ای تخصیص داده نشده است."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "هیچ دوربینی تخصیص داده نشده است، پس چیزی برای برش زدن میان دوربین‌ها نیست."
@@ -2499,9 +2493,6 @@ msgstr "الزامی نیست -- در این صورت YouTube مقادیر پی�
 
 msgid "Not ready yet:"
 msgstr "هنوز آماده نیست:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "در ترک‌ها چیزی شنیده نشد."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "یک ضبط صوتی هنوز نام گوینده ندارد."
@@ -3914,9 +3905,6 @@ msgstr "  (فقط اندازه‌گیری: چیزی تفکیک نشد)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ترک‌ها اندازه‌گیری نشدند، پس این‌ها در میکس هستند و نه در برش: %s؛ علت: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "هنوز اندازه‌گیری نشده: %s -- در برش هست، هنوز در این پیش‌نمایش نه."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  از خود ترک‌ها، یک صدا برای هر ترک: %s."

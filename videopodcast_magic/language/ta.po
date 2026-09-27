@@ -2332,9 +2332,6 @@ msgstr "அளவீடு மட்டும் -- எதுவும் எழ
 msgid "Measuring %s (%s of %s)"
 msgstr "அளவிடுகிறது: %s (%s, மொத்தம் %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "அளவிட முடியவில்லை: %s"
-
 msgid "Measuring the yardstick"
 msgstr "அளவுகோலை அளவிடுகிறது"
 
@@ -2358,9 +2355,6 @@ msgstr "Multitrack-க்குக் குறைந்தது இரண்�
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "இன்னும் எந்த ஒலியும் பயன்பாட்டில் இல்லை -- ஒரு ஆடியோ பதிவைச் சேர்க்கவும், அல்லது கோப்புப் பட்டியலில் ஒரு வீடியோ கோப்பின் கேமரா ஆடியோவை \"உள் ஆடியோவைப் பயன்படுத்து\" என அமைக்கவும்."
-
-msgid "No audio tracks are assigned."
-msgstr "எந்த ஆடியோ தடமும் ஒதுக்கப்படவில்லை."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "எந்தக் கேமராவும் ஒதுக்கப்படவில்லை, எனவே மாற்றி வெட்ட எதுவும் இல்லை."
@@ -2499,9 +2493,6 @@ msgstr "கட்டாயமில்லை -- அப்போது YouTube �
 
 msgid "Not ready yet:"
 msgstr "இன்னும் தயாராக இல்லை:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "தடங்களில் எதுவும் கேட்கவில்லை."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "ஒரு ஆடியோ பதிவுக்கு இன்னும் பேச்சாளர் பெயர் இல்லை."
@@ -3915,9 +3906,6 @@ msgstr "  (அளவீடு மட்டும்: எதுவும் ப�
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  தடங்கள் அளவிடப்படவில்லை, எனவே மிக்ஸில் இருந்தும் கட்டில் இல்லாதவை: %s -- காரணம்: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "இன்னும் அளவிடப்படாதவை: %s -- கட்டில் உள்ளன, இந்த முன்னோட்டத்தில் இன்னும் இல்லை."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  தடங்களிலிருந்தே, ஒவ்வொரு தடத்துக்கும் ஒரு குரல்: %s."

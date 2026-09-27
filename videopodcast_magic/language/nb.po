@@ -2299,9 +2299,6 @@ msgstr "Bare måle -- ingenting skrives eller lastes opp."
 msgid "Measuring %s (%s of %s)"
 msgstr "Måler %s (%s av %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Måling ikke mulig: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Måler målestokken"
 
@@ -2325,9 +2322,6 @@ msgstr "Multitrack trenger minst to inngangsspor. Et spor er et eget opptak, en 
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ingen lyd i bruk ennå -- legg til et lydopptak, eller sett Kameralyd for en videofil til \"bruk intern lyd\" i fillisten."
-
-msgid "No audio tracks are assigned."
-msgstr "Ingen lydspor er tildelt."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ikke noe kamera er tildelt, så det er ingenting å klippe mellom."
@@ -2466,9 +2460,6 @@ msgstr "Det er ikke påkrevd -- YouTube bruker da standardverdier (Sony BVM-X300
 
 msgid "Not ready yet:"
 msgstr "Ikke klar ennå:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Ingenting var å høre i sporene."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Ett lydopptak har ikke noe talernavn ennå."
@@ -3822,9 +3813,6 @@ msgstr "  (bare måling: ingenting separert)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Sporene ble ikke målt, så %s ligger i miksen og ikke i klippingen: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s ikke målt ennå -- i klippingen, ennå ikke i denne forhåndsvisningen."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Fra sporene selv, én stemme per spor: %s."

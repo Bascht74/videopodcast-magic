@@ -2301,9 +2301,6 @@ msgstr "Doar măsurare -- nu se scrie și nu se încarcă nimic."
 msgid "Measuring %s (%s of %s)"
 msgstr "Se măsoară %s (%s din %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Măsurarea nu este posibilă: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Măsurarea etalonului"
 
@@ -2327,9 +2324,6 @@ msgstr "Multitrack are nevoie de cel puțin două piste de intrare. O pistă est
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Niciun sunet în uz încă -- adăugați o înregistrare audio sau setați în lista de fișiere Audio cameră al unui fișier video pe „folosiți audio intern”."
-
-msgid "No audio tracks are assigned."
-msgstr "Nu este atribuită nicio pistă audio."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nicio cameră nu este atribuită, deci nu există nimic între care să se monteze."
@@ -2468,9 +2462,6 @@ msgstr "Nu sunt obligatorii -- YouTube aplică atunci valori implicite (Sony BVM
 
 msgid "Not ready yet:"
 msgstr "Încă nu este gata:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "În piste nu s-a auzit nimic."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "O înregistrare audio nu are încă numele vorbitorului."
@@ -3826,9 +3817,6 @@ msgstr "  (doar măsurare: nimic separat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Pistele nu au fost măsurate, deci în mix și nu în montaj: %s. Motivul: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Încă nu s-a măsurat: %s -- în montaj, dar încă nu în această previzualizare."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Din pistele însele, o voce pe pistă: %s."

@@ -2299,9 +2299,6 @@ msgstr "Vain mittaus -- mitään ei kirjoiteta eikä lähetetä."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mitataan %s (%s / %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mittaus ei ole mahdollinen: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mitataan mittapuuta"
 
@@ -2325,9 +2322,6 @@ msgstr "Multitrack tarvitsee vähintään kaksi tuloraitaa. Raita on oma tallenn
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Ääntä ei ole vielä käytössä -- lisää äänitallenne tai aseta jonkin videotiedoston Kameran ääni arvoon \"käytä sisäistä ääntä\" tiedostoluettelossa."
-
-msgid "No audio tracks are assigned."
-msgstr "Ääniraitoja ei ole määritetty."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Yhtään kameraa ei ole määritetty, joten ei ole mitään, minkä välillä leikata."
@@ -2466,9 +2460,6 @@ msgstr "Pakollista se ei ole -- YouTube käyttää silloin oletusarvoja (Sony BV
 
 msgid "Not ready yet:"
 msgstr "Ei vielä valmis:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Raidoilla ei kuulunut mitään."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Yhdellä äänitallenteella ei ole vielä puhujan nimeä."
@@ -3822,9 +3813,6 @@ msgstr "  (vain mittaus: mitään ei eroteltu)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Raitoja ei mitattu, joten %s on miksauksessa eikä leikkauksessa: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: ei vielä mitattu -- leikkauksessa mukana, tässä esikatselussa ei vielä."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Raidoista itsestään, yksi puheääni raitaa kohden: %s."

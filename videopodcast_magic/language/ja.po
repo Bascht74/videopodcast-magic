@@ -1668,9 +1668,6 @@ msgstr "まだ話者が分かっていません -- 何も測定・分離され�
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "時間枠が素材の外にあります: イン点 %s、アウト点 %s、素材の長さは %s です。"
 
-msgid "No audio tracks are assigned."
-msgstr "音声トラックが割り当てられていません。"
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "まだ話者が分かっていません -- このタブを開くとすぐにトラックから割り出されます。全員が 1 つの録音に入っている場合は、話者名の欄で「複数の話者」を選んでください。"
 
@@ -1697,9 +1694,6 @@ msgstr "カットは %s を使います"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "話者は割り当てられていませんが、カットは %s を使います"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s はまだ測定されていません -- カットには反映済み、このプレビューにはまだ反映されていません。"
 
 msgid "%r is not a number."
 msgstr "%r は数値ではありません。"
@@ -3884,9 +3878,6 @@ msgstr "  %-20s 発話 %s、%s / %s 文が質問"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s は %-20s に近い そのトラック内に %s %%、次より %s ポイント上"
 
-msgid "Nothing was audible in the tracks."
-msgstr "トラックには何も聞こえませんでした。"
-
 msgid "%s is not part of this run"
 msgstr "%s はこの実行に含まれていません"
 
@@ -3934,9 +3925,6 @@ msgstr "%s を計測中（%s / %s）"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s の名前は %s が考えられます"
-
-msgid "Measuring not possible: %s"
-msgstr "計測できません: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  %s を読めません: %s"

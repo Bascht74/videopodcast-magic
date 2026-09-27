@@ -2299,9 +2299,6 @@ msgstr "Alleen meten -- er wordt niets geschreven of geüpload."
 msgid "Measuring %s (%s of %s)"
 msgstr "%s wordt gemeten (%s van %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Meten niet mogelijk: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Maatstaf meten"
 
@@ -2325,9 +2322,6 @@ msgstr "Multitrack heeft minstens twee invoersporen nodig. Een spoor is een eige
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Nog geen geluid in gebruik -- voeg een audio-opname toe, of zet in de bestandslijst het Camerageluid van een videobestand op \"intern geluid gebruiken\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Er zijn geen audiosporen toegewezen."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Er is geen camera toegewezen, dus er valt niets om tussen te monteren."
@@ -2466,9 +2460,6 @@ msgstr "Niet verplicht -- YouTube past dan standaardwaarden toe (Sony BVM-X300).
 
 msgid "Not ready yet:"
 msgstr "Nog niet klaar:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "In de sporen was niets te horen."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Eén audio-opname heeft nog geen sprekernaam."
@@ -3823,9 +3814,6 @@ msgstr "  (alleen gemeten: niets gescheiden)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  De sporen zijn niet gemeten, dus %s zit in de mix en niet in de montage: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s nog niet gemeten -- in de montage wel, in dit voorbeeld nog niet."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Uit de sporen zelf, één stem per spoor: %s."

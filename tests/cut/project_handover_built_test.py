@@ -146,13 +146,9 @@ check("a fresh start_tc keeps the semicolon",
         w.get("start_tc") == "17:01:00;00",
         "%r against '17:01:00;00'" % (w.get("start_tc"),))
 
-print("\n6. The interface really takes this way")
+print("\n6. The old zero point is gone from the program")
 source = the_program.whole()
 lines_in_source = source.count("\n") + 1
-calls = source.count("d, reason = build_handover(")
-check("off_speakers calls build_handover", calls > 0,
-        "found %d times in the %d lines of %s"
-        % (calls, lines_in_source, os.path.basename(SCRIPT)))
 old_sums = source.count("zero = (min(audios) if audios else")
 check("the old calculation is gone", old_sums == 0,
         "%d of the old zero-point lines against 0, in %d lines of %s"

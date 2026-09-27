@@ -2338,9 +2338,6 @@ msgstr "Tomhas amháin -- ní scríobhtar ná ní uaslódáiltear aon rud."
 msgid "Measuring %s (%s of %s)"
 msgstr "Tomhas: %s (%s as %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Ní féidir tomhas: %s"
-
 msgid "Measuring the yardstick"
 msgstr "An tslat tomhais á tomhas"
 
@@ -2364,9 +2361,6 @@ msgstr "Teastaíonn dhá rian ionchuir ar a laghad ó Multitrack. Is éard is ri
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Níl aon fhuaim in úsáid fós -- cuir taifeadadh fuaime leis, nó socraigh Fuaim an cheamara de chomhad físe ar \"úsáid fuaim inmheánach\" sa liosta comhad."
-
-msgid "No audio tracks are assigned."
-msgstr "Níl aon rian fuaime sannta."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Níl aon cheamara sannta, mar sin níl aon rud le gearradh eatarthu."
@@ -2505,9 +2499,6 @@ msgstr "Níl sé éigeantach -- cuireann YouTube luachanna réamhshocraithe i bh
 
 msgid "Not ready yet:"
 msgstr "Níl sé réidh fós:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Ní raibh aon rud le cloisteáil sna rianta."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Níl ainm cainteora ar thaifeadadh fuaime amháin fós."
@@ -3922,9 +3913,6 @@ msgstr "  (tomhas amháin: níor scaradh faic)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Níor tomhaiseadh na rianta, mar sin tá %s sa mheascán agus ní sa ghearradh: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Gan tomhas fós: %s -- sa ghearradh, ach ní sa réamhamharc seo fós."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Ó na rianta féin, guth amháin in aghaidh an riain: %s."

@@ -218,29 +218,24 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
 
 
 def handover_kept(state):
-    """The handover kept under state["handover_key"], if it is still true.
+    """The handover kept under state["handover_key"], or None.
 
-    Its key names the folder and the production, not the material, so
-    it is trusted only where it stands on the axis the window measured
-    or took for the files it has now, state["axis_stage_key"]. None
-    otherwise, and where nothing is kept.
+    The key names the run's line, its plan and every file by place, time
+    and size (handover_key), so what is kept under it is that run's: on
+    the axis the run stood on, which is the one the preview shows.
     """
     key = state.get("handover_key")
     kept = stage_get(key) if key else None
-    if not isinstance(kept, dict) or not state.get("axis_stage_key") \
-            or kept.get("axis_key") != state.get("axis_stage_key"):
-        return None
-    return kept
+    return kept if isinstance(kept, dict) else None
 
 
 def preview_handover(state):
     """Read the run's handover for the preview, or answer None.
 
-    A finished run beats what the window worked out: its tracks lie on
-    one axis and its speakers are the ones it cut by. So the measurement
-    the window took is dropped rather than shown beside it. A handover
-    kept for what is set now comes first (handover_kept), the file the
-    run wrote only where none is.
+    The preview works nothing out of its own: it shows what a run did.
+    The handover the window's own dry run kept for what is set now comes
+    first (handover_kept); the file a finished run wrote only where none
+    is kept.
     """
     d, js = None, state.get("resolve_json")
     state["preview_from"] = None
@@ -255,10 +250,13 @@ def preview_handover(state):
             state["preview_from"] = handover_mark(js)
         except (OSError, ValueError):
             d = None
-    state["cut_basis"] = "run" if d is not None else "measured"
-    if d is not None:
-        state["tracks_left"] = []
-        state["stat_measured"] = "run"
+    # A kept one is the preview's own run, which measured from the
+    # recordings -- by voice where a separation stands; only the file
+    # a run wrote is a finished run.
+    finished = d is not None and kept is None
+    state["cut_basis"] = "run" if finished else "measured"
+    state["stat_measured"] = "run" if finished else not state.get(
+        "speakers_by")
     return d
 
 
@@ -271,6 +269,9 @@ def preview_out_of_date(state):
     """
     if state.get("running"):
         return False
+    # The preview's run held back until the window was free for it.
+    if state.get("preview_waiting"):
+        return True
     # A handover kept for what is set now, and not the one shown.
     if handover_kept(state) is not None:
         return (not state.get("statistics") or state.get("preview_from")
@@ -1231,11 +1232,11 @@ def head_by_the_whole(data, paths, blocks, HOP=5.0,
                       phase_of=lambda p: True, raw=None):
     """Measure a recording made of blocks as the run does: joined, as one.
 
-    The run's join and measurement against the axis's reference camera,
-    the joined file kept only while it is read; the place by the run's
-    drift rule, and the head's own verdict dropped. Where the join does
-    not place it, what its head block got stands. True where one moved.
-    *raw*["joined"] holds the join's measurement by head, as the run's.
+    The run's join against the axis's reference camera, kept only while
+    read; the place by the run's drift rule. Where the join finds nothing
+    or cannot place a head its sound placed alone, the recording stands
+    nowhere, as the run refuses it. True where one moved. *raw*["joined"]
+    holds the join's measurement by head, as the run's.
     """
     kept = {} if raw is None else raw.setdefault("joined", {})
     axis = (data or {}).get("axis") or {}
@@ -1258,6 +1259,12 @@ def head_by_the_whole(data, paths, blocks, HOP=5.0,
                     folder, "joined_%d.wav" % n), ref, length, phase_of)
                 if got is not False:
                     kept[path_key(row[0])] = list(got) if got else None
+            if got is None or (got and got[2].get("unplaceable")
+                               and path_key(row[0]) not in set(
+                                   path_key(p) for p in data.get("weak")
+                                   or ())):
+                placed = head_unplaced(data, row) or placed
+                continue
             if not got or got[2].get("unplaceable"):
                 continue
             start, clock = run_place(*got)
@@ -1271,6 +1278,24 @@ def head_by_the_whole(data, paths, blocks, HOP=5.0,
     finally:
         shutil.rmtree(folder, True)
     return placed
+
+
+def head_unplaced(data, row):
+    """Take the recording of blocks *row* off the axis: nothing places it.
+
+    Where a run stands it: nowhere, its head weak and among those with
+    no place, its later blocks gone with it. True where it stood before.
+    """
+    was = False
+    for p in row:
+        was = (data.get("axis") or {}).pop(path_key(p), None) is not None \
+            or was
+        (data.get("clock") or {}).pop(path_key(p), None)
+    for name in ("weak", "no_place"):
+        if path_key(row[0]) not in set(path_key(p)
+                                       for p in data.get(name) or ()):
+            data.setdefault(name, []).append(row[0])
+    return was
 
 
 def row_joined_places(row, target, ref, length, phase_of):

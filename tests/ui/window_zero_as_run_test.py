@@ -145,15 +145,20 @@ HERE_IS = dict((n, os.path.join(D, n)) for n in (SPLIT, PLAIN, WIDE, GUEST))
 
 def own_project():
     """The project file the window opens: the four files and two voices."""
+    # The guest's own recording stays out, as it does from the run below:
+    # its name, read off the file, would be the guest's voice's too, and
+    # the run -- which the preview is -- refuses one name on two people.
+    # One recording is then no multitrack.
     assignment = {"voice:V0": HERE_IS[WIDE], "voice:V1": HERE_IS[GUEST],
-                  "several:" + HERE_IS[SPLIT]: True}
+                  "several:" + HERE_IS[SPLIT]: True,
+                  "audio:" + HERE_IS[PLAIN]: ["", vpm.IGNORE_AUDIO]}
     st = os.stat(HERE_IS[SPLIT])
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
          "files": [{"path": HERE_IS[n],
                     "kind": "video" if n.endswith(".mov") else "audio"}
                    for n in (SPLIT, PLAIN, WIDE, GUEST)],
          "out_folder": os.path.join(FOLDER, "Result"),
-         "production": "Zero", "multitrack": True,
+         "production": "Zero", "multitrack": False,
          "assignment": assignment, "preset": "",
          "speakers": {"source": os.path.abspath(HERE_IS[SPLIT]),
                       "mtime": int(st.st_mtime), "size": st.st_size,
@@ -185,15 +190,26 @@ QtWidgets.QWidget.show = offstage
 QtWidgets.QDialog.show = offstage
 
 # The preview looks the trimming up in the module when it calls it, so
-# a spy here reads where it put the window's start, on the axis.
+# a spy here reads the handover it trims. No file carries a clock, so
+# where the programme starts is read as the run writes it: the wide
+# camera's offset, "position in the file is programme time minus this".
 seen = []
 _real_window = vpm.apply_time_window
+
+
+def wide_zero(d):
+    """Where programme time 0 stands in the wide camera's own seconds."""
+    for c in (d or {}).get("cameras") or ():
+        if os.path.basename(c.get("source") or c.get("file") or "") == WIDE \
+                and c.get("offset") is not None:
+            return -float(c["offset"])
+    return None
 
 
 def window_spy(d, in_point, out_point):
     out = _real_window(d, in_point, out_point)
     seen.append({"in": in_point, "out": out_point, "complaint": out[1],
-                 "start": out[0].get("start_s"),
+                 "start": wide_zero(out[0]),
                  "length": out[0].get("length_s")})
     return out
 
@@ -357,14 +373,20 @@ def open_project():
             return
 
 
-def to_assignment():
-    top = window_of()
-    for bar in top.findChildren(QtWidgets.QTabWidget):
-        for k in range(bar.count()):
-            if drawn(vpm.T('Assignment')).lower() \
-                    in drawn(bar.tabText(k)).lower():
-                bar.setCurrentIndex(k)
-    app.processEvents()
+def to_tab(caption):
+    """Go to the tab whose caption begins with *caption*'s words."""
+    def do():
+        top = window_of()
+        for bar in top.findChildren(QtWidgets.QTabWidget):
+            for k in range(bar.count()):
+                if drawn(vpm.T(caption)).lower() \
+                        in drawn(bar.tabText(k)).lower():
+                    bar.setCurrentIndex(k)
+        app.processEvents()
+    return do
+
+
+to_assignment = to_tab('Assignment')
 
 
 def player_ready():
@@ -438,18 +460,12 @@ def in_marked(fresh):
           "%.1f s before the guest camera rolls" % (
               said, got, IN_SAYS, IN_AT, GUEST_ROLLS - WIDE_ROLLS))
     start = None if fresh is None else fresh["start"]
-    # From the earliest recorder's place on the axis, not the handover's
-    # start: the preview's handover itself begins where every camera runs.
-    origin = timeline().get(SPLIT)
-    wanted = WIDE_ROLLS + IN_AT
     check("the preview cuts at the picture Mark In was pressed on",
-          start is not None and origin is not None
-          and abs((start - origin) - wanted) <= FRAME,
-          "the preview's window starts %s s after the earliest recording, "
-          "wanted %.1f s; complaint %r" % (
-              None if start is None or origin is None
-              else round(start - origin, 3), wanted,
-              None if fresh is None else fresh["complaint"]))
+          start is not None and abs(start - IN_AT) <= FRAME,
+          "the preview's window starts at %s s of %s, wanted %.1f s; "
+          "complaint %r" % (None if start is None else round(start, 3),
+                            WIDE, IN_AT,
+                            None if fresh is None else fresh["complaint"]))
 
 
 def out_marked(_fresh):
@@ -477,17 +493,16 @@ def type_from_end():
 
 def from_end_previewed(fresh):
     start = None if fresh is None else fresh["start"]
-    # From the earliest recorder's place, as for Mark In above.
-    origin = timeline().get(SPLIT)
     length = None if fresh is None else fresh["length"]
-    ends = (None if None in (start, origin, length)
-            else round(start - origin + length, 3))
-    wanted = GUEST_STOPS - 20.0
+    ends = None if None in (start, length) else round(start + length, 3)
+    # In the wide camera's seconds: it rolls WIDE_ROLLS after the first
+    # recorder, and the first stop is the guest camera's.
+    wanted = GUEST_STOPS - 20.0 - WIDE_ROLLS
     check("the preview counts an Out point back from the first stop",
           ends is not None and abs(ends - wanted) <= FRAME,
-          "the preview's window ends %s s after the earliest recording, "
-          "wanted %.1f s; complaint %r" % (
-              ends, wanted, None if fresh is None else fresh["complaint"]))
+          "the preview's window ends at %s s of %s, wanted %.1f s; "
+          "complaint %r" % (ends, WIDE, wanted,
+                            None if fresh is None else fresh["complaint"]))
 
 
 def at_from_end(_fresh):
@@ -554,6 +569,9 @@ def start():
 
 step("1. the project is opened", open_project, lambda _f: None,
      until=lambda: preview_player() is not None)
+# The preview's run begins on the first look at its tab.
+step("1a. the Resolve cut tab is looked at once", to_tab('Resolve cut'),
+     lambda _f: None)
 step("1b. the player goes where the marks are made", to_assignment,
      lambda _f: None, until=player_ready)
 step("1c. the time axis is measured", lambda: None, ground,

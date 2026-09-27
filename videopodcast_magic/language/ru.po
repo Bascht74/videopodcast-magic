@@ -2566,9 +2566,6 @@ msgstr "%s кГц против %s кГц"
 msgid "%s kHz instead of %s kHz -- converted during processing."
 msgstr "%s кГц вместо %s кГц -- пересчитывается при подготовке."
 
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s -- ещё без измерения: в монтаже есть, в этом предпросмотре пока нет."
-
 msgid "%s of %s comparisons are below %s dB -- every recording against every other, in both directions."
 msgstr "%s из %s сравнений ниже %s дБ -- каждая запись против каждой другой, в обе стороны."
 
@@ -3065,9 +3062,6 @@ msgstr "Измерить, выровнять, обработать, записа
 msgid "Measuring %s (%s of %s)"
 msgstr "Измерение %s (%s из %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Измерение невозможно: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Измерение эталона"
 
@@ -3131,9 +3125,6 @@ msgstr "Нет своего пресета Singletrack -- создать"
 
 msgid "No audio file given."
 msgstr "Звуковой файл не указан."
-
-msgid "No audio tracks are assigned."
-msgstr "Звуковые дорожки не назначены."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ни одна камера не назначена, поэтому монтировать не между чем."
@@ -3221,9 +3212,6 @@ msgstr "Пока это не исправлено, ничего не выпол�
 
 msgid "Nothing was audible in the recording."
 msgstr "В записи ничего не было слышно."
-
-msgid "Nothing was audible in the tracks."
-msgstr "В дорожках ничего не было слышно."
 
 msgid "Nothing was written -- there is no material yet."
 msgstr "Ничего не записано -- материала пока нет."

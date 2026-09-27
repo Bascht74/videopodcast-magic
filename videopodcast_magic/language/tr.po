@@ -1688,9 +1688,6 @@ msgstr "Henüz bilinen konuşmacı yok -- hiçbir şey ölçülmedi, hiçbir şe
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "Zaman aralığı malzemenin dışında: giriş noktası %s, çıkış noktası %s ve malzeme %s sürüyor."
 
-msgid "No audio tracks are assigned."
-msgstr "Hiçbir ses izi atanmadı."
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Henüz bilinen konuşmacı yok -- bu sekme açılır açılmaz izlerden çıkarılırlar. Herkes tek bir kayıttaysa, yol Konuşmacı adı alanında \"birden çok konuşmacı\" seçmektir."
 
@@ -1717,9 +1714,6 @@ msgstr "kurgu %s kullanıyor"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "ona hiçbir konuşmacı atanmamış, ama kurgu %s kullanıyor"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s henüz ölçülmedi -- kurguda var, bu önizlemede henüz yok."
 
 msgid "%r is not a number."
 msgstr "%r bir sayı değil."
@@ -3906,9 +3900,6 @@ msgstr "  %-20s %s konuşma, %s / %s cümle soru"
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s şuna benziyor: %-20s %s %%'si o izde, bir sonrakinden %s puan önde"
 
-msgid "Nothing was audible in the tracks."
-msgstr "İzlerde hiçbir şey duyulmuyordu."
-
 msgid "%s is not part of this run"
 msgstr "%s bu çalışmanın parçası değil"
 
@@ -3956,9 +3947,6 @@ msgstr "%s ölçülüyor (%s / %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s adı şu olabilir: %s"
-
-msgid "Measuring not possible: %s"
-msgstr "Ölçüm yapılamıyor: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  %s okunamıyor: %s"

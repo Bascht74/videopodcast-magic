@@ -81,7 +81,11 @@ def player_load_cut(cut_player, cut_band, state, numbers, prepared_tracks,
         return
     d = state.get("cut_data")
     if numbers and numbers.get("cut") and d:
-        cameras = [x for x in (d.get("cameras") or []) if x.get("file")]
+        # A dry run renders nothing: its cameras play their own files,
+        # at the offsets it gave those.
+        cameras = [dict(x, file=x.get("file") or x.get("source"))
+                   for x in (d.get("cameras") or [])
+                   if x.get("file") or x.get("source")]
         offset = camera_offset(cameras, d.get("start_s"),
             max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0)))
         files_per_track = {x["track"]: x["file"] for x in cameras}
@@ -362,7 +366,7 @@ class ResolveSheet(QtWidgets.QScrollArea):
                 self.wide_state_show)
 
     def chosen(self, *_):
-        """Resolve and the speakers, on the first look at this tab.
+        """Resolve and the preview's run, on the first look at this tab.
 
         Not twice -- a second speaker run costs minutes for nothing.
         """
@@ -378,7 +382,8 @@ class ResolveSheet(QtWidgets.QScrollArea):
         if speakers_still_wanted(self.state, self.model.assign_lines,
                                  self.model.voice_lines):
             gui_log("cut tab opened with no speakers known -- measuring")
-            self.speaker_measure()
+        self.state["cut_tab_seen"] = True
+        self.preview_compute()
 
     def info_build(self):
         """The line with In point, Out point and duration, kept up to date.
@@ -531,16 +536,15 @@ class ResolveSheet(QtWidgets.QScrollArea):
 
         One waits a moment after a change instead of computing on every
         keystroke; the other looks every three seconds whether a run has
-        left a handover file behind, so the preview appears by itself.
+        left a handover behind, or the preview's run waits to go.
         """
         model, state = self.model, self.state
         start_var, end_var = model.in_point, model.out_point
-        preview_compute, self.speaker_measure = make_preview(
+        preview_compute = make_preview(
             QtCore.Qt, QtWidgets, state, bridge, bridge_emit,
             model.assign_lines, model.camera_lines, model.voice_lines,
             self.cut_var, self.cut_parts, self.edge_on, start_var, end_var,
-            model.multitrack, model.out_folder, model.clip_kind_value,
-            self.parts["wide_cameras_now"], model.commonest_folder,
+            model.multitrack, self.parts["wide_cameras_now"],
             self.band_show, self.speech_show, self.window_info_show,
             self.question_note, self.cut_column, self.forecast_box,
             self.preview_label, self.speech_title, self.speech_table)

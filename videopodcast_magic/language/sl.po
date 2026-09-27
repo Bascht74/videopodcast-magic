@@ -2336,9 +2336,6 @@ msgstr "Samo merjenje -- nič se ne zapiše ali naloži."
 msgid "Measuring %s (%s of %s)"
 msgstr "Merjenje: %s (%s od %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Merjenje ni mogoče: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Merjenje merila"
 
@@ -2362,9 +2359,6 @@ msgstr "Multitrack potrebuje vsaj dve vhodni sledi. Sled je lasten posnetek, kan
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Zvok še ni v uporabi -- dodajte zvočni posnetek ali na seznamu datotek pri video datoteki nastavite Zvok kamere na „z notranjim zvokom“."
-
-msgid "No audio tracks are assigned."
-msgstr "Nobena zvočna sled ni dodeljena."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nobena kamera ni dodeljena, zato ni ničesar, med čimer bi rezali."
@@ -2503,9 +2497,6 @@ msgstr "Ni obvezno -- YouTube takrat uporabi privzete vrednosti (Sony BVM-X300).
 
 msgid "Not ready yet:"
 msgstr "Še ni pripravljeno:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "V sledeh ni bilo nič slišati."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "En zvočni posnetek še nima imena govorca."
@@ -3918,9 +3909,6 @@ msgstr "  (samo merjenje: nič ni ločeno)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Sledi niso bile izmerjene, zato v miksu in ne v montaži: %s -- %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "Še ni izmerjeno: %s -- v montaži je, v tem predogledu pa še ne."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Iz samih sledi, en glas na sled: %s."

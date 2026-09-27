@@ -2301,9 +2301,6 @@ msgstr "Csak mérés -- semmi nem íródik és nem töltődik fel."
 msgid "Measuring %s (%s of %s)"
 msgstr "%s mérése (%s / %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "A mérés nem lehetséges: %s"
-
 msgid "Measuring the yardstick"
 msgstr "A mérce mérése"
 
@@ -2327,9 +2324,6 @@ msgstr "A Multitrack legalább két bemeneti sávot igényel. Egy sáv egy sajá
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Még nincs használatban hang -- adjon hozzá egy hangfelvételt, vagy állítsa a fájllistában egy videófájl Kamerahangját „belső hang használata” értékre."
-
-msgid "No audio tracks are assigned."
-msgstr "Nincsenek hozzárendelve hangsávok."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nincs hozzárendelve kamera, így nincs mi között vágni."
@@ -2468,9 +2462,6 @@ msgstr "Nem kötelező -- a YouTube ilyenkor alapértelmezett értékeket alkalm
 
 msgid "Not ready yet:"
 msgstr "Még nem áll készen:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "A sávokon semmi nem hallható."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Egy hangfelvételnek még nincs beszélőneve."
@@ -3824,9 +3815,6 @@ msgstr "  (csak mérés: semmi nincs szétválasztva)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  A sávok nem lettek megmérve, így a keverésben van, nem a vágásban: %s. Az ok: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s még nincs mérve -- a vágásban igen, ebben az előnézetben még nem."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Magukból a sávokból, sávonként egy hang: %s."

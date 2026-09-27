@@ -61,6 +61,10 @@ WINDOW = (1400, 950)
 
 SPLIT = "Presenter_REC00021.wav"          # the recording with the voices
 PLAIN = "CoPresenter_REC00018.wav"        # the recording with a name field
+# The blocks after each head: the preview is the run, and the run places
+# a recording by all of its sound, never by its first 40 s alone.
+BLOCKS = ("Presenter_REC00022.wav", "Presenter_REC00023.wav",
+          "CoPresenter_REC00019.wav", "CoPresenter_REC00020.wav")
 WIDE = "WideCam_01011855_C001.mov"
 HOSTS = "PresentersCam_01011855_C002.mov"
 GUESTS = "GuestCam_01011858_C003.mov"
@@ -125,7 +129,7 @@ def own_project():
     source = fixture("interview")
     own = tempfile.mkdtemp(prefix="vpm_marks_")
     here = {}
-    for name in (SPLIT, PLAIN) + CAMERAS:
+    for name in (SPLIT, PLAIN) + BLOCKS + CAMERAS:
         link = os.path.join(own, name)
         if not os.path.exists(link):
             os.symlink(os.path.join(source, name), link)
@@ -136,7 +140,7 @@ def own_project():
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
          "files": [{"path": here[n],
                     "kind": "video" if n.endswith(".mov") else "audio"}
-                   for n in (SPLIT, PLAIN) + CAMERAS],
+                   for n in (SPLIT, PLAIN) + BLOCKS + CAMERAS],
          "out_folder": os.path.join(own, "Result"),
          "production": "Marks", "multitrack": True,
          "assignment": assignment, "preset": "",
@@ -678,8 +682,10 @@ def written_out(_fresh):
              kept.get("out_arrived"), kept.get("out")))
 
 
-# an Out point in front of the In point
-COMPLAINT = vpm.T('Out point lies less than 5 seconds after In point.')
+# an Out point in front of the In point: the preview is the run, stopped
+# before it writes, so what it says is the run's own refusal.
+COMPLAINT = vpm.T('    Out point lies before In point -- that does not '
+                  'work.').strip()
 
 
 def axis_measured():
@@ -726,6 +732,9 @@ def start():
 
 step("0. nothing is loaded yet", lambda: None, look_before)
 step("1. the project is opened", open_project, opened, until=player_ready)
+# The preview's run begins on the first look at its tab.
+step("1a. the Resolve cut tab is looked at once",
+     lambda: tab_to(drawn(vpm.T('Resolve cut'))), lambda _f: None)
 step("1b. the player goes where the marks are made",
      lambda: tab_to(drawn(vpm.T('Assignment'))), lambda _f: None,
      until=player_ready)

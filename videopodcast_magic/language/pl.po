@@ -2301,9 +2301,6 @@ msgstr "Tylko pomiar -- nic nie jest zapisywane ani przesyłane."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mierzenie: %s (%s z %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Pomiar niemożliwy: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Pomiar punktu odniesienia"
 
@@ -2327,9 +2324,6 @@ msgstr "Multitrack wymaga co najmniej dwóch ścieżek wejściowych. Ścieżka t
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Żaden dźwięk nie jest jeszcze używany -- dodaj nagranie audio albo na liście plików ustaw Dźwięk z kamery pliku wideo na \"użyj dźwięku\"."
-
-msgid "No audio tracks are assigned."
-msgstr "Nie przypisano ścieżek audio."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Nie przypisano żadnej kamery, więc nie ma między czym montować."
@@ -2468,9 +2462,6 @@ msgstr "Nieobowiązkowe -- YouTube stosuje wtedy wartości domyślne (Sony BVM-X
 
 msgid "Not ready yet:"
 msgstr "Jeszcze niegotowe:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "W ścieżkach nic nie było słychać."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "Jedno nagranie audio nie ma jeszcze nazwy mówcy."
@@ -3826,9 +3817,6 @@ msgstr "  (tylko pomiar: nic nie rozdzielono)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Ścieżki nie zostały zmierzone, więc %s jest w miksie, ale nie w montażu: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s: jeszcze nie zmierzono -- w montażu tak, w tym podglądzie jeszcze nie."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Z samych ścieżek, jeden głos na ścieżkę: %s."

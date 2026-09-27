@@ -2301,9 +2301,6 @@ msgstr "শুধু মাপা -- কিছু লেখা বা আপল�
 msgid "Measuring %s (%s of %s)"
 msgstr "%s মাপা হচ্ছে (%s/%s)"
 
-msgid "Measuring not possible: %s"
-msgstr "মাপা সম্ভব নয়: %s"
-
 msgid "Measuring the yardstick"
 msgstr "মানদণ্ড মাপা হচ্ছে"
 
@@ -2327,9 +2324,6 @@ msgstr "Multitrack-এর জন্য অন্তত দুটি ইনপু
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "এখনও কোনো শব্দ ব্যবহারে নেই -- একটি অডিও রেকর্ডিং যোগ করুন, অথবা ফাইল তালিকায় কোনো ভিডিও ফাইলের ক্যামেরার অডিও \"ভেতরের অডিও ব্যবহার করুন\"-এ সেট করুন।"
-
-msgid "No audio tracks are assigned."
-msgstr "কোনো অডিও ট্র্যাক বরাদ্দ নেই।"
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "কোনো ক্যামেরা বরাদ্দ নেই, তাই কাট করার মতো কিছু নেই।"
@@ -2468,9 +2462,6 @@ msgstr "বাধ্যতামূলক নয় -- তখন YouTube ডি�
 
 msgid "Not ready yet:"
 msgstr "এখনও প্রস্তুত নয়:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "ট্র্যাকগুলোতে কিছুই শোনা যায়নি।"
 
 msgid "One audio recording has no speaker name yet."
 msgstr "একটি অডিও রেকর্ডিংয়ের এখনও কোনো বক্তার নাম নেই।"
@@ -3824,9 +3815,6 @@ msgstr "  (শুধু মাপা হয়েছে: কিছুই পৃ�
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  ট্র্যাকগুলো মাপা হয়নি, তাই %s মিক্সে আছে, কাটে নয়: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s এখনও মাপা হয়নি -- কাটে আছে, এই প্রিভিউতে এখনও নেই।"
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  ট্র্যাকগুলো থেকেই, প্রতি ট্র্যাকে একটি কণ্ঠস্বর: %s।"

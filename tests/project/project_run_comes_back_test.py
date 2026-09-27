@@ -12,10 +12,10 @@ tracks -- and has to follow that file when it is written again, which
 is what turning a number above does. The projects leave Multitrack off:
 a plain run leaves a handover as a ticked one does.
 
-Before the fourth the sheet that reads the recordings itself, opened
-where no run answered the question. That reading costs minutes on the
-graphics card, so a reading that came to nothing must not be set going
-a second time by the next look at the sheet.
+Before the fourth the sheet, opened where no run answered the question:
+the preview's own run reads the recordings, and on this material it
+refuses, in the run's own words. That run costs minutes, so one that
+came to nothing must not be set going again by the next look.
 """
 PLATFORM_BOUND = True
 import os
@@ -54,20 +54,26 @@ vpm.say_dialog = lambda *a, **k: True     # no dialog waits for anybody
 # installed: the button is grey without it whatever the handover says.
 vpm.resolve_installed = lambda: True
 
-# Every reading of the recordings the window sets going, counted where
-# it is set going: it runs in a thread of its own and costs minutes on
-# the graphics card, so how often it is started is what the last
-# section is about. The real reading follows it unchanged.
+# Every reading of the recordings the window sets going -- the preview's
+# own run -- counted where it is set going: it runs in a thread of its
+# own and costs minutes, so how often it is started is what the last
+# section is about. The real run follows it unchanged.
 measurements = []
-_really_measure = vpm.speaker_measure_loop
 
 
-def counted_measure(tracks, bridge, bridge_emit):
-    measurements.append(len(tracks))
-    _really_measure(tracks, bridge, bridge_emit)
+def counted_runs(sheet):
+    """Count every preview's run *sheet* sets going, once wrapped."""
+    state = getattr(sheet, "state", None) or {}
+    real = state.get("preview_run")
+    if real is None or getattr(real, "counted", False):
+        return
 
-
-vpm.speaker_measure_loop = counted_measure
+    def run(request, done):
+        """Counted, then the real run."""
+        measurements.append(request.get("key"))
+        real(request, done)
+    run.counted = True
+    state["preview_run"] = run
 
 done = 0
 bad = []
@@ -319,6 +325,7 @@ def open_cut_sheet():
     tw, sheet = tab_bar(), cut_sheet()
     if tw is None or sheet is None:
         return False
+    counted_runs(sheet)
     tw.setCurrentWidget(sheet)
     app.processEvents()
     return True
@@ -601,7 +608,10 @@ def step():
                              "says %r after %d set going"
                              % (working, len(measurements)))
             print("\n6. The cut sheet where no run answered the question")
-            came_to_nothing = vpm.T('Nothing was audible in the tracks.')
+            # The run's own refusal, as the preview's run ends on it.
+            came_to_nothing = vpm.T('\nNo audio track could be aligned -- '
+                                    'there is nothing to put on the '
+                                    'axis.').strip()
             check("a reading that comes to nothing says so on the cut sheet",
                   came_to_nothing in sheet_says(),
                   "%r not among the %s, after %d readings were set going"

@@ -2299,9 +2299,6 @@ msgstr "Bara mäta -- inget skrivs eller laddas upp."
 msgid "Measuring %s (%s of %s)"
 msgstr "Mäter %s (%s av %s)"
 
-msgid "Measuring not possible: %s"
-msgstr "Mätning inte möjlig: %s"
-
 msgid "Measuring the yardstick"
 msgstr "Mäter måttstocken"
 
@@ -2325,9 +2322,6 @@ msgstr "Multitrack behöver minst två ingångsspår. Ett spår är en egen insp
 
 msgid "No sound in use yet -- add an audio recording, or set a video file's Camera audio to \"use internal audio\" in the file list."
 msgstr "Inget ljud i bruk ännu -- lägg till en ljudinspelning, eller ställ en videofils Kameraljud på \"använd internt ljud\" i fillistan."
-
-msgid "No audio tracks are assigned."
-msgstr "Inga ljudspår är tilldelade."
 
 msgid "No camera is assigned, so there is nothing to cut between."
 msgstr "Ingen kamera är tilldelad, så det finns inget att klippa emellan."
@@ -2466,9 +2460,6 @@ msgstr "Obligatoriskt är det inte -- YouTube använder då standardvärden (Son
 
 msgid "Not ready yet:"
 msgstr "Inte redo ännu:"
-
-msgid "Nothing was audible in the tracks."
-msgstr "Inget hördes i spåren."
 
 msgid "One audio recording has no speaker name yet."
 msgstr "En ljudinspelning har inget talarnamn ännu."
@@ -3822,9 +3813,6 @@ msgstr "  (bara mätning: inget separerat)"
 
 msgid "  The tracks were not measured, so %s is in the mix and not in the cut: %s"
 msgstr "  Spåren mättes inte, så %s ligger i mixen och inte i klippningen: %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s inte mätt ännu -- i klippningen, ännu inte i den här förhandsvisningen."
 
 msgid "  From the tracks themselves, one voice per track: %s."
 msgstr "  Från spåren själva, en röst per spår: %s."

@@ -1702,9 +1702,6 @@ msgstr "Мовці ще невідомі -- нічого не виміряно, 
 msgid "The time window lies outside the material: In point at %s, Out point at %s, and the material runs %s."
 msgstr "Часове вікно лежить поза матеріалом: точка входу на %s, точка виходу на %s, а матеріал триває %s."
 
-msgid "No audio tracks are assigned."
-msgstr "Жодної звукової доріжки не призначено."
-
 msgid "No speakers are known yet -- they are worked out of the tracks as soon as this tab is opened. Where everybody is on one recording, \"several speakers\" in the Speaker name field is the way."
 msgstr "Мовці ще невідомі -- їх буде визначено з доріжок, щойно відкриється ця вкладка. Якщо всі на одному записі, шлях -- \"кілька мовців\" у полі Ім'я мовця."
 
@@ -1731,9 +1728,6 @@ msgstr "монтаж бере %s"
 
 msgid "no speaker is assigned to it, but the cut uses %s"
 msgstr "їй не призначено жодного мовця, але монтаж бере %s"
-
-msgid "%s not measured yet -- in the cut, not yet in this preview."
-msgstr "%s ще не виміряно -- у монтажі так, у цьому попередньому перегляді ще ні."
 
 msgid "%r is not a number."
 msgstr "%r -- не число."
@@ -3922,9 +3916,6 @@ msgstr "  %-20s %s мовлення, %s з %s речень -- запитання
 msgid "  %-20s sounds like %-20s %s %% of it inside that track, %s points ahead of the next"
 msgstr "  %-20s звучить як %-20s %s %% у цій доріжці, на %s пунктів попереду наступної"
 
-msgid "Nothing was audible in the tracks."
-msgstr "На доріжках нічого не було чути."
-
 msgid "%s is not part of this run"
 msgstr "%s не належить до цього запуску"
 
@@ -3972,9 +3963,6 @@ msgstr "Вимірювання %s (%s з %s)"
 
 msgid "  %-20s could be called %s"
 msgstr "  %-20s може називатися %s"
-
-msgid "Measuring not possible: %s"
-msgstr "Вимірювання неможливе: %s"
 
 msgid "  %s cannot be read: %s"
 msgstr "  Неможливо прочитати %s: %s"

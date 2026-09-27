@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """The preview shows a handover a run kept for what is set now.
 
-A dry or full run keeps its handover in the stage store under a key of
-what it was worked from, with the key of the time axis it stood on; the
-preview reads that one first, where that axis is the one the window has
-now, and the file the run wrote otherwise. In order: which one is read,
+A dry run keeps its handover in the stage store under a key of what it
+was worked from -- its line, its plan, its files; the preview reads
+that one first, and the file a run wrote otherwise. In order: which is read,
 and when the preview counts as out of date -- a kept handover not yet
-shown, one shown, the key moved on; then a kept handover on another
-axis, neither read nor out of date. The store lies in a cache folder
+shown, one shown, the key moved on. The store lies in a cache folder
 of the test's own; the handovers are stand-ins that carry only a word
 saying where they came from and the axis they stood on.
 """
@@ -95,20 +93,6 @@ check("a key moved on to another kept handover is out of date again",
       vpm.preview_out_of_date(state) is True,
       "answered %r, shown from %r" % (vpm.preview_out_of_date(state),
                                       state.get("preview_from")))
-
-#----------------------------------------------- one on another time axis
-
-print("\na kept handover on another time axis")
-elsewhere = {"handover_key": KEY, "resolve_json": FILE,
-             "axis_stage_key": vpm.stage_key("axis", (), material="others")}
-got = word(vpm.preview_handover(elsewhere))
-check("a kept handover on other files than the window's is not read",
-      got == "the run's file", "read %r, wanted 'the run's file'" % got)
-elsewhere.update(statistics={"n": 1}, preview_from=vpm.handover_mark(FILE))
-check("nor does it put the preview out of date",
-      vpm.preview_out_of_date(elsewhere) is False,
-      "answered %r with the run's file shown" % vpm.preview_out_of_date(
-          elsewhere))
 
 shutil.rmtree(WORK, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
