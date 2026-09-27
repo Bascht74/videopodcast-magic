@@ -811,7 +811,9 @@ starts these by hand, one after another.
 | Test | Green means |
 |---|---|
 | `project_clips_land_right` | Every camera and every shot lands on the track and frame the cut names. |
+| `project_intro_on_v2` | The intro lies alone on V2 and A2 at the frame it names, the cut behind it. |
 | `project_pool_takes_all` | Every file the run hands over is in the media pool and found again. |
+| `project_refusal_said` | A project the build cannot make is said so, and nothing half is built. |
 | `project_run_puts_back` | A run that never tidied up leaves nothing, and what it remembers comes back. |
 | `project_settings_arrive` | The project the run asks for is there, with the rate and size it named. |
 
