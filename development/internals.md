@@ -135,7 +135,7 @@ figure of the day is that command, not this paragraph**:
   four the way in used itself
 * `logbook/` **197** -- where the log of a run goes, and what goes into
   it
-* `stowage/` **250** -- where things are put down between one run and
+* `stowage/` **365** -- where things are put down between one run and
   the next: the work folder, what somebody chose, the write that is
   moved into place rather than left half done, and whether a stored
   file may be read at all
